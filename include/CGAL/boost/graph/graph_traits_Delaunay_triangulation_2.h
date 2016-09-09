@@ -273,7 +273,7 @@ namespace CGAL {
     { }
 
     typename Gt::FT operator[](key_type e) const {
-      return tr.segment(e).squared_length();
+      return approximate_sqrt(tr.segment(e).squared_length());
     }
   };
 
@@ -390,6 +390,5 @@ namespace boost {
   };
 } // namespace boost
 
-//#include <CGAL/graph_traits_Delaunay_delaunay_triangulation_2.h>
 
 #endif // CGAL_GRAPH_TRAITS_DELAUNAY_TRIANGULATION_2_H

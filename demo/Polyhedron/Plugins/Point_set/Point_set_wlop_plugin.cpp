@@ -36,11 +36,12 @@ class Polyhedron_demo_point_set_wlop_plugin :
   QAction* actionSimplifyAndRegularize;
 
 public:
-  void init(QMainWindow* mainWindow, CGAL::Three::Scene_interface* scene_interface) {
-    actionSimplifyAndRegularize = new QAction(tr("Point Set WLOP Simplification and Regularization Selection"), mainWindow);
+  void init(QMainWindow* mainWindow, CGAL::Three::Scene_interface* scene_interface, Messages_interface*) {
+    scene = scene_interface;
+    actionSimplifyAndRegularize = new QAction(tr("WLOP Simplification and Regularization Selection"), mainWindow);
+    actionSimplifyAndRegularize->setProperty("subMenuName","Point Set Processing");
     actionSimplifyAndRegularize->setObjectName("actionSimplifyAndRegularize");
-
-    Polyhedron_demo_plugin_helper::init(mainWindow, scene_interface);
+    autoConnectActions();
   }
 
   bool applicable(QAction*) const {
@@ -97,17 +98,19 @@ void Polyhedron_demo_point_set_wlop_plugin::on_actionSimplifyAndRegularize_trigg
 	      << dialog.neighborhoodRadius() <<" * average spacing)...\n";
 
     // Computes average spacing
-    double average_spacing = CGAL::compute_average_spacing<Concurrency_tag>(points->begin(), points->end(),
+    double average_spacing = CGAL::compute_average_spacing<Concurrency_tag>(points->begin_or_selection_begin(),
+                                                           points->end(),
 							   6 /* knn = 1 ring */);
 
     Scene_points_with_normal_item* new_item
       = new Scene_points_with_normal_item();
     new_item->setName (tr("%1 (WLOP processed)").arg(item->name()));
     new_item->setVisible(true);
+    item->setVisible(false);
     scene->addItem(new_item);
-      
+    
     CGAL::wlop_simplify_and_regularize_point_set<Concurrency_tag>
-      (points->begin(),
+      (points->begin_or_selection_begin(),
        points->end(),
        std::back_inserter(*(new_item->point_set ())),
        dialog.retainedPercentage (),

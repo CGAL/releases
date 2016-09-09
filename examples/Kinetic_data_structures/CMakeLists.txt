@@ -2,11 +2,11 @@
 # This is the CMake script for compiling a CGAL application.
 
 
-project( Kinetic_data_structures_example )
+project( Kinetic_data_structures_ )
 
 cmake_minimum_required(VERSION 2.8.10)
 
-find_package(CGAL QUIET COMPONENTS Core )
+find_package(CGAL QUIET)
 
 if ( CGAL_FOUND )
 
@@ -16,14 +16,11 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE "../../include")
 
-  create_single_source_cgal_program( "Kinetic_Delaunay_triangulation_2.cpp" )
-  create_single_source_cgal_program( "Kinetic_Delaunay_triangulation_3.cpp" )
-  create_single_source_cgal_program( "Kinetic_insert_event.cpp" )
-  create_single_source_cgal_program( "Kinetic_regular_triangulation_3.cpp" )
-  create_single_source_cgal_program( "Kinetic_sort.cpp" )
-  create_single_source_cgal_program( "Kinetic_sweepline.cpp" )
-  create_single_source_cgal_program( "defining_a_simulation_traits.cpp" )
-  create_single_source_cgal_program( "trivial_kds.cpp" )
+  # create a target per cppfile
+  file(GLOB cppfiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+  foreach(cppfile ${cppfiles})
+    create_single_source_cgal_program( "${cppfile}" )
+  endforeach()
 
 else()
   

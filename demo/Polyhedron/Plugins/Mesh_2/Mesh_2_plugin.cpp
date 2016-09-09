@@ -146,7 +146,8 @@ class Polyhedron_demo_mesh_2_plugin :
 
 public:
   void init(QMainWindow* mainWindow,
-            CGAL::Three::Scene_interface* scene_interface)
+            CGAL::Three::Scene_interface* scene_interface,
+            Messages_interface*)
   {
     this->scene = scene_interface;
     this->mw = mainWindow;
@@ -245,6 +246,7 @@ private:
     QDialog dialog(mw);
     Ui::mesh_2_dialog ui =
       create_dialog(&dialog, diagonal_length, seeds.empty());
+    dialog.setWindowFlags(Qt::Dialog|Qt::CustomizeWindowHint|Qt::WindowCloseButtonHint);
 
     // Get values
     int i = dialog.exec();
@@ -386,6 +388,7 @@ public Q_SLOTS:
 
   void run()
   {
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     //collect input polylines
     std::vector<Scene_polylines_item*> polylines_items;
     std::vector<Scene_points_with_normal_item*> points_items;
@@ -407,7 +410,12 @@ public Q_SLOTS:
       }
     }
 
-    double diag = bbox.diagonal_length();
+    double diag = CGAL::sqrt(
+          (bbox.xmax()-bbox.xmin())*(bbox.xmax()-bbox.xmin())
+          +(bbox.ymax()-bbox.ymin())*(bbox.ymax()-bbox.ymin())
+          +(bbox.zmax()-bbox.zmax()) *(bbox.zmax()-bbox.zmax())
+          );
+    QApplication::restoreOverrideCursor();
     switch( detect_constant_coordinate(polylines_items, points_items) )
     {
       using namespace CGAL;

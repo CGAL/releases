@@ -2,11 +2,11 @@
 # This is the CMake script for compiling a CGAL application.
 
 
-project( Triangulation_2_example )
+project( Triangulation_2_ )
 
 cmake_minimum_required(VERSION 2.8.10)
 
-find_package(CGAL QUIET COMPONENTS Core )
+find_package(CGAL QUIET)
 
 if ( CGAL_FOUND )
 
@@ -16,24 +16,11 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE "../../include")
 
-  create_single_source_cgal_program( "adding_handles.cpp" )
-  create_single_source_cgal_program( "colored_face.cpp" )
-  create_single_source_cgal_program( "constrained.cpp" )
-  create_single_source_cgal_program( "constrained_hierarchy_plus.cpp" )
-  create_single_source_cgal_program( "constrained_plus.cpp" )
-  create_single_source_cgal_program( "copy_triangulation_2.cpp" )
-  create_single_source_cgal_program( "hierarchy.cpp" )
-  create_single_source_cgal_program( "info_insert_with_pair_iterator_2.cpp" )
-  create_single_source_cgal_program( "info_insert_with_pair_iterator_regular_2.cpp" )
-  create_single_source_cgal_program( "info_insert_with_transform_iterator_2.cpp" )
-  create_single_source_cgal_program( "info_insert_with_zip_iterator_2.cpp" )
-  create_single_source_cgal_program( "polygon_triangulation.cpp" )
-  create_single_source_cgal_program( "polylines_triangulation.cpp" )
-  create_single_source_cgal_program( "print_cropped_voronoi.cpp" )
-  create_single_source_cgal_program( "regular.cpp" )
-  create_single_source_cgal_program( "terrain.cpp" )
-  create_single_source_cgal_program( "triangulation_prog1.cpp" )
-  create_single_source_cgal_program( "voronoi.cpp" )
+  # create a target per cppfile
+  file(GLOB cppfiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+  foreach(cppfile ${cppfiles})
+    create_single_source_cgal_program( "${cppfile}" )
+  endforeach()
 
 else()
   

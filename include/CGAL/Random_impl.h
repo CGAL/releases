@@ -46,7 +46,12 @@ Random( )
     std::time_t s;
     std::time( &s);
     seed = (unsigned int)s;
-
+#if (defined( CGAL_TEST_SUITE ) || defined( CGAL_PRINT_SEED )) && !defined(CGAL_HEADER_ONLY)
+    // In header only, the following line  generates __gnu_cxx::recursive_init_error
+    if(this == & get_default_random()){
+      std::cerr << "CGAL::get_default_random()::get_seed() = " << seed << std::endl;
+    }
+#endif
     // initialize random numbers generator
     rng.seed(static_cast<boost::int32_t>(seed));
     random_value = get_int(0, 1<<15);
@@ -61,6 +66,7 @@ Random( unsigned int  seed)
     rng.seed(static_cast<boost::int32_t>(seed));
     random_value = get_int(0, 1<<15);
 }
+
 
 // seed
 CGAL_INLINE_FUNCTION
