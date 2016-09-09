@@ -11,6 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/vertex_cycle_to_nef_3.h $ 
+// $Id: vertex_cycle_to_nef_3.h 61484 2011-03-02 14:59:51Z sloriot $ 
+// 
+//
 // Author(s)     : Ralf Osbild <osbild@mpi-sb.mpg.de>
 
 #ifndef CGAL_NEF_VERTEX_CYCLE_TO_NEF_3_H

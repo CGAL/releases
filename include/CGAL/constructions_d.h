@@ -15,14 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/constructions_d.h $
-// $Id: constructions_d.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/constructions_d.h $
+// $Id: constructions_d.h 59745 2010-11-17 10:25:51Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel
 
 #ifndef CGAL_CONSTRUCTIONS_D_H
 #define CGAL_CONSTRUCTIONS_D_H
+
+#include <CGAL/Kernel_d/Point_d.h>
 
 namespace CGAL {
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Principal_component_analysis/include/CGAL/PCA_util.h $
-// $Id: PCA_util.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Principal_component_analysis/include/CGAL/PCA_util.h $
+// $Id: PCA_util.h 58903 2010-09-27 07:47:24Z afabri $
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta
 
@@ -710,7 +710,7 @@ fitting_plane_3(const typename K::FT covariance[6], // covariance matrix
   {
     // assemble a default horizontal plane that goes
     // through the centroid.
-    plane = Plane(c,Vector(0.0,0.0,1.0));
+    plane = Plane(c,Vector(FT(0),FT(0),FT(1)));
     return (FT)0.0;
   } 
   else // regular and line case
@@ -752,7 +752,7 @@ fitting_line_3(const typename K::FT covariance[6], // covariance matrix
   {
     // assemble a default line along x axis which goes
     // through the centroid.
-    line = Line(c,Vector(1.0,0.0,0.0));
+    line = Line(c,Vector(FT(1),FT(0),FT(0)));
     return (FT)0.0;
   }
   else

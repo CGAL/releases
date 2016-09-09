@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/global_functions_3.h $
-// $Id: global_functions_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Kernel/global_functions_3.h $
+// $Id: global_functions_3.h 58707 2010-09-20 12:30:45Z helch $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -374,6 +374,15 @@ compare_lexicographically_xyz(const Point_3<K> &p,
                               const Point_3<K> &q)
 {
   return internal::compare_lexicographically_xyz(p, q, K());
+}
+
+template < class K >
+inline
+typename K::Comparison_result
+compare_lexicographically(const Point_3<K> &p,
+                          const Point_3<K> &q)
+{
+    return internal::compare_lexicographically_xyz(p, q, K());
 }
 
 template < class K >

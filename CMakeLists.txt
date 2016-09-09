@@ -11,6 +11,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0 FATAL_ERROR)
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
 if ( COMMAND cmake_policy )
+  # Libraries linked via full path no longer produce linker search paths.
   cmake_policy( SET CMP0003 NEW )  
 endif( COMMAND cmake_policy )
 
@@ -72,9 +73,10 @@ message( STATUS "CGAL_BUILD_VERSION=${CGAL_BUILD_VERSION}" )
 #   CGAL-3.6.1 : 5.0.0 (should have been 5.0.1)
 #   CGAL-3.7  :  6.0.0 (certainly: some types have been turned from int to
 #                       std::size_t, which is different on some platforms)
+#   CGAL-3.8  :  7.0.0 (At least CGAL::Random has changed its member fields.)
 
-set( CGAL_SONAME_VERSION "6"     CACHE STRING "soname-version" )
-set( CGAL_SOVERSION      "6.0.0" CACHE STRING "soversion" )
+set( CGAL_SONAME_VERSION "7"     CACHE STRING "soname-version" )
+set( CGAL_SOVERSION      "7.0.0" CACHE STRING "soversion" )
 
 mark_as_advanced(CGAL_SONAME_VERSION)
 mark_as_advanced(CGAL_SOVERSION)
@@ -97,6 +99,13 @@ cgal_setup_module_path()
 message( STATUS "CGAL_REFERENCE_CACHE_DIR=${CGAL_REFERENCE_CACHE_DIR}" )
 
 if ( RUNNING_CGAL_AUTO_TEST )
+  message(STATUS "Operating system:")
+  execute_process(COMMAND uname -a
+    TIMEOUT 5
+    OUTPUT_VARIABLE uname_a
+    ERROR_VARIABLE uname_a)
+  message(STATUS "${uname_a}")
+  CGAL_display_compiler_version()
   if ( NOT "${CGAL_REFERENCE_CACHE_DIR}" STREQUAL "" )
     if ( EXISTS ${CGAL_REFERENCE_CACHE_DIR} )
       if ( EXISTS ${CGAL_REFERENCE_CACHE_DIR}/CMakeCache.txt )
@@ -290,6 +299,7 @@ add_config_flag( CGAL_USE_GMPXX )
 add_config_flag( CGAL_USE_LEDA )
 
 set(CGAL_USE_CORE ${CGAL_USE_GMP})
+
 add_config_flag( CGAL_USE_CORE )
 
 if ( RUNNING_CGAL_AUTO_TEST AND MSVC )
@@ -306,12 +316,9 @@ set ( CGAL_INSTALL_INC_DIR "include" CACHE STRING "The folder where CGAL header 
 set ( CGAL_INSTALL_LIB_DIR "lib"     CACHE STRING "The folder where CGAL libraries will be installed, relative to CMAKE_INSTALL_PREFIX" )
 
 if ( CGAL_WIN32_CMAKE_ON_CYGWIN )
-  exec_program(cygpath ARGS -w ${CMAKE_INSTALL_PREFIX} OUTPUT_VARIABLE CMAKE_INSTALL_PREFIX2 )
+  exec_program(cygpath ARGS -w "${CMAKE_INSTALL_PREFIX}" OUTPUT_VARIABLE CMAKE_INSTALL_PREFIX2 )
   file ( TO_CMAKE_PATH ${CMAKE_INSTALL_PREFIX2} CMAKE_INSTALL_PREFIX )
 endif()
-
-message( STATUS "CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}" )
-
 
 set ( CGAL_INSTALL_BIN_DIR    "bin"                     
   CACHE STRING "The folder where CGAL user-side scripts will be installed, relative to CMAKE_INSTALL_PREFIX" 

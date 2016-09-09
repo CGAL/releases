@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/BGL/include/CGAL/boost/graph/graph_traits_Delaunay_triangulation_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/BGL/include/CGAL/boost/graph/graph_traits_Delaunay_triangulation_2.h $
 // $Id: graph_traits_Delaunay_triangulation_2.h 57091 2010-06-25 08:19:41Z afabri $
 // 
 //

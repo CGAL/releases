@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2.h $
 // $Id: Arr_traits_adaptor_2.h 57002 2010-06-23 08:00:41Z efif $
 // $Date: 2010-06-23 10:00:41 +0200 (Wed, 23 Jun 2010) $
 // 

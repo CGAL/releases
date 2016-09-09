@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/demo_tab.h $
-// $Id: demo_tab.h 57467 2010-07-12 10:02:56Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/demo_tab.h $
+// $Id: demo_tab.h 61402 2011-02-24 11:34:03Z efif $
 //
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -47,7 +47,7 @@
 #include <CGAL/iterator.h> //for CGAL::Oneset_iterator<T>
 #include <CGAL/Object.h>
 #include <CGAL/envelope_2.h>
-#include <CGAL/Env_default_diagram_1.h>
+#include <CGAL/Envelope_diagram_1.h>
 
 #include <vector>
 
@@ -287,7 +287,7 @@ private:
                                                     Originating_curve_iterator;
   typedef typename Arrangement_2::Induced_edge_iterator Induced_edge_iterator;
   typedef typename Arrangement_2::Curve_handle          Curve_handle;
-  typedef CGAL::Env_default_diagram_1<Traits>           Diagram_1;
+  typedef CGAL::Envelope_diagram_1<Traits>              Diagram_1;
 
 private:
   // function object - FillFace

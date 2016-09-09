@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH2.h $
-// $Id: VectorH2.h 56725 2010-06-14 07:08:25Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH2.h $
+// $Id: VectorH2.h 58793 2010-09-22 16:05:05Z lrineau $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -28,6 +28,7 @@
 #include <CGAL/Origin.h>
 #include <CGAL/array.h>
 #include <CGAL/Kernel_d/Cartesian_const_iterator_d.h>
+#include <CGAL/Handle_for.h>
 
 namespace CGAL {
 
@@ -91,9 +92,9 @@ public:
    bool    operator==( const Null_vector&) const;
    bool    operator!=( const Null_vector& v) const;
 
-   const RT & hx() const { return get(base)[0]; };
-   const RT & hy() const { return get(base)[1]; };
-   const RT & hw() const { return get(base)[2]; };
+   const RT & hx() const { return CGAL::get(base)[0]; };
+   const RT & hy() const { return CGAL::get(base)[1]; };
+   const RT & hw() const { return CGAL::get(base)[2]; };
 
    FT      x()  const { return FT(hx()) / FT(hw()); };
    FT      y()  const { return FT(hy()) / FT(hw()); };
@@ -104,13 +105,13 @@ public:
 
    Cartesian_const_iterator cartesian_begin() const
    {
-     return make_cartesian_const_iterator_begin(get(base).begin(),
-                                                boost::prior(get(base).end()));
+     return make_cartesian_const_iterator_begin(CGAL::get(base).begin(),
+                                                boost::prior(CGAL::get(base).end()));
    }
 
    Cartesian_const_iterator cartesian_end() const
    {
-     return make_cartesian_const_iterator_end(boost::prior(get(base).end()));
+     return make_cartesian_const_iterator_end(boost::prior(CGAL::get(base).end()));
    }
 
    int     dimension() const;
@@ -177,7 +178,7 @@ const typename VectorH2<R>::RT &
 VectorH2<R>::homogeneous(int i) const
 {
   CGAL_kernel_precondition( (i>=0) && (i<=2) );
-  return get(base)[i];
+  return CGAL::get(base)[i];
 }
 
 template < class R >

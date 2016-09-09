@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/Incremental_neighbor_search.h $
-// $Id: Incremental_neighbor_search.h 58140 2010-08-18 12:56:15Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_searching/include/CGAL/Incremental_neighbor_search.h $
+// $Id: Incremental_neighbor_search.h 59329 2010-10-22 13:17:52Z sloriot $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -142,9 +142,14 @@ namespace CGAL {
     public:
 
       typedef std::input_iterator_tag iterator_category;
-      typedef Point_with_transformed_distance value_type;
+      typedef Point_with_transformed_distance       value_type;
+      typedef Point_with_transformed_distance*      pointer;
+      typedef const Point_with_transformed_distance&      reference;
+      typedef std::size_t               size_type;
+      typedef std::ptrdiff_t            difference_type;
       typedef int distance_type;
-
+    
+    
       class Iterator_implementation;
       Iterator_implementation *ptr;
 
@@ -173,8 +178,20 @@ namespace CGAL {
 	if (ptr != 0) ptr->reference_count++;
       }
       
+      iterator& operator=(const iterator& Iter)
+      {
+        if (ptr!=Iter.ptr){
+          if (ptr != 0 && --(ptr->reference_count)==0) {
+              delete ptr;
+          }
+          ptr = Iter.ptr;
+          if (ptr != 0) ptr->reference_count++;
+        }
+        return *this;
+      }      
+      
       Point_with_transformed_distance& 
-      operator* () 
+      operator* () const
       {
 	return *(*ptr);
       }

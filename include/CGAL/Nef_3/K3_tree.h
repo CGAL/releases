@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/K3_tree.h $
-// $Id: K3_tree.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/K3_tree.h $
+// $Id: K3_tree.h 60866 2011-01-19 11:11:26Z afabri $
 // 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
@@ -30,9 +30,9 @@
 #ifdef CGAL_NEF3_TRIANGULATE_FACETS
 #include <CGAL/Constrained_triangulation_2.h>
 #include <CGAL/Triangulation_data_structure_2.h>
-#include <CGAL/Triangulation_euclidean_traits_xy_3.h>
-#include <CGAL/Triangulation_euclidean_traits_yz_3.h>
-#include <CGAL/Triangulation_euclidean_traits_xz_3.h>
+#include <CGAL/Projection_traits_xy_3.h>
+#include <CGAL/Projection_traits_yz_3.h>
+#include <CGAL/Projection_traits_xz_3.h>
 #include <CGAL/Constrained_triangulation_face_base_2.h>
 #endif
 
@@ -803,9 +803,9 @@ public:
       CGAL_assertion(fci.is_shalfedge());
       SHalfedge_around_facet_circulator safc(fci);
       if(circulator_size(safc) > 10) {
-      typedef typename CGAL::Triangulation_euclidean_traits_xy_3<Kernel>       XY;
-      typedef typename CGAL::Triangulation_euclidean_traits_yz_3<Kernel>       YZ;
-      typedef typename CGAL::Triangulation_euclidean_traits_xz_3<Kernel>       XZ;
+      typedef typename CGAL::Projection_traits_xy_3<Kernel>       XY;
+      typedef typename CGAL::Projection_traits_yz_3<Kernel>       YZ;
+      typedef typename CGAL::Projection_traits_xz_3<Kernel>       XZ;
 
       Triangle_3 tr;
 

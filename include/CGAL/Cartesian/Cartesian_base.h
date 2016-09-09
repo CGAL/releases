@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h $
-// $Id: Cartesian_base.h 56726 2010-06-14 07:11:59Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h $
+// $Id: Cartesian_base.h 60378 2010-12-16 16:09:23Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -79,6 +79,7 @@ struct Cartesian_base
     typedef Cartesian_tag                               Kernel_tag;
 
     enum { Has_filtered_predicates = false };
+    typedef Boolean_tag<Has_filtered_predicates> Has_filtered_predicates_tag;
 
     typedef CGAL::Object                                Object_2;
     typedef CGAL::Object                                Object_3;

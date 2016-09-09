@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/DelaunayMeshTriangulationGraphicsItem.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/DelaunayMeshTriangulationGraphicsItem.h $
 // $Id: DelaunayMeshTriangulationGraphicsItem.h 47028 2008-11-25 18:44:19Z afabri $
 // 
 //

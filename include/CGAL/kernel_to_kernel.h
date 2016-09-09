@@ -15,14 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/kernel_to_kernel.h $
-// $Id: kernel_to_kernel.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/kernel_to_kernel.h $
+// $Id: kernel_to_kernel.h 61485 2011-03-02 18:52:57Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
  
 #ifndef CGAL_KERNEL_TO_KERNEL_H
 #define CGAL_KERNEL_TO_KERNEL_H
+
+#include <CGAL/config.h>
 
 #ifdef CGAL_USE_LEDA
 #include <CGAL/LEDA_basic.h>

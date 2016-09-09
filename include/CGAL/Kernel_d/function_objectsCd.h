@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/function_objectsCd.h $
-// $Id: function_objectsCd.h 56991 2010-06-22 16:17:33Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/function_objectsCd.h $
+// $Id: function_objectsCd.h 59667 2010-11-12 10:52:58Z odevil $
 // 
 //
 // Author(s)     : Michael Seel, Kurt Mehlhorn
@@ -35,6 +35,19 @@
 #define CGAL_KD_TRACEV(t) std::cerr << #t << " = " << (t) << std::endl
  
 namespace CGAL {
+
+template <typename K>
+class Compute_coordinateCd {
+  typedef typename K::FT             FT;
+  typedef typename K::Point_d        Point_d;
+  public:
+  typedef FT                         result_type;
+  const result_type 
+    operator()(const Point_d& p, int i) const
+  {
+    return p.cartesian(i);
+  }
+};
 
 template <class R>
 struct Lift_to_paraboloidCd {
@@ -149,7 +162,7 @@ template <class ForwardIterator, class OutputIterator>
 OutputIterator operator()(ForwardIterator first, ForwardIterator last, 
   const Point_d& p, OutputIterator result)
 { TUPLE_DIM_CHECK(first,last,Barycentric_coordinates_d);
-  int n = std::distance(first,last); 
+  //int n = std::distance(first,last); //unused variable
   int d = p.dimension();
   typename R::Affine_rank_d affine_rank;
   CGAL_assertion(affine_rank(first,last)==d);

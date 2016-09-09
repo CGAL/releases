@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Odt_move.h $
-// $Id: Odt_move.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_3/Odt_move.h $
+// $Id: Odt_move.h 60688 2011-01-10 15:43:22Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -60,6 +60,13 @@ public:
                       const C3T3& c3t3,
                       const Sizing_field& sizing_field = Sizing_field()) const
   {
+    // Don't move edge or corner vertices
+    if ( c3t3.in_dimension(v) < 2 )
+    {
+      return CGAL::NULL_VECTOR;
+    }
+    
+    // Compute move
     typename Gt::Construct_vector_3 vector =
       Gt().construct_vector_3_object();
     

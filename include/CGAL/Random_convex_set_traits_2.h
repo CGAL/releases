@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Generator/include/CGAL/Random_convex_set_traits_2.h $
-// $Id: Random_convex_set_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Generator/include/CGAL/Random_convex_set_traits_2.h $
+// $Id: Random_convex_set_traits_2.h 58843 2010-09-23 19:49:27Z afabri $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -48,8 +48,7 @@ struct Random_convex_set_traits_2 : public Kernel {
     FT
     operator()( const Point_2& p) const
     { 
-      BOOST_USING_STD_MAX();
-      return max BOOST_PREVENT_MACRO_SUBSTITUTION ( CGAL_NTS abs( p.x()), CGAL_NTS abs( p.y())); 
+      return (std::max)( CGAL_NTS abs( p.x()), CGAL_NTS abs( p.y())); 
     }
   };
 
@@ -90,7 +89,7 @@ struct Random_convex_set_traits : public Random_convex_set_traits_2<Kernel>
 template < class OutputIterator, class Point_generator >
 inline
 OutputIterator
-random_convex_set_2( int n,
+random_convex_set_2( std::size_t n,
                      OutputIterator o,
                      const Point_generator& pg)
 {
@@ -101,7 +100,7 @@ random_convex_set_2( int n,
 template < class OutputIterator, class Point_generator, class R >
 inline
 OutputIterator
-CGAL_random_convex_set_2( int n,
+CGAL_random_convex_set_2( std::size_t n,
                           OutputIterator o,
                           const Point_generator& pg,
                           Point_2< R >*)

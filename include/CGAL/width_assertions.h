@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Width_3/include/CGAL/width_assertions.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Width_3/include/CGAL/width_assertions.h $
 // $Id: width_assertions.h 41708 2008-01-20 18:47:19Z spion $
 // 
 //

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/IO/Complex_2_in_triangulation_3_file_writer.h $
-// $Id: Complex_2_in_triangulation_3_file_writer.h 59054 2010-10-06 11:00:00Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/IO/Complex_2_in_triangulation_3_file_writer.h $
+// $Id: Complex_2_in_triangulation_3_file_writer.h 59053 2010-10-06 09:48:48Z lrineau $
 //
 //
 // Author(s)     : Steve Oudot, Laurent Rineau

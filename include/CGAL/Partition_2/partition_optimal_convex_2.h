@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Partition_2/include/CGAL/Partition_2/partition_optimal_convex_2.h $
-// $Id: partition_optimal_convex_2.h 37992 2007-04-07 09:39:45Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Partition_2/include/CGAL/Partition_2/partition_optimal_convex_2.h $
+// $Id: partition_optimal_convex_2.h 58834 2010-09-23 16:35:43Z afabri $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -256,10 +256,10 @@ int partition_opt_cvx_decompose(unsigned int edge_num1, unsigned int edge_num2,
    {
        if ((edges[edge_num1][e_num].is_visible() && 
             edges[e_num][edge_num2].is_visible() ) || 
-           collinearly_visible(edge_num1, e_num, edge_num2, edges, polygon,
+           collinearly_visible(edge_num1, static_cast<unsigned int>(e_num), edge_num2, edges, polygon,
                                traits) ) 
        {
-          v_list.push_back(Partition_opt_cvx_vertex(e_num));
+         v_list.push_back(Partition_opt_cvx_vertex( static_cast<unsigned int>(e_num)));
        }
    }
    std::vector< int >::size_type v;
@@ -375,7 +375,7 @@ void make_collinear_vertices_visible(Polygon& polygon,
     i = polygon.size() - 1;
     prev_j = 0;
     j = 1;
-    int start_i = 0;
+    size_type start_i = 0;
     while (i > 0 && 
            orientation(polygon[i], polygon[prev_j], polygon[j]) == COLLINEAR)
     {
@@ -485,7 +485,8 @@ void partition_opt_cvx_preprocessing(Polygon& polygon,
              {
                  edges[i][j].set_value(1); 
                  Partition_opt_cvx_diagonal_list d;
-                 d.push_back(Partition_opt_cvx_diagonal(i,j));
+                 d.push_back(Partition_opt_cvx_diagonal(static_cast<unsigned int>(i),
+                                                        static_cast<unsigned int>(j)));
                  edges[i][j].set_solution(d); 
                  edges[i][j].set_done(true); 
              }
@@ -543,7 +544,7 @@ OutputIterator partition_optimal_convex_2(InputIterator first,
    Partition_opt_cvx_diagonal_list diag_list;
    if (polygon.size() > 0) 
    {
-      partition_opt_cvx_decompose(0, polygon.size()-1, polygon, edges, 
+     partition_opt_cvx_decompose(0, static_cast<unsigned int>(polygon.size()-1), polygon, edges, 
                                   traits, diag_list);
 
       diag_list.pop_back(); // the last diagonal added is the edge from last 

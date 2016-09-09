@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Surface_mesher/Sphere_oracle_3.h $
-// $Id: Sphere_oracle_3.h 43529 2008-06-09 14:20:14Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Surface_mesher/Sphere_oracle_3.h $
+// $Id: Sphere_oracle_3.h 59768 2010-11-18 08:03:32Z afabri $
 //
 //
 // Author(s)     : Laurent RINEAU
@@ -128,8 +128,6 @@ namespace CGAL {
           GT().compute_scalar_product_3_object();
         typename GT::Compute_squared_distance_3 squared_distance = 
           GT().compute_squared_distance_3_object();
-        typename GT::Compute_squared_radius_3 radius =
-          GT().compute_squared_radius_3_object();
         typename GT::Construct_center_3 center =
           GT().construct_center_3_object();
         typename GT::Compute_squared_radius_3 squared_radius =
@@ -333,8 +331,6 @@ namespace CGAL {
         
         typename GT::Construct_point_on_3 point_on =
           GT().construct_point_on_3_object();
-        typename GT::Has_on_bounded_side_3 on_bounded_side_of_sphere =
-          GT().has_on_bounded_side_3_object();
         typename GT::Construct_vector_3 vector =
           GT().construct_vector_3_object();
         typename GT::Construct_scaled_vector_3 scaled_vector = 
@@ -374,8 +370,6 @@ namespace CGAL {
         
         typename GT::Construct_point_on_3 point_on =
           GT().construct_point_on_3_object();
-        typename GT::Has_on_bounded_side_3 on_bounded_side_of_sphere =
-          GT().has_on_bounded_side_3_object();
         typename GT::Construct_vector_3 vector =
           GT().construct_vector_3_object();
         typename GT::Construct_scaled_vector_3 scaled_vector = 

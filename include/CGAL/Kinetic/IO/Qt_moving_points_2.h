@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_moving_points_2.h $
-// $Id: Qt_moving_points_2.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_moving_points_2.h $
+// $Id: Qt_moving_points_2.h 60273 2010-12-10 10:00:40Z lrineau $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -52,7 +52,7 @@ protected:
   //  friend class CGAL::Kinetic::Simulator_objects_listener<Simulator_listener, This>;
   typedef typename Traits::Static_kernel::FT NT;
   //class Guil;
-  CGAL_KINETIC_LISTEN1(Simulator, DIRECTION_OF_TIME, reverse_time());
+  CGAL_KINETIC_LISTEN1(Simulator, DIRECTION_OF_TIME, reverse_time())
 public:
   //typedef typename CGAL::Ref_counted_pointer<This> Pointer;
   //typedef typename CGAL::Const_ref_counted_pointer<This> Const_handle;
@@ -133,7 +133,7 @@ public:
     }*/
 
 protected:
-  CGAL_KINETIC_LISTEN1(GUI,PICTURE_IS_VALID, draw());
+  CGAL_KINETIC_LISTEN1(GUI,PICTURE_IS_VALID, draw())
   /*class Guil: public Gui_listener
   {
     typedef Gui_listener P;

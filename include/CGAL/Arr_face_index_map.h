@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_face_index_map.h $
-// $Id: Arr_face_index_map.h 57274 2010-07-01 16:06:05Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_face_index_map.h $
+// $Id: Arr_face_index_map.h 58841 2010-09-23 19:32:24Z afabri $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -231,7 +231,7 @@ private:
   void _init ()
   {
     // Get the number of faces and allocate the reverse map accordingly.
-    n_faces = this->arrangement()->number_of_faces();
+    n_faces = static_cast<unsigned int>(this->arrangement()->number_of_faces());
     
     if (n_faces < MIN_REV_MAP_SIZE)
       rev_map.resize (MIN_REV_MAP_SIZE);

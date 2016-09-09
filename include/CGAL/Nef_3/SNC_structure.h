@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
-// $Id: SNC_structure.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
+// $Id: SNC_structure.h 58240 2010-08-23 15:00:26Z afabri $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -351,7 +351,7 @@ public:
       return SHalfloop_const_handle(l); }
 
     operator Object_handle() const { return Ibase::operator*(); }
-    Object_handle& operator*() const { return Ibase::operator*(); }
+    const Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
     { CGAL_error_msg("not impl."); return Object_handle();}
   };
@@ -450,7 +450,7 @@ public:
       return SFace_const_handle(f); }
 
     operator Object_handle() const { return Ibase::operator*(); }
-    Object_handle& operator*() const { return Ibase::operator*(); }
+    const Object_handle& operator*() const { return Ibase::operator*(); }
     Object_handle  operator->() const 
     {  return Object_handle(); }
   };

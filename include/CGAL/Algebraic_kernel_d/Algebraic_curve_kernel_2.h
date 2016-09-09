@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_curve_kernel_2.h $
-// $Id: Algebraic_curve_kernel_2.h 59003 2010-10-04 11:03:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_curve_kernel_2.h $
+// $Id: Algebraic_curve_kernel_2.h 59533 2010-11-05 23:31:27Z eric $
 // 
 //
 // Author(s)     : Eric Berberich <eric@mpi-inf.mpg.de>
@@ -2550,7 +2550,7 @@ public:
             
             int i, n = cpa_2.number_of_status_lines_with_event();
 	    for(i = 0; i < n; i++) {
-	      _m_kernel->solve_at_x_2_object()(cpa_2,i,res);
+              _m_kernel->solve_at_x_2_object()(cpa_2,i,res);
             }
             return res;
         }

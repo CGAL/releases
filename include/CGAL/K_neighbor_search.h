@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/K_neighbor_search.h $
-// $Id: K_neighbor_search.h 56129 2010-05-11 12:52:53Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_searching/include/CGAL/K_neighbor_search.h $
+// $Id: K_neighbor_search.h 60167 2010-12-06 11:43:05Z lrineau $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -36,7 +36,7 @@ public:
 
   K_neighbor_search(Tree& tree, const typename Base::Query_item& q,  
     unsigned int k=1, FT Eps=FT(0.0), bool Search_nearest=true, const Distance& d=Distance(),bool sorted=true)
-    : Base(tree,q,k,Eps,Search_nearest,d) 
+    : Base(q,k,Eps,Search_nearest,d) 
   {
     if (tree.empty()) return;
     compute_neighbors_general(tree.root(),tree.bounding_box());
@@ -44,7 +44,7 @@ public:
   };
 
 private:  
-  using Base::Node_handle;
+  typedef typename Base::Node_handle Node_handle; 
   using Base::branch;
 
   void 

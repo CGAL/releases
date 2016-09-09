@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_quadrilateral_2/include/CGAL/Min_quadrilateral_traits_2.h $
-// $Id: Min_quadrilateral_traits_2.h 59080 2010-10-07 08:35:49Z hoffmann $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_quadrilateral_2/include/CGAL/Min_quadrilateral_traits_2.h $
+// $Id: Min_quadrilateral_traits_2.h 59079 2010-10-07 08:28:28Z hoffmann $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and

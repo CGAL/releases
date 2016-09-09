@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/leda_bigfloat_interval.h $
-// $Id: leda_bigfloat_interval.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/leda_bigfloat_interval.h $
+// $Id: leda_bigfloat_interval.h 58278 2010-08-25 16:06:42Z hemmer $
 // 
 //
 // Author(s)     : Michael Hemmer
@@ -135,7 +135,8 @@ public:
     }
 
     static bool is_empty(const T& a, const T& b) {
-        return a==T(1) && b == T(0);
+      //return a==T(1) && b == T(0);
+      return a > b; 
     }
 };
 
@@ -237,7 +238,7 @@ struct Coercion_traits< leda_bigfloat_interval , ::leda::integer >{
     struct Cast{
         typedef Type result_type;
         Type operator()(const leda_bigfloat_interval& x)  const { return x;}
-        Type operator()(const ::leda::integer x) const {
+        Type operator()(const ::leda::integer& x) const {
             leda::bigfloat tmp(x);
             leda_bigfloat_interval result(
                     round(tmp,leda::bigfloat::get_precision(),leda::TO_N_INF),
@@ -259,7 +260,7 @@ struct Coercion_traits< leda_bigfloat_interval , ::leda::rational >{
     struct Cast{
         typedef Type result_type;
         Type operator()(const leda_bigfloat_interval& x)  const { return x;}
-        Type operator()(const ::leda::rational x) const {
+        Type operator()(const ::leda::rational& x) const {
             long prec = ::leda::bigfloat::get_precision();
             leda_bigfloat_interval result (
                     leda_bigfloat::from_rational(x,prec,leda::TO_N_INF),
@@ -281,7 +282,7 @@ struct Coercion_traits< leda_bigfloat_interval , ::leda::real >{
     struct Cast{
         typedef Type result_type;
         Type operator()(const leda_bigfloat_interval& x)  const { return x;}
-        Type operator()(const ::leda::real x) const {
+        Type operator()(const ::leda::real& x) const {
             long current_prec = ::leda::bigfloat::get_precision();
             x.guarantee_relative_error(current_prec);
             leda_bigfloat_interval 

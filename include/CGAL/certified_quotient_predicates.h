@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/certified_quotient_predicates.h $
-// $Id: certified_quotient_predicates.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/certified_quotient_predicates.h $
+// $Id: certified_quotient_predicates.h 59832 2010-11-23 11:20:03Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -22,7 +22,7 @@
 #include <CGAL/certified_numeric_predicates.h>
 #include <CGAL/Quotient.h>
 
-CGAL_BEGIN_NAMESPACE 
+namespace CGAL { 
 
 template <class NT>
 inline Uncertain<bool> certified_quotient_is_positive(const Quotient<NT>& x) 
@@ -129,7 +129,7 @@ inline Uncertain<Comparison_result> certified_compare(const Quotient<NT1>& n1, c
   return certified_quotient_compare(n1,n2);
 }
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 #endif // CGAL_CERTIFIED_QUOTIENT_PREDICATES_H
 

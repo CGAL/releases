@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_quadrilateral_2/include/CGAL/min_quadrilateral_2.h $
-// $Id: min_quadrilateral_2.h 56898 2010-06-20 21:48:20Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_quadrilateral_2/include/CGAL/min_quadrilateral_2.h $
+// $Id: min_quadrilateral_2.h 59654 2010-11-12 08:30:41Z afabri $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
@@ -434,7 +434,7 @@ min_rectangle_2(
 
     Rectangle_2 test_rect = rectangle(*(curr[0]), dir[event],
                                       *(curr[1]), *(curr[2]), *(curr[3]));
-    if (t.area_less_rectangle_2_object()(test_rect, rect_so_far))
+    if (area_less(test_rect, rect_so_far))
       rect_so_far = test_rect;
 
   } // for (;;)

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/tds_2_helpers.h $
-// $Id: tds_2_helpers.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/internal/tds_2_helpers.h $
+// $Id: tds_2_helpers.h 59682 2010-11-12 15:17:09Z lrineau $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -46,13 +46,6 @@ struct Triangulation_data_structure_helper_2
     return r;
   }
 
-
-  static Edge mirror_edge(const Edge &e) {
-    int i= e.first->mirror_index(e.second);
-    return Edge(e.first->neighbor(e.second), i);
-  }
-
-
   static Vertex_handle origin(const Edge &e) {
     int o= e.first->ccw(e.second);
     return e.first->vertex(o);
@@ -65,9 +58,6 @@ struct Triangulation_data_structure_helper_2
 
   static Vertex_handle third_vertex(const Edge &e) {
     return e.first->vertex(e.second);
-  }
-  static Vertex_handle mirror_vertex(const Edge &e) {
-    return third_vertex(mirror_edge(e));
   }
 };
 

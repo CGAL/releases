@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/SearchStructures/include/CGAL/Range_tree_d.h $
-// $Id: Range_tree_d.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/SearchStructures/include/CGAL/Range_tree_d.h $
+// $Id: Range_tree_d.h 58849 2010-09-24 06:59:13Z spion $
 // 
 //
 // Author(s)     : Gabriele Neyer
@@ -443,14 +443,13 @@ public:
       is_built = true;
     else
       return false;
-
-    int n = std::distance(first, last);
-
-    if(n==0) {
+    
+    if(first == last) {
       is_built = false;
       return true;
     }
 
+    int n = static_cast<int>(std::distance(first,last));
     dynamic_merge(first, last);
     
     leftmostlink = 0;

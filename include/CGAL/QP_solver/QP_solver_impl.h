@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_solver_impl.h $
-// $Id: QP_solver_impl.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_solver/QP_solver_impl.h $
+// $Id: QP_solver_impl.h 59467 2010-11-03 07:58:08Z ybrise $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -175,6 +175,8 @@ pivot_step( )
 {
     ++m_pivots;
 
+    
+  
     // diagnostic output
     CGAL_qpe_debug {
         vout2 << std::endl
@@ -182,6 +184,8 @@ pivot_step( )
               << "Pivot Step" << std::endl
               << "==========" << std::endl;
     }
+  
+  
     vout  << "[ phase " << ( is_phaseI ? "I" : "II")
 	  << ", iteration " << m_pivots << " ]" << std::endl;
     
@@ -316,7 +320,7 @@ pivot_step( )
         }
 
         // compute index of entering variable
-        j += in_B.size();
+        j += static_cast<int>(in_B.size());
 
         ratio_test_2( Is_linear());
     
@@ -430,36 +434,36 @@ ratio_test_init__A_Cj( Value_iterator A_Cj_it, int j_, Tag_false)
 {
     // store exact version of `A_Cj' (implicit conversion)
     if ( j_ < qp_n) {                                   // original variable
-	A_by_index_accessor  a_accessor( *(qp_A + j_));
-	std::copy( A_by_index_iterator( C.begin(), a_accessor),
-		   A_by_index_iterator( C.end  (), a_accessor),
-		   A_Cj_it);
+      A_by_index_accessor  a_accessor( *(qp_A + j_));
+      std::copy( A_by_index_iterator( C.begin(), a_accessor),
+                 A_by_index_iterator( C.end  (), a_accessor),
+                 A_Cj_it);
 
     } else {
-	unsigned int  k = j_;
-	k -= qp_n;
-	std::fill_n( A_Cj_it, C.size(), et0);
+      unsigned int  k = j_;
+      k -= qp_n;
+      std::fill_n( A_Cj_it, C.size(), et0);
 
-	if ( k < slack_A.size()) {                      // slack variable
+      if ( k < static_cast<unsigned int>(slack_A.size())) {                      // slack variable
 
-	    A_Cj_it[ in_C[ slack_A[ k].first]] = ( slack_A[ k].second ? -et1
+        A_Cj_it[ in_C[ slack_A[ k].first]] = ( slack_A[ k].second ? -et1
 						                      :  et1);
 
-	} else {                                        // artificial variable
-	    k -= slack_A.size();
+      } else {                                        // artificial variable
+        k -= static_cast<unsigned int>(slack_A.size());
 
-	    if ( j_ != art_s_i) {                           // normal art.
+        if ( j_ != art_s_i) {                           // normal art.
 
-		A_Cj_it[ in_C[ art_A[ k].first]] = ( art_A[ k].second ? -et1
+          A_Cj_it[ in_C[ art_A[ k].first]] = ( art_A[ k].second ? -et1
 						                      :  et1);
 
-	    } else {                                        // special art.
-		S_by_index_accessor  s_accessor( art_s.begin());
-		std::copy( S_by_index_iterator( C.begin(), s_accessor),
-			   S_by_index_iterator( C.end  (), s_accessor),
-			   A_Cj_it);
-	    }	
-	}
+        } else {                                        // special art.
+          S_by_index_accessor  s_accessor( art_s.begin());
+          std::copy( S_by_index_iterator( C.begin(), s_accessor),
+                     S_by_index_iterator( C.end  (), s_accessor),
+                     A_Cj_it);
+        }	
+      }
     }
 }
 
@@ -555,11 +559,11 @@ ratio_test_1( )
     // diagnostic output
     CGAL_qpe_debug {
         if ( vout2.verbose()) {
-            for ( unsigned int k = 0; k < B_O.size(); ++k) {
+            for ( unsigned int k = 0; k < static_cast<unsigned int>(B_O.size()); ++k) {
                 print_ratio_1_original(k, x_B_O[k], q_x_O[k]);
             }     
             if ( has_ineq) {
-                for ( unsigned int k = 0; k < B_S.size(); ++k) {
+                for ( unsigned int k = 0; k < static_cast<unsigned int>(B_S.size()); ++k) {
                     /*
                     vout2.out() << "t_S_" << k << ": "
 				    << x_B_S[ k] << '/' << q_x_S[ k]
@@ -587,7 +591,7 @@ ratio_test_1( )
 	vout  << i;
 	CGAL_qpe_debug {
 	  if ( vout2.verbose()) {
-	    if ( ( i < qp_n) || ( i >= (int)( qp_n+slack_A.size()))) {
+	    if ( ( i < qp_n) || ( i >= static_cast<int>( qp_n+slack_A.size())) ) {
 	      vout2.out() << " (= B_O[ " << in_B[ i] << "]: "
 			  << variable_type( i) << ')';
 	    } else {
@@ -764,11 +768,15 @@ template < typename Q, typename ET, typename Tags >
 void  QP_solver<Q, ET, Tags>::
 test_implicit_bounds_dir_pos(int k, const ET& x_k, const ET& q_k, 
                                 int& i_min, ET& d_min, ET& q_min)
-{
-    if ((q_k > et0) && (x_k * q_min < d_min * q_k)) {
+{   
+    if (q_k > et0) {
+      // BLAND rule: In case the ratios are the same, only update if the new index
+      // is smaller. The special artificial variable is always made to leave first.
+      if ((x_k * q_min < d_min * q_k) || ((k < i_min) && (i_min != art_s_i) && (x_k * q_min == d_min * q_k)) ) {
         i_min = k;
         d_min = x_k;
         q_min = q_k;
+      }
     }
 }
 
@@ -779,10 +787,14 @@ void  QP_solver<Q, ET, Tags>::
 test_implicit_bounds_dir_neg(int k, const ET& x_k, const ET& q_k, 
                                 int& i_min, ET& d_min, ET& q_min)
 {
-    if ((q_k < et0) && (x_k * q_min < -(d_min * q_k))) {
+    if (q_k < et0) {
+      // BLAND rule: In case the ratios are the same, only update if the new index
+      // is smaller. The special artificial variable is always made to leave first.
+      if ((x_k * q_min < -(d_min * q_k)) || ((k < i_min) && (i_min != art_s_i) && (x_k * q_min == -(d_min * q_k))) ) {
         i_min = k;
         d_min = x_k;
         q_min = -q_k;
+      }
     }
 }
 
@@ -797,8 +809,10 @@ test_explicit_bounds_dir_pos(int k, const ET& x_k, const ET& q_k,
 {
     if (q_k > et0) {                                // check for lower bound
         if (*(qp_fl+k)) {
-            ET  diff = x_k - (d * ET(*(qp_l+k))); 
-            if (diff * q_min < d_min * q_k) {
+            ET  diff = x_k - (d * ET(*(qp_l+k)));
+            // BLAND rule: In case the ratios are the same, only update if the new index
+            // is smaller. The special artificial variable is always made to leave first.
+            if ((diff * q_min < d_min * q_k) || ((k < i_min) && (i_min != art_s_i) && (diff * q_min == d_min * q_k)) ) {
                 i_min = k;
                 d_min = diff;
                 q_min = q_k;
@@ -808,7 +822,9 @@ test_explicit_bounds_dir_pos(int k, const ET& x_k, const ET& q_k,
     } else {                                        // check for upper bound
         if ((q_k < et0) && (*(qp_fu+k))) {
             ET  diff = (d * ET(*(qp_u+k))) - x_k;
-            if (diff * q_min < -(d_min * q_k)) {
+            // BLAND rule: In case the ratios are the same, only update if the new index
+            // is smaller. The special artificial variable is always made to leave first.
+            if ((diff * q_min < -(d_min * q_k)) || ((k < i_min) && (i_min != art_s_i) && (diff * q_min == -(d_min * q_k))) ) {
                 i_min = k;
                 d_min = diff;
                 q_min = -q_k;
@@ -829,8 +845,10 @@ test_explicit_bounds_dir_neg(int k, const ET& x_k, const ET& q_k,
 {
     if (q_k < et0) {                                // check for lower bound
         if (*(qp_fl+k)) {
-            ET  diff = x_k - (d * ET(*(qp_l+k))); 
-            if (diff * q_min < -(d_min * q_k)) {
+            ET  diff = x_k - (d * ET(*(qp_l+k)));
+            // BLAND rule: In case the ratios are the same, only update if the new index
+            // is smaller. The special artificial variable is always made to leave first.
+            if ((diff * q_min < -(d_min * q_k)) || ((k < i_min) && (i_min != art_s_i) && (diff * q_min == -(d_min * q_k))) ) {
                 i_min = k;
                 d_min = diff;
                 q_min = -q_k;
@@ -840,7 +858,9 @@ test_explicit_bounds_dir_neg(int k, const ET& x_k, const ET& q_k,
     } else {                                        // check for upper bound
         if ((q_k > et0) && (*(qp_fu+k))) {
             ET  diff = (d * ET(*(qp_u+k))) - x_k;
-            if (diff * q_min < d_min * q_k) {
+            // BLAND rule: In case the ratios are the same, only update if the new index
+            // is smaller. The special artificial variable is always made to leave first.
+            if ((diff * q_min < d_min * q_k) || ((k < i_min) && (i_min != art_s_i) && (diff * q_min == d_min * q_k)) ) {
                 i_min = k;
                 d_min = diff;
                 q_min = q_k;
@@ -863,15 +883,20 @@ test_mixed_bounds_dir_pos(int k, const ET& x_k, const ET& q_k,
         if (k < qp_n) {                             // original variable
             if (*(qp_fl+k)) {
                 ET  diff = x_k - (d * ET(*(qp_l+k)));
-                if (diff * q_min < d_min * q_k) {
-                    i_min = k;
-                    d_min = diff;
-                    q_min = q_k;
-                    ratio_test_bound_index = LOWER;
-                }
+                // BLAND rule: In case the ratios are the same, only update if the new index
+                // is smaller. The special artificial variable is always made to leave first.
+                if ((diff * q_min < d_min * q_k) || ((k < i_min) && (i_min != art_s_i) && (diff * q_min == d_min * q_k))) {
+                  i_min = k;
+                  d_min = diff;
+                  q_min = q_k;
+                  ratio_test_bound_index = LOWER;
+              } // phase  I II switch
+              
             }
         } else {                                    // artificial variable
-            if (x_k * q_min < d_min * q_k) {
+            // BLAND rule: In case the ratios are the same, only update if the new index
+            // is smaller. The special artificial variable is always made to leave first.
+            if ((x_k * q_min < d_min * q_k) || ((k < i_min) && (i_min != art_s_i) && (x_k * q_min == d_min * q_k))) {
                 i_min = k;
                 d_min = x_k;
                 q_min = q_k;
@@ -880,7 +905,9 @@ test_mixed_bounds_dir_pos(int k, const ET& x_k, const ET& q_k,
     } else {                                        // check for upper bound
         if ((q_k < et0) && (k < qp_n) && *(qp_fu+k)) {
             ET  diff = (d * ET(*(qp_u+k))) - x_k;
-            if (diff * q_min < -(d_min * q_k)) {
+            // BLAND rule: In case the ratios are the same, only update if the new index
+            // is smaller. The special artificial variable is always made to leave first.
+            if ((diff * q_min < -(d_min * q_k)) || ((k < i_min) && (i_min != art_s_i) && (diff * q_min == -(d_min * q_k))) ) {
                 i_min = k;
                 d_min = diff;
                 q_min = -q_k;
@@ -903,7 +930,9 @@ test_mixed_bounds_dir_neg(int k, const ET& x_k, const ET& q_k,
         if (k < qp_n) {                             // original variable
             if (*(qp_fl+k)) {
                 ET  diff = x_k - (d * ET(*(qp_l+k)));
-                if (diff * q_min < -(d_min * q_k)) {
+                // BLAND rule: In case the ratios are the same, only update if the new index
+                // is smaller. The special artificial variable is always made to leave first.
+                if ((diff * q_min < -(d_min * q_k)) || ((k < i_min) && (i_min != art_s_i) && (diff * q_min == -(d_min * q_k))) ) {
                     i_min = k;
                     d_min = diff;
                     q_min = -q_k;
@@ -911,7 +940,9 @@ test_mixed_bounds_dir_neg(int k, const ET& x_k, const ET& q_k,
                 }
             }
         } else {                                    // artificial variable
-            if (x_k * q_min < -(d_min * q_k)) {
+            // BLAND rule: In case the ratios are the same, only update if the new index
+            // is smaller. The special artificial variable is always made to leave first.
+            if ((x_k * q_min < -(d_min * q_k)) || ((k < i_min) && (i_min != art_s_i) && (x_k * q_min == -(d_min * q_k))) ) {
                 i_min = k;
                 d_min = x_k;
                 q_min = -q_k;
@@ -920,7 +951,9 @@ test_mixed_bounds_dir_neg(int k, const ET& x_k, const ET& q_k,
     } else {                                        // check for upper bound
         if ((q_k > et0) && (k < qp_n) && *(qp_fu+k)) {
             ET  diff = (d * ET(*(qp_u+k))) - x_k;
-            if (diff * q_min < d_min * q_k) {
+            // BLAND rule: In case the ratios are the same, only update if the new index
+            // is smaller. The special artificial variable is always made to leave first.
+            if ((diff * q_min < d_min * q_k) || ((k < i_min) && (i_min != art_s_i) && (diff * q_min == d_min * q_k)) ) {
                 i_min = k;
                 d_min = diff;
                 q_min = q_k;
@@ -1036,27 +1069,39 @@ ratio_test_2( Tag_false)
     Value_iterator  q_it = q_x_O.begin();
     Index_iterator  i_it;
     for ( i_it = B_O.begin(); i_it != B_O.end(); ++i_it, ++x_it, ++q_it) {
-	if ( ( *q_it < et0) && ( ( *x_it * q_i) < ( x_i * *q_it))) {
-	    i = *i_it; x_i = *x_it; q_i = *q_it;
-	}
+      // BLAND rule: In case the ratios are the same, only update if the new index
+      // is smaller. The special artificial variable is always made to leave first.
+      if ( (*q_it < et0) && (
+              (( *x_it * q_i) < ( x_i * *q_it)) ||
+              ( (*i_it < i) && (i != art_s_i) && (( *x_it * q_i) == ( x_i * *q_it)) )
+            )
+          ) {
+        i = *i_it; x_i = *x_it; q_i = *q_it;
+      }
     }
     x_it = x_B_S.begin();
     q_it = q_x_S.begin();
     for ( i_it = B_S.begin(); i_it != B_S.end(); ++i_it, ++x_it, ++q_it) {
-	if ( ( *q_it < et0) && ( ( *x_it * q_i) < ( x_i * *q_it))) {
-	    i = *i_it; x_i = *x_it; q_i = *q_it;
-	}
+      // BLAND rule: In case the ratios are the same, only update if the new index
+      // is smaller. The special artificial variable is always made to leave first.
+      if ( ( *q_it < et0) && (
+             (( *x_it * q_i) < ( x_i * *q_it)) ||
+             ( (*i_it < i) && (i != art_s_i) && (( *x_it * q_i) == ( x_i * *q_it)) )
+            )
+          ){
+          i = *i_it; x_i = *x_it; q_i = *q_it;
+      }
     }
 
     CGAL_qpe_debug {
 	if ( vout2.verbose()) {
-	    for ( unsigned int k = 0; k < B_O.size(); ++k) {
+	    for ( unsigned int k = 0; k < static_cast<unsigned int>(B_O.size()); ++k) {
 		vout2.out() << "mu_j_O_" << k << ": - "
 			    << x_B_O[ k] << '/' << q_x_O[ k]
 			    << ( ( q_i < et0) && ( i == B_O[ k]) ? " *" : "")
 			    << std::endl;
 	    }
-	    for ( unsigned int k = 0; k < B_S.size(); ++k) {
+	    for ( unsigned int k = 0; k < static_cast<unsigned int>(B_S.size()); ++k) {
 		vout2.out() << "mu_j_S_" << k << ": - "
 			    << x_B_S[ k] << '/' << q_x_S[ k]
 			    << ( ( q_i < et0) && ( i == B_S[ k]) ? " *" : "")
@@ -1191,6 +1236,15 @@ expel_artificial_variables_from_basis( )
 	      << "Expelling artificial variables from the basis" << std::endl
 	      << "---------------------------------------------" << std::endl;
     }
+  
+
+  
+    for (unsigned int i_ = 0; i_ < static_cast<unsigned int>(qp_n + slack_A.size()); ++i_) {
+      if (!is_basic(i_)) { 
+      ratio_test_init__A_Cj( A_Cj.begin(), i_, no_ineq);
+      }
+    }
+
     
     // try to pivot the artificials out of the basis
     // Note that we do not notify the pricing strategy about variables
@@ -1198,58 +1252,65 @@ expel_artificial_variables_from_basis( )
     // know about variables entering the basis.
     // The partial pricing strategies that keep the set of nonbasic vars
     // explicitly are synchronized during transition from phaseI to phaseII 
-    for (unsigned int i_ = qp_n + slack_A.size(); i_ < in_B.size(); ++i_) {
-        if (is_basic(i_)) { 					// is basic
-	    if (has_ineq) {
+    for (unsigned int i_ = static_cast<unsigned int>(qp_n + slack_A.size()); i_ < static_cast<unsigned int>(in_B.size()); ++i_) {
+      if (is_basic(i_)) { 					// is basic
+        if (has_ineq) {
 	        row_ind = in_C[ art_A[i_ - qp_n - slack_A.size()].first];
-	    } else {
+        } else {
 	        row_ind = art_A[i_ - qp_n].first;
-	    }
+        }
+        
+        
+        //CGAL_qpe_assertion(row_ind >= 0);
+        
 	    
-	    // determine first possible entering variable,
-	    // if there is any
-	    for (unsigned int j_ = 0; j_ < qp_n + slack_A.size(); ++j_) {
-	        if (!is_basic(j_)) {  				// is nonbasic 
-		    ratio_test_init__A_Cj( A_Cj.begin(), j_, no_ineq);
-		    r_A_Cj = inv_M_B.inv_M_B_row_dot_col(row_ind, A_Cj.begin());
-		    if (r_A_Cj != et0) {
-		        ratio_test_1__q_x_O(Is_linear());
-			i = i_;
-			j = j_;
-			update_1(Is_linear());
-			break;
-		    } 
-		}
-	    }
-	}
+        // determine first possible entering variable,
+        // if there is any
+        for (unsigned int j_ = 0; j_ < static_cast<unsigned int>(qp_n + slack_A.size()); ++j_) {
+	        if (!is_basic(j_)) {  				// is nonbasic
+            ratio_test_init__A_Cj( A_Cj.begin(), j_, no_ineq);
+                        
+            r_A_Cj = inv_M_B.inv_M_B_row_dot_col(row_ind, A_Cj.begin());
+                       
+            if (r_A_Cj != et0) {
+              ratio_test_1__q_x_O(Is_linear());
+              i = i_;
+              j = j_;
+              update_1(Is_linear());
+              break;
+            } 
+          }
+        }
+      }
     }
+  
     if ((art_basic != 0) && no_ineq) {
       // the vector in_C was not used in phase I, but now we remove redundant
       // constraints and switch to has_ineq treatment, hence we need it to
       // be correct at this stage
       for (int i=0; i<qp_m; ++i)
-	in_C.push_back(i);
-    }
-    diagnostics.redundant_equations = (art_basic != 0);
+        in_C.push_back(i);
+      }
+      diagnostics.redundant_equations = (art_basic != 0);
 
-    // now reset the no_ineq and has_ineq flags to match the situation
-    no_ineq = no_ineq && !diagnostics.redundant_equations;
-    has_ineq = !no_ineq;
+      // now reset the no_ineq and has_ineq flags to match the situation
+      no_ineq = no_ineq && !diagnostics.redundant_equations;
+      has_ineq = !no_ineq;
     
-    // remove the remaining ones with their corresponding equality constraints
-    // Note: the special artificial variable can always be driven out of the
-    // basis
-    for (unsigned int i_ = qp_n + slack_A.size(); i_ < in_B.size(); ++i_) {
+      // remove the remaining ones with their corresponding equality constraints
+      // Note: the special artificial variable can always be driven out of the
+      // basis
+      for (unsigned int i_ = static_cast<unsigned int>(qp_n + slack_A.size()); i_ < static_cast<unsigned int>(in_B.size()); ++i_) {
         if (in_B[i_] >= 0) {
-	    i = i_;
-	    CGAL_qpe_debug {
-	        vout2 << std::endl
-		      << "~~> removing artificial variable " << i
-		      << " and its equality constraint" << std::endl
-		      << std::endl;
-	    }
-	    remove_artificial_variable_and_constraint();
-	}
+          i = i_;
+          CGAL_qpe_debug {
+            vout2 << std::endl
+            << "~~> removing artificial variable " << i
+            << " and its equality constraint" << std::endl
+            << std::endl;
+          }
+        remove_artificial_variable_and_constraint();
+      }
     }
 }
 
@@ -1430,7 +1491,7 @@ replace_variable_slack_original( )
 
     // enter slack variable [ in: j ]
     int  old_row = slack_A[ j-qp_n].first;
-    in_B  [ j] = B_S.size();
+    in_B  [ j] = static_cast<int>(B_S.size());
        B_S.push_back( j);
        S_B.push_back( old_row);
 
@@ -1503,7 +1564,7 @@ replace_variable_original_slack( )
 	  : -ET( *(qp_c+ j)));
     
 
-    in_B  [ j] = B_O.size();
+    in_B  [ j] = static_cast<int>(B_O.size());
        B_O.push_back( j);
 
     if ( is_phaseI && ( j >= qp_n)) ++art_basic;
@@ -1520,7 +1581,7 @@ replace_variable_original_slack( )
     int new_row = slack_A[ i-qp_n].first;
 
      b_C[ C.size()] = ET( *(qp_b+ new_row));
-    in_C[ new_row ] = C.size();
+    in_C[ new_row ] = static_cast<int>(C.size());
        C.push_back( new_row);
     // diagnostic output
     CGAL_qpe_debug {
@@ -1714,7 +1775,7 @@ enter_variable( )
 	minus_c_B[B_O.size()] = -ET(*(qp_c+ j)); // Note: B_O has always the
 					       // correct size.
 	
-	in_B[j] = B_O.size();
+	in_B[j] = static_cast<int>(B_O.size());
 	B_O.push_back(j);
 
 	// diagnostic output
@@ -1733,7 +1794,7 @@ enter_variable( )
         enter_variable_slack_upd_w_r(Is_nonnegative());
 
 	// enter slack variable [ in: j ]:
-	in_B  [ j] = B_S.size();
+	in_B  [ j] = static_cast<int>(B_S.size());
 	   B_S.push_back( j);
 	   S_B.push_back( slack_A[ j-qp_n].first);
 
@@ -1761,7 +1822,7 @@ enter_variable( )
     }
 
     // variable entered:
-    j -= in_B.size();
+    j -= static_cast<int>(in_B.size());
 }
 
 // update of the vectors w and r for U_1 with upper bounding, note that we 
@@ -1872,7 +1933,7 @@ leave_variable( )
 	A_Cj[ C.size()] = ( j < qp_n ? ET( *((*(qp_A + j))+ new_row)) : et0);
 
 	 b_C[ C.size()] = ET( *(qp_b+ new_row));
-	in_C[ new_row ] = C.size();
+	in_C[ new_row ] = static_cast<int>(C.size());
 	   C.push_back( new_row);
 
 	// diagnostic output
@@ -1967,7 +2028,7 @@ z_replace_variable( )
 
     // pivot step not yet completely done
     i = -1;
-    j -= in_B.size();
+    j -= static_cast<int>(in_B.size());
     is_RTS_transition = true;
 }
 
@@ -1987,8 +2048,8 @@ void QP_solver<Q, ET, Tags>::
 z_replace_variable( Tag_false)
 {
     // determine type of variables
-    bool  enter_original = ( (j < qp_n) || (j >= (int)( qp_n+slack_A.size())));
-    bool  leave_original = ( (i < qp_n) || (i >= (int)( qp_n+slack_A.size())));
+    bool  enter_original = ( (j < qp_n) || (j >= static_cast<int>( qp_n+slack_A.size())));
+    bool  leave_original = ( (i < qp_n) || (i >= static_cast<int>( qp_n+slack_A.size())));
 
     // update basis and basis inverse
     if ( leave_original) {
@@ -2093,7 +2154,7 @@ z_replace_variable_original_by_slack( )
 
     // enter slack variable [ in: j ]
     int  old_row = slack_A[ j-qp_n].first;
-    in_B  [ j] = B_S.size();
+    in_B  [ j] = static_cast<int>(B_S.size());
        B_S.push_back( j);
        S_B.push_back( old_row);
 
@@ -2190,7 +2251,7 @@ z_replace_variable_slack_by_original( )
     minus_c_B[ B_O.size()] = -ET( *(qp_c+ j));
     
 
-    in_B  [ j] = B_O.size();
+    in_B  [ j] = static_cast<int>(B_O.size());
        B_O.push_back( j);
 
 
@@ -2206,7 +2267,7 @@ z_replace_variable_slack_by_original( )
     int new_row = slack_A[ i-qp_n].first;
 
      b_C[ C.size()] = ET( *(qp_b+ new_row));
-    in_C[ new_row ] = C.size();
+    in_C[ new_row ] = static_cast<int>(C.size());
        C.push_back( new_row);
     
     // diagnostic output
@@ -2763,8 +2824,8 @@ check_basis_inverse( Tag_true)
 	vout4 << std::endl;
     }
     bool res = true;
-    unsigned int    row, rows =   C.size();
-    unsigned int    col, cols = B_O.size();
+    unsigned int    row, rows =   static_cast<unsigned int>(C.size());
+    unsigned int    col, cols = static_cast<unsigned int>(B_O.size());
     Index_iterator  i_it = B_O.begin();
     Value_iterator  q_it;
 
@@ -2809,8 +2870,8 @@ bool  QP_solver<Q, ET, Tags>::
 check_basis_inverse( Tag_false)
 {
     bool res = true;
-    unsigned int    row, rows =   C.size();
-    unsigned int    col, cols = B_O.size();
+    unsigned int    row, rows =   static_cast<unsigned int>(C.size());
+    unsigned int    col, cols = static_cast<unsigned int>(B_O.size());
     Value_iterator  v_it;
     Index_iterator  i_it;
 
@@ -2826,11 +2887,11 @@ check_basis_inverse( Tag_false)
 	v_it = tmp_x.begin();
 	for ( i_it = B_O.begin(); i_it != B_O.end(); ++i_it, ++v_it) {
 	    *v_it = ( *i_it < qp_n ? *((*(qp_A+ *i_it))+ row) :  // original
-		      art_A[ *i_it - qp_n].first != (int)row ? et0 :// artific.
+		      art_A[ *i_it - qp_n].first != static_cast<int>(row) ? et0 :// artific.
 		      ( art_A[ *i_it - qp_n].second ? -et1 : et1));
 	}
 // 	if ( art_s_i >= 0) {              // special artificial variable?
-// 	  CGAL_qpe_assertion ((int)in_B.size() == art_s_i+1);  
+// 	  CGAL_qpe_assertion (static_cast<int>(in_B.size()) == art_s_i+1);  
 // 	  // the special artificial variable has never been
 // 	  // removed from the basis, consider it
 // 	  tmp_x[ in_B[ art_s_i]] = art_s[ row];
@@ -3017,7 +3078,7 @@ print_program( ) const
 	// slack variables
 	if ( ! slack_A.empty()) {
 	    vout4.out() << " |  ";
-	    for ( i = 0; i < (int)slack_A.size(); ++i) {
+	    for ( i = 0; i < static_cast<int>(slack_A.size()); ++i) {
 		vout4.out() << ( slack_A[ i].first != row ? " 0" :
 		               ( slack_A[ i].second ? "-1" : "+1")) << ' ';
 	    }
@@ -3026,8 +3087,8 @@ print_program( ) const
 	// artificial variables
 	if ( ! art_A.empty()) {
 	    vout4.out() << " |  ";
-	    for ( i = 0; i < (int)art_A.size(); ++i) {
-	      if (art_s_i == i+qp_n+(int)slack_A.size())
+	    for ( i = 0; i < static_cast<int>(art_A.size()); ++i) {
+	      if (art_s_i == i+qp_n+static_cast<int>(slack_A.size()))
 		vout4.out() << " * ";          // for special artificial column
 	      vout4.out() << ( art_A[ i].first != row ? " 0" :
 		             ( art_A[ i].second ? "-1" : "+1")) << ' ';
@@ -3310,7 +3371,7 @@ const char*  QP_solver<Q, ET, Tags>::
 variable_type( int k) const
 {
     return ( k <        qp_n                 ? "original"  :
-	   ( k < (int)( qp_n+slack_A.size()) ? "slack"     :
+	   ( k < static_cast<int>( qp_n+slack_A.size()) ? "slack"     :
 	                                       "artificial"));
 }
 
@@ -3318,7 +3379,7 @@ template < typename Q, typename ET, typename Tags >
 bool QP_solver<Q, ET, Tags>::
 is_artificial(int k) const
 {
-    return (k >= (int)(qp_n+slack_A.size())); 
+    return (k >= static_cast<int>(qp_n+slack_A.size())); 
 }
 
 template < typename Q, typename ET, typename Tags > 

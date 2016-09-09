@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Rational_arc_2.h $
-// $Id: Rational_arc_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Rational_arc_2.h $
+// $Id: Rational_arc_2.h 58867 2010-09-24 16:14:04Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -2159,7 +2159,7 @@ public:
 
     for (x_iter = xs.begin(); x_iter != xs.end(); ++x_iter)
     {
-      if (_is_in_true_x_range (*x_iter) &&
+      if (this->_is_in_true_x_range (*x_iter) &&
           arc._is_in_true_x_range (*x_iter))
       {
         // Compute the intersection point and obtain its multiplicity.
@@ -2507,7 +2507,7 @@ public:
 protected:
 
   /*! Check whether the arc is continuous. */
-  bool _check_continuity ()
+  void _check_continuity ()
   {
     if (this->_is_continuous())
     {

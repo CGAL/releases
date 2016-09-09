@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arithmetic_kernel/include/CGAL/LEDA_arithmetic_kernel.h $
-// $Id: LEDA_arithmetic_kernel.h 59003 2010-10-04 11:03:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arithmetic_kernel/include/CGAL/LEDA_arithmetic_kernel.h $
+// $Id: LEDA_arithmetic_kernel.h 59002 2010-10-04 11:00:27Z lrineau $
 // 
 // Author(s)     : Michael Hemmer <mhemmer@uni-mainz.de>
 //

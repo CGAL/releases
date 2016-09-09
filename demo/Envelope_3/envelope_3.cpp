@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_3/demo/Envelope_3/envelope_3.cpp $
-// $Id: envelope_3.cpp 50428 2009-07-07 14:06:51Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/demo/Envelope_3/envelope_3.cpp $
+// $Id: envelope_3.cpp 58771 2010-09-22 06:21:53Z afabri $
 //
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -45,7 +45,7 @@ void Qt_layer_show_diag::draw()
     draw_arr(widget, plane_diag, draw_v, draw_e, draw_f);
 
   widget->unlock(); // widget have to be unlocked when finished drawing
-};
+}
 
 void Qt_layer_show_statitics::mousePressEvent(QMouseEvent *)
 {
@@ -168,7 +168,7 @@ MyWindow::MyWindow(int w, int h) :
 
   //application flag stuff
   old_state = 0;
-};
+}
 
 void MyWindow::read_surface(std::ifstream& is, Base_triangle_3& tri)
 {

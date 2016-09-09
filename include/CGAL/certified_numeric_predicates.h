@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/certified_numeric_predicates.h $
-// $Id: certified_numeric_predicates.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/certified_numeric_predicates.h $
+// $Id: certified_numeric_predicates.h 59832 2010-11-23 11:20:03Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -23,7 +23,7 @@
 #include <CGAL/Interval_arithmetic.h>
 #include <CGAL/Uncertain.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 inline Uncertain<bool> logical_or ( Uncertain<bool> a, Uncertain<bool> b ) { return a | b ; }
 inline Uncertain<bool> logical_and( Uncertain<bool> a, Uncertain<bool> b ) { return a & b ; }
@@ -139,7 +139,7 @@ inline Uncertain<Sign> certified_sign_of_determinant2x2( const NT& a00
   return certified_compare(a00*a11, a10*a01) ;
 }
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 #endif // CGAL_CERTIFIED_NUMERIC_PREDICATES_H
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_constructor.h $
-// $Id: SNC_constructor.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/SNC_constructor.h $
+// $Id: SNC_constructor.h 60175 2010-12-06 15:19:56Z afabri $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de> 
@@ -196,6 +196,8 @@ public:
                                  SHalfedge_around_sface_circulator;
   typedef typename SM_const_decorator::SHalfedge_around_svertex_const_circulator 
                                        SHalfedge_around_svertex_const_circulator; 
+
+  using SNC_decorator::is_standard;
   
   enum{NORMAL, CORNER, DEGENERATE};
 
@@ -1200,12 +1202,12 @@ public:
 	CGAL_NEF_TRACEN(src << "->" << trg << " has on " << *pi << src.x() << " : " );
 	CGAL_NEF_TRACEN((src.x()-pi->x() <= 0) << "|" << (src.y()-pi->y() <= 0) << "|" << (src.z()-pi->z() <= 0) );
 	CGAL_NEF_TRACEN((pi->x()-trg.x() <= 0) << "|" << (pi->y()-trg.y() <= 0) << "|" << (pi->z()-trg.z() <= 0) );
-	if((src.x()-pi->x() <= 0 && pi->x()-trg.x() <= 0 || 
-	    src.x()-pi->x() >= 0 && pi->x()-trg.x() >= 0) &&
-	   (src.y()-pi->y() <= 0 && pi->y()-trg.y() <= 0 || 
-	    src.y()-pi->y() >= 0 && pi->y()-trg.y() >= 0) &&
-	   (src.z()-pi->z() <= 0 && pi->z()-trg.z() <= 0 ||
-	    src.z()-pi->z() >= 0 && pi->z()-trg.z() >= 0)) {
+	if(( (src.x()-pi->x() <= 0 && pi->x()-trg.x() <= 0) || 
+             (src.x()-pi->x() >= 0 && pi->x()-trg.x() >= 0)) &&
+	   ((src.y()-pi->y() <= 0 && pi->y()-trg.y() <= 0) || 
+	    (src.y()-pi->y() >= 0 && pi->y()-trg.y() >= 0)) &&
+	   ((src.z()-pi->z() <= 0 && pi->z()-trg.z() <= 0) ||
+	    (src.z()-pi->z() >= 0 && pi->z()-trg.z() >= 0))) {
 	  pprev = pi;
 	  ++pi;
 	  res.push_back(*pprev);

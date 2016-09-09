@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/SM_constrained_triang_traits.h $
-// $Id: SM_constrained_triang_traits.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/SM_constrained_triang_traits.h $
+// $Id: SM_constrained_triang_traits.h 58232 2010-08-23 12:34:24Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -60,6 +60,15 @@ public:
   typedef Decorator_                                 OUTPUT;
   typedef Kernel_                                    GEOMETRY;
 
+  using Base::is_isolated;
+  using Base::first_out_edge;
+  using Base::last_out_edge;
+  using Base::new_svertex;
+  using Base::assoc_info;
+  using Base::incident_mark;
+  using Base::cyclic_adj_succ;
+  using Base::cyclic_adj_pred;
+  using Base::delete_vertex;
 
   class lt_edges_in_sweepline : public Decorator_
   {  const Point& p;

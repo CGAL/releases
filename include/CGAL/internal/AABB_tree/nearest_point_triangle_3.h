@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/AABB_tree/include/CGAL/internal/AABB_tree/nearest_point_triangle_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/AABB_tree/include/CGAL/internal/AABB_tree/nearest_point_triangle_3.h $
 // $Id: nearest_point_triangle_3.h 56361 2010-05-20 07:02:05Z stayeb $
 //
 //

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Ridges_3/include/CGAL/Ridges.h $
-// $Id: Ridges.h 57931 2010-08-10 14:50:25Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Ridges_3/include/CGAL/Ridges.h $
+// $Id: Ridges.h 57930 2010-08-10 14:46:09Z sloriot $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_RIDGE_3_H_

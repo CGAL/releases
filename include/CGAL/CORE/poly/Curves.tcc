@@ -29,7 +29,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/poly/Curves.tcc $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/include/CGAL/CORE/poly/Curves.tcc $
  * $Id: Curves.tcc 43611 2008-06-15 16:21:29Z spion $
  ***************************************************************************/
 

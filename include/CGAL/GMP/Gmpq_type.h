@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/GMP/Gmpq_type.h $
-// $Id: Gmpq_type.h 59003 2010-10-04 11:03:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/GMP/Gmpq_type.h $
+// $Id: Gmpq_type.h 60745 2011-01-11 14:21:12Z lrineau $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -84,6 +84,9 @@ public:
 
   Gmpq(int n)
   { mpq_set_si(mpq(), n, 1); }
+
+  Gmpq(unsigned int n)
+  { mpq_set_ui(mpq(), n, 1); }
 
   Gmpq(long n)
   { mpq_set_si(mpq(), n, 1); }

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_curve_2.h $
-// $Id: Bezier_curve_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_curve_2.h $
+// $Id: Bezier_curve_2.h 61259 2011-02-16 15:10:34Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -170,11 +170,13 @@ public:
     
     for (k = 0; pts_begin != pts_end; ++pts_begin, k++)
     {
-      // Make sure that we do not have two identical consecutive control
-      // points.
-      CGAL_precondition_msg
-          (k == 0 || ! equal (*pts_begin, _ctrl_pts[k - 1]),
-           "Two consecutive control points must not be identical.");
+//SL: Acccording to the fact that all operations are based on polynomials
+//    duplicated control points can be allowed.
+//      // Make sure that we do not have two identical consecutive control
+//      // points.
+//      CGAL_precondition_msg
+//          (k == 0 || ! equal (*pts_begin, _ctrl_pts[k - 1]),
+//           "Two consecutive control points must not be identical.");
 
       // Copy the current control point.
       _ctrl_pts[k] = *pts_begin;
@@ -603,6 +605,7 @@ private:
     const Integer         numer = nt_traits.numerator (val);
     const Integer         denom = nt_traits.denominator (val);
     const int             deg = nt_traits.degree (poly);
+    if (deg <=0 ) return oi;
     Integer              *coeffs = new Integer [deg + 1];
     int                   k;
 
@@ -766,8 +769,8 @@ void _Bezier_curve_2_rep<RatKer, AlgKer, NtTrt,
                                   *p_polyY, *p_normY);
   delete[] coeffsY;
 
-  CGAL_assertion (nt_traits.degree (*p_polyX) >= 0);
-  CGAL_assertion (nt_traits.degree (*p_polyY) >= 0);
+//  CGAL_assertion (nt_traits.degree (*p_polyX) >= 0);
+//  CGAL_assertion (nt_traits.degree (*p_polyY) >= 0);
 
   return;
 }

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_3.h $
+// $Id: Regular_triangulation_3.h 59966 2010-11-29 12:32:22Z lrineau $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -781,7 +781,6 @@ public:
 	     it != redundant_cells_.end(); ++it) {
 	  CGAL_LOG(Log::LOTS, "On init " << it->second 
 			   << " is redundant" << std::endl);
-	  typename Triangulation::Cell_handle h= it->first;
 	  CGAL_precondition(redundant_points_[it->second]==Event_key());
 	  handle_redundant(it->second, it->first);
 	}
@@ -855,7 +854,6 @@ protected:
 	  CGAL_assertion(vit->info() != Event_key() || !k.is_valid());
 	}
 	else {
-	  CGAL_assertion_code(Point_key k= vit->point());
 	  CGAL_assertion(vit->info() == Event_key());
 	}
 	CGAL_assertion(redundant_points_.find(vit->point())== redundant_points_.end());
@@ -891,13 +889,13 @@ protected:
 protected:
   //! also much check for vertex_events
   void flip(const typename Triangulation::Edge &edge) {
-    typename Triangulation::Facet f= kdel_.flip(edge);
+    kdel_.flip(edge);
 
     on_geometry_changed();
   }
 
   void flip(const typename KDel::Facet &flip_facet) {
-    typename Triangulation::Edge edge=  kdel_.flip(flip_facet);
+    kdel_.flip(flip_facet);
 
     on_geometry_changed();
   }

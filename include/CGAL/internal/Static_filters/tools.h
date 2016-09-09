@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/internal/Static_filters/tools.h $
-// $Id: tools.h 52301 2009-10-14 09:58:44Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/internal/Static_filters/tools.h $
+// $Id: tools.h 60399 2010-12-17 13:53:26Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -22,6 +22,7 @@
 #define CGAL_INTERNAL_STATIC_FILTERS_TOOLS_H
 
 #include <CGAL/basic.h>
+#include <boost/mpl/has_xxx.hpp>
 
 namespace CGAL {
 
@@ -62,6 +63,31 @@ inline bool fit_in_double(const int& i, double& r) { r = i; return true; }
 
 template < typename ET >
 inline bool fit_in_double(const Lazy_exact_nt<ET>&, double&);
+
+
+// Auxiliary functor, to get the approximation of a kernel object:
+//   - for a Point_3 of the Lazy_kernel<...>, one needs to call approx(),
+//   - for a Point_3 of Simple_cartesian<double>, for example, the
+//     approximation is the object itself.
+
+namespace Static_filters_predicates {
+
+BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Kernel_object_has_approx, \
+                                  Approximate_type, \
+                                  false)
+
+template <typename T, bool has_approx = Kernel_object_has_approx<T>::value>
+struct Get_approx {
+  T operator()(T x) const { return x; }
+};
+
+template <typename T>
+struct Get_approx<T, true> {
+  const typename T::Approximate_type& operator()(const T& x) const { return x.approx(); }
+  typename T::Approximate_type& operator()(T& x) const { return x.approx(); }
+};
+
+} // end namespace Static_filters_predicates
 
 } } // namespace CGAL::internal
 

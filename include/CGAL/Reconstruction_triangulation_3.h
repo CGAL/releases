@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_reconstruction_points_3/include/CGAL/Reconstruction_triangulation_3.h $
-// $Id: Reconstruction_triangulation_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_reconstruction_points_3/include/CGAL/Reconstruction_triangulation_3.h $
+// $Id: Reconstruction_triangulation_3.h 60191 2010-12-07 13:12:24Z afabri $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez
@@ -89,41 +89,20 @@ private:
 public:
 
   Reconstruction_vertex_base_3()
-    : Vb()
-  {
-    m_f = (FT)0.0;
-    m_type = 0;
-    m_constrained = false;
-    m_index = 0;
-  }
+    : Vb(), m_f(FT(0.0)), m_constrained(false), m_type(0), m_index(0)
+  {}
 
   Reconstruction_vertex_base_3(const Point_with_normal& p)
-    : Vb(p)
-  {
-    m_f = 0.0f;
-    m_type = 0;
-    m_constrained = false;
-    m_index = 0;
-
-  }
+    : Vb(p), m_f(FT(0.0)), m_constrained(false), m_type(0), m_index(0)
+  {}
 
   Reconstruction_vertex_base_3(const Point_with_normal& p, Cell_handle c)
-    : Vb(p,c)
-  {
-    m_f = (FT)0.0;
-    m_type = 0;
-    m_constrained = false;
-    m_index = 0;
-  }
+    : Vb(p,c), m_f(FT(0.0)), m_constrained(false), m_type(0), m_index(0)
+  {}
 
   Reconstruction_vertex_base_3(Cell_handle c)
-    : Vb(c)
-  {
-    m_f = (FT)0.0;
-    m_type = 0;
-    m_constrained = false;
-    m_index = 0;
-  }
+    : Vb(c), m_f(FT(0.0)), m_constrained(false), m_type(0), m_index(0)
+  {}
 
   /// Is vertex constrained, i.e.
   /// does it contribute to the right or left member of the linear system?
@@ -244,6 +223,7 @@ public:
   typedef typename Base::Finite_facets_iterator   Finite_facets_iterator;
   typedef typename Base::Finite_edges_iterator    Finite_edges_iterator;
   typedef typename Base::All_cells_iterator       All_cells_iterator;
+  typedef typename Base::All_vertices_iterator       All_vertices_iterator;
   typedef typename Base::Locate_type Locate_type;
   /// @endcond
 
@@ -280,12 +260,15 @@ public:
 
   // Repeat base class' public methods used below
   /// @cond SKIP_IN_MANUAL
-  Base::points_begin;
-  Base::points_end;
-  Base::number_of_vertices;
-  Base::finite_vertices_begin;
-  Base::finite_vertices_end;
-  Base::geom_traits;
+  using Base::points_begin;
+  using Base::points_end;
+  using Base::number_of_vertices;
+  using Base::finite_vertices_begin;
+  using Base::finite_vertices_end;
+  using Base::all_vertices_begin;
+  using Base::all_vertices_end;
+
+  using Base::geom_traits;
   /// @endcond
 
   /// Gets first iterator over input vertices.
@@ -320,7 +303,10 @@ public:
 
     // Represents *all* points by a set of spheres with 0 radius
     std::vector<Traits_sphere> spheres;
-    for (Point_iterator it=points_begin(); it!=points_end(); it++)
+    spheres.reserve(number_of_vertices());
+
+    for (Point_iterator it=points_begin(), eit=points_end();
+         it != eit; ++it)
       spheres.push_back(Traits_sphere(*it,0));
 
     // Computes min sphere
@@ -341,7 +327,9 @@ public:
 
     // Represents *input* points by a set of spheres with 0 radius
     std::vector<Traits_sphere> spheres;
-    for (Input_point_iterator it=input_points_begin(); it!=input_points_end(); it++)
+    for (Input_point_iterator it=input_points_begin(), eit=input_points_end();
+         it != eit;
+         ++it)
       spheres.push_back(Traits_sphere(*it,0));
 
     // Computes min sphere
@@ -391,7 +379,7 @@ public:
 
     // Convert input points to Point_with_normal_3
     std::vector<Point_with_normal> points;
-    for (InputIterator it = first; it != beyond; it++)
+    for (InputIterator it = first; it != beyond; ++it)
     {
         Point_with_normal pwn(get(point_pmap,it), get(normal_pmap,it));
         points.push_back(pwn);
@@ -449,9 +437,10 @@ public:
   unsigned int index_unconstrained_vertices()
   {
     unsigned int index = 0;
-    for (Finite_vertices_iterator v = finite_vertices_begin();
-         v != finite_vertices_end();
-         v++)
+    for (Finite_vertices_iterator v = finite_vertices_begin(),
+         e = finite_vertices_end();
+         v!= e;
+         ++v)
     {
       if(!v->constrained())
         v->index() = index++;

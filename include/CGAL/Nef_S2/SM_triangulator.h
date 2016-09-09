@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/SM_triangulator.h $
-// $Id: SM_triangulator.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/SM_triangulator.h $
+// $Id: SM_triangulator.h 58232 2010-08-23 12:34:24Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -173,6 +173,23 @@ public:
   typedef std::pair<Seg_iterator,Seg_iterator> Seg_it_pair;
   typedef std::pair<Sphere_segment,Sphere_segment> Seg_pair;
   typedef CGAL::Unique_hash_map<Seg_iterator,Object_handle> Seg_map;
+
+  using Base::info;
+  using Base::set_first_out_edge;
+  using Base::first_out_edge;
+  using Base::last_out_edge;
+  using Base::is_isolated;
+  using Base::has_outdeg_two;
+  using Base::flip_diagonal;
+  using Base::out_edges;
+  using Base::set_source;
+  using Base::set_face;
+  using Base::link_as_prev_next_pair;
+  using Base::delete_vertex_only;
+  using Base::delete_edge_pair_only;
+  using Base::is_sm_boundary_object;
+  using Base::store_sm_boundary_object;
+  using Base::undo_sm_boundary_object;
 
   // vertex_info stores the origin of vertices
   struct vertex_info {

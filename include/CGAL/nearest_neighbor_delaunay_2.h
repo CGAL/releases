@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h $
-// $Id: nearest_neighbor_delaunay_2.h 57100 2010-06-25 09:45:35Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h $
+// $Id: nearest_neighbor_delaunay_2.h 57843 2010-08-06 11:58:13Z afabri $
 // 
 //
 // Author(s)     : Matthias Baesken
@@ -96,7 +96,7 @@ typename Dt::Vertex_handle lookup(const Dt& delau, const typename Dt::Point& p)
    
    
 template<class Dt, class OutputIterator>
-OutputIterator   nearest_neighbors(Dt& delau, const typename Dt::Point& p, int k, OutputIterator res)
+OutputIterator   nearest_neighbors(Dt& delau, const typename Dt::Point& p, std::size_t k, OutputIterator res)
 {
   typedef typename Dt::Geom_traits                    Gt;
   typedef typename Dt::size_type                      size_type;
@@ -144,7 +144,7 @@ OutputIterator   nearest_neighbors(Dt& delau, const typename Dt::Point& p, int k
 
    
 template<class Dt, class OutputIterator>  
-OutputIterator  nearest_neighbors(const Dt& delau, typename Dt::Vertex_handle v, int k, OutputIterator res)
+OutputIterator  nearest_neighbors(const Dt& delau, typename Dt::Vertex_handle v, std::size_t k, OutputIterator res)
 {  
   typedef typename Dt::Geom_traits                    Gt;
   typedef typename Dt::size_type                      size_type;
@@ -187,7 +187,7 @@ OutputIterator get_vertices(const Dt& delau, OutputIterator res)
 // second template argument for VC ...
 
 template<class Dt, class T2>
-void nearest_neighbors_list(const Dt& delau, typename Dt::Vertex_handle v, int k, std::list<T2>& res) 
+void nearest_neighbors_list(const Dt& delau, typename Dt::Vertex_handle v, std::size_t k, std::list<T2>& res) 
 {  
   typedef typename Dt::Geom_traits                    Gt;
   typedef typename Dt::size_type                      size_type;

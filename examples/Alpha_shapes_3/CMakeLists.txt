@@ -24,6 +24,7 @@ if ( CGAL_FOUND )
 
   create_single_source_cgal_program( "ex_alpha_shapes_3.cpp" )
   create_single_source_cgal_program( "ex_alpha_shapes_with_fast_location_3.cpp" )
+  create_single_source_cgal_program( "ex_fixed_weighted_alpha_shapes_3.cpp" )
   create_single_source_cgal_program( "ex_periodic_alpha_shapes_3.cpp" )
   create_single_source_cgal_program( "ex_weighted_alpha_shapes_3.cpp" )
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/Regular_triangulation_filtered_traits_3.h $
-// $Id: Regular_triangulation_filtered_traits_3.h 58704 2010-09-20 12:18:28Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Regular_triangulation_filtered_traits_3.h $
+// $Id: Regular_triangulation_filtered_traits_3.h 58703 2010-09-20 12:12:46Z lrineau $
 //
 // Author(s)     : Sylvain Pion
 

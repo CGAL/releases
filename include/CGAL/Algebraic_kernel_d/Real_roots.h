@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Real_roots.h $
-// $Id: Real_roots.h 59003 2010-10-04 11:03:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Real_roots.h $
+// $Id: Real_roots.h 59002 2010-10-04 11:00:27Z lrineau $
 // 
 //
 // Author(s)     :  Michael Hemmer <hemmer@mpi-inf.mpg.de>
@@ -133,7 +133,7 @@ public:
  * ascending order and returns the number of real roots.
  */   
 template <class AlgebraicRealOutputIterator>
-int operator()(Polynomial                  poly , 
+int operator()(const Polynomial&        poly , 
                AlgebraicRealOutputIterator it){        
     
     CGAL_precondition_msg( typename CGAL::Polynomial_traits_d< Polynomial >::Is_square_free()(poly), "P not square free.");

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_support/include/CGAL/IO/Ostream_iterator.h $
-// $Id: Ostream_iterator.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Stream_support/include/CGAL/IO/Ostream_iterator.h $
+// $Id: Ostream_iterator.h 60156 2010-12-05 09:32:16Z glisse $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -42,7 +42,7 @@ public:
 
 template <class T, class Stream>
 class Ostream_iterator {
-    Stream& stream;
+    Stream* stream;
 public:
     typedef  T                         value_type;
     typedef  T&                        reference;
@@ -52,11 +52,11 @@ public:
     typedef  std::ptrdiff_t            difference_type;
     typedef  std::output_iterator_tag  iterator_category;
 
-    Ostream_iterator( Stream& s) : stream(s) {}
+    Ostream_iterator( Stream& s) : stream(&s) {}
     Ostream_iterator<T,Stream>& operator++()      { return *this;}
     Ostream_iterator<T,Stream>  operator++(int)   { return *this;}
     Ostream_proxy<T,Stream>     operator*() const {
-        return Ostream_proxy<T,Stream>(stream);
+        return Ostream_proxy<T,Stream>(*stream);
     }
 };
 

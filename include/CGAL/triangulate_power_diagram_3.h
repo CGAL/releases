@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/triangulate_power_diagram_3.h $
-// $Id: triangulate_power_diagram_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/triangulate_power_diagram_3.h $
+// $Id: triangulate_power_diagram_3.h 60513 2010-12-29 09:59:53Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -522,8 +522,8 @@ add_cell(Tmc_Vertex_handle vh[], int orient, Rt_Simplex s) {
   CGAL_assertion((orient==0) || (orient==1));
   CGAL_assertion(vh[0] != Tmc_Vertex_handle()); CGAL_assertion(vh[1] != Tmc_Vertex_handle());
   CGAL_assertion(vh[2] != Tmc_Vertex_handle()); CGAL_assertion(vh[3] != Tmc_Vertex_handle());
-  CGAL_assertion(vh[1] != vh[2]); CGAL_assertion(vh[1] != vh[3]); CGAL_assertion(vh[1] != vh[4]);
-  CGAL_assertion(vh[2] != vh[3]); CGAL_assertion(vh[2] != vh[4]); CGAL_assertion(vh[3] != vh[4]);
+  CGAL_assertion(vh[0] != vh[1]); CGAL_assertion(vh[0] != vh[2]); CGAL_assertion(vh[0] != vh[3]);
+  CGAL_assertion(vh[1] != vh[2]); CGAL_assertion(vh[1] != vh[3]); CGAL_assertion(vh[2] != vh[3]);
 
   Tmc_Cell_handle ch;
 

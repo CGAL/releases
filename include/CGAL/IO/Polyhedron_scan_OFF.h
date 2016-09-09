@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polyhedron_IO/include/CGAL/IO/Polyhedron_scan_OFF.h $
-// $Id: Polyhedron_scan_OFF.h 57142 2010-06-28 10:55:25Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polyhedron_IO/include/CGAL/IO/Polyhedron_scan_OFF.h $
+// $Id: Polyhedron_scan_OFF.h 58003 2010-08-12 08:30:26Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -127,7 +127,7 @@ Polyhedron_scan_OFF<HDS>:: operator()( HDS& target) {
                 std::cerr << " " << std::endl;
                 std::cerr << "Polyhedron_scan_OFF<Traits>::" << std::endl;
                 std::cerr << "operator()(): input error: cannot "
-                             "succesfully remove isolated vertices."
+                             "successfully remove isolated vertices."
                           << std::endl;
             }
             B.rollback();

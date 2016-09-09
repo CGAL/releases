@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Sliver_perturber.h $
-// $Id: Sliver_perturber.h 57304 2010-07-02 14:51:18Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_3/Sliver_perturber.h $
+// $Id: Sliver_perturber.h 61232 2011-02-15 16:03:46Z sloriot $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -43,7 +43,11 @@
 #include <CGAL/Timer.h>
 #include <CGAL/Mesh_3/Null_perturber_visitor.h>
 
+#ifdef CGAL_MESH_3_USE_RELAXED_HEAP
 #include <boost/pending/relaxed_heap.hpp>
+#else
+#include <CGAL/Modifiable_priority_queue.h>
+#endif //CGAL_MESH_3_USE_RELAXED_HEAP
 #include <boost/lambda/lambda.hpp>
 #include <boost/lambda/bind.hpp>
 #include <boost/ptr_container/ptr_vector.hpp>
@@ -121,7 +125,9 @@ private:
     /// Is perturbable
     bool is_perturbable() const
     {
-      return ( (NULL != perturbation()) && (sliver_nb() != 0) );
+      return (   (vertex_handle_->in_dimension() > 1)
+              && (NULL != perturbation()) 
+              && (sliver_nb() != 0) );
     }
     
     /// Min sliver value
@@ -188,7 +194,11 @@ private:
   };
   
   typedef std::less<PVertex> less_PVertex;
+  #ifdef CGAL_MESH_3_USE_RELAXED_HEAP
   typedef boost::relaxed_heap<PVertex, less_PVertex, PVertex_id> PQueue; 
+  #else
+  typedef ::CGAL::internal::mutable_queue_with_remove<PVertex,std::vector<PVertex>, less_PVertex, PVertex_id> PQueue; 
+  #endif //CGAL_MESH_3_USE_RELAXED_HEAP
   
 public:
   /**

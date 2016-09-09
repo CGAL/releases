@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_reconstruction_points_3/include/CGAL/k_nearest_neighbor.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_reconstruction_points_3/include/CGAL/k_nearest_neighbor.h $
 // $Id: k_nearest_neighbor.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret

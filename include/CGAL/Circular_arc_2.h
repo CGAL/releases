@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Circular_arc_2.h $
-// $Id: Circular_arc_2.h 58156 2010-08-19 10:51:24Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_arc_2.h $
+// $Id: Circular_arc_2.h 61485 2011-03-02 18:52:57Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -24,6 +24,8 @@
 
 #ifndef CGAL_CIRCULAR_ARC_2_H
 #define CGAL_CIRCULAR_ARC_2_H
+
+#include <CGAL/config.h>
 
 namespace CGAL {
   

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/function_objects_polynomial_circular.h $
-// $Id: function_objects_polynomial_circular.h 58196 2010-08-20 14:09:10Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_2/function_objects_polynomial_circular.h $
+// $Id: function_objects_polynomial_circular.h 57902 2010-08-10 08:02:28Z afabri $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 

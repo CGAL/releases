@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/Degree.h $
-// $Id: Degree.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polynomial/include/CGAL/Polynomial/Degree.h $
+// $Id: Degree.h 58457 2010-09-03 12:46:16Z hemmer $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-inf.mpg.de> 
@@ -71,10 +71,7 @@ public:
       int i = (Dimension<Polynomial_d>::value-1)) const {
     CGAL_assertion(i < Dimension<Polynomial_d>::value);
     CGAL_assertion(i >= 0);
-    int result =  this->degree(p,i);
-    CGAL_assertion_code(typename Polynomial_traits_d<Polynomial_d>::Swap swap;); 
-    CGAL_assertion(swap(p,i,Dimension<Polynomial_d>::value-1).degree()==result);
-    return result; 
+    return this->degree(p,i);
   }     
 
 };

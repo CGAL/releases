@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/config/support/print_GCC_version.cpp $
-// $Id: print_GCC_version.cpp 46291 2008-10-15 13:56:41Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/support/print_GCC_version.cpp $
+// $Id: print_GCC_version.cpp 58792 2010-09-22 16:02:12Z lrineau $
 // 
 //
 // Author(s)     : Fernando Cacciola
@@ -30,15 +30,23 @@
 // Just in case this is called with a non-gcc compiler such as pgCC
 //
  
-#ifndef __GNUC__
-  #define __VERSION__ "Not GNU/CC"
+#ifdef __clang_version__
+#  define _CGAL_GCC_VERSION "Not GNU/CC (CLANG)"
+#else
+#  ifndef __GNUC__
+#    define _CGAL_GCC_VERSION "Not GNU/CC"
+#  endif
 #endif
-#ifndef __VERSION__
-  #define __VERSION__ "Unknown version (__VERSION__ is not defined)"
+#ifndef _CGAL_GCC_VERSION
+#  ifdef __VERSION__
+#    define _CGAL_GCC_VERSION __VERSION__
+#  else
+#    define _CGAL_GCC_VERSION "Unknown version (_CGAL_GCC_VERSION is not defined)"
+#  endif
 #endif
 
 int main()
 {
-  std::cout << "version=" << __VERSION__ << std::endl;
+  std::cout << "version=" << _CGAL_GCC_VERSION << std::endl;
   return 0;
 }

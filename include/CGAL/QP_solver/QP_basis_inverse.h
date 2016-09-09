@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_basis_inverse.h $
-// $Id: QP_basis_inverse.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_solver/QP_basis_inverse.h $
+// $Id: QP_basis_inverse.h 59467 2010-11-03 07:58:08Z ybrise $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -761,7 +761,7 @@ class QP_basis_inverse {
     
     // append row in Q if no allocated row available
     void ensure_physical_row (unsigned int row) {
-    	unsigned int rows = M.size();
+    	unsigned int rows = static_cast<unsigned int>(M.size());
 	CGAL_qpe_assertion(rows >= row);
 	if (rows == row) {
             M.push_back(Row(row+1, et0));

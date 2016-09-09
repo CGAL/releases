@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/Gaussian_map.h $
-// $Id: Gaussian_map.h 57194 2010-06-29 12:47:18Z lrineau $ 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/Gaussian_map.h $
+// $Id: Gaussian_map.h 58417 2010-09-01 12:19:50Z afabri $ 
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -70,6 +70,18 @@ class Gaussian_map :
 
   typedef typename Sphere_map::Object_handle              Object_handle;
 
+  using Base::clear_face_cycle_entries;
+  using Base::is_closed_at_source;
+  using Base::delete_edge_pair;
+  using Base::delete_vertex_only;
+  using Base::delete_face_only;
+  using Base::set_face;
+  using Base::store_sm_boundary_object;
+  using Base::is_isolated;
+  using Base::has_outdeg_two;
+  using Base::first_out_edge;
+  using Base::merge_edge_pairs_at_target;
+  
   template<typename Nef_polyhedron_3>
   class SVertex_creator2 {
 
@@ -84,7 +96,7 @@ class Gaussian_map :
 
     SM_decorator SM;
     Facet2SVertex_hash& Facet2SVertex;
-    
+
   public:
     SVertex_creator2(Sphere_map* smap, Facet2SVertex_hash& F2SV)
       : SM(smap), Facet2SVertex(F2SV) {}

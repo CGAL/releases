@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Implicit_surface_3.h $
-// $Id: Implicit_surface_3.h 46082 2008-10-03 13:58:08Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Implicit_surface_3.h $
+// $Id: Implicit_surface_3.h 58913 2010-09-27 13:26:53Z afabri $
 //
 // Author(s)     : Laurent RINEAU
 
@@ -28,7 +28,7 @@ namespace CGAL {
 
   template<
     typename GT,
-    typename Function
+    typename Function_
     >
   class Implicit_surface_3 
   {
@@ -37,7 +37,10 @@ namespace CGAL {
     typedef typename Geom_traits::Sphere_3 Sphere_3;
     typedef typename Geom_traits::FT FT;
     typedef typename Geom_traits::Point_3 Point;
+    typedef Function_ Function;
     typedef Implicit_surface_3<Geom_traits, Function> Self;
+
+    Function& function() { return func; }
 
     typedef Surface_mesher::Implicit_surface_oracle_3<
       Geom_traits,

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/PM_point_locator.h $
-// $Id: PM_point_locator.h 56962 2010-06-22 09:38:32Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/PM_point_locator.h $
+// $Id: PM_point_locator.h 60171 2010-12-06 14:58:54Z afabri $
 //
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -303,9 +303,9 @@ public:
     Vertex_const_handle v;
     Halfedge_const_handle e;
     Face_const_handle f;
-    if ( assign(v,h) && M(v) ||
-         assign(e,h) && M(e) ||
-         assign(f,h) && M(f) ) return h;
+    if ( ( assign(v,h) && M(v) ) ||
+         ( assign(e,h) && M(e) ) ||
+         ( assign(f,h) && M(f) ) ) return h;
     h = Object_handle();
     CGAL_NEF_TRACEN("not contained");
     for (v = this->vertices_begin(); v != this->vertices_end(); ++v) {

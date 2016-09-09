@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Hash_map/include/CGAL/Tools/chained_map.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Hash_map/include/CGAL/Tools/chained_map.h $
 // $Id: chained_map.h 56931 2010-06-21 15:08:06Z afabri $
 // 
 //

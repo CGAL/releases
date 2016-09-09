@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
-// $Id: Constrained_triangulation_plus_2.h 57014 2010-06-23 13:29:04Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
+// $Id: Constrained_triangulation_plus_2.h 59665 2010-11-12 10:39:22Z lrineau $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -505,12 +505,15 @@ intersect(Face_handle f, int i,
 
   Vertex_handle vi;
   if ( !ok) {  //intersection detected but not computed
-        int i = limit_intersection(geom_traits(), pa, pb, pc, pd, itag);
+    int i = limit_intersection(geom_traits(), pa, pb, pc, pd, itag);
     switch(i){
     case 0 : vi = vaa; break;
     case 1 : vi = vbb; break;
     case 2 : vi = vcc; break;
     case 3 : vi = vdd; break; 
+    }
+    if(vi == vaa || vi == vbb) {
+      Triangulation::remove_constrained_edge(f, i);
     }
   }
   else{ //computed

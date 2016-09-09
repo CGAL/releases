@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/config/testfiles/CGAL_CFG_FPU_ROUNDING_MODE_UNWINDING_VC_BUG.cpp $
-// $Id: CGAL_CFG_FPU_ROUNDING_MODE_UNWINDING_VC_BUG.cpp 53922 2010-01-29 19:03:07Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/testfiles/CGAL_CFG_FPU_ROUNDING_MODE_UNWINDING_VC_BUG.cpp $
+// $Id: CGAL_CFG_FPU_ROUNDING_MODE_UNWINDING_VC_BUG.cpp 49022 2009-04-29 20:03:21Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri

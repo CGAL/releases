@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/test.h $
-// $Id: test.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/test.h $
+// $Id: test.h 59832 2010-11-23 11:20:03Z lrineau $
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 
@@ -42,7 +42,7 @@
 #  define CGAL_stskel_intrinsic_test_trace_if(EX,m)
 #endif
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace CGAL_SS_i {
 
@@ -165,7 +165,7 @@ inline bool is_time_clearly_within_possibly_inexact_bisector_time_interval( FT c
 
 } // namespace CGAL_SS_i
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 #endif // CGAL_STRAIGHT_SKELETON_TEST_H //
 // EOF //

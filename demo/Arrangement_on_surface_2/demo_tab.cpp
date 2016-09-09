@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/demo_tab.cpp $
-// $Id: demo_tab.cpp 58704 2010-09-20 12:18:28Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/demo_tab.cpp $
+// $Id: demo_tab.cpp 58703 2010-09-20 12:12:46Z lrineau $
 //
 // Author(s)     : Guy Zucker <guyzucke@post.tau.ac.il>
 

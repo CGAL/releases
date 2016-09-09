@@ -11,9 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Arrangement_2/include/CGAL/Arr_point_location/Arr_lm_halton_generator.h,v $
-// $Revision: 56667 $ $Date: 2010-06-09 09:37:13 +0200 (Wed, 09 Jun 2010) $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_halton_generator.h $
+// $Id: Arr_lm_halton_generator.h 61484 2011-03-02 14:59:51Z sloriot $
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
 //                 Ron Wein     <haranidi@post.tau.ac.il>

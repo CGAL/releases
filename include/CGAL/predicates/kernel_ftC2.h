@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC2.h $
-// $Id: kernel_ftC2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/predicates/kernel_ftC2.h $
+// $Id: kernel_ftC2.h 60637 2011-01-07 10:45:13Z sloriot $
 // 
 //
 // Author(s)     : Herve Bronnimann (Herve.Bronnimann@sophia.inria.fr)
@@ -185,6 +185,14 @@ compare_y_at_xC2(const FT &l1a, const FT &l1b, const FT &l1c,
   return s * sign_of_determinant<FT>(h2a*num+h2c*den, h2b,
                                         h1a*num+h1c*den, h1b);
 }
+
+// forward-declaration of orientationC2, used in compare_y_at_xC2
+template < class FT >
+inline
+typename Same_uncertainty_nt<Orientation, FT>::type
+orientationC2(const FT &px, const FT &py,
+              const FT &qx, const FT &qy,
+              const FT &rx, const FT &ry);
 
 template < class FT >
 CGAL_KERNEL_LARGE_INLINE
@@ -415,11 +423,31 @@ orientationC2(const FT &ux, const FT &uy, const FT &vx, const FT &vy)
 template < class FT >
 inline
 typename Same_uncertainty_nt<Angle, FT>::type
+angleC2(const FT &ux, const FT &uy,
+        const FT &vx, const FT &vy)
+{
+  return enum_cast<Angle>(CGAL_NTS sign(ux*vx + uy*vy));
+}
+
+template < class FT >
+inline
+typename Same_uncertainty_nt<Angle, FT>::type
 angleC2(const FT &px, const FT &py,
         const FT &qx, const FT &qy,
         const FT &rx, const FT &ry)
 {
   return enum_cast<Angle>(CGAL_NTS sign((px-qx)*(rx-qx)+(py-qy)*(ry-qy)));
+}
+
+template < class FT >
+inline
+typename Same_uncertainty_nt<Angle, FT>::type
+angleC2(const FT &px, const FT &py,
+        const FT &qx, const FT &qy,
+        const FT &rx, const FT &ry,
+        const FT &sx, const FT &sy)
+{
+  return enum_cast<Angle>(CGAL_NTS sign((px-qx)*(rx-sx)+(py-qy)*(ry-sy)));
 }
 
 template < class FT >

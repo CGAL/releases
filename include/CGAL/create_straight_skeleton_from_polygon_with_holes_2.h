@@ -11,8 +11,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/create_straight_skeleton_from_polygon_with_holes_2.h $
-// $Id: create_straight_skeleton_from_polygon_with_holes_2.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/create_straight_skeleton_from_polygon_with_holes_2.h $
+// $Id: create_straight_skeleton_from_polygon_with_holes_2.h 59832 2010-11-23 11:20:03Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -22,7 +22,7 @@
 #include <CGAL/create_straight_skeleton_2.h>
 #include <CGAL/Polygon_with_holes_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class K>
 boost::shared_ptr< Straight_skeleton_2<K> >
@@ -37,7 +37,7 @@ create_interior_straight_skeleton_2 ( Polygon_with_holes_2<K> const& aPolyWithHo
                                             );
 }
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 
 #endif // CGAL_STRAIGHT_SKELETON_BUILDER_2_H //

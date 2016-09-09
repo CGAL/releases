@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_Bezier_curve_traits_2.h $
-// $Id: Arr_Bezier_curve_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_Bezier_curve_traits_2.h $
+// $Id: Arr_Bezier_curve_traits_2.h 60834 2011-01-17 13:58:47Z eric $
 // 
 // 
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -98,6 +98,9 @@ public:
                           Alg_kernel,
                           Nt_traits,
                           Bounding_traits>             Point_2;
+
+  typedef typename X_monotone_curve_2::Multiplicity    Multiplicity;
+
 
   // Type definition for the vertical-tangnecy and intersection point cache.
   typedef _Bezier_cache<Nt_traits>                     Bezier_cache;
@@ -564,21 +567,18 @@ public:
 
         for (pit = vpts.begin(); pit != vpts.end(); ++pit)
         {
-          *oi = CGAL::make_object (X_monotone_curve_2 (B, xid,
-                                                       p0, *pit,
-                                                       *p_cache));
-          ++oi;
-
+          *oi++ = CGAL::make_object (X_monotone_curve_2 (B, xid,
+                                                         p0, *pit,
+                                                         *p_cache));
           xid++;
           p0 = *pit;
         }
 
         Point_2    p1(B, Rational(1)); // A rational end point.
 
-        *oi = CGAL::make_object (X_monotone_curve_2 (B, xid,
-                                                     p0, p1,
-                                                     *p_cache));
-
+        *oi++ = CGAL::make_object (X_monotone_curve_2 (B, xid,
+                                                       p0, p1,
+                                                       *p_cache));
         return (oi);
       }
 
@@ -599,21 +599,18 @@ public:
       for (it = vt_list.begin(); it != vt_list.end(); ++it)
       {
         p1 = Point_2 (B, *it);
-        *oi = CGAL::make_object (X_monotone_curve_2 (B, xid,
-                                                     p0, p1,
-                                                     *p_cache));
-        ++oi;
-
+        *oi++ = CGAL::make_object (X_monotone_curve_2 (B, xid,
+                                                       p0, p1,
+                                                       *p_cache));
         xid++;
         p0 = p1;
       }
 
       // Create the final subcurve.
       p1 = Point_2 (B, Rational(1));
-      *oi = CGAL::make_object (X_monotone_curve_2 (B, xid,
-                                                   p0, p1,
-                                                   *p_cache));
-
+      *oi++ = CGAL::make_object (X_monotone_curve_2 (B, xid,
+                                                     p0, p1,
+                                                     *p_cache));
       return (oi);
     }
   };

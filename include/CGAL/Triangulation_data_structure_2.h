@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Triangulation_data_structure_2.h $
-// $Id: Triangulation_data_structure_2.h 56997 2010-06-22 20:44:46Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Triangulation_data_structure_2.h $
+// $Id: Triangulation_data_structure_2.h 59734 2010-11-16 17:27:06Z lrineau $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -201,7 +201,7 @@ public:
     CGAL_triangulation_precondition ( f->neighbor(i) != Face_handle()
 				    && f->dimension() >= 1);
   return f->neighbor(i)->vertex(mirror_index(f,i));
-}
+  }
 
   int
   mirror_index(Face_handle f, int i) const
@@ -213,7 +213,16 @@ public:
       return 1 - (f->neighbor(i)->index(f->vertex(1-i)));
     }
     return ccw( f->neighbor(i)->index(f->vertex(ccw(i))));
-}
+  }
+
+  Edge 
+  mirror_edge(const Edge e) const 
+  {
+    CGAL_triangulation_precondition(e.first->neighbor(e.second) != Face_handle()
+                                    && e.first->dimension() >= 1);
+    return Edge(e.first->neighbor(e.second),
+                mirror_index(e.first,  e.second));
+  }
 
   // MODIFY
   void flip(Face_handle f, int i);

@@ -11,8 +11,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/create_offset_polygons_2.h $
-// $Id: create_offset_polygons_2.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/create_offset_polygons_2.h $
+// $Id: create_offset_polygons_2.h 61441 2011-02-28 15:28:28Z sloriot $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -25,7 +25,7 @@
 #include <CGAL/compute_outer_frame_margin.h>
 #include <CGAL/Polygon_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace CGAL_SS_i
 {
@@ -151,7 +151,7 @@ create_offset_polygons_2 ( FT const& aOffset, Skeleton const& aSs, K const& k, T
 //
 template<class OutPolygon, class FT, class Skeleton, class K>
 std::vector< boost::shared_ptr<OutPolygon> > 
-create_offset_polygons_2 ( FT const& aOffset, Skeleton const& aSs, K const& k, Tag_true )
+create_offset_polygons_2 ( FT const& aOffset, Skeleton const& aSs, K const& /*k*/, Tag_true )
 {
   typedef boost::shared_ptr<OutPolygon> OutPolygonPtr ; 
   typedef std::vector<OutPolygonPtr>    OutPolygonPtrVector ;
@@ -344,7 +344,7 @@ create_exterior_skeleton_and_offset_polygons_2 ( FT const& aOffset, Polygon cons
                                                
 }
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 
 #endif

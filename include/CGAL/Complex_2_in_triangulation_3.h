@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Complex_2_in_triangulation_3.h $
-// $Id: Complex_2_in_triangulation_3.h 58420 2010-09-01 12:26:46Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Complex_2_in_triangulation_3.h $
+// $Id: Complex_2_in_triangulation_3.h 58433 2010-09-02 06:27:17Z sloriot $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -217,6 +217,7 @@ public:
   class Vertex_not_in_complex {
     Self* self;
   public:
+    Vertex_not_in_complex(){} //added for SWIG wrapping
     Vertex_not_in_complex(Self* self) : self(self) 
     {
     }
@@ -242,6 +243,7 @@ public:
   class Iterator_not_on_boundary {
     Self* self;
   public:
+    Iterator_not_on_boundary(){}  //added for SWIG wrapping
     Iterator_not_on_boundary(Self* self) : self(self) 
     {
     }
@@ -269,6 +271,7 @@ public:
     typedef typename Base::Predicate Predicate;
     typedef Vertex_iterator Self;
   public:
+    Vertex_iterator(){} //added for SWIG wrapping
     Vertex_iterator(Base i) : Base(i)
     {
     }
@@ -278,7 +281,7 @@ public:
     Self operator++(int) { Self tmp(*this); ++(*this); return tmp; }
     Self operator--(int) { Self tmp(*this); --(*this); return tmp; }
   
-    operator Vertex_handle() 
+    operator Vertex_handle() const // const added for SWIG wrapping
     {
       return Vertex_handle(this->base());
     }

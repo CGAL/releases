@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/In_place_list.h $
-// $Id: In_place_list.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/In_place_list.h $
+// $Id: In_place_list.h 61223 2011-02-15 12:50:21Z gdamiand $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -88,6 +88,10 @@ namespace internal {
 
     bool  operator==( const Self& x) const { return node == x.node; }
     bool  operator!=( const Self& x) const { return node != x.node; }
+    bool  operator< ( const Self& x) const { return node< x.node;   }
+    bool  operator<=( const Self& x) const { return node<= x.node;  }
+    bool  operator> ( const Self& x) const { return node> x.node;   }
+    bool  operator>=( const Self& x) const { return node>= x.node;  }
     T&    operator*()  const { return *node; }
     T*    operator->() const { return  node; }
     Self& operator++() {
@@ -137,6 +141,10 @@ namespace internal {
 
     bool     operator==( const Self& x) const { return node == x.node; }
     bool     operator!=( const Self& x) const { return node != x.node; }
+    bool     operator< ( const Self& x) const { return node< x.node;   }
+    bool     operator<=( const Self& x) const { return node<= x.node;  }
+    bool     operator> ( const Self& x) const { return node> x.node;   }
+    bool     operator>=( const Self& x) const { return node>= x.node;  }
     const T& operator*()  const { return *node; }
     const T* operator->() const { return  node; }
     Self& operator++() {

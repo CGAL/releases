@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/src/CGAL/test_FPU_rounding_mode.cpp $
-// $Id: test_FPU_rounding_mode.cpp 46460 2008-10-23 22:10:06Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/src/CGAL/test_FPU_rounding_mode.cpp $
+// $Id: test_FPU_rounding_mode.cpp 58907 2010-09-27 08:52:41Z sloriot $
 // 
 //
 // Author(s)     : Laurent Rineau
@@ -36,7 +36,7 @@ struct Check_FPU_rounding_mode_is_restored {
   ~Check_FPU_rounding_mode_is_restored()
   {
     CGAL_assertion_msg( FPU_get_cw() == mode, 
-		      "The default FPU rouding mode has not been restored "
+		      "The default FPU rounding mode has not been restored "
 		      " before the exit of the program. "
 		      "That may be a bug in some CGAL kernel code.");
   }

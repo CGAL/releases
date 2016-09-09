@@ -17,7 +17,7 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/function_objects_on_roots_and_polynomials_2_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/function_objects_on_roots_and_polynomials_2_3.h $
 // $Id: function_objects_on_roots_and_polynomials_2_3.h 56667 2010-06-09 07:37:13Z sloriot $
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>

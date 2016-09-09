@@ -11,8 +11,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/arrange_offset_polygons_2.h $
-// $Id: arrange_offset_polygons_2.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/arrange_offset_polygons_2.h $
+// $Id: arrange_offset_polygons_2.h 59832 2010-11-23 11:20:03Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar> 
 //
@@ -22,7 +22,7 @@
 #include <boost/shared_ptr.hpp>
 #include <CGAL/Polygon_with_holes_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //
 // This should only be used to arrange the polygons coming from Polygon_offset_builder
@@ -109,7 +109,7 @@ arrange_offset_polygons_2 ( std::vector< boost::shared_ptr< Polygon_2<K> > > con
   return rResult ;
 }
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 
 #endif 

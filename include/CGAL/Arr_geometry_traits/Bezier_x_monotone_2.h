@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h $
-// $Id: Bezier_x_monotone_2.h 57724 2010-08-02 14:53:10Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h $
+// $Id: Bezier_x_monotone_2.h 61345 2011-02-22 15:14:40Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -58,6 +58,8 @@ public:
                                Alg_kernel,
                                Nt_traits,
                                Bounding_traits>         Self;
+
+  typedef unsigned int                                  Multiplicity;
 
   typedef _Bezier_cache<Nt_traits>                      Bezier_cache;
 
@@ -712,18 +714,42 @@ _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::point_position
     (const Point_2& p,
      Bezier_cache& cache) const
 {
+  Nt_traits nt_traits;
+  
+  //First check if the bezier is a vertical segment
+  if (nt_traits.degree(_curve.x_polynomial()) <= 0)
+  {
+    // In this case both points must be exact.
+    CGAL_assertion (p.is_exact() && _ps.is_exact() && _pt.is_exact());
+    if (p.is_rational() && _ps.is_rational() && _pt.is_rational())
+    {
+      const Rat_point_2&  rat_p = (Rat_point_2) p;
+      const Rat_point_2&  rat_ps = (Rat_point_2) _ps;
+      const Rat_point_2&  rat_pt = (Rat_point_2) _pt;
+
+      Comparison_result res1 = (CGAL::compare (rat_p.y(), rat_ps.y()));
+      Comparison_result res2 = (CGAL::compare (rat_p.y(), rat_pt.y()));
+      return (res1==res2 ? res1:EQUAL);
+    }
+    
+    Comparison_result res1 = (CGAL::compare (p.y(), _ps.y()));
+    Comparison_result res2 = (CGAL::compare (p.y(), _pt.y()));
+    return (res1==res2 ? res1:EQUAL);
+  }
 
   if (p.identical(_ps)) {
     return EQUAL;
   }
   
-  // First check whether p has the same x-coordinate as one of the endpoints.
-  const Comparison_result  res1 = p.compare_x (_ps, cache);
+  // Then check whether the bezier is an horizontal segment or 
+  // if p has the same x-coordinate as one of the endpoint
+  
+  const Comparison_result  res1 =  p.compare_x (_ps, cache);
 
-  if (res1 == EQUAL)
+  if (res1 == EQUAL || nt_traits.degree(_curve.y_polynomial()) <= 0)
   {
-    // In this case both points must be exact.
-    CGAL_assertion (p.is_exact() && _ps.is_exact());
+    if (! p.is_exact()) p.make_exact (cache);
+    if (! _ps.is_exact()) _ps.make_exact (cache);
 
     // If both point are rational, compare their rational y-coordinates.
     if (p.is_rational() && _ps.is_rational())
@@ -909,6 +935,27 @@ _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::point_position
   if (res_bound != EQUAL)
     return (res_bound);
  
+  
+  if ( p.is_rational() ){
+    const Rational& px = ((Rat_point_2) p).x();
+    
+    Integer denom_px=nt_traits.denominator(px);
+    Integer numer_px=nt_traits.numerator(px);
+    Polynomial poly_px = CGAL::sign(numer_px) == ZERO ? Polynomial() : nt_traits.construct_polynomial(&numer_px,0);
+    Polynomial poly_x = nt_traits.scale(_curve.x_polynomial(),denom_px) - poly_px;
+    
+    std::vector <Algebraic> roots;
+    std::pair<double,double> prange = parameter_range();
+    nt_traits.compute_polynomial_roots (poly_x,prange.first,prange.second,std::back_inserter(roots));
+    
+    CGAL_assertion(roots.size()==1); //p is in the range and the curve is x-monotone
+    
+    return CGAL::compare(
+      ((Rat_point_2) p).y(),
+      nt_traits.evaluate_at (_curve.y_polynomial(), *roots.begin())
+    );
+  }
+  
   // In this case we have to switch to exact computations and check whether
   // p lies of the given subcurve. We take one of p's originating curves and
   // compute its intersections with our x-monotone curve.
@@ -917,8 +964,6 @@ _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::point_position
 
   CGAL_assertion (p.originators_begin() != p.originators_end());
     
-  // \todo If the point is a rational point (e.g., ray shooting)
-  //       use comparison between Y(root_of(X0-X(t))) and Y0.
   Originator   org = *(p.originators_begin());
   bool         do_ovlp;
   bool         swap_order = (_curve.id() > org.curve().id());
@@ -1741,7 +1786,7 @@ _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::_compare_slopes
 
   if (CGAL::sign (denom1) == CGAL::ZERO)
   {
-    inf_slope1 = CGAL::sign (numer1);
+    inf_slope1 = is_directed_right() ? CGAL::sign (numer1) : CGAL::opposite( CGAL::sign (numer1) );
 
     // If both derivatives are zero, we cannot perform the comparison:
     if (inf_slope1 == CGAL::ZERO)
@@ -1764,7 +1809,7 @@ _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::_compare_slopes
 
   if (CGAL::sign (denom2) == CGAL::ZERO)
   {
-    inf_slope2 = CGAL::sign (numer2);
+    inf_slope2 = cv.is_directed_right() ? CGAL::sign (numer2) : CGAL::opposite( CGAL::sign (numer2) );
 
     // If both derivatives are zero, we cannot perform the comparison:
     if (inf_slope2 == CGAL::ZERO)
@@ -2231,11 +2276,18 @@ bool _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::_intersect
 
   if (app_ok)
   {
-    // If the approximation went OK, then we know that we just have simple
-    // intersection points (with multiplicity 1). We go over the points
-    // and report the ones lying in the parameter ranges of both curves.
-    // Note that in case of self-intersections, all points we get are in
-    // the respective parameter range of the curves.
+    // Approximations are computed using de Casteljau subdivision and 
+    // filtering using skewed bounding boxes. A property of these bboxes
+    // if that it can fail in the following cases: (i) there are two intersection
+    // points lying very close together, (ii) there exists an intersection point 
+    // whose multiplicity is greater than 1, or (iii) the curves overlap.
+    // If the approximation went OK, then we know that we have a simple
+    // intersection point (with multiplicity 1) if intersection point
+    // is not rational (otherwise it is unknown: at this point, an intersection point
+    // is rational if it was found as a control point during the de Casteljau subdivision)
+    // We go over the points and report the ones lying in the parameter
+    // ranges of both curves. Note that in case of self-intersections,
+    // all points we get are in the respective parameter range of the curves.
     typename std::list<Point_2>::iterator  pit;
     
     for (pit = inter_pts.begin(); pit != inter_pts.end(); ++pit)
@@ -2307,8 +2359,8 @@ bool _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::_intersect
           pit->update_originator_xid (*p_org2, cv._xid);
 
         // The point lies within the parameter range of both curves, so we
-        // report it as a valid intersection point with multiplicity 1.
-        ipts.push_back (Intersection_point_2 (*pit, 1));
+        // report it as a valid intersection point with multiplicity 1 or unknown.
+        ipts.push_back (Intersection_point_2 (*pit, pit->is_rational()?0:1));
       }
     }
 

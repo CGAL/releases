@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_dcel_base.h $
-// $Id: Arr_dcel_base.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_dcel_base.h $
+// $Id: Arr_dcel_base.h 60453 2010-12-21 17:52:03Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -35,11 +35,14 @@
 #include <CGAL/function_objects.h>
 #include <CGAL/Iterator_project.h>
 #include <CGAL/Arrangement_2/Arrangement_2_iterators.h>
+#include <boost/static_assert.hpp>
+
 
 namespace CGAL {
 
 inline void* _clean_pointer (const void* p)
 {
+  BOOST_STATIC_ASSERT(sizeof(void*) == sizeof(size_t));
   const size_t  mask = ~1;
   const size_t  val = (reinterpret_cast<size_t>(p) & mask);
 
@@ -608,9 +611,9 @@ private:
 
   typedef Cast_function_object<void*,
                                Halfedge*>        _Ccb_to_halfedge_cast;
-  typedef Cast_function_object<const void*,
-                               const Halfedge*>  _Const_ccb_to_halfedge_cast;
-
+  // typedef Cast_function_object<const void*,
+  //                              const Halfedge*>  _Const_ccb_to_halfedge_cast;
+  typedef _Ccb_to_halfedge_cast _Const_ccb_to_halfedge_cast;
 
 public:
 

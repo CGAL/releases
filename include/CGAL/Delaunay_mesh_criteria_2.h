@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/include/CGAL/Delaunay_mesh_criteria_2.h $
-// $Id: Delaunay_mesh_criteria_2.h 56230 2010-05-14 09:13:45Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_2/include/CGAL/Delaunay_mesh_criteria_2.h $
+// $Id: Delaunay_mesh_criteria_2.h 59653 2010-11-12 08:06:17Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -77,8 +77,6 @@ public:
         traits.compute_area_2_object();
       Compute_squared_distance_2 squared_distance = 
 	traits.compute_squared_distance_2_object();
-      Construct_triangle_2 triangle =
-        traits.construct_triangle_2_object();
 
       const Point_2& pa = fh->vertex(0)->point();
       const Point_2& pb = fh->vertex(1)->point();

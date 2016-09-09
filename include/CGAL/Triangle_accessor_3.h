@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Triangle_accessor_3.h $
-// $Id: Triangle_accessor_3.h 53922 2010-01-29 19:03:07Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Triangle_accessor_3.h $
+// $Id: Triangle_accessor_3.h 59062 2010-10-06 13:49:59Z sloriot $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -32,10 +32,15 @@ template <typename Polyhedron, typename K>
 class Triangle_accessor_3 {};
 
 
-template <typename K>
-class Triangle_accessor_3<Polyhedron_3<K>, K >
+template < class K,class Items,
+#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
+           template < class T, class I, class A>
+#endif
+           class T_HDS,
+           class Alloc>
+class Triangle_accessor_3<Polyhedron_3<K,Items,T_HDS,Alloc>, K >
 {
-  typedef Polyhedron_3<K> Polyhedron;
+  typedef Polyhedron_3<K,Items,T_HDS,Alloc> Polyhedron;
 public:
   typedef typename K::Triangle_3                    Triangle_3;
   typedef typename Polyhedron::Facet_const_iterator Triangle_iterator;

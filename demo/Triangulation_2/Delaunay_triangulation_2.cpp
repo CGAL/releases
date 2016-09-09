@@ -82,7 +82,7 @@ public slots:
 
   void on_actionRecenter_triggered();
 
-  void open(const QString& fileName);
+  virtual void open(QString fileName);
 
 signals:
   void changed();
@@ -93,6 +93,8 @@ MainWindow::MainWindow()
   : DemosMainWindow()
 {
   setupUi(this);
+
+  this->graphicsView->setAcceptDrops(false);
 
   // Add a GraphicItem for the Delaunay triangulation
   dgi = new CGAL::Qt::TriangulationGraphicsItem<Delaunay>(&dt);
@@ -319,7 +321,7 @@ MainWindow::on_actionLoadPoints_triggered()
 
 
 void
-MainWindow::open(const QString& fileName)
+MainWindow::open(QString fileName)
 {
   // wait cursor
   QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -386,5 +388,12 @@ int main(int argc, char **argv)
 
   MainWindow mainWindow;
   mainWindow.show();
+
+  QStringList args = app.arguments();
+  args.removeAt(0);
+  Q_FOREACH(QString filename, args) {
+    mainWindow.open(filename);
+  }
+
   return app.exec();
 }

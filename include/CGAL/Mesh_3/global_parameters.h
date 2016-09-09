@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/global_parameters.h $
-// $Id: global_parameters.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_3/global_parameters.h $
+// $Id: global_parameters.h 60688 2011-01-10 15:43:22Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -26,7 +26,7 @@
 
 #include <CGAL/config.h>
 
-#define BOOST_PARAMETER_MAX_ARITY 8
+#define BOOST_PARAMETER_MAX_ARITY 12
 #include <boost/parameter.hpp>
 
 

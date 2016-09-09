@@ -11,8 +11,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/create_offset_polygons_from_polygon_with_holes_2.h $
-// $Id: create_offset_polygons_from_polygon_with_holes_2.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/create_offset_polygons_from_polygon_with_holes_2.h $
+// $Id: create_offset_polygons_from_polygon_with_holes_2.h 59832 2010-11-23 11:20:03Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -23,7 +23,7 @@
 #include <CGAL/Polygon_with_holes_2.h>
 #include <CGAL/arrange_offset_polygons_2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template<class FT, class OfK, class SsK>
 std::vector< boost::shared_ptr< Polygon_2<OfK> > >
@@ -97,7 +97,7 @@ create_exterior_skeleton_and_offset_polygons_with_holes_2 ( FT const&           
 
 
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 
 #endif 

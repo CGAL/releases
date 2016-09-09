@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/AABB_tree/include/CGAL/AABB_traits.h $
-// $Id: AABB_traits.h 57383 2010-07-08 07:35:44Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/AABB_tree/include/CGAL/AABB_traits.h $
+// $Id: AABB_traits.h 60668 2011-01-10 10:46:16Z sloriot $
 //
 //
 // Author(s) : Stéphane Tayeb, Pierre Alliez, Camille Wormser
@@ -194,6 +194,7 @@ Intersection intersection_object() {return Intersection();}
   // this is not the same do_intersect as the spherical kernel)
   class Compare_distance {
       typedef typename AT::Point Point;
+      typedef typename AT::FT FT;
       typedef typename AT::Primitive Primitive;
   public:
       template <class Solid>
@@ -203,6 +204,16 @@ Intersection intersection_object() {return Intersection();}
           (GeomTraits().construct_sphere_3_object()
           (p, GeomTraits().compute_squared_distance_3_object()(p, bound)), pr)?
           CGAL::SMALLER : CGAL::LARGER;
+      }
+
+      template <class Solid>
+      CGAL::Comparison_result operator()(const Point& p, const Solid& pr, const FT& sq_distance) const
+      {
+        return GeomTraits().do_intersect_3_object()
+          (GeomTraits().construct_sphere_3_object()(p, sq_distance),
+           pr) ?
+          CGAL::SMALLER : 
+          CGAL::LARGER;
       }
   };
 

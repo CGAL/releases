@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/PointsGraphicsItem.h $
-// $Id: PointsGraphicsItem.h 56826 2010-06-17 06:29:45Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/PointsGraphicsItem.h $
+// $Id: PointsGraphicsItem.h 58801 2010-09-22 20:22:00Z afabri $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -37,7 +37,7 @@ namespace Qt {
 template <typename P>
 class PointsGraphicsItem : public GraphicsItem
 {
-  typedef typename P::value_type Point_2;
+  typedef typename std::iterator_traits<typename P::iterator>::value_type Point_2;
   typedef typename CGAL::Kernel_traits<Point_2>::Kernel Traits;
 
 public:
@@ -83,15 +83,13 @@ protected:
   QRectF bounding_rect;
 
   QPen vertices_pen;
-  bool draw_edges;
   bool draw_vertices;
 };
 
 
 template <typename P>
 PointsGraphicsItem<P>::PointsGraphicsItem(P * p_)
-  :  points(p_), painterostream(0),
-     draw_edges(true), draw_vertices(true)   
+  :  points(p_), painterostream(0),  draw_vertices(true)   
 {
   setVerticesPen(QPen(::Qt::red, 3.));
   if(points->size() == 0){

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/graph_traits_Arrangement_2.h $
-// $Id: graph_traits_Arrangement_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/graph_traits_Arrangement_2.h $
+// $Id: graph_traits_Arrangement_2.h 58841 2010-09-23 19:32:24Z afabri $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -293,7 +293,7 @@ public:
     if (v->is_isolated())
       return out_edge_iterator();
 
-    return out_edge_iterator (v->incident_halfedges(), true, 0, v->degree());
+    return out_edge_iterator (v->incident_halfedges(), true, 0, static_cast<int>(v->degree()));
   }
 
   out_edge_iterator out_edges_end (vertex_descriptor v)
@@ -301,7 +301,7 @@ public:
     if (v->is_isolated())
       return out_edge_iterator ();
 
-    const int  deg = v->degree();
+    const int  deg = static_cast<int>(v->degree());
     return out_edge_iterator (v->incident_halfedges(), true, deg, deg);
   }
 

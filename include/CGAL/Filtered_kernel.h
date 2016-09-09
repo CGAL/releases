@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/Filtered_kernel.h $
-// $Id: Filtered_kernel.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Filtered_kernel.h $
+// $Id: Filtered_kernel.h 60378 2010-12-16 16:09:23Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -61,6 +61,7 @@ struct Filtered_kernel_base
     typedef Cartesian_converter<CK, Approximate_kernel>          C2F;
 
     enum { Has_filtered_predicates = true };
+    typedef Boolean_tag<Has_filtered_predicates> Has_filtered_predicates_tag;
 
     template < typename Kernel2 >
     struct Base {

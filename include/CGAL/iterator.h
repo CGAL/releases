@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/iterator.h $
-// $Id: iterator.h 56904 2010-06-21 09:48:18Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/iterator.h $
+// $Id: iterator.h 58434 2010-09-02 06:30:35Z sloriot $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -1153,7 +1153,7 @@ template<typename _Iterator, typename Predicate>
       operator=(const T& t)
       {
 	if(! predicate(t))
-	  iterator = t;
+	  *iterator = t;
 	return *this;
       }
 
@@ -1163,11 +1163,18 @@ template<typename _Iterator, typename Predicate>
 
       Filter_output_iterator&
       operator++()
-      { return *this; }
+      { 
+        ++iterator;
+        return *this; 
+      }
 
       Filter_output_iterator
       operator++(int)
-      { return *this; }
+      {
+        Filter_output_iterator res(*this);
+        ++iterator;
+        return res; 
+      }
     };
 
 template < class I, class P >

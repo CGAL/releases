@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/Initialization.h $
-// $Id: Initialization.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_solver/Initialization.h $
+// $Id: Initialization.h 58899 2010-09-26 14:55:11Z ybrise $
 // 
 //
 // Author(s)     : Sven Schoenherr
@@ -98,7 +98,7 @@ set(const Q& qp)
   
   // reserve memory for slack and artificial part of `A':
   if (has_ineq) {
-    const unsigned int eq = std::count(qp_r, qp_r+qp_m, CGAL::EQUAL);
+    const unsigned int eq = static_cast<unsigned int>(std::count(qp_r, qp_r+qp_m, CGAL::EQUAL));
     slack_A.reserve(qp_m - eq);
     art_A.reserve  (       eq);
     art_s.insert(art_s.end(), qp_m, A_entry(0));
@@ -111,7 +111,7 @@ set(const Q& qp)
 
   set_up_auxiliary_problem();
     
-  e = qp_m-slack_A.size(); // number of equalities
+  e = static_cast<int>(qp_m-slack_A.size()); // number of equalities
   l = (std::min)(qp_n+e+1, qp_m);  // maximal size of basis in phase I
   
   // diagnostic output:
@@ -232,58 +232,62 @@ set_up_auxiliary_problem()
   int           i_max = -1; // i_max-th inequality is the most infeasible one
   int           i_max_absolute = -1; // absolute index of most infeasible ineq
 
-  for (int i = 0; i < qp_m; ++i) {
+  // TAG: TODO using variable i here, which is also the index of the entering
+  // variable.
+  for (int i = 0; i < qp_m; ++i) {    
     // Note: For nonstandard form problems, our initial solution is not the
     // zero vector (but the vector with values original_variable_value(i),
     // 0<=i<qp_n), and therefore, rhs=b-Ax is not simply b as in the standard
     // form case, but Ax_init-b:
     const ET rhs = check_tag(Is_nonnegative())?
-      ET(*(qp_b+i)) : ET(*(qp_b+i)) - multiply__A_ixO(i);
-
+    ET(*(qp_b+i)) : ET(*(qp_b+i)) - multiply__A_ixO(i);
+    
     if (has_ineq && (*(qp_r+i) != CGAL::EQUAL)) { // inequality constraint, so we
-					       // add a slack variable, and (if
-					       // needed) a special artificial
+      // add a slack variable, and (if
+      // needed) a special artificial
       if (*(qp_r+i) == CGAL::SMALLER) {        // '<='
-
-	// add special artificial ('< -0') in case the inequality is
-	// infeasible for our starting point (which is the origin):
-	if (rhs < et0) {
-	  art_s[i] = -c1;
-	  if (-rhs > b_max) {
-	    i_max = slack_A.size();
-	    i_max_absolute = i;
-	    b_max = -rhs;
-	  }
-	}
-
-	// slack variable:
-	slack_A.push_back(std::make_pair(i, false));
+        
+        // add special artificial ('< -0') in case the inequality is
+        // infeasible for our starting point (which is the origin):
+        if (rhs < et0) {
+          art_s[i] = -c1;
+          if (-rhs > b_max) {
+            i_max = static_cast<int>(slack_A.size());
+            i_max_absolute = i;
+            b_max = -rhs;
+          }
+        }
+        
+        
+        // slack variable:
+        slack_A.push_back(std::make_pair(i, false));
       } else {                                 // '>='
-
-	// add special artificial ('> +0') in case the inequality is
-	// infeasible for our starting point (which is the origin):
-	if (rhs > et0) {
-	  art_s[i] = c1;
-	  if (rhs > b_max) {
-	    i_max = slack_A.size();
-	    i_max_absolute = i;
-	    b_max = rhs;
-	  }
-	}
-	
-	// store slack column
-	slack_A.push_back(std::make_pair(i, true));
+        
+        // add special artificial ('> +0') in case the inequality is
+        // infeasible for our starting point (which is the origin):
+        if (rhs > et0) {
+          art_s[i] = c1;
+          if (rhs > b_max) {
+            i_max = static_cast<int>(slack_A.size());
+            i_max_absolute = i;
+            b_max = rhs;
+          }
+        }
+        
+        // store slack column
+        slack_A.push_back(std::make_pair(i, true));
       }
-      
-    } else                                     // equality constraint, so we
-					       // add an artificial variable
+
+    } else {                                     // equality constraint, so we
+      // add an artificial variable
       // (Note: if rhs==et0 here then the artificial variable is (at the
       // moment!) not needed. However, we nonetheless add it, for the following
       // reason. If we did and were given an equality problem with the zero
       // vector as the right-hand side then NO artificials would be added at
       // all; so our initial basis would be empty, something we do not want.)
       art_A.push_back(std::make_pair(i, rhs < et0));
-  }
+    }
+  } // end for
 
   // Note: in order to make our initial starting point (which is the origin) a
   // feasible point of the auxiliary problem, we need to initialize the
@@ -366,7 +370,7 @@ init_basis()
 {
   int s_i = -1;
   int s_i_absolute = -1;
-  const int s = slack_A.size();
+  const int s = static_cast<int>(slack_A.size());
   
   // has special artificial column?
   if (!art_s.empty()) {
@@ -380,7 +384,7 @@ init_basis()
     // add "fake" column to art_A:
     s_i = art_s_i;               // s_i-th ineq. is most infeasible, see (C1)
     s_i_absolute = art_basic;    // absolute index of most infeasible ineq
-    art_s_i = qp_n+s+art_A.size();    // number of special artificial var
+    art_s_i = static_cast<int>(qp_n+s+art_A.size());    // number of special artificial var
     // BG: By construction of art_s_i (= i_max) in set_up_auxiliary_problem(),
     // s_i conforms with the indexing of slack_A, and the sign of the +-1
     // entry is just the negative of the corresponding slackie; this explains
@@ -388,7 +392,7 @@ init_basis()
     // first parameter must refer to the ABSOLUTE index of the most 
     // infeasible row. Putting s_i here is therefore a mistake unless
     // we only have equality constraints
-
+    
     // art_A.push_back(std::make_pair(s_i, !slack_A[s_i].second)); 
     CGAL_qpe_assertion(s_i_absolute >= 0);
     CGAL_qpe_assertion(s_i_absolute == slack_A[s_i].first);
@@ -401,14 +405,14 @@ init_basis()
   in_B.insert(in_B.end(), qp_n, -1);  // no original variable is basic
   
   init_basis__slack_variables(s_i, no_ineq);
-  
+    
   if (!B_O.empty()) B_O.clear();
   B_O.reserve(qp_n);                  // all artificial variables are basic
-  for (int i = 0; i < (int)art_A.size(); ++i) {
+  for (int i = 0; i < static_cast<int>(art_A.size()); ++i) {
     B_O .push_back(qp_n+s+i);
     in_B.push_back(i);
   }
-  art_basic = art_A.size();
+  art_basic = static_cast<int>(art_A.size());
   
   // initialize indices of 'basic' and 'nonbasic' constraints:
   if (!C.empty()) C.clear();
@@ -423,7 +427,7 @@ init_basis()
   // understand this note)):
   // BG: as we only look at the basic constraints, the fake column in art_A
   // will do as nicely as the actual column arts_s
-  inv_M_B.init(art_A.size(), art_A.begin());
+  inv_M_B.init(static_cast<unsigned int>(art_A.size()), art_A.begin());
 }
 
 template < typename Q, typename ET, typename Tags >  inline                                 // no ineq.
@@ -439,7 +443,7 @@ init_basis__slack_variables(int s_i, Tag_false)  // Note: s_i-th inequality is
 						 // the most infeasible one,
 						 // see (C1).
 {
-  const int s = slack_A.size();
+  const int s = static_cast<int>(slack_A.size());
   
   // reserve memory:
   if (!B_S.empty()) B_S.clear();
@@ -452,8 +456,8 @@ init_basis__slack_variables(int s_i, Tag_false)  // Note: s_i-th inequality is
   // inequality corresponds to the slackie of index qp_n + i
   for (int i = 0; i < s; ++i) // go through all inequalities
     if (i != s_i) {           
-      in_B.push_back(B_S.size());
-      B_S .push_back(i+qp_n);     
+      in_B.push_back(static_cast<typename Indices::value_type>(B_S.size()));
+      B_S .push_back(i+qp_n);
     } else
       in_B.push_back(-1);
 }
@@ -573,7 +577,7 @@ init_solution()
   // latter restricted to basic variables B_O:
   if (!minus_c_B.empty()) minus_c_B.clear();
   minus_c_B.insert(minus_c_B.end(), l, -et1);   // todo: what is minus_c_B?
-  CGAL_qpe_assertion(l >= (int)art_A.size());
+  CGAL_qpe_assertion(l >= static_cast<int>(art_A.size()));
   if (art_s_i > 0)
     minus_c_B[art_A.size()-1] *= ET(qp_n+qp_m); // Note: the idea here is to
 						// give more weight to the
@@ -586,7 +590,7 @@ init_solution()
   // function (and leave the other entries in the objective function at zero):
   aux_c.reserve(art_A.size());
   aux_c.insert(aux_c.end(), art_A.size(), 0);
-  for (int col=qp_n+slack_A.size(); col<number_of_working_variables(); ++col)
+  for (int col=static_cast<int>(qp_n+slack_A.size()); col<number_of_working_variables(); ++col)
     if (col==art_s_i)                           // special artificial?
       aux_c[col-qp_n-slack_A.size()]=  qp_n+qp_m;
     else                                        // normal artificial

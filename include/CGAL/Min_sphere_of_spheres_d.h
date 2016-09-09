@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d.h $
-// $Id: Min_sphere_of_spheres_d.h 46510 2008-10-28 09:21:39Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d.h $
+// $Id: Min_sphere_of_spheres_d.h 59431 2010-10-29 13:29:32Z glisse $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -22,7 +22,7 @@
 #define CGAL_MINIBALL_MINIBALL
 
 #include <CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_configure.h>
-#include <cstdlib>                 // for std::rand()
+#include <boost/random/linear_congruential.hpp>
 #include <cmath>
 #include <vector>
 #include <iostream>
@@ -63,6 +63,8 @@ namespace CGAL_MINIBALL_NAMESPACE {
     // ball has been respected in the miniball computation.
     bool is_up_to_date;
   
+    boost::rand48 rng;  
+
   public: // iterators:
     typedef const Result *Cartesian_const_iterator; // coordinate iterator
   
@@ -97,17 +99,18 @@ namespace CGAL_MINIBALL_NAMESPACE {
       insert(begin,end);            // todo. better way?
     }
   
-    inline void prepare(int size);
-  
+
     inline void insert(const Sphere& b);
   
     template<typename InputIterator>
     inline void insert(InputIterator begin,InputIterator end) {
-      prepare(S.size()+(end-begin)); // todo. istream?
-      while (begin != end) {
-        insert(*begin);
-        ++begin;
+      S.insert(S.end(), begin, end);
+      is_up_to_date = false;
+#ifdef CGAL_MINIBALL_DEBUG
+      for(std::size_t i = 0; i < S.size(); i++){ 
+        CGAL_MINIBALL_ASSERT(t.radius(S[i]) >= FT(0)); 
       }
+#endif
     }
   
     inline void clear();
@@ -177,12 +180,6 @@ namespace CGAL_MINIBALL_NAMESPACE {
     is_up_to_date = true;
     CGAL_MINIBALL_ASSERT(is_neg(ss.radius(),ss.disc())); // makes sure
                // that initially no ball is enclosed (cf. contains()).
-  }
-
-  template<class Traits>
-  void Min_sphere_of_spheres_d<Traits>::prepare(int size) {
-    S.reserve(size);
-    // (The vector l will be reserve()'d in update().)
   }
 
   template<class Traits>

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/SegmentsGraphicsItem.h $
-// $Id: SegmentsGraphicsItem.h 56894 2010-06-20 21:10:04Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/SegmentsGraphicsItem.h $
+// $Id: SegmentsGraphicsItem.h 58739 2010-09-21 10:43:22Z afabri $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -94,9 +94,7 @@ SegmentsGraphicsItem<P>::SegmentsGraphicsItem(P * p_)
      draw_edges(true), draw_vertices(true)   
 {
   setVerticesPen(QPen(::Qt::red, 3.));
-  if(segments->size() == 0){
-    this->hide();
-  }
+
   updateBoundingBox();
   setZValue(3);
 }
@@ -153,11 +151,6 @@ template <typename P>
 void 
 SegmentsGraphicsItem<P>::modelChanged()
 {
-  if((segments->size() == 0) ){
-    this->hide();
-  } else if((segments->size() > 0) && (! this->isVisible())){
-    this->show();
-  }
   updateBoundingBox();
   update();
 }

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/include/CGAL/auto_link/LAPACK.h $
-// $Id: LAPACK.h 57943 2010-08-10 15:48:56Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/include/CGAL/auto_link/LAPACK.h $
+// $Id: LAPACK.h 57926 2010-08-10 14:07:57Z lrineau $
 //
 // Author(s)     : Laurent Saboret
 

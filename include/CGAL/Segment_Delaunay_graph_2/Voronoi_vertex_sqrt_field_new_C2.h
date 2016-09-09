@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_new_C2.h $
-// $Id: Voronoi_vertex_sqrt_field_new_C2.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_new_C2.h $
+// $Id: Voronoi_vertex_sqrt_field_new_C2.h 61441 2011-02-28 15:28:28Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -682,7 +682,7 @@ private:
   inline
   FT
   squared_radius(const Point_2& vv,
-		 const Site_2& p, const Site_2& q, const Site_2& r,
+		 const Site_2& p, const Site_2& /*q*/, const Site_2& /*r*/,
 		 const Type&) const
   {
     CGAL_precondition( p.is_point() );

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_solution_impl.h $
-// $Id: QP_solution_impl.h 59003 2010-10-04 11:03:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_solver/QP_solution_impl.h $
+// $Id: QP_solution_impl.h 59002 2010-10-04 11:00:27Z lrineau $
 // 
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>
@@ -35,10 +35,10 @@ bool Quadratic_program_solution<ET>::solves_program
   CGAL_qpe_assertion_msg(!is_void(), "Solution not initialized");
 
   // first check whether the dimensions agree
-  int n = variable_numerators_end() - variable_numerators_begin();
+  int n = static_cast<int>(variable_numerators_end() - variable_numerators_begin());
   if (n != p.get_n()) 
     return error ("wrong number of variables");
-  int m = solver()->lambda_end() - solver()->lambda_begin();
+  int m = static_cast<int>(solver()->lambda_end() - solver()->lambda_begin());
   if (m != p.get_m()) 
     return error("wrong number of constraints");
 

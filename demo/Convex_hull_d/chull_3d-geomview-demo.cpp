@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_d/demo/Convex_hull_d/chull_3d-geomview-demo.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_d/demo/Convex_hull_d/chull_3d-geomview-demo.cpp $
 // $Id: chull_3d-geomview-demo.cpp 41714 2008-01-20 20:24:20Z spion $
 //
 //

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Derivitive_filter_function_kernel.h $
-// $Id: Derivitive_filter_function_kernel.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Derivitive_filter_function_kernel.h $
+// $Id: Derivitive_filter_function_kernel.h 58795 2010-09-22 16:24:04Z lrineau $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -65,18 +65,18 @@ struct Derivitive_filter_function_kernel: public Traits
     return rs;
   }
 
-  using Traits::Rational_between_roots;
+  typedef typename Traits::Rational_between_roots Rational_between_roots;
   using Traits::rational_between_roots_object;
-  //  using Traits::Is_rational;
-  //using Traits::is_rational_object;
-  //using Traits::To_rational;
-  //using Traits::to_rational_object;
-  using Traits::Root_stack_traits;
+  //  typedef typename Traits::Is_rational Is_rational;
+  //typedef typename Traits::is_rational_object is_rational_object;
+  //typedef typename Traits::To_rational To_rational;
+  //typedef typename Traits::to_rational_object to_rational_object;
+  typedef typename Traits::Root_stack_traits Root_stack_traits;
   using Traits::root_stack_traits_object;
-  using Traits::FT;
+  typedef typename Traits::FT FT;
   using Traits::differentiate_object;
-  using Traits::Differentiate;
-  using Traits::Negate_variable;
+  typedef typename Traits::Differentiate Differentiate;
+  typedef typename Traits::Negate_variable Negate_variable;
   using Traits::negate_variable_object;
 };
 

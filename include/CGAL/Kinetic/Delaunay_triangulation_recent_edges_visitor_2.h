@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_recent_edges_visitor_2.h $
-// $Id: Delaunay_triangulation_recent_edges_visitor_2.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_recent_edges_visitor_2.h $
+// $Id: Delaunay_triangulation_recent_edges_visitor_2.h 61441 2011-02-28 15:28:28Z sloriot $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -42,7 +42,7 @@ struct Delaunay_triangulation_recent_edges_visitor_2: public Delaunay_triangulat
 
   void change_vertex(VH vh) {
     recent_.clear();
-    typename Triangulation::Edge_circulator ec= vh->incident_edges(), ef=ec;
+    typename Triangulation::Edge_circulator ec(vh), ef=ec;
     if (ec != NULL) {
       do {
 	recent_.insert(*ec);

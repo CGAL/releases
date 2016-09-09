@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_statically_filtered_traits_3.h $
-// $Id: Periodic_3_triangulation_statically_filtered_traits_3.h 58159 2010-08-19 11:58:49Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_statically_filtered_traits_3.h $
+// $Id: Periodic_3_triangulation_statically_filtered_traits_3.h 58060 2010-08-13 16:07:57Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>

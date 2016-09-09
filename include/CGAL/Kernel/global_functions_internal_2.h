@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_2.h $
-// $Id: global_functions_internal_2.h 57753 2010-08-03 14:24:59Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Kernel/global_functions_internal_2.h $
+// $Id: global_functions_internal_2.h 60637 2011-01-07 10:45:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -43,11 +43,31 @@ namespace internal {
 template < class K >
 inline
 typename K::Angle
+angle(const typename K::Vector_2 &u,
+      const typename K::Vector_2 &v, const K& k)
+{
+  return k.angle_2_object()(u, v);
+}
+
+template < class K >
+inline
+typename K::Angle
 angle(const typename K::Point_2 &p,
       const typename K::Point_2 &q,
       const typename K::Point_2 &r, const K& k)
 {
   return k.angle_2_object()(p, q, r);
+}
+
+template < class K >
+inline
+typename K::Angle
+angle(const typename K::Point_2 &p,
+      const typename K::Point_2 &q,
+      const typename K::Point_2 &r,
+      const typename K::Point_2 &s, const K& k)
+{
+  return k.angle_2_object()(p, q, r, s);
 }
 
 template < class K >
@@ -256,6 +276,21 @@ compare_angle_with_x_axis(const typename K::Direction_2& d1,
                           const K& k)
 {
   return k.compare_angle_with_x_axis_2_object()(d1, d2);
+}
+
+template <class K, class T1, class T2, class T3>
+inline
+typename boost::enable_if<
+  boost::mpl::equal_to<boost::mpl::integral_c<int, 
+                                              Ambient_dimension<T1>::type::value>,
+                       boost::mpl::integral_c<int, 2> >,
+  typename K::Comparison_result>
+::type
+compare_distance(const T1 &o1,
+                 const T2 &o2,
+                 const T3 &o3, const K& k)
+{
+  return k.compare_distance_2_object()(o1, o2, o3);
 }
 
 template <class K, class T1, class T2, class T3, class T4>

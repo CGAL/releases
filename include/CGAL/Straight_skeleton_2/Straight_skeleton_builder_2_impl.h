@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_2_impl.h $
-// $Id: Straight_skeleton_builder_2_impl.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_2_impl.h $
+// $Id: Straight_skeleton_builder_2_impl.h 61441 2011-02-28 15:28:28Z sloriot $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -30,7 +30,7 @@
 #  pragma warning(disable:4355) // complaint about using 'this' to
 #endif                          // initialize a member
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 
 template<class Gt, class Ss, class V>
@@ -927,7 +927,7 @@ void Straight_skeleton_builder_2<Gt,Ss,V>::HandleEdgeEvent( EventPtr aEvent )
 }
 
 template<class Gt, class Ss, class V>
-bool Straight_skeleton_builder_2<Gt,Ss,V>::IsValidSplitEvent( SplitEvent const& aEvent )
+bool Straight_skeleton_builder_2<Gt,Ss,V>::IsValidSplitEvent( SplitEvent const& /*aEvent*/ )
 {
   return true ;
 }
@@ -973,11 +973,13 @@ void Straight_skeleton_builder_2<Gt,Ss,V>::HandleSplitEvent( EventPtr aEvent, Ve
     Halfedge_handle lReflexLBorder = lTriedge.e0();
     Halfedge_handle lReflexRBorder = lTriedge.e1();
   
-    Halfedge_handle lNOBisector_L = mSSkel->SSkel::Base::edges_push_back ( Halfedge(mEdgeID++),Halfedge(mEdgeID++) );
-    Halfedge_handle lNOBisector_R = mSSkel->SSkel::Base::edges_push_back ( Halfedge(mEdgeID++),Halfedge(mEdgeID++) );
+    Halfedge_handle lNOBisector_L = mSSkel->SSkel::Base::edges_push_back ( Halfedge(mEdgeID  ),Halfedge(mEdgeID+1) );
+    Halfedge_handle lNOBisector_R = mSSkel->SSkel::Base::edges_push_back ( Halfedge(mEdgeID+2),Halfedge(mEdgeID+3) );
     Halfedge_handle lNIBisector_L = lNOBisector_L->opposite();
     Halfedge_handle lNIBisector_R = lNOBisector_R->opposite();
   
+    mEdgeID += 4 ;
+    
     Halfedge_handle lXOBisector = lSeed->primary_bisector() ;
     Halfedge_handle lXIBisector = lXOBisector->opposite();
     
@@ -1168,11 +1170,13 @@ void Straight_skeleton_builder_2<Gt,Ss,V>::HandlePseudoSplitEvent( EventPtr aEve
     Vertex_handle lNewNode_L, lNewNode_R ;
     boost::tie(lNewNode_L,lNewNode_R) = ConstructPseudoSplitEventNodes(lEvent);
   
-    Halfedge_handle lNBisector_LO = mSSkel->SSkel::Base::edges_push_back ( Halfedge(mEdgeID++),Halfedge(mEdgeID++) );
-    Halfedge_handle lNBisector_RO = mSSkel->SSkel::Base::edges_push_back ( Halfedge(mEdgeID++),Halfedge(mEdgeID++) );
+    Halfedge_handle lNBisector_LO = mSSkel->SSkel::Base::edges_push_back ( Halfedge(mEdgeID  ),Halfedge(mEdgeID+1) );
+    Halfedge_handle lNBisector_RO = mSSkel->SSkel::Base::edges_push_back ( Halfedge(mEdgeID+2),Halfedge(mEdgeID+3) );
     Halfedge_handle lNBisector_LI = lNBisector_LO->opposite();
     Halfedge_handle lNBisector_RI = lNBisector_RO->opposite();
   
+    mEdgeID += 4 ;
+    
     Halfedge_handle lSBisector_LO = lLSeed->primary_bisector() ;
     Halfedge_handle lSBisector_LI = lSBisector_LO->opposite();
   
@@ -1802,7 +1806,7 @@ typename Straight_skeleton_builder_2<Gt,Ss,V>::SSkelPtr Straight_skeleton_builde
   return mSSkel ;
 }
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 #if defined(BOOST_MSVC)
 #  pragma warning(pop)

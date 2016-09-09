@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
-// $Id: Filtered_extended_homogeneous.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
+// $Id: Filtered_extended_homogeneous.h 60186 2010-12-07 10:18:51Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -767,8 +767,8 @@ bool contains(const Extended_segment<RT>& s,
 { int p_rel_source = compare_xy(p,s.source());
   int p_rel_target = compare_xy(p,s.target());
   return ( orientation(s,p) == 0 ) &&
-         ( p_rel_source >= 0 && p_rel_target <= 0 ||
-           p_rel_source <= 0 && p_rel_target >= 0 );
+    ( ( p_rel_source >= 0 && p_rel_target <= 0 ) ||
+      ( p_rel_source <= 0 && p_rel_target >= 0 ) );
 }
 
 
@@ -949,8 +949,8 @@ bool operator<(const Extended_direction<RT>& d1,
 { Extended_direction<RT> d0(1,0);
   bool d0d1eq = (d1 == d0);
   bool d0d2eq = (d2 == d0);
-  return (d0d1eq && !d0d2eq) ||
-         strictly_ordered_ccw(d0,d1,d2) && !d0d2eq;
+  return ( (d0d1eq && !d0d2eq) ||
+           ( strictly_ordered_ccw(d0,d1,d2) && (! d0d2eq) ) );
 }
 
 
@@ -1024,19 +1024,19 @@ Point_type determine_type(const Standard_line_2& l) const
   int sdx = CGAL_NTS sign(dx(l)), sdy = CGAL_NTS sign(dy(l));
   int cmp_dx_dy = CGAL_NTS compare(adx,ady), s(1);
   // CGAL_NEF_TRACEN("   "<<cmp_dx_dy<<" "<<sdx<<" "<<sdy);
-  if (sdx < 0 && ( cmp_dx_dy > 0 || cmp_dx_dy == 0 && 
-      sdy != (s=CGAL_NTS sign(abscissa_distance(l))))) {
+  if (sdx < 0 && ( cmp_dx_dy > 0 || ( cmp_dx_dy == 0 && 
+                                      sdy != (s=CGAL_NTS sign(abscissa_distance(l)))))) {
     if (0 == s) return ( sdy < 0 ? SWCORNER : NWCORNER );
     else        return LEFTFRAME;
-  } else if (sdx > 0 && ( cmp_dx_dy > 0 || cmp_dx_dy == 0 && 
-             sdy != (s=CGAL_NTS sign(abscissa_distance(l))))) { 
+  } else if (sdx > 0 && ( cmp_dx_dy > 0 || ( cmp_dx_dy == 0 && 
+                                             sdy != (s=CGAL_NTS sign(abscissa_distance(l)))))) { 
     if (0 == s) return ( sdy < 0 ? SECORNER : NECORNER );
     else        return RIGHTFRAME;
-  } else if (sdy < 0 && ( cmp_dx_dy < 0 || cmp_dx_dy == 0 && 
-             abscissa_distance(l) < Standard_FT(0))) {
+  } else if (sdy < 0 && ( cmp_dx_dy < 0 || ( cmp_dx_dy == 0 && 
+                                             abscissa_distance(l) < Standard_FT(0)))) {
     return BOTTOMFRAME;
-  } else if (sdy > 0 && ( cmp_dx_dy < 0 || cmp_dx_dy == 0 && 
-             abscissa_distance(l) > Standard_FT(0))) {
+  } else if (sdy > 0 && ( cmp_dx_dy < 0 || ( cmp_dx_dy == 0 && 
+                                             abscissa_distance(l) > Standard_FT(0)))) {
     return TOPFRAME;
   }
   CGAL_error_msg(" determine_type: degenerate line.");

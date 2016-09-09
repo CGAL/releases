@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/vtkSurfaceMesherContourFilter.h $
-// $Id: vtkSurfaceMesherContourFilter.h 43362 2008-05-29 13:45:47Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/vtkSurfaceMesherContourFilter.h $
+// $Id: vtkSurfaceMesherContourFilter.h 61485 2011-03-02 18:52:57Z sloriot $
 //
 //
 // Author(s)     : Laurent Rineau
@@ -20,6 +20,9 @@
 #ifndef CGAL_VTK_SURFACE_MESHER_CONTOUR_FILTER_H
 #define CGAL_VTK_SURFACE_MESHER_CONTOUR_FILTER_H
 
+
+
+#include <CGAL/config.h>
 #include <vtkPolyDataAlgorithm.h>
 
 class vtkCGALSurfaceMesherContourFilter : public vtkPolyDataAlgorithm

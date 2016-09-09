@@ -12,25 +12,27 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_AUTO.cpp $
-// $Id: CGAL_CFG_NO_CPP0X_AUTO.cpp 53660 2010-01-18 17:52:28Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_AUTO.cpp $
+// $Id: CGAL_CFG_NO_CPP0X_AUTO.cpp 57530 2010-07-18 18:03:30Z glisse $
 //
 // Author(s)     : Sylvain Pion
 
 //| If a compiler does not support C++0x auto
 //| CGAL_CFG_NO_CPP0X_AUTO is set. 
 
-void use(int) {}
+struct A {};
 
-int f()
+void use(A) {}
+
+A f()
 {
-  return 0;
+  return A();
 }
 
 int main()
 {
   auto i = f();
-  int j = i + 1;
+  A j = i;
   use(j);
   return 0;
 }

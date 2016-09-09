@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_triangulation_2.h $
-// $Id: Qt_triangulation_2.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_triangulation_2.h $
+// $Id: Qt_triangulation_2.h 60273 2010-12-10 10:00:40Z lrineau $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -45,7 +45,7 @@ class Qt_triangulation_2: public Ref_counted<Qt_triangulation_2<KDel, IK, Qt_gui
   typedef typename Triangulation::Edge Edge;
 
   // maybe icl wants the class definition before the useage. 
-  CGAL_KINETIC_LISTEN1(Qt_gui, PICTURE_IS_VALID, draw());
+  CGAL_KINETIC_LISTEN1(Qt_gui, PICTURE_IS_VALID, draw())
 
 
 public:
@@ -68,7 +68,8 @@ protected:
   */
 
   template <class V>
-  void set_color(const Edge &e, CGAL::Qt_widget &w, const V &) const {
+  void set_color(const Triangulation  &, 
+                 const Edge &e, CGAL::Qt_widget &w, const V &) const {
     if (!kdel_->has_event(e)) {
       w << CGAL::Color(125,125,125);
     } else if (kdel_->has_finite_event(e)){
@@ -80,12 +81,13 @@ protected:
 
   typedef Delaunay_triangulation_recent_edges_visitor_2<typename KDel::Triangulation> REV;
 
-  void set_color(const Edge &e, CGAL::Qt_widget &w,
+  void set_color(const Triangulation  &tri, 
+                 const Edge &e, CGAL::Qt_widget &w,
                  const REV& ) const {
     w << CGAL::LineWidth(2);
     if (!kdel_->has_event(e)) {
       w << CGAL::Color(125,125,125);
-    } else if (kdel_->visitor().contains(e) || kdel_->visitor().contains(TDS_helper::mirror_edge(e))) {
+    } else if (kdel_->visitor().contains(e) || kdel_->visitor().contains(tri.mirror_edge(e))) {
       w<< CGAL::Color(0,255,0);
     } else if (kdel_->has_finite_event(e)){
       w << CGAL::Color(125,125,125);
@@ -115,7 +117,7 @@ protected:
       Static_point p0= cc(fit->first->vertex((fit->second+1)%3)->point());
       Static_point p1= cc(fit->first->vertex((fit->second+2)%3)->point());
       Static_segment ss(p0, p1);
-      set_color(*fit, w, kdel_->visitor());
+      set_color(tri, *fit, w, kdel_->visitor());
       w << ss;
     }
   }

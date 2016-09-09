@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 57385 2010-07-08 09:04:57Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
+// $Id: Regular_triangulation_3.h 61500 2011-03-04 07:12:17Z sloriot $
 //
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -28,8 +28,14 @@
 
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/Regular_triangulation_cell_base_3.h>
-
 #include <boost/bind.hpp>
+
+#ifndef CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
+#include <CGAL/internal/spatial_sorting_traits_with_indices.h>
+
+#include <boost/iterator/zip_iterator.hpp>
+#include <boost/mpl/and.hpp>
+#endif //CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
 
 #if defined(BOOST_MSVC)
 #  pragma warning(push)
@@ -147,9 +153,28 @@ public:
       insert(first, last);
   }
 
+#ifndef CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
   template < class InputIterator >
   std::ptrdiff_t
-  insert(InputIterator first, InputIterator last)
+  insert( InputIterator first, InputIterator last,
+          typename boost::enable_if<
+            boost::mpl::or_<
+              boost::is_same<
+                  typename std::iterator_traits<InputIterator>::value_type,
+                  Weighted_point
+              >,
+              boost::is_same<
+                  typename std::iterator_traits<InputIterator>::value_type,
+                  Bare_point
+              >
+            >
+          >::type* = NULL  
+  )
+#else
+  template < class InputIterator >
+  std::ptrdiff_t
+  insert( InputIterator first, InputIterator last)  
+#endif //CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
   {
     size_type n = number_of_vertices();
 
@@ -172,6 +197,99 @@ public:
     return number_of_vertices() - n;
   }
 
+  
+#ifndef CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
+private:
+  template <class Info>
+  const Weighted_point& top_get_first(const std::pair<Weighted_point,Info>& pair) const { return pair.first; }
+  template <class Info>
+  const Info& top_get_second(const std::pair<Weighted_point,Info>& pair) const { return pair.second; }
+  template <class Info>
+  const Weighted_point& top_get_first(const boost::tuple<Weighted_point,Info>& tuple) const { return boost::get<0>(tuple); }
+  template <class Info>
+  const Info& top_get_second(const boost::tuple<Weighted_point,Info>& tuple) const { return boost::get<1>(tuple); }
+
+  template <class Tuple_or_pair,class InputIterator>
+  std::ptrdiff_t insert_with_info(InputIterator first,InputIterator last)
+  {
+    size_type n = number_of_vertices();
+    std::vector<std::size_t> indices;
+    std::vector<Weighted_point> points;
+    std::vector<typename Triangulation_data_structure::Vertex::Info> infos;
+    std::size_t index=0;
+    for (InputIterator it=first;it!=last;++it){
+      Tuple_or_pair pair = *it;
+      points.push_back( top_get_first(pair) );
+      infos.push_back ( top_get_second(pair) );
+      indices.push_back(index++);
+    }
+
+    typedef internal::Vector_property_map<Weighted_point> Point_pmap;
+    typedef internal::Spatial_sort_traits_with_property_map_3<Geom_traits,Point_pmap> Search_traits;
+    
+    spatial_sort(indices.begin(),indices.end(),Search_traits(Point_pmap(points),geom_traits()));    
+
+    Cell_handle hint;
+    for (typename std::vector<std::size_t>::const_iterator
+      it = indices.begin(), end = indices.end();
+      it != end; ++it)
+    {
+      Locate_type lt;
+      Cell_handle c;
+      int li, lj;
+      c = locate (points[*it], lt, li, lj, hint);
+
+      Vertex_handle v = insert (points[*it], lt, c, li, lj);
+      if (v!=Vertex_handle()){
+        v->info()=infos[*it];
+        hint=v->cell();
+      }
+      else
+        hint=c;
+    }
+
+    return number_of_vertices() - n;
+  }
+  
+public:
+
+  template < class InputIterator >
+  std::ptrdiff_t
+  insert( InputIterator first,
+          InputIterator last,
+          typename boost::enable_if<
+            boost::mpl::or_<
+              boost::is_same<
+                typename std::iterator_traits<InputIterator>::value_type,
+                std::pair<Weighted_point,typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type>
+              >,
+              boost::is_same<
+                typename std::iterator_traits<InputIterator>::value_type,
+                std::pair<Bare_point,typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type>
+              >
+            >
+          >::type* = NULL
+  )
+  {return insert_with_info< std::pair<Weighted_point,typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type> >(first,last);}
+  
+  template <class  InputIterator_1,class InputIterator_2>
+  std::ptrdiff_t
+  insert( boost::zip_iterator< boost::tuple<InputIterator_1,InputIterator_2> > first,
+          boost::zip_iterator< boost::tuple<InputIterator_1,InputIterator_2> > last,
+          typename boost::enable_if<
+            boost::mpl::and_<
+              boost::mpl::or_<
+                typename boost::is_same< typename std::iterator_traits<InputIterator_1>::value_type, Weighted_point >,
+                typename boost::is_same< typename std::iterator_traits<InputIterator_1>::value_type, Bare_point >
+              >,
+              typename boost::is_same< typename std::iterator_traits<InputIterator_2>::value_type, typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type >
+            >
+          >::type* =NULL
+  )
+  {return insert_with_info< boost::tuple<Weighted_point,typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type> >(first,last);}
+#endif //CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
+
+  
   Vertex_handle insert(const Weighted_point & p, Vertex_handle hint)
   {
     return insert(p, hint == Vertex_handle() ? this->infinite_cell() : hint->cell());
@@ -182,6 +300,16 @@ public:
 
   Vertex_handle insert(const Weighted_point & p, Locate_type lt,
 	               Cell_handle c, int li, int);
+  
+  template <class CellIt>
+  Vertex_handle
+  insert_in_hole(const Weighted_point & p, CellIt cell_begin, CellIt cell_end,
+                 Cell_handle begin, int i);
+  
+  template <class CellIt>
+  Vertex_handle
+  insert_in_hole(const Weighted_point & p, CellIt cell_begin, CellIt cell_end,
+                 Cell_handle begin, int i, Vertex_handle newv);
 
   template <class OutputIteratorBoundaryFacets,
             class OutputIteratorCells,
@@ -249,11 +377,66 @@ public:
       return std::make_pair(t.first, t.second);
   }
 
+  // Returns the vertices on the interior of the conflict hole.
+  template <class OutputIterator>
+  OutputIterator
+  vertices_inside_conflict_zone(const Weighted_point&p, Cell_handle c,
+                                OutputIterator res) const
+  {
+      CGAL_triangulation_precondition(dimension() >= 2);
+
+      // Get the facets on the boundary of the hole, and the cells of the hole
+      std::vector<Cell_handle> cells;
+      std::vector<Facet> facets;
+      find_conflicts(p, c, std::back_inserter(facets),
+	             std::back_inserter(cells), Emptyset_iterator());
+
+      // Put all vertices on the hole in 'vertices'
+      const int d = dimension();
+      std::set<Vertex_handle> vertices;
+      for (typename std::vector<Cell_handle>::const_iterator 
+             it = cells.begin(),
+             end = cells.end(); it != end; ++it) 
+      {
+        for(int i = 0; i <= d; ++i) {
+          vertices.insert((*it)->vertex(i));
+        }
+      }
+      // Then extract the vertices of the boundary and remove them from
+      // 'vertices'
+      if (dimension() == 3) {
+          for (typename std::vector<Facet>::const_iterator i = facets.begin();
+	       i != facets.end(); ++i) {
+	      vertices.erase(i->first->vertex((i->second+1)&3));
+	      vertices.erase(i->first->vertex((i->second+2)&3));
+	      vertices.erase(i->first->vertex((i->second+3)&3));
+          }
+      } else {
+          for (typename std::vector<Facet>::const_iterator i = facets.begin();
+	       i != facets.end(); ++i) {
+	      vertices.erase(i->first->vertex(cw(i->second)));
+	      vertices.erase(i->first->vertex(ccw(i->second)));
+          }
+      }
+
+      return std::copy(vertices.begin(), vertices.end(), res);
+  }
+
+#ifndef CGAL_NO_DEPRECATED_CODE
   // Returns the vertices on the boundary of the conflict hole.
   template <class OutputIterator>
   OutputIterator
-  vertices_in_conflict(const Weighted_point&p, Cell_handle c,
-		       OutputIterator res) const
+  vertices_in_conflict(const Weighted_point&p, Cell_handle c, OutputIterator res) const
+  {
+    return vertices_on_conflict_zone_boundary(p, c, res);
+  }
+#endif // CGAL_NO_DEPRECATED_CODE
+
+  // Returns the vertices on the boundary of the conflict hole.
+  template <class OutputIterator>
+  OutputIterator
+  vertices_on_conflict_zone_boundary(const Weighted_point&p, Cell_handle c,
+                                     OutputIterator res) const
   {
       CGAL_triangulation_precondition(dimension() >= 2);
 
@@ -287,6 +470,7 @@ public:
   template < typename InputIterator >
   size_type remove(InputIterator first, InputIterator beyond)
   {
+    CGAL_triangulation_precondition(!this->does_repeat_in_range(first, beyond));
     size_type n = number_of_vertices();
     while (first != beyond) {
       remove (*first);
@@ -302,6 +486,16 @@ public:
   // without hidden points at any time
   Vertex_handle move_if_no_collision(Vertex_handle v, const Weighted_point & p);
   Vertex_handle move(Vertex_handle v, const Weighted_point & p);
+
+  // REMOVE CLUSTER - works only when Regular has no hidden point at all
+  // "regular as Delaunay"
+  template < typename InputIterator >
+  size_type remove_cluster(InputIterator first, InputIterator beyond)
+  {
+    Self tmp;
+    Vertex_remover<Self> remover (tmp);
+    return Tr_Base::remove(first, beyond, remover);
+  }
 
 protected:
 
@@ -1214,6 +1408,48 @@ insert(const Weighted_point & p, Locate_type lt, Cell_handle c, int li, int lj)
 
   Conflict_tester_0 tester (p, this);
   return insert_in_conflict(p, lt,c,li,lj, tester, hidden_point_visitor);
+}
+
+
+template < class Gt, class Tds >
+template <class CellIt>
+typename Regular_triangulation_3<Gt,Tds>::Vertex_handle
+Regular_triangulation_3<Gt,Tds>::
+insert_in_hole(const Weighted_point & p, CellIt cell_begin, CellIt cell_end,
+               Cell_handle begin, int i)
+{
+  CGAL_triangulation_precondition(cell_begin != cell_end);
+  
+  hidden_point_visitor.process_cells_in_conflict(cell_begin,cell_end);
+  
+  Vertex_handle v = 
+    Tr_Base::insert_in_hole(p, cell_begin, cell_end, begin, i);
+  
+  // Store the hidden points in their new cells and hide vertices that
+  // have to be hidden
+  hidden_point_visitor.reinsert_vertices(v);
+  return v;
+}
+
+
+template < class Gt, class Tds >
+template <class CellIt>
+typename Regular_triangulation_3<Gt,Tds>::Vertex_handle
+Regular_triangulation_3<Gt,Tds>::
+insert_in_hole(const Weighted_point & p, CellIt cell_begin, CellIt cell_end,
+               Cell_handle begin, int i, Vertex_handle newv)
+{
+  CGAL_triangulation_precondition(cell_begin != cell_end);
+
+  hidden_point_visitor.process_cells_in_conflict(cell_begin,cell_end);
+
+  Vertex_handle v =
+    Tr_Base::insert_in_hole(p, cell_begin, cell_end, begin, i, newv);
+
+  // Store the hidden points in their new cells and hide vertices that
+  // have to be hidden
+  hidden_point_visitor.reinsert_vertices(v);
+  return v;
 }
 
 template <class Gt, class Tds >

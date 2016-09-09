@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Distance_3/include/CGAL/squared_distance_3_2.h $
-// $Id: squared_distance_3_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Distance_3/include/CGAL/squared_distance_3_2.h $
+// $Id: squared_distance_3_2.h 61354 2011-02-22 16:58:06Z sloriot $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman, Andreas Fabri
@@ -167,7 +167,7 @@ squared_distance(
     case -1:
         if (sdm_se2pp >= RT(0))
             return FT(0);
-        if (sdm_ss2pp >= sdm_se2pp)
+        if (sdm_ss2pp * end_min_pp.hw() >= sdm_se2pp * start_min_pp.hw())
             return squared_distance_to_plane(normal, start_min_pp, k);
         else
             return squared_distance_to_plane(normal, end_min_pp, k);
@@ -177,7 +177,7 @@ squared_distance(
     case 1:
         if (sdm_se2pp <= RT(0))
             return FT(0);
-        if (sdm_ss2pp <= sdm_se2pp)
+        if (sdm_ss2pp  * end_min_pp.hw() <= sdm_se2pp * start_min_pp.hw())
             return squared_distance_to_plane(normal, start_min_pp, k);
         else
             return squared_distance_to_plane(normal, end_min_pp, k);

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/PowerdiagramGraphicsItem.h $
-// $Id: PowerdiagramGraphicsItem.h 45925 2008-10-01 09:20:37Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/PowerdiagramGraphicsItem.h $
+// $Id: PowerdiagramGraphicsItem.h 61414 2011-02-24 16:36:04Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -99,7 +99,7 @@ PowerdiagramGraphicsItem<RT>::boundingRect() const
 
 template <typename RT>
 void 
-PowerdiagramGraphicsItem<RT>::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w)
+PowerdiagramGraphicsItem<RT>::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget */*w*/)
 {
   QRectF rect = option->exposedRect;
   PainterOstream<K> pos(painter, rect);

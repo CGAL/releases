@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h $
-// $Id: Arrangement_on_surface_2_impl.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h $
+// $Id: Arrangement_on_surface_2_impl.h 61119 2011-02-07 15:43:37Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -921,7 +921,7 @@ insert_at_vertices(const X_monotone_curve_2& cv,
                    Vertex_handle v1, Vertex_handle v2,
                    Face_handle f)
 {
-  // Determine which one of the given vertices mathces the left end of the
+  // Determine which one of the given vertices matches the left end of the
   // given curve.
   const bool at_obnd1 = !m_geom_traits->is_closed_2_object()(cv, ARR_MIN_END);
   const bool at_obnd2 = !m_geom_traits->is_closed_2_object()(cv, ARR_MAX_END);
@@ -3451,6 +3451,11 @@ _compare_vertices_xy_impl (const DVertex * v1, const DVertex * v2,
 // the source vertex of the second halfedge, such that the new curve will
 // connect these two vertices.
 //
+//Note that the lowest halfedge incident to the leftmost vertex (he_left_low)
+//is the lowest in the open loop. In the case one needs to have the lowest incident 
+//halfedge in the interior of the closed loop, further handling must be done in the
+//case he_before is he_left_low (cv cannot be used instead of he_left_low->curve()
+//in that case as cv may not be defined to the right of the left lowest point).
 template<class GeomTraits, class TopTraits>
 std::pair<const typename Arrangement_on_surface_2<GeomTraits,
                                                   TopTraits>::DVertex*,
@@ -3471,6 +3476,8 @@ _find_leftmost_vertex_on_open_loop (const DHalfedge *he_before,
     m_geom_traits->parameter_space_in_x_2_object(); 
   typename Traits_adaptor_2::Parameter_space_in_y_2    parameter_space_in_y =
     m_geom_traits->parameter_space_in_y_2_object(); 
+  typename Traits_adaptor_2::Compare_y_at_x_right_2    compare_y_at_x_right_2 =
+    m_geom_traits->compare_y_at_x_right_2_object();  
   unsigned int      x_cross_count = 0;
   unsigned int      y_cross_count = 0;
   int               index = 0;
@@ -3611,26 +3618,17 @@ _find_leftmost_vertex_on_open_loop (const DHalfedge *he_before,
            _compare_vertices_xy (he->vertex(), v_min) == SMALLER))
       {
         ind_min = index;
+        bool v_min_updated = v_min!=he->vertex();
         v_min = he->vertex();
 
-        if (he != he_before)
+        if ( v_min_updated || he_left_low ==NULL ||
+             compare_y_at_x_right_2(he_left_low->curve(),
+                                    he->curve(),
+                                    v_min->point() ) == LARGER )
         {
           // If we need to compute the lowest halfedge incident to the leftmost
           // vertex, update it now. Note that we may visit the smallest vertex
-          // several times, for example when we have (h2 and its twin form
-          // an antenna):
-          //
-          //                         h1 /                       .
-          //                           /   h2                   .
-          //                       v (.)-------                 .
-          //                           \                        .
-          //                         h3 \                       .
-          //
-          // If we first reach the vertex v from h1's source, then we will
-          // reach it again via h2. Since we take the last halfedge, we will
-          // locate h2. On the other hand, if we reach the vertex v from h3's
-          // source, we will leave it via h1's twin and will not return to it,
-          // so h3 is the left-low halfedge in this case
+          // several times (thus the compare_y_at_x_right_2).
           he_left_low = he;
         }
       }
@@ -3647,7 +3645,7 @@ _find_leftmost_vertex_on_open_loop (const DHalfedge *he_before,
   is_perimetric = (x_cross_count % 2 == 1) || (y_cross_count % 2 == 1);
   
   // Return the leftmost vertex and its index (with respect to he_before).
-  return (std::make_pair (v_min, he_left_low));
+  return (std::make_pair (v_min, (he_left_low==he_before ? static_cast<DHalfedge*>(NULL):he_left_low) ));
 }
 
 //-----------------------------------------------------------------------------

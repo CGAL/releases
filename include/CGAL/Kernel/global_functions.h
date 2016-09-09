@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/global_functions.h $
-// $Id: global_functions.h 57753 2010-08-03 14:24:59Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Kernel/global_functions.h $
+// $Id: global_functions.h 59146 2010-10-11 11:10:32Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -31,6 +31,17 @@
 #include <CGAL/Kernel/global_functions_3.h>
 
 namespace CGAL {
+
+template <class T1, class T2, class T3>
+inline
+Comparison_result
+compare_distance(const T1 &o1,
+                 const T2 &o2,
+                 const T3 &o3)
+{
+  typedef typename Kernel_traits<T1>::Kernel K;
+  return internal::compare_distance(o1, o2, o3, K());
+}
 
 template <class T1, class T2, class T3, class T4>
 inline

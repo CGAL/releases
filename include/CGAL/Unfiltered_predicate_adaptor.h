@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/Unfiltered_predicate_adaptor.h $
-// $Id: Unfiltered_predicate_adaptor.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/Unfiltered_predicate_adaptor.h $
+// $Id: Unfiltered_predicate_adaptor.h 59832 2010-11-23 11:20:03Z lrineau $
 // 
 // Author(s)     : Sylvain Pion, Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -22,7 +22,7 @@
 
 #include <CGAL/basic.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 template <class CAP>
 class Unfiltered_predicate_adaptor
@@ -249,6 +249,6 @@ Unfiltered_predicate_adaptor<CAP>::
 }
 #endif
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 #endif // CGAL_UNFILTERED_PREDICATE_ADAPTOR_H

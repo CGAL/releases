@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_d/include/CGAL/Kernel_d/Cartesian_const_iterator_d.h $
-// $Id: Cartesian_const_iterator_d.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Cartesian_const_iterator_d.h $
+// $Id: Cartesian_const_iterator_d.h 61529 2011-03-05 16:47:52Z glisse $
 //
 // Author(s)     : Michael Seel, Sylvain Pion
 
@@ -74,6 +74,13 @@ public:
 private:
   RT_iterator _it, _w;
 };
+
+template < typename RT_iterator > inline
+Cartesian_const_iterator_d<RT_iterator>
+operator+(std::ptrdiff_t i, Cartesian_const_iterator_d<RT_iterator> const& it)
+{
+	return it+i;
+}
 
 template < typename RT_iterator > inline
 Cartesian_const_iterator_d<RT_iterator>

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_polyhedron_3.h $
-// $Id: Nef_polyhedron_3.h 58717 2010-09-20 18:14:50Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_polyhedron_3.h $
+// $Id: Nef_polyhedron_3.h 60866 2011-01-19 11:11:26Z afabri $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -69,9 +69,9 @@
 
 #include <CGAL/Constrained_triangulation_2.h>
 #include <CGAL/Triangulation_data_structure_2.h>
-#include <CGAL/Triangulation_euclidean_traits_xy_3.h>
-#include <CGAL/Triangulation_euclidean_traits_yz_3.h>
-#include <CGAL/Triangulation_euclidean_traits_xz_3.h>
+#include <CGAL/Projection_traits_xy_3.h>
+#include <CGAL/Projection_traits_yz_3.h>
+#include <CGAL/Projection_traits_xz_3.h>
 #include <CGAL/Constrained_triangulation_face_base_2.h>
 #include <list>
 
@@ -173,8 +173,18 @@ class Nef_polyhedron_3 : public CGAL::Handle_for< Nef_polyhedron_3_rep<Kernel_, 
   typedef typename Kernel::Segment_3                  Segment_3;
   typedef typename Kernel::Aff_transformation_3       Aff_transformation_3;
 
-  //typedef SNC_const_decorator<SNC_structure<Kernel_,Items_,Mark_> > Decorator;
-  //using Decorator::set_snc;
+#ifndef _MSC_VER
+  // VC++ has a problem to digest the following typedef,
+  // and does not need the using statements -- AF
+  // The left and right part of these typedefs have the same name. It is
+  // very important to qualify the left part with the CGAL:: namespace, no
+  // to confuse g++. -- Laurent Rineau, 2010/09/13
+  typedef CGAL::SNC_structure<Kernel,Items,Mark> SNC_structure;
+  typedef CGAL::SNC_const_decorator<SNC_structure> SNC_const_decorator;
+  using SNC_const_decorator::set_snc;
+  using SNC_const_decorator::is_standard;
+  using SNC_const_decorator::is_bounded;
+#endif
 
   struct Polylines_tag {};
 
@@ -197,12 +207,11 @@ protected:
 
  public:
   typedef Nef_polyhedron_3_rep<Kernel,Items, Mark>    Nef_rep;
-  typedef typename Nef_rep::SNC_structure       SNC_structure;
+
   typedef typename Nef_rep::SM_decorator        SM_decorator;
   typedef typename Nef_rep::SM_const_decorator  SM_const_decorator;
  protected:
   typedef typename Nef_rep::SNC_decorator       SNC_decorator;
-  typedef typename Nef_rep::SNC_const_decorator SNC_const_decorator;
   typedef typename Nef_rep::SNC_constructor     SNC_constructor;
   typedef typename Nef_rep::SNC_external_structure SNC_external_structure;
   typedef typename Nef_rep::Binary_operation    Binary_operation;
@@ -330,6 +339,7 @@ protected:
                                                    SFace_cycle_const_iterator;
 
   typedef typename SNC_decorator::Association  Association;
+
 
  protected: 
   void initialize_infibox_vertices(Content space) {
@@ -706,9 +716,9 @@ protected:
     
     class Visitor {
 
-      typedef typename CGAL::Triangulation_euclidean_traits_xy_3<Kernel>       XY;
-      typedef typename CGAL::Triangulation_euclidean_traits_yz_3<Kernel>       YZ;
-      typedef typename CGAL::Triangulation_euclidean_traits_xz_3<Kernel>       XZ;
+      typedef typename CGAL::Projection_traits_xy_3<Kernel>       XY;
+      typedef typename CGAL::Projection_traits_yz_3<Kernel>       YZ;
+      typedef typename CGAL::Projection_traits_xz_3<Kernel>       XZ;
 
       const Object_index<Vertex_const_iterator>& VI;
       Polyhedron_incremental_builder_3<HDS>& B;

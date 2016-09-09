@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/geninfo.h $
-// $Id: geninfo.h 41714 2008-01-20 20:24:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/geninfo.h $
+// $Id: geninfo.h 61485 2011-03-02 18:52:57Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -20,6 +20,7 @@
 #ifndef CGAL_NEF_2_GENINFO_H
 #define CGAL_NEF_2_GENINFO_H
 
+#include <CGAL/config.h>
 #include <memory>
 
 /*{\Moptions outfile=geninfo.man}*/
@@ -41,6 +42,7 @@ misuse memory problems occur.}*/
 
 /*{\Moperations 2 1}*/
 
+  #ifdef CGAL_USE_FORMER_GENINFO
   static void create(GenPtr& p) 
   /*{\Mstatic create a slot for an object of type |T| referenced 
     via |p|.}*/
@@ -71,6 +73,16 @@ misuse memory problems occur.}*/
     if (sizeof(T) >  sizeof(GenPtr)) delete (T*) p;
     p=0;
   }
+  #else //CGAL_USE_FORMER_GENINFO
+  static void create(GenPtr& p)  { p = (GenPtr) new T; }
+  static T& access(GenPtr& p)  { return *(T*)p;  }
+  static const T& const_access(const GenPtr& p) 
+  { return *(const T*)p;   }
+  static void clear(GenPtr& p){ 
+    delete (T*) p;
+    p=0;
+  }
+  #endif  //CGAL_USE_FORMER_GENINFO
 
 };
 

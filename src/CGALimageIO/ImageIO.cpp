@@ -15,7 +15,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/CGALimageIO/src/CGALimageIO/ImageIO.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/CGALimageIO/src/CGALimageIO/ImageIO.cpp $
 // $Id: ImageIO.cpp 46611 2008-10-31 21:02:10Z afabri $
 //
 

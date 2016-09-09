@@ -188,9 +188,6 @@ private:
 public:
   MainWindow();
 
-protected:
-  void dragEnterEvent(QDragEnterEvent *event);
-  void dropEvent(QDropEvent *event);
 private:
   template <typename Iterator> 
   void insert_polyline(Iterator b, Iterator e)
@@ -215,10 +212,8 @@ private:
     emit(changed());
   }
 
-protected slots:
-void open(QString);
-
 public slots:
+  void open(QString);
 
   void processInput(CGAL::Object o);
 
@@ -266,7 +261,7 @@ MainWindow::MainWindow()
 {
   setupUi(this);
 
-  setAcceptDrops(true);
+  this->graphicsView->setAcceptDrops(false);
 
   // Add a GraphicItem for the CDT triangulation
   dgi = new CGAL::Qt::DelaunayMeshTriangulationGraphicsItem<CDT>(&cdt);
@@ -334,21 +329,6 @@ MainWindow::MainWindow()
 	  this, SLOT(open(QString)));
 }
 
-
-void 
-MainWindow::dragEnterEvent(QDragEnterEvent *event)
-{
-  if (event->mimeData()->hasFormat("text/uri-list"))
-    event->acceptProposedAction();
-}
-
-void 
-MainWindow::dropEvent(QDropEvent *event)
-{
-  QString filename = event->mimeData()->urls().at(0).path();
-  open(filename);
-  event->acceptProposedAction();
-}
 
 void
 MainWindow::processInput(CGAL::Object o)
@@ -472,6 +452,7 @@ MainWindow::loadPolygonConstraints(QString fileName)
   int n;
   // int counter = 0;
   while(ifs >> n){
+    int poly_size = n;
     ifs >> first;
     p = first;
     vfirst = vp = cdt.insert(p);
@@ -486,7 +467,7 @@ MainWindow::loadPolygonConstraints(QString fileName)
       p = q;
       vp = vq;
     }
-    if(vp != vfirst) {
+    if(poly_size != 2 && vp != vfirst) {
       cdt.insert_constraint(vp, vfirst);
     }
   }
@@ -566,7 +547,7 @@ MainWindow::on_actionSaveConstraints_triggered()
 
 
 void
-MainWindow::saveConstraints(QString fileName)
+MainWindow::saveConstraints(QString /*fileName*/)
 {
   QMessageBox::warning(this,
                        tr("saveConstraints"),
@@ -722,5 +703,12 @@ int main(int argc, char **argv)
 
   MainWindow mainWindow;
   mainWindow.show();
+
+  QStringList args = app.arguments();
+  args.removeAt(0);
+  Q_FOREACH(QString filename, args) {
+    mainWindow.open(filename);
+  }
+
   return app.exec();
 }

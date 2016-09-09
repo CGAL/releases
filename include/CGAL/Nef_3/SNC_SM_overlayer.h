@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/SNC_SM_overlayer.h $
-// $Id: SNC_SM_overlayer.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/SNC_SM_overlayer.h $
+// $Id: SNC_SM_overlayer.h 58238 2010-08-23 14:19:10Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -66,6 +66,20 @@ public:
   typedef typename Base::Sphere_kernel           Sphere_kernel;
 
   typedef typename Map::Infi_box Infi_box;
+
+  using Base::clear_face_cycle_entries;
+  using Base::link_as_loop;
+  using Base::is_closed_at_source;
+  using Base::is_isolated;
+  using Base::delete_edge_pair;
+  using Base::delete_vertex_only;
+  using Base::delete_face_only;
+  using Base::store_sm_boundary_object;
+  using Base::first_out_edge;
+  using Base::set_face;
+  using Base::has_outdeg_two;
+  using Base::convert_edge_to_loop;
+  using Base::merge_edge_pairs_at_target;
 
  public:
   SNC_SM_overlayer(Map* M, 

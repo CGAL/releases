@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Surface_mesh_cell_base_3.h $
-// $Id: Surface_mesh_cell_base_3.h 53957 2010-02-01 12:55:28Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Surface_mesh_cell_base_3.h $
+// $Id: Surface_mesh_cell_base_3.h 59666 2010-11-12 10:50:39Z lrineau $
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
 
@@ -110,7 +110,7 @@ namespace CGAL {
 #ifdef CGAL_SURFACE_MESHER_TAG_BAD
       return bits[facet+4];
 #else
-      return (bits & (1 << (facet+4)) != 0);
+      return (bits & (1 << (facet+4))) != 0;
 #endif
     }
     

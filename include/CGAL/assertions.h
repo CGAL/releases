@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/assertions.h $
-// $Id: assertions.h 58178 2010-08-20 09:49:09Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/assertions.h $
+// $Id: assertions.h 58190 2010-08-20 12:57:32Z lrineau $
 //
 //
 // Author(s)     : Geert-Jan Giezeman and Sven Schoenherr

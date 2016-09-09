@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Interval_nt.h $
-// $Id: Interval_nt.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Interval_nt.h $
+// $Id: Interval_nt.h 61445 2011-02-28 17:02:19Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -122,7 +122,7 @@ public:
 
   std::pair<double, double> pair() const
   {
-    return std::pair<double, double>(_inf, _sup);
+    return std::pair<double, double>(inf(), sup());
   }
 
   static IA largest()
@@ -156,9 +156,9 @@ private:
       // the 2 negations and we get wrong rounding.
       typename Interval_nt<>::Internal_protector P;
       CGAL_assertion_msg(-CGAL_IA_MUL(-1.1, 10.1) != CGAL_IA_MUL(1.1, 10.1),
-                         "Wrong rounding: did you forget the -frounding-math option if you use GCC?");
+                         "Wrong rounding: did you forget the  -frounding-math  option if you use GCC (or  -fp-model strict  for Intel)?");
       CGAL_assertion_msg(-CGAL_IA_DIV(-1, 10) != CGAL_IA_DIV(1, 10),
-                         "Wrong rounding: did you forget the -frounding-math option if you use GCC?");
+                         "Wrong rounding: did you forget the  -frounding-math  option if you use GCC (or  -fp-model strict  for Intel)?");
     }
   };
 
@@ -449,7 +449,7 @@ inline
 double
 magnitude (const Interval_nt<Protected> & d)
 {
-  return (std::max)(std::fabs(d.inf()), std::fabs(d.sup()));
+  return (std::max)(CGAL::abs(d.inf()), CGAL::abs(d.sup()));
 }
 
 // Non-documented

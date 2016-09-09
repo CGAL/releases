@@ -9,6 +9,8 @@
 #include<CGAL/create_straight_skeleton_2.h>
 #include<CGAL/create_offset_polygons_2.h>
 #include <CGAL/linear_least_squares_fitting_2.h>
+#include <CGAL/extremal_polygon_2.h>
+#include <CGAL/minkowski_sum_2.h>
 
 // Qt headers
 #include <QtGui>
@@ -19,6 +21,7 @@
 // GraphicsView items and event filters (input classes)
 #include <CGAL/Qt/GraphicsViewPolylineInput.h>
 #include <CGAL/Qt/PolygonGraphicsItem.h>
+#include <CGAL/Qt/PolygonWithHolesGraphicsItem.h>
 #include <CGAL/Qt/LineGraphicsItem.h>
   
 // the two base classes
@@ -30,7 +33,8 @@ typedef K::Point_2 Point_2;
 typedef K::Segment_2 Segment_2;
 typedef K::Line_2 Line_2;
 
-typedef CGAL::Polygon_2<K,std::list<Point_2> > Polygon; // it must be a list for the partition
+typedef CGAL::Polygon_2<K,std::list< Point_2 > > Polygon; // it must be a list for the partition
+typedef CGAL::Polygon_with_holes_2<K,std::list< Point_2 > > Polygon_with_holes_2;
 
 typedef CGAL::Straight_skeleton_2<K> Ss ;
 
@@ -52,18 +56,23 @@ private:
 
 
   CGAL::Qt::Converter<K> convert;
-  Polygon poly; 
+  Polygon poly, kgon; 
+  Polygon_with_holes_2 selfmink;
   QGraphicsScene scene;  
 
   CGAL::Qt::PolygonGraphicsItem<Polygon> * pgi;
 
   CGAL::Qt::GraphicsViewPolylineInput<K> * pi;
 
+  CGAL::Qt::PolygonWithHolesGraphicsItem<Polygon_with_holes_2> * minkgi;
+
   std::list<Polygon> partitionPolygons;
   std::list<CGAL::Qt::PolygonGraphicsItem<Polygon>* >  partitionGraphicsItems;
   std::list<QGraphicsLineItem* >  skeletonGraphicsItems;
   std::list<QGraphicsLineItem* >  offsetGraphicsItems;
   CGAL::Qt::LineGraphicsItem<K>* lgi;
+
+  CGAL::Qt::PolygonGraphicsItem<Polygon> * kgongi;
 
 public:
   MainWindow();
@@ -77,7 +86,9 @@ public slots:
   void on_actionLoadPolygon_triggered();
   void on_actionSavePolygon_triggered();
 
+  void on_actionSelfMinkowskiSum_triggered();
   void on_actionRecenter_triggered();
+  void on_actionMaximumAreaKGon_triggered();
   void on_actionInnerSkeleton_triggered();
   void on_actionOuterOffset_triggered();
   void on_actionLinearLeastSquaresFitting_triggered();
@@ -90,11 +101,12 @@ public slots:
   void partition(PartitionAlgorithm);
 
   void clearPartition();
+  void clearMinkowski();
   void clearSkeleton();
   void clearOffset();
   void clear();
 
-  void open(const QString&);
+  virtual void open(QString);
 signals:
   void changed();
 };
@@ -105,6 +117,8 @@ MainWindow::MainWindow()
 {
   setupUi(this);
 
+  this->graphicsView->setAcceptDrops(false);
+
   // Add a GraphicItem for the Polygon_2
   pgi = new CGAL::Qt::PolygonGraphicsItem<Polygon>(&poly);
 
@@ -114,7 +128,12 @@ MainWindow::MainWindow()
   pgi->setVerticesPen(QPen(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
   scene.addItem(pgi);
 
-
+  kgongi =  new CGAL::Qt::PolygonGraphicsItem<Polygon>(&kgon);
+  kgongi->setEdgesPen(QPen(Qt::blue, 0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+  kgongi->hide();
+  scene.addItem(kgongi);
+  
+  
   lgi = new CGAL::Qt::LineGraphicsItem<K>();
   lgi->setPen(QPen(Qt::blue, 0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
   lgi->hide();
@@ -213,7 +232,7 @@ MainWindow::on_actionLoadPolygon_triggered()
 }
 
 void
-MainWindow::open(const QString& fileName)
+MainWindow::open(QString fileName)
 {
   this->actionCreateInputPolygon->setChecked(false);
   std::ifstream ifs(qPrintable(fileName));
@@ -259,6 +278,27 @@ MainWindow::on_actionRecenter_triggered()
   this->graphicsView->setSceneRect(pgi->boundingRect());
   this->graphicsView->fitInView(pgi->boundingRect(), Qt::KeepAspectRatio);  
 }
+
+void
+MainWindow::on_actionSelfMinkowskiSum_triggered()
+{
+  if(poly.size()>0){
+    if(! poly.is_simple()){
+      return;
+    }
+
+    selfmink = minkowski_sum_2 (poly, poly);
+    
+    minkgi = new CGAL::Qt::PolygonWithHolesGraphicsItem<Polygon_with_holes_2>(&selfmink);
+    
+    minkgi->setVerticesPen(QPen(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    scene.addItem(minkgi);
+    minkgi->setEdgesPen(QPen(Qt::darkRed, 0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+  }
+}
+
+
+
 
 void
 MainWindow::on_actionInnerSkeleton_triggered()
@@ -359,6 +399,25 @@ MainWindow::on_actionOuterOffset_triggered()
 }
 
 void
+MainWindow::on_actionMaximumAreaKGon_triggered()
+{
+  if( (poly.size()>2) && poly.is_convex()){
+    clear();
+    
+    kgon.clear();
+    std::vector<Point_2> points(poly.vertices_begin(),
+                                poly.vertices_end());
+    CGAL::maximum_area_inscribed_k_gon_2(points.begin(),
+                                         points.end(),
+					 3,
+                                         std::back_inserter(kgon));
+  
+    kgongi->modelChanged();
+    kgongi->show();
+  }
+}
+
+void
 MainWindow::on_actionLinearLeastSquaresFitting_triggered()
 {
   if(poly.size()>2){
@@ -456,6 +515,12 @@ MainWindow::clearPartition()
 }
 
 void
+MainWindow::clearMinkowski()
+{ 
+  scene.removeItem(minkgi);
+}
+
+void
 MainWindow::clearSkeleton()
 { for(std::list<QGraphicsLineItem* >::iterator it = skeletonGraphicsItems.begin();
       it != skeletonGraphicsItems.end();
@@ -479,9 +544,11 @@ void
 MainWindow::clear()
 {
   clearPartition();
+  clearMinkowski();
   clearSkeleton();
   clearOffset();
   lgi->hide();
+  kgongi->hide();
 }
 
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/Skin_surface_polyhedral_items_3.h $
-// $Id: Skin_surface_polyhedral_items_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/Skin_surface_polyhedral_items_3.h $
+// $Id: Skin_surface_polyhedral_items_3.h 61185 2011-02-10 20:38:46Z nicokruithof $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -22,23 +22,27 @@
 
 #include <CGAL/HalfedgeDS_face_base.h>
 #include <CGAL/Polyhedron_items_3.h>
+#include <CGAL/assertions.h>
 
 namespace CGAL {
 
-template <class Refs, class SkinSurface3>
-struct Skin_Surface_polyhedral_face : public CGAL::HalfedgeDS_face_base<Refs> {
-  typedef SkinSurface3                                      Skin_surface;
-  typedef typename SkinSurface3::TMC::Cell_handle           TMC_Cell_handle;
-  //typedef typename SkinSurface3::Simplex                    Simplex;
+template<class Refs, class SkinSurface3>
+struct Skin_Surface_polyhedral_face: public CGAL::HalfedgeDS_face_base<Refs> {
+  typedef SkinSurface3 Skin_surface;
+  typedef typename SkinSurface3::TMC::Cell_handle TMC_Cell_handle;
+  typedef typename SkinSurface3::Simplex Simplex;
 
-  //Simplex sim;
+  typename SkinSurface3::Simplex containing_simplex() {
+    CGAL_assertion(tmc_ch != NULL);
+    return tmc_ch->info().first;
+  }
   TMC_Cell_handle tmc_ch;
 };
 
-template < class SkinSurface3 >
-struct Skin_surface_polyhedral_items_3 : public Polyhedron_items_3 {
-  
-  template <class Refs, class Traits>
+template<class SkinSurface3>
+struct Skin_surface_polyhedral_items_3: public Polyhedron_items_3 {
+
+  template<class Refs, class Traits>
   struct Face_wrapper {
     typedef Skin_Surface_polyhedral_face<Refs, SkinSurface3> Face;
   };

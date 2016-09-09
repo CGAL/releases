@@ -108,7 +108,7 @@ public slots:
 
   void on_actionRecenter_triggered();
 
-  void open(const QString& fileName);
+  virtual void open(QString fileName);
 
 signals:
   void changed();
@@ -451,7 +451,7 @@ MainWindow::on_actionInsertRandomPoints_triggered()
 
   // wait cursor
   QApplication::setOverrideCursor(Qt::WaitCursor);
-  for(std::size_t i = 0; i < number_of_points; ++i){
+  for(int i = 0; i < number_of_points; ++i){
     Point_2 p = *pg++;
     mc.insert(p);
     me.insert(p);
@@ -479,7 +479,7 @@ MainWindow::on_actionLoadPoints_triggered()
 
 
 void
-MainWindow::open(const QString& fileName)
+MainWindow::open(QString fileName)
 {
   // wait cursor
   QApplication::setOverrideCursor(Qt::WaitCursor);

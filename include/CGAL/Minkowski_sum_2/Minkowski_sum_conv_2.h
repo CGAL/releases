@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Minkowski_sum_conv_2.h $
-// $Id: Minkowski_sum_conv_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Minkowski_sum_conv_2.h $
+// $Id: Minkowski_sum_conv_2.h 61310 2011-02-19 21:27:18Z efif $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -110,7 +110,7 @@ private:
 
   // Traits-related types:
   typedef Arr_segment_traits_2<Kernel>                    Segment_traits_2;
-  typedef Arr_labeled_traits_2<Segment_traits_2>          Traits_2; 
+  typedef Arr_labeled_traits_2<Segment_traits_2>          Traits_2;
 
   typedef typename Segment_traits_2::X_monotone_curve_2   Segment_2;
   typedef typename Traits_2::X_monotone_curve_2           Labeled_segment_2;
@@ -521,7 +521,7 @@ private:
     } while (k1 != first1 || k2 != first2); 
 
     CGAL_assertion (f_equal (curr_pt, first_pt));
-
+    
     // Before moving un-necessary sub-cycles from the segment list, make sure
     // the list contains no "cyclic" sub-cylces. We do that by making sure that
     // the first and last segments of the list correspond to traversals of
@@ -670,15 +670,13 @@ private:
     if (reduced_cycle)
     {
       seg_index = 0;
-      for (curr = cycle.begin(); curr != cycle.end(); ++curr, ++seg_index)
-        cycle.back().label().set_index (seg_index);
+      for (curr = cycle.begin(); curr != cycle.end(); ++curr)
+        curr->label().set_index (seg_index++);
     }
-
     cycle.back().label().set_flag (true);
     return;
   }
 };
-
 
 } //namespace CGAL
 

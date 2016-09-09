@@ -11,6 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_validation.h $
+// $Id: Gps_polygon_validation.h 61484 2011-03-02 14:59:51Z sloriot $
 // 
 //
 // Author(s): Baruch Zukerman <baruchzu@post.tau.ac.il>

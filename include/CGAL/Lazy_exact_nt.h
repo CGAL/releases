@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Lazy_exact_nt.h $
-// $Id: Lazy_exact_nt.h 57913 2010-08-10 10:15:51Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Number_types/include/CGAL/Lazy_exact_nt.h $
+// $Id: Lazy_exact_nt.h 59568 2010-11-08 14:52:56Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -856,6 +856,21 @@ struct Div_selector< NT, Null_functor > {
 };
 
 template< class NT, class Functor >
+struct Inverse_selector {
+  struct Inverse  {
+    typedef NT result_type;
+    NT operator()( const NT& x ) const {
+      return NT( 1 ) / x ;
+    }
+  };
+};
+
+template< class NT >
+struct Inverse_selector< NT, Null_functor > {
+  typedef Null_functor Inverse;
+};
+
+template< class NT, class Functor >
 struct Mod_selector {
   struct Mod : public std::binary_function<NT, NT, NT > {
     NT operator()( const NT& x, const NT& y ) const {
@@ -963,6 +978,9 @@ public:
 
     typedef typename INTERN_LAZY_EXACT_NT::Div_mod_selector
     <Lazy_exact_nt<ET>, typename AST_ET::Div_mod > ::Div_mod Div_mod;
+    
+    typedef typename INTERN_LAZY_EXACT_NT::Inverse_selector
+    <Lazy_exact_nt<ET>, typename AST_ET::Inverse > ::Inverse Inverse;    
 };
 
 
@@ -1267,6 +1285,7 @@ struct NT_converter < Lazy_exact_nt<ET>, ET >
   { return a.exact(); }
 };
 
+namespace internal {
 // Returns true if the value is representable by a double and to_double()
 // would return it.  False means "don't know" (the exact number type is not
 // queried).
@@ -1275,6 +1294,7 @@ inline bool
 fit_in_double(const Lazy_exact_nt<ET>& l, double& r)
 { return fit_in_double(l.approx(), r); }
 
+} // namespace internal
 
 // We create a type of new node in Lazy_exact_nt's DAG
 // for the make_root_of_2() operation.

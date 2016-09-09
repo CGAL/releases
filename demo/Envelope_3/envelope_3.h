@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Envelope_3/demo/Envelope_3/envelope_3.h $
-// $Id: envelope_3.h 54351 2010-03-01 07:54:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/demo/Envelope_3/envelope_3.h $
+// $Id: envelope_3.h 57522 2010-07-17 17:24:20Z glisse $
 //
 //
 // Author(s)     : Efi Fogel <efif@post.tau.ac.il>
@@ -99,7 +99,7 @@ private:
     if (s == QString::null) return false;
     curr_dir = s;
 
-    std::ifstream in_file(s);
+    std::ifstream in_file(s.ascii());
     if (!in_file.is_open()) {
       QMessageBox::warning(widget, "Open", "Can't open file");
       return false;

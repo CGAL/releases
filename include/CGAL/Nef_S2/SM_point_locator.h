@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
-// $Id: SM_point_locator.h 57193 2010-06-29 12:38:52Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
+// $Id: SM_point_locator.h 60172 2010-12-06 15:01:15Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -92,7 +92,9 @@ public:
   typedef typename Decorator_traits::SVertex_handle       SVertex_handle;   
   typedef typename Decorator_traits::SHalfedge_handle     SHalfedge_handle;   
   typedef typename Decorator_traits::SHalfloop_handle     SHalfloop_handle;   
+  typedef typename Decorator_traits::SHalfloop_const_handle     SHalfloop_const_handle;   
   typedef typename Decorator_traits::SFace_handle         SFace_handle;     
+  typedef typename Decorator_traits::SFace_const_handle         SFace_const_handle;     
 
   typedef typename Decorator_traits::SVertex_iterator     SVertex_iterator;
   typedef typename Decorator_traits::SHalfedge_iterator   SHalfedge_iterator;
@@ -180,7 +182,7 @@ public:
   enum SOLUTION { is_vertex_, is_edge_, is_loop_ };
   // enumeration for internal use
 
-  Object_handle locate(const Sphere_point& p, bool skipVEL = false)
+  Object_handle locate(const Sphere_point& p, bool skipVEL = false) const
   /*{\Mop returns a generic handle |h| to an object (vertex, halfedge,
   face) of the underlying plane map |P| which contains the point |p =
   s.source()| in its relative interior. |s.target()| must be a point
@@ -207,7 +209,7 @@ public:
       
       if ( this->has_shalfloop() && this->shalfloop()->circle().has_on(p)) {
 	CGAL_NEF_TRACEN( "  on loop");
-	return make_object(SHalfloop_handle(this->shalfloop()));
+	return make_object(SHalfloop_const_handle(this->shalfloop()));
       }
     }
     
@@ -222,7 +224,7 @@ public:
 
     SVertex_handle v_res;
     SHalfedge_handle e_res;
-    SHalfloop_handle l_res(this->shalfloop());
+    SHalfloop_const_handle l_res(this->shalfloop());
     SOLUTION solution;
 
     CGAL_NEF_TRACEN("  on face...");
@@ -310,7 +312,7 @@ public:
       case is_edge_: 
         return make_object(SFace_handle(e_res->incident_sface()));
       case is_loop_:
-        return make_object(SFace_handle(l_res->incident_sface()));
+        return make_object(SFace_const_handle(l_res->incident_sface()));
       case is_vertex_:
         return make_object(SFace_handle(v_res->incident_sface()));
       default: CGAL_error_msg("missing solution.");
@@ -334,22 +336,21 @@ public:
   { 
     Sphere_circle c(d.circle());
     Sphere_segment s;
-    bool s_init(false);
-    Object_handle h = locate(p);
+    Object_handle h = this->locate(p);
     SVertex_handle v; 
     SHalfedge_handle e; 
     SHalfloop_handle l; 
     SFace_handle f;
-    if ( CGAL::assign(v,h) && M(v) ||
-         CGAL::assign(e,h) && M(e) ||
-	 CGAL::assign(l,h) && M(l) ||
-         CGAL::assign(f,h) && M(f) ) return h;
+    if ( ( CGAL::assign(v,h) && M(v) ) ||
+         ( CGAL::assign(e,h) && M(e) ) ||
+         ( CGAL::assign(l,h) && M(l) ) ||
+         ( CGAL::assign(f,h) && M(f) ) ) return h;
     h = Object_handle(); 
     CGAL_NEF_TRACEN("not contained");
 #if 0
     HASEN: s am anfang circle, ab wann segment ?
 	   wo loop ?
-
+    bool s_init(false);
     CGAL_forall_svertices (v,*this) {
       Point pv = v->point();
       if ( !(s_init && s.has_on(pv) ||

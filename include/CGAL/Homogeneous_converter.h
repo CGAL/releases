@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous_converter.h $
-// $Id: Homogeneous_converter.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Homogeneous_kernel/include/CGAL/Homogeneous_converter.h $
+// $Id: Homogeneous_converter.h 59772 2010-11-18 09:17:05Z afabri $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -240,8 +240,9 @@ private:
 // Specialization when converting to the same kernel,
 // to avoid making copies.
 template < class K, class C1, class C2 >
-struct Homogeneous_converter <K, K, C1, C2>
+class Homogeneous_converter <K, K, C1, C2>
 {
+public:
   template < typename T >
   const T& operator()(const T&t) const { return t; }
 };

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_coefficient_kernel_at_alpha.h $
-// $Id: Bitstream_coefficient_kernel_at_alpha.h 59003 2010-10-04 11:03:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_coefficient_kernel_at_alpha.h $
+// $Id: Bitstream_coefficient_kernel_at_alpha.h 59548 2010-11-07 07:56:32Z hemmer $
 // 
 //
 // Author(s)     : Michael Kerber  <mkerber@mpi-inf.mpg.de>
@@ -194,14 +194,12 @@ public:
         typename CGAL::Polynomial_traits_d<Coefficient>
         ::template Rebind<Bigfloat_interval,1>::Other::Type
         _convert_polynomial_to_bfi(Coefficient f) const {
-
-            typename
-                CGAL::Polynomial_traits_d<Coefficient>::Degree degree;
             typename
                 CGAL::Polynomial_traits_d<Coefficient>::Get_coefficient coeff;
-            std::vector<Bigfloat_interval> coeffs;
-            for(int i = 0; i <= degree(f); i++) {
-                coeffs.push_back(CGAL::convert_to_bfi(coeff(f,i)));
+            std::vector<Bigfloat_interval> coeffs(CGAL::degree(f)+1);
+            const int d = CGAL::degree(f);
+            for(int i = 0; i <= d; i++) {
+                coeffs[i] = CGAL::convert_to_bfi(coeff(f,i));
             }
             return typename CGAL::Polynomial_traits_d<Coefficient>
                 ::template Rebind<Bigfloat_interval,1>::Other

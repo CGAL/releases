@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_polyhedron_S2.h $
-// $Id: Nef_polyhedron_S2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_polyhedron_S2.h $
+// $Id: Nef_polyhedron_S2.h 58537 2010-09-08 06:04:07Z afabri $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -28,7 +28,6 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
-#include <CGAL/Random.h>
 #include <CGAL/Nef_S2/SM_items.h>
 #include <CGAL/Nef_S2/Sphere_map.h>
 #include <CGAL/Nef_S2/SM_decorator.h>
@@ -39,6 +38,11 @@
 
 #include <vector>
 #include <list>
+
+#include <boost/random/linear_congruential.hpp>
+#include <boost/random/uniform_real.hpp>
+#include <boost/random/variate_generator.hpp>
+
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 53
 #include <CGAL/Nef_2/debug.h>
@@ -280,13 +284,18 @@ public:
     set_sm(&sphere_map());
     Overlayer D(&sphere_map());
     D.create_from_circles(first, beyond); D.simplify();
+
+    boost::rand48 rng;
+    boost::uniform_real<> dist(0,1);
+    boost::variate_generator<boost::rand48&, boost::uniform_real<> > get_double(rng,dist);
+
     SVertex_iterator v; SHalfedge_iterator e; SFace_iterator f;
     CGAL_forall_svertices(v,D)
-      v->mark() = ( default_random.get_double() < p ? true : false );
+      v->mark() = ( get_double() < p ? true : false );
     CGAL_forall_shalfedges(e,D)
-      e->mark() = ( default_random.get_double() < p ? true : false );
+      e->mark() = ( get_double() < p ? true : false );
     CGAL_forall_sfaces(f,D)
-      f->mark() = ( default_random.get_double() < p ? true : false );
+      f->mark() = ( get_double() < p ? true : false );
     D.simplify();
   }
 

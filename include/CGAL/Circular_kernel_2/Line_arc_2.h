@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/Line_arc_2.h $
-// $Id: Line_arc_2.h 58156 2010-08-19 10:51:24Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_2/Line_arc_2.h $
+// $Id: Line_arc_2.h 59623 2010-11-10 15:52:53Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -267,20 +267,22 @@ public :
 
 }; // end class Line_arc_2_base
 
-template <class CB>
-class Filtered_bbox_line_arc_2_base : public Line_arc_2_base<CB> {
-  typedef Filtered_bbox_line_arc_2_base<CB> Self;
-  typedef Line_arc_2_base<CB> P_arc;
+template <class CB, typename Base_CK>
+class Filtered_bbox_line_arc_2_base : public Base_CK::Line_arc_2 {
+  typedef Filtered_bbox_line_arc_2_base<CB,Base_CK> Self;
+  typedef typename Base_CK::Line_arc_2 P_arc;
 
 public:
 
-  typedef typename P_arc::Point_2 Point_2;
-  typedef typename P_arc::Line_2 Line_2;
-  typedef typename P_arc::Segment_2 Segment_2;
-  typedef typename P_arc::Circle_2 Circle_2;
-  typedef typename P_arc::Circular_arc_point_2 Circular_arc_point_2;
+  typedef typename CB::Point_2 Point_2;
+  typedef typename CB::Line_2 Line_2;
+  typedef typename CB::Segment_2 Segment_2;
+  typedef typename CB::Circle_2 Circle_2;
+  typedef typename CB::Circular_arc_point_2 Circular_arc_point_2;
 
   Filtered_bbox_line_arc_2_base() : P_arc(), bb(NULL) {}
+  
+  Filtered_bbox_line_arc_2_base(const P_arc& arc) : P_arc(arc), bb(NULL) {}
 
   Filtered_bbox_line_arc_2_base(const Line_2 &support, 
                                 const Circle_2 &l1, const bool b_l1,

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_processing_3/include/CGAL/grid_simplify_point_set.h $
-// $Id: grid_simplify_point_set.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Point_set_processing_3/include/CGAL/grid_simplify_point_set.h $
+// $Id: grid_simplify_point_set.h 61441 2011-02-28 15:28:28Z sloriot $
 //
 // Author(s) : Nader Salman and Laurent Saboret 
 
@@ -147,7 +147,7 @@ ForwardIterator grid_simplify_point_set(
   ForwardIterator beyond, ///< past-the-end iterator over the input points.
   PointPMap point_pmap, ///< property map ForwardIterator -> Point_3
   double epsilon, ///< tolerance value when merging 3D points.
-  const Kernel& kernel) ///< geometric traits.
+  const Kernel& /*kernel*/) ///< geometric traits.
 {
   // actual type of input points
   typedef typename std::iterator_traits<ForwardIterator>::value_type Enriched_point;

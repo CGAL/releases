@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_processing_3/include/CGAL/remove_outliers.h $
-// $Id: remove_outliers.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Point_set_processing_3/include/CGAL/remove_outliers.h $
+// $Id: remove_outliers.h 61441 2011-02-28 15:28:28Z sloriot $
 //
 // Author(s) : Laurent Saboret and Nader Salman and Pierre Alliez
 
@@ -130,7 +130,7 @@ remove_outliers(
   PointPMap point_pmap, ///< property map InputIterator -> Point_3
   unsigned int k, ///< number of neighbors.
   double threshold_percent, ///< percentage of points to remove.
-  const Kernel& kernel) ///< geometric traits.
+  const Kernel& /*kernel*/) ///< geometric traits.
 {
   // geometric types
   typedef typename Kernel::FT FT;

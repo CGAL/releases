@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/Orthogonal_incremental_neighbor_search.h $
-// $Id: Orthogonal_incremental_neighbor_search.h 58140 2010-08-18 12:56:15Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_searching/include/CGAL/Orthogonal_incremental_neighbor_search.h $
+// $Id: Orthogonal_incremental_neighbor_search.h 59329 2010-10-22 13:17:52Z sloriot $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -383,7 +383,7 @@ namespace CGAL {
 
     public:
 
-      typedef std::forward_iterator_tag iterator_category;
+      typedef std::input_iterator_tag iterator_category;
       typedef Point_with_transformed_distance       value_type;
       typedef Point_with_transformed_distance*      pointer;
       typedef const Point_with_transformed_distance&      reference;
@@ -421,6 +421,19 @@ namespace CGAL {
         if (Ptr_implementation != 0) Ptr_implementation->reference_count++;
       }
 
+      iterator& operator=(const iterator& Iter)
+      {
+        if (Ptr_implementation != Iter.Ptr_implementation){
+          if (Ptr_implementation != 0 && --(Ptr_implementation->reference_count)==0) {
+              delete Ptr_implementation;
+          }
+          Ptr_implementation = Iter.Ptr_implementation;
+          if (Ptr_implementation != 0) Ptr_implementation->reference_count++;
+        }
+        return *this;
+      }      
+      
+      
       const Point_with_transformed_distance& 
       operator* () const 
       {

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_parameterization/include/CGAL/Square_border_parameterizer_3.h $
-// $Id: Square_border_parameterizer_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Square_border_parameterizer_3.h $
+// $Id: Square_border_parameterizer_3.h 61255 2011-02-16 14:17:47Z afabri $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -265,7 +265,7 @@ Square_border_parameterizer_3<Adaptor>::closest_iterator(Adaptor& mesh,
          it != mesh.mesh_main_border_vertices_end();
          it++)
     {
-        double d = std::fabs(offset[mesh.get_vertex_index(it)] - value);
+        double d = CGAL::abs(offset[mesh.get_vertex_index(it)] - value);
         if (d < min)
         {
             best = it;

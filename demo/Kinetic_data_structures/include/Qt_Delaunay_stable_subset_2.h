@@ -52,7 +52,7 @@ protected:
     return std::acos(ac);
   }
 
-  CGAL_KINETIC_LISTEN1(Qt_gui, PICTURE_IS_VALID, draw());
+  CGAL_KINETIC_LISTEN1(Qt_gui, PICTURE_IS_VALID, draw())
   
         typedef typename Qt_gui::Listener QTL;
 
@@ -95,11 +95,11 @@ protected:
       if (fit->first->vertex((fit->second+1)%3)->point().is_valid()
 	  && fit->first->vertex((fit->second+2)%3)->point().is_valid()
 	  && fit->first->vertex(fit->second)->point().is_valid()
-	  && fit->first->neighbor(fit->second)->vertex(fit->first->mirror_index(fit->second))->point().is_valid()) {
+	  && fit->first->neighbor(fit->second)->vertex(tri.mirror_index(fit->first,fit->second))->point().is_valid()) {
 	Static_point o= tri.geom_traits().current_coordinates_object()(fit->first->vertex((fit->second+1)%3)->point());
 	Static_point d= tri.geom_traits().current_coordinates_object()(fit->first->vertex((fit->second+2)%3)->point());
 	Static_point a= tri.geom_traits().current_coordinates_object()(fit->first->vertex(fit->second)->point());
-	Static_point b= tri.geom_traits().current_coordinates_object()(fit->first->neighbor(fit->second)->vertex(fit->first->mirror_index(fit->second))->point());
+	Static_point b= tri.geom_traits().current_coordinates_object()(fit->first->neighbor(fit->second)->vertex(tri.mirror_index(fit->first,fit->second))->point());
 
 	double angle1= std::abs(angle(o,a, d));
 	double angle2= std::abs(angle(o,b, d));
@@ -107,7 +107,7 @@ protected:
 	Static_segment ss(o,d);
 
 	if (angle1+angle2 < threshold_*3.1415) {
-	  if (kdel_->visitor().contains(*fit) || kdel_->visitor().contains(TDS_helper::mirror_edge(*fit))) {
+	  if (kdel_->visitor().contains(*fit) || kdel_->visitor().contains(tri.mirror_edge(*fit))) {
 	    w<< CGAL::Color(255,0,0);
 	  }
 	  else {

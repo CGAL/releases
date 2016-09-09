@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Snap_rounding_2/include/CGAL/Snap_rounding_2.h $
-// $Id: Snap_rounding_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Snap_rounding_2/include/CGAL/Snap_rounding_2.h $
+// $Id: Snap_rounding_2.h 60241 2010-12-08 21:31:41Z afabri $
 // 
 //
 // author(s)     : Eli Packer <elip@post.tau.ac.il>
@@ -55,8 +55,8 @@ public:
   Segment_data();
   Segment_data(const Point_2 & p_inp,const Point_2 & q_inp);
   Segment_2 segment() const { return(Segment_2(p, q)); }
-  Point_2 source() const { return(p); }
-  Point_2 target() const { return(q); }
+  const Point_2& source() const { return(p); }
+  const Point_2& target() const { return(q); }
   inline void set_data(const Point_2 & inp_p,const Point_2 & inp_q);
   void determine_direction(SEG_Direction & seg_dir);
   bool equal(const Segment_2 & s);
@@ -276,7 +276,6 @@ Hot_pixel<Traits_>::Hot_pixel(const Point_2 & inp_point, NT inp_pixel_size) :
   Point_2 rb(right_coord, bottom_coord);
   Point_2 lt(left_coord, top_coord);
   Point_2 rt(right_coord, top_coord);
-  
   right_seg = new Segment_2(construct_seg(rb, rt));
   left_seg = new Segment_2(construct_seg(lb, lt));
   top_seg = new Segment_2(construct_seg(lt, rt));
@@ -482,7 +481,7 @@ operator()(const Hot_pixel * h1, const Hot_pixel * h2) const
   Comparison_result cx = compare_x(h1->get_center(), h2->get_center());
   Comparison_result cy = compare_y(h1->get_center(), h2->get_center());
 
-  return(cx == SMALLER || cx == EQUAL && cy == SMALLER);
+  return(cx == SMALLER || ( cx == EQUAL && cy == SMALLER));
 }
 
 // a function for compare two hot pixels for the set of hot pixels a certain

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Mesh_global_optimizer.h $
-// $Id: Mesh_global_optimizer.h 57306 2010-07-02 15:13:57Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_3/Mesh_global_optimizer.h $
+// $Id: Mesh_global_optimizer.h 60688 2011-01-10 15:43:22Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -433,8 +433,7 @@ update_mesh(const Moves_vector& moves,
       FT size = sizing_field_(new_position,v);
     
       // Move point
-      Vertex_handle new_v =
-        helper_.smart_move_point(v, new_position, outdated_cells);
+      Vertex_handle new_v = helper_.move_point(v, new_position, outdated_cells);
       
       // Restore size in meshing_info data
       new_v->set_meshing_info(size);
@@ -442,8 +441,7 @@ update_mesh(const Moves_vector& moves,
     else
     {
       // Move point
-      Vertex_handle new_v =
-        helper_.smart_move_point(v, new_position, outdated_cells);
+      helper_.move_point(v, new_position, outdated_cells);
     }
     
     // Stop if time_limit_ is reached, here we can't return without rebuilding

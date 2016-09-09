@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/iostream/include/CGAL/IO/io_tags.h $
-// $Id: io_tags.h 57739 2010-08-03 10:34:25Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/iostream/include/CGAL/IO/io_tags.h $
+// $Id: io_tags.h 57737 2010-08-03 10:27:42Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri

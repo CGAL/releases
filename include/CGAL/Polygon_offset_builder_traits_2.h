@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/Polygon_offset_builder_traits_2.h $
-// $Id: Polygon_offset_builder_traits_2.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/Polygon_offset_builder_traits_2.h $
+// $Id: Polygon_offset_builder_traits_2.h 60435 2010-12-21 10:05:03Z lrineau $
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 #ifndef CGAL_POLYGON_OFFSET_BUILDER_TRAITS_2_H
@@ -24,7 +24,7 @@
 #include <CGAL/constructions/Polygon_offset_cons_ftC2.h>
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace CGAL_SS_i {
 
@@ -136,7 +136,7 @@ struct Construct_offset_point_2 : Functor_base_2<K>
       bool e0_is_clearly_wrong = e0_is_not_very_short && is_possibly_inexact_distance_clearly_not_equal_to(d0,tt) ;
       bool e1_is_clearly_wrong = e1_is_not_very_short && is_possibly_inexact_distance_clearly_not_equal_to(d1,tt) ;
               
-      bool rR = e0_is_clearly_wrong || e1_is_clearly_wrong ;        
+      rR = e0_is_clearly_wrong || e1_is_clearly_wrong ;        
       
       CGAL_stskel_intrinsic_test_trace_if(rR
                                         , "\nOffset point calculation is clearly wrong:"
@@ -275,10 +275,10 @@ class Polygon_offset_builder_traits_2
 {
 } ;
 
-CGAL_STRAIGHT_SKELETON_CREATE_FUNCTOR_ADAPTER(Compare_offset_against_event_time_2);
-CGAL_STRAIGHT_SKELETON_CREATE_FUNCTOR_ADAPTER(Construct_offset_point_2);
+CGAL_STRAIGHT_SKELETON_CREATE_FUNCTOR_ADAPTER(Compare_offset_against_event_time_2)
+CGAL_STRAIGHT_SKELETON_CREATE_FUNCTOR_ADAPTER(Construct_offset_point_2)
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 
 #endif // CGAL_POLYGON_OFFSET_BUILDER_TRAITS_2_H //

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/internal/Static_filters/Compare_squared_radius_3.h $
-// $Id: Compare_squared_radius_3.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/internal/Static_filters/Compare_squared_radius_3.h $
+// $Id: Compare_squared_radius_3.h 61271 2011-02-17 07:28:05Z sloriot $
 //
 // Author(s)     : Sebastien Loriot
 // This predicates was generated using the fpg tool written by Andreas Meyer.
@@ -24,6 +24,7 @@
 
 #include <CGAL/Profile_counter.h>
 #include <CGAL/internal/Static_filters/Static_filter_error.h>
+#include <CGAL/internal/Static_filters/tools.h>
 #include <cmath>
 
 namespace CGAL { namespace internal { namespace Static_filters_predicates {
@@ -57,17 +58,23 @@ namespace CGAL { namespace internal { namespace Static_filters_predicates {
         const FT& w
     ) const {
       CGAL_BRANCH_PROFILER_3("semi-static failures/attempts/calls to   : Compare_squared_radius_3 with 4 points", tmp);
-      using std::fabs;
+
+      Get_approx<Point_3> get_approx; // Identity functor for all points
+                                      // but lazy ones.
+      Get_approx<FT> get_approx_ft; // Identity functor for all FT
+                                    // but Lazy ones.
+
       double px, py, pz, qx, qy, qz, rx, ry, rz, sx, sy, sz, alpha;
-      if( fit_in_double(p.x(), px) && fit_in_double(p.y(), py)      &&
-          fit_in_double(p.z(), pz) && 
-          fit_in_double(q.x(), qx) && fit_in_double(q.y(), qy)      &&
-          fit_in_double(q.z(), qz) && 
-          fit_in_double(r.x(), rx) && fit_in_double(r.y(), ry)      &&
-          fit_in_double(r.z(), rz) && 
-          fit_in_double(s.x(), sx) && fit_in_double(s.y(), sy)      &&
-          fit_in_double(s.z(), sz) && 
-          fit_in_double(w, alpha)
+
+      if( fit_in_double(get_approx(p).x(), px) && fit_in_double(get_approx(p).y(), py)      &&
+          fit_in_double(get_approx(p).z(), pz) && 
+          fit_in_double(get_approx(q).x(), qx) && fit_in_double(get_approx(q).y(), qy)      &&
+          fit_in_double(get_approx(q).z(), qz) && 
+          fit_in_double(get_approx(r).x(), rx) && fit_in_double(get_approx(r).y(), ry)      &&
+          fit_in_double(get_approx(r).z(), rz) && 
+          fit_in_double(get_approx(s).x(), sx) && fit_in_double(get_approx(s).y(), sy)      &&
+          fit_in_double(get_approx(s).z(), sz) && 
+          fit_in_double(get_approx_ft(w), alpha)
         )
       {
         CGAL_BRANCH_PROFILER_BRANCH_1(tmp);
@@ -108,41 +115,52 @@ namespace CGAL { namespace internal { namespace Static_filters_predicates {
         double eps;
         double_tmp_result = (((square( num_x ) + square( num_y )) + square( num_z )) - ((alpha * 4.00000000000000000000e+00) * square( den )));
         double max1;
-        double max2 = fabs(qpy);
-        if( (max2 < fabs(qpz)) )
+        double aqpx = CGAL::abs(qpx);
+        double aqpz = CGAL::abs(qpz);
+
+        double arpx = CGAL::abs(rpx);
+        double arpy = CGAL::abs(rpy);
+        double arpz = CGAL::abs(rpz);
+
+        double aspx = CGAL::abs(spx);
+        double aspy = CGAL::abs(spy);
+        double aspz = CGAL::abs(spz);
+
+        double max2 = CGAL::abs(qpy);
+        if( (max2 < aqpz) )
         {
-            max2 = fabs(qpz);
+            max2 = aqpz;
         } 
-        if( (max2 < fabs(rpy)) )
+        if( (max2 < arpy) )
         {
-            max2 = fabs(rpy);
+            max2 = arpy;
         } 
-        if( (max2 < fabs(rpz)) )
+        if( (max2 < arpz) )
         {
-            max2 = fabs(rpz);
+            max2 = arpz;
         } 
-        if( (max2 < fabs(spy)) )
+        if( (max2 < aspy) )
         {
-            max2 = fabs(spy);
+            max2 = aspy;
         } 
-        if( (max2 < fabs(spz)) )
+        if( (max2 < aspz) )
         {
-            max2 = fabs(spz);
+            max2 = aspz;
         } 
         max1 = max2;
-        if( (max1 < fabs(qpx)) )
+        if( (max1 < aqpx) )
         {
-            max1 = fabs(qpx);
+            max1 = aqpx;
         } 
-        if( (max1 < fabs(rpx)) )
+        if( (max1 < arpx) )
         {
-            max1 = fabs(rpx);
+            max1 = arpx;
         } 
-        if( (max1 < fabs(spx)) )
+        if( (max1 < aspx) )
         {
-            max1 = fabs(spx);
+            max1 = aspx;
         } 
-        double max3 = fabs(alpha);
+        double max3 = CGAL::abs(alpha);
         double lower_bound_1;
         double upper_bound_1;
         lower_bound_1 = max1;
@@ -197,8 +215,6 @@ namespace CGAL { namespace internal { namespace Static_filters_predicates {
     ) const {
       CGAL_BRANCH_PROFILER_3("semi-static failures/attempts/calls to   : Compare_squared_radius_3 with 3 points", tmp);
       
-      using std::fabs;      
-      
       double px, py, pz, qx, qy, qz, sx, sy, sz, alpha;
       if( fit_in_double(p.x(), px) && fit_in_double(p.y(), py)      &&
           fit_in_double(p.z(), pz) && 
@@ -245,29 +261,36 @@ namespace CGAL { namespace internal { namespace Static_filters_predicates {
         double eps;
         double_tmp_result = (((square( num_x ) + square( num_y )) + square( num_z )) - ((alpha * 4.00000000000000000000e+00) * square( den )));
         double max1;
-        double max2 = fabs(psx);
-        if( (max2 < fabs(psy)) )
+        double max2 = CGAL::abs(psx);
+        double apsy = CGAL::abs(psy);
+        double apsz = CGAL::abs(psz);
+
+        double aqsx = CGAL::abs(qsx);
+        double aqsy = CGAL::abs(qsy);
+        double aqsz = CGAL::abs(qsz);
+
+        if( (max2 < apsy) )
         {
-            max2 = fabs(psy);
+            max2 = apsy;
         } 
-        if( (max2 < fabs(qsx)) )
+        if( (max2 < aqsx) )
         {
-            max2 = fabs(qsx);
+            max2 = aqsx;
         } 
-        if( (max2 < fabs(qsy)) )
+        if( (max2 < aqsy) )
         {
-            max2 = fabs(qsy);
+            max2 = aqsy;
         } 
         max1 = max2;
-        if( (max1 < fabs(psz)) )
+        if( (max1 < apsz) )
         {
-            max1 = fabs(psz);
+            max1 = apsz;
         } 
-        if( (max1 < fabs(qsz)) )
+        if( (max1 < aqsz) )
         {
-            max1 = fabs(qsz);
+            max1 = aqsz;
         } 
-        double max3 = fabs(alpha);
+        double max3 = CGAL::abs(alpha);
         double lower_bound_1;
         double upper_bound_1;
         lower_bound_1 = max1;
@@ -323,8 +346,6 @@ namespace CGAL { namespace internal { namespace Static_filters_predicates {
     ) const {
       CGAL_BRANCH_PROFILER_3("semi-static failures/attempts/calls to   : Compare_squared_radius_3 with 2 points", tmp);
       
-      using std::fabs;      
-      
       double px, py, pz, qx, qy, qz, alpha;
       if( fit_in_double(p.x(), px) && fit_in_double(p.y(), py)      &&
           fit_in_double(p.z(), pz) && 
@@ -341,16 +362,18 @@ namespace CGAL { namespace internal { namespace Static_filters_predicates {
         double double_tmp_result;
         double eps;
         double_tmp_result = (((square( px_qx ) + square( py_qy )) + square( pz_qz )) - (alpha * 4.00000000000000000000e+00));
-        double max1 = fabs(px_qx);
-        if( (max1 < fabs(py_qy)) )
+        double max1 = CGAL::abs(px_qx);
+        double apy_qy = CGAL::abs(py_qy);
+        double apz_qz = CGAL::abs(pz_qz);
+        if( (max1 < apy_qy) )
         {
-            max1 = fabs(py_qy);
+            max1 = apy_qy;
         } 
-        if( (max1 < fabs(pz_qz)) )
+        if( (max1 < apz_qz) )
         {
-            max1 = fabs(pz_qz);
+            max1 = apz_qz;
         } 
-        double max2 = fabs(alpha);
+        double max2 = CGAL::abs(alpha);
         
         //handwritten workaround to handle case of alpha=0 (variable alone in its group)
         //if( ((max1 < 8.85464260923320109378e-147) || (max2 < 7.84046957372481590760e-293)) )

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/SM_walls.h $ 
-// $Id: SM_walls.h 57191 2010-06-29 12:36:00Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/SM_walls.h $ 
+// $Id: SM_walls.h 58247 2010-08-23 15:55:47Z afabri $
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -58,12 +58,14 @@ class SM_walls : SM_decorator<SMap> {
   
   using Base::new_svertex;
   using Base::link_as_face_cycle;
+  using Base::unlink_as_face_cycle;
   using Base::link_as_isolated_vertex;
   using Base::unlink_as_isolated_vertex;
   using Base::new_shalfedge_pair;
   using Base::unlink_as_loop;
   using Base::is_isolated;
   using Base::is_sm_boundary_object;
+  using Base::delete_face;
 
  public:
   SM_walls(Sphere_map* M) : Base(M) {

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_cell_base_3.h $
-// $Id: Mesh_cell_base_3.h 56231 2010-05-14 09:46:02Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_cell_base_3.h $
+// $Id: Mesh_cell_base_3.h 60688 2011-01-10 15:43:22Z lrineau $
 //
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb
@@ -39,16 +39,21 @@ template< class GT,
 class Mesh_cell_base_3
 : public Mesh_3::Mesh_surface_cell_base_3<GT, MD, Cb>
 {
-  // Base
-  typedef Mesh_3::Mesh_surface_cell_base_3<GT, MD, Cb> Base;
   typedef typename GT::FT FT;
   
 public:
+  // Base
+  typedef Mesh_3::Mesh_surface_cell_base_3<GT, MD, Cb> Base;
   // Index Type
-  typedef typename MD::Subdomain_index Subdomain_index;
-  typedef typename MD::Surface_index Surface_index;
+  typedef typename MD::Subdomain_index      Subdomain_index;
+  typedef typename MD::Surface_patch_index  Surface_patch_index;
   
-  //
+  // Backward compatibility
+#ifndef CGAL_MESH_3_NO_DEPRECATED_SURFACE_INDEX
+  typedef Surface_patch_index               Surface_index;
+#endif // CGAL_MESH_3_NO_DEPRECATED_SURFACE_INDEX
+  
+  // Triangulation
   typedef typename Base::Tds Tds;
   typedef typename Tds::Vertex_handle Vertex_handle;
   typedef typename Tds::Cell_handle Cell_handle;
@@ -90,9 +95,6 @@ public:
     , sliver_value_(FT(0.))
     , sliver_cache_validity_(false) {}
   
-  // Destructor
-  virtual ~Mesh_cell_base_3() {}
-  
   // Default copy constructor and assignment operator are ok
   
   // Returns the index of the cell of the input complex that contains the cell
@@ -126,7 +128,15 @@ std::istream&
 operator>>(std::istream &is,
            Mesh_cell_base_3<GT, MT, Cb> &c)
 {
-  return is >> static_cast<Cb&>(c);
+  typename Mesh_cell_base_3<GT, MT, Cb>::Subdomain_index index;
+  if(is_ascii(is))
+    is >> index;
+  else
+    read(is, index);
+  typedef typename Mesh_cell_base_3<GT, MT, Cb>::Base Cell_base;
+  is >> static_cast<Cell_base&>(c);
+  if(is) c.set_subdomain_index(index);
+  return is;
 }
 
 template < class GT, class MT, class Cb >
@@ -134,7 +144,12 @@ std::ostream&
 operator<<(std::ostream &os,
            const Mesh_cell_base_3<GT, MT, Cb> &c)
 {
-  return os << c.subdomain_index() << static_cast<const Cb&>(c);
+  if(is_ascii(os))
+     os << c.subdomain_index();
+  else
+    write(os, c.subdomain_index());
+  typedef typename Mesh_cell_base_3<GT, MT, Cb>::Base Cell_base;
+  return os << static_cast<const Cell_base&>(c);
 }
 
 }  // end namespace CGAL

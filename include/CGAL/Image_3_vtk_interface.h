@@ -12,13 +12,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/CGALimageIO/include/CGAL/Image_3_vtk_interface.h $
-// $Id: Image_3_vtk_interface.h 46320 2008-10-17 08:39:19Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/CGALimageIO/include/CGAL/Image_3_vtk_interface.h $
+// $Id: Image_3_vtk_interface.h 61485 2011-03-02 18:52:57Z sloriot $
 // 
 // Author(s)     : Laurent Rineau
 
+
 #ifndef CGAL_IMAGE_3_VTK_INTERFACE_H
 #define CGAL_IMAGE_3_VTK_INTERFACE_H
+
+#include <CGAL/config.h>
 
 #ifdef CGAL_USE_VTK
 #include <CGAL/Image_3.h>

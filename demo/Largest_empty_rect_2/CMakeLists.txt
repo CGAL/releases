@@ -1,8 +1,9 @@
+# Created by the script cgal_create_cmake_script
 # This is the CMake script for compiling a CGAL application.
 
-project( largest_empty_rect_2 ) 
+project (Largest_empty_rectangleDemo)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4.5)
+cmake_minimum_required(VERSION 2.4.5)
 
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
@@ -10,36 +11,46 @@ if ( COMMAND cmake_policy )
   cmake_policy( SET CMP0003 NEW )  
 endif()
 
-find_package(CGAL COMPONENTS Qt3 )
+find_package(CGAL COMPONENTS Qt4)
 
-include( ${CGAL_USE_FILE} )
+include(${CGAL_USE_FILE})
 
-find_package(Qt3-patched)
-# FindQt3-patched.cmake is FindQt3.cmake patched by CGAL developers, so
-# that it can be used together with FindQt4: all its variables are prefixed
-# by "QT3_" instead of "QT_".
+set( QT_USE_QTXML    TRUE )
+set( QT_USE_QTMAIN   TRUE )
+set( QT_USE_QTSCRIPT  TRUE )
+set( QT_USE_QTOPENGL  TRUE )
 
-if ( CGAL_FOUND AND CGAL_Qt3_FOUND AND QT3_FOUND )
+find_package(Qt4)
+
+include_directories (BEFORE ../../include)
+
+if ( CGAL_FOUND AND CGAL_Qt4_FOUND AND QT4_FOUND )
+
+  include(${QT_USE_FILE})
+  #--------------------------------
+  # Demo: Largest_empty_rectangle_2
+  #--------------------------------
+  # UI files (Qt Designer files)
+  qt4_wrap_ui( DT_UI_FILES Largest_empty_rectangle_2.ui )
+
+  # qrc files (resources files, that contain icons, at least)
+  qt4_add_resources ( DT_RESOURCE_FILES ./Largest_empty_rectangle_2.qrc )
 
   # use the Qt MOC preprocessor on classes that derives from QObject
-  include( Qt3Macros-patched )
-  qt3_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/Qt_widget_toolbar.h" Qt_widget_toolbar.moc )
-  qt3_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/Qt_widget_move_list_point.h" Qt_widget_move_list_point.moc )
-  qt3_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/largest_empty_rect_2.cpp" largest_empty_rect_2.moc )
-
+  qt4_generate_moc( Largest_empty_rectangle_2.cpp Largest_empty_rectangle_2.moc )
 
   # The executable itself.
-  add_executable  ( largest_empty_rect_2 
-    largest_empty_rect_2.cpp largest_empty_rect_2.moc
-    Qt_widget_toolbar.cpp Qt_widget_toolbar.moc
-    Qt_widget_move_list_point.cpp Qt_widget_move_list_point.moc
-    )
+  add_executable  ( Largest_empty_rectangle_2 Largest_empty_rectangle_2.cpp Largest_empty_rectangle_2.moc ${DT_UI_FILES} ${DT_RESOURCE_FILES} )
 
-  add_to_cached_list( CGAL_EXECUTABLE_TARGETS largest_empty_rect_2 )
-  target_link_libraries( largest_empty_rect_2  ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} )
+  add_to_cached_list( CGAL_EXECUTABLE_TARGETS Largest_empty_rectangle_2 )
+
+  # Link with Qt libraries
+  target_link_libraries( Largest_empty_rectangle_2 ${QT_LIBRARIES} )
+  # And with CGAL libraries
+  target_link_libraries( Largest_empty_rectangle_2 ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} )
 
 else()
 
-  message(STATUS "NOTICE: This demo requires CGAL and Qt3, and will not be compiled.")
+  message(STATUS "NOTICE: This demo requires CGAL, and Qt4, and will not be compiled.")
 
 endif()

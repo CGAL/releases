@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_circular_line_arc_traits_2.h $
-// $Id: Arr_circular_line_arc_traits_2.h 55826 2010-04-29 08:24:32Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_circular_line_arc_traits_2.h $
+// $Id: Arr_circular_line_arc_traits_2.h 59736 2010-11-16 19:54:03Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck
 
@@ -268,9 +268,9 @@ namespace CGAL {
       typedef typename CircularKernel::Circular_arc_point_2      
                                                   Circular_arc_point_2;
 
-      template < class OutputIterator >
+      template < class OutputIterator,class Not_X_Monotone >
       OutputIterator
-      operator()(const boost::variant<Arc1, Arc2> &A, OutputIterator res) const
+      operator()(const boost::variant<Arc1, Arc2, Not_X_Monotone> &A, OutputIterator res) const
       {
         if ( const Arc1* arc1 = boost::get<Arc1>( &A ) ){
 	  std::vector<CGAL::Object> container;
@@ -501,6 +501,15 @@ namespace CGAL {
     };
 
   }
+  
+
+  // a empty class used to have different types between Curve_2 and X_monotone_curve_2
+  // in Arr_circular_line_arc_traits_2.
+  namespace internal_Argt_traits{
+    struct Not_X_Monotone{};
+    std::ostream& operator<<(std::ostream& os,const Not_X_Monotone&) {return os;}
+  }
+  
   /// Traits class for CGAL::Arrangement_2 (and similar) based on a CircularKernel.
 
   template < typename CircularKernel>
@@ -529,8 +538,10 @@ namespace CGAL {
     typedef Arr_oblivious_side_tag                 Arr_top_side_category;
     typedef Arr_oblivious_side_tag                 Arr_right_side_category;
     
-    typedef boost::variant< Arc1, Arc2 > Curve_2;
-    typedef boost::variant< Arc1, Arc2 > X_monotone_curve_2;
+    typedef internal_Argt_traits::Not_X_Monotone                Not_X_Monotone;
+  
+    typedef boost::variant< Arc1, Arc2, Not_X_Monotone >        Curve_2;
+    typedef boost::variant< Arc1, Arc2 >                        X_monotone_curve_2;
 
   private:
     CircularKernel ck;

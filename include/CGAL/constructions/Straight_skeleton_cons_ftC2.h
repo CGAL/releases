@@ -10,19 +10,26 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/constructions/Straight_skeleton_cons_ftC2.h $
-// $Id: Straight_skeleton_cons_ftC2.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/constructions/Straight_skeleton_cons_ftC2.h $
+// $Id: Straight_skeleton_cons_ftC2.h 61441 2011-02-28 15:28:28Z sloriot $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
 #ifndef CGAL_STRAIGHT_SKELETON_CONS_FTC2_H
 #define CGAL_STRAIGHT_SKELETON_CONS_FTC2_H 1
 
-CGAL_BEGIN_NAMESPACE 
+#include <CGAL/predicates/Straight_skeleton_pred_ftC2.h>
+
+namespace CGAL { 
 
 namespace CGAL_SS_i
 {
 
+template<class K>
+Uncertain<Trisegment_collinearity> certified_trisegment_collinearity ( Segment_2<K> const& e0
+                                                                     , Segment_2<K> const& e1
+                                                                     , Segment_2<K> const& e2
+                                                                     );
 #ifdef CGAL_USE_CORE  
 
 template<class NT>
@@ -66,7 +73,7 @@ inline CORE::BigFloat to_BigFloat<MP_Float>( MP_Float const& b )
 
 
 template<class NT> 
-inline NT inexact_sqrt_implementation( NT const& n, CGAL::Null_functor no_sqrt )
+inline NT inexact_sqrt_implementation( NT const& n, CGAL::Null_functor /*no_sqrt*/ )
 {
 
 #ifdef CGAL_USE_CORE
@@ -669,9 +676,9 @@ optional< Point_2<K> > construct_offset_lines_isecC2 ( intrusive_ptr< Trisegment
                                                              : construct_degenerate_offset_lines_isecC2(tri) ;
 }
 
-} // namnepsace CGAIL_SS_i
+} // namespace CGAL_SS_i
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 #endif // CGAL_STRAIGHT_SKELETON_CONS_FTC2_H //
 // EOF //

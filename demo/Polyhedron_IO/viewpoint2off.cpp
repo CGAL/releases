@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polyhedron_IO/demo/Polyhedron_IO/viewpoint2off.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polyhedron_IO/demo/Polyhedron_IO/viewpoint2off.cpp $
 // $Id: viewpoint2off.cpp 57016 2010-06-23 13:41:30Z afabri $
 //
 //

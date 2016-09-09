@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_ellipse_2/include/CGAL/Min_ellipse_2.h $
-// $Id: Min_ellipse_2.h 58196 2010-08-20 14:09:10Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_ellipse_2/include/CGAL/Min_ellipse_2.h $
+// $Id: Min_ellipse_2.h 57837 2010-08-06 11:47:05Z afabri $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
@@ -206,7 +206,8 @@ class Min_ellipse_2 {
     const Point&
     support_point( std::size_t i) const
     {
-        CGAL_optimisation_precondition( i <  number_of_support_points() );
+        CGAL_optimisation_precondition( (i >= 0) &&
+                                        (i <  number_of_support_points()));
         return( support_points[ i]);
     }
     // ellipse

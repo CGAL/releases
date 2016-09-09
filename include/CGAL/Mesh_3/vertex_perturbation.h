@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/vertex_perturbation.h $
-// $Id: vertex_perturbation.h 57297 2010-07-02 12:54:56Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_3/vertex_perturbation.h $
+// $Id: vertex_perturbation.h 60688 2011-01-10 15:43:22Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -77,6 +77,8 @@ namespace Mesh_3 {
       Vector_3 w = cross_product(u,v);
       FT abs_sin = CGAL::sqrt(sq_length(w)) / product;
       
+      if ( abs_sin < FT(-1) ) { abs_sin = FT(-1); }
+      if ( abs_sin > FT(1) ) { abs_sin = FT(1); }
       CGAL_assertion(abs_sin >= -1);
       CGAL_assertion(abs_sin <= 1);
       

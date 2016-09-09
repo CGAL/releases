@@ -10,13 +10,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/debug.h $
-// $Id: debug.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/debug.h $
+// $Id: debug.h 61485 2011-03-02 18:52:57Z sloriot $
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 
 #ifndef CGAL_STRAIGHT_SKELETON_DEBUG_H
 #define CGAL_STRAIGHT_SKELETON_DEBUG_H 1
+
+#include <CGAL/config.h>
 
 #ifdef CGAL_USE_CORE
 #  include <CGAL/CORE_BigFloat.h>
@@ -293,7 +295,7 @@ bool sEnableTraitsTrace = false ;
 #  include<iostream>
 #  include<sstream>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace CGAL_STRAIGHT_SKELETON_i_profiling
 {
@@ -307,7 +309,7 @@ template<> char const* kernel_type<CORE::Expr>          () { return "Expr" ;    
 
 } // CGAL_STRAIGHT_SKELETON_i_profiling
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 #define CGAL_STSKEL_ASSERT_PREDICATE_RESULT(expr,K,pred,error) \
         { \

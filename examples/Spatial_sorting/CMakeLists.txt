@@ -23,6 +23,7 @@ if ( CGAL_FOUND )
   include_directories (BEFORE ../../include)
 
   create_single_source_cgal_program( "example_delaunay_2.cpp" )
+  create_single_source_cgal_program( "myPoint.cpp" )
   create_single_source_cgal_program( "sort_indices.cpp" )
 
 else()

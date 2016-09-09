@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_Delaunay_triangulation_3.h $
-// $Id: Periodic_3_Delaunay_triangulation_3.h 57081 2010-06-24 16:24:54Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Periodic_3_triangulation_3/include/CGAL/Periodic_3_Delaunay_triangulation_3.h $
+// $Id: Periodic_3_Delaunay_triangulation_3.h 59685 2010-11-12 17:03:19Z mcaroli $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -359,7 +359,6 @@ public:
 	get_offset(c,2), get_offset(c,3));
 
     // check that v lies within the domain. If not: translate
-    Covering_sheets nos = number_of_sheets();
     Iso_cuboid dom = domain();
     if (   !(v.x() < dom.xmin()) && v.x()<dom.xmax()
 	&& !(v.y() < dom.ymin()) && v.y()<dom.ymax()
@@ -457,9 +456,9 @@ bool is_canonical(const Facet &f) const {
     Offset o2 = combine_offsets(-p2.second,-off);
     Offset cumm_off(std::min(o1.x(),o2.x()),
 	std::min(o1.y(),o2.y()),std::min(o1.z(),o2.z()));
-    ps = make_array(
-	std::make_pair(point(p1), o1 - cumm_off),
-	std::make_pair(point(p2), o2 - cumm_off));
+    const std::pair<Point,Offset> pp1 = std::make_pair(point(p1), o1-cumm_off);
+    const std::pair<Point,Offset> pp2 = std::make_pair(point(p2), o2-cumm_off);
+    ps = make_array(pp1,pp2);
     return (cumm_off == Offset(0,0,0));
   }
 

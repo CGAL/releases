@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Approx_offset_base_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Approx_offset_base_2.h $
 // $Id: Approx_offset_base_2.h 56765 2010-06-15 12:56:47Z efif $
 //
 // Author(s)     : Ron Wein       <wein@post.tau.ac.il>

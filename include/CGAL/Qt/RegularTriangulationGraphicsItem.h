@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/RegularTriangulationGraphicsItem.h $
-// $Id: RegularTriangulationGraphicsItem.h 47100 2008-11-28 08:01:56Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/RegularTriangulationGraphicsItem.h $
+// $Id: RegularTriangulationGraphicsItem.h 61414 2011-02-24 16:36:04Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -232,8 +232,8 @@ RegularTriangulationGraphicsItem<T>::paintOneVertex(const typename T::Point& poi
 template <typename T>
 void 
 RegularTriangulationGraphicsItem<T>::paint(QPainter *painter, 
-                                    const QStyleOptionGraphicsItem *option,
-                                    QWidget * widget)
+                                    const QStyleOptionGraphicsItem */*option*/,
+                                    QWidget * /*widget*/)
 {
   painter->setPen(this->edgesPen());
   drawAll(painter);

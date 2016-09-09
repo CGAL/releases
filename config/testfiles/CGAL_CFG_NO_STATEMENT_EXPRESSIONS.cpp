@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/config/testfiles/CGAL_CFG_NO_STATEMENT_EXPRESSIONS.cpp $
-// $Id: CGAL_CFG_NO_STATEMENT_EXPRESSIONS.cpp 53016 2009-11-13 12:20:21Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/testfiles/CGAL_CFG_NO_STATEMENT_EXPRESSIONS.cpp $
+// $Id: CGAL_CFG_NO_STATEMENT_EXPRESSIONS.cpp 61477 2011-03-02 10:20:44Z lrineau $
 //
 // Author(s)     : Sylvain Pion
 
@@ -23,9 +23,25 @@
 #undef NDEBUG
 #include <cassert>
 
+struct A {
+  int* p;
+
+  A(int i) : p(new int(i)) {}
+  ~A() { delete p; }
+  int value() const { return *p;}
+};
+
 int main()
 {
   int i = __extension__ ({ int j = 2; j+j; });
   assert(i == 4);
+
+  // The Intel Compiler complains with the following error:
+  // "error: destructible entities are not allowed inside of a statement
+  // expression"
+  // See http://software.intel.com/en-us/articles/cdiag1487/
+  i = __extension__ ({ A a(2); A b(3); a.value() + b.value(); });
+
+  assert(i == 5);
   return 0;
 }

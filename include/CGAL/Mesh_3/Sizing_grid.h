@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Sizing_grid.h $
-// $Id: Sizing_grid.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_3/Sizing_grid.h $
+// $Id: Sizing_grid.h 60688 2011-01-10 15:43:22Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb, Jane Tournois, Camille Wormser, Pierre Alliez
@@ -29,8 +29,7 @@
 
 namespace CGAL {
 
-#define INFINITE_SIZE 1e30
-#define INFINITE_MEASURE 1e30
+#define CGAL_MESH_3_INFINITE_SIZE 1e30
 
 namespace Mesh_3 {
 
@@ -53,7 +52,7 @@ public:
   Sizing_grid_node() 
   {
     m_done = false;
-    m_size = INFINITE_SIZE;
+    m_size = CGAL_MESH_3_INFINITE_SIZE;
     m_pRef_node = NULL;
     m_indices[0] = m_indices[1] = m_indices[2] = 0;
   }

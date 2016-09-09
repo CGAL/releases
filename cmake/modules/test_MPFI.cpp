@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/cmake/modules/test_MPFI.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/cmake/modules/test_MPFI.cpp $
 // $Id: test_MPFI.cpp 54803 2010-03-18 10:32:49Z lrineau $
 //
 // Author: Luis Peñaranda <luis.penaranda@loria.fr>

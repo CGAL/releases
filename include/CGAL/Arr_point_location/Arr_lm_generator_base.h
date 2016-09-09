@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_generator_base.h $
-// $Id: Arr_lm_generator_base.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_generator_base.h $
+// $Id: Arr_lm_generator_base.h 61314 2011-02-21 09:22:44Z hemmer $
 // 
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
 //                 Ron Wein     <wein@post.tau.ac.il>
@@ -90,6 +90,8 @@ protected:
   bool                     updated;
   int                      num_small_not_updated_changes;
 
+public: 
+  bool is_empty() const { return nn.is_empty(); }
 private:
 
   /*! Copy constructor - not supported. */

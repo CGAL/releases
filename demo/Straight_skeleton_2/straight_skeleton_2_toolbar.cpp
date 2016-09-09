@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/demo/Straight_skeleton_2/straight_skeleton_2_toolbar.cpp $
-// $Id: straight_skeleton_2_toolbar.cpp 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/demo/Straight_skeleton_2/straight_skeleton_2_toolbar.cpp $
+// $Id: straight_skeleton_2_toolbar.cpp 58226 2010-08-23 10:48:03Z afabri $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -65,7 +65,7 @@ Tools_toolbar::Tools_toolbar(CGAL::Qt_widget *w, QMainWindow *mw) :
   connect(but[1], SIGNAL(stateChanged(int)),
         &getpolybut, SLOT(stateChanged(int)));
   nr_of_buttons = 2;
-  };
+  }
 
 #include "straight_skeleton_2_toolbar.moc"
 

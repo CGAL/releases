@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Jet_fitting_3/include/CGAL/Monge_via_jet_fitting.h $
-// $Id: Monge_via_jet_fitting.h 58218 2010-08-23 08:33:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Jet_fitting_3/include/CGAL/Monge_via_jet_fitting.h $
+// $Id: Monge_via_jet_fitting.h 61257 2011-02-16 14:24:11Z afabri $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_MONGE_VIA_JET_FITTING_H_
@@ -410,7 +410,7 @@ fill_matrix(InputIterator begin, InputIterator end,
   FT precond = 0.;
   typename std::vector<Point_3>::iterator itb = pts_in_fitting_basis.begin(),
     ite = pts_in_fitting_basis.end();
-  CGAL_For_all(itb,ite) precond += std::fabs(itb->x()) + std::fabs(itb->y());
+  CGAL_For_all(itb,ite) precond += CGAL::abs(itb->x()) + CGAL::abs(itb->y());
   precond /= 2*this->nb_input_pts;
   this->preconditionning = precond;
   //fill matrices M and Z

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3.h $
-// $Id: Periodic_3_triangulation_3.h 57081 2010-06-24 16:24:54Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3.h $
+// $Id: Periodic_3_triangulation_3.h 59685 2010-11-12 17:03:19Z mcaroli $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -1826,8 +1826,6 @@ inline void Periodic_3_triangulation_3<GT,TDS>::
       p1 = construct_point((*it)->vertex(j)->point(), get_offset(*it, j));
       p2 = construct_point((*it)->vertex(k)->point(), get_offset(*it, k));
 
-      Vertex_handle v_no = (*it)->vertex(j);
-
       if ((squared_distance(p1,p2) > edge_length_threshold)
           && (find(too_long_edges[(*it)->vertex(j)].begin(),
 		  too_long_edges[(*it)->vertex(j)].end(),
@@ -2311,8 +2309,7 @@ Periodic_3_triangulation_3<GT,TDS>::insert_in_conflict(const Point & p,
         if ((i!=0)||(j!=0)||(k!=0)) {
           start = start_vertices[i*9+j*3+k-1]->cell();
           c = periodic_locate(p, Offset(i,j,k), lt, li, lj, start);
-          Vertex_handle vh2 = periodic_insert(p, Offset(i,j,k), lt, c,
-              tester, hider,vh);
+          periodic_insert(p, Offset(i,j,k), lt, c, tester, hider,vh);
         }
       }
     }
@@ -3333,15 +3330,6 @@ Periodic_3_triangulation_3<GT,TDS>::get_location_offset(
     // default case:
     return Offset();
   } else {
-    // Special case for the periodic space.
-    // Fetch vertices and respective offsets of c from virtual_vertices
-    const Point *p[4];
-    Offset off[4];
-    for (int i=0; i<4; i++) {
-      p[i] = &(c->vertex(i)->point());
-      off[i] = get_offset(c,i);
-    }
-
     // Main idea seems to just test all possibilities.
     for (int i=0; i<8; i++) {
       if (((cumm_off | (~i))&7) == 7) {

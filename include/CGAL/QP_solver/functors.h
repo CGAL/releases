@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/functors.h $
-// $Id: functors.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_solver/functors.h $
+// $Id: functors.h 58951 2010-09-29 21:05:51Z ybrise $
 // 
 //
 // Author(s)     : Sven Schoenherr 
@@ -239,7 +239,9 @@ class Map_with_default {
   // public types
 public:
   typedef typename Map::mapped_type       mapped_type;
-  typedef typename Map::difference_type   difference_type;
+  //typedef typename Map::difference_type   difference_type;
+  typedef typename Map::size_type         size_type;
+  typedef typename Map::key_type          key_type;
   typedef mapped_type                     result_type;
   // data members
 private:
@@ -257,7 +259,7 @@ public:
   {}
   
   // operator()
-  const mapped_type& operator() (difference_type n) const {
+  const mapped_type& operator() (key_type n) const {
     CGAL_qpe_precondition (map != 0);
     typename Map::const_iterator i = map->find (n);
     if (i != map->end())

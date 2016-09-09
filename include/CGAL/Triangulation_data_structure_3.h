@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/Triangulation_data_structure_3.h $
-// $Id: Triangulation_data_structure_3.h 57155 2010-06-28 14:06:14Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Triangulation_data_structure_3.h $
+// $Id: Triangulation_data_structure_3.h 60298 2010-12-10 17:02:10Z lrineau $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion
@@ -88,10 +88,12 @@ public:
     void clear()            { conflict_state = 0; }
     void mark_in_conflict() { conflict_state = 1; }
     void mark_on_boundary() { conflict_state = 2; }
+    void mark_processed()   { conflict_state = 1; }
 
     bool is_clear()       const { return conflict_state == 0; }
     bool is_in_conflict() const { return conflict_state == 1; }
     bool is_on_boundary() const { return conflict_state == 2; }
+    bool processed() const { return conflict_state == 1; }
   };
 
 private:
@@ -149,22 +151,6 @@ public:
       a4=v4;
       a5=v5;
       a6=v6;
-    }
-  };
-
-  //a vector that calls reserve in its constructor 
-  //(since it is used as a static variable in a function,
-  //it avoid multiple call to reserve)
-  template <class T,int N>
-  class Vector_with_reserve: public std::vector<T> {
-  public:
-    using std::vector<T>::reserve;
-    using std::vector<T>::pop_back;
-    using std::vector<T>::push_back;
-    using std::vector<T>::empty;
-  
-    Vector_with_reserve(){
-      this->reserve(N);
     }
   };
 #endif  
@@ -1159,13 +1145,15 @@ create_star_3(Vertex_handle v, Cell_handle c, int li,
     set_adjacency(cnew, li, c_li, c_li->index(c));
     
 #ifdef CGAL_HAS_THREADS  
-    static boost::thread_specific_ptr< Vector_with_reserve<iAdjacency_info,64> > stack_safe_ptr;
+  static boost::thread_specific_ptr< std::vector<iAdjacency_info> > stack_safe_ptr;
     if (stack_safe_ptr.get() == NULL) {
-      stack_safe_ptr.reset(new Vector_with_reserve<iAdjacency_info,64>());
+      stack_safe_ptr.reset(new std::vector<iAdjacency_info>());
+      stack_safe_ptr.get()->reserve(64);
     }
-    Vector_with_reserve<iAdjacency_info,64>& adjacency_info_stack=* stack_safe_ptr.get();
+  std::vector<iAdjacency_info>& adjacency_info_stack=* stack_safe_ptr.get();  
 #else
-    static Vector_with_reserve<iAdjacency_info,64> adjacency_info_stack;
+    static std::vector<iAdjacency_info> adjacency_info_stack;
+    adjacency_info_stack.reserve(64);
 #endif  
   
     int ii=0;

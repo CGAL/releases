@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Snap_rounding_2/include/CGAL/Snap_rounding_traits_2.h $
-// $Id: Snap_rounding_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Snap_rounding_2/include/CGAL/Snap_rounding_traits_2.h $
+// $Id: Snap_rounding_traits_2.h 59246 2010-10-15 14:06:33Z afabri $
 // 
 //
 // author(s)     : Eli Packer <elip@post.tau.ac.il>
@@ -58,7 +58,7 @@ public:
   /*! Functor */
   class Snap_2 {
   public:
-    void operator()(Point_2 p, NT pixel_size, NT &x, NT &y)
+    void operator()(const Point_2& p, NT pixel_size, NT &x, NT &y)
     {
       NT x_tmp = p.x() / pixel_size;
       NT y_tmp = p.y() / pixel_size;
@@ -75,7 +75,7 @@ public:
   /*! Functor */
   class Integer_grid_point_2 {
   public:
-    Point_2 operator()(Point_2 p,NT pixel_size)
+    Point_2 operator()(const Point_2& p, NT pixel_size)
     {
       NT x = (p.x() - pixel_size / NT(2.0)) / pixel_size;
       NT y = (p.y() - pixel_size / NT(2.0)) / pixel_size;
@@ -103,8 +103,9 @@ public:
     Minkowski_sum_with_pixel_2(const Traits * gt) : m_gt(gt) {}
 
   public:
-    void operator()(Point_list & points_list, Segment_2 s, NT unit_square)
+    void operator()(Point_list & points_list, const Segment_2& s, NT unit_square)
     {
+
       Construct_vertex_2 construct_ver = m_gt->construct_vertex_2_object();
       Compare_y_2 compare_y = m_gt->compare_y_2_object();
       Compare_x_2 compare_x = m_gt->compare_x_2_object();

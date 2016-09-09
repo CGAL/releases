@@ -4,8 +4,8 @@
 /* The default style of the LaTeX-to-HTML converter output.                */
 /*                                                                         */
 /* (c) 2004   Lutz Kettner                                                 */
-/* $Id: modern.css 53914 2010-01-29 16:18:35Z spion $                     */
-/* $Date: 2010-01-29 17:18:35 +0100 (Fri, 29 Jan 2010) $                   */
+/* $Id: modern.css 61652 2011-03-10 14:50:31Z lrineau $                     */
+/* $Date: 2011-03-10 15:50:31 +0100 (Thu, 10 Mar 2011) $                   */
 /* ======================================================================= */
 
 /* ----------------------------------------------------------------------- */
@@ -104,6 +104,43 @@ div.NavPrev {
 /* ----------------------------------------------------------------------- */
 /* cc_manual.sty                                                           */
 /* ----------------------------------------------------------------------- */
+
+/* Used by \ccChapterSubTitle, and indirectly by \ccChapterAuthor */
+.subtitle {
+    margin: 0.5ex 0;
+    font-style: italic;
+}
+
+/* Used by "User Manual" "Reference Manual" links, in the package
+description */
+.nowrap {
+    white-space: nowrap;
+}
+
+/* Styles for the package description table */
+
+.PkgDescAuthorsCell {
+    height: 100%;
+    /* So that the height of this cell is not higher than the height of its
+    content. */
+}
+
+.PkgDescIllustrationCell {
+    padding-right: 1em;
+}
+
+.PkgDescInfoCell {
+    padding-left: 1em;
+    width: 23%;
+    text-align: left;
+}
+
+.PkgDescInfo {
+    margin-top: 0.5ex;
+    /* So that the height of this cell is not higher than the height of its
+    content. */
+}
+
 div.AdvancedBlock      {
     border: solid thin;
     padding: 1.5em 0em 0em 5px;

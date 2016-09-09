@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_support/include/CGAL/IO/generic_copy_OFF.h $
-// $Id: generic_copy_OFF.h 57089 2010-06-25 07:35:33Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Stream_support/include/CGAL/IO/generic_copy_OFF.h $
+// $Id: generic_copy_OFF.h 59433 2010-10-29 13:37:32Z glisse $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -60,7 +60,7 @@ generic_copy_OFF( File_scanner_OFF& scanner,
 
     // read in all vertices
     double  x,  y,  z;  // Point coordinates.
-    int  i;
+    std::size_t  i;
     for ( i = 0; i < scanner.size_of_vertices(); i++) {
         scanner.scan_vertex( x, y, z);
         writer.write_vertex( x, y, z);
@@ -75,7 +75,7 @@ generic_copy_OFF( File_scanner_OFF& scanner,
         std::size_t no;
         scanner.scan_facet( no, i);
         writer.write_facet_begin( no);
-        for ( int j = 0; j < no; j++) {
+        for ( std::size_t j = 0; j < no; j++) {
           std::size_t index;
             scanner.scan_facet_vertex_index( index, i);
             writer.write_facet_vertex_index( index);

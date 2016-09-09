@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/Two_list_pointer_event_queue.h $
-// $Id: Two_list_pointer_event_queue.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Two_list_pointer_event_queue.h $
+// $Id: Two_list_pointer_event_queue.h 59786 2010-11-18 15:48:09Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -115,9 +115,8 @@ class Two_list_event_queue_item:
 
   typedef Two_list_event_queue_item<Priority> This;
 
-  Two_list_event_queue_item(const Two_list_event_queue_item &o){bool do_not_copy;}
+  Two_list_event_queue_item(const Two_list_event_queue_item &o){}
   void operator=(const Two_list_event_queue_item &o) {
-    bool do_not_copy;
   }
 public:
   typedef Two_list_pointer_event_queue_key<This> Key;

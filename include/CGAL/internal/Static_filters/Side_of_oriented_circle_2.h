@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/internal/Static_filters/Side_of_oriented_circle_2.h $
-// $Id: Side_of_oriented_circle_2.h 52301 2009-10-14 09:58:44Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/internal/Static_filters/Side_of_oriented_circle_2.h $
+// $Id: Side_of_oriented_circle_2.h 61261 2011-02-16 15:51:53Z afabri $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -41,14 +41,15 @@ public:
   {
       CGAL_BRANCH_PROFILER_3("semi-static failures/attempts/calls to   : Side_of_oriented_circle_2", tmp);
 
-      using std::fabs;
+      Get_approx<Point_2> get_approx; // Identity functor for all points
+                                      // but lazy points.
 
       double px, py, qx, qy, rx, ry, tx, ty;
 
-      if (fit_in_double(p.x(), px) && fit_in_double(p.y(), py) &&
-          fit_in_double(q.x(), qx) && fit_in_double(q.y(), qy) &&
-          fit_in_double(r.x(), rx) && fit_in_double(r.y(), ry) &&
-          fit_in_double(t.x(), tx) && fit_in_double(t.y(), ty))
+      if (fit_in_double(get_approx(p).x(), px) && fit_in_double(get_approx(p).y(), py) &&
+          fit_in_double(get_approx(q).x(), qx) && fit_in_double(get_approx(q).y(), qy) &&
+          fit_in_double(get_approx(r).x(), rx) && fit_in_double(get_approx(r).y(), ry) &&
+          fit_in_double(get_approx(t).x(), tx) && fit_in_double(get_approx(t).y(), ty))
       {
 	  CGAL_BRANCH_PROFILER_BRANCH_1(tmp);
 
@@ -68,16 +69,30 @@ public:
                                          qpx*rpy - qpy*rpx, rpx*rqx + rpy*rqy);
 
           // We compute the semi-static bound.
-          double maxx = fabs(qpx);
-          if (maxx < fabs(rpx)) maxx = fabs(rpx);
-          if (maxx < fabs(tpx)) maxx = fabs(tpx);
-          if (maxx < fabs(tqx)) maxx = fabs(tqx);
-          if (maxx < fabs(rqx)) maxx = fabs(rqx);
-          double maxy = fabs(qpy);
-          if (maxy < fabs(rpy)) maxy = fabs(rpy);
-          if (maxy < fabs(tpy)) maxy = fabs(tpy);
-          if (maxy < fabs(tqy)) maxy = fabs(tqy);
-          if (maxy < fabs(rqy)) maxy = fabs(rqy);
+          double maxx = CGAL::abs(qpx);
+          double maxy = CGAL::abs(qpy);
+
+          double arpx = CGAL::abs(rpx);
+          double arpy = CGAL::abs(rpy);
+
+          double atqx = CGAL::abs(tqx);
+          double atqy = CGAL::abs(tqy);
+
+          double atpx = CGAL::abs(tpx);
+          double atpy = CGAL::abs(tpy);
+
+          double arqx = CGAL::abs(rqx);
+          double arqy = CGAL::abs(rqy);
+
+          if (maxx < arpx) maxx = arpx;
+          if (maxx < atpx) maxx = atpx;
+          if (maxx < atqx) maxx = atqx;
+          if (maxx < arqx) maxx = arqx;
+
+          if (maxy < arpy) maxy = arpy;
+          if (maxy < atpy) maxy = atpy;
+          if (maxy < atqy) maxy = atqy;
+          if (maxy < arqy) maxy = arqy;
 
           if (maxx > maxy)  std::swap(maxx, maxy);
 

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/bipartite_nary_union_sorted_combined.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/bipartite_nary_union_sorted_combined.h $
 // $Id: bipartite_nary_union_sorted_combined.h 57194 2010-06-29 12:47:18Z lrineau $ 
 // 
 //

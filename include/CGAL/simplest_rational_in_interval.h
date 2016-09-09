@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/simplest_rational_in_interval.h $
-// $Id: simplest_rational_in_interval.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/simplest_rational_in_interval.h $
+// $Id: simplest_rational_in_interval.h 61302 2011-02-18 15:37:40Z sloriot $
 //
 //
 // Author(s)     : Andreas Fabri, Susan Hert, Sylvain Pion
@@ -68,7 +68,7 @@ simplest_rational_in_interval(double x, double y) {
   // the best rational in the interval [x,y] is 0.
   if (x < 0 && y < 0) {
     // Both arguments are negative: solve positive case and negate
-    return  - simplest_rational_in_interval<Rational>(std::fabs(x),std::fabs(y));
+    return  - simplest_rational_in_interval<Rational>(CGAL::abs(x),CGAL::abs(y));
   } else if (x <= 0 || y <= 0) {
     // One argument is 0, or arguments are on opposite sides of 0:
     // simplest rational in interval is 0 exactly.

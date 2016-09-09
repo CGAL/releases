@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Distance_3/include/CGAL/squared_distance_3_0.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Distance_3/include/CGAL/squared_distance_3_0.h $
 // $Id: squared_distance_3_0.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //

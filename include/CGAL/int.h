@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/int.h $
-// $Id: int.h 58313 2010-08-27 11:28:23Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/int.h $
+// $Id: int.h 58312 2010-08-27 11:20:16Z hemmer $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer

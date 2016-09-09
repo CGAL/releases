@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/demo/Straight_skeleton_2/straight_skeleton_2.cpp $
-// $Id: straight_skeleton_2.cpp 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/demo/Straight_skeleton_2/straight_skeleton_2.cpp $
+// $Id: straight_skeleton_2.cpp 60985 2011-01-29 09:22:27Z glisse $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -399,7 +399,7 @@ private slots:
 
         if ( !fileName.isNull() )
         {
-          std::ofstream out(fileName);
+          std::ofstream out(fileName.ascii());
 
           CGAL::set_ascii_mode(out);
 
@@ -426,7 +426,8 @@ private slots:
     bool auto_create_offsets = true ;
     offsets.clear() ;
 
-    std::ifstream offsets_file(s + QString(".oft") );
+    QString soft = s + QString(".oft");
+    std::ifstream offsets_file(soft.ascii());
     if ( offsets_file )
     {
       CGAL::set_ascii_mode(offsets_file);
@@ -440,7 +441,7 @@ private slots:
       auto_create_offsets = false ;
     }
 
-    std::ifstream in(s);
+    std::ifstream in(s.ascii());
     if ( in )
     {
       CGAL::set_ascii_mode(in);

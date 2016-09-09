@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_triangulation_3.h $
-// $Id: Mesh_triangulation_3.h 53957 2010-02-01 12:55:28Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_triangulation_3.h $
+// $Id: Mesh_triangulation_3.h 60688 2011-01-10 15:43:22Z lrineau $
 //
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb
@@ -24,7 +24,6 @@
 #include <CGAL/Kernel_traits.h>
 
 #include <CGAL/Regular_triangulation_3.h>
-#include <CGAL/Regular_triangulation_filtered_traits_3.h>
 #include <CGAL/Regular_triangulation_euclidean_traits_3.h>
 #include <CGAL/Mesh_3/Robust_weighted_circumcenter_filtered_traits_3.h>
 

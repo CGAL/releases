@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_3/include/CGAL/convex_hull_3.h $
-// $Id: convex_hull_3.h 56944 2010-06-21 16:47:25Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_3/include/CGAL/convex_hull_3.h $
+// $Id: convex_hull_3.h 60565 2011-01-05 11:05:06Z afabri $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -247,6 +247,7 @@ partition_outside_sets(const std::list<Facet_handle>& new_facets,
         std::list<Facet_handle>& pending_facets, 
         const Traits& traits)
 {
+  typedef typename UHM::Data Data;
    typedef typename Traits::Plane_3                   Plane_3;
    typename std::list<Facet_handle>::const_iterator        f_list_it;
    typename std::list<Point>::iterator  point_it;
@@ -261,12 +262,13 @@ partition_outside_sets(const std::list<Facet_handle>& new_facets,
    {
      Plane_3 plane;
       get_plane(plane, *f_list_it);
+      Data& point_list = outside_sets[(*f_list_it)];
       for (point_it = vis_outside_set.begin(); 
            point_it != vis_outside_set.end();)
       {
         if ( has_on_positive_side(plane, *point_it) )
         {
-           outside_sets[(*f_list_it)].push_back(*point_it);
+           point_list.push_back(*point_it);
            point_it = vis_outside_set.erase(point_it);
         }
         else
@@ -303,6 +305,9 @@ ch_quickhull_3_scan(
   typedef std::list<Point_3>                              Outside_set;
   typedef typename std::list<Point_3>::iterator           Outside_set_iterator;
 
+  typedef typename CGAL::Unique_hash_map<typename Polyhedron_3::Facet_handle,
+    std::list<typename Traits::Point_3> >::Data Data;
+
   std::list<Facet_handle>                     visible_set;
   typename std::list<Facet_handle>::iterator  vis_set_it;
   Outside_set                                 vis_outside_set;
@@ -334,12 +339,10 @@ ch_quickhull_3_scan(
           vis_set_it++)
      {
         //   add its outside set to the global outside set list
-        std::copy(outside_sets[*vis_set_it].begin(),
-                  outside_sets[*vis_set_it].end(),
-                  std::back_inserter(vis_outside_set));
+        Data& point_list = outside_sets[*vis_set_it];
+        vis_outside_set.splice(vis_outside_set.end(), point_list, point_list.begin(), point_list.end());
         //   delete this visible facet
         P.erase_facet((*(*vis_set_it)).halfedge());
-        outside_sets[*vis_set_it].clear();
      }
 #ifdef CGAL_CH_3_WINDOW_DEBUG
      window << CGAL::RED;

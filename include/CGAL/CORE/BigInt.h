@@ -27,7 +27,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/BigInt.h $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/include/CGAL/CORE/BigInt.h $
  * $Id: BigInt.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 #ifndef _CORE_BIGINT_H_

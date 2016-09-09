@@ -1,3 +1,4 @@
+// Copyright (c) 2010 GeometryFactory (France).
 // Copyright (c) 1997-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -15,14 +16,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Intersections_3/include/CGAL/Intersections_3/intersection_3_1_impl.h $
-// $Id: intersection_3_1_impl.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_3/include/CGAL/Intersections_3/intersection_3_1_impl.h $
+// $Id: intersection_3_1_impl.h 59401 2010-10-28 15:13:53Z sloriot $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
+//                 Sebastien Loriot <Sebastien.Loriot@geometryfactory.com>
 
 
 #include <CGAL/wmult.h>
+#include <boost/next_prior.hpp>
 
 namespace CGAL {
 
@@ -248,6 +251,373 @@ do_intersect(const typename K::Line_3 &l1,
   const Point_3 p2 = p1 + v1;
   const Point_3 p4 = p2 + v2;
   return K().coplanar_3_object()(p1,p2,p3,p4);
+}
+
+template <class K>
+Object
+intersection_collinear_segments(const typename K::Segment_3 &s1,
+                                const typename K::Segment_3 &s2,
+                                const K& k)
+{
+  CGAL_precondition(! s1.is_degenerate () && ! s2.is_degenerate () );
+  const typename K::Point_3& p=s1[0],q=s1[1],r=s2[0],s=s2[1];
+  typename K::Collinear_are_ordered_along_line_3 cln_order=k.collinear_are_ordered_along_line_3_object();
+  
+  if ( cln_order(p,r,q) ){
+    if ( cln_order(p,s,q) )
+      return make_object(s2);
+    if ( cln_order(r,p,s) )
+      return r!=p ? make_object( typename K::Segment_3(r,p) ) : make_object(p);
+    else
+      return r!=q ? make_object( typename K::Segment_3(r,q) ) : make_object(q);
+  }
+
+  if ( cln_order(p,s,q) ){
+    if ( cln_order(r,p,s) )
+      return s!=p ? make_object( typename K::Segment_3(s,p) ) : make_object(p);
+    else
+      return s!=q ? make_object( typename K::Segment_3(s,q) ) : make_object(q);
+  }
+  
+  if ( cln_order(r,p,s) )
+    return make_object(s1); 
+  return Object();
+}
+
+template <class K>
+Object
+intersection(const typename K::Segment_3 &s1,
+	     const typename K::Segment_3 &s2,
+	     const K& k)
+{
+  CGAL_precondition(! s1.is_degenerate () && ! s2.is_degenerate () );
+  Object res = intersection(s1.supporting_line(),s2.supporting_line());
+  const typename K::Point_3* p=object_cast<typename K::Point_3> (&res);
+  if (p!=NULL){
+    typename K::Collinear_are_ordered_along_line_3 cln_order=k.collinear_are_ordered_along_line_3_object();
+    if ( cln_order(s1[0],*p,s1[1]) && cln_order(s2[0],*p,s2[1]) )
+      return res;
+  }
+  else{
+    const typename K::Line_3* l=object_cast<typename K::Line_3> (&res);
+    if (l!=NULL)
+      return intersection_collinear_segments(s1,s2,k);
+  }
+  return Object();
+}
+
+template <class K>
+inline
+bool
+do_intersect(const typename K::Segment_3  &s1,
+             const typename K::Segment_3  &s2,
+             const K & k)
+{
+  CGAL_precondition(! s1.is_degenerate () && ! s2.is_degenerate () );
+  bool b=do_intersect(s1.supporting_line(),s2.supporting_line(),k);
+  if (b)
+  {
+    //supporting_line intersects: points are coplanar
+    typename K::Coplanar_orientation_3 cpl_orient=k.coplanar_orientation_3_object();
+    ::CGAL::Orientation or1 =  cpl_orient(s1[0],s1[1],s2[0]);
+    ::CGAL::Orientation or2 =  cpl_orient(s1[0],s1[1],s2[1]);
+    
+    if ( or1 == COLLINEAR && or2 ==COLLINEAR )
+    {
+      //segments are collinear
+      typename K::Collinear_are_ordered_along_line_3 cln_order=k.collinear_are_ordered_along_line_3_object();
+      return cln_order(s1[0],s2[0],s1[1]) || 
+             cln_order(s1[0],s2[1],s1[1]) ||
+             cln_order(s2[0],s1[0],s2[1]) ;
+    }
+    
+    if ( or1 != or2 ){
+      or1=cpl_orient(s2[0],s2[1],s1[0]);
+      return (or1 == COLLINEAR || or1 != cpl_orient(s2[0],s2[1],s1[1]));
+    }
+  }
+  return false;
+}
+
+template <class K>
+Object
+intersection(const typename K::Line_3 &l,
+	     const typename K::Segment_3 &s,
+	     const K& k)
+{
+  CGAL_precondition(! l.is_degenerate () && ! s.is_degenerate () );
+  Object res = intersection(l,s.supporting_line());
+  const typename K::Point_3* p=object_cast<typename K::Point_3> (&res);
+  if (p!=NULL){
+    typename K::Collinear_are_ordered_along_line_3 cln_order=k.collinear_are_ordered_along_line_3_object();
+    if ( cln_order(s[0],*p,s[1]) ) return res;
+  }
+  else{
+    const typename K::Line_3* l2=object_cast<typename K::Line_3> (&res);
+    if (l2!=NULL) return make_object(s);
+  }
+  return Object();
+}
+
+template <class K>
+Object
+intersection(const typename K::Segment_3 &s,
+	     const typename K::Line_3 &l,
+	     const K& k)
+{
+  return intersection(l,s,k);
+}
+template <class K>
+inline
+bool
+do_intersect(const typename K::Line_3  &l,
+             const typename K::Segment_3  &s,
+             const K & k)
+{
+  CGAL_precondition(! l.is_degenerate () && ! s.is_degenerate () );
+  bool b=do_intersect(l,s.supporting_line(),k);
+  if (b)
+  {
+    //supporting_line intersects: points are coplanar
+    typename K::Coplanar_orientation_3 cpl_orient=k.coplanar_orientation_3_object();
+    typename K::Point_3 p1=l.point(0);
+    typename K::Point_3 p2=l.point(1);
+    ::CGAL::Orientation or1 =  cpl_orient(p1,p2,s[0]);
+       
+    if ( or1 == COLLINEAR ) return true;
+    
+    ::CGAL::Orientation or2 =  cpl_orient(p1,p2,s[1]);
+    return or1!=or2;
+  }
+  return false;
+}
+
+template <class K>
+inline
+bool
+do_intersect(const typename K::Segment_3  &s,
+             const typename K::Line_3  &l,
+             const K & k)
+{
+  return do_intersect(l,s,k);
+}
+
+template <class K>
+bool
+Ray_3_has_on_collinear_Point_3(
+            const typename K::Ray_3 &r,
+	    const typename K::Point_3 &p,
+	    const K& k)
+{
+  return
+      k.equal_3_object()(r.source(),p)
+    ||
+      k.equal_3_object() (
+        k.construct_direction_3_object()( k.construct_vector_3_object() (r.source(),p) ),
+        r.direction()
+      );
+}
+
+template <class K>
+Object
+intersection(const typename K::Line_3 &l,
+	     const typename K::Ray_3 &r,
+	     const K& k)
+{
+  CGAL_precondition(! l.is_degenerate () && ! r.is_degenerate () );
+  Object res = intersection(l,r.supporting_line());
+  const typename K::Point_3* p=object_cast<typename K::Point_3> (&res);
+  if (p!=NULL){
+    if( Ray_3_has_on_collinear_Point_3(r,*p,k) ) return res;
+  }
+  else{
+    const typename K::Line_3* l2=object_cast<typename K::Line_3> (&res);
+    if (l2!=NULL) return make_object(r);
+  }
+  return Object();
+}
+
+template <class K>
+Object
+intersection(const typename K::Ray_3 &r,
+	     const typename K::Line_3 &l,
+	     const K& k)
+{
+  return intersection(l,r,k);
+}
+
+template <class K>
+inline
+bool
+do_intersect(const typename K::Line_3  &l,
+             const typename K::Ray_3  &r,
+             const K & k)
+{
+  CGAL_precondition(! l.is_degenerate () && ! r.is_degenerate () );
+  if ( !do_intersect(l,r.supporting_line()) ) return false;
+  typename K::Coplanar_orientation_3 pred=k.coplanar_orientation_3_object();
+  Orientation p0p1s=pred(l.point(0),l.point(1),r.source());
+  if ( p0p1s == COLLINEAR) return true;
+  Orientation stp0 =pred(r.source(),r.second_point(),l.point(0));
+  if ( stp0 == COLLINEAR )
+    return Ray_3_has_on_collinear_Point_3(r,l.point(0),k);
+  return p0p1s!=stp0;
+}
+
+template <class K>
+inline
+bool
+do_intersect(const typename K::Ray_3  &r,
+             const typename K::Line_3  &l,
+             const K & k)
+{
+  return do_intersect(l,r,k);
+}
+
+template <class K>
+Object
+intersection(const typename K::Segment_3 &s,
+	     const typename K::Ray_3 &r,
+	     const K& k)
+{
+  CGAL_precondition(! s.is_degenerate () && ! r.is_degenerate () );
+  Object res = intersection(r.supporting_line(),s);
+  const typename K::Point_3* p=object_cast<typename K::Point_3> (&res);
+  if (p!=NULL){
+    if( Ray_3_has_on_collinear_Point_3(r,*p,k) ) return res;
+  }
+  else{
+    const typename K::Segment_3* s2=object_cast<typename K::Segment_3> (&res);
+    if (s2!=NULL){
+      bool has_source=Ray_3_has_on_collinear_Point_3(r,s.source(),k);
+      bool has_target=Ray_3_has_on_collinear_Point_3(r,s.target(),k);
+      if (has_source){
+        if (has_target)
+          return res;
+        else
+        {
+          if (k.equal_3_object() (r.source(),s.source()))
+            return make_object(r.source());
+          else
+            return make_object(k.construct_segment_3_object()(r.source(),s.source()));
+        }
+      }
+      else{
+        if (has_target){
+          if (k.equal_3_object() (r.source(),s.target()))
+            return make_object(r.source());          
+          else
+          return make_object(k.construct_segment_3_object()(r.source(),s.target()));
+        }
+      }
+    }
+  }
+  return Object();
+}
+
+template <class K>
+Object
+intersection(const typename K::Ray_3 &r,
+	     const typename K::Segment_3 &s,
+	     const K& k)
+{
+  return intersection(s,r,k);
+}
+
+template <class K>
+inline
+bool
+do_intersect(const typename K::Segment_3  &s,
+             const typename K::Ray_3  &r,
+             const K & k)
+{
+  CGAL_precondition(! s.is_degenerate () && ! r.is_degenerate () );
+  if ( !do_intersect(s,r.supporting_line()) ) return false;
+  typename K::Coplanar_orientation_3 pred=k.coplanar_orientation_3_object();
+  Orientation p0p1s=pred(s.point(0),s.point(1),r.source());
+  Orientation stp0 =pred(r.source(),r.second_point(),s.point(0));
+  if ( p0p1s == COLLINEAR) //s belongs to the supporting line of p0p1
+  {
+    if ( stp0 == COLLINEAR )//st and p0p1 have the same supporting line
+      return Ray_3_has_on_collinear_Point_3(r,s.point(0),k) || Ray_3_has_on_collinear_Point_3(r,s.point(1),k);
+    else
+      return true;
+  }
+  if ( stp0 == COLLINEAR )
+    return Ray_3_has_on_collinear_Point_3(r,s.point(0),k);
+  return p0p1s!=stp0;
+}
+
+template <class K>
+inline
+bool
+do_intersect(const typename K::Ray_3  &r,
+             const typename K::Segment_3  &s,
+             const K & k)
+{
+  return do_intersect(s,r,k);
+}
+
+template <class K>
+Object
+intersection(const typename K::Ray_3 &r1,
+	     const typename K::Ray_3 &r2,
+	     const K& k)
+{
+  CGAL_precondition(! r1.is_degenerate () && ! r2.is_degenerate () );
+  Object res = intersection(r1.supporting_line(),r2);
+  const typename K::Point_3* p=object_cast<typename K::Point_3> (&res);
+  if (p!=NULL){
+    if ( Ray_3_has_on_collinear_Point_3(r1,*p,k) ) return res;
+  }
+  else{
+    const typename K::Ray_3* r=object_cast<typename K::Ray_3> (&res);
+    if (r!=NULL){
+      bool r1_has_s2=Ray_3_has_on_collinear_Point_3(r1,r2.source(),k);
+      bool r2_has_s1=Ray_3_has_on_collinear_Point_3(r2,r1.source(),k);
+      if (r1_has_s2){
+        if (r2_has_s1)
+        {
+          if (k.equal_3_object()(r1.source(),r2.source()))
+            return make_object(r1.source());
+          else
+            return make_object(k.construct_segment_3_object()(r1.source(),r2.source()));
+        }
+        else
+          return res;
+      }
+      else{
+        if (r2_has_s1)
+          return make_object(r1);
+      }
+    }
+  }
+  return Object();
+}
+
+template <class K>
+inline
+bool
+do_intersect(const typename K::Ray_3  &r1,
+             const typename K::Ray_3  &r2,
+             const K & k)
+{
+  CGAL_precondition(! r1.is_degenerate () && ! r2.is_degenerate () );
+  if ( !do_intersect(r1,r2.supporting_line()) ) return false;
+  typename K::Coplanar_orientation_3 pred=k.coplanar_orientation_3_object();
+  Orientation p0p1s=pred(r1.point(0),r1.point(1),r2.source());
+  Orientation stp0 =pred(r2.source(),r2.second_point(),r1.point(0));
+  
+  if ( p0p1s == COLLINEAR){
+    if(stp0 == COLLINEAR ) 
+      return  Ray_3_has_on_collinear_Point_3(r2,r1.source(),k) ||
+              Ray_3_has_on_collinear_Point_3(r1,r2.source(),k);
+    else
+      return true;
+  }
+  if(stp0 == COLLINEAR )
+    return Ray_3_has_on_collinear_Point_3(r2,r1.point(0),k);
+  return p0p1s!=stp0;
 }
 
 template <class K>
@@ -512,6 +882,103 @@ do_intersect(const typename K::Segment_3 &seg,
   return do_intersect(plane, seg, k);
 }
 
+template <class K>
+inline
+Object
+intersection(const typename K::Plane_3 &plane, 
+	     const typename K::Triangle_3 &tri, 
+	     const K& k)
+{
+  typename K::Construct_vertex_3 vertex_on =
+    k.construct_vertex_3_object();
+  
+  Oriented_side or0=plane.oriented_side(vertex_on(tri,0));
+  Oriented_side or1=plane.oriented_side(vertex_on(tri,1));
+  Oriented_side or2=plane.oriented_side(vertex_on(tri,2));
+  
+  if (or0==ON_ORIENTED_BOUNDARY){
+    if (or1==ON_ORIENTED_BOUNDARY){
+      if (or2==ON_ORIENTED_BOUNDARY) 
+        return make_object(tri);
+      else 
+        return make_object(k.construct_segment_3_object()(tri.vertex(0),tri.vertex(1)));
+    }
+    else{
+      if (or2==ON_ORIENTED_BOUNDARY)
+        return make_object(k.construct_segment_3_object()(tri.vertex(0),tri.vertex(2)));
+      else{
+        if (or1==or2)
+          return make_object(tri.vertex(0));
+        else{
+          Object obj = intersection(plane, k.construct_line_3_object()(tri.vertex(1),tri.vertex(2)), k);
+          const typename K::Point_3* p=object_cast<typename K::Point_3>(&obj);
+          CGAL_kernel_assertion(p!=NULL);
+          return make_object(k.construct_segment_3_object()(*p,tri.vertex(0)));
+        }
+      }
+    }
+  }
+
+  if (or1==ON_ORIENTED_BOUNDARY){
+    if (or2==ON_ORIENTED_BOUNDARY)
+      return make_object(k.construct_segment_3_object()(tri.vertex(1),tri.vertex(2)));
+    if (or2==or0)
+      return make_object(tri.vertex(1));
+    else{
+      Object obj = intersection(plane, k.construct_line_3_object()(tri.vertex(0),tri.vertex(2)), k);
+      const typename K::Point_3* p=object_cast<typename K::Point_3>(&obj);
+      CGAL_kernel_assertion(p!=NULL);
+      return make_object(k.construct_segment_3_object()(*p,tri.vertex(1)));      
+    }
+  }
+  
+  if (or2==ON_ORIENTED_BOUNDARY){
+    if (or1==or0)
+      return make_object(tri.vertex(2));
+    else{
+      Object obj = intersection(plane, k.construct_line_3_object()(tri.vertex(0),tri.vertex(1)), k);
+      const typename K::Point_3* p=object_cast<typename K::Point_3>(&obj);
+      CGAL_kernel_assertion(p!=NULL);
+      return make_object(k.construct_segment_3_object()(*p,tri.vertex(2)));      
+    }
+  }
+  
+  //triangle vertices are not in the plane
+  std::vector<typename K::Point_3> pts;
+  pts.reserve(2);
+  if (or0!=or1){
+    Object obj = intersection(plane, k.construct_line_3_object()(tri.vertex(0),tri.vertex(1)), k);
+    const typename K::Point_3* pt_ptr=object_cast<typename K::Point_3>(&obj);
+    CGAL_kernel_assertion( pt_ptr!=NULL );    
+    pts.push_back( *pt_ptr );
+  }
+  if (or0!=or2){
+    Object obj = intersection(plane, k.construct_line_3_object()(tri.vertex(0),tri.vertex(2)), k);
+    const typename K::Point_3* pt_ptr=object_cast<typename K::Point_3>(&obj);
+    CGAL_kernel_assertion( pt_ptr!=NULL );    
+    pts.push_back( *pt_ptr );    
+  }
+  if (or1!=or2){
+    Object obj = intersection(plane, k.construct_line_3_object()(tri.vertex(1),tri.vertex(2)), k);
+    const typename K::Point_3* pt_ptr=object_cast<typename K::Point_3>(&obj);
+    CGAL_kernel_assertion( pt_ptr!=NULL );    
+    pts.push_back( *pt_ptr );
+  }
+  
+  CGAL_kernel_assertion(pts.size()==2);
+  
+  return make_object( k.construct_segment_3_object()(*pts.begin(),*boost::prior(pts.end())) );
+}
+
+template <class K>
+inline
+Object
+intersection(const typename K::Triangle_3 &triangle,
+	     const typename K::Plane_3  &plane,
+	     const K& k)
+{
+  return intersection(plane, triangle, k);
+}
 
 template <class K>
 Object
@@ -981,6 +1448,14 @@ do_intersect(const Plane_3<K>  &plane, const Segment_3<K> &seg)
 template <class K>
 inline
 Object
+intersection(const Plane_3<K> &plane, const Triangle_3<K> &tri)
+{
+  return typename K::Intersect_3()(plane, tri);
+}
+
+template <class K>
+inline
+Object
 intersection(const Line_3<K> &line,
 	     const Bbox_3 &box)
 {
@@ -1057,6 +1532,86 @@ do_intersect(const Line_3<K> &l1,
              const Line_3<K> &l2)
 {
   return typename K::Do_intersect_3()(l1, l2);
+}
+
+template <class K>
+inline
+Object
+intersection(const Segment_3<K> &s1,
+             const Segment_3<K> &s2) {
+  return typename K::Intersect_3()(s1, s2);
+}
+
+template <class K>
+inline
+bool
+do_intersect(const Segment_3<K> &s1, const Segment_3<K> &s2)
+{
+  return typename K::Do_intersect_3()(s1, s2);
+}
+
+template <class K>
+inline
+Object
+intersection(const Line_3<K> &l,
+             const Segment_3<K> &s) {
+  return typename K::Intersect_3()(l, s);
+}
+
+template <class K>
+inline
+Object
+intersection(const Line_3<K> &l,
+             const Ray_3<K> &r) {
+  return typename K::Intersect_3()(l, r);
+}
+
+template <class K>
+inline
+Object
+intersection(const Ray_3<K> &r,
+             const Segment_3<K> &s) {
+  return typename K::Intersect_3()(r, s);
+}
+
+template <class K>
+inline
+Object
+intersection(const Ray_3<K> &r1,
+             const Ray_3<K> &r2) {
+  return typename K::Intersect_3()(r1, r2);
+}
+
+template <class K>
+inline
+bool
+do_intersect(const Line_3<K> &l, const Segment_3<K> &s)
+{
+  return typename K::Do_intersect_3()(l, s);
+}
+
+template <class K>
+inline
+bool
+do_intersect(const Line_3<K> &l, const Ray_3<K> &r)
+{
+  return typename K::Do_intersect_3()(l, r);
+}
+
+template <class K>
+inline
+bool
+do_intersect(const Ray_3<K> &r, const Segment_3<K> &s)
+{
+  return typename K::Do_intersect_3()(r, s);
+}
+
+template <class K>
+inline
+bool
+do_intersect(const Ray_3<K> &r1, const Ray_3<K> &r2)
+{
+  return typename K::Do_intersect_3()(r1, r2);
 }
 
 template <class K>

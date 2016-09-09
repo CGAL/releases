@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/src/CGALQt4/DemosMainWindow.cpp $
-// $Id: DemosMainWindow.cpp 53108 2009-11-19 13:17:13Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/GraphicsView/src/CGALQt4/DemosMainWindow.cpp $
+// $Id: DemosMainWindow.cpp 61620 2011-03-09 17:48:48Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -22,6 +22,7 @@
 #include <QApplication>
 #include <QLabel>
 #include <QFile>
+#include <QFileInfo>
 #include <QMenu>
 #include <QMenuBar>
 #include <QAction>
@@ -31,7 +32,9 @@
 #include <QGLWidget>
 #include <QTextStream>
 #include <QSettings>
-#include <QFileInfo>
+#include <QUrl>
+#include <QDesktopWidget>
+#include <QRegExp>
 
 #include <CGAL/config.h> // needed to get CGAL_VERSION_STR
 #include <CGAL/Qt/DemosMainWindow.h>
@@ -72,6 +75,24 @@ DemosMainWindow::DemosMainWindow(QWidget * parent, ::Qt::WindowFlags flags)
   actionAbout = new QAction(this);
   actionAbout->setObjectName("actionAbout");
   actionAbout->setText(tr("&About..."));
+
+  setAcceptDrops(true);
+}
+
+
+void 
+DemosMainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+  if (event->mimeData()->hasFormat("text/uri-list"))
+    event->acceptProposedAction();
+}
+
+void 
+DemosMainWindow::dropEvent(QDropEvent *event)
+{
+  QString filename = event->mimeData()->urls().at(0).toLocalFile();
+  this->open(filename);
+  event->acceptProposedAction();
 }
 
 void
@@ -186,9 +207,19 @@ DemosMainWindow::popupAboutBox(QString title, QString html_resource_name)
   about_CGAL.open(QIODevice::ReadOnly);
   QString about_CGAL_txt = QTextStream(&about_CGAL).readAll();
 #ifdef CGAL_VERSION_STR
-  about_CGAL_txt.replace("<!--CGAL_VERSION-->",
-                         QString(" (version %1, svn r%2)")
-                         .arg(CGAL_VERSION_STR).arg(CGAL_SVN_REVISION));
+  QString cgal_version(CGAL_VERSION_STR);
+#  ifdef CGAL_FAKE_PUBLIC_RELEASE
+  cgal_version.replace(QRegExp("-Ic?.*"), "");
+#  endif
+  if(cgal_version.contains(QRegExp("-Ic?-"))) {
+    about_CGAL_txt.replace("<!--CGAL_VERSION-->",
+                           QString(" (version %1, svn r%2)")
+                           .arg(cgal_version).arg(CGAL_SVN_REVISION));
+  } else {
+    about_CGAL_txt.replace("<!--CGAL_VERSION-->",
+                           QString(" (version %1)")
+                           .arg(cgal_version));
+  }
 #endif
   QMessageBox mb(QMessageBox::NoIcon,
                  title,
@@ -361,7 +392,12 @@ void DemosMainWindow::readState(QString groupname, Options what_to_save)
   
   settings.beginGroup(groupname);
   resize(settings.value("size", this->size()).toSize());
-  move(settings.value("pos", this->pos()).toPoint());
+
+  QDesktopWidget* desktop = qApp->desktop();
+  QPoint pos = settings.value("pos", this->pos()).toPoint();
+  if(desktop->availableGeometry(pos).contains(pos)) {
+    move(pos);
+  }
   QByteArray mainWindowState = settings.value("state").toByteArray();
   if(!mainWindowState.isNull()) {
     this->restoreState(mainWindowState);

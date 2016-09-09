@@ -43,8 +43,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/poly/Poly.tcc $
- * $Id: Poly.tcc 36978 2007-03-10 10:37:52Z spion $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/include/CGAL/CORE/poly/Poly.tcc $
+ * $Id: Poly.tcc 61450 2011-03-01 09:22:23Z sloriot $
  ***************************************************************************/
 
 
@@ -102,7 +102,8 @@ Polynomial<NT>::Polynomial(const VecNT & vN) {
 }
 
 template <class NT>
-Polynomial<NT>::Polynomial(const Polynomial<NT> & p) {
+Polynomial<NT>::Polynomial(const Polynomial<NT> & p):degree(-1) { 
+  //degree must be initialized to -1 otherwise delete is called on coeff in operator=
   coeff = NULL;//WHY?
   *this = p;	// reduce to assignment operator=
 }
@@ -368,8 +369,9 @@ template <class NT>
 Polynomial<NT> & Polynomial<NT>::operator=(const Polynomial<NT>& p) {
   if (this == &p)
     return *this;	// self-assignment
+  if (degree >=0)  delete[] coeff;
   degree = p.getDegree();
-  delete[] coeff;
+  if (degree < 0) return *this;
   coeff = new NT[degree +1];
   for (int i = 0; i <= degree; i++)
     coeff[i] = p.coeff[i];
@@ -430,9 +432,11 @@ int Polynomial<NT>::contract() {
   else
     degree = d;
   NT * c = coeff;
-  coeff = new NT[d+1];
-  for (int i = 0; i<= d; i++)
-    coeff[i] = c[i];
+  if (degree !=-1){
+    coeff = new NT[d+1];
+    for (int i = 0; i<= d; i++)
+      coeff[i] = c[i];
+  }
   delete[] c;
   return d;
 }
@@ -461,6 +465,12 @@ Polynomial<NT> & Polynomial<NT>::operator-=(const Polynomial<NT>& p) { // -=
 // This is quadratic time multiplication!
 template <class NT>
 Polynomial<NT> & Polynomial<NT>::operator*=(const Polynomial<NT>& p) { // *=
+  if (degree==-1) return *this;
+  if (p.getDegree()==-1){
+    degree=-1;
+    delete[] coeff;
+    return *this;
+  }
   int d = degree + p.getDegree();
   NT * c = new NT[d+1];
   for (int i = 0; i<=d; i++)
@@ -666,7 +676,7 @@ Polynomial<NT> Polynomial<NT>::pseudoRemainder (
   contract();         // Let A = (*this).  Contract A.
   Polynomial<NT> tmpB(B);
   tmpB.contract();    // local copy of B
-  C = *(new NT(1));  // Initialized to C=1.
+  C = NT(1);  // Initialized to C=1.
   if (B.degree == -1)  {
     std::cout << "ERROR in Polynomial<NT>::pseudoRemainder :\n" <<
     "    -- divide by zero polynomial" << std::endl;

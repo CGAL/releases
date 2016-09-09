@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/include/CGAL/Triangulation_conformer_2.h $
-// $Id: Triangulation_conformer_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_2/include/CGAL/Triangulation_conformer_2.h $
+// $Id: Triangulation_conformer_2.h 59297 2010-10-19 14:23:04Z sloriot $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -77,7 +77,7 @@ private:
         ei != tr.finite_edges_end();
         ++ei)
       if(ei->first->is_constrained(ei->second) &&
-         !is_locally_conform(this, ei->first, ei->second) )
+         !is_locally_conforming(tr, ei->first, ei->second) )
         return false;
     return true;
   }

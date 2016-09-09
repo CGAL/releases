@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_traits_3.h $
-// $Id: Periodic_3_triangulation_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_traits_3.h $
+// $Id: Periodic_3_triangulation_traits_3.h 58650 2010-09-15 16:36:27Z lrineau $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico.Kruithof@sophia.inria.fr>
@@ -247,28 +247,37 @@ class Periodic_3_triangulation_traits_3;
 } //namespace CGAL
 
 // Partial specialization for Filtered_kernel<CK>.
-#include <CGAL/Periodic_3_triangulation_filtered_traits_3.h>
 #include <CGAL/Filtered_kernel.h>
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+#include <CGAL/Periodic_3_triangulation_filtered_traits_3.h>
 
 namespace CGAL {
 
 // This declaration is needed to break the cyclic dependency.
-template < typename K >
+template < typename K, typename Off >
 class Periodic_3_triangulation_filtered_traits_3;
 
-template < typename CK, typename T >
-class Periodic_3_triangulation_traits_3 < Filtered_kernel<CK>, T>
+template < class K, class Off>
+class Periodic_3_triangulation_traits_3
+  : public Periodic_3_triangulation_traits_base_3<K, Off>
+{
+};
+
+template < typename CK, typename Off >
+class Periodic_3_triangulation_traits_3 < Filtered_kernel<CK>, Off>
   : public Periodic_3_triangulation_filtered_traits_3 <
-    Filtered_kernel<CK> >
+  Filtered_kernel<CK>, Off >
 {
 public:
   typedef Filtered_kernel<CK>  Kernel;
 };
 
-template < class K, class Off >
-class Periodic_3_triangulation_traits_3
-  : public Periodic_3_triangulation_traits_base_3<K, Off>
-{};
+template < class Off >
+class Periodic_3_triangulation_traits_3<CGAL::Epick, Off>
+  : public Periodic_3_triangulation_filtered_traits_3<CGAL::Epick, Off>
+{
+  typedef CGAL::Epick Kernel;
+};
 
 } //namespace CGAL
 

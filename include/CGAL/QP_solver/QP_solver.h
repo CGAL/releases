@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_solver/QP_solver.h $
-// $Id: QP_solver.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_solver/QP_solver.h $
+// $Id: QP_solver.h 59467 2010-11-03 07:58:08Z ybrise $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -608,10 +608,10 @@ public:
   int  number_of_original_variables( ) const { return qp_n; }
     
   // access to slack variables
-  int  number_of_slack_variables( ) const { return slack_A.size(); }
+  int  number_of_slack_variables( ) const { return static_cast<int>(slack_A.size()); }
 
   // access to artificial variables
-  int  number_of_artificial_variables( ) const { return art_A.size(); }
+  int  number_of_artificial_variables( ) const { return static_cast<int>(art_A.size()); }
     
   C_auxiliary_iterator
   c_auxiliary_value_iterator_begin( ) const { return aux_c.begin(); }
@@ -619,9 +619,9 @@ public:
   c_auxiliary_value_iterator_end( ) const {return aux_c.end(); }
 
   // access to basic variables
-  int  number_of_basic_variables( ) const { return B_O.size()+B_S.size(); }
-  int  number_of_basic_original_variables( ) const { return B_O.size(); }
-  int  number_of_basic_slack_variables( ) const { return B_S.size(); }
+  int  number_of_basic_variables( ) const { return static_cast<int>(B_O.size()+B_S.size()); }
+  int  number_of_basic_original_variables( ) const { return static_cast<int>(B_O.size()); }
+  int  number_of_basic_slack_variables( ) const { return static_cast<int>(B_S.size()); }
 
   Basic_variable_index_iterator
   basic_original_variable_indices_begin( ) const { return B_O.begin(); }
@@ -638,7 +638,7 @@ public: // only the pricing strategies (including user-defined ones
         // need access to this) -- make them friends?
 
   // access to working variables
-  int  number_of_working_variables( ) const { return in_B.size(); }
+  int  number_of_working_variables( ) const { return static_cast<int>(in_B.size()); }
   
   bool is_basic( int j) const
   { 
@@ -717,7 +717,7 @@ private:
 
 public:
   // access to indices of basic constraints
-  int  number_of_basic_constraints( ) const { return C.size(); }
+  int  number_of_basic_constraints( ) const { return static_cast<int>(C.size()); }
 
   Basic_constraint_index_iterator
   basic_constraint_indices_begin( ) const { return C.begin(); }
@@ -1427,14 +1427,14 @@ private:
   {
     j -= qp_n;
 
-    if ( j < (int)slack_A.size()) {                 // slack variable
+    if ( j < static_cast<int>(slack_A.size())) {                 // slack variable
 
       // A_Cj^T * lambda_C
       mu_j = lambda_it[ in_C[ slack_A[ j].first]];
       if ( slack_A[ j].second) mu_j = -mu_j;
 
     } else {                                        // artificial variable
-      j -= slack_A.size();
+      j -= static_cast<int>(slack_A.size());
 
       // A_Cj^T * lambda_C
       mu_j = lambda_it[ in_C[ art_A[ j].first]];
@@ -1454,6 +1454,9 @@ private:
     else
       mu_j__slack_or_artificial (mu_j, j, lambda_it, dd, Tag_false());
   }
+
+  
+  
 };
 
 // ----------------------------------------------------------------------------
@@ -1622,7 +1625,13 @@ ratio_test_1__t_i( Index_iterator i_it, Index_iterator end_it,
 {
   // check `t_i's
   for ( ; i_it != end_it; ++i_it, ++x_it, ++q_it) {
-    if ( ( *q_it > et0) && ( ( *x_it * q_i) < ( x_i * *q_it))) {
+    // BLAND rule: In case the ratios are the same, only update if the new index
+    // is smaller. The special artificial variable is always made to leave first.
+    if ( (*q_it > et0) && (
+                           (( *x_it * q_i) < ( x_i * *q_it)) ||
+                           ( (*i_it < i) && (i != art_s_i) && (( *x_it * q_i) == ( x_i * *q_it)) )
+                           )
+        ) {
       i = *i_it; x_i = *x_it; q_i = *q_it;
     }
   }
@@ -1821,8 +1830,8 @@ void  QP_solver<Q, ET, Tags>::
 replace_variable( Tag_false)
 {
   // determine type of variables
-  bool  enter_original = ( (j < qp_n) || (j >= (int)( qp_n+slack_A.size())));
-  bool  leave_original = ( (i < qp_n) || (i >= (int)( qp_n+slack_A.size())));
+  bool  enter_original = ( (j < qp_n) || (j >= static_cast<int>( qp_n+slack_A.size())));
+  bool  leave_original = ( (i < qp_n) || (i >= static_cast<int>( qp_n+slack_A.size())));
 
   // update basis & basis inverse
   if ( leave_original) {

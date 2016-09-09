@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_2/demo/Mesh_2/Qt3/Qt_widget_styled_layer.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_2/demo/Mesh_2/Qt3/Qt_widget_styled_layer.cpp $
 // $Id: Qt_widget_styled_layer.cpp 56247 2010-05-14 14:05:51Z afabri $
 //
 //

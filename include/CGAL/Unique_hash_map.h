@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Hash_map/include/CGAL/Unique_hash_map.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Hash_map/include/CGAL/Unique_hash_map.h $
 // $Id: Unique_hash_map.h 56667 2010-06-09 07:37:13Z sloriot $
 // 
 //

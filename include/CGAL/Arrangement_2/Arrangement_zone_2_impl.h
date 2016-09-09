@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_zone_2_impl.h $
-// $Id: Arrangement_zone_2_impl.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_zone_2_impl.h $
+// $Id: Arrangement_zone_2_impl.h 59652 2010-11-12 07:59:39Z afabri $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -790,8 +790,6 @@ void Arrangement_zone_2<Arrangement,ZoneVisitor>::
     m_geom_traits->is_in_x_range_2_object();
   typename Traits_adaptor_2::Construct_min_vertex_2  min_vertex =
     m_geom_traits->construct_min_vertex_2_object();
-  typename Traits_adaptor_2::Construct_max_vertex_2  max_vertex =
-    m_geom_traits->construct_max_vertex_2_object();
   typename Traits_adaptor_2::Compare_y_at_x_2        compare_y_at_x =
     m_geom_traits->compare_y_at_x_2_object();
 

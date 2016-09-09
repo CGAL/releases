@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
-// $Id: Snap_rounding_kd_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
+// $Id: Snap_rounding_kd_2.h 59246 2010-10-15 14:06:33Z afabri $
 //
 //
 // author(s)     : Eli Packer <elip@post.tau.ac.il>
@@ -38,9 +38,9 @@ private:
 public:
   Point_2 orig;
   SAVED_OBJECT object;
-  My_point(Point_2 p, Point_2 inp_orig, SAVED_OBJECT obj) :
+  My_point(const Point_2& p, const Point_2& inp_orig, SAVED_OBJECT obj) :
            Point_2(p), orig(inp_orig), object(obj) {}
-  My_point(Point_2 p) : Point_2(p), orig(Point_2(0, 0)) {}
+  My_point(const Point_2& p) : Point_2(p), orig(Point_2(0, 0)) {}
   My_point() : Point_2(),orig() {}
   My_point(NT x, NT y) : Point_2(x, y), orig(Point_2(0, 0)) {}
 };

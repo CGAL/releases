@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Interpolation/include/CGAL/surface_neighbors_3.h $
-// $Id: surface_neighbors_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interpolation/include/CGAL/surface_neighbors_3.h $
+// $Id: surface_neighbors_3.h 61441 2011-02-28 15:28:28Z sloriot $
 // 
 //
 // Author(s)     : Julia Floetotto
@@ -243,7 +243,7 @@ surface_neighbors_3(const Dt& dt,
 
   //otherwise get vertices in conflict
   typename std::list< Vertex_handle >  conflict_vertices;
-  dt.vertices_in_conflict(p,c,
+  dt.vertices_on_conflict_zone_boundary(p,c,
 			 std::back_inserter(conflict_vertices));
 
   for (typename std::list< Vertex_handle >::iterator it = conflict_vertices.begin();

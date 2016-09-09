@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_nearest_neighbor.h $
-// $Id: Arr_lm_nearest_neighbor.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_nearest_neighbor.h $
+// $Id: Arr_lm_nearest_neighbor.h 61314 2011-02-21 09:22:44Z hemmer $
 // 
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
 //                 Ron Wein     <wein@post.tau.ac.il>
@@ -156,6 +156,9 @@ protected:
   Tree            *m_tree;        // The search tree.
   bool             m_is_empty;    // Is the search tree empty.
 
+public: 
+  bool is_empty() const{ return m_is_empty; }
+  
 private:
 
   /*! Copy constructor - not supported. */

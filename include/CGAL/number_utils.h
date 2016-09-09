@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_foundations/include/CGAL/number_utils.h $
-// $Id: number_utils.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_foundations/include/CGAL/number_utils.h $
+// $Id: number_utils.h 59504 2010-11-04 13:57:35Z hemmer $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -74,6 +74,16 @@ square( const AS& x ) {
     typename Algebraic_structure_traits< AS >::Square square;
     return square( x );
 }
+
+
+template< class AS >
+inline
+typename Algebraic_structure_traits< AS >::Inverse::result_type
+inverse( const AS& x ) {
+    typename Algebraic_structure_traits< AS >::Inverse inverse;
+    return inverse( x );
+}
+
 template< class AS >
 inline 
 typename Algebraic_structure_traits<AS>::Is_one::result_type

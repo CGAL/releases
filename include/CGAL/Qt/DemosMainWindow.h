@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/DemosMainWindow.h $
-// $Id: DemosMainWindow.h 53026 2009-11-14 11:49:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/DemosMainWindow.h $
+// $Id: DemosMainWindow.h 58045 2010-08-13 14:38:51Z afabri $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -20,9 +20,11 @@
 
 #ifndef CGAL_QT_DEMOS_MAIN_WINDOW_H
 #define CGAL_QT_DEMOS_MAIN_WINDOW_H
-
+#include <iostream>
 #include <QVector>
 #include <QMainWindow>
+#include <QDragEnterEvent>
+#include <QDropEvent>
 #include <CGAL/auto_link/Qt4.h>
 
 // forward declaration
@@ -48,6 +50,14 @@ public:
 		State    = 0x4};
 
   Q_DECLARE_FLAGS(Options, Option)
+
+  virtual void dragEnterEvent(QDragEnterEvent *event);
+  virtual void dropEvent(QDropEvent *event);
+
+  virtual void open(QString)
+  {
+    std::cerr << "You should implement open(const QString&)const;" << std::endl; 
+  }
 
 public:
   unsigned int maxNumberOfRecentFiles() const ;

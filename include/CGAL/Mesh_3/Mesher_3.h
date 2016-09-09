@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
-// $Id: Mesher_3.h 58026 2010-08-12 15:40:41Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
+// $Id: Mesher_3.h 60688 2011-01-10 15:43:22Z lrineau $
 //
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb
@@ -106,6 +106,10 @@ public:
   
   /// Launch mesh refinement
   double refine_mesh();
+
+  /// Debug
+  std::string debug_info() const;
+  std::string debug_info_header() const;
   
   // Step-by-step methods
   void initialize();
@@ -158,12 +162,12 @@ Mesher_3<C3T3,MC,MD>::Mesher_3(C3T3& c3t3,
                                const MC& criteria)
 : null_mesher_()
 , facets_mesher_(c3t3.triangulation(),
-                 criteria.facet_criteria(),
+                 criteria.facet_criteria_object(),
                  domain,
                  null_mesher_,
                  c3t3)
 , cells_mesher_(c3t3.triangulation(),
-                criteria.cell_criteria(),
+                criteria.cell_criteria_object(),
                 domain,
                 facets_mesher_,
                 c3t3)
@@ -356,6 +360,22 @@ remove_cells_from_c3t3()
   {
     r_c3t3_.remove_from_complex(cit);
   }
+}
+
+template<class C3T3, class MC, class MD>
+inline
+std::string 
+Mesher_3<C3T3,MC,MD>::debug_info() const
+{
+  return cells_mesher_.debug_info();
+}
+    
+template<class C3T3, class MC, class MD>
+inline
+std::string 
+Mesher_3<C3T3,MC,MD>::debug_info_header() const
+{
+  return cells_mesher_.debug_info_header();
 }
 
 }  // end namespace Mesh_3

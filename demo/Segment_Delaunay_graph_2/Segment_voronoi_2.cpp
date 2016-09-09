@@ -56,9 +56,6 @@ private:
 public:
   MainWindow();
 
-protected:
-  void dragEnterEvent(QDragEnterEvent *event);
-  void dropEvent(QDropEvent *event);
 private:
   template <typename Iterator> 
   void insert_polyline(Iterator b, Iterator e)
@@ -84,15 +81,11 @@ private:
   }
 
 protected slots:
-void open(QString);
+ virtual void open(QString);
 
 public slots:
 
   void processInput(CGAL::Object o);
-
-  //  void on_actionShowDelaunay_toggled(bool checked);
-
-  //  void on_actionShowConstraints_toggled(bool checked);
 
   void on_actionInsertPolyline_toggled(bool checked);
   
@@ -121,7 +114,7 @@ MainWindow::MainWindow()
 {
   setupUi(this);
 
-  setAcceptDrops(true);
+  this->graphicsView->setAcceptDrops(false);
 
   // Add a GraphicItem for the SVD triangulation
   sdggi = new CGAL::Qt::SegmentDelaunayGraphGraphicsItem<SVD>(&svd);
@@ -188,21 +181,6 @@ MainWindow::MainWindow()
 	  this, SLOT(open(QString)));
 }
 
-
-void 
-MainWindow::dragEnterEvent(QDragEnterEvent *event)
-{
-  if (event->mimeData()->hasFormat("text/uri-list"))
-    event->acceptProposedAction();
-}
-
-void 
-MainWindow::dropEvent(QDropEvent *event)
-{
-  QString filename = event->mimeData()->urls().at(0).path();
-  open(filename);
-  event->acceptProposedAction();
-}
 
 void
 MainWindow::processInput(CGAL::Object o)

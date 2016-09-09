@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polygon/include/CGAL/Polygon_2.h $
-// $Id: Polygon_2.h 56945 2010-06-21 16:52:36Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polygon/include/CGAL/Polygon_2.h $
+// $Id: Polygon_2.h 57815 2010-08-05 13:28:20Z afabri $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -313,19 +313,19 @@ class Polygon_2 {
     //             Random access methods
     //--------------------------------------------------------
 
-    const Point_2& vertex(int i) const
+  const Point_2& vertex(std::size_t i) const
       { return *(d_container.begin() + i); }
 
-//    Point_2& vertex(int i)
+//    Point_2& vertex(std::size_t i)
 //      { return *(d_container.begin() + i); }
 
-    const Point_2& operator[](int i) const
+  const Point_2& operator[](std::size_t i) const
       { return vertex(i); }
 
-//    Point_2& operator[](int i)
+//    Point_2& operator[](std::size_t i)
 //      { return vertex(i); }
 
-    Segment_2 edge(int i) const
+  Segment_2 edge(std::size_t i) const
       { return *(edges_begin() + i); }
 
     //--------------------------------------------------------

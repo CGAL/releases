@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/Algebraic_structure_traits.h $
-// $Id: Algebraic_structure_traits.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polynomial/include/CGAL/Polynomial/Algebraic_structure_traits.h $
+// $Id: Algebraic_structure_traits.h 57782 2010-08-04 15:30:42Z hemmer $
 //
 //
 // Author(s)     : Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -222,6 +222,8 @@ class Polynomial_algebraic_structure_traits_base< POLY, Unique_factorization_dom
     }
   public:
     POLY operator()( const POLY& x, const POLY& y ) const {
+      if(x==y) return x; 
+      
       typedef Algebraic_structure_traits<POLY> AST;
       typename AST::Integral_division idiv;
       typename AST::Unit_part upart; 

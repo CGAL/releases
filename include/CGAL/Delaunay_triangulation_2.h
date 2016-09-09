@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Delaunay_triangulation_2.h $
-// $Id: Delaunay_triangulation_2.h 57511 2010-07-15 14:19:46Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Delaunay_triangulation_2.h $
+// $Id: Delaunay_triangulation_2.h 60715 2011-01-11 07:40:47Z sloriot $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -26,6 +26,13 @@
 
 #include <CGAL/Triangulation_2.h>
 #include <CGAL/iterator.h>
+
+#ifndef CGAL_TRIANGULATION_2_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
+#include <CGAL/internal/spatial_sorting_traits_with_indices.h>
+
+#include <boost/iterator/zip_iterator.hpp>
+#include <boost/mpl/and.hpp>
+#endif //CGAL_TRIANGULATION_2_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
 
 namespace CGAL {
 
@@ -269,10 +276,22 @@ public:
       }
       return ps;
     }
-
+#ifndef CGAL_TRIANGULATION_2_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
+  template < class InputIterator >
+  std::ptrdiff_t
+  insert( InputIterator first, InputIterator last,
+          typename boost::enable_if<
+            boost::is_base_of<
+                Point,
+                typename std::iterator_traits<InputIterator>::value_type
+            >
+          >::type* = NULL
+  )
+#else
   template < class InputIterator >
   std::ptrdiff_t
   insert(InputIterator first, InputIterator last)
+#endif //CGAL_TRIANGULATION_2_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO 
     {
       size_type n = this->number_of_vertices();
 
@@ -285,6 +304,84 @@ public:
 
       return this->number_of_vertices() - n;
     }
+
+#ifndef CGAL_TRIANGULATION_2_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
+private:  
+  template <class Info>
+  const Point& top_get_first(const std::pair<Point,Info>& pair) const { return pair.first; }
+  template <class Info>
+  const Info& top_get_second(const std::pair<Point,Info>& pair) const { return pair.second; }
+  template <class Info>
+  const Point& top_get_first(const boost::tuple<Point,Info>& tuple) const { return boost::get<0>(tuple); }
+  template <class Info>
+  const Info& top_get_second(const boost::tuple<Point,Info>& tuple) const { return boost::get<1>(tuple); }
+
+  template <class Tuple_or_pair,class InputIterator>
+  std::ptrdiff_t insert_with_info(InputIterator first,InputIterator last)
+  {
+    size_type n = this->number_of_vertices();
+    std::vector<std::size_t> indices;
+    std::vector<Point> points;
+    std::vector<typename Tds::Vertex::Info> infos;
+    std::size_t index=0;
+    for (InputIterator it=first;it!=last;++it){
+      Tuple_or_pair value=*it;
+      points.push_back( top_get_first(value)  );
+      infos.push_back ( top_get_second(value) );
+      indices.push_back(index++);
+    }
+
+    typedef internal::Vector_property_map<Point> Point_pmap;
+    typedef internal::Spatial_sort_traits_with_property_map_2<Geom_traits,Point_pmap> Search_traits;
+    
+    spatial_sort(indices.begin(),indices.end(),Search_traits(Point_pmap(points),geom_traits()));
+
+    Vertex_handle v_hint;
+    Face_handle hint;
+    for (typename std::vector<std::size_t>::const_iterator
+      it = indices.begin(), end = indices.end();
+      it != end; ++it){
+      v_hint = insert(points[*it], hint);
+      if (v_hint!=Vertex_handle()){
+        v_hint->info()=infos[*it];
+        hint=v_hint->face();
+      }
+    }
+    
+    return this->number_of_vertices() - n;
+  }
+  
+public:
+
+  template < class InputIterator >
+  std::ptrdiff_t
+  insert( InputIterator first,
+          InputIterator last,
+          typename boost::enable_if<
+            boost::is_same<
+              typename std::iterator_traits<InputIterator>::value_type,
+              std::pair<Point,typename internal::Info_check<typename Tds::Vertex>::type>
+            > >::type* =NULL
+  )
+  {
+    return insert_with_info< std::pair<Point,typename internal::Info_check<typename Tds::Vertex>::type> >(first,last);
+  }
+
+  template <class  InputIterator_1,class InputIterator_2>
+  std::ptrdiff_t
+  insert( boost::zip_iterator< boost::tuple<InputIterator_1,InputIterator_2> > first,
+          boost::zip_iterator< boost::tuple<InputIterator_1,InputIterator_2> > last,
+          typename boost::enable_if<
+            boost::mpl::and_<
+              boost::is_same< typename std::iterator_traits<InputIterator_1>::value_type, Point >,
+              boost::is_same< typename std::iterator_traits<InputIterator_2>::value_type, typename internal::Info_check<typename Tds::Vertex>::type >
+            >
+          >::type* =NULL
+  )
+  {
+    return insert_with_info< boost::tuple<Point,typename internal::Info_check<typename Tds::Vertex>::type> >(first,last);
+  }
+#endif //CGAL_TRIANGULATION_2_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
 
   template <class OutputItFaces, class OutputItBoundaryEdges> 
   std::pair<OutputItFaces,OutputItBoundaryEdges>
@@ -599,6 +696,7 @@ typename Delaunay_triangulation_2<Gt,Tds>::Point
 Delaunay_triangulation_2<Gt,Tds>::
 dual (Face_handle f) const
 {
+  CGAL_triangulation_precondition(this->_tds.is_face(f));
   CGAL_triangulation_precondition (this->dimension()==2);
   return circumcenter(f);
 }
@@ -609,6 +707,8 @@ Object
 Delaunay_triangulation_2<Gt,Tds>::
 dual(const Edge &e) const
 {
+  CGAL_triangulation_precondition(this->_tds.is_edge(e.first,e.second));
+  
   typedef typename Geom_traits::Line_2        Line;
   typedef typename Geom_traits::Ray_2         Ray;
 

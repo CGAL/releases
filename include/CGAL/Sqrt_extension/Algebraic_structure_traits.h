@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Sqrt_extension/Algebraic_structure_traits.h $
-// $Id: Algebraic_structure_traits.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Sqrt_extension/Algebraic_structure_traits.h $
+// $Id: Algebraic_structure_traits.h 59547 2010-11-07 07:53:01Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -165,6 +165,15 @@ class Sqrt_extension_algebraic_structure_traits_base< Type,
           return( x == Type(0) ? Type(1) : x );
         }
     };
+  class Inverse
+    : public std::unary_function< Type, Type > {
+  public:
+    Type operator()( const Type& x ) const {
+      return Type(1)/x ;
+    }
+  };
+  
+  
 };
 
 template< class Type >

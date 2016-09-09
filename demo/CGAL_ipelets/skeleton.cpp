@@ -51,7 +51,7 @@ class SkeletonIpelet
   typedef CGAL::Straight_skeleton_2<Kernel>   Skeleton ;
   typedef boost::shared_ptr<Skeleton>         SkeletonPtr ;
 
-  void draw_straight_skeleton(const Skeleton& skeleton);
+  void draw_straight_skeleton(const Skeleton& skeleton,double);
     
 public:
   SkeletonIpelet()
@@ -59,7 +59,7 @@ public:
   void protected_run(int);
 };
 
-void SkeletonIpelet::draw_straight_skeleton(const Skeleton& skeleton)
+void SkeletonIpelet::draw_straight_skeleton(const Skeleton& skeleton,double /*max_edge*/)
 {
   typedef Skeleton::Vertex_const_handle     Vertex_const_handle ;
   typedef Skeleton::Halfedge_const_handle   Halfedge_const_handle ;
@@ -74,8 +74,9 @@ void SkeletonIpelet::draw_straight_skeleton(const Skeleton& skeleton)
   for ( Halfedge_const_iterator i = skeleton.halfedges_begin();
                                 i != skeleton.halfedges_end();
                                 ++i )
-    if (i->is_bisector())
-      out++=Segment_2(i->opposite()->vertex()->point(),i->vertex()->point());
+    if ( i->is_bisector() && ((i->id()%2)==0) ){
+        out++=Segment_2(i->opposite()->vertex()->point(),i->vertex()->point());
+    }
   draw_in_ipe(seglist.begin(),seglist.end());
 }
 
@@ -130,7 +131,7 @@ void SkeletonIpelet::protected_run(int fn)
   
   
   if (fn==0 || fn==1)
-    draw_straight_skeleton(*ss);
+    draw_straight_skeleton(*ss,max_edge);
   else{
     boost::tie(ret_val,dist)=
       request_value_from_user<double>(

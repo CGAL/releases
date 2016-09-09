@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Alpha_shapes_3/include/CGAL/Weighted_alpha_shape_euclidean_traits_3.h $
-// $Id: Weighted_alpha_shape_euclidean_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Alpha_shapes_3/include/CGAL/Weighted_alpha_shape_euclidean_traits_3.h $
+// $Id: Weighted_alpha_shape_euclidean_traits_3.h 60236 2010-12-08 17:39:30Z sloriot $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -28,15 +28,16 @@ namespace CGAL {
    
 //------------------ Traits class -------------------------------------
 
-#ifndef CGAL_NO_DEPRECATED_CODE
+#ifdef CGAL_NO_DEPRECATED_CODE
+#error The class Weighted_alpha_shape_euclidean_traits_3<K> is deprecated in favor of Regular_triangulation_euclidean_traits_3<K>.
+#endif
 
 template <class K>
 class Weighted_alpha_shape_euclidean_traits_3 : public 
 Regular_triangulation_euclidean_traits_3<K>
 {};
-
-} //namespace CGAL
-#endif //CGAL_NO_DEPRECATED_CODE
   
+  
+} //namespace CGAL
   
 #endif //CGAL_WEIGHTED_ALPHA_SHAPE_EUCLIDEAN_TRAITS_3_H 

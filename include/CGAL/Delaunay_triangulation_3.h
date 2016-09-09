@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h $
-// $Id: Delaunay_triangulation_3.h 57364 2010-07-07 11:26:48Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h $
+// $Id: Delaunay_triangulation_3.h 60704 2011-01-10 17:54:57Z sloriot $
 //
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -30,6 +30,14 @@
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/iterator.h>
 #include <CGAL/Location_policy.h>
+
+#ifndef CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
+#include <CGAL/internal/spatial_sorting_traits_with_indices.h>
+
+#include <boost/tuple/tuple.hpp>
+#include <boost/iterator/zip_iterator.hpp>
+#include <boost/mpl/and.hpp>
+#endif //CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
 
 #ifdef CGAL_DELAUNAY_3_OLD_REMOVE
 #  error "The old remove() code has been removed.  Please report any issue you may have with the current one."
@@ -203,9 +211,22 @@ public:
       insert(first, last);
   }
 
+#ifndef CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
   template < class InputIterator >
   std::ptrdiff_t
-  insert(InputIterator first, InputIterator last)
+  insert( InputIterator first, InputIterator last,
+          typename boost::enable_if<
+            boost::is_base_of<
+                Point,
+                typename std::iterator_traits<InputIterator>::value_type
+            >
+          >::type* = NULL
+  )
+#else
+  template < class InputIterator >
+  std::ptrdiff_t
+  insert( InputIterator first, InputIterator last)
+#endif //CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
   {
     size_type n = number_of_vertices();
     std::vector<Point> points (first, last);
@@ -218,7 +239,82 @@ public:
 
     return number_of_vertices() - n;
   }
+  
+  
+#ifndef CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
+private:  
+  template <class Info>
+  const Point& top_get_first(const std::pair<Point,Info>& pair) const { return pair.first; }
+  template <class Info>
+  const Info& top_get_second(const std::pair<Point,Info>& pair) const { return pair.second; }
+  template <class Info>
+  const Point& top_get_first(const boost::tuple<Point,Info>& tuple) const { return boost::get<0>(tuple); }
+  template <class Info>
+  const Info& top_get_second(const boost::tuple<Point,Info>& tuple) const { return boost::get<1>(tuple); }
 
+  template <class Tuple_or_pair,class InputIterator>
+  std::ptrdiff_t insert_with_info(InputIterator first,InputIterator last)
+  {
+    size_type n = number_of_vertices();
+    std::vector<std::size_t> indices;
+    std::vector<Point> points;
+    std::vector<typename Triangulation_data_structure::Vertex::Info> infos;
+    std::size_t index=0;
+    for (InputIterator it=first;it!=last;++it){
+      Tuple_or_pair value=*it;
+      points.push_back( top_get_first(value)  );
+      infos.push_back ( top_get_second(value) );
+      indices.push_back(index++);
+    }
+
+    typedef internal::Vector_property_map<Point> Point_pmap;
+    typedef internal::Spatial_sort_traits_with_property_map_3<Geom_traits,Point_pmap> Search_traits;
+    
+    spatial_sort(indices.begin(),indices.end(),Search_traits(Point_pmap(points),geom_traits()));
+
+    Vertex_handle hint;
+    for (typename std::vector<std::size_t>::const_iterator
+      it = indices.begin(), end = indices.end();
+      it != end; ++it){
+      hint = insert(points[*it], hint);
+      if (hint!=Vertex_handle()) hint->info()=infos[*it];
+    }
+
+    return number_of_vertices() - n;
+  }
+  
+public:
+
+  template < class InputIterator >
+  std::ptrdiff_t
+  insert( InputIterator first,
+          InputIterator last,
+          typename boost::enable_if<
+            boost::is_same<
+              typename std::iterator_traits<InputIterator>::value_type,
+              std::pair<Point,typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type>
+            > >::type* =NULL
+  )
+  {
+    return insert_with_info< std::pair<Point,typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type> >(first,last);
+  }
+
+  template <class  InputIterator_1,class InputIterator_2>
+  std::ptrdiff_t
+  insert( boost::zip_iterator< boost::tuple<InputIterator_1,InputIterator_2> > first,
+          boost::zip_iterator< boost::tuple<InputIterator_1,InputIterator_2> > last,
+          typename boost::enable_if<
+            boost::mpl::and_<
+              boost::is_same< typename std::iterator_traits<InputIterator_1>::value_type, Point >,
+              boost::is_same< typename std::iterator_traits<InputIterator_2>::value_type, typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type >
+            >
+          >::type* =NULL
+  )
+  {
+    return insert_with_info< boost::tuple<Point,typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type> >(first,last);
+  }
+#endif //CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
+  
   Vertex_handle insert(const Point & p, Vertex_handle hint)
   {
     return insert(p, hint == Vertex_handle() ? this->infinite_cell() : hint->cell());
@@ -317,10 +413,21 @@ public:
       return std::make_pair(t.first, t.second);
   }
 
+#ifndef CGAL_NO_DEPRECATED_CODE
   // Returns the vertices on the boundary of the conflict hole.
   template <class OutputIterator>
   OutputIterator
   vertices_in_conflict(const Point&p, Cell_handle c, OutputIterator res) const
+  {
+    return vertices_on_conflict_zone_boundary(p, c, res);
+  }
+#endif // CGAL_NO_DEPRECATED_CODE
+
+  // Returns the vertices on the boundary of the conflict hole.
+  template <class OutputIterator>
+  OutputIterator
+  vertices_on_conflict_zone_boundary(const Point&p, Cell_handle c,
+                                     OutputIterator res) const
   {
       CGAL_triangulation_precondition(dimension() >= 2);
 
@@ -360,12 +467,21 @@ public:
   template < typename InputIterator >
   size_type remove(InputIterator first, InputIterator beyond)
   {
+    CGAL_triangulation_precondition(!this->does_repeat_in_range(first, beyond));
     size_type n = number_of_vertices();
     while (first != beyond) {
       remove(*first);
       ++first;
     }
     return n - number_of_vertices();
+  }
+	
+  template < typename InputIterator >
+  size_type remove_cluster(InputIterator first, InputIterator beyond)
+  {
+    Self tmp;
+    Vertex_remover<Self> remover (tmp);
+    return Tr_Base::remove(first, beyond, remover);
   }
 
   // MOVE
@@ -1056,7 +1172,7 @@ Delaunay_triangulation_3<Gt,Tds>::
 nearest_vertex_in_cell(const Point& p, Cell_handle c) const
 // Returns the finite vertex of the cell c which is the closest to p.
 {
-    CGAL_triangulation_precondition(dimension() >= 1);
+    CGAL_triangulation_precondition(dimension() >= 0);
 
     Vertex_handle nearest = nearest_vertex(p, c->vertex(0), c->vertex(1));
     if (dimension() >= 2) {

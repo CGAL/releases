@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_models.h $
-// $Id: QP_models.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_models.h $
+// $Id: QP_models.h 59370 2010-10-27 07:09:33Z ybrise $
 // 
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>, Kaspar Fischer
@@ -423,13 +423,13 @@ private:
   // Sparse_vector_iterators
   //typedef CGAL::Fake_random_access_const_iterator<Sparse_vector> 
   typedef boost::transform_iterator<CGAL::Map_with_default<Sparse_vector>,
-				    boost::counting_iterator<int> >
+				    boost::counting_iterator<int,boost::use_default,int> >
   Sparse_vector_iterator;  
   typedef boost::transform_iterator<CGAL::Map_with_default<Sparse_r_vector>,
-				    boost::counting_iterator<int> >
+            boost::counting_iterator<int,boost::use_default,int> >
   Sparse_r_vector_iterator;
   typedef boost::transform_iterator<CGAL::Map_with_default<Sparse_f_vector>,
-				    boost::counting_iterator<int> >
+				    boost::counting_iterator<int,boost::use_default,int> >
   Sparse_f_vector_iterator;
 
   // Sparse_matrix_iterator
@@ -437,7 +437,7 @@ private:
   {
     Sparse_vector_iterator operator() (const Sparse_vector& v) const
     { return Sparse_vector_iterator
-	(boost::counting_iterator<int>(0),
+	(boost::counting_iterator<int,boost::use_default,int>(0),
 	 CGAL::Map_with_default<Sparse_vector>(&v, NT(0)));}
   };
 
@@ -483,8 +483,8 @@ private:
   void grow_a_d (int s) 
   {
     CGAL_qpe_assertion( a_matrix.size() == d_matrix.size() );
-    CGAL_qpe_assertion( a_matrix.size() < (unsigned int)s);
-    for (int k = a_matrix.size(); k < s; ++k) {
+    CGAL_qpe_assertion( a_matrix.size() < static_cast<unsigned int>(s));
+    for (int k = static_cast<int>(a_matrix.size()); k < s; ++k) {
       a_matrix.push_back(Sparse_vector());
       d_matrix.push_back(Sparse_vector());
     }
@@ -522,49 +522,49 @@ public:
   B_iterator get_b() const    
   { 
     CGAL_qpe_assertion(is_valid());
-    return B_iterator (boost::counting_iterator<int>(0),
+    return B_iterator (boost::counting_iterator<int,boost::use_default,int>(0),
 		        CGAL::Map_with_default<Sparse_vector>
 		       (&b_vector, NT(0)));
   }
   R_iterator get_r() const    
   { 
     CGAL_qpe_assertion(is_valid());
-    return R_iterator (boost::counting_iterator<int>(0),
+    return R_iterator (boost::counting_iterator<int,boost::use_default,int>(0),
 		        CGAL::Map_with_default<Sparse_r_vector>
 		       (&r_vector, default_r));
   }
   FL_iterator get_fl() const  
   { 
     CGAL_qpe_assertion(is_valid());
-    return FL_iterator (boost::counting_iterator<int>(0),
+    return FL_iterator (boost::counting_iterator<int,boost::use_default,int>(0),
 		        CGAL::Map_with_default<Sparse_f_vector>
 			(&fl_vector, default_fl)); 
   }
   L_iterator get_l() const    
   { 
     CGAL_qpe_assertion(is_valid());
-    return L_iterator (boost::counting_iterator<int>(0),
+    return L_iterator (boost::counting_iterator<int,boost::use_default,int>(0),
 		        CGAL::Map_with_default<Sparse_vector>
 		       (&l_vector, default_l));
   }
   FU_iterator get_fu() const  
   {
     CGAL_qpe_assertion(is_valid());
-    return FU_iterator (boost::counting_iterator<int>(0),
+    return FU_iterator (boost::counting_iterator<int,boost::use_default,int>(0),
 		        CGAL::Map_with_default<Sparse_f_vector>
 			(&fu_vector, default_fu));
   }
   U_iterator get_u() const    
   { 
     CGAL_qpe_assertion(is_valid());
-    return U_iterator (boost::counting_iterator<int>(0),
+    return U_iterator (boost::counting_iterator<int,boost::use_default,int>(0),
 		        CGAL::Map_with_default<Sparse_vector>
 		       (&u_vector, default_u));
   }
   C_iterator get_c() const    
   { 
     CGAL_qpe_assertion(is_valid());
-    return C_iterator (boost::counting_iterator<int>(0),
+    return C_iterator (boost::counting_iterator<int,boost::use_default,int>(0),
 		        CGAL::Map_with_default<Sparse_vector>
 		       (&c_vector, NT(0)));
   }
@@ -1153,7 +1153,7 @@ private:
       std::string col_name;
       const Index_map::const_iterator var_name = var_names.find(t);
       if (var_name == var_names.end()) { // new variable?
-	var_index = var_names.size();
+        var_index = static_cast<unsigned int>(var_names.size());
 	col_name = t;
 	var_names.insert(String_int_pair(t,var_index));
 	var_by_index.push_back(t);

@@ -1,4 +1,4 @@
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/examples/Algebraic_kernel_d/Compare_1.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/examples/Algebraic_kernel_d/Compare_1.cpp $
 // $Id: Compare_1.cpp 57161 2010-06-28 16:40:05Z mkerber $
 
 #include <CGAL/basic.h>

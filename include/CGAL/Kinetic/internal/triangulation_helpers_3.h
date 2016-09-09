@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/triangulation_helpers_3.h $
-// $Id: triangulation_helpers_3.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/internal/triangulation_helpers_3.h $
+// $Id: triangulation_helpers_3.h 58795 2010-09-22 16:24:04Z lrineau $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -146,6 +146,9 @@ Edge edge_in_cell(const Edge &e, const Cell_handle c)
     return Edge(c, c->index(p0), c->index(p1));
 }
 
+
+template <class Edge>
+typename Edge::first_type::value_type::Edge_label edge_label(const Edge &f);
 
 template <class Tr>
 void set_edge_label(const Tr &tr, const typename Tr::Edge &e, typename Tr::Cell::Edge_label l)

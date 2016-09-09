@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Circular_kernel_2/include/CGAL/Filtered_bbox_circular_kernel_2.h $
-// $Id: Filtered_bbox_circular_kernel_2.h 58156 2010-08-19 10:51:24Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Filtered_bbox_circular_kernel_2.h $
+// $Id: Filtered_bbox_circular_kernel_2.h 59623 2010-11-10 15:52:53Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -37,10 +37,9 @@ namespace internal {
 template < class FilteredBboxKernel, class CircularKernel >
 struct Filtered_bbox_circular_kernel_base_ref_count : public CircularKernel
 {
-	
-  typedef internal::Filtered_bbox_circular_arc_2_base<FilteredBboxKernel> Circular_arc_2;
-  typedef internal::Filtered_bbox_line_arc_2_base<FilteredBboxKernel> Line_arc_2;
-  typedef internal::Filtered_bbox_circular_arc_point_2_base<FilteredBboxKernel>     Circular_arc_point_2;
+  typedef internal::Filtered_bbox_circular_arc_2_base<FilteredBboxKernel,CircularKernel>       Circular_arc_2;
+  typedef internal::Filtered_bbox_line_arc_2_base<FilteredBboxKernel,CircularKernel>           Line_arc_2;
+  typedef internal::Filtered_bbox_circular_arc_point_2_base<FilteredBboxKernel,CircularKernel> Circular_arc_point_2;
 
   // The mechanism that allows to specify reference-counting or not.
   template < typename T >

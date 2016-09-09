@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/Orthogonal_k_neighbor_search.h $
-// $Id: Orthogonal_k_neighbor_search.h 56395 2010-05-21 13:27:10Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_searching/include/CGAL/Orthogonal_k_neighbor_search.h $
+// $Id: Orthogonal_k_neighbor_search.h 58162 2010-08-19 12:24:38Z sloriot $
 // 
 //
 // Author(s)     : Gael Guennebaud (gael.guennebaud@inria.fr), Hans Tangelder (<hanst@cs.uu.nl>)
@@ -38,7 +38,7 @@ public:
 
   Orthogonal_k_neighbor_search(Tree& tree, const typename Base::Query_item& q,  
                                unsigned int k=1, FT Eps=FT(0.0), bool Search_nearest=true, const Distance& d=Distance(),bool sorted=true)
-    : Base(tree,q,k,Eps,Search_nearest,d) 
+    : Base(q,k,Eps,Search_nearest,d) 
   {
     if (tree.empty()) return;
 

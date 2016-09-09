@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_impl.h $
-// $Id: Min_sphere_of_spheres_d_impl.h 50491 2009-07-09 08:20:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_impl.h $
+// $Id: Min_sphere_of_spheres_d_impl.h 58435 2010-09-02 09:41:44Z afabri $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -33,11 +33,6 @@
 #include <CGAL/Min_sphere_of_spheres_d.h>
 
 namespace CGAL_MINIBALL_NAMESPACE {
-
-  // Returns a random number uniformly in {0,...,k-1}.
-  inline int random(int k) {
-    return std::rand() % k; // todo.  This is not good...
-  }
 
   template<typename FT>
   inline bool compare(const FT& a,const FT& b,
@@ -75,7 +70,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
   
       // permute:
       for (int j=k-1; j>=e; --j) // todo. theory: is this necessary?
-        std::swap(l[j],l[e+random(j+1-e)]);
+        std::swap(l[j],l[e+rng()%(j+1-e)]);
   
       for (i=e; i<n; ++i)
         if (!ss.contains(t.center_cartesian_begin(*l[i]),
@@ -101,7 +96,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     for (int k=from; k<to; ++k) {
       // compute the (squared) distance from c1 to c2:
       const FT dist = inner_product_n<D>(ss.begin(),
-        t.center_cartesian_begin(*l[k]),0.0f,std::plus<FT>(),
+        t.center_cartesian_begin(*l[k]),0.0,std::plus<FT>(),
         Subtract_and_square<FT>());
   
       // compute excess:
@@ -137,7 +132,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     for (int k=from; k<to; ++k) {
       // compute the (squared) distance from c1 to c2:
       const double dist = inner_product_n<D>(center,
-         t.center_cartesian_begin(*l[k]),0.0f,std::plus<double>(),
+         t.center_cartesian_begin(*l[k]),0.0,std::plus<double>(),
          Subtract_and_square_to_double<FT>());
   
       // compute excess:
@@ -174,7 +169,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     for (int k=from; k<to; ++k) {
       // compute the (squared) distance from c1 to c2:
       const FT dist = inner_product_n<D>(ss.begin(),
-        t.center_cartesian_begin(*l[k]),0.0f,std::plus<FT>(),
+        t.center_cartesian_begin(*l[k]),0.0,std::plus<FT>(),
         Subtract_and_square<FT>());
   
       if (compare(max,maxp,t.radius(*l[k]),dist)) {
@@ -208,7 +203,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     for (int k=from; k<to; ++k) {
       // compute the (squared) distance from c1 to c2:
       const double dist = inner_product_n<D>(center,
-         t.center_cartesian_begin(*l[k]),0.0f,std::plus<double>(),
+         t.center_cartesian_begin(*l[k]),0.0,std::plus<double>(),
          Subtract_and_square_to_double<FT>());
   
       const double r = CGAL_MINIBALL_NTS to_double(t.radius(*l[k]));

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Weighted_point.h $
-// $Id: Weighted_point.h 53691 2010-01-20 15:12:13Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Weighted_point.h $
+// $Id: Weighted_point.h 59232 2010-10-14 13:52:18Z lrineau $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -109,12 +109,17 @@ template < class Point, class Weight >
 std::ostream &
 operator<<(std::ostream &os, const Weighted_point<Point,Weight> &p)
 {
-  os << p.point();
-  if(is_ascii(os))
-    os << " " << p.weight();
-  else
+  switch(os.iword(IO::mode))
+  {
+  case IO::ASCII :
+    return os << p.point() <<  " " << p.weight();
+  case IO::BINARY :
+    os << p.point();
     write(os, p.weight());
-  return os;
+    return os;
+  default:
+    return os << "Weighted_point(" << p.point() << ", " << p.weight() << ")";
+  }
 }
 
 template < class Point, class Weight >

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h $
-// $Id: Sphere_geometry_OGL.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h $
+// $Id: Sphere_geometry_OGL.h 58798 2010-09-22 16:29:52Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -58,6 +58,13 @@ typedef VKernel::Aff_transformation_3       Affine_3;
 typedef std::vector<VPoint>                 VSegment;
 typedef VKernel::Triangle_3                 DTriangle;
 typedef std::vector<DTriangle>              VTriangle;
+
+template <typename R>
+VVector convert(const CGAL::Vector_3<R>& v)
+{ return VVector(CGAL::to_double(v.x()),
+                 CGAL::to_double(v.y()),
+                 CGAL::to_double(v.z())); }
+
 
 const double refinement_angle = 0.1;
 const double shrink_fac = 0.995;
@@ -214,13 +221,6 @@ class Approximator {
   }
 
 };
-
-template <typename R>
-VVector convert(const CGAL::Vector_3<R>& v)
-{ return VVector(CGAL::to_double(v.x()),
-                 CGAL::to_double(v.y()),
-                 CGAL::to_double(v.z())); }
-
 
 
 template <class R_>

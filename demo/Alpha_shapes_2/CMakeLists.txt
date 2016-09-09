@@ -1,8 +1,9 @@
+# Created by the script cgal_create_cmake_script
 # This is the CMake script for compiling a CGAL application.
 
-project( Alpha_shapes_2 ) 
+project (Alpha_shapes_2_demo)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4.5)
+cmake_minimum_required(VERSION 2.4.5)
 
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
@@ -10,37 +11,48 @@ if ( COMMAND cmake_policy )
   cmake_policy( SET CMP0003 NEW )  
 endif()
 
-find_package(CGAL COMPONENTS Qt3 )
-include( ${CGAL_USE_FILE} )
+find_package(CGAL COMPONENTS Qt4)
 
-find_package(Qt3-patched)
-# FindQt3-patched.cmake is FindQt3.cmake patched by CGAL developers, so
-# that it can be used together with FindQt4: all its variables are prefixed
-# by "QT3_" instead of "QT_".
+include(${CGAL_USE_FILE})
 
-if ( CGAL_FOUND AND QT3_FOUND AND CGAL_Qt3_FOUND)
-
-  # use the Qt MOC preprocessor on classes that derives from QObject
-  include( Qt3Macros-patched )
-  qt3_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/Qt_widget_move_point.h" Qt_widget_move_point.moc )
-  qt3_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/Qt_widget_toolbar.h" Qt_widget_toolbar.moc )
-  qt3_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/Qt_widget_toolbar_layers.h" Qt_widget_toolbar_layers.moc )
-  qt3_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/alpha_shapes_2.cpp" alpha_shapes_2.moc )
+set( QT_USE_QTXML    TRUE )
+set( QT_USE_QTMAIN   TRUE )
+set( QT_USE_QTSCRIPT  TRUE )
+set( QT_USE_QTOPENGL  TRUE )
 
 
-  # The executable itself.
-  add_executable  ( alpha_shapes_2 
-                    alpha_shapes_2.cpp alpha_shapes_2.moc
-		    Qt_widget_move_point.cpp Qt_widget_move_point.moc
-		    Qt_widget_toolbar.cpp Qt_widget_toolbar.moc 
-		    Qt_widget_toolbar_layers.cpp Qt_widget_toolbar_layers.moc )
+find_package(Qt4)
+include_directories (BEFORE ../../include)
+include_directories (BEFORE ./include)
 
-  add_to_cached_list( CGAL_EXECUTABLE_TARGETS alpha_shapes_2 )
+if ( CGAL_FOUND AND CGAL_Qt4_FOUND AND QT4_FOUND )
 
-  target_link_libraries( alpha_shapes_2 ${CGAL_LIBRARIES}  ${CGAL_3RD_PARTY_LIBRARIES})
+include(${QT_USE_FILE})
+
+#--------------------------------
+# The "Delaunay" demo: Alpha_shapes_2
+#--------------------------------
+# UI files (Qt Designer files)
+qt4_wrap_ui( DT_UI_FILES Alpha_shapes_2.ui )
+
+# qrc files (resources files, that contain icons, at least)
+qt4_add_resources ( DT_RESOURCE_FILES ./Alpha_shapes_2.qrc )
+
+# use the Qt MOC preprocessor on classes that derives from QObject
+qt4_generate_moc( Alpha_shapes_2.cpp Alpha_shapes_2.moc )
+
+# The executable itself.
+add_executable  ( Alpha_shapes_2 Alpha_shapes_2.cpp Alpha_shapes_2.moc ${DT_UI_FILES} ${DT_RESOURCE_FILES} )
+
+add_to_cached_list( CGAL_EXECUTABLE_TARGETS Alpha_shapes_2 )
+
+# Link with Qt libraries
+target_link_libraries( Alpha_shapes_2 ${QT_LIBRARIES} )
+# Link with CGAL
+target_link_libraries( Alpha_shapes_2 ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES})
 
 else()
 
-  message(STATUS "NOTICE: This demo requires CGAL and Qt3, and will not be compiled.")
+  message(STATUS "NOTICE: This demo requires CGAL and Qt4, and will not be compiled.")
 
 endif()

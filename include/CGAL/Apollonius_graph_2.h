@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h $
-// $Id: Apollonius_graph_2.h 56942 2010-06-21 16:37:58Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h $
+// $Id: Apollonius_graph_2.h 58276 2010-08-25 15:11:38Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -599,12 +599,12 @@ public:
       CGAL::Hyperbola_2<Gt>            h;
       CGAL::Hyperbola_segment_2<Gt>    hs;
       CGAL::Hyperbola_ray_2<Gt>        hr;
-      if (assign(hs, o))  hs.draw(str);
-      if (assign(s, o))   str << s; 
-      if (assign(hr, o))  hr.draw(str);
-      if (assign(r, o))   str << r;
-      if (assign(h, o))   h.draw(str);
-      if (assign(l, o))   str << l;
+      if (assign(hs, o)) hs.draw(str);
+      else if (assign(s, o))  str << s; 
+      else if (assign(hr, o))  hr.draw(str);
+      else if (assign(r, o))   str << r;
+      else if (assign(h, o))  h.draw(str);
+      else if (assign(l, o)) str << l;
     }
     return str;
   }

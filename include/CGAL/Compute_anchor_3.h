@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/Compute_anchor_3.h $
-// $Id: Compute_anchor_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/Compute_anchor_3.h $
+// $Id: Compute_anchor_3.h 60182 2010-12-07 09:46:17Z nicokruithof $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -443,7 +443,10 @@ compute_anchor_vor (Vertex_handle const v) {
           for (adj_vertex = adj_vertices.begin(); 
                adj_vertex != adj_vertices.end();
                adj_vertex++) {
-            if (v_other != (*adj_vertex)) {
+            if ((v_other != (*adj_vertex)) && (!reg.is_infinite(*adj_vertex))) {
+              CGAL_assertion(!reg.is_infinite(v));
+              CGAL_assertion(!reg.is_infinite(v_other));
+              CGAL_assertion(!reg.is_infinite(*adj_vertex));
               side = test_anchor(v->point(), v_other->point(),
                                  (*adj_vertex)->point());
               if (side==ZERO) {

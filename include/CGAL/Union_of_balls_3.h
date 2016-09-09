@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/Union_of_balls_3.h $
-// $Id: Union_of_balls_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/Union_of_balls_3.h $
+// $Id: Union_of_balls_3.h 59660 2010-11-12 09:06:27Z afabri $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -76,12 +76,10 @@ public:
 
   template <class Polyhedron_3>
   void mesh_skin_surface_3(Polyhedron_3 &p) const {
-    bool use_mesh_surface_3;
     Base::mesh_surface_3(p);
   }
   template <class Polyhedron_3>
   void subdivide_skin_surface_mesh_3(Polyhedron_3 &p) const {
-    bool use_subdivide_mesh_3;
     Base::subdivide_mesh_3(p);
   }
 };

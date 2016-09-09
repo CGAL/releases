@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_reconstruction_points_3/include/CGAL/Poisson_mesh_cell_criteria_3.h $
-// $Id: Poisson_mesh_cell_criteria_3.h 50116 2009-06-26 15:04:39Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_reconstruction_points_3/include/CGAL/Poisson_mesh_cell_criteria_3.h $
+// $Id: Poisson_mesh_cell_criteria_3.h 57918 2010-08-10 11:53:22Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -34,11 +34,11 @@ public:
   {
     typedef std::pair<double, double> Base;
 
-    Cell_quality() : Base() {};
+    Cell_quality() : Base() {}
     Cell_quality(double _aspect, double _sq_size) : Base(_aspect, _sq_size) {};
 
-    const double& sq_size() const { return second; }
-    const double& aspect() const { return first; }
+    double sq_size() const { return second; }
+    double aspect() const { return first; }
 
     // q1<q2 means q1 is prioritised over q2
     // ( q1 == *this, q2 == q )
@@ -60,7 +60,7 @@ public:
   double squared_radius_bound() const 
   {
     return squared_radius_bound_; 
-  };
+  }
 
   typedef typename Tr::Cell_handle Cell_handle;
 
@@ -68,26 +68,25 @@ public:
 		  const double radius_bound = 0) //< cell radius bound (ignored if zero)
     : squared_radius_bound_(radius_bound*radius_bound),
       radius_edge_bound_(radius_edge_bound)
-  {
-  };
+  {}
 
   inline 
   void set_squared_radius_bound(const double squared_radius_bound) 
   { 
     squared_radius_bound_ = squared_radius_bound;
-  };
+  }
 
   inline
   double radius_edge_bound() const 
   {
     return radius_edge_bound_; 
-  };
+  }
 
   inline 
   void set_radius_edge_bound(const double radius_edge_bound) 
   { 
     radius_edge_bound_ = radius_edge_bound;
-  };
+  }
 
   class Is_bad
   {
@@ -100,7 +99,7 @@ public:
     Is_bad(const double radius_edge_bound, 
 	   const double squared_radius_bound)
       : radius_edge_bound_(radius_edge_bound),
-	squared_radius_bound_(squared_radius_bound) {};
+	squared_radius_bound_(squared_radius_bound) {}
       
     bool operator()(const Cell_handle& c,
                     Cell_quality& qual) const

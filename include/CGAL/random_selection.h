@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Generator/include/CGAL/random_selection.h $
-// $Id: random_selection.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Generator/include/CGAL/random_selection.h $
+// $Id: random_selection.h 58544 2010-09-08 09:16:31Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -43,7 +43,7 @@ OutputIterator random_selection( RandomAccessIterator first,
     // random number is needed from `rnd' for each item. Returns the
     // value of `result' after inserting the n items.
 {
-    int m = int(last - first);
+    std::ptrdiff_t m = last - first;
     for ( Size i = 0; i < n; i++) {
         *result++ = first[ rnd(m)];
     }

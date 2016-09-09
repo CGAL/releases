@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Point_with_psc_localisation.h $
-// $Id: Point_with_psc_localisation.h 43053 2008-04-29 08:53:50Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Point_with_psc_localisation.h $
+// $Id: Point_with_psc_localisation.h 59769 2010-11-18 08:06:16Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -110,7 +110,7 @@ class Point_traits<Point_with_psc_localisation<Point> >
 };
 
 template <class Point>
-class Is_weighted<Point_with_psc_localisation<Point> >
+struct Is_weighted<Point_with_psc_localisation<Point> >
   : public Is_weighted<Point>
 {
 };

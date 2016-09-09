@@ -29,7 +29,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/src/CGALCore/Expr.cpp $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/src/CGALCore/Expr.cpp $
  * $Id: Expr.cpp 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/Kd_tree.h $
-// $Id: Kd_tree.h 58128 2010-08-18 08:43:31Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_searching/include/CGAL/Kd_tree.h $
+// $Id: Kd_tree.h 58818 2010-09-23 13:52:01Z afabri $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -29,7 +29,6 @@
 #include <CGAL/Splitters.h>
 #include <CGAL/Compact_container.h>
 
-
 namespace CGAL {
 
   //template <class SearchTraits, class Splitter_=Median_of_rectangle<SearchTraits>, class UseExtendedNode = Tag_true >
@@ -37,7 +36,7 @@ template <class SearchTraits, class Splitter_=Sliding_midpoint<SearchTraits>, cl
 class Kd_tree {
 
 public:
-
+  typedef SearchTraits Traits;
   typedef Splitter_ Splitter;
   typedef typename SearchTraits::Point_d Point_d;
   typedef typename Splitter::Container Point_container;
@@ -179,7 +178,7 @@ public:
 	  Splitter s = Splitter()) 
     : split(s), built_(false) 
   {
-    std::copy(first, beyond, std::back_inserter(pts));
+    pts.insert(pts.end(), first, beyond);
   }
 
   bool empty() const {
@@ -240,7 +239,7 @@ public:
   insert(InputIterator first, InputIterator beyond)
   {
     invalidate_built();
-    std::copy(first, beyond, std::back_inserter(pts));
+    pts.insert(pts.end(),first, beyond);
   }
 
 

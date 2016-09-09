@@ -22,6 +22,9 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE ../../include)
 
+  create_single_source_cgal_program( "ball_d.cpp" )
+  create_single_source_cgal_program( "cube_d.cpp" )
+  create_single_source_cgal_program( "grid_d.cpp" )
   create_single_source_cgal_program( "random_convex_set.cpp" )
   create_single_source_cgal_program( "random_degenerate_point_set.cpp" )
   create_single_source_cgal_program( "random_grid.cpp" )
@@ -29,6 +32,7 @@ if ( CGAL_FOUND )
   create_single_source_cgal_program( "random_polygon2.cpp" )
   create_single_source_cgal_program( "random_segments1.cpp" )
   create_single_source_cgal_program( "random_segments2.cpp" )
+  create_single_source_cgal_program( "sphere_d.cpp" )
 
 else()
   

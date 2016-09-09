@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/internal/Static_filters/Side_of_oriented_sphere_3.h $
-// $Id: Side_of_oriented_sphere_3.h 52326 2009-10-15 11:29:38Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/internal/Static_filters/Side_of_oriented_sphere_3.h $
+// $Id: Side_of_oriented_sphere_3.h 61261 2011-02-16 15:51:53Z afabri $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -23,6 +23,7 @@
 
 #include <CGAL/Profile_counter.h>
 #include <CGAL/internal/Static_filters/Static_filter_error.h>
+#include <CGAL/internal/Static_filters/tools.h>
 
 namespace CGAL { namespace internal { namespace Static_filters_predicates {
 
@@ -41,20 +42,21 @@ public:
   {
       CGAL_BRANCH_PROFILER_3("semi-static failures/attempts/calls to   : Side_of_oriented_sphere_3", tmp);
 
-      using std::fabs;
+      Get_approx<Point_3> get_approx; // Identity functor for all points
+                                      // but lazy points.
 
       double px, py, pz, qx, qy, qz, rx, ry, rz, sx, sy, sz, tx, ty, tz;
 
-      if (fit_in_double(p.x(), px) && fit_in_double(p.y(), py) &&
-          fit_in_double(p.z(), pz) &&
-          fit_in_double(q.x(), qx) && fit_in_double(q.y(), qy) &&
-          fit_in_double(q.z(), qz) &&
-          fit_in_double(r.x(), rx) && fit_in_double(r.y(), ry) &&
-          fit_in_double(r.z(), rz) &&
-          fit_in_double(s.x(), sx) && fit_in_double(s.y(), sy) &&
-          fit_in_double(s.z(), sz) &&
-          fit_in_double(t.x(), tx) && fit_in_double(t.y(), ty) &&
-          fit_in_double(t.z(), tz))
+      if (fit_in_double(get_approx(p).x(), px) && fit_in_double(get_approx(p).y(), py) &&
+          fit_in_double(get_approx(p).z(), pz) &&
+          fit_in_double(get_approx(q).x(), qx) && fit_in_double(get_approx(q).y(), qy) &&
+          fit_in_double(get_approx(q).z(), qz) &&
+          fit_in_double(get_approx(r).x(), rx) && fit_in_double(get_approx(r).y(), ry) &&
+          fit_in_double(get_approx(r).z(), rz) &&
+          fit_in_double(get_approx(s).x(), sx) && fit_in_double(get_approx(s).y(), sy) &&
+          fit_in_double(get_approx(s).z(), sz) &&
+          fit_in_double(get_approx(t).x(), tx) && fit_in_double(get_approx(t).y(), ty) &&
+          fit_in_double(get_approx(t).z(), tz))
       {
 	  CGAL_BRANCH_PROFILER_BRANCH_1(tmp);
 
@@ -71,7 +73,7 @@ public:
           double rtx = rx - tx;
           double rty = ry - ty;
           double rtz = rz - tz;
-          double rt2 = CGAL_NTS square(rtx) + CGAL_NTS square(rty)
+         double rt2 = CGAL_NTS square(rtx) + CGAL_NTS square(rty)
 	             + CGAL_NTS square(rtz);
           double stx = sx - tx;
           double sty = sy - ty;
@@ -80,18 +82,33 @@ public:
 	             + CGAL_NTS square(stz);
 
           // Compute the semi-static bound.
-          double maxx = fabs(ptx);
-          if (maxx < fabs(qtx)) maxx = fabs(qtx);
-          if (maxx < fabs(rtx)) maxx = fabs(rtx);
-          if (maxx < fabs(stx)) maxx = fabs(stx);
-          double maxy = fabs(pty);
-          if (maxy < fabs(qty)) maxy = fabs(qty);
-          if (maxy < fabs(rty)) maxy = fabs(rty);
-          if (maxy < fabs(sty)) maxy = fabs(sty);
-          double maxz = fabs(ptz);
-          if (maxz < fabs(qtz)) maxz = fabs(qtz);
-          if (maxz < fabs(rtz)) maxz = fabs(rtz);
-          if (maxz < fabs(stz)) maxz = fabs(stz);
+          double maxx = CGAL::abs(ptx);
+          double maxy = CGAL::abs(pty);
+          double maxz = CGAL::abs(ptz);
+
+          double aqtx = CGAL::abs(qtx);
+          double artx = CGAL::abs(rtx);
+          double astx = CGAL::abs(stx);
+
+          double aqty = CGAL::abs(qty);
+          double arty = CGAL::abs(rty);
+          double asty = CGAL::abs(sty);
+
+          double aqtz = CGAL::abs(qtz);
+          double artz = CGAL::abs(rtz);
+          double astz = CGAL::abs(stz);
+
+          if (maxx < aqtx) maxx = aqtx;
+          if (maxx < artx) maxx = artx;
+          if (maxx < astx) maxx = astx;
+
+          if (maxy < aqty) maxy = aqty;
+          if (maxy < arty) maxy = arty;
+          if (maxy < asty) maxy = asty;
+
+          if (maxz < aqtz) maxz = aqtz;
+          if (maxz < artz) maxz = artz;
+          if (maxz < astz) maxz = astz;
 
           // Sort maxx < maxy < maxz.
           if (maxx > maxz)

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/include/CGAL/Nef_2/Polynomial.h $
-// $Id: Polynomial.h 56962 2010-06-22 09:38:32Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/Polynomial.h $
+// $Id: Polynomial.h 61422 2011-02-25 16:24:10Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -352,6 +352,7 @@ template <class pNT> class Polynomial :
   /*{\Mop returns the sign of the limit process for $x \rightarrow \infty$
   (the sign of the leading coefficient).}*/
   { const NT& leading_coeff = this->ptr()->coeff.back();
+    if (degree() < 0) return CGAL::ZERO;
     if (leading_coeff < NT(0)) return (CGAL::NEGATIVE);
     if (leading_coeff > NT(0)) return (CGAL::POSITIVE);
     return CGAL::ZERO;
@@ -1232,6 +1233,7 @@ Polynomial<NT> operator * (const Polynomial<NT>& p1,
                             const Polynomial<NT>& p2)
 {
   typedef typename Polynomial<NT>::size_type size_type;
+  if (p1.degree()<0 || p2.degree()<0) return p1;
   CGAL_assertion(p1.degree()>=0 && p2.degree()>=0);
   Polynomial<NT>  p( size_type(p1.degree()+p2.degree()+1) ); 
   // initialized with zeros

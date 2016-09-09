@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/constructions/Polygon_offset_cons_ftC2.h $
-// $Id: Polygon_offset_cons_ftC2.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/constructions/Polygon_offset_cons_ftC2.h $
+// $Id: Polygon_offset_cons_ftC2.h 59832 2010-11-23 11:20:03Z lrineau $
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -20,7 +20,7 @@
 
 #include <CGAL/constructions/Straight_skeleton_cons_ftC2.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace CGAL_SS_i
 {
@@ -105,7 +105,7 @@ optional< Point_2<K> > construct_offset_pointC2 ( typename K::FT const&         
 
 } // namespace CGAL_SS_i
 
-CGAL_END_NAMESPACE
+} // end namespace CGAL
 
 #endif // CGAL_POLYGON_OFFSET_CONS_FTC2_H //
 // EOF //

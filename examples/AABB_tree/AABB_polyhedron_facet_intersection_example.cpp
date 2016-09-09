@@ -1,35 +1,12 @@
-// Copyright (c) 2009 INRIA Sophia-Antipolis (France).
-// All rights reserved.
-//
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
-//
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/AABB_tree/examples/AABB_tree/AABB_polyhedron_facet_intersection_example.cpp $
-// $Id: AABB_polyhedron_facet_intersection_example.cpp 58704 2010-09-20 12:18:28Z lrineau $
-//
-//
-// Author(s)     : Camille Wormser, Pierre Alliez
-//
-//******************************************************************************
-// File Description :
-//
-//******************************************************************************
+// Author(s) : Camille Wormser, Pierre Alliez
 
 #include <iostream>
 
-#include <CGAL/AABB_tree.h> // must be inserted before kernel
+#include <CGAL/Simple_cartesian.h>
+#include <CGAL/AABB_tree.h>
 #include <CGAL/AABB_traits.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/AABB_polyhedron_triangle_primitive.h>
-
-#include <CGAL/Simple_cartesian.h>
 
 typedef CGAL::Simple_cartesian<double> K;
 typedef K::Point_3 Point;

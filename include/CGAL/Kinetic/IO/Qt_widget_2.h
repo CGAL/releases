@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_widget_2.h $
-// $Id: Qt_widget_2.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_widget_2.h $
+// $Id: Qt_widget_2.h 60273 2010-12-10 10:00:40Z lrineau $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -78,10 +78,10 @@ public:
   //! The base class for listeners for events.
   typedef Multi_listener<Listener_core> Listener;
   friend class  Multi_listener<Listener_core>;*/
-  CGAL_KINETIC_LISTEN1(Qt_widget, PICTURE_IS_CURRENT, draw());
-  CGAL_KINETIC_LISTEN1(Graphical_base, CURRENT_TIME, widget().set_picture_is_current(false));
+  CGAL_KINETIC_LISTEN1(Qt_widget, PICTURE_IS_CURRENT, draw())
+  CGAL_KINETIC_LISTEN1(Graphical_base, CURRENT_TIME, widget().set_picture_is_current(false))
 
-  CGAL_KINETIC_MULTILISTENER1(PICTURE_IS_VALID);
+  CGAL_KINETIC_MULTILISTENER1(PICTURE_IS_VALID)
 public:
   typedef Simulator_t Simulator;
   //typedef Const_ref_counted_pointer<This> Const_point;

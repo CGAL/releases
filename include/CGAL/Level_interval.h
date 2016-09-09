@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Interval_skip_list/include/CGAL/Level_interval.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interval_skip_list/include/CGAL/Level_interval.h $
 // $Id: Level_interval.h 53957 2010-02-01 12:55:28Z spion $
 // 
 //

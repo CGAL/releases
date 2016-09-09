@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Cartesian_kernel/include/CGAL/Cartesian/function_objects.h $
-// $Id: function_objects.h 57753 2010-08-03 14:24:59Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/function_objects.h $
+// $Id: function_objects.h 61441 2011-02-28 15:28:28Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hoffmann
@@ -40,13 +40,28 @@ namespace CartesianKernelFunctors {
   template <typename K>
   class Angle_2
   {
-    typedef typename K::Point_2 Point_2;
+    typedef typename K::Point_2  Point_2;
+    typedef typename K::Vector_2 Vector_2;
   public:
     typedef typename K::Angle   result_type;
 
     result_type
+    operator()(const Vector_2& u, const Vector_2& v) const
+    { return angleC2(u.x(), u.y(), v.x(), v.y()); }
+
+    result_type
     operator()(const Point_2& p, const Point_2& q, const Point_2& r) const
     { return angleC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y()); }
+
+    result_type
+    operator()(const Point_2& p, const Point_2& q, 
+               const Point_2& r, const Point_2& s) const
+    {
+      return angleC2(p.x(), p.y(),
+		     q.x(), q.y(),
+		     r.x(), r.y(),
+                     s.x(), s.y());
+    }
   };
 
   template <typename K>
@@ -410,6 +425,13 @@ namespace CartesianKernelFunctors {
       return cmp_dist_to_pointC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
     }
 
+    template <class T1, class T2, class T3>
+    result_type
+    operator()(const T1& p, const T2& q, const T3& r) const
+    {
+      return CGAL_NTS compare(squared_distance(p, q), squared_distance(p, r));
+    }
+
     template <class T1, class T2, class T3, class T4>
     result_type
     operator()(const T1& p, const T2& q, const T3& r, const T4& s) const
@@ -431,6 +453,13 @@ namespace CartesianKernelFunctors {
       return cmp_dist_to_pointC3(p.x(), p.y(), p.z(),
 				 q.x(), q.y(), q.z(),
 				 r.x(), r.y(), r.z());
+    }
+
+    template <class T1, class T2, class T3>
+    result_type
+    operator()(const T1& p, const T2& q, const T3& r) const
+    {
+      return CGAL_NTS compare(squared_distance(p, q), squared_distance(p, r));
     }
 
     template <class T1, class T2, class T3, class T4>
@@ -965,7 +994,7 @@ namespace CartesianKernelFunctors {
     { return c.rep().squared_radius(); }
 
     result_type
-    operator()( const Point_2& p) const
+    operator()( const Point_2& /*p*/) const
     { return FT(0); }
 
     result_type
@@ -1012,7 +1041,7 @@ namespace CartesianKernelFunctors {
     { return c.rep().squared_radius(); }
 
     result_type
-    operator()( const Point_3& p) const
+    operator()( const Point_3& /*p*/) const
     { return FT(0); }
 
     result_type

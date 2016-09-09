@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Point_2.h $
-// $Id: Point_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Point_2.h $
+// $Id: Point_2.h 59630 2010-11-10 21:14:11Z glisse $
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -39,7 +39,6 @@ class Point_2 : public R_::Kernel_base::Point_2
 {
   typedef typename R_::RT                    RT;
   typedef typename R_::FT                    FT;
-  typedef typename R_::Vector_2              Vector_2;
   typedef typename R_::Aff_transformation_2  Aff_transformation_2;
   typedef typename R_::Kernel_base::Point_2  RPoint_2;
 

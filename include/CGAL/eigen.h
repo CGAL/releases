@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Principal_component_analysis/include/CGAL/eigen.h $
-// $Id: eigen.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Principal_component_analysis/include/CGAL/eigen.h $
+// $Id: eigen.h 61256 2011-02-16 14:22:59Z afabri $
 // 
 //
 // Author(s)     : Bruno Levy, Pierre Alliez
@@ -166,7 +166,7 @@ void eigen_symmetric(const FT *mat,
           a[mm] =  a_ll * sinx_2 + a_mm * cosx_2 + x;
           a[lm] =  0.0;
           
-          thr = std::fabs(thr - a_lm_2);
+          thr = CGAL::abs(thr - a_lm_2);
         }
       }
     }         

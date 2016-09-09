@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Kernel/global_functions_2.h $
-// $Id: global_functions_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Kernel/global_functions_2.h $
+// $Id: global_functions_2.h 60637 2011-01-07 10:45:13Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -52,11 +52,31 @@ operator!=(const Point_2<K> &p, const Origin& o)
 template < class K >
 inline
 Angle
+angle(const Vector_2<K> &u,
+      const Vector_2<K> &v)
+{
+  return internal::angle(u, v, K());
+}
+
+template < class K >
+inline
+Angle
 angle(const Point_2<K> &p,
       const Point_2<K> &q,
       const Point_2<K> &r)
 {
   return internal::angle(p, q, r, K());
+}
+
+template < class K >
+inline
+Angle
+angle(const Point_2<K> &p,
+      const Point_2<K> &q,
+      const Point_2<K> &r,
+      const Point_2<K> &s)
+{
+  return internal::angle(p, q, r, s, K());
 }
 
 template < class K >
@@ -416,6 +436,14 @@ template < class K >
 inline
 typename K::Comparison_result
 compare_xy(const Point_2<K> &p, const Point_2<K> &q)
+{
+  return internal::compare_xy(p, q, K());
+}
+
+template < class K >
+inline
+typename K::Comparison_result
+compare_lexicographically(const Point_2<K> &p, const Point_2<K> &q)
 {
   return internal::compare_xy(p, q, K());
 }

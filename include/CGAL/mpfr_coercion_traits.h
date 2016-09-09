@@ -11,13 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/mpfr_coercion_traits.h $
-// $Id: mpfr_coercion_traits.h 59003 2010-10-04 11:03:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/mpfr_coercion_traits.h $
+// $Id: mpfr_coercion_traits.h 61485 2011-03-02 18:52:57Z sloriot $
 //
 // Author: Luis Peñaranda <luis.penaranda@loria.fr>
 
 #ifndef CGAL_MPFR_COERCION_TRAITS_H
 #define CGAL_MPFR_COERCION_TRAITS_H
+
+#include <CGAL/config.h>
 
 #ifdef CGAL_USE_MPFR
 

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Homogeneous_base.h $
-// $Id: Homogeneous_base.h 56758 2010-06-14 20:29:51Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Homogeneous_kernel/include/CGAL/Homogeneous/Homogeneous_base.h $
+// $Id: Homogeneous_base.h 60378 2010-12-16 16:09:23Z lrineau $
 // 
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
@@ -86,6 +86,7 @@ struct Homogeneous_base
     typedef Homogeneous_tag                         Kernel_tag;
 
     enum { Has_filtered_predicates = false };
+    typedef Boolean_tag<Has_filtered_predicates> Has_filtered_predicates_tag;
 
     typedef CGAL::Object                            Object_2;
     typedef CGAL::Object                            Object_3;

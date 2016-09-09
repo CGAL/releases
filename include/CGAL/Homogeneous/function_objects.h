@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/function_objects.h $
-// $Id: function_objects.h 57753 2010-08-03 14:24:59Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Homogeneous_kernel/include/CGAL/Homogeneous/function_objects.h $
+// $Id: function_objects.h 61441 2011-02-28 15:28:28Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hoffmann
@@ -56,6 +56,7 @@ namespace HomogeneousKernelFunctors {
   class Angle_2
   {
     typedef typename K::Point_2             Point_2;
+    typedef typename K::Vector_2            Vector_2;
     typedef typename K::Construct_vector_2  Construct_vector_2;
     Construct_vector_2 c;
   public:
@@ -66,7 +67,17 @@ namespace HomogeneousKernelFunctors {
 
     result_type
     operator()(const Point_2& p, const Point_2& q, const Point_2& r) const
-    { return enum_cast<Angle>(CGAL_NTS sign(c(q,p) * c(q,r))); }
+    { return operator()(c(q,p), c(q,r)); }
+
+    result_type
+    operator()(const Point_2& p, const Point_2& q, 
+               const Point_2& r, const Point_2& s) const
+    { return operator()(c(q,p), c(s,r)); }
+
+    result_type
+    operator()(const Vector_2& u, const Vector_2& v) const
+    { return enum_cast<Angle>(CGAL_NTS sign(u * v)); }
+
     // FIXME: scalar product
   };
 
@@ -648,6 +659,13 @@ namespace HomogeneousKernelFunctors {
       return CGAL_NTS sign(dosd);
     }
 
+    template <class T1, class T2, class T3>
+    result_type
+    operator()(const T1& p, const T2& q, const T3& r) const
+    {
+      return CGAL_NTS compare(squared_distance(p, q), squared_distance(p, r));
+    }
+
     template <class T1, class T2, class T3, class T4>
     result_type
     operator()(const T1& p, const T2& q, const T3& r, const T4& s) const
@@ -691,6 +709,14 @@ namespace HomogeneousKernelFunctors {
 			      );
 
       return CGAL_NTS sign(dosd);
+    }
+
+
+    template <class T1, class T2, class T3>
+    result_type
+    operator()(const T1& p, const T2& q, const T3& r) const
+    {
+      return CGAL_NTS compare(squared_distance(p, q), squared_distance(p, r));
     }
 
     template <class T1, class T2, class T3, class T4>
@@ -1313,7 +1339,7 @@ namespace HomogeneousKernelFunctors {
     { return c.rep().squared_radius(); }
 
     FT
-    operator()( const Point_2& p) const
+    operator()( const Point_2& /*p*/) const
     { return FT(0); }
 
     FT
@@ -1343,7 +1369,7 @@ namespace HomogeneousKernelFunctors {
     { return s.rep().squared_radius(); }
 
     FT
-    operator()( const Point_3& p) const
+    operator()( const Point_3& /*p*/) const
     { return FT(0); }
       
     FT

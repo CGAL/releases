@@ -8,8 +8,8 @@
  *
  * Zilin Du, 2003
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/src/CGALCore/GmpIO.cpp $
- * $Id: GmpIO.cpp 56668 2010-06-09 08:45:58Z sloriot $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/src/CGALCore/GmpIO.cpp $
+ * $Id: GmpIO.cpp 58329 2010-08-27 20:07:55Z eric $
  ***************************************************************************/
 
 /* Auxiliary functions for C++-style input of GMP types. 
@@ -245,14 +245,24 @@ ostream&
 //operator<< (ostream &o, mpz_srcptr z)
 io_write (ostream &o, mpz_srcptr z)
 { 
-  return o << mpz_get_str (0, 10, z);
+  char *str = new char [mpz_sizeinbase(z,10) + 2];
+  str = mpz_get_str(str, 10, z);
+  o << str ;
+  delete[] str;
+  return o; 
 }
 
 ostream&
 //operator<< (ostream &o, mpq_srcptr q)
 io_write (ostream &o, mpq_srcptr q)
 { 
-  return o << mpq_get_str (0, 10, q);
+  // size according to GMP documentation
+  char *str = new char [mpz_sizeinbase(mpq_numref(q), 10) +
+                        mpz_sizeinbase (mpq_denref(q), 10) + 3];
+  str = mpq_get_str(str, 10, q);
+  o << str ;
+  delete[] str;
+  return o;
 }
 
 } //namespace CORE

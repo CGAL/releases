@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Generator/include/CGAL/point_generators_2.h $
-// $Id: point_generators_2.h 56956 2010-06-22 08:46:38Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Generator/include/CGAL/point_generators_2.h $
+// $Id: point_generators_2.h 58908 2010-09-27 08:56:25Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -242,13 +242,11 @@ public:
         // distributed on the segment from p to q except q, i.e. `*g' ==
         // \lambda p + (1-\lambda)\, q where 0 <= \lambda < 1 . A single
         // random number is needed from `rnd' for each point.
-    : Random_generator_base<P>( max BOOST_PREVENT_MACRO_SUBSTITUTION 
-                                    ( max BOOST_PREVENT_MACRO_SUBSTITUTION 
-				          ( to_double(p.x()), to_double(q.x())),
-                                            max BOOST_PREVENT_MACRO_SUBSTITUTION 
-                                                ( to_double(p.y()),
-                                                  to_double(q.y()))),
-                                            rnd) , _p(p), _q(q) {
+      : Random_generator_base<P>( (std::max)( (std::max)( to_double(p.x()), to_double(q.x())),
+                                              (std::max)( to_double(p.y()),
+                                                          to_double(q.y()))),
+                                  rnd) , _p(p), _q(q)
+    {
         generate_point();
     }
     const P&  source() const { return _p; }
@@ -288,12 +286,10 @@ public:
     Points_on_segment_2() {}
     Points_on_segment_2( const P& p, const P& q,
                          std::size_t mx, std::size_t i = 0)
-    : Generator_base<P>( max BOOST_PREVENT_MACRO_SUBSTITUTION
-                             ( max BOOST_PREVENT_MACRO_SUBSTITUTION
-                                   ( to_double(p.x()), to_double(q.x())),
-                                     max BOOST_PREVENT_MACRO_SUBSTITUTION
-                                         ( to_double(p.y()), to_double(q.y())))),
-                                     _p(p), _q(q), d_i(i), d_mx(mx) {
+      : Generator_base<P>( (std::max)( (std::max)( to_double(p.x()), to_double(q.x())),
+                                       (std::max)( to_double(p.y()), to_double(q.y())))),
+        _p(p), _q(q), d_i(i), d_mx(mx) 
+    {
         generate_point();
     }
     const P&  source() const { return _p; }
@@ -316,7 +312,7 @@ public:
 template < class P >
 void
 Points_on_segment_2<P>::
-generate_point() { this->d_item = _p + (_q-_p) * d_i / (d_mx-1); }
+generate_point() { this->d_item = _p + (_q-_p) * static_cast<double>(d_i) / (static_cast<double>(d_mx)-1); }
 
 template <class OutputIterator, class Creator>
 OutputIterator
@@ -366,7 +362,7 @@ points_on_segment_2( const P& p, const P& q, std::size_t n,
     // } q.
 {
     for (std::size_t i = 0; i < n; i++) {
-        *o++ = p + (q-p) * i / (n-1);
+      *o++ = p + (q-p) * static_cast<typename Kernel_traits<P>::Kernel::FT>(static_cast<double>(i) / (static_cast<double>(n)-1));
     }
     return o;
 }
@@ -450,8 +446,8 @@ OutputIterator random_collinear_points_2(
 
     std::ptrdiff_t m = last - first;
     for ( std::size_t i = 0; i < n; i++) {
-        const Point& p = first[ rnd.get_int( 0, m-1)];
-        const Point& q = first[ rnd.get_int( 0, m-1)];
+      const Point& p = first[ rnd.uniform_int<std::ptrdiff_t>( 0, m-1)];
+        const Point& q = first[ rnd.uniform_int<std::ptrdiff_t>( 0, m-1)];
         double la = rnd.get_double();
         double mu = 1.0 - la;
         *first2++ = creator(T(mu * to_double(p.x()) +

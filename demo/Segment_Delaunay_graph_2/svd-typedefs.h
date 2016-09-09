@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/demo/Segment_Delaunay_graph_2/svd-typedefs.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/demo/Segment_Delaunay_graph_2/svd-typedefs.h $
 // $Id: svd-typedefs.h 52928 2009-11-10 13:44:35Z afabri $
 //
 //

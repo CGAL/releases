@@ -11,19 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/AABB_tree/include/CGAL/AABB_intersections.h $
-// $Id: AABB_intersections.h 53497 2009-12-18 15:13:30Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/AABB_tree/include/CGAL/AABB_intersections.h $
+// $Id: AABB_intersections.h 58408 2010-09-01 08:49:24Z sloriot $
 // 
 //
 // Author(s)     : Camille Wormser, Pierre Alliez, Stephane Tayeb
 
 #include <CGAL/intersections.h>
-
-#include <CGAL/internal/AABB_Intersections_3/Bbox_3_Plane_3_do_intersect.h>
-#include <CGAL/internal/AABB_Intersections_3/Bbox_3_Sphere_3_do_intersect.h>
-#include <CGAL/internal/AABB_Intersections_3/Bbox_3_Triangle_3_do_intersect.h>
-
-#include <CGAL/internal/AABB_Intersections_3/Triangle_3_Plane_3_intersection.h>
 
 #include <CGAL/internal/AABB_tree/nearest_point_segment_3.h>
 #include <CGAL/internal/AABB_tree/nearest_point_triangle_3.h>

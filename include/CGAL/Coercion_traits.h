@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_foundations/include/CGAL/Coercion_traits.h $
-// $Id: Coercion_traits.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_foundations/include/CGAL/Coercion_traits.h $
+// $Id: Coercion_traits.h 59940 2010-11-28 12:17:58Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -138,13 +138,13 @@ namespace CGAL {
 namespace INTERN_CT{ 
 template< class FROM, class TO >struct Cast_from_to{
     typedef TO result_type;
-    TO operator()(const TO& x){return x;}
-    TO operator()(const FROM& x){return TO(x);}
+    TO operator()(const TO& x) const {return x;}
+    TO operator()(const FROM& x) const {return TO(x);}
 };
 template< class TO>
 struct Cast_from_to<TO,TO>{
     typedef TO result_type;
-    TO operator()(const TO& x){return x;}
+    TO operator()(const TO& x) const {return x;}
 };
 }
 

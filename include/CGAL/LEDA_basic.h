@@ -15,14 +15,18 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/LEDA/include/CGAL/LEDA_basic.h $
-// $Id: LEDA_basic.h 33222 2006-08-10 15:14:32Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/LEDA/include/CGAL/LEDA_basic.h $
+// $Id: LEDA_basic.h 61485 2011-03-02 18:52:57Z sloriot $
 // 
 //
 // Author(s)     : Matthias Baesken
 
+
+
 #ifndef CGAL_LEDA_BASIC_H
 #define CGAL_LEDA_BASIC_H
+
+#include <CGAL/config.h>
 
 #ifdef CGAL_USE_LEDA
 // The following is needed for LEDA 4.4 due to min/max problems...

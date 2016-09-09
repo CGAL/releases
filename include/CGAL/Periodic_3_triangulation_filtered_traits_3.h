@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_filtered_traits_3.h $
-// $Id: Periodic_3_triangulation_filtered_traits_3.h 58159 2010-08-19 11:58:49Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_filtered_traits_3.h $
+// $Id: Periodic_3_triangulation_filtered_traits_3.h 58654 2010-09-15 21:08:15Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -455,17 +455,19 @@ struct Offset_converter_3
 };
 
 // The argument is supposed to be a Filtered_kernel like kernel.
-template < typename K >
+template < typename K, typename Off >
 class Periodic_3_triangulation_filtered_traits_base_3
-  : public Periodic_3_triangulation_traits_base_3<K>
+  : public Periodic_3_triangulation_traits_base_3<K, Off>
 {
-  typedef Periodic_3_triangulation_traits_base_3<K> Base;
+  typedef Periodic_3_triangulation_traits_base_3<K, Off> Base;
 
   // Exact traits is based on the exact kernel.
-  typedef Periodic_3_triangulation_traits_3<typename K::Exact_kernel>
+  typedef Periodic_3_triangulation_traits_3<typename K::Exact_kernel,
+                                            Off>
                                                    Exact_traits;
   // Filtering traits is based on the filtering kernel.
-  typedef Periodic_3_triangulation_traits_3<typename K::Approximate_kernel>
+  typedef Periodic_3_triangulation_traits_3<typename K::Approximate_kernel,
+                                            Off>
                                                    Filtering_traits;
 private:
   typedef typename K::C2E C2E;
@@ -567,10 +569,10 @@ public:
 
 namespace CGAL {
 
-template < typename K >
+template < typename K, typename Off = typename CGAL::Periodic_3_offset_3 >
 class Periodic_3_triangulation_filtered_traits_3
   : public Periodic_3_triangulation_statically_filtered_traits_3<
-  Periodic_3_triangulation_filtered_traits_base_3<K> > {
+  Periodic_3_triangulation_filtered_traits_base_3<K, Off> > {
 };
 
 } //namespace CGAL

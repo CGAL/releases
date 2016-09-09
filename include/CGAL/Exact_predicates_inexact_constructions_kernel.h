@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Exact_predicates_inexact_constructions_kernel.h $
-// $Id: Exact_predicates_inexact_constructions_kernel.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Exact_predicates_inexact_constructions_kernel.h $
+// $Id: Exact_predicates_inexact_constructions_kernel.h 57611 2010-07-27 14:16:39Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas, Sylvain Pion
@@ -29,8 +29,20 @@
 
 namespace CGAL {
 
-typedef Filtered_kernel< Simple_cartesian<double> >
-        Exact_predicates_inexact_constructions_kernel;
+// The following is equivalent to Filtered_kernel< Simple_cartesian<double> >,
+// but it's shorter in terms of template name length (for error messages, mangling...).
+
+class Epick
+  : public Filtered_kernel_adaptor<
+               Type_equality_wrapper< Simple_cartesian<double>::Base<Epick>::Type, Epick >,
+#ifdef CGAL_NO_STATIC_FILTERS
+               false >
+#else
+               true >
+#endif
+{};
+
+typedef Epick Exact_predicates_inexact_constructions_kernel;
 
 } //namespace CGAL
 

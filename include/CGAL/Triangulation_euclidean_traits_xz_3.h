@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_xz_3.h $
-// $Id: Triangulation_euclidean_traits_xz_3.h 57201 2010-06-29 14:55:59Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_xz_3.h $
+// $Id: Triangulation_euclidean_traits_xz_3.h 60713 2011-01-11 07:18:36Z sloriot $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -20,13 +20,12 @@
 #ifndef CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_XZ_3_H
 #define CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_XZ_3_H
 
-#include <CGAL/internal/Triangulation_euclidean_traits_projected_3.h>
-
+#include <CGAL/internal/Projection_traits_3.h>
 namespace CGAL {
 
 template < class R >
 class Triangulation_euclidean_traits_xz_3
-  : public internal::Triangulation_euclidean_traits_projected_3<R,1>
+  : public internal::Projection_traits_3<R,1>
 {};
 
 } //namespace CGAL

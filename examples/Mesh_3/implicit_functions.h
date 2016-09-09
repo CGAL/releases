@@ -4,7 +4,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/examples/Mesh_3/implicit_functions.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/examples/Mesh_3/implicit_functions.h $
 // $Id: implicit_functions.h 50092 2009-06-26 08:58:47Z stayeb $
 //
 //

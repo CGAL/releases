@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_functions.h $
-// $Id: QP_functions.h 58489 2010-09-06 11:43:46Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_functions.h $
+// $Id: QP_functions.h 58488 2010-09-06 11:25:20Z lrineau $
 // 
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>

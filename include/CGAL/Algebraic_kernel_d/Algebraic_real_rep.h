@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_real_rep.h $
-// $Id: Algebraic_real_rep.h 59003 2010-10-04 11:03:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_real_rep.h $
+// $Id: Algebraic_real_rep.h 59002 2010-10-04 11:00:27Z lrineau $
 // 
 //
 // Author(s)     :  Michael Hemmer <hemmer@mpi-inf.mpg.de>
@@ -388,7 +388,7 @@ public:
             // we have ]low(), high()[ == ]y.low(),y.high()[ == ]L,R[
             // and let both numbers decide for the gcd or its complement
             Poly F1,F2,G;
-            G = gcd_utcf(polynomial(),y.polynomial()); 
+            G = CGAL::gcd_up_to_constant_factor(polynomial(),y.polynomial()); 
             F1 = integral_division_up_to_constant_factor(polynomial(),G);
             CGAL_postcondition(CGAL::degree(F1)==
                                CGAL::degree(polynomial())-CGAL::degree(G));
@@ -495,7 +495,7 @@ public:
         if (is_rational()  ) return CGAL::ZERO == Q.sign_at(rational());
         
         if ( may_have_common_factor(polynomial(), Q) ) {
-            Poly G = gcd_utcf(polynomial(),Q);
+          Poly G = CGAL::gcd_up_to_constant_factor(polynomial(),Q);
             if(CGAL::degree(G)!=0){
                 Poly F1 = integral_division_up_to_constant_factor(
                         polynomial(),G

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_counting_traits_2.h $
-// $Id: Arr_counting_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_counting_traits_2.h $
+// $Id: Arr_counting_traits_2.h 60900 2011-01-24 09:31:32Z glisse $
 //
 // Author(s)     : Efi Fogel    <efif@post.tau.ac.il>
 
@@ -229,7 +229,7 @@ public:
   class Compare_xy_2 {
   private:
     typename Base::Compare_xy_2 m_object;
-    mutable unsigned int & m_counter;
+    unsigned int & m_counter;
 
   public:
     /*! Construct */
@@ -505,9 +505,9 @@ public:
   class Parameter_space_in_x_2 {
   private:
     typename Base::Parameter_space_in_x_2 m_object;
-    mutable unsigned int & m_counter1;
-    mutable unsigned int & m_counter2;
-    mutable unsigned int & m_counter3;
+    unsigned int & m_counter1;
+    unsigned int & m_counter2;
+    unsigned int & m_counter3;
 
   public:
     /*! Construct */
@@ -589,9 +589,9 @@ public:
   class Parameter_space_in_y_2 {
   private:
     typename Base::Parameter_space_in_y_2 m_object;
-    mutable unsigned int & m_counter1;
-    mutable unsigned int & m_counter2;
-    mutable unsigned int & m_counter3;
+    unsigned int & m_counter1;
+    unsigned int & m_counter2;
+    unsigned int & m_counter3;
 
   public:
     /*! Construct */

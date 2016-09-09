@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/IO/Complex_3_in_triangulation_3_to_vtk.h $
-// $Id: Complex_3_in_triangulation_3_to_vtk.h 52705 2009-10-23 10:27:15Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/IO/Complex_3_in_triangulation_3_to_vtk.h $
+// $Id: Complex_3_in_triangulation_3_to_vtk.h 60941 2011-01-26 07:40:10Z sloriot $
 //
 //
 // Author(s)     : Laurent Rineau
@@ -44,8 +44,8 @@ output_c3t3_to_vtk_unstructured_grid(const C3T3& c3t3,
   vtkCellArray* const vtk_cells = vtkCellArray::New();
 
   vtk_points->Allocate(c3t3.triangulation().number_of_vertices());
-  vtk_facets->Allocate(c3t3.number_of_facets());
-  vtk_cells->Allocate(c3t3.number_of_cells());
+  vtk_facets->Allocate(c3t3.number_of_facets_in_complex());
+  vtk_cells->Allocate(c3t3.number_of_cells_in_complex());
 
   std::map<Vertex_handle, vtkIdType> V;
   vtkIdType inum = 0;
@@ -63,9 +63,9 @@ output_c3t3_to_vtk_unstructured_grid(const C3T3& c3t3,
                                 CGAL::to_double(p.z()));
     V[vit] = inum++;
   }
-  for(typename C3T3::Facet_iterator 
-        fit = c3t3.facets_begin(),
-        end = c3t3.facets_end();
+  for(typename C3T3::Facets_in_complex_iterator 
+        fit = c3t3.facets_in_complex_begin(),
+        end = c3t3.facets_in_complex_end();
       fit != end; ++fit) 
   {
     vtkIdType cell[3];
@@ -77,15 +77,15 @@ output_c3t3_to_vtk_unstructured_grid(const C3T3& c3t3,
     vtk_facets->InsertNextCell(3, cell);
   }
 
-  for(typename C3T3::Cell_iterator 
-        cit = c3t3.cells_begin(),
-        end = c3t3.cells_end();
+  for(typename C3T3::Cells_in_complex_iterator 
+        cit = c3t3.cells_in_complex_begin(),
+        end = c3t3.cells_in_complex_end();
       cit != end; ++cit) 
   {
     vtkIdType cell[4];
     for (int i = 0; i < 4; ++i)
       cell[i] =  V[cit->vertex(i)];
-    vtk_facets->InsertNextCell(4, cell);
+    vtk_cells->InsertNextCell(4, cell);
   }
 
   if(!grid) {

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/include/CGAL/Mesh_3/Lloyd_move.h $
-// $Id: Lloyd_move.h 57306 2010-07-02 15:13:57Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_3/Lloyd_move.h $
+// $Id: Lloyd_move.h 60688 2011-01-10 15:43:22Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -77,6 +77,11 @@ public:
         break;
       case 2:
         return lloyd_move_on_boundary(v,c3t3,sizing_field);
+        break;
+      case 1:
+      case 0:
+        // Don't move edge or corner vertices
+        return CGAL::NULL_VECTOR;
         break;
       default:
         // Should not happen

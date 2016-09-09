@@ -11,6 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/OFF_to_nef_3.h $ 
+// $Id: OFF_to_nef_3.h 61498 2011-03-03 18:20:41Z sloriot $ 
+// 
+//
 // Author(s)     : Ralf Osbild <osbild@mpi-sb.mpg.de>
 
 #ifndef CGAL_OFF_TO_NEF_3_H
@@ -129,7 +133,7 @@ OFF_to_nef_3 (std::istream &i_st, Nef_3 &nef_union, bool verb=false)
 
    // declarations and defaults
    std::size_t discarded_facets=0;
-   long idx;
+   std::size_t idx;
 
 #ifdef CGAL_NEF_OFF_TO_NEF_TIMER
    CGAL::Timer t_convert, t_union;
@@ -171,7 +175,7 @@ OFF_to_nef_3 (std::istream &i_st, Nef_3 &nef_union, bool verb=false)
       Scan_index_it ind_it = f_it->begin();
       for (jdx=0; ind_it != f_it->end(); ++ind_it, ++jdx)
       {  // assertion: index out of range?
-         CGAL_assertion ( 0 <= *ind_it && *ind_it < NOV );
+         CGAL_assertion (*ind_it < NOV );
          V_f_scan.push_back (V_scan[*ind_it]);
          V_f.push_back (V[*ind_it]);
       }

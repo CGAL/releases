@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Simple_interval_root.h $
-// $Id: Simple_interval_root.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Simple_interval_root.h $
+// $Id: Simple_interval_root.h 59966 2010-11-29 12:32:22Z lrineau $
 //
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -238,7 +238,7 @@ public:
     if (interval_.first > interval_.second) {
       //std::cout << "Computing interval for ";
       //write_raw(std::cout) << std::endl;
-      std::pair<double,double> r= internal_compute_interval(accuracy);
+      internal_compute_interval(accuracy);
       /*std::cout << "Got " << CGAL::to_interval(ii_.first).first << "..." 
 	<< CGAL::to_interval(ii_.second).second << std::endl;*/
       interval_=std::make_pair(CGAL::to_interval(ii_.first).first, CGAL::to_interval(ii_.second).second);

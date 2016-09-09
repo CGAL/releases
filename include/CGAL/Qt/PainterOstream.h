@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/PainterOstream.h $
-// $Id: PainterOstream.h 55437 2010-04-13 09:47:42Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/PainterOstream.h $
+// $Id: PainterOstream.h 59588 2010-11-09 09:12:58Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -98,6 +98,11 @@ public:
     return *this;
   }
 
+  PainterOstream& operator<<(const Bbox_2& bb)
+  {
+    qp->drawRect(convert(bb));
+    return *this;
+  }
 
   PainterOstream& operator<<(const Circle_2& c)
   {

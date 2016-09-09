@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kernel_23/include/CGAL/Vector_3.h $
-// $Id: Vector_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/Vector_3.h $
+// $Id: Vector_3.h 59375 2010-10-27 09:06:49Z glisse $
 // 
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -38,7 +38,8 @@ template <class R_>
 class Vector_3 : public R_::Kernel_base::Vector_3
 {
   typedef typename R_::RT                    RT;
-  typedef typename R_::FT                    FT;
+// http://www.cgal.org/Members/Manual_test/LAST/Developers_internal_manual/Developers_manual/Chapter_code_format.html#sec:programming_conventions
+  typedef typename R_::FT                    FT_;
   typedef typename R_::Segment_3             Segment_3;
   typedef typename R_::Ray_3                 Ray_3;
   typedef typename R_::Line_3                Line_3;
@@ -126,7 +127,7 @@ public:
    return R().construct_divided_vector_3_object()(*this,c);
   }
 
-  Vector_3 operator/(const typename First_if_different<FT,RT>::Type & c) const
+  Vector_3 operator/(const typename First_if_different<FT_,RT>::Type & c) const
   {
    return R().construct_divided_vector_3_object()(*this,c);
   }

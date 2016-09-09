@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/Reflex_edge_searcher.h $
-// $Id: Reflex_edge_searcher.h 57194 2010-06-29 12:47:18Z lrineau $ 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/Reflex_edge_searcher.h $
+// $Id: Reflex_edge_searcher.h 59693 2010-11-14 17:22:23Z afabri $ 
 // 
 //
 // Author(s)     :  Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -69,12 +69,12 @@ class Reflex_edge_searcher : public Modifier_base<typename Nef_::SNC_structure> 
       svc(e->out_sedge()), send(svc);
     int isrse = 0;
     CGAL_For_all(svc, send)
-      isrse |= is_reflex_sedge(svc, dir);
+      isrse |= CGAL::is_reflex_sedge<SNC_structure>(svc, dir);
     return isrse;
   }
 
   int is_reflex_sedge(SHalfedge_handle se) {
-    return is_reflex_sedge(se, dir);
+    return CGAL::is_reflex_sedge<SNC_structure>(se, dir);
   }
 
   void operator()(SNC_structure& snc) {
@@ -111,10 +111,10 @@ class Reflex_edge_searcher : public Modifier_base<typename Nef_::SNC_structure> 
       svc(e->out_sedge()), send(svc);
     int pushed = 0;
     CGAL_For_all(svc, send) {
-      int isrse = is_reflex_sedge(svc, dir);
+      int isrse = CGAL::is_reflex_sedge<SNC_structure>(svc, dir);
       if(isrse == 0) continue;
-      if((pushed&=1==0) && (isrse&1==1)) pos.insert(svc->source());
-      if((pushed&=2==0) && (isrse&2==2)) neg.insert(svc->source());
+      if((pushed&=1==0) && ((isrse&1)==1)) pos.insert(svc->source());
+      if((pushed&=2==0) && ((isrse&2)==2)) neg.insert(svc->source());
       pushed |= isrse;
       if(pushed == 3)
 	break;

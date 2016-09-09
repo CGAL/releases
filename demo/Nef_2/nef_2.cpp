@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_2/demo/Nef_2/nef_2.cpp $
-// $Id: nef_2.cpp 57467 2010-07-12 10:02:56Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/demo/Nef_2/nef_2.cpp $
+// $Id: nef_2.cpp 58230 2010-08-23 11:50:32Z afabri $
 //
 //
 // Author(s)     : Radu Ursu
@@ -58,6 +58,7 @@ int main(int, char*)
 #include <qtimer.h>
 #include <qtoolbar.h>
 #include <qtoolbutton.h>
+#include <qstring.h>
 
 const QString my_title_string("Nef_2 Demo with"
 			      " CGAL Qt_widget");
@@ -358,9 +359,9 @@ public slots:
       Nef_polyhedron Nt(l_of_p.begin(), l_of_p.end(),
                         Nef_polyhedron::INCLUDED);
       Nef_visible = Nt;
-      char tnr[10];
-      sprintf(tnr, "%d", poly.size());
-      strcat(tnr, "gon");
+      QString tnr;
+      tnr.setNum(poly.size());
+      tnr.append("gon");
       insert_in_list(Nt, tnr);
       list1->setSelected(list1->count()-1, true);
       widget->set_window(poly.bbox().xmin(), poly.bbox().xmax(),
@@ -418,9 +419,9 @@ private slots:
       Nef_polyhedron Nt(l_of_p.begin(), l_of_p.end(),
                         Nef_polyhedron::INCLUDED);
       Nef_visible = Nt;
-      char tnr[10];
-      sprintf(tnr, "%d", poly.size());
-      strcat(tnr, "gon");
+      QString tnr;
+      tnr.setNum(poly.size());
+      tnr.append("gon");
       insert_in_list(Nt, tnr);
       list1->setSelected(list1->count()-1, true);
       Nef_visible2 = Nef_polyhedron(Nef_polyhedron::EMPTY);
@@ -720,16 +721,17 @@ private slots:
 private:
   void insert_in_list(Nef_polyhedron n, QString name)
   {
-    char tname[300], tnr[5];
-    sprintf(tnr, "%d", nef_index++);
-    strcpy(tname, "N");
-    strcat(tname, tnr);strcat(tname, "= ");
-    QString qs_tname(tname);
-    qs_tname += name;
-    Nef_description tempND(n, qs_tname);
+    QString tnr;
+    tnr.setNum(nef_index++);
+    tnr.append("gon");
+    QString tname("N");
+    tname.append(tnr);
+    tname.append("= ");
+    tname += name;
+    Nef_description tempND(n, tname);
     nef_2_list.push_back(tempND);
-    list1->insertItem(qs_tname);
-    list2->insertItem(qs_tname);
+    list1->insertItem(tname);
+    list2->insertItem(tname);
   }
 
   Nef_polyhedron

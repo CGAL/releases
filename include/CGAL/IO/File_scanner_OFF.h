@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Stream_support/include/CGAL/IO/File_scanner_OFF.h $
-// $Id: File_scanner_OFF.h 57144 2010-06-28 10:58:52Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Stream_support/include/CGAL/IO/File_scanner_OFF.h $
+// $Id: File_scanner_OFF.h 60220 2010-12-08 09:43:42Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -114,7 +114,7 @@ public:
                 I_Binary_read_big_endian_float32( m_in, fw);
                 x = int( fx / fw);
                 y = int( fy / fw);
-                y = int( fz / fw);
+                z = int( fz / fw);
             } else {
                 x = int(fx);
                 y = int(fy);
@@ -127,7 +127,7 @@ public:
                 m_in >> fx >> fy >> fz >> fw;
                 x = int( fx / fw);
                 y = int( fy / fw);
-                y = int( fz / fw);
+                z = int( fz / fw);
             } else {
                 double d;
                 m_in >> d;
@@ -245,7 +245,7 @@ public:
                     I_Binary_read_big_endian_float32( m_in, fw);
                     x = fx / fw;
                     y = fy / fw;
-                    y = fz / fw;
+                    z = fz / fw;
                 } else {
                     x = fx;
                     y = fy;
@@ -257,7 +257,7 @@ public:
                     m_in >> fx >> fy >> fz >> fw;
                     x = fx / fw;
                     y = fy / fw;
-                    y = fz / fw;
+                    z = fz / fw;
                 } else
                     m_in >> x >> y >> z;
             }
@@ -276,7 +276,7 @@ public:
                     I_Binary_read_big_endian_float32( m_in, fw);
                     x = int( fx / fw);
                     y = int( fy / fw);
-                    y = int( fz / fw);
+                    z = int( fz / fw);
                 } else {
                     x = int(fx);
                     y = int(fy);
@@ -288,7 +288,7 @@ public:
                     m_in >> fx >> fy >> fz >> fw;
                     x = int( fx / fw);
                     y = int( fy / fw);
-                    y = int( fz / fw);
+                    z = int( fz / fw);
                 } else {
                     double d;
                     m_in >> d;

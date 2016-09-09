@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d.h $
-// $Id: Approximate_min_ellipsoid_d.h 36397 2007-02-16 15:56:11Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d.h $
+// $Id: Approximate_min_ellipsoid_d.h 58840 2010-09-23 19:23:50Z afabri $
 // 
 //
 // Author(s)     : Kaspar Fischer <fischerk@inf.ethz.ch>
@@ -25,7 +25,7 @@
 #include <vector>
 #include <iostream>
 
-#include <CGAL/Cartesian.h>
+#include <CGAL/Simple_cartesian.h>
 #include <CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation.h>
 
 namespace CGAL {
@@ -137,7 +137,7 @@ namespace CGAL {
       
       // Find e (1+e_eps)-approximation for the embedded points.  This
       // only works when the points affinely span R^{d+1}.
-      E = new Khachiyan_approximation<true,Traits>(d,P.size(),tco);
+      E = new Khachiyan_approximation<true,Traits>(d, static_cast<int>(P.size()),tco);
       const bool is_deg = !E->add(P.begin(),P.end(),e_eps);
 
       // debugging:

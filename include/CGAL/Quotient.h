@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Quotient.h $
-// $Id: Quotient.h 58717 2010-09-20 18:14:50Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Quotient.h $
+// $Id: Quotient.h 60432 2010-12-20 20:48:26Z glisse $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hemmer
@@ -36,8 +36,7 @@
 #define CGAL_QUOTIENT_H
 
 #include <utility>
-#include <locale>
-#include <cctype>
+#include <istream>
 
 #include <CGAL/Interval_nt.h>
 #include <CGAL/Kernel/mpl.h>
@@ -418,7 +417,7 @@ template <class NT>
 std::ostream&
 operator<<(std::ostream& s, const Quotient<NT>& r)
 {
-   return s << r.numerator() << "/" << r.denominator();
+   return s << r.numerator() << '/' << r.denominator();
 }
 
 template <class NT>
@@ -427,30 +426,22 @@ operator>>(std::istream& in, Quotient<NT>& r)
 {
   /* format  num/den  or simply  num  */
 
-  char c = 0;
-
-  while (in.get(c) && std::isspace(c, std::locale::classic() )) {}
-  if ( !in ) return in;
-  in.putback(c);
-
-  NT num;
-  NT den(1);
+  NT num,den=1;
   in >> num;
-
-  while (in.get(c) && std::isspace(c, std::locale::classic() )) {}
-  if (( in ) && ( c == '/'))
-  {
-      while (in.get(c) && std::isspace(c, std::locale::classic() )) {}
-      CGAL_assertion( in != 0 );
-      in.putback(c);
-      in >> den;
+  if(!in) return in;
+  std::istream::sentry s(in); // skip whitespace
+  if(in.peek()!='/'){
+	  if(!in.good()){
+		  in.clear(std::ios_base::eofbit);
+		  // unlikely to be some other reason?
+	  }
+  } else {
+	  char c;
+	  in.get(c); // remove the '/'
+	  in >> den;
+	  if(!in) return in;
   }
-  else
-  {
-      in.putback(c);
-      if ( in.eof() ) in.clear();
-  }
-  r = Quotient<NT>( num, den);
+  r=Quotient<NT>(num,den);
   return in;
 }
 

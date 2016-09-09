@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Generator/include/CGAL/random_polygon_2.h $
-// $Id: random_polygon_2.h 42624 2008-03-27 22:59:00Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Generator/include/CGAL/random_polygon_2.h $
+// $Id: random_polygon_2.h 61360 2011-02-23 09:17:57Z sloriot $
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
@@ -41,7 +41,7 @@ namespace CGAL {
 // generated with uniform probability.
 //
 template <class PointGenerator, class OutputIterator, class Traits>
-OutputIterator random_polygon_2(int n,  OutputIterator result, 
+OutputIterator random_polygon_2(std::size_t n,  OutputIterator result, 
                                 const PointGenerator& pg, const Traits& traits)
 {
    typedef typename Traits::Point_2           Point_2;
@@ -53,7 +53,9 @@ OutputIterator random_polygon_2(int n,  OutputIterator result,
    copy_n_unique(pg, n, std::back_inserter(vertices), traits);
    CGAL_assertion(!duplicate_points(vertices.begin(), vertices.end(), traits));
 
+#ifndef CGAL_DONT_SHUFFLE_IN_RANDOM_POLYGON_2
    std::random_shuffle(vertices.begin(), vertices.end());
+#endif
 
    make_simple_polygon(vertices.begin(), vertices.end(), traits);
 
@@ -67,7 +69,7 @@ OutputIterator random_polygon_2(int n,  OutputIterator result,
 
 template <class PointGenerator, class OutputIterator>
 inline
-OutputIterator random_polygon_2( int n,  OutputIterator result, 
+OutputIterator random_polygon_2( std::size_t n,  OutputIterator result, 
                                  const PointGenerator& pg )
 {
    typedef typename std::iterator_traits<PointGenerator>::value_type  Point_2;
@@ -108,7 +110,7 @@ OutputIterator copy_n_unique(InputIterator first, Size n,
    typedef typename Traits::Less_xy_2  Less_xy_2;
 
    std::set<Point_2, Less_xy_2>    sorted_point_set;
-   for (int i = 0; i < n; i++)
+   for (Size i = 0; i < n; i++)
    {
       if (sorted_point_set.insert(*first).second)
       {

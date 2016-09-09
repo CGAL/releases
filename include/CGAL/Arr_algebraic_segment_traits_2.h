@@ -12,16 +12,20 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_algebraic_segment_traits_2.h $
-// $Id: Arr_algebraic_segment_traits_2.h 59003 2010-10-04 11:03:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_algebraic_segment_traits_2.h $
+// $Id: Arr_algebraic_segment_traits_2.h 60763 2011-01-12 22:34:35Z eric $
 // 
 //
 // Author(s)     : Michael Kerber    <mkerber@mpi-inf.mpg.de>
 //
 // ============================================================================
 
-#include <CGAL/basic.h>
+#ifndef CGAL_ARR_ALGEBRAIC_SEGMENT_TRAITS
+#define CGAL_ARR_ALGEBRAIC_SEGMENT_TRAITS
 
+#include <CGAL/config.h>
+
+#include <CGAL/Algebraic_kernel_d/flags.h>
 #include <CGAL/Algebraic_kernel_d_1.h>
 #include <CGAL/Algebraic_kernel_d/Algebraic_curve_kernel_2.h>
 
@@ -47,9 +51,8 @@ public:
     typedef Coefficient_ Coefficient;
     
     // 'derivation'
-    
     typedef CGAL::Algebraic_kernel_d_1< Coefficient > Algebraic_kernel_d_1;
-    
+
     typedef CGAL::Algebraic_curve_kernel_2< Algebraic_kernel_d_1 > 
         Algebraic_kernel_d_2;
     
@@ -650,3 +653,5 @@ public:
 };
 
 } //namespace CGAL
+
+#endif // CGAL_ARR_ALGEBRAIC_SEGMENT_TRAITS

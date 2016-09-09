@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_foundations/include/CGAL/Algebraic_structure_traits.h $
-// $Id: Algebraic_structure_traits.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_foundations/include/CGAL/Algebraic_structure_traits.h $
+// $Id: Algebraic_structure_traits.h 59593 2010-11-09 10:41:37Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -85,6 +85,7 @@ class Algebraic_structure_traits  {
     typedef Null_functor Kth_root;
     typedef Null_functor Root_of; 
     typedef Null_functor Divides; 
+    typedef Null_functor Inverse; 
 };
 
 // The algebraic structure traits base class
@@ -124,7 +125,8 @@ class Algebraic_structure_traits_base< Type_, Null_tag > {
     typedef Null_functor Sqrt;
     typedef Null_functor Kth_root;
     typedef Null_functor Root_of; 
-    typedef Null_functor Divides; 
+    typedef Null_functor Divides;
+    typedef Null_functor Inverse;
 };
 
 //! The template specialization that is used if the number type is
@@ -462,6 +464,16 @@ class Algebraic_structure_traits_base< Type_, Field_tag >
         }
       CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR( Type )
     };
+  
+  // maps to \c 1/x by default.
+  class Inverse 
+    : public std::unary_function< Type, Type > { 
+  public:
+    Type operator()( const Type& x ) const { 
+      return Type(1)/x;
+    }
+  };
+  
 
   // Default implementation of Divides functor for Field: 
   // returns always true

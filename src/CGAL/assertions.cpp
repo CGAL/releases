@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/src/CGAL/assertions.cpp $
-// $Id: assertions.cpp 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/src/CGAL/assertions.cpp $
+// $Id: assertions.cpp 58595 2010-09-10 09:51:25Z glisse $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman and Sven Schönherr
@@ -49,7 +49,7 @@ _standard_error_handler(
         int         line,
         const char* msg )
 {
-#ifdef __GNUG__
+#if defined(__GNUG__) && !defined(__clang__)
     // After g++ 3.4, std::terminate defaults to printing to std::cerr itself.
     if (_error_behaviour == THROW_EXCEPTION)
         return;
@@ -73,7 +73,7 @@ _standard_warning_handler( const char *,
                           int         line,
                           const char* msg )
 {
-#ifdef __GNUG__
+#if defined(__GNUG__) && !defined(__clang__)
     // After g++ 3.4, std::terminate defaults to printing to std::cerr itself.
     if (_warning_behaviour == THROW_EXCEPTION)
         return;

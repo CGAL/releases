@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/config/testfiles/CGAL_CFG_NO_MESSAGE_PRAGMA_BUG.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/testfiles/CGAL_CFG_NO_MESSAGE_PRAGMA_BUG.cpp $
 // $Id: CGAL_CFG_NO_MESSAGE_PRAGMA_BUG.cpp 56118 2010-05-11 10:08:08Z lrineau $
 //
 // Author(s)     : Laurent Rineau

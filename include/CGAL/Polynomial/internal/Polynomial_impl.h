@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Polynomial_impl.h $
-// $Id: Polynomial_impl.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Polynomial_impl.h $
+// $Id: Polynomial_impl.h 59966 2010-11-29 12:32:22Z lrineau $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -351,7 +351,7 @@ public:
 
       //NT cp1= coef+NT(1);
       unsigned int pow;
-      char p= in.peek();
+      in.peek();
       if (in.peek() =='*') {
 	in >> t >> vc;
 	if (t != '*') {
@@ -365,7 +365,7 @@ public:
 	  //return in;
 	}
 	v=vc;
-	p=in.peek();
+        in.peek();
 	if (in.peek() =='^') {
 	  char c;
 	  in  >> c >> pow;

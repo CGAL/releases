@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Mesh_3/demo/Mesh_3/implicit_functions/Tanglecube_implicit_function.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/demo/Mesh_3/implicit_functions/Tanglecube_implicit_function.cpp $
 // $Id: Tanglecube_implicit_function.cpp 57336 2010-07-06 07:26:40Z stayeb $
 //
 //

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/Polynomial_type.h $
-// $Id: Polynomial_type.h 56960 2010-06-22 09:26:00Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polynomial/include/CGAL/Polynomial/Polynomial_type.h $
+// $Id: Polynomial_type.h 57742 2010-08-03 11:18:47Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -216,7 +216,10 @@ public:
   typedef typename Rep::iterator  iterator;
   //! container's const iterator (random access)
   typedef typename Rep::const_iterator const_iterator;
+  //! the Self type
+  typedef Polynomial<NT> Self; 
   //@}
+  
 
 protected:
   //! \name Protected methods
@@ -256,18 +259,15 @@ protected:
 //
 // Constructors of Polynomial<NT>
 //
-
+private:
+    static Self& get_default_instance(){
+      static Self x = Self(0); 
+      return x; 
+    }
 public:
     //! \name Constructors
-    //! default constructor: a new polynomial of undefined value.
-    Polynomial() 
-      : Base( Rep(internal::Creation_tag(), 1) ) { 
-      coeff(0) = NT(0); 
-    }
-      
-     
     //! copy constructor: copy existing polynomial (shares rep)
-    Polynomial(const Polynomial<NT>& p) : Base(static_cast<const Base&>(p)) {}
+    Polynomial(const Self& p = get_default_instance()) : Base(static_cast<const Base&>(p)) {}
         
     //! construct the constant polynomial a0 from any type convertible to NT
     template <class T>

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_reconstruction_points_3/include/CGAL/poisson_refine_triangulation.h $
-// $Id: poisson_refine_triangulation.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_reconstruction_points_3/include/CGAL/poisson_refine_triangulation.h $
+// $Id: poisson_refine_triangulation.h 57924 2010-08-10 13:22:20Z afabri $
 //
 // Author(s)     : Laurent RINEAU, Laurent Saboret
 
@@ -97,8 +97,9 @@ public:
 
   void scan_triangulation_impl()
   {
-    for(typename Tr::Finite_cells_iterator cit = triangulation_ref_impl().finite_cells_begin();
-        cit != triangulation_ref_impl().finite_cells_end();
+    for(typename Tr::Finite_cells_iterator cit = triangulation_ref_impl().finite_cells_begin(),
+        eit = triangulation_ref_impl().finite_cells_end();
+        cit != eit;
         ++cit)
       test_if_cell_is_bad(cit);
   }
@@ -118,7 +119,7 @@ public:
     typedef std::vector<Cell_handle> Cells;
     typedef typename Cells::iterator Cell_iterator;
     Cells incident_cells;
-
+    incident_cells.reserve(32);
     triangulation_ref_impl().incident_cells(v, std::back_inserter(incident_cells));
 
     for(Cell_iterator cit = incident_cells.begin();

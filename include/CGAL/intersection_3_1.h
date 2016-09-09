@@ -1,3 +1,4 @@
+// Copyright (c) 2010 GeometryFactory (France).
 // Copyright (c) 1997-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -15,11 +16,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Intersections_3/include/CGAL/intersection_3_1.h $
-// $Id: intersection_3_1.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_3/include/CGAL/intersection_3_1.h $
+// $Id: intersection_3_1.h 59401 2010-10-28 15:13:53Z sloriot $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
+//                 Sebastien Loriot <Sebastien.Loriot@geometryfactory.com>
 
 #ifndef CGAL_INTERSECTION_3_1_H
 #define CGAL_INTERSECTION_3_1_H
@@ -133,7 +135,17 @@ do_intersect(const Segment_3<R> &p1,
     return do_intersect(p2,p1);
 }
 
+template <class R>
+Object
+intersection(const Plane_3<R> &plane, const Triangle_3<R>&tri);
 
+template <class R>
+inline
+Object
+intersection(const Triangle_3<R>&tri, const Plane_3<R> &plane)
+{
+    return intersection(plane,tri);
+}
 
 template <class R>
 Object
@@ -236,6 +248,49 @@ intersection(const Line_3<R> &l1,
 
 template <class R>
 Object
+intersection(const Segment_3<R> &,
+             const Segment_3<R> &);
+
+template <class R>
+Object
+intersection(const Line_3<R> &,
+             const Segment_3<R> &);
+             
+template <class R>
+Object
+intersection(const Segment_3<R> &s,
+             const Line_3<R> &l)
+{return intersection(l,s);}
+
+template <class R>
+Object
+intersection(const Line_3<R> &,
+             const Ray_3<R> &);
+             
+template <class R>
+Object
+intersection(const Ray_3<R> &r,
+             const Line_3<R> &l)
+{return intersection(l,r);}
+
+template <class R>
+Object
+intersection(const Ray_3<R> &,
+             const Segment_3<R> &);
+             
+template <class R>
+Object
+intersection(const Segment_3<R> &s,
+             const Ray_3<R> &r)
+{return intersection(r,s);}
+
+template <class R>
+Object
+intersection(const Ray_3<R> &,
+             const Ray_3<R> &);
+
+template <class R>
+Object
 intersection(const Sphere_3<R> &s1,
              const Sphere_3<R> &s2);
 
@@ -257,6 +312,48 @@ bool
 do_intersect(const Line_3<R> &l1,
              const Line_3<R> &l2);
 
+template <class R>
+bool
+do_intersect(const Segment_3<R> &,
+             const Segment_3<R> &);
+
+template <class R>
+bool
+do_intersect(const Line_3<R> &,
+             const Segment_3<R> &);
+             
+template <class R>
+bool
+do_intersect(const Segment_3<R> &s,
+             const Line_3<R> &l)
+{return do_intersect(l,s);}
+
+template <class R>
+bool
+do_intersect(const Line_3<R> &,
+             const Ray_3<R> &);
+             
+template <class R>
+bool
+do_intersect(const Ray_3<R> &r,
+             const Line_3<R> &l)
+{return do_intersect(l,r);}
+
+template <class R>
+bool
+do_intersect(const Ray_3<R> &,
+             const Segment_3<R> &);
+             
+template <class R>
+bool
+do_intersect(const Segment_3<R> &s,
+             const Ray_3<R> &r)
+{return do_intersect(r,s);}
+
+template <class R>
+bool
+do_intersect(const Ray_3<R> &r1,
+             const Ray_3<R> &r2);
 
 template <class R>
 bool

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Sign_at.h $
-// $Id: Sign_at.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Sign_at.h $
+// $Id: Sign_at.h 57833 2010-08-06 11:08:29Z afabri $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -35,7 +35,7 @@ class Sign_at
 public:
   Sign_at(K k=K()): k_(k) {
   }
-  Sign_at(){}
+
   typedef typename K::Root argument_type;
   typedef CGAL::Sign result_type;
 

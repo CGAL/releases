@@ -102,4 +102,4 @@ int main(int argc, char *argv[])
 
   kdel->set_has_certificates(true);
   return qtsim->begin_event_loop();
-};
+}

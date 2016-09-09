@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_debug.h $
-// $Id: Approximate_min_ellipsoid_d_debug.h 41499 2008-01-09 22:42:26Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_debug.h $
+// $Id: Approximate_min_ellipsoid_d_debug.h 58436 2010-09-02 09:54:58Z afabri $
 // 
 //
 // Author(s)     : Kaspar Fischer <fischerk@inf.ethz.ch>
@@ -25,6 +25,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <boost/random/linear_congruential.hpp>
 
 namespace CGAL {
 
@@ -274,7 +275,8 @@ namespace CGAL {
       bool adjust_bb;
       double zoom;
       std::string filename;
-      
+      boost::rand48 rng;  
+
     public: // construction and destruction:
       
       // Begins exporting to file filename.  Sets the current stroke mode
@@ -576,7 +578,7 @@ namespace CGAL {
 
 	// generate next angle (if needed):
 	if (lm == Random_angle)
-	  next_angle = static_cast<double>(std::rand());
+	  next_angle = static_cast<double>(rng());
 	
 	// update counter and label:
 	next_label = default_label(++count);
@@ -622,7 +624,7 @@ namespace CGAL {
 	
 	// generate next angle (if needed):
 	if (lm == Random_angle)
-	  next_angle = static_cast<double>(std::rand());
+	  next_angle = static_cast<double>(rng());
 	
 	// update counter and label:
 	next_label = default_label(++count);
@@ -687,7 +689,7 @@ namespace CGAL {
 
 	// generate next angle (if needed):
 	if (lm == Random_angle)
-	  next_angle = static_cast<double>(std::rand());
+	  next_angle = static_cast<double>(rng());
 	
 	// update counter and label:
 	next_label = default_label(++count);

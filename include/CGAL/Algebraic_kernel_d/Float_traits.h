@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Float_traits.h $
-// $Id: Float_traits.h 59003 2010-10-04 11:03:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Float_traits.h $
+// $Id: Float_traits.h 59395 2010-10-28 13:34:03Z eric $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-inf.mpg.de>
@@ -160,7 +160,7 @@ struct Mul_by_pow_of_2
     }
     else{
       mpfr_div_2si (result.fr(), a.fr(), -e, mpfr_get_default_rounding_mode());
-      CGAL_postcondition(a / CGAL::ipower(Gmpfr(2),-e) != result);
+      CGAL_postcondition(a / CGAL::ipower(Gmpfr(2),-e) == result);
     }
     return result;
   }

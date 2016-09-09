@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/polynomial_gcd.h $
-// $Id: polynomial_gcd.h 55928 2010-05-05 15:19:28Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polynomial/include/CGAL/Polynomial/polynomial_gcd.h $
+// $Id: polynomial_gcd.h 61485 2011-03-02 18:52:57Z sloriot $
 //
 //
 // Author(s)     : Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -29,6 +29,8 @@
 
 #ifndef CGAL_POLYNOMIAL_GCD_H
 #define CGAL_POLYNOMIAL_GCD_H
+
+#include <CGAL/config.h>
 
 #ifndef CGAL_USE_INTERNAL_MODULAR_GCD
 #define CGAL_USE_INTERNAL_MODULAR_GCD 1

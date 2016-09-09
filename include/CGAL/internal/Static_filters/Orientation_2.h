@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Filtered_kernel/include/CGAL/internal/Static_filters/Orientation_2.h $
-// $Id: Orientation_2.h 52301 2009-10-14 09:58:44Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/internal/Static_filters/Orientation_2.h $
+// $Id: Orientation_2.h 61261 2011-02-16 15:51:53Z afabri $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -65,10 +65,11 @@ public:
       CGAL_BRANCH_PROFILER_3("semi-static failures/attempts/calls to   : Orientation_2", tmp);
 
       double px, py, qx, qy, rx, ry;
+      Get_approx<Point_2> get_approx;
 
-      if (fit_in_double(p.x(), px) && fit_in_double(p.y(), py) &&
-          fit_in_double(q.x(), qx) && fit_in_double(q.y(), qy) &&
-          fit_in_double(r.x(), rx) && fit_in_double(r.y(), ry))
+      if (fit_in_double(get_approx(p).x(), px) && fit_in_double(get_approx(p).y(), py) &&
+          fit_in_double(get_approx(q).x(), qx) && fit_in_double(get_approx(q).y(), qy) &&
+          fit_in_double(get_approx(r).x(), rx) && fit_in_double(get_approx(r).y(), ry))
       {
           CGAL_BRANCH_PROFILER_BRANCH_1(tmp);
 
@@ -81,10 +82,15 @@ public:
                                          prx, pry);
 
           // Then semi-static filter.
-          double maxx = std::fabs(pqx);
-          if (maxx < std::fabs(prx)) maxx = std::fabs(prx);
-          double maxy = std::fabs(pqy);
-          if (maxy < std::fabs(pry)) maxy = std::fabs(pry);
+          double maxx = CGAL::abs(pqx);
+          double maxy = CGAL::abs(pqy);
+
+          double aprx = CGAL::abs(prx);
+          double apry = CGAL::abs(pry);
+
+          if (maxx < aprx) maxx = aprx;
+
+          if (maxy < apry) maxy = apry;
 
           // Sort them
           if (maxx > maxy)  std::swap(maxx, maxy);

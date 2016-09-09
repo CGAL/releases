@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/STL_Extension/include/CGAL/function_objects.h $
-// $Id: function_objects.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/function_objects.h $
+// $Id: function_objects.h 60323 2010-12-12 21:32:16Z afabri $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -511,7 +511,7 @@ struct Pair_lexicographical_less_than {
      * returns \c true iff \c x is lexicograhically smaller than \c y
      * using \c Less1 and \c Less2 functors.
      */
-    bool operator () (const std::pair<T1,T2>& x, const std::pair<T1,T2>& y) {
+    bool operator () (const std::pair<T1,T2>& x, const std::pair<T1,T2>& y) const {
         Less1 lt1;
         Less2 lt2;
 

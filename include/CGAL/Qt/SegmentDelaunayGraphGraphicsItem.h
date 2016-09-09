@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/SegmentDelaunayGraphGraphicsItem.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/SegmentDelaunayGraphGraphicsItem.h $
 // $Id: SegmentDelaunayGraphGraphicsItem.h 53036 2009-11-16 08:30:17Z afabri $
 // 
 //

@@ -29,7 +29,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/include/CGAL/CORE/RealRep.h $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/include/CGAL/CORE/RealRep.h $
  * $Id: RealRep.h 56668 2010-06-09 08:45:58Z sloriot $
  ***************************************************************************/
 #ifndef _CORE_REALREP_H_

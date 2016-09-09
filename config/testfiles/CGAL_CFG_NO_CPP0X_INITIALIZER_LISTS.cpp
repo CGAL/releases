@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_INITIALIZER_LISTS.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_INITIALIZER_LISTS.cpp $
 // $Id: CGAL_CFG_NO_CPP0X_INITIALIZER_LISTS.cpp 53660 2010-01-18 17:52:28Z spion $
 //
 // Author(s)     : Sylvain Pion

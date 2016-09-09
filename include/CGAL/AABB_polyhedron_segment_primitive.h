@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/AABB_tree/include/CGAL/AABB_polyhedron_segment_primitive.h $
-// $Id: AABB_polyhedron_segment_primitive.h 52790 2009-10-29 10:42:53Z palliez $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/AABB_tree/include/CGAL/AABB_polyhedron_segment_primitive.h $
+// $Id: AABB_polyhedron_segment_primitive.h 58944 2010-09-28 21:23:13Z lrineau $
 //
 //
 // Author(s)     : Pierre Alliez, Stephane Tayeb
@@ -47,6 +47,14 @@ namespace CGAL {
         AABB_polyhedron_segment_primitive() {}
         AABB_polyhedron_segment_primitive(const Id& handle)
             : m_halfedge_handle(handle)  { };
+        AABB_polyhedron_segment_primitive(const Id* ptr)
+            : m_halfedge_handle(*ptr)  { };
+        template <class Iterator>
+        AABB_polyhedron_segment_primitive( Iterator it,
+                                           typename boost::enable_if< 
+                                                      boost::is_same<Id,typename Iterator::value_type>
+                                            >::type* =0
+        ) : m_halfedge_handle(*it)  { }
 
         AABB_polyhedron_segment_primitive(const Self& primitive)
             : m_halfedge_handle(primitive.m_halfedge_handle) {}

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH2.h $
-// $Id: DirectionH2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH2.h $
+// $Id: DirectionH2.h 58793 2010-09-22 16:05:05Z lrineau $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -25,6 +25,7 @@
 #define CGAL_HOMOGENEOUS_DIRECTION_2_H
 
 #include <CGAL/array.h>
+#include <CGAL/Handle_for.h>
 
 namespace CGAL {
 
@@ -74,12 +75,12 @@ public:
 
     Vector_2       to_vector() const;
 
-    const RT & x() const { return get(base)[0]; }
-    const RT & y() const { return get(base)[1]; }
+    const RT & x() const { return CGAL::get(base)[0]; }
+    const RT & y() const { return CGAL::get(base)[1]; }
 
     const RT & delta(int i) const;
-    const RT & dx() const { return get(base)[0]; }
-    const RT & dy() const { return get(base)[1]; }
+    const RT & dx() const { return CGAL::get(base)[0]; }
+    const RT & dy() const { return CGAL::get(base)[1]; }
 
 };
 

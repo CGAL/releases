@@ -11,12 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/Exact_triangulation_euclidean_traits_xy_3.h $ 
+// $Id: Exact_triangulation_euclidean_traits_xy_3.h 61484 2011-03-02 14:59:51Z sloriot $ 
+// 
+//
 // Author(s)     : Ralf Osbild <osbild@mpi-sb.mpg.de>
 
 #ifndef CGAL_NEF3_EXACT_TRIANGULATION_EUCLIDEAN_TRAITS_XY_3_H
 #define CGAL_NEF3_EXACT_TRIANGULATION_EUCLIDEAN_TRAITS_XY_3_H
 
-#include <CGAL/Triangulation_euclidean_traits_xy_3.h>
+#include <CGAL/Projection_traits_xy_3.h>
 #include <CGAL/intersections.h>
 
 namespace CGAL {
@@ -108,10 +112,10 @@ struct Exact_intersect_xy_2 <R,Homogeneous_tag>
 
 template <class R>
 struct Exact_triangulation_euclidean_traits_xy_3
- : public CGAL::Triangulation_euclidean_traits_xy_3<R>
+ : public CGAL::Projection_traits_xy_3<R>
 {
    typedef CGAL::Exact_triangulation_euclidean_traits_xy_3<R> Traits;
-   typedef CGAL::Triangulation_euclidean_traits_xy_3<R>       Tet;
+   typedef CGAL::Projection_traits_xy_3<R>       Tet;
    typedef R Rp;
 
    typedef typename Tet::Point_2         Point_2;

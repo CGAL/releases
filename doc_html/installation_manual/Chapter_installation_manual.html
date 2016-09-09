@@ -42,23 +42,18 @@ Fernando Cacciola
 <h2>1&nbsp;&nbsp;&nbsp;Introduction</h2>
 <P>
 
-The goal of <span class="textsc">Cgal</span>, the <I>Computational Geometry Algorithms Library</I>,
-is to provide <I>easy access to efficient and reliable 
-geometric algorithms</I> in the form of C<TT>++</TT> libraries.
-<P>
-
 This document describes how to install <span class="textsc">Cgal</span> on Windows, Unix-like systems and MacOS X.
 <P>
 
-Ideally, installing <span class="textsc">Cgal</span>amounts to:
+Ideally, installing <span class="textsc">Cgal</span> amounts to:
 <P>
 
 <pre class="Verbatim">
-  cd  CGAL-3.7                                # go to CGAL directory
+  cd  CGAL-3.8                                # go to CGAL directory
   cmake .                                     # configure CGAL
   make                                        # build the CGAL libraries
   cd examples/Straight_skeleton_2             # go to an example directory
-  cmake -DCGAL_DIR=$HOME/CGAL-3.7 .           # configure the examples
+  cmake -DCGAL_DIR=$HOME/CGAL-3.8 .           # configure the examples
   make                                        # build the examples 
 </pre>
 <P>
@@ -69,20 +64,11 @@ generator, and third party libraries. That's what this manual is about.
 
 <a name="Section_2"></a>
         
-<A NAME="sec:prerequisites"></A><h2>2&nbsp;&nbsp;&nbsp;Prerequisites</h2>
-<P>
-
-The focus of <span class="textsc">Cgal</span> is at geometry, and we rely on other
-highly specialized libraries and software for non-geometric issues,
-e.g. for numeric solvers, or visualization.
-<P>
-
-<a name="Subsection_2.1"></a>
-<h3>2.1&nbsp;&nbsp;&nbsp;Compilers</h3>
+<h2>2&nbsp;&nbsp;&nbsp;Supported Compilers</h2>
 <P>
 
 In order to build the <span class="textsc">Cgal</span> libraries, you need a C<TT>++</TT> compiler.  
-<span class="textsc">Cgal</span>&nbsp;3.7 is supported for the following compilers/operating systems:
+<span class="textsc">Cgal</span>&nbsp;3.8 is supported for the following compilers/operating systems:
 <P>
 
 <CENTER>
@@ -97,7 +83,7 @@ In order to build the <span class="textsc">Cgal</span> libraries, you need a C<T
 <B>operating system</B>
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
-<span class="textsc">Gnu</span>&nbsp;<TT>g++</TT>&nbsp;3.4 or later <A HREF="#Footnote_10"><SUP>10</SUP></A>
+<span class="textsc">Gnu</span>&nbsp;<TT>g++</TT>&nbsp;3.4 or later <A HREF="#Footnote_1"><SUP>1</SUP></A>
     
     <TD class="math" ALIGN=LEFT NOWRAP>
 Linux / MacOS X
@@ -106,20 +92,26 @@ Linux / MacOS X
     <TD class="math" ALIGN=LEFT NOWRAP>
 
     <TD class="math" ALIGN=LEFT NOWRAP>
-<span class="textsc">MS</span>&nbsp;Windows 95/98/2000/XP/NT4<A HREF="#Footnote_11"><SUP>11</SUP></A>
+<span class="textsc">MS</span>&nbsp;Windows 95/98/2000/XP/NT4
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
-<span class="textsc">MS</span>&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;9.0, 10.0 (<span class="textsc">Visual Studio 2008 and 2010</span>) <A HREF="#Footnote_12"><SUP>12</SUP></A>
+<span class="textsc">Intel</span>&nbsp;<TT>C++</TT>&nbsp;11.0 or later<A HREF="#Footnote_2"><SUP>2</SUP></A> 
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Linux 
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<span class="textsc">MS</span>&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;9.0, 10.0 (<span class="textsc">Visual Studio 2008 and 2010</span>)<A HREF="#Footnote_3"><SUP>3</SUP></A>
     
     <TD class="math" ALIGN=LEFT NOWRAP>
-<span class="textsc">MS</span>&nbsp;Windows 95/98/2000/XP/NT4/Vista/7<A HREF="#Footnote_11"><SUP>11</SUP></A>
+<span class="textsc">MS</span>&nbsp;Windows 95/98/2000/XP/NT4/Vista/7
 </TABLE>
 
 </CENTER>
 <P>
 
-<a name="Subsection_2.2"></a>
-<h3>2.2&nbsp;&nbsp;&nbsp;cmake</h3>
+<a name="Section_3"></a>
+        
+<h2>3&nbsp;&nbsp;&nbsp;CMake</h2>
 <P>
 
 In order to configure, build and install the <span class="textsc">Cgal</span> libraries, examples and
@@ -128,111 +120,313 @@ If CMake is not installed already you can obtain it from <A HREF="http://www.cma
 CMake version&nbsp;2.6.2 or higher is required.
 <P>
 
-<a name="Subsection_2.3"></a>
-<h3>2.3&nbsp;&nbsp;&nbsp;boost</h3>
+<a name="Section_4"></a>
+        
+<A NAME="sec:prerequisites"></A><h2>4&nbsp;&nbsp;&nbsp;Third Party Software</h2>
+<P>
 
-<span class="textsc">Cgal</span> requires a working installation of the <span class="textsc">Boost</span> libraries. In particular the header files and the threading library
-binaries. Version 1.34.1 (or higher) is needed. In case
-the <span class="textsc">Boost</span> libraries are not installed on your system already, you
+The focus of <span class="textsc">Cgal</span> is at geometry, and we rely on other
+highly specialized libraries and software for non-geometric issues,
+e.g. for numeric solvers, or visualization.
+<P>
+
+Note that there is no need to first install all the software
+listed below. Only the <span class="textsc">STL</span> and  boost are required by all 
+<span class="textsc">Cgal</span> packages.
+<P>
+
+<A NAME="thirdparty:stl"></A><a name="Subsection_4.1"></a>
+<h3>4.1&nbsp;&nbsp;&nbsp;Standard Template Library </h3>
+<P>
+
+<span class="textsc">Cgal</span> heavily uses the <span class="textsc">STL</span>, and in particular adopted
+many of its design ideas.  You can find online
+documentation for the <span class="textsc">STL</span> at various web sites, e.g., 
+<A HREF="http://www.sgi.com/tech/stl/"><TT>http://www.sgi.com/tech/stl/</TT></A>, <A HREF="http://www.cplusplus.com/reference/"><TT>http://www.cplusplus.com/reference/</TT></A>,
+or <A HREF="http://msdn.microsoft.com/en-us/library/1fe2x6kt(VS.100).aspx"><TT>http://msdn.microsoft.com/en-us/library/1fe2x6kt(VS.100).aspx</TT></A>.
+<P>
+
+The <span class="textsc">STL</span> comes with the compiler, so there is nothing to install.
+<P>
+
+<A NAME="thirdparty:Boost"></A><a name="Subsection_4.2"></a>
+<h3>4.2&nbsp;&nbsp;&nbsp;boost </h3>
+<P>
+
+<span class="textsc">Cgal</span> requires the <span class="textsc">Boost</span> libraries. In particular the header files
+and the threading library binaries. Version 1.39 (or higher) are needed.
+<P>
+
+In <span class="textsc">Cgal</span> some demos depend on <TT>Boost.Program_options</TT>.
+<P>
+
+In case the <span class="textsc">Boost</span> libraries are not installed on your system already, you
 can obtain them from <A HREF="http://www.boost.org/"><TT>http://www.boost.org/</TT></A>. For Windows you can download an
 installer from <A HREF="http://www.boostpro.com/download/"><TT>http://www.boostpro.com/download/</TT></A>.
 Since <TT>Boost.Thread</TT> is required, make sure to either install the precompiled 
-<I>static</I> binaries for your compiler or to build <TT>libboost-thread</TT>.
+libraries for your compiler or to build <TT>libboost-thread</TT>.
 <P>
 
-Some demos depend on <TT>Boost.Program_options</TT>.
+<A NAME="thirdparty:MPFR"></A><a name="Subsection_4.3"></a>
+<h3>4.3&nbsp;&nbsp;&nbsp;GMP and MPFR <A NAME="thirdparty:GMP"></A> </h3>
 <P>
 
-<a name="Subsection_2.4"></a>
-<h3>2.4&nbsp;&nbsp;&nbsp;Exact Arithmetic</h3>
+<span class="textsc">Gmp</span> and <span class="textsc">Mpfr</span> are libraries for multi precision integers and rational numbers,
+and for multi precision floating point numbers.
 <P>
 
 <span class="textsc">Cgal</span> combines floating point arithmetic with exact arithmetic,
-in order to be efficient and reliable.  <span class="textsc">Cgal</span> offers support for
-<span class="textsc">Gmp</span>+<span class="textsc">Mpfr</span>, <span class="textsc">Mpfi</span> and <span class="textsc">Leda</span> number types, as well as a built-in
-exact number type used when none of the above is installed on your
-system.
+in order to be efficient and reliable.  <span class="textsc">Cgal</span> has a built-in 
+number type for that, but <span class="textsc">Gmp</span> and <span class="textsc">Mpfr</span> provide a faster
+solution, and we recommend to use them.
 <P>
 
 Having <span class="textsc">Gmp</span> version 4.2 or higher and <span class="textsc">Mpfr</span> version 2.2.1 or higher
-installed is highly recommended. These libraries can be obtained from
-<A HREF="http://gmplib.org/"><TT>http://gmplib.org/</TT></A> and <A HREF="http://www.mpfr.org/"><TT>http://www.mpfr.org/</TT></A>, respectively. As Visual C<TT>++</TT> is not properly
-support by the <span class="textsc">Gmp</span> and <span class="textsc">Mpfr</span> projects, we provide precompiled versions
-of <span class="textsc">Gmp</span> and <span class="textsc">Mpfr</span>.
+installed is recommended. These libraries can be obtained from
+<A HREF="http://gmplib.org/"><TT>http://gmplib.org/</TT></A> and <A HREF="http://www.mpfr.org/"><TT>http://www.mpfr.org/</TT></A>, respectively.
 <P>
 
-<span class="textsc">Mpfi</span> can be downloaded from <A HREF="http://gforge.inria.fr/projects/mpfi/"><TT>http://gforge.inria.fr/projects/mpfi/</TT></A>. Version 1.4 or higher is
-recommended.
+As Visual C<TT>++</TT> is not properly
+supported by the <span class="textsc">Gmp</span> and <span class="textsc">Mpfr</span> projects, we provide precompiled versions
+of <span class="textsc">Gmp</span> and <span class="textsc">Mpfr</span>, which can be downloaded with the installer
+<TT>CGAL-3.8-Setup.exe</TT>.
 <P>
 
-<span class="textsc">Leda</span> can be found at <A HREF="http://www.algorithmic-solutions.com/leda/index.html"><TT>http://www.algorithmic-solutions.com/leda/index.html</TT></A>. There is a free and a commercial
-edition for this library.
+<A NAME="thirdparty:Core"></A><a name="Subsection_4.4"></a>
+<h3>4.4&nbsp;&nbsp;&nbsp;CORE </h3>
 <P>
 
-<a name="Subsection_2.5"></a>
-<h3>2.5&nbsp;&nbsp;&nbsp;Visualization</h3>
+<span class="textsc">Core</span> is a library that provides a number type for computing with real
+numbers, that is it allows to represent expressions with square roots
+involved. This package is useful when dealing with curved objecs.
 <P>
 
-Most demos use Nokia's cross-plaform GUI toolkits Qt3 or Qt4.
-In case Qt is not yet installed on your system, you can download 
-it from <A HREF="http://qt.nokia.com"><TT>http://qt.nokia.com</TT></A>. Qt4 is only supported for versions greater or equal to
-4.3.0.
+<span class="textsc">Core</span> is needed by the <span class="textsc">Cgal</span> kernel that deals with algebraic
+numbers.
 <P>
 
-Some 3D demos use the libQGLViewer, which is a 3D widget for Qt4.
-It can be downloaded from <A HREF="http://www.libqglviewer.com"><TT>http://www.libqglviewer.com</TT></A>
+<span class="textsc">Core</span> can be downloaded from <A HREF="http://www.cs.nyu.edu/exact/"><TT>http://www.cs.nyu.edu/exact/</TT></A>',
+but we recommend to use the version of <span class="textsc">Core</span> that  is distributed
+with <span class="textsc">Cgal</span>.
 <P>
 
-<a name="Subsection_2.6"></a>
-<h3>2.6&nbsp;&nbsp;&nbsp;Miscellaneous</h3>
+<A NAME="thirdparty:Leda"></A><a name="Subsection_4.5"></a>
+<h3>4.5&nbsp;&nbsp;&nbsp;Leda </h3>
 <P>
 
-The Surface Mesh Generator demo can read compressed image files
-if <I>zlib</I> is installed. <I>zlib</I> can be downloaded from
-<A HREF="http://www.zlib.net"><TT>http://www.zlib.net</TT></A>.
+<span class="textsc">Leda</span> is a library of efficient data structures and
+algorithms. Like <span class="textsc">Core</span>, <span class="textsc">Leda</span> offers a real number data type.
 <P>
 
-The Approximation of Ridges and Umbilics on Triangulated Surface Meshes
-package as well as the Estimation of Local Differential Properties package
-depend on the BLAS and LAPACK libraries. Implementations can be found at
-<A HREF="http://www.netlib.org/blas/"><TT>http://www.netlib.org/blas/</TT></A> and <A HREF="http://www.netlib.org/lapack/"><TT>http://www.netlib.org/lapack/</TT></A>. We provides precompiled versions of BLAS and
-LAPACK for Visual&nbsp;C<TT>++</TT>.
+In <span class="textsc">Cgal</span> this library is optional, and its number types can 
+be used as an alternative to <span class="textsc">Gmp</span>, <span class="textsc">Mpfr</span>, and <span class="textsc">Core</span>.
 <P>
 
-The Surface parametrization package can be accelerated by using the sparse matrix solver <span class="textsc">Taucs</span>.
-This library can be downloaded from <A HREF="http://www.tau.ac.il/~stoledo/taucs/"><TT>http://www.tau.ac.il/~stoledo/taucs/</TT></A>. As Visual&nbsp;C<TT>++</TT> is not properly
+<span class="textsc">Leda</span> is available commercially from <A HREF="http://www.algorithmic-solutions.com/leda/index.html"><TT>http://www.algorithmic-solutions.com/leda/index.html</TT></A>,
+and there exists a binary ``free edition''.
+<P>
+
+<A NAME="thirdparty:RS"></A><a name="Subsection_4.6"></a>
+<h3>4.6&nbsp;&nbsp;&nbsp;RS </h3>
+<P>
+
+RS (Real Solutions) is devoted to the study of the real
+roots of polynomial systems with a finite number of complex roots
+(including univariate polynomials).
+<P>
+
+In <span class="textsc">Cgal</span> RS is used by one model of the Algebraic Kernel.
+<P>
+
+RS is freely distributable for non-commercial use. You can download it
+from <A HREF="http://www.loria.fr/equipes/vegas/rs/"><TT>http://www.loria.fr/equipes/vegas/rs/</TT></A>. The library RS needs <span class="textsc">Mpfi</span>, which can be downloaded from <A HREF="http://gforge.inria.fr/projects/mpfi/"><TT>http://gforge.inria.fr/projects/mpfi/</TT></A>. 
+Version 1.4 or higher is recommended.
+<P>
+
+<A NAME="thirdparty:OpenNL"></A><a name="Subsection_4.7"></a>
+<h3>4.7&nbsp;&nbsp;&nbsp;OpenNL </h3>
+<P>
+
+OpenNL (Open Numerical Library) is a library to easily construct and solve
+sparse linear systems.
+<P>
+
+In <span class="textsc">Cgal</span> it is the default solver of the
+Surface Mesh Parameterization package.
+<P>
+
+OpenNL's main page is <A HREF="http://alice.loria.fr/index.php/software/4-library/23-opennl.html"><TT>http://alice.loria.fr/index.php/software/4-library/23-opennl.html</TT></A>.
+<span class="textsc">Cgal</span> includes a version of OpenNL in C++, made especially for <span class="textsc">Cgal</span> by Bruno L&eacute;vy.
+<P>
+
+<A NAME="thirdparty:Taucs"></A><a name="Subsection_4.8"></a>
+<h3>4.8&nbsp;&nbsp;&nbsp;Taucs </h3>
+<P>
+
+<span class="textsc">Taucs</span> is a library of sparse linear solvers.
+<P>
+
+In <span class="textsc">Cgal</span>, <span class="textsc">Taucs</span> is required by the 
+Surface Reconstruction from Point Sets
+package, and it can be
+used to improve the computations within the
+Planar Parameterization of Triangulated Surface Meshes
+package.
+<P>
+
+The <span class="textsc">Taucs</span> web site is <A HREF="http://www.tau.ac.il/~stoledo/taucs/"><TT>http://www.tau.ac.il/~stoledo/taucs/</TT></A>.<BR>
+
+The latest official version is <span class="textsc">Taucs</span> version 2.2, September 4, 2003.
+Copyright (c) 2001, 2002, 2003 by Sivan Toledo, Tel-Aviv University,
+stoledo@tau.ac.il. All Rights Reserved.<BR>
+
+See <A HREF="http://www.tau.ac.il/~stoledo/taucs/"><TT>http://www.tau.ac.il/~stoledo/taucs/</TT></A> for the license and the availability note.<BR>
+
+Used by permission of Sivan Toledo.
+<P>
+
+The <span class="textsc">Cgal</span> project provides a modified version of <span class="textsc">Taucs</span> in the download
+section of <A HREF="http://www.cgal.org/"><TT>http://www.cgal.org/</TT></A>. This version fixes some bugs,
+supports 64-bit platforms and allows a simplified installation process.
+It also contains a complete <span class="textsc">lapack</span> implementation.
+<P>
+
+As Visual&nbsp;C<TT>++</TT> is not properly
 supported by the <span class="textsc">Taucs</span> project, we provide a precompiled version of
-<span class="textsc">Taucs</span>.
+<span class="textsc">Taucs</span>, which can be downloaded with the installer
+<TT>CGAL-3.8-Setup.exe</TT>.
 <P>
 
-The Algebraic Kernel package uses the library RS to perform real solving
-on univariate polynomials. It can be downloaded from <A HREF="http://www.loria.fr/equipes/vegas/rs/"><TT>http://www.loria.fr/equipes/vegas/rs/</TT></A>.
+<I>CAUTION:</I> Since version 3.3.1, <span class="textsc">Cgal</span> is no longer compatible with the official
+release of <span class="textsc">Taucs</span> (currently 2.2). Make sure to use the modified
+version provided in the download section.
 <P>
 
-One example from the 3D Skin Surface Meshing package uses the <span class="textsc">ESBTL</span> templates library. This library is used to import data from a PDB
-file as CGAL points or weighted points. It can be downloaded from
-<A HREF="http://esbtl.sourceforge.net/"><TT>http://esbtl.sourceforge.net/</TT></A>.
+<A NAME="thirdparty:Blas"></A><a name="Subsection_4.9"></a>
+<h3>4.9&nbsp;&nbsp;&nbsp;Blas </h3>
 <P>
 
-<a name="Section_3"></a>
+<span class="textsc">blas</span> (Basic Linear Algebra Subprograms) is a library of
+basic vector and matrix operations.
+<P>
+
+In <span class="textsc">Cgal</span>, <span class="textsc">blas</span> is required by the packages
+Estimation of Local Differential Properties
+and Approximation of Ridges and Umbilics only.
+<P>
+
+You can download the official release from <A HREF="http://www.netlib.org/blas/"><TT>http://www.netlib.org/blas/</TT></A>.
+Alternatively, installing <span class="textsc">Taucs</span> customized for <span class="textsc">Cgal</span> provides <span class="textsc">blas</span>.
+<P>
+
+<A NAME="thirdparty:Lapack"></A><a name="Subsection_4.10"></a>
+<h3>4.10&nbsp;&nbsp;&nbsp;Lapack </h3>
+<P>
+
+<span class="textsc">lapack</span> provides routines for solving systems of simultaneous linear equations,
+least-squares solutions of linear systems of equations, eigenvalue problems,
+and singular value problems.
+<P>
+
+In <span class="textsc">Cgal</span>, <span class="textsc">lapack</span> is required by the packages
+Estimation of Local Differential Properties
+and Approximation of Ridges and Umbilics only.
+<P>
+
+You can download the official release from <A HREF="http://www.netlib.org/lapack/"><TT>http://www.netlib.org/lapack/</TT></A>.
+Alternatively, installing <span class="textsc">Taucs</span> customized for <span class="textsc">Cgal</span> provides <span class="textsc">lapack</span>.
+<P>
+
+<A NAME="thirdparty:Qt"></A><a name="Subsection_4.11"></a>
+<h3>4.11&nbsp;&nbsp;&nbsp;Qt  </h3>
+<P>
+
+Qt is a cross-platform application and UI framework.
+<P>
+
+Most <span class="textsc">Cgal</span> demos use Qt3 or Qt4.
+Having Qt4 version 4.3.0 or higher is recommended.
+<P>
+
+In case Qt is not yet installed on your system, you can download 
+it from <A HREF="http://qt.nokia.com/"><TT>http://qt.nokia.com/</TT></A>.
+<P>
+
+<A NAME="thirdparty:libQGLViewer"></A><a name="Subsection_4.12"></a>
+<h3>4.12&nbsp;&nbsp;&nbsp;libQGLViewer </h3>
+<P>
+
+libQGLViewer is a 3D widget based on <span class="textsc">Qt</span>&nbsp;4's <I>QGLWidget</I>.
+<P>
+
+In <span class="textsc">Cgal</span> some 3D demos are based on libQGLViewer.
+<P>
+
+It can be downloaded from <A HREF="http://www.libqglviewer.com/"><TT>http://www.libqglviewer.com/</TT></A>.
+<P>
+
+<A NAME="thirdparty:Coin"></A><a name="Subsection_4.13"></a>
+<h3>4.13&nbsp;&nbsp;&nbsp;Coin </h3>
+<P>
+
+Coin is an implementation of Open Inventor.
+<P>
+
+In <span class="textsc">Cgal</span>, Coin is used in the demo
+of the Kinetic Data Structures package.
+<P>
+
+You can download it from <A HREF="http://www.coin3d.org/"><TT>http://www.coin3d.org/</TT></A>.
+<P>
+
+<A NAME="thirdparty:zlib"></A><a name="Subsection_4.14"></a>
+<h3>4.14&nbsp;&nbsp;&nbsp;zlib </h3>
+<P>
+
+zlib is a data compression library.
+<P>
+
+In <span class="textsc">Cgal</span> this library is used in the examples of the Surface Mesh Generation package.
+<P>
+
+If it is not already on your system,
+e.g., on Windows, you can download it from  <A HREF="http://www.zlib.net/"><TT>http://www.zlib.net/</TT></A>.
+<P>
+
+<A NAME="thirdparty:ESTBL"></A><a name="Subsection_4.15"></a>
+<h3>4.15&nbsp;&nbsp;&nbsp;ESTBL </h3>
+<P>
+
+The <span class="textsc">Esbtl</span> (Easy Structural Biology Template Library) is a library that allows 
+the handling of <span class="textsc">Pdb</span> data.
+<P>
+
+In <span class="textsc">Cgal</span> the  <span class="textsc">Esbtl</span> is used in an example of the 
+3D Skin Surface Meshing package.
+<P>
+
+It can be downloaded from <A HREF="http://esbtl.sourceforge.net/"><TT>http://esbtl.sourceforge.net/</TT></A>.
+<P>
+
+<a name="Section_5"></a>
         
-<A NAME="sec:gettingcgal"></A><h2>3&nbsp;&nbsp;&nbsp;Downloading <span class="textsc">Cgal</span></h2>
+<A NAME="sec:gettingcgal"></A><h2>5&nbsp;&nbsp;&nbsp;Downloading <span class="textsc">Cgal</span></h2>
 <P>
 
 The <span class="textsc">Cgal</span> library can be downloaded from  <A HREF="http://www.cgal.org/download.html"><TT>http://www.cgal.org/download.html</TT></A>.
 <P>
 
-After you have downloaded the file <TT>CGAL-3.7.tar.gz</TT> containing the
+After you have downloaded the file <TT>CGAL-3.8.tar.gz</TT> containing the
 <span class="textsc">Cgal</span> sources, you have to unpack it. Under a Unix-like shell, use the
 command:
 <P>
 
 <pre class="Verbatim">
-      tar xzf CGAL-3.7.tar.gz
+      tar xzf CGAL-3.8.tar.gz
 </pre>
 <P>
 
-When you are on Windows you may download and run the <TT>CGAL-3.7-Setup.exe</TT>. It is a
+When you are on Windows you may download and run the <TT>CGAL-3.8-Setup.exe</TT>. It is a
 self extracting executable that installs the <span class="textsc">Cgal</span> source, and that allows
 you to select and download some precompiled third party libraries.
 <P>
@@ -322,9 +516,9 @@ Open Numerical Library which provides solvers for sparse linear systems, especia
 for the Computer Graphics community. OpenNL is not part of <span class="textsc">Cgal</span> and has its own license.
 <P>
 
-<a name="Section_4"></a>
+<a name="Section_6"></a>
         
-<h2>4&nbsp;&nbsp;&nbsp;Configuring <span class="textsc">Cgal</span></h2>
+<h2>6&nbsp;&nbsp;&nbsp;Configuring <span class="textsc">Cgal</span></h2>
 <P>
 
 Before building <span class="textsc">Cgal</span> you have to choose the compiler/linker, 
@@ -334,7 +528,7 @@ which <span class="textsc">Cgal</span> libraries you want to build. Gathering
 all this information is called <I>configuration</I>.
 <P>
 
-For CGAL-3.7, the configuration is generated with CMake, a
+For CGAL-3.8, the configuration is generated with CMake, a
 cross-platform build system.  This manual explains only those features of
 CMake which are needed in order to build <span class="textsc">Cgal</span>. Please refer to the CMake 
 documentation at <A HREF="http://www.cmake.org/"><TT>http://www.cmake.org/</TT></A> for further details.
@@ -343,8 +537,8 @@ documentation at <A HREF="http://www.cmake.org/"><TT>http://www.cmake.org/</TT><
 The CMake configuration process generates a makefile or a Visual C<TT>++</TT> solution and project file that you can use to build <span class="textsc">Cgal</span>.
 <P>
 
-<a name="Subsection_4.1"></a>
-<h3>4.1&nbsp;&nbsp;&nbsp;Configuring <span class="textsc">Cgal</span> with the CMake <span class="textsc">Gui</span></h3>
+<a name="Subsection_6.1"></a>
+<h3>6.1&nbsp;&nbsp;&nbsp;Configuring <span class="textsc">Cgal</span> with the CMake <span class="textsc">Gui</span></h3>
 <P>
 
 The simplest way to start the configuration is to run the graphical
@@ -354,7 +548,7 @@ argument the root directory of <span class="textsc">Cgal</span>. For example:
 <P>
 
 <pre class="Verbatim">
-  cd  CGAL-3.7
+  cd  CGAL-3.8
   cmake-gui . # Notice the dot to indicate the current directory.
 </pre>
 <P>
@@ -373,8 +567,8 @@ all entries are grayed. You are now ready to press 'Generate'. Once this is
 done, you can quit <TT>cmake-gui</TT>.
 <P>
 
-<a name="Subsection_4.2"></a>
-<h3>4.2&nbsp;&nbsp;&nbsp;Configuring <span class="textsc">Cgal</span> with the cmake command-line tool</h3>
+<a name="Subsection_6.2"></a>
+<h3>6.2&nbsp;&nbsp;&nbsp;Configuring <span class="textsc">Cgal</span> with the cmake command-line tool</h3>
 <P>
 
 Alternatively, you can run the command-line tool called
@@ -383,7 +577,7 @@ Alternatively, you can run the command-line tool called
 <P>
 
 <pre class="Verbatim">
-  cd  CGAL-3.7
+  cd  CGAL-3.8
   cmake . # Notice the dot to indicate the current directory.
 </pre>
 <P>
@@ -414,7 +608,7 @@ build files). For example, the following generates solution files for use in Vis
 <P>
 
 <pre class="Verbatim">
-  cd CGAL-3.7
+  cd CGAL-3.8
   cmake -G&quot;Visual Studio 9 2008&quot; . 
 </pre>
 <P>
@@ -426,7 +620,7 @@ specify the desired compiler in the call to CMake, as in this example:
 <P>
 
 <pre class="Verbatim">
-  cd CGAL-3.7
+  cd CGAL-3.8
   cmake -DCMAKE_CXX_COMPILER:FILEPATH=g++-3.4 . 
 </pre>
 <P>
@@ -457,8 +651,8 @@ The configuration process not only determines the location of the required depen
 purpose of this file is explained below.
 <P>
 
-<a name="Subsection_4.3"></a>
-<h3>4.3&nbsp;&nbsp;&nbsp;<span class="textsc">Cgal</span> Libraries</h3>
+<a name="Subsection_6.3"></a>
+<h3>6.3&nbsp;&nbsp;&nbsp;<span class="textsc">Cgal</span> Libraries</h3>
 <P>
 
 <span class="textsc">Cgal</span> is split into six libraries. During configuration, you can select the libraries that 
@@ -543,13 +737,13 @@ If you turn off the configuration of a library, you can still configure it manua
 <P>
 
 <pre class="Verbatim">
-  cd CGAL-3.7/src/CGALQt4 
+  cd CGAL-3.8/src/CGALQt4 
   cmake . # configures only the CGAL_Qt4 library
 </pre>
 <P>
 
-<a name="Subsection_4.4"></a>
-<h3>4.4&nbsp;&nbsp;&nbsp;Examples and Demos</h3>
+<a name="Subsection_6.4"></a>
+<h3>6.4&nbsp;&nbsp;&nbsp;Examples and Demos</h3>
 <P>
 
 <span class="textsc">Cgal</span> is distributed with a large collection of examples and demos. By default, these are NOT configured along with
@@ -560,8 +754,8 @@ Nevertheless, even when configured with <span class="textsc">Cgal</span>, they a
 You must build the <TT>examples</TT> or <TT>demos</TT> make targets (or IDE projects) explicitly.
 <P>
 
-<a name="Subsection_4.5"></a>
-<h3>4.5&nbsp;&nbsp;&nbsp;Debug vs. Release</h3>
+<a name="Subsection_6.5"></a>
+<h3>6.5&nbsp;&nbsp;&nbsp;Debug vs. Release</h3>
 <P>
 
 The CMake variable <TT>CMAKE_BUILD_TYPE</TT> to indicate how to build
@@ -575,8 +769,8 @@ your program.
 This is not an issue for solution/project files, as there the user selects the build type from within the IDE.
 <P>
 
-<a name="Subsection_4.6"></a>
-<h3>4.6&nbsp;&nbsp;&nbsp;Static vs. Dynamic Libraries</h3>
+<a name="Subsection_6.6"></a>
+<h3>6.6&nbsp;&nbsp;&nbsp;Static vs. Dynamic Libraries</h3>
 <P>
 
 Under Windows we only support  the static versions of the <span class="textsc">Cgal</span> libraries.On other platforms
@@ -587,8 +781,8 @@ You can choose to produce static libraries instead by setting the CMake variable
 These setting affect the variants of third-party libraries selected whenever the choice is available.
 <P>
 
-<a name="Subsection_4.7"></a>
-<h3>4.7&nbsp;&nbsp;&nbsp;Multiple Variants of makefiles</h3>
+<a name="Subsection_6.7"></a>
+<h3>6.7&nbsp;&nbsp;&nbsp;Multiple Variants of makefiles</h3>
 <A NAME="sec:cmake-out-of-source"></A>
 <P>
 
@@ -614,19 +808,19 @@ You can, for example, generate subdirectories <TT>CGAL-x.y</TT><TT>/cmake/platfo
 <P>
 
 <pre class="Verbatim">
-mkdir CGAL-3.7/cmake/platforms/debug
-cd CGAL-3.7/cmake/platforms/debug
+mkdir CGAL-3.8/cmake/platforms/debug
+cd CGAL-3.8/cmake/platforms/debug
 cmake -DCMAKE_BUILD_TYPE=Debug ../../..
 
-mkdir CGAL-3.7/cmake/platforms/release
-cd CGAL-3.7/cmake/platforms/release
+mkdir CGAL-3.8/cmake/platforms/release
+cd CGAL-3.8/cmake/platforms/release
 cmake -DCMAKE_BUILD_TYPE=Release ../../..
 </pre>
 <P>
 
-<a name="Section_5"></a>
+<a name="Section_7"></a>
         
-<h2>5&nbsp;&nbsp;&nbsp;Building <span class="textsc">Cgal</span> Libraries</h2>
+<h2>7&nbsp;&nbsp;&nbsp;Building <span class="textsc">Cgal</span> Libraries</h2>
 <P>
 
 The results of a successful configuration are build file that control the build step.
@@ -642,7 +836,7 @@ succeeding build step as follows:
 
 <pre class="Verbatim">
 
-cd CGAL-3.7
+cd CGAL-3.8
 
 # build all the selected libraries at once
 
@@ -727,9 +921,9 @@ of a particular package by typing <TT>make help | grep &lt;package&gt;</TT>.
     </div>
 <P>
 
-<a name="Section_6"></a>
+<a name="Section_8"></a>
         
-<h2>6&nbsp;&nbsp;&nbsp;Installing <span class="textsc">Cgal</span> Libraries</h2>
+<h2>8&nbsp;&nbsp;&nbsp;Installing <span class="textsc">Cgal</span> Libraries</h2>
 <P>
 
 
@@ -751,7 +945,7 @@ installation in a <span class="textsc">Unix</span>-like environment:
 
 <pre class="Verbatim">
 
-cd CGAL-3.7
+cd CGAL-3.8
 
 cmake .      # configure
 make         # compile
@@ -777,12 +971,12 @@ variable explicitly <I>at the configuration time</I> and not when executing the 
 <P>
 
 The file <TT>CGALConfig.cmake</TT> is installed by default in
-<TT>$CMAKE_INSTALLED_PREFIX/lib/CGAL-3.7</TT>.
+<TT>$CMAKE_INSTALLED_PREFIX/lib/CGAL-3.8</TT>.
 <P>
 
-<a name="Section_7"></a>
+<a name="Section_9"></a>
         
-<h2>7&nbsp;&nbsp;&nbsp;Configuring and Building Programs Using <span class="textsc">Cgal</span></h2>
+<h2>9&nbsp;&nbsp;&nbsp;Configuring and Building Programs Using <span class="textsc">Cgal</span></h2>
 <P>
 
 CMake can be used to configure and build user programs as well via a CMake 
@@ -799,8 +993,8 @@ to indicate the location of that config file in the CMake variable
 
 <pre class="Verbatim">
 
-cd CGAL-3.7/examples/Straight_skeleton_2
-cmake -DCGAL_DIR=$HOME/CGAL-3.7 .
+cd CGAL-3.8/examples/Straight_skeleton_2
+cmake -DCGAL_DIR=$HOME/CGAL-3.8 .
 make
 
 </pre>
@@ -813,8 +1007,8 @@ If you have installed CGAL, <TT>CGAL_DIR</TT> must afterward be set to
 <TT>$CMAKE_INSTALLED_PREFIX/lib/CGAL</TT>.
 <P>
 
-<a name="Subsection_7.1"></a>
-<h3>7.1&nbsp;&nbsp;&nbsp;Custom flags in the programs using <span class="textsc">Cgal</span></h3>
+<a name="Subsection_9.1"></a>
+<h3>9.1&nbsp;&nbsp;&nbsp;Custom flags in the programs using <span class="textsc">Cgal</span></h3>
 <P>
 
 Normally, programs linked with <span class="textsc">Cgal</span> must be compiled with the same flags
@@ -849,13 +1043,13 @@ controlling variable right up front:
 
 <pre class="Verbatim">
 
-cd CGAL-3.7
+cd CGAL-3.8
 
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-g .
 
-cd CGAL-3.7/examples/Straight_skeleton_2
+cd CGAL-3.8/examples/Straight_skeleton_2
 
-cmake -DCGAL_DIR=CGAL-3.7 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O2 -DCGAL_DONT_OVERRIDE_CMAKE_FLAGS=TRUE . 
+cmake -DCGAL_DIR=CGAL-3.8 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O2 -DCGAL_DONT_OVERRIDE_CMAKE_FLAGS=TRUE . 
 
 </pre>
 
@@ -863,9 +1057,20 @@ cmake -DCGAL_DIR=CGAL-3.7 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O2 -DCGAL_
     </div>
 <P>
 
-<a name="Section_8"></a>
+<a name="Subsection_9.2"></a>
+<h3>9.2&nbsp;&nbsp;&nbsp;Creating a cmake script for a program using <span class="textsc">Cgal</span></h3>
+<P>
+
+For relatively simple programs the Bourne-shell script <TT>cgal_create_cmake_script</TT> can be used
+(a short description of this file is provided in Appendix <A HREF="Chapter_installation_manual.html#sec:create_cgal_cmake_script">C.1</A>).
+More generally, within a cmake script, once CGAL has been found using <TT>find_package</TT>
+the variable <TT>CGAL_USE_FILE</TT> is set to a compilation environment CMake file. Including
+this file within a cmake script sets up include paths and libraries to link with of CGAL and third party libraries.
+<P>
+
+<a name="Section_10"></a>
         
-<h2>8&nbsp;&nbsp;&nbsp;Summary of Configuration Variables</h2>
+<h2>10&nbsp;&nbsp;&nbsp;Summary of Configuration Variables</h2>
 <P>
 
 Most configuration variables are not environment variables but <I>CMake variables</I>. They are given in the command line to CMake via the <TT>-D</TT> option, 
@@ -873,8 +1078,8 @@ or passed from the interactive interface of <TT>cmake-gui</TT>. Unless
 indicated differently, all the variables summarized below are CMake variables.
 <P>
 
-<a name="Subsection_8.1"></a>
-<h3>8.1&nbsp;&nbsp;&nbsp;Component selection</h3>
+<a name="Subsection_10.1"></a>
+<h3>10.1&nbsp;&nbsp;&nbsp;Component selection</h3>
 <P>
 
 The following boolean variables indicate which <span class="textsc">Cgal</span> components to configure and build. Their values can be ON or OFF.
@@ -919,8 +1124,8 @@ ON
 </TABLE>
 <P>
 
-<a name="Subsection_8.2"></a>
-<h3>8.2&nbsp;&nbsp;&nbsp;Compiler and Linker Flags</h3>
+<a name="Subsection_10.2"></a>
+<h3>10.2&nbsp;&nbsp;&nbsp;Compiler and Linker Flags</h3>
 <P>
 
 The following variables specify compiler and linker flags. Each variable holds a 
@@ -1047,8 +1252,8 @@ Linker (programs)
 </TABLE>
 <P>
 
-<a name="Subsection_8.3"></a>
-<h3>8.3&nbsp;&nbsp;&nbsp;Miscellaneous Variables</h3>
+<a name="Subsection_10.3"></a>
+<h3>10.3&nbsp;&nbsp;&nbsp;Miscellaneous Variables</h3>
 <P>
 
 <TABLE CELLSPACING=5  BORDER=2>
@@ -1117,8 +1322,8 @@ Either CMake or Environment
 </I>
 <P>
 
-<a name="Subsection_8.4"></a>
-<h3>8.4&nbsp;&nbsp;&nbsp;Variables providing information about 3rd-party libraries</h3>
+<a name="Subsection_10.4"></a>
+<h3>10.4&nbsp;&nbsp;&nbsp;Variables providing information about 3rd-party libraries</h3>
 <P>
 
 The following variables provide information about the availability and
@@ -1422,49 +1627,63 @@ CMake
     <TD class="math" ALIGN=LEFT NOWRAP>
 Directory containing the file <TT>LEDA/system/basic.h</TT> 
     <TD class="math" ALIGN=LEFT NOWRAP>
-Either CMake or Environment
+CMake
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
-<TT>LEDA_LIBRARY_DIRS</TT>    
+<TT>LEDA_LIBRARIES</TT>        
     <TD class="math" ALIGN=LEFT NOWRAP>
 Directory containing the compiled LEDA libraries           
     <TD class="math" ALIGN=LEFT NOWRAP>
-Either CMake or Environment
+CMake
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>LEDA_INC_DIR</TT>         
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory containing the file <TT>LEDA/system/basic.h</TT> 
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>LEDA_LIB_DIR</TT>         
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory containing the compiled LEDA libraries           
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>LEDA_LIBRARY_RELEASE</TT> 
     <TD class="math" ALIGN=LEFT NOWRAP>
 Full pathname to a release build of the LEDA library       
     <TD class="math" ALIGN=LEFT NOWRAP>
-Either CMake or Environment
+Either CMake
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>LEDA_LIBRARY_DEBUG</TT>   
     <TD class="math" ALIGN=LEFT NOWRAP>
 Full pathname to a debug build of the LEDA library         
     <TD class="math" ALIGN=LEFT NOWRAP>
-Either CMake or Environment
+Either CMake
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>LEDA_DEFINITIONS</TT>      
     <TD class="math" ALIGN=LEFT NOWRAP>
 Preprocessor definitions                                   
     <TD class="math" ALIGN=LEFT NOWRAP>
-Either CMake or Environment
+Either CMake
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>LEDA_CXX_FLAGS</TT>       
     <TD class="math" ALIGN=LEFT NOWRAP>
 Compiler flags                                             
     <TD class="math" ALIGN=LEFT NOWRAP>
-Either CMake or Environment
+Either CMake
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>LEDA_LINKER_FLAGS</TT>    
     <TD class="math" ALIGN=LEFT NOWRAP>
 Linker flags                                               
     <TD class="math" ALIGN=LEFT NOWRAP>
-Either CMake or Environment
+Either CMake
 </TABLE>
 <P>
 
@@ -1940,9 +2159,9 @@ CMake
 </TABLE>
 <P>
 
-<a name="Section_9"></a>
+<a name="Section_11"></a>
         
-<h2>9&nbsp;&nbsp;&nbsp;Example</h2>
+<h2>11&nbsp;&nbsp;&nbsp;Example</h2>
 <P>
 
 Below is an example output on a Windows machine with VC8 installed, using CMake 2.6,
@@ -2048,7 +2267,7 @@ cmake -DWITH_examples=false
 -- uic executable:     C:/Work/Downloaded/Libraries/qt-win-opensource-src-4.4.1/bin/uic.exe
 -- Configuring done
 -- Generating done
--- Build files have been written to: C:/Work/Active/GeometryFactory/CGAL/Autotest/CGAL-3.7/cmake/platforms/a
+-- Build files have been written to: C:/Work/Active/GeometryFactory/CGAL/Autotest/CGAL-3.8/cmake/platforms/a
 </pre>
 <P>
 
@@ -2118,14 +2337,14 @@ the CGAL and CGALCore libraries.
 <P>
 
 <TABLE><TR><TD VALIGN=TOP>
-<A NAME="Footnote_10">&nbsp;<SUP>10</SUP>&nbsp;</A><TD VALIGN=TOP>
+<A NAME="Footnote_1">&nbsp;<SUP>1</SUP>&nbsp;</A><TD VALIGN=TOP>
 <A HREF="http://gcc.gnu.org/"><TT>http://gcc.gnu.org/</TT></A>
 <TR><TD VALIGN=TOP>
-        <A NAME="Footnote_11">&nbsp;<SUP>11</SUP>&nbsp;</A><TD VALIGN=TOP>
-<A HREF="http://msdn.microsoft.com/visualc/"><TT>http://msdn.microsoft.com/visualc/</TT></A>
-<TR><TD VALIGN=TOP>
-        <A NAME="Footnote_12">&nbsp;<SUP>12</SUP>&nbsp;</A><TD VALIGN=TOP>
+        <A NAME="Footnote_2">&nbsp;<SUP>2</SUP>&nbsp;</A><TD VALIGN=TOP>
 <A HREF="http://software.intel.com/en-us/intel-compilers/"><TT>http://software.intel.com/en-us/intel-compilers/</TT></A>
+<TR><TD VALIGN=TOP>
+        <A NAME="Footnote_3">&nbsp;<SUP>3</SUP>&nbsp;</A><TD VALIGN=TOP>
+<A HREF="http://msdn.microsoft.com/visualc/"><TT>http://msdn.microsoft.com/visualc/</TT></A>
 <TR><TD VALIGN=TOP>
         <A NAME="Footnote_4">&nbsp;<SUP>4</SUP>&nbsp;</A><TD VALIGN=TOP>
 <A HREF="http://www.cs.nyu.edu/exact/"><TT>http://www.cs.nyu.edu/exact/</TT></A>
@@ -2155,8 +2374,8 @@ the '<TT>optimized</TT>' and '<TT>debug</TT>' tags should appear verbatim.
   </div>
 
 <div class="NavAddress">
-<SMALL><a href=http://www.cgal.org target=_top>CGAL Open Source Project</a>.
+<SMALL><a href="http://www.cgal.org" target="_top">CGAL Open Source Project</a>.
 Separate Build.
-14 October 2010.</SMALL>
+14 March 2011.</SMALL>
 </div>
 </body>  </html>

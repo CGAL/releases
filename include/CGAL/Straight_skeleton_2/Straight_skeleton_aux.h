@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_aux.h $
-// $Id: Straight_skeleton_aux.h 57866 2010-08-09 10:00:17Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_aux.h $
+// $Id: Straight_skeleton_aux.h 59832 2010-11-23 11:20:03Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -31,7 +31,7 @@
 //
 // The heap objects used in this implementation are intrusively reference counted. Thus, they inherit from Ref_counted_base.
 //
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 namespace CGAL_SS_i
 {
@@ -214,13 +214,9 @@ public:
       }
 };
 
-CGAL_END_NAMESPACE
-
-namespace boost
-{
-inline void intrusive_ptr_add_ref( CGAL::Ref_counted_base const* p ) { p->AddRef(); }
-inline void intrusive_ptr_release( CGAL::Ref_counted_base const* p ) { p->Release(); }
-} // namespace boost
+inline void intrusive_ptr_add_ref( Ref_counted_base const* p ) { p->AddRef(); }
+inline void intrusive_ptr_release( Ref_counted_base const* p ) { p->Release(); }
+} // namespace CGAL
 
 
 

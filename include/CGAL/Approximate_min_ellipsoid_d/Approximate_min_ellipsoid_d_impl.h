@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_impl.h $
-// $Id: Approximate_min_ellipsoid_d_impl.h 51456 2009-08-24 17:10:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_impl.h $
+// $Id: Approximate_min_ellipsoid_d_impl.h 58840 2010-09-23 19:23:50Z afabri $
 // 
 //
 // Author(s)     : Kaspar Fischer <fischerk@inf.ethz.ch>
@@ -149,7 +149,7 @@ namespace CGAL {
   {
     CGAL_APPEL_ASSERT(d==2);
 
-    typedef Cartesian<double> K;
+    typedef Simple_cartesian<double> K;
     typedef Vector_2<K> Vector_2;
 
     // write matrix M' as [ a, b; b, c ]:

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial_traits_d.h $
-// $Id: Polynomial_traits_d.h 57401 2010-07-08 15:04:38Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polynomial/include/CGAL/Polynomial_traits_d.h $
+// $Id: Polynomial_traits_d.h 58441 2010-09-02 15:33:28Z hemmer $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -351,7 +351,7 @@ public:
     
   struct Innermost_leading_coefficient
     :public std::unary_function <ICoeff, ICoeff>{
-    ICoeff operator()(const ICoeff& x){return x;}
+    const ICoeff& operator()(const ICoeff& x){return x;}
   };
     
   struct Degree_vector{
@@ -365,7 +365,7 @@ public:
   
   struct Get_innermost_coefficient 
     : public std::binary_function< ICoeff, Polynomial_d, Exponent_vector > {
-    ICoeff operator()( const Polynomial_d& p, Exponent_vector ) {
+    const ICoeff& operator()( const Polynomial_d& p, Exponent_vector ) {
       return p;
     }
   };
@@ -699,11 +699,12 @@ public:
   struct Get_coefficient 
     : public std::binary_function<Polynomial_d, int, Coefficient_type > {
         
-    Coefficient_type operator()( const Polynomial_d& p, int i) const {
+    const Coefficient_type& operator()( const Polynomial_d& p, int i) const {
+      static const Coefficient_type zero =  Coefficient_type(0);
       CGAL_precondition( i >= 0 );
       typename PT::Degree degree;
       if( i >  degree(p) )
-        return Coefficient_type(0);
+        return zero;
       return p[i];
     }       
   };
@@ -714,7 +715,7 @@ public:
     std::binary_function< Polynomial_d, Exponent_vector, Innermost_coefficient_type >
   {
         
-    Innermost_coefficient_type 
+    const Innermost_coefficient_type& 
     operator()( const Polynomial_d& p, Exponent_vector ev ) const {
       CGAL_precondition( !ev.empty() );
       typename PTC::Get_innermost_coefficient gic;
@@ -848,7 +849,7 @@ public:
   //       Leading_coefficient;
   struct Leading_coefficient 
     : public std::unary_function< Polynomial_d , Coefficient_type>{
-    Coefficient_type operator()(const Polynomial_d& p) const {
+    const Coefficient_type& operator()(const Polynomial_d& p) const {
       return p.lcoeff();
     }
   };
@@ -856,7 +857,7 @@ public:
   //       Innermost_leading_coefficient;
   struct Innermost_leading_coefficient 
     : public std::unary_function< Polynomial_d , Innermost_coefficient_type>{
-    Innermost_coefficient_type 
+    const Innermost_coefficient_type& 
     operator()(const Polynomial_d& p) const {
       typename PTC::Innermost_leading_coefficient ilcoeff;
       typename PT::Leading_coefficient lcoeff;
@@ -1150,6 +1151,7 @@ struct Construct_innermost_coefficient_const_iterator_range
     :public std::binary_function<Polynomial_d, Polynomial_d, Polynomial_d> {
     Polynomial_d
     operator()(const Polynomial_d& p, const Polynomial_d& q) const {
+      if(p==q) return CGAL::canonicalize(p); 
       if (CGAL::is_zero(p) && CGAL::is_zero(q)){
         return Polynomial_d(0);
       }

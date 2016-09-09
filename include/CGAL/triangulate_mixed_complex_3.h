@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
-// $Id: triangulate_mixed_complex_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
+// $Id: triangulate_mixed_complex_3.h 60043 2010-11-30 20:34:12Z nicokruithof $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -132,7 +132,7 @@ public:
       _tmc(triangulated_mixed_complex),
       observer(observer),
       triangulation_incr_builder(triangulated_mixed_complex), 
-      construct_anchor_point_3_obj(shrink),
+      construct_anchor_point_3_obj(r2t_converter_object(shrink)),
       compute_anchor_obj(regular),
       verbose(verbose)  {
     

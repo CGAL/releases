@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_x_monotone_arc_2.h $
-// $Id: Conic_x_monotone_arc_2.h 57194 2010-06-29 12:47:18Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_x_monotone_arc_2.h $
+// $Id: Conic_x_monotone_arc_2.h 58214 2010-08-23 07:31:09Z afabri $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -56,6 +56,10 @@ public:
   typedef std::pair<Conic_point_2, unsigned int>  Intersection_point_2;
   typedef std::list<Intersection_point_2>         Intersection_list;
 
+  using Conic_arc_2::_sign_of_extra_data;
+  using Conic_arc_2::_is_between_endpoints;
+  using Conic_arc_2::_is_strictly_between_endpoints;
+  using Conic_arc_2::_conic_get_y_coordinates;
   /*!
    * \struct Less functor for Conic_pair.
    */

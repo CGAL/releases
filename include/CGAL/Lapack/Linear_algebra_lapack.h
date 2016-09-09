@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Jet_fitting_3/include/CGAL/Lapack/Linear_algebra_lapack.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Jet_fitting_3/include/CGAL/Lapack/Linear_algebra_lapack.h $
 // $Id: Linear_algebra_lapack.h 57113 2010-06-25 15:30:45Z afabri $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals

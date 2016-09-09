@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polyhedron_IO/include/CGAL/IO/Polyhedron_VRML_1_ostream.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polyhedron_IO/include/CGAL/IO/Polyhedron_VRML_1_ostream.h $
 // $Id: Polyhedron_VRML_1_ostream.h 28567 2006-02-16 14:30:13Z lsaboret $
 // 
 //

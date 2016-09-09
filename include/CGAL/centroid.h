@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Principal_component_analysis/include/CGAL/centroid.h $
-// $Id: centroid.h 56702 2010-06-11 07:41:10Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Principal_component_analysis/include/CGAL/centroid.h $
+// $Id: centroid.h 60848 2011-01-18 11:40:03Z glisse $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -27,6 +27,9 @@
 #include <CGAL/Dimension.h>
 #include <CGAL/Origin.h>
 #include <CGAL/Kernel/global_functions.h>
+
+#include <CGAL/is_iterator.h>
+#include <boost/utility.hpp>
 
 #include <iterator>
 #include <list>
@@ -823,27 +826,21 @@ struct Dispatch_centroid_3
   }
 };
 
-#if defined(_MSC_VER) || defined (__INTEL_COMPILER)
-  // Workaround for VC++ and Intel compiler
-  // (avoids wrong template function instanciation)
-  template <typename K>
-  struct Dispatch_centroid_3<Point_3<K>, Point_3<K>, Dynamic_dimension_tag >
-  {
-    typedef void result_type;
-  };
-#endif
-  
 } // namespace internal
 
 template < typename InputIterator, typename K>
-typename internal::Dispatch_centroid_3<InputIterator,K,Dynamic_dimension_tag>::result_type
+typename internal::Dispatch_centroid_3<
+  typename boost::enable_if<is_iterator<InputIterator>,InputIterator>::type,
+  K,Dynamic_dimension_tag>::result_type
 centroid(InputIterator begin, InputIterator end, const K& k, Dynamic_dimension_tag tag)
 {
   return internal::Dispatch_centroid_3<InputIterator,K,Dynamic_dimension_tag>()(begin,end,k,tag);
 }
 
 template < typename InputIterator, typename K, int d >
-typename internal::Dispatch_centroid_3<InputIterator,K,Dimension_tag<d> >::result_type
+typename internal::Dispatch_centroid_3<
+  typename boost::enable_if<is_iterator<InputIterator>,InputIterator>::type,
+  K,Dimension_tag<d> >::result_type
 centroid(InputIterator begin, InputIterator end, const K& k, Dimension_tag<d> tag)
 {
   return internal::Dispatch_centroid_3<InputIterator,K,Dimension_tag<d> >()(begin,end,k,tag);
@@ -864,14 +861,6 @@ struct Dispatch_centroid
     typedef typename std::iterator_traits<InputIterator>::value_type Value_type;
     return CGAL::centroid(begin, end, k, typename Feature_dimension<Value_type, K>::type());
   }
-};
-
-// Avoids wrong matching with
-// CGAL::centroid(Point_3<K>, Point_3<K>, Point_3<K>)
-template < typename K >
-struct Dispatch_centroid < Point_3<K>, Point_3<K> >
-{
-  typedef void result_type;
 };
 
 // this one takes an iterator range over kernel objects, and a dimension tag,
@@ -914,23 +903,34 @@ struct Dispatch_centroid <InputIterator, Dynamic_dimension_tag>
 // The 3 argument overload calls the internal dispatcher.
 template < typename InputIterator, typename Kernel_or_dim >
 inline
-typename internal::Dispatch_centroid<InputIterator, Kernel_or_dim>::result_type
+typename internal::Dispatch_centroid<
+  typename boost::enable_if<is_iterator<InputIterator>,InputIterator>::type,
+  Kernel_or_dim>::result_type
 centroid(InputIterator begin, InputIterator end, const Kernel_or_dim& k_or_d)
 {
   internal::Dispatch_centroid<InputIterator, Kernel_or_dim> dispatch_centroid;
   return dispatch_centroid(begin, end, k_or_d);
 }
 
+namespace internal {
+template<class It,bool=is_iterator<It>::value>
+class Centroid_2args_return_type_helper{};
+
+template<class It>
+class Centroid_2args_return_type_helper<It,true>{
+	typedef typename std::iterator_traits<It>::value_type val;
+	typedef typename Kernel_traits<val>::Kernel K;
+	public:
+	typedef typename Access::Point<K,typename
+		Ambient_dimension<val,K>::type>::type type;
+};
+}
 
 // this one takes an iterator range over kernel objects
 // and uses Kernel_traits<> to find out its kernel, and Feature_dimension for the dimension tag.
 template < typename InputIterator >
 inline
-typename Access::Point<typename Kernel_traits<typename std::iterator_traits<InputIterator>::value_type>::Kernel,
-               typename Ambient_dimension<
-               typename std::iterator_traits<InputIterator>::value_type,
-               typename Kernel_traits<typename std::iterator_traits<InputIterator>::value_type>::Kernel >::type
-                >::type
+typename internal::Centroid_2args_return_type_helper<InputIterator>::type
 centroid(InputIterator begin, InputIterator end)
 {
   typedef typename std::iterator_traits<InputIterator>::value_type  Point;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/GraphicsView/include/CGAL/Qt/GraphicsViewInput.h $
-// $Id: GraphicsViewInput.h 47819 2009-01-26 10:38:57Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/GraphicsViewInput.h $
+// $Id: GraphicsViewInput.h 61414 2011-02-24 16:36:04Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -42,7 +42,7 @@ signals:
 
 public slots:
 
-  virtual void processInput(CGAL::Object o) {}
+  virtual void processInput(CGAL::Object /*o*/) {}
 
 };
 

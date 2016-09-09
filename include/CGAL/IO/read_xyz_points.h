@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Point_set_processing_3/include/CGAL/IO/read_xyz_points.h $
-// $Id: read_xyz_points.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Point_set_processing_3/include/CGAL/IO/read_xyz_points.h $
+// $Id: read_xyz_points.h 61363 2011-02-23 10:01:12Z sloriot $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
@@ -66,7 +66,7 @@ read_xyz_points_and_normals(
   OutputIterator output, ///< output iterator over points.
   PointPMap point_pmap, ///< property map OutputIterator -> Point_3.
   NormalPMap normal_pmap, ///< property map OutputIterator -> Vector_3.
-  const Kernel& kernel) ///< geometric traits.
+  const Kernel& /*kernel*/) ///< geometric traits.
 {
   // value_type_traits is a workaround as back_insert_iterator's value_type is void
   typedef typename value_type_traits<OutputIterator>::type Enriched_point;

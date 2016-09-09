@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Triangulation_2/include/CGAL/Constrained_triangulation_2.h $
-// $Id: Constrained_triangulation_2.h 57014 2010-06-23 13:29:04Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Constrained_triangulation_2.h $
+// $Id: Constrained_triangulation_2.h 59831 2010-11-23 11:07:42Z lrineau $
 // 
 //
 // Author(s)     : Mariette Yvinec, Jean-Daniel Boissonnat
@@ -471,9 +471,10 @@ insert_constraint(Vertex_handle  vaa, Vertex_handle vbb)
     }
     return;
   }
-
+      
   List_faces intersected_faces;
   List_edges conflict_boundary_ab, conflict_boundary_ba;
+     
   bool intersection  = find_intersected_faces( vaa, vbb,
 			                       intersected_faces,
 					       conflict_boundary_ab,
@@ -488,6 +489,7 @@ insert_constraint(Vertex_handle  vaa, Vertex_handle vbb)
     return;
   }
 
+  //no intersection
   triangulate_hole(intersected_faces,
 		   conflict_boundary_ab,
 		   conflict_boundary_ba);
@@ -680,6 +682,9 @@ intersect(Face_handle f, int i,
     case 1 : vi = vbb; break;
     case 2 : vi = vcc; break;
     case 3 : vi = vdd; break; 
+    }
+    if(vi == vaa || vi == vbb) {
+      remove_constrained_edge(f, i);
     }
   }
   else{ //intersection computed
@@ -1008,7 +1013,7 @@ triangulate_half_hole(List_edges & list_edges,  List_edges & new_edges)
   // the edges that are created are put in list new_edges
   // takes linear time
 {
-  Vertex_handle va,vb; // first and last vertices of list_edges 
+  Vertex_handle va; // first vertex of list_edges 
   Face_handle newlf;
   Face_handle n1,n2,n;
   int ind1, ind2,ind;
@@ -1016,11 +1021,8 @@ triangulate_half_hole(List_edges & list_edges,  List_edges & new_edges)
     
   typename List_edges::iterator current, next, tempo;
   current=list_edges.begin();
-  tempo=list_edges.end(); 
-  --tempo; 
 
   va=((*current).first)->vertex(ccw((*current).second));
-  vb=((*tempo).first)->vertex(cw((*tempo).second));
   next=current; 
   ++next;
 
@@ -1090,7 +1092,7 @@ triangulate_half_hole(List_edges & list_edges,  List_edges & new_edges)
 	++current; ++next;
 	break;
       }
-    } while (list_edges.size()>1);
+    } while (next != list_edges.end());
 }
 
 template < class Gt, class Tds, class Itag >
@@ -1166,6 +1168,7 @@ intersection(const Gt& gt,
 {
   return compute_intersection(gt,pa,pb,pc,pd,pi);
 }
+
 
 template<class Gt>
 bool

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_cell_base_3.h $
-// $Id: Periodic_3_triangulation_ds_cell_base_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_cell_base_3.h $
+// $Id: Periodic_3_triangulation_ds_cell_base_3.h 59755 2010-11-17 13:30:08Z mcaroli $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -218,29 +218,6 @@ public:
 
   bool is_valid(bool, int) const
   { return true; }
-
-#ifndef CGAL_NO_DEPRECATED_CODE
-  // Obsolete, kept for backward compatibility.
-  // This should emit a warning.
-  int mirror_index(int i) const
-  {
-      bool WARNING_THIS_FUNCTION_IS_OBSOLETE;
-      CGAL_triangulation_precondition ( i>=0 && i<4 );
-      Cell_handle ni = neighbor(i);
-      if (&*ni->neighbor(0) == this) return 0;
-      if (&*ni->neighbor(1) == this) return 1;
-      if (&*ni->neighbor(2) == this) return 2;
-      CGAL_triangulation_assertion(&*ni->neighbor(3) == this);
-      return 3;
-  }
-
-  // Obsolete as above.
-  Vertex_handle mirror_vertex(int i) const
-  {
-      bool WARNING_THIS_FUNCTION_IS_OBSOLETE;
-      return neighbor(i)->vertex(mirror_index(i));
-  }
-#endif
 
   // For use by Compact_container.
   void * for_compact_container() const { return N[0].for_compact_container(); }

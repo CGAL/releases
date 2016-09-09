@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Width_3/include/CGAL/Width_3.h $
-// $Id: Width_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Width_3/include/CGAL/Width_3.h $
+// $Id: Width_3.h 58003 2010-08-12 08:30:26Z sloriot $
 // 
 //
 // Author(s)     : Thomas Herrmann, Lutz Kettner
@@ -1515,14 +1515,14 @@ class Width_3 {
 	e=go_on.back();
 	//Check if e is a proper edge or not. If so determine fnext
 	if (preparation_check(dao,e,fnext,go_on,impassable)) {
-	  DEBUGMSG(WIDTH_3_CONVEX,"Preparation Check succesful");
+	  DEBUGMSG(WIDTH_3_CONVEX,"Preparation Check successful");
 	  //f is the facet of which we know the antipodal vertices
 	  f=e->facet();
 	  Visited.clear();
 	  dao.get_antipodal_vertices(f,N);
 	  CGAL_assertion (!N.empty());
 	  DEBUGMSG(ASSERTION_OUTPUT,"f has some antipodal vertices. Assertion "
-		   <<"succesful.");
+		   <<"successful.");
 	  while(!check_about_VF_pairs(dao,fnext,N)) {
 	    DEBUGMSG(WIDTH_3_CONVEX,"No new VF-pair. Continue (Begin) "
 		     <<"rotation of the planes.");

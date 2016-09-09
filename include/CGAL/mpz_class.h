@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/mpz_class.h $
-// $Id: mpz_class.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/mpz_class.h $
+// $Id: mpz_class.h 61404 2011-02-24 12:35:04Z glisse $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -87,7 +87,7 @@ public:
 
     struct Unit_part: public std::unary_function< mpz_class , mpz_class > {
         mpz_class operator()( const mpz_class& x) const {
-            return( x < mpz_class(0)) ?  mpz_class(-1) : mpz_class(1);
+            return (x < 0) ? -1 : 1;
         }
     };
 

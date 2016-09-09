@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesh_parameterization/include/CGAL/Taucs_solver_traits.h $
-// $Id: Taucs_solver_traits.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_parameterization/include/CGAL/Taucs_solver_traits.h $
+// $Id: Taucs_solver_traits.h 61302 2011-02-18 15:37:40Z sloriot $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -40,6 +40,10 @@
 #include <cmath>
 #include <cfloat>
 #include <climits>
+
+#ifdef _MSC_VER
+#include <io.h>
+#endif
 
 namespace CGAL {
 
@@ -171,7 +175,7 @@ private:
     // Test if a floating point number is (close to) 0.0.
     static inline bool IsZero(NT a)
     {
-        return (std::fabs(a) < 10.0 * (std::numeric_limits<NT>::min)());
+        return (CGAL::abs(a) < 10.0 * (std::numeric_limits<NT>::min)());
     }
 
 // Fields
@@ -280,10 +284,18 @@ public:
 
             // Create multi-file for out-of-core swapping.
             // Note: g++ complains that tempnam() is deprecated. You may safely ignore the warning.
+#ifdef _MSC_VER
+            char template_name[13] = {'t', 'a', 'u', 'c', 's','.','X','X','X','X','X','X', '\0' };
+            char* matrixfile = _mktemp(template_name);
+            if (matrixfile == NULL)
+                throw std::runtime_error("Cannot Create Multifile");
+            boost::shared_ptr<taucs_io_handle> oocL(taucs_io_create_multifile(matrixfile), taucs_io_delete);
+#else
             boost::shared_ptr<char> matrixfile(tempnam(NULL, "taucs.L"), free);
             if (matrixfile == NULL)
                 throw std::runtime_error("Cannot Create Multifile");
             boost::shared_ptr<taucs_io_handle> oocL(taucs_io_create_multifile(matrixfile.get()), taucs_io_delete);
+#endif
             if (oocL == NULL)
                 throw std::runtime_error("Cannot Create Multifile");
 
@@ -324,7 +336,7 @@ private:
     // Test if a floating point number is (close to) 0.0.
     static inline bool IsZero(NT a)
     {
-        return (std::fabs(a) < 10.0 * (std::numeric_limits<NT>::min)());
+        return ( ::CGAL::abs(a) < 10.0 * (std::numeric_limits<NT>::min)());
     }
 };
 

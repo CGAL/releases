@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polyhedron/include/CGAL/Polyhedron_incremental_builder_3.h $
-// $Id: Polyhedron_incremental_builder_3.h 57150 2010-06-28 12:47:18Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polyhedron/include/CGAL/Polyhedron_incremental_builder_3.h $
+// $Id: Polyhedron_incremental_builder_3.h 58003 2010-08-12 08:30:26Z sloriot $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
@@ -342,7 +342,7 @@ public:
     }
     bool remove_unconnected_vertices() {
         // returns `true' if all unconnected vertices could be removed
-        // succesfully.
+        // successfully.
         return remove_unconnected_vertices( Supports_removal());
     }
 
