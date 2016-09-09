@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/_QP_solver/include/CGAL/_QP_solver/Basis_inverse.h,v $
-// $Revision: 1.6 $ $Date: 2003/09/18 10:26:42 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/09/03 17:41:06 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
                                                                                
 
 #ifndef CGAL_BASIS_INVERSE_H

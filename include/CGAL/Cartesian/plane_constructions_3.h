@@ -16,10 +16,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/plane_constructions_3.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:14:30 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.9 $ $Date: 2003/12/04 09:42:27 $
+// $Name:  $
 //
-// Author(s)     : Herve Bronnimann
+// Author(s)     : Herve Bronnimann, Sylvain Pion
 
 #ifndef CGAL_CARTESIAN_PLANE_CONSTRUCTIONS_3_H
 #define CGAL_CARTESIAN_PLANE_CONSTRUCTIONS_3_H

@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_polyhedron_2.h,v $
-// $Revision: 1.21 $ $Date: 2003/10/21 12:20:55 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.26.4.1 $ $Date: 2004/12/08 20:04:34 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -37,8 +37,8 @@
 #include <vector>
 #include <list>
 
-#undef _DEBUG
-#define _DEBUG 11
+#undef CGAL_NEF_DEBUG
+#define CGAL_NEF_DEBUG 11
 #include <CGAL/Nef_2/debug.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -168,12 +168,17 @@ protected:
   typedef typename Nef_rep::Slocator        Slocator;
   typedef typename Nef_rep::Locator         Locator;
 
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::ptr;
+  using Base::is_shared;
+#endif
+
   Plane_map& pm() { return ptr()->pm_; } 
   const Plane_map& pm() const { return ptr()->pm_; } 
 
-  friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS
+  friend std::ostream& operator<< <>
       (std::ostream& os, const Nef_polyhedron_2<T>& NP);
-  friend std::istream& operator>> CGAL_NULL_TMPL_ARGS
+  friend std::istream& operator>> <>
       (std::istream& is, Nef_polyhedron_2<T>& NP);
 
   typedef typename Decorator::Vertex_handle         Vertex_handle;
@@ -267,7 +272,7 @@ public:
   /*{\Mcreate creates a Nef polyhedron |\Mvar| containing the half-plane
   left of |l| including |l| if |line==INCLUDED|, excluding |l| if 
   |line==EXCLUDED|.}*/  
-  {   TRACEN("Nconstruction from line "<<l);
+  {   CGAL_NEF_TRACEN("Nconstruction from line "<<l);
     ES_list L;
     fill_with_frame_segs(L);
     Extended_point ep1 = EK.construct_opposite_point(l);
@@ -419,8 +424,8 @@ public:
   }
 
   void extract_complement()
-  { TRACEN("extract complement");
-  if ( is_shared() ) {
+  { CGAL_NEF_TRACEN("extract complement");
+  if ( this->is_shared() ) {
 	  clone_rep();
   }
     Overlayer D(pm());
@@ -434,8 +439,8 @@ public:
   }
 
   void extract_interior()
-  { TRACEN("extract interior");
-    if ( is_shared() ) clone_rep();
+  { CGAL_NEF_TRACEN("extract interior");
+    if ( this->is_shared() ) clone_rep();
     Overlayer D(pm());
     Vertex_iterator v, vend = D.vertices_end();
     for(v = D.vertices_begin(); v != vend; ++v)      D.mark(v) = false;
@@ -446,8 +451,8 @@ public:
 
 
   void extract_boundary()
-  { TRACEN("extract boundary");
-    if ( is_shared() ) clone_rep();
+  { CGAL_NEF_TRACEN("extract boundary");
+    if ( this->is_shared() ) clone_rep();
     Overlayer D(pm());
     Vertex_iterator v, vend = D.vertices_end();
     for(v = D.vertices_begin(); v != vend; ++v)      D.mark(v) = true;
@@ -461,7 +466,7 @@ public:
 
   void extract_closure()
   /*{\Xop converts |\Mvar| to its closure. }*/
-  { TRACEN("extract closure");
+  { CGAL_NEF_TRACEN("extract closure");
     extract_complement();
     extract_interior();
     extract_complement();
@@ -469,7 +474,7 @@ public:
 
   void extract_regularization()
   /*{\Xop converts |\Mvar| to its regularization. }*/
-  { TRACEN("extract regularization");
+  { CGAL_NEF_TRACEN("extract regularization");
     extract_interior();
     extract_closure();
   }

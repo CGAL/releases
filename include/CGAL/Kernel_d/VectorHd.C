@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/VectorHd.C,v $
 // $Revision: 1.11 $ $Date: 2003/10/21 12:19:31 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 

@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/solve.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:18:27 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
  

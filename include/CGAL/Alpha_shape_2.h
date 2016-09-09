@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h,v $
-// $Revision: 1.47 $ $Date: 2003/10/04 19:18:59 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.50 $ $Date: 2004/07/24 14:03:10 $
+// $Name:  $
 //
 // Author(s)     : Tran Kai Frank DA
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -32,6 +32,7 @@
 #include <iostream>
 
 #include <CGAL/utility.h>
+#include <CGAL/Unique_hash_map.h>
 #include <CGAL/Triangulation_vertex_base_2.h>
 #include <CGAL/Triangulation_face_base_2.h>
 #include <CGAL/Alpha_shape_vertex_base_2.h>
@@ -83,14 +84,28 @@ public:
 
   typedef typename Dt::Locate_type Locate_type;
 
+  using Dt::finite_vertices_begin;
+  using Dt::finite_vertices_end;
+  using Dt::faces_begin;
+  using Dt::faces_end;
+  using Dt::edges_begin;
+  using Dt::edges_end;
+  using Dt::number_of_vertices;
+  using Dt::cw;
+  using Dt::ccw;
+  using Dt::VERTEX;
+  using Dt::EDGE;
+  using Dt::FACE;
+  using Dt::OUTSIDE_CONVEX_HULL;
+  using Dt::OUTSIDE_AFFINE_HULL;
+  using Dt::dimension;
+
   // for backward compatibility
   typedef Finite_vertices_iterator Vertex_iterator;
   typedef Finite_faces_iterator Face_iterator;
 
 private:
 
-  typedef long Key;
- 
   typedef std::multimap< Coord_type, Face_handle >  Interval_face_map;
   typedef typename Interval_face_map::value_type    Interval_face;
 
@@ -110,7 +125,7 @@ private:
   
   typedef std::vector< Segment > Vect_seg;
 
-  typedef std::set< Key > Marked_face_set;
+  typedef Unique_hash_map< Face_handle, bool > Marked_face_set;
 
 public:
 
@@ -369,8 +384,7 @@ private:
 
   // the dynamic version is not yet implemented
   // desactivate the triangulation member functions
-  Vertex_handle insert(const Point& p) 
-    {}
+  Vertex_handle insert(const Point& p);
   // Inserts point `p' in the alpha shape and returns the
   // corresponding vertex of the underlying Delaunay triangulation.
   // If point `p' coincides with an already existing vertex, this
@@ -378,8 +392,7 @@ private:
   // Otherwise, the vertex is inserted in the underlying Delaunay
   // triangulation and the associated intervals are updated.
 
-  void remove(Vertex_handle v) 
-    {}
+  void remove(Vertex_handle v);
   // Removes the vertex from the underlying Delaunay triangulation.
   // The created hole is retriangulated and the associated intervals
   // are updated.
@@ -681,9 +694,6 @@ private:
 
   Coord_type squared_radius(const Face_handle& f, int i) const 
     {
-      // should be
-      // return (traits().squared_radius_smallest_circumcircle(...)
-      // TBC
       return 
 	Gt().compute_squared_radius_2_object()(f->vertex(ccw(i))->point(),
 					       f->vertex(cw(i))->point());
@@ -694,11 +704,9 @@ private:
 private:
   // prevent default copy constructor and default assigment
   
-  Alpha_shape_2(const Alpha_shape_2& A) 
-    {}
+  Alpha_shape_2(const Alpha_shape_2& A);
 
-  Alpha_shape_2& operator=(const Alpha_shape_2& A) 
-    {} 
+  Alpha_shape_2& operator=(const Alpha_shape_2& A);
 
 };
 
@@ -1251,16 +1259,14 @@ int
 Alpha_shape_2<Dt>::number_of_solid_components(const Coord_type& alpha) const
 {
   // Determine the number of connected solid components 
-  // takes time O(#alpha_shape) amortized if STL_STD::HASH_TABLES
-  //            O(#alpha_shape log n) otherwise
-  Marked_face_set marked_face_set;
+  typedef typename Marked_face_set::Data Data;
+  Marked_face_set marked_face_set(false);
   Finite_faces_iterator face_it;
   int nb_solid_components = 0;
-
-  //prevent error (Rajout Frank)
+  
   if (number_of_vertices()==0)
     return 0;
-
+  
   // only finite faces
   for( face_it = faces_begin(); 
        face_it != faces_end(); 
@@ -1268,14 +1274,16 @@ Alpha_shape_2<Dt>::number_of_solid_components(const Coord_type& alpha) const
     {
       Face_handle pFace = face_it;
       CGAL_triangulation_postcondition( pFace != NULL);
-
-      if (classify(pFace, alpha) == INTERIOR &&
-	  ((marked_face_set.insert(Key(&(*face_it))))).second) 
-	{
-	  // we traverse only interior faces
-	  traverse(pFace, marked_face_set, alpha);
-	  nb_solid_components++;  
-	}
+      
+      if (classify(pFace, alpha) == INTERIOR){
+	Data& data = marked_face_set[pFace];
+	if(data == false)
+	  {
+	    // we traverse only interior faces
+	    traverse(pFace, marked_face_set, alpha);
+	    nb_solid_components++;  
+	  }
+      }
     }
   return nb_solid_components;
 }
@@ -1288,15 +1296,27 @@ Alpha_shape_2<Dt>::traverse(const Face_handle& pFace,
 			    Marked_face_set& marked_face_set, 
 			    const Coord_type alpha) const 
 {
-  for (int i=0; i<=2; i++) 
-    { 
-      Face_handle pNeighbor = pFace->neighbor(i);
-	 
-      CGAL_triangulation_precondition( pNeighbor != NULL ); 
-      if (classify(pNeighbor, alpha) == INTERIOR &&
-	  ((marked_face_set.insert(Key(&(*pNeighbor))))).second)
-	traverse(pNeighbor, marked_face_set, alpha);
-    }
+  typedef typename Marked_face_set::Data Data;
+  std::list<Face_handle> faces;
+  faces.push_back(pFace);
+  Face_handle pNeighbor;
+
+  while(! faces.empty()){
+    pFace = faces.back();
+    faces.pop_back();
+    for (int i=0; i<=3; i++)
+      {
+	pNeighbor = pFace->neighbor(i);
+	assert(pNeighbor != NULL);
+	if (classify(pNeighbor, alpha) == INTERIOR){
+	  Data& data = marked_face_set[pNeighbor];
+	  if(data == false){
+	    data = true;
+	    faces.push_back(pNeighbor);
+	  }
+	}
+      }
+  }
 }
 
 //-------------------------------------------------------------------------
@@ -1409,8 +1429,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 
   const typename Alpha_shape_2<Dt>::Interval2* pInterval2;
 
-  typedef long Key;
-  std::map< Key, int > V;
+  Unique_hash_map< Vertex_handle , int > V;
 
   int number_of_vertices = 0;
       
@@ -1456,7 +1475,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 	      // regular means incident to a higher-dimensional face
 	      // we would write too many vertices
 
-	      V[Key(&*v)] = number_of_vertices++;
+	      V[v] = number_of_vertices++;
 	      os << v->point() << std::endl;
 	    }
 	}
@@ -1507,8 +1526,8 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
  CGAL_triangulation_assertion((classify(f, i) == 
 			       Alpha_shape_2<Dt>::REGULAR));
 
-	      os << V[Key(&*(f->vertex(f->ccw(i))))] << ' ' 
-		 << V[Key(&*(f->vertex(f->cw(i))))] << std::endl;
+	      os << V[f->vertex(f->ccw(i))] << ' ' 
+		 << V[f->vertex(f->cw(i))] << std::endl;
 	    }
 	}
     }
@@ -1538,7 +1557,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 	      v = (*vertex_alpha_it).second;
  CGAL_triangulation_assertion((classify(v) == 
 			       Alpha_shape_2<Dt>::REGULAR));
-	      V[Key(&*v)] = number_of_vertices++;
+	      V[v] = number_of_vertices++;
 	      os << v->point() << std::endl;
 	    }
 	}
@@ -1553,7 +1572,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
  CGAL_triangulation_assertion((classify(v) ==
 			       Alpha_shape_2<Dt>::SINGULAR));
 
-	  V[Key(&*v)] = number_of_vertices++;
+	  V[v] = number_of_vertices++;
 	  os << v->point() << std::endl;
 	}
  
@@ -1614,8 +1633,8 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
  CGAL_triangulation_assertion((classify(f) == 
 			       Alpha_shape_2<Dt>::INTERIOR));
 
-		  os << V[Key(&*(f->vertex(f->ccw(i))))] << ' ' 
-		     << V[Key(&*(f->vertex(f->cw(i))))] << std::endl;
+		  os << V[f->vertex(f->ccw(i))] << ' ' 
+		     << V[f->vertex(f->cw(i))] << std::endl;
 		  
 		}
 	      else 
@@ -1629,8 +1648,8 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 		    {
  CGAL_triangulation_assertion((classify(f, i) == 
 			       Alpha_shape_2<Dt>::SINGULAR));
-		      os << V[Key(&*(f->vertex(f->ccw(i))))] << ' ' 
-			 << V[Key(&*(f->vertex(f->cw(i))))] << std::endl;
+		      os << V[f->vertex(f->ccw(i))] << ' ' 
+			 << V[f->vertex(f->cw(i))] << std::endl;
 	
 		    }	
 		}

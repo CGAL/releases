@@ -1,22 +1,23 @@
+// Copyright (c) 2002  Utrecht University (The Netherlands).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/demo/Spatial_searching/spatial_searching.C,v $
+// $Revision: 1.8.4.1 $ $Date: 2004/12/19 16:56:48 $
+// $Name:  $
+//
+// Author(s)     : Radu Ursu
 // ============================================================================
 //
-// Copyright (c) 1997-2003 The CGAL Consortium
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-// ----------------------------------------------------------------------
-//
-// file          : spatial_searching.C
-// package       : Qt_widget
-// author(s)     : Radu Ursu
-// coordinator   : Laurent Rineau
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
 
 // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
@@ -51,7 +52,7 @@ int main(int, char*){
 
 //global flags and variables
 int current_state;
-std::vector<Point>                        vector_of_points;
+std::vector<Point_2>                      vector_of_points;
 
 const QString my_title_string("Spatial Searching Demo with"
 			      " CGAL Qt_widget");
@@ -69,7 +70,7 @@ public:
     widget->lock();
     *widget << CGAL::PointSize(3);
     *widget << CGAL::GREEN;
-    std::vector<Point>::iterator itp = vector_of_points.begin();
+    std::vector<Point_2>::iterator itp = vector_of_points.begin();
     while(itp!=vector_of_points.end())
     {
       *widget << (*itp++);
@@ -164,7 +165,7 @@ public slots:
 private slots:
   void get_new_object(CGAL::Object obj)
   {
-    Point p;
+    Point_2 p;
     Iso_rectangle_2 ir;
     Circle_2 c;
     if(CGAL::assign(p,obj)) {
@@ -174,18 +175,21 @@ private slots:
       // Searching an exact range
       // using default value 0.0 for epsilon fuzziness paramater
       Fuzzy_box exact_range(ir.min(), ir.max());
-      Traits tr;
+
       typedef CGAL::Kd_tree<Traits> Tree;
-      std::list<Point> l, res;
+      std::list<Point_2> l, res;
       CGAL::copy_n(vector_of_points.begin(), vector_of_points.size(),
                   std::back_inserter(l));
-      Tree d(l.begin(), l.end(), tr);
+      std::cout << "construct tree with " << l.size() << " points" << std::endl;
+      Tree d(l.begin(), l.end());
+      std::cout << "search" << std::endl;
       d.search( std::back_inserter( res ), exact_range);
+      std::cout << "search done. found " << res.size() << " points" << std::endl;
       widget->redraw();
       widget->lock();
       *widget << CGAL::RED;
       *widget << ir;
-      std::list<Point>::const_iterator it = res.begin();
+      std::list<Point_2>::const_iterator it = res.begin();
       while(it!=res.end()){
         *widget << (*it);
         it++;
@@ -195,18 +199,18 @@ private slots:
     } else if(CGAL::assign(c, obj)){
       // exact range searching using default value 0.0 for fuzziness paramater
       Fuzzy_circle exact_range(c.center(), sqrt(c.squared_radius()));
-      Traits tr;
+
       typedef CGAL::Kd_tree<Traits> Tree;
-      std::list<Point> l, res;
+      std::list<Point_2> l, res;
       CGAL::copy_n(vector_of_points.begin(), vector_of_points.size(),
                   std::back_inserter(l));
-      Tree d(l.begin(), l.end(), tr);
+      Tree d(l.begin(), l.end());
       d.search( std::back_inserter( res ), exact_range);
       widget->redraw();
       widget->lock();
       *widget << CGAL::RED;
       *widget << c;
-      std::list<Point>::const_iterator it = res.begin();
+      std::list<Point_2>::const_iterator it = res.begin();
       while(it!=res.end()){
         *widget << (*it);
         it++;
@@ -261,7 +265,7 @@ private slots:
 		// set the Visible Area to the Interval
 
     // send resizeEvent only on show.
-    CGAL::Random_points_in_disc_2<Point> g(1);
+    CGAL::Random_points_in_disc_2<Point_2> g(1);
     for(int count=0; count<200; count++) {
       vector_of_points.push_back(*g++);
     }
@@ -269,30 +273,30 @@ private slots:
   }
 	
   void n_search(){
-    Traits tr;
+
     typedef CGAL::Kd_tree<Traits> Tree;
-    std::list<Point> l;
+    std::list<Point_2> l;
     CGAL::copy_n(vector_of_points.begin(), vector_of_points.size(),
 		std::back_inserter(l));
     //    Tree d(vector_of_points.begin(), vector_of_points.end(), tr);
-    Tree d(l.begin(), l.end(), tr);
+    Neighbour_search::Tree d(l.begin(), l.end());
 
     const int query_point_number=30;
-    CGAL::Random_points_in_square_2<Point,Creator> h( 1.0);
-    std::vector<Point> query_points;
+    CGAL::Random_points_in_square_2<Point_2,Creator> h( 1.0);
+    std::vector<Point_2> query_points;
     CGAL::copy_n( h, query_point_number, std::back_inserter(query_points));
-    Distance tr_dist;
-    std::vector<Neighbour_search::Point_with_distance>
+
+    std::vector<Neighbour_search::Point_with_transformed_distance>
       nearest_neighbour;
     for (int i=0; i < query_point_number; i++) { 
      
-     Neighbour_search N(d, query_points[i], tr_dist, 1, 0.0);
-     N.the_k_neighbors(std::back_inserter(nearest_neighbour));
+     Neighbour_search N(d, query_points[i]);
+     std::copy(N.begin(), N.end(), std::back_inserter(nearest_neighbour));
     }
     widget->lock();    
     for (int j=0; j < query_point_number; j++) {
       *widget << CGAL::RED;
-      *widget << Segment_2(query_points[j], *(nearest_neighbour[j].first));
+      *widget << Segment_2(query_points[j], (nearest_neighbour[j].first));
       *widget << CGAL::YELLOW;
       *widget << query_points[j];
     }
@@ -320,8 +324,10 @@ main(int argc, char **argv)
   app.setMainWidget(&widget);
   widget.setCaption(my_title_string);
   widget.setMouseTracking(TRUE);
+#if !defined (__POWERPC__)
   QPixmap cgal_icon = QPixmap((const char**)demoicon_xpm);
   widget.setIcon(cgal_icon);
+#endif
   widget.show();
   current_state = -1;
   return app.exec();

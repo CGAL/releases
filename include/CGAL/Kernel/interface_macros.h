@@ -1,4 +1,4 @@
-// Copyright (c) 2000,2001,2002  Utrecht University (The Netherlands),
+// Copyright (c) 2000-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Kernel/interface_macros.h,v $
-// $Revision: 1.18 $ $Date: 2003/10/21 12:18:33 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.25 $ $Date: 2004/09/07 07:36:36 $
+// $Name:  $
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion, Susan Hert
 
@@ -37,6 +37,10 @@ CGAL_Kernel_pred(Are_ordered_along_line_2,
 		 are_ordered_along_line_2_object)
 CGAL_Kernel_pred(Are_ordered_along_line_3,
 		 are_ordered_along_line_3_object)
+CGAL_Kernel_pred(Are_parallel_2,
+		 are_parallel_2_object)
+CGAL_Kernel_pred(Are_parallel_3,
+		 are_parallel_3_object)
 CGAL_Kernel_pred(Are_strictly_ordered_along_line_2,
 		 are_strictly_ordered_along_line_2_object)
 CGAL_Kernel_pred(Are_strictly_ordered_along_line_3,
@@ -93,6 +97,12 @@ CGAL_Kernel_pred(Compare_z_3,
 		 compare_z_3_object)
 CGAL_Kernel_cons(Compute_area_2,
 		 compute_area_2_object)
+CGAL_Kernel_cons(Compute_area_3,
+		 compute_area_3_object)
+CGAL_Kernel_cons(Compute_scalar_product_2,
+		 compute_scalar_product_2_object)
+CGAL_Kernel_cons(Compute_scalar_product_3,
+		 compute_scalar_product_3_object)
 CGAL_Kernel_cons(Compute_squared_area_3,
 		 compute_squared_area_3_object)
 CGAL_Kernel_cons(Compute_squared_distance_2,
@@ -113,6 +123,8 @@ CGAL_Kernel_cons(Construct_base_vector_3,
 		 construct_base_vector_3_object)
 CGAL_Kernel_cons(Construct_bisector_2,
 		 construct_bisector_2_object)
+CGAL_Kernel_cons(Construct_bisector_3,
+		 construct_bisector_3_object)
 CGAL_Kernel_cons(Construct_center_2,
 		 construct_center_2_object)
 CGAL_Kernel_cons(Construct_center_3,
@@ -147,6 +159,14 @@ CGAL_Kernel_cons(Construct_midpoint_2,
 		 construct_midpoint_2_object)
 CGAL_Kernel_cons(Construct_midpoint_3,
 		 construct_midpoint_3_object)
+CGAL_Kernel_cons(Construct_min_vertex_2,
+                 construct_min_vertex_2_object)
+CGAL_Kernel_cons(Construct_max_vertex_2,
+                 construct_max_vertex_2_object)
+CGAL_Kernel_cons(Construct_min_vertex_3,
+                 construct_min_vertex_3_object)
+CGAL_Kernel_cons(Construct_max_vertex_3,
+                 construct_max_vertex_3_object)
 CGAL_Kernel_cons(Construct_object_2,
                  construct_object_2_object)
 CGAL_Kernel_cons(Construct_object_3,
@@ -221,10 +241,12 @@ CGAL_Kernel_cons(Construct_segment_3,
 		 construct_segment_3_object)
 CGAL_Kernel_cons(Construct_sphere_3,
 		 construct_sphere_3_object)
+#ifndef CGAL_NO_DEPRECATED_CODE
 CGAL_Kernel_cons(Construct_supporting_line_2,
 		 construct_supporting_line_2_object)
 CGAL_Kernel_cons(Construct_supporting_line_3,
 		 construct_supporting_line_3_object)
+#endif // CGAL_NO_DEPRECATED_CODE
 CGAL_Kernel_cons(Construct_supporting_plane_3,
 		 construct_supporting_plane_3_object)
 CGAL_Kernel_cons(Construct_tetrahedron_3,
@@ -363,53 +385,6 @@ CGAL_Kernel_pred(Side_of_oriented_circle_2,
 		 side_of_oriented_circle_2_object)
 CGAL_Kernel_pred(Side_of_oriented_sphere_3,
 		 side_of_oriented_sphere_3_object)
-
-#ifndef CGAL_NO_DEPRECATED_CODE
-CGAL_Kernel_pred(Equal_xy_2,
-		 equal_xy_2_object)
-CGAL_Kernel_pred(Leftturn_2,
-		 leftturn_2_object)
-CGAL_Kernel_pred(Equal_xyz_3,
-		 equal_xyz_3_object)
-CGAL_Kernel_cons(Construct_direction_of_line_2,
-		 construct_direction_of_line_2_object)
-CGAL_Kernel_cons(Construct_direction_of_ray_2,
-		 construct_direction_of_ray_2_object)
-CGAL_Kernel_cons(Construct_direction_of_line_3,
-		 construct_direction_of_line_3_object)
-CGAL_Kernel_cons(Construct_direction_of_ray_3,
-		 construct_direction_of_ray_3_object)
-CGAL_Kernel_cons(Construct_max_point_2,
-		 construct_max_point_2_object)
-CGAL_Kernel_cons(Construct_max_point_3,
-		 construct_max_point_3_object)
-CGAL_Kernel_cons(Construct_min_point_2,
-		 construct_min_point_2_object)
-CGAL_Kernel_cons(Construct_min_point_3,
-		 construct_min_point_3_object)
-CGAL_Kernel_cons(Construct_source_point_2,
-		 construct_source_point_2_object)
-CGAL_Kernel_cons(Construct_source_point_3,
-		 construct_source_point_3_object)
-CGAL_Kernel_cons(Construct_target_point_2,
-		 construct_target_point_2_object)
-CGAL_Kernel_cons(Construct_target_point_3,
-		 construct_target_point_3_object)
-CGAL_Kernel_cons(Construct_second_point_on_2,
-		 construct_second_point_on_2_object)
-CGAL_Kernel_cons(Construct_second_point_on_3,
-		 construct_second_point_on_3_object)
-CGAL_Kernel_cons(Transform_2,
-		 transform_2_object)
-CGAL_Kernel_cons(Transform_3,
-		 transform_3_object)
-CGAL_Kernel_cons(Construct_aff_transformation_2,
-		 construct_aff_transformation_2_object)
-CGAL_Kernel_cons(Construct_aff_transformation_3,
-		 construct_aff_transformation_3_object)
-CGAL_Kernel_cons(Compute_y_at_x_2,
-		 compute_y_at_x_2_object)
-#endif // CGAL_NO_DEPRECATED_CODE
 
 #undef CGAL_Kernel_pred
 #undef CGAL_Kernel_cons

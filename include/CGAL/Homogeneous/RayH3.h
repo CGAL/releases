@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H3/include/CGAL/Homogeneous/RayH3.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:16:19 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2004/02/19 20:26:40 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  
@@ -30,10 +30,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class RayH3
-  : public R_::template Handle<std::pair<typename R_::Point_3,
-                                         typename R_::Vector_3> >::type
 {
-CGAL_VC7_BUG_PROTECTED
    typedef typename R_::RT                   RT;
    typedef typename R_::FT                   FT;
    typedef typename R_::Point_3              Point_3;
@@ -42,8 +39,10 @@ CGAL_VC7_BUG_PROTECTED
    typedef typename R_::Vector_3             Vector_3;
    typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-   typedef std::pair<Point_3, Vector_3>             rep;
-   typedef typename R_::template Handle<rep>::type  base;
+   typedef std::pair<Point_3, Vector_3>             Rep;
+   typedef typename R_::template Handle<Rep>::type  Base;
+
+   Base base;
 
 public:
    typedef R_                R;
@@ -51,16 +50,16 @@ public:
     RayH3() {}
 
     RayH3( const Point_3& sp, const Point_3& secondp)
-      : base(rep(sp, secondp-sp)) {}
+      : base(sp, secondp-sp) {}
 
     RayH3( const Point_3& sp, const Vector_3& v)
-      : base(rep(sp, v)) {}
+      : base(sp, v) {}
 
     RayH3( const Point_3& sp, const Direction_3& d)
-      : base(rep(sp, d.to_vector())) {}
+      : base(sp, d.to_vector()) {}
 
     RayH3( const Point_3& sp, const Line_3& l)
-      : base(rep(sp, l.to_vector())) {}
+      : base(sp, l.to_vector()) {}
 
     const Point_3 & start() const;
     const Point_3 & source() const;
@@ -83,20 +82,20 @@ template < class R >
 inline
 const typename RayH3<R>::Point_3 &
 RayH3<R>::source() const
-{ return Ptr()->first; }
+{ return get(base).first; }
 
 template < class R >
 inline
 const typename RayH3<R>::Point_3 &
 RayH3<R>::start() const
-{ return Ptr()->first; }
+{ return get(base).first; }
 
 template < class R >
 inline
 const typename RayH3<R>::Vector_3 &
 RayH3<R>::to_vector() const
 {
-  return Ptr()->second;
+  return get(base).second;
 }
 
 template < class R >

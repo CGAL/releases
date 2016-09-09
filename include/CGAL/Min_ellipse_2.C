@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/Min_ellipse_2.C,v $
-// $Revision: 1.5 $ $Date: 2003/09/18 10:23:11 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/09/05 12:30:25 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>, Bernd Gärtner
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
 
 #include <iterator>
 

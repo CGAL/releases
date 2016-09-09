@@ -1,3 +1,5 @@
+// file: examples/Planar_map/example3.C
+
 /*! \file
  * A Construction of a Planar_map and some point location queries.
  * A Construction of a Planar_map in the shape of the David star, some

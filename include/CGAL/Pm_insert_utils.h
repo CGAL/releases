@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_insert_utils.h,v $
-// $Revision: 1.8 $ $Date: 2003/09/18 10:24:33 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2004/09/22 07:53:06 $
+// $Name:  $
 //
 // Author(s)     : Tali Zvi          <talizvi@post.tau.ac.il>
 #ifndef CGAL_PM_INSERT_UTILS_H
@@ -35,6 +35,9 @@ class Pm_curve_node : public Handle_for< typename SweepLineTraits_2::X_curve >
 
   typedef Point_plus_               Point_plus;
 
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Handle_for_curve::ptr;
+#endif
 public:
 
   Pm_curve_node(const X_curve& cv, const Point_plus& p, Traits* traits_) : 

@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/partition_assertions.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:22:27 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.9 $ $Date: 2004/09/05 12:30:42 $
+// $Name:  $
 //
-// Author(s)     : script by Geert-Jan Giezeman and Sven Schönherr 
+// Author(s)     : script by Geert-Jan Giezeman and Sven Schoenherr 
 
 
 

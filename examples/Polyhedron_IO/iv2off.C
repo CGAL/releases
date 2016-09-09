@@ -1,28 +1,8 @@
-// ============================================================================
-//
-// Copyright (c) 1997 The CGAL Consortium
-//
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
-//
-// ----------------------------------------------------------------------------
-//
-// release       : $CGAL_Revision: CGAL-3.0.1 $
-// release_date  : $CGAL_Date: 2004/02/13 $
-//
-// file          : examples/Polyhedron_IO/iv2off.C
-// package       : $CGAL_Package: Polyhedron_IO 2.11 (04 Feb 2000) $
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/06/29 06:24:53 $
-// author(s)     : Lutz Kettner  <kettner@@inf.ethz.ch>
-//
-// coordinator   : Herve Bronnimann  <Herve.Bronnimann@sophia.inria.fr>
-//
+// file: examples/Polyhedron_IO/iv2off.C
+
 // Converts Geometry Information in Inventor files (*.iv) into OFF format. 
 // The scanner triggers on Coordinate3, IndexedFaceSet, and IndexedLineSet
 // keywords. It does not recognize transformations nor groups.
-// ============================================================================
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/IO/Verbose_ostream.h>

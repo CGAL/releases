@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/leda_rational.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:21:46 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.18 $ $Date: 2004/09/02 15:34:45 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
  
@@ -41,6 +41,10 @@ struct Number_type_traits<leda_rational> {
   typedef Tag_false Has_gcd;
   typedef Tag_true  Has_division;
   typedef Tag_false Has_sqrt;
+
+  typedef Tag_true  Has_exact_ring_operations;
+  typedef Tag_true  Has_exact_division;
+  typedef Tag_false Has_exact_sqrt;
 };
 
 template <> 

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/SearchStructures/include/CGAL/Segment_tree_k.h,v $
 // $Revision: 1.5 $ $Date: 2003/09/18 10:25:36 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Gabriele Neyer
 

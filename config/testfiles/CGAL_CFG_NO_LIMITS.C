@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_NO_LIMITS.C,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:14:49 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/04/08 21:15:20 $
+// $Name:  $
 //
 // Author(s)     : various
 
@@ -38,6 +38,8 @@ int main()
 {
   double d = std::numeric_limits<double>::denorm_min();
   double e = std::numeric_limits<double>::min();
+  // Note : denorm_min == min is actually not necessarily a bug.
+  // So a better test should be found.
   if (d == 0 || d == e)
     return 1;
   return 0;

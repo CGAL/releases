@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/HyperplaneCd.h,v $
-// $Revision: 1.18 $ $Date: 2003/10/21 12:19:19 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.21 $ $Date: 2004/09/17 12:12:40 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_HYPERPLANECD_H
@@ -40,6 +40,8 @@ class HyperplaneCd : public Handle_for< Tuple_d<_FT,_LA> > {
   typedef Tuple_d<_FT,_LA> Tuple;
   typedef Handle_for<Tuple> Base;
   typedef HyperplaneCd<_FT,_LA> Self;
+
+  using Base::ptr;
 
 const typename _LA::Vector& vector_rep() const { return ptr()->v; }
 _FT& entry(int i) { return ptr()->v[i]; }
@@ -131,10 +133,10 @@ HyperplaneCd(const PointCd<FT,LA>& p, const DirectionCd<FT,LA>& dir)
 }
 
 HyperplaneCd(const FT& a, const FT& b, const FT& c) : 
-  Base( Tuple(a,b,c) ) {} 
+  Base( Tuple(a,b,c,MatchHelper()) ) {} 
 
 HyperplaneCd(int a, int b, int c) : 
-  Base( Tuple(FT(a),FT(b),FT(c)) ) {} 
+  Base( Tuple(FT(a),FT(b),FT(c),MatchHelper()) ) {} 
 
 HyperplaneCd(const FT& a, const FT& b, const FT& c, const FT& d) :
   Base( Tuple(a,b,c,d) ) {} 
@@ -215,9 +217,9 @@ bool operator==(const HyperplaneCd<FT,LA>& h2) const
 bool operator!=(const HyperplaneCd<FT,LA>& h2) const
 { return !operator==(h2); }
 
-friend std::istream& operator>> CGAL_NULL_TMPL_ARGS 
+friend std::istream& operator>> <> 
   (std::istream&, HyperplaneCd<FT,LA>&);
-friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS 
+friend std::ostream& operator<< <> 
   (std::ostream&, const HyperplaneCd<FT,LA>&);
 
 }; // end of class HyperplaneCd

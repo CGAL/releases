@@ -16,12 +16,12 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/algorithm.h,v $
-// $Revision: 1.49 $ $Date: 2003/10/21 12:23:40 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.50 $ $Date: 2004/02/21 15:45:02 $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@mpi-sb.mpg.de>
+//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
 #ifndef CGAL_ALGORITHM_H
 #define CGAL_ALGORITHM_H 1
@@ -31,6 +31,22 @@
 #include <algorithm>
 
 CGAL_BEGIN_NAMESPACE
+
+template <class ForwardIterator>
+inline
+ForwardIterator
+successor( ForwardIterator it )
+{
+  return ++it;
+}
+
+template <class BidirectionalIterator>
+inline
+BidirectionalIterator
+predecessor( BidirectionalIterator it )
+{
+  return --it;
+}
 
 template < class ForwardIterator >
 std::pair< ForwardIterator, ForwardIterator >

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/long_long.h,v $
-// $Revision: 1.14 $ $Date: 2003/10/21 12:21:47 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.18 $ $Date: 2004/09/04 09:53:31 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -35,14 +35,12 @@ CGAL_BEGIN_NAMESPACE
 
 template <> struct Number_type_traits<long long int> {
   typedef Tag_true   Has_gcd;
-  typedef Tag_false  Has_division;
+  typedef Tag_true   Has_division;
   typedef Tag_false  Has_sqrt;
-};
 
-template <> struct Number_type_traits<unsigned long long int> {
-  typedef Tag_true   Has_gcd;
-  typedef Tag_false  Has_division;
-  typedef Tag_false  Has_sqrt;
+  typedef Tag_false  Has_exact_ring_operations;
+  typedef Tag_false  Has_exact_division;
+  typedef Tag_false  Has_exact_sqrt;
 };
 
 inline
@@ -64,46 +62,6 @@ inline
 bool
 is_valid(long long int)
 { return true; }
-
-inline
-unsigned long long int
-div(unsigned long long int i1, unsigned long long int i2)
-{ return i1 / i2; }
-
-inline
-double
-to_double(unsigned long long int i)
-{ return (double)i; }
-
-inline
-bool
-is_finite(unsigned long long int)
-{ return true; }
-
-inline
-bool
-is_valid(unsigned long long int)
-{ return true; }
-
-inline
-unsigned long long
-is_negative(unsigned long long i)
-{ return false; }
-
-inline
-Sign
-sign(unsigned long long i)
-{ return is_positive(i) ? POSITIVE : ZERO; }
-
-inline
-unsigned long long
-is_positive(unsigned long long i)
-{ return i != 0; }
-
-inline
-unsigned long long
-abs(unsigned long long i)
-{ return i; }
 
 inline
 std::pair<double,double>

@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_visualizor.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:21:05 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/01/18 18:22:33 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -301,7 +301,7 @@ void draw_ending_bundle(Vertex_const_handle v,
 
 
 CGAL_END_NAMESPACE
-#undef USING
+#undef CGAL_USING
 #undef LGREY
 #undef DGREY
 #endif // PM_VISUALIZOR_H

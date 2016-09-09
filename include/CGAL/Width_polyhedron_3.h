@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Width_3/include/CGAL/Width_polyhedron_3.h,v $
-// $Revision: 1.6 $ $Date: 2003/09/18 10:26:40 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/02/20 22:13:47 $
+// $Name:  $
 //
 // Author(s)     : Thomas Herrmann, Lutz Kettner
 
@@ -29,88 +29,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
 
-template<class InputPoint, class Width_Traits>
-class Width_vertex_default_base : public CGAL::Vertex_max_base<InputPoint> {
- private:
-  typedef Width_Traits WT;
-  typedef typename WT::RT RT;
-  WT tco;
- public:
-  Width_vertex_default_base() {}
-  Width_vertex_default_base( const InputPoint& p){
-    RT px,py,pz,ph;
-    tco.get_point_coordinates(p,px,py,pz,ph);
-    pt=tco.make_point(px,py,pz,ph);
-  }
-};
-
-class Width_halfedge_default_base : public CGAL::Halfedge_min_base {
- protected:
-  void* prv;
-  void* v;
-  void* f;
- public:
-  typedef Halfedge_min_base Base;
-  typedef CGAL::Tag_true  Supports_halfedge_prev;
-  typedef CGAL::Tag_true  Supports_halfedge_vertex;
-  typedef CGAL::Tag_true  Supports_halfedge_facet;
-
-  Width_halfedge_default_base() : f(NULL) {}
-
-  void* prev() { return prv;} 
-  const void* prev() const { return prv;}
-  // the previous halfedge along the facet.
-
-  void* vertex() { return v;} 
-  const void* vertex() const { return v;} 
-  // the incident vertex.
-
-  void* facet() { return f;} 
-  const void* facet() const { return f;} 
-  //the facet to the left.
-
-  bool is_border() const { return f == NULL;}
-  // is true if `h' is a border halfedge).
-
-  void  set_prev( void* h)        { prv = h;}
-  void  set_vertex( void* _v)     { v = _v;}
-  void  set_facet( void* _f)      { f = _f;}
-
-  // Avoids unnecessary matchings with base class. (g++ 2.7.2 bug)
-  void*       opposite()       { return Base::opposite();}
-  const void* opposite() const { return Base::opposite();}
-  void*       next()           { return Base::next();}
-  const void* next() const     { return Base::next();}
-
-};
-
-template <class InputNormal, class InputPlane, class Width_Traits>
-class Width_facet_default_base : public CGAL::Facet_max_base {
- public:
-  typedef CGAL::Tag_true     Supports_facet_plane;
-  typedef CGAL::Tag_true     Supports_facet_normal;
-  typedef InputNormal Vector_3;
-  typedef InputPlane  Plane_3;
-  Width_Traits tco;
- protected:
-  Plane_3   pln;
- public:
-  Plane_3& plane() { 
-    return pln;
-  }
-  const Plane_3& plane() const { 
-    return pln;
-  }
-};
-
-#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
 
 template <class Refs, class Traits>
 class Width_vertex_default_base 
     : public CGAL::HalfedgeDS_vertex_base< 
-        Refs, Tag_true, CGAL_TYPENAME_MSVC_NULL Traits::Point_3> {
+        Refs, Tag_true, typename Traits::Point_3> {
 private:
     typedef Traits          WT;
     typedef typename WT::RT RT;
@@ -138,7 +62,6 @@ struct Width_polyhedron_items_3 {
     };
 };
 
-#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
 
 
 template <class InputPolyhedron, class Width_Traits>

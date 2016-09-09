@@ -1,26 +1,21 @@
-// ============================================================================
+// Copyright (c) 2002  Max-Planck-Institute Saarbruecken (Germany)
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// ----------------------------------------------------------------------
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : demo/Qt_widget/Nef_2/nef_2.C
-// package       : Qt_widget
-// author(s)     : Radu Ursu
-// release       : 
-// release_date  : 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : Laurent Rineau
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/demo/Nef_2/nef_2.C,v $
+// $Revision: 1.6.4.1 $ $Date: 2004/12/19 16:07:34 $
+// $Name:  $
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Radu Ursu
 
 
 // if QT is not installed, a message will be issued in runtime.
@@ -65,6 +60,7 @@ int main(int, char*)
 #include <qmenubar.h>
 #include <qmessagebox.h>
 #include <qpopupmenu.h>
+#include <qsplitter.h>
 #include <qsplitter.h>
 #include <qstatusbar.h>
 #include <qtimer.h>
@@ -122,14 +118,13 @@ public:
   Layout_widget(QWidget *parent = 0, const char *name = 0)
     : QWidget(parent, name)
   {
-    QBoxLayout *topLayout = new QVBoxLayout( this, 5 );    
-    QBoxLayout *bottomLayout = new QHBoxLayout( topLayout );
-    nef_list1 = new Nef_2_list_box(this, "Nef_list_1");
-    nef_list2 = new Nef_2_list_box(this, "Nef_list_2");
-    bottomLayout->addWidget(nef_list1);
-    bottomLayout->addWidget(nef_list2);    
-    widget = new CGAL::Qt_widget(this);
-    topLayout->addWidget(widget);
+    QBoxLayout *topLayout = new QVBoxLayout( this, 5 );
+    QSplitter *top_splitter = new QSplitter(Qt::Vertical, this);
+    topLayout->addWidget(top_splitter);
+    QSplitter *splitter1 = new QSplitter(top_splitter);
+    nef_list1 = new Nef_2_list_box(splitter1, "Nef_list_1");
+    nef_list2 = new Nef_2_list_box(splitter1, "Nef_list_2");
+    widget = new CGAL::Qt_widget(top_splitter);
   };
   CGAL::Qt_widget* get_qt_widget(){return widget;}
   Nef_2_list_box* get_nef_list1(){return nef_list1;}
@@ -153,10 +148,10 @@ public:
     setCentralWidget(cwidget);
 
     if(is_the_first_widget){
-      Line l1(Point(0, 0), Point(0, 2));
+      Line l1(Point_2(0, 0), Point_2(0, 2));
       Nef_polyhedron N1(l1, Nef_polyhedron::INCLUDED);
       Nef_visible = N1;
-      Line l2(Point(0, 0), Point(2, 0));
+      Line l2(Point_2(0, 0), Point_2(2, 0));
       Nef_polyhedron N2(l2, Nef_polyhedron::INCLUDED);
       Nef_visible2 = N2;
       insert_in_list(N1, QString("LeftHalf"));
@@ -357,14 +352,14 @@ public slots:
     Polygon_2_double poly;
     in >> poly;
       Vertex_iterator_double it = poly.vertices_begin();
-      std::list<Point> l_of_p;        
+      std::list<Point_2> l_of_p;        
       while(it != poly.vertices_end()){
         CGAL::Gmpq p_q_x((*it).x());
         CGAL::Gmpq p_q_y((*it).y());
         RT wsx = p_q_x.numerator() * p_q_y.denominator(); 
         RT wsy = p_q_y.numerator() * p_q_x.denominator(); 
         RT wsh  = p_q_x.denominator() * p_q_y.denominator(); 
-        Point p1(wsx, wsy, wsh);
+        Point_2 p1(wsx, wsy, wsh);
         l_of_p.push_back(p1);
         it++;
       }
@@ -402,8 +397,8 @@ private slots:
       RT wsx = p.x().numerator() * p.y().denominator(); 
       RT wsy = p.y().numerator() * p.x().denominator(); 
       RT wsh  = p.x().denominator() * p.y().denominator(); 
-      Point p1(wsx, wsy, wsh);
-      Point pt[1] = {p1};
+      Point_2 p1(wsx, wsy, wsh);
+      Point_2 pt[1] = {p1};
       Nef_polyhedron Nt(pt, pt+1);
       insert_in_list(Nt, "Point");
       Nef_visible = Nt;
@@ -415,7 +410,7 @@ private slots:
       something_changed();
     } else if(CGAL::assign(poly, obj)){
       Vertex_iterator it = poly.vertices_begin();
-      std::list<Point> l_of_p;
+      std::list<Point_2> l_of_p;
       while(it != poly.vertices_end()){
         //double xp = (*it).x();
         //double yp = (*it).y();
@@ -424,7 +419,7 @@ private slots:
         RT wsx = (*it).x().numerator() * (*it).y().denominator(); 
         RT wsy = (*it).y().numerator() * (*it).x().denominator(); 
         RT wsh  = (*it).x().denominator() * (*it).y().denominator(); 
-        Point p1(wsx, wsy, wsh);
+        Point_2 p1(wsx, wsy, wsh);
         l_of_p.push_back(p1);
         it++;
       }
@@ -455,7 +450,7 @@ private slots:
                * line.point(0).x().denominator(); 
       RT wsh  = line.point(0).x().denominator() 
                * line.point(0).y().denominator(); 
-      Point p1(wsx, wsy, wsh);
+      Point_2 p1(wsx, wsy, wsh);
       /*
       wsxq = double_to_quotient<RT>(line.point(1).x());
       wsyq = double_to_quotient<RT>(line.point(1).y());
@@ -467,7 +462,7 @@ private slots:
       wsy = line.point(1).y().numerator() * line.point(1).x().denominator(); 
       wsh  = line.point(1).x().denominator() 
              * line.point(1).y().denominator(); 
-      Point p2(wsx, wsy, wsh);
+      Point_2 p2(wsx, wsy, wsh);
 
       Nef_polyhedron Nt(Line(p1, p2), Nef_polyhedron::INCLUDED);
       Nef_visible = Nt;
@@ -789,8 +784,10 @@ main(int argc, char **argv)
   app.setMainWidget(&widget);
   widget.setCaption(my_title_string);
   widget.setMouseTracking(TRUE);
+#if !defined (__POWERPC__)
   QPixmap cgal_icon = QPixmap((const char**)demoicon_xpm);
   widget.setIcon(cgal_icon);
+#endif
   widget.show();
   return app.exec();
 }

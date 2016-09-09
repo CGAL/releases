@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/number_utils_classes.h,v $
-// $Revision: 1.11 $ $Date: 2003/10/21 12:21:48 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.12 $ $Date: 2004/06/20 17:03:32 $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
@@ -151,7 +151,7 @@ struct To_double : public CGAL_STD::unary_function< NT, double > {
 
   double
   operator()( const NT& x) const
-  { return CGAL::to_double( x ); }
+  { return CGAL_NTS to_double( x ); }
 };
 
 template < class NT >
@@ -162,7 +162,7 @@ struct To_interval
 
   std::pair<double, double>
   operator()( const NT& x) const
-  { return CGAL::to_interval( x ); }
+  { return CGAL_NTS to_interval( x ); }
 };
 
 CGAL_END_NAMESPACE

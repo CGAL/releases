@@ -1,3 +1,22 @@
+// Copyright (c) 2002  ETH Zurich (Switzerland).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Min_quadrilateral_2/demo/Min_quadrilateral_2/min_quadrilateral_layers.h,v $
+// $Revision: 1.3.6.1 $ $Date: 2004/12/19 15:54:52 $
+// $Name:  $
+//
+// Author(s)     : Radu Ursu
+
 #include <CGAL/IO/Qt_widget_layer.h>
 #include <CGAL/IO/Qt_widget_Polygon_2.h>
 

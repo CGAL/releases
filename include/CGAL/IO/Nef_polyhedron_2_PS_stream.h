@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/IO/Nef_polyhedron_2_PS_stream.h,v $
 // $Revision: 1.4 $ $Date: 2003/10/21 12:20:57 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 

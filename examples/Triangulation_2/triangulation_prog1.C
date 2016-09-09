@@ -1,4 +1,5 @@
-// file          : examples/Triangulation_2/triangulation_prog1.C
+// file: examples/Triangulation_2/triangulation_prog1.C
+
 #include <fstream>
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>

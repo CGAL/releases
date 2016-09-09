@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Kernel/function_objects.h,v $
-// $Revision: 1.61 $ $Date: 2003/10/21 12:18:32 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.76 $ $Date: 2004/09/14 13:59:09 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
 
@@ -34,6 +34,7 @@
 #include <CGAL/squared_distance_3.h>
 #include <CGAL/intersection_2.h>
 #include <CGAL/intersection_3.h>
+
 CGAL_BEGIN_NAMESPACE
 
 namespace CommonKernelFunctors {
@@ -193,57 +194,10 @@ namespace CommonKernelFunctors {
   };
 
   template <typename K>
-  class Bounded_side_3
-  {
-    typedef typename K::Point_3         Point_3;
-    typedef typename K::Sphere_3        Sphere_3;
-    typedef typename K::Tetrahedron_3   Tetrahedron_3;
-    typedef typename K::Iso_cuboid_3    Iso_cuboid_3;
-  public:
-    typedef Bounded_side     result_type;
-    typedef Arity_tag< 2 >   Arity;
-
-    Bounded_side
-    operator()( const Sphere_3& s, const Point_3& p) const
-    { return s.bounded_side(p); }
-
-    Bounded_side
-    operator()( const Tetrahedron_3& t, const Point_3& p) const
-    { return t.bounded_side(p); }
-
-    Bounded_side
-    operator()( const Iso_cuboid_3& c, const Point_3& p) const
-    { return c.bounded_side(p); }
-  };
-
-  template <typename K>
-  class Compute_area_2
+  class Compute_area_3
   {
     typedef typename K::FT                FT;
-    typedef typename K::Iso_rectangle_2   Iso_rectangle_2;
-    typedef typename K::Triangle_2        Triangle_2;
-    typedef typename K::Point_2           Point_2;
-  public:
-    typedef FT               result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    FT
-    operator()( const Point_2& p, const Point_2& q, const Point_2& r ) const
-    { return area(p, q, r); }
-
-    FT
-    operator()( const Iso_rectangle_2& r ) const
-    { return r.area(); }
-
-    FT
-    operator()( const Triangle_2& t ) const
-    { return t.area(); }
-  };
-
-  template <typename K>
-  class Compute_squared_area_3
-  {
-    typedef typename K::FT                FT;
+    typedef typename K::Point_3           Point_3;
     typedef typename K::Triangle_3        Triangle_3;
   public:
     typedef FT               result_type;
@@ -251,7 +205,15 @@ namespace CommonKernelFunctors {
 
     FT
     operator()( const Triangle_3& t ) const
-    { return t.squared_area(); }
+    {
+	return CGAL_NTS sqrt(K().compute_squared_area_3_object()(t));
+    }
+
+    FT
+    operator()( const Point_3& p, const Point_3& q, const Point_3& r ) const
+    {
+	return CGAL_NTS sqrt(K().compute_squared_area_3_object()(p, q, r));
+    }
   };
 
   template <typename K>
@@ -320,25 +282,6 @@ namespace CommonKernelFunctors {
     FT
     operator()( const Segment_3& s) const
     { return s.squared_length(); }
-  };
-
-  template <typename K>
-  class Compute_volume_3
-  {
-    typedef typename K::FT             FT;
-    typedef typename K::Tetrahedron_3  Tetrahedron_3;
-    typedef typename K::Iso_cuboid_3   Iso_cuboid_3;
-  public:
-    typedef FT               result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    FT
-    operator()( const Tetrahedron_3& t ) const
-    { return t.volume(); }
-
-    FT
-    operator()( const Iso_cuboid_3& c ) const
-    { return c.volume(); }
   };
 
   template <typename K>
@@ -531,6 +474,64 @@ namespace CommonKernelFunctors {
   };
 
   template <typename K>
+  class Construct_max_vertex_2
+  {
+    typedef typename K::Point_2          Point_2;
+    typedef typename K::Iso_rectangle_2  Iso_rectangle_2;
+  public:
+    typedef Point_2   result_type;
+    typedef Arity_tag< 1 >    Arity;
+
+    Point_2
+    operator()(const Iso_rectangle_2& r) const
+    { return r.max(); }
+  };
+
+  template <typename K>
+  class Construct_min_vertex_2
+  {
+    typedef typename K::Point_2          Point_2;
+    typedef typename K::Iso_rectangle_2  Iso_rectangle_2;
+  public:
+    typedef Point_2   result_type;
+    typedef Arity_tag< 1 >    Arity;
+
+    Point_2
+    operator()(const Iso_rectangle_2& r) const
+    { return r.min(); }
+  };
+
+
+  template <typename K>
+  class Construct_max_vertex_3
+  {
+    typedef typename K::Point_3          Point_3;
+    typedef typename K::Iso_cuboid_3  Iso_cuboid_3;
+  public:
+    typedef Point_3   result_type;
+    typedef Arity_tag< 1 >    Arity;
+
+    Point_3
+    operator()(const Iso_cuboid_3& r) const
+    { return r.max(); }
+  };
+
+  template <typename K>
+  class Construct_min_vertex_3
+  {
+    typedef typename K::Point_3          Point_3;
+    typedef typename K::Iso_cuboid_3  Iso_cuboid_3;
+  public:
+    typedef Point_3   result_type;
+    typedef Arity_tag< 1 >    Arity;
+
+    Point_3
+    operator()(const Iso_cuboid_3& r) const
+    { return r.min(); }
+  };
+
+
+  template <typename K>
   class Construct_object_2
   {
     typedef typename K::Object_2   Object_2;
@@ -712,20 +713,6 @@ namespace CommonKernelFunctors {
     Triangle_2
     operator()( const Triangle_2& t) const
     { return t.opposite(); }
-  };
-
-  template <typename K>
-  class Construct_orthogonal_vector_3
-  {
-    typedef typename K::Vector_3    Vector_3;
-    typedef typename K::Plane_3     Plane_3;
-  public:
-    typedef Vector_3         result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    Vector_3
-    operator()( const Plane_3& p ) const
-    { return p.orthogonal_vector(); }
   };
 
   template <typename K>
@@ -975,25 +962,6 @@ namespace CommonKernelFunctors {
   };
 
   template <typename K>
-  class Construct_projected_point_3
-  {
-    typedef typename K::Point_3    Point_3;
-    typedef typename K::Plane_3    Plane_3;
-    typedef typename K::Line_3     Line_3;
-  public:
-    typedef Point_3          result_type;
-    typedef Arity_tag< 2 >   Arity;
-
-    Point_3
-    operator()( const Line_3& l, const Point_3& p ) const
-    { return l.projection(p); }
-
-    Point_3
-    operator()( const Plane_3& h, const Point_3& p ) const
-    { return h.projection(p); }
-  };
-
-  template <typename K>
   class Construct_projected_xy_point_2
   {
     typedef typename K::Point_2    Point_2;
@@ -1150,6 +1118,7 @@ namespace CommonKernelFunctors {
     {  return Sphere_3(center, orientation); }
   };
 
+#ifndef CGAL_NO_DEPRECATED_CODE
   template <typename K>
   class Construct_supporting_line_2
   {
@@ -1187,6 +1156,7 @@ namespace CommonKernelFunctors {
     operator()( const Segment_3& s) const
     { return s.supporting_line(); }
   };
+#endif // CGAL_NO_DEPRECATED_CODE
 
   template <typename K>
   class Construct_supporting_plane_3
@@ -1432,6 +1402,28 @@ namespace CommonKernelFunctors {
       return p.cartesian_end();
     }
   };
+
+  template <typename K>
+  class Coplanar_3
+  {
+    typedef typename K::Point_3       Point_3;
+    typedef typename K::Orientation_3 Orientation_3;
+    Orientation_3 o;
+  public:
+    typedef bool             result_type;
+    typedef Arity_tag< 4 >   Arity;
+
+    Coplanar_3() {}
+    Coplanar_3(const Orientation_3& o_) : o(o_) {}
+
+    bool
+    operator()( const Point_3& p, const Point_3& q,
+	        const Point_3& r, const Point_3& s) const
+    { 
+      return o(p, q, r, s) == COPLANAR;
+    }
+  };
+
   template <typename K>
   class Counterclockwise_in_between_2
   {
@@ -1443,7 +1435,12 @@ namespace CommonKernelFunctors {
     bool
     operator()( const Direction_2& p, const Direction_2& q,
 	        const Direction_2& r) const
-    { return p.counterclockwise_in_between(q, r); }
+    {
+        if ( q < p)
+            return ( p < r )||( r <= q );
+        else
+            return ( p < r )&&( r <= q );
+    }
   };
 
   template <typename K>
@@ -1477,6 +1474,8 @@ namespace CommonKernelFunctors {
   template <typename K>
   class Equal_2
   {
+    typedef typename K::Point_2       Point_2;
+
   public:
     typedef bool             result_type;
     typedef Arity_tag< 2 >   Arity;
@@ -1486,11 +1485,20 @@ namespace CommonKernelFunctors {
     bool
     operator()(const T& p, const T& q) const
     { return p == q; }
+
+    // Point_2 is special case since the global operator== would recurse.
+    bool
+    operator()(const Point_2 &p, const Point_2 &q) const
+    {
+      return p.x() == q.x() && p.y() == q.y();
+    }
   };
 
   template <typename K>
   class Equal_3
   {
+    typedef typename K::Point_3       Point_3;
+
   public:
     typedef bool             result_type;
     typedef Arity_tag< 2 >   Arity;
@@ -1500,6 +1508,13 @@ namespace CommonKernelFunctors {
     bool
     operator()(const T& p, const T& q) const
     { return p == q; }
+
+    // Point_3 is special case since the global operator== would recurse.
+    bool
+    operator()(const Point_3 &p, const Point_3 &q) const
+    {
+      return p.x() == q.x() && p.y() == q.y() && p.z() == q.z();
+    }
   };
 
   template <typename K>
@@ -1549,12 +1564,6 @@ namespace CommonKernelFunctors {
     bool
     operator()( const Iso_cuboid_3& c, const Point_3& p) const
     { return c.has_on_boundary(p); }
-
-#ifndef CGAL_NO_DEPRECATED_CODE
-    bool
-    operator()( const Plane_3& pl, const Point_3& p) const
-    { return pl.has_on_boundary(p); }
-#endif // CGAL_NO_DEPRECATED_CODE
   };
 
   template <typename K>
@@ -1774,40 +1783,6 @@ namespace CommonKernelFunctors {
   };
 
   template <typename K>
-  class Has_on_3
-  {
-    typedef typename K::Point_3          Point_3;
-    typedef typename K::Line_3           Line_3;
-    typedef typename K::Ray_3            Ray_3;
-    typedef typename K::Segment_3        Segment_3;
-    typedef typename K::Plane_3          Plane_3;
-    typedef typename K::Triangle_3       Triangle_3;
-  public:
-    typedef bool             result_type;
-    typedef Arity_tag< 2 >   Arity;
-
-    bool
-    operator()( const Line_3& l, const Point_3& p) const
-    { return l.has_on(p); }
-
-    bool
-    operator()( const Ray_3& r, const Point_3& p) const
-    { return r.has_on(p); }
-
-    bool
-    operator()( const Segment_3& s, const Point_3& p) const
-    { return s.has_on(p); }
-
-    bool
-    operator()( const Plane_3& pl, const Point_3& p) const
-    { return pl.has_on(p); }
-
-    bool
-    operator()( const Triangle_3& t, const Point_3& p) const
-    { return t.has_on(p); }
-  };
-
-  template <typename K>
   class Intersect_2
   {
     typedef typename K::Object_2    Object_2;
@@ -1826,6 +1801,7 @@ namespace CommonKernelFunctors {
   class Intersect_3
   {
     typedef typename K::Object_3    Object_3;
+    typedef typename K::Plane_3     Plane_3;
   public:
     typedef Object_3         result_type;
     typedef Arity_tag< 2 >   Arity;
@@ -1835,6 +1811,10 @@ namespace CommonKernelFunctors {
     Object_3
     operator()(const T1& t1, const T2& t2) const
     { return CGALi::intersection(t1, t2, K() ); }
+
+    Object_3
+    operator()(const Plane_3& pl1, const Plane_3& pl2, const Plane_3& pl3)const
+    { return CGALi::intersection(pl1, pl2, pl3, K() ); }
   };
 
   template <typename K>
@@ -2071,461 +2051,6 @@ namespace CommonKernelFunctors {
     operator()( const Tetrahedron_3& t, const Point_3& p) const
     { return t.oriented_side(p); }
   };
-
-#ifndef CGAL_NO_DEPRECATED_CODE
-
-  template <typename K>
-  class Equal_xy_2
-  {
-    typedef typename K::Point_2    Point_2;
-  public:
-    typedef bool             result_type;
-    typedef Arity_tag< 2 >   Arity;
-
-    bool
-    operator()( const Point_2& p, const Point_2& q) const
-    { return equal_xy(p, q); }
-  };
-
-  template <typename K>
-  class Leftturn_2
-  {
-    typedef typename K::Point_2   Point_2;
-  public:
-    typedef bool             result_type;
-    typedef Arity_tag< 3 >   Arity;
-
-    bool
-    operator()(const Point_2& p, const Point_2& q, const Point_2& r) const
-    { return CGAL::left_turn(p, q, r); }
-  };
-
-  template <typename K>
-  class Equal_xyz_3
-  {
-    typedef typename K::Point_3  Point_3;
-  public:
-    typedef bool             result_type;
-    typedef Arity_tag< 2 >   Arity;
-
-    bool
-    operator()( const Point_3& p, const Point_3& q) const
-    { return equal_xyz(p, q); }
-  };
-
-  template <typename K>
-  class Construct_direction_of_line_2
-  {
-    typedef typename K::Direction_2   Direction_2;
-    typedef typename K::Line_2        Line_2;
-  public:
-    typedef Direction_2      result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    Direction_2
-    operator()( const Line_2& l) const
-    { return l.direction(); }
-  };
-
-  template <typename K>
-  class Construct_direction_of_line_3
-  {
-    typedef typename K::Direction_3   Direction_3;
-    typedef typename K::Line_3        Line_3;
-  public:
-    typedef Direction_3      result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    Direction_3
-    operator()( const Line_3& l) const
-    { return l.direction(); }
-  };
-
-  template <typename K>
-  class Construct_direction_of_ray_2
-  {
-    typedef typename K::Direction_2   Direction_2;
-    typedef typename K::Ray_2         Ray_2;
-  public:
-    typedef Direction_2      result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    Direction_2
-    operator()( const Ray_2& r) const
-    { return r.direction(); }
-  };
-
-  template <typename K>
-  class Construct_direction_of_ray_3
-  {
-    typedef typename K::Direction_3   Direction_3;
-    typedef typename K::Ray_3         Ray_3;
-  public:
-    typedef Direction_3      result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    Direction_3
-    operator()( const Ray_3& r) const
-    { return r.direction(); }
-  };
-
-  template <typename K>
-  class Construct_max_point_2
-  {
-    typedef typename K::Point_2  Point_2;
-  public:
-    typedef Point_2          result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    template <class Cls>
-    Point_2
-    operator()( const Cls& c) const
-    { return c.max(); }
-  };
-
-  template <typename K>
-  class Construct_max_point_3
-  {
-    typedef typename K::Point_3  Point_3;
-  public:
-    typedef Point_3          result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    template <class Cls>
-    Point_3
-    operator()( const Cls& c) const
-    { return c.max(); }
-  };
-
-  template <typename K>
-  class Construct_min_point_2
-  {
-    typedef typename K::Point_2  Point_2;
-  public:
-    typedef Point_2          result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    template <class Cls>
-    Point_2
-    operator()( const Cls& c) const
-    { return c.min(); }
-  };
-
-  template <typename K>
-  class Construct_min_point_3
-  {
-    typedef typename K::Point_3  Point_3;
-  public:
-    typedef Point_3          result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    template <class Cls>
-    Point_3
-    operator()( const Cls& c) const
-    { return c.min(); }
-  };
-
-  template <typename K>
-  class Construct_source_point_2
-  {
-    typedef typename K::Point_2  Point_2;
-  public:
-    typedef Point_2          result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    template <class Cls>
-    Point_2
-    operator()( const Cls& c) const
-    { return c.source(); }
-  };
-
-  template <typename K>
-  class Construct_source_point_3
-  {
-    typedef typename K::Point_3  Point_3;
-  public:
-    typedef Point_3          result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    template <class Cls>
-    Point_3
-    operator()( const Cls& c) const
-    { return c.source(); }
-  };
-
-  template <typename K>
-  class Construct_target_point_2
-  {
-    typedef typename K::Point_2  Point_2;
-  public:
-    typedef Point_2          result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    template <class Cls>
-    Point_2
-    operator()( const Cls& c) const
-    { return c.target(); }
-  };
-
-  template <typename K>
-  class Construct_target_point_3
-  {
-    typedef typename K::Point_3  Point_3;
-  public:
-    typedef Point_3          result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    template <class Cls>
-    Point_3
-    operator()( const Cls& c) const
-    { return c.target(); }
-  };
-
-  template <typename K>
-  class Construct_second_point_on_2
-  {
-    typedef typename K::Point_2  Point_2;
-  public:
-    typedef Point_2          result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    template <class Cls>
-    Point_2
-    operator()( const Cls& c) const
-    { return c.second_point(); }
-  };
-
-  template <typename K>
-  class Construct_second_point_on_3
-  {
-    typedef typename K::Point_3  Point_3;
-  public:
-    typedef Point_3          result_type;
-    typedef Arity_tag< 1 >   Arity;
-
-    template <class Cls>
-    Point_3
-    operator()( const Cls& c) const
-    { return c.second_point(); }
-  };
-
-  template <typename K>
-  class Transform_2
-  {
-  public:
-    template <class Transformation, class ArgumentType>
-    ArgumentType
-    operator()( const ArgumentType& a, const Transformation& t) const
-    { return a.transform(t); }
-  };
-
-  template <typename K>
-  class Transform_3
-  {
-  public:
-    template <class Transformation, class ArgumentType>
-    ArgumentType
-    operator()( const ArgumentType& a, const Transformation& t) const
-    { return a.transform(t); }
-  };
-
-  // This one is 100% unused.
-  template <class ReturnType>
-  class Call_x_at_y_to_get
-  {
-  public:
-    typedef ReturnType     result_type;
-    typedef Arity_tag< 2 >   Arity;
-
-    template <class Cls>
-    ReturnType
-    operator()( const Cls& c, const ReturnType& x) const
-    { return c.x_at_y(x); }
-  };
-
-  template <typename K>
-  class Compute_y_at_x_2
-  {
-    typedef typename K::FT        FT;
-    typedef typename K::Line_2    Line_2;
-  public:
-    typedef FT               result_type;
-    typedef Arity_tag< 2 >   Arity;
-
-    FT
-    operator()( const Line_2& l, const FT& x) const
-    { return l.y_at_x(x); }
-  };
-
-  template <typename K>
-  class Construct_aff_transformation_2
-  {
-    typedef typename K::Aff_transformation_2 ToBeConstructed;
-  public:
-    typedef ToBeConstructed  result_type;
-
-    ToBeConstructed
-    operator()() const
-    { return ToBeConstructed(); }
-
-    template <class A1> 
-    ToBeConstructed
-    operator()( const A1& a1) const
-    { return ToBeConstructed(a1); }
-
-    template <class A1, class A2> 
-    ToBeConstructed
-    operator()( const A1& a1, const A2& a2) const
-    { return ToBeConstructed(a1,a2); }
-
-    template <class A1, class A2, class A3> 
-    ToBeConstructed
-    operator()( const A1& a1, const A2& a2, const A3& a3) const
-    { return ToBeConstructed(a1,a2,a3); }
-
-    template <class A1, class A2, class A3, class A4> 
-    ToBeConstructed
-    operator()( const A1& a1, const A2& a2, const A3& a3, const A4& a4) const
-    { return ToBeConstructed(a1,a2,a3,a4); }
-
-    template <class A1, class A2, class A3, class A4, class A5> 
-    ToBeConstructed
-    operator()( const A1& a1, const A2& a2, const A3& a3, const A4& a4,
-		const A5& a5) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5); }
-
-    template <class A> 
-    ToBeConstructed
-    operator()( const A& a1, const A& a2, const A& a3,
-                const A& a4, const A& a5, const A& a6 ) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5,a6); }
-
-    template <class A> 
-    ToBeConstructed
-    operator()( const A& a1, const A& a2, const A& a3,
-                const A& a4, const A& a5, const A& a6,
-                const A& a7 ) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5,a6,a7); }
-
-    template <class A> 
-    ToBeConstructed
-    operator()( const A& a1, const A& a2, const A& a3,
-                const A& a4, const A& a5, const A& a6,
-                const A& a7, const A& a8, const A& a9) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5,a6,a7,a8,a9); }
-
-    template <class A> 
-    ToBeConstructed
-    operator()( const A& a1, const A& a2, const A& a3,
-                const A& a4, const A& a5, const A& a6,
-                const A& a7, const A& a8, const A& a9,
-                const A& a10) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10); }
-
-    template <class A> 
-    ToBeConstructed
-    operator()( const A& a1, const A& a2, const A& a3,
-                const A& a4, const A& a5, const A& a6,
-                const A& a7, const A& a8, const A& a9,
-                const A& a10,const A& a11,const A& a12) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12); }
-
-    template <class A> 
-    ToBeConstructed
-    operator()( const A& a1, const A& a2, const A& a3,
-                const A& a4, const A& a5, const A& a6,
-                const A& a7, const A& a8, const A& a9,
-                const A& a10,const A& a11,const A& a12,
-                const A& a13) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13); }
-
-  };
-
-  template <typename K>
-  class Construct_aff_transformation_3
-  {
-    typedef typename K::Aff_transformation_3 ToBeConstructed;
-  public:
-    typedef ToBeConstructed  result_type;
-
-    ToBeConstructed
-    operator()() const
-    { return ToBeConstructed(); }
-
-    template <class A1> 
-    ToBeConstructed
-    operator()( const A1& a1) const
-    { return ToBeConstructed(a1); }
-
-    template <class A1, class A2> 
-    ToBeConstructed
-    operator()( const A1& a1, const A2& a2) const
-    { return ToBeConstructed(a1,a2); }
-
-    template <class A1, class A2, class A3> 
-    ToBeConstructed
-    operator()( const A1& a1, const A2& a2, const A3& a3) const
-    { return ToBeConstructed(a1,a2,a3); }
-
-    template <class A1, class A2, class A3, class A4> 
-    ToBeConstructed
-    operator()( const A1& a1, const A2& a2, const A3& a3, const A4& a4) const
-    { return ToBeConstructed(a1,a2,a3,a4); }
-
-    template <class A1, class A2, class A3, class A4, class A5> 
-    ToBeConstructed
-    operator()( const A1& a1, const A2& a2, const A3& a3, const A4& a4,
-		const A5& a5) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5); }
-
-    template <class A> 
-    ToBeConstructed
-    operator()( const A& a1, const A& a2, const A& a3,
-                const A& a4, const A& a5, const A& a6 ) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5,a6); }
-
-    template <class A> 
-    ToBeConstructed
-    operator()( const A& a1, const A& a2, const A& a3,
-                const A& a4, const A& a5, const A& a6,
-                const A& a7 ) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5,a6,a7); }
-
-    template <class A> 
-    ToBeConstructed
-    operator()( const A& a1, const A& a2, const A& a3,
-                const A& a4, const A& a5, const A& a6,
-                const A& a7, const A& a8, const A& a9) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5,a6,a7,a8,a9); }
-
-    template <class A> 
-    ToBeConstructed
-    operator()( const A& a1, const A& a2, const A& a3,
-                const A& a4, const A& a5, const A& a6,
-                const A& a7, const A& a8, const A& a9,
-                const A& a10) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10); }
-
-    template <class A> 
-    ToBeConstructed
-    operator()( const A& a1, const A& a2, const A& a3,
-                const A& a4, const A& a5, const A& a6,
-                const A& a7, const A& a8, const A& a9,
-                const A& a10,const A& a11,const A& a12) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12); }
-
-    template <class A> 
-    ToBeConstructed
-    operator()( const A& a1, const A& a2, const A& a3,
-                const A& a4, const A& a5, const A& a6,
-                const A& a7, const A& a8, const A& a9,
-                const A& a10,const A& a11,const A& a12,
-                const A& a13) const
-    { return ToBeConstructed(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13); }
-
-  };
-
-#endif // CGAL_NO_DEPRECATED_CODE
 
 } // namespace CommonKernelFunctors
 

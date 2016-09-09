@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Circulator/include/CGAL/circulator_impl.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:14:42 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 

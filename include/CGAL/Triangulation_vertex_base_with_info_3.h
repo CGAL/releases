@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_vertex_base_with_info_3.h,v $
 // $Revision: 1.2 $ $Date: 2003/09/18 10:26:33 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion
 

@@ -1,5 +1,4 @@
-// examples/Arrangement_2/example11
-// --------------------------------
+// file: examples/Arrangement_2/example11.C
 
 #include "short_names.h"
 

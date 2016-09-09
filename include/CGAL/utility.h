@@ -16,12 +16,12 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/utility.h,v $
-// $Revision: 1.22 $ $Date: 2003/10/21 12:23:43 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.23 $ $Date: 2004/06/23 01:41:48 $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@mpi-sb.mpg.de>
+//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
 #ifndef CGAL_UTILITY_H
 #define CGAL_UTILITY_H 1

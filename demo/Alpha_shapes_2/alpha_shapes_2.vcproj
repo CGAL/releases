@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="alpha_shapes_2"
 	ProjectGUID="{05B33C46-BB9A-4065-80D7-E5A149861C47}"
 	Keyword="Win32Proj">
@@ -57,7 +57,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -74,7 +80,7 @@
 				AdditionalIncludeDirectories="&quot;$(CGALROOT)/include/CGAL/config/msvc7&quot;;&quot;$(CGALROOT)/include&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\mkspecs\win32-msvc&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;CGAL_USE_QT;CGAL_USE_GMP"
 				StringPooling="TRUE"
-				RuntimeLibrary="4"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -85,10 +91,10 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="$(CGALROOT)\lib\msvc7\CGALQt.lib $(QTDIR)\lib\qt.lib $(QTDIR)\lib\qtmain.lib $(CGALROOT)\lib\msvc7\CGAL.lib $(CGALROOT)\lib\msvc7\gmp.lib wsock32.lib winmm.lib imm32.lib opengl32.lib glu32.lib"
+				AdditionalOptions="../..\lib\msvc7\CGALQt.lib $(QTDIR)\lib\qt-mt.lib $(QTDIR)\lib\qtmain.lib ../..\lib\msvc7\CGAL.lib ../..\lib\msvc7\gmp.lib wsock32.lib winmm.lib imm32.lib opengl32.lib glu32.lib"
 				OutputFile="$(OutDir)/alpha_shapes_2.exe"
 				LinkIncremental="1"
-				IgnoreDefaultLibraryNames="LIBCD"
+				IgnoreDefaultLibraryNames="LIBC"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -108,19 +114,44 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
+			<File
+				RelativePath="alpha_shapes_2.C">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						RuntimeLibrary="2"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
 			<File
 				RelativePath="Qt_widget_move_point.C">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
+						RuntimeLibrary="2"
 						CompileAs="2"/>
 				</FileConfiguration>
 			</File>
@@ -136,6 +167,7 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
+						RuntimeLibrary="2"
 						CompileAs="2"/>
 				</FileConfiguration>
 			</File>
@@ -151,21 +183,7 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="alpha_shapes_2.C">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
+						RuntimeLibrary="2"
 						CompileAs="2"/>
 				</FileConfiguration>
 			</File>
@@ -173,6 +191,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
+			<File
+				RelativePath="cgal_types.h">
+			</File>
 			<File
 				RelativePath="Qt_widget_move_point.h">
 				<FileConfiguration
@@ -229,9 +250,6 @@
 "
 						Outputs="Qt_widget_toolbar_layers.moc"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="cgal_types.h">
 			</File>
 		</Filter>
 		<Filter

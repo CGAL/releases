@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Ray_d.h,v $
-// $Revision: 1.14 $ $Date: 2003/10/21 12:19:29 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2004/06/23 02:15:28 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_RAY_D_H
@@ -42,6 +42,8 @@ class Ray_d : public Handle_for< Pair_d<p_R> > {
   typedef Pair_d<p_R>       Pair;
   typedef Handle_for<Pair>  Base;
   typedef Ray_d<p_R>        Self;
+
+  using Base::ptr;
 
 /*{\Mdefinition
 An instance of data type |Ray_d| is a ray in $d$-dimensional
@@ -157,9 +159,9 @@ bool operator==(const Ray_d<R>& r1) const
 bool operator!=(const Ray_d<R>& r1)
 { return !operator==(r1); }
 
-friend std::istream& operator>> CGAL_NULL_TMPL_ARGS 
+friend std::istream& operator>> <> 
 (std::istream&, Ray_d<R>&);
-friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS 
+friend std::ostream& operator<< <> 
 (std::ostream&, const Ray_d<R>&); 
 
 }; // end of class

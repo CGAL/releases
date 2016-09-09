@@ -1,3 +1,4 @@
+
 // Copyright (c) 1999  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
@@ -12,8 +13,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_cell_base_3.h,v $
-// $Revision: 1.28 $ $Date: 2003/10/17 08:49:16 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.29 $ $Date: 2004/08/30 15:17:30 $
+// $Name:  $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
@@ -38,6 +39,11 @@ public:
   typedef typename Cb::Cell_handle                     Cell_handle;
 
   typedef GT                                           Geom_traits;
+  typedef typename Geom_traits::Point_3                Point;
+
+  typedef Point*           Point_container;
+  typedef Point*           Point_iterator;
+  typedef const Point*     Point_const_iterator;
 
   template < typename TDS2 >
   struct Rebind_TDS {
@@ -57,6 +63,10 @@ public:
                             const Cell_handle&   n0, const Cell_handle&   n1,
                             const Cell_handle&   n2, const Cell_handle&   n3)
     : Cb(v0, v1, v2, v3, n0, n1, n2, n3) {}
+
+  Point_iterator hidden_points_begin() const { return hidden_points_end(); }
+  Point_iterator hidden_points_end() const { return NULL; }
+  void hide_point (const Point &p) const { }
 };
 
 // The following should be useless.

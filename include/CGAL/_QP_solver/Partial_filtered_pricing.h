@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/_QP_solver/include/CGAL/_QP_solver/Partial_filtered_pricing.h,v $
-// $Revision: 1.8 $ $Date: 2003/09/18 10:26:44 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2004/09/03 17:41:13 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
                                                                                
 
 #ifndef CGAL_PARTIAL_FILTERED_PRICING_H
@@ -72,6 +72,9 @@ class Partial_filtered_pricing
 
     typedef  typename Base::Tag_true    Tag_true;
     typedef  typename Base::Tag_false   Tag_false;
+
+    using Base::vout;
+    using Base::solver;
 
   private:
       // some constants
@@ -180,7 +183,7 @@ class Partial_filtered_pricing
         int  m = solve.number_of_constraints();
         int  b = solve.number_of_basic_variables();
         ET   d = solve.variables_common_denominator();
-        NT   nt_d = CGAL::to_double( d);
+        NT   nt_d = CGAL_NTS to_double( d);
     
         int   i, j, k, min_k  = -1, min_j = -1;
         NT    nt_mu, nt_min_mu =  0;

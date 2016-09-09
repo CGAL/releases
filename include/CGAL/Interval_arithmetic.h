@@ -1,4 +1,4 @@
-// Copyright (c) 1998,1999,2000,2001,2002  Utrecht University (The Netherlands),
+// Copyright (c) 1998-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Interval_arithmetic.h,v $
-// $Revision: 2.142 $ $Date: 2003/10/21 12:17:23 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 2.153 $ $Date: 2004/09/24 09:51:01 $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion
 
@@ -42,10 +42,7 @@
 CGAL_BEGIN_NAMESPACE
 
 namespace CGALi {
-
   struct Unsafe_comparison {};    // Exception class.
-
-  const double Huge_val = HUGE_VAL; // Workaround for G++ 2.95 on Linux.
 }
 
 template <bool Protected = true>
@@ -58,6 +55,11 @@ public:
   typedef Tag_true    Has_division;
   typedef Tag_true    Has_sqrt;
 
+  // ??? MK: We may have to look back at these...
+  typedef Tag_false   Has_exact_ring_operations;
+  typedef Tag_false   Has_exact_division;
+  typedef Tag_false   Has_exact_sqrt;
+
   typedef CGALi::Unsafe_comparison unsafe_comparison;
 
   static unsigned number_of_failures;	// Number of filter failures.
@@ -65,13 +67,13 @@ public:
   Interval_nt() {}
 
   Interval_nt(int i)
-    : inf_sup(i, i) {}
+    : _inf(i), _sup(i) {}
 
   Interval_nt(double d)
-    : inf_sup(d, d) {}
+    : _inf(d), _sup(d) {}
 
   Interval_nt(double i, double s)
-    : inf_sup(i, s)
+    : _inf(i), _sup(s)
   {
       // VC++ should use instead : (i<=s) || !is_valid(i) || !is_valid(s)
       // Or should I use is_valid() ? or is_valid_or_nan() ?
@@ -83,10 +85,10 @@ public:
   // appears to fix a code generation problem with GCC 3.0.4...
   // (see test/IA/gcc_3.0.bug.C).
   Interval_nt(const Interval_nt & i)
-    : inf_sup(i.pair()) {}
+    : _inf(i._inf), _sup(i._sup) {}
 
   Interval_nt(const Pair & p)
-    : inf_sup(p) {}
+    : _inf(p.first), _sup(p.second) {}
 
   IA operator-() const { return IA (-sup(), -inf()); }
 
@@ -130,19 +132,17 @@ public:
     return !(d.inf() > sup() || d.sup() < inf());
   }
 
-  double inf() const { return inf_sup.first; }
-  double sup() const { return inf_sup.second; }
+  const double & inf() const { return _inf; }
+  const double & sup() const { return _sup; }
 
-  const std::pair<double,double>& pair() const
+  std::pair<double, double> pair() const
   {
-    return inf_sup;
+    return std::pair<double, double>(_inf, _sup);
   }
 
   static IA largest()
   {
-    // G++ 2.95 on Linux has problems with HUGE_VAL in template context.
-    // (it's a macro defined by "__extension__ ..." and it gets lost.
-    return IA(-CGALi::Huge_val, CGALi::Huge_val);
+    return IA(-CGALi::infinity, CGALi::infinity);
   } 
 
   static IA smallest()
@@ -151,7 +151,8 @@ public:
   }
 
 private:
-  Pair inf_sup;
+  // Pair inf_sup;
+  double _inf, _sup;
 };
 
 template <bool Protected>
@@ -324,7 +325,7 @@ to_double (const Interval_nt<Protected> & d)
 
 template <bool Protected>
 inline
-const std::pair<double,double> &
+std::pair<double, double>
 to_interval (const Interval_nt<Protected> & d)
 {
   return d.pair();
@@ -336,14 +337,9 @@ inline
 bool
 is_valid (const Interval_nt<Protected> & d)
 {
-#if defined _MSC_VER || defined __sgi || defined __BORLANDC__
   return CGAL::is_valid(d.inf()) && 
-    CGAL::is_valid(d.sup()) && 
-    d.inf() <= d.sup();
-#else
-  // The 2 first is_valid() are implicitely done by the 3rd test ;-)
-  return d.inf() <= d.sup();
-#endif
+         CGAL::is_valid(d.sup()) && 
+         d.inf() <= d.sup();
 }
 
 template <bool Protected>
@@ -466,9 +462,7 @@ operator- (const Interval_nt<Protected> & a, int b)
 }
 
 template <bool Protected>
-#ifndef CGAL_IA_NO_INLINE
 inline
-#endif
 Interval_nt<Protected>
 operator* (const Interval_nt<Protected> &a, const Interval_nt<Protected> & b)
 {
@@ -552,9 +546,7 @@ operator* (const Interval_nt<Protected> & a, int b)
 }
 
 template <bool Protected>
-#ifndef CGAL_IA_NO_INLINE
 inline
-#endif
 Interval_nt<Protected>
 operator/ (const Interval_nt<Protected> &a, const Interval_nt<Protected> & b)
 {
@@ -590,7 +582,7 @@ operator/ (const Interval_nt<Protected> &a, const Interval_nt<Protected> & b)
   }
   else					// b~0
     return IA::largest();
-	   // We could do slightly better -> [0;HUGE_VAL] when b.sup()==0,
+	   // We could do slightly better -> [0;infinity] when b.sup()==0,
 	   // but is this worth ?
 }
 
@@ -641,7 +633,6 @@ sqrt (const Interval_nt<Protected> & d)
   return Interval_nt<Protected>(i, CGAL_IA_SQRT(d.sup()));
 }
 
-#ifndef CGAL_CFG_MATCHING_BUG_2
 template <bool Protected>
 inline
 Interval_nt<Protected>
@@ -660,39 +651,6 @@ max (const Interval_nt<Protected> & d, const Interval_nt<Protected> & e)
 		                std::max(d.sup(), e.sup()));
 }
 
-#else
-
-inline
-Interval_nt<false>
-min (const Interval_nt<false> & d, const Interval_nt<false> & e)
-{
-  return Interval_nt<false>(min(d.inf(), e.inf()),min(d.sup(), e.sup()));
-}
-
-inline
-Interval_nt<false>
-max (const Interval_nt<false> & d, const Interval_nt<false> & e)
-{
-  return Interval_nt<false>(max(d.inf(), e.inf()),max(d.sup(), e.sup()));
-}
-
-inline
-Interval_nt<true>
-min (const Interval_nt<true> & d, const Interval_nt<true> & e)
-{
-  return Interval_nt<true>(min(d.inf(), e.inf()),min(d.sup(), e.sup()));
-}
-
-inline
-Interval_nt<true>
-max (const Interval_nt<true> & d, const Interval_nt<true> & e)
-{
-  return Interval_nt<true>(max(d.inf(), e.inf()),max(d.sup(), e.sup()));
-}
-
-#endif // CGAL_CFG_MATCHING_BUG_2
-
-#ifndef CGAL_CFG_MATCHING_BUG_2
 template <bool Protected>
 inline
 Interval_nt<Protected>
@@ -742,103 +700,9 @@ compare (const Interval_nt<Protected> & d, const Interval_nt<Protected> & e)
   Interval_nt<Protected>::overlap_action();
   return EQUAL;
 }
-#else // CGAL_CFG_MATCHING_BUG_2
-// For crappy "compilers", we have to define complete overloaded functions.
-// First we overload for true.
-inline
-Interval_nt<true>
-square (const Interval_nt<true> & d)
-{
-  Protect_FPU_rounding<true> P;
-  if (d.inf()>=0.0)
-      return Interval_nt<true>(-CGAL_IA_MUL(d.inf(), -d.inf()),
-	                        CGAL_IA_MUL(d.sup(), d.sup()));
-  if (d.sup()<=0.0)
-      return Interval_nt<true>(-CGAL_IA_MUL(d.sup(), -d.sup()),
-	                        CGAL_IA_MUL(d.inf(), d.inf()));
-  return Interval_nt<true>(0.0, CGAL_IA_SQUARE(std::max(-d.inf(), d.sup())));
-}
 
 inline
-Interval_nt<true>
-abs (const Interval_nt<true> & d)
-{
-  if (d.inf() >= 0.0) return d;
-  if (d.sup() <= 0.0) return -d;
-  return Interval_nt<true>(0.0, std::max(-d.inf(), d.sup()));
-}
-
-inline
-Sign
-sign (const Interval_nt<true> & d)
-{
-  if (d.inf() > 0.0) return POSITIVE;
-  if (d.sup() < 0.0) return NEGATIVE;
-  if (d.inf() == d.sup()) return ZERO;
-  Interval_nt<true>::overlap_action();
-  return ZERO;
-}
-
-inline
-Comparison_result
-compare (const Interval_nt<true> & d, const Interval_nt<true> & e)
-{
-  if (d.inf() > e.sup()) return LARGER;
-  if (e.inf() > d.sup()) return SMALLER;
-  if (e.inf() == d.sup() && d.inf() == e.sup()) return EQUAL;
-  Interval_nt<true>::overlap_action();
-  return EQUAL;
-}
-
-// Then we overload for false.
-inline
-Interval_nt<false>
-square (const Interval_nt<false> & d)
-{
-  Protect_FPU_rounding<false> P;
-  if (d.inf()>=0.0)
-      return Interval_nt<false>(-CGAL_IA_MUL(d.inf(), -d.inf()),
-	                         CGAL_IA_MUL(d.sup(), d.sup()));
-  if (d.sup()<=0.0)
-      return Interval_nt<false>(-CGAL_IA_MUL(d.sup(), -d.sup()),
-	                         CGAL_IA_MUL(d.inf(), d.inf()));
-  return Interval_nt<false>(0.0, CGAL_IA_SQUARE(std::max(-d.inf(), d.sup())));
-}
-
-inline
-Interval_nt<false>
-abs (const Interval_nt<false> & d)
-{
-  if (d.inf() >= 0.0) return d;
-  if (d.sup() <= 0.0) return -d;
-  return Interval_nt<false>(0.0, std::max(-d.inf(), d.sup()));
-}
-
-inline
-Sign
-sign (const Interval_nt<false> & d)
-{
-  if (d.inf() > 0.0) return POSITIVE;
-  if (d.sup() < 0.0) return NEGATIVE;
-  if (d.inf() == d.sup()) return ZERO;
-  Interval_nt<false>::overlap_action();
-  return ZERO;
-}
-
-inline
-Comparison_result
-compare (const Interval_nt<false> & d, const Interval_nt<false> & e)
-{
-  if (d.inf() > e.sup()) return LARGER;
-  if (e.inf() > d.sup()) return SMALLER;
-  if (e.inf() == d.sup() && d.inf() == e.sup()) return EQUAL;
-  Interval_nt<false>::overlap_action();
-  return EQUAL;
-}
-#endif // CGAL_CFG_MATCHING_BUG_2
-
-inline
-std::pair<double,double>
+std::pair<double, double>
 to_interval (const long & l)
 {
 #ifndef __BORLANDC__ // The stupid Borland compiler generates warnings...
@@ -855,6 +719,92 @@ to_interval (const long & l)
 #endif
     return std::pair<double,double>(l,l);
 }
+
+
+namespace Certified {
+
+// The following functions are similar to their CGAL:: counterparts, except
+// that they notify the non-guaranteed case by the return value, instead of
+// by throwing an exception which can be costly.
+// They return a pair<X, bool>, where the second member is true if the
+// comparison is guaranteed, and false otherwise.
+
+template <bool Protected>
+inline
+std::pair<bool, bool>
+operator<(const Interval_nt<Protected> &a, const Interval_nt<Protected> &b)
+{
+  if (a.sup()  < b.inf()) return std::make_pair(true, true);
+  if (a.inf() >= b.sup()) return std::make_pair(false, true);
+  return std::make_pair(false, false);
+}
+
+template <bool Protected>
+inline
+std::pair<bool, bool>
+operator<(int a, const Interval_nt<Protected> &b)
+{
+  if (a  < b.inf()) return std::make_pair(true, true);
+  if (a >= b.sup()) return std::make_pair(false, true);
+  return std::make_pair(false, false);
+}
+
+template <bool Protected>
+inline
+std::pair<bool, bool>
+operator<(const Interval_nt<Protected> &a, int b)
+{
+  if (a.sup()  < b) return std::make_pair(true, true);
+  if (a.inf() >= b) return std::make_pair(false, true);
+  return std::make_pair(false, false);
+}
+
+template <bool Protected>
+inline
+std::pair<bool, bool>
+operator==(const Interval_nt<Protected> &a, const Interval_nt<Protected> &b)
+{
+  if (b.inf() >  a.sup() || b.sup() <  a.inf())
+    return std::make_pair(false, true);
+  if (b.inf() == a.sup() && b.sup() == a.inf())
+    return std::make_pair(true, true);
+  return std::make_pair(false, false);
+}
+
+template <bool Protected>
+inline
+std::pair<bool, bool>
+operator==(int a, const Interval_nt<Protected> &b)
+{
+  if (b.inf() >  a || b.sup() <  a) return std::make_pair(false, true);
+  if (b.inf() == a && b.sup() == a) return std::make_pair(true, true);
+  return std::make_pair(false, false);
+}
+
+template <bool Protected>
+inline
+std::pair<Sign, bool>
+sign (const Interval_nt<Protected> & d)
+{
+  if (d.inf() > 0.0) return std::make_pair(POSITIVE, true);
+  if (d.sup() < 0.0) return std::make_pair(NEGATIVE, true);
+  if (d.inf() == d.sup()) return std::make_pair(ZERO, true);
+  return std::make_pair(ZERO, false);
+}
+
+template <bool Protected>
+inline
+std::pair<Comparison_result, bool>
+compare (const Interval_nt<Protected> & d, const Interval_nt<Protected> & e)
+{
+  if (d.inf() > e.sup()) return std::make_pair(LARGER, true);
+  if (e.inf() > d.sup()) return std::make_pair(SMALLER, true);
+  if (e.inf() == d.sup() && d.inf() == e.sup())
+    return std::make_pair(EQUAL, true);
+  return std::make_pair(EQUAL, false);
+}
+
+} // namespace Certified
 
 CGAL_END_NAMESPACE
 

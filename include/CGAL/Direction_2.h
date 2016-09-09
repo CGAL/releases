@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Direction_2.h,v $
 // $Revision: 1.14 $ $Date: 2003/10/21 12:18:02 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  

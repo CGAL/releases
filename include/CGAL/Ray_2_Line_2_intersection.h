@@ -17,8 +17,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Ray_2_Line_2_intersection.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:16:51 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/05/20 13:54:40 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -47,34 +47,7 @@ public:
 		      typename K::Line_2 const *line);
     ~Ray_2_Line_2_pair() {}
 
-#ifndef CGAL_CFG_RETURN_TYPE_BUG_2
     Intersection_results intersection_type() const;
-#else
-    Intersection_results intersection_type() const
-{
-    if (_known)
-        return _result;
-    // The non const this pointer is used to cast away const.
-    _known = true;
-    const typename K::Line_2 &l1 = _ray->supporting_line();
-    Line_2_Line_2_pair<K> linepair(&l1, _line);
-    switch ( linepair.intersection_type()) {
-    case Line_2_Line_2_pair<K>::NO:
-        _result = NO;
-        break;
-    case Line_2_Line_2_pair<K>::POINT:
-        linepair.intersection(_intersection_point);
-        _result = (_ray->collinear_has_on(_intersection_point) ) ?
-                POINT : NO;
-        break;
-    case Line_2_Line_2_pair<K>::LINE:
-        _result = RAY;
-        break;
-    }
-    return _result;
-}
-
-#endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
     bool                intersection(typename K::Point_2 &result) const;
     bool                intersection(typename K::Ray_2 &result) const;
@@ -171,7 +144,6 @@ Ray_2_Line_2_pair<K>::Ray_2_Line_2_pair(
     _known = false;
 }
 
-#ifndef CGAL_CFG_RETURN_TYPE_BUG_2
 template <class K>
 typename Ray_2_Line_2_pair<K>::Intersection_results
 Ray_2_Line_2_pair<K>::intersection_type() const
@@ -198,7 +170,6 @@ Ray_2_Line_2_pair<K>::intersection_type() const
     return _result;
 }
 
-#endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
 template <class K>
 bool
@@ -228,27 +199,31 @@ Ray_2_Line_2_pair<K>::intersection(typename K::Ray_2 &result) const
 template <class K>
 inline bool do_intersect(const Line_2<K> &p1, const Ray_2<K> &p2)
 {
-  return CGALi::do_intersect(p1, p2, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect()(p1, p2);
 }
 
 template <class K>
 inline bool do_intersect(const Ray_2<K> &p2, const Line_2<K> &p1)
 {
-  return CGALi::do_intersect(p1, p2, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect()(p1, p2);
 }
 
 template <class K>
 inline Object
 intersection(const Line_2<K> &line, const Ray_2<K> &ray)
 {
-    return CGALi::intersection(ray, line, K());
+  typedef typename K::Intersect_2 Intersect;
+    return Intersect()(ray, line);
 }
 
 template <class K>
 inline Object
 intersection(const Ray_2<K> &ray, const Line_2<K> &line)
 {
-    return CGALi::intersection(ray, line, K());
+  typedef typename K::Intersect_2 Intersect;
+    return Intersect()(ray, line);
 }
 CGAL_END_NAMESPACE
 

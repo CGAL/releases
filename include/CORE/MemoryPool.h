@@ -1,181 +1,107 @@
-/******************************************************************
- * Core Library Version 1.6, June 2003
- * Copyright (c) 1995-2002 Exact Computation Project
- * 
+/****************************************************************************
+ * Core Library Version 1.7, August 2004
+ * Copyright (c) 1995-2004 Exact Computation Project
+ * All rights reserved.
+ *
+ * This file is part of CORE (http://cs.nyu.edu/exact/core/); you may
+ * redistribute it under the terms of the Q Public License version 1.0.
+ * See the file LICENSE.QPL distributed with CORE.
+ *
+ * Licensees holding a valid commercial license may use this file in
+ * accordance with the commercial license agreement provided with the
+ * software.
+ *
+ * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+ * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *
  * File: MemoryPool.h
  * Synopsis:
  *      a memory pool template class.
- *
+ * 
  * Written by 
- *       Chee Yap <yap@cs.nyu.edu>
  *       Zilin Du <zilin@cs.nyu.edu>
+ *       Chee Yap <yap@cs.nyu.edu>
  *       Sylvain Pion <pion@cs.nyu.edu>
  *
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: MemoryPool.h,v 1.1 2003/06/22 10:50:10 afabri Exp $
- *****************************************************************/
+ * $Source: /CVSROOT/CGAL/Packages/Core/include/CORE/MemoryPool.h,v $
+ * $Revision: 1.3 $ $Date: 2004/11/14 12:00:11 $
+ ***************************************************************************/
+#ifndef _CORE_MEMORYPOOL_H_
+#define _CORE_MEMORYPOOL_H_
 
-#ifndef CORE_MEMORYPOOL_H
-#define CORE_MEMORYPOOL_H
-
-#ifdef CORE_DISABLE_MEMORY_POOL
-#define CORE_MEMORY(T)
-#else
-
-#include <cstdlib>
-#include <typeinfo>
+#include <new>           // for placement new
+#include <assert.h>
 
 CORE_BEGIN_NAMESPACE
 
 #define CORE_EXPANSION_SIZE 1024
-
-template<class T>
+template< class T, int nObjects = CORE_EXPANSION_SIZE >
 class MemoryPool {
 public:
-  MemoryPool();
-  ~MemoryPool();
-  
-  // allocate a T element from the free list.
-  void* allocate(size_t) {
-    if (next == NULL)
-      expandFreeList();
+   MemoryPool() : head( 0 ) {}
 
-    MemoryPool<T> *head = next;
-    next = head->next;
-    
-    nCount --;
-
-    return head;
-  }
-
-  // return a T element to the free list.
-  void free(void* doomed) {
-    if (doomed == NULL)
-      return;
-
-    MemoryPool<T> *head = static_cast<MemoryPool<T> *>(doomed);
-   
-    head->next = next;
-    next = head;
-
-    nCount ++;
-    //if (nCount % 2048 == 0) {
-    //  std::cout << nCount << " of " << typeid(T).name() 
-    //       << "(size=" << sizeof(T) << ")" << ", total=" 
-    //       << (nCount>>10)*sizeof(T) << "KB" << std::endl;
-    //  releaseFreeList(1024);
-    //}
-  }
+   void* allocate(size_t size);
+   void free(void* p);
 
   // Access the corresponding static global allocator.
-  static MemoryPool<T>& global_allocator()
-  {
+  static MemoryPool<T>& global_allocator() {
     return memPool;
   }
+  
+private:
+   struct Thunk { 
+      T object;
+      Thunk* next;
+   };
 
 private:
-  // next element on the free list.
-  MemoryPool<T> *next;
-  
-  // expand free list.
-  void expandFreeList(int howMany = CORE_EXPANSION_SIZE);
+   Thunk* head; // next available block in the pool
 
-// release       : $CGAL_Revision: CGAL-3.0.1 $
-  void releaseFreeList(int howMany);
-
-  // number of the free element.
-  int nCount;
-
+private:
   // Static global allocator.
-  static MemoryPool<T> memPool;
+  static MemoryPool<T, nObjects> memPool;   
 };
 
-template <class T>
-MemoryPool<T> MemoryPool<T>::memPool;
+template <class T, int nObjects >
+MemoryPool<T, nObjects> MemoryPool<T, nObjects>::memPool;
 
-template<class T>
-MemoryPool<T>::MemoryPool() : next(NULL), nCount(0) {}
+template< class T, int nObjects >
+void* MemoryPool< T, nObjects >::allocate(size_t) {
+   if ( head == 0 ) { // if no more memory in the pool
+      const int last = nObjects - 1;
 
-template<class T>
-MemoryPool<T>::~MemoryPool() {
-  releaseFreeList(nCount);
+      // use the global operator new to allocate a block for the pool
+      Thunk* pool = reinterpret_cast<Thunk*>(
+	 ::operator new(nObjects * sizeof(Thunk)));
+
+      // initialize the chain (one-directional linked list)
+      head = pool;
+      for (int i = 0; i < last; ++i ) {
+	 pool[i].next = &pool[i+1];
+      }
+      pool[last].next = 0;
+   }
+
+   // set head to point to the next object in the list
+   Thunk* currentThunk = head;
+   head = currentThunk->next;
+
+   return currentThunk;
 }
 
-template<class T>
-void MemoryPool<T>::releaseFreeList(int howMany) {
-  int i;
-  MemoryPool<T> *nextPtr = next;  
-  for (i=0; (nextPtr != NULL && i < howMany); i++) {
-    nextPtr = next;
-    next = nextPtr->next;
-    ::delete[] reinterpret_cast<char *>(nextPtr);
-    //::delete[] reinterpret_cast<T *>(nextPtr);
-    //::delete nextPtr;
-  }
-  nCount -= i; /* in case failure */
-}
+template< class T, int nObjects >
+void MemoryPool< T, nObjects >::free(void* t) {
+   assert(t != 0);     
+   if (t == 0) return; // for safety
 
-template<class T>
-void MemoryPool<T>::expandFreeList(int howMany) {
-
-  size_t size = sizeof(T);
-  if ( size < sizeof(MemoryPool<T> *) )
-    size = sizeof(MemoryPool<T> *);
-
-  char* p = ::new char[size];
-  if (p == NULL)
-    std::cerr << "Out of Memory!!!" << std::endl;
-
-  MemoryPool<T> *runner = reinterpret_cast<MemoryPool<T> *>(p);
-  next = runner;
-  
-  for (int i=0; i<howMany-1; i++) {
-    p = ::new char[size];
-    if (p == NULL)
-      std::cerr << "Out of Memory!!!" << std::endl;
-
-    runner->next = reinterpret_cast<MemoryPool<T> *>(p);
-    runner = runner->next;
-  }
-
-  runner->next = NULL;
-  
-  nCount += howMany;
-
-  /* Below implementation will be faster, but if we use it, there is no way to
-     free allocated memory except when the program terminated.
-  */
-  /*
-  char* p = new char[size*howMany];
-  if (p == NULL)
-    std::cerr << "Out of Memory!!!" << std::endl;
-
-  MemoryPool<T> *runner = reinterpret_cast<MemoryPool<T> *>(p);
-  next = runner;
-
-  for (int i=0; i<howMany-1; i++) {
-    p += size;
-    runner->next = reinterpret_cast<MemoryPool<T> *>(p);
-    runner = runner->next;
-  }
-
-  runner->next = NULL;
-  */
-
+   // recycle the object memory, by putting it back into the chain
+   reinterpret_cast<Thunk*>(t)->next = head;
+   head = reinterpret_cast<Thunk*>(t);
 }
 
 CORE_END_NAMESPACE
-
-// You can put the following macro in (the public part of) the body of a class
-// to make it use the memory pool.
-
-#define CORE_MEMORY(T)                                                 \
-  void *operator new( size_t size)                                     \
-  { return MemoryPool<T>::global_allocator().allocate(size); }         \
-  void operator delete( void *p, size_t )                              \
-  { MemoryPool<T>::global_allocator().free(p); }
-
-#endif
-#endif
+#endif // _CORE_MEMORYPOOL_H_

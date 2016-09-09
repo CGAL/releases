@@ -16,12 +16,12 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/copy_n.h,v $
-// $Revision: 1.53 $ $Date: 2003/10/21 12:23:40 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.54 $ $Date: 2004/06/23 01:41:45 $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@mpi-sb.mpg.de>
+//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
 
 // This file is obsolete and exists only for backwards-compatibility.
@@ -52,4 +52,3 @@ OutputIterator copy_n( InputIterator first,
 
 CGAL_END_NAMESPACE
 #endif // CGAL_COPY_N_H //
-// EOF //

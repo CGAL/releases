@@ -1,5 +1,5 @@
-// examples/Generator/Segment_generator_example2.C
-// --------------------------------------------------------------
+// file: examples/Generator/Segment_generator_example2.C
+
 // CGAL example program for the generic segment generator
 // using precomputed point locations.
 

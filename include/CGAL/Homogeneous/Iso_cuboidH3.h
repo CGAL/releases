@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H3/include/CGAL/Homogeneous/Iso_cuboidH3.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:16:18 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2004/02/19 20:26:39 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -30,16 +30,16 @@ CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class Iso_cuboidH3
-  : public R_::template Handle<Twotuple<typename R_::Point_3> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::RT                   RT;
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef Twotuple<Point_3>                        rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Twotuple<Point_3>                        Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                 R;
@@ -138,8 +138,8 @@ Iso_cuboidH3(const typename Iso_cuboidH3<R>::Point_3& p,
       minz = q.hz()*p.hw();
       maxz = p.hz()*q.hw();
   }
-  initialize_with( rep ( Point_3(minx, miny, minz, minw),
-                         Point_3(maxx, maxy, maxz, maxw) ));
+  base = Rep(Point_3(minx, miny, minz, minw),
+             Point_3(maxx, maxy, maxz, maxw));
 }
 
 template < class R >
@@ -151,14 +151,14 @@ Iso_cuboidH3(const typename Iso_cuboidH3<R>::Point_3& left,
              const typename Iso_cuboidH3<R>::Point_3& top,
              const typename Iso_cuboidH3<R>::Point_3& far_,
              const typename Iso_cuboidH3<R>::Point_3& close)
-  : base(rep(Point_3(left.hx()   * bottom.hw() * far_.hw(),
-                     bottom.hy() * left.hw()   * far_.hw(),
-                     far_.hz()   * left.hw()   * bottom.hw(),
-                     left.hw()   * bottom.hw() * far_.hw()),
-             Point_3(right.hx()  * top.hw()    * close.hw(),
-                     top.hy()    * right.hw()  * close.hw(),
-                     close.hz()  * right.hw()  * top.hw(),
-                     right.hw()  * top.hw()    * close.hw())))
+  : base(Point_3(left.hx()   * bottom.hw() * far_.hw(),
+                 bottom.hy() * left.hw()   * far_.hw(),
+                 far_.hz()   * left.hw()   * bottom.hw(),
+                 left.hw()   * bottom.hw() * far_.hw()),
+         Point_3(right.hx()  * top.hw()    * close.hw(),
+                 top.hy()    * right.hw()  * close.hw(),
+                 close.hz()  * right.hw()  * top.hw(),
+                 right.hw()  * top.hw()    * close.hw()))
 {
   CGAL_kernel_precondition(!less_x(right, left));
   CGAL_kernel_precondition(!less_y(top, bottom));
@@ -170,10 +170,9 @@ CGAL_KERNEL_LARGE_INLINE
 Iso_cuboidH3<R>::
 Iso_cuboidH3(const RT& min_hx, const RT& min_hy, const RT& min_hz,
              const RT& max_hx, const RT& max_hy, const RT& max_hz)
-{
-  initialize_with( rep( Point_3(min_hx, min_hy, min_hz, RT(1)),
-                        Point_3(max_hx, max_hy, max_hz, RT(1)) ));
-}
+  : base(Point_3(min_hx, min_hy, min_hz, RT(1)),
+         Point_3(max_hx, max_hy, max_hz, RT(1)))
+{}
 
 template < class R >
 CGAL_KERNEL_LARGE_INLINE
@@ -181,10 +180,9 @@ Iso_cuboidH3<R>::
 Iso_cuboidH3(const RT& min_hx, const RT& min_hy, const RT& min_hz,
              const RT& max_hx, const RT& max_hy, const RT& max_hz, 
              const RT& hw)
-{
-  initialize_with( rep( Point_3(min_hx, min_hy, min_hz, hw),
-                        Point_3(max_hx, max_hy, max_hz, hw) ));
-}
+  : base(Point_3(min_hx, min_hy, min_hz, hw),
+         Point_3(max_hx, max_hy, max_hz, hw))
+{}
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -204,13 +202,13 @@ template < class R >
 inline
 const typename Iso_cuboidH3<R>::Point_3 &
 Iso_cuboidH3<R>::min() const
-{ return  Ptr()->e0; }
+{ return get(base).e0; }
 
 template < class R >
 inline
 const typename Iso_cuboidH3<R>::Point_3 &
 Iso_cuboidH3<R>::max() const
-{ return  Ptr()->e1; }
+{ return get(base).e1; }
 
 template < class R >
 inline

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/double.h,v $
-// $Revision: 1.20 $ $Date: 2003/10/21 12:21:44 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.26 $ $Date: 2004/09/01 16:17:13 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -27,8 +27,7 @@
 #include <CGAL/basic.h>
 #include <utility>
 #include <cmath>
-#if defined(_MSC_VER) || defined(__BORLANDC__) || \
-    defined(CGAL_MASK_FINITE_VALID)
+#ifdef CGAL_CFG_IEEE_754_BUG
 #  include <CGAL/IEEE_754_unions.h>
 #endif
 #ifdef __sgi
@@ -41,11 +40,15 @@ template<> struct Number_type_traits<double> {
   typedef Tag_false  Has_gcd;
   typedef Tag_true   Has_division;
   typedef Tag_true   Has_sqrt;
+
+  typedef Tag_false  Has_exact_ring_operations;
+  typedef Tag_false  Has_exact_division;
+  typedef Tag_false  Has_exact_sqrt;
 };
 
 inline
-double
-to_double(double d)
+const double &
+to_double(const double & d)
 { return d; }
 
 inline 
@@ -100,8 +103,7 @@ bool is_valid(double d)
     return false; // NOT REACHED
 }
 
-#elif defined(_MSC_VER) || defined(__BORLANDC__) || \
-      defined(CGAL_MASK_FINITE_VALID)
+#elif defined CGAL_CFG_IEEE_754_BUG
 
 #define CGAL_EXPONENT_DOUBLE_MASK   0x7ff00000
 #define CGAL_MANTISSA_DOUBLE_MASK   0x000fffff

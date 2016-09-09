@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Hash_map/include/CGAL/Handle_hash_function.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:16:36 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 //                 Lutz Kettner <kettner@inf.ethz.ch>

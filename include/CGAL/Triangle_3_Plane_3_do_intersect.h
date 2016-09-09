@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_3/include/CGAL/Triangle_3_Plane_3_do_intersect.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:17:13 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/04/17 21:54:33 $
+// $Name:  $
 //
 // Author(s)     : Philippe Guigue
 
@@ -80,14 +80,14 @@ template <class K>
 inline bool do_intersect(const Triangle_3<K> &t, 
 			 const Plane_3<K>    &h)
 {
-  return CGALi::do_intersect(t,h,K());
+  return typename K::Do_intersect_3()(t,h);
 }
   
 template <class K>
 inline bool do_intersect(const Plane_3<K>    &h, 
 			 const Triangle_3<K> &t)
 {
-  return CGALi::do_intersect(t,h,K());
+  return typename K::Do_intersect_3()(t,h);
 }
 
 /*

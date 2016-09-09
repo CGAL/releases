@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/PointHd.h,v $
-// $Revision: 1.14 $ $Date: 2003/10/21 12:19:28 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.18 $ $Date: 2004/09/17 12:12:41 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_POINTHDXXX_H
@@ -55,6 +55,8 @@ class PointHd : public Handle_for< Tuple_d<_RT,_LA> > {
   typedef Tuple_d<_RT,_LA> Tuple;
   typedef Handle_for<Tuple> Base;
   typedef PointHd<_RT,_LA> Self;
+
+  using Base::ptr;
 
 /*{\Mdefinition 
 An instance of data type |\Mname| is a point of Euclidean space in
@@ -116,8 +118,6 @@ chosen is the sign of $h_d$.  \precond |d| is nonnegative,
 non-zero, and the value type of |InputIterator| is |RT|.}*/
   : Base( Tuple(d+1,first,last) )
 { RT D = entry(d);
-  CGAL_assertion_msg(first!=last || D!=RT(0),
-    "PointHd::constructor: denominator must be nonzero.");
   if ( D == RT(0) ) entry(d) = 1;
   if ( D < RT(0) ) invert_rep();
 }
@@ -144,7 +144,7 @@ PointHd(int x, int y, int w = 1) : Base( Tuple((RT)x,(RT)y,(RT)w) )
 PointHd(const RT& x, const RT& y, const RT& w = 1)
 /*{\Mcreate introduces a variable |\Mvar| of type |\Mname| in 
 $2$-dimensional space.}*/ 
-  : Base( Tuple(x,y,w) )
+  : Base( Tuple(x,y,w,MatchHelper()) )
 { CGAL_assertion_msg((w!=0),"PointHd::construction: w == 0.");
   if (w < 0) invert_rep();
 }
@@ -262,9 +262,9 @@ bool operator==(const Origin&) const
   return true;
 }
 
-friend std::istream& operator>> CGAL_NULL_TMPL_ARGS
+friend std::istream& operator>> <>
   (std::istream&, PointHd<RT,LA>&);
-friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS 
+friend std::ostream& operator<< <> 
   (std::ostream&, const PointHd<RT,LA>&);
 /*{\Mtext \headerline{Downward compatibility}
 We provide operations of the lower dimensional interface |x()|, |y()|,

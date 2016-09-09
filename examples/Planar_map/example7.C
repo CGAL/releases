@@ -1,3 +1,5 @@
+// file: examples/Planar_map/example7.C
+
 /*! \file
  * A construction of a house-like-shaped Planar_map.
  * In this example a house-like-shaped Planar_map that uses the three point
@@ -16,7 +18,7 @@
 #include <CGAL/Pm_default_dcel.h>
 #include <CGAL/Planar_map_2.h>
 
-#include <CGAL/Pm_default_point_location.h>
+#include <CGAL/Pm_trapezoid_ric_point_location.h>
 #include <CGAL/Pm_walk_along_line_point_location.h>
 #include <CGAL/Pm_naive_point_location.h>
 
@@ -28,7 +30,7 @@ typedef CGAL::Cartesian<Number_type>                    Kernel;
 typedef CGAL::Pm_segment_traits_2<Kernel>               Traits;
 typedef CGAL::Pm_default_dcel<Traits>                   Dcel;
 typedef CGAL::Planar_map_2<Dcel,Traits>                 Planar_map;
-typedef CGAL::Pm_default_point_location<Planar_map>     Trap_point_location;
+typedef CGAL::Pm_trapezoid_ric_point_location<Planar_map>     Trap_point_location;
 typedef CGAL::Pm_naive_point_location<Planar_map>       Naive_point_location;
 typedef CGAL::Pm_walk_along_line_point_location<Planar_map>
                                                         Walk_point_location;

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Arithmetic_filter/predicates/in_smallest_orthogonalcircle_ftC2.h,v $
-// $Revision: 1.40 $ $Date: 2003/10/21 12:17:30 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.41 $ $Date: 2004/01/18 12:06:27 $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion
 
@@ -35,29 +35,24 @@ CGAL_END_NAMESPACE
 
 CGAL_BEGIN_NAMESPACE
 
-#ifndef CGAL_CFG_MATCHING_BUG_2
-template < class CGAL_IA_CT, class CGAL_IA_ET, bool CGAL_IA_PROTECTED,
-           class CGAL_IA_CACHE >
-#else
-static
-#endif
+template < class CT, class ET, bool Protected, class Cache >
 /* CGAL_MEDIUM_INLINE */
 Bounded_side
 in_smallest_orthogonalcircleC2(
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Dynamic, CGAL_IA_PROTECTED, CGAL_IA_CACHE> &px,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Dynamic, CGAL_IA_PROTECTED, CGAL_IA_CACHE> &py,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Dynamic, CGAL_IA_PROTECTED, CGAL_IA_CACHE> &pw,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Dynamic, CGAL_IA_PROTECTED, CGAL_IA_CACHE> &qx,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Dynamic, CGAL_IA_PROTECTED, CGAL_IA_CACHE> &qy,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Dynamic, CGAL_IA_PROTECTED, CGAL_IA_CACHE> &qw,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Dynamic, CGAL_IA_PROTECTED, CGAL_IA_CACHE> &tx,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Dynamic, CGAL_IA_PROTECTED, CGAL_IA_CACHE> &ty,
-    const Filtered_exact <CGAL_IA_CT, CGAL_IA_ET, Dynamic, CGAL_IA_PROTECTED, CGAL_IA_CACHE> &tw)
+    const Filtered_exact <CT, ET, Dynamic, Protected, Cache> &px,
+    const Filtered_exact <CT, ET, Dynamic, Protected, Cache> &py,
+    const Filtered_exact <CT, ET, Dynamic, Protected, Cache> &pw,
+    const Filtered_exact <CT, ET, Dynamic, Protected, Cache> &qx,
+    const Filtered_exact <CT, ET, Dynamic, Protected, Cache> &qy,
+    const Filtered_exact <CT, ET, Dynamic, Protected, Cache> &qw,
+    const Filtered_exact <CT, ET, Dynamic, Protected, Cache> &tx,
+    const Filtered_exact <CT, ET, Dynamic, Protected, Cache> &ty,
+    const Filtered_exact <CT, ET, Dynamic, Protected, Cache> &tw)
 {
   try
   {
     CGAL_PROFILER("IA in_smallest_orthogonalcircleC2 calls");
-    Protect_FPU_rounding<CGAL_IA_PROTECTED> Protection;
+    Protect_FPU_rounding<Protected> Protection;
     return in_smallest_orthogonalcircleC2(
 		px.interval(),
 		py.interval(),
@@ -72,7 +67,7 @@ in_smallest_orthogonalcircleC2(
   catch (Interval_nt_advanced::unsafe_comparison)
   {
     CGAL_PROFILER("IA in_smallest_orthogonalcircleC2 failures");
-    Protect_FPU_rounding<!CGAL_IA_PROTECTED> Protection(CGAL_FE_TONEAREST);
+    Protect_FPU_rounding<!Protected> Protection(CGAL_FE_TONEAREST);
     return in_smallest_orthogonalcircleC2(
 		px.exact(),
 		py.exact(),
@@ -86,7 +81,6 @@ in_smallest_orthogonalcircleC2(
   }
 }
 
-#ifndef CGAL_CFG_MATCHING_BUG_2
 template < class ET >
 /* CGAL_MEDIUM_INLINE */
 Bounded_side
@@ -132,7 +126,6 @@ in_smallest_orthogonalcircleC2(
 		tw.exact());
   }
 }
-#endif
 
 CGAL_END_NAMESPACE
 

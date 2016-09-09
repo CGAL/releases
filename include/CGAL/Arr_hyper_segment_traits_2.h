@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arr_hyper_segment_traits_2.h,v $
 // $Revision: 1.3 $ $Date: 2003/09/18 10:19:39 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
 #ifndef CGAL_ARR_HYPER_SEGMENT_TRAITS_2_H

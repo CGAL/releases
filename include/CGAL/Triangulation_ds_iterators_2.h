@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_ds_iterators_2.h,v $
-// $Revision: 1.36 $ $Date: 2003/09/18 10:26:13 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.37 $ $Date: 2004/04/26 08:49:47 $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec
 
@@ -141,7 +141,7 @@ Triangulation_ds_edge_iterator_2<Tds> ::
 associated_edge()
 {
   if (_tds->dimension() == 1) {return true;}
-  return Face_handle(pos)  < pos->neighbor(edge.second);
+  return Face_handle(pos) < pos->neighbor(edge.second);
 }
 
 template<class Tds>

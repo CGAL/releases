@@ -1,99 +1,58 @@
-#include <CGAL/Kd_tree.h>
-#include <CGAL/Orthogonal_priority_search.h>
-#include <CGAL/Cartesian_d.h>
-#include <CGAL/Euclidean_distance.h>
+// file: examples/Spatial_searching/Distance_browsing.C
 
-#include <vector>  
-#include <iostream>
+#include <CGAL/Simple_cartesian.h>
+#include <CGAL/Orthogonal_incremental_neighbor_search.h>
+#include <CGAL/Search_traits_2.h>
 
-typedef CGAL::Cartesian_d<double> R;
-typedef R::Point_d Point;
-typedef Point::R::FT NT;
+typedef CGAL::Simple_cartesian<double> K;
+typedef K::Point_2 Point_d;
+typedef CGAL::Search_traits_2<K> TreeTraits;
+typedef CGAL::Orthogonal_incremental_neighbor_search<TreeTraits> NN_incremental_search;
+typedef NN_incremental_search::iterator NN_iterator;
+typedef NN_incremental_search::Tree Tree;
 
-typedef CGAL::Kd_tree_traits_point<Point> Traits;
-typedef CGAL::Euclidean_distance<Point> Distance;
+// A functor that returns true, iff the x-coordinate of a dD point is not positive
+struct X_not_positive {
+  bool operator()(const NN_iterator& it) { return ((*it).first)[0]<0;  }
+};
 
-typedef CGAL::Orthogonal_priority_search<Traits> 
-NN_priority_search;
-typedef NN_priority_search::iterator NN_iterator;
+// An iterator that only enumerates dD points with positive x-coordinate
+typedef CGAL::Filter_iterator<NN_iterator, X_not_positive> NN_positive_x_iterator;
 
-template <class InputIterator, class Size, class OutputIterator>
-OutputIterator get_n_positive_elements( InputIterator first, Size& n,
-		       Size data_point_number,
-                       OutputIterator result) {
-  
-  Size number_of_el_to_compute=n;
-  Size count=0;
-  while ((data_point_number>0) && (number_of_el_to_compute)) {
-    if ((*(*first).first)[0] > 0) {
-    	number_of_el_to_compute--;
-    	count++;
-    	*result = *first;
-    	result++;
-    }
-    first++;
-    data_point_number--;
-  }
-  n=count;
-  return result;
-}
-  
 int main() {
 
-  const int dim=4;
+  Tree tree;
+  tree.insert(Point_d(0,0));
+  tree.insert(Point_d(1,1));
+  tree.insert(Point_d(0,1));
+  tree.insert(Point_d(10,110));
+  tree.insert(Point_d(45,0));
+  tree.insert(Point_d(0,2340));
+  tree.insert(Point_d(0,30));
   
-  const int data_point_number=20;
-  
-  typedef std::list<Point> Point_list;
-  Point_list data_points;
-  
-  // add random points of dimension dim to data_points
-  CGAL::Random Rnd;
-  
-  for (int i1=0; i1<data_point_number; i1++) {
-	NT v[dim];
-	for (int i2=0; i2<dim; i2++) v[i2]=Rnd.get_double(-1.0,1.0);
-        Point Random_point(dim,v,v+dim);
-        data_points.push_front(Random_point);
-  }
-  
-  typedef CGAL::Kd_tree<Traits> Tree;
-  Tree d(data_points.begin(), data_points.end());
+  Point_d query(0,0);
 
-  // define query item
-  double q[dim];
-  for (int i=0; i<dim; i++) {
-  	q[i]=0.5; 
-  }
-  Point query_item(dim,q,q+dim);
+  NN_incremental_search NN(tree, query);
+  NN_positive_x_iterator it(NN.end(), X_not_positive(), NN.begin()), end(NN.end(), X_not_positive());
 
-  Distance tr_dist(dim);
-  
-  std::vector<NN_priority_search::Point_with_distance> elements_in_query; 
-  elements_in_query.reserve(data_point_number);
+  std::cout <<  "The first 5 nearest neighbours with positive x-coord are: " << std::endl;
+  for (int j=0; (j < 5)&&(it!=end); ++j,++it) 
+    std::cout <<   (*it).first << "  at squared distance = " << (*it).second << std::endl;
 
-  NN_priority_search NN(d, query_item, tr_dist, 0.0);
-
-  std::vector<NN_priority_search::Point_with_distance>::iterator 
-  it = elements_in_query.begin();
-
-  int n=10;
-  get_n_positive_elements(NN.begin(), n, data_point_number, it);
-   
-  std::cout << "query point= 4 0.5 0.5 0.5 0.5 "<< std::endl; 
-  std::cout << 
-  "The first " << n << " positive nearest neighbours are: " 
-  << std::endl;
-
-  for (int j=0; j < n; ++j) { 
-     std::cout <<    
-     *(elements_in_query[j].first)
-     << std::endl; 
-  }
-  
   return 0;
-}; 
-  
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,4 +1,5 @@
-// file          : examples/Triangulation_2/adding_handles.C
+// file : examples/Triangulation_2/adding_handles.C
+
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Triangulation_2.h>
 #include <cassert>

@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_walk_along_line_point_location.h,v $
-// $Revision: 1.8 $ $Date: 2003/09/18 10:24:37 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/08/08 16:15:54 $
+// $Name:  $
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 //                 Iddo Hanniel <hanniel@math.tau.ac.il>
@@ -22,6 +22,9 @@
 
 #include <CGAL/Pm_point_location_base.h>
 #include <CGAL/Planar_map_2/Pm_traits_wrap_2.h>
+
+//#define CGAL_PM_WALK_DEBUG
+//#define CGAL_PM_DEBUG
 
 #ifdef CGAL_PM_DEBUG
 #ifndef CGAL_NAIVE_POINT_LOCATION_H
@@ -45,20 +48,28 @@ public:
   typedef typename Planar_map::Traits_wrap Traits_wrap;
   typedef typename Traits_wrap::Point Point;
   typedef typename Traits_wrap::X_curve X_curve;
+  typedef typename Traits::Point_2                Point_2;
+  typedef typename Traits::X_monotone_curve_2     X_monotone_curve_2;
   typedef typename Planar_map::Locate_type Locate_type;
   typedef typename Planar_map::Vertex_handle Vertex_handle;
+  typedef typename Planar_map::Vertex_const_handle Vertex_const_handle;
   typedef typename Planar_map::Halfedge_handle Halfedge_handle;
+  typedef typename Planar_map::Halfedge_const_handle Halfedge_const_handle;
   typedef typename Planar_map::Face_handle Face_handle;
+  typedef typename Planar_map::Face_const_handle Face_const_handle;
   typedef typename Planar_map::Ccb_halfedge_circulator Ccb_halfedge_circulator;
+  typedef typename Planar_map::Ccb_halfedge_const_circulator
+    Ccb_halfedge_const_circulator;
   typedef typename Planar_map::Holes_iterator Holes_iterator;
-  typedef typename Planar_map::Halfedge_around_vertex_circulator Avc;
+  typedef typename Planar_map::Holes_const_iterator Holes_const_iterator;
+  typedef typename Planar_map::Halfedge_around_vertex_const_circulator Avcc;
   typedef typename Planar_map::Halfedge_iterator Halfedge_iterator;
   typedef Pm_bounding_box_base<Planar_map> Bounding_box;
   typedef typename Base::Halfedge_handle_iterator Halfedge_handle_iterator;
   typedef typename Base::Token Token;
 
 protected:
-  typedef const Self* cPLp;
+  typedef const Self* const_Self_ptr;
 
 public:
   // Constructor
@@ -67,7 +78,7 @@ public:
     pm(0),
     traits(0) {}
   
-  void init(Planar_map & pmp, Traits & tr) 
+  void init(Planar_map & pmp, const Traits & tr) 
   {
     CGAL_precondition_msg(pm == NULL,
     "Point location instance should be uninitialized "
@@ -79,11 +90,11 @@ public:
 
   inline void insert(Halfedge_handle, const X_curve &) {}
 
-  Halfedge_handle locate(const Point & p, Locate_type & lt) const;
+  Halfedge_const_handle locate(const Point & p, Locate_type & lt) const;
   Halfedge_handle locate(const Point & p, Locate_type & lt);
 
-  Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, bool up)
-    const;
+  Halfedge_const_handle vertical_ray_shoot(const Point& p, Locate_type& lt,
+                                           bool up) const;
   Halfedge_handle vertical_ray_shoot(const Point& p, Locate_type& lt, bool up);
 
   inline void split_edge(const X_curve &, Halfedge_handle, Halfedge_handle,
@@ -106,13 +117,13 @@ public:
 private:
 
   void walk_along_line(const Point & p, bool up, bool including,
-                       Halfedge_handle & e, Locate_type & lt) const ;
+                       Halfedge_const_handle & e, Locate_type & lt) const ;
   /* Simulates a walk along a vertical ray shoot whose shape is determined by 
      'up' and 'including'. e is the returned edge. */
 
-  Halfedge_handle find_vertex_representation(Halfedge_handle e,
-                                             const Point & p,
-                                             bool up) const
+  Halfedge_const_handle find_vertex_representation(Halfedge_const_handle e,
+						   const Point & p,
+						   bool up) const
   /* find the first halfedge pointing to p, when going clockwise
     if up==true - start from 6 oclock, else start from 12 oclock
     precondition:    e points to p.
@@ -125,7 +136,7 @@ private:
 
 #endif
 
-  Avc first = e,curr=first;
+  Avcc first = e,curr=first;
   ++curr;
   if (up)
     while(curr!=first)
@@ -161,9 +172,9 @@ private:
 
 }
 
-  bool find_closest(const Point & p, const Ccb_halfedge_circulator & c,
+  bool find_closest(const Point & p, const Ccb_halfedge_const_circulator & c,
                     bool up, bool including,
-                    Halfedge_handle & e, Locate_type & lt) const;
+                    Halfedge_const_handle & e, Locate_type & lt) const;
   /* Finds the closest halfedge on a ccb along a vertical ray shoot.
      The bools 'up' and 'including' set the vertical ray shoot's shape.
      The return value is true iff such an halfedge exists.
@@ -195,10 +206,12 @@ public:
 
 protected:
   inline const Bounding_box * get_bounding_box() const 
-  {return pm->get_bounding_box();}
+  {
+    return pm->get_bounding_box();
+  }
 
   Planar_map * pm;
-  Traits_wrap * traits;
+  const Traits_wrap * traits;
 };
   
 CGAL_END_NAMESPACE

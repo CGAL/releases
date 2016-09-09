@@ -1,5 +1,5 @@
-// in_place_list_prog.C                 
-// -------------------------------
+// file: examples/STL_Extension/in_place_list_prog.C                 
+
 #include <CGAL/basic.h>
 #include <cassert>
 #include <algorithm>

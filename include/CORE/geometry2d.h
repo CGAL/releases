@@ -12,7 +12,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: geometry2d.h,v 1.2 2003/08/06 12:59:28 afabri Exp $
+ * $Id: geometry2d.h,v 1.4 2004/11/14 12:00:13 efi Exp $
  *****************************************************************/
 
 #ifndef CORE_GEOMETRY2D_H
@@ -23,9 +23,9 @@
 #endif
 
 #include <CORE/geom2d/point2d.h>
-#include <CORE/geom2d/line2d.h>
-#include <CORE/geom2d/circle2d.h>
-#include <CORE/geom2d/segment2d.h>
+#include "CORE/geom2d/line2d.h"
+#include "CORE/geom2d/circle2d.h"
+#include "CORE/geom2d/segment2d.h"
 
 // automaticall link necessary static library under visual c++
 #ifdef _MSC_VER

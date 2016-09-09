@@ -15,15 +15,15 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: segment2d.h,v 1.1 2003/06/22 11:49:11 afabri Exp $
+ * $Id: segment2d.h,v 1.3 2004/11/14 12:00:15 efi Exp $
  *****************************************************************/
 
 
 #ifndef _SEGMENT2D_H_
 #define _SEGMENT2D_H_
 
-#include "point2d.h"
-#include "line2d.h"
+#include <CORE/geom2d/point2d.h>
+#include <CORE/geom2d/line2d.h>
 
 /************************************************************
  *  Class Segment2d:
@@ -171,7 +171,5 @@ public:
    // syntax: {[} p {===} q {]}
 
 }; //class Segment2d
-
-extern Line2d p_bisector(Point2d& p, Point2d& q);
 
 #endif

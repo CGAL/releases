@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_short_names_2.h,v $
-// $Revision: 1.16 $ $Date: 2003/09/18 10:26:17 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.17 $ $Date: 2004/04/26 08:49:50 $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec
 
@@ -53,8 +53,9 @@
 #define Triangulation_face_circulator_2       Tfc
 #define Triangulation_edge_circulator_2       Tec
 
-#define Constrained_triangulation_face_base_2  Ctfb
+#define Constrained_triangulation_face_base_2    Ctfb
 #define Regular_triangulation_euclidean_traits_2 Rtet2
-#define Regular_triangulation_face_base_2  Rtfb
+#define Regular_triangulation_face_base_2        Rtfb
+#define Regular_triangulation_vertex_base_2      Rtvb
 
 #endif //CGAL_TRIANGULATION_SHORT_NAMES_2_H

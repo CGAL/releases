@@ -12,16 +12,13 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d_traits_3.h,v $
-// $Revision: 1.4 $ $Date: 2003/09/18 10:23:21 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2003/12/01 16:40:35 $
+// $Name:  $
 //
 // Author(s)     : Kaspar Fischer
 
 #ifndef CGAL_MIN_SPHERE_OF_SPHERES_D_TRAITS_3_H
 #define CGAL_MIN_SPHERE_OF_SPHERES_D_TRAITS_3_H
-
-#include <CGAL/Cartesian.h>
-#include <CGAL/Weighted_point.h>
 
 namespace CGAL {
 
@@ -32,10 +29,10 @@ namespace CGAL {
   class Min_sphere_of_spheres_d_traits_3 {
   public: // types:
     typedef FT_ FT;
-    typedef FT_ Weight;
-    typedef CGAL::Point_3<K_> Point;
-    typedef CGAL::Weighted_point<Point,Weight> Sphere;
-    typedef typename Point::Cartesian_const_iterator Cartesian_const_iterator;
+    typedef FT_ Radius;
+    typedef typename K_::Point_3 Point;
+    typedef std::pair<Point,Radius> Sphere;
+    typedef typename K_::Cartesian_const_iterator_3 Cartesian_const_iterator;
     typedef UseSqrt_ Use_square_roots;
     typedef Algorithm_ Algorithm;
 
@@ -43,16 +40,16 @@ namespace CGAL {
     static const int D = 3;                  // dimension
 
   public: // accessors:
-    static inline const FT radius(const Sphere& s) {
-      return s.weight();
+    static inline const FT& radius(const Sphere& s) {
+      return s.second;
     }
 
     static inline Cartesian_const_iterator
       center_cartesian_begin(const Sphere& s) {
-      return s.cartesian_begin();
+      return s.first.cartesian_begin();
     }
   };
 
 } // namespace CGAL
 
-#endif // CGAL_MIN_SPHERE_OF_SPHERES_D_TRAITS_2_H
+#endif // CGAL_MIN_SPHERE_OF_SPHERES_D_TRAITS_3_H

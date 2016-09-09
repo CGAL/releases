@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Polyhedron/include/CGAL/Polyhedron_3.h,v $
-// $Revision: 1.18 $ $Date: 2003/09/18 10:24:55 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.26 $ $Date: 2004/09/20 16:20:14 $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
 
@@ -24,7 +24,7 @@
 #include <algorithm>
 #include <cstddef>
 
-#include <CGAL/Polyhedron_iterator_3.h>
+#include <CGAL/HalfedgeDS_iterator.h>
 #include <CGAL/Iterator_project.h>
 #include <CGAL/function_objects.h>
 #include <CGAL/N_step_adaptor_derived.h>
@@ -74,21 +74,21 @@ public:
 
 public:
     // Circulator category.
-    typedef Polyhedron_circulator_traits<Supports_prev> Ctr;
+    typedef HalfedgeDS_circulator_traits<Supports_prev> Ctr;
     typedef typename Ctr::iterator_category circulator_category;
 
     // Circulators around a vertex and around a facet.
-    typedef I_Polyhedron_facet_circ< Halfedge_handle, circulator_category>
+    typedef I_HalfedgeDS_facet_circ< Halfedge_handle, circulator_category>
                                          Halfedge_around_facet_circulator;
 
-    typedef I_Polyhedron_vertex_circ< Halfedge_handle, circulator_category>
+    typedef I_HalfedgeDS_vertex_circ< Halfedge_handle, circulator_category>
                                         Halfedge_around_vertex_circulator;
 
-    typedef I_Polyhedron_facet_circ<
+    typedef I_HalfedgeDS_facet_circ<
         Halfedge_const_handle,
         circulator_category>       Halfedge_around_facet_const_circulator;
 
-    typedef I_Polyhedron_vertex_circ<
+    typedef I_HalfedgeDS_vertex_circ<
         Halfedge_const_handle,
         circulator_category>      Halfedge_around_vertex_const_circulator;
 
@@ -109,16 +109,24 @@ public:
 
     Halfedge_around_vertex_circulator vertex_begin() {
         // a circulator of halfedges around the vertex (clockwise).
-        return Halfedge_around_vertex_circulator( halfedge());
+        return Halfedge_around_vertex_circulator( this->halfedge());
     }
     Halfedge_around_vertex_const_circulator vertex_begin() const {
         // a circulator of halfedges around the vertex (clockwise).
-        return Halfedge_around_vertex_const_circulator( halfedge());
+        return Halfedge_around_vertex_const_circulator( this->halfedge());
     }
 
-    size_type degree() const {
-        return circulator_size( vertex_begin());
+    // the degree of the vertex, i.e., edges emanating from this vertex 
+    std::size_t vertex_degree() const { 
+        return this->halfedge()->vertex_degree(); 
     }
+    size_type degree() const { return vertex_degree(); } //backwards compatible
+
+    // returns true if the vertex has exactly two incident edges
+    bool is_bivalent() const { return  this->halfedge()->is_bivalent(); }
+
+    // returns true if the vertex has exactly three incident edges
+    bool is_trivalent() const { return  this->halfedge()->is_trivalent(); }
 
     // No longer hidden. Now the restricted version with precondition.
     // sets incident halfedge to h. Precondition: h is incident, i.e.,
@@ -182,21 +190,21 @@ public:
 
 public:
     // Circulator category.
-    typedef Polyhedron_circulator_traits<Supports_prev> Ctr;
+    typedef HalfedgeDS_circulator_traits<Supports_prev> Ctr;
     typedef typename Ctr::iterator_category circulator_category;
 
     // Circulators around a vertex and around a facet.
-    typedef I_Polyhedron_facet_circ< Halfedge_handle, circulator_category>
+    typedef I_HalfedgeDS_facet_circ< Halfedge_handle, circulator_category>
                                          Halfedge_around_facet_circulator;
 
-    typedef I_Polyhedron_vertex_circ< Halfedge_handle, circulator_category>
+    typedef I_HalfedgeDS_vertex_circ< Halfedge_handle, circulator_category>
                                         Halfedge_around_vertex_circulator;
 
-    typedef I_Polyhedron_facet_circ<
+    typedef I_HalfedgeDS_facet_circ<
         Halfedge_const_handle,
         circulator_category>       Halfedge_around_facet_const_circulator;
 
-    typedef I_Polyhedron_vertex_circ<
+    typedef I_HalfedgeDS_vertex_circ<
         Halfedge_const_handle,
         circulator_category>      Halfedge_around_vertex_const_circulator;
 
@@ -233,22 +241,22 @@ private:
 
 public:
     Halfedge_handle       prev() {
-        return find_prev( next(), Supports_halfedge_prev());
+        return find_prev( this->next(), Supports_halfedge_prev());
     }
     Halfedge_const_handle prev() const {
-        return find_prev( next(), Supports_halfedge_prev());
+        return find_prev( this->next(), Supports_halfedge_prev());
     }
 
     // Make face-functions also available as facet-functions.
-    Face_handle           facet()       { return face();}
-    Face_const_handle     facet() const { return face();}
+    Face_handle           facet()       { return this->face();}
+    Face_const_handle     facet() const { return this->face();}
 
 
     // the next halfedge around the vertex (clockwise). This is equal to
     // `h.next()->opposite()'.
-    Halfedge_handle       next_on_vertex() { return next()->opposite(); }
+    Halfedge_handle       next_on_vertex() { return this->next()->opposite(); }
     Halfedge_const_handle next_on_vertex() const {
-        return next()->opposite();
+        return this->next()->opposite();
     }
 
     // the previous halfedge around the vertex (counterclockwise). Is
@@ -260,7 +268,7 @@ public:
 
     bool is_border_edge() const {
         // is true if `h' or `h.opposite()' is a border halfedge.
-        return (this->opposite()->is_border() || is_border());
+        return (this->opposite()->is_border() || this->is_border());
     }
 
     // a circulator of halfedges around the vertex (clockwise).
@@ -282,6 +290,47 @@ public:
         return Halfedge_around_facet_const_circulator(
             HDS::halfedge_handle(this));
     }
+
+    // the degree of the incident vertex, i.e., edges emanating from this 
+    // vertex 
+    std::size_t vertex_degree() const { 
+        return circulator_size( vertex_begin()); 
+    }
+
+    // the degree of the incident facet, i.e., edges on the boundary of this 
+    // facet
+    std::size_t facet_degree() const {
+        return circulator_size( facet_begin()); 
+    }
+
+    // returns true if the incident vertex has exactly two incident edges
+    bool is_bivalent() const { 
+        CGAL_precondition( this != &* (this->next()->opposite()));
+        return  (this == &* (this->next()->opposite()->next()->opposite()));
+    }
+
+    // returns true if the incident vertex has exactly three incident edges
+    bool is_trivalent() const {
+        CGAL_precondition( this != &* (this->next()->opposite()));
+        return  (   this != &* (this->next()->opposite()->next()->opposite())
+                 && this == &* (this->next()->opposite()->next()->opposite()
+                                ->next()->opposite()));
+    }
+
+    // returns true if the incident facet is a triangle.
+    bool is_triangle() const {
+        CGAL_precondition( this != &* (this->next()));
+        CGAL_precondition( this != &* (this->next()->next()));
+        return  (this == &* (this->next()->next()->next()));
+    }
+
+    // returns true if the incident facet is a quadrilateral.
+    bool is_quad()     const {
+        CGAL_precondition( this != &* (this->next()));
+        CGAL_precondition( this != &* (this->next()->next()));
+        return  (this == &* (this->next()->next()->next()->next()));
+    }
+
 
 private:
     // Hide some other functions of H.
@@ -325,21 +374,21 @@ public:
 
 public:
     // Circulator category.
-    typedef Polyhedron_circulator_traits<Supports_prev> Ctr;
+    typedef HalfedgeDS_circulator_traits<Supports_prev> Ctr;
     typedef typename Ctr::iterator_category circulator_category;
 
     // Circulators around a vertex and around a facet.
-    typedef I_Polyhedron_facet_circ< Halfedge_handle, circulator_category>
+    typedef I_HalfedgeDS_facet_circ< Halfedge_handle, circulator_category>
                                          Halfedge_around_facet_circulator;
 
-    typedef I_Polyhedron_vertex_circ< Halfedge_handle, circulator_category>
+    typedef I_HalfedgeDS_vertex_circ< Halfedge_handle, circulator_category>
                                         Halfedge_around_vertex_circulator;
 
-    typedef I_Polyhedron_facet_circ<
+    typedef I_HalfedgeDS_facet_circ<
         Halfedge_const_handle,
         circulator_category>       Halfedge_around_facet_const_circulator;
 
-    typedef I_Polyhedron_vertex_circ<
+    typedef I_HalfedgeDS_vertex_circ<
         Halfedge_const_handle,
         circulator_category>      Halfedge_around_vertex_const_circulator;
 
@@ -359,16 +408,23 @@ public:
 
     Halfedge_around_facet_circulator facet_begin() {
         // a circulator of halfedges around the facet (counterclockwise).
-        return Halfedge_around_facet_circulator( halfedge());
+        return Halfedge_around_facet_circulator( this->halfedge());
     }
     Halfedge_around_facet_const_circulator facet_begin() const {
         // a circulator of halfedges around the facet (counterclockwise).
-        return Halfedge_around_facet_const_circulator( halfedge());
+        return Halfedge_around_facet_const_circulator( this->halfedge());
     }
 
-    size_type size() const {
-        return circulator_size( facet_begin());
-    }
+    // the degree of the incident facet, i.e., edges on the boundary of this 
+    // facet
+    std::size_t facet_degree() const {return this->halfedge()->facet_degree();}
+    size_type size() const { return facet_degree(); } // backwards compatible
+
+    // returns true if the facet is a triangle.
+    bool is_triangle() const { return this->halfedge()->is_triangle(); }
+
+    // returns true if the facet is a quadrilateral.
+    bool is_quad()     const { return this->halfedge()->is_quad(); }
 
     // No longer hidden. Now the restricted version with precondition.
     // sets incident halfedge to h. Precondition: h is incident, i.e.,
@@ -539,21 +595,21 @@ public:
 
 public:
     // Circulator category.
-    typedef Polyhedron_circulator_traits<Supports_prev> Ctr;
+    typedef HalfedgeDS_circulator_traits<Supports_prev> Ctr;
     typedef typename Ctr::iterator_category circulator_category;
 
     // Circulators around a vertex and around a facet.
-    typedef I_Polyhedron_facet_circ< Halfedge_handle, circulator_category>
+    typedef I_HalfedgeDS_facet_circ< Halfedge_handle, circulator_category>
                                          Halfedge_around_facet_circulator;
 
-    typedef I_Polyhedron_vertex_circ< Halfedge_handle, circulator_category>
+    typedef I_HalfedgeDS_vertex_circ< Halfedge_handle, circulator_category>
                                         Halfedge_around_vertex_circulator;
 
-    typedef I_Polyhedron_facet_circ<
+    typedef I_HalfedgeDS_facet_circ<
         Halfedge_const_handle,
         circulator_category>       Halfedge_around_facet_const_circulator;
 
-    typedef I_Polyhedron_vertex_circ<
+    typedef I_HalfedgeDS_vertex_circ<
         Halfedge_const_handle,
         circulator_category>      Halfedge_around_vertex_const_circulator;
 
@@ -819,6 +875,107 @@ public:
     Traits&       traits()       { return m_traits; }
     const Traits& traits() const { return m_traits; }
 
+
+// Combinatorial Predicates
+
+    bool is_closed() const { 
+        for ( Halfedge_const_iterator i = halfedges_begin();
+              i != halfedges_end(); ++i) {
+            if ( i->is_border())
+                return false;
+        }
+        return true;
+    }
+
+private:
+    bool is_pure_bivalent( Tag_true) const { 
+        for ( Vertex_const_iterator i = vertices_begin();
+              i != vertices_end(); ++i)
+            if ( ! i->is_bivalent())
+                return false;
+        return true;
+    }
+    bool is_pure_bivalent( Tag_false) const { 
+        for ( Halfedge_const_iterator i = halfedges_begin();
+              i != halfedges_end(); ++i)
+            if ( ! i->is_bivalent())
+                return false;
+        return true;
+    }
+
+public:
+    // returns true if all vertices have exactly two incident edges
+    bool is_pure_bivalent() const { 
+        return is_pure_bivalent( Supports_vertex_halfedge());
+    }
+
+private:
+    bool is_pure_trivalent( Tag_true) const { 
+        for ( Vertex_const_iterator i = vertices_begin();
+              i != vertices_end(); ++i)
+            if ( ! i->is_trivalent())
+                return false;
+        return true;
+    }
+    bool is_pure_trivalent( Tag_false) const { 
+        for ( Halfedge_const_iterator i = halfedges_begin();
+              i != halfedges_end(); ++i)
+            if ( ! i->is_trivalent())
+                return false;
+        return true;
+    }
+
+public:
+    // returns true if all vertices have exactly three incident edges
+    bool is_pure_trivalent() const { 
+        return is_pure_trivalent( Supports_vertex_halfedge());
+    }
+
+private:
+    bool is_pure_triangle( Tag_true) const { 
+        for ( Facet_const_iterator i = facets_begin();
+              i != facets_end(); ++i)
+            if ( ! i->is_triangle())
+                return false;
+        return true;
+    }
+    bool is_pure_triangle( Tag_false) const { 
+        for ( Halfedge_const_iterator i = halfedges_begin();
+              i != halfedges_end(); ++i)
+            if ( ! i->is_border() && ! i->is_triangle())
+                return false;
+        return true;
+    }
+
+public:
+    // returns true if all facets are triangles
+    bool is_pure_triangle() const { 
+        return is_pure_triangle( Supports_facet_halfedge());
+    }
+
+private:
+    bool is_pure_quad( Tag_true) const { 
+        for ( Facet_const_iterator i = facets_begin();
+              i != facets_end(); ++i)
+            if ( ! i->is_quad())
+                return false;
+        return true;
+    }
+    bool is_pure_quad( Tag_false) const { 
+        for ( Halfedge_const_iterator i = halfedges_begin();
+              i != halfedges_end(); ++i)
+            if ( ! i->is_border() && ! i->is_quad())
+                return false;
+        return true;
+    }
+
+public:
+    // returns true if all facets are quadrilaterals
+    bool is_pure_quad() const { 
+        return is_pure_quad( Supports_facet_halfedge());
+    }
+
+
 // Geometric Predicates
 
     bool
@@ -1052,6 +1209,11 @@ public:
 
     Halfedge_handle split_edge( Halfedge_handle h) {
         return split_vertex( h->prev(), h->opposite())->opposite();
+    }
+
+    Halfedge_handle flip_edge( Halfedge_handle h) {
+        HalfedgeDS_items_decorator<HDS> D;
+        return D.flip_edge(h);
     }
 
     Halfedge_handle create_center_vertex( Halfedge_handle h) {

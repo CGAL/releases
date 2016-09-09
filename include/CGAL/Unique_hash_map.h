@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Hash_map/include/CGAL/Unique_hash_map.h,v $
-// $Revision: 1.5 $ $Date: 2003/10/21 12:16:37 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/09/16 08:53:14 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 //                 Lutz Kettner <kettner@inf.ethz.ch>
@@ -115,7 +115,59 @@ public:
     void statistics() const { m_map.statistics(); }
 };
 
+
+
 CGAL_END_NAMESPACE
+
+namespace boost {
+  template <typename UniquePairAssociativeContainer>
+  class associative_property_map;
+
+  struct lvalue_property_map_tag;
+
+  template <typename KeyType, typename ValueType>
+  class associative_property_map<CGAL::Unique_hash_map<KeyType,ValueType> >
+  {
+    typedef CGAL::Unique_hash_map<KeyType,ValueType> C;
+  public:
+    typedef KeyType key_type;
+    typedef ValueType value_type;
+    typedef value_type& reference;
+    typedef lvalue_property_map_tag category;
+    associative_property_map() : m_c(0) { }
+    associative_property_map(C& c) : m_c(&c) { }
+    reference operator[](const key_type& k) const {
+      return (*m_c)[k];
+    }
+  private:
+    C* m_c;
+  };
+
+
+  template <typename KeyType, typename ValueType>
+  associative_property_map<CGAL::Unique_hash_map<KeyType,ValueType> >
+  make_assoc_property_map(CGAL::Unique_hash_map<KeyType,ValueType> & c)
+  {
+    return associative_property_map<CGAL::Unique_hash_map<KeyType,ValueType> >(c);
+  }
+  
+  
+  template <typename KeyType, typename ValueType>
+  ValueType&  get(const associative_property_map<CGAL::Unique_hash_map<KeyType,ValueType> >& uhm, const KeyType& key)
+  {
+    return uhm[key];
+  }
+  
+  template <typename KeyType, typename ValueType>
+  void put(associative_property_map<CGAL::Unique_hash_map<KeyType,ValueType> >& uhm, const KeyType& key, const ValueType& val)
+  {
+    uhm[key] = val;
+  }
+
+
+}
+
+
 
 #endif // CGAL_UNIQUE_HASH_MAP_H
 // EOF

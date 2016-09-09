@@ -1,3 +1,5 @@
+// file: examples/Planar_map/example5.C
+
 /** \file
  * Various operations on edges of a Topological_map.
  */

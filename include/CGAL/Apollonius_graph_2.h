@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h,v $
-// $Revision: 1.37.2.1 $ $Date: 2004/01/25 06:03:38 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.46 $ $Date: 2004/09/07 13:32:57 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -28,11 +28,12 @@
 #include <CGAL/Apollonius_graph_short_names_2.h>
 
 #include <CGAL/Triangulation_2.h>
-#include <CGAL/Apollonius_graph_data_structure_2.h>
-#include <CGAL/Apollonius_graph_face_base_2.h>
+#include <CGAL/Triangulation_data_structure_2.h>
+#include <CGAL/Triangulation_face_base_2.h>
 #include <CGAL/Apollonius_graph_vertex_base_2.h>
 
 #include <CGAL/in_place_edge_list.h>
+#include <CGAL/edge_list.h>
 #include <CGAL/Apollonius_graph_traits_wrapper_2.h>
 
 #include <CGAL/Apollonius_graph_constructions_C2.h>
@@ -42,23 +43,50 @@
 #include <CGAL/Concatenate_iterator.h>
 
 
-
-
 CGAL_BEGIN_NAMESPACE
 
-template < class Node >
-struct Project_site_2 {
-  typedef Node                   argument_type;
-  typedef typename Node::Site_2  Site;
-  typedef Site                   result_type;
-  Site&       operator()( Node& x) const { return x.site(); }
-  const Site& operator()( const Node& x) const { return x.site(); }
-};
+
+namespace CGALi {
+
+  template<typename Edge, typename LTag> struct AG2_which_list;
+
+  // use the in-place edge list
+  template<typename E>
+  struct AG2_which_list<E,Tag_true>
+  {
+    typedef E                           Edge;
+    typedef In_place_edge_list<Edge>    List;
+  };
+
+  // do not use the in-place edge list
+  template<typename E>
+  struct AG2_which_list<E,Tag_false>
+  {
+    typedef E                                 Edge;
+    // change the following to Tag_false in order to use
+    // CGAL's Unique_hash_map
+    typedef Tag_true                          Use_stl_map_tag;
+    typedef Edge_list<Edge,Use_stl_map_tag>   List;
+  };
+
+  template < class Node >
+  struct Project_site_2 {
+    typedef Node                   argument_type;
+    typedef typename Node::Site_2  Site;
+    typedef Site                   result_type;
+    Site&       operator()( Node& x) const { return x.site(); }
+    const Site& operator()( const Node& x) const { return x.site(); }
+  };
+
+} // namespace CGALi
+
+
 
 template < class Gt,
-	   class Agds = Apollonius_graph_data_structure_2 < 
+	   class Agds = Triangulation_data_structure_2 < 
                Apollonius_graph_vertex_base_2<Gt,true>,
-               Apollonius_graph_face_base_2<Gt> > >
+               Triangulation_face_base_2<Gt> >,
+	   class LTag = Tag_false>
 class Apollonius_graph_2
   : private Triangulation_2<Apollonius_graph_traits_wrapper_2<Gt>,Agds>
 {
@@ -142,10 +170,11 @@ public:
   typedef typename DG::All_edges_iterator        All_edges_iterator;
   typedef typename DG::Finite_edges_iterator     Finite_edges_iterator;
 
+  typedef typename DG::size_type                 size_type;
 
   // Auxiliary iterators for convenience
   // do not use default template argument to please VC++
-  typedef Project_site_2<Vertex>                               Proj_site;
+  typedef CGALi::Project_site_2<Vertex>                   Proj_site;
   typedef Iterator_project<Finite_vertices_iterator, 
                            Proj_site>
   /*                                           */ Visible_sites_iterator;
@@ -182,14 +211,14 @@ protected:
   typedef std::map<Face_handle,bool>           Face_map;
   typedef std::map<Face_handle, Face_handle>   Face_face_map;
   typedef std::map<Vertex_handle,bool>         Vertex_map;
-  typedef std::vector<Edge>                    Edge_list;
+  typedef std::set<Edge>                       Edge_list;
 
   typedef std::list<Vertex_handle>         Vertex_list;
   typedef typename Vertex_list::iterator   Vertex_list_iterator;
   typedef Vertex_handle                    Vh_triple[3];
 
-  // the in place edge list
-  typedef In_place_edge_list<Edge>          List;
+  // the edge list
+  typedef typename CGALi::AG2_which_list<Edge,LTag>::List  List;
 
   typedef enum { NO_CONFLICT = -1, INTERIOR, LEFT_VERTEX,
 		 RIGHT_VERTEX, BOTH_VERTICES, ENTIRE_EDGE }
@@ -259,15 +288,19 @@ public:
     return this->_tds.dimension();
   }
 
-  int number_of_faces() const {
+  size_type number_of_faces() const {
     return this->_tds.number_of_faces();
   }
 
-  int number_of_vertices() const {
+  size_type number_of_vertices() const {
     return DG::number_of_vertices();
   }
 
-  int number_of_hidden_vertices() const {
+  size_type number_of_visible_sites() const {
+    return number_of_vertices();
+  }
+
+  size_type number_of_hidden_sites() const {
     //    if ( !Vertex::StoreHidden ) { return 0; }
 
     int n_hidden(0);
@@ -290,6 +323,10 @@ public:
   Vertex_handle finite_vertex() const {
     return DG::finite_vertex();
   }
+
+protected:
+  using Delaunay_graph::cw;
+  using Delaunay_graph::ccw;
 
 public:
   // TRAVERSAL OF THE APOLLONIUS GRAPH
@@ -320,14 +357,14 @@ public:
 
   Sites_iterator sites_begin() const {
     return Sites_iterator(visible_sites_end(),
-			  hidden_sites_begin(),
-			  visible_sites_begin());
+    			  hidden_sites_begin(),
+    			  visible_sites_begin());
   }
 
   Sites_iterator sites_end() const {
     return Sites_iterator(visible_sites_end(),
-			  hidden_sites_begin(),
-			  hidden_sites_end(),0);
+    			  hidden_sites_begin(),
+    			  hidden_sites_end(),0);
   }
 
   Visible_sites_iterator visible_sites_begin() const {
@@ -339,14 +376,12 @@ public:
   }
 
   Hidden_sites_iterator hidden_sites_begin() const {
-    return Hidden_sites_iterator(finite_vertices_begin(),
-				 finite_vertices_end(),
+    return Hidden_sites_iterator(finite_vertices_end(),
 				 finite_vertices_begin());
   }
 
   Hidden_sites_iterator hidden_sites_end() const {
-    return Hidden_sites_iterator(finite_vertices_begin(),
-				 finite_vertices_end(),
+    return Hidden_sites_iterator(finite_vertices_end(),
 				 finite_vertices_end());
   }
 
@@ -378,23 +413,21 @@ public:
 public:
   // CIRCULATORS
   //------------
-  // I had to add the initialization of Face_handle to NULL because
-  // CGAL-2.5-I-82 was not working with Face_handle()
   Face_circulator
   incident_faces(Vertex_handle v,
-		 Face_handle f = Face_handle(NULL)) const {
+		 Face_handle f = Face_handle()) const {
     return DG::incident_faces(v, f);
   }
 
   Vertex_circulator
   incident_vertices(Vertex_handle v,
-		    Face_handle f = Face_handle(NULL)) const { 
+		    Face_handle f = Face_handle()) const { 
     return DG::incident_vertices(v, f);
   }
 
   Edge_circulator
   incident_edges(Vertex_handle v,
-		 Face_handle f = Face_handle(NULL)) const {
+		 Face_handle f = Face_handle()) const {
     return DG::incident_edges(v, f);
   }
  
@@ -453,7 +486,7 @@ public:
   }
 
   Vertex_handle  insert(const Site_2& p) {
-    return insert(p, NULL);
+    return insert(p, Vertex_handle());
   }
 
   Vertex_handle  insert(const Site_2& p, Vertex_handle vnear);
@@ -666,7 +699,6 @@ protected:
     } while ( ec_start != ec );
     return str;
   }
-
 
 protected:
   template < class Stream > 

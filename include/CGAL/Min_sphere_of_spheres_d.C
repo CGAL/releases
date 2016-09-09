@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d.C,v $
-// $Revision: 1.20 $ $Date: 2003/09/18 10:23:18 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.22 $ $Date: 2004/08/27 14:24:11 $
+// $Name:  $
 //
 // Author(s)     : Kaspar Fischer
 
@@ -39,6 +39,32 @@ namespace CGAL_MINIBALL_NAMESPACE {
     return std::rand() % k; // todo.  This is not good...
   }
 
+  template<typename FT>
+  inline bool compare(const FT& a,const FT& b,
+                      const FT& ap,const FT& bp) {
+    const FT u = a-ap, uu = u*u;
+    if (u >= FT(0)) {
+      if (bp <= uu)
+        return false;
+  
+      // here (1) holds
+      const FT v = uu-b+bp;
+      if (v <= 0)
+        return false;
+  
+      // here (2) holds
+      return 4 * uu * bp < sqr(v);
+    } else {
+      // here (1) holds
+      const FT v = uu-b+bp;
+      if (v >= FT(0))
+        return true;
+  
+      // here (3) holds
+      return 4 * uu *bp > sqr(v);
+    }
+  }
+
   template<class Traits>
   void Min_sphere_of_spheres_d<Traits>::update(LP_algorithm) {
     using namespace Min_sphere_of_spheres_d_impl;
@@ -53,7 +79,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
   
       for (i=e; i<n; ++i)
         if (!ss.contains(t.center_cartesian_begin(*l[i]),
-                         t.radius(*l[i]),Tol,Is_exact()) && pivot(i)) {
+                         t.radius(*l[i]),Tol,Is_exact()) && ss.pivot(l,e,i)) {
           k = i+1;
           break;
         }
@@ -205,7 +231,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     bool enclosing = (e == 0)? n == 0 :
       !find_farthest(e,n,i,Use_sqrt(),Is_exact());
   
-    while (!enclosing && pivot(i)) {
+    while (!enclosing && ss.pivot(l,e,i)) {
       enclosing = !find_farthest(e,n,i,Use_sqrt(),Is_exact());
     }
   

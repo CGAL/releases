@@ -1,4 +1,5 @@
-// file          : examples/Apollonius_graph_2/example1.C
+// file: examples/Apollonius_graph_2/example1.C
+
 #include <CGAL/basic.h>
 
 // standard includes
@@ -6,14 +7,7 @@
 #include <fstream>
 #include <cassert>
 
-// Workaround for buggy compilers.
-#ifdef CGAL_CFG_MATCHING_BUG_2
-#  define CGAL_IA_CT double
-#  define CGAL_IA_PROTECTED true
-#  define CGAL_IA_CACHE No_Filter_Cache
-#  define CGAL_IA_ET CGAL::MP_Float
-#endif
-
+// the number type
 #include <CGAL/MP_Float.h>
 #include <CGAL/Filtered_exact.h>
 

@@ -1,6 +1,24 @@
-// 
-// file: demo/Convex_hull_3/incremental_3_demo.C
+// Copyright (c) 2002  Max Planck Institut fuer Informatik (Germany).
+// All rights reserved.
 //
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_3/demo/Convex_hull_3/incremental_hull_3_demo.C,v $
+// $Revision: 1.9.4.1 $ $Date: 2004/12/19 14:58:02 $
+// $Name:  $
+//
+// Author(s)     : Susan Hert
+// 
+
+
 #include <CGAL/Homogeneous.h>
 #include <CGAL/point_generators_3.h>
 #include <CGAL/Convex_hull_d.h>
@@ -13,7 +31,7 @@
 #include <vector>
 #include <cassert>
 
-#if !defined(__BORLANDC__) && !defined(_MSC_VER)
+#ifdef CGAL_USE_GEOMVIEW
 
 #ifdef CGAL_USE_LEDA
 #include <CGAL/leda_integer.h>
@@ -69,13 +87,12 @@ int main ()
   return 0;
 }
 
-#else // on windows:
+#else
 
 int main() {
   std::cerr <<
-  "This demo requires geomview, which is is not present on windows\n";
+  "This demo requires geomview, which is not present on this platform\n";
   return 0;
 }
 
 #endif
-

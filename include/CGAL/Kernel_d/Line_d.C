@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Line_d.C,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:19:23 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 

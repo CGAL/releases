@@ -16,12 +16,12 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Inventor/include/CGAL/IO/VRML_2_ostream.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:17:53 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2004/05/14 21:17:43 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
 //                 Lutz Kettner <kettner@inf.ethz.ch>
-//                 Herve Bronnimann <Herve.Bronnimann@sophia.inria.fr>
+//                 Herve Bronnimann
 //                 Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
 
 
@@ -29,13 +29,8 @@
 #ifndef CGAL_IO_VRML_2_OSTREAM_H
 #define CGAL_IO_VRML_2_OSTREAM_H
 
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif // CGAL_BASIC_H
-#ifndef CGAL_PROTECT_IOSTREAM_H
 #include <iostream>
-#define CGAL_PROTECT_IOSTREAM_H
-#endif // CGAL_PROTECT_IOSTREAM_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -72,6 +67,10 @@ private:
                 "Group {\n"
                 "    children [\n"
                 "        Shape {\n"
+                "          appearance DEF A1 Appearance {\n"
+                "            material Material {\n"
+                "              diffuseColor .6 .5 .9\n"
+                "            }\n         }\n"
                 "            appearance\n"
                 "                Appearance {\n"
                 "                    material DEF Material Material {}\n"
@@ -89,6 +88,22 @@ private:
     std::ostream*  m_os;
 };
 
+VRML_2_ostream&
+operator<<(VRML_2_ostream& os,
+           const char* s)
+{
+  os.os() << s;
+  return os;
+}
+
+VRML_2_ostream&
+operator<<(VRML_2_ostream& os,
+           const double& d)
+{
+  os.os() << d;
+  return os;
+}
+
 CGAL_END_NAMESPACE
 
 #endif // CGAL_IO_VRML_2_OSTREAM_H
@@ -105,7 +120,7 @@ operator<<(VRML_2_ostream& os,
            const Tetrahedron_3<R > &t)
 {
   const char *Indent = "                                    ";
-  os.os() << "        Group {\n"
+  os <<      "        Group {\n"
              "            children [\n"
              "                Shape {\n"
              "                    appearance\n"
@@ -141,7 +156,7 @@ operator<<(VRML_2_ostream& os,
              "                        } #IndexedFaceSet\n"
              "                } #Shape\n"
              "            ] #children\n"
-             "        } #Group" << std::endl;
+             "        } #Group\n";
   return os;
 }
 
@@ -149,3 +164,161 @@ CGAL_END_NAMESPACE
 
 #endif // CGAL_IO_VRML_2_TETRAHEDRON_3
 #endif // CGAL_TETRAHEDRON_3_H
+
+#ifdef CGAL_POINT_3_H
+#ifndef CGAL_IO_VRML_2_POINT_3
+#define CGAL_IO_VRML_2_POINT_3
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R >
+VRML_2_ostream&
+operator<<(VRML_2_ostream& os,
+           const Point_3<R > &p)
+{
+  const char *Indent = "                                    ";
+  os <<      "        Group {\n"
+             "            children [\n"
+             "                Shape {\n"
+             "                    appearance USE A1\n"
+             "                    geometry\n"
+             "                        PointSet {\n"
+             "                            coord Coordinate {\n"
+             "                                point [ ";
+  os << CGAL::to_double(p.x()) << " " << CGAL::to_double(p.y()) 
+     << " " << CGAL::to_double(p.z()) << " ]\n";
+  os << Indent << "}\n";
+  os << Indent << "} # PointSet\n";
+  os << "                } #Shape\n"
+        "            ] #children\n"
+        "        } #Group\n";
+  return os;
+}
+
+CGAL_END_NAMESPACE
+
+#endif // CGAL_IO_VRML_2_POINT_3
+#endif // CGAL_POINT_3_H
+
+
+
+#ifdef CGAL_TRIANGLE_3_H
+#ifndef CGAL_IO_VRML_2_TRIANGLE_3
+#define CGAL_IO_VRML_2_TRIANGLE_3
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R >
+VRML_2_ostream&
+operator<<(VRML_2_ostream& os,
+           const Triangle_3<R > &t)
+{
+  const char *Indent = "                                    ";
+  os <<      "        Group {\n"
+             "            children [\n"
+             "                Shape {\n"
+             "                    appearance USE A1\n"
+             "                    geometry\n"
+             "                        IndexedLineSet {\n"
+             "                            coord Coordinate {\n"
+             "                                point [ \n";
+  os << Indent ;
+  os << CGAL::to_double(t[0].x()) << " " << CGAL::to_double(t[0].y()) 
+     << " " << CGAL::to_double(t[0].z()) << ",\n";
+  os << Indent;
+  os << CGAL::to_double(t[1].x()) << " " << CGAL::to_double(t[1].y()) 
+     << " " << CGAL::to_double(t[1].z()) << ",\n";
+  os << Indent;
+  os << CGAL::to_double(t[2].x()) << " " << CGAL::to_double(t[2].y()) 
+     << " " << CGAL::to_double(t[2].z()) << " ]\n";
+  os << Indent << "}\n" << Indent << "coordIndex [ 0 1, 1 2, 2 0 -1 ]\n";
+  os << Indent << "} # IndexedLineSet\n";
+  os << "                } #Shape\n"
+        "            ] #children\n"
+        "        } #Group\n";
+  return os;
+}
+
+CGAL_END_NAMESPACE
+
+#endif // CGAL_IO_VRML_2_TRIANGLE_3
+#endif // CGAL_TRIANGLE_3_H
+
+
+#ifdef CGAL_SEGMENT_3_H
+#ifndef CGAL_IO_VRML_2_SEGMENT_3
+#define CGAL_IO_VRML_2_SEGMENT_3
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R >
+VRML_2_ostream&
+operator<<(VRML_2_ostream& os,
+           const Segment_3<R > &s)
+{
+  const char *Indent = "                                    ";
+  os <<      "        Group {\n"
+             "            children [\n"
+             "                Shape {\n"
+             "                    appearance USE A1\n"
+             "                    geometry\n"
+             "                        IndexedLineSet {\n"
+             "                            coord Coordinate {\n"
+             "                                point [ \n";
+  os << Indent << CGAL::to_double(s.source().x());
+  os << " " << CGAL::to_double(s.source().y()) 
+     << " " << CGAL::to_double(s.source().z()) << ",\n";
+  os << Indent;
+  os << CGAL::to_double(s.target().x())
+     << " " << CGAL::to_double(s.target().y()) 
+     << " " << CGAL::to_double(s.target().z()) << " ]\n";
+  os << Indent << "}\n" << Indent << "coordIndex [ 0 1 -1 ]\n";
+  os << Indent << "} # IndexedLineSet\n";
+  os << "                } #Shape\n"
+        "            ] #children\n"
+        "        } #Group\n";
+
+  return os;
+}
+
+CGAL_END_NAMESPACE
+
+#endif // CGAL_IO_VRML_2_SEGMENT_3
+#endif // CGAL_SEGMENT_3_H
+
+#ifdef CGAL_SPHERE_3_H
+#ifndef CGAL_IO_VRML_2_SPHERE_3
+#define CGAL_IO_VRML_2_SPHERE_3
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R >
+VRML_2_ostream&
+operator<<(VRML_2_ostream& os,
+           const Sphere_3<R > &s)
+{
+  os <<      "        Group {\n"
+             "            children [\n"
+             "              Transform {\n"
+             "                translation ";
+  os <<      CGAL::to_double(s.center().x()) << " " 
+     <<      CGAL::to_double(s.center().y()) << " "
+     <<      CGAL::to_double(s.center().z()) << "\n";
+  os <<      "                children Shape {\n"
+             "                    appearance USE A1\n"
+             "                    geometry\n"
+             "                        Sphere { "
+             "radius ";
+  os <<      ::sqrt(CGAL::to_double(s.squared_radius())) <<" }\n";
+  os <<      "                } #children Shape\n"
+             "              } # Transform\n"
+             "            ] #children\n"
+             "        } #Group\n";
+
+  return os;
+}
+
+CGAL_END_NAMESPACE
+
+#endif // CGAL_IO_VRML_2_SEGMENT_3
+#endif // CGAL_SPHERE_3_H

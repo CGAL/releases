@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_Optimisation_ellipse_2.h,v $
-// $Revision: 1.5.2.1 $ $Date: 2003/11/07 13:40:35 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/03/05 16:25:37 $
+// $Name:  $
 //
 // Author(s)     : Radu Ursu
 
@@ -57,7 +57,13 @@ operator << ( Qt_widget &ws,
       case 3:
       case 4:
       case 5:
-        ws << oe.to_double();
+	{
+	  typedef CGAL::Conic_2<CGAL::Cartesian<double> >
+	    DoubleConic_2;
+	  DoubleConic_2 dc2;
+	  oe.double_conic(dc2);
+	  ws << dc2;
+	}
         break;
       default:
         CGAL_optimisation_assertion( ( oe.n_boundary_points >= 0) &&

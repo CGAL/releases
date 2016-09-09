@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Extended_cartesian.h,v $
-// $Revision: 1.22 $ $Date: 2003/10/21 12:20:53 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.26.4.1 $ $Date: 2004/12/08 20:04:30 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_EXTENDED_CARTESIAN_H
@@ -22,10 +22,10 @@
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Point_2.h> 
 #include <CGAL/Line_2_Line_2_intersection.h>
-#include <CGAL/Nef_2/Polynomial.h>
+#include <CGAL/Nef_2/Nef_polynomial.h>
 
-#undef _DEBUG
-#define _DEBUG 51
+#undef CGAL_NEF_DEBUG
+#define CGAL_NEF_DEBUG 51
 #include <CGAL/Nef_2/debug.h>
 #include <CGAL/Nef_2/Line_to_epoint.h>
 
@@ -37,9 +37,9 @@ template <class T> class Extended_cartesian;
 
 template <class pFT>
 class Extended_cartesian : public 
-  CGAL::Simple_cartesian< CGAL::Polynomial<pFT> > { 
+  CGAL::Simple_cartesian< CGAL::Nef_polynomial<pFT> > { 
 public:
-typedef CGAL::Simple_cartesian< CGAL::Polynomial<pFT> > Base;
+typedef CGAL::Simple_cartesian< CGAL::Nef_polynomial<pFT> > Base;
 typedef Extended_cartesian<pFT> Self;
 
 /*{\Xdefinition |\Mname| is a kernel model realizing the concept
@@ -268,19 +268,19 @@ Line_2 right() const { return construct_line(SE(),NE()); }
 Point_2 source(const Segment_2& s) const
 /*{\Xop returns the source point of |s|.}*/
 { typename Base::Construct_vertex_2 _source =
-    construct_vertex_2_object();
+    this->construct_vertex_2_object();
   return _source(s,0); }
 
 Point_2 target(const Segment_2& s) const
 /*{\Xop returns the target point of |s|.}*/
 { typename Base::Construct_vertex_2 _target =
-    construct_vertex_2_object();
+    this->construct_vertex_2_object();
   return _target(s,1); }
 
 Segment_2 construct_segment(const Point_2& p, const Point_2& q) const
 /*{\Xop constructs a segment |pq|.}*/
 { typename Base::Construct_segment_2 _segment =
-    construct_segment_2_object();
+    this->construct_segment_2_object();
   return _segment(p,q); }
 
 Line_2 construct_line(const Standard_line_2& l)  const
@@ -290,7 +290,7 @@ Line_2 construct_line(const Standard_line_2& l)  const
 Line_2 construct_line(const Point_2& p1, const Point_2& p2) const
 /*{\Xop returns a line through the two extended points |p1| and |p2|.}*/
 { Line_2 l(p1,p2);
-    TRACEN("eline("<<p1<<p2<<")="<<l);
+    CGAL_NEF_TRACEN("eline("<<p1<<p2<<")="<<l);
   RT a=l.a(), b=l.b(), c=l.c();
   l =  Line_2(a,b,c);
   return l; 
@@ -301,7 +301,7 @@ int orientation(const Segment_2& s, const Point_2& p) const
 /*{\Xop returns the orientation of |p| with respect to the line
 through |s|.}*/
 { typename Base::Orientation_2 _orientation =
-    orientation_2_object();
+    this->orientation_2_object();
   return static_cast<int> ( _orientation(source(s),target(s),p) ); 
 }
 
@@ -310,7 +310,7 @@ const
 /*{\Xop returns the orientation of |p2| with respect to the line
 through |p1p2|.}*/
 { typename Base::Orientation_2 _orientation =
-    orientation_2_object();
+    this->orientation_2_object();
   return static_cast<int> ( _orientation(p1,p2,p3) ); 
 }
 
@@ -322,27 +322,27 @@ const
 bool is_degenerate(const Segment_2& s) const
 /*{\Xop return true iff |s| is degenerate.}*/
 { typename Base::Is_degenerate_2 _is_degenerate =
-    is_degenerate_2_object();
+    this->is_degenerate_2_object();
   return _is_degenerate(s); }
 
 int compare_xy(const Point_2& p1, const Point_2& p2) const
 /*{\Xop returns the lexicographic order of |p1| and |p2|.}*/
 { typename Base::Compare_xy_2 _compare_xy =
-    compare_xy_2_object();
+    this->compare_xy_2_object();
   return static_cast<int>( _compare_xy(p1,p2) );
 }
 
 int compare_x(const Point_2& p1, const Point_2& p2) const
 /*{\Xop returns the order on the $x$-coordinates of |p1| and |p2|.}*/
 { typename Base::Compare_x_2 _compare_x =
-    compare_x_2_object();
+    this->compare_x_2_object();
   return static_cast<int>( _compare_x(p1,p2) );
 }
 
 int compare_y(const Point_2& p1, const Point_2& p2) const
 /*{\Xop returns the order on the $y$-coordinates of |p1| and |p2|.}*/
 { typename Base::Compare_y_2 _compare_y =
-    compare_y_2_object();
+    this->compare_y_2_object();
   return static_cast<int>( _compare_y(p1,p2) );
 }
 
@@ -352,9 +352,9 @@ Point_2 intersection(
 /*{\Xop returns the point of intersection of the lines supported by |s1| 
 and |s2|.}*/
 { typename Base::Intersect_2 _intersect =
-    intersect_2_object();
+    this->intersect_2_object();
   typename Base::Construct_line_2 _line =
-    construct_line_2_object();
+    this->construct_line_2_object();
   Point_2 p; 
   Line_2 l1 = _line(s1);
   Line_2 l2 = _line(s2);
@@ -370,7 +370,7 @@ Direction_2 construct_direction(
   const Point_2& p1, const Point_2& p2) const
 /*{\Xop returns the direction of the vector |p2| - |p1|.}*/
 { typename Base::Construct_direction_2 _direction =
-    construct_direction_2_object();
+    this->construct_direction_2_object();
   return _direction(construct_line(p1,p2)); }
 
 bool strictly_ordered_ccw(const Direction_2& d1, 
@@ -385,7 +385,7 @@ counterclockwise angular sector between |d1| and |d3|.}*/
 
 bool contains(const Segment_2& s, const Point_2& p) const
 /*{\Xop returns true iff |s| contains |p|.}*/
-{ typename Base::Has_on_2 _contains = has_on_2_object();
+{ typename Base::Has_on_2 _contains = this->has_on_2_object();
   return _contains(s,p);
 }
 
@@ -394,7 +394,7 @@ bool strictly_ordered_along_line(
 /*{\Xop returns |true| iff |p2| is in the relative interior of the
 segment |p1p3|.}*/
 { typename Base::Are_strictly_ordered_along_line_2 _ordered =
-    are_strictly_ordered_along_line_2_object();
+    this->are_strictly_ordered_along_line_2_object();
   return _ordered(p1,p2,p3);
 }
 

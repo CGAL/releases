@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/triangulation_assertions.h,v $
-// $Revision: 1.7 $ $Date: 2003/09/18 10:26:19 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/09/06 20:12:02 $
+// $Name:  $
 //
-// Author(s)     : script by Geert-Jan Giezeman and Sven Schönherr 
+// Author(s)     : script by Geert-Jan Giezeman and Sven Schoenherr 
 
 
 

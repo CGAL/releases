@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2_algorithms.C,v $
-// $Revision: 1.27 $ $Date: 2003/10/21 12:22:46 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.28.4.1 $ $Date: 2004/12/19 16:59:18 $
+// $Name:  $
 //
 // Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
 
@@ -111,14 +111,19 @@ ForwardIterator bottom_vertex_2(ForwardIterator first,
 //                          bbox_2
 //-----------------------------------------------------------------------//
 
-template <class InputIterator>
-Bbox_2 bbox_2(InputIterator first, InputIterator last)
+template <class InputIterator, class PolygonTraits>
+Bbox_2 bbox_2(InputIterator first, 
+	      InputIterator last,
+	      const PolygonTraits& traits)
 {
+  typename PolygonTraits::Construct_bbox_2 
+    construct_bbox = traits.construct_bbox_2_object();
+
   CGAL_polygon_precondition(first != last);
-  Bbox_2 result = (*first).bbox();
+  Bbox_2 result = construct_bbox(*first);
 
   while (++first != last)
-    result = result + (*first).bbox();
+    result = result + construct_bbox(*first);
 
   return result;
 }
@@ -212,31 +217,21 @@ Oriented_side oriented_side_2(ForwardIterator first,
                                         const Point& point,
                                         const Traits& traits)
 {
-  Oriented_side result;
-
   Orientation o = orientation_2(first, last, traits);
   CGAL_polygon_assertion(o != COLLINEAR);
 
   Bounded_side b = bounded_side_2(first, last, point, traits);
   switch (b) {
     case ON_BOUNDARY:
-      result = ON_ORIENTED_BOUNDARY;
-      break;
+      return ON_ORIENTED_BOUNDARY;
 
     case ON_BOUNDED_SIDE:
-      result = (o == CLOCKWISE) ?
-               ON_NEGATIVE_SIDE :
-               ON_POSITIVE_SIDE;
-      break;
+      return (o == CLOCKWISE) ?  ON_NEGATIVE_SIDE : ON_POSITIVE_SIDE;
 
-    case ON_UNBOUNDED_SIDE:
-      result = (o == CLOCKWISE) ?
-               ON_POSITIVE_SIDE :
-               ON_NEGATIVE_SIDE;
-      break;
+    default:
+    //case ON_UNBOUNDED_SIDE:
+      return (o == CLOCKWISE) ?  ON_POSITIVE_SIDE : ON_NEGATIVE_SIDE;
   }
-
-  return result;
 }
 
 //-----------------------------------------------------------------------//

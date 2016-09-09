@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/basic_constructions_3.h,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:14:26 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/02/29 21:56:11 $
+// $Name:  $
 //
 // Author(s)     : Herve Bronnimann
 
@@ -25,7 +25,6 @@
 #define CGAL_CARTESIAN_BASIC_CONSTRUCTIONS_3_H
 
 #include <CGAL/Cartesian/point_constructions_3.h>
-#include <CGAL/Cartesian/vector_constructions_3.h>
 #include <CGAL/Cartesian/plane_constructions_3.h>
 #include <CGAL/Cartesian/ft_constructions_3.h>
 

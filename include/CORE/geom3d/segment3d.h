@@ -15,14 +15,14 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: segment3d.h,v 1.1 2003/06/22 12:11:21 afabri Exp $
+ * $Id: segment3d.h,v 1.3 2004/11/14 12:00:17 efi Exp $
  *****************************************************************/
 
 #ifndef _SEGMENT3D_H_
 #define _SEGMENT3D_H_
 
-#include "point3d.h"
-#include "line3d.h"
+#include <CORE/geom3d/point3d.h>
+#include <CORE/geom3d/line3d.h>
 
 /************************************************************
  *  Class Segment3d:

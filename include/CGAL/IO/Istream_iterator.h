@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Stream_support/include/CGAL/IO/Istream_iterator.h,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:24:05 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/01/18 14:03:17 $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 
@@ -77,30 +77,6 @@ public:
                   return tmp;
     }
 };
-
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-template <class T, class Stream> inline
-std::input_iterator_tag
-iterator_category( const Istream_iterator<T,Stream>&) {
-    return std::input_iterator_tag();
-}
-template <class T, class Stream> inline
-T*
-value_type( const Istream_iterator<T,Stream>&) {
-    return (T*)0;
-}
-template <class T, class Stream> inline
-std::ptrdiff_t*
-distance_type( const Istream_iterator<T,Stream>&) {
-    return (std::ptrdiff_t*)0;
-}
-template <class T, class Stream> inline
-Iterator_tag
-query_circulator_or_iterator(
-    const Istream_iterator<T,Stream>&) {
-    return Iterator_tag();
-}
-#endif
 
 CGAL_END_NAMESPACE
 

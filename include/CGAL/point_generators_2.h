@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Generator/include/CGAL/point_generators_2.h,v $
 // $Revision: 1.12 $ $Date: 2003/10/21 12:15:40 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 

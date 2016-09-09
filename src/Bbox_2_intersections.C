@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/src/Bbox_2_intersections.C,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:17:06 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/01/18 17:19:51 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -73,13 +73,7 @@ Bbox_2_Line_2_pair::operator=(Bbox_2_Line_2_pair const &o)
     return *this;
 }
 
-CGAL_END_NAMESPACE
 
-
-
-CGAL_BEGIN_NAMESPACE
-
-#ifndef CGAL_CFG_RETURN_TYPE_BUG_2
 Bbox_2_Line_2_pair::Intersection_results
 Bbox_2_Line_2_pair::intersection_type() const
 {
@@ -168,7 +162,6 @@ Bbox_2_Line_2_pair::intersection_type() const
     return pimpl->_result;
 }
 
-#endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
 bool
 Bbox_2_Line_2_pair::intersection(
@@ -204,14 +197,6 @@ Bbox_2_Line_2_pair::intersection(
     return true;
 }
 
-CGAL_END_NAMESPACE
-
-
-
-
-
-
-CGAL_BEGIN_NAMESPACE
 
 class Bbox_2_Ray_2_pair_impl
 {
@@ -258,11 +243,6 @@ Bbox_2_Ray_2_pair::operator=(Bbox_2_Ray_2_pair const &o)
     return *this;
 }
 
-CGAL_END_NAMESPACE
-
-
-
-CGAL_BEGIN_NAMESPACE
 
 Bbox_2_Ray_2_pair::Intersection_results
 Bbox_2_Ray_2_pair::intersection_type() const
@@ -384,6 +364,3 @@ bool do_intersect_ray_2(
 }
 
 CGAL_END_NAMESPACE
-
-
-

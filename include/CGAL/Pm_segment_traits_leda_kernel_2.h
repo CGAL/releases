@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_segment_traits_leda_kernel_2.h,v $
 // $Revision: 1.16 $ $Date: 2003/09/18 10:24:35 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Shai Hirsch       <shaihi@post.tau.ac.il>
 //                 Efi Fogel         <efif@post.tau.ac.il>

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2_simplicity.h,v $
-// $Revision: 1.15 $ $Date: 2003/10/21 12:22:48 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.19 $ $Date: 2004/09/25 09:28:46 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 
@@ -112,6 +112,7 @@ template <class LessSegments>
 struct Edge_data {
     typedef std::set<Vertex_index, LessSegments> Tree;
     Edge_data() : is_in_tree(false) {}
+    Edge_data(typename Tree::iterator it) : tree_it(it), is_in_tree(false) {}
     typename Tree::iterator tree_it; // The iterator of the edge in the tree.
                                      // Needed for cross reference. If edge j
 				     // is in the tree: *edges[j].tree_it == j
@@ -163,11 +164,18 @@ public:
     typedef std::set<Vertex_index, Less_segs> Tree;
     typedef Vertex_data_base<ForwardIterator, PolygonTraits> Base_class;
 
+    using Base_class::ordered_left_to_right;
+    using Base_class::next;
+    using Base_class::prev;
+    using Base_class::index_at_rank;
+    using Base_class::point;
+
     std::vector<Edge_data<Less_segs> > edges;
 
     Vertex_data(ForwardIterator begin, ForwardIterator end,
                 const PolygonTraits& pgnt);
 
+    void init(Tree *tree);
     void left_and_right_index(Vertex_index &left, Vertex_index &right,
             Vertex_index edge);
     Vertex_index left_index(Vertex_index edge)
@@ -279,9 +287,14 @@ template <class ForwardIterator, class PolygonTraits>
 Vertex_data<ForwardIterator, PolygonTraits>::
 Vertex_data(ForwardIterator begin, ForwardIterator end,
             const PolygonTraits& pgn_traits)
-: Base_class(begin, end, pgn_traits)
+  : Base_class(begin, end, pgn_traits) {}
+
+template <class ForwardIterator, class PolygonTraits>
+void Vertex_data<ForwardIterator, PolygonTraits>::init(Tree *tree)
 {
-    edges.insert(edges.end(), this->m_size, Edge_data<Less_segs>());
+    // The initialization cannot be done in the constructor,
+    // otherwise we copy singular valued iterators.
+    edges.insert(edges.end(), this->m_size, Edge_data<Less_segs>(tree->end()));
 }
 
 
@@ -295,7 +308,7 @@ insertion_event(Tree *tree, Vertex_index prev_vt,
     switch(orientation_2(point(prev_vt), point(mid_vt), point(next_vt))) {
       case LEFT_TURN: left_turn = true; break;
       case RIGHT_TURN: left_turn = false; break;
-      case COLLINEAR: return false;
+      default: return false;
       
     }
     Edge_data<Less_segs>
@@ -306,7 +319,7 @@ insertion_event(Tree *tree, Vertex_index prev_vt,
     td_mid.is_in_tree = false;
     td_mid.is_left_to_right = true;
     // insert the highest chain first
-    std::pair<CGAL_TYPENAME_MSVC_NULL Tree::iterator, bool> result;
+    std::pair<typename Tree::iterator, bool> result;
     if (left_turn) {
         result = tree->insert(prev_vt);
 	// CGAL_polygon_assertion(result.second)
@@ -466,6 +479,7 @@ bool is_simple_polygon(Iterator points_begin, Iterator points_end,
                      i_polygon::Less_segments<Vertex_data> >       Tree;
     Vertex_data   vertex_data(points_begin, points_end, polygon_traits);
     Tree tree(&vertex_data);
+    vertex_data.init(&tree);
     vertex_data.sweep(&tree);
     return vertex_data.is_simple_result;
 }

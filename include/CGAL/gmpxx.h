@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/gmpxx.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:21:45 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.20 $ $Date: 2004/09/02 15:34:44 $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion
  
@@ -30,6 +30,7 @@
 #include <utility>
 
 #include <gmpxx.h>
+#include <mpfr.h>
 
 // This file gathers the necessary adaptors so that the following
 // C++ number types that come with GMP can be used by CGAL :
@@ -49,8 +50,12 @@ CGAL_BEGIN_NAMESPACE
 template <>
 struct Number_type_traits<mpz_class> {
   typedef Tag_false Has_gcd;
-  typedef Tag_false Has_division;
+  typedef Tag_true  Has_division;
   typedef Tag_true  Has_sqrt;
+
+  typedef Tag_true  Has_exact_ring_operations;
+  typedef Tag_false Has_exact_division;
+  typedef Tag_false Has_exact_sqrt;
 };
 
 template <>
@@ -58,6 +63,10 @@ struct Number_type_traits<mpq_class> {
   typedef Tag_false Has_gcd;
   typedef Tag_true  Has_division;
   typedef Tag_false Has_sqrt;
+
+  typedef Tag_true  Has_exact_ring_operations;
+  typedef Tag_true  Has_exact_division;
+  typedef Tag_false Has_exact_sqrt;
 };
 
 template <>
@@ -111,28 +120,31 @@ to_interval (const ::__gmp_expr<T, U> & z)
 }
 
 inline
-std::pair<double,double>
+std::pair<double, double>
 to_interval (const mpz_class & z)
 {
-  // GMP returns the closest double (seen in the code).
-  Protect_FPU_rounding<true> P(CGAL_FE_TONEAREST);
-  double app = CGAL::to_double(z);
-  // If it's lower than 2^53, then it's exact.
-  if (CGAL_CLIB_STD::fabs(app) < double(1<<26)*double(1<<27))
-      return to_interval(app);
-  FPU_set_cw(CGAL_FE_UPWARD);
-  Interval_nt<false> approx(app);
-  approx += Interval_nt<false>::smallest();
-  return approx.pair();
+  mpfr_t x;
+  mpfr_init2 (x, 53); /* Assume IEEE-754 */
+  mpfr_set_z (x, z.get_mpz_t(), GMP_RNDD);
+  double i = mpfr_get_d (x, GMP_RNDD); /* EXACT but can overflow */
+  mpfr_set_z (x, z.get_mpz_t(), GMP_RNDU);
+  double s = mpfr_get_d (x, GMP_RNDU); /* EXACT but can overflow */
+  mpfr_clear (x);
+  return std::pair<double, double>(i, s);
 }
 
 inline
 std::pair<double, double>
 to_interval (const mpq_class & q)
 {
-  Interval_nt<> quot = Interval_nt<>(CGAL::to_interval(q.get_num())) /
-                       Interval_nt<>(CGAL::to_interval(q.get_den()));
-  return  quot.pair();
+  mpfr_t x;
+  mpfr_init2 (x, 53); /* Assume IEEE-754 */
+  mpfr_set_q (x, q.get_mpq_t(), GMP_RNDD);
+  double i = mpfr_get_d (x, GMP_RNDD); /* EXACT but can overflow */
+  mpfr_set_q (x, q.get_mpq_t(), GMP_RNDU);
+  double s = mpfr_get_d (x, GMP_RNDU); /* EXACT but can overflow */
+  mpfr_clear (x);
+  return std::pair<double, double>(i, s);
 }
 
 // These are necessary due to expression-templates.
@@ -185,31 +197,6 @@ inline
 bool
 is_negative(const ::__gmp_expr<T, U> & e)
 { return ::sgn(e) < 0; }
-
-#if 0
-// Unfinished stuff for mpf_class.
-template <>
-struct Number_type_traits<mpf_class> {
-  typedef Tag_false Has_gcd;
-  typedef Tag_true  Has_division;
-  typedef Tag_true  Has_sqrt;
-};
-
-// Should not be inline, but well...
-inline
-std::pair<double,double>
-to_interval (const mpf_class & e)
-{
-  Protect_FPU_rounding<true> P (CGAL_FE_TONEAREST);
-  double approx = to_double(e);
-  double rel_error = e.get_double_error();
-  FPU_set_cw(CGAL_FE_UPWARD);
-  Interval_nt_advanced ina = (-rel_error,rel_error);
-  ina += 1;
-  ina *= approx;
-  return ina.pair();
-}
-#endif
 
 CGAL_END_NAMESPACE
 

@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_annulus_d/include/CGAL/Min_annulus_d.h,v $
-// $Revision: 1.10 $ $Date: 2003/09/18 10:23:06 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.12 $ $Date: 2004/09/05 12:30:19 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
 
 #ifndef CGAL_MIN_ANNULUS_D_H
 #define CGAL_MIN_ANNULUS_D_H
@@ -527,7 +527,7 @@ struct LP_rep_min_annulus_d {
     typedef  std::vector<NT>            NT_vector;
     typedef  std::vector<NT_vector>     NT_matrix;
     
-    typedef  CGAL_TYPENAME_MSVC_NULL NT_matrix::const_iterator NTMCI;
+    typedef  typename NT_matrix::const_iterator NTMCI;
     typedef  CGAL::Join_random_access_iterator_1<
                  NTMCI, LP_rep_row_of_a<NT> >  A_iterator;
     typedef  typename NT_vector::const_iterator

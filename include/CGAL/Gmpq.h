@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/Gmpq.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/27 13:24:18 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.19 $ $Date: 2004/09/01 16:17:11 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
  
@@ -33,6 +33,7 @@
 #include <utility>
 #include <string>
 #include <gmp.h>
+#include <mpfr.h>
 
 
 CGAL_BEGIN_NAMESPACE
@@ -159,9 +160,12 @@ class Gmpq
   typedef Handle_for<Gmpq_rep> Base;
 public:
   typedef Tag_false  Has_gcd;
-  typedef Tag_true Has_division;
+  typedef Tag_true   Has_division;
   typedef Tag_false  Has_sqrt;
 
+  typedef Tag_true   Has_exact_ring_operations;
+  typedef Tag_true   Has_exact_division;
+  typedef Tag_false  Has_exact_sqrt;
 
   Gmpq() // {} we can't do that since the non-const mpq() is called.
     : Base(Gmpq_rep()) {}
@@ -395,13 +399,11 @@ inline
 Gmpq
 operator/(const Gmpq &a, const Gmpq &b)
 {
+    CGAL_precondition(b != 0);
     Gmpq Res;
     mpq_div(Res.mpq(), a.mpq(), b.mpq());
     return Res;
 }
-
-
-
 
 inline
 Gmpq&
@@ -478,9 +480,14 @@ inline
 std::pair<double, double>
 to_interval (const Gmpq& z)
 {
-  Interval_nt<> quot = Interval_nt<>(CGAL::to_interval(z.numerator())) /
-                       Interval_nt<>(CGAL::to_interval(z.denominator()));
-  return  quot.pair();
+    mpfr_t x;
+    mpfr_init2 (x, 53); /* Assume IEEE-754 */
+    mpfr_set_q (x, z.mpq(), GMP_RNDD);
+    double i = mpfr_get_d (x, GMP_RNDD); /* EXACT but can overflow */
+    mpfr_set_q (x, z.mpq(), GMP_RNDU);
+    double s = mpfr_get_d (x, GMP_RNDU); /* EXACT but can overflow */
+    mpfr_clear (x);
+    return std::pair<double, double>(i, s);
 }
 
 template <>
@@ -493,10 +500,5 @@ struct Rational_traits<Gmpq> {
 };
 
 CGAL_END_NAMESPACE
-
-#if defined( _MSC_VER ) && ( _MSC_VER == 1300 )
-  CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(CGAL::Gmpq);
-  CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(CGAL::Gmpq*);
-#endif 
 
 #endif // CGAL_GMPQ_H

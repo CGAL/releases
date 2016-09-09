@@ -1,58 +1,38 @@
-#include <CGAL/Cartesian.h>
-#include <CGAL/Kd_tree.h>
+// file: examples/Spatial_searching/Nearest_neighbor_searching.C
+
+#include <CGAL/Simple_cartesian.h>
 #include <CGAL/point_generators_2.h>
-#include <CGAL/Orthogonal_standard_search.h>
+#include <CGAL/Orthogonal_k_neighbor_search.h>
+#include <CGAL/Search_traits_2.h>
+#include <list>
 
-#include <vector>
-#include <iostream>
- 
-typedef CGAL::Cartesian<double> R;
-typedef R::Point_2 Point;
 
-typedef CGAL::Creator_uniform_2<double,Point> Creator;
-typedef CGAL::Kd_tree_traits_point<Point> TreeTraits;
-typedef CGAL::Orthogonal_standard_search<TreeTraits> Neighbor_search;
-
-typedef std::vector<TreeTraits::Point> Vector;
+typedef CGAL::Simple_cartesian<double> K;
+typedef K::Point_2 Point_d;
+typedef CGAL::Search_traits_2<K> TreeTraits;
+typedef CGAL::Orthogonal_k_neighbor_search<TreeTraits> Neighbor_search;
+typedef Neighbor_search::Tree Tree;
 
 int main() {
-  
-  const int data_point_number=1000;
-  
-  typedef std::list<Point> point_list;
-  point_list data_points;
+  const int N = 1;
 
-  // generate random data points  
-  CGAL::Random_points_in_square_2<Point,Creator> g( 1.0);
-  CGAL::copy_n( g, data_point_number, std::back_inserter(data_points));
+  std::list<Point_d> points;
+  points.push_back(Point_d(0,0));
   
-  typedef CGAL::Kd_tree<TreeTraits> Tree;
-  Tree d(data_points.begin(), data_points.end());
+  Tree tree(points.begin(), points.end());
 
-  // generate random query points
-  const int query_point_number=5;
-  CGAL::Random_points_in_square_2<Point,Creator> h( 1.0);
-  Vector query_points;
-  CGAL::copy_n( h, query_point_number, std::back_inserter(query_points));
-
-  std::vector<Neighbor_search::Point_with_distance> the_nearest_neighbors;
+  Point_d query(0,0);
   
-  for (int i=0; i < query_point_number; i++) { 
-     Neighbor_search N(d, query_points[i]); 
-     N.the_k_neighbors(std::back_inserter(the_nearest_neighbors));
+  // Initialize the search structure, and search all N points
+  
+  Neighbor_search search(tree, query, N);
+  
+   // report the N nearest neighbors and their distance
+  // This should sort all N points by increasing distance from origin
+  for(Neighbor_search::iterator it = search.begin(); it != search.end(); ++it){
+    std::cout << it->first << " "<< sqrt(it->second) << std::endl;
   }
   
-  // report query points q, nearest neighbors and their distance
-  for (int j=0; j < query_point_number; j++) { 
-       std::cout << "q= " << query_points[j] << " ";
-       std::cout << "nn= "    << *(the_nearest_neighbors[j].first) << " ";
-       std::cout << " d(q, nn)= "
-       << sqrt(the_nearest_neighbors[j].second)  
-                 << std::endl;
-  } 
-
+  
   return 0;
 }
-
-
-

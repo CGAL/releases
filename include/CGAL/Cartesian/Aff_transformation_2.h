@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_2.h,v $
-// $Revision: 1.20 $ $Date: 2003/10/21 12:14:14 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.22 $ $Date: 2004/01/18 13:12:12 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Lutz Kettner
 
@@ -49,7 +49,6 @@ template < class R_ >
 class Aff_transformationC2
   : public Handle_for_virtual< Aff_transformation_rep_baseC2<R_> >
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef Aff_transformation_rep_baseC2<R_> Aff_t_base;
 
@@ -128,7 +127,7 @@ public:
 
   Point_2
   transform(const Point_2 &p) const 
-  { return Ptr()->transform(p); } 
+  { return this->Ptr()->transform(p); } 
 
   Point_2
   operator()(const Point_2 &p) const
@@ -136,7 +135,7 @@ public:
 
   Vector_2
   transform(const Vector_2 &v) const 
-  { return Ptr()->transform(v); }
+  { return this->Ptr()->transform(v); }
 
   Vector_2
   operator()(const Vector_2 &v) const
@@ -144,7 +143,7 @@ public:
 
   Direction_2
   transform(const Direction_2 &d) const
-  { return Ptr()->transform(d); }
+  { return this->Ptr()->transform(d); }
 
   Direction_2
   operator()(const Direction_2 &d) const
@@ -158,19 +157,19 @@ public:
   operator()(const Line_2 &l) const
   { return transform(l); }
 
-  Aff_transformation_2 inverse() const { return Ptr()->inverse(); }
+  Aff_transformation_2 inverse() const { return this->Ptr()->inverse(); }
 
-  bool is_even() const { return Ptr()->is_even(); }
-  bool is_odd() const { return ! (Ptr()->is_even()); }
+  bool is_even() const { return this->Ptr()->is_even(); }
+  bool is_odd() const { return ! (this->Ptr()->is_even()); }
 
-  FT cartesian(int i, int j) const { return Ptr()->cartesian(i,j); }
+  FT cartesian(int i, int j) const { return this->Ptr()->cartesian(i,j); }
   FT homogeneous(int i, int j) const { return cartesian(i,j); }
   FT m(int i, int j) const { return cartesian(i,j); }
   FT hm(int i, int j) const { return cartesian(i,j); }
 
   Aff_transformation_2 operator*(const Aff_transformationC2 &t) const
   {
-    return (*Ptr()) * (*t.Ptr());
+    return (*(this->Ptr())) * (*t.Ptr());
   }
 
   std::ostream &
@@ -181,7 +180,7 @@ template < class R >
 std::ostream&
 Aff_transformationC2<R>::print(std::ostream &os) const
 {
-  Ptr()->print(os);
+  this->Ptr()->print(os);
   return os;
 }
 

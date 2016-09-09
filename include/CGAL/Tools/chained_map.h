@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Hash_map/include/CGAL/Tools/chained_map.h,v $
 // $Revision: 1.6 $ $Date: 2003/10/21 12:16:37 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Courtesy of LEDA
 #ifndef CGAL_CHAINED_MAP_H

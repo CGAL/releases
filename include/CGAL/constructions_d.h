@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/constructions_d.h,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:19:12 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 

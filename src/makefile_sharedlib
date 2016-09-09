@@ -40,7 +40,6 @@ Geomview_stream$(OBJ_EXT) \
 Interval_arithmetic$(OBJ_EXT) \
 io$(OBJ_EXT) \
 MP_Float$(OBJ_EXT) \
-optimisation_basic$(OBJ_EXT) \
 Origin$(OBJ_EXT) \
 Polynomial$(OBJ_EXT) \
 Random$(OBJ_EXT) \

@@ -1,3 +1,5 @@
+// file: examples/Planar_map/example4.C
+
 /*! \file
  * A construction of a planar map using various insert and split operations.
  * In this example a planar map similar to the planar map of example 1 and 2

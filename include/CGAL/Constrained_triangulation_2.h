@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Constrained_triangulation_2.h,v $
-// $Revision: 1.94 $ $Date: 2003/09/18 10:26:02 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.101 $ $Date: 2004/10/19 14:02:40 $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec, Jean Daniel Boissonnat
 
@@ -63,7 +63,16 @@ public:
   typedef typename Triangulation::Edge_circulator Edge_circulator;
   typedef typename Triangulation::Vertex_circulator Vertex_circulator;
   typedef typename Triangulation::Line_face_circulator Line_face_circulator;
-  
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2
+  using Triangulation::number_of_vertices;
+  using Triangulation::cw;
+  using Triangulation::ccw;
+  using Triangulation::dimension;
+  using Triangulation::geom_traits;
+  using Triangulation::all_faces_begin;
+  using Triangulation::all_faces_end;
+#endif
 
   typedef Gt                                 Geom_traits;
   typedef Itag                               Intersection_tag;
@@ -75,10 +84,13 @@ public:
   typedef std::list<Vertex_handle>           List_vertices;
   typedef std::list<Constraint>              List_constraints;
 
-  //nouveau 
+  // Tag to mark the presence of a hierarchy of constraints
+ typedef Tag_false                           Constraint_hierarchy_tag;
+   
+
   class Less_edge;
   typedef std::set<Edge,Less_edge> Edge_set;
-  //nouveau
+
 
   Constrained_triangulation_2(const Gt& gt = Gt()) : Triangulation(gt) { }
 
@@ -112,7 +124,7 @@ public:
 
   // INSERTION
   Vertex_handle insert(const Point& p, 
-			       Face_handle start = Face_handle(NULL) );
+			       Face_handle start = Face_handle() );
   Vertex_handle insert(const Point& p,
 		       Locate_type lt,
 		       Face_handle loc, 
@@ -128,7 +140,15 @@ public:
   void remove(Vertex_handle  v);
   void remove_constrained_edge(Face_handle f, int i);
   void remove_incident_constraints(Vertex_handle  v);
-  
+  // to be used by Constrained_triangulation_plus_2
+ template <class OutputItFaces>
+ OutputItFaces 
+ remove_constrained_edge(Face_handle f, int i, OutputItFaces out) 
+ {
+   remove_constrained_edge(f, i);
+   return out;
+ }
+
   //for backward compatibility
   void remove_constraint(Face_handle f, int i) {remove_constrained_edge(f,i);}
   void insert(Point a, Point b) { insert_constraint(a, b);}
@@ -161,7 +181,7 @@ public:
 
 protected:
   virtual Vertex_handle virtual_insert(const Point& a, 
-				       Face_handle start = Face_handle(NULL));
+				       Face_handle start = Face_handle());
   virtual Vertex_handle virtual_insert(const Point& a,
 				       Locate_type lt,
 				       Face_handle loc, 
@@ -191,14 +211,17 @@ protected:
 			  Vertex_handle vaa,
 			  Vertex_handle vbb,
 			  Exact_predicates_tag);
-
+public:
+// made public for Laurent  to find out deleted faces
+// when inserting a constraint with most probably 
+// no intersection
   bool find_intersected_faces(Vertex_handle va, 
 			      Vertex_handle vb,
 			      List_faces & intersected_faces,
 			      List_edges & list_ab, 
 			      List_edges & list_ba,
 			      Vertex_handle& vi);
-
+protected:
   virtual void triangulate_hole(List_faces& intersected_faces,
 				List_edges& conflict_boundary_ab,
 				List_edges& conflict_boundary_ba);
@@ -466,7 +489,7 @@ find_intersected_faces(Vertex_handle vaa,
 		       List_faces & intersected_faces,
 		       List_edges & list_ab, 
 		       List_edges & list_ba,
-		       Vertex_handle & vi)
+		       Vertex_handle & vi) 
   // vi is set to the first vertex of the triangulation on [vaa,vbb].
   // Return true if an intersection with a constrained edge is
   // encountered, false otherwise
@@ -577,7 +600,7 @@ intersect(Face_handle , int ,
 	    <<    std::endl
 	    << " intersecting constraints" << std::endl;
   CGAL_triangulation_assertion(false);
-  return Vertex_handle(NULL);
+  return Vertex_handle() ;
 }
 
 template <class Gt, class Tds, class Itag >
@@ -603,7 +626,8 @@ intersect(Face_handle f, int i,
   const Point& pd = f->vertex(ccw(i))->point();
   Point pi;
   Itag itag = Itag();
-  bool ok = intersection(geom_traits(), pa, pb, pc, pd, pi, itag );
+  CGAL_triangulation_assertion_code( bool ok = )
+  intersection(geom_traits(), pa, pb, pc, pd, pi, itag );
   CGAL_triangulation_assertion(ok);
   Vertex_handle vi = virtual_insert(pi, Triangulation::EDGE, f, i);
   return vi; 
@@ -852,7 +876,7 @@ remove(Vertex_handle  v)
   // remove a vertex and updates the constrained edges of the new faces
   // precondition : there is no incident constraints
 {
-  CGAL_triangulation_precondition( v != NULL );
+  CGAL_triangulation_precondition( v != Vertex_handle() );
   CGAL_triangulation_precondition( ! is_infinite(v));
   CGAL_triangulation_precondition( ! are_there_incident_constraints(v));
     
@@ -987,7 +1011,7 @@ triangulate_half_hole(List_edges & list_edges,  List_edges & new_edges)
       n1=(*current).first;
       ind1=(*current).second;
       // in case n1 is no longer a triangle of the new triangulation
-      if ( n1->neighbor(ind1) != NULL ) {
+      if ( n1->neighbor(ind1) != Face_handle() ) {
 	n=n1->neighbor(ind1);
 	//ind=n1->mirror_index(ind1); 
 	// mirror_index does not work in this case
@@ -998,7 +1022,7 @@ triangulate_half_hole(List_edges & list_edges,  List_edges & new_edges)
       n2=(*next).first;
       ind2=(*next).second;
       // in case n2 is no longer a triangle of the new triangulation
-      if (n2->neighbor(ind2) != NULL ) {
+      if (n2->neighbor(ind2) != Face_handle() ) {
 	n=n2->neighbor(ind2); 
 	// ind=n2->mirror_index(ind2);
 	// mirror_index does not work in this case

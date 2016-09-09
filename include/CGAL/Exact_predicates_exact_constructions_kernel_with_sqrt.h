@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Exact_predicates_exact_constructions_kernel_with_sqrt.h,v $
 // $Revision: 1.4 $ $Date: 2003/10/21 12:18:03 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas, Sylvain Pion
 

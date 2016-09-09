@@ -1,22 +1,21 @@
-// ============================================================================
+// Copyright (c) 2002  Utrecht University (The Netherlands).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ----------------------------------------------------------------------------
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// file          : Qt_widget_move_list_point.h
-// package       : Qt_widget
-// author(s)     : Radu Ursu
-// release       : 
-// release_date  : 
+// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/demo/Spatial_searching/Qt_widget_move_list_point.h,v $
+// $Revision: 1.2.4.1 $ $Date: 2004/12/19 16:56:47 $
+// $Name:  $
 //
-// coordinator   : Laurent Rineau <rineau@clipper.ens.fr>
-//
-// ============================================================================
+// Author(s)     : Radu Ursu
 
 #ifndef CGAL_QT_WIDGET_MOVE_LIST_POINT_H
 #define CGAL_QT_WIDGET_MOVE_LIST_POINT_H
@@ -135,7 +134,7 @@ private:
       if(!wasrepainted)
         *widget << old_point;
       *widget << Point(x, y);
-      std::vector<Point>::iterator it = v_of_p->begin();
+      typename std::vector<Point>::iterator it = v_of_p->begin();
       bool found = false;
       while(it != v_of_p->end() && !found){
 	if((*it)==old_point){
@@ -169,7 +168,7 @@ private:
   };
 
   void delete_pointi(){
-    std::vector<Point>::iterator it = v_of_p->begin();
+    typename std::vector<Point>::iterator it = v_of_p->begin();
     bool found = false;
     while(it != v_of_p->end() && !found){
       if((*it)==current_v){

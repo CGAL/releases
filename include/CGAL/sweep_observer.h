@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/sweep_observer.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:20:56 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_SWEEP_OBSERVER_H

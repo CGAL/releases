@@ -1,6 +1,5 @@
-//
-// file          : examples/Convex_hull_3/quickhull_3_ex.C
-//
+// file: examples/Convex_hull_3/ch_quickhull_3_ex.C
+
 #include <CGAL/Homogeneous.h>
 #include <CGAL/point_generators_3.h>
 #include <CGAL/copy_n.h>

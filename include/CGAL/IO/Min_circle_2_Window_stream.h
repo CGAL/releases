@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_circle_2/include/CGAL/IO/Min_circle_2_Window_stream.h,v $
-// $Revision: 1.9 $ $Date: 2003/09/18 10:23:09 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2004/09/05 12:30:23 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>, Bernd Gärtner
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
 
 // Each of the following operators is individually
 // protected against multiple inclusion.

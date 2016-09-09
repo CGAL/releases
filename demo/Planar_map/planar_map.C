@@ -1,23 +1,21 @@
-// ============================================================================
+// Copyright (c) 1997  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 1997-2003 The CGAL Consortium
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// file          : demo.C
-// package       : Planar_map
-// author(s)     : Efi Foegl
-// coordinator   : Efi Fogel
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// ======================================================================
-
+// $Source: /CVSROOT/CGAL/Packages/Planar_map/demo/Planar_map/planar_map.C,v $
+// $Revision: 1.2.4.1 $
+// $Name:  $
+//
+// author(s)     : Efi Fogel
 
 // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
@@ -68,7 +66,7 @@ int current_state;
 std::list<Curve> list_of_segments;
 Planar_map pm;
 bool pl_valid = false;
-Point pl_point;
+Point_2 pl_point;
 
 class Qt_layer_show_ch : public CGAL::Qt_widget_layer {
 public:
@@ -91,7 +89,7 @@ public:
       *widget << CGAL::YELLOW;
 
       Locate_type lt;
-      Point temp_p(pl_point.x(), pl_point.y());
+      Point_2 temp_p(pl_point.x(), pl_point.y());
       Halfedge_handle e = pm.locate(temp_p, lt);
       // std::cout << "locate type " << lt << std::endl;
 	
@@ -208,7 +206,7 @@ private slots:
       something_changed();
     }
 
-    Point p;
+    Point_2 p;
     if (CGAL::assign(p,obj)) {
       pl_point = p;
       pl_valid = true;
@@ -265,12 +263,12 @@ private slots:
     // set the Visible Area to the Interval
 
     // send resizeEvent only on show.
-    CGAL::Random_points_in_square_2<Point> g(0.5);
+    CGAL::Random_points_in_square_2<Point_2> g(0.5);
     for (int count = 0; count < 25; count++) {
-      Point p1(*g++), p2(*g++);
+      Point_2 p1(*g++), p2(*g++);
       NT scale(2);
-      Curve s(Point(p1.x() * scale, p1.y() * scale)  ,
-              Point(p2.x() * scale, p2.y() * scale));
+      Curve s(Point_2(p1.x() * scale, p1.y() * scale)  ,
+              Point_2(p2.x() * scale, p2.y() * scale));
       list_of_segments.push_back(s);
       pm.insert(s);
     }
@@ -298,8 +296,10 @@ int main(int argc, char *argv[])
   app.setMainWidget(&widget);
   widget.setCaption(my_title_string);
   widget.setMouseTracking(TRUE);
+#if !defined (__POWERPC__)
   QPixmap cgal_icon = QPixmap((const char**)demoicon_xpm);
   widget.setIcon(cgal_icon);
+#endif
   widget.show();
   current_state = -1;
   return app.exec();

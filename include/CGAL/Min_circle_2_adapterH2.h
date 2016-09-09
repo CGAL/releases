@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_circle_2/include/CGAL/Min_circle_2_adapterH2.h,v $
-// $Revision: 1.8 $ $Date: 2003/09/18 10:23:07 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/09/05 12:30:21 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>, Bernd Gärtner
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
 
 #ifndef CGAL_MIN_CIRCLE_2_ADAPTERH2_H
 #define CGAL_MIN_CIRCLE_2_ADAPTERH2_H
@@ -129,10 +129,10 @@ class _Min_circle_2_adapterH2__Circle {
         return( FT( dhx*dhx + dhy*dhy, dhw*dhw));
     }
 
-    friend  std::ostream&  operator << CGAL_NULL_TMPL_ARGS ( std::ostream&,
+    friend  std::ostream&  operator << <> ( std::ostream&,
         const CGAL::_Min_circle_2_adapterH2__Circle<PT_,DA_>&);
 
-    friend  std::istream&  operator >> CGAL_NULL_TMPL_ARGS ( std::istream&,
+    friend  std::istream&  operator >> <> ( std::istream&,
         CGAL::_Min_circle_2_adapterH2__Circle<PT_,DA_>&);
 
   public:
@@ -353,8 +353,8 @@ operator >> ( std::istream& is,
     switch ( CGAL::get_mode( is)) {
 
       case CGAL::IO::PRETTY:
-        cerr << std::endl;
-        cerr << "Stream must be in ascii or binary mode" << std::endl;
+	std::cerr << std::endl;
+	std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
 
       case CGAL::IO::ASCII:

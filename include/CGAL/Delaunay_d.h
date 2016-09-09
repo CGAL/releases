@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Attic/Delaunay_d.h,v $
-// $Revision: 1.21.2.1 $ $Date: 2003/11/17 15:29:45 $
-// $Name: CGAL_3_0_1  $
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_d/include/CGAL/Delaunay_d.h,v $
+// $Revision: 1.2 $ $Date: 2004/06/23 03:45:06 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 //---------------------------------------------------------------------
@@ -92,7 +92,13 @@ class Delaunay_d : public Convex_hull_d<Lifted_R_>
 { 
 typedef Delaunay_d<R_,Lifted_R_> Self;
 typedef Convex_hull_d<Lifted_R_> Base;
+
+using Base::origin_simplex_;
+
 public:
+
+using Base::dcur;
+
 /*{\Mgeneralization Convex_hull_d<Lifted_R>}*/
 
 /*{\Mtypes 7}*/

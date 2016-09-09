@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/ft_constructions_2.h,v $
-// $Revision: 1.12 $ $Date: 2003/10/21 12:14:27 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.14 $ $Date: 2004/03/13 14:14:58 $
+// $Name:  $
 //
 // Author(s)     : Herve Bronnimann
 
@@ -68,33 +68,6 @@ typename K::FT
 line_x_at_y(const LineC2<K> &l, const typename K::FT &y)
 {
   return line_y_at_xC2(l.b(), l.a(), l.c(), y);
-}
-
-template < class K >
-inline
-typename K::FT
-squared_radius(const PointC2<K> &p, const PointC2<K> &q, const PointC2<K> &r)
-{
-  return K().compute_squared_radius_2_object()(p, q, r);
-}
-
-template < class K >
-inline
-typename K::FT
-squared_radius(const PointC2<K> &p, const PointC2<K> &q)
-{
-  return K().compute_squared_radius_2_object()(p, q);
-}
-
-template <class R>
-CGAL_KERNEL_LARGE_INLINE
-typename R::FT
-area(const PointC2<R>& p, const PointC2<R>& q, const PointC2<R>& r)
-{
-  typedef typename R::FT  FT;
-  typename R::Vector_2 v1 = q - p;
-  typename R::Vector_2 v2 = r - p;
-  return det2x2_by_formula(v1.x(), v1.y(), v2.x(), v2.y())/FT(2);
 }
 
 CGAL_END_NAMESPACE

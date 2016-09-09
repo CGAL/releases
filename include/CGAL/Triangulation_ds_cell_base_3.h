@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_ds_cell_base_3.h,v $
-// $Revision: 1.5 $ $Date: 2003/10/17 08:49:18 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/01/13 09:37:05 $
+// $Name:  $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
@@ -138,7 +138,7 @@ public:
 
   void set_vertices()
   {
-    V[0] = V[1] = V[2] = V[3] = NULL;
+    V[0] = V[1] = V[2] = V[3] = Vertex_handle();
   }
     
   void set_vertices(const Vertex_handle& v0, const Vertex_handle& v1,
@@ -152,7 +152,7 @@ public:
     
   void set_neighbors()
   {
-    N[0] = N[1] = N[2] = N[3] = NULL;
+    N[0] = N[1] = N[2] = N[3] = Cell_handle();
   }
     
   void set_neighbors(const Cell_handle& n0, const Cell_handle& n1,

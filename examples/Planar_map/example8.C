@@ -1,3 +1,5 @@
+// file: examples/Planar_map/example8.C
+
 #include "short_names.h"
 
 #include <CGAL/Cartesian.h>

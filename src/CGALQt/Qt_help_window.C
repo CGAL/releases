@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Qt_widget/src/CGALQt/Qt_help_window.C,v $
-// $Revision: 1.3.2.1 $ $Date: 2003/11/07 13:40:42 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/03/22 13:59:35 $
+// $Name:  $
 //
 // Author(s)     : Radu Ursu <rursu@sophia.inria.fr
 
@@ -146,8 +146,8 @@ Qt_help_window::Qt_help_window( const QString& home_, const QString& _path,
   menuBar()->insertItem("&File", file);
   menuBar()->insertItem("&Go", go); 
 
-  QToolBar* toolbar = new QToolBar( this );
-  addToolBar( toolbar, "Toolbar");
+  QToolBar* toolbar = new QToolBar( "Toolbar", this, this);
+
   QToolButton* button;
 
 

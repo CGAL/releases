@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Kernel/concept_archetype_functors.h,v $
-// $Revision: 1.16 $ $Date: 2003/10/21 12:18:31 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.28 $ $Date: 2004/09/07 07:36:32 $
+// $Name:  $
 //
 // Author(s)     : Matthias Baesken
 
@@ -91,6 +91,59 @@ public:
     typedef Arity_tag< 3 >   Arity;
 
     bool operator()(const Point_3&, const Point_3&, const Point_3&) const
+    { return true; }
+};
+
+template <typename K>
+class Are_parallel_2
+{
+    typedef typename K::Line_2          Line_2;
+    typedef typename K::Segment_2       Segment_2;
+    typedef typename K::Ray_2           Ray_2;
+  
+  public:
+    typedef bool             result_type;
+    typedef Arity_tag< 2 >   Arity;
+
+    bool
+    operator()(const Line_2&, const Line_2&) const
+    { return true; }
+
+    bool
+    operator()(const Segment_2&, const Segment_2&) const
+    { return true; }
+
+    bool
+    operator()(const Ray_2&, const Ray_2&) const
+    { return true; }
+};
+
+template <typename K>
+class Are_parallel_3
+{
+    typedef typename K::Line_3          Line_3;
+    typedef typename K::Segment_3       Segment_3;
+    typedef typename K::Ray_3           Ray_3;
+    typedef typename K::Plane_3         Plane_3;
+  
+  public:
+    typedef bool             result_type;
+    typedef Arity_tag< 2 >   Arity;
+
+    bool
+    operator()(const Line_3&, const Line_3&) const
+    { return true; }
+
+    bool
+    operator()(const Plane_3&, const Plane_3&) const
+    { return true; }
+
+    bool
+    operator()(const Segment_3&, const Segment_3&) const
+    { return true; }
+
+    bool
+    operator()(const Ray_3&, const Ray_3&) const
     { return true; }
 };
 
@@ -564,16 +617,69 @@ public:
 };
 
 template <typename K>
-class Compute_squared_area_3
+class Compute_area_3
 {
     typedef typename K::FT                FT;
     typedef typename K::Triangle_3        Triangle_3;
+    typedef typename K::Point_3           Point_3;
 public:
     typedef FT               result_type;
     typedef Arity_tag< 1 >   Arity;
 
     FT
     operator()( const Triangle_3&) const
+    { FT val = 0; return val; }
+
+    FT
+    operator()( const Point_3&, const Point_3&, const Point_3&) const
+    { FT val = 0; return val; }
+};
+
+template <typename K>
+class Compute_scalar_product_2
+{
+    typedef typename K::FT                FT;
+    typedef typename K::Vector_2          Vector_2;
+public:
+    typedef FT               result_type;
+    typedef Arity_tag< 2 >   Arity;
+
+    FT
+    operator()(const Vector_2& v, const Vector_2& w) const
+    { FT val = 0; return val; }
+};
+
+template <typename K>
+class Compute_scalar_product_3
+{
+    typedef typename K::FT                FT;
+    typedef typename K::Vector_3          Vector_3;
+public:
+    typedef FT               result_type;
+    typedef Arity_tag< 2 >   Arity;
+
+    FT
+    operator()(const Vector_3& v, const Vector_3& w) const
+    { FT val = 0; return val; }
+};
+
+
+template <typename K>
+class Compute_squared_area_3
+{
+    typedef typename K::FT                FT;
+    typedef typename K::Triangle_3        Triangle_3;
+    typedef typename K::Point_3           Point_3;
+public:
+    typedef FT               result_type;
+    typedef Arity_tag< 1 >   Arity;
+
+    FT
+    operator()( const Triangle_3&) const
+    { FT val = 0; return val; }
+
+    FT
+    operator()( const Point_3&, const Point_3&, const Point_3&) const
     { FT val = 0; return val; }
 };
 
@@ -700,6 +806,7 @@ template <typename K>
 class Compute_volume_3
 {
     typedef typename K::FT             FT;
+    typedef typename K::Point_3        Point_3;
     typedef typename K::Tetrahedron_3  Tetrahedron_3;
     typedef typename K::Iso_cuboid_3   Iso_cuboid_3;
 public:
@@ -708,6 +815,11 @@ public:
 
     FT
     operator()( const Tetrahedron_3&) const
+    { FT val = 0; return val; }
+
+    FT
+    operator()( const Point_3&, const Point_3&,
+	        const Point_3&, const Point_3&) const
     { FT val = 0; return val; }
 
     FT
@@ -744,6 +856,20 @@ public:
     Line_2
     operator()(const Point_2&, const Point_2&) const
     { Line_2 obj; return obj; }
+};
+
+template <typename K>
+class Construct_bisector_3
+{
+    typedef typename K::Point_3 Point_3;
+    typedef typename K::Plane_3 Plane_3;
+public:
+    typedef Plane_3          result_type;
+    typedef Arity_tag< 2 >   Arity;
+
+    Plane_3
+    operator()(const Point_3&, const Point_3&) const
+    { Plane_3 obj; return obj; }
 };
 
 template <typename K>
@@ -847,7 +973,8 @@ public:
 template <typename K>
 class Construct_circumcenter_2
 {
-    typedef typename K::Point_2  Point_2;
+    typedef typename K::Point_2     Point_2;
+    typedef typename K::Triangle_2  Triangle_2;
 public:
     typedef Point_2          result_type;
     typedef Arity_tag< 3 >   Arity;
@@ -855,12 +982,18 @@ public:
     Point_2
     operator()(const Point_2&, const Point_2&, const Point_2&) const
     { return Point_2(); }
+
+    Point_2
+    operator()(const Triangle_2&) const
+    { return Point_2(); }
 };
 
 template <typename K>
 class Construct_circumcenter_3
 {
-    typedef typename K::Point_3  Point_3;
+    typedef typename K::Point_3        Point_3;
+    typedef typename K::Triangle_3     Triangle_3;
+    typedef typename K::Tetrahedron_3  Tetrahedron_3;
 public:
     typedef Point_3          result_type;
     typedef Arity_tag< 4 >   Arity;
@@ -870,8 +1003,16 @@ public:
     { return Point_3(); }
 
     Point_3
+    operator()(const Triangle_3&) const
+    { return Point_3(); }
+
+    Point_3
     operator()(const Point_3&, const Point_3&,
 	       const Point_3&, const Point_3&) const
+    { return Point_3(); }
+
+    Point_3
+    operator()(const Tetrahedron_3&) const
     { return Point_3(); }
 };
 
@@ -1094,6 +1235,63 @@ public:
     operator()(const Ray_3&) const
     { return Line_3(); }
 };
+
+  template <typename K>
+  class Construct_max_vertex_2
+  {
+    typedef typename K::Point_2          Point_2;
+    typedef typename K::Iso_rectangle_2  Iso_rectangle_2;
+  public:
+    typedef Point_2   result_type;
+    typedef Arity_tag< 1 >    Arity;
+
+    Point_2
+    operator()(const Iso_rectangle_2& r) const
+    { return Point_2(); }
+  };
+
+  template <typename K>
+  class Construct_min_vertex_2
+  {
+    typedef typename K::Point_2          Point_2;
+    typedef typename K::Iso_rectangle_2  Iso_rectangle_2;
+  public:
+    typedef Point_2   result_type;
+    typedef Arity_tag< 1 >    Arity;
+
+    Point_2
+    operator()(const Iso_rectangle_2& r) const
+    { return Point_2(); }
+  };
+
+
+  template <typename K>
+  class Construct_max_vertex_3
+  {
+    typedef typename K::Point_3          Point_3;
+    typedef typename K::Iso_cuboid_3  Iso_cuboid_3;
+  public:
+    typedef Point_3   result_type;
+    typedef Arity_tag< 1 >    Arity;
+
+    Point_3
+    operator()(const Iso_cuboid_3& r) const
+    { return Point_3(); }
+  };
+
+  template <typename K>
+  class Construct_min_vertex_3
+  {
+    typedef typename K::Point_3          Point_3;
+    typedef typename K::Iso_cuboid_3  Iso_cuboid_3;
+  public:
+    typedef Point_3   result_type;
+    typedef Arity_tag< 1 >    Arity;
+
+    Point_3
+    operator()(const Iso_cuboid_3& r) const
+    { return Point_3(); }
+  };
 
 template <typename K>
 class Construct_midpoint_2
@@ -1334,6 +1532,7 @@ public:
 template <typename K>
 class Construct_orthogonal_vector_3
 {
+    typedef typename K::Point_3     Point_3;
     typedef typename K::Vector_3    Vector_3;
     typedef typename K::Plane_3     Plane_3;
 public:
@@ -1342,6 +1541,10 @@ public:
 
     Vector_3
     operator()( const Plane_3&) const
+    { return Vector_3(); }
+
+    Vector_3
+    operator()( const Point_3&, const Point_3&, const Point_3&) const
     { return Vector_3(); }
 };
 
@@ -1773,6 +1976,7 @@ public:
     {  return Sphere_3(); }
 };
 
+#ifndef CGAL_NO_DEPRECATED_CODE
 template <typename K>
 class Construct_supporting_line_2
 {
@@ -1810,6 +2014,7 @@ public:
     operator()( const Segment_3&) const
     { return Line_3(); }
 };
+#endif // CGAL_NO_DEPRECATED_CODE
 
 template <typename K>
 class Construct_supporting_plane_3
@@ -1856,6 +2061,10 @@ public:
     Point_2
     operator()( const Point_2&, const Vector_2&) const
     {  return Point_2(); }
+
+    Point_2
+    operator()( const Origin&, const Vector_2&) const
+    {  return Point_2(); }
 };
 
 template <typename K>
@@ -1869,6 +2078,10 @@ public:
 
     Point_3
     operator()( const Point_3&, const Vector_3&) const
+    {  return Point_3(); }
+
+    Point_3
+    operator()( const Origin&, const Vector_3&) const
     {  return Point_3(); }
 };
 
@@ -1930,6 +2143,14 @@ public:
     { return Vector_2(); }
 
     Vector_2
+    operator()( const Origin&, const Point_2&) const
+    { return Vector_2(); }
+
+    Vector_2
+    operator()( const Point_2&, const Origin&) const
+    { return Vector_2(); }
+
+    Vector_2
     operator()( const Segment_2&) const
     { return Vector_2(); }
 
@@ -1965,6 +2186,14 @@ public:
 
     Vector_3
     operator()( const Point_3&, const Point_3&) const
+    { return Vector_3(); }
+
+    Vector_3
+    operator()( const Origin&, const Point_3&) const
+    { return Vector_3(); }
+
+    Vector_3
+    operator()( const Point_3&, const Origin&) const
     { return Vector_3(); }
 
     Vector_3
@@ -2871,12 +3100,18 @@ template <typename K>
 class Less_signed_distance_to_line_2
 {
     typedef typename K::Point_2   Point_2;
+    typedef typename K::Line_2    Line_2;
 public:
     typedef bool             result_type;
     typedef Arity_tag< 4 >   Arity;
 
     bool
     operator()(const Point_2&, const Point_2&,
+               const Point_2&, const Point_2&) const
+    { return true; }
+
+    bool
+    operator()(const Line_2&,
                const Point_2&, const Point_2&) const
     { return true; }
 };
@@ -2892,6 +3127,11 @@ public:
 
     bool
     operator()( const Plane_3&, const Point_3&, const Point_3&) const
+    { return true; }
+
+    bool
+    operator()( const Point_3&, const Point_3&, const Point_3&, 
+		const Point_3&, const Point_3&) const
     { return true; }
 };
 

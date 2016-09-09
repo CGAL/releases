@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/IO/Pm_file_scanner.h,v $
-// $Revision: 1.4 $ $Date: 2003/09/18 10:24:42 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.5 $ $Date: 2004/06/23 13:19:07 $
+// $Name:  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 
@@ -145,7 +145,7 @@ public:
     
     //  not an unbounded face. Scanning the outer ccb.
     if (num_halfedges_on_outer_ccb > 0){
-      std::size_t  index, prev_index = 0, first_index;
+      std::size_t  index, prev_index = 0, first_index = 0;
       
       for (unsigned int j = 0; j < num_halfedges_on_outer_ccb; j++) {
         
@@ -199,7 +199,7 @@ public:
         return;
       }
       
-      std::size_t  index, prev_index, first_index;
+      std::size_t  index, prev_index = 0, first_index = 0;
       for (unsigned int j = 0; j < num_halfedges_on_inner_ccb; j++) {
         scan_index(index);
         if ( !in()){

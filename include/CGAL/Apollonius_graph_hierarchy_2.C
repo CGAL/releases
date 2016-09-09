@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_2.C,v $
-// $Revision: 1.18 $ $Date: 2003/10/29 15:33:50 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.23 $ $Date: 2004/09/03 17:26:17 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -26,19 +26,19 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class Gt, class Agds>
+template<class Gt, class Agds, class LTag>
 void
-Apollonius_graph_hierarchy_2<Gt,Agds>::
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 init_hierarchy(const Geom_traits& gt)
 {
   hierarchy[0] = this; 
-  for(int i = 1; i < ag_hierarchy_2__maxlevel; ++i) {
+  for(unsigned int i = 1; i < ag_hierarchy_2__maxlevel; ++i) {
     hierarchy[i] = new Apollonius_graph_base(gt);
   }
 }
 
-template < class Gt, class Agds>
-Apollonius_graph_hierarchy_2<Gt,Agds>::
+template<class Gt, class Agds, class LTag>
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 Apollonius_graph_hierarchy_2(const Geom_traits& gt)
   : Apollonius_graph_base(gt), random((long)0)
 { 
@@ -47,10 +47,10 @@ Apollonius_graph_hierarchy_2(const Geom_traits& gt)
 
 
 // copy constructor duplicates vertices and faces
-template <class Gt, class Agds>
-Apollonius_graph_hierarchy_2<Gt,Agds>::
+template<class Gt, class Agds, class LTag>
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 Apollonius_graph_hierarchy_2
-(const Apollonius_graph_hierarchy_2<Gt,Agds>& agh)
+(const Apollonius_graph_hierarchy_2<Gt,Agds,LTag>& agh)
     : Apollonius_graph_base(agh.geom_traits()), random((long)0)
 { 
   init_hierarchy(agh.geom_traits());
@@ -59,23 +59,23 @@ Apollonius_graph_hierarchy_2
  
 
 //Assignement
-template <class Gt, class Agds>
-Apollonius_graph_hierarchy_2<Gt,Agds> &
-Apollonius_graph_hierarchy_2<Gt,Agds>::
-operator=(const Apollonius_graph_hierarchy_2<Gt,Agds> &agh)
+template<class Gt, class Agds, class LTag>
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag> &
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
+operator=(const Apollonius_graph_hierarchy_2<Gt,Agds,LTag> &agh)
 {
   copy(agh);
   return *this;
 }
 
-template <class Gt, class Agds>
+template<class Gt, class Agds, class LTag>
 void
-Apollonius_graph_hierarchy_2<Gt,Agds>::
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 copy
-(const Apollonius_graph_hierarchy_2<Gt,Agds> &agh)
+(const Apollonius_graph_hierarchy_2<Gt,Agds,LTag> &agh)
 {
   std::map< Vertex_handle, Vertex_handle > V;
-  for(int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
+  for(unsigned int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
     //      hierarchy[i]->copy_triangulation(*awvd.hierarchy[i]);
     *(hierarchy[i]) = *agh.hierarchy[i];
   }
@@ -84,10 +84,10 @@ copy
   // compute a map at lower level
   for( Finite_vertices_iterator it = hierarchy[0]->finite_vertices_begin(); 
        it != hierarchy[0]->finite_vertices_end(); ++it) {
-    if ( it->up() != NULL ) V[ it->up()->down() ] = it;
+    if ( it->up() != Vertex_handle() ) V[ it->up()->down() ] = it;
   }
 
-  for(int i = 1; i < ag_hierarchy_2__maxlevel; ++i) {
+  for(unsigned int i = 1; i < ag_hierarchy_2__maxlevel; ++i) {
     for( Finite_vertices_iterator it = hierarchy[i]->finite_vertices_begin(); 
 	 it != hierarchy[i]->finite_vertices_end(); ++it) {
       // down pointer goes in original instead in copied triangulation
@@ -95,40 +95,40 @@ copy
       // make reverse link
       it->down()->set_up( it );
       // make map for next level
-      if ( it->up() != NULL ) V[ it->up()->down() ] = it;
+      if ( it->up() != Vertex_handle() ) V[ it->up()->down() ] = it;
     }
   }
 }
 
-template <class Gt, class Agds>
-Apollonius_graph_hierarchy_2<Gt,Agds>:: 
+template<class Gt, class Agds, class LTag>
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>:: 
 ~Apollonius_graph_hierarchy_2()
 {
   clear();
-  for(int i = 1; i < ag_hierarchy_2__maxlevel; ++i) {
+  for(unsigned int i = 1; i < ag_hierarchy_2__maxlevel; ++i) {
     delete hierarchy[i];
   }
 }
 
-template <class Gt, class Agds>
+template<class Gt, class Agds, class LTag>
 void
-Apollonius_graph_hierarchy_2<Gt,Agds>:: 
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>:: 
 clear()
 {
-  for(int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
+  for(unsigned int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
     hierarchy[i]->clear();
   }
 }
 
-template<class Gt, class Agds>
+template<class Gt, class Agds, class LTag>
 bool
-Apollonius_graph_hierarchy_2<Gt,Agds>:: 
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>:: 
 is_valid(bool verbose, int level) const
 {
   bool result(true);
 
   //verify correctness of triangulation at all levels
-  for(int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
+  for(unsigned int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
     if ( verbose ) {
       std::cerr << "Level " << i << ": " << std::flush;
     }
@@ -144,7 +144,7 @@ is_valid(bool verbose, int level) const
   }
 
   //verify that other levels has down pointer and reciprocal link is fine
-  for(int i = 1; i < ag_hierarchy_2__maxlevel; ++i) {
+  for(unsigned int i = 1; i < ag_hierarchy_2__maxlevel; ++i) {
     for( Finite_vertices_iterator it = hierarchy[i]->finite_vertices_begin(); 
 	 it != hierarchy[i]->finite_vertices_end(); ++it) {
 #ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE 
@@ -158,14 +158,14 @@ is_valid(bool verbose, int level) const
 }
 
 
-template <class Gt, class Agds>
-typename Apollonius_graph_hierarchy_2<Gt,Agds>::Vertex_handle
-Apollonius_graph_hierarchy_2<Gt,Agds>::
+template<class Gt, class Agds, class LTag>
+typename Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::Vertex_handle
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 insert(const Site_2 &p)
 {
   int vertex_level = random_level();
 
-  int n = number_of_vertices();
+  size_type n = this->number_of_vertices();
   Vertex_handle vertex;
   Vertex_handle vnear[ag_hierarchy_2__maxlevel];
 
@@ -183,7 +183,7 @@ insert(const Site_2 &p)
     }
 
     // if it hidden just return it right away
-    if ( vertex == NULL ) {
+    if ( vertex == Vertex_handle() ) {
       return vertex;
     }
 
@@ -206,13 +206,13 @@ insert(const Site_2 &p)
   // locate the nearest neighbor using hierarchy
   nearest_neighbor(p.point(), vnear);
 
-  CGAL_assertion( vnear[0] != NULL );
+  CGAL_assertion( vnear[0] != Vertex_handle() );
 
   // check if it is hidden
   Site_2 wp_nearest = vnear[0]->site();
   if ( is_hidden(wp_nearest, p) ) {
     vnear[0]->add_hidden_site(p);
-    return Vertex_handle(NULL);
+    return Vertex_handle();
   }
 
   // find the first conflict
@@ -272,34 +272,34 @@ insert(const Site_2 &p)
   n_hidden = v_hidden.size();
 
   if ( n_hidden != 0 ) {
-    int n_non_hidden = number_of_vertices() - n_hidden;
+    int n_non_hidden = this->number_of_vertices() - n_hidden;
     if ( n_non_hidden < 2 ) {
-      for(int i = 1; i < ag_hierarchy_2__maxlevel; ++i) {
+      for(unsigned int i = 1; i < ag_hierarchy_2__maxlevel; ++i) {
 	hierarchy[i]->clear();
       }
 
       if ( n_non_hidden == 1 ) {
 	Vertex_handle non_hidden;
-	Finite_vertices_iterator vit = finite_vertices_begin();
+	Finite_vertices_iterator vit = this->finite_vertices_begin();
 	do {
 	  non_hidden = Vertex_handle(vit);
 	  ++vit;
 	} while ( v_hidden.find(non_hidden) != v_hidden.end() );
 
-	non_hidden->set_up(NULL);
+	non_hidden->set_up( Vertex_handle() );
       }
     } else {
       typename Apollonius_graph_base::Vertex_map::iterator it;
       for (it = v_hidden.begin(); it != v_hidden.end(); it++) {
 	Vertex_handle v = (*it).first;
 	Vertex_handle u = v->up();
-	if ( u != NULL ) {
+	if ( u != Vertex_handle() ) {
 	  v = u;
 	  u = v->up();
-	  int l = 1;
+	  unsigned int l = 1;
 	  while ( true ) {
 	    hierarchy[l++]->remove(v);
-	    if (u == NULL) break; 
+	    if ( u == Vertex_handle() ) break; 
 	    if(l >= ag_hierarchy_2__maxlevel) { break; }
 	    v = u;
 	    u = v->up();
@@ -335,9 +335,9 @@ insert(const Site_2 &p)
   return first;
 }
 
-template <class Gt, class Agds>
+template<class Gt, class Agds, class LTag>
 void 
-Apollonius_graph_hierarchy_2<Gt,Agds>::
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 remove(Vertex_handle v)
 {
   CGAL_triangulation_precondition( v != Vertex_handle());
@@ -355,10 +355,10 @@ remove(Vertex_handle v)
 
   // do the actual removal
   Vertex_handle u = v->up();
-  int l = 0;
+  unsigned int l = 0;
   while ( true ) {
     hierarchy[l++]->remove(v);
-    if (u == NULL) break; 
+    if ( u == Vertex_handle() ) break; 
     if(l >= ag_hierarchy_2__maxlevel) break;
     v = u;
     u = v->up();
@@ -368,9 +368,9 @@ remove(Vertex_handle v)
 }
 
 
-template <class Gt, class Agds>
-typename Apollonius_graph_hierarchy_2<Gt,Agds>::Vertex_handle 
-Apollonius_graph_hierarchy_2<Gt,Agds>::
+template<class Gt, class Agds, class LTag>
+typename Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::Vertex_handle 
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 nearest_neighbor(const Point_2& p) const
 {
   Vertex_handle vnear[ag_hierarchy_2__maxlevel];
@@ -380,14 +380,14 @@ nearest_neighbor(const Point_2& p) const
 
 
 
-template <class Gt, class Agds>
+template<class Gt, class Agds, class LTag>
 void
-Apollonius_graph_hierarchy_2<Gt,Agds>::
-swap(Apollonius_graph_hierarchy_2<Gt,Agds>& agh)
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
+swap(Apollonius_graph_hierarchy_2<Gt,Agds,LTag>& agh)
 {
   Ag_base* temp;
   Ag_base::swap(agh);
-  for(int i = 1; i < ag_hierarchy_2__maxlevel; ++i){
+  for(unsigned int i = 1; i < ag_hierarchy_2__maxlevel; ++i){
     temp = hierarchy[i];
     hierarchy[i] = agh.hierarchy[i];
     agh.hierarchy[i]= temp;
@@ -397,22 +397,22 @@ swap(Apollonius_graph_hierarchy_2<Gt,Agds>& agh)
 
 
 
-template <class Gt, class Agds>
+template<class Gt, class Agds, class LTag>
 void
-Apollonius_graph_hierarchy_2<Gt,Agds>::
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 nearest_neighbor(const Point_2& p,
 		 Vertex_handle vnear[ag_hierarchy_2__maxlevel])
   const
 {
   Vertex_handle nearest = 0;
-  int level  = ag_hierarchy_2__maxlevel;
+  unsigned int level  = ag_hierarchy_2__maxlevel;
 
   // find the highest level with enough vertices
   while ( hierarchy[--level]->number_of_vertices() 
 	  < ag_hierarchy_2__minsize ) {
     if ( !level ) break;  // do not go below 0
   }
-  for (int i = level+1; i < ag_hierarchy_2__maxlevel; ++i) {
+  for (unsigned int i = level+1; i < ag_hierarchy_2__maxlevel; ++i) {
     vnear[i] = 0;
   }
 
@@ -429,12 +429,12 @@ nearest_neighbor(const Point_2& p,
     hierarchy[level]->nearest_neighbor(p, nearest);  // at level 0
 }
 
-template <class Gt, class Agds>
+template<class Gt, class Agds, class LTag>
 int
-Apollonius_graph_hierarchy_2<Gt,Agds>::
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 random_level()
 {
-  int l = 0;
+  unsigned int l = 0;
   while (1) {
     if ( random(ag_hierarchy_2__ratio) ) break;
     ++l;

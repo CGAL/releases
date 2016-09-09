@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/number_utils.h,v $
-// $Revision: 1.15 $ $Date: 2003/10/21 12:21:48 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.18 $ $Date: 2004/09/01 15:50:16 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -26,7 +26,6 @@
 
 #include <CGAL/config.h>
 #include <CGAL/enum.h>
-#include <CGAL/kernel_basic.h>
 #include <algorithm>
 
 CGAL_BEGIN_NAMESPACE
@@ -56,13 +55,13 @@ is_positive(const NT& x)
 { return 0 < x; }
 
 template <class NT>
-CGAL_KERNEL_INLINE
+inline
 Sign
 sign(const NT& x)
 { return (x < 0) ? NEGATIVE : (0 < x) ? POSITIVE : ZERO; }
 
 template <class NT>
-CGAL_KERNEL_INLINE
+inline
 NT
 abs(const NT& x)
 {
@@ -72,7 +71,7 @@ abs(const NT& x)
 }
 
 template <class NT1, class NT2>
-CGAL_KERNEL_INLINE
+inline
 Comparison_result
 compare(const NT1& n1, const NT2& n2)
 { return (n1 < n2) ? SMALLER : (n2 < n1) ? LARGER : EQUAL; }

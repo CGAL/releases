@@ -12,18 +12,16 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_circle_2/include/CGAL/Optimisation_circle_2.h,v $
-// $Revision: 1.8 $ $Date: 2003/09/18 10:23:08 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2004/09/05 12:30:23 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>, Bernd Gärtner
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
 
 #ifndef CGAL_OPTIMISATION_CIRCLE_2_H
 #define CGAL_OPTIMISATION_CIRCLE_2_H
 
 // includes
-#ifndef CGAL_POINT_2_H
-#  include <CGAL/Point_2.h>
-#endif
+
 #ifndef CGAL_BASIC_CONSTRUCTIONS_2_H
 #  include <CGAL/basic_constructions_2.h>
 #endif
@@ -45,7 +43,7 @@ class Optimisation_circle_2 {
   public:
     // types
     typedef           K_                K;
-    typedef           CGAL::Point_2<K>  Point;
+    typedef typename  K::Point_2        Point;
     typedef typename  K_::FT            Distance;
     
     /**************************************************************************

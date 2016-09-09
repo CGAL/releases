@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Rotation_rep_2.h,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:14:21 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
 

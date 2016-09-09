@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Trapezoidal_decomposition/include/CGAL/Trapezoidal_decomposition_2/Td_ninetuple.h,v $
 // $Revision: 1.2 $ $Date: 2003/09/18 10:25:57 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 //                 Iddo Hanniel <hanniel@math.tau.ac.il>

@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Constrained_triangulation_sweep_demo_2.h,v $
-// $Revision: 1.7 $ $Date: 2003/09/18 10:26:04 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/01/20 13:48:47 $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec
 
@@ -78,9 +78,9 @@ draw_new_faces(Vertex_handle v, Window_stream& W)
    drawing_mode dm=W.set_mode(leda_src_mode);
    W << BLUE;
    Face_handle f = v->face();
-   if (f == NULL ) { return;} //first point, no face
+   if (f == Face_handle() ) { return;} //first point, no face
    draw_face(f,W);
-   while( f->neighbor(1) != NULL ) {
+   while( f->neighbor(1) != Face_handle() ) {
      f = f->neighbor(1);
      draw_face(f,W);
    }

@@ -14,9 +14,9 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
+           -I../../include \
            $(CGAL_CXXFLAGS) \
-           $(LONG_NAME_PROBLEM_CXXFLAGS) \
-           $(DEBUG_OPT)
+           $(LONG_NAME_PROBLEM_CXXFLAGS)
 
 #---------------------------------------------------------------------#
 #                    linker flags
@@ -40,7 +40,6 @@ all:            \
                 General_neighbor_searching$(EXE_EXT) \
                 Iso_rectangle_2_query$(EXE_EXT) \
                 Nearest_neighbor_searching$(EXE_EXT) \
-                Searching_with_box_query$(EXE_EXT) \
                 Searching_with_circular_query$(EXE_EXT) \
                 User_defined_point_and_distance$(EXE_EXT) \
                 Using_fair_splitting_rule$(EXE_EXT) \
@@ -64,9 +63,6 @@ Iso_rectangle_2_query$(EXE_EXT): Iso_rectangle_2_query$(OBJ_EXT)
 Nearest_neighbor_searching$(EXE_EXT): Nearest_neighbor_searching$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Nearest_neighbor_searching Nearest_neighbor_searching$(OBJ_EXT) $(LDFLAGS)
 
-Searching_with_box_query$(EXE_EXT): Searching_with_box_query$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Searching_with_box_query Searching_with_box_query$(OBJ_EXT) $(LDFLAGS)
-
 Searching_with_circular_query$(EXE_EXT): Searching_with_circular_query$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Searching_with_circular_query Searching_with_circular_query$(OBJ_EXT) $(LDFLAGS)
 
@@ -86,7 +82,6 @@ clean: \
                    General_neighbor_searching.clean \
                    Iso_rectangle_2_query.clean \
                    Nearest_neighbor_searching.clean \
-                   Searching_with_box_query.clean \
                    Searching_with_circular_query.clean \
                    User_defined_point_and_distance.clean \
                    Using_fair_splitting_rule.clean \

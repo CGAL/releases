@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_constructions_ftC2.h,v $
 // $Revision: 1.9 $ $Date: 2003/09/18 10:19:21 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 

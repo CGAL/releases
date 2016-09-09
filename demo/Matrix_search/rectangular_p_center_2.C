@@ -1,22 +1,21 @@
-// ============================================================================
+// Copyright (c) 2002  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ----------------------------------------------------------------------------
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// file          : rectangular_p_center_2.C
-// package       : Qt_widget
-// author(s)     : Radu Ursu
-// release       : 
-// release_date  : 
+// $Source: /CVSROOT/CGAL/Packages/Matrix_search/demo/Matrix_search/rectangular_p_center_2.C,v $
+// $Revision: 1.6.4.1 $ $Date: 2004/12/19 15:27:44 $
+// $Name:  $
 //
-// coordinator   : Laurent Rineau <rineau@clipper.ens.fr>
-//
-// ============================================================================
+// Author(s)     : Radu Ursu
 
 
 // if QT is not installed, a message will be issued in runtime.
@@ -80,9 +79,9 @@ typedef double                         Coord_type;
 typedef CGAL::Cartesian<Coord_type>    Rep;
 
 typedef Rep::Iso_rectangle_2           Square_2;
-typedef Rep::Point_2                   Point;
+typedef Rep::Point_2                   Point_2;
 typedef Rep::Segment_2                 Segment;
-typedef std::vector<Point>             Container;
+typedef std::vector<Point_2>           Container;
 typedef CGAL::Polygon_2<Rep,Container> Polygonvec;
 
 const QString my_title_string("Rectangular p-center Demo with"
@@ -90,8 +89,8 @@ const QString my_title_string("Rectangular p-center Demo with"
 
 //global flags and variables
 int current_state;
-std::list<Point>          list_of_points;
-std::vector<Point>        centers;
+std::list<Point_2>        list_of_points;
+std::vector<Point_2>      centers;
 Coord_type                result;
 
 class Qt_layer_show_ch : public CGAL::Qt_widget_layer
@@ -107,7 +106,7 @@ public:
       //VERTICES
       *widget << CGAL::PointSize(3);
       *widget << CGAL::GREEN;
-      std::list<Point>::iterator itp = list_of_points.begin();
+      std::list<Point_2>::iterator itp = list_of_points.begin();
       while(itp!=list_of_points.end())
         *widget << (*itp++);
       if(list_of_points.size()>2)
@@ -122,14 +121,14 @@ public:
           std::back_inserter(centers),
           result,
           4);
-      std::vector<Point>::iterator vitp = centers.begin();
+      std::vector<Point_2>::iterator vitp = centers.begin();
       Coord_type r = result / Coord_type(2);
       while(vitp!=centers.end()){
         *widget << CGAL::RED;
         *widget << (*vitp);
         *widget << CGAL::WHITE;
-        *widget << Square_2(Point((*vitp).x() - r, (*vitp).y() - r),
-                   Point((*vitp).x() + r, (*vitp).y() + r));
+        *widget << Square_2(Point_2((*vitp).x() - r, (*vitp).y() - r),
+                   Point_2((*vitp).x() + r, (*vitp).y() + r));
         vitp++;
       }
     widget->unlock();
@@ -217,7 +216,7 @@ public slots:
 private slots:
   void get_new_object(CGAL::Object obj)
   {
-    Point p;
+    Point_2 p;
     if(CGAL::assign(p,obj)) {
       list_of_points.push_back(p);
       something_changed();
@@ -270,7 +269,7 @@ private slots:
 		// set the Visible Area to the Interval
 
     // send resizeEvent only on show.
-    CGAL::Random_points_in_disc_2<Point> g(1);
+    CGAL::Random_points_in_disc_2<Point_2> g(1);
     for(int count=0; count<200; count++) {
       list_of_points.push_back(*g++);
     }
@@ -300,8 +299,10 @@ main(int argc, char **argv)
   app.setMainWidget(&widget);
   widget.setCaption(my_title_string);
   widget.setMouseTracking(TRUE);
+#if !defined (__POWERPC__)
   QPixmap cgal_icon = QPixmap((const char**)demoicon_xpm);
   widget.setIcon(cgal_icon);
+#endif
   widget.show();
   current_state = -1;
   return app.exec();

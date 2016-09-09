@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Qt_widget/src/CGALQt/Qt_widget.C,v $
-// $Revision: 1.62.2.1 $ $Date: 2003/11/07 13:40:43 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.67 $ $Date: 2004/03/23 17:47:24 $
+// $Name:  $
 //
 // Author(s)     : Laurent Rineau & Radu Ursu
 
@@ -450,28 +450,28 @@ double Qt_widget::y_real_dist(double d) const
 
 int Qt_widget::x_pixel(double x) const
 {
-  return( static_cast<int>((x-xmin)*xscal+0.5) );
+  return( static_cast<int>((x-xmin)*xscal) );
 }
 
 int Qt_widget::y_pixel(double y) const
 {
-  return( - static_cast<int>((y-ymax)*yscal+0.5) );
+  return( - static_cast<int>((y-ymax)*yscal) );
 }
 
 int Qt_widget::x_pixel_dist(double d) const
 {
   if (d>0)
-    return( static_cast<int>(d*xscal+0.5) );
+    return( static_cast<int>(d*xscal) );
   else
-    return( static_cast<int>(d*xscal-0.5) );
+    return( static_cast<int>(d*xscal) );
 }
 
 int Qt_widget::y_pixel_dist(double d) const
 {
   if (d>0)
-    return( static_cast<int>(d*yscal+0.5) );
+    return( static_cast<int>(d*yscal) );
   else
-    return( static_cast<int>(d*yscal-0.5) );
+    return( static_cast<int>(d*yscal) );
 }
 
 Qt_widget& Qt_widget::operator<<(const Color& c)

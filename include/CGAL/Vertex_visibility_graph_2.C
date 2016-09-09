@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/Vertex_visibility_graph_2.C,v $
-// $Revision: 1.15 $ $Date: 2003/10/21 12:22:24 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2004/05/14 21:37:41 $
+// $Name:  $
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
@@ -653,7 +653,6 @@ void Vertex_visibility_graph_2<Traits>::handle(Tree_iterator p,
    else
       std::cout << " NADA" << endl;
 #endif
-   Point_2 r;
 
    // if p and q are adjacent
    if (are_adjacent(polygon, (*p_it).second.first, (*q_it).second.first))

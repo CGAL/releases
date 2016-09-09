@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/IO/Planar_map_iostream.h,v $
 // $Revision: 1.2 $ $Date: 2003/09/18 10:24:40 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Iddo Hanniel <hanniel@math.tau.ac.il>
 //                 Oren Nechushtan <theoren@math.tau.ac.il>

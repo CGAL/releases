@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/ch_bykat.C,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:15:01 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.12 $ $Date: 2004/02/21 15:44:56 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -25,14 +25,14 @@
 #include <CGAL/ch_bykat.h>
 #endif // CGAL_CH_BYKAT_H
 
-#ifndef CH_NO_POSTCONDITIONS
+#ifndef CGAL_CH_NO_POSTCONDITIONS
 #include <CGAL/convexity_check_2.h>
-#endif // CH_NO_POSTCONDITIONS
+#endif // CGAL_CH_NO_POSTCONDITIONS
 
 #include <CGAL/ch_assertions.h>
 #include <CGAL/ch_selected_extreme_points_2.h>
 #include <CGAL/ch_graham_andrew.h>
-#include <CGAL/stl_extensions.h>
+#include <CGAL/algorithm.h>
 #include <CGAL/functional.h>
 #include <list>
 #include <algorithm>

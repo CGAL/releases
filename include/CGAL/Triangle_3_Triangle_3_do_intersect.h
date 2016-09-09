@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_3/include/CGAL/Triangle_3_Triangle_3_do_intersect.h,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:17:14 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/04/17 21:54:34 $
+// $Name:  $
 //
 // Author(s)     : Philippe Guigue
 
@@ -28,6 +28,95 @@
 CGAL_BEGIN_NAMESPACE
 
 namespace CGALi {
+
+template <class K>
+bool  _intersection_test_vertex(const typename K::Point_3 * p, 
+				const typename K::Point_3 * q, 
+				const typename K::Point_3 * r,
+				const typename K::Point_3 * a, 
+				const typename K::Point_3 * b, 
+				const typename K::Point_3 * c,
+				const K & k){
+
+  CGAL_kernel_precondition( k.coplanar_orientation_3_object() (*p,*q,*r)
+			    == POSITIVE);
+  CGAL_kernel_precondition( k.coplanar_orientation_3_object() (*a,*b,*c)
+			    == POSITIVE);
+  
+
+  // Vertex p sees vertex c
+
+  typename K::Coplanar_orientation_3 coplanar_orientation = 
+    k.coplanar_orientation_3_object();
+
+
+  if (coplanar_orientation(*c,*a,*q) != NEGATIVE) {
+    if (coplanar_orientation(*c,*b,*q) != POSITIVE) {
+      if (coplanar_orientation(*p,*a,*q) == POSITIVE) 
+        return  coplanar_orientation(*p,*b,*q) != POSITIVE;  
+      
+      return coplanar_orientation(*p,*a,*r) != NEGATIVE
+	&& coplanar_orientation(*q,*r,*a) != NEGATIVE;
+    }
+     
+    if (coplanar_orientation(*p,*b,*q) != POSITIVE)
+      return coplanar_orientation(*c,*b,*r) != POSITIVE
+	&& coplanar_orientation(*q,*r,*b) != NEGATIVE;
+    return false;
+    
+  }
+  
+  if (coplanar_orientation(*c,*a,*r) != NEGATIVE) { //qr straddles (ac) 
+    if (coplanar_orientation(*q,*r,*c) != NEGATIVE)
+      return (coplanar_orientation(*p,*a,*r) != NEGATIVE);
+    
+    return coplanar_orientation(*q,*r,*b) != NEGATIVE
+      && coplanar_orientation(*c,*r,*b) != NEGATIVE;
+  }
+  return false; // ca separes
+  
+}
+
+
+template <class K>
+bool  _intersection_test_edge(const typename K::Point_3 * p, 
+			      const typename K::Point_3 * q, 
+			      const typename K::Point_3 * r,
+			      const typename K::Point_3 * a, 
+			      const typename K::Point_3 * b, 
+			      const typename K::Point_3 * c,
+			      const K & k){
+  
+  CGAL_kernel_precondition( k.coplanar_orientation_3_object() (*p,*q,*r)
+			    == POSITIVE);
+  CGAL_kernel_precondition( k.coplanar_orientation_3_object() (*a,*b,*c)
+			    == POSITIVE);
+
+  // Vertex p sees edge ca
+  
+  typename K::Coplanar_orientation_3 coplanar_orientation = 
+    k.coplanar_orientation_3_object();
+
+
+
+  if (coplanar_orientation(*c,*a,*q) != NEGATIVE) {  //pq straddles (ac)
+    if (coplanar_orientation(*p,*a,*q) != NEGATIVE) 
+      return coplanar_orientation(*p,*q,*c) != NEGATIVE ;
+   
+    return coplanar_orientation(*q,*r,*a) != NEGATIVE
+      && coplanar_orientation(*r,*p,*a) != NEGATIVE;
+  }
+   
+  if (coplanar_orientation(*c,*a,*r) != NEGATIVE) { 
+    // pr and qr straddle line (pr)
+    return coplanar_orientation(*p,*a,*r) != NEGATIVE
+      && ( coplanar_orientation(*p,*r,*c) != NEGATIVE
+	   || coplanar_orientation(*q,*r,*c) != NEGATIVE );
+  }
+    
+  return false; //ac separes
+}
+
 
 template <class K>
 bool do_intersect(const typename CGAL_WRAP(K)::Triangle_3 &t1, 
@@ -358,96 +447,6 @@ bool do_intersect_coplanar(const typename CGAL_WRAP(K)::Triangle_3 &t1,
     
 }
 
-
-
-template <class K>
-bool  _intersection_test_vertex(const typename K::Point_3 * p, 
-				const typename K::Point_3 * q, 
-				const typename K::Point_3 * r,
-				const typename K::Point_3 * a, 
-				const typename K::Point_3 * b, 
-				const typename K::Point_3 * c,
-				const K & k){
-
-  CGAL_kernel_precondition( k.coplanar_orientation_3_object() (*p,*q,*r)
-			    == POSITIVE);
-  CGAL_kernel_precondition( k.coplanar_orientation_3_object() (*a,*b,*c)
-			    == POSITIVE);
-  
-
-  // Vertex p sees vertex c
-
-  typename K::Coplanar_orientation_3 coplanar_orientation = 
-    k.coplanar_orientation_3_object();
-
-
-  if (coplanar_orientation(*c,*a,*q) != NEGATIVE) {
-    if (coplanar_orientation(*c,*b,*q) != POSITIVE) {
-      if (coplanar_orientation(*p,*a,*q) == POSITIVE) 
-        return  coplanar_orientation(*p,*b,*q) != POSITIVE;  
-      
-      return coplanar_orientation(*p,*a,*r) != NEGATIVE
-	&& coplanar_orientation(*q,*r,*a) != NEGATIVE;
-    }
-     
-    if (coplanar_orientation(*p,*b,*q) != POSITIVE)
-      return coplanar_orientation(*c,*b,*r) != POSITIVE
-	&& coplanar_orientation(*q,*r,*b) != NEGATIVE;
-    return false;
-    
-  }
-  
-  if (coplanar_orientation(*c,*a,*r) != NEGATIVE) { //qr straddles (ac) 
-    if (coplanar_orientation(*q,*r,*c) != NEGATIVE)
-      return (coplanar_orientation(*p,*a,*r) != NEGATIVE);
-    
-    return coplanar_orientation(*q,*r,*b) != NEGATIVE
-      && coplanar_orientation(*c,*r,*b) != NEGATIVE;
-  }
-  return false; // ca separes
-  
-}
-
-
-template <class K>
-bool  _intersection_test_edge(const typename K::Point_3 * p, 
-			      const typename K::Point_3 * q, 
-			      const typename K::Point_3 * r,
-			      const typename K::Point_3 * a, 
-			      const typename K::Point_3 * b, 
-			      const typename K::Point_3 * c,
-			      const K & k){
-  
-  CGAL_kernel_precondition( k.coplanar_orientation_3_object() (*p,*q,*r)
-			    == POSITIVE);
-  CGAL_kernel_precondition( k.coplanar_orientation_3_object() (*a,*b,*c)
-			    == POSITIVE);
-
-  // Vertex p sees edge ca
-  
-  typename K::Coplanar_orientation_3 coplanar_orientation = 
-    k.coplanar_orientation_3_object();
-
-
-
-  if (coplanar_orientation(*c,*a,*q) != NEGATIVE) {  //pq straddles (ac)
-    if (coplanar_orientation(*p,*a,*q) != NEGATIVE) 
-      return coplanar_orientation(*p,*q,*c) != NEGATIVE ;
-   
-    return coplanar_orientation(*q,*r,*a) != NEGATIVE
-      && coplanar_orientation(*r,*p,*a) != NEGATIVE;
-  }
-   
-  if (coplanar_orientation(*c,*a,*r) != NEGATIVE) { 
-    // pr and qr straddle line (pr)
-    return coplanar_orientation(*p,*a,*r) != NEGATIVE
-      && ( coplanar_orientation(*p,*r,*c) != NEGATIVE
-	   || coplanar_orientation(*q,*r,*c) != NEGATIVE );
-  }
-    
-  return false; //ac separes
-}
-
 } // namespace CGALi
 
 
@@ -455,7 +454,7 @@ template <class K>
 inline bool do_intersect(const Triangle_3<K> &t1, 
 			 const Triangle_3<K> &t2) 
 {
-  return CGALi::do_intersect(t1,t2,K());
+  return typename K::Do_intersect_3()(t1,t2);
 }
 	
 

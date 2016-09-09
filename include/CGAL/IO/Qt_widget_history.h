@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_history.h,v $
-// $Revision: 1.14.2.1 $ $Date: 2003/11/07 13:40:40 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2003/10/21 12:23:22 $
+// $Name:  $
 //
 // Author(s)     : Radu Ursu & Laurent Rineau
 

@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Filtered_extended_homogeneous.h,v $
-// $Revision: 1.25 $ $Date: 2003/10/21 12:20:54 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.31.4.1 $ $Date: 2004/12/08 20:04:33 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_FILTERED_EXTENDED_HOMOGENEOUS_H
@@ -24,8 +24,8 @@
 #include <CGAL/Interval_arithmetic.h>
 #include <CGAL/Homogeneous.h>
 #include <CGAL/number_utils.h>
-#undef _DEBUG
-#define _DEBUG 59
+#undef CGAL_NEF_DEBUG
+#define CGAL_NEF_DEBUG 59
 #include <CGAL/Nef_2/debug.h>
 
 #define REDUCE_INTERSECTION_POINTS
@@ -91,22 +91,20 @@ public:
 
 
   // only for visualization:
-  static void set_R(const RT& R) { _R = R; }
+  static void set_R(const RT& R) { R_ = R; }
   RT eval_at(const RT& r) const { return _m*r+_n; }
-  RT eval_at_R() const { return _m*_R+_n; }
+  RT eval_at_R() const { return _m*R_+_n; }
 protected:
-  static RT _R;
+  static RT R_;
 };
 
-template <class RT> RT SPolynomial<RT>::_R;
+template <class RT> RT SPolynomial<RT>::R_;
 
-#ifndef CGAL_CFG_MATCHING_BUG_2
 template <typename RT>
 int sign(const SPolynomial<RT>& p)
 { 
   return p.sign(); 
 }
-#endif
 
 
 template <typename RT>
@@ -138,7 +136,7 @@ bool operator<(const SPolynomial<RT>& p1, int i)
 
 template <class RT> 
 inline double to_double(const SPolynomial<RT>& p) 
-{ return (CGAL::to_double(p.eval_at(SPolynomial<RT>::_R))); }
+{ return (CGAL::to_double(p.eval_at(SPolynomial<RT>::R_))); }
 
 template <class RT> 
 std::ostream& operator<<(std::ostream& os, const SPolynomial<RT>& p)
@@ -236,6 +234,11 @@ template <typename RT_>
 class Extended_point : public Handle_for< Extended_point_rep<RT_> > {
   typedef Extended_point_rep<RT_> Rep;
   typedef Handle_for< Rep >       Base;
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::ptr;
+#endif
+
 public:
   typedef typename Rep::DT DT;
   typedef RT_ RT;
@@ -245,17 +248,17 @@ public:
 
   Extended_point(const RT& x, const RT& y, const RT& w) :
     Base( Rep(x,y,w) )
-  { if (w < 0) ptr()->negate(); }
+  { if (w < 0) this->ptr()->negate(); }
   
   Extended_point(const SPolynomial<RT>& x, 
                  const SPolynomial<RT>& y, 
                  const RT& w) : Base( Rep(x,y,w) )
-  { if (w < 0) ptr()->negate(); }
+  { if (w < 0) this->ptr()->negate(); }
 
   Extended_point(const RT& mx, const RT& nx,
                  const RT& my, const RT& ny, const RT& w) :
     Base( Rep(SP(mx,nx), SP(my,ny), w) )
-  { if (w < 0) ptr()->negate(); }
+  { if (w < 0) this->ptr()->negate(); }
   
   Extended_point(const Extended_point<RT>& p) : Base(p) {}
   ~Extended_point() {}
@@ -263,28 +266,28 @@ public:
   Extended_point& operator=(const Extended_point<RT>& p) 
   { Base::operator=(p); return *this; }
 
-  const RT& mx() const { return ptr()->x_.m(); }
-  const RT& nx() const { return ptr()->x_.n(); }
-  const RT& my() const { return ptr()->y_.m(); }
-  const RT& ny() const { return ptr()->y_.n(); }
-  const RT& hw()  const { return ptr()->w_; }
-  const DT& mxD() const { return ptr()->mxd; }
-  const DT& nxD() const { return ptr()->nxd; }
-  const DT& myD() const { return ptr()->myd; }
-  const DT& nyD() const { return ptr()->nyd; }
-  const DT& hwD() const { return ptr()->wd; }
+  const RT& mx() const { return this->ptr()->x_.m(); }
+  const RT& nx() const { return this->ptr()->x_.n(); }
+  const RT& my() const { return this->ptr()->y_.m(); }
+  const RT& ny() const { return this->ptr()->y_.n(); }
+  const RT& hw()  const { return this->ptr()->w_; }
+  const DT& mxD() const { return this->ptr()->mxd; }
+  const DT& nxD() const { return this->ptr()->nxd; }
+  const DT& myD() const { return this->ptr()->myd; }
+  const DT& nyD() const { return this->ptr()->nyd; }
+  const DT& hwD() const { return this->ptr()->wd; }
 
   SQuotient<RT> x() const 
-  { return SQuotient<RT>(ptr()->x_, ptr()->w_); }
+  { return SQuotient<RT>(this->ptr()->x_, this->ptr()->w_); }
   SQuotient<RT> y() const 
-  { return SQuotient<RT>(ptr()->y_, ptr()->w_); }
+  { return SQuotient<RT>(this->ptr()->y_, this->ptr()->w_); }
 
-  const SPolynomial<RT> hx() const { return ptr()->x_; }
-  const SPolynomial<RT> hy() const { return ptr()->y_; }
+  const SPolynomial<RT> hx() const { return this->ptr()->x_; }
+  const SPolynomial<RT> hy() const { return this->ptr()->y_; }
 
   bool is_standard() const { return (mx()==0)&&(my()==0); }
   Extended_point<RT> opposite() const 
-  { return Extended_point<RT>(-mx(),nx(),-my(),ny(),w()); }
+  { return Extended_point<RT>(-mx(),nx(),-my(),ny(),this->w()); }
 
 #ifdef KERNEL_CHECK
 typedef CGAL::Extended_homogeneous<RT_> CheckKernel;
@@ -384,7 +387,7 @@ template <typename RT>
 int orientation(const Extended_point<RT>& p1, 
                 const Extended_point<RT>& p2, 
                 const Extended_point<RT>& p3) 
-{ TRACEN("orientation "<<p1<<p2<<p3);
+{ CGAL_NEF_TRACEN("orientation "<<p1<<p2<<p3);
   int res;
   try { INCTOTAL(or2); Protect_FPU_rounding<true> Protection;
     res = orientation_coeff2(p1.mxD(),p1.nxD(),p1.myD(),p1.nyD(),p1.hwD(),
@@ -1002,11 +1005,11 @@ Standard_FT abscissa_distance(const Standard_line_2& l) const
 
 Point_type determine_type(const Standard_line_2& l) const
 {
-  // TRACEN("determine_type "<<l);
+  // CGAL_NEF_TRACEN("determine_type "<<l);
   Standard_RT adx = CGAL_NTS abs(dx(l)), ady = CGAL_NTS abs(dy(l));
   int sdx = CGAL_NTS sign(dx(l)), sdy = CGAL_NTS sign(dy(l));
   int cmp_dx_dy = CGAL_NTS compare(adx,ady), s(1);
-  // TRACEN("   "<<cmp_dx_dy<<" "<<sdx<<" "<<sdy);
+  // CGAL_NEF_TRACEN("   "<<cmp_dx_dy<<" "<<sdx<<" "<<sdy);
   if (sdx < 0 && ( cmp_dx_dy > 0 || cmp_dx_dy == 0 && 
       sdy != (s=CGAL_NTS sign(abscissa_distance(l))))) {
     if (0 == s) return ( sdy < 0 ? SWCORNER : NWCORNER );
@@ -1039,7 +1042,7 @@ Point_2 construct_point(const Standard_point_2& p) const
 Point_2 construct_point(const Standard_line_2& l, Point_type& t) const
 {
   t = determine_type(l);
-  // TRACEN("construct_point(line)"<<l<<" "<<t);
+  // CGAL_NEF_TRACEN("construct_point(line)"<<l<<" "<<t);
   Point_2 res;
   switch (t) {
     case SWCORNER:   res = epoint(-1, 0, -1, 0, 1); break;

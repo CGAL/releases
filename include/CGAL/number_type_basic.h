@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/number_type_basic.h,v $
-// $Revision: 1.15 $ $Date: 2003/10/21 12:21:47 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.31 $ $Date: 2004/09/22 13:20:42 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  
@@ -27,7 +27,6 @@
 
 #define CGAL_PI 3.14159265358979323846
 
-// CGAL_NTS is deprecated, and should be replaced by CGAL::
 #define CGAL_NTS CGAL::
 // #define CGAL_NTS CGAL::NTS::
 
@@ -35,54 +34,404 @@
 #include <cmath>
 #endif
 
-// CGAL uses std::min and std::max if feasible
+// CGAL uses std::min and std::max
 
 #include <algorithm>
 
 CGAL_BEGIN_NAMESPACE
 
-#ifndef CGAL_CFG_RETURN_TYPE_BUG
-
 using std::min;
 using std::max;
-
-#else
-
-// We have to redefine them to change the return type from const NT& to NT.
-
-template <class NT>
-inline
-NT
-min(const NT& x, const NT& y)
-{ return (y < x) ? y : x; }
-
-template <class NT, class Comp>
-inline
-NT
-min(const NT& x, const NT& y, const Comp& c)
-{ return c(x, y) ? x : y; }
-
-template <class NT>
-inline
-NT
-max(const NT& x, const NT& y)
-{ return (x < y) ? y : x; }
-
-template <class NT, class Comp>
-inline
-NT
-max(const NT& x, const NT& y, const Comp& c)
-{ return c(x, y) ? y : x; }
-
-#endif
 
 CGAL_END_NAMESPACE
 
 #include <CGAL/Number_type_traits.h>
 #include <CGAL/number_utils.h>
-#include <CGAL/number_utils_classes.h>
 #include <CGAL/double.h>
 #include <CGAL/float.h>
 #include <CGAL/int.h>
+
+// Including all number type files is necessary for compilers implementing
+// two-stage name lookup (like g++ >= 3.4).
+// A nicer solution needs more thought.
+
+#ifdef CGAL_CFG_HAS_TWO_STAGE_NAME_LOOKUP
+
+CGAL_BEGIN_NAMESPACE
+
+// MP_Float
+
+class MP_Float;
+
+Comparison_result compare(const MP_Float&, const MP_Float&);
+Sign sign(const MP_Float &);
+MP_Float square(const MP_Float&);
+MP_Float sqrt(const MP_Float&);
+double to_double(const MP_Float&);
+std::pair<double,double> to_interval(const MP_Float &);
+bool is_finite(const MP_Float &);
+bool is_valid(const MP_Float &);
+
+// long
+
+double to_double(long);
+std::pair<double,double> to_interval(const long &);
+bool is_finite(long);
+bool is_valid(long);
+
+// long long
+
+#ifdef CGAL_USE_LONG_LONG
+double to_double(long long);
+std::pair<double,double> to_interval(const long long &);
+bool is_finite(long long);
+bool is_valid(long long);
+long long int div(long long int, long long int);
+#endif // CGAL_USE_LONG_LONG
+
+// Fixed_precision_nt
+
+class Fixed_precision_nt;
+
+double to_double(Fixed_precision_nt);
+bool is_finite(Fixed_precision_nt);
+bool is_valid(Fixed_precision_nt);
+std::pair<double,double> to_interval(Fixed_precision_nt);
+
+// Quotient
+
+template <typename> class Quotient;
+
+template <class NT>
+Quotient<NT> sqrt(const Quotient<NT> &);
+
+template <class NT>
+Comparison_result compare(const Quotient<NT>&, const Quotient<NT>&);
+
+template <class NT>
+double to_double(const Quotient<NT>&);
+
+template <class NT>
+std::pair<double,double> to_interval (const Quotient<NT>&);
+
+template <class NT>
+bool is_valid(const Quotient<NT>&);
+
+template <class NT>
+bool is_finite(const Quotient<NT>&);
+
+// Lazy_exact_nt
+
+template <typename> class Lazy_exact_nt;
+
+template <typename ET>
+double to_double(const Lazy_exact_nt<ET> &);
+
+template <typename ET>
+std::pair<double,double> to_interval(const Lazy_exact_nt<ET> &);
+
+template <typename ET>
+Sign sign(const Lazy_exact_nt<ET> &);
+
+template <typename ET>
+Comparison_result
+compare(const Lazy_exact_nt<ET> &, const Lazy_exact_nt<ET> &);
+
+template <typename ET>
+Lazy_exact_nt<ET> abs(const Lazy_exact_nt<ET> &);
+
+template <typename ET>
+Lazy_exact_nt<ET> square(const Lazy_exact_nt<ET> &);
+
+template <typename ET>
+Lazy_exact_nt<ET> sqrt(const Lazy_exact_nt<ET> &);
+
+template <typename ET>
+Lazy_exact_nt<ET> min(const Lazy_exact_nt<ET> &, const Lazy_exact_nt<ET> &);
+
+template <typename ET>
+Lazy_exact_nt<ET> max(const Lazy_exact_nt<ET> &, const Lazy_exact_nt<ET> &);
+
+template <typename ET>
+bool is_finite(const Lazy_exact_nt<ET> &);
+
+template <typename ET>
+bool is_valid(const Lazy_exact_nt<ET> &);
+
+// Interval_nt
+
+template <bool> class Interval_nt;
+
+template <bool Protected>
+double to_double (const Interval_nt<Protected> &);
+
+template <bool Protected>
+std::pair<double, double> to_interval (const Interval_nt<Protected> &);
+
+template <bool Protected>
+bool is_valid (const Interval_nt<Protected> &);
+
+template <bool Protected>
+bool is_finite (const Interval_nt<Protected> &);
+
+template <bool Protected>
+Interval_nt<Protected> sqrt (const Interval_nt<Protected> &);
+
+template <bool Protected>
+Interval_nt<Protected>
+min (const Interval_nt<Protected> &, const Interval_nt<Protected> &);
+
+template <bool Protected>
+Interval_nt<Protected>
+max (const Interval_nt<Protected> &, const Interval_nt<Protected> &);
+
+template <bool Protected>
+Interval_nt<Protected> square (const Interval_nt<Protected> &);
+
+template <bool Protected>
+Interval_nt<Protected> abs (const Interval_nt<Protected> &);
+
+template <bool Protected>
+Sign sign (const Interval_nt<Protected> &);
+
+template <bool Protected>
+Comparison_result
+compare (const Interval_nt<Protected> &, const Interval_nt<Protected> &);
+
+// Filtered_exact
+
+template < class, class, class, bool, class > class Filtered_exact;
+struct Dynamic;
+
+#ifndef CGAL_DENY_INEXACT_OPERATIONS_ON_FILTER
+template < class CT, class ET, bool Protected, class Cache >
+Filtered_exact<CT,ET,Dynamic,Protected,Cache>
+div (const Filtered_exact<CT,ET,Dynamic, Protected,Cache>&,
+     const Filtered_exact<CT,ET, Dynamic, Protected,Cache>&);
+
+template < class CT, class ET, class Type, bool Protected, class Cache >
+Filtered_exact<CT, ET, Type, Protected, Cache>
+sqrt (const Filtered_exact<CT, ET, Type, Protected, Cache>&);
+
+template < class CT, class ET, bool Protected, class Cache >
+Filtered_exact<CT,ET,Dynamic,Protected,Cache>
+gcd (const Filtered_exact<CT,ET,Dynamic, Protected,Cache>&,
+     const Filtered_exact<CT,ET,Dynamic, Protected,Cache>&);
+
+template < class CT, class ET, bool Protected, class Cache >
+Filtered_exact<CT,ET,Dynamic,Protected,Cache>
+square (const Filtered_exact<CT, ET, Dynamic, Protected, Cache>&);
+
+#endif // CGAL_DENY_INEXACT_OPERATIONS_ON_FILTER
+
+template < class CT, class ET, class Type, bool Protected, class Cache >
+bool is_valid (const Filtered_exact<CT, ET, Type, Protected, Cache>&);
+
+template < class CT, class ET, class Type, bool Protected, class Cache >
+bool is_finite (const Filtered_exact<CT, ET, Type, Protected, Cache>&);
+
+template < class CT, class ET, class Type, bool Protected, class Cache >
+double to_double (const Filtered_exact<CT, ET, Type, Protected, Cache>&);
+
+template < class CT, class ET, class Type, bool Protected, class Cache >
+std::pair<double, double>
+to_interval (const Filtered_exact<CT, ET, Type, Protected, Cache>&);
+
+template < class CT, class ET, bool Protected, class Cache >
+Sign sign (const Filtered_exact<CT, ET, Dynamic, Protected, Cache>&);
+
+template < class CT, class ET, bool Protected, class Cache >
+Comparison_result
+compare (const Filtered_exact<CT, ET, Dynamic, Protected, Cache>&,
+         const Filtered_exact<CT, ET, Dynamic, Protected, Cache>&);
+
+template < class CT, class ET, bool Protected, class Cache >
+Filtered_exact<CT,ET,Dynamic,Protected,Cache>
+abs (const Filtered_exact<CT, ET, Dynamic, Protected, Cache>&);
+
+template < class CT, class ET, bool Protected, class Cache >
+Filtered_exact<CT,ET,Dynamic,Protected,Cache>
+min (const Filtered_exact<CT, ET, Dynamic, Protected, Cache>&,
+     const Filtered_exact<CT, ET, Dynamic, Protected, Cache>&);
+
+template < class CT, class ET, bool Protected, class Cache >
+Filtered_exact<CT,ET,Dynamic,Protected,Cache>
+max (const Filtered_exact<CT, ET, Dynamic, Protected, Cache>&,
+     const Filtered_exact<CT, ET, Dynamic, Protected, Cache>&);
+
+
+// Polynomial
+
+template <typename> class Polynomial;
+
+template <typename ET>
+double to_double(const Polynomial<ET> &);
+
+template <typename ET>
+std::pair<double,double> to_interval(const Polynomial<ET> &);
+
+template <typename ET>
+Sign sign(const Polynomial<ET> &);
+
+
+template <typename ET>
+Polynomial<ET> abs(const Polynomial<ET> &);
+
+template <typename ET>
+bool is_finite(const Polynomial<ET> &);
+
+template <typename ET>
+bool is_valid(const Polynomial<ET> &);
+
+template <typename ET>
+Polynomial<ET> gcd(const Polynomial<ET> &, const Polynomial<ET> &);
+
+// Nef_polynomial
+
+template <typename> class Nef_polynomial;
+
+template <typename ET>
+double to_double(const Nef_polynomial<ET> &);
+
+template <typename ET>
+Nef_polynomial<ET> gcd(const Nef_polynomial<ET> &, const Nef_polynomial<ET> &);
+
+
+
+
+#ifdef CGAL_USE_GMP
+// Gmpz
+
+class Gmpz;
+
+double to_double(const Gmpz&);
+Sign sign(const Gmpz &);
+bool is_valid(const Gmpz &);
+bool is_finite(const Gmpz &);
+Gmpz sqrt(const Gmpz &);
+Gmpz div(const Gmpz &, const Gmpz &);
+Gmpz gcd(const Gmpz &, const Gmpz &);
+Gmpz gcd(const Gmpz &, int);
+std::pair<double, double> to_interval (const Gmpz &);
+
+// Gmpq
+
+class Gmpq;
+
+double to_double(const Gmpq&);
+Sign sign(const Gmpq &);
+bool is_valid(const Gmpq &);
+bool is_finite(const Gmpq &);
+std::pair<double, double> to_interval (const Gmpq &);
+#endif // CGAL_USE_GMP
+
+#ifdef CGAL_USE_GMPXX
+// GMPXX
+
+CGAL_END_NAMESPACE
+template <typename, typename> class __gmp_expr;
+class __gmpz_value;
+class __gmpq_value;
+typedef __gmp_expr<__gmpz_value, __gmpz_value> mpz_class;
+typedef __gmp_expr<__gmpq_value, __gmpq_value> mpq_class;
+CGAL_BEGIN_NAMESPACE
+
+template < typename T, typename U >
+::__gmp_expr<T, T> sqrt(const ::__gmp_expr<T, U> &);
+
+template < typename T, typename U >
+double to_double(const ::__gmp_expr<T, U> &);
+
+template < typename T, typename U >
+bool is_finite(const ::__gmp_expr<T, U> &);
+
+template < typename T, typename U >
+bool is_valid(const ::__gmp_expr<T, U> &);
+
+template < typename T, typename U >
+std::pair<double,double> to_interval (const ::__gmp_expr<T, U> &);
+
+std::pair<double, double> to_interval (const mpz_class &);
+
+std::pair<double, double> to_interval (const mpq_class &);
+
+template < typename T, typename U >
+::__gmp_expr<T, T> abs(const ::__gmp_expr<T, U>&);
+
+template < typename T, typename U >
+::__gmp_expr<T, T> square(const ::__gmp_expr<T, U>&);
+
+
+template < typename T, typename U >
+Sign sign(const ::__gmp_expr<T, U> &);
+
+template < typename T, typename U1, typename U2 >
+Comparison_result
+compare(const ::__gmp_expr<T, U1> &, const ::__gmp_expr<T, U2> &);
+
+template < typename T, typename U >
+bool is_zero(const ::__gmp_expr<T, U> &);
+
+template < typename T, typename U >
+bool is_one(const ::__gmp_expr<T, U> &);
+
+template < typename T, typename U >
+bool is_positive(const ::__gmp_expr<T, U> &);
+
+template < typename T, typename U >
+bool is_negative(const ::__gmp_expr<T, U> &);
+#endif // CGAL_USE_GMPXX
+
+// CORE::Expr
+#ifdef CGAL_USE_CORE
+CGAL_END_NAMESPACE
+
+namespace CORE {
+  class Expr;
+}
+
+CGAL_BEGIN_NAMESPACE
+
+double to_double(const CORE::Expr &);
+CORE::Expr sqrt(const CORE::Expr &);
+bool is_finite(const CORE::Expr &);
+bool is_valid(const CORE::Expr &);
+Sign sign(const CORE::Expr&);
+Comparison_result compare(const CORE::Expr&, const CORE::Expr&);
+std::pair<double,double> to_interval (const CORE::Expr &);
+#endif // CGAL_USE_CORE
+
+// Integer and Double from _QP_solver
+
+CGAL_END_NAMESPACE
+#include <CGAL/_QP_solver/Double.h>
+CGAL_BEGIN_NAMESPACE
+
+
+// specializations for Quotient
+
+CGAL_END_NAMESPACE
+#include <CGAL/Quotient.h>
+
+#ifdef CGAL_USE_GMP
+#  include <CGAL/Gmpz.h>
+#endif // CGAL_USE_GMP
+
+#include <CGAL/MP_Float.h>
+
+CGAL_BEGIN_NAMESPACE
+
+#ifdef CGAL_USE_GMP
+double to_double(const Quotient<Gmpz>&);
+#endif // CGAL_USE_GMP
+
+double to_double(const Quotient<MP_Float>&);
+std::pair<double,double> to_interval(const Quotient<MP_Float>&);
+
+CGAL_END_NAMESPACE
+
+#endif // CGAL_CFG_HAS_TWO_STAGE_NAME_LOOKUP
+
+#include <CGAL/number_utils_classes.h>
 
 #endif // CGAL_NUMBER_TYPE_BASIC_H

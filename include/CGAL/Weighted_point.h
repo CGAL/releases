@@ -1,4 +1,4 @@
-// Copyright (c) 1999  INRIA Sophia-Antipolis (France).
+// Copyright (c) 1999-2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Weighted_point.h,v $
-// $Revision: 1.4 $ $Date: 2003/09/18 10:26:19 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/09/13 12:18:39 $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec
 //                 Sylvain Pion
@@ -29,17 +29,27 @@ class Weighted_point : public Pt
 public:
   typedef We Weight;
   typedef Pt Point;
-  //typedef typename Point::RT RT;
 
-  Weighted_point (const Point &p=Point(), const Weight &w = Weight(0))
-      : Point(p), _weight(w) {}
+  Weighted_point ()
+      : Point(), _weight(0) {}
 
-  Point point() const
+  //explicit
+  Weighted_point (const Point &p)
+      : Point(p), _weight(0)
   {
-      return (Point)*this;
+    //abort();
+    //std::cerr << "Warning : truncated weight !!!" << std::endl;
   }
 
-  Weight weight() const
+  Weighted_point (const Point &p, const Weight &w)
+      : Point(p), _weight(w) {}
+
+  const Point & point() const
+  {
+      return *this;
+  }
+
+  const Weight & weight() const
   {
       return _weight;
   }
@@ -76,7 +86,8 @@ operator>>(std::istream &is, Weighted_point<Point,Weight> &wp)
 	Weight w;
 	Point p;
 	is >> p >> w;
-	wp = Weighted_point<Point,Weight>(p,w);
+	if (is)
+	    wp = Weighted_point<Point,Weight>(p,w);
 	return is;
 }
 

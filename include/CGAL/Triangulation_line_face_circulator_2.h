@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_line_face_circulator_2.h,v $
-// $Revision: 1.29.2.1 $ $Date: 2004/01/07 11:03:40 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.34 $ $Date: 2004/03/02 05:57:00 $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec
 
@@ -69,7 +69,7 @@ private:
             
 public:
   Triangulation_line_face_circulator_2()
-    : pos(NULL), _tr(NULL), s(undefined), i(-1)
+    : pos(), _tr(NULL), s(undefined), i(-1)
     {}
             
   Triangulation_line_face_circulator_2(Vertex_handle v,
@@ -92,7 +92,7 @@ public:
   Face*                   operator->() {return &*pos;}
   Face&                   operator*() { return *pos;}
   Face_handle             handle() {return pos;}
-  operator Face_handle() const {return pos;}
+  operator const Face_handle() const {return pos;}
   bool  operator==(const Line_face_circulator& lfc) const;
   bool  operator!=(const Line_face_circulator& lfc) const;
 #ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
@@ -119,7 +119,8 @@ private:
 
 #ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
 template < class Gt, class Tds >
-inline bool
+inline
+bool
 operator==(typename Tds::Face_handle fh, 
 	   Triangulation_line_face_circulator_2<Gt,Tds> fc)
 {
@@ -127,7 +128,8 @@ operator==(typename Tds::Face_handle fh,
 }
 
 template < class Gt, class Tds >
-inline bool
+inline
+bool
 operator!=(typename Tds::Face_handle fh, 
 	   Triangulation_line_face_circulator_2<Gt, Tds> fc)
 {
@@ -155,7 +157,7 @@ Triangulation_line_face_circulator_2<Gt,Tds>::
 Triangulation_line_face_circulator_2(Vertex_handle v,
 				     const Triangulation_2<Gt,Tds>* tr,
 				     const Point& dir)
-  :pos(NULL), _tr(tr), s(undefined)
+  :pos(), _tr(tr), s(undefined)
   // begin at the face incident to v, traversed by the ray from v to
   // dir 
   // or null iterator
@@ -237,7 +239,7 @@ Triangulation_line_face_circulator_2<Gt,Tds>::
 Triangulation_line_face_circulator_2(const Point& pp,
 				     const Point& qq,
 				     const Triangulation_2<Gt,Tds> * t)
-     : pos(NULL), _tr(t), s(undefined), p(pp), q(qq)
+     : pos(), _tr(t), s(undefined), p(pp), q(qq)
   //begins at the  first finite face traversed be the oriented line pq
 {
   Vertex_handle inf = _tr->infinite_vertex();
@@ -423,7 +425,7 @@ void
 Triangulation_line_face_circulator_2<Gt,Tds>::
 increment()
 {
-  CGAL_triangulation_precondition(pos != CGAL_CIRC_NULL);
+  CGAL_triangulation_precondition(pos != Face_handle());
   if(s == vertex_vertex || s == edge_vertex) {
     Orientation o;
     do{
@@ -476,7 +478,7 @@ void
 Triangulation_line_face_circulator_2<Gt,Tds>::             
 decrement()
 {
-  CGAL_triangulation_precondition(pos != CGAL_CIRC_NULL);
+  CGAL_triangulation_precondition(pos != Face_handle());
   if(s == vertex_vertex || s == vertex_edge) {
     if(s == vertex_vertex){
       i = cw(i);
@@ -596,7 +598,7 @@ Triangulation_line_face_circulator_2<Gt,Tds>&
 Triangulation_line_face_circulator_2<Gt,Tds>::
 operator++()
 {
-  CGAL_triangulation_precondition( pos != CGAL_CIRC_NULL) ;
+  CGAL_triangulation_precondition( pos != Face_handle()) ;
   increment();
   return *this;
 }
@@ -607,7 +609,7 @@ Triangulation_line_face_circulator_2<Gt,Tds>&
 Triangulation_line_face_circulator_2<Gt,Tds>::            
 operator--()
 {
-  CGAL_triangulation_precondition(*this != CGAL_CIRC_NULL) ;
+  CGAL_triangulation_precondition(pos != Face_handle()) ;
   decrement();
   return *this;
 }
@@ -639,8 +641,8 @@ inline bool
 Triangulation_line_face_circulator_2<Gt,Tds>::    
 operator==(const Line_face_circulator& lfc) const
 {
-  CGAL_triangulation_precondition( *this != CGAL_CIRC_NULL &&
-				   lfc != CGAL_CIRC_NULL);
+  CGAL_triangulation_precondition( pos != Face_handle() &&
+			       lfc.pos != Face_handle());
   return ( pos == lfc.pos &&  _tr == lfc._tr &&
             s== lfc.s && p==lfc.p && q==lfc.q);
 }
@@ -658,7 +660,7 @@ inline bool
 Triangulation_line_face_circulator_2<Gt,Tds>::   
 is_empty() const
 {
-  return pos == (CGAL_CIRC_NULL);
+  return pos == Face_handle();
 }
 
 template < class Gt, class Tds >
@@ -667,12 +669,12 @@ Triangulation_line_face_circulator_2<Gt,Tds>::
 operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
 {
   CGAL_triangulation_assertion( n == NULL);
-  return pos ==(CGAL_CIRC_NULL);
+  return pos == Face_handle();
 }
             
 template < class Gt, class Tds >
 inline bool
-Triangulation_line_face_circulator_2<Gt,Tds>:: 
+Triangulation_line_face_circulator_2<Gt,Tds>::            
 operator!=(CGAL_NULL_TYPE n) const
 {
   CGAL_triangulation_assertion( n == NULL);

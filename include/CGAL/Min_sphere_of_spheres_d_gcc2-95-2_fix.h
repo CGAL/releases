@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d_gcc2-95-2_fix.h,v $
 // $Revision: 1.5 $ $Date: 2003/09/18 10:23:19 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Kaspar Fischer
 

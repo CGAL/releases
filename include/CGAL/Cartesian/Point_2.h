@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Point_2.h,v $
-// $Revision: 1.33 $ $Date: 2003/10/21 12:14:19 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.40 $ $Date: 2004/06/20 18:17:02 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
 
@@ -27,54 +27,50 @@
 #include <CGAL/Origin.h>
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Twotuple.h>
-#include <CGAL/Kernel/Cartesian_coordinate_iterator_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class PointC2
-  : public R_::template Handle<Twotuple<typename R_::FT> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef Twotuple<FT>	                           rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Twotuple<FT>	                           Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
-  typedef Cartesian_coordinate_iterator_2<R_> Cartesian_const_iterator;
+  typedef const FT* Cartesian_const_iterator;
 
   typedef R_                                     R;
 
   PointC2() {}
 
   PointC2(const Origin &)
-    : base(rep(FT(0), FT(0))) {}
+    : base(FT(0), FT(0)) {}
 
   PointC2(const FT &x, const FT &y)
-    : base(rep(x, y)) {}
+    : base(x, y) {}
 
   PointC2(const FT &hx, const FT &hy, const FT &hw)
   {
     if (hw != FT(1))
-      initialize_with( rep(hx/hw, hy/hw) );
+      base = Rep(hx/hw, hy/hw);
     else
-      initialize_with( rep(hx, hy) );
+      base = Rep(hx, hy);
   }
-
-  PointC2(const Vector_2 &v)
-    : base(v) {}
 
   const FT& x() const
   {
-      return Ptr()->e0;
+      return get(base).e0;
   }
   const FT& y() const
   {
-      return Ptr()->e1;
+      return get(base).e1;
   }
 
   const FT& hx() const
@@ -100,12 +96,16 @@ public:
 
   Cartesian_const_iterator cartesian_begin() const 
   {
-    return Cartesian_const_iterator(static_cast<const Point_2* >(this),0);
+    return & get(base).e0; 
+    //return Cartesian_const_iterator(static_cast<const Point_2* >(this),0);
   }
 
   Cartesian_const_iterator cartesian_end() const 
   {
-    return Cartesian_const_iterator(static_cast<const Point_2* >(this), 2);
+    const FT* ptr = & get(base).e1;
+    ptr++;
+    return ptr;
+    //return Cartesian_const_iterator(static_cast<const Point_2* >(this), 2);
   }
 
   int dimension() const
@@ -115,7 +115,7 @@ public:
 
   bool operator==(const PointC2 &p) const
   {
-      if (identical(p))
+      if (CGAL::identical(base, p.base))
 	  return true;
       return equal_xy(*this, p);
   }
@@ -128,7 +128,7 @@ public:
 
   Point_2 transform(const Aff_transformation_2 &t) const
   {
-    return t.transform(*this);
+    return t.transform(static_cast<const Point_2&>(*this));
   }
 };
 
@@ -138,7 +138,7 @@ const typename PointC2<R>::FT &
 PointC2<R>::cartesian(int i) const
 {
   CGAL_kernel_precondition( (i == 0) || (i == 1) );
-  return (i == 0) ? x() : y();
+  return *(&(get(base).e0)+i);
 }
 
 template < class R >
@@ -157,8 +157,8 @@ CGAL_KERNEL_INLINE
 Bbox_2
 PointC2<R>::bbox() const
 {
-  std::pair<double,double> xp = CGAL::to_interval(x());
-  std::pair<double,double> yp = CGAL::to_interval(y());
+  std::pair<double,double> xp = CGAL_NTS to_interval(x());
+  std::pair<double,double> yp = CGAL_NTS to_interval(y());
   return Bbox_2(xp.first, yp.first,  xp.second, yp.second);
 }
 

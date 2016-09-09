@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/all_furthest_neighbors_2.h,v $
-// $Revision: 1.58 $ $Date: 2003/09/29 08:41:46 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.60 $ $Date: 2004/06/23 02:48:53 $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
@@ -37,9 +37,11 @@ class All_furthest_neighbor_matrix
 {
 public:
   typedef
-    Cartesian_matrix< Operation, RandomAccessIC, RandomAccessIC >
-  Base;
+    Cartesian_matrix< Operation, RandomAccessIC, RandomAccessIC > Base;
+
   typedef typename Base::Value Value;
+
+  using Base::number_of_rows;
 
   All_furthest_neighbor_matrix(RandomAccessIC f, RandomAccessIC l)
   : Base(f, l, f, l)
@@ -70,8 +72,6 @@ public:
 };
 
 
-#if !defined(CGAL_CFG_MATCHING_BUG_2)
-
 CGAL_END_NAMESPACE
 #include <iterator>
 CGAL_BEGIN_NAMESPACE
@@ -86,16 +86,6 @@ all_furthest_neighbors_2( RandomAccessIC points_begin,
                           OutputIterator o,
                           const Traits& t,
                           IteratorCategory)
-#else
-template < class RandomAccessIC,
-           class OutputIterator,
-           class Traits >
-OutputIterator
-all_furthest_neighbors_2( RandomAccessIC points_begin,
-                          RandomAccessIC points_end,
-                          OutputIterator o,
-                          const Traits& t)
-#endif
 {
   using std::vector;
   using std::transform;
@@ -133,7 +123,6 @@ all_furthest_neighbors_2( RandomAccessIC points_begin,
                     bind_2( modulus< int >(), number_of_points));
 } // all_furthest_neighbors_2( ... )
 
-#if !defined(CGAL_CFG_MATCHING_BUG_2)
 
 template < class RandomAccessIC, class OutputIterator, class Traits >
 OutputIterator
@@ -180,7 +169,6 @@ all_furthest_neighbors_2( RandomAccessIC points_begin,
     points_begin, points_end, o, t, iterator_category());
 } // all_furthest_neighbors_2( ... )
 
-#endif // !CGAL_CFG_MATCHING_BUG_2
 
 template < class RandomAccessIC, class OutputIterator >
 inline

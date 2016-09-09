@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/Aff_transformationH2.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:16:07 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.13 $ $Date: 2004/06/20 18:09:03 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -154,10 +154,9 @@ class Aff_transformation_repH2 : public Aff_transformation_rep_baseH2<R>
     RT    g;
 
   friend Aff_transformationH2<R>
-         _general_transformation_composition CGAL_NULL_TMPL_ARGS (
+         _general_transformation_composition <> (
                                    Aff_transformation_repH2<R> l,
-                                   Aff_transformation_repH2<R> r
-                                                                 );
+                                   Aff_transformation_repH2<R> r);
 };
 
 template < class R >
@@ -497,7 +496,6 @@ template < class R_ >
 class Aff_transformationH2
   : public Handle_for_virtual< Aff_transformation_rep_baseH2<R_> >
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                        FT;
   typedef typename R_::RT                        RT;
   typedef typename R_::Point_2      Point_2;
@@ -595,7 +593,7 @@ public:
                             general_form() const;
 
 //  friend   Aff_transformationH2<R>
-//    operator* CGAL_NULL_TMPL_ARGS
+//    operator* <>
 //              (const Aff_transformationH2<R>& left_argument,
 //               const Aff_transformationH2<R>& right_argument );
 
@@ -692,20 +690,20 @@ template < class R >
 typename Aff_transformationH2<R>::Point_2
 Aff_transformationH2<R>::
 transform(const typename Aff_transformationH2<R>::Point_2& p) const
-{ return Ptr()->transform(p); }
+{ return this->Ptr()->transform(p); }
 
 
 template < class R >
 typename Aff_transformationH2<R>::Vector_2
 Aff_transformationH2<R>::
 transform( const typename Aff_transformationH2<R>::Vector_2& v) const
-{ return Ptr()->transform(v); }
+{ return this->Ptr()->transform(v); }
 
 template < class R >
 typename Aff_transformationH2<R>::Direction_2
 Aff_transformationH2<R>::
 transform( const typename Aff_transformationH2<R>::Direction_2& d) const
-{ return Ptr()->transform(d); }
+{ return this->Ptr()->transform(d); }
 
 template < class R >
 typename Aff_transformationH2<R>::Line_2
@@ -717,13 +715,13 @@ template < class R >
 Aff_transformationH2<R>
 Aff_transformationH2<R>::
 inverse() const
-{ return Ptr()->inverse(); }
+{ return this->Ptr()->inverse(); }
 
 template < class R >
 bool
 Aff_transformationH2<R>::
 is_even() const
-{ return Ptr()->is_even(); }
+{ return this->Ptr()->is_even(); }
 
 template < class R >
 bool
@@ -736,20 +734,20 @@ inline
 typename Aff_transformationH2<R>::FT
 Aff_transformationH2<R>::
 cartesian(int i, int j) const
-{ return Ptr()->cartesian(i,j); }
+{ return this->Ptr()->cartesian(i,j); }
 
 template < class R >
 inline
 typename Aff_transformationH2<R>::RT
 Aff_transformationH2<R>::
 homogeneous(int i, int j) const
-{ return Ptr()->homogeneous(i,j); }
+{ return this->Ptr()->homogeneous(i,j); }
 
 template < class R >
 Aff_transformation_repH2<R>
 Aff_transformationH2<R>::
 general_form() const
-{ return Ptr()->general_form(); }
+{ return this->Ptr()->general_form(); }
 
 template <class R>
 Aff_transformationH2<R>
@@ -759,7 +757,7 @@ Aff_transformationH2<R>::
 operator*(const Aff_transformationH2<R>& right_argument) const
 {
   return _general_transformation_composition(
-                  Ptr()->general_form(),
+                  this->Ptr()->general_form(),
                   right_argument.Ptr()->general_form() );
 }
 

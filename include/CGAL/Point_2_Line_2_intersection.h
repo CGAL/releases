@@ -1,4 +1,3 @@
-
 // Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -17,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Point_2_Line_2_intersection.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:16:49 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2004/06/20 16:32:27 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -29,6 +28,7 @@
 #include <CGAL/Line_2.h>
 #include <CGAL/Point_2.h>
 #include <CGAL/Object.h>
+
 CGAL_BEGIN_NAMESPACE
 
 namespace CGALi {
@@ -83,7 +83,8 @@ bool
 do_intersect(const Line_2<K> &line, 
 	     const Point_2<K> &pt)
 {
-    return CGALi::do_intersect(pt, line, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+    return Do_intersect()(pt, line);
 }
 
 template <class K>
@@ -92,7 +93,8 @@ bool
 do_intersect(const Point_2<K> &pt,
 	     const Line_2<K> &line)
 {
-    return CGALi::do_intersect(pt, line, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+    return Do_intersect()(pt, line);
 }
 
 template <class K>
@@ -101,7 +103,8 @@ Object
 intersection(const Line_2<K> &line, 
 	     const Point_2<K> &pt)
 {
-  return CGALi::intersection(pt, line, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(pt, line);
 }
 
 template <class K>
@@ -110,8 +113,10 @@ Object
 intersection(const Point_2<K> &pt,
 	     const Line_2<K> &line)
 {
-  return CGALi::intersection(pt, line, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(pt, line);
 }
+
 CGAL_END_NAMESPACE
 
 #endif

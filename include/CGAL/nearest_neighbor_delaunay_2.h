@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h,v $
 // $Revision: 1.9 $ $Date: 2003/09/18 10:24:50 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Matthias Baesken
 

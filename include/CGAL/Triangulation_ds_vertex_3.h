@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_ds_vertex_3.h,v $
-// $Revision: 1.31 $ $Date: 2003/09/18 10:26:29 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.32 $ $Date: 2004/02/28 21:03:01 $
+// $Name:  $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
@@ -31,6 +31,8 @@ template < class Vb >
 struct Triangulation_ds_vertex_3 
   : public Vb
 {
+  using Vb::cell;
+
   bool is_valid(bool verbose = false, int level = 0) const;
 };
 

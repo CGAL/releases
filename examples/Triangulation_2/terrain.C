@@ -1,4 +1,5 @@
-// file          : examples/Triangulation_2/terrain.C
+// file: examples/Triangulation_2/terrain.C
+
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Triangulation_euclidean_traits_xy_3.h>
 #include <CGAL/Delaunay_triangulation_2.h>

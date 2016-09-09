@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/ch_graham_andrew.C,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:15:02 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2004/03/14 09:17:20 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -25,12 +25,13 @@
 #include <CGAL/ch_graham_andrew.h>
 #endif // CGAL_CH_GRAHAM_ANDREW_H
 
-#ifndef CH_NO_POSTCONDITIONS
+#ifndef CGAL_CH_NO_POSTCONDITIONS
 #include <CGAL/convexity_check_2.h>
-#endif // CH_NO_POSTCONDITIONS
+#endif // CGAL_CH_NO_POSTCONDITIONS
 
 #include <CGAL/ch_assertions.h>
-#include <CGAL/stl_extensions.h>
+#include <CGAL/algorithm.h>
+#include <CGAL/IO/Tee_for_output_iterator.h>
 #include <vector>
 #include <algorithm>
 
@@ -134,10 +135,13 @@ ch__ref_graham_andrew_scan( BidirectionalIterator first,
   typedef  typename Traits::Less_xy_2    Less_xy;
   typedef  typename Traits::Point_2      Point_2;
   typedef  typename Traits::Left_turn_2  Left_turn;
+
+  CGAL_ch_precondition_code(
   typedef  typename Traits::Equal_2      Equal_2;
-  
-  Left_turn    left_turn    = ch_traits.left_turn_2_object();
   Equal_2      equal_points = ch_traits.equal_2_object();
+  )
+
+  Left_turn    left_turn    = ch_traits.left_turn_2_object();
 
   std::vector< BidirectionalIterator >    S;
   BidirectionalIterator              alpha;

@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h,v $
-// $Revision: 1.15 $ $Date: 2003/10/21 12:21:01 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16.4.1 $ $Date: 2004/12/08 20:04:43 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -27,8 +27,8 @@
 #include <sstream>
 #include <CGAL/Nef_2/Object_index.h>
 #include <CGAL/Nef_2/iterator_tools.h>
-#undef _DEBUG
-#define _DEBUG 7
+#undef CGAL_NEF_DEBUG
+#define CGAL_NEF_DEBUG 7
 #include <CGAL/Nef_2/debug.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -410,7 +410,7 @@ template <typename HDS>
 void PM_const_decorator<HDS>::
 check_integrity_and_topological_planarity(bool faces) const
 {
-  TRACEN("check_integrity_and_topological_planarity:");
+  CGAL_NEF_TRACEN("check_integrity_and_topological_planarity:");
   using CGAL::Object_index;
   Object_index<Vertex_const_iterator>   
     VI(vertices_begin(),vertices_end(),'v');
@@ -476,8 +476,8 @@ check_integrity_and_topological_planarity(bool faces) const
   int e_num = number_of_edges();
   int c_num = number_of_connected_components() - iso_vert_num;
   int f_num = number_of_face_cycles() - c_num + 1;
-  TRACEV(fc_num);TRACEV(iv_num);TRACEV(iso_vert_num);
-  TRACEV(v_num);TRACEV(e_num);TRACEV(c_num);TRACEV(f_num);
+  CGAL_NEF_TRACEV(fc_num);CGAL_NEF_TRACEV(iv_num);CGAL_NEF_TRACEV(iso_vert_num);
+  CGAL_NEF_TRACEV(v_num);CGAL_NEF_TRACEV(e_num);CGAL_NEF_TRACEV(c_num);CGAL_NEF_TRACEV(f_num);
   // CGAL_assertion(fc_num == f_num && iv_num == iso_vert_num);
   /* this means all face cycles and all isolated vertices are 
      indeed referenced from a face */

@@ -1,6 +1,5 @@
-//
-// file          : examples/Generator/random_polygon_ex.C
-//
+// file : examples/Generator/random_polygon_ex.C
+
 #include <CGAL/Cartesian.h>
 #include <CGAL/Polygon_2.h>
 #include <CGAL/point_generators_2.h>

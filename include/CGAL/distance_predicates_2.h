@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/distance_predicates_2.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:18:21 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2004/03/16 21:58:38 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -25,5 +25,6 @@
 #define CGAL_DISTANCE_PREDICATES_2_H
 
 // Kept for backward compatibility only.
+
 
 #endif // CGAL_DISTANCE_PREDICATES_2_H

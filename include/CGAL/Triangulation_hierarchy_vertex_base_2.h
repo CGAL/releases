@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_hierarchy_vertex_base_2.h,v $
-// $Revision: 1.3 $ $Date: 2003/09/18 10:26:16 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/08/13 15:21:27 $
+// $Name:  $
 //
 // Author(s)     : Olivier Devillers <Olivivier.Devillers@sophia.inria.fr>
 //                 Mariette Yvinec  <Mariette.Yvinec@sophia.inria.fr>
@@ -22,7 +22,7 @@
 #define CGAL_TRIANGULATION_HIERARCHY_VERTEX_BASE_2_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Triangulation_short_names_3.h>
+#include <CGAL/Triangulation_short_names_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -58,7 +58,7 @@ public:
   Vertex_handle up() {return _up;}
   Vertex_handle down() {return _down;}
   void set_up(Vertex_handle u) {_up=u;}
-  void set_down(Vertex_handle d) {if (this) _down=d;}
+  void set_down(Vertex_handle d) { _down=d;}
 
 
  private:

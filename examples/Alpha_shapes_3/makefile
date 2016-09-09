@@ -14,9 +14,9 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
+           -I../../include \
            $(CGAL_CXXFLAGS) \
-           $(LONG_NAME_PROBLEM_CXXFLAGS) \
-           $(DEBUG_OPT)
+           $(LONG_NAME_PROBLEM_CXXFLAGS)
 
 #---------------------------------------------------------------------#
 #                    linker flags
@@ -35,16 +35,21 @@ LDFLAGS = \
 
 all:            \
                 example_alpha$(EXE_EXT) \
+                example_big_alpha$(EXE_EXT) \
                 example_weight$(EXE_EXT) 
 
 example_alpha$(EXE_EXT): example_alpha$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_alpha example_alpha$(OBJ_EXT) $(LDFLAGS)
+
+example_big_alpha$(EXE_EXT): example_big_alpha$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_big_alpha example_big_alpha$(OBJ_EXT) $(LDFLAGS)
 
 example_weight$(EXE_EXT): example_weight$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_weight example_weight$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
                    example_alpha.clean \
+                   example_big_alpha.clean \
                    example_weight.clean 
 
 #---------------------------------------------------------------------#

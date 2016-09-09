@@ -1,4 +1,3 @@
-
 // Copyright (c) 1997  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -17,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_3/include/CGAL/bbox_intersection_3.h,v $
-// $Revision: 1.4 $ $Date: 2003/10/21 12:17:15 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.5 $ $Date: 2004/02/01 12:42:09 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 
@@ -29,15 +28,14 @@
 #include <CGAL/Bbox_3.h>
 #include <CGAL/Object.h>
 
-
 CGAL_BEGIN_NAMESPACE
 
-extern Object
+Object
 intersection_bl(const Bbox_3 &box,
-        double lx1, double ly1, double lz1,
-        double lx2, double ly2, double lz2,
-        bool min_infinite, bool max_infinite);
-CGAL_END_NAMESPACE
+                double lx1, double ly1, double lz1,
+                double lx2, double ly2, double lz2,
+                bool min_infinite, bool max_infinite);
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_BBOX_INTERSECTION_3_H

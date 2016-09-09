@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/Arr_file_writer.h,v $
-// $Revision: 1.6 $ $Date: 2003/09/18 10:19:47 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/09/23 19:37:56 $
+// $Name:  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 
@@ -31,14 +31,18 @@ template <class Arrangement>
 class Arr_file_writer : public  Pm_file_writer<Arrangement> {
 
 public:
+  typedef Pm_file_writer<Arrangement>                   Base;
   typedef typename Arrangement::Curve_iterator          Curve_iterator;
   typedef typename Arrangement::Subcurve_iterator       Subcurve_iterator;
   typedef typename Arrangement::Edge_iterator           Edge_iterator;
   typedef typename Arrangement::Curve_const_iterator    Curve_const_iterator;
   typedef typename Arrangement::Subcurve_const_iterator   
-                                                    Subcurve_const_iterator;
+                                                        Subcurve_const_iterator;
   typedef typename Arrangement::Edge_const_iterator     Edge_const_iterator;
 
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::out;
+#endif
   Arr_file_writer(std::ostream & o,
                   const Arrangement & arr,
                   bool verbose = false) : 

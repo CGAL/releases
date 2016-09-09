@@ -1,34 +1,30 @@
-// ============================================================================
+// Copyright (c) 1997-2002  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997-2002 The CGAL Consortium
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ----------------------------------------------------------------------------
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// file          : triangulation_2.C
-// package       : Qt_widget
-// author(s)     : Radu Ursu 
-// release       : 
-// release_date  : 
+// $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/demo/Alpha_shapes_2/alpha_shapes_2.C,v $
+// $Revision: 1.9.4.1 $ $Date: 2004/12/18 16:54:01 $
+// $Name:  $
 //
-// coordinator   : Laurent Rineau <rineau@clipper.ens.fr>
-//
-// ============================================================================
+// Author(s)     : Radu Ursu
+
 
 // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
 #include <iostream>
 
-
 int main(int, char*)
 {
-
-  std::cout << "Sorry, this demo needs QT...";
-  std::cout << std::endl;
-
+  std::cout << "Sorry, this demo needs QT." << std::endl;
   return 0;
 }
 
@@ -228,7 +224,8 @@ public slots:
   void howto(){
     QString home;
     home = "help/index.html";
-    CGAL::Qt_help_window *help = new CGAL::Qt_help_window(home, ".", 0, "help viewer");
+    CGAL::Qt_help_window *help =
+      new CGAL::Qt_help_window(home, ".", 0, "help viewer");
     help->resize(400, 400);
     help->setCaption("Demo HowTo");
     help->show();
@@ -246,7 +243,7 @@ public slots:
   void show_crust(){
     Delaunay T(tr1);
     Face_iterator f;
-    typedef std::set<Point, Point_compare> point_set;
+    typedef std::set<Point_2, Point_compare> point_set;
     point_set s;
     for (f=T.faces_begin(); f!=T.faces_end(); ++f)
       s.insert( T.dual(f) );
@@ -274,10 +271,10 @@ public slots:
 private slots:
   void get_new_object(CGAL::Object obj)
   {
-    Point   p;
+    Point_2 p;
     Wpoint  wp;
     if(CGAL::assign(p,obj)) {
-      wp = p;
+      wp = Wpoint(p);
       tr1.insert(p);
       LW.push_back(wp);
       L.push_back(p);
@@ -336,7 +333,7 @@ private slots:
       alpha_index = result;
       if(mult < result)
         mult = result;
-      slider->setValue(result*10000/mult);	
+      slider->setValue(static_cast<int>(result*10000/mult));	
       A.set_alpha(alpha_index);
       label->setText(QString("The current alpha value: ") +
 		   QString::number(alpha_index));
@@ -360,31 +357,31 @@ private slots:
     A.clear();
     AW.clear();
     Wpoint pw;
-    CGAL::Random_points_in_disc_2<Point> g(0.2);
+    CGAL::Random_points_in_disc_2<Point_2> g(0.2);
     for(int count=0; count<200; count++) {
       tr1.insert(*g);
-      pw = *g;
+      pw = Wpoint(*g);
       L.push_back(*g++);
       LW.push_back(pw);
     }
 
     {
-      CGAL::Random_points_on_circle_2<Point> g(0.3);
+      CGAL::Random_points_on_circle_2<Point_2> g(0.3);
 
       for(int count=0; count<100; count++) {
 	tr1.insert(*g);
-	pw = *g;
+	pw = Wpoint(*g);
 	L.push_back(*g++);
 	LW.push_back(pw);
       }
     }
 
     {
-      CGAL::Random_points_on_circle_2<Point> g(0.45);
+      CGAL::Random_points_on_circle_2<Point_2> g(0.45);
 
       for(int count=0; count<60; count++) {
 	tr1.insert(*g);
-	pw = *g;
+	pw = Wpoint(*g);
 	L.push_back(*g++);
 	LW.push_back(pw);
       }
@@ -490,8 +487,10 @@ main(int argc, char **argv)
   app.setMainWidget(&win);
   win.setCaption(my_title_string);
   win.setMouseTracking(TRUE);
+#if !defined(__POWERPC__)
   QPixmap cgal_icon = QPixmap((const char**)demoicon_xpm);
   win.setIcon(cgal_icon);
+#endif
   win.show();
   win.init_coordinates();
   current_state = -1;

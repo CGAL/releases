@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Topological_map_face_base.h,v $
-// $Revision: 1.3 $ $Date: 2003/09/18 10:24:38 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.4 $ $Date: 2003/11/28 07:50:31 $
+// $Name:  $
 //
 // Author(s)     : ?
 #ifndef  CGAL_TOPOLOGICAL_MAP_FACE_BASE_H
@@ -60,17 +60,17 @@ public:
   // and if so, replace names.
 
   // Circulators around a vertex and around a facet.
-  //typedef I_Polyhedron_facet_circ< Halfedge_handle, circulator_category>
+  //typedef I_HalfedgeDS_facet_circ< Halfedge_handle, circulator_category>
   //Halfedge_around_facet_circulator;
   
-  //typedef I_Polyhedron_vertex_circ< Halfedge_handle, circulator_category>
+  //typedef I_HalfedgeDS_vertex_circ< Halfedge_handle, circulator_category>
   //Halfedge_around_vertex_circulator;
   
-  //typedef I_Polyhedron_facet_circ<
+  //typedef I_HalfedgeDS_facet_circ<
   //Halfedge_const_handle,
   //  circulator_category>       Halfedge_around_facet_const_circulator;
   
-  //typedef I_Polyhedron_vertex_circ<
+  //typedef I_HalfedgeDS_vertex_circ<
   //Halfedge_const_handle,
   //  circulator_category>      Halfedge_around_vertex_const_circulator;
   

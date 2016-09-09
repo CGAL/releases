@@ -16,12 +16,12 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/Iterator_project.h,v $
-// $Revision: 1.53 $ $Date: 2003/10/21 12:23:37 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.55 $ $Date: 2004/06/23 01:41:42 $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@mpi-sb.mpg.de>
+//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
 #ifndef CGAL_ITERATOR_PROJECT_H
 #define CGAL_ITERATOR_PROJECT_H 1
@@ -34,20 +34,13 @@ CGAL_BEGIN_NAMESPACE
 // are based on the value type from the projector, but the base iterator
 // determines whether they are const or mutable. The following template
 // class and its partial specialization helps creating the derived types.
-//    If partial specification isn't working, we make this adaptor always
-// mutable (using const_cast). So, it will always work where the correct
-// version would work, but it would allow assignments where the correct
-// version would flag a correct compilation error. This workaround thus
-// provides full functionality, but less protection.
 
 // If T === T1 return R1 else return R2
 template <class T, class T1, class R1, class R2>
 struct I_TYPE_MATCH_IF { typedef R2 Result; };  // else clause
 
-#ifndef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
 template <class T, class R1, class R2>
 struct I_TYPE_MATCH_IF<T,T,R1,R2> { typedef R1 Result; }; // then clause
-#endif
 
 // keep 4 dummy template parameters around for backwards compatibility
 template < class I, class Fct,
@@ -69,8 +62,6 @@ public:
   typedef typename Fct::result_type           value_type;
 
   // Use I_TYPE_MATCH_IF to find correct pointer and reference type.
-  // Make it a mutable iterator if partial specialization doesn't
-  // work. In that case, the I_TYPE_MATCH_IF returns the else type.
 
   typedef I_TYPE_MATCH_IF< base_reference, const base_value_type &,
     const value_type &, value_type &> Match1;
@@ -103,13 +94,7 @@ public:
   Iterator  current_iterator() const { return nt;}
   pointer   ptr() const {
     Fct fct;
-    // Use a const_cast to make the adaptor work for compilers
-    // lacking partial specialization. See also comments above.
-#ifndef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
     return &(fct(*nt));
-#else
-    return const_cast<pointer>(&(fct(*nt)));
-#endif
   }
   bool      operator==( const Self& i) const { return ( nt == i.nt); }
   bool      operator!=( const Self& i) const { return !(*this == i); }

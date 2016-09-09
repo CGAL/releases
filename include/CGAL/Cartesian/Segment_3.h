@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Segment_3.h,v $
-// $Revision: 1.34 $ $Date: 2003/10/21 12:14:22 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.39 $ $Date: 2004/02/29 22:58:05 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
 
@@ -30,9 +30,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class SegmentC3
-  : public R_::template Handle<Twotuple<typename R_::Point_3> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Direction_3          Direction_3;
@@ -41,8 +39,10 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Segment_3            Segment_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef Twotuple<Point_3>                        rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Twotuple<Point_3>                        Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                     R;
@@ -50,7 +50,7 @@ public:
   SegmentC3() {}
 
   SegmentC3(const Point_3 &sp, const Point_3 &ep)
-    : base(rep(sp, ep)) {}
+    : base(sp, ep) {}
 
   bool        has_on(const Point_3 &p) const;
   bool        collinear_has_on(const Point_3 &p) const;
@@ -60,11 +60,11 @@ public:
 
   const Point_3 &   source() const
   {
-      return Ptr()->e0;
+      return get(base).e0;
   }
   const Point_3 &   target() const
   {
-      return Ptr()->e1;
+      return get(base).e1;
   }
 
   const Point_3 &   start() const;
@@ -96,7 +96,7 @@ inline
 bool
 SegmentC3<R>::operator==(const SegmentC3<R> &s) const
 {
-  if (identical(s))
+  if (CGAL::identical(base, s.base))
       return true;
   return source() == s.source() && target() == s.target();
 }
@@ -154,7 +154,7 @@ inline
 const typename SegmentC3<R>::Point_3 &
 SegmentC3<R>::point(int i) const
 {
-  return (i%2 == 0) ? source() : target();
+  return vertex(i);
 }
 
 template < class R >

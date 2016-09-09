@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/intersection_objects_d.h,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:19:35 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/06/23 02:15:30 $
+// $Name:  $
 //
 // Author(s)     : ?
 #ifndef CGAL_INTERSECTION_OBJECTS_D_H
@@ -664,12 +664,10 @@ template <class R>
 bool
 Segment_d_Hyperplane_d_pair<R>::intersection(Segment_d& s)
 { if (!_known) intersection_type();
-  if (_result != LINE) return false;
+  if (_result != SEGMENT) return false;
   s = _s; return true;
 }
 
-
-
 CGAL_END_NAMESPACE
-#endif //CGAL_INTERSECTION_OBJECTS_D_H
 
+#endif //CGAL_INTERSECTION_OBJECTS_D_H

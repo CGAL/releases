@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Generator/include/CGAL/Random_polygon_2_sweep.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:15:39 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2004/09/25 09:30:00 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 //               : Susan Hert <hert@mpi-sb.mpg.de>
@@ -101,11 +101,19 @@ public:
     typedef i_polygon::Edge_data<Less_segs>                  Edge_data;
     typedef i_polygon::Vertex_data_base<ForwardIterator, PolygonTraits>
                                                              Base_class;
+
+    using Base_class::next;
+    using Base_class::prev;
+    using Base_class::point;
+    using Base_class::index_at_rank;
+    using Base_class::ordered_left_to_right;
+
     std::vector<Edge_data> edges;
     Vertex_index conflict1, conflict2; // Intersecting edges.
 
     Vertex_data(ForwardIterator begin, ForwardIterator end,
                 const PolygonTraits& pgnt);
+    void init(Tree *tree);
     void left_and_right_index(Vertex_index &left, Vertex_index &right,
             Vertex_index edge);
     Vertex_index left_index(Vertex_index edge)
@@ -209,9 +217,14 @@ template <class ForwardIterator, class PolygonTraits>
 Vertex_data<ForwardIterator, PolygonTraits>::
 Vertex_data(ForwardIterator begin, ForwardIterator end,
             const PolygonTraits& pgn_traits)
-: Base_class(begin, end, pgn_traits)
+  : Base_class(begin, end, pgn_traits) {}
+
+template <class ForwardIterator, class PolygonTraits>
+void Vertex_data<ForwardIterator, PolygonTraits>::init(Tree *tree)
 {
-    edges.insert(edges.end(), this->m_size, Edge_data());
+    // The initialization cannot be done in the constructor,
+    // otherwise we copy singular valued iterators.
+    edges.insert(edges.end(), this->m_size, Edge_data(tree->end()));
 }
 
 template <class ForwardIterator, class PolygonTraits>
@@ -239,7 +252,7 @@ insertion_event(Tree *tree, Vertex_index prev_vt,
     switch(orientation_2(point(prev_vt), point(mid_vt), point(next_vt))) {
       case LEFT_TURN: left_turn = true; break;
       case RIGHT_TURN: left_turn = false; break;
-      case COLLINEAR: //found conflict prev_vt-seg - mid_vt-seg
+      default: //found conflict prev_vt-seg - mid_vt-seg
 #if defined(CGAL_POLY_GENERATOR_DEBUG)
             std::cout << "conflict2 is next_vt" << std::endl;
 #endif
@@ -256,7 +269,7 @@ insertion_event(Tree *tree, Vertex_index prev_vt,
     td_mid.is_in_tree = false;
     td_mid.is_left_to_right = true;
     // insert the highest chain first
-    std::pair<CGAL_TYPENAME_MSVC_NULL Tree::iterator, bool> result;
+    std::pair<typename Tree::iterator, bool> result;
     if (left_turn) {
         result = tree->insert(prev_vt);
 	// assert(result.second)
@@ -502,6 +515,7 @@ check_simple_polygon(Iterator points_begin, Iterator points_end,
     i_generator_polygon::Vertex_data<ForwardIterator, PolygonTraits>
         vertex_data(points_begin, points_end, polygon_traits);
     Tree tree(&vertex_data);
+    vertex_data.init(&tree);
     vertex_data.sweep(&tree);
     std::pair<int,int> result;
     if (vertex_data.is_simple_result) {

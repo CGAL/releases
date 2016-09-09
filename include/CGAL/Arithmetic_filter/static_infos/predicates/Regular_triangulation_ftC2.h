@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Arithmetic_filter/static_infos/predicates/Regular_triangulation_ftC2.h,v $
 // $Revision: 1.10 $ $Date: 2003/10/21 12:17:35 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 

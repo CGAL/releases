@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/ft_constructions_3.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:14:28 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/01/01 18:06:14 $
+// $Name:  $
 //
 // Author(s)     : Herve Bronnimann
 
@@ -62,31 +62,6 @@ scaled_distance_to_plane(const PointC3<K> &hp,
                                     hq.x(), hq.y(), hq.z(),
                                     hr.x(), hr.y(), hr.z(),
                                     p.x(), p.y(), p.z());
-}
-
-template < class K >
-inline
-typename K::FT
-squared_radius(const PointC3<K> &p, const PointC3<K> &q,
-	       const PointC3<K> &r, const PointC3<K> &s)
-{
-  return K().compute_squared_radius_3_object()(p, q, r, s);
-}
-
-template < class K >
-inline
-typename K::FT
-squared_radius(const PointC3<K> &p, const PointC3<K> &q, const PointC3<K> &r)
-{
-  return K().compute_squared_radius_3_object()(p, q, r);
-}
-
-template < class K >
-inline
-typename K::FT
-squared_radius(const PointC3<K> &p, const PointC3<K> &q)
-{
-  return K().compute_squared_radius_3_object()(p, q);
 }
 
 CGAL_END_NAMESPACE

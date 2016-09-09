@@ -1,4 +1,5 @@
-// Triangulation_3/example_find_conflicts.C
+// file: examples/Triangulation_3/example_find_conflicts.C
+
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/point_generators_3.h>
@@ -46,8 +47,7 @@ int main()
 
     T.find_conflicts(p, c,
                      CGAL::Oneset_iterator<Facet>(f), // Get one boundary facet
-                     std::back_inserter(V),           // Conflict cells in V
-                     CGAL::Emptyset_iterator());      // Drop internal facets
+                     std::back_inserter(V));          // Conflict cells in V
 
     if ((V.size() & 1) == 0)  // Even number of conflict cells ?
       T.insert_in_hole(p, V.begin(), V.end(), f.first, f.second);

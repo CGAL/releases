@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/VectorHd.h,v $
-// $Revision: 1.14 $ $Date: 2003/10/21 12:19:32 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.18 $ $Date: 2004/09/17 12:12:42 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_VECTORHD_H
@@ -53,6 +53,9 @@ class VectorHd : public Handle_for< Tuple_d<_RT,_LA> > {
   typedef Tuple_d<_RT,_LA>  Tuple;
   typedef Handle_for<Tuple> Base;
   typedef VectorHd<_RT,_LA> Self;
+
+  using Base::ptr;
+  using Base::copy_on_write;
 
 /*{\Mdefinition
 An instance of data type |\Mname| is a vector of Euclidean space in
@@ -119,8 +122,6 @@ homogeneous coordinates $|H = set [first,last)| = (\pm h_0, \pm h_1, \ldots,
 \precond |d| is nonnegative, |[first,last)| has |d| or |d+1| elements where the
 last has to be non-zero, and the value type of |InputIterator| is |RT|.}*/
 { RT D = entry(d);
-  CGAL_assertion_msg(first!=last || D!=RT(0),
-    "VectorHd::constructor: denominator must be nonzero.");
   if ( D == RT(0) ) entry(d) = 1;
   if ( D < RT(0) ) invert_rep();
 }
@@ -156,7 +157,7 @@ $2$-dimensional space. }*/
 }
 
 VectorHd(int a, int b, int c = 1) : 
-  Base( Tuple((RT)a,(RT)b,(RT)c) ) 
+  Base( Tuple((RT)a,(RT)b,(RT)c, MatchHelper()) ) 
 { CGAL_assertion_msg((c != 0), "VectorHd::construction: w == 0.");
   if (c < 0) invert_rep();
 }
@@ -382,9 +383,9 @@ Quotient<RT> x()  const { return Quotient<RT>(hx(),hw());}
 Quotient<RT> y()  const { return Quotient<RT>(hy(),hw());}
 Quotient<RT> z()  const { return Quotient<RT>(hz(),hw());}
 
-friend std::istream& operator>> CGAL_NULL_TMPL_ARGS 
+friend std::istream& operator>> <> 
   (std::istream& I, VectorHd<RT,LA>& v);
-friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS 
+friend std::ostream& operator<< <> 
   (std::ostream& O, const VectorHd<RT,LA>& v);
 
 }; // end of class VectorHd

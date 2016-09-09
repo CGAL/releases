@@ -1,5 +1,5 @@
-// examples/Planar_map/example1.C
-// ------------------------------
+// file: examples/Planar_map/example1.C
+
 
 #include "short_names.h"
 

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_unbounding_box.h,v $
 // $Revision: 1.8 $ $Date: 2003/09/18 10:24:36 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 

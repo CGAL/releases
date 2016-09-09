@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/SearchStructures/include/CGAL/Tree_traits.h,v $
 // $Revision: 1.2 $ $Date: 2003/09/18 10:25:37 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Gabriele Neyer
 

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Planar_map_2/Pm_point_utilities_2.h,v $
 // $Revision: 1.4 $ $Date: 2003/09/18 10:24:48 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Shai Hirsch       <shaihi@post.tau.ac.il>
 //                 Efi Fogel         <efif@post.tau.ac.il>

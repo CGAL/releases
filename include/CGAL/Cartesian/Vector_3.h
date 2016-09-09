@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Vector_3.h,v $
-// $Revision: 1.30 $ $Date: 2003/10/21 12:14:25 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.35 $ $Date: 2004/02/29 21:24:19 $
+// $Name:  $
 //
 // Author        : Andreas Fabri
 
@@ -31,17 +31,20 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class VectorC3
-  : public R_::template Handle<Threetuple<typename R_::FT> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Vector_3             Vector_3;
+  typedef typename R_::Ray_3                Ray_3;
+  typedef typename R_::Segment_3            Segment_3;
+  typedef typename R_::Line_3               Line_3;
   typedef typename R_::Direction_3          Direction_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef Threetuple<FT>                           rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Threetuple<FT>                           Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                     R;
@@ -49,39 +52,42 @@ public:
   VectorC3() {}
 
   VectorC3(const Null_vector &n)
-    : base(R().construct_vector_3_object()(n)) {}
-
-  VectorC3(const Point_3 &p)
-    : base(p) {}
+  { *this = R().construct_vector_3_object()(n); }
 
   VectorC3(const Point_3 &a, const Point_3 &b)
-    : base(R().construct_vector_3_object()(a, b)) {}
+  { *this = R().construct_vector_3_object()(a, b); }
 
-  VectorC3(const Direction_3 &d)
-    : base(d) {}
+  VectorC3(const Segment_3 &s)
+  { *this = R().construct_vector_3_object()(s); }
+
+  VectorC3(const Ray_3 &r)
+  { *this = R().construct_vector_3_object()(r); }
+
+  VectorC3(const Line_3 &l)
+  { *this = R().construct_vector_3_object()(l); }
 
   VectorC3(const FT &x, const FT &y, const FT &z)
-    : base(rep(x, y, z)) {}
+    : base(x, y, z) {}
 
   VectorC3(const FT &x, const FT &y, const FT &z, const FT &w)
   {
     if (w != FT(1))
-      initialize_with(rep(x/w, y/w, z/w));
+      base = Rep(x/w, y/w, z/w);
     else
-      initialize_with(rep(x, y, z));
+      base = Rep(x, y, z);
   }
 
   const FT & x() const
   {
-      return Ptr()->e0;
+      return get(base).e0;
   }
   const FT & y() const
   {
-      return Ptr()->e1;
+      return get(base).e1;
   }
   const FT & z() const
   {
-      return Ptr()->e2;
+      return get(base).e2;
   }
 
   const FT & hx() const
@@ -114,7 +120,6 @@ public:
   Vector_3 operator-(const VectorC3 &w) const;
   Vector_3 operator-() const;
   Vector_3 operator/(const FT &c) const;
-  FT operator*(const VectorC3 &w) const;
   FT squared_length() const;
   Direction_3 direction() const;
   Vector_3 transform(const Aff_transformation_3 &t) const
@@ -222,14 +227,6 @@ typename VectorC3<R>::Vector_3
 VectorC3<R>::operator-() const
 {
   return R().construct_opposite_vector_3_object()(*this);
-}
-
-template < class R >
-inline
-typename VectorC3<R>::FT
-VectorC3<R>::operator*(const VectorC3<R> &w) const
-{
-  return x() * w.x() + y() * w.y() + z() * w.z();
 }
 
 template < class R >

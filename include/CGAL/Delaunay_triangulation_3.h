@@ -1,4 +1,4 @@
-// Copyright (c) 1999,2000,2001,2002,2003   INRIA Sophia-Antipolis (France).
+// Copyright (c) 1999-2004   INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h,v $
-// $Revision: 1.147 $ $Date: 2003/10/17 08:49:15 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.170 $ $Date: 2004/08/25 13:59:43 $
+// $Name:  $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -32,6 +32,7 @@
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/Delaunay_remove_tds_3.h>
 #include <CGAL/Unique_hash_map.h>
+#include <CGAL/iterator.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -43,9 +44,6 @@ template < class Gt,
                                    Triangulation_cell_base_3<Gt> > >
 class Delaunay_triangulation_3 : public Triangulation_3<Gt,Tds>
 {
-  friend std::istream& operator >> CGAL_NULL_TMPL_ARGS
-  (std::istream& is, Triangulation_3<Gt,Tds> &tr);
-
   typedef Delaunay_triangulation_3<Gt, Tds> Self;
   typedef Triangulation_3<Gt,Tds>           Tr_Base;
 
@@ -74,11 +72,12 @@ public:
   typedef typename Tr_Base::Facet  Facet;
   typedef typename Tr_Base::Edge   Edge;
 
-  typedef typename Tr_Base::Cell_circulator Cell_circulator;
-  typedef typename Tr_Base::Cell_iterator   Cell_iterator;
-  typedef typename Tr_Base::Facet_iterator  Facet_iterator;
-  typedef typename Tr_Base::Edge_iterator   Edge_iterator;
-  typedef typename Tr_Base::Vertex_iterator Vertex_iterator;
+  typedef typename Tr_Base::Cell_circulator  Cell_circulator;
+  typedef typename Tr_Base::Facet_circulator Facet_circulator;
+  typedef typename Tr_Base::Cell_iterator    Cell_iterator;
+  typedef typename Tr_Base::Facet_iterator   Facet_iterator;
+  typedef typename Tr_Base::Edge_iterator    Edge_iterator;
+  typedef typename Tr_Base::Vertex_iterator  Vertex_iterator;
 
   typedef typename Tr_Base::Finite_vertices_iterator Finite_vertices_iterator;
   typedef typename Tr_Base::Finite_cells_iterator    Finite_cells_iterator;
@@ -90,6 +89,30 @@ public:
   typedef typename Tr_Base::Locate_type Locate_type;
 
   typedef Triple<Vertex_handle,Vertex_handle,Vertex_handle> Vertex_triple;
+
+
+
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2
+  using Tr_Base::cw;
+  using Tr_Base::ccw;
+  using Tr_Base::geom_traits;
+  using Tr_Base::number_of_vertices;
+  using Tr_Base::dimension;
+  using Tr_Base::finite_facets_begin;
+  using Tr_Base::finite_facets_end;
+  using Tr_Base::finite_vertices_begin;
+  using Tr_Base::finite_vertices_end;
+  using Tr_Base::finite_cells_begin;
+  using Tr_Base::finite_cells_end;
+  using Tr_Base::finite_edges_begin;
+  using Tr_Base::finite_edges_end;
+  using Tr_Base::tds;
+  using Tr_Base::infinite_vertex;
+  using Tr_Base::next_around_edge;
+  using Tr_Base::vertex_triple_index;
+#endif
+
 protected:
 
   Oriented_side
@@ -189,18 +212,12 @@ public:
     return number_of_vertices() - n;
   }
 
-  Vertex_handle insert(const Point & p, Cell_handle start = NULL);
+  Vertex_handle insert(const Point & p, Cell_handle start = Cell_handle());
 
   Vertex_handle insert(const Point & p, Locate_type lt,
 	               Cell_handle c, int li, int);
- 
-#ifndef CGAL_NO_DEPRECATED_CODE
-  Vertex_handle push_back(const Point & p)
-  {
-      bool THIS_FUNCTION_IS_DEPRECATED; // Use insert() or CGAL::Inserter<>
-      return insert(p);
-  }
-#endif
+
+  Vertex_handle move_point(Vertex_handle v, const Point & p);
 
   template <class OutputIteratorBoundaryFacets,
             class OutputIteratorCells,
@@ -251,11 +268,50 @@ public:
       return make_triple(bfit, cit, ifit);
   }
 
-  void
-  make_canonical(Vertex_triple& t) const;
-  
-  Vertex_triple
-  make_vertex_triple(const Facet& f) const;
+  template <class OutputIteratorBoundaryFacets, class OutputIteratorCells>
+  std::pair<OutputIteratorBoundaryFacets, OutputIteratorCells>
+  find_conflicts(const Point &p, Cell_handle c,
+	         OutputIteratorBoundaryFacets bfit,
+                 OutputIteratorCells cit) const
+  {
+      Triple<OutputIteratorBoundaryFacets,
+             OutputIteratorCells,
+	     Emptyset_iterator> t = find_conflicts(p, c, bfit, cit,
+		                                   Emptyset_iterator());
+      return std::make_pair(t.first, t.second);
+  }
+
+  // Returns the vertices on the boundary of the conflict hole.
+  template <class OutputIterator>
+  OutputIterator
+  vertices_in_conflict(const Point&p, Cell_handle c, OutputIterator res) const
+  {
+      CGAL_triangulation_precondition(dimension() >= 2);
+
+      // Get the facets on the boundary of the hole.
+      std::vector<Facet> facets;
+      find_conflicts(p, c, std::back_inserter(facets),
+	             Emptyset_iterator(), Emptyset_iterator());
+
+      // Then extract uniquely the vertices.
+      std::set<Vertex_handle> vertices;
+      if (dimension() == 3) {
+          for (typename std::vector<Facet>::const_iterator i = facets.begin();
+	       i != facets.end(); ++i) {
+	      vertices.insert(i->first->vertex((i->second+1)&3));
+	      vertices.insert(i->first->vertex((i->second+2)&3));
+	      vertices.insert(i->first->vertex((i->second+3)&3));
+          }
+      } else {
+          for (typename std::vector<Facet>::const_iterator i = facets.begin();
+	       i != facets.end(); ++i) {
+	      vertices.insert(i->first->vertex(cw(i->second)));
+	      vertices.insert(i->first->vertex(ccw(i->second)));
+          }
+      }
+
+      return std::copy(vertices.begin(), vertices.end(), res);
+  }
 
   // We return bool only for backward compatibility (it's always true).
   // The documentation mentions void.
@@ -278,6 +334,11 @@ private:
   void make_hole_2D(Vertex_handle v, std::list<Edge_2D> & hole);
   void fill_hole_delaunay_2D(std::list<Edge_2D> & hole);
 
+  void make_canonical(Vertex_triple& t) const;
+
+  Vertex_triple
+  make_vertex_triple(const Facet& f) const;
+
   void remove_3D(Vertex_handle v);
   void remove_3D_new(Vertex_handle v);
 
@@ -287,8 +348,10 @@ private:
 		 const Point &p, bool perturb) const;
 public:
 
+  // Queries
   Bounded_side
-  side_of_sphere( const Cell_handle& c, const Point & p, bool perturb = false) const
+  side_of_sphere(const Cell_handle& c, const Point & p,
+	         bool perturb = false) const
   {
       return side_of_sphere(c->vertex(0), c->vertex(1),
                             c->vertex(2), c->vertex(3), p, perturb);
@@ -307,6 +370,15 @@ public:
   Vertex_handle
   nearest_vertex_in_cell(const Point& p, const Cell_handle& c) const;
 
+  Vertex_handle
+  nearest_vertex(const Point& p, Cell_handle c = Cell_handle()) const;
+
+  bool is_Gabriel(Cell_handle c, int i) const;
+  bool is_Gabriel(Cell_handle c, int i, int j) const;
+  bool is_Gabriel(const Facet& f)const ;
+  bool is_Gabriel(const Edge& e) const;
+
+// Dual functions
   Point dual(Cell_handle c) const;
 
   Object dual(const Facet & f) const
@@ -338,13 +410,14 @@ private:
   Vertex_handle
   nearest_vertex(const Point &p, Vertex_handle v, Vertex_handle w) const
   {
+      // In case of equality, v is returned.
       CGAL_triangulation_precondition(v != w);
 
       if (is_infinite(v))
 	  return w;
       if (is_infinite(w))
 	  return v;
-      return less_distance(p, v->point(), w->point()) ? v : w;
+      return less_distance(p, w->point(), v->point()) ? w : v;
   }
 
 #ifndef CGAL_CFG_NET2003_MATCHING_BUG
@@ -459,7 +532,6 @@ insert(const Point & p, Locate_type lt, Cell_handle c, int li, int)
     {
       switch (lt) {
       case Tr_Base::OUTSIDE_CONVEX_HULL:
-      case Tr_Base::CELL:
       case Tr_Base::FACET:
       case Tr_Base::EDGE:
 	{
@@ -474,6 +546,8 @@ insert(const Point & p, Locate_type lt, Cell_handle c, int li, int)
 	  // if the 2d triangulation is Delaunay, the 3d
 	  // triangulation will be Delaunay
 	return Tr_Base::insert_outside_affine_hull(p); 
+      default:
+	CGAL_triangulation_assertion(false); // CELL should not happen in 2D.
       }
     }//dim 2
   default :
@@ -482,6 +556,29 @@ insert(const Point & p, Locate_type lt, Cell_handle c, int li, int)
   }
 }
 
+template < class Gt, class Tds >
+typename Delaunay_triangulation_3<Gt,Tds>::Vertex_handle
+Delaunay_triangulation_3<Gt,Tds>::
+move_point(Vertex_handle v, const Point & p)
+{
+    CGAL_triangulation_precondition(! is_infinite(v));
+    CGAL_triangulation_expensive_precondition(is_vertex(v));
+
+    // Dummy implementation for a start.
+
+    // Remember an incident vertex to restart
+    // the point location after the removal.
+    Cell_handle c = v->cell();
+    Vertex_handle old_neighbor = c->vertex(c->index(v) == 0 ? 1 : 0);
+    CGAL_triangulation_assertion(old_neighbor != v);
+
+    remove(v);
+
+    if (dimension() <= 0)
+	return insert(p);
+    return insert(p, old_neighbor->cell());
+}
+ 
 template < class Gt, class Tds >
 void
 Delaunay_triangulation_3<Gt,Tds>::
@@ -652,7 +749,7 @@ make_hole_2D(Vertex_handle v, std::list<Edge_2D> & hole)
     int in = fn->index(f);
 
     f->vertex(cw(i))->set_cell(fn);
-    fn->set_neighbor(in, NULL);
+    fn->set_neighbor(in, Cell_handle());
 
     hole.push_back(Edge_2D(fn, in));
     to_delete.push_back(f);
@@ -699,14 +796,14 @@ typename Delaunay_triangulation_3<Gt,Tds>::Vertex_triple
 Delaunay_triangulation_3<Gt,Tds>::
 make_vertex_triple(const Facet& f) const
 {
-  static const int vertex_triple_index[4][3] = { {1, 3, 2}, {0, 2, 3},
-                                                 {0, 3, 1}, {0, 1, 2} };
+  // static const int vertex_triple_index[4][3] = { {1, 3, 2}, {0, 2, 3},
+//                                                  {0, 3, 1}, {0, 1, 2} };
   Cell_handle ch = f.first;
   int i = f.second;
   
-  return Vertex_triple(ch->vertex(vertex_triple_index[i][0]),
-		       ch->vertex(vertex_triple_index[i][1]),
-		       ch->vertex(vertex_triple_index[i][2])); 
+  return Vertex_triple(ch->vertex(vertex_triple_index(i,0)),
+		       ch->vertex(vertex_triple_index(i,1)),
+		       ch->vertex(vertex_triple_index(i,2))); 
 }
 
 
@@ -758,7 +855,7 @@ remove_3D_new(Vertex_handle v)
 
   Unique_hash_map<Vertex_handle,Vertex_handle> vmap;
 
-  Cell_handle ch(NULL);
+  Cell_handle ch = Cell_handle();
   for(i=0; i < vertices.size(); i++){
     if(! is_infinite(vertices[i])){
       Vertex_handle vh = aux.insert(vertices[i]->point(), ch);
@@ -871,9 +968,9 @@ bool
 Delaunay_triangulation_3<Gt,Tds>::
 remove(Vertex_handle v)
 {
-  CGAL_triangulation_precondition( v != NULL);
+  CGAL_triangulation_precondition( v != Vertex_handle());
   CGAL_triangulation_precondition( !is_infinite(v));
-  CGAL_triangulation_expensive_precondition( tds().is_vertex(v) );
+  CGAL_triangulation_expensive_precondition(is_vertex(v));
 
   if (dimension() >= 0 && test_dim_down(v)) {
       tds().remove_decrease_dimension(v);
@@ -931,16 +1028,8 @@ side_of_oriented_sphere(const Point &p0, const Point &p1, const Point &p2,
     // We are now in a degenerate case => we do a symbolic perturbation.
 
     // We sort the points lexicographically.
-#if defined _MSC_VER && _MSC_VER >= 1300 // FIXME : Should use proper macro
-    std::vector<const Point*> points;
-    points.push_back(&p0); points.push_back(&p1);
-    points.push_back(&p2); points.push_back(&p3);
-    points.push_back(&p);
-    std::sort(points.begin(), points.end(), Perturbation_order(this));
-#else
     const Point * points[5] = {&p0, &p1, &p2, &p3, &p};
     std::sort(points, points+5, Perturbation_order(this) );
-#endif
 
     // We successively look whether the leading monomial, then 2nd monomial
     // of the determinant has non null coefficient.
@@ -952,12 +1041,12 @@ side_of_oriented_sphere(const Point &p0, const Point &p1, const Point &p2,
         Orientation o;
         if (points[i] == &p3 && (o = orientation(p0,p1,p2,p)) != COPLANAR )
             return Oriented_side(o);
-        if (points[i] == &p2 && (o = orientation(p0,p1,p3,p)) != COPLANAR )
-            return Oriented_side(-o);
-        if (points[i] == &p1 && (o = orientation(p0,p2,p3,p)) != COPLANAR )
+        if (points[i] == &p2 && (o = orientation(p0,p1,p,p3)) != COPLANAR )
             return Oriented_side(o);
-        if (points[i] == &p0 && (o = orientation(p1,p2,p3,p)) != COPLANAR )
-            return Oriented_side(-o);
+        if (points[i] == &p1 && (o = orientation(p0,p,p2,p3)) != COPLANAR )
+            return Oriented_side(o);
+        if (points[i] == &p0 && (o = orientation(p,p1,p2,p3)) != COPLANAR )
+            return Oriented_side(o);
     }
 
     CGAL_triangulation_assertion(false);
@@ -983,15 +1072,8 @@ coplanar_side_of_bounded_circle(const Point &p0, const Point &p1,
     // We are now in a degenerate case => we do a symbolic perturbation.
 
     // We sort the points lexicographically.
-#if defined _MSC_VER && _MSC_VER >= 1300 // FIXME : should use the right macro
-    std::vector<const Point*> points;
-    points.push_back(&p0); points.push_back(&p1);
-    points.push_back(&p2); points.push_back(&p);
-    std::sort(points.begin(), points.end(), Perturbation_order(this));
-#else
     const Point * points[4] = {&p0, &p1, &p2, &p};
     std::sort(points, points+4, Perturbation_order(this) );
-#endif
 
     Orientation local = coplanar_orientation(p0, p1, p2);
 
@@ -1008,10 +1090,10 @@ coplanar_side_of_bounded_circle(const Point &p0, const Point &p1,
 	    // [syl] : TODO : I'm not sure of the signs here (nor the rest :)
             return Bounded_side(o*local);
         if (points[i] == &p1
-		&& (o = coplanar_orientation(p0,p2,p)) != COLLINEAR )
-            return Bounded_side(-o*local);
+		&& (o = coplanar_orientation(p0,p,p2)) != COLLINEAR )
+            return Bounded_side(o*local);
         if (points[i] == &p0
-		&& (o = coplanar_orientation(p1,p2,p)) != COLLINEAR )
+		&& (o = coplanar_orientation(p,p1,p2)) != COLLINEAR )
             return Bounded_side(o*local);
     }
 
@@ -1075,7 +1157,8 @@ side_of_sphere(const Vertex_handle& v0, const Vertex_handle& v1,
 template < class Gt, class Tds >
 Bounded_side
 Delaunay_triangulation_3<Gt,Tds>::
-side_of_circle(const Cell_handle& c, int i, const Point & p, bool perturb) const
+side_of_circle(const Cell_handle& c, int i,
+	       const Point & p, bool perturb) const
   // precondition : dimension >=2
   // in dimension 3, - for a finite facet
   // returns ON_BOUNDARY if the point lies on the circle,
@@ -1181,6 +1264,124 @@ nearest_vertex_in_cell(const Point& p, const Cell_handle& c) const
 }
 
 template < class Gt, class Tds >
+typename Delaunay_triangulation_3<Gt,Tds>::Vertex_handle
+Delaunay_triangulation_3<Gt,Tds>::
+nearest_vertex(const Point& p, Cell_handle start) const
+{
+    if (number_of_vertices() == 0)
+	return Vertex_handle();
+
+    // Use a brute-force algorithm if dimension < 3.
+    if (dimension() < 3) {
+	Finite_vertices_iterator vit = finite_vertices_begin();
+	Vertex_handle res = vit;
+	for (++vit; vit != finite_vertices_end(); ++vit)
+	    res = nearest_vertex(p, res, vit);
+	return res;
+    }
+
+    Locate_type lt;
+    int li, lj;
+    Cell_handle c = locate(p, lt, li, lj, start);
+    if (lt == Tr_Base::VERTEX)
+	return c->vertex(li);
+
+    // - start with the closest vertex from the located cell.
+    // - repeatedly take the nearest of its incident vertices if any
+    // - if not, we're done.
+    Vertex_handle nearest = nearest_vertex_in_cell(p, c);
+    std::vector<Vertex_handle> vs;
+    vs.reserve(32);
+    while (true) {
+	Vertex_handle tmp = nearest;
+        incident_vertices(nearest, std::back_inserter(vs));
+        for (typename std::vector<Vertex_handle>::const_iterator
+		vsit = vs.begin(); vsit != vs.end(); ++vsit)
+	    tmp = nearest_vertex(p, tmp, *vsit);
+	if (tmp == nearest)
+	    break;
+	vs.clear();
+	nearest = tmp;
+    }
+
+    return nearest;
+}
+
+
+template < class Gt, class Tds >
+bool
+Delaunay_triangulation_3<Gt,Tds>::
+is_Gabriel(const Facet& f) const
+{
+  return is_Gabriel(f.first, f.second);
+}
+
+template < class Gt, class Tds >
+bool
+Delaunay_triangulation_3<Gt,Tds>::
+is_Gabriel(Cell_handle c, int i) const
+{
+  CGAL_triangulation_precondition(dimension() == 3 && !is_infinite(c,i));
+  typename Geom_traits::Side_of_bounded_sphere_3 
+    side_of_bounded_sphere =
+    geom_traits().side_of_bounded_sphere_3_object();
+
+  if ((!is_infinite(c->vertex(i))) &&
+      side_of_bounded_sphere (
+	c->vertex(vertex_triple_index(i,0))->point(),
+	c->vertex(vertex_triple_index(i,1))->point(),
+	c->vertex(vertex_triple_index(i,2))->point(),
+	c->vertex(i)->point()) == ON_BOUNDED_SIDE ) return false;
+    Cell_handle neighbor = c->neighbor(i);
+  int in = neighbor->index(c);
+
+  if ((!is_infinite(neighbor->vertex(in))) &&
+      side_of_bounded_sphere(
+	 c->vertex(vertex_triple_index(i,0))->point(),
+	 c->vertex(vertex_triple_index(i,1))->point(),
+	 c->vertex(vertex_triple_index(i,2))->point(),	
+	 neighbor->vertex(in)->point()) == ON_BOUNDED_SIDE ) return false;
+ 
+  return true;
+}
+
+template < class Gt, class Tds >
+bool
+Delaunay_triangulation_3<Gt,Tds>::
+is_Gabriel(const Edge& e) const
+{
+  return is_Gabriel(e.first, e.second, e.third);
+}
+
+template < class Gt, class Tds >
+bool
+Delaunay_triangulation_3<Gt,Tds>::
+is_Gabriel(Cell_handle c, int i, int j) const
+{
+  CGAL_triangulation_precondition(dimension() == 3 && !is_infinite(c,i,j));
+  typename Geom_traits::Side_of_bounded_sphere_3 
+    side_of_bounded_sphere = 
+    geom_traits().side_of_bounded_sphere_3_object();
+
+  Facet_circulator fcirc = incident_facets(c,i,j),
+                   fdone(fcirc);
+  Vertex_handle v1 = c->vertex(i);
+  Vertex_handle v2 = c->vertex(j);
+  do {
+      // test whether the vertex of cc opposite to *fcirc
+      // is inside the sphere defined by the edge e = (s, i,j)
+      Cell_handle cc = (*fcirc).first;
+      int ii = (*fcirc).second;
+      if (!is_infinite(cc->vertex(ii)) &&
+	   side_of_bounded_sphere( v1->point(), 
+				   v2->point(),
+				   cc->vertex(ii)->point())  
+	  == ON_BOUNDED_SIDE ) return false;
+  } while(++fcirc != fdone);
+  return true;
+}
+
+template < class Gt, class Tds >
 typename Delaunay_triangulation_3<Gt,Tds>::Point
 Delaunay_triangulation_3<Gt,Tds>::
 dual(Cell_handle c) const
@@ -1247,7 +1448,7 @@ is_valid(bool verbose, int level) const
     return false;
   }
     
-  if ( infinite_vertex() == NULL ) {
+  if ( infinite_vertex() == Vertex_handle() ) {
     if (verbose)
 	std::cerr << "no infinite vertex" << std::endl;
     CGAL_triangulation_assertion(false);

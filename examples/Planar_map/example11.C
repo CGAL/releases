@@ -1,3 +1,5 @@
+// file: examples/Planar_map/example11.C
+
 /*! \file
  * A construction of a planar map using quick insert operations. They are
  * applied through two overloaded insert methods. They are more efficient, as

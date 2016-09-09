@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2.h,v $
-// $Revision: 1.24 $ $Date: 2003/10/21 12:22:46 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.25 $ $Date: 2004/01/18 16:31:59 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 //                 Wieger Wesselink
@@ -162,7 +162,7 @@ operator-(Polygon_vertex_iterator_2<It> it1, Polygon_vertex_iterator_2<It> it2)
 #endif // defined(...CACHED)
 
 template <class Traits_P, class Container_P
-        = std::vector<CGAL_TYPENAME_MSVC_NULL Traits_P::Point_2> >
+        = std::vector<typename Traits_P::Point_2> >
 class Polygon_2 {
 
   public:

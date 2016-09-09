@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_segment_debug_traits_2.h,v $
-// $Revision: 1.2 $ $Date: 2003/09/18 10:24:35 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.4 $ $Date: 2004/05/09 14:22:56 $
+// $Name:  $
 //
 // Author(s)     : Iddo Hanniel      <hanniel@math.tau.ac.il>
 //                 Eyal Flato        <flato@post.tau.ac.il>
@@ -31,7 +31,7 @@
 CGAL_BEGIN_NAMESPACE
 
 template <class Kernel_>
-class Pm_segment_traits_2 : public Kernel_
+class Pm_segment_traits_2 : public Kernel_190
 {
   class My_x_curve_2{
   public:
@@ -61,6 +61,13 @@ public:
   typedef Tag_false                       Has_left_category;
 #endif
     
+  // #define HAS_REFLECT
+#if !defined(HAS_REFLECT)
+  typedef Tag_false                       Has_reflect_category;
+#else
+  typedef Tag_true                        Has_reflect_category;
+#endif
+
   // Traits objects
   typedef typename Kernel::Point_2        Point_2;
   typedef My_x_curve_2                    X_monotone_curve_2;
@@ -180,7 +187,7 @@ public:
     
     // Since the curves are continuous, if they are not equal at q, the same
     // result also applies to q's left.
-    CGAL_precondition (compare_y_at_x_2_object()(q, cv1.seg, cv2.seg) == EQUAL);
+    CGAL_precondition (compare_y_at_x_2_object()(q, cv1.seg, cv2.seg)==EQUAL);
     
     // <cv2> and <cv1> meet at a point with the same x-coordinate as q
     // compare their derivatives.

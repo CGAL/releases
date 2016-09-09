@@ -12,12 +12,11 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arr_segment_debug_traits_2.h,v $
-// $Revision: 1.4 $ $Date: 2003/09/18 10:19:41 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/05/27 11:52:26 $
+// $Name:  $
 //
 // Author(s)     : Eran Leiserowitz <leiserow@post.tau.ac.il>
 //                 Efi Fogel    <efif@post.tau.ac.il>
-
 
 #ifndef CGAL_ARR_SEGMENT_DEBUG_EXACT_TRAITS_H
 #define CGAL_ARR_SEGMENT_DEBUG_EXACT_TRAITS_H
@@ -65,6 +64,7 @@ public:
   typedef Pm_segment_traits_2<Kernel>           Base;
 
   typedef typename Base::Has_left_category      Has_left_category;
+  typedef typename Base::Has_reflect_category   Has_reflect_category;
     
   typedef typename Base::Point_2                Point_2;
   typedef typename Base::X_monotone_curve_2     X_monotone_curve_2;

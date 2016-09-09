@@ -14,9 +14,9 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
+           -I../../include \
            $(CGAL_CXXFLAGS) \
-           $(LONG_NAME_PROBLEM_CXXFLAGS) \
-           $(DEBUG_OPT)
+           $(LONG_NAME_PROBLEM_CXXFLAGS)
 
 #---------------------------------------------------------------------#
 #                    linker flags
@@ -38,6 +38,9 @@ all:            \
                 example10$(EXE_EXT) \
                 example11$(EXE_EXT) \
                 example12$(EXE_EXT) \
+                example13$(EXE_EXT) \
+                example14$(EXE_EXT) \
+                example15$(EXE_EXT) \
                 example2$(EXE_EXT) \
                 example3$(EXE_EXT) \
                 example4$(EXE_EXT) \
@@ -58,6 +61,15 @@ example11$(EXE_EXT): example11$(OBJ_EXT)
 
 example12$(EXE_EXT): example12$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example12 example12$(OBJ_EXT) $(LDFLAGS)
+
+example13$(EXE_EXT): example13$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example13 example13$(OBJ_EXT) $(LDFLAGS)
+
+example14$(EXE_EXT): example14$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example14 example14$(OBJ_EXT) $(LDFLAGS)
+
+example15$(EXE_EXT): example15$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example15 example15$(OBJ_EXT) $(LDFLAGS)
 
 example2$(EXE_EXT): example2$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example2 example2$(OBJ_EXT) $(LDFLAGS)
@@ -88,6 +100,9 @@ clean: \
                    example10.clean \
                    example11.clean \
                    example12.clean \
+                   example13.clean \
+                   example14.clean \
+                   example15.clean \
                    example2.clean \
                    example3.clean \
                    example4.clean \

@@ -1,4 +1,4 @@
-// Copyright (c) 2002  Utrecht University (The Netherlands).
+// Copyright (c) 2002 Utrecht University (The Netherlands).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,11 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Euclidean_distance_sphere_point.h,v $
-// $Revision: 1.3 $ $Date: 2003/09/25 14:01:05 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.13 $ $Date: 2004/09/15 15:10:34 $
+// $Name:  $
 //
-// Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
-
+// Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
 
 
 #ifndef CGAL_EUCLIDEAN_DISTANCE_SPHERE_POINT_H
@@ -25,83 +24,87 @@
 
 namespace CGAL {
 
-  template <class QueryItem, class Point>
+  template <class SearchTraits>
   class Euclidean_distance_sphere_point {
 
     public:
 
-    typedef typename Kernel_traits<Point>::Kernel::FT NT;
-    
-    private:
-
-    unsigned int the_dimension;
-
+    typedef typename SearchTraits::Point_d Point_d;
+    typedef typename SearchTraits::Sphere_d Sphere_d;
+    typedef typename SearchTraits::FT    FT;
+    typedef typename SearchTraits::Construct_center_d Construct_center_d;
+    typedef typename SearchTraits::Compute_squared_radius_d Compute_squared_radius_d;
+    typedef typename SearchTraits::Construct_cartesian_const_iterator_d Construct_cartesian_const_iterator_d;
+    typedef typename SearchTraits::Cartesian_const_iterator_d Cartesian_const_iterator_d;
+    typedef Sphere_d Query_item;    
     public:
 
-
     	// default constructor
-    	Euclidean_distance_sphere_point() {
-		Point p;
-		the_dimension=p.dimension();
-		assert(the_dimension>0);
-    	}
+    	Euclidean_distance_sphere_point() {}
 
 
-        Euclidean_distance_sphere_point(const int d) : the_dimension(d) {}
-
-	~Euclidean_distance_sphere_point() {}
-
-	inline NT distance(const QueryItem& q, const Point& p) const {
-                Point c=q.center();
-	        NT distance = NT(0);
-		for (unsigned int i = 0; i < the_dimension; ++i)
-			distance += (c[i]-p[i])*(c[i]-p[i]);
-                distance += -q.squared_radius();
-                if (distance<0) distance=NT(0);
+	inline FT transformed_distance(const Sphere_d& q, const Point_d& p) const {
+                Point_d c= Construct_center_d()(q);
+		FT distance = FT(0);
+		Construct_cartesian_const_iterator_d construct_it;
+                Cartesian_const_iterator_d cit = construct_it(c),
+		  ce = construct_it(c,1), pit = construct_it(p);
+		for(; cit != ce; cit++, pit++){
+		  distance += ((*cit)-(*pit))*((*cit)-(*pit));
+		}
+                distance += - Compute_squared_radius_d()(q);
+                if (distance<0) distance=FT(0);
         	return distance;
 	}
 
 
-	inline NT min_distance_to_queryitem(const QueryItem& q,
-					    const Kd_tree_rectangle<NT>& r) const {
-                Point c=q.center();
-		NT distance = NT(0);
-		for (unsigned int i = 0; i < the_dimension; ++i) {
-			if (c[i] < r.min_coord(i))
+	inline FT min_distance_to_rectangle(const Sphere_d& q,
+					     const Kd_tree_rectangle<SearchTraits>& r) const {
+                Point_d c= Construct_center_d()(q);
+		FT distance = FT(0);
+		Construct_cartesian_const_iterator_d construct_it;
+                Cartesian_const_iterator_d cit = construct_it(c),
+		  ce = construct_it(c,1);
+		for (unsigned int i = 0; cit != ce; ++i, ++cit) {
+			if ((*cit) < r.min_coord(i))
 				distance += 
-				(r.min_coord(i)-c[i])*(r.min_coord(i)-c[i]);
-			if (c[i] > r.max_coord(i))
+				(r.min_coord(i)-(*cit))*(r.min_coord(i)-(*cit));
+			else if ((*cit) > r.max_coord(i))
 				distance +=  
-				(c[i]-r.max_coord(i))*(c[i]-r.max_coord(i));
+				((*cit)-r.max_coord(i))*((*cit)-r.max_coord(i));
 			
 		};
-                distance += -q.squared_radius();
-                if (distance<0) distance=NT(0);
+                distance += - Compute_squared_radius_d()(q);
+                if (distance<0) distance=FT(0);
 		return distance;
 	}
 
-	inline NT max_distance_to_queryitem(const QueryItem& q,
-					      const Kd_tree_rectangle<NT>& r) const {
-                Point c=q.center();
-		NT distance=NT(0);
-		for (unsigned int i = 0; i < the_dimension; ++i) {
-				if (c[i] <= (r.min_coord(i)+r.max_coord(i))/NT(2.0))
-					distance += (r.max_coord(i)-c[i])*(r.max_coord(i)-c[i]);
+	inline FT max_distance_to_rectangle(const Sphere_d& q,
+					      const Kd_tree_rectangle<SearchTraits>& r) const {
+	  Construct_center_d construct_center_d;
+                Point_d c = construct_center_d(q);
+		FT distance=FT(0);
+		Construct_cartesian_const_iterator_d construct_it;
+                Cartesian_const_iterator_d cit = construct_it(c),
+		  ce = construct_it(c,1);
+		for (unsigned int i = 0; cit != ce; ++i, ++cit) {
+				if ((*cit) <= (r.min_coord(i)+r.max_coord(i))/FT(2.0))
+					distance += (r.max_coord(i)-(*cit))*(r.max_coord(i)-(*cit));
 				else
-					distance += (c[i]-r.min_coord(i))*(c[i]-r.min_coord(i));
+					distance += ((*cit)-r.min_coord(i))*((*cit)-r.min_coord(i));
 		};
-		distance += -q.squared_radius();
-                if (distance<0) distance=NT(0);
+		distance += - Compute_squared_radius_d()(q);
+                if (distance<0) distance=FT(0);
 		return distance;
 	}
 
 
 
-  inline NT transformed_distance(NT d) const {
+  inline FT transformed_distance(FT d) const {
 		return d*d;
 	}
 
-  inline NT inverse_of_transformed_distance(NT d) const {
+  inline FT inverse_of_transformed_distance(FT d) const {
 		return CGAL::sqrt(d);
 	}
 
@@ -109,3 +112,4 @@ namespace CGAL {
 
 } // namespace CGAL
 #endif // EUCLIDEAN_DISTANCE_SPHERE_POINT_H
+

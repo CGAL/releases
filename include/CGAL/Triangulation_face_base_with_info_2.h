@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_face_base_with_info_2.h,v $
-// $Revision: 1.2 $ $Date: 2003/09/18 10:26:15 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.3 $ $Date: 2004/04/17 10:00:19 $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec,Sylvain Pion
 
@@ -57,7 +57,7 @@ public:
                                       Face_handle   n0, 
 				      Face_handle   n1,
                                       Face_handle   n2 )
-    : Fb(v0, v1, v2, v3, n0, n1, n2, n3) {}
+    : Fb(v0, v1, v2, n0, n1, n2) {}
 
   const Info& info() const { return _info; }
   Info&       info()       { return _info; }

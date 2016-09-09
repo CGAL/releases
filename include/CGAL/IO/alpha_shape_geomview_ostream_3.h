@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_3/include/CGAL/IO/alpha_shape_geomview_ostream_3.h,v $
-// $Revision: 1.2 $ $Date: 2003/09/18 10:19:16 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.4 $ $Date: 2004/06/24 16:23:43 $
+// $Name:  $
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 
@@ -69,14 +69,14 @@ CGAL_BEGIN_NAMESPACE
 // This one outputs the facets.
 template < class Dt >
 void
-Alpha_shape_3<Dt>::show_alpha_shape_faces(Geomview_stream &gv)
+Alpha_shape_3<Dt>::show_alpha_shape_faces(Geomview_stream &gv) const
 {
   // Finite vertices coordinates.
   typename Alpha_shape_3<Dt>::Alpha_shape_vertices_iterator Vlist_it,
     Vlist_begin = Alpha_shape_vertices_begin(),
     Vlist_end = Alpha_shape_vertices_end();
 
-  std::map<Alpha_shape_3<Dt>::Vertex_handle, int> V;
+  std::map<typename Alpha_shape_3<Dt>::Vertex_handle, int> V;
   int number_of_vertex = 0;
   for( Vlist_it = Vlist_begin; Vlist_it != Vlist_end; Vlist_it++) {
     V[*Vlist_it] = number_of_vertex++;
@@ -87,7 +87,7 @@ Alpha_shape_3<Dt>::show_alpha_shape_faces(Geomview_stream &gv)
     Flist_begin = Alpha_shape_facets_begin(),
     Flist_end = Alpha_shape_facets_end();
 
-  std::map<Alpha_shape_3<Dt>::Facet, int> F;
+  std::map<typename Alpha_shape_3<Dt>::Facet, int> F;
   int number_of_facets = 0;
   for( Flist_it = Flist_begin; Flist_it != Flist_end; Flist_it++) {
     F[*Flist_it] = number_of_facets++;

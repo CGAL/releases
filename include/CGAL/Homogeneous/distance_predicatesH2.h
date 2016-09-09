@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/distance_predicatesH2.h,v $
-// $Revision: 1.4 $ $Date: 2003/10/21 12:16:13 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/01/01 18:08:18 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  
@@ -28,63 +28,6 @@
 #include <CGAL/determinant.h>
 
 CGAL_BEGIN_NAMESPACE
-
-template < class R>
-CGAL_KERNEL_MEDIUM_INLINE
-Comparison_result
-compare_distance_to_point(const PointH2<R>& p,
-                          const PointH2<R>& q,
-                          const PointH2<R>& r)
-{
-  typedef typename R::RT RT;
-
-  const RT phx = p.hx();
-  const RT phy = p.hy();
-  const RT phw = p.hw();
-  const RT qhx = q.hx();
-  const RT qhy = q.hy();
-  const RT qhw = q.hw();
-  const RT rhx = r.hx();
-  const RT rhy = r.hy();
-  const RT rhw = r.hw();
-  const RT RT0 = RT(0);
-  const RT RT2 = RT(2);
-
-  RT dosd =   // difference of squared distances
-
-  //            phx * phx   *   qhw * qhw * rhw * rhw
-  //   -RT(2) * phx * qhx   *   phw * qhw * rhw * rhw
-  //   +        qhx * qhx   *   phw * phw * rhw * rhw
-  //
-  //   +        phy * phy   *   qhw * qhw * rhw * rhw
-  //   -RT(2) * phy * qhy   *   phw * qhw * rhw * rhw
-  //   +        qhy * qhy   *   phw * phw * rhw * rhw
-  //
-  // - (        phx * phx   *   qhw * qhw * rhw * rhw
-  //   -RT(2) * phx * rhx   *   phw * qhw * qhw * rhw
-  //   +        rhx * rhx   *   phw * phw * qhw * qhw
-  //
-  //   +        phy * phy   *   qhw * qhw * rhw * rhw
-  //   -RT(2) * phy * rhy   *   phw * qhw * qhw * rhw
-  //   +        rhy * rhy   *   phw * phw * qhw * qhw
-
-    rhw*rhw * (         phw * ( qhx*qhx + qhy*qhy )
-                - RT2 * qhw * ( phx*qhx + phy*qhy )
-              )
-  - qhw*qhw * (         phw * ( rhx*rhx + rhy*rhy )
-                - RT2 * rhw * ( phx*rhx + phy*rhy )
-              );
-
-
-  if ( RT0 < dosd )
-  {
-      return LARGER;
-  }
-  else
-  {
-      return (dosd < RT0) ? SMALLER : EQUAL;
-  }
-}
 
 template < class R>
 CGAL_KERNEL_MEDIUM_INLINE
@@ -135,57 +78,6 @@ has_larger_distance_to_point(const PointH2<R>& p,
 
   return ( dosd > RT0 );
 }
-
-template < class R>
-CGAL_KERNEL_MEDIUM_INLINE
-bool
-has_smaller_distance_to_point(const PointH2<R>& p,
-                              const PointH2<R>& q,
-                              const PointH2<R>& r)
-{
-  typedef typename R::RT RT;
-
-  const RT phx = p.hx();
-  const RT phy = p.hy();
-  const RT phw = p.hw();
-  const RT qhx = q.hx();
-  const RT qhy = q.hy();
-  const RT qhw = q.hw();
-  const RT rhx = r.hx();
-  const RT rhy = r.hy();
-  const RT rhw = r.hw();
-  const RT RT0 = RT(0);
-  const RT RT2 = RT(2);
-
-  RT dosd =   // difference of squared distances
-
-  //            phx * phx   *   qhw * qhw * rhw * rhw
-  //   -RT(2) * phx * qhx   *   phw * qhw * rhw * rhw
-  //   +        qhx * qhx   *   phw * phw * rhw * rhw
-  //
-  //   +        phy * phy   *   qhw * qhw * rhw * rhw
-  //   -RT(2) * phy * qhy   *   phw * qhw * rhw * rhw
-  //   +        qhy * qhy   *   phw * phw * rhw * rhw
-  //
-  // - (        phx * phx   *   qhw * qhw * rhw * rhw
-  //   -RT(2) * phx * rhx   *   phw * qhw * qhw * rhw
-  //   +        rhx * rhx   *   phw * phw * qhw * qhw
-  //
-  //   +        phy * phy   *   qhw * qhw * rhw * rhw
-  //   -RT(2) * phy * rhy   *   phw * qhw * qhw * rhw
-  //   +        rhy * rhy   *   phw * phw * qhw * qhw
-
-    rhw*rhw * (         phw * ( qhx*qhx + qhy*qhy )
-                - RT2 * qhw * ( phx*qhx + phy*qhy )
-              )
-  - qhw*qhw * (         phw * ( rhx*rhx + rhy*rhy )
-                - RT2 * rhw * ( phx*rhx + phy*rhy )
-              );
-
-
-  return ( dosd < RT0 );
-}
-
 
 template < class R>
 CGAL_KERNEL_INLINE
@@ -385,100 +277,6 @@ has_larger_signed_distance_to_line(const PointH2<R>& p,
 
   return ( scaled_dist_r_minus_scaled_dist_s > RT0 );
 }
-
-#ifndef CGAL_NO_DEPRECATED_CODE
-template < class R>
-inline
-Comparison_result
-cmp_dist_to_point(const PointH2<R>& p,
-                  const PointH2<R>& q,
-                  const PointH2<R>& r)
-{
-   return compare_distance_to_point(p, q, r);
-}
-
-template < class R>
-inline
-bool
-has_larger_dist_to_point(const PointH2<R>& p,
-                              const PointH2<R>& q,
-                              const PointH2<R>& r)
-{
-   return has_larger_distance_to_point(p,q,r);
-}
-
-template < class R>
-inline
-bool
-has_smaller_dist_to_point(const PointH2<R>& p,
-                               const PointH2<R>& q,
-                               const PointH2<R>& r)
-{
-   return has_smaller_distance_to_point(p, q, r);
-}
-
-template < class R>
-inline
-Comparison_result
-cmp_signed_dist_to_line(const LineH2<R>&  l,
-                             const PointH2<R>& p,
-                             const PointH2<R>& q)
-{
-   return compare_signed_distance_to_line(l, p, q);
-}
-
-template < class R>
-inline
-bool
-has_larger_signed_dist_to_line(const LineH2<R>&  l,
-                               const PointH2<R>& p,
-                               const PointH2<R>& q)
-{
-   return has_larger_signed_distance_to_line(l, p, q);
-}
-
-
-template < class R>
-inline
-bool
-has_smaller_signed_dist_to_line(const LineH2<R>&  l,
-                                const PointH2<R>& p,
-                                const PointH2<R>& q)
-{
-   return has_smaller_signed_distance_to_line(l, p, q);
-}
-
-template < class R>
-inline
-Comparison_result
-cmp_signed_dist_to_line(const PointH2<R>& p, const PointH2<R>& q,
-                        const PointH2<R>& r, const PointH2<R>& s)
-{
-   return compare_signed_distance_to_line(p,q,r,s);
-}
-
-template < class R>
-inline
-bool
-has_smaller_signed_dist_to_line(const PointH2<R>& p,
-                                const PointH2<R>& q,
-                                const PointH2<R>& r,
-                                const PointH2<R>& s)
-{
-   return has_smaller_signed_distance_to_line(p, q, r, s);
-}
-
-template < class R>
-inline
-bool
-has_larger_signed_dist_to_line(const PointH2<R>& p,
-                                    const PointH2<R>& q,
-                                    const PointH2<R>& r,
-                                    const PointH2<R>& s)
-{
-   return has_larger_signed_distance_to_line(p, q, r, s);
-}
-#endif
 
 CGAL_END_NAMESPACE
 

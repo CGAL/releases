@@ -1,5 +1,5 @@
-// examples/HalfedgeDS/hds_prog_color.C
-// ------------------------------------
+// file: examples/HalfedgeDS/hds_prog_color.C
+
 #include <CGAL/HalfedgeDS_items_2.h>
 #include <CGAL/HalfedgeDS_default.h>
 #include <CGAL/IO/Color.h>

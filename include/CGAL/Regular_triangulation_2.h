@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Regular_triangulation_2.h,v $
-// $Revision: 1.69 $ $Date: 2003/09/18 10:26:06 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.88 $ $Date: 2004/09/21 09:25:35 $
+// $Name:  $
 //
 // Author(s)     : Frederic Fichel, Mariette Yvinec, Julia Floetotto
 
@@ -23,26 +23,36 @@
 #include <CGAL/Triangulation_2.h>
 #include <CGAL/Regular_triangulation_face_base_2.h>
 #include <CGAL/Regular_triangulation_vertex_base_2.h>
-//#include <CGAL/Triangulation_iterator_adaptator.h>
 
 CGAL_BEGIN_NAMESPACE 
+
+template < typename K_ >
+struct Weighted_point_mapper_2 
+  :   public K_ 
+{
+  typedef typename K_::Weighted_point_2 Point_2;
+
+  Weighted_point_mapper_2() {}
+  Weighted_point_mapper_2(const K_& k) : K_(k) {}
+};
 
 template < class Gt, 
            class Tds  = Triangulation_data_structure_2 <
                         Regular_triangulation_vertex_base_2<Gt>,
 		        Regular_triangulation_face_base_2<Gt> > >
-class Regular_triangulation_2 : public Triangulation_2<Gt,Tds>
+class Regular_triangulation_2 
+  : public Triangulation_2<Weighted_point_mapper_2<Gt>,Tds>
 {
-  typedef Regular_triangulation_2<Gt, Tds>     Self;
-  typedef Triangulation_2<Gt,Tds>              Base;
+  typedef Regular_triangulation_2<Gt, Tds>                         Self;
+  typedef Triangulation_2<Weighted_point_mapper_2<Gt>,Tds>         Base;
 public:
   typedef Tds                                  Triangulation_data_structure;
   typedef Gt                                   Geom_traits;
-  typedef typename Gt::Bare_point              Bare_point;
-  typedef typename Gt::Weighted_point          Weighted_point;
-  typedef typename Gt::Weighted_point          Point;
+  typedef typename Gt::Point_2                 Bare_point;
+  typedef typename Gt::Weighted_point_2        Weighted_point;
   typedef typename Gt::Weight                  Weight;
 
+  typedef typename Base::size_type             size_type;
   typedef typename Base::Face_handle           Face_handle;
   typedef typename Base::Vertex_handle         Vertex_handle;
   typedef typename Base::Vertex                Vertex;
@@ -57,7 +67,30 @@ public:
   typedef typename Base::All_faces_iterator    All_faces_iterator;
   typedef typename Base::Face::Vertex_list     Vertex_list;
   typedef typename Vertex_list::iterator       Vertex_list_iterator;
- 
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2
+  using Base::cw;
+  using Base::ccw;
+  using Base::dimension;
+  using Base::geom_traits;
+  using Base::infinite_vertex;
+  using Base::create_face;
+  using Base::number_of_faces;
+  using Base::all_faces_begin;
+  using Base::all_faces_end;
+  using Base::all_edges_begin;
+  using Base::all_edges_end;
+  using Base::finite_faces_begin;
+  using Base::finite_faces_end;
+  using Base::finite_edges_begin;
+  using Base::finite_edges_end;
+  using Base::OUTSIDE_AFFINE_HULL;
+  using Base::VERTEX;
+  using Base::FACE;
+  using Base::EDGE;
+  using Base::OUTSIDE_CONVEX_HULL;
+#endif
+
 private:
   typedef std::list<Face_handle>      Faces_around_stack; 
 
@@ -125,36 +158,35 @@ public:
     operator Vertex_handle() const { return Base::base(); }
  };
 
-//  typedef Filter_iterator<All_vib,Hidden_tester>      All_filtered;
-//   typedef Filter_iterator<Finite_vib,Hidden_tester>   Finite_filtered;
-//   typedef Filter_iterator<Finite_vib,Unhidden_tester> Hidden_filtered;
+ //for backward compatibility
+  typedef Finite_faces_iterator                Face_iterator;
+  typedef Finite_edges_iterator                Edge_iterator;
+  typedef Finite_vertices_iterator             Vertex_iterator;
 
-// public:
-//   typedef Triangulation_iterator_handle_adaptor
-//                   <All_filtered, Vertex_handle>    All_vertices_iterator;
-//   typedef Triangulation_iterator_handle_adaptor
-//                <Finite_filtered, Vertex_handle>    Finite_vertices_iterator;
-//   typedef Triangulation_iterator_handle_adaptor
-//                 <Hidden_filtered,Vertex_handle>    Hidden_vertices_iterator;
+ //Tag to distinguish Delaunay from Regular triangulations
+  typedef Tag_true  Weighted_tag;
 
 private:
-  int _hidden_vertices;
+  size_type _hidden_vertices;
 
 public:
-  Regular_triangulation_2(const Gt& gt=Gt()) : Base(gt), _hidden_vertices(0) {}
+  Regular_triangulation_2(const Gt& gt=Gt()) 
+    : Base(Weighted_point_mapper_2<Gt>(gt)), _hidden_vertices(0) {}
+
   Regular_triangulation_2(const Regular_triangulation_2 &rt);
   
   Regular_triangulation_2 & operator=(const Regular_triangulation_2 &tr);
 
-  int number_of_vertices() const {
+  size_type number_of_vertices() const {
     return Base::number_of_vertices() - _hidden_vertices;
   }
  
-  int number_of_hidden_vertices() const {
+  size_type number_of_hidden_vertices() const {
     return _hidden_vertices;
   }
 
   // CHECK - QUERY
+
   Oriented_side power_test(const Weighted_point &p,
 			   const Weighted_point &q,
 			   const Weighted_point &r,
@@ -171,9 +203,51 @@ public:
  
   
   bool is_valid(bool verbose = false, int level = 0) const;
+  bool test_conflict(const Weighted_point  &p, Face_handle fh) const;
   void show_face(Face_handle fh) const;
   void show_all() const;	
-
+  
+   //  //template member functions, declared and defined at the end 
+  //  template <class OutputItFaces, class OutputItBoundaryEdges, 
+  //                                       class OutputItHiddenVertices> 
+  //   Triple<OutputItFaces,OutputItBoundaryEdges, OutputItHiddenVertices>
+  //   get_conflicts_and_boundary_and_hidden_vertices (const
+  //   Weighted_point  &p, 
+  // 						  OutputItFaces fit, 
+  // 						  OutputItBoundaryEdges eit,
+  // 						  OutputItHiddenVertices vit,  
+  // 						  Face_handle start = 
+  //                                                 Face_handle()) const;
+  // template <class OutputItFaces, class OutputItBoundaryEdges> 
+  // std::pair<OutputItFaces,OutputItBoundaryEdges>
+  // get_conflicts_and_boundary(const Weighted_point  &p, 
+  // 		                OutputItFaces fit, 
+  // 		                OutputItBoundaryEdges eit,
+  // 		                Face_handle start) const;
+  // template <class OutputItFaces>
+  // OutputItFaces
+  // get_conflicts (const Weighted_point  &p, 
+  //                OutputItFaces fit, 
+  // 		    Face_handle start ) const;
+  // template <class OutputItBoundaryEdges>
+  // OutputItBoundaryEdges
+  // get_boundary_of_conflicts(const Weighted_point  &p, 
+  // 			       OutputItBoundaryEdges eit, 
+  // 			       Face_handle start ) const;
+  //   template <class OutputItBoundaryEdges, class OutputItHiddenVertices> 
+  //   std::pair<OutputItBoundaryEdges, OutputItHiddenVertices> 
+  //   get_boundary_of_conflicts_and_hidden_vertices(const Weighted_point  &p, 
+  // 						OutputItBoundaryEdges eit, 
+  // 						OutputItHiddenVertices vit,
+  // 						Face_handle start=
+  //                                                Face_handle()) const;
+  //   template <class OutputItHiddenVertices> 
+  //   OutputItHiddenVertices
+  //   get_hidden_vertices(const Weighted_point  &p, 
+  // 			   OutputItHiddenVertices vit,
+  // 			   Face_handle start= 
+  //                       Face_handle()) const;
+  
   // DUAL
   Bare_point dual (Face_handle f) const;
   Object dual(const Edge &e) const ;
@@ -187,7 +261,7 @@ public:
   // Insertion, Deletion and Flip
   Vertex_handle push_back(const Weighted_point &p);
   Vertex_handle insert(const Weighted_point &p, 
-		       Face_handle f = Face_handle(NULL) );
+		       Face_handle f = Face_handle() );
   Vertex_handle insert(const Weighted_point &p,
 	 	       Locate_type  lt,
 		       Face_handle loc, int li );
@@ -195,7 +269,7 @@ public:
   Vertex_handle insert_in_edge(const Weighted_point &p, Face_handle f, int i);
   void flip(Face_handle f, int i);
   void remove_degree_3(Vertex_handle v, 
-		       Face_handle f = Face_handle(NULL));
+		       Face_handle f = Face_handle());
   void remove(Vertex_handle v);
 
   All_vertices_iterator all_vertices_begin () const;
@@ -263,7 +337,7 @@ public:
   template < class Stream>
   Stream& draw_dual(Stream & ps) const
     {
-      Finite_edges_iterator eit= finite_edges_begin();
+      Finite_edges_iterator eit = finite_edges_begin();
       for (; eit != finite_edges_end(); ++eit) {
 	Object o = dual(eit);
 	typename Geom_traits::Line_2  l;
@@ -275,8 +349,200 @@ public:
       }
       return ps;
     }
-   
+   template <class OutputItFaces, class OutputItBoundaryEdges, 
+     class OutputItHiddenVertices> 
+   Triple<OutputItFaces,OutputItBoundaryEdges, OutputItHiddenVertices>
+   get_conflicts_and_boundary_and_hidden_vertices(const Weighted_point  &p, 
+						  OutputItFaces fit, 
+						  OutputItBoundaryEdges eit,
+						  OutputItHiddenVertices vit,
+						  Face_handle start = 
+						  Face_handle()) const
+    {
+      CGAL_triangulation_precondition( dimension() == 2);
+      int li;
+      Locate_type lt;
+      Face_handle fh = locate(p,lt,li, start);
+      switch(lt) {
+      case OUTSIDE_AFFINE_HULL:
+	return make_triple(fit, eit, vit);
+      case VERTEX:
+      case FACE:
+      case EDGE:
+      case OUTSIDE_CONVEX_HULL:
+	//test whether p is not in conflict 
+	// with the first face: 
+	// this includes the cases that p is located 
+	// on a vertex and either equal or no conflict
+	if (!test_conflict(p,fh))
+	  return make_triple(fit, eit, vit);
+	
+	// region includes all faces in conflict so far detected
+	// stack includes the faces in the region whose neighbors
+	// have not yet been looked at
+	std::set<Face_handle> region;
+	std::stack<Edge> st; 
+	
+	//collection of all boundary_vertices:
+	std::set< Vertex_handle> boundary_vertices;
+	//collection of potential_intern_vertices = vertices incident
+	// to an edge incident to two faces in conflict and met 
+	// twice during the "walk":
+	std::set< Vertex_handle> potential_intern_vertices;
+	
+	*fit++ = fh; //put fh in OutputItFaces
+	region.insert(fh);
+	st.push(Edge(fh,2));
+	st.push(Edge(fh,1));	
+	st.push(Edge(fh,0));
+
+	while (! st.empty()){
+	  Edge e = st.top();
+ 	  st.pop();
+	  Face_handle fh = e.first;
+	  Face_handle fn = fh->neighbor(e.second);
+	  int i = fn->index(fh);
+	  if( region.find(fn) == region.end() ){
+	    if (test_conflict(p,fn))
+	      {
+		region.insert(fn);
+		st.push(Edge(fn, cw(i)));
+		st.push(Edge(fn,ccw(i)));
+		*fit++ = fn;
+	      }
+	    else{ 
+	      e = Edge(fn,i);
+	      *eit++ = e;
+	      if(!is_infinite(fn->vertex(cw(i))))
+		boundary_vertices.insert(fn->vertex(cw(i)));
+	       if(!is_infinite(fn->vertex(ccw(i))))
+		 boundary_vertices.insert(fn->vertex(ccw(i)));
+	    }
+	  }
+	  else {
+	    //insert the vertices of the last edge into the set of 
+	    // potential intern vertices:
+	    potential_intern_vertices.insert(fn->vertex(ccw(i)));
+	    potential_intern_vertices.insert(fn->vertex(cw(i)));
+	  }
+	}
+	if(!potential_intern_vertices.empty()){
+	  //determine the hidden vertices:
+	  std::set_difference (potential_intern_vertices.begin(), 
+			  potential_intern_vertices.end(),
+			  boundary_vertices.begin(),
+			  boundary_vertices.end(),
+			  vit); 
+	}
+	return  make_triple(fit, eit, vit);
+      }
+      CGAL_triangulation_assertion(false);
+      return make_triple(fit, eit, vit);
+    }
+  
+  template <class OutputItFaces, class OutputItBoundaryEdges> 
+  std::pair<OutputItFaces,OutputItBoundaryEdges>
+  get_conflicts_and_boundary (const Weighted_point  &p, 
+			      OutputItFaces fit, 
+			      OutputItBoundaryEdges eit,
+			      Face_handle start = Face_handle()) const
+    {
+      Triple<OutputItFaces,OutputItBoundaryEdges,Emptyset_iterator>
+	pp = 
+	get_conflicts_and_boundary_and_hidden_vertices(p, fit, eit,
+       						       Emptyset_iterator(), 
+       						       start);
+      return std::make_pair(pp.first, pp.second);
+    }
+  template <class OutputItFaces, class OutputItHiddenVertices> 
+  std::pair<OutputItFaces, OutputItHiddenVertices> 
+  get_conflicts_and_hidden_vertices(const Weighted_point  &p, 
+				    OutputItFaces fit, 
+				    OutputItHiddenVertices vit,
+				    Face_handle start = 
+				    Face_handle()) const
+    {
+      Triple<OutputItFaces, Emptyset_iterator,OutputItHiddenVertices> 
+	pp = 
+	get_conflicts_and_boundary_and_hidden_vertices(p,fit,
+						       Emptyset_iterator(), 
+						       vit,
+						       start);
+      return std::make_pair(pp.first,pp.third);
+    }
+
+
+   template <class OutputItBoundaryEdges, class OutputItHiddenVertices> 
+  std::pair<OutputItBoundaryEdges, OutputItHiddenVertices> 
+  get_boundary_of_conflicts_and_hidden_vertices(const Weighted_point  &p, 
+						OutputItBoundaryEdges eit, 
+						OutputItHiddenVertices vit,
+						Face_handle start = 
+						Face_handle()) const
+    {
+      Triple<Emptyset_iterator,OutputItBoundaryEdges,
+	OutputItHiddenVertices> 
+	pp = 
+	get_conflicts_and_boundary_and_hidden_vertices(p,
+						       Emptyset_iterator(), 
+						       eit,vit,
+						       start);
+      return std::make_pair(pp.second,pp.third);
+    }
+
+  template <class OutputItFaces> 
+  OutputItFaces
+  get_conflicts (const Weighted_point  &p, 
+		 OutputItFaces fit, 
+		 Face_handle start= Face_handle()) const
+    {
+      Triple<OutputItFaces,Emptyset_iterator,Emptyset_iterator>
+	pp = 
+	get_conflicts_and_boundary_and_hidden_vertices(p, fit, 
+						       Emptyset_iterator(),
+						       Emptyset_iterator(), 
+						       start);
+      return pp.first;
+    }
+  
+  template <class OutputItBoundaryEdges> 
+  OutputItBoundaryEdges
+  get_boundary_of_conflicts(const Weighted_point  &p, 
+			    OutputItBoundaryEdges eit, 
+			    Face_handle start= Face_handle()) const
+    {    
+      Triple<Emptyset_iterator, OutputItBoundaryEdges,Emptyset_iterator>
+	pp = 
+	get_conflicts_and_boundary_and_hidden_vertices(p,
+						       Emptyset_iterator(),
+						       eit,
+						       Emptyset_iterator(), 
+						       start);
+      return pp.second;
+    }
+  template <class OutputItHiddenVertices> 
+  OutputItHiddenVertices 
+  get_hidden_vertices(const Weighted_point  &p, OutputItHiddenVertices vit,
+		      Face_handle start= Face_handle()) const
+    {
+      Triple<Emptyset_iterator,Emptyset_iterator,
+	OutputItHiddenVertices> 
+	pp = 
+	get_conflicts_and_boundary_and_hidden_vertices(p,Emptyset_iterator(), 
+						       Emptyset_iterator(),vit,
+						       start);
+      return pp.third;
+    }
+
 };
+
+template < class Gt, class Tds >
+inline bool
+Regular_triangulation_2<Gt,Tds>::
+test_conflict(const Weighted_point  &p, Face_handle fh) const
+{
+  return(power_test(fh,p) == ON_POSITIVE_SIDE);
+}   
 
 template < class Gt, class Tds >
 void
@@ -393,7 +659,7 @@ power_test(const Weighted_point &p,
 	   const Weighted_point &q,
 	   const Weighted_point &r) const
 {
-  return geom_traits().power_test_degenerated_2_object()(p,q,r);
+  return geom_traits().power_test_2_object()(p,q,r);
 }
 
 template < class Gt, class Tds >
@@ -403,7 +669,7 @@ Regular_triangulation_2<Gt,Tds>::
 power_test(const Weighted_point &p,
 	   const Weighted_point &r) const
 {
-  return geom_traits().power_test_degenerated_2_object()(p,r);
+  return geom_traits().power_test_2_object()(p,r);
 }
 
 template < class Gt, class Tds >
@@ -443,23 +709,32 @@ is_valid_vertex(Vertex_handle vh) const
 			     vh->face()->has_vertex(loc->vertex(li))) ||
 			(lt == Base::EDGE && vh->face() ==
 			 loc->neighbor(li)) );
-        if ( !result) {
-      std::cerr << vh->point() << " " << std::endl;
-      std::cerr << "vh_>face " << &*(vh->face())  << " " << std::endl;
-      std::cerr <<  "loc      " <<  &*(loc )
-	        << " lt " << lt  << " li " << li << std::endl;
-      show_face(vh->face());
-      show_face(loc);
-    }
+
     CGAL_triangulation_assertion(result);  
     result = result && 
              power_test(vh->face(),vh->point()) == ON_NEGATIVE_SIDE;
-    CGAL_triangulation_assertion(result); 
+ //    if ( !result) {
+//       std::cerr << " from is_valid_vertex " << std::endl;
+//       std::cerr << "sommet cache " << &*(vh) 
+// 		<< "vh_point " <<vh->point() << " " << std::endl;
+//       std::cerr << "vh_>face " << &*(vh->face())  << " " << std::endl;
+//       std::cerr <<  "loc      " <<  &*(loc )
+// 	        << " lt " << lt  << " li " << li << std::endl;
+//       show_face(vh->face());
+//       show_face(loc);
+//     }
   }
   else { // normal vertex
     result = result && vh->face()->has_vertex(vh);
-    CGAL_triangulation_assertion(result); 
+//     if ( !result) {
+//       std::cerr << " from is_valid_vertex " << std::endl;
+//       std::cerr << "normal vertex " << &(*vh) << std::endl;
+//       std::cerr << vh->point() << " " << std::endl;
+//       std::cerr << "vh_>face " << &*(vh->face())  << " " << std::endl;
+//       show_face(vh->face());
+//     }
   }
+  CGAL_triangulation_assertion(result);
   return result;
 }
 
@@ -679,7 +954,7 @@ dual(const Edge &e) const
 {
   typedef typename Geom_traits::Line_2        Line;
   typedef typename Geom_traits::Ray_2         Ray;
-  typedef typename Geom_traits::Segment       Segment;
+  typedef typename Geom_traits::Segment_2     Segment;
   
   CGAL_triangulation_precondition (! is_infinite(e));
   if( dimension()== 1 ){
@@ -757,15 +1032,18 @@ Regular_triangulation_2<Gt,Tds>::
 insert(const Weighted_point &p, Locate_type lt, Face_handle loc, int li) 
 {
   if (number_of_vertices() <= 1) return Base::insert(p);
-  Vertex_handle v(NULL);
+  Vertex_handle v;
   Oriented_side os;
+  Vertex_handle vv; // helping vertex in case VERTEX
   switch (lt) {
   case Base::VERTEX:
+    vv = loc->vertex(li);
     if (power_test(loc->vertex(li)->point(), p) != ON_POSITIVE_SIDE) 
           return hide_new_vertex(loc,p);
-    hide_new_vertex(loc, loc->vertex(li)->point());
-    loc->vertex(li)->set_point(p);
-    v = loc->vertex(li);
+    v = this->_tds.create_vertex(); 
+    v->set_point(p);
+    exchange_incidences(v,loc->vertex(li));
+    hide_vertex(loc, vv);
     break;
   case Base::EDGE:
     os = dimension() == 1 ?  power_test(loc,li,p) : 
@@ -817,6 +1095,17 @@ reinsert(Vertex_handle v, Face_handle start)
   v->set_hidden(false);
   _hidden_vertices--;
  
+//   //to debug 
+//   std::cerr << "from reinsert " << std::endl;
+//   show_vertex(v);
+//   Locate_type lt;
+//   int li;
+//   Face_handle loc = locate(v->point(), lt, li, start);
+//   std::cerr << "locate " << &(*loc) << "\t" << lt << "\t" << li <<
+//     std::endl;
+//   show_face(loc);
+//    std::cerr << std::endl;
+
   Vertex_handle vh = insert(v->point(), start);
   if(vh->is_hidden()) exchange_hidden(v,vh);
   else  exchange_incidences(v,vh);
@@ -834,9 +1123,22 @@ exchange_hidden(Vertex_handle va, Vertex_handle vb)
 { 
   CGAL_triangulation_assertion (vb->is_hidden());
   CGAL_triangulation_assertion (vb == vb->face()->vertex_list().back());
+ 
+//   //to debug 
+//   std::cerr << "from exchange hidden 1" << std::endl;
+//   show_vertex(vb);
+//   std::cerr << "  / face associee : "
+// 	     << &*(vb->face()) << std::endl;
+  
   vb->face()->vertex_list().pop_back();
   _hidden_vertices--;
   hide_vertex(vb->face(), va);
+
+//  //to debug 
+//   std::cerr << "from exchange hidden 1" << std::endl;
+//   show_vertex(va);
+//   std::cerr << "  / face associee : "
+// 	     << &*(va->face()) << std::endl << std::endl; 
 }
 
 // set to va the incidences of vb 
@@ -887,24 +1189,28 @@ typename Regular_triangulation_2<Gt,Tds>::Vertex_handle
 Regular_triangulation_2<Gt,Tds>::
 insert_in_edge(const Weighted_point &p, Face_handle f, int i)
 {
-  Vertex_handle w = f->vertex(i); //to recignize faces after insertion
-  Vertex_handle v = Base::insert_in_edge(p,f,i);
+  Vertex_handle v;
   if (dimension() == 1) {
+    v = Base::insert_in_edge(p,f,i);
     Face_handle g = f->neighbor(1 - f->index(v));
     update_hidden_points_2_2(f,g);
   }
   else { //dimension()==2
-//     Face_handle g = (v==f->vertex(cw(i))) ? f->neighbor(ccw(i))
-//       : f->neighbor( cw(i));
-//     update_hidden_points_2_2(f,g);
-//     update_hidden_points_2_2(f->neighbor(i), g->neighbor(i));
-    int ivf = f->index(v);
-    Face_handle g = f->neighbor(cw(ivf))->has_vertex(w) ?
-      f->neighbor(cw(ivf)) : f->neighbor(ccw(ivf));
-    Face_handle fn = f->neighbor( 3 - f->index(v) - f->index(g));
-    Face_handle gn = g->neighbor( 3 - g->index(v) - g->index(w));
-    update_hidden_points_2_2(f,fn);
-    update_hidden_points_2_2(g,gn);
+    // don't use update_hidden_points_2_2 any more to split
+    // hidden vertices list because new affectation of f and n
+    // around new vertex is unknown
+    Face_handle n = f->neighbor(i);
+    Vertex_list p_list;
+    p_list.splice(p_list.begin(),f->vertex_list());
+    p_list.splice(p_list.begin(),n->vertex_list());
+    v = Base::insert_in_edge(p,f,i);
+    Face_handle loc;
+    while ( ! p_list.empty() ){
+      loc = locate(p_list.front()->point(), n);
+      if (is_infinite(loc)) loc = loc->neighbor(loc->index(infinite_vertex()));
+      hide_vertex(loc, p_list.front());
+      p_list.pop_front();
+    }
   }
   return v;
 } 
@@ -941,7 +1247,7 @@ Regular_triangulation_2<Gt,Tds>::
 flip(Face_handle f, int i)
 {
   Face_handle n = f->neighbor(i);
-  Triangulation_2<Gt,Tds>::flip(f,i);
+  Base::flip(f,i);
   update_hidden_points_2_2(f,n);
 }
 
@@ -951,10 +1257,10 @@ void
 Regular_triangulation_2<Gt,Tds>::
 remove_degree_3(Vertex_handle v, Face_handle f) 
 {
-  if (f == Face_handle(NULL))    f=v->face();
+  if (f == Face_handle())    f=v->face();
   update_hidden_points_3_1(f, f->neighbor( cw(f->index(v))),
 			   f->neighbor(ccw(f->index(v))));
-  Triangulation_2<Gt,Tds>::remove_degree_3(v,f);
+  Base::remove_degree_3(v,f);
   if (is_infinite(f)) { //the list of f is given to its finite neighbor
     Face_handle fn = f->neighbor(f->index(infinite_vertex()));
     set_face(f->vertex_list(),fn);
@@ -980,7 +1286,7 @@ void
 Regular_triangulation_2<Gt,Tds>::
 remove(Vertex_handle v )
 {
-  CGAL_triangulation_precondition( v != NULL );
+  CGAL_triangulation_precondition( v != Vertex_handle() );
   CGAL_triangulation_precondition(!is_infinite(v));
    
   if (v->is_hidden()) {
@@ -1023,7 +1329,6 @@ remove(Vertex_handle v )
   } else {
     remove_2D(v);
   }
-  
 
   while (! p_list.empty())
   {
@@ -1607,9 +1912,9 @@ typename Regular_triangulation_2<Gt,Tds>::All_vertices_iterator
 Regular_triangulation_2<Gt,Tds>::
 all_vertices_begin () const
 {
-  return filter_iterator(Base::all_vertices_begin(), 
-			 Base::all_vertices_end(), 
-			 Hidden_tester());
+  return filter_iterator(Base::all_vertices_end(), 
+			 Hidden_tester(),
+			 Base::all_vertices_begin());
 }
 
 template < class Gt, class Tds >
@@ -1617,10 +1922,8 @@ typename Regular_triangulation_2<Gt,Tds>::All_vertices_iterator
 Regular_triangulation_2<Gt,Tds>::
 all_vertices_end () const
 {
-  return filter_iterator(Base::all_vertices_begin(), 
-			 Base::all_vertices_end(), 
-			 Hidden_tester(), 
-			 Base::all_vertices_end());
+  return filter_iterator(Base::all_vertices_end(), 
+			 Hidden_tester() ); 
 }
 
 template < class Gt, class Tds >
@@ -1628,9 +1931,9 @@ typename Regular_triangulation_2<Gt,Tds>::Finite_vertices_iterator
 Regular_triangulation_2<Gt,Tds>::
 finite_vertices_begin () const
 {
-  return filter_iterator(Base::finite_vertices_begin(), 
-			 Base::finite_vertices_end(), 
-			 Hidden_tester());
+  return filter_iterator(Base::finite_vertices_end(), 
+			 Hidden_tester(),
+			 Base::finite_vertices_begin());
 }
 
 template < class Gt, class Tds >
@@ -1639,10 +1942,8 @@ Regular_triangulation_2<Gt,Tds>::
 finite_vertices_end () const
 {
 
-  return filter_iterator(Base::finite_vertices_begin(), 
-			 Base::finite_vertices_end(), 
-			 Hidden_tester(),
-			 Base::finite_vertices_end());
+  return filter_iterator(Base::finite_vertices_end(), 
+			 Hidden_tester() );
 
 }
 
@@ -1651,9 +1952,9 @@ typename Regular_triangulation_2<Gt,Tds>::Hidden_vertices_iterator
 Regular_triangulation_2<Gt,Tds>::
 hidden_vertices_begin () const
 {
-  return filter_iterator(Base::finite_vertices_begin(),
-			 Base::finite_vertices_end(), 
-			 Unhidden_tester());
+  return filter_iterator(Base::finite_vertices_end(), 
+			 Unhidden_tester(), 
+			 Base::finite_vertices_begin() );
 
 }
 
@@ -1662,11 +1963,8 @@ typename Regular_triangulation_2<Gt,Tds>::Hidden_vertices_iterator
 Regular_triangulation_2<Gt,Tds>::
 hidden_vertices_end () const
 {
-  return filter_iterator(Base::finite_vertices_begin(), 
-			 Base::finite_vertices_end(), 
-			 Unhidden_tester(),
-			 Base::finite_vertices_end());
-
+  return filter_iterator(Base::finite_vertices_end(), 
+			 Unhidden_tester() );
 }
 
 CGAL_END_NAMESPACE 

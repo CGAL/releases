@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_sphere_d_new/include/CGAL/Min_sphere_d_new.h,v $
-// $Revision: 1.7 $ $Date: 2003/09/18 10:23:17 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/09/05 12:30:31 $
+// $Name:  $
 //
-// Author(s)     : Bernd Gärtner, Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Bernd Gaertner, Sven Schoenherr <sven@inf.ethz.ch>
 
 #ifndef CGAL_MIN_SPHERE_D_H
 #define CGAL_MIN_SPHERE_D_H

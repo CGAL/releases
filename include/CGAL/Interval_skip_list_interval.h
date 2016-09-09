@@ -1,25 +1,21 @@
-// ======================================================================
-//
 // Copyright (c) 2003 GeometryFactory
+// All rights reserved.
 //
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// ----------------------------------------------------------------------
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// release       : $CGAL_Revision: CGAL-3.0.1 $
-// release_date  : $CGAL_Date: 2004/02/13 $
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// file          : include/CGAL/Interval_skip_list_interval.h
-// package       : Interval_skip_list
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2003/03/20 16:17:49 $
-// author(s)     : Andreas Fabri
+// $Source: /CVSROOT/CGAL/Packages/Interval_skip_list/include/CGAL/Interval_skip_list_interval.h,v $
+// $Revision: 1.4 $ $Date: 2004/05/27 10:36:00 $
+// $Name:  $
 //
-// coordinator   : GeometryFactory (<Andreas.Fabri@geometryfactory.com>)
-//
-// ======================================================================
+// Author(s)     : Andreas Fabri
 
 #ifndef CGAL_INTERVAL_SKIP_LIST_INTERVAL_H
 #define CGAL_INTERVAL_SKIP_LIST_INTERVAL_H

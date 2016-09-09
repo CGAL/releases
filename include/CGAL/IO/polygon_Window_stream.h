@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/IO/polygon_Window_stream.h,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:22:51 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Wieger Wesselink, Geert-Jan Giezeman, Matthias Baesken
 

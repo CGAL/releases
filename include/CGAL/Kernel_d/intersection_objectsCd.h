@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/intersection_objectsCd.h,v $
 // $Revision: 1.9 $ $Date: 2003/10/21 12:19:34 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : ?
 #ifndef CGAL_INTERSECTION_OBJECTSCD_H

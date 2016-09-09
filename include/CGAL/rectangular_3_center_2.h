@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/rectangular_3_center_2.h,v $
-// $Revision: 1.38 $ $Date: 2003/09/29 08:41:47 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.39 $ $Date: 2004/06/23 02:48:54 $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
@@ -307,6 +307,18 @@ struct Rectangular_3_center_2_type2_operations0
                                               Construct_iso_rectangle_2;
   typedef typename Base::Construct_vertex_2   Construct_vertex_2;
 
+  using Base::less_x_2_object;
+  using Base::greater_y_2_object;
+  using Base::construct_iso_rectangle_2_object;
+  using Base::construct_vertex_2_object;
+  using Base::minx;
+  using Base::miny;
+  using Base::distance;
+  using Base::pt_b_l;
+  using Base::pt_b_r;
+  using Base::pt_a_l;
+  using Base::pt_a_r;
+
   Rectangular_3_center_2_type2_operations0(R& r, const Point& p)
   : Rectangular_3_center_2_type2_operations_base< R >(r, p)
   {}
@@ -440,6 +452,7 @@ struct Rectangular_3_center_2_type2_operations0
     Point construct_y_square(const Point& p, FT r) const
     { return pt_a_l()(p, p, r); }
 };
+
 template < class R >
 struct Rectangular_3_center_2_type2_operations1
 : public Rectangular_3_center_2_type2_operations_base< R >
@@ -454,6 +467,17 @@ struct Rectangular_3_center_2_type2_operations1
   typedef typename Base::Construct_iso_rectangle_2
                                               Construct_iso_rectangle_2;
   typedef typename Base::Construct_vertex_2   Construct_vertex_2;
+
+  using Base::greater_x_2_object;
+  using Base::greater_y_2_object;
+  using Base::construct_iso_rectangle_2_object;
+  using Base::construct_vertex_2_object;
+  using Base::maxx;
+  using Base::miny;
+  using Base::pt_a_r;
+  using Base::pt_b_l;
+  using Base::pt_a_l;
+  using Base::distance;
 
   Rectangular_3_center_2_type2_operations1(R& r, const Point& p)
   : Rectangular_3_center_2_type2_operations_base< R >(r, p)
@@ -586,6 +610,7 @@ struct Rectangular_3_center_2_type2_operations1
   Point construct_y_square(const Point& p, FT r) const
   { return pt_a_r()(p, p, r); }
 };
+
 template < class R >
 struct Rectangular_3_center_2_type2_operations2
 : public Rectangular_3_center_2_type2_operations_base< R >
@@ -600,6 +625,18 @@ struct Rectangular_3_center_2_type2_operations2
   typedef typename Base::Construct_iso_rectangle_2
                                               Construct_iso_rectangle_2;
   typedef typename Base::Construct_vertex_2   Construct_vertex_2;
+
+  using Base::greater_x_2_object;
+  using Base::less_y_2_object;
+  using Base::construct_iso_rectangle_2_object;
+  using Base::construct_vertex_2_object;
+  using Base::distance;
+  using Base::maxx;
+  using Base::maxy;
+  using Base::pt_a_r;
+  using Base::pt_a_l;
+  using Base::pt_b_r;
+  using Base::pt_b_l;
 
   Rectangular_3_center_2_type2_operations2(R& r, const Point& p)
   : Rectangular_3_center_2_type2_operations_base< R >(r, p)
@@ -732,6 +769,7 @@ struct Rectangular_3_center_2_type2_operations2
   Point construct_y_square(const Point& p, FT r) const
   { return pt_b_r()(p, p, r); }
 };
+
 template < class R >
 struct Rectangular_3_center_2_type2_operations3
 : public Rectangular_3_center_2_type2_operations_base< R >
@@ -746,6 +784,17 @@ struct Rectangular_3_center_2_type2_operations3
   typedef typename Base::Construct_iso_rectangle_2
                                               Construct_iso_rectangle_2;
   typedef typename Base::Construct_vertex_2   Construct_vertex_2;
+
+  using Base::less_x_2_object;
+  using Base::less_y_2_object;
+  using Base::construct_iso_rectangle_2_object;
+  using Base::construct_vertex_2_object;
+  using Base::distance;
+  using Base::minx;
+  using Base::maxy;
+  using Base::pt_b_l;
+  using Base::pt_b_r;
+  using Base::pt_a_r;
 
   Rectangular_3_center_2_type2_operations3(R& r, const Point& p)
   : Rectangular_3_center_2_type2_operations_base< R >(r, p)

@@ -1,3 +1,5 @@
+// file: examples/Topological_map/example4.C
+
 /*! \file
  * A construction of a Topological_map with 2 dimensional points.
  */

@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/rectangular_p_center_2.h,v $
-// $Revision: 1.59 $ $Date: 2003/09/29 08:41:48 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.60 $ $Date: 2004/06/23 02:48:54 $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
@@ -49,10 +49,12 @@ public:
   typedef
     Cartesian_matrix< Operation,
                            RandomAccessIC_row,
-                           RandomAccessIC_column >
-  Base;
+                           RandomAccessIC_column > Base;
+
   typedef typename Base::Value      Value;
 
+  using Base::number_of_rows;
+  using Base::number_of_columns;
 
   /*
   Cartesian_matrix_horizontally_flipped(

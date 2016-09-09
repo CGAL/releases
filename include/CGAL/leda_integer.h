@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/leda_integer.h,v $
-// $Revision: 1.15 $ $Date: 2003/10/21 12:21:46 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.21 $ $Date: 2004/09/15 09:34:08 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
  
@@ -37,8 +37,12 @@ CGAL_BEGIN_NAMESPACE
 
 template <> struct Number_type_traits<leda_integer> {
   typedef Tag_true  Has_gcd;
-  typedef Tag_false Has_division;
-  typedef Tag_false Has_sqrt;
+  typedef Tag_true  Has_division;
+  typedef Tag_true  Has_sqrt;
+
+  typedef Tag_true  Has_exact_ring_operations;
+  typedef Tag_false Has_exact_division;
+  typedef Tag_false Has_exact_sqrt;
 };
 
 #ifndef CGAL_CFG_NO_NAMESPACE
@@ -47,6 +51,11 @@ double
 to_double(const leda_integer & i)
 { return i.to_double(); }
 #endif
+
+inline
+leda_integer
+sqrt(const leda_integer & i)
+{ return CGAL_LEDA_SCOPE::sqrt(i); }
 
 inline
 bool

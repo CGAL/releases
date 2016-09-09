@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/debug.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:21:06 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11.2.1 $ $Date: 2004/12/08 20:04:52 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -22,69 +22,63 @@
 
 #include <iostream>
 
-#undef TRACE
-#undef TRACEN
-#undef TRACEV
-#undef CTRACE
-#undef CTRACEN
-/*
+#ifdef NDEBUG
+#undef CGAL_NEF_DEBUG
+#define CGAL_NEF_DEBUG 0
+#endif
+
+#if CGAL_NEF_DEBUG>0
+  static int debugthread=1;
+#endif
+
+#undef CGAL_NEF_TRACE
+#undef CGAL_NEF_TRACEN
+#undef CGAL_NEF_TRACEV
+#undef CGAL_NEF_CTRACE
+#undef CGAL_NEF_CTRACEN
 #undef ASSERT
-*/
+#undef CGAL_NEF_SETDTHREAD
 
-static int debugthread=3141592;
-
-#if _DEBUG>0
-#define SETDTHREAD(l) debugthread=l
+#if CGAL_NEF_DEBUG>0
+#define CGAL_NEF_SETDTHREAD(l) debugthread=l
 #else
-#define SETDTHREAD(l)
+#define CGAL_NEF_SETDTHREAD(l)
 #endif
 
-#if _DEBUG>0
-#define TRACE(t)   if((debugthread%_DEBUG)==0)\
- std::cerr<<" "<<t;std::cerr.flush()
+#if CGAL_NEF_DEBUG>0
+#define CGAL_NEF_TRACE(t) if((debugthread%CGAL_NEF_DEBUG)==0) \
+ std::cerr<<" "<<t; \
+ std::cerr.flush()
 #else
-#define TRACE(t) 
+#define CGAL_NEF_TRACE(t) 
 #endif
 
-#if _DEBUG>0
-#define TRACEV(t)  if((debugthread%_DEBUG)==0)\
- std::cerr<<" "<<#t<<" = "<<(t)<<std::endl;std::cerr.flush()
+#if CGAL_NEF_DEBUG>0
+#define CGAL_NEF_TRACEV(t) if((debugthread%CGAL_NEF_DEBUG)==0) \
+ std::cerr<<" "<<#t<<" = "<<(t)<<std::endl; \
+ std::cerr.flush()
 #else
-#define TRACEV(t) 
+#define CGAL_NEF_TRACEV(t) 
 #endif
 
-#if _DEBUG>0
-#define TRACEN(t)  if((debugthread%_DEBUG)==0)\
- std::cerr<<" "<<t<<std::endl;std::cerr.flush()
+#if CGAL_NEF_DEBUG>0
+#define CGAL_NEF_TRACEN(t) if((debugthread%CGAL_NEF_DEBUG)==0) \
+ std::cerr<<" "<<t<<std::endl; \
+ std::cerr.flush()
 #else
-#define TRACEN(t) 
+#define CGAL_NEF_TRACEN(t) 
 #endif
 
-#if _DEBUG>0
-#define CTRACE(b,t)  if(b) std::cerr<<" "<<t; else std::cerr<<" 0"
+#if CGAL_NEF_DEBUG>0
+#define CGAL_NEF_CTRACE(b,t) if(b) std::cerr<<" "<<t; else std::cerr<<" 0"
 #else
-#define CTRACE(b,t) 
+#define CGAL_NEF_CTRACE(b,t) 
 #endif
 
-#if _DEBUG>0
-#define CTRACEN(b,t) if(b) std::cerr<<" "<<t<<"\n"; else std::cerr<<" 0\n"
+#if CGAL_NEF_DEBUG>0
+#define CGAL_NEF_CTRACEN(b,t) if(b) std::cerr<<" "<<t<<"\n"; else std::cerr<<" 0\n"
 #else
-#define CTRACEN(b,t) 
+#define CGAL_NEF_CTRACEN(b,t) 
 #endif
 
-#ifndef _ASSERT
-#define  CGAL_NEF_ASSERT(cond,fstr) 
-#else
-#define CGAL_NEF_ASSERT(cond,fstr)   \
-  if (!(cond)) {       \
-    std::cerr<<"   ASSERT:   "<< #fstr << std::endl; \
-    std::cerr<<"   COND:     "<< #cond << std::endl; \
-    std::cerr<<"   POSITION: "<<__FILE__<<" at line "<<__LINE__<<std::endl; \
-    abort();           \
-  }
-#endif
-
-
-#endif //CGAL_DEBUG_H
-
-
+#endif // CGAL_DEBUG_H

@@ -15,13 +15,13 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: line2d.h,v 1.1 2003/06/22 11:49:11 afabri Exp $
+ * $Id: line2d.h,v 1.3 2004/11/14 12:00:14 efi Exp $
  *****************************************************************/
 
 #ifndef _LINE2D_H_
 #define _LINE2D_H_
 
-#include "point2d.h"
+#include <CORE/geom2d/point2d.h>
 
 class Line2d : public GeomObj {
 
@@ -147,6 +147,6 @@ public:
   friend std::ostream &operator<<(std::ostream & out, const Line2d & l);
 }; // class Line2d
 
-extern Line2d p_bisector(Point2d& p, Point2d& q);
+extern Line2d p_bisector(const Point2d& p, const Point2d& q);
 
 #endif

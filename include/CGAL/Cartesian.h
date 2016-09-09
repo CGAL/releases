@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian.h,v $
-// $Revision: 1.41 $ $Date: 2003/10/21 12:14:12 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.43 $ $Date: 2004/05/19 10:13:41 $
+// $Name:  $
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion
 
@@ -32,7 +32,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < typename FT_, typename Kernel >
 struct Cartesian_base_ref_count
-  : public Cartesian_base< Kernel >
+  : public Cartesian_base< Kernel, FT_ >
 {
     typedef FT_                                           RT;
     typedef FT_                                           FT;
@@ -59,7 +59,5 @@ struct Cartesian
 {};
 
 CGAL_END_NAMESPACE
-
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_TEMPLATE(CGAL::Cartesian)
 
 #endif // CGAL_CARTESIAN_H

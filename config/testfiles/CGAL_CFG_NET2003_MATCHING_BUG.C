@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_NET2003_MATCHING_BUG.C,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:14:48 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Radu Ursu
 

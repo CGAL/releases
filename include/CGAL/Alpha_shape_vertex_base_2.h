@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/include/CGAL/Alpha_shape_vertex_base_2.h,v $
 // $Revision: 1.7 $ $Date: 2003/10/01 19:27:16 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 

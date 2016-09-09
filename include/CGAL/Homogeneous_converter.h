@@ -1,4 +1,4 @@
-// Copyright (c) 2001  Utrecht University (The Netherlands),
+// Copyright (c) 2001-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous_converter.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:16:06 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.13 $ $Date: 2004/05/19 23:19:36 $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 //                 Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -33,21 +33,69 @@
 #include <CGAL/basic.h>
 #include <CGAL/NT_converter.h>
 #include <CGAL/Enum_converter.h>
+#include <CGAL/Bbox_2.h>
+#include <CGAL/Bbox_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template < class K1, class K2,
-           class RT_Converter = NT_converter<CGAL_TYPENAME_MSVC_NULL K1::RT,
-	                                     CGAL_TYPENAME_MSVC_NULL K2::RT>,
-           class FT_Converter = NT_converter<CGAL_TYPENAME_MSVC_NULL K1::FT,
-	                                     CGAL_TYPENAME_MSVC_NULL K2::FT> >
+template <class K1, class K2,
+          class RT_Converter = NT_converter<typename K1::RT, typename K2::RT>,
+          class FT_Converter = NT_converter<typename K1::FT, typename K2::FT> >
 class Homogeneous_converter : public Enum_converter
 {
+private:
+    typedef Enum_converter   Base;
+
 public:
     typedef K1            Source_kernel;
     typedef K2            Target_kernel;
     typedef RT_Converter  Ring_number_type_converter;
     typedef FT_Converter  Field_number_type_converter;
+
+#ifdef CGAL_CFG_USING_BASE_MEMBER_BUG
+    bool operator()(bool b) const { return Base::operator()(b); }
+    Sign operator()(Sign s) const { return Base::operator()(s); }
+
+    Oriented_side operator()(Oriented_side os) const {
+      return Base::operator()(os);
+    }
+
+    Bounded_side operator()(Bounded_side bs) const {
+      return Base::operator()(bs);
+    }
+
+    Comparison_result operator()(Comparison_result cr) const {
+      return Base::operator()(cr);
+    }
+
+    Angle operator()(Angle a) const { return Base::operator()(a); }
+#else
+    using Base::operator();
+#endif
+
+    Bbox_2
+    operator()(const Bbox_2& b)
+    {
+        return b;
+    }
+
+    Bbox_3
+    operator()(const Bbox_3& b)
+    {
+        return b;
+    }
+
+    typename K2::RT
+    operator()(const typename K1::RT &a) const
+    {
+        return c(a);
+    }
+
+    typename K2::FT
+    operator()(const typename K1::FT &a) const
+    {
+        return c(a);
+    }
 
     typename K2::Point_2
     operator()(const typename K1::Point_2 &a) const

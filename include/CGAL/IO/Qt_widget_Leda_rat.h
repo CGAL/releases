@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/Qt_widget_Leda_rat.h,v $
 // $Revision: 1.2 $ $Date: 2003/09/18 10:19:49 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Efi Fogel <efif@post.tau.ac.il>
 

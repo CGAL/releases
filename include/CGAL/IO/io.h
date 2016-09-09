@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/iostream/include/CGAL/IO/io.h,v $
 // $Revision: 1.12 $ $Date: 2003/10/21 12:25:41 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
 

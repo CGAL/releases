@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/predicates/check_filter.h,v $
-// $Revision: 1.6 $ $Date: 2003/09/18 10:19:31 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/09/03 17:26:51 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -34,7 +34,7 @@ void must_be_filtered(const T&)
 template < class CT, class ET, class Type, bool Protection, class Cache>
 void must_be_filtered(const Filtered_exact<CT, ET, Type, Protection,
 		      Cache> &)
-{ dont_compile(); }
+{ dont_compile(CT(), ET()); }
 #endif
 
 }

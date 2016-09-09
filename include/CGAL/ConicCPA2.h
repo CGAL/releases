@@ -1,9 +1,13 @@
-// Copyright (c) 1997-2001  Freie Universitaet Berlin (Germany).
-// All rights reserved.
+// Copyright (c) 2000,2001  Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,22 +15,18 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/Attic/ConicCPA2.h,v $
-// $Revision: 1.5 $ $Date: 2003/09/18 10:23:09 $
-// $Name: CGAL_3_0_1  $
+// $Source: /CVSROOT/CGAL/Packages/Conic_2/include/CGAL/ConicCPA2.h,v $
+// $Revision: 1.7 $ $Date: 2004/09/14 09:32:08 $
+// $Name:  $
 //
-// Author(s)     : Bernd Gärtner, Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Bernd Gaertner, Sven Schoenherr <sven@inf.ethz.ch>
 
 #ifndef CGAL_CONICCPA2_H
 #define CGAL_CONICCPA2_H
 
 // includes
-#ifndef CGAL_CONIC_MISC_H
-#  include <CGAL/Conic_misc.h>
-#endif
-#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
-#  include <CGAL/Optimisation/assertions.h>
-#endif
+#include <CGAL/Conic_misc.h>
+#include <CGAL/kernel_assertions.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -42,9 +42,9 @@ class ConicCPA2
 {
   public:
     // types
-    typedef           _PT      PT;
-    typedef           _DA      DA;
-    typedef  typename _DA::FT  FT;
+    typedef           _PT             PT;
+    typedef           _DA             DA;
+    typedef  typename _DA::FT         FT;
 
   //private:
     //friend class Conic_2< CGAL::Cartesian<FT> >;
@@ -141,7 +141,7 @@ class ConicCPA2
           -u()*u()*s()-v()*v()*r()+u()*v()*t(),
            c0 = -FT(2)*a0*b1 + FT(3)*a1*b0;
     
-        return CGAL::Sign (-CGAL_NTS sign (c0)*o);
+        return CGAL_NTS sign (-CGAL_NTS sign (c0)*o);
     }
     
     double vol_minimum (FT dr, FT ds, FT dt, FT du, FT dv, FT dw) const
@@ -164,14 +164,12 @@ class ConicCPA2
            c1 = -FT(4)*a0*b2 + a1*b1 + FT(6)*a2*b0,
            c0 = -FT(2)*a0*b1 + FT(3)*a1*b0;
     
-           if ( CGAL_NTS is_zero( c0)) return 0;// E(0) is the smallest ellipse
-    
            double roots[3];
            int nr_roots = solve_cubic
                                 (CGAL::to_double(c3), CGAL::to_double(c2),
                                  CGAL::to_double(c1), CGAL::to_double(c0),
                                  roots[0], roots[1], roots[2]);
-           CGAL_optimisation_precondition (nr_roots > 0); // minimum exists
+           CGAL_kernel_precondition (nr_roots > 0); // minimum exists
            return best_value (roots, nr_roots,
                                  CGAL::to_double(a2), CGAL::to_double(a1),
                                  CGAL::to_double(a0), CGAL::to_double(b3),
@@ -320,8 +318,11 @@ class ConicCPA2
     
     PT center () const
     {
-        CGAL_optimisation_precondition (type != PARABOLA);
-        PT p;
+        CGAL_kernel_precondition (type != PARABOLA);
+	// PT p;
+	// replaced previous line by following hack (no idea
+	// why original version doesn't work)
+        typename DA::Point p;
         FT two = FT(2);
         FT div = -det();
         dao.set( p, (two*s()*u() - t()*v()) / div,
@@ -347,6 +348,11 @@ class ConicCPA2
     bool is_ellipse () const
     {
         return (type == ELLIPSE);
+    }
+
+    bool is_circle () const
+    {
+        return (type == ELLIPSE && (r()==s()) && CGAL_NTS is_zero (t()));
     }
     
     bool is_empty () const
@@ -422,24 +428,24 @@ class ConicCPA2
     bool operator == ( const ConicCPA2<_PT,_DA>& c) const
     {
         // find coefficient != 0
-        FT  factor1;
+        FT  factor1(0);
         if ( ! CGAL_NTS is_zero( r())) factor1 = r(); else
         if ( ! CGAL_NTS is_zero( s())) factor1 = s(); else
         if ( ! CGAL_NTS is_zero( t())) factor1 = t(); else
         if ( ! CGAL_NTS is_zero( u())) factor1 = u(); else
         if ( ! CGAL_NTS is_zero( v())) factor1 = v(); else
         if ( ! CGAL_NTS is_zero( w())) factor1 = w(); else
-        CGAL_optimisation_assertion_msg( false, "all coefficients zero");
+        CGAL_kernel_assertion_msg( false, "all coefficients zero");
     
         // find coefficient != 0
-        FT  factor2;
+        FT  factor2(0);
         if ( ! CGAL_NTS is_zero( c.r())) factor2 = c.r(); else
         if ( ! CGAL_NTS is_zero( c.s())) factor2 = c.s(); else
         if ( ! CGAL_NTS is_zero( c.t())) factor2 = c.t(); else
         if ( ! CGAL_NTS is_zero( c.u())) factor2 = c.u(); else
         if ( ! CGAL_NTS is_zero( c.v())) factor2 = c.v(); else
         if ( ! CGAL_NTS is_zero( c.w())) factor2 = c.w(); else
-        CGAL_optimisation_assertion_msg( false, "all coefficients zero");
+        CGAL_kernel_assertion_msg( false, "all coefficients zero");
     
         return(    ( r()*factor2 == c.r()*factor1)
                 && ( s()*factor2 == c.s()*factor1)
@@ -461,6 +467,37 @@ class ConicCPA2
         o = CGAL::opposite(orientation());
     }
     
+  void set_circle (const PT& p1, const PT& p2, const PT& p3) 
+  {
+     // the circle will have r = s = det, t=0
+     FT x1, y1, x2, y2, x3, y3;
+     dao.get (p1, x1, y1);
+     dao.get (p2, x2, y2);
+     dao.get (p3, x3, y3);
+    
+     // precondition: p1, p2, p3 not collinear
+     FT det = -x3*y2+x1*y2+x2*y3-x1*y3+x3*y1-x2*y1;
+     CGAL_kernel_precondition (!CGAL_NTS is_zero (det));
+
+     // Cramer's rule
+     FT sqr1 = -x1*x1 - y1*y1;
+     FT sqr2 = -x2*x2 - y2*y2;
+     FT sqr3 = -x3*x3 - y3*y3;
+
+     _u = -sqr3*y2+sqr1*y2+sqr2*y3-sqr1*y3+sqr3*y1-sqr2*y1;
+     _v =  -x3*sqr2+x1*sqr2+x2*sqr3-x1*sqr3+x3*sqr1-x2*sqr1;
+     _w = -x3*y2*sqr1+x1*y2*sqr3+x2*y3*sqr1-x1*y3*sqr2+x3*y1*sqr2-x2*y1*sqr3;
+     _r = det;
+     _s = det;
+     _t = FT(0);
+     
+     analyse();
+     CGAL_kernel_postcondition(is_circle());
+     CGAL_kernel_postcondition(has_on_boundary(p1));
+     CGAL_kernel_postcondition(has_on_boundary(p2));
+     CGAL_kernel_postcondition(has_on_boundary(p3));
+  }
+
     void set_linepair (const PT& p1, const PT& p2, const PT& p3, const PT& p4)
     {
         FT x1, y1, x2, y2, x3, y3, x4, y4;
@@ -470,7 +507,7 @@ class ConicCPA2
         dao.get (p4, x4, y4);
     
         // precondition: p1 != p2, p3 != p4
-        CGAL_optimisation_precondition
+        CGAL_kernel_precondition
             ( ((x1 != x2) || (y1 != y2)) &&
               ((x3 != x4) || (y3 != y4)) );
     
@@ -500,7 +537,7 @@ class ConicCPA2
     
         // precondition: p1, p2, p3 not collinear
         FT det = -x3*y2+x1*y2+x2*y3-x1*y3+x3*y1-x2*y1;
-        CGAL_optimisation_precondition (!CGAL_NTS is_zero (det));
+        CGAL_kernel_precondition (!CGAL_NTS is_zero (det));
     
         FT x1x1 = x1*x1, y1y1 = y1*y1,
            x2x2 = x2*x2, y2y2 = y2*y2,
@@ -558,7 +595,7 @@ class ConicCPA2
                                -c1.evaluate (p5), c2);
         analyse();
         // precondition: all points distinct <=> conic nontrivial
-        CGAL_optimisation_precondition (!is_trivial());
+        CGAL_kernel_precondition (!is_trivial());
         if (o != _o) set_opposite();
     }
     

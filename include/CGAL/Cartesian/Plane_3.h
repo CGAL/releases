@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h,v $
-// $Revision: 1.42 $ $Date: 2003/10/21 12:14:19 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.48 $ $Date: 2004/03/08 08:16:05 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
 
@@ -30,9 +30,7 @@ CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class PlaneC3
-  : public R_::template Handle<Fourtuple<typename R_::FT> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Point_3              Point_3;
@@ -46,8 +44,10 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Construct_point_3    Construct_point_3;
   typedef typename R_::Construct_point_2    Construct_point_2;
 
-  typedef Fourtuple<FT>	                           rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Fourtuple<FT>	                           Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                     R;
@@ -55,46 +55,46 @@ public:
   PlaneC3() {}
 
   PlaneC3(const Point_3 &p, const Point_3 &q, const Point_3 &r)
-    : base(plane_from_points(p, q, r)) {}
+  { *this = plane_from_points(p, q, r); }
 
   PlaneC3(const Point_3 &p, const Direction_3 &d)
-    : base(plane_from_point_direction(p, d)) {}
+  { *this = plane_from_point_direction(p, d); }
 
   PlaneC3(const Point_3 &p, const Vector_3 &v)
-    : base(plane_from_point_direction(p, v.direction())) {}
+  { *this = plane_from_point_direction(p, v.direction()); }
 
   PlaneC3(const FT &a, const FT &b, const FT &c, const FT &d)
-    : base(rep(a, b, c, d)) {}
+    : base(a, b, c, d) {}
 
   PlaneC3(const Line_3 &l, const Point_3 &p)
-    : base(plane_from_points(l.point(),
-	                               l.point()+l.direction().to_vector(),
-				       p)) {}
+  { *this = plane_from_points(l.point(),
+	                      l.point()+l.direction().to_vector(),
+			      p); }
 
   PlaneC3(const Segment_3 &s, const Point_3 &p)
-    : base(plane_from_points(s.start(), s.end(), p)) {}
+  { *this = plane_from_points(s.start(), s.end(), p); }
 
   PlaneC3(const Ray_3 &r, const Point_3 &p)
-    : base(plane_from_points(r.start(), r.second_point(), p)) {}
+  { *this = plane_from_points(r.start(), r.second_point(), p); }
 
   bool         operator==(const PlaneC3 &p) const;
   bool         operator!=(const PlaneC3 &p) const;
 
   const FT & a() const
   {
-      return Ptr()->e0;
+      return get(base).e0;
   }
   const FT & b() const
   {
-      return Ptr()->e1;
+      return get(base).e1;
   }
   const FT & c() const
   {
-      return Ptr()->e2;
+      return get(base).e2;
   }
   const FT & d() const
   {
-      return Ptr()->e3;
+      return get(base).e3;
   }
 
   Line_3       perpendicular_line(const Point_3 &p) const;
@@ -123,18 +123,6 @@ public:
   }
 
   Oriented_side oriented_side(const Point_3 &p) const;
-#ifndef CGAL_NO_DEPRECATED_CODE
-  bool         has_on_boundary(const Point_3 &p) const
-  {
-      bool THIS_FUNCTION_IS_DEPRECATED; // Use has_on instead.
-      return has_on(p);
-  }
-  bool         has_on_boundary(const Line_3 &l) const
-  {
-      bool THIS_FUNCTION_IS_DEPRECATED; // Use has_on instead.
-      return has_on(l);
-  }
-#endif // CGAL_NO_DEPRECATED_CODE
   bool         has_on_positive_side(const Point_3 &l) const;
   bool         has_on_negative_side(const Point_3 &l) const;
   bool         has_on(const Point_3 &p) const
@@ -155,7 +143,7 @@ CGAL_KERNEL_INLINE
 bool
 PlaneC3<R>::operator==(const PlaneC3<R> &p) const
 {
-  if (identical(p))
+  if (CGAL::identical(base, p.base))
       return true;
   return equal_plane(*this, p);
 }
@@ -182,7 +170,7 @@ typename PlaneC3<R>::Point_3
 PlaneC3<R>::
 projection(const typename PlaneC3<R>::Point_3 &p) const
 {
-  return CGAL::projection_plane(p, *this); // FIXME : CGAL:: needed ?
+  return projection_plane(p, *this);
 }
 
 template < class R >
@@ -190,7 +178,7 @@ inline
 typename PlaneC3<R>::Vector_3
 PlaneC3<R>::orthogonal_vector() const
 {
-  return Vector_3(a(), b(), c());
+  return R().construct_orthogonal_vector_3_object()(*this);
 }
 
 template < class R >

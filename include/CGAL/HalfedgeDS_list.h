@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/HalfedgeDS/include/CGAL/HalfedgeDS_list.h,v $
-// $Revision: 1.21 $ $Date: 2003/10/21 12:16:33 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.22 $ $Date: 2004/08/31 13:48:45 $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 
@@ -616,12 +616,10 @@ public:
         // `normalize_border()' has been called and no halfedge insertion
         // or removal and no change in border status of the halfedges have
         // occured since then.
-        CGAL_postcondition( border_halfedges != Halfedge_iterator());
         return border_halfedges;
     }
 
     Halfedge_const_iterator border_halfedges_begin() const {
-        CGAL_postcondition( border_halfedges != Halfedge_iterator());
         return border_halfedges;
     }
 

@@ -16,21 +16,17 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/functional.h,v $
-// $Revision: 1.39 $ $Date: 2003/10/21 12:23:41 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.41 $ $Date: 2004/06/23 01:41:47 $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@mpi-sb.mpg.de>
+//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
 #ifndef CGAL_FUNCTIONAL_H
 #define CGAL_FUNCTIONAL_H 1
 
 #include <CGAL/functional_base.h>
-
-#ifdef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
-#include <CGAL/functional_msvc.h>
-#else
 
 CGAL_BEGIN_NAMESPACE
 
@@ -3284,12 +3280,6 @@ compose_shared(const F0& f0, const F1& f1, const F2& f2, const F3& f3)
   typedef typename Compose_shared< F0, F1, F2, F3 >::Type C;
   return C(f0, f1, f2, f3);
 }
-
-CGAL_END_NAMESPACE
-
-#endif // CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
-
-CGAL_BEGIN_NAMESPACE
 
 // adaptor for not/negation
 template < typename F > inline

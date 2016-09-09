@@ -17,8 +17,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Ray_2_Triangle_2_intersection.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:16:53 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.13 $ $Date: 2004/05/20 13:54:41 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -51,58 +51,9 @@ public:
     Ray_2_Triangle_2_pair(typename K::Ray_2 const *ray,
 			  typename K::Triangle_2 const *trian);
     ~Ray_2_Triangle_2_pair() {}
-#ifdef CGAL_CFG_RETURN_TYPE_BUG_2
-    Intersection_results intersection_type() const
-    {
-        if (_known)
-            return _result;
-    // The non const this pointer is used to cast away const.
-        _known = true;
-        Straight_2_<K> straight(*_ray);
-    typename K::Line_2 l(_trian->vertex(0), _trian->vertex(1));
-    if (l.oriented_side(_trian->vertex(2)) == ON_POSITIVE_SIDE) {
-    //    if (_trian->is_counterclockwise()) {
-            straight.cut_right_off(
-                typename K::Line_2(_trian->vertex(0), _trian->vertex(1)));
-            straight.cut_right_off(
-                typename K::Line_2(_trian->vertex(1), _trian->vertex(2)));
-            straight.cut_right_off(
-                typename K::Line_2(_trian->vertex(2), _trian->vertex(0)));
-        } else {
-            straight.cut_right_off(
-                typename K::Line_2(_trian->vertex(2), _trian->vertex(1)));
-            straight.cut_right_off(
-                typename K::Line_2(_trian->vertex(1), _trian->vertex(0)));
-            straight.cut_right_off(
-                typename K::Line_2(_trian->vertex(0), _trian->vertex(2)));
-        }
-        switch (straight.current_state()) {
-        case Straight_2_<K>::EMPTY:
-            _result = NO;
-            return _result;
-        case Straight_2_<K>::POINT: {
-            straight.current(_intersection_point);
-            _result = POINT;
-            return _result;
-            }
-        case Straight_2_<K>::SEGMENT: {
-            typename K::Segment_2 seg;
-            straight.current(seg);
-            _intersection_point = seg.source();
-            _other_point = seg.target();
-            _result = SEGMENT;
-            return _result;
-            }
-        default:  // should not happen.
-            CGAL_kernel_assertion_msg(false, "Internal CGAL error.");
-            _result = NO;
-            return _result;
-        }
-    }
-    
-#else
+
     Intersection_results intersection_type() const;
-#endif // CGAL_CFG_RETURN_TYPE_BUG_2
+
     bool                intersection(typename K::Point_2 &result) const;
     bool                intersection(typename K::Segment_2 &result) const;
 protected:
@@ -139,7 +90,6 @@ Ray_2_Triangle_2_pair(typename K::Ray_2 const *ray,
     _trian = trian;
 }
 
-#ifndef CGAL_CFG_RETURN_TYPE_BUG_2
 template <class K>
 typename Ray_2_Triangle_2_pair<K>::Intersection_results
 Ray_2_Triangle_2_pair<K>::intersection_type() const
@@ -191,7 +141,6 @@ if (l.oriented_side(_trian->vertex(2)) == ON_POSITIVE_SIDE) {
     }
 }
 
-#endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
 template <class K>
 bool
@@ -299,27 +248,31 @@ template <class K>
 inline bool do_intersect(const Triangle_2<K> &tr,
 			 const Ray_2<K> &ray)
 {
-  return CGALi::do_intersect(ray, triangle, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect()(ray, tr);
 }
 
 template <class K>
 inline bool do_intersect(const Ray_2<K> &ray,
 			 const Triangle_2<K> &tr)
 {
-  return CGALi::do_intersect(ray, tr, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect()(ray, tr);
 }
 
 template <class K>
 inline Object
 intersection(const Ray_2<K> &ray, const Triangle_2<K> &tr)
 {
-    return CGALi::intersection(ray, tr, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(ray, tr);
 }
 template <class K>
 inline Object
 intersection(const Triangle_2<K> &tr, const Ray_2<K> &ray)
 {
-    return CGALi::intersection(ray, tr, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(ray, tr);
 }
 CGAL_END_NAMESPACE
 

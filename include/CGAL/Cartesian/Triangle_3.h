@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Triangle_3.h,v $
-// $Revision: 1.33 $ $Date: 2003/10/21 12:14:25 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.41 $ $Date: 2004/09/14 13:59:56 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
 
@@ -30,9 +30,7 @@ CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class TriangleC3
-  : public R_::template Handle<Threetuple<typename R_::Point_3> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Vector_3             Vector_3;
@@ -40,8 +38,10 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Triangle_3           Triangle_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef Threetuple<Point_3>                      rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Threetuple<Point_3>                      Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                     R;
@@ -49,7 +49,7 @@ public:
   TriangleC3() {}
 
   TriangleC3(const Point_3 &p, const Point_3 &q, const Point_3 &r)
-    : base(rep(p, q, r)) {}
+    : base(p, q, r) {}
 
   bool       operator==(const TriangleC3 &t) const;
   bool       operator!=(const TriangleC3 &t) const;
@@ -78,7 +78,7 @@ template < class R >
 bool
 TriangleC3<R>::operator==(const TriangleC3<R> &t) const
 {
-  if (identical(t))
+  if (CGAL::identical(base, t.base))
       return true;
 
   int i;
@@ -103,9 +103,9 @@ TriangleC3<R>::vertex(int i) const
 {
   if (i<0) i=(i%3)+3;
   else if (i>2) i=i%3;
-  return (i==0) ? Ptr()->e0 :
-         (i==1) ? Ptr()->e1 :
-                  Ptr()->e2;
+  return (i==0) ? get(base).e0 :
+         (i==1) ? get(base).e1 :
+                  get(base).e2;
 }
 
 template < class R >
@@ -121,10 +121,7 @@ CGAL_KERNEL_MEDIUM_INLINE
 typename TriangleC3<R>::FT
 TriangleC3<R>::squared_area() const
 {
-  typename R::Vector_3 v1 = vertex(1)-vertex(0);
-  typename R::Vector_3 v2 = vertex(2)-vertex(0);
-  typename R::Vector_3 v3 = cross_product(v1, v2);
-  return (v3.squared_length())/FT(4);
+  return CGALi::squared_area(vertex(0), vertex(1), vertex(2), R());
 }
 
 template < class R >
@@ -146,19 +143,13 @@ TriangleC3<R>::bbox() const
 }
 
 template < class R >
+inline
 bool
 TriangleC3<R>::
 has_on(const typename TriangleC3<R>::Point_3 &p) const
 {
-  Point_3  o  = vertex(0) + supporting_plane().orthogonal_vector();
-  Vector_3 v0 = vertex(0)-o,
-           v1 = vertex(1)-o,
-           v2 = vertex(2)-o;
-
-  FT alpha, beta, gamma;
-  solve(v0, v1, v2, p-o, alpha, beta, gamma);
-  return (alpha >= FT(0)) && (beta >= FT(0)) && (gamma >= FT(0))
-      && ((alpha+beta+gamma == FT(1)));
+  return R().has_on_3_object()
+               (static_cast<const typename R::Triangle_3>(*this), p);
 }
 
 template < class R >

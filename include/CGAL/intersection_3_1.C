@@ -1,4 +1,4 @@
-// Copyright (c) 1997  Utrecht University (The Netherlands),
+// Copyright (c) 1997-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,19 +16,59 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_3/include/CGAL/intersection_3_1.C,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:17:15 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.12 $ $Date: 2004/06/23 03:20:14 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 
 
 #include <CGAL/wmult.h>
 
-
-
 CGAL_BEGIN_NAMESPACE
 
 namespace CGALi {
+
+template <class K>
+Object
+intersection(const typename CGAL_WRAP(K)::Plane_3  &plane, 
+	     const typename CGAL_WRAP(K)::Line_3 &line, 
+	     const K&)
+{
+    typedef typename K::Point_3 Point_3;
+    typedef typename K::Direction_3 Direction_3;
+    typedef typename K::RT RT;
+    const Point_3 &line_pt = line.point();
+    const Direction_3 &line_dir = line.direction();
+    RT num,  den;
+    num = plane.a()*line_pt.hx() + plane.b()*line_pt.hy()
+          + plane.c()*line_pt.hz() + wmult((K*)0, plane.d(), line_pt.hw());
+    den = plane.a()*line_dir.dx() + plane.b()*line_dir.dy()
+          + plane.c()*line_dir.dz();
+    if (den == RT(0)) {
+        if (num == RT(0)) {
+            // all line
+            return make_object(line);
+        } else {
+            // no intersection
+            return Object();
+        }
+    }
+    return make_object(Point_3(
+        den*line_pt.hx()-num*line_dir.dx(),
+        den*line_pt.hy()-num*line_dir.dy(),
+        den*line_pt.hz()-num*line_dir.dz(),
+        wmult((K*)0, den, line_pt.hw())));
+}
+
+template <class K>
+inline
+Object
+intersection(const typename CGAL_WRAP(K)::Line_3 &line, 
+	     const typename CGAL_WRAP(K)::Plane_3  &plane, 
+	     const K& k)
+{
+  return intersection(plane, line, k);
+}
 
 template <class K>
 Object
@@ -94,48 +134,29 @@ intersection(const typename CGAL_WRAP(K)::Plane_3 &plane1,
     return make_object(plane1);
 }
 
-
-
 template <class K>
 Object
-intersection(const typename CGAL_WRAP(K)::Plane_3  &plane, 
-	     const typename CGAL_WRAP(K)::Line_3 &line, 
-	     const K&)
-{
-    typedef typename K::Point_3 Point_3;
-    typedef typename K::Direction_3 Direction_3;
-    typedef typename K::RT RT;
-    const Point_3 &line_pt = line.point();
-    const Direction_3 &line_dir = line.direction();
-    RT num,  den;
-    num = plane.a()*line_pt.hx() + plane.b()*line_pt.hy()
-          + plane.c()*line_pt.hz() + wmult((K*)0, plane.d(), line_pt.hw());
-    den = plane.a()*line_dir.dx() + plane.b()*line_dir.dy()
-          + plane.c()*line_dir.dz();
-    if (den == RT(0)) {
-        if (num == RT(0)) {
-            // all line
-            return make_object(line);
-        } else {
-            // no intersection
-            return Object();
-        }
-    }
-    return make_object(Point_3(
-        den*line_pt.hx()-num*line_dir.dx(),
-        den*line_pt.hy()-num*line_dir.dy(),
-        den*line_pt.hz()-num*line_dir.dz(),
-        wmult((K*)0, den, line_pt.hw())));
-}
-
-template <class K>
-inline
-Object
-intersection(const typename CGAL_WRAP(K)::Line_3 &line, 
-	     const typename CGAL_WRAP(K)::Plane_3  &plane, 
+intersection(const typename CGAL_WRAP(K)::Plane_3 &plane1,
+	     const typename CGAL_WRAP(K)::Plane_3 &plane2,
+	     const typename CGAL_WRAP(K)::Plane_3 &plane3,
 	     const K& k)
 {
-  return intersection(plane, line, k);
+    typedef typename K::Line_3       Line_3;
+    typedef typename K::Plane_3      Plane_3;
+
+    // Intersection between plane1 and plane2 can either be
+    // a line, a plane, or empty.
+    Object o12 = CGALi::intersection(plane1, plane2, k);
+
+    Line_3 l;
+    if (assign(l, o12))
+        return CGALi::intersection(plane3, l, k);
+
+    Plane_3 pl;
+    if (assign(pl, o12))
+        return CGALi::intersection(plane3, pl, k);
+
+    return Object();
 }
 
 
@@ -496,7 +517,7 @@ inline
 Object
 intersection(const typename CGAL_WRAP(K)::Iso_cuboid_3 &box, 
 	     const typename CGAL_WRAP(K)::Line_3 &line, 
-	     const K&)
+	     const K& k)
 {
   return intersection(line, box, k);
 }
@@ -727,111 +748,134 @@ intersection(
 
 
 template <class K>
+inline
 Object 
 intersection(const Plane_3<K> &plane1, const Plane_3<K> &plane2)
 {
-  return CGALi::intersection(plane1, plane2, K());
+  return typename K::Intersect_3()(plane1, plane2);
+}
+
+template <class K>
+inline
+Object 
+intersection(const Plane_3<K> &plane1, const Plane_3<K> &plane2,
+             const Plane_3<K> &plane3)
+{
+  return typename K::Intersect_3()(plane1, plane2, plane3);
 }
 
 
 template <class K>
+inline
 Object
 intersection(const Plane_3<K>  &plane, const Line_3<K> &line)
 {
-  return CGALi::intersection(plane, line, K());
+  return typename K::Intersect_3()(plane, line);
 }
 
 template <class K>
+inline
 bool
 do_intersect(const Plane_3<K> &plane, const Line_3<K> &line)
 {
-  return CGALi::do_intersect(plane, line, K());
+  return typename K::Do_intersect_3()(plane, line);
 }
 
 template <class K>
+inline
 Object
 intersection(const Plane_3<K> &plane, const Ray_3<K> &ray)
 {
-  return CGALi::intersection(plane, ray, K());
+  return typename K::Intersect_3()(plane, ray);
 }
 
 template <class K>
+inline
 bool
 do_intersect(const Plane_3<K> &plane, const Ray_3<K> &ray)
 {
-  return CGALi::do_intersect(plane, ray, K());
+  return typename K::Do_intersect_3()(plane, ray);
 }
 
 template <class K>
+inline
 Object
 intersection(const Plane_3<K> &plane, const Segment_3<K> &seg)
 {
-  return CGALi::intersection(plane, seg, K());
+  return typename K::Intersect_3()(plane, seg);
 }
 
 
 template <class K>
+inline
 bool
 do_intersect(const Plane_3<K>  &plane, const Segment_3<K> &seg)
 {
-  return CGALi::do_intersect(plane, seg, K());
+  return typename K::Do_intersect_3()(plane, seg);
 }
 
 template <class K>
+inline
 Object
 intersection(const Line_3<K> &line,
 	     const Bbox_3 &box)
 {
-  return CGALi::intersection(line, box, K());
+  return typename K::Intersect_3()(line, box);
 }
 
 template <class K>
+inline
 Object
 intersection(const Ray_3<K> &ray,
 	     const Bbox_3 &box)
 {
-  return CGALi::intersection(ray, box, K());
+  return typename K::Intersect_3()(ray, box);
 }
 
 template <class K>
+inline
 Object
 intersection(const Segment_3<K> &seg,
 	     const Bbox_3 &box)
 {
-  return CGALi::intersection(seg, box, K());
+  return typename K::Intersect_3()(seg, box);
 }
 
 template <class K>
+inline
 Object
 intersection(const Line_3<K> &line,
 	     const Iso_cuboid_3<K> &box)
 {
-  return CGALi::intersection(line, box, K());
+  return typename K::Intersect_3()(line, box);
 }
 
 template <class K>
+inline
 Object
 intersection(const Ray_3<K> &ray,
 	     const Iso_cuboid_3<K> &box)
 {
-  return CGALi::intersection(ray, box, K());
+  return typename K::Intersect_3()(ray, box);
 }
 
 template <class K>
+inline
 Object
 intersection(const Segment_3<K> &seg,
 	     const Iso_cuboid_3<K> &box)
 {
-  return CGALi::intersection(seg, box, K());
+  return typename K::Intersect_3()(seg, box);
 }
 
 
 template <class K>
+inline
 Object
 intersection(const Iso_cuboid_3<K> &icub1,
 	     const Iso_cuboid_3<K> &icub2)
 {
-  return CGALi::intersection(icub1, icub2, K());
+  return typename K::Intersect_3()(icub1, icub2);
 }
 
 CGAL_END_NAMESPACE

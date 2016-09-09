@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Exact_predicates_inexact_constructions_kernel.h,v $
-// $Revision: 1.5 $ $Date: 2003/10/21 12:18:04 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/09/14 13:59:09 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas, Sylvain Pion
 
@@ -25,29 +25,12 @@
 #define CGAL_EXACT_PREDICATES_INEXACT_CONSTRUCTIONS_KERNEL_H
 
 #include <CGAL/Simple_cartesian.h>
-// We don't use Filtered_kernel at the moment because it's slower
-// that Filtered_exact.
-// #include <CGAL/Filtered_kernel.h>
-
-#ifdef CGAL_CFG_MATCHING_BUG_2
-#  define CGAL_IA_CT        double
-#  define CGAL_IA_PROTECTED true
-#  define CGAL_IA_CACHE     No_Filter_Cache
-#  define CGAL_IA_ET        CGAL::MP_Float
-#endif
-
-#include <CGAL/MP_Float.h>
-#include <CGAL/Filtered_exact.h>
+#include <CGAL/Filtered_kernel.h>
 
 CGAL_BEGIN_NAMESPACE
 
-#if 0
 typedef Filtered_kernel< Simple_cartesian<double> >
         Exact_predicates_inexact_constructions_kernel;
-#else
-typedef Simple_cartesian<Filtered_exact<double, MP_Float> >
-        Exact_predicates_inexact_constructions_kernel;
-#endif
 
 CGAL_END_NAMESPACE
 

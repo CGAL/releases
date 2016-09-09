@@ -12,11 +12,11 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_sphere_d/include/CGAL/Min_sphere_d.C,v $
-// $Revision: 1.5 $ $Date: 2003/09/18 10:23:16 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/09/05 12:30:29 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.fu-berlin.de>
-//                 Bernd Gärtner
+// Author(s)     : Sven Schoenherr <sven@inf.fu-berlin.de>
+//                 Bernd Gaertner
 
 #include <iterator>
 

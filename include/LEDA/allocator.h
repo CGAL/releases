@@ -14,7 +14,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/LEDA/include/LEDA/allocator.h,v $
 // $Revision: 1.4 $ $Date: 2003/10/21 12:19:39 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : ?
 

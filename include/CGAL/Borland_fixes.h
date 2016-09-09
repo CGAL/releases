@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/include/CGAL/Borland_fixes.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:14:54 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2004/04/27 15:05:51 $
+// $Name:  $
 //
 // Author(s)     : Dimitri Pasechnik <dima@cs.uu.nl>
 
@@ -50,7 +50,6 @@
  */
 
 #if defined(__BORLANDC__) && __BORLANDC__ > 0x520
-#define CGAL_MASK_FINITE_VALID 1
 
 #include <cstddef>
 using std::size_t;

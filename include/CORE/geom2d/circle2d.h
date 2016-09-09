@@ -15,14 +15,14 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: circle2d.h,v 1.1 2003/06/22 11:49:10 afabri Exp $
+ * $Id: circle2d.h,v 1.3 2004/11/14 12:00:14 efi Exp $
  *****************************************************************/
 
 #ifndef _CIRCLE2D_H
 #define _CIRCLE2D_H
 
-#include "point2d.h"
-#include "line2d.h"
+#include <CORE/geom2d/point2d.h>
+#include <CORE/geom2d/line2d.h>
 
 class Circle2d : public GeomObj {
 

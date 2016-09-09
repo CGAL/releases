@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_3/include/CGAL/Triangle_3_Ray_3_do_intersect.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:17:13 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.9 $ $Date: 2004/04/17 21:54:33 $
+// $Name:  $
 //
 // Author(s)     : Philippe Guigue
 
@@ -314,7 +314,7 @@ inline bool do_intersect(const Ray_3<K> &r,
 			 const Triangle_3<K> &t)
 
 {
-  return CGALi::do_intersect(t,r,K());
+  return typename K::Do_intersect_3()(t,r);
 }
 
 
@@ -324,7 +324,7 @@ inline bool do_intersect(const Triangle_3<K> &t,
 			 const Ray_3<K> &r)
 
 {
-  return CGALi::do_intersect(t,r,K());
+  return typename K::Do_intersect_3()(t,r);
 }
 
 

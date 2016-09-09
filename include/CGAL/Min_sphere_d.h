@@ -12,11 +12,11 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_sphere_d/include/CGAL/Min_sphere_d.h,v $
-// $Revision: 1.6 $ $Date: 2003/09/18 10:23:16 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/09/05 12:30:29 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.fu-berlin.de>
-//                 Bernd Gärtner
+// Author(s)     : Sven Schoenherr <sven@inf.fu-berlin.de>
+//                 Bernd Gaertner
 
 #ifndef CGAL_MIN_SPHERE_D_H
 #define CGAL_MIN_SPHERE_D_H
@@ -84,11 +84,6 @@ class Min_sphere_d
         Optimisation_sphere_d<Rep_tag, FT, RT, Point,Traits>
                                                 ms_basis; // keeps  miniball
         It                                      support_end;  // delimites S
-    
-    #ifdef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
-            #define ms_basis(X) ms_basis(typename Traits::Rep_tag(), X)
-    #endif
-    
     
 public:
     Min_sphere_d ()

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/HalfedgeDS/include/CGAL/HalfedgeDS_decorator.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:16:27 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.9 $ $Date: 2004/04/07 14:20:47 $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 
@@ -917,7 +917,7 @@ inside_out( Tag_false) {
         Halfedge_handle d = c;
         do {
             CGAL_assertion( c != Halfedge_handle());
-            if ( h > c)
+            if ( &*h > &*c)
                 is_min = false;
             c = c->next();
         } while ( c != d && is_min);

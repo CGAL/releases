@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Generator/include/CGAL/random_selection.h,v $
 // $Revision: 1.4 $ $Date: 2003/10/21 12:15:46 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 

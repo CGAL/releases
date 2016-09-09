@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_site_2.h,v $
-// $Revision: 1.9.2.1 $ $Date: 2004/01/17 01:38:41 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/09/03 17:26:22 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 

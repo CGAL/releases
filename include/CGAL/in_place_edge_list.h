@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/in_place_edge_list.h,v $
-// $Revision: 1.10 $ $Date: 2003/09/18 10:19:28 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.12 $ $Date: 2004/09/03 17:26:28 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -89,7 +89,7 @@ public:
   }
 
 public:
-  In_place_edge_list(const Edge& e = Edge(Face_handle(NULL),-1) )
+  In_place_edge_list(const Edge& e = Edge(Face_handle(),-1) )
     : _size(0) {
     _front = e;
   }
@@ -105,7 +105,7 @@ public:
   }
 
   inline bool is_empty() const {
-    return ( _front.first == NULL );
+    return ( _front.first == Face_handle() );
   }
 
   inline void pop() {
@@ -163,7 +163,7 @@ public:
 
   void remove(const Edge& e) {
     CGAL_precondition( is_in_list(e) );
-    static Edge SENTINEL_QUEUE_EDGE = Edge(Face_handle(NULL), -1);
+    static Edge SENTINEL_QUEUE_EDGE = Edge(Face_handle(), -1);
 
     if ( is_singleton() ) {
       _front = SENTINEL_QUEUE_EDGE;

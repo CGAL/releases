@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_short_names_2.h,v $
-// $Revision: 1.6 $ $Date: 2003/09/18 10:19:24 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/09/03 17:26:20 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -29,7 +29,6 @@
 #define Apollonius_graph_data_structure_2          Agds2
 #define Apollonius_graph_vertex_base_2             Agvb2
 #define Apollonius_graph_hierarchy_vertex_base_2   Aghvb2
-#define Apollonius_graph_face_base_2               Agfb2
 #define Apollonius_graph_traits_2                  Agt2
 #define Apollonius_graph_filtered_traits_2         Agft2
 #define Apollonius_graph_traits_wrapper_2          Agtw2

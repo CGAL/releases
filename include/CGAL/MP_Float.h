@@ -1,4 +1,4 @@
-// Copyright (c) 2001  Utrecht University (The Netherlands),
+// Copyright (c) 2001-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/MP_Float.h,v $
-// $Revision: 1.15.2.1 $ $Date: 2004/02/09 13:01:11 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.26 $ $Date: 2004/09/30 07:51:51 $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion
 
@@ -26,9 +26,9 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Interval_arithmetic.h>
-#include <CGAL/Quotient.h>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 // MP_Float : multiprecision scaled integers.
 
@@ -45,6 +45,7 @@
 // - IOs
 
 // TODO :
+// - The exponent really overflows sometimes -> make it multiprecision.
 // - Write a generic wrapper that adds an exponent to be used by MP integers.
 // - Karatsuba (or other) ?  Would be fun to implement at least.
 // - Division, sqrt... : different options :
@@ -70,10 +71,15 @@ class MP_Float
 public:
   typedef Tag_false  Has_gcd;
   typedef Tag_true   Has_division;
-  typedef Tag_false  Has_sqrt;
+  typedef Tag_true   Has_sqrt;
+
+  typedef Tag_true   Has_exact_ring_operations;
+  typedef Tag_false  Has_exact_division;
+  typedef Tag_false  Has_exact_sqrt;
 
   typedef short limb;
   typedef int   limb2;
+  typedef double exponent_type;
 
   typedef std::vector<limb>  V;
   typedef V::const_iterator  const_iterator;
@@ -99,20 +105,39 @@ private:
     v.erase(v.begin(), i);
   }
 
+  // This union is used to convert an unsigned short to a short with
+  // the same binary representation, without invoking implementation-defined
+  // behavior (standard 4.7.3).
+  // It is needed by PGCC, which behaves differently from the others.
+  union to_signed {
+      unsigned short us;
+      short s;
+  };
+
 public:
+
+  // Splits a limb2 into 2 limbs (high and low).
+  static
+  void split(limb2 l, limb & high, limb & low)
+  {
+    to_signed l2 = {l};
+    low = l2.s;
+    high = (l - low) >> (8*sizeof(limb));
+  }
+
+  // Given a limb2, returns the higher limb.
+  static
+  limb higher_limb(limb2 l)
+  {
+      limb high, low;
+      split(l, high, low);
+      return high;
+  }
 
   void canonicalize()
   {
     remove_leading_zeros();
     remove_trailing_zeros();
-  }
-
-  // Accessory function : Given a limb2, this returns the higher limb.
-  // The lower limb is simply obtained by casting to a limb.
-  static
-  limb higher_limb(limb2 l)
-  {
-    return (l - (limb) l) >> (8*sizeof(limb));
   }
 
   MP_Float()
@@ -135,8 +160,7 @@ public:
   MP_Float(limb2 i)
   : v(2), exp(0)
   {
-    v[0] = i;
-    v[1] = higher_limb(i);
+    split(i, v[1], v[0]);
     canonicalize();
   }
 
@@ -152,21 +176,21 @@ public:
   MP_Float& operator*=(const MP_Float &a) { return *this = *this * a; }
   MP_Float& operator/=(const MP_Float &a) { return *this = *this / a; }
 
-  int max_exp() const
+  exponent_type max_exp() const
   {
     return v.size() + exp;
   }
 
-  int min_exp() const
+  exponent_type min_exp() const
   {
     return exp;
   }
 
-  limb of_exp(int i) const
+  limb of_exp(exponent_type i) const
   {
     if (i < exp || i >= max_exp())
       return 0;
-    return v[i-exp];
+    return v[static_cast<int>(i-exp)];
   }
 
   bool is_zero() const
@@ -184,9 +208,42 @@ public:
     return NEGATIVE;
   }
 
+  void swap(MP_Float &m)
+  {
+    std::swap(v, m.v);
+    std::swap(exp, m.exp);
+  }
+
+  // Converts to a rational type (e.g. Gmpq).
+  template < typename T >
+  T to_rational() const
+  {
+    const unsigned log_limb = 8 * sizeof(MP_Float::limb);
+
+    if (is_zero())
+      return 0;
+
+    MP_Float::const_iterator i;
+    exponent_type exp = min_exp() * log_limb;
+    T res = 0;
+
+    for (i = v.begin(); i != v.end(); i++)
+    {
+      res += CGAL_CLIB_STD::ldexp(static_cast<double>(*i),
+                                  static_cast<int>(exp));
+      exp += log_limb;
+    }
+
+    return res;
+  }
+
   V v;
-  int exp;
+  exponent_type exp;
 };
+
+inline
+void swap(MP_Float &m, MP_Float &n)
+{ m.swap(n); }
 
 inline
 bool operator<(const MP_Float &a, const MP_Float &b)
@@ -230,15 +287,26 @@ sqrt(const MP_Float &d);
 double
 to_double(const MP_Float &b);
 
+std::pair<double,double>
+to_interval(const MP_Float &b);
+
+template < typename > class Quotient;
+
 // Overloaded in order to protect against overflow.
 double
 to_double(const Quotient<MP_Float> &b);
 
-std::pair<double,double>
-to_interval(const MP_Float &b);
-
 std::pair<double, double>
 to_interval(const Quotient<MP_Float> &b);
+
+inline
+void
+simplify_quotient(MP_Float & numerator, MP_Float & denominator)
+{
+  // Currently only simplifies the two exponents.
+  numerator.exp -= denominator.exp;
+  denominator.exp = 0;
+}
 
 inline
 bool

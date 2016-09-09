@@ -1,3 +1,4 @@
+// file: examples/Largest_empty_rect_2/Largest_empty_rect_2.C
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/Iso_rectangle_2.h>

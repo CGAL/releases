@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/window/include/CGAL/IO/leda_ps_file.h,v $
 // $Revision: 1.6 $ $Date: 2003/10/21 12:25:48 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  

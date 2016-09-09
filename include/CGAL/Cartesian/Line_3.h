@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Line_3.h,v $
-// $Revision: 1.37 $ $Date: 2003/10/21 12:14:19 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.42 $ $Date: 2004/03/13 22:39:04 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
 
@@ -30,11 +30,8 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class LineC3
-  : public R_::template Handle<std::pair<typename R_::Point_3,
-                                         typename R_::Vector_3> >::type
 {
-CGAL_VC7_BUG_PROTECTED
-  typedef typename R_::FT                   FT;
+  typedef typename R_::RT                   RT;
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Vector_3             Vector_3;
   typedef typename R_::Direction_3          Direction_3;
@@ -44,8 +41,10 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Segment_3            Segment_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef std::pair<Point_3, Vector_3>             rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef std::pair<Point_3, Vector_3>             Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                     R;
@@ -53,19 +52,19 @@ public:
   LineC3() {}
 
   LineC3(const Point_3 &p, const Point_3 &q)
-    : base(rep(p, q-p)) {}
+  { *this = R().construct_line_3_object()(p, q); }
 
   LineC3(const Segment_3 &s)
-    : base(R().construct_line_3_object()(s)) {}
+  { *this = R().construct_line_3_object()(s); }
 
   LineC3(const Ray_3 &r)
-    : base(R().construct_line_3_object()(r)) {}
+  { *this = R().construct_line_3_object()(r); }
 
   LineC3(const Point_3 &p, const Vector_3 &v)
-    : base(rep(p, v)) {}
+    : base(p, v) {}
 
   LineC3(const Point_3 &p, const Direction_3 &d)
-    : base(rep(p, Vector_3(d.dx(), d.dy(), d.dz()))) {}
+  { *this = R().construct_line_3_object()(p, d); }
 
   bool        operator==(const LineC3 &l) const;
   bool        operator!=(const LineC3 &l) const;
@@ -75,17 +74,17 @@ public:
 
   const Point_3 &     point() const
   {
-      return Ptr()->first;
+      return get(base).first;
   }
 
   const Vector_3 & to_vector() const
   {
-      return Ptr()->second;
+      return get(base).second;
   }
 
   Direction_3 direction() const
   {
-      return Direction_3(Ptr()->second);
+      return Direction_3(to_vector());
   }
 
   Point_3     point(int i) const;
@@ -106,7 +105,7 @@ inline
 bool
 LineC3<R>::operator==(const LineC3<R> &l) const
 {
-  if (identical(l))
+  if (CGAL::identical(base, l.base))
       return true;
   return has_on(l.point()) && (direction() == l.direction());
 }
@@ -123,9 +122,7 @@ template < class R >
 inline
 typename LineC3<R>::Point_3
 LineC3<R>::point(int i) const
-{
-  return point_on_line(i, *this);
-}
+{ return point() + to_vector()*RT(i); }
 
 template < class R >
 inline
@@ -141,7 +138,7 @@ inline
 typename LineC3<R>::Line_3
 LineC3<R>::opposite() const
 {
-  return LineC3<R>(point(), -to_vector());
+  return Line_3(point(), -to_vector());
 }
 
 template < class R >
@@ -150,7 +147,7 @@ typename LineC3<R>::Point_3
 LineC3<R>::
 projection(const typename LineC3<R>::Point_3 &p) const
 {
-  return projection_line(p, *this);
+  return R().construct_projected_point_3_object()(*this, p);
 }
 
 template < class R >

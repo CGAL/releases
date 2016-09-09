@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/predicates/Apollonius_graph_predicate_constructions_C2.h,v $
 // $Revision: 1.16 $ $Date: 2003/09/18 10:19:30 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/SearchStructures/include/CGAL/Range_segment_tree_traits.h,v $
 // $Revision: 1.4 $ $Date: 2003/09/18 10:25:35 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Gabriele Neyer
 

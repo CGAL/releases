@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/point_constructions_3.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:14:30 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.13 $ $Date: 2004/03/13 23:12:49 $
+// $Name:  $
 //
 // Author(s)     : Herve Bronnimann
 
@@ -28,82 +28,6 @@
 #include <CGAL/constructions/kernel_ftC3.h>
 
 CGAL_BEGIN_NAMESPACE
-
-template < class K >
-inline
-typename K::Point_3
-midpoint(const PointC3<K> &p,
-         const PointC3<K> &q)
-{
-  return K().construct_midpoint_3_object()(p, q);
-}
-
-template < class K >
-inline
-PointC3<K>
-centroid(const PointC3<K> &p,
-         const PointC3<K> &q,
-         const PointC3<K> &r,
-         const PointC3<K> &s)
-{
-  return K().construct_centroid_3_object()(p, q, r, s);
-}
-
-template < class K >
-inline
-PointC3<K>
-centroid(const PointC3<K> &p,
-         const PointC3<K> &q,
-         const PointC3<K> &r)
-{
-  return K().construct_centroid_3_object()(p, q, r);
-}
-
-template < class K >
-inline
-PointC3<K>
-circumcenter(const PointC3<K> &p,
-             const PointC3<K> &q,
-             const PointC3<K> &r,
-             const PointC3<K> &s)
-{
-  return K().construct_circumcenter_3_object()(p, q, r, s);
-}
-
-template < class K >
-inline
-PointC3<K>
-circumcenter(const PointC3<K> &p,
-             const PointC3<K> &q,
-             const PointC3<K> &r)
-{
-  return K().construct_circumcenter_3_object()(p, q, r);
-}
-
-template <class K>
-CGAL_KERNEL_LARGE_INLINE
-PointC3<K>
-point_on_line(int i, const LineC3<K> &l)
-{
-  typename K::FT x, y, z;
-  point_on_lineC3(l.point().x(), l.point().y(), l.point().z(),
-                  l.direction().dx(), l.direction().dy(), l.direction().dz(),
-                  i, x, y, z);
-  return PointC3<K>(x, y, z);
-}
-
-template <class K>
-CGAL_KERNEL_LARGE_INLINE
-PointC3<K>
-projection_line(const PointC3<K> &p, const LineC3<K> &l)
-{
-  typename K::FT x, y, z;
-  projection_lineC3(p.x(), p.y(), p.z(),
-		    l.point().x(), l.point().y(), l.point().z(),
-                    l.direction().dx(), l.direction().dy(), l.direction().dz(),
-                    x, y, z);
-  return PointC3<K>(x, y, z);
-}
 
 template <class K>
 CGAL_KERNEL_LARGE_INLINE

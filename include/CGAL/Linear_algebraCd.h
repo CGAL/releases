@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Linear_algebraCd.h,v $
 // $Revision: 1.16 $ $Date: 2003/10/21 12:19:11 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Herve.Bronnimann@sophia.inria.fr
 

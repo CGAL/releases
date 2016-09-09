@@ -1,4 +1,4 @@
-// Copyright (c) 1998  Utrecht University (The Netherlands),
+// Copyright (c) 1998-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Distance_2/include/CGAL/squared_distance_2_2.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:15:22 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/02/01 12:47:47 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -43,7 +43,7 @@ CGAL_BEGIN_NAMESPACE
 namespace CGALi {
 
   template <class K>
-  extern void
+  void
   distance_index(int &ind1,
 		 int &ind2,
 		 const typename CGAL_WRAP(K)::Point_2 &pt,
@@ -218,7 +218,7 @@ namespace CGALi {
 
 
   template <class K>
-  extern typename K::FT
+  typename K::FT
   squared_distance_indexed(const typename CGAL_WRAP(K)::Point_2 &pt,
 			   const typename CGAL_WRAP(K)::Triangle_2 &triangle, 
 			   int ind1, int ind2,
@@ -238,7 +238,7 @@ namespace CGALi {
 
 
   template <class K>
-  extern typename K::FT
+  typename K::FT
   squared_distance(const typename CGAL_WRAP(K)::Point_2 &pt,
 		   const typename CGAL_WRAP(K)::Triangle_2 &triangle,
 		   const K& k)
@@ -260,7 +260,7 @@ namespace CGALi {
 
 
   template <class K>
-  extern typename K::FT
+  typename K::FT
   squared_distance(const typename CGAL_WRAP(K)::Line_2 &line,
 		   const typename CGAL_WRAP(K)::Triangle_2 &triangle,
 		   const K& k)
@@ -295,7 +295,7 @@ namespace CGALi {
 
 
   template <class K>
-  extern typename K::FT
+  typename K::FT
   squared_distance(const typename CGAL_WRAP(K)::Ray_2 &ray,
 		   const typename CGAL_WRAP(K)::Triangle_2 &triangle,
 		   const K& k)
@@ -357,7 +357,7 @@ namespace CGALi {
 
 
   template <class K>
-  extern typename K::FT
+  typename K::FT
   squared_distance(const typename CGAL_WRAP(K)::Segment_2 &seg,
 		   const typename CGAL_WRAP(K)::Triangle_2 &triangle,
 		   const K& k)
@@ -431,7 +431,7 @@ namespace CGALi {
 
 
   template <class K>
-  extern typename K::FT
+  typename K::FT
   squared_distance(const typename CGAL_WRAP(K)::Triangle_2 &triangle1,
 		   const typename CGAL_WRAP(K)::Triangle_2 &triangle2,
 		   const K& k)

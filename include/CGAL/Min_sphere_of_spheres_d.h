@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d.h,v $
-// $Revision: 1.21 $ $Date: 2003/09/18 10:23:18 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.26 $ $Date: 2004/08/27 15:13:58 $
+// $Name:  $
 //
 // Author(s)     : Kaspar Fischer
 
@@ -27,47 +27,28 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
+
+#include <CGAL/Min_sphere_of_spheres_d_pair.h>
 #include <CGAL/Min_sphere_of_spheres_d_support_set.h>
 
 namespace CGAL_MINIBALL_NAMESPACE {
 
+  // We provide several algorithms to solve the Miniball problem.  The
+  // following types are used by the client to select the algorithm he
+  // or she wants to run.
   struct LP_algorithm {};
   struct Farthest_first_heuristic {};
   typedef Farthest_first_heuristic Default_algorithm;
-
-  template<typename FT>
-  inline bool compare(const FT& a,const FT& b,
-                      const FT& ap,const FT& bp) {
-    const FT u = a-ap, uu = u*u;
-    if (u >= FT(0)) {
-      if (bp <= uu)
-        return false;
-  
-      // here (1) holds
-      const FT v = uu-b+bp;
-      if (v <= 0)
-        return false;
-  
-      // here (2) holds
-      return 4 * uu * bp < sqr(v);
-    } else {
-      // here (1) holds
-      const FT v = uu-b+bp;
-      if (v >= FT(0))
-        return true;
-  
-      // here (3) holds
-      return 4 * uu *bp > sqr(v);
-    }
-  }
 
   template<class Traits>
   class Min_sphere_of_spheres_d {
   public: // some short hands:
     typedef typename Traits::Sphere Sphere;
     typedef typename Traits::FT FT;
-    typedef typename Selector<FT>::Result Result;
-    typedef typename Selector<FT>::Is_exact Is_exact;
+    typedef typename Min_sphere_of_spheres_d_impl::
+                     Selector<FT>::Result Result;
+    typedef typename Min_sphere_of_spheres_d_impl::
+                     Selector<FT>::Is_exact Is_exact;
     typedef typename Traits::Use_square_roots Use_sqrt;
     typedef typename Traits::Algorithm Algorithm;
     static const int D = Traits::D;
@@ -123,7 +104,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
   
     template<typename InputIterator>
     inline void insert(InputIterator begin,InputIterator end) {
-      prepare(l.size()+(end-begin)); // todo. istream?
+      prepare(S.size()+(end-begin)); // todo. istream?
       while (begin != end) {
         insert(*begin);
         ++begin;
@@ -158,12 +139,12 @@ namespace CGAL_MINIBALL_NAMESPACE {
   
   public: // validity check:
     bool is_valid();
+
+  private:
     bool is_valid(const Tag_true is_exact);
     bool is_valid(const Tag_false is_exact);
   
   private:
-    bool pivot(int B);
-  
     void update();
     void update(LP_algorithm);
     void update(Farthest_first_heuristic);
@@ -180,7 +161,8 @@ namespace CGAL_MINIBALL_NAMESPACE {
   private:
     std::vector<Sphere> S;         // list of the added bals
     std::vector<const Sphere *> l; // list of pointers to the added bals
-    Support_set<Traits> ss;        // current support set
+    Min_sphere_of_spheres_d_impl::
+      Support_set<Traits> ss;      // current support set
     int e;                         // l[0..(e-1)] is a basis
   
   private: // forbid copy constructing and assignment (because our
@@ -201,14 +183,14 @@ namespace CGAL_MINIBALL_NAMESPACE {
   template<class Traits>
   void Min_sphere_of_spheres_d<Traits>::prepare(int size) {
     S.reserve(size);
-    l.reserve(size);
+    // (The vector l will be reserve()'d in update().)
   }
 
   template<class Traits>
   void Min_sphere_of_spheres_d<Traits>::insert(const Sphere& b) {
     CGAL_MINIBALL_ASSERT(t.radius(b) >= FT(0));
     S.push_back(b);
-    l.push_back(&b);
+    // (We push_back a pointer to S.back() in update().)
     is_up_to_date = false;
   }
 
@@ -266,6 +248,13 @@ namespace CGAL_MINIBALL_NAMESPACE {
 
   template<class Traits>
   inline void Min_sphere_of_spheres_d<Traits>::update() {
+    // set up the vector l containing pointers to the balls in S:
+    CGAL_MINIBALL_ASSERT(l.size() == 0);
+    for (typename std::vector<Sphere>::const_iterator it = S.begin();
+	 it != S.end(); ++it)
+      l.push_back(&(*it));
+    
+    // compute the miniball:
     update(Algorithm());
     is_up_to_date = true;
   }

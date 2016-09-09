@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/DirectionCd.h,v $
-// $Revision: 1.11 $ $Date: 2003/10/21 12:19:17 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.14 $ $Date: 2004/09/17 12:12:39 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_DIRECTIONCD_H
@@ -41,6 +41,8 @@ class DirectionCd : public Handle_for< Tuple_d<_FT,_LA> > {
   typedef Tuple_d<_FT,_LA> Tuple;
   typedef Handle_for<Tuple> Base;
   typedef DirectionCd<_FT,_LA> Self;
+
+  using Base::ptr;
 
 const typename _LA::Vector& vector_rep() const { return ptr()->v; }
 _FT& entry(int i) { return ptr()->v[i]; }
@@ -72,11 +74,11 @@ DirectionCd(int d, Base_direction, int i) : Base( Tuple(d) )
   entry(i) = 1;
 }
 
-DirectionCd(const FT& x, const FT& y) : Base( Tuple(x,y) ) {}
+DirectionCd(const FT& x, const FT y) : Base( Tuple(x,y) ) {}
 DirectionCd(int a, int b) : Base( Tuple(FT(a),FT(b)) ) {}
 DirectionCd(const FT& x, const FT& y, const FT& z) : 
   Base( Tuple(x,y,z) ) {}
-DirectionCd(int a, int b, int c) : Base( Tuple(FT(a),FT(b),FT(c)) ) {}
+DirectionCd(int a, int b, int c) : Base( Tuple(FT(a),FT(b),FT(c), MatchHelper()) ) {}
 
 DirectionCd(const DirectionCd<FT,LA>& p) : Base(p)  {}
 ~DirectionCd() {}     
@@ -127,9 +129,9 @@ FT dx() const { return delta(0); }
 FT dy() const { return delta(1); }
 FT dz() const { return delta(2); }
 
-friend std::istream& operator>> CGAL_NULL_TMPL_ARGS 
+friend std::istream& operator>> <> 
   (std::istream& I, DirectionCd<FT,LA>& d);
-friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS 
+friend std::ostream& operator<< <> 
   (std::ostream& O, const DirectionCd<FT,LA>& d);
 
 }; // end of class DirectionCd

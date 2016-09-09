@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_xy_3.h,v $
 // $Revision: 1.20 $ $Date: 2003/09/18 10:26:14 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec
 

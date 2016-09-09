@@ -1,5 +1,5 @@
 /******************************************************************
- * Core Library Version 1.6, June 2003
+ * Core Library Version 1.7, August 2004
  * Copyright (c) 1995-2002 Exact Computation Project
  * 
  * File: geometry3d.h
@@ -10,7 +10,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: geometry3d.h,v 1.2 2003/08/06 12:59:29 afabri Exp $
+ * $Id: geometry3d.h,v 1.4 2004/11/14 12:00:13 efi Exp $
  *****************************************************************/
 
 #ifndef CORE_GEOMETRY3D_H

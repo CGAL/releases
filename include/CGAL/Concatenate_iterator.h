@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/Concatenate_iterator.h,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:23:35 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 

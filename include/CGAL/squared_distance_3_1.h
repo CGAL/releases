@@ -1,4 +1,4 @@
-// Copyright (c) 1998  Utrecht University (The Netherlands),
+// Copyright (c) 1998-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Distance_3/include/CGAL/squared_distance_3_1.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:15:30 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/02/01 12:56:40 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman, Andreas Fabri
 
@@ -64,7 +64,6 @@ squared_distance(
 
 
 template <class K>
-extern
 typename K::FT
 squared_distance(
     const typename CGAL_WRAP(K)::Point_3 &pt,
@@ -627,7 +626,7 @@ squared_distance(
 
 
 template <class K>
-extern typename K::FT
+typename K::FT
 squared_distance(
     const typename CGAL_WRAP(K)::Line_3 &line,
     const typename CGAL_WRAP(K)::Ray_3 &ray,

@@ -6,17 +6,18 @@
 // See the file LICENSE.QPL distributed with CGAL.
 //
 // Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
+// accordance with the commercial license agreement provided with the so
 //
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_3/include/CGAL/Alpha_shape_3.h,v $
-// $Revision: 1.32.2.2 $ $Date: 2004/02/06 13:11:13 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.52 $ $Date: 2004/08/25 14:15:25 $
+// $Name:  $
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>
+//                 Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
 
 #ifndef CGAL_ALPHA_SHAPE_3_H
 #define CGAL_ALPHA_SHAPE_3_H
@@ -26,13 +27,20 @@
 #include <cassert>
 #include <set>
 #include <map>
+#include <list>
 #include <vector>
 #include <algorithm>
 #include <utility>
 #include <iostream>
 
 #include <CGAL/utility.h>
+#include <CGAL/Unique_hash_map.h>
+#include <CGAL/Compact_container.h>
+#include <CGAL/Alpha_shape_vertex_base_3.h>
+#include <CGAL/Alpha_shape_cell_base_3.h>
+#ifdef CGAL_USE_GEOMVIEW
 #include <CGAL/IO/Geomview_stream.h>  // TBC
+#endif
 
 //-------------------------------------------------------------------
 CGAL_BEGIN_NAMESPACE
@@ -42,34 +50,63 @@ template < class Dt >
 class Alpha_shape_3 : public Dt
 {
   // DEFINITION The class Alpha_shape_3<Dt> represents the family
-  // of alpha-shapes of points in a plane for all positive alpha. It
-  // maintains the underlying Delaunay tetrahedralization which represents
-  // connectivity and order among its simplices. Each k-dimensional simplex of
-  // the Delaunay tetrahedralization is associated with an interval that
-  // specifies for which values of alpha the simplex belongs to the alpha-shape
-  // (sorted linear arrays resp. multimaps or interval trees). There are links
-  // between the intervals and the k-dimensional simplices of the Delaunay
-  // tetrahedralization (multimaps resp. hashtables).
-  //
+  // of alpha-shapes for a set of points (or a set of weighted points)
+  // for all possible values of alpha. The alphashape is defined  through
+  // the Delaunay tetrahedralization of the points
+  // (or the Regular tetrahedralization in case of weighted points)
+  // and depends on the value of a parameter called alpha.
+  // The alpha_shape is the domain of a subcomplex of this triangulation
+  // called the Alpha_complex. The alpha_complex includes any simplex
+  // having  a circumscribing sphere (an orthogonal sphere
+  // in case of weighted points) empty of other points
+  // (or suborthogonal to other sites in case of weighted points)
+  // with squared radius equal or less than alpha
+ 
+  // The alpha_shapes comes in two versions : GENERAL or REGULARIZED
+  // where the REGULARIZED version is onbtaining by restricting the
+  // alpha complex ti is pure 3D component.
+
+  // The cells of the triangulation are classified as INTERIOR
+  // or EXTERIOR according to the value alpha_cell of their circumsphere 
+  // squared radius compared to alpha.
+
+  // In GENERAL mode each k-dimensional simplex of the triangulation
+  // for (k=0,1,2) 
+  // can be classified as EXTERIOR, SINGULAR, REGULAR
+  // or INTERIOR with respect to the alpha shape.
+  // In GENERAL mode a $k$ simplex is REGULAR if it is on the boundary
+  // of the alpha_complex and belongs to a $k+1$ simplex in the complex
+  // and it is SINGULAR simplex if it is  a boundary simplex tht is not
+  // included in a $k+1$ simplex of the complex.
+  
+  // In REGULARIZED mode each k-dimensional simplex of the triangulation
+  // for (k=0,1,2) 
+  // can be classified as EXTERIOR, REGULAR
+  // or INTERIOR with respect to the alpha shape.
+  // A $k$ simplex is REGULAR if it is on the boundary of alpha complex
+  // and belong to a tetrahedral cell of the complex.
+
+  // Roughly, the Alpha_shapes data structure computes and stores, 
+  // for each simplex
+  // the at most three critical value (alpha_min, alpha_mid and alpha_max)
+  // which compared to the actual alpha value
+  // determine the classification of the simplex.
+
 
   //------------------------- TYPES ------------------------------------
 
 public:
-
-  typedef typename Dt::Geom_traits Gt;
+  typedef Dt                                        Triangulation;
+  typedef typename Dt::Geom_traits                  Gt;
   typedef typename Dt::Triangulation_data_structure Tds;
 
   typedef typename Gt::FT Coord_type;
+  typedef Coord_type      NT;
 
   typedef typename Gt::Point_3 Point;
-  typedef typename Gt::Segment_3 Segment;
-  //   typedef typename Gt::Triangle_3 Triangle;
-  //   typedef typename Gt::Tetrahedron_3 Tetrahedron;
-
+  
   typedef typename Dt::Cell_handle Cell_handle;
   typedef typename Dt::Vertex_handle Vertex_handle;
-  typedef typename Dt::Cell Cell;
-  typedef typename Dt::Vertex Vertex;
   typedef typename Dt::Facet Facet;
   typedef typename Dt::Edge Edge;
 
@@ -86,153 +123,131 @@ public:
   typedef typename Dt::Finite_edges_iterator    Finite_edges_iterator;
   typedef typename Dt::Finite_vertices_iterator Finite_vertices_iterator;
 
-  typedef typename Dt::Locate_type Locate_type;
+  typedef typename Dt::Locate_type  Locate_type;
+  typedef typename Dt::Weighted_tag Weighted_tag;
 
-private:
+  using Dt::dimension;
+  using Dt::finite_facets_begin;
+  using Dt::finite_facets_end;
+  using Dt::finite_edges_begin;
+  using Dt::finite_edges_end;
+  using Dt::finite_vertices_begin;
+  using Dt::finite_vertices_end;
+  using Dt::finite_cells_begin;
+  using Dt::finite_cells_end;
+  using Dt::VERTEX;
+  using Dt::EDGE;
+  using Dt::FACET;
+  using Dt::CELL;
+  using Dt::OUTSIDE_CONVEX_HULL;
+  using Dt::OUTSIDE_AFFINE_HULL;
+  using Dt::vertex_triple_index;
 
-  typedef long Key;
+  enum Classification_type {EXTERIOR, 
+			    SINGULAR, 
+			    REGULAR,
+			    INTERIOR};
  
-  typedef std::multimap< Coord_type, Cell_handle > Interval_cell_map;
-  typedef typename Interval_cell_map::value_type   Interval_cell;
-
-
-
-  //   typedef Cell_handle const const_void;
-  //   typedef std::pair< const_void, int > const_Facet;
-  //   typedef std::pair< const_void, int > const_Vertex;
-
-
-
-
-  typedef std::vector< Coord_type > Alpha_spectrum;
-  
-  typedef std::set< Key > Marked_cell_set;
-
-public:
-
-  //the following eight typedef were private, 
-  // but operator<<(ostream) needs them
-  typedef Triple<Coord_type, Coord_type, Coord_type> Interval3;
-  typedef std::pair< Interval3, Edge > Interval_edge;
-  typedef std::multimap< Interval3, Edge > Interval_edge_map;
-  typedef std::multimap< Interval3, Facet >        Interval_facet_map;
-  typedef typename Interval_facet_map::value_type  Interval_facet;
-  typedef std::pair< Coord_type, Coord_type > Interval2;
-  typedef std::multimap< Interval2, Vertex_handle > Interval_vertex_map; 
-  typedef typename Interval_vertex_map::value_type  Interval_vertex;
-
-  typedef typename Alpha_spectrum::const_iterator Alpha_iterator;
-  // An iterator that allow to traverse the sorted sequence of
-  // different alpha-values. The iterator is bidirectional and
-  // non-mutable. Its value-type is Coord_type
-
-  enum Classification_type {EXTERIOR, SINGULAR, REGULAR, INTERIOR};
-  // Distinguishes the different cases for classifying a
-  // k-dimensional cell of the underlying Delaunay tetrahedralization of
-  // the alpha-shape.
-  // 
-  // `EXTERIOR' if the cell does not belong to the alpha-complex.
-  // 
-  // `SINGULAR' if the cell belongs to the boundary of the
-  // alpha-shape, but is not incident to any higher-dimensional
-  // cell of the alpha-complex
-  // 
-  // `REGULAR' if cell belongs to the boundary of the alpha-shape
-  // and is incident to a higher-dimensional cell of the
-  // alpha-complex
-  // 
-  // `INTERIOR' if the cell belongs to the alpha-complex, but does
-  // not belong to the boundary of the alpha-shape
-
   enum Mode {GENERAL, REGULARIZED};
-  // In general, an alpha shape is a non-connected, mixed-dimension
-  // polygon. Its regularized version is formed by the set of
-  // regular facets and their vertices
+
+
+  typedef Alpha_status< NT >                Alpha_status;
+  typedef Compact_container<Alpha_status>   Alpha_status_container;
+  typedef typename Alpha_status_container::const_iterator 
+                                            Alpha_status_const_iterator;
+  typedef typename Alpha_status_container::iterator 
+                                            Alpha_status_iterator;
+  typedef std::vector< NT >                 Alpha_spectrum;
+
+  typedef std::multimap< NT, Cell_handle >  Alpha_cell_map;
+  typedef std::multimap< NT, Facet>         Alpha_facet_map;
+  typedef std::multimap< NT, Edge >         Alpha_edge_map;
+  typedef std::multimap< NT, Vertex_handle> Alpha_vertex_map;
+
+  typedef std::pair<Vertex_handle, Vertex_handle> Vertex_handle_pair;
+  typedef std::map<Vertex_handle_pair,Alpha_status_iterator> Edge_alpha_map;
 
   typedef typename std::list< Vertex_handle >::iterator 
-  Alpha_shape_vertices_iterator;
+                                            Alpha_shape_vertices_iterator;
   typedef typename std::list< Facet >::iterator
-  Alpha_shape_facets_iterator;
+                                            Alpha_shape_facets_iterator;
   
-  class Out_alpha_shape_test
-  //test if a cell belong to the alphashape
-  {
+  //test if a cell is exterior to the alphashape
+  class Exterior_cell_test{
     const Alpha_shape_3 * _as;
   public:
-    Out_alpha_shape_test() {}
-    Out_alpha_shape_test(const Alpha_shape_3 * as) {_as = as;}
+    Exterior_cell_test() {}
+    Exterior_cell_test(const Alpha_shape_3 * as) {_as = as;}
     bool operator() ( const Finite_cells_iterator& fci) const {
       return _as->classify(fci) == EXTERIOR ;
     }
   };
 
-  typedef Filter_iterator< Finite_cells_iterator, Out_alpha_shape_test>
+  typedef Filter_iterator< Finite_cells_iterator, Exterior_cell_test>
   Alpha_shape_cells_iterator;
+  typedef typename Alpha_spectrum::const_iterator Alpha_iterator;
+  // An iterator that allow to traverse the sorted sequence of
+  // different alpha-values. The iterator is bidirectional and
+  // non-mutable. Its value-type is NT
 
-public:  // should be private ? --> operator should be wrappers
+private:
+  typedef Unique_hash_map<Cell_handle, bool > Marked_cell_set;
 
-  // only finite facets and simplices are inserted into the maps 
-  Interval_cell_map _interval_cell_map;
-  Interval_facet_map _interval_facet_map;
-  Interval_edge_map _interval_edge_map;
-  Interval_vertex_map _interval_vertex_map;
-
-  Alpha_spectrum _alpha_spectrum;
-
-  Coord_type _alpha;
+private:
+  NT _alpha;
+  NT _alpha_solid;
   Mode _mode;
- 
-  // should be constants
-  Coord_type Infinity;
-  Coord_type UNDEFINED;
-
-  mutable std::list< Vertex_handle > Alpha_shape_vertices_list;
-  mutable std::list< Facet > Alpha_shape_facets_list;
-
   mutable bool use_vertex_cache;
   mutable bool use_facet_cache;
 
+  // only finite facets and simplices are inserted into the maps
+  Alpha_cell_map     alpha_cell_map;
+  Alpha_facet_map    alpha_min_facet_map;
+  Alpha_edge_map     alpha_min_edge_map;
+  Alpha_vertex_map   alpha_min_vertex_map;
+
+  Alpha_spectrum             alpha_spectrum;
+  Alpha_status_container     alpha_status_container;
+
+  Edge_alpha_map edge_alpha_map;
+
+  //deprecated - for backward compatibility
+  mutable std::list< Vertex_handle > alpha_shape_vertices_list;
+  mutable std::list< Facet > alpha_shape_facets_list;
+
 
   //------------------------- CONSTRUCTORS ------------------------------
- 
-  // Introduces an empty alpha-shape `A' for a positive
-  // alpha-value `alpha'. Precondition: `alpha' >= 0.
-  Alpha_shape_3(Coord_type alpha = 0, 
+public:
+  // Introduces an empty alpha-shape `A' for a 
+  // alpha-value `alpha'. 
+  Alpha_shape_3(NT alpha = 0, 
 		Mode m = REGULARIZED)
-    : _alpha(alpha), _mode(m), Infinity(-1), UNDEFINED(-2), 
-    use_vertex_cache(false), use_facet_cache(false)
+    : _alpha(alpha), _mode(m), 
+      use_vertex_cache(false), use_facet_cache(false)
     {}
+
+  Alpha_shape_3(Dt& dt, NT alpha = 0, Mode m = REGULARIZED)
+    :_alpha(alpha), _mode(m), 
+    use_vertex_cache(false), use_facet_cache(false)
+    {
+      Dt::swap(dt);
+      if (dimension() == 3) initialize_alpha();
+    }
  
-  // Introduces an alpha-shape `A' for a positive alpha-value
+  // Introduces an alpha-shape `A' for the alpha-value
   // `alpha' that is initialized with the points in the range
   // from first to last
 
   template < class InputIterator >  
   Alpha_shape_3(const InputIterator& first,  
 		const InputIterator& last,  
-		const Coord_type& alpha = 0,
+		const NT& alpha = 0,
 		Mode m = REGULARIZED)
-    : _alpha(alpha), _mode(m), Infinity(-1), UNDEFINED(-2), 
+    : _alpha(alpha), _mode(m), 
     use_vertex_cache(false), use_facet_cache(false)
     {
       Dt::insert(first, last);
-      if (dimension() == 3)
-	{
-	  // Compute the associated _interval_cell_map
-	  initialize_interval_cell_map();
-      
-	  // Compute the associated _interval_facet_map
-	  initialize_interval_facet_map();
-	  
-	  // Compute the associated _interval_edge_map
-	  initialize_interval_edge_map();
-	  
-	  // Compute the associated _interval_vertex_map
-	  initialize_interval_vertex_map();
-	  
-	  // merge the two maps
-	  initialize_alpha_spectrum();
-	}
+      if (dimension() == 3)	  initialize_alpha();
     }
  
 public:
@@ -245,50 +260,73 @@ public:
 		       const InputIterator& last)
     {
       clear();
-   
       int n = Dt::insert(first, last);
-
-#ifdef DEBUG
-      std::cout << "Triangulation computed" << std::endl;
-#endif
-      if (dimension() == 3)
-	{
-	  // Compute the associated _interval_cell_map
-	  initialize_interval_cell_map();
-
-	  // Compute the associated _interval_facet_map
-	  initialize_interval_facet_map();
-
-	  // Compute the associated _interval_edge_map
-	  initialize_interval_edge_map();
-  
-	  // Compute the associated _interval_vertex_map
-	  initialize_interval_vertex_map();
-
-	  // merge the two maps
-	  initialize_alpha_spectrum();
-	}
+      if (dimension() == 3)	  initialize_alpha();
       return n;
     }
 
-  // Introduces an alpha-shape `A' for a positive alpha-value
-  // `alpha' that is initialized with the points in the range
+  // Introduces an alpha-shape `A' 
+  // that is initialized with the points in the range
   // from first to last
 
 private :
 
   //--------------------- INITIALIZATION OF PRIVATE MEMBERS -----------
-  
-  void initialize_interval_cell_map();
-
-  void initialize_interval_facet_map();
-
-  void initialize_interval_edge_map() {} //disabled here
-  
-  void initialize_interval_vertex_map();
- 
+  // called with reinitialize=false on first initialization
+  // reinitialize=true when switching the mode.
+  void initialize_alpha_cell_map();
+  void initialize_alpha_facet_maps(bool reinitialize = false);
+  void initialize_alpha_edge_maps(bool reinitialize = false);
+  void initialize_alpha_vertex_maps(bool reinitialize = false);
   void initialize_alpha_spectrum();
-  
+  void initialize_alpha(bool reinitialize = false) {
+    if (reinitialize == false) initialize_alpha_cell_map();
+    initialize_alpha_facet_maps(reinitialize);
+    initialize_alpha_edge_maps(reinitialize);
+    initialize_alpha_vertex_maps(reinitialize);
+    initialize_alpha_spectrum();
+  }
+
+private :
+  Vertex_handle_pair
+  make_vertex_handle_pair( Vertex_handle v1, Vertex_handle v2) const {
+    return v1 < v2 ? std::make_pair(v1,v2)
+                   : std::make_pair(v2,v1);
+  }
+
+ // the version to be used with Tag_true is templated to avoid
+ // instanciation through explicit instantiation of the whole class
+  void set_alpha_min_of_vertices(Tag_false) 
+  { 
+    for( Finite_vertices_iterator vit = finite_vertices_begin(); 
+	 vit != finite_vertices_end();  ++vit){
+      Alpha_status* as = vit->get_alpha_status();
+      as->set_is_Gabriel(true);  
+      as->set_alpha_min(NT(0));
+    }
+    // insert a single vertex into the map because they all have the 
+    // same alpha_min value
+    alpha_min_vertex_map.insert(typename Alpha_vertex_map::value_type
+				( NT(0), finite_vertices_begin()));
+  }
+  template <class Tag>
+  void set_alpha_min_of_vertices(Tag) 
+  {
+    for( Finite_vertices_iterator vit = finite_vertices_begin(); 
+	 vit != finite_vertices_end();  ++vit) {
+      if (is_Gabriel(vit)) {
+	Alpha_status* as = vit->get_alpha_status();
+	as->set_is_Gabriel(true);  
+	as->set_alpha_min(squared_radius(vit));      
+	alpha_min_vertex_map.insert(typename Alpha_vertex_map::value_type
+				    (as->alpha_min(),vit));
+      }
+    }
+    return;
+  }
+
+
+
   //---------------------------------------------------------------------
 
 public:
@@ -296,106 +334,57 @@ public:
   void clear()
     {
       // clears the structure
+      alpha_status_container.clear();
       Dt::clear();
 
-      _interval_cell_map.clear();
-      _interval_facet_map.clear();
-      _interval_edge_map.clear();
-      _interval_vertex_map.clear();
+      alpha_cell_map.clear();
+      alpha_min_facet_map.clear();
+      alpha_min_edge_map.clear();
+      alpha_min_vertex_map.clear();
+   
+      alpha_spectrum.clear();
 
-      _alpha_spectrum.clear();
+      alpha_shape_vertices_list.clear();
+      alpha_shape_facets_list.clear();
 
-      Alpha_shape_vertices_list.clear();
-
-      Alpha_shape_facets_list.clear();
-
-      set_alpha(0); 
-      set_mode(REGULARIZED);
       use_vertex_cache = false;
       use_facet_cache = false;
-
-    }
-
-  //----------------------- PRIVATE MEMBERS --------------------
-
-private:
-   
-  struct Less
-  {
-    bool operator()(const Interval_facet& ie, 
-		    const Coord_type& alpha)
-      { return ie.first.first < alpha; }
-
-    bool operator()(const Coord_type& alpha, 
-		    const Interval_facet& ie)
-      { return alpha < ie.first.first; }
-  };
-  
-  
-  //----------------------- ACCESS TO PRIVATE MEMBERS -----------------
-
-private:
-
-  Coord_type find_interval(Cell_handle s) const
-    // check whether it is faster to compute the 
-    // radius directly instead of looking it up
-    {
-      return s->get_alpha();
-    }
-  
-  Interval3 find_interval(const Facet& f) const
-    {
-      return (f.first)->get_facet_ranges(f.second);    
-    }
-
-//   Interval3 find_interval(const Edge& e) const
-//     {
-//       return (e.first)->get_edge_ranges(e.second, e.third);
-//     }
-  
-  Interval3 find_interval(const Cell_handle& s, int i, int j) const;
-
-  Interval2 find_interval(const Vertex_handle& v) const
-    {
-      return v->get_range();
     }
 
   //---------------------------------------------------------------------
 
 public:
 
-  Coord_type set_alpha(const Coord_type& alpha)
+  NT set_alpha(const NT& alpha)
     // Sets the alpha-value to `alpha'. Precondition: `alpha' >= 0.
     // Returns the previous alpha
     {
-      Coord_type previous_alpha = _alpha;
+      NT previous_alpha = _alpha;
       _alpha = alpha;
       use_vertex_cache = false;
       use_facet_cache = false;
       return previous_alpha;
     }
 
-  const Coord_type&  get_alpha() const
+  const NT&  get_alpha() const
     // Returns the current alpha-value.
     {
       return _alpha;
     }
   
 
-  const Coord_type&  get_nth_alpha(int n) const
+  const NT&  get_nth_alpha(int n) const
     // Returns the n-th alpha-value.
     // n < size()
     {
-      if (! _alpha_spectrum.empty())
-	return _alpha_spectrum[n];
-      else
-	return UNDEFINED;
+      assert( n > 0 && n <= static_cast<int>(alpha_spectrum.size()) );
+      return alpha_spectrum[n-1];
     }
   
   int number_of_alphas() const
-    // Returns the number of not necessary different alpha-values
+    // Returns the number of different alpha-values
     {
-      return _alpha_spectrum.size();
+      return alpha_spectrum.size();
     }
 
   
@@ -405,7 +394,7 @@ private:
 
   // the dynamic version is not yet implemented
   // desactivate the tetrahedralization member functions
-  Vertex_handle insert(const Point& p) {}
+  void insert(const Point& p) {}
   // Inserts point `p' in the alpha shape and returns the
   // corresponding vertex of the underlying Delaunay tetrahedralization.
   // If point `p' coincides with an already existing vertex, this
@@ -428,6 +417,11 @@ public:
     {
       Mode previous_mode = _mode;
       _mode = mode;
+      if (previous_mode != _mode) {
+	initialize_alpha(true);
+	use_vertex_cache = false;
+	use_facet_cache = false;
+      }
       return previous_mode;
     }
 
@@ -440,24 +434,17 @@ public:
   //---------------------------------------------------------------------
 private:
 
-  void
-  update_alpha_shape_vertex_list() const;
-
-  //---------------------------------------------------------------------
-
-  void
-  update_alpha_shape_facet_list() const; 
+  void  update_alpha_shape_vertex_list() const;
+  void  update_alpha_shape_facet_list() const; 
 
   //---------------------------------------------------------------------
 public:
 
   Alpha_shape_vertices_iterator alpha_shape_vertices_begin() const
   {
-    if(!use_vertex_cache){
-      update_alpha_shape_vertex_list();
-    }
-      return Alpha_shape_vertices_list.begin();
-    }
+    if(!use_vertex_cache)    update_alpha_shape_vertex_list();
+    return alpha_shape_vertices_list.begin();
+  }
 
   Alpha_shape_vertices_iterator Alpha_shape_vertices_begin() const
     {
@@ -465,55 +452,53 @@ public:
     }
   //---------------------------------------------------------------------
 
-  Alpha_shape_vertices_iterator alpha_shape_vertices_end()
+  Alpha_shape_vertices_iterator alpha_shape_vertices_end() const
     {
-      return Alpha_shape_vertices_list.end();
+      return alpha_shape_vertices_list.end();
     }
 
-  Alpha_shape_vertices_iterator Alpha_shape_vertices_end()
+  Alpha_shape_vertices_iterator Alpha_shape_vertices_end() const
     {
       return alpha_shape_vertices_end();
     }
 
   //---------------------------------------------------------------------
 
-  Alpha_shape_facets_iterator alpha_shape_facets_begin()
+  Alpha_shape_facets_iterator alpha_shape_facets_begin() const
     {
-      if(! use_facet_cache){
-	update_alpha_shape_facet_list();
-      }
-      return Alpha_shape_facets_list.begin();
+      if(! use_facet_cache)	update_alpha_shape_facet_list();
+      return alpha_shape_facets_list.begin();
     }
 
-  Alpha_shape_facets_iterator Alpha_shape_facets_begin()
+  Alpha_shape_facets_iterator Alpha_shape_facets_begin() const
     {
       return alpha_shape_facets_begin();
     }
 
   //---------------------------------------------------------------------
 
-  Alpha_shape_facets_iterator alpha_shape_facets_end()
+  Alpha_shape_facets_iterator alpha_shape_facets_end() const
     {
-      return Alpha_shape_facets_list.end();
+      return alpha_shape_facets_list.end();
     }
 
-  Alpha_shape_facets_iterator Alpha_shape_facets_end()
+  Alpha_shape_facets_iterator Alpha_shape_facets_end() const
     {
       return alpha_shape_facets_end();
     }
 
-  Alpha_shape_cells_iterator alpha_shape_cells_begin() {
-    return filter_iterator(finite_cells_begin(),
-			   finite_cells_end(),
-			   Out_alpha_shape_test(this));
-  }
+  Alpha_shape_cells_iterator alpha_shape_cells_begin() const 
+    {
+      return filter_iterator(finite_cells_end(),
+			     Exterior_cell_test(this),
+			     finite_cells_begin());
+    }
   
-  Alpha_shape_cells_iterator alpha_shape_cells_end() {
-    return filter_iterator(finite_cells_begin(),
-			   finite_cells_end(),
-			   Out_alpha_shape_test(this),
-			   finite_cells_end());
-  }
+  Alpha_shape_cells_iterator alpha_shape_cells_end() const
+    {
+      return filter_iterator(finite_cells_end(),
+			     Exterior_cell_test(this));
+    }
 
 
 public: 
@@ -522,55 +507,49 @@ public:
   // 
   // The alpha shape class defines an iterator that allows to
   // visit the sorted sequence of alpha-values. This iterator is
-  // non-mutable and bidirectional. Its value type is Coord_type.
+  // non-mutable and bidirectional. Its value type is NT.
 
-  Alpha_iterator alpha_begin() const
-    // Returns an iterator that allows to traverse the sorted sequence
-    // of alpha-values of `A'.
-    {
-      return _alpha_spectrum.begin(); 
-    }
+  Alpha_iterator alpha_begin() const { return alpha_spectrum.begin(); }
+  Alpha_iterator alpha_end() const {return alpha_spectrum.end();}
 
-  Alpha_iterator alpha_end() const
-    // Returns the corresponding past-the-end iterator.
-    {
-      return _alpha_spectrum.end(); 
-    }
-
-  Alpha_iterator alpha_find(const Coord_type& alpha) const
+  Alpha_iterator alpha_find(const NT& alpha) const
     // Returns an iterator pointing to an element with alpha-value
     // `alpha', or the corresponding past-the-end iterator if such an
     // element is not found.
     {
-      return find(_alpha_spectrum.begin(),
-		  _alpha_spectrum.end(),
-		  alpha);
+      return std::find(alpha_spectrum.begin(),
+		       alpha_spectrum.end(),
+		       alpha);
     }
 
-  Alpha_iterator alpha_lower_bound(const Coord_type& alpha) const
+  Alpha_iterator alpha_lower_bound(const NT& alpha) const
     // Returns an iterator pointing to the first element with
     // alpha-value not less than `alpha'.
     {
-      return std::lower_bound(_alpha_spectrum.begin(),
-			      _alpha_spectrum.end(),
+      return std::lower_bound(alpha_spectrum.begin(),
+			      alpha_spectrum.end(),
 			      alpha);
     }
 
-  Alpha_iterator alpha_upper_bound(const Coord_type& alpha) const
+  Alpha_iterator alpha_upper_bound(const NT& alpha) const
     // Returns an iterator pointing to the first element with
     // alpha-value greater than `alpha'.
     {
-      return std::upper_bound(_alpha_spectrum.begin(),
-			      _alpha_spectrum.end(),
+      return std::upper_bound(alpha_spectrum.begin(),
+			      alpha_spectrum.end(),
 			      alpha);
     }
 
   //--------------------- PREDICATES -----------------------------------
+private:
+  void compute_edge_status( const Cell_handle&  c, 
+			    int i, 
+			    int j, 
+			    Alpha_status& as) const;
+  Classification_type classify(const Alpha_status& as,
+			       const NT& alpha) const;
 
-  // the classification predicates take 
-  //      amortized const time if STL_HASH_TABLES
-  //      O(log #alpha_shape ) otherwise
-
+public:
   Classification_type  classify(const Point& p) const
     {
       return classify(p, get_alpha());
@@ -578,7 +557,7 @@ public:
 
   
   Classification_type  classify(const Point& p,   
-				const Coord_type& alpha) const
+				const NT& alpha) const
     // Classifies a point `p' with respect to `A'.
     {
       Locate_type type;
@@ -606,22 +585,13 @@ public:
     }
   
   Classification_type  classify(const Cell_handle& s, 
-				const Coord_type& alpha) const
+				const NT& alpha) const
     // Classifies the cell `f' of the underlying Delaunay
     // tetrahedralization with respect to `A'.
-    // we consider open spheres :
-    // s->radius == alpha => f exterior
-    // problem the operator [] is non-const
+      // s->radius == alpha => f interior
     {
       if (is_infinite(s)) return EXTERIOR;
-    
-      // the version that computes the squared radius seems to be 
-      // much faster
-    
-      return (s->get_alpha() < alpha) ? 
-	INTERIOR :
-	EXTERIOR;
-
+      return (s->get_alpha() <=  alpha) ? INTERIOR : EXTERIOR;
     }
 
   //---------------------------------------------------------------------
@@ -632,21 +602,19 @@ public:
     }
 
   
-  Classification_type  classify(const Cell_handle& s, 
-				int i) const
+  Classification_type  classify(const Cell_handle& s, 	int i) const
     {  
       return classify(s, i, get_alpha());
     }
 
-  Classification_type  classify(const Facet& f,
-				const Coord_type& alpha) const
+  Classification_type  classify(const Facet& f,	const NT& alpha) const
     {  
       return classify(f.first, f.second, alpha);
     }
 
   Classification_type  classify(const Cell_handle& s, 
 				int i,
-				const Coord_type& alpha) const;
+				const NT& alpha) const;
   // Classifies the face `f' of the underlying Delaunay
   // tetrahedralization with respect to `A'.
 
@@ -666,7 +634,7 @@ public:
     }
 
   Classification_type  classify(const Edge& e,
-				const Coord_type& alpha ) const
+				const NT& alpha ) const
     {  
       return classify(e.first, e.second, e.third, alpha);
     }
@@ -674,7 +642,7 @@ public:
   Classification_type  classify(const Cell_handle& s, 
 				int i,
 				int j,
-				const Coord_type& alpha) const;
+				const NT& alpha) const;
   // Classifies the edge `e' of the underlying Delaunay
   // tetrahedralization with respect to `A'.
   
@@ -687,7 +655,7 @@ public:
     }
 
   Classification_type  classify(const Vertex_handle& v,
-				const Coord_type& alpha) const;
+				const NT& alpha) const;
   // Classifies the vertex `v' of the underlying Delaunay
   // tetrahedralization with respect to `A'.
 
@@ -706,22 +674,22 @@ public:
     }
 
   int 
-  number_solid_components(const Coord_type& alpha) const
+  number_solid_components(const NT& alpha) const
     {
-      return number_of_solid_components(get_alpha());
+      return number_of_solid_components(alpha);
     }
 
   int
-  number_of_solid_components(const Coord_type& alpha) const;
+  number_of_solid_components(const NT& alpha) const;
   // Determine the number of connected solid components 
   // takes time O(#alpha_shape) amortized if STL_HASH_TABLES
   //            O(#alpha_shape log n) otherwise
 
 private:
 
-  void traverse(const Cell_handle& pCell,
+  void traverse(Cell_handle pCell,
 		Marked_cell_set& marked_cell_set, 
-		const Coord_type alpha) const;
+		const NT alpha) const;
  
   //----------------------------------------------------------------------
 
@@ -729,61 +697,21 @@ public:
 
   Alpha_iterator find_optimal_alpha(int nb_components);
   // find the minimum alpha that satisfies the properties
-  // (1) nb_components solid components
-  // (2) all data points on the boundary or in its interior
+  // (1) all data points are on the boundary of some 3d component
+  //    or in its interior
+  // (2) the nb of solid components is equal or less than nb_component
   
-private:
-
-  Coord_type find_alpha_solid() const;
+  NT find_alpha_solid() const;
   // compute the minumum alpha such that all data points 
   // are either on the boundary or in the interior
   // not necessarily connected
   // starting point for searching 
   // takes O(#alpha_shape) time
 
-  //--------------------- PREDICATES ------------------------------------
 
-private:
-
-  bool is_attached(const Cell_handle& s, const int& i) const
-    {
-      int i0=(i+1)&3, i1=(i+2)&3, i2=(i+3)&3;
-
-      Bounded_side b = 
-	Gt().side_of_bounded_sphere_3_object()(s->vertex(i0)->point(),
-					       s->vertex(i1)->point(),
-					       s->vertex(i2)->point(),
-					       s->vertex(i)->point());
- 
-      return (b == ON_BOUNDED_SIDE) ? true : false;
-    }
-  
-  bool is_attached(const Cell_handle& s, const int& i0, 
-		   const int& i1, const int& i) const
-    {
-      Bounded_side b = 
-	Gt().side_of_bounded_sphere_3_object()(s->vertex(i0)->point(),
-					       s->vertex(i1)->point(),
-					       s->vertex(i)->point());
- 
-      return (b == ON_BOUNDED_SIDE) ? true : false;
-    }
-
-  bool is_attached(const Vertex_handle& vh1, 
-		   const Vertex_handle& vh2,
-		   const Vertex_handle& vh3) const
-    {
-     Bounded_side b = 
-	Gt().side_of_bounded_sphere_3_object()(vh1->point(),
-					       vh2->point(),
-					       vh3->point());
- 
-      return (b == ON_BOUNDED_SIDE) ? true : false; 
-    }
- 
   //------------------- GEOMETRIC PRIMITIVES ----------------------------
-
-  Coord_type squared_radius(const Cell_handle& s) const
+private:
+  NT squared_radius(const Cell_handle& s) const
     {
       return Gt().compute_squared_radius_3_object()(s->vertex(0)->point(),
 						    s->vertex(1)->point(),
@@ -791,42 +719,124 @@ private:
 						    s->vertex(3)->point());
     }
 
-  Coord_type squared_radius(const Cell_handle& s, const int& i) const
+  NT squared_radius(const Cell_handle& s, const int& i) const
     {
-      // test which one is faster TBC
-
-      int i0=(i+1)&3, i1=(i+2)&3, i2=(i+3)&3;
-
-      return Gt().compute_squared_radius_3_object()(s->vertex(i0)->point(),
-						    s->vertex(i1)->point(),
-						    s->vertex(i2)->point());
+      return Gt().compute_squared_radius_3_object() (
+		  s->vertex(vertex_triple_index(i,0))->point(),
+		  s->vertex(vertex_triple_index(i,1))->point(),
+		  s->vertex(vertex_triple_index(i,2))->point());
     }
 
-  Coord_type squared_radius(const Cell_handle& s, 
+  NT squared_radius(const Facet& f) const {
+    return squared_radius(f.first, f.second);
+  }
+
+  NT squared_radius(const Cell_handle& s, 
 			    const int& i, const int& j) const
     {
       return Gt().compute_squared_radius_3_object()(s->vertex(i)->point(),
 						    s->vertex(j)->point());
     }
 
+  NT squared_radius(const Edge& e) const {
+   return  squared_radius(e.first,e.second,e.third);
+  }
+
+  NT squared_radius(const Vertex_handle& v) const {
+    return  Gt().compute_squared_radius_3_object()(v->point()); }
+
+
   //---------------------------------------------------------------------
 
 private:
   // prevent default copy constructor and default assigment
-  
-  Alpha_shape_3(const Alpha_shape_3& A)
-    {}
-
-  Alpha_shape_3& operator=(const Alpha_shape_3& A)
-    {}
+  Alpha_shape_3(const Alpha_shape_3& A)    {}
+  void operator=(const Alpha_shape_3& A)    {}
 
   //---------------------------------------------------------------------
 public:  
-  void show_alpha_shape_faces(Geomview_stream &gv);
+#ifdef CGAL_USE_GEOMVIEW
+  void show_alpha_shape_faces(Geomview_stream &gv) const;
+#endif
 
 
   // to Debug
-  void show_interval_facet_map() ;
+  void print_maps(); //should be const
+  void print_alphas() const;
+  void print_alpha_status( const Alpha_status& as) const;
+  
+
+  // To extract the alpha_shape faces for a given alpha value
+
+
+
+  template<class OutputIterator>
+  OutputIterator get_alpha_shape_cells(OutputIterator it, 
+				       Classification_type type,
+				       const NT& alpha) const
+  {
+    Finite_cells_iterator cit = finite_cells_begin();
+    for( ; cit != finite_cells_end() ; ++cit){
+      if (classify(cit) == type) *it++ = Cell_handle(cit);
+    }
+    return it;
+  }
+
+  template<class OutputIterator>
+  OutputIterator get_alpha_shape_facets(OutputIterator it, 
+					Classification_type type,
+					const NT& alpha) const
+  {
+    Finite_facets_iterator fit = finite_facets_begin();
+    for( ; fit != finite_facets_end() ; ++fit){
+      if (classify(*fit) == type) *it++ = *fit;
+    }
+    return it;
+  }
+
+  template<class OutputIterator>
+  OutputIterator get_alpha_shape_edges(OutputIterator it, 
+				       Classification_type type,
+				       const NT& alpha) const
+  {
+    Finite_edges_iterator eit = finite_edges_begin();
+    for( ; eit != finite_edges_end() ; ++eit){
+      if (classify(*eit) == type) *it++ = *eit;
+    }
+    return it;
+  }
+
+  template<class OutputIterator>
+   OutputIterator get_alpha_shape_vertices(OutputIterator it, 
+					   Classification_type type,
+					   const NT& alpha) const
+  {
+    Finite_vertices_iterator vit = finite_vertices_begin();
+    for( ; vit != finite_vertices_end() ; ++vit){
+      if (classify(vit) == type) *it++ = Vertex_handle(vit);
+    }
+    return it;
+  }
+
+  template<class OutputIterator>
+  OutputIterator get_alpha_shape_cells(OutputIterator it, 
+				       Classification_type type) const
+  { return get_alpha_shape_cells(it, type, get_alpha());}
+
+  template<class OutputIterator>
+  OutputIterator get_alpha_shape_facets(OutputIterator it, 
+				       Classification_type type) const
+  { return get_alpha_shape_facets(it, type, get_alpha());}
+
+  template<class OutputIterator>
+  OutputIterator get_alpha_shape_edges(OutputIterator it, 
+				       Classification_type type) const
+  { return get_alpha_shape_edges(it, type, get_alpha());}
+
+  template<class OutputIterator>
+  OutputIterator get_alpha_shape_vertices(OutputIterator it, 
+				       Classification_type type) const
+  { return get_alpha_shape_vertices(it, type, get_alpha());}
 
 }; 
 
@@ -841,18 +851,19 @@ public:
   
 template <class Dt>
 void 
-Alpha_shape_3<Dt>::initialize_interval_cell_map()
-{  
+Alpha_shape_3<Dt>::initialize_alpha_cell_map()
+{ 
   Finite_cells_iterator cell_it, done = finite_cells_end();
-  Coord_type alpha_f;
+  NT alpha ;
 
   for( cell_it = finite_cells_begin(); cell_it != done; ++cell_it) {
-      alpha_f = squared_radius(cell_it);
-      _interval_cell_map.insert(Interval_cell(alpha_f, cell_it));
+    alpha = squared_radius(cell_it);
+    alpha_cell_map.insert(typename Alpha_cell_map::value_type(alpha, cell_it));
 
-      // cross references
-      cell_it->set_alpha(alpha_f);
-    }
+    // cross references
+    cell_it->set_alpha(alpha);
+  }
+  return;
 }
 
 
@@ -860,381 +871,329 @@ Alpha_shape_3<Dt>::initialize_interval_cell_map()
 
 template <class Dt>
 void 
-Alpha_shape_3<Dt>::initialize_interval_facet_map()
+Alpha_shape_3<Dt>::initialize_alpha_facet_maps(bool reinitialize)
 {
-  Finite_facets_iterator face_it;  // TBC
-  Facet f;
+  Finite_facets_iterator fit;  
   Cell_handle pCell, pNeighbor ;
- 
-  for( face_it = finite_facets_begin(); 
-       face_it != finite_facets_end(); 
-       ++face_it)
-    {
-      f = *face_it;
+  int i, iNeigh;
+  Alpha_status_iterator as;
 
-      pCell = f.first;
-      int i = f.second;
+  if (!reinitialize) {
+    NT alpha_max, alpha_mid;
+    for( fit = finite_facets_begin(); 
+	 fit != finite_facets_end(); ++fit)   {
 
+      as = alpha_status_container.insert(Alpha_status());
+  
+      pCell = fit->first;
+      i = fit->second;
       pNeighbor = pCell->neighbor(i);
-      int Neigh_i = pNeighbor->index(pCell);
-
-      Interval3 interval;
- 
+      iNeigh = pNeighbor->index(pCell);
+  
       // not on the convex hull
-      if(!is_infinite(pCell) && !is_infinite(pNeighbor))
-	{ 
-	  Coord_type squared_radius_Cell = find_interval(pCell);
-	  Coord_type squared_radius_Neighbor = find_interval(pNeighbor);
-	  
-	  if (squared_radius_Neighbor < squared_radius_Cell) 
-	    {	    
-	      f =  Facet(pNeighbor, Neigh_i);
-	      Coord_type coord_tmp = squared_radius_Cell;
-	      squared_radius_Cell = squared_radius_Neighbor;
-	      squared_radius_Neighbor = coord_tmp;
-	    }
-
-	  interval = (is_attached(pCell, i) || 
-		      is_attached(pNeighbor, Neigh_i)) ?
-	    make_triple(UNDEFINED,
-			squared_radius_Cell, 
-			squared_radius_Neighbor):
-	    make_triple(squared_radius(pCell, i),
-			squared_radius_Cell, 
-			squared_radius_Neighbor);
+      if(!is_infinite(pCell) && !is_infinite(pNeighbor))	{ 
+	NT alpha_Cell = pCell->get_alpha();
+	NT alpha_Neighbor = pNeighbor->get_alpha();
+	if ( alpha_Cell < alpha_Neighbor) {
+	  alpha_mid = alpha_Cell;
+	  alpha_max = alpha_Neighbor;
 	}
-      else  // on the convex hull
-	{
-	  if(is_infinite(pCell))
-	    {
-	      if (!is_infinite(pNeighbor))
-		{
-		  interval =  (is_attached(pNeighbor, 
-					   pNeighbor->index(pCell))) ?
-		    make_triple(UNDEFINED,
-				pNeighbor->get_alpha(),
-				Infinity):
-		    make_triple(squared_radius(pNeighbor, 
-					       pNeighbor->index(pCell)), 
-				pNeighbor->get_alpha(), 
-				Infinity);
-		}
-	      else
-		{
-		  // both simplices are infinite by definition unattached
-		  // the face is finite by construction
-		  assert(is_infinite(pNeighbor) && is_infinite(pCell));
-		  interval = make_triple(
-					 squared_radius(pCell, i), 
-					 Infinity,
-					 Infinity);
-		}
-	    }
-	  else // is_infinite(pNeighbor)
-	    {
-	      assert(is_infinite(pNeighbor) && !is_infinite(pCell));
-	      if (is_attached(pCell, i))
-		interval = make_triple(UNDEFINED,
-				       find_interval(pCell),
-				       Infinity);
-	      else
-		interval = make_triple(squared_radius(pCell, i),
-				       find_interval(pCell),
-				       Infinity);
-
-	    }
+	else {
+	  alpha_mid = alpha_Neighbor;
+	  alpha_max = alpha_Cell;
 	}
-      _interval_facet_map.insert(Interval_facet(interval, f));
+	as->set_is_on_chull(false);
+	as->set_alpha_mid(alpha_mid);
+	as->set_alpha_max(alpha_max);
+	//	alpha_mid_facet_map.insert(typename
+	//	                 Alpha_facet_map::value_type(alpha_mid, *fit));
+      }
+      else { // on the convex hull
+	alpha_mid = !is_infinite(pCell) ? pCell->get_alpha() 
+	                                : pNeighbor->get_alpha();
+	as->set_alpha_mid(alpha_mid);
+	as->set_is_on_chull(true);
+      }
 
-      // cross-links
-      (f.first)->set_facet_ranges(f.second, interval);
-      pNeighbor->set_facet_ranges( Neigh_i,interval);
-      
+      //cross links
+      pCell->set_facet_status(i, as);
+      pNeighbor->set_facet_status(iNeigh,as);
     }
-
-  // Remark:
-  // The interval_facet_map will be sorted as follows
-  // first the attached faces on the convex hull
-  // second                   not on the convex hull
-  // third the un-attached faces on the convex hull
-  // finally                     not on the convex hull
-  // 
-  // if we are in regularized mode we should sort differently
-  // by the second third first Key 
-  // struct LessIntervalRegular
-  //  {
-  //    // if we are in regularized mode we should sort differently
-  //    // by the second third Key
-  //    bool operator()(const Interval_facet& ie1, 
-  //		    const Interval_facet& ie2)
-  //    { return ie1.first.second < ie2.first.second ||
-  //	(ie1.first.second == ie2.first.second &&
-  //	 ie1.first.third < ie2.first.third); }
-  //  };
-
-
-}
-
-
-//---------------------------------------------------------------------
-
-// template <class Dt>
-// void 
-// Alpha_shape_3<Dt>::initialize_interval_edge_map()
-// {
-//   // TBC since our definition of singular and regular differs from
-//   // Edelsbrunner and Muecke's definition
-//   // verify the relation between attached edges and singular and 
-//   // regular edges
-
-//   // _interval_edge_map.reserve(number_of_vertices()); TBC
+  }
     
-//   Coord_type alpha_min_e;
-//   Coord_type alpha_mid_e = (!_interval_cell_map.empty() ?
-// 		     _interval_cell_map.end()->first :
-// 		     0);;
-//   Coord_type alpha_max_e = 0;
-//   bool b_attached = false;
-//   Cell_handle s;
-
-//   Edge_iterator edge_it;
-//   // only finite edges
-//   for( edge_it = edges_begin(); 
-//        edge_it != edges_end(); 
-//        ++edge_it)
-//     {
-//       Edge e = (*edge_it);
-
-//       if (! is_infinite(e))              // TBC
-// 	{
-	  
-// 	  //-------------- examine incident faces --------------------------
-
-// 	  Edge_circulator edge_circ = opposite_edges(e),
-// 	    edge_done(edge_circ);
-
-// 	  do 
-// 	    { 
-// 	      // the incident face (s, i) has vertex with index j, 
-// 	      s = (*edge_circ).first;
-// 	      int i = (*edge_circ).second;
-// 	      int j = (*edge_circ).third;
-
-// 	      if (is_infinite(std::make_pair(s,i)))   // TBC
-// 		{
-// 		  alpha_max_e = Infinity;
-// 		}
-// 	      else
-// 		{
-// 		  // test whether the vertex with index j
-// 		  // is inside the sphere defined by the edge e = (s, cw(i,j), 
-// 		  //                                               ccw(i,j))
-// 		  b_attached = is_attached(s, cw(i,j), ccw(i,j), j);
-
-// 		  Interval3 interval3 = find_interval(const_facet(s, i));
-				
-// 		  alpha_mid_e = (interval3.first != UNDEFINED) ?
-// 		    min(alpha_mid_e, interval3.first): 
-// 		    min(alpha_mid_e, interval3.second); 
-			
-// 		  if (alpha_max_e != Infinity)
-// 		    {
-// 		      alpha_max_e = (interval3.third != Infinity) ?
-// 			max(alpha_max_e, interval3.third):
-// 			Infinity;
-// 		    }
-// 		}
-// 	    }
-// 	  while(++edge_circ != edge_done);
-
-// 	  alpha_min_e = (b_attached ? UNDEFINED : 
-// 			 squared_radius(e.first,
-// 					e.second,
-// 					e.third));
-
-// 	  Interval3 interval = make_triple(alpha_min_e, 
-// 						alpha_mid_e, 
-// 						alpha_max_e);
-// 	  _interval_edge_map.insert(Interval_edge(interval, e));
-
-// 	  // cross references 
-// 	  // we need a canonic description since otherwise we have problem
-// 	  // with our access operation
-// 	  // use the two vertices
-
-// 	  s = e.first;
-// 	  const Edge const_edge(s,e.second, e.third);
-// 	  _edge_interval_map[const_edge] = interval;
-// 	}
-//     }
-// }
-
-
-//---------------------------------------------------------------------
+  // initialize alpha_min if mode GENERAL 
+  if(get_mode() == GENERAL &&  alpha_min_facet_map.empty()) {
+    //already done if !alpha_min_facet_map.empty()
+    NT alpha_min;
+    for( fit = finite_facets_begin(); 
+	 fit != finite_facets_end(); ++fit)   {
+      as = fit->first->get_facet_status(fit->second);
+      if (is_Gabriel(*fit)) {
+	as->set_is_Gabriel(true);
+	alpha_min = squared_radius(*fit);
+	as->set_alpha_min(alpha_min);
+	alpha_min_facet_map.insert(typename
+		                 Alpha_facet_map::value_type(alpha_min, *fit));
+      }
+      else as->set_is_Gabriel(false);
+    }
+  }
+  return;
+ }
 
 template <class Dt>
 void 
-Alpha_shape_3<Dt>::initialize_interval_vertex_map()
+Alpha_shape_3<Dt>::initialize_alpha_edge_maps(bool )
 {
-  Coord_type alpha_mid_v;
-  Coord_type alpha_max_v;
-  Coord_type alpha_s;
+  // alpha_status for edges, edge_alpha_map 
+  // and alpha_mid_edge and alpha_min_edge
+  // are initialized only in GENERAL mode
+  if(get_mode() == REGULARIZED) {return;} //no_edge_map in REGULARIZED mode
+  if ( !edge_alpha_map.empty()) return; // already done
 
-  Finite_vertices_iterator vertex_it;
-  // only finite vertexs
-  for( vertex_it = finite_vertices_begin(); 
-       vertex_it != finite_vertices_end(); 
-       ++vertex_it)
-    {
-      if (!is_infinite(vertex_it))         // TBC
-	{
-	  alpha_max_v = 0;    
-	  alpha_mid_v = (!_interval_cell_map.empty() ?
-			 (--_interval_cell_map.end())->first :
-			 0);
+  Finite_edges_iterator eit;
+  Alpha_status_iterator as;
 
-	  //-------------- examine incident simplices --------------------
-	  // we use a different definition than Edelsbrunner and Muecke
-	  // singular means not incident to any 3-dimensional face
-	  // regular means incident to a 3-dimensional face
-
-	  //--------------------------------------------------------------
-// 	  Cell_circulator cell_circ = vertex_it->incident_simplices(),
-// 	    done(cell_circ);
-
-// 	  if ((*cell_circ) != NULL)
-// 	    {
-// 	      do
-// 		{
-// 		  s = (*cell_circ);
-// 		  if (is_infinite(s))
-// 		    {
-// 		      alpha_max_v = Infinity;
-// 		      // continue;
-// 		    }
-// 		  else
-// 		    {
-// 		      alpha_s = find_interval(s);
-// 		      // if we define singular as not incident to a 
-// 		      // 3-dimensional cell
-// 		      alpha_mid_v = min(alpha_mid_v, alpha_s);
-		    
-// 		      if (alpha_max_v != Infinity)
-// 			alpha_max_v = max(alpha_max_v, alpha_s);
-		    
-// 		    }
-// 		}
-// 	      while(++cell_circ != done);
-// 	    }
-	  //---------------------------------------------------------------
-
-	  // TBC if cell_circulator become available
-	  // at the moment takes v*s time
-
-	  Cell_iterator cell_it, done = cells_end();
-	    for( cell_it = cells_begin(); cell_it != done; ++cell_it)
-	      {
-		Cell_handle s = cell_it;
-		if (s->has_vertex(vertex_it))
-		  {
-		    if (is_infinite(s))
-		      {
-			alpha_max_v = Infinity;
-			// continue;
-		      }
-		    else
-		      {
-			alpha_s = find_interval(s);
-			// if we define singular as not incident to a
-                        // 3-dimensional cell
-			alpha_mid_v = min(alpha_mid_v, alpha_s);
-		    
-			if (alpha_max_v != Infinity)
-			  alpha_max_v = max(alpha_max_v, alpha_s);
-			
-		      }
-		  }
-	      }
-
-	  Interval2 interval = std::make_pair(alpha_mid_v, alpha_max_v);
-	  _interval_vertex_map.insert(Interval_vertex(interval, vertex_it));
-
-	  // cross references
-	  vertex_it->set_range(interval);
-	}
+  for (eit = finite_edges_begin(); 
+       eit != finite_edges_end(); ++eit) {
+    as = alpha_status_container.insert(Alpha_status());
+    compute_edge_status(eit->first, eit->second, eit->third, *as);
+    if ( as->is_Gabriel()) {
+      alpha_min_edge_map.insert(typename
+				Alpha_edge_map::value_type(as->alpha_min(),
+							   *eit));
     }
+     //cross links
+    Vertex_handle_pair 
+      vhp = make_vertex_handle_pair( eit->first->vertex(eit->second),
+				     eit->first->vertex(eit->third));
+    edge_alpha_map.insert(std::make_pair(vhp, as));
+  }
+  return;
 }
 
-//---------------------------------------------------------------------
+template <class Dt>
+void 
+Alpha_shape_3<Dt>::initialize_alpha_vertex_maps(bool reinitialize)
+{
+  //for a vertex 
+  // alpha_max =  max of alpha values of incident cells
+  // alpha_mid =  min of alpha values of incident cells in GENERAL mode
+  //           =  min of alpha values of incidents faces in REGULAR mode
+  // alpha_min = -squared_radius of weighted point, 
+  //              if the vertex is Gabriel set only in GENERAL mode
 
+  NT alpha, alpha_mid;
+  Finite_vertices_iterator vit;
+
+  if (reinitialize == false) _alpha_solid = alpha_cell_map.begin()->first;
+
+  for( vit = finite_vertices_begin(); 
+	 vit != finite_vertices_end();	 ++vit) {
+    Alpha_status*  as = vit->get_alpha_status();
+
+    if (reinitialize == false) {
+      // set is_on_chull, compute alpha_max 
+      // and alpha_mid (version REGULAR)
+      // compute _alpha_solid (max of alpha_mid of vertices in REGULAR mode)
+      as->set_is_on_chull(false);
+      std::list<Cell_handle> incidents;
+      incident_cells(static_cast<Vertex_handle>(vit),
+	             back_inserter(incidents));
+      typename std::list<Cell_handle>::iterator chit=incidents.begin();
+      if (is_infinite(*chit)) as->set_is_on_chull(true);
+      while (is_infinite(*chit)) ++chit; //skip infinte cells
+      alpha = (*chit)->get_alpha();
+      as->set_alpha_mid(alpha);
+      as->set_alpha_max(alpha);
+      for( ; chit != incidents.end(); ++chit) {
+	if (is_infinite(*chit)) as->set_is_on_chull(true);
+	else {
+	  alpha = (*chit)->get_alpha();
+	  if (alpha < as->alpha_mid()) as->set_alpha_mid(alpha);
+	  if (alpha > as->alpha_max()) as->set_alpha_max(alpha);
+	}
+      }
+      if (as->alpha_mid() > _alpha_solid)  _alpha_solid = as->alpha_mid();
+    }
+  
+    if (get_mode() == GENERAL) { //reset alpha_mid,  set alph_min
+      std::list<Vertex_handle> incidentv;
+      incident_vertices(static_cast<Vertex_handle>(vit),
+			back_inserter(incidentv));
+      typename std::list<Vertex_handle>::iterator vvit=incidentv.begin();
+      for( ; vvit != incidentv.end(); ++vvit) {
+	if (!is_infinite(*vvit)) {
+	  Vertex_handle_pair vhp = make_vertex_handle_pair( *vvit, vit);
+	  Alpha_status_iterator asedge = edge_alpha_map[vhp];
+	  alpha_mid = asedge->is_Gabriel() ? asedge->alpha_min()
+	    : asedge->alpha_mid();
+	  if ( alpha_mid < as->alpha_mid()) as->set_alpha_mid(alpha_mid);
+	}
+      }
+    }
+
+    if (get_mode()== REGULARIZED && reinitialize == true) {
+      // reset alpha_mid
+      std::list<Cell_handle> incidents;
+      incident_cells(static_cast<Vertex_handle>(vit),
+		     back_inserter(incidents));
+      typename std::list<Cell_handle>::iterator chit=incidents.begin();
+      while (is_infinite(*chit)) ++chit; //skip infinte cells
+      alpha = (*chit)->get_alpha();
+      as->set_alpha_mid(alpha);
+      for( ; chit != incidents.end(); ++chit) {
+	if (is_infinite(*chit)) as->set_is_on_chull(true);
+	else {
+	  alpha = (*chit)->get_alpha();
+	  if (alpha < as->alpha_mid()) as->set_alpha_mid(alpha);
+	}
+      }
+    }
+      
+  }
+ 
+  // set alpha_min in case GENERAL 
+  if (get_mode() == GENERAL && alpha_min_vertex_map.empty()) {
+    set_alpha_min_of_vertices(Weighted_tag());
+  }
+  return;
+}
+
+
+/* template <class Dt> */
+/* void  */
+/* Alpha_shape_3<Dt>::set_alpha_min_of_vertices(Tag_true) */
+/* { */
+/*   for( Finite_vertices_iterator vit = finite_vertices_begin();  */
+/*        vit != finite_vertices_end();  ++vit) { */
+/*     if (is_Gabriel(vit)) { */
+/*       Alpha_status* as = vit->get_alpha_status(); */
+/*       as->set_is_Gabriel(true);   */
+/*       as->set_alpha_min(squared_radius(vit));       */
+/*       alpha_min_vertex_map.insert(typename Alpha_vertex_map::value_type */
+/* 				  (as->alpha_min(),vit)); */
+/*     } */
+/*   } */
+/*   return; */
+/* } */
+
+
+/* template <class Dt> */
+/* void  */
+/* Alpha_shape_3<Dt>::set_alpha_min_of_vertices(Tag_false) */
+/* {  */
+/*   for( Finite_vertices_iterator vit = finite_vertices_begin();  */
+/*        vit != finite_vertices_end();  ++vit){ */
+/*     Alpha_status* as = vit->get_alpha_status(); */
+/*     as->set_is_Gabriel(true);   */
+/*     as->set_alpha_min(NT(0)); */
+/*   } */
+/*   // insert a single vertex into the map because they all have the  */
+/*   // same alpha_min value */
+/*   alpha_min_vertex_map.insert(typename Alpha_vertex_map::value_type */
+/* 			      ( NT(0), finite_vertices_begin())); */
+/* } */
+
+
+//---------------------------------------------------------------------
 
 template <class Dt>
 void 
 Alpha_shape_3<Dt>::initialize_alpha_spectrum()
-// merges the alpha thresholds of the simplices faces (and edges)
+// merges the alpha values of alpha_cell_map 
+// and alpha_min_facet_map alpha_min_edge_map alpha_min_vertex in GENERAL mode
+// only alpha_cell_map in REGULARIZED mode
 {
+  typename Alpha_cell_map::iterator cit ;
+  typename Alpha_facet_map::iterator fit ;
+  typename Alpha_edge_map::iterator eit ;
+  typename Alpha_vertex_map::iterator vit;
+  alpha_spectrum.clear();
 
-  // skip the attached faces 
-  // <=> _interval_facet_map.first.first == UNDEFINED
-  typename Interval_facet_map::iterator
-    face_it = std::upper_bound(_interval_facet_map.begin(),
-			       _interval_facet_map.end(),
-			       UNDEFINED,
-			       Less());
+  if (get_mode() == GENERAL) {
+    cit = alpha_cell_map.begin();
+    fit = alpha_min_facet_map.begin();
+    eit = alpha_min_edge_map.begin();
+    vit = alpha_min_vertex_map.begin();
+    alpha_spectrum.reserve(alpha_cell_map.size() +
+			   alpha_min_facet_map.size() +
+			   alpha_min_edge_map.size() +
+			   alpha_min_vertex_map.size());
+  }
+  else {
+    alpha_spectrum.reserve(alpha_cell_map.size());
+    cit = alpha_cell_map.begin();
+    fit = alpha_min_facet_map.end();
+    eit = alpha_min_edge_map.end();
+    vit = alpha_min_vertex_map.end();
+  }
 
-  // merge the maps which is sorted and contains the alpha-values
-  // of the unattached faces and the triangles.
-  // eliminate duplicate values due to for example attached faces
-  // merge and copy from STL since assignment should be function object
-	
-  typename Interval_cell_map::iterator
-    cell_it = _interval_cell_map.begin();
 
-  _alpha_spectrum.reserve(_interval_cell_map.size() +
-			  _interval_facet_map.size()/ 2 );
-  // should be only the number of unattached faces
-  // size_type nb_unattached_facets;
-  // distance(face_it, _interval_facet_map.end(), nb_unattached_facets);
-  // however the distance function is expensive
+  while (cit != alpha_cell_map.end() ||
+	 fit != alpha_min_facet_map.end() ||
+	 eit != alpha_min_edge_map.end() ) {
 
-  while (face_it != _interval_facet_map.end() ||
-	 cell_it != _interval_cell_map.end())
-    {
-      if (cell_it != _interval_cell_map.end() && 
-	  (face_it == _interval_facet_map.end() ||
-	   (*cell_it).first < (*face_it).first.first))
-	{
-	  assert(cell_it != _interval_cell_map.end());
+    if ( cit != alpha_cell_map.end() 
+	 && ( fit == alpha_min_facet_map.end() || !(fit->first < cit->first) )
+	 && ( eit == alpha_min_edge_map.end() || !(eit->first < cit->first) )
+	 && ( vit == alpha_min_vertex_map.end() || !(vit->first < cit->first) )
+	 ) {      //advance on cit
+      if (alpha_spectrum.empty() ||  alpha_spectrum.back() < cit->first){
+	alpha_spectrum.push_back(cit->first); 
+      }
+      cit++;
+     }
 
-	  if (_alpha_spectrum.empty() || 
-	      _alpha_spectrum.back() < (*cell_it).first)
-	    _alpha_spectrum.push_back((*cell_it).first);
-	  cell_it++;
-	}
-      else
-	{
-	  assert (cell_it == _interval_cell_map.end() || 
-		  (face_it != _interval_facet_map.end() &&
-		   (*cell_it).first >= (*face_it).first.first));
-
-	  if (_alpha_spectrum.empty() || 
-	      _alpha_spectrum.back() < (*face_it).first.first)
-	    _alpha_spectrum.push_back((*face_it).first.first);
-	  face_it++;
-	}
+    if ( fit != alpha_min_facet_map.end() 
+	 && ( cit == alpha_cell_map.end() || !(cit->first < fit->first) )
+	 && ( eit == alpha_min_edge_map.end() || !(eit->first < fit->first) ) 
+	 && ( vit == alpha_min_vertex_map.end() || !(vit->first < fit->first) )
+	 ) {      //advance on fit
+      if (alpha_spectrum.empty() ||  alpha_spectrum.back() < fit->first){
+	    alpha_spectrum.push_back(fit->first);
+      }
+      fit++;
     }
 
+    if ( eit != alpha_min_edge_map.end() 
+	 && ( fit == alpha_min_facet_map.end() || !(fit->first < eit->first) )
+	 && ( cit == alpha_cell_map.end() || !(cit->first < eit->first) )
+	 && ( vit == alpha_min_vertex_map.end() || !(vit->first < eit->first) )
+	 ) {      //advance on eit
+         if (alpha_spectrum.empty() ||  alpha_spectrum.back() <  eit->first) {
+	    alpha_spectrum.push_back(eit->first);
+      }
+      eit++;
+    }
+
+    if ( vit != alpha_min_vertex_map.end() 
+	 && ( fit == alpha_min_facet_map.end() || !(fit->first < vit->first) )
+	 && ( cit == alpha_cell_map.end() || !(cit->first < vit->first) )
+	 && ( eit == alpha_min_edge_map.end() || !(eit->first < vit->first) )
+	 ) {      //advance on eit
+         if (alpha_spectrum.empty() ||  alpha_spectrum.back() <  vit->first) {
+	    alpha_spectrum.push_back(vit->first);
+      }
+      vit++;
+    }
+  }
 }
+  
+
 
 //---------------------------------------------------------------------
 
 
+#if 0
+// Obviously not ready yet
 template <class Dt>
 std::istream& operator>>(std::istream& is,  const Alpha_shape_3<Dt>& A)
   // Reads a alpha shape from stream `is' and assigns it to
   // Unknown creationvariable. Precondition: The extract operator must
   // be defined for `Point'.
 {}
+#endif
 
 //---------------------------------------------------------------------
 
@@ -1242,247 +1201,46 @@ template <class Dt>
 std::ostream& operator<<(std::ostream& os,  const Alpha_shape_3<Dt>& A)
   // Inserts the alpha shape into the stream `os' as an indexed face set. 
   // Precondition: The insert operator must be defined for `Point'
-{ 
-  typedef typename Alpha_shape_3<Dt>::Interval_vertex_map Interval_vertex_map;
-  typename Interval_vertex_map::const_iterator vertex_alpha_it;
+{
+  typedef Alpha_shape_3<Dt>                  AS;
+  typedef typename AS::Vertex_handle         Vertex_handle;
+  typedef typename AS::Cell_handle           Cell_handle;
+  typedef typename AS::Alpha_shape_vertices_iterator 
+                                             Alpha_shape_vertices_iterator;
+  typedef typename AS::Alpha_shape_facets_iterator
+                                             Alpha_shape_facets_iterator;
 
-  const typename Alpha_shape_3<Dt>::Interval2* pInterval2;
-
-  typedef long Key;
-
-  std::map< Key, int > V;
-
+  Unique_hash_map< Vertex_handle, int > V;
   int number_of_vertices = 0;
 
-  typedef typename Alpha_shape_3<Dt>::Interval_facet_map Interval_facet_map;
-  typename Interval_facet_map::const_iterator face_alpha_it;
+  Alpha_shape_vertices_iterator vit;
+  for( vit = A.alpha_shape_vertices_begin();
+       vit != A.alpha_shape_vertices_end();
+       ++vit) {
+    V[*vit] = number_of_vertices++;
+    os << (*vit)->point() << std::endl;
+  }
 
-  const typename Alpha_shape_3<Dt>::Interval3* pInterval;
-
-  int i0, i1, i2;
-
-  if (A.get_mode() == Alpha_shape_3<Dt>::REGULARIZED)
-    {
-
-      typename Alpha_shape_3<Dt>::Vertex_handle v;
-      for (vertex_alpha_it = A._interval_vertex_map.begin(); 
-	   vertex_alpha_it != A._interval_vertex_map.end() &&
-	     (*vertex_alpha_it).first.first < A.get_alpha();
-	   ++vertex_alpha_it)
-	{
-	  pInterval2 = &(*vertex_alpha_it).first;
-
-#ifdef DEBUG
-	  Alpha_shape_3<Dt>::Coord_type alpha =
-	    A.get_alpha();
-	  Alpha_shape_3<Dt>::Coord_type alpha_min = 
-	    pInterval2->first;
-	  Alpha_shape_3<Dt>::Coord_type alpha_max = 
-	    pInterval2->second;
-#endif // DEBUG
-
-	  if((pInterval2->second >= A.get_alpha()
-	      || pInterval2->second == A.Infinity))
-	    // alpha must be larger than the min boundary
-	    // and alpha is smaller than the upper boundary
-	    // which might be infinity 
-	    // write the vertex
-	    {
-	      v = (*vertex_alpha_it).second;
-	      assert(A.classify(v) ==
-		     Alpha_shape_3<Dt>::REGULAR);
-
-	      V[(Key)&(*v)] = number_of_vertices++;
-	      os << v->point() << std::endl;
-	    }
-	}
-  
-      // the vertices are oriented counterclockwise
-
-      typename Alpha_shape_3<Dt>::Cell_handle s;
-      int i;
-
-      for (face_alpha_it = A._interval_facet_map.begin(); 
-	   face_alpha_it != A._interval_facet_map.end() &&
-	     (*face_alpha_it).first.first < A.get_alpha();
-	   ++face_alpha_it)
-	{
-	  pInterval = &(*face_alpha_it).first;
-
-#ifdef DEBUG
-	  Alpha_shape_3<Dt>::Coord_type alpha =
-	    A.get_alpha();
-	  Alpha_shape_3<Dt>::Coord_type alpha_mid = 
-	    pInterval->second;
-	  Alpha_shape_3<Dt>::Coord_type alpha_max = 
-	    pInterval->third;
-#endif // DEBUG
-
-	  assert(pInterval->second != A.Infinity);
-	  // since this happens only for convex hull of dimension 2
-	  // thus singular
-
-	  if(pInterval->second < A.get_alpha() &&
-	     (pInterval->third >= A.get_alpha()
-	      || pInterval->third == A.Infinity))
-	    // alpha must be larger than the mid boundary
-	    // and alpha is smaller than the upper boundary
-	    // which might be infinity 
-	    // visualize the boundary
-	    {
-
-	      s = (*face_alpha_it).second.first;
-	      i = (*face_alpha_it).second.second;
-
-	      // assure that all vertices are in ccw order
-	      if (A.classify(s) == Alpha_shape_3<Dt>::EXTERIOR)
-		{ 
-		  // take the reverse cell
-		  typename Alpha_shape_3<Dt>::Cell_handle 
-		    pNeighbor = s->neighbor(i);
-		  i = pNeighbor->index(s);
-		  s = pNeighbor;
-		}
-	  
-	      assert(A.classify(s) == Alpha_shape_3<Dt>::INTERIOR);
-
-	      assert(A.classify(s, i) ==
-		     Alpha_shape_3<Dt>::REGULAR);
-
-	      int i0=(i+1)&3, i1=(i+2)&3, i2=(i+3)&3;
-
-	      os << V[(Key)&(*s->vertex(i0))] << ' ' 
-		 << V[(Key)&(*s->vertex(i1))] << ' ' 
-		 << V[(Key)&(*s->vertex(i2))] << std::endl;
-	    }
-	}
+  Cell_handle c;
+  int i;
+  Alpha_shape_facets_iterator fit;
+  for( fit = A.alpha_shape_facets_begin();
+       fit != A.alpha_shape_facets_end();
+       ++fit) {
+    c = fit->first;
+    i = fit->second;
+    // the following ensures that regulat facets are output
+    // in ccw order
+    if (A.classify(*fit) == AS::REGULAR && A.classify(c) == AS::EXTERIOR){
+      c = c->neighbor(i);
+      i = c->index(fit->first);
     }
-  else  // A.get_mode() == GENERAL -----------------------------------------
-    {
- 
-       typename Alpha_shape_3<Dt>::Vertex_handle v;
-     
-      // write the regular vertices
-
-      for (vertex_alpha_it = A._interval_vertex_map.begin(); 
-	   vertex_alpha_it != A._interval_vertex_map.end() &&
-	     (*vertex_alpha_it).first.first < A.get_alpha();
-	   ++vertex_alpha_it)
-	{
-	  pInterval2 = &(*vertex_alpha_it).first;
-
-	  if((pInterval2->second >= A.get_alpha()
-	      || pInterval2->second == A.Infinity))
-	    // alpha must be larger than the min boundary
-	    // and alpha is smaller than the upper boundary
-	    // which might be infinity 
-	    // write the vertex
-	    {
-	      v = (*vertex_alpha_it).second;
-	      CGAL_triangulation_assertion(A.classify(v) ==
-					   Alpha_shape_3<Dt>::REGULAR);
-	      V[(Key)&(*v)] = number_of_vertices++;
-	      os << v->point() << std::endl;
-	    }
-	}
- 
-      // write the singular vertices
-      for (; 
-	   vertex_alpha_it != A._interval_vertex_map.end();
-	   ++vertex_alpha_it)
-	{
-	  v = (*vertex_alpha_it).second;
-	  CGAL_triangulation_assertion(A.classify(v) ==
-				       Alpha_shape_3<Dt>::SINGULAR);
-
-	  V[(Key)&(*v)] = number_of_vertices++;
-	  os << v->point() << std::endl;
-	}
- 
-      // the vertices are oriented counterclockwise
-
-      typename Alpha_shape_3<Dt>::Cell_handle s;
-      int i;
-
-      for (face_alpha_it = A._interval_facet_map.begin(); 
-	   face_alpha_it != A._interval_facet_map.end() &&
-	     (*face_alpha_it).first.first < A.get_alpha();
-	   ++face_alpha_it)
-	{
-	  pInterval = &(*face_alpha_it).first;
-
-#ifdef DEBUG
-	  Alpha_shape_3<Dt>::Coord_type alpha =
-	    A.get_alpha();
-	  Alpha_shape_3<Dt>::Coord_type alpha_min = 
-	    pInterval->first;
-	  Alpha_shape_3<Dt>::Coord_type alpha_mid = 
-	    pInterval->second;
-	  Alpha_shape_3<Dt>::Coord_type alpha_max = 
-	    pInterval->third;
-#endif // DEBUG
-	  
-	  if(pInterval->third >= A.get_alpha()
-	     || pInterval->third == A.Infinity)
-	    // if alpha is smaller than the upper boundary
-	    // which might be infinity 
-	    // visualize the boundary
-	    {
-	      s = (*face_alpha_it).second.first;
-	      i = (*face_alpha_it).second.second;
-
-
-	      // write the regular faces
-	      if (pInterval->second != A.Infinity &&
-		  pInterval->second < A.get_alpha())
-		{
-		  CGAL_triangulation_assertion(A.classify(s, i) ==
-					       Alpha_shape_3<Dt>::REGULAR);
-		  // assure that all vertices are in ccw order
-		  if (A.classify(s) == Alpha_shape_3<Dt>::EXTERIOR)
-		    { 
-		      // take the reverse cell
-		      typename Alpha_shape_3<Dt>::Cell_handle 
-			pNeighbor = s->neighbor(i);
-		      i = pNeighbor->index(s);
-		      s = pNeighbor;
-		    }
-	  
-		  CGAL_triangulation_assertion(A.classify(s) == 
-					       Alpha_shape_3<Dt>::INTERIOR);
-
-		  i0=(i+1)&3, i1=(i+2)&3, i2=(i+3)&3;
-
-		  os << V[(Key)&(*s->vertex(i0))] << ' ' 
-		     << V[(Key)&(*s->vertex(i1))] << ' ' 
-		     << V[(Key)&(*s->vertex(i2))] << std::endl;
-		  
-		}
-	      else // (pInterval->second == A.Infinity || 
-		   //  pInterval->second >= A.get_alpha()))
-
-		// pInterval->second == A.Infinity happens only for convex hull
-		// of dimension 2 thus singular
-		{
-		  // write the singular faces
-		  if (pInterval->first != A.UNDEFINED)
-		    {
-		      CGAL_triangulation_assertion(A.classify(s, i) ==
-						   Alpha_shape_3<Dt>::SINGULAR);
-		      i0=(i+1)&3, i1=(i+2)&3, i2=(i+3)&3;
-
-		      os << V[(Key)&(*s->vertex(i0))] << ' ' 
-			 << V[(Key)&(*s->vertex(i1))] << ' ' 
-			 << V[(Key)&(*s->vertex(i2))] << std::endl;
-		      
-		    }	
-		}
-	    }
-	}
-    }
-  
+    int i0=(i+1)&3, i1=(i+2)&3, i2=(i+3)&3;
+    os << V[c->vertex(i0)] << ' ' 
+       << V[c->vertex(i1)] << ' ' 
+       << V[c->vertex(i2)] << std::endl;
+  }
   return os;
-
 }
 
 //---------------------------------------------------------------------
@@ -1491,53 +1249,38 @@ template <class Dt>
 void
 Alpha_shape_3<Dt>::update_alpha_shape_vertex_list() const
 {
-  Alpha_shape_vertices_list.clear();
-  typedef Alpha_shape_3<Dt>::Interval_vertex_map Interval_vertex_map;
-  typename Interval_vertex_map::const_iterator vertex_alpha_it;
-
-  const Alpha_shape_3<Dt>::Interval2* pInterval2;
-
-  Vertex_handle v;
-     
-  // write the regular vertices
-
-  for (vertex_alpha_it = _interval_vertex_map.begin(); 
-       vertex_alpha_it != _interval_vertex_map.end() &&
-	 (*vertex_alpha_it).first.first < get_alpha();
-       ++vertex_alpha_it)
-    {
-      pInterval2 = &(*vertex_alpha_it).first;
-
-      if((pInterval2->second >= get_alpha()
-	  || pInterval2->second == Infinity))
-	// alpha must be larger than the min boundary
-	// and alpha is smaller than the upper boundary
-	// which might be infinity 
-	// write the vertex
-	{
-	  v = (*vertex_alpha_it).second;
-	  CGAL_triangulation_assertion(classify(v) == 
-				       Alpha_shape_3<Dt>::REGULAR);
-	  Alpha_shape_vertices_list.push_back(v);
-	}
-    }
- 
-  if (get_mode() == Alpha_shape_3<Dt>::GENERAL)
-    {
-      // write the singular vertices
-      for (; 
-	   vertex_alpha_it != _interval_vertex_map.end();
-	   ++vertex_alpha_it)
-	{
-	  v = (*vertex_alpha_it).second;
-	  CGAL_triangulation_assertion(classify(v) == 
-				       Alpha_shape_3<Dt>::SINGULAR);
-
-	  Alpha_shape_vertices_list.push_back(v);
-	}
-    }
+  alpha_shape_vertices_list.clear();
   use_vertex_cache = true;
+
+  std::back_insert_iterator<std::list< Vertex_handle > >
+    it = back_inserter(alpha_shape_vertices_list);
+
+  get_alpha_shape_vertices(it, REGULAR);
+  if (get_mode()==GENERAL) get_alpha_shape_vertices(it, SINGULAR);
+  
+
+/*   // get REGULAR  vertices  */
+/*   // alpha_mid <= alpha < alpha_max */
+/*   typename Alpha_vertex_map::const_iterator vit; */
+/*   for(vit = alpha_mid_vertex_map.begin(); */
+/*       vit != alpha_mid_vertex_map.upper_bound(get_alpha()); */
+/*       ++vit) { */
+/*      if (classify(vit->second) == REGULAR) */
+/* 	  alpha_shape_vertices_list.push_back(vit->second); */
+/*   } */
+
+/*   if (get_mode() == GENERAL){ */
+/*   // get SINGULAR vertices */
+/*     for(vit = alpha_min_vertex_map.begin(); */
+/* 	vit != alpha_min_vertex_map.upper_bound(get_alpha()); */
+/*        ++vit) { */
+/*       if (classify(vit->second) == SINGULAR) */
+/* 	alpha_shape_vertices_list.push_back(vit->second); */
+/*     } */
+/*   } */
+   return;
 }
+	 
 
 //---------------------------------------------------------------------
 
@@ -1545,251 +1288,139 @@ template <class Dt>
 void
 Alpha_shape_3<Dt>::update_alpha_shape_facet_list() const
 {
-  Alpha_shape_facets_list.clear();
-  // Writes the faces of the alpha shape `A' for the current 'alpha'-value
-  // to the container where 'out' refers to. Returns an output iterator 
-  // which is the end of the constructed range.
-  typedef  Alpha_shape_3<Dt>::Interval_facet_map Interval_facet_map;
-  typename Interval_facet_map::const_iterator face_alpha_it;
-
-  const Alpha_shape_3<Dt>::Interval3* pInterval;
-
-  if (get_mode() == Alpha_shape_3<Dt>::REGULARIZED)
-    {
-      // it is much faster looking at the sorted intervals 
-      // than looking at all sorted cells
-      // alpha must be larger than the mid boundary
-      // and alpha is smaller than the upper boundary
-      for (face_alpha_it = _interval_facet_map.begin(); 
-	   face_alpha_it != _interval_facet_map.end() &&
-	     (*face_alpha_it).first.first < get_alpha();
-	   ++face_alpha_it)
-	{
-	  pInterval = &(*face_alpha_it).first;
-
-	  CGAL_triangulation_assertion(pInterval->second != Infinity);
-	  // since this happens only for convex hull of dimension 2
-	  // thus singular
-
-	  if(pInterval->second < get_alpha() &&
-	     (pInterval->third >= get_alpha()
-	      || pInterval->third == Infinity))
-	    // alpha must be larger than the mid boundary
-	    // and alpha is smaller than the upper boundary
-	    // which might be infinity 
-	    // visualize the boundary
-	    {
-	      CGAL_triangulation_assertion(classify(
-                                 (*face_alpha_it).second.first,
-				 (*face_alpha_it).second.second) ==
-			Alpha_shape_3<Dt>::REGULAR);
-	      Alpha_shape_facets_list.push_back(Facet((*face_alpha_it).second.first,
-						      (*face_alpha_it).second.second));
-	    }
-	}
-    }
-  else  // get_mode() == GENERAL -------------------------------------------
-    {
-      // draw the faces
-      for (face_alpha_it = _interval_facet_map.begin(); 
-	   face_alpha_it != _interval_facet_map.end() &&
-	     (*face_alpha_it).first.first < get_alpha();
-	   ++face_alpha_it)
-	{
-	  pInterval = &(*face_alpha_it).first;
-
-	  if (pInterval->first == UNDEFINED)
-	    {
-	      CGAL_triangulation_assertion(pInterval->second != Infinity);
-	      // since this happens only for convex hull of dimension 2
-	      // thus singular
-
-	      if(pInterval->second < get_alpha() &&
-		 (pInterval->third >= get_alpha()
-		  || pInterval->third == Infinity))
-		// alpha must be larger than the mid boundary
-		// and alpha is smaller than the upper boundary
-		// which might be infinity 
-		// visualize the boundary
-		{
-		  CGAL_triangulation_assertion(classify(
-                                     (*face_alpha_it).second.first,
-				     (*face_alpha_it).second.second ) ==
-			    Alpha_shape_3<Dt>::REGULAR );
-		  Alpha_shape_facets_list.push_back(
-		    Facet((*face_alpha_it).second.first,
-			  (*face_alpha_it).second.second));
-		}
-	    }
-	  else
-	    {
-
-	      if(pInterval->third >= get_alpha()
-		 || pInterval->third == Infinity)
-		// if alpha is smaller than the upper boundary
-		// which might be infinity 
-		// visualize the boundary
-		{
-		  CGAL_triangulation_assertion(classify(
-                                     (*face_alpha_it).second.first,
-				     (*face_alpha_it).second.second) ==
-			    Alpha_shape_3<Dt>::REGULAR || 
-			    classify((*face_alpha_it).second.first,
-				     (*face_alpha_it).second.second) ==
-			    Alpha_shape_3<Dt>::SINGULAR);
-		  Alpha_shape_facets_list.push_back(Facet((*face_alpha_it).second.first,
-							    (*face_alpha_it).second.second));
-		}
-	    }
-
-	}
-
-    }
+  alpha_shape_facets_list.clear();
   use_facet_cache = true;
+  // Writes the faces of the alpha shape `A' for the current 'alpha'-value
+  // to the container where 'out' refers to.
+
+  std::back_insert_iterator<std::list< Facet> >
+    it = back_inserter(alpha_shape_facets_list);
+
+  get_alpha_shape_facets(it, REGULAR);
+  if (get_mode()==GENERAL) get_alpha_shape_facets(it, SINGULAR);
+  
+/*   // Get regular facets */
+/*   // alpha_mid <= alpha < alpha_max */
+/*   typename Alpha_facet_map::const_iterator fit; */
+/*   for(  fit = alpha_mid_facet_map.begin(); */
+/* 	fit != alpha_mid_facet_map.upper_bound(get_alpha()); */
+/* 	++fit) { */
+/*     if (classify(fit->second) == REGULAR) */
+/* 	  alpha_shape_facets_list.push_back(fit->second); */
+/*   } */
+/*   if (get_mode() == REGULARIZED) return; */
+
+/*   // Get singular facets */
+/*   // alpha_min <= alpha < alpha_mid */
+/*   typename Alpha_facet_map::const_iterator fit2; */
+/*   for( fit2 = alpha_min_facet_map.begin(); */
+/*        fit2 != alpha_min_facet_map.upper_bound(get_alpha()); */
+/*        ++fit2) { */
+/*     if (classify(fit2->second) == SINGULAR) */
+/* 	  alpha_shape_facets_list.push_back(fit2->second); */
+/*   } */
+  return;
 }
+
+
 
 //---------------------------------------------------------------------
 
 template < class Dt >
 typename Alpha_shape_3<Dt>::Classification_type  
+Alpha_shape_3<Dt>::classify(const Alpha_status& as,
+			    const NT& alpha) const
+{
+ //tetrahedra with circumragius=alpha are considered inside
+  if ( !as.is_on_chull() && alpha >= as.alpha_max()) return INTERIOR;
+  else if ( alpha >= as.alpha_mid()) return REGULAR;
+  else if ( get_mode() == GENERAL && 
+	    as.is_Gabriel() &&
+	    alpha >= as.alpha_min()) return SINGULAR;
+  else return EXTERIOR;
+}
+
+template < class Dt >
+typename Alpha_shape_3<Dt>::Classification_type  
 Alpha_shape_3<Dt>::classify(const Cell_handle& s, 
 			    int i,
-			    const Coord_type& alpha) const
+			    const NT& alpha) const
   // Classifies the face `f' of the underlying Delaunay
   // tetrahedralization with respect to `A'.
 { 
-  // the version that uses a simplified version without crosslinks
-  // is much slower
-  if (is_infinite(s, i))
-    return EXTERIOR;
-    
-  Interval3 interval = find_interval(Facet (s, i));
- 
-  if (alpha <= interval.second)
-    {
-      if (get_mode() == REGULARIZED ||
-	  interval.first == UNDEFINED ||
-	  alpha <= interval.first)
-	return EXTERIOR;
-      else // alpha > interval.first
-	return SINGULAR;
-    }
-  else    // alpha > interval.second
-    {
-      if (interval.third == Infinity ||
-	  alpha <= interval.third)
-	return REGULAR;
-      else // alpha > interval.third
-	return INTERIOR;
-    }
-   
+  if (is_infinite(s,i))   return EXTERIOR;
+  Alpha_status_iterator as = s->get_facet_status(i);
+  return classify(*as, alpha);
 }
  
-//---------------------------------------------------------------------
-
-template < class Dt >
-typename Alpha_shape_3<Dt>::Interval3
-Alpha_shape_3<Dt>::
-find_interval(const Cell_handle& s, int i, int j) const
-{
- // edge is said to be singular if not incident to a tetrahedra
- // in the alpha-shapes
- // there is n no use to test if edge is attached or not if the mode
- // is set to REGULAR, in this case 
- // b_attached is set to true 
-// interval.first is set to UNDEFINED for any edge.
-
- Coord_type alpha_min_e = UNDEFINED;
- Coord_type alpha_mid_e ;
- Coord_type alpha_max_e = 0;
- bool b_attached = false;
-
- 
-  //initialisation
-  Cell_circulator ccirc = incident_cells(s,i,j),
-    cdone(ccirc);
-  do {
-    if(is_infinite(ccirc) ) alpha_max_e =  Infinity;
-    else alpha_mid_e = find_interval(ccirc);
-  } while(++ccirc != cdone);
-
-  //another turn
-  do {
-    if (!is_infinite(ccirc) ) {
-     alpha_mid_e = min ( alpha_mid_e, find_interval(ccirc));
-     if (alpha_max_e != Infinity) 
-       alpha_max_e = max(alpha_max_e, find_interval(ccirc));
-    }
-  }while(++ccirc != cdone); 
- 
-   //-----set alpha_min_e in the GENERAL mode--------------------
-  if( get_mode() == GENERAL) {
-    Facet_circulator fcirc = incident_facets(s,i,j),
-      fdone(fcirc);
-    do {
-      // test whether the vertex of ss opposite to *fcirc
-      // is inside the sphere defined by the edge e = (s, i,j)
-      Cell_handle ss = (*fcirc).first;
-      int ii = (*fcirc).second;
-      if (!is_infinite(ss->vertex(ii)) )
-	b_attached = is_attached(s->vertex(i), s->vertex(j), ss->vertex(ii));
-    } while(++fcirc != fdone);
-
-    if(! b_attached) alpha_min_e = squared_radius(s,i,j);
-  }
-
-  return make_triple(alpha_min_e,alpha_mid_e,alpha_max_e);
-}
 
 template < class Dt >
 typename Alpha_shape_3<Dt>::Classification_type  
-Alpha_shape_3<Dt>::classify(const Cell_handle& s, 
+Alpha_shape_3<Dt>::classify(const Cell_handle& c, 
 			    int i,
 			    int j,
-			    const Coord_type& alpha) const
+			    const NT& alpha) const
   // Classifies the edge `e' of the underlying Delaunay
   // tetrahedralization with respect to `A'.
 { 
-//   // the version that uses a simplified version without crosslinks
-//   // is much slower
-//   if (is_infinite(s, i, j))     return EXTERIOR;
-    
-//   // FIX SUGGESTED BY JUR VAN DER BERG
-//   //Interval3 interval = find_interval((const Edge)(s,i,j));
-//   Interval3 interval = s->get_edge_ranges(i, j);
-//   //  (*(_facet_interval_map.find(const_facet(s, i)))).second;
- 
-//   if (alpha <= interval.second)
-//     {
-//       if (get_mode() == REGULARIZED ||
-// 	  interval.first == UNDEFINED ||
-// 	  alpha <= interval.first)
-// 	return EXTERIOR;
-//       else // alpha > interval.first
-// 	return SINGULAR;
-//     }
-//   else    // alpha > interval.second
-//     {
-//       if (interval.third == Infinity ||
-// 	  alpha <= interval.third)
-// 	return REGULAR;
-//       else // alpha > interval.third
-// 	return INTERIOR;
-//     }
-  
-  if (is_infinite(s, i, j))     return EXTERIOR;
-  Interval3 interval = find_interval(s,i,j);
+  if (is_infinite(c, i, j))     return EXTERIOR;
+  Alpha_status as;
+  if (get_mode() == GENERAL) {
+    Vertex_handle_pair
+      vhp=make_vertex_handle_pair(c->vertex(i),c->vertex(j));
+    as = *(edge_alpha_map.find(vhp)->second);
+  }
+  else{ //no edge map in REGULARIZED mode - classify on the fly
+    compute_edge_status( c, i, j, as);
+  }
+  return classify(as, alpha);
+}
 
-//   std::cout << interval.first << "\t"
-//             << interval.second << "\t"
-// 	    << interval.third << "\t"; 
- 
-  // edge is said to be singular if not incident to a tetrahedra
-  // in the alpha-shapes
-  if (interval.third != Infinity && alpha >= interval.third) return INTERIOR;
-  else if ( alpha >= interval.second) return REGULAR;
-  else if ( get_mode() == GENERAL && alpha >= interval.first) return SINGULAR;
-  else return EXTERIOR;
+template < class Dt >
+void
+Alpha_shape_3<Dt>::
+compute_edge_status( const Cell_handle& c, 
+		     int i, 
+		     int j,  
+		     Alpha_status& as) const
+{
+  Facet_circulator fcirc, done;
+  Alpha_status_iterator asf;
+  NT alpha;
+
+  fcirc = incident_facets(c,i,j);
+  while (is_infinite(*fcirc) ) ++fcirc; //skip infinite incident faces
+  done = fcirc;
+  as.set_is_on_chull(false);
+  asf = (*fcirc).first->get_facet_status((*fcirc).second);
+  as.set_alpha_mid(asf->alpha_mid());  // initialise as.alpha_mid
+  as.set_alpha_max(asf->alpha_mid()); // and as.alpha->max to the same
+  do {
+    if (!is_infinite(*fcirc)) {
+      asf = (*fcirc).first->get_facet_status((*fcirc).second);
+      if (get_mode() == GENERAL && asf->is_Gabriel()) 
+	alpha = asf->alpha_min();
+      else alpha = asf->alpha_mid();
+      if (alpha < as.alpha_mid())  as.set_alpha_mid(alpha) ;
+      if ( ! asf->is_on_chull()) { 
+	if( as.alpha_max() <  asf->alpha_max())
+	  as.set_alpha_max( asf->alpha_max());
+      }
+      else{
+	as.set_is_on_chull(true);
+      }
+    }
+  } while (++fcirc != done);
+
+    // initialize alphamin
+  if ( get_mode() == GENERAL){
+    if (is_Gabriel(c,i,j)) {
+      alpha = squared_radius(c,i,j);
+      as.set_is_Gabriel(true);
+      as.set_alpha_min(alpha);
+    }
+    else as.set_is_Gabriel(false);
+  }   
 }
 
 //---------------------------------------------------------------------
@@ -1797,39 +1428,27 @@ Alpha_shape_3<Dt>::classify(const Cell_handle& s,
 template < class Dt >
 typename Alpha_shape_3<Dt>::Classification_type  
 Alpha_shape_3<Dt>::classify(const Vertex_handle& v,
-			    const Coord_type& alpha) const
+			    const NT& alpha) const
   // Classifies the vertex `v' of the underlying Delaunay
   // tetrahedralization with respect to `A'.
 {
-  Interval2 interval = find_interval(v);
- 
-  if (alpha <= interval.first)
-    {
-      if (get_mode() == REGULARIZED) 
-	return EXTERIOR;
-      else // general => vertices are never exterior
-	return SINGULAR;
-    }
-  else    // alpha > interval.first
-    {
-      if (interval.second == Infinity ||
-	  alpha <= interval.second)
-	return REGULAR;
-      else // alpha > interval.second
-	return INTERIOR;
-    }
+  if (is_infinite(v))     return EXTERIOR;
+  Alpha_status* as = v->get_alpha_status();
+
+  return classify(*as, alpha);
 }
 
 //--------------------- NB COMPONENTS ---------------------------------
 
 template < class Dt >
 int
-Alpha_shape_3<Dt>::number_of_solid_components(const Coord_type& alpha) const
+Alpha_shape_3<Dt>::number_of_solid_components(const NT& alpha) const
     // Determine the number of connected solid components 
     // takes time O(#alpha_shape) amortized if STL_HASH_TABLES
     //            O(#alpha_shape log n) otherwise
 {
-  Marked_cell_set marked_cell_set;
+  typedef typename Marked_cell_set::Data Data;
+  Marked_cell_set marked_cell_set(false);
   Finite_cells_iterator cell_it, done = finite_cells_end();
   int nb_solid_components = 0;
 
@@ -1838,33 +1457,47 @@ Alpha_shape_3<Dt>::number_of_solid_components(const Coord_type& alpha) const
     {
       Cell_handle pCell = cell_it;
       assert(pCell != NULL);
-
-      if (classify(pCell, alpha) == INTERIOR &&
-	  ((marked_cell_set.insert((Key)&(*pCell)))).second)
-	// we traverse only interior simplices
-	{
+      
+      if (classify(pCell, alpha) == INTERIOR){
+	Data& data = marked_cell_set[pCell];
+	if(data == false) { 
+	  // we traverse only interior simplices
+	  data = true;
 	  traverse(pCell, marked_cell_set, alpha);
 	  nb_solid_components++;  
 	}
+      }
     }
   return nb_solid_components;
 }
 
-//----------------------------------------------------------------------
 
 template < class Dt >
-void Alpha_shape_3<Dt>::traverse(const Cell_handle& pCell,
-				 Marked_cell_set& marked_cell_set, 
-				 const Coord_type alpha) const
+void Alpha_shape_3<Dt>::traverse(Cell_handle pCell,
+				 Marked_cell_set& marked_cell_set,
+				 const NT alpha) const
 {
-  for (int i=0; i<=3; i++)
-    { 
-      Cell_handle pNeighbor = pCell->neighbor(i);
-      assert(pNeighbor != NULL); 
-      if (classify(pNeighbor, alpha) == INTERIOR &&
-	  ((marked_cell_set.insert((Key)&(*pNeighbor)))).second)
-	traverse(pNeighbor, marked_cell_set, alpha);
-    }
+  typedef typename Marked_cell_set::Data Data;
+  std::list<Cell_handle> cells;
+  cells.push_back(pCell);
+  Cell_handle pNeighbor;
+
+  while(! cells.empty()){
+    pCell = cells.back();
+    cells.pop_back();
+    for (int i=0; i<=3; i++)
+      {
+	pNeighbor = pCell->neighbor(i);
+	assert(pNeighbor != NULL);
+	if (classify(pNeighbor, alpha) == INTERIOR){
+	  Data& data = marked_cell_set[pNeighbor];
+	  if(data == false){
+	    data = true;
+	    cells.push_back(pNeighbor);
+	  }
+	}
+      }
+  } 
 }
 
 //----------------------------------------------------------------------
@@ -1873,18 +1506,18 @@ template <class Dt>
 typename Alpha_shape_3<Dt>::Alpha_iterator 
 Alpha_shape_3<Dt>::find_optimal_alpha(int nb_components)
   // find the minimum alpha that satisfies the properties
-  // (1) nb_components solid components
+  // (1) nb_components solid components <= nb_components
   // (2) all data points on the boundary or in its interior
 {
-  Coord_type alpha = find_alpha_solid();
+  NT alpha = find_alpha_solid();
   // from this alpha on the alpha_solid satisfies property (2)
   
   Alpha_iterator first = alpha_lower_bound(alpha);
   if (number_of_solid_components(alpha) == nb_components)
     {
-      if ((first+1) < alpha_end())
-	return (first+1);
-      else
+      // if ((first+1) < alpha_end()) 
+      // return (first+1); 
+      // else 
 	return first;
     }
 
@@ -1903,12 +1536,14 @@ Alpha_shape_3<Dt>::find_optimal_alpha(int nb_components)
       half = len / 2;
       middle = first + half;
 
-#ifdef DEBUG
-      cerr << "first : " << *first << " last : " 
-           << ((first+len != last) ? *(first+len) : *(last-1))
-	   << " mid : " << *middle 
-	   << " nb comps : " << number_of_solid_components(*middle) << std::endl;
-#endif // DEBUG
+ /*      //#ifdef DEBUG */
+/*       std::cerr << "first : " << *first  */
+/* 		<< " last : "  */
+/* 		<< ((first+len != last) ? *(first+len) : *(last-1)) */
+/* 		<< " mid : " << *middle  */
+/* 		<< " nb comps : " << number_of_solid_components(*middle)  */
+/* 		<< std::endl; */
+/*       //#endif // DEBUG */
 
       if (number_of_solid_components(*middle) > nb_components)
 	{
@@ -1920,91 +1555,125 @@ Alpha_shape_3<Dt>::find_optimal_alpha(int nb_components)
 	  len = half;
 	}
     }
-  if ((first+1) < alpha_end())
-    return (first+1);
-  else
-    return first;
+
+ /*  std::cerr << "a la fin " << std::endl */
+/* 	    << "first : " << *first  */
+/* 	    << " nb comps : " << number_of_solid_components(*first) */
+/* 	    << std::endl; */
+/*   if ((first+1) < alpha_end())  */
+/*     std::cerr << "first+1 " << *(first+1)  */
+/* 	      << " nb comps : " << number_of_solid_components(*(first+1)) */
+/* 	      << std::endl; */
+/*   std::cerr << std::endl; */
+
+  if (number_of_solid_components(*first) <= nb_components ) return first;
+  else return first+1;
 }  	
 
 //----------------------------------------------------------------------
 
 template <class Dt>
-typename Alpha_shape_3<Dt>::Coord_type 
+typename Alpha_shape_3<Dt>::NT 
 Alpha_shape_3<Dt>::find_alpha_solid() const
   // compute the minumum alpha such that all data points 
   // are either on the boundary or in the interior
   // not necessarily connected
-  // starting point for searching 
-  // takes O(#alpha_shape) time
 {
-  Coord_type alpha_solid = 0;
+  return _alpha_solid;
+}
 
-  Vertex_iterator vertex_it, done = vertices_end();
-  
-  // at the moment all finite + infinite vertices
-  for( vertex_it = vertices_begin(); vertex_it != done; ++vertex_it)
-    {
-      if (!is_infinite(vertex_it))
-	{
-	  // consider only finite vertices
-	  Coord_type alpha_min_v = (--_interval_cell_map.end())->first;
+// TO  DEBUG
 
-	  //------------------------------------------
-// 	    Cell_circulator cell_circ =
-// 	    (*vertex_it)->incident_simplices(),
-// 	    done(cell_circ);
-// 	    do
-// 	    {
-// 	    Cell_handle s = (*cell_circ);
-// 	    if (! is_infinite(s))
-// 	    alpha_min_v = min(find_interval(s),
-// 	    alpha_min_v);
-// 	    }
-// 	    while (++cell_circ != done);
-	  //--------------------------------------------
+template <class Dt>
+void 
+Alpha_shape_3<Dt>::print_maps()
+{
+  typename Alpha_cell_map::iterator cit ;
+  typename Alpha_facet_map::iterator fit ;
+  typename Alpha_edge_map::iterator eit ;
 
-	  // TBC if cell_circulator become available
-	  // at the moment takes v*s time
-	    
-	  Cell_iterator cell_it, done = cells_end();
-	  for( cell_it = cells_begin(); cell_it != done; ++cell_it)
-	    {
-	      Cell_handle s = cell_it;
-	      if (s->has_vertex(vertex_it) && ! is_infinite(s))
-	        alpha_min_v = min(find_interval(s), alpha_min_v);
-	    }
-	    
-	  alpha_solid = max(alpha_min_v, alpha_solid);
-	}
+  std::cerr << "size of cell_map " << alpha_cell_map.size() 
+	    <<   std::endl;
+  std::cerr << "size of facet_map " << alpha_min_facet_map.size() <<
+    std::endl;
+  std::cerr << "size of edge_map " << alpha_min_edge_map.size() <<
+    std::endl;
+  std::cerr << std::endl;
+  std::cerr << "alpha_cell_map " << std::endl;
+  for(cit = alpha_cell_map.begin();
+      cit != alpha_cell_map.end(); ++cit) {
+    std::cerr << cit->first << std::endl;
+  }
+  std::cerr << std::endl;
+  std::cerr << "alpha_min_facet_map " << std::endl;
+  for(fit = alpha_min_facet_map.begin();
+      fit != alpha_min_facet_map.end(); ++fit) {
+    std::cerr << fit->first << std::endl;
+  }
+  std::cerr << std::endl;
+  std::cerr << "alpha_min_edge_map " << std::endl;
+  for(eit = alpha_min_edge_map.begin();
+      eit != alpha_min_edge_map.end(); ++eit) {
+    std::cerr << eit->first << std::endl;
+  }
+  std::cerr << std::endl;
+}
+
+
+template <class Dt>
+void 
+Alpha_shape_3<Dt>::print_alphas() const
+{
+  std::cerr << std::endl;
+  std::cerr << " alpha values of facets" << std::endl;
+  for(Finite_facets_iterator fit = finite_facets_begin();
+      fit != finite_facets_end();
+      ++fit) {
+    Alpha_status_iterator as = fit->first->get_facet_status(fit->second);
+    print_alpha_status(*as);
+  }
+  std::cerr << std::endl;
+  std::cerr << " alpha values of edges " << std::endl;
+  if (get_mode() == GENERAL) {
+    for(Finite_edges_iterator eit = finite_edges_begin();
+	eit != finite_edges_end();
+	++eit) {
+      Vertex_handle_pair 
+	vhp = make_vertex_handle_pair(eit->first->vertex(eit->second),
+				      eit->first->vertex(eit->third));
+      Alpha_status_iterator as = edge_alpha_map.find(vhp)->second;
+      print_alpha_status(*as);
     }
-  return alpha_solid;
+  }
+  std::cerr << std::endl;
+  std::cerr << " alpha values of vertices " << std::endl;
+  for(Finite_vertices_iterator vit = finite_vertices_begin();
+      vit != finite_vertices_end();
+      ++vit) {
+     Alpha_status*  as = vit->get_alpha_status();
+     print_alpha_status(*as);
+  }
+
 }
 
 template <class Dt>
-void
-Alpha_shape_3<Dt>::
-show_interval_facet_map()
+void 
+Alpha_shape_3<Dt>::print_alpha_status(const Alpha_status& as) const
 {
-  typename Interval_facet_map::iterator ifmit = _interval_facet_map.begin(),
-    ifmdone = _interval_facet_map.end();
-  for( ; ifmit != ifmdone; ++ifmit) {
-    Interval3 interval3 = ifmit->first;
-    std::cout << std::endl;
-    std::cout << interval3.first << "\t"
-	      << interval3.second << "\t"
-	      << interval3.third << "\t" << std::endl;
-    Facet facet = ifmit->second;
-    interval3 = find_interval(facet);
-    std::cout << interval3.first << "\t"
-	      << interval3.second << "\t"
-	      << interval3.third << "\t" << std::endl;    
-  }
+  if ( get_mode() == GENERAL &&  as.is_Gabriel())
+  std::cerr << as.alpha_min() ;
+  else std::cerr <<  "---   " ;
+  std::cerr << "\t";
+  std::cerr <<  as.alpha_mid()  << "\t";
+  if(as.is_on_chull()) std::cerr <<  "---   ";
+  else   std::cerr << as.alpha_max();
+  std::cerr << std::endl;
 }
 
-//-------------------------------------------------------------------
 CGAL_END_NAMESPACE
-//-------------------------------------------------------------------
 
+#ifdef CGAL_USE_GEOMVIEW
 #include <CGAL/IO/alpha_shape_geomview_ostream_3.h>
+#endif
 
 #endif //CGAL_ALPHA_SHAPE_3_H

@@ -1,3 +1,5 @@
+// file: examples/Planar_map/example12.C
+
 /*! \file
  * A construction of a simple planar map.
  * In this example a planar map similar to the planar map of example 1 and 2

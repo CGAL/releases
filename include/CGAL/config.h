@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2003  Utrecht University (The Netherlands),
+// Copyright (c) 1997-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,32 +16,17 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/include/CGAL/config.h,v $
-// $Revision: 1.48 $ $Date: 2003/10/21 12:14:56 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.62 $ $Date: 2004/09/28 12:44:18 $
+// $Name:  $
 //
 // Author(s)     : Wieger Wesselink 
 //                 Michael Hoffmann <hoffmann@inf.ethz.ch>
+//                 Sylvain Pion
 
 #ifndef CGAL_CONFIG_H
 #define CGAL_CONFIG_H
 
-#define CGAL_VERSION 3.0.1
-#define CGAL_VERSION_NR 1003000100
-
-
-//----------------------------------------------------------------------//
-//             STLport fix for MSVC
-//----------------------------------------------------------------------//
-
-
-#if defined( _MSC_VER) && (_MSC_VER <=1300)
-#   if ! defined(__INTEL_COMPILER)
-#     define CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT 1
-#   endif
-#else
-#   define CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(a)
-#endif // _MSC_VER
-
+#include <CGAL/version.h>
 
 //----------------------------------------------------------------------//
 //             include platform specific workaround flags (CGAL_CFG_...)
@@ -53,10 +38,9 @@
 //             do some post processing for the flags
 //----------------------------------------------------------------------//
 
-
-// Used to depend on config macros.
-#define CGAL_TYPENAME_MSVC_NULL typename
-#define CGAL_TEMPLATE_NULL      template <>
+#ifdef CGAL_CFG_NO_STL
+#  error "This compiler does not have a working STL"
+#endif
 
 #ifdef CGAL_CFG_NO_NAMESPACE
 #  define CGAL_USING_NAMESPACE_STD
@@ -78,24 +62,6 @@
 #  define CGAL_END_NAMESPACE
 #endif
 
-#ifdef CGAL_CFG_VC7_PRIVATE_TYPE_BUG
-#  define CGAL_VC7_BUG_PROTECTED protected:
-#else
-#  define CGAL_VC7_BUG_PROTECTED
-#endif
-
-#ifdef CGAL_CFG_MATCHING_BUG_2
-#   define CGAL_MSVC_DUMMY_ARGUMENT , int dummy=1
-#else
-#   define CGAL_MSVC_DUMMY_ARGUMENT
-#endif
-
-#ifdef CGAL_CFG_NO_TEMPLATE_FRIEND_DISTINCTION
-#  define CGAL_NULL_TMPL_ARGS
-#else
-#  define CGAL_NULL_TMPL_ARGS <>
-#endif
-
 #ifdef CGAL_CFG_NO_STDC_NAMESPACE
 #  define CGAL_CLIB_STD
 #else
@@ -111,10 +77,20 @@
 // that do not appear when using the wrapper...
 #if defined(CGAL_CFG_MATCHING_BUG_4) || \
   (defined(__sun) && defined(__SUNPRO_CC))
-#  define CGAL_WRAP(K) Matching_bug_wrapper<K>
-#  include <CGAL/Matching_bug_wrapper.h>
+namespace CGAL {
+    template < typename T >
+    struct Self { typedef T Type; };
+}
+#  define CGAL_WRAP(K) CGAL::Self<K>::Type
 #else
 #  define CGAL_WRAP(K) K
+#endif
+
+
+#ifndef CGAL_CFG_TYPENAME_BEFORE_DEFAULT_ARGUMENT_BUG
+#  define CGAL_TYPENAME_DEFAULT_ARG typename
+#else
+#  define CGAL_TYPENAME_DEFAULT_ARG
 #endif
 
 //----------------------------------------------------------------------//
@@ -153,17 +129,9 @@ using std::min;
 using std::max;
 #endif
 
-
-
-//-----------------------------------------------------------------------//
-// the MSVC 6.0 and 7.0 compilers cannot deal with function overloading
-// very well, so we have to use specific templating here with the CGAL
-// Polyhedron_3 type in its two different forms (one that is swallowed by
-// MSVC6 and the other by MSVC 7.0). 
-//----------------------------------------------------------------------//
-
-#if defined(_MSC_VER) && ! defined(__INTEL_COMPILER) && (_MSC_VER < 1310)
-#  define CGAL_CFG_FUNCTION_OVERLOAD_BUG
+// Is Geomview usable ?
+#if !defined(__BORLANDC__) && !defined(_MSC_VER) && !defined(__MINGW32__)
+#  define CGAL_USE_GEOMVIEW
 #endif
 
 #endif // CGAL_CONFIG_H

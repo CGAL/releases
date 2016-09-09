@@ -1,3 +1,5 @@
+// file: examples/Polygon/polygon_algorithms.C
+
 #include <CGAL/Cartesian.h>
 #include <CGAL/Polygon_2_algorithms.h>
 #include <iostream>

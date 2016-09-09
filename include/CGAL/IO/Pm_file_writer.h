@@ -12,15 +12,14 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/IO/Pm_file_writer.h,v $
-// $Revision: 1.9 $ $Date: 2003/09/18 10:24:42 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2003/12/10 17:17:54 $
+// $Name:  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 
 #ifndef CGAL_IO_PM_FILE_WRITER_H
 #define CGAL_IO_PM_FILE_WRITER_H
 
-#include <CGAL/IO/binary_file_io.h>
 #include <CGAL/Inverse_index.h>
 #include <CGAL/IO/File_header.h>
 #include <iostream>

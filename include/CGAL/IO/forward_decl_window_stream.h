@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/window/include/CGAL/IO/forward_decl_window_stream.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:25:47 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.9 $ $Date: 2004/07/24 22:20:54 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  
@@ -29,6 +29,7 @@ CGAL_BEGIN_NAMESPACE
 class window;
 CGAL_END_NAMESPACE
 #else
+#include <LEDA/window.h>
 class leda_window;
 #endif
 

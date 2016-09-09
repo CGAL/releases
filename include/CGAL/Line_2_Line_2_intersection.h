@@ -17,8 +17,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Line_2_Line_2_intersection.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:16:46 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.13 $ $Date: 2004/06/20 18:07:05 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -46,48 +46,7 @@ public:
 		       typename K::Line_2 const *line2);
     ~Line_2_Line_2_pair() {}
 
-#ifndef CGAL_CFG_RETURN_TYPE_BUG_2
     Intersection_results intersection_type() const;
-
-#else
-    Intersection_results intersection_type() const
-{
-    typedef typename K::RT RT;
-    if (_known)
-        return _result;
-    RT nom1, nom2, denom;
-    // The non const this pointer is used to cast away const.
-    _known = true;
-    denom = _line1->a()*_line2->b() - _line2->a()*_line1->b();
-    if (denom == RT(0)) {
-        if (RT(0) == (_line1->a()*_line2->c() - _line2->a()*_line1->c()) &&
-            RT(0) == (_line1->b()*_line2->c() - _line2->b()*_line1->c()))
-            _result = LINE;
-        else
-            _result = NO;
-        return _result;
-    }
-    nom1 = (_line1->b()*_line2->c() - _line2->b()*_line1->c());
-    if (!::CGAL::is_finite(nom1)) {
-        _result = NO;
-        return _result;
-    }
-    nom2 = (_line2->a()*_line1->c() - _line1->a()*_line2->c());
-    if (!::CGAL::is_finite(nom2)) {
-        _result = NO;
-        return _result;
-    }
-    K dummyK;
-    if (!construct_if_finite(_intersection_point,
-                            nom1, nom2, denom, dummyK)){
-        _result = NO;
-        return _result;
-    }
-    _result = POINT;
-    return _result;
-}
-
-#endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
     bool                intersection(typename K::Point_2 &result) const;
     bool                intersection(typename K::Line_2 &result) const;
@@ -141,13 +100,13 @@ bool construct_if_finite(POINT &pt, RT x, RT y, RT w, R &, const Cartesian_tag &
 {
   typename R::Construct_point_2 construct_point;
     typedef typename R::FT FT;
-    CGAL_kernel_precondition(::CGAL::is_finite(x)
-                             && ::CGAL::is_finite(y)
+    CGAL_kernel_precondition(CGAL_NTS is_finite(x)
+                             && CGAL_NTS is_finite(y)
                              && w != RT(0));
 
     FT xw = FT(x)/FT(w);
     FT yw = FT(y)/FT(w);
-    if (!::CGAL::is_finite(xw) || !::CGAL::is_finite(yw))
+    if (!CGAL_NTS is_finite(xw) || !CGAL_NTS is_finite(yw))
         return false;
     pt = construct_point(xw, yw);
     return true;
@@ -160,13 +119,13 @@ bool construct_if_finite(POINT &pt, RT x, RT y, RT w, R &, const Homogeneous_tag
 {
     typename R::Construct_point_2 construct_point;
     typedef typename R::FT FT;
-    CGAL_kernel_precondition(::CGAL::is_finite(x)
-                             && ::CGAL::is_finite(y)
+    CGAL_kernel_precondition(CGAL_NTS is_finite(x)
+                             && CGAL_NTS is_finite(y)
                              && w != RT(0));
 
     FT xw = FT(x)/FT(w);
     FT yw = FT(y)/FT(w);
-    if (!::CGAL::is_finite(xw) || !::CGAL::is_finite(yw))
+    if (!CGAL_NTS is_finite(xw) || !CGAL_NTS is_finite(yw))
         return false;
     pt = construct_point(x, y, w);
     return true;
@@ -203,7 +162,6 @@ Line_2_Line_2_pair<K>::Line_2_Line_2_pair(
     _known = false;
 }
 
-#ifndef CGAL_CFG_RETURN_TYPE_BUG_2
 template <class K>
 typename Line_2_Line_2_pair<K>::Intersection_results
 Line_2_Line_2_pair<K>::intersection_type() const
@@ -224,12 +182,12 @@ Line_2_Line_2_pair<K>::intersection_type() const
         return _result;
     }
     nom1 = (_line1->b()*_line2->c() - _line2->b()*_line1->c());
-    if (!::CGAL::is_finite(nom1)) {
+    if (!CGAL_NTS is_finite(nom1)) {
         _result = NO;
         return _result;
     }
     nom2 = (_line2->a()*_line1->c() - _line1->a()*_line2->c());
-    if (!::CGAL::is_finite(nom2)) {
+    if (!CGAL_NTS is_finite(nom2)) {
         _result = NO;
         return _result;
     }
@@ -243,7 +201,6 @@ Line_2_Line_2_pair<K>::intersection_type() const
     return _result;
 }
 
-#endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
 template <class K>
 bool
@@ -278,15 +235,18 @@ inline bool do_intersect(
     const Line_2<K> &p1,
     const Line_2<K> &p2)
 {
-  return CGALi::do_intersect(p1, p2, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect()(p1, p2);
 }
 
 template <class K>
 Object
 intersection(const Line_2<K> &line1, const Line_2<K> &line2)
 {
-  return CGALi::intersection(line1, line2, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(line1, line2);
 }
+
 
 CGAL_END_NAMESPACE
 

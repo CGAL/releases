@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H3/include/CGAL/Homogeneous/PlaneH3.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:16:19 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.14 $ $Date: 2004/02/19 20:26:40 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -30,9 +30,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class PlaneH3
-  : public R_::template Handle<Fourtuple<typename R_::RT> >::type
 {
-CGAL_VC7_BUG_PROTECTED
    typedef typename R_::RT                   RT;
    typedef typename R_::FT                   FT;
    typedef typename R_::Point_2              Point_2;
@@ -45,8 +43,10 @@ CGAL_VC7_BUG_PROTECTED
    typedef typename R_::Plane_3              Plane_3;
    typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-   typedef Fourtuple<RT>                            rep;
-   typedef typename R_::template Handle<rep>::type  base;
+   typedef Fourtuple<RT>                            Rep;
+   typedef typename R_::template Handle<Rep>::type  Base;
+
+   Base base;
 
 public:
    typedef R_                 R;
@@ -87,10 +87,6 @@ public:
     Oriented_side  oriented_side(const Point_3 &p) const;
     bool           has_on(const Point_3 &p) const;
     bool           has_on(const Line_3 &p) const;
-#ifndef CGAL_NO_DEPRECATED_CODE
-    bool           has_on_boundary(const Point_3 &p) const;
-    bool           has_on_boundary(const Line_3 &p) const;
-#endif // CGAL_NO_DEPRECATED_CODE
     bool           has_on_positive_side(const Point_3&l) const;
     bool           has_on_negative_side(const Point_3&l) const;
 
@@ -150,7 +146,7 @@ PlaneH3<R>::new_rep(const typename PlaneH3<R>::Point_3 &p,
   RT rhz = r.hz();
   RT rhw = r.hw();
 
-  initialize_with( rep (
+  base = Rep (
               phy*( qhz*rhw - qhw*rhz )
             - qhy*( phz*rhw - phw*rhz )     // * X
             + rhy*( phz*qhw - phw*qhz ),
@@ -165,14 +161,14 @@ PlaneH3<R>::new_rep(const typename PlaneH3<R>::Point_3 &p,
 
             - phx*( qhy*rhz - qhz*rhy )
             + qhx*( phy*rhz - phz*rhy )     // * W
-            - rhx*( phy*qhz - phz*qhy )          ) );
+            - rhx*( phy*qhz - phz*qhy )          );
 }
 
 template < class R >
 inline
 void
 PlaneH3<R>::new_rep(const RT &a, const RT &b, const RT &c, const RT &d)
-{ initialize_with( rep (a, b, c, d) ); }
+{ base = Rep(a, b, c, d); }
 
 template < class R >
 inline
@@ -265,25 +261,25 @@ template < class R >
 inline
 const typename PlaneH3<R>::RT &
 PlaneH3<R>::a() const
-{ return Ptr()->e0; }
+{ return get(base).e0; }
 
 template < class R >
 inline
 const typename PlaneH3<R>::RT &
 PlaneH3<R>::b() const
-{ return Ptr()->e1; }
+{ return get(base).e1; }
 
 template < class R >
 inline
 const typename PlaneH3<R>::RT &
 PlaneH3<R>::c() const
-{ return Ptr()->e2; }
+{ return get(base).e2; }
 
 template < class R >
 inline
 const typename PlaneH3<R>::RT &
 PlaneH3<R>::d() const
-{ return Ptr()->e3; }
+{ return get(base).e3; }
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -482,22 +478,6 @@ PlaneH3<R>::has_on( const typename PlaneH3<R>::Line_3& l) const
  return (  ( a()*p.hx() + b()*p.hy() + c()*p.hz() + d()*p.hw()   == RT(0) )
          &&( ld.hx()*ov.hx() + ld.hy()*ov.hy() + ld.hz()*ov.hz() == RT(0) ) );
 }
-
-#ifndef CGAL_NO_DEPRECATED_CODE
-template < class R >
-bool
-PlaneH3<R>::has_on_boundary( const typename PlaneH3<R>::Point_3& p) const
-{
- return has_on(p);
-}
-
-template < class R >
-bool
-PlaneH3<R>::has_on_boundary( const typename PlaneH3<R>::Line_3& l) const
-{
- return has_on(l);
-}
-#endif
 
 template < class R >
 Oriented_side

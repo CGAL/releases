@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Kernel/concept_archetype_interface_macros.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:18:31 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.14 $ $Date: 2004/09/13 13:00:12 $
+// $Name:  $
 //
 // Author(s)     : Matthias Baesken
 
@@ -51,6 +51,18 @@ CGAL_Kernel_pred(Are_ordered_along_line_2,
     defined(CGAL_CA_ARE_ORDERED_ALONG_LINE_3)
 CGAL_Kernel_pred(Are_ordered_along_line_3,
 		 are_ordered_along_line_3_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || \
+    defined(CGAL_CA_ARE_PARALLEL_2)
+CGAL_Kernel_pred(Are_parallel_2,
+		 are_parallel_2_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || \
+    defined(CGAL_CA_ARE_PARALLEL_3)
+CGAL_Kernel_pred(Are_parallel_3,
+		 are_parallel_3_object)
 #endif
 
 #if !defined(CGAL_CA_LIMITED_INTERFACE) || \
@@ -205,6 +217,23 @@ CGAL_Kernel_cons(Compute_area_2,
 		 compute_area_2_object)
 #endif
 
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || defined(CGAL_CA_COMPUTE_AREA_2)
+CGAL_Kernel_cons(Compute_area_3,
+		 compute_area_3_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || \
+     defined(CGAL_CA_COMPUTE_SCALAR_PRODUCT_2)
+CGAL_Kernel_cons(Compute_scalar_product_2,
+		 compute_scalar_product_2_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || \
+     defined(CGAL_CA_COMPUTE_SCALAR_PRODUCT_3)
+CGAL_Kernel_cons(Compute_scalar_product_3,
+		 compute_scalar_product_3_object)
+#endif
+
 #if !defined(CGAL_CA_LIMITED_INTERFACE) || defined(CGAL_CA_COMPUTE_AREA_3)
 CGAL_Kernel_cons(Compute_squared_area_3,
 		 compute_squared_area_3_object)
@@ -262,6 +291,12 @@ CGAL_Kernel_cons(Construct_base_vector_3,
     defined(CGAL_CA_CONSTRUCT_BISECTOR_2)
 CGAL_Kernel_cons(Construct_bisector_2,
 		 construct_bisector_2_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || \
+    defined(CGAL_CA_CONSTRUCT_BISECTOR_3)
+CGAL_Kernel_cons(Construct_bisector_3,
+		 construct_bisector_3_object)
 #endif
 
 #if !defined(CGAL_CA_LIMITED_INTERFACE) || \
@@ -353,6 +388,18 @@ CGAL_Kernel_cons(Construct_line_3,
 #endif
 
 #if !defined(CGAL_CA_LIMITED_INTERFACE) || \
+    defined(CGAL_CA_CONSTRUCT_MAX_VERTEX_2)
+CGAL_Kernel_cons(Construct_max_vertex_2,
+		 construct_max_vertex_2_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || \
+    defined(CGAL_CA_CONSTRUCT_MAX_VERTEX_3)
+CGAL_Kernel_cons(Construct_max_vertex_3,
+		 construct_max_vertex_3_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || \
     defined(CGAL_CA_CONSTRUCT_MIDPOINT_2)
 CGAL_Kernel_cons(Construct_midpoint_2,
 		 construct_midpoint_2_object)
@@ -362,6 +409,18 @@ CGAL_Kernel_cons(Construct_midpoint_2,
     defined(CGAL_CA_CONSTRUCT_MIDPOINT_3)
 CGAL_Kernel_cons(Construct_midpoint_3,
 		 construct_midpoint_3_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || \
+    defined(CGAL_CA_CONSTRUCT_MIN_VERTEX_2)
+CGAL_Kernel_cons(Construct_min_vertex_2,
+		 construct_min_vertex_2_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || \
+    defined(CGAL_CA_CONSTRUCT_MIN_VERTEX_3)
+CGAL_Kernel_cons(Construct_min_vertex_3,
+		 construct_min_vertex_3_object)
 #endif
 
 #if !defined(CGAL_CA_LIMITED_INTERFACE) || \
@@ -585,6 +644,8 @@ CGAL_Kernel_cons(Construct_sphere_3,
 		 construct_sphere_3_object)
 #endif
 
+#ifndef CGAL_NO_DEPRECATED_CODE
+
 #if !defined(CGAL_CA_LIMITED_INTERFACE) || \
     defined(CGAL_CA_CONSTRUCT_SUPPORTING_LINE_2)
 CGAL_Kernel_cons(Construct_supporting_line_2,
@@ -596,6 +657,8 @@ CGAL_Kernel_cons(Construct_supporting_line_2,
 CGAL_Kernel_cons(Construct_supporting_line_3,
 		 construct_supporting_line_3_object)
 #endif
+
+#endif // CGAL_NO_DEPRECATED_CODE
 
 #if !defined(CGAL_CA_LIMITED_INTERFACE) || \
     defined(CGAL_CA_CONSTRUCT_SUPPORTING_PLANE_3)

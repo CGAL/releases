@@ -1,3 +1,5 @@
+// file: examples/Planar_map/example5.C
+
 /*! \file
  * A construction of a quadrilateral-shaped Planar_map.
  * In this example a quadrilateral-shaped Planar_map that uses the naive point

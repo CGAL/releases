@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/Optimisation_ellipse_2.C,v $
-// $Revision: 1.4 $ $Date: 2003/09/18 10:23:12 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/09/05 12:30:26 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>, Bernd Gärtner
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
 
 CGAL_BEGIN_NAMESPACE
 
@@ -85,8 +85,8 @@ operator >> ( std::istream& is, CGAL::Optimisation_ellipse_2<K_>& e)
     switch ( CGAL::get_mode( is)) {
 
       case CGAL::IO::PRETTY:
-        cerr << std::endl;
-        cerr << "Stream must be in ascii or binary mode" << std::endl;
+        std::cerr << std::endl;
+        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
 
       case CGAL::IO::ASCII:

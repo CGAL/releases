@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Generator/include/CGAL/Random_convex_set_traits_2.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:15:39 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_vertex_base_2.h,v $
 // $Revision: 1.17 $ $Date: 2003/09/18 10:19:25 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 

@@ -1,4 +1,4 @@
-//examples/Arrangement_2/example9.C
+// file: examples/Arrangement_2/example9.C
 
 // Define shorter names to please linker (g++/egcs)
 #include "short_names.h"

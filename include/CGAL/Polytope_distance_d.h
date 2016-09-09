@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Polytope_distance_d/include/CGAL/Polytope_distance_d.h,v $
-// $Revision: 1.7 $ $Date: 2003/09/18 10:25:10 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/09/22 14:10:03 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
 
 #ifndef CGAL_POLYTOPE_DISTANCE_D_H
 #define CGAL_POLYTOPE_DISTANCE_D_H
@@ -267,7 +267,7 @@ class Polytope_distance_d {
     
     FT
     squared_distance( ) const
-        { CGAL_optimisation_precondition( ! is_empty());
+        { 
           return FT( squared_distance_numerator  ()) /
                  FT( squared_distance_denominator()); }
     
@@ -590,10 +590,10 @@ struct QP_rep_signed_point_iterator {
               ? std::make_pair( p_it[ i  ], CGAL::POSITIVE)
               : std::make_pair( q_it[ i-n], CGAL::NEGATIVE); }
 
-    bool   operator <  ( const Self&) const { return ( curr <  it.curr); }
-    bool   operator >  ( const Self&) const { return ( curr >  it.curr); }
-    bool   operator <= ( const Self&) const { return ( curr <= it.curr); }
-    bool   operator >= ( const Self&) const { return ( curr >= it.curr); }
+    bool   operator <  ( const Self& it) const { return ( curr <  it.curr); }
+    bool   operator >  ( const Self& it) const { return ( curr >  it.curr); }
+    bool   operator <= ( const Self& it) const { return ( curr <= it.curr); }
+    bool   operator >= ( const Self& it) const { return ( curr >= it.curr); }
 
   private:
     PointIterator  p_it;
@@ -668,7 +668,7 @@ struct QP_rep_poly_dist_d {
                                         NT_matrix;
     
     typedef  CGAL::Join_random_access_iterator_1<
-                 CGAL_TYPENAME_MSVC_NULL NT_matrix::const_iterator,
+                 typename NT_matrix::const_iterator,
                  QP_rep_row_of_a<NT> >  A_iterator;
     typedef  CGAL::Const_value_iterator<NT>
                                         B_iterator;

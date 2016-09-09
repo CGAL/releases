@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/Arr_polyline_traits_Window_stream.h,v $
 // $Revision: 1.4 $ $Date: 2003/09/18 10:19:47 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
 

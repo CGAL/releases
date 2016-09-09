@@ -16,17 +16,14 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/kernel_basic.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:18:24 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2003/12/03 16:37:02 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  
 
 #ifndef CGAL_KERNEL_BASIC_H
 #define CGAL_KERNEL_BASIC_H
-
-#include <CGAL/Kernel_traits.h>
-#include <CGAL/functional_base.h>
 
 #ifndef CGAL_KERNEL_INLINE
 #  define CGAL_KERNEL_INLINE inline
@@ -39,5 +36,9 @@
 #ifndef CGAL_KERNEL_LARGE_INLINE
 #  define CGAL_KERNEL_LARGE_INLINE
 #endif
+
+#include <CGAL/Kernel_traits.h>
+#include <CGAL/functional_base.h>
+#include <CGAL/Kernel/global_functions.h>
 
 #endif // CGAL_KERNEL_BASIC_H

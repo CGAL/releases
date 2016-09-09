@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/convexity_check_2.h,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:15:10 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 

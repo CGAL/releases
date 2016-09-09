@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/gen_point_location.h,v $
-// $Revision: 1.14 $ $Date: 2003/10/21 12:21:07 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.15.4.1 $ $Date: 2004/12/08 20:04:53 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -30,8 +30,8 @@
 #include <map>
 #include <CGAL/Nef_2/geninfo.h>
 
-#undef _DEBUG
-#define _DEBUG 17
+#undef CGAL_NEF_DEBUG
+#define CGAL_NEF_DEBUG 17
 #include <CGAL/Nef_2/debug.h>
 
 // #define CHECKING_OFF
@@ -220,7 +220,7 @@ public:
   ~GenericXStructure() { clear(); }
 
   void init(int n, const PredLessThanX& cmp)
-  { TRACEN("XSinit "<<n); 
+  { CGAL_NEF_TRACEN("XSinit "<<n); 
     LtX = cmp;
     Coordinates = Array_Coordinates(n);
     SweepLines =  Array_Sweeplines(2*n+1);
@@ -235,7 +235,7 @@ public:
 
   void insertLines(const XCoord& X, 
                    const Sweepline& atX, const Sweepline& inXplus)
-  { TRACEN("XSinsert "<<X); 
+  { CGAL_NEF_TRACEN("XSinsert "<<X); 
     Coordinates[stops]    = X;
     SweepLines[2*stops+1]   = atX;
     SweepLines[2*stops+2] = inXplus;
@@ -243,10 +243,10 @@ public:
   }
 
   Sweepline_iterator getLineAt(const XCoord& X) const
-  { TRACEN("XSgetLineAt "<<X);
+  { CGAL_NEF_TRACEN("XSgetLineAt "<<X);
     Sweepline_iterator sit = SweepLines.begin(); // EmptyLine
     if ( LtX(X,*Coordinates.begin()) ) {
-      TRACEN("infinity first");
+      CGAL_NEF_TRACEN("infinity first");
       return sit; // ]-infinity, x0[
     }
     Coord_iterator stopit = std::lower_bound (
@@ -258,7 +258,7 @@ public:
     if ( LtX(X,*stopit) ) --stopit;  // X <  *stopit
     else found_exact = true;         // X >= *stopit
       
-    TRACEN("stopit "<<*stopit);
+    CGAL_NEF_TRACEN("stopit "<<*stopit);
     int offset = stopit-Coordinates.begin();
     return found_exact ? 
       SweepLines.begin() + (2*offset+1) :
@@ -397,7 +397,7 @@ PointLocator<PLocTraits>::init(const Graph& G)
           cur_node != NodesOnSL.end(); ++cur_node) {
         IncEdgeIterator ei     = traits.IncEdges_begin(G, *cur_node);
         IncEdgeIterator beyond = traits.IncEdges_end(G, *cur_node);
-          TRACEN("NODE: "<<(*cur_node)->point());
+          CGAL_NEF_TRACEN("NODE: "<<(*cur_node)->point());
         for(; ei != beyond; ++ei) { 
           switch (traits.ClassifyEdge(G, traits.toEdge(ei), *cur_node)) {
             case PLocTraits::StartingNonVertical: 
@@ -449,7 +449,7 @@ locate_down(const typename PLocTraits::Point& p) const
 {
   Sweepline_iterator line_at_x = X_Structure.getLineAt(traits.getXCoord(p)),
                      line_plus = line_at_x;
-  TRACEN("locate_down "<<str(*line_at_x));
+  CGAL_NEF_TRACEN("locate_down "<<str(*line_at_x));
   Curve p_curve = traits.makeCurve(p);
   PredCompareCurves cmp = traits.getCompareCurves();
   SL_item it = line_at_x->locate_pred(p_curve), it_plus(0);

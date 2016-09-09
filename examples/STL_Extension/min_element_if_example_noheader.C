@@ -1,3 +1,5 @@
+// file: examples/STL_Extension/min_element_if_example_noheader.C
+
 #include <CGAL/algorithm.h>
 #include <CGAL/function_objects.h>
 #include <vector>

@@ -1,4 +1,4 @@
-// Copyright (c) 2000,2001,2002,2003  Utrecht University (The Netherlands),
+// Copyright (c) 2000-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:14:15 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.15 $ $Date: 2004/05/19 13:19:40 $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion
 
@@ -42,12 +42,8 @@
 #include <CGAL/Cartesian/Data_accessor_2.h>
 #include <CGAL/ConicCPA2.h>
 
-#include <CGAL/Cartesian/global_operators_2.h>
 #include <CGAL/Cartesian/predicates_on_points_2.h>
 #include <CGAL/Cartesian/predicates_on_directions_2.h>
-#include <CGAL/Cartesian/predicates_on_lines_2.h>
-#include <CGAL/Cartesian/predicates_on_segments_2.h>
-#include <CGAL/Cartesian/distance_predicates_2.h>
 #include <CGAL/Cartesian/basic_constructions_2.h>
 
 #include <CGAL/Cartesian/Point_3.h>
@@ -63,10 +59,8 @@
 #include <CGAL/Cartesian/Sphere_3.h>
 #include <CGAL/Cartesian/Aff_transformation_3.h>
 
-#include <CGAL/Cartesian/global_operators_3.h>
 #include <CGAL/Cartesian/predicates_on_points_3.h>
 #include <CGAL/Cartesian/predicates_on_planes_3.h>
-#include <CGAL/Cartesian/distance_predicates_3.h>
 #include <CGAL/Cartesian/basic_constructions_3.h>
 
 #include <CGAL/representation_tags.h>
@@ -74,7 +68,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < typename K_ >
+template < typename K_, typename FT_>
 struct Cartesian_base
 {
     typedef K_                                          Kernel;
@@ -109,8 +103,8 @@ struct Cartesian_base
     typedef SphereC3<Kernel>                            Sphere_3;
     typedef Aff_transformationC3<Kernel>                Aff_transformation_3;
 
-    typedef Cartesian_coordinate_iterator_2<Kernel> Cartesian_const_iterator_2;
-    typedef Cartesian_coordinate_iterator_3<Kernel> Cartesian_const_iterator_3;
+    typedef const FT_*                                  Cartesian_const_iterator_2;
+    typedef const FT_*                                  Cartesian_const_iterator_3;
 
     // Undocumented stuff.
     typedef Data_accessorC2<Kernel>                     Data_accessor_2;

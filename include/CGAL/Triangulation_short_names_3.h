@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_short_names_3.h,v $
-// $Revision: 1.26 $ $Date: 2003/09/18 10:26:32 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.27 $ $Date: 2004/09/24 10:14:39 $
+// $Name:  $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
@@ -44,6 +44,7 @@
 #define Delaunay_remove_tds_vertex_3_2              DRv32
 
 #define Regular_triangulation_euclidean_traits_3    R_gt3
+#define Regular_triangulation_filtered_traits_3     R_ft3
 #define Regular_triangulation_3                     RT3
 
 #define Triangulation_hierarchy_3                   TH3

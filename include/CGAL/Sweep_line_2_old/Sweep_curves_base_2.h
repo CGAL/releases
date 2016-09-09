@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Sweep_line_2/include/CGAL/Sweep_line_2_old/Sweep_curves_base_2.h,v $
-// $Revision: 1.2 $ $Date: 2003/09/18 10:25:50 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.3 $ $Date: 2004/09/27 09:23:51 $
+// $Name:  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 //                 Ron Wein <wein@post.tau.ac.il>
@@ -142,6 +142,9 @@ protected:
     typedef typename Points_container::iterator         Points_iterator;
     typedef typename Points_container::const_iterator  
 	    					Points_const_iterator;
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+    using Handle_for_Curve_node_rep::ptr;
+#endif
 
     Curve_node(Traits *traits_) : 
       Handle_for_Curve_node_rep(traits_) {

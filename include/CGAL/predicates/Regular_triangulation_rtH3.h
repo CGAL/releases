@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/predicates/Regular_triangulation_rtH3.h,v $
 // $Revision: 1.11 $ $Date: 2003/09/18 10:26:35 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 

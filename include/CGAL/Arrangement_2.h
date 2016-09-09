@@ -12,12 +12,13 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arrangement_2.h,v $
-// $Revision: 1.33 $ $Date: 2003/09/18 10:19:42 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.38 $ $Date: 2004/09/23 19:37:53 $
+// $Name:  $
 //
 // Author(s)     : Iddo Hanniel, 
 //                 Eti Ezra <estere@post.tau.ac.il>,
 //                 Shai Hirsch <shaihi@post.tau.ac.il> 
+
 #ifndef CGAL_ARRANGEMENT_2_H
 #define CGAL_ARRANGEMENT_2_H
 
@@ -33,6 +34,7 @@
 #include <CGAL/Pm_with_intersections.h>
 #include <CGAL/Planar_map_2/Pm_traits_wrap_2.h>
 #include <CGAL/IO/Arr_file_scanner.h>
+#include <CGAL/HalfedgeDS_default.h>
 
 #include <vector>
 
@@ -114,22 +116,22 @@ public:
   typedef typename In_place_list<Subcurve_node,true>::const_iterator 
   Subcurve_const_iterator;
 
-  typedef _Polyhedron_iterator<
+  typedef I_HalfedgeDS_iterator<
   Subcurve_iterator,
     Curve_node,
     HDifference, Hiterator_category>            Curve_iterator;
 
-  typedef _Polyhedron_const_iterator<
+  typedef I_HalfedgeDS_const_iterator<
   Subcurve_const_iterator, Subcurve_iterator,
     Curve_node,
     HDifference, Hiterator_category>            Curve_const_iterator;
 
-  typedef _Polyhedron_iterator<
+  typedef I_HalfedgeDS_iterator<
   Subcurve_iterator,
     Edge_node,
     HDifference, Hiterator_category>            Edge_iterator;
 
-  typedef _Polyhedron_const_iterator<
+  typedef I_HalfedgeDS_const_iterator<
   Subcurve_const_iterator, Subcurve_iterator,
     Edge_node,
     HDifference, Hiterator_category>            Edge_const_iterator;
@@ -137,35 +139,35 @@ public:
 
   //wrappers for planar map iterators
 
-  typedef _Polyhedron_iterator<
+  typedef I_HalfedgeDS_iterator<
     typename Planar_map::Vertex_iterator,
     Vertex,
     Difference, typename Planar_map::iterator_category> Vertex_iterator;
 
-  typedef _Polyhedron_const_iterator<
+  typedef I_HalfedgeDS_const_iterator<
     typename Planar_map::Vertex_const_iterator, 
     typename Planar_map::Vertex_iterator,
     Vertex,
     Difference, typename Planar_map::iterator_category> Vertex_const_iterator;
 
-  typedef _Polyhedron_iterator<
+  typedef I_HalfedgeDS_iterator<
     typename Planar_map::Halfedge_iterator,
     Halfedge,
     Difference, typename Planar_map::iterator_category> Halfedge_iterator;
 
-  typedef _Polyhedron_const_iterator<
+  typedef I_HalfedgeDS_const_iterator<
     typename Planar_map::Halfedge_const_iterator, 
     typename Planar_map::Halfedge_iterator,
     Halfedge,
     Difference, typename Planar_map::iterator_category>
   Halfedge_const_iterator;
 
-  typedef _Polyhedron_iterator<
+  typedef I_HalfedgeDS_iterator<
     typename Planar_map::Face_iterator,
     Face,
     Difference, typename Planar_map::iterator_category> Face_iterator;
 
-  typedef _Polyhedron_const_iterator<
+  typedef I_HalfedgeDS_const_iterator<
     typename Planar_map::Face_const_iterator,
     typename Planar_map::Face_iterator,
     Face,
@@ -212,12 +214,12 @@ public:
     Halfedge_const_iterator,
     Forward_circulator_tag>     Halfedge_around_vertex_const_circulator;
 
-  typedef _Polyhedron_iterator< 
+  typedef I_HalfedgeDS_iterator< 
     typename Planar_map::Holes_iterator,
     Ccb_halfedge_circulator,
     Difference, std::bidirectional_iterator_tag>        Holes_iterator;
 
-  typedef _Polyhedron_const_iterator<
+  typedef I_HalfedgeDS_const_iterator<
     typename Planar_map::Holes_const_iterator, 
     typename Planar_map::Holes_iterator,
     Ccb_halfedge_const_circulator,
@@ -234,6 +236,12 @@ public:
   class Subcurve_node : public Base_node,
                         public In_place_list_base<Subcurve_node> 
   {
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  protected:
+  using Base_node::cv_wrap;
+#endif
+
   public: 
     friend class Arrangement_2<Dcel,Traits,Base_node>;
 
@@ -356,8 +364,8 @@ public:
       //push_in_edge_list below). if we want to implement a linear list
       //it needs to be removed (begin_child and past_end_child should then be
       //NULL)
-      begin_child = this;
-      past_end_child = this;
+      this->begin_child = this;
+      this->past_end_child = this;
     }
 
     ~Edge_node() {} //overrides the virtual dtr in Subcurve node
@@ -387,7 +395,7 @@ public:
 
     Curve_node() : Subcurve_node(0), levels(), edge_level()
     {
-      cv_wrap.cv = new Curve_2;
+      this->cv_wrap.cv = new Curve_2;
     }
   
     ~Curve_node() {} //overrides the virtual dtr in Subcurve_node
@@ -1076,10 +1084,10 @@ public:
       cn->levels.push_back(In_place_list<Subcurve_node,true>());
 
       //cut cv into x_monotone curves and insert them into l
-      std::list<CGAL_TYPENAME_MSVC_NULL Traits::X_curve> x_list;
+      std::list<typename Traits::X_curve> x_list;
       traits->curve_make_x_monotone(cv, std::back_inserter(x_list));
 
-      typename std::list<CGAL_TYPENAME_MSVC_NULL Traits::X_curve>::iterator 
+      typename std::list<typename Traits::X_curve>::iterator 
         lit=x_list.begin();
       for (; lit!=x_list.end(); ++lit) {
         Subcurve_node* scn=new Subcurve_node;
@@ -1145,10 +1153,10 @@ public:
     cn->levels.push_back(In_place_list<Subcurve_node,true>());
 
     //cut cv into x_monotone curves and insert them into l
-    std::list<CGAL_TYPENAME_MSVC_NULL Traits::X_curve> x_list;
+    std::list<typename Traits::X_curve> x_list;
     traits->curve_make_x_monotone(cv, std::back_inserter(x_list));
 
-    typename std::list<CGAL_TYPENAME_MSVC_NULL Traits::X_curve>::iterator 
+    typename std::list<typename Traits::X_curve>::iterator 
       lit=x_list.begin();
     for (; lit!=x_list.end(); ++lit) {
       Subcurve_node* scn=new Subcurve_node;
@@ -1412,14 +1420,13 @@ public:
                              const typename Traits::X_curve& c1,
                              const typename Traits::X_curve& c2)
   {
-    Edge_iterator eit=e->edge_node();
-    Curve_iterator cit=eit->curve_node();
+    Edge_iterator eit = e->edge_node();
     //find the representative halfedge of the edge node 
     //(the one with the same direction as the curve)
-    Halfedge_handle e_rep=eit->halfedge(); 
+    Halfedge_handle e_rep = eit->halfedge(); 
 
-    typename Planar_map::Halfedge_handle 
-      pmh=pm.split_edge(e_rep.current_iterator(),c1,c2);
+    typename Planar_map::Halfedge_handle pmh =
+      pm.split_edge(e_rep.current_iterator(),c1,c2);
     handle_split_edge(pmh, pmh->next_halfedge(), c1, c2);
     return Halfedge_handle(pmh);
   }
@@ -1842,9 +1849,9 @@ protected:
     Curve_iterator root(curr);
     
     //step 0: define the past_end levels
-    std::vector<CGAL_TYPENAME_MSVC_NULL 
+    std::vector<typename
       In_place_list<Subcurve_node,true>::iterator > level_begin;
-    std::vector<CGAL_TYPENAME_MSVC_NULL 
+    std::vector<typename
       In_place_list<Subcurve_node,true>::iterator > level_end;
     
     Edge_node* past_end_edge;

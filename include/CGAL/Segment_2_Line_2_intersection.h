@@ -17,8 +17,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Segment_2_Line_2_intersection.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:16:54 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/05/20 13:54:42 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -47,34 +47,7 @@ public:
                             typename K::Line_2 const *line);
     ~Segment_2_Line_2_pair() {}
 
-#ifndef CGAL_CFG_RETURN_TYPE_BUG_2
     Intersection_results intersection_type() const;
-#else
-    Intersection_results intersection_type() const
-{
-    if (_known)
-        return _result;
-    // The non const this pointer is used to cast away const.
-    _known = true;
-    const typename K::Line_2 &l1 = _seg->supporting_line();
-    Line_2_Line_2_pair<K> linepair(&l1, _line);
-    switch ( linepair.intersection_type()) {
-    case Line_2_Line_2_pair<K>::NO:
-        _result = NO;
-        break;
-    case Line_2_Line_2_pair<K>::POINT:
-        linepair.intersection(_intersection_point);
-        _result = (_seg->collinear_has_on(_intersection_point) )
-                ? POINT : NO;
-        break;
-    case Line_2_Line_2_pair<K>::LINE:
-        _result = SEGMENT;
-        break;
-    }
-    return _result;
-}
-
-#endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
     bool                intersection(typename K::Point_2 &result) const;
     bool                intersection(typename K::Segment_2 &result) const;
@@ -168,7 +141,6 @@ Segment_2_Line_2_pair<K>::Segment_2_Line_2_pair(
     _known = false;
 }
 
-#ifndef CGAL_CFG_RETURN_TYPE_BUG_2
 template <class K>
 typename Segment_2_Line_2_pair<K>::Intersection_results
 Segment_2_Line_2_pair<K>::intersection_type() const
@@ -194,8 +166,6 @@ Segment_2_Line_2_pair<K>::intersection_type() const
     }
     return _result;
 }
-
-#endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
 template <class K>
 bool
@@ -227,26 +197,30 @@ template <class K>
 inline bool do_intersect(const Segment_2<K> &seg,
 			 const Line_2<K> &line)
 {
-  return CGALi::do_intersect(seg, line, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect()(seg, line);
 }
 template <class K>
 inline bool do_intersect(const Line_2<K> &line,
 			 const Segment_2<K> &seg)
 {
-  return CGALi::do_intersect(line, seg, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect_2(line, seg);
 }
 
 template <class K>
 inline Object
 intersection(const Line_2<K> &line, const Segment_2<K> &seg)
 {
-    return CGALi::intersection(seg, line, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(seg, line);
 }
 template <class K>
 inline Object
 intersection(const Segment_2<K> &seg, const Line_2<K> &line)
 {
-    return CGALi::intersection(line, seg, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(line, seg);
 }
 CGAL_END_NAMESPACE
 

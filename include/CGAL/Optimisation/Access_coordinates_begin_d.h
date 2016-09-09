@@ -16,19 +16,19 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Optimisation_basic/include/CGAL/Optimisation/Access_coordinates_begin_d.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:22:01 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.9 $ $Date: 2004/09/05 12:30:34 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
 
 #ifndef CGAL_OPTIMISATION_ACCESS_COORDINATES_BEGIN_D_H
 #define CGAL_OPTIMISATION_ACCESS_COORDINATES_BEGIN_D_H
 
-// includes
-#  include <CGAL/Kernel_d/Interface_classes.h>
-#  include <CGAL/Kernel_d/Point_d.h>
 
 CGAL_BEGIN_NAMESPACE
+
+struct Cartesian_tag;
+struct Homogeneous_tag;
 
 // Class declaration
 // =================
@@ -59,11 +59,11 @@ class Access_coordinates_begin_d {
     // operations
 private:
     Coordinate_iterator
-    access( const Point& p, Cartesian_tag) const 
+    access( const Point& p, const Cartesian_tag&) const 
     { return p.cartesian_begin(); }
   
     Coordinate_iterator
-    access( const Point& p, Homogeneous_tag) const 
+    access( const Point& p, const Homogeneous_tag&) const 
     { return p.homogeneous_begin(); }
   
   

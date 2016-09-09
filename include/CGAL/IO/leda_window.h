@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/window/include/CGAL/IO/leda_window.h,v $
-// $Revision: 1.14 $ $Date: 2003/10/21 12:25:49 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.15 $ $Date: 2004/02/20 13:05:14 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
 //                 Stefan Schirra
@@ -809,9 +809,10 @@ CGAL_END_NAMESPACE
 #ifndef IO_TRIANGULATION_WINDOW_STREAM_H
 #include <CGAL/IO/triangulation_Window_stream.h>
 #endif  // IO_TRIANGULATION_WINDOW_STREAM_H
-#ifndef IO_OPTIMISATION_WINDOW_STREAM_H
-#include <CGAL/IO/optimisation_Window_stream.h>
-#endif // IO_OPTIMISATION_WINDOW_STREAM_H
+
+#include <CGAL/IO/Min_circle_2_Window_stream.h>
+#include <CGAL/IO/Min_ellipse_2_Window_stream.h>
+
 #ifndef IO_POLYGON_WINDOW_STREAM_H
 #include <CGAL/IO/polygon_Window_stream.h>
 #endif // IO_POLYGON_WINDOW_STREAM_H

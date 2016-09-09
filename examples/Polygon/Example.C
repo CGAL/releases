@@ -1,3 +1,5 @@
+// file: examples/Polygon/Example.C
+
 //-----------------------------------------------------------------------//
 // This is just a simple example that demonstrates how to use the
 // class CGAL::Polygon_2.

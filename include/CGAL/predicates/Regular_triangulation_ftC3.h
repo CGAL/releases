@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/predicates/Regular_triangulation_ftC3.h,v $
-// $Revision: 1.8 $ $Date: 2003/09/18 10:26:34 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.9 $ $Date: 2004/04/02 12:37:31 $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
@@ -25,6 +25,8 @@
 
 CGAL_BEGIN_NAMESPACE
 
+// return the sign of the 5x5 determinant [P,Q,R,S,T]
+// where column [P] = transpose[px,py,pz,p^2 -wp,1]
 template <class FT>
 Oriented_side
 power_testC3( const FT &px, const FT &py, const FT &pz, const FT &pwt,

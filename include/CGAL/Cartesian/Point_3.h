@@ -16,10 +16,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Point_3.h,v $
-// $Revision: 1.34 $ $Date: 2003/10/21 12:14:20 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.43 $ $Date: 2004/09/14 13:59:55 $
+// $Name:  $
 //
-// Author(s)     : Andreas Fabri and Hervé Brönnimann
+// Author(s)     : Andreas Fabri and Herve Bronnimann
 
 #ifndef CGAL_CARTESIAN_POINT_3_H
 #define CGAL_CARTESIAN_POINT_3_H
@@ -27,49 +27,46 @@
 #include <CGAL/Threetuple.h>
 #include <CGAL/Origin.h>
 #include <CGAL/Bbox_3.h>
-#include <CGAL/Kernel/Cartesian_coordinate_iterator_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class PointC3
-  : public R_::template Handle<Threetuple<typename R_::FT> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Vector_3             Vector_3;
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef Threetuple<FT>                           rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Threetuple<FT>                           Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
-  typedef Cartesian_coordinate_iterator_3<R_> Cartesian_const_iterator;
+  typedef const FT* Cartesian_const_iterator;
   typedef R_                                R;
 
   PointC3() {}
 
   PointC3(const Origin &)
-    : base(rep(FT(0), FT(0), FT(0))) {}
-
-  PointC3(const Vector_3 &v)
-    : base(v) {}
+    : base(FT(0), FT(0), FT(0)) {}
 
   PointC3(const FT &x, const FT &y, const FT &z)
-    : base(rep(x, y, z)) {}
+    : base(x, y, z) {}
 
   PointC3(const FT &x, const FT &y, const FT &z, const FT &w)
   {
     if (w != FT(1))
-      initialize_with(rep(x/w, y/w, z/w));
+      base = Rep(x/w, y/w, z/w);
     else
-      initialize_with(rep(x, y, z));
+      base = Rep(x, y, z);
   }
 
+/*
   bool operator==(const PointC3 &p) const
   {
-      if (identical(p))
+      if (CGAL::identical(base, p.base))
 	  return true;
       return x_equal(*this, p) && y_equal(*this, p) && z_equal(*this, p);
   }
@@ -77,18 +74,19 @@ public:
   {
       return !(*this == p);
   }
+*/
 
   const FT & x() const
   {
-      return Ptr()->e0;
+      return get(base).e0;
   }
   const FT & y() const
   {
-      return Ptr()->e1;
+      return get(base).e1;
   }
   const FT & z() const
   {
-      return Ptr()->e2;
+      return get(base).e2;
   }
 
   const FT & hx() const
@@ -114,14 +112,14 @@ public:
 
   Cartesian_const_iterator cartesian_begin() const 
   {
-    return Cartesian_const_iterator(static_cast<const Point_3* >(this),0);
-    //return Cartesian_const_iterator(this,0);
+    return & get(base).e0; 
   }
 
   Cartesian_const_iterator cartesian_end() const 
   {
-    return Cartesian_const_iterator(static_cast<const Point_3* >(this), 3);
-    //return Cartesian_const_iterator(this, 3);
+    const FT* ptr = & get(base).e2;
+    ptr++;
+    return ptr;
   }
 
   int dimension() const
@@ -142,11 +140,7 @@ const typename PointC3<R>::FT &
 PointC3<R>::cartesian(int i) const
 {
   CGAL_kernel_precondition( (i>=0) && (i<=2) );
-  // return (i==0) ? x() :
-//          (i==1) ? y() : z();
-  if (i==0) return x();
-  if (i==1) return y();
-  return z();
+  return *(&(get(base).e0)+i);
 }
 
 template < class R >
@@ -171,9 +165,9 @@ template < class R >
 Bbox_3
 PointC3<R>::bbox() const
 {
-  std::pair<double,double> xp = CGAL::to_interval(x());
-  std::pair<double,double> yp = CGAL::to_interval(y());
-  std::pair<double,double> zp = CGAL::to_interval(z());
+  std::pair<double,double> xp = CGAL_NTS to_interval(x());
+  std::pair<double,double> yp = CGAL_NTS to_interval(y());
+  std::pair<double,double> zp = CGAL_NTS to_interval(z());
   return Bbox_3(xp.first, yp.first, zp.first, xp.second, yp.second, zp.second);
 }
 

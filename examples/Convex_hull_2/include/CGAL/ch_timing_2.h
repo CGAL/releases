@@ -1,23 +1,9 @@
-// ======================================================================
+// Copyright (c) 1999  Max-Planck-Institute Saarbruecken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
+// This file is part of an example program for CGAL.  This example
+// program may be used, distributed and modified without limitation.
 //
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
-//
-// ----------------------------------------------------------------------
-// release       : $CGAL_Revision: CGAL-3.0.1 $
-// release_date  : $CGAL_Date: 2004/02/13 $
-//
-// file          : examples/Convex_hull_2/include/CGAL/ch_timing_2.h
-// package       : Convex_hull_2 
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/12/05 15:16:09 $
-// author(s)     : Stefan Schirra
-//
-// coordinator   : MPI, Saarbruecken
-// ======================================================================
 
 
 #ifndef CGAL_CH_TIMING_2_H

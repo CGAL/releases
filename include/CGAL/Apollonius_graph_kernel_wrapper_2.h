@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_kernel_wrapper_2.h,v $
-// $Revision: 1.10 $ $Date: 2003/09/18 10:19:23 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.15 $ $Date: 2004/09/03 17:26:19 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -35,46 +35,6 @@ class Apollonius_graph_kernel_wrapper_2 : public Kernel_base_2
 public:
   typedef CGAL::Apollonius_site_2<Kernel_base_2>  Site_2;
   typedef Kernel_base_2                           Base;
-
-  struct Compare_x_2 : public Kernel_base_2
-  {
-    typedef Comparison_result   result_type;    
-    typedef Arity_tag<2>        Arity;
-
-    Comparison_result operator()(const Site_2& s1,
-				 const Site_2& s2) const
-    {
-      return this->compare_x_2_object()(s1.point(), s2.point());
-    }
-  };
-
-  struct Compare_y_2 : public Kernel_base_2
-  {
-    typedef Comparison_result   result_type;
-    typedef Arity_tag<2>        Arity;
-
-    Comparison_result operator()(const Site_2& s1,
-				 const Site_2& s2) const
-    {
-      return this->compare_y_2_object()(s1.point(), s2.point());
-    }
-  };
-
-  struct Orientation_2 : public Kernel_base_2
-  {
-    typedef Orientation     result_type;
-    typedef Arity_tag<3>    Arity;
-
-    Orientation operator()(const Site_2& s1,
-			   const Site_2& s2,
-			   const Site_2& s3) const
-    {
-      return this->orientation_2_object()(s1.point(),
-					  s2.point(),
-					  s3.point());
-    }
-  };
-
 };
 
 
@@ -90,9 +50,10 @@ private:
 
 
 public:
-  bool
-  operator()(const bool& b) const {
-    return b;
+#if defined(_MSC_VER) || defined(__sgi) \
+    || defined(CGAL_CFG_USING_BASE_MEMBER_BUG)
+  bool operator()(bool b) const {
+    return Base::operator()(b);
   }
 
   K2_Point_2
@@ -100,6 +61,9 @@ public:
   {
     return Base::operator()(p);
   }
+#else
+  using Base::operator();
+#endif
 
   K2_Site_2
   operator()(const typename K1::Site_2& t) const

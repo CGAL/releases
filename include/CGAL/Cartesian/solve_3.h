@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/solve_3.h,v $
 // $Revision: 1.6 $ $Date: 2003/10/21 12:14:36 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
 

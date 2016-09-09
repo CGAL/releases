@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/iterator_tools.h,v $
 // $Revision: 1.4 $ $Date: 2003/10/21 12:21:07 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_ITERATORTOOLS_H

@@ -1,5 +1,5 @@
-// examples/Planar_map/example10.C
-// -------------------------------
+// file: examples/Planar_map/example10.C
+
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/Quotient.h>
@@ -50,8 +50,8 @@ public:
   
   void write_vertex(Vertex_const_handle v) const
   {
-    out() << v->point() <<"  ";
-    out() << v->get_color()<< std::endl;
+    this->out() << v->point() <<"  ";
+    this->out() << v->get_color()<< std::endl;
   }
 };
 

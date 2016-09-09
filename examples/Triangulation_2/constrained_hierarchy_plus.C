@@ -1,4 +1,5 @@
-// file          : examples/Triangulation_2/constrained_hierarchy_plus.C
+// file: examples/Triangulation_2/constrained_hierarchy_plus.C
+
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Constrained_Delaunay_triangulation_2.h>
 #include <CGAL/Triangulation_hierarchy_2.h>

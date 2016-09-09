@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Parabola_2.h,v $
-// $Revision: 1.13.2.1 $ $Date: 2004/01/17 01:38:43 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.18 $ $Date: 2004/09/03 17:26:26 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -24,8 +24,8 @@
 
 #include <CGAL/determinant.h>
 
-CGAL_BEGIN_NAMESPACE
 
+CGAL_BEGIN_NAMESPACE
 
 
 template < class Gt >
@@ -43,7 +43,20 @@ public:
 
 protected:
   // static stuff
-  static const FT STEP;
+#if defined(__POWERPC__) && \
+  defined(__GNUC__) && (__GNUC__ == 3) && (__GNUC_MINOR__ == 4)
+  // hack to avoid nasty warning for G++ 3.4 on Darwin
+  static FT STEP()
+  {
+    return FT(2);
+  }
+#else
+  static const FT& STEP()
+  {
+    static FT step_(2);
+    return step_;
+  }
+#endif
 
   inline static
   FT square(const FT &x)
@@ -211,14 +224,14 @@ public:
     compute_origin();
   }
 
-  Parabola_2(const Point_2 &p, const Line_2 &l)
+  Parabola_2(const Point_2 &p, const Line_2 &line)
   {
     this->c = p;
 
-    if ( l.has_on_positive_side(p) ) {
-      this->l = l;
+    if ( line.has_on_positive_side(p) ) {
+      this->l = line;
     } else {
-      this->l = l.opposite();
+      this->l = line.opposite();
     }
     compute_origin();
   }
@@ -256,7 +269,7 @@ public:
     pright.push_back(o);
 
     for (int i = 1; i <= 100; i++) {
-      p = compute_points(i * i * STEP);
+      p = compute_points(i * i * STEP());
 
       W << p[0];
       W << p[1];
@@ -283,9 +296,6 @@ public:
     W << o;
   }
 };
-
-template < class Gt >
-const typename Parabola_2<Gt>::FT  Parabola_2<Gt>::STEP = 2;
 
 template< class Stream, class Gt >
 inline

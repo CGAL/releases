@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Hyperbola_ray_2.h,v $
-// $Revision: 1.11.2.1 $ $Date: 2004/01/17 01:38:42 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.15 $ $Date: 2004/09/03 17:26:24 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -44,7 +44,11 @@ public:
   //  typedef CGAL::Ray_2< Cartesian<double> >       Ray_2;
 
 protected:
-  static const FT OFFSET;
+  static const FT& OFFSET()
+  {
+    static FT offset_(10000);
+    return offset_;
+  }
 
   template< class Stream >
   inline
@@ -69,9 +73,9 @@ public:
   {
     FT t1 = t(this->p1);
     if ( direction == POSITIVE ) {
-      this->p2 = f(t1 + this->STEP * OFFSET);
+      this->p2 = f(t1 + this->STEP * OFFSET());
     } else {
-      this->p2 = f(t1 - this->STEP * OFFSET);
+      this->p2 = f(t1 - this->STEP * OFFSET());
     }
   }
 
@@ -80,7 +84,7 @@ public:
   template<class QTWIDGET>
   void draw_qt(QTWIDGET& s)
   {
-    if ( CGAL::is_zero(r) ) {
+    if ( CGAL::is_zero(this->r) ) {
       draw_ray(s);
       return;
     }
@@ -89,16 +93,16 @@ public:
     double height = s.y_max() - s.y_min();
 
     if ( width > height ) {
-      STEP = height / 100.0;
+      this->STEP = height / 100.0;
     } else {
-      STEP = width / 100.0;
+      this->STEP = width / 100.0;
     }
 
     FT t1 = t(this->p1);
     if ( _dir == POSITIVE ) {
-      this->p2 = f(t1 + STEP * OFFSET);
+      this->p2 = f(t1 + this->STEP * OFFSET());
     } else {
-      this->p2 = f(t1 - STEP * OFFSET);
+      this->p2 = f(t1 - this->STEP * OFFSET());
     }
     
     Hyperbola_segment_2< Gt >::draw(s);
@@ -118,10 +122,6 @@ public:
   }
   
 };
-
-template < class Gt >
-const typename Hyperbola_ray_2<Gt>::FT
-Hyperbola_ray_2<Gt>::OFFSET = 10000;
 
 
 

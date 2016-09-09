@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/LEDA/include/CGAL/leda_in_CGAL_2.h,v $
 // $Revision: 1.6 $ $Date: 2003/10/21 12:19:38 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 

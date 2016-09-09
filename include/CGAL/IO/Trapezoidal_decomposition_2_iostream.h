@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Trapezoidal_decomposition/include/CGAL/IO/Trapezoidal_decomposition_2_iostream.h,v $
 // $Revision: 1.2 $ $Date: 2003/09/18 10:25:55 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
 #ifndef CGAL_TRAPEZOIDAL_DECOMPOSITION_2_IOSTREAM_H

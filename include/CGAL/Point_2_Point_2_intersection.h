@@ -17,8 +17,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Point_2_Point_2_intersection.h,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:16:49 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/05/20 13:54:37 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -60,7 +60,8 @@ inline
 bool
 do_intersect(const Point_2<K> &pt1, const Point_2<K> &pt2)
 {
-  return CGALi::do_intersect(pt1, pt2, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return o_intersect(pt1, pt2);
 }
 
 
@@ -69,7 +70,8 @@ inline
 Object
 intersection(const Point_2<K> &pt1, const Point_2<K> &pt2)
 {
-  return CGALi::intersection(pt1, pt2, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(pt1, pt2);
 }
 
 CGAL_END_NAMESPACE

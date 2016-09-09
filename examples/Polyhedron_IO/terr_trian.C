@@ -1,27 +1,7 @@
-// ============================================================================
-//
-// Copyright (c) 1997 The CGAL Consortium
-//
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
-//
-// ----------------------------------------------------------------------------
-//
-// release       : $CGAL_Revision: CGAL-3.0.1 $
-// release_date  : $CGAL_Date: 2004/02/13 $
-//
-// file          : examples/Polyhedron_IO/terr_trian.C
-// package       : $CGAL_Package: Polyhedron_IO 2.11 (04 Feb 2000) $
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2003/10/07 16:05:42 $
-// author(s)     : Lutz Kettner  <kettner@@inf.ethz.ch>
-//
-// coordinator   : Herve Bronnimann  <Herve.Bronnimann@sophia.inria.fr>
-//
+//file: examples/Polyhedron_IO/terr_trian.C
+
 // Delaunay Triangulation of a set of 3D points in the xy-plane. 
 // (Terrain triangulation)
-// ============================================================================
 
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Filtered_kernel.h>

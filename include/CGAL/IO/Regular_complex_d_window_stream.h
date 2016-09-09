@@ -11,11 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/IO/Attic/Regular_complex_d_window_stream.h,v $
-// $Revision: 1.12.2.1 $ $Date: 2003/11/17 15:29:48 $
-// $Name: CGAL_3_0_1  $
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_d/include/CGAL/IO/Regular_complex_d_window_stream.h,v $
+// $Revision: 1.2 $ $Date: 2004/07/24 19:33:56 $
+// $Name:  $
 //
 // Author(s)     : ?
+
 #ifndef CGAL_REGULAR_COMPLEX_D_WINDOW_STREAM_H
 #define CGAL_REGULAR_COMPLEX_D_WINDOW_STREAM_H
 
@@ -82,10 +83,11 @@ template <class R>
 void d2_map(const Regular_complex_d<R>& RC, 
             CGAL_LEDA_SCOPE::GRAPH<leda_point,int>& G)
 { 
-  typedef Regular_complex_d<R>::Simplex_const_iterator Simplex_iterator;
-  typedef Regular_complex_d<R>::Vertex_const_iterator Vertex_iterator;
-  typedef Regular_complex_d<R>::Vertex_const_handle Vertex_handle;
-  typedef Regular_complex_d<R>::Simplex_const_handle Simplex_handle;
+  typedef typename Regular_complex_d<R>::Simplex_const_iterator
+      Simplex_iterator;
+  typedef typename Regular_complex_d<R>::Vertex_const_iterator Vertex_iterator;
+  typedef typename Regular_complex_d<R>::Vertex_const_handle Vertex_handle;
+  typedef typename Regular_complex_d<R>::Simplex_const_handle Simplex_handle;
   Vertex_iterator v;
   Simplex_iterator s;
 
@@ -186,9 +188,11 @@ template <class R>
 void d3_graph(const Regular_complex_d<R>& RC, 
        CGAL_LEDA_SCOPE::GRAPH< typename Regular_complex_d<R>::Point_d ,int>& G)
 { 
-  typedef Regular_complex_d<R>::Simplex_const_iterator Simplex_iterator;
-  typedef Regular_complex_d<R>::Vertex_const_iterator Vertex_iterator;
-  typedef Regular_complex_d<R>::Vertex_const_handle Vertex_handle;
+  typedef typename Regular_complex_d<R>::Simplex_const_iterator
+                                         Simplex_iterator;
+  typedef typename Regular_complex_d<R>::Vertex_const_iterator
+                                         Vertex_iterator;
+  typedef typename Regular_complex_d<R>::Vertex_const_handle Vertex_handle;
 
   Simplex_iterator s;
   Vertex_iterator v;

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Attic/Regular_complex_d.h,v $
-// $Revision: 1.22.2.1 $ $Date: 2003/11/17 15:29:46 $
-// $Name: CGAL_3_0_1  $
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_d/include/CGAL/Regular_complex_d.h,v $
+// $Revision: 1.3 $ $Date: 2004/07/24 19:27:07 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 //---------------------------------------------------------------------
@@ -38,6 +38,10 @@
 #undef _DEBUG
 #define _DEBUG 93
 #include <CGAL/Kernel_d/debug.h>
+
+#ifdef CGAL_USE_LEDA
+#include <LEDA/memory.h>
+#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -562,8 +566,8 @@ intersection of any two simplices is a facet of both.}*/
 
 typedef size_t Size_type;
 
-Size_type number_of_vertices() const  { return _vertices.size();}
-Size_type number_of_simplices() const  { return _simplices.size();}
+Size_type number_of_vertices() const  { return this->_vertices.size();}
+Size_type number_of_simplices() const  { return this->_simplices.size();}
 
 void print_statistics(std::ostream& os = std::cout) const
 { 

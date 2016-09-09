@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Distance_2/include/CGAL/wmult.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:15:23 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 

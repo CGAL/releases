@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/predicates/compare_quadratic.h,v $
 // $Revision: 1.6 $ $Date: 2003/09/18 10:19:34 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Ray_3.h,v $
-// $Revision: 1.31 $ $Date: 2003/10/21 12:14:21 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.35 $ $Date: 2004/02/19 19:38:58 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
 
@@ -30,9 +30,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class RayC3
-  : public R_::template Handle<Twotuple<typename R_::Point_3> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Direction_3          Direction_3;
@@ -41,8 +39,10 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Ray_3                Ray_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef Twotuple<Point_3>                        rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Twotuple<Point_3>                        Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                     R;
@@ -50,16 +50,16 @@ public:
   RayC3() {}
 
   RayC3(const Point_3 &sp, const Point_3 &secondp)
-    : base(rep(sp, secondp)) {}
+    : base(sp, secondp) {}
 
   RayC3(const Point_3 &sp, const Vector_3 &v)
-    : base(rep(sp, sp + v)) {}
+    : base(sp, sp + v) {}
 
   RayC3(const Point_3 &sp, const Direction_3 &d)
-    : base(rep(sp, sp + d.to_vector())) {}
+    : base(sp, sp + d.to_vector()) {}
 
   RayC3(const Point_3 &sp, const Line_3 &l)
-    : base(rep(sp, sp + l.to_vector())) {}
+    : base(sp, sp + l.to_vector()) {}
 
   bool        operator==(const RayC3 &r) const;
   bool        operator!=(const RayC3 &r) const;
@@ -67,11 +67,11 @@ public:
   const Point_3 &   start() const;
   const Point_3 &   source() const
   {
-      return Ptr()->e0;
+      return get(base).e0;
   }
   const Point_3 &   second_point() const
   {
-      return Ptr()->e1;
+      return get(base).e1;
   }
   Point_3     point(int i) const;
 
@@ -95,7 +95,7 @@ inline
 bool
 RayC3<R>::operator==(const RayC3<R> &r) const
 {
-    if (identical(r))
+    if (CGAL::identical(base, r.base))
 	return true;
     return source() == r.source() && direction() == r.direction();
 }

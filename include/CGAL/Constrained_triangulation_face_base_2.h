@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Constrained_triangulation_face_base_2.h,v $
 // $Revision: 1.21 $ $Date: 2003/09/18 10:26:03 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec
 

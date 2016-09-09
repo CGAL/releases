@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/Transform_iterator.h,v $
-// $Revision: 1.58 $ $Date: 2003/09/29 08:41:45 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.59 $ $Date: 2004/10/05 15:32:07 $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
@@ -24,10 +24,17 @@
 #include <CGAL/circulator_bases.h>
 #include <iterator>
 
+namespace std {
+  struct _Unchecked_iterator_tag;
+};
+
+
 CGAL_BEGIN_NAMESPACE
 
 template < class OutputIterator, class Operation >
 struct Transform_iterator {
+  // Workaround. Added this non standard iterator category for VC8. Strange that no other iterator complains about this "feature" missing  
+  typedef std::_Unchecked_iterator_tag _Checked_iterator_category;
   typedef std::output_iterator_tag             iterator_category;
   typedef Transform_iterator< OutputIterator, Operation >   self;
   typedef typename Operation::argument_type        argument_type;

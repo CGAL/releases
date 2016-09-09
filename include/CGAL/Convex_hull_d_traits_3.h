@@ -11,11 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Attic/Convex_hull_d_traits_3.h,v $
-// $Revision: 1.14.2.1 $ $Date: 2003/11/17 15:29:45 $
-// $Name: CGAL_3_0_1  $
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_d/include/CGAL/Convex_hull_d_traits_3.h,v $
+// $Revision: 1.2 $ $Date: 2004/08/04 16:41:59 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
+
 #ifndef CONVEX_HULL_D_TRAITS_3_H
 #define CONVEX_HULL_D_TRAITS_3_H
 
@@ -156,7 +157,7 @@ template <class R_> struct Convex_hull_d_traits_3
     template <class I>
     bool operator()(I s, I e, const Point_d& p)
     { 
-      Affinely_independent_d affinely_independent;
+      CGAL_assertion_code( Affinely_independent_d affinely_independent; )
       CGAL_assertion( affinely_independent(s,e) );
       Point_d A[3];
       A[0] = *s;

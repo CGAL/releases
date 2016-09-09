@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous.h,v $
-// $Revision: 1.15 $ $Date: 2003/10/21 12:16:06 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2004/01/18 14:14:45 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  
@@ -69,7 +69,5 @@ struct Homogeneous
 {};
 
 CGAL_END_NAMESPACE
-
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_TEMPLATE(CGAL::Homogeneous)
 
 #endif // CGAL_HOMOGENEOUS_H

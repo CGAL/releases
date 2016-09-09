@@ -1,6 +1,5 @@
-//
-// file          : examples/Partition_2/y_monotone_ex.C
-//
+// file: examples/Partition_2/y_monotone_ex.C
+
 #include <CGAL/basic.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Partition_traits_2.h>

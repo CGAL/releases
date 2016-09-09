@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_ds_iterators_3.h,v $
 // $Revision: 1.38 $ $Date: 2003/10/29 15:30:41 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 

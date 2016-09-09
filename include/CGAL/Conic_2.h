@@ -1,9 +1,13 @@
-// Copyright (c) 1997-2001  Freie Universitaet Berlin (Germany).
-// All rights reserved.
+// Copyright (c) 2000,2001  Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,11 +15,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/Attic/Conic_2.h,v $
-// $Revision: 1.7 $ $Date: 2003/09/18 10:23:10 $
-// $Name: CGAL_3_0_1  $
+// $Source: /CVSROOT/CGAL/Packages/Conic_2/include/CGAL/Conic_2.h,v $
+// $Revision: 1.4 $ $Date: 2004/09/10 19:46:24 $
+// $Name:  $
 //
-// Author(s)     : Bernd Gärtner, Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Bernd Gaertner, Sven Schoenherr <sven@inf.ethz.ch>
+
 
 #ifndef CGAL_CONIC_2_H
 #define CGAL_CONIC_2_H
@@ -28,32 +33,32 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
+template < class R_ >
 class Optimisation_ellipse_2;
 
 CGAL_END_NAMESPACE
 
 // Why is this outside namespace CGAL ???
 
-template < class _R >
+template < class R_ >
 CGAL::Window_stream&
 operator << ( CGAL::Window_stream&,
-              const CGAL::Optimisation_ellipse_2<_R>&);
+              const CGAL::Optimisation_ellipse_2<R_>&);
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R>
-class Conic_2 : public _R::Kernel_base::Conic_2 {
+template < class R_>
+class Conic_2 : public R_::Kernel_base::Conic_2 {
 
-    friend  class Optimisation_ellipse_2<_R>;
+    friend  class Optimisation_ellipse_2<R_>;
 
   public:
 
     // types
-    typedef  _R                    R;
-    typedef  typename _R::RT       RT;
-    typedef  typename _R::FT       FT;
-    typedef  typename _R::Kernel_base::Conic_2  _Conic_2;
+    typedef  R_                    R;
+    typedef  typename R_::RT       RT;
+    typedef  typename R_::FT       FT;
+    typedef  typename R_::Kernel_base::Conic_2  _Conic_2;
 
     // construction
     Conic_2 ()
@@ -62,8 +67,6 @@ class Conic_2 : public _R::Kernel_base::Conic_2 {
     Conic_2 (RT r, RT s, RT t, RT u, RT v, RT w)
         : _Conic_2 (r, s, t, u, v, w)
     {}
-    
-    
 
     // general access
     RT r () const
@@ -122,6 +125,11 @@ class Conic_2 : public _R::Kernel_base::Conic_2 {
     bool is_ellipse () const
     {
         return _Conic_2::is_ellipse();
+    }
+
+    bool is_circle () const
+    {
+        return _Conic_2::is_circle();
     }
     
     bool is_empty () const
@@ -190,12 +198,12 @@ class Conic_2 : public _R::Kernel_base::Conic_2 {
     
 
     // comparisons
-    bool operator == ( const Conic_2<_R>& c) const
+    bool operator == ( const Conic_2<R_>& c) const
     {
         return _Conic_2::operator == ( (Conic_2)c);
     }
     
-    bool operator != ( const Conic_2<_R>& c) const
+    bool operator != ( const Conic_2<R_>& c) const
     {
         return( ! operator == ( c));
     }
@@ -212,6 +220,13 @@ class Conic_2 : public _R::Kernel_base::Conic_2 {
         _Conic_2::set_opposite();
     }
     
+    void set_circle (const CGAL::Point_2<R>& p1, const CGAL::Point_2<R>& p2,
+		     const CGAL::Point_2<R>& p3)
+    {
+        // the unique circle through the three points
+        _Conic_2::set_circle(p1, p2, p3);
+    }
+
     void set_linepair (const CGAL::Point_2<R>& p1, const CGAL::Point_2<R>& p2,
                        const CGAL::Point_2<R>& p3, const CGAL::Point_2<R>& p4)
     {
@@ -268,7 +283,7 @@ class Conic_2 : public _R::Kernel_base::Conic_2 {
     void set (const Conic_2<R>& c1, const Conic_2<R>& c2,
               const CGAL::Point_2<R>& p)
     {
-        _Conic_2::set( c1, c2, p);  analyse();
+        _Conic_2::set( c1, c2, p);  this->analyse();
     }
     
     CGAL::Sign vol_derivative (RT dr, RT ds,
@@ -291,8 +306,8 @@ class Conic_2 : public _R::Kernel_base::Conic_2 {
 
 
 #ifndef CGAL_NO_OSTREAM_INSERT_CONIC_2
-template< class _R>
-std::ostream& operator << ( std::ostream& os, const Conic_2<_R>& c)
+template< class R_>
+std::ostream& operator << ( std::ostream& os, const Conic_2<R_>& c)
 {
     return( os << c.r() << ' ' << c.s() << ' ' << c.t() << ' '
                << c.u() << ' ' << c.v() << ' ' << c.w());

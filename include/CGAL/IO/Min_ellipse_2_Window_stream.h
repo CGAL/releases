@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/IO/Min_ellipse_2_Window_stream.h,v $
-// $Revision: 1.5 $ $Date: 2003/09/18 10:23:13 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/09/05 12:30:28 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>, Bernd Gärtner
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
 
 // Each of the following operators is individually
 // protected against multiple inclusion.
@@ -23,10 +23,8 @@
 // Window_stream I/O operators
 // ===========================
 // includes
-#ifndef CGAL_CONIC_2_WINDOW_STREAM_H
-#  include <CGAL/IO/Conic_2_Window_stream.h>
-#endif
-
+#include <CGAL/IO/Conic_2_Window_stream.h>
+#include <CGAL/Cartesian.h>
 // Optimisation_ellipse_2
 // ----------------------
 #ifdef CGAL_OPTIMISATION_ELLIPSE_2_H
@@ -54,7 +52,9 @@ operator << ( CGAL::Window_stream &ws,
       case 3:
       case 4:
       case 5:
-        ws << oe.to_double();
+	Cartesian<double>::Conic_2 dc;
+	oe.double_conic(dc);
+        ws << dc;
         break;
       default:
         CGAL_optimisation_assertion( ( oe.n_boundary_points >= 0) &&

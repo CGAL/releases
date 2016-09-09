@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/intersection_2_1.h,v $
-// $Revision: 1.4 $ $Date: 2003/10/21 12:17:04 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.5 $ $Date: 2004/06/23 03:21:27 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -36,5 +36,6 @@
 #include <CGAL/Point_2_Ray_2_intersection.h>
 #include <CGAL/Point_2_Segment_2_intersection.h>
 #include <CGAL/Point_2_Point_2_intersection.h>
+#include <CGAL/Point_2_Triangle_2_intersection.h>
 
 #endif

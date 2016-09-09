@@ -1,22 +1,21 @@
-// ============================================================================
+// Copyright (c) 2002  Utrecht University (The Netherlands).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ----------------------------------------------------------------------------
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// file          : spatial_searching_toolbar.C
-// package       : Qt_widget
-// author(s)     : Radu Ursu
-// release       : 
-// release_date  : 
+// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/demo/Spatial_searching/spatial_searching_toolbar.C,v $
+// $Revision: 1.2.4.1 $ $Date: 2004/12/19 16:56:49 $
+// $Name:  $
 //
-// coordinator   : Laurent Rineau <rineau@clipper.ens.fr>
-//
-// ============================================================================
+// Author(s)     : Radu Ursu
 
 #ifdef CGAL_USE_QT
 
@@ -34,7 +33,7 @@
 #include <qiconset.h>
 
 Tools_toolbar::Tools_toolbar(CGAL::Qt_widget *w, 
-			     QMainWindow *mw, std::vector<Point> *l1) :
+			     QMainWindow *mw, std::vector<Point_2> *l1) :
   QToolBar(mw, "NT")
   {
     w->attach(&edit_layer);

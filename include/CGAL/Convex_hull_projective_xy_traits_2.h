@@ -12,13 +12,13 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/Convex_hull_projective_xy_traits_2.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:14:58 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/02/21 15:47:10 $
+// $Name:  $
 //
 // Author(s)     : Susan Hert
 
-#ifndef CONVEX_HULL_PROJECTIVE_XY_TRAITS_2_H
-#define CONVEX_HULL_PROJECTIVE_XY_TRAITS_2_H
+#ifndef CGAL_CONVEX_HULL_PROJECTIVE_XY_TRAITS_2_H
+#define CGAL_CONVEX_HULL_PROJECTIVE_XY_TRAITS_2_H
 
 #include <CGAL/predicates/kernel_ftC2.h>
 #include <CGAL/functional_base.h>
@@ -176,4 +176,4 @@ public:
 };
 
 }
-#endif // CONVEX_HULL_PROJECTIVE_XY_TRAITS_2_H
+#endif // CGAL_CONVEX_HULL_PROJECTIVE_XY_TRAITS_2_H

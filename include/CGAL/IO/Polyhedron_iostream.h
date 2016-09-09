@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Polyhedron_IO/include/CGAL/IO/Polyhedron_iostream.h,v $
 // $Revision: 1.8 $ $Date: 2003/09/18 10:25:03 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 

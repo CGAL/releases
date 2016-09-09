@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/line_constructions_2.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:14:29 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2003/12/04 13:00:40 $
+// $Name:  $
 //
 // Author(s)     : Herve Bronnimann
 
@@ -32,28 +32,10 @@ CGAL_BEGIN_NAMESPACE
 template < class K >
 inline
 LineC2<K>
-line_from_points(const PointC2<K> &p,
-                 const PointC2<K> &q)
-{
-  return K().construct_line_2_object()(p, q);
-}
-
-template < class K >
-inline
-LineC2<K>
 line_from_point_direction(const PointC2<K> &p,
                           const DirectionC2<K> &d)
 {
   return K().construct_line_2_object()(p, d);
-}
-
-template < class K >
-inline
-LineC2<K>
-bisector(const PointC2<K> &p,
-         const PointC2<K> &q)
-{
-  return K().construct_bisector_2_object()(p, q);
 }
 
 template < class K >

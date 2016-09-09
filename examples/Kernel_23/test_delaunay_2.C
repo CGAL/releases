@@ -1,3 +1,5 @@
+// file: examples/Kernel_23/test_delaunay_2.C
+
 // small example for compilation
 // check of Delaunay_triangulation_2 using the kernel concept
 // archetype

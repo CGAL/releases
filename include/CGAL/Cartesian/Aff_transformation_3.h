@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_3.h,v $
-// $Revision: 1.21 $ $Date: 2003/10/21 12:14:14 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.24 $ $Date: 2004/01/18 13:12:46 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri
 
@@ -47,7 +47,6 @@ template < class R_ >
 class Aff_transformationC3
   : public Handle_for_virtual<Aff_transformation_rep_baseC3<R_> >
 {
-CGAL_VC7_BUG_PROTECTED
   friend class PlaneC3<R_>; // FIXME: why ?
 
   typedef typename R_::FT                   FT;
@@ -125,7 +124,7 @@ public:
 
   Point_3
   transform(const Point_3 &p) const
-  { return Ptr()->transform(p); }
+  { return this->Ptr()->transform(p); }
 
   Point_3
   operator()(const Point_3 &p) const
@@ -133,7 +132,7 @@ public:
 
   Vector_3
   transform(const Vector_3 &v) const
-  { return Ptr()->transform(v); }
+  { return this->Ptr()->transform(v); }
 
   Vector_3
   operator()(const Vector_3 &v) const
@@ -141,7 +140,7 @@ public:
 
   Direction_3
   transform(const Direction_3 &d) const
-  { return Ptr()->transform(d); }
+  { return this->Ptr()->transform(d); }
 
   Direction_3
   operator()(const Direction_3 &d) const
@@ -155,21 +154,21 @@ public:
   operator()(const Plane_3& p) const
   { return transform(p); } // FIXME : not compiled by the test-suite !
 
-  Aff_transformation_3 inverse() const { return Ptr()->inverse(); }
+  Aff_transformation_3 inverse() const { return this->Ptr()->inverse(); }
   
-  bool is_even() const { return Ptr()->is_even(); }
-  bool is_odd() const { return  ! (Ptr()->is_even()); }
+  bool is_even() const { return this->Ptr()->is_even(); }
+  bool is_odd() const { return  ! (this->Ptr()->is_even()); }
   
-  FT cartesian(int i, int j) const { return Ptr()->cartesian(i,j); }
+  FT cartesian(int i, int j) const { return this->Ptr()->cartesian(i,j); }
   FT homogeneous(int i, int j) const { return cartesian(i,j); }
   FT m(int i, int j) const { return cartesian(i,j); }
   FT hm(int i, int j) const { return cartesian(i,j); }
 
   Aff_transformation_3 operator*(const Aff_transformationC3 &t) const
-  { return (*Ptr()) * (*t.Ptr()); }
+  { return (*this->Ptr()) * (*t.Ptr()); }
 
 protected:
-  Aff_transformation_3        transpose() const { return Ptr()->transpose(); }
+  Aff_transformation_3  transpose() const { return this->Ptr()->transpose(); }
 };
 
 

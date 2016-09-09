@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Fixed_precision_nt/include/CGAL/Fixed_precision_nt.h,v $
-// $Revision: 1.20 $ $Date: 2003/10/21 12:15:36 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.21 $ $Date: 2004/09/01 16:15:12 $
+// $Name:  $
 //
 // Author(s)     : Olivier Devillers <Olivivier.Devillers@sophia.inria.fr>
 
@@ -98,6 +98,10 @@ public:
   typedef Tag_false       Has_gcd;
   typedef Tag_true        Has_division;
   typedef Tag_false       Has_sqrt;
+
+  typedef Tag_false       Has_exact_ring_operations;
+  typedef Tag_false       Has_exact_division;
+  typedef Tag_false       Has_exact_sqrt;
 
   // constructors
   Fixed_precision_nt() {_value=0;}

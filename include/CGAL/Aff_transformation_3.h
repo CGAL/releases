@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Aff_transformation_3.h,v $
 // $Revision: 1.13 $ $Date: 2003/10/21 12:18:00 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
 

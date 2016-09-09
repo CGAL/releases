@@ -1,6 +1,4 @@
-// file          : examples/Generator/random_poly_example.C
-// ----------------------------------------------
-// program generting a random simple polygon 
+// file: examples/Generator/random_poly_example.C
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/point_generators_2.h>

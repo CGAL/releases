@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/Turn_reverser.h,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:22:24 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 

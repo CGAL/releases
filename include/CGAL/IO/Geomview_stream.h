@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Geomview/include/CGAL/IO/Geomview_stream.h,v $
-// $Revision: 1.50 $ $Date: 2003/10/21 12:16:04 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.52 $ $Date: 2004/11/22 19:08:44 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
 

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/HalfedgeDS/include/CGAL/HalfedgeDS_iterator_adaptor.h,v $
-// $Revision: 1.5 $ $Date: 2003/10/21 12:16:33 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/01/18 14:34:50 $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 
@@ -26,10 +26,6 @@
 #ifndef CGAL_PROTECT_ITERATOR
 #include <iterator>
 #define CGAL_PROTECT_ITERATOR
-#endif
-
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-#error Sorry, iterator traits are not supported, cannot continue.
 #endif
 
 CGAL_BEGIN_NAMESPACE

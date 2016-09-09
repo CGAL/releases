@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/Counted_number.h,v $
-// $Revision: 1.4 $ $Date: 2003/10/21 12:21:41 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/09/01 16:17:11 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -82,6 +82,16 @@ public:
             {inc_mul_count(); m_rep *= n.m_rep; return *this;}
     Counted_number const & operator/=(Counted_number const &n) 
             {inc_div_count(); m_rep /= n.m_rep; return *this;}
+
+  typedef typename Number_type_traits<NT>::Has_gcd       Has_gcd;
+  typedef typename Number_type_traits<NT>::Has_division  Has_division;
+  typedef typename Number_type_traits<NT>::Has_sqrt      Has_sqrt;
+
+  typedef typename Number_type_traits<NT>::Has_exact_sqrt Has_exact_sqrt;
+  typedef typename Number_type_traits<NT>::Has_exact_division
+  Has_exact_division;
+  typedef typename Number_type_traits<NT>::Has_exact_ring_operations
+  Has_exact_ring_operations;
 };
 
 template <class NT>

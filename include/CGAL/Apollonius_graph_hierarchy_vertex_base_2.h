@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_vertex_base_2.h,v $
-// $Revision: 1.8 $ $Date: 2003/09/18 10:19:23 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2004/09/03 17:26:19 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -47,14 +47,14 @@ public:
   };
 
   Apollonius_graph_hierarchy_vertex_base_2()
-    : Base(), _up(NULL), _down(NULL)
+    : Base(), _up(), _down()
     {}
   Apollonius_graph_hierarchy_vertex_base_2(const Site_2& p,
 					   Face_handle f)
-    : Base(p,f), _up(NULL), _down(NULL)
+    : Base(p,f), _up(), _down()
     {}
   Apollonius_graph_hierarchy_vertex_base_2(const Site_2& p)
-    : Base(p), _up(NULL), _down(NULL)
+    : Base(p), _up(), _down()
     {}
 
   Vertex_handle up() {return _up;}

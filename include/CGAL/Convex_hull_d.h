@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Attic/Convex_hull_d.h,v $
-// $Revision: 1.25.2.1 $ $Date: 2003/11/17 15:29:43 $
-// $Name: CGAL_3_0_1  $
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_d/include/CGAL/Convex_hull_d.h,v $
+// $Revision: 1.5 $ $Date: 2004/09/25 09:43:33 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 //---------------------------------------------------------------------
@@ -119,6 +119,9 @@ class Facet_iterator_ : private
 { typedef Facet_iterator_<Hull_pointer,Handle> Self;
   typedef Facet_iterator_rep_<Hull_pointer,Handle> Rep;
   typedef Handle_for< Facet_iterator_rep_<Hull_pointer,Handle> > Base;
+
+  using Base::ptr;
+
 public:
   typedef typename Handle::value_type value_type;
   typedef typename Handle::pointer    pointer;
@@ -205,6 +208,9 @@ class Hull_vertex_iterator_ : private
 { typedef Hull_vertex_iterator_<Hull_pointer,VHandle,FHandle> Self;
   typedef Hull_vertex_iterator_rep_<Hull_pointer,VHandle,FHandle> Rep;
   typedef Handle_for< Rep > Base;
+
+  using Base::ptr;
+
 public:
   typedef typename VHandle::value_type value_type;
   typedef typename VHandle::pointer    pointer;
@@ -264,7 +270,14 @@ class Convex_hull_d : public Regular_complex_d<R_>
 { 
 typedef Regular_complex_d<R_> Base;
 typedef Convex_hull_d<R_>     Self;
+
+using Base::new_simplex;
+
 public:
+
+using Base::kernel;
+using Base::dcur;
+
 /*{\Xgeneralization Regular_complex_d<R>}*/
 /*{\Mtypes 6.5}*/
 typedef R_ R;
@@ -308,10 +321,10 @@ come also in a const flavor, e.g., |Vertex_const_iterator| is the
 constant version of |Vertex_iterator|. Thus use the const version
 whenever the the convex hull object is referenced as constant.}*/
 
-#define USING(t) typedef typename Base::t t
-USING(Simplex_const_iterator);USING(Vertex_const_iterator);
-USING(Simplex_const_handle);USING(Vertex_const_handle);
-#undef USING
+#define CGAL_USING(t) typedef typename Base::t t
+CGAL_USING(Simplex_const_iterator);CGAL_USING(Vertex_const_iterator);
+CGAL_USING(Simplex_const_handle);CGAL_USING(Vertex_const_handle);
+#undef CGAL_USING
 typedef Simplex_const_handle Facet_const_handle;
 typedef Facet_iterator_<const Self*,Facet_const_handle> Facet_const_iterator;
 typedef Hull_vertex_iterator_<const Self*,Vertex_const_handle,
@@ -756,7 +769,7 @@ public:
           }
         }
       }
-      num_of_unbounded_simplices += NewSimplices.size();
+      num_of_unbounded_simplices -= VisibleFacets.size();
       if ( vertex_of_simplex(start_facet_,0) != Vertex_handle() )
         start_facet_ = *(--NewSimplices.end());
       CGAL_assertion( vertex_of_simplex(start_facet_,0)==Vertex_handle() );
@@ -796,7 +809,7 @@ public:
         CGAL_assertion( is_unbounded_simplex(f) );
         Hyperplane_d h = f->hyperplane_of_base_facet();
         std::list<Point_d>& L = PointsOf[f];
-        pit = OtherPoints.begin(), pred;
+        pit = OtherPoints.begin();
         while ( pit != OtherPoints.end() ) {
           if ( side_of(h,*pit) == ON_POSITIVE_SIDE ) {
             L.push_back(*pit); pred=pit; ++pit; OtherPoints.erase(pred);
@@ -1188,7 +1201,7 @@ Convex_hull_d<R>::insert(const Point_d& x)
               }
             }
           }
-          num_of_unbounded_simplices += NewSimplices.size(); 
+          num_of_unbounded_simplices -= visible_simplices.size(); 
           if ( vertex_of_simplex(start_facet_,0) != Vertex_handle() )
             start_facet_ = *(--NewSimplices.end());
           CGAL_assertion( vertex_of_simplex(start_facet_,0)==Vertex_handle() );
@@ -1284,7 +1297,7 @@ void Convex_hull_d<R>::clear_visited_marks(Simplex_handle S) const
 }
 
 template <class R>
-std::list< CGAL_TYPENAME_MSVC_NULL Convex_hull_d<R>::Simplex_handle > 
+std::list< typename Convex_hull_d<R>::Simplex_handle > 
 Convex_hull_d<R>::facets_visible_from(const Point_d& x)
 { 
   std::list<Simplex_handle> visible_simplices;
@@ -1368,7 +1381,7 @@ dimension_jump(Simplex_handle S, Vertex_handle x)
 template <class R>
 bool Convex_hull_d<R>::is_valid(bool throw_exceptions) const
 { 
-  check_topology(); 
+  this->check_topology(); 
   if (current_dimension() < 1) return true; 
  
   /* Recall that center() gives us the center-point of the origin

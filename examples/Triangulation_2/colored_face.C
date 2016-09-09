@@ -1,4 +1,5 @@
-// file          : examples/Triangulation_2/colored_face.C
+// file : examples/Triangulation_2/colored_face.C
+
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/IO/Color.h>
 #include <CGAL/Triangulation_2.h>

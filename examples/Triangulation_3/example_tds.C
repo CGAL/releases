@@ -1,6 +1,6 @@
-// Triangulation_3/example_tds.C
-#include <CGAL/Triangulation_data_structure_3.h>
+// file: examples/Triangulation_3/example_tds.C
 
+#include <CGAL/Triangulation_data_structure_3.h>
 #include <iostream>
 #include <fstream>
 #include <cassert>
@@ -8,6 +8,7 @@
 
 typedef CGAL::Triangulation_data_structure_3<>      Tds;
 
+typedef Tds::size_type                              size_type;
 typedef Tds::Cell_handle                            Cell_handle;
 typedef Tds::Vertex_handle                          Vertex_handle;
 
@@ -29,7 +30,7 @@ int main()
   // each of the following insertions of vertices increases the dimension
   for ( int i=1; i<5; i++ ) {
     PV[i] = T.insert_increase_dimension(PV[0]);
-    assert( T.number_of_vertices() == i+1 );
+    assert( T.number_of_vertices() == (size_type) i+1 );
     assert( T.dimension() == i-1 );
     assert( T.is_valid() );
   }
@@ -40,7 +41,8 @@ int main()
   // cell incident to PV[0]
   Cell_handle c = PV[0]->cell();
   int ind;
-  assert( c->has_vertex( PV[0], ind ) );
+  bool check = c->has_vertex( PV[0], ind );
+  assert( check );
   // PV[0] is the vertex of index ind in c
 
   // insertion of a new vertex in the facet opposite to PV[0]

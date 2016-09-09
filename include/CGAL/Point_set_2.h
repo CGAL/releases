@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Point_set_2/include/CGAL/Point_set_2.h,v $
-// $Revision: 1.18 $ $Date: 2003/09/18 10:24:49 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.20 $ $Date: 2004/09/24 09:11:55 $
+// $Name:  $
 //
 // Author(s)     : Matthias Baesken
 
@@ -89,8 +89,16 @@ public:
   typedef typename Geom_traits::Compare_distance_2          Comparedist;         
   typedef typename Geom_traits::Construct_center_2          Circlecenter;   
   
-  typedef Unique_hash_map<Vertex_handle, Numb_type>               MAP_TYPE;  
-  
+  typedef Unique_hash_map<Vertex_handle, Numb_type>         MAP_TYPE;  
+  typedef Delaunay_triangulation_2<Gt,Tds>                  Base;
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::finite_vertices_begin;
+  using Base::finite_vertices_end;
+  using Base::number_of_vertices;
+  using Base::VERTEX;
+#endif
+
    Comparedist                   tr_comparedist;
    Orientation_2                 tr_orientation;  
    Side_of_oriented_circle_2     tr_so_circle;    
@@ -422,7 +430,7 @@ public:
      //Point d(a.xcoord(),c.ycoord());
      Point a=a1,b=b1,c=c1,d=d1;
    
-     if (tr_orientation(a,b,c) == RIGHTTURN) 
+     if (tr_orientation(a,b,c) == RIGHT_TURN) 
      { Point tmp = b;
        b = d;
        d = tmp;
@@ -436,8 +444,8 @@ public:
 
      for(;it != L.end();it++)
      { Point p = (*it)->point();
-       if ( tr_orientation(a,b,p) == RIGHTTURN || tr_orientation(b,c,p) == RIGHTTURN ||
-            tr_orientation(c,d,p) == RIGHTTURN || tr_orientation(d,a,p) == RIGHTTURN )  { }
+       if ( tr_orientation(a,b,p) == RIGHT_TURN || tr_orientation(b,c,p) == RIGHT_TURN ||
+            tr_orientation(c,d,p) == RIGHT_TURN || tr_orientation(d,a,p) == RIGHT_TURN )  { }
         else { *res = *it; res++; }
      }
      return res;     

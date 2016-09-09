@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Planar_map_2/Pm_traits_wrap_2.h,v $
-// $Revision: 1.4 $ $Date: 2003/09/18 10:24:48 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/05/09 14:17:42 $
+// $Name:  $
 //
 // Author(s)     : Iddo Hanniel         <hanniel@math.tau.ac.il>
 //                 Eyal Flato           <flato@post.tau.ac.il>
@@ -26,6 +26,7 @@
 
 #include <CGAL/config.h>
 #include <CGAL/tags.h>
+#include <iostream>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -48,7 +49,8 @@ public:
   typedef typename Base::X_monotone_curve_2     X_monotone_curve_2;
   typedef typename Base::Point_2                Point_2;
 
-  typedef typename Base::Has_left_category      Has_left_category;
+  typedef typename Base::Has_left_category      Has_left_category;      
+  typedef typename Base::Has_reflect_category   Has_reflect_category;    
     
   // Creators:
   // ---------
@@ -87,10 +89,10 @@ public:
   { return (point_is_right_top(p1, p2) ? p1 : p2); }
     
   Point_2 curve_leftmost(const X_monotone_curve_2 & cv) const 
-  { return point_leftmost(curve_source(cv),curve_target(cv)); }
+  { return point_leftmost(curve_source(cv), curve_target(cv)); }
     
   Point_2 curve_rightmost(const X_monotone_curve_2 & cv) const
-  { return point_rightmost(curve_source(cv),curve_target(cv)); }
+  { return point_rightmost(curve_source(cv), curve_target(cv)); }
       
   Point_2 curve_leftlow_most(const X_monotone_curve_2 & cv) const 
   {
@@ -469,6 +471,13 @@ public:
    * it calls the function with same name defined in the base class. Otherwise,
    * it reflects the given point and curves about the origin, and calls the
    * "right" version.
+   *
+   * curves_compare_y_at_x_left() compares the y value of two curves in an
+   * epsilon environment to the left of the x value of the input point
+   *
+   * \pre The point q is in the x range of the two curves, and both
+   * of them must be also be defined to its left. The two curves must also
+   * intersect at x(q).
    */
   Comparison_result curves_compare_y_at_x_left(const X_monotone_curve_2 & cv1,
                                             const X_monotone_curve_2 & cv2, 
@@ -477,22 +486,37 @@ public:
     return curves_compare_y_at_x_left_imp(cv1, cv2, q, Has_left_category());
   }
 
-    
   Comparison_result
   curves_compare_y_at_x_left_imp(const X_monotone_curve_2 & cv1,
                                  const X_monotone_curve_2 & cv2, 
                                  const Point_2 & q,
                                  Tag_true) const
   {
+    //std::cout << "base left implementation " << std::endl;
     return Base::curves_compare_y_at_x_left(cv1, cv2, q);
   }
     
+  // if the function is not implemented in the traits, 
+  // call an inside implementation - if the reflect function is 
+  // implemented - use it, otherwise, use other implementation
   Comparison_result
   curves_compare_y_at_x_left_imp(const X_monotone_curve_2 & cv1,
                                  const X_monotone_curve_2 & cv2, 
                                  const Point_2 & q,
                                  Tag_false) const 
+  { 
+    return curves_compare_y_at_x_left_imp(cv1, cv2, q, Tag_false(), 
+					  Has_reflect_category());
+  }
+
+  //implement the function using reflect
+  Comparison_result
+  curves_compare_y_at_x_left_imp(const X_monotone_curve_2 & cv1,
+                                 const X_monotone_curve_2 & cv2, 
+                                 const Point_2 & q,
+                                 Tag_false, Tag_true) const 
   {
+    //std::cout << "reflect left implementation " << std::endl;
     Point_2 rq = point_reflect_in_x_and_y(q);
     X_monotone_curve_2 rcv1 = curve_reflect_in_x_and_y(cv1);
     X_monotone_curve_2 rcv2 = curve_reflect_in_x_and_y(cv2);
@@ -500,6 +524,43 @@ public:
     if (cr == SMALLER) return LARGER;
     if (cr == LARGER) return SMALLER;
     return EQUAL;
+  }
+
+  //implement the function without reflect
+  Comparison_result
+  curves_compare_y_at_x_left_imp(const X_monotone_curve_2 & cv1,
+                                 const X_monotone_curve_2 & cv2, 
+                                 const Point_2 & q,
+                                 Tag_false, Tag_false) const
+  {  
+    //std::cout << "Idit left implementation " << std::endl;
+
+    // The two curves must not be vertical.
+    CGAL_precondition(! curve_is_vertical(cv1));
+    CGAL_precondition(! curve_is_vertical(cv2));
+
+    // The two curve must be defined at q and also to its left.
+    // Since the curves are continuous, if they are not equal at q, the same
+    // result also applies to q's left.
+    CGAL_precondition (point_equal(curve_rightmost(cv1),
+				   curve_rightmost(cv2)));
+ 
+    // <cv2> and <cv1> meet at a point with the same x-coordinate as q   
+    CGAL_precondition (point_equal_x(curve_rightmost(cv1),q));
+    
+    // get the right-most endpoint between the left endpoints of cv1 and cv2
+    Point_2 left1 = curve_leftmost(cv1);
+    Point_2 left2 = curve_leftmost(cv2);
+    const Point_2& pnt = point_rightmost(left1, left2);
+
+    //if the two left endpoints are equal, we need to compare to the right 
+    if (point_equal(left1,left2))
+    {
+      return curves_compare_y_at_x_right(cv1,cv2,pnt);
+    }    
+       
+    //compare the y value of the left endpoint of the curves in the rightmost
+    return curves_compare_y_at_x(cv1,cv2,pnt);
   }
 
 protected:

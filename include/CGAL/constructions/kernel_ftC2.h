@@ -16,10 +16,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/constructions/kernel_ftC2.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:14:37 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.14 $ $Date: 2004/09/05 12:22:42 $
+// $Name:  $
 //
-// Author(s)     : Sven Schoenherr, Hervé Brönnimann, Sylvain Pion
+// Author(s)     : Sven Schoenherr, Herve Bronnimann, Sylvain Pion
 
 #ifndef CGAL_CONSTRUCTIONS_KERNEL_FTC2_H
 #define CGAL_CONSTRUCTIONS_KERNEL_FTC2_H
@@ -110,11 +110,37 @@ line_from_pointsC2(const FT &px, const FT &py,
                    const FT &qx, const FT &qy,
                    FT &a, FT &b, FT &c) 
 {
-  a = py - qy;
-  b = qx - px;
-  // Suggested by Serge Pashkov (psw@rt.kiam.ru) for better numeric stability.
-  c = -px*a - py*b;
-  // c = px*qy - py*qx;
+  // The horizontal and vertical line get a special treatment
+  // in order to make the intersection code robust for doubles 
+  if(py == qy){
+    a = 0 ;
+    if(qx > px){
+      b = 1;
+      c = -py;
+    } else if(qx == px){
+      b = 0;
+      c = 0;
+    }else{
+      b = -1;
+      c = py;
+    }
+  } else if(qx == px){
+    b = 0;
+    if(qy > py){
+      a = -1;
+      c = px;
+    } else if (qy == py){
+      a = 0;
+      c = 0;
+    } else {
+      a = 1;
+      c = -px;
+    }
+  } else {
+    a = py - qy;
+    b = qx - px;
+    c = -px*a - py*b;
+  }
 }
 
 template < class FT >
@@ -140,6 +166,28 @@ bisector_of_pointsC2(const FT &px, const FT &py,
   b = FT(2)*(py - qy);
   c = CGAL_NTS square(qx) + CGAL_NTS square(qy) -
       CGAL_NTS square(px) - CGAL_NTS square(py);
+}
+
+template < class FT >
+CGAL_KERNEL_INLINE
+void
+bisector_of_linesC2(const FT &pa, const FT &pb, const FT &pc,
+		    const FT &qa, const FT &qb, const FT &qc,
+		    FT &a, FT &b, FT &c)
+{
+  // We normalize the equations of the 2 lines, and we then add them.
+  FT n1 = CGAL_NTS sqrt(CGAL_NTS square(pa) + CGAL_NTS square(pb));
+  FT n2 = CGAL_NTS sqrt(CGAL_NTS square(qa) + CGAL_NTS square(qb));
+  a = n2 * pa + n1 * qa;
+  b = n2 * pb + n1 * qb;
+  c = n2 * pc + n1 * qc;
+
+  // Care must be taken for the case when this produces a degenerate line.
+  if (a == 0 && b == 0) {
+    a = n2 * pa - n1 * qa;
+    b = n2 * pb - n1 * qb;
+    c = n2 * pc - n1 * qc;
+  }
 }
 
 template < class FT >

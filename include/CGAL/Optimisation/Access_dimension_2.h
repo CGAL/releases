@@ -16,18 +16,15 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Optimisation_basic/include/CGAL/Optimisation/Access_dimension_2.h,v $
-// $Revision: 1.5 $ $Date: 2003/10/21 12:22:02 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/09/05 12:30:35 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
 
 #ifndef CGAL_OPTIMISATION_ACCESS_DIMENSION_2_H
 #define CGAL_OPTIMISATION_ACCESS_DIMENSION_2_H
 
-// includes
-#ifndef CGAL_POINT_2_H
-#  include <CGAL/Point_2.h>
-#endif
+
 
 CGAL_BEGIN_NAMESPACE
 

@@ -1,9 +1,13 @@
-// Copyright (c) 1997-2000  Max-Planck-Institute Saarbruecken (Germany).
-// All rights reserved.
+// Copyright (c) 2000  Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/Attic/Polynomial.h,v $
-// $Revision: 1.37 $ $Date: 2003/10/21 12:21:05 $
-// $Name: CGAL_3_0_1  $
+// $Source: /CVSROOT/CGAL/Packages/Polynomial/include/CGAL/Nef_2/Polynomial.h,v $
+// $Revision: 1.6.4.1 $ $Date: 2004/12/08 20:13:04 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -44,9 +48,9 @@ template <class NT> class Polynomial_rep;
 // CLASS TEMPLATE NT: 
 template <class NT> class Polynomial;
 // CLASS TEMPLATE int: 
-CGAL_TEMPLATE_NULL class Polynomial<int> ;
+template <> class Polynomial<int> ;
 // CLASS TEMPLATE double: 
-CGAL_TEMPLATE_NULL class Polynomial<double> ;
+template <> class Polynomial<double> ;
 // SPECIALIZE_CLASS(NT,int double) END
 
 
@@ -111,10 +115,8 @@ template <class NT> inline Polynomial<NT>
 template <class NT> inline Polynomial<NT>
   operator % (const Polynomial<NT>&, const Polynomial<NT>&);
 
-#ifndef CGAL_CFG_MATCHING_BUG_2
 template<class NT> CGAL::Sign 
   sign(const Polynomial<NT>& p);
-#endif
 
 template <class NT> double 
   to_double(const Polynomial<NT>& p) ;
@@ -215,8 +217,7 @@ template <class pNT> class Polynomial_rep {
   friend class Polynomial<pNT>;
   friend class Polynomial<int>;
   friend class Polynomial<double>;
-  friend std::istream& operator >> CGAL_NULL_TMPL_ARGS  
-         (std::istream&, Polynomial<NT>&);
+  friend std::istream& operator >> <> (std::istream&, Polynomial<NT>&);
 
 };
 
@@ -224,7 +225,7 @@ template <class pNT> class Polynomial_rep {
 // CLASS TEMPLATE NT: 
 /*{\Msubst 
 typename iterator_traits<Forward_iterator>::value_type#NT
-CGAL_NULL_TMPL_ARGS#
+<>#
 }*/
 
 /*{\Manpage{Polynomial}{NT}{Polynomials in one variable}{p}}*/
@@ -246,7 +247,15 @@ template <class pNT> class Polynomial :
   public:
   typedef pNT NT;
   typedef typename Number_type_traits<NT>::Has_gcd Has_gcd;
+  typedef CGAL::Tag_false Has_sqrt;
+  typedef CGAL::Tag_true  Has_division;
  
+  typedef CGAL::Tag_false Has_exact_division;
+  typedef CGAL::Tag_false Has_exact_sqrt;
+  typedef typename Number_type_traits<NT>::Has_exact_ring_operations
+  Has_exact_ring_operations;
+
+
   typedef Handle_for< Polynomial_rep<NT> > Base;
   typedef Polynomial_rep<NT> Rep;
   typedef typename Rep::Vector    Vector;
@@ -258,9 +267,9 @@ template <class pNT> class Polynomial :
   coefficient vector.}*/
 
   //protected:
-  void reduce() { ptr()->reduce(); }
-  Vector& coeffs() { return ptr()->coeff; }
-  const Vector& coeffs() const { return ptr()->coeff; }
+  void reduce() { this->ptr()->reduce(); }
+  Vector& coeffs() { return this->ptr()->coeff; }
+  const Vector& coeffs() const { return this->ptr()->coeff; }
   Polynomial(size_type s) : Base( Polynomial_rep<NT>(s) ) {}
   // creates a polynomial of degree s-1
 
@@ -314,46 +323,46 @@ template <class pNT> class Polynomial :
 
   //protected: // accessing coefficients internally:
   NT& coeff(unsigned int i) 
-  { CGAL_assertion(!is_shared() && i<(ptr()->coeff.size()));
-    return ptr()->coeff[i]; 
+  { CGAL_assertion(!this->is_shared() && i<(this->ptr()->coeff.size()));
+    return this->ptr()->coeff[i]; 
   }
   public:
 
   /*{\Moperations 3 3 }*/
-  const_iterator begin() const { return ptr()->coeff.begin(); }
+  const_iterator begin() const { return this->ptr()->coeff.begin(); }
   /*{\Mop a random access iterator pointing to $a_0$.}*/
-  const_iterator end()   const { return ptr()->coeff.end(); }
+  const_iterator end()   const { return this->ptr()->coeff.end(); }
   /*{\Mop a random access iterator pointing beyond $a_d$.}*/
 
   int degree() const 
-  { return ptr()->coeff.size()-1; } 
+  { return this->ptr()->coeff.size()-1; } 
   /*{\Mop the degree of the polynomial.}*/
 
   const NT& operator[](unsigned int i) const 
-  { CGAL_assertion( i<(ptr()->coeff.size()) );
-    return ptr()->coeff[i]; }
+  { CGAL_assertion( i<(this->ptr()->coeff.size()) );
+    return this->ptr()->coeff[i]; }
   //{\Marrop the coefficient $a_i$ of the polynomial.}
 
   NT operator()(unsigned int i) const
   { 
-    if(i<(ptr()->coeff.size()))
-      return ptr()->coeff[i];
+    if(i<(this->ptr()->coeff.size()))
+      return this->ptr()->coeff[i];
     return 0;
   }
 
   NT eval_at(const NT& r) const
   /*{\Mop evaluates the polynomial at |r|.}*/
   { CGAL_assertion( degree()>=0 );
-    NT res = ptr()->coeff[0], x = r;
+    NT res = this->ptr()->coeff[0], x = r;
     for(int i=1; i<=degree(); ++i) 
-    { res += ptr()->coeff[i]*x; x*=r; }
+    { res += this->ptr()->coeff[i]*x; x*=r; }
     return res; 
   }
 
   CGAL::Sign sign() const
   /*{\Mop returns the sign of the limit process for $x \rightarrow \infty$
   (the sign of the leading coefficient).}*/
-  { const NT& leading_coeff = ptr()->coeff.back();
+  { const NT& leading_coeff = this->ptr()->coeff.back();
     if (leading_coeff < NT(0)) return (CGAL::NEGATIVE);
     if (leading_coeff > NT(0)) return (CGAL::POSITIVE);
     return CGAL::ZERO;
@@ -361,7 +370,7 @@ template <class pNT> class Polynomial :
 
   bool is_zero() const
   /*{\Mop returns true iff |\Mvar| is the zero polynomial.}*/
-  { return degree()==0 && ptr()->coeff[0]==NT(0); }
+  { return degree()==0 && this->ptr()->coeff[0]==NT(0); }
 
   Polynomial<NT> abs() const
   /*{\Mop returns |-\Mvar| if |\Mvar.sign()==NEGATIVE| and |\Mvar| 
@@ -372,7 +381,7 @@ template <class pNT> class Polynomial :
   NT content() const
   /*{\Mop returns the content of |\Mvar| (the gcd of its coefficients).}*/
   { CGAL_assertion( degree()>=0 );
-    return gcd_of_range(ptr()->coeff.begin(),ptr()->coeff.end());
+    return gcd_of_range(this->ptr()->coeff.begin(),this->ptr()->coeff.end());
   }
 
 
@@ -383,22 +392,19 @@ template <class pNT> class Polynomial :
   to the requirements of CGAL number types. \setopdims{3cm}{2cm}}*/
   
    friend Polynomial<NT>
-   operator - CGAL_NULL_TMPL_ARGS  (const Polynomial<NT>&);   
+   operator - <>  (const Polynomial<NT>&);
                           
   friend Polynomial<NT>
-    operator + CGAL_NULL_TMPL_ARGS (const Polynomial<NT>&, 
-                                    const Polynomial<NT>&);
+    operator + <> (const Polynomial<NT>&, const Polynomial<NT>&);
 
   friend Polynomial<NT>
-    operator - CGAL_NULL_TMPL_ARGS (const Polynomial<NT>&, 
-                                    const Polynomial<NT>&);
+    operator - <> (const Polynomial<NT>&, const Polynomial<NT>&);
 
   friend Polynomial<NT>
-    operator * CGAL_NULL_TMPL_ARGS (const Polynomial<NT>&, 
-                                    const Polynomial<NT>&);
+    operator * <> (const Polynomial<NT>&, const Polynomial<NT>&);
 
   friend 
-  Polynomial<NT>  operator / CGAL_NULL_TMPL_ARGS 
+  Polynomial<NT>  operator / <> 
   (const Polynomial<NT>& p1, const Polynomial<NT>& p2);
   
   /*{\Mbinopfunc implements polynomial division of |p1| and |p2|. if
@@ -438,22 +444,21 @@ template <class pNT> class Polynomial :
   the ring |NT[x]|: $f = g*q + r$.  \precond |NT| is a field, i.e.,
   there exists a division operation on |NT|.  }*/
 
-  friend double to_double
-  CGAL_NULL_TMPL_ARGS (const Polynomial<NT>& p);
+  friend double to_double <> (const Polynomial<NT>& p);
 
 
   Polynomial<NT>& operator += (const Polynomial<NT>& p1)
-  { copy_on_write();
+  { this->copy_on_write();
     int d = std::min(degree(),p1.degree()), i;
     for(i=0; i<=d; ++i) coeff(i) += p1[i];
-    while (i<=p1.degree()) ptr()->coeff.push_back(p1[i++]);
+    while (i<=p1.degree()) this->ptr()->coeff.push_back(p1[i++]);
     reduce(); return (*this); }
 
   Polynomial<NT>& operator -= (const Polynomial<NT>& p1)
-  { copy_on_write();
+  { this->copy_on_write();
     int d = std::min(degree(),p1.degree()), i;
     for(i=0; i<=d; ++i) coeff(i) -= p1[i];
-    while (i<=p1.degree()) ptr()->coeff.push_back(-p1[i++]);
+    while (i<=p1.degree()) this->ptr()->coeff.push_back(-p1[i++]);
     reduce(); return (*this); }
 
   Polynomial<NT>& operator *= (const Polynomial<NT>& p1)
@@ -470,75 +475,75 @@ template <class pNT> class Polynomial :
   // SPECIALIZE_MEMBERS(int double) START
     
   Polynomial<NT>& operator += (const NT& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) += (NT)num; return *this; }
 
   Polynomial<NT>& operator -= (const NT& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) -= (NT)num; return *this; }
 
   Polynomial<NT>& operator *= (const NT& num)
-  { copy_on_write();
+  { this->copy_on_write();
     for(int i=0; i<=degree(); ++i) coeff(i) *= (NT)num; 
     reduce(); return *this; }
 
   Polynomial<NT>& operator /= (const NT& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) /= (NT)num; 
     reduce(); return *this; }
 
   Polynomial<NT>& operator %= (const NT& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) %= (NT)num; 
     reduce(); return *this; }
 
 // SPECIALIZING_MEMBERS FOR const int& 
     
   Polynomial<NT>& operator += (const int& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) += (NT)num; return *this; }
 
   Polynomial<NT>& operator -= (const int& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) -= (NT)num; return *this; }
 
   Polynomial<NT>& operator *= (const int& num)
-  { copy_on_write();
+  { this->copy_on_write();
     for(int i=0; i<=degree(); ++i) coeff(i) *= (NT)num; 
     reduce(); return *this; }
 
   Polynomial<NT>& operator /= (const int& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) /= (NT)num; 
     reduce(); return *this; }
 
   Polynomial<NT>& operator %= (const int& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) %= (NT)num; 
     reduce(); return *this; }
 
 // SPECIALIZING_MEMBERS FOR const double& 
     
   Polynomial<NT>& operator += (const double& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) += (NT)num; return *this; }
 
   Polynomial<NT>& operator -= (const double& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) -= (NT)num; return *this; }
 
   Polynomial<NT>& operator *= (const double& num)
-  { copy_on_write();
+  { this->copy_on_write();
     for(int i=0; i<=degree(); ++i) coeff(i) *= (NT)num; 
     reduce(); return *this; }
 
   Polynomial<NT>& operator /= (const double& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) /= (NT)num; 
     reduce(); return *this; }
 
   Polynomial<NT>& operator %= (const double& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) %= (NT)num; 
     reduce(); return *this; }
 
@@ -546,7 +551,7 @@ template <class pNT> class Polynomial :
   //------------------------------------------------------------------
 
   void minus_offsetmult(const Polynomial<NT>& p, const NT& b, int k)
-  { CGAL_assertion(!is_shared());
+  { CGAL_assertion(!this->is_shared());
     Polynomial<NT> s(size_type(p.degree()+k+1)); // zero entries
     for (int i=k; i <= s.degree(); ++i) s.coeff(i) = b*p[i-k];
     operator-=(s);
@@ -565,12 +570,13 @@ operation on two instances of the ring type.}*/
 // CLASS TEMPLATE int: 
 /*{\Xsubst 
  iterator_traits<Forward_iterator>::value_type#int
-CGAL_NULL_TMPL_ARGS#
+<>#
 }*/
 
 /*{\Xanpage{Polynomial}{int}{Polynomials in one variable}{p}}*/
 
-CGAL_TEMPLATE_NULL class Polynomial<int> : 
+template <>
+class Polynomial<int> : 
   public Handle_for< Polynomial_rep<int> >
 {
 /*{\Xdefinition An instance |\Mvar| of the data type |\Mname| represents
@@ -588,6 +594,12 @@ CGAL_TEMPLATE_NULL class Polynomial<int> :
   /*{\Xtypemember the component type representing the coefficients.}*/
 
   typedef Number_type_traits<NT>::Has_gcd Has_gcd;
+  typedef CGAL::Tag_false Has_sqrt;
+  typedef CGAL::Tag_true  Has_division;
+
+  typedef CGAL::Tag_false Has_exact_ring_operations;
+  typedef CGAL::Tag_false Has_exact_division;
+  typedef CGAL::Tag_false Has_exact_sqrt;
 
   typedef Handle_for< Polynomial_rep<int> > Base;
   typedef Polynomial_rep<int> Rep;
@@ -600,9 +612,9 @@ CGAL_TEMPLATE_NULL class Polynomial<int> :
   coefficient vector.}*/
 
   //protected:
-  void reduce() { ptr()->reduce(); }
-  Vector& coeffs() { return ptr()->coeff; }
-  const Vector& coeffs() const { return ptr()->coeff; }
+  void reduce() { this->ptr()->reduce(); }
+  Vector& coeffs() { return this->ptr()->coeff; }
+  const Vector& coeffs() const { return this->ptr()->coeff; }
   Polynomial(size_type s) : Base( Polynomial_rep<int>(s) ) {}
   // creates a polynomial of degree s-1
 
@@ -653,39 +665,39 @@ CGAL_TEMPLATE_NULL class Polynomial<int> :
 
   //protected: // accessing coefficients internally:
   int& coeff(unsigned int i) 
-  { CGAL_assertion(!is_shared() && i<(ptr()->coeff.size()));
-    return ptr()->coeff[i]; 
+  { CGAL_assertion(!this->is_shared() && i<(this->ptr()->coeff.size()));
+    return this->ptr()->coeff[i]; 
   }
   public:
 
   /*{\Xoperations 3 3 }*/
-  const_iterator begin() const { return ptr()->coeff.begin(); }
+  const_iterator begin() const { return this->ptr()->coeff.begin(); }
   /*{\Xop a random access iterator pointing to $a_0$.}*/
-  const_iterator end()   const { return ptr()->coeff.end(); }
+  const_iterator end()   const { return this->ptr()->coeff.end(); }
   /*{\Xop a random access iterator pointing beyond $a_d$.}*/
 
   int degree() const 
-  { return ptr()->coeff.size()-1; } 
+  { return this->ptr()->coeff.size()-1; } 
   /*{\Xop the degree of the polynomial.}*/
 
   const int& operator[](unsigned int i) const 
-  { CGAL_assertion( i<(ptr()->coeff.size()) );
-    return ptr()->coeff[i]; }
+  { CGAL_assertion( i<(this->ptr()->coeff.size()) );
+    return this->ptr()->coeff[i]; }
   /*{\Xarrop the coefficient $a_i$ of the polynomial.}*/
 
   int eval_at(const int& r) const
   /*{\Xop evaluates the polynomial at |r|.}*/
   { CGAL_assertion( degree()>=0 );
-    int res = ptr()->coeff[0], x = r;
+    int res = this->ptr()->coeff[0], x = r;
     for(int i=1; i<=degree(); ++i) 
-    { res += ptr()->coeff[i]*x; x*=r; }
+    { res += this->ptr()->coeff[i]*x; x*=r; }
     return res; 
   }
 
   CGAL::Sign sign() const
   /*{\Xop returns the sign of the limit process for $x \rightarrow \infty$
   (the sign of the leading coefficient).}*/
-  { const int& leading_coeff = ptr()->coeff.back();
+  { const int& leading_coeff = this->ptr()->coeff.back();
     if (leading_coeff < int(0)) return (CGAL::NEGATIVE);
     if (leading_coeff > int(0)) return (CGAL::POSITIVE);
     return CGAL::ZERO;
@@ -693,7 +705,7 @@ CGAL_TEMPLATE_NULL class Polynomial<int> :
 
   bool is_zero() const
   /*{\Xop returns true iff |\Mvar| is the zero polynomial.}*/
-  { return degree()==0 && ptr()->coeff[0]==int(0); }
+  { return degree()==0 && this->ptr()->coeff[0]==int(0); }
 
   Polynomial<int> abs() const
   /*{\Xop returns |-\Mvar| if |\Mvar.sign()==NEGATIVE| and |\Mvar| 
@@ -704,7 +716,7 @@ CGAL_TEMPLATE_NULL class Polynomial<int> :
   /*{\Xop returns the content of |\Mvar| (the gcd of its coefficients).
   \precond Requires |int| to provide a |gcd| operation.}*/
   { CGAL_assertion( degree()>=0 );
-    return gcd_of_range(ptr()->coeff.begin(),ptr()->coeff.end());
+    return gcd_of_range(this->ptr()->coeff.begin(),this->ptr()->coeff.end());
   }
 
   /*{\Xtext Additionally |\Mname| offers standard arithmetic ring
@@ -715,20 +727,16 @@ CGAL_TEMPLATE_NULL class Polynomial<int> :
 
                           
   friend Polynomial<int>
-    operator + CGAL_NULL_TMPL_ARGS (const Polynomial<int>&, 
-                                    const Polynomial<int>&);
+    operator + <> (const Polynomial<int>&, const Polynomial<int>&);
 
   friend Polynomial<int>
-    operator - CGAL_NULL_TMPL_ARGS (const Polynomial<int>&, 
-                                    const Polynomial<int>&);
+    operator - <> (const Polynomial<int>&, const Polynomial<int>&);
 
   friend Polynomial<int>
-    operator * CGAL_NULL_TMPL_ARGS (const Polynomial<int>&, 
-                                    const Polynomial<int>&);
+    operator * <> (const Polynomial<int>&, const Polynomial<int>&);
 
   friend 
-
-  Polynomial<int>  operator / CGAL_NULL_TMPL_ARGS 
+  Polynomial<int>  operator / <> 
   (const Polynomial<int>& p1, const Polynomial<int>& p2);
   /*{\Xbinopfunc implements polynomial division of |p1| and |p2|. if
   |p1 = p2 * p3| then |p2| is returned. The result is undefined if |p3|
@@ -767,22 +775,21 @@ CGAL_TEMPLATE_NULL class Polynomial<int> :
   the ring |int[x]|: $f = g*q + r$.  \precond |int| is a field, i.e.,
   there exists a division operation on |int|.  }*/
 
-  friend double to_double
-  CGAL_NULL_TMPL_ARGS (const Polynomial<int>& p);
+  friend double to_double <> (const Polynomial<int>& p);
 
 
   Polynomial<int>& operator += (const Polynomial<int>& p1)
-  { copy_on_write();
+  { this->copy_on_write();
     int d = std::min(degree(),p1.degree()), i;
     for(i=0; i<=d; ++i) coeff(i) += p1[i];
-    while (i<=p1.degree()) ptr()->coeff.push_back(p1[i++]);
+    while (i<=p1.degree()) this->ptr()->coeff.push_back(p1[i++]);
     reduce(); return (*this); }
 
   Polynomial<int>& operator -= (const Polynomial<int>& p1)
-  { copy_on_write();
+  { this->copy_on_write();
     int d = std::min(degree(),p1.degree()), i;
     for(i=0; i<=d; ++i) coeff(i) -= p1[i];
-    while (i<=p1.degree()) ptr()->coeff.push_back(-p1[i++]);
+    while (i<=p1.degree()) this->ptr()->coeff.push_back(-p1[i++]);
     reduce(); return (*this); }
 
   Polynomial<int>& operator *= (const Polynomial<int>& p1)
@@ -799,50 +806,50 @@ CGAL_TEMPLATE_NULL class Polynomial<int> :
   // SPECIALIZE_MEMBERS(int double) START
     
   Polynomial<int>& operator += (const int& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) += (int)num; return *this; }
 
   Polynomial<int>& operator -= (const int& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) -= (int)num; return *this; }
 
   Polynomial<int>& operator *= (const int& num)
-  { copy_on_write();
+  { this->copy_on_write();
     for(int i=0; i<=degree(); ++i) coeff(i) *= (int)num; 
     reduce(); return *this; }
 
   Polynomial<int>& operator /= (const int& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) /= (int)num; 
     reduce(); return *this; }
 
   Polynomial<int>& operator %= (const int& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) %= (int)num; 
     reduce(); return *this; }
 
 // SPECIALIZING_MEMBERS FOR const double& 
     
   Polynomial<int>& operator += (const double& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) += (int)num; return *this; }
 
   Polynomial<int>& operator -= (const double& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) -= (int)num; return *this; }
 
   Polynomial<int>& operator *= (const double& num)
-  { copy_on_write();
+  { this->copy_on_write();
     for(int i=0; i<=degree(); ++i) coeff(i) *= (int)num; 
     reduce(); return *this; }
 
   Polynomial<int>& operator /= (const double& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) /= (int)num; 
     reduce(); return *this; }
 
   Polynomial<int>& operator %= (const double& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) %= (int)num; 
     reduce(); return *this; }
 
@@ -874,12 +881,13 @@ operation on two instances of the ring type.}*/
 // CLASS TEMPLATE double: 
 /*{\Xsubst 
  iterator_traits<Forward_iterator>::value_type#double
-CGAL_NULL_TMPL_ARGS#
+<>#
 }*/
 
 /*{\Xanpage{Polynomial}{double}{Polynomials in one variable}{p}}*/
 
-CGAL_TEMPLATE_NULL class Polynomial<double> : 
+template <>
+class Polynomial<double> : 
   public Handle_for< Polynomial_rep<double> >
 {
 /*{\Xdefinition An instance |\Mvar| of the data type |\Mname| represents
@@ -897,6 +905,12 @@ determines the sign for the limit process $x \rightarrow \infty$.
   /*{\Xtypemember the component type representing the coefficients.}*/
 
   typedef Number_type_traits<NT>::Has_gcd Has_gcd;
+  typedef CGAL::Tag_false Has_sqrt;
+  typedef CGAL::Tag_true  Has_division;
+
+  typedef CGAL::Tag_false Has_exact_ring_operations;
+  typedef CGAL::Tag_false Has_exact_division;
+  typedef CGAL::Tag_false Has_exact_sqrt;
 
   typedef Handle_for< Polynomial_rep<double> > Base;
   typedef Polynomial_rep<double> Rep;
@@ -909,9 +923,9 @@ determines the sign for the limit process $x \rightarrow \infty$.
   coefficient vector.}*/
 
   //protected:
-  void reduce() { ptr()->reduce(); }
-  Vector& coeffs() { return ptr()->coeff; }
-  const Vector& coeffs() const { return ptr()->coeff; }
+  void reduce() { this->ptr()->reduce(); }
+  Vector& coeffs() { return this->ptr()->coeff; }
+  const Vector& coeffs() const { return this->ptr()->coeff; }
   Polynomial(size_type s) : Base( Polynomial_rep<double>(s) ) {}
   // creates a polynomial of degree s-1
 
@@ -960,39 +974,39 @@ determines the sign for the limit process $x \rightarrow \infty$.
 
   //protected: // accessing coefficients internally:
   double& coeff(unsigned int i) 
-  { CGAL_assertion(!is_shared() && i<(ptr()->coeff.size()));
-    return ptr()->coeff[i]; 
+  { CGAL_assertion(!this->is_shared() && i<(this->ptr()->coeff.size()));
+    return this->ptr()->coeff[i]; 
   }
   public:
 
   /*{\Xoperations 3 3 }*/
-  const_iterator begin() const { return ptr()->coeff.begin(); }
+  const_iterator begin() const { return this->ptr()->coeff.begin(); }
   /*{\Xop a random access iterator pointing to $a_0$.}*/
-  const_iterator end()   const { return ptr()->coeff.end(); }
+  const_iterator end()   const { return this->ptr()->coeff.end(); }
   /*{\Xop a random access iterator pointing beyond $a_d$.}*/
 
   int degree() const 
-  { return ptr()->coeff.size()-1; } 
+  { return this->ptr()->coeff.size()-1; } 
   /*{\Xop the degree of the polynomial.}*/
 
   const double& operator[](unsigned int i) const 
-  { CGAL_assertion( i<(ptr()->coeff.size()) );
-    return ptr()->coeff[i]; }
+  { CGAL_assertion( i<(this->ptr()->coeff.size()) );
+    return this->ptr()->coeff[i]; }
   /*{\Xarrop the coefficient $a_i$ of the polynomial.}*/
 
   double eval_at(const double& r) const
   /*{\Xop evaluates the polynomial at |r|.}*/
   { CGAL_assertion( degree()>=0 );
-    double res = ptr()->coeff[0], x = r;
+    double res = this->ptr()->coeff[0], x = r;
     for(int i=1; i<=degree(); ++i) 
-    { res += ptr()->coeff[i]*x; x*=r; }
+    { res += this->ptr()->coeff[i]*x; x*=r; }
     return res; 
   }
 
   CGAL::Sign sign() const
   /*{\Xop returns the sign of the limit process for $x \rightarrow \infty$
   (the sign of the leading coefficient).}*/
-  { const double& leading_coeff = ptr()->coeff.back();
+  { const double& leading_coeff = this->ptr()->coeff.back();
     if (leading_coeff < double(0)) return (CGAL::NEGATIVE);
     if (leading_coeff > double(0)) return (CGAL::POSITIVE);
     return CGAL::ZERO;
@@ -1000,7 +1014,7 @@ determines the sign for the limit process $x \rightarrow \infty$.
 
   bool is_zero() const
   /*{\Xop returns true iff |\Mvar| is the zero polynomial.}*/
-  { return degree()==0 && ptr()->coeff[0]==double(0); }
+  { return degree()==0 && this->ptr()->coeff[0]==double(0); }
 
   Polynomial<double> abs() const
   /*{\Xop returns |-\Mvar| if |\Mvar.sign()==NEGATIVE| and |\Mvar| 
@@ -1012,7 +1026,7 @@ determines the sign for the limit process $x \rightarrow \infty$.
   /*{\Xop returns the content of |\Mvar| (the gcd of its coefficients).
   \precond Requires |double| to provide a |gdc| operation.}*/
   { CGAL_assertion( degree()>=0 );
-    return gcd_of_range(ptr()->coeff.begin(),ptr()->coeff.end());
+    return gcd_of_range(this->ptr()->coeff.begin(),this->ptr()->coeff.end());
   }
  
 
@@ -1023,20 +1037,16 @@ determines the sign for the limit process $x \rightarrow \infty$.
   to the requirements of CGAL number types. \setopdims{3cm}{2cm}}*/
                      
   friend Polynomial<double>
-    operator + CGAL_NULL_TMPL_ARGS (const Polynomial<double>&, 
-                                    const Polynomial<double>&);
+    operator + <> (const Polynomial<double>&, const Polynomial<double>&);
 
   friend Polynomial<double>
-    operator - CGAL_NULL_TMPL_ARGS (const Polynomial<double>&, 
-                                    const Polynomial<double>&);
+    operator - <> (const Polynomial<double>&, const Polynomial<double>&);
 
   friend Polynomial<double>
-    operator * CGAL_NULL_TMPL_ARGS (const Polynomial<double>&, 
-                                    const Polynomial<double>&);
+    operator * <> (const Polynomial<double>&, const Polynomial<double>&);
 
   friend 
-
-  Polynomial<double>  operator / CGAL_NULL_TMPL_ARGS 
+  Polynomial<double>  operator / <> 
   (const Polynomial<double>& p1, const Polynomial<double>& p2);
   /*{\Xbinopfunc implements polynomial division of |p1| and |p2|. if
   |p1 = p2 * p3| then |p2| is returned. The result is undefined if |p3|
@@ -1075,22 +1085,21 @@ determines the sign for the limit process $x \rightarrow \infty$.
   the ring |double[x]|: $f = g*q + r$.  \precond |double| is a field, i.e.,
   there exists a division operation on |double|.  }*/
 
-  friend double to_double
-  CGAL_NULL_TMPL_ARGS (const Polynomial<double>& p);
+  friend double to_double <> (const Polynomial<double>& p);
 
 
   Polynomial<double>& operator += (const Polynomial<double>& p1)
-  { copy_on_write();
+  { this->copy_on_write();
     int d = std::min(degree(),p1.degree()), i;
     for(i=0; i<=d; ++i) coeff(i) += p1[i];
-    while (i<=p1.degree()) ptr()->coeff.push_back(p1[i++]);
+    while (i<=p1.degree()) this->ptr()->coeff.push_back(p1[i++]);
     reduce(); return (*this); }
 
   Polynomial<double>& operator -= (const Polynomial<double>& p1)
-  { copy_on_write();
+  { this->copy_on_write();
     int d = std::min(degree(),p1.degree()), i;
     for(i=0; i<=d; ++i) coeff(i) -= p1[i];
-    while (i<=p1.degree()) ptr()->coeff.push_back(-p1[i++]);
+    while (i<=p1.degree()) this->ptr()->coeff.push_back(-p1[i++]);
     reduce(); return (*this); }
 
   Polynomial<double>& operator *= (const Polynomial<double>& p1)
@@ -1107,26 +1116,26 @@ determines the sign for the limit process $x \rightarrow \infty$.
   // SPECIALIZE_MEMBERS(int double) START
     
   Polynomial<double>& operator += (const double& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) += (double)num; return *this; }
 
   Polynomial<double>& operator -= (const double& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) -= (double)num; return *this; }
 
   Polynomial<double>& operator *= (const double& num)
-  { copy_on_write();
+  { this->copy_on_write();
     for(int i=0; i<=degree(); ++i) coeff(i) *= (double)num; 
     reduce(); return *this; }
 
   Polynomial<double>& operator /= (const double& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) /= (double)num; 
     reduce(); return *this; }
 
 /*
   Polynomial<double>& operator %= (const double& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) %= (double)num; 
     reduce(); return *this; }
 */
@@ -1134,26 +1143,26 @@ determines the sign for the limit process $x \rightarrow \infty$.
 // SPECIALIZING_MEMBERS FOR const int& 
     
   Polynomial<double>& operator += (const int& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) += (double)num; return *this; }
 
   Polynomial<double>& operator -= (const int& num)
-  { copy_on_write();
+  { this->copy_on_write();
     coeff(0) -= (double)num; return *this; }
 
   Polynomial<double>& operator *= (const int& num)
-  { copy_on_write();
+  { this->copy_on_write();
     for(int i=0; i<=degree(); ++i) coeff(i) *= (double)num; 
     reduce(); return *this; }
 
   Polynomial<double>& operator /= (const int& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) /= (double)num; 
     reduce(); return *this; }
 
 /*
   Polynomial<double>& operator %= (const int& num)
-  { copy_on_write(); CGAL_assertion(num!=0);
+  { this->copy_on_write(); CGAL_assertion(num!=0);
     for(int i=0; i<=degree(); ++i) coeff(i) %= (double)num; 
     reduce(); return *this; }
 */
@@ -1162,7 +1171,7 @@ determines the sign for the limit process $x \rightarrow \infty$.
   //------------------------------------------------------------------
 
   void minus_offsetmult(const Polynomial<double>& p, const double& b, int k)
-  { CGAL_assertion(!is_shared());
+  { CGAL_assertion(!this->is_shared());
     Polynomial<double> s(size_type(p.degree()+k+1)); // zero entries
     for (int i=k; i <= s.degree(); ++i) s.coeff(i) = b*p[i-k];
     operator-=(s);
@@ -1339,14 +1348,10 @@ Polynomial<NT> modop (const Polynomial<NT>& p1,
 }
 
 
-#ifndef CGAL_CFG_MATCHING_BUG_2
-
 template <class NT> 
 inline Polynomial<NT> 
 gcd(const Polynomial<NT>& p1, const Polynomial<NT>& p2)
 { return Polynomial<NT>::gcd(p1,p2); }
-
-#endif
 
 
 template <class NT> bool operator == 
@@ -1373,11 +1378,9 @@ template <class NT> bool operator >=
   (const Polynomial<NT>& p1, const Polynomial<NT>& p2)
   { return ( (p1-p2).sign() != CGAL::NEGATIVE ); }    
 
-#ifndef CGAL_CFG_MATCHING_BUG_2
 template <class NT> CGAL::Sign 
   sign(const Polynomial<NT>& p)
   { return p.sign(); }
-#endif
 
 //------------------------------------------------------------------
 // SPECIALIZE_FUNCTION(NT,int double) START
@@ -1929,7 +1932,7 @@ void Polynomial<NT>::pseudo_div(
   const Polynomial<NT>& f, const Polynomial<NT>& g, 
   Polynomial<NT>& q, Polynomial<NT>& r, NT& D)
 {
-  TRACEN("pseudo_div "<<f<<" , "<< g);
+  CGAL_NEF_TRACEN("pseudo_div "<<f<<" , "<< g);
   int fd=f.degree(), gd=g.degree();
   if ( fd<gd ) 
   { q = Polynomial<NT>(0); r = f; D = 1; 
@@ -1941,7 +1944,7 @@ void Polynomial<NT>::pseudo_div(
   NT G = g[gd]; // highest order coeff of g
   D = G; while (--delta) D*=G; // D = G^delta
   Polynomial<NT> res = Polynomial<NT>(D)*f;
-  TRACEN("  pseudo_div start "<<res<<" "<<qd<<" "<<q.degree());
+  CGAL_NEF_TRACEN("  pseudo_div start "<<res<<" "<<qd<<" "<<q.degree());
   while (qd >= 0) {
     NT F = res[rd]; // highest order coeff of res
     NT t = F/G;     // ensured to be integer by multiplication of D
@@ -1953,14 +1956,14 @@ void Polynomial<NT>::pseudo_div(
   }
   r = res;
   CGAL_postcondition(Polynomial<NT>(D)*f==q*g+r);
-  TRACEN("  returning "<<q<<", "<<r<<", "<< D);
+  CGAL_NEF_TRACEN("  returning "<<q<<", "<<r<<", "<< D);
 }
 
 
 template <class NT> 
 Polynomial<NT> Polynomial<NT>::gcd(
   const Polynomial<NT>& p1, const Polynomial<NT>& p2)
-{ TRACEN("gcd("<<p1<<" , "<<p2<<")");
+{ CGAL_NEF_TRACEN("gcd("<<p1<<" , "<<p2<<")");
   if ( p1.is_zero() )
     if ( p2.is_zero() ) return Polynomial<NT>(NT(1));
     else return p2.abs();
@@ -1977,12 +1980,12 @@ Polynomial<NT> Polynomial<NT>::gcd(
   while ( ! f2.is_zero() ) { 
     Polynomial<NT>::pseudo_div(f1,f2,q,r,D);
     if (!first) M*=D;
-    TRACEV(f1);TRACEV(f2);TRACEV(q);TRACEV(r);TRACEV(M);
+    CGAL_NEF_TRACEV(f1);CGAL_NEF_TRACEV(f2);CGAL_NEF_TRACEV(q);CGAL_NEF_TRACEV(r);CGAL_NEF_TRACEV(M);
     r /= r.content();
     f1=f2; f2=r;
     first=false;
   }
-  TRACEV(f1.content());
+  CGAL_NEF_TRACEV(f1.content());
   return Polynomial<NT>(F)*f1.abs();
 }
 

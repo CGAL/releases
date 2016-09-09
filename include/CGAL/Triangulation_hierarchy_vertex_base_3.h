@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_hierarchy_vertex_base_3.h,v $
-// $Revision: 1.6 $ $Date: 2003/09/18 10:26:31 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/08/13 15:12:06 $
+// $Name:  $
 //
 // Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
 //                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -55,7 +55,7 @@ public:
   Vertex_handle up()   const { return _up; }
   Vertex_handle down() const { return _down; }
   void set_up(Vertex_handle u)   { _up=u; }
-  void set_down(Vertex_handle d) { if (this) _down=d; }
+  void set_down(Vertex_handle d) { _down=d; }
 
 private:
   Vertex_handle _up;    // same vertex one level above

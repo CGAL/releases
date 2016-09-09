@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Sphere_d.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:19:29 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2004/06/23 02:15:28 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_SPHERE_D_H
@@ -37,7 +37,7 @@ class  Sphere_d_rep  {
   typedef typename R::Point_d Point_d;
 
   friend class Sphere_d<R>;
-  friend bool equal_as_sets CGAL_NULL_TMPL_ARGS
+  friend bool equal_as_sets <>
     (const Sphere_d<R>&, const Sphere_d<R>&);
 
   std::vector< Point_d > P; // d+1 defining points, index range 0-d
@@ -62,8 +62,8 @@ public:
 
 /*{\Manpage {Sphere_d}{R}{Simple Spheres}{S}}*/ 
 
-template <class _R>
-class Sphere_d : public Handle_for< Sphere_d_rep<_R> > {
+template <class R_>
+class Sphere_d : public Handle_for< Sphere_d_rep<R_> > {
 
 /*{\Mdefinition 
 An instance $S$ of the data type |Sphere_d| is an oriented sphere in
@@ -79,13 +79,16 @@ to the orientation of the defining points, i.e., |orientation(A)|. }*/
 public: 
 /*{\Mtypes 4}*/
 
-typedef Sphere_d_rep<_R>  Rep;
+typedef Sphere_d_rep<R_>  Rep;
 typedef Handle_for<Rep>   Base;
-typedef Sphere_d<_R>      Self;
-typedef typename _R::Point_d Point_d;
+typedef Sphere_d<R_>      Self;
+typedef typename R_::Point_d Point_d;
+
+using Base::ptr;
+
 Sphere_d(const Base& b) : Base(b) {}
 
-typedef _R R;
+typedef R_ R;
 /*{\Mtypemember the representation type.}*/
 
 typedef typename R::RT RT;

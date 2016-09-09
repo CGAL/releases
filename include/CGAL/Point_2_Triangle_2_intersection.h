@@ -17,8 +17,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Point_2_Triangle_2_intersection.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:16:50 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.12 $ $Date: 2004/06/23 03:06:51 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -46,44 +46,9 @@ public:
     Point_2_Triangle_2_pair(typename K::Point_2 const *pt,
                             typename K::Triangle_2 const *trian);
     ~Point_2_Triangle_2_pair() {}
-#ifdef CGAL_CFG_RETURN_TYPE_BUG_2
-    Intersection_results intersection_type() const
-    {
-        typedef Line_2<K> line_t;
-        if (_known)
-            return _result;
-    // The non const this pointer is used to cast away const.
-        _known = true;
-        if (_trian->has_on_unbounded_side(*_pt)) {
-            _result = NO;
-        } else {
-            _result = POINT;
-        }
-        return _result;
-    /*
-        line_t l(_trian->vertex(0), _trian->vertex(1));
-        if (l.has_on_positive_side(_trian->vertex(2))) {
-            for (int i=0; i<3; i++) {
-                if (line_t(_trian->vertex(i), _trian->vertex(i+1)).
-                                    has_on_negative_side(*_pt)) {
-                    _result = NO;
-                    return _result;
-                }
-            }
-        } else {
-            for (int i=0; i<3; i++)
-                if(line_t(_trian->vertex(i), _trian->vertex(i-1)).
-                                    has_on_negative_side(*_pt)){
-                    _result = NO;
-                    return _result;
-                }
-        }
-    */
-    }
-    
-#else
+
     Intersection_results intersection_type() const;
-#endif // CGAL_CFG_RETURN_TYPE_BUG_2
+
     bool                intersection(typename K::Point_2 &result) const;
 protected:
     typename K::Point_2 const *    _pt;
@@ -131,7 +96,6 @@ Point_2_Triangle_2_pair(typename K::Point_2 const *pt,
     _trian = trian;
 }
 
-#ifndef CGAL_CFG_RETURN_TYPE_BUG_2
 template <class K>
 typename Point_2_Triangle_2_pair<K>::Intersection_results
 Point_2_Triangle_2_pair<K>::intersection_type() const
@@ -167,8 +131,6 @@ Point_2_Triangle_2_pair<K>::intersection_type() const
     }
 */
 }
-
-#endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
 
 
@@ -206,10 +168,11 @@ intersection(const typename CGAL_WRAP(K)::Point_2 &pt,
 }
 
 template <class K>
+inline
 Object
 intersection(const typename CGAL_WRAP(K)::Triangle_2 &tr,
 	     const typename CGAL_WRAP(K)::Point_2 &pt, 
-	     const K&)
+	     const K&k)
 {
   return CGALi::intersection(pt, tr, k);
 }
@@ -233,7 +196,8 @@ inline
 bool
 do_intersect(const Triangle_2<K> &tr, const Point_2<K> &pt)
 {
-  return CGALi::do_intersect(pt, tr, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect()(pt, tr);
 }
 
 template <class K>
@@ -241,21 +205,24 @@ inline
 bool 
 do_intersect(const Point_2<K> &pt, const Triangle_2<K> &tr)
 {
-  return CGALi::do_intersect(pt, tr, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect()(pt, tr);
 }
 
 template <class K>
 inline Object
 intersection(const Triangle_2<K> &tr, const Point_2<K> &pt)
 {
-    return CGALi::intersection(pt, tr, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(pt, tr);
 }
 
 template <class K>
 inline Object
 intersection(const Point_2<K> &pt, const Triangle_2<K> &tr)
 {
-    return CGALi::intersection(pt, tr, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(pt, tr);
 }
 CGAL_END_NAMESPACE
 

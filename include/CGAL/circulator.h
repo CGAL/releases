@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Circulator/include/CGAL/circulator.h,v $
-// $Revision: 1.22 $ $Date: 2003/10/21 12:14:41 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.26 $ $Date: 2004/09/25 09:33:08 $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 
@@ -86,15 +86,18 @@ template <class C>
 struct I_Circulator_traits {
     typedef  Iterator_tag  category;
 };
-CGAL_TEMPLATE_NULL
+
+template <>
 struct I_Circulator_traits<Forward_circulator_tag> {
     typedef  Circulator_tag  category;
 };
-CGAL_TEMPLATE_NULL
+
+template <>
 struct I_Circulator_traits<Bidirectional_circulator_tag> {
     typedef  Circulator_tag  category;
 };
-CGAL_TEMPLATE_NULL
+
+template <>
 struct I_Circulator_traits<Random_access_circulator_tag> {
     typedef  Circulator_tag  category;
 };
@@ -111,7 +114,7 @@ template <class Tag, class IC>
 struct I_Circulator_size_traits {
     typedef  std::size_t  size_type;
 };
-#ifndef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
+
 template <class C>
 struct I_Circulator_size_traits< Forward_circulator_tag, C> {
     typedef  typename  C::size_type  size_type;
@@ -124,22 +127,24 @@ template <class C>
 struct I_Circulator_size_traits< Random_access_circulator_tag, C> {
     typedef  typename  C::size_type  size_type;
 };
-#endif // CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION //
 
 template <class CCtg>
 struct I_Iterator_from_circulator_traits {
     typedef CCtg iterator_category;
 };
-CGAL_TEMPLATE_NULL
+
+template <>
 struct I_Iterator_from_circulator_traits< Forward_circulator_tag> {
     typedef  std::forward_iterator_tag  iterator_category;
 };
-CGAL_TEMPLATE_NULL
+
+template <>
 struct I_Iterator_from_circulator_traits<
     Bidirectional_circulator_tag> {
     typedef  std::bidirectional_iterator_tag  iterator_category;
 };
-CGAL_TEMPLATE_NULL
+
+template <>
 struct I_Iterator_from_circulator_traits<
     Random_access_circulator_tag> {
     typedef  std::random_access_iterator_tag  iterator_category;
@@ -149,15 +154,18 @@ template <class ICtg>
 struct I_Circulator_from_iterator_traits {
     typedef ICtg iterator_category;
 };
-CGAL_TEMPLATE_NULL
+
+template <>
 struct I_Circulator_from_iterator_traits< std::forward_iterator_tag> {
     typedef  Forward_circulator_tag  iterator_category;
 };
-CGAL_TEMPLATE_NULL
+
+template <>
 struct I_Circulator_from_iterator_traits<std::bidirectional_iterator_tag> {
     typedef  Bidirectional_circulator_tag  iterator_category;
 };
-CGAL_TEMPLATE_NULL
+
+template <>
 struct I_Circulator_from_iterator_traits<std::random_access_iterator_tag> {
     typedef  Random_access_circulator_tag  iterator_category;
 };
@@ -799,9 +807,6 @@ public:
         --*this;
         return tmp;
     }
-#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
-    Self& operator+=( difference_type n);
-#else
     Self& operator+=( difference_type n) {
         CGAL_assertion( ctnr != NULL);
         CGAL_assertion( i != ctnr->end());
@@ -815,7 +820,6 @@ public:
         i = ctnr->begin() + j;
         return *this;
     }
-#endif
     Self operator+( difference_type n) const {
         Self tmp = *this;
         return tmp += n;
@@ -848,26 +852,6 @@ operator+( typename Circulator_from_container<Ctnr>::difference_type n,
     Circulator_from_container<Ctnr> tmp = c;
     return tmp += n;
 }
-
-#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
-template <class Ctnr>
-Circulator_from_container<Ctnr>&
-Circulator_from_container<Ctnr>::
-operator+=( typename Circulator_from_container<Ctnr>::difference_type n) {
-    CGAL_assertion( ctnr != NULL);
-    CGAL_assertion( i != ctnr->end());
-    typename Ctnr::difference_type j    = i - ctnr->begin();
-    typename Ctnr::difference_type size = ctnr->size();
-    CGAL_assertion( j    >= 0);
-    CGAL_assertion( size >= 0);
-    j = non_negative_mod( j + n, size);
-    CGAL_assertion( j >= 0);
-    CGAL_assertion( j < size);
-    i = ctnr->begin() + j;
-    return *this;
-}
-#endif // CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
-
 
 template < class  Ctnr>
 class Const_circulator_from_container {
@@ -956,9 +940,6 @@ public:
         --*this;
         return tmp;
     }
-#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
-    Self& operator+=( difference_type n);
-#else
     Self& operator+=( difference_type n) {
         CGAL_assertion( ctnr != NULL);
         CGAL_assertion( i != ctnr->end());
@@ -972,7 +953,6 @@ public:
         i = ctnr->begin() + j;
         return *this;
     }
-#endif
     Self operator+( difference_type n) const {
         Self tmp = *this;
         return tmp += n;
@@ -1006,24 +986,6 @@ operator+( typename Const_circulator_from_container<Ctnr>::difference_type n,
     return tmp += n;
 }
 
-#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
-template <class Ctnr>
-Const_circulator_from_container<Ctnr>&
-Const_circulator_from_container<Ctnr>::
-operator+=( typename Const_circulator_from_container<Ctnr>::difference_type n){
-    CGAL_assertion( ctnr != NULL);
-    CGAL_assertion( i != ctnr->end());
-    typename Ctnr::difference_type j    = i - ctnr->begin();
-    typename Ctnr::difference_type size = ctnr->size();
-    CGAL_assertion( j    >= 0);
-    CGAL_assertion( size >= 0);
-    j = non_negative_mod( j + n, size);
-    CGAL_assertion( j >= 0);
-    CGAL_assertion( j < size);
-    i = ctnr->begin() + j;
-    return *this;
-}
-#endif // CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
 
 // Note: TT, SS, and DD are here for backwards compatibility, they are
 // not used.
@@ -1051,6 +1013,9 @@ private:
     I m_end;
     I current;
 
+    // The following static iterator is needed so that we have a value
+    // that can be uniquely compared (the default constructed one can be
+    // different each time).
     static I null_iterator;
 
 public:

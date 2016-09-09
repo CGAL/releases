@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Sweep_line_2/include/CGAL/Sweep_line_2/Sweep_line_event.h,v $
-// $Revision: 1.22 $ $Date: 2003/09/18 10:25:49 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.24 $ $Date: 2004/11/03 13:42:21 $
+// $Name:  $
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>
 #ifndef CGAL_SWEEP_LINE_EVENT_H
@@ -22,6 +22,7 @@
 #include <CGAL/Sweep_line_2/Sweep_line_functors.h>
 #include <list>
 #include <set>
+#include<functional>
 
 
 CGAL_BEGIN_NAMESPACE
@@ -58,15 +59,16 @@ public:
 
   //typedef Sweep_line_subcurve<Traits> SubCurve;
   typedef CurveWrap SubCurve;
-  typedef std::list<SubCurve *> SubcurveContainer;
+  typedef std::list<SubCurve *> SubcurveContainer; //TODO - change it to SET (faster?)
   typedef typename SubcurveContainer::iterator SubCurveIter;
 
   typedef Status_line_curve_less_functor<Traits, SubCurve> StatusLineCurveLess;
   typedef std::set<SubCurve*, StatusLineCurveLess> StatusLine;
   typedef typename StatusLine::iterator StatusLineIter;
 
-  typedef std::list<Point_2> VerticalXPointList;
-  typedef typename VerticalXPointList::iterator VerticalXPointListIter; 
+	typedef  Point_less_functor<Point_2 ,SweepLineTraits_2 > PointLess;
+	typedef std::set<Point_2 , PointLess> VerticalXPointSet;  
+  typedef typename VerticalXPointSet::iterator VerticalXPointSetIter; 
 
   typedef std::list<SubCurve *> VerticalCurveList;
   typedef typename VerticalCurveList::iterator VerticalCurveListIter;
@@ -75,7 +77,10 @@ public:
   Sweep_line_event(const Point_2 &point, Traits *traits) :
     m_point(point), m_traits(traits), m_isInitialized(false),
     m_isInternalIntersectionPoint(false), m_containsOverlap(false)
+	
+
   { 
+	  m_verticalCurveXPoints = new VerticalXPointSet(PointLess(m_traits));
     m_leftCurves = new SubcurveContainer();
     m_rightCurves = new SubcurveContainer();
   }
@@ -107,16 +112,20 @@ public:
     {
       m_verticalCurves.push_back(scurve);
 
-    } else 
+    }
+    else 
     {
       const Point_2 *rel = &(source);
       if ( m_traits->point_equal(m_point, source) )
-	rel = &(target);
+	      rel = &(target);
       
-      if ( m_traits->compare_x(m_point, *rel) == LARGER ) {
-	add_curve_to_left(scurve, m_rightmostPointToLeft, true);
-      } else {
-	add_curve_to_right(scurve);
+      if ( m_traits->compare_x(m_point, *rel) == LARGER )
+      {
+	      add_curve_to_left(scurve, m_rightmostPointToLeft, true);
+      } 
+      else 
+      {
+      	add_curve_to_right(scurve);
       }
     }
   }
@@ -345,7 +354,7 @@ public:
   }
 
 
-  /*! eturns the list of vertical curves passing through the event point.
+  /*!returns the list of vertical curves passing through the event point.
     @return a reference to the list of curves.
   */
   VerticalCurveList &get_vertical_curves() {
@@ -362,10 +371,13 @@ public:
    *  @param p a reference to the point
    *  @param requireSort false if the point is to be added at the end
    *  of the list.
-   *  TODO - replace the datastructure to a set
+   *  
    */
   void add_vertical_curve_x_point(const Point_2 &p, bool requireSort=false) 
   {
+    m_verticalCurveXPoints->insert(p);
+  }
+	  /*
     if ( m_verticalCurveXPoints.empty() ) 
     {
       m_verticalCurveXPoints.push_back(p); 
@@ -379,7 +391,7 @@ public:
       }
     } else
     {
-      VerticalXPointListIter iter = m_verticalCurveXPoints.begin();
+      VerticalXPointSetIter iter = m_verticalCurveXPoints.begin();
       while ( iter != m_verticalCurveXPoints.end() )
       {
 	if ( m_traits->compare_xy(*iter, p) == SMALLER )
@@ -394,6 +406,7 @@ public:
       }
     }
   }
+  */
 
   /*! 
    *  Returns a referece to the list of intersection points on the 
@@ -402,8 +415,8 @@ public:
    * will be empty.
    * @return a reference to the list of points.
    */
-  VerticalXPointList &get_vertical_x_point_list() {
-    return m_verticalCurveXPoints;
+  VerticalXPointSet &get_vertical_x_point_list() {
+    return *m_verticalCurveXPoints;
   }
 
   /*! Mark the event as an intersection point at an interior of a curve.
@@ -458,6 +471,12 @@ protected:
     }
   }
 
+
+
+
+  
+
+
   /*! The point of the event */
   Point_2 m_point;
 
@@ -488,7 +507,7 @@ protected:
   VerticalCurveList m_verticalCurves; 
 
   /*! a list of intersection points on the vertical curves */
-  VerticalXPointList m_verticalCurveXPoints;
+  VerticalXPointSet* m_verticalCurveXPoints;
 
   /*! a flag that inidcates whether the event is an "interior" intersection 
       point, or just an end point of all curves passing through it.
@@ -541,6 +560,15 @@ Print()
     (*iter1)->Print();
     std::cout << "\n";
   }
+  std::cout <<"\tVertical curves: \n" ;
+  for( VerticalCurveListIter iter2 = m_verticalCurves.begin() ; 
+       iter2 != m_verticalCurves.end() ; 
+       ++iter2)
+  {
+    std::cout<<"\t";
+    (*iter2)->Print();
+    std::cout<<"\n";
+  }
   std::cout << std::endl;
 }
 
@@ -550,8 +578,8 @@ Sweep_line_event<SweepLineTraits_2, CurveWrap>::
 PrintVerticalXPoints()
 {
   std::cout << "Vertical intersection points for " << m_point << ":\n";
-  typename std::list<Point_2>::iterator iter = m_verticalCurveXPoints.begin();
-  while ( iter != m_verticalCurveXPoints.end() )
+  typename std::list<Point_2>::iterator iter = m_verticalCurveXPoints->begin();
+  while ( iter != m_verticalCurveXPoints->end() )
   {
     std::cout << "\t" << *iter << "\n";
     ++iter;

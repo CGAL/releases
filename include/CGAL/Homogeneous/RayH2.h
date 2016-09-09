@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/RayH2.h,v $
-// $Revision: 1.11 $ $Date: 2003/10/21 12:16:11 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.14 $ $Date: 2004/02/19 20:26:36 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  
@@ -31,9 +31,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class RayH2
-  : public R_::template Handle<Twotuple<typename R_::Point_2> >::type
 {
-CGAL_VC7_BUG_PROTECTED
     typedef typename R_::FT                   FT;
     typedef typename R_::RT                   RT;
     typedef typename R_::Point_2              Point_2;
@@ -42,8 +40,10 @@ CGAL_VC7_BUG_PROTECTED
     typedef typename R_::Vector_2             Vector_2;
     typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-    typedef Twotuple<Point_2>                        rep;
-    typedef typename R_::template Handle<rep>::type  base;
+    typedef Twotuple<Point_2>                        Rep;
+    typedef typename R_::template Handle<Rep>::type  Base;
+
+    Base base;
 
 public:
     typedef R_                                             R;
@@ -51,16 +51,16 @@ public:
     RayH2() {}
 
     RayH2( const Point_2& sp, const Point_2& secondp)
-      : base(rep(sp, secondp)) {}
+      : base(sp, secondp) {}
 
     RayH2( const Point_2& sp, const Direction_2& d)
-      : base(rep(sp, sp + d.to_vector())) {}
+      : base(sp, sp + d.to_vector()) {}
 
     RayH2( const Point_2& sp, const Vector_2& v)
-      : base(rep(sp, sp + v)) {}
+      : base(sp, sp + v) {}
 
     RayH2( const Point_2& sp, const Line_2& l)
-      : base(rep(sp, sp + l.to_vector())) {}
+      : base(sp, sp + l.to_vector()) {}
 
     bool    operator==(const RayH2<R>& r) const;
     bool    operator!=(const RayH2<R>& r) const;
@@ -88,7 +88,7 @@ template < class R >
 inline
 const typename RayH2<R>::Point_2 &
 RayH2<R>::source() const
-{ return Ptr()->e0; }
+{ return get(base).e0; }
 
 template < class R >
 inline
@@ -120,7 +120,7 @@ const typename RayH2<R>::Point_2 &
 RayH2<R>::second_point() const
 {
   CGAL_kernel_precondition( !is_degenerate() );
-  return Ptr()->e1;
+  return get(base).e1;
 }
 
 template < class R >
@@ -215,7 +215,7 @@ template < class R >
 CGAL_KERNEL_INLINE
 bool
 RayH2<R>::is_degenerate() const
-{ return start() == Ptr()->e1; }
+{ return start() == get(base).e1; }
 
 template < class R >
 inline

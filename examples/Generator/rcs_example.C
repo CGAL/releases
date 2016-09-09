@@ -1,7 +1,5 @@
-// file          : examples/Generator/rcs_example.C
-// --------------------------------------
-// generator of random convex set
-//
+// file: examples/Generator/rcs_example.C
+
 #include <CGAL/Cartesian.h>
 #include <CGAL/point_generators_2.h>
 #include <CGAL/random_convex_set_2.h>

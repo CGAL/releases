@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/constructions/kernel_ftC3.h,v $
-// $Revision: 1.11 $ $Date: 2003/10/21 12:14:38 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.15 $ $Date: 2004/03/13 22:39:06 $
+// $Name:  $
 //
 // Author(s)     : Herve Bronnimann
 
@@ -236,37 +236,6 @@ squared_radiusC3(const FT &px, const FT &py, const FT &pz,
         + CGAL_NTS square(num_z)) / CGAL_NTS square<FT>(FT(2) * den);
 }
 
-template <class FT>
-CGAL_KERNEL_MEDIUM_INLINE
-void
-point_on_lineC3(const FT &lpx, const FT &lpy, const FT &lpz,
-                const FT &ldx, const FT &ldy, const FT &ldz,
-		int i,
-                FT &x, FT &y, FT &z)
-{
-  x = lpx + ldx*FT(i);
-  y = lpy + ldy*FT(i);
-  z = lpz + ldz*FT(i);
-}
-
-template <class FT>
-CGAL_KERNEL_MEDIUM_INLINE
-void
-projection_lineC3(const FT &px, const FT &py, const FT &pz,
-                  const FT &lpx, const FT &lpy, const FT &lpz,
-                  const FT &ldx, const FT &ldy, const FT &ldz,
-                  FT &x, FT &y, FT &z)
-{
-  // projects p on the line l
-  FT dpx = px-lpx;
-  FT dpy = py-lpy;
-  FT dpz = pz-lpz;
-  FT lambda = (ldx*dpx+ldy*dpy+ldz*dpz) / (ldx*ldx+ldy*ldy+ldz*ldz);
-  x = lpx + lambda * ldx;
-  y = lpy + lambda * ldy;
-  z = lpz + lambda * ldz;
-}
-
 template <class FT> 
 CGAL_KERNEL_MEDIUM_INLINE
 void            
@@ -382,6 +351,67 @@ scaled_distance_to_planeC3(
   return det3x3_by_formula(ppx-px,ppy-py,ppz-pz,
                            pqx-px,pqy-py,pqz-pz,
                            prx-px,pry-py,prz-pz);
+}
+
+template < class FT >
+CGAL_KERNEL_INLINE
+void
+bisector_of_pointsC3(const FT &px, const FT &py, const FT &pz,
+		     const FT &qx, const FT &qy, const FT &qz,
+		     FT &a, FT &b, FT &c, FT &d)
+{
+  a = 2*(px - qx);
+  b = 2*(py - qy);
+  c = 2*(pz - qz);
+  d = CGAL_NTS square(qx) + CGAL_NTS square(qy) + CGAL_NTS square(qz)
+    - CGAL_NTS square(px) - CGAL_NTS square(py) - CGAL_NTS square(pz);
+}
+
+template < class FT >
+void
+bisector_of_planesC3(const FT &pa, const FT &pb, const FT &pc, const FT &pd,
+		     const FT &qa, const FT &qb, const FT &qc, const FT &qd,
+		     FT &a, FT &b, FT &c, FT &d)
+{
+  // We normalize the equations of the 2 planes, and we then add them.
+  FT n1 = CGAL_NTS sqrt(CGAL_NTS square(pa) + CGAL_NTS square(pb) +
+                        CGAL_NTS square(pc));
+  FT n2 = CGAL_NTS sqrt(CGAL_NTS square(qa) + CGAL_NTS square(qb) +
+                        CGAL_NTS square(qc));
+  a = n2 * pa + n1 * qa;
+  b = n2 * pb + n1 * qb;
+  c = n2 * pc + n1 * qc;
+  d = n2 * pd + n1 * qd;
+
+  // Care must be taken for the case when this produces a degenerate line.
+  if (a == 0 && b == 0 && c == 0) {
+    a = n2 * pa - n1 * qa;
+    b = n2 * pb - n1 * qb;
+    c = n2 * pc - n1 * qc;
+    d = n2 * pd - n1 * qd;
+  }
+}
+
+template < class FT >
+FT
+squared_areaC3(const FT &px, const FT &py, const FT &pz,
+	       const FT &qx, const FT &qy, const FT &qz,
+	       const FT &rx, const FT &ry, const FT &rz)
+{
+    // Compute vectors pq and pr, then the cross product,
+    // then 1/4 of its squared length.
+    FT dqx = qx-px;
+    FT dqy = qy-py;
+    FT dqz = qz-pz;
+    FT drx = rx-px;
+    FT dry = ry-py;
+    FT drz = rz-pz;
+
+    FT vx = dqy*drz-dqz*dry;
+    FT vy = dqz*drx-dqx*drz;
+    FT vz = dqx*dry-dqy*drx;
+
+    return (CGAL_NTS square(vx) + CGAL_NTS square(vy) + CGAL_NTS square(vz))/4;
 }
 
 CGAL_END_NAMESPACE

@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_ds_vertex_2.h,v $
-// $Revision: 1.21 $ $Date: 2003/09/18 10:26:13 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.25 $ $Date: 2004/02/01 20:11:39 $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec
 
@@ -31,6 +31,8 @@ class  Triangulation_ds_vertex_2
 {
   typedef typename Vb::Triangulation_data_structure Tds;
 public:
+  typedef typename Tds::size_type          size_type;
+  typedef typename Tds::difference_type    difference_type;
   typedef typename Tds::Vertex             Vertex;
   typedef typename Tds::Vertex_handle      Vertex_handle;
   typedef typename Tds::Face_handle        Face_handle;
@@ -42,7 +44,7 @@ public:
   Triangulation_ds_vertex_2() : Vb() {}
 
   //ACCESS
-  int degree(); //should be const
+  size_type degree(); //should be const
 
   //Deprecated access to circulators - for bacward compatibility
   // the following should be const
@@ -75,8 +77,8 @@ private:
 };
 
 template <class Tds>
-int
-Triangulation_ds_vertex_2 <Tds> ::
+typename Triangulation_ds_vertex_2 <Tds>::size_type
+Triangulation_ds_vertex_2 <Tds>::
 degree() //const
 {
   int count = 0;
@@ -108,10 +110,10 @@ is_valid(bool verbose, int level)
 {
   bool result = Vb::is_valid(verbose, level);
   CGAL_triangulation_assertion(result);
-  if (face() != NULL) { // face==NULL if dim <0
-    result = result && ( &*face()->vertex(0) == this ||
-			 &*face()->vertex(1) == this ||
-			 &*face()->vertex(2) == this );
+  if (this->face() != Face_handle()) { // face==NULL if dim <0
+    result = result && ( &*this->face()->vertex(0) == this ||
+			 &*this->face()->vertex(1) == this ||
+			 &*this->face()->vertex(2) == this );
   }
   CGAL_triangulation_assertion(result);
   return result;

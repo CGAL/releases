@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Distance_2/include/CGAL/squared_distance_utils.h,v $
 // $Revision: 1.11 $ $Date: 2003/10/21 12:15:22 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 

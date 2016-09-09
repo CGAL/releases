@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_iterator_adaptator.h,v $
 // $Revision: 1.6 $ $Date: 2003/09/18 10:26:16 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec
 //                 Menelaos Karavelas <mkaravel@cse.nd.edu>

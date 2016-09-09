@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/VectorCd.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:19:31 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2004/09/17 12:12:42 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_VECTORCD_H
@@ -42,6 +42,9 @@ class VectorCd : public Handle_for< Tuple_d<_FT,_LA> > {
   typedef Tuple_d<_FT,_LA>  Tuple;
   typedef Handle_for<Tuple> Base;
   typedef VectorCd<_FT,_LA> Self;
+
+  using Base::ptr;
+  using Base::copy_on_write;
 
 typename _LA::Vector& vector_rep() { return ptr()->v; }
 const typename _LA::Vector& vector_rep() const { return ptr()->v; }
@@ -106,7 +109,7 @@ VectorCd(const FT& x, const FT& y, const FT& z, const FT& w)
   vector_rep()/=w; }
 
 VectorCd(int x, int y, int z, int w) :
-  Base( Tuple((FT)x,(FT)y,(FT)z) )
+  Base( Tuple((FT)x,(FT)y,(FT)z, MatchHelper()) )
 { CGAL_assertion_msg((w!=0), "VectorCd::construction: w == 0.");
   vector_rep()/=w; }
 
@@ -227,9 +230,9 @@ FT x()  const { return cartesian(0); }
 FT y()  const { return cartesian(1); }
 FT z()  const { return cartesian(2); }
 
-friend std::istream& operator>> CGAL_NULL_TMPL_ARGS
+friend std::istream& operator>> <>
   (std::istream& I, VectorCd<FT,LA>& v);
-friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS
+friend std::ostream& operator<< <>
   (std::ostream& O, const VectorCd<FT,LA>& v);
 
 }; // end of class VectorCd

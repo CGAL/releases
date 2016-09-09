@@ -1,3 +1,5 @@
+// file: examples/Point_set_2/rs_example.C
+
 #include <CGAL/Cartesian.h>
 #include <list>
 #include <CGAL/Point_set_2.h>

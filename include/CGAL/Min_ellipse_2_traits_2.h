@@ -12,18 +12,15 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/Min_ellipse_2_traits_2.h,v $
-// $Revision: 1.4 $ $Date: 2003/09/18 10:23:12 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/09/05 12:30:26 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>, Bernd Gärtner
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
 
 #ifndef CGAL_MIN_ELLIPSE_2_TRAITS_2_H
 #define CGAL_MIN_ELLIPSE_2_TRAITS_2_H
 
-// includes
-#ifndef CGAL_POINT_2_H
-#  include <CGAL/Point_2.h>
-#endif
+
 #ifndef CGAL_OPTIMISATION_ELLIPSE_2_H
 #  include <CGAL/Optimisation_ellipse_2.h>
 #endif
@@ -45,7 +42,7 @@ class Min_ellipse_2_traits_2 {
   public:
     // types
     typedef  K_                               K;
-    typedef  CGAL::Point_2<K>                 Point;
+    typedef  typename K::Point_2              Point;
     typedef  CGAL::Optimisation_ellipse_2<K>  Ellipse;
 
 private:

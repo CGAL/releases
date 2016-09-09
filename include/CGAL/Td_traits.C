@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Trapezoidal_decomposition/include/CGAL/Td_traits.C,v $
 // $Revision: 1.4 $ $Date: 2003/09/18 10:25:54 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 #ifndef CGAL_TD_TRAITS_H

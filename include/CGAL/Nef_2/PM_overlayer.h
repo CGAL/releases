@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_overlayer.h,v $
-// $Revision: 1.16 $ $Date: 2003/10/21 12:21:03 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.20.4.1 $ $Date: 2004/12/08 20:04:46 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -25,8 +25,8 @@
 #include <CGAL/Union_find.h>
 #include <CGAL/Nef_2/Segment_overlay_traits.h>
 #include <CGAL/Nef_2/geninfo.h>
-#undef _DEBUG
-#define _DEBUG 13
+#undef CGAL_NEF_DEBUG
+#define CGAL_NEF_DEBUG 13
 #include <CGAL/Nef_2/debug.h>
 
 #ifndef CGAL_USE_LEDA
@@ -271,6 +271,20 @@ public:
   typedef typename Decorator::Hole_iterator Hole_iterator;
   typedef typename Decorator::Isolated_vertex_iterator Isolated_vertex_iterator;
 
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::clear;
+  using Base::vertices_begin;
+  using Base::vertices_end;
+  using Base::halfedges_begin;
+  using Base::halfedges_end;
+  using Base::faces_begin;
+  using Base::faces_end;
+  using Base::number_of_vertices;
+  using Base::number_of_halfedges;
+  using Base::number_of_faces;
+  using Base::new_vertex;
+  using Base::new_face;
+#endif
 
   // C++ is really friendly:
   #define USECMARK(t) const Mark& mark(t h) const { return Base::mark(h); }
@@ -334,7 +348,7 @@ the three last operations are called for each non-trivial segment
 created vertex |v|. 
 \precond |Forward_iterator| has value type |Segment|.}*/
 {
-  TRACEN("creating from iterator range");
+  CGAL_NEF_TRACEN("creating from iterator range");
   typedef PMO_from_segs<Self,Forward_iterator,Object_data_accessor> 
     Output_from_segments;
   typedef Segment_overlay_traits<
@@ -388,13 +402,13 @@ and |\Mvar.mark(v,1) = D1.mark(f1)|.}*/
   create_face_objects(Out);
 
 
-  TRACEN("transfering marks");
-  Face_iterator f = faces_begin(); assoc_info(f);
+  CGAL_NEF_TRACEN("transfering marks");
+  Face_iterator f = this->faces_begin(); assoc_info(f);
   for (i=0; i<2; ++i) mark(f,i) = PI[i].mark(PI[i].faces_begin());
 
-  Vertex_iterator v, vend = vertices_end();
-  for (v = vertices_begin(); v != vend; ++v) {
-    TRACEN("mark at "<<PV(v));
+  Vertex_iterator v, vend = this->vertices_end();
+  for (v = this->vertices_begin(); v != vend; ++v) {
+    CGAL_NEF_TRACEN("mark at "<<PV(v));
     Halfedge_handle e_below = halfedge_below(v);
     Mark m_below[2];
     if ( e_below != Halfedge_handle() ) {
@@ -420,14 +434,14 @@ and |\Mvar.mark(v,1) = D1.mark(f1)|.}*/
       e(first_out_edge(v)), hend(e);
     CGAL_For_all(e,hend) {
       if ( is_forward(e) ) {
-        TRACEN("   halfedge "<<PE(e));
+        CGAL_NEF_TRACEN("   halfedge "<<PE(e));
         Halfedge_const_handle ei;
         bool supported;
         for (int i=0; i<2; ++i) {
           supported = ( supp_halfedge(e,i) != Halfedge_const_handle() );
           if ( supported ) {
             ei = supp_halfedge(e,i);
-            TRACEN("   supp halfedge "<<i<<" "<<PE(ei));
+            CGAL_NEF_TRACEN("   supp halfedge "<<i<<" "<<PE(ei));
             incident_mark(twin(e),i) = 
               PI[i].mark(PI[i].face(PI[i].twin(ei)));
             mark(e,i) = PI[i].mark(ei);
@@ -442,7 +456,7 @@ and |\Mvar.mark(v,1) = D1.mark(f1)|.}*/
     }
 
   }
-  for (f = ++faces_begin(); f != faces_end(); ++f) { // skip first face
+  for (f = ++this->faces_begin(); f != this->faces_end(); ++f) { // skip first face
     assoc_info(f);
     for (i=0; i<2; ++i) mark(f,i) = incident_mark(halfedge(f),i);
   }
@@ -462,20 +476,20 @@ according to the previous procedure |subdivide|, after this operation
 |\Mvar.mark(u) = predicate ( \Mvar.mark(u,0),\Mvar.mark(u,1) )|. The
 additional marks are invalidated afterwards. }*/
 { 
-  Vertex_iterator vit = vertices_begin(),
-                  vend = vertices_end();
+  Vertex_iterator vit = this->vertices_begin(),
+                  vend = this->vertices_end();
   for( ; vit != vend; ++vit) {
     mark(vit) = predicate(mark(vit,0),mark(vit,1));
     discard_info(vit); 
   }
-  Halfedge_iterator hit = halfedges_begin(),
-                    hend = halfedges_end();
+  Halfedge_iterator hit = this->halfedges_begin(),
+                    hend = this->halfedges_end();
   for(; hit != hend; ++(++hit)) {
     mark(hit) = predicate(mark(hit,0),mark(hit,1));
     discard_info(hit);
   }
-  Face_iterator fit = faces_begin(),
-                fend = faces_end();
+  Face_iterator fit = this->faces_begin(),
+                fend = this->faces_end();
   for(; fit != fend; ++fit) {
     mark(fit) = predicate(mark(fit,0),mark(fit,1));
     discard_info(fit);
@@ -495,30 +509,30 @@ and the edges are unified. The data accessor |keep| requires the function
 call operator\\[[bool operator()(Halfedge_handle e)]]\\that allows to
 avoid the simplification for edge pairs referenced by |e|.}*/
 {
-  TRACEN("simplifying"); 
+  CGAL_NEF_TRACEN("simplifying"); 
   typedef typename CGAL::Union_find<Face_handle>::handle Union_find_handle;
   CGAL::Unique_hash_map< Face_iterator, Union_find_handle> Pitem;
   CGAL::Union_find<Face_handle> unify_faces;
 
-  Face_iterator f, fend = faces_end();
-  for (f = faces_begin(); f!= fend; ++f) { 
+  Face_iterator f, fend = this->faces_end();
+  for (f = this->faces_begin(); f!= fend; ++f) { 
      Pitem[f] = unify_faces.make_set(f);
      clear_face_cycle_entries(f);
   }
 
 
-  Halfedge_iterator e = halfedges_begin(), en,
-                    eend = halfedges_end();
+  Halfedge_iterator e = this->halfedges_begin(), en,
+                    eend = this->halfedges_end();
   for(; en=e, ++(++en), e != eend; e=en) { 
     if ( keep(e) ) continue;
     if ( mark(e) == mark(face(e)) &&
          mark(e) == mark(face(twin(e))) ) {
-        TRACEN("deleting "<<PE(e));
+        CGAL_NEF_TRACEN("deleting "<<PE(e));
       if ( !unify_faces.same_set(Pitem[face(e)],
                                  Pitem[face(twin(e))]) ) {
         unify_faces.unify_sets( Pitem[face(e)],
                                 Pitem[face(twin(e))] );
-        TRACEN("unioning disjoint faces");
+        CGAL_NEF_TRACEN("unioning disjoint faces");
       }
       if ( is_closed_at_source(e) )       set_face(source(e),face(e));
       if ( is_closed_at_source(twin(e)) ) set_face(target(e),face(e));
@@ -527,7 +541,7 @@ avoid the simplification for edge pairs referenced by |e|.}*/
   }
 
   CGAL::Unique_hash_map<Halfedge_handle,bool> linked(false);
-  for (e = halfedges_begin(); e != eend; ++e) {
+  for (e = this->halfedges_begin(); e != eend; ++e) {
     if ( linked[e] ) continue;
     Halfedge_around_face_circulator hfc(e),hend(hfc);
     Halfedge_handle e_min = e;
@@ -546,8 +560,8 @@ avoid the simplification for edge pairs referenced by |e|.}*/
   }
 
 
-  Vertex_iterator v, vn, vend = vertices_end();
-  for(v = vertices_begin(); v != vend; v=vn) { TRACEN("at vertex "<<PV(v));
+  Vertex_iterator v, vn, vend = this->vertices_end();
+  for(v = this->vertices_begin(); v != vend; v=vn) { CGAL_NEF_TRACEN("at vertex "<<PV(v));
     vn=v; ++vn;
     if ( is_isolated(v) ) {
       if ( mark(v) == mark(face(v)) ) delete_vertex_only(v);
@@ -564,7 +578,7 @@ avoid the simplification for edge pairs referenced by |e|.}*/
   }
 
   Face_iterator fn;
-  for (f = faces_begin(); f != fend; f=fn) {
+  for (f = this->faces_begin(); f != fend; f=fn) {
     fn=f; ++fn;
     Union_find_handle pit = Pitem[f];
     if ( unify_faces.find(pit) != pit ) delete_face(f);
@@ -667,61 +681,61 @@ Mark& mark(Face_handle f, int i)  const
 void clear_associated_info_of_all_objects() const 
 {
   Vertex_iterator vit;
-  for (vit = vertices_begin(); vit != vertices_end(); ++vit)
+  for (vit = this->vertices_begin(); vit != this->vertices_end(); ++vit)
     discard_info(vit);
   Halfedge_iterator hit;
-  for (hit = halfedges_begin(); hit != halfedges_end(); ++hit) 
+  for (hit = this->halfedges_begin(); hit != this->halfedges_end(); ++hit) 
     discard_info(hit);
   Face_iterator fit;
-  for (fit = faces_begin(); fit != faces_end(); ++fit) 
+  for (fit = this->faces_begin(); fit != this->faces_end(); ++fit) 
     discard_info(fit);
 }
 
 template <typename Below_info>
 void create_face_objects(const Below_info& D) const
 {
-  TRACEN("create_face_objects()");
+  CGAL_NEF_TRACEN("create_face_objects()");
   CGAL::Unique_hash_map<Halfedge_handle,int> FaceCycle(-1);
   std::vector<Halfedge_handle>  MinimalHalfedge;
   int i=0;
-  Halfedge_iterator e, eend = halfedges_end();
-  for (e=halfedges_begin(); e != eend; ++e) {
+  Halfedge_iterator e, eend = this->halfedges_end();
+  for (e=this->halfedges_begin(); e != eend; ++e) {
     if ( FaceCycle[e] >= 0 ) continue; // already assigned
     Halfedge_around_face_circulator hfc(e),hend(hfc);
     Halfedge_handle e_min = e;
-    TRACE("face cycle "<<i<<"\n");
+    CGAL_NEF_TRACE("face cycle "<<i<<"\n");
     CGAL_For_all(hfc,hend) {
       FaceCycle[hfc]=i; // assign face cycle number
       if ( K.compare_xy(point(target(hfc)), point(target(e_min))) < 0 )
         e_min = hfc;
-      TRACE(PE(hfc));
+      CGAL_NEF_TRACE(PE(hfc));
     } 
-    TRACEN("");
+    CGAL_NEF_TRACEN("");
     MinimalHalfedge.push_back(e_min); ++i;
   }
 
-  Face_handle f_outer = new_face();
+  Face_handle f_outer = this->new_face();
   for (int j=0; j<i; ++j) {
     Halfedge_handle e = MinimalHalfedge[j];
-      TRACEN("  face cycle "<<j);TRACEN("  minimal halfedge "<<PE(e));
+      CGAL_NEF_TRACEN("  face cycle "<<j);CGAL_NEF_TRACEN("  minimal halfedge "<<PE(e));
     Point p1 = point(source(e)), 
           p2 = point(target(e)), 
           p3 = point(target(next(e)));
     if ( K.left_turn(p1,p2,p3) ) { // left_turn => outer face cycle
-        TRACEN("  creating new face object");
-      Face_handle f = new_face();
+        CGAL_NEF_TRACEN("  creating new face object");
+      Face_handle f = this->new_face();
       link_as_outer_face_cycle(f,e);
     }
   }
 
-  for (e = halfedges_begin(); e != eend; ++e) {
+  for (e = this->halfedges_begin(); e != eend; ++e) {
     if ( face(e) != Face_handle() ) continue;
-    TRACEN("linking hole "<<PE(e));
+    CGAL_NEF_TRACEN("linking hole "<<PE(e));
     Face_handle f = determine_face(e,MinimalHalfedge,FaceCycle,D);
     link_as_hole(f,e);
   }
-  Vertex_iterator v, v_end = vertices_end();
-  for (v = vertices_begin(); v != v_end; ++v) {
+  Vertex_iterator v, v_end = this->vertices_end();
+  for (v = this->vertices_begin(); v != v_end; ++v) {
     if ( !is_isolated(v) ) continue;
     Halfedge_handle e_below = D.halfedge_below(v);
     if ( e_below == Halfedge_handle() ) 
@@ -737,11 +751,11 @@ Face_handle determine_face(Halfedge_handle e,
   const std::vector<Halfedge_handle>& MinimalHalfedge,
   const CGAL::Unique_hash_map<Halfedge_handle,int>& FaceCycle,
   const Below_info& D) const
-{ TRACEN("determine_face "<<PE(e));
+{ CGAL_NEF_TRACEN("determine_face "<<PE(e));
   Halfedge_handle e_min = MinimalHalfedge[FaceCycle[e]];
   Halfedge_handle e_below = D.halfedge_below(target(e_min));
   if ( e_below == Halfedge_handle() ) // below is nirwana
-    return faces_begin();
+    return this->faces_begin();
   Face_handle f = face(e_below);
   if (f != Face_handle()) return f; // has face already
   f = determine_face(e_below, MinimalHalfedge, FaceCycle,D);

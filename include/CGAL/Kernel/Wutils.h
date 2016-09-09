@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Kernel/Wutils.h,v $
 // $Revision: 1.4 $ $Date: 2003/10/21 12:18:30 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman, Sylvain Pion
 

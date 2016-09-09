@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Planar_map_2/Handle_for_with_access.h,v $
 // $Revision: 1.4 $ $Date: 2003/09/18 10:24:45 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Oren Nechushtan
  

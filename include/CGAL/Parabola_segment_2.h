@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h,v $
-// $Revision: 1.14.2.1 $ $Date: 2004/01/17 01:38:43 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.17 $ $Date: 2004/09/03 17:26:27 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -85,20 +85,20 @@ public:
 
       p.push_back( this->o );
       k = 1;
-      tt = -this->STEP;
+      tt = -this->STEP();
       while ( CGAL::compare(tt, s[0]) == LARGER ) {
 	p.insert( p.begin(), f(tt) );
 	k--;
-	tt = -FT(k * k) * this->STEP;
+	tt = -FT(k * k) * this->STEP();
       }
       p.insert( p.begin(), f(s[0]) );
 
       k = 1;
-      tt = this->STEP;
+      tt = this->STEP();
       while ( CGAL::compare(tt, s[1]) == SMALLER ) {
 	p.push_back( f(tt) );
 	k++;
-	tt = FT(k * k) * this->STEP;
+	tt = FT(k * k) * this->STEP();
       }
       p.push_back( f(s[1]) );
     } else if ( !(CGAL::is_negative(s[0])) &&
@@ -110,13 +110,13 @@ public:
       p.push_back( f(s[0]) );
 
       tt = s[0];
-      k = int(CGAL::to_double(CGAL::sqrt(tt / this->STEP)));
+      k = int(CGAL::to_double(CGAL::sqrt(tt / this->STEP())));
 
       while ( CGAL::compare(tt, s[1]) == SMALLER ) {
 	if ( CGAL::compare(tt, s[0]) != SMALLER )
 	  p.push_back( f(tt) );
 	k++;
-	tt = FT(k * k) * this->STEP;
+	tt = FT(k * k) * this->STEP();
       }
       p.push_back( f(s[1]) );
     } else {
@@ -126,13 +126,13 @@ public:
       p.push_back( f(s[1]) );
 
       tt = s[1];
-      k = int(CGAL::to_double(-CGAL::sqrt(-tt / this->STEP)));
+      k = int(CGAL::to_double(-CGAL::sqrt(-tt / this->STEP())));
 
       while ( CGAL::compare(tt, s[0]) == LARGER ) {
 	if ( CGAL::compare(tt, s[1]) != LARGER )
 	  p.push_back( f(tt) );
 	k--;
-	tt = -FT(k * k) * this->STEP;
+	tt = -FT(k * k) * this->STEP();
       }
       p.push_back( f(s[0]) );
     }

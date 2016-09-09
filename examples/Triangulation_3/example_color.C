@@ -1,4 +1,5 @@
-// Triangulation_3/example_color.C
+// file: examples/Triangulation_3/example_color.C
+
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>

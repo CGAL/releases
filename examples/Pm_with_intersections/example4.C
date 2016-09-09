@@ -1,5 +1,4 @@
-// examples/Pm_with_intersections/example4
-// ---------------------------------------
+// file: examples/Pm_with_intersections/example4.C
 
 #include "short_names.h"
 

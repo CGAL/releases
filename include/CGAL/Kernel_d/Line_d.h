@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Line_d.h,v $
-// $Revision: 1.16 $ $Date: 2003/10/21 12:19:24 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.18 $ $Date: 2004/06/23 02:15:27 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 
@@ -42,6 +42,8 @@ class Line_d : public Handle_for< Pair_d<p_R> > {
   typedef Pair_d<p_R>      Pair;
   typedef Handle_for<Pair> Base;
   typedef Line_d<p_R>      Self;
+
+  using Base::ptr;
 
 /*{\Mdefinition 
 An instance of data type |Line_d| is an oriented line in
@@ -161,9 +163,9 @@ bool operator==(const Line_d<R>& l1) const
 bool operator!=(const Line_d<R>& l1) const
 { return !operator==(l1); }
 
-friend std::istream& operator>> CGAL_NULL_TMPL_ARGS 
+friend std::istream& operator>> <> 
 (std::istream&, Line_d<R>&);
-friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS 
+friend std::ostream& operator<< <> 
 (std::ostream&, const Line_d<R>&);
 
 }; // end of class

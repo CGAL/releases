@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Direction_2.h,v $
-// $Revision: 1.30 $ $Date: 2003/10/21 12:14:17 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.35 $ $Date: 2004/09/14 13:59:54 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
 
@@ -30,9 +30,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class DirectionC2
-  : public R_::template Handle<Twotuple<typename R_::FT> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Vector_2             Vector_2;
@@ -42,8 +40,10 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Direction_2          Direction_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef Twotuple<FT>	                           rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Twotuple<FT>	                           Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                     R;
@@ -51,19 +51,19 @@ public:
   DirectionC2() {}
 
   DirectionC2(const Vector_2 &v)
-    : base(v) {}
+  { *this = v.direction(); }
 
   DirectionC2(const Line_2 &l)
-    : base(l.direction()) {}
+  { *this = l.direction(); }
 
   DirectionC2(const Ray_2 &r)
-    : base(r.direction()) {}
+  { *this = r.direction(); }
 
   DirectionC2(const Segment_2 &s)
-    : base(s.direction()) {}
+  { *this = s.direction(); }
 
   DirectionC2(const FT &x, const FT &y)
-    : base(rep(x, y)) {}
+    : base(x, y) {}
 
   bool operator==(const DirectionC2 &d) const;
   bool operator!=(const DirectionC2 &d) const;
@@ -71,8 +71,8 @@ public:
   bool operator<=(const DirectionC2 &d) const;
   bool operator>(const DirectionC2 &d) const;
   bool operator<(const DirectionC2 &d) const;
-  bool counterclockwise_in_between( const DirectionC2 &d1,
-	                            const DirectionC2 &d2) const;
+  bool counterclockwise_in_between( const Direction_2 &d1,
+	                            const Direction_2 &d2) const;
   
   Vector_2 to_vector() const;
   Vector_2 vector() const { return to_vector(); }
@@ -88,11 +88,11 @@ public:
   const FT & delta(int i) const;
   const FT & dx() const
   {
-      return Ptr()->e0;
+      return get(base).e0;
   }
   const FT & dy() const
   {
-      return Ptr()->e1;
+      return get(base).e1;
   }
 };
 
@@ -101,7 +101,7 @@ inline
 bool
 DirectionC2<R>::operator==(const DirectionC2<R> &d) const
 {
-  if (identical(d))
+  if (CGAL::identical(base, d.base))
       return true;
   return equal_direction(*this, d);
 }
@@ -150,18 +150,16 @@ template < class R >
 CGAL_KERNEL_INLINE
 bool
 DirectionC2<R>::
-counterclockwise_in_between(const DirectionC2<R> &d1,
-                            const DirectionC2<R> &d2) const
+counterclockwise_in_between(const typename DirectionC2<R>::Direction_2 &d1,
+		    const typename DirectionC2<R>::Direction_2 &d2) const
 // returns true, iff \ccVar\ is not equal to \ccc{d1}, and 
 // while rotating counterclockwise starting at \ccc{d1}, 
 // \ccVar\ is reached strictly before \ccc{d2} is reached.
 // Note that true is returned if \ccc{d1} == \ccc{d2}, unless
 //  also \ccVar\ == \ccc{d1}.
 {
-  if ( d1 < *this)
-    return ( *this < d2 )||( d2 <= d1 );
-  else
-    return ( *this < d2 )&&( d2 <= d1 );
+  return R().counterclockwise_in_between_2_object()
+               (static_cast<const typename R::Direction_2>(*this), d1, d2);
 }
 
 template < class R >

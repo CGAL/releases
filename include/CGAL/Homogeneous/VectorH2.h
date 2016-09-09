@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/VectorH2.h,v $
-// $Revision: 1.14 $ $Date: 2003/10/21 12:16:12 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.21 $ $Date: 2004/05/19 13:29:32 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  
@@ -32,9 +32,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class VectorH2
-  : public R_::template Handle<Threetuple<typename R_::RT> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::RT                   RT;
   typedef typename R_::Point_2              Point_2;
@@ -45,8 +43,10 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef Threetuple<RT>                           rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Threetuple<RT>                           Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                    R;
@@ -54,29 +54,29 @@ public:
    VectorH2() {}
 
    VectorH2(const Point_2& a, const Point_2& b)
-      : base (b-a) {}
+   { *this = R().construct_vector_2_object()(a, b); }
 
    VectorH2(const Segment_2& s)
-      : base (s.to_vector()) {}
+   { *this = R().construct_vector_2_object()(s); }
 
    VectorH2(const Ray_2& r)
-      : base (r.to_vector()) {}
+   { *this = R().construct_vector_2_object()(r); }
 
    VectorH2(const Line_2& l)
-      : base (l.to_vector()) {}
+   { *this = R().construct_vector_2_object()(l); }
 
    VectorH2(const Null_vector &)
-      : base ( rep(RT(0), RT(0), RT(1) )) {}
+      : base (RT(0), RT(0), RT(1)) {}
 
    VectorH2(const RT& x, const RT& y)
-      : base ( rep( x,  y,  RT(1) )) {}
+      : base (x, y, RT(1)) {}
 
    VectorH2(const RT& x, const RT& y, const RT& w )
    {
      if ( w >= RT(0)   )
-     { initialize_with( rep( x,  y,  w)); }
+       base = Rep( x,  y,  w);
      else
-     { initialize_with( rep(-x, -y, -w)); }
+       base = Rep(-x, -y, -w);
    }
 
    bool    operator==( const VectorH2<R>& v) const;
@@ -84,9 +84,9 @@ public:
    bool    operator==( const Null_vector&) const;
    bool    operator!=( const Null_vector& v) const;
 
-   const RT & hx() const { return Ptr()->e0; };
-   const RT & hy() const { return Ptr()->e1; };
-   const RT & hw() const { return Ptr()->e2; };
+   const RT & hx() const { return get(base).e0; };
+   const RT & hy() const { return get(base).e1; };
+   const RT & hw() const { return get(base).e2; };
 
    FT      x()  const { return FT(hx()) / FT(hw()); };
    FT      y()  const { return FT(hy()) / FT(hw()); };
@@ -102,11 +102,8 @@ public:
 
    Vector_2 operator+(const VectorH2 &v) const;
    Vector_2 operator-(const VectorH2 &v) const;
-   FT       operator*(const VectorH2 &v) const;
    Vector_2 operator-() const;
    Vector_2 opposite() const;
-   Vector_2 operator*(const RT &f) const;
-   Vector_2 operator*(const FT &f) const;
    FT squared_length() const;
    Vector_2 operator/(const RT &f) const;
    Vector_2 operator/(const FT &f) const;
@@ -186,7 +183,7 @@ template < class R >
 CGAL_KERNEL_INLINE
 typename VectorH2<R>::Direction_2
 VectorH2<R>::direction() const
-{ return Direction_2(*this); }
+{ return Direction_2(hx(), hy()); }
 
 template < class R >
 inline
@@ -223,16 +220,6 @@ VectorH2<R>::operator-(const VectorH2<R>& v) const
 template <class R>
 CGAL_KERNEL_INLINE
 typename VectorH2<R>::FT
-VectorH2<R>::operator*(const VectorH2<R>& v) const
-{
-  typedef typename R::RT RT;
-  typedef typename R::FT FT;
-  return FT( RT(hx()*v.hx() + hy()*v.hy()) ) / FT( RT(hw()*v.hw() ) );
-}
-
-template <class R>
-CGAL_KERNEL_INLINE
-typename VectorH2<R>::FT
 VectorH2<R>::squared_length() const
 {
   typedef typename R::FT FT;
@@ -254,122 +241,22 @@ VectorH2<R>::operator/(const typename VectorH2<R>::FT& f) const
 { return VectorH2<R>( hx()*f.denominator(), hy()*f.denominator(),
 	              hw()*f.numerator() ); }
 
-template <class R>
-CGAL_KERNEL_INLINE
-typename VectorH2<R>::Vector_2
-VectorH2<R>::operator*(const typename VectorH2<R>::RT& f) const
-{ return VectorH2<R>( hx()*f, hy()*f, hw() ); }
-
-template <class R>
-CGAL_KERNEL_INLINE
-typename VectorH2<R>::Vector_2
-VectorH2<R>::operator*(const typename VectorH2<R>::FT& f) const
-{ return VectorH2<R>( hx()*f.numerator(), hy()*f.numerator(),
-	              hw()*f.denominator() ); }
-
-template <class R>
-CGAL_KERNEL_INLINE
-typename R::Vector_2
-operator*(const typename R::RT& f, const VectorH2<R>& v)
-{ return VectorH2<R>( v.hx()*f, v.hy()*f, v.hw() ); }
-
-template <class R>
-inline
-PointH2<R>
-origin_plus_vector(const VectorH2<R>& v)
-{ return PointH2<R>( v ); }
-
-template <class R>
-inline
-typename R::Point_2
-operator+(const Origin&, const VectorH2<R>& v)
-{ return origin_plus_vector( v ); }
-
-template <class R>
-inline
-typename R::Point_2
-origin_minus_vector(const VectorH2<R>& v)
-{ return PointH2<R>( v.opposite() ); }
-
-template <class R>
-inline
-typename R::Point_2
-operator-(const Origin&, const VectorH2<R>& v)
-{ return origin_minus_vector( v ); }
-
-template <class R>
-inline
-typename R::Vector_2
-point_minus_origin(const PointH2<R>& p)
-{ return VectorH2<R>( p ); }
-
-template <class R>
-inline
-typename R::Vector_2
-operator-(const PointH2<R>& p, const Origin&)
-{ return point_minus_origin( p ); }
-
-template <class R>
-inline
-typename R::Vector_2
-origin_minus_point(const PointH2<R>& p)
-{ return  VectorH2<R>( p ).opposite(); }
-
-template <class R>
-inline
-typename R::Vector_2
-operator-(const Origin&, const PointH2<R>& p)
-{ return  origin_minus_point( p ); }
-
-template <class R>
-CGAL_KERNEL_INLINE
-typename R::Point_2
-operator+(const PointH2<R>& p, const VectorH2<R>& v)
-{
-  return PointH2<R>( p.hx()*v.hw() + v.hx()*p.hw(),
-                     p.hy()*v.hw() + v.hy()*p.hw(),
-                     p.hw()*v.hw() );
-}
-
-template <class R>
-CGAL_KERNEL_INLINE
-typename R::Point_2
-operator-(const PointH2<R>& p, const VectorH2<R>& v)
-{
-  return PointH2<R>( p.hx()*v.hw() - v.hx()*p.hw(),
-                     p.hy()*v.hw() - v.hy()*p.hw(),
-                     p.hw()*v.hw() );
-}
-
-template <class R>
-CGAL_KERNEL_INLINE
-typename R::Vector_2
-operator-(const PointH2<R>& p, const PointH2<R>& q)
-{
-  return VectorH2<R>( p.hx()*q.hw() - q.hx()*p.hw(),
-                      p.hy()*q.hw() - q.hy()*p.hw(),
-                      p.hw()*q.hw() );
-}
 
 template < class R >
 CGAL_KERNEL_INLINE
-typename VectorH2<R>::Vector_2
+typename R::Vector_2
 VectorH2<R>::perpendicular(const Orientation& o) const
 {
   CGAL_kernel_precondition(o != COLLINEAR);
   if (o == COUNTERCLOCKWISE)
-  {
-      return VectorH2<R>(-hy(), hx(), hw());
-  }
+      return typename R::Vector_2(-hy(), hx(), hw());
   else
-  {
-      return VectorH2<R>(hy(), -hx(), hw());
-  }
+      return typename R::Vector_2(hy(), -hx(), hw());
 }
 
 template < class R >
 inline
-typename VectorH2<R>::Vector_2
+typename R::Vector_2
 VectorH2<R>::
 transform(const typename VectorH2<R>::Aff_transformation_2& t) const
 { return t.transform(*this); }

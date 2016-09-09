@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/leda_bigfloat.h,v $
-// $Revision: 1.12 $ $Date: 2003/10/21 12:21:45 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2004/09/15 09:34:08 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  
@@ -39,7 +39,11 @@ CGAL_BEGIN_NAMESPACE
 template <> struct Number_type_traits<leda_bigfloat> {
   typedef Tag_false Has_gcd;
   typedef Tag_true  Has_division;
-  typedef Tag_false Has_sqrt;
+  typedef Tag_true  Has_sqrt;
+
+  typedef Tag_true  Has_exact_ring_operations;
+  typedef Tag_false Has_exact_division;
+  typedef Tag_false Has_exact_sqrt;
 };
 
 #ifndef CGAL_CFG_NO_NAMESPACE
@@ -48,6 +52,11 @@ double
 to_double(const leda_bigfloat & b)
 { return CGAL_LEDA_SCOPE::to_double(b); }
 #endif // CGAL_CFG_NO_NAMESPACE
+
+inline
+leda_bigfloat
+sqrt(const leda_bigfloat & b)
+{ return CGAL_LEDA_SCOPE::sqrt(b); }
 
 inline
 bool

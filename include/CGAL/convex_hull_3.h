@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Convex_hull_3/include/CGAL/convex_hull_3.h,v $
-// $Revision: 1.34 $ $Date: 2003/10/21 12:15:14 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.40 $ $Date: 2004/10/29 08:43:33 $
+// $Name:  $
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 //               : Amol Prakash <prakash@mpi-sb.mpg.de>
@@ -35,9 +35,9 @@
 #include <list>
 #include <vector>
 
-#ifndef CH_NO_POSTCONDITIONS
+#ifndef CGAL_CH_NO_POSTCONDITIONS
 #include <CGAL/convexity_check_3.h>
-#endif // CH_NO_POSTCONDITIONS
+#endif // CGAL_CH_NO_POSTCONDITIONS
 
 
 namespace CGAL {
@@ -147,6 +147,8 @@ find_visible_set(const typename Traits::Point_3& point,
 {
    typedef typename Facet_handle::value_type                  Facet;
    typedef typename Facet::Halfedge_around_facet_circulator   Halfedge_circ;
+   typedef typename Facet::Halfedge_handle           Halfedge_handle;
+   typedef typename Traits::Plane_3                   Plane_3;
 
    typename Traits::Has_on_positive_side_3 has_on_positive_side =
             traits.has_on_positive_side_3_object();
@@ -173,7 +175,9 @@ find_visible_set(const typename Traits::Point_3& point,
           if ( !visited[f] )
           {
              visited[f] = true;
-             if ( has_on_positive_side((*f).plane(), point) )  // is visible
+	     Plane_3 plane;
+	     get_plane(plane,f);
+             if ( has_on_positive_side(plane, point) )  // is visible
              {
                visible.push_back(f);
              }
@@ -193,13 +197,15 @@ farthest_outside_point(Facet_handle f_handle, std::list<Point>& outside_set,
 {
    typedef typename std::list<Point>::iterator     Outside_set_iterator;
 
+   typename Traits::Plane_3 plane;
+   get_plane(plane, f_handle);
    CGAL_assertion(!outside_set.empty());
    typename Traits::Less_signed_distance_to_plane_3 less_dist_to_plane =
             traits.less_signed_distance_to_plane_3_object();
    Outside_set_iterator farthest_it =
           std::max_element(outside_set.begin(),
                            outside_set.end(), 
-                           bind_1(less_dist_to_plane, (*f_handle).plane()));
+                           bind_1(less_dist_to_plane, plane));
 
    return *farthest_it;
 }
@@ -215,13 +221,19 @@ void compute_plane_equation(Facet_handle f)
    (*f).plane() = Plane_3(h->opposite()->vertex()->point(),
                           h->vertex()->point(),
                           h->next()->vertex()->point());
-/*
-   (*f).plane() = Plane_3(
-                          h->next()->vertex()->point(),
-                          h->vertex()->point(),
-                          h->opposite()->vertex()->point()
-                         );
-*/
+}
+
+
+template <class Plane, class Facet_handle>
+void get_plane(Plane& plane, Facet_handle f) 
+{
+   typedef typename Facet_handle::value_type         Facet;
+   typedef typename Facet::Halfedge_handle           Halfedge_handle;
+
+   Halfedge_handle h = (*f).halfedge();
+   plane = Plane(h->opposite()->vertex()->point(),
+		   h->vertex()->point(),
+		   h->next()->vertex()->point());
 }
 
 // using a template for the Unique_hash_map is required by M$VC7
@@ -235,6 +247,7 @@ partition_outside_sets(const std::list<Facet_handle>& new_facets,
         std::list<Facet_handle>& pending_facets, 
         const Traits& traits)
 {
+   typedef typename Traits::Plane_3                   Plane_3;
    typename std::list<Facet_handle>::const_iterator        f_list_it;
    typename std::list<Point>::iterator  point_it;
 
@@ -246,11 +259,12 @@ partition_outside_sets(const std::list<Facet_handle>& new_facets,
    for (f_list_it = new_facets.begin(); f_list_it != new_facets.end();
         f_list_it++)
    {
-      compute_plane_equation(*f_list_it);
+     Plane_3 plane;
+      get_plane(plane, *f_list_it);
       for (point_it = vis_outside_set.begin(); 
            point_it != vis_outside_set.end();)
       {
-        if ( has_on_positive_side((*(*f_list_it)).plane(), *point_it) )
+        if ( has_on_positive_side(plane, *point_it) )
         {
            outside_sets[(*f_list_it)].push_back(*point_it);
            point_it = vis_outside_set.erase(point_it);
@@ -272,25 +286,6 @@ partition_outside_sets(const std::list<Facet_handle>& new_facets,
 
 
 
-#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
-
-
-template < class Tr, class Traits, class Items,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
-           template < class T, class I, class A>
-#endif
-           class HDS, class Alloc>
-void 
-ch_quickhull_3_scan(Polyhedron_3<Tr,Items,HDS,Alloc>& P,
-  std::list<typename Polyhedron_3<Tr,Items,HDS,Alloc>::Facet_handle>& 
-                                                               pending_facets,
- CGAL::Unique_hash_map<typename Polyhedron_3<Tr,Items,HDS,Alloc>::Facet_handle,
- std::list<typename Traits::Point_3> >& outside_sets, const Traits& traits
-)
-
-
-#else 
-
 template <class Polyhedron_3, class Traits>
 void
 ch_quickhull_3_scan(
@@ -299,16 +294,8 @@ ch_quickhull_3_scan(
         CGAL::Unique_hash_map<typename Polyhedron_3::Facet_handle,
                    std::list<typename Traits::Point_3> >& outside_sets,
         const Traits& traits)
-#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
 {
- 
-#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
-
-  typedef Polyhedron_3<Tr,Items,HDS,Alloc>             Polyhedron;
-
-#else
   typedef Polyhedron_3                                    Polyhedron;
-#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
   typedef typename Polyhedron::Halfedge_handle            Halfedge_handle;
   typedef typename Polyhedron::Halfedge_iterator          Halfedge_iterator;
   typedef typename Polyhedron::Facet_handle               Facet_handle;
@@ -426,37 +413,17 @@ ch_quickhull_3_scan(
   
 }
 
-#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
-
-
-template < class Tr, class Traits, class Items,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
-           template < class T, class I, class A>
-#endif
-           class HDS, class Alloc>
-void non_coplanar_quickhull_3(std::list<typename Traits::Point_3>& points,
-	Polyhedron_3<Tr,Items,HDS,Alloc>& P, const Traits& traits)
-
-#else 
-
 template <class Polyhedron_3, class Traits>
 void non_coplanar_quickhull_3(std::list<typename Traits::Point_3>& points,
                               Polyhedron_3& P, const Traits& traits)
-#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
-
 {
-#if defined (CGAL_CFG_FUNCTION_OVERLOAD_BUG)
-
-  typedef typename Polyhedron_3<Tr,Items,HDS,Alloc>     Polyhedron;
-
-#else
   typedef Polyhedron_3                                    Polyhedron;
-#endif // _MS_VER
 
   typedef typename Polyhedron::Facet_handle               Facet_handle;
   typedef typename Polyhedron::Facet_iterator             Facet_iterator;
 
   typedef typename Traits::Point_3                        Point_3;
+  typedef typename Traits::Plane_3                        Plane_3;
   typedef CGAL::Unique_hash_map<Facet_handle, std::list<Point_3> >   
                                                           Outside_set_map;
   typedef typename std::list<Point_3>::iterator           P3_iterator;
@@ -472,24 +439,21 @@ void non_coplanar_quickhull_3(std::list<typename Traits::Point_3>& points,
 
   // for each facet, look at each unassigned point and decide if it belongs
   // to the outside set of this facet.
-#ifdef CGAL_CH_3_WINDOW_DEBUG
-  window << CGAL::GREEN;
-#endif
+
   for (f_it = P.facets_begin(); f_it != P.facets_end(); f_it++)
   {
-     compute_plane_equation(f_it);
-     for (P3_iterator point_it = points.begin() ; point_it != points.end();)
+    Plane_3 plane;
+     get_plane(plane, f_it);
+     for (P3_iterator point_it = points.begin() ; point_it != points.end(); )
      {
-#ifdef CGAL_CH_3_WINDOW_DEBUG
-        window << *point_it;
-#endif
-        if ( has_on_positive_side((*f_it).plane(), *point_it) )
-        {
-           outside_sets[f_it].push_back(*point_it);
-           point_it = points.erase(point_it);
-        }
-        else
-           point_it++;
+       if ( has_on_positive_side(plane, *point_it) ){ 
+	 outside_sets[f_it].push_back(*point_it);
+	 point_it = points.erase(point_it);
+       } else {
+	 ++point_it;
+       }
+
+       
      }
   }
   // add all the facets with non-empty outside sets to the set of facets for
@@ -506,38 +470,12 @@ void non_coplanar_quickhull_3(std::list<typename Traits::Point_3>& points,
 
 
 
-//
-#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
-
-
-template < class InputIterator, class Tr, class Traits,
-           class Items,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
-           template < class T, class I, class A>
-#endif
-           class HDS, class Alloc
-		>
-void
-ch_quickhull_polyhedron_3(std::list<typename Traits::Point_3>& points,
-		InputIterator point1_it, 
-        InputIterator point2_it, 
-        InputIterator point3_it, 
-        Polyhedron_3<Tr,Items,HDS,Alloc>& P,
-        const Traits& traits
-		)
-
-
-#else
-
 template <class InputIterator, class Polyhedron_3, class Traits>
 void
 ch_quickhull_polyhedron_3(std::list<typename Traits::Point_3>& points,
                           InputIterator point1_it, InputIterator point2_it,
                           InputIterator point3_it, Polyhedron_3& P,
                           const Traits& traits)
-
-#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
-
 {
   typedef typename Traits::Point_3	  		  Point_3;  
   typedef typename Traits::Plane_3		      	  Plane_3;
@@ -583,16 +521,10 @@ ch_quickhull_polyhedron_3(std::list<typename Traits::Point_3>& points,
 #endif
 
   // if the maximum distance point is on the plane then all are coplanar
-  if (coplanar(*point1_it, *point2_it, *point3_it, *max_it)) 
+  if (coplanar(*point1_it, *point2_it, *point3_it, *max_it)) {
      coplanar_3_hull(points.begin(), points.end(), plane, P, traits);
-  else
-  {
+  } else {  
      P.make_tetrahedron(*point1_it, *point2_it, *point3_it, *max_it);
-#ifdef CGAL_CH_3_WINDOW_DEBUG
-     cout << "first tetrahedron" << endl;
-     window << P;
-     assert (P.is_valid(true));
-#endif
      points.erase(point1_it);
      points.erase(point2_it);
      points.erase(point3_it);
@@ -700,35 +632,13 @@ void convex_hull_3(InputIterator first, InputIterator beyond,
 
 
 
-#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
-
-
-template < class InputIterator,
-		   class Tr,
-		   class Traits,
-           class Items,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
-           template < class T, class I, class A>
-#endif
-           class HDS, class Alloc>
-void convex_hull_3(InputIterator first, InputIterator beyond, 
-                   Polyhedron_3<Tr,Items,HDS,Alloc>& polyhedron,
-				   const Traits& traits)
-
-#else
-
 template <class InputIterator, class Polyhedron_3, class Traits>
 void convex_hull_3(InputIterator first, InputIterator beyond,
                    Polyhedron_3& polyhedron,  const Traits& traits)
-#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
 {
   typedef typename Traits::Point_3                Point_3;  
   typedef typename Traits::Plane_3	      	  Plane_3;
-#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
-  typedef std::list< Traits::Point_3>             Point_3_list;
-#else
   typedef std::list<Point_3>                      Point_3_list;
-#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
   typedef typename Point_3_list::iterator         P3_iterator;
 
   Point_3_list points(first, beyond);
@@ -736,19 +646,29 @@ void convex_hull_3(InputIterator first, InputIterator beyond,
 
   // at least 4 points 
   typename Traits::Collinear_3 collinear = traits.collinear_3_object();
-  
+  typename Traits::Equal_3 equal = traits.equal_3_object();
+
   P3_iterator point1_it = points.begin();
   P3_iterator point2_it = points.begin();
   point2_it++;
-  P3_iterator point3_it = points.end();
-  point3_it--;
 
   // find three that are not collinear
-  while (point2_it != points.end() && 
-         collinear(*point1_it,*point2_it,*point3_it))
-    point2_it++;
-  
+  while (point2_it != points.end() && equal(*point1_it,*point2_it))
+    ++point2_it;
+
   CGAL_ch_precondition_msg(point2_it != points.end(), 
+        "All points are equal; cannot construct polyhedron.");
+  
+  P3_iterator point3_it = point2_it;
+  ++point3_it;
+  
+  CGAL_ch_precondition_msg(point3_it != points.end(), 
+        "Only two points with different coordinates; cannot construct polyhedron.");
+  
+  while (point3_it != points.end() && collinear(*point1_it,*point2_it,*point3_it))
+    ++point3_it;
+  
+  CGAL_ch_precondition_msg(point3_it != points.end(), 
         "All points are collinear; cannot construct polyhedron.");
   
   polyhedron.clear();
@@ -758,32 +678,14 @@ void convex_hull_3(InputIterator first, InputIterator beyond,
 
 }
 
-#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
-
-
-template < class InputIterator, class Traits, class Items,
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
-           template < class T, class I, class A>
-#endif
-           class HDS, class Alloc>
-void convex_hull_3(InputIterator first, InputIterator beyond, 
-                   Polyhedron_3<Traits,Items,HDS,Alloc>& polyhedron 
-                   CGAL_MSVC_DUMMY_ARGUMENT) 
-
-
-
-#else
 
 template <class InputIterator, class Polyhedron_3>
 void convex_hull_3(InputIterator first, InputIterator beyond,
                    Polyhedron_3& polyhedron)
-
-#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
 {
    typedef typename std::iterator_traits<InputIterator>::value_type Point_3;
    typedef typename Kernel_traits<Point_3>::Kernel                  K;
    convex_hull_3(first, beyond, polyhedron, Convex_hull_traits_3<K>());
-
 }
 
 } // namespace CGAL

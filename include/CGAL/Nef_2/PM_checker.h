@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_checker.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:21:01 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.12 $ $Date: 2004/09/28 16:26:38 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -60,6 +60,24 @@ typedef typename Base::Vertex_const_iterator Vertex_const_iterator;
 typedef typename Base::Halfedge_const_iterator Halfedge_const_iterator;
 typedef typename Base::Halfedge_around_vertex_const_circulator Halfedge_around_vertex_const_circulator;
 typedef typename Base::Halfedge_around_face_const_circulator Halfedge_around_face_const_circulator;
+
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::clear;
+  using Base::vertices_begin;
+  using Base::vertices_end;
+  using Base::halfedges_begin;
+  using Base::halfedges_end;
+  using Base::faces_begin;
+  using Base::faces_end;
+  using Base::number_of_vertices;
+  using Base::number_of_halfedges;
+  using Base::number_of_edges;
+  using Base::number_of_faces;
+  using Base::number_of_connected_components;
+  using Base::check_integrity_and_topological_planarity;
+#endif
+
 /*{\Mtext Iterators, handles, and circulators are inherited from 
 |PM_const_decorator|.}*/
 
@@ -175,7 +193,7 @@ void PM_checker<PMCDEC,GEOM>::
 check_order_preserving_embedding() const
 {
   Vertex_const_iterator vit;
-  for (vit = vertices_begin(); vit != vertices_end(); ++vit) {
+  for (vit = this->vertices_begin(); vit != this->vertices_end(); ++vit) {
     check_order_preserving_embedding(vit);
     check_forward_prefix_condition(vit);
   }
@@ -188,7 +206,7 @@ PM_checker<PMCDEC,GEOM>::
 check_boundary_is_clockwise_weakly_polygon() const
 {
   Vertex_const_iterator vit, v_min;
-  for (vit = v_min = vertices_begin() ; vit != vertices_end(); ++vit) 
+  for (vit = v_min = this->vertices_begin() ; vit != this->vertices_end(); ++vit) 
     if ( K.compare_xy(point(vit), point(v_min))<0 ) v_min = vit;
   CGAL_assertion_msg(!is_isolated(v_min),"Minimal vertex not connected.");
   Point p_min = point(v_min);
@@ -229,10 +247,10 @@ void PM_checker<PMCDEC,GEOM>::
 check_is_triangulation() const
 {
   Halfedge_const_iterator eb;
-  CGAL_assertion(number_of_connected_components() == 1);
-  CGAL_assertion_msg(number_of_edges()!=number_of_vertices()-1,
+  CGAL_assertion(this->number_of_connected_components() == 1);
+  CGAL_assertion_msg(this->number_of_edges()!=this->number_of_vertices()-1,
     " checker checks only full dimensional complexes.");
-  check_integrity_and_topological_planarity(false);
+  this->check_integrity_and_topological_planarity(false);
   check_order_preserving_embedding();
   eb = check_boundary_is_clockwise_weakly_polygon();
 
@@ -247,7 +265,7 @@ check_is_triangulation() const
     on_boundary[hit]=true;
   }
   Halfedge_const_iterator eit;
-  for( eit = halfedges_begin(); eit != halfedges_end(); ++eit) {
+  for( eit = this->halfedges_begin(); eit != this->halfedges_end(); ++eit) {
     if (on_boundary[eit]) continue;
     hit = hend = eit; 
     int edges_in_face_cycle=0;

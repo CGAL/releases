@@ -12,38 +12,39 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Iso_rectangle_d.h,v $
-// $Revision: 1.10 $ $Date: 2003/09/18 10:25:42 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.12 $ $Date: 2004/11/05 23:04:04 $
+// $Name:  $
 //
 // Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
 
 #ifndef CGAL_ISO_RECTANGLE_D_H
 #define CGAL_ISO_RECTANGLE_D_H
+
 #include <functional>
 #include <algorithm>
 #include <new>
-#include <cassert>
+#include <CGAL/assertions.h>
 
 namespace CGAL {
   
   template <class R> class Iso_rectangle_d {
   public:
-    typedef typename R::FT NT;
+    typedef typename R::FT FT;
     typedef typename R::Point_d Point_d;
 
   private:
 
     int dim;
-    NT *lower;
-    NT *upper;
+    FT *lower;
+    FT *upper;
     
   public:
 
     Iso_rectangle_d(const Point_d& p, const Point_d& q)
-    { assert(p.dimension() == q.dimension());
+    { CGAL_assertion(p.dimension() == q.dimension());
       dim = p.dimension();
-      lower = new NT[dim];
-      upper = new NT[dim];
+      lower = new FT[dim];
+      upper = new FT[dim];
       for (int i = 0; i < dim; ++i) {
 	  if (p[i] <= q[i]) {
 		lower[i]=p[i]; 
@@ -58,8 +59,8 @@ namespace CGAL {
   
   // copy constructor
   Iso_rectangle_d(const Iso_rectangle_d& b) : dim(b.dim) {
-      lower = new NT[dim];
-      upper = new NT[dim];
+      lower = new FT[dim];
+      upper = new FT[dim];
       for (int i = 0; i < dim; ++i) {
 		lower[i]=b.lower[i]; 
                 upper[i]=b.upper[i];
@@ -69,7 +70,7 @@ namespace CGAL {
   
   bool has_on_bounded_side(const Point_d& p) const
   {
-    NT h;
+    FT h;
     for (int i = 0; i < dimension(); ++i) {
         h=p[i];
         if ( (h < lower[i]) || (h > upper[i]) ) return 0;
@@ -79,16 +80,16 @@ namespace CGAL {
 
     inline int dimension() const { return dim;}
     
-    inline NT min_coord(int i) const {
+    inline FT min_coord(int i) const {
       return lower[i];
     }
 
-    inline NT max_coord(int i) const {
+    inline FT max_coord(int i) const {
       return upper[i];
     }
 
   }; // end of class
 
 } // namespace CGAL
-#endif // CGAL_ISO_RECTANGLE_D_H
 
+#endif // CGAL_ISO_RECTANGLE_D_H

@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Kd_tree_d_new.h,v $
-// $Revision: 1.13 $ $Date: 2003/09/18 10:25:42 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.14 $ $Date: 2003/11/18 22:05:48 $
+// $Name:  $
 //
 // Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
 
@@ -80,7 +80,7 @@ namespace CGAL {
   template <class Point,
 	    class Splitter=Sliding_midpoint<Point> > 
   class Kdtree_interface_2d : 
-	public Kd_tree_traits_point<Point,Splitter> {
+	public Search_traits<Point,Splitter> {
 
   public:
 
@@ -122,7 +122,7 @@ namespace CGAL {
   Kdtree_interface_2d(unsigned int bucket_size=100, 
 			     NT aspect_ratio=NT(3), 
 			     bool use_extended_nodes=true) {
-		Kd_tree_traits_point<Point>(bucket_size,aspect_ratio,use_extended_nodes);
+		Search_traits<Point>(bucket_size,aspect_ratio,use_extended_nodes);
   }
 
     	
@@ -136,7 +136,7 @@ namespace CGAL {
 template <class Point,
 	    class Splitter=Sliding_midpoint<Point> > 
   class Kdtree_interface_3d : 
-	public Kd_tree_traits_point<Point,Splitter> {
+	public Search_traits<Point,Splitter> {
 
   public:
 
@@ -178,7 +178,7 @@ template <class Point,
   Kdtree_interface_3d(unsigned int bucket_size=100, 
 			     NT aspect_ratio=NT(3), 
 			     bool use_extended_nodes=true) {
-		Kd_tree_traits_point<Point>(bucket_size,aspect_ratio,use_extended_nodes);
+		Search_traits<Point>(bucket_size,aspect_ratio,use_extended_nodes);
   }
 
     	
@@ -190,7 +190,7 @@ template <class Point,
 template <class Point,
 	  class Splitter=Sliding_midpoint<Point> > 
   class Kdtree_interface : 
-	public Kd_tree_traits_point<Point,Splitter> {
+	public Search_traits<Point,Splitter> {
 
   public:
 
@@ -232,7 +232,7 @@ template <class Point,
   Kdtree_interface(unsigned int bucket_size=100, 
 			     NT aspect_ratio=NT(3), 
 			     bool use_extended_nodes=true) {
-		Kd_tree_traits_point<Point>(bucket_size,aspect_ratio,use_extended_nodes);
+		Search_traits<Point>(bucket_size,aspect_ratio,use_extended_nodes);
   }
 
     	

@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/LEDA/include/CGAL/LEDA_basic.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:19:37 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Matthias Baesken
 

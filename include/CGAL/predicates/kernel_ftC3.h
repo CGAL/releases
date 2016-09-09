@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/predicates/kernel_ftC3.h,v $
-// $Revision: 1.16 $ $Date: 2003/10/21 12:14:39 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.18 $ $Date: 2004/02/16 13:15:59 $
+// $Name:  $
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion
 
@@ -29,6 +29,35 @@
 #include <CGAL/constructions/kernel_ftC3.h>
 
 CGAL_BEGIN_NAMESPACE
+
+template < class FT >
+inline
+bool
+parallelC3(const FT &v1x, const FT &v1y, const FT &v1z,
+           const FT &v2x, const FT &v2y, const FT &v2z)
+{
+  return sign_of_determinant2x2(v1x, v2x, v1y, v2y) == ZERO
+      && sign_of_determinant2x2(v1x, v2x, v1z, v2z) == ZERO
+      && sign_of_determinant2x2(v1y, v2y, v1z, v2z) == ZERO;
+}
+
+template < class FT >
+bool
+parallelC3(const FT &s1sx, const FT &s1sy, const FT &s1sz,
+           const FT &s1tx, const FT &s1ty, const FT &s1tz,
+           const FT &s2sx, const FT &s2sy, const FT &s2sz,
+           const FT &s2tx, const FT &s2ty, const FT &s2tz)
+{
+  // NB : Could be made slightly more efficient by computing the z differences
+  // only when they are needed.
+  FT v1x = s1tx - s1sx;
+  FT v1y = s1ty - s1sy;
+  FT v1z = s1tz - s1sz;
+  FT v2x = s2tx - s2sx;
+  FT v2y = s2ty - s2sy;
+  FT v2z = s2tz - s2sz;
+  return parallelC3(v1x, v1y, v1z, v2x, v2y, v2z);
+}
 
 template < class FT >
 /*CGAL_NO_FILTER*/
@@ -467,7 +496,7 @@ cmp_signed_dist_to_planeC3(
   return Comparison_result(sign_of_determinant3x3(
 	      pqx-ppx, pqy-ppy, pqz-ppz,
 	      prx-ppx, pry-ppy, prz-ppz,
-	      qx-px,   qy-py,   qz-pz));
+	      px-qx,   py-qy,   pz-qz));
 }
 
 template < class FT >

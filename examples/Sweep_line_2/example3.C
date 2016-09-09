@@ -1,5 +1,4 @@
-// examples/Sweep_line/example5.C
-// ------------------------------
+// file: examples/Sweep_line_2/example3.C
 
 #include "short_names.h"
 

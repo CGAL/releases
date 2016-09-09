@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_persistent_PL.h,v $
-// $Revision: 1.14 $ $Date: 2003/10/21 12:21:03 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.14.6.1 $ $Date: 2004/12/08 20:04:47 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_PM_PERSISTENT_PL_H
@@ -99,7 +99,7 @@ struct PM_persistent_PL_traits
     PredLessThanX() : pK(0) {}
     PredLessThanX(const Geometry* pKi) : pK(pKi) {}
     PredLessThanX(const PredLessThanX& P) : pK(P.pK) 
-    { TRACEN("copy PredLessThanX"); }
+    { CGAL_NEF_TRACEN("copy PredLessThanX"); }
     int operator() (const XCoord& x1, const XCoord& x2) const
     { return pK->compare_x(x1,x2) < 0; }
   };

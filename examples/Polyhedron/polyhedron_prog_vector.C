@@ -1,5 +1,5 @@
-// examples/Polyhedron/polyhedron_prog_vector.C
-// --------------------------------------------
+// file: examples/Polyhedron/polyhedron_prog_vector.C
+
 #include <CGAL/Cartesian.h>
 #include <CGAL/HalfedgeDS_vector.h>
 #include <CGAL/Polyhedron_3.h>

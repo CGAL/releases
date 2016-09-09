@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Polyhedron_IO/include/CGAL/IO/print_VRML_1.h,v $
 // $Revision: 1.7 $ $Date: 2003/09/18 10:25:06 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 

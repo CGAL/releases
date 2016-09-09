@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_filtered_traits_2.h,v $
-// $Revision: 1.9 $ $Date: 2003/09/18 10:19:22 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/09/03 17:26:16 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -183,8 +183,8 @@ private:
   // PREDICATES FOR THE TWO KERNELS
   //-------------------------------
 
+#if 1
   // Predicates for the filtering kernel
-
   typedef typename FK_traits::Compare_x_2        FK_Compare_x_2;
   typedef typename FK_traits::Compare_y_2        FK_Compare_y_2;
   typedef typename FK_traits::Compare_weight_2   FK_Compare_weight_2;
@@ -226,7 +226,76 @@ private:
 
   typedef typename EK_traits::Is_degenerate_edge_2
   EK_Is_degenerate_edge_2;
+#else
+  // Predicates for the filtering kernel
+  typedef Ag2_compare_x_2<FK>                    FK_Compare_x_2;
+  //  typedef typename FK_traits::Compare_x_2        FK_Compare_x_2;
+  typedef Ag2_compare_y_2<FK>                    FK_Compare_y_2;
+  //  typedef typename FK_traits::Compare_y_2        FK_Compare_y_2;
+  typedef Ag2_compare_weight_2<FK>               FK_Compare_weight_2;
+  //  typedef typename FK_traits::Compare_weight_2   FK_Compare_weight_2;
+  typedef Ag2_orientation_2<FK>                  FK_Orientation_2;
+  //  typedef typename FK_traits::Orientation_2      FK_Orientation_2;
+  typedef Ag2_is_hidden_C2<FK,FK_MTag>           FK_Is_hidden_2;
+  //  typedef typename FK_traits::Is_hidden_2        FK_Is_hidden_2;
 
+  typedef Ag2_oriented_side_of_bisector_C2<FK,FK_MTag>
+  /*                                    */  FK_Oriented_side_of_bisector_2;
+  //  typedef typename FK_traits::Oriented_side_of_bisector_2
+  //  FK_Oriented_side_of_bisector_2;
+
+  //  typedef typename FK_traits::Vertex_conflict_2  FK_Vertex_conflict_2;
+  typedef Incircle_test<FK,FK_MTag>              FK_Vertex_conflict_2;
+
+  typedef Ag2_finite_edge_test_C2<FK,FK_MTag>   
+  /*                                 */ FK_Finite_edge_interior_conflict_2;
+  //  typedef typename FK_traits::Finite_edge_interior_conflict_2
+  //  FK_Finite_edge_interior_conflict_2;
+
+  typedef Infinite_edge_test<FK,FK_MTag>
+  /*                              */  FK_Infinite_edge_interior_conflict_2;
+  //  typedef typename FK_traits::Infinite_edge_interior_conflict_2
+  //  FK_Infinite_edge_interior_conflict_2;
+
+  typedef Is_degenerate_edge_test<FK,FK_MTag>    FK_Is_degenerate_edge_2;
+  //  typedef typename FK_traits::Is_degenerate_edge_2
+  //  FK_Is_degenerate_edge_2;
+
+
+  // Predicates for the exact kernel
+  typedef Ag2_compare_x_2<EK>                    EK_Compare_x_2;
+  //  typedef typename EK_traits::Compare_x_2        EK_Compare_x_2;
+  typedef Ag2_compare_y_2<EK>                    EK_Compare_y_2;
+  //  typedef typename EK_traits::Compare_y_2        EK_Compare_y_2;
+  typedef Ag2_compare_weight_2<EK>               EK_Compare_weight_2;
+  //  typedef typename EK_traits::Compare_weight_2   EK_Compare_weight_2;
+  typedef Ag2_orientation_2<EK>                  EK_Orientation_2;
+  //  typedef typename EK_traits::Orientation_2      EK_Orientation_2;
+  typedef Ag2_is_hidden_C2<EK,EK_MTag>           EK_Is_hidden_2;
+  //  typedef typename EK_traits::Is_hidden_2        EK_Is_hidden_2;
+
+  typedef Ag2_oriented_side_of_bisector_C2<EK,EK_MTag>
+  /*                                    */  EK_Oriented_side_of_bisector_2;
+  //  typedef typename EK_traits::Oriented_side_of_bisector_2
+  //  EK_Oriented_side_of_bisector_2;
+
+  //  typedef typename EK_traits::Vertex_conflict_2  EK_Vertex_conflict_2;
+  typedef Incircle_test<EK,EK_MTag>              EK_Vertex_conflict_2;
+
+  typedef Ag2_finite_edge_test_C2<EK,EK_MTag>   
+  /*                                */  EK_Finite_edge_interior_conflict_2;
+  //  typedef typename EK_traits::Finite_edge_interior_conflict_2
+  //  EK_Finite_edge_interior_conflict_2;
+
+  typedef Infinite_edge_test<EK,EK_MTag>
+  /*                              */  EK_Infinite_edge_interior_conflict_2;
+  //  typedef typename EK_traits::Infinite_edge_interior_conflict_2
+  //  EK_Infinite_edge_interior_conflict_2;
+
+  typedef Is_degenerate_edge_test<EK,EK_MTag>    EK_Is_degenerate_edge_2;
+  //  typedef typename EK_traits::Is_degenerate_edge_2
+  //  EK_Is_degenerate_edge_2;
+#endif
 
 public:
   // PREDICATES

@@ -17,8 +17,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Triangle_2_Triangle_2_intersection.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:17:01 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.9 $ $Date: 2004/05/20 13:54:43 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -39,7 +39,8 @@ Object
 intersection(const Triangle_2<K> &tr1, 
 	     const Triangle_2<K>& tr2)
 {
-  return CGALi::intersection(tr1, tr2, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(tr1, tr2);
 }
 
 CGAL_END_NAMESPACE

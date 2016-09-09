@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_ds_face_2.h,v $
-// $Revision: 1.40 $ $Date: 2003/09/18 10:26:12 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.43 $ $Date: 2004/02/01 20:11:39 $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec
 
@@ -72,9 +72,10 @@ typename Triangulation_ds_face_2<Fb>::Vertex_handle
 Triangulation_ds_face_2<Fb>::
 mirror_vertex(int i) const
 {
-  CGAL_triangulation_precondition ( neighbor(i) != NULL &&  dimension() >= 1);
+  CGAL_triangulation_precondition ( this->neighbor(i) != Face_handle()
+				    && this->dimension() >= 1);
   //return neighbor(i)->vertex(neighbor(i)->index(this->handle()));
-  return neighbor(i)->vertex(mirror_index(i));
+  return this->neighbor(i)->vertex(mirror_index(i));
 }
 
 template < class Fb >
@@ -83,9 +84,12 @@ Triangulation_ds_face_2<Fb>::
 mirror_index(int i) const
 {
   // return the index of opposite vertex in neighbor(i);
-  CGAL_triangulation_precondition (neighbor(i) != NULL &&  dimension() >= 1);
-  if (dimension() == 1) return 1 - (neighbor(i)->index(vertex(1-i)));
-  return ccw( neighbor(i)->index(vertex(ccw(i))));
+  CGAL_triangulation_precondition (this->neighbor(i) != Face_handle() &&
+	                           this->dimension() >= 1);
+  if (this->dimension() == 1) {
+    return 1 - (this->neighbor(i)->index(this->vertex(1-i)));
+  }
+  return this->ccw( this->neighbor(i)->index(this->vertex(this->ccw(i))));
 }
 
 
@@ -95,25 +99,25 @@ Triangulation_ds_face_2<Fb>::
 is_valid(bool verbose, int level) const
 {
   bool result = Fb::is_valid(verbose, level);
-  for(int i = 0; i <= dimension(); i++) {
-    Face_handle n = neighbor(i);
+  for(int i = 0; i <= this->dimension(); i++) {
+    Face_handle n = this->neighbor(i);
     // the strange formulation in case dimension()==2 
     // is used to handle the cases of TDS allowing
     // two faces with two common edges
     int in;
-    if (dimension() == 0) in = 0;
+    if (this->dimension() == 0) in = 0;
     else in = mirror_index(i);
     result = result && ( this == &*(n->neighbor(in)) );
-    switch(dimension()) {
+    switch(this->dimension()) {
     case 0 : 
       break;
     case 1 :
       result = result &&  in == 1-i;
-      result = result && ( vertex(1-i) == n->vertex(1-in));
+      result = result && ( this->vertex(1-i) == n->vertex(1-in));
       break;
     case 2 :
-      result = result && ( vertex(cw(i))  == n->vertex(ccw(in)))
-	              && ( vertex(ccw(i)) == n->vertex(cw(in)));
+      result = result && ( this->vertex(cw(i))  == n->vertex(ccw(in)))
+	              && ( this->vertex(ccw(i)) == n->vertex(cw(in)));
       break;
     }
   }

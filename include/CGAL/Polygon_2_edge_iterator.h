@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2_edge_iterator.h,v $
-// $Revision: 1.15 $ $Date: 2003/10/21 12:22:48 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2004/01/18 14:31:32 $
+// $Name:  $
 //
 // Author(s)     : Wieger Wesselink, Geert-Jan Giezeman <geert@cs.uu.nl>
 
@@ -192,23 +192,6 @@ value_type(const Polygon_2_edge_iterator<Traits_,Container_>&)
 //-----------------------------------------------------------------------//
 //                          implementation
 //-----------------------------------------------------------------------//
-
-//--------------------------------------------------------------------//
-// Comment: the iterator category of a Polygon_2_edge_iterator should
-// be equal to the iterator category of the corresponding container, but this
-// cannot be implemented (???).
-//--------------------------------------------------------------------//
-
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS 
-template <class Traits_, class Container_>
-inline
-bidirectional_iterator_tag
-iterator_category(const Polygon_2_edge_iterator<Traits_, Container_>&)
-{
-  return bidirectional_iterator_tag();
-}
-
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS
 
 //--------------------------------------------------------------------//
 // I don't know how to implement the following function:

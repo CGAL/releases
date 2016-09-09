@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Simple_homogeneous.h,v $
-// $Revision: 1.14 $ $Date: 2003/10/21 12:16:07 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.17 $ $Date: 2004/01/18 14:14:47 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
  
@@ -25,7 +25,7 @@
 #define CGAL_SIMPLE_HOMOGENEOUS_H
 
 #include <CGAL/Homogeneous/Homogeneous_base.h>
-#include <CGAL/Simple_Handle_for.h>
+#include <CGAL/Handle_for.h>
 #include <CGAL/Kernel/Type_equality_wrapper.h>
 #include <CGAL/Quotient.h>
 
@@ -40,7 +40,7 @@ struct Homogeneous_base_no_ref_count
 
     // The mecanism that allows to specify reference-counting or not.
     template < typename T >
-    struct Handle { typedef Simple_Handle_for<T>    type; };
+    struct Handle { typedef T    type; };
 
     template < typename Kernel2 >
     struct Base {
@@ -70,7 +70,5 @@ struct Simple_homogeneous
 {};
 
 CGAL_END_NAMESPACE
-
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_TEMPLATE(CGAL::Simple_homogeneous)
 
 #endif // CGAL_SIMPLE_HOMOGENEOUS_H

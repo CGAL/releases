@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arr_2_default_dcel.h,v $
 // $Revision: 1.4 $ $Date: 2003/09/18 10:19:38 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Iddo Hanniel
 #ifndef CGAL_ARR_2_DEFAULT_DCEL_H

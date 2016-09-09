@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Trapezoidal_decomposition/include/CGAL/Td_X_trapezoid.h,v $
-// $Revision: 1.20 $ $Date: 2003/09/18 10:25:53 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.23 $ $Date: 2004/08/01 16:16:33 $
+// $Name:  $
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
 
@@ -58,7 +58,7 @@ public:
   friend class Trapezoidal_decomposition_2<Traits>;
   
 #ifdef CGAL_PM_FRIEND_CLASS
-#if defined(__SUNPRO_CC)
+#if defined(__SUNPRO_CC) || defined(__PGI) || defined(__INTEL_COMPILER)
   friend class Trapezoidal_decomposition_2<Traits>::Around_point_circulator;
   friend class Trapezoidal_decomposition_2<Traits>::In_face_iterator;
 #elif defined(__GNUC__)
@@ -205,7 +205,7 @@ public:
   }
   bool operator==(const X_trapezoid& t2) const
   {
-    return identical(*this,t2);
+    return CGAL::identical(*this,t2);
   }
   bool operator!=(const X_trapezoid& t2) const
   {
@@ -255,10 +255,14 @@ public:
     
     return (ptr()->e4&CGAL_TRAPEZOIDAL_DECOMPOSITION_2_TOTALLY_UNBOUNDED)!=0;
   }
-  pointer left_bottom_neighbour() const {return ptr()->e5;}
-  pointer left_top_neighbour() const {return ptr()->e6;}
-  pointer right_bottom_neighbour() const {return ptr()->e7;}
-  pointer right_top_neighbour() const {return ptr()->e8;}
+  pointer get_lb() const {return ptr()->e5;}
+  pointer get_lt() const {return ptr()->e6;}
+  pointer get_rb() const {return ptr()->e7;}
+  pointer get_rt() const {return ptr()->e8;}
+  pointer left_bottom_neighbour() const {return get_lb();}
+  pointer left_top_neighbour() const {return get_lt();}
+  pointer right_bottom_neighbour() const {return get_rb();}
+  pointer right_top_neighbour() const {return get_rt();}
   Data_structure* get_node() const {return node;}
   bool is_active() const 
   {return right_bottom_neighbour()!=

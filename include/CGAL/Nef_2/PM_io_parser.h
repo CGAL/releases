@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_io_parser.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:21:02 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2004/09/28 16:26:39 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -50,6 +50,23 @@ class PM_io_parser : public PMDEC
   typedef typename PMDEC::Vertex_handle     Vertex_handle;
   typedef typename PMDEC::Halfedge_handle   Halfedge_handle;
   typedef typename PMDEC::Face_handle       Face_handle;
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::clear;
+  using Base::vertices_begin;
+  using Base::vertices_end;
+  using Base::halfedges_begin;
+  using Base::halfedges_end;
+  using Base::faces_begin;
+  using Base::faces_end;
+  using Base::number_of_vertices;
+  using Base::number_of_halfedges;
+  using Base::number_of_faces;
+  using Base::new_vertex;
+  using Base::new_face;
+  using Base::new_halfedge_pair_without_vertices;
+#endif
+
   std::istream& in;
   std::ostream& out;
   bool verbose;
@@ -82,19 +99,19 @@ PM_io_parser(std::istream& is, Plane_map& H)
 /*{\Mcreate creates an instance |\Mvar| of type |\Mname|
    to input |H| from |is|.}*/
     : Base(H), in(is), out(std::cout), verbose(0), vn(0), en(0), fn(0)
-        { clear(); }
+        { this->clear(); }
 
 
 PM_io_parser(std::ostream& os, const Plane_map& H)
 /*{\Mcreate creates an instance |\Mvar| of type |\Mname|
 to output |H| to |os|.}*/
 : Base(const_cast<Plane_map&>(H)), in(std::cin), out(os), 
-  VI(vertices_begin(),vertices_end(),'v'),
-  EI(halfedges_begin(),halfedges_end(),'e'),
-  FI(faces_begin(),faces_end(),'f'),
-  vn(number_of_vertices()), 
-  en(number_of_halfedges()), 
-  fn(number_of_faces())
+  VI(this->vertices_begin(),this->vertices_end(),'v'),
+  EI(this->halfedges_begin(),this->halfedges_end(),'e'),
+  FI(this->faces_begin(),this->faces_end(),'f'),
+  vn(this->number_of_vertices()), 
+  en(this->number_of_halfedges()), 
+  fn(this->number_of_faces())
 { verbose = (out.iword(CGAL::IO::mode) != CGAL::IO::ASCII &&
              out.iword(CGAL::IO::mode) != CGAL::IO::BINARY);
 }
@@ -102,12 +119,12 @@ to output |H| to |os|.}*/
 
 PM_io_parser(std::ostream& os, const PMDEC& D)
 : Base(D), in(std::cin), out(os), 
-  VI(vertices_begin(),vertices_end(),'v'),
-  EI(halfedges_begin(),halfedges_end(),'e'),
-  FI(faces_begin(),faces_end(),'f'),
-  vn(number_of_vertices()), 
-  en(number_of_halfedges()), 
-  fn(number_of_faces())
+  VI(this->vertices_begin(),this->vertices_end(),'v'),
+  EI(this->halfedges_begin(),this->halfedges_end(),'e'),
+  FI(this->faces_begin(),this->faces_end(),'f'),
+  vn(this->number_of_vertices()), 
+  en(this->number_of_halfedges()), 
+  fn(this->number_of_faces())
 { verbose = (out.iword(CGAL::IO::mode) != CGAL::IO::ASCII &&
              out.iword(CGAL::IO::mode) != CGAL::IO::BINARY);
 }
@@ -276,18 +293,18 @@ void PM_io_parser<PMDEC>::print() const
   if (verbose) 
     out << "/* index { isolated ? face : halfedge, mark, point } */" 
         << std::endl;
-  Vertex_iterator vit, vend = vertices_end();
-  for(vit = vertices_begin(); vit!=vend; ++vit) print_vertex(vit);
+  Vertex_iterator vit, vend = this->vertices_end();
+  for(vit = this->vertices_begin(); vit!=vend; ++vit) print_vertex(vit);
   if (verbose) 
     out << "/* index { opposite, prev, next, vertex, face, mark } */" 
         << std::endl;
-  Halfedge_iterator eit, eend = halfedges_end();
-  for(eit = halfedges_begin(); eit!=eend; ++eit) print_hedge(eit);
+  Halfedge_iterator eit, eend = this->halfedges_end();
+  for(eit = this->halfedges_begin(); eit!=eend; ++eit) print_hedge(eit);
   if (verbose) 
     out << "/* index { halfedge, fclist, ivlist, mark } */" 
         << std::endl;
-  Face_iterator fit, fend = faces_end();
-  for(fit = faces_begin(); fit!=fend; ++fit) print_face(fit);
+  Face_iterator fit, fend = this->faces_end();
+  for(fit = this->faces_begin(); fit!=fend; ++fit) print_face(fit);
   out.flush();
   if (verbose) debug();
 }
@@ -307,11 +324,11 @@ void PM_io_parser<PMDEC>::read()
   Vertex_of.reserve(vn);
   Halfedge_of.reserve(en);
   Face_of.reserve(fn);
-  for(i=0; i<vn; i++)  Vertex_of[i] =   new_vertex();
+  for(i=0; i<vn; i++)  Vertex_of[i] =   this->new_vertex();
   for(i=0; i<en; i++) 
-    if (i%2==0) Halfedge_of[i] = new_halfedge_pair_without_vertices();
+    if (i%2==0) Halfedge_of[i] = this->new_halfedge_pair_without_vertices();
     else Halfedge_of[i] = twin(Halfedge_of[i-1]);
-  for(i=0; i<fn; i++)  Face_of[i] =     new_face();
+  for(i=0; i<fn; i++)  Face_of[i] =     this->new_face();
 
   for(i=0; i<vn; i++) {
     if (!read_vertex(Vertex_of[i]))
@@ -355,10 +372,10 @@ template <typename PMDEC>
 void PM_io_parser<PMDEC>::debug() const
 { 
   out << "\nDEBUG Plane_map\n"
-      << "Vertices:  " << number_of_vertices() << "\n"
-      << "Halfedges: " << number_of_halfedges() << "\n";
-  Vertex_iterator vit,vend = vertices_end(); 
-  for( vit = vertices_begin(); vit != vend; ++vit ) {
+      << "Vertices:  " << this->number_of_vertices() << "\n"
+      << "Halfedges: " << this->number_of_halfedges() << "\n";
+  Vertex_iterator vit,vend = this->vertices_end(); 
+  for( vit = this->vertices_begin(); vit != vend; ++vit ) {
     if ( is_isolated(vit) ) continue;
     typename Base::Halfedge_around_vertex_circulator
       hcirc = out_edges(vit), hend = hcirc;

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/basic.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:18:18 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.15 $ $Date: 2004/09/01 15:41:52 $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner
 //                 Stefan Schirra
@@ -40,22 +40,9 @@
 #  define CGAL_BIG_ENDIAN 1
 #endif
 
-#ifdef CGAL_USE_LEDA
-#  include <CGAL/LEDA_basic.h>
-#else
+#ifndef CGAL_USE_LEDA
 #  define CGAL_USE_CGAL_WINDOW
 #endif
-
-#include <CGAL/assertions.h>
-#include <CGAL/kernel_assertions.h>
-#include <CGAL/Object.h>
-#include <CGAL/enum.h>
-#include <CGAL/tags.h>
-#include <CGAL/number_type_basic.h>
-#include <CGAL/IO/io.h>
-#include <CGAL/Handle.h> // This should be removed ASAP.
-#include <CGAL/kernel_basic.h>
-#include <CGAL/known_bit_size_integers.h>
 
 // Symbolic constants to tailor inlining. Inlining Policy.
 // =======================================================
@@ -70,5 +57,16 @@
 #ifndef CGAL_HUGE_INLINE
 #  define CGAL_HUGE_INLINE
 #endif
+
+#include <CGAL/assertions.h>
+#include <CGAL/kernel_assertions.h>
+#include <CGAL/Object.h>
+#include <CGAL/enum.h>
+#include <CGAL/tags.h>
+#include <CGAL/number_type_basic.h>
+#include <CGAL/IO/io.h>
+#include <CGAL/Handle.h> // This should be removed ASAP.
+#include <CGAL/kernel_basic.h>
+#include <CGAL/known_bit_size_integers.h>
 
 #endif // CGAL_BASIC_H

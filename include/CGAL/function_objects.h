@@ -1,4 +1,4 @@
-// Copyright (c) 2003  Utrecht University (The Netherlands),
+// Copyright (c) 2003,2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,12 +16,12 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/function_objects.h,v $
-// $Revision: 1.54 $ $Date: 2003/10/21 12:23:41 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.56 $ $Date: 2004/05/20 15:36:14 $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
-//                 Sylvain Pion <Sylvain.Pion@mpi-sb.mpg.de>
+//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
 #ifndef CGAL_FUNCTION_OBJECTS_H
 #define CGAL_FUNCTION_OBJECTS_H 1
@@ -356,6 +356,26 @@ public:
                       return Result(a1,a2,a3,a4,a5,a6,a7,a8,a9);
                     }
 };
+
+template < class Arg, class  Result >
+class Creator_uniform_d {
+  int d;
+
+ private:
+  Creator_uniform_d(){}
+
+ public:
+  typedef Arg   argument1_type;
+  typedef Result result_type;
+  typedef Arity_tag<2> Arity;
+
+  Creator_uniform_d(int dim)
+    : d(dim)
+    {}
+
+  Result operator()(Arg a1, Arg a2) const { return Result(d, a1,a2);}
+};
+
 template < class Op1, class Op2 >
 class Unary_compose_1
 : public CGAL_STD::unary_function< typename Op2::argument_type,
@@ -462,6 +482,44 @@ compose2_2(const Op1& op1, const Op2& op2, const Op3& op3)
 { return Binary_compose_2< Op1, Op2, Op3 >(op1, op2, op3); }
 
 
+template < class Op >
+class Compare_to_less
+  : public Op
+{
+public:
+  typedef Op      Type;
+  typedef bool    result_type;
+
+  Compare_to_less(const Op& op) : Op(op) {}
+
+  template < typename A1 >
+  bool
+  operator()(const A1 &a1) const
+  { return Op::operator()(a1) == SMALLER; }
+
+  template < typename A1, typename A2 >
+  bool
+  operator()(const A1 &a1, const A2 &a2) const
+  { return Op::operator()(a1, a2) == SMALLER; }
+
+  template < typename A1, typename A2, typename A3 >
+  bool
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3) const
+  { return Op::operator()(a1, a2, a3) == SMALLER; }
+
+  template < typename A1, typename A2, typename A3, typename A4 >
+  bool
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4) const
+  { return Op::operator()(a1, a2, a3, a4) == SMALLER; }
+
+  // More can be added.
+};
+
+template < class Op >
+inline Compare_to_less<Op>
+compare_to_less(const Op& op)
+{ return Compare_to_less<Op>(op); }
+
 CGAL_END_NAMESPACE
-#endif // CGAL_FUNCTION_OBJECTS_H //
-// EOF //
+
+#endif // CGAL_FUNCTION_OBJECTS_H

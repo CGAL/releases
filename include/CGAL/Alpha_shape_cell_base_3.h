@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_3/include/CGAL/Alpha_shape_cell_base_3.h,v $
-// $Revision: 1.11 $ $Date: 2003/09/18 10:19:15 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.15 $ $Date: 2004/08/12 13:28:58 $
+// $Name:  $
 //
 // Author(s)     : Tran Kai Frank DA
 
@@ -22,9 +22,35 @@
 
 #include <vector>
 #include <CGAL/utility.h>
+#include <CGAL/Compact_container.h>
 #include <CGAL/Triangulation_cell_base_3.h>
 
 CGAL_BEGIN_NAMESPACE
+
+template < class NT>
+class  Alpha_status 
+: public Compact_container_base
+{
+private:
+  bool _is_Gabriel;
+  bool _is_on_chull;
+  NT _alpha_min;
+  NT _alpha_mid;
+  NT _alpha_max;
+
+public:
+  Alpha_status() : _is_Gabriel(false), _is_on_chull(false) {}
+  void set_alpha_min(NT alpha) {_alpha_min = alpha;}
+  void set_alpha_mid(NT alpha) {_alpha_mid = alpha;}
+  void set_alpha_max(NT alpha) {_alpha_max = alpha;}
+  void set_is_Gabriel(bool yesorno) { _is_Gabriel = yesorno;}
+  void set_is_on_chull(bool yesorno) {_is_on_chull = yesorno;}
+  NT alpha_min() const { return _alpha_min;}
+  NT alpha_mid() const { return _alpha_mid;}
+  NT alpha_max() const { return _alpha_max;}
+  bool is_Gabriel() const {return _is_Gabriel;}
+  bool is_on_chull() const {return  _is_on_chull;}
+};
 
 template < class Gt, class Cb = Triangulation_cell_base_3<Gt> >
 class Alpha_shape_cell_base_3
@@ -40,14 +66,18 @@ public:
     typedef Alpha_shape_cell_base_3<Gt, Cb2>                Other;
   };
 
-  typedef typename Gt::FT                            Coord_type;
-  typedef Triple<Coord_type, Coord_type, Coord_type> Interval3;
+  typedef typename Gt::FT               NT;
+  typedef CGAL::Alpha_status<NT>        Alpha_status;
+  typedef Compact_container<Alpha_status>   Alpha_status_container;
+  typedef typename Alpha_status_container::const_iterator 
+                                            Alpha_status_const_iterator;
+  typedef typename Alpha_status_container::iterator 
+                                            Alpha_status_iterator;
+ 
 
 private:
-
-  Interval3 vec_facet[4];
-  Interval3 vec_edge[4][4];
-  Coord_type A;
+  Alpha_status_iterator facet_status[4];
+  NT A;
 
 public:
   
@@ -65,35 +95,16 @@ public:
     : Cb(v0, v1, v2, v3, n0, n1, n2, n3) {}
 
 
-  const Coord_type & get_alpha() const
-    {
-      return A;
-    }
-  
-  void set_alpha(const Coord_type & AA)
-    {
-      A = AA;
-    }
+ NT get_alpha() const    {  return A;    }
+ void set_alpha(const NT & AA) { A = AA;}
 
-  const Interval3 & get_facet_ranges(int i) const
-    {
-      return vec_facet[i];
-    }
+ Alpha_status_iterator get_facet_status(int i) const {return facet_status[i];}
+//Alpha_status_const_iterator get_facet_status(int i) const {
+//   return facet_status[i];}
 
-  void set_facet_ranges(int i, const Interval3& Inter)
-    {
-      vec_facet[i]=Inter;
-    }
-  
-  const Interval3 & get_edge_ranges(int i, int j) const
-    {
-      return vec_edge[i][j];
-    }
+ void set_facet_status(int i, Alpha_status_iterator as) {
+   facet_status[i]= as;  }
 
-  void set_edge_ranges(int i, int j, const Interval3& Inter)
-    {
-      vec_edge[i][j]=Inter;
-    }
 };
 
 CGAL_END_NAMESPACE

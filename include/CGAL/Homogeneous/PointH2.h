@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/PointH2.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:16:10 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.17 $ $Date: 2004/06/20 18:09:04 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -33,9 +33,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class PointH2
-  : public R_::template Handle<Threetuple<typename R_::RT> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::RT                   RT;
   typedef typename R_::Vector_2             Vector_2;
@@ -43,8 +41,10 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Direction_2          Direction_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef Threetuple<RT>                           rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Threetuple<RT>                           Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef Cartesian_coordinate_iterator_2<R_> Cartesian_const_iterator;
@@ -53,31 +53,25 @@ public:
     PointH2() {}
 
     PointH2(const Origin &)  
-       : base ( rep( RT(0), RT(0), RT(1))) { }
-
-    PointH2(const PointH2<R> & p) 
-       : base (p) { }
-
-    PointH2(const Vector_2& v) 
-       : base (v) { }
+       : base (RT(0), RT(0), RT(1)) {}
 
     PointH2(const RT& hx, const RT& hy )
-      : base ( rep( hx, hy, RT(1) )) { }
+      : base (hx, hy, RT(1)) {}
 
     PointH2(const RT& hx, const RT& hy, const RT& hw)
     {
       if ( hw >= RT(0)   )
-        initialize_with( rep( hx, hy, hw)); 
+        base = Rep( hx, hy, hw);
       else
-        initialize_with( rep(-hx,-hy,-hw)); 
+        base = Rep(-hx,-hy,-hw);
     }
 
     bool    operator==( const PointH2<R>& p) const;
     bool    operator!=( const PointH2<R>& p) const;
 
-    const RT & hx() const { return Ptr()->e0; };
-    const RT & hy() const { return Ptr()->e1; };
-    const RT & hw() const { return Ptr()->e2; };
+    const RT & hx() const { return get(base).e0; };
+    const RT & hy() const { return get(base).e1; };
+    const RT & hw() const { return get(base).e2; };
 
     FT      x()  const { return FT(hx()) / FT(hw()); };
     FT      y()  const { return FT(hy()) / FT(hw()); };
@@ -86,19 +80,20 @@ public:
     FT      operator[](int i)  const;
     const RT & homogeneous(int i) const;
 
-  Cartesian_const_iterator cartesian_begin() const 
-  {
-    return Cartesian_const_iterator(static_cast<const Point_2*>(this), 0);
-  }
+    Cartesian_const_iterator cartesian_begin() const 
+    {
+      return Cartesian_const_iterator(static_cast<const Point_2*>(this), 0);
+    }
 
-  Cartesian_const_iterator cartesian_end() const 
-  {
-    return Cartesian_const_iterator(static_cast<const Point_2*>(this), 2);
-  }
+    Cartesian_const_iterator cartesian_end() const 
+    {
+      return Cartesian_const_iterator(static_cast<const Point_2*>(this), 2);
+    }
+
     int     dimension() const;
     Bbox_2  bbox() const;
 
-    PointH2<R> transform( const Aff_transformation_2 & t) const;
+    Point_2 transform( const Aff_transformation_2 & t) const;
     Direction_2 direction() const;
 };
 
@@ -106,8 +101,8 @@ template < class R >
 CGAL_KERNEL_INLINE
 bool
 PointH2<R>::operator==( const PointH2<R>& p) const
-{
-  return (  (hx() * p.hw() == p.hx() * hw() )
+{ // FIXME : Predicate
+  return (  (hx() * p.hw() == p.hx() * hw() ) 
           &&(hy() * p.hw() == p.hy() * hw() ) );
 }
 
@@ -115,7 +110,7 @@ template < class R >
 inline
 bool
 PointH2<R>::operator!=( const PointH2<R>& p) const
-{ return !(*this == p); }   /* XXX */
+{ return !(*this == p); }
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -166,9 +161,9 @@ CGAL_KERNEL_MEDIUM_INLINE
 Bbox_2
 PointH2<R>::bbox() const
 {
-   Interval_nt<> ihx = CGAL::to_interval(hx());
-   Interval_nt<> ihy = CGAL::to_interval(hy());
-   Interval_nt<> ihw = CGAL::to_interval(hw());
+   Interval_nt<> ihx = CGAL_NTS to_interval(hx());
+   Interval_nt<> ihy = CGAL_NTS to_interval(hy());
+   Interval_nt<> ihw = CGAL_NTS to_interval(hw());
 
    Interval_nt<> ix = ihx/ihw;
    Interval_nt<> iy = ihy/ihw;
@@ -179,9 +174,9 @@ PointH2<R>::bbox() const
 
 template < class R >
 inline
-PointH2<R>
+typename R::Point_2
 PointH2<R>::transform(const typename PointH2<R>::Aff_transformation_2& t) const
-{ return t.transform(*this); }
+{ return t.transform(static_cast<const typename R::Point_2 &>(*this)); }
 
 #ifndef CGAL_NO_OSTREAM_INSERT_POINTH2
 template < class R >

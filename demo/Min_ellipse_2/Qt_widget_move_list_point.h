@@ -1,22 +1,21 @@
-// ============================================================================
+// Copyright (c) 2002  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ----------------------------------------------------------------------------
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// file          : demo/Qt_widget/Min_ellipse_2/Qt_widget_move_list_point.h
-// package       : Qt_widget
-// author(s)     : Radu Ursu
-// release       : 
-// release_date  : 
+// $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/demo/Min_ellipse_2/Qt_widget_move_list_point.h,v $
+// $Revision: 1.2.4.1 $ $Date: 2004/12/19 15:38:05 $
+// $Name:  $
 //
-// coordinator   : Laurent Rineau <rineau@clipper.ens.fr>
-//
-// ============================================================================
+// Author(s)     : Radu Ursu
 
 #ifndef CGAL_QT_WIDGET_MOVE_LIST_POINT_H
 #define CGAL_QT_WIDGET_MOVE_LIST_POINT_H
@@ -51,22 +50,22 @@ template <class R>
 class Qt_widget_move_list_point : public Qt_widget_movepoint_helper
 {
 public:
-  typedef typename R::Point_2	Point;
+  typedef typename R::Point_2	Point_2;
   typedef typename R::FT        FT;
   bool			        on_first,   //if the user choosed something from the popup
 			        wasrepainted;//true when the widget was repainted
-  Point				old_point,  //the last point stored in the list
+  Point_2			old_point,  //the last point stored in the list
 				current_v;  //the current point
   QPopupMenu			*popup1;
   QCursor			cursor;
-  std::list<Point>*		l_of_p;
+  std::list<Point_2>*		l_of_p;
   bool                          first_time;
 
   //constructor
   Qt_widget_move_list_point(const QCursor c=QCursor(Qt::crossCursor)) :
       on_first(FALSE), cursor(c), first_time(true) {};
   
-  void pass_the_structure(std::list<Point>* l) {
+  void pass_the_structure(std::list<Point_2>* l) {
     l_of_p = l;
   }
 private:
@@ -92,11 +91,11 @@ private:
 	FT x, y;
         widget->x_real(e->x(), x);
 	widget->y_real(e->y(), y);
-        Point p(x, y);
-        Point closest_p;  
+        Point_2 p(x, y);
+        Point_2 closest_p;  
         //this point is the closest one to the mouse coordinates
         FT min_dist;
-        typename std::list<Point>::const_iterator it = l_of_p->begin();
+        typename std::list<Point_2>::const_iterator it = l_of_p->begin();
         min_dist = CGAL::squared_distance(p, (*it));
 	closest_p = (*it);
         while(it!=l_of_p->end())
@@ -134,11 +133,11 @@ private:
               << CGAL::PointStyle (CGAL::DISC);
       if(!wasrepainted)
         *widget << old_point;
-      *widget << Point(x, y);
+      *widget << Point_2(x, y);
       l_of_p->remove(old_point);
-      l_of_p->push_back(Point(x, y));
+      l_of_p->push_back(Point_2(x, y));
       widget->redraw();	//redraw the scenes
-      old_point = Point(x, y);
+      old_point = Point_2(x, y);
     }
   };
   

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/Arr_Geomview_stream.h,v $
 // $Revision: 1.5 $ $Date: 2003/09/18 10:19:45 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 

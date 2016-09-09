@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/ch_melkman.h,v $
 // $Revision: 1.3 $ $Date: 2003/10/21 12:15:04 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner
 

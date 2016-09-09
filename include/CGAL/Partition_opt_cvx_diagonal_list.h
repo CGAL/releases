@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/Partition_opt_cvx_diagonal_list.h,v $
 // $Revision: 1.9 $ $Date: 2003/10/21 12:22:19 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 

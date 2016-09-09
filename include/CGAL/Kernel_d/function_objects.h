@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/function_objects.h,v $
-// $Revision: 1.5 $ $Date: 2003/10/21 12:19:33 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/06/23 02:15:30 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -30,6 +30,7 @@
 #include <CGAL/functional_base.h>
 
 CGAL_BEGIN_NAMESPACE
+
 namespace CGALi {
 
 template <class ToBeConstructed>
@@ -148,7 +149,7 @@ class Intersect
     template <class T1, class T2>
     CGAL::Object
     operator()(const T1& t1, const T2& t2) const
-    { return CGAL::intersection( t1, t2); }
+    { return intersection( t1, t2); }
 };
 
 } // end namespace CGALi

@@ -1,22 +1,21 @@
-// ============================================================================
+// Copyright (c) 2002  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ----------------------------------------------------------------------------
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// file          : Qt_widget_toolbar_layers.C
-// package       : Qt_widget
-// author(s)     : Radu Ursu
-// release       : 
-// release_date  : 
+// $Source: /CVSROOT/CGAL/Packages/Min_quadrilateral_2/demo/Min_quadrilateral_2/Qt_widget_toolbar_layers.C,v $
+// $Revision: 1.2.4.1 $ $Date: 2004/12/19 15:54:51 $
+// $Name:  $
 //
-// coordinator   : Laurent Rineau <rineau@clipper.ens.fr>
-//
-// ============================================================================
+// Author(s)     : Radu Ursu
 
 
 #ifdef CGAL_USE_QT
@@ -56,7 +55,7 @@ static char * lines_small_xpm[] = {
 
 
 Layers_toolbar::Layers_toolbar(CGAL::Qt_widget *w, QMainWindow *mw,
-			       std::list<Point>	*l_of_p) :
+			       std::list<Point_2> *l_of_p) :
   QToolBar(mw, "LT"), widget(w), window(mw), nr_of_buttons(0)
   {
       

@@ -1,4 +1,4 @@
-// Copyright (c) 1999,2003  Utrecht University (The Netherlands),
+// Copyright (c) 1999,2003,2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/Gmpz.h,v $
-// $Revision: 1.25 $ $Date: 2003/10/21 12:21:42 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.39 $ $Date: 2004/09/12 21:12:24 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra, Sylvain Pion
  
@@ -27,7 +27,6 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
-#include <CGAL/Quotient.h>
 #include <CGAL/double.h> 
 #include <CGAL/Interval_arithmetic.h>
 
@@ -39,6 +38,7 @@
 #endif
 
 #include <gmp.h>
+#include <mpfr.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -93,8 +93,12 @@ class Gmpz
   typedef Handle_for<Gmpz_rep> Base;
 public:
   typedef Tag_true  Has_gcd;
-  typedef Tag_false Has_division;
+  typedef Tag_true  Has_division;
   typedef Tag_true  Has_sqrt;
+
+  typedef Tag_true  Has_exact_ring_operations;
+  typedef Tag_false Has_exact_division;
+  typedef Tag_false Has_exact_sqrt;
 
   Gmpz() // {} we can't do that since the non-const mpz() is called.
     : Base(Gmpz_rep()) {}
@@ -368,6 +372,7 @@ inline
 Gmpz
 operator/(const Gmpz &a, const Gmpz &b)
 {
+    CGAL_precondition(b != 0);
     Gmpz Res;
     mpz_tdiv_q(Res.mpz(), a.mpz(), b.mpz());
     return Res;
@@ -522,8 +527,8 @@ exact_division(const Gmpz &z1, const Gmpz &z2)
   mpz_t prod;
   mpz_init(prod);
   mpz_mul(prod, Res.mpz(), z2.mpz());
-  CGAL_kernel_postcondition_msg(mpz_cmp(prod, z1.mpz()) == 0,
-                                "exact_division failed\n");
+  CGAL_postcondition_msg(mpz_cmp(prod, z1.mpz()) == 0,
+                         "exact_division failed\n");
   mpz_clear( prod);
 #endif // CGAL_CHECK_POSTCONDITIONS
   return Res;
@@ -549,10 +554,14 @@ inline
 std::istream&
 operator>>(std::istream& is, Gmpz &z)
 {
-  int negative = 0;
+  bool negative = false;
+  bool good = false;
   const int null = '0';
   char c;
+  Gmpz tmp;
+  std::ios::fmtflags old_flags = is.flags();
 
+  is.unsetf(std::ios::skipws);
 #ifndef CGAL_CFG_NO_LOCALE
   while (is.get(c) && std::isspace(c, std::locale::classic() ))
 #else
@@ -562,7 +571,7 @@ operator>>(std::istream& is, Gmpz &z)
 
   if (c == '-')
   {
-        negative = 1;
+        negative = true;
 #ifndef CGAL_CFG_NO_LOCALE
         while (is.get(c) && std::isspace(c, std::locale::classic() ))
 #else
@@ -576,42 +585,50 @@ operator>>(std::istream& is, Gmpz &z)
   if (std::isdigit(c))
 #endif // CGAL_CFG_NO_LOCALE
   {
-        z = c - null;
+        good = true;
+        tmp = c - null;
 #ifndef CGAL_CFG_NO_LOCALE
         while (is.get(c) && std::isdigit(c, std::locale::classic() ))
 #else
         while (is.get(c) && std::isdigit(c))
 #endif // CGAL_CFG_NO_LOCALE
         {
-            z = 10*z + (c-null);
+            tmp = 10*tmp + (c-null);
         }
   }
   if (is)
-  {
         is.putback(c);
-  }
-  if (sign(z) != static_cast<Sign>(0) && negative)
-  {
-        z = -z;
-  }
+  if (sign(tmp) != ZERO && negative)
+      tmp = -tmp;
+  if (good){
+      z = tmp;
+      }
+   else
+    is.clear(is.rdstate() | std::ios::failbit);
+
+  is.flags(old_flags);
   return is;
 }
 
 inline
-std::pair<double,double>
+std::pair<double, double>
 to_interval (const Gmpz & z)
 {
-  // GMP returns the closest double (seen in the code).
-  Protect_FPU_rounding<true> P(CGAL_FE_TONEAREST);
-  double app = CGAL::to_double(z);
-  // If it's lower than 2^53, then it's exact.
-  if (CGAL_CLIB_STD::fabs(app) < double(1<<26)*double(1<<27))
-      return to_interval(app);
-  FPU_set_cw(CGAL_FE_UPWARD);
-  Interval_nt<false> approx(app);
-  approx += Interval_nt<false>::smallest();
-  return approx.pair();
+    mpfr_t x;
+    mpfr_init2 (x, 53); /* Assume IEEE-754 */
+    mpfr_set_z (x, z.mpz(), GMP_RNDD);
+    double i = mpfr_get_d (x, GMP_RNDD); /* EXACT but can overflow */
+    mpfr_set_z (x, z.mpz(), GMP_RNDU);
+    double s = mpfr_get_d (x, GMP_RNDU); /* EXACT but can overflow */
+    mpfr_clear (x);
+    return std::pair<double, double>(i, s);
 }
+
+CGAL_END_NAMESPACE
+
+#include <CGAL/Quotient.h>
+
+CGAL_BEGIN_NAMESPACE
 
 inline
 double to_double(const Quotient<Gmpz>& quot)
@@ -622,21 +639,14 @@ double to_double(const Quotient<Gmpz>& quot)
   const Gmpz& d = quot.denominator();
   mpz_set(mpq_numref(mpQ), n.mpz());
   mpz_set(mpq_denref(mpQ), d.mpz());
-    
+
   mpq_canonicalize(mpQ);
-  
+
   double ret = mpq_get_d(mpQ);
   mpq_clear(mpQ);
   return ret;
 }
 
 CGAL_END_NAMESPACE
-
-#if defined( _MSC_VER ) && ( _MSC_VER == 1300 )
-  CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(CGAL::Gmpz);
-  CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(CGAL::Gmpz*);
-  CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(CGAL::Quotient<CGAL::Gmpz>);
-  CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(CGAL::Quotient<CGAL::Gmpz>*);
-#endif 
 
 #endif // CGAL_GMPZ_H

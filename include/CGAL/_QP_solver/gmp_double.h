@@ -1,9 +1,13 @@
-// Copyright (c) 1997-2001  ETH Zurich (Switzerland).
-// All rights reserved.
+// Copyright (c) 1999,2003,2004  Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -12,10 +16,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/_QP_solver/include/CGAL/_QP_solver/gmp_double.h,v $
-// $Revision: 1.5 $ $Date: 2003/09/18 10:26:46 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/09/21 06:48:05 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
 
 #ifndef GMP_DOUBLE_H
 #define GMP_DOUBLE_H
@@ -465,6 +469,13 @@ to_double( ) const
     return ldexp( m.to_double(), e);
 }
 
+// Also add global function in this namespace for Koenig lookup.
+inline
+double
+to_double(const Double &d)
+{
+    return d.to_double();
+}
 
 // access functions to the internal representation
 // -----------------------------------------------
@@ -501,7 +512,7 @@ operator << ( std::ostream& out, const Double& d)
 }
 
 
-}; // namespace GMP
+} // namespace GMP
 
 #endif // GMP_DOUBLE_H
 

@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Planar_map_2/Point_plus_handle.h,v $
-// $Revision: 1.2 $ $Date: 2003/09/18 10:24:49 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.4 $ $Date: 2004/09/22 07:53:53 $
+// $Name:  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 
@@ -66,6 +66,11 @@ class Point_plus_handle :
 {
   typedef Handle_for<Point_plus_rep<traits, vertexHandle> > 
                                                 Handle_for_Point_plus_rep;
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Handle_for_Point_plus_rep::ptr;
+#endif
+
 public:
   typedef traits                                Traits;
   typedef typename Traits::Point                Point;

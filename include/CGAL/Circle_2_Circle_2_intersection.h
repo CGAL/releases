@@ -17,8 +17,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Circle_2_Circle_2_intersection.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:16:43 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.9 $ $Date: 2004/05/20 13:54:35 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -57,7 +57,8 @@ bool
 do_intersect(const Circle_2<K> & circ1, 
 	     const Circle_2<K> & circ2)
 {
-  return CGALi::do_intersect(circ1, circ2, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect()(circ1, circ2);
 }
 
 

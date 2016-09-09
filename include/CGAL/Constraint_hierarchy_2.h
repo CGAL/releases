@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Constraint_hierarchy_2.h,v $
-// $Revision: 1.29 $ $Date: 2003/09/18 10:26:04 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.31 $ $Date: 2004/10/19 15:57:33 $
+// $Name:  $
 //
 // Author(s)     : Olivier Billet, Mariette Yvinec
 
@@ -130,6 +130,8 @@ public:
   //Helping functions
   void copy(const Constraint_hierarchy_2& ch);
   void copy(const Constraint_hierarchy_2& ch, std::map<T,T>& vmap);
+  void swap(Constraint_hierarchy_2& ch);
+
 private: 
   H_edge    make_edge(T va, T vb) const;
   H_vertex_it     get_pos(T va, T vb) const;
@@ -227,6 +229,15 @@ copy(const Constraint_hierarchy_2& ch1, std::map<T,T>& vmap)
   return;
 }
 
+template <class T, class Data> 
+void
+Constraint_hierarchy_2<T,Data>::
+swap(Constraint_hierarchy_2& ch)
+{
+  c_to_sc_map.swap(ch.c_to_sc_map);
+  sc_to_c_map.swap(ch.sc_to_c_map);
+  vertex_map.swap(ch.vertex_map);
+}
 
 template <class T, class Data> 
 bool Constraint_hierarchy_2<T,Data>::
@@ -683,12 +694,12 @@ print() const
       vertex_num.insert(std::make_pair((*vit), num));
     }
   }
-//   typename std::map<T,int>::iterator vnit = vertex_num.begin();
-//   for(; vnit != vertex_num.end(); vnit++) {
-//     vnit->second = ++num;
-//     std::cerr << "vertex num " << num  << " " << vnit->first->point()
-// 	      << std::endl;
-//   }
+//  typename std::map<T,int>::iterator vnit = vertex_num.begin();
+//  for(; vnit != vertex_num.end(); vnit++) {
+//    vnit->second = ++num;
+//    std::cerr << "vertex num " << num  << " " << vnit->first->point()
+//	      << std::endl;
+//  }
 
   H_c_iterator cit=c_begin();
   H_sc_iterator scit=sc_begin();

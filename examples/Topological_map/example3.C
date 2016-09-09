@@ -1,3 +1,5 @@
+// file: examples/Topological_map/example3.C
+
 /*! \file
  * A construction of a Topological_map with integer names for vertices and
  * curves.

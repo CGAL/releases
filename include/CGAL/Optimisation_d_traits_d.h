@@ -16,10 +16,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Optimisation_basic/include/CGAL/Optimisation_d_traits_d.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:21:57 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/09/20 11:28:27 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
 
 #ifndef CGAL_OPTIMISATION_D_TRAITS_D_H
 #define CGAL_OPTIMISATION_D_TRAITS_D_H
@@ -39,8 +39,8 @@ CGAL_BEGIN_NAMESPACE
 
 // Class declaration
 // =================
-template < class K_, class ET_ = CGAL_TYPENAME_MSVC_NULL K_::RT,
-                     class NT_ = CGAL_TYPENAME_MSVC_NULL K_::RT >
+template < class K_, class ET_ = typename K_::RT,
+                     class NT_ = typename K_::RT >
 class Optimisation_d_traits_d;
 
 // Class interface
@@ -67,7 +67,7 @@ class Optimisation_d_traits_d {
     typedef  CGAL::Access_coordinates_begin_d<K>
                                         Access_coordinates_begin_d;
 
-    typedef  CGAL::Construct_point_d<K>       Construct_point_d;
+    typedef  CGAL::_Construct_point_d<K>       Construct_point_d;
 
     // creation
     Optimisation_d_traits_d( ) { }

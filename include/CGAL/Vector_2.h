@@ -16,17 +16,17 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Vector_2.h,v $
-// $Revision: 1.16 $ $Date: 2003/10/21 12:18:17 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.18 $ $Date: 2004/09/17 08:27:06 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
 
 #ifndef CGAL_VECTOR_2_H
 #define CGAL_VECTOR_2_H
 
-CGAL_BEGIN_NAMESPACE
+#include <CGAL/Origin.h>
 
-class Null_vector;
+CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class Vector_2 : public R_::Kernel_base::Vector_2
@@ -36,7 +36,6 @@ class Vector_2 : public R_::Kernel_base::Vector_2
   typedef typename R_::Ray_2          Ray_2;
   typedef typename R_::Line_2         Line_2;
   typedef typename R_::Point_2        Point_2;
-  typedef typename R_::Direction_2    Direction_2;
   typedef typename R_::Kernel_base::Vector_2  RVector_2;
 public:
   typedef  R_                        R;

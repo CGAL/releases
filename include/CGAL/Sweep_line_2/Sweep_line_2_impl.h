@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Sweep_line_2/include/CGAL/Sweep_line_2/Sweep_line_2_impl.h,v $
-// $Revision: 1.8 $ $Date: 2003/09/18 10:25:48 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.12 $ $Date: 2004/11/03 13:42:20 $
+// $Name:  $
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>
 #ifndef CGAL_SWEEP_LINE_2_IMPL_H
@@ -59,7 +59,7 @@ CGAL_BEGIN_NAMESPACE
   based on the algorithm of Bentley and Ottmann.
   It extends the algorithm to support not only segments but polylines and 
   general curves as well.
-  The curves are defined by the traits class that is one of the teplate 
+  The curves are defined by the traits class that is one of the template 
   arguments.
 
   The algorithm is also extended to support the following degenerate cases:
@@ -141,8 +141,8 @@ public:
   typedef typename StatusLine::iterator StatusLineIter;
   typedef typename Event::VerticalCurveList VerticalCurveList;
   typedef typename Event::VerticalCurveListIter VerticalCurveListIter;
-  typedef typename Event::VerticalXPointList VerticalXPointList;
-  typedef typename Event::VerticalXPointListIter VerticalXPointListIter;
+  typedef typename Event::VerticalXPointSet VerticalXPointList;
+  typedef typename Event::VerticalXPointSetIter VerticalXPointListIter;
 
   typedef std::list<Event *> EventList;
   typedef typename EventList::iterator EventListIter;
@@ -176,7 +176,7 @@ public:
    *                   of curves created by intersecting the input curves.
    *  \param overlapping indicates whether overlapping curves should be 
    *                   reported once or multiple times. If false, the 
-   *                   overlapping curves are r(unsigned int)eported once only.
+   *                   overlapping curves are reported once only.
    */
   template <class OutpoutIterator>
   void  get_subcurves(CurveInputIterator begin, CurveInputIterator end, 
@@ -1084,7 +1084,7 @@ protected:
   */
   template <class OutpoutIterator>
   void add_curve_to_output(const X_monotone_curve_2 &cv, Subcurve *curve, 
-			OutpoutIterator out)
+                           OutpoutIterator out)
   {
     static Subcurve *prevCurve = 0;
     static X_monotone_curve_2 prevXCv;
@@ -1352,7 +1352,7 @@ protected:
     curves created when splitting them into x-monotone curves. */
   std::vector<X_monotone_curve_2> m_xcurves;
 
-  /*! a pointer to thecurrent event */
+  /*! a pointer to the current event */
   Event *m_currentEvent;
 
   /*! a queue that holds all the events that have the same x coordinate as 
@@ -1457,26 +1457,19 @@ init(CurveInputIterator begin, CurveInputIterator end)
   CurveInputIterator iter;
   for ( iter = begin ; iter != end ; ++iter)
   {
-    if ( m_traits->is_x_monotone(*iter) ) 
-      init_curve(*iter);
-    else
-    {
-      std::list<X_monotone_curve_2> xcurves;
-      m_traits->curve_make_x_monotone(*iter,
-                                      std::back_inserter(xcurves));
-      SL_DEBUG(
-      std::cout << "curve " << *iter << " was split into " 
-                << xcurves.size() << " curves." << std::endl;
-      )
+    std::list<X_monotone_curve_2> xcurves;
+    m_traits->curve_make_x_monotone(*iter, std::back_inserter(xcurves));
+    SL_DEBUG(
+             std::cout << "curve " << *iter << " was split into " 
+             << xcurves.size() << " curves." << std::endl;
+             )
 
-      for (typename std::list<X_monotone_curve_2>::iterator i =
-             xcurves.begin();
-	   i != xcurves.end() ; ++i )
-      {
-	m_xcurves.push_back(*i);
-	init_curve(m_xcurves[count]);
-	count++;
-      }
+    for (typename std::list<X_monotone_curve_2>::iterator i = xcurves.begin();
+         i != xcurves.end() ; ++i )
+    {
+      m_xcurves.push_back(*i);
+      init_curve(m_xcurves[count]);
+      count++;
     }
   }
 }
@@ -1502,10 +1495,13 @@ init_curve(X_monotone_curve_2 &curve)
   
   // handle the source point
   EventQueueIter eventIter = m_queue->find(&source); 
-  if ( eventIter != m_queue->end() ) {
+  if ( eventIter != m_queue->end() )  // check if the event already in the event queue
+  {
     SL_DEBUG(std::cout << "event " << source << " already exists\n";)
     e = eventIter->second;
-  } else  {
+  }
+  else  // the event is not in the event-queue
+  {
     e = new Event(source, m_traits); 
 #ifndef NDEBUG
     e->id = m_eventId++;
@@ -1518,10 +1514,13 @@ init_curve(X_monotone_curve_2 &curve)
     
   // handle the target point
   eventIter = m_queue->find(&target);
-  if ( eventIter != m_queue->end() ) {
+  if ( eventIter != m_queue->end() )
+  {
     SL_DEBUG(std::cout << "event " << target << " already exists\n";)
     e = eventIter->second;
-  } else  {
+  }
+  else 
+  {
     e = new Event(target, m_traits); 
 #ifndef NDEBUG
     e->id = m_eventId++;
@@ -1618,11 +1617,13 @@ handle_vertical_curve_bottom(SweepLineGetSubCurves &tag)
       // handle a curve that goes through the interior of the vertical curve
       const X_monotone_curve_2 &cv1 = vcurve->get_curve();
       const X_monotone_curve_2 &cv2 = (*slIter)->get_curve();
+
+      Object res = m_traits->nearest_intersection_to_right(cv1, cv2,
+                                                           currentPoint);
+      CGAL_assertion(!res.is_empty());
       Point_2 xp;
-      bool res = m_traits->nearest_intersection_to_right(cv1, cv2,
-                                                         currentPoint, xp, xp);
-      SL_DEBUG(CGAL_assertion(res==true);)
-      res = 0;
+      if (!CGAL::assign(xp, res))
+        CGAL_assertion(0);
       
       EventQueueIter eqi = m_queue->find(&xp);
       Event *e = 0;
@@ -1671,9 +1672,6 @@ handle_vertical_curve_bottom(SweepLineGetSubCurves &tag)
 
   SL_DEBUG(std::cout<<"Done Handling vertical\n";)
 }
-
-
-
 
 /*!
  * Handles overlapping vertical curves. 
@@ -1848,6 +1846,8 @@ remove_curve_from_status_line(Subcurve *leftCurve)
  * @param curve2 a pointer to the second curve
  * @return true if the two curves overlap.
 */
+
+
 template <class CurveInputIterator, class SweepLineTraits_2,
          class SweepEvent, class CurveWrap>
 inline bool 
@@ -1873,16 +1873,24 @@ intersect(Subcurve *c1, Subcurve *c2)
 
   bool isOverlap = false;
 
-  Point_2 xp, xp1;
-  if ( m_traits->nearest_intersection_to_right(cv1, cv2, 
-					       m_currentEvent->get_point(), 
-					       xp, xp1))
+  Object res =
+    m_traits->nearest_intersection_to_right(cv1, cv2, 
+                                            m_currentEvent->get_point());
+  if (!res.is_empty())
   {
-    if ( !m_traits->point_equal(xp, xp1)) {
-      if ( m_traits->compare_x(xp1, xp) == LARGER )
-	xp = xp1;
-      SL_DEBUG(std::cout << "overlap detected\n";)
-      isOverlap = true;
+    Point_2 xp;
+    if (!CGAL::assign(xp, res))
+    {
+      X_monotone_curve_2 cv;
+      if (CGAL::assign(cv, res))
+      {
+        xp = m_traits->curve_source(cv);
+        Point_2 xp1 = m_traits->curve_target(cv);
+        if ( m_traits->compare_x(xp1, xp) == LARGER )
+          xp = xp1;
+        SL_DEBUG(std::cout << "overlap detected\n";)
+          isOverlap = true;
+      }
     }
 
     SL_DEBUG(
@@ -1915,17 +1923,22 @@ intersect(Subcurve *c1, Subcurve *c2)
       PRINT_NEW_EVENT(xp, e);
       m_queue->insert(EventQueueValueType(&(e->get_point()), e));
       return isOverlap;
-    } else 
+    } 
+    else 
     {
       SL_DEBUG(std::cout << "event already exists,updating.. (" << xp <<")\n";)
       e = eqi->second;
+    
       e->add_curve_to_left(c1, m_sweepLinePos);
-      if ( !scv1->is_end_point(xp)) { 
-	e->add_curve_to_right(c1);
+      if ( !scv1->is_end_point(xp)) 
+      { 
+	      e->add_curve_to_right(c1);
       }
+
       e->add_curve_to_left(c2, m_sweepLinePos);
-      if ( !scv2->is_end_point(xp) ) {
-	e->add_curve_to_right(c2);
+      if ( !scv2->is_end_point(xp) ) 
+      {
+	      e->add_curve_to_right(c2);
       }
       SL_DEBUG(e->Print();)
     }
@@ -2007,7 +2020,7 @@ handle_vertical_curve_x_at_end(Subcurve *vcurve, Subcurve *curve,
     if ( ! (curve)->is_right_end(currentPoint)) {
       m_currentEvent->add_curve_to_right(curve);
     }
-    return true;;
+    return true;
   }
   return false;
 }
@@ -2152,14 +2165,15 @@ handle_vertical_curve_bottom(SweepLineGetPoints &tag)
 	continue;
       }
 
-      Point_2 xp;
-      bool res = 
+      Object res = 
 	m_traits->nearest_intersection_to_right(vcurve->get_curve(), 
 						(*slIter)->get_curve(), 
-						currentPoint, 
-						xp, xp);
-      SL_DEBUG(CGAL_assertion(res==true);)
-      res = 0;
+						currentPoint);
+      CGAL_assertion(!res.is_empty());
+      Point_2 xp;
+      if (!CGAL::assign(xp, res))
+        CGAL_assertion(0);
+
       EventQueueIter eqi = m_queue->find(&xp); 
       Event *e = 0;
       if ( eqi == m_queue->end() )

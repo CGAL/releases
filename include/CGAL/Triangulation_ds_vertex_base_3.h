@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_ds_vertex_base_3.h,v $
-// $Revision: 1.5 $ $Date: 2003/10/17 08:49:19 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/01/13 09:37:10 $
+// $Name:  $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
@@ -38,7 +38,7 @@ public:
   struct Rebind_TDS { typedef Triangulation_ds_vertex_base_3<TDS2> Other; };
 
   Triangulation_ds_vertex_base_3()
-    : _c(NULL) {}
+    : _c() {}
   
   Triangulation_ds_vertex_base_3(const Cell_handle& c)
     : _c(c) {}
@@ -54,7 +54,7 @@ public:
   // to add their own purpose checking
   bool is_valid(bool, int ) const
   { 
-    return cell() != NULL;
+    return cell() != Cell_handle();
   }
 
   // For use by the Compact_container.

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Aff_transformationHd.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:19:16 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.14 $ $Date: 2004/06/23 02:15:25 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_AFF_TRANSFORMATIONHD_H
@@ -63,6 +63,8 @@ class Aff_transformationHd :
   typedef Aff_transformationHd_rep<_RT,_LA> Rep;
   typedef Handle_for<Rep> Base;
   typedef Aff_transformationHd<_RT,_LA> Self;
+
+  using Base::ptr;
 
 /*{\Mdefinition 
 An instance of the data type |\Mname| is an affine transformation of

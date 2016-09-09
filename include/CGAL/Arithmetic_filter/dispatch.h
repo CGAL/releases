@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Arithmetic_filter/dispatch.h,v $
 // $Revision: 1.11 $ $Date: 2003/10/21 12:17:26 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 

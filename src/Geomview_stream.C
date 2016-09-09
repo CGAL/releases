@@ -1,4 +1,4 @@
-// Copyright (c) 1999,2000,2001  Utrecht University (The Netherlands),
+// Copyright (c) 1999-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,16 +16,14 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Geomview/src/Geomview_stream.C,v $
-// $Revision: 1.56 $ $Date: 2003/10/21 12:16:05 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.59 $ $Date: 2004/09/17 12:44:41 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann, Sylvain Pion
 
-// Geomview doesn't work on M$ at the moment, so we don't compile this file.
-#if !defined(__BORLANDC__) && !defined(_MSC_VER) && \
-    !defined(__MWERKS__) && !defined(__MINGW32__)
-
 #include <CGAL/basic.h>
+
+#ifdef CGAL_USE_GEOMVIEW
 
 #include <sstream>
 #include <csignal>
@@ -95,9 +93,11 @@ void Geomview_stream::setup_geomview(const char *machine, const char *login)
 	    std::string s (" rgeomview ");
 	    s += machine;
 	    s += ":0.0";
-            execlp("rsh", "rsh", machine, "-l", login, s.data(), NULL);
+            execlp("rsh", "rsh", machine, "-l", login, s.data(),
+                   static_cast<void *>(NULL)); // cast to stop gcc warning
         } else {
-            execlp("geomview", "geomview", "-c", "-", NULL);
+            execlp("geomview", "geomview", "-c", "-",
+                   static_cast<void *>(NULL)); // cast to stop gcc warning
         }
 
         // if we get to this point something went wrong.
@@ -554,4 +554,13 @@ Geomview_stream::get_new_id(const std::string & s)
 
 CGAL_END_NAMESPACE
 
-#endif // ! M$
+#else
+
+// Add a dummy symbol to prevent warnings of empty translation unit.
+CGAL_BEGIN_NAMESPACE
+namespace {
+int dummy;
+}
+CGAL_END_NAMESPACE
+
+#endif // CGAL_USE_GEOMVIEW

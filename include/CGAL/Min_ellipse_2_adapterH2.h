@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/Min_ellipse_2_adapterH2.h,v $
-// $Revision: 1.4 $ $Date: 2003/09/18 10:23:12 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/09/20 07:23:58 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>, Bernd Gärtner
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
 
 #ifndef CGAL_MIN_ELLIPSE_2_ADAPTERH2_H
 #define CGAL_MIN_ELLIPSE_2_ADAPTERH2_H
@@ -76,6 +76,8 @@ are_ordered_along_lineH2( const PT& p, const PT& q, const PT& r,
     else
         return(    ( ( phy*qhw < qhy*phw) && ( qhy*rhw < rhy*qhw))
                 || ( ( rhy*qhw < qhy*rhw) && ( qhy*phw < phy*qhw)));
+    // keeps g++ happy
+    return false;
 }
 
 template < class PT_, class DA_ >
@@ -154,10 +156,10 @@ class _Min_ellipse_2_adapterH2__Ellipse {
     CT   conic1, conic2;                    // two conics
     RT   dr, ds, dt, du, dv, dw;            // the gradient vector
 
-    friend  std::ostream&  operator << CGAL_NULL_TMPL_ARGS ( std::ostream&,
+    friend  std::ostream&  operator << <> ( std::ostream&,
         const _Min_ellipse_2_adapterH2__Ellipse<PT_,DA_>&);
 
-    friend  std::istream&  operator >> CGAL_NULL_TMPL_ARGS ( std::istream&,
+    friend  std::istream&  operator >> <> ( std::istream&,
         _Min_ellipse_2_adapterH2__Ellipse<PT_,DA_>&);
 
   public:
@@ -393,8 +395,8 @@ operator >> ( std::istream& is,
     switch ( CGAL::get_mode( is)) {
 
       case CGAL::IO::PRETTY:
-        cerr << std::endl;
-        cerr << "Stream must be in ascii or binary mode" << std::endl;
+        std::cerr << std::endl;
+	std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
 
       case CGAL::IO::ASCII:

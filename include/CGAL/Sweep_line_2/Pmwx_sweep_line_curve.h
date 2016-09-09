@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Sweep_line_2/Pmwx_sweep_line_curve.h,v $
 // $Revision: 1.8 $ $Date: 2003/09/18 10:19:50 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>
 #ifndef CGAL_PMWX_SWEEP_LINE_CURVE_H

@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/Partition_vertex_map.h,v $
-// $Revision: 1.20 $ $Date: 2003/10/21 12:22:21 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.22 $ $Date: 2004/09/21 08:50:18 $
+// $Name:  $
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
@@ -122,23 +122,25 @@ private:
 
 
 template <class Traits_>
-class Edge_list : public std::list< 
+class Pvm_edge_list : public std::list< 
                   Edge_info<typename Traits_::Polygon_2::Vertex_iterator> >
 {
 public:
    typedef Traits_                                       Traits;
-   typedef Edge_list<Traits>                             Self;
+   typedef Pvm_edge_list<Traits>                             Self;
    typedef typename Traits::Point_2                      Point_2;
    typedef typename Traits::Orientation_2                Orientation_pred;
    typedef typename Traits::Polygon_2::Vertex_iterator   Vertex_iterator;
    typedef Edge_info<Vertex_iterator>                    Edge;
    typedef typename std::list<Edge>::iterator            Self_iterator;
    typedef typename std::list<Edge>::const_iterator      Self_const_iterator;
-   typedef Circulator_from_iterator<Self_const_iterator> Self_const_circulator;
+   typedef Circulator_from_iterator<Self_const_iterator> 
+                                                      Self_const_circulator;
 
 
 #ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-  static CW_indirect_edge_info_compare<Vertex_iterator, Traits> cw_indirect_edge_info_compare;
+  static CW_indirect_edge_info_compare<Vertex_iterator, Traits> 
+    cw_indirect_edge_info_compare;
 
   static bool compare(const Edge& e1, const Edge& e2)
   {
@@ -150,12 +152,12 @@ public:
    {
        Self_iterator e_it;
 
-       for (e_it = begin(); 
-            e_it != end() && (*e_it).endpoint() != endpoint_ref;
+       for (e_it = this->begin(); 
+            e_it != this->end() && (*e_it).endpoint() != endpoint_ref;
             e_it++) 
        {}
 
-       if (e_it != end())
+       if (e_it != this->end())
             (*e_it).set_poly_num2(num);
        else
           push_back(Edge(endpoint_ref, num));
@@ -165,12 +167,12 @@ public:
    {
        Self_iterator e_it;
 
-       for (e_it = begin(); 
-            e_it != end() && (*e_it).endpoint() != endpoint_ref;
+       for (e_it = this->begin(); 
+            e_it != this->end() && (*e_it).endpoint() != endpoint_ref;
             e_it++) 
        {}
 
-       if (e_it != end())
+       if (e_it != this->end())
             (*e_it).set_poly_num2(num);
        else
           push_front(Edge(endpoint_ref, num));
@@ -191,13 +193,13 @@ public:
        // are already in CCW order (since the partition polygons were in CCW
        // order), and this is what you need when you construct the union 
        // polygon.
-       if (size() > 2){
-
+       if (this->size() > 2){
 #ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-	 cw_indirect_edge_info_compare = CW_indirect_edge_info_compare<Vertex_iterator,Traits>(vertex_it);
-         sort(&Self::compare);
+    cw_indirect_edge_info_compare = 
+      CW_indirect_edge_info_compare<Vertex_iterator,Traits>(vertex_it);
+    sort(&Self::compare);
 #else
-	 sort(CW_indirect_edge_info_compare<Vertex_iterator,Traits>(vertex_it));
+    sort(CW_indirect_edge_info_compare<Vertex_iterator,Traits>(vertex_it));
 #endif
        }
 
@@ -206,10 +208,10 @@ public:
        std::cout << *this << std::endl;
 #endif
 
-       Self_const_iterator prev_e_it = begin();
+       Self_const_iterator prev_e_it = this->begin();
        Self_const_iterator e_it;
 
-       for (e_it = begin(); e_it != end(); e_it++)
+       for (e_it = this->begin(); e_it != this->end(); e_it++)
        {
           if ((*e_it).poly_num1() == PARTITION_VMAP_UNSHARED_EDGE) 
              num_unshared++;
@@ -225,10 +227,10 @@ public:
           }
           prev_e_it = e_it;
        }
-       if ((*prev_e_it).poly_num1() != (*begin()).poly_num1() &&
-           (*prev_e_it).poly_num1() != (*begin()).poly_num2() &&
-           (*prev_e_it).poly_num2() != (*begin()).poly_num1() &&
-           (*prev_e_it).poly_num2() != (*begin()).poly_num2())
+       if ((*prev_e_it).poly_num1() != (*this->begin()).poly_num1() &&
+           (*prev_e_it).poly_num1() != (*this->begin()).poly_num2() &&
+           (*prev_e_it).poly_num2() != (*this->begin()).poly_num1() &&
+           (*prev_e_it).poly_num2() != (*this->begin()).poly_num2())
        {
           return true;
        }
@@ -241,7 +243,7 @@ public:
    //        comes BEFORE the edge with endpoint v_it in the sorted list
    Edge next_ccw_edge_info(Vertex_iterator v_it) const
    {
-      Self_const_circulator first_e(begin(), end(), begin());
+      Self_const_circulator first_e(this->begin(), this->end(), this->begin());
       Self_const_circulator e_circ = first_e;
 
       do
@@ -260,16 +262,18 @@ public:
 
 #ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
 template <class Traits>
-CW_indirect_edge_info_compare<typename Traits::Polygon_2::Vertex_iterator, Traits>
-Edge_list<Traits>::cw_indirect_edge_info_compare;
+CW_indirect_edge_info_compare<typename Traits::Polygon_2::Vertex_iterator, 
+                               Traits>
+Pvm_edge_list<Traits>::cw_indirect_edge_info_compare;
 #endif
 
 
 
 template <class Traits>
-std::ostream& operator<<(std::ostream& os, const Edge_list<Traits>& edges) 
+std::ostream& operator<<(std::ostream& os, 
+			 const Pvm_edge_list<Traits>& edges) 
 {
-   typename Edge_list<Traits>::const_iterator  e_it;
+   typename Pvm_edge_list<Traits>::const_iterator  e_it;
 
    for (e_it = edges.begin(); e_it != edges.end(); e_it++)
    {
@@ -284,13 +288,13 @@ std::ostream& operator<<(std::ostream& os, const Edge_list<Traits>& edges)
 template <class Traits>
 class Partition_vertex_map : 
                 public std::map<typename Traits::Polygon_2::Vertex_iterator,
-                                Edge_list<Traits>, 
+                                Pvm_edge_list<Traits>, 
                                 Indirect_less_xy_2<Traits> >
 {
 public:
   typedef Partition_vertex_map<Traits> Self;
    typedef typename std::map<typename Traits::Polygon_2::Vertex_iterator,
-                             Edge_list<Traits>,
+                             Pvm_edge_list<Traits>,
                              Indirect_less_xy_2<Traits> >::iterator
                                                        Self_iterator;
    typedef typename Traits::Point_2                    Point_2;
@@ -303,7 +307,8 @@ public:
 
 
 #ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-  static CW_indirect_edge_info_compare<Vertex_iterator,Traits> cw_indirect_edge_info_compare;
+  static CW_indirect_edge_info_compare<Vertex_iterator,Traits> 
+    cw_indirect_edge_info_compare;
   static bool compare(const Edge & e1, const Edge& e2)
   {
     return cw_indirect_edge_info_compare(e1, e2);
@@ -318,8 +323,8 @@ public:
    void build(InputIterator poly_first, InputIterator poly_last)
    {
       typedef std::pair<Self_iterator, bool>          Location_pair;
-      typedef Edge_list<Traits>                       Edge_list;
-      typedef std::pair<Vertex_iterator, Edge_list>   P_Vertex;
+      typedef Pvm_edge_list<Traits>                       Pvm_edge_list;
+      typedef std::pair<Vertex_iterator, Pvm_edge_list>   P_Vertex;
    
       Location_pair v_loc_pair;
       Location_pair begin_v_loc_pair;
@@ -334,14 +339,18 @@ public:
       {
         vtx_begin = (*poly_first).vertices_begin();
         vtx_end = (*poly_first).vertices_end();
-        begin_v_loc_pair = insert(P_Vertex(vtx_begin, Edge_list()));
+        begin_v_loc_pair = insert(P_Vertex(vtx_begin, Pvm_edge_list()));
         prev_v_loc_pair = begin_v_loc_pair;
         v_it = vtx_begin;
         for (v_it++; v_it != vtx_end; v_it++)
         {
-           v_loc_pair = insert(P_Vertex(v_it, Edge_list()));
-           insert_next_edge(prev_v_loc_pair.first, v_loc_pair.first, poly_num);
-           insert_prev_edge(v_loc_pair.first, prev_v_loc_pair.first, poly_num);
+           v_loc_pair = insert(P_Vertex(v_it, Pvm_edge_list()));
+           insert_next_edge(prev_v_loc_pair.first, 
+			    v_loc_pair.first, 
+			    poly_num);
+           insert_prev_edge(v_loc_pair.first, 
+			    prev_v_loc_pair.first, 
+			    poly_num);
            prev_v_loc_pair = v_loc_pair;
         }
         insert_next_edge(prev_v_loc_pair.first, begin_v_loc_pair.first, 
@@ -367,7 +376,7 @@ public:
    bool polygons_overlap()
    {
       Self_iterator v_it;
-      for (v_it = begin(); v_it != end(); v_it++)
+      for (v_it = this->begin(); v_it != this->end(); v_it++)
       {
          if ((*v_it).second.edges_overlap((*v_it).first)) return true;
       }
@@ -377,18 +386,18 @@ public:
    template <class OutputIterator>
    OutputIterator union_vertices(OutputIterator result)
    {
-       if (empty()) return result;
+       if (this->empty()) return result;
    
-       Self_iterator m_it = begin();
+       Self_iterator m_it = this->begin();
        Vertex_iterator v_it;
        Vertex_iterator first_v_it;
        Vertex_iterator prev_v_it;
        Vertex_iterator next_v_it;
    
        // find a vertex with degree 2 (there must be at least one)
-       while (m_it != end() && (*m_it).second.size() != 2)
+       while (m_it != this->end() && (*m_it).second.size() != 2)
           m_it++;
-       CGAL_assertion (m_it != end());
+       CGAL_assertion (m_it != this->end());
 
        // insert this vertex and the two around it
        first_v_it = prev_v_it = (*(*m_it).second.begin()).endpoint();
@@ -414,24 +423,26 @@ public:
        v_it = next_v_it;
        m_it = find(v_it);
        
-       while (v_it != first_v_it && m_it != end())
+       while (v_it != first_v_it && m_it != this->end())
        {
 #ifdef CGAL_PARTITION_CHECK_DEBUG
           std::cout << "union_vertices: prev_v_it " << (*prev_v_it)
                     << " v_it " << (*v_it) << " next_v_it "
                     << (*next_v_it) << std::endl;
 #endif
-          // Don't want to sort the edges for vertices of degree 2 because they
-          // are already in CCW order (since the partition polygons were in CCW
-          // order), and this is what you need to begin the construction 
-          // of the union polygon.
+    // Don't want to sort the edges for vertices of degree 2 because they
+    // are already in CCW order (since the partition polygons were in CCW
+    // order), and this is what you need to begin the construction 
+    // of the union polygon.
           if ((*m_it).second.size() > 2){
 
 #ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
-	    cw_indirect_edge_info_compare = CW_indirect_edge_info_compare<Vertex_iterator,Traits>((*m_it).first);
-	    (*m_it).second.sort(&Self::compare);
+     cw_indirect_edge_info_compare = 
+       CW_indirect_edge_info_compare<Vertex_iterator,Traits>((*m_it).first);
+     (*m_it).second.sort(&Self::compare);
 #else
-	    (*m_it).second.sort(CW_indirect_edge_info_compare<Vertex_iterator,Traits>((*m_it).first));
+     (*m_it).second.sort(
+       CW_indirect_edge_info_compare<Vertex_iterator,Traits>((*m_it).first));
 #endif
 	  }
 
@@ -449,7 +460,7 @@ public:
           prev_v_it  = v_it;
           v_it = next_v_it;
           m_it = find(v_it);
-          CGAL_assertion (m_it == end() || (*m_it).first == v_it);
+          CGAL_assertion (m_it == this->end() || (*m_it).first == v_it);
        }
 #ifdef CGAL_PARTITION_CHECK_DEBUG
        if (v_it == first_v_it)
@@ -465,7 +476,8 @@ public:
 
 #ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
 template <class Traits>
-CW_indirect_edge_info_compare<typename Traits::Polygon_2::Vertex_iterator,Traits>
+CW_indirect_edge_info_compare<typename Traits::Polygon_2::Vertex_iterator,
+                                Traits>
 Partition_vertex_map<Traits>::cw_indirect_edge_info_compare;
 #endif
 

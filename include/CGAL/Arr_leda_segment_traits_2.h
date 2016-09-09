@@ -12,12 +12,13 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arr_leda_segment_traits_2.h,v $
-// $Revision: 1.13 $ $Date: 2003/09/18 10:19:40 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.14 $ $Date: 2004/05/27 11:52:25 $
+// $Name:  $
 //
 // Author(s)     : Iddo Hanniel
 //                 Eyal Flato <flato@post.tau.ac.il>
 //                 Efi Fogel  <efif@post.tau.ac.il>
+
 #ifndef CGAL_ARR_LEDA_SEGMENT_EXACT_TRAITS
 #define CGAL_ARR_LEDA_SEGMENT_EXACT_TRAITS
 

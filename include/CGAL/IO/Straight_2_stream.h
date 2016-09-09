@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/IO/Straight_2_stream.h,v $
 // $Revision: 1.2 $ $Date: 2003/09/18 10:24:43 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 #ifndef CGAL_IO_PM_STRAIGHT_2_STREAM_H

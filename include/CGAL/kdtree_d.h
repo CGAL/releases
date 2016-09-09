@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/kdtree/include/CGAL/kdtree_d.h,v $
-// $Revision: 1.5 $ $Date: 2003/09/18 10:27:05 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/06/24 17:08:25 $
+// $Name:  $
 //
 // Author(s)     : Sariel Har-Peled (sariel@math.tau.ac.il)
 //                 Eyal Flato (flato@math.tau.ac.il)
@@ -595,7 +595,7 @@ private:
             coord = k;
         }
   
-        Plane( Plane  & p )
+        Plane( const Plane  & p )
         {
             coord = p.coord;
             normal = p.normal;
@@ -732,10 +732,6 @@ private:
             left = right = NULL; 
         }
   
-        ~Node() 
-        { 
-        }
-	
         void  copy_subtree_points( back_iter  & result,
                                    const Box  & rect )
         {

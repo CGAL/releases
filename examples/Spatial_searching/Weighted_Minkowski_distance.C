@@ -1,82 +1,41 @@
-#include <CGAL/basic.h>
+// file: examples/Spatial_searching/Weighted_Minkowski_distance.C
 
-#include <vector>
-#include <numeric>
-#include <cassert>
-#include <string>
-
-#include <iostream>
-#include <fstream> 
-
-#include <CGAL/Kd_tree.h>
-#include <CGAL/Kd_tree_traits_point.h>
-#include <CGAL/Random.h>
-#include <CGAL/Orthogonal_standard_search.h>
-#include <CGAL/Cartesian_d.h>
+#include <CGAL/Simple_cartesian.h>
+#include <CGAL/Orthogonal_k_neighbor_search.h>
 #include <CGAL/Weighted_Minkowski_distance.h>
+#include <CGAL/Search_traits_2.h>
+#include <CGAL/point_generators_2.h>
+
+typedef CGAL::Simple_cartesian<double> K;
+typedef K::Point_2 Point_d;
+typedef CGAL::Random_points_in_square_2<Point_d> Random_points_iterator;
+typedef CGAL::Counting_iterator<Random_points_iterator> N_Random_points_iterator;
+typedef CGAL::Search_traits_2<K> TreeTraits;
+typedef CGAL::Weighted_Minkowski_distance<TreeTraits> Distance;
+typedef CGAL::Orthogonal_k_neighbor_search<TreeTraits, Distance> K_neighbor_search;
+typedef K_neighbor_search::Tree Tree;
+
  
-typedef CGAL::Cartesian_d<double> R;
-typedef CGAL::Point_d<R> Point;
-typedef Point::R::FT NT;
-
-typedef CGAL::Kd_tree_traits_point<Point> Traits;
-typedef CGAL::Weighted_Minkowski_distance<Point> Distance;
-typedef CGAL::Orthogonal_standard_search<Traits, Distance> 
-NN_standard_search;
-  
-
 int main() {
+  const int D = 2;
+  const int N = 1000;
+  const int K = 5;
+  
 
-  int bucket_size=1;
-  const int dim=4;
-  
-  const int data_point_number=100;
-  const int nearest_neighbour_number=10;
-  
-  typedef std::list<Point> point_list;
-  point_list data_points;
-  
-  // add random points of dimension dim to data_points
-  CGAL::Random Rnd;
-  // std::cout << "started tstrandom()" << std::endl;
-  for (int i1=0; i1<data_point_number; i1++) {
-	    NT v[dim];
-		for (int i2=0; i2<dim; i2++) v[i2]=Rnd.get_double(-1.0,1.0);
-        Point Random_point(dim,v,v+dim);
-        data_points.push_front(Random_point);
+  Random_points_iterator rpit( 1.0);
+
+  Tree tree(N_Random_points_iterator(rpit,0),
+	    N_Random_points_iterator(N));
+
+  Point_d query(0,0);
+
+  double w[2] = { 1.0, 2.0};
+  Distance tr_dist(3.14,D,w, w+D);
+
+  K_neighbor_search search(tree, query, K, 0.0, true, tr_dist);
+
+  for (K_neighbor_search::iterator it = search.begin(); it!=search.end(); ++it){
+    std::cout << "Point " << (*it).first << " at distance = " << (*it).second << std::endl; 
   }
-  
-  
-  Traits tr(bucket_size, 3.0, true);
-
-  Distance::Weight_vector w(4);
-  w[0]=1.0; w[1]=2.0; w[2]=3.0; w[3]=4.0;
-
-  Distance tr_dist(3.14,dim,w);
-
-  typedef CGAL::Kd_tree<Traits> Tree;
-  Tree d(data_points.begin(), data_points.end(), tr);
-
-  // define query item
-  double q[dim];
-  for (int i=0; i<dim; i++) {
-  	q[i]=0.5;
-  }
-  Point query_item(dim,q,q+dim);
-
-  std::vector<NN_standard_search::Point_with_distance> nearest_neighbours;
-  
-  NN_standard_search NN(d, query_item, tr_dist, nearest_neighbour_number, 0.0);
-  std::cout << "neighbour searching statistics using no extended nodes: " << std::endl;
-  NN.statistics(std::cout);
-  NN.the_k_neighbors(std::back_inserter(nearest_neighbours));
-
-  for (int j=0; j < nearest_neighbour_number; ++j) { 
-     std::cout << " d(q,nn)= " << nearest_neighbours[j].second << 
-     " nn= " << *(nearest_neighbours[j].first) << std::endl; 
-  }
-  
-  
   return 0;
-
-}; 
+}

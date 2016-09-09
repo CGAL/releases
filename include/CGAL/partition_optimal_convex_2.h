@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/partition_optimal_convex_2.h,v $
-// $Revision: 1.16 $ $Date: 2003/10/21 12:22:28 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.17 $ $Date: 2004/09/21 21:35:08 $
+// $Name:  $
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
@@ -450,10 +450,8 @@ void partition_opt_cvx_preprocessing(Polygon& polygon,
     typedef Vertex_visibility_graph_2<Traits>             Vis_graph;
     typedef typename Traits::Point_2                      Point_2;
     typedef std::pair<Point_2, Point_2>                   Point_pair;
-    typedef typename Traits::Orientation_2                Orientation_2;
 
     Vis_graph graph(polygon.begin(), polygon.end());
-    Orientation_2 orientation = traits.orientation_2_object();
 
     size_type prev_i, i, next_i, next_next_i;
     size_type prev_j, j, next_j;

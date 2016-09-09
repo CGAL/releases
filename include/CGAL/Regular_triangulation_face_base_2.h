@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Regular_triangulation_face_base_2.h,v $
 // $Revision: 1.14 $ $Date: 2003/09/18 10:26:08 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Frederic Fichel, Mariette Yvinec
 

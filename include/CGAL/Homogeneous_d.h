@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Homogeneous_d.h,v $
-// $Revision: 1.20 $ $Date: 2003/10/21 12:19:10 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.24 $ $Date: 2004/09/07 07:41:10 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 
@@ -75,7 +75,7 @@ public:
   typedef typename Point_d_base::Cartesian_const_iterator Cartesian_const_iterator_d;
 
   template <typename K>
-  class Construct_Cartesian_const_iterator
+  class Construct_cartesian_const_iterator
   {    
     typedef typename K::Point_d Point_d;
     typedef typename K::Cartesian_const_iterator_d  Cartesian_const_iterator_d;
@@ -97,14 +97,83 @@ public:
     }
   };
 
+  // TODO: Make it work for the other values
+ template <typename K>
+  class Construct_vertex
+  {    
+    typedef typename K::Point_d Point_d;
+    typedef typename K::Iso_box_d Iso_box_d;
+    typedef typename K::Cartesian_const_iterator_d  Cartesian_const_iterator_d;
+  public:
+    typedef Point_d result_type;
+    typedef Arity_tag< 2> Arity;
 
-  typedef Construct_Cartesian_const_iterator<Self> 
-                           Construct_Cartesian_const_iterator_d;
+    Point_d operator()(const Iso_box_d&  b, int i)
+    {
+      if(i == 0){
+	return b.min();
+      }
+      return b.max();
+    }
+  };
+  
 
-  Construct_Cartesian_const_iterator_d
-  construct_Cartesian_const_iterator_d_object() const
+  typedef Construct_vertex<Self> Construct_vertex_d;
+
+
+ template <typename K>
+  class Construct_min_vertex
+  {    
+    typedef typename K::Point_d Point_d;
+    typedef typename K::Iso_box_d Iso_box_d;
+  public:
+    typedef Point_d result_type;
+    typedef Arity_tag< 1 > Arity;
+
+    Point_d operator()(const Iso_box_d&  b)
+    {
+      return b.min();
+    }
+  };
+  typedef Construct_min_vertex<Self> Construct_min_vertex_d;
+
+  Construct_min_vertex_d
+  construct_min_vertex_d_object() const
   {
-    return Construct_Cartesian_const_iterator_d();
+    return Construct_min_vertex_d();
+  }
+
+
+ template <typename K>
+  class Construct_max_vertex
+  {    
+    typedef typename K::Point_d Point_d;
+    typedef typename K::Iso_box_d Iso_box_d;
+  public:
+    typedef Point_d result_type;
+    typedef Arity_tag< 1 > Arity;
+
+    Point_d operator()(const Iso_box_d&  b)
+    {
+      return b.max();
+    }
+  };
+  typedef Construct_max_vertex<Self> Construct_max_vertex_d;
+
+  Construct_max_vertex_d
+  construct_max_vertex_d_object() const
+  {
+    return Construct_max_vertex_d();
+  }
+
+
+  typedef Construct_cartesian_const_iterator<Self> 
+                           Construct_cartesian_const_iterator_d;
+
+  Construct_cartesian_const_iterator_d
+  construct_cartesian_const_iterator_d_object() const
+  {
+    return Construct_cartesian_const_iterator_d();
   }
 
   // meta types (fit both kernels):
@@ -138,6 +207,11 @@ public:
   typedef CGALi::Construct<Line_d> Construct_line_d;
   Construct_line_d construct_line_d_object() const
   { return Construct_line_d(); }
+
+
+  typedef CGALi::Construct<Iso_box_d> Construct_iso_box_d;
+  Construct_iso_box_d construct_iso_box_d_object() const
+  { return Construct_iso_box_d(); }
 
   typedef CGALi::Construct<Hyperplane_d> Construct_hyperplane_d;
   Construct_hyperplane_d construct_hyperplane_d_object() const

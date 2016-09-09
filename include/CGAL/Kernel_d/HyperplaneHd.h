@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/HyperplaneHd.h,v $
-// $Revision: 1.16 $ $Date: 2003/10/21 12:19:19 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.19 $ $Date: 2004/09/17 12:12:40 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 
@@ -52,6 +52,8 @@ class HyperplaneHd : public Handle_for< Tuple_d<_RT,_LA> > {
   typedef Tuple_d<_RT,_LA> Tuple;
   typedef Handle_for<Tuple> Base;
   typedef HyperplaneHd<_RT,_LA> Self;
+
+  using Base::ptr;
 
 /*{\Mdefinition An instance of data type |HyperplaneHd| is an
 oriented hyperplane in $d$ - dimensional space. A hyperplane $h$ is
@@ -207,12 +209,12 @@ side.  \precond |dir| is not the trivial direction.}*/
 }
 
 HyperplaneHd(const RT& a, const RT& b, const RT& c) : 
-  Base( Tuple(a,b,c) ) {} 
+  Base( Tuple(a,b,c,MatchHelper()) ) {} 
 /*{\Mcreate introduces a variable |\Mvar| of type |\Mname| in 
 $2$-dimensional space with equation $ax+by+c=0$. }*/
 
 HyperplaneHd(int a, int b, int c) : 
-  Base( Tuple(RT(a),RT(b),RT(c)) ) {} 
+  Base( Tuple(RT(a),RT(b),RT(c),MatchHelper()) ) {} 
 
 HyperplaneHd(const RT& a, const RT& b, const RT& c, const RT& d) :
   Base( Tuple(a,b,c,d) ) {} 
@@ -325,9 +327,9 @@ bool operator==(const HyperplaneHd<RT,LA>& h2) const
 bool operator!=(const HyperplaneHd<RT,LA>& h2) const
 { return !operator==(h2); }
 
-friend std::istream& operator>> CGAL_NULL_TMPL_ARGS 
+friend std::istream& operator>> <> 
   (std::istream&, HyperplaneHd<RT,LA>&);
-friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS 
+friend std::ostream& operator<< <> 
   (std::ostream&, const HyperplaneHd<RT,LA>&);
 
 }; // end of class HyperplaneHd

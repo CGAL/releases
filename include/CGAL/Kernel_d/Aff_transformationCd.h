@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Aff_transformationCd.h,v $
-// $Revision: 1.12 $ $Date: 2003/10/21 12:19:15 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.13 $ $Date: 2004/06/23 02:15:24 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_AFF_TRANSFORMATIONCD_H
@@ -54,6 +54,8 @@ class Aff_transformationCd :
   typedef Aff_transformationCd_rep<_FT,_LA> Rep;
   typedef Handle_for<Rep> Base;
   typedef Aff_transformationCd<_FT,_LA> Self;
+
+  using Base::ptr;
 
 public: 
 typedef _FT RT;

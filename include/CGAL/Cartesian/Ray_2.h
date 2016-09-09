@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Ray_2.h,v $
-// $Revision: 1.32 $ $Date: 2003/10/21 12:14:20 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.38 $ $Date: 2004/09/14 13:59:55 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
 
@@ -30,9 +30,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class RayC2
-  : public R_::template Handle<Twotuple<typename R_::Point_2> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Direction_2          Direction_2;
@@ -41,25 +39,28 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Ray_2                Ray_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef Twotuple<Point_2>                        rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Twotuple<Point_2>                        Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                     R;
   typename R::Construct_translated_point_2 Construct_translated_point;
+
   RayC2() {}
 
   RayC2(const Point_2 &sp, const Point_2 &secondp)
-    : base(rep(sp, secondp)) {}
+    : base(sp, secondp) {}
 
   RayC2(const Point_2 &sp, const Direction_2 &d)
-    : base(rep(sp, Construct_translated_point( sp, d.to_vector()))){}
+    : base(sp, Construct_translated_point( sp, d.to_vector())){}
 
   RayC2(const Point_2 &sp, const Vector_2 &v)
-    : base(rep(sp, Construct_translated_point(sp,  v))){}
+    : base(sp, Construct_translated_point(sp,  v)){}
 
   RayC2(const Point_2 &sp, const Line_2 &l)
-    : base(rep(sp, Construct_translated_point(sp, l.to_vector()))){}
+    : base(sp, Construct_translated_point(sp, l.to_vector())){}
 
   bool        operator==(const RayC2 &r) const;
   bool        operator!=(const RayC2 &r) const;
@@ -67,12 +68,12 @@ public:
   const Point_2 &     start() const;
   const Point_2 &     source() const
   {
-      return Ptr()->e0;
+      return get(base).e0;
   }
   Point_2     point(int i) const;
   const Point_2 &     second_point() const
   {
-      return Ptr()->e1;
+      return get(base).e1;
   }
 
   Direction_2 direction() const;
@@ -97,7 +98,7 @@ CGAL_KERNEL_INLINE
 bool
 RayC2<R>::operator==(const RayC2<R> &r) const
 {
-  if (identical(r))
+  if (CGAL::identical(base, r.base))
       return true;
   return source() == r.source() && direction() == r.direction();
 }
@@ -126,12 +127,14 @@ RayC2<R>::point(int i) const
   CGAL_kernel_precondition( i >= 0 );
 
   typename R::Construct_vector_2 construct_vector;
+  typename R::Construct_scaled_vector_2 construct_scaled_vector;
   typename R::Construct_translated_point_2 construct_translated_point;
   if (i == 0) return source();
   if (i == 1) return second_point();
   return construct_translated_point(source(),
-				    construct_vector(source(), 
-						     second_point())* FT(i));
+				    construct_scaled_vector(construct_vector(source(), 
+									     second_point()),
+							    FT(i)));
 }
 
 template < class R >
@@ -206,7 +209,8 @@ bool
 RayC2<R>::
 collinear_has_on(const typename RayC2<R>::Point_2 &p) const
 {
-  return R().collinear_has_on_2_object()(*this, p);
+  return R().collinear_has_on_2_object()
+               (static_cast<const typename R::Ray_2>(*this), p);
 }
 
 #ifndef CGAL_NO_OSTREAM_INSERT_RAYC2

@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/cartesian_homogeneous_conversion.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:18:20 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  

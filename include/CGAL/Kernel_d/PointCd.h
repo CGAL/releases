@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/PointCd.h,v $
-// $Revision: 1.16 $ $Date: 2003/10/21 12:19:27 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.19 $ $Date: 2004/09/17 12:12:41 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_POINTCDXXX_H
@@ -43,6 +43,8 @@ class PointCd : public Handle_for< Tuple_d<_FT,_LA> > {
   typedef Tuple_d<_FT,_LA> Tuple;
   typedef Handle_for<Tuple> Base;
   typedef PointCd<_FT,_LA> Self;
+
+  using Base::ptr;
 
 typename _LA::Vector& vector_rep() { return ptr()->v; }
 const typename _LA::Vector& vector_rep() const { return ptr()->v; }
@@ -94,12 +96,12 @@ PointCd(const FT& x, const FT& y, const FT& w = 1)
   vector_rep()/=w; }
 
 PointCd(int x, int y, int z, int w) : 
-  Base( Tuple(FT(x),FT(y),FT(z)) )
+  Base( Tuple(FT(x),FT(y),FT(z), MatchHelper()) )
 { CGAL_assertion_msg(w!=0,"PointCd::construction: w == 0."); 
   vector_rep()/=w; }
 
 PointCd(const FT& x, const FT& y, const FT& z, const FT& w) 
-  : Base( Tuple(x,y,z) )
+  : Base( Tuple(x,y,z,MatchHelper()) )
 { CGAL_assertion_msg(w!=FT(0),"PointCd::construction: w == 0.");
   vector_rep()/=w; }
 
@@ -166,9 +168,9 @@ bool operator==(const Origin&) const
   return true;
 }
 
-friend std::istream& operator>> CGAL_NULL_TMPL_ARGS
+friend std::istream& operator>> <>
   (std::istream&, PointCd<FT,LA>&);
-friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS
+friend std::ostream& operator<< <>
   (std::ostream&, const PointCd<FT,LA>&);
 
 FT hx() const { return cartesian(0); }

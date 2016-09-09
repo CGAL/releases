@@ -1,6 +1,5 @@
-//
-// file          : examples/Convex_hull_3/incremental_hull_3_ex.C
-//
+// file: examples/Convex_hull_3/incremental_hull_3_ex.C
+
 #include <CGAL/Homogeneous.h>
 #include <CGAL/point_generators_3.h>
 #include <CGAL/copy_n.h>
@@ -12,7 +11,7 @@
 #include <CGAL/Gmpz.h>
 typedef CGAL::Gmpz RT;
 #else
-#include <CGAL/CGAL::MP_Float.h>
+#include <CGAL/MP_Float.h>
 typedef CGAL::MP_Float RT;
 #endif
 

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/HDS_items.h,v $
 // $Revision: 1.17 $ $Date: 2003/10/21 12:20:59 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 

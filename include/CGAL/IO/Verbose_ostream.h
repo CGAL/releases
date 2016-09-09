@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Stream_support/include/CGAL/IO/Verbose_ostream.h,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:24:05 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 

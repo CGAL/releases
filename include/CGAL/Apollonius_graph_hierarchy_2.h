@@ -1,4 +1,4 @@
-// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_2.h,v $
-// $Revision: 1.19 $ $Date: 2003/09/18 10:19:23 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.25 $ $Date: 2004/09/07 13:32:58 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -29,9 +29,9 @@
 #include <CGAL/Random.h>
 
 #include <CGAL/Apollonius_graph_2.h>
-#include <CGAL/Apollonius_graph_data_structure_2.h>
+#include <CGAL/Triangulation_data_structure_2.h>
 #include <CGAL/Apollonius_graph_vertex_base_2.h>
-#include <CGAL/Apollonius_graph_face_base_2.h>
+#include <CGAL/Triangulation_face_base_2.h>
 #include <CGAL/Apollonius_graph_hierarchy_vertex_base_2.h>
 
 #include <CGAL/Apollonius_graph_traits_wrapper_2.h>
@@ -40,30 +40,31 @@ CGAL_BEGIN_NAMESPACE
 
 
 // parameterization of the  hierarchy
-const int ag_hierarchy_2__ratio    = 30;
-const int ag_hierarchy_2__minsize  = 20;
-const int ag_hierarchy_2__maxlevel = 5;
+const unsigned int ag_hierarchy_2__ratio    = 30;
+const unsigned int ag_hierarchy_2__minsize  = 20;
+const unsigned int ag_hierarchy_2__maxlevel = 5;
 // maximal number of points is 30^5 = 24 millions !
 
 template < class Gt,
-	   class Agds = Apollonius_graph_data_structure_2<
+	   class Agds = Triangulation_data_structure_2<
              Apollonius_graph_hierarchy_vertex_base_2<
                Apollonius_graph_vertex_base_2<Gt,true> >,
-               Apollonius_graph_face_base_2<Gt> > >
+               Triangulation_face_base_2<Gt> >,
+	   class LTag = Tag_false >
 class Apollonius_graph_hierarchy_2
-  : public Apollonius_graph_2< Gt, Agds >
+  : public Apollonius_graph_2< Gt, Agds, LTag >
 {
 private:
-  typedef Apollonius_graph_2<Gt,Agds>    Apollonius_graph_base;
-  typedef Apollonius_graph_base          Ag_base;
+  typedef Apollonius_graph_2<Gt,Agds,LTag>  Apollonius_graph_base;
+  typedef Apollonius_graph_base             Ag_base;
 
-  typedef typename Ag_base::Vertex       Vertex;
+  typedef typename Ag_base::Vertex          Vertex;
 
 public:
-  typedef Agds                            Data_structure;
-  typedef Gt                              Geom_traits;
-  typedef typename Gt::Site_2             Site_2;
-  typedef typename Gt::Point_2            Point_2;
+  typedef Agds                              Data_structure;
+  typedef Gt                                Geom_traits;
+  typedef typename Gt::Site_2               Site_2;
+  typedef typename Gt::Point_2              Point_2;
 
   typedef typename Ag_base::Vertex_handle    Vertex_handle;
   typedef typename Ag_base::Face_handle      Face_handle;
@@ -87,6 +88,7 @@ public:
   typedef typename Ag_base::Visible_sites_iterator Visible_sites_iterator;
   typedef typename Ag_base::Hidden_sites_iterator  Hidden_sites_iterator;
 
+  typedef typename Ag_base::size_type              size_type;
 
 public:
   // CREATION
@@ -131,7 +133,7 @@ public:
 
     // sort by decreasing weight
     typename Apollonius_graph_base::Site_less_than_comparator
-      less_than(geom_traits());
+      less_than(this->geom_traits());
     std::sort(wp_list.begin(), wp_list.end(), less_than);
 
     // now insert
@@ -156,7 +158,7 @@ public:
 		       Vertex_handle vnear) {
     // the following statement has been added in order to avoid
     // a g++3.2.1_FreeBSD-RELEASE warning
-    vnear = Vertex_handle(NULL);
+    vnear = Vertex_handle();
     return insert(p);
   }
 

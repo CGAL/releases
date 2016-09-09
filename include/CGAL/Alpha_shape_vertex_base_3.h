@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_3/include/CGAL/Alpha_shape_vertex_base_3.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/01 19:41:38 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.13 $ $Date: 2004/08/12 13:28:58 $
+// $Name:  $
 //
 // Author(s)     : Tran Kai Frank DA
 
@@ -21,7 +21,9 @@
 #define CGAL_ALPHA_SHAPE_VERTEX_BASE_3_H
 
 #include <utility>
+#include <CGAL/Compact_container.h>
 #include <CGAL/Triangulation_vertex_base_3.h>
+#include <CGAL/Alpha_shape_cell_base_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -40,16 +42,21 @@ public:
   };
 
   typedef typename Gt::Point_3 Point;
-  typedef typename Gt::FT      Coord_type;
-  typedef std::pair< Coord_type, Coord_type >  Interval2;  
-
+  typedef typename Gt::FT      NT;
+  typedef CGAL::Alpha_status<NT>     Alpha_status;
+  typedef Compact_container<Alpha_status>   Alpha_status_container;
+  typedef typename Alpha_status_container::const_iterator 
+                                            Alpha_status_const_iterator;
+  typedef typename Alpha_status_container::iterator 
+                                            Alpha_status_iterator;
+  
 private:
+  Alpha_status  _as;
 
-  Interval2 I;
 
 public:
 
-  Alpha_shape_vertex_base_3()
+  Alpha_shape_vertex_base_3()    
     : Vb() {}
   
   Alpha_shape_vertex_base_3(const Point& p)
@@ -58,16 +65,8 @@ public:
   Alpha_shape_vertex_base_3(const Point& p, Cell_handle c)
     : Vb(p, c) {}
 
-
-  const Interval2 & get_range()
-    {
-      return I;
-    }
-
-  void set_range(const Interval2 & Inter)
-    {
-      I = Inter;
-    }
+  Alpha_status*  get_alpha_status() { return &_as;}
+  void set_alpha_status(Alpha_status_iterator as) {_as= as;}
 };
 
 CGAL_END_NAMESPACE

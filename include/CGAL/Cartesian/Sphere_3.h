@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Sphere_3.h,v $
-// $Revision: 1.36 $ $Date: 2003/10/21 12:14:23 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.41 $ $Date: 2004/06/20 18:17:03 $
+// $Name:  $
 //
 // Author(s)     : Herve Bronnimann
 
@@ -31,18 +31,17 @@ CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class SphereC3
-  : public R_::template Handle<Triple<typename R_::Point_3,
-                                      typename R_::FT, Orientation> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Vector_3             Vector_3;
   typedef typename R_::Sphere_3             Sphere_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef Triple<Point_3, FT, Orientation>         rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Triple<Point_3, FT, Orientation>         Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                     R;
@@ -55,7 +54,7 @@ public:
     CGAL_kernel_precondition( (squared_radius >= FT(0)) &&
                               (o != COLLINEAR) );
 
-    initialize_with(rep(center, squared_radius, o));
+    base = Rep(center, squared_radius, o);
   }
 
   // Sphere passing through and oriented by p,q,r,s
@@ -66,7 +65,7 @@ public:
     Point_3 center = circumcenter(p, q, r, s);
     FT      squared_radius = squared_distance(p, center);
 
-    initialize_with(rep(center, squared_radius, orient));
+    base = Rep(center, squared_radius, orient);
   }
 
   // Sphere with great circle passing through p,q,r, oriented by o
@@ -78,7 +77,7 @@ public:
     Point_3 center = circumcenter(p, q, r);
     FT      squared_radius = squared_distance(p, center);
 
-    initialize_with(rep(center, squared_radius, o));
+    base = Rep(center, squared_radius, o);
   }
 
   // Sphere with diameter pq and orientation o
@@ -90,7 +89,7 @@ public:
     Point_3 center = midpoint(p, q);
     FT      squared_radius = squared_distance(p, center);
 
-    initialize_with(rep(center, squared_radius, o));
+    base = Rep(center, squared_radius, o);
   }
 
   SphereC3(const Point_3 &center,
@@ -98,7 +97,7 @@ public:
   {
     CGAL_kernel_precondition(o != COLLINEAR);
 
-    initialize_with(rep(center, FT(0), o));
+    base = Rep(center, FT(0), o);
   }
 
   bool operator==(const SphereC3 &) const;
@@ -106,17 +105,17 @@ public:
 
   const Point_3 & center() const
   {
-      return Ptr()->first;
+      return get(base).first;
   }
   const FT & squared_radius() const
   {
       // Returns the square of the radius (instead of the radius itself,
       // which would require square roots)
-      return Ptr()->second;
+      return get(base).second;
   }
   Orientation orientation() const
   {
-      return Ptr()->third;
+      return get(base).third;
   }
 
   Sphere_3 orthogonal_transform(const Aff_transformation_3 &t) const
@@ -160,7 +159,7 @@ CGAL_KERNEL_INLINE
 bool
 SphereC3<R>::operator==(const SphereC3<R> &t) const
 {
-  if (identical(t))
+  if (CGAL::identical(base, t.base))
       return true;
   return center() == t.center() &&
          squared_radius() == t.squared_radius() &&
@@ -289,7 +288,7 @@ SphereC3<R>::bbox() const
   Interval_nt<> y (b.ymin(), b.ymax());
   Interval_nt<> z (b.zmin(), b.zmax());
 
-  Interval_nt<> sqr = CGAL::to_interval(squared_radius());
+  Interval_nt<> sqr = CGAL_NTS to_interval(squared_radius());
   Interval_nt<> r = CGAL::sqrt(sqr);
   Interval_nt<> minx = x-r;
   Interval_nt<> maxx = x+r;

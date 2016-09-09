@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h,v $
-// $Revision: 1.66 $ $Date: 2003/09/18 10:26:01 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.75 $ $Date: 2004/10/19 14:02:39 $
+// $Name:  $
 //
 // Author(s)     : Mariette Yvinec, Jean Daniel Boissonnat
  
@@ -56,6 +56,16 @@ public:
   typedef typename Ctr::List_constraints List_constraints;
   typedef typename Ctr::Less_edge less_edge;
   typedef typename Ctr::Edge_set Edge_set;
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2
+  using Ctr::number_of_vertices;
+  using Ctr::finite_faces_begin;
+  using Ctr::finite_faces_end;
+  using Ctr::dimension;
+  using Ctr::cw;
+  using Ctr::ccw;
+  using Ctr::infinite_vertex;
+#endif
 
   typedef typename Geom_traits::Point_2  Point;
 
@@ -104,7 +114,7 @@ public:
   bool test_conflict(Face_handle fh, const Point& p) const; //deprecated
   bool test_conflict(const Point& p, Face_handle fh) const;
   void find_conflicts(const Point& p, std::list<Edge>& le,  //deprecated
-		      Face_handle hint= Face_handle(NULL)) const;
+		      Face_handle hint= Face_handle()) const;
   //  //template member functions, declared and defined at the end 
   // template <class OutputItFaces, class OutputItBoundaryEdges> 
   // std::pair<OutputItFaces,OutputItBoundaryEdges>
@@ -125,7 +135,7 @@ public:
    
 
   // INSERTION-REMOVAL
-  Vertex_handle insert(const Point & a, Face_handle start = Face_handle(NULL));
+  Vertex_handle insert(const Point & a, Face_handle start = Face_handle());
   Vertex_handle insert(const Point& p,
 		       Locate_type lt,
 		       Face_handle loc, int li );
@@ -136,17 +146,21 @@ public:
   void remove(Vertex_handle v);
   void remove_incident_constraints(Vertex_handle v);
   void remove_constrained_edge(Face_handle f, int i);
+//  template <class OutputItFaces>
+//  OutputItFaces
+//  remove_constrained_edge(Face_handle f, int i, OutputItFaces out)
  
   //for backward compatibility
   void insert(Point a, Point b) { insert_constraint(a, b);}
   void insert(Vertex_handle va, Vertex_handle  vb) {insert_constraint(va,vb);}
   void remove_constraint(Face_handle f, int i){remove_constrained_edge(f,i);}
+
   // CHECK
   bool is_valid(bool verbose = false, int level = 0) const;
  
 protected:
   virtual Vertex_handle virtual_insert(const Point & a, 
-				       Face_handle start = Face_handle(NULL));
+				       Face_handle start = Face_handle());
   virtual Vertex_handle virtual_insert(const Point& a,
 				       Locate_type lt,
 				       Face_handle loc, 
@@ -183,7 +197,7 @@ public:
   get_conflicts_and_boundary(const Point  &p, 
 			     OutputItFaces fit, 
 			     OutputItBoundaryEdges eit,
-			     Face_handle start = Face_handle(NULL)) const {
+			     Face_handle start = Face_handle()) const {
     CGAL_triangulation_precondition( dimension() == 2);
     int li;
     Locate_type lt;
@@ -201,7 +215,7 @@ public:
       pit = propagate_conflicts(p,fh,0,pit);
       pit = propagate_conflicts(p,fh,1,pit);
       pit = propagate_conflicts(p,fh,2,pit);
-      return std::make_pair(fit,eit);    
+      return pit;
     }
     CGAL_triangulation_assertion(false);
     return std::make_pair(fit,eit);
@@ -211,7 +225,7 @@ public:
   OutputItFaces
   get_conflicts (const Point  &p, 
 		 OutputItFaces fit, 
-		 Face_handle start= Face_handle(NULL)) const {
+		 Face_handle start= Face_handle()) const {
     std::pair<OutputItFaces,Emptyset_iterator> pp = 
       get_conflicts_and_boundary(p,fit,Emptyset_iterator(),start);
     return pp.first;
@@ -221,22 +235,22 @@ public:
   OutputItBoundaryEdges
   get_boundary_of_conflicts(const Point  &p, 
 			    OutputItBoundaryEdges eit, 
-			    Face_handle start= Face_handle(NULL)) const {
+			    Face_handle start= Face_handle()) const {
     std::pair<Emptyset_iterator, OutputItBoundaryEdges> pp = 
       get_conflicts_and_boundary(p,Emptyset_iterator(),eit,start);
     return pp.second;
   }
 
 
-
-private:
+public:
+// made  public for the need of Mesh_2
+// but not documented
  template <class OutputItFaces, class OutputItBoundaryEdges> 
  std::pair<OutputItFaces,OutputItBoundaryEdges>
  propagate_conflicts (const Point  &p,
 		      Face_handle fh, 
 		      int i,
-		      std::pair<OutputItFaces,OutputItBoundaryEdges>
-		      pit)  const {
+		      std::pair<OutputItFaces,OutputItBoundaryEdges>  pit)  const {
    Face_handle fn = fh->neighbor(i);
    OutputItFaces fit = pit.first;
    OutputItBoundaryEdges eit = pit.second;
@@ -250,6 +264,104 @@ private:
    pit = propagate_conflicts(p,fn,cw(j), pit);
    return pit;
  }
+
+
+public:
+ template <class OutputItFaces>
+ OutputItFaces
+ propagating_flip(List_edges & edges, 
+		  OutputItFaces out = Emptyset_iterator()) {
+  // makes the triangulation Delaunay by flipping 
+  // List edges contains an initial list of edges to be flipped
+  // Precondition : the output triangulation is Delaunay if the list 
+  // edges contains all edges of the input triangulation that need to be
+  // flipped (plus possibly others)
+  int i, ii, indf, indn;
+  Face_handle ni, f,ff;
+  Edge ei,eni; 
+  typename Ctr::Edge_set edge_set;
+  typename Ctr::Less_edge less_edge;
+  Edge e[4];
+  typename List_edges::iterator itedge=edges.begin();
+
+  // initialization of the set of edges to be flip
+  while (itedge != edges.end()) {
+    f=(*itedge).first;
+    i=(*itedge).second;
+    if (is_flipable(f,i)) {
+      eni=Edge(f->neighbor(i),f->mirror_index(i));
+      if (less_edge(*itedge,eni)) edge_set.insert(*itedge);
+      else edge_set.insert(eni);
+    }
+    ++itedge;
+  }
+
+  // flip edges and updates the set of edges to be flipped
+  while (!(edge_set.empty())) {
+    f=(*(edge_set.begin())).first;
+    indf=(*(edge_set.begin())).second;
+ 
+    // erase from edge_set the 4 edges of the wing of the edge to be
+    // flipped (edge_set.begin) , i.e. the edges of the faces f and
+    // f->neighbor(indf) that are distinct from the edge to be flipped
+
+    ni = f->neighbor(indf); 
+    indn=f->mirror_index(indf);
+    ei= Edge(f,indf);
+    edge_set.erase(ei);
+    e[0]= Edge(f,cw(indf));
+    e[1]= Edge(f,ccw(indf));
+    e[2]= Edge(ni,cw(indn));
+    e[3]= Edge(ni,ccw(indn));
+
+    for(i=0;i<4;i++) { 
+      ff=e[i].first;
+      ii=e[i].second;
+      eni=Edge(ff->neighbor(ii),ff->mirror_index(ii));
+      if (less_edge(e[i],eni)) {edge_set.erase(e[i]);}
+      else { edge_set.erase(eni);} 
+    } 
+
+    // here is the flip 
+    *out++ = f;
+    *out++ = f->neighbor(indf);
+    flip(f, indf); 
+    
+
+    //insert in edge_set the 4 edges of the wing of the edge that
+    //have been flipped 
+    e[0]= Edge(f,indf);
+    e[1]= Edge(f,cw(indf));
+    e[2]= Edge(ni,indn);
+    e[3]= Edge(ni,cw(indn));
+
+    for(i=0;i<4;i++) { 
+      ff=e[i].first;
+      ii=e[i].second;
+      if (is_flipable(ff,ii)) {
+	eni=Edge(ff->neighbor(ii),ff->mirror_index(ii));
+	if (less_edge(e[i],eni)) { 
+	  edge_set.insert(e[i]);}
+	else {
+	  edge_set.insert(eni);} 
+      }
+    } 
+  }
+  return out;
+ }
+
+ template <class OutputItFaces>
+ OutputItFaces
+ remove_constrained_edge(Face_handle f, int i, OutputItFaces out) {
+  Ctr::remove_constrained_edge(f,i);
+  if(dimension() == 2) {
+    List_edges le;
+    le.push_back(Edge(f,i));
+    propagating_flip(le,out);
+  }
+  return out;  
+ }
+ 
 };
 
 
@@ -339,7 +451,7 @@ template < class Gt, class Tds, class Itag >
 void 
 Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
 propagating_flip(Face_handle& f,int i)
-  // similar to the corresponding function in Delaunay_triangulation_2.h 
+// similar to the corresponding function in Delaunay_triangulation_2.h 
 { 
   if (!is_flipable(f,i)) return;
   Face_handle ni = f->neighbor(i); 
@@ -349,90 +461,13 @@ propagating_flip(Face_handle& f,int i)
   propagating_flip(ni,i); 
 } 
 
+ template < class Gt, class Tds, class Itag > 
+ void  
+ Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>:: 
+ propagating_flip(List_edges & edges) {
+    propagating_flip(edges,Emptyset_iterator());
+ }
 
-template < class Gt, class Tds, class Itag >
-void 
-Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
-propagating_flip(List_edges & edges)
-  // makes the triangulation Delaunay by flipping 
-  // List edges contains an initial list of edges to be flipped
-  // Precondition : the output triangulation is Delaunay if the list 
-  // edges contains all edges of the input triangulation that need to be
-  // flipped (plus possibly others)
-{
-  int i, ii, indf, indn;
-  Face_handle ni, f,ff;
-  Edge ei,eni; 
-  typename Ctr::Edge_set edge_set;
-  typename Ctr::Less_edge less_edge;
-  Edge e[4];
-  typename List_edges::iterator itedge=edges.begin();
-
-  // initialization of the set of edges to be flip
-  while (itedge != edges.end()) {
-    f=(*itedge).first;
-    i=(*itedge).second;
-    if (is_flipable(f,i)) {
-      eni=Edge(f->neighbor(i),f->mirror_index(i));
-      if (less_edge(*itedge,eni)) edge_set.insert(*itedge);
-      else edge_set.insert(eni);
-    }
-    ++itedge;
-  }
-
-  // flip edges and updates the set of edges to be flipped
-  while (!(edge_set.empty())) {
-    f=(*(edge_set.begin())).first;
-    indf=(*(edge_set.begin())).second;
- 
-    // erase from edge_set the 4 edges of the wing of the edge to be
-    // flipped (edge_set.begin) , i.e. the edges of the faces f and
-    // f->neighbor(indf) that are distinct from the edge to be flipped
-
-    ni = f->neighbor(indf); 
-    indn=f->mirror_index(indf);
-    ei= Edge(f,indf);
-    edge_set.erase(ei);
-    e[0]= Edge(f,cw(indf));
-    e[1]= Edge(f,ccw(indf));
-    e[2]= Edge(ni,cw(indn));
-    e[3]= Edge(ni,ccw(indn));
-
-    for(i=0;i<4;i++) { 
-      ff=e[i].first;
-      ii=e[i].second;
-      if (is_flipable(ff,ii)) {
-	eni=Edge(ff->neighbor(ii),ff->mirror_index(ii));
-	if (less_edge(e[i],eni)) { 
-	  edge_set.erase(e[i]);}
-	else {
-	  edge_set.erase(eni);} 
-      }
-    } 
-
-    // here is the flip 
-    flip(f, indf); 
-
-    //insert in edge_set the 4 edges of the wing of the edge that
-    //have been flipped 
-    e[0]= Edge(f,indf);
-    e[1]= Edge(f,cw(indf));
-    e[2]= Edge(ni,indn);
-    e[3]= Edge(ni,cw(indn));
-
-    for(i=0;i<4;i++) { 
-      ff=e[i].first;
-      ii=e[i].second;
-      if (is_flipable(ff,ii)) {
-	eni=Edge(ff->neighbor(ii),ff->mirror_index(ii));
-	if (less_edge(e[i],eni)) { 
-	  edge_set.insert(e[i]);}
-	else {
-	  edge_set.insert(eni);} 
-      }
-    } 
-  }  
-}
 
 template < class Gt, class Tds, class Itag >
 inline bool
@@ -440,7 +475,19 @@ Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
 test_conflict(const Point& p, Face_handle fh) const
   // true if point P lies inside the circle circumscribing face fh
 {
-  return ( side_of_oriented_circle(fh,p) == ON_POSITIVE_SIDE );
+  // return true  if P is inside the circumcircle of fh
+  // if fh is infinite, return true when p is in the positive
+  // halfspace or on the boundary and in the  finite edge of fh
+  Oriented_side os = side_of_oriented_circle(fh,p);
+  if (os == ON_POSITIVE_SIDE) return true;
+ 
+  if (os == ON_ORIENTED_BOUNDARY && is_infinite(fh)) {
+    int i = fh->index(infinite_vertex());
+    return collinear_between(fh->vertex(cw(i))->point(), p,
+			     fh->vertex(ccw(i))->point() );
+  }
+
+  return false;
 }
 
 template < class Gt, class Tds, class Itag >
@@ -546,7 +593,7 @@ remove(Vertex_handle v)
   // remove a vertex and updates the constrained edges of the new faces
   // precondition : there is no incident constraints
 {
-  CGAL_triangulation_precondition( v != NULL );
+  CGAL_triangulation_precondition( v != Vertex_handle() );
   CGAL_triangulation_precondition( ! is_infinite(v));
   CGAL_triangulation_precondition( ! are_there_incident_constraints(v));
   if  (dimension() <= 1)    Ctr::remove(v);
@@ -606,12 +653,7 @@ void
 Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
 remove_constrained_edge(Face_handle f, int i)
 {
-  Ctr::remove_constrained_edge(f,i);
-  if(dimension() == 2) {
-    List_edges le;
-    le.push_back(Edge(f,i));
-    propagating_flip(le);
-  }
+  remove_constrained_edge(f,i,Emptyset_iterator());
   return;  
 }
 

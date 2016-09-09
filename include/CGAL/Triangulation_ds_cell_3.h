@@ -1,4 +1,4 @@
-// Copyright (c) 1999  INRIA Sophia-Antipolis (France).
+// Copyright (c) 1999-2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_ds_cell_3.h,v $
-// $Revision: 1.57 $ $Date: 2003/09/18 10:26:28 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.59 $ $Date: 2004/02/28 21:03:01 $
+// $Name:  $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
@@ -51,6 +51,9 @@ public:
   typedef typename Tds::Cell_handle    Cell_handle;
   typedef typename Tds::Vertex         Vertex;
   typedef typename Tds::Cell           Cell;
+
+  using Cb::neighbor;
+  using Cb::vertex;
 
   Triangulation_ds_cell_3()
     : Cb()
@@ -123,20 +126,22 @@ Triangulation_ds_cell_3<Cb>::is_valid(int dim, bool verbose, int level) const
     case -2:
     case -1:
     {
-      if ( vertex(0) == NULL ) {
+      if ( vertex(0) == Vertex_handle() ) {
 	if (verbose)
 	    std::cerr << "vertex 0 NULL" << std::endl;
 	CGAL_triangulation_assertion(false);
 	return false;
       }
       vertex(0)->is_valid(verbose,level);
-      if ( vertex(1) != NULL || vertex(2) != NULL) {
+      if ( vertex(1) != Vertex_handle() || vertex(2) != Vertex_handle()) {
 	if (verbose)
 	    std::cerr << "vertex 1 or 2 != NULL" << std::endl;
 	CGAL_triangulation_assertion(false);
 	return false;
       }
-      if ( neighbor(0) != NULL || neighbor(1) != NULL || neighbor(2) != NULL) {
+      if ( neighbor(0) != Cell_handle() ||
+	   neighbor(1) != Cell_handle() ||
+	   neighbor(2) != Cell_handle()) {
 	if (verbose)
 	    std::cerr << "one neighbor != NULL" << std::endl;
 	CGAL_triangulation_assertion(false);
@@ -147,26 +152,26 @@ Triangulation_ds_cell_3<Cb>::is_valid(int dim, bool verbose, int level) const
 
     case 0:
       {
-      if ( vertex(0) == NULL ) {
+      if ( vertex(0) == Vertex_handle() ) {
 	if (verbose)
 	    std::cerr << "vertex 0 NULL" << std::endl;
 	CGAL_triangulation_assertion(false);
 	return false;
       }
       vertex(0)->is_valid(verbose,level);
-      if ( neighbor (0) == NULL ) {
+      if ( neighbor (0) == Cell_handle() ) {
 	if (verbose)
 	    std::cerr << "neighbor 0 NULL" << std::endl;
 	CGAL_triangulation_assertion(false);
 	return false;
       }
-      if ( vertex(1) != NULL || vertex(2) != NULL ) {
+      if ( vertex(1) != Vertex_handle() || vertex(2) != Vertex_handle() ) {
 	if (verbose)
 	    std::cerr << "vertex 1 or 2 != NULL" << std::endl;
 	CGAL_triangulation_assertion(false);
 	return false;
       }
-      if ( neighbor(1) != NULL || neighbor(2) != NULL ) {
+      if ( neighbor(1) != Cell_handle() || neighbor(2) != Cell_handle() ) {
 	if (verbose)
 	    std::cerr << "neighbor 1 or 2 != NULL" << std::endl;
 	CGAL_triangulation_assertion(false);
@@ -189,7 +194,7 @@ Triangulation_ds_cell_3<Cb>::is_valid(int dim, bool verbose, int level) const
       Cell_handle n0 = neighbor(0); 
       Cell_handle n1 = neighbor(1);
 
-      if ( v0 == NULL || v1 == NULL ) {
+      if ( v0 == Vertex_handle() || v1 == Vertex_handle() ) {
 	if (verbose)
 	    std::cerr << "vertex 0 or 1 NULL" << std::endl;
 	CGAL_triangulation_assertion(false);
@@ -197,7 +202,7 @@ Triangulation_ds_cell_3<Cb>::is_valid(int dim, bool verbose, int level) const
       }
       vertex(0)->is_valid(verbose,level);
       vertex(1)->is_valid(verbose,level);
-      if ( n0 == NULL || n1 == NULL ) {
+      if ( n0 == Cell_handle() || n1 == Cell_handle() ) {
 	if (verbose)
 	    std::cerr << "neighbor 0 or 1 NULL" << std::endl;
 	CGAL_triangulation_assertion(false);
@@ -239,7 +244,9 @@ Triangulation_ds_cell_3<Cb>::is_valid(int dim, bool verbose, int level) const
 
     case 2:
       {
-      if ( vertex(0) == NULL || vertex(1) == NULL || vertex(2) == NULL ) {
+      if ( vertex(0) == Vertex_handle() ||
+	   vertex(1) == Vertex_handle() ||
+	   vertex(2) == Vertex_handle() ) {
 	if (verbose)
 	    std::cerr << "vertex 0, 1, or 2 NULL" << std::endl;
 	CGAL_triangulation_assertion(false);
@@ -252,7 +259,7 @@ Triangulation_ds_cell_3<Cb>::is_valid(int dim, bool verbose, int level) const
       Cell_handle n;
       for(int i = 0; i < 3; i++) {
 	n = neighbor(i);
-	if ( n == NULL ) {
+	if ( n == Cell_handle() ) {
 	  if (verbose)
 	      std::cerr << "neighbor " << i << " NULL" << std::endl;
 	  CGAL_triangulation_assertion(false);
@@ -290,7 +297,7 @@ Triangulation_ds_cell_3<Cb>::is_valid(int dim, bool verbose, int level) const
       {
 	int i;
 	for(i = 0; i < 4; i++) {
-	  if ( vertex(i) == NULL ) {
+	  if ( vertex(i) == Vertex_handle() ) {
 	    if (verbose)
 		std::cerr << "vertex " << i << " NULL" << std::endl;
 	    CGAL_triangulation_assertion(false);
@@ -301,7 +308,7 @@ Triangulation_ds_cell_3<Cb>::is_valid(int dim, bool verbose, int level) const
 
 	for(i = 0; i < 4; i++) {
 	  Cell_handle n = neighbor(i);
-	  if ( n == NULL ) {
+	  if ( n == Cell_handle() ) {
 	    if (verbose)
 	      std::cerr << "neighbor " << i << " NULL" << std::endl;
 	    CGAL_triangulation_assertion(false);

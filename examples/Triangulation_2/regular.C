@@ -1,4 +1,5 @@
-// file example/Triangulation_2/regular.C
+// file: examples/Triangulation_2/regular.C
+
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Regular_triangulation_euclidean_traits_2.h>
 #include <CGAL/Regular_triangulation_2.h>
@@ -16,7 +17,7 @@ int main()
    Regular_triangulation rt;
    std::ifstream in("data/regular.cin");
 
-   Gt::Weighted_point wp;
+   Regular_triangulation::Weighted_point wp;
    int count = 0;
    while(in >> wp){
        count++;

@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Profile_counter.h,v $
 // $Revision: 1.6 $ $Date: 2003/10/21 12:17:25 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion
 

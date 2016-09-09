@@ -1,4 +1,4 @@
-// Copyright (c) 1999,2000  Utrecht University (The Netherlands),
+// Copyright (c) 1999-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/src/Interval_arithmetic.C,v $
-// $Revision: 1.31 $ $Date: 2003/10/21 12:17:48 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.36 $ $Date: 2004/06/24 02:06:56 $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion
  
@@ -46,13 +46,6 @@ CGAL_BEGIN_NAMESPACE
 #endif
 
 
-void force_ieee_double_precision()
-{
-#if defined __i386__ || defined _MSC_VER || defined __BORLANDC__
-    FPU_set_cw(CGAL_FE_TONEAREST);
-#endif
-}
-
 #ifdef __BORLANDC__
 // Borland doesn't initialize the FPU exception mask correctly
 // => FP exceptions.
@@ -64,38 +57,29 @@ struct Borland_workaround
 static Borland_workaround Borland_workaround_object;
 #endif // __BORLANDC__
 
-
-// The results of 1-epsilon and -1+epsilon are enough
-// to detect exactly the current rounding mode.
-//                          1-MIN_DOUBLE
-//                        +------+-------+
-//                        |  1   | 1-ulp |
-//               +--------+------+-------+
-// -1+MIN_DOUBLE | -1     | near |  -inf |
-//               | -1+ulp | +inf |  zero |
-//               +--------+------+-------+
-
-// I use a global variable here to avoid constant propagation.
-double IA_min_double = CGAL_IA_MIN_DOUBLE;
-
-FPU_CW_t
-FPU_empiric_test()
+#ifdef CGAL_CFG_DENORMALS_COMPILE_BUG
+// For compilers which bug on denormalized values at compile time.
+// We generate CGAL_IA_MIN_DOUBLE at run time.
+namespace {
+double init_min_double()
 {
-    double y = 1.0, z = -1.0;
-    double ye, ze;
-    ye = y - IA_min_double;
-    ze = z + IA_min_double;
-    if (y == ye && z == ze) return CGAL_FE_TONEAREST;
-    if (y == ye) return CGAL_FE_UPWARD;
-    if (z == ze) return CGAL_FE_DOWNWARD;
-    return CGAL_FE_TOWARDZERO;
+    double d = 1;
+    double e = 1;
+    do {
+	d = e;
+	e = CGAL_IA_FORCE_TO_DOUBLE(e/2);
+    } while (e != 0);
+    return d;
 }
+} // anonymous namespace
 
-// needed in order that the test suite passes for Intel7
 namespace CGALi {
-
-double zero() { return 0; }
-
+double minimin = init_min_double();
 }
+#endif
+
+namespace CGALi {
+int dummy_symbol_for_stopping_VC_linker_warning;
+} // namespace CGALi
 
 CGAL_END_NAMESPACE

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/IO/write_pm.h,v $
 // $Revision: 1.6 $ $Date: 2003/09/18 10:24:44 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 

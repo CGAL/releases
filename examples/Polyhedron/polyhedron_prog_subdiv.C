@@ -1,5 +1,5 @@
-// examples/Polyhedron/polyhedron_prog_subdiv.C
-// --------------------------------------------
+// file: examples/Polyhedron/polyhedron_prog_subdiv.C
+
 #include <CGAL/Cartesian.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/IO/Polyhedron_iostream.h>

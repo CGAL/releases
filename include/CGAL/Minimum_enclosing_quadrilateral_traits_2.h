@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_quadrilateral_2/include/CGAL/Minimum_enclosing_quadrilateral_traits_2.h,v $
 // $Revision: 1.29 $ $Date: 2003/09/26 07:33:11 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
 //                 Emo Welzl <emo@inf.ethz.ch>

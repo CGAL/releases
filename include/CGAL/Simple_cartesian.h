@@ -1,4 +1,4 @@
-// Copyright (c) 2000,2001,2002,2003  Utrecht University (The Netherlands),
+// Copyright (c) 2000-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Simple_cartesian.h,v $
-// $Revision: 1.30 $ $Date: 2003/10/21 12:14:13 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.34 $ $Date: 2004/05/19 10:15:59 $
+// $Name:  $
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion
 
@@ -25,21 +25,21 @@
 #define CGAL_SIMPLE_CARTESIAN_H
 
 #include <CGAL/Cartesian/Cartesian_base.h>
-#include <CGAL/Simple_Handle_for.h>
+#include <CGAL/Handle_for.h>
 #include <CGAL/Kernel/Type_equality_wrapper.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < typename FT_, typename Kernel >
 struct Cartesian_base_no_ref_count
-  : public Cartesian_base< Kernel >
+  : public Cartesian_base< Kernel, FT_ >
 {
     typedef FT_                                           RT;
     typedef FT_                                           FT;
 
     // The mecanism that allows to specify reference-counting or not.
     template < typename T >
-    struct Handle { typedef Simple_Handle_for<T>   type; };
+    struct Handle { typedef T   type; };
 
     template < typename Kernel2 >
     struct Base { typedef Cartesian_base_no_ref_count<FT_, Kernel2>  Type; };
@@ -59,7 +59,5 @@ struct Simple_cartesian
 {};
 
 CGAL_END_NAMESPACE
-
-CGAL_ITERATOR_TRAITS_POINTER_SPEC_TEMPLATE(CGAL::Simple_cartesian)
 
 #endif // CGAL_SIMPLE_CARTESIAN_H

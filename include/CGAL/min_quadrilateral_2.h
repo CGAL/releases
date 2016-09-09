@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_quadrilateral_2/include/CGAL/min_quadrilateral_2.h,v $
-// $Revision: 1.19 $ $Date: 2003/09/26 07:33:11 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.20 $ $Date: 2004/06/23 02:25:32 $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
 //                 Emo Welzl <emo@inf.ethz.ch>
@@ -262,6 +262,11 @@ namespace Optimisation {
     typedef typename Base::Construct_direction_2        CD2;
     typedef typename Base::Construct_line_2             Construct_line_2;
     typedef typename Base::Compare_angle_with_x_axis_2  CAWXA;
+
+    using Traits::has_on_negative_side_2_object;
+    using Traits::construct_line_2_object;
+    using Traits::construct_vector_2_object;
+    using Traits::compare_angle_with_x_axis_2_object;
 
     Min_quadrilateral_traits_wrapper(const Traits& bt) : Base(bt) {}
 

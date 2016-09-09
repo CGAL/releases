@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Triangle_2_Triangle_2_do_intersect.h,v $
-// $Revision: 1.11 $ $Date: 2003/10/21 12:17:00 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.13 $ $Date: 2004/05/20 13:54:43 $
+// $Name:  $
 //
 // Author(s)     : Philippe Guigue
 
@@ -178,9 +178,10 @@ bool do_intersect(const typename CGAL_WRAP(K)::Triangle_2 &t1,
 
 template <class K>
 inline bool do_intersect(const Triangle_2<K> &t1, 
-			 const Triangle_2<K> &t2){
-
-  return CGALi::do_intersect(t1,t2,K());
+			 const Triangle_2<K> &t2)
+{
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect()(t1,t2);
 }
 
 CGAL_END_NAMESPACE

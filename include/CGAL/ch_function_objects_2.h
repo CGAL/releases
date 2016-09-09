@@ -12,13 +12,13 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/ch_function_objects_2.h,v $
-// $Revision: 1.4 $ $Date: 2003/10/21 12:15:02 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.5 $ $Date: 2004/01/18 13:42:57 $
+// $Name:  $
 //
 // Author(s)     : Susan Hert
 
-#ifndef CH_FUNCTION_OBJECTS_2_H
-#define CH_FUNCTION_OBJECTS_2_H
+#ifndef CGAL_CH_FUNCTION_OBJECTS_2_H
+#define CGAL_CH_FUNCTION_OBJECTS_2_H
 
 #include <CGAL/functional_base.h>
 
@@ -71,5 +71,5 @@ private:
 
 CGAL_END_NAMESPACE
 
-#endif // CH_FUNCTION_OBJECTS_2_H	
+#endif // CGAL_CH_FUNCTION_OBJECTS_2_H	
 

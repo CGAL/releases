@@ -1,6 +1,5 @@
-//
-// file          : examples/Convex_hull_2/ch_graham_anderson.C
-//
+// file: examples/Convex_hull_2/ch_graham_anderson.C
+
 #include <CGAL/Cartesian.h>
 #include <CGAL/ch_graham_andrew.h>
 #include <CGAL/functional.h>

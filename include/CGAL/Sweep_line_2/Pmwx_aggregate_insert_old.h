@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Sweep_line_2/Pmwx_aggregate_insert_old.h,v $
-// $Revision: 1.3 $ $Date: 2003/09/18 10:19:50 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.4 $ $Date: 2004/09/23 19:37:57 $
+// $Name:  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 
@@ -126,6 +126,11 @@ public:
   typedef typename Event_queue::iterator            Event_queue_iterator;  
   typedef typename Status_line::iterator            Status_line_iterator; 
   typedef typename std::list<Curve_node>::iterator  list_Curve_node_iterator;
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::traits;
+  using Base::is_right;
+#endif
 
   Pmwx_aggregate_insert_old() : 
     Base() {}

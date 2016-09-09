@@ -12,18 +12,16 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_circle_2/include/CGAL/Min_circle_2_traits_2.h,v $
-// $Revision: 1.8 $ $Date: 2003/09/18 10:23:08 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.12 $ $Date: 2004/09/05 12:30:22 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>, Bernd Gärtner
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
 
 #ifndef CGAL_MIN_CIRCLE_2_TRAITS_2_H
 #define CGAL_MIN_CIRCLE_2_TRAITS_2_H
 
 // includes
-#ifndef CGAL_POINT_2_H
-#  include <CGAL/Point_2.h>
-#endif
+
 #ifndef CGAL_OPTIMISATION_CIRCLE_2_H
 #  include <CGAL/Optimisation_circle_2.h>
 #endif
@@ -48,8 +46,9 @@ class Min_circle_2_traits_2 {
   public:
     // types
     typedef  K_                              K;
-    typedef  CGAL::Point_2<K>                Point;
+    typedef  typename K::Point_2             Point;
     typedef  CGAL::Optimisation_circle_2<K>  Circle;
+    typedef  typename K::Orientation_2       Orientation_2;
 
 private:
     // data members
@@ -68,7 +67,8 @@ private:
     CGAL::Orientation
     orientation( const Point& p, const Point& q, const Point& r) const
     {
-        return( CGAL::orientation( p, q, r));
+      Orientation_2 orientation;
+        return(orientation( p, q, r));
     }
 };
 

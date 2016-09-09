@@ -1,22 +1,4 @@
-// Copyright (c) 1999-2003  ETH Zurich (Switzerland).
-// All rights reserved.
-//
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
-//
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $Source: /CVSROOT/CGAL/Packages/Min_quadrilateral_2/examples/Min_quadrilateral_2/minimum_enclosing_parallelogram_2_example.C,v $
-// $Revision: 1.28 $ $Date: 2003/09/26 07:33:09 $
-// $Name: CGAL_3_0_1  $
-//
-// Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
-//                 Emo Welzl <emo@inf.ethz.ch>
+// file: examples/Min_quadrilateral_2/minimum_enclosing_parallelogram_2_example.C
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/Polygon_2.h>

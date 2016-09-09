@@ -1,4 +1,4 @@
-// Copyright (c) 2001  Utrecht University (The Netherlands),
+// Copyright (c) 2001,2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,32 +16,93 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Static_filters/Orientation_3.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:17:45 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.26 $ $Date: 2004/11/18 14:25:52 $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion
 
 #ifndef CGAL_STATIC_FILTERS_ORIENTATION_3_H
 #define CGAL_STATIC_FILTERS_ORIENTATION_3_H
 
-#include <CGAL/Simple_cartesian.h>
-#include <CGAL/Filtered_exact.h>
-#include <CGAL/MP_Float.h>
 #include <CGAL/Profile_counter.h>
-// #include <CGAL/Static_filter_error.h> // Only used to precompute constants
+#include <CGAL/Static_filter_error.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template <class Point>
+template < typename K_base >
 class SF_Orientation_3
+  : public K_base::Orientation_3
 {
-  double _static_epsilon;
+  typedef typename K_base::Point_3          Point_3;
+  typedef typename K_base::Orientation_3    Base;
+
+public:
+
+  Orientation operator()(const Point_3 &p, const Point_3 &q,
+                         const Point_3 &r, const Point_3 &s) const
+  {
+      CGAL_PROFILER("Orientation_3 calls");
+
+      double px, py, pz, qx, qy, qz, rx, ry, rz, sx, sy, sz;
+
+      if (fit_in_double(p.x(), px) && fit_in_double(p.y(), py) &&
+          fit_in_double(p.z(), pz) &&
+          fit_in_double(q.x(), qx) && fit_in_double(q.y(), qy) &&
+          fit_in_double(q.z(), qz) &&
+          fit_in_double(r.x(), rx) && fit_in_double(r.y(), ry) &&
+          fit_in_double(r.z(), rz) &&
+          fit_in_double(s.x(), sx) && fit_in_double(s.y(), sy) &&
+          fit_in_double(s.z(), sz))
+      {
+          CGAL_PROFILER("Orientation_3 semi-static attempts");
+
+          double pqx = qx - px;
+          double pqy = qy - py;
+          double pqz = qz - pz;
+          double prx = rx - px;
+          double pry = ry - py;
+          double prz = rz - pz;
+          double psx = sx - px;
+          double psy = sy - py;
+          double psz = sz - pz;
+
+          // Then semi-static filter.
+          double maxx = fabs(pqx);
+          if (maxx < fabs(prx)) maxx = fabs(prx);
+          if (maxx < fabs(psx)) maxx = fabs(psx);
+          double maxy = fabs(pqy);
+          if (maxy < fabs(pry)) maxy = fabs(pry);
+          if (maxy < fabs(psy)) maxy = fabs(psy);
+          double maxz = fabs(pqz);
+          if (maxz < fabs(prz)) maxz = fabs(prz);
+          if (maxz < fabs(psz)) maxz = fabs(psz);
+          double eps = 5.1107127829973276e-15 * maxx * maxy * maxz;
+
+          double det = det3x3_by_formula(pqx, pqy, pqz,
+                                         prx, pry, prz,
+                                         psx, psy, psz);
+
+          // Protect against underflow in the computation of eps.
+          if (maxx < 1e-97 || maxy < 1e-97 || maxz < 1e-97) {
+            if (maxx == 0 || maxy == 0 || maxz == 0)
+              return ZERO;
+          }
+          else {
+            if (det > eps)  return POSITIVE;
+            if (det < -eps) return NEGATIVE;
+          }
+
+          CGAL_PROFILER("Orientation_3 semi-static failures");
+      }
+
+      return Base::operator()(p, q, r, s);
+  }
 
   // Computes the epsilon for Orientation_3.
-  static double ori_3()
+  static double compute_epsilon()
   {
     typedef Static_filter_error F;
-    F t1 = F(1)-F(1);         // First translation
+    F t1 = F(1, F::ulp()/2);         // First translation
     F det = det3x3_by_formula(t1, t1, t1,
                               t1, t1, t1,
                               t1, t1, t1); // Full det
@@ -50,124 +111,7 @@ class SF_Orientation_3
     return err;
   }
 
-  static const double epsilon; // = 3.90799e-14; // ori_3();
-
-protected:
-
-  template < class R >
-  friend class Static_filters;
-
-  // These operations are reserved to Static_filters<>, because the context of
-  // a predicate is linked to the one of the Static_filter<> it is a member of.
-  SF_Orientation_3(const SF_Orientation_3 &s)
-      : _static_epsilon(s._static_epsilon) {}
-
-  SF_Orientation_3 & operator=(const SF_Orientation_3 &s)
-  {
-      _static_epsilon = s._static_epsilon;
-      return *this;
-  }
-
-  SF_Orientation_3()
-  {
-      _static_epsilon = HUGE_VAL;
-  }
-
-public:
-  typedef Orientation result_type;
-
-  void update(double dx, double dy, double dz)
-  {
-      _static_epsilon = dx*dy*dz*epsilon;
-  }
-
-  Orientation operator()(const Point &p, const Point &q,
-                         const Point &r, const Point &s) const
-  {
-    return opti_orientationC3(
-	    to_double(p.x()), to_double(p.y()), to_double(p.z()),
-	    to_double(q.x()), to_double(q.y()), to_double(q.z()),
-	    to_double(r.x()), to_double(r.y()), to_double(r.z()),
-	    to_double(s.x()), to_double(s.y()), to_double(s.z()));
-  }
-
-private:
-
-  Orientation
-  opti_orientationC3(double px, double py, double pz,
-                     double qx, double qy, double qz,
-		     double rx, double ry, double rz,
-		     double sx, double sy, double sz) const
-  {
-    CGAL_PROFILER("Orientation_3 calls");
-
-    double pqx = qx-px;
-    double pqy = qy-py;
-    double pqz = qz-pz;
-    double prx = rx-px;
-    double pry = ry-py;
-    double prz = rz-pz;
-    double psx = sx-px;
-    double psy = sy-py;
-    double psz = sz-pz;
-
-    double det = det3x3_by_formula(pqx, pqy, pqz,
-                                   prx, pry, prz,
-                                   psx, psy, psz);
-
-#if 1
-    // Fully static filter first.
-    if (det >  _static_epsilon) return POSITIVE;
-    if (det < -_static_epsilon) return NEGATIVE;
-#endif
-
-    CGAL_PROFILER("Orientation_3 static failures");
-
-#if 1
-    // Then semi-static filter.
-    double maxx = fabs(px);
-    if (maxx < fabs(qx)) maxx = fabs(qx);
-    if (maxx < fabs(rx)) maxx = fabs(rx);
-    if (maxx < fabs(sx)) maxx = fabs(sx);
-    double maxy = fabs(py);
-    if (maxy < fabs(qy)) maxy = fabs(qy);
-    if (maxy < fabs(ry)) maxy = fabs(ry);
-    if (maxy < fabs(sy)) maxy = fabs(sy);
-    double maxz = fabs(pz);
-    if (maxz < fabs(qz)) maxz = fabs(qz);
-    if (maxz < fabs(rz)) maxz = fabs(rz);
-    if (maxz < fabs(sz)) maxz = fabs(sz);
-    double eps = epsilon*maxx*maxy*maxz;
-
-    if (det > eps)  return POSITIVE;
-    if (det < -eps) return NEGATIVE;
-
-    CGAL_PROFILER("Orientation_3 semi-static failures");
-#endif
-
-    // Experiments showed that there's practically no benefit for testing when
-    // the initial substractions were done exactly.  In most cases where the
-    // first filter fails, the determinant is null.  Most of those cases are
-    // caught by the IA filter, but not by a second stage semi-static filter,
-    // because in most cases one of the coefficient is null, and IA takes
-    // advantage of this, though it's going through an inexact temporary
-    // computation (which is zeroed later).
-
-    typedef Simple_cartesian<Filtered_exact<double, MP_Float> > K;
-    typedef K::Point_3 P;
-
-    Orientation oooo = orientation(P(px,py,pz), P(qx,qy,qz),
-	                           P(rx,ry,rz), P(sx,sy,sz));
-    if (oooo == ZERO) {
-        CGAL_PROFILER("Orientation_3 det_is_null");
-    }
-    return oooo;
-  }
-
 };
-
-template <class Point>
-const double SF_Orientation_3<Point>::epsilon = 3.90799e-14;
 
 CGAL_END_NAMESPACE
 

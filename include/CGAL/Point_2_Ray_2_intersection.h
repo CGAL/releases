@@ -17,8 +17,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Point_2_Ray_2_intersection.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:16:49 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.9 $ $Date: 2004/05/20 13:54:38 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -88,7 +88,8 @@ inline
 bool
 do_intersect(const Ray_2<K> &ray, const Point_2<K> &pt)
 {
-  return CGALi::do_intersect(pt, ray, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect()(pt, ray);
 }
 
 template <class K>
@@ -96,7 +97,8 @@ inline
 bool
 do_intersect(const Point_2<K> &pt, const Ray_2<K> &ray)
 {
-  return CGALi::do_intersect(pt, ray, K());
+  typedef typename K::Do_intersect_2 Do_intersect;
+  return Do_intersect()(pt, ray);
 }
 
 
@@ -104,14 +106,16 @@ template <class K>
 inline Object
 intersection(const Ray_2<K> &ray, const Point_2<K> &pt)
 {
-  return CGALi::intersection(pt, ray, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(pt, ray);
 }
 
 template <class K>
 inline Object
 intersection(const Point_2<K> &pt, const Ray_2<K> &ray)
 {
-  return CGALi::intersection(pt, ray, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(pt, ray);
 }
 
 CGAL_END_NAMESPACE

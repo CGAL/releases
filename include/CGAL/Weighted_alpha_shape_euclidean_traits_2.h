@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/include/CGAL/Weighted_alpha_shape_euclidean_traits_2.h,v $
-// $Revision: 1.16 $ $Date: 2003/10/01 19:27:16 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.17 $ $Date: 2004/04/13 13:56:31 $
+// $Name:  $
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -115,18 +115,17 @@ class Weighted_alpha_shape_euclidean_traits_2 : public
 Regular_triangulation_euclidean_traits_2<R, typename R::FT> 
 {
 
-public: 
-  
-  typedef Weighted_alpha_shape_euclidean_traits_2<R> Self;
-  typedef typename R::FT FT;
-  typedef typename 
-   Regular_triangulation_euclidean_traits_2<R, typename R::FT>::Weighted_point 
-     Point;
+public:   
+  typedef Weighted_alpha_shape_euclidean_traits_2<R>                  Self;
+  typedef Regular_triangulation_euclidean_traits_2<R, typename R::FT> Base;
+  typedef typename R::FT                                              FT;
+  typedef typename Base::Weighted_point_2                             Point; 
+ 
 
   typedef CGAL::Compute_squared_radius_orthogonalcircleC2<FT, Self>
-  Compute_squared_radius_orthogonalcircle_2;
+                                   Compute_squared_radius_orthogonalcircle_2;
   typedef CGAL::Side_of_bounded_orthogonalcircleC2<Self>
-  Side_of_bounded_orthogonalcircle_2;
+                                    Side_of_bounded_orthogonalcircle_2;
   
   //------------------------------------------------------------------
 

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2_algorithms.h,v $
-// $Revision: 1.17 $ $Date: 2003/10/21 12:22:47 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.19 $ $Date: 2004/01/19 11:50:57 $
+// $Name:  $
 //
 // Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
 
@@ -58,8 +58,10 @@ ForwardIterator bottom_vertex_2(ForwardIterator first,
 				ForwardIterator last,
 				const Traits& traits);
 
-template <class InputIterator>
-Bbox_2 bbox_2(InputIterator first, InputIterator last);
+template <class InputIterator, class Traits>
+Bbox_2 bbox_2(InputIterator first, 
+	      InputIterator last,
+	      const Traits& traits);
 
 
 template <class ForwardIterator, class Traits>
@@ -77,12 +79,9 @@ area_2( ForwardIterator first, ForwardIterator last,
    if (second == last) return;
    typename Traits::Compute_area_2 compute_area_2 =
             traits.compute_area_2_object();
-   typename Traits::Construct_triangle_2 construct_triangle_2 =
-            traits.construct_triangle_2_object();
    ForwardIterator third = second;
    while (++third != last) {
-	result = result + compute_area_2(
-                    construct_triangle_2(*first, *second, *third));
+	result = result + compute_area_2(*first, *second, *third);
 	second = third;
    }
 }
@@ -101,12 +100,9 @@ polygon_area_2( ForwardIterator first, ForwardIterator last,
    if (second == last) return result;
    typename Traits::Compute_area_2 compute_area_2 =
             traits.compute_area_2_object();
-   typename Traits::Construct_triangle_2 construct_triangle_2 =
-            traits.construct_triangle_2_object();
    ForwardIterator third = second;
    while (++third != last) {
-	result = result + compute_area_2(
-                    construct_triangle_2(*first, *second, *third));
+	result = result + compute_area_2(*first, *second, *third);
 	second = third;
    }
    return result;
@@ -195,6 +191,15 @@ ForwardIterator bottom_vertex_2(ForwardIterator first,
   return bottom_vertex_2(first, last, K());
 }
 
+template <class InputIterator>
+inline
+Bbox_2 bbox_2(InputIterator first,
+	      InputIterator last)
+{
+  typedef typename Kernel_traits<
+    typename std::iterator_traits<InputIterator>::value_type>::Kernel K; 
+  return bbox_2(first, last, K());
+}
 
 
 template <class ForwardIterator, class Numbertype>

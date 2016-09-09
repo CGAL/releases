@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/enum.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:18:22 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2003/11/17 19:33:20 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -39,11 +39,6 @@ typedef Sign Orientation;
 
 const Orientation  LEFT_TURN  = POSITIVE;
 const Orientation  RIGHT_TURN = NEGATIVE;
-
-#ifndef CGAL_NO_DEPRECATED_CODE
-const Orientation  LEFTTURN   = POSITIVE;
-const Orientation  RIGHTTURN  = NEGATIVE;
-#endif
 
 const Orientation  CLOCKWISE  = NEGATIVE;
 const Orientation  COUNTERCLOCKWISE = POSITIVE;

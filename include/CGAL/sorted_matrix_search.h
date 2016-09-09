@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/sorted_matrix_search.h,v $
 // $Revision: 1.59 $ $Date: 2003/09/29 08:41:49 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 

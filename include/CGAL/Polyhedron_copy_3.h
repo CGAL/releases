@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Polyhedron/include/CGAL/Polyhedron_copy_3.h,v $
 // $Revision: 1.6 $ $Date: 2003/09/18 10:24:56 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
 

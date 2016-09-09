@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Attic/Convex_hull_d_to_polyhedron_3.h,v $
-// $Revision: 1.13.2.1 $ $Date: 2003/11/17 15:29:44 $
-// $Name: CGAL_3_0_1  $
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_d/include/CGAL/Convex_hull_d_to_polyhedron_3.h,v $
+// $Revision: 1.1 $ $Date: 2003/11/25 09:54:34 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 

@@ -1,10 +1,10 @@
-// examples/Polyhedron/polyhedron_prog_off.C
-// -----------------------------------------
-#include <CGAL/Cartesian.h>
+// file: examples/Polyhedron/polyhedron_prog_off.C
+
+#include <CGAL/Simple_cartesian.h>
 #include <CGAL/Polyhedron_3.h>
 #include <iostream>
 
-typedef CGAL::Cartesian<double>                      Kernel;
+typedef CGAL::Simple_cartesian<double>               Kernel;
 typedef Kernel::Point_3                              Point_3;
 typedef CGAL::Polyhedron_3<Kernel>                   Polyhedron;
 typedef Polyhedron::Facet_iterator                   Facet_iterator;

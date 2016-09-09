@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Tuple_d.h,v $
-// $Revision: 1.19 $ $Date: 2003/10/21 12:19:30 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.21 $ $Date: 2004/09/17 12:12:41 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_TUPLE_D_H
@@ -44,6 +44,9 @@ template <typename NT, typename LA> class VectorCd;
 template <typename FT, typename LA> class DirectionCd;
 template <typename FT, typename LA> class HyperplaneCd;
 template <typename NT, typename LA> class Aff_transformationCd;
+
+
+class MatchHelper {};
 
 template <typename NT, typename LA>
 class Tuple_d  {
@@ -122,7 +125,7 @@ public:
 
   bool operator==(const self& x) const { return _it==x._it; }
   bool operator!=(const self& x) const { return ! (*this==x); }
-  bool operator<(self x) const { (x - *this) > 0; }
+  bool operator<(self x) const { return (x - *this) > 0; }
 
   private:
     const_iterator _it, _w;  
@@ -132,7 +135,7 @@ public:
   Tuple_d(int d) : v(d) {}
   Tuple_d(const NT& a, const NT& b) : v(2)
   { v[0]=a; v[1]=b; }
-  Tuple_d(const NT& a, const NT& b, const NT& c) : v(3)
+  Tuple_d(const NT& a, const NT& b, const NT& c, const MatchHelper&) : v(3)
   { v[0]=a; v[1]=b; v[2]=c; }
   Tuple_d(const NT& a, const NT& b, const NT& c, const NT& d) : v(4)
   { v[0]=a; v[1]=b; v[2]=c; v[3]=d; }

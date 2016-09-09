@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Triangle_2.h,v $
-// $Revision: 1.36 $ $Date: 2003/10/21 12:14:24 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.41 $ $Date: 2004/02/29 23:27:00 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
 
@@ -31,17 +31,17 @@ CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class TriangleC2
-  : public R_::template Handle<Threetuple<typename R_::Point_2> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Triangle_2           Triangle_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef Threetuple<Point_2>	                   rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Threetuple<Point_2>	                   Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                    R;
@@ -49,7 +49,7 @@ public:
   TriangleC2() {}
 
   TriangleC2(const Point_2 &p, const Point_2 &q, const Point_2 &r)
-    : base(rep(p, q, r)) {}
+    : base(p, q, r) {}
 
   bool           operator==(const TriangleC2 &s) const;
   bool           operator!=(const TriangleC2 &s) const;
@@ -89,7 +89,7 @@ CGAL_KERNEL_MEDIUM_INLINE
 bool
 TriangleC2<R>::operator==(const TriangleC2<R> &t) const
 {
-  if (identical(t))
+  if (CGAL::identical(base, t.base))
       return true;
 
   int i;
@@ -115,9 +115,9 @@ TriangleC2<R>::vertex(int i) const
 {
   if (i>2) i = i%3;
   else if (i<0) i = (i%3) + 3;
-  return (i==0) ? Ptr()->e0 :
-         (i==1) ? Ptr()->e1 :
-                  Ptr()->e2;
+  return (i==0) ? get(base).e0 :
+         (i==1) ? get(base).e1 :
+                  get(base).e2;
 }
 
 template < class R >
@@ -133,10 +133,8 @@ CGAL_KERNEL_MEDIUM_INLINE
 typename TriangleC2<R>::FT
 TriangleC2<R>::area() const
 {
-  typename R::Construct_vector_2 construct_vector;
-  typename R::Vector_2 v1 = construct_vector(vertex(0), vertex(1));
-  typename R::Vector_2 v2 = construct_vector(vertex(0), vertex(2));
-  return det2x2_by_formula(v1.x(), v1.y(), v2.x(), v2.y())/FT(2);
+  typename R::Compute_area_2 compute_area;
+  return compute_area(vertex(0), vertex(1), vertex(2));
 }
 
 template < class R >
@@ -263,8 +261,8 @@ TriangleC2<R>::bbox() const
 {
   typename R::Construct_bbox_2 construct_bbox_2;
   return construct_bbox_2(vertex(0)) 
-    + construct_bbox_2(vertex(1)) 
-    + construct_bbox_2(vertex(2));
+       + construct_bbox_2(vertex(1)) 
+       + construct_bbox_2(vertex(2));
 }
 
 template < class R >

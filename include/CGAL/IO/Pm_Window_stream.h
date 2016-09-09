@@ -12,26 +12,17 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/IO/Pm_Window_stream.h,v $
-// $Revision: 1.5 $ $Date: 2003/09/18 10:24:41 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/08/08 16:11:35 $
+// $Name:  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 
 #ifndef CGAL_IO_PM_WINDOW_STREAM_H
 #define CGAL_IO_PM_WINDOW_STREAM_H
 
-#ifndef CGAL_PLANAR_MAP_2_H
 #include <CGAL/Planar_map_2.h>
-#endif
-
-#ifndef CGAL_IO_PM_DRAWER_H
 #include <CGAL/IO/Pm_drawer.h>
-#endif
-
-#ifndef CGAL_IO_DRAW_PM_H
 #include  <CGAL/IO/draw_pm.h>
-#endif
-
 #include <CGAL/IO/Window_stream.h>
 
 CGAL_BEGIN_NAMESPACE

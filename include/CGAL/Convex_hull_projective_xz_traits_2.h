@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/Convex_hull_projective_xz_traits_2.h,v $
 // $Revision: 1.9 $ $Date: 2003/10/21 12:14:59 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Susan Hert
 

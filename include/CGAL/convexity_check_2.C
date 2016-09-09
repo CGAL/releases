@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/convexity_check_2.C,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:15:07 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2004/02/21 15:44:57 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -22,7 +22,7 @@
 #define CGAL_CONVEXITY_CHECK_2_C
 
 #include <CGAL/convexity_check_2.h>
-#include <CGAL/stl_extensions.h>
+#include <CGAL/algorithm.h>
 #include <CGAL/functional.h>
 #include <algorithm>
 

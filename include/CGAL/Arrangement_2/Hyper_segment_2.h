@@ -12,10 +12,11 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arrangement_2/Hyper_segment_2.h,v $
-// $Revision: 1.3 $ $Date: 2003/09/18 10:19:44 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.5 $ $Date: 2004/07/19 14:39:24 $
+// $Name:  $
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
+
 #ifndef CGAL_HYPER_SEGMENT_2_H
 #define CGAL_HYPER_SEGMENT_2_H
 
@@ -161,7 +162,7 @@ private:
     _C = b*b;
 
     // Set the source and target point.
-    if (comp_x == SMALLER)
+    if (comp_x != LARGER)
     {
       _source = ps;
       _target = pt;
@@ -266,6 +267,30 @@ private:
     {
       y_min = y2;
       y_max = y1;
+    }
+
+    // Try to check if any extreme points are contained in our segment.
+    if (_A != 0)
+    {
+      // The x-coordinate of the extreme point is given by:
+      double  x_ext = CGAL::to_double(-_B / (2*_A));
+
+      if (x_min < x_ext && x_ext < x_max)
+      {
+	// The y-value at the extreme point is given by:
+	double   y_ext = (CGAL::to_double(_A)*x_ext + 
+			  CGAL::to_double(_B))*x_ext + CGAL::to_double(_C);
+
+	if (y_ext > 0)
+	  y_ext = CGAL::sqrt(y_ext);
+	else
+	  y_ext = 0;
+
+	if (y_ext < y_min)
+	  y_min = y_ext;
+	else if (y_ext > y_max)
+	  y_max = y_ext;
+      }
     }
 
     // Return the resulting bounding box.

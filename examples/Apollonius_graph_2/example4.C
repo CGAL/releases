@@ -1,4 +1,5 @@
-// file          : examples/Apollonius_graph_2/example4.C
+// file: examples/Apollonius_graph_2/example4.C
+
 #include <CGAL/basic.h>
 
 // standard includes

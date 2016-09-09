@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Attic/intersections.h,v $
-// $Revision: 1.4 $ $Date: 2003/10/21 12:17:05 $
-// $Name: CGAL_3_0_1  $
+// $Source: /CVSROOT/CGAL/Packages/Intersections_3/include/CGAL/intersections.h,v $
+// $Revision: 1.1 $ $Date: 2003/11/24 16:12:56 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 

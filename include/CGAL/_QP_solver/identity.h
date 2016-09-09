@@ -12,10 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/_QP_solver/include/CGAL/_QP_solver/identity.h,v $
-// $Revision: 1.3 $ $Date: 2003/09/18 10:26:46 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.4 $ $Date: 2004/09/03 17:41:20 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
 
 #ifndef CGAL_IDENTITY_H
 #define CGAL_IDENTITY_H

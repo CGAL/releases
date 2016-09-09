@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_explorer.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:21:02 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/09/21 14:15:18 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -129,8 +129,8 @@ Ray ray(Vertex_const_handle v) const
 
 bool is_frame_edge(Halfedge_const_handle e) const
 /*{\Mop returns true iff |e| is part of the infinimaximal frame.}*/
-{ return ( face(e) == faces_begin() ||
-           face(twin(e)) == faces_begin() ); }
+{ return ( face(e) == this->faces_begin() ||
+           face(twin(e)) == this->faces_begin() ); }
 
 }; // PM_explorer<PMCDEC,GEOM>
 

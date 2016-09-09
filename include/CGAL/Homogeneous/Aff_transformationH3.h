@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H3/include/CGAL/Homogeneous/Aff_transformationH3.h,v $
-// $Revision: 1.12 $ $Date: 2003/10/21 12:16:17 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.15 $ $Date: 2004/06/20 18:08:08 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -147,18 +147,17 @@ public:
   virtual  FT
            cartesian(int i, int j) const ;
 
-friend class Aff_transformationH3<R>;
+  friend class Aff_transformationH3<R>;
 
-friend
-Aff_transformationH3<R>
-_general_transformation_composition CGAL_NULL_TMPL_ARGS (
+  friend
+  Aff_transformationH3<R>
+  _general_transformation_composition <> (
                            Aff_transformation_repH3<R> l,
                            Aff_transformation_repH3<R> r);
 
-friend
-std::ostream &
-operator<< CGAL_NULL_TMPL_ARGS (std::ostream & out,
-                                const Aff_transformationH3<R>& t);
+  friend
+  std::ostream &
+  operator<< <> (std::ostream & out, const Aff_transformationH3<R>& t);
 
 private:
     RT   t00, t01, t02, t03;
@@ -286,7 +285,6 @@ template < class R_ >
 class Aff_transformationH3
   : public Handle_for_virtual< Aff_transformation_rep_baseH3<R_> >
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::RT                   RT;
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_3              Point_3;
@@ -347,19 +345,19 @@ public:
 
   FT
   cartesian(int i, int j) const
-  { return Ptr()->cartesian(i,j); }
+  { return this->Ptr()->cartesian(i,j); }
 
   RT
   homogeneous(int i, int j) const
-  { return Ptr()->homogeneous(i,j); }
+  { return this->Ptr()->homogeneous(i,j); }
 
   FT
   m(int i, int j) const
-  { return Ptr()->cartesian(i,j); }
+  { return this->Ptr()->cartesian(i,j); }
 
   RT
   hm(int i, int j) const
-  { return Ptr()->homogeneous(i,j); }
+  { return this->Ptr()->homogeneous(i,j); }
 };
 
 template < class R >
@@ -819,52 +817,52 @@ inline
 typename Aff_transformationH3<R>::Point_3
 Aff_transformationH3<R>::
 transform(const typename Aff_transformationH3<R>::Point_3& p) const
-{ return Ptr()->transform(p); }
+{ return this->Ptr()->transform(p); }
 
 template < class R >
 inline
 typename Aff_transformationH3<R>::Vector_3
 Aff_transformationH3<R>::
 transform(const typename Aff_transformationH3<R>::Vector_3& v) const
-{ return Ptr()->transform(v); }
+{ return this->Ptr()->transform(v); }
 
 template < class R >
 inline
 typename Aff_transformationH3<R>::Direction_3
 Aff_transformationH3<R>::
 transform(const typename Aff_transformationH3<R>::Direction_3& d) const
-{ return Ptr()->transform(d); }
+{ return this->Ptr()->transform(d); }
 
 template < class R >
 inline
 typename Aff_transformationH3<R>::Plane_3
 Aff_transformationH3<R>::
 transform(const typename Aff_transformationH3<R>::Plane_3& pl) const
-{ return Ptr()->transform(pl); }
+{ return this->Ptr()->transform(pl); }
 
 template < class R >
 inline
 typename Aff_transformationH3<R>::Aff_transformation_3
 Aff_transformationH3<R>::inverse() const
-{ return Ptr()->inverse(); }
+{ return this->Ptr()->inverse(); }
 
 template < class R >
 inline
 Aff_transformationH3<R>
 Aff_transformationH3<R>::transpose() const
-{ return Ptr()->transpose(); }
+{ return this->Ptr()->transpose(); }
 
 template < class R >
 inline
 bool
 Aff_transformationH3<R>::is_even() const
-{ return Ptr()->is_even(); }
+{ return this->Ptr()->is_even(); }
 
 template < class R >
 inline
 bool
 Aff_transformationH3<R>::is_odd() const
-{ return ( ! (Ptr()->is_even() )); }
+{ return ( ! (this->Ptr()->is_even() )); }
 
 template < class R >
 CGAL_KERNEL_INLINE

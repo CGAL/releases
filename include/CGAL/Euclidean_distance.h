@@ -1,4 +1,4 @@
-// Copyright (c) 2002  Utrecht University (The Netherlands).
+// Copyright (c) 2002 Utrecht University (The Netherlands).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,11 +12,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Euclidean_distance.h,v $
-// $Revision: 1.6 $ $Date: 2003/09/25 14:01:05 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.12 $ $Date: 2004/09/07 09:16:19 $
+// $Name:  $
 //
-// Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
-
+// Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
 
 
 #ifndef CGAL_EUCLIDEAN_DISTANCE_H
@@ -25,79 +24,80 @@
 
 namespace CGAL {
 
-  template <class Point>
+
+
+  template <class SearchTraits>
   class Euclidean_distance {
 
     public:
 
-    typedef typename Kernel_traits<Point>::Kernel::FT NT;
+    typedef typename SearchTraits::FT    FT;
+    typedef typename SearchTraits::Point_d Point_d;
+    typedef Point_d Query_item;
     
-    private:
-
-    unsigned int the_dimension;
-
     public:
 
     	// default constructor
-    	Euclidean_distance() {
-		Point p;
-		the_dimension=p.dimension();
-		assert(the_dimension>0);
-    	}
+    	Euclidean_distance() {}
 
- 
 
-        Euclidean_distance(const int d) : the_dimension(d) {}
-
-	~Euclidean_distance() {}
-
-	inline NT distance(const Point& q, const Point& p) const {
-	        NT distance = NT(0);
-		for (unsigned int i = 0; i < the_dimension; ++i)
-			distance += (q[i]-p[i])*(q[i]-p[i]);
+	inline FT transformed_distance(const Query_item& q, const Point_d& p) const {
+	        FT distance = FT(0);
+		typename SearchTraits::Construct_cartesian_const_iterator_d construct_it;
+                typename SearchTraits::Cartesian_const_iterator_d qit = construct_it(q),
+		  qe = construct_it(q,1), pit = construct_it(p);
+		for(; qit != qe; qit++, pit++){
+		  distance += ((*qit)-(*pit))*((*qit)-(*pit));
+		}
         	return distance;
 	}
 
 
-	inline NT min_distance_to_queryitem(const Point& q,
-					    const Kd_tree_rectangle<NT>& r) const {
-		NT distance = NT(0);
-		for (unsigned int i = 0; i < the_dimension; ++i) {
-			if (q[i] < r.min_coord(i))
+	inline FT min_distance_to_rectangle(const Query_item& q,
+					    const Kd_tree_rectangle<SearchTraits>& r) const {
+		FT distance = FT(0);
+		typename SearchTraits::Construct_cartesian_const_iterator_d construct_it;
+                typename SearchTraits::Cartesian_const_iterator_d qit = construct_it(q),
+		  qe = construct_it(q,1);
+		for(unsigned int i = 0;qit != qe; i++, qit++){
+		  if((*qit) < r.min_coord(i))
 				distance += 
-				(r.min_coord(i)-q[i])*(r.min_coord(i)-q[i]);
-			if (q[i] > r.max_coord(i))
+				(r.min_coord(i)-(*qit))*(r.min_coord(i)-(*qit));
+		  else if ((*qit) > r.max_coord(i))
 				distance +=  
-				(q[i]-r.max_coord(i))*(q[i]-r.max_coord(i));
+				((*qit)-r.max_coord(i))*((*qit)-r.max_coord(i));
 			
-		};
+		}
 		return distance;
 	}
 
-	inline NT max_distance_to_queryitem(const Point& q,
-					      const Kd_tree_rectangle<NT>& r) const {
-		NT distance=NT(0);
-		for (unsigned int i = 0; i < the_dimension; ++i) {
-				if (q[i] <= (r.min_coord(i)+r.max_coord(i))/NT(2.0))
-					distance += (r.max_coord(i)-q[i])*(r.max_coord(i)-q[i]);
+	inline FT max_distance_to_rectangle(const Query_item& q,
+					     const Kd_tree_rectangle<SearchTraits>& r) const {
+		FT distance=FT(0);
+		typename SearchTraits::Construct_cartesian_const_iterator_d construct_it;
+                typename SearchTraits::Cartesian_const_iterator_d qit = construct_it(q),
+		  qe = construct_it(q,1);
+		for(unsigned int i = 0;qit != qe; i++, qit++){
+				if ((*qit) <= (r.min_coord(i)+r.max_coord(i))/FT(2.0))
+					distance += (r.max_coord(i)-(*qit))*(r.max_coord(i)-(*qit));
 				else
-					distance += (q[i]-r.min_coord(i))*(q[i]-r.min_coord(i));
+					distance += ((*qit)-r.min_coord(i))*((*qit)-r.min_coord(i));
 		};
 		return distance;
 	}
 
-	inline NT new_distance(NT dist, NT old_off, NT new_off,
-			int cutting_dimension)  const {
+	inline FT new_distance(FT dist, FT old_off, FT new_off,
+			       int cutting_dimension)  const {
 		
-		NT new_dist = dist + new_off*new_off - old_off*old_off;
+		FT new_dist = dist + new_off*new_off - old_off*old_off;
                 return new_dist;
 	}
 
-  inline NT transformed_distance(NT d) const {
+  inline FT transformed_distance(FT d) const {
 		return d*d;
 	}
 
-  inline NT inverse_of_transformed_distance(NT d) const {
+  inline FT inverse_of_transformed_distance(FT d) const {
 		return CGAL::sqrt(d);
 	}
 

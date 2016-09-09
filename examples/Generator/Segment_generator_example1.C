@@ -1,6 +1,4 @@
-// examples/Generator/Segment_generator_example1.C
-// --------------------------------------------------------------
-// CGAL example program for the generic segment generator.
+// file: examples/Generator/Segment_generator_example1.C
 
 #include <CGAL/Simple_cartesian.h>
 #include <cassert>

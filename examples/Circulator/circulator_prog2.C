@@ -1,5 +1,5 @@
-// circulator_prog2.C
-// ------------------------
+// file: examples/Circulator/circulator_prog2.C
+
 #include <CGAL/basic.h>
 #include <cassert>
 #include <vector>

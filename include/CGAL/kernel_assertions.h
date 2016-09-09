@@ -18,10 +18,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/kernel_assertions.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:18:23 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/09/05 12:24:52 $
+// $Name:  $
 //
-// Author(s)     : script by Geert-Jan Giezeman and Sven Schönherr 
+// Author(s)     : script by Geert-Jan Giezeman and Sven Schoenherr 
 
 
 

@@ -1,53 +1,29 @@
-// ============================================================================
+// Copyright (c) 1997-2000  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/demo/Triangulation_2/constrained_delaunay_triangulation_2.C,v $
+// $Revision: 1.5.4.1 $ $Date: 2004/12/18 17:15:46 $
+// $Name:  $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// file          : constrained_delaunay_triangulation_2.C
-// package       : Qt_widget
-// author(s)     : Radu Ursu 
-// release       : 
-// release_date  : 
-//
-// coordinator   : Laurent Rineau
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Radu Ursu
 
 
-// if QT is not installed, a message will be issued in runtime.
+// if QT is not installed, a message will be issued at runtime.
 #ifndef CGAL_USE_QT
   #include <iostream>
-  int main(int, char*)
+  int main()
   {
-    std::cout << "Sorry, this demo needs QT...";
-    std::cout << std::endl;
+    std::cout << "Sorry, this demo needs QT." << std::endl;
     return 0;
   }
 #else
@@ -180,7 +156,7 @@ private slots:
 	
   void get_new_object(CGAL::Object obj)
   {
-    Point p;
+    Point_2 p;
     Segment s;
     Cgal_Polygon poly;
     if (CGAL::assign(s,obj))
@@ -195,11 +171,11 @@ private slots:
     } else if (CGAL::assign(poly, obj)) {
       typedef Cgal_Polygon::Vertex_const_iterator VI;
       VI i=poly.vertices_begin();
-      Point lp(i->x(), i->y()), lp1(lp);
+      Point_2 lp(i->x(), i->y()), lp1(lp);
       if(i!=poly.vertices_end()) {
         i++;
         for(;i!=poly.vertices_end();i++){
-          Point p(i->x(), i->y());
+          Point_2 p(i->x(), i->y());
           Vertex_handle vs = ct.insert(p);
           Vertex_handle vt = ct.insert(lp);
           ct.insert_constraint(vs, vt);
@@ -271,7 +247,7 @@ private slots:
   void generate_triangulation()
   {
     ct.clear();
-    CGAL::Random_points_in_disc_2<Point> g(0.5);
+    CGAL::Random_points_in_disc_2<Point_2> g(0.5);
     for(int count=0; count<200; count++)
       ct.insert(*g++);
     Vertex_iterator it = ct.vertices_begin();
@@ -356,7 +332,7 @@ private slots:
       progress->setTotalSteps(nedges);
       progress->show();
       for(int n = 0; n<nedges; n++) {
-        Point p1, p2;
+        Point_2 p1, p2;
         in >> p1 >> p2;
 	      if(n==0){
 	        xmin = xmax = p1.x();
@@ -390,22 +366,22 @@ private slots:
     } else if(s.right(4) == ".cst"){
       std::ifstream in(s);
       CGAL::set_ascii_mode(in);
-      std::istream_iterator<Point> it(in), done;
+      std::istream_iterator<Point_2> it(in), done;
       bool first(true);
       CGAL::Bbox_2 b;
  
       Vertex_handle p_vh;
-      Point p_q;
+      Point_2 p_q;
 
       while(it != done){
-        Point p(*it);
+        Point_2 p(*it);
         if(first){
           b = p.bbox();
         } else {
           b = b + p.bbox();
         }
         ++it;
-        Point q(*it);
+        Point_2 q(*it);
         b = b + q.bbox();
         ++it;
         if( (! first) && (p_q == p)){
@@ -450,8 +426,10 @@ main(int argc, char **argv)
   app.setMainWidget(&W);
   W.setCaption(my_title_string);
   W.setMouseTracking(TRUE);
+#if !defined (__POWERPC__)
   QPixmap cgal_icon = QPixmap((const char**)demoicon_xpm);
   W.setIcon(cgal_icon);
+#endif
   W.show();
   W.init_coordinates();  
   current_state = -1;

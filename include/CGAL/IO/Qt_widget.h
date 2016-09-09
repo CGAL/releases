@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget.h,v $
-// $Revision: 1.80.2.1 $ $Date: 2003/11/07 13:40:32 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.85 $ $Date: 2004/03/22 13:59:35 $
+// $Name:  $
 //
 // Author(s)     : Laurent Rineau
 
@@ -378,7 +378,7 @@ QColor Qt_widget::backgroundColor() const
 inline
 void Qt_widget::setBackgroundColor(const QColor& c)
 {
-  QWidget::setBackgroundColor(c);
+  QWidget::setPaletteBackgroundColor(c);
   get_painter().setBackgroundColor(c);
   clear();
 }

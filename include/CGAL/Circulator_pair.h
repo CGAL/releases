@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/Circulator_pair.h,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:22:17 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 #ifndef CGAL_CIRC_PAIR_H

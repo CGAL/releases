@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Vector_2.h,v $
-// $Revision: 1.31 $ $Date: 2003/10/21 12:14:25 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.37 $ $Date: 2004/02/29 21:24:19 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
 
@@ -31,17 +31,20 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class VectorC2
-  : public R_::template Handle<Twotuple<typename R_::FT> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_2              Point_2;
-  typedef typename R_::Direction_2          Direction_2;
   typedef typename R_::Vector_2             Vector_2;
+  typedef typename R_::Segment_2            Segment_2;
+  typedef typename R_::Ray_2                Ray_2;
+  typedef typename R_::Line_2               Line_2;
+  typedef typename R_::Direction_2          Direction_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef Twotuple<FT>	                           rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Twotuple<FT>	                           Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                     R;
@@ -49,35 +52,38 @@ public:
   VectorC2() {}
 
   VectorC2(const Null_vector &n)
-    : base(R().construct_vector_2_object()(n)) {}
-
-  VectorC2(const Point_2 &p)
-    : base(p) {}
+  { *this = R().construct_vector_2_object()(n); }
 
   VectorC2(const Point_2 &a, const Point_2 &b)
-    : base(R().construct_vector_2_object()(a, b)) {}
+  { *this = R().construct_vector_2_object()(a, b); }
 
-  VectorC2(const Direction_2 &d)
-    : base(d) {}
+  VectorC2(const Segment_2 &s)
+  { *this = R().construct_vector_2_object()(s); }
+
+  VectorC2(const Ray_2 &r)
+  { *this = R().construct_vector_2_object()(r); }
+
+  VectorC2(const Line_2 &l)
+  { *this = R().construct_vector_2_object()(l); }
 
   VectorC2(const FT &x, const FT &y)
-    : base(rep(x, y)) {}
+    : base(x, y) {}
 
   VectorC2(const FT &hx, const FT &hy, const FT &hw)
   {
     if (hw != FT(1))
-      initialize_with(rep(hx/hw, hy/hw));
+      base = Rep(hx/hw, hy/hw);
     else
-      initialize_with(rep(hx, hy));
+      base = Rep(hx, hy);
   }
 
   const FT & x() const
   {
-      return Ptr()->e0;
+      return get(base).e0;
   }
   const FT & y() const
   {
-      return Ptr()->e1;
+      return get(base).e1;
   }
 
   const FT & hx() const
@@ -105,7 +111,6 @@ public:
   Vector_2 operator+(const VectorC2 &w) const;
   Vector_2 operator-(const VectorC2 &w) const;
   Vector_2 operator-() const;
-  FT operator*(const VectorC2 &w) const;
   FT squared_length() const;
   Vector_2 operator/(const FT &c) const;
   Direction_2 direction() const;
@@ -217,14 +222,6 @@ VectorC2<R>::operator-() const
 template < class R >
 CGAL_KERNEL_INLINE
 typename VectorC2<R>::FT
-VectorC2<R>::operator*(const VectorC2<R> &w) const
-{
-  return x() * w.x() + y() * w.y();
-}
-
-template < class R >
-CGAL_KERNEL_INLINE
-typename VectorC2<R>::FT
 VectorC2<R>::squared_length() const
 {
   return CGAL_NTS square(x()) + CGAL_NTS square(y());
@@ -244,7 +241,7 @@ inline
 typename VectorC2<R>::Direction_2
 VectorC2<R>::direction() const
 {
-  return Direction_2(*this);
+  return Direction_2(x(), y());
 }
 
 template < class R >

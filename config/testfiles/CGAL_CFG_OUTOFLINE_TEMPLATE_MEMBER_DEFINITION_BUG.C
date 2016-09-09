@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG.C,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:14:51 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.9 $ $Date: 2004/08/18 21:48:52 $
+// $Name:  $
 //
 // Author(s)     : Radu Ursu
 
@@ -31,8 +31,7 @@
 //| The flag CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG is set,
 //| if a compiler does not support the definition of member templates
 //| out of line, i.e. outside class scope. The solution is to put the
-//| definition inside the class. This is a feature of cl1200 and
-//| cl1300.
+//| definition inside the class. This is a feature of SunPro 5.5.
 
 template <class A>
 class B {
@@ -40,15 +39,19 @@ public:
   typedef A Res;
 
   template<class C>
-    Res fct(C *i);
+  Res fct(C *i);
 };
 
 template<class A>
 template<class C>  //syntax error
 typename B<A>::Res
-B<A>::fct(C *i){
+B<A>::fct(C *i)
+{
+  typedef typename B<A>::Res R;
+  return R();
 }
 
-int main(){
+int main()
+{
   return 0;
 }

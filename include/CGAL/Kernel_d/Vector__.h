@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Vector__.h,v $
-// $Revision: 1.18 $ $Date: 2003/10/21 12:19:32 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.18.6.1 $ $Date: 2004/12/04 15:16:44 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -190,12 +190,12 @@ Vector_<NT_,AL_>& operator=(const Vector_<NT_,AL_>& vec)
     return *this;
 
   register int n = vec.d_;
-  if (n != d_) { 
+  if (n != d_) {
     if (d_ > 0) deallocate_vec_space(v_,d_);
     d_=n;
+    if (n > 0) allocate_vec_space(v_,n);
+    else v_ = (NT*)0;
   }
-  if (n > 0) allocate_vec_space(v_,n);
-  else v_ = (NT*)0;
 
   while (n--) v_[n] = vec.v_[n];
   return *this;

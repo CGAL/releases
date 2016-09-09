@@ -1,9 +1,13 @@
-// Copyright (c) 1997-2001  Freie Universitaet Berlin (Germany).
-// All rights reserved.
+// Copyright (c) 2000,2001  Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,18 +15,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/Attic/Conic_misc.h,v $
-// $Revision: 1.4 $ $Date: 2003/09/18 10:23:10 $
-// $Name: CGAL_3_0_1  $
+// $Source: /CVSROOT/CGAL/Packages/Conic_2/include/CGAL/Conic_misc.h,v $
+// $Revision: 1.7 $ $Date: 2004/09/03 17:36:06 $
+// $Name:  $
 //
-// Author(s)     : Bernd Gärtner, Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Bernd Gaertner, Sven Schoenherr <sven@inf.ethz.ch>
 
 #ifndef CGAL_CONIC_MISC_H
 #define CGAL_CONIC_MISC_H
 
-#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
-#  include <CGAL/Optimisation/assertions.h>
-#endif
+#include <cmath>
+#include <CGAL/kernel_assertions.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -57,14 +60,20 @@ NT best_value (NT *values, int nr_values,
         d = (a2*x+a1)*x+a0;
         q = ((b3*x+b2)*x+b1)*x+b0;
         det = d*d*d/(q*q);
-        if (det > 0.0)
+	// if q==0, this root value doesn't qualify for the
+	// best value. Under roundoff errors, q might be very
+	// small but nonzero, so that the value is erroneously 
+	// being considered; however, d should be very small
+	// in this case as well, so that det won't compete
+	// for max_det below.
+        if (CGAL_NTS is_positive(det) && !CGAL_NTS is_zero(q))
             if (!det_positive || (det > max_det)) {
                 max_det = det;
                 best = x;
                 det_positive = true;
             }
     }
-    CGAL_optimisation_precondition (det_positive);
+    CGAL_kernel_precondition (det_positive);
     return best;
 }
 
@@ -77,7 +86,7 @@ int solve_cubic (NT c3, NT c2, NT c1, NT c0,
         // quadratic equation
         if (c2 == 0) {
             // linear equation
-            CGAL_optimisation_precondition (c1 != 0);
+            CGAL_kernel_precondition (c1 != 0);
             r1 = -c0/c1;
             return 1;
         }
@@ -91,8 +100,8 @@ int solve_cubic (NT c3, NT c2, NT c1, NT c0,
             return 1;
         }
         // two real roots
-        r1 = (-c1 + CGAL::sqrt(D))/(2.0*c2);
-        r2 = (-c1 - CGAL::sqrt(D))/(2.0*c2);
+        r1 = (-c1 + CGAL_NTS sqrt(D))/(2.0*c2);
+        r2 = (-c1 - CGAL_NTS sqrt(D))/(2.0*c2);
         return 2;
     }
 
@@ -117,8 +126,8 @@ int solve_cubic (NT c3, NT c2, NT c1, NT c0,
     NT D  = a*a*a/27.0 + b*b/4.0;
     if (D >= 0.0) {
         // real case
-        /***** NT u = cbrt(-b/2.0 + CGAL::sqrt(D)), *****/
-        NT u = exp(log(-b/2.0 + CGAL::sqrt(D))),
+        /***** NT u = cbrt(-b/2.0 + CGAL_NTS sqrt(D)), *****/
+        NT u = exp(log(-b/2.0 + CGAL_NTS sqrt(D))),
                alpha = 1.0 - a/(3.0*u*u);
         if (D == 0) {
             // two distinct real roots
@@ -131,14 +140,14 @@ int solve_cubic (NT c3, NT c2, NT c1, NT c0,
         return 1;
     }
     // complex case
-    NT r_prime   = CGAL::sqrt(-a/3),
+    NT r_prime   = CGAL_NTS sqrt(-a/3),
        phi_prime = acos (-b/(2.0*r_prime*r_prime*r_prime))/3.0,
        u_R       = r_prime * cos (phi_prime),
        u_I       = r_prime * sin (phi_prime);
     // three distinct real roots
     r1 = 2.0*u_R - g2/3.0;
-    r2 = -u_R + u_I*CGAL::sqrt(3.0) - g2/3.0;
-    r3 = -u_R - u_I*CGAL::sqrt(3.0) - g2/3.0;
+    r2 = -u_R + u_I*std::sqrt(3.0) - g2/3.0;
+    r3 = -u_R - u_I*std::sqrt(3.0) - g2/3.0;
     return 3;
 }
 

@@ -16,10 +16,10 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Optimisation_basic/include/CGAL/Optimisation/Construct_point_2.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:22:03 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.10 $ $Date: 2004/09/20 11:28:28 $
+// $Name:  $
 //
-// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
+// Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
 
 #ifndef CGAL_OPTIMISATION_CONSTRUCT_POINT_2_H
 #define CGAL_OPTIMISATION_CONSTRUCT_POINT_2_H
@@ -45,35 +45,39 @@ CGAL_BEGIN_NAMESPACE
 
 // Class declaration
 // =================
-template < class R >
-class Construct_point_2;
+template < class K >
+class _Construct_point_2;
 
 // Class interface
 // ===============
-template < class R_ >
-class Construct_point_2 {
+template < class K_ >
+class _Construct_point_2 {
   public:
     // self
-    typedef  R_                         R;
-    typedef  Construct_point_2<R>       Self;
+    typedef  K_                         K;
+    typedef  _Construct_point_2<K>      Self;
 
     // types
-    typedef  typename R::Point_2        Point;
+    typedef  typename K::Point_2        Point;
 
     // creation
-    Construct_point_2( ) { }
+    _Construct_point_2( ) { }
 
     // operations
     template < class InputIterator >
     Point
     operator() ( int, InputIterator first, InputIterator last) const
     {
-	std::vector<CGAL_TYPENAME_MSVC_NULL R::RT>  coords;
-	std::copy( first, last, std::back_inserter( coords));
-	if ( coords.size() < 3) {
-	    return Point( coords[ 0], coords[ 1]);
+        InputIterator i(first);
+	typename K::RT x = *(i++);
+	typename K::RT y = *(i++);
+	typedef typename K::Construct_point_2 Construct_point_2;
+	Construct_point_2 construct_point_2 = K().construct_point_2_object();
+	if (i==last) {
+	    return construct_point_2(x,y);
 	} else {
-	    return Point( coords[ 0], coords[ 1], coords[ 2]);
+	    typename K::RT h = *(i++);
+	    return construct_point_2(x,y,h); 
 	}
     }
 };

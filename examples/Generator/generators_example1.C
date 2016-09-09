@@ -1,6 +1,4 @@
-// examples/Generator/generators_example1.C          
-// -------------------------------------------------------
-// CGAL example program for point generators.
+// file: examples/Generator/generators_example1.C          
 
 #include <CGAL/Simple_cartesian.h>
 #include <cassert>

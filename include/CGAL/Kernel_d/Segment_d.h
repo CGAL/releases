@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Segment_d.h,v $
-// $Revision: 1.12 $ $Date: 2003/10/21 12:19:29 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.14 $ $Date: 2004/06/23 02:15:28 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_SEGMENT_D_H
@@ -42,6 +42,8 @@ class Segment_d : public Handle_for< Pair_d<p_R> > {
   typedef Pair_d<p_R>      Pair;
   typedef Handle_for<Pair> Base;
   typedef Segment_d<p_R>   Self;
+
+  using Base::ptr;
 
 /*{\Mdefinition 
 An instance $s$ of the data type |Segment_d| is a directed straight
@@ -178,9 +180,9 @@ bool operator==(const Segment_d<R>& t) const
 bool operator!=(const Segment_d<R>& t) const 
 { return !operator==(t); }
 
-friend std::istream& operator>> CGAL_NULL_TMPL_ARGS 
+friend std::istream& operator>> <> 
 (std::istream&, Segment_d<R>&);
-friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS 
+friend std::ostream& operator<< <> 
 (std::ostream&, const Segment_d<R>&);
 
 };  // end of class

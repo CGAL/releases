@@ -1,12 +1,14 @@
 // file          : demo/Triangulation3/demo.C
 // author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
-// Geomview doesn't work on M$ at the moment, so we don't compile this file.
-#if defined(__BORLANDC__) || defined(_MSC_VER)
+#include <CGAL/basic.h>
+
+#ifndef CGAL_USE_GEOMVIEW
 #include <iostream>
 int main()
 {
-  std::cerr << "Geomview doesn't work on Windows, so this demo doesn't work"
+  std::cerr << "Geomview doesn't work on this platform,"
+               " so this demo doesn't work"
             << std::endl;
   return 0;
 }
@@ -16,7 +18,6 @@ int main()
 
 #include <CGAL/Delaunay_triangulation_3.h>
 
-#include <CGAL/IO/Geomview_stream.h>
 #include <CGAL/IO/Triangulation_geomview_ostream_3.h>
 
 #include <iostream>
@@ -60,4 +61,4 @@ int main()
   return 0;
 }
 
-#endif // if defined(__BORLANDC__) || defined(_MSC_VER)
+#endif // CGAL_USE_GEOMVIEW

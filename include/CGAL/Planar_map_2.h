@@ -1,4 +1,4 @@
-// Copyright (c) 1997  Tel-Aviv University (Israel).
+// Copyright (c) 2001  Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Planar_map_2.h,v $
-// $Revision: 1.58 $ $Date: 2003/09/18 10:24:29 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.69 $ $Date: 2004/10/24 09:45:33 $
+// $Name:  $
 //
 // Author(s)     : Iddo Hanniel      <hanniel@math.tau.ac.il>
 //                 Eyal Flato        <flato@post.tau.ac.il>
@@ -33,15 +33,17 @@
 #include <CGAL/Topological_map.h>
 
 #ifndef CGAL_NO_PM_DEFAULT_POINT_LOCATION
-#include <CGAL/Pm_default_point_location.h>
+#include <CGAL/Pm_trapezoid_ric_point_location.h>
 #include <CGAL/Pm_walk_along_line_point_location.h>
 #include <CGAL/Pm_naive_point_location.h>
+#include <CGAL/Pm_triangle_point_location.h>
 #include <CGAL/Pm_point_location_base.h>
 #endif // CGAL_NO_PM_DEFAULT_POINT_LOCATION
 
 // for solving the dynamic cast in the copy constructor, 
 // these lines will be removed after writing 
 // copy construtor for point location.
+#include <CGAL/Pm_trapezoid_ric_point_location.h>
 #include <CGAL/Pm_walk_along_line_point_location.h>
 #include <CGAL/Pm_naive_point_location.h>
 #include <CGAL/Pm_simple_point_location.h>
@@ -80,6 +82,7 @@ public:
   typedef typename Traits::Point_2              Point_2;
   
   typedef Topological_map<Dcel> TPM;
+  typedef typename TPM::Halfedge                Halfedge;
   typedef typename TPM::Vertex_iterator         Vertex_iterator;
   typedef typename TPM::Halfedge_iterator       Halfedge_iterator;
   typedef typename TPM::Edge_iterator           Edge_iterator;
@@ -117,6 +120,18 @@ public:
   typedef Point_2                               Point;
   typedef X_monotone_curve_2                    X_curve;
 
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using TPM::halfedges_begin;
+  using TPM::halfedges_end;
+  using TPM::vertices_begin;
+  using TPM::vertices_end;
+  using TPM::number_of_faces;
+  using TPM::unbounded_face;
+  using TPM::u_face;
+  using TPM::d;
+#endif
+
   // Implementation Types
   // --------------------
 protected:
@@ -151,13 +166,16 @@ public:
     UNBOUNDED_FACE
   } Locate_type;
 
-  //! A parameter-less constructor.
+  /*! Parameterless Constructor */
   Planar_map_2();
 
-  //! A copy constructor.
+  /*! Copy Constructor. */
   Planar_map_2(const Self & pm);
 
-  //! A destructor
+  /*! Assignment Operator */
+  Self & operator=(const Self & pm);
+  
+  /*! Destructor */
   virtual ~Planar_map_2();
     
   //! A constructor given a point-location parameter.
@@ -482,6 +500,7 @@ protected:
   /////////////////////////////////////////////////////////
   // Assignment functions 
   // Those are temporary functions and it should not be used
+
 public:
   void assign(const Self &pm)
   {
@@ -490,8 +509,6 @@ public:
     // bb->assign(pm->bb);
     // pl->assign(pm->pl);
   }
-
-  Self& operator=(const Self& pm);
 
   // used in implementation of operator=(
   void clear();
@@ -816,6 +833,13 @@ private:
   void update_subdivision(Point_node& point_node, 
 			  Change_notification *pm_change_notf);
 
+protected:
+  // Remove the Halfedge_const_handle protections
+  static inline Halfedge_handle
+  Halfedge_handle_unconst(const Halfedge_const_handle hc)
+  {
+    return Halfedge_handle((Halfedge*)&*&*hc);
+  }
 };
 
 //-----------------------------------------------------------------------------
@@ -831,7 +855,7 @@ Planar_map_2< Dcel, Traits >::Planar_map_2()
   use_delete_traits = true;
 
 #ifndef CGAL_NO_PM_DEFAULT_POINT_LOCATION
-  pl = new Pm_default_point_location<Self>;
+  pl = new Pm_trapezoid_ric_point_location<Self>;
   use_delete_pl = true;
   pl->init(*this,*traits);
 #else
@@ -878,7 +902,7 @@ Planar_map_2(
   if (pl_ptr == NULL)
   {
 #ifndef CGAL_NO_PM_DEFAULT_POINT_LOCATION
-    pl = new Pm_default_point_location<Self>;
+    pl = new Pm_trapezoid_ric_point_location<Self>;
     use_delete_pl = true;
     pl->init(*this,*traits);
 #else
@@ -931,7 +955,7 @@ Planar_map_2(
   if (pl_ptr == NULL)
   {
 #ifndef CGAL_NO_PM_DEFAULT_POINT_LOCATION
-    pl = new Pm_default_point_location<Self>;
+    pl = new Pm_trapezoid_ric_point_location<Self>;
     use_delete_pl = true;
     pl->init(*this,*traits);
 #else
@@ -960,7 +984,7 @@ Planar_map_2(
   }  
 }
 
-/*! A copy constructor.
+/*! Copy Constructor.
  * \todo get rid of the cast. Instead implement a copy constructor and a clone
  * operation for the various point location strategies.
  */
@@ -968,11 +992,14 @@ template < class Dcel, class Traits >
 Planar_map_2< Dcel, Traits >::
 Planar_map_2(const Planar_map_2<Dcel, Traits> & pm)
 {
+  typedef Pm_trapezoid_ric_point_location<Self>
+    Pm_trapezoid_ric_point_location;
+  
   // doing the same as Planar_map_2(pm.get_traits(),pm.get_point_location(),
   //                                pm.get_point_bbox());
     
-  typedef Pm_naive_point_location<Planar_map_2<Dcel,Traits> >  Pm_naive;
-  typedef Pm_naive*                                    Pm_naive_pointer;
+  typedef Pm_naive_point_location<Self> Pm_naive;
+  typedef Pm_naive*                     Pm_naive_pointer;
 
   traits = new Traits_wrap();
   use_delete_traits = true;
@@ -992,7 +1019,16 @@ Planar_map_2(const Planar_map_2<Dcel, Traits> & pm)
   else{
     //cout<<"Default"<<std::endl;
 #ifndef CGAL_NO_PM_DEFAULT_POINT_LOCATION
-    pl = new Pm_default_point_location<Self>;
+    pl =
+      new Pm_trapezoid_ric_point_location(*(Pm_trapezoid_ric_point_location*)
+                                          pm.pl);
+    //! \todo Unify the different point location copy constructors;
+    ((Pm_trapezoid_ric_point_location*)pl) -> set_planar_map(this);
+    use_delete_pl = true;
+    bb=init_default_bounding_box((Traits*)traits);
+    use_delete_bb=true;
+    bb->init(*this,*traits);
+    return;
 #else
     CGAL_assertion_msg( false,
     "No default point location is defined; you must supply one.");
@@ -1056,12 +1092,14 @@ insert_in_face_interior(
   h->set_curve(cv);  //should set the curve of the twin as well but for now
   h->twin()->set_curve(cv);
   
-  //pl->insert(h);  //maybe should be above
   //iddo - for arrangement
-  pl->insert(h,cv);
+  //pl->insert(h,cv);
 
   h->source()->set_point(traits->curve_source(cv));
   h->target()->set_point(traits->curve_target(cv));
+
+  //idit - moved for point location with triangulation
+  pl->insert(h,cv);
 
   if (en != NULL)
   {
@@ -1073,7 +1111,19 @@ insert_in_face_interior(
 
 }
 
-/*!
+/*! Inserts the given curve cv into the map. One
+ * endpoint of cv is the point of the target vertex, v, of the given halfedge
+ * h. The returened twin halfedge is inserted immediately after h in the
+ * circular list of halfedges that share the same target vertex v. This
+ * method is the quick version of insert_from_vertex(), as the search for the
+ * previous halfedge in the circular list of halfedges that share the same
+ * target vertex is unnecessary, saving computation time.
+ * \param cv the given curve.
+ * \param prev the reference halfedge. Its target vertex v, is already
+ * in the map.
+ * \param en the notification class. It's default value is NULL, which
+ * implies no notification on insertion.
+ * \return a handle to a new halfedge that has v as its source vertex.
  */
 template < class Dcel, class Traits >
 inline
@@ -1089,25 +1139,27 @@ insert_from_vertex
   )
 {
   CGAL_precondition_msg(traits->point_equal(prev->target()->point(), 
-                                              traits->curve_source(cv)) ||
+                                            traits->curve_source(cv)) ||
                         traits->point_equal(prev->target()->point(), 
-                                              traits->curve_target(cv)),
+                                            traits->curve_target(cv)),
   "Point of target vertex of input halfedge should be a curve endpoint.");
 
   Halfedge_handle h = Topological_map<Dcel>::insert_from_vertex(prev);  
   h->set_curve(cv);  
   h->twin()->set_curve(cv);
 
-  pl->insert(h, cv);            // for arrangement
-
   bool source = traits->point_equal(prev->target()->point(), 
-                                      traits->curve_source(cv));
+                                    traits->curve_source(cv));
   (source) ?
     h->target()->set_point(traits->curve_target(cv)) :
     h->target()->set_point(traits->curve_source(cv));
 
-  if (en != NULL) en->add_edge(cv, h, true, false);
+  // Insert the curve into the auxiliary point-location data structure:
+  pl->insert(h, cv);
 
+  if (en != NULL) {
+    en->add_edge(cv, h, source, false);
+  }
   return h;
 }
 
@@ -1300,6 +1352,7 @@ insert_at_vertices
   //pl->insert(h);
   //iddo - for arrangement
   pl->insert(h, cv);
+
   // Notifying change.
   if (en != NULL) {
     Face_handle orig_face = prev1_before_prev2 ? h->twin()->face() : h->face();
@@ -1548,8 +1601,8 @@ insert(const typename Planar_map_2< Dcel, Traits >::X_monotone_curve_2 & cv,
   Point_2 tgt = traits->curve_target(cv);
     
   // The point location may not change the bounding box.
-  Halfedge_handle h1 = ((const Point_location_base*)pl)->locate(src, lt1);
-  Halfedge_handle h2 = ((const Point_location_base*)pl)->locate(tgt, lt2);
+  Halfedge_handle h1 = Halfedge_handle_unconst(((const Point_location_base*)pl)->locate(src, lt1));
+  Halfedge_handle h2 = Halfedge_handle_unconst(((const Point_location_base*)pl)->locate(tgt, lt2));
    
   // In principal, the result of a locate should not be an edge, 
   // because the planar map does not accept proper intersections.
@@ -1604,17 +1657,17 @@ split_edge
  const typename Planar_map_2< Dcel, Traits >::X_monotone_curve_2   & c2,
  Change_notification                                    * en )
 {
-  CGAL_precondition(traits->point_equal(traits->curve_source(c2),
-                                          traits->curve_target(c1)));
+  //CGAL_precondition(traits->point_equal(traits->curve_source(c2),
+    //                                      traits->curve_target(c1)));
 
-  CGAL_precondition(traits->point_equal(traits->curve_source(c1),
+  CGAL_precondition((traits->point_equal(traits->curve_source(c1),
                                           e->source()->point()) &&
                     traits->point_equal(traits->curve_target(c2),
-                                          e->target()->point()) ||
-                    traits->point_equal(traits->curve_source(c1),
+                                          e->target()->point())) ||
+                   (traits->point_equal(traits->curve_source(c1),
                                           e->target()->point()) &&
                     traits->point_equal(traits->curve_target(c2),
-                                          e->source()->point()));
+                                          e->source()->point())));
 
   X_monotone_curve_2 cv(e->curve());
 
@@ -1658,13 +1711,32 @@ merge_edge
  const typename Planar_map_2< Dcel, Traits >::X_monotone_curve_2 & cv, 
  Change_notification * en)
 {
+	//std::cout << "cv source " << traits->curve_source(cv) << std::endl;
+	//std::cout << "cv target " << traits->curve_target(cv) << std::endl;
+	//std::cout << "e1 source " << e1->source()->point() << std::endl;
+	//std::cout << "e1 target " << e1->target()->point() << std::endl;
+	//std::cout << "e2 source " << e2->source()->point() << std::endl;
+	//std::cout << "e2 target " << e2->target()->point() << std::endl;
+	//std::cout << "e1 source degree" << e1->source()->degree() << std::endl;
+	//std::cout << "e1 target degree" << e1->target()->degree() << std::endl;
+	//std::cout << "e2 source degree" << e2->source()->degree() << std::endl;
+	//std::cout << "e2 target degree" << e2->target()->degree() << std::endl;
+
   CGAL_precondition((traits->point_equal(traits->curve_source(cv),
                                            e1->source()->point()) &&
                      traits->point_equal(traits->curve_target(cv),
                                            e2->target()->point())) || 
-                    (traits->point_equal(traits->curve_target(cv),
+                    (traits->point_equal(traits->curve_source(cv),
                                            e1->source()->point()) &&
-                     traits->point_equal(traits->curve_source(cv),
+                     traits->point_equal(traits->curve_target(cv),
+                                           e2->source()->point())) ||
+			         (traits->point_equal(traits->curve_source(cv),
+                                           e1->target()->point()) &&
+                     traits->point_equal(traits->curve_target(cv),
+                                           e2->source()->point())) || 
+                    (traits->point_equal(traits->curve_source(cv),
+                                           e1->target()->point()) &&
+                     traits->point_equal(traits->curve_target(cv),
                                            e2->target()->point())));
 
   // problematic: since we assume e1 will be the new merged halfedge
@@ -1909,7 +1981,7 @@ update_subdivision(Point_node& point_node,
     // if the point is the source of the curve, we ignore it for now.
     // the curve will be handled when we get to its target
       if (traits->point_equal(traits->curve_source(cv_iter->get_curve()),
-                                point_node.get_point().point()))  {
+                              point_node.get_point().point()))  {
       continue;
     }
 
@@ -1958,3 +2030,4 @@ update_subdivision(Point_node& point_node,
 CGAL_END_NAMESPACE
 
 #endif
+

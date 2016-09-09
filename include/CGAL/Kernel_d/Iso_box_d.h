@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Iso_box_d.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:19:21 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/06/23 02:15:26 $
+// $Name:  $
 //
 // Authors       : Hans Tangelder <hanst@cs.uu.nl>, Michael Hoffmann
 
@@ -250,14 +250,6 @@ namespace CGAL {
       
     };
 
-#ifdef CGAL_CFG_NESTED_CLASS_TEMPLATE_BUG
-    template < typename Stupid, typename MS, typename VC >
-    struct Instantiator {
-      typedef typename Stupid::template Iterator<MS,VC>::type type;
-    };
-#endif // CGAL_CFG_NESTED_CLASS_TEMPLATE_BUG
-
-    
   } // namespace Kernel_d
 
   template < typename Kernel_ > 
@@ -271,21 +263,16 @@ namespace CGAL {
     typedef Handle_for<Rep>                  Base;
     typedef Iso_box_d<Kernel>                Self;
 
+    using Base::ptr;
+
     typedef typename Kernel::RT       RT;
     typedef typename Kernel::FT       FT;
     typedef typename Kernel::Point_d  Point_d;
     typedef typename Kernel::Rep_tag  Rep_tag;
    
     typedef CGAL::Kernel_d::Coordinate_iterator<Rep_tag>           CIRT;
-#ifndef CGAL_CFG_NESTED_CLASS_TEMPLATE_BUG
     typedef typename CIRT::template Iterator<Point_d,Min<RT> >::type  MinIter;
     typedef typename CIRT::template Iterator<Point_d,Max<RT> >::type  MaxIter;
-#else
-    typedef Kernel_d::Instantiator<CIRT,Point_d,Min<RT> >  Minstant;
-    typedef Kernel_d::Instantiator<CIRT,Point_d,Max<RT> >  Maxstant;
-    typedef typename Minstant::type                        MinIter;
-    typedef typename Maxstant::type                        MaxIter;
-#endif // ! CGAL_CFG_NESTED_CLASS_TEMPLATE_BUG
 
     typedef Kernel_d::Begin            Begin; 
     typedef Kernel_d::End              End; 
@@ -293,7 +280,8 @@ namespace CGAL {
 
     RT volume_nominator() const
     {
-      typedef typename CIRT::Iterator<Point_d,std::minus<RT> >::type Iter;
+      typedef typename CIRT::template Iterator<Point_d,std::minus<RT> >::type
+	      Iter;
       Iter b(ptr()->upper, ptr()->lower, Begin());
       Iter e(ptr()->upper, ptr()->lower, Cartesian_end());
       return std::accumulate(b, e, RT(1), std::multiplies<RT>());
@@ -335,7 +323,8 @@ public:
     Bounded_side bounded_side(const Point_d& p) const
     { 
       CGAL_precondition(p.dimension() == dimension());
-      typedef typename CIRT::Iterator<Point_d,Compare<RT> >::type Iter;
+      typedef typename CIRT::template Iterator<Point_d,Compare<RT> >::type
+	      Iter;
       
       Iter il(p, ptr()->lower, Begin());
       Iter ilend(p, ptr()->lower, Cartesian_end());
@@ -383,7 +372,8 @@ public:
     
     bool is_degenerate() const
     {
-      typedef typename CIRT::Iterator<Point_d,std::equal_to<RT> >::type Iter;
+      typedef typename CIRT::
+	      template Iterator<Point_d,std::equal_to<RT> >::type Iter;
       // omit homogenizing coordinates
       Iter e(ptr()->lower, ptr()->upper, Cartesian_end());
       return 

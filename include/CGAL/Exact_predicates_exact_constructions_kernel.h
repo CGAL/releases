@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Exact_predicates_exact_constructions_kernel.h,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:18:03 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/09/20 22:54:02 $
+// $Name:  $
 //
 // Author(s)     : Menelaos Karavelas, Sylvain Pion
 
@@ -25,6 +25,7 @@
 #define CGAL_EXACT_PREDICATES_EXACT_CONSTRUCTIONS_KERNEL_H
 
 #include <CGAL/Simple_cartesian.h>
+#include <CGAL/Filtered_kernel.h>
 #include <CGAL/Lazy_exact_nt.h>
 
 #ifdef CGAL_USE_GMP
@@ -37,10 +38,10 @@
 CGAL_BEGIN_NAMESPACE
 
 #ifdef CGAL_USE_GMP
-typedef Simple_cartesian< Lazy_exact_nt< Gmpq > >              
+typedef Filtered_kernel<Simple_cartesian<Lazy_exact_nt<Gmpq > > >
         Exact_predicates_exact_constructions_kernel;
 #else
-typedef Simple_cartesian< Lazy_exact_nt< Quotient<MP_Float> > >
+typedef Filtered_kernel<Simple_cartesian<Lazy_exact_nt<Quotient<MP_Float> > > >
         Exact_predicates_exact_constructions_kernel;
 #endif
 

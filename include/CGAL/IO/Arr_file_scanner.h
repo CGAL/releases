@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/Arr_file_scanner.h,v $
-// $Revision: 1.5 $ $Date: 2003/09/18 10:19:46 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/09/23 19:37:55 $
+// $Name:  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 
@@ -52,6 +52,7 @@ CGAL_BEGIN_NAMESPACE
 template <class Arrangement>
 class Arr_file_scanner : public  Pm_file_scanner<Arrangement> {
 public:
+  typedef Pm_file_scanner<Arrangement> Base;
   typedef typename Arrangement::Curve_node                Curve_node;
   typedef typename Arrangement::Subcurve_node             Subcurve_node;
   typedef typename Arrangement::Edge_node                 Edge_node;
@@ -60,6 +61,12 @@ public:
   typedef typename Traits::Point                         Point;
   typedef typename Traits::X_curve                       X_curve;
   typedef typename Traits::Curve                         Curve;
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::skip_comment;
+  using Base::in;
+#endif
+
 
   Arr_file_scanner(std::istream& in) : Pm_file_scanner<Arrangement>(in) {}
 

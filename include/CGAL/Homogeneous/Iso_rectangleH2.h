@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/Iso_rectangleH2.h,v $
-// $Revision: 1.12 $ $Date: 2003/10/21 12:16:10 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.15 $ $Date: 2004/02/19 20:26:35 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  
@@ -30,16 +30,16 @@ CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class Iso_rectangleH2
-  : public R_::template Handle<Twotuple<typename R_::Point_2> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::RT                   RT;
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef Twotuple<Point_2>                        rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Twotuple<Point_2>                        Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                    R;
@@ -100,27 +100,27 @@ Iso_rectangleH2(const typename Iso_rectangleH2<R>::Point_2& p,
   {
       if ( px_g_qx && py_g_qy )
       {
-          initialize_with( rep(q,p) );
+          base = Rep(q, p);
       }
       else
       {
          if ( px_g_qx )
          {
-             initialize_with( rep(
+             base = Rep(
              Point_2(q.hx()*p.hw(), p.hy()*q.hw(), q.hw()*p.hw() ),
-             Point_2(p.hx()*q.hw(), q.hy()*p.hw(), q.hw()*p.hw() )) );
+             Point_2(p.hx()*q.hw(), q.hy()*p.hw(), q.hw()*p.hw() ));
          }
          if ( py_g_qy )
          {
-             initialize_with( rep(
+             base = Rep(
              Point_2(p.hx()*q.hw(), q.hy()*p.hw(), q.hw()*p.hw() ),
-             Point_2(q.hx()*p.hw(), p.hy()*q.hw(), q.hw()*p.hw() )) );
+             Point_2(q.hx()*p.hw(), p.hy()*q.hw(), q.hw()*p.hw() ));
          }
       }
   }
   else
   {
-      initialize_with( rep(p,q) );
+      base = Rep(p, q);
   }
 }
 
@@ -131,12 +131,12 @@ Iso_rectangleH2(const typename Iso_rectangleH2<R>::Point_2& left,
                 const typename Iso_rectangleH2<R>::Point_2& right,
                 const typename Iso_rectangleH2<R>::Point_2& bottom,
                 const typename Iso_rectangleH2<R>::Point_2& top)
-  : base(rep(Point_2(left.hx()   * bottom.hw(),
-                     bottom.hy() * left.hw(),
-                     left.hw()   * bottom.hw()),
-             Point_2(right.hx()  * top.hw(),
-                     top.hy()    * right.hw(),
-                     right.hw()  * top.hw())))
+  : base(Point_2(left.hx()   * bottom.hw(),
+                 bottom.hy() * left.hw(),
+                 left.hw()   * bottom.hw()),
+         Point_2(right.hx()  * top.hw(),
+                 top.hy()    * right.hw(),
+                 right.hw()  * top.hw()))
 {
   CGAL_kernel_precondition(!less_x(right, left));
   CGAL_kernel_precondition(!less_y(top, bottom));
@@ -146,8 +146,7 @@ template < class R >
 inline
 Iso_rectangleH2<R>::Iso_rectangleH2(const RT& min_hx, const RT& min_hy, 
                                     const RT& max_hx, const RT& max_hy)
-  : base( rep( Point_2(min_hx, min_hy), 
-               Point_2(max_hx, max_hy)))
+  : base(Point_2(min_hx, min_hy), Point_2(max_hx, max_hy))
 {}
 
 template < class R >
@@ -155,10 +154,8 @@ inline
 Iso_rectangleH2<R>::Iso_rectangleH2(const RT& min_hx, const RT& min_hy, 
                                     const RT& max_hx, const RT& max_hy,
                                     const RT& hw)
-{
-  initialize_with( rep( Point_2(min_hx, min_hy, hw), 
-                        Point_2(max_hx, max_hy, hw)) );
-}
+  : base(Point_2(min_hx, min_hy, hw), Point_2(max_hx, max_hy, hw))
+{}
 
 template < class R >
 inline
@@ -176,13 +173,13 @@ template < class R >
 inline
 const typename Iso_rectangleH2<R>::Point_2 &
 Iso_rectangleH2<R>::min() const
-{ return  Ptr()->e0; }
+{ return get(base).e0; }
 
 template < class R >
 inline
 const typename Iso_rectangleH2<R>::Point_2 &
 Iso_rectangleH2<R>::max() const
-{ return  Ptr()->e1; }
+{ return get(base).e1; }
 
 template < class R >
 inline

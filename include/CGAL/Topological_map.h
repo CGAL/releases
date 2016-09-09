@@ -12,52 +12,50 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Topological_map.h,v $
-// $Revision: 1.11 $ $Date: 2003/09/18 10:24:38 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.20 $ $Date: 2004/07/08 14:25:56 $
+// $Name:  $
 //
 // Author(s)     : Iddo Hanniel <hanniel@math.tau.ac.il>
 //                 Oren Nechushtan <theoren@math.tau.ac.il>
 #ifndef  CGAL_TOPOLOGICAL_MAP_H
 #define  CGAL_TOPOLOGICAL_MAP_H
 
-#include <CGAL/Polyhedron_iterator_3.h>
+#include <CGAL/HalfedgeDS_iterator.h>
 #include <CGAL/Planar_map_2/Pm_traits_wrap_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template <class Dcel >
-class Topological_map
-{
-
+class Topological_map {
 protected:
-  typedef typename Dcel::Vertex	         dvertex;
-  typedef typename Dcel::Halfedge        dedge;
-  typedef typename Dcel::Face	         dface;
+  typedef typename Dcel::Vertex                 dvertex;
+  typedef typename Dcel::Halfedge               dedge;
+  typedef typename Dcel::Face                   dface;
 
 public:
-  typedef typename Dcel::Size            Size;
-  typedef typename Dcel::size_type       size_type;
-  typedef typename Dcel::difference_type difference_type;
-  typedef typename Dcel::difference_type Difference;
+  typedef typename Dcel::Size                   Size;
+  typedef typename Dcel::size_type              size_type;
+  typedef typename Dcel::difference_type        difference_type;
+  typedef typename Dcel::difference_type        Difference;
   
-  typedef typename Dcel::iterator_category      iterator_category;
+  typedef typename Dcel::iterator_category              iterator_category;
 
   // These extra (internal) typedefs are necessary to make
   // SunPro CC 4.2 happy. (And they are used.)
-  typedef typename  Dcel::Vertex_iterator          TR_VI;
-  typedef typename  Dcel::Vertex_const_iterator    TR_C_VI;
+  typedef typename  Dcel::Vertex_iterator               TR_VI;
+  typedef typename  Dcel::Vertex_const_iterator         TR_C_VI;
 
-  typedef typename  Dcel::Halfedge_iterator        TR_HI;
-  typedef typename  Dcel::Halfedge_const_iterator  TR_C_HI;
+  typedef typename  Dcel::Halfedge_iterator             TR_HI;
+  typedef typename  Dcel::Halfedge_const_iterator       TR_C_HI;
 
-  typedef typename  Dcel::Edge_iterator        TR_EI;
-  typedef typename  Dcel::Edge_const_iterator  TR_C_EI;
+  typedef typename  Dcel::Edge_iterator                 TR_EI;
+  typedef typename  Dcel::Edge_const_iterator           TR_C_EI;
 
-  typedef typename  Dcel::Face_iterator           TR_FI;
-  typedef typename  Dcel::Face_const_iterator     TR_C_FI;
+  typedef typename  Dcel::Face_iterator                 TR_FI;
+  typedef typename  Dcel::Face_const_iterator           TR_C_FI;
     
-  typedef typename Dcel::Face::Holes_iterator TR_HOI;
-  typedef typename Dcel::Face::Holes_const_iterator TR_C_HOI;
+  typedef typename Dcel::Face::Holes_iterator           TR_HOI;
+  typedef typename Dcel::Face::Holes_const_iterator     TR_C_HOI;
 
 public:
   class Vertex;
@@ -69,109 +67,84 @@ public:
   friend Face;
 #endif
 
-  typedef _Polyhedron_iterator<
-  TR_VI,
-  Vertex,
-  Difference, iterator_category> Vertex_iterator;
+  typedef I_HalfedgeDS_iterator<TR_VI, Vertex, Difference, iterator_category>
+  Vertex_iterator;
   
-  typedef _Polyhedron_const_iterator<
-  TR_C_VI, TR_VI,
-  Vertex,
-  Difference, iterator_category>       Vertex_const_iterator;
+  typedef I_HalfedgeDS_const_iterator<TR_C_VI, TR_VI, Vertex,
+                                      Difference, iterator_category>
+  Vertex_const_iterator;
   
-  typedef _Polyhedron_iterator<
-  TR_HI,
-  Halfedge,
-  Difference, iterator_category>       Halfedge_iterator;
+  typedef I_HalfedgeDS_iterator<TR_HI, Halfedge, Difference,
+                                iterator_category>
+  Halfedge_iterator;
   
-  typedef _Polyhedron_const_iterator<
-  TR_C_HI, TR_HI,
-  Halfedge,
-  Difference, iterator_category>       Halfedge_const_iterator;
+  typedef I_HalfedgeDS_const_iterator<TR_C_HI, TR_HI, Halfedge, Difference,
+                                      iterator_category>
+  Halfedge_const_iterator;
 
-  typedef _Polyhedron_iterator<
-  TR_EI,
-  Halfedge,
-  Difference, iterator_category>       Edge_iterator;
+  typedef I_HalfedgeDS_iterator<TR_EI, Halfedge, Difference,
+                                iterator_category>
+  Edge_iterator;
   
-  typedef _Polyhedron_const_iterator<
-  TR_C_EI, TR_EI,
-  Halfedge,
-  Difference, iterator_category>       Edge_const_iterator;
+  typedef I_HalfedgeDS_const_iterator<TR_C_EI, TR_EI, Halfedge,
+                                      Difference, iterator_category>
+  Edge_const_iterator;
   
-  typedef _Polyhedron_iterator<
-  TR_FI,
-  Face,
-  Difference, iterator_category>       Face_iterator;
+  typedef I_HalfedgeDS_iterator<TR_FI, Face, Difference, iterator_category>
+  Face_iterator;
   
-  typedef _Polyhedron_const_iterator<
-  TR_C_FI, TR_FI,
-  Face,
-  Difference, iterator_category>       Face_const_iterator;
+  typedef I_HalfedgeDS_const_iterator<TR_C_FI, TR_FI, Face, Difference,
+                                      iterator_category>
+  Face_const_iterator;
 
-  typedef _Polyhedron_facet_circ<
-  Halfedge,
-  Halfedge_iterator,
-  Forward_circulator_tag>            Ccb_halfedge_circulator;
+  typedef _HalfedgeDS_facet_circ<Halfedge, Halfedge_iterator,
+                                 Forward_circulator_tag>
+  Ccb_halfedge_circulator;
 
-  typedef _Polyhedron_vertex_circ<
-  Halfedge,
-  Halfedge_iterator,
-  Forward_circulator_tag>            Halfedge_around_vertex_circulator;
+  typedef _HalfedgeDS_vertex_circ<Halfedge, Halfedge_iterator,
+                                  Forward_circulator_tag>
+  Halfedge_around_vertex_circulator;
 
-  typedef _Polyhedron_facet_const_circ<
-  Halfedge,
-  Halfedge_const_iterator,
-  Forward_circulator_tag>       Ccb_halfedge_const_circulator;
+  typedef _HalfedgeDS_facet_const_circ<Halfedge, Halfedge_const_iterator,
+                                       Forward_circulator_tag>
+  Ccb_halfedge_const_circulator;
   
-  typedef _Polyhedron_vertex_const_circ<
-  Halfedge,
-  Halfedge_const_iterator,
-  Forward_circulator_tag>      Halfedge_around_vertex_const_circulator;
+  typedef _HalfedgeDS_vertex_const_circ<Halfedge, Halfedge_const_iterator,
+                                        Forward_circulator_tag>
+  Halfedge_around_vertex_const_circulator;
 
-  typedef _Polyhedron_iterator<
-  TR_HOI,
-  Ccb_halfedge_circulator,
-  Difference, std::bidirectional_iterator_tag>       Holes_iterator;
+  typedef I_HalfedgeDS_iterator<TR_HOI, Ccb_halfedge_circulator,
+                                Difference, std::bidirectional_iterator_tag>
+  Holes_iterator;
   
-  typedef _Polyhedron_const_iterator<
-  TR_C_HOI, TR_HOI,
-  Ccb_halfedge_const_circulator,
-  Difference, std::bidirectional_iterator_tag>       Holes_const_iterator;
+  typedef I_HalfedgeDS_const_iterator<TR_C_HOI, TR_HOI,
+                                      Ccb_halfedge_const_circulator,
+                                      Difference,
+                                      std::bidirectional_iterator_tag>
+  Holes_const_iterator;
 
+  typedef Vertex_iterator               Vertex_handle;
+  typedef Halfedge_iterator             Halfedge_handle;
+  typedef Face_iterator                 Face_handle;
 
-  
-  typedef Vertex_iterator Vertex_handle;
-  typedef Halfedge_iterator Halfedge_handle;
-  typedef Face_iterator Face_handle;
-
-  typedef Vertex_const_iterator Vertex_const_handle;
-  typedef Halfedge_const_iterator Halfedge_const_handle;
-  typedef Face_const_iterator Face_const_handle;
+  typedef Vertex_const_iterator         Vertex_const_handle;
+  typedef Halfedge_const_iterator       Halfedge_const_handle;
+  typedef Face_const_iterator           Face_const_handle;
   
 
   /**************************************************************/
   /********************* V e r t e x ****************************/
   /**************************************************************/
   /**************************************************************/
-  class Vertex : public Dcel::Vertex
-  {
+  class Vertex : public Dcel::Vertex {
   public:
     typedef typename Dcel::Vertex Base;
 
-    Vertex()
-    {}
-    
+    Vertex() {}
   
-    //    Vertex(dvertex *v) : dvertex(*v) 
-    Vertex(Base *v) : Base(*v) 
-    {}
+    Vertex(Base *v) : Base(*v) {}
 
-
-    //    Vertex(dvertex& v) : dvertex(v) 
-    Vertex(Base& v) : Base(v) 
-    {}
-
+    Vertex(Base& v) : Base(v) {}
 
     bool is_incident_edge(Halfedge_const_handle e) const
     {
@@ -183,11 +156,11 @@ public:
       //      const typename Dcel::Halfedge* e_ptr=(dvertex::halfedge());
       const typename Dcel::Halfedge* e_ptr=(Base::halfedge());
       
-      do{
+      do {
         if ( e_ptr->face() == &(*f) )
           return true;
 
-        e_ptr=e_ptr->opposite()->next();
+        e_ptr = e_ptr->opposite()->next();
         //      } while (e_ptr != dvertex::halfedge());
       } while (e_ptr != Base::halfedge());
     
@@ -197,17 +170,16 @@ public:
     unsigned int degree() const
     {
       //      const typename Dcel::Halfedge* e=dvertex::halfedge();
-      const typename Dcel::Halfedge* e=Base::halfedge();
-      const typename Dcel::Halfedge* e1=e;
-      int n=0;
-      if (e1!=NULL)
-      {
+      const typename Dcel::Halfedge * e = Base::halfedge();
+      const typename Dcel::Halfedge * e1 = e;
+      int n = 0;
+      if (e1 != NULL) {
         do {
           n++;
-          e1=e1->next()->opposite();
-        } while (e1!=e);
+          e1 = e1->next()->opposite();
+        } while (e1 != e);
       }
-    return n;
+      return n;
     }
 
     Halfedge_around_vertex_circulator incident_halfedges() 
@@ -235,82 +207,66 @@ public:
   /********************* Halfedge *******************************/
   /**************************************************************/
   /**************************************************************/
-  class Halfedge : public Dcel::Halfedge
-  {
+  class Halfedge : public Dcel::Halfedge {
   public:
     typedef typename Dcel::Halfedge Base;
 
-    Halfedge()
-    {}
+    Halfedge() {}
     
-    //    Halfedge(dedge *e) : dedge(*e) {}
     Halfedge(Base *e) : Base(*e) {}
 
-    //    Halfedge(dedge& e) : dedge(e) {}
     Halfedge(Base& e) : Base(e) {}
-
 
     Vertex_handle source()
     {
-      //      return TR_VI(dedge::opposite()->vertex()); 
       return TR_VI(Base::opposite()->vertex()); 
     }
 
     Vertex_const_handle source() const
     {
-      //      return TR_C_VI(dedge::opposite()->vertex()); 
       return TR_C_VI(Base::opposite()->vertex()); 
     }
     
     Vertex_handle target()	
     {
-      //return TR_VI(dedge::vertex());  
       return TR_VI(Base::vertex());  
     }
 
     Vertex_const_handle target() const	
     {
-      //return TR_C_VI(dedge::vertex()); 
       return TR_C_VI(Base::vertex()); 
     }
     
     Face_handle face() 
     {
-      //return TR_FI(dedge::face()); 
       return TR_FI(Base::face()); 
     }
 
     Face_const_handle face() const
     {
-      //return TR_C_FI(dedge::face()); 
       return TR_C_FI(Base::face()); 
     }
     
     Halfedge_handle twin() 
     {
-      //return TR_HI(dedge::opposite()); 
       return TR_HI(Base::opposite()); 
     }
 
     Halfedge_const_handle twin() const 
     {
-      //return TR_C_HI(dedge::opposite()); 
       return TR_C_HI(Base::opposite()); 
     }
     
     Halfedge_handle next_halfedge() 
     { 
-      //return TR_HI(dedge::next()); 
       return TR_HI(Base::next()); 
     }
 
     Halfedge_const_handle next_halfedge() const 
     { 
-      //return TR_C_HI(dedge::next()); 
       return TR_C_HI(Base::next()); 
     }
     
-
     Ccb_halfedge_circulator ccb()
     { 
       return Ccb_halfedge_circulator(TR_HI(this)); 
@@ -321,24 +277,18 @@ public:
       return Ccb_halfedge_const_circulator(TR_C_HI(this)); 
     }
 
-
   private: //hide from users the underlying structure
-    //void  set_next( Halfedge* h)     { dedge::set_next(h);}
     void  set_next( Halfedge* h)     { Base::set_next(h);}
-    //void  set_vertex( Vertex* ve)    { dedge::set_vertex(ve);}
     void  set_vertex( Vertex* ve)    { Base::set_vertex(ve);}
-    //void  set_face( Face* face)      { dedge::set_face(face);}
     void  set_face( Face* face)      { Base::set_face(face);}
-     
-    };
+  };
 
   /**************************************************************/
   /**************************************************************/
   /********************* F a c e ********************************/
   /**************************************************************/
   /**************************************************************/
-  class Face : public Dcel::Face
-  {
+  class Face : public Dcel::Face {
   public:
     typedef typename Dcel::Face Base;
 
@@ -350,20 +300,17 @@ public:
     Holes_const_iterator; 
 #endif
     
-    Face()
-    {}
+    Face() {}
     
     Face(Base *f) : Base(*f) {}
 
     Face(Base& f) : Base(f) {} 
-
 
     bool is_unbounded() const  
     {
       // face is not bounded iff it has no outer boundary
       return (Base::halfedge() == NULL);
     }
-    
 
     // must explicitly say Topological_map::Holes_iterator. Otherwise
     // the CC compiler thinks we mean Base::Holes_iterator.
@@ -389,7 +336,7 @@ public:
 
     bool is_halfedge_on_inner_ccb(Halfedge_const_handle e) 
 #if !(_MSC_VER>=1100) 
-		const
+      const
 #endif
 
     {
@@ -403,7 +350,7 @@ public:
     
     bool is_halfedge_on_outer_ccb(Halfedge_const_handle e) 
 #if !(_MSC_VER>=1100) 
-		const
+      const
 #endif
     {
       dedge* dummy;
@@ -449,39 +396,31 @@ public:
 
   };
 
-
-  /**************************************************************/
-  /**************************************************************/
-  /********************* Topological_map *******************/
-  /**************************************************************/
-  /**************************************************************/
-
-  Topological_map()
-    : d()
+  /*! Constructor */
+  Topological_map() : d()
   {
     u_face = d.new_face();
     u_face->set_halfedge(NULL);
   }
   
-
-
-//INSERTIONS
-
-
-//insertion from vertices may invalidate the holes containers (since a new
-//face can be created which contains some of the holes of the old face.
-//to validate the containers the function move_hole should be called.
-
-//if a new face is created, returns the halfedge on the new face.
-//the new face will ALWAYS (by definition) be the one from v1->v2 (==e1) 
-//this sets a requirement on the user!!! (since a topological pm can't 
-//know if v1->v2 is on the new face or v2->v1)
-
-//since there can be a number of edges from the vertices, and we can't
-//know topologically which will be in the new face and which will be
-//outside, this should be provided by the user - defining prev1 and
-//prev2 (previous to v1,v2 resp.)  the planar map will define this
-//geometrically using the one previous to the curve clock wise.
+  /*
+   * INSERTIONS
+   *
+   * insertion from vertices may invalidate the holes containers (since a new
+   * face can be created which contains some of the holes of the old face.
+   * to validate the containers the function move_hole should be called.
+   *
+   * if a new face is created, returns the halfedge on the new face.
+   * the new face will ALWAYS (by definition) be the one from v1->v2 (==e1) 
+   * this sets a requirement on the user!!! (since a topological pm can't 
+   * know if v1->v2 is on the new face or v2->v1)
+   *
+   * since there can be a number of edges from the vertices, and we can't
+   * now topologically which will be in the new face and which will be
+   * outside, this should be provided by the user - defining prev1 and
+   * prev2 (previous to v1,v2 resp.)  the planar map will define this
+   * geometrically using the one previous to the curve clock wise.
+   */
   
   Halfedge_handle insert_at_vertices( Halfedge_handle previous1, 
                                       Halfedge_handle previous2) ;
@@ -617,7 +556,7 @@ public:
 #if _MSC_VER>=1100 // VC template bug
 	  ,Vertex* dummy=NULL
 #endif
-	  ) const
+                ) const
   {
     bool valid = true;
     
@@ -640,7 +579,7 @@ public:
 #if _MSC_VER>=1100 // VC template bug
 	  ,Halfedge* dummy=NULL
 #endif
-	  ) const
+                ) const
   {
     //check relations with next
     if (e->target() != e->next_halfedge()->source())
@@ -693,38 +632,38 @@ public:
     
     return valid;
   }
-  
-bool is_valid() const
+
+  /*! Chcecks whether the planar map is valid. In particular is_valid()
+   * checks the validity of each vertex, halfedge, and face
+   */
+  bool is_valid() const
   {
-    bool valid = true;
-    
     Vertex_const_iterator vi;
-    for (vi = vertices_begin(); vi != vertices_end(); ++vi)
-      {
-        if (!is_valid(vi)) 
-          {//an iterator is used for a handle
-            valid = false;
-          }
+    for (vi = vertices_begin(); vi != vertices_end(); ++vi) {
+      if (!is_valid(vi)) {
+        CGAL_warning("Invalid vertex!");
+        return false;
       }
+    }
     
     Halfedge_const_iterator ei;
-    for (ei = halfedges_begin(); ei != halfedges_end(); ++ei)
-      {
-        if (!is_valid(ei))
-          valid = false;
-      }	
+    for (ei = halfedges_begin(); ei != halfedges_end(); ++ei) {
+      if (!is_valid(ei)) {
+        CGAL_warning("Invalid halfedge!");
+        return false;
+      }
+    }
     
     Face_const_iterator fi;
-    for (fi = faces_begin(); fi != faces_end(); ++fi)
-      {
-        if (!is_valid(fi))
-          valid = false;
+    for (fi = faces_begin(); fi != faces_end(); ++fi) {
+      if (!is_valid(fi)) {
+        CGAL_warning("Invalid face!");
+        return false;
       }
+    }
     
-    return valid;
+    return true;
   }
-
-
 
   /******************************************************************/
   /*********************   counting functions ***********************/
@@ -782,12 +721,27 @@ bool find_and_erase_hole(typename Dcel::Halfedge* e, typename Dcel::Face* f)
 }
 
 protected:
+  // forbid copy constructor and assignment
+
+  /*! Copy Constructor */
+  Topological_map(const Topological_map & tm)
+  {
+    // d = tm.d;
+    // u_face = tm.u_face;
+  }
+
+  /*! Assignment operator */
+  Topological_map & operator=(const Topological_map &)
+  {
+    // d = tm.d;
+    // u_face = tm.u_face;
+    return *this;
+  }
+  
+protected:
   Dcel d;
   dface* u_face;
 };
-
-
-
 
 /////////////////////////////////////////////////////////////////
 //                  implementation
@@ -805,16 +759,16 @@ bool is_halfedge_on_inner_ccb(const typename Dcel::Halfedge* e,
   for (typename dface::Holes_iterator dhi=f->holes_begin();
        dhi!=f->holes_end();
        ++dhi)
+  {
+    iccb=(*dhi);
+    const typename Dcel::Halfedge* aux=iccb;
+    do
     {
-      iccb=(*dhi);
-      const typename Dcel::Halfedge* aux=iccb;
-      do
-        {
-          if (aux==e) 
-            return true;
-          aux=aux->next() ;
-        } while (aux!=(*dhi));
-    }
+      if (aux==e) 
+        return true;
+      aux=aux->next() ;
+    } while (aux!=(*dhi));
+  }
   iccb=NULL;
   return false;
 }
@@ -830,22 +784,18 @@ bool is_halfedge_on_outer_ccb(const typename Dcel::Halfedge* e,
   typedef typename Dcel::Face	         dface;
   occb=f->halfedge();
   if ( occb ) {  //if f isn't the unbounded face
-  const typename Dcel::Halfedge* aux=occb;    
+    const typename Dcel::Halfedge* aux=occb;    
     do
-      {
-        if (aux==e)
-          return true;
-        aux=aux->next();
-      }while (aux!=f->halfedge());
+    {
+      if (aux==e)
+        return true;
+      aux=aux->next();
+    }while (aux!=f->halfedge());
   }
   
   occb=NULL;  
   return false;
 }
-
-
-
-
 
 //insertion from vertices may invalidate the holes containers (since a new
 //face can be created which contains some of the holes of the old face.
@@ -906,20 +856,20 @@ insert_at_vertices(Halfedge_handle previous1, Halfedge_handle previous2)
   //Cases:
   //a. ccb1!=ccb2 (at least one is inner ccb) - no face added
   if (!ccbs_equal) {
-      e1->set_face(df);
-      e2->set_face(df);
+    e1->set_face(df);
+    e2->set_face(df);
       
-      //remove ONE inner ccb from df
-      if (ccb1_is_inner) {
-        //ccb1 becomes part of ccb2 
-        find_and_erase_hole(ccb1,df);
-      }
-      else {
-        //ccb2 becomes part of ccb1
-        find_and_erase_hole(ccb2,df);
-      }
+    //remove ONE inner ccb from df
+    if (ccb1_is_inner) {
+      //ccb1 becomes part of ccb2 
+      find_and_erase_hole(ccb1,df);
+    }
+    else {
+      //ccb2 becomes part of ccb1
+      find_and_erase_hole(ccb2,df);
+    }
 
-      return TR_HI(e2);
+    return TR_HI(e2);
   }
 
   //b. ccb1==ccb2
@@ -946,40 +896,35 @@ insert_at_vertices(Halfedge_handle previous1, Halfedge_handle previous2)
     //set the face pointer for all halfedges of e2 to nf 
     ccb2=e2->next();
     while (ccb2!=e2) 
-      {
-        ccb2->set_face(nf);
-        ccb2=ccb2->next();
-      }
-   }
+    {
+      ccb2->set_face(nf);
+      ccb2=ccb2->next();
+    }
+  }
 
   //b.2 the vertices are on an inner ccb
   else {
-
     e1->set_face(df); 
     e2->set_face(nf);
     
     nf->set_halfedge(e2);
 
     ccb2=e2->next(); 
-    while (ccb2!=e2) 
-      {
-        ccb2->set_face(nf);
-        ccb2=ccb2->next();
-      }
+    while (ccb2!=e2) {
+      ccb2->set_face(nf);
+      ccb2=ccb2->next();
+    }
     
     //remove ccb1 from holes_container (maybe it is now inside the new face)
     find_and_erase_hole(ccb1,df);
     df->add_hole(e1);
 
   }
-  
   return TR_HI(e2);
 }
 
-
 template<class Dcel> 
-void
-Topological_map<Dcel>::
+void Topological_map<Dcel>::
 move_hole(Holes_iterator e, Face_handle f1, Face_handle f2)
 {
   //move hole from df1 to df2 and set face pointer of each edge on hole to df1
@@ -997,9 +942,7 @@ move_hole(Holes_iterator e, Face_handle f1, Face_handle f2)
   //copy to df2
   df2->add_hole(first);
   df1->erase_hole(e.current_iterator());
-  
 }  
-
 
 //returns halfedge which is previous->next
 template<class Dcel>
@@ -1033,7 +976,6 @@ insert_from_vertex(Halfedge_handle previous)
   return TR_HI(h2);
 }
 
-
 template<class Dcel>
 typename Topological_map<Dcel>::Halfedge_handle
 Topological_map<Dcel>::
@@ -1063,11 +1005,9 @@ insert_in_face_interior(Face_handle f)
   return TR_HI(h1); 
 }      
 
-
 template<class Dcel>
 typename Topological_map<Dcel>::Halfedge_handle
-Topological_map<Dcel>::
-split_edge (Halfedge_handle e)
+Topological_map<Dcel>::split_edge (Halfedge_handle e)
 {
   typename Dcel::Halfedge* e1=&(*e); 
   typename Dcel::Halfedge* e2=e1->opposite();
@@ -1106,68 +1046,105 @@ split_edge (Halfedge_handle e)
   return TR_HI(e1); 
 }
 
+/*! Merge 2 given halfedges into one
+ * \param e1 the first input halfedge
+ * \param e2 second input halfedge
+ * \return the merged halfedge
+ */
 template<class Dcel>
 typename Topological_map<Dcel>::Halfedge_handle
-Topological_map<Dcel>::
-merge_edge (Halfedge_handle e1, Halfedge_handle e2) 
+Topological_map<Dcel>::merge_edge(Halfedge_handle e1, Halfedge_handle e2) 
 {
-    //check e1->e2 and that degree(e1.target)==2 (i.e no other edge connected)
-    CGAL_assertion(e1->target()==e2->source());
-    CGAL_assertion(e1->target()->degree()==2);
+  //check e1->e2 and that degree(e1.target)==2 (i.e no other edge connected)
+  //CGAL_assertion(e1->target()==e2->source());
+  CGAL_assertion((e1->target()==e2->source() && e1->target()->degree()==2 ) || 
+                 (e2->target()==e1->source() && e2->target()->degree()==2 ) ||
+                 (e1->target()==e2->target() && e1->target()->degree()==2 ) || 
+                 (e2->source()==e1->source() && e1->source()->degree()==2 ));
 
-    typename Dcel::Halfedge* de1=&(*e1);
-    typename Dcel::Halfedge* de1t=de1->opposite();
-    typename Dcel::Halfedge* de2=&(*e2);
-    typename Dcel::Halfedge* de2t=de2->opposite();
+  //CGAL_assertion(e1->target()->degree()==2);
 
-    typename Dcel::Vertex* v=de1->vertex();
+  typename Dcel::Halfedge * de1 = 0;
+  typename Dcel::Halfedge * de1t = 0;
+
+  typename Dcel::Halfedge * de2 = 0;
+  typename Dcel::Halfedge * de2t = 0;
+
+  if (e1->target() == e2->source())
+  {
+    de1 = &(*e1);
+    de1t = de1->opposite();
+    de2 = &(*e2);
+    de2t = de2->opposite();
+  }
+  if (e1->source() == e2->source())
+  {
+    de1t = &(*e1);
+    de1 = de1t->opposite();
+    de2 = &(*e2);
+    de2t = de2->opposite();
+  }
+  if (e1->target() == e2->target())
+  {
+    de1 = &(*e1);
+    de1t = de1->opposite();
+    de2t = &(*e2);
+    de2 = de2t->opposite();
+  }
+  if (e1->source() == e2->target())
+  {
+    de1t = &(*e1);
+    de1 = de1t->opposite();
+    de2t = &(*e2);
+    de2 = de2t->opposite();
+  }
+
+  typename Dcel::Vertex * v = de1->vertex();
+  typename Dcel::Face * f = de2->face();
+  typename Dcel::Face * ft = de1t->face();
+
+  //typename Dcel::Face* ft=de2t->face();
+
+  //at the end de1 and de1t will remain and de2t,de2 will be deleted
+  //check if they are a "represantative" of a hole or outer ccb of face
+  if (f->halfedge()==de2) 
+    f->set_halfedge(de1);
+  else {
+    if (find_and_erase_hole(de2,f))
+      f->add_hole(de1);
+  }
+
+  if (ft->halfedge()==de2t) 
+    ft->set_halfedge(de1t);
+  else {
+    if (find_and_erase_hole(de2t,f))  
+      f->add_hole(de1t);
+  }
     
-    typename Dcel::Face* f=de2->face();
-    typename Dcel::Face* ft=de1t->face();
+  //in case de2 is representative halfedge of the target vertex  
+  de2->vertex()->set_halfedge(de1); 
 
-   
-    //at the end de1 and de1t will remain and de2t,de2 will be deleted
-    //check if they are a "represantative" of a hole or outer ccb of face
-    if (f->halfedge()==de2) 
-      f->set_halfedge(de1);
-    else {
-      if (find_and_erase_hole(de2,f))
-        f->add_hole(de1);
-    }
+  if (de2->next() != de2t) {  //de2 is not a tip of antenna
+    //find previous halfedge of de2t
+    typename Dcel::Halfedge* prev2=get_prev(de2t);
+    de1->set_next(de2->next());
+    prev2->set_next(de1t);      
+  }
+  else {
+    de1->set_next(de1t);
+  } 
 
-    if (ft->halfedge()==de2t) 
-      ft->set_halfedge(de1t);
-    else {
-      if (find_and_erase_hole(de2t,f))  
-        f->add_hole(de1t);
-    }
-    
-    //in case de2 is representative halfedge of the target vertex  
-    de2->vertex()->set_halfedge(de1); 
+  de1->set_vertex(de2->vertex());  
 
-    if (de2->next() != de2t) {  //de2 is not a tip of antenna
-      //find previous halfedge of de2t
-      typename Dcel::Halfedge* prev2=get_prev(de2t);
-      de1->set_next(de2->next());
-      prev2->set_next(de1t);      
-    }
-    else {
-      de1->set_next(de1t);
-    }
+  d.delete_edge(de2);
+  d.delete_vertex(v);
 
-    de1->set_vertex(de2->vertex());  
-
-    d.delete_edge(de2);
-    d.delete_vertex(v);
-
-    return TR_HI(de1); 
+  return TR_HI(de1); 
 }
-
 
 template<class Dcel>
 typename Topological_map<Dcel>::Face_handle
-Topological_map<Dcel>::
-remove_edge(Halfedge_handle e)
+Topological_map<Dcel>::remove_edge(Halfedge_handle e)
 {
   typename Dcel::Halfedge* de1=&(*e);
   typename Dcel::Halfedge* de2=de1->opposite();
@@ -1270,11 +1247,12 @@ remove_edge(Halfedge_handle e)
 
     else { //antenna is a hole - split it into two holes
       is_halfedge_on_inner_ccb<Dcel>(prev1,df1,ccb1);
-#ifndef CGAL_NO_ASSERTIONS // in order to avoid warnings
-      bool hole_found = 
+#if defined(CGAL_NO_ASSERTIONS) || defined(NDEBUG)
+      find_and_erase_hole(ccb1,df1);
+#else
+      bool hole_found = find_and_erase_hole(ccb1,df1);
+      CGAL_assertion(hole_found);       //ccb1 must be a hole in df1
 #endif
-	find_and_erase_hole(ccb1,df1); 
-      CGAL_assertion(hole_found) ;//ccb1 must be a hole in df1
       df1->add_hole(prev1);
       df1->add_hole(prev2);
     }
@@ -1459,5 +1437,4 @@ remove_edge(Halfedge_handle e)
 
 CGAL_END_NAMESPACE
 
-#endif  // CGAL_TOPOLOGICAL_MAP_H
-// EOF
+#endif

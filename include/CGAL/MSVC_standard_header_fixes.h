@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/include/CGAL/MSVC_standard_header_fixes.h,v $
-// $Revision: 1.23 $ $Date: 2003/10/21 12:14:54 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.24 $ $Date: 2004/01/18 15:29:58 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 
@@ -26,13 +26,6 @@
 
 #pragma warning(once: 4291)
 #pragma warning(once:4503)
-
-
-// the iterator specializations should be used for:
-// cl 1300 and Intel Compiler
-#if defined (_MSC_VER) && (_MSC_VER == 1300)
-#include <CGAL/config/msvc7/iterator_specializations.h>
-#endif
 
 #include <cmath>
 namespace std {

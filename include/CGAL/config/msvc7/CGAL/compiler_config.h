@@ -16,14 +16,16 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/wininst/include/CGAL/config/msvc7/CGAL/compiler_config.h,v $
-// $Revision: 1.12 $ $Date: 2003/10/21 12:26:15 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.13 $ $Date: 2004/02/18 20:57:54 $
+// $Name:  $
 //
 // Author(s)     : Radu Ursu
 
 
-#if defined _MSC_VER && _MSC_VER == 1300
-	#include "cl_1300.h"
-#else
-	#include "cl_1310.h"
+#ifdef _MSC_VER
+#  if _MSC_VER < 1310
+#    error Unsupported version of VC++
+#  else
+#    include "cl_1310.h"
+#  endif
 #endif

@@ -1,4 +1,4 @@
-// Copyright (c) 1999,2000,2003  Utrecht University (The Netherlands),
+// Copyright (c) 1999-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Lazy_exact_nt.h,v $
-// $Revision: 2.76.2.1 $ $Date: 2004/02/09 12:59:27 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 2.85 $ $Date: 2004/11/18 14:25:51 $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion
 
@@ -32,6 +32,7 @@
 #include <CGAL/Interval_arithmetic.h>
 #include <CGAL/Handle.h>
 #include <CGAL/misc.h>
+#include <CGAL/Filtered_exact.h> // to get the overloaded predicates.
 
 /*
  * This file contains the definition of the number type Lazy_exact_nt<ET>,
@@ -105,7 +106,7 @@ public:
   {
       if (et==NULL) {
           update_exact();
-	  in = CGAL::to_interval(*et);
+	  in = CGAL_NTS to_interval(*et);
       }
       return *et;
   }
@@ -259,6 +260,13 @@ public :
   typedef typename Number_type_traits<ET>::Has_division Has_division;
   typedef typename Number_type_traits<ET>::Has_sqrt     Has_sqrt;
 
+  typedef typename Number_type_traits<ET>::Has_exact_sqrt Has_exact_sqrt;
+  typedef typename Number_type_traits<ET>::Has_exact_division
+  Has_exact_division;
+  typedef typename Number_type_traits<ET>::Has_exact_ring_operations
+  Has_exact_ring_operations;
+  
+
   typedef Lazy_exact_nt<ET> Self;
   typedef Lazy_exact_rep<ET> Self_rep;
 
@@ -310,6 +318,14 @@ public :
       relative_precision_of_to_double = d;
   }
 
+  bool fit_in_double(double &r) const
+  {
+    // Returns true if the value is representable by a double and to_double()
+    // would return it.  False means "don't know".
+    r = approx().inf();
+    return approx().is_point();
+  }
+
 private:
   Self_rep * ptr() const { return (Self_rep*) PTR; }
 
@@ -323,30 +339,20 @@ template <typename ET>
 bool
 operator<(const Lazy_exact_nt<ET>& a, const Lazy_exact_nt<ET>& b)
 {
-  try
-  {
-    return a.approx() < b.approx();
-  }
-  catch (Interval_nt<false>::unsafe_comparison)
-  {
-    // std::cerr << "Interval filter failure (<)" << std::endl;
-    return a.exact() < b.exact();
-  }
+  std::pair<bool, bool> res = Certified::operator<(a.approx(), b.approx());
+  if (res.second)
+    return res.first;
+  return a.exact() < b.exact();
 }
 
 template <typename ET>
 bool
 operator==(const Lazy_exact_nt<ET>& a, const Lazy_exact_nt<ET>& b)
 {
-  try
-  {
-    return a.approx() == b.approx();
-  }
-  catch (Interval_nt<false>::unsafe_comparison)
-  {
-    // std::cerr << "Interval filter failure (==)" << std::endl;
-    return a.exact() == b.exact();
-  }
+  std::pair<bool, bool> res = Certified::operator==(a.approx(), b.approx());
+  if (res.second)
+    return res.first;
+  return a.exact() == b.exact();
 }
 
 template <typename ET>
@@ -379,36 +385,30 @@ template <typename ET>
 bool
 operator<(int a, const Lazy_exact_nt<ET>& b)
 {
-  try {
-    return a < b.approx();
-  }
-  catch (Interval_nt<false>::unsafe_comparison) {
-    return a < b.exact();
-  }
+  std::pair<bool, bool> res = Certified::operator<(a, b.approx());
+  if (res.second)
+    return res.first;
+  return a < b.exact();
 }
 
 template <typename ET>
 bool
 operator<(const Lazy_exact_nt<ET>& a, int b)
 {
-  try {
-    return a.approx() < b;
-  }
-  catch (Interval_nt<false>::unsafe_comparison) {
-    return a.exact() < b;
-  }
+  std::pair<bool, bool> res = Certified::operator<(a.approx(), b);
+  if (res.second)
+    return res.first;
+  return a.exact() < b;
 }
 
 template <typename ET>
 bool
 operator==(int a, const Lazy_exact_nt<ET>& b)
 {
-  try {
-    return a == b.approx();
-  }
-  catch (Interval_nt<false>::unsafe_comparison) {
-    return a == b.exact();
-  }
+  std::pair<bool, bool> res = Certified::operator==(a, b.approx());
+  if (res.second)
+    return res.first;
+  return a == b.exact();
 }
 
 template <typename ET>
@@ -556,21 +556,15 @@ to_interval(const Lazy_exact_nt<ET> & a)
     return a.approx().pair();
 }
 
-#ifndef CGAL_CFG_MATCHING_BUG_2
 template <typename ET>
 inline
 Sign
 sign(const Lazy_exact_nt<ET> & a)
 {
-  try
-  {
-    return CGAL_NTS sign(a.approx());
-  }
-  catch (Interval_nt<false>::unsafe_comparison)
-  {
-    // std::cerr << "Interval filter failure (sign)" << std::endl;
-    return CGAL_NTS sign(a.exact());
-  }
+  std::pair<Sign, bool> res = Certified::sign(a.approx());
+  if (res.second)
+    return res.first;
+  return CGAL_NTS sign(a.exact());
 }
 
 template <typename ET>
@@ -578,15 +572,11 @@ inline
 Comparison_result
 compare(const Lazy_exact_nt<ET> & a, const Lazy_exact_nt<ET> & b)
 {
-  try
-  {
-    return CGAL_NTS compare(a.approx(), b.approx());
-  }
-  catch (Interval_nt<false>::unsafe_comparison)
-  {
-    // std::cerr << "Interval filter failure (compare)" << std::endl;
-    return CGAL_NTS compare(a.exact(), b.exact());
-  }
+  std::pair<Comparison_result, bool> res =
+                                    Certified::compare(a.approx(), b.approx());
+  if (res.second)
+    return res.first;
+  return CGAL_NTS compare(a.exact(), b.exact());
 }
 
 template <typename ET>
@@ -601,15 +591,12 @@ Lazy_exact_nt<ET>
 square(const Lazy_exact_nt<ET> & a)
 { return new Lazy_exact_Square<ET>(a); }
 
-#endif // CGAL_CFG_MATCHING_BUG_2
-
 template <typename ET>
 inline
 Lazy_exact_nt<ET>
 sqrt(const Lazy_exact_nt<ET> & a)
 { return new Lazy_exact_Sqrt<ET>(a); }
 
-#ifndef CGAL_CFG_MATCHING_BUG_2
 template <typename ET>
 inline
 Lazy_exact_nt<ET>
@@ -621,7 +608,6 @@ inline
 Lazy_exact_nt<ET>
 max(const Lazy_exact_nt<ET> & a, const Lazy_exact_nt<ET> & b)
 { return new Lazy_exact_Max<ET>(a, b); }
-#endif // CGAL_CFG_MATCHING_BUG_2
 
 template <typename ET>
 std::ostream &
@@ -708,7 +694,6 @@ io_Operator
 io_tag (const Lazy_exact_nt<ET>&)
 { return io_Operator(); }
  
-#ifndef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
 template <typename ET>
 struct converter<ET, Lazy_exact_nt<ET> >
 {
@@ -717,7 +702,11 @@ struct converter<ET, Lazy_exact_nt<ET> >
         return z.exact();
     }
 };
-#endif
+
+template < typename ET >
+inline bool
+fit_in_double(const Lazy_exact_nt<ET>& l, double& r)
+{ return l.fit_in_double(r); }
 
 CGAL_END_NAMESPACE
 

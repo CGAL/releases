@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_3/include/CGAL/Alpha_shape_euclidean_traits_3.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/01 19:41:38 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/08/10 15:33:40 $
+// $Name:  $
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 
@@ -23,9 +23,33 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template <class R>
-class Alpha_shape_euclidean_traits_3 : public R
-{};
+template <class K>
+class Alpha_shape_euclidean_traits_3 : public K
+{
+/*  public:  */
+/*   class  Compute_squared_radius_3 { */
+/*     typedef typename K::Point_3                  Point_3; */
+/*     typedef typename K::FT                       FT; */
+/*     typedef typename K::Compute_squared_radius_3 Base; */
+  
+/*   public: */
+/*    FT  operator() (Point_3 p, Point_3 q , Point_3 r, Point_3 s) { */
+/*      return Base()(p,q,r,s); } */
+
+/*    FT  operator() (Point_3 p, Point_3 q , Point_3 r) { */
+/*      return Base()(p,q,r); } */
+
+/*    FT  operator() (Point_3 p, Point_3 q ) { */
+/*      return Base()(p,q); } */
+
+/*    FT operator() (Point_3 p) { */
+/*       return FT(0);} */
+/*   }; */
+
+/*   Compute_squared_radius_3  */
+/*   compute_squared_radius_3_object() const    { */
+/*     return Compute_squared_radius_3();  } */
+};
 
 CGAL_END_NAMESPACE
 

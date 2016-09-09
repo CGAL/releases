@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Segment_2.h,v $
-// $Revision: 1.35 $ $Date: 2003/10/21 12:14:22 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.41 $ $Date: 2004/09/14 13:59:55 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
 
@@ -31,9 +31,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class SegmentC2
-  : public R_::template Handle<Twotuple<typename R_::Point_2> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Vector_2             Vector_2;
@@ -42,8 +40,10 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Segment_2            Segment_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef Twotuple<Point_2>                        rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Twotuple<Point_2>                        Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                     R;
@@ -51,7 +51,7 @@ public:
   SegmentC2() {}
 
   SegmentC2(const Point_2 &sp, const Point_2 &ep)
-    : base(rep(sp, ep)) {}
+    : base(sp, ep) {}
 
   bool        is_horizontal() const;
   bool        is_vertical() const;
@@ -63,11 +63,11 @@ public:
 
   const Point_2 &   source() const
   {
-      return Ptr()->e0;
+      return get(base).e0;
   }
   const Point_2 &   target() const
   {
-      return Ptr()->e1;
+      return get(base).e1;
   }
   
   const Point_2 &    start() const;
@@ -99,7 +99,7 @@ inline
 bool
 SegmentC2<R>::operator==(const SegmentC2<R> &s) const
 {
-  if (identical(s))
+  if (CGAL::identical(base, s.base))
       return true;
   return source() == s.source() && target() == s.target();
 }
@@ -155,11 +155,11 @@ SegmentC2<R>::vertex(int i) const
 }
 
 template < class R >
-CGAL_KERNEL_INLINE
+inline
 const typename SegmentC2<R>::Point_2 &
 SegmentC2<R>::point(int i) const
 {
-  return (i%2 == 0) ? source() : target();
+  return vertex(i);
 }
 
 template < class R >
@@ -211,7 +211,7 @@ inline
 typename SegmentC2<R>::Segment_2
 SegmentC2<R>::opposite() const
 {
-  return SegmentC2<R>(target(), source());
+  return Segment_2(target(), source());
 }
 
 template < class R >
@@ -264,7 +264,8 @@ bool
 SegmentC2<R>::
 collinear_has_on(const typename SegmentC2<R>::Point_2 &p) const
 {
-  return R().collinear_has_on_2_object()(*this, p);
+  return R().collinear_has_on_2_object()
+               (static_cast<const typename R::Segment_2>(*this), p);
 }
 
 #ifndef CGAL_NO_OSTREAM_INSERT_SEGMENTC2

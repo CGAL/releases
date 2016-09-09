@@ -1,5 +1,4 @@
-// examples/Sweep_line/example1.C
-// ------------------------------
+// file: examples/Sweep_line_2/example1.C
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/MP_Float.h>
@@ -15,6 +14,7 @@ typedef CGAL::Arr_segment_traits_2<Kernel>              Traits;
 
 typedef Traits::Point_2                                 Point_2;
 typedef Traits::Curve_2                                 Curve_2;
+typedef Traits::X_monotone_curve_2                      X_monotone_curve_2;
 
 typedef std::list<Curve_2>                              CurveList;
 typedef CurveList::iterator                             CurveListIter;
@@ -35,7 +35,7 @@ int main()
 
   // Use a sweep to create the sub curves  
   Traits traits;
-  std::list<Curve_2> subcurves;
+  std::list<X_monotone_curve_2> subcurves;
   Sweep_line sl(&traits);
   sl.get_subcurves(segments.begin(), 
 		   segments.end(), 

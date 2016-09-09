@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_LONGNAME_BUG.C,v $
 // $Revision: 1.6 $ $Date: 2003/10/21 12:14:46 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : various
 

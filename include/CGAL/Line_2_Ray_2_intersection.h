@@ -18,7 +18,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Line_2_Ray_2_intersection.h,v $
 // $Revision: 1.4 $ $Date: 2003/10/21 12:16:47 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 

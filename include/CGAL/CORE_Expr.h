@@ -1,4 +1,4 @@
-// Copyright (c) 2002  Utrecht University (The Netherlands),
+// Copyright (c) 2002-2004  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/CORE_Expr.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:21:40 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.18 $ $Date: 2004/09/01 16:17:11 $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion
  
@@ -30,6 +30,10 @@
 
 #include <utility>
 
+#ifdef CGAL_USE_GMPXX
+#include <CGAL/gmpxx.h>
+#endif
+
 #define CORE_LEVEL 4
 #include <CORE/CORE.h>
 
@@ -40,6 +44,10 @@ struct Number_type_traits<CORE::Expr> {
   typedef Tag_false Has_gcd;
   typedef Tag_true  Has_division;
   typedef Tag_true  Has_sqrt;
+
+  typedef Tag_true  Has_exact_ring_operations;
+  typedef Tag_true  Has_exact_division;
+  typedef Tag_true  Has_exact_sqrt;
 };
 
 inline
@@ -86,6 +94,8 @@ to_interval (const CORE::Expr & e)
 {
   std::pair<double,double> result;
   e.doubleInterval(result.first, result.second);
+  CGAL_expensive_assertion(result.first <= e);
+  CGAL_expensive_assertion(result.second >= e);
   return result;
 }
 

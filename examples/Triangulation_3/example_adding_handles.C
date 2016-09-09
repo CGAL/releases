@@ -1,4 +1,5 @@
-// Triangulation_3/example_adding_handles.C
+// file: examples/Triangulation_3/example_adding_handles.C
+
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Triangulation_vertex_base_3.h>

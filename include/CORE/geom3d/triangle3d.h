@@ -15,18 +15,18 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: triangle3d.h,v 1.1 2003/06/22 12:11:21 afabri Exp $
+ * $Id: triangle3d.h,v 1.3 2004/11/14 12:00:17 efi Exp $
  *****************************************************************/
 
 
 #ifndef _TRIANGLE3D_H_
 #define _TRIANGLE3D_H_
 
-#include "point3d.h"
-#include "line3d.h"
-#include "segment3d.h"
-#include "plane3d.h"
-#include "polygon3d.h"
+#include <CORE/geom3d/point3d.h>
+#include <CORE/geom3d/line3d.h>
+#include <CORE/geom3d/segment3d.h>
+#include <CORE/geom3d/plane3d.h>
+#include <CORE/geom3d/polygon3d.h>
 
 class Triangle3d : public GeomObj{
 

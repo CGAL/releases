@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Line_2.h,v $
-// $Revision: 1.35 $ $Date: 2003/10/21 12:14:18 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.40 $ $Date: 2004/03/13 22:49:42 $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
 
@@ -25,14 +25,13 @@
 #define CGAL_CARTESIAN_LINE_2_H
 
 #include <CGAL/Threetuple.h>
+#include <CGAL/predicates/kernel_ftC2.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class LineC2
-  : public R_::template Handle<Threetuple<typename R_::FT> >::type
 {
-CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Direction_2          Direction_2;
@@ -42,8 +41,10 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Line_2               Line_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef Threetuple<FT>	                   rep;
-  typedef typename R_::template Handle<rep>::type  base;
+  typedef Threetuple<FT>	                   Rep;
+  typedef typename R_::template Handle<Rep>::type  Base;
+
+  Base base;
 
 public:
   typedef R_                                     R;
@@ -51,37 +52,37 @@ public:
   LineC2() {}
 
   LineC2(const Point_2 &p, const Point_2 &q)
-    : base(R().construct_line_2_object()(p, q)) {}
+  { *this = R().construct_line_2_object()(p, q); }
 
   LineC2(const FT &a, const FT &b, const FT &c)
-    : base(rep(a, b, c)) {}
+    : base(a, b, c) {}
 
   LineC2(const Segment_2 &s)
-    : base(R().construct_line_2_object()(s)) {}
+  { *this = R().construct_line_2_object()(s); }
 
   LineC2(const Ray_2 &r)
-    : base(R().construct_line_2_object()(r)) {}
+  { *this = R().construct_line_2_object()(r); }
 
   LineC2(const Point_2 &p, const Direction_2 &d)
-    : base(R().construct_line_2_object()(p, d)) {}
+  { *this = R().construct_line_2_object()(p, d); }
 
   LineC2(const Point_2 &p, const Vector_2 &v)
-    : base(R().construct_line_2_object()(p, v)) {}
+  { *this = R().construct_line_2_object()(p, v); }
 
   bool            operator==(const LineC2 &l) const;
   bool            operator!=(const LineC2 &l) const;
 
   const FT & a() const
   {
-      return Ptr()->e0;
+      return get(base).e0;
   }
   const FT & b() const
   {
-      return Ptr()->e1;
+      return get(base).e1;
   }
   const FT & c() const
   {
-      return Ptr()->e2;
+      return get(base).e2;
   }
 
   FT              x_at_y(const FT &y) const;
@@ -119,9 +120,9 @@ CGAL_KERNEL_INLINE
 bool
 LineC2<R>::operator==(const LineC2<R> &l) const
 {
-  if (identical(l))
+  if (CGAL::identical(base, l.base))
       return true;
-  return equal_line(*this, l);
+  return equal_lineC2(a(), b(), c(), l.a(), l.b(), l.c());
 }
 
 template < class R >
@@ -129,7 +130,7 @@ inline
 bool
 LineC2<R>::operator!=(const LineC2<R> &l) const
 {
-  return !(*this == l);
+  return ! (*this == l);
 }
 
 template < class R >

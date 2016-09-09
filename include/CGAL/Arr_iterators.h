@@ -12,13 +12,11 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arr_iterators.h,v $
-// $Revision: 1.3 $ $Date: 2003/09/18 10:19:39 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.6 $ $Date: 2004/09/23 19:37:53 $
+// $Name:  $
 //
 // Author(s)     : Iddo Hanniel
-// ============================================================================
-//
-// ============================================================================
+
 #ifndef CGAL_ARR_ITERATORS_H
 #define CGAL_ARR_ITERATORS_H
 
@@ -54,6 +52,9 @@ public:
   typedef  value_type*              pointer;
   typedef  const value_type*        const_pointer;
 
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::nt;
+#endif
 
 // CREATION
 // --------
@@ -107,24 +108,6 @@ public:
     }
     */
 
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  friend inline  iterator_category
-  iterator_category( const Self&) {
-    return iterator_category();
-  }
-  friend inline  value_type*
-  value_type( const Self&) {
-    return (value_type*)(0);
-  }
-  friend inline  difference_type*
-  distance_type( const Self&) {
-    return (difference_type*)(0);
-  }
-  friend inline  Circulator_tag
-  query_circulator_or_iterator( const Self&) {
-    return Circulator_tag();
-  }
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 
@@ -144,6 +127,10 @@ public:
   typedef  const value_type&            const_reference;
   typedef  value_type*                  pointer;
   typedef  const value_type*            const_pointer;
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::nt;
+#endif
 
   // CREATION
   // --------
@@ -195,24 +182,6 @@ public:
     }
   */
 
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  friend inline  iterator_category
-  iterator_category( const Self&) {
-    return iterator_category();
-  }
-  friend inline  value_type*
-  value_type( const Self&) {
-    return (value_type*)(0);
-  }
-  friend inline  difference_type*
-  distance_type( const Self&) {
-    return (difference_type*)(0);
-  }
-  friend inline  Circulator_tag
-  query_circulator_or_iterator( const Self&) {
-    return Circulator_tag();
-  }
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 template < class Node, class It, class Ctg>
 class _Arr_vertex_circ : public It {
@@ -230,6 +199,10 @@ public:
   typedef  const value_type&        const_reference;
   typedef  value_type*              pointer;
   typedef  const value_type*        const_pointer;
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::nt;
+#endif
 
   // CREATION
   // --------
@@ -283,24 +256,6 @@ public:
     }
   */
 
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  friend inline  iterator_category
-  iterator_category( const Self&) {
-    return iterator_category();
-  }
-  friend inline  value_type*
-  value_type( const Self&) {
-    return (value_type*)(0);
-  }
-  friend inline  difference_type*
-  distance_type( const Self&) {
-    return (difference_type*)(0);
-  }
-  friend inline  Circulator_tag
-  query_circulator_or_iterator( const Self&) {
-    return Circulator_tag();
-  }
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 
@@ -320,6 +275,11 @@ public:
   typedef  const value_type&        const_reference;
   typedef  value_type*              pointer;
   typedef  const value_type*        const_pointer;
+
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::nt;
+#endif
 
   // CREATION
   // --------
@@ -371,24 +331,6 @@ public:
     }
   */
 
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  friend inline  iterator_category
-  iterator_category( const Self&) {
-    return iterator_category();
-  }
-  friend inline  value_type*
-  value_type( const Self&) {
-    return (value_type*)(0);
-  }
-  friend inline  difference_type*
-  distance_type( const Self&) {
-    return (difference_type*)(0);
-  }
-  friend inline  Circulator_tag
-  query_circulator_or_iterator( const Self&) {
-    return Circulator_tag();
-  }
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 
@@ -413,6 +355,11 @@ public:
   typedef  const value_type&        const_reference;
   typedef  value_type*              pointer;
   typedef  const value_type*        const_pointer;
+
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::nt;
+#endif
 
 // CREATION
 // --------
@@ -466,24 +413,6 @@ public:
     return tmp;
   }
 
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  friend inline  iterator_category
-  iterator_category( const Self&) {
-    return iterator_category();
-  }
-  friend inline  value_type*
-  value_type( const Self&) {
-    return (value_type*)(0);
-  }
-  friend inline  difference_type*
-  distance_type( const Self&) {
-    return (difference_type*)(0);
-  }
-  friend inline  Circulator_tag
-  query_circulator_or_iterator( const Self&) {
-    return Circulator_tag();
-  }
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 
@@ -503,6 +432,11 @@ public:
   typedef  const value_type&        const_reference;
   typedef  value_type*              pointer;
   typedef  const value_type*        const_pointer;
+
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
+  using Base::nt;
+#endif
 
   // CREATION
   // --------
@@ -552,24 +486,6 @@ public:
     return tmp;
   }
 
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  friend inline  iterator_category
-  iterator_category( const Self&) {
-    return iterator_category();
-  }
-  friend inline  value_type*
-  value_type( const Self&) {
-    return (value_type*)(0);
-  }
-  friend inline  difference_type*
-  distance_type( const Self&) {
-    return (difference_type*)(0);
-  }
-  friend inline  Circulator_tag
-  query_circulator_or_iterator( const Self&) {
-    return Circulator_tag();
-  }
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 
@@ -610,6 +526,7 @@ public:
   typedef           Fct                    reference; 
   //typedef           Ptr                    pointer;
   typedef           C                    pointer;  //just for this special case
+
 
   // CREATION
   // --------
@@ -695,44 +612,11 @@ public:
     return tmp.operator*();
     }
   */
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  friend inline  iterator_category
-  iterator_category( const Self&) { return iterator_category(); }
-  friend inline  value_type*
-  value_type( const Self&) { return (value_type*)(0); }
-  friend inline  difference_type*
-  distance_type( const Self&) { return (difference_type*)(0); }
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
-
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-template < class C, class Fct/*, class Ref, class Ptr*/>
-inline  Circulator_tag
-query_circulator_or_iterator(const Arr_overlap_circulator<C,Fct/*,Ref,Ptr*/>&)
-{
-  return Circulator_tag();
-}
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 
 #endif //BOGI
 
-
-
-
-
 CGAL_END_NAMESPACE
-
 
 #endif 
 // EOF //
-
-
-
-
-
-
-
-
-
-
-

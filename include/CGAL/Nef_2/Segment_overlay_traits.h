@@ -12,20 +12,19 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/Segment_overlay_traits.h,v $
-// $Revision: 1.19 $ $Date: 2003/10/21 12:21:06 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.26.4.1 $ $Date: 2004/12/08 20:04:50 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_SEGMENT_OVERLAY_TRAITS_H
 #define CGAL_SEGMENT_OVERLAY_TRAITS_H
 
 #include <assert.h>
-#undef _DEBUG
-#define _DEBUG 23
+#undef CGAL_NEF_DEBUG
+#define CGAL_NEF_DEBUG 23
 #include <CGAL/Nef_2/debug.h>
 
-//#define INCLUDEBOTH
-#if defined(CGAL_USE_LEDA) || defined(INCLUDEBOTH)
+#if defined(CGAL_USE_LEDA)
 #include <CGAL/LEDA_basic.h>
 #include <LEDA/tuple.h>
 #include <LEDA/slist.h>
@@ -38,7 +37,7 @@
 #include <sstream>
 
 namespace CGAL {
-#ifdef _DEBUG
+#ifdef CGAL_NEF_DEBUG
 #define PIS(s) (s->first())
 #endif
 
@@ -194,7 +193,7 @@ public:
 
   void initialize_structures()
   {
-    TRACEN("initialize_structures");
+    CGAL_NEF_TRACEN("initialize_structures");
     ITERATOR it_s;  
     for ( it_s=its; it_s != ite; ++it_s ) {
       Segment_2 s = *it_s;
@@ -224,7 +223,7 @@ public:
     // insert a lower and an upper sentinel segment
     YS.insert(&sl,CGAL_LEDA_SCOPE::seq_item(nil));
     YS.insert(&sh,CGAL_LEDA_SCOPE::seq_item(nil));
-    TRACEN("end of initialization\n"<<YS.size());
+    CGAL_NEF_TRACEN("end of initialization\n"<<YS.size());
   }
 
   bool event_exists() 
@@ -243,7 +242,7 @@ public:
 
   void process_event() 
   {
-    TRACEN("\n\n >>> process_event: "<<p_sweep<<" "<<XS[event]<<" "<<event);
+    CGAL_NEF_TRACEN("\n\n >>> process_event: "<<p_sweep<<" "<<XS[event]<<" "<<event);
 
     Vertex_handle v = GO.new_vertex(p_sweep);
     CGAL_LEDA_SCOPE::seq_item sit = XS.inf(event);
@@ -262,7 +261,7 @@ public:
             sit_pred = YS.pred(sit_succ);
             sit_pred_succ = sit_succ;
           }
-          TRACEN("looked up p_sweep "<<PIS(YS.key(sit_succ)));
+          CGAL_NEF_TRACEN("looked up p_sweep "<<PIS(YS.key(sit_succ)));
         }
 
 
@@ -273,7 +272,7 @@ public:
          determining the bundle.*/
 
       if (sit != nil) { // key(sit) is an ending or passing segment
-        TRACEN("ending/passing segs");
+        CGAL_NEF_TRACEN("ending/passing segs");
         while ( YS.inf(sit) == event ||
                 YS.inf(sit) == YS.succ(sit) ) // overlapping
           sit = YS.succ(sit);
@@ -285,7 +284,7 @@ public:
           ISegment s1 = YS.key(sit_last);
           ISegment s2 = YS.key(sit_succ);
           IEvent(s1,s2) = xit;
-            TRACEN("hashing "<<PIS(s1)<<PIS(s2)<<xit);
+            CGAL_NEF_TRACEN("hashing "<<PIS(s1)<<PIS(s2)<<xit);
         } 
           
         bool overlapping;
@@ -295,17 +294,17 @@ public:
           overlapping = (YS.inf(sit_next) == sit);
           Halfedge_handle e = Edge_of[sit];
           if ( !overlapping ) {
-            TRACEN("connecting edge to node "<<PIS(s)<<" "<<sit);
+            CGAL_NEF_TRACEN("connecting edge to node "<<PIS(s)<<" "<<sit);
             GO.link_as_target_and_append(v,e);
           }
           GO.supporting_segment(e,original(s));
           if ( target(s) == p_sweep ) { // ending segment
-              TRACEN("ending segment "<<PIS(s));
+              CGAL_NEF_TRACEN("ending segment "<<PIS(s));
             if ( overlapping ) YS.change_inf(sit_next,YS.inf(sit));
             YS.del_item(sit);
             GO.ending_segment(v,original(s));
           } else {  // passing segment
-              TRACEN("passing segment "<<PIS(s));
+              CGAL_NEF_TRACEN("passing segment "<<PIS(s));
             if ( YS.inf(sit) != YS.succ(sit) ) 
               YS.change_inf(sit, CGAL_LEDA_SCOPE::seq_item(0));
             GO.passing_segment(v,original(s));
@@ -318,8 +317,8 @@ public:
         sit_pred = sit;
         sit_first = sit_pred_succ = YS.succ(sit_pred); // first item of bundle
 
-        TRACE("event bundles between\n   "<<PIS(YS.key(sit_succ)));
-        TRACEN("\n   "<<PIS(YS.key(sit_pred)));
+        CGAL_NEF_TRACE("event bundles between\n   "<<PIS(YS.key(sit_succ)));
+        CGAL_NEF_TRACEN("\n   "<<PIS(YS.key(sit_pred)));
 
         while ( sit != sit_succ ) {
           CGAL_LEDA_SCOPE::seq_item sub_first = sit;
@@ -359,7 +358,7 @@ public:
       CGAL_LEDA_SCOPE::seq_item s_sit = YS.locate_succ(next_seg);
       CGAL_LEDA_SCOPE::seq_item p_sit = YS.pred(s_sit);
 
-      TRACEN("inserting "<<PIS(next_seg)<<" at "<<PIS(YS.key(s_sit))); 
+      CGAL_NEF_TRACEN("inserting "<<PIS(next_seg)<<" at "<<PIS(YS.key(s_sit))); 
       if ( YS.max_item() != s_sit &&
            orientation(s_sit, source(next_seg) ) == 0 &&
            orientation(s_sit, target(next_seg) ) == 0 )
@@ -385,10 +384,10 @@ public:
     for( CGAL_LEDA_SCOPE::seq_item sitl = YS.pred(sit_succ); sitl != sit_pred; 
          sitl = YS.pred(sitl) ) {
       if ( YS.inf(sitl) != YS.succ(sitl) ) { // non-overlapping
-        TRACEN("non-overlapping "<<PIS(YS.key(sitl))<<" "<<sitl);
+        CGAL_NEF_TRACEN("non-overlapping "<<PIS(YS.key(sitl))<<" "<<sitl);
         Edge_of[sitl] = GO.new_halfedge_pair_at_source(v);
       } else {
-        TRACEN("overlapping "<<PIS(YS.key(sitl)));
+        CGAL_NEF_TRACEN("overlapping "<<PIS(YS.key(sitl)));
         Edge_of[sitl] = Edge_of[ YS.succ(sitl) ];
       }
     }
@@ -401,7 +400,7 @@ public:
       ISegment s1 = YS.key(sit_pred);
       ISegment s2 = YS.key(sit_pred_succ);
       IEvent(s1,s2) = xit;
-        TRACEN("hashing "<<PIS(s1)<<PIS(s2)<<xit);
+        CGAL_NEF_TRACEN("hashing "<<PIS(s1)<<PIS(s2)<<xit);
       YS.change_inf(sit_pred, CGAL_LEDA_SCOPE::seq_item(0));
     }
           
@@ -414,15 +413,15 @@ public:
   }
 
   void complete_structures() {}
-  void check_invariants() {TRACEN("check_invariants\n"<<dump_structures());}
+  void check_invariants() {CGAL_NEF_TRACEN("check_invariants\n"<<dump_structures());}
   void check_final() {}
 
 }; // leda_seg_overlay_traits
 
 } // namespace CGAL
 
-#endif // defined(CGAL_USE_LEDA) || defined(INCLUDEBOTH)
-#if !defined(CGAL_USE_LEDA) || defined(INCLUDEBOTH)
+#endif // defined(CGAL_USE_LEDA)
+#if !defined(CGAL_USE_LEDA)
 #include <list>
 #include <map>
 #include <string>
@@ -544,7 +543,7 @@ public:
     out << "SweepStatus:\n";
     typename SweepStatus::const_iterator sit3;
     for( sit3 = YS.begin(); sit3 != YS.end(); ++sit3 )
-      out << sit3->first << " " << &*(sit3->second) << std::endl;
+      out << sit3->first << std::endl;
     return out.str();
   }
 
@@ -571,7 +570,7 @@ public:
     // intersection with its successor and (if existing) insert it into 
     // the event queue and do all necessary updates.
     ss_iterator sit1 = sit0; ++sit1;
-    TRACEN("compute_intersection "<<sit0->first<<" "<<sit1->first);
+    CGAL_NEF_TRACEN("compute_intersection "<<sit0->first<<" "<<sit1->first);
     if ( sit0 == YS.begin() || sit1 == --YS.end() ) return;
     const Segment_2& s0 = sit0->first->first;
     const Segment_2& s1 = sit1->first->first;
@@ -592,7 +591,7 @@ public:
          leave previously inserted points unchanged to achieve that
          any pair of endpoints $p$ and $q$ with |p == q| are identical
     */
-    TRACEN("initialize_structures");
+    CGAL_NEF_TRACEN("initialize_structures");
     
     ITERATOR it_s;  
     for ( it_s=its; it_s != ite; ++it_s ) {
@@ -623,7 +622,7 @@ public:
     // cases when traversing the Y-structure
     YS.insert(ss_pair(&sl,Halfedge_handle()));
     YS.insert(ss_pair(&sh,Halfedge_handle()));
-    TRACEN("end of initialization\n");
+    CGAL_NEF_TRACEN("end of initialization\n");
   }
 
 
@@ -643,7 +642,7 @@ public:
 
   void process_event() 
   {
-    TRACEN("\n\n >>> process_event: "<<p_sweep);
+    CGAL_NEF_TRACEN("\n\n >>> process_event: "<<p_sweep);
 
     Vertex_handle v = GO.new_vertex(p_sweep);
     ss_iterator sit_succ, sit_pred, sit_first, sit;
@@ -672,7 +671,7 @@ public:
 
       if ( sit != YS.end() ) { // sit->first is ending or passing segment
         // Determine upper bundle item:
-        TRACEN("ending/passing segs");
+        CGAL_NEF_TRACEN("ending/passing segs");
       
         /* Walk down until |sit_pred|, close edges for all segments 
            in the bundle, delete all segments in the bundle, but 
@@ -686,9 +685,9 @@ public:
           overlapping = (sit_next != YS.begin()) && collinear(sit,sit_next);
           Halfedge_handle e = sit->second;
           if ( overlapping ) {
-            TRACEN("overlapping segment "<<s);
+            CGAL_NEF_TRACEN("overlapping segment "<<s);
           } else {
-            TRACEN("connecting edge to node "<<s);
+            CGAL_NEF_TRACEN("connecting edge to node "<<s);
             GO.link_as_target_and_append(v,e);
             /* in this case we close the output edge |e| associated to 
                |sit| by linking |v| as its target and by appending the 
@@ -697,10 +696,10 @@ public:
           GO.supporting_segment(e,original(s));
 
           if ( target(s) == p_sweep ) {
-              TRACEN("ending segment "<<s);
+              CGAL_NEF_TRACEN("ending segment "<<s);
             GO.ending_segment(v,original(s));
           } else { // passing segment, take care of the node here!
-              TRACEN("passing segment "<<s);
+              CGAL_NEF_TRACEN("passing segment "<<s);
             L_tmp.push_back(s);
             GO.passing_segment(v,original(s));
            }
@@ -711,8 +710,8 @@ public:
         sit_pred = sit_first = sit;
         ++sit_first; // first item of the bundle
 
-        TRACE("event bundles between\n   "<<sit_succ->first);
-        TRACEN("\n   "<<sit_pred->first);
+        CGAL_NEF_TRACE("event bundles between\n   "<<sit_succ->first);
+        CGAL_NEF_TRACEN("\n   "<<sit_pred->first);
 
         /* Interfaceproposition for next chunk:
            - succ(sit_pred) == sit_first == sit_succ
@@ -743,7 +742,7 @@ public:
       seg_iterator next_it = SQ.begin();
       while ( next_it != SQ.end() && 
               ( next_seg = next_it->second, p_sweep == source(next_seg)) ) {
-        TRACEN("inserting "<<next_seg);
+        CGAL_NEF_TRACEN("inserting "<<next_seg);
         YS.insert(ss_pair(next_seg,Halfedge_handle()));
         GO.starting_segment(v,original(next_seg));
         // delete minimum and assign new minimum to next_seg
@@ -754,12 +753,12 @@ public:
       ss_iterator sit_curr = sit_succ, sit_prev = sit_succ;
       for( --sit_curr; sit_curr != sit_pred; 
            sit_prev = sit_curr, --sit_curr ) {
-        TRACEN("checking outedge "<<sit_curr->first<<"\n   "<<sit_prev->first);
+        CGAL_NEF_TRACEN("checking outedge "<<sit_curr->first<<"\n   "<<sit_prev->first);
         if ( sit_curr != YS.begin() && sit_prev != --YS.end() &&
              collinear(sit_curr,sit_prev) ) // overlapping
           sit_curr->second = sit_prev->second;
         else {
-          TRACEN("creating new edge");
+          CGAL_NEF_TRACEN("creating new edge");
           sit_curr->second = GO.new_halfedge_pair_at_source(v);
         }
       }
@@ -768,7 +767,7 @@ public:
 
       // compute possible intersections between |sit_pred| and its
       // successor and |sit_succ| and its predecessor
-      TRACEN("pred,succ = "<<sit_pred->first<<" "<<sit_succ->first);
+      CGAL_NEF_TRACEN("pred,succ = "<<sit_pred->first<<" "<<sit_succ->first);
       compute_intersection(sit_pred); 
       sit = sit_succ; --sit;
       if (sit != sit_pred)
@@ -777,7 +776,7 @@ public:
   }
 
   void complete_structures() {}
-  void check_invariants() {TRACEN("check_invariants\n"<<dump_structures());}
+  void check_invariants() {CGAL_NEF_TRACEN("check_invariants\n"<<dump_structures());}
   void check_final() {}
 
 
@@ -785,10 +784,10 @@ public:
 
 } // namespace CGAL
 
-#endif // !defined(CGAL_USE_LEDA) || defined(INCLUDEBOTH)
+#endif // !defined(CGAL_USE_LEDA)
 
 namespace CGAL {
-#ifdef CGAL_USE_LEDA
+#if defined(CGAL_USE_LEDA)
 #define Segment_overlay_traits leda_seg_overlay_traits
 static const char* const sweepversion = "LEDA segment overlay sweep";
 #else

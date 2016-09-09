@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Handle.h,v $
-// $Revision: 1.10 $ $Date: 2003/10/21 12:18:04 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.11 $ $Date: 2004/01/01 18:00:43 $
+// $Name:  $
 //
 // Author(s)     :
 
@@ -72,6 +72,7 @@ class Handle
     refs()  const { return PTR->count; }
 
     friend unsigned long id(const Handle& x);
+    friend bool identical(const Handle& h1, const Handle& h2);
 
   protected:
     Rep* PTR;
@@ -82,11 +83,11 @@ unsigned long
 id(const Handle& x)
 { return reinterpret_cast<unsigned long>(x.PTR); }
 
-template < class T >
 inline
 bool
-identical(const T &t1, const T &t2)
-{ return id(t1) == id(t2); }
+identical(const Handle &h1, const Handle &h2)
+{ return reinterpret_cast<unsigned long>(h1.PTR) ==
+         reinterpret_cast<unsigned long>(h2.PTR); }
 
 CGAL_END_NAMESPACE
 

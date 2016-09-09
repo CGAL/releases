@@ -17,8 +17,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Iso_rectangle_2_Iso_rectangle_2_intersection.h,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:16:44 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.8 $ $Date: 2004/05/20 13:54:36 $
+// $Name:  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -88,7 +88,8 @@ intersection(
     const Iso_rectangle_2<K> &irect1,
     const Iso_rectangle_2<K> &irect2)
 {
-  return CGALi::intersection(irect1, irect2, K());
+  typedef typename K::Intersect_2 Intersect;
+  return Intersect()(irect1, irect2);
 }
 
 

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Planar_map_2/Pm_change_notification.h,v $
 // $Revision: 1.5 $ $Date: 2003/09/18 10:24:48 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Eyal flato <flato@math.tau.ac.il>
 #ifndef CGAL_PM_CHANGE_NOTIFICATION_H

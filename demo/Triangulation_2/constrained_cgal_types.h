@@ -16,7 +16,7 @@ typedef CGAL::Simple_cartesian<Coord_type>      K1;
 typedef CGAL::Filtered_kernel<K1>               K2;
 struct Rep : public K2{} ;
 
-typedef Rep::Point_2                            Point;
+typedef Rep::Point_2                            Point_2;
 typedef Rep::Segment_2                          Segment;
 typedef Rep::Line_2                             Line;
 typedef Rep::Triangle_2                         Triangle;
@@ -32,7 +32,8 @@ typedef CGAL::Exact_predicates_tag              Itag;
 
 typedef CGAL::Constrained_Delaunay_triangulation_2<Rep, TDS, Itag>
                                                 CT;
-typedef CGAL::Triangulation_hierarchy_2<CT>     CDT;
+typedef CGAL::Constrained_triangulation_plus_2<CT>  CTP;
+typedef CGAL::Triangulation_hierarchy_2<CTP>     CDT;
 typedef CDT::Vertex_iterator                    Vertex_iterator;
 typedef CDT::Constraint                         Constraint;
 typedef CDT::Vertex_handle                      Vertex_handle;

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/H3/include/CGAL/Homogeneous/PointH3.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:16:19 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.17 $ $Date: 2004/06/20 18:08:09 $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
 
@@ -33,18 +33,18 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class PointH3
-  : public R_::template Handle<Fourtuple<typename R_::RT> >::type
 {
-CGAL_VC7_BUG_PROTECTED
    typedef typename R_::RT                   RT;
    typedef typename R_::FT                   FT;
    typedef typename R_::Vector_3             Vector_3;
-   typedef typename R_::Point_3             Point_3;
+   typedef typename R_::Point_3              Point_3;
    typedef typename R_::Direction_3          Direction_3;
    typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-   typedef Fourtuple<RT>                            rep;
-   typedef typename R_::template Handle<rep>::type  base;
+   typedef Fourtuple<RT>                            Rep;
+   typedef typename R_::template Handle<Rep>::type  Base;
+
+   Base base;
 
 public:
    typedef Cartesian_coordinate_iterator_3<R_> Cartesian_const_iterator;
@@ -53,20 +53,17 @@ public:
   PointH3() {}
 
   PointH3(const Origin &)
-    : base (rep( RT(0), RT(0), RT(0), RT(1) )) { }
-
-  PointH3(const Vector_3& v)
-    : base(v) {}
+    : base (RT(0), RT(0), RT(0), RT(1)) { }
 
   PointH3(const RT& x, const RT& y, const RT& z)
-    : base(rep(x, y, z, RT(1))) {}
+    : base(x, y, z, RT(1)) {}
 
   PointH3(const RT& x, const RT& y, const RT& z, const RT& w)
   {
     if ( w < RT(0) )
-      initialize_with( rep(-x,-y,-z,-w)); 
+      base = Rep(-x,-y,-z,-w);
     else
-      initialize_with( rep(x,y,z,w)); 
+      base = Rep(x,y,z,w);
   }
 
   FT    x()  const;
@@ -93,12 +90,9 @@ public:
 
   int   dimension() const;
 
-  Direction_3
-        direction() const;
-  PointH3<R>
-        transform( const Aff_transformation_3 & t) const;
-  Bbox_3
-        bbox() const;
+  Direction_3 direction() const;
+  Point_3     transform( const Aff_transformation_3 & t) const;
+  Bbox_3      bbox() const;
 
   bool  operator==( const PointH3<R>& p) const;
   bool  operator!=( const PointH3<R>& p) const;
@@ -109,25 +103,25 @@ template < class R >
 inline
 const typename PointH3<R>::RT &
 PointH3<R>::hx() const
-{ return  Ptr()->e0 ; }
+{ return get(base).e0 ; }
 
 template < class R >
 inline
 const typename PointH3<R>::RT &
 PointH3<R>::hy() const
-{ return  Ptr()->e1 ; }
+{ return get(base).e1 ; }
 
 template < class R >
 inline
 const typename PointH3<R>::RT &
 PointH3<R>::hz() const
-{ return  Ptr()->e2 ; }
+{ return get(base).e2 ; }
 
 template < class R >
 inline
 const typename PointH3<R>::RT &
 PointH3<R>::hw() const
-{ return  Ptr()->e3; }
+{ return get(base).e3 ; }
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -260,19 +254,19 @@ std::istream &operator>>(std::istream &is, PointH3<R> &p)
 
 template < class R >
 inline
-PointH3<R>
+typename R::Point_3
 PointH3<R>::transform(const typename PointH3<R>::Aff_transformation_3& t) const
-{ return t.transform(*this); }
+{ return t.transform(static_cast<const Point_3&>(*this)); }
 
 template < class R >
 CGAL_KERNEL_LARGE_INLINE
 Bbox_3
 PointH3<R>::bbox() const
 {
-   Interval_nt<> ihx = CGAL::to_interval(hx());
-   Interval_nt<> ihy = CGAL::to_interval(hy());
-   Interval_nt<> ihz = CGAL::to_interval(hz());
-   Interval_nt<> ihw = CGAL::to_interval(hw());
+   Interval_nt<> ihx = CGAL_NTS to_interval(hx());
+   Interval_nt<> ihy = CGAL_NTS to_interval(hy());
+   Interval_nt<> ihz = CGAL_NTS to_interval(hz());
+   Interval_nt<> ihw = CGAL_NTS to_interval(hw());
 
    Interval_nt<> ix = ihx/ihw;
    Interval_nt<> iy = ihy/ihw;

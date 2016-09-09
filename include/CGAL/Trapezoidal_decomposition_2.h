@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Trapezoidal_decomposition/include/CGAL/Trapezoidal_decomposition_2.h,v $
-// $Revision: 1.20 $ $Date: 2003/09/18 10:25:54 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.26 $ $Date: 2004/11/22 23:07:04 $
+// $Name:  $
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 //                 Iddo Hanniel <hanniel@math.tau.ac.il>
@@ -59,7 +59,11 @@ public:
   class Around_point_circulator;
   struct Unbounded {};
   typedef Td_traits Traits;
+  typedef const Traits& const_Traits_ref;
+  typedef const Traits* const_Traits_ptr;
   typedef Trapezoidal_decomposition_2<Traits> Self;
+  typedef const Self& const_Self_ref;
+  typedef const Self* const_Self_ptr;
   typedef typename Traits::Point Point;
   typedef typename Traits::X_curve X_curve;
   typedef typename Traits::X_curve_ptr curve_pointer;
@@ -76,13 +80,17 @@ public:
   typedef class Base_trapezoid_iterator Base_trapezoid_circulator;
   // friend class Td_traits::X_trapezoid;
   
-  typedef Td_active_trapezoid<X_trapezoid> Active_trapezoid;
+  typedef Td_active_trapezoid<X_trapezoid> Td_active_trapezoid;
   typedef Td_active_non_degenerate_trapezoid<X_trapezoid,Traits> 
-  Active_non_degenerate_trapezoid;
+  Td_active_non_degenerate_trapezoid;
   typedef Td_active_right_degenerate_curve_trapezoid<X_trapezoid,Traits> 
-  Active_right_degenerate_curve_trapezoid;
+  Td_active_right_degenerate_curve_trapezoid;
   typedef Td_dag< X_trapezoid> Data_structure;
   typedef std::map<int,Data_structure> map_nodes;
+  //   typedef std::hash_map<const X_trapezoid*, X_trapezoid*> hash_map_tr_ptr;
+  typedef Trapezoid_handle_less<const X_trapezoid* const> Trapezoid_ptr_less;
+  typedef std::map<const X_trapezoid*, X_trapezoid*, Trapezoid_ptr_less> 
+    hash_map_tr_ptr;
   
   /*
    * class Base_trapezoid_iterator
@@ -94,7 +102,7 @@ public:
   {
   public:
     Base_trapezoid_iterator() : traits(0),curr(0) {};
-    Base_trapezoid_iterator(Traits* traits_,pointer currt=0):
+    Base_trapezoid_iterator(const_Traits_ptr traits_,pointer currt=0):
       traits(traits_),curr(currt) {}
     Base_trapezoid_iterator(const Base_trapezoid_iterator &it):
       traits(it.traits),curr(it.curr){;}
@@ -128,7 +136,7 @@ public:
     }
     
   protected:
-    Traits* traits;
+    const_Traits_ptr traits;
     pointer curr;
   };
 
@@ -142,11 +150,17 @@ public:
   
   class In_face_iterator : public Base_trapezoid_iterator
   {
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2
+    using Base_trapezoid_iterator::curr;
+    using Base_trapezoid_iterator::traits;
+#endif
+
   protected:
     const X_curve& sep;
   public:
     
-    In_face_iterator(Traits* traits_,const X_curve& sepc,pointer currt=0) :
+    In_face_iterator(const_Traits_ptr traits_,const X_curve& sepc,pointer currt=0) :
       Base_trapezoid_iterator(traits_,currt),sep(sepc){}
     In_face_iterator(const In_face_iterator &it) :
       Base_trapezoid_iterator((Base_trapezoid_iterator&)it),sep(it.sep){}
@@ -195,14 +209,11 @@ public:
       if (!traits->is_degenerate(*curr))
       {
 #ifndef NDEBUG
-        Data_structure* tt=curr->get_node();
-          
 #ifndef CGAL_TD_DEBUG
-          
+        CGAL_warning_code(Data_structure* tt=curr->get_node();)
         CGAL_warning(!tt->is_inner_node());
-          
 #else
-          
+        CGAL_assertion_code(Data_structure* tt=curr->get_node();)
         CGAL_assertion(tt);
         CGAL_assertion(!tt->is_inner_node());
 #endif
@@ -237,13 +248,13 @@ public:
 #ifndef NDEBUG          
 #ifndef CGAL_TD_DEBUG
           
-        Data_structure* tt=curr->get_node();
+        CGAL_warning_code(Data_structure* tt=curr->get_node();)
         CGAL_warning(tt);
         CGAL_warning(tt->is_inner_node());
           
 #else
-          
-        Data_structure* tt=curr->get_node();
+
+        CGAL_assertion_code(Data_structure* tt=curr->get_node();)
         CGAL_assertion(tt);
         CGAL_assertion(tt->is_inner_node());
 #endif
@@ -289,11 +300,21 @@ public:
    */
   class Around_point_circulator : public Base_trapezoid_circulator
   {
+
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2
+    using Base_trapezoid_circulator::curr;
+    using Base_trapezoid_circulator::traits;
+#endif
+
   protected:
     const Point& fixed;
   public:
     
-    Around_point_circulator(Traits * traits_, const Point & fixedp,
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2
+    using Base_trapezoid_circulator::operator!;
+#endif
+
+    Around_point_circulator(const_Traits_ptr traits_, const Point & fixedp,
                             pointer currt) :
       Base_trapezoid_iterator(traits_,currt),fixed(fixedp) {};
     
@@ -1333,7 +1354,7 @@ output: trapezoid iterator
     use this function with care!
   */
   /*static */
-  Locate_type search_using_data_structure(Data_structure& curr,Traits* traits,
+  Locate_type search_using_data_structure(Data_structure& curr,const_Traits_ptr traits,
                                           const Point& p,const X_curve* cv,
                                           Comparison_result up = EQUAL) const
   {
@@ -1600,7 +1621,69 @@ public:
   Trapezoidal_decomposition_2(const double& depth_th,const double& size_th) : 
     depth_threshold(depth_th),size_threshold(size_th) 
     {init();set_needs_update(rebuild);}
-  
+  Trapezoidal_decomposition_2(const_Self_ref td) :
+    needs_update_(td.needs_update_),
+    number_of_curves_(td.number_of_curves_),    
+    traits(td.traits),
+    last_cv(NULL), prev_cv(NULL), 
+    depth_threshold(td.depth_threshold),
+    size_threshold(td.size_threshold)
+    {
+      hash_map_tr_ptr htr;
+      /*! \todo allocate hash_map size according to content.
+       * \todo change vector<> to in_place_list and pointer hash to trapezoidal
+       * hash..
+       */
+      vector_container vtr;
+      int sz;
+      Td_active_trapezoid pr;
+      sz=X_trapezoid_filter(vtr, &td.get_data_structure());
+      //! \todo Reduce the 3 iterations to 1 (or 2) iterator.
+      // First iteration: filter out the active trapezoids.
+      typename vector_container::const_iterator it;
+      for (it=vtr.begin(); it!=vtr.end(); ++it) {
+	Data_structure* ds_copy=new Data_structure(*it);
+	const X_trapezoid* cur=&*it;
+	X_trapezoid* tr_copy=&*(*ds_copy);
+	tr_copy->set_node(ds_copy);
+	CGAL_assertion(&*(*tr_copy->get_node())==tr_copy);
+	ds_copy->set_depth(cur->get_node()->depth());
+	// We cheat a little with the depth.
+	htr.insert(typename hash_map_tr_ptr::value_type(cur, tr_copy));
+	// Second iteration: generate new copies of trapezoids and nodes.
+      }
+      for (it=vtr.begin(); it!=vtr.end(); ++it) {
+	const X_trapezoid* cur=&*it;
+	X_trapezoid* tr_copy=htr.find(cur)->second;
+	const Data_structure *child;
+	CGAL_assertion(tr_copy);
+	tr_copy->set_rt(cur->get_rt() ? 
+			htr.find(cur->get_rt())->second : NULL);
+	tr_copy->set_rb(cur->get_rb() ?
+			htr.find(cur->get_rb())->second : NULL);
+	tr_copy->set_lt(cur->get_lt() ? 
+			htr.find(cur->get_lt())->second : NULL);
+	tr_copy->set_lb(cur->get_lb() ? 
+			htr.find(cur->get_lb())->second : NULL);
+	if (cur->get_node()->is_inner_node()) {
+	  child=&cur->get_node()->right();
+	  while (child && child->is_inner_node() && 
+		 !pr(*(*child))) child=&child->left();
+	  tr_copy->get_node()->set_right(*child);
+	  child=&cur->get_node()->left();
+	  while (child && child->is_inner_node() && 
+		 !pr(*(*child))) child=&child->left();
+	  tr_copy->get_node()->set_left(*child);
+	}
+	// Third iteration: generate links in-between trapezoids 
+	//  and in-between nodes .
+      }
+      DS=htr.find(&*(*td.DS))->second->get_node();
+    }
+  /*
+    TODO: Should we add another constructor with non const argument that 
+    rebuild the trapezoidal decomposition prior to copy construction?
+  */
   virtual ~Trapezoidal_decomposition_2()
   {
     
@@ -2133,7 +2216,7 @@ public:
     
     if (is_isolated_point(t1)) remove_split_trapezoid_by_point(tt1,leftmost);
     if (is_isolated_point(t2)) remove_split_trapezoid_by_point(tt2,rightmost);
-    //freeing memory that was allocated for X_curve
+    //freeing memory thasht was allocated for X_curve
     //delete old_cv;
     // reevaluating number of curves
     number_of_curves_--;
@@ -2916,19 +2999,19 @@ public:
 
   }
   
-  unsigned long size()
+  unsigned long size() const
   {
     return DS->size();
   }
-  unsigned long depth()
+  unsigned long depth() const
   {
     return DS->depth();
   }  
-  unsigned long number_of_curves()
+  unsigned long number_of_curves() const
   {
     return number_of_curves_;
   }
-  void init_traits(Traits* t)
+  void init_traits(const_Traits_ptr t)
   {
     traits = t;
     
@@ -2993,16 +3076,16 @@ postcondition:
     std::cout << "\nrebuild()" << std::flush;
 #endif
     
-    X_curve_container content;
-    unsigned long rep = container(content);
+    X_curve_container container;
+    unsigned long rep = X_curve_filter(container, &get_data_structure());
     clear();
 
-    // initialize content to point to curves in X_trapezoid Tree
+    // initialize container to point to curves in X_trapezoid Tree
     if (rep>0)
     {
       bool o=set_needs_update(false);
-      typename std::vector<X_curve>::iterator it = content.begin(),
-          it_end = content.end();
+      typename std::vector<X_curve>::iterator it = container.begin(),
+          it_end = container.end();
       while(it!=it_end) 
       {
         insert(*it);
@@ -3024,7 +3107,7 @@ postcondition:
     
 #endif
     
-    content.clear();
+    container.clear();
     return *this;
   }
   
@@ -3038,18 +3121,31 @@ postcondition:
      structure for which the predicate value is true. 
   */
   
-  template <class Container,class Predicate>
-  void container(Container& c, const Predicate& pr) const
-  {
-    DS->filter(c,pr);
-  }
-  unsigned long container(X_curve_container& content)
-  {
-    unsigned long sz=number_of_curves();
-    list_container representatives;
-    container(representatives,
-              Active_right_degenerate_curve_trapezoid(*traits));
-    
+  template <class Container, class Predicate>
+    void filter(Container& c, const Predicate& pr, 
+		const Data_structure* ds=&get_data_structure()) const
+    {
+      CGAL_assertion(ds);
+      ds->filter(c,pr);
+    }
+  template <class Container>
+    unsigned long X_trapezoid_filter(Container& container, 
+				     const Data_structure* ds) const
+    /* Return a container for all active trapeozoids */
+    {
+      ds->filter(container, Td_active_trapezoid());
+      return container.size();
+    }
+  template <class X_curve_container>
+    unsigned long X_curve_filter(X_curve_container& container, 
+				 const Data_structure* ds) const
+    /* Return a container for all active curves */
+    {
+      unsigned long sz=number_of_curves();
+      list_container representatives;
+      ds->filter(representatives,
+	     Td_active_right_degenerate_curve_trapezoid(*traits));
+      
 #ifndef CGAL_TD_DEBUG
     
     CGAL_warning(sz==representatives.size());
@@ -3072,12 +3168,12 @@ postcondition:
           it_end = representatives.end();
       while(it!=it_end)
       {
-        content.push_back(it->top());
+        container.push_back(it->top());
         ++it;
       }
     }
-    if(! content.empty()) {
-      std::random_shuffle(content.begin(),content.end());
+    if(! container.empty()) {
+      std::random_shuffle(container.begin(),container.end());
     }
     return sz;
 }
@@ -3158,7 +3254,7 @@ postcondition:
     const Data_structure& get_data_structure() const {return *DS;}
 
 /* returns a reference to the internal data structure */
-    const Traits& get_traits() const {return *traits;}
+    const_Traits_ref get_traits() const {return *traits;}
 
 /* returns a reference to the internal depth threshold constant */
     const double& get_depth_threshold() const
@@ -3187,7 +3283,7 @@ protected:
   Data_structure* DS;
   bool needs_update_;
   unsigned long number_of_curves_;
-  Traits* traits;
+  const_Traits_ptr traits;
   
 private:
   

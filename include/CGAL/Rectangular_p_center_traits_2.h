@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/Rectangular_p_center_traits_2.h,v $
 // $Revision: 1.36 $ $Date: 2003/09/29 08:41:45 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 

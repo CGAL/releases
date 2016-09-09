@@ -1,3 +1,5 @@
+// file: examples/Planar_map/example6.C
+
 /*! \file
  * A construction of a house-like-shaped Planar_map.
  * In this example a house-like-shaped Planar_map that uses the naive point

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_NO_BIG_ENDIAN.C,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:14:48 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.7 $ $Date: 2004/06/21 01:52:57 $
+// $Name:  $
 //
 // Author(s)     : various
 
@@ -32,17 +32,15 @@
 //| big-endian and little-endian machines.
 //| The following definition is set if it is a little-endian machine.
 
-union {
+union T {
   int       testWord;
   char      testByte[sizeof(int)];
 } endianTest;
 
-int main() {
+int main()
+{
     endianTest.testWord = 1;
     if (endianTest.testByte[0] == 1)
 	return 1;  // little-endian
     return 0;      // big-endian
 }
-
-// EOF //
-

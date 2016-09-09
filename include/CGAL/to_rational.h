@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/to_rational.h,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:21:49 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Andreas Fabri, Susan Hert, Sylvain Pion
  

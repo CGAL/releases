@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Iso_cuboid_3.h,v $
 // $Revision: 1.17 $ $Date: 2003/10/21 12:18:06 $
-// $Name: CGAL_3_0_1  $
+// $Name:  $
 //
 // Author(s)     : Stefan Schirra
  

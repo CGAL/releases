@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/DirectionHd.h,v $
-// $Revision: 1.13 $ $Date: 2003/10/21 12:19:17 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.16 $ $Date: 2004/09/17 12:12:39 $
+// $Name:  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_DIRECTIONHD_H
@@ -53,6 +53,8 @@ class DirectionHd : public Handle_for< Tuple_d<_RT,_LA> > {
   typedef Tuple_d<_RT,_LA> Tuple;
   typedef Handle_for<Tuple> Base;
   typedef DirectionHd<_RT,_LA> Self;
+
+  using Base::ptr;
 
 /*{\Mdefinition 
 A |DirectionHd| is a vector in the $d$-dimensional vector space
@@ -121,7 +123,7 @@ DirectionHd(const RT& x, const RT& y) : Base( Tuple(x,y,1) ) {}
 $2$-dimensional space. }*/
 
 DirectionHd(int a, int b) : 
-  Base( Tuple(RT(a),RT(b),RT(1)) ) {}
+  Base( Tuple(RT(a),RT(b),RT(1),MatchHelper()) ) {}
 
 DirectionHd(const RT& x, const RT& y, const RT& z) : 
   Base( Tuple(x,y,z,1) ) {}
@@ -201,9 +203,9 @@ RT dx() const { return delta(0); }
 RT dy() const { return delta(1); }
 RT dz() const { return delta(2); }
 
-friend std::istream& operator>> CGAL_NULL_TMPL_ARGS
+friend std::istream& operator>> <>
   (std::istream& I, DirectionHd<RT,LA>& d);
-friend std::ostream& operator<< CGAL_NULL_TMPL_ARGS
+friend std::ostream& operator<< <>
   (std::ostream& O, const DirectionHd<RT,LA>& d);
 
 }; // end of class DirectionHd

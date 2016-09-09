@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_NO_LONG_LONG.C,v $
-// $Revision: 1.4 $ $Date: 2003/10/21 12:14:49 $
-// $Name: CGAL_3_0_1  $
+// $Revision: 1.5 $ $Date: 2004/04/08 19:39:53 $
+// $Name:  $
 //
 // Author(s)     : Sylvain Pion
 
@@ -33,10 +33,13 @@
 //| C standard.
 //| The following definition is set if it is supported.
 
+template < typename T >
+void kill_unused_warning(const T&) {}
+
 int main()
 {
     long long int i = 1;
-    (void) i;
+    kill_unused_warning(i);
     return 0;
 }
 

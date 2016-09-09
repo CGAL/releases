@@ -16,15 +16,15 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: point3d.h,v 1.1 2003/06/22 12:11:20 afabri Exp $
+ * $Id: point3d.h,v 1.3 2004/11/14 12:00:16 efi Exp $
  *****************************************************************/
 
 #ifndef _POINT3D_H
 #define _POINT3D_H
 
-#include "CORE.h"
-#include "../linearAlgebra.h"
-#include "../geombase.h"
+#include <CORE/CORE.h>
+#include <CORE/linearAlgebra.h>
+#include <CORE/geombase.h>
 
  // class defination for 3d points
 class Point3d : public GeomObj{
