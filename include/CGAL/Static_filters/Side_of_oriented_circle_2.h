@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Static_filters/Side_of_oriented_circle_2.h,v $
-// $Revision: 1.21 $ $Date: 2004/11/18 14:25:53 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Static_filters/Side_of_oriented_circle_2.h $
+// $Id: Side_of_oriented_circle_2.h 28889 2006-02-28 13:19:00Z glisse $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -26,6 +26,7 @@
 
 #include <CGAL/Profile_counter.h>
 #include <CGAL/Static_filter_error.h>
+#include <cmath>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -42,6 +43,8 @@ public:
 	                   const Point_2 &r, const Point_2 &t) const
   {
       CGAL_PROFILER("In_circle_2 calls");
+
+      using std::fabs;
 
       double px, py, qx, qy, rx, ry, tx, ty;
 
@@ -78,17 +81,17 @@ public:
           if (maxy < fabs(tpy)) maxy = fabs(tpy);
           if (maxy < fabs(tqy)) maxy = fabs(tqy);
           if (maxy < fabs(rqy)) maxy = fabs(rqy);
-          double maxt = maxx;
-          if (maxt < maxy) maxt = maxy;
 
-          double eps = 8.887856576200131e-15 * maxx * maxy * (maxt*maxt);
+          if (maxx > maxy)  std::swap(maxx, maxy);
+
+          double eps = 8.8878565762001373e-15 * maxx * maxy * (maxy*maxy);
 
           // Protect against underflow in the computation of eps.
-          if (maxx < 1e-73 || maxy < 1e-73) {
-            if (maxx == 0 || maxy == 0)
+          if (maxx < 1e-73) {
+            if (maxx == 0)
               return ON_ORIENTED_BOUNDARY;
           }
-          else {
+          else if (maxy < 1e76) /* sqrt(sqrt(max_double/16 [hadamard])) */ {
             if (det > eps)  return ON_POSITIVE_SIDE;
             if (det < -eps) return ON_NEGATIVE_SIDE;
           }
@@ -108,6 +111,8 @@ public:
     F b = t1*t1 + t1*t1;
     F det = det2x2_by_formula(a, b, a, b);
     double err = det.error();
+    err += err * 3 * F::ulp(); // Correction due to "eps * maxx * maxy...".
+
     std::cerr << "*** epsilon for In_circle_2 = " << err << std::endl;
     return err;
   }

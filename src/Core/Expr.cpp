@@ -29,8 +29,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/src/Core/Expr.cpp,v $
- * $Revision: 1.8 $ $Date: 2004/11/14 11:53:16 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/src/Core/Expr.cpp $
+ * $Id: Expr.cpp 28567 2006-02-16 14:30:13Z lsaboret $
  ***************************************************************************/
 
 #include <CORE/Expr.h>

@@ -15,7 +15,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: polygon3d.h,v 1.3 2004/11/14 12:00:16 efi Exp $
+ * $Id: polygon3d.h 23263 2004-11-14 12:00:19Z efi $
  *****************************************************************/
 
 #ifndef _POLYGON3D_H_

@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Kernel/global_functions_3.h,v $
-// $Revision: 1.22 $ $Date: 2004/09/14 13:59:10 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/global_functions_3.h $
+// $Id: global_functions_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion
  
@@ -110,6 +110,22 @@ Point_3<K>
 centroid(const Point_3<K> &p, const Point_3<K> &q, const Point_3<K> &r)
 {
   return CGALi::centroid(p, q, r, K());
+}
+
+template < class K >
+inline
+Point_3<K>
+centroid(const Tetrahedron_3<K> &t)
+{
+  return CGALi::centroid(t, K());
+}
+
+template < class K >
+inline
+Point_3<K>
+centroid(const Triangle_3<K> &t)
+{
+  return CGALi::centroid(t, K());
 }
 
 template < class K >
@@ -588,6 +604,14 @@ orientation(const Point_3<K> &p,
             const Point_3<K> &s)
 {
   return CGALi::orientation(p, q, r, s, K());
+}
+
+template <class K >
+inline
+Orientation
+orientation(const Vector_3<K> &u, const Vector_3<K> &v, const Vector_3<K> &w)
+{
+  return CGALi::orientation(u, v, w, K());
 }
 
 template <class K >

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/sorted_matrix_search.h,v $
-// $Revision: 1.59 $ $Date: 2003/09/29 08:41:49 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Matrix_search/include/CGAL/sorted_matrix_search.h $
+// $Id: sorted_matrix_search.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
@@ -116,7 +116,7 @@ private:
 };
 template < class Cell >
 struct Cell_min
-: public CGAL_STD::unary_function< Cell, typename Cell::Value >
+: public std::unary_function< Cell, typename Cell::Value >
 {
   typedef Arity_tag< 1 > Arity;
   typename Cell::Value
@@ -126,7 +126,7 @@ struct Cell_min
 
 template < class Cell >
 struct Cell_max
-: public CGAL_STD::unary_function< Cell, typename Cell::Value > {
+: public std::unary_function< Cell, typename Cell::Value > {
   typedef Arity_tag< 1 > Arity;
 
   Cell_max( int offset) : ofs( offset) {}

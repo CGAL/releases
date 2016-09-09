@@ -1,3 +1,23 @@
+// Copyright (c) 2005  Tel-Aviv University (Israel).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/demo/Arrangement_2/MyWindow_overlay.C $
+// $Id: MyWindow_overlay.C 28615 2006-02-19 08:18:05Z wein $
+// 
+//
+//
+// Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
+
 #include <CGAL/basic.h>
 
 #ifdef CGAL_USE_QT
@@ -6,40 +26,40 @@
 #include "forms.h"
 #include "qt_layer.h"
 #include "demo_tab.h"
+#include "overlay_fucntor.h"
 
-
-
-
+#include <CGAL/Arr_overlay.h>
 
 /*! open the overlay dialog form and read its output */
 void MyWindow::overlay_pm()
 {
-  OverlayForm *form = new OverlayForm( myBar , this ,tab_number - 1);
+  OverlayForm *form = new OverlayForm( myBar , this ,tab_number);
   if ( form->exec() ) 
   {    
     unsigned int i = 2;
     if (form->listBox2->count() < i)
     {
       QMessageBox::information( this, "Overlay",
-          "Please!!! you need more than one planar map to make an overlay...");
+          "You need more than one arrangement to perform overlay...");
       return;
     }
     i = 12;
     if (form->listBox2->count() > i)
     {
-      QMessageBox::information( this, "Overlay",
-                              "Max number of Planar Maps to overlay is 12!!!");
+      QMessageBox::information 
+        (this, "Overlay",
+         "Maximal number of arrangements to overlay is 12 !");
       return;
     }
-	CheckForm *check_form = new CheckForm( form , this );
-	if ( ! check_form->exec() )
-	  return;
+    CheckForm *check_form = new CheckForm( form , this );
+    if ( ! check_form->exec() )
+      return;
     
-	std::list<int> indexes;
-	std::list<int> paint_flags;
-    TraitsType t;
+    std::list<int>      indexes;
+    std::list<int>      paint_flags;
+    TraitsType          t;
     Qt_widget_base_tab *w_demo_p;
-    int index,real_index;
+    int                 index,real_index = 0;
     
     for (unsigned int i = 0; i < form->listBox2->count(); i++)
     {
@@ -50,16 +70,16 @@ void MyWindow::overlay_pm()
       pch = strtok(s," ");
       pch = strtok(NULL, " ");
       index = atoi(pch);
-      real_index = realIndex(index);
+      real_index = realIndex(index-1);
       indexes.push_back(real_index);
-	  QCheckBox *b = 
-		  static_cast<QCheckBox *> (check_form->button_group->find(i));
-	  if ( b->isChecked() )
+      QCheckBox *b = 
+      static_cast<QCheckBox *> (check_form->button_group->find(i));
+      if ( b->isChecked() )
         paint_flags.push_back(1);
-	  else
-	    paint_flags.push_back(0);
+      else
+        paint_flags.push_back(0);
     }
-	delete check_form;
+    delete check_form;
     
     w_demo_p = static_cast<Qt_widget_base_tab *> (myBar->page( real_index ));
     t = w_demo_p->traits_type;
@@ -67,18 +87,18 @@ void MyWindow::overlay_pm()
     FileOpenOptionsForm * form = new FileOpenOptionsForm(false);
     if ( form->exec() ) 
     {
-		int id = form->buttonGroup->id(form->buttonGroup->selected());
-		switch ( id ) 
-		{
-			case 0: // open file in a new tab
-			make_overlay( indexes , paint_flags , t , true);    
-			break;
-			case 1: // open file in current tab (delete current Pm)
-			make_overlay( indexes , paint_flags , t , false);
-			break;        
-		}// switch
+    int id = form->buttonGroup->id(form->buttonGroup->selected());
+    switch ( id ) 
+    {
+      case 0: // open file in a new tab
+      make_overlay( indexes , paint_flags , t , true);    
+      break;
+      case 1: // open file in current tab (delete current Pm)
+      make_overlay( indexes , paint_flags , t , false);
+      break;        
+    }// switch
     }// if
-	
+  
   }
   delete form;
 }
@@ -92,306 +112,159 @@ void MyWindow::make_overlay( std::list<int> indexes ,
 {
   switch ( t ) 
   {
-   case SEGMENT_TRAITS:
+    case SEGMENT_TRAITS:
     {
-	 if(new_tab)
-       add_segment_tab();
-	 else
-	   updateTraitsType( setSegmentTraits );
-
-     Qt_widget_demo_tab<Segment_tab_traits> *w_demo_p_new = 
-       static_cast<Qt_widget_demo_tab<Segment_tab_traits> *> 
+       if(new_tab)
+         add_segment_tab();
+       else
+         updateTraitsType( setSegmentTraits );
+        Qt_widget_demo_tab<Segment_tab_traits> *w_demo_p_new = 
+         static_cast<Qt_widget_demo_tab<Segment_tab_traits> *> 
        (myBar->currentPage());
      
-	 QCursor old = w_demo_p_new->cursor();
+   QCursor old = w_demo_p_new->cursor();
      w_demo_p_new->setCursor(Qt::WaitCursor);
      
-	 std::vector<QColor> ubf_colors(20) ; // vector of colors of the unbounded faces od the planar maps //..//
-	 Qt_widget_demo_tab<Segment_tab_traits> *w_demo_p;
+   Qt_widget_demo_tab<Segment_tab_traits> *w_demo_p1, *w_demo_p2;
      
-     std::list<Pm_seg_2> seg_list;
-     std::list<Pm_seg_2> antenna_list;
-     Pm_seg_const_iter itp;
-     int current, flag;
-     bool all_pm_are_empty = true; //..//
-     while (! indexes.empty())
-     {
-       current = indexes.front();
-       indexes.pop_front();
-	     flag = paint_flags.front();
-       paint_flags.pop_front();
-       w_demo_p = 
-         static_cast<Qt_widget_demo_tab<Segment_tab_traits> *> 
-         (myBar->page( current ));
+     int ind1, ind2;
+    
+     ind1 = indexes.front();
+     ind2 = indexes.back();
+    
+     w_demo_p1 = 
+       static_cast<Qt_widget_demo_tab<Segment_tab_traits> *> 
+       (myBar->page( ind1 ));
+
+     w_demo_p2 = 
+       static_cast<Qt_widget_demo_tab<Segment_tab_traits> *> 
+       (myBar->page( ind2 ));
        
-	   if (! w_demo_p->empty)//..//
-	   {
-         Seg_arr::Edge_iterator hei;
-         for (hei = w_demo_p->m_curves_arr->edges_begin(); 
-              hei != w_demo_p->m_curves_arr->edges_end(); ++hei) 
-         {
-           Pm_xseg_2 xcurve = hei->curve();
-		       Curve_data cd = xcurve.get_data();
-           if ( flag == 0 )
-		         cd.m_index = w_demo_p_new->index;
-		       xcurve.set_data( cd );
-           Pm_seg_2 curve(xcurve, cd);
-           if ( w_demo_p->antenna(*hei))
-             antenna_list.push_back(curve);
-           else
-             seg_list.push_back(curve);
-         }// for
-		     all_pm_are_empty = false;
-	   }// if //..//
-     w_demo_p_new->bbox = w_demo_p_new->bbox + w_demo_p->bbox;
+     w_demo_p_new->bbox = w_demo_p1->bbox + w_demo_p2->bbox;
        
-	   // update the vector of colors of unbounded faces
-	   ubf_colors[current] = w_demo_p->unbounded_face_color();//..//
-	 }// while
+     // update the vector of colors of unbounded faces
 
-	 if (! all_pm_are_empty)//..//
-	 {
-     if ( ! seg_list.empty())
-       w_demo_p_new->m_curves_arr->insert(seg_list.begin(),seg_list.end());
-     w_demo_p_new->update_colors(ubf_colors); 
-     Seg_notification  seg_notif;
-     std::list<Pm_seg_2>::iterator it;
-     for (it = antenna_list.begin(); it != antenna_list.end(); it++)
-       w_demo_p_new->m_curves_arr->insert( *it, &seg_notif );
+     typedef  Segment_tab_traits::Arrangement_2    Arrangement_2;
+     Overlay_functor<Arrangement_2> func;
+     CGAL::overlay(*(w_demo_p1->m_curves_arr),
+                   *(w_demo_p2->m_curves_arr),
+                   *(w_demo_p_new->m_curves_arr),
+                   func);
+     
+   w_demo_p_new->set_window(w_demo_p_new->bbox.xmin(), 
+                            w_demo_p_new->bbox.xmax(),
+                            w_demo_p_new->bbox.ymin() , 
+                            w_demo_p_new->bbox.ymax());
+   
+     w_demo_p_new->setCursor(old);     
+     break;
+     }
 
-     w_demo_p_new->empty = false;
+    case POLYLINE_TRAITS:
+    {
+      if(new_tab)
+        add_polyline_tab();
+      else
+        updateTraitsType( setPolylineTraits );
 
-     if (!colors_flag)
-     {
-       // update new planner map indexes
-       Seg_arr::Halfedge_iterator hei;
-       for (hei = w_demo_p_new->m_curves_arr->halfedges_begin(); 
-           hei != w_demo_p_new->m_curves_arr->halfedges_end(); ++hei) 
-       {
-         Curve_data cd = hei->curve().get_data();
-         cd.m_type = Curve_data::INTERNAL;
-         cd.m_index = w_demo_p_new->index;
-         hei->curve().set_data( cd );
-       }
-	   }
+      
+       Qt_widget_demo_tab<Polyline_tab_traits> *w_demo_p_new = 
+         static_cast<Qt_widget_demo_tab<Polyline_tab_traits> *> 
+       (myBar->currentPage());
+     
+   QCursor old = w_demo_p_new->cursor();
+     w_demo_p_new->setCursor(Qt::WaitCursor);
+     
+   Qt_widget_demo_tab<Polyline_tab_traits> *w_demo_p1, *w_demo_p2;
+     
+     int ind1, ind2;
+    
+     ind1 = indexes.front();
+     ind2 = indexes.back();
+    
+     w_demo_p1 = 
+       static_cast<Qt_widget_demo_tab<Polyline_tab_traits> *> 
+       (myBar->page( ind1 ));
 
-	   
-	 w_demo_p_new->set_window(w_demo_p_new->bbox.xmin() , 
-                 w_demo_p_new->bbox.xmax() ,w_demo_p_new->bbox.ymin() , 
-	                                         w_demo_p_new->bbox.ymax());
-	 
-	 }
-	 else//..//
-	 {
-		
-    w_demo_p_new->update_colors(ubf_colors);   
-		//w_demo_p_new->set_window(-10, 10, -10, 10);
-	 }
+     w_demo_p2 = 
+       static_cast<Qt_widget_demo_tab<Polyline_tab_traits> *> 
+       (myBar->page( ind2 ));
+       
+     w_demo_p_new->bbox = w_demo_p1->bbox + w_demo_p2->bbox;
+       
+     // update the vector of colors of unbounded faces
 
-	 // update the colors of the faces of the new PM //..//
-	
-	 
+     typedef  Polyline_tab_traits::Arrangement_2    Arrangement_2;
+     Overlay_functor<Arrangement_2> func;
+     CGAL::overlay(*(w_demo_p1->m_curves_arr),
+                   *(w_demo_p2->m_curves_arr),
+                   *(w_demo_p_new->m_curves_arr),
+                   func);
+     
+   w_demo_p_new->set_window(w_demo_p_new->bbox.xmin(), 
+                            w_demo_p_new->bbox.xmax(),
+                            w_demo_p_new->bbox.ymin() , 
+                            w_demo_p_new->bbox.ymax());
+   
      w_demo_p_new->setCursor(old);     
      break;
     }
-   case POLYLINE_TRAITS:
+
+    case CONIC_TRAITS:
     {
-	 if(new_tab)
-       add_polyline_tab();
-	 else
-	   updateTraitsType( setPolylineTraits );
-
-     Qt_widget_demo_tab<Polyline_tab_traits> *w_demo_p_new = 
-       static_cast<Qt_widget_demo_tab<Polyline_tab_traits> *> 
-       (myBar->currentPage());
-	 
-	 QCursor old = w_demo_p_new->cursor();
-     w_demo_p_new->setCursor(Qt::WaitCursor);
-
-  	 std::vector<QColor> ubf_colors(20) ; // vector of colors of the unbounded faces od the planar maps //..//
-
-     Qt_widget_demo_tab<Polyline_tab_traits> *w_demo_p;
-     
-     std::list<Pm_pol_2> pol_list;
-     std::list<Pm_pol_2> antenna_list;
-     Pm_pol_const_iter itp;
-     int current,flag;
-     bool all_pm_are_empty = true; //..//
-     while (! indexes.empty())
-     {
-       current = indexes.front();
-       indexes.pop_front();
-   	   flag = paint_flags.front();
-       paint_flags.pop_front();
-
-       w_demo_p = 
-         static_cast<Qt_widget_demo_tab<Polyline_tab_traits> *> 
-         (myBar->page( current ));
-       
-   	   if (! w_demo_p->empty)//..//
-       {
-         Pol_arr::Edge_iterator hei;
-         for (hei = w_demo_p->m_curves_arr->edges_begin(); 
-            hei != w_demo_p->m_curves_arr->edges_end(); ++hei) 
-         {
-           Pm_xpol_2 xcurve = hei->curve();
- 		       Curve_pol_data cd = xcurve.get_data();
-           if ( flag == 0 )
-		         cd.m_index = w_demo_p_new->index;
-           xcurve.set_data( cd );
-           Pm_pol_2 curve(xcurve, cd);
-            if ( w_demo_p->antenna(*hei))
-             antenna_list.push_back(curve);
-           else
-             pol_list.push_back(curve);
-         }// for
-         all_pm_are_empty = false; //..//
-       }// if
-       w_demo_p_new->bbox = w_demo_p_new->bbox + w_demo_p->bbox;
-   	   
-       // update the vector of colors of unbounded faces
-  	   ubf_colors[current] = w_demo_p->unbounded_face_color();//..//
-
-     }// while
-     
-     if (! all_pm_are_empty)//..//
-	   {
-       if ( ! pol_list.empty())
-       w_demo_p_new->m_curves_arr->insert(
-                                       pol_list.begin(),pol_list.end());
-       w_demo_p_new->update_colors(ubf_colors);   
-       Pol_notification pol_notif;
-       std::list<Pm_pol_2>::iterator it;
-       for (it = antenna_list.begin(); it != antenna_list.end(); it++)
-         w_demo_p_new->m_curves_arr->insert( *it , &pol_notif );
-
-          
-       if (!colors_flag)
-       {
-         // update new planner map indexes
-         Pol_arr::Halfedge_iterator hei;
-         for (hei = w_demo_p_new->m_curves_arr->halfedges_begin(); 
-             hei != w_demo_p_new->m_curves_arr->halfedges_end(); ++hei) 
-         {
-           Curve_pol_data cd = hei->curve().get_data();
-           cd.m_type = Curve_pol_data::INTERNAL;
-           cd.m_index = w_demo_p_new->index;
-           hei->curve().set_data( cd );
-         }// for 
-       }// if
-	     w_demo_p_new->set_window(w_demo_p_new->bbox.xmin() , 
-                 w_demo_p_new->bbox.xmax() ,w_demo_p_new->bbox.ymin() , 
-	                                         w_demo_p_new->bbox.ymax());
-     }
-	   else//..//
-	   {
-		   w_demo_p_new->update_colors(ubf_colors);   
-       //w_demo_p_new->set_window(-10, 10, -10, 10);
-	   }
-
-     w_demo_p_new->setCursor(old);
-
-     break;
-    }
-   case CONIC_TRAITS:
-    {
-	 if(new_tab)
-	   add_conic_tab();
-	 else
-	   updateTraitsType( setConicTraits );
-
-     Qt_widget_demo_tab<Conic_tab_traits> *w_demo_p_new = 
-       static_cast<Qt_widget_demo_tab<Conic_tab_traits> *> 
-       (myBar->currentPage());
-
-	 QCursor old = w_demo_p_new->cursor();
-     w_demo_p_new->setCursor(Qt::WaitCursor);
-     w_demo_p_new->setCursor(Qt::WaitCursor);
-    
-   std::vector<QColor> ubf_colors(20) ; // vector of colors of the unbounded faces od the planar maps //..//
-	 Qt_widget_demo_tab<Conic_tab_traits> *w_demo_p;
-     std::list<Pm_conic_2> antenna_list;
-     Pm_xconic_const_iter itp;
-     int current,flag;
-     bool all_pm_are_empty = true; //..//
-     while (! indexes.empty())
-     {
-       current = indexes.front();
-       indexes.pop_front();
-   	   flag = paint_flags.front();
-       paint_flags.pop_front();
-
-       w_demo_p = static_cast<Qt_widget_demo_tab<Conic_tab_traits> *>
-         (myBar->page( current ));
-     
-       if (! w_demo_p->empty)//..//
-  	   {
-
-          Conic_arr::Edge_iterator hei;
-          for (hei = w_demo_p->m_curves_arr->edges_begin(); 
-                hei != w_demo_p->m_curves_arr->edges_end(); ++hei) 
-          {
-            Pm_xconic_2 xcurve = hei->curve();
-  		      Curve_conic_data cd = xcurve.get_data();
-            if ( flag == 0 )
-		        cd.m_index = w_demo_p_new->index;
-            xcurve.set_data( cd );
-            Pm_conic_2 curve(xcurve, cd);
-            if ( w_demo_p->antenna(*hei))
-              antenna_list.push_back(curve);
-            else
-              w_demo_p_new->m_curves_arr->insert(curve);
-          }// for
-		      all_pm_are_empty = false;
-       }// if
-	   w_demo_p_new->bbox = w_demo_p_new->bbox + w_demo_p->bbox;
-
- 	   // update the vector of colors of unbounded faces
-	   ubf_colors[current] = w_demo_p->unbounded_face_color();//..//
-
-     }// while
-
- 	    if (! all_pm_are_empty)//..//
-	    {
-        //w_demo_p_new->m_curves_arr->insert(seg_list.begin(),seg_list.end());
-        // update the colors of the faces of the new PM //..//
-  	    w_demo_p_new->update_colors(ubf_colors);  
-        Conic_notification conic_notif;
-        std::list<Pm_conic_2>::iterator it;
-        for (it = antenna_list.begin(); it != antenna_list.end(); it++)
-          w_demo_p_new->m_curves_arr->insert( *it , &conic_notif );
-        w_demo_p_new->empty = false;
-
-	      if (!colors_flag)
-        {
-          // update new planner map indexes
-          Conic_arr::Halfedge_iterator hei;
-          for (hei = w_demo_p_new->m_curves_arr->halfedges_begin(); 
-                hei != w_demo_p_new->m_curves_arr->halfedges_end(); ++hei) 
-          {
-            Curve_conic_data cd = hei->curve().get_data();
-            cd.m_type = Curve_conic_data::INTERNAL;
-            cd.m_index = w_demo_p_new->index;
-            hei->curve().set_data( cd );
-          }
-        }
-        w_demo_p_new->set_window(w_demo_p_new->bbox.xmin() , 
-                    w_demo_p_new->bbox.xmax() ,w_demo_p_new->bbox.ymin() , 
-	                                            w_demo_p_new->bbox.ymax());
-      }
+      if(new_tab)
+        add_conic_tab();
       else
-      {
-     	    w_demo_p_new->update_colors(ubf_colors);   
-	  	    //w_demo_p_new->set_window(-10, 10, -10, 10);
-	    }
-
-	   	 
-      w_demo_p_new->setCursor(old);
-      break;
-    }
+        updateTraitsType( setConicTraits );
+      
+       Qt_widget_demo_tab<Conic_tab_traits> *w_demo_p_new = 
+         static_cast<Qt_widget_demo_tab<Conic_tab_traits> *> 
+       (myBar->currentPage());
+     
+   QCursor old = w_demo_p_new->cursor();
+     w_demo_p_new->setCursor(Qt::WaitCursor);
+     
+   Qt_widget_demo_tab<Conic_tab_traits> *w_demo_p1, *w_demo_p2;
+     
+     int ind1, ind2;
     
+     ind1 = indexes.front();
+     ind2 = indexes.back();
+    
+     w_demo_p1 = 
+       static_cast<Qt_widget_demo_tab<Conic_tab_traits> *> 
+       (myBar->page( ind1 ));
+
+     w_demo_p2 = 
+       static_cast<Qt_widget_demo_tab<Conic_tab_traits> *> 
+       (myBar->page( ind2 ));
+       
+     w_demo_p_new->bbox = w_demo_p1->bbox + w_demo_p2->bbox;
+       
+     // update the vector of colors of unbounded faces
+
+     typedef  Conic_tab_traits::Arrangement_2    Arrangement_2;
+     Overlay_functor<Arrangement_2> func;
+     CGAL::overlay(*(w_demo_p1->m_curves_arr),
+                   *(w_demo_p2->m_curves_arr),
+                   *(w_demo_p_new->m_curves_arr),
+                   func);
+
+
+     
+   w_demo_p_new->set_window(w_demo_p_new->bbox.xmin(), 
+                            w_demo_p_new->bbox.xmax(),
+                            w_demo_p_new->bbox.ymin() , 
+                            w_demo_p_new->bbox.ymax());
+   
+     w_demo_p_new->setCursor(old);     
+     break;
+
+    } 
   }
 }
+  
+
 
 /*! real index - finds the tab bar index of a tab
  * \param index - the tab index (the same one it was 
@@ -401,7 +274,7 @@ void MyWindow::make_overlay( std::list<int> indexes ,
 int MyWindow::realIndex(int index)
 {
   Qt_widget_base_tab * w_demo_p;
-  for (int i = 0; i < tab_number-1; i++)
+  for (int i = 0; i < tab_number; i++)
   {
     if ( myBar->isTabEnabled( myBar->page(i) ) )
     {

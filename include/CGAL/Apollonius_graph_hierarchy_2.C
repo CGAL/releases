@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_2.C,v $
-// $Revision: 1.23 $ $Date: 2004/09/03 17:26:17 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_2.C $
+// $Id: Apollonius_graph_hierarchy_2.C 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -217,7 +217,7 @@ insert(const Site_2 &p)
 
   // find the first conflict
   typename Apollonius_graph_base::Face_circulator fc_start =
-    vnear[0]->incident_faces();
+    hierarchy[0]->incident_faces(vnear[0]);
   typename Apollonius_graph_base::Face_circulator fc = fc_start;
 
   Face_handle start_f;
@@ -235,7 +235,7 @@ insert(const Site_2 &p)
 
   if ( s != NEGATIVE ) {
     typename Apollonius_graph_base::Edge_circulator ec_start = 
-      vnear[0]->incident_edges();
+      hierarchy[0]->incident_edges(vnear[0]);
     typename Apollonius_graph_base::Edge_circulator ec = ec_start;
 
     bool interior_in_conflict(false);
@@ -345,7 +345,7 @@ remove(Vertex_handle v)
 
   // get the hidden circles
   typename Apollonius_graph_base::Site_list wp_list;
-  typename Vertex::Hidden_sites_iterator wpit;
+  typename Apollonius_graph_base::Vertex::Hidden_sites_iterator wpit;
 
   for (wpit = v->hidden_sites_begin();
        wpit != v->hidden_sites_end(); ++wpit) {
@@ -401,8 +401,7 @@ template<class Gt, class Agds, class LTag>
 void
 Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 nearest_neighbor(const Point_2& p,
-		 Vertex_handle vnear[ag_hierarchy_2__maxlevel])
-  const
+		 Vertex_handle vnear[ag_hierarchy_2__maxlevel]) const
 {
   Vertex_handle nearest = 0;
   unsigned int level  = ag_hierarchy_2__maxlevel;
@@ -442,6 +441,118 @@ random_level()
   if (l >= ag_hierarchy_2__maxlevel)
     l = ag_hierarchy_2__maxlevel -1;
   return l;
+}
+
+template<class Gt, class Agds, class LTag>
+void
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
+file_input(std::istream& is)
+{
+  typedef std::vector<Vertex_handle>  Vertex_vector;
+
+  // firstly, read the Apollonius graph at each level
+  clear();
+  for (unsigned int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
+    hierarchy[i]->file_input(is);
+  }
+
+  Vertex_vector* V = new Vertex_vector[ag_hierarchy_2__maxlevel];
+
+  // secondly, create the map of vertex indices
+  for (unsigned int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
+    V[i].resize(hierarchy[i]->number_of_vertices());
+    int j = 0;
+    for (Finite_vertices_iterator vit = hierarchy[i]->finite_vertices_begin();
+	 vit != hierarchy[i]->finite_vertices_end(); ++vit, ++j) {
+      V[i][j] = vit;
+    }
+  }
+
+  // read the correspondences between up and down pointers and set
+  // them appropriately
+  for (unsigned int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
+    unsigned int level;
+    int vnum;
+    is >> level >> vnum;
+    for (int k = 0; k < vnum; k++) {
+      int ithis, iup, idown;
+      is >> ithis >> idown >> iup;
+      if ( idown != -1 ) { V[i][ithis]->set_down(V[i-1][idown]); }
+      if ( iup != -1 )   { V[i][ithis]->set_up(V[i+1][iup]); }
+    }
+  }
+
+  delete[] V;
+}
+
+
+template<class Gt, class Agds, class LTag>
+void
+Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
+file_output(std::ostream& os) const
+{
+  typedef std::map<Vertex_handle,int> Vertex_map;
+
+  // write each level of the hierarchy
+  for (unsigned int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
+    hierarchy[i]->file_output(os);
+    if ( is_ascii(os) ) { os << std::endl << std::endl; }
+  }
+
+  Vertex_map* V = new Vertex_map[ag_hierarchy_2__maxlevel];
+
+  // create the map of vertex indices
+  for (unsigned int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
+    int inum = 0;
+    for (Finite_vertices_iterator vit = hierarchy[i]->finite_vertices_begin();
+	 vit != hierarchy[i]->finite_vertices_end(); ++vit) {
+      V[i][vit] = inum++;
+    }
+  }
+
+  Vertex_map* V_up   = new Vertex_map[ag_hierarchy_2__maxlevel];
+  Vertex_map* V_down = new Vertex_map[ag_hierarchy_2__maxlevel];
+
+  // create the map of up and down pointers
+  for (unsigned int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
+    for (Finite_vertices_iterator vit = hierarchy[i]->finite_vertices_begin();
+	 vit != hierarchy[i]->finite_vertices_end(); ++vit) {
+      if ( vit->up() != Vertex_handle() ) {
+	V_up[i][vit] = V[i+1][vit->up()];
+      } else {
+	V_up[i][vit] = -1;
+      }
+
+      if ( vit->down() != Vertex_handle() ) {
+	V_down[i][vit] = V[i-1][vit->down()];
+      } else {
+	V_down[i][vit] = -1;
+      }
+    }
+  }
+
+  // write up and down pointer info
+  if ( is_ascii(os) ) { os << std::endl << std::endl; }
+  for (unsigned int i = 0; i < ag_hierarchy_2__maxlevel; ++i) {
+    os << i;
+    if ( is_ascii(os) ) { os << " "; }
+    os << hierarchy[i]->number_of_vertices();
+    if ( is_ascii(os) ) { os << std::endl; }
+    for (Finite_vertices_iterator vit = hierarchy[i]->finite_vertices_begin();
+	 vit != hierarchy[i]->finite_vertices_end(); ++vit) {
+      os << V[i][vit];
+      if ( is_ascii(os) ) { os << " "; }
+      os << V_down[i][vit];
+      if ( is_ascii(os) ) { os << " "; }
+      os << V_up[i][vit];
+      if ( is_ascii(os) ) { os << std::endl; }
+    }
+    if ( is_ascii(os) ) { os << std::endl << std::endl; }
+  }
+
+  delete[] V;
+  delete[] V_up;
+  delete[] V_down;
 }
 
 CGAL_END_NAMESPACE

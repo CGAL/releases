@@ -1,4 +1,4 @@
-# Created by the script create_makefile
+# Created by the script cgal_create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -34,28 +34,28 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                example1$(EXE_EXT) \
-                example2$(EXE_EXT) \
-                example3$(EXE_EXT) \
-                example4$(EXE_EXT) 
+                ag2_exact_traits$(EXE_EXT) \
+                ag2_exact_traits_sqrt$(EXE_EXT) \
+                ag2_filtered_traits_no_hidden$(EXE_EXT) \
+                ag2_hierarchy$(EXE_EXT) 
 
-example1$(EXE_EXT): example1$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example1 example1$(OBJ_EXT) $(LDFLAGS)
+ag2_exact_traits$(EXE_EXT): ag2_exact_traits$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ag2_exact_traits ag2_exact_traits$(OBJ_EXT) $(LDFLAGS)
 
-example2$(EXE_EXT): example2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example2 example2$(OBJ_EXT) $(LDFLAGS)
+ag2_exact_traits_sqrt$(EXE_EXT): ag2_exact_traits_sqrt$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ag2_exact_traits_sqrt ag2_exact_traits_sqrt$(OBJ_EXT) $(LDFLAGS)
 
-example3$(EXE_EXT): example3$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example3 example3$(OBJ_EXT) $(LDFLAGS)
+ag2_filtered_traits_no_hidden$(EXE_EXT): ag2_filtered_traits_no_hidden$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ag2_filtered_traits_no_hidden ag2_filtered_traits_no_hidden$(OBJ_EXT) $(LDFLAGS)
 
-example4$(EXE_EXT): example4$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example4 example4$(OBJ_EXT) $(LDFLAGS)
+ag2_hierarchy$(EXE_EXT): ag2_hierarchy$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ag2_hierarchy ag2_hierarchy$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   example1.clean \
-                   example2.clean \
-                   example3.clean \
-                   example4.clean 
+                   ag2_exact_traits.clean \
+                   ag2_exact_traits_sqrt.clean \
+                   ag2_filtered_traits_no_hidden.clean \
+                   ag2_hierarchy.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

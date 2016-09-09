@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Circulator/include/CGAL/circulator_bases.h,v $
-// $Revision: 1.4 $ $Date: 2003/10/21 12:14:42 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Circulator/include/CGAL/circulator_bases.h $
+// $Id: circulator_bases.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 
@@ -39,11 +39,11 @@ struct Circulator_tag {};                   // any circulator.
 struct Iterator_tag {};                     // any iterator.
 
 struct Forward_circulator_tag
-    : public CGAL_STD::forward_iterator_tag {};
+    : public std::forward_iterator_tag {};
 struct Bidirectional_circulator_tag
-    : public CGAL_STD::bidirectional_iterator_tag {};
+    : public std::bidirectional_iterator_tag {};
 struct Random_access_circulator_tag
-    : public CGAL_STD::random_access_iterator_tag {};
+    : public std::random_access_iterator_tag {};
 template <class T, class Dist = std::ptrdiff_t, class Size = std::size_t>
 struct Forward_circulator_base {
     typedef T                            value_type;

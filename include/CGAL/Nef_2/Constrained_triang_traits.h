@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/Constrained_triang_traits.h,v $
-// $Revision: 1.11.4.1 $ $Date: 2004/12/08 20:04:42 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Nef_2/Constrained_triang_traits.h $
+// $Id: Constrained_triang_traits.h 28685 2006-02-22 15:22:27Z glisse $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_PM_CONSTR_TRIANG_TRAITS_H
@@ -23,6 +23,7 @@
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/generic_sweep.h>
 #include <CGAL/Nef_2/PM_checker.h>
+#include <cstdlib>
 #include <string>
 #include <map>
 #include <set>
@@ -34,7 +35,7 @@ CGAL_BEGIN_NAMESPACE
 
 inline void CGAL_error_handler(int n, const char* s)
 { std::cerr << s << std::endl;
-  exit(n);
+  std::exit(n);
 }
 
 struct Do_nothing {

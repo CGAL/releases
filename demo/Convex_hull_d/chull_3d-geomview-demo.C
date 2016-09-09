@@ -1,3 +1,22 @@
+// Copyright (c) 2001, 2004  Max-Planck-Institute Saarbruecken (Germany).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_d/demo/Convex_hull_d/chull_3d-geomview-demo.C $
+// $Id: chull_3d-geomview-demo.C 28782 2006-02-25 23:14:49Z glisse $
+// 
+//
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
+
 #include <CGAL/basic.h>
 #include <CGAL/Homogeneous.h>
 #include <CGAL/Convex_hull_d_traits_3.h>
@@ -10,6 +29,7 @@
 #include <CGAL/IO/Polyhedron_geomview_ostream.h>
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
 #if !defined(__BORLANDC__) && !defined(_MSC_VER)
 
@@ -41,9 +61,9 @@ int main(int argc, char* argv[]) {
   int n = 100; 
   if (argc > 1 && std::string(argv[1])=="-h") {
     std::cout << "usage: ch5-demo [#points]\n";
-    exit(1);
+    std::exit(1);
   }
-  if (argc > 1) n = atoi(argv[1]);
+  if (argc > 1) n = std::atoi(argv[1]);
  
   int r = 2*n;
   CGAL::Geomview_stream gv(CGAL::Bbox_3(-r, -r, -r, r, r, r));

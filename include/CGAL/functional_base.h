@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/functional_base.h,v $
-// $Revision: 1.9 $ $Date: 2004/02/17 00:14:58 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/functional_base.h $
+// $Id: functional_base.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner
@@ -162,6 +162,18 @@ struct Arity_traits< std::const_mem_fun_ref_t< T1, T2 > > {
 };
 template < class T1, class T2, class T3 >
 struct Arity_traits< std::const_mem_fun1_ref_t< T1, T2, T3 > > {
+  typedef Arity_tag< 2 > Arity;
+};
+
+// Versions of std::unary_function and std::binary_function which
+// add the arity.
+template <class Arg, class Result>
+struct Unary_function : public std::unary_function<Arg, Result> {
+  typedef Arity_tag< 1 > Arity;
+};
+
+template <class Arg1, class Arg2, class Result>
+struct Binary_function : public std::binary_function<Arg1, Arg2, Result> {
   typedef Arity_tag< 2 > Arity;
 };
 

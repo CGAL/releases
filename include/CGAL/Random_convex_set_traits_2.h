@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Generator/include/CGAL/Random_convex_set_traits_2.h,v $
-// $Revision: 1.5 $ $Date: 2003/10/21 12:15:39 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Generator/include/CGAL/Random_convex_set_traits_2.h $
+// $Id: Random_convex_set_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
@@ -27,6 +27,7 @@
 #include <CGAL/Point_2.h>
 
 CGAL_BEGIN_NAMESPACE
+
 template < class Kernel >
 struct Random_convex_set_traits_2 {
 
@@ -37,12 +38,12 @@ struct Random_convex_set_traits_2 {
   Random_convex_set_traits_2() : _origin( ORIGIN)
   {}
 
-  Point_2
+  const Point_2 &
   origin() const
   { return _origin; }
 
   struct Max_coordinate
-  : public CGAL_STD::unary_function< Point_2, FT >
+  : public std::unary_function< Point_2, FT >
   {
     FT
     operator()( const Point_2& p) const
@@ -50,7 +51,7 @@ struct Random_convex_set_traits_2 {
   };
 
   struct Sum
-  : public CGAL_STD::binary_function< Point_2, Point_2, Point_2 >
+  : public std::binary_function< Point_2, Point_2, Point_2 >
   {
     Point_2
     operator()( const Point_2& p, const Point_2& q) const
@@ -58,7 +59,7 @@ struct Random_convex_set_traits_2 {
   };
 
   struct Scale
-  : public CGAL_STD::binary_function< Point_2, FT, Point_2 >
+  : public std::binary_function< Point_2, FT, Point_2 >
   {
     Point_2
     operator()( const Point_2& p, const FT& k) const
@@ -66,7 +67,7 @@ struct Random_convex_set_traits_2 {
   };
 
   struct Angle_less
-  : public CGAL_STD::binary_function< Point_2, Point_2, bool >
+  : public std::binary_function< Point_2, Point_2, bool >
   {
     bool
     operator()( const Point_2& p, const Point_2& q) const
@@ -109,8 +110,3 @@ CGAL_random_convex_set_2( int n,
 CGAL_END_NAMESPACE
 
 #endif // ! (CGAL_RANDOM_CONVEX_SET_TRAITS_2_H)
-
-// ----------------------------------------------------------------------------
-// ** EOF
-// ----------------------------------------------------------------------------
-

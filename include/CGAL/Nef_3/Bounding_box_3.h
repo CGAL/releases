@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2000  Max-Planck-Institute Saarbruecken (Germany).
+// Copyright (c) 1997-2002  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -9,11 +9,11 @@
 // accordance with the commercial license agreement provided with the software.
 //
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+// WARRAN// Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>TY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_3/include/CGAL/Nef_3/Bounding_box_3.h,v $
-// $Revision: 1.7.4.2 $ $Date: 2004/12/06 15:33:55 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/Bounding_box_3.h $
+// $Id: Bounding_box_3.h 28489 2006-02-14 10:08:15Z lsaboret $
+// 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
 

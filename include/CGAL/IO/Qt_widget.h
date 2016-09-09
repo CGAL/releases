@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget.h,v $
-// $Revision: 1.85 $ $Date: 2004/03/22 13:59:35 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Qt_widget/include/CGAL/IO/Qt_widget.h $
+// $Id: Qt_widget.h 30256 2006-04-11 19:45:09Z afabri $
+// 
 //
 // Author(s)     : Laurent Rineau
 
@@ -30,17 +30,11 @@
 //temporary, should remove next line!!
 #include <CGAL/Triangle_2_Iso_rectangle_2_intersection.h>
 #include <CGAL/IO/Color.h>
-#ifdef CGAL_USE_GMP
-  #include <CGAL/Gmpz.h>
-  #include <CGAL/Gmpq.h>
-  #include <CGAL/Quotient.h>
-  typedef CGAL::Quotient<CGAL::Gmpz> CGAL_Rational;
-  #include <CGAL/simplest_rational_in_interval.h>
-#endif //CGAL_USE_GMP
 
 #include <vector>
 #include <list>
 #include <map>
+#include <cmath>
 
 #include <qwidget.h>
 #include <qpainter.h>
@@ -141,10 +135,7 @@ public:
   void x_real(int, FT&) const;
   template <class FT>
   void y_real(int y, FT&) const;
-#ifdef CGAL_USE_GMP
-  void x_real(int, Gmpq&) const;
-  void y_real(int, Gmpq&) const;
-#endif
+
 
   double x_real_dist(double d) const;
   double y_real_dist(double d) const;
@@ -549,7 +540,7 @@ Qt_widget& operator<<(Qt_widget& w, const Segment_2<R>& s)
   //if is here, the segment intersect the screen boundaries or is inside
   int x1, y1, x2, y2;
   Segment_2<RT>  sr;
-  sr = Segment_2<RT>(Point_2<RT>(scs_x, scs_y), Point_2<RT>(sct_x, sct_y));;  
+  sr = Segment_2<RT>(Point_2<RT>(scs_x, scs_y), Point_2<RT>(sct_x, sct_y));
   //next condition true if the segment is inside
   if(!(scs_x >= xr1 && scs_x <= xr2 &&
      sct_x >= xr1 && sct_x <= xr2 && 
@@ -559,13 +550,16 @@ Qt_widget& operator<<(Qt_widget& w, const Segment_2<R>& s)
     Iso_rectangle_2<RT> r = Iso_rectangle_2<RT>(Point_2<RT>(xr1, yr1),
                                               Point_2<RT>(xr2, yr2));
     CGAL::Object obj = CGAL::intersection(r, sr);  
-    Point_2<R>    p;
-    if (CGAL::assign(p, obj)){
-      w << p;
+    if (const Point_2<RT> *p = object_cast<Point_2<RT> >(&obj)){
+      return w << *p;
+    }
+    else if (const Segment_2<RT> *s = object_cast<Segment_2<RT> >(&obj)) {
+      sr = *s;
+    }
+    else {
+      CGAL_assertion(obj.is_empty());
       return w;
     }
-    else
-      CGAL::assign(sr, obj);
   }
   x1 = w.x_pixel(CGAL::to_double(sr.source().x()));
   x2 = w.x_pixel(CGAL::to_double(sr.target().x()));
@@ -605,7 +599,7 @@ Qt_widget& operator<<(Qt_widget& w, const Line_2<R>& l)
 
   if (dx==0 && dy==0) return w;
 
-  if (fabs(dx)>fabs(dy))
+  if (std::fabs(dx)>std::fabs(dy))
     {
       y1=p1d.y()+(x1-p1d.x())*dy/dx;
       y2=p1d.y()+(x2-p1d.x())*dy/dx;
@@ -647,7 +641,7 @@ Qt_widget& operator<<(Qt_widget& w, const Ray_2<R>& r)
 
   double x,y;
 
-  if (fabs(dx)>fabs(dy))
+  if (std::fabs(dx)>std::fabs(dy))
     {
       if (p1d.x()<p2d.x())
 	x = w.x_max();
@@ -760,14 +754,7 @@ void Qt_widget::x_real(int x, FT& return_t) const
   if(xscal<1)
     return_t = static_cast<FT>(xmin+(int)(x/xscal));
   else{
-#ifdef CGAL_USE_GMP
-    CGAL_Rational r = simplest_rational_in_interval<CGAL_Rational>( 
-                            xmin+x/xscal-(x/xscal-(x-1)/xscal)/2, 
-                            xmin+x/xscal+((x+1)/xscal-x/xscal)/2);
-    return_t = static_cast<FT>(CGAL::to_double(r));
-#else
     return_t = static_cast<FT>(xmin+x/xscal);
-#endif
   }
 }
 
@@ -777,14 +764,7 @@ void Qt_widget::y_real(int y, FT& return_t) const
     if(yscal<1)
       return_t = static_cast<FT>(ymax-(int)(y/yscal));
     else{
-#ifdef CGAL_USE_GMP
-    CGAL_Rational r = simplest_rational_in_interval<CGAL_Rational>( 
-                            ymax - y/yscal-(y/yscal-(y-1)/yscal)/2, 
-                            ymax - y/yscal+((y+1)/yscal-y/yscal)/2);
-    return_t = static_cast<FT>(CGAL::to_double(r));
-#else
-    return_t = static_cast<FT>(ymax-y/yscal);
-#endif
+      return_t = static_cast<FT>(ymax-y/yscal);
   }  
 }
 

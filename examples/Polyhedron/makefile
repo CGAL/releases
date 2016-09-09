@@ -1,4 +1,4 @@
-# Created by the script create_makefile
+# Created by the script cgal_create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -36,6 +36,7 @@ LDFLAGS = \
 all:            \
                 polyhedron_prog_color$(EXE_EXT) \
                 polyhedron_prog_cube$(EXE_EXT) \
+                polyhedron_prog_cut_cube$(EXE_EXT) \
                 polyhedron_prog_incr_builder$(EXE_EXT) \
                 polyhedron_prog_normals$(EXE_EXT) \
                 polyhedron_prog_off$(EXE_EXT) \
@@ -46,6 +47,8 @@ all:            \
                 polyhedron_prog_tetra$(EXE_EXT) \
                 polyhedron_prog_traits$(EXE_EXT) \
                 polyhedron_prog_vector$(EXE_EXT) \
+                polyhedron_prog_vertex_color$(EXE_EXT) \
+                polyhedron_prog_vertex_normal$(EXE_EXT) \
                 polyhedron_self_intersection$(EXE_EXT) 
 
 polyhedron_prog_color$(EXE_EXT): polyhedron_prog_color$(OBJ_EXT)
@@ -53,6 +56,9 @@ polyhedron_prog_color$(EXE_EXT): polyhedron_prog_color$(OBJ_EXT)
 
 polyhedron_prog_cube$(EXE_EXT): polyhedron_prog_cube$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_prog_cube polyhedron_prog_cube$(OBJ_EXT) $(LDFLAGS)
+
+polyhedron_prog_cut_cube$(EXE_EXT): polyhedron_prog_cut_cube$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_prog_cut_cube polyhedron_prog_cut_cube$(OBJ_EXT) $(LDFLAGS)
 
 polyhedron_prog_incr_builder$(EXE_EXT): polyhedron_prog_incr_builder$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_prog_incr_builder polyhedron_prog_incr_builder$(OBJ_EXT) $(LDFLAGS)
@@ -84,12 +90,19 @@ polyhedron_prog_traits$(EXE_EXT): polyhedron_prog_traits$(OBJ_EXT)
 polyhedron_prog_vector$(EXE_EXT): polyhedron_prog_vector$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_prog_vector polyhedron_prog_vector$(OBJ_EXT) $(LDFLAGS)
 
+polyhedron_prog_vertex_color$(EXE_EXT): polyhedron_prog_vertex_color$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_prog_vertex_color polyhedron_prog_vertex_color$(OBJ_EXT) $(LDFLAGS)
+
+polyhedron_prog_vertex_normal$(EXE_EXT): polyhedron_prog_vertex_normal$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_prog_vertex_normal polyhedron_prog_vertex_normal$(OBJ_EXT) $(LDFLAGS)
+
 polyhedron_self_intersection$(EXE_EXT): polyhedron_self_intersection$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_self_intersection polyhedron_self_intersection$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
                    polyhedron_prog_color.clean \
                    polyhedron_prog_cube.clean \
+                   polyhedron_prog_cut_cube.clean \
                    polyhedron_prog_incr_builder.clean \
                    polyhedron_prog_normals.clean \
                    polyhedron_prog_off.clean \
@@ -100,6 +113,8 @@ clean: \
                    polyhedron_prog_tetra.clean \
                    polyhedron_prog_traits.clean \
                    polyhedron_prog_vector.clean \
+                   polyhedron_prog_vertex_color.clean \
+                   polyhedron_prog_vertex_normal.clean \
                    polyhedron_self_intersection.clean 
 
 #---------------------------------------------------------------------#

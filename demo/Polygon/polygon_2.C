@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Polygon/demo/Polygon/polygon_2.C,v $
-// $Revision: 1.4.4.2 $ $Date: 2004/12/19 17:00:29 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polygon/demo/Polygon/polygon_2.C $
+// $Id: polygon_2.C 29189 2006-03-08 13:32:20Z afabri $
+// 
 //
 // Author(s)     : Radu Ursu
 
+#include <CGAL/basic.h>
 
 // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT

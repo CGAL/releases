@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Sphere_d.h,v $
-// $Revision: 1.16 $ $Date: 2004/06/23 02:15:28 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Sphere_d.h $
+// $Id: Sphere_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_SPHERE_D_H
@@ -256,7 +256,7 @@ Sphere_d<R> operator+(const Vector_d<R>& v) const
 }
 
 bool operator==(const Sphere_d<R>& D) const
-{ if (identical(D)) return true;
+{ if (this->identical(D)) return true;
   if (dimension() != D.dimension()) return false;
   return (center()==D.center() &&
           squared_radius() == D.squared_radius() &&

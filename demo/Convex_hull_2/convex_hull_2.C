@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/demo/Convex_hull_2/convex_hull_2.C,v $
-// $Revision: 1.5.4.1 $ $Date: 2004/12/19 14:48:09 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_2/demo/Convex_hull_2/convex_hull_2.C $
+// $Id: convex_hull_2.C 29200 2006-03-08 13:52:52Z afabri $
+// 
 //
 // Author(s)     : Radu Ursu
 
+#include <CGAL/basic.h>
 
 // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
@@ -39,7 +40,6 @@ int main(int, char*)
 #include <set>
 #include <string>
 
-#include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/convex_hull_2.h>
 #include <CGAL/Polygon_2_algorithms.h>

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h,v $
-// $Revision: 1.49 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
+// $Id: Snap_rounding_kd_2.h 30667 2006-04-19 16:56:12Z glisse $
+// 
 //
 // author(s)     : Eli Packer <elip@post.tau.ac.il>
 #ifndef CGAL_SNAP_ROUNDING_KD_2_H
@@ -132,7 +132,7 @@ private:
     double buffer_angle(to_dbl(angle) - half_pi / (2 * number_of_trees));
 
     if (buffer_angle < 0) buffer_angle = 0;
-    Line_2 li(tan(buffer_angle), -1, 0);
+    Line_2 li(std::tan(buffer_angle), -1, 0);
     Direction_2 d(li);
     // rotate_by 180 degrees
     Transformation_2 t(ROTATION, 0, -1);
@@ -330,7 +330,7 @@ public:
     // check that there are at least two trees
     if (number_of_trees < 1) {
       std::cerr << "There must be at least one kd-tree\n";
-      exit(1);
+      std::exit(1);
     }
 
     init_angle_to_sines_table();
@@ -352,7 +352,7 @@ public:
     {
       buffer_angle = angle - half_pi / (2 * number_of_trees);
       if (buffer_angle < 0) buffer_angle = 0;
-      li = Line_2(tan(buffer_angle), -1, 0);
+      li = Line_2(std::tan(buffer_angle), -1, 0);
       d = Direction_2(li);
       // rotate_by 180 degrees
       Transformation_2 t(ROTATION, 0, -1);

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_short_names_3.h,v $
-// $Revision: 1.27 $ $Date: 2004/09/24 10:14:39 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/Triangulation_short_names_3.h $
+// $Id: Triangulation_short_names_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
@@ -27,9 +27,6 @@
 
 #define Triangulation_ds_vertex_base_3              TDS_vb3
 #define Triangulation_ds_cell_base_3                TDS_cb3
-
-#define Triangulation_ds_vertex_3                   TDS_v3
-#define Triangulation_ds_cell_3                     TDS_c3
 
 #define Triangulation_ds_edge_iterator_3            TDS_eit3
 #define Triangulation_ds_facet_iterator_3           TDS_fit3

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Mesh_2/include/CGAL/Mesh_2/Triangulation_mesher_level_traits_2.h,v $
-// $Revision: 1.4 $ $Date: 2004/10/19 18:29:49 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Mesh_2/Triangulation_mesher_level_traits_2.h $
+// $Id: Triangulation_mesher_level_traits_2.h 30303 2006-04-13 16:07:19Z lrineau $
+// 
 //
 // Author(s)     : Laurent RINEAU
 
@@ -21,17 +21,26 @@
 #define CGAL_MESH_2_TRIANGULATION_MESHER_LEVEL_TRAITS_2_H
 
 #include <list>
+#include <CGAL/Mesher_level.h>
 
 namespace CGAL {
 
 template <typename Tr>
-struct Triangulation_mesher_level_traits_2
+struct Triangulation_mesher_level_traits_2 : 
+    public Triangulation_ref_impl<Tr>
 {
   typedef Tr Triangulation;
   typedef typename Tr::Point Point;
   typedef typename Tr::Vertex_handle Vertex_handle;
   typedef typename Tr::Face_handle Face_handle;
   typedef typename Tr::Edge Edge;
+
+  using Triangulation_ref_impl<Tr>::triangulation_ref_impl;
+
+  Triangulation_mesher_level_traits_2(Tr& tr)
+    : Triangulation_ref_impl<Tr>(tr)
+  {
+  }
 
   struct Zone {
     typedef std::list<Face_handle> Faces;
@@ -44,35 +53,19 @@ struct Triangulation_mesher_level_traits_2
     Edges boundary_edges;
   };
 
-  static Zone get_conflicts_zone(Tr& t, const Point& p)
+  Vertex_handle insert_impl(const Point& p, Zone& zone)
   {
-    Zone zone;
-
-    t.get_conflicts_and_boundary(p,
-                                 std::back_inserter(zone.faces),
-                                 std::back_inserter(zone.boundary_edges)
-                                 );
-#ifdef DEBUG
-    std::cerr << "get_conflicts_and_boundary(" << p << "):" << std::endl
-              << "faces: " << zone.faces.size() << std::endl
-              << "edges: " << zone.boundary_edges.size() << std::endl;
-#endif // DEBUG
-    return zone;
-  }
-
-  static Vertex_handle insert(Tr&t, const Point& p, Zone& zone)
-  {
-#ifdef DEBUG
+#ifdef CGAL_MESH_2_DEBUG_INSERTIONS
     std::cerr << "insert(" << p << "): " 
               << zone.boundary_edges.size() << " edges." << std::endl;
 #endif
-    return t.star_hole(p,
-                       zone.boundary_edges.begin(),
-                       zone.boundary_edges.end(),
-                       zone.faces.begin(),
-                       zone.faces.end());
+    return triangulation_ref_impl().
+      star_hole(p,
+		zone.boundary_edges.begin(),
+		zone.boundary_edges.end(),
+		zone.faces.begin(),
+		zone.faces.end());
   }
-
 }; // end Triangulation_mesher_level_traits_2
 
 }; // end namespace CGAL

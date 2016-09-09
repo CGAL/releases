@@ -11,138 +11,244 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Sweep_line_2/include/CGAL/Sweep_line_2/Sweep_line_functors.h,v $
-// $Revision: 1.18 $ $Date: 2004/10/21 13:43:47 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2/Sweep_line_functors.h $
+// $Id: Sweep_line_functors.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
-// Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>
+// Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>,
+//                 Baruch Zukerman <baruchzu@post.tau.ac.il>
 
 #ifndef CGAL_SWEEP_LINE_FUNCTORS_H
 #define CGAL_SWEEP_LINE_FUNCTORS_H
 
+#include <CGAL/assertions.h>
+#include <CGAL/enum.h>
+//#include <CGAL/Sweep_line_2/Sweep_line_event.h>
+
 CGAL_BEGIN_NAMESPACE
 
-template <class Point, class SweepLineTraits_2> class Point_less_functor 
+template <class SweepLineTraits_2, class Event>
+class Event_less_functor 
 {
 public:
-  typedef SweepLineTraits_2 Traits;
+  typedef SweepLineTraits_2           Traits;
+  typedef typename Traits::Point_2    Point_2;
   
-  Point_less_functor(Traits * traits) : m_traits(traits) {}
+  Event_less_functor(Traits * t) : m_traits(t)
+  {}
   
-  bool operator()(const Point * p1, const Point * p2) const 
-  { 
-    return (m_traits->compare_xy(*p1,*p2) == SMALLER);
+  Comparison_result operator()(const Event* e1, const Event* e2) const
+  {
+    return (m_traits->compare_xy_2_object()(e1->get_point(), e2->get_point()));
   }
 
-	 bool operator()( const Point& p1,const   Point& p2) const 
-  { 
-    return (m_traits->compare_xy(p1,p2) == SMALLER);
+  Comparison_result operator()(const Point_2& pt, const Event* e) const
+  {
+    return (m_traits->compare_xy_2_object()(pt, e->get_point()));
   }
 
 private:
-  /*! a pointer to a traits class */
+
+  /*! a pointer to a traits object */
   Traits * m_traits;
 };
 
 
+// forward decleration for Sweep_line_event
+template <class Traits_, class Subcurve_>
+class Sweep_line_event;
 
 
-template <class SweepLineTraits_2, class Subcurve>
+template <class SweepLineTraits_2, class Subcurve> 
 class Status_line_curve_less_functor 
 {
 public:
   typedef SweepLineTraits_2 Traits;
   typedef typename Traits::Point_2 Point_2;
   typedef typename Traits::X_monotone_curve_2 X_monotone_curve_2;
-  typedef bool (Status_line_curve_less_functor::*func)
-    (const Subcurve*, const Subcurve*) const;
+  typedef Sweep_line_event<Traits, Subcurve>  Event;
+  
 
-  struct Compare_param {
-    Compare_param(Traits *t) : m_compare_func(1), m_traits(t)  {}
-    int m_compare_func;
-    Traits * m_traits;
-  };
+  template <class Sweep_event>
+  Status_line_curve_less_functor(Traits *t, Sweep_event** e_ptr) : m_traits(t),
+                                                            m_curr_event(reinterpret_cast<Event**>(e_ptr))
+  {}
 
-  Status_line_curve_less_functor(Compare_param *p) : m_compare_param(p) {
-    m_compare[0] = &Status_line_curve_less_functor::compare_at;
-    m_compare[1] = &Status_line_curve_less_functor::compare_right;
-  }
-
-  bool operator()(const Subcurve * c1, const Subcurve * c2) const {
-    return (this->*m_compare[m_compare_param->m_compare_func])(c1, c2);
-  }
-
-  bool compare_at(const Subcurve * c1, const Subcurve * c2)  const 
+  // this comprator should never be called in release mode (only debug mode)
+  Comparison_result operator()(const Subcurve * c1, const Subcurve * c2) const
   {
-    const Point_2 * p = &(c2->get_last_point());
-    if ( m_compare_param->m_traits->compare_x(c1->get_last_point(),  
-					      c2->get_last_point()) == LARGER )
-      p = &(c1->get_last_point());
+    if(std::find((*m_curr_event)->right_curves_begin(), 
+                 (*m_curr_event)->right_curves_end(),
+                 c1) != (*m_curr_event)->right_curves_end() &&
+       std::find((*m_curr_event)->right_curves_begin(), 
+                 (*m_curr_event)->right_curves_end(),
+                 c2) != (*m_curr_event)->right_curves_end())
 
-    Comparison_result r = 
-      m_compare_param->m_traits->curves_compare_y_at_x(c1->get_curve(), 
-    				   c2->get_curve(), 
-    				   *p);
-    if ( r == SMALLER) {
+     return m_traits->compare_y_at_x_right_2_object()
+       (c1->get_last_curve(), c2->get_last_curve(), (*m_curr_event)->get_point());
+
+    return m_traits->compare_y_at_x_2_object()
+      (m_traits->construct_min_vertex_2_object()(c1->get_last_curve()),
+       c2->get_last_curve());
+  }
+
+  Comparison_result operator()(const Point_2& pt, const Subcurve * c2) const
+  {
+    return (m_traits->compare_y_at_x_2_object()(pt,c2->get_last_curve()));
+  }
+
+  /*! a pointer to a traits object */
+  Traits *  m_traits;
+
+  Event**   m_curr_event;  
+};
+
+
+template <class _Subcurve>
+class Curves_pair
+{
+  public:
+  Curves_pair(){}
+
+  Curves_pair (_Subcurve* sc1, _Subcurve* sc2)
+  {
+    //the smallest pointer will be the first 
+    if(sc1 < sc2)
+      m_curves_pair = std::make_pair(sc1,sc2);
+    else
+      m_curves_pair = std::make_pair(sc2,sc1);
+  }
+
+  _Subcurve* first() const {return m_curves_pair.first;}
+  _Subcurve* second() const {return m_curves_pair.second;}
+
+ private:
+  std::pair<_Subcurve*, _Subcurve*> m_curves_pair;
+};
+
+template <class _Subcurve>
+class Curves_pair_less_functor
+{
+  typedef Curves_pair<_Subcurve> CurvesPair;
+
+public:
+
+  bool operator()(const CurvesPair& pair1, const CurvesPair& pair2) const
+  {
+    if(pair1.first() < pair2.first())
       return true;
-    } 
+    if(pair1.first() > pair2.first())
+      return false;
+    if(pair1.second() < pair2.second())
+      return true;
     return false;
   }
+};
 
-  bool compare_right(const Subcurve * c1, const Subcurve * c2)  const 
+template <class _Subcurve>
+class Curves_pair_hash_functor
+{
+  typedef Curves_pair<_Subcurve> CurvesPair;
+
+public:
+
+  size_t operator() (const CurvesPair& pair) const
   {
-    const X_monotone_curve_2 &cv1 = c1->get_curve();
-    const X_monotone_curve_2 &cv2 = c2->get_curve();
-    Traits *t = m_compare_param->m_traits;
-    if ( t->curve_is_vertical(cv1) )
+    const size_t  half_n_bits = sizeof(size_t) * 8 / 2;
+    const size_t  val1 = reinterpret_cast<size_t> (pair.first());
+    const size_t  val2 = reinterpret_cast<size_t> (pair.second());
+
+    return (((val1 << half_n_bits) | (val1 >> half_n_bits)) ^ val2);
+  }
+};
+
+template <class _Subcurve>
+class Curves_pair_equal_functor
+{
+  typedef Curves_pair<_Subcurve> CurvesPair;
+
+public:
+
+  bool operator() (const CurvesPair& pair1, const CurvesPair& pair2) const
+  {
+    return (pair1.first() == pair2.first() &&
+            pair1.second() == pair2.second());
+  }
+};
+
+template <class Container>
+class random_access_input_iterator
+{
+  public:
+  typedef typename Container::value_type  value_type;
+
+  random_access_input_iterator()
+  {}
+
+  random_access_input_iterator(Container& _container, unsigned int _index = 0):
+      m_container(&_container),
+      m_index(_index)
+  {}
+
+  value_type& operator*()
+  {
+    if(m_index >= m_container->capacity())
     {
-      if (t->point_in_x_range(cv2, c1->get_source()) &&
-	  t->curve_compare_y_at_x(c1->get_top_end(), cv2) == SMALLER )
-      {
-	return true;
-      }
-      return false;
+      m_container->reserve(2 * m_index + 1);
+      m_container->resize(m_index+1);
     }
-    if ( t->curve_is_vertical(cv2))
-    {
-      if (t->point_in_x_range(cv1, c2->get_source()) &&
-	  t->curve_compare_y_at_x(c2->get_bottom_end(), cv1) == LARGER)
-      {
-	return true;
-      }
-      return false;
-    }
-
-    const Point_2 *p = &(c2->get_last_point());
-    if ( m_compare_param->m_traits->compare_x(c1->get_last_point(),  
-					      c2->get_last_point()) == LARGER )
-      p = &c1->get_last_point();
-
-    // non of the curves is vertical... 
-    Comparison_result r =  t->curves_compare_y_at_x (c1->get_curve(), 
-						     c2->get_curve(), 
-						     *p);
-
-    if (r == EQUAL)
-      r = t->curves_compare_y_at_x_right(c1->get_curve(), 
-					 c2->get_curve(), 
-					 *p);
-    if ( r == SMALLER) {
-      return true;
-    } 
-    if ( r == LARGER ) {
-      return false;
-    }
-
-    // r = EQUAL
-    return ( c1->getId() < c2->getId() );
+    else
+      if(m_index >= m_container->size())
+         m_container->resize(m_index+1);
+    return (*m_container)[m_index];
   }
 
-  Compare_param * m_compare_param;
+  random_access_input_iterator& operator++()
+  {
+    ++m_index;
+    return *this;
+  }
+
+  random_access_input_iterator operator++(int)
+  {
+    random_access_input_iterator temp(*this);
+    ++(*this);
+    return temp;
+  }
+
+  random_access_input_iterator& operator--()
+  {
+    --m_index;
+    return *this;
+  }
+
+  bool operator==(const random_access_input_iterator& raii)
+  {
+    CGAL_precondition(m_container == raii.m_container);
+    return (m_index == raii.m_index);
+  }
+
+  bool operator!=(const random_access_input_iterator& raii)
+  {
+    CGAL_precondition(m_container == raii.m_container);
+    return !(*this == raii);
+  }
+
+  unsigned int operator-(const random_access_input_iterator& raii)
+  {
+    CGAL_precondition(m_container == raii.m_container);
+    return (m_index - raii.m_index);
+  }
+
 
 private:
-  func m_compare[2];
+  Container* m_container;
+  unsigned int m_index;
 };
+
+
+
+
 
 CGAL_END_NAMESPACE
 

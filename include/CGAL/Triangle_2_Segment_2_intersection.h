@@ -16,9 +16,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Triangle_2_Segment_2_intersection.h,v $
-// $Revision: 1.4 $ $Date: 2003/10/21 12:16:59 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Triangle_2_Segment_2_intersection.h $
+// $Id: Triangle_2_Segment_2_intersection.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman
 

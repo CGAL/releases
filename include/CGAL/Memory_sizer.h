@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Timer/include/CGAL/Memory_sizer.h,v $
-// $Revision: 1.3 $ $Date: 2004/09/11 10:02:13 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Timer/include/CGAL/Memory_sizer.h $
+// $Id: Memory_sizer.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion, Andreas Fabri
 

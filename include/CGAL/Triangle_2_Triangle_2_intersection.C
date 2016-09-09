@@ -1,4 +1,3 @@
-
 // Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -16,18 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Triangle_2_Triangle_2_intersection.C,v $
-// $Revision: 1.13 $ $Date: 2004/01/18 17:19:51 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Triangle_2_Triangle_2_intersection.C $
+// $Id: Triangle_2_Triangle_2_intersection.C 31166 2006-05-17 16:30:56Z spion $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman
-
-
 
 #include <CGAL/Segment_2.h>
 #include <CGAL/Triangle_2.h>
 #include <CGAL/Line_2.h>
-#include <CGAL/utils.h>
+#include <CGAL/kernel_assertions.h>
 #include <CGAL/number_utils.h>
 #include <vector>
 
@@ -55,7 +52,7 @@ struct Pointlist_2_ {
 template <class K>
 class Triangle_2_Triangle_2_pair {
 public:
-    enum Intersection_results {NO, POINT, SEGMENT, TRIANGLE, POLYGON};
+    enum Intersection_results {NO_INTERSECTION, POINT, SEGMENT, TRIANGLE, POLYGON};
                         Triangle_2_Triangle_2_pair() ;
                         Triangle_2_Triangle_2_pair(
                                 typename K::Triangle_2 const *trian1,
@@ -86,7 +83,7 @@ protected:
 // {
 //     typedef Triangle_2_Triangle_2_pair<R> pair_t;
 //     pair_t pair(&p1, &p2);
-//     return pair.intersection_type() != pair_t::NO;
+//     return pair.intersection_type() != pair_t::NO_INTERSECTION;
 // }
 
 
@@ -223,7 +220,7 @@ Triangle_2_Triangle_2_pair<K>::intersection_type() const
 // The non const this pointer is used to cast away const.
     _known = true;
     if (!do_overlap(_trian1->bbox(), _trian2->bbox())) {
-        _result = NO;
+        _result = NO_INTERSECTION;
         return _result;
     }
     _init_list(_pointlist, *_trian1);
@@ -250,7 +247,7 @@ Triangle_2_Triangle_2_pair<K>::intersection_type() const
     }
     switch (_pointlist.size) {
     case 0:
-        _result = NO;
+        _result = NO_INTERSECTION;
         break;
     case 1:
         _result = POINT;
@@ -367,7 +364,7 @@ intersection(const typename CGAL_WRAP(K)::Triangle_2 &tr1,
     typedef Triangle_2_Triangle_2_pair<K> is_t;
     is_t ispair(&tr1, &tr2);
     switch (ispair.intersection_type()) {
-    case is_t::NO:
+    case is_t::NO_INTERSECTION:
     default:
         return Object();
     case is_t::POINT: {
@@ -386,7 +383,7 @@ intersection(const typename CGAL_WRAP(K)::Triangle_2 &tr1,
         return make_object(itr);
     }
     case is_t::POLYGON: {
-        typedef CGAL_STD::vector<typename K::Point_2> Container;
+        typedef std::vector<typename K::Point_2> Container;
         Container points(ispair.vertex_count());
         for (int i =0; i < ispair.vertex_count(); i++) {
             points[i] = ispair.vertex(i);
@@ -398,8 +395,4 @@ intersection(const typename CGAL_WRAP(K)::Triangle_2 &tr1,
 
 } // namespace CGALi
 
-
-
-
 CGAL_END_NAMESPACE
-

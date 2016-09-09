@@ -15,28 +15,23 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Sixtuple.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:18:14 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/Sixtuple.h $
+// $Id: Sixtuple.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Andreas Fabri
 
-#ifndef CGAL__SIXTUPLE_H
-#define CGAL__SIXTUPLE_H
+#ifndef CGAL_SIXTUPLE_H
+#define CGAL_SIXTUPLE_H
 
 CGAL_BEGIN_NAMESPACE
 
 template < class T >
-class Sixtuple
+struct Sixtuple
 {
-public:
+  typedef T value_type;
 
-  T  e0;
-  T  e1;
-  T  e2;
-  T  e3;
-  T  e4;
-  T  e5;
+  T  e0, e1, e2, e3, e4, e5;
 
   Sixtuple()
   {}
@@ -49,4 +44,4 @@ public:
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL__SIXTUPLE_H
+#endif // CGAL_SIXTUPLE_H

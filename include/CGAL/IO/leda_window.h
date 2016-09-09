@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/window/include/CGAL/IO/leda_window.h,v $
-// $Revision: 1.15 $ $Date: 2004/02/20 13:05:14 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/window/include/CGAL/IO/leda_window.h $
+// $Id: leda_window.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Andreas Fabri
 //                 Stefan Schirra

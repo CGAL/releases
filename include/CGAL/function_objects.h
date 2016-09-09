@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/function_objects.h,v $
-// $Revision: 1.56 $ $Date: 2004/05/20 15:36:14 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/function_objects.h $
+// $Id: function_objects.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
@@ -378,8 +378,8 @@ class Creator_uniform_d {
 
 template < class Op1, class Op2 >
 class Unary_compose_1
-: public CGAL_STD::unary_function< typename Op2::argument_type,
-                                   typename Op1::result_type >
+  : public std::unary_function< typename Op2::argument_type,
+                                typename Op1::result_type >
 {
 protected:
   Op1 op1;
@@ -402,8 +402,8 @@ compose1_1(const Op1& op1, const Op2& op2)
 
 template < class Op1, class Op2, class Op3 >
 class Binary_compose_1
-: public CGAL_STD::unary_function< typename Op2::argument_type,
-                                   typename Op1::result_type >
+  : public std::unary_function< typename Op2::argument_type,
+                                typename Op1::result_type >
 {
 protected:
   Op1 op1;
@@ -425,11 +425,12 @@ template < class Op1, class Op2, class Op3 >
 inline Binary_compose_1< Op1, Op2, Op3 >
 compose2_1(const Op1& op1, const Op2& op2, const Op3& op3)
 { return Binary_compose_1< Op1, Op2, Op3 >(op1, op2, op3); }
+
 template < class Op1, class Op2 >
 class Unary_compose_2
-: public CGAL_STD::binary_function< typename Op2::first_argument_type,
-                                    typename Op2::second_argument_type,
-                                    typename Op1::result_type >
+  : public std::binary_function< typename Op2::first_argument_type,
+                                 typename Op2::second_argument_type,
+                                 typename Op1::result_type >
 {
 protected:
   Op1 op1;
@@ -454,9 +455,9 @@ compose1_2(const Op1& op1, const Op2& op2)
 
 template < class Op1, class Op2, class Op3 >
 class Binary_compose_2
-: public CGAL_STD::binary_function< typename Op2::argument_type,
-                                    typename Op3::argument_type,
-                                    typename Op1::result_type >
+  : public std::binary_function< typename Op2::argument_type,
+                                 typename Op3::argument_type,
+                                 typename Op1::result_type >
 {
 protected:
   Op1 op1;

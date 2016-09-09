@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_2/demo/Nef_2/nef_2.C,v $
-// $Revision: 1.6.4.1 $ $Date: 2004/12/19 16:07:34 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/demo/Nef_2/nef_2.C $
+// $Id: nef_2.C 29799 2006-03-28 21:29:50Z afabri $
+// 
 //
 // Author(s)     : Radu Ursu
 
+#include <CGAL/basic.h>
 
 // if QT is not installed, a message will be issued in runtime.
 #if !defined CGAL_USE_QT

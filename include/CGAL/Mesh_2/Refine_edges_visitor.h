@@ -1,4 +1,4 @@
-// Copyright (c) 2004  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2004-2006  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Mesh_2/include/CGAL/Mesh_2/Refine_edges_visitor.h,v $
-// $Revision: 1.8 $ $Date: 2004/10/19 18:29:48 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges_visitor.h $
+// $Id: Refine_edges_visitor.h 29627 2006-03-20 14:38:45Z lrineau $
+// 
 //
 // Author(s)     : Laurent RINEAU
 
@@ -70,19 +70,19 @@ public:
     va = fh->vertex(Tr::cw (edge_index));
     vb = fh->vertex(Tr::ccw(edge_index));
     
-    mark_at_right = fh->is_marked();
-    mark_at_left = fh->neighbor(edge_index)->is_marked();
+    mark_at_right = fh->is_in_domain();
+    mark_at_left = fh->neighbor(edge_index)->is_in_domain();
   }
 
   void before_insertion(const Edge&, const Point& p, Zone& z)
   {
-    mesher_base.do_before_insertion(Face_handle(), p, z);
+    mesher_base.before_insertion_impl(Face_handle(), p, z);
   }
 
   /** Restore markers in the star of \c v. */
   void after_insertion(const Vertex_handle& v)
   {
-    Tr& tr = mesher_base.get_triangulation_ref();
+    Tr& tr = mesher_base.triangulation_ref_impl();
 
     int dummy;
     // if we put edge_index instead of dummy, Intel C++ does not find
@@ -97,13 +97,13 @@ public:
     // [va,v]
     do {
       if( !tr.is_infinite(fc) )
-        fc->set_marked(mark_at_right);
+        fc->set_in_domain(mark_at_right);
       ++fc;
     } while ( fc->vertex(tr.ccw(fc->index(v))) != vb );
     // we are now at the left of [va,vb]
     do {
       if( !tr.is_infinite(fc) )
-        fc->set_marked(mark_at_left);
+        fc->set_in_domain(mark_at_left);
       ++fc;
     } while ( fc != fcbegin );
 

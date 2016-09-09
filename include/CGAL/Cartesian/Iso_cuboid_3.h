@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Iso_cuboid_3.h,v $
-// $Revision: 1.44 $ $Date: 2004/09/05 12:22:40 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Iso_cuboid_3.h $
+// $Id: Iso_cuboid_3.h 29078 2006-03-06 13:08:09Z spion $
+// 
 //
 // Author(s)     : Herve Bronnimann
 
@@ -25,6 +25,7 @@
 #define CGAL_CARTESIAN_ISO_CUBOID_3_H
 
 #include <CGAL/Twotuple.h>
+#include <CGAL/Handle_for.h>
 #include <CGAL/Cartesian/predicates_on_points_3.h>
 
 CGAL_BEGIN_NAMESPACE

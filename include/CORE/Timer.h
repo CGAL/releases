@@ -36,8 +36,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/include/CORE/Timer.h,v $
- * $Revision: 1.2 $ $Date: 2004/11/14 12:00:12 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/include/CORE/Timer.h $
+ * $Id: Timer.h 28567 2006-02-16 14:30:13Z lsaboret $
  ***************************************************************************/
 
 #ifndef _CORE_TIMER_H_

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Polyhedron_IO/include/CGAL/IO/Polyhedron_inventor_ostream.h,v $
-// $Revision: 1.6 $ $Date: 2003/09/18 10:25:03 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polyhedron_IO/include/CGAL/IO/Polyhedron_inventor_ostream.h $
+// $Id: Polyhedron_inventor_ostream.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 

@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Aff_transformationCd.h,v $
-// $Revision: 1.13 $ $Date: 2004/06/23 02:15:24 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Aff_transformationCd.h $
+// $Id: Aff_transformationCd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_AFF_TRANSFORMATIONCD_H
@@ -89,7 +89,7 @@ dimension $d+1$.}*/
 
 Aff_transformationCd(Translation, const VectorCd<RT,LA>& v) :
   Base( Rep(v.dimension()) )
-{ register int d = v.dimension();
+{ int d = v.dimension();
   for (int i = 0; i < d; ++i) {
     ptr()->M_(i,i) = FT(1);
     ptr()->M_(i,d) = v.cartesian(i);
@@ -189,7 +189,7 @@ operator*(const Aff_transformationCd<RT,LA>& s) const
 }
 
 bool operator==(const Aff_transformationCd<RT,LA>& a1) const
-{ if ( identical(a1) ) return true;
+{ if ( this->identical(a1) ) return true;
   return ( matrix() == a1.matrix() );
 }
 bool operator!=(const Aff_transformationCd<RT,LA>& a1) const

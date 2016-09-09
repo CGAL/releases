@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Static_filters/Side_of_oriented_sphere_3.h,v $
-// $Revision: 1.26 $ $Date: 2004/11/18 14:25:53 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Static_filters/Side_of_oriented_sphere_3.h $
+// $Id: Side_of_oriented_sphere_3.h 28924 2006-02-28 16:32:59Z glisse $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -43,6 +43,8 @@ public:
              const Point_3 &s, const Point_3 &t) const
   {
       CGAL_PROFILER("In_sphere_3 calls");
+
+      using std::fabs;
 
       double px, py, pz, qx, qy, qz, rx, ry, rz, sx, sy, sz, tx, ty, tz;
 
@@ -94,12 +96,16 @@ public:
           if (maxz < fabs(rtz)) maxz = fabs(rtz);
           if (maxz < fabs(stz)) maxz = fabs(stz);
 
-	  double maxt = maxx;
-          if (maxt < maxy) maxt = maxy;
-          if (maxt < maxz) maxt = maxz;
+          // Sort maxx < maxy < maxz.
+          if (maxx > maxz)
+              std::swap(maxx, maxz);
+          if (maxy > maxz)
+              std::swap(maxy, maxz);
+          else if (maxy < maxx)
+              std::swap(maxx, maxy);
 
-          double eps = 1.246613653102729e-13 * maxx * maxy * maxz
-                     * (maxt * maxt);
+          double eps = 1.2466136531027298e-13 * maxx * maxy * maxz
+                     * (maxz * maxz);
 
           double det = det4x4_by_formula(ptx,pty,ptz,pt2,
                                          rtx,rty,rtz,rt2,
@@ -107,11 +113,12 @@ public:
                                          stx,sty,stz,st2);
 
           // Protect against underflow in the computation of eps.
-          if (maxx < 1e-59 || maxy < 1e-59 || maxz < 1e-59) {
-            if (maxx == 0 || maxy == 0 || maxz == 0)
+          if (maxx < 1e-58) /* sqrt^5(min_double/eps) */ {
+            if (maxx == 0)
               return ON_ORIENTED_BOUNDARY;
           }
-          else {
+          // Protect against overflow in the computation of det.
+          else if (maxz < 1e61) /* sqrt^5(max_double/4 [hadamard]) */ {
             if (det > eps)  return ON_POSITIVE_SIDE;
             if (det < -eps) return ON_NEGATIVE_SIDE;
           }
@@ -132,6 +139,8 @@ public:
                               t1, t1, t1, sq,
                               t1, t1, t1, sq); // Full det
     double err = det.error();
+    err += err * 3 * F::ulp(); // Correction due to "eps * maxx * ...".
+
     std::cerr << "*** epsilon for In_sphere_3 = " << err << std::endl;
     return err;
   }

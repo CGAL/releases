@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Mesh_2/include/CGAL/IO/File_poly.h,v $
-// $Revision: 1.2.4.1 $ $Date: 2004/12/11 18:52:01 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/IO/File_poly.h $
+// $Id: File_poly.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Laurent RINEAU
 

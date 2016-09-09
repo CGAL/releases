@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_vertex_base_2.h,v $
-// $Revision: 1.15 $ $Date: 2003/09/18 10:26:18 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Triangulation_vertex_base_2.h $
+// $Id: Triangulation_vertex_base_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Mariette Yvinec
 
@@ -40,7 +40,12 @@ public:
   typedef Tds                                   Triangulation_data_structure;
   typedef typename Tds::Face_handle             Face_handle;
   typedef typename Tds::Vertex_handle           Vertex_handle;
-
+#ifndef CGAL_NO_DEPRECATED_CODE
+  typedef typename Tds::Vertex_circulator       Vertex_circulator; // needed for degree
+  typedef typename Tds::Edge_circulator         Edge_circulator;   // needed for degree
+  typedef typename Tds::Face_circulator         Face_circulator;   // needed for degree
+  typedef typename Tds::size_type               size_type;         // needed for degree
+#endif
   template < typename TDS2 >
   struct Rebind_TDS {
     typedef typename Vb::template Rebind_TDS<TDS2>::Other  Vb2;
@@ -70,6 +75,31 @@ public:
   // to add their own purpose checking
   bool is_valid(bool /* verbose */ = false, int /* level */ = 0) const
     {return true;}
+
+#ifndef CGAL_NO_DEPRECATED_CODE
+  size_type degree(); //should be const
+
+  Vertex_circulator incident_vertices()     
+    {return Vertex_circulator(handle());}
+ 
+  Vertex_circulator incident_vertices( Face_handle f)  
+    {return Vertex_circulator(handle(),f);}
+  
+  Face_circulator incident_faces()  
+    { return Face_circulator(handle()) ;}
+  
+  Face_circulator incident_faces( Face_handle f)    
+    { return Face_circulator(handle(), f);}
+  
+  Edge_circulator incident_edges()   
+    { return Edge_circulator(handle());}
+  
+  Edge_circulator incident_edges( Face_handle f)  
+    { return Edge_circulator(handle(), f);}
+ 
+  Vertex_handle handle();
+
+#endif //  CGAL_NO_DEPRECATED_CODE
 };
 
 template < class GT, class Vb >
@@ -88,8 +118,33 @@ operator<<(std::ostream &os, const Triangulation_vertex_base_2<GT, Vb> &v)
   return os << static_cast<const Vb&>(v) << v.point();
 }
 
-
-
+#ifndef CGAL_NO_DEPRECATED_CODE
+template <class GT, class Vb>
+typename Triangulation_vertex_base_2 <GT, Vb>::size_type
+Triangulation_vertex_base_2 <GT, Vb>::
+degree() //const
+{
+  int count = 0;
+  Vertex_circulator vc = incident_vertices(), done(vc);
+  if ( ! vc.is_empty()) {
+    do { 
+      count += 1;
+    } while (++vc != done);
+  }
+  return count;
+}
+template <class GT, class Vb>
+typename Triangulation_vertex_base_2<GT, Vb>::Vertex_handle
+Triangulation_vertex_base_2 <GT, Vb> ::
+handle()
+{
+  Face_handle fh = this->face();
+  for(int i = 0 ; i < 3 ; ++i){
+    if ( &*fh->vertex(i) == this) return fh->vertex(i);
+  }
+  return Vertex_handle();				    
+}
+#endif
 CGAL_END_NAMESPACE
 
 #endif //CGAL_TRIANGULATION_VERTEX_BASE_2_H

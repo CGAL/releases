@@ -30,8 +30,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/include/CORE/extLong.h,v $
- * $Revision: 1.7 $ $Date: 2004/11/14 12:00:12 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/include/CORE/extLong.h $
+ * $Id: extLong.h 28567 2006-02-16 14:30:13Z lsaboret $
  ***************************************************************************/
 
 #ifndef _CORE_EXTLONG_H_

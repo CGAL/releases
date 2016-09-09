@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/Concatenate_iterator.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:23:35 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/Concatenate_iterator.h $
+// $Id: Concatenate_iterator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 

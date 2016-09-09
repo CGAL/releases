@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/iostream/include/CGAL/IO/io.h,v $
-// $Revision: 1.12 $ $Date: 2003/10/21 12:25:41 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/iostream/include/CGAL/IO/io.h $
+// $Id: io.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Andreas Fabri
 
@@ -28,7 +28,7 @@
 #include <iostream>
 #include <CGAL/IO/io_tags.h>
 #include <CGAL/IO/Color.h>
-#include <CGAL/Object.h>
+
 
 CGAL_BEGIN_NAMESPACE
 
@@ -69,7 +69,7 @@ inline
 void
 write(std::ostream& os, const T& t, const io_Read_write&)
 {
-    os.write(static_cast<char*>(&t), sizeof(t));
+    os.write(reinterpret_cast<const char*>(&t), sizeof(t));
 }
 
 
@@ -105,7 +105,7 @@ inline
 void
 read(std::istream& is, T& t, const io_Read_write&)
 {
-    is.read(static_cast<char*>(&t), sizeof(t));
+    is.read(reinterpret_cast<char*>(&t), sizeof(t));
 }
 
 

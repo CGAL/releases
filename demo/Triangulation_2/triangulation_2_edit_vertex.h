@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/demo/Triangulation_2/triangulation_2_edit_vertex.h,v $
-// $Revision: 1.5.6.1 $ $Date: 2004/12/18 17:16:16 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/demo/Triangulation_2/triangulation_2_edit_vertex.h $
+// $Id: triangulation_2_edit_vertex.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Radu Ursu
 

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_point_locator.h,v $
-// $Revision: 1.25.4.1 $ $Date: 2004/12/08 20:04:48 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Nef_2/PM_point_locator.h $
+// $Id: PM_point_locator.h 28935 2006-02-28 19:50:17Z hachenb $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_PM_POINT_LOCATOR_H
@@ -23,6 +23,8 @@
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/Nef_2/Constrained_triang_traits.h>
 #include <CGAL/Nef_2/Object_handle.h>
+#include <CGAL/Circulator_project.h>
+#include <CGAL/Polygon_2_algorithms.h>
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 17
 #include <CGAL/Nef_2/debug.h>
@@ -36,6 +38,20 @@
 #endif
 
 CGAL_BEGIN_NAMESPACE
+
+enum object_kind { VERTEX, EDGE_CROSSING, EDGE_COLLINEAR };
+
+template < class Node, class Object>
+struct Project_halfedge_point {
+  typedef Node         argument_type;
+  typedef Object       result_type;
+  Object& operator()( Node& x) const   { 
+    return x.vertex()->point();
+  }
+  const Object& operator()( const Node& x) const   { 
+    return x.vertex()->point(); 
+  }
+};
 
 /*{\Moptions print_title=yes }*/ 
 /*{\Msubst 
@@ -417,6 +433,7 @@ public:
 #ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_3
   using Base::K;
   using Base::number_of_vertices;
+  using Base::faces_begin;
 #endif
 
   /*{\Mtypes 2}*/
@@ -609,7 +626,7 @@ public:
   face) of |P| which contains the point |p| in its relative
   interior.}*/
   { 
-    Object_handle h = LOCATE_IN_TRIANGULATION(p); 
+    Object_handle h = LOCATE_IN_TRIANGULATION(p);
     Vertex_const_handle v_triang;
     if ( assign(v_triang,h) ) {
       return input_object(v_triang);
@@ -623,13 +640,63 @@ public:
       if ( orientation_ == 0 ) return Object_handle(e);
       if ( orientation_ < 0 )  return Object_handle(face(twin(e)));
       if ( orientation_ > 0 )  return Object_handle(face(e));
-    }
-    assert(0); return h; // compiler warning
+    } 
+    CGAL_assertion(!check_tag(typename Is_extended_kernel<Geometry>::value_type()));
+    return Face_const_handle(faces_begin());
+    //    assert(0); return h; // compiler warning
   }
 
-  
+  bool ray_shoot_from_outer_facet(Segment& s, object_kind& current, 
+				  Vertex_const_handle &v, 
+				  Halfedge_const_handle& e,
+				  const Tag_true& ) const {
+    return false;
+  }
+
+  bool ray_shoot_from_outer_facet(Segment& s, object_kind& current, 
+				  Vertex_const_handle &v, 
+				  Halfedge_const_handle& e,
+				  const Tag_false& ) const {
+    CGAL_NEF_TRACEN("target on outer facet");
+    Point p = this->K.source(s);
+    Vertex_const_handle v1 = CT.vertices_begin();
+    Halfedge_const_handle e1 = CT.twin(CT.first_out_edge(v1));
+    Halfedge_around_face_const_circulator circ(e1), end(circ);
+    Point i;
+    Segment seg;
+    bool found = false;
+    CGAL_For_all(circ, end) {
+      //	std::cerr << s << std::endl;
+      //	std::cerr << point(source(circ)) << "->" << point(target(circ)) << std::endl;
+      Object o = intersection(s, Segment(point(source(circ)), 
+					 point(target(circ))));
+
+      if(assign(i,o)) {
+	CGAL_NEF_TRACEN("intersection in point " << i);
+	found = true;
+	s = Segment(p,i);
+	if(i == point(source(circ))) {
+	  current = VERTEX;
+	  v = source(circ);
+	} else if(i == point(target(circ))) {
+	  current = VERTEX;
+	  v = target(circ);
+	} else {	 
+	  current = EDGE_CROSSING;
+	  e = circ;
+	}
+      } else if(assign(seg,o)) {
+	found = true;
+	CGAL_NEF_TRACEN("overlap of segments");
+	current = EDGE_COLLINEAR;
+	e = circ;
+      }
+    }
+    return found;
+  }
+
   template <typename Object_predicate>
-  Object_handle ray_shoot(const Segment& s, const Object_predicate& M) const
+  Object_handle ray_shoot(const Segment& ss, const Object_predicate& M) const
   /*{\Mop returns an |Object_handle o| which can be converted to a
   |Vertex_const_handle|, |Halfedge_const_handle|, |Face_const_handle|
   |h| as described above.  The object predicate |M| has to have 
@@ -639,10 +706,11 @@ public:
   distance to |s.source()| and |M(h)| holds on the converted object. The
   operation returns the null handle |NULL| if the ray shoot along |s|
   does not hit any object |h| of |P| with |M(h)|.}*/
-  { CGAL_NEF_TRACEN("ray_shoot "<<s);
+  { Segment s(ss);
+    CGAL_NEF_TRACEN("ray_shoot "<<s);
     CGAL_assertion( !this->K.is_degenerate(s) );
-    Point p = this->K.source(s), q = this->K.target(s);
-    Direction d = this->K.construct_direction(p,q); 
+    Point p = this->K.source(s);
+    Direction d = this->K.construct_direction(p,s.target()); 
     Vertex_const_handle v;
     Halfedge_const_handle e;
     object_kind current;
@@ -650,9 +718,7 @@ public:
     if ( assign(v,h) ) {
       CGAL_NEF_TRACEN("located vertex "<<PV(v));
       current = VERTEX;
-    }  
-
-    if ( assign(e,h) ) {
+    } else if ( assign(e,h) ) {
       CGAL_NEF_TRACEN("located edge "<<PE(e));
       int orientation_ = this->K.orientation( segment(e), p);
       if ( orientation_ == 0 ) { // p on segment
@@ -663,7 +729,7 @@ public:
         { e = CT.twin(e); current = EDGE_COLLINEAR; }
         else { // crossing
           current = EDGE_CROSSING;
-          if ( !(this->K.orientation(CT.segment(e),q)>0) ) // not left_turn
+          if ( !(this->K.orientation(CT.segment(e),s.target())>0) ) // not left_turn
             e = CT.twin(e); 
         }
 
@@ -677,33 +743,44 @@ public:
         Point p1 = CT.point(CT.source(e)), 
               p2 = CT.point(CT.target(e)), 
               p3 = CT.point(CT.target(next(e)));
-        int or1 = this->K.orientation(p,q,p1);
-        int or2 = this->K.orientation(p,q,p2);
-        int or3 = this->K.orientation(p,q,p3);
-        if ( or1 == 0 && !this->K.left_turn(p1,p2,q) )
+        int or1 = this->K.orientation(p,s.target(),p1);
+        int or2 = this->K.orientation(p,s.target(),p2);
+        int or3 = this->K.orientation(p,s.target(),p3);
+        if ( or1 == 0 && !this->K.left_turn(p1,p2,s.target()) )
         { v = CT.source(e); current = VERTEX; }
-        else if ( or2 == 0 && !this->K.left_turn(p2,p3,q) )
+        else if ( or2 == 0 && !this->K.left_turn(p2,p3,s.target()) )
         { v = CT.target(e); current = VERTEX; }
-        else if ( or3 == 0 && !this->K.left_turn(p3,p1,q) )
+        else if ( or3 == 0 && !this->K.left_turn(p3,p1,s.target()) )
         { v = CT.target(CT.next(e)); current = VERTEX; }
-        else if ( or2 > 0 && or1 < 0 && !this->K.left_turn(p1,p2,q) )
+        else if ( or2 > 0 && or1 < 0 && !this->K.left_turn(p1,p2,s.target()) )
         { e = CT.twin(e); current = EDGE_CROSSING; }
-        else if ( or3 > 0 && or2 < 0 && !this->K.left_turn(p2,p3,q) )
+        else if ( or3 > 0 && or2 < 0 && !this->K.left_turn(p2,p3,s.target()) )
         { e = CT.twin(CT.next(e)); current = EDGE_CROSSING; }
-        else if ( or1 > 0 && or3 < 0 && !this->K.left_turn(p3,p1,q) )
+        else if ( or1 > 0 && or3 < 0 && !this->K.left_turn(p3,p1,s.target()) )
         { e = CT.twin(CT.previous(e)); current = EDGE_CROSSING; }
         else return Object_handle();
 
       }
+    } else {
+
+      if(check_tag(typename Is_extended_kernel<Geometry>::value_type())) {
+	CGAL_assertion_msg(false, "code is only for Bounded_kernel");
+      }
+      if(!ray_shoot_from_outer_facet(s,current,v,e,typename Is_extended_kernel<Geometry>::value_type()))
+	return Object_handle();
     }
+
+    CGAL_NEF_TRACEN("current = " << current);
+    if(current == VERTEX)
+      CGAL_NEF_TRACEN(point(v));
 
     while (true) switch ( current ) {
       case VERTEX:
         { CGAL_NEF_TRACEN("vertex "<<CT.point(v));
           Vertex_const_handle v_org = input_vertex(v);
           if ( M(v_org) ) return Object_handle(v_org);
-          if ( CT.point(v) == q ) return Object_handle();
-          // stop walking at q, or determine next object on s:
+          if ( CT.point(v) == s.target() ) return Object_handle();
+          // stop walking at s.target(), or determine next object on s:
           bool collinear;
           Halfedge_const_handle e_out = CT.out_wedge(v,d,collinear);
           if (collinear) // ray shoot via e_out
@@ -718,7 +795,7 @@ public:
         break;
       case EDGE_CROSSING:
         { CGAL_NEF_TRACEN("crossing edge "<<segment(e));
-          if ( this->K.orientation(CT.segment(e),q) == 0 ) 
+          if ( this->K.orientation(CT.segment(e),s.target()) == 0 ) 
             return Object_handle();
           Halfedge_const_handle e_org = input_halfedge(e);
           if ( e_org != Halfedge_const_handle() ) { // not a CT edge
@@ -727,7 +804,7 @@ public:
           }
           Vertex_const_handle v_cand = CT.target(CT.next(e));
           CGAL_NEF_TRACEN("v_cand "<<PV(v_cand));
-          int orientation_ = this->K.orientation(p,q,CT.point(v_cand));
+          int orientation_ = this->K.orientation(p,s.target(),CT.point(v_cand));
           switch( orientation_ ) {
             case 0: 
               v = v_cand; current = VERTEX; break;
@@ -750,7 +827,7 @@ public:
               return Object_handle(e_org);
           }
           if ( this->K.strictly_ordered_along_line(
-                 CT.point(CT.source(e)),q,CT.point(CT.target(e))) ) 
+                 CT.point(CT.source(e)),s.target(),CT.point(CT.target(e))) ) 
             return Object_handle();
           v = CT.target(e); current = VERTEX;
         }
@@ -760,11 +837,31 @@ public:
     // assert(0); return h; // compiler warning
   }
 
+  bool within_outer_cycle(Vertex_const_handle v, 
+			  const Point& q, const Tag_true& ) const {
+    return true;
+  }
+
+  bool within_outer_cycle(Vertex_const_handle v, 
+			  const Point& q, const Tag_false& ) const {
+    typedef Project_halfedge_point<typename Decorator::Halfedge, Point> Project;
+    typedef Circulator_project<Halfedge_around_face_const_circulator, 
+      Project, const Point&, const Point*> Circulator;
+    typedef Container_from_circulator<Circulator> Container;
+    
+    Halfedge_const_handle e_min = CT.twin(CT.first_out_edge(v));
+    Halfedge_around_face_const_circulator circ(e_min);
+    Circulator c(circ);
+    Container ct(c); 
+    if(is_empty_range(ct.begin(), ct.end()) ||
+       bounded_side_2(ct.begin(), ct.end(),q) == CGAL::ON_UNBOUNDED_SIDE)
+      return false;
+    
+    return true;
+  }
 
   Object_handle walk_in_triangulation(const Point& p) const;
 
-
-  enum object_kind { VERTEX, EDGE_CROSSING, EDGE_COLLINEAR };
 }; // PM_point_locator<PM_decorator_,Geometry_>
 
 
@@ -813,7 +910,13 @@ typename PM_point_locator<PMD,GEO>::Object_handle
 PM_point_locator<PMD,GEO>::walk_in_triangulation(const Point& q) const
 { 
   CGAL_NEF_TRACEN("walk in triangulation "<<q);
+
   Vertex_const_handle v = CT.vertices_begin();
+
+  if(!check_tag(typename Is_extended_kernel<GEO>::value_type()))
+    if(!within_outer_cycle(v,q,typename Is_extended_kernel<Geometry>::value_type()))
+      return Object_handle();
+
   Halfedge_const_handle e;
   Point p = CT.point(v);
   if ( p == q ) return Object_handle(v);

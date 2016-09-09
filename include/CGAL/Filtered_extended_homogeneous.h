@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Filtered_extended_homogeneous.h,v $
-// $Revision: 1.31.4.1 $ $Date: 2004/12/08 20:04:33 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
+// $Id: Filtered_extended_homogeneous.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_FILTERED_EXTENDED_HOMOGENEOUS_H
@@ -25,7 +25,7 @@
 #include <CGAL/Homogeneous.h>
 #include <CGAL/number_utils.h>
 #undef CGAL_NEF_DEBUG
-#define CGAL_NEF_DEBUG 59
+#define CGAL_NEF_DEBUG 5
 #include <CGAL/Nef_2/debug.h>
 
 #define REDUCE_INTERSECTION_POINTS
@@ -56,6 +56,7 @@ std::cout << #c##" " << c##_exception << "/" << c##_total << std::endl
 #endif
 
 CGAL_BEGIN_NAMESPACE
+
 template <typename RT>
 class SPolynomial {
   RT _m,_n;
@@ -955,6 +956,18 @@ bool operator<(const Extended_direction<RT>& d1,
 }
 
 
+
+template<class Kernel>
+struct Is_extended_kernel;
+template <typename RT_>
+class Filtered_extended_homogeneous;
+
+template<class T>
+struct Is_extended_kernel<Filtered_extended_homogeneous<T> > {
+       typedef Tag_true value_type;
+};
+
+
 template <typename RT_>
 class Filtered_extended_homogeneous {
 typedef Filtered_extended_homogeneous<RT_> Self;
@@ -1000,8 +1013,11 @@ enum Point_type { SWCORNER=1, LEFTFRAME, NWCORNER,
 
 Standard_RT dx(const Standard_line_2& l) const { return l.b(); }
 Standard_RT dy(const Standard_line_2& l) const { return -l.a(); }
-Standard_FT abscissa_distance(const Standard_line_2& l) const 
-{ return Standard_kernel::make_FT(-l.c(),l.b()); }
+Standard_FT abscissa_distance(const Standard_line_2& l) const {
+  typename CGAL::Rational_traits<typename Standard_kernel::FT> rat_traits;
+  return rat_traits.make_rational(-l.c(), l.b());
+  //  return -l.c() / l.b();
+}
 
 Point_type determine_type(const Standard_line_2& l) const
 {

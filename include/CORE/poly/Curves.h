@@ -62,8 +62,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/include/CORE/poly/Curves.h,v $
- * $Revision: 1.2 $ $Date: 2004/11/14 12:00:18 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/include/CORE/poly/Curves.h $
+ * $Id: Curves.h 29485 2006-03-14 11:52:49Z efif $
  ***************************************************************************/
 
 
@@ -271,13 +271,13 @@ class BiPoly{
   BiPoly<NT> & operator=( const BiPoly<NT>& P);
 
   // Self-addition
-  BiPoly<NT> & BiPoly<NT>::operator+=( BiPoly<NT>& P);
+  BiPoly<NT> & operator+=( BiPoly<NT>& P);
    
   // Self-subtraction
-  BiPoly<NT> & BiPoly<NT>::operator-=( BiPoly<NT>& P);
+  BiPoly<NT> & operator-=( BiPoly<NT>& P);
 
   // Self-multiplication
-  BiPoly<NT> & BiPoly<NT>::operator*=( BiPoly<NT>& P);
+  BiPoly<NT> & operator*=( BiPoly<NT>& P);
   
   // Multiply by a polynomial in X
   BiPoly<NT> & mulXpoly( Polynomial<NT> & p);

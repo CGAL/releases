@@ -1,8 +1,8 @@
 /* XPM */
 /*static char * draw_xpm[] = {
 "32 32 3 1",
-" 	c None",
-".	c #FFFFFF",
+"         c None",
+".        c #FFFFFF",
 "x  c #000000",                  
 "                                ",
 "                                ",
@@ -39,8 +39,8 @@
 /* XPM */
 static char * small_draw_xpm[] = {
 "32 32 3 1",
-" 	c None",
-".	c #FFFFFF",
+"         c None",
+".        c #FFFFFF",
 "x  c #000000",
 "                                ",
 "                                ",

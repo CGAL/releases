@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Polyhedron/include/CGAL/Polyhedron_min_items_3.h,v $
-// $Revision: 1.1 $ $Date: 2004/04/07 14:33:22 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polyhedron/include/CGAL/Polyhedron_min_items_3.h $
+// $Id: Polyhedron_min_items_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
 

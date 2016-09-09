@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Static_filters/Orientation_2.h,v $
-// $Revision: 1.27 $ $Date: 2004/11/18 14:25:52 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Static_filters/Orientation_2.h $
+// $Id: Orientation_2.h 28782 2006-02-25 23:14:49Z glisse $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -27,6 +27,8 @@
 #include <CGAL/Profile_counter.h>
 #include <CGAL/Static_filter_error.h>
 
+#include <cmath>
+
 CGAL_BEGIN_NAMESPACE
 
 template < typename K_base >
@@ -34,12 +36,33 @@ class SF_Orientation_2
   : public K_base::Orientation_2
 {
   typedef typename K_base::Point_2          Point_2;
+  typedef typename K_base::Vector_2         Vector_2;
+  typedef typename K_base::Circle_2          Circle_2;
+
   typedef typename K_base::Orientation_2    Base;
 
 public:
 
+  typedef typename Base::result_type  result_type;
+
+#ifndef CGAL_CFG_MATCHING_BUG_6
+  using Base::operator();
+#else 
+  result_type
+  operator()(const Vector_2& u, const Vector_2& v) const
+  { 
+    return Base::operator()(u,v);
+  }
+  
+  result_type
+  operator()(const Circle_2& c) const
+  {
+    return Base::operator()(c);
+  }
+#endif
   Orientation
   operator()(const Point_2 &p, const Point_2 &q, const Point_2 &r) const
+
   {
       CGAL_PROFILER("Orientation_2 calls");
 
@@ -60,18 +83,22 @@ public:
                                          prx, pry);
 
           // Then semi-static filter.
-          double maxx = fabs(pqx);
-          if (maxx < fabs(prx)) maxx = fabs(prx);
-          double maxy = fabs(pqy);
-          if (maxy < fabs(pry)) maxy = fabs(pry);
-          double eps = 8.8872057372592758e-16 * maxx * maxy;
+          double maxx = std::fabs(pqx);
+          if (maxx < std::fabs(prx)) maxx = std::fabs(prx);
+          double maxy = std::fabs(pqy);
+          if (maxy < std::fabs(pry)) maxy = std::fabs(pry);
+          double eps = 8.8872057372592798e-16 * maxx * maxy;
+
+          // Sort them
+          if (maxx > maxy)  std::swap(maxx, maxy);
 
           // Protect against underflow in the computation of eps.
-          if (maxx < 1e-146 || maxy < 1e-146) {
-            if (maxx == 0 || maxy == 0)
+          if (maxx < 1e-146) /* sqrt(min_double/eps) */ {
+            if (maxx == 0)
               return ZERO;
           }
-          else {
+          // Protect against overflow in the computation of det.
+          else if (maxy < 1e153) /* sqrt(max_double [hadamard]/2) */ {
             if (det > eps)  return POSITIVE;
             if (det < -eps) return NEGATIVE;
           }
@@ -90,6 +117,7 @@ public:
     F det = det2x2_by_formula(t1, t1,
                               t1, t1); // Full det
     double err = det.error();
+    err += err * 2 * F::ulp(); // Correction due to "epsilon * maxx * maxy".
     std::cerr << "*** epsilon for Orientation_2 = " << err << std::endl;
     return err;
   }

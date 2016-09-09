@@ -21,7 +21,7 @@
  *
  *       EXACTNESS PROPERTY:
  *       ==================
- *       for BigFloats that are exact (i.e., error=0),
+ *       For BigFloats that are exact (i.e., error=0),
  *       addition/subtraction and multiplication return the
  *       exact result (i.e., error=0).  We also introduce the operation
  *       div2(), which simply divides a BigFloat by 2,
@@ -36,8 +36,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/src/Core/BigFloat.cpp,v $
- * $Revision: 1.4 $ $Date: 2004/11/14 11:53:15 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/src/Core/BigFloat.cpp $
+ * $Id: BigFloat.cpp 29485 2006-03-14 11:52:49Z efif $
  ***************************************************************************/
 
 #include <ctype.h>
@@ -201,6 +201,9 @@ void BigFloatRep :: truncM(const BigFloatRep& B, const extLong& r, const extLong
   }
 }
 
+// This is the main approximation function
+// REMARK: would be useful to have a self-modifying version
+// 		of this function (e.g., for Newton).
 void BigFloatRep::approx(const BigFloatRep& B,
               const extLong& r, const extLong& a) {
   if (B.err) {
@@ -255,19 +258,20 @@ void BigFloatRep::div(const BigInt& N, const BigInt& D,
 void BigFloatRep::normal() {
   long le = flrLg(err);
 
-  if (le >= CHUNK_BIT + 2) {
-    long f = chunkFloor(--le);
-    long bits_f = bits(f);
+  if (le >= CHUNK_BIT + 2) { // so we do not carry more than 16 = CHUNK_BIT + 2
+	                     // bits of error
+    long f = chunkFloor(--le); // f is roughly equal to floor(le/CHUNK_BIT)
+    long bits_f = bits(f);   // f chunks will have bits_f many bits
 #ifdef CORE_DEBUG
     assert (bits_f >= 0);
 #endif
 
-    m   >>= bits_f;
-    err >>= bits_f;
-    err +=  2;
-    exp +=  f;
+    m   >>= bits_f;  // reduce mantissa by bits_f many bits
+    err >>= bits_f;  // same for err
+    err +=  2;       // why 2?
+    exp +=  f;       
   }
-  if (err == 0)
+  if (err == 0)      // unlikely, if err += 2 above
     eliminateTrailingZeroes();
 }
 
@@ -294,6 +298,7 @@ void BigFloatRep::bigNormal(BigInt& bigErr) {
     err    = ulongValue(bigErr) + 2; // you need to add "2" because "1" comes
     		// from truncation error in the mantissa, and another
 		// "1" comes from the truncation error in the bigErr.
+		// (But there is danger of overflow...)
     exp    += f;
   }
 
@@ -301,7 +306,8 @@ void BigFloatRep::bigNormal(BigInt& bigErr) {
     eliminateTrailingZeroes();
 }
 
-//  arithmetics
+// ARITHMETIC:
+//  Addition
 void BigFloatRep::add(const BigFloatRep& x, const BigFloatRep& y) {
   long expDiff = x.exp - y.exp;
 
@@ -311,9 +317,9 @@ void BigFloatRep::add(const BigFloatRep& x, const BigFloatRep& y) {
       err = y.err;
       exp = y.exp;
     } else {//  x.err > 0
-      m   = x.m + chunkShift(y.m, - expDiff);
-      err = x.err + 5;
-      exp = x.exp;
+      m   = x.m + chunkShift(y.m, - expDiff); // negative shift!
+      err = x.err + 5; // To account for y.err (but why 5?)
+      exp = x.exp;     // 
       // normal();
     }
   } else if (!expDiff) {//  x.exp == y.exp
@@ -337,6 +343,7 @@ void BigFloatRep::add(const BigFloatRep& x, const BigFloatRep& y) {
   normal();
 }
 
+//  Subtraction
 void BigFloatRep::sub(const BigFloatRep& x, const BigFloatRep& y) {
   long expDiff = x.exp - y.exp;
 
@@ -406,6 +413,9 @@ void BigFloatRep :: div2(const BigFloatRep& x) {
 }
 
 // Converts a BigFloat interval into one BigFloat with almost same error bound
+// This routine ignores the errors in inputs a and b.
+// But you cannot really ignore them since, they are taken into account
+// when you compute "r.sub(a,b)"...
 void BigFloatRep::centerize(const BigFloatRep& a, const BigFloatRep& b) {
   if ((a.m == b.m) && (a.err == b.err) && (a.exp == b.exp)) {
     m = a.m;
@@ -419,7 +429,8 @@ void BigFloatRep::centerize(const BigFloatRep& a, const BigFloatRep& b) {
   r.div2(r);
 
   //setup mantissa and exponent, but not error bits
-  add(a, b);
+  // But this already sets the error bits? Chee
+  add(a,b);
   div2(*this);
   // error bits = ceil ( B^{-exp}*|a-b|/2 )
 
@@ -610,7 +621,7 @@ void BigFloatRep::sqrt(const BigFloatRep& x, const extLong& a, const BigFloat& A
       if (!x.err)
         err = 0;
       else {                  //  x.err > 0
-        err = (long)(:: sqrt((double)x.err));
+        err = (long)(std::sqrt((double)x.err));
         err++;
         err <<= 1;
         if (delta)
@@ -807,7 +818,7 @@ BigFloatRep::toDecimal(unsigned int width, bool Scientific) const {
 
   long L10 = 0;
   if (M != 0) {
-    L10 = (long)::floor((lm + e2) / lgTenM);
+    L10 = (long)std::floor((lm + e2) / lgTenM);
     L10 = adjustE(L10, m, e2);     // L10: floor[log10(M 2^(e2))], M != 0
   } else {
     L10 = 0;
@@ -839,7 +850,7 @@ BigFloatRep::toDecimal(unsigned int width, bool Scientific) const {
   // except that the last digit which might be subject to +/- 1.
 
   if (err != 0) {     // valid = number of significant digits
-    unsigned long valid = floorlg10(m) - (long)::floor(log10(float(err)));
+    unsigned long valid = floorlg10(m) - (long)std::floor(std::log10(float(err)));
     if (decRep.length() > valid) {
       decRep.erase(valid);
     }

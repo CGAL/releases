@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Stream_support/include/CGAL/IO/File_header_extended_OFF.h,v $
-// $Revision: 1.1 $ $Date: 2003/12/10 13:57:15 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Stream_support/include/CGAL/IO/File_header_extended_OFF.h $
+// $Id: File_header_extended_OFF.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 

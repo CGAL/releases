@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/distance_predicates_2.h,v $
-// $Revision: 1.10 $ $Date: 2004/03/16 21:58:38 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/distance_predicates_2.h $
+// $Id: distance_predicates_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Stefan Schirra
 

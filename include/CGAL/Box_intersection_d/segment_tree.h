@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h,v $
-// $Revision: 1.20 $ $Date: 2004/11/17 14:06:04 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
+// $Id: segment_tree.h 28685 2006-02-22 15:22:27Z glisse $
+// 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 //                 Andreas Meyer <ameyer@mpi-sb.mpg.de>
@@ -31,7 +31,6 @@
 #include <cstdlib>
 #include <cmath>
 #include <climits>
-#include <cassert>
 #include <cstddef>
 
 CGAL_BEGIN_NAMESPACE
@@ -233,7 +232,7 @@ split_points( RandomAccessIter begin, RandomAccessIter end,
               Predicate_traits traits, int dim, T& mi )
 {
     // magic formula
-    int levels = (int)(.91*log(((double)std::distance(begin,end))/137.0)+1);
+    int levels = (int)(.91*std::log(((double)std::distance(begin,end))/137.0)+1);
     levels = (levels <= 0) ? 1 : levels;
     RandomAccessIter it = iterative_radon( begin, end, traits, dim, levels );
     mi = Predicate_traits::min_coord( *it, dim );
@@ -322,12 +321,12 @@ void segment_tree( RandomAccessIter1 p_begin, RandomAccessIter1 p_end,
     {
         // first: each point is inside segment [lo,hi)
         for( RandomAccessIter1 it = p_begin; it != p_end; ++it ) {
-            assert( Lo_less( hi, dim )(*it) );
-            assert( Lo_less( lo, dim )(*it) == false );
+            CGAL_assertion( Lo_less( hi, dim )(*it) );
+            CGAL_assertion( Lo_less( lo, dim )(*it) == false );
         }
         // second: each interval intersects segment [lo,hi)
         for( RandomAccessIter2 it = i_begin; it != i_end; ++it )
-            assert( Hi_greater( lo, dim )(*it) && Lo_less( hi, dim )(*it) );
+            CGAL_assertion( Hi_greater(lo,dim)(*it) && Lo_less(hi,dim)(*it));
     }
 #endif
 

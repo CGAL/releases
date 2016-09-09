@@ -1,6 +1,27 @@
+// Copyright (c) 2005  Tel-Aviv University (Israel).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/demo/Arrangement_2/MyWindow.C $
+// $Id: MyWindow.C 29106 2006-03-07 07:37:56Z wein $
+// 
+//
+//
+// Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
+
 #include <CGAL/basic.h>
 
 #ifdef CGAL_USE_QT
+#ifdef CGAL_USE_CORE
 
 #include "MyWindow.h"
 #include "forms.h"
@@ -33,7 +54,7 @@
 #include "icons/demo_conic_circle.xpm"
 #include "icons/demo_conic_ellipse.xpm"
 #include "icons/demo_conic_segment.xpm"
-//#include "icons/demo_rayshoot_down.xpm"
+#include "icons/demo_rayshoot_down.xpm"
 #include "icons/demo_rayshoot_up.xpm"
 //#include "icons/demo_arrow_down.xpm"
 //#include "icons/demo_arrow_up.xpm"
@@ -50,18 +71,17 @@
  * \param w - window width
  * \param h - window hight
  */
-MyWindow::MyWindow(int w, int h) 
+MyWindow::MyWindow(int w, int h) : num_of_colors(18)
 {
   myBar = new QTabWidget(this);
   setCentralWidget(myBar);
   m_width = w;
   m_height = h;
-  tab_number = 1;
+  tab_number = 0;
   number_of_tabs = 0;
   testlayer = new Qt_layer( myBar );
   colors_flag = true;
   statusBar();
-  strategy = WALK;  // the first tab will be created with 'walk' point location
 
   m_scailing_factor = 2;
   
@@ -117,11 +137,17 @@ MyWindow::MyWindow(int w, int h)
                                   "Point Location" );
   pointLocationMode->setToggleAction( TRUE );
   
-  rayShootingMode = new QAction("RayShooting",
+  rayShootingUpMode = new QAction("RayShootingUp",
                                 QPixmap( (const char**)demo_rayshoot_up_xpm ),
-                                "&Ray Shooting", 0 , modeGroup,
-                                "Ray Shooting" );
-  rayShootingMode->setToggleAction( TRUE );
+                                "&Ray Shooting Up", 0 , modeGroup,
+                                "Ray Shooting Up" );
+  rayShootingUpMode->setToggleAction( TRUE );
+
+  rayShootingDownMode = new QAction("RayShootingDown",
+                                QPixmap( (const char**)demo_rayshoot_down_xpm ),
+                                "&Ray Shooting Down", 0 , modeGroup,
+                                "Ray Shooting Down" );
+  rayShootingDownMode->setToggleAction( TRUE );
 
   dragMode = new QAction("Drag", QPixmap( (const char**)hand_xpm ),
                          "&Drag", 0 , modeGroup, "Drag" );
@@ -196,8 +222,8 @@ MyWindow::MyWindow(int w, int h)
   file->insertItem("&Open Segment File...", this, SLOT(fileOpenSegment()));
   file->insertItem("&Open Polyline File...", this, SLOT(fileOpenPolyline()));
   file->insertItem("&Open Conic File...", this, SLOT(fileOpenConic()));
-  file->insertItem("&Open Segment Pm File...", this, SLOT(fileOpenSegmentPm()));
-  //file->insertItem("&Open Polyline Pm File...", this, SLOT(fileOpenPolylinePm()));
+  file->insertItem("&Open Segment Arr File...", this, SLOT(fileOpenSegmentPm()));
+  file->insertItem("&Open Polyline Arr File...", this, SLOT(fileOpenPolylinePm()));
   //file->insertItem("&Open Conic Pm File", this, SLOT(fileOpenConicPm()));
   file->insertItem("&Save...", this, SLOT(fileSave()));
   file->insertItem("&Save As...", this, SLOT(fileSaveAs()));
@@ -225,7 +251,8 @@ MyWindow::MyWindow(int w, int h)
   insertMode->addTo( mode );
   deleteMode->addTo( mode );
   pointLocationMode->addTo( mode );
-  rayShootingMode->addTo( mode );
+  rayShootingUpMode->addTo( mode );
+  rayShootingDownMode->addTo( mode );
   dragMode->addTo( mode );
   mergeMode->addTo( mode );
   splitMode->addTo( mode );
@@ -263,8 +290,6 @@ MyWindow::MyWindow(int w, int h)
   options->insertSeparator(); 
   options->insertItem("Planar Map Color...", this, SLOT(changePmColor()));
   options->insertSeparator();
-  options->insertItem("Ray-Shooting Direction...", this, 
-	                                       SLOT(rayShootingDirection()));
   options->insertItem("Point-Locaiton Strategy....", this ,
                                          SLOT(pointLocationStrategy()));
                                           
@@ -283,7 +308,8 @@ MyWindow::MyWindow(int w, int h)
   deleteMode->addTo( modeTools );
   dragMode->addTo( modeTools );
   pointLocationMode->addTo( modeTools );
-  rayShootingMode->addTo( modeTools );
+  rayShootingUpMode->addTo( modeTools );
+  rayShootingDownMode->addTo( modeTools );
   mergeMode->addTo( modeTools );
   splitMode->addTo( modeTools );
   fillfaceMode->addTo( modeTools );
@@ -336,7 +362,7 @@ MyWindow::MyWindow(int w, int h)
        this, SLOT( zoomin() ) );
 
   connect (color_dialog_bt , SIGNAL( activated()) , 
-	  this , SLOT(openColorDialog() ) );
+          this , SLOT(openColorDialog() ) );
   
   // connect mode group
   connect( modeGroup, SIGNAL( selected(QAction*) ), 
@@ -361,7 +387,27 @@ MyWindow::MyWindow(int w, int h)
   // connect the change of current tab
   connect( myBar, SIGNAL( currentChanged(QWidget * )  ),
            this, SLOT( update() ) );
-  
+    
+  colors = new QColor[num_of_colors];
+  colors[0]  =  Qt::blue;
+  colors[1]  =  Qt::gray;
+  colors[2]  =  Qt::green;
+  colors[3]  =  Qt::cyan;
+  colors[4]  =  Qt::magenta;
+  colors[5]  =  Qt::darkRed;
+  colors[6]  =  Qt::darkGreen;
+  colors[7]  =  Qt::darkBlue;
+  colors[8]  =  Qt::darkMagenta;
+  colors[9]  =  Qt::darkCyan;
+  colors[10] =  Qt::yellow;
+  colors[11] =  Qt::white;
+  colors[12] =  Qt::darkGray;
+  colors[13] =  Qt::gray;
+  colors[14] =  Qt::red;
+  colors[15] =  Qt::cyan;
+  colors[16] =  Qt::darkYellow;
+  colors[17] =  Qt::lightGray;
+ 
   //state flag 
   old_state = 0;
   add_segment_tab(); 
@@ -370,7 +416,9 @@ MyWindow::MyWindow(int w, int h)
 
 /*! distructor */
 MyWindow::~MyWindow()
-{}
+{
+  delete []colors;
+}
 
 #include "MyWindow.moc"
 
@@ -388,21 +436,27 @@ int main(int argc, char **argv)
   return app.exec();  
 }
 
-#else 
+#else // CGAL_USE_CORE not defined:
 
 #include <iostream>
 
+int main(int, char*)
+{
+  std::cout << "Sorry, this demo needs CORE ..." << std::endl;
+
+  return (0);
+}
+
+#endif // CGAL_USE_CORE
+#else // CGAL_USE_QT not defined:
+
+#include <iostream>
 
 int main(int, char*)
 {
 
-  std::cout << "Sorry, this demo needs QT...";
-  std::cout << std::endl;
-
-  return 0;
+  std::cout << "Sorry, this demo needs QT ..." << std::endl;
+  return (0);
 }
 
-
-
 #endif // CGAL_USE_QT
-

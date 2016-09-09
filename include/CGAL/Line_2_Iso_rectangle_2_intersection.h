@@ -1,4 +1,3 @@
-
 // Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -16,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Line_2_Iso_rectangle_2_intersection.h,v $
-// $Revision: 1.17 $ $Date: 2004/05/20 13:54:36 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Line_2_Iso_rectangle_2_intersection.h $
+// $Id: Line_2_Iso_rectangle_2_intersection.h 31166 2006-05-17 16:30:56Z spion $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -29,7 +28,7 @@
 #include <CGAL/Line_2.h>
 #include <CGAL/Iso_rectangle_2.h>
 #include <CGAL/Line_2.h>
-#include <CGAL/utils.h>
+#include <CGAL/kernel_assertions.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/Object.h>
 
@@ -40,7 +39,7 @@ namespace CGALi {
 template <class K>
 class Line_2_Iso_rectangle_2_pair {
 public:
-    enum Intersection_results {NO, POINT, SEGMENT};
+    enum Intersection_results {NO_INTERSECTION, POINT, SEGMENT};
     Line_2_Iso_rectangle_2_pair() ;
     Line_2_Iso_rectangle_2_pair(typename K::Line_2 const *pt,
                             typename K::Iso_rectangle_2 const *iso);
@@ -67,7 +66,7 @@ inline bool do_intersect(const typename CGAL_WRAP(K)::Line_2 &p1,
 {
     typedef Line_2_Iso_rectangle_2_pair<K> pair_t;
     pair_t pair(&p1, &p2);
-    return pair.intersection_type() != pair_t::NO;
+    return pair.intersection_type() != pair_t::NO_INTERSECTION;
 }
 
 template <class K>
@@ -121,12 +120,12 @@ Line_2_Iso_rectangle_2_pair<K>::intersection_type() const
 
         if (_dir.homogeneous(i) == RT(0)) {
             if (*ref_point_it < *isomin_it) {
-                _result = NO;
-                return NO;
+                _result = NO_INTERSECTION;
+                return NO_INTERSECTION;
             }
             if (*ref_point_it > *isomax_it) {
-                _result = NO;
-                return NO;
+                _result = NO_INTERSECTION;
+                return NO_INTERSECTION;
             }
         } else {
             FT newmin, newmax;
@@ -150,8 +149,8 @@ Line_2_Iso_rectangle_2_pair<K>::intersection_type() const
                 if (newmax < _max)
                     _max = newmax;
                 if (_max < _min) {
-                    _result = NO;
-                    return NO;
+                    _result = NO_INTERSECTION;
+                    return NO_INTERSECTION;
                 }
             }
             all_values = false;
@@ -212,7 +211,7 @@ intersection(const typename CGAL_WRAP(K)::Line_2 &line,
     typedef Line_2_Iso_rectangle_2_pair<K> is_t;
     is_t ispair(&line, &iso);
     switch (ispair.intersection_type()) {
-    case is_t::NO:
+    case is_t::NO_INTERSECTION:
     default:
         return Object();
     case is_t::POINT: {

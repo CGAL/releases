@@ -1,4 +1,4 @@
-// Copyright (c) 2001  Tel-Aviv University (Israel).
+// Copyright (c) 2005  Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,89 +11,97 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/Qt_widget_Conic_arc_2.h,v $
-// $Revision: 1.3 $ $Date: 2004/07/21 09:20:12 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/IO/Qt_widget_Conic_arc_2.h $
+// $Id: Qt_widget_Conic_arc_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
-// Author(s)     : Efi Fogel <efif@post.tau.ac.il>
+// Author(s)     : Ron Wein  <wein@post.tau.ac.il>
+//                 Efi Fogel <efif@post.tau.ac.il>
 
 #ifndef CGAL_QT_WIDGET_CONIC_ARC_2_H
 #define CGAL_QT_WIDGET_CONIC_ARC_2_H
 
 #include <CGAL/IO/Qt_widget.h>
-#include <CGAL/Arrangement_2/Conic_arc_2.h>
+#include <CGAL/Arr_conic_traits_2.h>
+#include <list>
 
 CGAL_BEGIN_NAMESPACE
 
-template <class Int_kernel, class Alg_kernel>
-Qt_widget & operator<< (Qt_widget & ws, 
-		        const Conic_arc_2<Int_kernel, Alg_kernel>& cv)
+/*!
+ * Draw an x-monotone conic arc.
+ */
+template <class ConicArc>
+Qt_widget& operator<< (Qt_widget& ws,
+                       const _Conic_x_monotone_arc_2<ConicArc>& cv)
 {
-  typedef typename Alg_kernel::FT                               CoNT;
-  typedef typename Conic_arc_2<Int_kernel, Alg_kernel>::Point_2 Point_2;
-
   // Get the co-ordinates of the curve's source and target.
-  double sx = CGAL::to_double(cv.source().x()),
-         sy = CGAL::to_double(cv.source().y()),
-         tx = CGAL::to_double(cv.target().x()),
-         ty = CGAL::to_double(cv.target().y());
+  const double  sx = CGAL::to_double(cv.source().x());
+  const double  sy = CGAL::to_double(cv.source().y());
+  const double  tx = CGAL::to_double(cv.target().x());
+  const double  ty = CGAL::to_double(cv.target().y());
 
-  if (cv.is_segment()) {
+  if (cv.orientation() == COLLINEAR)
+  {
     // The curve is a segment - simply draw it.
     ws.get_painter().drawLine(ws.x_pixel(sx), ws.y_pixel(sy),
                               ws.x_pixel(tx), ws.y_pixel(ty));
     return (ws); 
   }
 
-  // Draw a non-linear conic arc.
-  if (cv.is_x_monotone()) 
+  // Draw a curves conic arc: As the arc is x-monotone, its source and its 
+  // target has the extreme x-coordinates.
+  const bool    is_source_left = (sx < tx);
+  const int     x_min = is_source_left ? ws.x_pixel(sx) : ws.x_pixel(tx);
+  const int     x_max = is_source_left ? ws.x_pixel(tx) : ws.x_pixel(sx);
+  const int     n = x_max - x_min + 1;
+
+  if (n <= 0)
+    return (ws);
+  
+  typedef std::pair<double, double>    App_point_2;
+  int                                  i;
+  
+  App_point_2  *pts = new App_point_2 [n + 1];
+  cv.polyline_approximation (n, pts);
+
+  ws.get_painter().moveTo (ws.x_pixel(pts[0].first),
+                           ws.y_pixel(pts[0].second));
+  for (i = 1; i <= n; i++)
   {
-    // If the curve is monotone, than its source and its target has the
-    // extreme x co-ordinates on this curve.
-    bool is_source_left = (sx < tx);
-    int  x_min = is_source_left ? ws.x_pixel(sx) : ws.x_pixel(tx);
-    int  x_max = is_source_left ? ws.x_pixel(tx) : ws.x_pixel(sx);
-    double prev_y = is_source_left ? sy : ty;
-    double end_x = is_source_left ? tx : sx;
-    double end_y = is_source_left ? ty : sy;
-    double curr_x, curr_y;
-    int x;
-
-    Point_2   ps[2];
-    Point_2   q;
-    int       nps;
-
-    ws.get_painter().moveTo(x_min, ws.y_pixel(prev_y));
-      
-    for (x = x_min + 1; x < x_max; x++)
-    {
-      curr_x = ws.x_real(x);
-      q = Point_2 (CoNT(curr_x), CoNT(0));
-      nps = cv.get_points_at_x (q, ps);
-
-      if (nps == 1)
-      {
-        curr_y = CGAL::to_double(ps[0].y());
-        ws.get_painter().lineTo(x, ws.y_pixel(curr_y));
-      }
-    }
-
-    ws.get_painter().lineTo(ws.x_pixel(end_x), ws.y_pixel(end_y));
-    return (ws); 
+    ws.get_painter().lineTo (ws.x_pixel(pts[i].first),
+                             ws.y_pixel(pts[i].second));
   }
-  else
-  {
-    // Break the arc into x-monotone sub-curves and draw each one separately.
-    Arr_conic_traits_2<Int_kernel, Alg_kernel>       traits; 
-    std::list<Conic_arc_2<Int_kernel, Alg_kernel> >  x_mon_curves;
-    typename std::list<Conic_arc_2<Int_kernel, Alg_kernel> >::iterator xit;
+  delete[] pts;
+  
+  return (ws);
+}
 
-    traits.curve_make_x_monotone (cv,
-				  std::back_inserter (x_mon_curves));
+/*!
+ * Draw a conic arc.
+ */
+template <class Rat_kernel, class Alg_kernel, class Nt_traits>
+Qt_widget& operator<< 
+  (Qt_widget& ws, 
+   const typename Arr_conic_traits_2<Rat_kernel,
+                                     Alg_kernel,
+                                     Nt_traits>::Curve_2& cv)
+{
+  typedef Arr_conic_traits_2<Rat_kernel,
+                             Alg_kernel,
+                             Nt_traits>                Conic_traits_2;
+  typedef typename Conic_traits_2::X_monotone_curve_2  X_monotone_conic_arc_2;
 
-    for (xit = x_mon_curves.begin(); xit != x_mon_curves.end(); xit++)
-      ws << *xit;
-  }
+
+  // Break the arc into x-monotone sub-curves and draw each one separately.
+  Conic_traits_2                                              traits;
+  std::list<X_monotone_conic_arc_2>                           x_arcs;
+  typename std::list<X_monotone_conic_arc_2>::const_iterator  x_iter;
+
+  traits.curve_make_x_monotone (cv,
+				std::back_inserter (x_arcs));
+
+  for (x_iter = x_arcs.begin(); x_iter != x_arcs.end(); ++x_iter)
+    ws << *x_iter;
 
   return (ws); 
 }

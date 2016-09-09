@@ -1,4 +1,4 @@
-# Created by the script create_makefile
+# Created by the script cgal_create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -34,28 +34,28 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                approx_convex_ex$(EXE_EXT) \
-                greene_approx_convex_ex$(EXE_EXT) \
-                optimal_convex_ex$(EXE_EXT) \
-                y_monotone_ex$(EXE_EXT) 
+                approx_convex_partition_2$(EXE_EXT) \
+                greene_approx_convex_partition_2$(EXE_EXT) \
+                optimal_convex_partition_2$(EXE_EXT) \
+                y_monotone_partition_2$(EXE_EXT) 
 
-approx_convex_ex$(EXE_EXT): approx_convex_ex$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)approx_convex_ex approx_convex_ex$(OBJ_EXT) $(LDFLAGS)
+approx_convex_partition_2$(EXE_EXT): approx_convex_partition_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)approx_convex_partition_2 approx_convex_partition_2$(OBJ_EXT) $(LDFLAGS)
 
-greene_approx_convex_ex$(EXE_EXT): greene_approx_convex_ex$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)greene_approx_convex_ex greene_approx_convex_ex$(OBJ_EXT) $(LDFLAGS)
+greene_approx_convex_partition_2$(EXE_EXT): greene_approx_convex_partition_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)greene_approx_convex_partition_2 greene_approx_convex_partition_2$(OBJ_EXT) $(LDFLAGS)
 
-optimal_convex_ex$(EXE_EXT): optimal_convex_ex$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)optimal_convex_ex optimal_convex_ex$(OBJ_EXT) $(LDFLAGS)
+optimal_convex_partition_2$(EXE_EXT): optimal_convex_partition_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)optimal_convex_partition_2 optimal_convex_partition_2$(OBJ_EXT) $(LDFLAGS)
 
-y_monotone_ex$(EXE_EXT): y_monotone_ex$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)y_monotone_ex y_monotone_ex$(OBJ_EXT) $(LDFLAGS)
+y_monotone_partition_2$(EXE_EXT): y_monotone_partition_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)y_monotone_partition_2 y_monotone_partition_2$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   approx_convex_ex.clean \
-                   greene_approx_convex_ex.clean \
-                   optimal_convex_ex.clean \
-                   y_monotone_ex.clean 
+                   approx_convex_partition_2.clean \
+                   greene_approx_convex_partition_2.clean \
+                   optimal_convex_partition_2.clean \
+                   y_monotone_partition_2.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

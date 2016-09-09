@@ -11,11 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/demo/Triangulation_2/triangulation_2_edit_vertex.C,v $
-// $Revision: 1.2.6.1 $ $Date: 2004/12/18 17:16:14 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/demo/Triangulation_2/triangulation_2_edit_vertex.C $
+// $Id: triangulation_2_edit_vertex.C 29233 2006-03-09 08:39:53Z afabri $
+// 
 //
 // Author(s)     : Laurent Rineau
+
+#include <CGAL/basic.h>
 
 #ifdef CGAL_USE_QT
 

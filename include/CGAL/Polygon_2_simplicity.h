@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2_simplicity.h,v $
-// $Revision: 1.19 $ $Date: 2004/09/25 09:28:46 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polygon/include/CGAL/Polygon_2_simplicity.h $
+// $Id: Polygon_2_simplicity.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 
@@ -305,7 +305,7 @@ insertion_event(Tree *tree, Vertex_index prev_vt,
 {
     // check which endpoint is above the other
     bool left_turn;
-    switch(orientation_2(point(prev_vt), point(mid_vt), point(next_vt))) {
+    switch(this->orientation_2(point(prev_vt), point(mid_vt), point(next_vt))) {
       case LEFT_TURN: left_turn = true; break;
       case RIGHT_TURN: left_turn = false; break;
       default: return false;
@@ -347,7 +347,7 @@ bool Vertex_data<ForwardIterator, PolygonTraits>::
 on_right_side(Vertex_index vt, Vertex_index edge_id, bool above)
 {
     Orientation turn =
-        orientation_2(point(edge_id), point(vt), point(next(edge_id)));
+        this->orientation_2(point(edge_id), point(vt), point(next(edge_id)));
     bool left_turn = edges[edge_id.as_int()].is_left_to_right ? above : !above;
     if (left_turn) {
         if (turn != RIGHT_TURN) {

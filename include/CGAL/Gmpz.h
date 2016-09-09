@@ -15,20 +15,20 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/Gmpz.h,v $
-// $Revision: 1.39 $ $Date: 2004/09/12 21:12:24 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/Gmpz.h $
+// $Id: Gmpz.h 31048 2006-05-05 21:07:49Z spion $
+// 
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra, Sylvain Pion
- 
+
 
 #ifndef CGAL_GMPZ_H
 #define CGAL_GMPZ_H
 
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
-#include <CGAL/double.h> 
-#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/double.h>
+#include <CGAL/Interval_nt.h>
 
 #include <string>
 #ifndef CGAL_CFG_NO_LOCALE
@@ -40,55 +40,41 @@
 #include <gmp.h>
 #include <mpfr.h>
 
+#include <boost/operators.hpp>
+
+#include <CGAL/Root_of_traits.h>
+#include <CGAL/Root_of_2_fwd.h>
+
 CGAL_BEGIN_NAMESPACE
 
-class Gmpz_rep
+// TODO : benchmark without ref-counting, and maybe give the possibility
+// to select ref-counting or not, then... => template class.
+
+// Wrapper around mpz_t to get the destructor call mpz_clear.
+struct Gmpz_rep
 {
-public:
-  mpz_t  mpZ;
+// FIXME : bug if ~() is called before an mpz_init*() is called.
+// not a problem in practice, but not nice.
+// maybe the mpz_init_set* functions should move back to Gmpz_rep.
+// But then we should use the Storage_traits::construct/get...
 
-  Gmpz_rep()
-  { mpz_init(mpZ); }
+  mpz_t mpZ;
 
-  Gmpz_rep(const mpz_t z)
-  { mpz_init_set(mpZ, z); }
+  Gmpz_rep() {}
+  ~Gmpz_rep() { mpz_clear(mpZ); }
 
-  Gmpz_rep(const Gmpz_rep & g)
-  { mpz_init_set(mpZ, g.mpZ); }
-
-  Gmpz_rep & operator= (const Gmpz_rep & g)
-  {
-      if (&g != this) {
-	  mpz_clear(mpZ);
-	  mpz_init_set(mpZ, g.mpZ);
-      }
-      return *this;
-  }
-
-  Gmpz_rep(int si)
-  { mpz_init_set_si(mpZ, si); }
-
-  Gmpz_rep(long li)
-  { mpz_init_set_si(mpZ, li); }
-
-  Gmpz_rep(unsigned long li)
-  { mpz_init_set_ui(mpZ, li); }
-
-  Gmpz_rep(double d)
-  { mpz_init_set_d(mpZ, d); }
-
-  Gmpz_rep(const char * const str)
-  { mpz_init_set_str(mpZ, str, 10); }
-
-  Gmpz_rep(const char * const str, int base)
-  { mpz_init_set_str(mpZ, str, base); }
-
-  ~Gmpz_rep()
-  { mpz_clear(mpZ); }
+private:
+  // Make sure it does not get accidentally copied.
+  Gmpz_rep(const Gmpz_rep &);
+  Gmpz_rep & operator= (const Gmpz_rep &);
 };
 
+
 class Gmpz
-  : public Handle_for<Gmpz_rep>
+  : Handle_for<Gmpz_rep>,
+    boost::ordered_euclidian_ring_operators1< Gmpz
+  , boost::ordered_euclidian_ring_operators2< Gmpz, int
+    > >
 {
   typedef Handle_for<Gmpz_rep> Base;
 public:
@@ -100,47 +86,42 @@ public:
   typedef Tag_false Has_exact_division;
   typedef Tag_false Has_exact_sqrt;
 
-  Gmpz() // {} we can't do that since the non-const mpz() is called.
-    : Base(Gmpz_rep()) {}
+  Gmpz()
+  { mpz_init(mpz()); }
 
   Gmpz(const mpz_t z)
-    : Base(Gmpz_rep(z)) {}
+  { mpz_init_set(mpz(), z); }
 
   Gmpz(int i)
-    : Base(Gmpz_rep(i)) {}
+  { mpz_init_set_si(mpz(), i); }
 
   Gmpz(long l)
-    : Base(Gmpz_rep(l)) {}
+  { mpz_init_set_si(mpz(), l); }
 
   Gmpz(unsigned long l)
-    : Base(Gmpz_rep(l)) {}
+  { mpz_init_set_ui(mpz(), l); }
 
   Gmpz(double d)
-    : Base(Gmpz_rep(d)) {}
+  { mpz_init_set_d(mpz(), d); }
 
-  Gmpz(const std::string& str)
-    : Base(Gmpz_rep(str.c_str())) {}
-
-  Gmpz(const std::string& str, int base)
-    : Base(Gmpz_rep(str.c_str(), base)) {}
+  Gmpz(const std::string& str, int base = 10)
+  { mpz_init_set_str(mpz(), str.c_str(), base); }
 
   Gmpz operator-() const;
 
-  Gmpz operator%(const Gmpz &z) const;
-
   Gmpz& operator+=(const Gmpz &z);
-  Gmpz operator+=(int i);
+  Gmpz& operator+=(int i);
 
   Gmpz& operator-=(const Gmpz &z);
-  Gmpz operator-=(int i);
+  Gmpz& operator-=(int i);
 
   Gmpz& operator*=(const Gmpz &z);
-  Gmpz operator*=(int i);
+  Gmpz& operator*=(int i);
 
   Gmpz& operator%=(const Gmpz &z);
 
   Gmpz& operator/=(const Gmpz &z);
-  Gmpz operator/=(int i);
+  Gmpz& operator/=(int i);
 
   size_t approximate_decimal_length() const;
 
@@ -154,33 +135,14 @@ public:
 
 inline
 bool
-operator==(const Gmpz &a, const Gmpz &b)
-{ return mpz_cmp(a.mpz(), b.mpz()) == 0; }
-
-inline
-bool
 operator<(const Gmpz &a, const Gmpz &b)
 { return mpz_cmp(a.mpz(), b.mpz()) < 0; }
 
 inline
 bool
-operator<=(const Gmpz &a, const Gmpz &b)
-{ return ! (b < a); }
+operator==(const Gmpz &a, const Gmpz &b)
+{ return mpz_cmp(a.mpz(), b.mpz()) == 0; }
 
-inline
-bool
-operator>(const Gmpz &a, const Gmpz &b)
-{ return b < a; }
-
-inline
-bool
-operator>=(const Gmpz &a, const Gmpz &b)
-{ return ! (a < b); }
-
-inline
-bool
-operator!=(const Gmpz &a, const Gmpz &b)
-{ return ! (a == b); }
 
 // mixed operators.
 inline
@@ -190,58 +152,13 @@ operator<(const Gmpz &a, int b)
 
 inline
 bool
-operator<(int a, const Gmpz &b)
-{ return mpz_cmp_si(b.mpz(), a) > 0; }
-
-inline
-bool
 operator==(const Gmpz &a, int b)
 { return mpz_cmp_si(a.mpz(), b) == 0; }
 
 inline
 bool
-operator==(int a, const Gmpz &b)
-{ return b == a; }
-
-inline
-bool
-operator<=(const Gmpz &a, int b)
-{ return ! (b < a); }
-
-inline
-bool
-operator<=(int a, const Gmpz &b)
-{ return ! (b < a); }
-
-inline
-bool
 operator>(const Gmpz &a, int b)
-{ return b < a; }
-
-inline
-bool
-operator>(int a, const Gmpz &b)
-{ return b < a; }
-
-inline
-bool
-operator>=(const Gmpz &a, int b)
-{ return ! (a < b); }
-
-inline
-bool
-operator>=(int a, const Gmpz &b)
-{ return ! (a < b); }
-
-inline
-bool
-operator!=(const Gmpz &a, int b)
-{ return ! (a == b); }
-
-inline
-bool
-operator!=(int a, const Gmpz &b)
-{ return ! (a == b); }
+{ return mpz_cmp_si(a.mpz(), b) > 0; }
 
 
 inline
@@ -255,194 +172,106 @@ Gmpz::operator-() const
 
 
 inline
-Gmpz
-operator+(const Gmpz &a, const Gmpz &b)
+Gmpz&
+Gmpz::operator+=(const Gmpz &z)
 {
     Gmpz Res;
-    mpz_add(Res.mpz(), a.mpz(), b.mpz());
-    return Res;
-}
-
-inline
-Gmpz
-operator+(const Gmpz &a, int b)
-{
-    if (b>0)
-    {
-        Gmpz Res;
-        mpz_add_ui(Res.mpz(), a.mpz(), b);
-        return Res;
-    }
-    return a + Gmpz(b);
+    mpz_add(Res.mpz(), mpz(), z.mpz());
+    swap(Res);
+    return *this;
 }
 
 inline
 Gmpz&
-Gmpz::operator+=(const Gmpz &z)
-{
-    *this = *this + z;
-    return *this;
-}
-
-inline
-Gmpz
 Gmpz::operator+=(int i)
 {
-    *this = *this + Gmpz(i);
-    return *this;
-}
-
-inline
-Gmpz
-operator-(const Gmpz &a, const Gmpz &b)
-{
     Gmpz Res;
-    mpz_sub(Res.mpz(), a.mpz(), b.mpz());
-    return Res;
-}
-
-inline
-Gmpz
-operator-(const Gmpz &a, int b)
-{
-    if (b>0)
-    {
-        Gmpz Res;
-        mpz_sub_ui(Res.mpz(), a.mpz(), b);
-        return Res;
-    }
-    return a - Gmpz(b);
+    if (i >= 0)
+        mpz_add_ui(Res.mpz(), mpz(), i);
+    else
+        mpz_sub_ui(Res.mpz(), mpz(), -i);
+    swap(Res);
+    return *this;
 }
 
 inline
 Gmpz&
 Gmpz::operator-=(const Gmpz &z)
 {
-    *this = *this - z;
+    Gmpz Res;
+    mpz_sub(Res.mpz(), mpz(), z.mpz());
+    swap(Res);
     return *this;
 }
 
 inline
-Gmpz
+Gmpz&
 Gmpz::operator-=(int i)
 {
-    *this = *this - Gmpz(i);
-    return *this;
-}
-
-inline
-Gmpz
-operator*(const Gmpz &a, const Gmpz &b)
-{
     Gmpz Res;
-    mpz_mul(Res.mpz(), a.mpz(), b.mpz());
-    return Res;
-}
-
-inline
-Gmpz
-operator*(const Gmpz &a, int b)
-{
-    if (b>0)
-    {
-        Gmpz Res;
-        mpz_mul_ui(Res.mpz(), a.mpz(), b);
-        return Res;
-    }
-    return a * Gmpz(b);
+    if (i >= 0)
+        mpz_sub_ui(Res.mpz(), mpz(), i);
+    else
+        mpz_add_ui(Res.mpz(), mpz(), -i);
+    swap(Res);
+    return *this;
 }
 
 inline
 Gmpz&
 Gmpz::operator*=(const Gmpz &z)
 {
-    *this = *this * z;
+    Gmpz Res;
+    mpz_mul(Res.mpz(), mpz(), z.mpz());
+    swap(Res);
     return *this;
 }
 
 inline
-Gmpz
+Gmpz&
 Gmpz::operator*=(int i)
 {
-    *this = *this * Gmpz(i);
-    return *this;
-}
-
-inline
-Gmpz
-operator/(const Gmpz &a, const Gmpz &b)
-{
-    CGAL_precondition(b != 0);
     Gmpz Res;
-    mpz_tdiv_q(Res.mpz(), a.mpz(), b.mpz());
-    return Res;
-}
-
-inline
-Gmpz
-operator/(const Gmpz &a, int b)
-{
-    if (b>0)
-    {
-        Gmpz Res;
-        mpz_tdiv_q_ui(Res.mpz(), a.mpz(), b);
-        return Res;
-    }
-    return a / Gmpz(b);
+    mpz_mul_si(Res.mpz(), mpz(), i);
+    swap(Res);
+    return *this;
 }
 
 inline
 Gmpz&
 Gmpz::operator/=(const Gmpz &z)
 {
-    *this = *this / z;
-    return *this;
-}
-
-inline
-Gmpz
-Gmpz::operator/=(int i)
-{
-    *this = *this / Gmpz(i);
-    return *this;
-}
-
-inline
-Gmpz
-operator+(int i, const Gmpz &z)
-{ return z + i; }
-
-inline
-Gmpz
-operator-(int i, const Gmpz &z)
-{ return Gmpz(i) - z; }
-
-inline
-Gmpz
-operator*(int i, const Gmpz &z)
-{ return z * i; }
-
-inline
-Gmpz
-operator/(int i, const Gmpz &z)
-{ return Gmpz(i) / z; }
-
-inline
-Gmpz
-Gmpz::operator%(const Gmpz &z) const
-{
+    CGAL_precondition(z != 0);
     Gmpz Res;
-    mpz_tdiv_r(Res.mpz(), mpz(), z.mpz());
-    return Res;
+    mpz_tdiv_q(Res.mpz(), mpz(), z.mpz());
+    swap(Res);
+    return *this;
+}
+
+inline
+Gmpz&
+Gmpz::operator/=(int b)
+{
+    if (b>0)
+    {
+        Gmpz Res;
+        mpz_tdiv_q_ui(Res.mpz(), mpz(), b);
+        swap(Res);
+        return *this;
+    }
+    return *this /= Gmpz(b);
 }
 
 inline
 Gmpz&
 Gmpz::operator%=(const Gmpz &z)
 {
-    *this = *this % z;
+    Gmpz Res;
+    mpz_tdiv_r(Res.mpz(), mpz(), z.mpz());
+    swap(Res);
     return *this;
 }
+
 
 inline
 double
@@ -550,10 +379,108 @@ operator<<(std::ostream& os, const Gmpz &z)
   return os;
 }
 
+
 inline
-std::istream&
-operator>>(std::istream& is, Gmpz &z)
+void gmpz_eat_white_space(std::istream &is)
 {
+  std::istream::int_type c;
+  do {
+    c= is.peek();
+    if (c== std::istream::traits_type::eof()) return;
+    else {
+      std::istream::char_type cc= c;
+      if (
+#ifndef CGAL_CFG_NO_LOCALE
+	     std::isspace(cc, std::locale::classic() )
+#else
+	     CGAL_CLIB_STD::isspace(cc)
+#endif // CGAL_CFG_NO_LOCALE
+	     ) {
+      is.get();
+      // since peek succeeded, this should too
+      CGAL_assertion(!is.fail());
+    } else {
+      return;
+    }
+    }
+  } while (true);
+}
+
+
+inline 
+std::istream &
+gmpz_new_read(std::istream &is, Gmpz &z)
+{
+  bool negative = false;
+  const std::istream::char_type zero = '0';
+  std::istream::int_type c;
+  Gmpz r;
+  std::ios::fmtflags old_flags = is.flags();
+
+  is.unsetf(std::ios::skipws);
+  gmpz_eat_white_space(is);
+   
+  c=is.peek();
+  if (c=='-'){
+    is.get();
+    CGAL_assertion(!is.fail());
+    negative=true;
+    gmpz_eat_white_space(is);
+    c=is.peek();
+  }
+  
+  std::istream::char_type cc= c;
+  
+  if (c== std::istream::traits_type::eof()
+      || 
+#ifndef CGAL_CFG_NO_LOCALE
+      !std::isdigit(cc, std::locale::classic() )
+#else
+      !std::isdigit(cc)
+#endif // CGAL_CFG_NO_LOCALE) {
+      ){
+    is.setstate(std::ios_base::failbit);
+  } else {
+    CGAL_assertion(cc==c);
+    r= cc-zero;
+    is.get();
+    CGAL_assertion(!is.fail());
+    while (true) {
+      c=is.peek();
+      if (c== std::istream::traits_type::eof()) {
+	break;
+      }
+      cc=c;
+      if  (
+#ifndef CGAL_CFG_NO_LOCALE
+	   !std::isdigit(cc, std::locale::classic() )
+#else
+	   !std::isdigit(cc)
+#endif // CGAL_CFG_NO_LOCALE
+	   ) {
+	break;
+      }
+      is.get();
+      CGAL_assertion(!is.fail());
+      CGAL_assertion(cc==c);
+      r= r*10+(cc-zero);
+    }  
+  }
+   
+  is.flags(old_flags);
+  if (!is.fail()) {
+    if (negative) {
+      z=-r;
+    } else {
+      z=r;
+    }
+  }
+  return is;
+}
+
+/*inline
+std::istream&
+read_gmpz(std::istream& is, Gmpz &z) {
   bool negative = false;
   bool good = false;
   const int null = '0';
@@ -608,6 +535,13 @@ operator>>(std::istream& is, Gmpz &z)
 
   is.flags(old_flags);
   return is;
+  }*/
+
+inline
+std::istream&
+operator>>(std::istream& is, Gmpz &z)
+{
+  return gmpz_new_read(is, z);
 }
 
 inline
@@ -646,6 +580,35 @@ double to_double(const Quotient<Gmpz>& quot)
   mpq_clear(mpQ);
   return ret;
 }
+
+CGAL_END_NAMESPACE
+
+#include <CGAL/Root_of_2.h>
+
+CGAL_BEGIN_NAMESPACE
+
+class Gmpq;
+
+template <>
+struct Root_of_traits< CGAL::Gmpz >
+{
+  typedef CGAL::Gmpq               RootOf_1;
+  typedef Root_of_2< CGAL::Gmpz >  RootOf_2;
+};
+
+inline
+Root_of_2<Gmpz>
+make_root_of_2(const Gmpz &a, const Gmpz &b, const Gmpz &c, bool smaller)
+{
+  CGAL_assertion( a != 0 );
+  return Root_of_2<Gmpz>(a, b, c, smaller);
+}
+
+
+#if ! defined( CGAL_DONT_USE_LINK_PRAGMA) && defined( _MSC_VER )
+    #pragma comment(lib, "gmp.lib")
+    #pragma comment(lib, "mpfr.lib")
+#endif 
 
 CGAL_END_NAMESPACE
 

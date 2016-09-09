@@ -27,8 +27,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/include/CORE/MemoryPool.h,v $
- * $Revision: 1.3 $ $Date: 2004/11/14 12:00:11 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/include/CORE/MemoryPool.h $
+ * $Id: MemoryPool.h 30667 2006-04-19 16:56:12Z glisse $
  ***************************************************************************/
 #ifndef _CORE_MEMORYPOOL_H_
 #define _CORE_MEMORYPOOL_H_
@@ -44,7 +44,7 @@ class MemoryPool {
 public:
    MemoryPool() : head( 0 ) {}
 
-   void* allocate(size_t size);
+   void* allocate(std::size_t size);
    void free(void* p);
 
   // Access the corresponding static global allocator.
@@ -70,7 +70,7 @@ template <class T, int nObjects >
 MemoryPool<T, nObjects> MemoryPool<T, nObjects>::memPool;
 
 template< class T, int nObjects >
-void* MemoryPool< T, nObjects >::allocate(size_t) {
+void* MemoryPool< T, nObjects >::allocate(std::size_t) {
    if ( head == 0 ) { // if no more memory in the pool
       const int last = nObjects - 1;
 

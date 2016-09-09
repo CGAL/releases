@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_ds_circulators_3.h,v $
-// $Revision: 1.46 $ $Date: 2004/01/13 09:37:09 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/Triangulation_ds_circulators_3.h $
+// $Id: Triangulation_ds_circulators_3.h 29516 2006-03-15 09:41:59Z spion $
+// 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
@@ -191,6 +191,7 @@ operator!=(typename Tds_::Cell_handle ch, Triangulation_ds_cell_circulator_3<Tds
   return !(cc==ch);
 }
 #endif
+
 template < class Tds_ >
 class Triangulation_ds_facet_circulator_3
   : public Bidirectional_circulator_base<typename Tds_::Facet,
@@ -355,6 +356,17 @@ public:
   bool operator!=(const Facet_circulator & ccir) const
   {
     return ! (*this == ccir);
+  }
+
+  bool operator==(CGAL_NULL_TYPE c) const
+  {
+    CGAL_triangulation_assertion(c == CGAL_CIRC_NULL);
+    return pos == Cell_handle();
+  }
+
+  bool operator!=(CGAL_NULL_TYPE c) const
+  {
+    return ! (*this == c);
   }
 
 private:

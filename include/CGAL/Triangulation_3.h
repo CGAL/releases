@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_3.h,v $
-// $Revision: 1.197 $ $Date: 2004/08/25 13:59:44 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/Triangulation_3.h $
+// $Id: Triangulation_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -334,10 +334,9 @@ public:
       init_tds();
     }
 
-  Triangulation_3 & operator=(const Triangulation_3 & tr)
+  Triangulation_3 & operator=(Triangulation_3 tr)
     {
-      Triangulation_3 tmp = tr;
-      swap(tmp);
+      swap(tr);
       return *this;
     }
 
@@ -516,6 +515,16 @@ public:
       CGAL_triangulation_precondition( e.third == 1 );
       return side_of_edge(p, e.first, lt, li);
     }
+
+  // Functions forwarded from TDS.
+  int mirror_index(Cell_handle c, int i) const
+  { return _tds.mirror_index(c, i); }
+
+  Vertex_handle mirror_vertex(Cell_handle c, int i) const
+  { return _tds.mirror_vertex(c, i); }
+
+  Facet mirror_facet(Facet f) const
+  { return _tds.mirror_facet(f);}
 
   // MODIFIERS
   bool flip(const Facet &f)
@@ -976,6 +985,13 @@ public:
 
   template <class OutputIterator>
   OutputIterator
+  incident_facets(Vertex_handle v, OutputIterator facets) const
+  {
+      return _tds.incident_facets(v, facets);
+  }
+
+  template <class OutputIterator>
+  OutputIterator
   incident_vertices(Vertex_handle v, OutputIterator vertices) const
   {
       return _tds.incident_vertices(v, vertices);
@@ -1091,6 +1107,10 @@ operator<< (std::ostream& os, const Triangulation_3<GT, Tds> &tr)
 	os << std::endl;
   }
 
+    // asks the tds for the combinatorial information 
+  tr.tds().print_cells(os, V);
+
+
   // write the non combinatorial information on the cells
   // using the << operator of Cell
   // works because the iterator of the tds traverses the cells in the
@@ -1098,26 +1118,33 @@ operator<< (std::ostream& os, const Triangulation_3<GT, Tds> &tr)
   switch ( tr.dimension() ) {
   case 3:
     {
-      for(Cell_iterator it=tr.cells_begin(); it != tr.cells_end(); ++it)
+      for(Cell_iterator it=tr.cells_begin(); it != tr.cells_end(); ++it) {
 	os << *it; // other information
+        if(is_ascii(os))
+          os << std::endl;
+      }
       break;
     }
   case 2:
     {
-      for(Facet_iterator it=tr.facets_begin(); it != tr.facets_end(); ++it)
+      for(Facet_iterator it=tr.facets_begin(); it != tr.facets_end(); ++it) {
 	os << *((*it).first); // other information
+        if(is_ascii(os))
+          os << std::endl;
+      }
       break;
     }
   case 1:
     {
-      for(Edge_iterator it=tr.edges_begin(); it != tr.edges_end(); ++it)
+      for(Edge_iterator it=tr.edges_begin(); it != tr.edges_end(); ++it) {
 	os << *((*it).first); // other information 
+        if(is_ascii(os))
+          os << std::endl;
+      }
       break;
     }
   }
 
-  // asks the tds for the combinatorial information 
-  tr.tds().print_cells(os, V);
   
   return os ;
 }
@@ -2017,7 +2044,7 @@ side_of_facet(const Point & p,
                 v2 = c->vertex(i2);
 
   CGAL_triangulation_assertion(coplanar_orientation(v1->point(), v2->point(),
-	                       c->mirror_vertex(inf)->point()) == POSITIVE);
+	                       mirror_vertex(c, inf)->point()) == POSITIVE);
 
   switch (coplanar_orientation(v1->point(), v2->point(), p)) {
   case POSITIVE:
@@ -2108,7 +2135,7 @@ side_of_edge(const Point & p,
   // else infinite edge
   int inf = c->index(infinite);
   switch (collinear_position(c->vertex(1-inf)->point(), p,
-	                     c->mirror_vertex(inf)->point())) {
+	                     mirror_vertex(c, inf)->point())) {
       case SOURCE:
 	  lt = VERTEX;
 	  li = 1-inf;
@@ -2557,7 +2584,7 @@ bool
 Triangulation_3<GT,Tds>::
 is_valid(Cell_handle c, bool verbose, int level) const
 {
-  if ( ! c->is_valid(dimension(),verbose,level) ) {
+  if ( ! _tds.is_valid(c,verbose,level) ) {
     if (verbose) { 
       std::cerr << "combinatorially invalid cell";
       for (int i=0; i <= dimension(); i++ )

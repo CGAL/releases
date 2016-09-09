@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Orthogonal_incremental_neighbor_search.h,v $
-// $Revision: 1.13 $ $Date: 2004/11/05 23:04:09 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/include/CGAL/Orthogonal_incremental_neighbor_search.h $
+// $Id: Orthogonal_incremental_neighbor_search.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
 

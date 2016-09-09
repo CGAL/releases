@@ -1,4 +1,3 @@
-
 // Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -16,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Ray_2_Bbox_2_intersection.h,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:16:50 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Ray_2_Bbox_2_intersection.h $
+// $Id: Ray_2_Bbox_2_intersection.h 31166 2006-05-17 16:30:56Z spion $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -28,7 +27,7 @@
 
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Ray_2.h>
-#include <CGAL/utils.h>
+#include <CGAL/kernel_assertions.h>
 #include <CGAL/number_utils.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -37,7 +36,7 @@ class Bbox_2_Ray_2_pair_impl;
 
 class Bbox_2_Ray_2_pair {
 public:
-    enum Intersection_results {NO, POINT, SEGMENT};
+    enum Intersection_results {NO_INTERSECTION, POINT, SEGMENT};
     ~Bbox_2_Ray_2_pair() ;
     Bbox_2_Ray_2_pair() ;
     Bbox_2_Ray_2_pair(Bbox_2_Ray_2_pair const &o) ;

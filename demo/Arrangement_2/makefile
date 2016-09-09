@@ -1,4 +1,4 @@
-# Created by the script create_makefile
+# Created by the script cgal_create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -13,48 +13,20 @@ include $(CGAL_MAKEFILE)
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-
-ifdef COREROOT
-COREROOT_INC=-I$(COREROOT)/inc
-COREROOT_LIB=-L$(COREROOT)/lib
-CORE_LIB=-lcore++
-else
-COREROOT_INC=
-COREROOT_LIB=
-ifdef CORE_LIB_DIR
-CORE_LIB=-lCore++
-else
-CORE_LIB=
-endif
-endif
-
 CXXFLAGS = \
-       -I../../include \
-       -I../../../Planar_map/include \
-       -I../../../Trapezoidal_decomposition/include \
-       -I../../../Arrangement/include \
-       -I../../../Sweep_line_2/include \
-       $(COREROOT_INC) \
-       $(CGAL_CXXFLAGS) \
-       $(LONG_NAME_PROBLEM_CXXFLAGS)\
-       -DNDEBUG
-       #-O2 \
-       #-fno-strict-aliasing \
-       #-DNDEBUG \
-       
-      
-
+           -I../../include \
+           -DNDEBUG \
+           $(CGAL_CXXFLAGS) \
+           $(LONG_NAME_PROBLEM_CXXFLAGS)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(COREROOT_LIB) \
           $(CGAL_LIBPATH)
 
 LDFLAGS = \
-          $(CORE_LIB) \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_QT_LDFLAGS)
 
@@ -89,15 +61,17 @@ forms.moc: forms.h
 qt_layer$(OBJ_EXT): qt_layer.C 
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) qt_layer.C
 
-arrangements_2$(EXE_EXT): MyWindow$(OBJ_EXT) MyWindow_files$(OBJ_EXT) MyWindow_overlay$(OBJ_EXT) \
-    MyWindow_operations$(OBJ_EXT)  forms$(OBJ_EXT)  \
-	qt_layer$(OBJ_EXT)
-	$(CGAL_CXX) $(EXE_OPT)arrangements_2 MyWindow$(OBJ_EXT) MyWindow_files$(OBJ_EXT) \
-	MyWindow_overlay$(OBJ_EXT) MyWindow_operations$(OBJ_EXT)  \
-	forms$(OBJ_EXT)  \
-	qt_layer$(OBJ_EXT) $(LDFLAGS)
+arrangements_2$(EXE_EXT): MyWindow$(OBJ_EXT) MyWindow_files$(OBJ_EXT) \
+                          MyWindow_overlay$(OBJ_EXT) \
+                          MyWindow_operations$(OBJ_EXT)  forms$(OBJ_EXT) \
+                          qt_layer$(OBJ_EXT)
+	$(CGAL_CXX) $(EXE_OPT)arrangements_2 MyWindow$(OBJ_EXT) \
+	MyWindow_files$(OBJ_EXT) MyWindow_overlay$(OBJ_EXT) \
+	MyWindow_operations$(OBJ_EXT) forms$(OBJ_EXT) \
+        qt_layer$(OBJ_EXT) $(LDFLAGS)
 
-clean: MyWindow.clean MyWindow_files.clean MyWindow_overlay.clean MyWindow_operations.clean forms.clean qt_layer.clean
+clean: MyWindow.clean MyWindow_files.clean MyWindow_overlay.clean \
+       MyWindow_operations.clean forms.clean qt_layer.clean
 	rm -rf *.moc arrangements_2
 
 #---------------------------------------------------------------------#

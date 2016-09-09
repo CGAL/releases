@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Polygon/demo/Polygon/cgal_types.h,v $
-// $Revision: 1.3.4.2 $ $Date: 2004/12/19 17:00:28 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polygon/demo/Polygon/cgal_types.h $
+// $Id: cgal_types.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Radu Ursu
 

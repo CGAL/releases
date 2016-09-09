@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Generator/include/CGAL/random_polygon_2.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:15:44 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Generator/include/CGAL/random_polygon_2.h $
+// $Id: random_polygon_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 #ifndef CGAL_RANDOM_POLYGON_2_H
@@ -26,7 +26,6 @@
 #include <list>
 #include <set>
 #include <vector>
-#include <assert.h>
 #include <CGAL/Random_polygon_2_sweep.h>
 #include <CGAL/Kernel_traits.h>
 

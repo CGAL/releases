@@ -1,4 +1,4 @@
-# Created by the script create_makefile
+# Created by the script cgal_create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -34,18 +34,18 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                example_alpha$(EXE_EXT) \
-                example_weight$(EXE_EXT) 
+                alpha_shapes_2$(EXE_EXT) \
+                weighted_alpha_shapes_2$(EXE_EXT) 
 
-example_alpha$(EXE_EXT): example_alpha$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_alpha example_alpha$(OBJ_EXT) $(LDFLAGS)
+alpha_shapes_2$(EXE_EXT): alpha_shapes_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)alpha_shapes_2 alpha_shapes_2$(OBJ_EXT) $(LDFLAGS)
 
-example_weight$(EXE_EXT): example_weight$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_weight example_weight$(OBJ_EXT) $(LDFLAGS)
+weighted_alpha_shapes_2$(EXE_EXT): weighted_alpha_shapes_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)weighted_alpha_shapes_2 weighted_alpha_shapes_2$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   example_alpha.clean \
-                   example_weight.clean 
+                   alpha_shapes_2.clean \
+                   weighted_alpha_shapes_2.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

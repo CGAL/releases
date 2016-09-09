@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous.h,v $
-// $Revision: 1.16 $ $Date: 2004/01/18 14:14:45 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous.h $
+// $Id: Homogeneous.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Stefan Schirra
  
@@ -33,7 +33,7 @@ CGAL_BEGIN_NAMESPACE
 
 template < typename RT_, typename FT_, typename Kernel >
 struct Homogeneous_base_ref_count
-  : public Homogeneous_base< Kernel >
+  : public Homogeneous_base<RT_, FT_, Kernel >
 {
     typedef RT_                                           RT;
     typedef FT_                                           FT;
@@ -46,19 +46,6 @@ struct Homogeneous_base_ref_count
     struct Base {
         typedef Homogeneous_base_ref_count<RT_,FT_,Kernel2> Type;
     };
-
-    // TODO: cleanup (use Rational_traits<> instead)
-    static FT make_FT(const RT & num, const RT& denom)
-    { return FT(num, denom); }
-
-    static FT make_FT(const RT & num)
-    { return FT(num); }
-
-    static RT FT_numerator(const FT &r)
-    { return r.numerator(); }
-
-    static RT FT_denominator(const FT &r)
-    { return r.denominator(); }
 };
 
 template < typename RT_, typename FT_ = Quotient<RT_> >

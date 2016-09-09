@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Distance_3/include/CGAL/squared_distance_3_0.h,v $
-// $Revision: 1.14 $ $Date: 2003/10/21 12:15:29 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Distance_3/include/CGAL/squared_distance_3_0.h $
+// $Id: squared_distance_3_0.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman, Andreas Fabri
 
@@ -25,7 +25,7 @@
 #ifndef CGAL_DISTANCE_3_0_H
 #define CGAL_DISTANCE_3_0_H
 
-#include <CGAL/utils.h>
+#include <CGAL/kernel_assertions.h>
 #include <CGAL/enum.h>
 #include <CGAL/wmult.h>
 

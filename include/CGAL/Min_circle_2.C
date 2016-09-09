@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Min_circle_2/include/CGAL/Min_circle_2.C,v $
-// $Revision: 1.10 $ $Date: 2004/09/05 12:30:20 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Min_circle_2/include/CGAL/Min_circle_2.C $
+// $Id: Min_circle_2.C 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
 
@@ -30,7 +30,7 @@ std::ostream&
 operator << ( std::ostream& os,
               const Min_circle_2<Traits_>& min_circle)
 {
-    CGAL_USING_NAMESPACE_STD
+    using namespace std;
 
     typedef  typename Min_circle_2<Traits_>::Point  Point;
     typedef  ostream_iterator<Point>       Os_it;
@@ -78,7 +78,7 @@ template < class Traits_ >
 std::istream&
 operator >> ( std::istream& is, CGAL::Min_circle_2<Traits_>& min_circle)
 {
-    CGAL_USING_NAMESPACE_STD
+    using namespace std;
 
     switch ( CGAL::get_mode( is)) {
 

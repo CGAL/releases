@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/Homogeneous_base.h,v $
-// $Revision: 1.19 $ $Date: 2004/03/13 22:39:07 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Homogeneous_base.h $
+// $Id: Homogeneous_base.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
 
@@ -29,13 +29,17 @@
 #include <CGAL/basic.h>
 #include <CGAL/basic_classes.h>
 
+#include <CGAL/Kernel/global_functions.h>
+
 #include <CGAL/Homogeneous/Aff_transformationH2.h>
-#include <CGAL/Homogeneous/CircleH2.h>
+#include <CGAL/Cartesian/Circle_2.h>
+
+//#include <CGAL/Cartesian/Direction_2.h>
 #include <CGAL/Homogeneous/DirectionH2.h>
 #include <CGAL/Homogeneous/Iso_rectangleH2.h>
 #include <CGAL/Homogeneous/LineH2.h>
 #include <CGAL/Homogeneous/PointH2.h>
-#include <CGAL/Homogeneous/RayH2.h>
+#include <CGAL/Cartesian/Ray_2.h>
 #include <CGAL/Cartesian/Segment_2.h>
 #include <CGAL/Cartesian/Triangle_2.h>
 #include <CGAL/Homogeneous/VectorH2.h>
@@ -71,10 +75,11 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < typename K_ >
+template <typename RT_, typename FT_, typename K_ >
 struct Homogeneous_base
 {
     typedef K_                                      Kernel;
+    typedef FT_                                     FT;
 
     typedef Homogeneous_tag                         Rep_tag;
     typedef Homogeneous_tag                         Kernel_tag;
@@ -82,13 +87,30 @@ struct Homogeneous_base
     typedef CGAL::Object                            Object_2;
     typedef CGAL::Object                            Object_3;
 
+    // These are currently undocumented.
+    // Should they be part of the Kernel interface ?
+    typedef typename Same_uncertainty_nt<bool, FT>::type
+                                                    Bool;
+    typedef typename Same_uncertainty_nt<CGAL::Sign, FT>::type
+                                                    Sign;
+    typedef typename Same_uncertainty_nt<CGAL::Comparison_result, FT>::type
+                                                    Comparison_result;
+    typedef typename Same_uncertainty_nt<CGAL::Orientation, FT>::type
+                                                    Orientation;
+    typedef typename Same_uncertainty_nt<CGAL::Oriented_side, FT>::type
+                                                    Oriented_side;
+    typedef typename Same_uncertainty_nt<CGAL::Bounded_side, FT>::type
+                                                    Bounded_side;
+    typedef typename Same_uncertainty_nt<CGAL::Angle, FT>::type
+                                                    Angle;
+
     typedef PointH2<Kernel>                         Point_2;
     typedef VectorH2<Kernel>                        Vector_2;
     typedef DirectionH2<Kernel>                     Direction_2;
     typedef SegmentC2<Kernel>                       Segment_2;
     typedef LineH2<Kernel>                          Line_2;
-    typedef RayH2<Kernel>                           Ray_2;
-    typedef CircleH2<Kernel>                        Circle_2;
+    typedef RayC2<Kernel>                           Ray_2;
+    typedef CircleC2<Kernel>                        Circle_2;
     typedef TriangleC2<Kernel>                      Triangle_2;
     typedef Iso_rectangleH2<Kernel>                 Iso_rectangle_2;
     typedef Aff_transformationH2<Kernel>            Aff_transformation_2;
@@ -111,6 +133,8 @@ struct Homogeneous_base
     typedef Cartesian_coordinate_iterator_3<Kernel>
                                  Cartesian_const_iterator_3;
 
+    typedef FT_                    Cartesian_coordinate_type;
+    typedef const RT_&             Homogeneous_coordinate_type;
     // Undocumented stuff.
     typedef Data_accessorH2<Kernel>                 Data_accessor_2;
     typedef ConicHPA2<Point_2, Data_accessor_2>     Conic_2; 

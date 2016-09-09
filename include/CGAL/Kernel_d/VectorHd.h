@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/VectorHd.h,v $
-// $Revision: 1.18 $ $Date: 2004/09/17 12:12:42 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/VectorHd.h $
+// $Id: VectorHd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_VECTORHD_H
@@ -357,7 +357,7 @@ static Comparison_result cmp(
 }
 
 bool operator==(const VectorHd<RT,LA>& w) const
-{ if ( identical(w) ) return true;
+{ if ( this->identical(w) ) return true;
   if ( dimension() != w.dimension() ) return false;
   return cmp(*this,w) == EQUAL; 
 }

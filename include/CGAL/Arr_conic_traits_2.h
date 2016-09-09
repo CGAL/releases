@@ -1,4 +1,4 @@
-// Copyright (c) 1999  Tel-Aviv University (Israel).
+// Copyright (c) 2005  Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,1356 +11,786 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arr_conic_traits_2.h,v $
-// $Revision: 1.37 $ $Date: 2004/10/18 18:17:25 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_conic_traits_2.h $
+// $Id: Arr_conic_traits_2.h 28874 2006-02-28 08:59:42Z wein $
+// 
 //
-// Author(s)     : Ron Wein <wein@post.tau.ac.il>
+// Author(s)     : Ron Wein          <wein@post.tau.ac.il>
 
-#ifndef CGAL_ARR_CONIC_TRAITS_2_CORE_H
-#define CGAL_ARR_CONIC_TRAITS_2_CORE_H
+#ifndef CGAL_ARR_CONIC_TRAITS_2_H
+#define CGAL_ARR_CONIC_TRAITS_2_H
 
-#include <CGAL/basic.h>
+/*! \file
+ * The conic traits-class for the arrangement package.
+ */
+
 #include <CGAL/tags.h>
-#include <CGAL/Arrangement_2/Conic_arc_2.h>
-#include <list>
+#include <CGAL/Arr_traits_2/Conic_arc_2.h>
+#include <CGAL/Arr_traits_2/Conic_x_monotone_arc_2.h>
+#include <CGAL/Arr_traits_2/Conic_point_2.h>
+
+#include <fstream>
 
 CGAL_BEGIN_NAMESPACE
 
 /*!
- * Arrangement traits for conic arcs.
+ * \class A traits class for maintaining an arrangement of conic arcs (bounded
+ * segments of algebraic curves of degree 2 at most).
  *
  * The class is templated with two parameters: 
- * Int_kernel_ is a kernel that provides the input points or coefficients.
- *             Int_kernel_::FT must be of an integral type (e.g. CORE:BigInt).
- * Alg_kernel_ is a geometric kernel, where Kernel_::FT is the number type
- *             for the coordinates of points, which are algebraic numbers
- *             (preferably it is CORE::Expr).
+ * Rat_kernel A kernel that provides the input objects or coefficients.
+ *            Rat_kernel::FT should be an integral or a rational type.
+ * Alg_kernel A geometric kernel, where Alg_kernel::FT is the number type
+ *            for the coordinates of arrangement vertices, which are algebraic
+ *            numbers of degree up to 4 (preferably it is CORE::Expr).
+ * Nt_traits A traits class for performing various operations on the integer,
+ *           rational and algebraic types. 
  */
-template <class Int_kernel_, class Alg_kernel_>
+template <class Rat_kernel_, class Alg_kernel_, class Nt_traits_>
 class Arr_conic_traits_2 
 {
 public:
 
-  typedef Int_kernel_                    Int_kernel;
-  typedef Alg_kernel_                    Alg_kernel;
+  typedef Rat_kernel_                     Rat_kernel;
+  typedef Alg_kernel_                     Alg_kernel;
+  typedef Nt_traits_                      Nt_traits;
 
-  typedef typename Int_kernel::FT        CfNT;
-  typedef typename Int_kernel::Point_2   Int_point_2;
-  typedef typename Int_kernel::Segment_2 Int_segment_2;
-  typedef typename Int_kernel::Line_2    Int_line_2;
-  typedef typename Int_kernel::Circle_2  Int_circle_2;
+  typedef typename Rat_kernel::FT         Rational;
+  typedef typename Rat_kernel::Point_2    Rat_point_2;
+  typedef typename Rat_kernel::Segment_2  Rat_segment_2;
+  typedef typename Rat_kernel::Line_2     Rat_line_2;
+  typedef typename Rat_kernel::Circle_2   Rat_circle_2;
 
-  typedef typename Alg_kernel::FT        CoNT;
- 
-  typedef Tag_true                       Has_left_category;
-  typedef Tag_false                      Has_reflect_category;
+  typedef typename Alg_kernel::FT         Algebraic;
 
-  // The difference between Curve_2 and X_monotone_curve_2 is semantical only,
-  // NOT syntactical.
-  typedef Conic_arc_2<Int_kernel, Alg_kernel> Curve_2;
-  typedef Curve_2                             X_monotone_curve_2;
- 
-  typedef typename Curve_2::Alg_kernel        R;
-  typedef typename Curve_2::Point_2           Point_2;
+  typedef typename Nt_traits::Integer     Integer;
 
-  // For backward compatibility:
-  typedef Curve_2                    Curve;
-  typedef X_monotone_curve_2         X_curve;
-  typedef Point_2                    Point;
+  typedef Arr_conic_traits_2<Rat_kernel, Alg_kernel, Nt_traits>  Self;
 
-#ifdef CGAL_CONIC_ARC_USE_CACHING
- private:
+  // Category tags:
+  typedef Tag_true                        Has_left_category;
+  typedef Tag_true                        Has_merge_category;
 
-  typedef typename Curve_2::Intersections Intersections;
-  mutable std::list<Intersections> inter_list; // For caching intersections.
-#endif
-
- public:
-
-  /*!
-   * Constructor.
-   */
-  Arr_conic_traits_2()
-  {}
-
-  /*!
-   * Destructor.
-   */
-  ~Arr_conic_traits_2()
-  {
-#ifdef CGAL_CONIC_ARC_USE_CACHING
-    inter_list.clear();
-#endif    
-  }
-  
-  ////////// Planar Map methods: //////////
-
-  /*!
-   * Compare the x-coordinates of two given points.
-   * \param p1 The first point.
-   * \param p2 The second point.
-   * \return LARGER if x(p1) > x(p2); SMALLER if x(p1) < x(p2); or else EQUAL.
-   */
-  Comparison_result compare_x(const Point_2& p1, const Point_2& p2) const
-  {
-    return (p1.compare_x (p2));
-  }
-
-  /*! 
-   * Compares lexigoraphically the two points: by x, then by y.
-   * \param p1 Te first point.
-   * \param p2 The second point.
-   * \return LARGER if x(p1) > x(p2), or if x(p1) = x(p2) and y(p1) > y(p2); 
-   *         SMALLER if x(p1) < x(p2), or if x(p1) = x(p2) and y(p1) < y(p2);
-   *         or else EQUAL.
-   */
-  Comparison_result compare_xy(const Point_2& p1, const Point_2& p2) const
-  {
-    return (p1.compare_lex_xy (p2));
-  }
-
-  /*!
-   * Check whether the given curve is a vertical segment.
-   * \param curve The curve.
-   * \return (true) if the curve is vertical.
-   */
-  bool curve_is_vertical(const X_monotone_curve_2& curve) const
-  {
-    CGAL_precondition (curve.is_valid());
-
-    return (curve.is_vertical_segment());
-  }
-
-  /*!
-   * Check whether the given point is in the x-range of the given curve.
-   * In out case, the curve is a segment [s, t], check whether x(s)<=x(q)<=x(t)
-   * or whether x(t)<=x(q)<=x(s).
-   * \param curve The curve.
-   * \param q The point.
-   * \return (true) if q is in the x-range of cv.
-   */
-  bool point_in_x_range(const X_monotone_curve_2& curve,
-                        const Point_2& p) const
-  {
-    CGAL_precondition (curve.is_valid());
-    CGAL_precondition(is_x_monotone(curve));
-
-    if (curve.is_vertical_segment())
-    {
-      // Check if the vertical segment's x coordinate is the same as p's.
-      return (compare_x (curve.source(), p) == EQUAL);
-    }
-    else
-    {
-      // Since the curve is x-monotone, if the point x coordinate is to the
-      // left (or to the right of both curve's source and target points), then
-      // the point is obviously not in the curve's x range.
-      Comparison_result res1 = compare_x(p, curve.source());
-      Comparison_result res2 = compare_x(p, curve.target());
-
-      return ((res1 == EQUAL) || (res2 == EQUAL) || (res1 != res2));
-    }
-  }
-
-  /*!
-   * Get the relative status of two curves at the x-coordinate of a given 
-   * point.
-   * \param curve1 The first curve (cv1).
-   * \param curve2 The second curve (cv2).
-   * \param p The point.
-   * \pre The point p is in the x-range of the two curves.
-   * \return LARGER if cv1(x(p)) > cv2(x(p)); SMALLER if cv1(x(p)) < cv2(x(p));
-   *  or else EQUAL.
-   */
-  Comparison_result curves_compare_y_at_x (const X_monotone_curve_2& curve1, 
-                                           const X_monotone_curve_2& curve2, 
-                                           const Point_2& p) const
-  {
-    CGAL_precondition (curve1.is_valid());
-    CGAL_precondition (curve2.is_valid());
-    CGAL_precondition(is_x_monotone(curve1));
-    CGAL_precondition(is_x_monotone(curve2));
-    CGAL_precondition(point_in_x_range(curve1, p));
-    CGAL_precondition(point_in_x_range(curve2, p));
-
-    // If both curves contain p, they are obviously equal at x(p).
-    if (curve1.contains_point(p) && curve2.contains_point(p))
-      return (EQUAL);
-        
-    // Get the points on curve1 with the same x coordinate as p.
-    int      n1;
-    Point_2  ps1[2];
-
-    if (curve1.is_vertical_segment())
-    {
-      // In case curve1 is a vertical segment, both the source and target 
-      // of the curve has the same x coordinate as p. 
-      // Make sure that ps1[0] has a smaller y value than ps1[1].
-      n1 = 2;
-      if (curve1.source().compare_y (curve1.target()) == SMALLER)
-      {
-	ps1[0] = curve1.source();
-	ps1[1] = curve1.target();
-      }
-      else
-      {
-	ps1[0] = curve1.target();
-	ps1[1] = curve1.source();
-      }
-    }
-    else if (compare_x(p, curve1.source()) == EQUAL)
-    {
-      ps1[0] = curve1.source();
-      n1 = 1;
-    }
-    else if (compare_x(p, curve1.target()) == EQUAL)
-    {
-      ps1[0] = curve1.target();
-      n1 = 1;
-    }
-    else
-    {
-      // Find all points on curve1 with the same x coordinate as p.
-      n1 = curve1.get_points_at_x (p, ps1);
-
-      CGAL_assertion(n1 == 1);
-    }
-
-    // Get the points on curve2 with the same x coordinate as p.
-    int      n2;
-    Point_2  ps2[2];
-
-    if (curve2.is_vertical_segment())
-    {
-      // In case curve2 is a vertical segment, both the source and target 
-      // of the curve has the same x coordinate as p. 
-      // Make sure that ps2[0] has a smaller y value than ps2[1].
-      n2 = 2;
-      if (curve2.source().compare_y (curve2.target()) == SMALLER)
-      {
-	ps2[0] = curve2.source();
-	ps2[1] = curve2.target();
-      }
-      else
-      {
-	ps2[0] = curve2.target();
-	ps2[1] = curve2.source();
-      }
-    }
-    else if (compare_x(p, curve2.source()) == EQUAL)
-    {
-      ps2[0] = curve2.source();
-      n2 = 1;
-    }
-    else if (compare_x(p, curve2.target()) == EQUAL)
-    {
-      ps2[0] = curve2.target();
-      n2 = 1;
-    }
-    else
-    {
-      // Find all points on curve2 with the same x coordinate as p.
-      n2 = curve2.get_points_at_x (p, ps2);
-
-      CGAL_assertion(n2 == 1);
-    }
-
-    // Deal with vertical segments:
-    if (n1 == 2)
-    {
-      // Check if the vertical segment curve1 contains ps2[0] or ps2[1].
-      if (ps1[0].compare_y (ps2[0]) != LARGER && 
-	  ps1[1].compare_y (ps2[0]) != SMALLER)
-      {
-	return (EQUAL);
-      }
-
-      if (n2 == 2)
-      {
-	if (ps1[0].compare_y (ps2[1]) != LARGER && 
-	    ps1[1].compare_y (ps2[1]) != SMALLER)
-	{
-	  return (EQUAL);
-	}
-      }
-    }
-    else if (n2 == 2)
-    {
-      // Check if the vertical segment curve2 contains ps1[0].
-      if (ps2[0].compare_y (ps1[0]) != LARGER && 
-	  ps2[1].compare_y (ps1[0]) != SMALLER)
-      {
-	return (EQUAL);
-      }
-    }
-    
-    // None of the curves is a vertical segments and both have exactly
-    // one point with the given x coordinate:
-    // Compare the y coordinates of these two points.
-    return (ps1[0].compare_y (ps2[0]));
-  }
-
-  /*!
-   * Compare the y value of two curves in an epsilon environment to the left
-   * of the x-value of their intersection point.
-   * \param curve1 The first curve (cv1).
-   * \param curve2 The second curve (cv2).
-   * \param p The point.
-   * \pre The point p is in the x range of the two curves, and both of them 
-   * must be also be defined to its left. Furthermore, cv1(x(p) == cv2(x(p)).
-   * \return The relative position of cv1 with respect to cv2 to the left of
-   * x(p): LARGER, SMALLER or EQUAL.
-   */  
-  Comparison_result curves_compare_y_at_x_left
-                            (const X_monotone_curve_2& curve1,
-                             const X_monotone_curve_2& curve2,
-                             const Point_2& p) const
-  {
-    CGAL_precondition (curve1.is_valid());
-    CGAL_precondition (curve2.is_valid());
-    CGAL_precondition(is_x_monotone(curve1));
-    CGAL_precondition(is_x_monotone(curve2));
-
-    // The two curve must not be vertical segments.
-    CGAL_precondition(! curve1.is_vertical_segment());
-    CGAL_precondition(! curve2.is_vertical_segment());
-
-    // Check that both curves are defined to the left of p.
-    CGAL_precondition((compare_x(curve1.source(), p) == SMALLER) ||
-		      (compare_x(curve1.target(), p) == SMALLER));
-
-    CGAL_precondition((compare_x(curve2.source(), p) == SMALLER) ||
-		      (compare_x(curve2.target(), p) == SMALLER));
-
-    // Get the points on curve1 with the same x coordinate as p.
-    int      n1;
-    Point_2  ps1[2];
-
-    if (curve1.contains_point(p))
-    {
-      ps1[0] = p;
-      n1 = 1;
-    }
-    else
-    {
-      n1 = curve1.get_points_at_x (p, ps1);
-    }
-
-    // Make sure that there is exactly one point.
-    CGAL_assertion(n1 == 1);
-    
-    // Get the points on curve2 with the same x coordinate as p.
-    int      n2;
-    Point_2  ps2[2];
-
-    if (curve2.contains_point(p))
-    {
-      ps2[0] = p;
-      n2 = 1;
-    }
-    else
-    {
-      n2 = curve2.get_points_at_x (p, ps2);
-    }
-
-    // Make sure that there is exactly one point.
-    CGAL_assertion(n2 == 1);
-
-    // The two curves must intersect at x(p).
-    CGAL_precondition (ps1[0].compare_y (ps2[0]) == EQUAL);
-
-    // If the two curves are equal:
-    if (curve1.equals (curve2))
-      return (EQUAL);
-
-    // The two curves intersect at ps1[0] = ps2[0] - proceed from here.
-    return (_curve_compare_at_intersection_left (curve1, curve2, ps1[0]));
-  }  
-
-  /*!
-   * Compare the y value of two curves in an epsilon environment to the right
-   * of the x-value of their intersection point.
-   * \param curve1 The first curve (cv1).
-   * \param curve2 The second curve (cv2).
-   * \param p The point.
-   * \pre The point p is in the x range of the two curves, and both of them 
-   * must be also be defined to its right. Furthermore, cv1(x(p) == cv2(x(p)).
-   * \return The relative position of cv1 with respect to cv2 to the right of
-   * x(p): LARGER, SMALLER or EQUAL.
-   */
-  Comparison_result curves_compare_y_at_x_right
-                             (const X_monotone_curve_2& curve1, 
-                              const X_monotone_curve_2& curve2,
-                              const Point_2& p) const
-  {
-    CGAL_precondition (curve1.is_valid());
-    CGAL_precondition (curve2.is_valid());
-    CGAL_precondition(is_x_monotone(curve1));
-    CGAL_precondition(is_x_monotone(curve2));
-
-    // The two curve must not be vertical segments.
-    CGAL_precondition(! curve1.is_vertical_segment());
-    CGAL_precondition(! curve2.is_vertical_segment());
-
-    // Check that both curves are defined to the right of p.
-    CGAL_precondition((compare_x(curve1.source(), p) == LARGER) ||
-		      (compare_x(curve1.target(), p) == LARGER));
-
-    CGAL_precondition((compare_x(curve2.source(), p) == LARGER) ||
-		      (compare_x(curve2.target(), p) == LARGER));
-
-    // Get the points on curve1 with the same x coordinate as p.
-    int      n1;
-    Point_2  ps1[2];
-
-    if (curve1.contains_point(p))
-    {
-      ps1[0] = p;
-      n1 = 1;
-    }
-    else
-    {
-      n1 = curve1.get_points_at_x (p, ps1);
-    }
-
-    // Make sure we have a single point.
-    CGAL_assertion(n1 == 1);
-    
-    // Get the points on curve2 with the same x coordinate as p.
-    int      n2;
-    Point_2  ps2[2];
-
-    if (curve2.contains_point(p))
-    {
-      ps2[0] = p;
-      n2 = 1;
-    }
-    else
-    {
-      n2 = curve2.get_points_at_x (p, ps2);
-    }
-
-    // Make sure we have a single point.
-    CGAL_assertion(n2 == 1);
-
-    // The two curves must intersect at p(x).
-    CGAL_precondition (ps1[0].compare_y (ps2[0]) == EQUAL);
-
-    // If the two curves are equal:
-    if (curve1.equals (curve2))
-      return (EQUAL);
-
-    // The two curves intersect at ps1[0] = ps2[0] - proceed from here:
-    return (_curve_compare_at_intersection_right (curve1, curve2, ps1[0]));
-  }  
-
-  /*! 
-   * Return the location of the given point with respect to the input curve.
-   * \param p The point.
-   * \param curve The curve (cv).
-   * \pre p is in the x-range of the curve.
-   * \return SMALLER if y(p) < cv(x(p)), that is the point is below the curve;
-   *         LARGER if y(p) > cv(x(p)), that is the point is above the curve;
-   *         or else (if p is on the curve) EQUAL.
-   */
-  Comparison_result curve_compare_y_at_x(const Point_2& p,
-                                         const X_monotone_curve_2& curve) const
-  {
-    CGAL_precondition (curve.is_valid());
-    CGAL_precondition(is_x_monotone(curve));
-    CGAL_precondition(point_in_x_range(curve,p));
-
-    // A special treatment for vertical segments:
-    if (curve.is_vertical_segment())
-    {
-      // In case p has the same x c-ordinate of the vertical segment, compare
-      // it to the segment endpoints to determine its position.
-      Comparison_result res1 = p.compare_y (curve.source());
-      Comparison_result res2 = p.compare_y (curve.target());
-
-      if (res1 == res2)
-	return (res1);
-      else
-	return (EQUAL);
-    }
-
-    // Check whether the point is exactly on the curve.
-    if (curve.contains_point(p))
-      return (EQUAL);
-
-    // Get the points on the arc with the same x coordinate as p.
-    int      n;
-    Point_2  ps[2];
-
-    if (compare_x(p, curve.source()) == EQUAL)
-    {
-      ps[0] = curve.source();
-      n = 1;
-    }
-    else if (compare_x(p, curve.target()) == EQUAL)
-    {
-      ps[0] = curve.target();
-      n = 1;
-    }
-    else
-    {
-      n = curve.get_points_at_x (p, ps);
-    }
-
-    // Make sure there is exactly one point.
-    CGAL_assertion(n == 1);
-
-    // Compare p with the a point of the curve with the same x coordinate.
-    return (p.compare_y(ps[0]));
-  }
-
-  /*!
-   * Check if the two points are the same.
-   * \param p1 The first point.
-   * \param p2 The second point.
-   * \return (true) if p1 == p2.
-   */
-  bool point_equal (const Point_2& p1, const Point_2& p2) const
-  {
-    return (p1.equals(p2));
-  }
-   
-  /*! 
-   * Check if the two curves are the same (have the same graph).
-   * \param curve1 The first curve.
-   * \param curve2 The second curve.
-   * \return (true) if the two curves are the same.
-   */
-  bool curve_equal (const X_monotone_curve_2& curve1,
-                    const X_monotone_curve_2& curve2) const
-  {
-    CGAL_precondition (curve1.is_valid());
-    CGAL_precondition (curve2.is_valid());
-    CGAL_precondition(is_x_monotone(curve1));
-    CGAL_precondition(is_x_monotone(curve2));
-
-    return (curve1.equals (curve2));
-  }
-
-  /*!
-   * Get the curve source.
-   * \param curve The curve.
-   * \return The source point.
-   */  
-  const Point_2& curve_source (const X_monotone_curve_2& curve) const
-  {
-    CGAL_precondition (curve.is_valid());
-
-    return (curve.source());
-  }
-
-  /*!
-   * Get the curve target.
-   * \param curve The curve.
-   * \return The target point.
-   */
-  const Point_2& curve_target (const X_monotone_curve_2& curve) const
-  {
-    CGAL_precondition (curve.is_valid());
-
-    return (curve.target());
-  }
-
-  /*!
-   * Flip a given curve (swap the source and target and flip the orientation).
-   * \param curve The input curve.
-   * \return The flipped curve.
-   */
-  X_monotone_curve_2 curve_opposite (const X_monotone_curve_2& curve) const
-  {
-    CGAL_precondition (curve.is_valid());
-
-    // Flip the arc.
-    return (curve.flip());
-  }
-
-  /*!
-   * Check whether the curve is x-monotone.
-   * \param curve The curve.
-   * \return (true) if the curve is x-monotone.
-   */
-  bool is_x_monotone (const Curve_2& curve) const
-  {
-    return (curve.is_x_monotone());
-  }
-
-  /*! Cut the given curve into x-monotone subcurves and inserts them to the
-   * given output iterator. 
-   * \param curve the input curve
-   * \param o the output iterator
-   * \return The past-the-end iterator
-   */
-  template<class OutputIterator>
-  OutputIterator curve_make_x_monotone (const Curve_2& curve, 
-                                        OutputIterator o) const
-  {
-    CGAL_precondition (curve.is_valid());
-
-    // Find the points of vertical tangency and act accordingly.
-    int      n;
-    Point_2  ps[2];
-
-    n = curve.vertical_tangency_points (ps);
-
-    if (n == 0)
-    {    
-      // In case the given curve is already x-monotone:
-      *o++ = curve;
-      return (o);
-    }
-
-    // Split the conic arc into x-monotone sub-curves. 
-    if (curve.is_full_conic())
-    {
-      // Make sure we have two vertical tangency points.
-      CGAL_assertion(n == 2);
-
-      // In case the curve is a full conic, split it to two x-monotone curves,
-      // one going from ps[0] to ps[1], and the other from ps[1] to ps[0].
-      *o++ = X_monotone_curve_2 (curve, ps[0], ps[1]);
-      *o++ = X_monotone_curve_2 (curve, ps[1], ps[0]);
-    }
-    else
-    {
-      X_monotone_curve_2    sub_curve1;
-      X_monotone_curve_2    sub_curve2;
-      X_monotone_curve_2    sub_curve3;
-
-      if (n == 1)
-      {
-	// Split the arc into two x-monotone sub-curves: one going from the
-	// arc source to ps[0], and the other from ps[0] to the target. 
-	_curve_split (curve, 
-	              sub_curve1, sub_curve2, 
-                      ps[0]);
-
-	*o++ = sub_curve1;
-	*o++ = sub_curve2;
-      }
-      else if (n == 2)
-      {
-	// Split the arc into three x-monotone sub-curves: one going from the
-	// arc source to ps[0], one from ps[0] to ps[1], and the last one
-	// from ps[1] to the target.
-	// Notice that ps[0] and ps[1] might switch places.
-	X_monotone_curve_2    temp;
-
-	_curve_split (curve, 
-	              sub_curve1, sub_curve2, 
-                      ps[0]);
-
-	if (sub_curve2.contains_point(ps[1]))
-	{
-	  temp = sub_curve2;
-	  _curve_split (temp,
-		        sub_curve2, sub_curve3,
-		        ps[1]);
-	}
-	else if (sub_curve1.contains_point(ps[1]))
-	{
-	  // Actually we switch between ps[0] and ps[1].
-	  temp = sub_curve1;
-	  sub_curve3 = sub_curve2;
-	  _curve_split (temp,
-		        sub_curve1, sub_curve2,
-		        ps[1]);
-	}
-	else
-	{
-	  // We should never reach here:
-	  CGAL_assertion(false);
-	}
-
-	*o++ = sub_curve1;
-	*o++ = sub_curve2;
-	*o++ = sub_curve3;		    	
-      }
-      else
-      {
-	// We should never reach here:
-	CGAL_assertion(false);
-      }
-    }
-
-    return (o);
-  }
-
-  /*!
-   * Split a given curve at a given split point into two sub-curves.
-   * \param curve The curve to split.
-   * \param sub_curve1 The output first part of the split curve. 
-   *                   Its source is the source of the original curve.
-   * \param sub_curve2 The output second part of the split curve.
-   *                   Its target is the target of the original curve.
-   * \param p the split point.
-   * \pre p lies on the curve but is not one of its end-points.
-   */
-  void curve_split (const X_monotone_curve_2& curve, 
-		    X_monotone_curve_2& sub_curve1,
-                    X_monotone_curve_2& sub_curve2, 
-                    const Point_2& p) const 
-  {
-    CGAL_precondition (curve.is_valid());
-    CGAL_precondition(is_x_monotone(curve));
-
-    // Make sure the point is on the curve and is not an end-point.
-    CGAL_precondition(curve.contains_point(p));
-    CGAL_precondition(! p.equals(curve.source()));
-    CGAL_precondition(! p.equals(curve.target()));
-
-    // Split the curve.
-    _curve_split (curve,
-		  sub_curve1, sub_curve2,
-		  p);
-    return;
-  }
-
-  /*!
-   * Merge a two given curves into one curve.
-   * \param sub_curve1 The first curve to be merged.
-   * \param sub_curve2 The second curve to be merged.
-   * \param curve The resulting merged curve.
-   * \pre The two input curves have the same supporting conic and share
-   *      a common endpoint.
-   */ 
-  void curve_merge (const X_monotone_curve_2& sub_curve1,
-		    const X_monotone_curve_2& sub_curve2,
-		    Curve_2& curve) const 
-  {
-    CGAL_precondition (sub_curve1.is_valid());
-    CGAL_precondition (sub_curve2.is_valid());
-    CGAL_precondition(is_x_monotone(sub_curve1));
-    CGAL_precondition(is_x_monotone(sub_curve2));
-    CGAL_precondition(sub_curve1.has_same_base_conic(sub_curve2));
-
-    // Make sure the point is on the curve and is not an end-point.
-    if (sub_curve2.source().equals(sub_curve1.target()))
-    {
-      curve = X_monotone_curve_2 (sub_curve1, 
-				  sub_curve1.source(),
-				  sub_curve2.target());
-    }
-    else if (sub_curve2.source().equals(sub_curve1.source()))
-    {
-      curve = X_monotone_curve_2 (sub_curve1, 
-				  sub_curve1.target(),
-				  sub_curve2.target());
-    }
-    else if (sub_curve2.target().equals(sub_curve1.target()))
-    {
-      curve = X_monotone_curve_2 (sub_curve1,
-				  sub_curve1.source(),
-				  sub_curve2.source());
-    }
-    else if (sub_curve2.target().equals(sub_curve1.source()))
-    {
-      curve = X_monotone_curve_2 (sub_curve2,
-				  sub_curve2.source(),
-				  sub_curve1.target());
-    }
-    else
-    {
-      // No common endpoint found.
-      bool     found_common_endpoint = false;
-      CGAL_precondition (found_common_endpoint);
-    }
-
-    return;
-  }
-
-  /*!
-   * Find the nearest intersection of the two given curves to the right of 
-   * a given reference point.
-   * Nearest is defined as the lexicographically nearest point, not including 
-   * the point reference point itself.
-   * If the intersection of the two curves is an X_monotone_curve_2, that is,
-   * there is an overlapping subcurve, that contains the reference point in
-   * its x-range, the function should return an X_monotone_curve_2 whose 
-   * interior is strictly to the right of the reference point (that is, whose
-   * left endpoint is the projection of the reference point onto the 
-   * overlapping subcurve).
-   * \param curve1 The first curve.
-   * \param curve2 The second curve.
-   * \param p The refernece point.
-   * \return An empty object if there is no intersection to the right of p.
-   *         An object wrapping a Point_2 in case of a simple intersection.
-   *         An object wrapping an X_monotone_curve_2 in case of an overlap.
-   */
-  Object nearest_intersection_to_right (const X_monotone_curve_2& curve1,
-					const X_monotone_curve_2& curve2,
-					const Point_2& p) const
-  {
-    CGAL_precondition (curve1.is_valid());
-    CGAL_precondition (curve2.is_valid());
-    CGAL_precondition(is_x_monotone(curve1));
-    CGAL_precondition(is_x_monotone(curve2));
-
-    // Deal with overlapping curves:
-    X_monotone_curve_2 ovlp_arcs[2];
-    const int          n_ovlps = curve1.overlaps (curve2, ovlp_arcs);
-    CGAL_assertion (n_ovlps < 2);
-
-    if (n_ovlps == 1)
-    {
-      Point_2    p1, p2;
-
-      // An overlapping sub-arc was found. Trim it so it would be entirely
-      // to the right of p.
-      Point_2  ovlp_source = ovlp_arcs[0].source();
-      Point_2  ovlp_target = ovlp_arcs[0].target();
-
-      if (ovlp_source.compare_lex_xy(p) == LARGER &&
-	  ovlp_target.compare_lex_xy(p) == LARGER)
-      {
-	// The entire overlapping arc is to the right of p:
-	p1 = ovlp_source;
-	p2 = ovlp_target;
-      }
-      else if (ovlp_source.compare_lex_xy(p) != LARGER &&
-	       ovlp_target.compare_lex_xy(p) == LARGER)
-      {
-	// The source is to the left of p, and the traget is to its right.
-	Point_2        vps[2];
-	CGAL_assertion_code(int n_ps = curve1.get_points_at_x (p, vps);)
-
-	CGAL_assertion (n_ps == 1);
-
-	p1 = vps[0];
-	p2 = ovlp_target;
-      }
-      else if (ovlp_source.compare_lex_xy(p) == LARGER &&
-	       ovlp_target.compare_lex_xy(p) != LARGER)
-      {
-	// The source is to the right of p, and the traget is to its left.
-	Point_2        vps[2];
-	CGAL_assertion_code(int n_ps = curve1.get_points_at_x (p, vps);)
-
-	CGAL_assertion (n_ps == 1);
-
-	p1 = ovlp_source;
-	p2 = vps[0];
-      }
-      else
-      {
-	// The entire overlapping arc is to the left of p:
-	return Object();
-      }
-
-      // Return the overlapping conic arc.
-      return (CGAL::make_object (X_monotone_curve_2 (curve1, p1, p2)));
-    }
-
-    // In case there are no overlaps and the base conics are the same,
-    // there cannot be any intersection points, unless the two x-monotone
-    // curves share an end point.
-    if (curve1.has_same_base_conic(curve2))
-    {
-      const Point_2    *nearest_end_P = NULL;
-
-      if ((curve1.source().equals(curve2.source()) ||
-	   curve1.source().equals(curve2.target())) &&
-	  curve1.source().compare_lex_xy(p) == LARGER)
-      {
-	nearest_end_P = &(curve1.source());
-      }
-
-      if ((curve1.target().equals(curve2.source()) ||
-	   curve1.target().equals(curve2.target())) &&
-	  curve1.target().compare_lex_xy(p) == LARGER)
-      {
-	if (nearest_end_P == NULL ||
-	    nearest_end_P->compare_lex_xy (curve1.target()) == LARGER)
-	{
-	  nearest_end_P = &(curve1.target());
-	}
-      }
-
-      if (nearest_end_P != NULL)
-      {
-	// A common end point was found:
-	return (CGAL::make_object (*nearest_end_P));
-      }
-      else
-      {
-	// No intersection:
-	return Object();
-      }
-    }
-
-    // Find the intersection points and choose the one nearest to p.
-    int            n;
-    Point_2        ps[4];
-    const Point_2 *nearest_inter_P = NULL;
-    int            i;
-
-#ifdef CGAL_CONIC_ARC_USE_CACHING
-    n = curve1.intersections_with (curve2, ps, &inter_list);
-#else
-    n = curve1.intersections_with (curve2, ps);    
-#endif
-
-    for (i = 0; i < n; i++)
-    {
-      // Check if the current point is to the right of p.
-      if (ps[i].compare_lex_xy(p) == LARGER)
-      {
-	  // Compare with the nearest point so far.
-	if (nearest_inter_P == NULL ||
-	    nearest_inter_P->compare_lex_xy (ps[i]) == LARGER)	
-	{
-	    nearest_inter_P = &(ps[i]);
-	}
-      }
-    }
-
-    if (nearest_inter_P != NULL)
-    {
-      // Return the nearest intersection point.
-      return (CGAL::make_object (*nearest_inter_P));
-    }
-    
-    // No intersection found to the right of p:
-    return Object();
-  }
-
-  /*!
-   * Find the nearest intersection of the two given curves to the left of 
-   * a given reference point.
-   * Nearest is defined as the lexicographically nearest point, not including 
-   * the point reference point itself.
-   * If the intersection of the two curves is an X_monotone_curve_2, that is,
-   * there is an overlapping subcurve, that contains the reference point in
-   * its x-range, the function should return an X_monotone_curve_2 whose 
-   * interior is strictly to the left of the reference point (that is, whose
-   * right endpoint is the projection of the reference point onto the 
-   * overlapping subcurve).
-   * \param curve1 The first curve.
-   * \param curve2 The second curve.
-   * \param p The refernece point.
-   * \return An empty object if there is no intersection to the left of p.
-   *         An object wrapping a Point_2 in case of a simple intersection.
-   *         An object wrapping an X_monotone_curve_2 in case of an overlap.
-   */
-  Object nearest_intersection_to_left (const X_monotone_curve_2& curve1,
-				       const X_monotone_curve_2& curve2,
-				       const Point_2& p) const
-  {
-    CGAL_precondition (curve1.is_valid());
-    CGAL_precondition (curve2.is_valid());
-    CGAL_precondition(is_x_monotone(curve1));
-    CGAL_precondition(is_x_monotone(curve2));
-
-    // Deal with overlapping curves:
-    X_monotone_curve_2 ovlp_arcs[2];
-    const int          n_ovlps = curve1.overlaps (curve2, ovlp_arcs);
-    CGAL_assertion (n_ovlps < 2);
-
-    if (n_ovlps == 1)
-    {
-      Point_2    p1, p2;
-
-      // An overlapping sub-arc was found. Trim it so it would be entirely
-      // to the left of p.
-      Point_2  ovlp_source = ovlp_arcs[0].source();
-      Point_2  ovlp_target = ovlp_arcs[0].target();
-
-      if (ovlp_source.compare_lex_xy(p) == SMALLER &&
-	  ovlp_target.compare_lex_xy(p) == SMALLER)
-      {
-	// The entire overlapping arc is to the left of p:
-	p1 = ovlp_source;
-	p2 = ovlp_target;
-      }
-      else if (ovlp_source.compare_lex_xy(p) != SMALLER &&
-	       ovlp_target.compare_lex_xy(p) == SMALLER)
-      {
-	// The source is to the right of p, and the traget is to its left.
-	Point_2        vps[2];
-	CGAL_assertion_code(int n_ps = curve1.get_points_at_x (p, vps);)
-
-	CGAL_assertion (n_ps == 1);
-
-	p1 = vps[0];
-	p2 = ovlp_target;
-      }
-      else if (ovlp_source.compare_lex_xy(p) == SMALLER &&
-	       ovlp_target.compare_lex_xy(p) != SMALLER)
-      {
-	// The source is to the left of p, and the traget is to its right.
-	Point_2        vps[2];
-	CGAL_assertion_code(int n_ps = curve1.get_points_at_x (p, vps);)
-
-	CGAL_assertion (n_ps == 1);
-
-	p1 = ovlp_source;
-	p2 = vps[0];
-      }
-      else
-      {
-	// The entire overlapping arc is to the right of p:
-	return Object();
-      }
-
-      // Return the overlapping conic arc.
-      return (CGAL::make_object (X_monotone_curve_2 (curve1, p1, p2)));
-    }
-
-    // In case there are no overlaps and the base conics are the same,
-    // there cannot be any intersection points, unless the two x-monotone
-    // curves share an end point.
-    if (curve1.has_same_base_conic(curve2))
-    {
-      const Point_2    *nearest_end_P = NULL;
-
-      if ((curve1.source().equals(curve2.source()) ||
-	   curve1.source().equals(curve2.target())) &&
-	  curve1.source().compare_lex_xy(p) == SMALLER)
-      {
-	nearest_end_P = &(curve1.source());
-      }
-
-      if ((curve1.target().equals(curve2.source()) ||
-	   curve1.target().equals(curve2.target())) &&
-	  curve1.target().compare_lex_xy(p) == SMALLER)
-      {
-	if (nearest_end_P == NULL ||
-	    nearest_end_P->compare_lex_xy (curve1.target()) == SMALLER)
-	{
-	  nearest_end_P = &(curve1.target());
-	}
-      }
-
-      if (nearest_end_P != NULL)
-      {
-	// A common end point was found:
-	return (CGAL::make_object (*nearest_end_P));
-      }
-      else
-      {
-	// No intersection:
-	return Object();
-      }
-    }
-
-    // Find the intersection points and choose the one nearest to p.
-    int            n;
-    Point_2        ps[4];
-    const Point_2 *nearest_inter_P = NULL;
-    int            i;
-
-#ifdef CGAL_CONIC_ARC_USE_CACHING
-    n = curve1.intersections_with (curve2, ps, &inter_list);
-#else
-    n = curve1.intersections_with (curve2, ps);    
-#endif
-
-    for (i = 0; i < n; i++)
-    {
-      // Check if the current point is to the left of p.
-      if (ps[i].compare_lex_xy(p) == SMALLER)
-      {
-	  // Compare with the nearest point so far.
-	if (nearest_inter_P == NULL ||
-	    nearest_inter_P->compare_lex_xy (ps[i]) == SMALLER)	
-	{
-	    nearest_inter_P = &(ps[i]);
-	}
-      }
-    }
-
-    if (nearest_inter_P != NULL)
-    {
-      // Return the nearest intersection point.
-      return (CGAL::make_object (*nearest_inter_P));
-    }
-    
-    // No intersection found to the left of p:
-    return Object();
-  }
-
-  /*!
-   * Check whether the two given curves overlap.
-   * \patam curve1 The first curve.
-   * \patam curve2 The second curve.
-   * \return (true) if the two curves overlap in a one-dimensional subcurve
-   * (i.e., not in a finite number of points). Otherwise, if they have a finite
-   * number of intersection points, or none at all, return (false).
-   */
-  bool curves_overlap (const X_monotone_curve_2& curve1,
-                       const X_monotone_curve_2& curve2) const
-  {
-    CGAL_precondition (curve1.is_valid());
-    CGAL_precondition (curve2.is_valid());
-    CGAL_precondition(is_x_monotone(curve1));
-    CGAL_precondition(is_x_monotone(curve2));
-
-    X_monotone_curve_2 ovlp_arcs[2];
-    
-    return (curve1.overlaps (curve2, ovlp_arcs) > 0);
-  }
+  // Traits objects:
+  typedef _Conic_arc_2<Rat_kernel, Alg_kernel, Nt_traits> Curve_2;
+  typedef _Conic_x_monotone_arc_2<Curve_2>                X_monotone_curve_2;
+  typedef _Conic_point_2<Alg_kernel>                      Point_2;
 
 private:
 
-  ////////// Private auxiliary methods: //////////
+  // Type definition for the intersection points mapping.
+  typedef typename X_monotone_curve_2::Conic_id           Conic_id;
+  typedef typename X_monotone_curve_2::Intersection_point_2
+                                                          Intersection_point_2;
+  typedef typename X_monotone_curve_2::Intersection_map   Intersection_map;
+
+  Intersection_map  inter_map;   // Mapping conic pairs to their intersection
+                                 // points.
+
+public:
 
   /*!
-   * Split the given curve into two sub-curves at the given point which lies
-   * on the curve's interior.
-   * \param curve The curve to split.
-   * \param sub_curve1 The output first part of the split curve. 
-   *                   Its source is the source of the original curve.
-   * \param sub_curve2 The output second part of the split curve.
-   *                   Its target is the target of the original curve.
-   * \param p the split point.
+   * Default constructor.
    */
-  void _curve_split (const X_monotone_curve_2& curve, 
-		     X_monotone_curve_2& sub_curve1,
-                     X_monotone_curve_2& sub_curve2, 
-		     const Point_2& p) const
-  {
-    // Split the curve to source->p and p->target.
-    sub_curve1 = X_monotone_curve_2 (curve, curve.source(), p);
-    sub_curve2 = X_monotone_curve_2 (curve, p, curve.target());
+  Arr_conic_traits_2 ()
+  {}
 
-    return;
+  /*! Get the next conic index. */
+  static unsigned int get_index () 
+  {
+    static unsigned int index = 0;
+    return (++index);
   }
 
-  /*!
-   * Compare the y value of two curves in an epsilon environment to the left
-   * of the x-value of their intersection point.
-   * \param curve1 The first curve (cv1).
-   * \param curve2 The second curve (cv2).
-   * \param p_int Their intersection point.
-   * \return The relative position of cv1 with respect to cv2 to the left of
-   * x(p): LARGER, SMALLER or EQUAL.
-   */
-  Comparison_result _curve_compare_at_intersection_left 
-                                            (const X_monotone_curve_2& curve1, 
-					     const X_monotone_curve_2& curve2,
-					     const Point_2& p_int) const
+  /// \name Basic functor definitions.
+  //@{
+
+  class Compare_x_2
   {
-    // In case one arc is facing upwards and another facing downwards, it is
-    // very clear that the one facing upward is above the one facing downwards.
-    if (curve1.has_same_base_conic(curve2))
+  public:
+    /*!
+     * Compare the x-coordinates of two points.
+     * \param p1 The first point.
+     * \param p2 The second point.
+     * \return LARGER if x(p1) > x(p2);
+     *         SMALLER if x(p1) < x(p2);
+     *         EQUAL if x(p1) = x(p2).
+     */
+    Comparison_result operator() (const Point_2 & p1, const Point_2 & p2) const
     {
-      Comparison_result fac1 = curve1.facing();
-      Comparison_result fac2 = curve2.facing();
-
-      if (fac1 == LARGER && fac2 == SMALLER)
-	return (LARGER);
-      else if (fac1 == SMALLER && fac2 == LARGER)
-	return (SMALLER);
+      Alg_kernel   ker;
+      return (ker.compare_x_2_object() (p1, p2));
     }
+  };
 
-    // Otherwise, since the two curves do intersect at p_int, make a decision 
-    // based on their partial derivatives.
-    const CoNT  _zero = 0;
-    CoNT        slope1_numer, slope1_denom;
-    CoNT        slope2_numer, slope2_denom;
+  /*! Get a Compare_x_2 functor object. */
+  Compare_x_2 compare_x_2_object () const
+  {
+    return Compare_x_2();
+  }
 
-    curve1.derive_by_x_at (p_int, 1, slope1_numer, slope1_denom);
-    curve2.derive_by_x_at (p_int, 1, slope2_numer, slope2_denom);
-
-    const bool  is_vertical_slope1 = (slope1_denom == _zero);
-    const bool  is_vertical_slope2 = (slope2_denom == _zero);
-
-    if (!is_vertical_slope1 && !is_vertical_slope2)
+  class Compare_xy_2
+  {
+  public:
+    /*!
+     * Compares two points lexigoraphically: by x, then by y.
+     * \param p1 The first point.
+     * \param p2 The second point.
+     * \return LARGER if x(p1) > x(p2), or if x(p1) = x(p2) and y(p1) > y(p2);
+     *         SMALLER if x(p1) < x(p2), or if x(p1) = x(p2) and y(p1) < y(p2);
+     *         EQUAL if the two points are equal.
+     */
+    Comparison_result operator() (const Point_2& p1, const Point_2& p2) const
     {
-      // The two curves have derivatives at p_int: use it to determine which
-      // one is above the other (the one with a smaller slope in above).
-      Comparison_result  slope_res = CGAL::compare(slope2_numer*slope1_denom,
-						   slope1_numer*slope2_denom);
-            
-      if (slope_res != EQUAL)
-	return (slope_res);
-
-      // Use the second order derivative.
-      curve1.derive_by_x_at (p_int, 2, slope1_numer, slope1_denom);
-      curve2.derive_by_x_at (p_int, 2, slope2_numer, slope2_denom);
-
-      slope_res = CGAL::compare (slope2_numer*slope1_denom, 
-				 slope1_numer*slope2_denom);
-	
-      return ((slope_res == LARGER) ? SMALLER : LARGER);
+      Alg_kernel   ker;
+      return (ker.compare_xy_2_object() (p1, p2));
     }
-    else if (!is_vertical_slope2)
-    {
-      // The first curve has a vertical slope at p_int: check whether it is
-      // facing upwards or downwards and decide accordingly.
-      Comparison_result fac1 = curve1.facing();
+  };
 
-      CGAL_assertion(fac1 != EQUAL);
-      return (fac1);
+  /*! Get a Compare_xy_2 functor object. */
+  Compare_xy_2 compare_xy_2_object () const
+  {
+    return Compare_xy_2();
+  }
+
+  class Construct_min_vertex_2
+  {
+  public:
+    /*!
+     * Get the left endpoint of the x-monotone curve (segment).
+     * \param cv The curve.
+     * \return The left endpoint.
+     */
+    const Point_2& operator() (const X_monotone_curve_2 & cv) const
+    {
+      return (cv.left());
     }
-    else if (!is_vertical_slope1)
-    {
-      // The second curve has a vertical slope at p_int: check whether it is
-      // facing upwards or downwards and decide accordingly.
-      Comparison_result fac2 = curve2.facing();
+  };
 
-      CGAL_assertion(fac2 != EQUAL);
-      return ((fac2 == LARGER) ? SMALLER : LARGER);
+  /*! Get a Construct_min_vertex_2 functor object. */
+  Construct_min_vertex_2 construct_min_vertex_2_object () const
+  {
+    return Construct_min_vertex_2();
+  }
+
+  class Construct_max_vertex_2
+  {
+  public:
+    /*!
+     * Get the right endpoint of the x-monotone curve (segment).
+     * \param cv The curve.
+     * \return The right endpoint.
+     */
+    const Point_2& operator() (const X_monotone_curve_2 & cv) const
+    {
+      return (cv.right());
     }
-    else
+  };
+
+  /*! Get a Construct_max_vertex_2 functor object. */
+  Construct_max_vertex_2 construct_max_vertex_2_object () const
+  {
+    return Construct_max_vertex_2();
+  }
+
+  class Is_vertical_2
+  {
+  public:
+    /*!
+     * Check whether the given x-monotone curve is a vertical segment.
+     * \param cv The curve.
+     * \return (true) if the curve is a vertical segment; (false) otherwise.
+     */
+    bool operator() (const X_monotone_curve_2& cv) const
     {
-      // The two curves have vertical slopes at p_int: 
-      // First check whether one is facing up and one down. In this case the
-      // comparison result is trivial.
-      Comparison_result fac1 = curve1.facing();
-      Comparison_result fac2 = curve2.facing();
+      return (cv.is_vertical());
+    }
+  };
 
-      if (fac1 == LARGER && fac2 == SMALLER)
-	return (LARGER);
-      else if (fac1 == SMALLER && fac2 == LARGER)
-	return (SMALLER);
+  /*! Get an Is_vertical_2 functor object. */
+  Is_vertical_2 is_vertical_2_object () const
+  {
+    return Is_vertical_2();
+  }
 
-      // Compute the second order derivative by y and act according to it.
-      curve1.derive_by_y_at (p_int, 2, slope1_numer, slope1_denom);
-      curve2.derive_by_y_at (p_int, 2, slope2_numer, slope2_denom);
+  class Compare_y_at_x_2
+  {
+  public:
+    /*!
+     * Return the location of the given point with respect to the input curve.
+     * \param cv The curve.
+     * \param p The point.
+     * \pre p is in the x-range of cv.
+     * \return SMALLER if y(p) < cv(x(p)), i.e. the point is below the curve;
+     *         LARGER if y(p) > cv(x(p)), i.e. the point is above the curve;
+     *         EQUAL if p lies on the curve.
+     */
+    Comparison_result operator() (const Point_2 & p,
+                                  const X_monotone_curve_2 & cv) const
+    {
+      Alg_kernel   ker;
 
-      Comparison_result  slope_res = CGAL::compare(slope2_numer*slope1_denom, 
-						   slope1_numer*slope2_denom);
-
-      CGAL_assertion(slope_res != EQUAL);
-
-      if (fac1 == LARGER && fac2 == LARGER)
+      if (cv.is_vertical())
       {
-	// Both are facing up.
-	return ((slope_res == LARGER) ? SMALLER : LARGER);
+        // A special treatment for vertical segments:
+        // In case p has the same x c-ordinate of the vertical segment, compare
+        // it to the segment endpoints to determine its position.
+        Comparison_result res1 = ker.compare_y_2_object() (p, cv.left());
+        Comparison_result res2 = ker.compare_y_2_object() (p, cv.right());
+
+        if (res1 == res2)
+          return (res1);
+        else
+          return (EQUAL);
+      }
+
+      // Check whether the point is exactly on the curve.
+      if (cv.contains_point(p))
+        return (EQUAL);
+
+      // Get a point q on the x-monotone arc with the same x coordinate as p.
+      Comparison_result  x_res; 
+      Point_2            q;
+
+      if ((x_res = ker.compare_x_2_object() (p, cv.left())) == EQUAL)
+      {
+        q = cv.left();
       }
       else
       {
-	// Both are facing down.
-	return (slope_res);
-      }
-    }
+	CGAL_precondition (x_res != SMALLER);
 
-    // We should never reach here:
-    CGAL_assertion(false);
-    return (EQUAL);
+	if ((x_res = ker.compare_x_2_object() (p, cv.right())) == EQUAL)
+	{
+	  q = cv.right();
+	}
+	else
+	{
+	  CGAL_precondition (x_res != LARGER);
+
+	  q = cv.get_point_at_x (p);
+	}
+      }
+
+      // Compare p with the a point of the curve with the same x coordinate.
+      return (ker.compare_y_2_object() (p, q));
+    }
+  };
+
+  /*! Get a Compare_y_at_x_2 functor object. */
+  Compare_y_at_x_2 compare_y_at_x_2_object () const
+  {
+    return Compare_y_at_x_2();
   }
 
-  /*!
-   * Compare the y value of two curves in an epsilon environment to the right
-   * of the x-value of their intersection point.
-   * \param curve1 The first curve (cv1).
-   * \param curve2 The second curve (cv2).
-   * \param p_int Their intersection point.
-   * \return The relative position of cv1 with respect to cv2 to the left of
-   * x(p): LARGER, SMALLER or EQUAL.
-   */  
-  Comparison_result _curve_compare_at_intersection_right 
-                                            (const X_monotone_curve_2& curve1, 
-					     const X_monotone_curve_2& curve2,
-					     const Point_2& p_int) const
+  class Compare_y_at_x_left_2
   {
-    // In case one arc is facing upwards and another facing downwards, it is
-    // very clear that the one facing upward is above the one facing downwards.
-    if (curve1.has_same_base_conic(curve2))
+  public:
+    /*!
+     * Compares the y value of two x-monotone curves immediately to the left
+     * of their intersection point.
+     * \param cv1 The first curve.
+     * \param cv2 The second curve.
+     * \param p The intersection point.
+     * \pre The point p lies on both curves, and both of them must be also be
+     *      defined (lexicographically) to its left.
+     * \return The relative position of cv1 with respect to cv2 immdiately to
+     *         the left of p: SMALLER, LARGER or EQUAL.
+     */
+    Comparison_result operator() (const X_monotone_curve_2& cv1,
+                                  const X_monotone_curve_2& cv2,
+                                  const Point_2& p) const
     {
-      Comparison_result fac1 = curve1.facing();
-      Comparison_result fac2 = curve2.facing();
+      // Make sure that p lies on both curves, and that both are defined to its
+      // left (so their left endpoint is lexicographically smaller than p).
+      CGAL_precondition (cv1.contains_point (p) &&
+                         cv2.contains_point (p));
 
-      if (fac1 == LARGER && fac2 == SMALLER)
-	return (LARGER);
-      else if (fac1 == SMALLER && fac2 == LARGER)
-	return (SMALLER);
+      CGAL_precondition_code (
+        Alg_kernel   ker;
+      );
+      CGAL_precondition (ker.compare_xy_2_object() (p, 
+                                                    cv1.left()) == LARGER &&
+                         ker.compare_xy_2_object() (p,
+                                                    cv2.left()) == LARGER);
+
+      // If one of the curves is vertical, it is below the other one.
+      if (cv1.is_vertical())
+      {
+        if (cv2.is_vertical())
+          // Both are vertical:
+          return (EQUAL);
+        else
+          return (SMALLER);
+      }
+      else if (cv2.is_vertical())
+      {
+        return (LARGER);
+      }
+
+      // Compare the two curves immediately to the left of p:
+      return (cv1.compare_to_left (cv2, p));
+    }
+  };
+
+  /*! Get a Compare_y_at_x_left_2 functor object. */
+  Compare_y_at_x_left_2 compare_y_at_x_left_2_object () const
+  {
+    return Compare_y_at_x_left_2();
+  }
+
+  class Compare_y_at_x_right_2
+  {
+  public:
+    /*!
+     * Compares the y value of two x-monotone curves immediately to the right
+     * of their intersection point.
+     * \param cv1 The first curve.
+     * \param cv2 The second curve.
+     * \param p The intersection point.
+     * \pre The point p lies on both curves, and both of them must be also be
+     *      defined (lexicographically) to its right.
+     * \return The relative position of cv1 with respect to cv2 immdiately to
+     *         the right of p: SMALLER, LARGER or EQUAL.
+     */
+    Comparison_result operator() (const X_monotone_curve_2& cv1,
+                                  const X_monotone_curve_2& cv2,
+                                  const Point_2& p) const
+    {
+      // Make sure that p lies on both curves, and that both are defined to its
+      // left (so their left endpoint is lexicographically smaller than p).
+      CGAL_precondition (cv1.contains_point (p) &&
+                         cv2.contains_point (p));
+
+      CGAL_precondition_code (
+        Alg_kernel   ker;
+      );
+
+      CGAL_precondition (ker.compare_xy_2_object() (p, 
+                                                    cv1.right()) == SMALLER &&
+                         ker.compare_xy_2_object() (p,
+                                                    cv2.right()) == SMALLER);
+
+      // If one of the curves is vertical, it is above the other one.
+      if (cv1.is_vertical())
+      {
+        if (cv2.is_vertical())
+          // Both are vertical:
+          return (EQUAL);
+        else
+          return (LARGER);
+      }
+      else if (cv2.is_vertical())
+      {
+        return (SMALLER);
+      }
+
+      // Compare the two curves immediately to the right of p:
+      return (cv1.compare_to_right (cv2, p));
+    }
+  };
+
+  /*! Get a Compare_y_at_x_right_2 functor object. */
+  Compare_y_at_x_right_2 compare_y_at_x_right_2_object () const
+  {
+    return Compare_y_at_x_right_2();
+  }
+
+  class Equal_2
+  {
+  public:
+    /*!
+     * Check if the two x-monotone curves are the same (have the same graph).
+     * \param cv1 The first curve.
+     * \param cv2 The second curve.
+     * \return (true) if the two curves are the same; (false) otherwise.
+     */
+    bool operator() (const X_monotone_curve_2& cv1,
+                     const X_monotone_curve_2& cv2) const
+    {
+      if (&cv1 == &cv2)
+        return (true);
+
+      return (cv1.equals (cv2));
     }
 
-    // Otherwise, the two curves do intersect at p_int, make a decision based 
-    // on their partial derivatives.
-    const CoNT  _zero = 0;
-    CoNT        slope1_numer, slope1_denom;
-    CoNT        slope2_numer, slope2_denom;
-
-    curve1.derive_by_x_at (p_int, 1, slope1_numer, slope1_denom);
-    curve2.derive_by_x_at (p_int, 1, slope2_numer, slope2_denom);
-
-    const bool  is_vertical_slope1 = (slope1_denom == _zero);
-    const bool  is_vertical_slope2 = (slope2_denom == _zero);
-
-    if (!is_vertical_slope1 && !is_vertical_slope2)
+    /*!
+     * Check if the two points are the same.
+     * \param p1 The first point.
+     * \param p2 The second point.
+     * \return (true) if the two point are the same; (false) otherwise.
+     */
+    bool operator() (const Point_2& p1, const Point_2& p2) const
     {
-      // The two curves have derivatives at p_int: use it to determine which
-      // one is above the other (the one with a larger slope is below).
-      Comparison_result slope_res = CGAL::compare (slope1_numer*slope2_denom,
-						   slope2_numer*slope1_denom);
+      if (&p1 == &p2)
+        return (true);
+
+      Alg_kernel   ker;
+      return (ker.compare_xy_2_object() (p1, p2) == EQUAL);
+    }
+  };
+
+  /*! Get an Equal_2 functor object. */
+  Equal_2 equal_2_object () const
+  {
+    return Equal_2();
+  }
+  //@}
+
+  /// \name Functor definitions for supporting intersections.
+  //@{
+
+  class Make_x_monotone_2
+  {
+    typedef Arr_conic_traits_2 <Rat_kernel_, Alg_kernel_, Nt_traits_>    Self;
+  public:
+
+    /*!
+     * Cut the given conic curve (or conic arc) into x-monotone subcurves 
+     * and insert them to the given output iterator.
+     * \param cv The curve.
+     * \param oi The output iterator, whose value-type is Object. The returned
+     *           objects are all wrappers X_monotone_curve_2 objects.
+     * \return The past-the-end iterator.
+     */
+    template<class OutputIterator>
+    OutputIterator operator() (const Curve_2& cv, OutputIterator oi)
+    {
+      // Increment the serial number of the curve cv, which will serve as its
+      // unique identifier.
+      unsigned int  index = Self::get_index();
+      Conic_id      conic_id (index);
       
-      if (slope_res != EQUAL)
-	return (slope_res);
+      // Find the points of vertical tangency to cv and act accordingly.
+      typename Curve_2::Point_2  vtan_ps[2];
+      int                        n_vtan_ps;
 
-      // Use the second order derivative.
-      curve1.derive_by_x_at (p_int, 2, slope1_numer, slope1_denom);
-      curve2.derive_by_x_at (p_int, 2, slope2_numer, slope2_denom);
+      n_vtan_ps = cv.vertical_tangency_points (vtan_ps);
 
-      slope_res = CGAL::compare (slope1_numer*slope2_denom, 
-				 slope2_numer*slope1_denom);
+      if (n_vtan_ps == 0)
+      {    
+        // In case the given curve is already x-monotone:
+        *oi = make_object (X_monotone_curve_2 (cv, conic_id));
+        ++oi;
+        return (oi);
+      }
 
-      return (slope_res);
-    }
-    else if (!is_vertical_slope2)
-    {
-      // The first curve has a vertical slope at p_int: check whether it is
-      // facing upwards or downwards and decide accordingly.
-      Comparison_result fac1 = curve1.facing();
-
-      CGAL_assertion(fac1 != EQUAL);
-      return (fac1);
-    }
-    else if (!is_vertical_slope1)
-    {
-      // The second curve has a vertical slope at p_int: check whether it is
-      // facing upwards or downwards and decide accordingly.
-      Comparison_result fac2 = curve2.facing();
-
-      CGAL_assertion(fac2 != EQUAL);
-      return ((fac2 == LARGER) ? SMALLER : LARGER);
-    }
-    else
-    {
-      // The two curves have vertical slopes at p_int: 
-      // First check whether one is facing up and one down. In this case the
-      // comparison result is trivial.
-      Comparison_result fac1 = curve1.facing();
-      Comparison_result fac2 = curve2.facing();
-
-      if (fac1 == LARGER && fac2 == SMALLER)
-	return (LARGER);
-      else if (fac1 == SMALLER && fac2 == LARGER)
-	return (SMALLER);
-
-      // Compute the second order derivative by y and act according to it.
-      curve1.derive_by_y_at (p_int, 2, slope1_numer, slope1_denom);
-      curve2.derive_by_y_at (p_int, 2, slope2_numer, slope2_denom);
-
-      Comparison_result slope_res = CGAL::compare (slope1_numer*slope2_denom, 
-						   slope2_numer*slope1_denom);
-
-      CGAL_assertion(slope_res != EQUAL);
-
-      if (fac1 == LARGER && fac2 == LARGER)
+      // Split the conic arc into x-monotone sub-curves. 
+      if (cv.is_full_conic())
       {
-	// Both are facing up.
-	return ((slope_res == LARGER) ? SMALLER : LARGER);
+        // Make sure we have two vertical tangency points.
+        CGAL_assertion(n_vtan_ps == 2);
+
+        // In case the curve is a full conic, split it into two x-monotone
+        // arcs, one going from ps[0] to ps[1], and the other from ps[1] to
+        // ps[0].
+        *oi = make_object (X_monotone_curve_2 (cv, vtan_ps[0], vtan_ps[1], 
+                                               conic_id));
+        ++oi;
+        *oi = make_object (X_monotone_curve_2 (cv, vtan_ps[1], vtan_ps[0], 
+                                               conic_id));
+        ++oi;
       }
       else
       {
-	// Both are facing down.
-	return (slope_res);
-      }
-    }
+        if (n_vtan_ps == 1)
+        {
+          // Split the arc into two x-monotone sub-curves: one going from the
+          // arc source to ps[0], and the other from ps[0] to the target.
+          *oi = make_object (X_monotone_curve_2 (cv, cv.source(), vtan_ps[0], 
+                                                 conic_id));
+          ++oi;
+          *oi = make_object (X_monotone_curve_2 (cv, vtan_ps[0], cv.target(), 
+                                                 conic_id));
+          ++oi;
+        }
+        else
+        {
+          CGAL_assertion (n_vtan_ps == 2);
 
-    // We should never reach here:
-    CGAL_assertion(false);
-    return (EQUAL);
+          // Identify the first point we encounter when going from cv's source
+          // to its target, and the second point we encounter. Note that the
+          // two endpoints must both be below the line connecting the two
+          // tangnecy points (or both lies above it).
+          int                   ind_first = 0;
+          int                   ind_second = 1;
+          Alg_kernel_           ker;
+          typename Alg_kernel_::Line_2  line =
+            ker.construct_line_2_object() (vtan_ps[0], vtan_ps[1]);
+          const Comparison_result       start_pos =
+            ker.compare_y_at_x_2_object() (cv.source(), line);
+          const Comparison_result       order_vpts =
+            ker.compare_x_2_object() (vtan_ps[0], vtan_ps[1]);
+
+          CGAL_assertion (start_pos != EQUAL &&
+                          ker.compare_y_at_x_2_object() (cv.target(),
+                                                         line) == start_pos);
+          CGAL_assertion (order_vpts != EQUAL);
+
+          if ((cv.orientation() == COUNTERCLOCKWISE &&
+               start_pos == order_vpts) ||
+              (cv.orientation() == CLOCKWISE &&
+               start_pos != order_vpts))
+          {
+            ind_first = 1;
+            ind_second = 0;
+          }
+
+          // Split the arc into three x-monotone sub-curves.
+          *oi = make_object (X_monotone_curve_2 (cv,
+                                                 cv.source(), 
+                                                 vtan_ps[ind_first], 
+                                                 conic_id));
+          ++oi;
+          
+          *oi = make_object (X_monotone_curve_2 (cv,
+                                                 vtan_ps[ind_first], 
+                                                 vtan_ps[ind_second], 
+                                                 conic_id));
+          ++oi;
+          
+          *oi = make_object (X_monotone_curve_2 (cv,
+                                                 vtan_ps[ind_second],
+                                                 cv.target(),
+                                                 conic_id));
+          ++oi;
+        }
+      }
+
+      return (oi);
+    }
+  };
+
+  /*! Get a Make_x_monotone_2 functor object. */
+  Make_x_monotone_2 make_x_monotone_2_object ()
+  {
+    return Make_x_monotone_2();
   }
 
+  class Split_2
+  {
+  public:
+    /*!
+     * Split a given x-monotone curve at a given point into two sub-curves.
+     * \param cv The curve to split
+     * \param p The split point.
+     * \param c1 Output: The left resulting subcurve (p is its right endpoint).
+     * \param c2 Output: The right resulting subcurve (p is its left endpoint).
+     * \pre p lies on cv but is not one of its end-points.
+     */
+    void operator() (const X_monotone_curve_2& cv, const Point_2 & p,
+                     X_monotone_curve_2& c1, X_monotone_curve_2& c2) const
+    {
+      cv.split (p, c1, c2);
+      return;
+    }
+  };
+
+  /*! Get a Split_2 functor object. */
+  Split_2 split_2_object () const
+  {
+    return Split_2();
+  }
+
+  class Intersect_2
+  {
+  private:
+
+    Intersection_map&  _inter_map;       // The map of intersection points.
+
+  public:
+
+    /*! Constructor. */
+    Intersect_2 (Intersection_map& map) :
+      _inter_map (map)
+    {}
+
+    /*!
+     * Find the intersections of the two given curves and insert them to the
+     * given output iterator. As two segments may itersect only once, only a
+     * single will be contained in the iterator.
+     * \param cv1 The first curve.
+     * \param cv2 The second curve.
+     * \param oi The output iterator.
+     * \return The past-the-end iterator.
+     */
+    template<class OutputIterator>
+    OutputIterator operator() (const X_monotone_curve_2& cv1,
+                               const X_monotone_curve_2& cv2,
+                               OutputIterator oi)
+    {
+      return (cv1.intersect (cv2, _inter_map, oi));
+    }
+  };
+
+  /*! Get an Intersect_2 functor object. */
+  Intersect_2 intersect_2_object ()
+  {
+    return (Intersect_2 (inter_map));
+  }
+
+  class Are_mergeable_2
+  {
+  public:
+    /*!
+     * Check whether it is possible to merge two given x-monotone curves.
+     * \param cv1 The first curve.
+     * \param cv2 The second curve.
+     * \return (true) if the two curves are mergeable - if they are supported
+     *         by the same line and share a common endpoint; (false) otherwise.
+     */
+    bool operator() (const X_monotone_curve_2& cv1,
+                     const X_monotone_curve_2& cv2) const
+    {
+      return (cv1.can_merge_with (cv2));
+    }
+  };
+
+  /*! Get an Are_mergeable_2 functor object. */
+  Are_mergeable_2 are_mergeable_2_object () const
+  {
+    return Are_mergeable_2();
+  }
+
+  class Merge_2
+  {
+  public:
+    /*!
+     * Merge two given x-monotone curves into a single curve (segment).
+     * \param cv1 The first curve.
+     * \param cv2 The second curve.
+     * \param c Output: The merged curve.
+     * \pre The two curves are mergeable, that is they are supported by the
+     *      same conic curve and share a common endpoint.
+     */
+    void operator() (const X_monotone_curve_2& cv1,
+                     const X_monotone_curve_2& cv2,
+                     X_monotone_curve_2& c) const
+    {
+      c = cv1;
+      c.merge (cv2);
+
+      return;
+    }
+  };
+
+  /*! Get a Merge_2 functor object. */
+  Merge_2 merge_2_object () const
+  {
+    return Merge_2();
+  }
+
+  //@}
+
+  /// \name Functor definitions for the landmarks point-location strategy.
+  //@{
+  typedef double                          Approximate_number_type;
+
+  class Approximate_2
+  {
+  public:
+
+    /*!
+     * Return an approximation of a point coordinate.
+     * \param p The exact point.
+     * \param i The coordinate index (either 0 or 1).
+     * \pre i is either 0 or 1.
+     * \return An approximation of p's x-coordinate (if i == 0), or an 
+     *         approximation of p's y-coordinate (if i == 1).
+     */
+    Approximate_number_type operator() (const Point_2& p,
+                                        int i) const
+    {
+      CGAL_precondition (i == 0 || i == 1);
+
+      if (i == 0)
+	return (CGAL::to_double(p.x()));
+      else
+	return (CGAL::to_double(p.y()));
+    }
+  };
+
+  /*! Get an Approximate_2 functor object. */
+  Approximate_2 approximate_2_object () const
+  {
+    return Approximate_2();
+  }
+
+  class Construct_x_monotone_curve_2
+  {
+  public:
+
+    /*!
+     * Return an x-monotone curve connecting the two given endpoints.
+     * \param p The first point.
+     * \param q The second point.
+     * \pre p and q must not be the same.
+     * \return A segment connecting p and q.
+     */
+    X_monotone_curve_2 operator() (const Point_2& p,
+                                   const Point_2& q) const
+    {
+      return (X_monotone_curve_2 (p, q));
+    }
+  };
+
+  /*! Get a Construct_x_monotone_curve_2 functor object. */
+  Construct_x_monotone_curve_2 construct_x_monotone_curve_2_object () const
+  {
+    return Construct_x_monotone_curve_2();
+  }
+  //@}
+
+  /// \name Functor definitions for the Boolean set-operation traits.
+  //@{
+ 
+  class Compare_endpoints_xy_2
+  {
+  public:
+
+    /*!
+     * Compare the endpoints of an $x$-monotone curve lexicographically.
+     * (assuming the curve has a designated source and target points).
+     * \param cv The curve.
+     * \return SMALLER if the curve is directed right;
+     *         LARGER if the curve is directed left.
+     */
+    Comparison_result operator() (const X_monotone_curve_2& cv)
+    {
+      if (cv.is_directed_right())
+        return (SMALLER);
+      else
+	return (LARGER);
+    }
+  };
+
+  /*! Get a Compare_endpoints_xy_2 functor object. */
+  Compare_endpoints_xy_2 compare_endpoints_xy_2_object() const
+  {
+    return Compare_endpoints_xy_2();
+  }
+
+  class Construct_opposite_2
+  {
+  public:
+
+    /*!
+     * Construct an opposite x-monotone (with swapped source and target).
+     * \param cv The curve.
+     * \return The opposite curve.
+     */
+    X_monotone_curve_2 operator() (const X_monotone_curve_2& cv)
+    {
+      return (cv.flip());
+    }
+  };
+
+  /*! Get a Construct_opposite_2 functor object. */
+  Construct_opposite_2 construct_opposite_2_object() const
+  {
+    return Construct_opposite_2();
+  }
+  //@}
 };
 
 CGAL_END_NAMESPACE

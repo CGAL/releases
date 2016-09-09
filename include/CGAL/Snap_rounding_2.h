@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Snap_rounding_2/include/CGAL/Snap_rounding_2.h,v $
-// $Revision: 1.110 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Snap_rounding_2/include/CGAL/Snap_rounding_2.h $
+// $Id: Snap_rounding_2.h 28489 2006-02-14 10:08:15Z lsaboret $
+// 
 //
 // author(s)     : Eli Packer <elip@post.tau.ac.il>
 #ifndef CGAL_SNAP_ROUNDING_2_H
@@ -24,7 +24,7 @@
 #include <CGAL/enum.h>
 #include <CGAL/predicates_on_points_2.h>
 #include <CGAL/intersection_2.h>
-#include <CGAL/Sweep_line_2.h>
+#include <CGAL/Sweep_line_2_algorithms.h>
 #include <list>
 #include <set>
 #include <CGAL/Snap_rounding_kd_2.h>
@@ -372,22 +372,21 @@ bool Hot_pixel<Traits_>::intersect_right(const Segment_2 & seg,
     Comparison_result c4 = compare_y(trg, p_up);
 
     if (c1 == EQUAL)
-      return(seg_dir == SEG_UP_RIGHT && c3 != EQUAL ||
-             seg_dir == SEG_DOWN_LEFT && c4 != EQUAL);
+      return (seg_dir == SEG_UP_RIGHT && c3 != EQUAL ||
+              seg_dir == SEG_DOWN_LEFT && c4 != EQUAL);
     else if (c2 == EQUAL)
-      return(false);// was checked
-    else {
-      Compare_x_2 compare_x = m_gt.compare_x_2_object();
-      Comparison_result c_target = compare_x(p_right, trg);
-      Comparison_result c_source = compare_x(p_right, src);
+      return false;// was checked
+
+    Compare_x_2 compare_x = m_gt.compare_x_2_object();
+    Comparison_result c_target = compare_x(p_right, trg);
+    Comparison_result c_source = compare_x(p_right, src);
       
-      return((seg_dir == SEG_LEFT || seg_dir == SEG_DOWN_LEFT ||
-              seg_dir == SEG_UP_LEFT) && c_target != EQUAL ||
-             (seg_dir == SEG_RIGHT || seg_dir == SEG_DOWN_RIGHT ||
-              seg_dir == SEG_UP_RIGHT) && c_source != EQUAL);
-    }
-  } else
-    return(false);
+    return ((seg_dir == SEG_LEFT || seg_dir == SEG_DOWN_LEFT ||
+             seg_dir == SEG_UP_LEFT) && c_target != EQUAL ||
+            (seg_dir == SEG_RIGHT || seg_dir == SEG_DOWN_RIGHT ||
+             seg_dir == SEG_UP_RIGHT) && c_source != EQUAL);
+  }
+  return false;
 }
 
 /*! */
@@ -436,7 +435,8 @@ bool Hot_pixel<Traits_>::intersect_top(const Segment_2 & seg,
     
   result = intersection(seg, *top_seg);
 
-  if (assign(p,result)) {
+  if (assign(p,result)) 
+  {
     Compare_x_2 compare_x = m_gt.compare_x_2_object();
     Compare_y_2 compare_y = m_gt.compare_y_2_object();
     Construct_vertex_2 construct_vertex = m_gt.construct_vertex_2_object();
@@ -454,8 +454,8 @@ bool Hot_pixel<Traits_>::intersect_top(const Segment_2 & seg,
               seg_dir == SEG_DOWN_RIGHT) && c3 != EQUAL ||
              (seg_dir == SEG_UP || seg_dir == SEG_UP_LEFT ||
               seg_dir == SEG_UP_RIGHT) && c4 != EQUAL);
-  } else
-    return(false);
+  } 
+  return(false);
 }
 
 /*! */
@@ -549,9 +549,8 @@ find_hot_pixels_and_create_kd_trees(NT pixel_size,
   // get intersection points (with endpoints)
   Point_list mypointlist;
 
-  Sweep_line_2<Segment_iter, Traits> sl;
-  sl.get_intersection_points(segments.begin(), segments.end(),
-                             std::back_inserter(mypointlist));
+  CGAL::get_intersection_points(segments.begin(), segments.end(),
+                             std::back_inserter(mypointlist), true, m_gt);
 
   for (Point_const_iter v_iter = mypointlist.begin();
        v_iter != mypointlist.end(); ++v_iter)
@@ -740,7 +739,7 @@ template<class Traits, class InputIterator, class OutputContainer>
 void snap_rounding_2(InputIterator begin,
                      InputIterator end,
                      OutputContainer & output_container,
-                     typename Traits::FT pixel_size,
+                     typename Traits::NT pixel_size,
                      bool do_isr = true,
                      bool int_output = true,
                      unsigned int number_of_kd_trees = 1)

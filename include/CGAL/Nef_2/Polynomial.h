@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Polynomial/include/CGAL/Nef_2/Polynomial.h,v $
-// $Revision: 1.6.4.1 $ $Date: 2004/12/08 20:13:04 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polynomial/include/CGAL/Nef_2/Polynomial.h $
+// $Id: Polynomial.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -33,8 +33,8 @@
 #include <CGAL/Number_type_traits.h>
 #include <CGAL/IO/io.h>
 #include <cstddef>
-#undef _DEBUG
-#define _DEBUG 3
+#undef CGAL_NEF_DEBUG
+#define CGAL_NEF_DEBUG 3
 #include <CGAL/Nef_2/debug.h>
 #include <vector>
 

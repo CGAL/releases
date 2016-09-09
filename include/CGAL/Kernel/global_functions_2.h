@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Kernel/global_functions_2.h,v $
-// $Revision: 1.20 $ $Date: 2004/09/14 13:59:10 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/global_functions_2.h $
+// $Id: global_functions_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion
  
@@ -34,6 +34,20 @@
 #include <CGAL/Kernel/mpl.h>
 
 CGAL_BEGIN_NAMESPACE
+
+template < class K >
+bool
+operator==(const Point_2<K> &p, const Origin& o)
+{
+  return p == Point_2<K>(o);
+}
+
+template < class K >
+bool
+operator!=(const Point_2<K> &p, const Origin& o)
+{
+  return p != Point_2<K>(o);
+}
 
 template < class K >
 inline
@@ -97,6 +111,14 @@ centroid(const Point_2<K> &p,
          const Point_2<K> &r)
 {
   return CGALi::centroid(p, q, r, K());
+}
+
+template < class K >
+inline
+typename K::Point_2
+centroid(const Triangle_2<K> &t)
+{
+  return CGALi::centroid(t, K());
 }
 
 template < class K >
@@ -656,6 +678,18 @@ operator>=(const Point_2<K>& p, const Point_2<K>& q)
 
 template < class K >
 inline
+bool
+operator==(const Vector_2<K>& v, const Vector_2<K>& w)
+{ return K().equal_2_object()(v, w); }
+
+template < class K >
+inline
+bool
+operator!=(const Vector_2<K>& v, const Vector_2<K>& w)
+{ return ! (v == w); }
+
+template < class K >
+inline
 typename K::Vector_2
 operator*(const typename CGAL_WRAP(K)::FT &c, const Vector_2<K> &w)
 {
@@ -762,6 +796,14 @@ Orientation
 orientation(const Point_2<K> &p, const Point_2<K> &q, const Point_2<K> &r)
 {
   return CGALi::orientation(p, q, r, K());
+}
+
+template <typename K>
+inline
+Orientation
+orientation(const Vector_2<K> &u, const Vector_2<K> &v)
+{
+  return CGALi::orientation(u, v, K());
 }
 
 // parallel() functions are in global_functions.h

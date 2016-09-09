@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/kdtree/include/CGAL/kdtree_d.h,v $
-// $Revision: 1.6 $ $Date: 2004/06/24 17:08:25 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/kdtree/include/CGAL/kdtree_d.h $
+// $Id: kdtree_d.h 30350 2006-04-17 10:57:35Z spion $
+// 
 //
 // Author(s)     : Sariel Har-Peled (sariel@math.tau.ac.il)
 //                 Eyal Flato (flato@math.tau.ac.il)
@@ -21,6 +21,8 @@
 #ifndef  CGAL_KDTREE_D_H
 #define  CGAL_KDTREE_D_H
 
+#include <cstdlib>
+#include <cassert>
 #include <cstring>
 #include <list>
 using std::list; // to avoid compiler crash on MSVC++
@@ -183,7 +185,7 @@ public:
             assert( _dim > 0 );
             dim = _dim;
 
-            p_arr = (coordinate_type *)malloc( sizeof( coordinate_type ) 
+            p_arr = (coordinate_type *)std::malloc( sizeof( coordinate_type ) 
                                                * dim );
             //printf( "p_arr(new): %p\n", (void *)p_arr );
             assert( p_arr != NULL );
@@ -252,7 +254,7 @@ public:
         {
             if  ( p_arr != NULL ) {
                 //printf( "a: %p\n", p_arr );
-                free( p_arr );
+                std::free( p_arr );
                 //printf( "_a\n" );
                 p_arr = NULL;
             }
@@ -1058,12 +1060,4 @@ public:
 
 CGAL_END_NAMESPACE
 
-
-#else   /* CGAL_KDTREE_D_H */
-#error  Header file kdtree_d.h included twice
 #endif  /* CGAL_KDTREE_D_H */
-
-/*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
- *     
- * kdtree_d.h - End of File
-\*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*/

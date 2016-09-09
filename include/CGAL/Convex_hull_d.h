@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Convex_hull_d/include/CGAL/Convex_hull_d.h,v $
-// $Revision: 1.5 $ $Date: 2004/09/25 09:43:33 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_d/include/CGAL/Convex_hull_d.h $
+// $Id: Convex_hull_d.h 29999 2006-04-05 15:26:02Z afabri $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 //---------------------------------------------------------------------
@@ -71,7 +71,7 @@ Let |j = C.index_of_vertex_in_opposite_facet(f,i)|. Then
 #include <CGAL/basic.h>
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/Regular_complex_d.h>
-
+#include <CGAL/Handle_for.h>
 #include <list>
 #include <vector>
 

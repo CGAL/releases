@@ -1,3 +1,22 @@
+// Copyright (c) 2001  Tel-Aviv University (Israel).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Snap_rounding_2/demo/Snap_rounding_2/segment_input_layer_with_snapping.h $
+// $Id: segment_input_layer_with_snapping.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
+//
+// Author(s)     : Eli Packer <elip@post.tau.ac.il>
+
 #include "cgal_types.h"
 #include <CGAL/IO/Qt_widget.h>
 #include <CGAL/IO/Qt_widget_layer.h>
@@ -42,7 +61,7 @@ private:
   void mousePressEvent(QMouseEvent *e)
   {
     CGAL::Qt_widget_get_segment<Rep>::mousePressEvent(e);
-    if(e->button() == Qt::RightButton && is_pure(e->state()))
+    if(e->button() == Qt::RightButton && this->is_pure(e->state()))
     {
       if(seg_list->empty()) {
         QMessageBox::warning( widget, "There are no segments in the list!",

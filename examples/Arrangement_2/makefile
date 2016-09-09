@@ -1,4 +1,4 @@
-# Created by the script create_makefile
+# Created by the script cgal_create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -34,73 +34,178 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                example1$(EXE_EXT) \
-                example10$(EXE_EXT) \
-                example11$(EXE_EXT) \
-                example12$(EXE_EXT) \
-                example13$(EXE_EXT) \
-                example2$(EXE_EXT) \
-                example3$(EXE_EXT) \
-                example4$(EXE_EXT) \
-                example5$(EXE_EXT) \
-                example6$(EXE_EXT) \
-                example7$(EXE_EXT) \
-                example8$(EXE_EXT) \
-                example9$(EXE_EXT) 
+                ex_aggregated_insertion$(EXE_EXT) \
+                ex_batched_point_location$(EXE_EXT) \
+                ex_bgl_dual_adapter$(EXE_EXT) \
+                ex_bgl_primal_adapter$(EXE_EXT) \
+                ex_circles$(EXE_EXT) \
+                ex_circular_arcs$(EXE_EXT) \
+                ex_conic_multiplicities$(EXE_EXT) \
+                ex_conics$(EXE_EXT) \
+                ex_consolidated_curve_data$(EXE_EXT) \
+                ex_curve_history$(EXE_EXT) \
+                ex_dcel_extension$(EXE_EXT) \
+                ex_dcel_extension_io$(EXE_EXT) \
+                ex_edge_insertion$(EXE_EXT) \
+                ex_edge_manipulation$(EXE_EXT) \
+                ex_edge_manipulation_curve_history$(EXE_EXT) \
+                ex_face_extension$(EXE_EXT) \
+                ex_face_extension_overlay$(EXE_EXT) \
+                ex_generic_curve_data$(EXE_EXT) \
+                ex_global_insertion$(EXE_EXT) \
+                ex_global_removal$(EXE_EXT) \
+                ex_incremental_insertion$(EXE_EXT) \
+                ex_io$(EXE_EXT) \
+                ex_io_curve_history$(EXE_EXT) \
+                ex_isolated_vertices$(EXE_EXT) \
+                ex_observer$(EXE_EXT) \
+                ex_overlay$(EXE_EXT) \
+                ex_point_location$(EXE_EXT) \
+                ex_polylines$(EXE_EXT) \
+                ex_predefined_kernel$(EXE_EXT) \
+                ex_predefined_kernel_non_intersecting$(EXE_EXT) \
+                ex_rational_functions$(EXE_EXT) \
+                ex_special_edge_insertion$(EXE_EXT) \
+                ex_sweep_line$(EXE_EXT) \
+                ex_vertical_ray_shooting$(EXE_EXT) 
 
-example1$(EXE_EXT): example1$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example1 example1$(OBJ_EXT) $(LDFLAGS)
+ex_aggregated_insertion$(EXE_EXT): ex_aggregated_insertion$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_aggregated_insertion ex_aggregated_insertion$(OBJ_EXT) $(LDFLAGS)
 
-example10$(EXE_EXT): example10$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example10 example10$(OBJ_EXT) $(LDFLAGS)
+ex_batched_point_location$(EXE_EXT): ex_batched_point_location$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_batched_point_location ex_batched_point_location$(OBJ_EXT) $(LDFLAGS)
 
-example11$(EXE_EXT): example11$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example11 example11$(OBJ_EXT) $(LDFLAGS)
+ex_bgl_dual_adapter$(EXE_EXT): ex_bgl_dual_adapter$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_bgl_dual_adapter ex_bgl_dual_adapter$(OBJ_EXT) $(LDFLAGS)
 
-example12$(EXE_EXT): example12$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example12 example12$(OBJ_EXT) $(LDFLAGS)
+ex_bgl_primal_adapter$(EXE_EXT): ex_bgl_primal_adapter$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_bgl_primal_adapter ex_bgl_primal_adapter$(OBJ_EXT) $(LDFLAGS)
 
-example13$(EXE_EXT): example13$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example13 example13$(OBJ_EXT) $(LDFLAGS)
+ex_circles$(EXE_EXT): ex_circles$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_circles ex_circles$(OBJ_EXT) $(LDFLAGS)
 
-example2$(EXE_EXT): example2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example2 example2$(OBJ_EXT) $(LDFLAGS)
+ex_circular_arcs$(EXE_EXT): ex_circular_arcs$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_circular_arcs ex_circular_arcs$(OBJ_EXT) $(LDFLAGS)
 
-example3$(EXE_EXT): example3$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example3 example3$(OBJ_EXT) $(LDFLAGS)
+ex_conic_multiplicities$(EXE_EXT): ex_conic_multiplicities$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_conic_multiplicities ex_conic_multiplicities$(OBJ_EXT) $(LDFLAGS)
 
-example4$(EXE_EXT): example4$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example4 example4$(OBJ_EXT) $(LDFLAGS)
+ex_conics$(EXE_EXT): ex_conics$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_conics ex_conics$(OBJ_EXT) $(LDFLAGS)
 
-example5$(EXE_EXT): example5$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example5 example5$(OBJ_EXT) $(LDFLAGS)
+ex_consolidated_curve_data$(EXE_EXT): ex_consolidated_curve_data$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_consolidated_curve_data ex_consolidated_curve_data$(OBJ_EXT) $(LDFLAGS)
 
-example6$(EXE_EXT): example6$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example6 example6$(OBJ_EXT) $(LDFLAGS)
+ex_curve_history$(EXE_EXT): ex_curve_history$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_curve_history ex_curve_history$(OBJ_EXT) $(LDFLAGS)
 
-example7$(EXE_EXT): example7$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example7 example7$(OBJ_EXT) $(LDFLAGS)
+ex_dcel_extension$(EXE_EXT): ex_dcel_extension$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_dcel_extension ex_dcel_extension$(OBJ_EXT) $(LDFLAGS)
 
-example8$(EXE_EXT): example8$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example8 example8$(OBJ_EXT) $(LDFLAGS)
+ex_dcel_extension_io$(EXE_EXT): ex_dcel_extension_io$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_dcel_extension_io ex_dcel_extension_io$(OBJ_EXT) $(LDFLAGS)
 
-example9$(EXE_EXT): example9$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example9 example9$(OBJ_EXT) $(LDFLAGS)
+ex_edge_insertion$(EXE_EXT): ex_edge_insertion$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_edge_insertion ex_edge_insertion$(OBJ_EXT) $(LDFLAGS)
+
+ex_edge_manipulation$(EXE_EXT): ex_edge_manipulation$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_edge_manipulation ex_edge_manipulation$(OBJ_EXT) $(LDFLAGS)
+
+ex_edge_manipulation_curve_history$(EXE_EXT): ex_edge_manipulation_curve_history$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_edge_manipulation_curve_history ex_edge_manipulation_curve_history$(OBJ_EXT) $(LDFLAGS)
+
+ex_face_extension$(EXE_EXT): ex_face_extension$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_face_extension ex_face_extension$(OBJ_EXT) $(LDFLAGS)
+
+ex_face_extension_overlay$(EXE_EXT): ex_face_extension_overlay$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_face_extension_overlay ex_face_extension_overlay$(OBJ_EXT) $(LDFLAGS)
+
+ex_generic_curve_data$(EXE_EXT): ex_generic_curve_data$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_generic_curve_data ex_generic_curve_data$(OBJ_EXT) $(LDFLAGS)
+
+ex_global_insertion$(EXE_EXT): ex_global_insertion$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_global_insertion ex_global_insertion$(OBJ_EXT) $(LDFLAGS)
+
+ex_global_removal$(EXE_EXT): ex_global_removal$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_global_removal ex_global_removal$(OBJ_EXT) $(LDFLAGS)
+
+ex_incremental_insertion$(EXE_EXT): ex_incremental_insertion$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_incremental_insertion ex_incremental_insertion$(OBJ_EXT) $(LDFLAGS)
+
+ex_io$(EXE_EXT): ex_io$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_io ex_io$(OBJ_EXT) $(LDFLAGS)
+
+ex_io_curve_history$(EXE_EXT): ex_io_curve_history$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_io_curve_history ex_io_curve_history$(OBJ_EXT) $(LDFLAGS)
+
+ex_isolated_vertices$(EXE_EXT): ex_isolated_vertices$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_isolated_vertices ex_isolated_vertices$(OBJ_EXT) $(LDFLAGS)
+
+ex_observer$(EXE_EXT): ex_observer$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_observer ex_observer$(OBJ_EXT) $(LDFLAGS)
+
+ex_overlay$(EXE_EXT): ex_overlay$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_overlay ex_overlay$(OBJ_EXT) $(LDFLAGS)
+
+ex_point_location$(EXE_EXT): ex_point_location$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_point_location ex_point_location$(OBJ_EXT) $(LDFLAGS)
+
+ex_polylines$(EXE_EXT): ex_polylines$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_polylines ex_polylines$(OBJ_EXT) $(LDFLAGS)
+
+ex_predefined_kernel$(EXE_EXT): ex_predefined_kernel$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_predefined_kernel ex_predefined_kernel$(OBJ_EXT) $(LDFLAGS)
+
+ex_predefined_kernel_non_intersecting$(EXE_EXT): ex_predefined_kernel_non_intersecting$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_predefined_kernel_non_intersecting ex_predefined_kernel_non_intersecting$(OBJ_EXT) $(LDFLAGS)
+
+ex_rational_functions$(EXE_EXT): ex_rational_functions$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_rational_functions ex_rational_functions$(OBJ_EXT) $(LDFLAGS)
+
+ex_special_edge_insertion$(EXE_EXT): ex_special_edge_insertion$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_special_edge_insertion ex_special_edge_insertion$(OBJ_EXT) $(LDFLAGS)
+
+ex_sweep_line$(EXE_EXT): ex_sweep_line$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_sweep_line ex_sweep_line$(OBJ_EXT) $(LDFLAGS)
+
+ex_vertical_ray_shooting$(EXE_EXT): ex_vertical_ray_shooting$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_vertical_ray_shooting ex_vertical_ray_shooting$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   example1.clean \
-                   example10.clean \
-                   example11.clean \
-                   example12.clean \
-                   example13.clean \
-                   example2.clean \
-                   example3.clean \
-                   example4.clean \
-                   example5.clean \
-                   example6.clean \
-                   example7.clean \
-                   example8.clean \
-                   example9.clean 
+                   ex_aggregated_insertion.clean \
+                   ex_batched_point_location.clean \
+                   ex_bgl_dual_adapter.clean \
+                   ex_bgl_primal_adapter.clean \
+                   ex_circles.clean \
+                   ex_circular_arcs.clean \
+                   ex_conic_multiplicities.clean \
+                   ex_conics.clean \
+                   ex_consolidated_curve_data.clean \
+                   ex_curve_history.clean \
+                   ex_dcel_extension.clean \
+                   ex_dcel_extension_io.clean \
+                   ex_edge_insertion.clean \
+                   ex_edge_manipulation.clean \
+                   ex_edge_manipulation_curve_history.clean \
+                   ex_face_extension.clean \
+                   ex_face_extension_overlay.clean \
+                   ex_generic_curve_data.clean \
+                   ex_global_insertion.clean \
+                   ex_global_removal.clean \
+                   ex_incremental_insertion.clean \
+                   ex_io.clean \
+                   ex_io_curve_history.clean \
+                   ex_isolated_vertices.clean \
+                   ex_observer.clean \
+                   ex_overlay.clean \
+                   ex_point_location.clean \
+                   ex_polylines.clean \
+                   ex_predefined_kernel.clean \
+                   ex_predefined_kernel_non_intersecting.clean \
+                   ex_rational_functions.clean \
+                   ex_special_edge_insertion.clean \
+                   ex_sweep_line.clean \
+                   ex_vertical_ray_shooting.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

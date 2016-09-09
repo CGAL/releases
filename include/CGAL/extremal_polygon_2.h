@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/extremal_polygon_2.h,v $
-// $Revision: 1.58 $ $Date: 2003/09/29 08:41:46 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Matrix_search/include/CGAL/extremal_polygon_2.h $
+// $Id: extremal_polygon_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
@@ -36,7 +36,7 @@ CGAL_BEGIN_NAMESPACE
 //!!! This will eventually be integrated into function_objects.h
 template < class Array, class Index, class Element >
 struct Index_operator
-: public CGAL_STD::binary_function< Array, Index, Element >
+: public std::binary_function< Array, Index, Element >
 {
   typedef Arity_tag< 2 > Arity;
 

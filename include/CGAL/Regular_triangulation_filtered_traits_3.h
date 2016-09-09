@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Regular_triangulation_filtered_traits_3.h,v $
-// $Revision: 1.3 $ $Date: 2004/09/15 08:53:18 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/Regular_triangulation_filtered_traits_3.h $
+// $Id: Regular_triangulation_filtered_traits_3.h 29448 2006-03-13 10:19:25Z afabri $
+// 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
@@ -24,7 +24,7 @@
 #include <CGAL/Regular_triangulation_euclidean_traits_3.h>
 #include <CGAL/Filtered_predicate.h>
 
-CGAL_BEGIN_NAMESPACE 
+CGAL_BEGIN_NAMESPACE
 
 // The Weighted_converter is parametrized by a usual kernel converter,
 // and adds the conversions for the Weighted_point.
@@ -40,6 +40,11 @@ struct Weighted_converter_3
 
   typedef typename Regular_triangulation_euclidean_traits_base_3<Target_kernel>
                    ::Weighted_point_3  Target_wp;
+
+
+#ifndef CGAL_CFG_MATCHING_BUG_6
+  using Converter::operator();
+#endif
 
   Target_wp
   operator()(const Source_wp &wp) const
@@ -102,7 +107,7 @@ public:
   Compare_power_distance_3 compare_power_distance_3_object() const
   { return Compare_power_distance_3();}
 
-  In_smallest_orthogonal_sphere_3 
+  In_smallest_orthogonal_sphere_3
   in_smallest_orthogonal_sphere_3_object() const
   { return In_smallest_orthogonal_sphere_3(); }
 
@@ -110,7 +115,7 @@ public:
   side_of_bounded_orthogonal_sphere_3_object() const
   { return Side_of_bounded_orthogonal_sphere_3(); }
 
-  Does_simplex_intersect_dual_support_3 
+  Does_simplex_intersect_dual_support_3
   does_simplex_intersect_dual_support_3_object() const
   { return Does_simplex_intersect_dual_support_3(); }
 

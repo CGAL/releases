@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_io_parser.h,v $
-// $Revision: 1.10 $ $Date: 2004/09/28 16:26:39 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Nef_2/PM_io_parser.h $
+// $Id: PM_io_parser.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -106,12 +106,12 @@ PM_io_parser(std::ostream& os, const Plane_map& H)
 /*{\Mcreate creates an instance |\Mvar| of type |\Mname|
 to output |H| to |os|.}*/
 : Base(const_cast<Plane_map&>(H)), in(std::cin), out(os), 
-  VI(this->vertices_begin(),this->vertices_end(),'v'),
-  EI(this->halfedges_begin(),this->halfedges_end(),'e'),
-  FI(this->faces_begin(),this->faces_end(),'f'),
-  vn(this->number_of_vertices()), 
-  en(this->number_of_halfedges()), 
-  fn(this->number_of_faces())
+  VI(Base::vertices_begin(), Base::vertices_end(),'v'),
+  EI(Base::halfedges_begin(),Base::halfedges_end(),'e'),
+  FI(Base::faces_begin(),Base::faces_end(),'f'),
+  vn(Base::number_of_vertices()), 
+  en(Base::number_of_halfedges()), 
+  fn(Base::number_of_faces())
 { verbose = (out.iword(CGAL::IO::mode) != CGAL::IO::ASCII &&
              out.iword(CGAL::IO::mode) != CGAL::IO::BINARY);
 }
@@ -119,12 +119,12 @@ to output |H| to |os|.}*/
 
 PM_io_parser(std::ostream& os, const PMDEC& D)
 : Base(D), in(std::cin), out(os), 
-  VI(this->vertices_begin(),this->vertices_end(),'v'),
-  EI(this->halfedges_begin(),this->halfedges_end(),'e'),
-  FI(this->faces_begin(),this->faces_end(),'f'),
-  vn(this->number_of_vertices()), 
-  en(this->number_of_halfedges()), 
-  fn(this->number_of_faces())
+  VI(Base::vertices_begin(),Base::vertices_end(),'v'),
+  EI(Base::halfedges_begin(),Base::halfedges_end(),'e'),
+  FI(Base::faces_begin(),Base::faces_end(),'f'),
+  vn(Base::number_of_vertices()), 
+  en(Base::number_of_halfedges()), 
+  fn(Base::number_of_faces())
 { verbose = (out.iword(CGAL::IO::mode) != CGAL::IO::ASCII &&
              out.iword(CGAL::IO::mode) != CGAL::IO::BINARY);
 }

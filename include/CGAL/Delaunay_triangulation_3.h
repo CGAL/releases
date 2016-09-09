@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h,v $
-// $Revision: 1.170 $ $Date: 2004/08/25 13:59:43 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h $
+// $Id: Delaunay_triangulation_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -111,6 +111,10 @@ public:
   using Tr_Base::infinite_vertex;
   using Tr_Base::next_around_edge;
   using Tr_Base::vertex_triple_index;
+  using Tr_Base::mirror_vertex;
+  using Tr_Base::coplanar;
+  using Tr_Base::coplanar_orientation;
+  using Tr_Base::orientation;
 #endif
 
 protected:
@@ -392,15 +396,13 @@ public:
   template < class Stream> 		
   Stream& draw_dual(Stream & os)
     {
-      Finite_facets_iterator fit = finite_facets_begin();
-      for (; fit != finite_facets_end(); ++fit) {
+      for (Finite_facets_iterator fit = finite_facets_begin(),
+                                  end = finite_facets_end();
+           fit != end; ++fit) {
 	Object o = dual(*fit);
-	Point p;
-	Ray r;
-	Segment s;
-	if (CGAL::assign(p,o)) os << p;
-	if (CGAL::assign(s,o)) os << s;
-	if (CGAL::assign(r,o)) os << r; 
+	if (const Point *p   = object_cast<Point>(&o))   os << *p;
+	if (const Segment *s = object_cast<Segment>(&o)) os << *s;
+	if (const Ray *r     = object_cast<Ray>(&o))     os << *r; 
       }
       return os;
     }
@@ -1191,7 +1193,7 @@ side_of_circle(const Cell_handle& c, int i,
     Vertex_handle v1 = c->vertex( ccw(i3) ),
                   v2 = c->vertex( cw(i3) );
     CGAL_triangulation_assertion(coplanar_orientation(v1->point(), v2->point(),
-		                 (c->mirror_vertex(i3))->point()) == NEGATIVE);
+			         mirror_vertex(c, i3)->point()) == NEGATIVE);
     Orientation o = coplanar_orientation(v1->point(), v2->point(), p);
     if ( o != COLLINEAR )
 	return Bounded_side( o );
@@ -1520,7 +1522,7 @@ bool
 Delaunay_triangulation_3<Gt,Tds>::
 is_valid(Cell_handle c, bool verbose, int level) const
 {
-  if ( ! c->is_valid(dimension(),verbose,level) ) {
+  if ( ! Tr_Base::is_valid(c,verbose,level) ) {
     if (verbose) { 
       std::cerr << "combinatorically invalid cell" ;
       for (int i=0; i <= dimension(); i++ )

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/ch_graham_andrew.C,v $
-// $Revision: 1.10 $ $Date: 2004/03/14 09:17:20 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_2/include/CGAL/ch_graham_andrew.C $
+// $Id: ch_graham_andrew.C 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Stefan Schirra
 

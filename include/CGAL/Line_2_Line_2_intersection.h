@@ -1,4 +1,3 @@
-
 // Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -16,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Line_2_Line_2_intersection.h,v $
-// $Revision: 1.13 $ $Date: 2004/06/20 18:07:05 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Line_2_Line_2_intersection.h $
+// $Id: Line_2_Line_2_intersection.h 31166 2006-05-17 16:30:56Z spion $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -29,7 +28,7 @@
 #include <CGAL/config.h>
 #include <CGAL/Line_2.h>
 #include <CGAL/Point_2.h>
-#include <CGAL/utils.h>
+#include <CGAL/kernel_assertions.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/Object.h>
 
@@ -40,7 +39,7 @@ namespace CGALi {
 template <class K>
 class Line_2_Line_2_pair {
 public:
-    enum Intersection_results {NO, POINT, LINE};
+    enum Intersection_results {NO_INTERSECTION, POINT, LINE};
     Line_2_Line_2_pair() ;
     Line_2_Line_2_pair(typename K::Line_2 const *line1,
 		       typename K::Line_2 const *line2);
@@ -66,7 +65,7 @@ inline bool do_intersect(
 {
     typedef Line_2_Line_2_pair<K> pair_t;
     pair_t pair(&p1, &p2);
-    return pair.intersection_type() != pair_t::NO;
+    return pair.intersection_type() != pair_t::NO_INTERSECTION;
 }
 
 
@@ -80,7 +79,7 @@ intersection(const typename CGAL_WRAP(K)::Line_2 &line1,
     typedef Line_2_Line_2_pair<K> is_t;
     is_t linepair(&line1, &line2);
     switch (linepair.intersection_type()) {
-    case is_t::NO:
+    case is_t::NO_INTERSECTION:
     default:
         return Object();
     case is_t::POINT: {
@@ -178,23 +177,23 @@ Line_2_Line_2_pair<K>::intersection_type() const
             RT(0) == (_line1->b()*_line2->c() - _line2->b()*_line1->c()))
             _result = LINE;
         else
-            _result = NO;
+            _result = NO_INTERSECTION;
         return _result;
     }
     nom1 = (_line1->b()*_line2->c() - _line2->b()*_line1->c());
     if (!CGAL_NTS is_finite(nom1)) {
-        _result = NO;
+        _result = NO_INTERSECTION;
         return _result;
     }
     nom2 = (_line2->a()*_line1->c() - _line1->a()*_line2->c());
     if (!CGAL_NTS is_finite(nom2)) {
-        _result = NO;
+        _result = NO_INTERSECTION;
         return _result;
     }
     K dummyR;
     if (!construct_if_finite(_intersection_point,
                             nom1, nom2, denom, dummyR)){
-        _result = NO;
+        _result = NO_INTERSECTION;
         return _result;
     }
     _result = POINT;

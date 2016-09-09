@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.C,v $
-// $Revision: 1.32 $ $Date: 2004/09/03 17:26:07 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.C $
+// $Id: Apollonius_graph_2.C 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -61,7 +61,7 @@ is_valid(bool verbose, int level) const
        eit != all_edges_end(); ++eit) {
     Edge e = *eit;
     Face_handle f = e.first;
-    Vertex_handle v = f->mirror_vertex(e.second);
+    Vertex_handle v = tds().mirror_vertex(f, e.second);
     if ( f->vertex(e.second) == v ) { continue; }
     if ( !is_infinite(v) ) {
       result = result &&
@@ -70,7 +70,7 @@ is_valid(bool verbose, int level) const
     }
     Edge sym_e = sym_edge(e);
     f = sym_e.first;
-    v = f->mirror_vertex(sym_e.second);
+    v = tds().mirror_vertex(f, sym_e.second);
     if ( !is_infinite(v) ) {
       result = result &&
 	( incircle(f, v->site()) != NEGATIVE );
@@ -164,7 +164,7 @@ dual(const Face_handle& f) const
 
   int i_inf(-1);
   for (int i = 0; i < 3; i++) {
-    if ( is_infinite( f->vertex(0) ) ) {
+    if ( is_infinite( f->vertex(i) ) ) {
       i_inf = i;
       break;
     }
@@ -196,7 +196,7 @@ dual(const Edge e) const
     Site_2 p = (e.first)->vertex( ccw(e.second) )->site();
     Site_2 q = (e.first)->vertex(  cw(e.second) )->site();
     Site_2 r = (e.first)->vertex(     e.second  )->site();
-    Site_2 s = (e.first)->mirror_vertex(e.second)->site();
+    Site_2 s = tds().mirror_vertex(e.first, e.second)->site();
     return construct_Apollonius_bisector_segment_2_object()(p,q,r,s);
   }
 
@@ -220,7 +220,7 @@ dual(const Edge e) const
 
   CGAL_triangulation_assertion
     (  is_infinite( e.first->vertex(e.second) ) ||
-       is_infinite( e.first->mirror_vertex(e.second) )  );
+       is_infinite( tds().mirror_vertex(e.first, e.second) )  );
 
   Edge ee = e;
   if ( is_infinite( e.first->vertex(e.second) )  ) {
@@ -256,14 +256,14 @@ primal(const Edge e) const
       if (  is_infinite( e.first->vertex(cw(e.second)) )  ) {
 	Site_2 p = e.first->vertex( ccw(e.second) )->site();
 	Site_2 r = e.first->vertex( e.second )->site();
-	Site_2 s = e.first->mirror_vertex( e.second )->site();
+	Site_2 s = tds().mirror_vertex( e.first, e.second )->site();
 	ray = construct_Apollonius_primal_ray_2_object()(p,r,s);
       } else {
 	CGAL_triangulation_assertion
 	  (   is_infinite( e.first->vertex(ccw(e.second)) )   );
 	Site_2 q = e.first->vertex( cw(e.second) )->site();
 	Site_2 r = e.first->vertex( e.second )->site();
-	Site_2 s = e.first->mirror_vertex( e.second )->site();
+	Site_2 s = tds().mirror_vertex( e.first, e.second )->site();
 	ray = construct_Apollonius_primal_ray_2_object()(q,s,r);
       }
       return make_object(ray);
@@ -284,7 +284,7 @@ primal(const Edge e) const
     Site_2 p = (e.first)->vertex( ccw(e.second) )->site();
     Site_2 q = (e.first)->vertex(  cw(e.second) )->site();
     Site_2 r = (e.first)->vertex(     e.second  )->site();
-    Site_2 s = (e.first)->mirror_vertex(e.second)->site();
+    Site_2 s = tds().mirror_vertex(e.first, e.second)->site();
     return construct_Apollonius_primal_segment_2_object()(p,q,r,s);
   }
 
@@ -323,7 +323,7 @@ flip(Face_handle& f, int i)
   CGAL_triangulation_precondition (i == 0 || i == 1 || i == 2);
   CGAL_triangulation_precondition( dimension()==2 ); 
 
-  CGAL_triangulation_precondition( f->vertex(i) != f->mirror_vertex(i) );
+  CGAL_triangulation_precondition( f->vertex(i) != tds().mirror_vertex(f,i) );
 
   this->_tds.flip(f, i);
 
@@ -354,7 +354,7 @@ bool
 Apollonius_graph_2<Gt,Agds,LTag>::
 is_degree_2(const Vertex_handle& v) const
 {
-  Face_circulator fc = v->incident_faces();
+  Face_circulator fc = incident_faces(v);
   Face_circulator fc1 = fc;
   ++(++fc1);
   return ( fc == fc1 );
@@ -413,7 +413,7 @@ remove_degree_3(Vertex_handle v, Face_handle f) // af:was Face*
 remove_degree_3(Vertex_handle v, Face* f)
 #endif
 {
-  CGAL_triangulation_precondition( v->degree() == 3 );
+  CGAL_triangulation_precondition( degree(v) == 3 );
   this->_tds.remove_degree_3(v, f);
 }
 
@@ -614,7 +614,7 @@ insert(const Site_2& p, Vertex_handle vnear)
   // find the first conflict
 
   // first look for conflict with vertex
-  Face_circulator fc_start = vnearest->incident_faces();
+  Face_circulator fc_start = incident_faces(vnearest);
   Face_circulator fc = fc_start;
   Face_handle start_f;
   Sign s;
@@ -632,7 +632,7 @@ insert(const Site_2& p, Vertex_handle vnear)
   // we are not in conflict with an Apollonius vertex, so we have to
   // be in conflict with the interior of an Apollonius edge
   if ( s != NEGATIVE ) {
-    Edge_circulator ec_start = vnearest->incident_edges();
+    Edge_circulator ec_start = incident_edges(vnearest);
     Edge_circulator ec = ec_start;
 
     bool interior_in_conflict(false);
@@ -701,13 +701,12 @@ find_conflict_region_remove(const Vertex_handle& v,
   // find the first conflict
 
   // first look for conflict with vertex
-  Face_circulator fc_start = vnearest->incident_faces();
+  Face_circulator fc_start = incident_faces(vnearest);
   Face_circulator fc = fc_start;
   Face_handle start_f;
   Sign s;
   do {
     Face_handle f(fc);
-    //    int id = f->mirror_indexf->index(vnearest)
     s = incircle(f, p);
 
     if ( s == NEGATIVE ) {
@@ -722,7 +721,7 @@ find_conflict_region_remove(const Vertex_handle& v,
   // we are not in conflict with an Apollonius vertex, so we have to
   // be in conflict with the interior of an Apollonius edge
   if ( s != NEGATIVE ) {
-    Edge_circulator ec_start = vnearest->incident_edges();
+    Edge_circulator ec_start = incident_edges(vnearest);
     Edge_circulator ec = ec_start;
 
     bool interior_in_conflict(false);
@@ -749,7 +748,7 @@ find_conflict_region_remove(const Vertex_handle& v,
 template<class Gt, class Agds, class LTag>
 void
 Apollonius_graph_2<Gt,Agds,LTag>::
-initialize_conflict_region(const Face_handle& f, List& l)
+initialize_conflict_region(const Face_handle& f, List& l) const
 {
   l.clear();
   for (int i = 0; i < 3; i++) {
@@ -761,7 +760,7 @@ template<class Gt, class Agds, class LTag>
 bool
 Apollonius_graph_2<Gt,Agds,LTag>::
 check_edge_for_hidden_sites(const Face_handle& f, int i,
-			    const Site_2& p, Vertex_map& vm)
+			    const Site_2& p, Vertex_map& vm) const
 {
   bool found(false);
 
@@ -830,7 +829,7 @@ expand_conflict_region(const Face_handle& f, const Site_2& p,
     Edge e = sym_edge(f, i);
 
     CGAL_assertion( l.is_in_list(e) );
-    int j = f->mirror_index(i);
+    int j = tds().mirror_index(f, i);
     Edge e_before = sym_edge(n, ccw(j));
     Edge e_after = sym_edge(n, cw(j));
     if ( !l.is_in_list(e_before) ) {
@@ -1365,7 +1364,7 @@ finite_edge_interior(const Face_handle& f, int i,
   return finite_edge_interior( f->vertex( ccw(i) )->site(),
 			       f->vertex(  cw(i) )->site(),
 			       f->vertex(     i  )->site(),
-			       f->mirror_vertex(i)->site(), p, b);
+			       tds().mirror_vertex(f, i)->site(), p, b);
 }
 
 template<class Gt, class Agds, class LTag>
@@ -1421,16 +1420,16 @@ Apollonius_graph_2<Gt,Agds,LTag>::
 finite_edge_interior_degenerated(const Face_handle& f, int i,
 				 const Site_2& p, bool b) const
 {
-  if ( !is_infinite( f->mirror_vertex(i) ) ) {
+  if ( !is_infinite( tds().mirror_vertex(f, i) ) ) {
     CGAL_precondition( is_infinite(f->vertex(i)) );
 
     Face_handle g = f->neighbor(i);
-    int j = f->mirror_index(i);
+    int j = tds().mirror_index(f, i);
 
     return finite_edge_interior_degenerated(g, j, p, b);
   }
 
-  CGAL_precondition( is_infinite( f->mirror_vertex(i) ) );
+  CGAL_precondition( is_infinite( tds().mirror_vertex(f, i) ) );
 
   Site_2 p1 = f->vertex( ccw(i) )->site();
   Site_2 p2 = f->vertex(  cw(i) )->site();
@@ -1498,7 +1497,7 @@ infinite_edge_interior(const Face_handle& f, int i,
   if ( !is_infinite( f->vertex(ccw(i)) ) ) {
     CGAL_precondition( is_infinite( f->vertex(cw(i)) ) );
     Face_handle g = f->neighbor(i);
-    int j = f->mirror_index(i);
+    int j = tds().mirror_index(f, i);
 
     return infinite_edge_interior(g, j, p, b);
   }
@@ -1507,7 +1506,7 @@ infinite_edge_interior(const Face_handle& f, int i,
 
   Site_2 p2 = f->vertex(  cw(i) )->site();
   Site_2 p3 = f->vertex(     i  )->site();
-  Site_2 p4 = f->mirror_vertex(i)->site();
+  Site_2 p4 = tds().mirror_vertex(f, i)->site();
 
   return infinite_edge_interior(p2, p3, p4, p, b);
 }
@@ -1661,11 +1660,11 @@ Apollonius_graph_2<Gt,Agds,LTag>::
 remove_third(Vertex_handle v)
 {
   if ( is_degree_2(v) ) {
-    Face_handle fh(v->incident_faces());
+    Face_handle fh( incident_faces(v) );
     int i = fh->index(v);
     flip(fh, i);
-  } else if ( v->degree() == 4 ) {
-    Edge_circulator ec = v->incident_edges();
+  } else if ( degree(v) == 4 ) {
+    Edge_circulator ec = incident_edges(v);
     for (int i = 0; i < 4; i++) {
       Edge e = *ec;
       Edge sym = sym_edge(e);
@@ -1694,7 +1693,7 @@ remove(Vertex_handle v)
   Vertex_handle vnear;
   if ( /*StoreHidden*/ true ) {
     if ( number_of_vertices() > 10 ) {
-      Vertex_circulator vc_start = v->incident_vertices();
+      Vertex_circulator vc_start = incident_vertices(v);
       Vertex_circulator vc = vc_start;
       do {
 	if ( !is_infinite(vc) ) {
@@ -1721,10 +1720,10 @@ remove(Vertex_handle v)
   } else if ( n == 3 ) {
     remove_third(v);
   } else {
-    int degree = v->degree();
-    if ( degree == 2 ) {
+    int deg = degree(v);
+    if ( deg == 2 ) {
       remove_degree_2(v);
-    } else if ( degree == 3 ) {
+    } else if ( deg == 3 ) {
       remove_degree_3(v);
     } else {
       remove_degree_d_vertex(v);
@@ -1745,7 +1744,7 @@ Apollonius_graph_2<Gt,Agds,LTag>::
 remove_degree_d_vertex(Vertex_handle v)
 {
   minimize_degree(v);
-  int deg = v->degree();
+  int deg = degree(v);
   if ( deg == 3 ) {
     remove_degree_3(v);
     return;
@@ -1759,8 +1758,8 @@ remove_degree_d_vertex(Vertex_handle v)
 
   std::map<Vertex_handle,Vertex_handle> vmap;
 
-  Vertex_circulator vc_start = v->incident_vertices();
-  Vertex_circulator vc = v->incident_vertices();
+  Vertex_circulator vc_start = incident_vertices(v);
+  Vertex_circulator vc = incident_vertices(v);
   Vertex_handle vh_large, vh_small;
   do {
     vh_large = Vertex_handle(vc);
@@ -1778,7 +1777,7 @@ remove_degree_d_vertex(Vertex_handle v)
 
   if ( ag_small.number_of_vertices() == 2 ) {
     CGAL_assertion( deg == 4 );
-    Edge_circulator ec = v->incident_edges();
+    Edge_circulator ec = incident_edges(v);
     for (int i = 0; i < 4; i++) {
       Edge e = *ec;
       Edge sym = sym_edge(e);
@@ -1816,14 +1815,14 @@ remove_degree_d_vertex(Vertex_handle v)
     Vh_triple *vhq = flipped_edges[num_fe - i - 1];
 
     bool found(false);
-    ec = v->incident_edges();
+    ec = incident_edges(v);
     Edge_circulator ec_start = ec;
     do {
       Edge e = *ec;
       if ( (e.first->vertex(  cw(e.second) ) == vmap[(*vhq)[1]] &&
 	    e.first->vertex(     e.second  ) == vmap[(*vhq)[2]]) ||
 	   (e.first->vertex( ccw(e.second) ) == vmap[(*vhq)[1]] &&
-	    e.first->mirror_vertex(e.second) == vmap[(*vhq)[2]]) ) {
+	    tds().mirror_vertex(e.first,e.second) == vmap[(*vhq)[2]]) ) {
 	flip(e);
 	found = true;
 	break;
@@ -1833,7 +1832,7 @@ remove_degree_d_vertex(Vertex_handle v)
 
     CGAL_assertion( found );
   }
-  CGAL_triangulation_precondition( v->degree() == 3 );
+  CGAL_triangulation_precondition( degree(v) == 3 );
 
 #ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
   this->_tds.remove_degree_3( v, Face_handle() );
@@ -1852,10 +1851,10 @@ void
 Apollonius_graph_2<Gt,Agds,LTag>::
 minimize_degree(Vertex_handle v)
 {
-  CGAL_precondition ( v->degree() > 3 );
+  CGAL_precondition ( degree(v) > 3 );
 
-  Face_circulator fc_start = v->incident_faces();
-  Face_circulator fc = v->incident_faces();
+  Face_circulator fc_start = incident_faces(v);
+  Face_circulator fc = incident_faces(v);
   bool found(false);
   do {
     Face_handle f = Face_handle(fc);
@@ -1864,7 +1863,7 @@ minimize_degree(Vertex_handle v)
     CGAL_assertion( f->vertex( cw(i) ) == v );
 
     Vertex_handle v0 = f->vertex( i );
-    Vertex_handle v1 = f->mirror_vertex( i );
+    Vertex_handle v1 = tds().mirror_vertex( f, i );
 
     bool is_admissible = (v0 != v1) &&
       !is_infinite(f) && !is_infinite( f->neighbor(i) );
@@ -1878,7 +1877,7 @@ minimize_degree(Vertex_handle v)
 	CGAL_assertion( f->has_vertex(v) );
       }
 
-      fc = --( v->incident_faces(f) );
+      fc = --( incident_faces(v,f) );
       fc_start = fc;
       found = true;
     } else {
@@ -1887,6 +1886,189 @@ minimize_degree(Vertex_handle v)
     }
   } while ( found || fc != fc_start );
 }
+
+
+//----------------------------------------------------------------------
+// methods for I/O
+//----------------------------------------------------------------------
+
+template<class Gt, class Agds, class LTag>
+void
+Apollonius_graph_2<Gt,Agds,LTag>::file_output(std::ostream& os) const
+{
+  // ouput to a file
+  size_type n = this->_tds.number_of_vertices();
+  size_type m = this->_tds.number_of_full_dim_faces();
+
+  CGAL_assertion( n >= 1 );
+
+  if( is_ascii(os) ) {
+    os << n << ' ' << m << ' ' << dimension() << std::endl;
+  } else {
+    os << n << m << dimension();
+  }
+
+  std::map<Vertex_handle,int> V;
+  std::map<Face_handle,int> F;
+
+  // first vertex (infinite vertex) 
+  int inum = 0;
+  V[infinite_vertex()] = inum++;
+  
+  // finite vertices
+  if (is_ascii(os)) os << std::endl;
+  for (Finite_vertices_iterator vit = finite_vertices_begin();
+       vit != finite_vertices_end(); ++vit) {
+    V[vit] = inum++;
+    os << vit->site();
+    if ( is_ascii(os) ) { os << ' '; }
+    os << vit->number_of_hidden_sites();
+    typename Vertex::Hidden_sites_iterator hit;
+    for (hit = vit->hidden_sites_begin(); hit != vit->hidden_sites_end();
+	 ++hit) {
+      if ( is_ascii(os) ) { os << ' '; }
+      os << *hit;
+    }
+    // write non-combinatorial info of the vertex
+    //    os << *vit ;
+    if ( is_ascii(os) ) { os << std::endl; }
+  }
+  if ( is_ascii(os) ) { os << std::endl; }
+
+  // vertices of the faces
+  inum = 0;
+  int dim = (dimension() == -1 ? 1 :  dimension() + 1);
+  for(All_faces_iterator fit = all_faces_begin();
+      fit != all_faces_end(); ++fit) {
+    F[fit] = inum++;
+    for(int j = 0; j < dim ; ++j) {
+      os << V[ fit->vertex(j) ];
+      if( is_ascii(os) ) { os << ' '; }
+    }
+    // write non-combinatorial info of the face
+    //    os << *fit ;
+    if( is_ascii(os) ) { os << std::endl; }
+  }
+  if( is_ascii(os) ) { os << std::endl; }
+    
+  // neighbor pointers of the  faces
+  for( All_faces_iterator it = all_faces_begin();
+       it != all_faces_end(); ++it) {
+    for(int j = 0; j < dimension()+1; ++j){
+      os << F[ it->neighbor(j) ];
+      if( is_ascii(os) ) { os << ' '; }
+    }
+    if( is_ascii(os) ) { os << std::endl; }
+  }
+
+  if ( is_ascii(os) ) { os << std::endl; }
+}
+
+
+template<class Gt, class Agds, class LTag>
+void
+Apollonius_graph_2<Gt,Agds,LTag>::file_input(std::istream& is)
+{
+  //input from file
+  size_type n, m;
+  int d;
+  is >> n >> m >> d;
+
+  CGAL_assertion( n >= 1 );
+
+  if ( n == 1 ) {
+    CGAL_assertion( d == -1 );
+    if ( number_of_vertices() > 0 ) { clear(); }
+    return;
+  }
+  if ( n == 2 ) {
+    CGAL_assertion( d == 0 );
+    if ( number_of_vertices() > 0 ) { clear(); }
+    Site_2 s;
+    is >> s;
+    Vertex_handle v = insert(s);
+    unsigned int n_hidden;
+    is >> n_hidden;
+    for (unsigned int i = 0; i < n_hidden; i++) {
+      is >> s;
+      v->add_hidden_site(s);
+    }
+    return;
+  }
+  if ( n == 3 ) {
+    CGAL_assertion( d == 1 );
+    if ( number_of_vertices() > 0 ) { clear(); }
+    for (int j = 0; j < 2; j++) {
+      Site_2 s;
+      is >> s;
+      Vertex_handle v = insert(s);
+      unsigned int n_hidden;
+      is >> n_hidden;
+      for (unsigned int i = 0; i < n_hidden; i++) {
+	is >> s;
+	v->add_hidden_site(s);
+      }
+    }
+    return;
+  }
+
+  if (this->_tds.number_of_vertices() != 0) { this->_tds.clear(); }
+
+  this->_tds.set_dimension(d);
+
+  std::vector<Vertex_handle> V(n);
+  std::vector<Face_handle> F(m);
+
+  size_type i = 0;
+
+  // first vertex (infinite vertex)
+  V[0] = create_vertex();
+  this->set_infinite_vertex(V[0]);
+  i++;
+
+
+  // read vertices
+  for (; i < n; ++i) {
+    V[i] = create_vertex();
+    Site_2 s;
+    is >> s;
+    V[i]->set_site(s);
+    unsigned int n_hidden;
+    is >> n_hidden;
+    for (unsigned int j = 0; j < n_hidden; j++) {
+      is >> s;
+      V[i]->add_hidden_site(s);
+    }
+    // read non-combinatorial info of the vertex
+    //    is >> *(V[i]);
+  }
+  
+  // Creation of the faces
+  int index;
+  int dim = (dimension() == -1 ? 1 : dimension() + 1);
+
+  for (i = 0; i < m; ++i) {
+    F[i] = this->_tds.create_face();
+    for (int j = 0; j < dim ; ++j){
+      is >> index;
+      F[i]->set_vertex(j, V[index]);
+      // The face pointer of vertices is set too often,
+      // but otherwise we had to use a further map
+      V[index]->set_face(F[i]);
+    }
+    // read in non-combinatorial info of the face
+    //      is >> *(F[i]) ;
+  }
+
+  // Setting the neighbor pointers 
+  for (i = 0; i < m; ++i) {
+    for (int j = 0; j < dimension()+1; ++j){
+      is >> index;
+      F[i]->set_neighbor(j, F[index]);
+    }
+  }
+}
+
 
 CGAL_END_NAMESPACE
 

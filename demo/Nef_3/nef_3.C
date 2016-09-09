@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2002  Max-Planck-Institute Saarbruecken (Germany).
+// Copyright (c) 2002  Max-Planck-Institute Saarbruecken (Germany)
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -9,28 +9,78 @@
 // accordance with the commercial license agreement provided with the software.
 //
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESISGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_3/demo/Nef_3/nef_3.C,v $
-// $Revision: 1.28.4.1 $ $Date: 2004/12/20 11:57:51 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/demo/Nef_3/nef_3.C $
+// $Id: nef_3.C 28603 2006-02-17 16:39:32Z hachenb $
+// 
 //
-// Author(s)     : Lutz Kettner       <kettner@mpi-sb.mpg.de>
-//                 Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
-
+// Author(s)     : Lutz Kettner
+//                 Peter Hachenberger
+//
+// Demo program maintaining a stack of Nef polyhedra in the space and
+// a manipulation language for stack ops, file loading and saving, etc.
+// ============================================================================
 #include <CGAL/basic.h>
-#include <CGAL/Cartesian.h>
-#include <CGAL/Simple_homogeneous.h>
-#include <CGAL/Extended_homogeneous.h>
-#include <CGAL/Extended_cartesian.h>
+
+#ifdef CGAL_USE_LEDA
+  #ifdef CGAL_NEF3_CARTESIAN
+  #include <CGAL/leda_rational.h>
+  typedef leda_rational LNT;
+  #else
+  #include <CGAL/leda_integer.h>
+  typedef leda_integer LNT;
+  #endif
+#else
+  #ifdef CGAL_NEF3_CARTESIAN
+  #include <CGAL/Gmpq.h>
+  typedef CGAL::Gmpq LNT;
+  #else
+  #include <CGAL/Gmpz.h>
+  typedef CGAL::Gmpz LNT;
+  #endif
+#endif
+
+#ifdef CGAL_USE_LAZY_EXACT_NT
+  #include <CGAL/Filtered_exact.h>
+  #include <CGAL/Nef_3/Filtered_gcd.h>
+  #include <CGAL/Lazy_exact_nt.h>
+  typedef CGAL::Lazy_exact_nt<LNT>  NT;
+#else
+  typedef LNT  NT;
+#endif
+
+#ifdef CGAL_USE_EXTENDED_KERNEL
+  #ifdef CGAL_NEF3_CARTESIAN
+  #include <CGAL/Extended_cartesian.h>
+  typedef CGAL::Extended_cartesian<LNT>   Kernel;
+  const char *kernelversion = "Extended cartesian kernel.";
+  #else
+  #include <CGAL/Extended_homogeneous.h>
+  typedef CGAL::Extended_homogeneous<LNT>   Kernel;
+  const char *kernelversion = "Extended homogeneous kernel.";
+  #endif
+#else
+  #ifdef CGAL_NEF3_CARTESIAN
+  #include <CGAL/Cartesian.h>
+  typedef CGAL::Cartesian<NT> Kernel;
+  const char *kernelversion = "Cartesian kernel.";
+  #else
+  #include <CGAL/Homogeneous.h>
+  typedef CGAL::Homogeneous<NT> Kernel;
+  const char *kernelversion = "Homogeneous kernel.";
+  #endif
+#endif
+
 #include <CGAL/rational_rotation.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/IO/Polyhedron_iostream.h>
 #include <CGAL/IO/Nef_polyhedron_iostream_3.h>
 #include <CGAL/Nef_polyhedron_3.h>
-#include <CGAL/Nef_3/SNC_items.h>
 
-#ifdef CGAL_USE_QT
+#ifdef CGAL_NEF3_OLD_VISUALIZATION
+
+#elif defined CGAL_USE_QT
 #include <CGAL/IO/Qt_widget_Nef_3.h>
 #include <qapplication.h>
 #endif
@@ -42,39 +92,16 @@
 #include <cmath>
 #include <cstddef>
 
+typedef CGAL::Polyhedron_3<Kernel>         Polyhedron;
+typedef CGAL::Nef_polyhedron_3<Kernel>     Nef_polyhedron;
+typedef std::vector< Nef_polyhedron>       Nef_vector;
+typedef Nef_vector::iterator               Iterator;
+
 using std::cout;
 using std::cerr;
 using std::endl;
 using std::strcmp;
 using std::exit;
-
-#define CGAL_USE_EXTENDED_KERNEL
-
-#ifdef CGAL_USE_LEDA
-#include <CGAL/leda_integer.h>
-typedef leda_integer NT;
-#else
-#include <CGAL/Gmpz.h>
-typedef CGAL::Gmpz NT;
-#endif
-
-#ifdef CGAL_USE_EXTENDED_KERNEL
-typedef CGAL::Extended_homogeneous<NT>   Kernel;
-//typedef CGAL::Extended_cartesian<NT>   Kernel;
-const char *kernelversion = "Extended homogeneous 3d kernel.";
-#else // #elif CGAL_USE_SIMPLE_KERNEL
-// typedef CGAL::Lazy_exact_nt<NT>  LNT;
-// typedef CGAL::Simple_homogeneous<LNT>  Kernel;
-typedef CGAL::Homogeneous<NT> Kernel;
-const char *kernelversion = "Simple homogeneous kernel.";
-#endif
-
-typedef CGAL::Polyhedron_3<Kernel>         Polyhedron;
-typedef CGAL::Nef_polyhedron_3<Kernel,CGAL::SNC_items>     Nef_polyhedron;
-//typedef CGAL::Nef_polyhedron_3<Kernel,CGAL::SNC_items,CGAL::Decomposition_mark>     Nef_polyhedron;
-// typedef Nef_polyhedron::Explorer           Explorer;
-typedef std::vector< Nef_polyhedron>       Nef_vector;
-typedef Nef_vector::iterator               Iterator;
 
 // Global data
 Nef_vector nef;  // contains stack of Nef_polyhedron
@@ -251,7 +278,7 @@ int eval( int argc, char* argv[]) {
             if ( assert_argc( argv[i], 1, argc - i - 1)) {
 	      std::ifstream in(argv[i+1]);
 	      if ( ! in) {
-		cerr << "Error: loadoff cannot open file '" << argv[i+1]
+		cerr << "Error: loadnef3 cannot open file '" << argv[i+1]
 		     << "'." << endl;
 		error = 5;
 	      } else {	     
@@ -341,14 +368,23 @@ int eval( int argc, char* argv[]) {
             }
             nef.back().dump(true, std::cout);
 	    */
+	} else if ( strcmp( argv[i], "stats") == 0) {
+            if ( nef.size() == 0) {
+                cerr << "Error: '" << argv[i] << "' on empty stack." << endl;
+                error = 2;
+                continue;
+            }	  
+	    std::cout << "Number of Vertices " << nef.back().number_of_vertices() << std::endl;
+	    std::cout << "Number of Facets " << nef.back().number_of_facets() << std::endl;
         } else if ( strcmp( argv[i], "vis") == 0) {
             if ( nef.size() == 0) {
                 cerr << "Error: '" << argv[i] << "' on empty stack." << endl;
                 error = 2;
                 continue;
             }
-
-#ifdef CGAL_USE_QT
+#ifdef CGAL_NEF3_OLD_VISUALIZATION
+	    nef.back().visualize();
+#elif defined (CGAL_USE_QT)
 	    QApplication a(argc, argv);
 	    CGAL::Qt_widget_Nef_3<Nef_polyhedron>* w = 
 	      new CGAL::Qt_widget_Nef_3<Nef_polyhedron>(nef.back());
@@ -611,7 +647,6 @@ int main(  int argc, char* argv[]) {
         exit(1);
     }
     CGAL::set_pretty_mode(std::cerr);
-    //std::cin>>debugthread;
     //    std::cout<<kernelversion<<std::endl;
     return eval( argc-1, argv+1);
 }

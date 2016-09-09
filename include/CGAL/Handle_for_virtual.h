@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Handle_for_virtual.h,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:18:05 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Handle_for_virtual.h $
+// $Id: Handle_for_virtual.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Stefan Schirra
  
@@ -26,6 +26,7 @@
 #define CGAL_HANDLE_FOR_VIRTUAL_H
 
 #include <CGAL/basic.h>
+#include <typeinfo>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -37,8 +38,14 @@ class Ref_counted_virtual
 
     void  add_reference() { ++count; }
     void  remove_reference() { --count; }
-    bool  is_referenced() { return (count != 0); }
-    bool  is_shared() { return (count > 1); }
+    bool  is_referenced() const { return (count != 0); }
+    bool  is_shared() const { return (count > 1); }
+
+    virtual const std::type_info & type() const
+    { return typeid(void); }
+
+    virtual const void * object_ptr() const
+    { return NULL; }
 
     virtual ~Ref_counted_virtual() {}
 
@@ -51,8 +58,8 @@ template <class RefCounted>
 // RefCounted must provide
 // add_reference()
 // remove_reference()
-// bool is_referenced()
-// bool is_shared()
+// bool is_referenced() const
+// bool is_shared() const
 // and initialize count to 1 in default and copy constructor
 class Handle_for_virtual
 {
@@ -113,6 +120,11 @@ class Handle_for_virtual
     const RefCounted *
     Ptr() const
     { return ptr; }
+
+    const void * object_ptr() const
+    {
+      return ptr->object_ptr();
+    }
 
     /*
     T *

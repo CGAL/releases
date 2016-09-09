@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/HyperplaneCd.h,v $
-// $Revision: 1.21 $ $Date: 2004/09/17 12:12:40 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneCd.h $
+// $Id: HyperplaneCd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_HYPERPLANECD_H
@@ -173,7 +173,7 @@ FT value_at(const PointCd<FT,LA>& p) const
 { CGAL_assertion_msg((dimension()==p.dimension()),
     "HyperplaneCd::value_at: dimensions disagree.");
   FT res(0);
-  for (register int i=0; i<dimension(); ++i) 
+  for (int i=0; i<dimension(); ++i) 
     res += coefficient(i)*p.cartesian(i);
   res += coefficient(dimension());
   return res;
@@ -210,7 +210,7 @@ static Comparison_result strong_cmp(
   const HyperplaneCd<FT,LA>&, const HyperplaneCd<FT,LA>&);
 
 bool operator==(const HyperplaneCd<FT,LA>& h2) const
-{ if (identical(h2)) return true;
+{ if (this->identical(h2)) return true;
   if (dimension()!=h2.dimension()) return false;
   return HyperplaneCd<FT,LA>::strong_cmp(*this,h2) == EQUAL;
 }

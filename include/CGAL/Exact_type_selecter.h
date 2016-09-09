@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Exact_type_selecter.h,v $
-// $Revision: 1.1 $ $Date: 2004/09/20 22:49:09 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Exact_type_selecter.h $
+// $Id: Exact_type_selecter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -44,7 +44,10 @@
 #  include <CGAL/leda_real.h>
 #endif
 #ifdef CGAL_USE_CORE
-#  include <CGAL/CORE_Expr.h>
+// #  include <CGAL/CORE_Expr.h>
+namespace CORE {
+class Expr;
+}
 #endif
 
 CGAL_BEGIN_NAMESPACE
@@ -100,7 +103,13 @@ struct Exact_type_selecter<CORE::Expr>
 
 template < typename ET >
 struct Exact_type_selecter<Lazy_exact_nt<ET> >
-{ typedef Lazy_exact_nt<ET>  Type; };
+{
+  // We have a choice here :
+  // - using ET gets rid of the DAG computation as well as redoing the interval
+  // - using Lazy_exact_nt<ET> might use sharper intervals.
+  typedef ET  Type;
+  // typedef Lazy_exact_nt<ET>  Type;
+};
 
 CGAL_END_NAMESPACE
 

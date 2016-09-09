@@ -1,4 +1,4 @@
-# Created by the script create_makefile
+# Created by the script cgal_create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -13,9 +13,14 @@ include $(CGAL_MAKEFILE)
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = -I../../include \
+OTHER_CXXFLAGS=
+
+CXXFLAGS = \
+           -I../../include \
+	   -I../../../Triangulation_2/include \
            $(CGAL_CXXFLAGS) \
-           $(LONG_NAME_PROBLEM_CXXFLAGS)
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(OTHER_CXXFLAGS)
 
 #---------------------------------------------------------------------#
 #                    linker flags
@@ -38,20 +43,18 @@ all:            \
 		conform$(EXE_EXT)
 
 Qt_widget_styled_layer.moc:  Qt_widget_styled_layer.h
-	$(QT_MOC) -o Qt_widget_styled_layer.moc Qt_widget_styled_layer.h
+	$(QT_MOC) -o Qt_widget_styled_layer.moc  Qt_widget_styled_layer.h
 
-Qt_widget_styled_layer$(OBJ_EXT): Qt_widget_styled_layer.moc \
-		Qt_widget_styled_layer.C
+Qt_widget_styled_layer$(OBJ_EXT): Qt_widget_styled_layer.moc
 
 Qt_widget_style_editor.moc:  Qt_widget_style_editor.h
 	$(QT_MOC) -o Qt_widget_style_editor.moc Qt_widget_style_editor.h
 
-Qt_widget_style_editor.C.moc:  Qt_widget_style_editor.C
-	$(QT_MOC) -o Qt_widget_style_editor.C.moc Qt_widget_style_editor.C
+Qt_widget_style_editor-aux.moc:  Qt_widget_style_editor-aux.h
+	$(QT_MOC) -o Qt_widget_style_editor-aux.moc  Qt_widget_style_editor-aux.h
 
-Qt_widget_style_editor$(OBJ_EXT): Qt_widget_style_editor.moc \
-		Qt_widget_style_editor.C.moc \
-		Qt_widget_style_editor.C
+Qt_widget_style_editor$(OBJ_EXT): Qt_widget_style_editor-aux.moc Qt_widget_style_editor.moc
+
 
 Show_points.moc: Show_points.h
 	$(QT_MOC) -o Show_points.moc Show_points.h
@@ -106,8 +109,8 @@ clean: \
 		Show_points.clean \
 		Show_segments_base.clean \
 		Qt_widget_styled_layer.clean \
-		Qt_widget_style_editor.clean
-	rm -f Show_clusters.moc
+		Qt_widget_style_editor.clean 
+	rm -f Show_clusters.moc Qt_widget_style_editor-aux.moc
 
 #---------------------------------------------------------------------#
 #                    suffix rules

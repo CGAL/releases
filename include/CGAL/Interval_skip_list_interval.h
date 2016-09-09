@@ -11,15 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_skip_list/include/CGAL/Interval_skip_list_interval.h,v $
-// $Revision: 1.4 $ $Date: 2004/05/27 10:36:00 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_skip_list/include/CGAL/Interval_skip_list_interval.h $
+// $Id: Interval_skip_list_interval.h 28685 2006-02-22 15:22:27Z glisse $
+// 
 //
 // Author(s)     : Andreas Fabri
 
 #ifndef CGAL_INTERVAL_SKIP_LIST_INTERVAL_H
 #define CGAL_INTERVAL_SKIP_LIST_INTERVAL_H
 
+#include <cstdlib>
 #include <iostream>
 
 
@@ -90,7 +91,7 @@ namespace CGAL {
     if ( inf_ > sup_ )
       {
 	std::cerr << "Error: " << *this << std::endl;
-	exit(1);
+	std::exit(1);
       }
   }
 

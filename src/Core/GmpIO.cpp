@@ -8,8 +8,8 @@
  *
  * Zilin Du, 2003
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/src/Core/GmpIO.cpp,v $
- * $Revision: 1.4 $ $Date: 2004/11/14 11:53:17 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/src/Core/GmpIO.cpp $
+ * $Id: GmpIO.cpp 28567 2006-02-16 14:30:13Z lsaboret $
  ***************************************************************************/
 
 /* Auxiliary functions for C++-style input of GMP types. 

@@ -1,4 +1,4 @@
-// Copyright (c) 2004  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2004-2006  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Mesh_2/include/CGAL/Mesh_2/Refine_edges.h,v $
-// $Revision: 1.10 $ $Date: 2004/11/16 17:32:14 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges.h $
+// $Id: Refine_edges.h 30303 2006-04-13 16:07:19Z lrineau $
+// 
 //
 // Author(s)     : Laurent RINEAU
 
@@ -41,62 +41,6 @@ namespace CGAL {
 
 namespace Mesh_2 {
 
-  template <typename Tr>
-  class Refine_edges_triangulation_mesher_level_traits_2
-  {
-  public:
-    typedef Tr Triangulation;
-    typedef typename Tr::Point Point;
-    typedef typename Tr::Face_handle Face_handle;
-    typedef typename Tr::Edge Edge;
-    typedef typename Tr::Vertex_handle Vertex_handle;
-    typedef typename Tr::Locate_type Locate_type;
-
-    typedef Triangulation_mesher_level_traits_2<Tr> Std_traits;
-
-    typedef typename Std_traits::Zone Zone;
-
-  private:
-    Edge edge;
-
-  public:
-    void set_edge(const Edge e)
-    {
-      edge = e;
-    }
-
-    Zone get_conflicts_zone(Tr& t, const Point& p)
-    {
-      Zone zone;
-
-      typedef std::back_insert_iterator<typename Zone::Faces> OutputItFaces;
-      typedef std::back_insert_iterator<typename Zone::Edges> OutputItEdges;
-
-      OutputItFaces faces_out(zone.faces);
-      OutputItEdges edges_out(zone.boundary_edges);
-
-      const Face_handle& f = edge.first;
-      const int& i = edge.second;
-      *faces_out++ = f;
-      const Face_handle n = f->neighbor(i);
-      *faces_out++ = n;
-      const int ni = f->mirror_index(i);
-      std::pair<OutputItFaces,OutputItEdges>
-	pit = std::make_pair(faces_out,edges_out);
-      pit = t.propagate_conflicts(p,f,t.ccw(i),pit);
-      pit = t.propagate_conflicts(p,f,t. cw(i),pit);
-      pit = t.propagate_conflicts(p,n,t.ccw(ni),pit);
-      pit = t.propagate_conflicts(p,n,t. cw(ni),pit);
-      return zone; 
-    }
-
-    static Vertex_handle insert(Tr&t, const Point& p, Zone& zone)
-    {
-      return Std_traits::insert(t, p, zone);
-    }
-    
-  }; // end Refine_edges_triangulation_mesher_level_traits_2
-
   namespace details {
 
     /** This class defines several auxiliary types for \c Refine_edges. */
@@ -112,11 +56,11 @@ namespace Mesh_2 {
       /** Object predicate that tests if a given \c Constrained_Edge is
           really an edge of the triangulation and is constrained.
       */
-      class Is_really_a_constrained_edge {
+      class Is_a_constrained_edge {
         const Tr& tr;
       public:
         /** \param tr_ points to the triangulation. */
-        explicit Is_really_a_constrained_edge(const Tr& tr_) : tr(tr_) {}
+        explicit Is_a_constrained_edge(const Tr& tr_) : tr(tr_) {}
 
         bool operator()(const Constrained_edge& ce) const
         {
@@ -128,7 +72,7 @@ namespace Mesh_2 {
       };
 
       typedef ::CGAL::Mesh_2::Filtered_queue_container<Constrained_edge,
-                                               Is_really_a_constrained_edge>
+                                               Is_a_constrained_edge>
                            Default_container;
     };
 
@@ -312,7 +256,9 @@ template <
   class Container = 
     typename details::Refine_edges_base_types<Tr>::Default_container
 >
-class Refine_edges_base
+class Refine_edges_base :
+    public No_private_test_point_conflict,
+    public No_after_no_insertion
 {
 public:
   typedef typename Tr::Finite_edges_iterator Finite_edges_iterator;
@@ -324,10 +270,9 @@ public:
   typedef typename Tr::Point Point;
   typedef typename Tr::Geom_traits Geom_traits;
 
-  typedef typename Triangulation_mesher_level_traits_2<Tr>::Zone Zone;
+  typedef Triangulation_mesher_level_traits_2<Tr> Triangulation_traits;
 
-  typedef Refine_edges_triangulation_mesher_level_traits_2<Tr>
-    Triangulation_traits;
+  typedef typename Triangulation_traits::Zone Zone;
 
   typedef typename details::Refine_edges_base_types<Tr>::Constrained_edge
                                Constrained_edge;
@@ -336,13 +281,12 @@ protected:
   /* --- protected datas --- */
 
   Tr& tr; /**< The triangulation itself. */
-  Triangulation_traits traits;
 
   /** Predicates to filter edges. */
   typedef typename details::Refine_edges_base_types<Tr>
-     ::Is_really_a_constrained_edge Is_really_a_constrained_edge;
+     ::Is_a_constrained_edge Is_a_constrained_edge;
 
-  const Is_really_a_constrained_edge is_really_a_constrained_edge;
+  const Is_a_constrained_edge is_a_constrained_edge;
 
   Container edges_to_be_conformed; /**< Edge queue */
 
@@ -357,8 +301,8 @@ public:
   /** \name CONSTRUCTORS */
 
   Refine_edges_base(Tr& tr_) :
-    tr(tr_), traits(), is_really_a_constrained_edge(tr_),
-    edges_to_be_conformed(is_really_a_constrained_edge),
+    tr(tr_), is_a_constrained_edge(tr_),
+    edges_to_be_conformed(is_a_constrained_edge),
     is_locally_conform(), imperatively(false), converter(tr_)
   {
   }
@@ -377,29 +321,54 @@ public:
 
   /** \name Functions that this level must declare. */
 
-  Tr& get_triangulation_ref()
+  Tr& triangulation_ref_impl()
   {
     return tr;
   }
 
-  const Tr& get_triangulation_ref() const
+  const Tr& triangulation_ref_impl() const
   {
     return tr;
   }
 
-  Triangulation_traits& get_triangulation_traits()
+  Zone conflicts_zone_impl(const Point& p, Edge edge)
   {
-    return traits;
+    Zone zone;
+
+    typedef std::back_insert_iterator<typename Zone::Faces> OutputItFaces;
+    typedef std::back_insert_iterator<typename Zone::Edges> OutputItEdges;
+
+    OutputItFaces faces_out(zone.faces);
+    OutputItEdges edges_out(zone.boundary_edges);
+
+    const Face_handle& f = edge.first;
+    const int i = edge.second;
+    *faces_out++ = f;
+    const Face_handle n = f->neighbor(i);
+    *faces_out++ = n;
+    const int ni = f->mirror_index(i);
+    std::pair<OutputItFaces,OutputItEdges>
+    pit = std::make_pair(faces_out,edges_out);
+    pit = triangulation_ref_impl().propagate_conflicts(p,f,Tr::ccw(i),pit);
+    pit = triangulation_ref_impl().propagate_conflicts(p,f,Tr:: cw(i),pit);
+    pit = triangulation_ref_impl().propagate_conflicts(p,n,Tr::ccw(ni),pit);
+    pit = triangulation_ref_impl().propagate_conflicts(p,n,Tr:: cw(ni),pit);
+    return zone; 
   }
 
-  const Triangulation_traits& get_triangulation_traits() const
+  Vertex_handle insert_impl(const Point& p, Zone& zone)
   {
-    return traits;
+    return triangulation_ref_impl().star_hole(p,
+					      zone.boundary_edges.begin(),
+					      zone.boundary_edges.end(),
+					      zone.faces.begin(),
+					      zone.faces.end()
+					      );
   }
 
   /** Scans all constrained edges and put them in the queue if they are
       encroached. */
-  void do_scan_triangulation()
+  void scan_triangulation_impl()
   {
     clear();
 #ifndef CGAL_IT_IS_A_CONSTRAINED_TRIANGULATION_PLUS
@@ -422,16 +391,16 @@ public:
         add_constrained_edge_to_be_conformed(v1, v2);
     }
 #endif
-  } // end do_scan_triangulation()
+  } // end scan_triangulation_impl()
 
   /** Tells if the queue of edges to be conformed is empty or not. */
-  bool is_no_longer_element_to_refine()
+  bool no_longer_element_to_refine_impl()
   {
     return edges_to_be_conformed.empty();
   }
 
   /** Get the next edge to conform. */
-  Edge do_get_next_element() 
+  Edge get_next_element_impl() 
   {
     Constrained_edge edge = edges_to_be_conformed.get_next_element();
 
@@ -446,7 +415,7 @@ public:
   }
 
   /** Pop the first edge of the queue. */
-  void do_pop_next_element()
+  void pop_next_element_impl()
   {
     edges_to_be_conformed.remove_next_element();
   }
@@ -457,7 +426,7 @@ public:
       Saves the handles of the edge that will be splitted.
       This function is overridden in class Refine_edge_with_clusters.
   */
-  Point get_refinement_point(const Edge& edge) 
+  Point refinement_point_impl(const Edge& edge) 
   {
     typename Geom_traits::Construct_midpoint_2
       midpoint = tr.geom_traits().construct_midpoint_2_object();
@@ -468,15 +437,8 @@ public:
     return midpoint(va->point(), vb->point());
   }
 
-  /** Passes the edge to the triangulation traits. */
-  void do_before_conflicts(const Edge& e, const Point&)
-  {
-    traits.set_edge(e);
-  }
-
-  /** Do nothing. */
-  void do_after_no_insertion(const Edge&, const Point&,
-                             const Zone& )
+  /** Store the edge. */
+  void before_conflicts_impl(const Edge&, const Point&)
   {
   }
 
@@ -484,11 +446,11 @@ public:
    * Test if the edges of the boundary are locally conforming.
    * Push which that are not in the list of edges to be conformed.
    */
-  std::pair<bool, bool>
-  do_test_point_conflict_from_superior(const Point& p,
-                                       Zone& z)
+  Mesher_level_conflict_status
+  test_point_conflict_from_superior_impl(const Point& p,
+					 Zone& z)
   {
-    bool no_edge_is_encroached = true;
+    Mesher_level_conflict_status status = NO_CONFLICT;
     
     for(typename Zone::Edges_iterator eit = z.boundary_edges.begin();
         eit != z.boundary_edges.end(); ++eit)
@@ -499,23 +461,16 @@ public:
         if(fh->is_constrained(i) && !is_locally_conform(tr, fh, i, p))
           {
             add_constrained_edge_to_be_conformed(*eit);
-            no_edge_is_encroached = false;
+	    status = CONFLICT_BUT_ELEMENT_CAN_BE_RECONSIDERED;
           }
       }
 
-    return std::make_pair(no_edge_is_encroached, false);
-  }
-
-  /** Do nothing. */
-  std::pair<bool, bool> 
-  do_private_test_point_conflict(Point, Zone)
-  {
-    return std::make_pair(true, true);
+    return status;
   }
 
   /** Unmark as constrained. */
-  void do_before_insertion(const Edge& e, const Point&,
-                           const Zone&)
+  void before_insertion_impl(const Edge& e, const Point&,
+			     const Zone&)
   {
     const Face_handle& f = e.first;
     const int& i = e.second;
@@ -530,8 +485,11 @@ public:
    * conformed.
    * 
    */
-  void do_after_insertion(const Vertex_handle& v)
+  void after_insertion_impl(const Vertex_handle& v)
   {
+#ifdef CGAL_MESH_2_VERBOSE
+    std::cerr << "E";
+#endif
     // @todo Perhaps we should remove destroyed edges too.
     // @warning This code has been rewroten!
 
@@ -569,7 +527,7 @@ public:
     
     if(!is_locally_conform(tr, vb, v))
       add_constrained_edge_to_be_conformed(vb, v);
-  } // end do_after_insertion
+  } // end after_insertion_impl
 
 protected:
   /** \name Auxiliary functions */
@@ -611,7 +569,7 @@ private: /** \name DEBUGGING TYPES AND DATAS */
 
 private:
 
-  typedef boost::filter_iterator<Is_really_a_constrained_edge,
+  typedef boost::filter_iterator<Is_a_constrained_edge,
                                  typename Container::const_iterator>
     Aux_edges_filter_iterator;
 
@@ -623,7 +581,7 @@ public:  /** \name DEBUGGING FUNCTIONS */
   Edges_const_iterator begin() const
   {
     return Edges_const_iterator(
-       Aux_edges_filter_iterator(is_really_a_constrained_edge,
+       Aux_edges_filter_iterator(is_a_constrained_edge,
                                  this->edges_to_be_conformed.begin(),
                                  this->edges_to_be_conformed.end()),
        converter);
@@ -632,7 +590,7 @@ public:  /** \name DEBUGGING FUNCTIONS */
   Edges_const_iterator end() const
   {
     return Edges_const_iterator(
-       Aux_edges_filter_iterator(is_really_a_constrained_edge,
+       Aux_edges_filter_iterator(is_a_constrained_edge,
                                  this->edges_to_be_conformed.end(),
                                  this->edges_to_be_conformed.end()),
        converter);
@@ -643,14 +601,14 @@ public:  /** \name DEBUGGING FUNCTIONS */
     template <typename Tr, typename Self>
     struct Refine_edges_types
     {
-      typedef Refine_edges_triangulation_mesher_level_traits_2<Tr>
-        Triangulation_traits;
+      typedef Triangulation_mesher_level_traits_2<Tr> Triangulation_traits;
 
       typedef Mesher_level <
-	Triangulation_traits,
+	Tr,
         Self,
         typename Tr::Edge,
-        Null_mesher_level > Edges_mesher_level;
+        Null_mesher_level,
+	Triangulation_traits> Edges_mesher_level;
     }; // end Refine_edges_types
   } // end namespace details
 

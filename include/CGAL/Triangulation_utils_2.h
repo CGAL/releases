@@ -11,15 +11,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_utils_2.h,v $
-// $Revision: 1.6 $ $Date: 2003/09/18 10:26:17 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Triangulation_utils_2.h $
+// $Id: Triangulation_utils_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
 //                 Sylvain Pion    <Sylvain.Pion@sophia.inria.fr>
 //                 Andreas Fabri   <Andreas.Fabri@geometryfactory.com>
 #ifndef CGAL_TRIANGULATION_UTILS_2_H
 #define CGAL_TRIANGULATION_UTILS_2_H
+
+#include <CGAL/triangulation_assertions.h>
 
 CGAL_BEGIN_NAMESPACE 
 template < class T = void >

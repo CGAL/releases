@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/H3/include/CGAL/Homogeneous/DirectionH3.h,v $
-// $Revision: 1.13 $ $Date: 2004/02/19 20:26:39 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH3.h $
+// $Id: DirectionH3.h 29102 2006-03-06 23:51:27Z spion $
+// 
 //
 // Author(s)     : Stefan Schirra
  

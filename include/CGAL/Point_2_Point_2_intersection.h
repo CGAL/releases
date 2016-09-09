@@ -1,4 +1,3 @@
-
 // Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -16,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Point_2_Point_2_intersection.h,v $
-// $Revision: 1.8 $ $Date: 2004/05/20 13:54:37 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Point_2_Point_2_intersection.h $
+// $Id: Point_2_Point_2_intersection.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -27,7 +26,6 @@
 #define CGAL_POINT_2_POINT_2_INTERSECTION_H
 
 #include <CGAL/Point_2.h>
-
 #include <CGAL/Object.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -41,6 +39,7 @@ do_intersect(const typename CGAL_WRAP(K)::Point_2 &pt1,
 {
     return pt1 == pt2;
 }
+
 template <class K>
 Object
 intersection(const typename CGAL_WRAP(K)::Point_2 &pt1, 
@@ -61,7 +60,7 @@ bool
 do_intersect(const Point_2<K> &pt1, const Point_2<K> &pt2)
 {
   typedef typename K::Do_intersect_2 Do_intersect;
-  return o_intersect(pt1, pt2);
+  return Do_intersect()(pt1, pt2);
 }
 
 

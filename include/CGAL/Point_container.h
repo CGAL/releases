@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Point_container.h,v $
-// $Revision: 1.33 $ $Date: 2004/11/05 23:04:12 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/include/CGAL/Point_container.h $
+// $Id: Point_container.h 29176 2006-03-08 10:02:43Z afabri $
+// 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
 
@@ -232,7 +232,7 @@ public:
 
   // building an empty container 
   Point_container(const int d) :
-    b(NULL), e(NULL), bbox(d), tbox(d)  
+    bbox(d), tbox(d)  
   {}
   
   template <class Traits2>   

@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Point_3.h,v $
-// $Revision: 1.43 $ $Date: 2004/09/14 13:59:55 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Point_3.h $
+// $Id: Point_3.h 29078 2006-03-06 13:08:09Z spion $
+// 
 //
 // Author(s)     : Andreas Fabri and Herve Bronnimann
 
@@ -25,6 +25,7 @@
 #define CGAL_CARTESIAN_POINT_3_H
 
 #include <CGAL/Threetuple.h>
+#include <CGAL/Handle_for.h>
 #include <CGAL/Origin.h>
 #include <CGAL/Bbox_3.h>
 

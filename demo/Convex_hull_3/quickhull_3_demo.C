@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Convex_hull_3/demo/Convex_hull_3/quickhull_3_demo.C,v $
-// $Revision: 1.6.4.1 $ $Date: 2004/12/19 14:58:03 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_3/demo/Convex_hull_3/quickhull_3_demo.C $
+// $Id: quickhull_3_demo.C 28685 2006-02-22 15:22:27Z glisse $
+// 
 //
 // Author(s)     : Susan Hert
 
@@ -46,6 +46,7 @@ typedef double RT;
 #endif
 
 #include <vector>
+#include <cstdlib>
 
 // NOTE: the choice of double here for a number type may cause problems 
 //       for degenerate point sets
@@ -99,15 +100,15 @@ int main(int argc, char* argv[])
   if (argc != 2)
   {
       std::cerr << "Usage: " << argv[0] << " #points " << std::endl;
-      exit(0);
+      std::exit(0);
   }
 
-  int num = atoi(argv[1]);
+  int num = std::atoi(argv[1]);
   if (num < 0) 
   {
      std::cerr << "Usage: " << argv[0] << " #points " << std::endl;
      std::cerr << " #points must be >= 0" << std::endl;
-     exit(0);
+     std::exit(0);
   }
 
   std::vector<Point_3> points;

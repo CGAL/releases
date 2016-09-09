@@ -1,4 +1,4 @@
-// Copyright (c) 1997  Tel-Aviv University (Israel).
+// Copyright (c) 2005  Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,383 +11,428 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arr_curve_data_traits_2.h,v $
-// $Revision: 1.7 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_curve_data_traits_2.h $
+// $Id: Arr_curve_data_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
 //                 Efi Fogel         <efif@post.tau.ac.il>
-#ifndef CGAL_CURVE_DATA_TRAITS_2_H
-#define CGAL_CURVE_DATA_TRAITS_2_H
+#ifndef CGAL_ARR_CURVE_DATA_TRAITS_2_H
+#define CGAL_ARR_CURVE_DATA_TRAITS_2_H
 
-#include <list>
+/*! \file
+ * Definition of the Arr_curve_data_traits_2<> class template.
+ */
+
+#include<CGAL/Arr_traits_2/Curve_data_aux.h>
+#include<list>
 
 CGAL_BEGIN_NAMESPACE
 
-/*! A generic traits class for maintaining an arrangement of curves that have
- * an extra data field. This traits class is templated with a Data class an
- * an ordinary traits class which is also used as a based traits class to
- * inherit from. It extracts the original Curve_2 and X_monotone_curve_2 types
- * from the ordinary traits class, and redefines them to have Data as an extra
- * field.
- *
- * The Data field is updated when the curves are converted from Curve_2 to
- * X_monotone_curve_2, and when the X_monotone_curve_2 curves are split. All
- * other methods are inherited from the base ordinary traits class.
+/*! \class
+ * A generic traits class for maintaining an arrangement of curves that have
+ * an extra data field. This traits class is templated with an ordinary traits
+ * class, which is also used as a based traits class to inherit from.
+ * It can attach data objects to Curve_2 and to X_monotone_curve_2 objects
+ * (possibly of two different types).
+ * The data field is updated when the curves are converted from Curve_2 to
+ * X_monotone_curve_2, and when the X_monotone_curve_2 curves are split.
+ * When two x-monotone curves overlap, the data field to be associated with
+ * the overlapping subcurve is obtained from the merge functor.
+ * All other functors are inherited from the base ordinary traits class.
  */
-
-template <class Traits_, class Data_>
+template <class Traits_, class XMonotoneCurveData_, class Merge_,
+          class CurveData_ = XMonotoneCurveData_,
+          class Convert_ = _Default_convert_func<CurveData_,
+                                                 XMonotoneCurveData_> >
 class Arr_curve_data_traits_2 : public Traits_ 
 {
 public:
-  typedef Traits_                               Traits;
-  typedef Data_                                 Data;
-  typedef typename Traits::Curve_2              Org_curve_2;
-  typedef typename Traits::X_monotone_curve_2   Org_x_monotone_curve_2;
-  typedef typename Traits::Point_2              Point_2;
 
-  /*!
-   * Representation of an input curve with an addtional data field.
-   */
-  class Curve_2 : public Org_curve_2 
-  {
-  private:
-    Data m_data;
-
-  public:
-
-    /*!
-     * Default constructor.
-     */
-    Curve_2 ()
-    {}
-    
-    /*!
-     * Construct a curve from an original curve and a data object.
-     * \param cv The original curve.
-     * \param data The data object.
-     */ 
-    Curve_2 (const Org_curve_2 & cv, const Data & data) :
-      Org_curve_2(cv),
-      m_data(data)
-    {}
-
-    /*!
-     * Get the data.
-     * \return The data object associated with the curve.
-     */
-    const Data & get_data () const
-    {
-      return m_data;
-    }
-
-    /*!
-     * Set the curve data.
-     * \param data The data object to be associated with the curve.
-     */
-    void set_data (const Data & data)
-    {
-      m_data = data;
-      return;
-    }
-  };
+  typedef Traits_                                     Base_traits_2;
+  typedef XMonotoneCurveData_                         X_monotone_curve_data;
+  typedef Merge_                                      Merge;
+  typedef CurveData_                                  Curve_data;
+  typedef Convert_                                    Convert;
   
-  /*!
-   * Representation of an x-monotone cuvre. As this curve may represent
-   * an overlapping section of several input curves, we store a list of data
-   * objects with it.
-   */
-  class X_monotone_curve_2 : public Org_x_monotone_curve_2 
-  {
-  private:
+  typedef typename Base_traits_2::Curve_2             Base_curve_2;
+  typedef typename Base_traits_2::X_monotone_curve_2  Base_x_monotone_curve_2;
+  typedef typename Base_traits_2::Point_2             Point_2;
 
-    std::list<Data>  m_data_list;
+  typedef typename Base_traits_2::Has_left_category   Has_left_category;
+  typedef typename Base_traits_2::Has_merge_category  Base_has_merge_category;
+  typedef Tag_true                                    Has_merge_category;
 
-  public:
-
-    /*!
-     * Default constructor.
-     */
-    X_monotone_curve_2()
-    {}
-    
-    /*!
-     * Construct a curve from an original x-monotone curve and a data object.
-     * \param cv The original x-monotone curve.
-     * \param data The data object.
-     */ 
-    X_monotone_curve_2 (const Org_x_monotone_curve_2 & cv, const Data & data) :
-      Org_x_monotone_curve_2(cv),
-      m_data_list()
-    {
-      m_data_list.push_back(data);
-    }
-
-    /*!
-     * Construct a curve from an original x-monotone curve and a range of 
-     * data objects.
-     * \param cv The original x-monotone curve.
-     * \param begin A begin iterator for the data range.
-     * \param end A past-the-end iterator for the data range.
-     */
-    template <class InputIterator>
-    X_monotone_curve_2 (const Org_x_monotone_curve_2 & cv, 
-			const InputIterator & begin,
-                        const InputIterator & end) :
-      Org_x_monotone_curve_2(cv),
-      m_data_list()
-    {
-      InputIterator    it;
-
-      for (it = begin; it != end; it++)
-	m_data_list.push_back(*it);
-    }
-
-    /*!
-     * Get the number of data objects associated with the x-monotne curve.
-     */
-    int number_of_data_objects () const
-    {
-      return (m_data_list.size());
-    }
-
-    /*!
-     * Get the first data object associated with the curve.
-     * \pre number_of_data_objects() is not 0.
-     */
-    const Data & get_data () const
-    {
-      CGAL_precondition (m_data_list.size() > 0);
-
-      return (m_data_list.front());
-    }
-
-    /*!
-     * Get the data iterators (const version).
-     */
-    typename std::list<Data>::const_iterator begin_data () const
-    {
-      return (m_data_list.begin());
-    }
-
-    typename std::list<Data>::const_iterator end_data () const
-    {
-      return (m_data_list.end());
-    }
-
-    /*!
-     * Get the data iterators (non-const version).
-     */
-    typename std::list<Data>::iterator begin_data ()
-    {
-      return (m_data_list.begin());
-    }
-
-    typename std::list<Data>::iterator end_data ()
-    {
-      return (m_data_list.end());
-    }
-
-    /*!
-     * Add a data object to the curve.
-     * \param data The additional data object.
-     */
-    void add_data (const Data & data)
-    {
-      m_data_list.push_back (data);
-      return;
-    }
-
-    /*!
-     * Set a data object to the curve.
-     * \param data The data object to set.
-     */
-    void set_data (const Data & data)
-    {
-      clear_data();
-      add_data(data);
-      return;
-    }
-
-    /*!
-     * Add a range of data objects to the curve.
-     * \param begin A begin iterator for the data range.
-     * \param end A past-the-end iterator for the data range.
-     */
-    template <class InputIterator>
-    void add_data (const InputIterator & begin, const InputIterator & end)
-    {
-      InputIterator    it;
-
-      for (it = begin; it != end; it++)
-	m_data_list.push_back(*it);
-
-      return;
-    }
-
-    /*!
-     * Clear the data objects.
-     */
-    void clear_data ()
-    {
-      m_data_list.clear();
-      return;
-    }
-  };
-
-  // For backward compatibility:
-  typedef Point_2                               Point;
-  typedef X_monotone_curve_2                    X_curve;
-  typedef Curve_2                               Curve;
+  // Representation of a curve with an addtional data field:
+  typedef _Curve_data_ex<Base_curve_2, Curve_data>  Curve_2;
+  
+  // Representation of an x-monotone curve with an addtional data field:
+  typedef _Curve_data_ex<Base_x_monotone_curve_2,
+                         X_monotone_curve_data>     X_monotone_curve_2;
   
 public:
-
-  /*!
-   * Default constructor.
-   */
-  Arr_curve_data_traits_2 () : 
-    Traits() {}
   
-  /*!
-   * Cut the given curve into x-monotone subcurves and insert them to the
-   * given output iterator. While segments are x_monotone, still need to pass
-   * them out.
-   * \param cv The curve.
-   * \param o The output iterator.
-   * \return The past-the-end iterator.
-   */
-  template<class OutputIterator>
-  OutputIterator curve_make_x_monotone(const Curve_2 & cv,
-                                       OutputIterator o) const
+  /// \name Construction.
+  //@{
+
+  /*! Default constructor. */
+  Arr_curve_data_traits_2 ()
+  {}
+  
+  /*! Constructor from a base-traits class. */
+  Arr_curve_data_traits_2 (const Base_traits_2& traits) :
+    Base_traits_2 (traits)
+  {}
+  //@}
+
+  /// \name Overriden functors.
+  //@{
+
+  class Make_x_monotone_2
   {
-    // Make the original curve x-monotone.
-    std::list<Org_x_monotone_curve_2>  org_x_curves;
+  private:
+    Base_traits_2    *base;
+
+  public:
+
+    /*! Constructor. */
+    Make_x_monotone_2 (Base_traits_2 *_base) :
+      base (_base)
+    {}
     
-    Traits::curve_make_x_monotone (cv, std::back_inserter(org_x_curves));
-
-    // Attach the data to each of the resulting x-monotone curves.
-    typename std::list<Org_x_monotone_curve_2>::const_iterator it;
-
-    for (it = org_x_curves.begin(); it != org_x_curves.end(); it++) 
-      *o++ = X_monotone_curve_2 (*it, cv.get_data());
+    /*!
+     * Cut the given curve into x-monotone subcurves and insert them to the
+     * given output iterator. As segments are always x_monotone, only one
+     * x-monotone curve will be contained in the iterator.
+     * \param cv The curve.
+     * \param oi The output iterator, whose value-type is X_monotone_curve_2.
+     * \return The past-the-end iterator.
+     */
+    template<class OutputIterator>
+    OutputIterator operator() (const Curve_2& cv, OutputIterator oi)
+    {
+      // Make the original curve x-monotone.
+      std::list<CGAL::Object>       base_objects;
     
-    return o;
-  } 
+      base->make_x_monotone_2_object() (cv,
+                                        std::back_inserter (base_objects));
 
-  /*! 
-   * Split a given curve at a given split point into two sub-curves.
-   * \param cv The curve to split
-   * \param c1 The output first part of the split curve. 
-   *           Its source is the source of the original curve.
-   * \param c2 The output second part of the split curve.
-   *           Its target is the target of the original curve.
-   * \param p The split point.
-   * \pre p lies on cv but is not one of its end-points.
-   */
-  void curve_split(const X_monotone_curve_2 & cv, 
-		   X_monotone_curve_2 & c1, X_monotone_curve_2 & c2, 
-                   const Point_2 & p) const
+      // Attach the data to each of the resulting x-monotone curves.
+      typename std::list<CGAL::Object>::const_iterator  it;
+      const Base_x_monotone_curve_2  *base_x_curve;
+      X_monotone_curve_data           xdata = Convert()(cv.data());
+
+      for (it = base_objects.begin(); it != base_objects.end(); ++it)
+      {
+        base_x_curve = object_cast<Base_x_monotone_curve_2> (&(*it));
+        if (base_x_curve != NULL)
+        {
+          // Current object is an x-monotone curve: Attach data to it.
+          *oi = make_object (X_monotone_curve_2 (*base_x_curve,
+                                                 xdata));
+        }
+        else
+        {
+          // Current object is an isolated point: Leave it as is.
+          CGAL_assertion (object_cast<Point_2> (&(*it)) != NULL);
+          *oi = *it;
+        }
+        ++oi;
+      }
+
+      return (oi);
+    }
+  };
+
+  /*! Get a Make_x_monotone_2 functor object. */
+  Make_x_monotone_2 make_x_monotone_2_object ()
   {
-    // Split the original curve.
-    Org_x_monotone_curve_2 org_c1, org_c2;
-    Traits::curve_split (cv, org_c1, org_c2, p);
-
-    // Attach data.
-    c1 = X_monotone_curve_2 (org_c1, cv.begin_data(), cv.end_data());
-    c2 = X_monotone_curve_2 (org_c2, cv.begin_data(), cv.end_data());
-
-    return;
+    return Make_x_monotone_2 (this);
   }
 
-  /*!
-   * Find the nearest intersection of the two given curves to the right of 
-   * a given reference point.
-   * Nearest is defined as the lexicographically nearest point, not including 
-   * the point reference point itself.
-   * If the intersection of the two curves is an X_monotone_curve_2, that is,
-   * there is an overlapping subcurve, that contains the reference point in
-   * its x-range, the function should return an X_monotone_curve_2 whose 
-   * interior is strictly to the right of the reference point (that is, whose
-   * left endpoint is the projection of the reference point onto the 
-   * overlapping subcurve).
-   * \param cv1 The first curve.
-   * \param cv2 The second curve.
-   * \param p The refernece point.
-   * \return An empty object if there is no intersection to the right of p.
-   *         An object wrapping a Point_2 in case of a simple intersection.
-   *         An object wrapping an X_monotone_curve_2 in case of an overlap.
-   */
-  Object nearest_intersection_to_right (const X_monotone_curve_2 & cv1,
-				        const X_monotone_curve_2 & cv2,
-					const Point_2 & p) const
+  class Split_2
   {
-    // Use the base method and resturn the result as is in case there is
-    // no intersection or if the intersection is a single point.
-    CGAL::Object res = Traits::nearest_intersection_to_right (cv1, cv2, p);
-    Point_2      ip;
+  private:
+    Base_traits_2    *base;
 
-    if (res.is_empty() || CGAL::assign (ip, res))
-      return (res);
+  public:
 
-    // In case we have an overlapping curve, attach data from both cv1 and cv2
-    // to it.
-    Org_x_monotone_curve_2  iocv;
-    bool                    assign_success;
-    
-    assign_success = CGAL::assign (iocv, res);
-    CGAL_assertion (assign_success);
-    
-    X_monotone_curve_2      icv (iocv, cv1.begin_data(), cv1.end_data());
+    /*! Constructor. */
+    Split_2 (Base_traits_2 *_base) :
+      base (_base)
+    {}
 
-    icv.add_data (cv2.begin_data(), cv2.end_data());
-    return (CGAL::make_object (icv));
+    /*!
+     * Split a given x-monotone curve at a given point into two sub-curves.
+     * \param cv The curve to split
+     * \param p The split point.
+     * \param c1 Output: The left resulting subcurve (p is its right endpoint).
+     * \param c2 Output: The right resulting subcurve (p is its left endpoint).
+     * \pre p lies on cv but is not one of its end-points.
+     */
+    void operator() (const X_monotone_curve_2& cv, const Point_2 & p,
+                     X_monotone_curve_2& c1, X_monotone_curve_2& c2)
+    {
+      // Split the original curve.
+      base->split_2_object() (cv, p,
+                              c1, c2);
+
+      // Attach data to the split curves.
+      c1.set_data (cv.data());
+      c2.set_data (cv.data());
+
+      return;
+    }
+  };
+
+  /*! Get a Split_2 functor object. */
+  Split_2 split_2_object ()
+  {
+    return Split_2 (this);
   }
 
-  /*!
-   * Find the nearest intersection of the two given curves to the left of 
-   * a given reference point.
-   * Nearest is defined as the lexicographically nearest point, not including 
-   * the point reference point itself.
-   * If the intersection of the two curves is an X_monotone_curve_2, that is,
-   * there is an overlapping subcurve, that contains the reference point in
-   * its x-range, the function should return an X_monotone_curve_2 whose 
-   * interior is strictly to the left of the reference point (that is, whose
-   * right endpoint is the projection of the reference point onto the 
-   * overlapping subcurve).
-   * \param cv1 The first curve.
-   * \param cv2 The second curve.
-   * \param p The refernece point.
-   * \return An empty object if there is no intersection to the left of p.
-   *         An object wrapping a Point_2 in case of a simple intersection.
-   *         An object wrapping an X_monotone_curve_2 in case of an overlap.
-   */
-  Object nearest_intersection_to_left (const X_monotone_curve_2 & cv1,
-				       const X_monotone_curve_2 & cv2,
-				       const Point_2 & p) const
+  class Intersect_2
   {
-    // Use the base method and resturn the result as is in case there is
-    // no intersection or if the intersection is a single point.
-    CGAL::Object res = Traits::nearest_intersection_to_left (cv1, cv2, p);
-    Point_2      ip;
+  private:
+    Base_traits_2    *base;
 
-    if (res.is_empty() || CGAL::assign (ip, res))
-      return (res);
+  public:
 
-    // In case we have an overlapping curve, attach data from both cv1 and cv2
-    // to it.
-    Org_x_monotone_curve_2  iocv;
-    bool                    assign_success;
-    
-    assign_success = CGAL::assign (iocv, res);
-    CGAL_assertion (assign_success);
-    
-    X_monotone_curve_2      icv (iocv, cv1.begin_data(), cv1.end_data());
+    /*! Constructor. */
+    Intersect_2 (Base_traits_2 *_base) :
+      base (_base)
+    {}
 
-    icv.add_data (cv2.begin_data(), cv2.end_data());
-    return (CGAL::make_object (icv));
+    /*!
+     * Find the intersections of the two given curves and insert them to the
+     * given output iterator. As two segments may itersect only once, only a
+     * single will be contained in the iterator.
+     * \param cv1 The first curve.
+     * \param cv2 The second curve.
+     * \param oi The output iterator.
+     * \return The past-the-end iterator.
+     */
+    template<class OutputIterator>
+    OutputIterator operator() (const X_monotone_curve_2& cv1,
+                               const X_monotone_curve_2& cv2,
+                               OutputIterator oi)
+    {
+      // Use the base functor to obtain all intersection objects.
+      std::list<CGAL::Object>                   base_objects;
+
+      base->intersect_2_object() (cv1, cv2,
+                                  std::back_inserter (base_objects));
+
+      // Stop if the list is empty:
+      if (base_objects.empty())
+        return (oi);
+
+      // Go over all intersection objects and prepare the output.
+      typename std::list<CGAL::Object>::const_iterator  it;
+      const Base_x_monotone_curve_2                    *base_cv;
+
+      for (it = base_objects.begin(); it != base_objects.end(); ++it)
+      {
+        if ((base_cv = object_cast<Base_x_monotone_curve_2> (&(*it))) != NULL)
+        {
+          // The current intersection object is an overlapping x-monotone
+          // curve: Merge the data fields of both intersecting curves and
+          // associate the result with the overlapping curve.
+          X_monotone_curve_2  cv (*base_cv,
+                                  Merge() (cv1.data(), cv2.data()));
+
+          *oi = make_object (cv);
+        }
+        else
+        {
+          // The current intersection object is an intersection point:
+          // Copy it as is.
+          *oi = *it;
+        }
+        ++oi;
+      }
+
+      return (oi);
+    }
+  };
+
+  /*! Get an Intersect_2 functor object. */
+  Intersect_2 intersect_2_object ()
+  {
+    return Intersect_2 (this);
   }
+
+  class Are_mergeable_2
+  {
+  private:
+    const Base_traits_2    *base;
+
+  public:
+
+    /*! Constructor. */
+    Are_mergeable_2 (const Base_traits_2 *_base) :
+      base (_base)
+    {}
+
+    /*!
+     * Check whether it is possible to merge two given x-monotone curves.
+     * \param cv1 The first curve.
+     * \param cv2 The second curve.
+     * \return (true) if the two curves are mergeable; (false) otherwise.
+     */
+    bool operator() (const X_monotone_curve_2& cv1,
+                     const X_monotone_curve_2& cv2) const
+    {
+      return (_are_mergeable_base_imp (cv1, cv2,
+                                       Base_has_merge_category()));
+    }
+
+  private:
+
+    /*!
+     * Implementation of the base predicate in case the HasMerge tag is true.
+     */
+    bool _are_mergeable_base_imp (const X_monotone_curve_2& cv1,
+                                  const X_monotone_curve_2& cv2,
+                                  Tag_true) const
+    {
+      // In case the two base curves are not mergeable, the extended curves
+      // are not mergeable as well.
+      if (! (base->are_mergeable_2_object() (cv1, cv2)))
+        return (false);
+
+      // In case the two base curves are mergeable, check that they have the
+      // same data fields.
+      return (cv1.data() == cv2.data());
+    }
+
+    /*!
+     * Implementation of the base predicate in case the HasMerge tag is false.
+     */
+    bool _are_mergeable_base_imp (const X_monotone_curve_2& ,
+                                  const X_monotone_curve_2& ,
+                                  Tag_false) const
+    {
+      // Curve merging is not supported:
+      return (false);
+    }
+  };
+  
+  /*! Get an Are_mergeable_2 functor object. */
+  Are_mergeable_2 are_mergeable_2_object () const
+  {
+    return Are_mergeable_2 (this);
+  }
+
+  class Merge_2
+  {
+  private:
+    Base_traits_2    *base;
+
+  public:
+
+    /*! Constructor. */
+    Merge_2 (Base_traits_2 *_base) :
+      base (_base)
+    {}
+
+    /*!
+     * Merge two given x-monotone curves into a single curve (segment).
+     * \param cv1 The first curve.
+     * \param cv2 The second curve.
+     * \param c Output: The merged curve.
+     * \pre The two curves are mergeable.
+     */
+    void operator() (const X_monotone_curve_2& cv1,
+                     const X_monotone_curve_2& cv2,
+                     X_monotone_curve_2& c)
+    {
+      // The function is implemented based on the base Has_merge category.
+      _merge_imp (cv1, cv2, c, Base_has_merge_category());
+    }
+
+  private:
+
+    /*!
+     * Implementation of the operator() in case the HasMerge tag is true.
+     */
+    void _merge_imp (const X_monotone_curve_2& cv1,
+                     const X_monotone_curve_2& cv2,
+                     X_monotone_curve_2& c,
+                     Tag_true)
+    {      
+      // Merge the two base curve.
+      Base_x_monotone_curve_2  base_cv;
+
+      base->merge_2_object() (cv1, cv2,
+                              base_cv);
+
+      // Attach data from one of the curves.
+      CGAL_precondition (cv1.data() == cv2.data());
+
+      c = X_monotone_curve_2 (base_cv, cv1.data());
+      return;
+    }
+
+    /*!
+     * Implementation of the operator() in case the HasMerge tag is false.
+     */
+    void _merge_imp (const X_monotone_curve_2& ,
+                     const X_monotone_curve_2& ,
+                     X_monotone_curve_2& ,
+                     Tag_false) const
+    {
+      // This function should never be called!
+      CGAL_assertion_msg (false,
+                          "Merging curves is not supported.");
+    }
+  };
+
+  /*! Get a Merge_2 functor object. */
+  Merge_2 merge_2_object ()
+  {
+    return Merge_2 (this);
+  }
+
+  class Construct_x_monotone_curve_2
+  {
+  private:
+    const Base_traits_2    *base;
+
+  public:
+
+    /*! Constructor. */
+    Construct_x_monotone_curve_2 (const Base_traits_2 *_base) :
+      base (_base)
+    {}
+
+    /*!
+     * Return an x-monotone curve connecting the two given endpoints.
+     * \param p The first point.
+     * \param q The second point.
+     * \pre p and q must not be the same.
+     * \return An x-monotone curve connecting p and q.
+     */
+    X_monotone_curve_2 operator() (const Point_2& p,
+                                   const Point_2& q) const
+    {
+      Base_x_monotone_curve_2  base_cv =
+        base->construct_x_monotone_curve_2_object() (p, q);
+
+      return (X_monotone_curve_2 (base_cv, X_monotone_curve_data()));
+    }
+  };
+
+  /*! Get a Construct_x_monotone_curve_2 functor object. */
+  Construct_x_monotone_curve_2 construct_x_monotone_curve_2_object () const
+  {
+    return Construct_x_monotone_curve_2 (this);
+  }
+  //@}
+
 };
 
 CGAL_END_NAMESPACE
 
 #endif
+

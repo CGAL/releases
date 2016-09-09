@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_filtered_traits_2.h,v $
-// $Revision: 1.11 $ $Date: 2004/09/03 17:26:16 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_filtered_traits_2.h $
+// $Id: Apollonius_graph_filtered_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -26,6 +26,7 @@
 #include <CGAL/Apollonius_graph_traits_2.h>
 
 #include <CGAL/Filtered_predicate.h>
+#include <CGAL/Filtered_construction.h>
 
 // includes for the default parameters of the filtered traits
 #include <CGAL/Simple_cartesian.h>
@@ -99,7 +100,22 @@ private:
   typedef
   Apollonius_graph_cartesian_converter<CK, FK, C2F_t>   C2F;
 
+#if 0
+  // the following typedefs have been made in the direction of
+  // providing filtered constructions; however, there is a problem,
+  // namely, the Construct_Apollonius_site_2 functor has two
+  // different operator()'s with two different return types; this
+  // functor should be split in two (along with the appropriate
+  // changes in the spec/concept); see also changes needed for the
+  // filtered construction below.
+  typedef Cartesian_converter<FK, CK, To_double<typename FK::RT> > F2C_t;
+  typedef Cartesian_converter<EK, CK, To_double<typename EK::RT> > E2C_t;
 
+  typedef
+  Apollonius_graph_cartesian_converter<FK, CK, F2C_t>   F2C;
+  typedef
+  Apollonius_graph_cartesian_converter<EK, CK, E2C_t>   E2C;
+#endif
 
   // Types for the construction kernel
   typedef typename CK::Point_2                CK_Point_2;
@@ -170,20 +186,61 @@ public:
   typedef typename CK_traits::Construct_object_2     Construct_object_2;
   typedef typename CK_traits::Assign_2               Assign_2;
 
-// CONSTRUCTIONS
+  // CONSTRUCTIONS
   //--------------
   // vertex and dual site
+protected:
+  typedef typename CK_traits::Construct_Apollonius_vertex_2
+  CK_Construct_Apollonius_vertex_2;
+
+  typedef typename CK_traits::Construct_Apollonius_site_2
+  CK_Construct_Apollonius_site_2;
+
+  typedef typename FK_traits::Construct_Apollonius_vertex_2
+  FK_Construct_Apollonius_vertex_2;
+
+  typedef typename FK_traits::Construct_Apollonius_site_2
+  FK_Construct_Apollonius_site_2;
+
+  typedef typename EK_traits::Construct_Apollonius_vertex_2
+  EK_Construct_Apollonius_vertex_2;
+
+  typedef typename EK_traits::Construct_Apollonius_site_2
+  EK_Construct_Apollonius_site_2;
+
+public:
+#if 0
+  // the following typedefs have been made in the direction of
+  // providing filtered constructions; however, there is a problem,
+  // namely, the Construct_Apollonius_site_2 functor has two
+  // different operator()'s with two different return types; this
+  // functor should be split in two (along with the appropriate
+  // changes in the spec/concept); see also changes needed for the
+  // filtered construction above.
+  typedef Filtered_construction<CK_Construct_Apollonius_vertex_2,
+				EK_Construct_Apollonius_vertex_2,
+				FK_Construct_Apollonius_vertex_2,
+				C2E, C2F, E2C, F2C>
+  Construct_Apollonius_vertex_2;
+
+  typedef Filtered_construction<CK_Construct_Apollonius_site_2,
+				EK_Construct_Apollonius_site_2,
+				FK_Construct_Apollonius_site_2,
+				C2E, C2F, E2C, F2C>
+  Construct_Apollonius_site_2;
+#else
   typedef typename CK_traits::Construct_Apollonius_vertex_2
   Construct_Apollonius_vertex_2;
 
   typedef typename CK_traits::Construct_Apollonius_site_2
   Construct_Apollonius_site_2;
+#endif
 
 private:
   // PREDICATES FOR THE TWO KERNELS
   //-------------------------------
 
-#if 1
+#if 0
   // Predicates for the filtering kernel
   typedef typename FK_traits::Compare_x_2        FK_Compare_x_2;
   typedef typename FK_traits::Compare_y_2        FK_Compare_y_2;
@@ -229,78 +286,38 @@ private:
 #else
   // Predicates for the filtering kernel
   typedef Ag2_compare_x_2<FK>                    FK_Compare_x_2;
-  //  typedef typename FK_traits::Compare_x_2        FK_Compare_x_2;
   typedef Ag2_compare_y_2<FK>                    FK_Compare_y_2;
-  //  typedef typename FK_traits::Compare_y_2        FK_Compare_y_2;
   typedef Ag2_compare_weight_2<FK>               FK_Compare_weight_2;
-  //  typedef typename FK_traits::Compare_weight_2   FK_Compare_weight_2;
-  typedef Ag2_orientation_2<FK>                  FK_Orientation_2;
-  //  typedef typename FK_traits::Orientation_2      FK_Orientation_2;
+  typedef Ag2_orientation_2<FK,FK_MTag>          FK_Orientation_2;
   typedef Ag2_is_hidden_C2<FK,FK_MTag>           FK_Is_hidden_2;
-  //  typedef typename FK_traits::Is_hidden_2        FK_Is_hidden_2;
-
+  typedef Incircle_test<FK,FK_MTag>              FK_Vertex_conflict_2;
   typedef Ag2_oriented_side_of_bisector_C2<FK,FK_MTag>
   /*                                    */  FK_Oriented_side_of_bisector_2;
-  //  typedef typename FK_traits::Oriented_side_of_bisector_2
-  //  FK_Oriented_side_of_bisector_2;
-
-  //  typedef typename FK_traits::Vertex_conflict_2  FK_Vertex_conflict_2;
-  typedef Incircle_test<FK,FK_MTag>              FK_Vertex_conflict_2;
-
   typedef Ag2_finite_edge_test_C2<FK,FK_MTag>   
   /*                                 */ FK_Finite_edge_interior_conflict_2;
-  //  typedef typename FK_traits::Finite_edge_interior_conflict_2
-  //  FK_Finite_edge_interior_conflict_2;
-
   typedef Infinite_edge_test<FK,FK_MTag>
   /*                              */  FK_Infinite_edge_interior_conflict_2;
-  //  typedef typename FK_traits::Infinite_edge_interior_conflict_2
-  //  FK_Infinite_edge_interior_conflict_2;
-
   typedef Is_degenerate_edge_test<FK,FK_MTag>    FK_Is_degenerate_edge_2;
-  //  typedef typename FK_traits::Is_degenerate_edge_2
-  //  FK_Is_degenerate_edge_2;
-
 
   // Predicates for the exact kernel
   typedef Ag2_compare_x_2<EK>                    EK_Compare_x_2;
-  //  typedef typename EK_traits::Compare_x_2        EK_Compare_x_2;
   typedef Ag2_compare_y_2<EK>                    EK_Compare_y_2;
-  //  typedef typename EK_traits::Compare_y_2        EK_Compare_y_2;
   typedef Ag2_compare_weight_2<EK>               EK_Compare_weight_2;
-  //  typedef typename EK_traits::Compare_weight_2   EK_Compare_weight_2;
-  typedef Ag2_orientation_2<EK>                  EK_Orientation_2;
-  //  typedef typename EK_traits::Orientation_2      EK_Orientation_2;
+  typedef Ag2_orientation_2<EK,EK_MTag>          EK_Orientation_2;
   typedef Ag2_is_hidden_C2<EK,EK_MTag>           EK_Is_hidden_2;
-  //  typedef typename EK_traits::Is_hidden_2        EK_Is_hidden_2;
-
+  typedef Incircle_test<EK,EK_MTag>              EK_Vertex_conflict_2;
   typedef Ag2_oriented_side_of_bisector_C2<EK,EK_MTag>
   /*                                    */  EK_Oriented_side_of_bisector_2;
-  //  typedef typename EK_traits::Oriented_side_of_bisector_2
-  //  EK_Oriented_side_of_bisector_2;
-
-  //  typedef typename EK_traits::Vertex_conflict_2  EK_Vertex_conflict_2;
-  typedef Incircle_test<EK,EK_MTag>              EK_Vertex_conflict_2;
-
   typedef Ag2_finite_edge_test_C2<EK,EK_MTag>   
   /*                                */  EK_Finite_edge_interior_conflict_2;
-  //  typedef typename EK_traits::Finite_edge_interior_conflict_2
-  //  EK_Finite_edge_interior_conflict_2;
-
   typedef Infinite_edge_test<EK,EK_MTag>
   /*                              */  EK_Infinite_edge_interior_conflict_2;
-  //  typedef typename EK_traits::Infinite_edge_interior_conflict_2
-  //  EK_Infinite_edge_interior_conflict_2;
-
   typedef Is_degenerate_edge_test<EK,EK_MTag>    EK_Is_degenerate_edge_2;
-  //  typedef typename EK_traits::Is_degenerate_edge_2
-  //  EK_Is_degenerate_edge_2;
 #endif
 
 public:
   // PREDICATES
   //-----------
-
 
   typedef
   Filtered_predicate<EK_Compare_x_2, FK_Compare_x_2, C2E, C2F>

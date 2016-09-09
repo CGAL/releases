@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Delaunay_triangulation_2.h,v $
-// $Revision: 1.77 $ $Date: 2004/11/08 12:58:51 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Delaunay_triangulation_2.h $
+// $Id: Delaunay_triangulation_2.h 29760 2006-03-25 11:16:13Z spion $
+// 
 //
 // Author(s)     : Mariette Yvinec
 
@@ -57,7 +57,14 @@ public:
   typedef typename Triangulation::Finite_vertices_iterator 
                                                      Finite_vertices_iterator;
 
-  Delaunay_triangulation_2(const Gt& gt = Gt())
+ 
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2
+  using Triangulation::side_of_oriented_circle;
+  using Triangulation::circumcenter;
+#endif
+
+
+ Delaunay_triangulation_2(const Gt& gt = Gt())
   : Triangulation_2<Gt,Tds>(gt) {}
   
   Delaunay_triangulation_2(
@@ -280,9 +287,9 @@ is_valid(bool verbose, int level) const
   for( Finite_faces_iterator it = this->finite_faces_begin(); 
        it != this->finite_faces_end() ; it++) {
     for(int i=0; i<3; i++) {
-      if ( ! is_infinite( it->mirror_vertex(i))) {
+      if ( ! is_infinite( this->mirror_vertex(it,i))) {
 	result = result &&  ON_POSITIVE_SIDE != 
-	  side_of_oriented_circle( it, it->mirror_vertex(i)->point());
+	  side_of_oriented_circle( it, this->mirror_vertex(it,i)->point());
       }
       CGAL_triangulation_assertion( result );
     }
@@ -413,11 +420,11 @@ dual(const Edge &e) const
                           (dual(e.first),dual(e.first->neighbor(e.second)));
     return make_object(s);
   } 
-  // one of the adjacent face is infinite
+  // one of the adjacent faces is infinite
   Face_handle f; int i;
   if (is_infinite(e.first)) {
-    f=e.first->neighbor(e.second); f->has_neighbor(e.first,i);
-  } 
+    f=e.first->neighbor(e.second); i=f->index(e.first);
+  }
   else {
     f=e.first; i=e.second;
   }

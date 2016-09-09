@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/predicates/compare_quadratic.h,v $
-// $Revision: 1.6 $ $Date: 2003/09/18 10:19:34 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/predicates/compare_quadratic.h $
+// $Id: compare_quadratic.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -492,31 +492,32 @@ ke_compare_l1_l2(const FT& a1, const FT& b1, const FT& c1,
     if ( s_P4 == POSITIVE )  { return SMALLER; }
     if ( s_P4 == NEGATIVE )  { return LARGER; }
     return EQUAL;
-  } else { // J < 0
-    if ( s_K == POSITIVE )  { return LARGER; }
-
-    if ( s_K == ZERO ) {
-      FT D2 = value_of_D(a2, b2, c2);
-      if ( CGAL::is_zero(D2) ) { return EQUAL; }
-
-      return LARGER;
-    }
-    FT G = a1c2 - a2c1;
-    FT P3inf = value_of_P3inf(a1, b1, J, G);
-
-    if ( !(CGAL::is_negative(P3inf)) )  { return LARGER; }
-
-    FT Jp = value_of_Jp(b1, c1, b2, c2);
-
-    if ( CGAL::is_positive(Jp) )  { return SMALLER; }
-
-    FT P4 = value_of_P4(J, Jp, G);
-
-    Sign s_P4 = CGAL::sign(P4);
-    if ( s_P4 == POSITIVE )  { return LARGER; }
-    if ( s_P4 == NEGATIVE )  { return SMALLER; }
-    return EQUAL;
   }
+
+  // J < 0
+  if ( s_K == POSITIVE )  { return LARGER; }
+
+  if ( s_K == ZERO ) {
+    FT D2 = value_of_D(a2, b2, c2);
+    if ( CGAL::is_zero(D2) ) { return EQUAL; }
+
+    return LARGER;
+  }
+  FT G = a1c2 - a2c1;
+  FT P3inf = value_of_P3inf(a1, b1, J, G);
+
+  if ( !(CGAL::is_negative(P3inf)) )  { return LARGER; }
+
+  FT Jp = value_of_Jp(b1, c1, b2, c2);
+
+  if ( CGAL::is_positive(Jp) )  { return SMALLER; }
+
+  FT P4 = value_of_P4(J, Jp, G);
+
+  Sign s_P4 = CGAL::sign(P4);
+  if ( s_P4 == POSITIVE )  { return LARGER; }
+  if ( s_P4 == NEGATIVE )  { return SMALLER; }
+  return EQUAL;
 }
 
 template < class FT >
@@ -526,7 +527,7 @@ ke_compare_l1_r2(const FT& a1, const FT& b1, const FT& c1,
 		 const FT& a2, const FT& b2, const FT& c2)
 {
   FT J = value_of_J(a1, b1, a2, b2);
-  FT s_J = CGAL::sign(J);
+  Sign s_J = CGAL::sign(J);
 
 #if 0
   if ( s_J == ZERO ) {
@@ -579,7 +580,7 @@ ke_compare_r1_l2(const FT& a1, const FT& b1, const FT& c1,
 		 const FT& a2, const FT& b2, const FT& c2)
 {
   FT J = value_of_J(a1, b1, a2, b2);
-  FT s_J = CGAL::sign(J);
+  Sign s_J = CGAL::sign(J);
 
 #if 0
   if ( s_J == ZERO ) {
@@ -710,12 +711,13 @@ ke_compare_r1_r2(const FT& a1, const FT& b1, const FT& c1,
 
       return LARGER;
     }
-  } else { // J = 0
-    Sign s_G = CGAL::sign( value_of_G(a1, c1, a2, c2) );
-    if ( s_G == NEGATIVE ) { return SMALLER; }
-    if ( s_G == POSITIVE ) { return LARGER; }
-    return EQUAL;
   }
+
+  // J = 0
+  Sign s_G = CGAL::sign( value_of_G(a1, c1, a2, c2) );
+  if ( s_G == NEGATIVE ) { return SMALLER; }
+  if ( s_G == POSITIVE ) { return LARGER; }
+  return EQUAL;
 }
 
 

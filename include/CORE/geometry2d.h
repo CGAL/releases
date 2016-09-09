@@ -12,7 +12,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: geometry2d.h,v 1.4 2004/11/14 12:00:13 efi Exp $
+ * $Id: geometry2d.h 23263 2004-11-14 12:00:19Z efi $
  *****************************************************************/
 
 #ifndef CORE_GEOMETRY2D_H

@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Inventor/include/CGAL/IO/VRML_1_ostream.h,v $
-// $Revision: 1.11 $ $Date: 2003/10/21 12:17:52 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Inventor/include/CGAL/IO/VRML_1_ostream.h $
+// $Id: VRML_1_ostream.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Andreas Fabri
 //                 Lutz Kettner <kettner@inf.ethz.ch>

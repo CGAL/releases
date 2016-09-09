@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Handle_for.h,v $
-// $Revision: 1.22 $ $Date: 2004/01/01 18:00:44 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Handle_for.h $
+// $Id: Handle_for.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
  
@@ -49,13 +49,10 @@ public:
     typedef T element_type;
 
     Handle_for()
+      : ptr_(allocator.allocate(1))
     {
-        // Use a unique static instance to speed up default construction.
-        // It's a static variable of a function instead of the class to
-        // avoid the requirement of a default constructor for T().
-        static const Handle_for def = Handle_for(T());
-        ptr_ = def.ptr_;
-        ++(ptr_->count);
+        new (&(ptr_->t)) T();
+        ptr_->count = 1;
     }
 
     Handle_for(const Handle_for& h)
@@ -178,6 +175,18 @@ public:
     is_shared() const
     {
 	return ptr_->count > 1;
+    }
+
+    bool
+    unique() const
+    {
+	return !is_shared();
+    }
+
+    long
+    use_count() const
+    {
+	return ptr_->count;
     }
 
     void

@@ -1,5 +1,23 @@
-// file: examples/Nef_3/visualization_SM.C
+// Copyright (c) 2002  Max-Planck-Institute Saarbruecken (Germany)
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/demo/Nef_3/visualization_SM.C $
+// $Id: visualization_SM.C 29697 2006-03-22 17:09:45Z afabri $
+// 
+//
+// Author(s)     : Peter Hachenberger
 
+#include <CGAL/basic.h>
 #ifndef CGAL_USE_QT
 #include <iostream>
 int main(int, char*){
@@ -14,10 +32,15 @@ int main(int, char*){
 
 typedef CGAL::Homogeneous<CGAL::Gmpz> Kernel;
 typedef CGAL::Nef_polyhedron_3<Kernel> Nef_polyhedron_3;
-typedef Nef_polyhedron_3::Vertex_const_iterator Vertex_const_iterator;
-typedef Nef_polyhedron_3::Nef_polyhedron_S2 Nef_polyhedron_S2;
+
+
 
 int main(int argc, char* argv[]) {
+
+  // We've put the typedefs here as VC7 gives us an ICE if they are global typedefs
+  typedef Nef_polyhedron_3::Vertex_const_iterator Vertex_const_iterator;
+  typedef Nef_polyhedron_3::Nef_polyhedron_S2 Nef_polyhedron_S2;
+
   Nef_polyhedron_3 N;
   std::cin >> N;
   Vertex_const_iterator v = N.vertices_begin();

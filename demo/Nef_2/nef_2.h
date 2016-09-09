@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_2/demo/Nef_2/nef_2.h,v $
-// $Revision: 1.1.6.1 $ $Date: 2004/12/19 16:07:35 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/demo/Nef_2/nef_2.h $
+// $Id: nef_2.h 30667 2006-04-19 16:56:12Z glisse $
+// 
 //
 // Author(s)     : Radu Ursu
 
@@ -38,7 +38,7 @@ double_to_quotient(double x)
       const int maxiter = 20;      // ought not be necessary, but just in case,
                                    // max 300 bits of precision
       int expt;
-      double mantissa = frexp(x, &expt);
+      double mantissa = std::frexp(x, &expt);
       long exponent = expt;
       double intpart;
       int k = 0;
@@ -46,7 +46,7 @@ double_to_quotient(double x)
       while (mantissa != 0.0 && k++ < maxiter)
 
       { mantissa *= width; // shift double mantissa
-        mantissa = modf(mantissa, &intpart);
+        mantissa = std::modf(mantissa, &intpart);
         num *= shift_pow;
         num += (long)intpart;
         exponent -= shift;

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Min_quadrilateral_2/include/CGAL/Min_quadrilateral_traits_2.h,v $
-// $Revision: 1.19 $ $Date: 2003/09/26 07:33:11 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Min_quadrilateral_2/include/CGAL/Min_quadrilateral_traits_2.h $
+// $Id: Min_quadrilateral_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
 //                 Emo Welzl <emo@inf.ethz.ch>
@@ -124,7 +124,7 @@ public:
 
   // new predicates
   struct Area_less_rectangle_2
-  : public CGAL_STD::binary_function< Rectangle_2, Rectangle_2, bool >
+  : public std::binary_function< Rectangle_2, Rectangle_2, bool >
   {
     RT
     area_numerator(const Rectangle_2& r, Cartesian_tag) const
@@ -169,7 +169,7 @@ public:
     }
   };
   struct Area_less_parallelogram_2
-  : public CGAL_STD::binary_function< Parallelogram_2,
+  : public std::binary_function< Parallelogram_2,
                                       Parallelogram_2,
                                       bool >
   {
@@ -218,7 +218,7 @@ public:
     }
   };
   struct Width_less_strip_2
-  : public CGAL_STD::binary_function< Strip_2, Strip_2, bool >
+  : public std::binary_function< Strip_2, Strip_2, bool >
   {
     RT
     width_numerator(const Strip_2& r, Cartesian_tag) const
@@ -264,7 +264,7 @@ public:
 
   // new constructions
   struct Construct_vector_from_direction_2
-  : public CGAL_STD::unary_function<Direction_2,Vector_2>
+  : public std::unary_function<Direction_2,Vector_2>
   {
     Vector_2 operator()(const Direction_2& d) const { return d.vector(); }
   };

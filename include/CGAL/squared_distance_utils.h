@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Distance_2/include/CGAL/squared_distance_utils.h,v $
-// $Revision: 1.11 $ $Date: 2003/10/21 12:15:22 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Distance_2/include/CGAL/squared_distance_utils.h $
+// $Id: squared_distance_utils.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -200,19 +200,6 @@ inline bool is_obtuse_angle(const typename K::Point_2 &p,
 {
     typedef typename K::RT RT;
     return RT(wdot(p, q, r, k)) < RT(0) ;
-}
-
-
-template <class K>
-Orientation orientation(const typename K::Vector_2 &u,
-			const typename K::Vector_2 &v,
-			const K& k)
-{
-    typedef typename K::RT RT;
-    RT wcr = wcross(u,v, k);
-    return (wcr > RT(0)) ? COUNTERCLOCKWISE :
-           (wcr < RT(0)) ? CLOCKWISE
-                            : COLLINEAR;
 }
 
 template <class K>

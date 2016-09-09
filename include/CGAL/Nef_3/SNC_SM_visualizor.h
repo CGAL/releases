@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_3/include/CGAL/Nef_3/SNC_SM_visualizor.h,v $
-// $Revision: 1.8.4.1 $ $Date: 2004/12/08 19:30:38 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/SNC_SM_visualizor.h $
+// $Id: SNC_SM_visualizor.h 29753 2006-03-24 13:07:38Z hachenb $
+// 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
 //                 Miguel Granados <granados@mpi-sb.mpg.de>
@@ -28,8 +28,8 @@
 #include <CGAL/Nef_S2/SM_decorator.h>
 #include <CGAL/Nef_S2/SM_triangulator.h>
 
-#define LGREY CGAL::Color(170,170,200)
-#define DGREY CGAL::Color(30,30,50)
+#define CGAL_NEF_LGREY CGAL::Color(170,170,200)
+#define CGAL_NEF_DGREY CGAL::Color(30,30,50)
 
 CGAL_BEGIN_NAMESPACE
 
@@ -49,7 +49,7 @@ public:
   Color color(SHalfloop_const_handle, Mark m) const
   { return ( m ? CGAL::BLACK : CGAL::WHITE ); }
   Color color(SFace_const_handle, Mark m) const
-  { return ( m ? DGREY : LGREY ); }
+  { return ( m ? CGAL_NEF_DGREY : CGAL_NEF_LGREY ); }
 };
 
 
@@ -160,7 +160,7 @@ void draw_map() const
       T_.incident_mark(hn) == T_.incident_mark(hnn));
     Mark m = T_.incident_mark(h);
     Sphere_triangle t = T_.incident_triangle(h);
-    S_.push_back(t, (m ? DGREY : LGREY) );
+    S_.push_back(t, (m ? CGAL_NEF_DGREY : CGAL_NEF_LGREY) );
     Done[h]=Done[hn]=Done[hnn]=true;
   }
 
@@ -197,7 +197,7 @@ void draw_triangulation() const
 			T_.incident_mark(en)==T_.incident_mark(enn));
     Mark m = T_.incident_mark(e);
     Sphere_triangle t = T_.incident_triangle(e);
-    S_.push_back(t, (m ? DGREY : LGREY) );
+    S_.push_back(t, (m ? CGAL_NEF_DGREY : CGAL_NEF_LGREY) );
     Done[e]=Done[en]=Done[enn]=true;
   }
 
@@ -217,7 +217,7 @@ void show_sphere_map_of(typename Map_::Vertex_handle v)
 
 
 CGAL_END_NAMESPACE
-//#undef LGREY
-//#undef DGREY
+//#undef CGAL_NEF_LGREY
+//#undef CGAL_NEF_DGREY
 #endif // CGAL_SNC_SM_VISUALIZOR_H
 

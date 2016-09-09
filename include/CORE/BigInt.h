@@ -27,8 +27,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/include/CORE/BigInt.h,v $
- * $Revision: 1.4 $ $Date: 2004/11/14 12:00:08 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/include/CORE/BigInt.h $
+ * $Id: BigInt.h 29485 2006-03-14 11:52:49Z efif $
  ***************************************************************************/
 #ifndef _CORE_BIGINT_H_
 #define _CORE_BIGINT_H_
@@ -40,17 +40,6 @@
 
 CORE_BEGIN_NAMESPACE
 
-/**************** Auxiliary classes ****************/
-/* this is the same as gmp_allocated_string in gmp-impl.h */
-struct _alloc_cstr {
-  char *str;
-  _alloc_cstr(char *s) {
-    str = s;
-  }
-  ~_alloc_cstr() {
-    __gmp_free_func(str, strlen(str)+1);
-  }
-};
 
 class BigIntRep : public RCRepImpl<BigIntRep> {
 public:
@@ -246,15 +235,13 @@ public:
     return *this;
   }
   BigInt operator++(int) {
-    BigInt r;
-    *r.rep = *rep;
-    (*this)++;
+    BigInt r(*this);
+    ++(*this);
     return r;
   }
   BigInt operator--(int) {
-    BigInt r;
-    *r.rep = *rep;
-    (*this)--;
+    BigInt r(*this);
+    --(*this);
     return r;
   }
   //@}
@@ -284,8 +271,12 @@ public:
   }
   /// convert to <tt>std::string</tt>
   std::string get_str(int base = 10) const {
-    _alloc_cstr t(mpz_get_str(0, base, get_mp()));
-    return std::string(t.str);
+    int n = mpz_sizeinbase (get_mp(), base) + 2;
+    char *buffer = new char[n];
+    mpz_get_str(buffer, base, get_mp());
+    std::string result(buffer);
+    delete [] buffer;
+    return result;
   }
   //@}
 
@@ -525,10 +516,16 @@ inline int bitLength(const BigInt& a) {
   return mpz_sizeinbase(a.get_mp(), 2);
 }
 /// floorLg -- floor of log_2(a)
+/** Convention: a=0, floorLg(a) returns -1. 
+ *  This makes sense for integer a.
+ */
 inline long floorLg(const BigInt& a) {
   return (sign(a) == 0) ? (-1) : (bitLength(a)-1);
 }
 /// ceilLg -- ceiling of log_2(a) where a=BigInt, int or long
+/** Convention: a=0, ceilLg(a) returns -1. 
+ *  This makes sense for integer a.
+ */
 inline long ceilLg(const BigInt& a) {
   if (sign(a) == 0)
     return -1;

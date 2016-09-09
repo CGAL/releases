@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Kernel_checker.h,v $
-// $Revision: 1.14 $ $Date: 2004/01/25 17:51:57 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel_checker.h $
+// $Id: Kernel_checker.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -38,165 +38,286 @@
 
 CGAL_BEGIN_NAMESPACE
 
+// Small utility to manipulate pairs for kernel objects, and
+// simple things for bool, Sign...  Object is yet another case...
+template < typename T1, typename T2 >
+struct Pairify {
+  typedef std::pair<T1, T2>  result_type;
+  result_type operator()(const T1 &t1, const T2 &t2) const
+  { return std::make_pair(t1, t2); }
+};
+
+template <>
+struct Pairify <bool, bool> {
+  typedef bool   result_type;
+  result_type operator()(const bool &t1, const bool &t2) const
+  { CGAL_kernel_assertion(t1 == t2); return t1; }
+};
+
+template <>
+struct Pairify <Sign, Sign> {
+  typedef Sign   result_type;
+  result_type operator()(const Sign &t1, const Sign &t2) const
+  { CGAL_kernel_assertion(t1 == t2); return t1; }
+};
+
+template <>
+struct Pairify <Comparison_result, Comparison_result> {
+  typedef Comparison_result   result_type;
+  result_type operator()(const Comparison_result &t1,
+                         const Comparison_result &t2) const
+  { CGAL_kernel_assertion(t1 == t2); return t1; }
+};
+
+template <>
+struct Pairify <Bounded_side, Bounded_side> {
+  typedef Bounded_side   result_type;
+  result_type operator()(const Bounded_side &t1, const Bounded_side &t2) const
+  { CGAL_kernel_assertion(t1 == t2); return t1; }
+};
+
+template <>
+struct Pairify <Oriented_side, Oriented_side> {
+  typedef Oriented_side   result_type;
+  result_type operator()(const Oriented_side &t1, const Oriented_side &t2) const
+  { CGAL_kernel_assertion(t1 == t2); return t1; }
+};
+
+template <>
+struct Pairify <Angle, Angle> {
+  typedef Angle   result_type;
+  result_type operator()(const Angle &t1, const Angle &t2) const
+  { CGAL_kernel_assertion(t1 == t2); return t1; }
+};
+
+
 // Class used by Kernel_checker.
-template <class O1, class O2, class Conv>
-class Predicate_checker
+template <class P1, class P2, class Cmp>
+class Primitive_checker
 {
-    O1 o1;
-    O2 o2;
-    Conv c;
+    P1  p1;
+    P2  p2;
+    Cmp cmp;
+    typedef Pairify<typename P1::result_type,
+		    typename P2::result_type>  Pair_maker;
+    Pair_maker  pair_maker;
 
 public:
 
-    Predicate_checker(const O1 &oo1 = O1(), const O2 &oo2 = O2())
-	: o1(oo1), o2(oo2) {}
+    typedef typename Pair_maker::result_type   result_type;
+    typedef typename P1::Arity                 Arity;
 
-    typedef typename O1::result_type result_type;
-    typedef typename O1::Arity       Arity;
+    Primitive_checker(const P1 &pp1 = P1(), const P2 &pp2 = P2(),
+                      const Cmp &c = Cmp())
+	: p1(pp1), p2(pp2), cmp(c) {}
 
     template <class A1>
     result_type
     operator()(const A1 &a1) const
     {
-	typename O1::result_type res1 = o1(a1);
-	typename O2::result_type res2 = o2(c(a1));
-	if (res1 != res2)
+	typename P1::result_type res1 = p1(a1.first);
+	typename P2::result_type res2 = p2(a1.second);
+	if (! cmp(res1, res2))
 	{
 	    std::cerr << "Kernel_checker error : " << res1 << " != " << res2
 		      << " for the inputs : " << std::endl;
-	    std::cerr << a1 << std::endl;
+	    std::cerr << a1.first << std::endl;
+	    std::cerr << a1.second << std::endl;
             std::cerr << "functor first kernel : "
-		      << typeid(o1).name() << std::endl;
+		      << typeid(p1).name() << std::endl;
             std::cerr << "functor second kernel: "
-		      << typeid(o2).name() << std::endl;
-#ifdef __GNUG__
-	    std::cerr << __PRETTY_FUNCTION__ << std::endl;
-#endif
+		      << typeid(p2).name() << std::endl;
+	    std::cerr << CGAL_PRETTY_FUNCTION << std::endl;
 	    CGAL_kernel_assertion(false);
 	}
-	return res1;
+	return pair_maker(res1, res2);
     }
 
     template <class A1, class A2>
     result_type
     operator()(const A1 &a1, const A2 &a2) const
     {
-	typename O1::result_type res1 = o1(a1, a2);
-	typename O2::result_type res2 = o2(c(a1), c(a2));
-	if (res1 != res2)
+	typename P1::result_type res1 = p1(a1.first, a2.first);
+	typename P2::result_type res2 = p2(a1.second, a2.second);
+	if (! cmp(res1, res2))
 	{
 	    std::cerr << "Kernel_checker error : " << res1 << " != " << res2
 		      << " for the inputs : " << std::endl;
-	    std::cerr << a1 << ", " << a2 << std::endl;
+	    std::cerr << a1.first << std::endl;
+	    std::cerr << a1.second << std::endl;
+	    std::cerr << a2.first << std::endl;
+	    std::cerr << a2.second << std::endl;
             std::cerr << "functor first kernel : "
-		      << typeid(o1).name() << std::endl;
+		      << typeid(p1).name() << std::endl;
             std::cerr << "functor second kernel: "
-		      << typeid(o2).name() << std::endl;
-#ifdef __GNUG__
-	    std::cerr << __PRETTY_FUNCTION__ << std::endl;
-#endif
+		      << typeid(p2).name() << std::endl;
+	    std::cerr << CGAL_PRETTY_FUNCTION << std::endl;
 	    CGAL_kernel_assertion(false);
 	}
-	return res1;
+	return pair_maker(res1, res2);
     }
 
     template <class A1, class A2, class A3>
     result_type
     operator()(const A1 &a1, const A2 &a2, const A3 &a3) const
     {
-	typename O1::result_type res1 = o1(a1, a2, a3);
-	typename O2::result_type res2 = o2(c(a1), c(a2), c(a3));
-	if (res1 != res2)
+	typename P1::result_type res1 = p1(a1.first, a2.first, a3.first);
+	typename P2::result_type res2 = p2(a1.second, a2.second, a3.second);
+	if (! cmp(res1, res2))
 	{
 	    std::cerr << "Kernel_checker error : " << res1 << " != " << res2
 		      << " for the inputs : " << std::endl;
-	    std::cerr << a1 << ", " << a2 << ", " << a3 << std::endl;
+	    std::cerr << a1.first << std::endl;
+	    std::cerr << a1.second << std::endl;
+	    std::cerr << a2.first << std::endl;
+	    std::cerr << a2.second << std::endl;
+	    std::cerr << a3.first << std::endl;
+	    std::cerr << a3.second << std::endl;
             std::cerr << "functor first kernel : "
-		      << typeid(o1).name() << std::endl;
+		      << typeid(p1).name() << std::endl;
             std::cerr << "functor second kernel: "
-		      << typeid(o2).name() << std::endl;
-#ifdef __GNUG__
-	    std::cerr << __PRETTY_FUNCTION__ << std::endl;
-#endif
+		      << typeid(p2).name() << std::endl;
+	    std::cerr << CGAL_PRETTY_FUNCTION << std::endl;
 	    CGAL_kernel_assertion(false);
 	}
-	return res1;
+	return pair_maker(res1, res2);
     }
 
     template <class A1, class A2, class A3, class A4>
     result_type
     operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4) const
     {
-	typename O1::result_type res1 = o1(a1, a2, a3, a4);
-	typename O2::result_type res2 = o2(c(a1), c(a2), c(a3), c(a4));
-	if (res1 != res2)
+	typename P1::result_type res1 = p1(a1.first, a2.first,
+                                           a3.first, a4.first);
+	typename P2::result_type res2 = p2(a1.second, a2.second,
+                                           a3.second, a4.second);
+	if (! cmp(res1, res2))
 	{
 	    std::cerr << "Kernel_checker error : " << res1 << " != " << res2
 		      << " for the inputs : " << std::endl;
-	    std::cerr << a1 << ", " << a2 << ", " << a3 << ", " << a4
-		      << std::endl;
+	    std::cerr << a1.first << std::endl;
+	    std::cerr << a1.second << std::endl;
+	    std::cerr << a2.first << std::endl;
+	    std::cerr << a2.second << std::endl;
+	    std::cerr << a3.first << std::endl;
+	    std::cerr << a3.second << std::endl;
+	    std::cerr << a4.first << std::endl;
+	    std::cerr << a4.second << std::endl;
             std::cerr << "functor first kernel : "
-		      << typeid(o1).name() << std::endl;
+		      << typeid(p1).name() << std::endl;
             std::cerr << "functor second kernel: "
-		      << typeid(o2).name() << std::endl;
-#ifdef __GNUG__
-	    std::cerr << __PRETTY_FUNCTION__ << std::endl;
-#endif
+		      << typeid(p2).name() << std::endl;
+	    std::cerr << CGAL_PRETTY_FUNCTION << std::endl;
 	    CGAL_kernel_assertion(false);
 	}
-	return res1;
+	return pair_maker(res1, res2);
     }
 
     template <class A1, class A2, class A3, class A4, class A5>
     result_type
     operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
-	       const A5 &a5) const
+               const A5 &a5) const
     {
-	typename O1::result_type res1 = o1(a1, a2, a3, a4, a5);
-	typename O2::result_type res2 = o2(c(a1), c(a2), c(a3), c(a4), c(a5));
-	if (res1 != res2)
+	typename P1::result_type res1 = p1(a1.first, a2.first,
+                                           a3.first, a4.first, a5.first);
+	typename P2::result_type res2 = p2(a1.second, a2.second,
+                                           a3.second, a4.second, a5.second);
+	if (! cmp(res1, res2))
 	{
 	    std::cerr << "Kernel_checker error : " << res1 << " != " << res2
 		      << " for the inputs : " << std::endl;
-	    std::cerr << a1 << ", " << a2 << ", " << a3 << ", " << a4
-		      << ", " << a5 << std::endl;
+	    std::cerr << a1.first << std::endl;
+	    std::cerr << a1.second << std::endl;
+	    std::cerr << a2.first << std::endl;
+	    std::cerr << a2.second << std::endl;
+	    std::cerr << a3.first << std::endl;
+	    std::cerr << a3.second << std::endl;
+	    std::cerr << a4.first << std::endl;
+	    std::cerr << a4.second << std::endl;
+	    std::cerr << a5.first << std::endl;
+	    std::cerr << a5.second << std::endl;
             std::cerr << "functor first kernel : "
-		      << typeid(o1).name() << std::endl;
+		      << typeid(p1).name() << std::endl;
             std::cerr << "functor second kernel: "
-		      << typeid(o2).name() << std::endl;
-#ifdef __GNUG__
-	    std::cerr << __PRETTY_FUNCTION__ << std::endl;
-#endif
+		      << typeid(p2).name() << std::endl;
+	    std::cerr << CGAL_PRETTY_FUNCTION << std::endl;
 	    CGAL_kernel_assertion(false);
 	}
-	return res1;
+	return pair_maker(res1, res2);
     }
 
     // Same thing with more arguments...
 };
 
-// For now, we inherit all geometric objects and constructions from K1, and
-// just overload the predicates.
-template <class K1, class K2, class Conv>
+struct dont_check_equal {
+  template < typename T1, typename T2 >
+  bool operator()(const T1 &t1, const T2 &t2) const
+  { return true; }
+  template < typename T >
+  bool operator()(const T &t1, const T &t2) const
+  { return t1 == t2; }
+};
+
+template < class K1, class K2, class Cmp = dont_check_equal >
 class Kernel_checker
-  : public K1
 {
+    K1 k1;
+    K2 k2;
+    Cmp cmp;
+
+public:
+
     typedef K1     Kernel1;
     typedef K2     Kernel2;
+    typedef Cmp    Comparator;
 
-    Kernel2 k2;
+    // Kernel objects are defined as pairs, with primitives run in parallel.
+#define CGAL_kc_pair(X) typedef std::pair<typename K1::X, typename K2::X> X;
 
-    typedef Conv   c;
+    CGAL_kc_pair(RT)
+    CGAL_kc_pair(FT)
 
-    // typedef std::pair<K1::Point_2, K2::Point_2>  Point_2;
-    // ...  Same thing for all objects.
+    // TODO : Object_[23] are subtil : should probably be Object(pair<...>).
+    // Or should Assign_[23] be used, and that's it ?
+    // In any case, Assign will have to be treated separately because it
+    // takes its first argument by non-const reference.
+    // Maybe Primitive_checker should provide a variant with non-const ref...
 
-#define CGAL_check_pred(X, Y) \
-    typedef Predicate_checker<typename K1::X, typename K2::X, Conv> X; \
-    X Y() const { return X(K1::Y(), k2.Y()); }
+    CGAL_kc_pair(Object_2)
+    CGAL_kc_pair(Object_3)
 
-#define CGAL_Kernel_pred(Y,Z) CGAL_check_pred(Y, Z)
-#define CGAL_Kernel_cons(Y,Z)
+    CGAL_kc_pair(Point_2)
+    CGAL_kc_pair(Vector_2)
+    CGAL_kc_pair(Direction_2)
+    CGAL_kc_pair(Line_2)
+    CGAL_kc_pair(Ray_2)
+    CGAL_kc_pair(Segment_2)
+    CGAL_kc_pair(Triangle_2)
+    CGAL_kc_pair(Iso_rectangle_2)
+    CGAL_kc_pair(Circle_2)
+    CGAL_kc_pair(Conic_2)
+    CGAL_kc_pair(Aff_transformation_2)
+
+    CGAL_kc_pair(Point_3)
+    CGAL_kc_pair(Plane_3)
+    CGAL_kc_pair(Vector_3)
+    CGAL_kc_pair(Direction_3)
+    CGAL_kc_pair(Line_3)
+    CGAL_kc_pair(Ray_3)
+    CGAL_kc_pair(Segment_3)
+    CGAL_kc_pair(Triangle_3)
+    CGAL_kc_pair(Tetrahedron_3)
+    CGAL_kc_pair(Iso_cuboid_3)
+    CGAL_kc_pair(Sphere_3)
+    CGAL_kc_pair(Aff_transformation_3)
+
+#undef CGAL_kc_pair
+
+#define CGAL_Kernel_pred(X, Y) \
+    typedef Primitive_checker<typename K1::X, typename K2::X, Cmp> X; \
+    X Y() const { return X(k1.Y(), k2.Y(), cmp); }
+
+#define CGAL_Kernel_cons(Y,Z) CGAL_Kernel_pred(Y,Z)
 
 public:
 

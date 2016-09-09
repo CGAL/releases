@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/sweep_observer.h,v $
-// $Revision: 1.5 $ $Date: 2003/10/21 12:20:56 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/sweep_observer.h $
+// $Id: sweep_observer.h 29549 2006-03-16 14:02:34Z hachenb $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_SWEEP_OBSERVER_H
@@ -29,6 +29,7 @@ class client_base
 {
 public:
   virtual void call(TR) const = 0;
+  virtual ~client_base() {}
 };
 
 

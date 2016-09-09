@@ -1,0 +1,15 @@
+# TAUCS, a Library of Sparse Linear Solvers (http://www.tau.ac.il/~stoledo/taucs/)
+
+DESCRIPTION = TAUCS for Solaris cc
+PROVIDES = TAUCS
+CXXFLAGS =
+LDFLAGS =
+LIBS = taucs sunperf fsu lF77 M77 sunmath cx c malloc
+REQUIRES =
+INCOMPATIBLE =
+STDINCLDIRS =
+INCLTHING =
+STDLIBDIRS =
+LIBTHING =
+
+# EOF

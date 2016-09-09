@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_Nef_2.h,v $
-// $Revision: 1.21 $ $Date: 2003/10/21 12:23:03 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Qt_widget/include/CGAL/IO/Qt_widget_Nef_2.h $
+// $Id: Qt_widget_Nef_2.h 30667 2006-04-19 16:56:12Z glisse $
+// 
 //
 // Author(s)     : Radu Ursu
 
@@ -50,7 +50,7 @@ d_to_q(double x)
       const int maxiter = 20;      // ought not be necessary, but just in case,
                                    // max 300 bits of precision
       int expt;
-      double mantissa = frexp(x, &expt);
+      double mantissa = std::frexp(x, &expt);
       long exponent = expt;
       double intpart;
       int k = 0;
@@ -58,7 +58,7 @@ d_to_q(double x)
       while (mantissa != 0.0 && k++ < maxiter)
 
       { mantissa *= width; // shift double mantissa
-        mantissa = modf(mantissa, &intpart);
+        mantissa = std::modf(mantissa, &intpart);
         num *= shift_pow;
         num += (long)intpart;
         exponent -= shift;

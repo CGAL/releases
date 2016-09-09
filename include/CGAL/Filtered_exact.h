@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Filtered_exact.h,v $
-// $Revision: 1.15 $ $Date: 2004/09/01 16:16:08 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Filtered_exact.h $
+// $Id: Filtered_exact.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -33,10 +33,11 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/tags.h>
-#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/Interval_nt.h>
 #include <CGAL/Static_filter_error.h>
 #include <CGAL/Restricted_double.h>
-#include <CGAL/misc.h>
+#include <CGAL/NT_converter.h>
+#include <CGAL/Filtered_exact_fwd.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -118,9 +119,18 @@ public:
   typedef typename Number_type_traits<CT>::Has_exact_ring_operations
   Has_exact_ring_operations;
 
-  Filtered_exact () {}
+  Filtered_exact ()
+  {
+    bool FILTERED_EXACT_IS_DEPRECATED__USE_FILTERED_KERNEL_INSTEAD;
+  }
+
   Filtered_exact (const CT & ct)
-      : _value(ct)  { update_cache(); }
+      : _value(ct)
+  {
+    update_cache();
+    bool FILTERED_EXACT_IS_DEPRECATED__USE_FILTERED_KERNEL_INSTEAD;
+  }
+
   template <class NT>
   Filtered_exact (const NT & num, const NT & den) // For Quotient<>.
       : _value(num, den)   { update_cache(); }
@@ -128,7 +138,7 @@ public:
   // The access functions.
   const CT & value() const { return _value; }
   IA interval() const { return give_interval(cache()); }
-  ET exact()    const { return convert_to<ET>(_value); }
+  ET exact()    const { return NT_converter<CT,ET>()(_value); }
 
   double to_double() const { return CGAL::to_double(_value); }
   Restricted_double dbl() const { return Restricted_double(to_double()); }

@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_NO_LIMITS.C,v $
-// $Revision: 1.7 $ $Date: 2004/04/08 21:15:20 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Installation/config/testfiles/CGAL_CFG_NO_LIMITS.C $
+// $Id: CGAL_CFG_NO_LIMITS.C 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : various
 

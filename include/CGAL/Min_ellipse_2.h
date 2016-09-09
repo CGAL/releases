@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/Min_ellipse_2.h,v $
-// $Revision: 1.9 $ $Date: 2004/09/05 12:30:25 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Min_ellipse_2/include/CGAL/Min_ellipse_2.h $
+// $Id: Min_ellipse_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
 
@@ -537,7 +537,7 @@ class Min_ellipse_2 {
     bool
     is_valid( bool verbose = false, int level = 0) const
     {
-        CGAL_USING_NAMESPACE_STD
+        using namespace std;
     
         CGAL::Verbose_ostream verr( verbose);
         verr << endl;

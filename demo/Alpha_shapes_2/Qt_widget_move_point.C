@@ -11,11 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/demo/Alpha_shapes_2/Qt_widget_move_point.C,v $
-// $Revision: 1.1.6.1 $ $Date: 2004/12/18 16:53:54 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Alpha_shapes_2/demo/Alpha_shapes_2/Qt_widget_move_point.C $
+// $Id: Qt_widget_move_point.C 29332 2006-03-09 23:14:39Z afabri $
+// 
 //
 // Author(s)     : Laurent Rineau
+
+
+#include <CGAL/basic.h>
 
 #ifdef CGAL_USE_QT
 

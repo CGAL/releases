@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Extended_homogeneous.h,v $
-// $Revision: 1.30.4.1 $ $Date: 2004/12/08 20:04:32 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Extended_homogeneous.h $
+// $Id: Extended_homogeneous.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_EXTENDED_HOMOGENEOUS_H
@@ -30,10 +30,17 @@
 #define CGAL_NEF_DEBUG 5
 #include <CGAL/Nef_2/debug.h>
 #include <CGAL/Nef_2/Line_to_epoint.h>
+#include <CGAL/Is_extended_kernel.h>
 
 CGAL_BEGIN_NAMESPACE
 
+
 template <class T> class Extended_homogeneous;
+
+template<class T>
+struct Is_extended_kernel<Extended_homogeneous<T> > {
+       typedef Tag_true value_type;
+};
 
 /*{\Moptions outfile=ExtendedKernelTraits_2.man}*/
 /*{\Moptions print_title=yes }*/ 

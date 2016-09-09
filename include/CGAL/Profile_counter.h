@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Profile_counter.h,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:17:25 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Profile_counter.h $
+// $Id: Profile_counter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -29,12 +29,13 @@
 // Typically, it can be used as a profile counter in a static variable.
 
 #include <CGAL/basic.h>
+#include <string>
 
 CGAL_BEGIN_NAMESPACE
 
 struct Profile_counter
 {
-    Profile_counter(const char *ss)
+  Profile_counter(const std::string & ss)
 	: i(0), s(ss) {}
 
     void operator++() { ++i; }
@@ -46,7 +47,7 @@ struct Profile_counter
 
 private:
     unsigned int i;
-    const char *s;
+    const std::string s;
 };
 
 #ifdef CGAL_PROFILE

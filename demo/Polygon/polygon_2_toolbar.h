@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Polygon/demo/Polygon/polygon_2_toolbar.h,v $
-// $Revision: 1.2.6.2 $ $Date: 2004/12/19 17:00:36 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polygon/demo/Polygon/polygon_2_toolbar.h $
+// $Id: polygon_2_toolbar.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Radu Ursu
 

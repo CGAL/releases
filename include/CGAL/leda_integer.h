@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/leda_integer.h,v $
-// $Revision: 1.21 $ $Date: 2004/09/15 09:34:08 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/leda_integer.h $
+// $Id: leda_integer.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Andreas Fabri
  
@@ -26,7 +26,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Number_type_traits.h>
-#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/Interval_nt.h>
 
 #include <utility>
 
@@ -45,12 +45,10 @@ template <> struct Number_type_traits<leda_integer> {
   typedef Tag_false Has_exact_sqrt;
 };
 
-#ifndef CGAL_CFG_NO_NAMESPACE
 inline
 double
 to_double(const leda_integer & i)
 { return i.to_double(); }
-#endif
 
 inline
 leda_integer
@@ -72,12 +70,10 @@ io_Operator
 io_tag(const leda_integer &)
 { return io_Operator(); }
 
-#ifndef CGAL_CFG_NO_NAMESPACE
 inline
 Sign
 sign(const leda_integer& n)
 { return (Sign) CGAL_LEDA_SCOPE::sign(n); }
-#endif
 
 inline
 leda_integer

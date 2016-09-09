@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/predicates/Regular_triangulation_rtH2.h,v $
-// $Revision: 1.6 $ $Date: 2003/09/18 10:26:22 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/predicates/Regular_triangulation_rtH2.h $
+// $Id: Regular_triangulation_rtH2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 //                 Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
@@ -25,6 +25,29 @@
 // used by the 2D regular triangulation.
 
 CGAL_BEGIN_NAMESPACE
+
+template <class RT>
+Comparison_result
+compare_power_distanceH2(const RT& phx, const RT& phy, const RT& phw,
+			 const RT& pwt,
+			 const RT& qhx, const RT& qhy, const RT& qhw,
+			 const RT& qwt,
+			 const RT& rhx, const RT& rhy, const RT& rhw)
+{
+  // returns SMALLER if r is closer to p w.r.t. the power metric
+  RT dphx = rhx * phw - phx * rhw;
+  RT dphy = rhy * phw - phy * rhw;
+  RT dqhx = rhx * qhw - qhx * rhw;
+  RT dqhy = rhy * qhw - qhy * rhw;
+  RT dphw = CGAL_NTS square(phw);
+  RT dqhw = CGAL_NTS square(qhw);
+  RT drhw = CGAL_NTS square(rhw);
+
+  RT dh1 = CGAL_NTS square(dphx) + CGAL_NTS square(dphy) - pwt * dphw * drhw;
+  RT dh2 = CGAL_NTS square(dqhx) + CGAL_NTS square(dqhy) - qwt * dqhw * drhw;
+  return CGAL_NTS compare(dh1, dh2);
+}
+
 
 template <class RT>
 Oriented_side

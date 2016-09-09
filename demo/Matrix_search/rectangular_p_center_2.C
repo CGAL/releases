@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Matrix_search/demo/Matrix_search/rectangular_p_center_2.C,v $
-// $Revision: 1.6.4.1 $ $Date: 2004/12/19 15:27:44 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Matrix_search/demo/Matrix_search/rectangular_p_center_2.C $
+// $Id: rectangular_p_center_2.C 29196 2006-03-08 13:45:18Z afabri $
+// 
 //
 // Author(s)     : Radu Ursu
 
+#include <CGAL/basic.h>
 
 // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
@@ -40,11 +41,10 @@ int main(int, char*)
 #include <string>
 #include <list>
 
-#include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/extremal_polygon_2.h>
 #include <CGAL/convex_hull_2.h>
-//#include <CGAL/Polygon_2_algorithms.h>
+
 #include <CGAL/point_generators_2.h>
 #include <CGAL/rectangular_p_center_2.h>
 #include <CGAL/algorithm.h>

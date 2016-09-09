@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/IO/polygon_Window_stream.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:22:51 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polygon/include/CGAL/IO/polygon_Window_stream.h $
+// $Id: polygon_Window_stream.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Wieger Wesselink, Geert-Jan Giezeman, Matthias Baesken
 

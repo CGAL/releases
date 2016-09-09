@@ -13,7 +13,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: geombase.h,v 1.4 2004/11/14 12:00:12 efi Exp $
+ * $Id: geombase.h 23263 2004-11-14 12:00:19Z efi $
  *****************************************************************/
 
 #ifndef CORE_GEOMETRY_H

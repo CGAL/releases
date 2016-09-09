@@ -27,8 +27,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/src/Core/CoreDefs.cpp,v $
- * $Revision: 1.4 $ $Date: 2004/11/14 11:53:16 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/src/Core/CoreDefs.cpp $
+ * $Id: CoreDefs.cpp 29485 2006-03-14 11:52:49Z efif $
  ***************************************************************************/
 
 #include "CORE/CoreDefs.h"
@@ -69,14 +69,14 @@ int InvalidFlag = 0;
  *  -- this is used by BigFloat division when the arguments are error-free.
  */
 
-extLong defBFdivRelPrec = 30;
+extLong defBFdivRelPrec = 54;
 
 /**
  *  Default BigFloat Sqrt Absolute Precision
  *  -- this is used by BigFloat sqrt when the argument is error-free.
  */
 
-extLong defBFsqrtAbsPrec = 30;
+extLong defBFsqrtAbsPrec = 54;
 
 /**
  * Escape Precision 

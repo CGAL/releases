@@ -1,4 +1,4 @@
-// Copyright (c) 2004  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2004-2006  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Mesh_2/include/CGAL/Delaunay_mesher_2.h,v $
-// $Revision: 1.7 $ $Date: 2004/10/19 18:29:42 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Delaunay_mesher_2.h $
+// $Id: Delaunay_mesher_2.h 29627 2006-03-20 14:38:45Z lrineau $
+// 
 //
 // Author(s)     : Laurent RINEAU
 
@@ -157,7 +157,7 @@ public:
         for(typename Tr::All_faces_iterator it=tr.all_faces_begin();
             it!=tr.all_faces_end();
             ++it)
-          it->set_marked(!mark);
+          it->set_in_domain(!mark);
 
         for(Seeds_it sit=begin; sit!=end; ++sit)
           {
@@ -180,7 +180,7 @@ public:
     for(typename Tr::All_faces_iterator fit=tr.all_faces_begin();
         fit!=tr.all_faces_end();
         ++fit)
-      fit->set_marked(true);
+      fit->set_in_domain(true);
     propagate_marks(tr.infinite_face(), false);
   }
 
@@ -191,7 +191,7 @@ public:
     // std::deque, which is the default
     // But it should be fixed by VC++7 know. [Laurent Rineau 2003/03/24]
     std::queue<Face_handle/*, std::list<Face_handle>*/> face_queue;
-    fh->set_marked(mark);
+    fh->set_in_domain(mark);
     face_queue.push(fh);
     while( !face_queue.empty() )
       {
@@ -200,9 +200,9 @@ public:
         for(int i=0;i<3;i++)
           {
             const Face_handle& nb = fh->neighbor(i);
-            if( !fh->is_constrained(i) && (mark != nb->is_marked()) )
+            if( !fh->is_constrained(i) && (mark != nb->is_in_domain()) )
               {
-                nb->set_marked(mark);
+                nb->set_in_domain(mark);
                 face_queue.push(nb);
               }
           }
@@ -302,9 +302,9 @@ public:
   const Point next_refinement_point() 
   {
     if( !edges_level.is_algorithm_done() )
-      return edges_level.get_refinement_point(next_encroached_edge());
+      return edges_level.refinement_point(next_encroached_edge());
     else
-      return faces_level.get_refinement_point(next_bad_face());
+      return faces_level.refinement_point(next_bad_face());
   }
 
   typedef typename Edges_level::Edges_const_iterator

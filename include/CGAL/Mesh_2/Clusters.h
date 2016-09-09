@@ -1,4 +1,4 @@
-// Copyright (c) 2004  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2004-2005  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Mesh_2/include/CGAL/Mesh_2/Clusters.h,v $
-// $Revision: 1.4 $ $Date: 2004/10/13 04:33:31 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
+// $Id: Clusters.h 29862 2006-03-30 16:11:40Z lrineau $
+// 
 //
 // Author(s)     : Laurent RINEAU
 
@@ -34,15 +34,17 @@ namespace Mesh_2
   {
     template <class Tr>
     class Is_edge_constrained {
+      const Tr* tr_;
     public:
+      typedef Is_edge_constrained<Tr> Self;
       typedef typename Tr::Edge_circulator Edge_circulator;
       
-      Is_edge_constrained()
+      Is_edge_constrained(const Tr& tr) : tr_(&tr)
       {}
 
       bool operator()(const Edge_circulator& ec) const
       {
-        return ec->first->is_constrained(ec->second);
+        return tr_->is_constrained(*ec);
       }
     };
   } // end namespace details
@@ -106,6 +108,7 @@ private:
   /** \name Clusters associated types */
 
   typedef std::multimap<Vertex_handle, Cluster> Cluster_map;
+  typedef typename Cluster_map::value_type Cluster_map_value_type;
 
   template <class Pair>
   struct Pair_get_first: public std::unary_function<Pair,
@@ -307,7 +310,7 @@ update_cluster(Cluster& c, iterator it, Vertex_handle va,
   if(c.is_reduced())
     c.rmin = squared_distance(c.smallest_angle.first->point(),
                               c.smallest_angle.second->point())/FT(4);
-  cluster_map.insert(std::make_pair(va,c));
+  cluster_map.insert(Cluster_map_value_type(va,c));
 }
 
 template <typename Tr>
@@ -383,7 +386,7 @@ template <typename Tr>
 void Clusters<Tr>::
 create_clusters_of_vertex(const Vertex_handle v)
 {
-  details::Is_edge_constrained<Tr> test;
+  details::Is_edge_constrained<Tr> test(tr);
 
   Constrained_edge_circulator begin(tr.incident_edges(v),test);
 

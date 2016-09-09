@@ -1,4 +1,3 @@
-
 // Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -16,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Point_2_Triangle_2_intersection.h,v $
-// $Revision: 1.12 $ $Date: 2004/06/23 03:06:51 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Point_2_Triangle_2_intersection.h $
+// $Id: Point_2_Triangle_2_intersection.h 31166 2006-05-17 16:30:56Z spion $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -29,7 +28,7 @@
 #include <CGAL/Point_2.h>
 #include <CGAL/Triangle_2.h>
 #include <CGAL/Line_2.h>
-#include <CGAL/utils.h>
+#include <CGAL/kernel_assertions.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/Straight_2.h>
 #include <CGAL/Object.h>
@@ -41,7 +40,7 @@ namespace CGALi {
 template <class K>
 class Point_2_Triangle_2_pair {
 public:
-    enum Intersection_results {NO, POINT};
+    enum Intersection_results {NO_INTERSECTION, POINT};
     Point_2_Triangle_2_pair() ;
     Point_2_Triangle_2_pair(typename K::Point_2 const *pt,
                             typename K::Triangle_2 const *trian);
@@ -66,7 +65,7 @@ inline bool do_intersect(const typename CGAL_WRAP(K)::Point_2 &p1,
 {
   typedef Point_2_Triangle_2_pair<K> pair_t;
   pair_t pair(&p1, &p2);
-  return pair.intersection_type() != pair_t::NO;
+  return pair.intersection_type() != pair_t::NO_INTERSECTION;
 }
 template <class K>
 inline bool do_intersect(const typename CGAL_WRAP(K)::Triangle_2 &p2,
@@ -106,7 +105,7 @@ Point_2_Triangle_2_pair<K>::intersection_type() const
 // The non const this pointer is used to cast away const.
     _known = true;
     if (_trian->has_on_unbounded_side(*_pt)) {
-        _result = NO;
+        _result = NO_INTERSECTION;
     } else {
         _result = POINT;
     }
@@ -117,7 +116,7 @@ Point_2_Triangle_2_pair<K>::intersection_type() const
         for (int i=0; i<3; i++) {
             if (line_t(_trian->vertex(i), _trian->vertex(i+1)).
                                 has_on_negative_side(*_pt)) {
-                _result = NO;
+                _result = NO_INTERSECTION;
                 return _result;
             }
         }
@@ -125,7 +124,7 @@ Point_2_Triangle_2_pair<K>::intersection_type() const
         for (int i=0; i<3; i++)
             if(line_t(_trian->vertex(i), _trian->vertex(i-1)).
                                 has_on_negative_side(*_pt)){
-                _result = NO;
+                _result = NO_INTERSECTION;
                 return _result;
             }
     }
@@ -158,7 +157,7 @@ intersection(const typename CGAL_WRAP(K)::Point_2 &pt,
     typedef Point_2_Triangle_2_pair<K> is_t;
     is_t ispair(&pt, &tr);
     switch (ispair.intersection_type()) {
-    case is_t::NO:
+    case is_t::NO_INTERSECTION:
     default:
         return Object();
     case is_t::POINT: {

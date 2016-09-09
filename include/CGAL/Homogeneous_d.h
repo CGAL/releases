@@ -15,14 +15,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Homogeneous_d.h,v $
-// $Revision: 1.24 $ $Date: 2004/09/07 07:41:10 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Homogeneous_d.h $
+// $Id: Homogeneous_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 
-#ifndef HOMOGENEOUS_D_H
-#define HOMOGENEOUS_D_H
+#ifndef CGAL_HOMOGENEOUS_D_H
+#define CGAL_HOMOGENEOUS_D_H
 
 #ifndef NOCGALINCL
 #include <CGAL/basic.h>
@@ -403,5 +403,4 @@ CGAL_END_NAMESPACE
 #include <CGAL/Kernel_d/Line_d.C>
 #include <CGAL/intersections_d.h>
 
-#endif // HOMOGENEOUS_D_H
-
+#endif // CGAL_HOMOGENEOUS_D_H

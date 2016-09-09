@@ -11,14 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/Convex_hull_projective_xz_traits_2.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:14:59 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_2/include/CGAL/Convex_hull_projective_xz_traits_2.h $
+// $Id: Convex_hull_projective_xz_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Susan Hert
 
-#ifndef CONVEX_HULL_PROJECTIVE_XZ_TRAITS_2_H
-#define CONVEX_HULL_PROJECTIVE_XZ_TRAITS_2_H
+#ifndef CGAL_CONVEX_HULL_PROJECTIVE_XZ_TRAITS_2_H
+#define CGAL_CONVEX_HULL_PROJECTIVE_XZ_TRAITS_2_H
 
 #include <CGAL/predicates/kernel_ftC2.h>
 #include <CGAL/predicates_on_points_2.h>
@@ -184,4 +184,5 @@ public:
 };
 
 }
-#endif // CONVEX_HULL_PROJECTIVE_XZ_TRAITS_2_H
+
+#endif // CGAL_CONVEX_HULL_PROJECTIVE_XZ_TRAITS_2_H

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_S2/include/CGAL/IO/Qt_widget_Nef_S2.h,v $
-// $Revision: 1.2.4.1 $ $Date: 2004/12/06 14:56:01 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/IO/Qt_widget_Nef_S2.h $
+// $Id: Qt_widget_Nef_S2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
 
@@ -29,7 +29,7 @@ template <typename Nef_polyhedron>
 class Qt_widget_Nef_S2 : public Qt_widget_OpenGL {
 
  public:
-  Qt_widget_Nef_S2(const Nef_polyhedron& N) : 
+  Qt_widget_Nef_S2(const typename Nef_polyhedron::Const_decorator& N) : 
     Qt_widget_OpenGL(300,300,1.5) {
     
     object_ = new CGAL::OGL::Unit_sphere(CGAL::OGL::NefS2_to_UnitSphere<Nef_polyhedron>::convert(N));

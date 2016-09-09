@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Line_d.h,v $
-// $Revision: 1.18 $ $Date: 2004/06/23 02:15:27 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Line_d.h $
+// $Id: Line_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 
@@ -154,7 +154,7 @@ bool has_on(const Point_d<R>& p) const
   return pos(p,point(0),point(1),dummy); }
 
 bool operator==(const Line_d<R>& l1) const
-{ if ( identical(l1) ) return true;
+{ if ( this->identical(l1) ) return true;
   if ( dimension() != l1.dimension() ) return false;
   return has_on(l1.point(0)) && 
          direction() == l1.direction(); 

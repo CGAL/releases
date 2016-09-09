@@ -11,23 +11,22 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_S2/include/CGAL/Nef_S2/SM_visualizor.h,v $
-// $Revision: 1.7.4.2 $ $Date: 2004/12/08 20:10:16 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/SM_visualizor.h $
+// $Id: SM_visualizor.h 29754 2006-03-24 13:08:31Z hachenb $
+// 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
-//                 Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
 
-#ifndef SM_VISUALIZOR_H
-#define SM_VISUALIZOR_H
+#ifndef CGAL_NEF_SM_VISUALIZOR_H
+#define CGAL_NEF_SM_VISUALIZOR_H
 
 #include <CGAL/basic.h>
 #include <CGAL/Nef_S2/SM_decorator.h>
 #include <CGAL/Nef_S2/SM_triangulator.h>
 #include <CGAL/Nef_S2/Sphere_geometry_OGL.h>
 
-#define LGREY CGAL::Color(170,170,200)
-#define DGREY CGAL::Color(30,30,50)
+#define CGAL_NEF_LGREY CGAL::Color(170,170,200)
+#define CGAL_NEF_DGREY CGAL::Color(30,30,50)
 CGAL_BEGIN_NAMESPACE
 
 template <typename Map_>
@@ -46,7 +45,7 @@ public:
   Color color(SHalfloop_const_handle, Mark m) const
   { return ( m ? CGAL::BLACK : CGAL::WHITE ); }
   Color color(SFace_const_handle, Mark m) const
-  { return ( m ? DGREY : LGREY ); }
+  { return ( m ? CGAL_NEF_DGREY : CGAL_NEF_LGREY ); }
 };
 
 
@@ -144,7 +143,7 @@ void draw_map() const
 		   Base::incident_mark(en)==Base::incident_mark(enn));
     Mark m = Base::incident_mark(e);
     Sphere_triangle t = Base::incident_triangle(e);
-    S_.push_back(t, (m ? DGREY : LGREY) );
+    S_.push_back(t, (m ? CGAL_NEF_DGREY : CGAL_NEF_LGREY) );
     Done[e]=Done[en]=Done[enn]=true;
   }
 
@@ -185,7 +184,7 @@ void draw_triangulation() const
 		   incident_mark(en)==incident_mark(enn));
     Mark m = incident_mark(e);
     Sphere_triangle t = incident_triangle(e);
-    S_.push_back(t, (m ? DGREY : LGREY) );
+    S_.push_back(t, (m ? CGAL_NEF_DGREY : CGAL_NEF_LGREY) );
     Done[e]=Done[en]=Done[enn]=true;
   }
 
@@ -199,7 +198,7 @@ void draw_triangulation() const
 
 CGAL_END_NAMESPACE
 #undef CGAL_USING
-//#undef LGREY
-//#undef DGREY
-#endif // SM_VISUALIZOR_H
+//#undef CGAL_NEF_LGREY
+//#undef CGAL_NEF_DGREY
+#endif // CGAL_NEF_SM_VISUALIZOR_H
 

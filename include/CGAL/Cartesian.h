@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian.h,v $
-// $Revision: 1.43 $ $Date: 2004/05/19 10:13:41 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian.h $
+// $Id: Cartesian.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion
 
@@ -30,9 +30,9 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < typename FT_, typename Kernel >
+template < typename FT_, typename Kernel_ >
 struct Cartesian_base_ref_count
-  : public Cartesian_base< Kernel, FT_ >
+  : public Cartesian_base< Kernel_, FT_ >
 {
     typedef FT_                                           RT;
     typedef FT_                                           FT;
@@ -44,11 +44,13 @@ struct Cartesian_base_ref_count
     template < typename Kernel2 >
     struct Base { typedef Cartesian_base_ref_count<FT_, Kernel2>  Type; };
 
-    // TODO: cleanup (use Rational_traits<> instead)
-    static   FT make_FT(const RT & num, const RT& denom) { return num/denom;}
-    static   FT make_FT(const RT & num)                  { return num;}
-    static   RT FT_numerator(const FT &r)                { return r;}
-    static   RT FT_denominator(const FT &)               { return RT(1);}
+    // was in Cartesian_base
+    typedef Kernel_ K;
+#define CGAL_Kernel_pred(Y,Z) typedef CartesianKernelFunctors::Y<K> Y; \
+                              Y Z() const { return Y(); }
+#define CGAL_Kernel_cons(Y,Z) CGAL_Kernel_pred(Y,Z)
+
+#include <CGAL/Kernel/interface_macros.h>
 };
 
 template < typename FT_ >

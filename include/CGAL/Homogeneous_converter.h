@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous_converter.h,v $
-// $Revision: 1.13 $ $Date: 2004/05/19 23:19:36 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous_converter.h $
+// $Id: Homogeneous_converter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 //                 Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -246,6 +246,15 @@ private:
     RT_Converter rc;
     FT_Converter fc;
     K2 k;
+};
+
+// Specialization when converting to the same kernel,
+// to avoid making copies.
+template < class K, class C1, class C2 >
+struct Homogeneous_converter <K, K, C1, C2>
+{
+  template < typename T >
+  const T& operator()(const T&t) const { return t; }
 };
 
 CGAL_END_NAMESPACE

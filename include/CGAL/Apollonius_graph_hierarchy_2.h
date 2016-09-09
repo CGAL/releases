@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_2.h,v $
-// $Revision: 1.25 $ $Date: 2004/09/07 13:32:58 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_2.h $
+// $Id: Apollonius_graph_hierarchy_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -58,10 +58,7 @@ private:
   typedef Apollonius_graph_2<Gt,Agds,LTag>  Apollonius_graph_base;
   typedef Apollonius_graph_base             Ag_base;
 
-  typedef typename Ag_base::Vertex          Vertex;
-
 public:
-  typedef Agds                              Data_structure;
   typedef Gt                                Geom_traits;
   typedef typename Gt::Site_2               Site_2;
   typedef typename Gt::Point_2              Point_2;
@@ -188,6 +185,11 @@ public:
   void clear();
   void swap(Apollonius_graph_hierarchy_2& agh);
 
+  // I/O
+  //----
+  void file_input(std::istream& is);
+  void file_output(std::ostream& os) const;
+
 private:
   // private methods
   void
@@ -203,7 +205,144 @@ private:
   // here is the stack of graphs which form the hierarchy
   Apollonius_graph_base*   hierarchy[ag_hierarchy_2__maxlevel];
   Random random; // random generator
+
+public:
+  template<class OutputItFaces, class OutputItBoundaryEdges,
+	   class OutputItHiddenVertices>
+  boost::tuples::tuple<OutputItFaces, OutputItBoundaryEdges,
+		       OutputItHiddenVertices>
+  get_conflicts_and_boundary_and_hidden_vertices(const Site_2& p,
+						 OutputItFaces fit,
+						 OutputItBoundaryEdges eit,
+						 OutputItHiddenVertices vit,
+						 Vertex_handle start =
+						 Vertex_handle()) const
+  {
+    Vertex_handle vnearest = nearest_neighbor(p.point(), start);
+    return this->get_all(p, fit, eit, vit, vnearest, false);
+  }
+
+  template<class OutputItFaces, class OutputItBoundaryEdges>
+  std::pair<OutputItFaces, OutputItBoundaryEdges>
+  get_conflicts_and_boundary(const Site_2& p,
+			     OutputItFaces fit,
+			     OutputItBoundaryEdges eit,
+			     Vertex_handle start =
+			     Vertex_handle()) const {
+    boost::tuples::tuple<OutputItFaces,OutputItBoundaryEdges,Emptyset_iterator>
+      tup =
+      get_conflicts_and_boundary_and_hidden_vertices(p,
+						     fit,
+						     eit,
+						     Emptyset_iterator(),
+						     start);
+    return std::make_pair( boost::tuples::get<0>(tup),
+			   boost::tuples::get<1>(tup) );
+  }
+
+
+  template<class OutputItBoundaryEdges, class OutputItHiddenVertices>
+  std::pair<OutputItBoundaryEdges, OutputItHiddenVertices>
+  get_boundary_of_conflicts_and_hidden_vertices(const Site_2& p,
+						OutputItBoundaryEdges eit,
+						OutputItHiddenVertices vit,
+						Vertex_handle start =
+						Vertex_handle()) const {
+    boost::tuples::tuple<Emptyset_iterator,OutputItBoundaryEdges,
+      OutputItHiddenVertices>
+      tup =
+      get_conflicts_and_boundary_and_hidden_vertices(p,
+						     Emptyset_iterator(),
+						     eit,
+						     vit,
+						     start);
+    return std::make_pair( boost::tuples::get<1>(tup),
+			   boost::tuples::get<2>(tup) );
+  }
+
+
+  template<class OutputItFaces, class OutputItHiddenVertices>
+  std::pair<OutputItFaces, OutputItHiddenVertices>
+  get_conflicts_and_hidden_vertices(const Site_2& p,
+				    OutputItFaces fit,
+				    OutputItHiddenVertices vit,
+				    Vertex_handle start =
+				    Vertex_handle()) const {
+    boost::tuples::tuple<OutputItFaces,Emptyset_iterator,
+      OutputItHiddenVertices>
+      tup =
+      get_conflicts_and_boundary_and_hidden_vertices(p,
+						     fit,
+						     Emptyset_iterator(),
+						     vit,
+						     start);
+    return std::make_pair( boost::tuples::get<0>(tup),
+			   boost::tuples::get<2>(tup) );
+  }
+
+  template<class OutputItFaces>
+  OutputItFaces get_conflicts(const Site_2& p,
+			      OutputItFaces fit,
+			      Vertex_handle start = Vertex_handle()) const {
+    boost::tuples::tuple<OutputItFaces,Emptyset_iterator,Emptyset_iterator>
+      tup =
+      get_conflicts_and_boundary_and_hidden_vertices(p,
+						     fit,
+						     Emptyset_iterator(),
+						     Emptyset_iterator(),
+						     start);
+    return boost::tuples::get<0>(tup);
+  }
+
+  template<class OutputItBoundaryEdges>
+  OutputItBoundaryEdges
+  get_boundary_of_conflicts(const Site_2& p,
+			    OutputItBoundaryEdges eit,
+			    Vertex_handle start = Vertex_handle()) const {
+    boost::tuples::tuple<Emptyset_iterator,OutputItBoundaryEdges,
+      Emptyset_iterator>
+      tup =
+      get_conflicts_and_boundary_and_hidden_vertices(p,
+						     Emptyset_iterator(),
+						     eit,
+						     Emptyset_iterator(),
+						     start);
+    return boost::tuples::get<1>(tup);
+  }
+
+  template<class OutputItHiddenVertices>
+  OutputItHiddenVertices
+  get_hidden_vertices(const Site_2& p,
+		      OutputItHiddenVertices vit,
+		      Vertex_handle start = Vertex_handle()) const {
+    boost::tuples::tuple<Emptyset_iterator,Emptyset_iterator,
+      OutputItHiddenVertices>
+      tup =
+      get_conflicts_and_boundary_and_hidden_vertices(p,
+						     Emptyset_iterator(),
+						     Emptyset_iterator(),
+						     vit,
+						     start);
+    return boost::tuples::get<2>(tup);
+  }
 };
+
+
+template<class Gt, class Agds, class LTag>
+std::ostream& operator<<(std::ostream& os,
+			 const Apollonius_graph_hierarchy_2<Gt,Agds,LTag>& agh)
+{
+  agh.file_output(os);
+  return os;
+}
+
+template<class Gt, class Agds, class LTag>
+std::istream& operator>>(std::istream& is,
+			 Apollonius_graph_hierarchy_2<Gt,Agds,LTag>& agh)
+{
+  agh.file_input(is);
+  return is;
+}
 
 CGAL_END_NAMESPACE
 

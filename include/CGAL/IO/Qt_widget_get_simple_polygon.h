@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_get_simple_polygon.h,v $
-// $Revision: 1.22 $ $Date: 2004/09/04 19:11:43 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Qt_widget/include/CGAL/IO/Qt_widget_get_simple_polygon.h $
+// $Id: Qt_widget_get_simple_polygon.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Laurent Rineau && Radu Ursu
 
@@ -49,7 +49,7 @@ protected:
 
   void mousePressEvent(QMouseEvent *e)
   {
-    if(e->button() == Qt::RightButton && is_pure(e->state()))
+    if(e->button() == Qt::RightButton && this->is_pure(e->state()))
     {
       if (this->active) {
         if(!this->poly.is_simple()) return;

@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2004  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Mesh_2/include/CGAL/Delaunay_mesh_face_base_2.h,v $
-// $Revision: 1.4 $ $Date: 2004/09/21 12:55:02 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Delaunay_mesh_face_base_2.h $
+// $Id: Delaunay_mesh_face_base_2.h 29627 2006-03-20 14:38:45Z lrineau $
+// 
 //
 // Author(s)     : Laurent RINEAU
 
@@ -41,15 +41,15 @@ public:
   };
 
 protected:
-  bool marked;
+  bool in_domain;
 
 public:
-  Delaunay_mesh_face_base_2(): Fb(), marked(false) {};
+  Delaunay_mesh_face_base_2(): Fb(), in_domain(false) {};
 
   Delaunay_mesh_face_base_2(Vertex_handle v0, 
 			    Vertex_handle v1, 
 			    Vertex_handle v2)
-    : Fb(v0,v1,v2), marked(false) {};
+    : Fb(v0,v1,v2), in_domain(false) {};
 
   Delaunay_mesh_face_base_2(Vertex_handle v0, 
 			    Vertex_handle v1, 
@@ -57,13 +57,21 @@ public:
 			    Face_handle n0, 
 			    Face_handle n1, 
 			    Face_handle n2)
-    : Fb(v0,v1,v2,n0,n1,n2), marked(false) {};
+    : Fb(v0,v1,v2,n0,n1,n2), in_domain(false) {};
 
   inline
-  bool is_marked() const { return marked; };
+  bool is_in_domain() const { return in_domain; };
 
   inline
-  void set_marked(const bool b) { marked=b; };
+  void set_in_domain(const bool b) { in_domain=b; };
+
+  /** compatibility with CGAL-3.2 */
+  inline
+  bool is_marked() const { return in_domain; };
+
+  /** compatibility with CGAL-3.2 */
+  inline
+  void set_marked(const bool b) { in_domain=b; };
 };
 
 }; // namespace CGAL

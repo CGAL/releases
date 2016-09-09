@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h,v $
-// $Revision: 1.15 $ $Date: 2004/05/19 13:19:40 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h $
+// $Id: Cartesian_base.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -28,6 +28,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/basic_classes.h>
+#include <CGAL/Kernel/global_functions.h>
 
 #include <CGAL/Cartesian/Point_2.h>
 #include <CGAL/Cartesian/Vector_2.h>
@@ -65,6 +66,7 @@
 
 #include <CGAL/representation_tags.h>
 #include <CGAL/Cartesian/function_objects.h>
+#include <CGAL/Uncertain.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -72,12 +74,30 @@ template < typename K_, typename FT_>
 struct Cartesian_base
 {
     typedef K_                                          Kernel;
-
+    typedef FT_                                         FT;
+    typedef Cartesian_base<K_,FT_>                      Self;
     typedef Cartesian_tag                               Rep_tag;
     typedef Cartesian_tag                               Kernel_tag;
 
     typedef CGAL::Object                                Object_2;
     typedef CGAL::Object                                Object_3;
+
+    // These are currently undocumented.
+    // Should they be part of the Kernel interface ?
+    typedef typename Same_uncertainty_nt<bool, FT>::type
+                                                        Bool;
+    typedef typename Same_uncertainty_nt<CGAL::Sign, FT>::type
+                                                        Sign;
+    typedef typename Same_uncertainty_nt<CGAL::Comparison_result, FT>::type
+                                                        Comparison_result;
+    typedef typename Same_uncertainty_nt<CGAL::Orientation, FT>::type
+                                                        Orientation;
+    typedef typename Same_uncertainty_nt<CGAL::Oriented_side, FT>::type
+                                                        Oriented_side;
+    typedef typename Same_uncertainty_nt<CGAL::Bounded_side, FT>::type
+                                                        Bounded_side;
+    typedef typename Same_uncertainty_nt<CGAL::Angle, FT>::type
+                                                        Angle;
 
     typedef PointC2<Kernel>                             Point_2;
     typedef VectorC2<Kernel>                            Vector_2;
@@ -109,14 +129,6 @@ struct Cartesian_base
     // Undocumented stuff.
     typedef Data_accessorC2<Kernel>                     Data_accessor_2;
     typedef ConicCPA2<Point_2,Data_accessor_2>          Conic_2;
-
-    // Functors types and access functions.
-#define CGAL_Kernel_pred(Y,Z) typedef CartesianKernelFunctors::Y<Kernel> Y; \
-                              Y Z() const { return Y(); }
-#define CGAL_Kernel_cons(Y,Z) CGAL_Kernel_pred(Y,Z)
-
-#include <CGAL/Kernel/interface_macros.h>
-
 };
 
 CGAL_END_NAMESPACE

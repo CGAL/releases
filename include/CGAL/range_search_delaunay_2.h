@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Point_set_2/include/CGAL/range_search_delaunay_2.h,v $
-// $Revision: 1.10 $ $Date: 2003/11/25 08:57:06 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Point_set_2/include/CGAL/range_search_delaunay_2.h $
+// $Id: range_search_delaunay_2.h 29694 2006-03-22 16:11:11Z afabri $
+// 
 //
 // Author(s)     : Matthias Baesken
 
@@ -203,8 +203,16 @@ OutputIterator range_search(Dt& delau,
    return res;        
 }
    
+
    
 // triangular range search ...   
+// Note that the function only works correctly with exact constructions
+// because it computes the circumcenter of the points a, b, and c
+// and then performs a range query with this circle. 
+// When vertices of the trinagulation are on the circle the outcome
+// is not deterministic.
+// A solution would be to not constuct a circle, but to use the
+// function CGAL::side_of_bounded_circle
 
 template<class Dt, class OutputIterator>
 OutputIterator range_search(Dt& delau, 

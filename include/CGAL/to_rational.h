@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/to_rational.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:21:49 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/to_rational.h $
+// $Id: to_rational.h 28782 2006-02-25 23:14:49Z glisse $
+// 
 //
 // Author(s)     : Andreas Fabri, Susan Hert, Sylvain Pion
  
@@ -25,6 +25,8 @@
 #define CGAL_TO_RATIONAL_H
 
 #include <CGAL/Number_type_traits.h>
+
+#include <cmath>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -45,7 +47,7 @@ to_rational(double x)
       const int maxiter = 20;      // ought not be necessary, but just in
                                    // case, max 300 bits of precision
       int expt;
-      double mantissa = frexp(x, &expt);
+      double mantissa = std::frexp(x, &expt);
       long exponent = expt;
       double intpart;
       int k = 0;

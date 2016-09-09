@@ -1,6 +1,28 @@
-#include <iostream>
+// Copyright (c) 2001  Tel-Aviv University (Israel).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2.C $
+// $Id: snap_rounding_2.C 29608 2006-03-19 12:16:51Z baruchzu $
+// 
+//
+// Author(s)     : Eli Packer <elip@post.tau.ac.il>
+
+#include <CGAL/basic.h>
 
 #ifndef CGAL_USE_QT
+
+#include <iostream>
+
 int main(int, char*)
 {
   std::cout << "Sorry, this demo needs QT...";
@@ -9,6 +31,7 @@ int main(int, char*)
 }
 #else
 
+#include <cstdlib>
 #include "cgal_types.h"
 //global flags and variables
 int current_state;
@@ -39,13 +62,13 @@ Number_type prec;
 
 Number_type min(const Number_type & p, const Number_type & q, Number_type & r)
 {
-  return(p > q ? min(q,r) : min(p,r));
+  return(p > q ? CGAL::min(q,r) : CGAL::min(p,r));
 }
 
 Number_type max(const Number_type & p,const Number_type & q,
                 const Number_type & r)
 {
-  return(p > q ? max(p,r) : max(q,r));
+  return(p > q ? CGAL::max(p,r) : CGAL::max(q,r));
 }
 
 void get_extreme_points(std::list<Segment_2> &seg_list,
@@ -56,10 +79,10 @@ void get_extreme_points(std::list<Segment_2> &seg_list,
 {
   std::list<Segment_2>::iterator iter = seg_list.begin();
 
-  min_x = min(iter->source().x(),iter->target().x());
-  max_x = max(iter->source().x(),iter->target().x());
-  min_y = min(iter->source().y(),iter->target().y());
-  max_y = max(iter->source().y(),iter->target().y());
+  min_x = CGAL::min(iter->source().x(),iter->target().x());
+  max_x = CGAL::max(iter->source().x(),iter->target().x());
+  min_y = CGAL::min(iter->source().y(),iter->target().y());
+  max_y = CGAL::max(iter->source().y(),iter->target().y());
    
   for(++iter;iter != seg_list.end();++iter) {
     min_x = min(iter->source().x(),iter->target().x(),min_x);
@@ -237,7 +260,7 @@ public slots:
 
     if(number_of_segments < 1) {
       std::cerr << "Bad input file(number of segments)" << std::endl;
-      exit(1);
+      std::exit(1);
     }
     QProgressDialog progress("Loading segments", "Abort loading",
                              number_of_segments, this, "progress", true);

@@ -12,9 +12,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/ch_melkman.C,v $
-// $Revision: 1.7 $ $Date: 2004/01/18 13:42:58 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_2/include/CGAL/ch_melkman.C $
+// $Id: ch_melkman.C 30657 2006-04-19 13:29:42Z cdelage $
+// 
 //
 // Author(s)     : Stefan Schirra
  
@@ -103,12 +103,12 @@ ch_melkman( InputIterator first, InputIterator last,
       // right_turn( Q.back(), current, r)
       {
         s = current;
-        while ( !left_turn( r, s, Q.front()))
+        while (!Q.empty() && !left_turn( r, s, Q.front()))
         //      !left_turn( r, s, Q.front())
         { s = Q.front(); Q.pop_front(); }
         Q.push_front(s);
         s = current;
-        while ( !left_turn( s, r, Q.back()))
+        while (!Q.empty() &&  !left_turn( s, r, Q.back()))
         //     !right_turn( r, s, Q.back())
         { s = Q.back(); Q.pop_back(); }
         Q.push_back(s);

@@ -15,25 +15,23 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Fourtuple.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:18:04 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/Fourtuple.h $
+// $Id: Fourtuple.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Andreas Fabri
 
-#ifndef CGAL__FOURTUPLE_H
-#define CGAL__FOURTUPLE_H
+#ifndef CGAL_FOURTUPLE_H
+#define CGAL_FOURTUPLE_H
 
 CGAL_BEGIN_NAMESPACE
 
 template < class T >
-class Fourtuple
+struct Fourtuple
 {
-public:
-  T  e0;
-  T  e1;
-  T  e2;
-  T  e3;
+  typedef T value_type;
+
+  T  e0, e1, e2, e3;
 
   Fourtuple()
   {}
@@ -45,4 +43,4 @@ public:
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL__FOURTUPLE_H
+#endif // CGAL_FOURTUPLE_H

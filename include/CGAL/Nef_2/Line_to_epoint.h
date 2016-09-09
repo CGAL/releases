@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/Line_to_epoint.h,v $
-// $Revision: 1.5 $ $Date: 2003/10/21 12:21:00 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Nef_2/Line_to_epoint.h $
+// $Id: Line_to_epoint.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -36,8 +36,9 @@ struct Line_to_epoint {
   static RT dx(const Line_2& l) { return l.b(); }
   static RT dy(const Line_2& l) { return -l.a(); }
 
-  static FT ordinate_distance(const Line_2& l)
-  { return Kernel::make_FT(-l.c(),l.b()); }
+  static FT ordinate_distance(const Line_2& l) { 
+    return FT(-l.c()) / l.b();
+  }
 
   static Point_type determine_type(const Line_2& l)
   {

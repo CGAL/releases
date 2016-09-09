@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interpolation/include/CGAL/predicates/predicates_for_voronoi_intersection_cartesian_2_3.h,v $
-// $Revision: 1.5 $ $Date: 2004/09/09 14:06:03 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interpolation/include/CGAL/predicates/predicates_for_voronoi_intersection_cartesian_2_3.h $
+// $Id: predicates_for_voronoi_intersection_cartesian_2_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Julia Floetotto
 

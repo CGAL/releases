@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Intersections_3/include/CGAL/intersection_3_1.C,v $
-// $Revision: 1.12 $ $Date: 2004/06/23 03:20:14 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_3/include/CGAL/intersection_3_1.C $
+// $Id: intersection_3_1.C 29773 2006-03-26 21:31:32Z spion $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 
@@ -148,13 +148,11 @@ intersection(const typename CGAL_WRAP(K)::Plane_3 &plane1,
     // a line, a plane, or empty.
     Object o12 = CGALi::intersection(plane1, plane2, k);
 
-    Line_3 l;
-    if (assign(l, o12))
-        return CGALi::intersection(plane3, l, k);
+    if (const Line_3 *l = object_cast<Line_3>(&o12))
+        return CGALi::intersection(plane3, *l, k);
 
-    Plane_3 pl;
-    if (assign(pl, o12))
-        return CGALi::intersection(plane3, pl, k);
+    if (const Plane_3 *pl = object_cast<Plane_3>(&o12))
+        return CGALi::intersection(plane3, *pl, k);
 
     return Object();
 }
@@ -207,9 +205,8 @@ intersection(const typename CGAL_WRAP(K)::Plane_3 &plane,
     typedef typename K::Point_3 Point_3;
     const Object line_intersection =
             intersection(plane, ray.supporting_line(), k);
-    Point_3 isp;
-    if (assign(isp, line_intersection)) {
-        if (ray.collinear_has_on(isp))
+    if (const Point_3 *isp = object_cast<Point_3>(&line_intersection)) {
+        if (ray.collinear_has_on(*isp))
             return line_intersection;
         else
             return Object();
@@ -243,13 +240,8 @@ do_intersect(const typename CGAL_WRAP(K)::Plane_3 &plane,
             intersection(plane, ray.supporting_line(), k);
     if (line_intersection.is_empty())
         return false;
-    Point_3 isp;
-    if (assign(isp, line_intersection)) {
-        if (ray.collinear_has_on(isp))
-            return true;
-        else
-            return false;
-    }
+    if (const Point_3 *isp = object_cast<Point_3>(&line_intersection))
+        return ray.collinear_has_on(*isp);
     return true;
 }
 
@@ -461,13 +453,12 @@ intersection(const typename CGAL_WRAP(K)::Line_3 &line,
     typedef typename K::RT RT;
     typedef typename K::FT FT;
     bool all_values = true;
-    FT _min, _max;
+    FT _min = 0, _max = 0; // initialization to stop compiler warning
     Point_3 const & _ref_point=line.point();
     Vector_3 const & _dir=line.direction().vector();
     Point_3 const & _iso_min=box.min();
     Point_3 const & _iso_max=box.max();
-    int i;
-    for (i=0; i< _ref_point.dimension(); i++) {
+    for (int i=0; i< _ref_point.dimension(); i++) {
         if (_dir.homogeneous(i) == RT(0)) {
             if (_ref_point.cartesian(i) < _iso_min.cartesian(i)) {
                 return Object();

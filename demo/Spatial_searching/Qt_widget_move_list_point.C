@@ -11,11 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/demo/Spatial_searching/Qt_widget_move_list_point.C,v $
-// $Revision: 1.1.6.1 $ $Date: 2004/12/19 16:56:47 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/demo/Spatial_searching/Qt_widget_move_list_point.C $
+// $Id: Qt_widget_move_list_point.C 29234 2006-03-09 08:40:54Z afabri $
+// 
 //
 // Author(s)     : Radu Ursu
+
+#include <CGAL/basic.h>
 
 #ifdef CGAL_USE_QT
 

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h,v $
-// $Revision: 1.20.2.3 $ $Date: 2004/12/17 15:03:05 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h $
+// $Id: Sphere_geometry_OGL.h 30667 2006-04-19 16:56:12Z glisse $
+// 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
 
@@ -36,8 +36,8 @@
 #define CGAL_NEF_DEBUG 151
 #include <CGAL/Nef_2/debug.h>
 
-#define LGREY CGAL::Color(170,170,200)
-#define DGREY CGAL::Color(30,30,50)
+#define CGAL_NEF_LGREY CGAL::Color(170,170,200)
+#define CGAL_NEF_DGREY CGAL::Color(30,30,50)
 
 CGAL_BEGIN_NAMESPACE
 namespace OGL {
@@ -92,7 +92,7 @@ class Approximator {
     double v2l = CGAL_NTS sqrt(v2*v2);
     double v3l = CGAL_NTS sqrt(v3*v3);
     double cosalpha = v0*v3 / v0l / v3l; 
-    double alpha = acos(cosalpha);
+    double alpha = std::acos(cosalpha);
     const int units_per_halfcircle = 50;
     int units = int(units_per_halfcircle/CGAL_PI * alpha);
     if (units == 0) ++units;
@@ -112,8 +112,8 @@ class Approximator {
 	     v0.z(),v1.z(),v2.z());
     VSegment S(units+1);
     for (int i=0; i<units; ++i) 
-      S[i] = VPoint(cos(CGAL_PI*i/double(units_per_halfcircle)),
-		    sin(CGAL_PI*i/double(units_per_halfcircle)),
+      S[i] = VPoint(std::cos(CGAL_PI*i/double(units_per_halfcircle)),
+		    std::sin(CGAL_PI*i/double(units_per_halfcircle)),
 		    0.0);
     double sinalpha = 1 - cosalpha*cosalpha;
     if (sinalpha <0) sinalpha = 0; 
@@ -150,8 +150,8 @@ class Approximator {
 	     v0.z(),v1.z(),v2.z());
     VSegment S(units);
     for (int i=0; i<units; ++i) {
-      S[i] = VPoint(cos(2.0*CGAL_PI*i/double(units)),
-		    sin(2.0*CGAL_PI*i/double(units)),
+      S[i] = VPoint(std::cos(2.0*CGAL_PI*i/double(units)),
+		    std::sin(2.0*CGAL_PI*i/double(units)),
 		    0.0);
     }
     VSegment::iterator it;
@@ -168,9 +168,9 @@ class Approximator {
 
   static void refine(const DTriangle& t, VTriangle& T) {
     double angle[3]; int i(0);
-    angle[0] = acos((t[0]-CGAL::ORIGIN)*(t[1]-CGAL::ORIGIN));
-    angle[1] = acos((t[1]-CGAL::ORIGIN)*(t[2]-CGAL::ORIGIN));
-    angle[2] = acos((t[2]-CGAL::ORIGIN)*(t[0]-CGAL::ORIGIN));
+    angle[0] = std::acos((t[0]-CGAL::ORIGIN)*(t[1]-CGAL::ORIGIN));
+    angle[1] = std::acos((t[1]-CGAL::ORIGIN)*(t[2]-CGAL::ORIGIN));
+    angle[2] = std::acos((t[2]-CGAL::ORIGIN)*(t[0]-CGAL::ORIGIN));
     CGAL_NEF_TRACEN("refine "<<angle[0]<<" "<<angle[1]<<" "<<angle[2]);
     if ( angle[1] > angle[0] ) {
       if ( angle[2] > angle[1] ) i=2;
@@ -562,7 +562,7 @@ void construct_axes() const
   glEnd();
   glBegin(GL_LINE_LOOP);
   for(i=0;i<100;i++)
-    glVertex3d(f*cos(2.0*CGAL_PI*i/100.0),f*sin(2.0*CGAL_PI*i/100.0),0.0);
+    glVertex3d(f*std::cos(2.0*CGAL_PI*i/100.0),f*std::sin(2.0*CGAL_PI*i/100.0),0.0);
   glEnd();
   // green y-axis and equator
   glColor3f(0.0,1.0,0.0);
@@ -572,7 +572,7 @@ void construct_axes() const
   glEnd();
   glBegin(GL_LINE_LOOP);
   for(i=0;i<100;i++)
-    glVertex3d(0.0,f*cos(2.0*CGAL_PI*i/100.0),f*sin(2.0*CGAL_PI*i/100.0));
+    glVertex3d(0.0,f*std::cos(2.0*CGAL_PI*i/100.0),f*std::sin(2.0*CGAL_PI*i/100.0));
   glEnd();
   // blue z-axis and equator
   glColor3f(0.0,0.0,1.0);
@@ -582,7 +582,7 @@ void construct_axes() const
   glEnd();
   glBegin(GL_LINE_LOOP);
   for(i=0;i<100;i++)
-    glVertex3d(f*cos(2.0*CGAL_PI*i/100.0),0.0,f*sin(2.0*CGAL_PI*i/100.0));
+    glVertex3d(f*std::cos(2.0*CGAL_PI*i/100.0),0.0,f*std::sin(2.0*CGAL_PI*i/100.0));
   glEnd();
   // six coordinate points in pink:
   glPointSize(10);
@@ -654,8 +654,8 @@ void construct()
 
 public:
 
-void draw(GLdouble z_vec[3]) const
-// void draw() const
+//void draw(GLdouble z_vec[3]) const
+void draw() const
 { 
   gluQuadricDrawStyle(sphere_,GLenum(GLU_FILL));
   glEnable(GL_LIGHTING);
@@ -702,13 +702,14 @@ public:
   Color color(SHalfloop_const_handle, Mark m) const
   { return ( m ? CGAL::BLACK : CGAL::WHITE ); }
   Color color(SFace_const_handle, Mark m) const
-  { return ( m ? DGREY : LGREY ); }
+  { return ( m ? CGAL_NEF_DGREY : CGAL_NEF_LGREY ); }
 };
 
 template <typename Nef_polyhedron>
 class NefS2_to_UnitSphere
 {
   typedef typename Nef_polyhedron::Sphere_map          Sphere_map;
+  typedef typename Nef_polyhedron::Const_decorator     SM_const_decorator;
   typedef CGAL::OGL::SM_BooleColor<Sphere_map>           Color_;
   typedef typename Sphere_map::Sphere_kernel        Sphere_kernel;
   typedef SM_decorator<Sphere_map>                  Decorator;
@@ -730,7 +731,7 @@ class NefS2_to_UnitSphere
   typedef Color_                                  Color_objects;  
 
  public:
-  static CGAL::OGL::Unit_sphere convert(const Nef_polyhedron& E_,
+  static CGAL::OGL::Unit_sphere convert(const SM_const_decorator& E_,
 					const Color_objects& CO_ = Color_objects()) {
     Sphere_map MT_(true);
     Base T_(&MT_, &E_);
@@ -741,23 +742,23 @@ class NefS2_to_UnitSphere
     SHalfedge_const_iterator e;
     CGAL_forall_sedges(e,E_) {
       if ( e->source() == e->twin()->source() ) {
-	S_.push_back(E_.circle(e), CO_.color(e,E_.mark(e)));} else {
-	S_.push_back(Sphere_segment(E_.point(E_.source(e)),
-				    E_.point(E_.target(e)),
-				    E_.circle(e)),CO_.color(e,E_.mark(e)));
+	S_.push_back(e->circle(), CO_.color(e,e->mark()));} else {
+	S_.push_back(Sphere_segment(e->source()->point(),
+				    e->twin()->source()->point(),
+				    e->circle()),CO_.color(e,e->mark()));
       }
     }
     // draw sphere circles underlying loops of E_:
     
     if ( E_.has_shalfloop() )
       S_.push_back(
-		   Sphere_circle(E_.circle(E_.shalfloop())),
-		   CO_.color(E_.shalfloop(),E_.mark(E_.shalfloop())));
+		   E_.shalfloop()->circle(),
+		   CO_.color(E_.shalfloop(),E_.shalfloop()->mark()));
     
     // draw points underlying vertices of E_:
     SVertex_const_iterator v;
     CGAL_forall_svertices(v,E_)
-      S_.push_back(E_.point(v),CO_.color(v,E_.mark(v)));
+      S_.push_back(v->point(),CO_.color(v,v->mark()));
     
     Unique_hash_map<SHalfedge_const_iterator,bool> Done(false);
     CGAL_forall_shalfedges(e,T_) {
@@ -769,16 +770,16 @@ class NefS2_to_UnitSphere
 		     T_.incident_mark(en)==T_.incident_mark(enn));
       Mark m = T_.incident_mark(e);
       Sphere_triangle t = T_.incident_triangle(e);
-      S_.push_back(t, (m ? DGREY : LGREY) );
+      S_.push_back(t, (m ? CGAL_NEF_DGREY : CGAL_NEF_LGREY) );
       Done[e]=Done[en]=Done[enn]=true;
     }
     
     Done.clear(false);
     CGAL_forall_shalfedges(e,T_) {
       if ( Done[e] ) continue;
-      S_.push_back_triangle_edge(Sphere_segment(E_.point(E_.source(e)),
-						E_.point(E_.target(e)),
-						E_.circle(e)));
+      S_.push_back_triangle_edge(Sphere_segment(e->source()->point(),
+						e->twin()->source()->point(),
+						e->circle()));
       Done[e]=Done[e->twin()]=true;
     }    
     return S_;

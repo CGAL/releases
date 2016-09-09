@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/H3/include/CGAL/Homogeneous/VectorH3.h,v $
-// $Revision: 1.23 $ $Date: 2004/05/19 13:30:57 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH3.h $
+// $Id: VectorH3.h 29102 2006-03-06 23:51:27Z spion $
+// 
 //
 // Author(s)     : Stefan Schirra
  

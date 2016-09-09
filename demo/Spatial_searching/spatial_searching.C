@@ -11,13 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/demo/Spatial_searching/spatial_searching.C,v $
-// $Revision: 1.8.4.1 $ $Date: 2004/12/19 16:56:48 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/demo/Spatial_searching/spatial_searching.C $
+// $Id: spatial_searching.C 30667 2006-04-19 16:56:12Z glisse $
+// 
 //
 // Author(s)     : Radu Ursu
 // ============================================================================
 //
+
+#include <CGAL/basic.h>
 
 // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
@@ -198,7 +200,7 @@ private slots:
         
     } else if(CGAL::assign(c, obj)){
       // exact range searching using default value 0.0 for fuzziness paramater
-      Fuzzy_circle exact_range(c.center(), sqrt(c.squared_radius()));
+      Fuzzy_circle exact_range(c.center(), std::sqrt(c.squared_radius()));
 
       typedef CGAL::Kd_tree<Traits> Tree;
       std::list<Point_2> l, res;

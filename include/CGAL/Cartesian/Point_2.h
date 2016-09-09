@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Point_2.h,v $
-// $Revision: 1.40 $ $Date: 2004/06/20 18:17:02 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Point_2.h $
+// $Id: Point_2.h 29078 2006-03-06 13:08:09Z spion $
+// 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
 
@@ -27,12 +27,14 @@
 #include <CGAL/Origin.h>
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Twotuple.h>
+#include <CGAL/Handle_for.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class PointC2
 {
+  typedef PointC2<R_>                       Self;
   typedef typename R_::FT                   FT;
   typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Point_2              Point_2;
@@ -43,9 +45,11 @@ class PointC2
 
   Base base;
 
+  static FT one;
+
 public:
   typedef const FT* Cartesian_const_iterator;
-
+  
   typedef R_                                     R;
 
   PointC2() {}
@@ -68,6 +72,7 @@ public:
   {
       return get(base).e0;
   }
+  
   const FT& y() const
   {
       return get(base).e1;
@@ -81,23 +86,15 @@ public:
   {
       return y();
   }
-  FT hw() const
+  const FT& hw() const
   {
-      return FT(1);
-  }
-
-  const FT& cartesian(int i) const;
-  FT homogeneous(int i) const;
-  const FT& operator[](int i) const
-  {
-      return cartesian(i);
+      return one;
   }
 
 
   Cartesian_const_iterator cartesian_begin() const 
   {
     return & get(base).e0; 
-    //return Cartesian_const_iterator(static_cast<const Point_2* >(this),0);
   }
 
   Cartesian_const_iterator cartesian_end() const 
@@ -105,12 +102,6 @@ public:
     const FT* ptr = & get(base).e1;
     ptr++;
     return ptr;
-    //return Cartesian_const_iterator(static_cast<const Point_2* >(this), 2);
-  }
-
-  int dimension() const
-  {
-      return 2;
   }
 
   bool operator==(const PointC2 &p) const
@@ -124,7 +115,6 @@ public:
       return !(*this == p);
   }
 
-  Bbox_2 bbox() const;
 
   Point_2 transform(const Aff_transformation_2 &t) const
   {
@@ -132,78 +122,11 @@ public:
   }
 };
 
-template < class R >
-CGAL_KERNEL_INLINE
-const typename PointC2<R>::FT &
-PointC2<R>::cartesian(int i) const
-{
-  CGAL_kernel_precondition( (i == 0) || (i == 1) );
-  return *(&(get(base).e0)+i);
-}
+template <class R >
+typename R::FT PointC2<R>::one = 1;
 
-template < class R >
-CGAL_KERNEL_INLINE
-typename PointC2<R>::FT
-PointC2<R>::homogeneous(int i) const
-{
-  CGAL_kernel_precondition( (i>=0) && (i<=2) );
-  if (i<2)
-    return cartesian(i);
-  return FT(1);
-}
 
-template < class R >
-CGAL_KERNEL_INLINE
-Bbox_2
-PointC2<R>::bbox() const
-{
-  std::pair<double,double> xp = CGAL_NTS to_interval(x());
-  std::pair<double,double> yp = CGAL_NTS to_interval(y());
-  return Bbox_2(xp.first, yp.first,  xp.second, yp.second);
-}
 
-#ifndef CGAL_NO_OSTREAM_INSERT_POINTC2
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const PointC2<R> &p)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << p.x() << ' ' << p.y();
-    case IO::BINARY :
-        write(os, p.x());
-        write(os, p.y());
-        return os;
-    default:
-        return os << "PointC2(" << p.x() << ", " << p.y() << ')';
-    }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_POINTC2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_POINTC2
-template < class R >
-std::istream &
-operator>>(std::istream &is, PointC2<R> &p)
-{
-    typename R::FT x, y;
-    switch(is.iword(IO::mode)) {
-    case IO::ASCII :
-        is >> x >> y;
-        break;
-    case IO::BINARY :
-        read(is, x);
-        read(is, y);
-        break;
-    default:
-        std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-        break;
-    }
-    if (is)
-	p = PointC2<R>(x, y);
-    return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_POINTC2
 
 CGAL_END_NAMESPACE
 

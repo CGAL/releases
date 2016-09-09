@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Hyperbola_ray_2.h,v $
-// $Revision: 1.15 $ $Date: 2004/09/03 17:26:24 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/Hyperbola_ray_2.h $
+// $Id: Hyperbola_ray_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -44,11 +44,20 @@ public:
   //  typedef CGAL::Ray_2< Cartesian<double> >       Ray_2;
 
 protected:
+#if defined(__POWERPC__) && \
+  defined(__GNUC__) && (__GNUC__ == 3 ) && (__GNUC_MINOR__ == 4)
+  // hack to avoid nasty warning for G++ 3.4 on Darwin
+  static FT OFFSET()
+  {
+    return FT(10000);
+  }
+#else
   static const FT& OFFSET()
   {
     static FT offset_(10000);
     return offset_;
   }
+#endif
 
   template< class Stream >
   inline

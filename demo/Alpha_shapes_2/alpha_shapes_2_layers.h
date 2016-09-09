@@ -1,3 +1,22 @@
+// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Alpha_shapes_2/demo/Alpha_shapes_2/alpha_shapes_2_layers.h $
+// $Id: alpha_shapes_2_layers.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
+//
+// Author(s)     : Radu Ursu
+
 #include <CGAL/IO/Qt_widget_layer.h>
 #include <CGAL/IO/Qt_widget_Triangulation_2.h>
 #include <CGAL/IO/Qt_widget_Alpha_shape_2.h>

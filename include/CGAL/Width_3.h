@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Width_3/include/CGAL/Width_3.h,v $
-// $Revision: 1.7 $ $Date: 2004/01/18 16:21:22 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Width_3/include/CGAL/Width_3.h $
+// $Id: Width_3.h 28685 2006-02-22 15:22:27Z glisse $
+// 
 //
 // Author(s)     : Thomas Herrmann, Lutz Kettner
 
@@ -531,7 +531,7 @@ class Width_3 {
 		<<std::endl
 		<<d<<std::endl<<k); 
       CGAL_assertion(a!=0);
-      abort();
+      std::abort();
     } else {
 #ifdef GCD_COMPUTATION
       DEBUGENDL(SOLVE_4X4,"Unique Solution of 4x4 (before GCD computation):\n",
@@ -1140,7 +1140,7 @@ class Width_3 {
     }
     //There must be a new EE-pair. If not, an error occurs
     std::cerr<<"No new EE-pair found!"<<std::endl;
-    abort();
+    std::abort();
   }  
   
   

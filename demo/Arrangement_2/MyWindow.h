@@ -1,5 +1,25 @@
-#ifndef MYWINDOW_H
-#define MYWINDOW_H
+// Copyright (c) 2005  Tel-Aviv University (Israel).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/demo/Arrangement_2/MyWindow.h $
+// $Id: MyWindow.h 28843 2006-02-27 14:40:07Z baruchzu $
+// 
+//
+//
+// Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
+
+#ifndef CGAL_MYWINDOW_H
+#define CGAL_MYWINDOW_H
 /////////////////////////////////////////////////////////////////////////////////////////
 // the demo program includs several calsses:
 // 1. MyWindow - main window, create thw window properties (tool bar, menu bar)
@@ -67,7 +87,7 @@ private:
     /*! skip_comments in input file */
     void skip_comments( std::ifstream& is, char* one_line );
     /*! read conic curve from input file */
-    void ReadCurve(std::ifstream & is, Pm_base_conic_2 & cv);
+    void ReadCurve(std::ifstream & is, Arr_conic_2 & cv);
     /*! read from file */
     void load( const QString& filename , bool clear_flag = false);
     /*! find the actual widget tab index of a tab */
@@ -152,16 +172,14 @@ private slots:
     void backGroundColor();
     /*! set vertexColor Color */
     void changePmColor();    
-    /*! choose the ray shoot diraction */
-    void rayShootingDirection();
     /*! choose the point location strategy */
     void pointLocationStrategy();
     /*! change the conic type of current tab */
-       void updateConicType( QAction *action );
+    void updateConicType( QAction *action );
     /*! update the window buttons according to change in conic type */
     void setConicType( ConicType t );
-	/*! open the color dialog */
-	void openColorDialog();
+    /*! open the color dialog */
+    void openColorDialog();
 
 private:
     /*! myBar - hold the tab widgets */
@@ -192,8 +210,10 @@ private:
     QAction *deleteMode;
     /*! point location mode action */
     QAction *pointLocationMode;
-    /*! ray shooting mode action */
-    QAction *rayShootingMode;
+    /*! ray shooting up mode action */
+    QAction *rayShootingUpMode;
+    /*! ray shooting down mode action */
+    QAction *rayShootingDownMode;
     /*! drag mode action */
     QAction *dragMode;
     /*! merge mode action */
@@ -242,10 +262,12 @@ private:
     QAction *setHyperbola;
     /*! conic type tool bar */
     QToolBar *conicTypeTool;
-	  /*! color dialog action (for filling faces) */
-  	QAction *color_dialog_bt;
-    /* strategy for point location*/
-    Strategy strategy;
+    /*! color dialog action (for filling faces) */
+    QAction *color_dialog_bt;
+    /*! number of colors */
+    const unsigned int num_of_colors;
+    /*! array of colors */
+    QColor *colors;
 };
 
 

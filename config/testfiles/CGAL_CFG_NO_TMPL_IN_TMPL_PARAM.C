@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_NO_TMPL_IN_TMPL_PARAM.C,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:14:51 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Installation/config/testfiles/CGAL_CFG_NO_TMPL_IN_TMPL_PARAM.C $
+// $Id: CGAL_CFG_NO_TMPL_IN_TMPL_PARAM.C 29388 2006-03-10 18:56:10Z glisse $
+// 
 //
 // Author(s)     : Lutz Kettner
 
@@ -53,11 +53,14 @@ struct D {
 template < template < class T > class HDS>
 void fct(HDS<int> h1 ) {} // here it does not compile 
 
+template < template < class T > class HDS>
+void fct2(D<double,HDS> h1 ) {}
+
 
 int main() {
     C<A> c(1);
     D< double, A> d( 3.8);
     (void) c;
-    (void) d;
+    fct2(d);
     return 0;
 }

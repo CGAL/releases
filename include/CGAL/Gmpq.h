@@ -15,12 +15,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/Gmpq.h,v $
-// $Revision: 1.19 $ $Date: 2004/09/01 16:17:11 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/Gmpq.h $
+// $Id: Gmpq.h 31041 2006-05-05 14:58:03Z drussel $
+// 
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
- 
+
 
 #ifndef CGAL_GMPQ_H
 #define CGAL_GMPQ_H
@@ -28,134 +28,46 @@
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
 #include <CGAL/Gmpz.h>
-#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/Interval_nt.h>
 
 #include <utility>
 #include <string>
+
 #include <gmp.h>
 #include <mpfr.h>
 
+#include <boost/operators.hpp>
+
+#include <CGAL/make_root_of_2.h>
+#include <CGAL/Root_of_traits.h>
+#include <CGAL/Root_of_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
-class Gmpq_rep
+// TODO : add mixed operators with Gmpz.
+
+// Wrapper around mpq_t to get the destructor call mpq_clear.
+// Contrary to mpz_t, there are no mpq_init_set_* functions,
+// so we simply call mpq_init() here.
+struct Gmpq_rep
 {
-public:
+  mpq_t mpQ;
 
-  mpq_t  mpQ;
+  Gmpq_rep()  { mpq_init(mpQ); }
+  ~Gmpq_rep() { mpq_clear(mpQ); }
 
-  Gmpq_rep()
-  { 
-    mpq_init(mpQ); 
-  }
-
-  Gmpq_rep(const mpq_t z)
-  { 
-    mpq_init(mpQ); 
-    mpq_set(mpQ, z);
-  }
-
-  Gmpq_rep(const Gmpq_rep & g)
-  { 
-    mpq_init(mpQ); 
-    mpq_set(mpQ, g.mpQ);
-  }
-
-  Gmpq_rep & operator= (const Gmpq_rep & g)
-  {
-      if (&g != this) {
-	  mpq_clear(mpQ);
-	  mpq_set(mpQ, g.mpQ);
-      }
-      return *this;
-  }
-
-  Gmpq_rep(int si)
-  { 
-    mpq_init(mpQ); 
-    mpq_set_si(mpQ, si, 1); 
-  }
-
-  Gmpq_rep(long si)
-  { 
-    mpq_init(mpQ); 
-    mpq_set_si(mpQ, si, 1); 
-  }
-
-
-  Gmpq_rep(unsigned long ui)
-  { 
-    mpq_init(mpQ); 
-    mpq_set_ui(mpQ, ui, 1); 
-  }
-
-  Gmpq_rep(const Gmpz& z)
-  { 
-    mpq_init(mpQ); 
-    mpq_set_z(mpQ, z.mpz()); 
-  }
-
-  Gmpq_rep(unsigned long int ui1, unsigned long int ui2)
-  { 
-    mpq_init(mpQ); 
-    mpq_set_ui(mpQ, ui1, ui2); 
-    mpq_canonicalize(mpQ);
-  }
-  
-  Gmpq_rep(signed long int si, unsigned long int ui)
-  { 
-    mpq_init(mpQ); 
-    mpq_set_si(mpQ, si, ui);
-    mpq_canonicalize(mpQ);
-  }
-  
-  Gmpq_rep(int num, int den)
-  { 
-    mpq_init(mpQ); 
-    if(den < 0) {
-      num = -num;
-      den = -den;
-    }
-    mpq_set_si(mpQ, num, den);
-    mpq_canonicalize(mpQ);
-  }
-
-  Gmpq_rep(const Gmpz& n, const Gmpz& d)
-  { 
-    mpq_init(mpQ); 
-    mpz_set(mpq_numref(mpQ), n.mpz());
-    mpz_set(mpq_denref(mpQ), d.mpz());
-    
-    mpq_canonicalize(mpQ);
-  }
-
-  Gmpq_rep(double d)
-  { 
-    mpq_init(mpQ);
-    mpq_set_d(mpQ, d); 
-  }
-
-  Gmpq_rep(const std::string& str)
-  { 
-    mpq_init(mpQ);
-    mpq_set_str(mpQ, str.c_str(), 10);
-    mpq_canonicalize(mpQ); 
-  }
-
-  Gmpq_rep(const std::string& str, int base)
-  { 
-    mpq_init(mpQ);
-    mpq_set_str(mpQ, str.c_str(), base);
-    mpq_canonicalize(mpQ);
-  }
-
-  ~Gmpq_rep()
-  { mpq_clear(mpQ); }
+private:
+  // Make sure it does not get accidentally copied.
+  Gmpq_rep(const Gmpq_rep &);
+  Gmpq_rep & operator= (const Gmpq_rep &);
 };
 
 
 class Gmpq
-  : public Handle_for<Gmpq_rep>
+  : Handle_for<Gmpq_rep>,
+    boost::ordered_field_operators1< Gmpq
+  , boost::ordered_field_operators2< Gmpq, int
+    > >
 {
   typedef Handle_for<Gmpq_rep> Base;
 public:
@@ -167,67 +79,74 @@ public:
   typedef Tag_true   Has_exact_division;
   typedef Tag_false  Has_exact_sqrt;
 
-  Gmpq() // {} we can't do that since the non-const mpq() is called.
-    : Base(Gmpq_rep()) {}
+  Gmpq() {}
 
-  Gmpq(const mpq_t z)
-    : Base(Gmpq_rep(z)) {}
+  Gmpq(const mpq_t q)
+  { mpq_set(mpq(), q); }
 
   Gmpq(int n)
-    : Base(Gmpq_rep(n)) {}
+  { mpq_set_si(mpq(), n, 1); }
 
   Gmpq(long n)
-    : Base(Gmpq_rep(n)) {}
+  { mpq_set_si(mpq(), n, 1); }
 
   Gmpq(unsigned long n)
-    : Base(Gmpq_rep(n)) {}
+  { mpq_set_ui(mpq(), n, 1); }
 
   Gmpq(const Gmpz& n)
-    : Base(Gmpq_rep(n)) {}
+  { mpq_set_z(mpq(), n.mpz()); }
 
   Gmpq(int n, int d)
-    : Base(Gmpq_rep(n, d)) {}
-  
+  {
+    if (d < 0) {
+      n = -n;
+      d = -d;
+    }
+    mpq_set_si(mpq(), n, d);
+    mpq_canonicalize(mpq());
+  }
+
   Gmpq(signed long n, unsigned long d)
-    : Base(Gmpq_rep(n, d)) {}
+  {
+    mpq_set_si(mpq(), n, d);
+    mpq_canonicalize(mpq());
+  }
 
   Gmpq(unsigned long n, unsigned long d)
-    : Base(Gmpq_rep(n, d)) {}
+  {
+    mpq_set_ui(mpq(), n, d);
+    mpq_canonicalize(mpq());
+  }
 
   Gmpq(const Gmpz& n, const Gmpz& d)
-    : Base(Gmpq_rep(n,d)) {}
+  {
+    mpz_set(mpq_numref(mpq()), n.mpz());
+    mpz_set(mpq_denref(mpq()), d.mpz());
+    mpq_canonicalize(mpq());
+  }
 
   Gmpq(double d)
-    : Base(Gmpq_rep(d)) {}
-  
-  Gmpq(const std::string& str)
-    : Base(Gmpq_rep(str)) {}
-  
-   Gmpq(const std::string& str, int base)
-    : Base(Gmpq_rep(str, base)) {}
+  { mpq_set_d(mpq(), d); }
+
+  Gmpq(const std::string& str, int base = 10)
+  {
+    mpq_set_str(mpq(), str.c_str(), base);
+    mpq_canonicalize(mpq());
+  }
 
 
   Gmpz numerator() const
-  {
-    return Gmpz(mpq_numref(mpq()));
-  }
+  { return Gmpz(mpq_numref(mpq())); }
 
   Gmpz denominator() const
-  {
-    return Gmpz(mpq_denref(mpq()));
-    
-  }
+  { return Gmpz(mpq_denref(mpq())); }
 
   Gmpq operator-() const;
 
   Gmpq& operator+=(const Gmpq &z);
-
   Gmpq& operator-=(const Gmpq &z);
-
   Gmpq& operator*=(const Gmpq &z);
-
   Gmpq& operator/=(const Gmpq &z);
-
 
   double to_double() const;
   Sign sign() const;
@@ -247,26 +166,6 @@ bool
 operator<(const Gmpq &a, const Gmpq &b)
 { return mpq_cmp(a.mpq(), b.mpq()) < 0; }
 
-inline
-bool
-operator<=(const Gmpq &a, const Gmpq &b)
-{ return ! (b < a); }
-
-inline
-bool
-operator>(const Gmpq &a, const Gmpq &b)
-{ return b < a; }
-
-inline
-bool
-operator>=(const Gmpq &a, const Gmpq &b)
-{ return ! (a < b); }
-
-inline
-bool
-operator!=(const Gmpq &a, const Gmpq &b)
-{ return ! (a == b); }
-
 
 // mixed operators.
 inline
@@ -276,59 +175,13 @@ operator<(const Gmpq &a, int b)
 
 inline
 bool
-operator<(int a, const Gmpq &b)
-{ return mpq_cmp_si(b.mpq(), a, 1) > 0; }
+operator>(const Gmpq &a, int b)
+{ return mpq_cmp_si(a.mpq(), b, 1) > 0; }
 
 inline
 bool
 operator==(const Gmpq &a, int b)
 { return mpq_cmp_si(a.mpq(), b, 1) == 0; }
-
-inline
-bool
-operator==(int a, const Gmpq &b)
-{ return b == a; }
-
-inline
-bool
-operator<=(const Gmpq &a, int b)
-{ return ! (b < a); }
-
-inline
-bool
-operator<=(int a, const Gmpq &b)
-{ return ! (b < a); }
-
-inline
-bool
-operator>(const Gmpq &a, int b)
-{ return b < a; }
-
-inline
-bool
-operator>(int a, const Gmpq &b)
-{ return b < a; }
-
-inline
-bool
-operator>=(const Gmpq &a, int b)
-{ return ! (a < b); }
-
-inline
-bool
-operator>=(int a, const Gmpq &b)
-{ return ! (a < b); }
-
-inline
-bool
-operator!=(const Gmpq &a, int b)
-{ return ! (a == b); }
-
-inline
-bool
-operator!=(int a, const Gmpq &b)
-{ return ! (a == b); }
-
 
 
 inline
@@ -340,76 +193,45 @@ Gmpq::operator-() const
     return Res;
 }
 
-inline
-Gmpq
-operator+(const Gmpq &a, const Gmpq &b)
-{
-    Gmpq Res;
-    mpq_add(Res.mpq(), a.mpq(), b.mpq());
-    return Res;
-}
-
 
 inline
 Gmpq&
 Gmpq::operator+=(const Gmpq &z)
 {
-    *this = *this + z;
+    Gmpq Res;
+    mpq_add(Res.mpq(), mpq(), z.mpq());
+    swap(Res);
     return *this;
 }
-
-
-inline
-Gmpq
-operator-(const Gmpq &a, const Gmpq &b)
-{
-    Gmpq Res;
-    mpq_sub(Res.mpq(), a.mpq(), b.mpq());
-    return Res;
-}
-
 
 inline
 Gmpq&
 Gmpq::operator-=(const Gmpq &z)
 {
-    *this = *this - z;
-    return *this;
-}
-
-inline
-Gmpq
-operator*(const Gmpq &a, const Gmpq &b)
-{
     Gmpq Res;
-    mpq_mul(Res.mpq(), a.mpq(), b.mpq());
-    return Res;
+    mpq_sub(Res.mpq(), mpq(), z.mpq());
+    swap(Res);
+    return *this;
 }
 
 inline
 Gmpq&
 Gmpq::operator*=(const Gmpq &z)
 {
-    *this = *this * z;
-    return *this;
-}
-
-
-inline
-Gmpq
-operator/(const Gmpq &a, const Gmpq &b)
-{
-    CGAL_precondition(b != 0);
     Gmpq Res;
-    mpq_div(Res.mpq(), a.mpq(), b.mpq());
-    return Res;
+    mpq_mul(Res.mpq(), mpq(), z.mpq());
+    swap(Res);
+    return *this;
 }
 
 inline
 Gmpq&
 Gmpq::operator/=(const Gmpq &z)
 {
-    *this = *this / z;
+    CGAL_precondition(z != 0);
+    Gmpq Res;
+    mpq_div(Res.mpq(), mpq(), z.mpq());
+    swap(Res);
     return *this;
 }
 
@@ -468,10 +290,15 @@ operator>>(std::istream& is, Gmpq &z)
   Gmpz n, d;
   is >> n;
   is >> c;
-  CGAL_assertion(!is || c == '/');
+  //CGAL_assertion(!is || c == '/');
+  if (c != '/'){
+    is.setstate(std::ios_base::failbit);
+    return is;
+  }
   is >> d;
-  if (is)
+  if (!is.fail()) {
     z = Gmpq(n,d);
+  }
 
   return is;
 }
@@ -496,7 +323,26 @@ struct Rational_traits<Gmpq> {
   RT   numerator     (const Gmpq & r) const { return r.numerator(); }
   RT   denominator   (const Gmpq & r) const { return r.denominator(); }
   Gmpq make_rational (const RT & n, const RT & d) const
-  { return Gmpq(n, d); } 
+  { return Gmpq(n, d); }
+  Gmpq make_rational (const Gmpq & n, const Gmpq & d) const
+  { return n / d; }
+};
+
+
+inline
+Root_of_2< CGAL::Gmpz >
+make_root_of_2(const CGAL::Gmpq &a, const CGAL::Gmpq &b,
+               const CGAL::Gmpq &c, bool d)
+{
+  return CGALi::make_root_of_2_rational< CGAL::Gmpz, CGAL::Gmpq >(a,b,c,d);
+}
+
+// CGAL::Gmpq is the same as Root_of_traits< CGAL::Gmpz >::RootOf_1
+template <>
+struct Root_of_traits< CGAL::Gmpq >
+{
+  typedef CGAL::Gmpq               RootOf_1;
+  typedef Root_of_2< CGAL::Gmpz >  RootOf_2;
 };
 
 CGAL_END_NAMESPACE

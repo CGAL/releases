@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Regular_triangulation_euclidean_traits_3.h,v $
-// $Revision: 1.40 $ $Date: 2004/09/20 10:21:35 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/Regular_triangulation_euclidean_traits_3.h $
+// $Id: Regular_triangulation_euclidean_traits_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 //                 Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -35,7 +35,7 @@
 
 CGAL_BEGIN_NAMESPACE 
 
-// return the sign of the determinant of the lifted points
+// returns minus the sign of the determinant of the lifted points
 // associated with p,q,r,s,t  [P,Q,R,S,T]
 // where the P colum is [ p, p^2-wp,1]
 template < typename K >
@@ -120,7 +120,9 @@ public:
     typename K::Orientation_3  orientation = traits.orientation_3_object();
     Orientation o = orientation(p,q,r,s);
     Oriented_side os = power_test(p,q,r,s,t);
-    CGAL_triangulation_assertion( o != COPLANAR); 
+    CGAL_triangulation_assertion( o != COPLANAR);
+    // the minus sign below is due to the fact that power_test
+    // return in fact minus the 5x5 determinant of lifted (p,q,r,s.t)
     return Sign( (-1) * o * os);
   }
   
@@ -145,6 +147,16 @@ public:
 			      q.x(), q.y(), q.z(), q.weight(),
 			      r.x(), r.y(), r.z(), r.weight());
   }
+
+  Sign operator() ( const Weighted_point_3 & p,
+		    const Weighted_point_3 & q) const
+  {
+    return CGAL_NTS sign( CGAL_NTS square(p.x()-q.x()) +
+			  CGAL_NTS square(p.y()-q.y()) +
+			  CGAL_NTS square(p.z()-q.z()) +
+			  p.weight() - q.weight());
+  }
+
 };
 
 template < typename K >
@@ -180,6 +192,7 @@ public :
   {
     return Bounded_side ( (-1) * In_sphere()(p,q,r) );
   }
+
 };
 
 
@@ -336,6 +349,38 @@ public:
 };
 
 
+// Compute the square radius of the circle centered in t
+// and orthogonal to  the circle orthogonal a p,q,r,s
+template< typename K>
+class Compute_critical_squared_radius_3
+{
+ public:
+  typedef typename K::Weighted_point_3                  Weighted_point_3; 
+  typedef typename K::FT                                FT;
+ 
+  typedef Arity_tag< 5 >   Arity;
+  typedef FT               result_type;
+
+  result_type operator() (const Weighted_point_3 & p,
+			  const Weighted_point_3 & q,
+			  const Weighted_point_3 & r,
+			  const Weighted_point_3 & s,
+			  const Weighted_point_3 & t) const
+  {
+    return critical_squared_radiusC3 (p.x(),p.y(),p.z(),FT(p.weight()),
+				      q.x(),q.y(),q.z(),FT(q.weight()),
+				      r.x(),r.y(),r.z(),FT(r.weight()),
+				      s.x(),s.y(),s.z(),FT(s.weight()),
+				      t.x(),t.y(),t.z(),FT(t.weight()));
+  }
+};
+
+
+
+
+
+
+
 
 template < class K, class Weight = typename K::RT >
 class Regular_triangulation_euclidean_traits_base_3
@@ -368,7 +413,9 @@ public:
                                  Construct_weighted_circumcenter_3;
   typedef CGAL::Compute_squared_radius_smallest_orthogonal_sphere_3<Self>
                 Compute_squared_radius_smallest_orthogonal_sphere_3;
-  typedef CGAL::Compute_power_product_3<Self>    Compute_power_product_3; 
+  typedef CGAL::Compute_power_product_3<Self>    Compute_power_product_3;
+  typedef CGAL::Compute_critical_squared_radius_3<Self>
+                                       Compute_critical_squared_radius_3;
   
   Power_test_3   power_test_3_object() const
   { return Power_test_3(); }
@@ -399,6 +446,10 @@ public:
   Compute_squared_radius_smallest_orthogonal_sphere_3
   compute_squared_radius_smallest_orthogonal_sphere_3_object() const
   { return Compute_squared_radius_smallest_orthogonal_sphere_3(); }
+
+  Compute_critical_squared_radius_3
+  compute_critical_squared_radius_3_object() const
+  {return  Compute_critical_squared_radius_3(); }
 };
 
 // We need to introduce a "traits_base_3" class in order to get the

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Segment_Voronoi_diagram_2/include/CGAL/Filtered_construction.h,v $
-// $Revision: 1.3 $ $Date: 2004/01/09 18:48:08 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Filtered_construction.h $
+// $Id: Filtered_construction.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -99,8 +99,8 @@ public:
     {
       Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
       return From_Exact( Exact_construction(To_Exact(a1),
-					    To_Exact(a3),
-					    To_Exact(a2)) );
+					    To_Exact(a2),
+					    To_Exact(a3)) );
     }
   }
 

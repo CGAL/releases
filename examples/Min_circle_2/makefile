@@ -1,4 +1,4 @@
-# Created by the script create_makefile
+# Created by the script cgal_create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -34,13 +34,13 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                example_Min_circle_2$(EXE_EXT) 
+                min_circle_2$(EXE_EXT) 
 
-example_Min_circle_2$(EXE_EXT): example_Min_circle_2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_Min_circle_2 example_Min_circle_2$(OBJ_EXT) $(LDFLAGS)
+min_circle_2$(EXE_EXT): min_circle_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)min_circle_2 min_circle_2$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   example_Min_circle_2.clean 
+                   min_circle_2.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

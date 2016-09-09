@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/CORE_Expr.h,v $
-// $Revision: 1.18 $ $Date: 2004/09/01 16:17:11 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/CORE_Expr.h $
+// $Id: CORE_Expr.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion
  
@@ -26,13 +26,10 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Number_type_traits.h>
-#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/Interval_nt.h>
+#include <CGAL/CORE_Expr_fwd.h>
 
 #include <utility>
-
-#ifdef CGAL_USE_GMPXX
-#include <CGAL/gmpxx.h>
-#endif
 
 #define CORE_LEVEL 4
 #include <CORE/CORE.h>

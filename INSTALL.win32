@@ -1,44 +1,111 @@
-$(CGALROOT)/INSTALL.win32 for CGAL
+$CGAL/INSTALL.win32
+----------------------------------------------------------------------
 
-This file describes how to install CGAL on MS Windows for VC++ .NET 2003
+This file describes how to install CGAL on MS Windows for
+Developer Studio .net 2003 (VC 7.1) and 2005 (VC 8.0) 
 
-For installation on Unix and on Cygwin, please see INSTALL.
+Note that you also can install CGAL with the Microsoft compilers using
+cygwin. For installation on Unix systems and on cygwin, please see
+INSTALL document.
 
-The documentation of CGAL is available in various formats (HTML, PostScript,
-PDF). It is not bundled with the software but can be downloaded separately.
+The documentation of CGAL is available in html and pdf format. It is
+not bundled with the software but can be downloaded separately.
 
 For more information about CGAL, see the URL http://www.cgal.org/.
 
 
 Installation
-Download the Windows binary from the CGAL Download section. Run it and make 
+Download the Windows installer from the CGAL Download section. Run it and make
 sure you carefully read the instructions from each installation step.
 
 
-GMP
-Some examples and demos need GMP. In order to use it you have to copy
-lib/msvc7/gmp.dll and mpfr.dll to your path.
+Boost
+CGAL needs some parts of Boost. You can download it from http://www.boost.org.
+It is enough to unzip the file. Currently only demo programs
+in the Kinetic_data_structures directory need the compiled Boost
+library program_options.
+Alternatively you can use the Installer for Boost provided
+by Boost Consulting: http://www.boostconsulting/download.html.
+It allows you to select precompiled libraries. 
 
-     
+
+GMP and MPFR
+
+Some examples and demos need GMP. The CGAL Installer installs
+precompiled versions of GMP 4.1.4 and MPFR 2.1.0. in the directory
+CGAL-3.2/auxiliary/gmp. 
+We compiled GMP and MPFR with the /MD option, in release mode, and we 
+didn't use processor specific assembler.
+
+
+Qt
+
+Most demos use Qt 3. You can download it from http://www.trolltech.no.
+You must build the multi-threaded version (/MD).
+
+
+TAUCS
+
+Only examples in the Surface_mesh_parameterization directory need TAUCS.
+
+The CGAL Installer installs a precompiled version of TAUCS in the
+directory CGAL-3.2/auxiliary/taucs. We compiled TAUCS with the /MD option and 
+linked with the ATLAS library.
+The ATLAS library provides BLAS . It is precompiled with the /MD option 
+and optimized for a Pentium 4 processor with SSE2 instructions. 
+If ATLAS is slow or crashes on your machine, please recompile it. Source code 
+can be downloaded from the official site http://math-atlas.sourceforge.net 
+or from the Download section of http://www.cgal.org.
+Due to an incompatibility between ATLAS and Visual C++ debugger, we provide 
+also the Blas and Lapack reference implementations. They are notably slow and 
+should be used only for debugging.
+
+You may use TAUCS with other Blas libraries like Intel's MKL, AMD Core Math 
+Library or Goto Blas.
+You can download the official source code from http://www.tau.ac.il/~stoledo/taucs
+or download a version modified for the /MD option from the Download section
+of http://www.cgal.org.
+See TAUCS documentation to create a "variant" makefile to compile TAUCS 
+with the /MD option and the appropriate Blas library.
+
+
+Zlib
+
+Currently only demo programs in the Surface_mesher directory need Zlib.
+The CGAL Installer comes with Zlib precompiled.
+
+
+Paths for Header Files and Libraries
+
+The individual project files do not specify where the header
+files from Boost, GMP/MPFR, Qt, TAUCS, Zlib etc. are located.  You must add
+these paths for Developer Studio in Tools->Options->Projects->VC++Directories
+in the tab "Show Directories" for "Include Files" and "Library Files".
+The CGAL Installer tries to write the paths in a .net 2003 (VC 7.1) configuration 
+file.  If it does not succeed it shows a warning that you have to add it.
+
+If you intend to use VC++ from a MS-DOS Prompt Shell, add the same paths
+to the %INCLUDE% and %LIB% environment variables.
+
+
 Building the Library
 
-The CGAL.lib is located in CGALROOT/lib/msvc7/CGAL.lib. It is built using
-the ML compiler option. If you want to rebuild the CGAL.lib you should go
-into the CGALROOT/src directory and open cgallib.vcproj using VC++ .NET 2003. 
-Go to "Build" menubar and press on "Rebuild Solution". The 
-CGAL library will be created in CGALROOT/lib/msvc7/ as CGAL.lib.
-
-
+The CGAL.lib is already precompiled for .net 2003 (VC 7.1) and located in
+CGALROOT/lib/msvc7/CGAL.lib.  It is built using the /MD compiler
+option. If you want to rebuild CGAL.lib you should go into the
+CGALROOT/src/CGAL directory and open cgallib.vcproj using Developer
+Studio. Go to the "Build" menubar and press on "Rebuild Solution".
+The CGAL library will be created in CGALROOT/lib/msvc7/ as CGAL.lib.
 
 
 Building the Demos
 
-The demos come in CGALROOT/demo directory. Each demo directory contains the 
+The demos come in CGALROOT/demo directory. Each demo directory contains the
 VC++ .NET project files. To build one demo you should open one of those files.
 The demos need Qt installed. The projects are configured for commercial users.
-The libraries that are used are qt.lib and qtmain.lib, and you should change 
-manually those settings if you have a different version of Qt or you have 
-built Qt with thread support. All the demos use also the CGALQt.lib that 
+The libraries that are used are qt-mt.lib and qtmain.lib, and you should change
+manually those settings if you have a different version of Qt or you have
+built Qt with single thread support. All the demos use also the CGALQt.lib that
 represents the Qt_widget library also developed in the CGAL project.
 
 
@@ -48,8 +115,8 @@ The corresponding executable(s) then can be run as usual, from the
 command prompt, or via Explorer.
 
 
-NOTE for VC++ .NET 2003 Users
+NOTE for VC 2005 Users
 
-This product can convert the old VC++ .NET project files. CGAL provides only 
-project files for VC++ .NET because you should convert them without problems 
+This product can convert the project files of .net 2003 (VC 7.1). CGAL provides only
+project files for .net 2003 (VC 7.1) because you should convert them without problems
 using the new product. The other way around is not possible.

@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2004  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -12,11 +12,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Mesh_2/demo/Mesh_2/mesh_demo.C,v $
-// $Revision: 1.61.2.1 $ $Date: 2004/12/11 18:51:07 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/demo/Mesh_2/mesh_demo.C $
+// $Id: mesh_demo.C 30303 2006-04-13 16:07:19Z lrineau $
+// 
 //
 // Author(s)     : Laurent Rineau
+
+#include <CGAL/basic.h>
 
  // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
@@ -33,12 +35,13 @@ int main(int, char*)
 
 #else
 
-#include <CGAL/basic.h>
 #include <climits>
 #include <algorithm>
 #include <functional>
 #include <iostream>
 #include <fstream>
+
+#include <CGAL/IO/pixmaps/demoicon.xpm>
 
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Constrained_Delaunay_triangulation_2.h>
@@ -66,10 +69,15 @@ int main(int, char*)
 #include "Show_clusters.h"
 #include <CGAL/IO/Qt_widget_show_mouse_coordinates.h>
 
+#ifdef CGAL_MESH_2_DEBUG_DRAW
+#include "Debug_layer.h"
+#endif
+
 #include "Qt_widget_style_editor.h"
 
 #include <qapplication.h>
 #include <qmainwindow.h>
+#include <qcolor.h>
 #include <qtoolbutton.h>
 #include <qlayout.h>
 #include <qvbox.h>
@@ -181,13 +189,13 @@ struct Edge_to_segment {
 };
 
 template <class Tr>
-class Show_marked_faces : public CGAL::Qt_widget_layer
+class Show_in_domain_faces : public CGAL::Qt_widget_layer
 {
   Tr *cdt;
   CGAL::Color color;
 public:
-  Show_marked_faces(Tr *t, CGAL::Color c=CGAL::GREEN,
-                    QObject* parent = 0, const char* name = 0)
+  Show_in_domain_faces(Tr *t, CGAL::Color c=CGAL::GREEN,
+                       QObject* parent = 0, const char* name = 0)
     : Qt_widget_layer(parent, name),
       cdt(t),
       color(c) 
@@ -204,7 +212,7 @@ public:
     for(Face_iterator fit=cdt->finite_faces_begin();
         fit!=cdt->finite_faces_end();
         ++fit)
-      if(fit->is_marked())
+      if(fit->is_in_domain())
         *widget << cdt->triangle(fit);
     widget->setFillColor(old_fill_color);
     widget->setLineWidth(old_line_width);
@@ -563,9 +571,9 @@ public:
                                                   CGAL::BLUE,1,
                                                   this,
                                                   "Show triangulation edges");
-      show_marked =
-        new Show_marked_faces<Tr>(&cdt, CGAL::GREEN,
-                                  this, "Show marked faces");
+      show_in_domain =
+        new Show_in_domain_faces<Tr>(&cdt, CGAL::GREEN,
+                                     this, "Show in_domain faces");
 
       show_constraints =
         new CGAL::Qt_layer_show_triangulation_constraints<Tr>
@@ -603,7 +611,10 @@ public:
                                                 "Show clusters");
 
       // layers order, first attached are "under" last attached
-      widget->attach(show_marked);
+#ifdef CGAL_MESH_2_DEBUG_DRAW
+      widget->attach(new CGAL::Debug_layer());
+#endif
+      widget->attach(show_in_domain);
       widget->attach(show_bad_faces);
       widget->attach(show_triangulation);
       widget->attach(show_constraints);
@@ -763,17 +774,17 @@ public:
       connect(pbShowConstraints, SIGNAL(stateChanged(int)),
               show_constraints, SLOT(stateChanged(int)));
 
-      QToolButton *pbShowMarked
+      QToolButton *pbShowInDomain
         = new QToolButton(QPixmap( (const char**)marked_xpm ),
-                          "Show marked faces",
+                          "Show faces in domain",
                           "Display faces that will be refined",
                           this, SLOT(fake_slot()),
                           toolbarLayers,
-                          "show marked");
-      pbShowMarked->setToggleButton(true);
-      pbShowMarked->setOn(true);
-      connect(pbShowMarked, SIGNAL(stateChanged(int)),
-              show_marked, SLOT(stateChanged(int)));
+                          "show in domain");
+      pbShowInDomain->setToggleButton(true);
+      pbShowInDomain->setOn(true);
+      connect(pbShowInDomain, SIGNAL(stateChanged(int)),
+              show_in_domain, SLOT(stateChanged(int)));
 
       QToolButton *pbShowCircles
         = new QToolButton(QPixmap( (const char**)circle_xpm ),
@@ -791,7 +802,7 @@ public:
       QButtonGroup *bgLayers =
         new QButtonGroup("Layers", 0, "layers");
       bgLayers->insert(pbShowPoints);
-      bgLayers->insert(pbShowMarked);
+      bgLayers->insert(pbShowInDomain);
       bgLayers->insert(pbShowTriangulation);
       bgLayers->insert(pbShowConstraints);
       bgLayers->insert(pbShowSeeds);
@@ -977,22 +988,25 @@ public slots:
         if(follow_mouse->is_active())
           {
             typedef Tr::Face_handle Face_handle;
-            std::list<Face_handle> l;
-
             Face_handle fh = cdt.locate(p);
-            criteria.set_point(p);
-            if( (fh!=NULL) && (!cdt.is_infinite(fh)) && fh->is_marked() )
+            if( (fh!=NULL) && (!cdt.is_infinite(fh)) && fh->is_in_domain() )
               {
+                criteria.set_local_size(true);
+                criteria.set_point(p);
+
+                std::list<Face_handle> l;
+            
                 Criteria::Quality q;
                 if(criteria.is_bad_object().operator()(fh, q) != 
 		   CGAL::Mesh_2::NOT_BAD)
                   l.push_back(fh);
-              }
-            if( mesher!=0 )
-              {
-                mesher->set_criteria(criteria);
-                mesher->set_bad_faces(l.begin(), l.end());
-                while( mesher->step_by_step_refine_mesh() );
+
+                if( mesher!=0 )
+                {
+                  mesher->set_criteria(criteria, false);
+                  mesher->set_bad_faces(l.begin(), l.end());
+                  while( mesher->step_by_step_refine_mesh() );
+                }
               }
           }
         else
@@ -1138,13 +1152,18 @@ public slots:
       widget->redraw();
     }
 
-  void clearSeeds()
+  void clearSeeds_without_redraw()
     {
       seeds.clear();
       delete mesher;
       mesher = 0;
       emit initializedMesher();
       mark_facets();
+    }
+
+  void clearSeeds()
+    {
+      clearSeeds_without_redraw();
       widget->redraw();
     }
 
@@ -1166,7 +1185,7 @@ public slots:
 
       if(s.right(5) == ".poly")
         {
-          clearSeeds();
+          clearSeeds_without_redraw();
           CGAL::read_triangle_poly_file(cdt, f, std::back_inserter(seeds));
         }
       else if(s.right(5) == ".data")
@@ -1251,12 +1270,12 @@ public slots:
           cdt.insert_constraint(tr, tl);
           cdt.insert_constraint(tl, bl);
 
-          clearSeeds();
+          clearSeeds_without_redraw();
         }
       else
         {
           read_constraints(cdt, f);
-          clearSeeds();
+          clearSeeds_without_redraw();
         }
 
       // compute bounds
@@ -1274,7 +1293,8 @@ public slots:
 
       emit( insertedInput() );
       updatePointCounter();
-      widget->redraw();
+      // widget->set_window() calls widget->redraw()
+      //      widget->redraw();
     }
 
   void saveTriangulation()
@@ -1317,15 +1337,18 @@ public slots:
 
   void setLocal(bool checked)
     {
-      criteria.set_local_size(checked);
       if( mesher == 0 )
         {
           mesher = create_mesher();
           mesher->init();
           emit initializedMesher();
         }
-      mesher->set_criteria(criteria);
-      if(criteria.is_local_size())
+      if(checked == false)
+      {
+        criteria.set_local_size(false);
+        mesher->set_criteria(criteria);
+      }
+      if(checked)
         follow_mouse->activate();
       else
         follow_mouse->deactivate();
@@ -1359,6 +1382,7 @@ private:
   int menu_id;
 
   CGAL::Qt_widget* widget;
+  QColor background_color;
   CGAL::Qt_widget_get_point<K>* get_point;
   CGAL::Qt_widget_get_point<K>* get_seed;
   CGAL::Qt_widget_get_polygon<CGALPolygon>* get_polygon;
@@ -1386,7 +1410,7 @@ private:
   CGAL::Qt_layer_show_triangulation_constraints<Tr>* show_constraints;
   CGAL::Qt_layer_show_circles<Tr>* show_circles;
   CGAL::Qt_widget_show_mouse_coordinates* show_coordinates;
-  Show_marked_faces<Tr>* show_marked;
+  Show_in_domain_faces<Tr>* show_in_domain;
 
   bool nb_of_clusters_has_to_be_updated;
   QLabel *nb_of_clusters;
@@ -1450,6 +1474,10 @@ int main(int argc, char** argv)
   QApplication app( argc, argv );
   MyWindow* W = new MyWindow();
   app.setMainWidget(W);
+#if !defined (__POWERPC__)
+  QPixmap cgal_icon = QPixmap((const char**)demoicon_xpm);
+  W->setIcon(cgal_icon);
+#endif
   W->show();
 
   if( argc == 2 )

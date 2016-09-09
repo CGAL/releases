@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/LEDA/include/CGAL/rat_leda_in_CGAL_2.h,v $
-// $Revision: 1.5 $ $Date: 2003/10/21 12:19:38 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/LEDA/include/CGAL/rat_leda_in_CGAL_2.h $
+// $Id: rat_leda_in_CGAL_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Stefan Schirra
 
@@ -33,6 +33,7 @@
 #include <LEDA/rat_line.h>
 
 CGAL_BEGIN_NAMESPACE
+
 inline
 bool
 left_turn( const leda_rat_point & p, 
@@ -48,25 +49,21 @@ right_turn( const leda_rat_point & p,
 { return CGAL_LEDA_SCOPE::right_turn(p,q,r); }
 
 /*
-#ifndef CGAL_CFG_NO_NAMESPACE
 inline
 bool
 collinear( const leda_rat_point & p, 
            const leda_rat_point & q, 
            const leda_rat_point & r)
 { return ::collinear(p,q,r); }
-#endif // CGAL_CFG_NO_NAMESPACE
 */
 
 
-#ifndef CGAL_CFG_NO_NAMESPACE
 inline
 Orientation
 orientation( const leda_rat_point & p, 
              const leda_rat_point & q, 
              const leda_rat_point & r)
 { return (Orientation)CGAL_LEDA_SCOPE::orientation(p,q,r); }
-#endif // CGAL_CFG_NO_NAMESPACE
 
 
 inline

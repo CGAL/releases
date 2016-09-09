@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_CCTYPE_MACRO_BUG.C,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:14:44 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Installation/config/testfiles/CGAL_CFG_CCTYPE_MACRO_BUG.C $
+// $Id: CGAL_CFG_CCTYPE_MACRO_BUG.C 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : various
 

@@ -1,3 +1,22 @@
+// Copyright (c) 2003,2005  INRIA Sophia-Antipolis (France).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/demo/Apollonius_graph_2/qt_file_toolbar.h $
+// $Id: qt_file_toolbar.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
+//
+// Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
+
 #ifndef QT_FILE_TOOLBAR_H
 #define QT_FILE_TOOLBAR_H
 
@@ -77,42 +96,44 @@ private:
       saveIcon = QPixmap(filesave);
       printIcon = QPixmap(fileprint);
 
-      fileNew = new QAction(tr("New File"), newIcon, tr("&New"),
+      fileNew = new QAction(tr("Clear graph"), newIcon, tr("&New"),
 			    0, this);
-      fileNew->setStatusTip(tr("Creates a new document"));
-      fileNew->setWhatsThis(tr("New File\n\nCreates a new document"));
+      fileNew->setStatusTip(tr("Clears the current Apollonius graph"));
+      fileNew->setWhatsThis
+	(tr("Clear graph\n\nClears the current Apollonius graph"));
       connect(fileNew, SIGNAL(activated()), this, SLOT(slotFileNew()));
 
-      fileOpen = new QAction(tr("Open File"), openIcon,
+      fileOpen = new QAction(tr("Open file"), openIcon,
 			     tr("&Open..."), 0, this);
-      fileOpen->setStatusTip(tr("Opens an existing document"));
-      fileOpen->setWhatsThis(tr("Open File\n\nOpens an existing document"));
+      fileOpen->setStatusTip(tr("Opens a file with input data"));
+      fileOpen->setWhatsThis(tr("Open file\n\nOpens a file with input data"));
       connect(fileOpen, SIGNAL(activated()), this, SLOT(slotFileOpen()));
 
-      fileSave = new QAction(tr("Save File"), saveIcon, tr("&Save"),
+      fileSave = new QAction(tr("Save to file"), saveIcon, tr("&Save"),
 			     0, this);
-      fileSave->setStatusTip(tr("Saves the actual document"));
-      fileSave->setWhatsThis(tr("Save File.\n\nSaves the actual document"));
+      fileSave->setStatusTip(tr("Saves the sites to a file"));
+      str = "Save to file\n\nSaves the sites to a file";
+      fileSave->setWhatsThis(tr(str));
       connect(fileSave, SIGNAL(activated()), this, SLOT(slotFileSave()));
 
-      fileSaveAs = new QAction(tr("Save File As"), saveIcon, tr("Save &as..."),
-			       0, this);
-      str = "Saves the actual document under a new filename";
+      fileSaveAs = new QAction(tr("Save to new file"), saveIcon,
+			       tr("Save &as..."), 0, this);
+      str = "Saves the sites to a new file";
       fileSaveAs->setStatusTip(tr(str));
-      str = "Save As\n\nSaves the actual document under a new filename";
+      str = "Save as\n\nSaves the sites to a new file";
       fileSaveAs->setWhatsThis(tr(str));
       connect(fileSaveAs, SIGNAL(activated()), this, SLOT(slotFileSaveAs()));
 
-      fileClose = new QAction(tr("Close File"), tr("&Close"),
+      fileClose = new QAction(tr("Close file"), tr("&Close"),
 			      0, this);
       fileClose->setStatusTip(tr("Closes the actual document"));
-      fileClose->setWhatsThis(tr("Close File\n\nCloses the actual document"));
+      fileClose->setWhatsThis(tr("Close file\n\nCloses the actual document"));
       connect(fileClose, SIGNAL(activated()), this, SLOT(slotFileClose()));
 
-      filePrint = new QAction(tr("Print File"), printIcon, tr("&Print"),
+      filePrint = new QAction(tr("Print canvas"), printIcon, tr("&Print"),
 			      0, this);
-      filePrint->setStatusTip(tr("Prints out the actual document"));
-      str = "Print File\n\nPrints out the actual document";
+      filePrint->setStatusTip(tr("Prints out the current canvas"));
+      str = "Print canvas\n\nPrints out the current canvas";
       filePrint->setWhatsThis(tr(str));
       connect(filePrint, SIGNAL(activated()), this, SLOT(slotFilePrint()));
     }
@@ -156,7 +177,7 @@ public slots:
     {
       QString fileName =
 	QFileDialog::getSaveFileName(tr("data.out"), QString::null,
-				     window, "Save file As...");
+				     window, "Save data as...");
 						      
       if ( !fileName.isNull() ) {
 	emit fileToWrite(fileName);

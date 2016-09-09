@@ -12,11 +12,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Mesh_2/demo/Mesh_2/Show_segments_base.C,v $
-// $Revision: 1.4 $ $Date: 2004/10/19 06:02:00 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/demo/Mesh_2/Show_segments_base.C $
+// $Id: Show_segments_base.C 29227 2006-03-09 08:32:53Z afabri $
+// 
 //
 // Author(s)     : Laurent Rineau
+
+#include <CGAL/basic.h>
 
 #ifdef CGAL_USE_QT
 

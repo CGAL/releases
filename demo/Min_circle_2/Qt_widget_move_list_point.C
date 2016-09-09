@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Min_circle_2/demo/Min_circle_2/Qt_widget_move_list_point.C,v $
-// $Revision: 1.1.6.1 $ $Date: 2004/12/19 15:33:58 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Min_circle_2/demo/Min_circle_2/Qt_widget_move_list_point.C $
+// $Id: Qt_widget_move_list_point.C 29229 2006-03-09 08:34:21Z afabri $
+// 
 //
 // Author(s)     : Radu Ursu
 
+#include <CGAL/basic.h>
 
 #ifdef CGAL_USE_QT
 

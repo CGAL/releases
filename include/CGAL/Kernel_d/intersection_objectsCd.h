@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/intersection_objectsCd.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:19:34 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/intersection_objectsCd.h $
+// $Id: intersection_objectsCd.h 31166 2006-05-17 16:30:56Z spion $
+// 
 //
 // Author(s)     : ?
 #ifndef CGAL_INTERSECTION_OBJECTSCD_H
@@ -43,13 +43,13 @@ typedef typename R::Point_d Point_d;
 typedef typename R::Line_d Line_d;
 
 public:
-enum Intersection_result { NO, POINT, LINE };
+enum Intersection_result { NO_INTERSECTION, POINT, LINE };
 
 Intersection_result operator()(
   const Point_d& s1, const Point_d& t1,
   const Point_d& s2, const Point_d& t2,
   Point_d& p, FT& l1, FT& l2) 
-/*{\Mfunop returns |NO| if the lines which are represented by |s1t1|
+/*{\Mfunop returns |NO_INTERSECTION| if the lines which are represented by |s1t1|
 and |s2t2| don't intersect, returns |POINT| if they intersect in a
 unique point, and returns LINE if they are identical. In the |POINT|
 case the point of intersection is assigned to |p|.  Then |p = s1 + l1
@@ -80,7 +80,7 @@ is degenerate.}*/
 #endif
     return POINT; 
   }
-  return NO; 
+  return NO_INTERSECTION; 
 }
 };
 
@@ -96,11 +96,11 @@ typedef typename R::Point_d Point_d;
 typedef typename R::Hyperplane_d Hyperplane_d;
 
 public:
-enum Intersection_result { NO, POINT, LINE };
+enum Intersection_result { NO_INTERSECTION, POINT, LINE };
 
 Intersection_result operator()(const Point_d& s, const Point_d& t,
   const Hyperplane_d& h, Point_d& p, FT& lambda) 
-/*{\Mfunop returns |NO| if the line represented by |s1t1| and the
+/*{\Mfunop returns |NO_INTERSECTION| if the line represented by |s1t1| and the
 hyperplane |h| don't intersect, returns |POINT| if they intersect in a
 unique point, and returns LINE if the line is part of the
 hyperplane. In the |POINT| case the point of intersection is assigned
@@ -122,7 +122,7 @@ not degenerate.}*/
   // now the simple cases are done 
 
   FT D = S - T;
-  if ( CGAL_NTS is_zero(D) ) return NO;
+  if ( CGAL_NTS is_zero(D) ) return NO_INTERSECTION;
 
   typename LA::Vector v(d);
   for (i = 0; i < d; ++i)

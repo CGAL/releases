@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG.C,v $
-// $Revision: 1.9 $ $Date: 2004/08/18 21:48:52 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Installation/config/testfiles/CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG.C $
+// $Id: CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG.C 28737 2006-02-23 16:49:30Z glisse $
+// 
 //
 // Author(s)     : Radu Ursu
 
@@ -36,7 +36,7 @@
 template <class A>
 class B {
 public:
-  typedef A Res;
+  typedef typename A::D Res;
 
   template<class C>
   Res fct(C *i);

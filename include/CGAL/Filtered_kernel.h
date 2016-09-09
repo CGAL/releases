@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Filtered_kernel.h,v $
-// $Revision: 1.37 $ $Date: 2004/09/20 22:49:09 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Filtered_kernel.h $
+// $Id: Filtered_kernel.h 28908 2006-02-28 15:39:52Z glisse $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -62,7 +62,7 @@ struct Filtered_kernel_base
     typedef Simple_cartesian<Exact_nt>               EK;
     typedef Simple_cartesian<Interval_nt_advanced>   FK;
     typedef Cartesian_converter<CK, EK>              C2E;
-    typedef Cartesian_converter<CK, FK, To_interval<typename CK::RT> > C2F;
+    typedef Cartesian_converter<CK, FK>              C2F;
 
     template < typename Kernel2 >
     struct Base {
@@ -84,7 +84,7 @@ struct Filtered_kernel_base
 
 #ifndef CGAL_NO_STATIC_FILTERS
 template < typename CK >
-class Static_filters_base
+struct Static_filters_base
   : public Static_filters< Filtered_kernel_base<CK> >
 {
     template < typename Kernel2 >
@@ -108,7 +108,11 @@ template <class CK>
 struct Filtered_kernel
   : public Filtered_kernel_adaptor<
                Type_equality_wrapper<
-                   typename CK::template Base< Filtered_kernel<CK> >::Type,
+                   typename CK::
+#ifndef CGAL_CFG_DEEP_DEPENDENT_TEMPLATE_BUG
+                                template
+#endif
+                                         Base< Filtered_kernel<CK> >::Type,
                    Filtered_kernel<CK> > >
 {};
 

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_3/include/CGAL/Nef_3/SNC_structure.h,v $
-// $Revision: 1.62.2.1 $ $Date: 2004/12/08 19:31:02 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
+// $Id: SNC_structure.h 29399 2006-03-11 18:34:06Z glisse $
+// 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
 //                 Miguel Granados <granados@mpi-sb.mpg.de>
@@ -30,6 +30,9 @@
 #include <CGAL/Nef_3/SNC_iteration.h>
 #include <CGAL/Nef_2/iterator_tools.h>
 #include <CGAL/Nef_S2/Sphere_geometry.h>
+#ifdef CGAL_NEF3_FACET_WITH_BOX
+#include <CGAL/Box_intersection_d/Box_d.h>
+#endif
 #include <list>
 
 #undef CGAL_NEF_DEBUG
@@ -76,14 +79,14 @@ public:
   typedef SNC_structure<Kernel,Items,Mark>   Self;
 
   //  typedef bool                          Mark;
-  typedef SNC_decorator<Self>           SNC_decorator;
+  typedef CGAL::SNC_decorator<Self>           SNC_decorator;
 
   typedef typename Kernel::FT           FT;
   typedef typename Kernel::RT           RT;
   typedef CGAL::Sphere_geometry<Kernel> Sphere_kernel;
   
   typedef SNC_sphere_map<Kernel, Items, Mark> Sphere_map;
-  typedef SM_decorator<Sphere_map>  SM_decorator;
+  typedef CGAL::SM_decorator<Sphere_map>  SM_decorator;
 
   typedef typename Kernel::Point_3      Point_3;
   /*{\Mtypemember embedding vertices.}*/
@@ -126,6 +129,30 @@ public:
   and iterators. There's no type |SHalfloop_iterator|, as there is
   at most one |SLoop| pair per vertex.}*/
 
+#ifdef CGAL_NEF3_FACET_WITH_BOX
+  template<class Refs>
+  class Facet_with_box : public Items::template Halffacet<Refs> {
+  public:
+    typedef typename Items::template Halffacet<Refs> Halffacet;
+    typedef typename Refs::FT FT;
+    typedef typename Box_intersection_d::Box_d<FT,3> Box;
+
+    Box b;
+    
+    Facet_with_box() : Halffacet(), b() {}     
+    Facet_with_box(const Plane_3& h, Mark m) : Halffacet(h,m) {}
+    Facet_with_box(const Facet_with_box<Refs>& f) : Halffacet(f) {
+      b = f.b;
+    }
+    
+    Facet_with_box<Refs>& operator=(const Facet_with_box<Refs>& f) {
+      (Halffacet) *this = (Halffacet) f;
+      b = f.b;
+      return *this;
+    }
+  };
+#endif
+
  public:
   typedef Sphere_map                                        Vertex_base;
   typedef SNC_in_place_list_sm<Vertex_base>                 Vertex; 
@@ -136,7 +163,11 @@ public:
   typedef typename Vertex_list::iterator                    Vertex_iterator;
   typedef typename Vertex_list::const_iterator              Vertex_const_iterator;
 
+#ifdef CGAL_NEF3_FACET_WITH_BOX
+  typedef Facet_with_box<SNC_structure>                     Halffacet_base;
+#else
   typedef typename Items::template Halffacet<SNC_structure> Halffacet_base;
+#endif
   typedef SNC_in_place_list_halffacet<Halffacet_base>       Halffacet;
   typedef CGAL::In_place_list<Halffacet,false>              Halffacet_list;
   typedef CGAL_ALLOCATOR(Halffacet)                         Halffacet_alloc;
@@ -217,20 +248,57 @@ public:
   typedef typename Sphere_map::Infi_box   Infi_box;
   typedef typename Infi_box::Standard_kernel  Standard_kernel;
 
-
   typedef Vertex_handle Constructor_parameter;
   typedef Vertex_const_handle Constructor_const_parameter;
 
   // Halffacet triangle
+
+#ifdef CGAL_NEF_LIST_OF_TRIANGLES
+  class Halffacet_triangle_handle : public Halffacet_handle {
+    typedef Halffacet_handle Base;
+    Triangle_3* triangle;
+  public:
+    Halffacet_triangle_handle() : Base() {}
+    Halffacet_triangle_handle( Halffacet_handle h, Triangle_3& t) :
+      Base(h), triangle(&t) {}
+    Triangle_3& get_triangle() { return *triangle; }
+    void transform(const Aff_transformation_3& t) { 
+      *triangle = Triangle_3((*triangle)[0].transform(t),
+    	 		     (*triangle)[1].transform(t),
+		 	     (*triangle)[2].transform(t)); 
+    }
+  };
+#else
+  class Halffacet_triangle_const_handle : public Halffacet_const_handle {
+    typedef Halffacet_const_handle Base;
+    Triangle_3 triangle;
+  public:
+    Halffacet_triangle_const_handle() : Base() {}
+    Halffacet_triangle_const_handle( Halffacet_const_handle h, Triangle_3& t) :
+      Base(h), triangle(t) {}
+    Triangle_3 get_triangle() { return triangle; }
+    void transform(const Aff_transformation_3& t) { 
+      triangle = Triangle_3(triangle[0].transform(t),
+    	 		     triangle[1].transform(t),
+		 	     triangle[2].transform(t)); 
+    }
+  };
+
   class Halffacet_triangle_handle : public Halffacet_handle {
     typedef Halffacet_handle Base;
     Triangle_3 triangle;
   public:
     Halffacet_triangle_handle() : Base() {}
-    Halffacet_triangle_handle( Halffacet_handle h, Triangle_3 t = Triangle_3()) :
+    Halffacet_triangle_handle( Halffacet_handle h, Triangle_3& t) :
       Base(h), triangle(t) {}
     Triangle_3 get_triangle() { return triangle; }
+    void transform(const Aff_transformation_3& t) { 
+      triangle = Triangle_3(triangle[0].transform(t),
+    	 		     triangle[1].transform(t),
+		 	     triangle[2].transform(t)); 
+    }
   };
+#endif
   
   class Halffacet_cycle_iterator : public Object_iterator 
   /*{\Mtypemember a generic handle to an object in the boundary
@@ -393,6 +461,229 @@ public:
           move_shalfedge_around_facet<SHalfedge_iterator> > 
           SHalfedge_around_facet_circulator;
 
+#ifdef CGAL_NEF3_FACET_WITH_BOX
+  typedef std::pair<SHalfedge_around_facet_circulator,
+                    SHalfedge_around_facet_circulator> Outer_cycle;
+  typedef std::pair<SHalfedge_around_facet_circulator,
+                    SHalfedge_around_facet_circulator> Inner_cycle;
+  
+  class Partial_facet {
+  public:
+    Halffacet_handle f;
+
+    std::list<Outer_cycle> outer_cycles;
+    std::list<Inner_cycle> inner_cycles;
+    std::list<Point_3>     isolated_vertices;
+
+    typedef typename std::list<Outer_cycle>::iterator Outer_cycle_iterator;
+    typedef typename std::list<Inner_cycle>::iterator Inner_cycle_iterator;
+    typedef typename std::list<Point_3>::iterator Isolated_vertex_iterator;
+
+    Partial_facet() {}
+
+    Partial_facet(const Partial_facet& pf) {
+      f = pf.f;
+      outer_cycles = pf.outer_cycles;
+      inner_cycles = pf.inner_cycles;
+      isolated_vertices = pf.isolated_vertices;
+    }
+
+    Partial_facet& operator=(const Partial_facet& pf) {
+      f = pf.f;
+      outer_cycles = pf.outer_cycles;
+      inner_cycles = pf.inner_cycles;
+      isolated_vertices = pf.isolated_vertices;
+      return *this;
+    }
+
+    explicit Partial_facet(Halffacet_handle fin) : f(fin) {
+      Halffacet_cycle_iterator fc = f->facet_cycles_begin();
+      for(;fc != f->facet_cycles_end();++fc) {
+	if(fc.is_shalfedge()) {
+	  SHalfedge_around_facet_circulator se(fc), se_next(se);
+	  ++se_next;
+	  if(fc == f->facet_cycles_begin()) {
+	    outer_cycles.push_back(Outer_cycle(se, se));
+	    //	    outer_cycles.push_back(Outer_cycle(se_next, se));
+	  } else {
+	    inner_cycles.push_back(Inner_cycle(se, se));
+	    //	    inner_cycles.push_back(Inner_cycle(se_next, se));
+	  }
+	} else if(fc.is_shalfloop()) {
+	  SHalfloop_handle l(fc);
+	  isolated_vertices.push_back(l->incident_sface()->center_vertex()->point());
+	} else
+	  CGAL_assertion_msg(false, "wrong value");
+      }
+    }
+
+    Outer_cycle_iterator outer_cycles_begin() { return outer_cycles.begin(); }
+    Inner_cycle_iterator inner_cycles_begin() { return inner_cycles.begin(); }
+    Isolated_vertex_iterator isolated_vertices_begin() { return isolated_vertices.begin(); }
+
+    Outer_cycle_iterator outer_cycles_end() { return outer_cycles.end(); }
+    Inner_cycle_iterator inner_cycles_end() { return inner_cycles.end(); }
+    Isolated_vertex_iterator isolated_vertices_end() { return isolated_vertices.end(); }
+
+    bool divide(const Plane_3& p, Partial_facet& pf1, Partial_facet& pf2) {
+      //      std::cerr << "divide " << std::endl;
+      //      debug();
+      pf1.f = pf2.f = f;
+      Outer_cycle_iterator oc = outer_cycles.begin();
+      for(;oc != outer_cycles.end(); ++oc) {
+	bool next = false;
+	//	CGAL_assertion(oc->first != oc->second);
+	SHalfedge_around_facet_circulator se = oc->first, se_begin(se), se_new(se), se_end;
+	Oriented_side ref = p.oriented_side(se->source()->source()->point()), cur;
+	//	std::cerr << "start " << se->source()->source()->point() << ":" << ref << std::endl;
+	++se;
+	while(ref == ON_ORIENTED_BOUNDARY && se != oc->second) {
+	  ref = p.oriented_side(se->source()->source()->point());
+	  ++se;
+	}
+	if(se == oc->second) 
+	  return false;
+
+	for(;se != oc->second;++se) {
+	  cur = p.oriented_side(se->source()->source()->point());
+	  //	  std::cerr << "current " << se->source()->source()->point() << ":" << cur  << std::endl;
+	  if(cur != ref) {
+	    CGAL_assertion(ref != ON_ORIENTED_BOUNDARY);
+	    if(cur == ON_ORIENTED_BOUNDARY) {
+	      next = true;
+	      continue;
+	    }
+	    se_end = se;
+	    if(next)
+	      --se_end;
+	    if(cur == ON_NEGATIVE_SIDE) {
+	      pf2.outer_cycles.push_back(Outer_cycle(se_begin, se_end));
+	    } else if(cur == ON_POSITIVE_SIDE) {
+	      pf1.outer_cycles.push_back(Outer_cycle(se_begin, se_end));
+	    }
+	    se_begin = se_new;
+	    if(next)
+	      ++se_begin;
+	    ref = cur;
+	  } else
+	      se_new = se;
+	  next = false;
+	}
+	//	std::cerr << "end of cycle " << ref << std::endl;
+	if(next) {
+	  if(ref == ON_POSITIVE_SIDE) {
+	    pf1.outer_cycles.push_back(Outer_cycle(se_new, se));
+	    pf2.outer_cycles.push_back(Outer_cycle(se_begin, --se));
+	  } else {
+	    pf2.outer_cycles.push_back(Outer_cycle(se_new, se));	 
+	    pf1.outer_cycles.push_back(Outer_cycle(se_begin, --se));	 
+	  }
+	} else {
+	  if(ref == ON_POSITIVE_SIDE)
+	    pf2.outer_cycles.push_back(Outer_cycle(se_begin, se));
+	  else if(ref == ON_NEGATIVE_SIDE)
+	    pf1.outer_cycles.push_back(Outer_cycle(se_begin, se));
+	}
+      }
+
+      Inner_cycle_iterator ic = inner_cycles.begin();
+      for(;ic != inner_cycles.end(); ++ic) {
+	bool next = false;
+	SHalfedge_around_facet_circulator se = ic->first, se_begin(se), se_new(se), se_end;
+	Oriented_side ref = p.oriented_side(se->source()->source()->point()), cur;
+	++se;
+	while(ref == ON_ORIENTED_BOUNDARY && se != ic->second) {
+	  ref = p.oriented_side(se->source()->source()->point());
+	  ++se;
+	}
+	if(se == ic->second) 
+	  return false;
+
+	for(;se != ic->second; ++se) {
+	  cur = p.oriented_side(se->source()->source()->point());
+	  if(cur != ref) {
+	    CGAL_assertion(ref != ON_ORIENTED_BOUNDARY);
+	    if(cur == ON_ORIENTED_BOUNDARY) {
+	      next = true;
+	      continue;
+	    }
+	    se_end = se;
+	    if(next)
+	      --se_end;
+	    if(cur == ON_NEGATIVE_SIDE) {
+	      pf2.inner_cycles.push_back(Inner_cycle(se_begin, se_end));
+	    } else if(cur == ON_POSITIVE_SIDE) {
+	      pf1.inner_cycles.push_back(Inner_cycle(se_begin, se_end));
+	    }
+	    se_begin = se_new;
+	    if(next)
+	      ++se_begin;
+	    ref = cur;
+	  } else
+	      se_new = se;
+	  next = false;
+	}
+	if(next) {
+	  if(ref == ON_POSITIVE_SIDE) {
+	    pf1.inner_cycles.push_back(Inner_cycle(se_new, se));
+	    pf2.inner_cycles.push_back(Inner_cycle(se_begin, --se));
+	  } else {
+	    pf2.inner_cycles.push_back(Inner_cycle(se_new, se));	 
+	    pf1.inner_cycles.push_back(Inner_cycle(se_begin, --se));	 
+	  }
+	} else {
+	  if(ref == ON_POSITIVE_SIDE)
+	    pf2.inner_cycles.push_back(Inner_cycle(se_begin, se));
+	  else if(ref == ON_NEGATIVE_SIDE)
+	    pf1.inner_cycles.push_back(Inner_cycle(se_begin, se));
+	}
+      }
+
+      Isolated_vertex_iterator iv = isolated_vertices.begin();
+      for(;iv != isolated_vertices.end();++iv) {
+	Oriented_side side = p.oriented_side(*iv);
+	if( side == ON_NEGATIVE_SIDE || side == ON_ORIENTED_BOUNDARY)
+	  pf1.isolated_vertices.push_back(*iv);
+	if( side == ON_POSITIVE_SIDE || side == ON_ORIENTED_BOUNDARY)
+	  pf1.isolated_vertices.push_back(*iv);
+      }
+      //      std::cerr << "into " << std::endl;
+      //      pf1.debug();      
+      //      pf2.debug();
+      return true;
+    }
+
+    void debug() {
+      std::cerr << "Partial_facet " << std::endl;
+      std::cerr << "Box " << std::endl;
+      std::cerr << " " << f->b.min_coord(0) << std::endl;
+      std::cerr << " " << f->b.min_coord(1) << std::endl;
+      std::cerr << " " << f->b.min_coord(2) << std::endl;
+      std::cerr << " " << f->b.max_coord(0) << std::endl;
+      std::cerr << " " << f->b.max_coord(1) << std::endl;
+      std::cerr << " " << f->b.max_coord(2) << std::endl;
+
+      Outer_cycle_iterator oc = outer_cycles_begin();
+      for(; oc != outer_cycles_end(); ++oc) {
+	std::cerr << "Outer cycle " << std::endl;
+	SHalfedge_around_facet_circulator sb(oc->first), se(oc->second);
+	CGAL_For_all(sb,se) {
+	  std::cerr << "  " << sb->source()->source()->point() << std::endl;
+	}
+      }
+
+      Inner_cycle_iterator ic = inner_cycles_begin();
+      for(; ic != inner_cycles_end(); ++ic) {
+	std::cerr << "Inner cycle " << std::endl;
+	SHalfedge_around_facet_circulator sb(ic->first), se(ic->second);
+	CGAL_For_all(sb,se) {
+	  std::cerr << "  " << sb->source()->source()->point() << std::endl;
+	}
+      }
+    }  
+  };
+
+#endif
 
   /*{\Mcreation 3}*/
   /*{\Mtext |\Mname| is default and copy constructible. Note that copy
@@ -433,6 +724,10 @@ public:
   void clear_boundary() {
     boundary_item_.clear(undef_);
     sm_boundary_item_.clear(undef_);
+  }
+
+  void clear_snc_boundary() {
+    boundary_item_.clear(undef_);
   }
 
   void clear() { 
@@ -852,6 +1147,11 @@ public:
     CGAL_NEF_TRACEN("  new shalfedge only "<<&*(--shalfedges_end()));
     return --shalfedges_end();
   }
+  SHalfedge_handle new_shalfedge_only(SHalfedge_handle se) {
+    SHalfedge_handle nse = shalfedges_.insert(se, * get_shalfedge_node(SHalfedge()));
+    CGAL_NEF_TRACEN("  after " << &*se << " new shalfedge only " << &*nse);
+    return nse;
+  }
   SHalfloop_handle new_shalfloop_only()  {
     shalfloops_.push_back( * get_shalfloop_node(SHalfloop()));
     CGAL_NEF_TRACEN("  new shalfloop only "<<&*(--shalfloops_end()));
@@ -861,6 +1161,11 @@ public:
     sfaces_.push_back( * get_sface_node(SFace()));
     CGAL_NEF_TRACEN("  new sface only "<<&*(--sfaces_end()));
     return --sfaces_end(); 
+  }
+  SFace_handle new_sface_only(SFace_handle sf) {
+    SFace_handle nsf = sfaces_.insert(sf, * get_sface_node(SFace()));
+    CGAL_NEF_TRACEN("  after " << &*sf << " new sface only " << &*nsf);
+    return nsf;
   }
 
   void delete_vertex_only(Vertex_handle h) {

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/predicates/Regular_triangulation_ftC3.h,v $
-// $Revision: 1.9 $ $Date: 2004/04/02 12:37:31 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/predicates/Regular_triangulation_ftC3.h $
+// $Id: Regular_triangulation_ftC3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
@@ -25,7 +25,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-// return the sign of the 5x5 determinant [P,Q,R,S,T]
+// return minus the sign of the 5x5 determinant [P,Q,R,S,T]
 // where column [P] = transpose[px,py,pz,p^2 -wp,1]
 template <class FT>
 Oriented_side
@@ -152,7 +152,7 @@ template <class FT>
 Oriented_side
 power_testC3(const FT &pwt, const FT &qwt)
 {
-    return Oriented_side(CGAL_NTS compare(qwt, pwt));
+    return Oriented_side((Comparison_result) CGAL_NTS compare(qwt, pwt));
 }
 
 

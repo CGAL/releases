@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/predicates/Regular_triangulation_ftC2.h,v $
-// $Revision: 1.5 $ $Date: 2003/09/18 10:26:22 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/predicates/Regular_triangulation_ftC2.h $
+// $Id: Regular_triangulation_ftC2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 //                 Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
@@ -25,6 +25,19 @@
 // used by the 2D regular triangulation.
 
 CGAL_BEGIN_NAMESPACE
+
+template <class FT>
+Comparison_result
+compare_power_distanceC2(const FT& px, const FT& py, const FT& pwt,
+			 const FT& qx, const FT& qy, const FT& qwt,
+			 const FT& rx, const FT& ry)
+{
+  // returns SMALLER if r is closer to p w.r.t. the power metric
+  FT d1 = CGAL_NTS square(rx - px) + CGAL_NTS square(ry - py) - pwt;
+  FT d2 = CGAL_NTS square(rx - qx) + CGAL_NTS square(ry - qy) - qwt;
+  return CGAL_NTS compare(d1, d2);
+}
+
 
 template <class FT>
 Oriented_side
@@ -46,9 +59,9 @@ power_testC2( const FT &px, const FT &py, const FT &pwt,
     FT dry = ry - ty;
     FT drz = CGAL_NTS square(drx) + CGAL_NTS square(dry) - rwt + twt;
 
-    return Oriented_side(sign_of_determinant3x3(dpx, dpy, dpz,
-                                                dqx, dqy, dqz,
-                                                drx, dry, drz));
+    return enum_cast<Oriented_side>(sign_of_determinant3x3(dpx, dpy, dpz,
+                                                           dqx, dqy, dqz,
+                                                           drx, dry, drz));
 }
 
 

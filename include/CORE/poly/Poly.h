@@ -49,14 +49,15 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/include/CORE/poly/Poly.h,v $
- * $Revision: 1.9 $ $Date: 2004/11/14 12:00:19 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/include/CORE/poly/Poly.h $
+ * $Id: Poly.h 29702 2006-03-22 17:59:03Z drussel $
  ***************************************************************************/
 
 #ifndef CORE_POLY_H
 #define CORE_POLY_H
 
 #include <CORE/BigFloat.h>
+#include <CORE/Promote.h>
 #include <vector>
 
 CORE_BEGIN_NAMESPACE
@@ -87,6 +88,7 @@ class Polynomial {
 
 public:
   typedef std::vector<NT> VecNT;
+  typedef NT coeffType;
 
   int degree;	// This is the nominal degree (an upper bound
   // on the true degree)
@@ -114,7 +116,7 @@ public:
   // Constructors:
   Polynomial(void);	// the Zero Polynomial
   Polynomial(int n);	// construct the Unit Polynomial of nominal deg n>=0
-  Polynomial(int n, NT * coef);
+  Polynomial(int n, const NT * coef);
   Polynomial(const Polynomial &);
   Polynomial(const VecNT &);
   Polynomial(int n, const char* s[]);
@@ -187,24 +189,40 @@ public:
                                         // !! User's responsibility to
                                         // delete the old coefficient if
                                         // necessary !!
-  // Helper Functions
-  void reverse();		// reverse the coefficients;  useful when
-  // input coefficients are in reversed
-  Polynomial & negate();	// multiplication by -1; useful for Sturm
-  int makeTailCoeffNonzero();	// Divide (*this) by X^k, so that the
-  // the tail coeff is non-zero. Return k.
+  // Helper Functions:
+  /// Reverse reverses the coefficients
+  void reverse();		
+  /// Negation of a polynomial (multiplication by -1)
+  /// Useful for Sturm
+  Polynomial & negate();	
+  /// Suppressing Zero Roots
+  /// It amounts to dividing (*this) by X^k, so that the
+  /// the tail coeff is non-zero. Returns the value of k.
+  int makeTailCoeffNonzero();
 
-  // Evaluation
-  //BigFloat eval(const BigFloat&) const;	// evaluation
-  BigFloat evalFilter(const BigFloat& f, bool& validFlag,
+  // Evaluation Functions:
+  /// Polynomial evaluation where the coefficients are approximated first
+  /// Returns a BigFloat with error that contains the value
+  BigFloat evalApprox(const BigFloat& f, 
     const extLong& r=defRelPrec, const extLong& a=defAbsPrec) const;
-  BigFloat evalExact(const Expr&) const;	// evaluation
+  /// Polynomial evaluation at a BigFloat value.
+  /// The returned BigFloat (with error) has the exact sign.  
+  /// In particular, if the value is 0, we return 0.
+  /// @param oldMSB is any estimate of the negative log of the evaluation
+  BigFloat evalExactSign(const BigFloat& val, const extLong& oldMSB=54) const;
+  /// Polynomial evaluation that return the same type as its argument
+  /// Caution: The type T must be greater or equal to the type NT
+  /// 	NOTE: Eventually, we will remove this restriction by
+  /// 	introduce MaxType(NT,T) for the return type.
   template <class T>
-  T eval(const T&) const;	// evaluation
+  MAX_TYPE(NT, T) eval(const T&) const;	
 
   // Bounds
   BigFloat CauchyUpperBound() const;  // Cauchy Root Upper Bound
   BigFloat CauchyLowerBound() const;  // Cauchy Root Lower Bound
+  BigInt CauchyBound() const;  // Cauchy Root Bound from Erich Kaltofen
+  BigInt UpperBound() const;  // Another Cauchy Root Bound; an improvement over
+                               //Erich Kaltofen
   BigFloat sepBound() const;	// separation bound (multiple roots allowed)
   BigFloat height() const;	// height return type BigFloat
   BigFloat length() const;	// length return type BigFloat

@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h,v $
-// $Revision: 1.10 $ $Date: 2004/09/14 13:59:11 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
+// $Id: global_functions_internal_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion
  
@@ -99,6 +99,22 @@ centroid(const typename CGAL_WRAP(K)::Point_3 &p,
          const typename CGAL_WRAP(K)::Point_3 &r, const K &k)
 {
   return k.construct_centroid_3_object()(p, q, r);
+}
+
+template < class K >
+inline
+typename K::Point_3
+centroid(const typename CGAL_WRAP(K)::Tetrahedron_3 &t, const K &k)
+{
+  return k.construct_centroid_3_object()(t);
+}
+
+template < class K >
+inline
+typename K::Point_3
+centroid(const typename CGAL_WRAP(K)::Triangle_3 &t, const K &k)
+{
+  return k.construct_centroid_3_object()(t);
 }
 
 template < class K >
@@ -461,6 +477,16 @@ orientation(const typename CGAL_WRAP(K)::Point_3 &p,
 	    const typename CGAL_WRAP(K)::Point_3 &s, const K &k)
 {
   return k.orientation_3_object()(p, q, r, s);
+}
+
+template <class K >
+inline
+Orientation
+orientation(const typename CGAL_WRAP(K)::Vector_3 &u,
+	    const typename CGAL_WRAP(K)::Vector_3 &v,
+	    const typename CGAL_WRAP(K)::Vector_3 &w, const K &k)
+{
+  return k.orientation_3_object()(u, v, w);
 }
 
 template < class K >

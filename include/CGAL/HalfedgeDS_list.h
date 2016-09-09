@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/HalfedgeDS/include/CGAL/HalfedgeDS_list.h,v $
-// $Revision: 1.22 $ $Date: 2004/08/31 13:48:45 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/HalfedgeDS/include/CGAL/HalfedgeDS_list.h $
+// $Id: HalfedgeDS_list.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 
@@ -589,6 +589,21 @@ public:
         vertices_clear();
         edges_clear();
         faces_clear();
+    }
+
+    void vertices_splice( Vertex_iterator target, Self &source,
+                          Vertex_iterator begin, Vertex_iterator end) {
+        vertices.splice( target, source.vertices, begin, end);
+    }
+
+    void halfedges_splice( Halfedge_iterator target, Self &source,
+                           Halfedge_iterator begin, Halfedge_iterator end) {
+        halfedges.splice( target, source.halfedges, begin, end);
+    }
+
+    void faces_splice( Face_iterator target, Self &source,
+                       Face_iterator begin, Face_iterator end) {
+        faces.splice( target, source.faces, begin, end);
     }
 
 // Operations with Border Halfedges

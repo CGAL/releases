@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Kernel/concept_archetype_functors.h,v $
-// $Revision: 1.28 $ $Date: 2004/09/07 07:36:32 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/concept_archetype_functors.h $
+// $Id: concept_archetype_functors.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Matthias Baesken
 
@@ -903,13 +903,18 @@ public:
 template <typename K>
 class Construct_centroid_2
 {
-    typedef typename K::Point_2  Point_2;
+    typedef typename K::Point_2     Point_2;
+    typedef typename K::Triangle_2  Triangle_2;
 public:
     typedef Point_2          result_type;
     typedef Arity_tag< 3 >   Arity;
 
     Point_2
     operator()(const Point_2&, const Point_2&, const Point_2&) const
+    { Point_2 obj; return obj; }
+
+    Point_2
+    operator()(const Triangle_2&) const
     { Point_2 obj; return obj; }
 
     Point_2
@@ -921,13 +926,23 @@ public:
 template <typename K>
 class Construct_centroid_3
 {
-    typedef typename K::Point_3  Point_3;
+    typedef typename K::Point_3        Point_3;
+    typedef typename K::Triangle_3     Triangle_3;
+    typedef typename K::Tetrahedron_3  Tetrahedron_3;
 public:
     typedef Point_3          result_type;
     typedef Arity_tag< 3 >   Arity;
 
     Point_3
     operator()(const Point_3&, const Point_3&, const Point_3&) const
+    { Point_3 obj; return obj; }
+
+    Point_3
+    operator()(const Triangle_3&) const
+    { Point_3 obj; return obj; }
+
+    Point_3
+    operator()(const Tetrahedron_3&) const
     { Point_3 obj; return obj; }
 
     Point_3
@@ -945,10 +960,6 @@ class Construct_circle_2
 public:
     typedef Circle_2         result_type;
     typedef Arity_tag< 3 >   Arity;
-
-    Circle_2
-    operator()() const
-    { return Circle_2(); }
 
     Circle_2
     operator()( const Point_2&, const FT&,
@@ -1043,10 +1054,6 @@ public:
     typedef Arity_tag< 1 >    Arity;
 
     Direction_2
-    operator()() const
-    { return Direction_2(); }
-
-    Direction_2
     operator()(const Vector_2&) const
     { return Direction_2(); }
 
@@ -1077,10 +1084,6 @@ public:
     typedef Arity_tag< 1 >    Arity;
 
     Direction_3
-    operator()() const
-    { return Direction_3(); }
-
-    Direction_3
     operator()(const Vector_3&) const
     { return Direction_3(); }
 
@@ -1107,10 +1110,6 @@ public:
     typedef Arity_tag< 2 >    Arity;
 
     Iso_cuboid_3
-    operator()() const
-    { return Iso_cuboid_3(); }
-
-    Iso_cuboid_3
     operator()(const Point_3&, const Point_3&) const
     { return Iso_cuboid_3(); }
 
@@ -1129,10 +1128,6 @@ class Construct_iso_rectangle_2
 public:
     typedef Iso_rectangle_2   result_type;
     typedef Arity_tag< 2 >    Arity;
-
-    Iso_rectangle_2
-    operator()() const
-    { return Iso_rectangle_2(); }
 
     Iso_rectangle_2
     operator()(const Point_2&, const Point_2&) const
@@ -1174,10 +1169,6 @@ public:
     typedef Arity_tag< 2 >    Arity;
 
     Line_2
-    operator()() const
-    { return Line_2(); }
-
-    Line_2
     operator()(const Point_2&, const Point_2&) const
     { return Line_2(); }
 
@@ -1210,10 +1201,6 @@ class Construct_line_3
 public:
     typedef Line_3            result_type;
     typedef Arity_tag< 2 >    Arity;
-
-    Line_3
-    operator()() const
-    { return Line_3(); }
 
     Line_3
     operator()(const Point_3&, const Point_3&) const
@@ -1633,10 +1620,6 @@ public:
     typedef Arity_tag< 2 >   Arity;
 
     Plane_3
-    operator()() const
-    { return Plane_3(); }
-
-    Plane_3
     operator()(const RT&, const RT&, const RT&, const RT&) const
     { return Plane_3(); }
 
@@ -1724,10 +1707,6 @@ public:
     typedef Arity_tag< 1 >   Arity;
 
     Point_2
-    operator()() const
-    { return Point_2(); }
-
-    Point_2
     operator()(Origin) const
     { return Point_2(); }
 };
@@ -1740,10 +1719,6 @@ class Construct_point_3
 public:
     typedef Point_3          result_type;
     typedef Arity_tag< 1 >   Arity;
-
-    Point_3
-    operator()() const
-    { return Point_3(); }
 
     Point_3
     operator()(Origin) const
@@ -1811,10 +1786,6 @@ public:
      typedef Arity_tag< 2 >   Arity;
 
      Ray_2
-     operator()() const
-     {  return Ray_2(); }
-
-     Ray_2
      operator()(const Point_2&, const Point_2&) const
      {  return Ray_2(); }
 
@@ -1842,10 +1813,6 @@ class Construct_ray_3
 public:
      typedef Ray_3            result_type;
      typedef Arity_tag< 2 >   Arity;
-
-     Ray_3
-     operator()() const
-     {  return Ray_3(); }
 
      Ray_3
      operator()(const Point_3&, const Point_3&) const
@@ -1910,10 +1877,6 @@ public:
     typedef Arity_tag< 2 >   Arity;
 
     Segment_2
-    operator()() const
-    {  return Segment_2(); }
-
-    Segment_2
     operator()( const Point_2&, const Point_2&) const
     {  return Segment_2(); }
 };
@@ -1926,10 +1889,6 @@ class Construct_segment_3
 public:
     typedef Segment_3        result_type;
     typedef Arity_tag< 2 >   Arity;
-
-    Segment_3
-    operator()() const
-    {  return Segment_3(); }
 
     Segment_3
     operator()( const Point_3&, const Point_3&) const
@@ -1945,10 +1904,6 @@ class Construct_sphere_3
 public:
     typedef Sphere_3        result_type;
     typedef Arity_tag< 4 >   Arity;
-
-    Sphere_3
-    operator()() const
-    {  return Sphere_3(); }
 
     Sphere_3
     operator()( const Point_3&, const FT&,
@@ -2040,10 +1995,6 @@ public:
     typedef Arity_tag< 4 >   Arity;
 
     Tetrahedron_3
-    operator()() const
-    { return Tetrahedron_3(); }
-
-    Tetrahedron_3
     operator()( const Point_3&, const Point_3&,
 	        const Point_3&, const Point_3&) const
     { return Tetrahedron_3(); }
@@ -2095,10 +2046,6 @@ public:
     typedef Arity_tag< 3 >   Arity;
 
     Triangle_2
-    operator()() const
-    { return Triangle_2(); }
-
-    Triangle_2
     operator()( const Point_2&, const Point_2&, const Point_2&) const
     { return Triangle_2(); }
 };
@@ -2111,10 +2058,6 @@ class Construct_triangle_3
 public:
     typedef Triangle_3       result_type;
     typedef Arity_tag< 3 >   Arity;
-
-    Triangle_3
-    operator()() const
-    { return Triangle_3(); }
 
     Triangle_3
     operator()( const Point_3&, const Point_3&, const Point_3&) const
@@ -2133,10 +2076,6 @@ class Construct_vector_2
 public:
     typedef Vector_2         result_type;
     typedef Arity_tag< 2 >   Arity;
-
-    Vector_2
-    operator()() const
-    { return Vector_2(); }
 
     Vector_2
     operator()( const Point_2&, const Point_2&) const
@@ -2179,10 +2118,6 @@ class Construct_vector_3
 public:
     typedef Vector_3         result_type;
     typedef Arity_tag< 2 >   Arity;
-
-    Vector_3
-    operator()() const
-    { return Vector_3(); }
 
     Vector_3
     operator()( const Point_3&, const Point_3&) const
@@ -3255,7 +3190,8 @@ public:
 template <typename K>
 class Orientation_2
 {
-    typedef typename K::Point_2 Point_2;
+    typedef typename K::Point_2   Point_2;
+    typedef typename K::Vector_2  Vector_2;
 public:
     typedef Orientation      result_type;
     typedef Arity_tag< 3 >   Arity;
@@ -3263,12 +3199,17 @@ public:
     Orientation
     operator()(const Point_2&, const Point_2&, const Point_2&) const
     { return CGAL::COLLINEAR; }
+
+    Orientation
+    operator()(const Vector_2&, const Vector_2&) const
+    { return CGAL::COLLINEAR; }
 };
 
 template <typename K>
 class Orientation_3
 {
-    typedef typename K::Point_3 Point_3;
+    typedef typename K::Point_3   Point_3;
+    typedef typename K::Vector_3  Vector_3;
 public:
     typedef Orientation      result_type;
     typedef Arity_tag< 4 >   Arity;
@@ -3276,6 +3217,10 @@ public:
     Orientation
     operator()( const Point_3&, const Point_3&,
 	        const Point_3&, const Point_3&) const
+    { return CGAL::COLLINEAR; }
+
+    Orientation
+    operator()( const Vector_3&, const Vector_3&, const Vector_3&) const
     { return CGAL::COLLINEAR; }
 };
 

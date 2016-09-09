@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Dummy_tds_2.h,v $
-// $Revision: 1.3 $ $Date: 2003/09/18 10:26:06 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Dummy_tds_2.h $
+// $Id: Dummy_tds_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Mariette Yvinec
 
@@ -40,7 +40,10 @@ struct Dummy_tds_2 {
 
   struct Edge_circulator {};
   struct Facet_circulator {};
+  struct Face_circulator {};
   struct Vertex_circulator {};
+  
+  typedef std::size_t size_type;
 };
 
 CGAL_END_NAMESPACE

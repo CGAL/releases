@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_get_polygon.h,v $
-// $Revision: 1.21 $ $Date: 2004/03/23 17:47:22 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Qt_widget/include/CGAL/IO/Qt_widget_get_polygon.h $
+// $Id: Qt_widget_get_polygon.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Laurent Rineau
 
@@ -116,7 +116,6 @@ protected:
         active = false;
         first_time = true;
         poly.erase(poly.vertices_begin(), poly.vertices_end());
-        widget->redraw();
       }
     };
   };//end mousePressEvent

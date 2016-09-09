@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/VectorCd.h,v $
-// $Revision: 1.16 $ $Date: 2004/09/17 12:12:42 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/VectorCd.h $
+// $Id: VectorCd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_VECTORCD_H
@@ -77,14 +77,14 @@ VectorCd(int d, InputIterator first, InputIterator last)
   // else first specifies common denominator:
   CGAL_assertion_msg(*first!=FT(0),
     "VectorCd::constructor: denominator must be nonzero.");
-  for (register int i=0; i<d; ++i) entry(i)/=*first;
+  for (int i=0; i<d; ++i) entry(i)/=*first;
 }
 
 template <class InputIterator>
 VectorCd(int d, InputIterator first, InputIterator last, 
          const FT& D) : Base( Tuple(d,first,last) )
 { CGAL_assertion_msg(D!=FT(0), "VectorCd::constructor: D must be nonzero.");
-  for (register int i=0; i<d; ++i) entry(i)/=D;
+  for (int i=0; i<d; ++i) entry(i)/=D;
 }
 
 VectorCd(int d, Base_vector, int i) : Base( Tuple(d) )
@@ -212,7 +212,7 @@ static Comparison_result cmp(
 }
 
 bool operator==(const VectorCd<FT,LA>& w) const
-{ if ( identical(w) ) return true;
+{ if ( this->identical(w) ) return true;
   if ( dimension() != w.dimension() ) return false;
   return vector_rep()==w.vector_rep();
 }

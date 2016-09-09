@@ -1,4 +1,4 @@
-// Copyright (c) 2001  Utrecht University (The Netherlands),
+// Copyright (c) 2001-2005  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -15,17 +15,18 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Filtered_predicate.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:17:23 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Filtered_predicate.h $
+// $Id: Filtered_predicate.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion
 
-#ifndef CGAL_FILTER_PREDICATE_H
-#define CGAL_FILTER_PREDICATE_H
+#ifndef CGAL_FILTERED_PREDICATE_H
+#define CGAL_FILTERED_PREDICATE_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/Interval_nt.h>
+#include <CGAL/Profile_counter.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -47,19 +48,26 @@ CGAL_BEGIN_NAMESPACE
 // - Some caching should be done at the Point_2 level.
 
 
-template <class EP, class AP, class C2E, class C2F, bool Protection = true>
+template <class EP, class AP, class C2E, class C2A, bool Protection = true>
 class Filtered_predicate
 {
-  EP Exact_predicate;
-  AP Approx_predicate;
-  C2E To_Exact;
-  C2F To_Approx;
+  EP  ep;
+  AP  ap;
+  C2E c2e;
+  C2A c2a;
+
+  typedef typename AP::result_type  Ares;
 
 public:
 
-  typedef typename AP::result_type  result_type;
-  typedef typename AP::Arity        Arity;
-  // Should be the same type as EP::result_type.
+  typedef AP    Approximate_predicate;
+  typedef EP    Exact_predicate;
+  typedef C2E   To_exact_converter;
+  typedef C2A   To_approximate_converter;
+
+  typedef typename EP::result_type  result_type;
+  typedef typename EP::Arity        Arity;
+  // AP::result_type must be convertible to EP::result_type.
 
   Filtered_predicate()
   {}
@@ -69,13 +77,12 @@ public:
   // the exact values systematically (in the ctor), rather than lazily.
   template <class O>
   Filtered_predicate(const O &o1)
-    : Exact_predicate(To_Exact(o1)), Approx_predicate(To_Approx(o1))
+    : ep(c2e(o1)), ap(c2a(o1))
   {}
 
-  template <class O>
-  Filtered_predicate(const O &o1, const O &o2)
-    : Exact_predicate(To_Exact(o1), To_Exact(o2)),
-      Approx_predicate(To_Approx(o1), To_Approx(o2))
+  template <class O1, class O2>
+  Filtered_predicate(const O1 &o1, const O2 &o2)
+    : ep(c2e(o1), c2e(o2)), ap(c2a(o1), c2a(o2))
   {}
 
   template <class A1>
@@ -87,14 +94,16 @@ public:
   {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1));
+      Ares res = ap(c2a(a1));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1));
   }
 #endif
 
@@ -107,14 +116,16 @@ public:
   {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1), To_Approx(a2));
+      Ares res = ap(c2a(a1), c2a(a2));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1), To_Exact(a2));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2));
   }
 #endif
 
@@ -127,14 +138,16 @@ public:
   {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1), To_Approx(a2), To_Approx(a3));
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1), To_Exact(a2), To_Exact(a3));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3));
   }
 #endif
 
@@ -147,16 +160,16 @@ public:
   {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1), To_Approx(a2), To_Approx(a3),
-	      To_Approx(a4));
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1), To_Exact(a2), To_Exact(a3),
-	      To_Exact(a4));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4));
   }
 #endif
 
@@ -170,16 +183,16 @@ public:
   {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1), To_Approx(a2), To_Approx(a3),
-	      To_Approx(a4), To_Approx(a5));
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4), c2a(a5));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1), To_Exact(a2), To_Exact(a3),
-	      To_Exact(a4), To_Exact(a5));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4), c2e(a5));
   }
 #endif
 
@@ -193,16 +206,16 @@ public:
   {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1), To_Approx(a2), To_Approx(a3),
-	      To_Approx(a4), To_Approx(a5), To_Approx(a6));
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4), c2a(a5), c2a(a6));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1), To_Exact(a2), To_Exact(a3),
-	      To_Exact(a4), To_Exact(a5), To_Exact(a6));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4), c2e(a5), c2e(a6));
   }
 #endif
 
@@ -217,140 +230,325 @@ public:
   {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1), To_Approx(a2), To_Approx(a3),
-	      To_Approx(a4), To_Approx(a5), To_Approx(a6), To_Approx(a7));
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4),
+                    c2a(a5), c2a(a6), c2a(a7));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1), To_Exact(a2), To_Exact(a3),
-	      To_Exact(a4), To_Exact(a5), To_Exact(a6), To_Exact(a7));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4), c2e(a5), c2e(a6), c2e(a7));
   }
 #endif
 
-  // Idem for more than 7 arguments.  Do it on demand.
+  template <class A1, class A2, class A3, class A4, class A5, class A6,
+            class A7, class A8>
+  result_type
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
+             const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8) const
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
+  ;
+#else
+  {
+    try
+    {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(__PRETTY_FUNCTION__));
+      Protect_FPU_rounding<Protection> P;
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4),
+                    c2a(a5), c2a(a6), c2a(a7), c2a(a8) );
+      if (! is_indeterminate(res))
+        return res;
+    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(__PRETTY_FUNCTION__));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4),
+              c2e(a5), c2e(a6), c2e(a7), c2e(a8) );
+  }
+#endif
+
+  template <class A1, class A2, class A3, class A4, class A5, class A6,
+            class A7, class A8, class A9>
+  result_type
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
+             const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8,
+             const A9 &a9) const
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
+  ;
+#else
+  {
+    try
+    {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(__PRETTY_FUNCTION__));
+      Protect_FPU_rounding<Protection> P;
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4),
+                    c2a(a5), c2a(a6), c2a(a7), c2a(a8), c2a(a9) );
+      if (! is_indeterminate(res))
+        return res;
+    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(__PRETTY_FUNCTION__));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4),
+              c2e(a5), c2e(a6), c2e(a7), c2e(a8), c2e(a9) );
+  }
+#endif
+
+  template <class A1, class A2, class A3, class A4, class A5, class A6,
+            class A7, class A8, class A9, class A10>
+  result_type
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
+             const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8,
+             const A9 &a9, const A10 &a10) const
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
+  ;
+#else
+  {
+    try
+    {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(__PRETTY_FUNCTION__));
+      Protect_FPU_rounding<Protection> P;
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4),
+                    c2a(a5), c2a(a6), c2a(a7), c2a(a8), c2a(a9), c2a(a10) );
+      if (! is_indeterminate(res))
+        return res;
+    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(__PRETTY_FUNCTION__));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4),
+              c2e(a5), c2e(a6), c2e(a7), c2e(a8), c2e(a9), c2e(a10) );
+  }
+#endif
+
+  // Idem for more than 10 arguments.  Do it on demand.
 };
 
 #ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
-template <class EP, class AP, class C2E, class C2F, bool Protection>
+template <class EP, class AP, class C2E, class C2A, bool Protection>
   template <class A1>
-typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
-Filtered_predicate<EP,AP,C2E,C2F,Protection>::
+typename Filtered_predicate<EP,AP,C2E,C2A,Protection>::result_type
+Filtered_predicate<EP,AP,C2E,C2A,Protection>::
   operator()(const A1 &a1) const
 {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1));
+      Ares res = ap(c2a(a1));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1));
 }
 
-template <class EP, class AP, class C2E, class C2F, bool Protection>
+template <class EP, class AP, class C2E, class C2A, bool Protection>
   template <class A1, class A2>
-typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
-Filtered_predicate<EP,AP,C2E,C2F,Protection>::
+typename Filtered_predicate<EP,AP,C2E,C2A,Protection>::result_type
+Filtered_predicate<EP,AP,C2E,C2A,Protection>::
   operator()(const A1 &a1, const A2 &a2) const
 {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1), To_Approx(a2));
+      Ares res = ap(c2a(a1), c2a(a2));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1), To_Exact(a2));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ")+ std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2));
 }
 
-template <class EP, class AP, class C2E, class C2F, bool Protection>
+template <class EP, class AP, class C2E, class C2A, bool Protection>
   template <class A1, class A2, class A3>
-typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
-Filtered_predicate<EP,AP,C2E,C2F,Protection>::
+typename Filtered_predicate<EP,AP,C2E,C2A,Protection>::result_type
+Filtered_predicate<EP,AP,C2E,C2A,Protection>::
   operator()(const A1 &a1, const A2 &a2, const A3 &a3) const
 {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1), To_Approx(a2), To_Approx(a3));
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1), To_Exact(a2), To_Exact(a3));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3));
 }
 
-template <class EP, class AP, class C2E, class C2F, bool Protection>
+template <class EP, class AP, class C2E, class C2A, bool Protection>
   template <class A1, class A2, class A3, class A4>
-typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
-Filtered_predicate<EP,AP,C2E,C2F,Protection>::
+typename Filtered_predicate<EP,AP,C2E,C2A,Protection>::result_type
+Filtered_predicate<EP,AP,C2E,C2A,Protection>::
   operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4) const
 {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1), To_Approx(a2), To_Approx(a3),
-	      To_Approx(a4));
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1), To_Exact(a2), To_Exact(a3),
-	      To_Exact(a4));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4));
 }
 
-template <class EP, class AP, class C2E, class C2F, bool Protection>
+template <class EP, class AP, class C2E, class C2A, bool Protection>
   template <class A1, class A2, class A3, class A4, class A5>
-typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
-Filtered_predicate<EP,AP,C2E,C2F,Protection>::
+typename Filtered_predicate<EP,AP,C2E,C2A,Protection>::result_type
+Filtered_predicate<EP,AP,C2E,C2A,Protection>::
   operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
 	     const A5 &a5) const
 {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1), To_Approx(a2), To_Approx(a3),
-	      To_Approx(a4), To_Approx(a5));
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4), c2a(a5));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1), To_Exact(a2), To_Exact(a3),
-	      To_Exact(a4), To_Exact(a5));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4), c2e(a5));
 }
 
-template <class EP, class AP, class C2E, class C2F, bool Protection>
+template <class EP, class AP, class C2E, class C2A, bool Protection>
   template <class A1, class A2, class A3, class A4, class A5, class A6>
-typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type
-Filtered_predicate<EP,AP,C2E,C2F,Protection>::
+typename Filtered_predicate<EP,AP,C2E,C2A,Protection>::result_type
+Filtered_predicate<EP,AP,C2E,C2A,Protection>::
   operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
 	     const A5 &a5, const A6 &a6) const
 {
     try
     {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
       Protect_FPU_rounding<Protection> P;
-      return Approx_predicate(To_Approx(a1), To_Approx(a2), To_Approx(a3),
-	      To_Approx(a4), To_Approx(a5), To_Approx(a6));
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4), c2a(a5), c2a(a6));
+      if (! is_indeterminate(res))
+        return res;
     }
-    catch (Interval_nt_advanced::unsafe_comparison)
-    {
-      Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
-      return Exact_predicate(To_Exact(a1), To_Exact(a2), To_Exact(a3),
-	      To_Exact(a4), To_Exact(a5), To_Exact(a6));
-    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4), c2e(a5), c2e(a6));
 }
+
+template <class EP, class AP, class C2E, class C2A, bool Protection>
+  template <class A1, class A2, class A3, class A4, class A5, class A6,
+            class A7>
+typename Filtered_predicate<EP,AP,C2E,C2A,Protection>::result_type
+Filtered_predicate<EP,AP,C2E,C2A,Protection>::
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
+	     const A5 &a5, const A6 &a6, const A7 &a7) const
+{
+    try
+    {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
+      Protect_FPU_rounding<Protection> P;
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4), c2a(a5), c2a(a6),
+                    c2a(a7));
+      if (! is_indeterminate(res))
+        return res;
+    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4), c2e(a5), c2e(a6), c2e(a7));
+}
+
+template <class EP, class AP, class C2E, class C2A, bool Protection>
+  template <class A1, class A2, class A3, class A4, class A5, class A6,
+            class A7, class A8>
+typename Filtered_predicate<EP,AP,C2E,C2A,Protection>::result_type
+Filtered_predicate<EP,AP,C2E,C2A,Protection>::
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
+	     const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8) const
+{
+    try
+    {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
+      Protect_FPU_rounding<Protection> P;
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4), c2a(a5), c2a(a6),
+                    c2a(a7), c2a(a8));
+      if (! is_indeterminate(res))
+        return res;
+    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4), c2e(a5), c2e(a6), c2e(a7),
+              c2e(a8));
+}
+
+template <class EP, class AP, class C2E, class C2A, bool Protection>
+  template <class A1, class A2, class A3, class A4, class A5, class A6,
+            class A7, class A8, class A9>
+typename Filtered_predicate<EP,AP,C2E,C2A,Protection>::result_type
+Filtered_predicate<EP,AP,C2E,C2A,Protection>::
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
+	     const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8,
+             const A9 &a9) const
+{
+    try
+    {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
+      Protect_FPU_rounding<Protection> P;
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4), c2a(a5), c2a(a6),
+                    c2a(a7), c2a(a8), c2a(a9));
+      if (! is_indeterminate(res))
+        return res;
+    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4), c2e(a5), c2e(a6), c2e(a7),
+              c2e(a8), c2e(a9));
+}
+
+template <class EP, class AP, class C2E, class C2A, bool Protection>
+  template <class A1, class A2, class A3, class A4, class A5, class A6,
+            class A7, class A8, class A9, class A10>
+typename Filtered_predicate<EP,AP,C2E,C2A,Protection>::result_type
+Filtered_predicate<EP,AP,C2E,C2A,Protection>::
+  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
+	     const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8,
+             const A9 &a9, const A10 &a10) const
+{
+    try
+    {
+      CGAL_PROFILER(std::string("calls to : ") + std::string(CGAL_PRETTY_FUNCTION));
+      Protect_FPU_rounding<Protection> P;
+      Ares res = ap(c2a(a1), c2a(a2), c2a(a3), c2a(a4), c2a(a5), c2a(a6),
+                    c2a(a7), c2a(a8), c2a(a9), c2a(a10));
+      if (! is_indeterminate(res))
+        return res;
+    }
+    catch (Interval_nt_advanced::unsafe_comparison) {}
+    CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));
+    Protect_FPU_rounding<!Protection> P(CGAL_FE_TONEAREST);
+    return ep(c2e(a1), c2e(a2), c2e(a3), c2e(a4), c2e(a5), c2e(a6), c2e(a7),
+              c2e(a8), c2e(a9), c2e(a10));
+}
+
 #endif
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_FILTER_PREDICATE_H
+#endif // CGAL_FILTERED_PREDICATE_H

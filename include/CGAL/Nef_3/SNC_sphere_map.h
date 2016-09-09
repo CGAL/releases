@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_3/include/CGAL/Nef_3/SNC_sphere_map.h,v $
-// $Revision: 1.10.2.1 $ $Date: 2004/12/08 19:31:01 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/SNC_sphere_map.h $
+// $Id: SNC_sphere_map.h 29399 2006-03-11 18:34:06Z glisse $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 //                 Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -61,7 +61,7 @@ class SNC_sphere_map : public Items_::template Vertex<SNC_structure<Kernel_, Ite
   typedef Items_                                    Items;
   typedef Kernel_                                   Kernel;
   typedef Mark_                                     Mark;
-  typedef SNC_structure<Kernel,Items,Mark>          SNC_structure;
+  typedef CGAL::SNC_structure<Kernel,Items,Mark>    SNC_structure;
   typedef typename Items::template Vertex<SNC_structure>  Base;
   //  typedef bool                                        Mark;
   typedef CGAL::Sphere_geometry<Kernel>             Sphere_kernel;
@@ -332,7 +332,7 @@ class SNC_sphere_map : public Items_::template Vertex<SNC_structure<Kernel_, Ite
     CGAL_NEF_TRACEN("new_svertex "<<&*sv);
     return sv;
   }
-
+  /*
   SFace_handle new_sface() {
     SFace_iterator sf =  this->sncp()->new_sface_only();
     if ( this->sfaces_begin() == this->sncp()->sfaces_end()) init_range(sf);
@@ -340,11 +340,44 @@ class SNC_sphere_map : public Items_::template Vertex<SNC_structure<Kernel_, Ite
     sf->center_vertex() = Vertex_handle((SNC_in_place_list_sm<Self>*) this);
     return sf; 
   }
+  */
+  SFace_handle new_sface() {
+    SFace_iterator sf;
+    if ( this->sfaces_begin() == this->sncp()->sfaces_end()) {
+      sf =  this->sncp()->new_sface_only();
+      init_range(sf);
+    } else {
+      SFace_iterator sfn = this->sfaces_end();
+      sf =  this->sncp()->new_sface_only(sfn);
+      this->sfaces_last() = sf;
+    }
+    sf->center_vertex() = Vertex_handle((SNC_in_place_list_sm<Self>*) this);
+    return sf; 
+  }
 
+  /*
   SHalfedge_handle new_shalfedge_pair() {
     SHalfedge_iterator se = this->sncp()->new_shalfedge_only();
     SHalfedge_iterator set = this->sncp()->new_shalfedge_only();
-    if(this->shalfedges_begin() == this->sncp()->shalfedges_end()) init_range(se);
+    if(this->shalfedges_begin() == this->sncp()->shalfedges_end()) 
+      init_range(se);
+    this->shalfedges_last() = set;
+    make_twins(se,set);
+    return se; 
+  }
+  */
+
+  SHalfedge_handle new_shalfedge_pair() {
+    SHalfedge_iterator se, set;
+    if(this->shalfedges_begin() == this->sncp()->shalfedges_end()) {
+      se = this->sncp()->new_shalfedge_only();
+      set = this->sncp()->new_shalfedge_only();
+      init_range(se);
+    } else {
+      SHalfedge_iterator sen = this->shalfedges_end();
+      se = this->sncp()->new_shalfedge_only(sen);
+      set = this->sncp()->new_shalfedge_only(sen);
+    }
     this->shalfedges_last() = set;
     make_twins(se,set);
     return se; 

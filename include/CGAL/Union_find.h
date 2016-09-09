@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Union_find/include/CGAL/Union_find.h,v $
-// $Revision: 1.12 $ $Date: 2004/01/18 12:38:00 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Union_find/include/CGAL/Union_find.h $
+// $Id: Union_find.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>,
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
@@ -103,7 +103,10 @@ public:
     typedef Union_find_struct*                               pointer;
     typedef const Union_find_struct*                         const_pointer;
 
-    typedef T                                                value_type;
+    typedef T                                                value_type; 
+    typedef T&                                               reference; 
+    typedef const T&                                         const_reference; 
+
     typedef CGALi::UF_forward_iterator< pointer, T, T&, T*>  iterator;
     typedef iterator                                         handle;
     typedef CGALi::UF_forward_iterator< const_pointer, T, const T&, const T*>

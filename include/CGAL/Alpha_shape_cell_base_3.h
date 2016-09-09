@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_3/include/CGAL/Alpha_shape_cell_base_3.h,v $
-// $Revision: 1.15 $ $Date: 2004/08/12 13:28:58 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Alpha_shapes_3/include/CGAL/Alpha_shape_cell_base_3.h $
+// $Id: Alpha_shape_cell_base_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Tran Kai Frank DA
 
@@ -98,9 +98,9 @@ public:
  NT get_alpha() const    {  return A;    }
  void set_alpha(const NT & AA) { A = AA;}
 
- Alpha_status_iterator get_facet_status(int i) const {return facet_status[i];}
-//Alpha_status_const_iterator get_facet_status(int i) const {
-//   return facet_status[i];}
+ Alpha_status_iterator get_facet_status(int i) {return facet_status[i];}
+ Alpha_status_const_iterator get_facet_status(int i) const {
+   return facet_status[i];}
 
  void set_facet_status(int i, Alpha_status_iterator as) {
    facet_status[i]= as;  }

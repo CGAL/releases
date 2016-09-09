@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Distance_2/include/CGAL/squared_distance_2_1.h,v $
-// $Revision: 1.25 $ $Date: 2004/06/05 12:24:48 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Distance_2/include/CGAL/squared_distance_2_1.h $
+// $Id: squared_distance_2_1.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman
 //                 Michel Hoffmann <hoffmann@inf.ethz.ch>
@@ -30,7 +30,7 @@
 #include <CGAL/user_classes.h>
 
 
-#include <CGAL/utils.h>
+#include <CGAL/kernel_assertions.h>
 #include <CGAL/Point_2.h>
 #include <CGAL/Segment_2.h>
 #include <CGAL/Line_2.h>
@@ -61,12 +61,13 @@ namespace CGALi {
 		   const Homogeneous_tag&)
   {
     typedef typename K::RT RT;
-    RT a = line.a();
-    RT b = line.b();
-    RT w = pt.hw();
+    typedef typename K::FT FT;
+    const RT & a = line.a();
+    const RT & b = line.b();
+    const RT & w = pt.hw();
     RT n = a*pt.hx() + b*pt.hy() + w * line.c();
-    RT d = (a*a+b*b) * w * w;
-    return K::make_FT(n*n, d);
+    RT d = (CGAL_NTS square(a) + CGAL_NTS square(b)) * CGAL_NTS square(w);
+    return Rational_traits<FT>().make_rational(CGAL_NTS square(n), d);
   }
 
   template <class K>
@@ -77,11 +78,11 @@ namespace CGALi {
 		   const Cartesian_tag&)
   {
     typedef typename K::FT FT;
-    FT a = line.a();
-    FT b = line.b();
+    const FT & a = line.a();
+    const FT & b = line.b();
     FT n = a*pt.x() + b*pt.y() + line.c();
-    FT d = a*a+b*b;
-    return (n*n)/d;
+    FT d = CGAL_NTS square(a) + CGAL_NTS square(b);
+    return CGAL_NTS square(n)/d;
   }
 
 
@@ -410,11 +411,10 @@ namespace CGALi {
   {
     typedef typename K::RT RT;
     typedef typename K::FT FT;
-    RT numerator = wcross*wcross;
+    RT numerator = CGAL_NTS square(wcross);
     RT denominator = wmult((K*)0, RT(wdot(dir,dir, K())),
 			   diff.hw(), diff.hw());
-    FT result = K::make_FT(numerator, denominator);
-    return result;
+    return Rational_traits<FT>().make_rational(numerator, denominator);
   }
 
   template <class K>
@@ -662,10 +662,11 @@ public:
   typename K::FT impl(typename K::Point_2 const &pt, const Homogeneous_tag&) const
   {
     typedef typename K::RT RT;
-    RT w = pt.hw();
+    typedef typename K::FT FT;
+    const RT & w = pt.hw();
     RT n = a*pt.hx() + b*pt.hy() + c * w;
-    RT d = sqnorm * w * w;
-    return K::make_FT(n*n, d);
+    RT d = sqnorm * CGAL_NTS square(w);
+    return Rational_traits<FT>().make_rational(CGAL_NTS square(n), d);
   }
 
   typename K::FT impl(typename K::Point_2 const &pt, const Cartesian_tag&) const

@@ -11,16 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_S2/include/CGAL/Nef_S2/Normalizing.h,v $
-// $Revision: 1.4.2.1 $ $Date: 2004/12/08 20:10:05 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/Normalizing.h $
+// $Id: Normalizing.h 28604 2006-02-17 16:40:20Z hachenb $
+// 
 //
 // Author(s)     : Peter Hachenberger  <hachenberger@mpi-sb.mpg.de>
 #ifndef CGAL_NORMALIZING_H
 #define CGAL_NORMALIZING_H
 
-#include <CGAL/basic.h>
-#include <CGAL/assertions.h>
 #include <CGAL/Nef_S2/Sphere_point.h>
 #include <CGAL/Nef_S2/Sphere_circle.h>
 #include <CGAL/Nef_S2/Sphere_direction.h>
@@ -28,6 +26,11 @@
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 307
 #include <CGAL/Nef_2/debug.h>
+
+#ifdef CGAL_USE_LEDA
+#include <CGAL/Cartesian.h>
+#include <CGAL/leda_rational.h>
+#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -199,18 +202,6 @@ class Normalizing<Cartesian_tag> {
   template <typename R> static
   CGAL::Point_3<R> normalized(const CGAL::Point_3<R>& p) { 
     return p;
-    /*
-    typedef typename R::FT     FT;
-    
-    FT g = (p.x() != 0 ? p.x() : (p.y() != 0 ? p.y() : (p.z() != 0 ? p.z() : 1)));
-    g = CGAL_NTS abs(g);
-
-    FT x = p.x()/g;
-    FT y = p.y()/g;
-    FT z = p.z()/g;
-    
-    return CGAL::Point_3<R>(x,y,z);
-    */
   }
 
   template <typename R> static
@@ -220,13 +211,57 @@ class Normalizing<Cartesian_tag> {
 
   template <typename R> static
   CGAL::Sphere_point<R> normalized(const CGAL::Sphere_point<R>& p) { 
-    return p;
+
+    typedef typename R::RT     RT;
+    
+    RT g = (p.hx() != 0 ? p.hx() : (p.hy() != 0 ? p.hy() : p.hz()));
+    g = CGAL_NTS abs(g);
+
+    RT x = p.hx()/g;
+    RT y = p.hy()/g;
+    RT z = p.hz()/g;
+    
+    return CGAL::Sphere_point<R>(CGAL::Point_3<R>(x,y,z,1));
   }
 
   template <typename R> static
   CGAL::Sphere_direction<R> normalized(CGAL::Sphere_direction<R>& c) {
     return c;
   }
+
+#ifdef CGAL_USE_LEDA
+// specialization: Plane_3 < Cartesian < leda_rational > >
+
+  
+  static Plane_3<CGAL::Cartesian<leda_rational> > 
+       normalized(Plane_3<CGAL::Cartesian<leda_rational> >& h) { 
+
+    CGAL_assertion(!(h.a()==0 && h.b()==0 && h.c()==0 && h.d()==0));
+    
+    typedef leda_rational     FT;
+    
+    FT x = (h.a()==0) ? ((h.b()==0) ? ((h.c()==0) ? ((h.d()==0) ? 1 
+						     : h.d())
+				       : h.c())
+			 : h.b())
+      : h.a();
+    x = CGAL_NTS abs(x);
+    
+    FT pa = h.a()/x;
+    FT pb = h.b()/x;
+    FT pc = h.c()/x;
+    FT pd = h.d()/x;
+
+    pa.normalize();
+    pb.normalize();
+    pc.normalize();
+    pd.normalize();
+    
+    CGAL_NEF_TRACEN("  after normalizing "  << CGAL::Plane_3<CGAL::Cartesian<leda_rational> >(pa,pb,pc,pd));
+    return CGAL::Plane_3<CGAL::Cartesian<leda_rational> >(pa,pb,pc,pd);
+  }
+
+#endif
 
   template <typename R> static
   CGAL::Plane_3<R> normalized(CGAL::Plane_3<R>& h) { 

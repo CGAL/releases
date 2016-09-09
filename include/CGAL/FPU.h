@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/FPU.h,v $
-// $Revision: 1.36.4.1 $ $Date: 2004/11/24 23:31:07 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/FPU.h $
+// $Id: FPU.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -408,7 +408,15 @@ private:
 template <>
 struct Protect_FPU_rounding<false>
 {
-  Protect_FPU_rounding(FPU_CW_t = CGAL_FE_UPWARD) {}
+  Protect_FPU_rounding()
+  {
+    CGAL_expensive_assertion(FPU_get_cw() == CGAL_FE_UPWARD);
+  }
+
+  Protect_FPU_rounding(FPU_CW_t /*= CGAL_FE_UPWARD*/)
+  {
+    //CGAL_expensive_assertion(FPU_get_cw() == CGAL_FE_UPWARD);
+  }
 
   ~Protect_FPU_rounding() {}
   // just to shut up a warning, but it has a performance issue with GCC 2.95,

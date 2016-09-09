@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Optimisation_basic/include/CGAL/Optimisation/Access_coordinates_begin_2.h,v $
-// $Revision: 1.8 $ $Date: 2004/09/05 12:30:34 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Optimisation_basic/include/CGAL/Optimisation/Access_coordinates_begin_2.h $
+// $Id: Access_coordinates_begin_2.h 30667 2006-04-19 16:56:12Z glisse $
+// 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
 
@@ -51,7 +51,7 @@ class Point_2_coordinate_iterator {
 
     // iterator types
     typedef  typename R::RT             value_type;
-    typedef  ptrdiff_t                  difference_type;
+    typedef  std::ptrdiff_t             difference_type;
     typedef  value_type*                pointer;
     typedef  value_type&                reference;
     typedef  std::random_access_iterator_tag

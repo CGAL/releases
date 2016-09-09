@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/demo/Triangulation_2/regular_triangulation_2.C,v $
-// $Revision: 1.7.4.1 $ $Date: 2004/12/18 17:16:04 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/demo/Triangulation_2/regular_triangulation_2.C $
+// $Id: regular_triangulation_2.C 29185 2006-03-08 13:18:38Z afabri $
+// 
 //
 // Author(s)     : Radu Ursu
 
+#include <CGAL/basic.h>
 
 // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
@@ -94,7 +95,7 @@ public:
     help->insertItem("&About", this, SLOT(about()), CTRL+Key_A );
     help->insertItem("About &Qt", this, SLOT(aboutQt()) );
 
-    *widget << CGAL::BackgroundColor(CGAL::BLACK);
+    *widget << CGAL::BackgroundColor(CGAL::WHITE);
     *widget << CGAL::LineWidth(3);
     resize(w, h);
     widget->set_window(-1, 1, -1, 1);

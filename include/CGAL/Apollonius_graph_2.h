@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h,v $
-// $Revision: 1.46 $ $Date: 2004/09/07 13:32:57 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h $
+// $Id: Apollonius_graph_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -22,8 +22,11 @@
 #ifndef CGAL_APOLLONIUS_GRAPH_2_H
 #define CGAL_APOLLONIUS_GRAPH_2_H
 
+#include <iostream>
 #include <vector>
 #include <map>
+
+#include <boost/tuple/tuple.hpp>
 
 #include <CGAL/Apollonius_graph_short_names_2.h>
 
@@ -33,11 +36,12 @@
 #include <CGAL/Apollonius_graph_vertex_base_2.h>
 
 #include <CGAL/in_place_edge_list.h>
-#include <CGAL/edge_list.h>
+#include <CGAL/Segment_Delaunay_graph_2/edge_list.h>
 #include <CGAL/Apollonius_graph_traits_wrapper_2.h>
 
 #include <CGAL/Apollonius_graph_constructions_C2.h>
 
+#include <CGAL/iterator.h>
 #include <CGAL/Iterator_project.h>
 #include <CGAL/Nested_iterator.h>
 #include <CGAL/Concatenate_iterator.h>
@@ -81,6 +85,8 @@ namespace CGALi {
 } // namespace CGALi
 
 
+template<class Gt,class Agds,class LTag>
+class Apollonius_graph_hierarchy_2;
 
 template < class Gt,
 	   class Agds = Triangulation_data_structure_2 < 
@@ -90,6 +96,7 @@ template < class Gt,
 class Apollonius_graph_2
   : private Triangulation_2<Apollonius_graph_traits_wrapper_2<Gt>,Agds>
 {
+  friend class Apollonius_graph_hierarchy_2<Gt,Agds,LTag>;
 private:
   // types and access methods needed for visualization
   //--------------------------------------------------
@@ -144,33 +151,35 @@ protected:
   typedef Triangulation_2<Modified_traits,Agds>  DG;
 
   typedef DG                                 Delaunay_graph;
-  typedef typename DG::Vertex                Vertex;
-  typedef typename DG::Face                  Face;
 
 public:
   // TYPES
   //------
   typedef Agds                                   Data_structure;
+  typedef Agds                                   Triangulation_data_structure;
   typedef Gt                                     Geom_traits;
   typedef typename Gt::Point_2                   Point_2;
   typedef typename Gt::Site_2                    Site_2;
 
-  typedef typename DG::Edge                      Edge;
-  typedef typename DG::Vertex_handle             Vertex_handle;
-  typedef typename DG::Face_handle               Face_handle;
+  typedef typename Agds::Edge                    Edge;
+  typedef typename Agds::Vertex_handle           Vertex_handle;
+  typedef typename Agds::Face_handle             Face_handle;
+  typedef typename Agds::Vertex                  Vertex;
+  typedef typename Agds::Face                    Face;
 
-  typedef typename DG::Vertex_circulator         Vertex_circulator;
-  typedef typename DG::Edge_circulator           Edge_circulator;
-  typedef typename DG::Face_circulator           Face_circulator;
+  typedef typename Agds::Vertex_circulator       Vertex_circulator;
+  typedef typename Agds::Edge_circulator         Edge_circulator;
+  typedef typename Agds::Face_circulator         Face_circulator;
 
-  typedef typename DG::All_faces_iterator        All_faces_iterator;
+  typedef typename Agds::Face_iterator           All_faces_iterator;
+  typedef typename Agds::Vertex_iterator         All_vertices_iterator;
+  typedef typename Agds::Edge_iterator           All_edges_iterator;
+
   typedef typename DG::Finite_faces_iterator     Finite_faces_iterator;
-  typedef typename DG::All_vertices_iterator     All_vertices_iterator;
   typedef typename DG::Finite_vertices_iterator  Finite_vertices_iterator;
-  typedef typename DG::All_edges_iterator        All_edges_iterator;
   typedef typename DG::Finite_edges_iterator     Finite_edges_iterator;
 
-  typedef typename DG::size_type                 size_type;
+  typedef typename Agds::size_type               size_type;
 
   // Auxiliary iterators for convenience
   // do not use default template argument to please VC++
@@ -283,6 +292,9 @@ public:
   const Geom_traits& geom_traits() const {
     return DG::geom_traits();
   }
+
+  const Data_structure& data_structure() const { return this->_tds; }
+  const Triangulation_data_structure& tds() const { return this->_tds; }
 
   int dimension() const {
     return this->_tds.dimension();
@@ -544,6 +556,9 @@ private:
 public:
   // I/O
   //----
+  void file_input(std::istream&);
+  void file_output(std::ostream&) const;
+
   template< class Stream >
   Stream& draw_primal(Stream &str) const
   {
@@ -639,19 +654,21 @@ public:
   template< class Stream >
   Stream& draw_primal_edge(const Edge& e, Stream &str) const
   {
-    //    if ( is_infinite(e) ) { return str; }
-    typename Gt::Object_2 o = primal(e);
-    typename Geom_traits::Segment_2  s;
-    typename Geom_traits::Ray_2      r;
+    typedef typename Geom_traits::Segment_2     Segment_2;
+    typedef typename Geom_traits::Ray_2         Ray_2;
+    typedef std::pair<Segment_2,Segment_2>      Segment_pair_2;
+
+    typename Geom_traits::Object_2 o = primal(e);
+    Segment_2       s;
+    Ray_2           r;
+    Segment_pair_2  s_pair;
     CGAL::Hyperbola_segment_2<Gt>    hs;
     CGAL::Parabola_segment_2<Gt>     ps;
     if (assign(hs, o))  hs.draw(str);
     if (assign(s, o))   str << s; 
     if (assign(ps, o))  ps.draw(str);
     if (assign(r, o))   str << r;
-    //      if (assign(hr, o))  str << hr;
-    //      if (assign(h, o))   str << h;
-    //      if (assign(l, o))   str << l;
+    if (assign(s_pair, o)) str << s_pair.first << s_pair.second;
     return str;
   }
 
@@ -891,7 +908,7 @@ protected:
     Vertex_handle v1 = f->vertex( ccw(i) );
     Vertex_handle v2 = f->vertex(  cw(i) );
     Vertex_handle v3 = f->vertex(     i  );
-    Vertex_handle v4 = f->mirror_vertex(i);
+    Vertex_handle v4 = tds().mirror_vertex(f, i);
 
     return is_degenerate_edge(v1, v2, v3, v4);
   }
@@ -919,6 +936,11 @@ protected:
 protected:
   // wrappers for combinatorial operations on the data structure
 
+  // getting the degree of a vertex
+  typename Data_structure::size_type degree(const Vertex_handle& v) {
+    return this->_tds.degree(v);
+  }
+
   // getting the symmetric edge
   Edge sym_edge(const Edge e) const {
     return sym_edge(e.first, e.second);
@@ -926,7 +948,7 @@ protected:
 
   Edge sym_edge(const Face_handle& f, int i) const {
     Face_handle f_sym = f->neighbor(i);
-    return Edge(  f_sym, f_sym->index( f->mirror_vertex(i) )  );
+    return Edge(  f_sym, f_sym->index( tds().mirror_vertex(f, i) )  );
   }
 
   Edge flip(Face_handle& f, int i);
@@ -958,9 +980,9 @@ protected:
   Vertex_handle  insert_third(const Site_2& p);
 
   // methods for insertion
-  void initialize_conflict_region(const Face_handle& f, List& l);
+  void initialize_conflict_region(const Face_handle& f, List& l) const;
   bool check_edge_for_hidden_sites(const Face_handle& f, int i,
-				   const Site_2& p, Vertex_map& vm);
+				   const Site_2& p, Vertex_map& vm) const;
   void expand_conflict_region(const Face_handle& f,
 			      const Site_2& p,
 			      List& l, Face_map& fm, Vertex_map& vm,
@@ -1004,8 +1026,314 @@ protected:
     return geom_traits().assign_2_object()(t2, o2);
   }
 
+
+protected:
+  template<class OutputItFaces>
+  OutputItFaces find_conflicts(const Face_handle& f,
+			       const Site_2& p,
+			       List& l,
+			       Face_map& fm,
+			       Vertex_map& vm,
+			       OutputItFaces fit) const
+  {
+    // setting fm[f] to true means that the face has been reached and
+    // that the face is available for recycling. If we do not want the
+    // face to be available for recycling we must set this flag to
+    // false.
+    if ( fm.find(f) != fm.end() ) { return fit; }
+    fm[f] = true;
+    CGAL_assertion( incircle(f, p) == NEGATIVE );
+    *fit++ = f;
+
+    //  CGAL_assertion( fm.find(f) != fm.end() );
+    for (int i = 0; i < 3; i++) {
+      bool hidden_found = check_edge_for_hidden_sites(f, i, p, vm);
+
+      Face_handle n = f->neighbor(i);
+
+      if ( !hidden_found ) {
+	Sign s = incircle(n, p);
+	if ( s != NEGATIVE ) { continue; }
+
+	bool interior_in_conflict = edge_interior(f, i, p, true);
+
+	if ( !interior_in_conflict ) { continue; }
+      }
+
+      if ( fm.find(n) != fm.end() ) {
+	Edge e = sym_edge(f, i);
+	if ( l.is_in_list(e) ||
+	     l.is_in_list(sym_edge(e)) ) {
+	  l.remove(e);
+	  l.remove(sym_edge(e));
+	}
+	continue;
+      }
+
+      Edge e = sym_edge(f, i);
+
+      CGAL_assertion( l.is_in_list(e) );
+      int j = tds().mirror_index(f, i);
+      Edge e_before = sym_edge(n, ccw(j));
+      Edge e_after = sym_edge(n, cw(j));
+      if ( !l.is_in_list(e_before) ) {
+	l.insert_before(e, e_before);
+      }
+      if ( !l.is_in_list(e_after) ) {
+	l.insert_after(e, e_after);
+      }
+      l.remove(e);
+
+      fit = find_conflicts(n, p, l, fm, vm, fit);
+    } // for-loop
+    return fit;
+  } // find_conflicts
+
+  bool equal(const Edge& e1, const Edge& e2) const {
+    return e1.first == e2.first && e1.second == e2.second;
+  }
+
+
+protected:
+  template<class OutputItFaces, class OutputItBoundaryEdges,
+	   class OutputItHiddenVertices>
+  boost::tuples::tuple<OutputItFaces, OutputItBoundaryEdges,
+		       OutputItHiddenVertices>
+  get_all(const Site_2& p,
+	  OutputItFaces fit,
+	  OutputItBoundaryEdges eit,
+	  OutputItHiddenVertices vit,
+	  Vertex_handle start,
+	  bool find_nearest) const
+  {
+    CGAL_precondition( dimension() == 2 );
+
+    // first find the nearest neighbor
+    Vertex_handle vnearest = start;
+    if ( find_nearest ) {
+      vnearest = nearest_neighbor(p.point(), start);
+      CGAL_assertion( vnearest != Vertex_handle() );
+    }
+
+    // check if it is hidden
+    if ( is_hidden(vnearest->site(), p) ) {
+      return boost::tuples::make_tuple(fit, eit, vit);
+    }
+
+    // find the first conflict
+
+    // first look for conflict with vertex
+    Face_circulator fc_start = incident_faces(vnearest);
+    Face_circulator fc = fc_start;
+    Face_handle start_f;
+    Sign s;
+    do {
+      Face_handle f(fc);
+      s = incircle(f, p);
+
+      if ( s == NEGATIVE ) {
+	start_f = f;
+	break;
+      }
+      ++fc;
+    } while ( fc != fc_start );
+
+    // we are not in conflict with an Apollonius vertex, so we have to
+    // be in conflict with the interior of an Apollonius edge
+    if ( s != NEGATIVE ) {
+      Edge_circulator ec_start = incident_edges(vnearest);
+      Edge_circulator ec = ec_start;
+
+      bool interior_in_conflict(false);
+      Edge e;
+      do {
+	e = *ec;
+	interior_in_conflict = edge_interior(e, p, false);
+	
+	if ( interior_in_conflict ) { break; }
+	++ec;
+      } while ( ec != ec_start );
+
+      CGAL_assertion( interior_in_conflict );
+
+      *eit++ = e;
+      *eit++ = sym_edge(e);
+      return boost::tuples::make_tuple(fit, eit, vit);
+    }
+
+    // we are in conflict with an Apollonius vertex; start from that and 
+    // find the entire conflict region and then repair the diagram
+    List l;
+    Face_map fm;
+    Vertex_map vm;
+
+    //    *fit++ = start_f;
+    initialize_conflict_region(start_f, l);
+    fit = find_conflicts(start_f, p, l, fm, vm, fit);
+
+    // output the edges on the boundary of the conflict region
+    if ( l.size() > 0 ) {
+      const Edge& e_front = l.front();
+      // here I should be able to write: const Edge& e = l.front();
+      // instead of what I have; but the compiler complains for the
+      // assignment: e = l.next(e);
+      Edge e = l.front();
+      do {
+	*eit++ = e;
+	e = l.next(e);
+      } while ( !equal(e, e_front) );
+    }
+
+    // output the hidden vertices
+    for (typename Vertex_map::iterator it = vm.begin(); it != vm.end(); ++it) {
+      *vit++ = it->first;
+    }
+
+    // clear containers
+    fm.clear();
+    vm.clear();
+    l.clear();
+
+    return boost::tuples::make_tuple(fit, eit, vit);
+  }
+
+public:
+  template<class OutputItFaces, class OutputItBoundaryEdges,
+	   class OutputItHiddenVertices>
+  boost::tuples::tuple<OutputItFaces, OutputItBoundaryEdges,
+		       OutputItHiddenVertices>
+  get_conflicts_and_boundary_and_hidden_vertices(const Site_2& p,
+						 OutputItFaces fit,
+						 OutputItBoundaryEdges eit,
+						 OutputItHiddenVertices vit,
+						 Vertex_handle start =
+						 Vertex_handle()) const
+  {
+    return get_all(p, fit, eit, vit, start, true);
+  }
+
+  template<class OutputItFaces, class OutputItBoundaryEdges>
+  std::pair<OutputItFaces, OutputItBoundaryEdges>
+  get_conflicts_and_boundary(const Site_2& p,
+			     OutputItFaces fit,
+			     OutputItBoundaryEdges eit,
+			     Vertex_handle start =
+			     Vertex_handle()) const {
+    boost::tuples::tuple<OutputItFaces,OutputItBoundaryEdges,Emptyset_iterator>
+      tup =
+      get_conflicts_and_boundary_and_hidden_vertices(p,
+						     fit,
+						     eit,
+						     Emptyset_iterator(),
+						     start);
+    return std::make_pair( boost::tuples::get<0>(tup),
+			   boost::tuples::get<1>(tup) );
+  }
+
+
+  template<class OutputItBoundaryEdges, class OutputItHiddenVertices>
+  std::pair<OutputItBoundaryEdges, OutputItHiddenVertices>
+  get_boundary_of_conflicts_and_hidden_vertices(const Site_2& p,
+						OutputItBoundaryEdges eit,
+						OutputItHiddenVertices vit,
+						Vertex_handle start =
+						Vertex_handle()) const {
+    boost::tuples::tuple<Emptyset_iterator,OutputItBoundaryEdges,
+      OutputItHiddenVertices>
+      tup =
+      get_conflicts_and_boundary_and_hidden_vertices(p,
+						     Emptyset_iterator(),
+						     eit,
+						     vit,
+						     start);
+    return std::make_pair( boost::tuples::get<1>(tup),
+			   boost::tuples::get<2>(tup) );
+  }
+
+
+  template<class OutputItFaces, class OutputItHiddenVertices>
+  std::pair<OutputItFaces, OutputItHiddenVertices>
+  get_conflicts_and_hidden_vertices(const Site_2& p,
+				    OutputItFaces fit,
+				    OutputItHiddenVertices vit,
+				    Vertex_handle start =
+				    Vertex_handle()) const {
+    boost::tuples::tuple<OutputItFaces,Emptyset_iterator,
+      OutputItHiddenVertices>
+      tup =
+      get_conflicts_and_boundary_and_hidden_vertices(p,
+						     fit,
+						     Emptyset_iterator(),
+						     vit,
+						     start);
+    return std::make_pair( boost::tuples::get<0>(tup),
+			   boost::tuples::get<2>(tup) );
+  }
+
+  template<class OutputItFaces>
+  OutputItFaces get_conflicts(const Site_2& p,
+			      OutputItFaces fit,
+			      Vertex_handle start = Vertex_handle()) const {
+    boost::tuples::tuple<OutputItFaces,Emptyset_iterator,Emptyset_iterator>
+      tup =
+      get_conflicts_and_boundary_and_hidden_vertices(p,
+						     fit,
+						     Emptyset_iterator(),
+						     Emptyset_iterator(),
+						     start);
+    return boost::tuples::get<0>(tup);
+  }
+
+  template<class OutputItBoundaryEdges>
+  OutputItBoundaryEdges
+  get_boundary_of_conflicts(const Site_2& p,
+			    OutputItBoundaryEdges eit,
+			    Vertex_handle start = Vertex_handle()) const {
+    boost::tuples::tuple<Emptyset_iterator,OutputItBoundaryEdges,
+      Emptyset_iterator>
+      tup =
+      get_conflicts_and_boundary_and_hidden_vertices(p,
+						     Emptyset_iterator(),
+						     eit,
+						     Emptyset_iterator(),
+						     start);
+    return boost::tuples::get<1>(tup);
+  }
+
+  template<class OutputItHiddenVertices>
+  OutputItHiddenVertices
+  get_hidden_vertices(const Site_2& p,
+		      OutputItHiddenVertices vit,
+		      Vertex_handle start = Vertex_handle()) const {
+    boost::tuples::tuple<Emptyset_iterator,Emptyset_iterator,
+      OutputItHiddenVertices>
+      tup =
+      get_conflicts_and_boundary_and_hidden_vertices(p,
+						     Emptyset_iterator(),
+						     Emptyset_iterator(),
+						     vit,
+						     start);
+    return boost::tuples::get<2>(tup);
+  }
+
+
 }; // Apollonius_graph_2
 
+template<class Gt, class Agds, class LTag>
+std::ostream& operator<<(std::ostream& os,
+			 const Apollonius_graph_2<Gt,Agds,LTag>& ag)
+{
+  ag.file_output(os);
+  return os;
+}
+
+template<class Gt, class Agds, class LTag>
+std::istream& operator>>(std::istream& is,
+			 Apollonius_graph_2<Gt,Agds,LTag>& ag)
+{
+  ag.file_input(is);
+  return is;
+}
 
 CGAL_END_NAMESPACE
 

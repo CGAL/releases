@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Min_quadrilateral_2/include/CGAL/min_quadrilateral_2.h,v $
-// $Revision: 1.20 $ $Date: 2004/06/23 02:25:32 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Min_quadrilateral_2/include/CGAL/min_quadrilateral_2.h $
+// $Id: min_quadrilateral_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
 //                 Emo Welzl <emo@inf.ethz.ch>
@@ -293,7 +293,7 @@ namespace Optimisation {
     
     template < class Kernel >
     class Rdbmop
-    : public CGAL_STD::binary_function< Direction_2, int, Direction_2 >
+    : public std::binary_function< Direction_2, int, Direction_2 >
     {
       typename Kernel::Construct_perpendicular_vector_2   cperpvec;
       typename Kernel::Construct_vector_from_direction_2  cvec;

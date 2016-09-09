@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Iso_box_d.h,v $
-// $Revision: 1.11 $ $Date: 2004/06/23 02:15:26 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Iso_box_d.h $
+// $Id: Iso_box_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Authors       : Hans Tangelder <hanst@cs.uu.nl>, Michael Hoffmann
 
@@ -256,6 +256,7 @@ namespace CGAL {
   struct Iso_box_d : public Handle_for< Kernel_d::Iso_box_d_rep<Kernel_> > 
   { 
     typedef Kernel_                   Kernel;
+    typedef Kernel_                   R;
     
   protected:
 

@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2_edge_iterator.h,v $
-// $Revision: 1.16 $ $Date: 2004/01/18 14:31:32 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polygon/include/CGAL/Polygon_2_edge_iterator.h $
+// $Id: Polygon_2_edge_iterator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Wieger Wesselink, Geert-Jan Giezeman <geert@cs.uu.nl>
 
@@ -52,11 +52,7 @@ private:
 template <class Traits_, class Container_>
 class Polygon_2_edge_iterator {
   public:
-#ifdef CGAL_CFG_NO_LAZY_INSTANTIATION
-    typedef std::forward_iterator_tag iterator_category;
-#else
-    typedef std::random_access_iterator_tag iterator_category;
-#endif
+    typedef typename std::iterator_traits<typename Container_::iterator>::iterator_category iterator_category;
     typedef typename Traits_::Segment_2 Segment_2;
     typedef typename Traits_::Segment_2 value_type;
     typedef Container_ Container;
@@ -119,7 +115,6 @@ class Polygon_2_edge_iterator {
       return tmp;
     }
 
-#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
 // random access iterator requirements
     Polygon_2_edge_iterator<Traits_, Container_>&
     operator+=(difference_type n) {
@@ -173,7 +168,6 @@ class Polygon_2_edge_iterator {
     {
       return first_vertex >= a.first_vertex;
     }
-#endif
 
 };
 

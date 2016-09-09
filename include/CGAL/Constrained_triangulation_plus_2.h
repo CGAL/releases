@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h,v $
-// $Revision: 1.54 $ $Date: 2004/10/19 14:02:42 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
+// $Id: Constrained_triangulation_plus_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Mariette Yvinec
 
@@ -247,7 +247,7 @@ copy(const Constrained_triangulation_plus_2 &ctp)
   Vertex_iterator vit = ctp.vertices_begin();
   Vertex_iterator vvit = vertices_begin();
   for( ; vit != ctp.vertices_end(); ++vit, ++vvit) {
-    assert (vit->point() == vvit->point());
+    CGAL_triangulation_assertion(vit->point() == vvit->point());
     vmap[vit] = vvit;
   }
   hierarchy.copy(ctp.hierarchy, vmap);

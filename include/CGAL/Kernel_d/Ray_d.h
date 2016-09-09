@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Ray_d.h,v $
-// $Revision: 1.16 $ $Date: 2004/06/23 02:15:28 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Ray_d.h $
+// $Id: Ray_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_RAY_D_H
@@ -150,7 +150,7 @@ in the interior of |r|.}*/
 /*{\Mtext \headerline{Non-Member Functions}}*/
 
 bool operator==(const Ray_d<R>& r1) const
-{ if ( identical(r1) ) return true;
+{ if ( this->identical(r1) ) return true;
   if ( dimension() != r1.dimension() ) return false;
   return source() == r1.source() && 
          direction() == r1.direction(); 

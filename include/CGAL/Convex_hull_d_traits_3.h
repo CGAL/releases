@@ -11,14 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Convex_hull_d/include/CGAL/Convex_hull_d_traits_3.h,v $
-// $Revision: 1.2 $ $Date: 2004/08/04 16:41:59 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_d/include/CGAL/Convex_hull_d_traits_3.h $
+// $Id: Convex_hull_d_traits_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
-#ifndef CONVEX_HULL_D_TRAITS_3_H
-#define CONVEX_HULL_D_TRAITS_3_H
+#ifndef CGAL_CONVEX_HULL_D_TRAITS_3_H
+#define CGAL_CONVEX_HULL_D_TRAITS_3_H
 
 #include <CGAL/Point_3.h>
 #include <CGAL/Vector_3.h>
@@ -271,6 +271,4 @@ template <class R_> struct Convex_hull_d_traits_3
 
 CGAL_END_NAMESPACE
 
-#endif //CONVEX_HULL_D_TRAITS_3_H
-
-
+#endif // CGAL_CONVEX_HULL_D_TRAITS_3_H

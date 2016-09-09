@@ -15,24 +15,23 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Threetuple.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:18:15 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/Threetuple.h $
+// $Id: Threetuple.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Andreas Fabri
  
-
-#ifndef CGAL__THREETUPLE_H
-#define CGAL__THREETUPLE_H
+#ifndef CGAL_THREETUPLE_H
+#define CGAL_THREETUPLE_H
 
 CGAL_BEGIN_NAMESPACE
 
 template < class T >
 struct Threetuple
 {
-  T  e0;
-  T  e1;
-  T  e2;
+  typedef T value_type;
+
+  T  e0, e1, e2;
 
   Threetuple()
   {}
@@ -44,4 +43,4 @@ struct Threetuple
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL__THREETUPLE_H
+#endif // CGAL_THREETUPLE_H

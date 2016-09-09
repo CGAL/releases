@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Constrained_triangulation_2.h,v $
-// $Revision: 1.101 $ $Date: 2004/10/19 14:02:40 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Constrained_triangulation_2.h $
+// $Id: Constrained_triangulation_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Mariette Yvinec, Jean Daniel Boissonnat
 
@@ -72,6 +72,7 @@ public:
   using Triangulation::geom_traits;
   using Triangulation::all_faces_begin;
   using Triangulation::all_faces_end;
+  using Triangulation::side_of_oriented_circle;
 #endif
 
   typedef Gt                                 Geom_traits;
@@ -322,7 +323,7 @@ public:
       fc->set_constraint(cw(vindex), false);
       fc->set_constraint(ccw(vindex), false);
       fh = fc->neighbor(vindex);
-      ih = fc->mirror_index(vindex);
+      ih = this->mirror_index(fc,vindex);
       fc->set_constraint(vindex, fh->is_constrained(ih));
     } while (++fc != done);
     return v;
@@ -531,7 +532,7 @@ find_intersected_faces(Vertex_handle vaa,
   // loop over triangles intersected by ab
   bool done = false;
   while (current_vertex != vbb && !done)  { 
-    orient = orientation(aa,bb,current_vertex->point());
+    orient = this->orientation(aa,bb,current_vertex->point());
     int i1, i2;
     switch (orient) {
     case COLLINEAR :  
@@ -712,7 +713,7 @@ update_constraints_incident(Vertex_handle va,
 {
   if (dimension() == 0) return;
   if (dimension()== 1) {
-    Edge_circulator ec=va->incident_edges(), done(ec);
+    Edge_circulator ec=this->incident_edges(va), done(ec);
     do {
       ((*ec).first)->set_constraint(2,true);
     }while (++ec != done);
@@ -720,7 +721,7 @@ update_constraints_incident(Vertex_handle va,
   else{
     //dimension() ==2
     int cwi, ccwi, indf;
-    Face_circulator fc=va->incident_faces(), done(fc);  
+    Face_circulator fc=this->incident_faces(va), done(fc);  
     CGAL_triangulation_assertion(fc != 0);
     do {
       indf = fc->index(va);
@@ -745,7 +746,7 @@ Constrained_triangulation_2<Gt,Tds,Itag>::
 clear_constraints_incident(Vertex_handle va)
 // make the edges incident to a newly created vertex unconstrained
 {
- Edge_circulator ec=va->incident_edges(), done(ec);
+ Edge_circulator ec=this->incident_edges(va), done(ec);
  Face_handle f;
  int indf;
   if ( ec != 0){
@@ -754,7 +755,7 @@ clear_constraints_incident(Vertex_handle va)
       indf = (*ec).second;
       f->set_constraint(indf,false);
       if (dimension() == 2) {
-	f->neighbor(indf)->set_constraint(f->mirror_index(indf),false);
+	f->neighbor(indf)->set_constraint(this->mirror_index(f,indf),false);
       }
     } while (++ec != done);
   }
@@ -774,7 +775,7 @@ update_constraints_opposite(Vertex_handle va)
   int indf;
   do {
     indf = f->index(va);
-    if (f->neighbor(indf)->is_constrained(f->mirror_index(indf)) ) {
+    if (f->neighbor(indf)->is_constrained(this->mirror_index(f,indf)) ) {
       f->set_constraint(indf,true);
     }
     else {
@@ -797,8 +798,8 @@ update_constraints( const List_edges &hole)
     f =(*it).first;
     i = (*it).second;
     if ( f->is_constrained(i) ) 
-      (f->neighbor(i))->set_constraint(f->mirror_index(i),true);
-    else (f->neighbor(i))->set_constraint(f->mirror_index(i),false);
+      (f->neighbor(i))->set_constraint(this->mirror_index(f,i),true);
+    else (f->neighbor(i))->set_constraint(this->mirror_index(f,i),false);
   }
 }
 
@@ -811,7 +812,7 @@ mark_constraint(Face_handle fr, int i)
   if (dimension()==1) fr->set_constraint(2, true);
   else{
     fr->set_constraint(i,true);
-    fr->neighbor(i)->set_constraint(fr->mirror_index(i),true);
+    fr->neighbor(i)->set_constraint(this->mirror_index(fr,i),true);
   }
   return;
 }
@@ -925,7 +926,7 @@ remove_constrained_edge(Face_handle f, int i)
 {
   f->set_constraint(i, false);
   if (dimension() == 2)
-    (f->neighbor(i))->set_constraint(f->mirror_index(i), false);
+    (f->neighbor(i))->set_constraint(this->mirror_index(f,i), false);
   return;
 }
 
@@ -1013,28 +1014,28 @@ triangulate_half_hole(List_edges & list_edges,  List_edges & new_edges)
       // in case n1 is no longer a triangle of the new triangulation
       if ( n1->neighbor(ind1) != Face_handle() ) {
 	n=n1->neighbor(ind1);
-	//ind=n1->mirror_index(ind1); 
+	//ind=this->mirror_index(n1,ind1); 
 	// mirror_index does not work in this case
 	ind = cw(n->index(n1->vertex(cw(ind1))));
 	n1=n->neighbor(ind); 
-	ind1= n->mirror_index(ind);
+	ind1= this->mirror_index(n,ind);
       }
       n2=(*next).first;
       ind2=(*next).second;
       // in case n2 is no longer a triangle of the new triangulation
       if (n2->neighbor(ind2) != Face_handle() ) {
 	n=n2->neighbor(ind2); 
-	// ind=n2->mirror_index(ind2);
+	// ind=this->mirror_index(n2,ind2);
 	// mirror_index does not work in this case
 	ind = cw(n->index(n2->vertex(cw(ind2))));
 	n2=n->neighbor(ind); 
-	ind2= n->mirror_index(ind);
+	ind2= this->mirror_index(n,ind);
       }
 
       Vertex_handle v0=n1->vertex(ccw(ind1));
       Vertex_handle v1=n1->vertex(cw(ind1));
       Vertex_handle v2=n2->vertex(cw(ind2));
-      orient= orientation(v0->point(),v1->point(),v2->point());
+      orient = this->orientation(v0->point(),v1->point(),v2->point());
       switch (orient) {
       case RIGHT_TURN : 	  		
 	// creates the new triangle v0v1v2

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_line_face_circulator_2.h,v $
-// $Revision: 1.34 $ $Date: 2004/03/02 05:57:00 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Triangulation_line_face_circulator_2.h $
+// $Id: Triangulation_line_face_circulator_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Mariette Yvinec
 
@@ -170,7 +170,7 @@ Triangulation_line_face_circulator_2(Vertex_handle v,
 
   // find a finite vertex to the left of pq
   // if there is no, the line_face_circulator is null
-  Face_circulator fc = v->incident_faces();
+  Face_circulator fc = _tr->incident_faces(v);
   Face_circulator done(fc);
   int ic = fc->index(v);
   Vertex_handle  vt= fc->vertex(cw(ic));
@@ -243,7 +243,7 @@ Triangulation_line_face_circulator_2(const Point& pp,
   //begins at the  first finite face traversed be the oriented line pq
 {
   Vertex_handle inf = _tr->infinite_vertex();
-  Face_circulator fc = inf->incident_faces(),
+  Face_circulator fc = _tr->incident_faces(inf),
     done(fc);
 
   i = fc->index(inf);
@@ -384,11 +384,11 @@ Triangulation_line_face_circulator_2(const Point& pp,
 	  return;
 	case LEFT_TURN:
 	  s = edge_edge;
-	  i = cw(j);
+	  i = ccw(j);
 	  return;
 	case RIGHT_TURN:
 	  s = edge_edge;
-	  i = ccw(j);
+	  i = cw(j);
 	  return;
 	}
       }

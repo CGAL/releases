@@ -12,11 +12,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Mesh_2/demo/Mesh_2/mesh.C,v $
-// $Revision: 1.6 $ $Date: 2004/10/19 06:02:02 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/demo/Mesh_2/mesh.C $
+// $Id: mesh.C 29195 2006-03-08 13:43:28Z afabri $
+// 
 //
 // Author(s)     : Laurent Rineau
+
+#include <CGAL/basic.h>
 
  // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
@@ -33,7 +35,6 @@ int main(int, char*)
 
 #else
 
-#include <CGAL/basic.h>
 #include <iostream>
 #include <fstream>
 #include <string>

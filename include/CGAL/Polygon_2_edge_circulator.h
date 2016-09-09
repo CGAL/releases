@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2_edge_circulator.h,v $
-// $Revision: 1.16 $ $Date: 2004/01/18 14:31:32 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polygon/include/CGAL/Polygon_2_edge_circulator.h $
+// $Id: Polygon_2_edge_circulator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
 
@@ -127,7 +127,6 @@ class Polygon_2_const_edge_circulator {
       return tmp;
     }
 
-#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
 // random access iterator requirements
     Polygon_2_const_edge_circulator<_Traits, _Container>&
     operator+=(difference_type n)
@@ -192,8 +191,6 @@ class Polygon_2_const_edge_circulator {
     {
       return first_vertex >= a.first_vertex;
     }
-#endif
-
 
 };
 

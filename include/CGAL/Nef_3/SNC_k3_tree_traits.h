@@ -1,4 +1,3 @@
-#line 934 "k3_tree.nw"
 // Copyright (c) 1997-2000  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
@@ -12,14 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_3/include/CGAL/Nef_3/SNC_k3_tree_traits.h,v $
-// $Revision: 1.11.4.1 $ $Date: 2004/12/06 15:33:56 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/SNC_k3_tree_traits.h $
+// $Id: SNC_k3_tree_traits.h 29890 2006-03-31 12:13:21Z glisse $
+// 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
 
-#ifndef SNC_K3_TREE_TRAITS_H
-#define SNC_K3_TREE_TRAITS_H
+#ifndef CGAL_NEF_SNC_K3_TREE_TRAITS_H
+#define CGAL_NEF_SNC_K3_TREE_TRAITS_H
 
 #include <CGAL/Nef_3/Bounding_box_3.h>
 #include <list>
@@ -38,7 +37,13 @@ public:
   typedef typename Decorator_traits::Halfedge_handle Halfedge_handle;
   typedef typename Decorator_traits::Halffacet_handle Halffacet_handle;
 
-  typedef typename SNC_structure::Halffacet_triangle_handle Halffacet_triangle_handle;
+#ifdef CGAL_NEF3_TRIANGULATE_FACETS
+  typedef typename SNC_structure::Halffacet_triangle_handle 
+                                  Halffacet_triangle_handle;
+#endif
+#ifdef CGAL_NEF3_FACET_WITH_BOX
+  typedef typename SNC_structure::Partial_facet Partial_facet;
+#endif
   typedef typename SNC_structure::Object_handle Object_handle;
 
   typedef typename Decorator_traits::Halffacet_cycle_iterator
@@ -55,14 +60,28 @@ public:
   typedef typename Kernel::Vector_3 Vector_3;  
   typedef typename Kernel::RT  RT;
 
-  Oriented_side operator()( const Plane_3& pl, Object_handle o);
-  Oriented_side operator()( const Plane_3& pl, Vertex_handle v);
-  Oriented_side operator()( const Plane_3& pl, Halfedge_handle e);
-  Oriented_side operator()( const Plane_3& pl, Halffacet_handle f);
-  Oriented_side operator()( const Plane_3& pl, Halffacet_triangle_handle f);
+  Side_of_plane(bool rc = false)
+#ifdef CGAL_NEF_EXPLOIT_REFERENCE_COUNTING    
+    : reference_counted(rc) 
+#endif
+    {}
 
+  template<typename Depth> Oriented_side operator()( const Plane_3& pl, const Point_3& pop, Object_handle o, Depth depth);
+  template<typename Depth> Oriented_side operator()( const Plane_3& pl, const Point_3& pop, Vertex_handle v, Depth depth);
+  template<typename Depth> Oriented_side operator()( const Plane_3& pl, const Point_3& pop, Halfedge_handle e, Depth depth);
+  template<typename Depth> Oriented_side operator()( const Plane_3& pl, const Point_3& pop, Halffacet_handle f, Depth depth);
+#ifdef CGAL_NEF3_TRIANGULATE_FACETS
+  template<typename Depth> Oriented_side operator()( const Plane_3& pl, const Point_3& pop, Halffacet_triangle_handle f, Depth depth);
+#endif
+#ifdef CGAL_NEF3_FACET_WITH_BOX
+  template<typename Depth> Oriented_side operator()( const Plane_3& pl, const Point_3& pop, Partial_facet& f, Depth depth);
+#endif
+#ifdef CGAL_NEF_EXPLOIT_REFERENCE_COUNTING
+  bool reference_counted;
+#endif
   SNC_decorator D;
   Unique_hash_map<Vertex_handle, Oriented_side> OnSideMap;
+  Unique_hash_map<const RT*, Oriented_side> OnSideMapRC;
 };
 
 template <class SNC_decorator>
@@ -93,7 +112,7 @@ public:
 
   typedef typename Kernel::RT RT;
   typedef typename Kernel::Kernel_tag Kernel_tag;
-  typedef Bounding_box_3<Kernel_tag,Kernel> Bounding_box_3;
+  typedef CGAL::Bounding_box_3<Kernel_tag,Kernel> Bounding_box_3;
   
   virtual Bounding_box_3 operator()(const Object_list& o) const;
   virtual Bounding_box_3 operator()(Object_handle o) const;
@@ -101,6 +120,8 @@ public:
   virtual Bounding_box_3 operator()(Halfedge_handle e) const;
   virtual Bounding_box_3 operator()(Halffacet_handle f) const;
   virtual Bounding_box_3 operator()(Halffacet_triangle_handle f) const;
+
+  virtual ~Objects_bbox() {}
 
   SNC_decorator D;
 };
@@ -118,8 +139,13 @@ public:
   typedef typename Decorator_traits::Vertex_handle Vertex_handle;
   typedef typename Decorator_traits::Halfedge_handle Halfedge_handle;
   typedef typename Decorator_traits::Halffacet_handle Halffacet_handle;
+#ifdef CGAL_NEF3_TRIANGULATE_FACETS
   typedef typename SNC_structure::Halffacet_triangle_handle 
                                   Halffacet_triangle_handle;
+#endif
+#ifdef CGAL_NEF3_FACET_WITH_BOX
+  typedef typename SNC_structure::Partial_facet Partial_facet;
+#endif
 
   typedef typename SNC_structure::Object_handle Object_handle;
   typedef std::vector<Object_handle> Object_list;
@@ -134,18 +160,14 @@ public:
 
   typedef typename Kernel::RT RT;
   typedef typename Kernel::Kernel_tag Kernel_tag;
-  typedef Bounding_box_3<Kernel_tag,Kernel> Bounding_box_3;
+  typedef CGAL::Bounding_box_3<Kernel_tag,Kernel> Bounding_box_3;
 
   typedef typename Kernel::Intersect_3 Intersect;
-  typedef Objects_bbox<SNC_decorator> Objects_bbox;
-  typedef Side_of_plane<SNC_decorator> Side_of_plane;
+  typedef CGAL::Objects_bbox<SNC_decorator> Objects_bbox;
+  typedef CGAL::Side_of_plane<SNC_decorator> Side_of_plane;
 
   Intersect intersect_object() const {
     return Intersect();
-  }
-
-  Side_of_plane side_of_plane_object() const {
-    return Side_of_plane();
   }
 
   Objects_bbox objects_bbox_object() const {
@@ -154,35 +176,97 @@ public:
 };
 
 template <class SNC_decorator>
+template <typename Depth>
 Oriented_side 
 Side_of_plane<SNC_decorator>::operator()
-  ( const Plane_3& pl, Object_handle o) {
+  ( const Plane_3& pl, const Point_3& pop, Object_handle o, Depth depth) {
   Vertex_handle v;
   Halfedge_handle e;
   Halffacet_handle f;
+#ifdef CGAL_NEF3_TRIANGULATE_FACETS
+  Halffacet_triangle_handle t;
+#endif
+#ifdef CGAL_NEF3_FACET_WITH_BOX
+  Partial_facet pf;
+#endif
   if( CGAL::assign( v, o))
-    return (*this)( pl, v);
+    return (*this)( pl, pop, v, depth);
   else if( CGAL::assign( e, o))
-    return (*this)( pl, e);
+    return (*this)( pl, pop, e, depth);
   else if( CGAL::assign( f, o))
-    return (*this)( pl, f);
-  else {
-    Halffacet_triangle_handle t;
-    if( CGAL::assign( t, o))
-      return (*this)( pl, t);
-    else
-      CGAL_assertion_msg( 0, "wrong handle");
-  }
+    return (*this)( pl, pop, f, depth);
+#ifdef CGAL_NEF3_FACET_WITH_BOX
+  else if( CGAL::assign(pf, o))
+    return (*this)( pl, pop, pf, depth);
+#endif
+#ifdef CGAL_NEF3_TRIANGULATE_FACETS
+  else if( CGAL::assign( t, o))
+    return (*this)( pl, pop, t, depth);
+#endif
+  else
+    CGAL_assertion_msg( 0, "wrong handle");
+  
   return Oriented_side(); // never reached
 }
 
 template <class SNC_decorator>
+template <typename Depth>
 Oriented_side 
 Side_of_plane<SNC_decorator>::operator()
-( const Plane_3& pl, Vertex_handle v) {
-  if(!OnSideMap.is_defined(v))
-    OnSideMap[v] = pl.oriented_side(D.point(v));
-  return OnSideMap[v];
+( const Plane_3& pl, const Point_3& pop, Vertex_handle v, Depth depth) {
+  Comparison_result cr;
+#ifdef CGAL_NEF_EXPLOIT_REFERENCE_COUNTING
+  if(reference_counted) {
+    if(!OnSideMapRC.is_defined(&(v->point().hw())))
+      switch(depth%3) {
+      case 0: 
+        cr = CGAL::compare_x(v->point(), pop);
+        OnSideMapRC[&(v->point().hw())] = cr == LARGER ? ON_POSITIVE_SIDE :
+                         cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+        break;
+      case 1:
+        cr = CGAL::compare_y(v->point(), pop);
+        OnSideMapRC[&(v->point().hw())] = cr == LARGER ? ON_POSITIVE_SIDE :
+                         cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+        break;
+      case 2:
+        cr = CGAL::compare_z(v->point(), pop);
+        OnSideMapRC[&(v->point().hw())] = cr == LARGER ? ON_POSITIVE_SIDE :
+                         cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+        break;
+      default: CGAL_assertion_msg(false, "wrong value");
+      }
+    return OnSideMapRC[&(v->point().hw())];
+  } else {
+#endif
+    if(!OnSideMap.is_defined(v))
+      switch(depth%3) {
+      case 0: 
+        cr = CGAL::compare_x(v->point(), pop);
+        OnSideMap[v] = cr == LARGER ? ON_POSITIVE_SIDE :
+                         cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+        break;
+      case 1:
+        cr = CGAL::compare_y(v->point(), pop);
+        OnSideMap[v] = cr == LARGER ? ON_POSITIVE_SIDE :
+                         cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+        break;
+      case 2:
+        cr = CGAL::compare_z(v->point(), pop);
+        OnSideMap[v] = cr == LARGER ? ON_POSITIVE_SIDE :
+                         cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+        break;
+      default: CGAL_assertion_msg(false, "wrong value");
+      }
+
+     CGAL_NEF_TRACEN("Side_of_plane " << pl << "( " << pop << ")" << pop << ":" 
+	  << OnSideMap[v] << "," << pl.oriented_side(v->point()));  
+    CGAL_assertion(OnSideMap[v] == pl.oriented_side(v->point()));
+    return OnSideMap[v];
+#ifdef CGAL_NEF_EXPLOIT_REFERENCE_COUNTING
+  }
+#endif
+  CGAL_assertion_msg(false, "should not be reached");
 }
 
 /* 
@@ -193,15 +277,57 @@ Side_of_plane<SNC_decorator>::operator()
  */
 
 template <class SNC_decorator>
+template <typename Depth>
 Oriented_side 
 Side_of_plane<SNC_decorator>::operator()
-( const Plane_3& pl, Halfedge_handle e) {
-  if(!OnSideMap.is_defined(D.source(e)))
-    OnSideMap[D.source(e)] = pl.oriented_side(D.point(D.source(e)));  
-  if(!OnSideMap.is_defined(D.target(e)))
-    OnSideMap[D.target(e)] = pl.oriented_side(D.point(D.target(e)));  
-  Oriented_side src_side = OnSideMap[D.source(e)];
-  Oriented_side tgt_side = OnSideMap[D.target(e)];
+( const Plane_3& pl, const Point_3& pop, Halfedge_handle e, Depth depth) {
+  Vertex_handle v = e->source();
+  Vertex_handle vt = e->twin()->source();
+  /*
+  Comparison_result cr;
+  if(!OnSideMap.is_defined(v))
+    switch(depth%3) {
+    case 0: 
+      cr = CGAL::compare_x(v->point(), pop);
+      OnSideMap[v] = cr == LARGER ? ON_POSITIVE_SIDE :
+                       cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+      break;
+    case 1:
+      cr = CGAL::compare_y(v->point(), pop);
+      OnSideMap[v] = cr == LARGER ? ON_POSITIVE_SIDE :
+                       cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+      break;
+    case 2:
+      cr = CGAL::compare_z(v->point(), pop);
+      OnSideMap[v] = cr == LARGER ? ON_POSITIVE_SIDE :
+                       cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+      break;
+    default: CGAL_assertion_msg(false, "wrong value");
+    }
+  if(!OnSideMap.is_defined(vt))
+    switch(depth%3) {
+    case 0: 
+      cr = CGAL::compare_x(vt->point(), pop);
+      OnSideMap[vt] = cr == LARGER ? ON_POSITIVE_SIDE :
+                       cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+      break;
+    case 1:
+      cr = CGAL::compare_y(vt->point(), pop);
+      OnSideMap[vt] = cr == LARGER ? ON_POSITIVE_SIDE :
+                       cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+      break;
+    case 2:
+      cr = CGAL::compare_z(vt->point(), pop);
+      OnSideMap[vt] = cr == LARGER ? ON_POSITIVE_SIDE :
+                       cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+      break;
+    default: CGAL_assertion_msg(false, "wrong value");
+    }
+  Oriented_side src_side = OnSideMap[v];
+  Oriented_side tgt_side = OnSideMap[vt];
+*/
+  Oriented_side src_side = (*this) (pl, pop, v, depth);
+  Oriented_side tgt_side = (*this) (pl, pop, vt, depth);
   if( src_side == tgt_side)
     return src_side;
   if( src_side == ON_ORIENTED_BOUNDARY)
@@ -211,14 +337,49 @@ Side_of_plane<SNC_decorator>::operator()
   return ON_ORIENTED_BOUNDARY;
 }
 
+#ifdef CGAL_NEF3_TRIANGULATE_FACETS
 template <typename SNC_decorator>
+template <typename Depth>
 Oriented_side
 Side_of_plane<SNC_decorator>::operator()
-( const Plane_3& pl, Halffacet_triangle_handle t) {
+( const Plane_3& pl, const Point_3& pop, Halffacet_triangle_handle t, Depth depth) {
   bool on_positive_side = false, on_negative_side = false;
   Triangle_3 tr(t.get_triangle());
   for( int i = 0; i < 3; ++i) {
-    Oriented_side side = pl.oriented_side(tr[i]);
+    Oriented_side side = ON_ORIENTED_BOUNDARY;
+    Comparison_result cr;
+    if(
+#ifdef CGAL_NEF_EXPLOIT_REFERENCE_COUNTING
+       !reference_counted || 
+#endif
+       !OnSideMapRC.is_defined(&(tr[i].hw()))) {
+      switch(depth%3) {
+      case 0: 
+        cr = CGAL::compare_x(tr[i], pop);
+        side = cr == LARGER ? ON_POSITIVE_SIDE :
+                 cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+        break;
+      case 1:
+        cr = CGAL::compare_y(tr[i], pop);
+        side = cr == LARGER ? ON_POSITIVE_SIDE :
+                 cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+        break;
+      case 2:
+        cr = CGAL::compare_z(tr[i], pop);
+        side = cr == LARGER ? ON_POSITIVE_SIDE :
+                 cr == SMALLER ? ON_NEGATIVE_SIDE : ON_ORIENTED_BOUNDARY;
+        break;
+      default: CGAL_assertion_msg(false, "wrong value");
+      }
+      CGAL_NEF_TRACEN("Side_of_plane " << pl << "( " << pop << ")" << pop << ":" 
+	        << side << "," << pl.oriented_side(tr[i]));  
+      CGAL_assertion(side == pl.oriented_side(tr[i]));
+#ifdef CGAL_NEF_EXPLOIT_REFERENCE_COUNTING
+      if(reference_counted) 
+        OnSideMapRC[&(tr[i].hw())] = side;
+    } else if(reference_counted)
+      side = OnSideMapRC[&(tr[i].hw())];
+#endif
     if( side == ON_POSITIVE_SIDE)
       on_positive_side = true;
     else if( side == ON_NEGATIVE_SIDE)
@@ -235,6 +396,7 @@ Side_of_plane<SNC_decorator>::operator()
   CGAL_assertion( on_negative_side);
   return ON_NEGATIVE_SIDE;
 }
+#endif
 
 /* 
    As for the edges, if a facet is tanget to the plane it is not considered as
@@ -247,32 +409,72 @@ Side_of_plane<SNC_decorator>::operator()
    as far as two vertices located on different sides of the plane.
 */
 
+#ifdef CGAL_NEF3_FACET_WITH_BOX
 template <class SNC_decorator>
+template <typename Depth>
+Oriented_side
+Side_of_plane<SNC_decorator>::operator()
+  ( const Plane_3& pl, const Point_3& pop, Partial_facet& pf, Depth depth) {
+  CGAL_assertion_msg(false, "not implemented yet");
+  
+  return ON_ORIENTED_BOUNDARY;
+}
+#endif
+
+template <class SNC_decorator>
+template <typename Depth>
 Oriented_side 
 Side_of_plane<SNC_decorator>::operator()
-  ( const Plane_3& pl, Halffacet_handle f) {
+  ( const Plane_3& pl, const Point_3& pop, Halffacet_handle f, Depth depth) {
     CGAL_assertion( std::distance( f->facet_cycles_begin(), f->facet_cycles_end()) > 0);
+    /*
+#ifdef CGAL_NEF3_FACET_WITH_BOX
+    switch(depth%3) {
+    case 0:
+      if(f->b.min_coord(0) > pop.x())
+	return ON_POSITIVE_SIDE;
+      if(f->b.max_coord(0) < pop.x())
+	return ON_NEGATIVE_SIDE;
+      break;
+    case 1:
+      if(f->b.min_coord(1) > pop.y())
+	return ON_POSITIVE_SIDE;
+      if(f->b.max_coord(1) < pop.y())
+	return ON_NEGATIVE_SIDE;
+      break;
+    case 2:
+      if(f->b.min_coord(2) > pop.z())
+	return ON_POSITIVE_SIDE;
+      if(f->b.max_coord(2) < pop.z())
+	return ON_NEGATIVE_SIDE;
+      break;
+    default: CGAL_assertion_msg(false, "wrong value");
+    }    
+    return ON_ORIENTED_BOUNDARY;
+#else  
+    */
   Halffacet_cycle_iterator fc(f->facet_cycles_begin());
   SHalfedge_handle e;
   CGAL_assertion(fc.is_shalfedge());
   e = SHalfedge_handle(fc);
   SHalfedge_around_facet_circulator sc(e), send(sc);
   //CGAL_assertion( iterator_distance( sc, send) >= 3); // TODO: facet with 2 vertices was found, is it possible?
+
   Oriented_side facet_side;
+  Vertex_handle v;
   do {
-    if(!OnSideMap.is_defined(D.vertex(sc)))
-      OnSideMap[D.vertex(sc)] = pl.oriented_side(D.point(D.vertex(sc)));  
-    facet_side = OnSideMap[D.vertex(sc)];
+    v = sc->source()->center_vertex();
+    facet_side = (*this) (pl, pop, v, depth);
     ++sc;
   }
   while( facet_side == ON_ORIENTED_BOUNDARY && sc != send);
   if( facet_side == ON_ORIENTED_BOUNDARY)
     return ON_ORIENTED_BOUNDARY;
   CGAL_assertion( facet_side != ON_ORIENTED_BOUNDARY);
+  Oriented_side point_side;
   while( sc != send) {
-    if(!OnSideMap.is_defined(D.vertex(sc)))
-      OnSideMap[D.vertex(sc)] = pl.oriented_side(D.point(D.vertex(sc)));  
-    Oriented_side point_side = OnSideMap[D.vertex(sc)];
+    v = sc->source()->center_vertex();
+    point_side = (*this) (pl, pop, v, depth);
     ++sc;
     if( point_side == ON_ORIENTED_BOUNDARY)
       continue;
@@ -280,6 +482,7 @@ Side_of_plane<SNC_decorator>::operator()
       return ON_ORIENTED_BOUNDARY;
   }
   return facet_side;
+  //#endif
 }
 
 template <class SNC_decorator>
@@ -328,7 +531,7 @@ Bounding_box_3<typename SNC_decorator::Kernel::Kernel_tag,
 	       typename SNC_decorator::Kernel>
 Objects_bbox<SNC_decorator>::operator()
   (Vertex_handle v) const {
-  Point_3 p(D.point(v));
+  Point_3 p(v->point());
   return Bounding_box_3(p, p);
 }
 
@@ -337,7 +540,7 @@ Bounding_box_3<typename SNC_decorator::Kernel::Kernel_tag,
 	       typename SNC_decorator::Kernel>
 Objects_bbox<SNC_decorator>::operator()
   (Halfedge_handle e) const {
-  return (operator()(D.vertex(e)) + operator()(D.vertex(D.twin(e))));
+  return (operator()(e->source()) + operator()(e->twin()->source()));
 }
 
 template <class SNC_decorator>
@@ -366,10 +569,10 @@ Objects_bbox<SNC_decorator>::operator()
   e = SHalfedge_handle(fc);
   SHalfedge_around_facet_circulator sc(e), send(sc);
   CGAL_assertion( !is_empty_range( sc, send));
-  Bounding_box_3 b(operator()(D.vertex(sc)));
+  Bounding_box_3 b(operator()(sc->source()->source()));
   sc++;
   while( sc != send) {
-    b = b + operator()(D.vertex(sc));
+    b = b + operator()(sc->source()->source());
     sc++;
   }
   return b;
@@ -377,5 +580,5 @@ Objects_bbox<SNC_decorator>::operator()
 
 CGAL_END_NAMESPACE
 
-#endif // SNC_K3_TREE_TRAITS_H
+#endif // CGAL_NEF_SNC_K3_TREE_TRAITS_H
 

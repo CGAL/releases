@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_3/include/CGAL/Nef_3/SNC_items.h,v $
-// $Revision: 1.33.2.1 $ $Date: 2004/12/08 19:30:52 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/SNC_items.h $
+// $Id: SNC_items.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel        <seel@mpi-sb.mpg.de>
 //                 Miguel Granados     <granados@mpi-sb.mpg.de>
@@ -486,9 +486,11 @@ class SNC_items {
       //      valid = valid && (out_sedge_ != NULL);
       //      valid = valid && (incident_sface_ != SFace_handle());
       
-      valid = valid &&((out_sedge_ != NULL && incident_sface_ == NULL) ||
-		       (out_sedge_ == NULL && incident_sface_ != NULL));
+      //      valid = valid &&((out_sedge_ != NULL && incident_sface_ == NULL) ||
+      //		       (out_sedge_ == NULL && incident_sface_ != NULL));
       
+      valid = valid && (out_sedge_ != NULL || incident_sface_ != NULL);
+
       verr << "end of CGAL::SNC_items<...>::SVertex::is_valid(): structure is "
 	   << ( valid ? "valid." : "NOT VALID.") << std::endl;
 

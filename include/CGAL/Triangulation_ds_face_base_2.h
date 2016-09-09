@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_ds_face_base_2.h,v $
-// $Revision: 1.8 $ $Date: 2004/01/13 10:03:36 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Triangulation_ds_face_base_2.h $
+// $Id: Triangulation_ds_face_base_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Mariette Yvinec
 
@@ -86,6 +86,11 @@ public:
    // For use by Compact_container.
   void * for_compact_container() const {return N[0].for_compact_container(); }
   void * & for_compact_container()     { return N[0].for_compact_container();}
+
+
+  static int ccw(int i) {return Triangulation_cw_ccw_2::ccw(i);}
+  static int  cw(int i) {return Triangulation_cw_ccw_2::cw(i);}
+
 };
 
 template <class TDS>

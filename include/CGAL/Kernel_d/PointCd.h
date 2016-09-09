@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/PointCd.h,v $
-// $Revision: 1.19 $ $Date: 2004/09/17 12:12:41 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/PointCd.h $
+// $Id: PointCd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_POINTCDXXX_H
@@ -76,14 +76,14 @@ PointCd(int d, InputIterator first, InputIterator last)
   // else first specifies common denominator:
   CGAL_assertion_msg(FT(*first)!=FT(0),
     "PointCd::constructor: denominator must be nonzero.");
-  for (register int i=0; i<d; ++i) entry(i)/=FT(*first);
+  for (int i=0; i<d; ++i) entry(i)/=FT(*first);
 }
 
 template <class InputIterator>
 PointCd (int d, InputIterator first, InputIterator last, 
   const FT& D) : Base( Tuple(d,first,last) )
 { CGAL_assertion_msg(D!=FT(0),"PointCd::constructor: D must be nonzero.");
-  for (register int i=0; i<d; ++i) entry(i)/=D;
+  for (int i=0; i<d; ++i) entry(i)/=D;
 }
 
 PointCd(int x, int y, int w = 1) : Base( Tuple((FT)x,(FT)y) )
@@ -154,7 +154,7 @@ static Comparison_result cmp(
 }
 
 bool operator==(const PointCd<FT,LA>& q) const
-{ if (identical(q)) return true;
+{ if (this->identical(q)) return true;
   if (dimension()!=q.dimension()) return false;
   return vector_rep()==q.vector_rep();
 }

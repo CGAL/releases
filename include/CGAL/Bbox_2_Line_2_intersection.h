@@ -1,4 +1,3 @@
-
 // Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -16,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Bbox_2_Line_2_intersection.h,v $
-// $Revision: 1.7 $ $Date: 2003/10/21 12:16:42 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Bbox_2_Line_2_intersection.h $
+// $Id: Bbox_2_Line_2_intersection.h 31166 2006-05-17 16:30:56Z spion $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -30,7 +29,7 @@
 #include <CGAL/Line_2.h>
 //#include <CGAL/Segment_2.h>
 //#include <CGAL/Point_2.h>
-#include <CGAL/utils.h>
+#include <CGAL/kernel_assertions.h>
 #include <CGAL/number_utils.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -39,7 +38,7 @@ class Bbox_2_Line_2_pair_impl;
 
 class Bbox_2_Line_2_pair {
 public:
-    enum Intersection_results {NO, POINT, SEGMENT};
+    enum Intersection_results {NO_INTERSECTION, POINT, SEGMENT};
     Bbox_2_Line_2_pair() ;
     Bbox_2_Line_2_pair(Bbox_2_Line_2_pair const &);
     Bbox_2_Line_2_pair(Bbox_2 const &bbox,
@@ -67,7 +66,7 @@ inline bool do_intersect_line_2(
     const Bbox_2 &box, double line_a, double line_b, double line_c)
 {
     Bbox_2_Line_2_pair pair(box, line_a, line_b, line_c);
-    return pair.intersection_type() != Bbox_2_Line_2_pair::NO;
+    return pair.intersection_type() != Bbox_2_Line_2_pair::NO_INTERSECTION;
 }
 
 template <class Line>

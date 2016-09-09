@@ -1,13 +1,32 @@
+// Copyright (c) 2001, 2002, 2003, 2004  INRIA Sophia-Antipolis (France).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/demo/Triangulation_2/constrained.C $
+// $Id: constrained.C 29617 2006-03-19 22:43:06Z spion $
+// 
+//
+// Author(s)     : Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
+
+#include <CGAL/basic.h>
+
 // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
 #include <iostream>
 
 int main(int, char*)
 {
-
   std::cout << "Sorry, this demo needs QT...";
   std::cout << std::endl;
-
   return 0;
 }
 
@@ -18,7 +37,6 @@ int main(int, char*)
 #include <set>
 #include <string>
 
-#include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/Point_2.h>
 #include <CGAL/Triangulation_euclidean_traits_2.h>

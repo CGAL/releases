@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/wininst/include/CGAL/config/msvc7/CGAL/compiler_config.h,v $
-// $Revision: 1.13 $ $Date: 2004/02/18 20:57:54 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/wininst/include/CGAL/config/msvc7/CGAL/compiler_config.h $
+// $Id: compiler_config.h 31170 2006-05-18 10:01:03Z afabri $
+// 
 //
 // Author(s)     : Radu Ursu
 
@@ -26,6 +26,10 @@
 #  if _MSC_VER < 1310
 #    error Unsupported version of VC++
 #  else
-#    include "cl_1310.h"
+#    ifdef __ICL
+#      include "icl_8_1.h"
+#    else 
+#      include "cl_1310.h"
+#    endif
 #  endif
 #endif

@@ -1,4 +1,4 @@
-# Created by the script create_makefile
+# Created by the script cgal_create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -6,16 +6,14 @@
 #---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
 
-CGAL_MAKEFILE = c:/cgal/CGAL-3.1-I-115/make/makefile_i686_CYGWINNT-5.1-1.5.6_CL.EXE-1310
+# CGAL_MAKEFILE = ENTER_YOUR_INCLUDE_MAKEFILE_HERE
 include $(CGAL_MAKEFILE)
 
 #---------------------------------------------------------------------#
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = -Ic:/cgal/develop/Min_vertex/Cartesian_kernel/include\
-           -Ic:/cgal/develop/Min_vertex/Kernel_23/include\
-           -Ic:/cgal/develop/Min_vertex/Kernel_d/include\
+CXXFLAGS = \
            -I../../include/ \
            $(CGAL_CXXFLAGS) \
            $(LONG_NAME_PROBLEM_CXXFLAGS) \

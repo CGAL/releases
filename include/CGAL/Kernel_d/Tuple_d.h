@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Tuple_d.h,v $
-// $Revision: 1.21 $ $Date: 2004/09/17 12:12:41 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Tuple_d.h $
+// $Id: Tuple_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_TUPLE_D_H
@@ -171,7 +171,7 @@ public:
   void print(std::ostream& out, const char*) const;
   void read(std::istream& in);
   void homogeneous_add(const Self* a, const Self* b)
-  { register int d = a->size()-1;
+  { int d = a->size()-1;
     if ( d < 0 ) return;
     CGAL_assertion_msg((d == b->size()-1),"dimensions disagree."); 
     CGAL_assertion_msg((d == size()-1),"dimensions disagree."); 
@@ -183,7 +183,7 @@ public:
   }
 
   void homogeneous_sub(const Self* a, const Self* b)
-  { register int d = a->size()-1; 
+  { int d = a->size()-1; 
     if ( d < 0 ) return;
     CGAL_assertion_msg((d == b->size()-1),"dimensions disagree."); 
     CGAL_assertion_msg((d == size()-1),"dimensions disagree."); 

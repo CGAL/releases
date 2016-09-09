@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/leda_real.h,v $
-// $Revision: 1.19 $ $Date: 2004/09/02 15:34:46 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/leda_real.h $
+// $Id: leda_real.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Stefan Schirra
  
@@ -26,7 +26,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Number_type_traits.h>
-#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/Interval_nt.h>
 
 #include <utility>
 
@@ -45,12 +45,10 @@ template <> struct Number_type_traits<leda_real> {
   typedef Tag_true  Has_exact_sqrt;
 };
 
-#ifndef CGAL_NO_NAMESPACE
 inline
 double
 to_double(const leda_real & r)
 { return r.to_double(); }
-#endif // CGAL_NO_NAMESPACE
 
 inline
 leda_real
@@ -72,7 +70,6 @@ io_Operator
 io_tag(const leda_real &)
 { return io_Operator(); }
 
-#ifndef CGAL_CFG_NO_NAMESPACE
 inline
 Sign
 sign(const leda_real& r)
@@ -85,7 +82,6 @@ compare(const leda_real& r1, const leda_real& r2)
   int c = CGAL_LEDA_SCOPE::compare(r1,r2);
   return (c < 0) ? SMALLER : ((0 < c) ?  LARGER : EQUAL);
 }
-#endif // CGAL_CFG_NO_NAMESPACE
 
 inline
 std::pair<double,double>

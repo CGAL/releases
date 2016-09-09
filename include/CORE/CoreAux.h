@@ -27,8 +27,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/include/CORE/CoreAux.h,v $
- * $Revision: 1.4 $ $Date: 2004/11/14 12:00:08 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/include/CORE/CoreAux.h $
+ * $Id: CoreAux.h 28685 2006-02-22 15:22:27Z glisse $
  ***************************************************************************/
 
 #ifndef _CORE_COREAUX_H_
@@ -58,7 +58,7 @@ CORE_BEGIN_NAMESPACE
 #define CORE_MACHINE_EPS ((1.0/(1<<30))/(1<<22))
 
 /// relEps is relative error for IEEE standard double, 1+2^{-52}.
-const double relEps = (1.0 + ldexp(1.0, -52));
+const double relEps = (1.0 + std::ldexp(1.0, -52));
 
 /// CORE_DIAGFILE is used for all warning and error messages
 extern char* CORE_DIAGFILE;

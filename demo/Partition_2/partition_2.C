@@ -11,23 +11,22 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Partition_2/demo/Partition_2/partition_2.C,v $
-// $Revision: 1.3.6.1 $ $Date: 2004/12/19 16:37:40 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Partition_2/demo/Partition_2/partition_2.C $
+// $Id: partition_2.C 29617 2006-03-19 22:43:06Z spion $
+// 
 //
 // Author(s)     : Radu Ursu
+
+#include <CGAL/basic.h>
 
 // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
 #include <iostream>
 
-
 int main(int, char*)
 {
-
   std::cout << "Sorry, this demo needs QT...";
   std::cout << std::endl;
-
   return 0;
 }
 

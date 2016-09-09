@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Generator/include/CGAL/Random_polygon_2_sweep.h,v $
-// $Revision: 1.16 $ $Date: 2004/09/25 09:30:00 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Generator/include/CGAL/Random_polygon_2_sweep.h $
+// $Id: Random_polygon_2_sweep.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 //               : Susan Hert <hert@mpi-sb.mpg.de>
@@ -107,6 +107,7 @@ public:
     using Base_class::point;
     using Base_class::index_at_rank;
     using Base_class::ordered_left_to_right;
+    using Base_class::orientation_2;
 
     std::vector<Edge_data> edges;
     Vertex_index conflict1, conflict2; // Intersecting edges.
@@ -171,10 +172,12 @@ less_than_in_tree(Vertex_index new_edge, Vertex_index tree_edge)
       case RIGHT_TURN: return false;
       case COLLINEAR: break;
     }
-    assert (m_vertex_data->less_xy_2(m_vertex_data->point(left), 
-                                     m_vertex_data->point(mid)));
-    assert (m_vertex_data->less_xy_2(m_vertex_data->point(mid), 
-                                     m_vertex_data->point(right)));
+    CGAL_polygon_assertion(m_vertex_data->less_xy_2(
+                               m_vertex_data->point(left),
+                               m_vertex_data->point(mid)));
+    CGAL_polygon_assertion( m_vertex_data->less_xy_2(
+                                m_vertex_data->point(mid),
+                                m_vertex_data->point(right)));
     m_vertex_data->is_simple_result = false;
     Vertex_index mid_succ = m_vertex_data->next(mid);
     if (mid_succ.as_int() <= min(left.as_int(), right.as_int()))
@@ -272,23 +275,23 @@ insertion_event(Tree *tree, Vertex_index prev_vt,
     std::pair<typename Tree::iterator, bool> result;
     if (left_turn) {
         result = tree->insert(prev_vt);
-	// assert(result.second)
+	// CGAL_polygon_assertion(result.second)
 	td_prev.tree_it = result.first;
         td_prev.is_in_tree = true;
         if (!this->is_simple_result) return false;
         result = tree->insert(mid_vt);
-	// assert(result.second)
+	// CGAL_polygon_assertion(result.second)
 	td_mid.tree_it = result.first;
         td_mid.is_in_tree = true;
         if (!this->is_simple_result) return false;
     } else {
         result = tree->insert(mid_vt);
-	// assert(result.second)
+	// CGAL_polygon_assertion(result.second)
 	td_mid.tree_it = result.first;
         td_mid.is_in_tree = true;
         if (!this->is_simple_result) return false;
         result = tree->insert(prev_vt);
-	// assert(result.second)
+	// CGAL_polygon_assertion(result.second)
 	td_prev.tree_it = result.first;
         td_prev.is_in_tree = true;
         if (!this->is_simple_result) return false;
@@ -555,10 +558,10 @@ void make_simple_polygon(Iterator points_begin, Iterator points_end,
 #if defined(CGAL_POLY_GENERATOR_DEBUG)
         std::cout << swap_interval.first << " "
                   << swap_interval.second << std::endl; 
-        CGAL_assertion(swap_interval.first >= -1 && 
-                       swap_interval.second >= -1 &&
-                       swap_interval.first < size &&
-                       swap_interval.second < size);
+        CGAL_polygon_assertion(swap_interval.first >= -1 && 
+                               swap_interval.second >= -1 &&
+                               swap_interval.first < size &&
+                               swap_interval.second < size);
 #endif
         // will break out when a negative nonsense value is selected
         // or with -1 is given indicating that the polygon was simple.

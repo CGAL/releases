@@ -30,23 +30,23 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/include/CORE/Filter.h,v $
- * $Revision: 1.4 $ $Date: 2004/11/14 12:00:10 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/include/CORE/Filter.h $
+ * $Id: Filter.h 29485 2006-03-14 11:52:49Z efif $
  ***************************************************************************/
 
 #ifndef _CORE_FILTER_H_
 #define _CORE_FILTER_H_
 
 #include <CORE/Real.h>
+#include <math.h>
 
 #if defined (_MSC_VER) || defined (__MINGW32__) // add support for MinGW
   #define finite(x)	_finite(x)
   #define ilogb(x)	(int)_logb(x)
-#else
-extern "C" int finite(double);	// since SunOS defined "finite" in <ieeefp.h>,
-extern "C" int ilogb(double);	// but gnu defined it in <math.h>, so we 
-                                // declared it here explictly.
-                                // Zilin Du: 07/18/2002
+#endif
+
+#if defined(sun) || defined(__sun)
+  #include <ieeefp.h>
 #endif
 
 CORE_BEGIN_NAMESPACE
@@ -80,7 +80,10 @@ public:
     if (value != CORE_REAL_ZERO) {
       ind = 1;
       fpVal = value.doubleValue();
-      maxAbs = core_abs(fpVal); // NaN are propagated correctly by core_abs.
+      if (value.MSB() <= -1075)
+	maxAbs = 1;
+      else	
+      	maxAbs = core_abs(fpVal); // NaN are propagated correctly by core_abs.
     }
   }
   //@}
@@ -91,7 +94,7 @@ public:
   double getValue() const {
     return fpVal;
   }
-  /// check whether filtered value is OK
+  /// check whether the sign (!) of the filtered value is OK
   bool isOK() const {
     return (fpFilterFlag  && // To disable filter
             finite(fpVal) && // Test for infinite and NaNs
@@ -157,10 +160,10 @@ public:
     if (fpVal < 0.0)
       core_error("possible negative sqrt!", __FILE__, __LINE__, false);
     if (fpVal > 0.0) {
-      double val = ::sqrt(fpVal);
+      double val = std::sqrt(fpVal);
       return filteredFp(val,  ( maxAbs / fpVal ) * val, 1 + ind);
     } else
-      return filteredFp(0.0, ::sqrt(maxAbs) * POWTWO_26, 1 + ind);
+      return filteredFp(0.0, std::sqrt(maxAbs) * POWTWO_26, 1 + ind);
   }
 
   /// dump function

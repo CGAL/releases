@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_3/include/CGAL/Nef_3/Pluecker_line_3.h,v $
-// $Revision: 1.14.2.1 $ $Date: 2004/12/08 19:30:31 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/Pluecker_line_3.h $
+// $Id: Pluecker_line_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
 //                 Miguel Granados <granados@mpi-sb.mpg.de>
@@ -277,7 +277,7 @@ void normalize()
   CGAL_NEF_TRACEN("normalize");
   int i=0;
   while(i<6 && c_[i]==FT(0))
-    i++;
+    ++i;
     
   if(i>5)
     return;

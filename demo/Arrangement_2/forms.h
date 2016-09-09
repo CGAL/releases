@@ -1,5 +1,25 @@
-#ifndef FORMS_H
-#define FORMS_H
+// Copyright (c) 2005  Tel-Aviv University (Israel).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/demo/Arrangement_2/forms.h $
+// $Id: forms.h 28843 2006-02-27 14:40:07Z baruchzu $
+// 
+//
+//
+// Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
+
+#ifndef CGAL_FORMS_H
+#define CGAL_FORMS_H
 
 /*! the forms.h and forms.C files contains all the program 
  *  dialog forms and drag-drop class.
@@ -75,7 +95,7 @@ class PropertiesForm : public QDialog
 public:
   PropertiesForm( QTabWidget * bar = 0 , QWidget* parent = 0 ,
                   int number_of_tabs = 0 , Qt_widget_base_tab *w_demo_p = 0, 
-				  double scale = 0 , bool colors_flag = true);
+                                  double scale = 0 , bool colors_flag = true);
   ~PropertiesForm() {}
   
   QLabel *textLabel1;
@@ -238,26 +258,6 @@ protected:
   
 }; 
 
-/*! class RayShootingOptionsForm used for choosing the rayshoot diraction */ 
-class RayShootingOptionsForm : public QDialog
-{
-  Q_OBJECT
-public:
-  RayShootingOptionsForm( QWidget* parent = 0 ,int number_of_tabs = 0 ,
-	  const char* name = "options form", bool modal = FALSE, WFlags f = 0);
-  ~RayShootingOptionsForm() {}
-  
-  QLabel *textLabel1;
-  QComboBox *arrComboBox1;
-  QPushButton *okPushButton;
-  QPushButton *cancelPushButton;
-  
-protected:
-  QVBoxLayout *optionsFormLayout;
-  QHBoxLayout *arrLayout1;
-  QHBoxLayout *buttonsLayout;
-  
-}; 
 
 
 /*! class PointLocationStrategyForm used for choosing strategy for point location*/
@@ -266,7 +266,7 @@ class PointLocationStrategyForm : public QDialog
   Q_OBJECT
 public:
   PointLocationStrategyForm(QWidget* parent = 0 ,int number_of_tabs = 0 ,
-	  const char* name = "options form", bool modal = FALSE, WFlags f = 0);
+  const char* name = "options form", bool modal = FALSE, WFlags f = 0);
   ~PointLocationStrategyForm() {}
 
   QLabel *textLabel1;
@@ -287,4 +287,3 @@ protected:
 
 
 #endif // FORMS_H
-

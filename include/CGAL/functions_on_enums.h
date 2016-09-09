@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/functions_on_enums.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:18:23 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/functions_on_enums.h $
+// $Id: functions_on_enums.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Andreas Fabri
 //                 Stefan Schirra
@@ -25,8 +25,8 @@
 #ifndef CGAL_FUNCTIONS_ON_ENUMS_H
 #define CGAL_FUNCTIONS_ON_ENUMS_H
 
-#include <CGAL/config.h>
 #include <CGAL/enum.h>
+#include <CGAL/Kernel/Same_uncertainty.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -60,6 +60,27 @@ inline
 Angle
 opposite(Angle a)
 { return static_cast<Angle>( - static_cast<int>(a)); }
+
+#ifdef CGAL_CFG_MATCHING_BUG_5
+
+template < typename T, typename U >
+inline
+T enum_cast_bug(const U& u, const T*)
+{ return static_cast<T>(u); }
+
+template < typename T, typename U >
+inline
+typename Same_uncertainty<T,U>::type enum_cast(const U& u)
+{ return enum_cast_bug(u, (const T*)0); }
+
+#else
+
+template < typename T, typename U >
+inline
+T enum_cast(const U& u)
+{ return static_cast<T>(u); }
+
+#endif
 
 CGAL_END_NAMESPACE
 

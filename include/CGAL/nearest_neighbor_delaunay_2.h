@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h,v $
-// $Revision: 1.9 $ $Date: 2003/09/18 10:24:50 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h $
+// $Id: nearest_neighbor_delaunay_2.h 29694 2006-03-22 16:11:11Z afabri $
+// 
 //
 // Author(s)     : Matthias Baesken
 
@@ -24,6 +24,7 @@
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <CGAL/squared_distance_2_1.h>
+#include <CGAL/compare_vertices.h>
 #include <list>
 #include <queue>
 #include <map>
@@ -32,23 +33,6 @@
 
 CGAL_BEGIN_NAMESPACE
 
-
-// compare function objects for the priority queues used in nearest neighbor search
-template<class VP, class NT,class MAP_TYPE>
-class compare_vertices {
- public:
-  //std::map<VP,NT,std::less<VP> > *pmap;
-  MAP_TYPE* pmap;
-  
-  compare_vertices(MAP_TYPE *p){ pmap=p; }
-  
-  bool operator()(VP e1, VP e2)
-  // get the priorities from the map and return result of comparison ...
-  { NT& v1 = (*pmap)[e1];
-    NT& v2 = (*pmap)[e2];
-    return (v1 > v2);
-  }
-};
 
 
 template<class Dt>
@@ -228,8 +212,8 @@ void nearest_neighbors_list(const Dt& delau, typename Dt::Vertex_handle v, int k
 
   MAP_TYPE  priority_number; // here we save the priorities ...
   
-  compare_vertices<Vertex_handle,Numb_type,MAP_TYPE> comp(& priority_number);      // comparison object ...
-  std::priority_queue<Vertex_handle, std::vector<Vertex_handle>, CGAL::compare_vertices<Vertex_handle,Numb_type,MAP_TYPE> > PQ(comp);
+  CGALi::compare_vertices<Vertex_handle,Numb_type,MAP_TYPE> comp(& priority_number);      // comparison object ...
+  std::priority_queue<Vertex_handle, std::vector<Vertex_handle>, CGALi::compare_vertices<Vertex_handle,Numb_type,MAP_TYPE> > PQ(comp);
 
   priority_number[v] = 0;
   PQ.push(v);

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Hyperbola_2.h,v $
-// $Revision: 1.13 $ $Date: 2004/09/03 17:26:23 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/Hyperbola_2.h $
+// $Id: Hyperbola_2.h 29297 2006-03-09 16:36:12Z mkaravel $
+// 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -191,13 +191,13 @@ protected:
 public:
   Hyperbola_2()  { STEP = FT(2); }
 
-  Hyperbola_2(const Site_2 &f1,	const Site_2 &f2)
+  Hyperbola_2(const Site_2 &ff1, const Site_2 &ff2)
   {
     STEP = FT(2);
-    this->r = f1.weight() - f2.weight();
+    this->r = ff1.weight() - ff2.weight();
     
-    this->f1 = f1.point();
-    this->f2 = f2.point();
+    this->f1 = ff1.point();
+    this->f2 = ff2.point();
 
     compute_origin();
   }

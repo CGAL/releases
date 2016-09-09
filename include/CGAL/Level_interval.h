@@ -1,4 +1,4 @@
-// Copyright (c) 2003 GeometryFactory
+// Copyright (c) 2003, 2005 GeometryFactory
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_skip_list/include/CGAL/Level_interval.h,v $
-// $Revision: 1.4 $ $Date: 2004/05/27 10:36:00 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_skip_list/include/CGAL/Level_interval.h $
+// $Id: Level_interval.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Andreas Fabri
 
@@ -31,7 +31,7 @@ namespace CGAL {
   {
   public:
     typedef typename FaceHandle::value_type Face;
-    typedef typename Face::Vertex Vertex;
+    typedef typename Face::Vertex_handle::value_type Vertex;
     typedef typename Vertex::Point Point;
     typedef typename Kernel_traits<Point>::Kernel K;
     typedef typename K::FT Value;

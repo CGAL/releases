@@ -1,3 +1,26 @@
+// Copyright (c) 2005  Tel-Aviv University (Israel).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/demo/Arrangement_2/qt_layer.h $
+// $Id: qt_layer.h 28872 2006-02-28 07:47:59Z wein $
+// 
+//
+//
+// Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
+
+#ifndef CGAL_QT_LAYER_H
+#define CGAL_QT_LAYER_H
+
 /*! class Qt_layer is the main layer in the program.
  *  all the tab widget are attached to it.
  */
@@ -16,3 +39,5 @@ public:
 private:
 	QTabWidget *myBar;
 }; 
+
+#endif

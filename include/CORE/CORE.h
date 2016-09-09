@@ -28,8 +28,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Source: /CVSROOT/CGAL/Packages/Core/include/CORE/CORE.h,v $
- * $Revision: 1.4 $ $Date: 2004/11/14 12:00:08 $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Core/include/CORE/CORE.h $
+ * $Id: CORE.h 30951 2006-05-02 20:21:31Z afabri $
  ***************************************************************************/
 
 #ifndef _CORE_CORE_H_
@@ -68,19 +68,30 @@ typedef long machine_long;
 #endif
 
 // automaticall link necessary static library under visual c++
+#ifdef CGAL_LINK_AUTOMATICALLY
 #ifdef _MSC_VER
   #ifdef _DEBUG
-    #pragma comment(lib, "coreDebug.lib")
+    #pragma comment(lib, "core++Debug.lib")
     #pragma comment(lib, "gmpDebug.lib")
   #else
-    #pragma comment(lib, "core.lib")
+    #pragma comment(lib, "core++.lib")
     #pragma comment(lib, "gmp.lib")
   #endif
 #endif
+#endif
+
+// This seems redundant with the previous block, but 
+// we don't want to break backward compatibility 
+#if ! defined( CGAL_DONT_USE_LINK_PRAGMA) && defined( _MSC_VER )
+   #pragma comment(lib, "core++.lib")
+    #pragma comment(lib, "gmp.lib")
+    #pragma comment(lib, "mpfr.lib")
+#endif 
 
 #ifndef CORE_NO_AUTOMATIC_NAMESPACE
 using namespace CORE;
 #endif
 
 #endif // _CORE_CORE_H_
+
 

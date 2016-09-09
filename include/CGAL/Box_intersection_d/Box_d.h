@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Box_intersection_d/include/CGAL/Box_intersection_d/Box_d.h,v $
-// $Revision: 1.4 $ $Date: 2004/11/16 16:44:10 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Box_intersection_d/include/CGAL/Box_intersection_d/Box_d.h $
+// $Id: Box_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 //                 Andreas Meyer <ameyer@mpi-sb.mpg.de>
@@ -85,6 +85,12 @@ public:
             hi[dim] = std::max( hi[dim], p[dim] );
         }
     }
+    void extend(std::pair<NT,NT> p[N]) {
+        for( int dim = 0; dim < N; ++dim ) {
+            lo[dim] = std::min( lo[dim], p[dim].first );
+            hi[dim] = std::max( hi[dim], p[dim].second );
+        }
+    }
     static int dimension() { return N; }
     NT min_coord(int dim) const { return lo[dim]; }
     NT max_coord(int dim) const { return hi[dim]; }
@@ -123,6 +129,13 @@ public:
             std::min( bbx.ymin(), p[1]),
             std::max( bbx.xmax(), p[0]),
             std::max( bbx.ymax(), p[1]));
+    }
+    void extend(std::pair<NT,NT> p[2]) {
+        bbx = Bbox_2(
+	    std::min( bbx.xmin(), p[0].first),
+	    std::min( bbx.ymin(), p[1].first),
+	    std::max( bbx.xmax(), p[0].second),
+	    std::max( bbx.ymax(), p[1].second));
     }
     static int dimension() { return 2; }
     NT min_coord(int dim) const { return (dim==0) ? bbx.xmin() : bbx.ymin();}
@@ -164,6 +177,15 @@ public:
             std::max( bbx.xmax(), p[0]),
             std::max( bbx.ymax(), p[1]),
             std::max( bbx.zmax(), p[2]));
+    }
+    void extend(std::pair<NT,NT> p[3]) {
+        bbx = Bbox_3(
+	    std::min( bbx.xmin(), p[0].first),
+	    std::min( bbx.ymin(), p[1].first),
+	    std::min( bbx.zmin(), p[2].first),
+	    std::max( bbx.xmax(), p[0].second),
+	    std::max( bbx.ymax(), p[1].second),
+	    std::max( bbx.zmax(), p[2].second));
     }
     static int dimension() { return 3; }
     NT min_coord(int dim) const { 

@@ -11,21 +11,28 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Sweep_line_2/include/CGAL/Sweep_line_2/Sweep_line_subcurve.h,v $
-// $Revision: 1.15 $ $Date: 2003/09/18 10:25:50 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2/Sweep_line_subcurve.h $
+// $Id: Sweep_line_subcurve.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
-// Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>
+// Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>,
+//                 Baruch Zukerman <baruchzu@post.tau.ac.il>
+
 #ifndef CGAL_SWEEP_LINE_SUBCURVE_H
 #define CGAL_SWEEP_LINE_SUBCURVE_H
 
-#include <vector>
-#include <set>
+
 #include <CGAL/Sweep_line_2/Sweep_line_functors.h>
 #include <CGAL/Sweep_line_2/Sweep_line_event.h>
+#include <CGAL/Multiset.h>
 #include <CGAL/assertions.h>
 
+
+
 CGAL_BEGIN_NAMESPACE
+
+
+
 
 /*! @class Sweep_line_subcurve
  *
@@ -51,66 +58,55 @@ CGAL_BEGIN_NAMESPACE
  *   This is stored to avoid unneccesary splits of the curve.
  *
  */
-
+ 
 template<class SweepLineTraits_2>
 class Sweep_line_subcurve
 {
 public:
-  typedef SweepLineTraits_2 Traits;
-  typedef typename Traits::Point_2 Point_2;
-  typedef typename Traits::Curve_2 Curve_2;
 
-  typedef typename Traits::X_monotone_curve_2 X_monotone_curve_2;
+  typedef SweepLineTraits_2                               Traits;
+  typedef typename Traits::Point_2                        Point_2;
+  typedef typename Traits::X_monotone_curve_2             X_monotone_curve_2;
+
   typedef Sweep_line_subcurve<Traits> Self;
-  typedef Status_line_curve_less_functor<Traits, Self> StatusLineCurveLess;
+  typedef Status_line_curve_less_functor<Traits, Self>    StatusLineCurveLess;
+  typedef Multiset<Self*,
+                   StatusLineCurveLess,
+                   CGAL_ALLOCATOR(int)>                   StatusLine;
+  typedef typename StatusLine::iterator                   StatusLineIter;
 
-  typedef std::set<Self*, StatusLineCurveLess> StatusLine;
-  typedef typename StatusLine::iterator StatusLineIter;
+  typedef Sweep_line_event<Traits, Self>                  Event;
 
-  typedef Sweep_line_event<Traits, Self> Event;
 
-  Sweep_line_subcurve(int id, X_monotone_curve_2 &curve, Point_2 *reference, 
-		      SweepLineTraits_2 *traits);
 
-  virtual ~Sweep_line_subcurve() {}
 
-  int getId() const {
-    return m_id;
+  Sweep_line_subcurve() : m_orig_subcurve1(NULL),
+                          m_orig_subcurve2(NULL)
+  {}
+
+  Sweep_line_subcurve(const X_monotone_curve_2 &curve);
+
+  template <class SweepEvent>
+  void init(const X_monotone_curve_2 &curve,
+            SweepEvent* left,
+            SweepEvent* right)
+  {
+    m_lastCurve = curve;
+    m_left_event  = reinterpret_cast<Event*>(left);
+    m_right_event = reinterpret_cast<Event*>(right);
   }
 
+  ~Sweep_line_subcurve() {}
+
+ 
   /*!
-    @return a reference to the curve 
-  */
-  const X_monotone_curve_2 &get_curve() const { 
-    return m_curve;
-  }
-
-  /*! @return  the pointer to the reference point */
-  const Point_2 *get_reference_point() const { 
-    return m_referencePoint;
-  }
-
-  /*! 
-    @return a reference to the rightmost intersection point 
-  */
-  const Point_2 &get_last_point()  const { 
-    return m_lastPoint; 
-  }
-
-  /*! 
-    Updates the rightmost intersection point.
-    @param point a reference to the point
-   */
-  void set_last_point(const Point_2 &point) { 
-    m_lastPoint = point; 
-  }
-
-  /*!
-    @return a reference to the last intersecing curve so far
+    @return a const reference to the last intersecing curve so far
   */
   const X_monotone_curve_2 &get_last_curve() const { 
     return m_lastCurve; 
   }
+
+  
   /*! 
     updates the last intersecting curve so far.
     @param cv a reference to the curve
@@ -119,109 +115,47 @@ public:
     m_lastCurve = cv; 
   }
 
-  const X_monotone_curve_2 &get_last_subcurve() const { 
-    return m_lastSubCurve; 
-  }
-  void set_last_subcurve(const X_monotone_curve_2 &cv) { 
-    m_lastSubCurve = cv; 
-  }
-
-
-  bool is_source_left_to_target() const { 
-    return m_isRightSide; 
-  }
-
-  bool is_source(const Point_2 &p) { 
-    return m_traits->point_equal(p, m_source);
-  }
-
-  bool is_target(const Point_2 &p) { 
-    return m_traits->point_equal(p, m_target);
-  }
-
-  /*! returns true if the specified point is the source or the target
-      of the curve. Returns false otherwise.
-  */
-  bool is_end_point(const Point_2 &p) { 
-    return is_target(p) || is_source(p);
-  }
-
-  /*! returns true if the last point is an end point and the specified
-      point is an end point. Otherwise returns false;
-  */
-  bool is_unsplit_curve(const Point_2 &p) {
-    if ( is_end_point(p) && is_end_point(m_lastPoint) )
-      return true;
-    return false;
-  }
-
-  const Point_2 &get_source() const {
-    return m_source;
-  }
-
-  const Point_2 &get_target() const {
-    return m_target;
-  }
-
-  bool is_left_end(const Point_2 &p) {
-    if ( is_source_left_to_target() && is_source(p) )
-      return true;
-    if ( !is_source_left_to_target() && is_target(p) )
-      return true;
-    return false;
-  }
-
-  bool is_right_end(const Point_2 &p) {
-    if ( is_source_left_to_target() && is_target(p) )
-      return true;
-    if ( !is_source_left_to_target() && is_source(p) )
-      return true;
-    return false;
-  }
-
-  bool is_bottom_end(const Point_2 &p) {
-    CGAL_assertion(m_traits->curve_is_vertical(m_curve)==true);
-    return is_left_end(p);
-  }
-
-  bool is_top_end(const Point_2 &p) {
-    CGAL_assertion(m_traits->curve_is_vertical(m_curve)==true);
-    return is_right_end(p);
-  }
-
-  const Point_2 &get_right_end() const {
-    if ( is_source_left_to_target() )
-      return m_target;
-    return m_source;
-  }
-
-  const Point_2 &get_left_end() const {
-    if ( is_source_left_to_target() )
-      return m_source;
-    return m_target;
-  }
-
-  const Point_2 &get_top_end() const {
-    CGAL_assertion(m_traits->curve_is_vertical(m_curve)==true);
-    return get_right_end();
-  }
-
-  const Point_2 &get_bottom_end() const {
-    CGAL_assertion(m_traits->curve_is_vertical(m_curve)==true);
-    return get_left_end();
-  }
-
-  // returns true if the point is in the range of the curve and is not
-  // one of its ends
-  bool is_point_in_range(const Point_2 &p)
+  
+  
+  template<class SweepEvent>
+  bool is_end_point(const SweepEvent* event)const
   {
-    if (! m_traits->point_in_x_range(m_curve, p) ||
-	m_traits->curve_compare_y_at_x(p, m_curve) != EQUAL)
-      return false;
-    if ( is_end_point(p) )
-      return false;
-    return true;
+    return m_right_event == (Event*)event;
   }
+ 
+
+  /*Point_2 get_right_end() const {
+   return traits()->construct_max_vertex_2_object()(m_lastCurve);
+  }
+
+  
+  Point_2 get_left_end() const {
+    return traits()->construct_min_vertex_2_object()(m_lastCurve);  
+  }*/
+
+   Event* get_left_event() const
+   {
+     return m_left_event;
+   }
+
+   Event* get_right_event() const
+   {
+     return m_right_event;
+   }
+
+   template<class SweepEvent>
+   void set_left_event(SweepEvent* event)
+   {
+     m_left_event =(Event*)event;
+   }
+
+   template<class SweepEvent>
+   void set_right_event(SweepEvent* event)
+   {
+     m_right_event = (Event*)event;
+   }
+
+
 
   void set_hint(StatusLineIter hint) 
   {
@@ -233,84 +167,186 @@ public:
     return m_hint;
   }
 
-#ifndef NDEBUG
+  void set_orig_subcurve1(Self* orig_subcurve1)
+  {
+    m_orig_subcurve1 = orig_subcurve1;
+  }
+
+  Self* get_orig_subcurve1()
+  {
+    return m_orig_subcurve1;
+  }
+
+  void set_orig_subcurve2(Self* orig_subcurve2)
+  {
+    m_orig_subcurve2 = orig_subcurve2;
+  }
+
+  Self* get_orig_subcurve2()
+  {
+    return m_orig_subcurve2;
+  }
+
+  template <class Output>
+  void get_all_leaves(Output out)
+  {
+    if(!m_orig_subcurve1)
+    {
+      *out++ = this;
+      return;
+    }
+
+    m_orig_subcurve1->get_all_leaves(out);
+    m_orig_subcurve2->get_all_leaves(out);
+  }
+
+  template <class Output>
+  void get_all_inner_noes(Output out)
+  {
+    if(!m_orig_subcurve1)
+    {
+      *out++ = this;
+      return;
+    }
+    *out++ = this;
+    m_orig_subcurve1->get_all_inner_noes(out);
+    m_orig_subcurve2->get_all_inner_noes(out);
+  }
+
+  bool is_inner_node(Self *s)
+  {
+    std::list<Self*> nodes;
+    this ->get_all_inner_noes(std::back_inserter(nodes));
+
+    return (std::find(nodes.begin(), nodes.end(), s)
+            != nodes.end());
+  }
+
+
+  bool is_leaf(Self* s)
+  {
+    std::list<Self*> leafs;
+    this ->get_all_leaves(std::back_inserter(leafs));
+
+    return (std::find(leafs.begin(), leafs.end(), s)
+            != leafs.end());
+  }
+
+  bool has_same_leaf(Self *s)
+  {
+    std::list<Self*> my_leafs;
+    std::list<Self*> other_leafs;
+    this ->get_all_leaves(std::back_inserter(my_leafs));
+    s->get_all_leaves(std::back_inserter(other_leafs));
+
+    typedef typename std::list<Self*>::iterator Itr;
+    Itr itr;
+    for(itr = my_leafs.begin(); itr != my_leafs.end(); ++itr)
+    {
+      if(std::find(other_leafs.begin(), other_leafs.end(), *itr) ==
+         other_leafs.end())
+         return false;
+    }
+    for(itr = other_leafs.begin(); itr != other_leafs.end(); ++itr)
+    {
+      if(std::find(my_leafs.begin(), my_leafs.end(), *itr) ==
+         my_leafs.end())
+         return false;
+    }
+    return true;
+  }
+
+  bool has_common_leaf(Self *s)
+  {
+    std::list<Self*> my_leafs;
+    std::list<Self*> other_leafs;
+    this ->get_all_leaves(std::back_inserter(my_leafs));
+    s->get_all_leaves(std::back_inserter(other_leafs));
+
+    typedef typename std::list<Self*>::iterator Itr;
+    Itr itr;
+    for(itr = my_leafs.begin(); itr != my_leafs.end(); ++itr)
+    {
+      if(std::find(other_leafs.begin(), other_leafs.end(), *itr) !=
+         other_leafs.end())
+         return true;
+    }
+    return false;
+  }
+
+  template <class Output>
+  void get_distinct_nodes(Self *s, Output out)
+  {
+    if(!m_orig_subcurve1)
+    {
+      if(s->is_leaf(this))
+        *out++ = this;
+      return;
+    }
+
+    if(!s->is_inner_node(m_orig_subcurve1))
+      *out++ = m_orig_subcurve1;
+    else
+      m_orig_subcurve1->get_distinct_nodes(s, out);
+
+    if(!s->is_inner_node(m_orig_subcurve2))
+      *out++ = m_orig_subcurve2;
+    else
+      m_orig_subcurve2->get_distinct_nodes(s, out);
+  }
+
+
+  unsigned int overlap_depth()
+  {
+    if (! m_orig_subcurve1)
+      return (1);
+
+    if (m_orig_subcurve1->overlap_depth() >= m_orig_subcurve2->overlap_depth())
+      return (m_orig_subcurve1->overlap_depth() + 1);
+    else
+      return (m_orig_subcurve2->overlap_depth() + 1);
+  }
+ 
+#ifdef VERBOSE
   void Print() const;
 #endif
 
-private:
-
-  int m_id;
-
-  /*! a pointer to the traits object */
-  Traits *m_traits;
-
-  /*! thecurve */
-  X_monotone_curve_2 m_curve;
-
-  /* a pointer to a point that is used as a reference point when two 
-     curves are compared. This is used when inserting and erasing 
-     curves from the status line. */
-  Point_2 *m_referencePoint;
-
-  /*! the rightmost point handled so far on the curve. It is initialized 
-    to the left end of the curve and is updated with every intersection 
-    point on the curve. */
-  Point_2 m_lastPoint;
+protected:
 
   /*! the portion of the curve to the right of the last event point 
       on the curve */
   X_monotone_curve_2 m_lastCurve;
 
-  /*! the last subcurve that was reported */
-  X_monotone_curve_2 m_lastSubCurve;
+  Event* m_left_event;
 
-  /*! true if the source of the curve is to the left of the target. */
-  bool m_isRightSide;
-
-  /*! the source of the curve */
-  Point_2 m_source;
-
-  /*! the target of the curve */
-  Point_2 m_target;
-
-  /*! */
+  Event* m_right_event;
+  
+  /*! iterator at the Y-structure for the Subcurve */
   StatusLineIter m_hint;
+
+  //the  below memvers relevant only with overlaps
+
+  Self *m_orig_subcurve1;
+
+  Self *m_orig_subcurve2;
 
 };
 
 template<class SweepLineTraits_2>
 inline Sweep_line_subcurve<SweepLineTraits_2>::
-Sweep_line_subcurve(int id, X_monotone_curve_2 &curve, Point_2 *reference, 
-		    SweepLineTraits_2 *traits)  : m_id(id), m_traits(traits)
-{
-  m_curve = curve;
-  m_referencePoint = reference;
-  m_source = traits->curve_source(curve);
-  m_target = traits->curve_target(curve);
-  Comparison_result res = traits->compare_xy(m_source, m_target);
-  if ( res  == LARGER )
-  {
-    m_lastPoint = m_target; 
-    m_isRightSide = false;
-  }
-  else if ( res == SMALLER )
-  {
-    m_lastPoint = m_source; 
-    m_isRightSide = true;
-
-  }
+Sweep_line_subcurve(const X_monotone_curve_2 &curve): 
+  m_orig_subcurve1(NULL),
+  m_orig_subcurve2(NULL)
+{ 
   m_lastCurve = curve;
 }
 
-#ifndef NDEBUG
+#ifdef VERBOSE
 template<class SweepLineTraits_2>
 void 
-Sweep_line_subcurve<SweepLineTraits_2>::
-Print() const
+Sweep_line_subcurve<SweepLineTraits_2>::Print() const
 {
-  std::cout << "Curve " << m_id << "  (" << m_curve << ") "
-	    << "last P = (" << m_lastPoint << ")" << std::endl;
-  
+  std::cout << "Curve " << this << "  (" << m_lastCurve << ") " << std::endl;
 }
 
 #endif

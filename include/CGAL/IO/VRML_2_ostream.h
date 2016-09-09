@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Inventor/include/CGAL/IO/VRML_2_ostream.h,v $
-// $Revision: 1.16 $ $Date: 2004/05/14 21:17:43 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Inventor/include/CGAL/IO/VRML_2_ostream.h $
+// $Id: VRML_2_ostream.h 28924 2006-02-28 16:32:59Z glisse $
+// 
 //
 // Author(s)     : Andreas Fabri
 //                 Lutz Kettner <kettner@inf.ethz.ch>
@@ -309,7 +309,7 @@ operator<<(VRML_2_ostream& os,
              "                    geometry\n"
              "                        Sphere { "
              "radius ";
-  os <<      ::sqrt(CGAL::to_double(s.squared_radius())) <<" }\n";
+  os <<      std::sqrt(CGAL::to_double(s.squared_radius())) <<" }\n";
   os <<      "                } #children Shape\n"
              "              } # Transform\n"
              "            ] #children\n"

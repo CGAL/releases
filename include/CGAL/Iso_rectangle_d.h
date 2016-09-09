@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Iso_rectangle_d.h,v $
-// $Revision: 1.12 $ $Date: 2004/11/05 23:04:04 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/include/CGAL/Iso_rectangle_d.h $
+// $Id: Iso_rectangle_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
 

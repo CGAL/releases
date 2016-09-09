@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/function_objectsCd.h,v $
-// $Revision: 1.15 $ $Date: 2003/10/21 12:19:34 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/function_objectsCd.h $
+// $Id: function_objectsCd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel, Kurt Mehlhorn
 
@@ -158,13 +158,13 @@ OutputIterator operator()(ForwardIterator first, ForwardIterator last,
   std::vector< Point_d > V(first,last);
   typename LA::Matrix M(d+1,V.size());
   typename LA::Vector b(d+1), x;
-  register int i;
+  int i;
   for (i=0; i<d; ++i) {
-    for (register int j=0; j<V.size(); ++j) 
+    for (int j=0; j<V.size(); ++j) 
       M(i,j)=V[j].cartesian(i);
     b[i] = p.cartesian(i);
   }
-  for (register int j=0; j<V.size(); ++j) 
+  for (int j=0; j<V.size(); ++j) 
     M(d,j) = 1;
   b[d]=1;
   FT D;
@@ -216,10 +216,10 @@ Oriented_side operator()(ForwardIterator first, ForwardIterator last,
   CGAL_assertion_msg((d-1 == first->dimension()), 
   "Side_of_oriented_sphere_d: needs first->dimension()+1 many input points.");
   typename LA::Matrix M(d + 1); 
-  for (register int i = 0; i < d; ++first, ++i) { 
+  for (int i = 0; i < d; ++first, ++i) { 
     FT Sum = 0;
     M(i,0) = 1;
-    for (register int j = 0; j < d-1; j++) { 
+    for (int j = 0; j < d-1; j++) { 
       FT cj = first->cartesian(j);
       M(i,j + 1) = cj; Sum += cj*cj; 
     }
@@ -227,7 +227,7 @@ Oriented_side operator()(ForwardIterator first, ForwardIterator last,
   }
   FT Sum = 0; 
   M(d,0) = 1; 
-  for (register int j = 0; j < d-1; j++) { 
+  for (int j = 0; j < d-1; j++) { 
     FT hj = x.cartesian(j);
     M(d,j + 1) = hj; Sum += hj*hj; 
   }
@@ -290,12 +290,12 @@ bool operator()(ForwardIterator first, ForwardIterator last,
 
   typename LA::Matrix M(d + 1,k); 
   typename LA::Vector b(d +1);
-  for (register int j = 0; j < k; ++first, ++j) {
-    for (register int i = 0; i < d; ++i) 
+  for (int j = 0; j < k; ++first, ++j) {
+    for (int i = 0; i < d; ++i) 
       M(i,j) = first->cartesian(i);
     M(d,j) = 1;
   }
-  for (register int i = 0; i < d; ++i) 
+  for (int i = 0; i < d; ++i) 
     b[i] = p.cartesian(i);
   b[d] = 1;
 
@@ -325,12 +325,12 @@ bool operator()(ForwardIterator first, ForwardIterator last,
   int d = first->dimension(); 
   typename LA::Matrix M(d + 1,k); 
   typename LA::Vector b(d + 1); 
-  for (register int j = 0; j < k; ++first, ++j) {
-    for (register int i = 0; i < d; ++i) 
+  for (int j = 0; j < k; ++first, ++j) {
+    for (int i = 0; i < d; ++i) 
       M(i,j) = first->cartesian(i);
     M(d,j) = 1;
   }
-  for (register int i = 0; i < d; ++i)
+  for (int i = 0; i < d; ++i)
     b[i] = p.cartesian(i);
   b[d] = 1;
   return LA::is_solvable(M,b);

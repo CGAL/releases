@@ -1,3 +1,23 @@
+// Copyright (c) 2005  Tel-Aviv University (Israel).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/demo/Arrangement_2/MyWindow_operations.C $
+// $Id: MyWindow_operations.C 28567 2006-02-16 14:30:13Z lsaboret $
+// 
+//
+//
+// Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
+
 #include <CGAL/basic.h>
 
 #ifdef CGAL_USE_QT
@@ -113,14 +133,14 @@ void MyWindow::properties()
   
   PropertiesForm *optionsForm = 
     new PropertiesForm( myBar , this ,number_of_tabs ,w_demo_p , 
-		m_scailing_factor , colors_flag);
+                m_scailing_factor , colors_flag);
   
   if ( optionsForm->exec() ) 
   {    
     m_width = optionsForm->box1->value();
     m_height = optionsForm->box2->value();
     w_demo_p->m_line_width = optionsForm->box3->value();
-	w_demo_p->m_vertex_width = optionsForm->box8->value();
+        w_demo_p->m_vertex_width = optionsForm->box8->value();
     double new_factor = static_cast<double> (optionsForm->box4->value());
     QString paint_mode = optionsForm->box5->currentText();
     w_demo_p->cube_size = optionsForm->box6->value();
@@ -128,12 +148,12 @@ void MyWindow::properties()
       colors_flag = true;
     else
       colors_flag = false;
-	QString remove_mode = optionsForm->box7->currentText();
-	if (strcmp(remove_mode,"Remove entire original curve") == 0)
+        QString remove_mode = optionsForm->box7->currentText();
+        if (strcmp(remove_mode,"Remove entire original curve") == 0)
       w_demo_p->remove_org_curve = true;
     else
       w_demo_p->remove_org_curve = false;
-	QString draw_vertex_mode = optionsForm->box9->currentText();
+        QString draw_vertex_mode = optionsForm->box9->currentText();
     if (strcmp(draw_vertex_mode,"Draw") == 0)
       w_demo_p->draw_vertex = true;
     else
@@ -205,60 +225,29 @@ void MyWindow::changePmColor()
   something_changed();
 }
 
-/*! a dialog form to set the rayShooting Diraction. */
-void MyWindow::rayShootingDirection()
-{
-  // We peform downcasting from QWigdet* to Qt_widget_base_tab*, 
-  // as we know that only
-  // Qt_widget_base_tab objects are stored in the tab pages.
-  Qt_widget_base_tab * w_demo_p = 
-    dynamic_cast<Qt_widget_base_tab  *> (myBar->currentPage());
-  RayShootingOptionsForm *form = new RayShootingOptionsForm();
-  if ( form->exec() ) 
-  {
-    QString type = form->arrComboBox1->currentText();
-    if (strcmp(type,"Up") == 0)
-	{
-      w_demo_p->ray_shooting_direction = true;
-      rayShootingMode->setIconSet(QPixmap((const char**)demo_rayshoot_up_xpm ));
-	  if (w_demo_p->mode == RAY_SHOOTING)
-	    w_demo_p->setCursor(
-	    QCursor(QPixmap((const char**)demo_arrow_up_xpm)));
-	}
-    else if (strcmp(type,"Down") == 0)
-	{
-      w_demo_p->ray_shooting_direction = false;
-      rayShootingMode->setIconSet( 
-		  QPixmap((const char**)demo_rayshoot_down_xpm ));
-	  if (w_demo_p->mode == RAY_SHOOTING)
-	    w_demo_p->setCursor(
-	    QCursor(QPixmap((const char**)demo_arrow_down_xpm)));
-	}
-  }
-}
 
 /*! a dialog form to set the pointLocationStrategy */
 void MyWindow::pointLocationStrategy()
 {
-  //TODO - implement
-  /* Qt_widget_base_tab * w_demo_p = 
-    dynamic_cast<Qt_widget_base_tab  *> (myBar->currentPage());*/
-   PointLocationStrategyForm *form = new PointLocationStrategyForm();
-   if ( form->exec() )
-   {
-     QString type = form->arrComboBox1->currentText();
-     if(! strcmp(type,"Naive"))
-       strategy = NAIVE ;
-     else 
-       if(!strcmp(type,"Simple"))
-         strategy = SIMPLE;  
-       else
-         if(!strcmp(type,"Trapezoiedal"))
-           strategy = TRAP;
-         else
-           if(!strcmp(type,"Walk"))
-             strategy = WALK;
-   }
+  Qt_widget_base_tab * w_demo_p = 
+    dynamic_cast<Qt_widget_base_tab*> (myBar->currentPage());
+  PointLocationStrategyForm form;
+  if ( form.exec() )
+  { 
+    QString type = form.arrComboBox1->currentText();
+    if(! strcmp(type,"Naive"))
+      w_demo_p -> change_strategy(NAIVE);
+    else
+      if(!strcmp(type,"Trapezoiedal"))
+        w_demo_p -> change_strategy(TRAP);
+      else
+        if(!strcmp(type,"Walk"))
+          w_demo_p -> change_strategy(WALK);
+        else
+          if(!strcmp(type,"Land marks"))
+            w_demo_p -> change_strategy(LANDMARKS);
+
+  }
 }
 
 
@@ -271,13 +260,14 @@ void MyWindow::init(Qt_widget_base_tab *widget)
           this, SLOT(get_new_object(CGAL::Object)));
   widget->attach(testlayer);
   widget->setCursor(QCursor( QPixmap( (const char**)small_draw_xpm)));
-  rayShootingMode->setIconSet(QPixmap((const char**)demo_rayshoot_up_xpm ));
+  rayShootingUpMode->setIconSet(QPixmap((const char**)demo_rayshoot_up_xpm ));
+  rayShootingDownMode->setIconSet(QPixmap((const char**)demo_rayshoot_down_xpm ));
   widget->setBackgroundColor(def_bg_color);
   tab_number++;
   number_of_tabs++;
   // add the new widget to myBar
   myBar->insertTab( widget, 
-                    QString("Arr " + QString::number( widget->index ) ),
+                    QString("Arr " + QString::number( widget->index + 1 ) ),
                     widget->index );
   myBar->setCurrentPage(myBar->indexOf(widget));
  
@@ -291,7 +281,7 @@ void MyWindow::add_segment_tab()
 {
   Qt_widget_demo_tab<Segment_tab_traits> *widget = 
     new Qt_widget_demo_tab<Segment_tab_traits>
-    (SEGMENT_TRAITS ,strategy , this, tab_number);
+    (SEGMENT_TRAITS , this, tab_number, colors[tab_number%num_of_colors]);
   init(widget);
   widget->draw();
 }
@@ -301,7 +291,7 @@ void MyWindow::add_polyline_tab()
 {
   Qt_widget_demo_tab<Polyline_tab_traits> *widget = 
     new Qt_widget_demo_tab<Polyline_tab_traits>
-    (POLYLINE_TRAITS ,strategy, this, tab_number);
+    (POLYLINE_TRAITS , this, tab_number, colors[tab_number%num_of_colors]);
   init(widget);
   widget->draw();
 }
@@ -311,7 +301,7 @@ void MyWindow::add_conic_tab()
 {
   Qt_widget_demo_tab<Conic_tab_traits> *widget = 
     new Qt_widget_demo_tab<Conic_tab_traits>
-    (CONIC_TRAITS ,strategy, this , tab_number);
+    (CONIC_TRAITS , this , tab_number, colors[tab_number%num_of_colors]);
   init(widget);
   widget->draw();
 
@@ -347,27 +337,28 @@ void MyWindow::updateTraitsType( QAction *action )
   Qt_widget_base_tab *old_widget = 
     static_cast<Qt_widget_base_tab *> (myBar->currentPage());
   Qt_widget_base_tab * widget = 0;
+  int old_index = old_widget->index;
   
   if (action == setSegmentTraits)
   {
     if (old_widget->traits_type == SEGMENT_TRAITS) return;
     widget = new Qt_widget_demo_tab<Segment_tab_traits>
-      (SEGMENT_TRAITS ,strategy, this);
+      (SEGMENT_TRAITS , this, old_index, old_widget->pm_color);
   }
   else if (action == setPolylineTraits)
   {
     if (old_widget->traits_type == POLYLINE_TRAITS) return;
     widget = new Qt_widget_demo_tab<Polyline_tab_traits>
-      (POLYLINE_TRAITS ,strategy , this);
+      (POLYLINE_TRAITS , this, old_index, old_widget->pm_color);
   }
   else if (action == setConicTraits)
   {
     if (old_widget->traits_type == CONIC_TRAITS) return;
     widget = new Qt_widget_demo_tab<Conic_tab_traits>
-      (CONIC_TRAITS ,strategy , this);
+      (CONIC_TRAITS , this, old_index, old_widget->pm_color);
   }
   
-  if( !old_widget->empty ) // pm is not empty
+  if( !old_widget->is_empty() ) // pm is not empty
   {
     switch( QMessageBox::warning( this, "Update Traits Type",
         "This action will destroy the current planar map.\n"
@@ -378,14 +369,14 @@ void MyWindow::updateTraitsType( QAction *action )
           // continue
           break;
       case 1: // The user clicked the Quit or pressed Escape
-		  update();
+                  update();
           something_changed();
           return;
           break;
     }
   }
 
-  int old_index = old_widget->index;
+  
   int index = myBar->currentPageIndex();
   QString label = myBar->label(index);
   myBar->removePage(myBar->currentPage());
@@ -399,9 +390,9 @@ void MyWindow::updateTraitsType( QAction *action )
   widget->attach(testlayer);
   widget->m_line_width = 2;
   widget->index = old_index;
-  widget->pm_color = widget->colors[old_index];
   widget->setCursor(QCursor( QPixmap( (const char**)small_draw_xpm)));
-  rayShootingMode->setIconSet(QPixmap((const char**)demo_rayshoot_up_xpm ));
+  rayShootingUpMode->setIconSet(QPixmap((const char**)demo_rayshoot_up_xpm ));
+  rayShootingDownMode->setIconSet(QPixmap((const char**)demo_rayshoot_down_xpm ));
 
   // add the new widget to myBar
   myBar->insertTab( widget, label , index );
@@ -410,7 +401,6 @@ void MyWindow::updateTraitsType( QAction *action )
     
   update();
   something_changed();
-  
 }
 
 /*! change the buttons stste according to the traits type */
@@ -419,15 +409,15 @@ void MyWindow::setTraits( TraitsType t )
   switch ( t ) {
    case SEGMENT_TRAITS:
     setSegmentTraits->setOn( TRUE );
-	conicTypeTool->hide();
+        conicTypeTool->hide();
     break;
    case POLYLINE_TRAITS:
     setPolylineTraits->setOn( TRUE );
-	conicTypeTool->hide();
+        conicTypeTool->hide();
     break;
    case CONIC_TRAITS:
     setConicTraits->setOn( TRUE );
-	conicTypeTool->show();
+        conicTypeTool->show();
     break;
   }
 }
@@ -479,11 +469,11 @@ void MyWindow::setConicType( ConicType t )
 /*! open color dialog for faces color */
 void MyWindow::openColorDialog()
 {
-	Qt_widget_base_tab    *w_demo_p = 
+  Qt_widget_base_tab    *w_demo_p = 
     static_cast<Qt_widget_base_tab *> (myBar->currentPage());
-    QColor c = QColorDialog::getColor();
-	if( c.isValid())
-	  w_demo_p->fill_face_color = c;
+  QColor c = QColorDialog::getColor();
+  if( c.isValid())
+    w_demo_p->fill_face_color = c;
 }
 
 
@@ -502,20 +492,20 @@ void MyWindow::updateSnapMode( bool on )
   if (on)
   {
     setGridSnapMode->setEnabled( TRUE );
-	if (w_demo_p->snap_mode == GRID)
-	  setGridSnapMode->setOn( TRUE );
-	else
-	{
+        if (w_demo_p->snap_mode == GRID)
+          setGridSnapMode->setOn( TRUE );
+        else
+        {
       setGridSnapMode->setOn( FALSE );
       w_demo_p->snap_mode = POINT;
-	}
+        }
     w_demo_p->snap = true;
   }
   else
   {
     SnapMode old = w_demo_p->snap_mode;
     setGridSnapMode->setOn( FALSE );
-	setSnapMode->setOn( FALSE );
+        setSnapMode->setOn( FALSE );
     setGridSnapMode->setEnabled( FALSE );
     w_demo_p->snap = false;
     w_demo_p->snap_mode = NONE;
@@ -573,18 +563,17 @@ void MyWindow::updateMode( QAction *action )
   {
     w_demo_p->mode = POINT_LOCATION;
     w_demo_p->setCursor(Qt::CrossCursor);
-    //w_demo_p->setCursor(QCursor( QPixmap( (const char**)point_xpm)));
     current_label = point_location_label;
   }
-  else if ( action == rayShootingMode ) 
+  else if ( action == rayShootingUpMode ) 
   {
-    w_demo_p->mode = RAY_SHOOTING;
-	if (w_demo_p->ray_shooting_direction)
-      w_demo_p->setCursor(
-	  QCursor(QPixmap((const char**)demo_arrow_up_xpm)));
-	else
-      w_demo_p->setCursor(
-	  QCursor(QPixmap((const char**)demo_arrow_down_xpm)));
+    w_demo_p->mode = RAY_SHOOTING_UP;
+    w_demo_p->setCursor(QCursor(QPixmap((const char**)demo_arrow_up_xpm)));
+  }
+  else if( action == rayShootingDownMode )
+  {
+    w_demo_p->mode = RAY_SHOOTING_DOWN;
+    w_demo_p->setCursor(QCursor(QPixmap((const char**)demo_arrow_down_xpm)));
   }
   else if ( action == dragMode ) 
   {
@@ -607,7 +596,7 @@ void MyWindow::updateMode( QAction *action )
   else if ( action == fillfaceMode ) 
   {
     w_demo_p->mode = FILLFACE;
-    w_demo_p->setCursor(Qt::CrossCursor  );	
+    w_demo_p->setCursor(Qt::CrossCursor  );        
   }
 }
 
@@ -626,7 +615,8 @@ void MyWindow::setMode( Mode m )
    case INSERT: insertMode->setOn( TRUE ); break;
    case DELETE: deleteMode->setOn( TRUE ); break;
    case POINT_LOCATION: pointLocationMode->setOn( TRUE ); break;
-   case RAY_SHOOTING: rayShootingMode->setOn( TRUE ); break;
+   case RAY_SHOOTING_UP: rayShootingUpMode->setOn( TRUE ); break;
+   case RAY_SHOOTING_DOWN: rayShootingDownMode->setOn( TRUE ); break;
    case DRAG: dragMode->setOn( TRUE ); break;
    case MERGE: mergeMode->setOn( TRUE ); break;
    case SPLIT: splitMode->setOn( TRUE ); break;
@@ -646,20 +636,19 @@ void MyWindow::update()
   //updateSnapMode( w_demo_p->snap );
   setTraits( w_demo_p->traits_type );
   setConicType( w_demo_p->conic_type ); 
-
   if ( w_demo_p->snap )
   {
-	setGridSnapMode->setEnabled( TRUE );
-	setSnapMode->setOn( TRUE );
-	if ( w_demo_p->snap_mode == GRID)
-	  setGridSnapMode->setOn( TRUE );
-	else
-	  setGridSnapMode->setOn( FALSE );
+    setGridSnapMode->setEnabled( TRUE );
+    setSnapMode->setOn( TRUE );
+    if ( w_demo_p->snap_mode == GRID)
+      setGridSnapMode->setOn( TRUE );
+    else
+      setGridSnapMode->setOn( FALSE );
   }
   else
   {
-	setSnapMode->setOn( FALSE );
-	setGridSnapMode->setOn( FALSE );
+    setSnapMode->setOn( FALSE );
+    setGridSnapMode->setOn( FALSE );
     setGridSnapMode->setEnabled( FALSE );
   }
 }
@@ -682,11 +671,11 @@ void MyWindow::conicType()
       w_demo_p->conic_type = CIRCLE;
     else if (strcmp(type,"Segment") == 0)
       w_demo_p->conic_type = SEGMENT;
-	else if (strcmp(type,"Ellipse") == 0)
+        else if (strcmp(type,"Ellipse") == 0)
       w_demo_p->conic_type = ELLIPSE;
-	else if (strcmp(type,"Parabola") == 0)
+        else if (strcmp(type,"Parabola") == 0)
       w_demo_p->conic_type = PARABOLA;
-	else if (strcmp(type,"Hyperbola") == 0)
+        else if (strcmp(type,"Hyperbola") == 0)
       w_demo_p->conic_type = HYPERBOLA;
   }
 }

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/Rectangular_p_center_traits_2.h,v $
-// $Revision: 1.36 $ $Date: 2003/09/29 08:41:45 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Matrix_search/include/CGAL/Rectangular_p_center_traits_2.h $
+// $Id: Rectangular_p_center_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
@@ -29,7 +29,7 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class A, class S >
-struct Select : public CGAL_STD::binary_function< A, A, A > {
+struct Select : public std::binary_function< A, A, A > {
   typedef Arity_tag< 2 > Arity;
 
   Select() {}
@@ -44,7 +44,7 @@ protected:
 
 template < class R >
 struct I_Signed_x_distance_2
-: public CGAL_STD::binary_function<
+: public std::binary_function<
   Point_2< R >, Point_2< R >, typename R::FT >
 {
   typedef Arity_tag< 2 > Arity;
@@ -54,7 +54,7 @@ struct I_Signed_x_distance_2
 };
 template < class R >
 struct I_Signed_y_distance_2
-: public CGAL_STD::binary_function<
+: public std::binary_function<
   Point_2< R >, Point_2< R >, typename R::FT >
 {
   typedef Arity_tag< 2 > Arity;
@@ -64,7 +64,7 @@ struct I_Signed_y_distance_2
 };
 template < class R >
 struct I_Infinity_distance_2
-: public CGAL_STD::binary_function<
+: public std::binary_function<
   Point_2< R >, Point_2< R >, typename R::FT >
 {
   typedef Arity_tag< 2 > Arity;
@@ -76,7 +76,7 @@ struct I_Infinity_distance_2
 };
 template < class R >
 struct I_Signed_infinity_distance_2
-: public CGAL_STD::binary_function<
+: public std::binary_function<
   Point_2< R >, Point_2< R >, typename R::FT >
 {
   typedef Arity_tag< 2 > Arity;

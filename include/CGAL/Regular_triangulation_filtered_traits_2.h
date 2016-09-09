@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Regular_triangulation_filtered_traits_2.h,v $
-// $Revision: 1.4 $ $Date: 2004/09/21 09:25:36 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Regular_triangulation_filtered_traits_2.h $
+// $Id: Regular_triangulation_filtered_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
@@ -72,8 +72,17 @@ public:
             Weighted_converter_2<C2E>,
             Weighted_converter_2<C2F> >  Power_test_2;
 
+  typedef Filtered_predicate<
+    typename Exact_traits::Compare_power_distance_2,
+    typename Filtering_traits::Compare_power_distance_2,
+    Weighted_converter_2<C2E>,
+    Weighted_converter_2<C2F> >  Compare_power_distance_2;
+
   Power_test_2 power_test_2_object() const
   { return Power_test_2();}
+
+  Compare_power_distance_2 compare_power_distance_2_object() const
+  { return Compare_power_distance_2(); }
 
   // The following are inherited since they are constructions :
   // Construct_weighted_circumcenter_2

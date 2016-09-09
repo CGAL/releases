@@ -15,34 +15,21 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Stream_support/include/CGAL/IO/File_scanner_OFF.h,v $
-// $Revision: 1.1 $ $Date: 2003/12/10 13:57:15 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Stream_support/include/CGAL/IO/File_scanner_OFF.h $
+// $Id: File_scanner_OFF.h 29581 2006-03-17 15:50:13Z spion $
+// 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 
 #ifndef CGAL_IO_FILE_SCANNER_OFF_H
 #define CGAL_IO_FILE_SCANNER_OFF_H 1
-#ifndef CGAL_BASIC_H
+
 #include <CGAL/basic.h>
-#endif
-#ifndef CGAL_KNOWN_BIT_SIZE_INTEGERS_H
 #include <CGAL/known_bit_size_integers.h>
-#endif
-#ifndef CGAL_PROTECT_CSTDDEF
 #include <cstddef>
-#define CGAL_PROTECT_CSTDDEF
-#endif
-#ifndef CGAL_IO_BINARY_FILE_IO_H
 #include <CGAL/IO/binary_file_io.h>
-#endif // CGAL_IO_BINARY_FILE_IO_H
-#ifndef CGAL_IO_FILE_HEADER_OFF_H
 #include <CGAL/IO/File_header_OFF.h>
-#endif // CGAL_IO_FILE_HEADER_OFF_H
-#ifndef CGAL_PROTECT_IOSTREAM
 #include <iostream>
-#define CGAL_PROTECT_IOSTREAM
-#endif
 
 #include <CGAL/Point_3.h>
 #include <CGAL/Vector_3.h>
@@ -389,7 +376,7 @@ public:
 
     void skip_to_next_vertex( int current_vertex);
 
-    void scan_facet( Integer32& size, int current_facet) {
+    void scan_facet( Integer32& size, int CGAL_assertion_code(current_facet)) {
         CGAL_assertion( current_facet < size_of_facets());
         if ( binary())
             I_Binary_read_big_endian_integer32( m_in, size);
@@ -464,5 +451,6 @@ file_scan_normal( File_scanner_OFF& scanner, Vector& v) {
 }
 
 CGAL_END_NAMESPACE
+
 #endif // CGAL_IO_FILE_SCANNER_OFF_H //
 // EOF //

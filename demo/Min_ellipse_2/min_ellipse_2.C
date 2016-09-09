@@ -11,11 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/demo/Min_ellipse_2/min_ellipse_2.C,v $
-// $Revision: 1.4.4.1 $ $Date: 2004/12/19 15:38:06 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Min_ellipse_2/demo/Min_ellipse_2/min_ellipse_2.C $
+// $Id: min_ellipse_2.C 29617 2006-03-19 22:43:06Z spion $
+// 
 //
 // Author(s)     : Radu Ursu
+
+#include <CGAL/basic.h>
 
 // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
@@ -38,7 +40,6 @@ int main(int, char*)
 #include <set>
 #include <string>
 
-#include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/Min_ellipse_2.h>
 #include <CGAL/Min_ellipse_2_traits_2.h>

@@ -1,4 +1,4 @@
-# Created by the script create_makefile
+# Created by the script cgal_create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -58,7 +58,7 @@ apollonius_graph_2$(EXE_EXT): apollonius_graph_2$(OBJ_EXT)
 	apollonius_graph_2$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   apollonius_graph_2.clean ; rm -f *.moc
+                   apollonius_graph_2.clean ; rm -fr *.moc *.app
 
 #---------------------------------------------------------------------#
 #                    suffix rules

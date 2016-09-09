@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_skip_list/include/CGAL/Interval_skip_list.h,v $
-// $Revision: 1.18 $ $Date: 2004/05/27 10:36:00 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_skip_list/include/CGAL/Interval_skip_list.h $
+// $Id: Interval_skip_list.h 30908 2006-05-02 13:33:25Z afabri $
+// 
 //
 // Author(s)     : Andreas Fabri
 
@@ -215,6 +215,11 @@ class Interval_for_container : public Interval_
     template <class InputIterator>
     Interval_skip_list(InputIterator b, InputIterator e)
     {
+      maxLevel = 0;
+      header = new IntervalSLnode<Interval>(MAX_FORWARD);
+      for (int i = 0; i< MAX_FORWARD; i++) {
+	header->forward[i] = 0;
+      }
       for(; b!= e; ++b){
 	insert(*b);
       }
@@ -555,6 +560,9 @@ class Interval_for_container : public Interval_
       header = next;
     }
     header = new IntervalSLnode<Interval>(MAX_FORWARD);
+    for (int i = 0; i< MAX_FORWARD; i++) {
+      header->forward[i] = 0;
+    }
     maxLevel = 0;
 
   }

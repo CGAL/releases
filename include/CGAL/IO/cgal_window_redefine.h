@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/window/include/CGAL/IO/cgal_window_redefine.h,v $
-// $Revision: 1.4 $ $Date: 2003/10/21 12:25:46 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/window/include/CGAL/IO/cgal_window_redefine.h $
+// $Id: cgal_window_redefine.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Matthias Baesken
 

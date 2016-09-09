@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/demo/Alpha_shapes_2/alpha_shapes_2.C,v $
-// $Revision: 1.9.4.1 $ $Date: 2004/12/18 16:54:01 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Alpha_shapes_2/demo/Alpha_shapes_2/alpha_shapes_2.C $
+// $Id: alpha_shapes_2.C 30945 2006-05-02 19:38:01Z afabri $
+// 
 //
 // Author(s)     : Radu Ursu
 
+#include <CGAL/basic.h>
 
 // if QT is not installed, a message will be issued in runtime.
 #ifndef CGAL_USE_QT
@@ -68,8 +69,7 @@ int main(int, char*)
 #include <qtoolbutton.h>
 #include <qtoolbar.h>
 
-const QString my_title_string(" Alpha_shapes_2 Demo with"
-			      " CGAL Qt_widget");
+const QString my_title_string(" 2D Alpha Shapes Demo");
 
 //Global variables
 Delaunay          tr1;
@@ -176,7 +176,7 @@ public:
   //the new drawing layers toolbar
   vtoolbar = new Layers_toolbar(widget, this, &tr1, &A, &image);
 
-  *widget << CGAL::LineWidth(2) << CGAL::BackgroundColor (CGAL::BLACK);
+  *widget << CGAL::LineWidth(2) << CGAL::BackgroundColor (CGAL::WHITE);
 
   resize(w,h);
   widget->set_window(-1, 1, -1, 1);

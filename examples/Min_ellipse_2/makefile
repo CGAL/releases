@@ -1,4 +1,4 @@
-# Created by the script create_makefile
+# Created by the script cgal_create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -34,13 +34,18 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                example_Min_ellipse_2$(EXE_EXT) 
+                example_Min_ellipse_2_noheader$(EXE_EXT) \
+                min_ellipse_2$(EXE_EXT) 
 
-example_Min_ellipse_2$(EXE_EXT): example_Min_ellipse_2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_Min_ellipse_2 example_Min_ellipse_2$(OBJ_EXT) $(LDFLAGS)
+example_Min_ellipse_2_noheader$(EXE_EXT): example_Min_ellipse_2_noheader$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_Min_ellipse_2_noheader example_Min_ellipse_2_noheader$(OBJ_EXT) $(LDFLAGS)
+
+min_ellipse_2$(EXE_EXT): min_ellipse_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)min_ellipse_2 min_ellipse_2$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   example_Min_ellipse_2.clean 
+                   example_Min_ellipse_2_noheader.clean \
+                   min_ellipse_2.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

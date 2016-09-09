@@ -11,20 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_3/include/CGAL/Nef_3/SNC_decorator_traits.h,v $
-// $Revision: 1.5.4.1 $ $Date: 2004/12/06 15:22:18 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/SNC_decorator_traits.h $
+// $Id: SNC_decorator_traits.h 29327 2006-03-09 22:49:45Z hachenb $
+// 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
 
-#ifndef SNC_DECORATOR_TRAITS_H
-#define SNC_DECORATOR_TRAITS_H
+#ifndef CGAL_NEF3_SNC_DECORATOR_TRAITS_H
+#define CGAL_NEF3_SNC_DECORATOR_TRAITS_H
 
 #include <CGAL/Nef_S2/SM_decorator_traits.h>
-#include <CGAL/Nef_S2/SM_decorator.h>
-
-template <typename S> class SM_decorator;
-template <typename S> class SM_const_decorator;
 
 template <class Refs_>
 class SNC_decorator_traits : public SM_decorator_traits<Refs_> {
@@ -41,6 +37,9 @@ class SNC_decorator_traits : public SM_decorator_traits<Refs_> {
   typedef typename Refs::SHalfedge_handle SHalfedge_handle;
   typedef typename Refs::SHalfloop_handle SHalfloop_handle;
   typedef typename Refs::SFace_handle SFace_handle;
+
+  typedef typename Refs::Halffacet_triangle_handle 
+    Halffacet_triangle_handle;
 
   typedef typename Refs::Vertex_iterator Vertex_iterator;
   typedef typename Refs::Halfedge_iterator Halfedge_iterator;
@@ -78,6 +77,9 @@ class SNC_decorator_const_traits {
   typedef typename Refs::SHalfloop_const_handle SHalfloop_handle;
   typedef typename Refs::SFace_const_handle SFace_handle;
 
+  typedef typename Refs::Halffacet_triangle_const_handle 
+    Halffacet_triangle_handle;
+
   typedef typename Refs::Vertex_const_iterator Vertex_iterator;
   typedef typename Refs::Halfedge_const_iterator Halfedge_iterator;
   typedef typename Refs::Halffacet_const_iterator Halffacet_iterator; 
@@ -98,4 +100,4 @@ class SNC_decorator_const_traits {
   typedef typename Refs::Shell_entry_const_iterator Shell_entry_iterator;
 };
 
-#endif // SNC_DECORATOR_TRAITS_H
+#endif // CGAL_NEF3_SNC_DECORATOR_TRAITS_H

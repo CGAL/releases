@@ -15,15 +15,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/assertions.h,v $
-// $Revision: 1.7 $ $Date: 2004/09/05 12:24:51 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/assertions.h $
+// $Id: assertions.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman and Sven Schoenherr
 
-#ifndef CGAL_CONFIG_H
 #include <CGAL/config.h>
-#endif // CGAL_CONFIG_H
 
 #ifndef CGAL_ASSERTIONS_H
 #define CGAL_ASSERTIONS_H
@@ -317,4 +315,3 @@ set_warning_behaviour(Failure_behaviour eb);
 CGAL_END_NAMESPACE
 
 #endif // CGAL_ASSERTIONS_H
-

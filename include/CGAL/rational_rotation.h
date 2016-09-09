@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/rational_rotation.h,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:18:27 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/rational_rotation.h $
+// $Id: rational_rotation.h 30667 2006-04-19 16:56:12Z glisse $
+// 
 //
 // Author(s)     : Stefan Schirra
  
@@ -135,7 +135,7 @@ rational_rotation_approximation( const NT &  dirx,     // dir.x()
   dx = dirx;
   dy = diry;
 
-  if (dy > dx ) { std::swap (sin,cos); }
+  if (CGAL_NTS abs(dy) > CGAL_NTS abs(dx) ) { std::swap (sin,cos); }
 
   if (dx < NT0) { cos = - cos; }
 
@@ -166,8 +166,8 @@ rational_rotation_approximation( const double& angle,
   NT& isin = sin_num;
   NT& icos = cos_num;
   NT& iden = denom;
-  double dsin = sin(angle);
-  double dcos = cos(angle);
+  double dsin = std::sin(angle);
+  double dcos = std::cos(angle);
   double dn = CGAL::to_double(n);
   double dd = CGAL::to_double(d);
   double eps = dn / dd;
@@ -253,8 +253,8 @@ rational_rotation_approximation( const double& angle,
 
   if ( swapped ) { std::swap (isin,icos); }
 
-  dsin = sin( angle);
-  dcos = cos( angle);
+  dsin = std::sin( angle);
+  dcos = std::cos( angle);
   if (dcos < 0.0) { icos = - icos; }
   if (dsin < 0.0) { isin = - isin; }
 

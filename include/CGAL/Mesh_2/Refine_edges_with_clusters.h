@@ -1,4 +1,4 @@
-// Copyright (c) 2004  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2004-2005  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Mesh_2/include/CGAL/Mesh_2/Refine_edges_with_clusters.h,v $
-// $Revision: 1.14.2.1 $ $Date: 2004/12/20 18:07:12 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges_with_clusters.h $
+// $Id: Refine_edges_with_clusters.h 30303 2006-04-13 16:07:19Z lrineau $
+// 
 //
 // Author(s)     : Laurent RINEAU
 
@@ -73,6 +73,8 @@ class Refine_edges_base_with_clusters :
   Cluster ca, cb;
   clusters_iterator ca_it, cb_it;
 
+  using Super::triangulation_ref_impl;
+
 public:
   /** \name CONSTRUCTORS */
 
@@ -82,17 +84,17 @@ public:
   }
 
 
-  /*\name FUNCTIONS NEEDED BY \c Mesher_level OVERIDDEN BY THIS CLASS. */
+  /** \name FUNCTIONS NEEDED BY Mesher_level OVERIDDEN BY THIS CLASS. */
 
-  Point get_refinement_point(const Edge& edge)
+  Point refinement_point_impl(const Edge& edge)
   {
     typename Geom_traits::Construct_midpoint_2
-      midpoint = this->tr.geom_traits().construct_midpoint_2_object();
+      midpoint = this->triangulation_ref_impl().geom_traits().construct_midpoint_2_object();
 
     this->va = edge.first->vertex(Tr::cw (edge.second));
     this->vb = edge.first->vertex(Tr::ccw(edge.second));
 
-//     std::cerr << "get_refinement_point\n" << this->va->point() << " / "
+//     std::cerr << "refinement_point_impl\n" << this->va->point() << " / "
 //               << this->vb->point() << std::endl;
 
     va_has_a_cluster = false;
@@ -124,50 +126,51 @@ public:
     }
   };
 
-  void do_after_insertion(const Vertex_handle& v)
+  void after_insertion_impl(const Vertex_handle& v)
   {
-#ifdef DEBUG    
+#ifdef CGAL_MESH_2_DEBUG_CLUSTERS    
     std::cerr << "update_clusters" << std::endl;
     std::cerr << "va_has_a_cluster=" << va_has_a_cluster
               << std::endl
               << "vb_has_a_cluster=" << vb_has_a_cluster
               << std::endl;
     std::cerr << "clusters.size()=" << clusters.size() << std::endl;
-#endif // DEBUG
-    Super::do_after_insertion(v);
+#endif // CGAL_MESH_2_DEBUG_CLUSTERS
+    Super::after_insertion_impl(v);
     if( va_has_a_cluster ) 
       clusters.update_cluster(ca,ca_it,this->va,this->vb,v,cluster_splitted);
     if( vb_has_a_cluster )
       clusters.update_cluster(cb,cb_it,this->vb,this->va,v,cluster_splitted);
-#ifdef DEBUG
+#ifdef CGAL_MESH_2_DEBUG_CLUSTERS
     std::cerr << "clusters.size() after update_cluster=" 
 	      << clusters.size() << std::endl;
-#endif // DEBUG
+#endif // CGAL_MESH_2_DEBUG_CLUSTERS
   }
 
   /**
    * Test if the edges of the boundary are locally conforming.
    * Push which that are not in the list of edges to be conformed.
    */
-  std::pair<bool, bool>
-  do_test_point_conflict_from_superior(const Point& p,
-                                       Zone& z)
+  Mesher_level_conflict_status
+  test_point_conflict_from_superior_impl(const Point& p,
+					 Zone& z)
   {
-    bool split_the_face = true;
-    bool remove_the_bad_face = true;
+    Mesher_level_conflict_status status = NO_CONFLICT;
 
-   for(typename Zone::Edges_iterator eit = z.boundary_edges.begin();
+    Tr& tr = triangulation_ref_impl();
+
+    for(typename Zone::Edges_iterator eit = z.boundary_edges.begin();
         eit != z.boundary_edges.end(); ++eit)
       {
         const Face_handle& fh = eit->first;
         const int& i = eit->second;
 
-        if(fh->is_constrained(i) && !is_locally_conform(this->tr, fh, i, p))
+        if(fh->is_constrained(i) && !is_locally_conform(tr, fh, i, p))
           {
-	    const Vertex_handle& v1 = fh->vertex( this->tr.cw (i));
-	    const Vertex_handle& v2 = fh->vertex( this->tr.ccw(i));
+	    const Vertex_handle& v1 = fh->vertex( tr.cw (i));
+	    const Vertex_handle& v2 = fh->vertex( tr.ccw(i));
 
-            split_the_face = false;
+	    status = CONFLICT_BUT_ELEMENT_CAN_BE_RECONSIDERED;
 
             bool v1_has_a_cluster = clusters.get_cluster(v1,v2,ca,ca_it);
             bool v2_has_a_cluster = clusters.get_cluster(v2,v1,cb,cb_it);
@@ -177,7 +180,7 @@ public:
             {
               // two clusters or no cluster
               add_constrained_edge_to_be_conformed(v1, v2);
-              remove_the_bad_face = false;
+	      //	      status = CONF//CONFLICT_AND_ELEMENT_SHOULD_BE_DROPPED;
             }
           else
             {
@@ -194,16 +197,15 @@ public:
 
               if( this->imperatively || !ca.is_reduced() ||
                   ca.rmin >= shortest_edge_squared_length(fh) )
-                {
-                  add_constrained_edge_to_be_conformed(v1,v2);
-                  remove_the_bad_face = false;
-                }
+		add_constrained_edge_to_be_conformed(v1,v2);
+	      else
+		status = CONFLICT_AND_ELEMENT_SHOULD_BE_DROPPED;
             }
           }
       }; // after here edges encroached by p are in the list of edges to
          // be conformed.
 
-    return std::make_pair(split_the_face, remove_the_bad_face);
+    return status;
   }
 
 private:

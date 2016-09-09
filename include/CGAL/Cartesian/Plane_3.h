@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h,v $
-// $Revision: 1.48 $ $Date: 2004/03/08 08:16:05 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h $
+// $Id: Plane_3.h 29078 2006-03-06 13:08:09Z spion $
+// 
 //
 // Author(s)     : Andreas Fabri
 
@@ -25,6 +25,7 @@
 #define CGAL_CARTESIAN_PLANE_3_H
 
 #include <CGAL/Fourtuple.h>
+#include <CGAL/Handle_for.h>
 
 CGAL_BEGIN_NAMESPACE
 

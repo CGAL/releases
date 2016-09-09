@@ -1,5 +1,21 @@
-// file          : demo/Triangulation3/demo_remove.C
-// author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
+// Copyright (c) 2001, 2002, 2003, 2004, 2005  INRIA Sophia-Antipolis (France).
+// All rights reserved.
+//
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/demo/Triangulation_3/demo_remove.C $
+// $Id: demo_remove.C 28567 2006-02-16 14:30:13Z lsaboret $
+// 
+//
+// Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
 #include <CGAL/basic.h>
 
@@ -26,7 +42,7 @@ int main()
 #include <algorithm>
 #include <cassert>
 
-struct K : CGAL::Exact_predicates_inexact_constructions_kernel {};
+typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 
 typedef CGAL::Triangulation_vertex_base_3<K>             Vb;
 typedef CGAL::Triangulation_hierarchy_vertex_base_3<Vb>  Vbh;

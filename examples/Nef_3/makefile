@@ -1,4 +1,4 @@
-# Created by the script create_makefile
+# Created by the script cgal_create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -35,6 +35,7 @@ LDFLAGS = \
 
 all:            \
                 comparison$(EXE_EXT) \
+                complex_construction$(EXE_EXT) \
                 construction$(EXE_EXT) \
                 exploration_SM$(EXE_EXT) \
                 extended_kernel$(EXE_EXT) \
@@ -43,6 +44,8 @@ all:            \
                 offIO$(EXE_EXT) \
                 point_location$(EXE_EXT) \
                 point_set_operations$(EXE_EXT) \
+                polygon_construction$(EXE_EXT) \
+                polyline_construction$(EXE_EXT) \
                 set_operations$(EXE_EXT) \
                 shell_exploration$(EXE_EXT) \
                 simple$(EXE_EXT) \
@@ -51,6 +54,9 @@ all:            \
 
 comparison$(EXE_EXT): comparison$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)comparison comparison$(OBJ_EXT) $(LDFLAGS)
+
+complex_construction$(EXE_EXT): complex_construction$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)complex_construction complex_construction$(OBJ_EXT) $(LDFLAGS)
 
 construction$(EXE_EXT): construction$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)construction construction$(OBJ_EXT) $(LDFLAGS)
@@ -76,6 +82,12 @@ point_location$(EXE_EXT): point_location$(OBJ_EXT)
 point_set_operations$(EXE_EXT): point_set_operations$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)point_set_operations point_set_operations$(OBJ_EXT) $(LDFLAGS)
 
+polygon_construction$(EXE_EXT): polygon_construction$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polygon_construction polygon_construction$(OBJ_EXT) $(LDFLAGS)
+
+polyline_construction$(EXE_EXT): polyline_construction$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyline_construction polyline_construction$(OBJ_EXT) $(LDFLAGS)
+
 set_operations$(EXE_EXT): set_operations$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)set_operations set_operations$(OBJ_EXT) $(LDFLAGS)
 
@@ -93,6 +105,7 @@ transformation$(EXE_EXT): transformation$(OBJ_EXT)
 
 clean: \
                    comparison.clean \
+                   complex_construction.clean \
                    construction.clean \
                    exploration_SM.clean \
                    extended_kernel.clean \
@@ -101,6 +114,8 @@ clean: \
                    offIO.clean \
                    point_location.clean \
                    point_set_operations.clean \
+                   polygon_construction.clean \
+                   polyline_construction.clean \
                    set_operations.clean \
                    shell_exploration.clean \
                    simple.clean \

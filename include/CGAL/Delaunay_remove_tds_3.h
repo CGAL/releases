@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Delaunay_remove_tds_3.h,v $
-// $Revision: 1.32 $ $Date: 2004/02/28 21:02:57 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/Delaunay_remove_tds_3.h $
+// $Id: Delaunay_remove_tds_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     :  Andreas Fabri <Andreas.Fabri@sophia.inria.fr>
 //                  Monique Teillaud <Monique.Teillaud@sophia.inria.fr>

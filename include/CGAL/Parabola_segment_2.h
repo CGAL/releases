@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h,v $
-// $Revision: 1.17 $ $Date: 2004/09/03 17:26:27 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
+// $Id: Parabola_segment_2.h 30902 2006-05-02 11:28:46Z mkaravel $
+// 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -59,82 +59,81 @@ public:
     this->p2 = p2;
   }
 
+  int compute_k(const FT& tt) const {
+    //    return int(CGAL::to_double(CGAL::sqrt(tt / this->STEP())));
+    return int(CGAL::sqrt(CGAL::to_double(tt) / CGAL::to_double(this->STEP())));
+  }
+
   void generate_points(std::vector<Point_2>& p) const
   {
-    FT s[2];
+    FT s0, s1;
 
-    s[0] = t(p1);
-    s[1] = t(p2);
+    s0 = t(p1);
+    s1 = t(p2);
 
-    if (CGAL::compare(s[0], s[1]) == LARGER) {
-#if defined(__GNUC__) && (__GNUC__ < 3)
-      FT tmp = s[0];
-      s[0] = s[1];
-      s[1] = tmp;
-#else
-      std::swap< FT >(s[0], s[1]);
-#endif
+    if (CGAL::compare(s0, s1) == LARGER) {
+      std::swap(s0, s1);
     }
 
     p.clear();
 
-    if ( !(CGAL::is_positive(s[0])) &&
-	 !(CGAL::is_negative(s[1])) ) {
+    if ( !(CGAL::is_positive(s0)) &&
+	 !(CGAL::is_negative(s1)) ) {
       FT tt;
       int k;
 
       p.push_back( this->o );
-      k = 1;
+      k = -1;
       tt = -this->STEP();
-      while ( CGAL::compare(tt, s[0]) == LARGER ) {
+      while ( CGAL::compare(tt, s0) == LARGER ) {
 	p.insert( p.begin(), f(tt) );
 	k--;
 	tt = -FT(k * k) * this->STEP();
       }
-      p.insert( p.begin(), f(s[0]) );
+      p.insert( p.begin(), f(s0) );
 
       k = 1;
       tt = this->STEP();
-      while ( CGAL::compare(tt, s[1]) == SMALLER ) {
+      while ( CGAL::compare(tt, s1) == SMALLER ) {
 	p.push_back( f(tt) );
 	k++;
 	tt = FT(k * k) * this->STEP();
       }
-      p.push_back( f(s[1]) );
-    } else if ( !(CGAL::is_negative(s[0])) &&
-		!(CGAL::is_negative(s[1])) ) {
+      p.push_back( f(s1) );
+    } else if ( !(CGAL::is_negative(s0)) &&
+		!(CGAL::is_negative(s1)) ) {
       FT tt;
       int k;
 
 
-      p.push_back( f(s[0]) );
+      p.push_back( f(s0) );
 
-      tt = s[0];
-      k = int(CGAL::to_double(CGAL::sqrt(tt / this->STEP())));
+      tt = s0;
+      k = compute_k(tt);
 
-      while ( CGAL::compare(tt, s[1]) == SMALLER ) {
-	if ( CGAL::compare(tt, s[0]) != SMALLER )
+      while ( CGAL::compare(tt, s1) == SMALLER ) {
+	if ( CGAL::compare(tt, s0) != SMALLER )
 	  p.push_back( f(tt) );
 	k++;
 	tt = FT(k * k) * this->STEP();
       }
-      p.push_back( f(s[1]) );
+      p.push_back( f(s1) );
     } else {
       FT tt;
       int k;
 
-      p.push_back( f(s[1]) );
+      p.push_back( f(s1) );
 
-      tt = s[1];
-      k = int(CGAL::to_double(-CGAL::sqrt(-tt / this->STEP())));
+      tt = s1;
+      k = -compute_k(-tt);
 
-      while ( CGAL::compare(tt, s[0]) == LARGER ) {
-	if ( CGAL::compare(tt, s[1]) != LARGER )
+      while ( CGAL::compare(tt, s0) == LARGER ) {
+	if ( CGAL::compare(tt, s1) != LARGER )
 	  p.push_back( f(tt) );
 	k--;
 	tt = -FT(k * k) * this->STEP();
       }
-      p.push_back( f(s[0]) );
+      p.push_back( f(s0) );
     }
   }
 

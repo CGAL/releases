@@ -15,12 +15,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/window/demo/Window_stream/window_input.C,v $
-// $Revision: 1.4.6.1 $ $Date: 2004/12/18 17:22:47 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/window/demo/Window_stream/window_input.C $
+// $Id: window_input.C 29807 2006-03-29 14:31:13Z fcacciola $
+// 
 //
 // Author(s)     : Stefan Schirra
 
+
+#include <CGAL/basic.h>
  
 #ifndef CGAL_USE_LEDA
 #include <iostream>

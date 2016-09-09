@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/vector.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:23:43 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/vector.h $
+// $Id: vector.h 28771 2006-02-25 00:14:28Z glisse $
+// 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@sophia.inria.fr>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
@@ -154,25 +154,8 @@ public:
                                                      const_iterator;
     typedef vector< T, Alloc>                        Self;
 
-#if defined(__sun) && defined(__SUNPRO_CC)
-    typedef std::reverse_iterator< iterator,
-                                   typename iterator::iterator_category,
-                                   typename iterator::value_type,
-                                   typename iterator::reference,
-                                   typename iterator::pointer,
-                                   typename iterator::difference_type
-                                   > reverse_iterator;
-    typedef std::reverse_iterator< const_iterator,
-                                   typename const_iterator::iterator_category,
-                                   typename const_iterator::value_type,
-                                   typename const_iterator::reference,
-                                   typename const_iterator::pointer,
-                                   typename const_iterator::difference_type
-                                   > const_reverse_iterator;
-#else
-    typedef std::reverse_iterator< iterator >       reverse_iterator;
-    typedef std::reverse_iterator< const_iterator > const_reverse_iterator;
-#endif // defined(__sun) && defined(__SUNPRO_CC)
+    typedef CGAL_reverse_iterator(iterator)          reverse_iterator;
+    typedef CGAL_reverse_iterator(const_iterator)    const_reverse_iterator;
 
 protected:
 #ifndef _MSC_VER

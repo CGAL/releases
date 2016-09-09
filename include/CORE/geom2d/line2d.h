@@ -15,7 +15,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: line2d.h,v 1.3 2004/11/14 12:00:14 efi Exp $
+ * $Id: line2d.h 29485 2006-03-14 11:52:49Z efif $
  *****************************************************************/
 
 #ifndef _LINE2D_H_
@@ -53,6 +53,8 @@ public:
 
 //  Line2d(const point& p, double alpha);
   //line passes through point p with direction alpha
+
+  Line2d(const double& a, const double& b, const double& c);
 
   Line2d(const Line2d &);
 

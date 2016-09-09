@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h,v $
-// $Revision: 1.50 $ $Date: 2004/07/24 14:03:10 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
+// $Id: Alpha_shape_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Tran Kai Frank DA
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -1299,15 +1299,15 @@ Alpha_shape_2<Dt>::traverse(const Face_handle& pFace,
   typedef typename Marked_face_set::Data Data;
   std::list<Face_handle> faces;
   faces.push_back(pFace);
-  Face_handle pNeighbor;
+  Face_handle pNeighbor, fh;
 
   while(! faces.empty()){
-    pFace = faces.back();
-    faces.pop_back();
-    for (int i=0; i<=3; i++)
+    fh = faces.front();
+    faces.pop_front();
+    for (int i=0; i<3; i++)
       {
-	pNeighbor = pFace->neighbor(i);
-	assert(pNeighbor != NULL);
+	pNeighbor = fh->neighbor(i);
+	 CGAL_triangulation_assertion(pNeighbor != NULL);
 	if (classify(pNeighbor, alpha) == INTERIOR){
 	  Data& data = marked_face_set[pNeighbor];
 	  if(data == false){

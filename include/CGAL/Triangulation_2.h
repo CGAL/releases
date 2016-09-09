@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_2.h,v $
-// $Revision: 1.131 $ $Date: 2004/08/24 09:08:59 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Triangulation_2.h $
+// $Id: Triangulation_2.h 29760 2006-03-25 11:16:13Z spion $
+// 
 //
 // Author(s)     : Olivier Devillers, Mariette Yvinec
 
@@ -334,6 +334,11 @@ public:
   Edge_circulator incident_edges(Vertex_handle v,
 				 Face_handle f = Face_handle()) const;
  
+  size_type degree(Vertex_handle v) const;
+
+  Vertex_handle mirror_vertex(Face_handle f, int i) const;
+  int mirror_index(Face_handle v, int i) const;
+
   Line_face_circulator    line_walk(const Point& p,
 				    const Point& q,
 				    Face_handle f = Face_handle()) const;
@@ -640,7 +645,7 @@ is_valid(bool verbose, int level) const
     // which does not know the number of components nor the genus
     result = result && (number_of_faces() == 2*(number_of_vertices()+1)
 			                    - 4 
-                                            - infinite_vertex()->degree());
+                                            - degree(infinite_vertex()));
     CGAL_triangulation_assertion( result);
   }
   return result;
@@ -856,10 +861,10 @@ flip(Face_handle f, int i)
   CGAL_triangulation_precondition( 
                   orientation(f->vertex(i)->point(),
 			      f->vertex(cw(i))->point(),
-			      f->mirror_vertex(i)->point()) == RIGHT_TURN &&
+			      mirror_vertex(f,i)->point()) == RIGHT_TURN &&
                   orientation(f->vertex(i)->point(),
 			      f->vertex(ccw(i))->point(),
-			      f->mirror_vertex(i)->point()) ==  LEFT_TURN); 
+			      mirror_vertex(f,i)->point()) ==  LEFT_TURN); 
   _tds.flip(f, i);
   return;
 }
@@ -933,11 +938,11 @@ insert_outside_convex_hull_1(const Point& p, Face_handle f)
   CGAL_triangulation_precondition( is_infinite(f) && dimension()==1);
   CGAL_triangulation_precondition(  
     orientation(
-	     f->mirror_vertex(f->index(infinite_vertex()))->point(),
+	     mirror_vertex(f,f->index(infinite_vertex()))->point(),
 	     f->vertex(1- f->index(infinite_vertex()))->point(),
 	     p) == COLLINEAR &&
     collinear_between( 
-	     f->mirror_vertex(f->index(infinite_vertex()))->point(),
+	     mirror_vertex(f,f->index(infinite_vertex()))->point(),
 	     f->vertex(1- f->index(infinite_vertex()))->point(),
 	     p) );
    Vertex_handle v=_tds.insert_in_edge(f, 2);
@@ -1141,7 +1146,7 @@ test_dim_down(Vertex_handle v)
   //upon removing of vertex v
   //it goes down to 1 iff
   // 1) any finite face is incident to v
-  // 2) all vertices are colinear
+  // 2) all vertices are collinear
   CGAL_triangulation_precondition(dimension() == 2);
   bool  dim1 = true; 
   Finite_faces_iterator fit = finite_faces_begin();
@@ -1398,14 +1403,12 @@ fill_hole_delaunay(std::list<Edge> & first_hole)
       ii =(hole.front()).second;
       hole.pop_front();
     
-      Vertex_handle v0 = ff->vertex(ff->cw(ii)); 
-      Vertex_handle v1 = ff->vertex(ff->ccw(ii)); 
+      Vertex_handle v0 = ff->vertex(cw(ii)); 
+      Vertex_handle v1 = ff->vertex(ccw(ii)); 
       Vertex_handle v2 = infinite_vertex(); 
+      Vertex_handle v3; 
       const Point& p0 = v0->point();
       const Point& p1 = v1->point();
-      Point p2;
-      Point p;
-      Vertex_handle vv; 
   
       typename Hole::iterator hdone = hole.end();
       hit =  hole.begin();
@@ -1418,17 +1421,17 @@ fill_hole_delaunay(std::list<Edge> & first_hole)
       while( hit != hdone) {
 	fn = (*hit).first;
 	in = (*hit).second;
-	vv = fn->vertex(ccw(in));
+        Vertex_handle vv = fn->vertex(ccw(in));
 	if (is_infinite(vv)) {
 	  if(is_infinite(v2)) cut_after = hit;
 	}
 	else {     // vv is a finite vertex
-	  p = vv->point();
+	  const Point & p = vv->point();
 	  if (orientation(p0,p1,p) == COUNTERCLOCKWISE) {
-	    if(is_infinite(v2)) { v2=vv; p2=p; cut_after=hit;}
+	    if (is_infinite(v2)) { v2=vv; v3=vv; cut_after=hit;}
 	    else{
-	      if( in_circle(p0,p1,p2,p) ==  ON_POSITIVE_SIDE){
-		v2=vv; p2=p; cut_after=hit;}
+	      if (in_circle(p0,p1,v3->point(),p) ==  ON_POSITIVE_SIDE){
+		v2=vv; v3=vv; cut_after=hit;}
 	    }
 	  }
 	}
@@ -1436,7 +1439,7 @@ fill_hole_delaunay(std::list<Edge> & first_hole)
       }
  
       // create new triangle and update adjacency relations
-       Face_handle newf;
+      Face_handle newf;
     
       //update the hole and push back in the Hole_List stack
       // if v2 belongs to the neighbor following or preceding *f
@@ -1688,7 +1691,7 @@ march_locate_2D_LFC(Face_handle start,
   if(lfc==0 || lfc.collinear_outside()){
     // point t lies outside or on the convex hull
     // we walk on the convex hull to find it out
-    Face_circulator fc = infinite_vertex()->incident_faces();
+    Face_circulator fc = incident_faces(infinite_vertex());
     Face_circulator done(fc);
     int ic = fc->index(infinite_vertex());
     if (xy_equal(t,fc->vertex(cw(ic))->point())){
@@ -2274,6 +2277,33 @@ Triangulation_2<Gt, Tds>::
 incident_edges(Vertex_handle v, Face_handle f) const
 {
   return _tds.incident_edges(v,f);
+}
+
+template <class Gt, class Tds >
+inline
+typename Triangulation_2<Gt, Tds>::size_type
+Triangulation_2<Gt, Tds>::    
+degree(Vertex_handle v) const
+{
+  return _tds.degree(v);
+}
+
+template <class Gt, class Tds >
+inline
+typename Triangulation_2<Gt, Tds>::Vertex_handle
+Triangulation_2<Gt, Tds>::    
+mirror_vertex(Face_handle f, int i) const
+{
+  return _tds.mirror_vertex(f,i);
+}
+
+template <class Gt, class Tds >
+inline
+int
+Triangulation_2<Gt, Tds>::    
+mirror_index(Face_handle f, int i) const
+{
+  return _tds.mirror_index(f,i);
 }
 
 template <class Gt, class Tds >

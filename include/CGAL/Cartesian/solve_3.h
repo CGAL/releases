@@ -15,16 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/solve_3.h,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:14:36 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/solve_3.h $
+// $Id: solve_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Andreas Fabri
 
 #ifndef CGAL_CARTESIAN_CARTESIAN_SOLVE_3_H
 #define CGAL_CARTESIAN_CARTESIAN_SOLVE_3_H
 
-#include <CGAL/solve.h>
+#include <CGAL/Kernel/solve.h>
 #include <CGAL/Cartesian/Vector_3.h>
 
 CGAL_BEGIN_NAMESPACE

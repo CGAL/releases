@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/predicates/predicates_on_weighted_points_cartesian_3.h,v $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/predicates/predicates_on_weighted_points_cartesian_3.h $
 
-// $Revision: 1.5 $ $Date: 2004/03/04 16:28:38 $
-// $Name:  $
+// $Id: predicates_on_weighted_points_cartesian_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 
@@ -41,7 +41,7 @@ compare_power_distanceC3(
  FT drx = rx - px;
  FT dry = ry - py;
  FT drz = rz - pz;
-   return Comparison_result(CGAL_NTS sign (
+   return Comparison_result((Sign) CGAL_NTS sign (
       (dqx*dqx + dqy*dqy + dqz*dqz - qw )
     - (drx*drx + dry*dry + drz*drz - rw ) ));
 }

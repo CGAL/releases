@@ -10,7 +10,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: geometry3d.h,v 1.4 2004/11/14 12:00:13 efi Exp $
+ * $Id: geometry3d.h 23263 2004-11-14 12:00:19Z efi $
  *****************************************************************/
 
 #ifndef CORE_GEOMETRY3D_H

@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Distance_2/include/CGAL/squared_distance_2_2.h,v $
-// $Revision: 1.11 $ $Date: 2004/02/01 12:47:47 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Distance_2/include/CGAL/squared_distance_2_2.h $
+// $Id: squared_distance_2_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -27,7 +27,7 @@
 
 #include <CGAL/user_classes.h>
 
-#include <CGAL/utils.h>
+#include <CGAL/kernel_assertions.h>
 #include <CGAL/Point_2.h>
 #include <CGAL/Segment_2.h>
 #include <CGAL/Line_2.h>

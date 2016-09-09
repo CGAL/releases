@@ -1,4 +1,3 @@
-
 // Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -16,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Ray_2_Ray_2_intersection.h,v $
-// $Revision: 1.14 $ $Date: 2004/05/20 13:54:41 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Ray_2_Ray_2_intersection.h $
+// $Id: Ray_2_Ray_2_intersection.h 31166 2006-05-17 16:30:56Z spion $
+// 
 //
 // Author(s)     : Geert-Jan Giezeman
 
@@ -29,7 +28,7 @@
 #include <CGAL/Ray_2.h>
 #include <CGAL/Segment_2.h>
 #include <CGAL/Point_2.h>
-#include <CGAL/utils.h>
+#include <CGAL/kernel_assertions.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/Line_2.h>
 #include <CGAL/Line_2_Line_2_intersection.h>
@@ -43,7 +42,7 @@ namespace CGALi {
 template <class K>
 class Ray_2_Ray_2_pair {
 public:
-    enum Intersection_results {NO, POINT, SEGMENT, RAY};
+    enum Intersection_results {NO_INTERSECTION, POINT, SEGMENT, RAY};
     Ray_2_Ray_2_pair() ;
     Ray_2_Ray_2_pair(typename K::Ray_2 const *ray1,
 		     typename K::Ray_2 const *ray2);
@@ -70,7 +69,7 @@ inline bool do_intersect(
 {
     typedef Ray_2_Ray_2_pair<K> pair_t;
     pair_t pair(&p1, &p2);
-    return pair.intersection_type() != pair_t::NO;
+    return pair.intersection_type() != pair_t::NO_INTERSECTION;
 }
 
 
@@ -101,19 +100,19 @@ Ray_2_Ray_2_pair<K>::intersection_type() const
     // The non const this pointer is used to cast away const.
     _known = true;
 //    if (!do_overlap(_ray1->bbox(), _ray2->bbox()))
-//        return NO;
+//        return NO_INTERSECTION;
     const typename K::Line_2 &l1 = _ray1->supporting_line();
     const typename K::Line_2 &l2 = _ray2->supporting_line();
     Line_2_Line_2_pair<K> linepair(&l1, &l2);
     switch ( linepair.intersection_type()) {
-    case Line_2_Line_2_pair<K>::NO:
-        _result = NO;
+    case Line_2_Line_2_pair<K>::NO_INTERSECTION:
+        _result = NO_INTERSECTION;
         return _result;
     case Line_2_Line_2_pair<K>::POINT:
         linepair.intersection(_intersection_point);
         _result = (_ray1->collinear_has_on(_intersection_point)
                 && _ray2->collinear_has_on(_intersection_point) )
-            ? POINT :  NO;
+            ? POINT :  NO_INTERSECTION;
         return _result;
     case Line_2_Line_2_pair<K>::LINE:
         {
@@ -131,7 +130,7 @@ Ray_2_Ray_2_pair<K>::intersection_type() const
                     return _result;
                 } else {
                     if (_ray1->source().x() > _ray2->source().x()) {
-                        _result = NO;
+                        _result = NO_INTERSECTION;
                         return _result;
                     }
                     if (_ray1->source().x() == _ray2->source().x()) {
@@ -151,7 +150,7 @@ Ray_2_Ray_2_pair<K>::intersection_type() const
                     return _result;
                 } else {
                     if (_ray1->source().x() < _ray2->source().x()) {
-                        _result = NO;
+                        _result = NO_INTERSECTION;
                         return _result;
                     }
                     if (_ray1->source().x() == _ray2->source().x()) {
@@ -175,7 +174,7 @@ Ray_2_Ray_2_pair<K>::intersection_type() const
                     return _result;
                 } else {
                     if (_ray1->source().y() > _ray2->source().y()) {
-                        _result = NO;
+                        _result = NO_INTERSECTION;
                         return _result;
                     }
                     if (_ray1->source().y() == _ray2->source().y()) {
@@ -195,7 +194,7 @@ Ray_2_Ray_2_pair<K>::intersection_type() const
                     return _result;
                 } else {
                     if (_ray1->source().y() < _ray2->source().y()) {
-                        _result = NO;
+                        _result = NO_INTERSECTION;
                         return _result;
                     }
                     if (_ray1->source().y() == _ray2->source().y()) {
@@ -266,7 +265,7 @@ intersection(const typename CGAL_WRAP(K)::Ray_2 &ray1,
     typedef Ray_2_Ray_2_pair<K> is_t;
     is_t ispair(&ray1, &ray2);
     switch (ispair.intersection_type()) {
-    case is_t::NO:
+    case is_t::NO_INTERSECTION:
     default:
         return Object();
     case is_t::POINT: {

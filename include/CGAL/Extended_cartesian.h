@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Extended_cartesian.h,v $
-// $Revision: 1.26.4.1 $ $Date: 2004/12/08 20:04:30 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Extended_cartesian.h $
+// $Id: Extended_cartesian.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_EXTENDED_CARTESIAN_H
@@ -25,13 +25,20 @@
 #include <CGAL/Nef_2/Nef_polynomial.h>
 
 #undef CGAL_NEF_DEBUG
-#define CGAL_NEF_DEBUG 51
+#define CGAL_NEF_DEBUG 5
 #include <CGAL/Nef_2/debug.h>
 #include <CGAL/Nef_2/Line_to_epoint.h>
+#include <CGAL/Is_extended_kernel.h>
 
 CGAL_BEGIN_NAMESPACE
 
+
 template <class T> class Extended_cartesian;
+
+template<class T>
+struct Is_extended_kernel<Extended_cartesian<T> > {
+       typedef Tag_true value_type;
+};
 
 /*{\Xanpage {Extended_cartesian}{}{An extended geometric kernel model}{K}}*/
 

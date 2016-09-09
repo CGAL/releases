@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/In_place_list.h,v $
-// $Revision: 1.55 $ $Date: 2004/06/23 01:41:41 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/In_place_list.h $
+// $Id: In_place_list.h 28783 2006-02-25 23:25:27Z glisse $
+// 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>
@@ -25,6 +25,7 @@
 
 #ifndef CGAL_IN_PLACE_LIST_H
 #define CGAL_IN_PLACE_LIST_H 1
+
 #include <CGAL/basic.h>
 #include <cstddef>
 #include <iterator>
@@ -36,14 +37,10 @@
 
 CGAL_BEGIN_NAMESPACE
 
-// Define shorter names to please linker (g++/egcs)
-//#define In_place_list_iterator             Ipli
-//#define In_place_list_const_iterator       Iplci
-
 // Forward declarations
 namespace CGALi {
-  template <class T> class In_place_list_iterator;
-  template <class T> class In_place_list_const_iterator;
+  template <class T, class Alloc> class In_place_list_iterator;
+  template <class T, class Alloc> class In_place_list_const_iterator;
 }
 
 template <class T, bool managed, class Alloc = CGAL_ALLOCATOR(T)>
@@ -60,25 +57,23 @@ class In_place_list_base {
 public:
   T* next_link;        // forward pointer
   T* prev_link;        // backwards pointer
-  friend  class CGALi::In_place_list_iterator<T>;
-  friend  class CGALi::In_place_list_const_iterator<T>;
-  friend  class In_place_list<T,false>;
-  friend  class In_place_list<T,true>;
+  //friend  class CGALi::In_place_list_iterator<T, Alloc>;
+  //friend  class CGALi::In_place_list_const_iterator<T, Alloc>;
+  //friend  class In_place_list<T,false, Alloc>;
+  //friend  class In_place_list<T,true, Alloc>;
 };
 
 
 namespace CGALi {
-  template <class T>
+  template <class T, class Alloc>
   class In_place_list_iterator {
-    // protected:  // Made public for g++ 2.8 and egcs 2.90. They don't
-    // accept the friend declarations below.
-  public:
+  protected:
     T* node;
   public:
-    // friend  class In_place_list<T,false>;
-    // friend  class In_place_list<T,true>;
+    friend  class In_place_list<T,false, Alloc>;
+    friend  class In_place_list<T,true, Alloc>;
 
-    typedef In_place_list_iterator<T>  Self;
+    typedef In_place_list_iterator<T, Alloc>  Self;
     typedef In_place_list_base<T>      Base;
 
     typedef T               value_type;
@@ -90,12 +85,6 @@ namespace CGALi {
 
     In_place_list_iterator() : node(0) {}
     In_place_list_iterator(T* x) : node(x) {}
-
-#if defined(__GNUC__) && (__GNUC__ < 3)
-    // added by request of Michael Seel:
-    In_place_list_iterator(const Self& i) { node=i.node; }
-    Self& operator=(const Self& i) { node = i.node; return *this; }
-#endif
 
     bool  operator==( const Self& x) const { return node == x.node; }
     bool  operator!=( const Self& x) const { return node != x.node; }
@@ -123,18 +112,16 @@ namespace CGALi {
 }
 
 namespace CGALi {
-  template <class T>
+  template <class T, class Alloc>
   class In_place_list_const_iterator {
-    // protected:  // Made public for g++ 2.8 and egcs 2.90. They don't
-    // accept the friend declarations below.
-  public:
+  protected:
     const T* node;  // It's not Ptr. Otherwise traversal won't work.
   public:
-    // friend  class In_place_list<T,false>;
-    // friend  class In_place_list<T,true>;
+    friend  class In_place_list<T,false, Alloc>;
+    friend  class In_place_list<T,true, Alloc>;
 
-    typedef In_place_list_const_iterator<T> Self;
-    typedef In_place_list_iterator<T>       Iterator;
+    typedef In_place_list_const_iterator<T, Alloc> Self;
+    typedef In_place_list_iterator<T, Alloc>       Iterator;
     typedef In_place_list_base<T>           Base;
 
     typedef T               value_type;
@@ -147,12 +134,6 @@ namespace CGALi {
     In_place_list_const_iterator() : node(0) {}
     In_place_list_const_iterator( Iterator i) : node(&*i) {}
     In_place_list_const_iterator(const T* x) : node(x) {}
-
-#if defined(__GNUC__) && (__GNUC__ < 3)
-    // added by request of Michael Seel:
-    In_place_list_const_iterator(const Self& i) { node=i.node; }
-    Self& operator=(const Self& i) { node = i.node; return *this; }
-#endif
 
     bool     operator==( const Self& x) const { return node == x.node; }
     bool     operator!=( const Self& x) const { return node != x.node; }
@@ -231,11 +212,11 @@ public:
   typedef typename Allocator::size_type           size_type;
   typedef typename Allocator::difference_type     difference_type;
 
-  typedef CGALi::In_place_list_iterator<T>        iterator;
-  typedef CGALi::In_place_list_const_iterator<T>  const_iterator;
+  typedef CGALi::In_place_list_iterator<T, Alloc> iterator;
+  typedef CGALi::In_place_list_const_iterator<T, Alloc> const_iterator;
 
-  typedef std::reverse_iterator< iterator >       reverse_iterator;
-  typedef std::reverse_iterator< const_iterator > const_reverse_iterator;
+  typedef CGAL_reverse_iterator(iterator)         reverse_iterator;
+  typedef CGAL_reverse_iterator(const_iterator)   const_reverse_iterator;
 
   typedef In_place_list<T,managed,Alloc>          Self;
 
@@ -632,22 +613,22 @@ public:
 
 template <class T, bool managed, class Alloc>
 void In_place_list<T,managed,Alloc>::
-insert(CGALi::In_place_list_iterator<T> position, size_type n) {
+insert(CGALi::In_place_list_iterator<T, Alloc> position, size_type n) {
   while (n--)
     insert(position, *get_node());
 }
 
 template <class T, bool managed, class Alloc>
 void In_place_list<T,managed,Alloc>::
-insert(CGALi::In_place_list_iterator<T> position, size_type n, const T& x) {
+insert(CGALi::In_place_list_iterator<T, Alloc> position, size_type n, const T& x) {
   while (n--)
     insert(position, *get_node(x));
 }
 
 template <class T, bool managed, class Alloc>
 void In_place_list<T,managed,Alloc>::
-erase(CGALi::In_place_list_iterator<T> first,
-      CGALi::In_place_list_iterator<T> last)
+erase(CGALi::In_place_list_iterator<T, Alloc> first,
+      CGALi::In_place_list_iterator<T, Alloc> last)
 {
   while (first != last)
     erase(first++);
@@ -772,11 +753,6 @@ void In_place_list<T,managed,Alloc>::sort() {
   swap(counter[fill-1]);
 }
 
-
-// Undef shorter names (g++/egcs)
-//#undef In_place_list_iterator
-//#undef In_place_list_const_iterator
-
 CGAL_END_NAMESPACE
-#endif // CGAL_IN_PLACE_LIST_H //
-// EOF //
+
+#endif // CGAL_IN_PLACE_LIST_H

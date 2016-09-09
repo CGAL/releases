@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2004  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2004-2005  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,44 +11,32 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Mesh_2/include/CGAL/Mesher_level.h,v $
-// $Revision: 1.10 $ $Date: 2004/11/18 14:22:26 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Mesher_level.h $
+// $Id: Mesher_level.h 30303 2006-04-13 16:07:19Z lrineau $
+// 
 //
 // Author(s)     : Laurent RINEAU
 
 #ifndef CGAL_MESHER_LEVEL_H
 #define CGAL_MESHER_LEVEL_H
 
-#include <utility>
-
 namespace CGAL {
 
-struct Null_mesh_visitor {
-  const Null_mesh_visitor& previous_level() const { return *this; }
-
-  template <typename E, typename P>
-  void before_conflicts(E, P) const {}
-
-  template <typename E, typename P, typename Z>
-  void before_insertion(E, P, Z) const {}
-
-  template <typename V>
-  void after_insertion(V) const {}
-
-  template <typename E, typename P, typename Z>
-  void after_no_insertion(E, P, Z) const {}
+enum Mesher_level_conflict_status {
+  NO_CONFLICT = 0,
+  CONFLICT_BUT_ELEMENT_CAN_BE_RECONSIDERED,
+  CONFLICT_AND_ELEMENT_SHOULD_BE_DROPPED 
 };
-
+  
 struct Null_mesher_level {
 
   template <typename Visitor>
   void refine(Visitor) {}
   
   template <typename P, typename Z>
-  std::pair<bool, bool> test_point_conflict_from_superior(P, Z)
+  Mesher_level_conflict_status test_point_conflict_from_superior(P, Z)
   { 
-    return std::make_pair(true, true);
+    return NO_CONFLICT;
   }
 
   bool is_algorithm_done() const
@@ -59,36 +47,37 @@ struct Null_mesher_level {
   template <typename Visitor>
   bool try_to_insert_one_point(Visitor) 
   {
-    return true;
+    return false;
   }
 
   template <typename Visitor>
   bool one_step(Visitor)
   {
-    return true;
+    return false;
   }
 
 }; // end Null_mesher_level
 
 template <
-  class Triangulation_traits, /**< Traits class that defines operations
-                                    from the trianguilation. */
-  class Derived, /**< Derived class, that implements methods */
+  class Tr, /**< The triangulation type. */
+  class Derived, /**< Derived class, that implements methods. */
   class Element, /**< Type of elements that this level refines. */
-  class Previous = Null_mesher_level /**< Previous level type, 
-                                        defaults to \c Null_level
-                                               */
+  class Previous, /* = Null_mesher_level, */
+  /**< Previous level type, defaults to
+     \c Null_mesher_level. */
+  class Triangulation_traits /** Traits class that defines types for the
+				 triangulation. */
   > 
 class Mesher_level
 {
 public:
   /** Type of triangulation that is meshed. */
-  typedef typename Triangulation_traits::Triangulation Triangulation;
+  typedef Tr Triangulation;
   /** Type of point that are inserted into the triangulation. */
-  typedef typename Triangulation_traits::Point Point;
+  typedef typename Triangulation::Point Point;
   /** Type of vertex handles that are returns by insertions into the
       triangulation. */
-  typedef typename Triangulation_traits::Vertex_handle Vertex_handle;
+  typedef typename Triangulation::Vertex_handle Vertex_handle;
   /** Type of the conflict zone for a point that can be inserted. */
   typedef typename Triangulation_traits::Zone Zone;
 
@@ -116,10 +105,11 @@ private:
   Previous& previous_level; /**< The previous level of the refinement
                                     process. */
 public:
-  typedef Mesher_level<Triangulation_traits,
+  typedef Mesher_level<Tr,
                        Derived,
                        Element,
-                       Previous_level> Self;
+                       Previous_level,
+		       Triangulation_traits> Self;
 
   /** \name CONSTRUCTORS */
   Mesher_level(Previous_level& previous)
@@ -130,61 +120,57 @@ public:
   /** \name FUNCTIONS IMPLEMENTED IN THE CLASS \c Derived */
 
   /**  Access to the triangulation */
-  //@{
   Triangulation& triangulation()
   {
-    return derived().get_triangulation_ref();
+    return derived().triangulation_ref_impl();
   }
 
+  /**  Access to the triangulation */
   const Triangulation& triangulation() const
   {
-    return derived().get_triangulation_ref();
-  }
-  //@}
-
-  /** Access to the triangulation traits */
-  //@{
-  Triangulation_traits& triangulation_traits()
-  {
-    return derived().get_triangulation_traits();
+    return derived().triangulation_ref_impl();
   }
 
-  const Triangulation_traits& triangulation_traits() const
+  Vertex_handle insert(Point p, Zone& z)
   {
-    return derived().get_triangulation_traits();
+    return derived().insert_impl(p, z);
   }
-  //@}
+
+  Zone conflicts_zone(const Point& p, Element e)
+  {
+    return derived().conflicts_zone_impl(p, e);
+  }
 
   /** Called before the first refinement, to initialized the queue of
       elements that should be refined. */
   void scan_triangulation()
   {
-    derived().do_scan_triangulation();
+    derived().scan_triangulation_impl();
   }
 
   /** Tells if, as regards the elements of type \c Element, the refinement is
       done. */
   bool no_longer_element_to_refine()
   {
-    return derived().is_no_longer_element_to_refine();
+    return derived().no_longer_element_to_refine_impl();
   }
 
   /** Retrieves the next element that could be refined. */
   Element get_next_element()
   {
-    return derived().do_get_next_element();
+    return derived().get_next_element_impl();
   }
 
   /** Remove from the list the next element that could be refined. */
   void pop_next_element()
   {
-    derived().do_pop_next_element();
+    derived().pop_next_element_impl();
   }
 
   /** Gives the point that should be inserted to refine the element \c e */
   Point refinement_point(const Element& e)
   {
-    return derived().get_refinement_point(e);
+    return derived().refinement_point_impl(e);
   }
 
   /** Actions before testing conflicts for point \c p and element \c e */
@@ -193,7 +179,7 @@ public:
 			Mesh_visitor& visitor)
   {
     visitor.before_conflicts(e, p);
-    derived().do_before_conflicts(e, p);
+    derived().before_conflicts_impl(e, p);
   }
 
   /** Tells if, as regards this level of the refinement process, if the
@@ -203,10 +189,10 @@ public:
         - in case of, the first one is \c false, the second one tells if
         the tested element should be reconsidered latter.
   */
-  std::pair<bool, bool> private_test_point_conflict(const Point& p,
-                                                    Zone& zone)
+  Mesher_level_conflict_status private_test_point_conflict(const Point& p,
+							   Zone& zone)
   {
-    return derived().do_private_test_point_conflict(p, zone);
+    return derived().private_test_point_conflict_impl(p, zone);
   }
 
   /** Tells if, as regards this level of the refinement process, if the
@@ -217,10 +203,11 @@ public:
         the tested element should be reconsidered latter.
       This function is called by the superior level, if any.
   */
-  std::pair<bool, bool> test_point_conflict_from_superior(const Point& p,
-                                                          Zone& zone)
+  Mesher_level_conflict_status
+  test_point_conflict_from_superior(const Point& p,
+				    Zone& zone)
   {
-    return derived().do_test_point_conflict_from_superior(p, zone);
+    return derived().test_point_conflict_from_superior_impl(p, zone);
   }
 
   /** 
@@ -232,7 +219,7 @@ public:
                         Mesh_visitor& visitor)
   {
     visitor.before_insertion(e, p, zone);
-    derived().do_before_insertion(e, p, zone);
+    derived().before_insertion_impl(e, p, zone);
   }
 
   /** Actions after having inserted the point.
@@ -242,7 +229,7 @@ public:
   template <class Mesh_visitor>
   void after_insertion(Vertex_handle vh, Mesh_visitor& visitor)
   {
-    derived().do_after_insertion(vh);
+    derived().after_insertion_impl(vh);
     visitor.after_insertion(vh);
   }
 
@@ -252,58 +239,9 @@ public:
   void after_no_insertion(const Element& e, const Point& p, Zone& zone,
 			  Mesh_visitor& visitor)
   {
-    derived().do_after_no_insertion(e, p, zone);
+    derived().after_no_insertion_impl(e, p, zone);
     visitor.after_no_insertion(e, p, zone);
   }
-
-  /** DEFAULT IMPLEMENTATION FUNCTIONS 
-   *
-   * This bunch of functions should be implemented in the derived class:
-   *
-   * Tr& get_triangulation_ref();
-   * const Tr& get_triangulation_ref();
-   *
-   * void do_scan_triangulation();
-   *
-   * bool is_no_longer_element_to_refine();
-   *
-   * Element do_get_next_element();
-   * 
-   * void pop_next_element();
-   *
-   * Point get_refinement_point(Element);
-   *
-   * 
-   * The next ones have default implementations that do nothing:
-   *
-   */
-//   void do_before_conflicts(const Element&, const Point&)
-//   {
-//   }
-  
-//   void do_after_no_insertion(Element, Point, Zone)
-//   {
-//   }
-  
-//   std::pair<bool, bool> 
-//   do_private_test_point_conflict(Point, Zone)
-//   {
-//     return std::make_pair(true, true);
-//   }
-
-//   std::pair<bool, bool>
-//   do_test_point_conflict_from_superior(Point, Zone)
-//   {
-//     return std::make_pair(true, true);
-//   }
-
-//   void do_before_insertion(Element, Point, Zone)
-//   {
-//   }
-  
-//   void do_after_insertion(Vertex_handle)
-//   {
-//   }
 
   /** \name MESHING PROCESS 
    *
@@ -344,36 +282,35 @@ public:
   {
     Element e = get_next_element();
 
-    const std::pair<bool, bool> result = try_to_refine_element(e, visitor);
+    const Mesher_level_conflict_status result 
+      = try_to_refine_element(e, visitor);
 
-    if(result.second)
+    if(result != CONFLICT_BUT_ELEMENT_CAN_BE_RECONSIDERED)
       pop_next_element();
-    return result.first;
+    return result == NO_CONFLICT;
   }
 
   template <class Mesh_visitor>
-  std::pair<bool, bool>
+  Mesher_level_conflict_status
   try_to_refine_element(Element e, Mesh_visitor& visitor)
   {
     const Point& p = refinement_point(e);
 
     before_conflicts(e, p, visitor);
 
-    Zone zone =
-      triangulation_traits().get_conflicts_zone(triangulation(), p);
+    Zone zone = conflicts_zone(p, e);
+ 
+    const Mesher_level_conflict_status result = test_point_conflict(p, zone);
 
-    const std::pair<bool, bool> result = test_point_conflict(p, zone);
-
-    if(result.first)
+    if(result == NO_CONFLICT)
     {
       before_insertion(e, p, zone, visitor);
 
-      Vertex_handle v = triangulation_traits().insert(triangulation(),
-							  p, zone);
+      Vertex_handle v = insert(p, zone);
 
       after_insertion(v, visitor);
 
-      return std::make_pair(true, true);
+      return NO_CONFLICT;
     }
     else 
       after_no_insertion(e, p, zone, visitor);
@@ -381,13 +318,13 @@ public:
   }
 
   /** Return (can_split_the_element, drop_element). */
-  std::pair<bool, bool>
+  Mesher_level_conflict_status
   test_point_conflict(const Point& p, Zone& zone)
   {
-    const std::pair<bool, bool> result =
+    const Mesher_level_conflict_status result =
       previous_level.test_point_conflict_from_superior(p, zone);
 
-    if( result.first == false )
+    if( result != NO_CONFLICT )
       return result;
     return private_test_point_conflict(p, zone);
   }
@@ -431,5 +368,8 @@ public:
 }; // end Mesher_level
 
 }  // end namespace CGAL
+
+#include <CGAL/Mesher_level_visitors.h>
+#include <CGAL/Mesher_level_default_implementations.h>
 
 #endif // CGAL_MESHER_LEVEL_H

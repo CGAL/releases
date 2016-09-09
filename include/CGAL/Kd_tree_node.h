@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Kd_tree_node.h,v $
-// $Revision: 1.34 $ $Date: 2004/09/15 10:48:59 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/include/CGAL/Kd_tree_node.h $
+// $Id: Kd_tree_node.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
 

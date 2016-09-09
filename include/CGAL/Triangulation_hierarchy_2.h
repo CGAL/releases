@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_hierarchy_2.h,v $
-// $Revision: 1.37 $ $Date: 2004/11/08 15:36:23 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Triangulation_hierarchy_2.h $
+// $Id: Triangulation_hierarchy_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Olivier Devillers <Olivivier.Devillers@sophia.inria.fr>
 //                 Mariette Yvinec  <Mariette.Yvinec@sophia.inria.fr>
@@ -60,6 +60,20 @@ class Triangulation_hierarchy_2
 public:
   Triangulation_hierarchy_2(const Geom_traits& traits = Geom_traits());
   Triangulation_hierarchy_2(const Triangulation_hierarchy_2& tr);
+
+  template<class InputIterator>
+  Triangulation_hierarchy_2(InputIterator first, InputIterator beyond,
+			    const Geom_traits& traits = Geom_traits())
+    : Tr_Base(traits), random((long)0)
+  { 
+    hierarchy[0] = this; 
+    for(int i=1;i<Triangulation_hierarchy_2__maxlevel;++i)
+      hierarchy[i] = new Tr_Base(traits);
+
+    for (InputIterator it = first; it != beyond; ++it) {
+      insert(*it);
+    }
+  }
 
   Triangulation_hierarchy_2 &operator=(const  Triangulation_hierarchy_2& tr);
   ~Triangulation_hierarchy_2();

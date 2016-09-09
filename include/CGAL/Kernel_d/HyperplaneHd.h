@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/HyperplaneHd.h,v $
-// $Revision: 1.19 $ $Date: 2004/09/17 12:12:40 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneHd.h $
+// $Id: HyperplaneHd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 
@@ -319,7 +319,7 @@ static Comparison_result strong_cmp(
   const HyperplaneHd<RT,LA>&, const HyperplaneHd<RT,LA>&);
 
 bool operator==(const HyperplaneHd<RT,LA>& h2) const
-{ if (identical(h2)) return true;
+{ if (this->identical(h2)) return true;
   if (dimension()!=h2.dimension()) return false;
   return HyperplaneHd<RT,LA>::strong_cmp(*this,h2) == EQUAL; 
 }

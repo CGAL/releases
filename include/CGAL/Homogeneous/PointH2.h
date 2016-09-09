@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/PointH2.h,v $
-// $Revision: 1.17 $ $Date: 2004/06/20 18:09:04 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/PointH2.h $
+// $Id: PointH2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Stefan Schirra
 
@@ -47,6 +47,8 @@ class PointH2
   Base base;
 
 public:
+  typedef FT Cartesian_coordinate_type;
+  typedef const RT& Homogeneous_coordinate_type;
   typedef Cartesian_coordinate_iterator_2<R_> Cartesian_const_iterator;
   typedef R_                                    R;
 
@@ -91,7 +93,6 @@ public:
     }
 
     int     dimension() const;
-    Bbox_2  bbox() const;
 
     Point_2 transform( const Aff_transformation_2 & t) const;
     Direction_2 direction() const;
@@ -156,21 +157,6 @@ PointH2<R>::direction() const
 { return typename PointH2<R>::Direction_2(*this); }
 
 
-template < class R >
-CGAL_KERNEL_MEDIUM_INLINE
-Bbox_2
-PointH2<R>::bbox() const
-{
-   Interval_nt<> ihx = CGAL_NTS to_interval(hx());
-   Interval_nt<> ihy = CGAL_NTS to_interval(hy());
-   Interval_nt<> ihw = CGAL_NTS to_interval(hw());
-
-   Interval_nt<> ix = ihx/ihw;
-   Interval_nt<> iy = ihy/ihw;
-
-   return Bbox_2(ix.inf(), iy.inf(), ix.sup(), iy.sup());
-}
-
 
 template < class R >
 inline
@@ -178,53 +164,7 @@ typename R::Point_2
 PointH2<R>::transform(const typename PointH2<R>::Aff_transformation_2& t) const
 { return t.transform(static_cast<const typename R::Point_2 &>(*this)); }
 
-#ifndef CGAL_NO_OSTREAM_INSERT_POINTH2
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const PointH2<R> &p)
-{
-  switch(os.iword(IO::mode))
-  {
-    case IO::ASCII :
-        return os << p.hx() << ' ' << p.hy() << ' ' << p.hw();
-    case IO::BINARY :
-        write(os, p.hx());
-        write(os, p.hy());
-        write(os, p.hw());
-        return os;
-    default:
-        return os << "PointH2(" << p.hx() << ", "
-                                << p.hy() << ", "
-                                << p.hw() << ')';
-  }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_POINTH2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_POINTH2
-template < class R >
-std::istream &
-operator>>(std::istream &is, PointH2<R> &p)
-{
-  typename R::RT hx, hy, hw;
-  switch(is.iword(IO::mode))
-  {
-    case IO::ASCII :
-        is >> hx >> hy >> hw;
-        break;
-    case IO::BINARY :
-        read(is, hx);
-        read(is, hy);
-        read(is, hw);
-        break;
-    default:
-        std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-        break;
-  }
-  p = PointH2<R>(hx, hy, hw);
-  return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_POINTH2
 
 CGAL_END_NAMESPACE
 

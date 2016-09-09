@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Min_quadrilateral_2/include/CGAL/minimum_enclosing_quadrilateral_2.h,v $
-// $Revision: 1.29 $ $Date: 2003/09/26 07:33:12 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Min_quadrilateral_2/include/CGAL/minimum_enclosing_quadrilateral_2.h $
+// $Id: minimum_enclosing_quadrilateral_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
 //                 Emo Welzl <emo@inf.ethz.ch>

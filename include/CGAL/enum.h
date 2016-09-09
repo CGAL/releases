@@ -15,14 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/enum.h,v $
-// $Revision: 1.10 $ $Date: 2003/11/17 19:33:20 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/enum.h $
+// $Id: enum.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Stefan Schirra
 
 #ifndef CGAL_ENUM_H
 #define CGAL_ENUM_H
+
+#include <CGAL/basic.h>
 
 // If you add/change one type here, please update Is_a_predicate.h as well.
 

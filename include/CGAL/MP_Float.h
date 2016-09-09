@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/MP_Float.h,v $
-// $Revision: 1.26 $ $Date: 2004/09/30 07:51:51 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/MP_Float.h $
+// $Id: MP_Float.h 31195 2006-05-19 09:28:42Z spion $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -25,7 +25,8 @@
 #define CGAL_MP_FLOAT_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/Interval_nt.h>
+#include <CGAL/MP_Float_fwd.h>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -61,7 +62,9 @@ class MP_Float;
 MP_Float operator+(const MP_Float &a, const MP_Float &b);
 MP_Float operator-(const MP_Float &a, const MP_Float &b);
 MP_Float operator*(const MP_Float &a, const MP_Float &b);
+#ifdef CGAL_MP_FLOAT_ALLOW_INEXACT
 MP_Float operator/(const MP_Float &a, const MP_Float &b);
+#endif
 
 Comparison_result
 compare (const MP_Float & a, const MP_Float & b);
@@ -70,16 +73,21 @@ class MP_Float
 {
 public:
   typedef Tag_false  Has_gcd;
+#ifdef CGAL_MP_FLOAT_ALLOW_INEXACT
   typedef Tag_true   Has_division;
   typedef Tag_true   Has_sqrt;
+#else
+  typedef Tag_false  Has_division;
+  typedef Tag_false  Has_sqrt;
+#endif
 
   typedef Tag_true   Has_exact_ring_operations;
   typedef Tag_false  Has_exact_division;
   typedef Tag_false  Has_exact_sqrt;
 
-  typedef short limb;
-  typedef int   limb2;
-  typedef double exponent_type;
+  typedef short      limb;
+  typedef int        limb2;
+  typedef double     exponent_type;
 
   typedef std::vector<limb>  V;
   typedef V::const_iterator  const_iterator;
@@ -113,6 +121,11 @@ private:
       unsigned short us;
       short s;
   };
+
+  // The constructors from float/double/long_double are factorized in the
+  // following template :
+  template < typename T >
+  void construct_from_builtin_fp_type(T d);
 
 public:
 
@@ -164,7 +177,11 @@ public:
     canonicalize();
   }
 
+  MP_Float(float d);
+
   MP_Float(double d);
+
+  MP_Float(long double d);
 
   MP_Float operator-() const
   {
@@ -174,7 +191,9 @@ public:
   MP_Float& operator+=(const MP_Float &a) { return *this = *this + a; }
   MP_Float& operator-=(const MP_Float &a) { return *this = *this - a; }
   MP_Float& operator*=(const MP_Float &a) { return *this = *this * a; }
+#ifdef CGAL_MP_FLOAT_ALLOW_INEXACT
   MP_Float& operator/=(const MP_Float &a) { return *this = *this / a; }
+#endif
 
   exponent_type max_exp() const
   {
@@ -280,7 +299,26 @@ MP_Float
 square(const MP_Float&);
 
 MP_Float
-sqrt(const MP_Float &d);
+approximate_sqrt(const MP_Float &d);
+
+MP_Float
+approximate_division(const MP_Float &n, const MP_Float &d);
+
+#ifdef CGAL_MP_FLOAT_ALLOW_INEXACT
+inline
+MP_Float
+operator/(const MP_Float &a, const MP_Float &b)
+{
+  return approximate_division(a, b);
+}
+
+inline
+MP_Float
+sqrt(const MP_Float &d)
+{
+  return approximate_sqrt(d);
+}
+#endif
 
 // to_double() returns, not the closest double, but a one bit error is allowed.
 // We guarantee : to_double(MP_Float(double d)) == d.
@@ -304,8 +342,17 @@ void
 simplify_quotient(MP_Float & numerator, MP_Float & denominator)
 {
   // Currently only simplifies the two exponents.
+#if 0
+  // This better version causes problems as the I/O is changed for
+  // Quotient<MP_Float>, which then does not appear as rational 123/345,
+  // 1.23/3.45, this causes problems in the T2 test-suite (to be investigated).
+  numerator.exp -= denominator.exp
+                    + (MP_Float::exponent_type) denominator.v.size();
+  denominator.exp = - (MP_Float::exponent_type) denominator.v.size();
+#else
   numerator.exp -= denominator.exp;
   denominator.exp = 0;
+#endif
 }
 
 inline

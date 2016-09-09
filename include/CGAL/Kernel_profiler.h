@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Kernel_profiler.h,v $
-// $Revision: 1.1 $ $Date: 2004/06/22 00:40:33 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Kernel_profiler.h $
+// $Id: Kernel_profiler.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -39,7 +39,7 @@ struct Primitive_profiler
     typedef typename P::result_type  result_type;
     typedef typename P::Arity        Arity;
 
-// #define CGAL_KERNEL_PROFILER CGAL_PROFILER(__PRETTY_FUNCTION__);
+// #define CGAL_KERNEL_PROFILER CGAL_PROFILER(CGAL_PRETTY_FUNCTION);
 #define CGAL_KERNEL_PROFILER \
         CGAL_PROFILER(typeid(static_cast<const P&>(*this)).name())
 

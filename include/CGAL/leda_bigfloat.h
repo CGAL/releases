@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/leda_bigfloat.h,v $
-// $Revision: 1.16 $ $Date: 2004/09/15 09:34:08 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/leda_bigfloat.h $
+// $Id: leda_bigfloat.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Stefan Schirra
  
@@ -27,7 +27,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Number_type_traits.h>
-#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/Interval_nt.h>
 
 #include <utility>
 
@@ -46,12 +46,10 @@ template <> struct Number_type_traits<leda_bigfloat> {
   typedef Tag_false Has_exact_sqrt;
 };
 
-#ifndef CGAL_CFG_NO_NAMESPACE
 inline
 double
 to_double(const leda_bigfloat & b)
 { return CGAL_LEDA_SCOPE::to_double(b); }
-#endif // CGAL_CFG_NO_NAMESPACE
 
 inline
 leda_bigfloat

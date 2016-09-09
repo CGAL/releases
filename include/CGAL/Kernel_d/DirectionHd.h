@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/DirectionHd.h,v $
-// $Revision: 1.16 $ $Date: 2004/09/17 12:12:39 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/DirectionHd.h $
+// $Id: DirectionHd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_DIRECTIONHD_H
@@ -188,7 +188,7 @@ DirectionHd<RT,LA>  operator- () const
 static Comparison_result cmp(
   const DirectionHd<RT,LA>& h1, const DirectionHd<RT,LA>& h2); 
 bool operator==(const DirectionHd<RT,LA>& w) const
-{ if ( identical(w) ) return true;
+{ if ( this->identical(w) ) return true;
   if ( dimension()!=w.dimension() ) return false;
   return (DirectionHd<RT,LA>::cmp(*this,w) == EQUAL); 
 }

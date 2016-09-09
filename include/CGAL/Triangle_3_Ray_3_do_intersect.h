@@ -15,16 +15,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Intersections_3/include/CGAL/Triangle_3_Ray_3_do_intersect.h,v $
-// $Revision: 1.9 $ $Date: 2004/04/17 21:54:33 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_3/include/CGAL/Triangle_3_Ray_3_do_intersect.h $
+// $Id: Triangle_3_Ray_3_do_intersect.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Philippe Guigue
 
 #ifndef CGAL_TRIANGLE_3_RAY_3_DO_INTERSECT_H
 #define CGAL_TRIANGLE_3_RAY_3_DO_INTERSECT_H
-
-
 
 CGAL_BEGIN_NAMESPACE
 
@@ -296,33 +294,19 @@ bool do_intersect_coplanar(const typename CGAL_WRAP(K)::Triangle_3 &t,
 }
 
 
-template <class K>
-inline
-bool do_intersect_coplanar(const typename CGAL_WRAP(K)::Ray_3      &r,
-			   const typename CGAL_WRAP(K)::Triangle_3 &t, 
-			   const K & k )
-{
-  return do_intersect_coplanar(t, r, k);
-}
-
-
 } // namespace CGALi
 
 
 template <class K>
 inline bool do_intersect(const Ray_3<K> &r, 
 			 const Triangle_3<K> &t)
-
 {
   return typename K::Do_intersect_3()(t,r);
 }
 
-
-
 template <class K>
 inline bool do_intersect(const Triangle_3<K> &t, 
 			 const Ray_3<K> &r)
-
 {
   return typename K::Do_intersect_3()(t,r);
 }
@@ -338,17 +322,6 @@ inline bool do_intersect(const Ray_3<K> &r,
 }
 */
 
-template <class K>
-inline bool do_intersect_coplanar(const Triangle_3<K> &t, 
-				  const Ray_3<K>      &r)
-{
-  return CGALi::do_intersect_coplanar(t,r,K());
-}
 CGAL_END_NAMESPACE
 
-
-#endif //CGAL_TRIANGLE_3_RAY_3_DO_INTERSECT_H
-
-
-
-
+#endif // CGAL_TRIANGLE_3_RAY_3_DO_INTERSECT_H

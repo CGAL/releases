@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Sphere_3.h,v $
-// $Revision: 1.41 $ $Date: 2004/06/20 18:17:03 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Sphere_3.h $
+// $Id: Sphere_3.h 29922 2006-04-03 13:16:31Z spion $
+// 
 //
 // Author(s)     : Herve Bronnimann
 
@@ -25,6 +25,7 @@
 #define CGAL_CARTESIAN_SPHERE_3_H
 
 #include <CGAL/utility.h>
+#include <CGAL/Handle_for.h>
 #include <CGAL/Interval_arithmetic.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -121,7 +122,7 @@ public:
   Sphere_3 orthogonal_transform(const Aff_transformation_3 &t) const
   {
     // FIXME: precond: t.is_orthogonal() (*UNDEFINED*)
-    Vector_3 vec(FT(1), FT(0));               // unit vector
+    Vector_3 vec(FT(1), FT(0), FT(0));        // unit vector
     vec = vec.transform(t);                   // transformed
     FT sq_scale = vec.squared_length();       // squared scaling factor
 
@@ -190,8 +191,9 @@ SphereC3<R>::
 bounded_side(const typename SphereC3<R>::Point_3 &p) const
 {
     // FIXME: it's a predicate...
-  return Bounded_side(CGAL_NTS compare(squared_radius(),
-                                       squared_distance(center(),p)));
+  return Bounded_side((Comparison_result)
+                       CGAL_NTS compare(squared_radius(),
+                                        squared_distance(center(),p)));
 }
 
 template < class R >

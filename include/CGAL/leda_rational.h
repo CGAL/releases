@@ -15,19 +15,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/leda_rational.h,v $
-// $Revision: 1.18 $ $Date: 2004/09/02 15:34:45 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/leda_rational.h $
+// $Id: leda_rational.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Andreas Fabri
- 
+
 
 #ifndef CGAL_LEDA_RATIONAL_H
 #define CGAL_LEDA_RATIONAL_H
 
 #include <CGAL/basic.h>
 #include <CGAL/Number_type_traits.h>
-#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/Interval_nt.h>
 
 #include <utility>
 
@@ -36,7 +36,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template <> 
+template <>
 struct Number_type_traits<leda_rational> {
   typedef Tag_false Has_gcd;
   typedef Tag_true  Has_division;
@@ -47,13 +47,16 @@ struct Number_type_traits<leda_rational> {
   typedef Tag_false Has_exact_sqrt;
 };
 
-template <> 
+template <>
 struct Rational_traits<leda_rational> {
   typedef leda_integer RT;
- RT numerator   (const leda_rational & r) const { return r.numerator(); }
- RT denominator (const leda_rational & r) const { return r.denominator(); }
- leda_rational make_rational(const RT & n, const RT & d) const
- { return leda_rational(n, d); } 
+  RT numerator   (const leda_rational & r) const { return r.numerator(); }
+  RT denominator (const leda_rational & r) const { return r.denominator(); }
+  leda_rational make_rational(const RT & n, const RT & d) const
+  { return leda_rational(n, d); }
+  leda_rational make_rational(const leda_rational & n,
+                              const leda_rational & d) const
+  { return n / d; }
 };
 
 #ifndef CGAL_NO_NAMESPACE
@@ -78,12 +81,10 @@ io_Operator
 io_tag(const leda_rational &)
 { return io_Operator(); }
 
-#ifndef CGAL_CFG_NO_NAMESPACE
 inline
 Sign
 sign(const leda_rational& r)
 { return (Sign) CGAL_LEDA_SCOPE::sign(r); }
-#endif // CGAL_CFG_NO_NAMESPACE
 
 inline
 std::pair<double,double>

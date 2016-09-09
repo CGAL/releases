@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Fixed_precision_nt/include/CGAL/Fixed_precision_nt.h,v $
-// $Revision: 1.21 $ $Date: 2004/09/01 16:15:12 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Fixed_precision_nt/include/CGAL/Fixed_precision_nt.h $
+// $Id: Fixed_precision_nt.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Olivier Devillers <Olivivier.Devillers@sophia.inria.fr>
 
@@ -377,7 +377,7 @@ inline Oriented_side side_of_oriented_circleC2 (
       if (det>0) return ON_NEGATIVE_SIDE;
       if (det<0) return ON_POSITIVE_SIDE;
     }
-    // points are colinear
+    // points are collinear
     return ON_ORIENTED_BOUNDARY;
   }
 }

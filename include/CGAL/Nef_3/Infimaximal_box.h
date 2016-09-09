@@ -11,11 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_3/include/CGAL/Nef_3/Infimaximal_box.h,v $
-// $Revision: 1.27.2.2 $ $Date: 2004/12/15 11:31:43 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/Infimaximal_box.h $
+// $Id: Infimaximal_box.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Peter Hachenberger    <hachenberger@mpi-sb.mpg.de>
+
 #ifndef CGAL_INFIMAXIMAL_BOX_H
 #define CGAL_INFIMAXIMAL_BOX_H
 
@@ -29,21 +30,6 @@
 #include <CGAL/Nef_3/SNC_intersection.h>
 
 CGAL_BEGIN_NAMESPACE
-
-template<class Kernel>
-struct Is_extended_kernel {
-       typedef Tag_false value_type;
-};
-
-template<class NT>
-struct Is_extended_kernel<Extended_homogeneous<NT> > {
-       typedef Tag_true value_type;
-};
-
-template<class NT>
-struct Is_extended_kernel<Extended_cartesian<NT> > {
-       typedef Tag_true value_type;
-};
 
 template <class T, class Kernel>
 class Infimaximal_box {
@@ -125,7 +111,7 @@ class Infimaximal_box {
   }
 
   template <typename SNC_structure>
-  static typename SNC_structure::Volume_handle getNirvana(SNC_structure& snc) {
+  static typename SNC_structure::Volume_const_handle getNirvana(SNC_structure& snc) {
     return snc.volumes_begin();
   }
 
@@ -167,6 +153,7 @@ class Infimaximal_box {
     create_vertices_on_infibox(SNC_constructor& C, 
 			       const Plane_3& h, const std::list<Point_3>& points, 
 			       const Mark& bnd, const Mark& inside, const Mark& outside) {
+    // TODO: warning oder assertion einbauen
     return std::list<typename SNC_constructor::Vertex_handle>();
   }
 
@@ -315,8 +302,11 @@ class Infimaximal_box<Tag_true, Kernel> {
     NT y(p.hy().eval_at(100));
     NT z(p.hz().eval_at(100));
     NT w(p.hw().eval_at(100));
+    NT a(h.a().eval_at(100));
+    NT b(h.b().eval_at(100));
+    NT c(h.c().eval_at(100));
     NT d(h.d().eval_at(100));
-    return (x*h.a()+y*h.b()+z*h.c()+w*d == 0);
+    return (x*a+y*b+z*c+w*d == 0);
   }
 
   static Standard_point standard_point(Point_3 p, NT d=1) {

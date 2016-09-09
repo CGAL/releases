@@ -15,13 +15,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/kernel_basic.h,v $
-// $Revision: 1.11 $ $Date: 2003/12/03 16:37:02 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/kernel_basic.h $
+// $Id: kernel_basic.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Stefan Schirra
  
-
 #ifndef CGAL_KERNEL_BASIC_H
 #define CGAL_KERNEL_BASIC_H
 
@@ -37,8 +36,12 @@
 #  define CGAL_KERNEL_LARGE_INLINE
 #endif
 
+#include <CGAL/kernel_assertions.h>
+#include <CGAL/enum.h>
+#include <CGAL/aff_transformation_tags.h>
+#include <CGAL/Object.h>
+#include <CGAL/Qualified_result_of.h>
 #include <CGAL/Kernel_traits.h>
 #include <CGAL/functional_base.h>
-#include <CGAL/Kernel/global_functions.h>
 
 #endif // CGAL_KERNEL_BASIC_H

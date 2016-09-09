@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Static_filters/Orientation_3.h,v $
-// $Revision: 1.26 $ $Date: 2004/11/18 14:25:52 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Static_filters/Orientation_3.h $
+// $Id: Orientation_3.h 28889 2006-02-28 13:19:00Z glisse $
+// 
 //
 // Author(s)     : Sylvain Pion
 
@@ -26,6 +26,7 @@
 
 #include <CGAL/Profile_counter.h>
 #include <CGAL/Static_filter_error.h>
+#include <cmath>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -34,14 +35,29 @@ class SF_Orientation_3
   : public K_base::Orientation_3
 {
   typedef typename K_base::Point_3          Point_3;
+  typedef typename K_base::Vector_3          Vector_3;
   typedef typename K_base::Orientation_3    Base;
 
 public:
+ typedef typename Base::result_type  result_type;
 
-  Orientation operator()(const Point_3 &p, const Point_3 &q,
-                         const Point_3 &r, const Point_3 &s) const
+#ifndef CGAL_CFG_MATCHING_BUG_6
+  using Base::operator();
+#else 
+  result_type
+  operator()(const Vector_3& u, const Vector_3& v, const Vector_3& w) const
+  { 
+    return Base::operator()(u,v,w);
+  }
+#endif
+
+  result_type 
+  operator()(const Point_3 &p, const Point_3 &q,
+	     const Point_3 &r, const Point_3 &s) const
   {
       CGAL_PROFILER("Orientation_3 calls");
+
+      using std::fabs;
 
       double px, py, pz, qx, qy, qz, rx, ry, rz, sx, sy, sz;
 
@@ -76,18 +92,26 @@ public:
           double maxz = fabs(pqz);
           if (maxz < fabs(prz)) maxz = fabs(prz);
           if (maxz < fabs(psz)) maxz = fabs(psz);
-          double eps = 5.1107127829973276e-15 * maxx * maxy * maxz;
-
+          double eps = 5.1107127829973299e-15 * maxx * maxy * maxz;
           double det = det3x3_by_formula(pqx, pqy, pqz,
                                          prx, pry, prz,
                                          psx, psy, psz);
 
+          // Sort maxx < maxy < maxz.
+          if (maxx > maxz)
+              std::swap(maxx, maxz);
+          if (maxy > maxz)
+              std::swap(maxy, maxz);
+          else if (maxy < maxx)
+              std::swap(maxx, maxy);
+
           // Protect against underflow in the computation of eps.
-          if (maxx < 1e-97 || maxy < 1e-97 || maxz < 1e-97) {
-            if (maxx == 0 || maxy == 0 || maxz == 0)
+          if (maxx < 1e-97) /* cbrt(min_double/eps) */ {
+            if (maxx == 0)
               return ZERO;
           }
-          else {
+          // Protect against overflow in the computation of det.
+          else if (maxz < 1e102) /* cbrt(max_double [hadamard]/4) */ {
             if (det > eps)  return POSITIVE;
             if (det < -eps) return NEGATIVE;
           }
@@ -107,6 +131,7 @@ public:
                               t1, t1, t1,
                               t1, t1, t1); // Full det
     double err = det.error();
+    err += err * 2 * F::ulp(); // Correction due to "eps * maxx * maxy...".
     std::cerr << "*** epsilon for Orientation_3 = " << err << std::endl;
     return err;
   }

@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/demo/Triangulation_2/constrained_delaunay_triangulation_2.C,v $
-// $Revision: 1.5.4.1 $ $Date: 2004/12/18 17:15:46 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/demo/Triangulation_2/constrained_delaunay_triangulation_2.C $
+// $Id: constrained_delaunay_triangulation_2.C 29185 2006-03-08 13:18:38Z afabri $
+// 
 //
 // Author(s)     : Radu Ursu
 
+#include <CGAL/basic.h>
 
 // if QT is not installed, a message will be issued at runtime.
 #ifndef CGAL_USE_QT

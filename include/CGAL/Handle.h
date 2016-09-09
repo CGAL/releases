@@ -15,16 +15,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Handle.h,v $
-// $Revision: 1.11 $ $Date: 2004/01/01 18:00:43 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Handle.h $
+// $Id: Handle.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
-// Author(s)     :
+// Author(s)     : Sylvain Pion
 
 #ifndef CGAL_HANDLE_H
 #define CGAL_HANDLE_H
 
 #include <CGAL/Handle_for.h>
+#include <CGAL/assertions.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -46,7 +47,7 @@ class Handle
 
     Handle(const Handle& x)
     {
-      CGAL_kernel_precondition( x.PTR != static_cast<Rep*>(0) );
+      CGAL_precondition( x.PTR != static_cast<Rep*>(0) );
       PTR = x.PTR;
       PTR->count++;
     }
@@ -60,7 +61,7 @@ class Handle
     Handle&
     operator=(const Handle& x)
     {
-      CGAL_kernel_precondition( x.PTR != static_cast<Rep*>(0) );
+      CGAL_precondition( x.PTR != static_cast<Rep*>(0) );
       x.PTR->count++;
       if ( PTR && (--PTR->count == 0))
 	  delete PTR;

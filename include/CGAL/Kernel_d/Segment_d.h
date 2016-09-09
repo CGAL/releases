@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Segment_d.h,v $
-// $Revision: 1.14 $ $Date: 2004/06/23 02:15:28 $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Segment_d.h $
+// $Id: Segment_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// 
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_SEGMENT_D_H
@@ -173,7 +173,7 @@ bool is_degenerate() const
 { return ptr()->is_degenerate(); } 
 
 bool operator==(const Segment_d<R>& t) const
-{ if (identical(t)) return true;
+{ if (this->identical(t)) return true;
   return ((source() == t.source() && 
            target() == t.target())); } 
 
