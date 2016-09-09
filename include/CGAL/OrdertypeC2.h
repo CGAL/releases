@@ -1,3 +1,4 @@
+ 
 // Source: OrdertypeC2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -6,6 +7,7 @@
 
 #include <CGAL/PointC2.h>
 
+ 
 template < class FT >
 CGAL_Ordertype CGAL_ordertype(const FT &px, const FT &py,
                               const FT &qx, const FT &qy,
@@ -27,8 +29,10 @@ FT CGAL_area2(const FT &px, const FT &py,
           py * rx - px * ry +
           qx * ry - rx * qy ;
 }
+ 
 
 
+ 
 template < class FT >
 bool CGAL_collinear(const CGAL_PointC2<FT> &p, 
                     const CGAL_PointC2<FT> &q, 
@@ -56,7 +60,7 @@ inline bool CGAL_collinear_between(const CGAL_PointC2<FT> &p,
                                    const CGAL_PointC2<FT> &q,
                                    const CGAL_PointC2<FT> &r)
 {
-  assert( CGAL_collinear(p, q, r) );
+  CGAL_exactness_precondition( CGAL_collinear(p, q, r) );
 
   if (p.x() != r.x())
     {
@@ -110,6 +114,7 @@ CGAL_Side CGAL_in_circle(const CGAL_PointC2<FT> &p,
   assert(0); // not implemented
   return CGAL_ON;
 }
+ 
 
 
 #endif

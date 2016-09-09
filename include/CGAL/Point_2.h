@@ -1,12 +1,21 @@
+ 
 // Source: Point_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
 #ifndef CGAL_POINT_2_H
 #define CGAL_POINT_2_H
 
+#ifdef CGAL_HOMOGENEOUS_H
+#include <CGAL/PointH2.h>
+#endif // CGAL_HOMOGENEOUS_H
+
+#ifdef CGAL_CARTESIAN_H
 #include <CGAL/PointC2.h>
+#endif // CGAL_CARTESIAN_H
+
 #include <CGAL/Vector_2.h>
 
+ 
 template < class R >
 class CGAL_Point_2 : public R::Point_2
 {
@@ -34,15 +43,14 @@ public:
   CGAL_Point_2(const CGAL_Point_2<R> &p)
     : R::Point_2((R::Point_2&)p)
   {}
-  
+
   CGAL_Point_2(const R::Point_2 &p)
     : R::Point_2(p)
   {}
 
-  CGAL_Point_2(const R::RT &hx, const R::RT &hy, const R::RT &hw = R::RT(1.0))
+  CGAL_Point_2(const R::RT &hx, const R::RT &hy, const R::RT &hw = R::RT(1))
     : R::Point_2(hx, hy, hw)
   {}
-
 
   CGAL_Point_2<R> &operator=(const CGAL_Point_2<R> &p)
   {
@@ -119,35 +127,47 @@ public:
     return R::Point_2::transform(t);
   }
 
+#ifdef CGAL_CHECK_PRECONDITIONS
+  bool                 is_defined() const
+  {
+    return R::Point_2::is_defined();
+  }
+#endif // CGAL_CHECK_PRECONDITIONS
+
 private:
 
   CGAL_Point_2(const R::Vector_2 &v)
     : R::Point_2(v)
   {}
 };
+ 
 
 
 #include <CGAL/Aff_transformation_2.h>
 
+ 
 template < class R >
 inline CGAL_Point_2<R> operator+(const CGAL_Point_2<R> &p,
-                                  const CGAL_Vector_2<R> &v)
+                                 const CGAL_Vector_2<R> &v)
 {
   CGAL_kernel_precondition(p.is_defined() && v.is_defined());
-  return CGAL_Point_2<R>(p.x() + v.x(), p.y() + v.y()) ;
+  return CGAL_Point_2<R>((const R::Point_2&)p + (const R::Vector_2&)v) ;
 }
 
 template < class R >
 inline CGAL_Point_2<R> operator-(const CGAL_Point_2<R> &p,
-                                  const CGAL_Vector_2<R> &v)
+                                 const CGAL_Vector_2<R> &v)
 {
   CGAL_kernel_precondition(p.is_defined() && v.is_defined());
-  return CGAL_Point_2<R>(p.x() - v.x(), p.y() - v.y()) ;
+  return CGAL_Point_2<R>((const R::Point_2&)p - (const R::Vector_2&)v) ;
 }
 
 template < class R >
-inline CGAL_Point_2<R> operator+(const CGAL_Origin &,
-                                  const CGAL_Vector_2<R> &v)
+#ifndef CGAL_WORKAROUND_001
+inline
+#endif
+CGAL_Point_2<R> operator+(const CGAL_Origin &,
+                          const CGAL_Vector_2<R> &v)
 {
   CGAL_kernel_precondition(v.is_defined());
   return CGAL_Point_2<R>(v) ;
@@ -155,8 +175,11 @@ inline CGAL_Point_2<R> operator+(const CGAL_Origin &,
 
 
 template < class R >
-inline CGAL_Point_2<R> operator-(const CGAL_Origin &,
-                                  const CGAL_Vector_2<R> &v)
+#ifndef CGAL_WORKAROUND_001
+inline
+#endif
+CGAL_Point_2<R> operator-(const CGAL_Origin &,
+                          const CGAL_Vector_2<R> &v)
 {
   CGAL_kernel_precondition(v.is_defined());
   return CGAL_Point_2<R>(-v) ;
@@ -164,15 +187,18 @@ inline CGAL_Point_2<R> operator-(const CGAL_Origin &,
 
 template < class R >
 inline CGAL_Vector_2<R> operator-(const CGAL_Point_2<R> &p,
-                                   const CGAL_Point_2<R> &q)
+                                  const CGAL_Point_2<R> &q)
 {
   CGAL_kernel_precondition(p.is_defined() && q.is_defined());
-  return CGAL_Vector_2<R>(p.x() - + q.x(), p.y() - q.y()) ;
+  return CGAL_Vector_2<R>((const R::Point_2&)p - (const R::Point_2&)q) ;
 }
 
 template < class R >
-inline CGAL_Vector_2<R> operator-(const CGAL_Point_2<R> &p,
-                                   const CGAL_Origin &)
+#ifndef CGAL_WORKAROUND_001
+inline
+#endif
+CGAL_Vector_2<R> operator-(const CGAL_Point_2<R> &p,
+                           const CGAL_Origin &)
 {
   CGAL_kernel_precondition(p.is_defined());
   return CGAL_Vector_2<R>(p) ;
@@ -180,25 +206,13 @@ inline CGAL_Vector_2<R> operator-(const CGAL_Point_2<R> &p,
 
 template < class R >
 inline CGAL_Vector_2<R> operator-(const CGAL_Origin &,
-                                   const CGAL_Point_2<R> &p)
+                                  const CGAL_Point_2<R> &p)
 {
   CGAL_kernel_precondition(p.is_defined());
-  return CGAL_Vector_2<R>(-p.x(), -p.y()) ;
+  return CGAL_Vector_2<R>(CGAL_ORIGIN - (const R::Point_2&)p) ;
 }
 
+ 
 
-
-
-#ifdef CGAL_IO
-
-template < class R >
-ostream &operator<<(ostream &os, const CGAL_Point_2<R> &p)
-{
-  CGAL_kernel_precondition(p.is_defined());
-  os << "Point_2(" << p.x() << ", " << p.y() << ")";
-  return os;
-}
-
-#endif
 
 #endif

@@ -8,7 +8,7 @@
 #include <CGAL/PointC2.h>
 
 template <class FT>
-class CGAL_Iso_rectangleC2 : public handle_base
+class CGAL_Iso_rectangleC2 : public CGAL_Handle_base
 {
 public:
                        CGAL_Iso_rectangleC2();
@@ -16,10 +16,6 @@ public:
                        CGAL_Iso_rectangleC2(const CGAL_PointC2<FT> &p,
                                             const CGAL_PointC2<FT> &q);
                        ~CGAL_Iso_rectangleC2();
-
-#ifdef CGAL_TO_DOUBLE
-                       operator CGAL_Iso_rectangleC2<double>() const;
-#endif // CGAL_TO_DOUBLE
 
   CGAL_Iso_rectangleC2<FT>  &operator=(const CGAL_Iso_rectangleC2<FT> &r);
 
@@ -86,7 +82,7 @@ CGAL_Iso_rectangleC2<FT>::CGAL_Iso_rectangleC2()
 template < class FT >
 CGAL_Iso_rectangleC2<FT>::CGAL_Iso_rectangleC2(
                                       const CGAL_Iso_rectangleC2<FT> &r) :
-  handle_base((handle_base&)r)
+  CGAL_Handle_base((CGAL_Handle_base&)r)
 {
   CGAL_kernel_precondition( r.is_defined() );
 }
@@ -132,20 +128,13 @@ template < class FT >
 inline CGAL_Iso_rectangleC2<FT>::~CGAL_Iso_rectangleC2()
 {}
 
-#ifdef CGAL_TO_DOUBLE
-template < class FT >
-CGAL_Iso_rectangleC2<FT>::operator CGAL_Iso_rectangleC2<double>() const
-{
-  return CGAL_Iso_rectangleC2<double>(vertex[0], vertex[1]);
-}
-#endif  // CGAL_TO_DOUBLE
 
 template < class FT >
 CGAL_Iso_rectangleC2<FT> &CGAL_Iso_rectangleC2<FT>::operator=(
                                             const CGAL_Iso_rectangleC2<FT> &r)
 {
   CGAL_kernel_precondition( r.is_defined() );
-  handle_base::operator=(r);
+  CGAL_Handle_base::operator=(r);
   return *this;
 }
 template < class FT >
@@ -169,7 +158,7 @@ bool CGAL_Iso_rectangleC2<FT>::identical(
                                   const CGAL_Iso_rectangleC2<FT> &r) const
 {
   CGAL_kernel_precondition( is_defined() && r.is_defined() );
-  return (PTR == t.PTR);
+  return (PTR == r.PTR);
 }
 template < class FT >
 CGAL_PointC2<FT>  CGAL_Iso_rectangleC2<FT>::min() const
@@ -294,7 +283,8 @@ template < class FT >
 inline CGAL_Bbox_2 CGAL_Iso_rectangleC2<FT>::bbox() const
 {
   CGAL_kernel_precondition( is_defined() );
-  return CGAL_Bbox_2(xmin(),ymin(), xmax(),ymax());
+  return CGAL_Bbox_2(CGAL_to_double(xmin()), CGAL_to_double(ymin()),
+                     CGAL_to_double(xmax()), CGAL_to_double(ymax()));
 }
 
 template < class FT >
@@ -305,19 +295,6 @@ inline CGAL_Iso_rectangleC2<FT> CGAL_Iso_rectangleC2<FT>::transform(
   return CGAL_Iso_rectangleC2<FT>(t.transform(vertex(0)),
                                   t.transform(vertex(2)));
 }
-
-
-
-#ifdef CGAL_IO
-
-template < class FT >
-ostream &operator<<(ostream &os, const CGAL_Iso_rectangleC2<FT> &r)
-{
-  os << "Iso_rectangleC2(" << r[0] <<  ", " << r[1] << ")";
-  return os;
-}
-
-#endif
 
 
 #endif

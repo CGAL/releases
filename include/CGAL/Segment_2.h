@@ -4,7 +4,14 @@
 #ifndef CGAL_SEGMENT_2_H
 #define CGAL_SEGMENT_2_H
 
+#ifdef CGAL_HOMOGENEOUS_H
+#include <CGAL/SegmentH2.h>
+#endif // CGAL_HOMOGENEOUS_H
+
+#ifdef CGAL_CARTESIAN_H
 #include <CGAL/SegmentC2.h>
+#endif // CGAL_CARTESIAN_H
+
 #include <CGAL/Line_2.h>
 
 template<class R>
@@ -100,6 +107,18 @@ public:
     return R::Segment_2::end();
   }
 
+  CGAL_Point_2<R>     min() const
+  {
+    CGAL_kernel_precondition(is_defined());
+    return R::Segment_2::min();
+  }
+
+  CGAL_Point_2<R>     max() const
+  {
+    CGAL_kernel_precondition(is_defined());
+    return R::Segment_2::max();
+  }
+
   CGAL_Point_2<R>     vertex(int i) const
   {
     CGAL_kernel_precondition(is_defined());
@@ -113,7 +132,7 @@ public:
   }
 
 
-  R::RT                 squared_length() const
+  R::FT                 squared_length() const
   {
     CGAL_kernel_precondition(is_defined());
     return R::Segment_2::squared_length();
@@ -171,19 +190,6 @@ public:
 };
 
 
-
-
-#ifdef CGAL_IO
-
-template < class R >
-ostream &operator<<(ostream &os, const CGAL_Segment_2<R> &s)
-{
-  CGAL_kernel_precondition(s.is_defined());
-  os << "Segment_2(" << s.start() <<  ", " << s.end() << ")";
-  return os;
-}
-
-#endif
 
 
 #endif

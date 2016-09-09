@@ -5,10 +5,10 @@
 #define CGAL_TRIANGLEC2_H
 
 #include <CGAL/Threetuple.h>
-#include <CGAL/OrdertypeC2.h>
+#include <CGAL/predicates_on_pointsC2.h>
 
 template <class FT>
-class CGAL_TriangleC2 : public handle_base
+class CGAL_TriangleC2 : public CGAL_Handle_base
 {
 public:
                       CGAL_TriangleC2();
@@ -17,10 +17,6 @@ public:
                                       const CGAL_PointC2<FT> &q,
                                       const CGAL_PointC2<FT> &r);
                       ~CGAL_TriangleC2();
-
-#ifdef CGAL_TO_DOUBLE
-                      operator CGAL_TriangleC2<double>() const;
-#endif // CGAL_TO_DOUBLE
 
   CGAL_TriangleC2<FT> &operator=(const CGAL_TriangleC2<FT> &t);
 
@@ -38,6 +34,7 @@ public:
   bool                is_on(const CGAL_PointC2<FT> &p) const;
   bool                is_inside(const CGAL_PointC2<FT> &p) const;
   bool                is_outside(const CGAL_PointC2<FT> &p) const;
+  bool                is_in_bounded_region(const CGAL_PointC2<FT> &p) const;
   bool                is_degenerate() const;
 
   CGAL_Bbox_2         bbox() const;
@@ -78,7 +75,7 @@ CGAL_TriangleC2<FT>::CGAL_TriangleC2()
 
 template < class FT >
 CGAL_TriangleC2<FT>::CGAL_TriangleC2(const CGAL_TriangleC2<FT> &t) :
-  handle_base((handle_base&)t)
+  CGAL_Handle_base((CGAL_Handle_base&)t)
 {
   CGAL_kernel_precondition(t.is_defined());
 }
@@ -97,20 +94,13 @@ template < class FT >
 inline CGAL_TriangleC2<FT>::~CGAL_TriangleC2()
 {}
 
-#ifdef CGAL_TO_DOUBLE
-template < class FT >
-CGAL_TriangleC2<FT>::operator CGAL_TriangleC2<double>() const
-{
-  return CGAL_TriangleC2<double>(vertex(0), vertex(1), vertex(2));
-}
-#endif // CGAL_TO_DOUBLE
 
 template < class FT >
 CGAL_TriangleC2<FT> &CGAL_TriangleC2<FT>::operator=(
                                                const CGAL_TriangleC2<FT> &t)
 {
   CGAL_kernel_precondition( t.is_defined() );
-  handle_base::operator=(t);
+  CGAL_Handle_base::operator=(t);
   return *this;
 }
 template < class FT >
@@ -179,7 +169,8 @@ CGAL_Side CGAL_TriangleC2<FT>::where_is(const CGAL_PointC2<FT> &p) const
   // depends on the orientation of the vertices
   CGAL_Ordertype o1 = CGAL_ordertype(vertex(0), vertex(1), p),
                  o2 = CGAL_ordertype(vertex(1), vertex(2), p),
-                 o3 = CGAL_ordertype(vertex(2), vertex(3), p);
+                 o3 = CGAL_ordertype(vertex(2), vertex(3), p),
+                 ot = CGAL_ordertype(vertex(0), vertex(1), vertex(2));
 
  if (o1 == CGAL_COLLINEAR || o2 == CGAL_COLLINEAR || o3 == CGAL_COLLINEAR)
     {
@@ -190,17 +181,19 @@ CGAL_Side CGAL_TriangleC2<FT>::where_is(const CGAL_PointC2<FT> &p) const
           (o3 == CGAL_COLLINEAR && CGAL_collinear_between(
                                                   vertex(2), p, vertex(3))))
         {
-          return CGAL_ON;
+          return  CGAL_ON;
         }
-      return CGAL_OUTSIDE;
+      // for ot == CGAL_ON the following also does the right thing:
+      return (ot == CGAL_LEFTTURN) ? CGAL_OUTSIDE : CGAL_INSIDE;
     }
-  if (CGAL_rightturn(vertex(0), vertex(1), vertex(2)))
+
+  if (ot == CGAL_RIGHTTURN)
     {
       if (o1 == CGAL_RIGHTTURN && o2 == CGAL_RIGHTTURN && o3 == CGAL_RIGHTTURN)
         {
-          return CGAL_INSIDE;
+          return CGAL_OUTSIDE;
         }
-      return CGAL_OUTSIDE;
+      return CGAL_INSIDE;
     }
 
   if (o1 == CGAL_LEFTTURN && o2 == CGAL_LEFTTURN && o3 == CGAL_LEFTTURN)
@@ -208,6 +201,36 @@ CGAL_Side CGAL_TriangleC2<FT>::where_is(const CGAL_PointC2<FT> &p) const
       return CGAL_INSIDE;
     }
   return CGAL_OUTSIDE;
+}
+
+template < class FT >
+bool CGAL_TriangleC2<FT>::is_in_bounded_region(const CGAL_PointC2<FT> &p) const
+{
+  CGAL_kernel_precondition( is_defined() && p.is_defined() );
+
+  // depends on the orientation of the vertices
+  CGAL_Ordertype o1 = CGAL_ordertype(vertex(0), vertex(1), p),
+                 o2 = CGAL_ordertype(vertex(1), vertex(2), p),
+                 o3 = CGAL_ordertype(vertex(2), vertex(3), p);
+
+ if (o1 == CGAL_COLLINEAR || o2 == CGAL_COLLINEAR || o3 == CGAL_COLLINEAR)
+    {
+      return false;
+    }
+  if (CGAL_rightturn(vertex(0), vertex(1), vertex(2)))
+    {
+      if (o1 == CGAL_RIGHTTURN && o2 == CGAL_RIGHTTURN && o3 == CGAL_RIGHTTURN)
+        {
+          return true;
+        }
+      return false;
+    }
+
+  if (o1 == CGAL_LEFTTURN && o2 == CGAL_LEFTTURN && o3 == CGAL_LEFTTURN)
+    {
+      return true;
+    }
+  return false;
 }
 
 template < class FT >
@@ -256,17 +279,5 @@ inline CGAL_TriangleC2<FT> CGAL_TriangleC2<FT>::transform(
 }
 
 
-
-
-#ifdef CGAL_IO
-
-template < class FT >
-ostream &operator<<(ostream &os, const CGAL_TriangleC2<FT> &t)
-{
-  os << "TriangleC2(" << t[0] <<  ", " << t[1] <<   ", " << t[2] <<")";
-  return os;
-}
-
-#endif
 
 #endif

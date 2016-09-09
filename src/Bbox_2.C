@@ -1,15 +1,21 @@
+ 
 #include <CGAL/Bbox_2.h>
 
+ 
 CGAL_Bbox_2::CGAL_Bbox_2()
 {
+#ifdef CGAL_CHECK_PRECONDITIONS
+  PTR = NULL;
+#else
   PTR = new CGAL__Fourtuple<double>();
+#endif // CGAL_CHECK_PRECONDITIONS
 }
 
 CGAL_Bbox_2::CGAL_Bbox_2(const CGAL_Bbox_2 &b) :
-  handle_base(b)
+  CGAL_Handle_base(b)
 {}
 
-CGAL_Bbox_2::CGAL_Bbox_2(double x_min, double y_min, 
+CGAL_Bbox_2::CGAL_Bbox_2(double x_min, double y_min,
                          double x_max, double y_max)
 {
   PTR = new CGAL__Fourtuple<double>(x_min, y_min, x_max, y_max);
@@ -20,9 +26,10 @@ CGAL_Bbox_2::~CGAL_Bbox_2()
 
 CGAL_Bbox_2 &CGAL_Bbox_2::operator=(const CGAL_Bbox_2 &b)
 {
-  handle_base::operator=(b);
+  CGAL_Handle_base::operator=(b);
   return *this;
 }
+ 
 bool CGAL_Bbox_2::operator==(const CGAL_Bbox_2 &b) const
 {
   return xmin() == b.xmin() && xmax() == b.xmax()
@@ -33,4 +40,5 @@ bool CGAL_Bbox_2::operator!=(const CGAL_Bbox_2 &b) const
 {
   return ! (b == *this);
 }
+ 
 

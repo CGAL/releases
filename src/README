@@ -1,19 +1,66 @@
 
-This is the README file for compiling the CGAL library
+This is the README file for creating the CGAL kernel library
 
-You have to modify three things in the makefile in this directory.
-This makefile is generic for any application making use of CGAL
+.......................................................................
+How to install CGAL:
 
-(1) The compiler, either g++ (GNU), or CC (SUN, Silicon Graphics).
+0. Type `make' without arguments to see the setup of the makefile.
 
-(2) The directory where LEDA is installed at your site.
+1. Modify the makefile. You have to adjust four things:
+   
+   (a) The compiler, either g++ (GNU), or CC (SUN, Silicon Graphics).
+   
+   (b) The directory where LEDA is installed at your site.
+   
+   (c) The directory where CGAL is installed at your site.
+   
+   (d) The operating system of the machine where you are compiling.
 
-(3) The directory where CGAL is installed at your site.
+2. Type make lib
+
+You now should have an archive file named libCGALkernel.a in the
+directory Cgal/lib* corresponding to the architecture of your
+machine and the chosen compiler, e.g., lib_sunos4_g++  for the library
+compiled with the GNU g++ compiler on a SUN with BSD operating system.
 
 
 
-That should be it. Type `gmake lib' and cross your fingers.
+If you build the library for several compilers in a row, you have to
+force the compiler to recompile the sources.  First modify the
+makefile appropriately, then type `make touch' followed by `make lib'.
 
-If you build the library for several compilers in a row,
-you have to force the compiler to recompile the sources. 
-Type `gmake touch' followed by `gmake lib'. 
+
+
+.......................................................................
+How CGAL supports multiple architectures/compilers?
+
+The current setup of the makefiles guarantees that when you change 
+the compiler the appropriate libraries are linked. This mechanism
+depends on:
+ o  the makefile variable CC, which should be set to g++ or CC
+ o  the environment variable  CGAL_OSTYPE, which is either 
+    sunos4 or sunos5 or  iris5.
+
+As CGAL makes use of LEDA, this library should also be compiled 
+for the different architectures/compilers. The makefiles suppose
+that the four LEDA libraries libL.a, libG.a, libP.a and libWx.a 
+are in the directories  $(LEDA_DIR)/lib_$(CGAL_OSTYPE)_$(CC).
+
+
+.......................................................................
+Which architectures/compilers are supported?
+
+Currently we support the following compilers:
+
+ o  SUN Pro CC on SunOS4 (Bsd) and SunOS5 (Solaris)
+ o  GNU g++ on SunOS4 (Bsd) and SunOS5 (Solaris)
+ o  SGI CC on Irix5
+
+If it compiles without problems on other architectures, the better,
+but for the moment it has no priority for the CGAL project to support
+more platforms. Our main concern is to offer more geometric classes
+and algorithms.
+
+ 
+We are not very lucky about the current makefile mechanism and will
+work on it for the next release.

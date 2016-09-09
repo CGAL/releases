@@ -1,4 +1,4 @@
-#line 162 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/IntersectionC2.fw"
+ 
 // Source: IntersectionC2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -7,7 +7,7 @@
 
 #include <CGAL/LineC2.h>
 
-#line 23 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/IntersectionC2.fw"
+ 
 template <class FT>
 CGAL_INTERSECTIONTYPE  CGAL_intersectiontype(const CGAL_LineC2<FT> &l1,
                                              const CGAL_LineC2<FT> &l2)
@@ -15,10 +15,10 @@ CGAL_INTERSECTIONTYPE  CGAL_intersectiontype(const CGAL_LineC2<FT> &l1,
   assert (0);  // not implemented
   return CGAL_NO_INTERSECTION;
 }
-#line 170 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/IntersectionC2.fw"
+ 
 
 
-#line 38 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/IntersectionC2.fw"
+ 
 template <class FT>
 inline CGAL_PointC2<FT> CGAL_intersection(const CGAL_LineC2<FT> &l1,
                                          const CGAL_LineC2<FT> &l2)
@@ -29,10 +29,10 @@ inline CGAL_PointC2<FT> CGAL_intersection(const CGAL_LineC2<FT> &l1,
   return CGAL_PointC2<FT>( (l1.b()*l2.c() - l2.b()*l1.c())/n,
                           (l2.a()*l1.c() - l1.a()*l2.c())/n );
 }
-#line 172 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/IntersectionC2.fw"
+ 
 
 
-#line 55 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/IntersectionC2.fw"
+ 
 template <class FT>
 bool CGAL_are_intersecting( const CGAL_SegmentC2<FT> &s1,
                             const CGAL_SegmentC2<FT> &s2,
@@ -135,7 +135,7 @@ bool CGAL_are_intersecting( const CGAL_RayC2<FT> &r1,
       return false;
     }
 }
-#line 174 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/IntersectionC2.fw"
+ 
 
 
 #endif

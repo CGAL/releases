@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Always always :-)
+IFS=' 	
+'
+
+Usage="Usage: $0 "'
+This command tries to find out on what system you are'
+
+uname="`uname -srm`"
+
+case "$uname" in
+  AIX* )		SYST=rs6000;;
+  SunOS\ 4.* )		SYST=sun4OS4;;
+  SunOS\ 5.* )		SYST=sun4OS5;;
+  NewsOS* )		SYST=sony;;
+  ULTRIX* )		SYST=decstation;;
+  RISCos* )		SYST=mips;;
+  IRIX\ 4.* )		SYST=iris4d;;
+  IRIX\ 5.* )		SYST=irix5;;
+  OSF*alpha )		SYST=decosf1;;
+  HP*9000/3* )		SYST=hp9300;;
+  HP*9000/7* )		SYST=hp9700;;
+  Linux* )		SYST=linux;;	# \\ Wait for Ilog to name linux
+  * )			echo >&2 $0: Unknown machine type: $uname
+			exit 1;;
+esac
+
+echo $SYST

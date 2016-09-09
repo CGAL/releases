@@ -1,0 +1,9 @@
+
+This directory contains test suites for the geometric classes of 
+the CGAL Kernel. The makefile allows to specify 
+ o if the testing is done for cartesian or homogeneous repesentation,
+ o the numbertype.
+
+The files cover all operations that can be performed on geometric
+objects and the code is splattered with assertions, to perform
+the correctness tests.

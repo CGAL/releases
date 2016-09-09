@@ -1,0 +1,248 @@
+\documentclass[]{article}
+\usepackage{amssymb}   % better mathematical symbols
+\usepackage{fw-latex}
+\usepackage{cgal}      % useful macros concerning CGAL
+
+\textwidth=6in
+\textheight=8.9in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.5in
+\begin{document}
+
+@p typesetter = tex
+@p no_doc_header
+
+
+\title{\bf Conversion in CGAL}
+\author{Geert-Jan Giezeman}
+
+\maketitle
+
+@A@<Introduction@>
+
+This document describes the mechanism  to do the general conversion function.
+
+The following rule should hold for \cgal\ classes:
+For every class it should be possible to write a non friend, non member
+routine that converts the class based on a particular number type to
+the same class based on a different number type.
+
+
+@A@<Numbertype Conversion@>
+
+\CC\ functions can only be distinguished by their signatures.  As the
+return value is not part of it we put the in the argument list of the
+conversion function. These are the functions a user has to supply.
+
+@$@<Numbertype Conversion@>+=@{@-
+
+void conversion(double &res, const CGAL_Rational &arg)
+{
+  res = CGAL_to_double(arg);
+}
+
+
+void conversion(int &res, const CGAL_Rational &arg)
+{
+  res = int(CGAL_to_double(arg));
+}
+@}
+
+\cgal\ or the user might also provide functions where the
+parameter and the return value are encoded in the function
+name. They are not overloaded. Should we, for reasons of
+coherence, also put the return value in a parameter?
+
+@$@<Numbertype Conversion@>+=@{@-
+double Rational_to_double(const CGAL_Rational &n)
+{
+    return CGAL_to_double(n);
+}
+@}
+
+
+@A@<Conversion of Geometric Objects@>
+
+Because we have two types of numbertype conversion functions,
+we also have two kinds of template functions for converting
+geometric objects.
+
+First, the one for numbertype conversion functions without return value.
+@$@<Conversion of Geometric Objects@>+=@{@-
+template <class R1,  class R2, class RES, class ARG>
+void conversion(CGAL_Point_2<R1> &result,
+                const CGAL_Point_2<R2> &origin,
+                void (*conversion)(RES &, const ARG &))
+{
+  R1::RT hx, hy, hw;
+  conversion(hx, origin.hx());
+  conversion(hy, origin.hy());
+  conversion(hw, origin.hw());
+  result = CGAL_Point_2<R1>(hx, hy, hw);
+}
+@}
+
+And the one for numbertype conversion functions with return value. The
+code is more compact, but there are situations where the matching
+process would fail if we had not the previous template.
+
+@$@<Conversion of Geometric Objects@>+=@{@-
+template <class R1,  class R2, class RES, class ARG>
+void conversion(CGAL_Point_2<R1> &result,
+                const CGAL_Point_2<R2> &origin,
+                RES (*conversion)(const ARG &))
+{
+    result = CGAL_Point_2<R1>(conversion(origin.hx()),
+                              conversion(origin.hy()),
+                              conversion(origin.hw()));
+}
+@}
+
+
+
+Things get more interesting for segments: Now, the conversion falls
+back on the conversion of points. The double colon in the code gives
+access to the global scope and allows overloading of the name
+``conversion''. Does this make sense, or would the code be more readable
+when we had different names?
+
+@$@<Conversion of Geometric Objects@>+=@{@-
+template <class R1,  class R2, class RES, class ARG>
+void conversion(CGAL_Segment_2<R1> &result,
+                const CGAL_Segment_2<R2> &origin,
+                void (*conversion)(RES &, const ARG &))
+{
+  CGAL_Point_2<R1> sp, ep;
+  ::conversion(sp, origin.start(), conversion);
+  ::conversion(ep, origin.end(), conversion);
+  result = CGAL_Segment_2<R1>(sp, ep);
+}
+@}
+
+Again, the template comes in two flavors:
+
+@$@<Conversion of Geometric Objects@>+=@{@-
+template <class R1,  class R2, class RES, class ARG>
+void conversion(CGAL_Segment_2<R1> &result,
+                const CGAL_Segment_2<R2> &origin,
+                RES (*conversion)(const ARG &))
+{
+  CGAL_Point_2<R1> sp, ep;
+  ::conversion(sp, origin.start(), conversion);
+  ::conversion(ep, origin.end(), conversion);
+  result = CGAL_Segment_2<R1>(sp, ep);
+}
+@}
+
+
+@A@<How to use the conversion@>
+
+@$@<typedefs@>==@{@-
+typedef CGAL_Rational coordtype;
+
+typedef C<double> REPT1;
+typedef C<coordtype> REPT2;
+
+typedef CGAL_Point_2< REPT2 > Point;
+typedef CGAL_Segment_2< REPT2 > Segment;
+@}
+
+
+@B@<Code with two representation type parameters@>
+
+This is the most general case. source and target  numbertype are
+parameters. I have no idea yet, where this may be used. Anyway,
+if you use it, you should write:
+
+@$@<Conversion Examples@>+=@{@-
+template < class R1, class R2 >
+void two_template_parameters(const R1 &, const CGAL_Segment_2<R2> &segment2)
+{
+CGAL_Segment_2<R1> segment1;
+
+  conversion(segment1, segment2,
+             (void (*)(R1::RT&, const R2::RT &)) conversion);
+
+  // now do something with segment1;
+  cout << segment2 << endl << segment1 << endl;
+}
+@}
+
+I do not yet like the idea of passing a representation class as
+an argument, but that is already nicer than allocating a geometric
+object of that representation class, which is maybe never used.
+
+
+@B@<Code with one representation type parameters@>
+
+A typical situation where to use this is in I/O routines: A geometric
+viewer needs a certain numbertype (e.g. {\tt int} for Postscript, or
+{\tt float} for geomview. Because we know the target type we can
+write it directly in the code.
+
+@$@<Conversion Examples@>+=@{@-
+template < class R2 >
+void one_template_parameter(const CGAL_Segment_2<R2> &segment2)
+{
+  CGAL_Segment_2< C<double> > segment1;
+  conversion(segment1, segment2,
+             (double (*)(const R2::RT &)) CGAL_to_double);
+
+  cout << segment2 << endl << segment1 << endl;
+}
+@}
+
+@B@<Non templated code@>
+
+In non-template code you can directly pass numbertype conversion
+functions that are not overloaded.  However this is considered as bad
+style as it can lead to inconsistencies when you change a {\tt
+typedef}.
+
+@$@<Conversion Examples@>+=@{@-
+void non_template_code()
+{
+  CGAL_Point_2<REPT2> point2(coordtype(10.5),
+                             coordtype(32.5));
+  CGAL_Point_2<REPT1> point1;
+  conversion(point1, point2, Rational_to_double);
+
+  cout << point2 << endl << point1 << endl;
+}
+@}
+
+@O@<conversion.C@>==@{@-
+
+#include <iostream.h>
+#include <CGAL/cartesian.h>
+#include <CGAL/Rational.h>
+#include <CGAL/Segment_2.h>
+#include <CGAL/IO/ostream_2.h>
+
+@<typedefs@>
+
+@<Numbertype Conversion@>
+
+@<Conversion of Geometric Objects@>
+
+@<Conversion Examples@>
+
+int main()
+{
+  Segment segment2(Point(coordtype(1.5), coordtype(2.5)),
+                   Point(coordtype(3.5), coordtype(4.5)));
+
+  REPT1 rept1;
+  two_template_parameters(rept1, segment2);
+
+  one_template_parameter(segment2);
+
+  non_template_code();
+
+  return 1;
+}
+@}
+
+
+\end{document}

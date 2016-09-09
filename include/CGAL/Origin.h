@@ -1,3 +1,4 @@
+ 
 // Source: Origin.h
 // Author: Andreas.Fabri@sophia.inria.fr
 

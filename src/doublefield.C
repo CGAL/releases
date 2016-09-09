@@ -1,14 +1,12 @@
 
-
 #include <CGAL/doublefield.h>
-
 
 #ifdef __sgi
 
 // implementation for SGI IRIX 5.3.
 #include <fp_class.h>
 
-bool is_finite(double d)
+bool CGAL_is_finite(double d)
 {
     switch (fp_class_d(d)) {
     case FP_POS_NORM:
@@ -27,7 +25,7 @@ bool is_finite(double d)
     return false; // NOT REACHED
 }
 
-bool is_valid(double d)
+bool CGAL_is_valid(double d)
 {
     switch (fp_class_d(d)) {
     case FP_POS_NORM:
@@ -49,20 +47,17 @@ bool is_valid(double d)
 #endif // __sgi
 
 
-
-
-
 #ifdef __hpux
 
 // implementation for HP
 #include <math.h>
 
-bool is_valid(double d)
+bool CGAL_is_valid(double d)
 {
     return isnan(d) == 0;
 }
 
-bool is_finite(double d)
+bool CGAL_is_finite(double d)
 {
     switch (fpclassify(d)) {
     case FP_PLUS_NORM:
@@ -84,20 +79,21 @@ bool is_finite(double d)
 #endif // __hpux
 
 
-
-
-
 #ifdef __sun
 
 // implementation for SUN
 
-#ifdef __SVR4  // and even more special for SOLARIS
+#ifdef __SVR4
 #include <ieeefp.h>
 #endif // __SVR4
 
+#ifdef __svr4__
+#include <ieeefp.h>
+#endif //  __svr4__
+
 #include <math.h>
 #include <LEDA/misc.h>
-bool is_finite(double d)
+bool CGAL_is_finite(double d)
 {
   if(finite(d)){
     return true;
@@ -105,13 +101,11 @@ bool is_finite(double d)
   return false; // NOT REACHED
 }
 
-bool is_valid(double d)
+bool CGAL_is_valid(double d)
 {
   return isnan(d) == 0;
 }
 
 #endif // __sun
-
-
 
 

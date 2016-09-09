@@ -5,7 +5,14 @@
 #define CGAL_TRIANGLE_2_H
 
 
+#ifdef CGAL_HOMOGENEOUS_H
+#include <CGAL/TriangleH2.h>
+#endif // CGAL_HOMOGENEOUS_H
+
+#ifdef CGAL_CARTESIAN_H
 #include <CGAL/TriangleC2.h>
+#endif // CGAL_CARTESIAN_H
+
 #include <CGAL/Point_2.h>
 
 template <class R >
@@ -19,11 +26,11 @@ public:
     CGAL_Triangle_2(const CGAL_Triangle_2<R> &t)
       : R::Triangle_2((R::Triangle_2&)t)
     {}
-    
+
     CGAL_Triangle_2(const R::Triangle_2 &t)
       : R::Triangle_2(t)
     {}
-    
+
     CGAL_Triangle_2(const CGAL_Point_2<R> &p,
                     const CGAL_Point_2<R> &q,
                     const CGAL_Point_2<R> &r)
@@ -32,10 +39,10 @@ public:
 
 
   CGAL_Triangle_2<R>  &operator=(const CGAL_Triangle_2<R> &t)
-  {
-    R::Triangle_2::operator=(t);
-    return *this;
-  }
+    {
+      R::Triangle_2::operator=(t);
+      return *this;
+    }
 
   bool                operator==(const CGAL_Triangle_2<R> &t) const
     {
@@ -69,6 +76,11 @@ public:
     return  R::Triangle_2::transform(t);
   }
 
+  CGAL_Triangle_2<R>  opposite() const
+  {
+    return  CGAL_Triangle_2<R>(vertex(0), vertex(2), vertex(1));
+  }
+
 
   CGAL_Side           where_is(const CGAL_Point_2<R> &p) const
     {
@@ -77,17 +89,23 @@ public:
 
   bool                is_on(const CGAL_Point_2<R> &p) const
     {
-      return where_is(p) == CGAL_ON;
+      return R::Triangle_2::is_on(p);
     }
 
   bool                is_inside(const CGAL_Point_2<R> &p) const
     {
-      return where_is(p) == CGAL_INSIDE;
+      return R::Triangle_2::is_inside(p);
     }
 
   bool                is_outside(const CGAL_Point_2<R> &p) const
     {
-      return where_is(p) == CGAL_OUTSIDE;
+      return R::Triangle_2::is_outside(p);
+    }
+
+
+  bool                is_in_bounded_region(const CGAL_Point_2<R> &p) const
+    {
+      return R::Triangle_2::is_in_bounded_region(p);
     }
 
   bool                is_degenerate() const
@@ -101,18 +119,6 @@ public:
     }
 };
 
-
-
-#ifdef CGAL_IO
-
-template < class R >
-ostream &operator<<(ostream &os, const CGAL_Triangle_2<R> &t)
-{
-  os << "Triangle_2(" << t[0] <<  ", " << t[1] <<   ", " << t[2] <<")";
-  return os;
-}
-
-#endif
 
 
 #endif

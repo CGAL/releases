@@ -1,0 +1,160 @@
+
+@A@<I/O with the Geomview Stream@>
+
+{\it geomview} is a viewer for three-dimensional objects. We provide
+bidirectional commmunication between \cgal\ applications and {\it geomview}.
+
+
+
+@B@<Declaration and Initialization of a geomview stream@>
+
+
+The parameters are the machine where to run {\it geomview}, e.g., {\it
+sophia.inria.fr}, a login name (as you might have another login name on
+another machine) and a bounding box. The camera is
+positioned such that the bounding box is in the scene. You can draw
+outside the bounding box and you can reposition the camera later.
+
+If you do not supply a machine name and a login, it will run on your
+local machine. The remote facility is useful if you have a graphics
+workstation at hand: run {\it geomview} there while your application
+runs on your machine.
+
+@$@<declaration and initialization of a geomview stream@>==@{@-
+
+  CGAL_geomview_stream geomview(machine, login, Bbox(0,0,0, 1000,1000,100));
+
+@}
+
+@B@<Typedefs for 3D Objects@>
+
+As usual we make our life easier by defining new types.
+
+@$@<typedefs for 3D objects@>==@{@-
+typedef double coord_type;
+
+typedef CGAL_Point_3< C<coord_type> > Point;
+typedef CGAL_Segment_3< C<coord_type> > Segment;
+
+typedef CGAL_Triangle_3< C<coord_type> > Triangle;
+typedef CGAL_Tetrahedron_3< C<coord_type> > Tetrahedron;
+
+typedef CGAL_Bbox_3 Bbox;
+@}
+
+@B@<Examples for Output@>
+
+No surprise, output also happens via the output operator of \CC; you
+simply insert geometric objects in the stream. The operator is so far
+defined for points, segments, triangles and tetrahedra. For lines and
+rays we still have to write the clipping routines.
+
+
+@$@<examples for geomview output@>==@{@-
+
+void output_fct(CGAL_geomview_stream &visualizer)
+{
+  random_source S(1,999);
+  int a,b, c,d, e,f;
+  for (int i=0; i<=3; i++) {
+    S >> a >> b >> c >> d >> e >> f;
+
+    Point p1(a, b, 100*i),
+          p2(c, d, 100*i),
+          p3(e, f, 100*i);
+
+    Triangle tr(p1, p2, p3);
+
+    visualizer << tr ;
+    visualizer << p1 ;
+  }
+
+  Tetrahedron tetrahedron(Point(10, 10, 10),
+                          Point(300, 10, 10),
+                          Point(150, 150, 10),
+                          Point(100, 100, 400));
+  visualizer << tetrahedron;
+}
+@}
+
+@B@<Examples for Input@>
+
+At the very moment input is only provided for points. As the input is
+a point in three-dimensional space, but the screen is flat, we input
+points on an object called {\em pickplane}. The pickplane can be
+moved around.
+
+@$@<examples for geomview input@>==@{@-
+void input_fct(CGAL_geomview_stream &visualizer)
+{
+
+  Point p;
+
+  for(int i=0;i<4;i++){
+    visualizer >> p;
+    visualizer << p;
+  }
+}
+@}
+
+@B@<Putting it Together@>
+
+In the directory where you found this documentation you should find a
+a \CC\ source file called {\it io2geomview.C}.
+
+@O@<io2geomview.C@>==@{@-
+#include <stream.h>
+#include <LEDA/random.h>
+
+#include <CGAL/cartesian.h>
+#include <CGAL/IO/geomview.h>
+
+@<typedefs for 3D objects@>
+
+@<examples for geomview input@>
+@<examples for geomview output@>
+
+int main(int argc, char **argv)
+{
+  char  *machine = (argc>1)?argv[1]:NULL;
+  char *login = (argc>2)?argv[2]:NULL;
+
+  @<declaration and initialization of a geomview stream@>
+
+  output_fct(geomview);
+
+  input_fct(geomview);
+
+
+  return 1;
+}
+@}
+
+To compile it, type `{\it gmake io2geomview}'. Type `{\it
+io2geomview}' to run it on your machine or type `{\it io2geomview
+silicon.inria.fr username}' to run it on a remote machine.
+You should have a look at the makefile to see which \leda\ libraries
+have to be linked with a module when you use the class
+`{\tt CGAL\_Geomview\_stream}'.
+
+@B@<Synchronizing the application with geomview@>
+
+{\it geomview} has a startup file. It contains  directives which
+panels to show right away from the beginning. The last line is
+responsible for synchronizing the application with {\it geomview}.
+
+@O@<.geomview@>==@{@-
+(progn
+  (ui-panel tools off {position 450 130 400 400})
+  (ui-panel cameras off {position 0 130 400 400})
+  (ui-panel geomview on {position 50 2080 200 400})
+  )
+
+(set-load-path (/net11/lib/geomview/Geomview-1.5/data))
+
+(backcolor "Camera" 1.0 1.0 1.0)
+
+# the following line is needed if geomview is started inside
+# a CGAL application. It is used to synchronize the processes
+(echo "started")
+@}

@@ -4,10 +4,8 @@
 #ifndef CGAL__FOURTUPLE_H
 #define CGAL__FOURTUPLE_H
 
-#include <LEDA/basic.h>
-
 template < class T >
-class CGAL__Fourtuple : public handle_rep
+class CGAL__Fourtuple : public CGAL_Handle_rep
 {
 public:
   T  e0;

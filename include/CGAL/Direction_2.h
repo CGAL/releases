@@ -1,12 +1,21 @@
+ 
 // Source: Direction_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
 #ifndef CGAL_DIRECTION_2_H
 #define CGAL_DIRECTION_2_H
 
+#ifdef CGAL_HOMOGENEOUS_H
+#include <CGAL/DirectionH2.h>
+#endif  // CGAL_HOMOGENEOUS_H
+
+#ifdef CGAL_CARTESIAN_H
 #include <CGAL/DirectionC2.h>
+#endif // CGAL_CARTESIAN_H
+
 #include <CGAL/Vector_2.h>
 
+ 
 template < class R >
 class CGAL_Direction_2 : public R::Direction_2
 {
@@ -15,7 +24,7 @@ public:
   {}
 
   CGAL_Direction_2(const CGAL_Direction_2<R> &d)
-    : R::Direction_2((R::Direction_2&)d)
+    : R::Direction_2((const R::Direction_2&)d)
   {}
 
 
@@ -28,8 +37,8 @@ public:
     : R::Direction_2(v)
   {}
 
-  CGAL_Direction_2(const R::FT &x, const R::FT &y, const R::FT &w = R::FT(1.0))
-    :  R::Direction_2(x,y,w)
+  CGAL_Direction_2(const R::RT &x, const R::RT &y)
+    :  R::Direction_2(x,y)
   {}
 
   CGAL_Direction_2<R> &operator=(const CGAL_Direction_2<R> &d)
@@ -87,7 +96,7 @@ public:
 
   CGAL_Direction_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
   {
-    return R::Direction_2::transform(R::Aff_transformation_2(t));
+    return R::Direction_2::transform((const R::Aff_transformation_2&)(t));
   }
 
   CGAL_Direction_2<R> operator-() const
@@ -114,20 +123,7 @@ public:
 #endif
 
 };
+ 
 
 
-
-#ifdef CGAL_IO
-
-template < class R >
-ostream &operator<<(ostream &os, const CGAL_Direction_2<R> &d)
-{
-  CGAL_Vector_2<R> v = d.vector();
-  os << "Direction_2(" << v.x() << ", " << v.y() << ")";
-  return os;
-}
-
-#endif
-
-
-#endif
+#endif // CGAL_DIRECTION_2_H

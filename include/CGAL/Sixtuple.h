@@ -4,10 +4,8 @@
 #ifndef CGAL__SIXTUPLE_H
 #define CGAL__SIXTUPLE_H
 
-#include <LEDA/basic.h>
-
 template < class T >
-class CGAL__Sixtuple : public handle_rep
+class CGAL__Sixtuple : public CGAL_Handle_rep
 {
 public:
 

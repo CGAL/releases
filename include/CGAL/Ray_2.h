@@ -1,12 +1,21 @@
+ 
 // Source:Ray_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
-#ifndef CGAL_Ray_2_H
-#define CGAL_Ray_2_H
+#ifndef CGAL_RAY_2_H
+#define CGAL_RAY_2_H
 
 #include <CGAL/Segment_2.h>
-#include <CGAL/RayC2.h>
 
+#ifdef CGAL_HOMOGENEOUS_H
+#include <CGAL/RayH2.h>
+#endif // CGAL_HOMOGENEOUS_H
+
+#ifdef CGAL_CARTESIAN_H
+#include <CGAL/RayC2.h>
+#endif // CGAL_CARTESIAN_H
+
+ 
 template < class R >
 class CGAL_Ray_2 : public R::Ray_2
 {
@@ -19,7 +28,7 @@ public:
   {}
 
   CGAL_Ray_2(const CGAL_Ray_2<R> &r)
-    : R::Ray_2((R::Ray_2&)r)
+    : R::Ray_2((const R::Ray_2&)r)
   {
     CGAL_kernel_precondition(r.is_defined());
   }
@@ -93,7 +102,7 @@ public:
 
   CGAL_Ray_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
   {
-    return  CGAL_Ray_2<R>(R::Ray_2::transform((R::Aff_transformation_2&)t));
+    return CGAL_Ray_2<R>(R::Ray_2::transform(t));
   }
 
 
@@ -124,19 +133,7 @@ public:
   }
 #endif
 };
+ 
 
 
-
-#ifdef CGAL_IO
-
-template < class R >
-ostream &operator<<(ostream &os, const CGAL_Ray_2<R> &r)
-{
-  os << "Ray_2(" << r.start() <<  ", " << r.direction() << ")";
-  return os;
-}
-
-#endif
-
-
-#endif
+#endif  // CGAL_RAY_2_H

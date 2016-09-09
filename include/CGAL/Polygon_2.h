@@ -1,4 +1,4 @@
-#line 498 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 // Source: Polygon_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -10,9 +10,9 @@
 
 #include <CGAL/Segment_2.h>
 
-#line 473 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 template < class T >
-class CGAL__Polygon : public handle_rep
+class CGAL__Polygon : public CGAL_Handle_rep
 {
 public:
   array< T >  v_array;
@@ -31,14 +31,14 @@ public:
   ~CGAL__Polygon()
   {}
 };
-#line 509 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 
 
-#line 8 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 
 
 template < class R >
-class CGAL_Polygon_2 : public handle_base
+class CGAL_Polygon_2 : public CGAL_Handle_base
 {
 public:
   // constructors, destructor, assignment
@@ -66,13 +66,13 @@ public:
   R::RT                         area() const
   {
     const int s = size();
-    R::FT a = R::FT(0.0);
+    R::FT a = R::FT(0);
     for(int i=1; i<s; i++) {
-      a += CGAL_area2(R::Point_2(vertex(0)), 
-                      R::Point_2(vertex(i)), 
+      a += CGAL_area2(R::Point_2(vertex(0)),
+                      R::Point_2(vertex(i)),
                       R::Point_2(vertex(i+1)));
     }
-    if (a < R::FT(0.0)) {
+    if (a < R::FT(0)) {
       a = -a;
     }
     return a/R::FT(2.0);
@@ -145,10 +145,10 @@ private:
 };
 
 };
-#line 511 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 
 
-#line 436 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 /*
 template < class R >
 inline CGAL__Polygon<CGAL_Point_2<R> >* CGAL_Polygon_2<R>::ptr() const
@@ -162,10 +162,10 @@ array<CGAL_Point_2<R> > &CGAL_Polygon_2<R>::vertex_array() const
   return ptr()->v_array ;
 }
 */
-#line 513 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 
 
-#line 124 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 
 template < class R >
 CGAL_Polygon_2<R>::CGAL_Polygon_2()
@@ -180,7 +180,7 @@ CGAL_Polygon_2<R>::CGAL_Polygon_2()
 
 template < class R >
 CGAL_Polygon_2<R>::CGAL_Polygon_2(const CGAL_Polygon_2<R> &p):
-  handle_base(p)
+  CGAL_Handle_base(p)
 {}
 
 template < class R >
@@ -221,14 +221,14 @@ CGAL_Polygon_2<R>::CGAL_Polygon_2(const CGAL_Iso_rectangle_2<R> &r)
 template < class R >
 CGAL_Polygon_2<R> &CGAL_Polygon_2<R>::operator=(const CGAL_Polygon_2<R> &p)
 {
-  handle_base::operator=(p);
+  CGAL_Handle_base::operator=(p);
   return *this;
 }
 
 template < class R >
 CGAL_Polygon_2<R>::~CGAL_Polygon_2()
 {}
-#line 191 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 template < class R >
 bool CGAL_Polygon_2<R>::operator==(const CGAL_Polygon_2<R>& p) const
 {
@@ -264,7 +264,7 @@ bool CGAL_Polygon_2<R>::identical(const CGAL_Polygon_2<R>& p) const
 
   return PTR == p.PTR ;
 }
-#line 248 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 template < class R >
 list< CGAL_Point_2<R> > CGAL_Polygon_2<R>::vertices() const
 {
@@ -296,7 +296,7 @@ int CGAL_Polygon_2<R>::size() const
   return vertex_array().high() + 1;
 }
 */
-#line 287 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 template < class R >
 CGAL_Point_2<R> CGAL_Polygon_2<R>::vertex(int i) const
 { const int s = size();
@@ -328,7 +328,7 @@ int CGAL_Polygon_2<R>::leftmost_vertex() const
   }
   return lm_i;
 }
-#line 326 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 /*
 template < class R >
 bool CGAL_Polygon_2<R>::is_convex() const
@@ -392,7 +392,7 @@ bool CGAL_Polygon_2<R>::is_on(const CGAL_Point_2<R>  &p) const
 {
   return where_is(p) == CGAL_ON;
 }
-#line 394 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 
 template < class R >
 CGAL_Bbox_2 CGAL_Polygon_2<R>::bbox() const
@@ -431,10 +431,10 @@ bool CGAL_Polygon_2<R>::is_defined() const
 }
 #endif // CGAL_CHECK_PRECONDITIONS
 
-#line 515 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 
 
-#line 452 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 
 #ifdef CGAL_IO
 
@@ -451,7 +451,7 @@ ostream &operator<<(ostream &os, CGAL_Polygon_2<R> &p)
 }
 
 #endif  // CGAL_IO
-#line 517 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Polygon_2.fw"
+ 
 
 
 #endif  // CGAL_POLYGON_2_H

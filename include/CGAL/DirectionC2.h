@@ -8,15 +8,14 @@
 #include <CGAL/VectorC2.h>
 
 template < class FT >
-class CGAL_DirectionC2 : public handle_base
+class CGAL_DirectionC2 : public CGAL_Handle_base
 {
 public:
                        CGAL_DirectionC2();
                        CGAL_DirectionC2(const CGAL_DirectionC2<FT> &d);
                        CGAL_DirectionC2(const CGAL_VectorC2<FT> &v);
-                       CGAL_DirectionC2(const FT &x, 
-                                        const FT &y, 
-                                        const FT &w = FT(1.0));
+                       CGAL_DirectionC2(const FT &x,
+                                        const FT &y);
                        ~CGAL_DirectionC2();
 
   CGAL_DirectionC2<FT> &operator=(const CGAL_DirectionC2<FT> &d);
@@ -77,26 +76,22 @@ CGAL_DirectionC2<FT>::CGAL_DirectionC2()
 
 template < class FT >
 inline CGAL_DirectionC2<FT>::CGAL_DirectionC2(const CGAL_DirectionC2<FT> &d) :
-  handle_base((handle_base&)d)
+  CGAL_Handle_base((CGAL_Handle_base&)d)
 {
   CGAL_kernel_precondition(d.is_defined());
 }
 
 template < class FT >
 inline CGAL_DirectionC2<FT>::CGAL_DirectionC2(const CGAL_VectorC2<FT> &v) :
-  handle_base((handle_base&)v)
+  CGAL_Handle_base((CGAL_Handle_base&)v)
 {
   CGAL_kernel_precondition(v.is_defined());
 }
 
 template < class FT >
-CGAL_DirectionC2<FT>::CGAL_DirectionC2(const FT &x, const FT &y, const FT &w)
+CGAL_DirectionC2<FT>::CGAL_DirectionC2(const FT &x, const FT &y)
 {
-  if( w != FT(1.0)){
-    PTR = new CGAL__Twotuple<FT>(x/w, y/w);
-  }else{
-    PTR = new CGAL__Twotuple<FT>(x, y);
-  }
+  PTR = new CGAL__Twotuple<FT>(x, y);
 }
 
 template < class FT >
@@ -108,7 +103,7 @@ CGAL_DirectionC2<FT> &CGAL_DirectionC2<FT>::operator=(
                                                const CGAL_DirectionC2<FT> &d)
 {
   CGAL_kernel_precondition(d.is_defined());
-  handle_base::operator=(d);
+  CGAL_Handle_base::operator=(d);
   return *this;
 }
 template < class FT >
@@ -138,10 +133,10 @@ template < class FT >
 bool  CGAL_DirectionC2<FT>::operator<(const CGAL_DirectionC2<FT> &d) const
 {
   CGAL_kernel_precondition(is_defined() && d.is_defined());
-  int quadrant_this = (x() >= FT(0.0)) ? ((y() >= FT(0.0))?1:4)
-                                       : ((y() >= FT(0.0))?2:3);
-  int quadrant_d    = (d.x() >= FT(0.0)) ? ((d.y() >= FT(0.0))?1:4)
-                                         : ((d.y() >= FT(0.0))?2:3);
+  int quadrant_this = (x() >= FT(0)) ? ((y() >= FT(0))?1:4)
+                                       : ((y() >= FT(0))?2:3);
+  int quadrant_d    = (d.x() >= FT(0)) ? ((d.y() >= FT(0))?1:4)
+                                         : ((d.y() >= FT(0))?2:3);
 
   if(quadrant_this < quadrant_d) {
     return true;
@@ -192,7 +187,7 @@ template < class FT >
 CGAL_DirectionC2<FT> CGAL_DirectionC2<FT>::transform(
                                 const CGAL_Aff_transformationC2<FT> &t) const
 {
-  CGAL_kernel_precondition(is_defined());
+  CGAL_kernel_precondition( is_defined() && t.is_defined() );
   return t.transform(*this);
 }
 
@@ -216,20 +211,6 @@ FT CGAL_DirectionC2<FT>::y() const
   CGAL_kernel_precondition(is_defined());
   return ptr()->e1;
 }
-
-
-
-#ifdef CGAL_IO
-
-template < class FT >
-ostream &operator<<(ostream &os, CGAL_DirectionC2<FT> &d)
-{
-  CGAL_VectorC2<FT> v = d.vector();
-  os << "DirectionC2(" << v.x() << ", " << v.y() << ")";
-  return os;
-}
-
-#endif
 
 
 #endif

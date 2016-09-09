@@ -4,7 +4,13 @@
 #ifndef CGAL_AFF_TRANSFORMATION_2_H
 #define CGAL_AFF_TRANSFORMATION_2_H
 
+#ifdef CGAL_HOMOGENEOUS_H
+#include <CGAL/Aff_transformationH2.h>
+#endif // CGAL_HOMOGENEOUS_H
+
+#ifdef CGAL_CARTESIAN_H
 #include <CGAL/Aff_transformationC2.h>
+#endif // CGAL_CARTESIAN_H
 
 template < class R >
 class CGAL_Aff_transformation_2 : public R::Aff_transformation_2
@@ -34,22 +40,35 @@ public:
   // Rational Rotation:
   CGAL_Aff_transformation_2(const CGAL_Rotation tag,
                             const CGAL_Direction_2<R> &d,
-                             const R::RT &num,
-                             const R::RT &den = R::RT(1.0))
+                            const R::RT &num,
+                            const R::RT &den = R::RT(1))
     : R::Aff_transformation_2(tag, R::Direction_2(d), num, den)
+  {}
+
+  CGAL_Aff_transformation_2(const CGAL_Rotation tag,
+                            const R::RT &sine,
+                            const R::RT &cosine,
+                            const R::RT &denominator = R::RT(1))
+    : R::Aff_transformation_2(tag, sine, cosine, denominator)
   {}
 
   // Scaling:
   CGAL_Aff_transformation_2(const CGAL_Scaling tag,
                             const R::RT &s,
-                            const R::RT &w= R::RT(1.0))
+                            const R::RT &w= R::RT(1))
     : R::Aff_transformation_2(tag, s, w)
   {}
 
   // The general case:
-  CGAL_Aff_transformation_2(const R::RT & m11, const R::RT & m12, const R::RT & m13,
-                            const R::RT & m21, const R::RT & m22, const R::RT & m23,
-                            const R::RT &w= R::RT(1.0))
+  CGAL_Aff_transformation_2(const R::RT & m11,
+                            const R::RT & m12,
+                            const R::RT & m13,
+
+                            const R::RT & m21,
+                            const R::RT & m22,
+                            const R::RT & m23,
+
+                            const R::RT &w= R::RT(1))
     : R::Aff_transformation_2(m11, m12, m13,
                               m21, m22, m23,
                               w)
@@ -57,7 +76,7 @@ public:
 
   CGAL_Aff_transformation_2(const R::RT & m11, const R::RT & m12,
                             const R::RT & m21, const R::RT & m22,
-                            const R::RT &w = R::RT(1.0))
+                            const R::RT &w = R::RT(1))
     : R::Aff_transformation_2(m11, m12,
                               m21, m22,
                               w)
@@ -150,22 +169,15 @@ public:
   {
     return !is_even();
   }
-
-#ifdef COMPOSE
-  CGAL_Aff_transformation_2<R> operator*(const CGAL_Aff_transformation_2<R> &t) const
+  //#ifdef COMPOSE
+  CGAL_Aff_transformation_2<R> operator*(
+                                const CGAL_Aff_transformation_2<R> &t) const
   {
     return R::Aff_transformation_2::operator*(t);
   }
-#endif // COMPOSE
+  //#endif // COMPOSE
 };
 
-
-template < class R >
-ostream &operator<<(ostream &os, const CGAL_Aff_transformation_2<R> &t)
-{
-  os << R::Aff_transformation_2(t);
-  return os;
-}
 
 
 #endif // CGAL_AFF_TRANSFORMATION_2_H

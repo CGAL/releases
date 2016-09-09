@@ -1,10 +1,6 @@
 
-
-
 #ifndef CGAL_ENUM_H
 #define CGAL_ENUM_H
-
-
 
 
 enum  CGAL_Ordertype
@@ -20,8 +16,6 @@ extern const CGAL_Ordertype   CGAL_NEGATIVE ;
 extern const CGAL_Ordertype   CGAL_COPLANAR ;
 
 
-
-
 enum  CGAL_Side
       { CGAL_INSIDE = -1,
         CGAL_ON,
@@ -34,21 +28,11 @@ extern const CGAL_Side  CGAL_RIGHT;
 extern const CGAL_Side CGAL_ON_BOUNDARY;
 
 
-
-
 enum  CGAL_Comparison_result
       { CGAL_SMALLER   = -1,
         CGAL_EQUAL,
         CGAL_LARGER
       };
 
-
-
-
-enum CGAL_Intersection_result {CGAL_NO_INTERSECTION = 0,
-                               CGAL_POINT_INTERSECTION,
-                               CGAL_SEGMENT_INTERSECTION,
-                               CGAL_RAY_INTERSECTION,
-                               CGAL_LINE_INTERSECTION};
 
 #endif

@@ -1,13 +1,22 @@
+ 
 // Source: Line_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
-#ifndef CGAL_Line_2_H
-#define CGAL_Line_2_H
+#ifndef CGAL_LINE_2_H
+#define CGAL_LINE_2_H
 
+#ifdef CGAL_HOMOGENEOUS_H
+#include <CGAL/LineH2.h>
+#endif // CGAL_HOMOGENEOUS_H
+
+#ifdef CGAL_CARTESIAN_H
 #include <CGAL/LineC2.h>
-#include <CGAL/Ordertype_2.h>
+#endif // CGAL_CARTESIAN_H
+
+#include <CGAL/predicates_on_points_2.h>
 #include <CGAL/Vector_2.h>
 
+ 
 template < class R >
 class CGAL_Line_2 : public R::Line_2
 {
@@ -50,7 +59,7 @@ public:
   }
 
   CGAL_Line_2(const CGAL_Ray_2<R> &r)
-    : R::Line_2((R::Ray_2&)r)
+    : R::Line_2((const R::Ray_2&)r)
   {
     CGAL_kernel_precondition(r.is_defined());
   }
@@ -105,13 +114,13 @@ public:
   }
 
 
-  R::RT x_at_y(const R::RT &y) const
+  R::FT x_at_y(const R::FT &y) const
   {
     CGAL_kernel_precondition(is_defined());
     return R::Line_2::x_at_y(y);
   }
 
-  R::RT y_at_x(const R::RT &x) const
+  R::FT y_at_x(const R::FT &x) const
   {
     CGAL_kernel_precondition(is_defined());
     return R::Line_2::y_at_x(x);
@@ -191,20 +200,11 @@ public:
 #endif
 
 };
+ 
 
 
-
-#ifdef CGAL_IO
-
-template < class R >
-ostream &operator<<(ostream &os, const CGAL_Line_2<R> &l)
-{
-    CGAL_kernel_precondition(l.is_defined());
-  os << "Line_2(" << l.a() << ", "<< l.b() << ", " << l.c() << ")";
-  return os;
-}
-
-#endif
+#include <CGAL/Segment_2.h>
+#include <CGAL/Ray_2.h>
 
 
-#endif
+#endif  // CGAL_LINE_2_H

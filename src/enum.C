@@ -1,16 +1,10 @@
 
-
-
 #include <CGAL/enum.h>
-
-
 
 
 const CGAL_Side  CGAL_LEFT = CGAL_INSIDE;
 const CGAL_Side  CGAL_RIGHT = CGAL_OUTSIDE;
 const CGAL_Side CGAL_ON_BOUNDARY = CGAL_ON;
-
-
 
 
 // We should not have global constants?

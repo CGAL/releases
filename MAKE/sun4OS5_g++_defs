@@ -1,0 +1,70 @@
+# Settings for the Sun (OS4, GNU g++ Compiler)
+
+
+
+
+CGAL_CFLAGS_INTERNAL =  -DCGAL_CHECK_PRECONDITIONS \
+                        -DCGAL_CHECK_EXACTNESS_PRECONDITIONS \
+                        -Wall \
+                        -I$(CGAL_INCL_DIR) \
+	                -I$(LEDA_INCL_DIR)
+
+
+
+#.......................................
+# Flags for application code
+
+CGAL_CFLAGS = $(CGAL_CFLAGS_INTERNAL)
+
+
+#.......................................
+# Shared libraries need some flags. We read them from a file.
+# In the non-shared library case this defaults to an empty file.
+
+CGAL_SH_LIB_CFLAGS = `head -1 $(CGAL_DIR)/MAKE/$(CGAL_OSTYPE)_$(CC)_$(CGAL_SH_LIB_CFLAGS_FNAME)`
+
+
+
+#.......................................
+# Flags for compiling the library
+
+CGALLIB_CFLAGS = $(CGAL_CFLAGS_INTERNAL) $(CGAL_SH_LIB_CFLAGS:sh)
+
+# Note that in the above line, we use a feature of the SUN OS4 make 
+# mechanism in order to assign a result of a shell call to a variable.
+
+
+
+#..........................................................................
+# Linker flags. Depending on whether you use the CGAL_Window_stream
+# or not you need more or less LEDA libraries:
+
+# without using the CGAL_Window_stream:
+#
+CGAL_LDFLAGS = -L$(LEDA_LIB_DIR) -L$(CGAL_LIB_DIR) -l$(CGAL_LIBNAME)  -lL  -lm
+
+# with using the CGAL_Window_stream:
+#
+CGAL_WINDOW_LDFLAGS = -L$(LEDA_LIB_DIR) -L$(CGAL_LIB_DIR) -L/usr/lib/X11  -R$(LEDA_LIB_DIR) -R$(CGAL_LIB_DIR) -R/usr/lib/X11 -l$(CGAL_LIBNAME) -lP -lG -lL -lWx  -lX11  -lsocket -lnsl -lm
+
+#.......................................
+ARPREPROCESSOR = /bin/true
+ARPOSTPROCESSOR = ranlib
+
+AR = ar -r
+
+CGALLIB = lib$(CGAL_LIBNAME).a
+
+
+#.......................................
+# At the moment we do not make a shared library for the SUNs.
+# Please adapt the following if this is possible.
+
+AR_SH = ld -assert pure-text  -o
+
+AR_SHPREPROCESSOR = /bin/true
+AR_SHPOSTPROCESSOR = /bin/true
+
+CGALSHAREDLIB = lib$(CGAL_LIBNAME).so.1.0
+CGALSHAREDLIBS = $(CGALSHAREDLIB)
+

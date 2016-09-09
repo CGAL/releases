@@ -1,0 +1,63 @@
+# definitions for SGI with the native C++ compiler (version 4.0).
+# OS: IRIX 5.3
+
+
+# the ptused flag in the following is necessary to circumvent a bug in patch
+# number 556.
+
+CGAL_CFLAGS_INTERNAL = -ptused \
+                       -DCGAL_CHECK_PRECONDITIONS \
+                       -DCGAL_CHECK_EXACTNESS_PRECONDITIONS \
+	               -I$(CGAL_INCL_DIR)  -I$(LEDA_INCL_DIR)
+
+#.......................................
+# Flags for application code
+
+CGAL_CFLAGS = $(CGAL_CFLAGS_INTERNAL)
+
+
+#.......................................
+# Shared libraries need position independant code.
+
+CGAL_SH_LIB_CFLAGS = 
+
+#.......................................
+# Flags for compiling the library
+
+CGALLIB_CFLAGS = $(CGAL_CFLAGS_INTERNAL) $(CGAL_SH_LIB_CFLAGS)
+
+#..........................................................................
+# Linker flags. Depending on whether you use the CGAL_Window_stream
+# or not you need more or less LEDA libraries:
+
+# without using the CGAL_Window_stream:
+#
+CGAL_LDFLAGS = -L$(LEDA_LIB_DIR) -L$(CGAL_LIB_DIR) -l$(CGAL_LIBNAME)  -lL  -lm
+
+# with using the CGAL_Window_stream:
+#
+CGAL_WINDOW_LDFLAGS = -L$(LEDA_LIB_DIR) -L$(CGAL_LIB_DIR) -L/usr/lib/X11   -l$(CGAL_LIBNAME) -lP -lG -lL -lWx  -lX11 -lm
+
+
+ARPREPROCESSOR = /usr/lib/DCC/edg_prelink
+ARPOSTPROCESSOR = /bin/true
+
+AR = ar cr
+
+#.......................................
+AWK = gawk
+
+#.......................................
+CGALLIB = lib$(CGAL_LIBNAME).a
+
+
+
+#.......................................
+AR_SH = $(CC) -shared -o
+
+AR_SHPREPROCESSOR = /usr/lib/DCC/edg_prelink
+AR_SHPOSTPROCESSOR = /bin/true
+
+CGALSHAREDLIB = lib$(CGAL_LIBNAME).so
+CGALSHAREDLIBS = $(CGALSHAREDLIB)
+

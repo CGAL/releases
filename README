@@ -1,7 +1,7 @@
 
 CGAL KERNEL README
 
-Release 0.3
+Release 0.4
 
 .......................................................................
 The files are organized as follows:
@@ -9,80 +9,55 @@ The files are organized as follows:
 Cgal/include/CGAL/*.h        --- header files
 Cgal/src/*.C                 --- C++ source code
 
-Cgal/manual.ps               --- The User Manual
+Cgal/doc/manual.ps           --- The User Manual
+Cgal/doc/*.ps                --- Other helpful documents
 
-Cgal/example/*               --- An example application
+Cgal/example/*               --- Example applications
+  
+Cgal/test/*                  --- Test suites for the kernel
         
 
 .......................................................................
 How to install CGAL:
 
-0. Goto where the source code for CGAL is, that is  Cgal/src
+See the file Cgal/src/README
 
-1. Modify makefile:
-   Choose the compiler and adjust the paths where to find LEDA 
-   and CGAL's home directory.
-   See also the README file in this directory.
-
-2. Type gmake lib   (gmake is gnu's make)
-
-You now should have an archive file named libCGALkernel.a in the
-directory Cgal/lib* corresponding to the architecture of your
-machine and the chosen compiler, e.g., lib_sunos4_g++  for the library
-compiled on a SUN with operating system 4 with the GNU g++ compiler.
-
-
-3. The manual (Cgal/doc/manual.ps) comes in A4 format. It is written 
-   in LaTeX book style and you obtain a little booklet if you use the 
-   ps2book command.
 
 .......................................................................
 How to use CGAL in your own application? 
 
 You best look at the directory Cgal/example. It gives you a master
-makefile and an example application program.C. You can compile it by
-the call "gmake program"   in the directory Cgal/example. 
+makefile and some examples for applications. 
 
-If you are not expected to compile in the directory where CGAL is
-installed, you should copy the entire directory Cgal/example to your 
-account and read the README file in this directory.
-
-DO NOT copy the library itself, that is the header or source files.
-Not only that it takes space on disks, you will sooner or later end
-up with an outdated local copy.
+See the file Cgal/example/README
 
 
 .......................................................................
-How CGAL support multiple architectures/compilers?
+Documentation
 
-The current setup of the makefiles guarantees that when you change 
-the compiler the appropriate libraries are linked. This mechanism
-depends on:
- o  the makefile variable CC, which should be set to g++ or CC
- o  the environment variable  OSTYPE, which resolves either to
-    sunos4 or to iris.
+The directory Cgal/doc contains several Postscript files. 
 
-As CGAL makes use of LEDA, this library should also be compiled 
-for the different architectures/compilers. The makefiles suppose
-that the four LEDA libraries libL.a, libG.a, libP.a and libWx.a 
-are in the directories  $(LEDA_DIR)/lib_$(OSTYPE)_$(CC).
+The manual (manual.ps) comes in A4 format. It is written in LaTeX book
+style and you obtain a little booklet if you use the ps2book command.
 
-.......................................................................
-Getting simple ASCII stream output
+Input/Output is not part of the geometric objects but in support
+libraries. The file support-library.ps gives more details.
 
-For each geometric class CGAL provides an output operator<<(..).
+The file coding-conventions.ps gives some rules and recommendations on
+who to write good C++ code. Consider the rules as recommendations too.
 
-You can switch this feature off by removing the compiler option
--DCGAL_IO in the files  Cgal/MAKE/*_defs.  The wildcard again
-is related to on what architecture you compile and which compiler
-you use.
+The file funnelweb.ps gives a four page introduction to funnelweb,
+a literate programming tool we used during the development of the 
+kernel. 
+
+Finally the file workshop.ps contains the article we wrote for the 
+implementation workshop, Philadelphia 96.
 
 
- 
 .......................................................................
 What if you have problems?
 
-First have a look at the manual. Maybe we only have explained it in
+First have a look at the manual. Maybe we only have explained things in
 an obscure way and a second look at it reveals what we really meant.
 
 If that does not help ask the local CGAL responsable. 

@@ -4,12 +4,15 @@
 #ifndef CGAL_MISC_H
 #define CGAL_MISC_H
 
-template < class FT >
-inline int CGAL_sign(const FT &n)
+template < class T >
+inline
+void 
+CGAL_swap(T& a, T& b)
 {
-  return (n > FT(0.0)) ? 1 : ((n == FT(0.0)) ? 0 : -1);
+ T c;
+ c = a;
+ a = b;
+ b = c;
 }
-
-
 
 #endif // CGAL_MISC_H

@@ -1,3 +1,4 @@
+ 
 // Source: Vector_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -8,19 +9,16 @@
 #include <CGAL/Point_2.h>
 #include <CGAL/Direction_2.h>
 
+ 
 template < class R >
 class CGAL_Vector_2 : public R::Vector_2
 {
 #ifdef CGAL_WORKAROUND_001
-friend CGAL_Vector_2<R> operator-(const CGAL_Point_2<R> &p, 
+friend CGAL_Vector_2<R> operator-(const CGAL_Point_2<R> &p,
                                   const CGAL_Origin &o);
-
-friend CGAL_Vector_2<R> CGAL_Direction_2<R>::vector() const;
 #else
-friend inline CGAL_Vector_2<R> operator-(const CGAL_Point_2<R> &p, 
+friend inline CGAL_Vector_2<R> operator-(const CGAL_Point_2<R> &p,
                                          const CGAL_Origin &o);
-
-friend inline CGAL_Vector_2<R> CGAL_Direction_2<R>::vector() const;
 #endif  // CGAL_WORKAROUND_001
 
 public:
@@ -28,16 +26,21 @@ public:
   {}
 
   CGAL_Vector_2(const CGAL_Vector_2<R> &v)
-    : R::Vector_2((R::Vector_2&)v)
+    : R::Vector_2((const R::Vector_2&)v)
   {}
-  
+
   CGAL_Vector_2(const R::Vector_2 &v)
     : R::Vector_2(v)
   {}
 
-  CGAL_Vector_2(const R::FT &x, const R::FT &y, const R::FT &w = R::FT(1.0))
+  CGAL_Vector_2(const R::RT &x, const R::RT &y)
+    : R::Vector_2(x,y)
+  {}
+
+  CGAL_Vector_2(const R::RT &x, const R::RT &y, const R::RT &w)
     : R::Vector_2(x,y,w)
   {}
+
 
 
   CGAL_Vector_2<R> &operator=(const CGAL_Vector_2<R> &v)
@@ -110,12 +113,12 @@ public:
 
   CGAL_Vector_2<R> operator+(const CGAL_Vector_2 &w) const
   {
-    return R::Vector_2::operator+(w);
+    return (const R::Vector_2&)(*this) + (const R::Vector_2&)(w);
   }
 
   CGAL_Vector_2<R> operator-(const CGAL_Vector_2 &w) const
   {
-    return R::Vector_2::operator-(w);
+    return (const R::Vector_2&)(*this) - (const R::Vector_2&)(w);
   }
 
   CGAL_Vector_2<R> operator-() const
@@ -125,17 +128,18 @@ public:
 
   R::FT operator*(const CGAL_Vector_2 &w) const
   {
-    return R::Vector_2::operator*(w);
+    return (const R::Vector_2&)(*this) * (const R::Vector_2&)(w);
   }
 
-  CGAL_Vector_2<R> operator*(const R::FT &c) const
+  CGAL_Vector_2<R> operator*(const R::RT &c) const
   {
-    return R::Vector_2::operator*(c);
+    return (const R::Vector_2&)(*this) * R::RT(c);
+
   }
 
-  CGAL_Vector_2<R> operator/(const R::FT &c) const
+  CGAL_Vector_2<R> operator/(const R::RT &c) const
   {
-    return R::Vector_2::operator/(c);
+    return (const R::Vector_2&)(*this) / R::RT(c);
   }
 
   CGAL_Direction_2<R> direction() const
@@ -166,29 +170,40 @@ private:
   {}
 
 };
+ 
 
 
+ 
+#ifdef CGAL_WORKAROUND_007
 
-template < class FT, class R >
-inline CGAL_Vector_2<R> operator*(const FT &c, const CGAL_Vector_2<R> &w)
+#ifdef CGAL_CARTESIAN_H
+template <class FT>
+CGAL_Vector_2< C<FT> > operator*(const FT &c,
+                                 const CGAL_Vector_2< C<FT> > &w)
 {
-   return c * R::Vector_2(w) ;
+  return c * (const C<FT>::Vector_2&)(w);
 }
+#endif // CGAL_CARTESIAN_H
 
 
-
-
-
-#ifdef CGAL_IO
-
-template < class R >
-ostream &operator<<(ostream &os, const CGAL_Vector_2<R> &v)
+#ifdef CGAL_HOMOGENEOUS_H
+template <class FT, class RT>
+CGAL_Vector_2< H<FT,RT> > operator*(const RT &c,
+                                    const CGAL_Vector_2< H<FT,RT> > &w)
 {
-  CGAL_kernel_precondition(v.is_defined());
-  os << "Vector_2(" << v.x() << ", " << v.y() << ")";
-  return os;
+  return c * (const H<FT,RT>::Vector_2&)(w);
 }
+#endif // CGAL_HOMOGENEOUS_H
 
-#endif
+#else
+
+template < class RT, class R >
+CGAL_Vector_2<R> operator*(const RT &c, const CGAL_Vector_2<R> &w)
+{
+  return R::RT(c) * (const R::Vector_2&)(w) ;
+}
+#endif // CGAL_WORKAROUND_007
+ 
+
 
 #endif

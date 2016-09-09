@@ -1,9 +1,15 @@
+
 #include <stream.h>
+#include <CGAL/cartesian.h>
 #include <CGAL/Ray_2.h>
+
+#include <CGAL/Line_2.h>
+#include <CGAL/Iso_rectangle_2.h>
 
 typedef CGAL_Segment_2< C<double> > Segment;
 typedef CGAL_Line_2< C<double> > Line;
 typedef CGAL_Ray_2< C<double> > Ray;
+typedef CGAL_Iso_rectangle_2< C<double> > Iso_rectangle;
 
 typedef CGAL_Point_2< C<double> > Point;
 typedef CGAL_Vector_2< C<double> > Vector;
@@ -20,20 +26,14 @@ int main()
          x2 = 3.0,
          y2 = 4.0;
 
-  Point p1(x1,y1), p2(x2,y2);
+  Point p1(x1,y1), p2(x2,y2), p3(20.0, 40.0);
+
   Segment s(p1,p2);
-
   Segment scoord(p1,p2), sc, scopy(s);
-
-  {
-  Segment(p1,p2) ;
-  }
-
   
   sc = s;
   assert( s.identical(sc) );
   assert( s.identical(scopy) );
-
 
   assert( s == sc );
   assert( s == scoord );

@@ -1,3 +1,4 @@
+ 
 
 #ifndef CGAL_INTERSECTION_2_H
 #define CGAL_INTERSECTION_2_H

@@ -4,7 +4,14 @@
 #ifndef CGAL_ISO_RECTANGLE_2_H
 #define CGAL_ISO_RECTANGLE_2_H
 
+#ifdef CGAL_HOMOGENEOUS_H
+#include <CGAL/Iso_rectangleH2.h>
+#endif // CGAL_HOMOGENEOUS_H
+
+#ifdef CGAL_CARTESIAN_H
 #include <CGAL/Iso_rectangleC2.h>
+#endif // CGAL_CARTESIAN_H
+
 #include <CGAL/Point_2.h>
 
 template <class R>
@@ -60,22 +67,22 @@ public:
     return R::Iso_rectangle_2::max();
   }
 
-  R::RT xmin() const
+  R::FT xmin() const
   {
     return R::Iso_rectangle_2::xmin();
   }
 
-  R::RT ymin() const
+  R::FT ymin() const
   {
     return R::Iso_rectangle_2::ymin();
   }
 
-  R::RT xmax() const
+  R::FT xmax() const
   {
     return R::Iso_rectangle_2::xmax();
   }
 
-  R::RT ymax() const
+  R::FT ymax() const
   {
     return R::Iso_rectangle_2::ymax();
   }
@@ -98,17 +105,6 @@ public:
 };
 
 
-
-#ifdef CGAL_IO
-
-template < class R >
-ostream &operator<<(ostream &os, const CGAL_Iso_rectangle_2<R> &r)
-{
-  os << "Iso_rectangle_2(" << r.vertex(0) <<  ", " << r.vertex(2) << ")";
-  return os;
-}
-
-#endif
 
 
 #endif

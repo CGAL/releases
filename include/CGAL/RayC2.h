@@ -9,7 +9,7 @@
 #include <CGAL/LineC2.h>
 
 template < class FT >
-class CGAL_RayC2 : public handle_base
+class CGAL_RayC2 : public CGAL_Handle_base
 {
 public:
                        CGAL_RayC2();
@@ -20,9 +20,7 @@ public:
                                   const CGAL_DirectionC2<FT> &d);
                        ~CGAL_RayC2();
 
-#ifdef CGAL_TO_DOUBLE
-                       operator CGAL_RayC2<double>() const;
-#endif // CGAL_TO_DOUBLE
+
 
   CGAL_RayC2<FT>       &operator=(const CGAL_RayC2<FT> &r);
 
@@ -81,11 +79,11 @@ CGAL_RayC2<FT>::CGAL_RayC2()
 
 template < class FT >
 CGAL_RayC2<FT>::CGAL_RayC2(const CGAL_RayC2<FT>  &r) :
-  handle_base((handle_base&)r)
+  CGAL_Handle_base((CGAL_Handle_base&)r)
 {}
 
 template < class FT >
-CGAL_RayC2<FT>::CGAL_RayC2(const CGAL_PointC2<FT> &sp, 
+CGAL_RayC2<FT>::CGAL_RayC2(const CGAL_PointC2<FT> &sp,
                            const CGAL_PointC2<FT> &secondp)
 {
   PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >(sp, secondp);
@@ -93,7 +91,7 @@ CGAL_RayC2<FT>::CGAL_RayC2(const CGAL_PointC2<FT> &sp,
 }
 
 template < class FT >
-CGAL_RayC2<FT>::CGAL_RayC2(const CGAL_PointC2<FT> &sp, 
+CGAL_RayC2<FT>::CGAL_RayC2(const CGAL_PointC2<FT> &sp,
                            const CGAL_DirectionC2<FT> &d)
 {
   PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >(sp, sp + d.vector());
@@ -104,19 +102,12 @@ template < class FT >
 CGAL_RayC2<FT>::~CGAL_RayC2()
 {}
 
-#ifdef CGAL_TO_DOUBLE
-template < class FT >
-CGAL_RayC2<FT>::operator CGAL_RayC2<double>() const
-{
-  return CGAL_RayC2<double>(start(), second_point());
-}
-#endif // CGAL_TO_DOUBLE
 
 template < class FT >
 CGAL_RayC2<FT> &CGAL_RayC2<FT>::operator=(const CGAL_RayC2<FT> &r)
 {
   CGAL_kernel_precondition(r.is_defined());
-  handle_base::operator=(r);
+  CGAL_Handle_base::operator=(r);
   return *this;
 }
 template < class FT >
@@ -176,7 +167,7 @@ CGAL_RayC2<FT> CGAL_RayC2<FT>::opposite() const
 
 
 template < class FT >
-CGAL_RayC2<FT> CGAL_RayC2<FT>::transform(const 
+CGAL_RayC2<FT> CGAL_RayC2<FT>::transform(const
                                      CGAL_Aff_transformationC2<FT> &t) const
 {
   CGAL_kernel_precondition(is_defined() && t.is_defined());
@@ -220,25 +211,12 @@ template < class FT >
 bool CGAL_RayC2<FT>::collinear_is_on(const CGAL_PointC2<FT> &p) const
 {
   CGAL_kernel_precondition(is_defined() && p.is_defined());
-  assert( CGAL_collinear(start(), p, second_point()) );
+  CGAL_exactness_precondition( CGAL_collinear(start(), p, second_point()) );
   return ( p == start()
            || ( CGAL_DirectionC2<FT>(p - start()) == direction()) );
 
 }
 
-
-
-#ifdef CGAL_IO
-
-template < class FT >
-ostream &operator<<(ostream &os, const CGAL_RayC2<FT> &r)
-{
-  CGAL_kernel_precondition(is_defined());
-  os << "RayC2(" << r.start() <<  ", " << r.direction() << ")";
-  return os;
-}
-
-#endif
 
 
 #endif

@@ -1,6 +1,17 @@
-This is the README file for compiling an application which makes use of CGAL
 
-You have to modify three things in the makefile in this directory.
+This is the README file for compiling applications which makes use of CGAL
+
+
+
+If you are not expected to compile in this directory you should copy
+the entire directory Cgal/example to your home drectory. Do NOT copy
+the library itself, that is the header or source files. Do NOT copy
+the compiler and architecture specific files that are included by the
+makefile. Not only that it takes space on disks, you will sooner or
+later end up with an outdated local copy.
+
+
+You have to modify four things in the makefile in this directory.
 This makefile is generic for any application making use of CGAL
 
 (1) The compiler, either g++ (GNU), or CC (SUN, Silicon Graphics).
@@ -9,9 +20,10 @@ This makefile is generic for any application making use of CGAL
 
 (3) The directory where CGAL is installed at your site.
 
+(4) The operating system of the machine where you are compiling.
 
 
-That should be it. Type `gmake program' and cross your fingers.
+That should be it. Type `make program' and cross your fingers.
 
 If you build the program for several compilers in a row,
 you have to force the compiler to recompile the source. 
