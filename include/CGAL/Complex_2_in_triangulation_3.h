@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Surface_mesher/include/CGAL/Complex_2_in_triangulation_3.h $
-// $Id: Complex_2_in_triangulation_3.h 57022 2010-06-23 14:20:14Z afabri $
+// $Id: Complex_2_in_triangulation_3.h 58420 2010-09-01 12:26:46Z sloriot $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -493,6 +493,10 @@ public:
     return  face_status(c,i) != NOT_IN_COMPLEX;
   }
 
+  bool is_in_complex (const Cell_handle& c,const int i, const int j) const {
+    return  face_status(c,i,j) != NOT_IN_COMPLEX;
+  }  
+  
   bool is_in_complex (const Edge& e) const {
     return  face_status(e) != NOT_IN_COMPLEX;
   }
@@ -543,10 +547,8 @@ public:
   }
 
   /** This function assumes that the edge is regular. */
-  Facet neighbor(Facet f, int j) const 
+  Facet neighbor(Cell_handle ch, int index, int j) const 
   {
-    const Cell_handle ch = f.first;
-    const int index = f.second;
     const int i1  = tr.vertex_triple_index(index, tr. cw(j));
     const int i2  = tr.vertex_triple_index(index, tr.ccw(j));
 
@@ -554,11 +556,17 @@ public:
     CGAL_assertion(face_status(edge) == REGULAR);
 
     typename Tr::Facet_circulator facet_circ = 
-      tr.incident_facets(edge, f);
+      tr.incident_facets(edge, ch,index);
     do { 
       ++facet_circ;
     } while(! is_in_complex(*facet_circ) );
     return opposite_facet(*facet_circ);
+  }
+  
+    /** This function assumes that the edge is regular. */
+  Facet neighbor(Facet f, int j) const 
+  {
+    return neighbor(f.first,f.second,j);
   }
 
   // Setting functions

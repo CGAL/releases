@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://hemmer@scm.gforge.inria.fr/svn/cgal/branches/experimental-packages/Arithmetic_kernel/include/CGAL/Arithmetic_kernel.h $
-// $Id: Arithmetic_kernel.h 48930 2009-04-27 09:40:56Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arithmetic_kernel/include/CGAL/CORE_arithmetic_kernel.h $
+// $Id: CORE_arithmetic_kernel.h 59003 2010-10-04 11:03:44Z lrineau $
 // 
 // Author(s)     : Michael Hemmer <mhemmer@uni-mainz.de>
 //

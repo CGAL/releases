@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 // 
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Gmpfr.h $
-// $Id: Gmpfr.h 57357 2010-07-07 07:46:35Z hemmer $
+// $Id: Gmpfr.h 59003 2010-10-04 11:03:44Z lrineau $
 // 
 // Author: Luis Peñaranda <luis.penaranda@loria.fr>
 

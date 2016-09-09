@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_rs_gmpq_d_1.h $
-// $Id: Algebraic_kernel_rs_gmpq_d_1.h 57161 2010-06-28 16:40:05Z mkerber $
+// $Id: Algebraic_kernel_rs_gmpq_d_1.h 59003 2010-10-04 11:03:44Z lrineau $
 //
 // Author: Luis Peñaranda <luis.penaranda@loria.fr>
 

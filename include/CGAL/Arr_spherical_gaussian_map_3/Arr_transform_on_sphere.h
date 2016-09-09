@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://naamamay@scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_transform_on_sphere.h $
-// $Id: Arr_transform_on_sphere.h 43873 2008-06-30 00:07:53Z naamamay $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_transform_on_sphere.h $
+// $Id: Arr_transform_on_sphere.h 59003 2010-10-04 11:03:44Z lrineau $
 // 
 // Author(s)     : Naama mayer         <naamamay@post.tau.ac.il>
 

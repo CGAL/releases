@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://hemmer@scm.gforge.inria.fr/svn/cgal/trunk/Polynomial/include/CGAL/Polynomial.h $
-// $Id: Polynomial.h 47254 2008-12-06 21:18:27Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_coefficient_kernel_at_alpha.h $
+// $Id: Bitstream_coefficient_kernel_at_alpha.h 59003 2010-10-04 11:03:44Z lrineau $
 // 
 //
 // Author(s)     : Michael Kerber  <mkerber@mpi-inf.mpg.de>

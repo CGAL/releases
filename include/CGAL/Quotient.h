@@ -16,7 +16,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Quotient.h $
-// $Id: Quotient.h 57388 2010-07-08 10:10:35Z glisse $
+// $Id: Quotient.h 58717 2010-09-20 18:14:50Z lrineau $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hemmer
@@ -37,6 +37,7 @@
 
 #include <utility>
 #include <locale>
+#include <cctype>
 
 #include <CGAL/Interval_nt.h>
 #include <CGAL/Kernel/mpl.h>

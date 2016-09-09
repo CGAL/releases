@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Fig_stream_Curve_renderer_2.h $
+// $Id: Fig_stream_Curve_renderer_2.h 59003 2010-10-04 11:03:44Z lrineau $
 // 
 // Author(s)     : Ophir Setter           <ophir.setter@cs.tau.ac.il>
 //

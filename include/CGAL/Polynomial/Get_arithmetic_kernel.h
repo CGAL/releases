@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://hemmer@scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Sqrt_extension/Scalar_factor_traits.h $
-// $Id: Scalar_factor_traits.h 52628 2009-10-20 08:59:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Polynomial/include/CGAL/Polynomial/Get_arithmetic_kernel.h $
+// $Id: Get_arithmetic_kernel.h 59003 2010-10-04 11:03:44Z lrineau $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>

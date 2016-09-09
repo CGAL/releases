@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Convex_hull_d/include/CGAL/Delaunay_d.h $
-// $Id: Delaunay_d.h 58180 2010-08-20 09:56:19Z lrineau $
+// $Id: Delaunay_d.h 58295 2010-08-26 13:32:07Z sloriot $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -212,9 +212,9 @@ public:
       // I hope I got the logic right.
       // Note: I have add a new pair of parentheses. Laurent Rineau, 2010/08/20
       while ( base() != DT->simplices_end() &&
-              !( ( ( cocirc && DT->is_bounded_simplex(base()) ) ||
-                   ( !cocirc && DT->is_unbounded_simplex(base()) ) )
-                 && DT->type_of(base()) == tf ) ) {
+              !( ( cocirc && DT->is_bounded_simplex(base()) ) ||
+                ( ( !cocirc && DT->is_unbounded_simplex(base()) ) && 
+                  DT->type_of(base()) == tf ) ) ) {
          Base_iterator::operator++();
       }
     }
@@ -232,9 +232,9 @@ public:
       // I hope I got the logic right.
       // Note: I have add a new pair of parentheses. Laurent Rineau, 2010/08/20
       } while ( base() != DT->simplices_end() &&
-                !( ( ( cocirc && DT->is_bounded_simplex(base()) ) ||
-                     ( !cocirc && DT->is_unbounded_simplex(base()) ) 
-                     ) && DT->type_of(base()) == tf ) );
+                !( ( cocirc && DT->is_bounded_simplex(base()) ) ||
+                   ( ( !cocirc && DT->is_unbounded_simplex(base()) ) && 
+                   DT->type_of(base()) == tf ) ) );
       return *this; 
     }
     Simplex_iterator  operator++(int) 
@@ -518,7 +518,7 @@ public:
     if ( s == Simplex_handle() ) return Vertex_handle();
     for (int i = 0; i <= current_dimension(); i++) {
       Vertex_handle v = vertex_of_simplex(s,i);
-      if ( x == associated_point(v) ) return v;
+      if (v!=this->anti_origin_ && x == associated_point(v) ) return v;
     }
     return Vertex_handle();
   }
@@ -793,9 +793,13 @@ bool Delaunay_d<R,Lifted_R>::
 contains(Simplex_handle s, const Point_d& x) const
 { int d = current_dimension();
   if (d < 0) return false;
-  std::vector<Point_d> A(d + 1);
-  for (int i = 0; i <= d; i++) 
-    A[i] = point_of_simplex(s,i);
+  std::vector<Point_d> A;
+  A.reserve(d + 1);
+  for (int i = 0; i <= d; i++){ 
+    Vertex_handle vh = vertex_of_simplex(s,i);
+    if (vh!=this->anti_origin_)
+      A.push_back( associated_point(vh) );
+  }
   typename R::Contained_in_simplex_d contained_in_simplex =
     kernel().contained_in_simplex_d_object();
   return contained_in_simplex(A.begin(),A.end(),x);
@@ -832,10 +836,14 @@ locate(const Point_d& x) const
   Simplex_handle f;
   this -> visibility_search(origin_simplex_,lp,candidates,dummy1,loc,f);
   this -> clear_visited_marks(origin_simplex_);
-  if ( f != Simplex_handle() ) return f;
+  //f and simplices in candidates are unbounded simplices only
+  if ( f != Simplex_handle() ){
+    return f;
+  }
   typename std::list<Simplex_handle>::iterator it;
   for(it = candidates.begin(); it != candidates.end(); ++it)
     if ( contains(*it,x) ) return *it;
+
   return Simplex_handle();
 }
 

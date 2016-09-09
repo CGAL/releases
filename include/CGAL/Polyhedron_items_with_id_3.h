@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/BGL/include/CGAL/Polyhedron_items_with_id_3.h $
-// $Id: Polyhedron_items_with_id_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $Id: Polyhedron_items_with_id_3.h 58733 2010-09-21 08:49:48Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola

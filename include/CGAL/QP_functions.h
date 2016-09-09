@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_functions.h $
-// $Id: QP_functions.h 56667 2010-06-09 07:37:13Z sloriot $
+// $Id: QP_functions.h 58489 2010-09-06 11:43:46Z lrineau $
 // 
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>
@@ -55,25 +55,25 @@ namespace QP_functions_detail {
    const Quadratic_program_options& options = Quadratic_program_options()); 
 
   // internal routines: prints name of solution function
-  void print_solution_function 
+  inline void print_solution_function 
   (std::ostream& out, 
    Tag_true /*is_linear*/, Tag_true /*is_nonnegative*/)
   {
     out << "solve_nonnegative_linear_program"; 
   }
-  void print_solution_function 
+  inline void print_solution_function 
   (std::ostream& out, 
    Tag_false /*is_linear*/, Tag_true /*is_nonnegative*/)
   {
     out << "solve_nonnegative_quadratic_program"; 
   }
-  void print_solution_function 
+  inline void print_solution_function 
   (std::ostream& out, 
    Tag_true /*is_linear*/, Tag_false /*is_nonnegative*/)
   {
     out << "solve_linear_program"; 
   }
-  void print_solution_function 
+  inline void print_solution_function 
   (std::ostream& out, 
    Tag_false /*is_linear*/, Tag_false /*is_nonnegative*/)
   {

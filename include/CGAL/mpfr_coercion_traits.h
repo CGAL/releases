@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/mpfr_coercion_traits.h $
-// $Id: mpfr_coercion_traits.h 54227 2010-02-19 11:52:49Z penarand $
+// $Id: mpfr_coercion_traits.h 59003 2010-10-04 11:03:44Z lrineau $
 //
 // Author: Luis Peñaranda <luis.penaranda@loria.fr>
 

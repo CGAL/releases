@@ -22,7 +22,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Installation/include/CGAL/auto_link/auto_link.h $
-// $Id: auto_link.h 56832 2010-06-17 09:43:01Z lrineau $
+// $Id: auto_link.h 59003 2010-10-04 11:03:44Z lrineau $
 // 
 // Author(s)     : Fernando Cacciola (fernando.cacciola@geometryfactory.com)
 /*************************************************************************

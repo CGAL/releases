@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/internal/K_neighbor_search.h $
+// $Id: K_neighbor_search.h 59003 2010-10-04 11:03:44Z lrineau $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -145,7 +145,7 @@ public:
   
 
   // constructor
-  K_neighbor_search(Tree& tree, const Query_item& q,  
+  K_neighbor_search(Tree&, const Query_item& q,  
     unsigned int k=1, FT Eps=FT(0.0), bool Search_nearest=true, const Distance& d=Distance())
     : number_of_internal_nodes_visited(0), number_of_leaf_nodes_visited(0), number_of_items_visited(0), 
       search_nearest(Search_nearest),distance_instance(d), multiplication_factor(distance_instance.transformed_distance(FT(1.0)+Eps)), query_object(q), 

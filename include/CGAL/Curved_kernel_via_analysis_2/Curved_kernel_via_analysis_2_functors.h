@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://eric@scm.gforge.inria.fr/svn/cgal/trunk/Kernel_23/include/CGAL/enum.h $
-// $Id: enum.h 44129 2008-07-12 21:09:38Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curved_kernel_via_analysis_2_functors.h $
+// $Id: Curved_kernel_via_analysis_2_functors.h 59003 2010-10-04 11:03:44Z lrineau $
 //
 //
 // Author(s)     : Eric Berberich <eric@mpi-inf.mpg.de>

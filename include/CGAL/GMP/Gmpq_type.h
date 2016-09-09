@@ -16,7 +16,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/GMP/Gmpq_type.h $
-// $Id: Gmpq_type.h 56916 2010-06-21 13:07:07Z afabri $
+// $Id: Gmpq_type.h 59003 2010-10-04 11:03:44Z lrineau $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion

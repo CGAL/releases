@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Spatial_searching/include/CGAL/internal/bounded_priority_queue.h $
+// $Id: bounded_priority_queue.h 59003 2010-10-04 11:03:44Z lrineau $
 // 
 //
 // Author(s)     : Gael Guennebaud (gael.guennebaud@inria.fr)

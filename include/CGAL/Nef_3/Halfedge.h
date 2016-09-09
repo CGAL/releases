@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Nef_3/include/CGAL/Nef_3/Halfedge.h $
-// $Id: Halfedge.h 56667 2010-06-09 07:37:13Z sloriot $
+// $Id: Halfedge.h 58717 2010-09-20 18:14:50Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel        <seel@mpi-sb.mpg.de>
@@ -27,6 +27,7 @@
 #include <sstream>
 #include <CGAL/IO/Verbose_ostream.h>
 #include <CGAL/Nef_3/SNC_iteration.h>
+#include <CGAL/Origin.h>
 
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 83

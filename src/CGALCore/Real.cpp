@@ -31,7 +31,7 @@
  * Email: exact@cs.nyu.edu
  *
  * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Core/src/CGALCore/Real.cpp $
- * $Id: Real.cpp 56668 2010-06-09 08:45:58Z sloriot $
+ * $Id: Real.cpp 58905 2010-09-27 08:46:37Z sloriot $
  ***************************************************************************/
 
 #include <ctype.h>
@@ -193,8 +193,8 @@ std::istream& operator >>(std::istream& i, Real& x) {
   // Change to:
   //  int status;
   do {
-    c = i.get();
-  } while (isspace(c)); /* loop if met end-of-file, or
+    i.get(c);
+  } while (!i.eof() && isspace(c)); /* loop if met end-of-file, or
   			   char read in is white-space. */
   // Chen Li,
   // original "if (c == EOF) ..." is unsafe since c is of char type and
@@ -213,6 +213,7 @@ std::istream& operator >>(std::istream& i, Real& x) {
 
   for (; isdigit(c) || (!d && c=='.') ||
        (!e && c=='e') || (!s && (c=='-' || c=='+')); i.get(c)) {
+    if (!i) break;
     if (!e && (c == '-' || c == '+'))
       break;
     // Chen Li: put one more rule to prohibite input like
@@ -243,6 +244,7 @@ std::istream& operator >>(std::istream& i, Real& x) {
       e = 1;
   }
 
+  if (!i && !i.eof()) return i;
   // chenli: make sure that the p is still in the range
   if (p - str >= size) {
     int len = p - str;
@@ -259,6 +261,7 @@ std::istream& operator >>(std::istream& i, Real& x) {
 
   *p = '\0';
   i.putback(c);
+  i.clear();
   // old: x = Real(str, i.precision()); // use precision of input stream.
   x = Real(str);  // default precision = defInputDigits
   delete [] str;

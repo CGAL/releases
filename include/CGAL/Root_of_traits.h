@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Number_types/include/CGAL/Root_of_traits.h $
-// $Id: Root_of_traits.h 56667 2010-06-09 07:37:13Z sloriot $
+// $Id: Root_of_traits.h 58525 2010-09-07 14:42:47Z lrineau $
 //
 //
 // Author(s)     : Sylvain Pion, Monique Teillaud, Athanasios Kakargias, Michael Hemmer
@@ -62,7 +62,11 @@ struct Root_of_traits_helper < FT, Field_tag >
 private:
     typedef Fraction_traits<FT> FrT;
     // Field must be a Type (Decomposable)
-    BOOST_STATIC_ASSERT((FrT::Is_fraction::value));
+    // We have the typedef as VC10 fails with 
+    // static_assert(FrT::Is_fraction::value)
+    typedef typename FrT::Is_fraction ISF;
+    BOOST_STATIC_ASSERT((ISF::value));
+
 
     typedef typename FrT::Numerator_type      RT;
     typedef typename FrT::Decompose Decompose;

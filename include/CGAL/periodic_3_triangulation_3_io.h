@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/Periodic_3_triangulation_3/include/CGAL/periodic_3_triangulation_3_io.h $
-// $Id: periodic_3_triangulation_3_io.h 53957 2010-02-01 12:55:28Z spion $
+// $Id: periodic_3_triangulation_3_io.h 59003 2010-10-04 11:03:44Z lrineau $
 // 
 //
 // Author(s)     : Manuel Caroli <Manuel.Caroli@sophia.inria.fr>

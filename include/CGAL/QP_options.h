@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://gaertner@scm.gforge.inria.fr/svn/cgal/trunk/QP_solver/include/CGAL/QP_options.h $
-// $Id: QP_options.h 38125 2007-04-14 15:39:55Z gaertner $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.7-branch/QP_solver/include/CGAL/QP_options.h $
+// $Id: QP_options.h 59003 2010-10-04 11:03:44Z lrineau $
 // 
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>
@@ -103,6 +103,7 @@ private:
 
 // output
 // ------
+inline 
 std::ostream& operator<< (std::ostream& o, 
 			  const Quadratic_program_options& options)
 {
