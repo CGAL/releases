@@ -1,51 +1,30 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/Aff_transformationH3.h
-// package       : H3 (2.49)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2002/02/06 12:35:25 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H3/include/CGAL/Homogeneous/Aff_transformationH3.h,v $
+// $Revision: 1.12 $ $Date: 2003/10/21 12:16:17 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
 
 #ifndef CGAL_AFF_TRANSFORMATIONH3_H
 #define CGAL_AFF_TRANSFORMATIONH3_H
 
+#include <CGAL/Handle_for_virtual.h>
 #include <CGAL/determinant.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -58,6 +37,11 @@ template < class R >
 class Aff_transformation_repH3;
 
 template < class R >
+std::ostream &
+operator<< ( std::ostream & out,
+             const Aff_transformationH3<R>& t);
+
+template < class R >
 Aff_transformationH3<R>
 _general_transformation_composition (
                            Aff_transformation_repH3<R> l,
@@ -68,9 +52,9 @@ class Aff_transformation_rep_baseH3 : public Ref_counted_virtual
 // abstract base class of aff transformation representations
 {
 public:
-  typedef R_                       R;
-  typedef typename R::FT           FT;
-  typedef typename R::RT           RT;
+  typedef R_                         R;
+  typedef typename R::FT             FT;
+  typedef typename R::RT             RT;
   typedef typename R::Point_3        Point_3;
   typedef typename R::Vector_3       Vector_3;
   typedef typename R::Direction_3    Direction_3;
@@ -299,7 +283,8 @@ private:
 };
 
 template < class R_ >
-class Aff_transformationH3 : public R_::Aff_transformation_handle_3
+class Aff_transformationH3
+  : public Handle_for_virtual< Aff_transformation_rep_baseH3<R_> >
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::RT                   RT;
@@ -376,10 +361,6 @@ public:
   hm(int i, int j) const
   { return Ptr()->homogeneous(i,j); }
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -543,9 +524,10 @@ CGAL_KERNEL_INLINE
 bool
 Aff_transformation_repH3<R>::is_even() const
 {
-  return (CGAL_NTS sign( t33 * det3x3_by_formula(t00, t01, t02,
+  return (CGAL_NTS sign<RT>( t33 *
+	                    det3x3_by_formula(t00, t01, t02,
                                               t10, t11, t12,
-                                              t20, t21, t22 ) ) == 1 );
+                                              t20, t21, t22 ) ) == POSITIVE );
 }
 
 template < class R >
@@ -908,10 +890,6 @@ operator<< ( std::ostream & out,
  << "| "<< r.t20 <<' '<< r.t21 <<' '<< r.t22 <<' '<< r.t23 << " |\n"
  << "| "<< RT0   <<' '<< RT0   <<' '<< RT0   <<' '<< r.t33 << " |\n";
 }
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

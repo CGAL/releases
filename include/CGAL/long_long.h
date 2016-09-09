@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1999,2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999,2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/long_long.h
-// package       : Number_types (4.57)
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2002/03/20 19:59:54 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/long_long.h,v $
+// $Revision: 1.14 $ $Date: 2003/10/21 12:21:47 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
 
 // ISO C++ does not support `long long', but ISO C does, which means the next
 // revision of ISO C++ probably will too.  However, currently, g++ -pedantic
@@ -51,6 +29,7 @@
 #define CGAL_LONG_LONG_H
 
 #include <CGAL/basic.h>
+#include <CGAL/Interval_arithmetic.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -85,6 +64,58 @@ inline
 bool
 is_valid(long long int)
 { return true; }
+
+inline
+unsigned long long int
+div(unsigned long long int i1, unsigned long long int i2)
+{ return i1 / i2; }
+
+inline
+double
+to_double(unsigned long long int i)
+{ return (double)i; }
+
+inline
+bool
+is_finite(unsigned long long int)
+{ return true; }
+
+inline
+bool
+is_valid(unsigned long long int)
+{ return true; }
+
+inline
+unsigned long long
+is_negative(unsigned long long i)
+{ return false; }
+
+inline
+Sign
+sign(unsigned long long i)
+{ return is_positive(i) ? POSITIVE : ZERO; }
+
+inline
+unsigned long long
+is_positive(unsigned long long i)
+{ return i != 0; }
+
+inline
+unsigned long long
+abs(unsigned long long i)
+{ return i; }
+
+inline
+std::pair<double,double>
+to_interval (const long long & z)
+{
+  Protect_FPU_rounding<true> P(CGAL_FE_TONEAREST);
+  Interval_nt<false> approx ((double) z);
+  FPU_set_cw(CGAL_FE_UPWARD);
+  approx += Interval_nt<false>::smallest();
+  return approx.pair();
+}
+
 
 #if (defined(__sparc__) || defined(__sparc) || defined(sparc)) || \
     (defined(__sgi__)   || defined(__sgi)   || defined(sgi)) || \

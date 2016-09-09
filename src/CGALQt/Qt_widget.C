@@ -1,39 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// Copyright (c) 2002 ENS de Paris
-//
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// The Qt widget we provide for CGAL is distributed under the QPL,
-// which is Trolltech's open source license. For more information see 
-//     http://www.trolltech.com/developer/licensing/qpl.html
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// file          : src/CGALQt/Qt_widget.C
-// package       : Qt_widget (1.2.30)
-// author(s)     : Laurent Rineau & Radu Ursu
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : Laurent Rineau
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Qt_widget/src/CGALQt/Qt_widget.C,v $
+// $Revision: 1.64 $ $Date: 2003/10/21 12:23:25 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Laurent Rineau & Radu Ursu
 
 #ifdef CGAL_USE_QT
 
@@ -45,22 +31,19 @@
 namespace CGAL {
 
 Qt_widget::Qt_widget(QWidget *parent, const char *name) :
-  QWidget(parent, name),  Locked(0), _pointSize(4),
-  _pointStyle(DISC)
-{
+  QWidget(parent, name), set_scales_to_be_done(false), Locked(0),
+  _pointSize(4), _pointStyle(DISC) 
+{ 
   setCaption("CGAL::Qt_widget");
 
   // initialize ranges and scales
-  xmin = -1;
-  xmax = 1;
-  ymin = -1;
-  ymax = 1;
-  xcentre = xmin + (xmax - xmin)/2;
-  ycentre = ymin + (ymax - ymin)/2;
+  xmin_old = xmin = -1;
+  xmax_old = xmax = 1;
+  ymin_old = ymin = -1;
+  ymax_old = ymax = 1;
   constranges=false;
   set_scales();
-  is_the_first_time = true;
-  configure_history_buttons();
+  emit(rangesChanged());
 
   // initialize the pixmap and the painter
   painter = new QPainter;
@@ -82,33 +65,75 @@ Qt_widget::Qt_widget(QWidget *parent, const char *name) :
 
 void Qt_widget::set_scales()
 {
+  if( ! isVisible() )
+    {
+      set_scales_to_be_done = true;
+      return;
+    };
+  set_scales_to_be_done = false;
+
   if(!constranges)
     {
-      double tempmin = min(width(), height());
-	    double tempmax = max(xmax-xmin, ymax-ymin);
-      
-      xscal=yscal=(tempmin - 1)/(tempmax);
-      set_scale_center(xcentre, ycentre);
+      xscal = yscal = min( width() / (xmax - xmin),
+			   height() / (ymax - ymin) );
+      double xcenter = xmin + (xmax - xmin) / 2;
+      double ycenter = ymin + (ymax - ymin) / 2;
+
+      if(xscal<1) {
+        // if xscal < 1, width()/xscal > width(). then we can round it 
+        // with loosing precision.
+	      xmin = xcenter - (int)(width()/xscal)/2;
+	      xmax = xcenter + (int)(width()/xscal)/2;
+	      ymin = ycenter - (int)(height()/yscal)/2;
+	      ymax = ycenter + (int)(height()/yscal)/2;
+      } else {
+	      xmin = xcenter - (width()/xscal)/2;
+	      xmax = xcenter + (width()/xscal)/2;
+	      ymin = ycenter - (height()/yscal)/2;
+	      ymax = ycenter + (height()/yscal)/2;
+      }
     }
-  else
+    else
     {
       xscal=width()/(xmax-xmin);
       yscal=height()/(ymax-ymin);
     }
 }
 
-void Qt_widget::set_scale_center(double xc, double yc)
+void Qt_widget::move_center(const double distx, const double disty)
 {
-  xmin = xc - (width()/xscal)/2;
-  xmax = xc + (width()/xscal)/2;
-  ymin = yc - (height()/yscal)/2;
-  ymax = yc + (height()/yscal)/2;
+  xmin += distx; xmin_old += distx;
+  xmax += distx; xmax_old += distx;
+  ymin += disty; ymin_old += disty;
+  ymax += disty; ymax_old += disty;
   redraw();
+  emit(rangesChanged());
+}
+void Qt_widget::set_center(const double x, const double y)
+{
+  if (set_scales_to_be_done) return;
+
+  if(xscal<1) {
+    xmin = x - (int)(width()/xscal)/2;
+    xmax = x + (int)(width()/xscal)/2;
+    ymin = y - (int)(height()/yscal)/2;
+    ymax = y + (int)(height()/yscal)/2;
+  } else {
+    xmin = x - (width()/xscal)/2;
+    xmax = x + (width()/xscal)/2;
+    ymin = y - (height()/yscal)/2;
+    ymax = y + (height()/yscal)/2;
+  }
+  xmin_old = xmin;
+  xmax_old = xmax;
+  ymin_old = ymin;
+  ymax_old = ymax;  
+  redraw();
+  emit(rangesChanged());
 }
 
-void Qt_widget::resizeEvent(QResizeEvent *e)
+void Qt_widget::resize_pixmap()
 {
-  
   // save paint state
   QFont f=painter->font();
   QBrush b=painter->brush();
@@ -120,23 +145,35 @@ void Qt_widget::resizeEvent(QResizeEvent *e)
   pixmap->resize(size());
   painter->begin(pixmap); // begin again painting on pixmap
   clear();
-  painter->setWorldMatrix(bm);
 
   // restore paint state
   painter->setFont(f);
   painter->setBrush(b);
   painter->setPen(p);
   painter->setBackgroundColor(bc);
+  painter->setWorldMatrix(bm);
+}
 
-  if (constranges)
-    set_scales();
-  else
-    set_scale_center(xcentre, ycentre);
-  //  emit(resized());
+void Qt_widget::resizeEvent(QResizeEvent*)
+{
+  resize_pixmap();
+  xmin = xmin_old;
+  xmax = xmax_old;
+  ymin = ymin_old;
+  ymax = ymax_old;
+  set_scales();
   redraw();
 }
 
-void Qt_widget::paintEvent(QPaintEvent *e)
+void Qt_widget::showEvent(QShowEvent* e)
+{
+  if( set_scales_to_be_done )
+    set_scales();
+
+  return QWidget::showEvent(e);
+}
+
+void Qt_widget::paintEvent(QPaintEvent*)
 {
   // save paint state
   QFont f=painter->font();
@@ -144,7 +181,6 @@ void Qt_widget::paintEvent(QPaintEvent *e)
   QPen p=painter->pen();
   QColor bc=painter->backgroundColor();
   QWMatrix bm = painter->worldMatrix();
-
 
   painter->end();  // end painting on pixmap
   bitBlt(this, 0, 0, pixmap); // copy pixmap to the Qt_widget
@@ -161,12 +197,13 @@ void Qt_widget::paintEvent(QPaintEvent *e)
 void Qt_widget::mousePressEvent(QMouseEvent *e)
 {
   emit(s_mousePressEvent(e));
-  if(!is_standard_active()) {
+  if(!does_standard_eat_events()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
       if((*it)->is_active())
         (*it)->mousePressEvent(e);
-  } else {
+  } 
+  if(is_standard_active()){
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_standard_layers.begin();
     it!= qt_standard_layers.end(); it++)
@@ -178,12 +215,13 @@ void Qt_widget::mousePressEvent(QMouseEvent *e)
 void Qt_widget::mouseReleaseEvent(QMouseEvent *e)
 {
   emit(s_mouseReleaseEvent(e));
-  if(!is_standard_active()) {
+  if(!does_standard_eat_events()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
       if((*it)->is_active())
         (*it)->mouseReleaseEvent(e);
-  } else {
+  }
+  if(is_standard_active()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_standard_layers.begin();
     it!= qt_standard_layers.end(); it++)
@@ -195,12 +233,13 @@ void Qt_widget::mouseReleaseEvent(QMouseEvent *e)
 void Qt_widget::mouseMoveEvent(QMouseEvent *e)
 {
   emit(s_mouseMoveEvent(e));
-  if(!is_standard_active()) {
+  if(!does_standard_eat_events()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
       if((*it)->is_active())
         (*it)->mouseMoveEvent(e);
-  } else {
+  }
+  if(is_standard_active()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_standard_layers.begin();
     it!= qt_standard_layers.end(); it++)
@@ -209,15 +248,16 @@ void Qt_widget::mouseMoveEvent(QMouseEvent *e)
   }
 }
 
-void Qt_widget::wheelEvent(QMouseEvent *e)
+void Qt_widget::wheelEvent(QWheelEvent *e)
 {
   emit(s_wheelEvent(e));
-  if(!is_standard_active()) {
+  if(!does_standard_eat_events()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
       if((*it)->is_active())
         (*it)->wheelEvent(e);
-  } else {
+  }
+  if(is_standard_active()){
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_standard_layers.begin();
     it!= qt_standard_layers.end(); it++)
@@ -229,12 +269,13 @@ void Qt_widget::wheelEvent(QMouseEvent *e)
 void Qt_widget::mouseDoubleClickEvent(QMouseEvent *e)
 {
   emit(s_mouseDoubleClickEvent(e));
-  if(!is_standard_active()) {
+  if(!does_standard_eat_events()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
       if((*it)->is_active())
         (*it)->mouseDoubleClickEvent(e);
-  } else {
+  }
+  if(is_standard_active()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_standard_layers.begin();
     it!= qt_standard_layers.end(); it++)
@@ -246,12 +287,13 @@ void Qt_widget::mouseDoubleClickEvent(QMouseEvent *e)
 void Qt_widget::keyPressEvent(QKeyEvent *e)
 {
   emit(s_keyPressEvent(e));
-  if(!is_standard_active()) {
+  if(!does_standard_eat_events()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
       if((*it)->is_active())
         (*it)->keyPressEvent(e);
-  } else {
+  }
+  if(is_standard_active()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_standard_layers.begin();
     it!= qt_standard_layers.end(); it++)
@@ -263,12 +305,13 @@ void Qt_widget::keyPressEvent(QKeyEvent *e)
 void Qt_widget::keyReleaseEvent(QKeyEvent *e)
 {
   emit(s_keyReleaseEvent(e));
-  if(!is_standard_active()) {
+  if(!does_standard_eat_events()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
       if((*it)->is_active())
         (*it)->keyReleaseEvent(e);
-  } else {
+  }
+  if(is_standard_active()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_standard_layers.begin();
     it!= qt_standard_layers.end(); it++)
@@ -280,12 +323,13 @@ void Qt_widget::keyReleaseEvent(QKeyEvent *e)
 void Qt_widget::enterEvent(QEvent *e)
 {
   emit(s_enterEvent(e));
-  if(!is_standard_active()) {
+  if(!does_standard_eat_events()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
       if((*it)->is_active())
         (*it)->enterEvent(e);
-  } else {
+  }
+  if(is_standard_active()){
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_standard_layers.begin();
     it!= qt_standard_layers.end(); it++)
@@ -297,12 +341,13 @@ void Qt_widget::enterEvent(QEvent *e)
 void Qt_widget::leaveEvent(QEvent *e)
 {
   emit(s_leaveEvent(e));
-  if(!is_standard_active()) {
+  if(!does_standard_eat_events()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
       if((*it)->is_active())
         (*it)->leaveEvent(e);
-  } else {
+  }
+  if(is_standard_active()){
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_standard_layers.begin();
     it!= qt_standard_layers.end(); it++)
@@ -315,12 +360,13 @@ bool Qt_widget::event(QEvent *e)
 {
   emit(s_event(e));
   QWidget::event(e);
-  if(!is_standard_active()) {
+  if(!does_standard_eat_events()) {
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
       if((*it)->is_active())
         (*it)->event(e);
-  } else {
+  }
+  if(is_standard_active()){
     std::list<Qt_widget_layer*>::iterator it;
     for(it = qt_standard_layers.begin();
     it!= qt_standard_layers.end(); it++)
@@ -330,67 +376,67 @@ bool Qt_widget::event(QEvent *e)
   return true;
 }
 
-void Qt_widget::set_window(double  x_min, double x_max,
-			   double y_min, double y_max,
+void Qt_widget::set_window(const double x_min, const double x_max,
+			   const double y_min, const double y_max,
 			   bool const_ranges)
 {
-  xmin = x_min;
-  xmax = x_max;
-  ymin = y_min;
-  ymax = y_max;
+  xmin_old = xmin = x_min;
+  xmax_old = xmax = x_max;
+  ymin_old = ymin = y_min;
+  ymax_old = ymax = y_max;
   constranges = const_ranges;
-  xcentre = xmin + (xmax - xmin)/2;
-  ycentre = ymin + (ymax - ymin)/2;
   set_scales();
- 
-  add_to_history(); // add the current viewport
-  configure_history_buttons();
+  redraw();
+  emit(rangesChanged());
 }
 
-
-void Qt_widget::configure_history_buttons()
-{
-  int n = history.get_nr_of_items();
-  if( n < 2){
-    emit(set_forward_enabled(false));
-    emit(set_back_enabled(false));
-  } else {
-    int i = history.get_current_item();
-    if(i<2)
-      emit(set_back_enabled(false));
-    else
-      emit(set_back_enabled(true));
-    if(i == n)
-      emit(set_forward_enabled(false));
-    else
-      emit(set_forward_enabled(true));
-  }
-}
 
 void Qt_widget::zoom(double ratio, double xc, double yc)
 {  
   xscal = xscal*ratio; yscal = yscal*ratio;
-  xcentre = xc;
-  ycentre = yc;
-  set_scale_center(xcentre, ycentre);
-  add_to_history(); //add the current viewport to history
-  configure_history_buttons();
+  set_center(xc, yc);
 }
 
 void Qt_widget::zoom(double ratio)
 {
-  zoom(ratio,xcentre,ycentre);
+  zoom(ratio,
+       xmin + (xmax - xmin) / 2 ,
+       ymin + (ymax - ymin) / 2 );
 }
+
+#ifdef CGAL_USE_GMP
+void Qt_widget::x_real(int x, Gmpq& return_t) const
+{
+  return_t = simplest_rational_in_interval<Gmpq>( 
+                  xmin+x/xscal-(1/xscal)/2,
+                  xmin+x/xscal+(1/xscal)/2);
+}
+
+void Qt_widget::y_real(int y, Gmpq& return_t) const
+{
+  return_t = simplest_rational_in_interval<Gmpq>( 
+                  ymax - y/yscal-(1/yscal)/2,
+                  ymax - y/yscal+(1/yscal)/2);
+}
+#endif
 
 double Qt_widget::x_real(int x) const
 {
-  return(xmin+x/xscal);
+  if(xscal<1)
+    return(xmin+(int)(x/xscal));
+  else
+    return (xmin+x/xscal);
 }
 
 double Qt_widget::y_real(int y) const
 {
-  return(ymax-y/yscal);
+    if(yscal<1)
+      return(ymax-(int)(y/yscal));
+    else
+      return (ymax-y/yscal);
 }
+
+
 
 double Qt_widget::x_real_dist(double d) const
 {
@@ -443,38 +489,6 @@ Qt_widget& Qt_widget::operator<<(const PointStyle& ps)
 void Qt_widget::clear() {
   painter->eraseRect(rect());
 }
-  bool Qt_widget::back(){
-    if(history.back()){
-      xmin = history.get_atom()->x1();
-      xmax = history.get_atom()->x2();
-      ymin = history.get_atom()->y1();
-      ymax = history.get_atom()->y2();
-      xcentre = history.get_atom()->xcenter();
-      ycentre = history.get_atom()->ycenter();
-      xscal = history.get_atom()->xscal();
-      yscal = history.get_atom()->yscal();
-      configure_history_buttons();
-      redraw();
-      return true;
-    }
-    return false;
-  }
-  bool Qt_widget::forth(){
-    if(history.forward()) {
-      xmin = history.get_atom()->x1();
-      xmax = history.get_atom()->x2();
-      ymin = history.get_atom()->y1();
-      ymax = history.get_atom()->y2();
-      xcentre = history.get_atom()->xcenter();
-      ycentre = history.get_atom()->ycenter();
-      xscal = history.get_atom()->xscal();
-      yscal = history.get_atom()->yscal();
-      configure_history_buttons();
-      redraw();
-      return true;
-    }
-    return false;
-  }
 
   Qt_widget& operator<<(Qt_widget& w, const Bbox_2& r)
   {
@@ -499,14 +513,25 @@ void Qt_widget::clear() {
     qt_standard_layers.push_back(layer);
     layer->attach(this);
     layer->activate();
+    layer->does_eat_events = true;
   }
 
   bool Qt_widget::is_standard_active() {
     std::list<Qt_widget_layer*>::iterator it;
-		for(it = qt_standard_layers.begin();
+      for(it = qt_standard_layers.begin();
         it!= qt_standard_layers.end(); it++)
 		  if((*it)->is_active())
         return true;
+    return false;
+  }
+  
+  bool Qt_widget::does_standard_eat_events() {
+    std::list<Qt_widget_layer*>::iterator it;
+      for(it = qt_standard_layers.begin();
+        it!= qt_standard_layers.end(); it++)
+	  if((*it)->is_active())
+	    if((*it)->does_eat_events == true)
+              return true;
     return false;
   }
 
@@ -517,13 +542,15 @@ void Qt_widget::clear() {
       QPainter *painter_for_printer = new QPainter(printer);
       painter = painter_for_printer;
       painter->setClipping(true);
-      painter->setClipRect(0, 0, width(), height());
+      painter->setClipRect(rect());
       lock();
+        emit(redraw_on_back());
         std::list<Qt_widget_layer*>::iterator it;
 		    for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
 		      if((*it)->is_active())
 			      (*it)->draw();
-        emit(custom_redraw());
+        emit(custom_redraw()); //deprecated, should use the following:
+	emit(redraw_on_front());
       unlock();
       delete painter;
       painter = ptemp;
@@ -536,17 +563,19 @@ void Qt_widget::clear() {
     {
       clear();
       lock();
+        emit(redraw_on_back());
         std::list<Qt_widget_layer*>::iterator it;
-		    for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
-		      if((*it)->is_active())
-			      (*it)->draw();
+          for(it = qt_layers.begin(); it!= qt_layers.end(); it++)
+            if((*it)->is_active())
+              (*it)->draw();
         for(it = qt_standard_layers.begin();
             it!= qt_standard_layers.end(); it++)
-		      if((*it)->is_active())
-			      (*it)->draw();
+          if((*it)->is_active())
+            (*it)->draw();
+        emit(custom_redraw()); //deprecated, should use the following:
+        emit(redraw_on_front());
       unlock();
     }
-    emit(custom_redraw());
   };
   
   void Qt_widget::detach(Qt_widget_layer* s)

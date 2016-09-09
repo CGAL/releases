@@ -1,49 +1,22 @@
-// ======================================================================
+// Copyright (c) 1999,2000,2001,2002  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_3.h,v $
+// $Revision: 1.184 $ $Date: 2003/09/18 10:26:25 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_3.h
-// package       : Triangulation_3 (1.114)
-// revision      : $Revision: 1.167 $
-//
-// author(s)     : Monique Teillaud
-//                 Sylvain Pion
-//
-// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
+//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
 
 #ifndef CGAL_TRIANGULATION_3_H
@@ -78,14 +51,13 @@ template < class GT, class Tds > std::istream& operator>>
 template < class GT, 
            class Tds = Triangulation_data_structure_3 <
                                    Triangulation_vertex_base_3<GT>,
-                                   Triangulation_cell_base_3<void> > >
+                                   Triangulation_cell_base_3<GT> > >
 class Triangulation_3
   :public Triangulation_utils_3
 {
   friend std::istream& operator>> CGAL_NULL_TMPL_ARGS
   (std::istream& is, Triangulation_3<GT,Tds> &tr);
 
-  class Infinite_tester;
   typedef Triangulation_3<GT, Tds>             Self;
 public:
   typedef Tds                                  Triangulation_data_structure;
@@ -117,15 +89,78 @@ public:
   typedef Edge_iterator                        All_edges_iterator;
   typedef Vertex_iterator                      All_vertices_iterator;
 
-  typedef Filter_iterator<Cell_iterator, Infinite_tester>
-                                               Finite_cells_iterator_base;
-  typedef Filter_iterator<Vertex_iterator, Infinite_tester>
-                                               Finite_vertices_iterator_base;
-  typedef Triangulation_iterator_handle_adaptor_3<Finite_cells_iterator_base,
-                               Cell_handle>    Finite_cells_iterator;
-  typedef Triangulation_iterator_handle_adaptor_3
-                               <Finite_vertices_iterator_base,
-				 Vertex_handle> Finite_vertices_iterator;
+private:
+  // This class is used to generate the Finite_*_iterators.
+  class Infinite_tester
+  {
+      const Self *t;
+
+  public:
+
+      Infinite_tester() {}
+
+      Infinite_tester(const Self *tr)
+	  : t(tr) {}
+
+      bool operator()(const Vertex_iterator & v) const
+      {
+	  return t->is_infinite(v);
+      }
+
+      bool operator()(const Cell_iterator & c) const
+      {
+	  return t->is_infinite(c);
+      }
+
+      bool operator()(const Edge_iterator & e) const
+      {
+	  return t->is_infinite(*e);
+      }
+
+      bool operator()(const Facet_iterator & f) const
+      {
+	  return t->is_infinite(*f);
+      }
+  };
+
+public:
+
+  // We derive in order to add a conversion to handle.
+  class Finite_cells_iterator
+    : public Filter_iterator<Cell_iterator, Infinite_tester> {
+    typedef Filter_iterator<Cell_iterator, Infinite_tester> Base;
+    typedef Finite_cells_iterator                           Self;
+  public:
+
+    Finite_cells_iterator() : Base() {}
+    Finite_cells_iterator(const Base &b) : Base(b) {}
+
+    Self & operator++() { Base::operator++(); return *this; }
+    Self & operator--() { Base::operator--(); return *this; }
+    Self operator++(int) { Self tmp(*this); ++(*this); return tmp; }
+    Self operator--(int) { Self tmp(*this); --(*this); return tmp; }
+
+    operator Cell_handle() const { return Base::base(); }
+  };
+
+  // We derive in order to add a conversion to handle.
+  class Finite_vertices_iterator
+    : public Filter_iterator<Vertex_iterator, Infinite_tester> {
+    typedef Filter_iterator<Vertex_iterator, Infinite_tester> Base;
+    typedef Finite_vertices_iterator                          Self;
+  public:
+
+    Finite_vertices_iterator() : Base() {}
+    Finite_vertices_iterator(const Base &b) : Base(b) {}
+
+    Self & operator++() { Base::operator++(); return *this; }
+    Self & operator--() { Base::operator--(); return *this; }
+    Self operator++(int) { Self tmp(*this); ++(*this); return tmp; }
+    Self operator--(int) { Self tmp(*this); --(*this); return tmp; }
+
+    operator Vertex_handle() const { return Base::base(); }
+  };
+
   typedef Filter_iterator<Edge_iterator, Infinite_tester>
                                                Finite_edges_iterator;
   typedef Filter_iterator<Facet_iterator, Infinite_tester>
@@ -252,13 +287,7 @@ protected:
 public:
 
   // CONSTRUCTORS
-  Triangulation_3()
-    : _tds(), _gt()
-    {
-      init_tds();
-    }
-
-  Triangulation_3(const GT & gt) 
+  Triangulation_3(const GT & gt = GT())
     : _tds(), _gt(gt)
     {
       init_tds();
@@ -271,6 +300,15 @@ public:
       infinite = _tds.copy_tds(tr._tds, tr.infinite);
     }
 
+  template < typename InputIterator >
+  Triangulation_3(InputIterator first, InputIterator last,
+                  const GT & gt = GT())
+    : _gt(gt)
+  {
+      init_tds();
+      insert(first, last);
+  }
+
   void clear()
     {
       _tds.clear();
@@ -279,17 +317,12 @@ public:
 
   Triangulation_3 & operator=(const Triangulation_3 & tr)
     {
-      copy_triangulation(tr);
+      Triangulation_3 tmp = tr;
+      swap(tmp);
       return *this;
     }
 
   // HELPING FUNCTIONS
-   
-  void copy_triangulation(const Triangulation_3 & tr)
-    {
-      _gt = tr._gt;
-      infinite = _tds.copy_tds( tr._tds, tr.infinite );
-    }
 
   void swap(Triangulation_3 &tr)
     {
@@ -301,10 +334,13 @@ public:
   //ACCESS FUNCTIONS
   const GT & geom_traits() const 
     { return _gt;}
-  
+
   const Tds & tds() const 
     { return _tds;}
-  
+
+  Tds & tds()
+    { return _tds;}
+
   int dimension() const 
     { return _tds.dimension();}
 
@@ -333,10 +369,6 @@ public:
       return infinite_vertex()->cell();
     }
 
-  // ASSIGNMENT
-  void set_number_of_vertices(int n) 
-    { _tds.set_number_of_vertices(n+1); }
-   
   // GEOMETRIC ACCESS FUNCTIONS
   
   Tetrahedron tetrahedron(const Cell_handle c) const
@@ -478,7 +510,7 @@ public:
   bool flip(Cell_handle c, int i);
   void flip_flippable(const Facet &f)
   {
-    return flip_flippable( f.first, f.second);
+    flip_flippable( f.first, f.second);
   }
   void flip_flippable(Cell_handle c, int i);
   bool flip(const Edge &e)
@@ -492,7 +524,7 @@ public:
   bool flip(Cell_handle c, int i, int j);
   void flip_flippable(const Edge &e)
   {
-    return flip_flippable( e.first, e.second, e.third );
+    flip_flippable( e.first, e.second, e.third );
   }
   void flip_flippable(Cell_handle c, int i, int j);
 
@@ -502,11 +534,19 @@ public:
   Vertex_handle insert(const Point & p, Locate_type lt, Cell_handle c,
 	               int li, int lj);
  
-  // Obsolete.
+#ifndef CGAL_NO_DEPRECATED_CODE
   Vertex_handle push_back(const Point & p)
   {
+      bool THIS_FUNCTION_IS_DEPRECATED; // use insert() and CGAL::Inserter<>
       return insert(p);
   }
+
+  void copy_triangulation(const Triangulation_3 & tr)
+    {
+      bool THIS_FUNCTION_IS_DEPRECATED; // Use assignment operator instead.
+      *this = tr;
+    }
+#endif
 
   template < class InputIterator >
   int insert(InputIterator first, InputIterator last)
@@ -565,71 +605,83 @@ protected:
   // 0 -> unknown
   // 1 -> in conflict
   // 2 -> not in conflict (== on boundary)
-  template <class Conflict_test, class Out_it_boundary_facets,
-            class Out_it_cells, class Out_it_internal_facets>
-  void
+  template <class Conflict_test,
+            class OutputIteratorBoundaryFacets,
+            class OutputIteratorCells,
+            class OutputIteratorInternalFacets>
+  Triple<OutputIteratorBoundaryFacets,
+         OutputIteratorCells,
+         OutputIteratorInternalFacets>
   find_conflicts_2(Cell_handle c, const Conflict_test &tester,
-	           Out_it_boundary_facets fit, Out_it_cells cit,
-		   Out_it_internal_facets ifit) const
+	           Triple<OutputIteratorBoundaryFacets,
+                          OutputIteratorCells,
+		          OutputIteratorInternalFacets> it) const
   {
     CGAL_triangulation_precondition( dimension()==2 );
     CGAL_triangulation_precondition( tester(c) );
 
     c->set_in_conflict_flag(1);
-    *cit++ = c;
+    *it.second++ = c;
 
     for (int i=0; i<3; ++i) {
       Cell_handle test = c->neighbor(i);
       if (test->get_in_conflict_flag() == 1) {
 	  if (c < test)
-	      *ifit++ = Facet(c, i); // Internal facet.
+	      *it.third++ = Facet(c, i); // Internal facet.
           continue; // test was already in conflict.
       }
       if (test->get_in_conflict_flag() == 0) {
 	  if (tester(test)) {
 	      if (c < test)
-		  *ifit++ = Facet(c, i); // Internal facet.
-              find_conflicts_2(test, tester, fit, cit, ifit);
+		  *it.third++ = Facet(c, i); // Internal facet.
+              it = find_conflicts_2(test, tester, it);
 	      continue;
 	  }
 	  test->set_in_conflict_flag(2); // test is on the boundary.
       }
-      *fit++ = Facet(c, i);
+      *it.first++ = Facet(c, i);
     }
+    return it;
   }
 
   // Note: the code duplication between _2 and _3 should be avoided one day.
-  template <class Conflict_test, class Out_it_boundary_facets,
-            class Out_it_cells, class Out_it_internal_facets>
-  void
+  template <class Conflict_test,
+            class OutputIteratorBoundaryFacets,
+            class OutputIteratorCells,
+            class OutputIteratorInternalFacets>
+  Triple<OutputIteratorBoundaryFacets,
+         OutputIteratorCells,
+         OutputIteratorInternalFacets>
   find_conflicts_3(Cell_handle c, const Conflict_test &tester,
-	           Out_it_boundary_facets fit, Out_it_cells cit,
-		   Out_it_internal_facets ifit) const
+	           Triple<OutputIteratorBoundaryFacets,
+                          OutputIteratorCells,
+		          OutputIteratorInternalFacets> it) const
   {
     CGAL_triangulation_precondition( dimension()==3 );
     CGAL_triangulation_precondition( tester(c) );
 
     c->set_in_conflict_flag(1);
-    *cit++ = c;
+    *it.second++ = c;
 
     for (int i=0; i<4; ++i) {
       Cell_handle test = c->neighbor(i);
       if (test->get_in_conflict_flag() == 1) { // test was already in conflict.
 	  if (c < test)
-	      *ifit++ = Facet(c, i); // Internal facet.
+	      *it.third++ = Facet(c, i); // Internal facet.
           continue;
       }
       if (test->get_in_conflict_flag() == 0) {
 	  if (tester(test)) {
 	      if (c < test)
-		  *ifit++ = Facet(c, i); // Internal facet.
-              find_conflicts_3(test, tester, fit, cit, ifit);
+		  *it.third++ = Facet(c, i); // Internal facet.
+              it = find_conflicts_3(test, tester, it);
 	      continue;
 	  }
 	  test->set_in_conflict_flag(2); // test is on the boundary.
       }
-      *fit++ = Facet(c, i);
+      *it.first++ = Facet(c, i);
     }
+    return it;
   }
 
   // This one takes a function object to recursively determine the cells in
@@ -648,9 +700,9 @@ protected:
     Facet facet;
 
     // Find the cells in conflict
-    find_conflicts_2(c, tester, Oneset_iterator<Facet>(facet),
-		                    std::back_inserter(cells),
-				    Emptyset_iterator());
+    find_conflicts_2(c, tester, make_triple(Oneset_iterator<Facet>(facet),
+		                            std::back_inserter(cells),
+				            Emptyset_iterator()));
 
     // Create the new cells and delete the old.
     return _tds._insert_in_hole(cells.begin(), cells.end(),
@@ -673,9 +725,9 @@ protected:
     Facet facet;
 
     // Find the cells in conflict
-    find_conflicts_3(c, tester, Oneset_iterator<Facet>(facet),
-		                    std::back_inserter(cells),
-				    Emptyset_iterator());
+    find_conflicts_3(c, tester, make_triple(Oneset_iterator<Facet>(facet),
+		                            std::back_inserter(cells),
+				            Emptyset_iterator()));
 
     // Create the new cells and delete the old.
     return _tds._insert_in_hole(cells.begin(), cells.end(),
@@ -721,43 +773,13 @@ private:
       }
   };
 
-  // This class is used to generate the Finite_*_iterators.
-  class Infinite_tester
-  {
-      const Self *t;
-
-  public:
-
-      Infinite_tester() {}
-
-      Infinite_tester(const Self *tr)
-	  : t(tr) {}
-
-      bool operator()(const Vertex_iterator & v) const
-      {
-	  return t->is_infinite(v);
-      }
-
-      bool operator()(const Cell_iterator & c) const
-      {
-	  return t->is_infinite(c);
-      }
-
-      bool operator()(const Edge_iterator & e) const
-      {
-	  return t->is_infinite(*e);
-      }
-
-      bool operator()(const Facet_iterator & f) const
-      {
-	  return t->is_infinite(*f);
-      }
-  };
 
   // They access "Self", so need to be friend.
   friend class Conflict_tester_outside_convex_hull_3;
   friend class Conflict_tester_outside_convex_hull_2;
   friend class Infinite_tester;
+  friend class Finite_vertices_iterator;
+  friend class Finite_cells_iterator;
 
 public:
 
@@ -944,36 +966,18 @@ public:
   }
 
   // around a vertex
-  void
-  incident_cells(Vertex_handle v,
-                 std::set<Cell_handle> & cells,
-                 Cell_handle c = NULL ) const
-  {
-      bool THIS_FUNCTION_IS_DEPRECATED;
-      _tds.incident_cells(v, cells, c);
-  }
-
   template <class OutputIterator>
-  void
+  OutputIterator
   incident_cells(Vertex_handle v, OutputIterator cells) const
   {
-      _tds.incident_cells(v, cells);
-  }
-
-  void
-  incident_vertices(Vertex_handle v,
-                    std::set<Vertex_handle> & vertices,
-		    Cell_handle c = NULL ) const
-  {
-      bool THIS_FUNCTION_IS_DEPRECATED;
-      _tds.incident_vertices(v, vertices, c);
+      return _tds.incident_cells(v, cells);
   }
 
   template <class OutputIterator>
-  void
+  OutputIterator
   incident_vertices(Vertex_handle v, OutputIterator vertices) const
   {
-      _tds.incident_vertices(v, vertices);
+      return _tds.incident_vertices(v, vertices);
   }
 
   unsigned int degree(Vertex_handle v) const
@@ -1069,18 +1073,11 @@ operator<< (std::ostream& os, const Triangulation_3<GT, Tds> &tr)
   int i = 0;
 
   // write the vertices
-  // the vertices must be indexed by their order of creation so
-  // that when reread from file, the orders of vertices are the
-  // same - important for remove 
 
   for (Vertex_iterator it=tr.vertices_begin(); it!=tr.vertices_end(); ++it)
     TV[i++] = it;
 
   CGAL_triangulation_assertion( i == n+1 ); 
-
-  std::sort(TV.begin(), TV.end(), 
-	    Vertex_tds_compare_order_of_creation<Vertex_handle>()); 
-
   CGAL_triangulation_assertion( tr.is_infinite(TV[0]) );
 
   std::map<Vertex_handle, int > V;
@@ -1477,7 +1474,6 @@ locate(const Point & p, Locate_type & lt, int & li, int & lj,
 	// i = 0; // For the (remembering) visibility walk. Ok for Delaunay only
 
         Orientation test_or = (i&1)==0 ? NEGATIVE : POSITIVE;
-	const Point & p0 = c->vertex( i )->point();
 	const Point & p1 = c->vertex( (i+1)&3 )->point();
 	const Point & p2 = c->vertex( (i+2)&3 )->point();
 	const Point & p3 = c->vertex( (i+3)&3 )->point();
@@ -1497,6 +1493,8 @@ locate(const Point & p, Locate_type & lt, int & li, int & lj,
 	  }
 	} else
 	    o[0] = (Orientation) - test_or;
+
+	const Point & p0 = c->vertex( i )->point();
 
 	next = c->neighbor((i+1)&3);
 	if (previous != next) {
@@ -2035,11 +2033,14 @@ side_of_facet(const Point & p,
 			    c->vertex(1)->point(),
 			    c->vertex(2)->point(),
 			    lt, i_t, j_t);
-    // indices in the original cell :
-    li = ( i_t == 0 ) ? 0 :
-         ( i_t == 1 ) ? 1 : 2;
-    lj = ( j_t == 0 ) ? 0 :
-         ( j_t == 1 ) ? 1 : 2;
+    // We protect the following code by this test to avoid valgrind messages.
+    if (side == ON_BOUNDARY) {
+        // indices in the original cell :
+        li = ( i_t == 0 ) ? 0 :
+             ( i_t == 1 ) ? 1 : 2;
+        lj = ( j_t == 0 ) ? 0 :
+             ( j_t == 1 ) ? 1 : 2;
+    }
     return side;
   }
   // else infinite facet
@@ -2147,7 +2148,7 @@ side_of_edge(const Point & p,
   // else infinite edge
   int inf = c->index(infinite);
   switch (collinear_position(c->vertex(1-inf)->point(), p,
-	                     c->mirror_vertex(1-inf)->point())) {
+	                     c->mirror_vertex(inf)->point())) {
       case SOURCE:
 	  lt = VERTEX;
 	  li = 1-inf;
@@ -2408,10 +2409,10 @@ insert_in_facet(const Point & p, Cell_handle c, int i)
   CGAL_triangulation_precondition( dimension() == 2 || dimension() == 3);
   CGAL_triangulation_precondition( (dimension() == 2 && i == 3)
 	                        || (dimension() == 3 && i >= 0 && i <= 3) );
-  CGAL_triangulation_precondition_code
+  CGAL_triangulation_exactness_precondition_code
     ( Locate_type lt;
       int li; int lj; );
-  CGAL_triangulation_precondition
+  CGAL_triangulation_exactness_precondition
     ( coplanar( p, c->vertex((i+1)&3)->point(),
 		   c->vertex((i+2)&3)->point(),
 		   c->vertex((i+3)&3)->point() )
@@ -2436,27 +2437,26 @@ insert_in_edge(const Point & p, Cell_handle c, int i, int j)
   CGAL_triangulation_precondition( dimension() >= 1 && dimension() <= 3 );
   CGAL_triangulation_precondition( i >= 0 && i <= dimension() 
 				   && j >= 0 && j <= dimension() );
-  CGAL_triangulation_precondition_code( Locate_type lt; int li; );
+  CGAL_triangulation_exactness_precondition_code( Locate_type lt; int li; );
   switch ( dimension() ) {
   case 3:
   case 2:
     {
       CGAL_triangulation_precondition( ! is_infinite(c, i, j) );
-      CGAL_triangulation_precondition( collinear( c->vertex(i)->point(),
-						  p,
-						  c->vertex(j)->point() )
-				       &&
-				       side_of_segment( p,
-							c->vertex(i)->point(),
-							c->vertex(j)->point(),
-							lt, li ) 
-				       == ON_BOUNDED_SIDE );
+      CGAL_triangulation_exactness_precondition(
+                         collinear( c->vertex(i)->point(),
+				    p,
+				    c->vertex(j)->point() )
+	              && side_of_segment( p,
+					  c->vertex(i)->point(),
+					  c->vertex(j)->point(),
+					  lt, li ) == ON_BOUNDED_SIDE );
       break;
     }
   case 1:
     {
-      CGAL_triangulation_precondition( side_of_edge(p, c, lt, li)
-				       == ON_BOUNDED_SIDE );
+      CGAL_triangulation_exactness_precondition( side_of_edge(p, c, lt, li)
+				                 == ON_BOUNDED_SIDE );
       break;
     }
   }
@@ -2657,35 +2657,34 @@ is_valid_finite(Cell_handle c, bool verbose, int) const
     {
       const Point & p0 = c->vertex(0)->point();
       const Point & p1 = c->vertex(1)->point();
-	    
-      if ( ! is_infinite ( c->neighbor(0)->vertex(c->neighbor(0)->index(c)) ) )
+
+      Vertex_handle v = c->neighbor(0)->vertex(c->neighbor(0)->index(c));
+      if ( ! is_infinite(v) )
       {
-	const Point & n0 =
-	    c->neighbor(0)->vertex(c->neighbor(0)->index(c))->point();  
-	if ( collinear_position(p0, p1, n0) != MIDDLE ) {
+	if ( collinear_position(p0, p1, v->point()) != MIDDLE ) {
 	  if (verbose)
 	      std::cerr << "badly oriented edge "
 		        << p0 << ", " << p1 << std::endl
 		        << "with neighbor 0"
 		        << c->neighbor(0)->vertex(1-c->neighbor(0)->index(c))
 			                 ->point() 
-		        << ", " << n0 << std::endl;
+		        << ", " << v->point() << std::endl;
 	  CGAL_triangulation_assertion(false);
 	  return false;
 	}
       }
-      if ( ! is_infinite ( c->neighbor(1)->vertex(c->neighbor(1)->index(c)) ) )
+
+      v = c->neighbor(1)->vertex(c->neighbor(1)->index(c));
+      if ( ! is_infinite(v) )
       {
-	const Point & n1 =
-	    c->neighbor(1)->vertex(c->neighbor(1)->index(c))->point();
-	if ( collinear_position(p1, p0, n1) != MIDDLE ) {
+	if ( collinear_position(p1, p0, v->point()) != MIDDLE ) {
 	  if (verbose)
 	      std::cerr << "badly oriented edge "
 		        << p0 << ", " << p1 << std::endl
 		        << "with neighbor 1"
 		        << c->neighbor(1)->vertex(1-c->neighbor(1)->index(c))
 			                 ->point() 
-		        << ", " << n1 << std::endl;
+		        << ", " << v->point() << std::endl;
 	  CGAL_triangulation_assertion(false);
 	  return false;
 	}

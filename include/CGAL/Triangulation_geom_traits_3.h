@@ -1,49 +1,22 @@
-// ======================================================================
+// Copyright (c) 1999  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_geom_traits_3.h,v $
+// $Revision: 1.49 $ $Date: 2003/09/18 10:26:30 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_geom_traits_3.h
-// package       : Triangulation_3 (1.114)
-// revision      : $Revision: 1.47 $
-// 
-// author(s)     : Andreas Fabri
-//                 Monique Teillaud
-//
-// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Andreas Fabri <Andreas.Fabri@sophia.inria.fr>
+//                 Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //
 // geometric traits for a <=3 D triangulation
 //
@@ -79,7 +52,6 @@ public:
   typedef typename Rep::Tetrahedron_3  Tetrahedron_3;
   typedef typename Rep::Ray_3          Ray_3;
   typedef typename Rep::Line_3         Line_3;
-  typedef typename Rep::Direction_3    Direction_3;
   typedef typename Rep::Plane_3        Plane_3;
 
   // The next typedef is there for backward compatibility

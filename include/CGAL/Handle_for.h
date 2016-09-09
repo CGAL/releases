@@ -1,138 +1,116 @@
-// ======================================================================
-//
-// Copyright (c) 1999,2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999,2001,2003  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Handle_for.h
-// package       : Kernel_basic (3.90)
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 2002/01/04 14:07:53 $
-// author(s)     : Stefan Schirra, Sylvain Pion
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Handle_for.h,v $
+// $Revision: 1.21 $ $Date: 2003/10/21 12:18:05 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra, Sylvain Pion
  
-
 #ifndef CGAL_HANDLE_FOR_H
 #define CGAL_HANDLE_FOR_H
 
 #include <CGAL/memory.h>
+#include <algorithm>
 
 CGAL_BEGIN_NAMESPACE
-
-struct Ref_counted {}; // For backward compatibility.  It's obsolete.
-
-template <class U>
-struct Ref_counted2
-{
-    Ref_counted2(const U& u) : count(1), u_(u)  {}
-    Ref_counted2(const Ref_counted2& r) : count(1), u_(r.u()) {}
-
-    U* base_ptr() { return &u_; }
-
-#ifdef CGAL_USE_LEDA
-    // Speeds things up with LEDA and New_delete_allocator<>.
-    LEDA_MEMORY(Ref_counted2)
-#endif
-
-    void add_reference() { ++count; }
-    void remove_reference() { --count; }
-    bool is_shared() const { return count > 1; }
-
-private:
-
-    const U& u() const { return u_; }
-
-    unsigned int count;
-    U u_;
-};
-
 
 template <class T, class Alloc = CGAL_ALLOCATOR(T) >
 class Handle_for
 {
-    typedef Ref_counted2<T>                                     RefCounted;
+    // Wrapper that adds the reference counter.
+    struct RefCounted {
+        T t;
+        unsigned int count;
+    };
 
-#ifndef CGAL_CFG_NO_NESTED_TEMPLATE_KEYWORD
     typedef typename Alloc::template rebind<RefCounted>::other  Allocator;
-  public:
-#else
-  public:
-    // For VC++, we must hardcode the default allocator.
-    typedef CGAL_ALLOCATOR(RefCounted)                          Allocator;
-#endif
+    typedef typename Allocator::pointer                         pointer;
+
+    static Allocator   allocator;
+    pointer            ptr_;
+
+public:
 
     typedef T element_type;
 
     Handle_for()
     {
-        ptr_ = allocator.allocate(1);
-	initialize_with(T());
+        // Use a unique static instance to speed up default construction.
+        // It's a static variable of a function instead of the class to
+        // avoid the requirement of a default constructor for T().
+        static const Handle_for def = Handle_for(T());
+        ptr_ = def.ptr_;
+        ++(ptr_->count);
     }
 
+    // TODO :
+    // We should also think about providing template constructors in
+    // order to forward the functionality of T to Handle_for<T> without
+    // the need to an intermediate copy.
+    // Currently it's not working, because some places use conversions.
+
     Handle_for(const T& t)
+      : ptr_(allocator.allocate(1))
     {
-        ptr_ = allocator.allocate(1);
-	initialize_with(t);
+        new (&(ptr_->t)) T(t);
+        ptr_->count = 1;
     }
 
     Handle_for(const Handle_for& h)
+      : ptr_(h.ptr_)
     {
-        ptr_ = h.ptr_;
-        ptr_->add_reference();
+        ++(ptr_->count);
     }
 
     ~Handle_for()
     {
-	remove_reference();
+      if (! is_shared() ) {
+          allocator.destroy( ptr_);
+          allocator.deallocate( ptr_, 1);
+      }
+      else
+	  --(ptr_->count);
     }
 
     Handle_for&
     operator=(const Handle_for& h)
     {
-        h.ptr_->add_reference();
-	remove_reference();
-        ptr_ = h.ptr_;
+        Handle_for tmp = h;
+        swap(tmp);
         return *this;
     }
 
-// protected:
+    Handle_for&
+    operator=(const T &t)
+    {
+        if (is_shared())
+            *this = Handle_for(t);
+        else
+            ptr_->t = t;
+
+        return *this;
+    }
 
     void
     initialize_with(const T& t)
     {
-        allocator.construct(ptr_, RefCounted(t));
+        // kept for backward compatibility.  Use operator=(t) instead.
+        *this = t;
     }
 
     bool
@@ -143,25 +121,34 @@ class Handle_for
     id() const
     { return reinterpret_cast<long int>(&*ptr_); }
 
-    // Ptr() is the "public" access to the pointer.  Both const and non-const.
-    // non-const does copy-on-write.
+    // Ptr() is the "public" access to the pointer to the object.
+    // The non-const version asserts that the instance is not shared.
     const T *
     Ptr() const
-    { return ptr_->base_ptr(); }
+    {
+       return &(ptr_->t);
+    }
 
     /*
+    // The assertion triggers in a couple of places, so I comment it for now.
     T *
     Ptr()
     {
-	copy_on_write();
-	return ptr_;
+      CGAL_assertion(!is_shared());
+      return &(ptr_->t);
     }
     */
 
     bool
     is_shared() const
     {
-	return ptr_->is_shared();
+	return ptr_->count > 1;
+    }
+
+    void
+    swap(Handle_for& h)
+    {
+      std::swap(ptr_, h.ptr_);
     }
 
 protected:
@@ -171,43 +158,37 @@ protected:
     {
       if ( is_shared() )
       {
-        RefCounted* tmp_ptr = allocator.allocate(1);
-        allocator.construct( tmp_ptr, *ptr_);
-        ptr_->remove_reference();
+        pointer tmp_ptr = allocator.allocate(1);
+        new (&(tmp_ptr->t)) T(ptr_->t);
+        tmp_ptr->count = 1;
+        --(ptr_->count);
         ptr_ = tmp_ptr;
       }
     }
 
     // ptr() is the protected access to the pointer.  Both const and non-const.
+    // Redundant with Ptr().
     T *
     ptr()
-    { return ptr_->base_ptr(); }
+    { return &(ptr_->t); }
 
     const T *
     ptr() const
-    { return ptr_->base_ptr(); }
-
-private:
-
-    void
-    remove_reference()
-    {
-      if (! is_shared() ) {
-          allocator.destroy( ptr_);
-          allocator.deallocate( ptr_, 1);
-      }
-      else
-	  ptr_->remove_reference();
-    }
-
-    static Allocator allocator; // Should this go in RefCounted2<> ?
-    typename Allocator::pointer      ptr_;
+    { return &(ptr_->t); }
 };
 
 
 template <class T, class Allocator>
 typename Handle_for<T, Allocator>::Allocator
 Handle_for<T, Allocator>::allocator;
+
+template <class T, class Allocator>
+inline
+void
+swap(Handle_for<T, Allocator> &h1, Handle_for<T, Allocator> &h2)
+{
+    h1.swap(h2);
+}
 
 CGAL_END_NAMESPACE
 

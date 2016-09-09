@@ -1,47 +1,21 @@
-// ======================================================================
+// Copyright (c) 1999  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_ds_vertex_3.h,v $
+// $Revision: 1.31 $ $Date: 2003/09/18 10:26:29 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_ds_vertex_3.h
-// package       : Triangulation_3 (1.114)
-// revision      : $Revision: 1.27 $
-// author(s)     : Monique Teillaud
-//
-// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
 // vertex of a combinatorial triangulation of any dimension <=3
 
@@ -53,74 +27,25 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template <class Tds>
-class  Triangulation_ds_vertex_3 
-  : public Tds::Vertex_base
+template < class Vb >
+struct Triangulation_ds_vertex_3 
+  : public Vb
 {
-  typedef typename Tds::Vertex_base        Vb;
-  typedef typename Tds::Vertex_handle      Vertex_handle;
-  typedef typename Tds::Cell_handle        Cell_handle;
-public:
-  typedef typename Tds::Vertex      Vertex;
-  typedef typename Tds::Cell        Cell;
-
-  Triangulation_ds_vertex_3()
-    : Vb()
-  { set_order_of_creation(); }
-    
-  Cell_handle cell() const
-  {
-    return (Cell *) (Vb::cell());
-  }
-    
-  void set_cell(const Cell_handle c)
-  {
-    Vb::set_cell(&*c);
-  }
-
   bool is_valid(bool verbose = false, int level = 0) const;
-
-  // used for symbolic perturbation in remove_vertex for Delaunay
-  // undocumented
-  int get_order_of_creation() const
-  {
-      return _order_of_creation;
-  }
-
-  Vertex_handle handle() const
-  {
-      return const_cast<Vertex*>(this);
-  }
-
-private:
-  void set_order_of_creation()
-  {
-    _order_of_creation = ++nb;
-  }
-
-  int _order_of_creation;
-
-  static int nb;
 };
 
-template <class Tds>
-int Triangulation_ds_vertex_3<Tds>::nb;
 
-
-template < class VH>
-class Vertex_tds_compare_order_of_creation {
-public:
-  bool operator()(VH u, VH v) const {
-    return u->get_order_of_creation() < v->get_order_of_creation();
-  }
-};
-
-template <class Tds>
+// Should this be moved to TDS::is_valid(Vertex_handle, verbose, level) ?
+template < class Vb >
 bool
-Triangulation_ds_vertex_3<Tds>::is_valid
-(bool verbose, int level) const
+Triangulation_ds_vertex_3<Vb>::is_valid(bool verbose, int level) const
 {
-  bool result = Vb::is_valid(verbose,level) && cell()->has_vertex(handle());
+  bool result = Vb::is_valid(verbose,level);
+  // result = result && cell()->has_vertex(handle());
+  result = result && ( &*cell()->vertex(0) == this ||
+                       &*cell()->vertex(1) == this ||
+                       &*cell()->vertex(2) == this ||
+                       &*cell()->vertex(3) == this );
   if ( ! result ) {
     if ( verbose )
       std::cerr << "invalid vertex" << std::endl;

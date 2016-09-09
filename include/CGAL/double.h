@@ -1,52 +1,31 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/double.h
-// package       : Number_types (4.57)
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 2002/04/23 15:34:37 $
-// author(s)     : Geert-Jan Giezeman
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/double.h,v $
+// $Revision: 1.20 $ $Date: 2003/10/21 12:21:44 $
+// $Name: current_submission $
+//
+// Author(s)     : Geert-Jan Giezeman
 
 #ifndef CGAL_DOUBLE_H
 #define CGAL_DOUBLE_H
 
 #include <CGAL/basic.h>
+#include <utility>
 #include <cmath>
 #if defined(_MSC_VER) || defined(__BORLANDC__) || \
     defined(CGAL_MASK_FINITE_VALID)
@@ -69,15 +48,15 @@ double
 to_double(double d)
 { return d; }
 
+inline 
+std::pair<double,double>
+to_interval(double d)
+{ return std::make_pair(d,d);}
+
 inline
 double
 sqrt(double d)
 { return std::sqrt(d); }
-
-inline
-bool
-is_integral (const double d)
-{ return CGAL_CLIB_STD::ceil(d) == d; }
 
 #ifdef __sgi
 
@@ -181,18 +160,13 @@ io_Operator
 io_tag(double)
 { return io_Operator(); }
 
-namespace NTS {
-#ifndef CGAL_NUMBER_UTILS_H
-template <class NT> NT abs(const NT &x);
-#endif // CGAL_NUMBER_UTILS_H
-
-CGAL_TEMPLATE_NULL
+// GCC is faster with std::fabs().
+#ifdef __GNUG__
 inline
 double
 abs(const double& d)
 { return CGAL_CLIB_STD::fabs(d); }
-
-} // namespace NTS
+#endif
 
 CGAL_END_NAMESPACE
 

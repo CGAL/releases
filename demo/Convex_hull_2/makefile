@@ -13,8 +13,9 @@ include $(CGAL_MAKEFILE)
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = \
+CXXFLAGS = -I../../../include/ \
            $(CGAL_CXXFLAGS) \
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
            $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
@@ -22,33 +23,46 @@ CXXFLAGS = \
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(CGAL_WINDOW_LIBPATH)
+          $(CGAL_LIBPATH)
 
 LDFLAGS = \
-          $(CGAL_WINDOW_LDFLAGS)
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
+          $(CGAL_QT_LDFLAGS) \
+
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-all:            \
-                ch_of_polyline \
-                convex_hull_2_demo \
-                convex_hull_of_ipoints 
+all: convex_hull_2
 
-ch_of_polyline$(EXE_EXT): ch_of_polyline$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ch_of_polyline ch_of_polyline$(OBJ_EXT) $(LDFLAGS)
+Qt_widget_toolbar$(OBJ_EXT): Qt_widget_toolbar.C Qt_widget_toolbar.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_toolbar.C
 
-convex_hull_2_demo$(EXE_EXT): convex_hull_2_demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)convex_hull_2_demo convex_hull_2_demo$(OBJ_EXT) $(LDFLAGS)
+Qt_widget_toolbar.moc: Qt_widget_toolbar.h
+	$(QT_MOC) -o Qt_widget_toolbar.moc Qt_widget_toolbar.h
 
-convex_hull_of_ipoints$(EXE_EXT): convex_hull_of_ipoints$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)convex_hull_of_ipoints convex_hull_of_ipoints$(OBJ_EXT) $(LDFLAGS)
+Qt_widget_move_list_point$(OBJ_EXT): Qt_widget_move_list_point.moc \
+					Qt_widget_move_list_point.C
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_move_list_point.C
+Qt_widget_move_list_point.moc: Qt_widget_move_list_point.h
+	$(QT_MOC) -o Qt_widget_move_list_point.moc Qt_widget_move_list_point.h
 
-clean: \
-                   ch_of_polyline.clean \
-                   convex_hull_2_demo.clean \
-                   convex_hull_of_ipoints.clean 
+convex_hull_2.moc: convex_hull_2.C Qt_widget_toolbar$(OBJ_EXT) 
+	${QT_MOC} -o convex_hull_2.moc convex_hull_2.C
+
+convex_hull_2$(OBJ_EXT): convex_hull_2.C convex_hull_2.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) convex_hull_2.C
+
+convex_hull_2$(EXE_EXT): convex_hull_2$(OBJ_EXT) \
+			 Qt_widget_move_list_point$(OBJ_EXT)
+	$(CGAL_CXX) $(EXE_OPT)convex_hull_2 convex_hull_2$(OBJ_EXT) \
+	 Qt_widget_toolbar$(OBJ_EXT) Qt_widget_move_list_point$(OBJ_EXT) \
+	$(LDFLAGS)
+
+clean: convex_hull_2.clean \
+       Qt_widget_toolbar.clean \
+       Qt_widget_move_list_point.clean
 
 #---------------------------------------------------------------------#
 #                    suffix rules
@@ -56,7 +70,3 @@ clean: \
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
-
-.cpp$(OBJ_EXT):
-	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
-

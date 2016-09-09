@@ -1,116 +1,92 @@
-// ======================================================================
+// Copyright (c) 2000  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Pm_with_intersections_misc.h,v $
+// $Revision: 1.10 $ $Date: 2003/09/18 10:19:43 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Pm_with_intersections_misc.h
-// package       : Arrangement (2.52)
-// author(s)     : Eyal flato
-// coordinator   : Tel-Aviv University (Dan Halperin)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Eyal flato <flato@math.tau.ac.il>
 #ifndef CGAL_PM_WITH_INTERSECTIONS_MISC_H
 #define CGAL_PM_WITH_INTERSECTIONS_MISC_H
 
-#ifndef CGAL_PLANAR_MAP_MISC_H
-#include <CGAL/Planar_map_2/Planar_map_misc.h>
-#endif
+#include <CGAL/Planar_map_2/Pm_traits_wrap_2.h>
+#include <CGAL/tags.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template <class I>
 class Planar_map_with_intersections_traits_wrap : 
-  public Planar_map_traits_wrap<I>
+  public Pm_traits_wrap_2<I>
 {
 public:
-  typedef  Planar_map_traits_wrap<I> Base;
-  typedef  typename Base::X_curve    X_curve;
-  typedef  typename Base::Point      Point;
+  typedef Pm_traits_wrap_2<I>                   Base;
+  typedef typename Base::X_monotone_curve_2     X_monotone_curve_2;
+  typedef typename Base::Point_2                Point_2;
+
+  typedef typename I::Has_left_category         Has_left_category;
   
-  Planar_map_with_intersections_traits_wrap() : Base()
-  {
-  }
+  Planar_map_with_intersections_traits_wrap() : Base() {}
 
-  Planar_map_with_intersections_traits_wrap(const Base& tw) : Base(tw)
-  {
-  }
+  Planar_map_with_intersections_traits_wrap(const Base & tw) : Base(tw) {}
 
-  void directed_curve_split(const X_curve &cv, const Point &first_pnt, 
-			    const Point &split_pnt,
-			    X_curve &split1, X_curve &split2) 
+  void directed_curve_split(const X_monotone_curve_2 & cv,
+                            const Point_2 & first_pnt, 
+			    const Point_2 & split_pnt,
+			    X_monotone_curve_2 & split1,
+                            X_monotone_curve_2 & split2) 
   {
-    CGAL_assertion(point_is_same(curve_source(cv), first_pnt) || 
-	   point_is_same(curve_target(cv), first_pnt));
-    CGAL_assertion(!point_is_same(curve_source(cv), split_pnt));
-    CGAL_assertion(!point_is_same(curve_target(cv), split_pnt));
+    CGAL_assertion(point_equal(curve_source(cv), first_pnt) || 
+	   point_equal(curve_target(cv), first_pnt));
+    CGAL_assertion(!point_equal(curve_source(cv), split_pnt));
+    CGAL_assertion(!point_equal(curve_target(cv), split_pnt));
 
     curve_split(cv, split1, split2, split_pnt);
-//      if (!point_is_same(curve_source(split1), first_pnt)) //start flip
+//      if (!point_equal(curve_source(split1), first_pnt)) //start flip
 //        {
-//  	X_curve c = split2;
-//  	split2 = curve_flip(split1);
-//  	split1 = curve_flip(c);
+//  	X_monotone_curve_2 c = split2;
+//  	split2 = curve_opposite(split1);
+//  	split1 = curve_opposite(c);
 //        }// end flip
   }
 
-  // expand (split) the segment[p1, p2] from the curve cv
-//   X_curve curve_portion(const X_curve &cv, const Point &p1, const Point &p2)
+// expand (split) the segment[p1, p2] from the curve cv
+//   X_monotone_curve_2 curve_portion(const X_monotone_curve_2 & cv,
+//    const Point_2 & p1, const Point_2 & p2)
 //   {
-//     CGAL_assertion(!point_is_same(p1, p2));
+//     CGAL_assertion(!point_equal(p1, p2));
 //     // direct cv as p1-->p2
-//     X_curve acv = cv;
+//     X_monotone_curve_2 acv = cv;
 //     bool p1_p2_right;//start flip
 //     bool curve_right;
-//     Point ap1=p1, ap2=p2;
+//     Point_2 ap1=p1, ap2=p2;
 
 //      p1_p2_right = point_is_left_low(p1, p2);
 //      curve_right = point_is_left_low(curve_source(cv), curve_target(cv));
 //      if (curve_right != p1_p2_right) {
-//             acv = curve_flip(cv);//end flip
+//             acv = curve_opposite(cv);//end flip
 // //        ap1 = p2;
 // //        ap2 = p1;
 //      }
 
 //     // split twice to find the portion [ap1, ap2]
-//     X_curve split1, split2, split3, part_cv;
-//     CGAL_assertion(!point_is_same(curve_target(acv), ap1));
-//     if (point_is_same(curve_source(acv), ap1))
+//     X_monotone_curve_2 split1, split2, split3, part_cv;
+//     CGAL_assertion(!point_equal(curve_target(acv), ap1));
+//     if (point_equal(curve_source(acv), ap1))
 //       split2 = acv;
 //     else
 //       directed_curve_split(acv, curve_source(acv), ap1, split1, split2);
-//     CGAL_assertion(!point_is_same(curve_source(split2), ap2));
-//     if (point_is_same(curve_target(split2), ap2))
+//     CGAL_assertion(!point_equal(curve_source(split2), ap2));
+//     if (point_equal(curve_target(split2), ap2))
 //       part_cv = split2;
 //     else
 //       directed_curve_split(split2, curve_source(split2), ap2, part_cv, 
@@ -118,50 +94,50 @@ public:
 //     return part_cv;
 //   }
 
-  void points_swap(Point &p1, Point &p2)
+  void points_swap(Point_2 & p1, Point_2 & p2)
   {
-    Point p = p1;
+    Point_2 p = p1;
     p1 = p2;
     p2 = p;
   }
 
-#ifndef CGAL_PMWX_TRAITS_HAVE_INTERSECT_TO_LEFT
-
   // maps the curves to their mirror images over the y coordinate
   // and calls nearest_intersect_to_right (see there).
-  bool nearest_intersection_to_left(const X_curve& cv1,
-                                    const X_curve& cv2,
-                                    const Point& pt,
-                                    Point& p1,
-                                    Point& p2) const 
-    {
-      Point rpt = point_reflect_in_x_and_y( pt);
-      X_curve rcv1 = curve_reflect_in_x_and_y( cv1);
-      X_curve rcv2 = curve_reflect_in_x_and_y( cv2);
-
-      Point rp1, rp2;
-      bool result = nearest_intersection_to_right(rcv1, rcv2, rpt, rp1, rp2);
-
-      p1 = point_reflect_in_x_and_y( rp1);
-      p2 = point_reflect_in_x_and_y( rp2);
-
-      return result;
-    }
-
-
-  // maps the curves to their mirror images over the y coordinate
-  // and calls do_intersect_to_right (see there).
-  bool do_intersect_to_left(const X_curve& ca, const X_curve& cb,
-			    const Point& pt) const
+  bool nearest_intersection_to_left(const X_monotone_curve_2 & cv1,
+                                    const X_monotone_curve_2 & cv2,
+                                    const Point_2 & pt,
+                                    Point_2 & p1, Point_2 & p2) const 
   {
-      Point rpt = point_reflect_in_x_and_y( pt);
-      X_curve rca = curve_reflect_in_x_and_y( ca);
-      X_curve rcb = curve_reflect_in_x_and_y( cb);
-
-      return do_intersect_to_right(rca, rcb, rpt);
+    return nearest_intersection_to_left_imp(cv1, cv2, pt, p1, p2,
+                                            Has_left_category());
   }
 
-#endif //CGAL_PMWX_TRAITS_HAVE_INTERSECT_TO_LEFT
+    
+  bool nearest_intersection_to_left_imp(const X_monotone_curve_2 & cv1,
+                                        const X_monotone_curve_2 & cv2,
+                                        const Point_2 & pt,
+                                        Point_2 & p1, Point_2 & p2,
+                                        Tag_true) const
+  { return Base::nearest_intersection_to_left(cv1, cv2, pt, p1, p2); }
+    
+  bool nearest_intersection_to_left_imp(const X_monotone_curve_2 & cv1,
+                                        const X_monotone_curve_2 & cv2,
+                                        const Point_2 & pt,
+                                        Point_2 & p1, Point_2 & p2,
+                                        Tag_false) const 
+  {
+    Point_2 rpt = point_reflect_in_x_and_y( pt);
+    X_monotone_curve_2 rcv1 = curve_reflect_in_x_and_y( cv1);
+    X_monotone_curve_2 rcv2 = curve_reflect_in_x_and_y( cv2);
+
+    Point_2 rp1, rp2;
+    bool result = nearest_intersection_to_right(rcv1, rcv2, rpt, rp1, rp2);
+
+    p1 = point_reflect_in_x_and_y( rp1);
+    p2 = point_reflect_in_x_and_y( rp2);
+
+    return result;
+  }
 
 };
 

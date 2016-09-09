@@ -1,51 +1,21 @@
-// ======================================================================
+// Copyright (c) 1998-2003  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/sorted_matrix_search.h,v $
+// $Revision: 1.59 $ $Date: 2003/09/29 08:41:49 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/sorted_matrix_search.h
-// package       : Matrix_search (1.54)
-// chapter       : $CGAL_Chapter: Geometric Optimisation $
-// source        : fjsearch.aw
-// revision      : $Revision: 1.52 $
-// revision_date : $Date: 2002/03/25 15:04:59 $
-// author(s)     : Michael Hoffmann
-//
-// coordinator   : ETH
-//
-// Frederickson-Johnson matrix search
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
 #if ! (CGAL_SORTED_MATRIX_SEARCH_H)
 #define CGAL_SORTED_MATRIX_SEARCH_H 1
@@ -132,7 +102,7 @@ public:
     for (int i = 0; i < dim; ++i)
       for (int j = 0; j < dim; ++j) {
         if (CGAL_NTS abs(base_matrix(x + i, y + j) - v) < Value(1E-10))
-          cerr << "***" <<        base_matrix(x + i, y + j) << endl;
+          std::cerr << "***" << base_matrix(x + i, y + j) << std::endl;
         if (base_matrix(x + i, y + j) == v)
           return true;
       }
@@ -174,7 +144,6 @@ template < class InputIterator, class Traits >
 typename Traits::Value
 sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
 {
-  #ifndef CGAL_CFG_NO_NAMESPACE
   using std::max;
   using std::nth_element;
   using std::iter_swap;
@@ -182,7 +151,6 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
   using std::remove_if;
   using std::logical_or;
   using std::equal_to;
-  #endif
   
   typedef typename Traits::Matrix                   Matrix;
   typedef typename Traits::Value                    Value;

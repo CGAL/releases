@@ -1,51 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/SearchStructures/include/CGAL/Range_tree_k.h,v $
+// $Revision: 1.4 $ $Date: 2003/09/18 10:25:36 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Range_tree_k.h
-// package       : SearchStructures (2.68)
-// source        : include/CGAL/Range_tree_k.h
-// revision      : $Revision: 1.1.1.1 $
-// revision_date : $Date: 2001/07/26 07:48:02 $
-// author(s)     : Gabriele Neyer
-//
-// coordinator   : Peter Widmayer, ETH Zurich
-//
-//
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Gabriele Neyer
 
 #ifndef __CGAL_Range_tree_k__
 #define __CGAL_Range_tree_k__
@@ -86,56 +56,54 @@ public:
   typedef typename C_Traits_1::compare_1 compare_1;
 
 
-  typedef tree_point_traits<Key, Interval, Key_1, key_1, low_1, 
-  high_1, compare_1> I1;
+  typedef tree_point_traits<Key, Interval, Key_1, 
+                            key_1, low_1, high_1, compare_1> I1;
 
-  typedef tree_anchor<Key, Interval> Tree_anchor_type;
-  Tree_anchor_type *Tree_anchor;
+  typedef Tree_anchor<Key, Interval> Tree_anchor_type;
+  Tree_anchor_type *anchor;
 
   typedef Range_tree_d<Key, Interval, I1> Range_tree_1_type;
-  Range_tree_1_type * CRange_tree_1;
+  Range_tree_1_type * range_tree_1;
 
 
   Range_tree_1()
   {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
+    anchor = new Tree_anchor_type;
+    range_tree_1 = new Range_tree_1_type(*anchor);
   }
 
   template <class T>
-  Range_tree_1(T& first, 
-	       T& last)  {
-   Tree_anchor = new Tree_anchor_type;
-   CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-   (*CRange_tree_1).make_tree(first,last);
-  }
-
-  template <class T>
-  bool make_tree(T& first, 
-		 T& last)
+  Range_tree_1(const T& first, 
+	       const T& last)  
+    : anchor(new Tree_anchor_type), range_tree_1(new Range_tree_1_type(*anchor))
   {
-    delete CRange_tree_1;
-    delete Tree_anchor;
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    return (*CRange_tree_1).make_tree(first,last);
+   range_tree_1->make_tree(first,last);
+  }
+
+  template <class T>
+  bool make_tree(const T& first, 
+		 const T& last)
+  {
+    delete range_tree_1;
+    delete anchor;
+    anchor = new Tree_anchor_type;
+    range_tree_1 = new Range_tree_1_type(*anchor);
+    return range_tree_1->make_tree(first,last);
   }
 
   template <class T>
   T  window_query(Interval const &win,  
-		  T result)
+		  const T& result)
   {
-    return (*CRange_tree_1).window_query(win, result);
+    return range_tree_1->window_query(win, result);
   }
 
   ~Range_tree_1()
   {
-    if (CRange_tree_1!=0)  //(Range_tree_1_type *)
-      delete CRange_tree_1;
-    CRange_tree_1=0;  //(Range_tree_1_type *)
-    if (Tree_anchor!=0) //(Tree_anchor_type *)
-      delete Tree_anchor;
-    Tree_anchor=0; //(Tree_anchor_type *)
+    if (range_tree_1!=0)
+      delete range_tree_1;
+    if (anchor!=0)
+      delete anchor;
   }
 
 };
@@ -166,71 +134,66 @@ public:
 
 
   typedef tree_point_traits<Key, Interval, 
-  Key_1, key_1, low_1, high_1, 
-  compare_1> I1;
+                            Key_1, key_1, low_1, high_1, compare_1> I1;
 
   typedef tree_point_traits<Key, Interval, 
-  Key_2,   key_2, low_2, high_2, 
-  compare_2> I2;
+                            Key_2, key_2, low_2, high_2, compare_2> I2;
 
 
-  typedef tree_anchor<Key, Interval> Tree_anchor_type;
-  Tree_anchor_type *Tree_anchor;
+  typedef Tree_anchor<Key, Interval> Tree_anchor_type;
+  Tree_anchor_type *anchor;
 
   typedef Range_tree_d<Key, Interval, I2> Range_tree_1_type;
-  Range_tree_1_type * CRange_tree_1;
+  Range_tree_1_type * range_tree_1;
 
   typedef Range_tree_d<Key, Interval, I1> Range_tree_2_type;
-  Range_tree_2_type *CRange_tree_2;
+  Range_tree_2_type *range_tree_2;
 
 
   Range_tree_2()
+    : anchor(new Tree_anchor_type),
+      range_tree_1(new Range_tree_1_type(*anchor)),
+      range_tree_2(new Range_tree_2_type(*range_tree_1))
+  {}
+
+  template <class T>
+  Range_tree_2(const T& first, 
+	       const T& last)
+    : anchor(new Tree_anchor_type),
+      range_tree_1(new Range_tree_1_type(*anchor)),
+      range_tree_2(new Range_tree_2_type(*range_tree_1))
   {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
+    range_tree_2->make_tree(first,last);
   }
 
   template <class T>
-  Range_tree_2(T& first, 
-	       T& last)  {
-   Tree_anchor = new Tree_anchor_type;
-   CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-   CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-   (*CRange_tree_2).make_tree(first,last);
-  }
-
-  template <class T>
-  bool make_tree(T& first, 
-		 T& last)
+  bool make_tree(const T& first, 
+		 const T& last)
   {
-    delete CRange_tree_2;
-    delete CRange_tree_1;
-    delete Tree_anchor;
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    return (*CRange_tree_2).make_tree(first,last);
+    delete range_tree_2;
+    delete range_tree_1;
+    delete anchor;
+    anchor = new Tree_anchor_type;
+    range_tree_1 = new Range_tree_1_type(*anchor);
+    range_tree_2 = new Range_tree_2_type(*range_tree_1);
+    return range_tree_2->make_tree(first,last);
   }
   
   template <class T>
   T window_query(Interval const &win,  
-		 T result)
+		 const T& result)
   {
-    return (*CRange_tree_2).window_query(win, result);
+    return range_tree_2->window_query(win, result);
   }
 
   ~Range_tree_2()
   {
-    if (CRange_tree_2!=0) //(Range_tree_2_type *)
-      delete CRange_tree_2;
-    CRange_tree_2=0; //(Range_tree_2_type *)
-    if (CRange_tree_1!=0) //(Range_tree_2_type *)
-      delete CRange_tree_1;
-    CRange_tree_1=0;
-    if (Tree_anchor!=0)
-      delete Tree_anchor;
-    Tree_anchor=0;
+    if (range_tree_2!=0)
+      delete range_tree_2;
+    if (range_tree_1!=0)
+      delete range_tree_1;
+    if (anchor!=0)
+      delete anchor;
   }
 };
 
@@ -261,79 +224,76 @@ public:
   typedef typename C_Traits_3::compare_3 compare_3;
 
   typedef tree_point_traits<Key, Interval, Key_1,
-  key_1, low_1, high_1, compare_1> I1;
+                            key_1, low_1, high_1, compare_1> I1;
 
   typedef tree_point_traits<Key, Interval, Key_2,
-  key_2, low_2, high_2, compare_2> I2;
+                            key_2, low_2, high_2, compare_2> I2;
 
   typedef tree_point_traits<Key, Interval, Key_3, 
-  key_3, low_3, high_3, compare_3> I3;
+                            key_3, low_3, high_3, compare_3> I3;
 
-  typedef tree_anchor<Key, Interval> Tree_anchor_type;
-  Tree_anchor_type *Tree_anchor;
+  typedef Tree_anchor<Key, Interval> Tree_anchor_type;
+  Tree_anchor_type *anchor;
 
   typedef Range_tree_d<Key, Interval, I3> Range_tree_1_type;
-  Range_tree_1_type * CRange_tree_1;
+  Range_tree_1_type * range_tree_1;
 
   typedef Range_tree_d<Key, Interval, I2> Range_tree_2_type;
-  Range_tree_2_type * CRange_tree_2;
+  Range_tree_2_type * range_tree_2;
 
   typedef Range_tree_d<Key, Interval, I1> Range_tree_3_type;
-  Range_tree_3_type *CRange_tree_3;
+  Range_tree_3_type *range_tree_3;
 
   Range_tree_3()
-  {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-  }
+    : anchor(new Tree_anchor_type),
+      range_tree_1(new Range_tree_1_type(*anchor)),
+      range_tree_2(new Range_tree_2_type(*range_tree_1)),
+      range_tree_3(new Range_tree_3_type(*range_tree_2))
+  {}
+  
   template <class T>
-  Range_tree_3(T& first, 
-	       T& last)  {
-   Tree_anchor = new Tree_anchor_type;
-   CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-   CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-   CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-   (*CRange_tree_3).make_tree(first,last);
+  Range_tree_3(const T& first, 
+	       const T& last)
+    : anchor(new Tree_anchor_type),
+      range_tree_1(new Range_tree_1_type(*anchor)),
+      range_tree_2(new Range_tree_2_type(*range_tree_1)),
+      range_tree_3(new Range_tree_3_type(*range_tree_2))
+  {
+    range_tree_3->make_tree(first,last);
   }
 
   template <class T>
-  bool make_tree(T& first, 
-		 T& last)
+  bool make_tree(const T& first, 
+		 const T& last)
   {
-    delete CRange_tree_3;
-    delete CRange_tree_2;
-    delete CRange_tree_1;
-    delete Tree_anchor;
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-    return (*CRange_tree_3).make_tree(first,last);
+    delete range_tree_3;
+    delete range_tree_2;
+    delete range_tree_1;
+    delete anchor;
+    anchor = new Tree_anchor_type;
+    range_tree_1 = new Range_tree_1_type(*anchor);
+    range_tree_2 = new Range_tree_2_type(*range_tree_1);
+    range_tree_3 = new Range_tree_3_type(*range_tree_2);
+    return range_tree_3->make_tree(first,last);
   }
   
   template <class T>
   T  window_query(Interval const &win,  
-		  T result)
+		  const T& result)
   {
-    return (*CRange_tree_3).window_query(win, result);
+    return range_tree_3->window_query(win, result);
   }
 
   ~Range_tree_3()
   {
-    if (CRange_tree_3!=0)
-      delete CRange_tree_3;
-    CRange_tree_3=0;
-    if (CRange_tree_2!=0)
-      delete CRange_tree_2;
-    CRange_tree_2=0;
-    if (CRange_tree_1!=0)
-      delete CRange_tree_1;
-    CRange_tree_1=0;
-    if (Tree_anchor!=0)
-      delete Tree_anchor;
-    Tree_anchor=0;
+    if (range_tree_3!=0)
+      delete range_tree_3;
+    if (range_tree_2!=0)
+      delete range_tree_2;
+    if (range_tree_1!=0)
+      delete range_tree_1;
+    if (anchor!=0)
+      delete anchor;
   }
 };
 
@@ -371,93 +331,88 @@ public:
   typedef typename C_Traits_4::compare_4 compare_4;
 
   typedef tree_point_traits<Key, Interval, Key_1,
-  key_1, low_1, high_1, compare_1> I1;  
+                            key_1, low_1, high_1, compare_1> I1;  
 
   typedef tree_point_traits<Key, Interval, Key_2,
-  key_2, low_2, high_2, compare_2> I2;  
+                            key_2, low_2, high_2, compare_2> I2;  
 
   typedef tree_point_traits<Key, Interval, Key_3,
-  key_3, low_3, high_3, compare_3> I3;  
+                            key_3, low_3, high_3, compare_3> I3;  
 
   typedef tree_point_traits<Key, Interval, Key_4, 
-  key_4, low_4, high_4, compare_4> I4;  
+                            key_4, low_4, high_4, compare_4> I4;  
 
-  typedef tree_anchor<Key, Interval> Tree_anchor_type;
-  Tree_anchor_type *Tree_anchor;
+  typedef Tree_anchor<Key, Interval> Tree_anchor_type;
+  Tree_anchor_type *anchor;
 
   typedef Range_tree_d<Key, Interval, I4> Range_tree_1_type;
-  Range_tree_1_type * CRange_tree_1;
+  Range_tree_1_type * range_tree_1;
 
   typedef Range_tree_d<Key, Interval, I3> Range_tree_2_type;
-  Range_tree_2_type * CRange_tree_2;
+  Range_tree_2_type * range_tree_2;
 
   typedef Range_tree_d<Key, Interval, I2> Range_tree_3_type;
-  Range_tree_3_type *CRange_tree_3;
+  Range_tree_3_type *range_tree_3;
 
   typedef Range_tree_d<Key, Interval, I1> Range_tree_4_type;
-  Range_tree_4_type *CRange_tree_4;
+  Range_tree_4_type *range_tree_4;
 
   Range_tree_4()
+    : anchor(new Tree_anchor_type),
+      range_tree_1(new Range_tree_1_type(*anchor)),
+      range_tree_2(new Range_tree_2_type(*range_tree_1)),
+      range_tree_3(new Range_tree_3_type(*range_tree_2)),
+      range_tree_4(new Range_tree_4_type(*range_tree_3))
+  {}
+
+  template <class T>
+  Range_tree_4(const T& first, 
+	       const T& last)
+    : anchor(new Tree_anchor_type),
+      range_tree_1(new Range_tree_1_type(*anchor)),
+      range_tree_2(new Range_tree_2_type(*range_tree_1)),
+      range_tree_3(new Range_tree_3_type(*range_tree_2)),
+      range_tree_4(new Range_tree_4_type(*range_tree_3))
   {
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-    CRange_tree_4 = new Range_tree_4_type(*CRange_tree_3);
+    range_tree_4->make_tree(first,last);
   }
 
   template <class T>
-  Range_tree_4(T& first, 
-	       T& last)  {
-   Tree_anchor = new Tree_anchor_type;
-   CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-   CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-   CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-   CRange_tree_4 = new Range_tree_4_type(*CRange_tree_3);
-   (*CRange_tree_4).make_tree(first,last);
-  }
-
-  template <class T>
-  bool make_tree(T& first, 
-		 T& last)
+  bool make_tree(const T& first, 
+		 const T& last)
   {
-    delete CRange_tree_4;
-    delete CRange_tree_3;
-    delete CRange_tree_2;
-    delete CRange_tree_1;
-    delete Tree_anchor;
-    Tree_anchor = new Tree_anchor_type;
-    CRange_tree_1 = new Range_tree_1_type(*Tree_anchor);
-    CRange_tree_2 = new Range_tree_2_type(*CRange_tree_1);
-    CRange_tree_3 = new Range_tree_3_type(*CRange_tree_2);
-    CRange_tree_4 = new Range_tree_4_type(*CRange_tree_3);
-    return (*CRange_tree_4).make_tree(first,last);
+    delete range_tree_4;
+    delete range_tree_3;
+    delete range_tree_2;
+    delete range_tree_1;
+    delete anchor;
+    anchor = new Tree_anchor_type;
+    range_tree_1 = new Range_tree_1_type(*anchor);
+    range_tree_2 = new Range_tree_2_type(*range_tree_1);
+    range_tree_3 = new Range_tree_3_type(*range_tree_2);
+    range_tree_4 = new Range_tree_4_type(*range_tree_3);
+    return range_tree_4->make_tree(first,last);
   }
 
   template <class T>
   T  window_query(Interval const &win,  
-		  T result)
+		  const T& result)
   {
-    return (*CRange_tree_4).window_query(win, result);
+    return range_tree_4->window_query(win, result);
   }
 
   ~Range_tree_4()
   {
-    if (CRange_tree_4!=0)
-      delete CRange_tree_4;
-    CRange_tree_4=0;
-    if (CRange_tree_3!=0)
-      delete CRange_tree_3;
-    CRange_tree_3=0;
-    if (CRange_tree_2!=0)
-      delete CRange_tree_2;
-    CRange_tree_2=0;
-    if (CRange_tree_1!=0)
-      delete CRange_tree_1;
-    CRange_tree_1=0;
-    if (Tree_anchor!=0)
-      delete Tree_anchor;
-    Tree_anchor=0;
+    if (range_tree_4!=0)
+      delete range_tree_4;
+    if (range_tree_3!=0)
+      delete range_tree_3;
+    if (range_tree_2!=0)
+      delete range_tree_2;
+    if (range_tree_1!=0)
+      delete range_tree_1;
+    if (anchor!=0)
+      delete anchor;
   }
 };
 

@@ -1,52 +1,35 @@
-// ======================================================================
+// Copyright (c) 2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2000 The CGAL Consortium
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/Rotation_tree_2.h,v $
+// $Revision: 1.16 $ $Date: 2003/09/18 10:24:23 $
+// $Name: current_submission $
+//
+// Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Rotation_tree_2.h
-// package       : Partition_2 (1.38)
-// chapter       : Planar Polygon Partitioning
-//
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 2002/05/06 16:18:00 $
-//
-// author(s)     : Susan Hert
-//
-// coordinator   : MPI (Susan Hert)
-//
-// implementation: Rotation tree for vertex visibility graph computation
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+/*
+    A rotation tree for computing the vertex visibility graph of a set of
+    non-intersecting segments in the plane (e.g. edges of a polygon).
+
+    Let $V$ be the set of segment endpoints and
+    let $p_{\infinity}$ ($p_{-\infinity}$) be a point with $y$ coordinate
+    $\infinity$ ($-\infinity$) and $x$ coordinate larger than all points
+    in $V$. The tree $G$ is a tree with node set
+    $V \cup \{p_{\infinity}, p_{-\infinity}\}$.  Every node (except the one
+    corresponding to $p_{\infinity}$) has exactly one outgoing edge to the
+    point $q$ with the following property:  $q$ is the first point encountered
+    when looking from $p$ in direction $d$ and rotating counterclockwise.
+ */
 
 #ifndef  CGAL_ROTATION_TREE_H
 #define  CGAL_ROTATION_TREE_H

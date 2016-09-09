@@ -1,60 +1,53 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// Copyright (c) 2002 ENS de Paris
-//
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// The Qt widget we provide for CGAL is distributed under the QPL,
-// which is Trolltech's open source license. For more information see 
-//     http://www.trolltech.com/developer/licensing/qpl.html
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// file          : include/CGAL/IO/Qt_widget.h
-// package       : Qt_widget (1.2.30)
-// author(s)     : Laurent Rineau
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : Laurent Rineau
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget.h,v $
+// $Revision: 1.82 $ $Date: 2003/10/21 12:23:01 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Laurent Rineau
 
 #ifndef CGAL_QT_WIDGET_H
 #define CGAL_QT_WIDGET_H
+
+#include <CGAL/basic.h>
+#include <CGAL/Simple_cartesian.h>
+#include <CGAL/intersections.h>
+//temporary, should remove next line!!
+#include <CGAL/Triangle_2_Iso_rectangle_2_intersection.h>
+#include <CGAL/IO/Color.h>
+#ifdef CGAL_USE_GMP
+  #include <CGAL/Gmpz.h>
+  #include <CGAL/Gmpq.h>
+  #include <CGAL/Quotient.h>
+  typedef CGAL::Quotient<CGAL::Gmpz> CGAL_Rational;
+  #include <CGAL/simplest_rational_in_interval.h>
+#endif //CGAL_USE_GMP
+
+#include <vector>
+#include <list>
+#include <map>
 
 #include <qwidget.h>
 #include <qpainter.h>
 #include <qcolor.h>
 #include <qpixmap.h>
-#include <qmessagebox.h>
 #include <qprinter.h>
 
-
-#include <CGAL/Cartesian.h>
-#include <CGAL/IO/Color.h>
-#include <vector>
-#include <list>
-#include <map>
-
-#ifndef CGAL_QT_WIDGET_HISTORY_H
-  #include <CGAL/IO/Qt_widget_history.h>
-#endif
 namespace CGAL {
 
 class Qt_widget_layer;
@@ -69,30 +62,18 @@ public:
   ~Qt_widget() {};
 
   // initialization of coordinates system
-  void set_window(double x_min, double x_max, double y_min, double y_max,
+  void set_window(const double x_min,
+		  const double x_max, 
+		  const double y_min, 
+		  const double y_max,
 		  bool const_ranges = false);
   void zoom(double ratio);
   void zoom(double ratio, double xc, double yc);
-  void set_x_scale(double xscale){ xscal = xscale; }
-  void set_y_scale(double yscale){ yscal = yscale; }
+  void set_x_scale(const double xscale){ xscal = xscale; }
+  void set_y_scale(const double yscale){ yscal = yscale; }
 
-  void add_to_history(){history.add_to_history(xmin, xmax, ymin,
-                          ymax, xcentre, ycentre, xscal, yscal);}
-  void clear_history(){history.clear();};
-
-  inline void move_center(double distx, double disty) 
-  {    
-    xcentre += distx;
-    ycentre += disty;
-    set_scale_center(xcentre, ycentre);
-    add_to_history(); //add the current viewport to history
-    configure_history_buttons();
-  }
-  inline void set_center(double x, double y) 
-  {
-    xcentre = x; ycentre = y;
-    set_scale_center(xcentre, ycentre);
-  };
+  void move_center(const double distx, const double disty);
+  void set_center(const double x, const double y);
 
   // painting system
   inline QPainter& get_painter() { return (*painter); };
@@ -100,45 +81,47 @@ public:
   inline QWMatrix& get_matrix() { return (*matrix); };
   void lock() { ++Locked; };
   void unlock() { if (Locked>0) --Locked; do_paint(); };
-  void do_paint() { if (Locked==0) repaint( FALSE ); };
-  
+  void do_paint() { if (Locked==0) repaint(FALSE); };
+
+  virtual QSize sizeHint() const {return QSize(geometry().width(),
+					geometry().height());} 
   
   // properties
   // ~~~~~~~~~~
   // color
   QColor color() const;
-  void setColor(QColor c);
+  void setColor(const QColor c);
   // backGroundColor
   QColor backgroundColor() const;
-  void setBackgroundColor(QColor c);
+  void setBackgroundColor(const QColor& c);
   // fillColor
   QColor fillColor() const;
-  void setFillColor(QColor c);
+  void setFillColor(const QColor c);
   // isFilled
   bool isFilled() const;
-  void setFilled(bool f);
+  void setFilled(const bool f);
   // lineWidth
   uint lineWidth() const;
-  void setLineWidth(uint i);
+  void setLineWidth(const uint i);
   // pointSize
   uint pointSize() const;
-  void setPointSize(uint i);
+  void setPointSize(const uint i);
   // pointStyle
   typedef CGAL::PointStyle PointStyle;
   PointStyle pointStyle() const;
-  void setPointStyle(PointStyle s);
+  void setPointStyle(const PointStyle s);
   // rasterOp
   RasterOp rasterOp() {return painter->rasterOp();}
-  void setRasterOp(RasterOp r) {painter->setRasterOp(r);}
+  void setRasterOp(const RasterOp r) {painter->setRasterOp(r);}
 
   // CGAL version of setFooColor
   // used by the manipulators system
   // DO NOT USE THESE THREE UNDOCUMENTED FUNCTIONS !!
-  inline void setColor(Color c)
+  inline void setColor(const Color c)
     { setColor(CGAL2Qt_Color(c)); };
-  inline void setBackgroundColor(Color c)
+  inline void setBackgroundColor(const Color c)
     { setBackgroundColor(CGAL2Qt_Color(c)); };
-  inline void setFillColor(Color c)
+  inline void setFillColor(const Color c)
     { setFillColor(CGAL2Qt_Color(c)); };
 
   // set pen() color to c, cf. manipulators below for setting
@@ -151,11 +134,22 @@ public:
 
   // coordinates system
   // ~~~~~~~~~~~~~~~~~~
-  // real coordinates
+  // real world coordinates
   double x_real(int x) const;
   double y_real(int y) const;
+  template <class FT>
+  void x_real(int, FT&) const;
+  template <class FT>
+  void y_real(int y, FT&) const;
+#ifdef CGAL_USE_GMP
+  void x_real(int, Gmpq&) const;
+  void y_real(int, Gmpq&) const;
+#endif
+
   double x_real_dist(double d) const;
   double y_real_dist(double d) const;
+
+
   // pixel coordinates
   int x_pixel(double x) const;
   int y_pixel(double y) const;
@@ -186,7 +180,7 @@ signals:
   void s_mouseMoveEvent(QMouseEvent *e);
   void s_paintEvent(QPaintEvent *e);
   void s_resizeEvent(QResizeEvent *e);
-  void s_wheelEvent(QMouseEvent *e);
+  void s_wheelEvent(QWheelEvent *e);
   void s_mouseDoubleClickEvent(QMouseEvent *e);
   void s_keyPressEvent(QKeyEvent *e);
   void s_keyReleaseEvent(QKeyEvent *e);
@@ -194,26 +188,44 @@ signals:
   void s_leaveEvent(QEvent *e);
   void s_event(QEvent *e);
   
-  void custom_redraw(); // if user want to draw something after layers
+  void custom_redraw(); //deprecated:  if user want to draw something
+                        //after layers replaced by redraw_on_front
+  void redraw_on_front(); //called by redraw at the end
+  void redraw_on_back();  //called by redraw at the beginning
+
+
   void new_cgal_object(CGAL::Object);	//this signal is emited every time an
 					//attached tool constructed an object
-//private signals (not documented)
-  void set_back_enabled(bool i);    //used by the standard toolbar
-  void set_forward_enabled(bool i); //used by the standard toolbar
+
+  void rangesChanged(); 
+  // triggered when ranges (xmin, xmax, ymin,...) are changed
 
 public slots:
   void print_to_ps();
   virtual void redraw();
-  bool back();
-  bool forth();
-  
+
+// backward-compatibility with CGAL-2.4, back() and forth() are
+// deprecated, as well as add_to_history() or clear_history().
+signals:
+  void internal_back();
+  void internal_forth();
+  void internal_add_to_history();
+  void internal_clear_history();
+public slots:
+  bool back() { emit(internal_back()); return true; }
+  bool forth() { emit(internal_forth()); return true; }
+public:
+  void add_to_history() { emit(internal_add_to_history()); }
+  void clear_history() { emit(internal_clear_history()); }
+
 protected:
   void paintEvent(QPaintEvent *e);
   void resizeEvent(QResizeEvent *e);
+  void showEvent(QShowEvent *e);
   void mousePressEvent(QMouseEvent *e);
   void mouseReleaseEvent(QMouseEvent *e);
   void mouseMoveEvent(QMouseEvent *e);
-  void wheelEvent(QMouseEvent *e);
+  void wheelEvent(QWheelEvent *e);
   void mouseDoubleClickEvent(QMouseEvent *e);
   void keyPressEvent(QKeyEvent *e);
   void keyReleaseEvent(QKeyEvent *e);
@@ -223,17 +235,31 @@ protected:
 
 
 private:
-  void	  set_scales(); // set xscal and yscal
-  void	  set_scale_center(double xc, double yc);
-  double  xcentre, ycentre; //the center of the axex
-  
-  Qt_widget_history history;
-  void configure_history_buttons(); //change the enabled state of
-                                    //the history buttons
+  // private functions
+  // ~~~~~~~~~~~~~~~~~
+
+  void resize_pixmap();
+  // resize properly the pixmap size, saving then restoring the
+  // painter properties
+
+  void	  set_scales(); 
+  // set xscal and yscal. Update ranges if const_ranges is false.
 
   // color types convertors
   static QColor CGAL2Qt_Color(Color c);
   static Color Qt2CGAL_color(QColor c);
+
+  void attach_standard(Qt_widget_layer *layer);
+  bool is_standard_active();
+  bool does_standard_eat_events();
+  friend class Qt_widget_standard_toolbar;
+
+
+  // private member datas
+  // ~~~~~~~~~~~~~~~~~~~~
+  bool    set_scales_to_be_done;
+  // this flag is set when the widget is not visible and should
+  // postpone the set_scales() call.
 
   unsigned int Locked;
   // point style and size
@@ -248,17 +274,15 @@ private:
   QBrush      savedBrush; // saved brush, to be able to restore it on
   // setFilled(true)
 
-  double xmin, xmax, ymin, ymax; // real dimensions
-  double xscal, yscal; // scalings int/double
-  bool constranges; // tell if the ranges should be const
-  bool is_the_first_time;
+  double    xmin, xmax, ymin, ymax; // real dimensions
+  double    xmin_old, xmax_old, ymin_old, ymax_old;
+            //backup ranges for resize
+  double    xscal, yscal; // scales int/double
+  bool      constranges; // tell if the ranges should be const
 
   //for layers
   std::list<Qt_widget_layer*>	qt_layers;
   std::list<Qt_widget_layer*> qt_standard_layers;
-  void attach_standard(Qt_widget_layer *layer);
-  bool is_standard_active();
-  friend class Qt_widget_standard_toolbar;
 };//end Qt_widget class
 
 // manipulators
@@ -338,7 +362,7 @@ QColor Qt_widget::color() const
 
 
 inline
-void Qt_widget::setColor(QColor c)
+void Qt_widget::setColor(const QColor c)
 {
   QPen p=get_painter().pen();
   p.setColor(c);
@@ -352,7 +376,7 @@ QColor Qt_widget::backgroundColor() const
 }
 
 inline
-void Qt_widget::setBackgroundColor(QColor c)
+void Qt_widget::setBackgroundColor(const QColor& c)
 {
   QWidget::setBackgroundColor(c);
   get_painter().setBackgroundColor(c);
@@ -366,7 +390,7 @@ QColor Qt_widget::fillColor() const
 }
 
 inline
-void Qt_widget::setFillColor(QColor c)
+void Qt_widget::setFillColor(const QColor c)
 {
   setFilled(true);
   get_painter().setBrush(c);
@@ -379,7 +403,7 @@ bool Qt_widget::isFilled() const
 }
 
 inline
-void Qt_widget::setFilled(bool f)
+void Qt_widget::setFilled(const bool f)
 {
   if (f)
     painter->setBrush(savedBrush);
@@ -397,7 +421,7 @@ uint Qt_widget::lineWidth() const
 }
 
 inline
-void Qt_widget::setLineWidth(unsigned int i)
+void Qt_widget::setLineWidth(const unsigned int i)
 {
   QPen p=get_painter().pen();
   p.setWidth(i);
@@ -411,7 +435,7 @@ uint Qt_widget::pointSize() const
 }
 
 inline
-void Qt_widget::setPointSize(unsigned int i)
+void Qt_widget::setPointSize(const unsigned int i)
 {
   _pointSize=i;
 }
@@ -423,7 +447,7 @@ PointStyle Qt_widget::pointStyle() const
 }
 
 inline
-void Qt_widget::setPointStyle(PointStyle ps)
+void Qt_widget::setPointStyle(const PointStyle ps)
 {
   _pointStyle=ps;
 }
@@ -434,8 +458,8 @@ void Qt_widget::setPointStyle(PointStyle ps)
 template <class R>
 Qt_widget& operator<<(Qt_widget& w, const Point_2<R>& p)
 {
-  int x = w.x_pixel(to_double(p.x()));
-  int y = w.y_pixel(to_double(p.y()));
+  int x = w.x_pixel(CGAL::to_double(p.x()));
+  int y = w.y_pixel(CGAL::to_double(p.y()));
 
   uint size=w.pointSize();
   PointStyle ps=w.pointStyle();
@@ -444,52 +468,52 @@ Qt_widget& operator<<(Qt_widget& w, const Point_2<R>& p)
   {
     case PIXEL:
     {
-			w.get_painter().drawPoint(x,y);
-			break;
+       w.get_painter().drawPoint(x,y);
+       break;
     }
     case CROSS:
     {
-			w.get_painter().drawLine(x-size/2, y-size/2, x+size/2, y+size/2);
-			w.get_painter().drawLine(x-size/2, y+size/2, x+size/2, y-size/2);
-			break;
+       w.get_painter().drawLine(x-size/2, y-size/2, x+size/2, y+size/2);
+       w.get_painter().drawLine(x-size/2, y+size/2, x+size/2, y-size/2);
+       break;
     }
     case PLUS:
     {
-			w.get_painter().drawLine(x, y-size/2, x, y+size/2);
-			w.get_painter().drawLine(x-size/2, y, x+size/2, y);
-			break;
+       w.get_painter().drawLine(x, y-size/2, x, y+size/2);
+       w.get_painter().drawLine(x-size/2, y, x+size/2, y);
+       break;
     }
     case CIRCLE:
     {
-			QBrush old_brush=w.get_painter().brush();
-			w.get_painter().setBrush(QBrush());
-			w.get_painter().drawEllipse(x-size/2, y-size/2, size, size);
-			w.get_painter().setBrush(old_brush);
-			break;
+       QBrush old_brush=w.get_painter().brush();
+       w.get_painter().setBrush(QBrush());
+       w.get_painter().drawEllipse(x-size/2, y-size/2, size, size);
+       w.get_painter().setBrush(old_brush);
+       break;
     }
     case DISC:
     {
-			QBrush old_brush=w.get_painter().brush();
-			w.get_painter().setBrush(w.get_painter().pen().color());
-			w.get_painter().drawEllipse(x-size/2, y-size/2, size, size);
-			w.get_painter().setBrush(old_brush);
-			break;
+       QBrush old_brush=w.get_painter().brush();
+       w.get_painter().setBrush(w.get_painter().pen().color());
+       w.get_painter().drawEllipse(x-size/2, y-size/2, size, size);
+       w.get_painter().setBrush(old_brush);
+       break;
     }
     case RECT:
     {
-			QBrush old_brush=w.get_painter().brush();
-			w.get_painter().setBrush(QBrush());
-			w.get_painter().drawRect(x-size/2, y-size/2, size, size);
-			w.get_painter().setBrush(old_brush);
-			break;
+      QBrush old_brush=w.get_painter().brush();
+      w.get_painter().setBrush(QBrush());
+      w.get_painter().drawRect(x-size/2, y-size/2, size, size);
+      w.get_painter().setBrush(old_brush);
+      break;
     }
     case BOX:
     {
-			QBrush old_brush=w.get_painter().brush();
-			w.get_painter().setBrush(w.get_painter().pen().color());
-			w.get_painter().drawRect(x-size/2, y-size/2, size, size);
-			w.get_painter().setBrush(old_brush);
-			break;
+      QBrush old_brush=w.get_painter().brush();
+      w.get_painter().setBrush(w.get_painter().pen().color());
+      w.get_painter().drawRect(x-size/2, y-size/2, size, size);
+      w.get_painter().setBrush(old_brush);
+      break;
     }
   };
   w.do_paint();
@@ -500,12 +524,54 @@ Qt_widget& operator<<(Qt_widget& w, const Point_2<R>& p)
 template <class R>
 Qt_widget& operator<<(Qt_widget& w, const Segment_2<R>& s)
 {
-  const int
-    x1=w.x_pixel(to_double(s.source().x())),
-    y1=w.y_pixel(to_double(s.source().y())),
-    x2=w.x_pixel(to_double(s.target().x())),
-    y2=w.y_pixel(to_double(s.target().y()));
-  w.get_painter().drawLine(x1,y1,x2,y2);
+  typedef Simple_cartesian<double> RT;
+
+  double xr1, yr1, xr2, yr2;
+  double scs_x, scs_y, sct_x, sct_y;
+  scs_x = CGAL::to_double(s.source().x());
+  scs_y = CGAL::to_double(s.source().y());
+  sct_x = CGAL::to_double(s.target().x());
+  sct_y = CGAL::to_double(s.target().y());
+
+  xr1 = w.x_real(0); xr2 = w.x_real(w.geometry().width());
+  //next condition true if is outside on the X axes
+  if((scs_x < xr1 && sct_x < xr1) ||
+     (scs_x > xr2 && sct_x > xr2))
+    return w;
+  else{
+    yr2 = w.y_real(0); yr1 = w.y_real(w.geometry().height());
+    //next condition true if is outside on the Y axes
+    if((scs_y < yr1 && sct_y < yr1) ||
+       (scs_y > yr2 && sct_y > yr2))
+      return w;
+  }
+  
+  //if is here, the segment intersect the screen boundaries or is inside
+  int x1, y1, x2, y2;
+  Segment_2<RT>  sr;
+  sr = Segment_2<RT>(Point_2<RT>(scs_x, scs_y), Point_2<RT>(sct_x, sct_y));;  
+  //next condition true if the segment is inside
+  if(!(scs_x >= xr1 && scs_x <= xr2 &&
+     sct_x >= xr1 && sct_x <= xr2 && 
+     scs_y >= yr1 && scs_y <= yr2 &&
+     sct_y >= yr1 && sct_y <= yr2))
+    {
+    Iso_rectangle_2<RT> r = Iso_rectangle_2<RT>(Point_2<RT>(xr1, yr1),
+                                              Point_2<RT>(xr2, yr2));
+    CGAL::Object obj = CGAL::intersection(r, sr);  
+    Point_2<R>    p;
+    if (CGAL::assign(p, obj)){
+      w << p;
+      return w;
+    }
+    else
+      CGAL::assign(sr, obj);
+  }
+  x1 = w.x_pixel(CGAL::to_double(sr.source().x()));
+  x2 = w.x_pixel(CGAL::to_double(sr.target().x()));
+  y1 = w.y_pixel(CGAL::to_double(sr.source().y()));
+  y2 = w.y_pixel(CGAL::to_double(sr.target().y()));
+  w.get_painter().drawLine(x1, y1, x2, y2);
   w.do_paint();
   return w;
 }
@@ -516,7 +582,7 @@ Qt_widget& operator<<(Qt_widget& w, const Segment_2<R>& s)
 template <class R>
 Qt_widget& operator<<(Qt_widget& w, const Line_2<R>& l)
 {
-  typedef Cartesian<double> Rep;
+  typedef Simple_cartesian<double> Rep;
   typedef Point_2<Rep> Point;
 
   const Point_2<R>
@@ -524,8 +590,8 @@ Qt_widget& operator<<(Qt_widget& w, const Line_2<R>& l)
     p2=p1+l.direction().vector();
 
   const Point
-    p1d=Point(to_double(p1.x()),to_double(p1.y())),
-    p2d=Point(to_double(p2.x()),to_double(p2.y()));
+    p1d=Point(CGAL::to_double(p1.x()),CGAL::to_double(p1.y())),
+    p2d=Point(CGAL::to_double(p2.x()),CGAL::to_double(p2.y()));
 
   double
     x1=w.x_min(),
@@ -561,7 +627,7 @@ Qt_widget& operator<<(Qt_widget& w, const Line_2<R>& l)
 template <class R>
 Qt_widget& operator<<(Qt_widget& w, const Ray_2<R>& r)
 {
-  typedef Cartesian<double> Rep;
+  typedef Simple_cartesian<double> Rep;
   typedef Point_2<Rep> Point;
 
   const Point_2<R>
@@ -569,8 +635,8 @@ Qt_widget& operator<<(Qt_widget& w, const Ray_2<R>& r)
     p2=r.point(1);
 
   const Point
-    p1d=Point(to_double(p1.x()),to_double(p1.y())),
-    p2d=Point(to_double(p2.x()),to_double(p2.y()));
+    p1d=Point(CGAL::to_double(p1.x()),CGAL::to_double(p1.y())),
+    p2d=Point(CGAL::to_double(p2.x()),CGAL::to_double(p2.y()));
 
 
   const double
@@ -609,21 +675,45 @@ template< class R >
 Qt_widget&
 operator<<(Qt_widget& w, const Triangle_2<R>& t)
 {
-  const int
-    ax = w.x_pixel(to_double(t.vertex(0).x())),
-    ay = w.y_pixel(to_double(t.vertex(0).y())),
-    bx = w.x_pixel(to_double(t.vertex(1).x())),
-    by = w.y_pixel(to_double(t.vertex(1).y())),
-    cx = w.x_pixel(to_double(t.vertex(2).x())),
-    cy = w.y_pixel(to_double(t.vertex(2).y()));
-
-  QPointArray array;
-
-  array.setPoints(3,ax,ay,bx,by,cx,cy);
+  CGAL::Iso_rectangle_2<R> r( Point_2<R>(w.x_real(0), w.y_real(0)), 
+                              Point_2<R>(w.x_real(w.geometry().width()), 
+                              w.y_real(w.geometry().height())));
+  CGAL::Object obj = CGAL::intersection(t, r);
+  Point_2<R> pi;
+  Segment_2<R> si;
+  Triangle_2<R> ti;
+  typedef Point_2<R> Point;
+  std::vector<Point> vi;
+  if(CGAL::assign(pi, obj))
+    w << pi;
+  if(CGAL::assign(si, obj))
+    w << si;
+  if(CGAL::assign(ti, obj))
+  {
+    QPointArray array(3);
+    array[0] = QPoint(w.x_pixel(CGAL::to_double(t.vertex(0).x())), 
+                                w.y_pixel(CGAL::to_double(t.vertex(0).y())));
+    array[1] = QPoint(w.x_pixel(CGAL::to_double(t.vertex(1).x())), 
+                                w.y_pixel(CGAL::to_double(t.vertex(1).y())));
+    array[2] = QPoint(w.x_pixel(CGAL::to_double(t.vertex(2).x())), 
+                                w.y_pixel(CGAL::to_double(t.vertex(2).y())));
+    w.get_painter().drawPolygon(array);
+  }   
+  if(CGAL::assign(vi, obj)){
+    QPointArray array(int(vi.size()));
+    typename std::vector<Point>::const_iterator it = vi.begin();
+    int pos = 0;
+    while(it != vi.end()){
+      array[pos] = QPoint(w.x_pixel(CGAL::to_double((*it).x())), 
+                          w.y_pixel(CGAL::to_double((*it).y())));
+      pos++;
+      it++;
+    }  
   w.get_painter().drawPolygon(array);
+  }
   w.do_paint();
-  return w;
-}
+
+  return w;}
 #endif
 
 #ifdef CGAL_CIRCLE_2_H
@@ -631,10 +721,10 @@ template < class R>
 Qt_widget& operator<<(Qt_widget& w, const Circle_2<R>& c)
 {
   int 
-    cx=w.x_pixel(to_double(c.center().x())),
-    cy=w.y_pixel(to_double(c.center().y())),
-    rx=w.x_pixel_dist((std::sqrt(to_double(c.squared_radius())))),
-    ry=w.y_pixel_dist((std::sqrt(to_double(c.squared_radius()))));
+    cx=w.x_pixel(CGAL::to_double(c.center().x())),
+    cy=w.y_pixel(CGAL::to_double(c.center().y())),
+    rx=w.x_pixel_dist((std::sqrt(CGAL::to_double(c.squared_radius())))),
+    ry=w.y_pixel_dist((std::sqrt(CGAL::to_double(c.squared_radius()))));
 
   w.get_painter().drawEllipse(cx-rx,cy-ry,2*rx,2*ry);
   w.do_paint();
@@ -647,11 +737,10 @@ template< class R >
 Qt_widget&
 operator<<(Qt_widget& w, const Iso_rectangle_2<R>& r)
 {
-  int
-    xmin = w.x_pixel(to_double(r.min().x())),
-    ymin = w.y_pixel(to_double(r.min().y())),
-    xmax = w.x_pixel(to_double(r.max().x())),
-    ymax = w.y_pixel(to_double(r.max().y()));
+  int xmin = w.x_pixel(CGAL::to_double(r.xmin()));
+  int ymin = w.y_pixel(CGAL::to_double(r.ymin()));
+  int xmax = w.x_pixel(CGAL::to_double(r.xmax()));
+  int ymax = w.y_pixel(CGAL::to_double(r.ymax()));
   w.get_painter().drawRect(xmin,ymin,xmax-xmin,ymax-ymin);
   w.do_paint();
   return w;
@@ -663,8 +752,41 @@ Qt_widget& operator<<(Qt_widget& w, const Bbox_2& r);
 // see Qt_widget for the implementation of this non-template function
 #endif // CGAL_BBOX_2_H
 
+// templated x_real and y_real
 
+template <class FT>
+void Qt_widget::x_real(int x, FT& return_t) const
+{
+  if(xscal<1)
+    return_t = static_cast<FT>(xmin+(int)(x/xscal));
+  else{
+#ifdef CGAL_USE_GMP
+    CGAL_Rational r = simplest_rational_in_interval<CGAL_Rational>( 
+                            xmin+x/xscal-(x/xscal-(x-1)/xscal)/2, 
+                            xmin+x/xscal+((x+1)/xscal-x/xscal)/2);
+    return_t = static_cast<FT>(CGAL::to_double(r));
+#else
+    return_t = static_cast<FT>(xmin+x/xscal);
+#endif
+  }
+}
 
+template <class FT>
+void Qt_widget::y_real(int y, FT& return_t) const
+{
+    if(yscal<1)
+      return_t = static_cast<FT>(ymax-(int)(y/yscal));
+    else{
+#ifdef CGAL_USE_GMP
+    CGAL_Rational r = simplest_rational_in_interval<CGAL_Rational>( 
+                            ymax - y/yscal-(y/yscal-(y-1)/yscal)/2, 
+                            ymax - y/yscal+((y+1)/yscal-y/yscal)/2);
+    return_t = static_cast<FT>(CGAL::to_double(r));
+#else
+    return_t = static_cast<FT>(ymax-y/yscal);
+#endif
+  }  
+}
 
 } // namespace CGAL
 

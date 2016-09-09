@@ -1,58 +1,37 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/VectorH3.h
-// package       : H3 (2.49)
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 2002/02/06 12:35:29 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken  
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H3/include/CGAL/Homogeneous/VectorH3.h,v $
+// $Revision: 1.16 $ $Date: 2003/10/21 12:16:21 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
  
 #ifndef CGAL_HOMOGENEOUS_VECTOR_3_H
 #define CGAL_HOMOGENEOUS_VECTOR_3_H
 
 #include <CGAL/Origin.h>
+#include <CGAL/Fourtuple.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class VectorH3
-  : public R_::Vector_handle_3
+  : public R_::template Handle<Fourtuple<typename R_::RT> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::RT                   RT;
@@ -62,33 +41,32 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Vector_3             Vector_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef typename R_::Vector_handle_3                   Vector_handle_3_;
-  typedef typename Vector_handle_3_::element_type        Vector_ref_3;
+  typedef Fourtuple<RT>                            rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                 R;
 
-  VectorH3()
-    : Vector_handle_3_(Vector_ref_3()) {}
+  VectorH3() {}
 
   VectorH3(const Point_3& a, const Point_3& b)
-    : Vector_handle_3_(b-a) {}
+    : base(b-a) {}
 
   VectorH3(const Null_vector&)
-    : Vector_handle_3_(Vector_ref_3(RT(0), RT(0), RT(0), RT(1))) {}
+    : base(rep(RT(0), RT(0), RT(0), RT(1))) {}
 
   VectorH3(const RT& x, const RT& y, const RT& z)
-    : Vector_handle_3_(Vector_ref_3(x, y, z, RT(1))) {}
+    : base(rep(x, y, z, RT(1))) {}
 
   VectorH3(const RT& w, const RT& x, const RT& y, const RT& z);
 
 // undocumented:
 
   VectorH3(const Point_3 & p)
-    : Vector_handle_3_(p) {}
+    : base(p) {}
 
   VectorH3(const Direction_3 & d)   /* XXX */
-    : Vector_handle_3_(d) {}
+    : base(d) {}
 
   const RT & hx() const { return  Ptr()->e0 ; }
   const RT & hy() const { return  Ptr()->e1 ; }
@@ -116,6 +94,7 @@ public:
   FT       operator*( const VectorH3 &v) const;
   Vector_3 operator*( const RT &f) const;
   Vector_3 operator*( const FT &f) const;
+  FT squared_length() const;
   Vector_3 operator/( const RT &f) const;
   Vector_3 operator/( const FT &f) const;
 };
@@ -125,15 +104,11 @@ CGAL_KERNEL_INLINE
 VectorH3<R>::VectorH3(const RT& x, const RT& y, const RT& z, const RT& w)
 {
   if ( w >= RT(0) )
-  { initialize_with( Vector_ref_3(x, y, z, w)); }
+  { initialize_with( rep(x, y, z, w)); }
   else
-  { initialize_with( Vector_ref_3(-x,-y,-z,-w)); }
+  { initialize_with( rep(-x,-y,-z,-w)); }
 }
 
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -235,6 +210,19 @@ VectorH3<R>::operator*(const VectorH3<R>& v) const
 
 template <class R>
 CGAL_KERNEL_INLINE
+typename VectorH3<R>::FT
+VectorH3<R>::squared_length() const
+{
+  typedef typename R::FT FT;
+  return 
+    FT( CGAL_NTS square(hx()) + 
+	CGAL_NTS square(hy()) + 
+	CGAL_NTS square(hz()) ) / 
+    FT( CGAL_NTS square(hw()) );
+}
+
+template <class R>
+CGAL_KERNEL_INLINE
 typename VectorH3<R>::Vector_3
 VectorH3<R>::operator/(const typename VectorH3<R>::RT& f) const
 { return VectorH3<R>( hx(), hy(), hz(), hw()*f ); }
@@ -332,10 +320,6 @@ operator-(const PointH3<R>& p, const PointH3<R>& q)
                      p.hz()*q.hw() - q.hz()*p.hw(),
                      p.hw()*q.hw() );
 }
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 template < class R >
 inline

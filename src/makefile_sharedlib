@@ -42,10 +42,10 @@ io$(OBJ_EXT) \
 MP_Float$(OBJ_EXT) \
 optimisation_basic$(OBJ_EXT) \
 Origin$(OBJ_EXT) \
+Polynomial$(OBJ_EXT) \
 Random$(OBJ_EXT) \
 Real_timer$(OBJ_EXT) \
-Timer$(OBJ_EXT) \
-Triangulation_3$(OBJ_EXT)
+Timer$(OBJ_EXT)
 
 #---------------------------------------------------------------------#
 #                    target entries

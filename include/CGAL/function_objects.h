@@ -1,55 +1,32 @@
-// ======================================================================
-//
-// Copyright (c) 1997, 1998, 1999, 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2003  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/function_objects.h
-// package       : STL_Extension (2.57)
-// chapter       : $CGAL_Chapter: STL Extensions for CGAL $
-// source        : stl_extension.fw
-// revision      : $Revision: 1.40 $
-// revision_date : $Date: 2002/03/28 15:24:30 $
-// author(s)     : Michael Hoffmann
-//                 Lutz Kettner
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : ETH
+// $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/function_objects.h,v $
+// $Revision: 1.54 $ $Date: 2003/10/21 12:23:41 $
+// $Name: current_submission $
 //
-// Function objects.
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
+//                 Lutz Kettner <kettner@mpi-sb.mpg.de>
+//                 Sylvain Pion <Sylvain.Pion@mpi-sb.mpg.de>
 
 #ifndef CGAL_FUNCTION_OBJECTS_H
 #define CGAL_FUNCTION_OBJECTS_H 1
+
+#include <CGAL/functional_base.h>
 #include <functional>
 
 CGAL_BEGIN_NAMESPACE
@@ -58,6 +35,7 @@ template < class Value>
 struct Identity {
   typedef Value argument_type;
   typedef Value result_type;
+  typedef Arity_tag<1> Arity;
   Value&       operator()( Value& x)       const { return x; }
   const Value& operator()( const Value& x) const { return x; }
 };
@@ -66,6 +44,7 @@ template < class Value>
 struct Dereference {
   typedef Value* argument_type;
   typedef Value  result_type;
+  typedef Arity_tag<1> Arity;
   Value&         operator()( Value* x)       const { return *x;}
   const Value&   operator()( const Value* x) const { return *x;}
 };
@@ -74,6 +53,7 @@ template < class Value>
 struct Get_address {
   typedef Value  argument_type;
   typedef Value* result_type;
+  typedef Arity_tag<1> Arity;
   Value*         operator()( Value& x)       const { return &x;}
   const Value*   operator()( const Value& x) const { return &x;}
 };
@@ -82,6 +62,7 @@ template < class Arg, class Result>
 struct Cast_function_object {
   typedef Arg    argument_type;
   typedef Result result_type;
+  typedef Arity_tag<1> Arity;
   Result&       operator()( Arg& x)       const { return (Result&)(x); }
   const Result& operator()( const Arg& x) const {
     return (const Result&)(x);
@@ -93,6 +74,7 @@ struct Project_vertex {
   typedef Node                  argument_type;
   typedef typename Node::Vertex Vertex;
   typedef Vertex                result_type;
+  typedef Arity_tag<1> Arity;
   Vertex&       operator()( Node& x)       const { return x.vertex(); }
   const Vertex& operator()( const Node& x) const { return x.vertex(); }
 };
@@ -102,6 +84,7 @@ struct Project_facet {
   typedef Node                  argument_type;
   typedef typename Node::Facet  Facet;
   typedef Facet                 result_type;
+  typedef Arity_tag<1> Arity;
   Facet&       operator()( Node& x)       const { return x.facet(); }
   const Facet& operator()( const Node& x) const { return x.facet(); }
 };
@@ -111,6 +94,7 @@ struct Project_point {
   typedef Node                  argument_type;
   typedef typename Node::Point  Point;
   typedef Point                 result_type;
+  typedef Arity_tag<1> Arity;
   Point&       operator()( Node& x)       const { return x.point(); }
   const Point& operator()( const Node& x) const { return x.point(); }
 };
@@ -120,6 +104,7 @@ struct Project_normal {
   typedef Node                  argument_type;
   typedef typename Node::Normal Normal;
   typedef Normal                result_type;
+  typedef Arity_tag<1> Arity;
   Normal&       operator()( Node& x)       const { return x.normal(); }
   const Normal& operator()( const Node& x) const { return x.normal(); }
 };
@@ -129,6 +114,7 @@ struct Project_plane {
   typedef Node                  argument_type;
   typedef typename Node::Plane  Plane;
   typedef Plane                 result_type;
+  typedef Arity_tag<1> Arity;
   Plane&       operator()( Node& x)       const { return x.plane(); }
   const Plane& operator()( const Node& x) const { return x.plane(); }
 };
@@ -139,6 +125,7 @@ template < class Node>
 struct Project_next {
   typedef Node*   argument_type;
   typedef Node*   result_type;
+  typedef Arity_tag<1> Arity;
   Node*       operator()( Node* x)       const { return x->next(); }
   const Node* operator()( const Node* x) const { return x->next(); }
 };
@@ -147,6 +134,7 @@ template < class Node>
 struct Project_prev {
   typedef Node*   argument_type;
   typedef Node*   result_type;
+  typedef Arity_tag<1> Arity;
   Node*       operator()( Node* x)       const { return x->prev(); }
   const Node* operator()( const Node* x) const { return x->prev(); }
 };
@@ -155,6 +143,7 @@ template < class Node>
 struct Project_next_opposite {
   typedef Node*   argument_type;
   typedef Node*   result_type;
+  typedef Arity_tag<1> Arity;
   Node*       operator()( Node* x)       const {
     return x->next()->opposite();
   }
@@ -167,6 +156,7 @@ template < class Node>
 struct Project_opposite_prev {
   typedef Node*   argument_type;
   typedef Node*   result_type;
+  typedef Arity_tag<1> Arity;
   Node*       operator()( Node* x)       const {
     return x->opposite()->prev();
   }
@@ -180,6 +170,7 @@ public:
   typedef Arg    argument_type;
   typedef Arg    argument1_type;
   typedef Result result_type;
+  typedef Arity_tag<1> Arity;
   Result operator()(Arg a) const { return Result(a);}
 };
 
@@ -189,6 +180,7 @@ public:
   typedef Arg1   argument1_type;
   typedef Arg2   argument2_type;
   typedef Result result_type;
+  typedef Arity_tag<2> Arity;
   Result operator()(Arg1 a1, Arg2 a2) const { return Result(a1,a2);}
 };
 
@@ -199,6 +191,7 @@ public:
   typedef Arg2   argument2_type;
   typedef Arg3   argument3_type;
   typedef Result result_type;
+  typedef Arity_tag<3> Arity;
   Result operator()(Arg1 a1, Arg2 a2, Arg3 a3) const {
     return Result(a1,a2,a3);
   }
@@ -212,6 +205,7 @@ public:
   typedef Arg3   argument3_type;
   typedef Arg4   argument4_type;
   typedef Result result_type;
+  typedef Arity_tag<4> Arity;
   Result operator()(Arg1 a1, Arg2 a2, Arg3 a3, Arg4 a4) const {
     return Result(a1,a2,a3,a4);
   }
@@ -227,6 +221,7 @@ public:
   typedef Arg4   argument4_type;
   typedef Arg5   argument5_type;
   typedef Result result_type;
+  typedef Arity_tag<5> Arity;
   Result operator()(Arg1 a1, Arg2 a2, Arg3 a3, Arg4 a4, Arg5 a5) const {
     return Result(a1,a2,a3,a4,a5);
   }
@@ -239,6 +234,7 @@ public:
   typedef Arg    argument1_type;
   typedef Arg    argument2_type;
   typedef Result result_type;
+  typedef Arity_tag<2> Arity;
   Result operator()(Arg a1, Arg a2) const { return Result(a1,a2);}
 };
 
@@ -250,6 +246,7 @@ public:
   typedef Arg    argument2_type;
   typedef Arg    argument3_type;
   typedef Result result_type;
+  typedef Arity_tag<3> Arity;
   Result operator()(Arg a1, Arg a2, Arg a3) const {
     return Result(a1,a2,a3);
   }
@@ -264,6 +261,7 @@ public:
   typedef Arg    argument3_type;
   typedef Arg    argument4_type;
   typedef Result result_type;
+  typedef Arity_tag<4> Arity;
   Result operator()(Arg a1, Arg a2, Arg a3, Arg a4) const {
     return Result(a1,a2,a3,a4);
   }
@@ -279,6 +277,7 @@ public:
   typedef Arg    argument4_type;
   typedef Arg    argument5_type;
   typedef Result result_type;
+  typedef Arity_tag<5> Arity;
   Result operator()(Arg a1, Arg a2, Arg a3, Arg a4, Arg a5) const {
     return Result(a1,a2,a3,a4,a5);
   }

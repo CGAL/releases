@@ -1,59 +1,28 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/generic_sweep.h,v $
+// $Revision: 1.5 $ $Date: 2003/09/18 10:23:24 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/generic_sweep.h
-// package       : Nef_2 (1.18)
-// chapter       : Nef Polyhedra
-//
-// source        : nef_2d/generic_sweep.lw
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2002/03/22 15:19:57 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Michael Seel
-//
-// implementation: generic plane sweep framework
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_GENERIC_SWEEP_H
 #define CGAL_GENERIC_SWEEP_H
 
 /*{\Moptions print_title=yes}*/
 /*{\Moptions section=subsection}*/
 
-#if (! defined( _MSC_VER) || _MSC_VER >= 1300)
+
 #include <CGAL/sweep_observer.h>
 
 namespace CGAL {
@@ -228,45 +197,6 @@ program:
 }; // generic_sweep<T>
 } // namespace CGAL
 
-#else // _MSC_VER
 
-namespace CGAL {
-
-template <typename T>
-class generic_sweep {
-  typedef generic_sweep<T>  Self;
-  T traits;
-public :
-
-typedef T TRAITS;
-typedef typename TRAITS::INPUT  INPUT;
-typedef typename TRAITS::OUTPUT OUTPUT;
-typedef typename TRAITS::GEOMETRY GEOMETRY;
-
-generic_sweep(const INPUT& input, OUTPUT& output, 
-  const GEOMETRY& geometry = GEOMETRY()) : 
-  traits(input,output,geometry) {}
-
-generic_sweep(OUTPUT& output, const GEOMETRY& geometry = GEOMETRY()) : 
-  traits(output,geometry) {}
-
-void sweep()
-{
-  traits.initialize_structures();
-  traits.check_invariants();
-  while ( traits.event_exists() ) {
-    traits.process_event();
-    traits.check_invariants();
-    traits.procede_to_next_event();
-  }
-  traits.complete_structures();
-  traits.check_final();
-}
-
-}; // generic_sweep<T>
-
-} // namespace CGAL
-
-#endif // _MSC_VER
 
 #endif // CGAL_GENERIC_SWEEP_H

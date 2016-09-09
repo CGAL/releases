@@ -13,7 +13,7 @@
 # recommended to use the full pathname! Another possibility is to define
 # an environment variable CGAL_MAKEFILE.
 
-CGAL_MAKEFILE = PLEASE_EDIT_MAKEFILE_AND_CUSTOMIZE_CGAL_MAKEFILE
+CGAL_MAKEFILE = /proj/geometrica/home/CGAL/CGAL-2.5-I-154/make/makefile_i686_Linux-2.4.20_g++-3.3.1
 include $(CGAL_MAKEFILE)
 
 #---------------------------------------------------------------------#

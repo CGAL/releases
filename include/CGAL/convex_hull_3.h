@@ -1,53 +1,22 @@
-// ======================================================================
+// Copyright (c) 2001  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_3/include/CGAL/convex_hull_3.h,v $
+// $Revision: 1.33 $ $Date: 2003/09/18 10:20:29 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/convex_hull_3.h
-// package       : Convex_hull_3 (2.41)
-// chapter       : Convex Hulls and Extreme Points
-//
-// revision      : $Revision: 1.28 $
-// revision_date : $Date: 2002/05/03 09:58:52 $
-//
-// author(s)     : Susan Hert
-//               : Amol Prakash
-//
-// coordinator   : MPI (Susan Hert)
-//
-// implementation: 3D convex hull via quickhull algorithm
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
+//               : Amol Prakash <prakash@mpi-sb.mpg.de>
 
 #ifndef CGAL_CONVEX_HULL_3_H
 #define CGAL_CONVEX_HULL_3_H
@@ -301,24 +270,11 @@ partition_outside_sets(const std::list<Facet_handle>& new_facets,
    
 }
 
-//
-// the MSVC 6.0 and 7.0 compilers cannot deal with function overloading
-// very well, so we have to use specific templating here with the CGAL
-// Polyhedron_3 type in its two different forms (one that is swallowed by
-// MSVC6 and the other by MSVC 7.0). 
-//
-#if defined(_MSC_VER)
 
-#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
-// using templates for the Facet_handle and Point type instead of getting these
-// from Polyhedron and Traits, respectively is required to make M$VC6 happy.  
-template <class Tr, class Traits, class HDS, class Facet_hdl, class Point>	
-void 
-ch_quickhull_3_scan(Polyhedron_3<Tr,HDS>& P,
-        std::list<Facet_hdl>& pending_facets,
-        CGAL::Unique_hash_map<Facet_hdl, std::list<Point> >& outside_sets,
-        const Traits& traits)
-#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+
+#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
+
+
 template < class Tr, class Traits, class Items,
 #ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
            template < class T, class I, class A>
@@ -331,9 +287,9 @@ ch_quickhull_3_scan(Polyhedron_3<Tr,Items,HDS,Alloc>& P,
  CGAL::Unique_hash_map<typename Polyhedron_3<Tr,Items,HDS,Alloc>::Facet_handle,
  std::list<typename Traits::Point_3> >& outside_sets, const Traits& traits
 )
-#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
 
-#else // non-MSVC compilers can handle this more general interface
+
+#else 
 
 template <class Polyhedron_3, class Traits>
 void
@@ -343,18 +299,16 @@ ch_quickhull_3_scan(
         CGAL::Unique_hash_map<typename Polyhedron_3::Facet_handle,
                    std::list<typename Traits::Point_3> >& outside_sets,
         const Traits& traits)
-#endif // _MSC_VER
+#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
 {
  
-#if defined(_MSC_VER)
-  #ifndef CGAL_USE_POLYHEDRON_DESIGN_ONE
-     typedef Polyhedron_3<Tr,Items,HDS,Alloc>             Polyhedron;
-  #else
-     typedef Polyhedron_3<Tr, HDS>                        Polyhedron;
-  #endif // CGAL_USE_POLYHEDRON_DEGIGN_ONE
+#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
+
+  typedef Polyhedron_3<Tr,Items,HDS,Alloc>             Polyhedron;
+
 #else
   typedef Polyhedron_3                                    Polyhedron;
-#endif // _MSC_VER
+#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
   typedef typename Polyhedron::Halfedge_handle            Halfedge_handle;
   typedef typename Polyhedron::Halfedge_iterator          Halfedge_iterator;
   typedef typename Polyhedron::Facet_handle               Facet_handle;
@@ -472,21 +426,9 @@ ch_quickhull_3_scan(
   
 }
 
-//
-// the MSVC 6.0 and 7.0 compilers cannot deal with function overloading
-// very well, so we have to use specific templating here with the CGAL
-// Polyhedron_3 type in its two different forms (one that is swallowed by
-// MSVC6 and the other by MSVC 7.0). 
-//
-#if defined(_MSC_VER)
+#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
 
-#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
-// the use of a template parameter for Point instead of getting this from
-// the Traits class as it should be is required by M$VC6
-template <class Tr, class Traits, class HDS, class Point>	
-void non_coplanar_quickhull_3(std::list<Point>& points,
-                              Polyhedron_3<Tr,HDS>& P, const Traits& traits)
-#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+
 template < class Tr, class Traits, class Items,
 #ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
            template < class T, class I, class A>
@@ -494,22 +436,19 @@ template < class Tr, class Traits, class Items,
            class HDS, class Alloc>
 void non_coplanar_quickhull_3(std::list<typename Traits::Point_3>& points,
 	Polyhedron_3<Tr,Items,HDS,Alloc>& P, const Traits& traits)
-#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
 
-#else // non-MSVC compilers can handle this more general interface
+#else 
 
 template <class Polyhedron_3, class Traits>
 void non_coplanar_quickhull_3(std::list<typename Traits::Point_3>& points,
                               Polyhedron_3& P, const Traits& traits)
-#endif // _MSC_VER
+#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
 
 {
-#if defined (_MSC_VER)
-  #ifndef CGAL_USE_POLYHEDRON_DESIGN_ONE
-    typedef typename Polyhedron_3<Tr,Items,HDS,Alloc>     Polyhedron;
-  #else
-    typedef typename Polyhedron_3<Tr, HDS>                Polyhedron;
-  #endif // CGAL_USE_POLYEDRON_DESIGN_ONE
+#if defined (CGAL_CFG_FUNCTION_OVERLOAD_BUG)
+
+  typedef typename Polyhedron_3<Tr,Items,HDS,Alloc>     Polyhedron;
+
 #else
   typedef Polyhedron_3                                    Polyhedron;
 #endif // _MS_VER
@@ -568,24 +507,9 @@ void non_coplanar_quickhull_3(std::list<typename Traits::Point_3>& points,
 
 
 //
-// the MSVC 6.0 and 7.0 compilers cannot deal with function overloading
-// very well, so we have to use specific templating here with the CGAL
-// Polyhedron_3 type in its two different forms (one that is swallowed by
-// MSVC6 and the other by MSVC 7.0). 
-//
-#if defined(_MSC_VER)
+#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
 
-#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
-template <class Tr, class HDS, class Traits, class type, class InputIterator>
-void
-ch_quickhull_polyhedron_3(std::list<type>& points, 
-			  InputIterator point1_it, 
-        InputIterator point2_it, 
-        InputIterator point3_it, 
-        Polyhedron_3<Tr,HDS>& P,
-        const Traits& traits
-        )
-#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+
 template < class InputIterator, class Tr, class Traits,
            class Items,
 #ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
@@ -601,9 +525,9 @@ ch_quickhull_polyhedron_3(std::list<typename Traits::Point_3>& points,
         Polyhedron_3<Tr,Items,HDS,Alloc>& P,
         const Traits& traits
 		)
-#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
 
-#else // non-MSVC compilers can handle this more general interface
+
+#else
 
 template <class InputIterator, class Polyhedron_3, class Traits>
 void
@@ -612,7 +536,7 @@ ch_quickhull_polyhedron_3(std::list<typename Traits::Point_3>& points,
                           InputIterator point3_it, Polyhedron_3& P,
                           const Traits& traits)
 
-#endif // _MSC_VER
+#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
 
 {
   typedef typename Traits::Point_3	  		  Point_3;  
@@ -775,19 +699,10 @@ void convex_hull_3(InputIterator first, InputIterator beyond,
 }
 
 
-//
-// the MSVC 6.0 and 7.0 compilers cannot deal with function overloading
-// very well, so we have to use specific templating here with the CGAL
-// Polyhedron_3 type in its two different forms (one that is swallowed by
-// MSVC6 and the other by MSVC 7.0). 
-//
-#if defined(_MSC_VER)
 
-#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
-template <class InputIterator, class Tr, class Traits, class HDS>
-void convex_hull_3(InputIterator first, InputIterator beyond, 
-                   Polyhedron_3<Tr,HDS>& polyhedron,  const Traits& traits)
-#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
+
+
 template < class InputIterator,
 		   class Tr,
 		   class Traits,
@@ -799,22 +714,21 @@ template < class InputIterator,
 void convex_hull_3(InputIterator first, InputIterator beyond, 
                    Polyhedron_3<Tr,Items,HDS,Alloc>& polyhedron,
 				   const Traits& traits)
-#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
 
-#else // non-MSVC compilers can handle this more general version
+#else
 
 template <class InputIterator, class Polyhedron_3, class Traits>
 void convex_hull_3(InputIterator first, InputIterator beyond,
                    Polyhedron_3& polyhedron,  const Traits& traits)
-#endif // _MSC_VER
+#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
 {
   typedef typename Traits::Point_3                Point_3;  
   typedef typename Traits::Plane_3	      	  Plane_3;
-#if defined(_MSC_VER)
+#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
   typedef std::list< Traits::Point_3>             Point_3_list;
 #else
   typedef std::list<Point_3>                      Point_3_list;
-#endif // _MSC_VER
+#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
   typedef typename Point_3_list::iterator         P3_iterator;
 
   Point_3_list points(first, beyond);
@@ -844,19 +758,9 @@ void convex_hull_3(InputIterator first, InputIterator beyond,
 
 }
 
-//
-// the MSVC 6.0 and 7.0 compilers cannot deal with function overloading
-// very well, so we have to use specific templating here with the CGAL
-// Polyhedron_3 type in its two different forms (one that is swallowed by
-// MSVC6 and the other by MSVC 7.0). 
-//
-#if defined(_MSC_VER)
+#if defined(CGAL_CFG_FUNCTION_OVERLOAD_BUG)
 
-#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
-template <class InputIterator, class Traits, class HDS>
-void convex_hull_3(InputIterator first, InputIterator beyond, 
-               Polyhedron_3<Traits,HDS>& polyhedron  CGAL_MSVC_DUMMY_ARGUMENT) 
-#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+
 template < class InputIterator, class Traits, class Items,
 #ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
            template < class T, class I, class A>
@@ -866,15 +770,15 @@ void convex_hull_3(InputIterator first, InputIterator beyond,
                    Polyhedron_3<Traits,Items,HDS,Alloc>& polyhedron 
                    CGAL_MSVC_DUMMY_ARGUMENT) 
 
-#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
 
-#else // non-MSVC compilers can handle this simpler, more general version
+
+#else
 
 template <class InputIterator, class Polyhedron_3>
 void convex_hull_3(InputIterator first, InputIterator beyond,
                    Polyhedron_3& polyhedron)
 
-#endif // _MSC_VER
+#endif // CGAL_CFG_FUNCTION_OVERLOAD_BUG
 {
    typedef typename std::iterator_traits<InputIterator>::value_type Point_3;
    typedef typename Kernel_traits<Point_3>::Kernel                  K;

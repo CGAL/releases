@@ -1,39 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// Copyright (c) 2002 ENS de Paris
-//
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// The Qt widget we provide for CGAL is distributed under the QPL,
-// which is Trolltech's open source license. For more information see 
-//     http://www.trolltech.com/developer/licensing/qpl.html
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// file          : include/CGAL/IO/Qt_widget_get_circle.h
-// package       : Qt_widget (1.2.30)
-// author(s)     : Radu Ursu
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : Laurent Rineau
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_get_circle.h,v $
+// $Revision: 1.22 $ $Date: 2003/10/21 12:23:07 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Radu Ursu
 
 #ifndef CGAL_QT_WIDGET_GET_CIRCLE_H
 #define CGAL_QT_WIDGET_GET_CIRCLE_H
@@ -53,17 +39,20 @@ template <class R>
 class Qt_widget_get_circle : public Qt_widget_layer
 {
 public:
-  typedef typename R::Point_2		Point;
-  typedef typename R::Circle_2		Circle;
-  typedef typename R::FT	FT;
+  typedef typename R::Point_2   Point;
+  typedef typename R::Circle_2  Circle;
+  typedef typename R::FT        FT;
 
-  Qt_widget_get_circle(const QCursor c=QCursor(Qt::crossCursor)) 
-     : cursor(c), firstpoint(false), firsttime(true){};
+  Qt_widget_get_circle(const QCursor c=QCursor(Qt::crossCursor),
+		       QObject* parent = 0, const char* name = 0)
+     : Qt_widget_layer(parent, name), cursor(c), firstpoint(false),
+       firsttime(true){};
+
   void draw(){
     firsttime = true;
   }
 
-private:
+protected:
   bool is_pure(Qt::ButtonState s){
     if((s & Qt::ControlButton) ||
        (s & Qt::ShiftButton) ||
@@ -79,21 +68,47 @@ private:
        && !firstpoint
        && is_pure(e->state()))
     {
-      FT x=static_cast<FT>(widget->x_real(e->x()));
-	    FT y=static_cast<FT>(widget->y_real(e->y()));
+      FT x, y;
+      widget->x_real(e->x(), x);
+      widget->y_real(e->y(), y);
       x1 = x;
       y1 = y;
       x2 = x;
       y2 = y;
       firstpoint = true;
     } else if(e->button() == CGAL_QT_WIDGET_GET_POINT_BUTTON){
-      FT x=static_cast<FT>(widget->x_real(e->x()));
-	    FT y=static_cast<FT>(widget->y_real(e->y()));
-	    widget->new_object(make_object(Circle(Point(x1,y1),
-		  squared_distance(Point(x1, y1), Point(x,y)))));
-	    firstpoint = false; firsttime = true;
+      FT x, y; 
+      widget->x_real(e->x(), x);
+      widget->y_real(e->y(), y);
+      widget->new_object(make_object(Circle(Point(x1,y1),
+	      squared_distance(Point(x1, y1), Point(x,y)))));
+      firstpoint = false;
+      firsttime = true;
     }
   };
+
+  void keyPressEvent(QKeyEvent *e)
+  {
+    switch ( e->key() ) {
+      case Key_Escape:			// key_escape
+         if(firstpoint)
+         {
+           firstpoint = false;
+           RasterOp old_raster = widget->rasterOp();
+           QColor old_color = widget->color();
+           widget->lock();
+           widget->setRasterOp(XorROP);
+           *widget << CGAL::GREEN;
+           *widget << Circle(Point(x1,y1),
+                      squared_distance(Point(x1, y1), Point(x2,y2)));
+           widget->setRasterOp(old_raster);
+           widget->setColor(old_color);
+           widget->unlock();
+           firsttime = true;
+         }
+         break;
+    }//endswitch
+  }
 
   void leaveEvent(QEvent *)
   {
@@ -103,10 +118,10 @@ private:
       RasterOp old_raster = widget->rasterOp();//save the initial raster mode
       
       widget->lock();
-	      widget->setRasterOp(XorROP);
-	      *widget << CGAL::GREEN;
-	      *widget << Circle(Point(x1,y1),
-		    squared_distance(Point(x1, y1), Point(x2,y2)));
+        widget->setRasterOp(XorROP);
+        *widget << CGAL::GREEN;
+        *widget << Circle(Point(x1,y1),
+        squared_distance(Point(x1, y1), Point(x2,y2)));
       widget->unlock();
       widget->setRasterOp(old_raster);
       widget->setColor(old_color);
@@ -118,18 +133,19 @@ private:
   {
     if(firstpoint==TRUE)
     {		
-      FT x=static_cast<FT>(widget->x_real(e->x()));
-      FT y=static_cast<FT>(widget->y_real(e->y()));
+      FT x, y;
+      widget->x_real(e->x(), x);
+      widget->y_real(e->y(), y);
       QColor old_color = widget->color();
       RasterOp old_raster = widget->rasterOp();//save the initial raster mode		
       widget->setRasterOp(XorROP);
       widget->lock();
       *widget << CGAL::GREEN;
       if(!firsttime)
-	      *widget << Circle(Point(x1,y1),
+        *widget << Circle(Point(x1,y1),
 		  squared_distance(Point(x1, y1), Point(x2,y2)));
       *widget << Circle(Point(x1,y1),
-		      squared_distance(Point(x1, y1), Point(x,y)));
+		  squared_distance(Point(x1, y1), Point(x,y)));
       widget->unlock();
       widget->setRasterOp(old_raster);
       widget->setColor(old_color);
@@ -142,12 +158,15 @@ private:
   };
   void activating()
   {
+    oldpolicy = widget->focusPolicy();
+    widget->setFocusPolicy(QWidget::StrongFocus);
     oldcursor = widget->cursor();
     widget->setCursor(cursor);
   };
   
   void deactivating()
   {
+    widget->setFocusPolicy(oldpolicy);
     widget->setCursor(oldcursor);
     firstpoint = false;
   };
@@ -156,12 +175,13 @@ private:
   QCursor oldcursor;
   
 
-  FT	x1, //the X of the first point
-		  y1; //the Y of the first point
-  FT	x2, //the old second point's X
-		  y2; //the old second point's Y
+  FT    x1, //the X of the first point
+        y1; //the Y of the first point
+  FT    x2, //the old second point's X
+        y2; //the old second point's Y
   bool	firstpoint, //true if the user left clicked once
 	firsttime;  //true if the line is not drawn
+  QWidget::FocusPolicy	oldpolicy;
 };//end class 
 
 } // namespace CGAL

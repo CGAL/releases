@@ -1,52 +1,27 @@
-// ======================================================================
-//
-// Copyright (c) 1997, 1998, 1999, 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2003  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/utility.h
-// package       : STL_Extension (2.57)
-// chapter       : $CGAL_Chapter: STL Extensions for CGAL $
-// source        : stl_extension.fw
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 2002/03/28 15:24:32 $
-// author(s)     : Michael Hoffmann
-//                 Lutz Kettner
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : ETH
+// $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/utility.h,v $
+// $Revision: 1.22 $ $Date: 2003/10/21 12:23:43 $
+// $Name: current_submission $
 //
-// STL like utilities (Triple and such)
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
+//                 Lutz Kettner <kettner@mpi-sb.mpg.de>
+//                 Sylvain Pion <Sylvain.Pion@mpi-sb.mpg.de>
 
 #ifndef CGAL_UTILITY_H
 #define CGAL_UTILITY_H 1
@@ -75,6 +50,19 @@ struct Triple
   Triple(const T1& a, const T2& b, const T3& c)
   : first(a), second(b), third(c)
   {}
+
+  template <class U, class V, class W>
+  Triple(const U& a, const V& b, const W& c)
+  : first(a), second(b), third(c)
+  {}
+
+  template <class U, class V, class W>
+  Triple& operator=(const Triple<U, V, W> &t) {
+    first = t.first;
+    second = t.second;
+    third = t.third;
+    return *this;
+  }
 };
 
 template <class T1, class T2, class T3>
@@ -99,9 +87,9 @@ bool operator<(const Triple<T1, T2, T3>& x,
                const Triple<T1, T2, T3>& y)
 {
   return ( x.first < y.first ||
-           ( (x.first == y.first) && (x.second < y.second) ) ||
-           ( (x.first == y.first) && (x.second == y.second) &&
-             (x.third < y.third) ) );
+           ( !(y.first < x.first) &&
+             ( x.second < y.second ||
+               ( !(y.second < x.second) && x.third < y.third ) ) ) );
 }
 //+---------------------------------------------------------------------+
 //| Quadruple class                                                     |
@@ -125,6 +113,20 @@ struct Quadruple
   Quadruple(const T1& a, const T2& b, const T3& c, const T4& d)
   : first(a), second(b), third(c), fourth(d)
   {}
+
+  template <class U, class V, class W, class X>
+  Quadruple(const U& a, const V& b, const W& c, const X& d)
+  : first(a), second(b), third(c), fourth(d)
+  {}
+
+  template <class U, class V, class W, class X>
+  Quadruple& operator=(const Quadruple<U, V, W, X> &q) {
+    first = q.first;
+    second = q.second;
+    third = q.third;
+    fourth = q.fourth;
+    return *this;
+  }
 };
 
 template <class T1, class T2, class T3, class T4>
@@ -154,12 +156,11 @@ operator<(const Quadruple<T1, T2, T3, T4>& x,
           const Quadruple<T1, T2, T3, T4>& y)
 {
   return ( x.first < y.first ||
-           ( (x.first == y.first) && (x.second < y.second) ) ||
-           ( (x.first == y.first) && (x.second == y.second) &&
-             (x.third < y.third) ) ||
-           ( (x.first == y.first) && (x.second == y.second) &&
-             (x.third == y.third) ) &&
-           (x.fourth < y.fourth) );
+           ( !(y.first < x.first) &&
+             ( x.second < y.second ||
+               ( !(y.second < x.second) &&
+                 ( x.third < y.third ||
+                   !(y.third < x.third) && x.fourth < y.fourth) ) ) ) );
 }
 
 

@@ -1,69 +1,33 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_polyhedron_2.h,v $
+// $Revision: 1.20 $ $Date: 2003/09/18 10:23:23 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Nef_polyhedron_2.h
-// package       : Nef_2 (1.18)
-// chapter       : Nef Polyhedra
-//
-// source        : nef_2d/Nef_polyhedron_2.lw
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 2002/03/22 15:19:57 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Michael Seel
-//
-// implementation: Nef polyhedra in the plane
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
 #ifndef CGAL_NEF_POLYHEDRON_2_H
 #define CGAL_NEF_POLYHEDRON_2_H
 
-#if (defined(_MSC_VER) && (_MSC_VER <= 1200)) || defined(__BORLANDC__)
-#define CGAL_SIMPLE_HDS
-#endif
+
 
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
 #include <CGAL/Random.h>
-#ifndef CGAL_SIMPLE_HDS
 #include <CGAL/Nef_2/HDS_items.h>
 #include <CGAL/HalfedgeDS_default.h>
-#else
-#include <CGAL/Nef_2/HalfedgeDS_default_MSC.h>
-#endif
+
 #include <CGAL/Nef_2/PM_explorer.h>
 #include <CGAL/Nef_2/PM_decorator.h>
 #include <CGAL/Nef_2/PM_io_parser.h>
@@ -84,17 +48,22 @@ template <typename T> class Nef_polyhedron_2_rep;
 
 template <typename T>
 std::ostream& operator<<(std::ostream&, const Nef_polyhedron_2<T>&); 
+
 template <typename T>
 std::istream& operator>>(std::istream&, Nef_polyhedron_2<T>&);
+
 template <typename T>
 class Nef_polyhedron_2_rep 
-{ typedef Nef_polyhedron_2_rep<T> Self;
+{ 
+  typedef Nef_polyhedron_2_rep<T> Self;
   friend class Nef_polyhedron_2<T>;
-#ifndef CGAL_SIMPLE_HDS
+
   struct HDS_traits {
     typedef typename T::Point_2 Point;
     typedef bool                Mark;
   };
+
+public: // gcc-3.3 otherwise claims that Decorator in Polyhedron_2 is private
   typedef CGAL_HALFEDGEDS_DEFAULT<HDS_traits,HDS_items> Plane_map;
   typedef CGAL::PM_const_decorator<Plane_map>           Const_decorator;
   typedef CGAL::PM_decorator<Plane_map>                 Decorator;
@@ -102,30 +71,39 @@ class Nef_polyhedron_2_rep
   typedef CGAL::PM_point_locator<Decorator,T>           Locator;
   typedef CGAL::PM_overlayer<Decorator,T>               Overlayer;
 
-#else
-  struct HDS_traits {
-    typedef typename T::Point_2 Point;
-    typedef bool                Mark;
-  };
-  typedef CGAL::HalfedgeDS_default_MSC<HDS_traits>  Plane_map;
-  typedef CGAL::PM_const_decorator<Plane_map>       Const_decorator;
-  typedef CGAL::PM_decorator<Plane_map>             Decorator;
-  typedef CGAL::PM_naive_point_locator<Decorator,T> Slocator;
-  typedef CGAL::PM_point_locator<Decorator,T>       Locator;
-  typedef CGAL::PM_overlayer<Decorator,T>           Overlayer;
+private:
 
-#endif
-  //typedef CGAL::PM_transformer<Decorator,T> Transformer;
-  Plane_map pm_; Locator* pl_;
+  Plane_map pm_; 
+  Locator* pl_;
   
   void init_locator() 
-  { if ( !pl_ ) pl_ = new Locator(pm_); }
+  { 
+    if ( !pl_ ) 
+      pl_ = new Locator(pm_); 
+  }
+
   void clear_locator() 
-  { if ( pl_ ) { delete pl_; pl_=0; } }
+  { 
+    if ( pl_ ) { 
+      delete pl_; 
+      pl_=0; 
+    } 
+  }
+
 public:
-  Nef_polyhedron_2_rep() : pm_(), pl_(0) {}
-  Nef_polyhedron_2_rep(const Self& R) : pm_(), pl_(0) {}
-  ~Nef_polyhedron_2_rep() { pm_.clear(); clear_locator(); }
+  Nef_polyhedron_2_rep() 
+    : pm_(), pl_(0) 
+  {}
+
+  Nef_polyhedron_2_rep(const Self& R) 
+    : pm_(), pl_(0) 
+  {}
+
+  ~Nef_polyhedron_2_rep() 
+  { 
+    pm_.clear(); 
+    clear_locator(); 
+  }
 };
 
 /*{\Moptions print_title=yes }*/ 
@@ -222,6 +200,7 @@ protected:
   { return D_.face(e)==f_ || D_.face(D_.twin(e))==f_; }
   };
 
+  friend struct Except_frame_box_edges;
 
   typedef std::list<Extended_segment>      ES_list;
   typedef typename ES_list::const_iterator ES_iterator;
@@ -256,6 +235,8 @@ protected:
     { D.mark(v) = _m; }
 
   };
+
+  friend struct Link_to_iterator;
 
   void clear_outer_face_cycle_marks() 
   { // unset all frame marks
@@ -365,7 +346,7 @@ public:
   { Base::operator=(N1); return (*this); }
   ~Nef_polyhedron_2() {}
 
-  #if ! defined(_MSC_VER) || _MSC_VER >= 1300
+
 
   template <class Forward_iterator>
   Nef_polyhedron_2(Forward_iterator first, Forward_iterator beyond, 
@@ -396,7 +377,7 @@ public:
     clear_outer_face_cycle_marks(); 
   }
 
-  #endif
+
 
   protected:
   Nef_polyhedron_2(const Plane_map& H, bool clone=true) : Base(Nef_rep()) 
@@ -439,7 +420,9 @@ public:
 
   void extract_complement()
   { TRACEN("extract complement");
-    if ( is_shared() ) clone_rep();
+  if ( is_shared() ) {
+	  clone_rep();
+  }
     Overlayer D(pm());
     Vertex_iterator v, vend = D.vertices_end();
     for(v = D.vertices_begin(); v != vend; ++v)      D.mark(v) = !D.mark(v);
@@ -610,16 +593,16 @@ public:
   { return complement(); }
    
   Nef_polyhedron_2<T>& operator*=(const Nef_polyhedron_2<T>& N1)
-  { this = intersection(N1); return *this; }
+  { *this = intersection(N1); return *this; }
 
   Nef_polyhedron_2<T>& operator+=(const Nef_polyhedron_2<T>& N1)
-  { this = join(N1); return *this; }
+  { *this = join(N1); return *this; }
 
   Nef_polyhedron_2<T>& operator-=(const Nef_polyhedron_2<T>& N1)
-  { this = difference(N1); return *this; }
+  { *this = difference(N1); return *this; }
 
   Nef_polyhedron_2<T>& operator^=(const Nef_polyhedron_2<T>& N1)
-  { this = symmetric_difference(N1); return *this; }
+  { *this = symmetric_difference(N1); return *this; }
 
   /*{\Mtext There are also comparison operations like |<,<=,>,>=,==,!=|
   which implement the relations subset, subset or equal, superset, superset
@@ -725,6 +708,8 @@ public:
     bool operator()(Halfedge_const_handle e) const { return D.mark(e); }
     bool operator()(Face_const_handle f) const { return D.mark(f); }
   };
+
+  friend struct INSET;
 
   Object_handle ray_shoot(const Point& p, const Direction& d, 
                           Location_mode m = DEFAULT) const
@@ -898,7 +883,6 @@ std::istream& operator>>
 
 CGAL_END_NAMESPACE
 
-#undef CGAL_SIMPLE_HDS
 #endif //CGAL_NEF_POLYHEDRON_2_H
 
 

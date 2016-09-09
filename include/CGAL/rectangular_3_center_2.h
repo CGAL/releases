@@ -1,51 +1,21 @@
-// ======================================================================
+// Copyright (c) 1998-2003  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/rectangular_3_center_2.h,v $
+// $Revision: 1.38 $ $Date: 2003/09/29 08:41:47 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/rectangular_3_center_2.h
-// package       : Matrix_search (1.54)
-// chapter       : $CGAL_Chapter: Geometric Optimisation $
-// source        : 3cover.aw
-// revision      : $Revision: 1.32 $
-// revision_date : $Date: 2002/03/25 15:04:58 $
-// author(s)     : Michael Hoffmann
-//
-// coordinator   : ETH
-//
-// 2,3-Center Computation for Axis-Parallel 2D-Rectangles
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
 #if ! (CGAL_RECTANGULAR_3_CENTER_2_H)
 #define CGAL_RECTANGULAR_3_CENTER_2_H 1
@@ -60,12 +30,6 @@
 #include <algorithm>
 #include <vector>
 
-#ifdef _MSC_VER
-// that compiler cannot even distinguish between global
-// and class scope, so ...
-#define Base B_B_Base
-#endif // _MSC_VER
-
 CGAL_BEGIN_NAMESPACE
 
 template < class ForwardIterator, class OutputIterator,
@@ -78,11 +42,10 @@ rectangular_2_center_2(
   FT& r,
   Traits& t)
 {
-#ifndef CGAL_CFG_NO_NAMESPACE
   using std::pair;
   using std::greater;
   using std::less;
-#endif
+
   typedef typename Traits::Iso_rectangle_2        Rectangle;
   typedef typename Traits::Point_2                Point;
   typedef typename Traits::Infinity_distance_2    Dist;
@@ -149,11 +112,10 @@ rectangular_3_center_2_type1(
   typename Traits::FT& rad,
   Traits& t)
 {
-#ifndef CGAL_CFG_NO_NAMESPACE
   using std::max;
   using std::less;
   using std::nth_element;
-#endif
+
   typedef typename Traits::FT                         FT;
   typedef typename Traits::Iso_rectangle_2            Rectangle;
   typedef typename Traits::Point_2                    Point;
@@ -936,7 +898,6 @@ rectangular_3_center_2_type2(
   FT& rad,
   Operations op)
 {
-#ifndef CGAL_CFG_NO_NAMESPACE
   using std::max;
   using std::less;
   using std::greater;
@@ -949,7 +910,6 @@ rectangular_3_center_2_type2(
   using std::sort;
   using std::partition;
   using std::pair;
-#endif
 
   typedef typename Operations::Point                       Point;
   typedef typename Operations::Distance                 Distance;
@@ -1348,7 +1308,7 @@ rectangular_3_center_2_type2(
       break;
     }
 
-    // still a covering, but now there must be enough points in G
+
     CGAL_optimisation_assertion(b3 - b1 >= cutoff);
     e = b1;
     // adjust Q_t
@@ -1585,9 +1545,7 @@ rectangular_3_center_2(
 
 CGAL_END_NAMESPACE
 
-#ifdef _MSC_VER
-#undef Base
-#endif // _MSC_VER
+
 
 #endif // ! (CGAL_RECTANGULAR_3_CENTER_2_H)
 // ----------------------------------------------------------------------------

@@ -1,49 +1,22 @@
-// ======================================================================
+// Copyright (c) 1998, 2001, 2003  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1998, 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_hierarchy_3.h,v $
+// $Revision: 1.38 $ $Date: 2003/09/22 10:21:27 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_hierarchy_3.h
-// package       : Triangulation_3 (1.114)
-// revision      : $Revision: 1.29 $
-// revision_date : $Date: 2002/02/18 17:44:22 $
-// author(s)     : Olivier Devillers
-//                 Sylvain Pion
-//
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
+//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
 #ifndef CGAL_TRIANGULATION_HIERARCHY_3_H
 #define CGAL_TRIANGULATION_HIERARCHY_3_H
@@ -69,7 +42,7 @@ class Triangulation_hierarchy_3
 public:
   typedef Tr                                   Tr_Base;
   typedef typename Tr_Base::Geom_traits        Geom_traits;
-  typedef typename Geom_traits::Point_3        Point;
+  typedef typename Tr_Base::Point              Point;
   typedef typename Tr_Base::Vertex_handle      Vertex_handle;
   typedef typename Tr_Base::Cell_handle        Cell_handle;
   typedef typename Tr_Base::Vertex_iterator    Vertex_iterator;
@@ -89,11 +62,26 @@ public:
   Triangulation_hierarchy_3(const Geom_traits& traits = Geom_traits());
   Triangulation_hierarchy_3(const Triangulation_hierarchy_3& tr);
 
-  Triangulation_hierarchy_3 &operator=(const  Triangulation_hierarchy_3& tr);
+  template < typename InputIterator >
+  Triangulation_hierarchy_3(InputIterator first, InputIterator last,
+                            const Geom_traits& traits = Geom_traits())
+    : Tr_Base(traits), random((long)0)
+  {
+      hierarchy[0] = this; 
+      for(int i=1; i<Triangulation_hierarchy_3__maxlevel; ++i)
+          hierarchy[i] = new Tr_Base(traits);
+      insert(first, last);
+  }
+ 
+  Triangulation_hierarchy_3 & operator=(const Triangulation_hierarchy_3& tr)
+  {
+    Triangulation_hierarchy_3 tmp(tr);
+    swap(tmp);
+    return *this;
+  }
+
   ~Triangulation_hierarchy_3();
 
-  //Helping
-  void copy_triangulation(const Triangulation_hierarchy_3 &tr);
   void swap(Triangulation_hierarchy_3 &tr);
   void clear();
 
@@ -103,10 +91,19 @@ public:
   // INSERT REMOVE
   Vertex_handle insert(const Point &p);
 
+#ifndef CGAL_NO_DEPRECATED_CODE
   Vertex_handle push_back(const Point &p)
   {
+      bool THIS_FUNCTION_IS_DEPRECATED; // Use insert() or CGAL::Inserter<>
       return insert(p);
   }
+
+  void copy_triangulation(const Triangulation_hierarchy_3 &tr)
+  {
+    bool THIS_FUNCTION_IS_DEPRECATED; // Use assignment instead.
+    *this = tr;
+  }
+#endif
  
   template < class InputIterator >
   int insert(InputIterator first, InputIterator last)
@@ -119,7 +116,19 @@ public:
       return number_of_vertices() - n;
     }
 
+  // bool only for backward compatibility, we document void.
   bool remove(Vertex_handle v);
+
+  template < typename InputIterator >
+  int remove(InputIterator first, InputIterator beyond)
+  {
+    int n = number_of_vertices();
+    while (first != beyond) {
+      remove(*first);
+      ++first;
+    }
+    return n - number_of_vertices();
+  }
 
   //LOCATE
   Cell_handle locate(const Point& p, Locate_type& lt, int& li, int& lj) const;
@@ -174,44 +183,21 @@ Triangulation_hierarchy_3(const Geom_traits& traits)
 template <class Tr>
 Triangulation_hierarchy_3<Tr>::
 Triangulation_hierarchy_3(const Triangulation_hierarchy_3<Tr> &tr)
-    : Tr_Base(), random((long)0)
+    : Tr_Base(tr), random((long)0)
 { 
-  // create an empty triangulation to be able to delete it !
-  hierarchy[0] = this; 
-  for(int i=1;i<Triangulation_hierarchy_3__maxlevel;++i)
-    hierarchy[i] = new Tr_Base(tr.geom_traits());
-  copy_triangulation(tr);
-} 
- 
-
-//Assignement
-template <class Tr>
-Triangulation_hierarchy_3<Tr> &
-Triangulation_hierarchy_3<Tr>::
-operator=(const Triangulation_hierarchy_3<Tr> &tr)
-{
-  copy_triangulation(tr);
-  return *this;
-}
-
-
-template <class Tr>
-void
-Triangulation_hierarchy_3<Tr>::   
-copy_triangulation(const Triangulation_hierarchy_3<Tr> &tr)
-{
-  std::map< const void*, void* > V;
-
-  for(int i=0; i<Triangulation_hierarchy_3__maxlevel; ++i)
-    hierarchy[i]->copy_triangulation(*tr.hierarchy[i]);
+  hierarchy[0] = this;
+  for(int i=1; i<Triangulation_hierarchy_3__maxlevel; ++i)
+    hierarchy[i] = new Tr_Base(*tr.hierarchy[i]);
 
   // up and down have been copied in straightforward way
   // compute a map at lower level
 
+  std::map< Vertex_handle, Vertex_handle > V;
+
   for( Finite_vertices_iterator it=hierarchy[0]->finite_vertices_begin(); 
        it != hierarchy[0]->finite_vertices_end(); ++it)
-    if (it->up())
-      V[ ((Vertex*)(it->up()))->down() ] = &(*it);
+    if (it->up() != NULL)
+      V[ it->up()->down() ] = it;
 
   for(int j=1; j<Triangulation_hierarchy_3__maxlevel; ++j) {
     for( Finite_vertices_iterator it=hierarchy[j]->finite_vertices_begin();
@@ -219,10 +205,10 @@ copy_triangulation(const Triangulation_hierarchy_3<Tr> &tr)
 	// down pointer goes in original instead in copied triangulation
 	it->set_down(V[it->down()]);
 	// make reverse link
-	((Vertex*)(it->down()))->set_up( &(*it) );
+	it->down()->set_up( it );
 	// make map for next level
-	if (it->up())
-	    V[ ((Vertex*)(it->up()))->down() ] = &(*it);
+	if (it->up() != NULL)
+	    V[ it->up()->down() ] = it;
     }
   }
 }
@@ -275,14 +261,14 @@ is_valid(bool verbose, int level) const
   for(int j=1; j<Triangulation_hierarchy_3__maxlevel; ++j)
     for( Finite_vertices_iterator it = hierarchy[j]->finite_vertices_begin(); 
 	 it != hierarchy[j]->finite_vertices_end(); ++it) 
-      result = result && (&*it == (Vertex*)((Vertex*)it->down())->up());
+      result = result && &*(it) == &*(it->down()->up());
 
   // verify that other levels has down pointer and reciprocal link is fine
   for(int k=0; k<Triangulation_hierarchy_3__maxlevel-1; ++k)
     for( Finite_vertices_iterator it = hierarchy[k]->finite_vertices_begin(); 
 	 it != hierarchy[k]->finite_vertices_end(); ++it) 
-      result = result && ( ((Vertex*)it->up() == NULL) ||
-	       ( &*it == (Vertex*)((Vertex*)it->up())->down() ));
+      result = result && ( it->up() == NULL ||
+	        &*it == &*(it->up())->down() );
 
   return result;
 }
@@ -317,8 +303,8 @@ insert(const Point &p)
 	                                    positions[level].pos,
 	                                    positions[level].li,
 	                                    positions[level].lj);
-    vertex->set_down((void *) &*previous);// link with level above
-    previous->set_up((void *) &*vertex);
+    vertex->set_down(previous);// link with level above
+    previous->set_up(vertex);
     previous=vertex;
     level++;
   }
@@ -331,18 +317,16 @@ Triangulation_hierarchy_3<Tr>::
 remove(Vertex_handle v)
 {
   CGAL_triangulation_precondition(v != NULL);
-  void * u = v->up();
+  Vertex_handle u = v->up();
   int l = 0;
-  bool result = true;
   while (1) {
-    if (! hierarchy[l++]->remove(v))
-	result = false;
-    if (!u || l>Triangulation_hierarchy_3__maxlevel)
+    hierarchy[l++]->remove(v);
+    if (u == NULL || l > Triangulation_hierarchy_3__maxlevel)
 	break;
-    v = (Vertex*) u;
+    v = u;
     u = v->up();
   }
-  return result;
+  return true;
 }
 
 template <class Tr>
@@ -383,9 +367,9 @@ locate(const Point& p, Locate_type& lt, int& li, int& lj,
   }
 
   for (int i=level+1; i<Triangulation_hierarchy_3__maxlevel; ++i)
-      pos[i].pos=0;
+      pos[i].pos = NULL;
 
-  Cell_handle position(NULL);
+  Cell_handle position = NULL;
   while(level > 0) {
     // locate at that level from "position"
     // result is stored in "position" for the next level
@@ -399,7 +383,7 @@ locate(const Point& p, Locate_type& lt, int& li, int& lj,
 	hierarchy[level]->nearest_vertex_in_cell(p, position);
 
     // go at the same vertex on level below
-    nearest = (Vertex*) nearest->down();
+    nearest = nearest->down();
     position = nearest->cell();                // incident cell
     --level;
   }

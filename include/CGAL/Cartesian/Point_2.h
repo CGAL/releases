@@ -1,59 +1,39 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/Point_2.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.22 $
-// revision_date : $Date: 2002/02/06 12:32:37 $
-// author(s)     : Andreas Fabri, Herve Bronnimann
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Point_2.h,v $
+// $Revision: 1.33 $ $Date: 2003/10/21 12:14:19 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Andreas Fabri, Herve Bronnimann
 
 #ifndef CGAL_CARTESIAN_POINT_2_H
 #define CGAL_CARTESIAN_POINT_2_H
 
 #include <CGAL/Origin.h>
 #include <CGAL/Bbox_2.h>
+#include <CGAL/Twotuple.h>
+#include <CGAL/Kernel/Cartesian_coordinate_iterator_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class PointC2
-  : public R_::Point_handle_2
+  : public R_::template Handle<Twotuple<typename R_::FT> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
@@ -61,14 +41,15 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef typename R_::Point_handle_2		 base;
-  typedef typename base::element_type	         rep;
+  typedef Twotuple<FT>	                           rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
+  typedef Cartesian_coordinate_iterator_2<R_> Cartesian_const_iterator;
+
   typedef R_                                     R;
 
-  PointC2()
-    : base(rep()) {}
+  PointC2() {}
 
   PointC2(const Origin &)
     : base(rep(FT(0), FT(0))) {}
@@ -116,6 +97,17 @@ public:
       return cartesian(i);
   }
 
+
+  Cartesian_const_iterator cartesian_begin() const 
+  {
+    return Cartesian_const_iterator(static_cast<const Point_2* >(this),0);
+  }
+
+  Cartesian_const_iterator cartesian_end() const 
+  {
+    return Cartesian_const_iterator(static_cast<const Point_2* >(this), 2);
+  }
+
   int dimension() const
   {
       return 2;
@@ -139,10 +131,6 @@ public:
     return t.transform(*this);
   }
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -169,9 +157,9 @@ CGAL_KERNEL_INLINE
 Bbox_2
 PointC2<R>::bbox() const
 {
-  double bx = CGAL::to_double(x());
-  double by = CGAL::to_double(y());
-  return Bbox_2(bx,by, bx,by);
+  std::pair<double,double> xp = CGAL::to_interval(x());
+  std::pair<double,double> yp = CGAL::to_interval(y());
+  return Bbox_2(xp.first, yp.first,  xp.second, yp.second);
 }
 
 #ifndef CGAL_NO_OSTREAM_INSERT_POINTC2
@@ -216,10 +204,6 @@ operator>>(std::istream &is, PointC2<R> &p)
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_POINTC2
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

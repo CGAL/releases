@@ -1,52 +1,22 @@
-// ======================================================================
+// Copyright (c) 1997  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Min_sphere_d/include/CGAL/Min_sphere_d.h,v $
+// $Revision: 1.6 $ $Date: 2003/09/18 10:23:16 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// chapter       : $CGAL_Chapter: Optimisation $
-// file          : include/CGAL/Min_sphere_d.h
-// package       : Min_sphere_d (2.30)
-// source        : web/Optimisation/Min_sphere_d.aw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/11 10:11:57 $
-// author(s)     : Sven Schönherr
+// Author(s)     : Sven Schönherr <sven@inf.fu-berlin.de>
 //                 Bernd Gärtner
-//
-// coordinator   : ETH Zurich (Bernd Gärtner)
-//
-// implementation: dD Smallest Enclosing Sphere
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
 
 #ifndef CGAL_MIN_SPHERE_D_H
 #define CGAL_MIN_SPHERE_D_H
@@ -75,13 +45,6 @@
 #ifndef CGAL_PROTECT_IOSTREAM
 #  include <iostream>
 #  define CGAL_PROTECT_IOSTREAM
-#endif
-
-#ifdef _MSC_VER
-#ifdef _VIRTUAL
-#pragma message("Min_sphere_d.h: this code may not compile due to a problem")
-#pragma message("in xlocnum. Please consult the installation guide for a fix.")
-#endif
 #endif
 
 CGAL_BEGIN_NAMESPACE
@@ -140,14 +103,26 @@ public:
         {}
     
     
-    
+
+ 
     // STL-like constructor (member template)
     template <class InputIterator>
     Min_sphere_d( InputIterator first,
                        InputIterator last)
-        : d(-1), points( first, last), tco( Traits()), ms_basis (tco),
-          support_end(points.begin())
+      : d(-1), 
+#if ( _MSC_VER != 1300)   
+      points( first, last), 
+#endif
+      tco( Traits()), 
+      ms_basis (tco) 
+#if ( _MSC_VER != 1300) 
+      ,support_end(points.begin())
+#endif
     {
+#if ( _MSC_VER == 1300)
+      std::copy(first,last,std::back_inserter(points));
+      support_end = points.begin();
+#endif
         if (points.size()>0) {
             d = tco.access_dimension_d_object() (points.front());
             CGAL_optimisation_precondition ((d>=0) && all_points_have_dim(d));
@@ -160,9 +135,21 @@ public:
     Min_sphere_d( InputIterator first,
                        InputIterator last,
                        const Traits& traits)
-        : d(-1), points( first, last), tco( traits), ms_basis (tco),
-          support_end(points.begin())
+      : d(-1),
+#if ( _MSC_VER != 1300)  
+      points( first, last), 
+#endif
+      tco( traits), 
+      ms_basis (tco)
+#if ( _MSC_VER != 1300) 
+      ,support_end(points.begin())
+#endif
+
     {
+#if ( _MSC_VER == 1300)
+      std::copy(first,last,std::back_inserter(points));
+      support_end = points.begin();
+#endif
         if (points.size()>0) {
             d = tco.access_dimension_d_object() (points.front());
             CGAL_optimisation_precondition ((d>=0) && all_points_have_dim(d));

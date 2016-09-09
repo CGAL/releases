@@ -1,75 +1,54 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/Segment_2.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.23 $
-// revision_date : $Date: 2002/02/06 12:32:38 $
-// author(s)     : Andreas Fabri, Herve Bronnimann
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Segment_2.h,v $
+// $Revision: 1.35 $ $Date: 2003/10/21 12:14:22 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Andreas Fabri, Herve Bronnimann
 
 #ifndef CGAL_CARTESIAN_SEGMENT_2_H
 #define CGAL_CARTESIAN_SEGMENT_2_H
 
+#include <CGAL/Twotuple.h>
 #include <CGAL/Cartesian/predicates_on_points_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class SegmentC2
-  : public R_::Segment_handle_2
+  : public R_::template Handle<Twotuple<typename R_::Point_2> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_2              Point_2;
+  typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Direction_2          Direction_2;
   typedef typename R_::Line_2               Line_2;
   typedef typename R_::Segment_2            Segment_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef typename R_::Segment_handle_2          base;
-  typedef typename base::element_type            rep;
+  typedef Twotuple<Point_2>                        rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                                     R;
 
-  SegmentC2()
-    : base(rep()) {}
+  SegmentC2() {}
 
   SegmentC2(const Point_2 &sp, const Point_2 &ep)
     : base(rep(sp, ep)) {}
@@ -103,6 +82,7 @@ public:
   FT          squared_length() const;
 
   Direction_2 direction() const;
+  Vector_2    to_vector() const;
   Line_2      supporting_line() const;
   Segment_2        opposite() const;
   Segment_2        transform(const Aff_transformation_2 &t) const
@@ -113,10 +93,6 @@ public:
   bool        is_degenerate() const;
   Bbox_2      bbox() const;
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 inline
@@ -157,7 +133,8 @@ CGAL_KERNEL_INLINE
 const typename SegmentC2<R>::Point_2 &
 SegmentC2<R>::min() const
 {
-  return lexicographically_xy_smaller(source(),target()) ? source() : target();
+  typename R::Less_xy_2 less_xy; 
+  return less_xy(source(),target()) ? source() : target();
 }
 
 template < class R >
@@ -165,7 +142,8 @@ CGAL_KERNEL_INLINE
 const typename SegmentC2<R>::Point_2 &
 SegmentC2<R>::max() const
 {
-  return lexicographically_xy_smaller(source(),target()) ? target() : source();
+  typename R::Less_xy_2 less_xy; 
+  return less_xy(source(),target()) ? target() : source();
 }
 
 template < class R >
@@ -205,7 +183,17 @@ CGAL_KERNEL_INLINE
 typename SegmentC2<R>::Direction_2
 SegmentC2<R>::direction() const
 {
-  return Direction_2( target() - source() );
+  typename R::Construct_vector_2 construct_vector;
+  return Direction_2( construct_vector( source(), target()));
+}
+
+template < class R >
+CGAL_KERNEL_INLINE
+typename SegmentC2<R>::Vector_2
+SegmentC2<R>::to_vector() const
+{
+  typename R::Construct_vector_2 construct_vector;
+  return construct_vector( source(), target());
 }
 
 template < class R >
@@ -213,7 +201,9 @@ inline
 typename SegmentC2<R>::Line_2
 SegmentC2<R>::supporting_line() const
 {
-  return Line_2(*this);
+  typename R::Construct_line_2 construct_line;
+
+  return construct_line(*this);
 }
 
 template < class R >
@@ -229,7 +219,8 @@ CGAL_KERNEL_INLINE
 Bbox_2
 SegmentC2<R>::bbox() const
 {
-  return source().bbox() + target().bbox();
+  typename R::Construct_bbox_2 construct_bbox_2;
+  return construct_bbox_2(source()) + construct_bbox_2(target());
 }
 
 template < class R >
@@ -237,7 +228,7 @@ inline
 bool
 SegmentC2<R>::is_degenerate() const
 {
-  return source() == target();
+  return R().equal_2_object()(source(), target());
 }
 
 template < class R >
@@ -245,7 +236,7 @@ CGAL_KERNEL_INLINE
 bool
 SegmentC2<R>::is_horizontal() const
 {
-  return y_equal(source(), target());
+  return R().equal_y_2_object()(source(), target());
 }
 
 template < class R >
@@ -253,7 +244,7 @@ CGAL_KERNEL_INLINE
 bool
 SegmentC2<R>::is_vertical() const
 {
-  return x_equal(source(), target());
+  return R().equal_x_2_object()(source(), target());
 }
 
 template < class R >
@@ -262,16 +253,18 @@ bool
 SegmentC2<R>::
 has_on(const typename SegmentC2<R>::Point_2 &p) const
 {
-  return are_ordered_along_line(source(), p, target());
+  return R().are_ordered_along_line_2_object()(source(), 
+					       p, 
+					       target());
 }
 
 template < class R >
-CGAL_KERNEL_MEDIUM_INLINE
+inline
 bool
 SegmentC2<R>::
 collinear_has_on(const typename SegmentC2<R>::Point_2 &p) const
 {
-    return collinear_are_ordered_along_line(source(), p, target());
+  return R().collinear_has_on_2_object()(*this, p);
 }
 
 #ifndef CGAL_NO_OSTREAM_INSERT_SEGMENTC2
@@ -304,10 +297,6 @@ operator>>(std::istream &is, SegmentC2<R> &s)
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_SEGMENTC2
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

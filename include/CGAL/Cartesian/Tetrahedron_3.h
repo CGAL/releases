@@ -1,52 +1,32 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/Tetrahedron_3.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.27 $
-// revision_date : $Date: 2002/02/06 12:32:39 $
-// author(s)     : Andreas Fabri
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Tetrahedron_3.h,v $
+// $Revision: 1.36 $ $Date: 2003/10/21 12:14:23 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Andreas Fabri
 
 #ifndef CGAL_CARTESIAN_TETRAHEDRON_3_H
 #define CGAL_CARTESIAN_TETRAHEDRON_3_H
 
+#include <CGAL/Fourtuple.h>
 #include <CGAL/Cartesian/solve_3.h>
+#include <CGAL/Cartesian/predicates_on_points_3.h>
 #include <vector>
 #include <functional>
 
@@ -54,7 +34,7 @@ CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class TetrahedronC3
-  : public R_::Tetrahedron_handle_3
+  : public R_::template Handle<Fourtuple<typename R_::Point_3> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
@@ -63,14 +43,13 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Tetrahedron_3        Tetrahedron_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef typename R_::Tetrahedron_handle_3      base;
-  typedef typename base::element_type            rep;
+  typedef Fourtuple<Point_3>                       rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                                     R;
 
-  TetrahedronC3()
-    : base(rep()) {}
+  TetrahedronC3() {}
 
   TetrahedronC3(const Point_3 &p, const Point_3 &q, const Point_3 &r,
                 const Point_3 &s)
@@ -105,10 +84,6 @@ public:
   bool       is_degenerate() const;
   FT         volume() const;
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 bool
@@ -276,7 +251,7 @@ TetrahedronC3<R>::is_degenerate() const
 {
   Plane_3 plane(vertex(0), vertex(1), vertex(2));
   return (plane.is_degenerate()) ? true
-                                 : plane.has_on_boundary(vertex(3));
+                                 : plane.has_on(vertex(3));
 }
 
 template < class R >
@@ -284,8 +259,9 @@ inline
 Bbox_3
 TetrahedronC3<R>::bbox() const
 {
-  return vertex(0).bbox() + vertex(1).bbox()
-       + vertex(2).bbox() + vertex(3).bbox();
+  typename R::Construct_bbox_3 construct_bbox_3;
+  return construct_bbox_3(vertex(0)) + construct_bbox_3(vertex(1))
+       + construct_bbox_3(vertex(2)) + construct_bbox_3(vertex(3));
 }
 
 #ifndef CGAL_NO_OSTREAM_INSERT_TETRAHEDRONC3
@@ -320,10 +296,6 @@ operator>>(std::istream &is, TetrahedronC3<R> &t)
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_TETRAHEDRONC3
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

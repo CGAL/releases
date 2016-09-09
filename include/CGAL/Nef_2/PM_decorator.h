@@ -1,51 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_decorator.h,v $
+// $Revision: 1.12 $ $Date: 2003/09/18 10:23:29 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Nef_2/PM_decorator.h
-// package       : Nef_2 (1.18)
-// chapter       : Nef Polyhedra
-//
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2002/05/08 12:32:50 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Michael Seel
-//
-// implementation: Plane map decorator (mutable)
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
 #ifndef CGAL_PM_DECORATOR_H
 #define CGAL_PM_DECORATOR_H
@@ -54,8 +24,6 @@
 #include <CGAL/Unique_hash_map.h>
 #include <vector>
 
-#define USING(t) typedef typename Base::t t
-#define HDSUSING(t) typedef typename HDS::t t
 CGAL_BEGIN_NAMESPACE
 
 /*{\Moptions outfile=PMDecorator.man }*/
@@ -78,22 +46,31 @@ public:
 /*{\Mtypes 3}*/
   typedef PM_decorator<HDS>        Self;
   typedef PM_const_decorator<HDS>  Base;
-  typedef HDS                      Plane_map;
-  HDSUSING(Vertex_base); HDSUSING(Halfedge_base); HDSUSING(Face_base);
-  HDSUSING(Vertex); HDSUSING(Halfedge); HDSUSING(Face); 
-  HDSUSING(Vertex_handle);    HDSUSING(Vertex_iterator);
-  HDSUSING(Halfedge_handle);  HDSUSING(Halfedge_iterator);
-  HDSUSING(Face_handle);      HDSUSING(Face_iterator);
-  HDSUSING(Vertex_const_handle);
-  HDSUSING(Halfedge_const_handle); 
-  HDSUSING(Face_const_handle); 
-  HDSUSING(Vertex_const_iterator); 
-  HDSUSING(Halfedge_const_iterator); 
-  HDSUSING(Face_const_iterator); 
-  USING(Hole_const_iterator); 
-  USING(Isolated_vertex_const_iterator); 
-  USING(Point_const_iterator);
-  USING(Mark); USING(Point); USING(GenPtr);
+  typedef HDS                       Plane_map;
+  typedef typename HDS::Vertex_base Vertex_base; 
+  typedef typename HDS::Halfedge_base Halfedge_base; 
+  typedef typename HDS::Face_base Face_base;
+  typedef typename HDS::Vertex Vertex; 
+  typedef typename HDS::Halfedge Halfedge; 
+  typedef typename HDS::Face Face; 
+  typedef typename HDS::Vertex_handle Vertex_handle;    
+  typedef typename HDS::Vertex_iterator Vertex_iterator;
+  typedef typename HDS::Halfedge_handle Halfedge_handle;  
+  typedef typename HDS::Halfedge_iterator Halfedge_iterator;
+  typedef typename HDS::Face_handle Face_handle;      
+  typedef typename HDS::Face_iterator Face_iterator;
+  typedef typename HDS::Vertex_const_handle Vertex_const_handle;
+  typedef typename HDS::Halfedge_const_handle Halfedge_const_handle; 
+  typedef typename HDS::Face_const_handle Face_const_handle; 
+  typedef typename HDS::Vertex_const_iterator Vertex_const_iterator; 
+  typedef typename HDS::Halfedge_const_iterator Halfedge_const_iterator; 
+  typedef typename HDS::Face_const_iterator Face_const_iterator; 
+  typedef typename Base::Hole_const_iterator Hole_const_iterator ; 
+  typedef typename Base::Isolated_vertex_const_iterator Isolated_vertex_const_iterator; 
+  typedef typename Base::Point_const_iterator Point_const_iterator;
+  typedef typename Base::Mark Mark; 
+typedef typename Base::Point Point; 
+typedef typename Base::GenPtr GenPtr;
 
 /*{\Mtext Local types are handles, iterators and circulators of the following
 kind: |Vertex_handle|, |Vertex_iterator|, |Halfedge_handle|,
@@ -718,7 +695,7 @@ void clone(const Plane_map& H) const;
   \precond |H.check_integrity_and_topological_planarity()| and 
   |P| is empty.}*/
 
-#if ! defined(_MSC_VER)
+#if ! defined(CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG)
 
 template <typename LINKDA>
 void clone_skeleton(const Plane_map& H, const LINKDA& L) const;
@@ -922,7 +899,7 @@ void PM_decorator<HDS>::clone(const HDS& H) const
   CGAL_assertion((check_integrity_and_topological_planarity(),1));
 }
 
-#if ! defined(_MSC_VER)
+#if ! defined(CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG)
 
 template <typename HDS>
 template <typename LINKDA>
@@ -978,7 +955,5 @@ clone_skeleton(const HDS& H, const LINKDA& L) const
 
 
 CGAL_END_NAMESPACE
-#undef USING
-#undef HDSUSING
 #endif //CGAL_PM_DECORATOR_H
 

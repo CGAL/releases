@@ -1,62 +1,27 @@
-// ======================================================================
+// Copyright (c) 1997  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_walk_along_line_point_location.h,v $
+// $Revision: 1.8 $ $Date: 2003/09/18 10:24:37 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Pm_walk_along_line_point_location.h
-// package       : Planar_map (5.113)
-// source        : 
-// revision      : 
-// revision_date : 
-// author(s)     : Oren Nechushtan
-//                 Iddo Hanniel
-//
-//
-// coordinator   : Tel-Aviv University (Dan Halperin halperin<@math.tau.ac.il>)
-//
-// Chapter       : 
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
+//                 Iddo Hanniel <hanniel@math.tau.ac.il>
 #ifndef CGAL_PM_WALK_ALONG_LINE_POINT_LOCATION_H
 #define CGAL_PM_WALK_ALONG_LINE_POINT_LOCATION_H
 
-#ifndef CGAL_PM_POINT_LOCATION_BASE_H
 #include <CGAL/Pm_point_location_base.h>
-#endif
-
-#ifndef CGAL_PLANAR_MAP_MISC_H
-#include <CGAL/Planar_map_2/Planar_map_misc.h>
-#endif
+#include <CGAL/Planar_map_2/Pm_traits_wrap_2.h>
 
 #ifdef CGAL_PM_DEBUG
 #ifndef CGAL_NAIVE_POINT_LOCATION_H
@@ -80,7 +45,6 @@ public:
   typedef typename Planar_map::Traits_wrap Traits_wrap;
   typedef typename Traits_wrap::Point Point;
   typedef typename Traits_wrap::X_curve X_curve;
-  typedef typename Traits_wrap::Curve_point_status Curve_point_status;
   typedef typename Planar_map::Locate_type Locate_type;
   typedef typename Planar_map::Vertex_handle Vertex_handle;
   typedef typename Planar_map::Halfedge_handle Halfedge_handle;
@@ -157,7 +121,7 @@ private:
 
 #ifdef CGAL_PM_DEBUG
 
-  CGAL_precondition(traits->point_is_same(e->target()->point(),p));
+  CGAL_precondition(traits->point_equal(e->target()->point(),p));
 
 #endif
 
@@ -166,7 +130,7 @@ private:
   if (up)
     while(curr!=first)
     {
-      if (traits->curve_compare_at_x_from_bottom(curr->curve(),e->curve(),p)
+      if (traits->curves_compare_y_at_x_from_bottom(curr->curve(),e->curve(),p)
           ==SMALLER) 
       {
 	e=curr;
@@ -177,7 +141,7 @@ private:
   else
     while(curr!=first)
       {
-        if (traits->curve_compare_at_x_from_top(curr->curve(),e->curve(),p)
+        if (traits->curves_compare_y_at_x_from_top(curr->curve(),e->curve(),p)
 	    ==SMALLER) 
         {
 	  e=curr;
@@ -189,7 +153,7 @@ private:
 #ifdef CGAL_PM_DEBUG
 
   CGAL_postcondition(e!=pm->halfedges_end());
-  CGAL_postcondition(traits->point_is_same(e->target()->point(),p));
+  CGAL_postcondition(traits->point_equal(e->target()->point(),p));
 
 #endif
 

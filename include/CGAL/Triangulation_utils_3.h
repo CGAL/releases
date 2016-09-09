@@ -1,47 +1,21 @@
-// ======================================================================
+// Copyright (c) 1999  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_utils_3.h,v $
+// $Revision: 1.25 $ $Date: 2003/09/18 10:26:32 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_utils_3.h
-// package       : Triangulation_3 (1.114)
-// revision      : $Revision: 1.23 $
-// author(s)     : Monique Teillaud
-//
-// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
 #ifndef CGAL_TRIANGULATION_UTILS_3_H
 #define CGAL_TRIANGULATION_UTILS_3_H
@@ -49,25 +23,45 @@
 #include <CGAL/basic.h>
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_short_names_3.h>
+#include <CGAL/Triangulation_utils_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
-struct Triangulation_utils_3
+// We use the following template class in order to avoid having a static data
+// member of a non-template class which would require src/Triangulation_3.C .
+template < class T = void >
+struct Triangulation_utils_base_3
 {
   static const char tab_next_around_edge[4][4];
 
-  static int ccw(int i)
-    {
-      CGAL_triangulation_precondition( i >= 0 && i < 3 );
-      return (i==2) ? 0 : i+1;
-    }
-  
-  static int cw(int i)
-    {
-      CGAL_triangulation_precondition( i >= 0 && i < 3 );
-      return (i==0) ? 2 : i-1;
-    }
+  static unsigned int random_value, count, val;
+};
 
+template < class T >
+const char Triangulation_utils_base_3<T>::tab_next_around_edge[4][4] = {
+      {5, 2, 3, 1},
+      {3, 5, 0, 2},
+      {1, 3, 5, 0},
+      {2, 0, 1, 5} };
+
+template < class T >
+unsigned int Triangulation_utils_base_3<T>::random_value = 0;
+
+template < class T >
+unsigned int Triangulation_utils_base_3<T>::count = 0;
+
+template < class T >
+unsigned int Triangulation_utils_base_3<T>::val;
+
+
+// We derive from Triangulation_cw_ccw_2 because we still use cw() and ccw()
+// in the 2D part of the code.  Ideally, this should go away when we re-use
+// T2D entirely.
+
+struct Triangulation_utils_3
+  : public Triangulation_cw_ccw_2,
+    public Triangulation_utils_base_3<>
+{
   static int next_around_edge(const int i, const int j)
   {
     // index of the next cell when turning around the
@@ -77,8 +71,6 @@ struct Triangulation_utils_3
 		                     ( i != j ) );
     return tab_next_around_edge[i][j];
   }
-
-  static unsigned int random_value, count, val;
 
   // rand_4() outputs pseudo random unsigned ints < 4.
   // We compute random 16 bit values, that we slice/shift to make it faster.

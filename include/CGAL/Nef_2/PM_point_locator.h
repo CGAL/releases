@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_point_locator.h,v $
+// $Revision: 1.16 $ $Date: 2003/09/18 10:23:30 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Nef_2/PM_point_locator.h
-// package       : Nef_2 (1.18)
-// chapter       : Nef Polyhedra
-//
-// source        : nef_2d/PM_point_locator_2.lw
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 2001/12/27 15:17:39 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Michael Seel
-//
-// implementation: Point location module
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_PM_POINT_LOCATOR_H
 #define CGAL_PM_POINT_LOCATOR_H
 
@@ -126,24 +95,22 @@ public:
   |bool assign(Face_const_handle& h, Object_handle o)|\\ where each 
   function returns |true| iff the assignment of |o| to |h| was valid.}*/
 
-  #define USING(t) typedef typename PM_decorator_::t t
-  USING(Vertex_handle);   
-  USING(Halfedge_handle);   
-  USING(Face_handle);     
-  USING(Vertex_const_handle); 
-  USING(Halfedge_const_handle); 
-  USING(Face_const_handle); 
-  USING(Vertex_iterator);
-  USING(Halfedge_iterator);
-  USING(Face_iterator);
-  USING(Vertex_const_iterator);
-  USING(Halfedge_const_iterator);
-  USING(Face_const_iterator);
-  USING(Halfedge_around_vertex_circulator);
-  USING(Halfedge_around_vertex_const_circulator);
-  USING(Halfedge_around_face_circulator);
-  USING(Halfedge_around_face_const_circulator);
-  #undef USING
+   typedef typename PM_decorator_::Vertex_handle Vertex_handle;   
+   typedef typename PM_decorator_::Halfedge_handle Halfedge_handle;   
+   typedef typename PM_decorator_::Face_handle Face_handle;     
+   typedef typename PM_decorator_::Vertex_const_handle Vertex_const_handle; 
+   typedef typename PM_decorator_::Halfedge_const_handle Halfedge_const_handle; 
+   typedef typename PM_decorator_::Face_const_handle Face_const_handle; 
+   typedef typename PM_decorator_::Vertex_iterator Vertex_iterator;
+   typedef typename PM_decorator_::Halfedge_iterator Halfedge_iterator;
+   typedef typename PM_decorator_::Face_iterator Face_iterator;
+   typedef typename PM_decorator_::Vertex_const_iterator Vertex_const_iterator;
+   typedef typename PM_decorator_::Halfedge_const_iterator Halfedge_const_iterator;
+   typedef typename PM_decorator_::Face_const_iterator Face_const_iterator;
+   typedef typename PM_decorator_::Halfedge_around_vertex_circulator Halfedge_around_vertex_circulator;
+   typedef typename PM_decorator_::Halfedge_around_vertex_const_circulator Halfedge_around_vertex_const_circulator;
+   typedef typename PM_decorator_::Halfedge_around_face_circulator Halfedge_around_face_circulator;
+   typedef typename PM_decorator_::Halfedge_around_face_const_circulator Halfedge_around_face_const_circulator;
 
   Halfedge_const_handle out_wedge(Vertex_const_handle v, 
     const Direction& d, bool& collinear) const
@@ -408,32 +375,32 @@ protected:
   #endif
 
 public:
-  #define USING(t) typedef typename Base::t t
-  USING(Decorator);
-  USING(Plane_map);
-  USING(Mark);
-  USING(Geometry);
-  USING(Point);
-  USING(Segment);
-  USING(Direction);
-  USING(Object_handle);
-  USING(Vertex_handle);   
-  USING(Halfedge_handle);   
-  USING(Face_handle);     
-  USING(Vertex_const_handle); 
-  USING(Halfedge_const_handle); 
-  USING(Face_const_handle); 
-  USING(Vertex_iterator);
-  USING(Halfedge_iterator);
-  USING(Face_iterator);
-  USING(Vertex_const_iterator);
-  USING(Halfedge_const_iterator);
-  USING(Face_const_iterator);
-  USING(Halfedge_around_vertex_circulator);
-  USING(Halfedge_around_vertex_const_circulator);
-  USING(Halfedge_around_face_circulator);
-  USING(Halfedge_around_face_const_circulator);
-  #undef USING
+
+  typedef typename Base::Decorator Decorator;
+  typedef typename Base::Plane_map Plane_map;
+  typedef typename Base::Mark Mark;
+  typedef typename Base::Geometry Geometry;
+  typedef typename Base::Point Point;
+  typedef typename Base::Segment Segment;
+  typedef typename Base::Direction Direction;
+  typedef typename Base::Object_handle Object_handle;
+  typedef typename Base::Vertex_handle Vertex_handle;   
+  typedef typename Base::Halfedge_handle Halfedge_handle;   
+  typedef typename Base::Face_handle Face_handle;     
+  typedef typename Base::Vertex_const_handle Vertex_const_handle; 
+  typedef typename Base::Halfedge_const_handle Halfedge_const_handle; 
+  typedef typename Base::Face_const_handle Face_const_handle; 
+  typedef typename Base::Vertex_iterator Vertex_iterator;
+  typedef typename Base::Halfedge_iterator Halfedge_iterator;
+  typedef typename Base::Face_iterator Face_iterator;
+  typedef typename Base::Vertex_const_iterator Vertex_const_iterator;
+  typedef typename Base::Halfedge_const_iterator Halfedge_const_iterator;
+  typedef typename Base::Face_const_iterator Face_const_iterator;
+  typedef typename Base::Halfedge_around_vertex_circulator Halfedge_around_vertex_circulator;
+  typedef typename Base::Halfedge_around_vertex_const_circulator Halfedge_around_vertex_const_circulator;
+  typedef typename Base::Halfedge_around_face_circulator Halfedge_around_face_circulator;
+  typedef typename Base::Halfedge_around_face_const_circulator Halfedge_around_face_const_circulator;
+
 
   /*{\Mtypes 2}*/
   /*{\Mtext All local types of |PM_naive_point_locator| are inherited.}*/
@@ -575,8 +542,8 @@ protected:
       Point c = point(source(e3));
       Point d = point(target(e3));
 
-      if (! (K.orientation(b,d,a) > 0 && // leftturn
-             K.orientation(b,d,c) < 0) ) // rightturn
+      if (! (K.orientation(b,d,a) > 0 && // left_turn
+             K.orientation(b,d,c) < 0) ) // right_turn
         continue;
 
       if ( K.first_pair_closer_than_second(b,d,a,c) ) { // flip
@@ -679,7 +646,7 @@ public:
         { e = CT.twin(e); current = EDGE_COLLINEAR; }
         else { // crossing
           current = EDGE_CROSSING;
-          if ( !(K.orientation(CT.segment(e),q)>0) ) // not leftturn
+          if ( !(K.orientation(CT.segment(e),q)>0) ) // not left_turn
             e = CT.twin(e); 
         }
 
@@ -696,17 +663,17 @@ public:
         int or1 = K.orientation(p,q,p1);
         int or2 = K.orientation(p,q,p2);
         int or3 = K.orientation(p,q,p3);
-        if ( or1 == 0 && !K.leftturn(p1,p2,q) )
+        if ( or1 == 0 && !K.left_turn(p1,p2,q) )
         { v = CT.source(e); current = VERTEX; }
-        else if ( or2 == 0 && !K.leftturn(p2,p3,q) )
+        else if ( or2 == 0 && !K.left_turn(p2,p3,q) )
         { v = CT.target(e); current = VERTEX; }
-        else if ( or3 == 0 && !K.leftturn(p3,p1,q) )
+        else if ( or3 == 0 && !K.left_turn(p3,p1,q) )
         { v = CT.target(CT.next(e)); current = VERTEX; }
-        else if ( or2 > 0 && or1 < 0 && !K.leftturn(p1,p2,q) )
+        else if ( or2 > 0 && or1 < 0 && !K.left_turn(p1,p2,q) )
         { e = CT.twin(e); current = EDGE_CROSSING; }
-        else if ( or3 > 0 && or2 < 0 && !K.leftturn(p2,p3,q) )
+        else if ( or3 > 0 && or2 < 0 && !K.left_turn(p2,p3,q) )
         { e = CT.twin(CT.next(e)); current = EDGE_CROSSING; }
-        else if ( or1 > 0 && or3 < 0 && !K.leftturn(p3,p1,q) )
+        else if ( or1 > 0 && or3 < 0 && !K.left_turn(p3,p1,q) )
         { e = CT.twin(CT.previous(e)); current = EDGE_CROSSING; }
         else return Object_handle();
 
@@ -785,9 +752,9 @@ public:
 
 
 #ifdef USING_PPL
-static const char* pointlocationversion = "point location via pers dicts";
+static const char* const pointlocationversion ="point location via pers dicts";
 #else
-static const char* pointlocationversion = "point location via seg walks";
+static const char* const pointlocationversion ="point location via seg walks";
 #endif
 
 template <typename PMD, typename GEO>
@@ -862,7 +829,7 @@ PM_point_locator<PMD,GEO>::walk_in_triangulation(const Point& q) const
             if ( K.strictly_ordered_along_line(p,q,CT.point(v_cand)) ) 
               return Object_handle(e);
             v = v_cand; current = VERTEX; break;
-          case +1: // leftturn
+          case +1: // left_turn
             e = twin(next(e)); current = EDGE_CROSSING; break;
           case -1: 
             e = twin(previous(e)); current = EDGE_CROSSING; break;

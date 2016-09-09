@@ -1,73 +1,54 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/Point_3.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.21 $
-// revision_date : $Date: 2002/02/06 12:32:38 $
-// author(s)     : Andreas Fabri and Hervé Brönnimann
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Point_3.h,v $
+// $Revision: 1.34 $ $Date: 2003/10/21 12:14:20 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Andreas Fabri and Hervé Brönnimann
 
 #ifndef CGAL_CARTESIAN_POINT_3_H
 #define CGAL_CARTESIAN_POINT_3_H
 
+#include <CGAL/Threetuple.h>
 #include <CGAL/Origin.h>
 #include <CGAL/Bbox_3.h>
+#include <CGAL/Kernel/Cartesian_coordinate_iterator_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class PointC3
-  : public R_::Point_handle_3
+  : public R_::template Handle<Threetuple<typename R_::FT> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Vector_3             Vector_3;
+  typedef typename R_::Point_3              Point_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef typename R_::Point_handle_3       base;
-  typedef typename base::element_type       rep;
+  typedef Threetuple<FT>                           rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
+  typedef Cartesian_coordinate_iterator_3<R_> Cartesian_const_iterator;
   typedef R_                                R;
 
-  PointC3()
-    : base(rep()) {}
+  PointC3() {}
 
   PointC3(const Origin &)
     : base(rep(FT(0), FT(0), FT(0))) {}
@@ -131,21 +112,29 @@ public:
   const FT & operator[](int i) const;
   FT homogeneous(int i) const;
 
+  Cartesian_const_iterator cartesian_begin() const 
+  {
+    return Cartesian_const_iterator(static_cast<const Point_3* >(this),0);
+    //return Cartesian_const_iterator(this,0);
+  }
+
+  Cartesian_const_iterator cartesian_end() const 
+  {
+    return Cartesian_const_iterator(static_cast<const Point_3* >(this), 3);
+    //return Cartesian_const_iterator(this, 3);
+  }
+
   int dimension() const
   {
       return 3;
   }
   Bbox_3 bbox() const;
 
-  PointC3 transform(const Aff_transformation_3 &t) const
+  Point_3 transform(const Aff_transformation_3 &t) const
   {
     return t.transform(*this);
   }
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 inline
@@ -182,11 +171,10 @@ template < class R >
 Bbox_3
 PointC3<R>::bbox() const
 {
-  // FIXME: to_interval
-  double bx = CGAL::to_double(x());
-  double by = CGAL::to_double(y());
-  double bz = CGAL::to_double(z());
-  return Bbox_3(bx, by, bz, bx, by, bz);
+  std::pair<double,double> xp = CGAL::to_interval(x());
+  std::pair<double,double> yp = CGAL::to_interval(y());
+  std::pair<double,double> zp = CGAL::to_interval(z());
+  return Bbox_3(xp.first, yp.first, zp.first, xp.second, yp.second, zp.second);
 }
 
 #ifndef CGAL_CARTESIAN_NO_OSTREAM_INSERT_POINTC3
@@ -234,10 +222,6 @@ operator>>(std::istream &is, PointC3<R> &p)
     return is;
 }
 #endif // CGAL_CARTESIAN_NO_ISTREAM_EXTRACT_POINTC3
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

@@ -1,101 +1,144 @@
-// ======================================================================
+// Copyright (c) 1997  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_3/include/CGAL/Weighted_alpha_shape_euclidean_traits_3.h,v $
+// $Revision: 1.9 $ $Date: 2003/09/18 10:19:16 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Weighted_alpha_shape_euclidean_traits_3.h
-// package       : Alpha_shapes_3 (3.16)
-// source        : $RCSfile: Weighted_alpha_shape_euclidean_traits_3.h,v $
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/12/01 09:45:25 $
-// author(s)     : Tran Kai Frank DA
-//
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 
 #ifndef CGAL_WEIGHTED_ALPHA_SHAPE_EUCLIDEAN_TRAITS_3_H
 #define CGAL_WEIGHTED_ALPHA_SHAPE_EUCLIDEAN_TRAITS_3_H 
 
-#include <CGAL/squared_radius_smallest_orthogonalsphereC3.h>
-#include <CGAL/in_smallest_orthogonalsphereC3.h>
+#include <CGAL/constructions/squared_radius_smallest_orthogonalsphere_ftC3.h>
+#include <CGAL/predicates/in_smallest_orthogonalsphere_ftC3.h>
 #include <CGAL/Regular_triangulation_euclidean_traits_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
 //------------------ Function Objects----------------------------------
 
-template < class return_type, class T >
+template < class K >
 class Compute_squared_radius_orthogonalsphere_3
 {
 public:
 
-  typedef return_type result_type;
+  typedef typename K::Point Point;
+  typedef typename K::FT FT;
+  typedef typename K::FT return_type;
+  typedef Arity_tag< 4 >   Arity;
 
-  result_type operator()(const T& p, const T& q, const T& r, const T& s) const
-    { 
-      return max (return_type(0),
-	          CGAL::squared_radius_orthogonalsphere(p, q, r, s));
+  return_type operator()(const Point& p, const Point& q, 
+			 const Point& r, const Point& s) const
+  {   
+    FT px(p.point().x());
+    FT py(p.point().y());
+    FT pz(p.point().z());
+    FT pw(p.weight());
+    FT qx(q.point().x());
+    FT qy(q.point().y());
+    FT qz(q.point().z());
+    FT qw(q.weight());
+    FT rx(r.point().x());
+    FT ry(r.point().y()); 
+    FT rz(r.point().z());
+    FT rw(r.weight()); 
+    FT sx(s.point().x());
+    FT sy(s.point().y());
+    FT sz(s.point().z());
+    FT sw(s.weight());
+    FT res = squared_radius_orthogonalsphereC3(px, py, pz, pw,
+					       qx, qy, qz, qw,
+					       rx, ry, rz, rw,
+					       sx, sy, sz, sw);
+      return max (FT(0), res);
     }
 
-  result_type operator()(const T& p, const T& q, const T& r) const
-    { 
-      return max (return_type(0),
-	          CGAL::squared_radius_smallest_orthogonalsphere(p, q, r));
-    }
+  return_type operator()(const Point& p, const Point& q, const Point& r) const
+  {  
+    FT px(p.point().x());
+    FT py(p.point().y());
+    FT pz(p.point().z());
+    FT pw(p.weight());
+    FT qx(q.point().x());
+    FT qy(q.point().y());
+    FT qz(q.point().z());
+    FT qw(q.weight());
+    FT rx(r.point().x());
+    FT ry(r.point().y()); 
+    FT rz(r.point().z());
+    FT rw(r.weight()); 
+    
+    FT res = squared_radius_smallest_orthogonalsphereC3(px, py, pz, pw,
+							qx, qy, qz, qw,
+							rx, ry, rz, rw); 
+    return max (FT(0), res );
+  }
 
-  result_type operator()(const T& p, const T& q) const
-    { 
-      return max (return_type(0),
-	          CGAL::squared_radius_smallest_orthogonalsphere(p, q));
+  return_type operator()(const Point& p, const Point& q) const
+  {   
+    FT px(p.point().x());
+    FT py(p.point().y());
+    FT pz(p.point().z());
+    FT pw(p.weight());
+    FT qx(q.point().x());
+    FT qy(q.point().y());
+    FT qz(q.point().z());
+    FT qw(q.weight());
+
+    res = squared_radius_smallest_orthogonalsphereC3(px, py, pz, pw,
+						    qx, qy, qz, qw);
+    return max (FT(0), res);
     }
 };
 
 //-------------------------------------------------------------------
 
-template < class T >
+template < class K >
 class Side_of_bounded_orthogonalsphere_3
 {
 public:
-
+  typedef typename K::Point Point;
+  typedef typename K::FT FT;
   typedef Bounded_side result_type;
+  typedef Arity_tag< 4 >   Arity;
 
   result_type
-  operator()(const T& p, const T& q, const T& r, const T& test) const
-    {
-      return CGAL::in_smallest_orthogonalsphere(p, q, r, test);
-    }
+  operator()(const Point& p, const Point& q, const Point& r,
+	     const Point& t) const
+  {  
+    FT px(p.point().x());
+    FT py(p.point().y());
+    FT pz(p.point().z());
+    FT pw(p.weight());
+    FT qx(q.point().x());
+    FT qy(q.point().y());
+    FT qz(q.point().z());
+    FT qw(q.weight());
+    FT rx(r.point().x());
+    FT ry(r.point().y());
+    FT rz(r.point().z());
+    FT rw(r.weight());
+    FT tx(t.point().x());
+    FT ty(t.point().y());
+    FT tz(t.point().z());
+    FT tw(t.weight());
+    
+    return in_smallest_orthogonalsphereC3(px, py, pz, pw,
+					  qx, qy, qz, qw,
+					  rx, ry, rz, rw,
+					  tx, ty, tz, tw);
+  }
 };
   
 //------------------ Traits class -------------------------------------
@@ -106,6 +149,7 @@ Regular_triangulation_euclidean_traits_3<R>
 {
 public:
  
+  typedef Weighted_alpha_shape_euclidean_traits_3<R> Self;
   typedef R Rep;
   typedef typename R::FT Coord_type;
 
@@ -116,9 +160,9 @@ public:
   typedef Weighted_point Point_3;
   typedef Weighted_point Point;
 
-  typedef CGAL::Compute_squared_radius_orthogonalsphere_3<Coord_type, Point> 
+  typedef CGAL::Compute_squared_radius_orthogonalsphere_3<Self> 
     Compute_squared_radius_orthogonalsphere_3;
-  typedef CGAL::Side_of_bounded_orthogonalsphere_3<Point> 
+  typedef CGAL::Side_of_bounded_orthogonalsphere_3<Self> 
     Side_of_bounded_orthogonalsphere_3;
 
   //---------------------------------------------------------------------

@@ -1,56 +1,36 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/Iso_rectangleH2.h
-// package       : H2 (2.67)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2002/02/06 12:34:06 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/Iso_rectangleH2.h,v $
+// $Revision: 1.12 $ $Date: 2003/10/21 12:16:10 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
  
 #ifndef CGAL_ISO_RECTANGLEH2_H
 #define CGAL_ISO_RECTANGLEH2_H
+
+#include <CGAL/Twotuple.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class Iso_rectangleH2
-  : public R_::Iso_rectangle_handle_2
+  : public R_::template Handle<Twotuple<typename R_::Point_2> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
@@ -58,16 +38,18 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef typename R_::Iso_rectangle_handle_2         Iso_rectangle_handle_2_;
-  typedef typename Iso_rectangle_handle_2_::element_type  Iso_rectangle_ref_2;
+  typedef Twotuple<Point_2>                        rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                                    R;
 
-  Iso_rectangleH2()
-    : Iso_rectangle_handle_2_(Iso_rectangle_ref_2()) {}
+  Iso_rectangleH2() {}
 
   Iso_rectangleH2(const Point_2& p, const Point_2& q);
+
+  Iso_rectangleH2(const Point_2& left, const Point_2& right,
+                  const Point_2& bottom, const Point_2& top);
 
   Iso_rectangleH2(const RT& min_hx, const RT& min_hy, 
                   const RT& max_hx, const RT& max_hy);
@@ -118,19 +100,19 @@ Iso_rectangleH2(const typename Iso_rectangleH2<R>::Point_2& p,
   {
       if ( px_g_qx && py_g_qy )
       {
-          initialize_with( Iso_rectangle_ref_2(q,p) );
+          initialize_with( rep(q,p) );
       }
       else
       {
          if ( px_g_qx )
          {
-             initialize_with( Iso_rectangle_ref_2(
+             initialize_with( rep(
              Point_2(q.hx()*p.hw(), p.hy()*q.hw(), q.hw()*p.hw() ),
              Point_2(p.hx()*q.hw(), q.hy()*p.hw(), q.hw()*p.hw() )) );
          }
          if ( py_g_qy )
          {
-             initialize_with( Iso_rectangle_ref_2(
+             initialize_with( rep(
              Point_2(p.hx()*q.hw(), q.hy()*p.hw(), q.hw()*p.hw() ),
              Point_2(q.hx()*p.hw(), p.hy()*q.hw(), q.hw()*p.hw() )) );
          }
@@ -138,18 +120,35 @@ Iso_rectangleH2(const typename Iso_rectangleH2<R>::Point_2& p,
   }
   else
   {
-      initialize_with( Iso_rectangle_ref_2(p,q) );
+      initialize_with( rep(p,q) );
   }
+}
+
+template < class R >
+CGAL_KERNEL_MEDIUM_INLINE
+Iso_rectangleH2<R>::
+Iso_rectangleH2(const typename Iso_rectangleH2<R>::Point_2& left,
+                const typename Iso_rectangleH2<R>::Point_2& right,
+                const typename Iso_rectangleH2<R>::Point_2& bottom,
+                const typename Iso_rectangleH2<R>::Point_2& top)
+  : base(rep(Point_2(left.hx()   * bottom.hw(),
+                     bottom.hy() * left.hw(),
+                     left.hw()   * bottom.hw()),
+             Point_2(right.hx()  * top.hw(),
+                     top.hy()    * right.hw(),
+                     right.hw()  * top.hw())))
+{
+  CGAL_kernel_precondition(!less_x(right, left));
+  CGAL_kernel_precondition(!less_y(top, bottom));
 }
 
 template < class R >
 inline
 Iso_rectangleH2<R>::Iso_rectangleH2(const RT& min_hx, const RT& min_hy, 
                                     const RT& max_hx, const RT& max_hy)
-{
-  initialize_with( Iso_rectangle_ref_2( Point_2(min_hx, min_hy), 
-                                        Point_2(max_hx, max_hy)) );
-}
+  : base( rep( Point_2(min_hx, min_hy), 
+               Point_2(max_hx, max_hy)))
+{}
 
 template < class R >
 inline
@@ -157,8 +156,8 @@ Iso_rectangleH2<R>::Iso_rectangleH2(const RT& min_hx, const RT& min_hy,
                                     const RT& max_hx, const RT& max_hy,
                                     const RT& hw)
 {
-  initialize_with( Iso_rectangle_ref_2( Point_2(min_hx, min_hy, hw), 
-                                        Point_2(max_hx, max_hy, hw)) );
+  initialize_with( rep( Point_2(min_hx, min_hy, hw), 
+                        Point_2(max_hx, max_hy, hw)) );
 }
 
 template < class R >

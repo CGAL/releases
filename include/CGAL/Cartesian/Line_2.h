@@ -1,89 +1,72 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/Line_2.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.25 $
-// revision_date : $Date: 2002/02/06 12:32:36 $
-// author(s)     : Andreas Fabri, Herve Bronnimann
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Line_2.h,v $
+// $Revision: 1.35 $ $Date: 2003/10/21 12:14:18 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Andreas Fabri, Herve Bronnimann
 
 #ifndef CGAL_CARTESIAN_LINE_2_H
 #define CGAL_CARTESIAN_LINE_2_H
+
+#include <CGAL/Threetuple.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class LineC2
-  : public R_::Line_handle_2
+  : public R_::template Handle<Threetuple<typename R_::FT> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Direction_2          Direction_2;
+  typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Ray_2                Ray_2;
   typedef typename R_::Segment_2            Segment_2;
   typedef typename R_::Line_2               Line_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef typename R_::Line_handle_2             base;
-  typedef typename base::element_type            rep;
+  typedef Threetuple<FT>	                   rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                                     R;
 
-  LineC2()
-    : base(rep()) {}
+  LineC2() {}
 
   LineC2(const Point_2 &p, const Point_2 &q)
-    : base(line_from_points(p, q)) {}
+    : base(R().construct_line_2_object()(p, q)) {}
 
   LineC2(const FT &a, const FT &b, const FT &c)
     : base(rep(a, b, c)) {}
 
   LineC2(const Segment_2 &s)
-    : base(line_from_points(s.source(), s.target())) {}
+    : base(R().construct_line_2_object()(s)) {}
 
   LineC2(const Ray_2 &r)
-    : base(line_from_points(r.point(0), r.point(1))) {}
+    : base(R().construct_line_2_object()(r)) {}
 
   LineC2(const Point_2 &p, const Direction_2 &d)
-    : base(line_from_point_direction(p, d)) {}
+    : base(R().construct_line_2_object()(p, d)) {}
+
+  LineC2(const Point_2 &p, const Vector_2 &v)
+    : base(R().construct_line_2_object()(p, v)) {}
 
   bool            operator==(const LineC2 &l) const;
   bool            operator!=(const LineC2 &l) const;
@@ -112,6 +95,7 @@ public:
   Point_2         projection(const Point_2 &p) const;
 
   Direction_2     direction() const;
+  Vector_2        to_vector() const;
 
   Oriented_side   oriented_side(const Point_2 &p) const;
   bool            has_on_boundary(const Point_2 &p) const;
@@ -129,10 +113,6 @@ public:
                                t.transform(direction()));
   }
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -194,7 +174,9 @@ typename LineC2<R>::Line_2
 LineC2<R>::
 perpendicular(const typename LineC2<R>::Point_2 &p) const
 {
-  return perpendicular_through_point(*this, p);
+  typename R::FT fta, ftb, ftc;
+  perpendicular_through_pointC2(a(), b(), p.x(), p.y(), fta, ftb, ftc);
+  return Line_2(fta, ftb, ftc);
 }
 
 template < class R >
@@ -210,7 +192,10 @@ CGAL_KERNEL_INLINE
 typename LineC2<R>::Point_2
 LineC2<R>::point(int i) const
 {
-  return line_get_point(*this, i);
+  typename R::FT x, y;
+  typename R::Construct_point_2 construct_point_2;
+  line_get_pointC2(a(), b(), c(), i, x, y);
+  return construct_point_2(x,y);
 }
 
 template < class R >
@@ -218,7 +203,10 @@ CGAL_KERNEL_INLINE
 typename LineC2<R>::Point_2
 LineC2<R>::point() const
 {
-  return line_get_point(*this, 0);
+  typename R::FT x, y;
+  typename R::Construct_point_2 construct_point_2;
+  line_get_pointC2(a(), b(), c(), 0, x, y);
+  return construct_point_2(x,y);
 }
 
 template < class R >
@@ -227,7 +215,10 @@ typename LineC2<R>::Point_2
 LineC2<R>::
 projection(const typename LineC2<R>::Point_2 &p) const
 {
-  return line_project_point(*this, p);
+  typename R::FT x, y;
+  typename R::Construct_point_2 construct_point_2;
+  line_project_pointC2(a(), b(), c(), p.x(), p.y(), x, y);
+  return construct_point_2(x, y);
 }
 
 template < class R >
@@ -239,12 +230,20 @@ LineC2<R>::direction() const
 }
 
 template < class R >
+inline
+typename LineC2<R>::Vector_2
+LineC2<R>::to_vector() const
+{
+  return Vector_2( b(), -a() );
+}
+
+template < class R >
 CGAL_KERNEL_INLINE
 Oriented_side
 LineC2<R>::
 oriented_side(const typename LineC2<R>::Point_2 &p) const
 {
-  return side_of_oriented_line(*this, p);
+  return side_of_oriented_lineC2(a(), b(), c(), p.x(), p.y());
 }
 
 template < class R >
@@ -327,10 +326,6 @@ operator>>(std::istream &is, LineC2<R> &l)
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_LINEC2
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

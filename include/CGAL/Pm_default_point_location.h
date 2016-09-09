@@ -1,66 +1,28 @@
-// ======================================================================
+// Copyright (c) 1997  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_default_point_location.h,v $
+// $Revision: 1.12 $ $Date: 2003/09/18 10:24:32 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Pm_default_point_location.h
-// package       : Planar_map (5.113)
-// source        : 
-// revision      : 
-// revision_date : 
-// author(s)     : Oren Nechushtan
-//                 Iddo Hanniel
-//
-//
-// coordinator   : Tel-Aviv University (Dan Halperin)
-//
-// Chapter       : 
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
+//                 Iddo Hanniel <hanniel@math.tau.ac.il>
 #ifndef CGAL_PM_DEFAULT_POINT_LOCATION_H
 #define CGAL_PM_DEFAULT_POINT_LOCATION_H
 
-#ifndef CGAL_PM_POINT_LOCATION_BASE_H
 #include <CGAL/Pm_point_location_base.h>
-#endif
-
-#ifndef CGAL_TRAPEZOIDAL_DECOMPOSITION_2_H
 #include <CGAL/Trapezoidal_decomposition_2.h>
-#endif
-
-#ifndef CGAL_TD_TRAITS_H
 #include <CGAL/Td_traits.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -91,18 +53,21 @@ public:
   ~PL_X_curve_plus(){}
   PL_X_curve_plus& operator=(const PL_X_curve_plus &cv)
   {
+    // Workaround a bug in the Irix compiler
+#if ((SGI == _sgi) && (_COMPILER_VERSION <= 730))
+    static_cast<curve&>(*this) = cv;
+#else
     curve::operator=(cv);
+#endif
     parent=cv.get_parent();
     return *this;
   }
-  bool operator==(const PL_X_curve_plus &cv) const
-  {
-    return curve::operator==(cv);
-  }
+
   Halfedge_handle get_parent() const
   {
     return parent;
   }
+
 protected:
   Halfedge_handle parent;
 };
@@ -303,12 +268,12 @@ private:
     const Point 
       &source=h->source()->point(),
       &target=h->target()->point();
-    return !(!traits->point_is_same_x(target,p)||
-             traits->point_is_same_x(source,p)&&
-             (traits->point_is_higher(p,target)&&
-              traits->point_is_lower(target,source)||
-              traits->point_is_lower(p,target)&&
-              traits->point_is_higher(target,source)
+    return !(!traits->point_equal_x(target,p)||
+             traits->point_equal_x(source,p)&&
+             (traits->point_is_right_top(p,target)&&
+              traits->point_is_left_low(target,source)||
+              traits->point_is_left_low(p,target)&&
+              traits->point_is_right_top(target,source)
               ));
   }
   /* 
@@ -324,20 +289,22 @@ private:
   bool halfedge_represents_point_inside_face(const Halfedge_handle& h,
                                              const Point& p) const 
   {
-    return (traits->curve_get_point_status(h->curve(),p) ==
-            Pm_traits::ABOVE_CURVE) ==
-        traits->point_is_left(h->source()->point(),h->target()->point());
+    return (traits->point_in_x_range(h->curve(),p) &&
+	    traits->curve_compare_y_at_x(p, h->curve()) == LARGER) ==
+      traits->point_is_left(h->source()->point(),h->target()->point());
   }
+
   Halfedge_handle halfedge_representing_unbounded_face() const
   {
     CGAL_assertion(pm);
     if (pm->unbounded_face()->holes_begin()!=pm->unbounded_face()->holes_end())
- {
-   // case PM is not empty
-   //return *(pm->unbounded_face()->holes_begin());
-   typename Planar_map::Holes_iterator hot=pm->unbounded_face()->holes_begin();
-   return (*hot);
- }
+    {
+      // case PM is not empty
+      //return *(pm->unbounded_face()->holes_begin());
+      typename Planar_map::Holes_iterator hot =
+        pm->unbounded_face()->holes_begin();
+      return (*hot);
+    }
     else
       // case PM is empty
       return pm->halfedges_end();
@@ -351,8 +318,8 @@ private:
                       bool up = true) const
   {
     switch(lt)
-      {
-        // h->target() should represent p
+    {
+      // h->target() should represent p
       case TD::POINT:
         if (!halfedge_represents_point(h,p)) h=h->twin();
         return PM::VERTEX;
@@ -380,12 +347,11 @@ private:
       default:
         CGAL_assertion(lt==TD::POINT||lt==TD::CURVE||lt==TD::TRAPEZOID||
                        lt==TD::UNBOUNDED_TRAPEZOID);
-      }
+    }
     return Locate_type();
   }
   const Bounding_box* get_bounding_box() const {return pm->get_bounding_box();}
 };
-
 
 CGAL_END_NAMESPACE
 

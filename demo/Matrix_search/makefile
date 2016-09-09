@@ -13,7 +13,7 @@ include $(CGAL_MAKEFILE)
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = \
+CXXFLAGS = -I../../../include/ \
            $(CGAL_CXXFLAGS) \
            $(LONG_NAME_PROBLEM_CXXFLAGS) \
            $(DEBUG_OPT)
@@ -23,39 +23,60 @@ CXXFLAGS = \
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(CGAL_WINDOW_LIBPATH)
+          $(CGAL_LIBPATH)
 
 LDFLAGS = \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
-          $(CGAL_WINDOW_LDFLAGS)
+          $(CGAL_QT_LDFLAGS) \
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-all:            \
-                all_furthest_neighbors_2_demo$(EXE_EXT) \
-                extremal_polygon_2_demo$(EXE_EXT) \
-                rectangular_p_center_2_demo$(EXE_EXT) 
+all: max_k-gon rectangular_p_center_2
 
-all_furthest_neighbors_2_demo$(EXE_EXT): all_furthest_neighbors_2_demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)all_furthest_neighbors_2_demo all_furthest_neighbors_2_demo$(OBJ_EXT) $(LDFLAGS)
+Qt_widget_toolbar$(OBJ_EXT): Qt_widget_toolbar.C Qt_widget_toolbar.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_toolbar.C
+Qt_widget_toolbar.moc: Qt_widget_toolbar.h
+	$(QT_MOC) -o Qt_widget_toolbar.moc Qt_widget_toolbar.h
 
-extremal_polygon_2_demo$(EXE_EXT): extremal_polygon_2_demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)extremal_polygon_2_demo extremal_polygon_2_demo$(OBJ_EXT) $(LDFLAGS)
+Qt_widget_move_list_point$(OBJ_EXT): Qt_widget_move_list_point.moc \
+					Qt_widget_move_list_point.C
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_move_list_point.C
+Qt_widget_move_list_point.moc: Qt_widget_move_list_point.h
+	$(QT_MOC) -o Qt_widget_move_list_point.moc Qt_widget_move_list_point.h
 
-rectangular_p_center_2_demo$(EXE_EXT): rectangular_p_center_2_demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)rectangular_p_center_2_demo rectangular_p_center_2_demo$(OBJ_EXT) $(LDFLAGS)
+max_k-gon$(OBJ_EXT): max_k-gon.C max_k-gon.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) max_k-gon.C
+max_k-gon.moc: max_k-gon.C
+	${QT_MOC} -o max_k-gon.moc max_k-gon.C
 
-clean: \
-                   all_furthest_neighbors_2_demo.clean \
-                   extremal_polygon_2_demo.clean \
-                   rectangular_p_center_2_demo.clean 
+max_k-gon$(EXE_EXT): max_k-gon$(OBJ_EXT) Qt_widget_move_list_point$(OBJ_EXT) \
+			Qt_widget_toolbar$(OBJ_EXT) 
+	$(CGAL_CXX) $(EXE_OPT)max_k-gon max_k-gon$(OBJ_EXT) \
+	 Qt_widget_toolbar$(OBJ_EXT) Qt_widget_move_list_point$(OBJ_EXT) \
+	$(LDFLAGS)
 
+rectangular_p_center_2$(OBJ_EXT): rectangular_p_center_2.C \
+					rectangular_p_center_2.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) rectangular_p_center_2.C
+rectangular_p_center_2.moc: rectangular_p_center_2.C
+	${QT_MOC} -o rectangular_p_center_2.moc rectangular_p_center_2.C
+
+rectangular_p_center_2$(EXE_EXT): rectangular_p_center_2$(OBJ_EXT) \
+			Qt_widget_move_list_point$(OBJ_EXT) \
+			Qt_widget_toolbar$(OBJ_EXT) 
+	$(CGAL_CXX) $(EXE_OPT)rectangular_p_center_2 rectangular_p_center_2$(OBJ_EXT) \
+	 Qt_widget_toolbar$(OBJ_EXT) Qt_widget_move_list_point$(OBJ_EXT) \
+	$(LDFLAGS)
+
+clean: max_k-gon.clean \
+	rectangular_p_center_2.clean \
+       Qt_widget_toolbar.clean \
+       Qt_widget_move_list_point.clean 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
-

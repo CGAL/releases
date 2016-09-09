@@ -1,49 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h,v $
+// $Revision: 1.66 $ $Date: 2003/09/18 10:26:01 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Constrained_Delaunay_triangulation_2.h
-// package       : Triangulation_2 (7.32)
-// source        : $RCSfile: Constrained_Delaunay_triangulation_2.h,v $
-// revision      : $Revision: 1.50 $
-// revision_date : $Date: 2002/05/09 14:18:29 $
-// author(s)     : Mariette Yvinec, Jean Daniel Boissonnat
-//
-// coordinator   : Mariette Yvinec
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Mariette Yvinec, Jean Daniel Boissonnat
  
 #ifndef CGAL_CONSTRAINED_DELAUNAY_TRIANGULATION_2_H
 #define CGAL_CONSTRAINED_DELAUNAY_TRIANGULATION_2_H
@@ -131,47 +103,55 @@ public:
   // CONFLICTS
   bool test_conflict(Face_handle fh, const Point& p) const; //deprecated
   bool test_conflict(const Point& p, Face_handle fh) const;
-  void find_conflicts(Point p, std::list<Edge>& le,          //deprecated
-		      Face_handle hint= Face_handle()) const;
+  void find_conflicts(const Point& p, std::list<Edge>& le,  //deprecated
+		      Face_handle hint= Face_handle(NULL)) const;
   //  //template member functions, declared and defined at the end 
-  // template <class Out_it1, class Out_it2> 
-  //   bool get_conflicts_and_boundary(const Point  &p, 
-  // 		                       Out_it1 fit, 
-  // 		                       Out_it2 eit,
-  // 		                       Face_handle start) const;
-  //   template <class Out_it1> 
-  //   bool get_conflicts(const Point  &p, 
-  // 		          Out_it1 fit, 
-  // 		          Face_handle start ) const;
-  //   template <class Out_it2> 
-  //   bool get_boundary_of_conflicts(const Point  &p, 
-  // 				      Out_it2 eit, 
-  // 				      Face_handle start ) const;
+  // template <class OutputItFaces, class OutputItBoundaryEdges> 
+  // std::pair<OutputItFaces,OutputItBoundaryEdges>
+  // get_conflicts_and_boundary(const Point  &p, 
+  // 		                OutputItFaces fit, 
+  // 		                OutputItBoundaryEdges eit,
+  // 		                Face_handle start) const;
+  // template <class OutputItFaces>
+  // OutputItFaces
+  // get_conflicts (const Point  &p, 
+  //                OutputItFaces fit, 
+  // 		    Face_handle start ) const;
+  // template <class OutputItBoundaryEdges>
+  // OutputItBoundaryEdges
+  // get_boundary_of_conflicts(const Point  &p, 
+  // 			       OutputItBoundaryEdges eit, 
+  // 			       Face_handle start ) const;
    
 
   // INSERTION-REMOVAL
-  virtual Vertex_handle insert(const Point & a, 
-			       Face_handle start = Face_handle());
-  virtual Vertex_handle insert(const Point& p,
-			       Locate_type lt,
-			       Face_handle loc, int li );
+  Vertex_handle insert(const Point & a, Face_handle start = Face_handle(NULL));
+  Vertex_handle insert(const Point& p,
+		       Locate_type lt,
+		       Face_handle loc, int li );
+  Vertex_handle push_back(const Point& a);
 //   template < class InputIterator >
 //   int insert(InputIterator first, InputIterator last);
-  //  Vertex_handle push_back(const Point& a);
 
   void remove(Vertex_handle v);
   void remove_incident_constraints(Vertex_handle v);
-  void remove_constraint(Face_handle f, int i);
+  void remove_constrained_edge(Face_handle f, int i);
  
   //for backward compatibility
   void insert(Point a, Point b) { insert_constraint(a, b);}
   void insert(Vertex_handle va, Vertex_handle  vb) {insert_constraint(va,vb);}
-
+  void remove_constraint(Face_handle f, int i){remove_constrained_edge(f,i);}
   // CHECK
   bool is_valid(bool verbose = false, int level = 0) const;
  
 protected:
-  Vertex_handle special_insert_in_edge(const Point & a, Face_handle f, int i);
+  virtual Vertex_handle virtual_insert(const Point & a, 
+				       Face_handle start = Face_handle(NULL));
+  virtual Vertex_handle virtual_insert(const Point& a,
+				       Locate_type lt,
+				       Face_handle loc, 
+				       int li );
+//Vertex_handle special_insert_in_edge(const Point & a, Face_handle f, int i);
   void remove_2D(Vertex_handle v );
   virtual void triangulate_hole(List_faces& intersected_faces,
 				List_edges& conflict_boundary_ab,
@@ -198,73 +178,78 @@ public:
       return number_of_vertices() - n;
     }
 
-  template <class Out_it1, class Out_it2> 
-  bool 
+  template <class OutputItFaces, class OutputItBoundaryEdges> 
+  std::pair<OutputItFaces,OutputItBoundaryEdges>
   get_conflicts_and_boundary(const Point  &p, 
-			     Out_it1 fit, 
-			     Out_it2 eit,
-			     Face_handle start = Face_handle()) const
-    {
-      CGAL_triangulation_precondition( dimension() == 2);
-      int li;
-      Locate_type lt;
-      Face_handle fh = locate(p,lt,li, start);
-      switch(lt) {
-      case OUTSIDE_AFFINE_HULL:
-      case VERTEX:
-	return false;
-      case FACE:
-      case EDGE:
-      case OUTSIDE_CONVEX_HULL:
-	*fit++ = fh; //put fh in Out_it1
-	propagate_conflicts(p,fh,0,fit,eit);
-	propagate_conflicts(p,fh,1,fit,eit);
-	propagate_conflicts(p,fh,2,fit,eit);
-	return true;    
-      }
-      CGAL_triangulation_assertion(false);
-      return false;
+			     OutputItFaces fit, 
+			     OutputItBoundaryEdges eit,
+			     Face_handle start = Face_handle(NULL)) const {
+    CGAL_triangulation_precondition( dimension() == 2);
+    int li;
+    Locate_type lt;
+    Face_handle fh = locate(p,lt,li, start);
+    switch(lt) {
+    case Ctr::OUTSIDE_AFFINE_HULL:
+    case Ctr::VERTEX:
+      return std::make_pair(fit,eit);
+    case Ctr::FACE:
+    case Ctr::EDGE:
+    case Ctr::OUTSIDE_CONVEX_HULL:
+      *fit++ = fh; //put fh in OutputItFaces
+      std::pair<OutputItFaces,OutputItBoundaryEdges>
+	pit = std::make_pair(fit,eit);
+      pit = propagate_conflicts(p,fh,0,pit);
+      pit = propagate_conflicts(p,fh,1,pit);
+      pit = propagate_conflicts(p,fh,2,pit);
+      return std::make_pair(fit,eit);    
     }
+    CGAL_triangulation_assertion(false);
+    return std::make_pair(fit,eit);
+  } 
 
-  template <class Out_it1> 
-  bool 
-  get_conflicts(const Point  &p, 
-		Out_it1 fit, 
-		Face_handle start= Face_handle()) const
-    {
-      return get_conflicts_and_boundary(p, fit, Emptyset_iterator(), start);
-    }
+  template <class OutputItFaces>
+  OutputItFaces
+  get_conflicts (const Point  &p, 
+		 OutputItFaces fit, 
+		 Face_handle start= Face_handle(NULL)) const {
+    std::pair<OutputItFaces,Emptyset_iterator> pp = 
+      get_conflicts_and_boundary(p,fit,Emptyset_iterator(),start);
+    return pp.first;
+  }
 
-  template <class Out_it2> 
-  inline bool 
+  template <class OutputItBoundaryEdges> 
+  OutputItBoundaryEdges
   get_boundary_of_conflicts(const Point  &p, 
-			    Out_it2 eit, 
-			    Face_handle start= Face_handle()) const
-    {
-      return get_conflicts_and_boundary(p, Emptyset_iterator(), eit, start);
-    }
+			    OutputItBoundaryEdges eit, 
+			    Face_handle start= Face_handle(NULL)) const {
+    std::pair<Emptyset_iterator, OutputItBoundaryEdges> pp = 
+      get_conflicts_and_boundary(p,Emptyset_iterator(),eit,start);
+    return pp.second;
+  }
+
+
 
 private:
- template <class Out_it1, class Out_it2> 
-  void propagate_conflicts (const Point  &p,
-			    Face_handle fh, 
-			    int i,
-			    Out_it1 fit, 
-			    Out_it2 eit) const
-    {
-      Face_handle fn = fh->neighbor(i);
-      if ( fh->is_constrained(i) || ! test_conflict(p,fn)) {
-	*eit++ = Edge(fn, fn->index(fh));
-	return;
-      }
-      *fit++ = fn;
-      int j = fn->index(fh);
-      propagate_conflicts(p,fn,ccw(j),fit,eit);
-      propagate_conflicts(p,fn,cw(j),fit,eit);
-      return;
-    }
-
-
+ template <class OutputItFaces, class OutputItBoundaryEdges> 
+ std::pair<OutputItFaces,OutputItBoundaryEdges>
+ propagate_conflicts (const Point  &p,
+		      Face_handle fh, 
+		      int i,
+		      std::pair<OutputItFaces,OutputItBoundaryEdges>
+		      pit)  const {
+   Face_handle fn = fh->neighbor(i);
+   OutputItFaces fit = pit.first;
+   OutputItBoundaryEdges eit = pit.second;
+   if ( fh->is_constrained(i) || ! test_conflict(p,fn)) {
+     *eit++ = Edge(fn, fn->index(fh));
+     return std::make_pair(fit,eit);
+   }
+   *fit++ = fn;
+   int j = fn->index(fh);
+   pit = propagate_conflicts(p,fn,ccw(j),pit);
+   pit = propagate_conflicts(p,fn,cw(j), pit);
+   return pit;
+ }
 };
 
 
@@ -284,36 +269,38 @@ is_flipable(Face_handle f, int i) const
 template < class Gt, class Tds, class Itag >
 void 
 Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
-flip(Face_handle& f, int i)
+flip (Face_handle& f, int i)
 {
+  Face_handle g = f->neighbor(i);
+  int j = f->mirror_index(i);
+
+  // save wings neighbors to be able to restore contraint status
+  Face_handle f1 = f->neighbor(cw(i));
+  int i1 = f->mirror_index(cw(i));
+  Face_handle f2 = f->neighbor(ccw(i));
+  int i2 = f->mirror_index(ccw(i));
+  Face_handle f3 = g->neighbor(cw(j));
+  int i3 = g->mirror_index(cw(j));
+  Face_handle f4 = g->neighbor(ccw(j));
+  int i4 = g->mirror_index(ccw(j));
+
   // The following precondition prevents the test suit 
   // of triangulation to work on constrained Delaunay triangulation
   //CGAL_triangulation_precondition(is_flipable(f,i));
-  Face_handle g = f->neighbor(i);
-  _tds.flip( &(*f), i);
-  int ig=g->index(f->vertex(i)); 
-  // set constraints to new triangles
-  Face_handle nfi=f->neighbor(i);
-  Face_handle nfj=f->neighbor(cw(i));
-  Face_handle ngi=g->neighbor(ig);
-  Face_handle ngj=g->neighbor(ccw(ig));
-  f->set_constraint(ccw(i),false);
-  g->set_constraint(cw(ig),false);
-  if (nfi->is_constrained(f->mirror_index(i))) 
-           f->set_constraint(i,true);
-  else     f->set_constraint(i,false);
- 
-  if (nfj->is_constrained(f->mirror_index(cw(i)))) 
-           f->set_constraint(cw(i),true);
-  else     f->set_constraint(cw(i),false);
- 
-  if (ngi->is_constrained(g->mirror_index(ig)))  
-           g->set_constraint(ig,true);
-  else     g->set_constraint(ig,false);
-
-  if (ngj->is_constrained(g->mirror_index(ccw(ig)))) 
-       g->set_constraint(ccw(ig),true);
-  else g->set_constraint(ccw(ig),false);
+  this->_tds.flip(f, i);
+   
+  // restore constraint status
+  f->set_constraint(f->index(g), false);
+  g->set_constraint(g->index(f), false);
+  f1->neighbor(i1)->set_constraint(f1->mirror_index(i1),
+				   f1->is_constrained(i1));
+  f2->neighbor(i2)->set_constraint(f2->mirror_index(i2),
+				   f2->is_constrained(i2));
+  f3->neighbor(i3)->set_constraint(f3->mirror_index(i3),
+				   f3->is_constrained(i3));
+  f4->neighbor(i4)->set_constraint(f4->mirror_index(i4),
+				   f4->is_constrained(i4));
+  return;
 }
 
 template < class Gt, class Tds, class Itag >
@@ -468,7 +455,7 @@ test_conflict(Face_handle fh, const Point& p) const
 template < class Gt, class Tds, class Itag >    
 void 
 Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
-find_conflicts(Point p, std::list<Edge>& le, Face_handle hint) const
+find_conflicts(const Point& p, std::list<Edge>& le, Face_handle hint) const
 {
   // sets in le the counterclocwise list of the edges of the boundary of the 
   // union of the faces in conflict with p
@@ -476,6 +463,29 @@ find_conflicts(Point p, std::list<Edge>& le, Face_handle hint) const
   get_boundary_of_conflicts(p, std::back_inserter(le), hint);
 }
   
+template < class Gt, class Tds, class Itag >  
+inline 
+typename Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::Vertex_handle 
+Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
+virtual_insert(const Point & a, Face_handle start)
+  // virtual version of the insertion
+{
+  return insert(a,start);
+}
+
+template < class Gt, class Tds, class Itag >  
+inline 
+typename Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::Vertex_handle 
+Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
+virtual_insert(const Point& a,
+	       Locate_type lt,
+	       Face_handle loc, 
+	       int li )
+// virtual version of insert
+{
+  return insert(a,lt,loc,li);
+}
+
 template < class Gt, class Tds, class Itag >  
 inline 
 typename Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::Vertex_handle 
@@ -504,6 +514,15 @@ insert(const Point& a, Locate_type lt, Face_handle loc, int li)
 }
 
 template < class Gt, class Tds, class Itag >
+inline
+typename Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::Vertex_handle
+Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
+push_back(const Point &p)
+{
+  return insert(p);
+}
+
+template < class Gt, class Tds, class Itag >
 void 
 Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
 triangulate_hole(List_faces& intersected_faces,
@@ -527,7 +546,7 @@ remove(Vertex_handle v)
   // remove a vertex and updates the constrained edges of the new faces
   // precondition : there is no incident constraints
 {
-  CGAL_triangulation_precondition( ! v.is_null() );
+  CGAL_triangulation_precondition( v != NULL );
   CGAL_triangulation_precondition( ! is_infinite(v));
   CGAL_triangulation_precondition( ! are_there_incident_constraints(v));
   if  (dimension() <= 1)    Ctr::remove(v);
@@ -535,28 +554,28 @@ remove(Vertex_handle v)
   return;
 }
 
-template < class Gt, class Tds, class Itag >  
-typename
-Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::Vertex_handle
-Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
-special_insert_in_edge(const Point & a, Face_handle f, int i)
-  // insert  point p in edge(f,i)
-  // bypass the precondition for point a to be in edge(f,i)
-  // update constrained status
-  // this member fonction is not robust with exact predicates 
-  // and approximate construction. Should be removed 
-{
-  Vertex_handle vh=Ctr::special_insert_in_edge(a,f,i);
-  flip_around(vh);
-  return vh;
-}
+// template < class Gt, class Tds, class Itag >  
+// typename
+// Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::Vertex_handle
+// Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
+// special_insert_in_edge(const Point & a, Face_handle f, int i)
+//   // insert  point p in edge(f,i)
+//   // bypass the precondition for point a to be in edge(f,i)
+//   // update constrained status
+//   // this member fonction is not robust with exact predicates 
+//   // and approximate construction. Should be removed 
+// {
+//   Vertex_handle vh=Ctr::special_insert_in_edge(a,f,i);
+//   flip_around(vh);
+//   return vh;
+// }
 
 template < class Gt, class Tds, class Itag >  
 void 
 Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
 remove_2D(Vertex_handle v)
 {
- if (test_dim_down(v)) {  _tds.remove_dim_down(&(*v));  }
+ if (test_dim_down(v)) {  this->_tds.remove_dim_down(v);  }
   else {
      std::list<Edge> hole;
     make_hole(v, hole);
@@ -585,9 +604,9 @@ remove_incident_constraints(Vertex_handle v)
 template < class Gt, class Tds, class Itag >
 void
 Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>::
-remove_constraint(Face_handle f, int i)
+remove_constrained_edge(Face_handle f, int i)
 {
-  Ctr::remove_constraint(f,i);
+  Ctr::remove_constrained_edge(f,i);
   if(dimension() == 2) {
     List_edges le;
     le.push_back(Edge(f,i));

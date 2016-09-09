@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_overlayer.h,v $
+// $Revision: 1.15 $ $Date: 2003/09/18 10:23:30 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Nef_2/PM_overlayer.h
-// package       : Nef_2 (1.18)
-// chapter       : Nef Polyhedra
-//
-// source        : nef_2d/PM_overlayer.lw
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 2002/03/19 15:30:12 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Michael Seel
-//
-// implementation: Overlay module for plane maps
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
 #ifndef CGAL_PM_OVERLAYER_H
 #define CGAL_PM_OVERLAYER_H
@@ -281,25 +250,27 @@ public:
   typedef typename Decorator::Mark      Mark;
   /*{\Mtypemember the attribute type of plane map objects.}*/
 
-  #define USING(t) typedef typename Decorator::t t
+
   typedef typename Decorator::Base Const_decorator;
-  USING(Halfedge_handle);
-  USING(Vertex_handle);
-  USING(Face_handle);
-  USING(Vertex_iterator);
-  USING(Halfedge_iterator);
-  USING(Face_iterator);
-  USING(Halfedge_const_handle);
-  USING(Vertex_const_handle);
-  USING(Face_const_handle);
-  USING(Halfedge_const_iterator);
-  USING(Vertex_const_iterator);
-  USING(Face_const_iterator);
-  USING(Halfedge_around_vertex_circulator);
-  USING(Halfedge_around_face_circulator);
-  USING(Hole_iterator);
-  USING(Isolated_vertex_iterator);
-  #undef USING
+  typedef typename Decorator::Halfedge_handle Halfedge_handle;
+  typedef typename Decorator::Vertex_handle Vertex_handle;
+  typedef typename Decorator::Face_handle Face_handle;
+  typedef typename Decorator::Vertex_iterator Vertex_iterator;
+  typedef typename Decorator::Halfedge_iterator Halfedge_iterator;
+  typedef typename Decorator::Face_iterator Face_iterator;
+  typedef typename Decorator::Halfedge_const_handle Halfedge_const_handle;
+  typedef typename Decorator::Vertex_const_handle Vertex_const_handle;
+  typedef typename Decorator::Face_const_handle Face_const_handle;
+  typedef typename Decorator::Halfedge_const_iterator Halfedge_const_iterator;
+  typedef typename Decorator::Vertex_const_iterator Vertex_const_iterator;
+  typedef typename Decorator::Face_const_iterator Face_const_iterator;
+  typedef typename Decorator::Halfedge_around_vertex_circulator 
+    Halfedge_around_vertex_circulator;
+  typedef typename Decorator::Halfedge_around_face_circulator 
+    Halfedge_around_face_circulator;
+  typedef typename Decorator::Hole_iterator Hole_iterator;
+  typedef typename Decorator::Isolated_vertex_iterator Isolated_vertex_iterator;
+
 
   // C++ is really friendly:
   #define USECMARK(t) const Mark& mark(t h) const { return Base::mark(h); }
@@ -736,7 +707,7 @@ void create_face_objects(const Below_info& D) const
     Point p1 = point(source(e)), 
           p2 = point(target(e)), 
           p3 = point(target(next(e)));
-    if ( K.leftturn(p1,p2,p3) ) { // leftturn => outer face cycle
+    if ( K.left_turn(p1,p2,p3) ) { // left_turn => outer face cycle
         TRACEN("  creating new face object");
       Face_handle f = new_face();
       link_as_outer_face_cycle(f,e);

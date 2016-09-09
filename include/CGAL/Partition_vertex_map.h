@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/Partition_vertex_map.h,v $
+// $Revision: 1.19 $ $Date: 2003/09/18 10:24:22 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Partition_vertex_map.h
-// package       : Partition_2 (1.38)
-// chapter       : Planar Polygon Partitioning
-//
-// revision      : $Revision: 1.16 $
-// revision_date : $Date: 2001/12/05 15:25:52 $
-//
-// author(s)     : Susan Hert
-//
-// coordinator   : MPI (Susan Hert)
-//
-// implementation: Map used to test for validity of polygon partition
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
 #ifndef CGAL_PARTITION_VERTEX_MAP_H
 #define CGAL_PARTITION_VERTEX_MAP_H
@@ -71,13 +40,14 @@ template <class Iterator, class Traits>
 class CW_indirect_edge_info_compare
 {
 public:
-   typedef typename Traits::Leftturn_2              Leftturn_2;
+   typedef typename Traits::Left_turn_2              Left_turn_2;
    typedef typename Traits::Less_xy_2               Less_xy_2;
    typedef typename Traits::Point_2                 Point_2;
    typedef CGAL::Edge_info<Iterator>                Edge_info;
 
+  CW_indirect_edge_info_compare(){}
    CW_indirect_edge_info_compare (Iterator v_it) : vertex_it(v_it),
-      left_turn(Traits().leftturn_2_object()),
+      left_turn(Traits().left_turn_2_object()),
       less_xy(Traits().less_xy_2_object())
    {}
 
@@ -99,7 +69,7 @@ public:
 
 private:
    Iterator          vertex_it;  
-   Leftturn_2        left_turn;
+   Left_turn_2        left_turn;
    Less_xy_2         less_xy;
 };
 
@@ -149,11 +119,15 @@ private:
 };
 
 
-template <class Traits>
+
+
+template <class Traits_>
 class Edge_list : public std::list< 
-                  Edge_info<typename Traits::Polygon_2::Vertex_iterator> >
+                  Edge_info<typename Traits_::Polygon_2::Vertex_iterator> >
 {
 public:
+   typedef Traits_                                       Traits;
+   typedef Edge_list<Traits>                             Self;
    typedef typename Traits::Point_2                      Point_2;
    typedef typename Traits::Orientation_2                Orientation_pred;
    typedef typename Traits::Polygon_2::Vertex_iterator   Vertex_iterator;
@@ -161,6 +135,16 @@ public:
    typedef typename std::list<Edge>::iterator            Self_iterator;
    typedef typename std::list<Edge>::const_iterator      Self_const_iterator;
    typedef Circulator_from_iterator<Self_const_iterator> Self_const_circulator;
+
+
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+  static CW_indirect_edge_info_compare<Vertex_iterator, Traits> cw_indirect_edge_info_compare;
+
+  static bool compare(const Edge& e1, const Edge& e2)
+  {
+    return cw_indirect_edge_info_compare(e1,e2);
+  }
+#endif
 
    void insert_next(Vertex_iterator endpoint_ref, int num)
    {
@@ -207,9 +191,15 @@ public:
        // are already in CCW order (since the partition polygons were in CCW
        // order), and this is what you need when you construct the union 
        // polygon.
-       if (size() > 2)
-         sort(
-            CW_indirect_edge_info_compare<Vertex_iterator,Traits>(vertex_it));
+       if (size() > 2){
+
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+	 cw_indirect_edge_info_compare = CW_indirect_edge_info_compare<Vertex_iterator,Traits>(vertex_it);
+         sort(&Self::compare);
+#else
+	 sort(CW_indirect_edge_info_compare<Vertex_iterator,Traits>(vertex_it));
+#endif
+       }
 
 #ifdef CGAL_PARTITION_CHECK_DEBUG
        std::cout << "after sort: edges for " << *vertex_it  << std::endl;
@@ -267,6 +257,15 @@ public:
    }
 };
 
+
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+template <class Traits>
+CW_indirect_edge_info_compare<typename Traits::Polygon_2::Vertex_iterator, Traits>
+Edge_list<Traits>::cw_indirect_edge_info_compare;
+#endif
+
+
+
 template <class Traits>
 std::ostream& operator<<(std::ostream& os, const Edge_list<Traits>& edges) 
 {
@@ -289,7 +288,7 @@ class Partition_vertex_map :
                                 Indirect_less_xy_2<Traits> >
 {
 public:
-
+  typedef Partition_vertex_map<Traits> Self;
    typedef typename std::map<typename Traits::Polygon_2::Vertex_iterator,
                              Edge_list<Traits>,
                              Indirect_less_xy_2<Traits> >::iterator
@@ -297,7 +296,19 @@ public:
    typedef typename Traits::Point_2                    Point_2;
    typedef typename Traits::Polygon_2::Vertex_iterator Vertex_iterator;
 
+
+  typedef Edge_info<Vertex_iterator>                    Edge;
+
    Partition_vertex_map() {}
+
+
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+  static CW_indirect_edge_info_compare<Vertex_iterator,Traits> cw_indirect_edge_info_compare;
+  static bool compare(const Edge & e1, const Edge& e2)
+  {
+    return cw_indirect_edge_info_compare(e1, e2);
+  }
+#endif
 
    template <class InputIterator>
    Partition_vertex_map(InputIterator first_poly, InputIterator last_poly)
@@ -414,10 +425,16 @@ public:
           // are already in CCW order (since the partition polygons were in CCW
           // order), and this is what you need to begin the construction 
           // of the union polygon.
-          if ((*m_it).second.size() > 2)
-           (*m_it).second.sort(
-             CW_indirect_edge_info_compare<Vertex_iterator,Traits>(
-                                                               (*m_it).first));
+          if ((*m_it).second.size() > 2){
+
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+	    cw_indirect_edge_info_compare = CW_indirect_edge_info_compare<Vertex_iterator,Traits>((*m_it).first);
+	    (*m_it).second.sort(&Self::compare);
+#else
+	    (*m_it).second.sort(CW_indirect_edge_info_compare<Vertex_iterator,Traits>((*m_it).first));
+#endif
+	  }
+
           // find the previous vertex in this vertex's list
           next_v_it=(*m_it).second.next_ccw_edge_info(prev_v_it).endpoint();
           if (next_v_it != first_v_it)
@@ -445,6 +462,12 @@ public:
        return result;
    }
 };
+
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+template <class Traits>
+CW_indirect_edge_info_compare<typename Traits::Polygon_2::Vertex_iterator,Traits>
+Partition_vertex_map<Traits>::cw_indirect_edge_info_compare;
+#endif
 
 }
 

@@ -1,51 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/circulator_impl.h
-// package       : Circulator (3.26)
-// chapter       : $CGAL_Chapter: Circulators $
-// source        : circulator.fw
-// revision      : $Revision: 1.1.1.1 $
-// revision_date : $Date: 1999/09/06 12:31:22 $
-// author(s)     : Lutz Kettner
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : INRIA, Sophia Antipolis
+// $Source: /CVSROOT/CGAL/Packages/Circulator/include/CGAL/circulator_impl.h,v $
+// $Revision: 1.5 $ $Date: 2003/10/21 12:14:42 $
+// $Name: current_submission $
 //
-// Support to build own circulators (internal and undocumented).
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 
 #ifndef CGAL_CIRCULATOR_IMPL_H
 #define CGAL_CIRCULATOR_IMPL_H 1
@@ -95,16 +69,16 @@ public:
 
     bool operator==( CGAL_NULL_TYPE p) const {
         CGAL_assertion( p == CGAL_CIRC_NULL);
-        return _ptr == NULL;
+        return this->_ptr == NULL;
     }
     bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
-    bool operator==( const Self& c)    const { return _ptr == c._ptr; }
+    bool operator==( const Self& c)    const { return this->_ptr == c._ptr; }
     bool operator!=( const Self& c)    const { return !(*this == c); }
-    reference  operator*()             const { return *(S*)_ptr;}
-    pointer    operator->()            const { return  (S*)_ptr;}
+    reference  operator*()             const { return *(S*)this->_ptr;}
+    pointer    operator->()            const { return  (S*)this->_ptr;}
 
     Self& operator++() {
-        _ptr = ((S*)_ptr)->next;
+        this->_ptr = ((S*)this->_ptr)->next;
         return *this;
     }
     Self  operator++(int) {
@@ -138,16 +112,16 @@ public:
 
     bool operator==( CGAL_NULL_TYPE p) const {
         CGAL_assertion( p == CGAL_CIRC_NULL);
-        return _ptr == NULL;
+        return this->_ptr == NULL;
     }
     bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
-    bool operator==( const Self& c)    const { return _ptr == c._ptr; }
+    bool operator==( const Self& c)    const { return this->_ptr == c._ptr; }
     bool operator!=( const Self& c)    const { return !(*this == c); }
-    reference  operator*()             const { return *(const S*)_ptr;}
-    pointer    operator->()            const { return  (const S*)_ptr;}
+    reference  operator*()             const { return *(const S*)this->_ptr;}
+    pointer    operator->()            const { return  (const S*)this->_ptr;}
 
     Self& operator++() {
-        _ptr = ((S*)_ptr)->next;
+        this->_ptr = ((S*)this->_ptr)->next;
         return *this;
     }
     Self  operator++(int) {
@@ -185,16 +159,16 @@ public:
 
     bool operator==( CGAL_NULL_TYPE p) const {
         CGAL_assertion( p == CGAL_CIRC_NULL);
-        return _ptr == NULL;
+        return this->_ptr == NULL;
     }
     bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
-    bool operator==( const Self& c)    const { return _ptr == c._ptr; }
+    bool operator==( const Self& c)    const { return this->_ptr == c._ptr; }
     bool operator!=( const Self& c)    const { return !(*this == c); }
-    reference  operator*()             const { return *(S*)_ptr;}
-    pointer    operator->()            const { return  (S*)_ptr;}
+    reference  operator*()             const { return *(S*)this->_ptr;}
+    pointer    operator->()            const { return  (S*)this->_ptr;}
 
     Self& operator++() {
-        _ptr = ((S*)_ptr)->next;
+        this->_ptr = ((S*)this->_ptr)->next;
         return *this;
     }
     Self  operator++(int) {
@@ -203,7 +177,7 @@ public:
         return tmp;
     }
     Self& operator--() {
-        _ptr = ((S*)_ptr)->prev;
+        this->_ptr = ((S*)this->_ptr)->prev;
         return *this;
     }
     Self  operator--(int) {
@@ -237,16 +211,16 @@ public:
 
     bool operator==( CGAL_NULL_TYPE p) const {
         CGAL_assertion( p == CGAL_CIRC_NULL);
-        return _ptr == NULL;
+        return this->_ptr == NULL;
     }
     bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
-    bool operator==( const Self& c)    const { return _ptr == c._ptr; }
+    bool operator==( const Self& c)    const { return this->_ptr == c._ptr; }
     bool operator!=( const Self& c)    const { return !(*this == c); }
-    reference  operator*()             const { return *(const S*)_ptr;}
-    pointer    operator->()            const { return  (const S*)_ptr;}
+    reference  operator*()             const { return *(const S*)this->_ptr;}
+    pointer    operator->()            const { return  (const S*)this->_ptr;}
 
     Self& operator++() {
-        _ptr = ((S*)_ptr)->next;
+        this->_ptr = ((S*)this->_ptr)->next;
         return *this;
     }
     Self  operator++(int) {
@@ -255,7 +229,7 @@ public:
         return tmp;
     }
     Self& operator--() {
-        _ptr = ((S*)_ptr)->prev;
+        this->_ptr = ((S*)this->_ptr)->prev;
         return *this;
     }
     Self  operator--(int) {
@@ -296,15 +270,15 @@ public:
 
     bool operator==( CGAL_NULL_TYPE p) const {
         CGAL_assertion( p == CGAL_CIRC_NULL);
-        return _ptr == NULL;
+        return this->_ptr == NULL;
     }
     bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
-    bool operator==( const Self& c)    const { return _ptr == c._ptr; }
+    bool operator==( const Self& c)    const { return this->_ptr == c._ptr; }
     bool operator!=( const Self& c)    const { return !(*this == c); }
-    C&   operator*()                   const { return *(C*)_ptr;}
-    C*   operator->()                  const { return  (C*)_ptr;}
+    C&   operator*()                   const { return *(C*)this->_ptr;}
+    C*   operator->()                  const { return  (C*)this->_ptr;}
     Self& operator++() {
-        _ptr = ((C*)_ptr)->next();
+        this->_ptr = ((C*)this->_ptr)->next();
         return *this;
     }
     Self  operator++(int) {
@@ -334,15 +308,15 @@ public:
 
     bool operator==( CGAL_NULL_TYPE p) const {
         CGAL_assertion( p == CGAL_CIRC_NULL);
-        return _ptr == NULL;
+        return this->_ptr == NULL;
     }
     bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
-    bool operator==( const Self& c)    const { return _ptr == c._ptr; }
+    bool operator==( const Self& c)    const { return this->_ptr == c._ptr; }
     bool operator!=( const Self& c)    const { return !(*this == c); }
-    const C&  operator*()              const { return *(C*)_ptr;}
-    const C*  operator->()             const { return  (C*)_ptr;}
+    const C&  operator*()              const { return *(C*)this->_ptr;}
+    const C*  operator->()             const { return  (C*)this->_ptr;}
     Self& operator++() {
-        _ptr = (void*)(((C*)_ptr)->next());
+        this->_ptr = (void*)(((C*)this->_ptr)->next());
         return *this;
     }
     Self  operator++(int) {
@@ -371,16 +345,16 @@ public:
 
     bool operator==( CGAL_NULL_TYPE p) const {
         CGAL_assertion( p == CGAL_CIRC_NULL);
-        return _ptr == NULL;
+        return this->_ptr == NULL;
     }
     bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
-    bool operator==( const Self& c)    const { return _ptr == c._ptr; }
+    bool operator==( const Self& c)    const { return this->_ptr == c._ptr; }
     bool operator!=( const Self& c)    const { return !(*this == c); }
-    C&   operator*()                   const { return *(C*)_ptr;}
-    C*   operator->()                  const { return  (C*)_ptr;}
+    C&   operator*()                   const { return *(C*)this->_ptr;}
+    C*   operator->()                  const { return  (C*)this->_ptr;}
 
     Self& operator++() {
-        _ptr = ((C*)_ptr)->next();
+        this->_ptr = ((C*)this->_ptr)->next();
         return *this;
     }
     Self  operator++(int) {
@@ -389,7 +363,7 @@ public:
         return tmp;
     }
     Self& operator--() {
-        _ptr = ((C*)_ptr)->prev();
+        this->_ptr = ((C*)this->_ptr)->prev();
         return *this;
     }
     Self  operator--(int) {
@@ -420,16 +394,16 @@ public:
 
     bool operator==( CGAL_NULL_TYPE p) const {
         CGAL_assertion( p == CGAL_CIRC_NULL);
-        return _ptr == NULL;
+        return this->_ptr == NULL;
     }
     bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
-    bool operator==( const Self& c)    const { return _ptr == c._ptr; }
+    bool operator==( const Self& c)    const { return this->_ptr == c._ptr; }
     bool operator!=( const Self& c)    const { return !(*this == c); }
-    const C&  operator*()              const { return *(C*)_ptr;}
-    const C*  operator->()             const { return  (C*)_ptr;}
+    const C&  operator*()              const { return *(C*)this->_ptr;}
+    const C*  operator->()             const { return  (C*)this->_ptr;}
 
     Self& operator++() {
-        _ptr = (void*)(((C*)_ptr)->next());
+        this->_ptr = (void*)(((C*)this->_ptr)->next());
         return *this;
     }
     Self  operator++(int) {
@@ -438,7 +412,7 @@ public:
         return tmp;
     }
     Self& operator--() {
-        _ptr = (void*)(((C*)_ptr)->prev());
+        this->_ptr = (void*)(((C*)this->_ptr)->prev());
         return *this;
     }
     Self  operator--(int) {
@@ -496,23 +470,23 @@ public:
     }
     bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
     bool operator==( const Self& c) const {
-        CGAL_assertion( _ptr  == c._ptr);  // belong to the same array?
+        CGAL_assertion( this->_ptr  == c._ptr);  // belong to the same array?
         CGAL_assertion( _size == c._size); // same size when instantiated ?
         return _i == c._i;
     }
     bool operator!=( const Self& c) const { return !(*this == c); }
     T&  operator*() const {
-        CGAL_assertion( _ptr != NULL);
+        CGAL_assertion( this->_ptr != NULL);
         CGAL_assertion( _i < _size);
-        return ((A*)_ptr)->operator[](_i);
+        return ((A*)this->_ptr)->operator[](_i);
     }
     T*  operator->() const {
-        CGAL_assertion( _ptr != NULL);
+        CGAL_assertion( this->_ptr != NULL);
         CGAL_assertion( _i < _size);
-        return &(((A*)_ptr)->operator[](_i));
+        return &(((A*)this->_ptr)->operator[](_i));
     }
     Self& operator++() {
-        CGAL_assertion( _ptr != NULL);
+        CGAL_assertion( this->_ptr != NULL);
         CGAL_assertion( _i < _size);
         ++ _i;
         if ( _i >= _size)
@@ -525,7 +499,7 @@ public:
         return tmp;
     }
     Self& operator--() {
-        CGAL_assertion( _ptr != NULL);
+        CGAL_assertion( this->_ptr != NULL);
         CGAL_assertion( _i < _size);
         if ( _i <= 0)
             _i = _size - 1;
@@ -549,7 +523,7 @@ public:
         return tmp += -n;
     }
     I     operator-( const Self& c) const {
-        CGAL_assertion( _ptr  == c._ptr);  // belong to the same array?
+        CGAL_assertion( this->_ptr  == c._ptr);  // belong to the same array?
         CGAL_assertion( _size == c._size); // same size when instantiated ?
         return _i - c._i;
     }
@@ -559,7 +533,7 @@ public:
         return tmp.operator*();
     }
     Self  min_circulator() {
-        return Self( *((A*)_ptr), _size);
+        return Self( *((A*)this->_ptr), _size);
     }
     // no relational ordering
 };
@@ -576,7 +550,7 @@ template < class A, class T, class U, class I>
 Circulator_over_array< A, T, U, I>&
 Circulator_over_array< A, T, U, I>::
 operator+=( I n) {
-    CGAL_assertion( _ptr != NULL);
+    CGAL_assertion( this->_ptr != NULL);
     CGAL_assertion( _i < _size);
     _i = non_negative_mod( (I)(_i) + n, _size);
     CGAL_assertion( _i < _size);
@@ -620,23 +594,23 @@ public:
     }
     bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
     bool operator==( const Self& c) const {
-        CGAL_assertion( _ptr  == c._ptr);  // belong to the same array?
+        CGAL_assertion( this->_ptr  == c._ptr);  // belong to the same array?
         CGAL_assertion( _size == c._size); // same size when instantiated ?
         return _i == c._i;
     }
     bool operator!=( const Self& c) const { return !(*this == c); }
     const T&  operator*() const {
-        CGAL_assertion( _ptr != NULL);
+        CGAL_assertion( this->_ptr != NULL);
         CGAL_assertion( _i < _size);
-        return ((const A*)_ptr)->operator[](_i);
+        return ((const A*)this->_ptr)->operator[](_i);
     }
     const T*  operator->() const {
-        CGAL_assertion( _ptr != NULL);
+        CGAL_assertion( this->_ptr != NULL);
         CGAL_assertion( _i < _size);
-        return &(((const A*)_ptr)->operator[](_i));
+        return &(((const A*)this->_ptr)->operator[](_i));
     }
     Self& operator++() {
-        CGAL_assertion( _ptr != NULL);
+        CGAL_assertion( this->_ptr != NULL);
         CGAL_assertion( _i < _size);
         ++ _i;
         if ( _i >= _size)
@@ -649,7 +623,7 @@ public:
         return tmp;
     }
     Self& operator--() {
-        CGAL_assertion( _ptr != NULL);
+        CGAL_assertion( this->_ptr != NULL);
         CGAL_assertion( _i < _size);
         if ( _i <= 0)
             _i = _size - 1;
@@ -677,7 +651,7 @@ public:
     }
     I
     operator-( const Self& c)  const {
-        CGAL_assertion( _ptr  == c._ptr);  // belong to the same array?
+        CGAL_assertion( this->_ptr  == c._ptr);  // belong to the same array?
         CGAL_assertion( _size == c._size); // same size when instantiated ?
         return _i - c._i;
     }
@@ -687,7 +661,7 @@ public:
         return tmp.operator*();
     }
     Self  min_circulator() {
-        return Self( *((const A*)_ptr), _size);
+        return Self( *((const A*)this->_ptr), _size);
     }
     // no relational ordering
 };
@@ -704,7 +678,7 @@ template < class A, class T, class U, class I>
 Const_circulator_over_array< A, T, U, I>&
 Const_circulator_over_array< A, T, U, I>::
 operator+=( I n) {
-    CGAL_assertion( _ptr != NULL);
+    CGAL_assertion( this->_ptr != NULL);
     CGAL_assertion( _i < _size);
     _i = non_negative_mod( (I)(_i) + n, _size);
     CGAL_assertion( _i < _size);

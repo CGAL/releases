@@ -1,47 +1,21 @@
-// ======================================================================
+// Copyright (c) 1999  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_ds_cell_3.h,v $
+// $Revision: 1.57 $ $Date: 2003/09/18 10:26:28 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_ds_cell_3.h
-// package       : Triangulation_3 (1.114)
-// revision      : $Revision: 1.53 $
-// author(s)     : Monique Teillaud
-//
-// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
 // cell of a combinatorial triangulation of any dimension <=3
 // use to store vertices if dimension <=0, edges if dimension 1,
@@ -56,9 +30,9 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class Tds >
+template < class Cb >
 class Triangulation_ds_cell_3
-  : public Tds::Cell_base
+  : public Cb
 {
     static int ccw(int i)
     {
@@ -70,12 +44,11 @@ class Triangulation_ds_cell_3
       return Triangulation_utils_3::cw(i);
     } 
 
-  typedef typename Tds::Cell_base Cb;
+  typedef typename Cb::Triangulation_data_structure Tds;
 
+public:
   typedef typename Tds::Vertex_handle  Vertex_handle;
   typedef typename Tds::Cell_handle    Cell_handle;
-public:
-
   typedef typename Tds::Vertex         Vertex;
   typedef typename Tds::Cell           Cell;
 
@@ -85,78 +58,31 @@ public:
       set_in_conflict_flag(0);
   }
 
-  // SETTING
-
-  void set_vertex(int i, const Vertex_handle v)
+  Triangulation_ds_cell_3(Vertex_handle v0, Vertex_handle v1,
+                          Vertex_handle v2, Vertex_handle v3)
+    : Cb(v0, v1, v2, v3)
   {
-    Cb::set_vertex(i, &*v);
+      set_in_conflict_flag(0);
   }
 
-  void set_neighbor(int i, const Cell_handle n)
+  Triangulation_ds_cell_3(Vertex_handle v0, Vertex_handle v1,
+                          Vertex_handle v2, Vertex_handle v3,
+                          Cell_handle   n0, Cell_handle   n1,
+                          Cell_handle   n2, Cell_handle   n3)
+    : Cb(v0, v1, v2, v3, n0, n1, n2, n3)
   {
-    Cb::set_neighbor(i, &*n);
-  }
-
-  void set_vertices(const Vertex_handle v0, const Vertex_handle v1,
-	            const Vertex_handle v2, const Vertex_handle v3)
-  {
-    Cb::set_vertices(&*v0, &*v1, &*v2, &*v3);
-  }
-
-  void set_neighbors(const Cell_handle n0, const Cell_handle n1,
-	             const Cell_handle n2, const Cell_handle n3)
-  {
-    Cb::set_neighbors(&*n0, &*n1, &*n2, &*n3);
-  }
-
-  // VERTEX ACCESS
-
-  Vertex_handle vertex(int i) const
-  {
-    return (Vertex *) (Cb::vertex(i));
-  } 
-
-  bool has_vertex(const Vertex_handle v) const
-  {
-    return Cb::has_vertex(&*v);
-  }
-    
-  bool has_vertex(const Vertex_handle v, int & i) const
-  {
-    return Cb::has_vertex(&*v,i);
-  }
-    
-  int index(const Vertex_handle v) const
-  {
-    return Cb::vertex_index(&*v);
-  }
-
-  // NEIGHBOR ACCESS
-
-  Cell_handle neighbor(int i) const
-  {
-    return (Cell *) Cb::neighbor(i);
-  }
-    
-  bool has_neighbor(const Cell_handle n) const
-  {
-    return Cb::has_neighbor(&*n);
-  }
-    
-  bool has_neighbor(const Cell_handle n, int & i) const
-  {
-    return Cb::has_neighbor(&*n, i);
-  }
-
-  int index(const Cell_handle n) const
-  {
-    return Cb::cell_index(&*n);
+      set_in_conflict_flag(0);
   }
 
   int mirror_index(int i) const
   {
       CGAL_triangulation_precondition ( i>=0 && i<4 );
-      return neighbor(i)->index(handle());
+      Cell_handle ni = neighbor(i);
+      if (&*ni->neighbor(0) == this) return 0;
+      if (&*ni->neighbor(1) == this) return 1;
+      if (&*ni->neighbor(2) == this) return 2;
+      CGAL_triangulation_assertion(&*ni->neighbor(3) == this);
+      return 3;
   }
 
   Vertex_handle mirror_vertex(int i) const
@@ -174,13 +100,6 @@ public:
       return _in_conflict_flag;
   }
 
-  Cell_handle handle() const
-  {
-      return const_cast<Cell*>(this);
-  }
-
-  // CHECKING
-
   bool is_valid(int dim = 3, bool verbose = false, int level = 0) const;
 
 private:
@@ -193,10 +112,9 @@ private:
   }
 };
 
-template <class Tds>
+template < class Cb >
 bool
-Triangulation_ds_cell_3<Tds>::is_valid
-(int dim, bool verbose, int level) const
+Triangulation_ds_cell_3<Cb>::is_valid(int dim, bool verbose, int level) const
 {
     if ( ! Cb::is_valid(verbose,level) )
 	return false;
@@ -301,14 +219,14 @@ Triangulation_ds_cell_3<Tds>::is_valid
 	return false;
       }
       
-      if ( n0->neighbor(1) != handle()) {
+      if ( &*n0->neighbor(1) != this ) {
 	if (verbose)
 	    std::cerr << "neighbor 0 does not have this as neighbor 1" 
 		      << std::endl;
 	CGAL_triangulation_assertion(false);
 	return false;
       }
-      if ( n1->neighbor(0) != handle()) {
+      if ( &*n1->neighbor(0) != this ) {
 	if (verbose)
 	    std::cerr << "neighbor 1 does not have this as neighbor 0" 
 		      << std::endl;
@@ -348,7 +266,7 @@ Triangulation_ds_cell_3<Tds>::is_valid
 	  return false;
 	}
 	in = cw(in); 
-	if ( n->neighbor(in) != handle()) {
+	if ( &*n->neighbor(in) != this ) {
 	  if (verbose)
 	      std::cerr << "neighbor " << i
 		        << " does not have this as neighbor " 
@@ -390,8 +308,13 @@ Triangulation_ds_cell_3<Tds>::is_valid
 	    return false;
 	  }
 
-	  int in;
-	  if ( ! n->has_neighbor(handle(), in) ) {
+	  int in = 5;
+	  // if ( ! n->has_neighbor(handle(), in) ) {
+          if ( &*n->neighbor(0) == this) in = 0;
+          if ( &*n->neighbor(1) == this) in = 1;
+          if ( &*n->neighbor(2) == this) in = 2;
+          if ( &*n->neighbor(3) == this) in = 3;
+          if (in == 5) {
 	    if (verbose)
               std::cerr << "neighbor of c has not c as neighbor" << std::endl;
 	    CGAL_triangulation_assertion(false);

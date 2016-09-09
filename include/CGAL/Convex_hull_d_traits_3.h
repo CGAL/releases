@@ -1,51 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbruecken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Convex_hull_d_traits_3.h,v $
+// $Revision: 1.14 $ $Date: 2003/10/21 12:19:09 $
+// $Name:  $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Convex_hull_d_traits_3.h
-// package       : Kernel_d (0.9.68)
-// chapter       : Basic
-//
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2002/03/11 16:45:51 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Susan Hert
-//
-// implementation: D3 kernel traits for Convex_hull_d
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CONVEX_HULL_D_TRAITS_3_H
 #define CONVEX_HULL_D_TRAITS_3_H
 
@@ -60,10 +30,6 @@
 #include <vector>
 
 CGAL_BEGIN_NAMESPACE
-
-#if defined(_MSC_VER) || defined(__BORLANDC__) 
-#define CGAL_SIMPLE_INTERFACE
-#endif
 
 template <class R_> struct Convex_hull_d_traits_3
 {
@@ -86,12 +52,21 @@ template <class R_> struct Convex_hull_d_traits_3
   struct Orientation_d {
     template <class I>
     Orientation operator()(I s, I e) {
-#ifndef CGAL_SIMPLE_INTERFACE
-      std::vector<Point_d> A(s,e);
-#else
-      std::vector<Point_d> A; while (s!=e) A.push_back(*s++);
-#endif
-      CGAL_assertion(A.size()==4);
+      Point_d A[4];
+      CGAL_assertion(s != e);
+      A[0] = *s;
+      ++s;
+      CGAL_assertion(s != e);
+      A[1] = *s;
+      ++s;
+      CGAL_assertion(s != e);
+      A[2] = *s;
+      ++s;
+      CGAL_assertion(s != e);
+      A[3] = *s;
+      ++s;
+      CGAL_assertion(s == e);
+	
       return orientation(A[0],A[1],A[2],A[3]);
     }
   };
@@ -102,78 +77,114 @@ template <class R_> struct Convex_hull_d_traits_3
     template <class I>
     bool operator()(I s, I e)
     { 
-#ifndef CGAL_SIMPLE_INTERFACE
-      std::vector<Point_d> A(s,e);
-#else
-      std::vector<Point_d> A; while (s!=e) A.push_back(*s++);
-#endif
-      int a = A.size();
-      if (a > 4)
-        return false;
-      if (a == 4) 
-        return !coplanar( A[0], A[1], A[2], A[3] );
-      if (a == 3) 
-        return !collinear( A[0], A[1], A[2] );
-      if (a == 2)
-        return (A[0] != A[1] );  
-      return true;
+      Point_d A[4];
+      CGAL_assertion(s != e);
+      A[0] = *s;
+      ++s;
+      if(s == e){
+	return true;
+      }
+      A[1] = *s;
+      ++s;
+      if (s == e){
+	return A[0] != A[1];
+      }
+      A[2] = *s;
+      ++s;
+      if (s == e){
+	return ! collinear( A[0], A[1], A[2] );
+      }
+      A[3] = *s;
+      ++s;
+      if (s == e){
+	return !coplanar( A[0], A[1], A[2], A[3] );
+      } 
+      return false;
     }
   };
-  Affinely_independent_d affinely_independent_d_object() const
-  { return Affinely_independent_d(); }
+
+
+  Affinely_independent_d 
+  affinely_independent_d_object() const
+  { 
+    return Affinely_independent_d(); 
+  }
+
 
   struct Contained_in_simplex_d {
+
     template <class I>
-    bool operator()(I s, I e, const Point_d& p)
+    bool 
+    operator()(I s, I e, const Point_d& p)
     { 
-#ifndef CGAL_SIMPLE_INTERFACE
-      std::vector<Point_d> A(s,e);
-#else
-      std::vector<Point_d> A; while (s!=e) A.push_back(*s++);
-#endif
-      int a = A.size();
-      CGAL_assertion( a <= 4 );
-      if (a == 4) {
-        typename R_::Tetrahedron_3 t( A[0], A[1], A[2], A[3] );
-        return !t.has_on_unbounded_side(p);
-      } else if (a == 3) {
-        typename R_::Triangle_3 t( A[0], A[1], A[2] );
-        return t.has_on(p);
-      } else if (a == 2) {
+      Point_d A[4];
+      CGAL_assertion(s != e);
+      A[0] = *s;
+      ++s;
+      if(s == e){
+	return A[0] == p;
+      }
+      A[1] = *s;
+      ++s;
+      if (s == e){
         typename R_::Segment_3 s( A[0], A[1] );
         return s.has_on(p);
-      } else if (a == 1) {
-        return ( A[0] == p);
-      } 
-      return false; // should be unreachable !
+      }
+      A[2] = *s;
+      ++s;
+      if (s == e){
+        typename R_::Triangle_3 t( A[0], A[1], A[2] );
+        return t.has_on(p);
+      }
+      A[3] = *s;
+      ++s;
+      if (s == e){
+        typename R_::Tetrahedron_3 t( A[0], A[1], A[2], A[3] );
+        return !t.has_on_unbounded_side(p);
+      }
+      return false;  // should be unreachable !
     }
   };
-  Contained_in_simplex_d contained_in_simplex_d_object() const
-  { return Contained_in_simplex_d(); }
+
+  Contained_in_simplex_d 
+  contained_in_simplex_d_object() const
+  { 
+    return Contained_in_simplex_d(); 
+  }
  
   struct Contained_in_affine_hull_d {
     template <class I>
     bool operator()(I s, I e, const Point_d& p)
     { 
-#ifndef CGAL_SIMPLE_INTERFACE
-      std::vector<Point_d> A(s,e);
-#else
-      std::vector<Point_d> A; while (s!=e) A.push_back(*s++);
-#endif
-      int a = A.size();
       Affinely_independent_d affinely_independent;
       CGAL_assertion( affinely_independent(s,e) );
-      if (a == 3)
+      Point_d A[3];
+      A[0] = *s;
+      ++s;
+      if(s == e){
+	return  p == A[0];
+      }
+      A[1] = *s;
+      ++s;
+      if (s == e){
+	return collinear( p, A[0], A[1] );
+      }
+      A[2] = *s;
+      ++s;
+      if (s == e){
         return coplanar( p, A[0], A[1], A[2] );
-      if (a == 2)
-        return collinear( p, A[0], A[1] );
-      if (a == 1)
-        return ( p == A[0] );
+      }
       return false;
     }
   };
-  Contained_in_affine_hull_d contained_in_affine_hull_d_object() const
-  { return Contained_in_affine_hull_d(); }
+
+
+  Contained_in_affine_hull_d 
+  contained_in_affine_hull_d_object() const
+  { 
+    return Contained_in_affine_hull_d(); 
+  }
+
 
   struct Component_accessor_d {
     template <typename C>
@@ -219,23 +230,28 @@ template <class R_> struct Convex_hull_d_traits_3
     Hyperplane_d operator()(I s, I e, const Point_d& p, 
                             Oriented_side side)
     { 
-#ifndef CGAL_SIMPLE_INTERFACE
-      std::vector<Point_d> A(s,e);
-#else
-      std::vector<Point_d> A; while (s!=e) A.push_back(*s++);
-#endif
-      int a = A.size(); CGAL_assertion( a <= 3 );
       Hyperplane_d pl;
-      if (a == 3) {
-        pl = Hyperplane_d( A[0], A[1], A[2] );
-      }
-      if (a == 2) {
-        typename R_::Point_3 hp =
-              A[0] + cross_product( p - A[0], A[1] - A[0] );
-        pl = Hyperplane_d( A[0], A[1], hp );
-      }
-      if (a == 1) {
-        pl = Hyperplane_d( A[0], A[0] - p);
+      Point_d A[3];
+      A[0] = *s;
+      ++s;
+      if(s == e){
+	pl = Hyperplane_d( A[0], A[0] - p);
+      } else { 
+	A[1] = *s;
+	++s;
+	if(s == e){
+	  typename R_::Point_3 hp =
+	    A[0] + cross_product( p - A[0], A[1] - A[0] );
+	  pl = Hyperplane_d( A[0], A[1], hp );
+	} else {
+	  A[2] = *s;
+	  ++s;
+	  if(s == e){
+	    pl = Hyperplane_d( A[0], A[1], A[2] );
+	  } else {
+	    CGAL_assertion(false);
+	  }
+	}
       }
       if (side != 0) {
         if ( pl.oriented_side(p) !=  side ) { pl = pl.opposite(); }
@@ -246,7 +262,7 @@ template <class R_> struct Convex_hull_d_traits_3
   Construct_hyperplane_d construct_hyperplane_d_object() const
   { return Construct_hyperplane_d(); }
 
-  typedef typename R::Intersect_2 Intersect_d;
+  typedef typename R::Intersect_3 Intersect_d;
   Intersect_d intersect_d_object() const 
   { return Intersect_d(); }
 

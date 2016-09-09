@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Segment_3.h
-// package       : _3 (3.31)
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 2002/01/23 12:30:10 $
-// author(s)     : Andreas Fabri, Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Segment_3.h,v $
+// $Revision: 1.13 $ $Date: 2003/10/21 12:18:13 $
+// $Name: current_submission $
+//
+// Author(s)     : Andreas Fabri, Stefan Schirra
 
 #ifndef CGAL_SEGMENT_3_H
 #define CGAL_SEGMENT_3_H
@@ -57,11 +35,7 @@ class Segment_3 : public R_::Kernel_base::Segment_3
 public:
   typedef          R_                       R;
 
-  Segment_3()
-      : RSegment_3() {}
-
-  Segment_3(const CGAL::Segment_3<R>& s)
-      : RSegment_3(s) {}
+  Segment_3() {}
 
   Segment_3(const Point_3& sp, const Point_3& ep)
     : RSegment_3(sp,ep) {}

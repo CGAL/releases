@@ -1,57 +1,37 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/LineH2.h
-// package       : H2 (2.67)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2002/02/06 12:34:06 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken 
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/LineH2.h,v $
+// $Revision: 1.11 $ $Date: 2003/10/21 12:16:10 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
  
 
 #ifndef CGAL_LINEH2_H
 #define CGAL_LINEH2_H
 
+#include <CGAL/Threetuple.h>
+
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class LineH2
-  : public R_::Line_handle_2
+  : public R_::template Handle<Threetuple<typename R_::RT> >::type
 {
 CGAL_VC7_BUG_PROTECTED
     typedef typename R_::FT                   FT;
@@ -63,18 +43,19 @@ CGAL_VC7_BUG_PROTECTED
     typedef typename R_::Ray_2                Ray_2;
     typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-    typedef typename R_::Line_handle_2            Line_handle_2_;
-    typedef typename Line_handle_2_::element_type Line_ref_2;
+    typedef Threetuple<RT>                           rep;
+    typedef typename R_::template Handle<rep>::type  base;
 
 public:
     typedef R_                                    R;
 
-    LineH2();
+    LineH2() {}
     LineH2(const Point_2& p, const Point_2& q);
     LineH2(const RT& a, const RT& b, const RT& c);
     LineH2(const Segment_2& s);
     LineH2(const Ray_2& r);
     LineH2(const Point_2& p, const Direction_2& d);
+    LineH2(const Point_2& p, const Vector_2& v);
 
     bool           operator==(const LineH2<R>& l) const ;
     bool           operator!=(const LineH2<R>& l) const ;
@@ -92,6 +73,7 @@ public:
     Point_2    point(int i) const;
     Point_2    projection(const Point_2& p) const;
     Direction_2 direction() const;
+    Vector_2   to_vector() const;
     Oriented_side  oriented_side( const Point_2& p ) const;
     bool           has_on( const Point_2& p ) const;
     bool           has_on_boundary( const Point_2& p ) const;
@@ -104,21 +86,11 @@ public:
     LineH2<R>  transform(const Aff_transformation_2&) const;
 };
 
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
-
-template < class R >
-CGAL_KERNEL_INLINE
-LineH2<R>::LineH2()
- : Line_handle_2_ ( Line_ref_2() )
-{}
-
 template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
 LineH2<R>::LineH2(const typename LineH2<R>::Point_2& p,
 	          const typename LineH2<R>::Point_2& q)
- : Line_handle_2_ ( Line_ref_2(
+ : base ( rep(
   //  a() * X + b() * Y + c() * W() == 0
   //      |    X        Y       W     |
   //      |  p.hx()   p.hy()  p.hw()  |
@@ -132,7 +104,7 @@ LineH2<R>::LineH2(const typename LineH2<R>::Point_2& p,
 template < class R >
 CGAL_KERNEL_INLINE
 LineH2<R>::LineH2(const RT& a, const RT& b, const RT& c)
- : Line_handle_2_ ( Line_ref_2(a,b,c) )
+ : base ( rep(a,b,c) )
 {}
 
 template < class R >
@@ -141,7 +113,7 @@ LineH2<R>::LineH2(const typename LineH2<R>::Segment_2& s)
 {
   Point_2 p = s.start();
   Point_2 q = s.end();
-  initialize_with( Line_ref_2 (
+  initialize_with( rep (
             p.hy()*q.hw() - p.hw()*q.hy(),
             p.hw()*q.hx() - p.hx()*q.hw(),
             p.hx()*q.hy() - p.hy()*q.hx() ) );
@@ -153,7 +125,19 @@ LineH2<R>::LineH2(const typename LineH2<R>::Ray_2& r)
 {
   Point_2 p = r.start();
   Point_2 q = r.second_point();
-  initialize_with( Line_ref_2 (
+  initialize_with( rep (
+            p.hy()*q.hw() - p.hw()*q.hy(),
+            p.hw()*q.hx() - p.hx()*q.hw(),
+            p.hx()*q.hy() - p.hy()*q.hx() ) );
+}
+
+template < class R >
+CGAL_KERNEL_INLINE
+LineH2<R>::LineH2(const typename LineH2<R>::Point_2& p,
+		  const typename LineH2<R>::Vector_2& v)
+{
+  Point_2 q = p + v;
+  initialize_with( rep (
             p.hy()*q.hw() - p.hw()*q.hy(),
             p.hw()*q.hx() - p.hx()*q.hw(),
             p.hx()*q.hy() - p.hy()*q.hx() ) );
@@ -165,7 +149,7 @@ LineH2<R>::LineH2(const typename LineH2<R>::Point_2& p,
 		  const typename LineH2<R>::Direction_2& d)
 {
   Point_2 q = p + d.to_vector();
-  initialize_with( Line_ref_2 (
+  initialize_with( rep (
             p.hy()*q.hw() - p.hw()*q.hy(),
             p.hw()*q.hx() - p.hx()*q.hw(),
             p.hx()*q.hy() - p.hy()*q.hx() ) );
@@ -224,7 +208,7 @@ template < class R >
 CGAL_KERNEL_INLINE
 typename LineH2<R>::Point_2
 LineH2<R>::point(int i) const
-{ return point() + RT(i) * (direction().to_vector()); }
+{ return point() + RT(i) * to_vector(); }
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -236,6 +220,15 @@ LineH2<R>::projection(const typename LineH2<R>::Point_2& p) const
   return Point_2( b()*l.c() - l.b()*c(),
                   l.a()*c() - a()*l.c(),
                   a()*l.b() - l.a()*b() );
+}
+
+template < class R >
+CGAL_KERNEL_INLINE
+typename LineH2<R>::Vector_2
+LineH2<R>::to_vector() const
+{
+  CGAL_kernel_precondition( !is_degenerate() );
+  return Vector_2( b(), -a() );
 }
 
 template < class R >
@@ -253,7 +246,7 @@ LineH2<R>
 LineH2<R>::transform(const typename LineH2<R>::Aff_transformation_2& t) const
 {
   CGAL_kernel_precondition( !is_degenerate() );
-  Point_2 p = point() + direction().to_vector();
+  Point_2 p = point() + to_vector();
   return LineH2<R>( t.transform(point() ), t.transform(p) );
 }
 
@@ -410,10 +403,6 @@ inline
 bool
 LineH2<R>::operator!=(const LineH2<R>& l) const
 { return !(*this == l); }
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

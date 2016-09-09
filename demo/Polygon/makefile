@@ -23,24 +23,38 @@ CXXFLAGS = \
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(CGAL_WINDOW_LIBPATH)
+          $(CGAL_LIBPATH)
 
 LDFLAGS = \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
-          $(CGAL_WINDOW_LDFLAGS)
+          $(CGAL_QT_LDFLAGS)
+
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-all:            \
-                PolygonDemo$(EXE_EXT) 
+all:	polygon_2
 
-PolygonDemo$(EXE_EXT): PolygonDemo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)PolygonDemo PolygonDemo$(OBJ_EXT) $(LDFLAGS)
 
-clean: \
-                   PolygonDemo.clean 
+polygon_2_toolbar$(OBJ_EXT): polygon_2_toolbar.C polygon_2_toolbar.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) polygon_2_toolbar.C
+
+polygon_2_toolbar.moc: polygon_2_toolbar.h
+	$(QT_MOC) -o polygon_2_toolbar.moc polygon_2_toolbar.h
+
+polygon_2.moc: polygon_2.C polygon_2_toolbar$(OBJ_EXT)
+	${QT_MOC} -o polygon_2.moc polygon_2.C
+
+polygon_2$(OBJ_EXT): polygon_2.C polygon_2.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) polygon_2.C
+
+polygon_2$(EXE_EXT): polygon_2$(OBJ_EXT)
+	$(CGAL_CXX) $(EXE_OPT)polygon_2 polygon_2$(OBJ_EXT)\
+	 polygon_2_toolbar$(OBJ_EXT) $(LDFLAGS)
+
+clean:	polygon_2.clean\
+	polygon_2_toolbar.clean
 
 #---------------------------------------------------------------------#
 #                    suffix rules
@@ -48,4 +62,3 @@ clean: \
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
-

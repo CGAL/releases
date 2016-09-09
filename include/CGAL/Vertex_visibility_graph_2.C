@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/Vertex_visibility_graph_2.C,v $
+// $Revision: 1.14 $ $Date: 2003/09/18 10:24:25 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Vertex_visibility_graph_2.C
-// package       : Partition_2 (1.38)
-// chapter       : Planar Polygon Partitioning
-//
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 2002/04/24 11:24:34 $
-//
-// author(s)     : Susan Hert
-//
-// coordinator   : MPI (Susan Hert)
-//
-// implementation: Polygon vertex visibility graph
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
 namespace CGAL {
 
@@ -96,8 +65,11 @@ Vertex_visibility_graph_2<Traits>::initialize_vertex_map(
 
    // Sort the event list (iterators to points) from left to right 
    // (using less_xy)
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+   iterator_list.sort(&Self::compare);
+#else
    iterator_list.sort(Indirect_less_xy_2<Traits>());
-
+#endif
    // Create an ordered list of edge endpoints (iterators), initially empty
    typedef std::set< Point_pair, Segment_less_yx_2 > Ordered_edge_set;
    typedef typename Ordered_edge_set::iterator       Ordered_edge_set_iterator;
@@ -271,7 +243,7 @@ Vertex_visibility_graph_2<Traits>::left_turn_to_parent(
    }
    else
    {
-      return leftturn_2(*p, *q, *(*q).parent());
+      return left_turn_2(*p, *q, *(*q).parent());
    }
 }
 
@@ -284,7 +256,7 @@ Vertex_visibility_graph_2<Traits>::diagonal_in_interior(
                              Polygon_const_iterator p,
                              Polygon_const_iterator q)
 {
-   Turn_reverser<Point_2, Leftturn_2> rightturn(leftturn_2);
+   Turn_reverser<Point_2, Left_turn_2> right_turn(left_turn_2);
    Polygon_const_iterator before_p;
    if (p == polygon.begin())
       before_p = polygon.end();
@@ -294,9 +266,9 @@ Vertex_visibility_graph_2<Traits>::diagonal_in_interior(
    Polygon_const_iterator after_p = p; after_p++;
    if (after_p == polygon.end()) after_p = polygon.begin();
 
-   if (rightturn(*before_p, *p, *after_p))
+   if (right_turn(*before_p, *p, *after_p))
    {
-      if (rightturn(*before_p, *p, *q) && rightturn(*q, *p, *after_p))
+      if (right_turn(*before_p, *p, *q) && right_turn(*q, *p, *after_p))
          return false;
    }
    else // left turn or straight at vertex
@@ -306,7 +278,7 @@ Vertex_visibility_graph_2<Traits>::diagonal_in_interior(
       if (are_strictly_ordered_along_line(*p, *after_p, *q))
          return false;
 */
-      if (rightturn(*before_p, *p, *q) || rightturn(*q, *p, *after_p))
+      if (right_turn(*before_p, *p, *q) || right_turn(*q, *p, *after_p))
          return false;
    }
    return true;
@@ -490,7 +462,7 @@ void Vertex_visibility_graph_2<Traits>::update_visibility(
 
    if (are_adjacent)
    {
-      if (orientation_2((*p_it).first, (*q_it).first, *turn_q) == RIGHTTURN)
+      if (orientation_2((*p_it).first, (*q_it).first, *turn_q) == RIGHT_TURN)
       {
          (*p_it).second.second = (*q_it).second.second; // p sees what q sees
 #ifdef CGAL_VISIBILITY_GRAPH_DEBUG
@@ -523,7 +495,7 @@ void Vertex_visibility_graph_2<Traits>::update_visibility(
 #endif
       // q sees nothing or there is not a right turn to the point after q
       if ((*q_it).second.second == polygon.end() || 
-          orientation_2((*p_it).first, (*q_it).first, *turn_q) != RIGHTTURN)
+          orientation_2((*p_it).first, (*q_it).first, *turn_q) != RIGHT_TURN)
       {
          (*p_it).second.second = (*q_it).second.first; // p sees q
 #ifdef CGAL_VISIBILITY_GRAPH_DEBUG
@@ -641,7 +613,7 @@ void Vertex_visibility_graph_2<Traits>::update_collinear_visibility(
 
    // if the point before q is above the line containing p and q, make
    // this p's visibility point
-   if (leftturn_2((*p_it).first, (*q_it).first, *prev_q))
+   if (left_turn_2((*p_it).first, (*q_it).first, *prev_q))
    {
       if (point_is_visible(polygon, prev_q, p_it))
          (*p_it).second.second = prev_q;
@@ -649,7 +621,7 @@ void Vertex_visibility_graph_2<Traits>::update_collinear_visibility(
    // check the same thing for the point after q and, if it is still visible
    // (even after possibly updating the visibility in the above if) the
    // update again.
-   if (leftturn_2((*p_it).first, (*q_it).first, *next_q))
+   if (left_turn_2((*p_it).first, (*q_it).first, *next_q))
    {
       if (point_is_visible(polygon, next_q, p_it))
          (*p_it).second.second = next_q;

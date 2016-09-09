@@ -1,99 +1,76 @@
-// ======================================================================
-//
-// Copyright (c) 1999,2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Simple_homogeneous.h
-// package       : H2 (2.67)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2001/12/05 14:18:44 $
-// author(s)     : Stefan Schirra, Sylvain Pion
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
-
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Simple_homogeneous.h,v $
+// $Revision: 1.14 $ $Date: 2003/10/21 12:16:07 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra, Sylvain Pion
+ 
 #ifndef CGAL_SIMPLE_HOMOGENEOUS_H
 #define CGAL_SIMPLE_HOMOGENEOUS_H
 
-#define CGAL_REP_CLASS_DEFINED
-
-#include <CGAL/basic.h>
+#include <CGAL/Homogeneous/Homogeneous_base.h>
+#include <CGAL/Simple_Handle_for.h>
+#include <CGAL/Kernel/Type_equality_wrapper.h>
 #include <CGAL/Quotient.h>
-#include <CGAL/user_classes.h>
-#include <CGAL/basic_classes.h>
 
-#include <CGAL/Homogeneous/Aff_transformationH2.h>
-#include <CGAL/Homogeneous/CircleH2.h>
-#include <CGAL/Homogeneous/DirectionH2.h>
-#include <CGAL/Homogeneous/Iso_rectangleH2.h>
-#include <CGAL/Homogeneous/LineH2.h>
-#include <CGAL/Homogeneous/PointH2.h>
-#include <CGAL/Homogeneous/RayH2.h>
-#include <CGAL/Homogeneous/SegmentH2.h>
-#include <CGAL/Homogeneous/TriangleH2.h>
-#include <CGAL/Homogeneous/VectorH2.h>
-#include <CGAL/Homogeneous/Data_accessorH2.h>
+CGAL_BEGIN_NAMESPACE
 
-#include <CGAL/Homogeneous/Aff_transformationH3.h>
-#include <CGAL/Homogeneous/DirectionH3.h>
-#include <CGAL/Homogeneous/Iso_cuboidH3.h>
-#include <CGAL/Homogeneous/LineH3.h>
-#include <CGAL/Homogeneous/PlaneH3.h>
-#include <CGAL/Homogeneous/PointH3.h>
-#include <CGAL/Homogeneous/RayH3.h>
-#include <CGAL/Homogeneous/SegmentH3.h>
-#include <CGAL/Homogeneous/SphereH3.h>
-#include <CGAL/Homogeneous/TetrahedronH3.h>
-#include <CGAL/Homogeneous/TriangleH3.h>
-#include <CGAL/Homogeneous/VectorH3.h>
+template < typename RT_, typename FT_, typename Kernel >
+struct Homogeneous_base_no_ref_count
+  : public Homogeneous_base< Kernel >
+{
+    typedef RT_                                           RT;
+    typedef FT_                                           FT;
 
-#include <CGAL/Homogeneous/basic_constructionsH2.h>
-#include <CGAL/Homogeneous/distance_predicatesH2.h>
-#include <CGAL/Homogeneous/predicates_on_directionsH2.h>
-#include <CGAL/Homogeneous/predicates_on_linesH2.h>
-#include <CGAL/Homogeneous/predicates_on_segmentsH2.h>
-#include <CGAL/Homogeneous/predicates_on_pointsH2.h>
-#include <CGAL/Homogeneous/predicates_on_rtH2.h>
+    // The mecanism that allows to specify reference-counting or not.
+    template < typename T >
+    struct Handle { typedef Simple_Handle_for<T>    type; };
 
-#include <CGAL/Homogeneous/basic_constructionsH3.h>
-#include <CGAL/Homogeneous/distance_predicatesH3.h>
-#include <CGAL/Homogeneous/orientation_predicatesH3.h>
-#include <CGAL/Homogeneous/predicates_on_pointsH3.h>
-#include <CGAL/Homogeneous/predicates_on_pointsH2.h>
+    template < typename Kernel2 >
+    struct Base {
+        typedef Homogeneous_base_no_ref_count<RT_,FT_,Kernel2> Type;
+    };
 
-#include <CGAL/Homogeneous/simple_homogeneous_rep.h>
+    // TODO: cleanup (use Rational_traits<> instead)
+    static FT make_FT(const RT & num, const RT& denom)
+    { return FT(num, denom); }
 
-#include <CGAL/iterator_traits_pointer_specs_for_simple_homogeneous_kernel.h>
+    static FT make_FT(const RT & num)
+    { return FT(num); }
+
+    static RT FT_numerator(const FT &r)
+    { return r.numerator(); }
+
+    static RT FT_denominator(const FT &r)
+    { return r.denominator(); }
+};
+
+template < typename RT_, typename FT_ = Quotient<RT_> >
+struct Simple_homogeneous
+  : public Type_equality_wrapper<
+                Homogeneous_base_no_ref_count<RT_, FT_,
+                                              Simple_homogeneous<RT_, FT_> >,
+                Simple_homogeneous<RT_, FT_> >
+{};
+
+CGAL_END_NAMESPACE
+
+CGAL_ITERATOR_TRAITS_POINTER_SPEC_TEMPLATE(CGAL::Simple_homogeneous)
 
 #endif // CGAL_SIMPLE_HOMOGENEOUS_H

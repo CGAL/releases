@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Static_filters/Side_of_oriented_circle_2.h
-// package       : Interval_arithmetic (4.141)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2002/01/28 17:13:56 $
-// author(s)     : Sylvain Pion
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Static_filters/Side_of_oriented_circle_2.h,v $
+// $Revision: 1.6 $ $Date: 2003/10/21 12:17:45 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Sylvain Pion
 
 #ifndef CGAL_STATIC_FILTERS_SIDE_OF_ORIENTED_CIRCLE_2_H
 #define CGAL_STATIC_FILTERS_SIDE_OF_ORIENTED_CIRCLE_2_H
@@ -114,7 +92,7 @@ public:
 		   double rx, double ry,
 		   double tx, double ty) const
   {
-    CGAL_PROFILER(calls, "In_circle_2 calls")
+    CGAL_PROFILER("In_circle_2 calls");
 
     double qpx = qx-px;
     double qpy = qy-py;
@@ -131,7 +109,7 @@ public:
     if (det >  _static_epsilon) return ON_POSITIVE_SIDE;
     if (det < -_static_epsilon) return ON_NEGATIVE_SIDE;
 
-    CGAL_PROFILER(st_fail, "In_circle_2 static failures")
+    CGAL_PROFILER("In_circle_2 static failures");
 
     // We compute the semi-static bound.
     double maxx = fabs(px);
@@ -154,7 +132,7 @@ public:
     if (det >  eps) return ON_POSITIVE_SIDE;
     if (det < -eps) return ON_NEGATIVE_SIDE;
 
-    CGAL_PROFILER(fail, "In_circle_2 semi-static failures")
+    CGAL_PROFILER("In_circle_2 semi-static failures");
 
     // This predicate is different from Orientation in that all arguments are
     // local.  Thus the differences have a big probability to have been exact,
@@ -167,7 +145,7 @@ public:
         diff_was_exact(tx, px, tpx) &&
         diff_was_exact(ty, py, tpy))
     {
-	CGAL_PROFILER(exact_diff, "In_circle_2 exact diffs")
+	CGAL_PROFILER("In_circle_2 exact diffs");
 
         double max2 = tpx*tpx + tpy*tpy;
         double qq = qpx*qpx + qpy*qpy;
@@ -186,10 +164,10 @@ public:
         if (det >  eps) return ON_POSITIVE_SIDE;
         if (det < -eps) return ON_NEGATIVE_SIDE;
 
-	CGAL_PROFILER(step2, "In_circle_2 step2 failures")
+	CGAL_PROFILER("In_circle_2 step2 failures");
     }
 
-    CGAL_PROFILER(step3, "In_circle_2 step3")
+    CGAL_PROFILER("In_circle_2 step3");
 
     typedef Simple_cartesian<Filtered_exact<double, MP_Float> > K;
     typedef K::Point_2 P;
@@ -197,7 +175,7 @@ public:
     Oriented_side oooo = side_of_oriented_circle(P(px,py), P(qx,qy),
 	                                         P(rx,ry), P(tx,ty));
     if (oooo == ON_ORIENTED_BOUNDARY) {
-	CGAL_PROFILER(is_null, "In_circle_2 is_null")
+	CGAL_PROFILER("In_circle_2 is_null");
     }
     return oooo;
   }

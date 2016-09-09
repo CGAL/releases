@@ -1,47 +1,22 @@
-// ======================================================================
-//
-// Copyright (c) 1998 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1998  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// file          : include/CGAL/squared_distance_utils.h
-// package       : Distance_2 (2.5.3)
-// source        : sqdistance_2.fw
-// author(s)     : Geert-Jan Giezeman
+// $Source: /CVSROOT/CGAL/Packages/Distance_2/include/CGAL/squared_distance_utils.h,v $
+// $Revision: 1.9 $ $Date: 2003/10/07 10:56:02 $
+// $Name: current_submission $
 //
-// coordinator   : Saarbruecken
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Geert-Jan Giezeman
 
 
 #ifndef CGAL_SQUARED_DISTANCE_UTILS_H
@@ -52,212 +27,292 @@
 
 CGAL_BEGIN_NAMESPACE
 
+namespace CGALi {
 
-template <class R>
-bool is_null(const Vector_2<R> &v)
+template <class K>
+bool is_null(const  typename K::Vector_2 &v, const K&)
 {
-    typedef typename R::RT RT;
+    typedef typename K::RT RT;
     return v.hx()==RT(0) && v.hy()==RT(0);
 }
 
 
-template <class R>
-typename R::RT
-wdot(const Vector_2<R> &u, const Vector_2<R> &v)
+template <class K>
+typename K::RT
+wdot(const typename K::Vector_2 &u, 
+     const typename K::Vector_2 &v,
+     const K&)
 {
     return  (u.hx()*v.hx() + u.hy()*v.hy());
 }
 
 
 
-template <class R>
-typename R::RT wdot(const Point_2< R > &p,
-    const Point_2< R > &q,
-    const Point_2< R > &r)
+template <class K>
+typename K::RT wdot_tag(const typename K::Point_2 &p,
+			const typename K::Point_2 &q,
+			const typename K::Point_2 &r,
+			const K&,
+			const Cartesian_tag&)
 {
-    R* pR = 0;
-    return  (wmult(pR, p.hx(),q.hw()) - wmult(pR, q.hx(),p.hw()))
-          * (wmult(pR, r.hx(),q.hw()) - wmult(pR, q.hx(),r.hw()))
-          + (wmult(pR, p.hy(),q.hw()) - wmult(pR, q.hy(),p.hw()))
-          * (wmult(pR, r.hy(),q.hw()) - wmult(pR, q.hy(),r.hw()));
+  return  (p.x() - q.x()) * (r.x() - q.x())
+          + (p.y() - q.y()) * (r.y() - q.y());
+}
+
+
+template <class K>
+typename K::RT wdot_tag(const typename K::Point_2 &p,
+			const typename K::Point_2 &q,
+			const typename K::Point_2 &r,
+			const K&,
+			const Homogeneous_tag&)
+{
+  return  (p.hx() * q.hw() - q.hx() * p.hw())
+          * (r.hx() * q.hw() - q.hx() * r.hw())
+          + (p.hy() * q.hw() - q.hy() * p.hw())
+            * (r.hy() * q.hw() - q.hy() * r.hw());
+}
+
+
+template <class K>
+typename K::RT wdot(const typename K::Point_2 &p,
+		    const typename K::Point_2 &q,
+		    const typename K::Point_2 &r,
+		    const K& k)
+{
+  typedef typename K::Kernel_tag Tag;
+  Tag tag;
+  return wdot_tag(p, q, r, k, tag);
 }
 
 
 
-template <class R>
-typename R::RT
-wcross(const Vector_2<R> &u,
-    const Vector_2<R> &v)
+template <class K>
+typename K::RT
+wcross(const typename K::Vector_2 &u,
+       const typename K::Vector_2 &v,
+       const K&)
 {
-    return (typename R::RT)(u.hx()*v.hy() - u.hy()*v.hx());
+    return (typename K::RT)(u.hx()*v.hy() - u.hy()*v.hx());
 }
 
-#if defined CGAL_HOMOGENEOUS_H
-template <class RT>
+
+
+template <class K>
 inline
-RT wcross_impl(const Homogeneous<RT>*,const Point_2< Homogeneous<RT> > &p,
-    const Point_2< Homogeneous<RT> > &q,
-    const Point_2< Homogeneous<RT> > &r)
-{
-    return   p.hx() * (q.hy()*r.hw() - q.hw()*r.hy() )
-           + p.hy() * (q.hw()*r.hx() - q.hx()*r.hw() )
-           + p.hw() * (q.hx()*r.hy() - q.hy()*r.hx() );
-}
-#endif // CGAL_HOMOGENEOUS_H
-
-#if defined CGAL_SIMPLE_HOMOGENEOUS_H
-template <class RT>
-inline
-RT wcross_impl(const Simple_homogeneous<RT>*,
-    const Point_2< Simple_homogeneous<RT> > &p,
-    const Point_2< Simple_homogeneous<RT> > &q,
-    const Point_2< Simple_homogeneous<RT> > &r)
+typename K::RT 
+wcross_tag(const typename K::Point_2 &p,
+	   const typename K::Point_2 &q,
+	   const typename K::Point_2 &r,
+	   const K&,
+	   const Homogeneous_tag&)
 {
     return det3x3_by_formula(
         p.hx(), q.hx(), r.hx(),
         p.hy(), q.hy(), r.hy(),
         p.hw(), q.hw(), r.hw());
 }
-#endif // CGAL_SIMPLE_HOMOGENEOUS_H
 
-#if defined CGAL_CARTESIAN_H
-template <class FT>
+
+
+template <class K>
 inline
-FT wcross_impl(const Cartesian<FT> *, const Point_2< Cartesian<FT> > &p,
-    const Point_2< Cartesian<FT> > &q,
-    const Point_2< Cartesian<FT> > &r)
+typename K::FT 
+wcross_tag(const typename K::Point_2 &p,
+	   const typename K::Point_2 &q,
+	   const typename K::Point_2 &r,
+	   const K&,
+	   const Cartesian_tag&)
 {
-    return (q.x()-p.x())*(r.y()-q.y()) - (q.y()-p.y())*(r.x()-q.x());
+  return (q.x()-p.x())*(r.y()-q.y()) - (q.y()-p.y())*(r.x()-q.x());
 }
-#endif // CGAL_CARTESIAN_H
 
-#if defined CGAL_SIMPLE_CARTESIAN_H
-template <class FT>
-inline
-FT wcross_impl(const Simple_cartesian<FT> *,
-    const Point_2< Simple_cartesian<FT> > &p,
-    const Point_2< Simple_cartesian<FT> > &q,
-    const Point_2< Simple_cartesian<FT> > &r)
-{
-    return (q.x()-p.x())*(r.y()-q.y()) - (q.y()-p.y())*(r.x()-q.x());
-}
-#endif // CGAL_SIMPLE_CARTESIAN_H
 
-template <class R>
-typename R::RT wcross(const Point_2< R > &p,
-    const Point_2< R > &q,
-    const Point_2< R > &r)
+template <class K>
+typename K::RT wcross(const typename K::Point_2 &p,
+		      const typename K::Point_2 &q,
+		      const typename K::Point_2 &r,
+		      const K& k)
 {
-   return wcross_impl(static_cast<R*>(0), p, q, r);
+  typedef typename K::Kernel_tag Tag;
+  Tag tag;
+  return wcross_tag(p, q, r, k, tag);
+
 }
 
 
 
-template <class R>
-inline bool is_acute_angle(const Vector_2<R> &u,
-    const Vector_2<R> &v)
+template <class K>
+inline bool is_acute_angle(const typename K::Vector_2 &u,
+			   const typename K::Vector_2 &v,
+			   const K& k)
 {
-    typedef typename R::RT RT;
-    return RT(wdot(u, v)) > RT(0) ;
+    typedef typename K::RT RT;
+    return RT(wdot(u, v, k)) > RT(0) ;
 }
 
-template <class R>
-inline bool is_straight_angle(const Vector_2<R> &u,
-    const Vector_2<R> &v)
+template <class K>
+inline bool is_straight_angle(const typename K::Vector_2 &u,
+			      const typename K::Vector_2 &v,
+			      const K& k)
 {
-    typedef typename R::RT RT;
-    return RT(wdot(u, v)) == RT(0) ;
+    typedef typename K::RT RT;
+    return RT(wdot(u, v, k)) == RT(0) ;
 }
 
-template <class R>
-inline bool is_obtuse_angle(const Vector_2<R> &u,
-    const Vector_2<R> &v)
+template <class K>
+inline bool is_obtuse_angle(const typename K::Vector_2 &u,
+			    const typename K::Vector_2 &v,
+			    const K& k)
 {
-    typedef typename R::RT RT;
-    return RT(wdot(u, v)) < RT(0) ;
+    typedef typename K::RT RT;
+    return RT(wdot(u, v, k)) < RT(0) ;
 }
 
-template <class R>
-inline bool is_acute_angle(const Point_2<R> &p,
-    const Point_2<R> &q, const Point_2<R> &r)
+template <class K>
+inline bool is_acute_angle(const typename K::Point_2 &p,
+			   const typename K::Point_2 &q, 
+			   const typename K::Point_2 &r,
+			   const K& k)
 {
-    typedef typename R::RT RT;
-    return RT(wdot(p, q, r)) > RT(0) ;
+    typedef typename K::RT RT;
+    return RT(wdot(p, q, r, k)) > RT(0) ;
 }
 
-template <class R>
-inline bool is_straight_angle(const Point_2<R> &p,
-    const Point_2<R> &q, const Point_2<R> &r)
+template <class K>
+inline bool is_straight_angle(const typename K::Point_2 &p,
+			      const typename K::Point_2 &q, 
+			      const typename K::Point_2 &r,
+			      const K& k)
 {
-    typedef typename R::RT RT;
-    return RT(wdot(p, q, r)) == RT(0) ;
+    typedef typename K::RT RT;
+    return RT(wdot(p, q, r, k)) == RT(0) ;
 }
 
-template <class R>
-inline bool is_obtuse_angle(const Point_2<R> &p,
-    const Point_2<R> &q, const Point_2<R> &r)
+template <class K>
+inline bool is_obtuse_angle(const typename K::Point_2 &p,
+			    const typename K::Point_2 &q, 
+			    const typename K::Point_2 &r,
+			    const K& k)
 {
-    typedef typename R::RT RT;
-    return RT(wdot(p, q, r)) < RT(0) ;
+    typedef typename K::RT RT;
+    return RT(wdot(p, q, r, k)) < RT(0) ;
 }
 
 
-template <class R>
-Orientation orientation(const Vector_2<R> &u,
-    const Vector_2<R> &v)
+template <class K>
+Orientation orientation(const typename K::Vector_2 &u,
+			const typename K::Vector_2 &v,
+			const K& k)
 {
-    typedef typename R::RT RT;
-    RT wcr = wcross(u,v);
+    typedef typename K::RT RT;
+    RT wcr = wcross(u,v, k);
     return (wcr > RT(0)) ? COUNTERCLOCKWISE :
            (wcr < RT(0)) ? CLOCKWISE
                             : COLLINEAR;
 }
 
-template <class R>
-inline bool counterclockwise(const Vector_2<R> &u,
-    const Vector_2<R> &v)
+template <class K>
+inline bool counterclockwise(const typename K::Vector_2 &u,
+			     const typename K::Vector_2 &v,
+			     const K& k)
 {
-    typedef typename R::RT RT;
-    return RT(wcross(u,v)) > RT(0);
+    typedef typename K::RT RT;
+    return RT(wcross(u,v, k)) > RT(0);
 }
 
-template <class R>
-inline bool leftturn(const Vector_2<R> &u,
-    const Vector_2<R> &v)
+template <class K>
+inline bool left_turn(const typename K::Vector_2 &u,
+		      const typename K::Vector_2 &v,
+		      const K& k)
 {
-    typedef typename R::RT RT;
-    return RT(wcross(u,v)) > RT(0);
+    typedef typename K::RT RT;
+    return RT(wcross(u,v, k)) > RT(0);
 }
 
-template <class R>
-inline bool clockwise(const Vector_2<R> &u,
-    const Vector_2<R> &v)
+template <class K>
+inline bool clockwise(const typename K::Vector_2 &u,
+		      const typename K::Vector_2 &v,
+		      const K& k)
 {
-    typedef typename R::RT RT;
-    return RT(wcross(u,v)) < RT(0);
+    typedef typename K::RT RT;
+    return RT(wcross(u,v, k)) < RT(0);
 }
 
-template <class R>
-inline bool rightturn(const Vector_2<R> &u,
-    const Vector_2<R> &v)
+template <class K>
+inline bool right_turn(const typename K::Vector_2 &u,
+		       const typename K::Vector_2 &v,
+		       const K& k)
 {
-    typedef typename R::RT RT;
-    return RT(wcross(u,v)) < RT(0);
+    typedef typename K::RT RT;
+    return RT(wcross(u,v, k)) < RT(0);
 }
 
-template <class R>
-inline bool collinear(const Vector_2<R> &u,
-    const Vector_2<R> &v)
+template <class K>
+inline bool collinear(const typename K::Vector_2 &u,
+		      const typename K::Vector_2 &v,
+		      const K& k)
 {
-    typedef typename R::RT RT;
-    return RT(wcross(u,v)) == RT(0);
+    typedef typename K::RT RT;
+    return RT(wcross(u,v, k)) == RT(0);
 }
 
 /*
-the ordertype, rightturn, leftturn and collinear routines for points are
+the ordertype, right_turn, left_turn and collinear routines for points are
 defined elsewhere.
 */
+template <class K>
+inline
+bool
+same_direction_tag(const typename K::Vector_2 &u,
+		   const typename K::Vector_2 &v,
+		   const K&,
+		   const Cartesian_tag&)
+{ 
+  typedef typename K::FT FT;
+  const FT& ux = u.x();
+  const FT& uy = u.y();
+   if (CGAL_NTS abs(ux) > CGAL_NTS abs(uy)) {
+      return CGAL_NTS sign(ux) == CGAL_NTS sign(v.x());
+  } else {
+    return CGAL_NTS sign(uy) == CGAL_NTS sign(v.y());
+  } 
+}
 
+
+template <class K>
+inline
+bool
+same_direction_tag(const typename K::Vector_2 &u,
+		   const typename K::Vector_2 &v,
+		   const K&,
+		   const Homogeneous_tag&)
+{   
+  typedef typename K::RT RT;
+  const RT& uhx = u.hx();
+  const RT& uhy = u.hy();
+  if (CGAL_NTS abs(uhx) > CGAL_NTS abs(uhy)) {
+      return CGAL_NTS sign(uhx) == CGAL_NTS sign(v.hx());
+  } else {
+    return CGAL_NTS sign(uhy) == CGAL_NTS sign(v.hy());
+  }
+}
+
+
+template <class K>
+inline
+bool
+same_direction(const typename K::Vector_2 &u,
+	       const typename K::Vector_2 &v,
+	       const K& k)
+{  
+  typedef typename K::Kernel_tag Tag;
+  Tag tag;
+  return same_direction_tag(u,v, k, tag);
+}
+
+
+} // namespace CGALi
 
 CGAL_END_NAMESPACE
 

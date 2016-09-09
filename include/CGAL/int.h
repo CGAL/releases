@@ -1,48 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/int.h
-// package       : Number_types (4.57)
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2002/03/27 13:03:49 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// ======================================================================
+// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/int.h,v $
+// $Revision: 1.16 $ $Date: 2003/10/21 12:21:45 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
  
 
 #ifndef CGAL_INT_H
@@ -69,6 +46,13 @@ inline
 double
 to_double(int i)
 { return static_cast<double>(i); }
+
+inline 
+std::pair<double,double>
+to_interval(int i)
+{
+  return std::pair<double,double>(i, i);
+}
 
 inline
 bool
@@ -118,17 +102,25 @@ io_Operator
 io_tag(unsigned int)
 { return io_Operator(); }
 
-namespace NTS {
-  inline unsigned int is_negative(unsigned int) { return false; }
+inline
+unsigned int
+is_negative(unsigned int)
+{ return false; }
   
-  inline Sign sign(unsigned int i) 
-    { return is_positive(i) ? POSITIVE : ZERO; }
+inline
+Sign
+sign(unsigned int i) 
+{ return is_positive(i) ? POSITIVE : ZERO; }
   
-  inline unsigned int is_positive(unsigned int i)
-    { return i != 0; }
+inline
+unsigned int
+is_positive(unsigned int i)
+{ return i != 0; }
 
-  inline unsigned int abs(unsigned int i) { return i; }
-} // namespace NTS
+inline
+unsigned int
+abs(unsigned int i)
+{ return i; }
 
 // long
 
@@ -196,18 +188,25 @@ io_Operator
 io_tag(unsigned long int)
 { return io_Operator(); }
 
-namespace NTS {
-  inline unsigned long int is_negative(unsigned long int) 
-    { return false; }
+inline
+unsigned long int
+is_negative(unsigned long int) 
+{ return false; }
   
-  inline Sign sign(unsigned long int i) 
-    { return is_positive(i) ? POSITIVE : ZERO; }
+inline
+Sign
+sign(unsigned long int i) 
+{ return is_positive(i) ? POSITIVE : ZERO; }
   
-  inline unsigned long int is_positive(unsigned long int i)
-    { return i != 0; }
+inline
+unsigned long int
+is_positive(unsigned long int i)
+{ return i != 0; }
 
-  inline unsigned long int abs(unsigned long int i) { return i; }
-} // namespace NTS
+inline
+unsigned long int
+abs(unsigned long int i)
+{ return i; }
 
 // short
 
@@ -226,6 +225,13 @@ inline
 double
 to_double(short int i)
 { return static_cast<double>(i); }
+
+inline 
+std::pair<double,double>
+to_interval(short int i)
+{
+  return std::pair<double,double>(i, i);
+}
 
 inline
 bool
@@ -275,91 +281,26 @@ io_Operator
 io_tag(unsigned short int)
 { return io_Operator(); }
 
-namespace NTS {
-  inline unsigned short int is_negative(unsigned short int) 
-    { return false; }
+inline
+unsigned short int
+is_negative(unsigned short int) 
+{ return false; }
   
-  inline Sign sign(unsigned short int i) 
-    { return is_positive(i) ? POSITIVE : ZERO; }
+inline
+Sign
+sign(unsigned short int i) 
+{ return is_positive(i) ? POSITIVE : ZERO; }
   
-  inline unsigned short int is_positive(unsigned short int i)
-    { return i != 0; }
-
-  inline unsigned short int abs(unsigned short int i) { return i; }
-} // namespace NTS
-
-#ifdef LONG_LONG
-
-// long long
-
-template <> struct Number_type_traits<long long> {
-  typedef Tag_true   Has_gcd;
-  typedef Tag_false  Has_division;
-  typedef Tag_false  Has_sqrt;
-};
+inline
+unsigned short int
+is_positive(unsigned short int i)
+{ return i != 0; }
 
 inline
-long long
-div(long long i1, long long i2)
-{ return i1 / i2; }
+unsigned short int abs(unsigned short int i)
+{ return i; }
 
-inline
-double
-to_double(long long i)
-{ return static_cast<double>(i); }
-
-inline
-bool
-is_finite(long long)
-{ return true; }
-
-inline
-bool
-is_valid(long long)
-{ return true; }
-
-// unsigned long long 
-
-template <> struct Number_type_traits<unsigned long long> {
-  typedef Tag_true   Has_gcd;
-  typedef Tag_false  Has_division;
-  typedef Tag_false  Has_sqrt;
-};
-
-inline
-unsigned long long
-div(unsigned long long i1, unsigned long long i2)
-{ return i1 / i2; }
-
-inline
-double
-to_double(unsigned long long i)
-{ return static_cast<double>(i); }
-
-inline
-bool
-is_finite(unsigned long long)
-{ return true; }
-
-inline
-bool
-is_valid(unsigned long long)
-{ return true; }
-
-namespace NTS {
-  inline unsigned long long is_negative(unsigned long long i) 
-    { return false; }
-  
-  inline Sign sign(unsigned long long i) 
-    { return is_positive(i) ? POSITIVE : ZERO; }
-  
-  inline unsigned long long is_positive(unsigned long long i)
-    { return i != 0; }
-
-  inline unsigned long long abs(unsigned long long i) { return i; }
-} // namespace NTS
-
-#endif // LONG_LONG
+// Note : "long long" support is in <CGAL/long_long.h>
 
 CGAL_END_NAMESPACE
 

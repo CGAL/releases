@@ -1,47 +1,26 @@
-// ======================================================================
-//
-// Copyright (c) 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Homogeneous_converter.h
-// package       : H2 (2.67)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/25 11:45:55 $
-// author(s)     : Sylvain Pion
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous_converter.h,v $
+// $Revision: 1.8 $ $Date: 2003/10/21 12:16:06 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Menelaos Karavelas <mkaravel@cse.nd.edu>
 
 #ifndef CGAL_HOMOGENEOUS_CONVERTER_H
 #define CGAL_HOMOGENEOUS_CONVERTER_H
@@ -53,6 +32,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/NT_converter.h>
+#include <CGAL/Enum_converter.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -61,9 +41,13 @@ template < class K1, class K2,
 	                                     CGAL_TYPENAME_MSVC_NULL K2::RT>,
            class FT_Converter = NT_converter<CGAL_TYPENAME_MSVC_NULL K1::FT,
 	                                     CGAL_TYPENAME_MSVC_NULL K2::FT> >
-class Homogeneous_converter
+class Homogeneous_converter : public Enum_converter
 {
 public:
+    typedef K1            Source_kernel;
+    typedef K2            Target_kernel;
+    typedef RT_Converter  Ring_number_type_converter;
+    typedef FT_Converter  Field_number_type_converter;
 
     typename K2::Point_2
     operator()(const typename K1::Point_2 &a) const

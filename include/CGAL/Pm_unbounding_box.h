@@ -1,66 +1,27 @@
-// ======================================================================
+// Copyright (c) 1997  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_unbounding_box.h,v $
+// $Revision: 1.8 $ $Date: 2003/09/18 10:24:36 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Pm_unbounding_box.h
-// package       : Planar_map (5.113)
-// source        : 
-// revision      : 
-// revision_date : 
-// author(s)     : Oren Nechushtan
-//                 
-//
-// maintainer(s) : Oren Nechushtan
-//                 
-//
-// coordinator   : Tel-Aviv University (Dan Halperin)
-//
-// Chapter       : 
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 
 #ifndef CGAL_PM_UNBOUNDING_BOX_H
 #define CGAL_PM_UNBOUNDING_BOX_H
 
-#ifndef CGAL_PLANAR_MAP_2_H
 #include <CGAL/Planar_map_2.h>
-#endif
-
-#ifndef CGAL_PM_BOUNDING_BOX_BASE_H
 #include <CGAL/Pm_bounding_box_base.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -73,14 +34,15 @@ public:
   /*
   typedef Planar_map_2<Dcel,Traits> Base;
   typedef Planar_map_Bbox_2<Dcel,Traits> Self;
-  typedef Planar_map_traits_wrap<Traits> Traits_wrap;
+  typedef Pm_traits_wrap_2<Traits> Traits_wrap;
   */
   typedef typename Planar_map::Traits                   Traits;
-  typedef typename Traits::X_curve_2                    X_curve_2;
+  typedef typename Traits::X_monotone_curve_2           X_monotone_curve_2;
   typedef typename Traits::Point_2                      Point_2;
 
   typedef typename std::vector<Point_2>::iterator       Point_iterator;
-  typedef typename std::vector<X_curve_2>::iterator     X_curve_iterator;
+  typedef typename std::vector<X_monotone_curve_2>::iterator
+                                                        X_curve_iterator;
 
   /*  typedef typename Traits::Bounding_box Bounding_box;
   typedef typename Traits::Boundary_type Boundary_type;
@@ -149,13 +111,13 @@ public:
               Point_2 * dummy = 0)
 #endif
   {return true;}
-  bool insert(const X_curve_2 &) {return true;}
+  bool insert(const X_monotone_curve_2 &) {return true;}
 #ifndef _MSC_VER
   bool insert(const X_curve_iterator &, const X_curve_iterator &)
 #else
   // workaround for MSVC6.0
   bool insert(const X_curve_iterator &, const X_curve_iterator &,
-              X_curve_2 * dummy = 0)
+              X_monotone_curve_2 * dummy = 0)
 #endif          
   {return true;}
 
@@ -166,16 +128,17 @@ public:
   bool vertical_ray_shoot(const Point_2 &, Locate_type &, bool,
                           Halfedge_handle &) {return true;}
 
-  void split_edge(const X_curve_2 &, Halfedge_handle, Halfedge_handle,
-                  const X_curve_2 &, const X_curve_2 &) {}
+  void split_edge(const X_monotone_curve_2 &, Halfedge_handle, Halfedge_handle,
+                  const X_monotone_curve_2 &, const X_monotone_curve_2 &) {}
 
   void split_boundary_edge(const Halfedge_handle &,
                            Halfedge_handle, Halfedge_handle,
                            const Point_2 &) {}
 
-  void merge_edge(const X_curve_2 &, const X_curve_2 &, Halfedge_handle,
+  void merge_edge(const X_monotone_curve_2 &, const X_monotone_curve_2 &,
+                  Halfedge_handle,
                   //additions by iddo for arrangement
-                  const X_curve_2 &) {}
+                  const X_monotone_curve_2 &) {}
 
   void remove_edge(Halfedge_handle) {}
   inline bool is_empty() const {return false;}

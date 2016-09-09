@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/intersection_3_1.h
-// package       : Intersections_3 (2.5)
-// source        : web/intersection_3.fw
-// author(s)     : Geert-Jan Giezeman
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : Saarbruecken
+// $Source: /CVSROOT/CGAL/Packages/Intersections_3/include/CGAL/intersection_3_1.h,v $
+// $Revision: 1.9 $ $Date: 2003/10/21 12:17:16 $
+// $Name: current_submission $
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 
 
 #ifndef CGAL_INTERSECTION_3_1_H
@@ -55,6 +33,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
+
 template <class R>
 Object
 intersection(const Plane_3<R> &plane1, const Plane_3<R>&plane2);
@@ -65,12 +44,7 @@ do_intersect(const Plane_3<R> &plane1, const Plane_3<R>&plane2)
 {
     return ! intersection(plane1, plane2).is_empty();
 }
-CGAL_END_NAMESPACE
 
-
-
-
-CGAL_BEGIN_NAMESPACE
 
 template <class R>
 Object
@@ -98,12 +72,7 @@ do_intersect(
     return do_intersect(p2,p1);
 }
 
-CGAL_END_NAMESPACE
 
-
-
-
-CGAL_BEGIN_NAMESPACE
 
 template <class R>
 Object
@@ -130,11 +99,7 @@ do_intersect(
 {
     return do_intersect(p2,p1);
 }
-CGAL_END_NAMESPACE
 
-
-
-CGAL_BEGIN_NAMESPACE
 
 template <class R>
 Object
@@ -155,145 +120,112 @@ do_intersect(const Plane_3<R> &p1, const Segment_3<R> &p2);
 
 template <class R>
 inline bool
-do_intersect(
-    const Segment_3<R> &p1,
-    const Plane_3<R> &p2)
+do_intersect(const Segment_3<R> &p1,
+	     const Plane_3<R> &p2)
 {
     return do_intersect(p2,p1);
 }
 
-CGAL_END_NAMESPACE
 
-
-
-
-CGAL_BEGIN_NAMESPACE
 
 template <class R>
 Object
 intersection(const Line_3<R> &line,
-        const Bbox_3 &box) ;
+	     const Bbox_3 &box) ;
 
 template <class R>
 inline Object
 intersection(const Bbox_3 &box,
-        const Line_3<R> &line)
+	     const Line_3<R> &line)
 {
     return intersection(line, box);
 }
 
-CGAL_END_NAMESPACE
 
-
-
-CGAL_BEGIN_NAMESPACE
 
 template <class R>
 Object
 intersection(const Ray_3<R> &ray,
-        const Bbox_3 &box) ;
+	     const Bbox_3 &box) ;
 
 template <class R>
 inline Object
 intersection(const Bbox_3 &box,
-        const Ray_3<R> &ray)
+	     const Ray_3<R> &ray)
 {
     return intersection(ray, box);
 }
 
-CGAL_END_NAMESPACE
 
-
-
-CGAL_BEGIN_NAMESPACE
 
 template <class R>
 Object
 intersection(const Segment_3<R> &seg,
-        const Bbox_3 &box) ;
+	     const Bbox_3 &box) ;
 
 template <class R>
 inline Object
 intersection(const Bbox_3 &box,
-        const Segment_3<R> &seg)
+	     const Segment_3<R> &seg)
 {
     return intersection(seg, box);
 }
-CGAL_END_NAMESPACE
 
-
-
-CGAL_BEGIN_NAMESPACE
 
 template <class R>
 Object
 intersection(const Line_3<R> &line,
-        const Iso_cuboid_3<R> &box) ;
+	     const Iso_cuboid_3<R> &box) ;
 
 template <class R>
 inline Object
 intersection(const Iso_cuboid_3<R> &box,
-        const Line_3<R> &line)
+	     const Line_3<R> &line)
 {
     return intersection(line, box);
 }
 
-CGAL_END_NAMESPACE
 
-
-
-CGAL_BEGIN_NAMESPACE
 
 template <class R>
 Object
 intersection(const Ray_3<R> &ray,
-        const Iso_cuboid_3<R> &box) ;
+	     const Iso_cuboid_3<R> &box) ;
 
 template <class R>
 inline Object
 intersection(const Iso_cuboid_3<R> &box,
-        const Ray_3<R> &ray)
+	     const Ray_3<R> &ray)
 {
     return intersection(ray, box);
 }
 
-CGAL_END_NAMESPACE
 
-
-
-CGAL_BEGIN_NAMESPACE
 
 template <class R>
 Object
 intersection(const Segment_3<R> &seg,
-        const Iso_cuboid_3<R> &box) ;
+	     const Iso_cuboid_3<R> &box) ;
 
 template <class R>
 inline Object
 intersection(const Iso_cuboid_3<R> &box,
-        const Segment_3<R> &seg)
+	     const Segment_3<R> &seg)
 {
     return intersection(seg, box);
 }
 
-CGAL_END_NAMESPACE
 
-
-
-CGAL_BEGIN_NAMESPACE
 
 template <class R>
 Object
 intersection(const Iso_cuboid_3<R> &box1,
-        const Iso_cuboid_3<R> &box2) ;
+	     const Iso_cuboid_3<R> &box2) ;
 
 CGAL_END_NAMESPACE
 
 
-
-
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/intersection_3_1.C>
-#endif
+
 
 #endif // CGAL_INTERSECTION_3_1_H

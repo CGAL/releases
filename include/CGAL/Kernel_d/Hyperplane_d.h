@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2000,2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000,2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Kernel_d/Hyperplane_d.h
-// package       : Kernel_d (0.9.68)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2002/03/18 20:33:55 $
-// author(s)     : Michael Seel
-// coordinator   : MPI Saarbruecken
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Hyperplane_d.h,v $
+// $Revision: 1.12 $ $Date: 2003/10/21 12:19:20 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Michael Seel
 #ifndef CGAL_HYPERPLANE_D_H
 #define CGAL_HYPERPLANE_D_H
 
@@ -71,8 +49,6 @@ class Hyperplane_d : public pR::Hyperplane_d_base
   Hyperplane_d(const Hyperplane_d<R> &h) : Base(h) {}
   Hyperplane_d(const Base& p) : Base(p) {}
 
-#ifndef CGAL_SIMPLE_INTERFACE
-
   template <class InputIterator>
   Hyperplane_d(int d, InputIterator first, InputIterator last)
     : Base (d, first, last) {}
@@ -86,33 +62,6 @@ class Hyperplane_d : public pR::Hyperplane_d_base
   Hyperplane_d(ForwardIterator first, ForwardIterator last, 
                const Point_d<R>& o, Oriented_side side = Oriented_side(0)) :
     Base(first,last,o,side) {}
-
-#else
-#define FIXHYPD(I) \
-Hyperplane_d(int d, I first, I last) : Base (d,first,last) {} \
-Hyperplane_d(int d, I first, I last, const RT& D) : Base (d,first,last,D) {}
-#define FIXHYPDD(I) \
-Hyperplane_d(I first, I last, const Point_d<R>& o, Oriented_side side = \
-Oriented_side(0)) : Base(o.dimension()) \
-{ construct_from_points(first,last,o,side); }
-
-	     //Oriented_side(0)) : Base(first,last,o,side) {}
-
-FIXHYPD(int*)
-FIXHYPD(const int*)
-FIXHYPD(RT*)
-FIXHYPD(const RT*)
-#undef FIXHYPD
-
-#ifdef _MSC_VER
-FIXHYPDD(typename std::vector< Point_d<R> >::iterator)
-FIXHYPDD(typename std::vector< Point_d<R> >::const_iterator)
-#endif // MSC
-
-FIXHYPDD(Point_d<R>*)
-FIXHYPDD(const Point_d<R>*)
-#undef FIXHYPDD
-#endif
 
   Vector_d<R> orthogonal_vector() const 
   { return Base::orthogonal_vector(); }

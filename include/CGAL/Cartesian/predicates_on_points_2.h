@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/predicates_on_points_2.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2002/01/23 17:59:16 $
-// author(s)     : Herve Bronnimann
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/predicates_on_points_2.h,v $
+// $Revision: 1.13 $ $Date: 2003/10/21 12:14:35 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Herve Bronnimann
 
 #ifndef CGAL_CARTESIAN_PREDICATES_ON_POINTS_2_H
 #define CGAL_CARTESIAN_PREDICATES_ON_POINTS_2_H
@@ -51,366 +29,323 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class R >
+template < class K >
 inline
 bool
-x_equal(const PointC2<R> &p, const PointC2<R> &q)
+x_equal(const PointC2<K> &p, const PointC2<K> &q)
 {
-    return p.x() == q.x();
+  return K().equal_x_2_object()(p, q);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-y_equal(const PointC2<R> &p, const PointC2<R> &q)
+y_equal(const PointC2<K> &p, const PointC2<K> &q)
 {
-    return p.y() == q.y();
+  return K().equal_y_2_object()(p, q);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-equal_xy(const PointC2<R> &p, const PointC2<R> &q)
+equal_xy(const PointC2<K> &p, const PointC2<K> &q)
 {
-    return p.x() == q.x() && p.y() == q.y();
+  return p.x() == q.x() && p.y() == q.y();
 }
 
-template < class R >
+template < class K >
 inline
 bool
-less_x(const PointC2<R> &p, const PointC2<R> &q)
+less_x(const PointC2<K> &p, const PointC2<K> &q)
 {
-    return p.x() < q.x();
+  return K().less_x_2_object()(p, q);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-less_y(const PointC2<R> &p, const PointC2<R> &q)
+less_y(const PointC2<K> &p, const PointC2<K> &q)
 {
-    return p.y() < q.y();
+  return K().less_y_2_object()(p, q);
 }
 
-template < class R >
+template < class K >
 inline
 Comparison_result
-compare_x(const PointC2<R> &p, const PointC2<R> &q)
+compare_x(const PointC2<K> &p, const PointC2<K> &q)
 {
-    return CGAL_NTS compare(p.x(), q.x());
+  return K().compare_x_2_object()(p, q);
 }
 
-template < class R >
+template < class K >
 inline
 Comparison_result
-compare_y(const PointC2<R> &p, const PointC2<R> &q)
+compare_y(const PointC2<K> &p, const PointC2<K> &q)
 {
-    return CGAL_NTS compare(p.y(), q.y());
+  return K().compare_y_2_object()(p, q);
 }
 
-template < class R >
+template < class K >
 inline
 Comparison_result
-compare_xy(const PointC2<R> &p, const PointC2<R> &q)
+compare_xy(const PointC2<K> &p, const PointC2<K> &q)
 {
-    return compare_lexicographically_xy(p, q);
+  return K().compare_xy_2_object()(p, q);
 }
 
-template < class R >
+template < class K >
 inline
 Comparison_result
-compare_deltax_deltay(const PointC2<R>& p,
-                      const PointC2<R>& q,
-                      const PointC2<R>& r,
-                      const PointC2<R>& s)
+compare_deltax_deltay(const PointC2<K>& p,
+                      const PointC2<K>& q,
+                      const PointC2<K>& r,
+                      const PointC2<K>& s)
 {
-    return compare_deltax_deltayC2(p.x(), q.x(), r.y(), s.y());
+  return compare_deltax_deltayC2(p.x(), q.x(), r.y(), s.y());
 }
 
-template < class R >
+template < class K >
 inline
 Comparison_result
-compare_lexicographically_xy(const PointC2<R> &p,
-                             const PointC2<R> &q)
+compare_lexicographically_xy(const PointC2<K> &p,
+                             const PointC2<K> &q)
 {
-    return compare_lexicographically_xyC2(p.x(), p.y(), q.x(), q.y());
+  return K().compare_xy_2_object()(p, q);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-lexicographically_xy_smaller_or_equal(const PointC2<R> &p,
-                                      const PointC2<R> &q)
+lexicographically_xy_smaller_or_equal(const PointC2<K> &p,
+                                      const PointC2<K> &q)
 {
-    return compare_lexicographically_xy(p, q) != LARGER;
+  return compare_lexicographically_xy(p, q) != LARGER;
 }
 
-template < class R >
+template < class K >
 inline
 bool
-lexicographically_xy_larger_or_equal(const PointC2<R> &p,
-                                     const PointC2<R> &q)
+lexicographically_xy_larger_or_equal(const PointC2<K> &p,
+                                     const PointC2<K> &q)
 {
-    return compare_lexicographically_xy(p, q) != SMALLER;
+  return compare_lexicographically_xy(p, q) != SMALLER;
 }
 
-template < class R >
+template < class K >
 inline
 bool
-lexicographically_xy_smaller(const PointC2<R> &p,
-                             const PointC2<R> &q)
+lexicographically_xy_smaller(const PointC2<K> &p,
+                             const PointC2<K> &q)
 {
-    return compare_lexicographically_xy(p, q) == SMALLER;
+  return K().less_xy_2_object()(p, q);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-lexicographically_xy_larger(const PointC2<R> &p,
-                            const PointC2<R> &q)
+lexicographically_xy_larger(const PointC2<K> &p,
+                            const PointC2<K> &q)
 {
-    return compare_lexicographically_xy(p, q) == LARGER;
+  return compare_lexicographically_xy(p, q) == LARGER;
 }
 
-template < class R >
+template < class K >
 inline
 Comparison_result
-compare_yx(const PointC2<R> &p, const PointC2<R> &q)
+compare_yx(const PointC2<K> &p, const PointC2<K> &q)
 {
-    return compare_lexicographically_xyC2(p.y(), p.x(), q.y(), q.x());
+  return compare_lexicographically_xyC2(p.y(), p.x(), q.y(), q.x());
 }
 
-template < class R >
+template < class K >
 inline
 Comparison_result
-compare_lexicographically_yx(const PointC2<R> &p,
-                             const PointC2<R> &q)
+compare_lexicographically_yx(const PointC2<K> &p,
+                             const PointC2<K> &q)
 {
-    return compare_lexicographically_xyC2(p.y(), p.x(), q.y(), q.x());
+  return compare_lexicographically_xyC2(p.y(), p.x(), q.y(), q.x());
 }
 
-template < class R >
+template < class K >
 inline
 bool
-lexicographically_yx_smaller_or_equal(const PointC2<R> &p,
-                                      const PointC2<R> &q)
+lexicographically_yx_smaller_or_equal(const PointC2<K> &p,
+                                      const PointC2<K> &q)
 {
-    return compare_lexicographically_yx(p, q) != LARGER;
+  return compare_lexicographically_yx(p, q) != LARGER;
 }
 
-template < class R >
+template < class K >
 inline
 bool
-lexicographically_yx_larger_or_equal(const PointC2<R> &p,
-                                     const PointC2<R> &q)
+lexicographically_yx_larger_or_equal(const PointC2<K> &p,
+                                     const PointC2<K> &q)
 {
-    return compare_lexicographically_yx(p, q) != SMALLER;
+  return compare_lexicographically_yx(p, q) != SMALLER;
 }
 
-template < class R >
+template < class K >
 inline
 bool
-lexicographically_yx_smaller(const PointC2<R> &p,
-                             const PointC2<R> &q)
+lexicographically_yx_smaller(const PointC2<K> &p,
+                             const PointC2<K> &q)
 {
-    return compare_lexicographically_yx(p, q) == SMALLER;
+  return K().less_yx_2_object()(p, q);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-lexicographically_yx_larger(const PointC2<R> &p,
-                            const PointC2<R> &q)
+lexicographically_yx_larger(const PointC2<K> &p,
+                            const PointC2<K> &q)
 {
-    return compare_lexicographically_yx(p, q) == LARGER;
+  return compare_lexicographically_yx(p, q) == LARGER;
 }
 
-template < class R >
+template < class K >
 inline
 Orientation
-orientation(const PointC2<R> &p,
-            const PointC2<R> &q,
-            const PointC2<R> &r)
+orientation(const PointC2<K> &p,
+            const PointC2<K> &q,
+            const PointC2<K> &r)
 {
-    return orientationC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
+  return K().orientation_2_object()(p, q, r);
 }
 
-template < class R >
+template < class K >
 inline
 Angle
-angle(const PointC2<R> &p,
-      const PointC2<R> &q,
-      const PointC2<R> &r)
+angle(const PointC2<K> &p,
+      const PointC2<K> &q,
+      const PointC2<K> &r)
 {
-    return angleC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
+  return K().angle_2_object()(p, q, r);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-collinear(const PointC2<R> &p,
-          const PointC2<R> &q,
-          const PointC2<R> &r)
+collinear(const PointC2<K> &p,
+          const PointC2<K> &q,
+          const PointC2<K> &r)
 {
-    return orientation(p, q, r) == COLLINEAR;
+  return K().collinear_2_object()(p, q, r);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-collinear_are_ordered_along_line(const PointC2<R> &p,
-                                 const PointC2<R> &q,
-                                 const PointC2<R> &r)
+collinear_are_ordered_along_line(const PointC2<K> &p,
+                                 const PointC2<K> &q,
+                                 const PointC2<K> &r)
 {
-    return collinear_are_ordered_along_lineC2
-             (p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
+  return K().collinear_are_ordered_along_line_2_object()(p, q, r);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-are_ordered_along_line(const PointC2<R> &p,
-                       const PointC2<R> &q,
-                       const PointC2<R> &r)
+are_ordered_along_line(const PointC2<K> &p,
+                       const PointC2<K> &q,
+                       const PointC2<K> &r)
 {
-    return collinear(p, q, r) && collinear_are_ordered_along_line(p, q, r);
+  return K().are_ordered_along_line_2_object()(p, q, r);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-collinear_are_strictly_ordered_along_line(const PointC2<R> &p,
-                                          const PointC2<R> &q,
-                                          const PointC2<R> &r)
+collinear_are_strictly_ordered_along_line(const PointC2<K> &p,
+                                          const PointC2<K> &q,
+                                          const PointC2<K> &r)
 {
-  return collinear_are_strictly_ordered_along_lineC2
-               (p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
+  return K().collinear_are_strictly_ordered_along_line_2_object()(p, q, r);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-are_strictly_ordered_along_line(const PointC2<R> &p,
-                                const PointC2<R> &q,
-                                const PointC2<R> &r)
+are_strictly_ordered_along_line(const PointC2<K> &p,
+                                const PointC2<K> &q,
+                                const PointC2<K> &r)
 {
-    return collinear(p, q, r) &&
-	   collinear_are_strictly_ordered_along_line(p, q, r);
+  return K().are_strictly_ordered_along_line_2_object()(p, q, r);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-left_turn(const PointC2<R> &p,
-         const PointC2<R> &q,
-         const PointC2<R> &r)
+left_turn(const PointC2<K> &p,
+	  const PointC2<K> &q,
+	  const PointC2<K> &r)
 {
-    return orientation(p, q, r) == LEFT_TURN;
+  return K().left_turn_2_object()(p, q, r);
 }
 
-template < class R >
+template < class K >
 inline
 bool
-right_turn(const PointC2<R> &p,
-          const PointC2<R> &q,
-          const PointC2<R> &r)
+right_turn(const PointC2<K> &p,
+	   const PointC2<K> &q,
+	   const PointC2<K> &r)
 {
-   return orientation(p, q, r) == RIGHT_TURN;
-}
-
-template < class R >
-inline
-bool
-left_turn(const Origin &o,
-          const PointC2<R> &q,
-          const PointC2<R> &r)
-{
-  return Orientation (sign_of_determinant2x2(qx, qy, rx, ry)) == LEFT_TURN;
-}
-
-template < class R >
-inline
-bool
-right_turn(const Origin &o,
-           const PointC2<R> &q,
-           const PointC2<R> &r)
-{
-  return Orientation (sign_of_determinant2x2(qx, qy, rx, ry)) == RIGHT_TURN;
+  return orientation(p, q, r) == RIGHT_TURN;
 }
 
 #ifndef CGAL_NO_DEPRECATED_CODE
-template < class R >
+template < class K >
 inline
 bool
-leftturn(const PointC2<R> &p,
-         const PointC2<R> &q,
-         const PointC2<R> &r)
+leftturn(const PointC2<K> &p,
+         const PointC2<K> &q,
+         const PointC2<K> &r)
 {
-    return orientation(p, q, r) == LEFT_TURN;
+  bool THIS_FUNCTION_IS_DEPRECATED; // Use left_turn instead.
+  return orientation(p, q, r) == LEFT_TURN;
 }
 
-template < class R >
+template < class K >
 inline
 bool
-rightturn(const PointC2<R> &p,
-          const PointC2<R> &q,
-          const PointC2<R> &r)
+rightturn(const PointC2<K> &p,
+          const PointC2<K> &q,
+          const PointC2<K> &r)
 {
-   return orientation(p, q, r) == RIGHT_TURN;
-}
-
-template < class R >
-inline
-bool
-leftturn(const Origin &o,
-         const PointC2<R> &q,
-         const PointC2<R> &r)
-{
-  return Orientation (sign_of_determinant2x2(qx, qy, rx, ry)) == LEFT_TURN;
-}
-
-template < class R >
-inline
-bool
-rightturn(const Origin &o,
-          const PointC2<R> &q,
-          const PointC2<R> &r)
-{
-  return Orientation (sign_of_determinant2x2(qx, qy, rx, ry)) == RIGHT_TURN;
+  bool THIS_FUNCTION_IS_DEPRECATED; // Use right_turn instead.
+  return orientation(p, q, r) == RIGHT_TURN;
 }
 #endif
 
-template <class R>
+template <class K>
 inline
 Oriented_side
-side_of_oriented_circle(const PointC2<R> &p,
-                        const PointC2<R> &q,
-                        const PointC2<R> &r,
-                        const PointC2<R> &t)
+side_of_oriented_circle(const PointC2<K> &p,
+                        const PointC2<K> &q,
+                        const PointC2<K> &r,
+                        const PointC2<K> &t)
 {
-  return side_of_oriented_circleC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y(),
-	                           t.x(), t.y());
+  return K().side_of_oriented_circle_2_object()(p, q, r, t);
 }
 
-template <class R>
+template <class K>
 inline
 Bounded_side
-side_of_bounded_circle(const PointC2<R> &p,
-                       const PointC2<R> &q,
-                       const PointC2<R> &r,
-                       const PointC2<R> &t)
+side_of_bounded_circle(const PointC2<K> &p,
+                       const PointC2<K> &q,
+                       const PointC2<K> &r,
+                       const PointC2<K> &t)
 {
-  return side_of_bounded_circleC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y(),
-	                          t.x(), t.y());
+  return K().side_of_bounded_circle_2_object()(p, q, r, t);
 }
 
-template <class R>
+template <class K>
 inline
 Bounded_side
-side_of_bounded_circle(const PointC2<R> &p,
-                       const PointC2<R> &q,
-                       const PointC2<R> &t)
+side_of_bounded_circle(const PointC2<K> &p,
+                       const PointC2<K> &q,
+                       const PointC2<K> &t)
 {
-  return side_of_bounded_circleC2(p.x(), p.y(), q.x(), q.y(), t.x(), t.y());
+  return K().side_of_bounded_circle_2_object()(p, q, t);
 }
 
 CGAL_END_NAMESPACE

@@ -6,7 +6,6 @@
 #include <CGAL/Convex_hull_d.h>
 #include <CGAL/Convex_hull_d_traits_3.h>
 #include <CGAL/Convex_hull_d_to_polyhedron_3.h>
-#include <CGAL/Polyhedron_default_traits_3.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/copy_n.h>
 #include <CGAL/IO/Geomview_stream.h>
@@ -34,8 +33,7 @@ typedef double RT;
 
 typedef CGAL::Homogeneous<RT>                  K;
 typedef K::Point_3                             Point_3;
-typedef CGAL::Polyhedron_default_traits_3<K>   PolyTraits;
-typedef CGAL::Polyhedron_3< PolyTraits >       Polyhedron_3;
+typedef CGAL::Polyhedron_3< K>                 Polyhedron_3;
 
 typedef CGAL::Convex_hull_d_traits_3<K>        Hull_traits_3;
 typedef CGAL::Convex_hull_d< Hull_traits_3 >   Convex_hull_3;

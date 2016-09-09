@@ -1,61 +1,46 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999, 2002, 2003  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/memory.h
-// package       : Kernel_basic (3.90)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/10/22 12:50:23 $
-// author(s)     : Michael Seel
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/memory.h,v $
+// $Revision: 1.9 $ $Date: 2003/10/21 12:18:25 $
+// $Name: current_submission $
+//
+// Author(s)     : Michael Seel, Sylvain Pion
 
 #ifndef CGAL_MEMORY_H
 #define CGAL_MEMORY_H
 
-// This file defines the macro CGAL_ALLOCATOR(t) which is the default
-// allocator used by CGAL.
+#include <memory>
 
-#ifdef CGAL_USE_LEDA
-#  include <LEDA/allocator.h>
-#  define CGAL_ALLOCATOR(t) leda_allocator< t >
+// CGAL_ALLOCATOR(t) defines the default allocator used by CGAL.
+// CGAL_MEMORY(t) overloads the new and delete operators for a given class.
 
-#else
-#  include <memory>
-#  define CGAL_ALLOCATOR(t) std::allocator< t >
+// When LEDA is there, the user could define these macros as
+// leda_allocator< T >  and  LEDA_MEMORY(T) for example.
+
+// For debugging with GCC, the following allocator can be useful :
+// std::__allocator<T, std::__debug_alloc<std::__malloc_alloc_template<0> > >
+
+#ifndef CGAL_ALLOCATOR
+#  define CGAL_ALLOCATOR(T) std::allocator< T >
+#endif
+
+#ifndef CGAL_MEMORY
+#  define CGAL_MEMORY(T)
 #endif
 
 #endif // CGAL_MEMORY_H

@@ -1,56 +1,37 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/Line_3.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.29 $
-// revision_date : $Date: 2002/02/06 12:32:37 $
-// author(s)     : Andreas Fabri
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Line_3.h,v $
+// $Revision: 1.37 $ $Date: 2003/10/21 12:14:19 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Andreas Fabri
 
 #ifndef CGAL_CARTESIAN_LINE_3_H
 #define CGAL_CARTESIAN_LINE_3_H
+
+#include <utility>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class LineC3
-  : public R_::Line_handle_3
+  : public R_::template Handle<std::pair<typename R_::Point_3,
+                                         typename R_::Vector_3> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
@@ -63,26 +44,28 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Segment_3            Segment_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef typename R_::Line_handle_3             base;
-  typedef typename base::element_type            rep;
+  typedef std::pair<Point_3, Vector_3>             rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                                     R;
 
-  LineC3()
-    : base(rep()) {}
+  LineC3() {}
 
   LineC3(const Point_3 &p, const Point_3 &q)
-    : base(rep(p, (q-p).direction())) {}
+    : base(rep(p, q-p)) {}
 
   LineC3(const Segment_3 &s)
-    : base(rep(s.start(), (s.end() - s.start()).direction())) {}
+    : base(R().construct_line_3_object()(s)) {}
 
   LineC3(const Ray_3 &r)
-    : base(rep(r.start(), (r.point(1) - r.start()).direction())) {}
+    : base(R().construct_line_3_object()(r)) {}
+
+  LineC3(const Point_3 &p, const Vector_3 &v)
+    : base(rep(p, v)) {}
 
   LineC3(const Point_3 &p, const Direction_3 &d)
-    : base(rep(p, d)) {}
+    : base(rep(p, Vector_3(d.dx(), d.dy(), d.dz()))) {}
 
   bool        operator==(const LineC3 &l) const;
   bool        operator!=(const LineC3 &l) const;
@@ -94,9 +77,15 @@ public:
   {
       return Ptr()->first;
   }
-  const Direction_3 & direction() const
+
+  const Vector_3 & to_vector() const
   {
       return Ptr()->second;
+  }
+
+  Direction_3 direction() const
+  {
+      return Direction_3(Ptr()->second);
   }
 
   Point_3     point(int i) const;
@@ -111,10 +100,6 @@ public:
     return LineC3<R>(t.transform(point()), t.transform(direction()));
   }
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 inline
@@ -148,7 +133,7 @@ typename LineC3<R>::Plane_3
 LineC3<R>::
 perpendicular_plane(const typename LineC3<R>::Point_3 &p) const
 {
-  return Plane_3(p, direction().to_vector());
+  return Plane_3(p, to_vector());
 }
 
 template < class R >
@@ -156,7 +141,7 @@ inline
 typename LineC3<R>::Line_3
 LineC3<R>::opposite() const
 {
-  return LineC3<R>(point(), -direction());
+  return LineC3<R>(point(), -to_vector());
 }
 
 template < class R >
@@ -174,7 +159,7 @@ bool
 LineC3<R>::
 has_on(const typename LineC3<R>::Point_3 &p) const
 {
-  return collinear(point(), point()+direction().to_vector(), p);
+  return collinear(point(), point()+to_vector(), p);
 }
 
 template < class R >
@@ -182,7 +167,7 @@ inline
 bool
 LineC3<R>::is_degenerate() const
 { // FIXME : predicate
-  return direction() == Direction_3(0,0,0);
+  return to_vector() == NULL_VECTOR;
 }
 
 #ifndef CGAL_CARTESIAN_NO_OSTREAM_INSERT_LINEC3
@@ -213,10 +198,6 @@ operator>>(std::istream &is, LineC3<R> &l)
     return is;
 }
 #endif // CGAL_CARTESIAN_NO_ISTREAM_EXTRACT_LINEC3
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

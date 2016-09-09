@@ -1,39 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// Copyright (c) 2002 ENS de Paris
-//
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// The Qt widget we provide for CGAL is distributed under the QPL,
-// which is Trolltech's open source license. For more information see 
-//     http://www.trolltech.com/developer/licensing/qpl.html
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// file          : include/CGAL/IO/Qt_widget_get_point.h
-// package       : Qt_widget (1.2.30)
-// author(s)     : Laurent Rineau
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : Laurent Rineau
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_get_point.h,v $
+// $Revision: 1.14 $ $Date: 2003/10/21 12:23:11 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Laurent Rineau
 
 #ifndef CGAL_QT_WIDGET_GET_POINT_H
 #define CGAL_QT_WIDGET_GET_POINT_H
@@ -55,10 +41,11 @@ public:
   typedef typename R::Point_2	Point;
   typedef typename R::FT	FT;
   
-  Qt_widget_get_point(const QCursor c=QCursor(Qt::crossCursor)) :
-    cursor(c) {};
+  Qt_widget_get_point(const QCursor c=QCursor(Qt::crossCursor),
+		      QObject* parent = 0, const char* name = 0) :
+    Qt_widget_layer(parent, name), cursor(c) {};
   
-private:
+protected:
   bool is_pure(Qt::ButtonState s){
     if((s & Qt::ControlButton) ||
        (s & Qt::ShiftButton) ||
@@ -72,8 +59,9 @@ private:
     if(e->button() == CGAL_QT_WIDGET_GET_POINT_BUTTON
        && is_pure(e->state()))
     {
-      FT x=static_cast<FT>(widget->x_real(e->x()));
-      FT y=static_cast<FT>(widget->y_real(e->y()));
+      FT x, y;
+      widget->x_real(e->x(), x);
+      widget->y_real(e->y(), y);
       widget->new_object(make_object(Point(x, y)));
     }
   };

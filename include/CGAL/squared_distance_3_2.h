@@ -1,187 +1,176 @@
-// ======================================================================
-//
-// Copyright (c) 1998 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1998  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/squared_distance_3_2.h
-// package       : Distance_3 (2.5.4)
-// source        : sqdistance_3.fw
-// author(s)     : Geert-Jan Giezeman
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : Saarbruecken
+// $Source: /CVSROOT/CGAL/Packages/Distance_3/include/CGAL/squared_distance_3_2.h,v $
+// $Revision: 1.8 $ $Date: 2003/10/21 12:15:30 $
+// $Name: current_submission $
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Geert-Jan Giezeman, Andreas Fabri
 
 
 #ifndef CGAL_DISTANCE_3_2_H
 #define CGAL_DISTANCE_3_2_H
+
+#include <CGAL/squared_distance_3_0.h>
 
 #include <CGAL/Segment_3.h>
 #include <CGAL/Line_3.h>
 #include <CGAL/Ray_3.h>
 #include <CGAL/Plane_3.h>
 
-
-#include <CGAL/utils.h>
-#include <CGAL/Point_3.h>
-#include <CGAL/Plane_3.h>
-#include <CGAL/enum.h>
-#include <CGAL/wmult.h>
-#include <CGAL/squared_distance_3_0.h>
-
 CGAL_BEGIN_NAMESPACE
 
+namespace CGALi {
 
-
-template <class R>
+template <class K>
 bool
-contains_vector(const Plane_3<R> &pl, const Vector_3<R> &vec)
+contains_vector(const typename CGAL_WRAP(K)::Plane_3 &pl, 
+		const typename CGAL_WRAP(K)::Vector_3 &vec,
+		const K&)
 {
-    typedef typename R::RT RT;
-    return pl.a()*vec.hx() + pl.b()*vec.hy() + pl.c() * vec.hz() == RT(0);
+  typedef typename K::RT RT;
+  return pl.a()*vec.hx() + pl.b()*vec.hy() + pl.c() * vec.hz() == RT(0);
 }
 
 
-template <class R>
-inline typename R::FT
+template <class K>
+inline typename K::FT
 squared_distance(
-    const Point_3<R> & pt,
-    const Plane_3<R> & plane)
+    const typename CGAL_WRAP(K)::Point_3 & pt,
+    const typename CGAL_WRAP(K)::Plane_3 & plane,
+    const K& k)
 {
-    Vector_3<R> diff(pt-plane.point());
-    return squared_distance_to_plane(plane.orthogonal_vector(), diff);
+  typename K::Construct_vector_3 construct_vector;
+  typedef typename K::Vector_3 Vector_3;
+  Vector_3 diff = construct_vector(plane.point(), pt);
+  return squared_distance_to_plane(plane.orthogonal_vector(), diff, k);
 }
 
 
 
-template <class R>
-inline typename R::FT
+template <class K>
+inline typename K::FT
 squared_distance(
-    const Plane_3<R> & plane,
-    const Point_3<R> & pt)
+    const typename CGAL_WRAP(K)::Plane_3 & plane,
+    const typename CGAL_WRAP(K)::Point_3 & pt,
+    const K& k)
 {
-    return squared_distance(pt, plane);
+    return squared_distance(pt, plane, k);
 }
 
-template <class R>
-extern typename R::FT
+template <class K>
+extern typename K::FT
 squared_distance(
-    const Line_3<R> &line,
-    const Plane_3<R> &plane)
+    const typename CGAL_WRAP(K)::Line_3 &line,
+    const typename CGAL_WRAP(K)::Plane_3 &plane,
+    const K& k)
 {
-    typedef typename R::FT FT;
-    if (contains_vector(plane, line.direction().vector() ))
-        return squared_distance(plane, line.point());
+    typedef typename K::FT FT;
+    if (contains_vector(plane, line.direction().vector(), k))
+        return squared_distance(plane, line.point(), k);
     return FT(0);
 }
 
 
-template <class R>
-inline typename R::FT
+template <class K>
+inline typename K::FT
 squared_distance(
-    const Plane_3<R> & p,
-    const Line_3<R> & line)
+    const typename CGAL_WRAP(K)::Plane_3 & p,
+    const typename CGAL_WRAP(K)::Line_3 & line,
+    const K& k)
 {
-    return squared_distance(line, p);
+    return squared_distance(line, p, k);
 }
-template <class R>
-extern typename R::FT
+
+template <class K>
+extern typename K::FT
 squared_distance(
-    const Ray_3<R> &ray,
-    const Plane_3<R> &plane)
+    const typename CGAL_WRAP(K)::Ray_3 &ray,
+    const typename CGAL_WRAP(K)::Plane_3 &plane,
+    const K& k)
 {
-    typedef typename R::RT RT;
-    typedef typename R::FT FT;
-    const Point_3<R> &start = ray.start();
-//    const Vector_3<R> &end = ray.direction().vector();
-    const Point_3<R> &planepoint = plane.point();
-    Vector_3<R> start_min_pp = start - planepoint;
-    Vector_3<R> end_min_pp = ray.direction().vector();
-    const Vector_3<R> &normal = plane.orthogonal_vector();
-    RT sdm_rs2pp = wdot(normal, start_min_pp);
-    RT sdm_re2pp = wdot(normal, end_min_pp);
+    typename K::Construct_vector_3 construct_vector;
+    typedef typename K::Point_3 Point_3;
+    typedef typename K::Vector_3 Vector_3;
+    typedef typename K::RT RT;
+    typedef typename K::FT FT;
+    const Point_3 &start = ray.start();
+    const Point_3 &planepoint = plane.point();
+    Vector_3 start_min_pp = construct_vector(planepoint, start);
+    Vector_3 end_min_pp = ray.direction().vector();
+    const Vector_3 &normal = plane.orthogonal_vector();
+    RT sdm_rs2pp = wdot(normal, start_min_pp, k);
+    RT sdm_re2pp = wdot(normal, end_min_pp, k);
     switch (CGAL_NTS sign(sdm_rs2pp)) {
     case -1:
         if (sdm_re2pp > RT(0))
             return FT(0);
-        return squared_distance_to_plane(normal, start_min_pp);
+        return squared_distance_to_plane(normal, start_min_pp, k);
     case 0:
     default:
         return FT(0);
     case 1:
         if (sdm_re2pp < RT(0))
             return FT(0);
-        return squared_distance_to_plane(normal, start_min_pp);
+        return squared_distance_to_plane(normal, start_min_pp, k);
     }
 }
 
 
-template <class R>
-inline typename R::FT
+template <class K>
+inline typename K::FT
 squared_distance(
-    const Plane_3<R> & plane,
-    const Ray_3<R> & ray)
+    const typename CGAL_WRAP(K)::Plane_3 & plane,
+    const typename CGAL_WRAP(K)::Ray_3 & ray,
+    const K& k)
 {
-    return squared_distance(ray, plane);
+    return squared_distance(ray, plane, k);
 }
 
-template <class R>
-extern typename R::FT
+template <class K>
+extern typename K::FT
 squared_distance(
-    const Segment_3<R> &seg,
-    const Plane_3<R> &plane)
+    const typename CGAL_WRAP(K)::Segment_3 &seg,
+    const typename CGAL_WRAP(K)::Plane_3 &plane,
+    const K& k)
 {
-    typedef typename R::RT RT;
-    typedef typename R::FT FT;
-    const Point_3<R> &start = seg.start();
-    const Point_3<R> &end = seg.end();
+    typename K::Construct_vector_3 construct_vector;
+    typedef typename K::Point_3 Point_3;
+    typedef typename K::Vector_3 Vector_3;
+    typedef typename K::RT RT;
+    typedef typename K::FT FT;
+    const Point_3 &start = seg.start();
+    const Point_3 &end = seg.end();
     if (start == end)
-        return squared_distance(start, plane);
-    const Point_3<R> &planepoint = plane.point();
-    Vector_3<R> start_min_pp = start - planepoint;
-    Vector_3<R> end_min_pp = end - planepoint;
-    const Vector_3<R> &normal = plane.orthogonal_vector();
-    RT sdm_ss2pp = wdot(normal, start_min_pp);
-    RT sdm_se2pp = wdot(normal, end_min_pp);
+        return squared_distance(start, plane, k);
+    const Point_3 &planepoint = plane.point();
+    Vector_3 start_min_pp = construct_vector(planepoint, start);
+    Vector_3 end_min_pp = construct_vector(planepoint, end);
+    const Vector_3 &normal = plane.orthogonal_vector();
+    RT sdm_ss2pp = wdot(normal, start_min_pp, k);
+    RT sdm_se2pp = wdot(normal, end_min_pp, k);
     switch (CGAL_NTS sign(sdm_ss2pp)) {
     case -1:
         if (sdm_se2pp >= RT(0))
             return FT(0);
         if (sdm_ss2pp >= sdm_se2pp)
-            return squared_distance_to_plane(normal, start_min_pp);
+            return squared_distance_to_plane(normal, start_min_pp, k);
         else
-            return squared_distance_to_plane(normal, end_min_pp);
+            return squared_distance_to_plane(normal, end_min_pp, k);
     case 0:
     default:
         return FT(0);
@@ -189,20 +178,120 @@ squared_distance(
         if (sdm_se2pp <= RT(0))
             return FT(0);
         if (sdm_ss2pp <= sdm_se2pp)
-            return squared_distance_to_plane(normal, start_min_pp);
+            return squared_distance_to_plane(normal, start_min_pp, k);
         else
-            return squared_distance_to_plane(normal, end_min_pp);
+            return squared_distance_to_plane(normal, end_min_pp, k);
     }
 }
 
 
-template <class R>
-inline typename R::FT
+template <class K>
+inline typename K::FT
 squared_distance(
-    const Plane_3<R> & plane,
-    const Segment_3<R> & seg)
+    const typename CGAL_WRAP(K)::Plane_3 & plane,
+    const typename CGAL_WRAP(K)::Segment_3 & seg,
+    const K& k)
 {
-    return squared_distance(seg, plane);
+    return squared_distance(seg, plane, k);
+}
+
+
+} // namespace CGALi
+
+
+template <class K>
+bool
+contains_vector(const Plane_3<K> &pl, const Vector_3<K> &vec)
+{
+  return CGALi::contains_vector(pl,vec, K());
+}
+
+
+template <class K>
+inline 
+typename K::FT
+squared_distance(
+    const Point_3<K> & pt,
+    const Plane_3<K> & plane)
+{
+  return CGALi::squared_distance(pt, plane, K());
+}
+
+
+
+template <class K>
+inline 
+typename K::FT
+squared_distance(
+    const Plane_3<K> & plane,
+    const Point_3<K> & pt)
+{
+    return CGALi::squared_distance(pt, plane, K());
+}
+
+template <class K>
+inline
+typename K::FT
+squared_distance(
+    const Line_3<K> &line,
+    const Plane_3<K> &plane)
+{
+    return CGALi::squared_distance(line, plane, K());
+}
+
+
+template <class K>
+inline 
+typename K::FT
+squared_distance(
+    const Plane_3<K> & p,
+    const Line_3<K> & line)
+{
+    return CGALi::squared_distance(line, p, K());
+}
+
+template <class K>
+inline
+typename K::FT
+squared_distance(
+    const Ray_3<K> &ray,
+    const Plane_3<K> &plane)
+{
+  return CGALi::squared_distance(ray, plane, K());
+}
+
+
+
+template <class K>
+inline 
+typename K::FT
+squared_distance(
+    const Plane_3<K> & plane,
+    const Ray_3<K> & ray)
+{
+    return CGALi::squared_distance(ray, plane, K());
+}
+
+template <class K>
+inline
+typename K::FT
+squared_distance(
+    const Segment_3<K> &seg,
+    const Plane_3<K> &plane)
+{
+  return CGALi::squared_distance(seg, plane, K());
+
+}
+
+
+template <class K>
+inline 
+typename K::FT
+squared_distance(
+    const Plane_3<K> & plane,
+    const Segment_3<K> & seg)
+{
+    return CGALi::squared_distance(seg, plane, K());
 }
 
 

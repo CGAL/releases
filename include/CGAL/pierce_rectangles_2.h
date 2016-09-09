@@ -1,51 +1,21 @@
-// ======================================================================
+// Copyright (c) 1998-2003  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/pierce_rectangles_2.h,v $
+// $Revision: 1.59 $ $Date: 2003/09/29 08:41:47 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/pierce_rectangles_2.h
-// package       : Matrix_search (1.54)
-// chapter       : $CGAL_Chapter: Geometric Optimisation $
-// source        : pcenter.aw
-// revision      : $Revision: 1.52 $
-// revision_date : $Date: 2002/03/25 15:04:57 $
-// author(s)     : Michael Hoffmann
-//
-// coordinator   : ETH
-//
-// 2-4-Piercing Axis-Parallel 2D-Rectangles
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
 #if ! (CGAL_PIERCE_RECTANGLES_2_H)
 #define CGAL_PIERCE_RECTANGLES_2_H 1
@@ -247,68 +217,67 @@ struct Staircases : public Loc_domain< Traits_ > {
   template < class InputIC >
   Staircases(InputIC b, InputIC e, Traits t)
   : Base(b, e, t),
-    sorted(pts),
-    xgy(t.signed_x_distance_2_object()(maxx, minx) >
-        t.signed_y_distance_2_object()(maxy, miny))
+    sorted(this->pts),
+    xgy(t.signed_x_distance_2_object()(this->maxx, this->minx) >
+        t.signed_y_distance_2_object()(this->maxy, this->miny))
   {
 #if defined(__sun) && defined(__SUNPRO_CC)
     // I get linker errors otherweise,  the call from above
     // does not seem to suffice :-(
     { Base bb(b, e, t); }
 #endif // defined(__sun) && defined(__SUNPRO_CC)
-#ifndef CGAL_CFG_NO_NAMESPACE
     using std::sort;
     using std::find_if;
-#endif // ! CGAL_CFG_NO_NAMESPACE
 
-    Container& xsort = xgy ? sorted : pts;
-    Container& ysort = xgy ? pts : sorted;
+    Container& xsort = xgy ? sorted : this->pts;
+    Container& ysort = xgy ? this->pts : sorted;
 
     // build top-left and bottom-right staircases
-    sort(ysort.begin(), ysort.end(), traits.less_y_2_object());
+    sort(ysort.begin(), ysort.end(), this->traits.less_y_2_object());
     // bottom-right
     Iterator i = ysort.begin();
     do {
       brstc.push_back(*i++);
       i = find_if(i, ysort.end(),
-                  bind_1(traits.less_x_2_object(), brstc.back()));
+                  bind_1(this->traits.less_x_2_object(), brstc.back()));
     } while (i != ysort.end());
     // top-left
     Riterator j = ysort.rbegin();
     do {
       tlstc.push_back(*j++);
       j = find_if(j, ysort.rend(),
-                  bind_2(traits.less_x_2_object(), tlstc.back()));
+                  bind_2(this->traits.less_x_2_object(), tlstc.back()));
     } while (j != ysort.rend());
 
     // build left-bottom and right-top staircases
-    sort(xsort.begin(), xsort.end(), traits.less_x_2_object());
+    sort(xsort.begin(), xsort.end(), this->traits.less_x_2_object());
     // left-bottom
     i = xsort.begin();
     do {
       lbstc.push_back(*i++);
       i = find_if(i, xsort.end(),
-                  bind_2(traits.less_y_2_object(), lbstc.back()));
+                  bind_2(this->traits.less_y_2_object(), lbstc.back()));
     } while (i != xsort.end());
     // right-top
     j = xsort.rbegin();
     do {
       rtstc.push_back(*j++);
       j = find_if(j, xsort.rend(),
-                  bind_1(traits.less_y_2_object(), rtstc.back()));
+                  bind_1(this->traits.less_y_2_object(), rtstc.back()));
     } while (j != xsort.rend());
   } // Staircases(b, e, t)
 
   bool is_middle_empty() const {
     //!!! the "middle" point could be precomputed in advance
-    Citerator i = pts.begin();
+    Citerator i = this->pts.begin();
+    FT rr = FT(2) * this->r;
     do
-      if (traits.signed_x_distance_2_object()(maxx, *i) > FT(2) * r &&
-          traits.signed_x_distance_2_object()(*i, minx) > FT(2) * r &&
-          traits.signed_y_distance_2_object()(*i, miny) > FT(2) * r &&
-          traits.signed_y_distance_2_object()(maxy, *i) > FT(2) * r)
+      if (this->traits.signed_x_distance_2_object()(this->maxx, *i) > rr &&
+          this->traits.signed_x_distance_2_object()(*i, this->minx) > rr &&
+          this->traits.signed_y_distance_2_object()(*i, this->miny) > rr &&
+          this->traits.signed_y_distance_2_object()(this->maxy, *i) > rr)
         return false;
-    while (++i != pts.end());
+    while (++i != this->pts.end());
     return true;
   } // is_middle()
 
@@ -325,141 +294,143 @@ struct Staircases : public Loc_domain< Traits_ > {
 
   Intervall top_intervall() const {
     Point_2 p =
-      traits.construct_point_2_above_right_implicit_point_2_object()(
-        minx, miny, FT(2) * r);
+      this->traits.construct_point_2_above_right_implicit_point_2_object()(
+        this->minx, this->miny, FT(2) * this->r);
     Point_2 q =
-      traits.construct_point_2_above_left_implicit_point_2_object()(
-        maxx, miny, FT(2) * r);
+      this->traits.construct_point_2_above_left_implicit_point_2_object()(
+        this->maxx, this->miny, FT(2) * this->r);
 
     Citerator i =
       min_element_if(
-        pts.begin(), pts.end(),
-        traits.less_x_2_object(),
+        this->pts.begin(), this->pts.end(),
+        this->traits.less_x_2_object(),
         compose_shared(std::logical_and< bool >(),
-                       bind_1(traits.less_x_2_object(), p),
-                       bind_1(traits.less_y_2_object(), p)));
+                       bind_1(this->traits.less_x_2_object(), p),
+                       bind_1(this->traits.less_y_2_object(), p)));
     Citerator j =
       max_element_if(
-        pts.begin(), pts.end(),
-        traits.less_x_2_object(),
+        this->pts.begin(), this->pts.end(),
+        this->traits.less_x_2_object(),
         compose_shared(std::logical_and< bool >(),
-                       bind_2(traits.less_x_2_object(), q),
-                       bind_1(traits.less_y_2_object(), q)));
-    return Intervall(i == pts.end() ? maxx : *i,
-                     j == pts.end() ? minx : *j);
+                       bind_2(this->traits.less_x_2_object(), q),
+                       bind_1(this->traits.less_y_2_object(), q)));
+    return Intervall(i == this->pts.end() ? this->maxx : *i,
+                     j == this->pts.end() ? this->minx : *j);
   } // top_intervall()
 
   Intervall bottom_intervall() const {
     Point_2 p =
-      traits.construct_point_2_below_right_implicit_point_2_object()(
-        minx, maxy, FT(2) * r);
+      this->traits.construct_point_2_below_right_implicit_point_2_object()(
+        this->minx, this->maxy, FT(2) * this->r);
     Point_2 q =
-      traits.construct_point_2_below_left_implicit_point_2_object()(
-        maxx, maxy, FT(2) * r);
+      this->traits.construct_point_2_below_left_implicit_point_2_object()(
+        this->maxx, this->maxy, FT(2) * this->r);
 
     Citerator i =
       min_element_if(
-        pts.begin(), pts.end(),
-        traits.less_x_2_object(),
+        this->pts.begin(), this->pts.end(),
+        this->traits.less_x_2_object(),
         compose_shared(std::logical_and< bool >(),
-                       bind_1(traits.less_x_2_object(), p),
-                       bind_2(traits.less_y_2_object(), p)));
+                       bind_1(this->traits.less_x_2_object(), p),
+                       bind_2(this->traits.less_y_2_object(), p)));
     Citerator j =
       max_element_if(
-        pts.begin(), pts.end(),
-        traits.less_x_2_object(),
+        this->pts.begin(), this->pts.end(),
+        this->traits.less_x_2_object(),
         compose_shared(std::logical_and< bool >(),
-                       bind_2(traits.less_x_2_object(), q),
-                       bind_2(traits.less_y_2_object(), q)));
-    return Intervall(i == pts.end() ? maxx : *i,
-                     j == pts.end() ? minx : *j);
+                       bind_2(this->traits.less_x_2_object(), q),
+                       bind_2(this->traits.less_y_2_object(), q)));
+    return Intervall(i == this->pts.end() ? this->maxx : *i,
+                     j == this->pts.end() ? this->minx : *j);
   } // bottom_intervall()
 
   Intervall left_intervall() const {
     Point_2 p =
-      traits.construct_point_2_above_left_implicit_point_2_object()(
-        maxx, miny, FT(2) * r);
+      this->traits.construct_point_2_above_left_implicit_point_2_object()(
+        this->maxx, this->miny, FT(2) * this->r);
     Point_2 q =
-      traits.construct_point_2_below_left_implicit_point_2_object()(
-        maxx, maxy, FT(2) * r);
+      this->traits.construct_point_2_below_left_implicit_point_2_object()(
+        this->maxx, this->maxy, FT(2) * this->r);
 
     Citerator i =
       min_element_if(
-        pts.begin(), pts.end(),
-        traits.less_y_2_object(),
+        this->pts.begin(), this->pts.end(),
+        this->traits.less_y_2_object(),
         compose_shared(std::logical_and< bool >(),
-                       bind_2(traits.less_x_2_object(), p),
-                       bind_1(traits.less_y_2_object(), p)));
+                       bind_2(this->traits.less_x_2_object(), p),
+                       bind_1(this->traits.less_y_2_object(), p)));
     Citerator j =
       max_element_if(
-        pts.begin(), pts.end(),
-        traits.less_y_2_object(),
+        this->pts.begin(), this->pts.end(),
+        this->traits.less_y_2_object(),
         compose_shared(std::logical_and< bool >(),
-                       bind_2(traits.less_x_2_object(), q),
-                       bind_2(traits.less_y_2_object(), q)));
-    return Intervall(i == pts.end() ? maxy : *i,
-                     j == pts.end() ? miny : *j);
+                       bind_2(this->traits.less_x_2_object(), q),
+                       bind_2(this->traits.less_y_2_object(), q)));
+    return Intervall(i == this->pts.end() ? this->maxy : *i,
+                     j == this->pts.end() ? this->miny : *j);
   } // left_intervall()
 
   Intervall right_intervall() const {
     Point_2 p =
-      traits.construct_point_2_above_right_implicit_point_2_object()(
-        minx, miny, FT(2) * r);
+      this->traits.construct_point_2_above_right_implicit_point_2_object()(
+        this->minx, this->miny, FT(2) * this->r);
     Point_2 q =
-      traits.construct_point_2_below_right_implicit_point_2_object()(
-        minx, maxy, FT(2) * r);
+      this->traits.construct_point_2_below_right_implicit_point_2_object()(
+        this->minx, this->maxy, FT(2) * this->r);
 
     Citerator i =
       min_element_if(
-        pts.begin(), pts.end(),
-        traits.less_y_2_object(),
+        this->pts.begin(), this->pts.end(),
+        this->traits.less_y_2_object(),
         compose_shared(std::logical_and< bool >(),
-                       bind_1(traits.less_x_2_object(), p),
-                       bind_1(traits.less_y_2_object(), p)));
+                       bind_1(this->traits.less_x_2_object(), p),
+                       bind_1(this->traits.less_y_2_object(), p)));
     Citerator j =
       max_element_if(
-        pts.begin(), pts.end(),
-        traits.less_y_2_object(),
+        this->pts.begin(), this->pts.end(),
+        this->traits.less_y_2_object(),
         compose_shared(std::logical_and< bool >(),
-                       bind_1(traits.less_x_2_object(), q),
-                       bind_2(traits.less_y_2_object(), q)));
-    return Intervall(i == pts.end() ? maxy : *i,
-                     j == pts.end() ? miny : *j);
+                       bind_1(this->traits.less_x_2_object(), q),
+                       bind_2(this->traits.less_y_2_object(), q)));
+    return Intervall(i == this->pts.end() ? this->maxy : *i,
+                     j == this->pts.end() ? this->miny : *j);
   } // right_intervall()
 
   template < class OutputIterator >
   OutputIterator shared_intervall(OutputIterator o) const {
     if (xgy) {
-      if (traits.signed_y_distance_2_object()(maxy, miny) > FT(4) * r)
+      if (this->traits.signed_y_distance_2_object()(
+          this->maxy, this->miny) > FT(4) * this->r)
         return o;
       Point_2 p =
-        traits.construct_point_2_below_right_implicit_point_2_object()(
-          minx, maxy, FT(2) * r);
+        this->traits.construct_point_2_below_right_implicit_point_2_object()(
+          this->minx, this->maxy, FT(2) * this->r);
       Point_2 q =
-        traits.construct_point_2_above_left_implicit_point_2_object()(
-          maxx, miny, FT(2) * r);
+        this->traits.construct_point_2_above_left_implicit_point_2_object()(
+          this->maxx, this->miny, FT(2) * this->r);
       //!!! start with binary search
       for (Citerator i = sorted.begin(); i != sorted.end(); ++i)
-        if (traits.less_x_2_object()(p, *i) &&
-            traits.less_x_2_object()(*i, q) &&
-            !traits.less_y_2_object()(*i, p) &&
-            !traits.less_y_2_object()(q, *i))
+        if (this->traits.less_x_2_object()(p, *i) &&
+            this->traits.less_x_2_object()(*i, q) &&
+            !this->traits.less_y_2_object()(*i, p) &&
+            !this->traits.less_y_2_object()(q, *i))
           *o++ = *i;
     } else {
-      if (traits.signed_x_distance_2_object()(maxx, minx) > FT(4) * r)
+      if (this->traits.signed_x_distance_2_object()(
+          this->maxx, this->minx) > FT(4) * this->r)
         return o;
       Point_2 p =
-        traits.construct_point_2_above_left_implicit_point_2_object()(
-          maxx, miny, FT(2) * r);
+        this->traits.construct_point_2_above_left_implicit_point_2_object()(
+          this->maxx, this->miny, FT(2) * this->r);
       Point_2 q =
-        traits.construct_point_2_below_right_implicit_point_2_object()(
-          minx, maxy, FT(2) * r);
+        this->traits.construct_point_2_below_right_implicit_point_2_object()(
+          this->minx, this->maxy, FT(2) * this->r);
       //!!! start with binary search
       for (Citerator i = sorted.begin(); i != sorted.end(); ++i)
-        if (!traits.less_x_2_object()(*i, p) &&
-            !traits.less_x_2_object()(q, *i) &&
-            traits.less_y_2_object()(p, *i) &&
-            traits.less_y_2_object()(*i, q))
+        if (!this->traits.less_x_2_object()(*i, p) &&
+            !this->traits.less_x_2_object()(q, *i) &&
+            this->traits.less_y_2_object()(p, *i) &&
+            this->traits.less_y_2_object()(*i, q))
           *o++ = *i;
     }
     return o;
@@ -520,10 +491,9 @@ two_cover_points(
   OutputIterator o,
   bool& ok)
 {
-#ifndef CGAL_CFG_NO_NAMESPACE
   using std::find_if;
   using std::less;
-#endif
+
 
   typedef typename Traits::FT           FT;
   typedef typename Traits::Point_2      Point_2;
@@ -584,11 +554,10 @@ three_cover_points(
   OutputIterator o,
   bool& ok)
 {
-#ifndef CGAL_CFG_NO_NAMESPACE
   using std::find_if;
   using std::less;
   using std::iter_swap;
-#endif
+
   CGAL_optimisation_precondition(!d.empty());
 
   // typedefs:
@@ -687,12 +656,10 @@ OutputIterator
 four_cover_points(Staircases< Traits >& d, OutputIterator o, bool& ok)
 {
 
-  #ifndef CGAL_CFG_NO_NAMESPACE
   using std::less;
   using std::iter_swap;
   using std::find_if;
   using std::back_inserter;
-  #endif
   
   typedef typename Traits::Point_2                  Point_2;
   typedef typename Traits::FT                       FT;

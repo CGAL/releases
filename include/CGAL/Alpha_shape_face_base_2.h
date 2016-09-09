@@ -1,49 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/include/CGAL/Alpha_shape_face_base_2.h,v $
+// $Revision: 1.8 $ $Date: 2003/10/01 19:27:15 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Alpha_shape_face_base_2.h
-// package       : Alpha_shapes_2 (11.19)
-// source        : $RCSfile: Alpha_shape_face_base_2.h,v $
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2002/01/22 11:02:42 $
-// author(s)     : Tran Kai Frank DA
-//
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 
 #ifndef CGAL_ALPHA_SHAPE_FACE_BASE_2_H
 #define CGAL_ALPHA_SHAPE_FACE_BASE_2_H
@@ -52,24 +24,38 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class Gt, class Df >
-class Alpha_shape_face_base_2 : public Df
+template < class Gt, class Fb = Triangulation_face_base_2<Gt> >
+class Alpha_shape_face_base_2 : public Fb
 {
+  typedef typename Fb::Triangulation_data_structure  TDS;
 public:
-  typedef typename Gt::Coord_type Coord_type;
+  typedef TDS                                Triangulation_data_structure;
+  typedef typename TDS::Vertex_handle        Vertex_handle;
+  typedef typename TDS::Face_handle          Face_handle;
+
+  typedef typename Gt::FT                    Coord_type;
   typedef Triple<Coord_type, Coord_type, Coord_type> Interval_3;
 
-  Alpha_shape_face_base_2() 
-    : Df() 
-    {}
+  template < typename TDS2 >
+  struct Rebind_TDS {
+    typedef typename Fb::template Rebind_TDS<TDS2>::Other    Fb2;
+    typedef Alpha_shape_face_base_2<Gt,Fb2>         Other;
+  };
+
+
+private:
+  Interval_3 vec_edge[3];
+  Coord_type A;
+ 
+public:
+  Alpha_shape_face_base_2()  : Fb()     {}
   
-  Alpha_shape_face_base_2(void* v0, void* v1, void* v2)
-    : Df(v0, v1, v2)
-    {}
+  Alpha_shape_face_base_2(Vertex_handle v0, Vertex_handle v1, Vertex_handle v2)
+    : Fb(v0, v1, v2)     {}
   
-  Alpha_shape_face_base_2(void* v0, void* v1, void* v2,
-			  void* n0, void* n1, void* n2)
-    : Df(v0, v1, v2, n0, n1, n2)
+  Alpha_shape_face_base_2(Vertex_handle v0, Vertex_handle v1, Vertex_handle v2,
+			  Face_handle n0, Face_handle n1, Face_handle n2)
+    : Fb(v0, v1, v2, n0, n1, n2)
     {}
 
   const Coord_type & get_alpha() const
@@ -92,9 +78,7 @@ public:
       vec_edge[i]=Inter;
     }
 
-private:
-  Interval_3 vec_edge[3];
-  Coord_type A;
+
 };
 
 CGAL_END_NAMESPACE

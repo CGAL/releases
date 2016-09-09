@@ -1,48 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/Iso_cuboidH3.h
-// package       : H3 (2.49)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2002/02/06 12:35:26 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
- 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H3/include/CGAL/Homogeneous/Iso_cuboidH3.h,v $
+// $Revision: 1.13 $ $Date: 2003/10/21 12:16:18 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
 
 #ifndef CGAL_ISO_CUBOIDH3_H
 #define CGAL_ISO_CUBOIDH3_H
@@ -53,7 +30,7 @@ CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class Iso_cuboidH3
-  : public R_::Iso_cuboid_handle_3
+  : public R_::template Handle<Twotuple<typename R_::Point_3> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::RT                   RT;
@@ -61,16 +38,19 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
+  typedef Twotuple<Point_3>                        rep;
+  typedef typename R_::template Handle<rep>::type  base;
+
 public:
   typedef R_                 R;
 
-  typedef typename R::Iso_cuboid_handle_3             Iso_cuboid_handle_3_;
-  typedef typename Iso_cuboid_handle_3_::element_type Iso_cuboid_ref_3;
-
-  Iso_cuboidH3()
-    : Iso_cuboid_handle_3_(Iso_cuboid_ref_3()) {}
+  Iso_cuboidH3() {}
 
   Iso_cuboidH3(const Point_3& p, const Point_3& q);
+
+  Iso_cuboidH3(const Point_3& left,   const Point_3& right,
+               const Point_3& bottom, const Point_3& top,
+               const Point_3& far_,   const Point_3& close);
 
   Iso_cuboidH3(const RT& min_hx, const RT& min_hy, const RT& min_hz,
                const RT& max_hx, const RT& max_hy, const RT& max_hz, 
@@ -96,7 +76,7 @@ public:
   bool      has_on_bounded_side(const Point_3& p) const;
   bool      has_on_unbounded_side(const Point_3& p) const;
   bool      is_degenerate() const;
-  Bbox_2    bbox() const;
+  Bbox_3    bbox() const;
   FT        xmin() const;
   FT        ymin() const;
   FT        zmin() const;
@@ -158,8 +138,31 @@ Iso_cuboidH3(const typename Iso_cuboidH3<R>::Point_3& p,
       minz = q.hz()*p.hw();
       maxz = p.hz()*q.hw();
   }
-  initialize_with( Iso_cuboid_ref_3 ( Point_3(minx, miny, minz, minw),
-                                      Point_3(maxx, maxy, maxz, maxw) ));
+  initialize_with( rep ( Point_3(minx, miny, minz, minw),
+                         Point_3(maxx, maxy, maxz, maxw) ));
+}
+
+template < class R >
+CGAL_KERNEL_LARGE_INLINE
+Iso_cuboidH3<R>::
+Iso_cuboidH3(const typename Iso_cuboidH3<R>::Point_3& left,
+             const typename Iso_cuboidH3<R>::Point_3& right,
+             const typename Iso_cuboidH3<R>::Point_3& bottom,
+             const typename Iso_cuboidH3<R>::Point_3& top,
+             const typename Iso_cuboidH3<R>::Point_3& far_,
+             const typename Iso_cuboidH3<R>::Point_3& close)
+  : base(rep(Point_3(left.hx()   * bottom.hw() * far_.hw(),
+                     bottom.hy() * left.hw()   * far_.hw(),
+                     far_.hz()   * left.hw()   * bottom.hw(),
+                     left.hw()   * bottom.hw() * far_.hw()),
+             Point_3(right.hx()  * top.hw()    * close.hw(),
+                     top.hy()    * right.hw()  * close.hw(),
+                     close.hz()  * right.hw()  * top.hw(),
+                     right.hw()  * top.hw()    * close.hw())))
+{
+  CGAL_kernel_precondition(!less_x(right, left));
+  CGAL_kernel_precondition(!less_y(top, bottom));
+  CGAL_kernel_precondition(!less_z(close, far_));
 }
 
 template < class R >
@@ -168,8 +171,7 @@ Iso_cuboidH3<R>::
 Iso_cuboidH3(const RT& min_hx, const RT& min_hy, const RT& min_hz,
              const RT& max_hx, const RT& max_hy, const RT& max_hz)
 {
-  initialize_with( 
-     Iso_cuboid_ref_3 ( Point_3(min_hx, min_hy, min_hz, RT(1)),
+  initialize_with( rep( Point_3(min_hx, min_hy, min_hz, RT(1)),
                         Point_3(max_hx, max_hy, max_hz, RT(1)) ));
 }
 
@@ -180,8 +182,8 @@ Iso_cuboidH3(const RT& min_hx, const RT& min_hy, const RT& min_hz,
              const RT& max_hx, const RT& max_hy, const RT& max_hz, 
              const RT& hw)
 {
-  initialize_with( Iso_cuboid_ref_3( Point_3(min_hx, min_hy, min_hz, hw),
-                                     Point_3(max_hx, max_hy, max_hz, hw) ));
+  initialize_with( rep( Point_3(min_hx, min_hy, min_hz, hw),
+                        Point_3(max_hx, max_hy, max_hz, hw) ));
 }
 
 template < class R >
@@ -374,7 +376,7 @@ Iso_cuboidH3<R>::is_degenerate() const
 
 template < class R >
 inline
-Bbox_2
+Bbox_3
 Iso_cuboidH3<R>::bbox() const
 { return  min().bbox() + max().bbox(); }
 

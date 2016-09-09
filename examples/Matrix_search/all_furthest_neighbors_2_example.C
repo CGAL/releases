@@ -1,36 +1,21 @@
-// ============================================================================
+// Copyright (c) 1998-2003  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// This file is part of an example program for CGAL.  This example
-// program may be used, distributed and modified without limitation.
-
-// ----------------------------------------------------------------------
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// file          : examples/Matrix_search/all_furthest_neighbors_2_example.C
-// chapter       : $CGAL_Chapter: Geometric Optimisation $
-// package       : $CGAL_Package: Matrix_search $
-// source        : mon_search.aw
-// revision      : $Revision: 1.52 $
-// revision_date : $Date: 2002/03/25 15:04:51 $
-// author(s)     : Michael Hoffmann
+// $Source: /CVSROOT/CGAL/Packages/Matrix_search/examples/Matrix_search/all_furthest_neighbors_2_example.C,v $
+// $Revision: 1.58 $ $Date: 2003/09/29 08:41:42 $
+// $Name: current_submission $
 //
-// coordinator   : ETH
-//
-// Example program: All Furthest Neighbors for a Convex Polygon
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/Polygon_2.h>
@@ -41,34 +26,26 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-using CGAL::random_convex_set_2;
-using CGAL::all_furthest_neighbors_2;
+typedef double                                    FT;
 
-typedef double                                   FT;
-typedef CGAL::Cartesian< FT >                    R;
-typedef CGAL::Point_2< R >                       Point;
-typedef CGAL::Polygon_traits_2< R >              P_traits;
-typedef vector< Point >                          Point_cont;
-typedef CGAL::Polygon_2< P_traits, Point_cont >  Polygon;
-typedef CGAL::Creator_uniform_2< FT, Point >     Creator;
-typedef CGAL::Random_points_in_square_2< Point, Creator >
-  Point_generator;
-typedef CGAL::Ostream_iterator< int, ostream >   Oiterator;
+struct Kernel : public CGAL::Cartesian<FT> {};
 
-int
-main()
+typedef Kernel::Point_2                           Point;
+typedef std::vector<int>                          Index_cont;
+typedef CGAL::Polygon_2<Kernel>                   Polygon;
+typedef CGAL::Random_points_in_square_2<Point>    Generator;
+typedef CGAL::Ostream_iterator<int,std::ostream>  Oiterator;
+
+int main()
 {
   // generate random convex polygon:
   Polygon p;
-  random_convex_set_2( 10, back_inserter( p), Point_generator( 1));
+  CGAL::random_convex_set_2(10, std::back_inserter(p), Generator(1));
 
   // compute all furthest neighbors:
-  all_furthest_neighbors_2(
-    p.vertices_begin(),
-    p.vertices_end(),
-    Oiterator( cout));
-  cout << endl;
+  CGAL::all_furthest_neighbors_2(p.vertices_begin(), p.vertices_end(),
+                                 Oiterator(std::cout));
+  std::cout << std::endl;
 
   return 0;
 } 

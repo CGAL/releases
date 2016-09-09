@@ -1,56 +1,36 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/DirectionH2.h
-// package       : H2 (2.67)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2002/02/06 12:34:06 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken  
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/DirectionH2.h,v $
+// $Revision: 1.11 $ $Date: 2003/10/21 12:16:09 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
  
 #ifndef CGAL_HOMOGENEOUS_DIRECTION_2_H
 #define CGAL_HOMOGENEOUS_DIRECTION_2_H
+
+#include <CGAL/Threetuple.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class DirectionH2
-  : public R_::Direction_handle_2
+  : public R_::template Handle<Threetuple<typename R_::RT> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
@@ -62,44 +42,43 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Segment_2            Segment_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef typename R_::Direction_handle_2        Direction_handle_2_;
-  typedef typename Direction_handle_2_::element_type  Direction_ref_2;
+  typedef Threetuple<RT>                           rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                                    R;
 
-   DirectionH2()
-      : Direction_handle_2_ ( Direction_ref_2()) {}
+   DirectionH2() {}
 
    DirectionH2(const DirectionH2<R>& d )
-      : Direction_handle_2_ ( d ) {}
+      : base ( d ) {}
 
    DirectionH2(const Point_2 & p )
-      : Direction_handle_2_ ( p) {}
+      : base ( p) {}
 
    DirectionH2(const Vector_2 & v )
-      : Direction_handle_2_ ( v) {}
+      : base ( v) {}
 
    DirectionH2(const Line_2 & l )
-      : Direction_handle_2_ ( l.direction()) {}
+      : base ( l.direction()) {}
 
    DirectionH2(const Ray_2 & r )
-      : Direction_handle_2_ ( r.direction()) {}
+      : base ( r.direction()) {}
 
    DirectionH2(const Segment_2 & s )
-      : Direction_handle_2_ ( s.direction()) {}
+      : base ( s.direction()) {}
 
    DirectionH2(const RT& x, const RT& y)
-      : Direction_handle_2_ ( Direction_ref_2( x, y, RT(1) )) {}
+      : base ( rep( x, y, RT(1) )) {}
 
    // TODO Not documented : should not exist , not used.
    // we should also change Threetuple<RT> -> Twotuple<RT>
    DirectionH2(const RT& x, const RT& y, const RT& w )
    {
      if (w > RT(0)   )
-       initialize_with( Direction_ref_2( x, y, w));
+       initialize_with( rep( x, y, w));
      else
-       initialize_with( Direction_ref_2(-x,-y,-w));
+       initialize_with( rep(-x,-y,-w));
    }
 
     bool    operator==( const DirectionH2<R>& d) const;
@@ -126,10 +105,6 @@ public:
     DirectionH2<R> perpendicular(const Orientation &o) const;
     DirectionH2<R> transform(const Aff_transformation_2 &) const;
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template <class R >
 CGAL_KERNEL_INLINE
@@ -163,10 +138,6 @@ DirectionH2<R>::delta(int i) const
       return dx();
   return dy();
 }
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

@@ -1,55 +1,33 @@
-// ======================================================================
-//
-// Copyright (c) 1999,2000,2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999,2000,2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : src/Geomview_stream.C
-// package       : Geomview (3.32)
-// revision      : $Revision: 1.49 $
-// revision_date : $Date: 2001/10/17 15:43:23 $
-// author(s)     : Andreas Fabri, Herve Bronnimann, Sylvain Pion
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
+// $Source: /CVSROOT/CGAL/Packages/Geomview/src/Geomview_stream.C,v $
+// $Revision: 1.56 $ $Date: 2003/10/21 12:16:05 $
+// $Name: current_submission $
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Andreas Fabri, Herve Bronnimann, Sylvain Pion
 
 // Geomview doesn't work on M$ at the moment, so we don't compile this file.
-#if !defined(__BORLANDC__) && !defined(_MSC_VER) && !defined(__MWERKS__)
+#if !defined(__BORLANDC__) && !defined(_MSC_VER) && \
+    !defined(__MWERKS__) && !defined(__MINGW32__)
 
 #include <CGAL/basic.h>
 
-#include <strstream> // deprecated
+#include <sstream>
 #include <csignal>
 #include <cerrno>
 #include <cstring>
@@ -235,7 +213,7 @@ Geomview_stream::look_recenter()
 }
 
 Geomview_stream&
-Geomview_stream::operator<<(std::string s)
+Geomview_stream::operator<<(const std::string & s)
 {
     if ((int)s.length() != ::write(out, s.data(), s.length())) {
         std::cerr << "write problem in the pipe while sending data to geomview"
@@ -259,12 +237,44 @@ Geomview_stream::operator<<(int i)
         trace(i);
     } else {
         // transform the int in a character sequence and put whitespace around
-        std::ostrstream str;
+        std::ostringstream str;
         str << i << ' ' << std::ends;
-        *this << str.str();
+        *this << str.str().c_str();
     }
 
     return *this;
+}
+
+Geomview_stream&
+Geomview_stream::operator<<(unsigned int i)
+{
+    // Depending on the mode chosen
+    if (get_binary_mode()) {
+        // we write raw binary data to the stream.
+        unsigned int num = i;
+        I_swap_to_big_endian(num);
+        ::write(out, (char*)&num, sizeof(num));
+        trace(i);
+    } else {
+        // transform the int in a character sequence and put whitespace around
+        std::ostringstream str;
+        str << i << ' ' << std::ends;
+        *this << str.str().c_str();
+    }
+
+    return *this;
+}
+
+Geomview_stream&
+Geomview_stream::operator<<(long i)
+{
+    return operator<<((int) i);
+}
+
+Geomview_stream&
+Geomview_stream::operator<<(unsigned long i)
+{
+    return operator<<((unsigned int) i);
 }
 
 Geomview_stream&
@@ -278,9 +288,9 @@ Geomview_stream::operator<<(double d)
         trace(f);
     } else {
         // 'copy' the float in a string and append a blank
-        std::ostrstream str;
+        std::ostringstream str;
         str << f << ' ' << std::ends;
-        *this << str.str();
+        *this << str.str().c_str();
     }
     return *this;
 }
@@ -527,8 +537,7 @@ void
 Geomview_stream::parse_point(const char* pickpoint,
 		     double &x, double &y, double &z, double &w)
 {
-    // std::stringstream ss;
-    std::strstream ss;
+    std::stringstream ss;
     ss << pickpoint << std::ends;
 
     char parenthesis;
@@ -538,7 +547,7 @@ Geomview_stream::parse_point(const char* pickpoint,
 std::string
 Geomview_stream::get_new_id(const std::string & s)
 {
-    std::ostrstream str;
+    std::ostringstream str;
     str << s << id[s]++ << std::ends;
     return str.str();
 }

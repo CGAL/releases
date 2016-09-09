@@ -1,56 +1,36 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/Plane_3.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.33 $
-// revision_date : $Date: 2002/02/06 12:32:37 $
-// author(s)     : Andreas Fabri
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h,v $
+// $Revision: 1.42 $ $Date: 2003/10/21 12:14:19 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Andreas Fabri
 
 #ifndef CGAL_CARTESIAN_PLANE_3_H
 #define CGAL_CARTESIAN_PLANE_3_H
+
+#include <CGAL/Fourtuple.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class PlaneC3
-  : public R_::Plane_handle_3
+  : public R_::template Handle<Fourtuple<typename R_::FT> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
@@ -63,15 +43,16 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Segment_3            Segment_3;
   typedef typename R_::Plane_3              Plane_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
+  typedef typename R_::Construct_point_3    Construct_point_3;
+  typedef typename R_::Construct_point_2    Construct_point_2;
 
-  typedef typename R_::Plane_handle_3            base;
-  typedef typename base::element_type            rep;
+  typedef Fourtuple<FT>	                           rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                                     R;
 
-  PlaneC3()
-    : base(rep()) {}
+  PlaneC3() {}
 
   PlaneC3(const Point_3 &p, const Point_3 &q, const Point_3 &r)
     : base(plane_from_points(p, q, r)) {}
@@ -145,11 +126,13 @@ public:
 #ifndef CGAL_NO_DEPRECATED_CODE
   bool         has_on_boundary(const Point_3 &p) const
   {
-    return has_on(p);
+      bool THIS_FUNCTION_IS_DEPRECATED; // Use has_on instead.
+      return has_on(p);
   }
   bool         has_on_boundary(const Line_3 &l) const
   {
-    return has_on(l);
+      bool THIS_FUNCTION_IS_DEPRECATED; // Use has_on instead.
+      return has_on(l);
   }
 #endif // CGAL_NO_DEPRECATED_CODE
   bool         has_on_positive_side(const Point_3 &l) const;
@@ -166,10 +149,6 @@ public:
 
   bool         is_degenerate() const;
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -226,23 +205,14 @@ template < class R >
 typename PlaneC3<R>::Vector_3
 PlaneC3<R>::base1() const
 {
-  if ( CGAL_NTS is_zero(a()) )  // parallel to x-axis
-      return Vector_3(FT(1), FT(0), FT(0));
-
-  if ( CGAL_NTS is_zero(b()) )  // parallel to y-axis
-      return Vector_3(FT(0), FT(1), FT(0));
-
-  if ( CGAL_NTS is_zero(c()) )  // parallel to z-axis
-      return Vector_3(FT(0), FT(0), FT(1));
-
-  return Vector_3(-b(), a(), FT(0));
+  return R().construct_base_vector_3_object()(*this, 1);
 }
 
 template < class R >
 typename PlaneC3<R>::Vector_3
 PlaneC3<R>::base2() const
 {
-  return cross_product(orthogonal_vector(), base1());
+  return R().construct_base_vector_3_object()(*this, 2);
 }
 
 template < class R >
@@ -251,11 +221,11 @@ PlaneC3<R>::
 to_plane_basis(const typename PlaneC3<R>::Point_3 &p) const
 {
   FT alpha, beta, gamma;
-
+  Construct_point_3 construct_point_3;
   solve(base1(), base2(), orthogonal_vector(), p - point(),
 	alpha, beta, gamma);
 
-  return Point_3(alpha, beta, gamma);
+  return construct_point_3(alpha, beta, gamma);
 }
 
 template < class R >
@@ -264,11 +234,12 @@ PlaneC3<R>::
 to_2d(const typename PlaneC3<R>::Point_3 &p) const
 {
   FT alpha, beta, gamma;
+  Construct_point_2 construct_point_2;
 
   solve(base1(), base2(), orthogonal_vector(), p - point(),
 	alpha, beta, gamma);
 
-  return Point_2(alpha, beta);
+  return construct_point_2(alpha, beta);
 }
 
 template < class R >
@@ -277,7 +248,7 @@ typename PlaneC3<R>::Point_3
 PlaneC3<R>::
 to_3d(const typename PlaneC3<R>::Point_2 &p) const
 {
-  return point() + p.x() * base1() + p.y() * base2();
+  return R().construct_lifted_point_3_object()(*this, p);
 }
 
 template < class R >
@@ -382,10 +353,6 @@ operator>>(std::istream &is, PlaneC3<R> &p)
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_PLANEC3
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

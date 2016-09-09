@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/constructions/kernel_ftC2.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2001/06/19 14:30:37 $
-// author(s)     : Sven Schoenherr, Hervé Brönnimann, Sylvain Pion
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/constructions/kernel_ftC2.h,v $
+// $Revision: 1.10 $ $Date: 2003/10/21 12:14:37 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Sven Schoenherr, Hervé Brönnimann, Sylvain Pion
 
 #ifndef CGAL_CONSTRUCTIONS_KERNEL_FTC2_H
 #define CGAL_CONSTRUCTIONS_KERNEL_FTC2_H
@@ -95,7 +73,7 @@ circumcenterC2( const FT &px, const FT &py,
                 const FT &rx, const FT &ry,
                 FT &x, FT &y )
 {
-  circumcenter_translateC2(qx-px, qy-py, rx-px, ry-py, x, y);
+  circumcenter_translateC2<FT>(qx-px, qy-py, rx-px, ry-py, x, y);
   x += px;
   y += py;
 }
@@ -243,9 +221,9 @@ template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 FT
 squared_radiusC2(const FT &px, const FT &py,
-                       const FT &qx, const FT &qy,
-                       const FT &rx, const FT &ry,
-                       FT &x, FT &y )
+                 const FT &qx, const FT &qy,
+                 const FT &rx, const FT &ry,
+                 FT &x, FT &y )
 {
   circumcenter_translateC2(qx-px, qy-py, rx-px, ry-py, x, y);
   FT r2 = CGAL_NTS square(x) + CGAL_NTS square(y);
@@ -258,21 +236,30 @@ template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 FT
 squared_radiusC2(const FT &px, const FT &py,
-                       const FT &qx, const FT &qy,
-                       const FT &rx, const FT &ry)
+                 const FT &qx, const FT &qy,
+                 const FT &rx, const FT &ry)
 {
   FT x, y;
-  circumcenter_translateC2(qx-px, qy-py, rx-px, ry-py, x, y);
+  circumcenter_translateC2<FT>(qx-px, qy-py, rx-px, ry-py, x, y);
   return CGAL_NTS square(x) + CGAL_NTS square(y);
 }
 
 template < class FT >
-CGAL_KERNEL_INLINE
+inline
 FT
 squared_distanceC2( const FT &px, const FT &py,
                     const FT &qx, const FT &qy)
 {
-  return CGAL_NTS square(px-qx) + CGAL_NTS square(py-qy);
+  return CGAL_NTS square<FT>(px-qx) + CGAL_NTS square<FT>(py-qy);
+}
+
+template < class FT >
+inline
+FT
+squared_radiusC2(const FT &px, const FT &py,
+                 const FT &qx, const FT &qy)
+{
+  return squared_distanceC2(px, py,qx, qy)/FT(4);
 }
 
 template < class FT >
@@ -303,7 +290,7 @@ scaled_distance_to_lineC2( const FT &px, const FT &py,
                            const FT &qx, const FT &qy,
                            const FT &rx, const FT &ry)
 {
-  return det2x2_by_formula(px-rx,py-ry,qx-rx,qy-ry);
+  return det2x2_by_formula<FT>(px-rx, py-ry, qx-rx, qy-ry);
 }
 
 CGAL_END_NAMESPACE

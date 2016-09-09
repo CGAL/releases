@@ -1,49 +1,22 @@
-// ======================================================================
+// Copyright (c) 1998, 2001, 2003  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1998, 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_hierarchy_vertex_base_3.h,v $
+// $Revision: 1.6 $ $Date: 2003/09/18 10:26:31 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_hierarchy_vertex_base_3.h
-// package       : Triangulation_3 (1.114)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/06/21 18:03:30 $
-// author(s)     : Olivier Devillers
-//                 Sylvain Pion
-//
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
+//                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 
 #ifndef CGAL_TRIANGULATION_HIERARCHY_VERTEX_BASE_3_H
 #define CGAL_TRIANGULATION_HIERARCHY_VERTEX_BASE_3_H
@@ -53,31 +26,40 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class Vbb>
+template < class Vbb >
 class Triangulation_hierarchy_vertex_base_3
   : public Vbb
 {
+  typedef Vbb                                           Base;
+  typedef typename Base::Triangulation_data_structure   Tds;
 public:
-  typedef Vbb                      V_Base;
-  typedef typename V_Base::Point   Point;
+  typedef typename Tds::Vertex_handle                   Vertex_handle;
+  typedef typename Tds::Cell_handle                     Cell_handle;
+  typedef typename Base::Point                          Point;
+
+  template < typename TDS2 >
+  struct Rebind_TDS {
+    typedef typename Vbb::template Rebind_TDS<TDS2>::Other      Vb2;
+    typedef Triangulation_hierarchy_vertex_base_3<Vb2>          Other;
+  };
 
   Triangulation_hierarchy_vertex_base_3()
-    : V_Base(), _up(0), _down(0) {}
+    : Base(), _up(), _down() {}
 
-  Triangulation_hierarchy_vertex_base_3(const Point & p, void* f)
-    : V_Base(p,f), _up(0), _down(0) {}
+  Triangulation_hierarchy_vertex_base_3(const Point & p, Cell_handle f)
+    : Base(p,f), _up(), _down() {}
 
   Triangulation_hierarchy_vertex_base_3(const Point & p)
-    : V_Base(p), _up(0), _down(0) {}
+    : Base(p), _up(), _down() {}
 
-  void* up() const {return _up;}
-  void* down() const {return _down;}
-  void set_up(void *u) {_up=u;}
-  void set_down(void *d) {if (this) _down=d;}
+  Vertex_handle up()   const { return _up; }
+  Vertex_handle down() const { return _down; }
+  void set_up(Vertex_handle u)   { _up=u; }
+  void set_down(Vertex_handle d) { if (this) _down=d; }
 
 private:
-  void* _up;    // same vertex one level above
-  void* _down;  // same vertex one level below
+  Vertex_handle _up;    // same vertex one level above
+  Vertex_handle _down;  // same vertex one level below
 };
 
 CGAL_END_NAMESPACE

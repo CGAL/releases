@@ -1,3 +1,4 @@
+# Created by the script create_makefile
 # This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
@@ -5,86 +6,61 @@
 #---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
 
-#CGAL_MAKEFILE = ENTER_YOUR_INCLUDE_MAKEFILE_HERE
-
+# CGAL_MAKEFILE = ENTER_YOUR_INCLUDE_MAKEFILE_HERE
 include $(CGAL_MAKEFILE)
 
 #---------------------------------------------------------------------#
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-TESTSUITE_CXXFLAGS =
-
-CXXFLAGS = -I../../include\
-           $(TESTSUITE_CXXFLAGS) \
-	   $(EXTRA_FLAGS) \
+CXXFLAGS = \
            $(CGAL_CXXFLAGS) \
-	   $(LONG_NAME_PROBLEM_CXXFLAGS)
-
-#long names flag for Sun+egcs platform
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(TESTSUITE_LIBPATH) \
           $(CGAL_LIBPATH)
 
 LDFLAGS = \
-          $(TESTSUITE_LDFLAGS) \
-          $(CGAL_LDFLAGS) \
-	  $(LONG_NAME_PROBLEM_LDFLAGS)
-
-#long names flag for Sun+egcs platform
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
+          $(CGAL_LDFLAGS)
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
 all:            \
-                example1 \
-                example2 \
-                example3
-#                example4 \
-#		example5 \
-#		example6
+                example1$(EXE_EXT) \
+                example2$(EXE_EXT) \
+                example3$(EXE_EXT) \
+                example4$(EXE_EXT) 
 
-example1: example1$(OBJ_EXT)
+example1$(EXE_EXT): example1$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example1 example1$(OBJ_EXT) $(LDFLAGS)
 
-example2: example2$(OBJ_EXT)
+example2$(EXE_EXT): example2$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example2 example2$(OBJ_EXT) $(LDFLAGS)
 
-example3: example3$(OBJ_EXT)
+example3$(EXE_EXT): example3$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example3 example3$(OBJ_EXT) $(LDFLAGS)
 
-#example4: example4$(OBJ_EXT)
-#	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example4 example4$(OBJ_EXT) $(LDFLAGS)
+example4$(EXE_EXT): example4$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example4 example4$(OBJ_EXT) $(LDFLAGS)
 
-#example5: example5$(OBJ_EXT)
-#	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example5 example5$(OBJ_EXT) $(LDFLAGS)
-
-#example6: example6$(OBJ_EXT)
-#	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example6 example6$(OBJ_EXT) $(LDFLAGS)
-
-
-clean:
-	rm -f -r *$(OBJ_EXT) \
-	 	   ii_files \
-                   example1 \
-                   example2 \
-                   example3 \
-                   example4 \
-		   example5 \
-		   example6 \
-                   core \
-		   *.exe *.tds
+clean: \
+                   example1.clean \
+                   example2.clean \
+                   example3.clean \
+                   example4.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
 .C$(OBJ_EXT):
-	$(CGAL_CXX) $(CXXFLAGS) -c $<
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

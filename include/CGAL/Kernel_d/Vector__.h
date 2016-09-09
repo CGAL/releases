@@ -1,58 +1,31 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Kernel_d/Vector__.h
-// package       : Kernel_d (0.9.68)
-// chapter       : Kernel
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2002/05/03 11:46:44 $
+// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Vector__.h,v $
+// $Revision: 1.18 $ $Date: 2003/10/21 12:19:32 $
+// $Name: current_submission $
 //
-// author(s)     : Michael Seel
-// coordinator   : Susan Hert
-//
-// implementation: Higher dimensional geometry
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
 #ifndef CGAL_VECTOR___H
 #define CGAL_VECTOR___H
 
 #include <CGAL/basic.h>
 #include <CGAL/memory.h>
-#include <CGAL/Kernel_d/d_utils.h>
 
 #undef _DEBUG
 #define _DEBUG 51
@@ -67,21 +40,8 @@
 
 namespace CGALLA {
 
-#if defined(_MSC_VER)//  let's only do it  for Microsoft  
-#define CGAL_SIMPLE_INTERFACE
-#endif
-
 template <class NT_, class AL_> class Vector_;
 template <class NT_, class AL_> class Matrix_;
-
-#define FIXIT(T) \
-Vector_(T f, T l) \
-{ int dist(0); T ff = f; while(ff++ != l) ++dist;\
-  d_ = dist;\
-  allocate_vec_space(v_,d_);\
-  iterator it = begin();\
-  while (f != l) { *it = NT(*f); ++it; ++f; }\
-}     
 
 /*{\Msubst
 <NT_,AL_>#
@@ -134,8 +94,6 @@ protected:
   NT* v_; int d_;
   static allocator_type MM;
 
-#if ! defined( CGAL_SIMPLE_INTERFACE ) //&& ! defined(__BORLANDC__)
-
   inline void allocate_vec_space(NT*& vi, int di)
   {
   /* We use this procedure to allocate memory. We first get an appropriate 
@@ -159,23 +117,6 @@ protected:
     MM.deallocate(vi, di);
     vi = (NT*)0;
   }
-
-#else
-
-  inline void allocate_vec_space(NT*& vi, int di)
-  {
-    vi = new NT[di];
-    NT* p = vi + di - 1;
-    while (p >= vi) { *p = NT(0);  p--; }
-  }
-
-  inline void deallocate_vec_space(NT*& vi, int)
-  {
-    delete [] vi;
-    vi = (NT*)0;
-  }
-
-#endif // CGAL_SIMPLE_INTERFACE
 
 inline void 
 check_dimensions(const Vector_<NT_,AL_>& vec) const
@@ -217,31 +158,23 @@ Vector_(int d, const NT& x)
   }
 }
 
-#ifdef CGAL_SIMPLE_INTERFACE
-
-FIXIT(NT*)
-FIXIT(const NT*)
-FIXIT(int*)
-FIXIT(const int*)
-//FIXIT(std::vector<NT>::interator)
-//FIXIT(std::vector<NT>::const_interator)
-//FIXIT(typename std::list<NT>::interator)
-//FIXIT(std::list<NT>::const_interator)
-
-#else     
-
 template <class Forward_iterator>
 Vector_(Forward_iterator first, Forward_iterator last)
 /*{\Mcreate creates an instance |\Mvar| of type |\Mname|; 
 |\Mvar| is initialized to the vector with entries
 |set [first,last)|. \require |Forward_iterator| has value type |NT|.}*/
-{ d_ = std::distance(first,last);
+{ 
+#if defined _MSC_VER && _MSC_VER == 1300
+  d_ = 0;
+  Forward_iterator fit = first;
+  while(fit++!=last) d_++;
+#else
+  d_ = std::distance(first, last);
+#endif
   allocate_vec_space(v_,d_);
   iterator it = begin();
   while (first != last) { *it = *first; ++it; ++first; }
 }
-
-#endif
 
 Vector_(const Vector_<NT_,AL_>& p)
 { d_ = p.d_;
@@ -253,6 +186,9 @@ Vector_(const Vector_<NT_,AL_>& p)
 
 Vector_<NT_,AL_>& operator=(const Vector_<NT_,AL_>& vec)
 { 
+  if (&vec == this)
+    return *this;
+
   register int n = vec.d_;
   if (n != d_) { 
     if (d_ > 0) deallocate_vec_space(v_,d_);
@@ -471,13 +407,29 @@ template <class NT_, class AL_>
 std::ostream& operator<<(std::ostream& os, const Vector_<NT_,AL_>& v)
 /*{\Xbinopfunc  writes |\Mvar| componentwise to the output stream $O$.}*/
 { /* syntax: d x_0 x_1 ... x_d-1 */
-  CGAL::print_d<NT_> prt(&os);
-  if (os.iword(CGAL::IO::mode)==CGAL::IO::PRETTY) os << "LA::Vector(";
-  prt(v.dimension());
-  if (os.iword(CGAL::IO::mode)==CGAL::IO::PRETTY) { os << " ["; prt.reset(); }
-  std::for_each(v.begin(),v.end(),prt);
-  if (os.iword(CGAL::IO::mode)==CGAL::IO::PRETTY) os << "])";
-  return os;
+    int d = v.dimension();
+    switch (os.iword(CGAL::IO::mode)) {
+    case CGAL::IO::BINARY:
+        CGAL::write( os, d);
+        for ( int i = 0; i < d; ++i)
+            CGAL::write( os, v[i]);
+        break;
+    case CGAL::IO::ASCII:
+        os << d;
+        for ( int i = 0; i < d; ++i)
+            os << ' ' << v[i];
+        break;
+    case CGAL::IO::PRETTY:
+        os << "LA::Vector(" << d << " [";
+        for ( int i = 0; i < d; ++i) {
+            if ( i > 0)
+                os << ',' << ' ';
+            os << v[i];
+        }
+        os << "])";
+        break;
+    }
+    return os;
 }
 
 template <class NT_, class AL_> 
@@ -488,8 +440,11 @@ std::istream& operator>>(std::istream& is, Vector_<NT_,AL_>& v)
   switch (is.iword(CGAL::IO::mode)) {
     case CGAL::IO::ASCII :
     case CGAL::IO::BINARY :
-      is >> d; v = Vector_<NT_,AL_>(d);
-      CGAL::copy_n(std::istream_iterator<NT_>(is),d,v.begin());
+      is >> d; 
+      v = Vector_<NT_,AL_>(d);
+      for ( int i = 0; i < d; ++i) {
+          is >> v[i];
+      }
       break;
     default:
       std::cerr<<"\nStream must be in ascii or binary mode"<<std::endl;

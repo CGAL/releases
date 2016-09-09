@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/Partition_opt_cvx_edge.h,v $
+// $Revision: 1.11 $ $Date: 2003/10/08 21:51:37 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Partition_opt_cvx_edge.h
-// package       : Partition_2 (1.38)
-// chapter       : Planar Polygon Partitioning
-//
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2002/03/19 20:34:37 $
-//
-// author(s)     : Susan Hert
-//
-// coordinator   : MPI (Susan Hert)
-//
-// implementation: Edge used in optimal convex partitioning algorithm.
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
 #ifndef CGAL_PARTITION_OPT_CVX_EDGE_H
 #define CGAL_PARTITION_OPT_CVX_EDGE_H
@@ -89,15 +58,15 @@ public:
                   const Point_2_& p4, const Point_2_& p5, const Point_2_& p6,
                   const Traits& traits)
    { 
-      typedef typename Traits::Leftturn_2     Leftturn_2;
-      Leftturn_2 leftturn = traits.leftturn_2_object();
+      typedef typename Traits::Left_turn_2     Left_turn_2;
+      Left_turn_2 left_turn = traits.left_turn_2_object();
 
       _validity = PARTITION_OPT_CVX_NOT_VALID;
 
-      Turn_reverser<Point_2_, Leftturn_2>  rightturn(leftturn);
-      if (rightturn(p1, p2, p3))
+      Turn_reverser<Point_2_, Left_turn_2>  right_turn(left_turn);
+      if (right_turn(p1, p2, p3))
          _validity = PARTITION_OPT_CVX_START_VALID;
-      if (rightturn(p4, p5, p6))
+      if (right_turn(p4, p5, p6))
          if (_validity == PARTITION_OPT_CVX_START_VALID) 
             _validity = PARTITION_OPT_CVX_BOTH_VALID;
          else _validity = PARTITION_OPT_CVX_END_VALID;
@@ -119,6 +88,7 @@ private:
    Partition_opt_cvx_diagonal_list _solution;
 };
 
+inline
 std::ostream& operator<<(std::ostream& os, const Partition_opt_cvx_edge& g)
 {
    if (g.is_done()) os << "1";

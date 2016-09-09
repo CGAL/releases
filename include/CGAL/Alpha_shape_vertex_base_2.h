@@ -1,49 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/include/CGAL/Alpha_shape_vertex_base_2.h,v $
+// $Revision: 1.7 $ $Date: 2003/10/01 19:27:16 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Alpha_shape_vertex_base_2.h
-// package       : Alpha_shapes_2 (11.19)
-// source        : $RCSfile: Alpha_shape_vertex_base_2.h,v $
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1999/11/05 16:37:23 $
-// author(s)     : Tran Kai Frank DA
-//
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 
 #ifndef CGAL_ALPHA_SHAPE_VERTEX_BASE_2_H
 #define CGAL_ALPHA_SHAPE_VERTEX_BASE_2_H
@@ -55,34 +27,40 @@
 CGAL_BEGIN_NAMESPACE
 //-------------------------------------------------------------------
 
-template <class Gt>
-class Alpha_shape_vertex_base_2 : public
-Triangulation_vertex_base_2<Gt> 
+template <class Gt, class Vb = Triangulation_vertex_base_2<Gt> >
+class Alpha_shape_vertex_base_2 : public Vb
 {
+  typedef typename Vb::Triangulation_data_structure  TDS;
+public:
+  typedef TDS                             Triangulation_data_structure;
+  typedef typename TDS::Vertex_handle     Vertex_handle;
+  typedef typename TDS::Face_handle       Face_handle;
 
+  typedef typename Gt::FT                Coord_type;
+  typedef std::pair< Coord_type, Coord_type >    Interval2;
+  typedef typename Vb::Point                   Point;
+
+  template < typename TDS2 >
+  struct Rebind_TDS {
+    typedef typename Vb::template Rebind_TDS<TDS2>::Other    Vb2;
+    typedef Alpha_shape_vertex_base_2 <Gt,Vb2>         Other;
+  };
 private:
-  typedef typename Gt::Coord_type Coord_type;
-  typedef std::pair< Coord_type, Coord_type > Interval2;
+  Interval2 I;
 
 public:
-  typedef typename Triangulation_vertex_base_2<Gt>::Point Point;
-  
   Alpha_shape_vertex_base_2()
-    : Triangulation_vertex_base_2<Gt>() 
+    : Vb() 
     {}
   
   Alpha_shape_vertex_base_2(const Point & p)
-    : Triangulation_vertex_base_2<Gt>(p) 
+    : Vb(p) 
     {}
   
-  Alpha_shape_vertex_base_2(const Point & p, void* f)
-    : Triangulation_vertex_base_2<Gt>(p, f) 
+  Alpha_shape_vertex_base_2(const Point & p, Face_handle f)
+    : Vb(p, f) 
     {}
 
-
-private:
-
-  Interval2 I;
 
 public:
 

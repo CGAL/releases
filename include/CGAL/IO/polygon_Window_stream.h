@@ -1,48 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/IO/polygon_Window_stream.h
-// package       : Polygon (4.8.1)
-// source        :
-// revision      : 1.8a
-// revision_date : 13 Mar 1998
-// author(s)     : Wieger Wesselink
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : Utrecht University
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/IO/polygon_Window_stream.h,v $
+// $Revision: 1.7 $ $Date: 2003/10/21 12:22:51 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Wieger Wesselink, Geert-Jan Giezeman, Matthias Baesken
 
 // Window_stream I/O operators
 // ===========================
@@ -53,6 +30,12 @@
 #ifndef CGAL_WINDOW_STREAM_POLYGON_2_H
 #define CGAL_WINDOW_STREAM_POLYGON_2_H
 
+
+#if defined(CGAL_USE_CGAL_WINDOW)
+#include <list>
+#endif
+
+
 CGAL_BEGIN_NAMESPACE
 
 template <class Traits, class Container>
@@ -61,7 +44,52 @@ operator<<(Window_stream& ws,
            const Polygon_2<Traits,Container> &polygon)
 {
   typedef typename Polygon_2<Traits,Container>::Edge_const_circulator EI;
+  typedef typename Traits::Point_2  Point_2;
+  
   EI e = polygon.edges_circulator();
+  
+#if defined(CGAL_USE_CGAL_WINDOW)
+  CGAL::color cl = ws.get_fill_color();
+  
+  if (cl != CGAL::invisible) { 
+    std::list<CGAL::window_point> LP;
+      
+    if (e != NULL) {
+     EI end = e;
+     do {
+      Point_2 p = (*e).source();
+      double x = CGAL::to_double(p.x());
+      double y = CGAL::to_double(p.y());      
+     
+      LP.push_back(CGAL::window_point(x,y));
+      ++e;
+      } while (e != end);
+    }
+    
+    ws.draw_filled_polygon(LP,cl);    
+  }
+#else  
+  leda_color cl = ws.get_fill_color();
+  
+  if (cl != leda_invisible) { // draw filled polygon ...
+    leda_list<leda_point> LP;
+      
+    if (e != NULL) {
+     EI end = e;
+     do {
+      Point_2 p = (*e).source();
+      double x = CGAL::to_double(p.x());
+      double y = CGAL::to_double(p.y());      
+     
+      LP.append(leda_point(x,y));
+      ++e;
+      } while (e != end);
+    }
+    
+    ws.draw_filled_polygon(LP,cl);    
+  }
+#endif  
+  else {
   if (e != NULL) {
     EI end = e;
     do {
@@ -70,6 +98,8 @@ operator<<(Window_stream& ws,
       ++e;
       } while (e != end);
     }
+  }
+  
   return ws;
 }
 
@@ -77,4 +107,3 @@ CGAL_END_NAMESPACE
 
 #endif // CGAL_WINDOW_STREAM_POLYGON_2_H
 #endif // CGAL_POLYGON_2_H
-

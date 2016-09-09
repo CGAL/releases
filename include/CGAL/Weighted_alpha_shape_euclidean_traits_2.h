@@ -1,49 +1,22 @@
-// ======================================================================
+// Copyright (c) 1997  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/include/CGAL/Weighted_alpha_shape_euclidean_traits_2.h,v $
+// $Revision: 1.16 $ $Date: 2003/10/01 19:27:16 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Weighted_alpha_shape_euclidean_traits_2.h
-// package       : Alpha_shapes_2 (11.19)
-// source        : $RCSfile: Weighted_alpha_shape_euclidean_traits_2.h,v $
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 2001/12/05 11:08:53 $
-// author(s)     : Tran Kai Frank DA
-//
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
+//                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>
 
 #ifndef CGAL_WEIGHTED_ALPHA_SHAPE_EUCLIDEAN_TRAITS_H
 #define CGAL_WEIGHTED_ALPHA_SHAPE_EUCLIDEAN_TRAITS_H
@@ -52,8 +25,8 @@
 
 #include <CGAL/squared_distance_2.h>
 
-#include <CGAL/in_smallest_orthogonalcircleC2.h>
-#include <CGAL/squared_radius_smallest_orthogonalcircleC2.h>
+#include <CGAL/predicates/in_smallest_orthogonalcircle_ftC2.h>
+#include <CGAL/constructions/squared_radius_smallest_orthogonalcircle_ftC2.h>
 
 #include <CGAL/Regular_triangulation_euclidean_traits_2.h>
 
@@ -63,37 +36,76 @@ CGAL_BEGIN_NAMESPACE
 
 //------------------ Function Objects----------------------------------
 
-template < class return_type, class T >
-class Compute_squared_radius_orthogonalcircle_2
+template < class return_type, class K >
+class Compute_squared_radius_orthogonalcircleC2
 {
 public:
   typedef return_type result_type;
-  
+  typedef Arity_tag< 3 >   Arity;
+  typedef typename K::Point T;
+
   result_type operator()(const T& p, const T& q, const T& r)
-    {
-      return std::max
-	(return_type(0), CGAL::squared_radius_orthogonalcircle(p, q, r));
-    }
+  {
+    typedef typename  K::FT FT;
+    FT px(p.point().x());
+    FT py(p.point().y());
+    FT pw(p.weight());
+    FT qx(q.point().x());
+    FT qy(q.point().y());
+    FT qw(q.weight());
+    FT rx(r.point().x());
+    FT ry(r.point().y());
+    FT rw(r.weight()); 
+    
+    result_type res = squared_radius_orthogonalcircleC2(px, py, pw,
+							qx, qy, qw,
+							rx, ry, rw);
+      
+    return max(return_type(0), res);
+  }
 
   result_type operator()(const T& p, const T& q)
     {
-      return std::max
-	(return_type(0), CGAL::squared_radius_smallest_orthogonalcircle(p, q));
+      typedef typename  K::FT FT;
+      FT px(p.point().x());
+      FT py(p.point().y());
+      FT pw(p.weight());
+      FT qx(q.point().x());
+      FT qy(q.point().y());
+      FT qw(q.weight());
+  
+      result_type res =  squared_radius_smallest_orthogonalcircleC2(px, py, pw,
+								    qx, qy, qw);
+      return max(return_type(0), res);
     }
 };
 
 //-------------------------------------------------------------------
 
-template < class T >
-class Side_of_bounded_orthogonalcircle_2
+template < class K >
+class Side_of_bounded_orthogonalcircleC2
 {
 public:
   typedef Bounded_side result_type;
-  
-   result_type operator()(const T& p, const T& q, const T& t)
-    {  
-      return CGAL::in_smallest_orthogonalcircle(p, q, t);
-    }
+  typedef Arity_tag< 3 >   Arity;
+  typedef typename K::Point Point;
+  result_type operator()(const Point& p, const Point& q, const Point& t)
+  {  
+    typedef typename K::FT FT;
+    FT px(p.point().x());
+    FT py(p.point().y());
+    FT pw(p.weight());
+    FT qx(q.point().x());
+    FT qy(q.point().y());
+    FT qw(q.weight());
+    FT tx(t.point().x());
+    FT ty(t.point().y());
+    FT tw(t.weight());
+    
+    return in_smallest_orthogonalcircleC2(px, py, pw,
+					  qx, qy, qw,
+					  tx, ty, tw);
+  }
 };
 
 //------------------ Traits class -------------------------------------
@@ -105,14 +117,15 @@ Regular_triangulation_euclidean_traits_2<R, typename R::FT>
 
 public: 
   
-  typedef typename R::FT Coord_type;
+  typedef Weighted_alpha_shape_euclidean_traits_2<R> Self;
+  typedef typename R::FT FT;
   typedef typename 
    Regular_triangulation_euclidean_traits_2<R, typename R::FT>::Weighted_point 
      Point;
 
-  typedef CGAL::Compute_squared_radius_orthogonalcircle_2<Coord_type, Point>
+  typedef CGAL::Compute_squared_radius_orthogonalcircleC2<FT, Self>
   Compute_squared_radius_orthogonalcircle_2;
-  typedef CGAL::Side_of_bounded_orthogonalcircle_2<Point>
+  typedef CGAL::Side_of_bounded_orthogonalcircleC2<Self>
   Side_of_bounded_orthogonalcircle_2;
   
   //------------------------------------------------------------------

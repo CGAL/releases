@@ -1,50 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/circulator.h
-// package       : Circulator (3.26)
-// chapter       : $CGAL_Chapter: Circulators $
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 2002/04/15 11:50:50 $
-// author(s)     : Lutz Kettner
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : INRIA, Sophia Antipolis
+// $Source: /CVSROOT/CGAL/Packages/Circulator/include/CGAL/circulator.h,v $
+// $Revision: 1.22 $ $Date: 2003/10/21 12:14:41 $
+// $Name: current_submission $
 //
-// Circulator support and Adaptors between circulators and iterators.
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 
 #ifndef CGAL_CIRCULATOR_H
 #define CGAL_CIRCULATOR_H
@@ -235,35 +210,34 @@ void Assert_iterator( const I &) {
 }
 template <class I> inline
 void Assert_input_category( const I &/*i*/) {
+    typedef typename std::iterator_traits<I>::iterator_category category;
     Assert_compile_time_tag( std::input_iterator_tag(),
-			     // std::iterator_category(i));
-			     std::iterator_traits<I>::iterator_category());
+			     category());
 }
+
 template <class I> inline
 void Assert_output_category( const I &/*i*/) {
+  typedef typename std::iterator_traits<I>::iterator_category category;
     Assert_compile_time_tag( std::output_iterator_tag(),
-                             //std::iterator_category(i));
-			     std::iterator_traits<I>::iterator_category());
+			     category());
 }
 template <class IC> inline
 void Assert_forward_category( const IC &/*ic*/) {
-    Assert_compile_time_tag( std::forward_iterator_tag(),
-                             //std::iterator_category(ic));
-			     std::iterator_traits<IC>::iterator_category());
+  typedef typename std::iterator_traits<IC>::iterator_category category;
+  Assert_compile_time_tag( std::forward_iterator_tag(),
+	                   category());
 }
 template <class IC> inline
 void Assert_bidirectional_category( const IC &/*ic*/) {
-    Assert_compile_time_tag( std::bidirectional_iterator_tag(),
-                             //std::iterator_category(ic));
-			     std::iterator_traits<IC>::iterator_category());
-    
+  typedef typename std::iterator_traits<IC>::iterator_category category;
+  Assert_compile_time_tag( std::bidirectional_iterator_tag(),
+                           category());
 }
 template <class IC> inline
 void Assert_random_access_category( const IC &/*ic*/) {
-    Assert_compile_time_tag( std::random_access_iterator_tag(),
-                             //std::iterator_category(ic));
-			     std::iterator_traits<IC>::iterator_category());
-			     
+  typedef typename std::iterator_traits<IC>::iterator_category category;
+  Assert_compile_time_tag( std::random_access_iterator_tag(),
+                           category());  
 }
 
 // The assert at-least-category functions use the following
@@ -305,33 +279,33 @@ inline void I_Has_to_be_at_least( std::random_access_iterator_tag,
 // The is-at-least assertions.
 template <class I> inline
 void Assert_is_at_least_input_category( const I& /*i*/) {
-    I_Has_to_be_at_least( std::input_iterator_tag(),
-                          //std::iterator_category(i));
-			  std::iterator_traits<I>::iterator_category());
+  typedef typename std::iterator_traits<I>::iterator_category category;
+  I_Has_to_be_at_least( std::input_iterator_tag(),
+                        category());
 }
 template <class I> inline
 void Assert_is_at_least_output_category( const I& /*i*/) {
-    I_Has_to_be_at_least( std::output_iterator_tag(),
-                          //std::iterator_category(i));
-			  std::iterator_traits<I>::iterator_category());
+  typedef typename std::iterator_traits<I>::iterator_category category;
+  I_Has_to_be_at_least( std::output_iterator_tag(),
+                        category());
 }
 template <class IC> inline
 void Assert_is_at_least_forward_category( const IC& /*ic*/) {
-    I_Has_to_be_at_least( std::forward_iterator_tag(),
-                          //std::iterator_category(ic));
-			  std::iterator_traits<IC>::iterator_category());
+  typedef typename std::iterator_traits<IC>::iterator_category category;
+  I_Has_to_be_at_least( std::forward_iterator_tag(),
+                        category());
 }
 template <class IC> inline
 void Assert_is_at_least_bidirectional_category( const IC& /*ic*/) {
-    I_Has_to_be_at_least( std::bidirectional_iterator_tag(),
-                          //std::iterator_category(ic)) ;
-			  std::iterator_traits<IC>::iterator_category());
-    }
+  typedef typename std::iterator_traits<IC>::iterator_category category;
+  I_Has_to_be_at_least( std::bidirectional_iterator_tag(),
+                        category());
+}
 template <class IC> inline
 void Assert_is_at_least_random_access_category( const IC& /*ic*/) {
-    I_Has_to_be_at_least( std::random_access_iterator_tag(),
-                          //std::iterator_category(ic));
-			  std::iterator_traits<IC>::iterator_category());
+  typedef typename std::iterator_traits<IC>::iterator_category category;
+  I_Has_to_be_at_least( std::random_access_iterator_tag(),
+                        category());
 }
 
 template< class C> inline
@@ -429,9 +403,9 @@ I_circulator_size( const C& c, Random_access_circulator_tag) {
 template <class C> inline
 typename C::size_type
 circulator_size( const C& c) {
-    return I_circulator_size( c, 
-			      //std::iterator_category(c));
-			      std::iterator_traits<C>::iterator_category());
+  typedef typename std::iterator_traits<C>::iterator_category category;
+  return I_circulator_size( c, 
+                            category());
 }
 template <class C>
 typename C::difference_type
@@ -467,9 +441,9 @@ I_circulator_distance( const C& c, const C& d,
 template <class C> inline
 typename C::difference_type
 circulator_distance( const C& c, const C& d) {
-    return I_circulator_distance( c, d, 
-				  //std::iterator_category(c));
-				std::iterator_traits<C>::iterator_category());
+  typedef typename std::iterator_traits<C>::iterator_category category;
+  return I_circulator_distance( c, d, 
+                                category());
 }
 template <class C> inline
 #ifdef __SUNPRO_CC
@@ -644,9 +618,6 @@ public:
         Self tmp = *this;
         return tmp += -n;
     }
-#ifndef _MSC_VER
-    difference_type  operator-( const Self& i) const;
-#else
     difference_type  operator-( const Self& i) const {
         CGAL_assertion( m_anchor  != CGAL_CIRC_NULL);
         CGAL_assertion( current   != CGAL_CIRC_NULL);
@@ -658,7 +629,6 @@ public:
         }
         return (current - *m_anchor) - (i.current - *m_anchor);
     }
-#endif
 
     Ref  operator[](difference_type n) const {
         Self tmp = *this;
@@ -690,23 +660,6 @@ operator+( Dist n, const Iterator_from_circulator<C,Ref,Ptr>& circ) {
     Iterator_from_circulator<C,Ref,Ptr> tmp = circ;
     return tmp += n;
 }
-
-#ifndef _MSC_VER
-template < class  C, class Ref, class Ptr>
-typename C::difference_type
-Iterator_from_circulator<C,Ref,Ptr>::
-operator-( const Iterator_from_circulator<C,Ref,Ptr>& i) const {
-    CGAL_assertion( m_anchor  != CGAL_CIRC_NULL);
-    CGAL_assertion( current   != CGAL_CIRC_NULL);
-    CGAL_assertion( m_anchor  == i.m_anchor);
-    if ( m_winding != i.m_winding) {
-        difference_type s = I_min_circulator_size( *m_anchor);
-        return   (current - *m_anchor) - (i.current - *m_anchor)
-               + s * (m_winding - i.m_winding);
-    }
-    return (current - *m_anchor) - (i.current - *m_anchor);
-}
-#endif // _MSC_VER //
 
 template < class  C >
 class Container_from_circulator {
@@ -846,7 +799,7 @@ public:
         --*this;
         return tmp;
     }
-#ifndef _MSC_VER
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
     Self& operator+=( difference_type n);
 #else
     Self& operator+=( difference_type n) {
@@ -896,11 +849,11 @@ operator+( typename Circulator_from_container<Ctnr>::difference_type n,
     return tmp += n;
 }
 
-#ifndef _MSC_VER
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
 template <class Ctnr>
 Circulator_from_container<Ctnr>&
 Circulator_from_container<Ctnr>::
-operator+=( typename Ctnr::difference_type n) {
+operator+=( typename Circulator_from_container<Ctnr>::difference_type n) {
     CGAL_assertion( ctnr != NULL);
     CGAL_assertion( i != ctnr->end());
     typename Ctnr::difference_type j    = i - ctnr->begin();
@@ -913,7 +866,7 @@ operator+=( typename Ctnr::difference_type n) {
     i = ctnr->begin() + j;
     return *this;
 }
-#endif // _MSC_VER //
+#endif // CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
 
 
 template < class  Ctnr>
@@ -1003,7 +956,7 @@ public:
         --*this;
         return tmp;
     }
-#ifndef _MSC_VER
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
     Self& operator+=( difference_type n);
 #else
     Self& operator+=( difference_type n) {
@@ -1047,18 +1000,17 @@ public:
 template <class Ctnr>
 inline
 Const_circulator_from_container<Ctnr>
-operator+( typename Const_circulator_from_container<Ctnr>::
-               difference_type n,
+operator+( typename Const_circulator_from_container<Ctnr>::difference_type n,
            const Const_circulator_from_container<Ctnr>& c) {
     Const_circulator_from_container<Ctnr> tmp = c;
     return tmp += n;
 }
 
-#ifndef _MSC_VER
+#ifndef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
 template <class Ctnr>
 Const_circulator_from_container<Ctnr>&
 Const_circulator_from_container<Ctnr>::
-operator+=( typename Ctnr::difference_type n) {
+operator+=( typename Const_circulator_from_container<Ctnr>::difference_type n){
     CGAL_assertion( ctnr != NULL);
     CGAL_assertion( i != ctnr->end());
     typename Ctnr::difference_type j    = i - ctnr->begin();
@@ -1071,7 +1023,7 @@ operator+=( typename Ctnr::difference_type n) {
     i = ctnr->begin() + j;
     return *this;
 }
-#endif // _MSC_VER
+#endif // CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
 
 // Note: TT, SS, and DD are here for backwards compatibility, they are
 // not used.

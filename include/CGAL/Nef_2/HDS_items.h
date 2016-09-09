@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/HDS_items.h,v $
+// $Revision: 1.16 $ $Date: 2003/10/19 14:33:04 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Nef_2/HDS_items.h
-// package       : Nef_2 (1.18)
-// chapter       : Nef Polyhedra
-//
-// source        : nef_2d/PM_decorator.lw
-// revision      : $Revision: 1.13 $
-// revision_date : $Date: 2002/05/13 13:55:07 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Michael Seel
-//
-// implementation: Extended item classes
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
 #ifndef CGAL_HDS_ITEMS_H
 #define CGAL_HDS_ITEMS_H
@@ -102,12 +71,12 @@ private:
     GenPtr          _i;
 public:
 
-    Nef_vertex_2() : _h(),_f(),_ivit(nil_),_m(),_i((GenPtr)0xABCD) {}
+    Nef_vertex_2() : _h(),_f(),_ivit(nil_),_m(0),_i((GenPtr)0xABCD) {}
     // constructs an uninitialized vertex concerning embedding 
     // and mark. All links are initialized by their default value.
 
     Nef_vertex_2( const Point& p) : 
-        _h(),_f(),_p(p),_ivit(nil_),_m(),_i((GenPtr)0xABCD) {}
+        _h(),_f(),_p(p),_ivit(nil_),_m(0),_i((GenPtr)0xABCD) {}
     // constructs a vertex with embedding |p| and mark |m|.
     //  All links are initialized by their default value.
 
@@ -182,7 +151,7 @@ protected:
 public:
        
     Nef_halfedge_2() : 
-        opp(),prv(),nxt(),_v(),_f(),_fcit(nil_),_m(),_i((GenPtr)0xABCD) {}
+        opp(),prv(),nxt(),_v(),_f(),_fcit(nil_),_m(0),_i((GenPtr)0xABCD) {}
     /*{\Mcreate constructs an uninitialized halfedge concerning embedding 
       and mark. All links are initialized by their default value.}*/   
 
@@ -331,7 +300,7 @@ private:
     GenPtr                     _i;
 public:
 
-    Nef_face_2() : _e(),_m(),_i((GenPtr)0xABCD) {}
+    Nef_face_2() : _e(),_m(0),_i((GenPtr)0xABCD) {}
     /*{\Mcreate constructs an uninitialized face with undefined mark,
       empty face cycle list, and empty isolated vertices list.}*/   
 
@@ -380,11 +349,10 @@ public:
       isolated vertices.}*/
 
     void clear_all_entries()
-        { Hole_iterator hit;
-        for (hit = fc_begin(); hit!=fc_end(); ++hit) 
+        {
+        for (Hole_iterator hit = fc_begin(); hit!=fc_end(); ++hit) 
             hit->set_fcit(Halfedge::nil_);
-        Isolated_vertex_iterator vit;
-        for (vit = iv_begin(); vit!=iv_end(); ++vit) 
+        for (Isolated_vertex_iterator vit = iv_begin(); vit!=iv_end(); ++vit) 
             vit->set_ivit(Vertex::nil_);
         FC.clear(); IV.clear(); }
 

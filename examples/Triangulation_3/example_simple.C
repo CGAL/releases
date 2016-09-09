@@ -1,7 +1,5 @@
 // Triangulation_3/example_simple.C
-#include <CGAL/Simple_cartesian.h>
-#include <CGAL/Filtered_kernel.h>
-
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Triangulation_3.h>
 
 #include <iostream>
@@ -10,30 +8,26 @@
 #include <list>
 #include <vector>
 
-typedef CGAL::Filtered_kernel<CGAL::Simple_cartesian<double> > my_K;
+struct K : CGAL::Exact_predicates_inexact_constructions_kernel {};
 
-// This is just to shorten some symbol names for VC++
-struct K : public my_K {};
+typedef CGAL::Triangulation_3<K>      Triangulation;
 
-typedef CGAL::Triangulation_3<K> Triangulation;
-
-typedef Triangulation::Cell_handle Cell_handle;
-typedef Triangulation::Vertex_handle Vertex_handle;
-typedef Triangulation::Locate_type Locate_type;
-
-typedef K::Point_3 Point;
+typedef Triangulation::Cell_handle    Cell_handle;
+typedef Triangulation::Vertex_handle  Vertex_handle;
+typedef Triangulation::Locate_type    Locate_type;
+typedef Triangulation::Point          Point;
 
 int main()
 {
-  Triangulation T;
-
-  // insertion from a list :
+  // construction from a list of points :
   std::list<Point> L;
   L.push_front(Point(0,0,0));
   L.push_front(Point(1,0,0));
   L.push_front(Point(0,1,0));
 
-  int n = T.insert(L.begin(), L.end());
+  Triangulation T(L.begin(), L.end());
+
+  int n = T.number_of_vertices();
 
   // insertion from a vector :
   std::vector<Point> V(3);
@@ -43,11 +37,8 @@ int main()
 
   n = n + T.insert(V.begin(), V.end());
 
-  // 6 points have been inserted :
-  assert( n == 6 );
-
-  // checking validity of T :
-  assert( T.is_valid() );
+  assert( n == 6 );       // 6 points have been inserted
+  assert( T.is_valid() ); // checking validity of T
 
   Locate_type lt;
   int li, lj;
@@ -55,7 +46,7 @@ int main()
   Cell_handle c = T.locate(p, lt, li, lj);
   // p is the vertex of c of index li :
   assert( lt == Triangulation::VERTEX );
-  assert(  c->vertex(li)->point() == p );
+  assert( c->vertex(li)->point() == p );
 
   Vertex_handle v = c->vertex( (li+1)&3 );
   // v is another vertex of c
@@ -63,7 +54,7 @@ int main()
   // nc = neighbor of c opposite to the vertex associated with p
   // nc must have vertex v :
   int nli;
-  assert(  nc->has_vertex( v, nli ) );
+  assert( nc->has_vertex( v, nli ) );
   // nli is the index of v in nc
 
   std::ofstream oFileT("output",std::ios::out);

@@ -1,64 +1,29 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Extended_cartesian.h,v $
+// $Revision: 1.21 $ $Date: 2003/09/18 10:23:22 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Extended_cartesian.h
-// package       : Nef_2 (1.18)
-// chapter       : Nef Polyhedra
-//
-// source        : nef_2d/Simple_extended_kernel.lw
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 2002/04/23 14:28:50 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Michael Seel
-//
-// implementation: Extended cartesian kernel
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_EXTENDED_CARTESIAN_H
 #define CGAL_EXTENDED_CARTESIAN_H
 
-#include <CGAL/Cartesian.h>
+#include <CGAL/Simple_cartesian.h>
 #include <CGAL/Point_2.h> 
 #include <CGAL/Line_2_Line_2_intersection.h>
-#if (defined( _MSC_VER) && (_MSC_VER <= 1200))
-#include <CGAL/Nef_2/Polynomial_MSC.h>
-#define Polynomial Polynomial_MSC
-#else
 #include <CGAL/Nef_2/Polynomial.h>
-#endif
+
 #undef _DEBUG
 #define _DEBUG 51
 #include <CGAL/Nef_2/debug.h>
@@ -72,8 +37,9 @@ template <class T> class Extended_cartesian;
 
 template <class pFT>
 class Extended_cartesian : public 
-  CGAL::Cartesian< CGAL::Polynomial<pFT> > { public:
-typedef CGAL::Cartesian< CGAL::Polynomial<pFT> > Base;
+  CGAL::Simple_cartesian< CGAL::Polynomial<pFT> > { 
+public:
+typedef CGAL::Simple_cartesian< CGAL::Polynomial<pFT> > Base;
 typedef Extended_cartesian<pFT> Self;
 
 /*{\Xdefinition |\Mname| is a kernel model realizing the concept
@@ -82,7 +48,7 @@ typedef Extended_cartesian<pFT> Self;
 /*{\Xtypes 6.5}*/
 /*{\Xtext \headerline{Affine kernel and types}}*/
 
-typedef CGAL::Cartesian<pFT> Standard_kernel;
+typedef CGAL::Simple_cartesian<pFT> Standard_kernel;
 /*{\Xtypemember the standard affine kernel.}*/
 
 typedef typename Standard_kernel::RT Standard_RT;
@@ -261,10 +227,14 @@ bundle of rays defining |p|.
 
 Standard_ray_2 standard_ray(const Point_2& p) const
 /*{\Xop a ray defining |p|. \precond |!\Mvar.is_standard(p)|.}*/
-{ Standard_line_2 l = standard_line(p);
-  Standard_direction_2 d = l.direction();
-  Standard_point_2 q = l.point(0);
-  return Standard_ray_2(q,d);
+{ 
+  CGAL_assertion( type(p)!=STANDARD );
+  FT x = p.x(), y = p.y();
+  Standard_FT dx = x.degree()>0 ? x[1] : Standard_FT(0);
+  Standard_FT dy = y.degree()>0 ? y[1] : Standard_FT(0);
+  Standard_point_2 p0(x[0],y[0]);
+  Standard_point_2 p1(x[0]+dx,y[0]+dy);
+  return Standard_ray_2(p0,p1);
 }
 
 Point_2 NE() const { return construct_point(Standard_line_2(-1, 1,0)); }
@@ -297,15 +267,15 @@ Line_2 right() const { return construct_line(SE(),NE()); }
 
 Point_2 source(const Segment_2& s) const
 /*{\Xop returns the source point of |s|.}*/
-{ typename Base::Construct_source_point_2 _source =
-    construct_source_point_2_object();
-  return _source(s); }
+{ typename Base::Construct_vertex_2 _source =
+    construct_vertex_2_object();
+  return _source(s,0); }
 
 Point_2 target(const Segment_2& s) const
 /*{\Xop returns the target point of |s|.}*/
-{ typename Base::Construct_target_point_2 _target =
-    construct_target_point_2_object();
-  return _target(s); }
+{ typename Base::Construct_vertex_2 _target =
+    construct_vertex_2_object();
+  return _target(s,1); }
 
 Segment_2 construct_segment(const Point_2& p, const Point_2& q) const
 /*{\Xop constructs a segment |pq|.}*/
@@ -344,7 +314,7 @@ through |p1p2|.}*/
   return static_cast<int> ( _orientation(p1,p2,p3) ); 
 }
 
-bool leftturn(const Point_2& p1, const Point_2& p2, const Point_2& p3) 
+bool left_turn(const Point_2& p1, const Point_2& p2, const Point_2& p3) 
 const
 /*{\Xop return true iff the |p3| is left of the line through |p1p2|.}*/
 { return orientation(p1,p2,p3) > 0; }
@@ -386,8 +356,11 @@ and |s2|.}*/
   typename Base::Construct_line_2 _line =
     construct_line_2_object();
   Point_2 p; 
+  Line_2 l1 = _line(s1);
+  Line_2 l2 = _line(s2);
+
   CGAL::Object result =
-    _intersect(_line(s1),_line(s2));
+    _intersect(l1, l2);
   if ( !CGAL::assign(p, result) )
   CGAL_assertion_msg(false,"intersection: no intersection.");
   return p;
@@ -396,8 +369,8 @@ and |s2|.}*/
 Direction_2 construct_direction(
   const Point_2& p1, const Point_2& p2) const
 /*{\Xop returns the direction of the vector |p2| - |p1|.}*/
-{ typename Base::Construct_direction_of_line_2 _direction =
-    construct_direction_of_line_2_object();
+{ typename Base::Construct_direction_2 _direction =
+    construct_direction_2_object();
   return _direction(construct_line(p1,p2)); }
 
 bool strictly_ordered_ccw(const Direction_2& d1, 

@@ -1,52 +1,35 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/leda_integer.h
-// package       : Number_types (4.57)
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2002/03/20 19:59:53 $
-// author(s)     : Andreas Fabri
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/leda_integer.h,v $
+// $Revision: 1.15 $ $Date: 2003/10/21 12:21:46 $
+// $Name: current_submission $
+//
+// Author(s)     : Andreas Fabri
  
 #ifndef CGAL_LEDA_INTEGER_H
 #define CGAL_LEDA_INTEGER_H
 
 #include <CGAL/basic.h>
+#include <CGAL/Number_type_traits.h>
+#include <CGAL/Interval_arithmetic.h>
+
+#include <utility>
+
 #include <CGAL/LEDA_basic.h>
 #include <LEDA/integer.h>
 
@@ -94,28 +77,40 @@ div( const leda_integer& n1, const leda_integer& n2)
   return n1 / n2;
 }
 
+// missing mixed operators
 inline
-Interval_base
+bool
+operator==(int a, const leda_integer& b)
+{ return b == a; }
+
+inline
+bool
+operator!=(int a, const leda_integer& b)
+{ return b != a; }
+
+
+inline
+std::pair<double,double>
 to_interval (const leda_integer & n)
 {
   Protect_FPU_rounding<true> P (CGAL_FE_TONEAREST);
   double cn = CGAL::to_double(n);
   leda_integer pn = ( n>0 ? n : -n);
   if ( pn.iszero() || log(pn) < 53 )
-      return Interval_base(cn);
+      return to_interval(cn);
   else {
     FPU_set_cw(CGAL_FE_UPWARD);
-    return Interval_nt_advanced(cn)+Interval_nt_advanced::Smallest;
+    Interval_nt_advanced ina(cn);
+    ina += Interval_nt_advanced::smallest();
+    return ina.pair();
   }
 }
 
-namespace NTS {
-  inline
-  leda_integer
-  gcd( const leda_integer& n1, const leda_integer& n2)
-  { 
-    return CGAL_LEDA_SCOPE::gcd(n1, n2);
-  }
+inline
+leda_integer
+gcd( const leda_integer& n1, const leda_integer& n2)
+{ 
+  return CGAL_LEDA_SCOPE::gcd(n1, n2);
 }
 
 CGAL_END_NAMESPACE

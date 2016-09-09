@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Bbox_3.h
-// package       : _3 (3.31)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2002/01/22 09:43:27 $
-// author(s)     : Andreas Fabri
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Bbox_3.h,v $
+// $Revision: 1.13 $ $Date: 2003/10/21 12:18:01 $
+// $Name: current_submission $
+//
+// Author(s)     : Andreas Fabri
  
 #ifndef CGAL_BBOX_3_H
 #define CGAL_BBOX_3_H
@@ -58,8 +36,7 @@ class Bbox_3 : public Simple_Handle_for< Sixtuple<double> >
   typedef BBox_handle_3::element_type                  BBox_ref_3;
 
 public:
-        Bbox_3()
-	  : BBox_handle_3(BBox_ref_3()) {}
+        Bbox_3() {}
 
         Bbox_3(double x_min, double y_min, double z_min,
                double x_max, double y_max, double z_max)
@@ -140,7 +117,8 @@ operator<<(std::ostream &os, const Bbox_3& b)
   switch(os.iword(IO::mode))
   {
     case IO::ASCII :
-        return os << b.xmin() << ' ' << b.ymin() << ' ' << b.zmin();
+        return os << b.xmin() << ' ' << b.ymin() << ' ' << b.zmin() 
+		  << ' ' << b.xmax() << ' ' << b.ymax() << ' ' << b.zmax();
     case IO::BINARY :
         write(os, b.xmin());
         write(os, b.ymin());
@@ -171,7 +149,7 @@ operator>>(std::istream &is, Bbox_3& b)
   switch(is.iword(IO::mode))
   {
     case IO::ASCII :
-        is >> xmin >> ymin >> xmax >> ymax;
+      is >> xmin >> ymin >> zmin >> xmax >> ymax >> zmax;
         break;
     case IO::BINARY :
         read(is, xmin);

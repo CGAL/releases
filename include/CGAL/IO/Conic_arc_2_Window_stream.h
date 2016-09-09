@@ -1,56 +1,32 @@
-// ======================================================================
+// Copyright (c) 2001  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/Conic_arc_2_Window_stream.h,v $
+// $Revision: 1.7 $ $Date: 2003/09/18 10:19:48 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/IO/Conic_arc_2_Window_stream.h
-// package       : Arrangement (2.52)
-// author(s)     : Ron Wein
-// coordinator   : Tel-Aviv University (Dan Halperin)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
-#ifndef CONIC_ARC_WINDOW_STREAM_H
-#define CONIC_ARC_WINDOW_STREAM_H
+// Author(s)     : Ron Wein <wein@post.tau.ac.il>
+#ifndef CGAL_CONIC_ARC_2_WINDOW_STREAM_H
+#define CGAL_CONIC_ARC_2_WINDOW_STREAM_H
 
 #include <CGAL/IO/Window_stream.h>
-#include "Conic_arc_2.h"
+#include <CGAL/Arrangement_2/Conic_arc_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template <class NT>
+template <class Kernel>
 Window_stream& operator<<(Window_stream& ws,
-                          const Conic_arc_2<NT>& cv)
+                          const Conic_arc_2<Kernel>& cv)
 {
   // Get the co-ordinates of the curve's source and target.
   double sx = CGAL::to_double(cv.source().x()),
@@ -81,14 +57,15 @@ Window_stream& operator<<(Window_stream& ws,
       double   end_y = is_source_left ? ty : sy;
       double   curr_x, curr_y;
       int      x;
-      Conic_arc_2<NT>::Point ps[2];
-      int      nps;
+
+      typename Conic_arc_2<Kernel>::Point_2 ps[2];
+      int                      nps;
 
       for (x = x_min + 1; x < x_max; x++)
       {
 	curr_x = ws.pix_to_real(x);
-	nps = cv.get_points_at_x (Conic_arc_2<NT>::Point(NT(curr_x), 0), 
-				  ps);
+	nps = cv.get_points_at_x
+          (Conic_arc_2<Kernel>::Point_2(typename Kernel::FT(curr_x), 0), ps);
 	if (nps == 1)
 	{
 	  curr_y = CGAL::to_double(ps[0].y());

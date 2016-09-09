@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/partition_greene_approx_convex_2.h,v $
+// $Revision: 1.16 $ $Date: 2003/09/18 10:24:27 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/partition_greene_approx_convex_2.h
-// package       : Partition_2 (1.38)
-// chapter       : Planar Polygon Partitioning
-//
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 2002/04/25 18:39:24 $
-//
-// author(s)     : Susan Hert
-//
-// coordinator   : MPI (Susan Hert)
-//
-// implementation: Approximately optimal convex partitioning of polygon
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
 #ifndef CGAL_GREENE_APPROX_H
 #define CGAL_GREENE_APPROX_H
@@ -172,14 +141,14 @@ void visible(Polygon& polygon,
 #endif
 
     typedef typename Traits::Point_2      Point_2;
-    typedef typename Traits::Leftturn_2   Leftturn_2;
-    Leftturn_2    leftturn = traits.leftturn_2_object();
-    Turn_reverser<Point_2, Leftturn_2> rightturn(leftturn);
+    typedef typename Traits::Left_turn_2   Left_turn_2;
+    Left_turn_2    left_turn = traits.left_turn_2_object();
+    Turn_reverser<Point_2, Left_turn_2> right_turn(left_turn);
 
     if (((bottom_chain.direction() == CLOCKWISE) && 
-        rightturn(*stack.back(), *stack.before_back(), *new_point_ref)) ||
+        right_turn(*stack.back(), *stack.before_back(), *new_point_ref)) ||
         ((bottom_chain.direction() == COUNTERCLOCKWISE) &&
-        leftturn(*stack.back(), *stack.before_back(), *new_point_ref)))
+        left_turn(*stack.back(), *stack.before_back(), *new_point_ref)))
     {
        typedef typename Traits::Polygon_2 new_Polygon_2;
        new_Polygon_2 new_polygon;
@@ -268,18 +237,18 @@ void visible(Polygon& polygon,
 #endif
                // angle at stack > 180
                if (bottom_chain.direction() == CLOCKWISE)
-                  big_angle_at_stack = rightturn(*bottom_chain.front(), 
+                  big_angle_at_stack = right_turn(*bottom_chain.front(), 
                                                  *stack.back(),
                                                  *stack.before_back()); 
                else
-                  big_angle_at_stack = leftturn(*bottom_chain.front(), 
+                  big_angle_at_stack = left_turn(*bottom_chain.front(), 
                                                         *stack.back(),
                                                         *stack.before_back()); 
                if (bottom_chain.direction() == CLOCKWISE)
-                  is_visible = !rightturn(*stack.back(), *stack.before_back(),
+                  is_visible = !right_turn(*stack.back(), *stack.before_back(),
                                           *new_point_ref);
                else
-                  is_visible = !leftturn(*stack.back(), *stack.before_back(),
+                  is_visible = !left_turn(*stack.back(), *stack.before_back(),
                                          *new_point_ref);
                // point can see stack bottom
             }
@@ -309,13 +278,13 @@ void stack_extend(Polygon& polygon,
 #endif
 
    typedef typename Traits::Point_2      Point_2;
-   typedef typename Traits::Leftturn_2   Leftturn_2;
-   Leftturn_2    leftturn = traits.leftturn_2_object();
-   Turn_reverser<Point_2, Leftturn_2> rightturn(leftturn);
+   typedef typename Traits::Left_turn_2   Left_turn_2;
+   Left_turn_2    left_turn = traits.left_turn_2_object();
+   Turn_reverser<Point_2, Left_turn_2> right_turn(left_turn);
    if (((stack.direction() == COUNTERCLOCKWISE) && 
-        rightturn(*stack.before_front(), *stack.front(), *point_ref)) ||
+        right_turn(*stack.before_front(), *stack.front(), *point_ref)) ||
        ((stack.direction() == CLOCKWISE) && 
-        leftturn(*stack.before_front(), *stack.front(), *point_ref)))
+        left_turn(*stack.before_front(), *stack.front(), *point_ref)))
    {
       // new stack top becomes new first (and only) element of top chain
       stack.push_front(point_ref);
@@ -349,13 +318,13 @@ void change_top_chain(Polygon& polygon,
              << " next_point_ref " << *next_point_ref << std::endl;
 #endif
    typedef typename Traits::Point_2      Point_2;
-   typedef typename Traits::Leftturn_2   Leftturn_2;
-   Leftturn_2    leftturn = traits.leftturn_2_object();
-   Turn_reverser<Point_2, Leftturn_2> rightturn(leftturn);
+   typedef typename Traits::Left_turn_2   Left_turn_2;
+   Left_turn_2    left_turn = traits.left_turn_2_object();
+   Turn_reverser<Point_2, Left_turn_2> right_turn(left_turn);
    if (((top_chain.direction() == COUNTERCLOCKWISE) &&
-       !rightturn(*top_chain.front(), *new_point_ref, *next_point_ref)) ||
+       !right_turn(*top_chain.front(), *new_point_ref, *next_point_ref)) ||
       ((top_chain.direction() == CLOCKWISE) &&
-       !leftturn(*top_chain.front(), *new_point_ref, *next_point_ref)))
+       !left_turn(*top_chain.front(), *new_point_ref, *next_point_ref)))
    {
       top_chain.push_front(new_point_ref);
    }
@@ -423,17 +392,18 @@ void change_top_chain(Polygon& polygon,
                       << *stack.front() << std::endl;
 #endif
             if (top_chain.direction() == COUNTERCLOCKWISE)
-               big_angle_at_stack = !leftturn(*stack.before_front(), 
+               big_angle_at_stack = !left_turn(*stack.before_front(), 
                                               *stack.front(), *new_point_ref);
             else
-               big_angle_at_stack = !rightturn(*stack.before_front(), 
+               big_angle_at_stack = !right_turn(*stack.before_front(), 
                                              *stack.front(), *new_point_ref);
             if (top_chain.direction() == COUNTERCLOCKWISE)
-               small_angle_at_point = leftturn(*stack.front(), *new_point_ref,
+               small_angle_at_point = left_turn(*stack.front(), *new_point_ref,
                                                *next_point_ref);
             else
-               small_angle_at_point = rightturn(*stack.front(), *new_point_ref,
-                                                *next_point_ref);
+               small_angle_at_point = right_turn(*stack.front(), 
+                                                 *new_point_ref,
+                                                 *next_point_ref);
             if (!big_angle_at_stack && !small_angle_at_point) 
             {
                old_top_ref = stack.front();
@@ -475,14 +445,14 @@ void change_bottom_chain(Polygon& polygon,
              << " next_point_ref " << *next_point_ref << std::endl;
 #endif
    typedef typename Traits::Point_2      Point_2;
-   typedef typename Traits::Leftturn_2   Leftturn_2;
-   Leftturn_2    leftturn = traits.leftturn_2_object();
-   Turn_reverser<Point_2, Leftturn_2> rightturn(leftturn);
+   typedef typename Traits::Left_turn_2   Left_turn_2;
+   Left_turn_2    left_turn = traits.left_turn_2_object();
+   Turn_reverser<Point_2, Left_turn_2> right_turn(left_turn);
    if (((bottom_chain.direction() == CLOCKWISE) &&
-        !leftturn(*bottom_chain.front(), *new_point_ref, 
+        !left_turn(*bottom_chain.front(), *new_point_ref, 
                           *next_point_ref)) ||
        ((bottom_chain.direction() == COUNTERCLOCKWISE) &&
-        !rightturn(*bottom_chain.front(), *new_point_ref, *next_point_ref)))
+        !right_turn(*bottom_chain.front(), *new_point_ref, *next_point_ref)))
    {
       bottom_chain.push_front(new_point_ref);
    }
@@ -557,10 +527,10 @@ void change_bottom_chain(Polygon& polygon,
          {
             // angle at new point is < 180
             if (bottom_chain.direction() == CLOCKWISE)
-               small_angle_at_point = rightturn(*stack.back(), *new_point_ref,
+               small_angle_at_point = right_turn(*stack.back(), *new_point_ref,
                                                 *next_point_ref);
             else
-               small_angle_at_point = leftturn(*stack.back(), *new_point_ref,
+               small_angle_at_point = left_turn(*stack.back(), *new_point_ref,
                                                *next_point_ref);
          }
       } while (!done && !small_angle_at_point);

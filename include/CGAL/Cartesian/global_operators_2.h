@@ -1,123 +1,105 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/global_operators_2.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 2002/01/23 17:59:13 $
-// author(s)     : Herve Bronnimann
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/global_operators_2.h,v $
+// $Revision: 1.12 $ $Date: 2003/10/21 12:14:29 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Herve Bronnimann
 
 #ifndef CGAL_CARTESIAN_GLOBAL_OPERATORS_2_H
 #define CGAL_CARTESIAN_GLOBAL_OPERATORS_2_H
 
 CGAL_BEGIN_NAMESPACE
 
-template < class R >
+template < class K >
 inline
-typename R::Point_2
-operator+(const PointC2<R> &p, const VectorC2<R> &v)
+typename K::Point_2
+operator+(const PointC2<K> &p, const VectorC2<K> &v)
 {
-  return PointC2<R>(p.x() + v.x(), p.y() + v.y());
+  //return K().construct_translated_point_2_object()(p, v);
+  return PointC2<K>(p.x() + v.x(), p.y() + v.y());
 }
 
-template < class R >
+template < class K >
 inline
-typename R::Point_2
-operator-(const PointC2<R> &p, const VectorC2<R> &v)
+typename K::Point_2
+operator-(const PointC2<K> &p, const VectorC2<K> &v)
 {
-  return PointC2<R>(p.x() - v.x(), p.y() - v.y());
+  return PointC2<K>(p.x() - v.x(), p.y() - v.y());
 }
 
-template < class R >
+template < class K >
 inline
-typename R::Point_2
-operator+(const Origin &, const VectorC2<R> &v)
+typename K::Point_2
+operator+(const Origin &, const VectorC2<K> &v)
 {
-  return PointC2<R>(v);
+  return PointC2<K>(v);
 }
 
-template < class R >
+template < class K >
 inline
-typename R::Point_2
-operator-(const Origin &, const VectorC2<R> &v)
+typename K::Point_2
+operator-(const Origin &, const VectorC2<K> &v)
 {
-  return PointC2<R>(-v);
+  return PointC2<K>(-v);
 }
 
-template < class R >
+template < class K >
 inline
-typename R::Vector_2
-operator-(const PointC2<R> &p, const PointC2<R> &q)
+typename K::Vector_2
+operator-(const PointC2<K> &p, const PointC2<K> &q)
 {
-  return VectorC2<R>(p.x() - q.x(), p.y() - q.y());
+  //return K().construct_vector_2_object()(p, q);
+  return VectorC2<K>(p.x() - q.x(), p.y() - q.y());
 }
 
-template < class R >
+template < class K >
 inline
-typename R::Vector_2
-operator-(const PointC2<R> &p, const Origin &)
+typename K::Vector_2
+operator-(const PointC2<K> &p, const Origin &)
 {
-  return VectorC2<R>(p);
+  return VectorC2<K>(p);
 }
 
-template < class R >
+template < class K >
 inline
-typename R::Vector_2
-operator-(const Origin &, const PointC2<R> &p)
+typename K::Vector_2
+operator-(const Origin &, const PointC2<K> &p)
 {
-  return VectorC2<R>(-p.x(), -p.y());
+  return VectorC2<K>(-p.x(), -p.y());
 }
 
-template < class R >
-CGAL_KERNEL_INLINE
-typename R::Vector_2
-operator*(const typename R::FT &c, const VectorC2<R> &w)
+template < class K >
+inline
+typename K::Vector_2
+operator*(const typename K::FT &c, const VectorC2<K> &w)
 {
-   return VectorC2<R>(c * w.x(), c * w.y());
+  //return K().construct_scaled_vector_2_object()(w, c);
+  return VectorC2<K>(w.x() * c, w.y() * c);
 }
 
-template < class R >
-CGAL_KERNEL_INLINE
-typename R::Vector_2
-operator*(const VectorC2<R> &w, const typename R::FT &c)
+template < class K >
+inline
+typename K::Vector_2
+operator*(const VectorC2<K> &w, const typename K::FT &c)
 {
-   return VectorC2<R>(c * w.x(), c * w.y());
+  //  return K().construct_scaled_vector_2_object()(w, c);
+  return VectorC2<K>(w.x() * c, w.y() * c);
 }
 
 CGAL_END_NAMESPACE

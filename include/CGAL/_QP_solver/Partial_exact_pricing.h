@@ -1,50 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2001  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1997-2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/_QP_solver/include/CGAL/_QP_solver/Partial_exact_pricing.h,v $
+// $Revision: 1.6 $ $Date: 2003/09/18 10:26:44 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/_QP_solver/Partial_exact_pricing.h
-// package       : _QP_solver (0.9.7)
-//
-// revision      : 0.4
-// revision_date : 2000/08/17
-//
-// author(s)     : Sven Schönherr
-// coordinator   : ETH Zürich (Bernd Gärtner)
-//
-// implementation: Pricing Strategy with partial exact pricing
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
                                                                                
 
 #ifndef CGAL_PARTIAL_EXACT_PRICING_H
@@ -138,7 +109,7 @@ class Partial_exact_pricing
     // operations
     int  pricing( )
     {
-        typedef  CGAL::Access_by_index< CGAL_TYPENAME_MSVC_NULL
+        typedef  CGAL::Access_by_index< typename
                      std::iterator_traits<D_iterator>::value_type,
                      false,false>       Access_D_Bj;
         typedef  CGAL::Join_random_access_iterator_1<
@@ -307,7 +278,7 @@ class Partial_exact_pricing
             }
         }
         N.erase( N.end()-m, N.end());
-        s = min( (int)(m*CGAL::NTS::sqrt<double>(n)), n-m);
+        s = min( static_cast<int>(m * CGAL_CLIB_STD::sqrt(static_cast<double>(n))), n-m);
     }
     
     

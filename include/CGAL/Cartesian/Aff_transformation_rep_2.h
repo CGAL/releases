@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/Aff_transformation_rep_2.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 2002/01/22 09:46:13 $
-// author(s)     : Andreas Fabri, Lutz Kettner
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_rep_2.h,v $
+// $Revision: 1.17 $ $Date: 2003/10/21 12:14:15 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Andreas Fabri, Lutz Kettner
 
 #ifndef CGAL_CARTESIAN_AFF_TRANSFORMATION_REP_2_H
 #define CGAL_CARTESIAN_AFF_TRANSFORMATION_REP_2_H
@@ -120,10 +98,11 @@ friend class Scaling_repC2<R>;
       t21(m21), t22(m22), t23(m23)
   {}
 
-  Point_2 transform(const Point_2& p) const // FIXME : construction
+  Point_2 transform(const Point_2& p) const
   {
-    return Point_2(t11 * p.x() + t12 * p.y() + t13,
-                   t21 * p.x() + t22 * p.y() + t23);
+    typename R::Construct_point_2 construct_point_2;
+    return construct_point_2(t11 * p.x() + t12 * p.y() + t13,
+			     t21 * p.x() + t22 * p.y() + t23);
   }
 
   // note that a vector is not translated
@@ -192,10 +171,6 @@ private:
     FT   t11, t12, t13;
     FT   t21, t22, t23;
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 CGAL_KERNEL_LARGE_INLINE
@@ -273,10 +248,6 @@ compose(const Scaling_repC2<R> &t) const
                                t.scalefactor_ * t22,
                                t.scalefactor_ * t23);
 }
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

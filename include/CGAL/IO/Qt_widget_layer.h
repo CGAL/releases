@@ -1,45 +1,32 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// Copyright (c) 2002 ENS de Paris
-//
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// The Qt widget we provide for CGAL is distributed under the QPL,
-// which is Trolltech's open source license. For more information see 
-//     http://www.trolltech.com/developer/licensing/qpl.html
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// file          : include/CGAL/IO/Qt_widget_layer.h
-// package       : Qt_widget (1.2.30)
-// author(s)     : Laurent Rineau & Radu Ursu
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : Laurent Rineau
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_layer.h,v $
+// $Revision: 1.13 $ $Date: 2003/10/21 12:23:22 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Laurent Rineau & Radu Ursu
 
 #ifndef CGAL_QT_WIDGET_LAYER_H
 #define CGAL_QT_WIDGET_LAYER_H
 
 #include <CGAL/IO/Qt_widget.h>
 #include <qobject.h>
+#include <qcursor.h>
 #include <list>
 
 
@@ -48,11 +35,13 @@ namespace CGAL {
 class Qt_widget_layer : public QObject {
   Q_OBJECT
 public:
-  Qt_widget_layer() : active(false){};
+  Qt_widget_layer(QObject* parent = 0, const char* name = 0) 
+    : QObject(parent, name), does_eat_events(false), active(false){};
+
   // Event handlers
   virtual void mousePressEvent(QMouseEvent *) {} ;
   virtual void mouseReleaseEvent(QMouseEvent *) {};
-  virtual void wheelEvent(QMouseEvent *) {};
+  virtual void wheelEvent(QWheelEvent *) {};
   virtual void mouseDoubleClickEvent(QMouseEvent *) {};
   virtual void mouseMoveEvent(QMouseEvent *) {};
   virtual void keyPressEvent(QKeyEvent *) {};
@@ -62,21 +51,21 @@ public:
   virtual bool event(QEvent *e) {QObject::event(e); return true;};
 
   bool    is_active(){return active;};	//return true if this layer is active
-
+  bool    does_eat_events;
 public slots:
-	virtual void draw(){};
+  virtual void draw(){};
   void    stateChanged(int);
   bool    activate(); //activate and return true if it was not active
   bool    deactivate();//deactivate and return true if it was active
 signals:
-  void		activated(Qt_widget_layer*);
-  void		deactivated(Qt_widget_layer*);
+  void    activated(Qt_widget_layer*);
+  void    deactivated(Qt_widget_layer*);
 private:
-  void		attach(Qt_widget *w);//attach Qt_widget to the tool
-  bool		active;	//true if this layers is active
-  friend class		Qt_widget;
+  void    attach(Qt_widget *w);//attach Qt_widget to the tool
+  bool    active;	//true if this layers is active
+  friend class Qt_widget;
 protected:
-	Qt_widget	*widget;//the pointer to the widget
+  Qt_widget  *widget;//the pointer to the widget
   virtual void activating(){};
   virtual void deactivating(){};
 };

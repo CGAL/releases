@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/MP_Float.h
-// package       : Number_types (4.57)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2002/03/20 19:59:51 $
-// author(s)     : Sylvain Pion
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/MP_Float.h,v $
+// $Revision: 1.14 $ $Date: 2003/10/21 12:21:42 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Sylvain Pion
 
 #ifndef CGAL_MP_FLOAT_H
 #define CGAL_MP_FLOAT_H
@@ -50,8 +28,6 @@
 #include <CGAL/Interval_arithmetic.h>
 #include <iostream>
 #include <vector>
-#include <functional>
-#include <cmath>
 
 // MP_Float : multiprecision scaled integers.
 
@@ -68,7 +44,7 @@
 // - IOs
 
 // TODO :
-// - Documentation.
+// - Write a generic wrapper that adds an exponent to be used by MP integers.
 // - Karatsuba (or other) ?  Would be fun to implement at least.
 // - Division, sqrt... : different options :
 //   - nothing
@@ -80,17 +56,13 @@ CGAL_BEGIN_NAMESPACE
 
 class MP_Float;
 
-Comparison_result
-compare_noinline (const MP_Float & a, const MP_Float & b);
+MP_Float operator+(const MP_Float &a, const MP_Float &b);
+MP_Float operator-(const MP_Float &a, const MP_Float &b);
+MP_Float operator*(const MP_Float &a, const MP_Float &b);
+MP_Float operator/(const MP_Float &a, const MP_Float &b);
 
-namespace NTS {
-inline
 Comparison_result
-compare (const MP_Float & a, const MP_Float & b)
-{
-  return compare_noinline (a, b);
-}
-}
+compare (const MP_Float & a, const MP_Float & b);
 
 class MP_Float
 {
@@ -143,17 +115,21 @@ public:
   }
 
   MP_Float()
+      : exp(0)
   {
     CGAL_assertion(sizeof(limb2) == 2*sizeof(limb));
     CGAL_assertion(v.empty());
     // Creates zero.
   }
 
+#if 0
+  // Causes ambiguities
   MP_Float(limb i)
   : v(1,i), exp(0)
   {
     remove_leading_zeros();
   }
+#endif
 
   MP_Float(limb2 i)
   : v(2), exp(0)
@@ -170,60 +146,10 @@ public:
     return MP_Float() - *this;
   }
 
-  MP_Float operator+(const MP_Float &) const;
-  MP_Float operator-(const MP_Float &) const;
-  MP_Float operator*(const MP_Float &) const;
-  MP_Float operator/(const MP_Float &) const;
-
-  MP_Float& operator+=(const MP_Float &a)
-  {
-    return *this = *this + a;
-  }
-
-  MP_Float& operator-=(const MP_Float &a)
-  {
-    return *this = *this - a;
-  }
-
-  MP_Float& operator*=(const MP_Float &a)
-  {
-    return *this = *this * a;
-  }
-
-  MP_Float& operator/=(const MP_Float &a)
-  {
-    return *this = *this / a;
-  }
-
-  bool operator<(const MP_Float &b) const
-  {
-      return CGAL_NTS compare(*this, b) == SMALLER;
-  }
-
-  bool operator>(const MP_Float &f) const
-  {
-      return f<*this;
-  }
-
-  bool operator>=(const MP_Float &f) const
-  {
-      return !(*this<f);
-  }
-
-  bool operator<=(const MP_Float &f) const
-  {
-      return !(*this>f);
-  }
-
-  bool operator==(const MP_Float &b) const
-  {
-    return (v == b.v) && (v.empty() || (exp == b.exp));
-  }
-
-  bool operator!=(const MP_Float &b) const
-  {
-    return ! (*this == b);
-  }
+  MP_Float& operator+=(const MP_Float &a) { return *this = *this + a; }
+  MP_Float& operator-=(const MP_Float &a) { return *this = *this - a; }
+  MP_Float& operator*=(const MP_Float &a) { return *this = *this * a; }
+  MP_Float& operator/=(const MP_Float &a) { return *this = *this / a; }
 
   int max_exp() const
   {
@@ -247,11 +173,6 @@ public:
     return v.empty();
   }
 
-  bool is_one() const
-  {
-    return v.size() == 1 && v.back() == 1;
-  }
-
   Sign sign() const
   {
     if (v.empty())
@@ -266,8 +187,29 @@ public:
   int exp;
 };
 
+inline
+bool operator<(const MP_Float &a, const MP_Float &b)
+{ return CGAL_NTS compare(a, b) == SMALLER; }
 
-namespace NTS {
+inline
+bool operator>(const MP_Float &a, const MP_Float &b)
+{ return b < a; }
+
+inline
+bool operator>=(const MP_Float &a, const MP_Float &b)
+{ return ! (a < b); }
+
+inline
+bool operator<=(const MP_Float &a, const MP_Float &b)
+{ return ! (a > b); }
+
+inline
+bool operator==(const MP_Float &a, const MP_Float &b)
+{ return (a.v == b.v) && (a.v.empty() || (a.exp == b.exp)); }
+
+inline
+bool operator!=(const MP_Float &a, const MP_Float &b)
+{ return ! (a == b); }
 
 inline
 Sign
@@ -276,17 +218,18 @@ sign (const MP_Float &a)
   return a.sign();
 }
 
-} // namespace NTS
+MP_Float
+square(const MP_Float&);
 
 MP_Float
 sqrt(const MP_Float &d);
 
 // to_double() returns, not the closest double, but a one bit error is allowed.
-// We guarantee : to_double(MPI(double d)) == d.
+// We guarantee : to_double(MP_Float(double d)) == d.
 double
 to_double(const MP_Float &b);
 
-Interval_base
+std::pair<double,double>
 to_interval(const MP_Float &b);
 
 inline

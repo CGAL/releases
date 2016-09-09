@@ -1,79 +1,65 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/Ray_3.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.24 $
-// revision_date : $Date: 2002/02/06 12:32:38 $
-// author(s)     : Andreas Fabri
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Ray_3.h,v $
+// $Revision: 1.31 $ $Date: 2003/10/21 12:14:21 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Andreas Fabri
 
 #ifndef CGAL_CARTESIAN_RAY_3_H
 #define CGAL_CARTESIAN_RAY_3_H
+
+#include <CGAL/Twotuple.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class RayC3
-  : public R_::Ray_handle_3
+  : public R_::template Handle<Twotuple<typename R_::Point_3> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Direction_3          Direction_3;
+  typedef typename R_::Vector_3             Vector_3;
   typedef typename R_::Line_3               Line_3;
   typedef typename R_::Ray_3                Ray_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef typename R_::Ray_handle_3              base;
-  typedef typename base::element_type            rep;
+  typedef Twotuple<Point_3>                        rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                                     R;
 
-  RayC3()
-    : base(rep()) {}
+  RayC3() {}
 
   RayC3(const Point_3 &sp, const Point_3 &secondp)
     : base(rep(sp, secondp)) {}
 
+  RayC3(const Point_3 &sp, const Vector_3 &v)
+    : base(rep(sp, sp + v)) {}
+
   RayC3(const Point_3 &sp, const Direction_3 &d)
     : base(rep(sp, sp + d.to_vector())) {}
+
+  RayC3(const Point_3 &sp, const Line_3 &l)
+    : base(rep(sp, sp + l.to_vector())) {}
 
   bool        operator==(const RayC3 &r) const;
   bool        operator!=(const RayC3 &r) const;
@@ -90,6 +76,7 @@ public:
   Point_3     point(int i) const;
 
   Direction_3 direction() const;
+  Vector_3    to_vector() const;
   Line_3      supporting_line() const;
   Ray_3       opposite() const;
 
@@ -102,10 +89,6 @@ public:
   bool        has_on(const Point_3 &p) const;
   bool        collinear_has_on(const Point_3 &p) const;
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 inline
@@ -142,6 +125,14 @@ RayC3<R>::point(int i) const
   if (i == 0) return source();
   if (i == 1) return second_point();
   return source() + FT(i) * (second_point() - source());
+}
+
+template < class R >
+inline
+typename RayC3<R>::Vector_3
+RayC3<R>::to_vector() const
+{
+  return second_point() - source();
 }
 
 template < class R >
@@ -240,10 +231,6 @@ operator>>(std::istream &is, RayC3<R> &r)
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_RAYC3
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Filtered_extended_homogeneous.h,v $
+// $Revision: 1.24 $ $Date: 2003/09/18 10:23:23 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Filtered_extended_homogeneous.h
-// package       : Nef_2 (1.18)
-// chapter       : Nef Polyhedra
-//
-// source        : nef_2d/Filtered_extended_points.lw
-// revision      : $Revision: 1.19 $
-// revision_date : $Date: 2002/04/19 08:40:08 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Michael Seel
-//
-// implementation: Filtered extended homogeneous kernel
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_FILTERED_EXTENDED_HOMOGENEOUS_H
 #define CGAL_FILTERED_EXTENDED_HOMOGENEOUS_H
 
@@ -117,7 +86,9 @@ public:
   bool is_zero() const { return (_m==0 && _n==0); }
   int sign() const
   { if ( _m != 0 ) return CGAL_NTS sign(_m); 
-    return CGAL_NTS sign(_n); }
+    return CGAL_NTS sign(_n); 
+  }
+
 
   // only for visualization:
   static void set_R(const RT& R) { _R = R; }
@@ -129,9 +100,14 @@ protected:
 
 template <class RT> RT SPolynomial<RT>::_R;
 
+#ifndef CGAL_CFG_MATCHING_BUG_2
 template <typename RT>
 int sign(const SPolynomial<RT>& p)
-{ return p.sign(); }
+{ 
+  return p.sign(); 
+}
+#endif
+
 
 template <typename RT>
 bool operator==(const SPolynomial<RT>& p1, const SPolynomial<RT>& p2)
@@ -144,6 +120,21 @@ bool operator>(const SPolynomial<RT>& p1, const SPolynomial<RT>& p2)
 template <typename RT>
 bool operator<(const SPolynomial<RT>& p1, const SPolynomial<RT>& p2)
 { return (p1-p2).sign()<0; }
+
+template <typename RT>
+bool operator<(int i, const SPolynomial<RT>& p2)
+{ 
+  SPolynomial<RT> p1(i);
+  return (p1-p2).sign()<0; 
+}
+
+
+template <typename RT>
+bool operator<(const SPolynomial<RT>& p1, int i)
+{ 
+  SPolynomial<RT> p2(i);
+  return (p1-p2).sign()<0; 
+}
 
 template <class RT> 
 inline double to_double(const SPolynomial<RT>& p) 
@@ -715,18 +706,16 @@ line_equation(RT& a, RT& b, SPolynomial<RT>& c) const
   { p = _p2; }
   else if (!sstandard && tstandard) 
   { p = _p1; correct_orientation=false; }
-  RT x1 = p.nx(), y1 = p.ny();               // R==0
-  RT x2 = p.mx()+p.nx(), y2 = p.my()+p.ny(); // R==1
   RT w = p.hw();
   RT ci;
   if ( correct_orientation ) {
-    a = -p.my(); // (y1*w-w*y2)/w
-    b =  p.mx(); // (x2*w-w*x1)/w
-    ci = (p.nx()*p.my()-p.ny()*p.mx())/w; // (x1*y2-x2*y1)/w;
+    a = -p.my();
+    b =  p.mx();
+    ci = (p.nx()*p.my()-p.ny()*p.mx())/w;
   } else {
-    a =  p.my(); // (y2*w-w*y1)
-    b = -p.mx(); // (x1*w-w*x2)
-    ci = (p.ny()*p.mx()-p.nx()*p.my())/w; // (x2*y1-x1*y2)/w;
+    a =  p.my();
+    b = -p.mx();
+    ci = (p.ny()*p.mx()-p.nx()*p.my())/w;
   }
   c = SPolynomial<RT>(ci);
 
@@ -945,9 +934,9 @@ bool strictly_ordered_ccw(const Extended_direction<RT>& d1,
   int or12 = orientation(d1,d2);
   int or13 = orientation(d1,d3);
   int or32 = orientation(d3,d2);
-  if ( or13 >= 0 ) // not rightturn
+  if ( or13 >= 0 ) // not right_turn
     return ( or12 > 0 && or32 < 0 );
-  else // ( or13 < 0 ) rightturn
+  else // ( or13 < 0 ) right_turn
     return ( or12 > 0 || or32 < 0 );
 }
 
@@ -1148,7 +1137,7 @@ const
         CGAL::orientation(p1,p2,p3))
   return CGAL::orientation(p1,p2,p3); }
 
-bool leftturn(const Point_2& p1, const Point_2& p2, const Point_2& p3) 
+bool left_turn(const Point_2& p1, const Point_2& p2, const Point_2& p3) 
 const
 { return orientation(p1,p2,p3) > 0; }
 

@@ -1,47 +1,21 @@
-// ======================================================================
+// Copyright (c) 1999  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/convexity_check_2.C,v $
+// $Revision: 1.8 $ $Date: 2003/09/18 10:20:26 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/convexity_check_2.C
-// package       : Convex_hull_2 (3.34)
-// source        : convex_hull_2.lw
-// revision      : 3.3
-// revision_date : 03 Aug 2000
-// author(s)     : Stefan Schirra
-//
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Stefan Schirra
 
 
 #ifndef CGAL_CONVEXITY_CHECK_2_C
@@ -59,10 +33,13 @@ is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
                           const Traits& ch_traits)
 {
   typedef  typename Traits::Less_xy_2      Less_xy;
-  typedef  typename Traits::Leftturn_2     Leftturn;
-
-  Less_xy  smaller_xy = ch_traits.less_xy_2_object();
-  Leftturn leftturn = ch_traits.leftturn_2_object();
+  typedef  typename Traits::Left_turn_2    Left_turn;
+  // added 
+  typedef  typename Traits::Equal_2        Equal_2;
+  
+  Less_xy  smaller_xy    = ch_traits.less_xy_2_object();
+  Left_turn left_turn    = ch_traits.left_turn_2_object();
+  Equal_2  equal_points  = ch_traits.equal_2_object();   
 
   ForwardIterator iter1;
   ForwardIterator iter2;
@@ -77,14 +54,14 @@ is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
 
   ++iter3;
 
-  if (iter3 == last ) return ( *first != *iter2 );
+  if (iter3 == last ) return (! equal_points(*first,*iter2) );
 
   iter1 = first;
   short int f = 0;
 
   while (iter3 != last) 
   {
-      if ( !leftturn( *iter1, *iter2, *iter3 ) ) return false; 
+      if ( !left_turn( *iter1, *iter2, *iter3 ) ) return false; 
       if ( smaller_xy( *iter2, *iter1 ) && smaller_xy( *iter2, *iter3 )) ++f;
 
       ++iter1;
@@ -93,14 +70,14 @@ is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
   }
 
   iter3 = first;
-  if ( !leftturn( *iter1, *iter2, *iter3 ) ) return false; 
+  if ( !left_turn( *iter1, *iter2, *iter3 ) ) return false; 
   if ( smaller_xy( *iter2, *iter1 ) && smaller_xy( *iter2, *iter3 )) ++f;
 
 
   iter1 = iter2;
   iter2 = first;
   ++iter3;
-  if ( !leftturn( *iter1, *iter2, *iter3 ) ) return false; 
+  if ( !left_turn( *iter1, *iter2, *iter3 ) ) return false; 
   if ( smaller_xy( *iter2, *iter1 ) && smaller_xy( *iter2, *iter3 )) ++f;
 
 
@@ -112,10 +89,12 @@ bool
 is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last, 
                          const Traits& ch_traits)
 {
-  typedef  typename Traits::Less_xy_2       Less_xy;
-  typedef  typename Traits::Leftturn_2      Leftturn;
+  typedef  typename Traits::Less_xy_2      Less_xy;
+  typedef  typename Traits::Left_turn_2    Left_turn;
+  typedef  typename Traits::Equal_2        Equal_2;  
 
-  Less_xy  smaller_xy = ch_traits.less_xy_2_object();
+  Less_xy  smaller_xy    = ch_traits.less_xy_2_object();
+  Equal_2  equal_points  = ch_traits.equal_2_object();  
 
   ForwardIterator iter1;
   ForwardIterator iter2;
@@ -130,14 +109,14 @@ is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
 
   ++iter3;
 
-  if (iter3 == last ) return ( *first != *iter2 );
+  if (iter3 == last ) return (! equal_points(*first,*iter2) );
 
   iter1 = first;
   short int f = 0;
 
   while (iter3 != last) 
   {
-      if ( !leftturn( *iter2, *iter1, *iter3 ) ) return false;
+      if ( !left_turn( *iter2, *iter1, *iter3 ) ) return false;
       if ( smaller_xy( *iter2, *iter1 ) && smaller_xy( *iter2, *iter3 )) ++f;
 
       ++iter1;
@@ -146,14 +125,14 @@ is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
   }
 
   iter3 = first;
-  if ( !leftturn( *iter2, *iter1, *iter3 ) ) return false;
+  if ( !left_turn( *iter2, *iter1, *iter3 ) ) return false;
   if ( smaller_xy( *iter2, *iter1 ) && smaller_xy( *iter2, *iter3 )) ++f;
 
 
   iter1 = iter2;
   iter2 = first;
   ++iter3;
-  if ( !leftturn( *iter2, *iter1, *iter3 ) ) return false;
+  if ( !left_turn( *iter2, *iter1, *iter3 ) ) return false;
   if ( smaller_xy( *iter2, *iter1 ) && smaller_xy( *iter2, *iter3 )) ++f;
 
 
@@ -166,7 +145,7 @@ ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
                             ForwardIterator2 first2, ForwardIterator2 last2,
                             const Traits&  ch_traits)
 {
-  typedef    typename Traits::Leftturn_2    Left_of_line;
+  typedef    typename Traits::Left_turn_2    Left_of_line;
   ForwardIterator1 iter11;
   ForwardIterator2 iter21;
   ForwardIterator2 iter22;
@@ -184,7 +163,7 @@ ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
       return true;
   }
 
-  Left_of_line  left_turn = ch_traits.leftturn_2_object();
+  Left_of_line  left_turn = ch_traits.left_turn_2_object();
   iter22 = first2;
   iter21 = iter22++;
   while (iter22 != last2)
@@ -208,7 +187,8 @@ ch_brute_force_chain_check_2(ForwardIterator1 first1,
                                   ForwardIterator2 last2,
                                   const Traits& ch_traits )
 {
-  typedef    typename Traits::Left_of_line_2    Left_of_line;
+  typedef  typename Traits::Left_turn_2     Left_turn_2;  
+  
   ForwardIterator1 iter11;
   ForwardIterator2 iter21;
   ForwardIterator2 iter22;
@@ -219,7 +199,7 @@ ch_brute_force_chain_check_2(ForwardIterator1 first1,
 
   if ( successor(first2) == last2 ) return true;
 
-  Left_of_line  left_turn = ch_traits.leftturn_2_object();
+  Left_turn_2  left_turn = ch_traits.left_turn_2_object();
   iter22 = first2;
   iter21 = iter22++;
   while (iter22 != last2)

@@ -1,45 +1,21 @@
-// ======================================================================
+// Copyright (c) 1999  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_traits_checker.h,v $
+// $Revision: 1.10 $ $Date: 2003/09/18 10:24:36 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Pm_traits_checker.h
-// package       : Planar_map (5.113)
-// author(s)     : Oren Nechushtan
-// coordinator   : Tel-Aviv University (Dan Halperin)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Oren Nechushtan	<theoren@math.tau.ac.il>
 /*
 
   Edited by 
@@ -80,7 +56,6 @@ public:
   typedef typename Tr1::X_curve X_curve;
   typedef typename Tr1::Point_2 Point;
   typedef typename Tr1::Point_2 Point_2;
-  typedef typename Tr1::Curve_point_status Curve_point_status;
 
   Pm_traits_checker() : Tr1(),t(),b(),P() {};
   ~Pm_traits_checker() {}
@@ -95,90 +70,70 @@ public:
     CGAL_assertion(P(t.curve_target(cv))==b.curve_target(P(cv)));
     return t.curve_target(cv);
   }
+
   bool curve_is_vertical(const X_curve & cv) const 
   {
     CGAL_assertion(t.curve_is_vertical(cv)==b.curve_is_vertical(P(cv)));
     return t.curve_is_vertical(cv);
   }	
-  bool curve_is_in_x_range(const X_curve & cv, const Point & q) const
-    {
-    CGAL_assertion(t.curve_is_in_x_range(cv,q) == 
-                   b.curve_is_in_x_range(P(cv),P(q)));
-    return t.curve_is_in_x_range(cv,q);
-    }
 
-
-  Curve_point_status curve_get_point_status(const X_curve &cv, const Point & p)
-  const
+  bool point_in_x_range(const X_curve & cv, const Point & q) const
   {
-    CGAL_assertion((int)(t.curve_get_point_status(cv,p)) == 
-                   (int)(b.curve_get_point_status(P(cv),P(p))));
-    return t.curve_get_point_status(cv,p);
+    CGAL_assertion(t.point_in_x_range(cv,q) == 
+                   b.point_in_x_range(P(cv),P(q)));
+    return t.point_in_x_range(cv,q);
+  }
+
+  Comparison_result curve_compare_y_at_x (const Point & p,
+                                          const X_curve & cv) const
+  {
+    CGAL_assertion(t.curve_compare_y_at_x(p, cv) == 
+                   b.curve_compare_y_at_x(P(p), P(cv)));
+    return t.curve_compare_y_at_x(p, cv);
   }
   
   Comparison_result 
-  curve_compare_at_x(const X_curve &cv1, const X_curve &cv2, const Point &q) 
+  curves_compare_y_at_x(const X_curve &cv1, const X_curve &cv2, const Point &q)
     const 
   {
-    CGAL_assertion(t.curve_compare_at_x(cv1,cv2,q) ==
-                   b.curve_compare_at_x(P(cv1),P(cv2),P(q)));
-    return t.curve_compare_at_x(cv1,cv2,q);
+    CGAL_assertion(t.curves_compare_y_at_x(cv1,cv2,q) ==
+                   b.curves_compare_y_at_x(P(cv1),P(cv2),P(q)));
+    return t.curves_compare_y_at_x(cv1,cv2,q);
   }
   
   Comparison_result 
-  curve_compare_at_x_left(const X_curve &cv1, const X_curve &cv2, 
+  curves_compare_y_at_x_left(const X_curve &cv1, const X_curve &cv2, 
                           const Point &q) const 
   {
-    CGAL_assertion(t.curve_compare_at_x_left(cv1,cv2,q) ==
-                   b.curve_compare_at_x_left(P(cv1),P(cv2),P(q)));
-    return t.curve_compare_at_x_left(cv1,cv2,q);
+    CGAL_assertion(t.curves_compare_y_at_x_left(cv1,cv2,q) ==
+                   b.curves_compare_y_at_x_left(P(cv1),P(cv2),P(q)));
+    return t.curves_compare_y_at_x_left(cv1,cv2,q);
   }
   
   Comparison_result 
-  curve_compare_at_x_right(const X_curve & cv1,
+  curves_compare_y_at_x_right(const X_curve & cv1,
 			   const X_curve & cv2, 
 			   const Point   & q) const 
   {
-    CGAL_assertion(t.curve_compare_at_x_right(cv1,cv2,q) ==
-		   b.curve_compare_at_x_right(P(cv1),P(cv2),P(q)));
-    return t.curve_compare_at_x_right(cv1,cv2,q);
+    CGAL_assertion(t.curves_compare_y_at_x_right(cv1,cv2,q) ==
+		   b.curves_compare_y_at_x_right(P(cv1),P(cv2),P(q)));
+    return t.curves_compare_y_at_x_right(cv1,cv2,q);
   }
-
-
-  bool curve_is_between_cw(const X_curve &cv, 
-                           const X_curve &first, 
-                           const X_curve &second, 
-                           const Point &point)	const
-    {
-    CGAL_assertion(t.curve_is_between_cw(cv,first,second,point) ==
-		   b.curve_is_between_cw(P(cv),P(first),P(second),P(point)));
-    return t.curve_is_between_cw(cv,first,second,point);
-    }
 
   Comparison_result compare_x(const Point &p1, const Point &p2) const
   {
     CGAL_assertion(t.compare_x(p1,p2)==b.compare_x(P(p1),P(p2)));
     return t.compare_x(p1,p2);
   }
-  Comparison_result compare_y(const Point &p1, const Point &p2) const
+  Comparison_result compare_xy(const Point &p1, const Point &p2) const
   {
-    CGAL_assertion(t.compare_y(p1,p2)==b.compare_y(P(p1),P(p2)));
-    return t.compare_y(p1,p2);
+    CGAL_assertion(t.compare_xy(p1,p2)==b.compare_xy(P(p1),P(p2)));
+    return t.compare_xy(p1,p2);
   }
-  Point point_to_left(const Point& p) const  
+  bool curve_equal(const X_curve &cv1, const X_curve &cv2) const
     {
-    CGAL_assertion(P(t.point_to_left(p))==b.point_to_left(P(p)));
-    return t.point_to_left(p);
-    }
-  Point point_to_right(const Point& p) const 
-    {
-    CGAL_assertion(P(t.point_to_right(p))==b.point_to_right(P(p)));
-    return t.point_to_right(p);
-    }
-  bool curve_is_same(const X_curve &cv1, const X_curve &cv2) const
-    {
-    CGAL_assertion(t.curve_is_same(cv1,cv2)==b.curve_is_same(P(cv1),P(cv2)));
-    return t.curve_is_same(cv1,cv2);
+    CGAL_assertion(t.curve_equal(cv1,cv2)==b.curve_equal(P(cv1),P(cv2)));
+    return t.curve_equal(cv1,cv2);
     }
 
 };

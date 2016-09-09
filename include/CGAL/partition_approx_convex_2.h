@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/partition_approx_convex_2.h,v $
+// $Revision: 1.13 $ $Date: 2003/09/18 10:24:27 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/partition_approx_convex_2.h
-// package       : Partition_2 (1.38)
-// chapter       : Planar Polygon Partitioning
-//
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 2002/01/17 11:20:34 $
-//
-// author(s)     : Susan Hert
-//
-// coordinator   : MPI (Susan Hert)
-//
-// implementation: Approximately optimal convex partitioning of polygon
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
 #ifndef CGAL_PARTITION_APPROX_CONVEX_H
 #define CGAL_PARTITION_APPROX_CONVEX_H
@@ -72,9 +41,9 @@ bool partition_appx_cvx_is_edge_through_interior(const Point_2& before_s,
                                                  const Traits& traits )
 {
    // determine if the edge goes through the interior of the polygon or not
-   typedef typename Traits::Leftturn_2   Leftturn_2;
-   Leftturn_2 left_turn = traits.leftturn_2_object();
-   Turn_reverser<Point_2, Leftturn_2> right_turn(left_turn);
+   typedef typename Traits::Left_turn_2   Left_turn_2;
+   Left_turn_2 left_turn = traits.left_turn_2_object();
+   Turn_reverser<Point_2, Left_turn_2> right_turn(left_turn);
    if (right_turn(before_s, source, after_s)) // concave angle
    {
      if (right_turn(before_s, source, target) &&
@@ -142,10 +111,10 @@ bool partition_appx_cvx_cuts_nonconvex_angle( Edge_circulator e_circ,
              << *prev_ccw_pt_ref << std::endl;
 #endif
 
-   typedef typename Traits::Leftturn_2    Leftturn_2;
+   typedef typename Traits::Left_turn_2    Left_turn_2;
    typedef typename Traits::Point_2     Point_2;
-   Leftturn_2 left_turn = traits.leftturn_2_object();
-   Turn_reverser<Point_2, Leftturn_2>  right_turn(left_turn);
+   Left_turn_2 left_turn = traits.left_turn_2_object();
+   Turn_reverser<Point_2, Left_turn_2>  right_turn(left_turn);
    return right_turn(*next_ccw_pt_ref, *v_ref, *prev_ccw_pt_ref); 
 }
 
@@ -161,13 +130,9 @@ OutputIterator partition_approx_convex_2(InputIterator first,
    typedef Partitioned_polygon_2< Traits >             P_Polygon_2;
    typedef typename P_Polygon_2::iterator              I;
    typedef Circulator_from_iterator<I>                 Circulator;
-   typedef Triangulation_indirect_traits_2<Circulator, Traits>  
-                                                       Gt;
-   typedef Triangulation_vertex_base_2<Gt>             Vb;
-   typedef Constrained_triangulation_face_base_2<Gt>   Fb;
-   typedef Triangulation_default_data_structure_2<Gt, Vb, Fb>   
-                                                       Tds;
-   typedef Constrained_triangulation_2<Gt, Tds>        Constrained_tri_2;
+   typedef Triangulation_indirect_traits_2<Circulator, Traits>  Gt;
+
+   typedef Constrained_triangulation_2<Gt>             Constrained_tri_2;
    typedef typename Constrained_tri_2::Edge_iterator   Edge_iterator;
    typedef typename Constrained_tri_2::Edge_circulator Edge_circulator;
    typedef typename Constrained_tri_2::Vertex_iterator Tri_vertex_iterator;

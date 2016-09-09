@@ -1,94 +1,75 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/PointH2.h
-// package       : H2 (2.67)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2002/02/06 12:34:07 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken 
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/PointH2.h,v $
+// $Revision: 1.13 $ $Date: 2003/10/21 12:16:10 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
 
 #ifndef CGAL_HOMOGENEOUS_POINT_2_H
 #define CGAL_HOMOGENEOUS_POINT_2_H
 
 #include <CGAL/Origin.h>
 #include <CGAL/Bbox_2.h>
+#include <CGAL/Threetuple.h>
+#include <CGAL/Kernel/Cartesian_coordinate_iterator_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class PointH2
-  : public R_::Point_handle_2
+  : public R_::template Handle<Threetuple<typename R_::RT> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::RT                   RT;
   typedef typename R_::Vector_2             Vector_2;
+  typedef typename R_::Point_2              Point_2;
   typedef typename R_::Direction_2          Direction_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef typename R_::Point_handle_2            Point_handle_2_;
-  typedef typename Point_handle_2_::element_type Point_ref_2;
+  typedef Threetuple<RT>                           rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
+  typedef Cartesian_coordinate_iterator_2<R_> Cartesian_const_iterator;
   typedef R_                                    R;
 
-    PointH2() 
-       : Point_handle_2_ ( Point_ref_2()) { }
+    PointH2() {}
 
     PointH2(const Origin &)  
-       : Point_handle_2_ ( Point_ref_2( RT(0), RT(0), RT(1))) { }
+       : base ( rep( RT(0), RT(0), RT(1))) { }
 
     PointH2(const PointH2<R> & p) 
-       : Point_handle_2_ (p) { }
+       : base (p) { }
 
     PointH2(const Vector_2& v) 
-       : Point_handle_2_ (v) { }
+       : base (v) { }
 
     PointH2(const RT& hx, const RT& hy )
-      : Point_handle_2_ ( Point_ref_2( hx, hy, RT(1) )) { }
+      : base ( rep( hx, hy, RT(1) )) { }
 
     PointH2(const RT& hx, const RT& hy, const RT& hw)
     {
       if ( hw >= RT(0)   )
-        initialize_with( Point_ref_2( hx, hy, hw)); 
+        initialize_with( rep( hx, hy, hw)); 
       else
-        initialize_with( Point_ref_2(-hx,-hy,-hw)); 
+        initialize_with( rep(-hx,-hy,-hw)); 
     }
 
     bool    operator==( const PointH2<R>& p) const;
@@ -105,16 +86,21 @@ public:
     FT      operator[](int i)  const;
     const RT & homogeneous(int i) const;
 
+  Cartesian_const_iterator cartesian_begin() const 
+  {
+    return Cartesian_const_iterator(static_cast<const Point_2*>(this), 0);
+  }
+
+  Cartesian_const_iterator cartesian_end() const 
+  {
+    return Cartesian_const_iterator(static_cast<const Point_2*>(this), 2);
+  }
     int     dimension() const;
     Bbox_2  bbox() const;
 
     PointH2<R> transform( const Aff_transformation_2 & t) const;
     Direction_2 direction() const;
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -175,34 +161,21 @@ PointH2<R>::direction() const
 { return typename PointH2<R>::Direction_2(*this); }
 
 
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
-
 template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
 Bbox_2
 PointH2<R>::bbox() const
 {
-#ifndef CGAL_CFG_NO_NAMESPACE
-  using std::swap;
-#endif // CGAL_CFG_NO_NAMESPACE
+   Interval_nt<> ihx = CGAL::to_interval(hx());
+   Interval_nt<> ihy = CGAL::to_interval(hy());
+   Interval_nt<> ihw = CGAL::to_interval(hw());
 
-  // double eps  = exp2(-52);
-  // the following is faster as it can be evaluated at compile time
-  // and it is machine independent
-  double eps  = double(1.0) /(double(1<<26) * double(1<<26));
-  double hxd  = CGAL::to_double( hx() );
-  double hyd  = CGAL::to_double( hy() );
-  double hwd  = CGAL::to_double( hw() );
-  double xmin = ( hxd - eps*hxd ) / ( hwd + eps*hwd );
-  double xmax = ( hxd + eps*hxd ) / ( hwd - eps*hwd );
-  double ymin = ( hyd - eps*hyd ) / ( hwd + eps*hwd );
-  double ymax = ( hyd + eps*hyd ) / ( hwd - eps*hwd );
-  if ( hx() < RT(0)   ) { swap(xmin, xmax); }
-  if ( hy() < RT(0)   ) { swap(ymin, ymax); }
-  return Bbox_2(xmin, ymin, xmax, ymax);
+   Interval_nt<> ix = ihx/ihw;
+   Interval_nt<> iy = ihy/ihw;
+
+   return Bbox_2(ix.inf(), iy.inf(), ix.sup(), iy.sup());
 }
+
 
 template < class R >
 inline

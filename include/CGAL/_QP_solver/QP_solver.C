@@ -1,50 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2001  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1997-2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/_QP_solver/include/CGAL/_QP_solver/QP_solver.C,v $
+// $Revision: 1.9 $ $Date: 2003/09/18 10:26:45 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/_QP_solver/QP_solver.C
-// package       : _QP_solver (0.9.7)
-//
-// revision      : 0.5
-// revision_date : 2000/09/06
-//
-// author(s)     : Sven Schönherr
-// coordinator   : ETH Zürich (Bernd Gärtner)
-//
-// implementation: Solver for Quadratic Programs
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
                                                                                
 CGAL_BEGIN_NAMESPACE
                     
@@ -98,8 +69,8 @@ set_up_auxiliary_problem( )
     int ii;
 
     // delete artifical part of `A' and auxiliary `c', if necessary
-    art_A.erase( art_A.begin(), art_A.end());
-    aux_c.erase( aux_c.begin(), aux_c.end());
+    art_A.clear();
+    aux_c.clear();
 
     // initialize artificial part of `A' and auxiliary `c'
     art_A.reserve( qp_m);
@@ -136,7 +107,7 @@ set_up_basis( )
     int ii;
 
     // initialize basis (with artificial variables)
-    if ( B.size() > 0) B.erase( B.begin(), B.end());
+    if ( B.size() > 0) B.clear();
     B.insert( B.end(), std::vector<int>::size_type(qp_m), 0);
     for ( ii = 0; ii < qp_m; ++ii) B[ ii] = qp_n+ii;
     art_basic = qp_m;
@@ -157,7 +128,7 @@ set_up_basis( )
      
 
     // initialize positions in basis
-    if ( in_B.size() > 0) in_B.erase( in_B.begin(), in_B.end());
+    if ( in_B.size() > 0) in_B.clear();
     in_B.reserve( qp_n+qp_m);
     in_B.insert( in_B.end(), std::vector<int>::size_type(qp_n), -1);
     for ( ii = 0; ii < qp_m; ++ii) in_B.push_back( ii);
@@ -191,10 +162,15 @@ QP_solver<Rep_>::
 set_up_initial_solution( )
 {
     // initialize exact version of `qp_b' (implicit conversion to ET)
+#ifndef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
     b = Values( qp_b, qp_b+qp_m);
+#else
+    b = Values ( qp_m );
+    std::copy(qp_b, qp_b+qp_m, b.begin());
+#endif
 
     // initialize exact version of `-aux_c' (implicit conversion to ET)
-    minus_c_B.erase( minus_c_B.begin(), minus_c_B.end());
+    minus_c_B.clear();
     minus_c_B.reserve( qp_m);
     std::transform( aux_c.begin()+qp_n, aux_c.end(),
                     std::back_inserter( minus_c_B), std::negate<ET>());
@@ -316,7 +292,6 @@ transition( )
         vout2 << "----------------------" << std::endl;
         }
          
-
     // remove artificial variables
     in_B.erase( in_B.begin()+qp_n, in_B.end());
 

@@ -7,7 +7,7 @@
 #include <CGAL/MP_Float.h>
 #include <CGAL/Quotient.h>
 #include <CGAL/Pm_default_dcel.h>
-#include <CGAL/Arr_segment_exact_traits.h>
+#include <CGAL/Arr_segment_traits_2.h>
 #include <CGAL/Planar_map_2.h>
 #include <CGAL/Pm_with_intersections.h>
 #include <algorithm>
@@ -15,9 +15,9 @@
 
 typedef CGAL::Quotient<int>                             NT;
 typedef CGAL::Cartesian<NT>                             Kernel;
-typedef CGAL::Arr_segment_exact_traits<Kernel>          Traits;
+typedef CGAL::Arr_segment_traits_2<Kernel>              Traits;
 typedef Traits::Point_2                                 Point;
-typedef Traits::X_curve_2                               Curve;
+typedef Traits::X_monotone_curve_2                      Curve;
 typedef CGAL::Pm_default_dcel<Traits>                   Dcel;
 typedef CGAL::Planar_map_2<Dcel,Traits>                 PM;
 typedef CGAL::Planar_map_with_intersections_2<PM>       Pmwx;

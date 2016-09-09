@@ -1,49 +1,22 @@
-// ======================================================================
+// Copyright (c) 1997  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h,v $
+// $Revision: 1.47 $ $Date: 2003/10/04 19:18:59 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Alpha_shape_2.h
-// package       : Alpha_shapes_2 (11.19)
-// source        : $RCSfile: Alpha_shape_2.h,v $
-// revision      : $Revision: 1.32 $
-// revision_date : $Date: 2002/04/18 06:57:11 $
-// author(s)     : Tran Kai Frank DA
-//
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Tran Kai Frank DA
+//                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>
 
 #ifndef CGAL_ALPHA_SHAPE_2_H
 #define CGAL_ALPHA_SHAPE_2_H
@@ -59,14 +32,16 @@
 #include <iostream>
 
 #include <CGAL/utility.h>
+#include <CGAL/Triangulation_vertex_base_2.h>
+#include <CGAL/Triangulation_face_base_2.h>
+#include <CGAL/Alpha_shape_vertex_base_2.h>
+#include <CGAL/Alpha_shape_face_base_2.h>
 
 #ifdef CGAL_ALPHA_WINDOW_STREAM
 #include <CGAL/IO/Window_stream.h>
 #endif
 
-//-------------------------------------------------------------------
 CGAL_BEGIN_NAMESPACE
-//-------------------------------------------------------------------
 
 template < class Dt >
 class Alpha_shape_2 : public Dt 
@@ -88,12 +63,11 @@ public:
   typedef typename Dt::Geom_traits Gt;
   typedef typename Dt::Triangulation_data_structure Tds;
 
-  typedef typename Gt::Coord_type Coord_type;
-  typedef typename Gt::Point Point;
-  typedef typename Gt::Segment Segment;
-  typedef typename Gt::Ray Ray;
-  typedef typename Gt::Line Line;
-  typedef typename Gt::Direction Direction;
+  typedef typename Gt::FT Coord_type;
+  typedef typename Gt::Point_2 Point;
+  typedef typename Gt::Segment_2 Segment;
+  typedef typename Gt::Ray_2 Ray;
+  typedef typename Gt::Line_2 Line;
 
   typedef typename Dt::Face_handle Face_handle;
   typedef typename Dt::Vertex_handle Vertex_handle;
@@ -103,29 +77,29 @@ public:
   typedef typename Dt::Edge_circulator Edge_circulator;
   typedef typename Dt::Vertex_circulator Vertex_circulator;
 
-  typedef typename Dt::Face_iterator Face_iterator;
+  typedef typename Dt::Finite_faces_iterator Finite_faces_iterator;
   typedef typename Dt::Edge_iterator Edge_iterator;
-  typedef typename Dt::Vertex_iterator Vertex_iterator;
+  typedef typename Dt::Finite_vertices_iterator Finite_vertices_iterator;
 
   typedef typename Dt::Locate_type Locate_type;
+
+  // for backward compatibility
+  typedef Finite_vertices_iterator Vertex_iterator;
+  typedef Finite_faces_iterator Face_iterator;
 
 private:
 
   typedef long Key;
  
-  typedef std::multimap< Coord_type, Face_handle > Interval_face_map;
-  typedef typename Interval_face_map::value_type   Interval_face;
+  typedef std::multimap< Coord_type, Face_handle >  Interval_face_map;
+  typedef typename Interval_face_map::value_type    Interval_face;
 
-  typedef typename Tds::Face Face_tds;
-  typedef typename Face_tds::Face Face_base;
-  typedef typename Face_base::Interval_3 Interval3;
-  // should be replaced by as soon as possible
-  // typedef typename Face::Interval_3 Interval3;
+  typedef typename Tds::Face::Interval_3            Interval3;
+  
+  typedef std::multimap< Interval3, Edge >          Interval_edge_map;
+  typedef typename Interval_edge_map::value_type    Interval_edge;
 
-  typedef std::multimap< Interval3, Edge >         Interval_edge_map;
-  typedef typename Interval_edge_map::value_type   Interval_edge;
-
-  typedef std::pair< Coord_type, Coord_type > Interval2;
+  typedef std::pair< Coord_type, Coord_type >       Interval2;
   typedef std::multimap< Interval2, Vertex_handle > Interval_vertex_map;
   typedef typename Interval_vertex_map::value_type  Interval_vertex;
 
@@ -192,6 +166,8 @@ private:
   mutable std::list< Vertex_handle > Alpha_shape_vertices_list;
   mutable std::list< Edge > Alpha_shape_edges_list;
 
+  mutable bool use_vertex_cache;
+  mutable bool use_edge_cache;
 public:
 
   //------------------------- CONSTRUCTORS ------------------------------
@@ -200,7 +176,8 @@ public:
   // alpha-value `alpha'. Precondition: `alpha' >= 0.
   Alpha_shape_2(Coord_type alpha = Coord_type(0), 
 		Mode m = GENERAL)
-    : _alpha(alpha), _mode(m), Infinity(-1), UNDEFINED(-2) 
+    : _alpha(alpha), _mode(m), Infinity(-1), UNDEFINED(-2),
+      use_vertex_cache(false), use_edge_cache(false)
     {}
  
   // Introduces an alpha-shape `A' for a positive alpha-value
@@ -212,7 +189,8 @@ public:
 		const InputIterator& last,  
 		const Coord_type& alpha = Coord_type(0),
 		Mode m = GENERAL)
-    : _alpha(alpha), _mode(m), Infinity(-1), UNDEFINED(-2) 
+    : _alpha(alpha), _mode(m), Infinity(-1), UNDEFINED(-2) ,
+      use_vertex_cache(false), use_edge_cache(false)
     {
       Dt::insert(first, last);
       if (dimension() == 2)
@@ -239,8 +217,6 @@ public:
  
   std::ostream& op_ostream(std::ostream& os) const;
 
-  Vect_seg& op_vect_seg(Vect_seg& V) const;
-  
 #ifdef CGAL_ALPHA_WINDOW_STREAM
   Window_stream& op_window(Window_stream& W) const;
 #endif 
@@ -260,9 +236,6 @@ public:
 
       int n =  Dt::insert(first, last);
  
-#ifdef DEBUG
-      std::cout << "Triangulation computed" << std::endl;
-#endif
       if (dimension() == 2)
 	{   
 	  // Compute the associated _interval_face_map
@@ -363,6 +336,8 @@ public:
       // Returns the previous alpha
       Coord_type previous_alpha = _alpha;
       _alpha = alpha;
+      use_vertex_cache = false;
+      use_edge_cache = false;
       return previous_alpha;
     }
 
@@ -433,15 +408,15 @@ public:
 
 private:
 
-  std::back_insert_iterator< std::list< Vertex_handle > >
-  get_alpha_shape_vertices(std::back_insert_iterator< 
-			   std::list< Vertex_handle > > result) const;
+
+void
+update_alpha_shape_vertex_list()const;
 
   //---------------------------------------------------------------------
 
-  std::back_insert_iterator< std::list<Edge > >
-  get_alpha_shape_edges(std::back_insert_iterator< 
-			std::list< Edge > > result) const;
+  void
+  update_alpha_shape_edges_list() const;
+  
 
   //---------------------------------------------------------------------
 
@@ -449,10 +424,9 @@ public:
 
   Alpha_shape_vertices_iterator alpha_shape_vertices_begin() const
     { 
-      Alpha_shape_vertices_list.clear();
-      std::back_insert_iterator< std::list< Vertex_handle > > 
-	V_it(Alpha_shape_vertices_list);
-      get_alpha_shape_vertices(V_it);
+    if(!use_vertex_cache){
+      update_alpha_shape_vertex_list();
+    }
       return Alpha_shape_vertices_list.begin();
     }
 
@@ -478,10 +452,9 @@ public:
 
   Alpha_shape_edges_iterator alpha_shape_edges_begin() const
     {
-      Alpha_shape_edges_list.clear();
-      std::back_insert_iterator< std::list<Edge > > 
-	E_it(Alpha_shape_edges_list);
-      get_alpha_shape_edges(E_it);
+      if(!use_edge_cache){
+      update_alpha_shape_edges_list();
+    }
       return Alpha_shape_edges_list.begin();
     }
 
@@ -573,8 +546,8 @@ public:
 	case VERTEX            : return classify(pFace->vertex(i), alpha);
 	case EDGE              : return classify(pFace, i, alpha);
 	case FACE              : return classify(pFace, alpha);
-	case OUTSIDE           : 
-	case COLLINEAR_OUTSIDE : return EXTERIOR;
+	case OUTSIDE_CONVEX_HULL : 
+	case OUTSIDE_AFFINE_HULL : return EXTERIOR;
 	default                : return EXTERIOR;
 	}
     }
@@ -616,7 +589,7 @@ public:
     }
 
   Classification_type  classify(const Face_handle& f, 
-				const int& i) const 
+				int i) const 
     {  
       return classify(f, i, get_alpha());
     }
@@ -628,7 +601,7 @@ public:
     }
 
   Classification_type  classify(const Face_handle& f, 
-				const int& i,
+				int i,
 				const Coord_type& alpha) const;
 
   
@@ -676,7 +649,7 @@ private:
 
 public:
 
-  Alpha_iterator find_optimal_alpha(const int& nb_components);  	
+  Alpha_iterator find_optimal_alpha(int nb_components);  	
 
 private:
 
@@ -706,7 +679,7 @@ private:
 					       f->vertex(2)->point());
     }
 
-  Coord_type squared_radius(const Face_handle& f, const int& i) const 
+  Coord_type squared_radius(const Face_handle& f, int i) const 
     {
       // should be
       // return (traits().squared_radius_smallest_circumcircle(...)
@@ -742,7 +715,7 @@ Alpha_shape_2<Dt>::initialize_interval_face_map()
   Coord_type alpha_f;
 
   // only finite faces
-  for(Face_iterator face_it = faces_begin(); face_it != faces_end(); ++face_it)
+  for(Finite_faces_iterator face_it = faces_begin(); face_it != faces_end(); ++face_it)
     {
       alpha_f = squared_radius(face_it);
       _interval_face_map.insert(Interval_face(alpha_f, face_it));
@@ -873,10 +846,10 @@ Alpha_shape_2<Dt>::initialize_interval_vertex_map()
   Coord_type alpha_max_v;
   Coord_type alpha_f;
 
-  Vertex_iterator vertex_it;
-  // only finite vertexs
-  for( vertex_it = vertices_begin(); 
-       vertex_it != vertices_end(); 
+  Finite_vertices_iterator vertex_it;
+
+  for( vertex_it = finite_vertices_begin(); 
+       vertex_it != finite_vertices_end(); 
        ++vertex_it) 
     {
       Vertex_handle v = vertex_it;
@@ -892,7 +865,7 @@ Alpha_shape_2<Dt>::initialize_interval_vertex_map()
 // 	// if we used Edelsbrunner and Muecke's definition
 // 	// singular means not incident to any higher-dimensional face
 // 	// regular means incident to a higher-dimensional face
-// 	Edge_circulator edge_circ = v->incident_edges(),
+// 	Edge_circulator edge_circ = this->incident_edges(v),
 // 	edge_done(edge_circ);
 
 // 	do 
@@ -934,7 +907,7 @@ Alpha_shape_2<Dt>::initialize_interval_vertex_map()
       // singular means not incident to any 2-dimensional face
       // regular means incident to a 2-dimensional face
      
-      Face_circulator face_circ = v->incident_faces(),
+      Face_circulator face_circ = this->incident_faces(v),
 	done = face_circ;
    
       if (!face_circ.is_empty()) 
@@ -1044,69 +1017,67 @@ Alpha_shape_2<Dt>::initialize_alpha_spectrum()
 
 }
 
-//-------------------------------------------------------------------------
-
-template < class Dt >
-std::back_insert_iterator
-                  < std::list< CGAL_TYPENAME_MSVC_NULL 
-                                   Alpha_shape_2<Dt>::Vertex_handle > >
-Alpha_shape_2<Dt>::get_alpha_shape_vertices
-(std::back_insert_iterator< std::list< Vertex_handle > > result) const 
-{
-  //typedef typename Alpha_shape_2<Dt>::Interval_vertex_map 
-  //                                              Interval_vertex_map;
-  typename Interval_vertex_map::const_iterator vertex_alpha_it;
-
-  //const typename Alpha_shape_2<Dt>::Interval2* pInterval2;
-  const Interval2* pInterval2;
-  Vertex_handle v;
-     
-  // write the regular vertices
-
-  for (vertex_alpha_it = _interval_vertex_map.begin(); 
-       vertex_alpha_it != _interval_vertex_map.end() &&
-	 (*vertex_alpha_it).first.first < get_alpha();
-       ++vertex_alpha_it) 
-    {
-      pInterval2 = &(*vertex_alpha_it).first;
-
-      if((pInterval2->second >= get_alpha()
-	  || pInterval2->second == Infinity)) 
-	{
-	  // alpha must be larger than the min boundary
-	  // and alpha is smaller than the upper boundary
-	  // which might be infinity 
-	  // write the vertex
-	  v = (*vertex_alpha_it).second;
-	  CGAL_triangulation_assertion((classify(v) == REGULAR));
-	  *result++ = v;
-	}
-    }
- 
-  if (get_mode() == Alpha_shape_2<Dt>::GENERAL) 
-    {
-      // write the singular vertices
-      for (; 
-	   vertex_alpha_it != _interval_vertex_map.end();
-	   ++vertex_alpha_it) 
-	{
-	  v = (*vertex_alpha_it).second;
-	  CGAL_triangulation_assertion((classify(v) == SINGULAR));
-
-	  *result++ = v;
-	}
-    }
-  return result;
-}
 
 //-------------------------------------------------------------------------
 
+
+
 template < class Dt >
-std::back_insert_iterator< std::list< CGAL_TYPENAME_MSVC_NULL 
-                                          Alpha_shape_2<Dt>::Edge > >
-Alpha_shape_2<Dt>::get_alpha_shape_edges
-(std::back_insert_iterator< std::list< Edge > > result) const 
+void
+Alpha_shape_2<Dt>::update_alpha_shape_vertex_list()const {
+	//typedef typename Alpha_shape_2<Dt>::Interval_vertex_map 
+	//                                              Interval_vertex_map;
+	typename Interval_vertex_map::const_iterator vertex_alpha_it;
+
+	//const typename Alpha_shape_2<Dt>::Interval2* pInterval2;
+	const Interval2* pInterval2;
+	Vertex_handle v;
+	Alpha_shape_vertices_list.clear();
+	// write the regular vertices
+
+	for (vertex_alpha_it = _interval_vertex_map.begin(); 
+		vertex_alpha_it != _interval_vertex_map.end() &&
+		(*vertex_alpha_it).first.first < get_alpha();
+		++vertex_alpha_it) 
+		{
+		pInterval2 = &(*vertex_alpha_it).first;
+
+		if((pInterval2->second >= get_alpha()
+		|| pInterval2->second == Infinity)) 
+		{
+		// alpha must be larger than the min boundary
+		// and alpha is smaller than the upper boundary
+		// which might be infinity 
+		// write the vertex
+		v = (*vertex_alpha_it).second;
+		CGAL_triangulation_assertion((classify(v) == REGULAR));
+		Alpha_shape_vertices_list.push_back(v);
+		}
+		}
+	 
+	if (get_mode() == Alpha_shape_2<Dt>::GENERAL) 
+		{
+		// write the singular vertices
+		for (; 
+		vertex_alpha_it != _interval_vertex_map.end();
+		++vertex_alpha_it) 
+		{
+		v = (*vertex_alpha_it).second;
+		CGAL_triangulation_assertion((classify(v) == SINGULAR));
+
+		Alpha_shape_vertices_list.push_back(v);
+		}
+		}
+	use_vertex_cache = true;
+  }
+
+//-------------------------------------------------------------------------
+
+template < class Dt >
+void
+Alpha_shape_2<Dt>::update_alpha_shape_edges_list() const 
 {
+
   // Writes the edges of the alpha shape `A' for the current $\alpha$-value
   // to the container where 'out' refers to. Returns an output iterator 
   // which is the end of the constructed range.
@@ -1115,7 +1086,7 @@ Alpha_shape_2<Dt>::get_alpha_shape_edges
 
   //const typename Alpha_shape_2<Dt>::Interval3* pInterval;
   const Interval3* pInterval;
-  
+  Alpha_shape_edges_list.clear();
   if (get_mode() == REGULARIZED) 
     {
       // it is much faster looking at the sorted intervals 
@@ -1144,8 +1115,8 @@ Alpha_shape_2<Dt>::get_alpha_shape_edges
  CGAL_triangulation_assertion((classify((*edge_alpha_it).second.first,
 					(*edge_alpha_it).second.second)
 			       == REGULAR));
-	      *result++ = Edge((*edge_alpha_it).second.first,
-			       (*edge_alpha_it).second.second);
+	      Alpha_shape_edges_list.push_back(Edge((*edge_alpha_it).second.first,
+						    (*edge_alpha_it).second.second));
 	    }
 	}
     }
@@ -1176,8 +1147,8 @@ Alpha_shape_2<Dt>::get_alpha_shape_edges
  CGAL_triangulation_assertion((classify((*edge_alpha_it).second.first,
 					(*edge_alpha_it).second.second) 
 			       == REGULAR));
-		  *result++ = Edge((*edge_alpha_it).second.first,
-				   (*edge_alpha_it).second.second);
+		  Alpha_shape_edges_list.push_back(Edge((*edge_alpha_it).second.first,
+							(*edge_alpha_it).second.second));
 		}
 	    }
 	  else 
@@ -1195,22 +1166,22 @@ Alpha_shape_2<Dt>::get_alpha_shape_edges
 			       || (classify((*edge_alpha_it).second.first,
 					    (*edge_alpha_it).second.second) 
 				   == SINGULAR)));
-		  *result++ = Edge((*edge_alpha_it).second.first,
-				   (*edge_alpha_it).second.second);
+		  Alpha_shape_edges_list.push_back(Edge((*edge_alpha_it).second.first,
+							(*edge_alpha_it).second.second));
 		}
 	    }
       
 	}
     
     }
-  return result;
+  use_edge_cache = true;
 }
 
 //-------------------------------------------------------------------------
 
 template < class Dt >
 typename Alpha_shape_2<Dt>::Classification_type  
-Alpha_shape_2<Dt>::classify(const Face_handle& f, const int& i, 
+Alpha_shape_2<Dt>::classify(const Face_handle& f, int i, 
 			    const Coord_type& alpha) const
 {
   // Classifies the edge `e' of the underlying Delaunay
@@ -1283,7 +1254,7 @@ Alpha_shape_2<Dt>::number_of_solid_components(const Coord_type& alpha) const
   // takes time O(#alpha_shape) amortized if STL_STD::HASH_TABLES
   //            O(#alpha_shape log n) otherwise
   Marked_face_set marked_face_set;
-  Face_iterator face_it;
+  Finite_faces_iterator face_it;
   int nb_solid_components = 0;
 
   //prevent error (Rajout Frank)
@@ -1296,7 +1267,7 @@ Alpha_shape_2<Dt>::number_of_solid_components(const Coord_type& alpha) const
        ++face_it) 
     {
       Face_handle pFace = face_it;
-      CGAL_triangulation_postcondition((!pFace.is_null()));
+      CGAL_triangulation_postcondition( pFace != NULL);
 
       if (classify(pFace, alpha) == INTERIOR &&
 	  ((marked_face_set.insert(Key(&(*face_it))))).second) 
@@ -1321,7 +1292,7 @@ Alpha_shape_2<Dt>::traverse(const Face_handle& pFace,
     { 
       Face_handle pNeighbor = pFace->neighbor(i);
 	 
-      CGAL_triangulation_precondition((!pNeighbor.is_null())); 
+      CGAL_triangulation_precondition( pNeighbor != NULL ); 
       if (classify(pNeighbor, alpha) == INTERIOR &&
 	  ((marked_face_set.insert(Key(&(*pNeighbor))))).second)
 	traverse(pNeighbor, marked_face_set, alpha);
@@ -1332,7 +1303,7 @@ Alpha_shape_2<Dt>::traverse(const Face_handle& pFace,
 
 template < class Dt >
 typename Alpha_shape_2<Dt>::Alpha_iterator
-Alpha_shape_2<Dt>::find_optimal_alpha(const int& nb_components) 
+Alpha_shape_2<Dt>::find_optimal_alpha(int nb_components) 
 {
   // find the minimum alpha that satisfies the properties
   // (1) nb_components solid components
@@ -1365,12 +1336,12 @@ Alpha_shape_2<Dt>::find_optimal_alpha(const int& nb_components)
       half = len / 2;
       middle = first + half;
 
-#ifdef DEBUG
+#ifdef CGAL_DEBUG_ALPHA_SHAPE_2
       std::cout << "first : " << *first << " last : " << *(first+len)
 		<< " mid : " << *middle 
 		<< " nb comps : " << number_of_solid_components(*middle) 
 		<< std::endl;
-#endif // DEBUG
+#endif // CGAL_DEBUG_ALPHA_SHAPE_2
 
       if (number_of_solid_components(*middle) > nb_components) 
 	{
@@ -1401,15 +1372,15 @@ Alpha_shape_2<Dt>::find_alpha_solid() const
   // takes O(#alpha_shape) time
   Coord_type alpha_solid = 0;
 
-  Vertex_iterator vertex_it;
+  Finite_vertices_iterator vertex_it;
   // only finite vertices
-  for( vertex_it = vertices_begin(); 
-       vertex_it != vertices_end();
+  for( vertex_it = finite_vertices_begin(); 
+       vertex_it != finite_vertices_end();
        ++vertex_it) 
     {
       Coord_type alpha_min_v = (--_interval_face_map.end())->first;
 
-      Face_circulator face_circ = vertex_it->incident_faces();
+      Face_circulator face_circ = this->incident_faces(vertex_it);
       Face_circulator  done = face_circ;
       do 
 	{
@@ -1461,14 +1432,14 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 
 	  pInterval2 = &(*vertex_alpha_it).first;
 
-#ifdef DEBUG
+#ifdef CGAL_DEBUG_ALPHA_SHAPE_2
 	  typename Alpha_shape_2<Dt>::Coord_type alpha =
 	    get_alpha();
 	  typename Alpha_shape_2<Dt>::Coord_type alpha_mid = 
 	    pInterval2->first;
 	  typename Alpha_shape_2<Dt>::Coord_type alpha_max = 
 	    pInterval2->second;
-#endif // DEBUG
+#endif // CGAL_DEBUG_ALPHA_SHAPE_2
 
 	  if((pInterval2->second >= get_alpha()
 	      || pInterval2->second == Infinity)) 
@@ -1599,7 +1570,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 
 	  pInterval = &(*edge_alpha_it).first;
 
-#ifdef DEBUG
+#ifdef CGAL_DEBUG_ALPHA_SHAPE_2
 	  typename Alpha_shape_2<Dt>::Coord_type alpha =
 	    get_alpha();
 	  typename Alpha_shape_2<Dt>::Coord_type alpha_min = 
@@ -1608,7 +1579,7 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
 	    pInterval->second;
 	  typename Alpha_shape_2<Dt>::Coord_type alpha_max = 
 	    pInterval->third;
-#endif // DEBUG
+#endif // CGAL_DEBUG_ALPHA_SHAPE_2
 	  
 	  if(pInterval->third >= get_alpha()
 	     || pInterval->third == Infinity) 
@@ -1670,124 +1641,6 @@ Alpha_shape_2<Dt>::op_ostream(std::ostream& os) const
   return os;
 }
 
-//-------------------------------------------------------------------------
-
-template < class Dt >
-typename Alpha_shape_2<Dt>::Vect_seg& 
-Alpha_shape_2<Dt>::op_vect_seg(Vect_seg& V) const
-{
-
-  typedef typename Alpha_shape_2<Dt>::Interval_vertex_map 
-    Interval_vertex_map;
-  //  typename Interval_vertex_map::const_iterator vertex_alpha_it;
-
-  typedef  typename Alpha_shape_2<Dt>::Interval_edge_map 
-    Interval_edge_map;
-  typename Interval_edge_map::const_iterator edge_alpha_it;
-
-  const typename Alpha_shape_2<Dt>::Interval3* pInterval;
-
-  if (get_mode() == Alpha_shape_2<Dt>::REGULARIZED) 
-    {
-      // it is much faster looking at the sorted intervals 
-      // than looking at all sorted faces
-      // alpha must be larger than the mid boundary
-      // and alpha is smaller than the upper boundary
-      for (edge_alpha_it = _interval_edge_map.begin(); 
-	   edge_alpha_it != _interval_edge_map.end() &&
-	     (*edge_alpha_it).first.first < get_alpha();
-	   ++edge_alpha_it) 
-	{
-
-	  pInterval = &(*edge_alpha_it).first;
-
-	  CGAL_triangulation_assertion(pInterval->second != Infinity);
-	  // since this happens only for convex hull of dimension 1
-	  // thus singular
-
-	  if(pInterval->second < get_alpha() &&
-	     (pInterval->third >= get_alpha()
-	      || pInterval->third == Infinity)) 
-	    {
-	      // alpha must be larger than the mid boundary
-	      // and alpha is smaller than the upper boundary
-	      // which might be infinity 
-	      // visualize the boundary
-	    
- CGAL_triangulation_assertion((classify((*edge_alpha_it).second.first,
-					(*edge_alpha_it).second.second)
-			       == Alpha_shape_2<Dt>::REGULAR));
-	      // if we used Edelsbrunner and Muecke's definition
-	      // regular means incident to a higher-dimensional face
-	      // thus we would write to many vertices
-	      V.push_back(segment((*edge_alpha_it).second.first,
-				  (*edge_alpha_it).second.second));
-	    }
-	}
-    }
-  else 
-    { // get_mode() == GENERAL
-    
-      // draw the edges
-      for (edge_alpha_it = _interval_edge_map.begin(); 
-	   edge_alpha_it != _interval_edge_map.end() &&
-	     (*edge_alpha_it).first.first < get_alpha();
-	   ++edge_alpha_it) 
-	{
-	
-	  pInterval = &(*edge_alpha_it).first;
-
-	  if (pInterval->first == UNDEFINED) 
-	    {
-	    
- CGAL_triangulation_assertion(pInterval->second != Infinity);
-	      // since this happens only for convex hull of dimension 1
-	      // thus singular
-
-	      if(pInterval->second < get_alpha() &&
-		 (pInterval->third >= get_alpha()
-		  || pInterval->third == Infinity)) 
-		{
-		  // alpha must be larger than the mid boundary
-		  // and alpha is smaller than the upper boundary
-		  // which might be infinity 
-		  // visualize the boundary
-		
- CGAL_triangulation_assertion((classify((*edge_alpha_it).second.first,
-					(*edge_alpha_it).second.second) ==
-			       Alpha_shape_2<Dt>::REGULAR));
-		  V.push_back(segment((*edge_alpha_it).second.first,
-				      (*edge_alpha_it).second.second));
-		}
-	    }
-	  else 
-	    {
-	    
-
-	      if(pInterval->third >= get_alpha()
-		 || pInterval->third == Infinity) 
-		{
-		  // if alpha is smaller than the upper boundary
-		  // which might be infinity 
-		  // visualize the boundary
-	
- CGAL_triangulation_assertion(((classify((*edge_alpha_it).second.first,
-					 (*edge_alpha_it).second.second) ==
-				Alpha_shape_2<Dt>::REGULAR) || 
-			       (classify((*edge_alpha_it).second.first,
-					 (*edge_alpha_it).second.second) ==
-				Alpha_shape_2<Dt>::SINGULAR)));
-
-		  V.push_back(segment((*edge_alpha_it).second.first,
-				      (*edge_alpha_it).second.second));
-		}
-	    }
-
-	}
-    }
-  return V;
-}
-
 //-------------------------------------------------------------------
 
 template < class Dt >
@@ -1797,19 +1650,12 @@ operator<<(std::ostream& os, const Alpha_shape_2<Dt>& A)
   return A.op_ostream(os);
 }
 
-//-------------------------------------------------------------------
 
-template < class Dt >
-typename Alpha_shape_2<Dt>::Vect_seg& 
-operator<<(typename Alpha_shape_2<Dt>::Vect_seg& V, const Alpha_shape_2<Dt>& A)
-{
-  return A.op_vect_seg(V);
-}
 
 //-------------------------------------------------------------------
 
 template < class Dt >
-std::list<CGAL_TYPENAME_MSVC_NULL Alpha_shape_2<Dt>::Point> 
+std::list<typename Alpha_shape_2<Dt>::Point> 
 Alpha_shape_2<Dt>::Output () 
 {
   typename Interval_edge_map::const_iterator edge_alpha_it;
@@ -1932,9 +1778,7 @@ Alpha_shape_2<Dt>::Output ()
   return L;
 }
 
-//-------------------------------------------------------------------
 CGAL_END_NAMESPACE
-//-------------------------------------------------------------------
 
 #ifdef CGAL_ALPHA_WINDOW_STREAM
 #include <CGAL/IO/alpha_shapes_2_window_stream.h>

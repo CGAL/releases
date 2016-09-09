@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Extended_homogeneous.h,v $
+// $Revision: 1.24 $ $Date: 2003/09/18 10:23:22 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Extended_homogeneous.h
-// package       : Nef_2 (1.18)
-// chapter       : Nef Polyhedra
-//
-// source        : nef_2d/Simple_extended_kernel.lw
-// revision      : $Revision: 1.19 $
-// revision_date : $Date: 2002/05/07 15:02:59 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Michael Seel
-//
-// implementation: Extended homogeneous kernel
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_EXTENDED_HOMOGENEOUS_H
 #define CGAL_EXTENDED_HOMOGENEOUS_H
 
@@ -56,12 +25,7 @@
 #include <CGAL/Line_2_Line_2_intersection.h> 
 #include <CGAL/squared_distance_2.h> 
 #include <CGAL/number_utils.h>
-#if (defined( _MSC_VER) && (_MSC_VER <= 1200))
-#include <CGAL/Nef_2/Polynomial_MSC.h>
-#define Polynomial Polynomial_MSC
-#else
 #include <CGAL/Nef_2/Polynomial.h>
-#endif
 #undef _DEBUG
 #define _DEBUG 5
 #include <CGAL/Nef_2/debug.h>
@@ -360,15 +324,13 @@ on the extended geometric objects.}*/
 
   Point_2 source(const Segment_2& s) const
   /*{\Mop returns the source point of |s|.}*/
-  { typename Base::Construct_source_point_2 _source =
-      construct_source_point_2_object();
-    return _source(s); }
+  { typename Base::Construct_vertex_2 _source = construct_vertex_2_object();
+    return _source(s,0); }
 
   Point_2 target(const Segment_2& s) const
   /*{\Mop returns the target point of |s|.}*/
-  { typename Base::Construct_target_point_2 _target =
-      construct_target_point_2_object();
-    return _target(s); }
+  { typename Base::Construct_vertex_2 _target = construct_vertex_2_object();
+    return _target(s,1); }
 
   Segment_2 construct_segment(const Point_2& p, const Point_2& q) const
   /*{\Mop constructs a segment |pq|.}*/
@@ -380,8 +342,8 @@ on the extended geometric objects.}*/
   /*{\Xop only used internally.}*/
   { TRACEN("simplify("<<p<<")");
     RT x=p.hx(), y=p.hy(), w=p.hw();
-    RT common = x.is_zero() ? y : gcd(x,y);
-    common = gcd(common,w);
+    RT common = x.is_zero()? y : RT::gcd(x,y);
+    common = RT::gcd(common,w);
     p = Point_2(x/common,y/common,w/common);
     TRACEN("canceled="<<p);
   }
@@ -395,8 +357,8 @@ on the extended geometric objects.}*/
   { Line_2 l(p1,p2);
       TRACEN("eline("<<p1<<p2<<")="<<l);
     RT a=l.a(), b=l.b(), c=l.c();
-    RT common = a.is_zero() ? b : gcd(a,b);
-    common = gcd(common,c);
+    RT common = a.is_zero() ? b : RT::gcd(a,b);
+    common = RT::gcd(common,c);
     l =  Line_2(a/common,b/common,c/common);
       TRACEN("canceled="<<l);
     return l; 
@@ -419,7 +381,7 @@ on the extended geometric objects.}*/
     return static_cast<int> ( _orientation(p1,p2,p3) ); 
   }
 
-  bool leftturn(const Point_2& p1, const Point_2& p2, const Point_2& p3) 
+  bool left_turn(const Point_2& p1, const Point_2& p2, const Point_2& p3) 
   const
   /*{\Mop return true iff the |p3| is left of the line through |p1p2|.}*/
   { return orientation(p1,p2,p3) > 0; }
@@ -471,8 +433,8 @@ on the extended geometric objects.}*/
   Direction_2 construct_direction(
     const Point_2& p1, const Point_2& p2) const
   /*{\Mop returns the direction of the vector |p2| - |p1|.}*/
-  { typename Base::Construct_direction_of_line_2 _direction =
-      construct_direction_of_line_2_object();
+  { typename Base::Construct_direction_2 _direction =
+      construct_direction_2_object();
     return _direction(construct_line(p1,p2)); }
 
   bool strictly_ordered_ccw(const Direction_2& d1, 

@@ -1,106 +1,68 @@
-// ======================================================================
+// Copyright (c) 2001  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/Arr_polyline_traits_Postscript_file_stream.h,v $
+// $Revision: 1.6 $ $Date: 2003/09/18 10:19:47 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/IO/Arr_polyline_traits_Postscript_file_stream.h
-// package       : Arrangement (2.52)
-// author(s)     : Eti Ezra
-// coordinator   : Tel-Aviv University (Dan Halperin)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Ron Wein <wein@post.tau.ac.il>
 
 #ifdef CGAL_ARR_POLYLINE_TRAITS_H
 #ifndef CGAL_ARR_POLYLINE_TRAITS_POSTSCRIPT_FILE_STREAM_H   
 #define CGAL_ARR_POLYLINE_TRAITS_POSTSCRIPT_FILE_STREAM_H  
 
 #include <CGAL/Segment_2.h> 
-
-#ifndef CGAL_POSTSCRIPT_FILE_STREAM_H
 #include <CGAL/IO/Postscript_file_stream.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
-template <class Curve>
-Postscript_file_stream& 
-operator<<(Postscript_file_stream& ps, const Curve& cv)        
+template <class Segment_traits_>
+Postscript_file_stream& operator<< (Postscript_file_stream& ps,
+				    const Polyline_2<Segment_traits_>& pl)
 {
-  typedef typename Curve::value_type           Point;
-  typedef typename Curve::iterator             Curve_iter;
-  typedef typename Point::R                    R;
-  typedef CGAL::Segment_2<R>                   Segment;
-  typedef typename Curve::const_iterator       Points_iterator;
-  
-  ps << *(cv.begin());
-  
-  Points_iterator points_iter;
-  for (points_iter = cv.begin(); points_iter != cv.end(); ) {
-    //for (unsigned int i = 0; i < cv.size() - 1; i++){
-    Points_iterator source_point = points_iter;
-    
-    Points_iterator target_point =  (++points_iter);
-    
-    if (target_point == cv.end())
-      break;
-    
-    ps << Segment(*source_point, *target_point);
+  typedef Polyline_2<Segment_traits_>          Curve_2;
+  typedef typename Curve_2::const_iterator     Points_iterator;
+  typedef typename Curve_2::Segment_2          Segment_2;
+
+  Points_iterator   its = pl.begin();
+
+  // Disregard empty polylines:
+  if (its == pl.end())
+    return (ps);
+
+  // Draw the first point.
+  ps << (*its);
+
+  // Draw each segment of the polyline.
+  Points_iterator   itt = pl.begin();
+  itt++;
+
+  while (itt != pl.end())
+  {  
+    ps << Segment_2(*its, *itt);
+    its++; itt++;
   }
 
-  ps << *(--points_iter);
+  // Now (*its) is the last polyline point -- draw it as well.
+  ps << (*its);
 
-  return ps;
- 
-  /*typedef typename Curve::value_type           Point;
-    typedef typename Point::R                    R;
-    typedef CGAL::Segment_2<R>          Segment;
-    
-    ps << cv[0];
-    
-    for (unsigned int i = 0; i < cv.size() - 1; i++){
-    ps << Segment(cv[i], cv[i+1]);
-    }
-    
-    ps << cv[cv.size() - 1];
-    
-    return ps;*/
+  return (ps);
 }
 
 CGAL_END_NAMESPACE
 
 #endif
-#endif 
+#endif
 
 
 

@@ -1,54 +1,26 @@
-// ======================================================================
-//
-// Copyright (c) 1997, 1998, 1999, 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997, 1998, 1999, 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/vector.h
-// package       : STL_Extension (2.57)
-// chapter       : $CGAL_Chapter: STL Extensions for CGAL $
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2002/04/11 20:43:24 $
+// $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/vector.h,v $
+// $Revision: 1.9 $ $Date: 2003/10/21 12:23:43 $
+// $Name: current_submission $
 //
-// author(s)     : Andreas Fabri
-//                 Lutz Kettner
-// coordinator   : ETH Zurich
-//
-// A vector container class: internal replacement that works with declared
-// but not yet defined types as they occur with cyclic type dependencies
-// with templates.
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Andreas Fabri <Andreas.Fabri@sophia.inria.fr>
+//                 Lutz Kettner <kettner@mpi-sb.mpg.de>
 
 #ifndef CGAL_VECTOR_H
 #define CGAL_VECTOR_H 1
@@ -210,7 +182,7 @@ protected:
 #endif // _MSC_VER
     Allocator alloc;
 
-    iterator start;
+    iterator start_;
     iterator finish;
     iterator end_of_storage;
 
@@ -225,29 +197,29 @@ protected:
         }
     }
     void deallocate() {
-        if ( &*start)
-            alloc.deallocate( &*start, end_of_storage - start );
+        if ( &*start_)
+            alloc.deallocate( &*start_, end_of_storage - start_ );
     }
 
 protected:
     // pointer versions of begin()/end() to call the various
     // standard algorithms with the (possibly) more efficient pointers.
-    pointer         pbegin()         { return &*start; }
-    const_pointer   pbegin()   const { return &*start; }
+    pointer         pbegin()         { return &*start_; }
+    const_pointer   pbegin()   const { return &*start_; }
     pointer         pend()           { return &*finish; }
     const_pointer   pend()     const { return &*finish; }
 
 public:
     // ACCESS
     // ------
-    iterator        begin()          { return start; }
-    const_iterator  begin()    const { return start; }
+    iterator        begin()          { return start_; }
+    const_iterator  begin()    const { return start_; }
     iterator        end()            { return finish; }
     const_iterator  end()      const { return finish; }
     size_type       size()     const { return size_type(end() - begin()); }
     size_type       max_size() const { return size_type(-1) / sizeof(T); }
     size_type       capacity() const {
-                        return size_type(end_of_storage - start);
+                        return size_type(end_of_storage - start_);
     }
     bool            empty()    const { return begin() == end(); }
 
@@ -289,21 +261,21 @@ public:
     // CREATION
     // --------
     explicit vector()
-        : start(0), finish(0), end_of_storage(0) {}
+        : start_(0), finish(0), end_of_storage(0) {}
     explicit vector( const Alloc& a)
-        : start(0), finish(0), end_of_storage(0) { alloc = a; }
+        : start_(0), finish(0), end_of_storage(0) { alloc = a; }
     explicit vector( size_type n, const T& val) { fill_initialize(n, val); }
     explicit vector( size_type n) { fill_initialize(n, T()); }
 
     vector( const Self& x) {
-        start = allocate_and_copy( x.end() - x.begin(), x.begin(), x.end());
-        finish = start + (x.end() - x.begin());
+        start_ = allocate_and_copy( x.end() - x.begin(), x.begin(), x.end());
+        finish = start_ + (x.end() - x.begin());
         end_of_storage = finish;
     }
 
     template <class InputIterator>
     vector( InputIterator first, InputIterator last, const Alloc& a = Alloc())
-        : start(0), finish(0), end_of_storage(0)
+        : start_(0), finish(0), end_of_storage(0)
     {
         alloc = a;
         typedef std::iterator_traits<InputIterator> Traits;
@@ -312,7 +284,7 @@ public:
     }
 
     ~vector() { 
-        destroy( start, finish);
+        destroy( start_, finish);
         deallocate();
     }
 
@@ -322,10 +294,10 @@ public:
                 iterator tmp = allocate_and_copy( x.end() - x.begin(),
                                                   x.begin(),
                                                   x.end());
-                destroy( start, finish);
+                destroy( start_, finish);
                 deallocate();
-                start = tmp;
-                end_of_storage = start + (x.end() - x.begin());
+                start_ = tmp;
+                end_of_storage = start_ + (x.end() - x.begin());
             } else if (size() >= x.size()) {
                 iterator i = std::copy( x.begin(), x.end(), begin());
                 destroy( i, finish);
@@ -333,13 +305,13 @@ public:
                 std::copy( x.begin(), x.begin() + size(), begin());
                 std::uninitialized_copy(x.pbegin() + size(), x.pend(), pend());
             }
-            finish = start + x.size();
+            finish = start_ + x.size();
         }
         return *this;
     }
 
     void swap( Self& x) {
-        std::swap( start, x.start);
+        std::swap( start_, x.start_);
         std::swap( finish, x.finish);
         std::swap( end_of_storage, x.end_of_storage);
     }
@@ -347,12 +319,12 @@ public:
     void reserve( size_type n) {
         if ( capacity() < n) {
             const size_type old_size = size();
-            iterator tmp = allocate_and_copy( n, start, finish);
-            destroy(start, finish);
+            iterator tmp = allocate_and_copy( n, start_, finish);
+            destroy(start_, finish);
             deallocate();
-            start = tmp;
+            start_ = tmp;
             finish = tmp + old_size;
-            end_of_storage = start + n;
+            end_of_storage = start_ + n;
         }
     }
 
@@ -434,8 +406,8 @@ protected:
     void insert_aux( iterator position, const T& x);
 
     void fill_initialize( size_type n, const T& value) {
-        start = allocate_and_fill(n, value);
-        finish = start + n;
+        start_ = allocate_and_fill(n, value);
+        finish = start_ + n;
         end_of_storage = finish;
     }
 
@@ -481,8 +453,8 @@ protected:
                            ForwardIterator last,
                            std::forward_iterator_tag) {
         size_type n = std::distance( first, last);
-        start = allocate_and_copy( n, first, last);
-        finish = start + n;
+        start_ = allocate_and_copy( n, first, last);
+        finish = start_ + n;
         end_of_storage = finish;
     }
 
@@ -528,7 +500,7 @@ protected:
                 iterator new_finish = new_start;
                 try {
                     new_finish = iterator( 
-                        std::uninitialized_copy(start, position, &*new_start));
+                        std::uninitialized_copy(start_, position,&*new_start));
                     new_finish = iterator(
                         std::uninitialized_copy( first, last, &*new_finish));
                     new_finish = iterator( 
@@ -539,9 +511,9 @@ protected:
                     alloc.deallocate( &*new_start, len);
                     throw;
                 }
-                destroy( start, finish);
+                destroy( start_, finish);
                 deallocate();
-                start = new_start;
+                start_ = new_start;
                 finish = new_finish;
                 end_of_storage = new_start + len;
             }
@@ -576,7 +548,7 @@ void vector<T, Alloc>::insert_aux( iterator position, const T& x) {
         iterator new_finish = new_start;
         try {
             new_finish = iterator(
-                std::uninitialized_copy(start, position, &*new_start));
+                std::uninitialized_copy(start_, position, &*new_start));
             construct( new_finish, x);
             ++new_finish;
             new_finish = iterator(
@@ -589,7 +561,7 @@ void vector<T, Alloc>::insert_aux( iterator position, const T& x) {
         }
         destroy( begin(), end());
         deallocate();
-        start = new_start;
+        start_ = new_start;
         finish = new_finish;
         end_of_storage = new_start + len;
     }
@@ -622,7 +594,7 @@ void vector<T, Alloc>::insert( iterator position, size_type n, const T& x) {
             iterator new_finish = new_start;
             try {
                 new_finish = iterator(
-                    std::uninitialized_copy( start, position, &*new_start));
+                    std::uninitialized_copy( start_, position, &*new_start));
                 std::uninitialized_fill_n( &*new_finish, n, x);
                 new_finish += n;
                 new_finish = iterator( 
@@ -633,9 +605,9 @@ void vector<T, Alloc>::insert( iterator position, size_type n, const T& x) {
                 alloc.deallocate( &*new_start, len);
                 throw;
             }
-            destroy( start, finish);
+            destroy( start_, finish);
             deallocate();
-            start = new_start;
+            start_ = new_start;
             finish = new_finish;
             end_of_storage = new_start + len;
         }

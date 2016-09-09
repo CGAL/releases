@@ -1,46 +1,21 @@
-// ======================================================================
+// Copyright (c) 1999  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/convexity_check_2.h,v $
+// $Revision: 1.7 $ $Date: 2003/09/18 10:20:27 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/convexity_check_2.h
-// package       : Convex_hull_2 (3.34)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/12/05 15:16:20 $
-// author(s)     : Stefan Schirra
-//
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Stefan Schirra
 
 
 #ifndef CGAL_CONVEXITY_CHECK_2_H
@@ -54,7 +29,7 @@ CGAL_BEGIN_NAMESPACE
 // returns true, if the point elements in [|first|,|last|) form a 
 // counterclockwise oriented strongly convex polygon. Strongly means, 
 // there are no three collinear points. 
-// {\sc traits}: uses |Traits::Leftturn_2| and |Traits::Less_xy_2|.
+// {\sc traits}: uses |Traits::Left_turn_2|, |Traits::Equal_2| and |Traits::Less_xy_2|.
 template <class ForwardIterator, class Traits>
 bool
 is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last, 
@@ -78,7 +53,7 @@ is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last )
 // returns true, if the point elements in [|first|,|last|) form a 
 // clockwise oriented strongly convex polygon. Strongly means, there are
 // no three collinear points.
-// {\sc traits}: uses |Traits::Leftturn_2| and |Traits::Less_xy_2|.
+// {\sc traits}: uses |Traits::Left_turn_2|, |Traits::Equal_2| and |Traits::Less_xy_2|.
 template <class ForwardIterator, class Traits>
 bool
 is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last, 
@@ -100,7 +75,7 @@ is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last )
 // returns true, if all points in [|first1|,|last1|) are 
 // not right of the lines defined by consecutive points in the range 
 // [|first2|,|last2|), where the range is considered as a cycle.
-// {\sc traits}: uses |Traits::Leftturn_2|.
+// {\sc traits}: uses |Traits::Left_turn_2|.
 template <class ForwardIterator1, class ForwardIterator2, class Traits>
 bool
 ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
@@ -124,7 +99,7 @@ ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
 // returns true, if all points in [|first1|,|last1|) are 
 // not right of the lines defined by consecutive points in the range 
 // [|first2|,|last2|). 
-// {\sc traits}: uses |Traits::Leftturn_2|.
+// {\sc traits}: uses |Traits::Left_turn_2|.
 template <class ForwardIterator1, class ForwardIterator2, class Traits>
 bool
 ch_brute_force_chain_check_2(ForwardIterator1 first1, 

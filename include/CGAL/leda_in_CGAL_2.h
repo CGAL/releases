@@ -1,46 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// file          : include/CGAL/leda_in_CGAL_2.h
-// package       : LEDA (1.0.1)
-// revision      : 1.0
-// revision_date : 19 March 2002
-// author(s)     : Stefan Schirra
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// ======================================================================
+// $Source: /CVSROOT/CGAL/Packages/LEDA/include/CGAL/leda_in_CGAL_2.h,v $
+// $Revision: 1.6 $ $Date: 2003/10/21 12:19:38 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
 
 
 #ifndef LEDA_IN_CGAL_H
@@ -56,14 +35,14 @@
 CGAL_BEGIN_NAMESPACE
 inline
 bool
-leftturn( const leda_point & p, 
+left_turn( const leda_point & p, 
           const leda_point & q, 
           const leda_point & r)
 { return  CGAL_LEDA_SCOPE::left_turn(p,q,r); }
 
 inline
 bool
-rightturn( const leda_point & p, 
+right_turn( const leda_point & p, 
            const leda_point & q, 
            const leda_point & r)
 { return  CGAL_LEDA_SCOPE::right_turn(p,q,r); }
@@ -118,7 +97,7 @@ cmp_signed_dist_to_line( const leda_point & p, const leda_point & q,
                          const leda_point & r, const leda_point & s )
 {
 #if ( __LEDA__ >= 360 )
-  return (Comparison_result)::cmp_signed_dist(p,q,r,s);
+  return (Comparison_result)CGAL_LEDA_SCOPE::cmp_signed_dist(p,q,r,s);
 #else
   leda_line  l(p,q);
   int  r_or = CGAL_LEDA_SCOPE::orientation( l, r );

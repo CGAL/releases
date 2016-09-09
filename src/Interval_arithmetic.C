@@ -1,50 +1,27 @@
-// ======================================================================
-//
-// Copyright (c) 1999,2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999,2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : src/Interval_arithmetic.C
-// package       : Interval_arithmetic (4.141)
-// revision      : $Revision: 1.24 $
-// revision_date : $Date: 2001/06/20 19:00:51 $
-// author(s)     : Sylvain Pion
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/src/Interval_arithmetic.C,v $
+// $Revision: 1.31 $ $Date: 2003/10/21 12:17:48 $
+// $Name: current_submission $
+//
+// Author(s)     : Sylvain Pion
  
 #include <CGAL/basic.h>
-#include <CGAL/Interval_base.h>
 
 // M$ VC++ doesn't like them yet.
 #ifdef CGAL_IA_NEW_FILTERS
@@ -57,7 +34,9 @@
 #include <CGAL/predicates/Regular_triangulation_rtH3.h>
 #endif
 
-#include <CGAL/Filtered_exact.h>
+// #include <CGAL/Filtered_exact.h> // only for CGAL_IA_NEW_FILTERS
+// But VC++ 7.0 would need some macros defined.
+#include <CGAL/FPU.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -66,26 +45,6 @@ CGAL_BEGIN_NAMESPACE
 #include <CGAL/Arithmetic_filter/static_infos/dispatch.h>
 #endif
 
-unsigned Interval_base::number_of_failures;
-
-const Interval_base Interval_base::Largest (-HUGE_VAL, HUGE_VAL);
-const Interval_base Interval_base::Smallest (-CGAL_IA_MIN_DOUBLE,
-                                              CGAL_IA_MIN_DOUBLE);
-
-std::ostream &
-operator<< (std::ostream & os, const Interval_base & I)
-{
-    return os << "[" << I.inf() << ";" << I.sup() << "]";
-}
-
-std::istream &
-operator>> (std::istream & is, Interval_base & I)
-{
-    double d;
-    is >> d;
-    I = d;
-    return is;
-}
 
 void force_ieee_double_precision()
 {
@@ -130,6 +89,13 @@ FPU_empiric_test()
     if (y == ye) return CGAL_FE_UPWARD;
     if (z == ze) return CGAL_FE_DOWNWARD;
     return CGAL_FE_TOWARDZERO;
+}
+
+// needed in order that the test suite passes for Intel7
+namespace CGALi {
+
+double zero() { return 0; }
+
 }
 
 CGAL_END_NAMESPACE

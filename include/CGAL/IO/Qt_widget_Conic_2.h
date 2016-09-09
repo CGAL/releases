@@ -1,39 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// Copyright (c) 2002 ENS de Paris
-//
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// The Qt widget we provide for CGAL is distributed under the QPL,
-// which is Trolltech's open source license. For more information see 
-//     http://www.trolltech.com/developer/licensing/qpl.html
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// file          : include/CGAL/IO/Qt_widget_Conic_2.h
-// package       : Qt_widget (1.2.30)
-// author(s)     : Radu Ursu
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : Laurent Rineau
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_Conic_2.h,v $
+// $Revision: 1.7 $ $Date: 2003/10/21 12:23:02 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Radu Ursu
 
 
 #ifndef CGAL_QT_WIDGET_CONIC_2_H
@@ -48,90 +34,69 @@ template< class R >
 Qt_widget&
 operator << ( Qt_widget& ws, const CGAL::Conic_2<R>& c)
 {
-    // length of a pixel in window-coordinates
-    double pixel_x = 1/ws.x_scal();
-    double pixel_y = 1/ws.y_scal();
+  typedef typename R::Point_2 Point;    
+  // pixel dimensions of window
+  int dim = std::max( ws.width(), ws.height());    
+  // length of a pixel in window-coordinates
+  double pixel_x = (ws.x_max() - ws.x_min())/dim;
+  double pixel_y = (ws.y_max() - ws.y_min())/dim;
+  // pixel coordinates, stored for faster output
+  typedef typename std::pair<double, double> pcoordinates;
+  std::vector<pcoordinates> vcoordinates;
+  typedef typename std::vector<pcoordinates>::const_iterator CIT;
+  // conic coordinates
+  double r = CGAL::to_double (c.r()),
+         s = CGAL::to_double (c.s()),
+         t = CGAL::to_double (c.t()),
+         u = CGAL::to_double (c.u()),
+         v = CGAL::to_double (c.v()),
+         w = CGAL::to_double (c.w());
 
-    // pixel dimensions of window
-    int width  = (int)((ws.x_max() - ws.x_min()) * ws.x_scal()) + 1,
-        height = (int)((ws.y_max() - ws.y_min()) * ws.y_scal()) + 1,
-        dim    = std::max( width, height);
-
-    // pixel coordinates, stored for faster output
-    double *X = new double [2*dim];
-    double *Y = new double [2*dim];
-
-    // actual number of pixels to be drawn
-    int pixels, ind;
-
-    // conic coordinates
-    double r = CGAL::to_double (c.r()),
-           s = CGAL::to_double (c.s()),
-           t = CGAL::to_double (c.t()),
-           u = CGAL::to_double (c.u()),
-           v = CGAL::to_double (c.v()),
-           w = CGAL::to_double (c.w());
-
-    // Phase I (drawing in x-direction)
-    pixels = 0;
-    // solve conic equation for y
-    if (s != 0.0)
-        for (double x = ws.x_min(); x <= ws.x_max(); x+=pixel_x) {
-            double discr = (t*t-4.0*r*s)*(x*x) + (2.0*t*v-4.0*s*u)*x +
-                             v*v - 4.0*s*w;
-            if (discr >= 0.0) {
-                double y1 = (-t*x - v - CGAL::sqrt(discr))/(2.0*s);
-                double y2 = (-t*x - v + CGAL::sqrt(discr))/(2.0*s);
-                X[pixels] = x; Y[pixels++] = y1;
-                X[pixels] = x; Y[pixels++] = y2; } }
-    else
-        for (double x = ws.x_min(); x <= ws.x_max(); x+=pixel_x) {
-            double denom = t*x + v;
-            if (denom != 0.0) {
-                double y = -(r*x*x + u*x + w)/denom;
-                X[pixels] = x; Y[pixels++] = y; } }
-    //ws.draw_pixels (pixels, X, Y);
-    for (ind = 0; ind < pixels; ind++)
-    {
-      typedef Cartesian<double> Rep;
-      typedef Point_2<Rep>	Point;
-      ws << Point(X[ind], Y[ind]);
-    }
-
-    // Phase II (drawing in y-direction)
-    pixels = 0;
-    // solve conic equation for x
-    if (r != 0.0)
-        for (double y = ws.y_min(); y <= ws.y_max(); y+=pixel_y) {
-            double discr = (t*t-4.0*r*s)*(y*y) + (2.0*t*u-4.0*r*v)*y +
-                             u*u - 4.0*r*w;
-            if (discr >= 0.0) {
-                double x1 = (-t*y - u - CGAL::sqrt(discr))/(2.0*r);
-                double x2 = (-t*y - u + CGAL::sqrt(discr))/(2.0*r);
-                X[pixels] = x1; Y[pixels++] = y;
-                X[pixels] = x2; Y[pixels++] = y; } }
-    else
-        for (double y = ws.y_min(); y <= ws.y_max(); y+=pixel_y) {
-            double denom = t*y + u;
-            if (denom != 0.0) {
-                double x = -(s*y*y + v*y + w)/denom;
-                X[pixels] = x; Y[pixels++] = y; } }
-    //ws.draw_pixels (pixels, X, Y);
-    for (ind = 0; ind < pixels; ind++)
-    {
-      typedef Cartesian<double> Rep;
-      typedef Point_2<Rep>	Point;
-      ws << Point(X[ind], Y[ind]);
-    }
-
-
-    // free memory
-    delete[] Y;
-    delete[] X;
-
-    return( ws);
+  // Phase I (drawing in x-direction)    
+  // solve conic equation for y
+  if (s != 0.0)
+      for (double x = ws.x_min(); x <= ws.x_max(); x+=pixel_x) {
+          double discr = (t*t-4.0*r*s)*(x*x) + (2.0*t*v-4.0*s*u)*x +
+                            v*v - 4.0*s*w;
+          if (discr >= 0.0) {
+              double y1 = (-t*x - v - CGAL::sqrt(discr))/(2.0*s);
+              double y2 = (-t*x - v + CGAL::sqrt(discr))/(2.0*s);
+              vcoordinates.push_back(std::make_pair(x, y1));
+              vcoordinates.push_back(std::make_pair(x, y2));} }
+  else
+      for (double x = ws.x_min(); x <= ws.x_max(); x+=pixel_x) {
+          double denom = t*x + v;
+          if (denom != 0.0) {
+              double y = -(r*x*x + u*x + w)/denom;
+              vcoordinates.push_back(std::make_pair(x, y)); } }
+    
+  for(CIT it1 = vcoordinates.begin(); it1!= vcoordinates.end(); it1++){
+    ws << Point((*it1).first, (*it1).second);
+  }
+  vcoordinates.clear();
+  // Phase II (drawing in y-direction)  
+  // solve conic equation for x
+  if (r != 0.0)
+      for (double y = ws.y_min(); y <= ws.y_max(); y+=pixel_y) {
+          double discr = (t*t-4.0*r*s)*(y*y) + (2.0*t*u-4.0*r*v)*y +
+                            u*u - 4.0*r*w;
+          if (discr >= 0.0) {
+              double x1 = (-t*y - u - CGAL::sqrt(discr))/(2.0*r);
+              double x2 = (-t*y - u + CGAL::sqrt(discr))/(2.0*r);
+              vcoordinates.push_back(std::make_pair(x1, y));
+              vcoordinates.push_back(std::make_pair(x2, y));} }
+  else
+      for (double y = ws.y_min(); y <= ws.y_max(); y+=pixel_y) {
+          double denom = t*y + u;
+          if (denom != 0.0) {
+              double x = -(s*y*y + v*y + w)/denom;
+              vcoordinates.push_back(std::make_pair(x, y));} }
+  
+  for(CIT it1 = vcoordinates.begin(); it1!= vcoordinates.end(); it1++){
+    ws << Point((*it1).first, (*it1).second);
+  }
+  return( ws);
 }
-
 }//end namespace CGAL
 
 #endif

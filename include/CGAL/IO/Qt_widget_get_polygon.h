@@ -1,39 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// Copyright (c) 2002 ENS de Paris
-//
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// The Qt widget we provide for CGAL is distributed under the QPL,
-// which is Trolltech's open source license. For more information see 
-//     http://www.trolltech.com/developer/licensing/qpl.html
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// file          : include/CGAL/IO/Qt_widget_get_polygon.h
-// package       : Qt_widget (1.2.30)
-// author(s)     : Laurent Rineau
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : Laurent Rineau
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_get_polygon.h,v $
+// $Revision: 1.18 $ $Date: 2003/10/21 12:23:12 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Laurent Rineau
 
 #ifndef CGAL_QT_WIDGET_GET_POLYGON_H
 #define CGAL_QT_WIDGET_GET_POLYGON_H
@@ -48,31 +34,38 @@ template <class Polygon>
 class Qt_widget_get_polygon : public Qt_widget_layer
 {
 public:
-  typedef typename Polygon::Point_2   Point_2;
-  typedef typename Polygon::Segment_2 Segment_2;
-  typedef typename Polygon::Edge_const_iterator  ECI;
-  typedef typename Polygon::FT	      FT;
+  typedef typename Polygon::Point_2     Point_2;
+  typedef typename Polygon::Segment_2   Segment_2;
+  typedef typename Polygon::Edge_const_iterator
+                                        ECI;
+  typedef typename Polygon::Vertex_iterator
+                                        VI;
+  typedef typename Polygon::FT          FT;
   
-  Qt_widget_get_polygon()
-    : active(false), first_time(true) {}
+  Qt_widget_get_polygon(const QCursor c=QCursor(Qt::crossCursor),
+			QObject* parent = 0, const char* name = 0)
+    : Qt_widget_layer(parent, name), active(false),
+      first_time(true), cursor(c) {}
 
   void draw()
   {
     if(poly.size() > 1)
     {
-      ECI  it;
       widget->lock();
       RasterOp old_rasterop=widget->rasterOp();
       widget->get_painter().setRasterOp(XorROP);
       *widget << CGAL::GREEN;
-      for(it = poly.edges_begin(); it != --poly.edges_end(); it++)
+      ECI before_end = poly.edges_end();
+      --before_end; // --poly.edges_end() doesn't work on g++-2.95
+		    // with std::vector as the container for the polygon
+      for(ECI it = poly.edges_begin(); it != before_end; it++)
         *widget << *it;
       widget->setRasterOp(old_rasterop);
       widget->unlock();
     }
     return;
   };
-private:
+protected:
 
   bool is_pure(Qt::ButtonState s){
     if((s & Qt::ControlButton) ||
@@ -87,12 +80,13 @@ private:
   {
     if(e->button() == Qt::LeftButton && is_pure(e->state()))
     {
-      FT x=static_cast<FT>(widget->x_real(e->x()));
-      FT y=static_cast<FT>(widget->y_real(e->y()));
+      FT x, y;
+      widget->x_real(e->x(), x);
+      widget->y_real(e->y(), y);
+
       if(!active)
       {
         active=true;
-        widget->setMouseTracking(TRUE);
         last_of_poly = Point_2(x, y);
         poly.push_back(Point_2(x, y));	
       } else{
@@ -136,14 +130,22 @@ private:
               RasterOp old_rasterop=widget->rasterOp();
               widget->get_painter().setRasterOp(XorROP);
               *widget << CGAL::GREEN;
-              *widget << Segment_2(*(----poly.vertices_end()), last_of_poly);
+
+	      // g++-2.95 doesn't like --poly.vertices_end() if the
+	      // container of the polygon is std::vector
+	      VI last_of_poly_it = poly.vertices_end();
+	      --last_of_poly_it;
+	      VI before_last_of_poly_it = last_of_poly_it;
+	      --before_last_of_poly_it;
+
+              *widget << Segment_2(*before_last_of_poly_it, last_of_poly);
               *widget << CGAL::WHITE;
               *widget << Segment_2(rubber, last_of_poly);
-              *widget << Segment_2(rubber, *(----poly.vertices_end()));
+              *widget << Segment_2(rubber, *before_last_of_poly_it);
               widget->setRasterOp(old_rasterop);
             widget->unlock();
-            poly.erase(--poly.vertices_end());
-            last_of_poly = *(--poly.vertices_end());
+            last_of_poly = *before_last_of_poly_it; 
+            poly.erase(last_of_poly_it);
           }
           break;
     }//endswitch
@@ -153,8 +155,9 @@ private:
   {
     if (active)
     {
-      FT x=static_cast<FT>(widget->x_real(e->x()));
-      FT y=static_cast<FT>(widget->y_real(e->y()));
+      FT x, y;
+      widget->x_real(e->x(), x);
+      widget->y_real(e->y(), y);
 
       rubber = Point_2(x, y);
       widget->lock();
@@ -171,9 +174,9 @@ private:
     }
   };
   void activating()
-  {	
+  {
     oldcursor = widget->cursor();
-    widget->setCursor(crossCursor);
+    widget->setCursor(cursor);
     oldpolicy = widget->focusPolicy();
     widget->setFocusPolicy(QWidget::StrongFocus);
   };
@@ -187,7 +190,7 @@ private:
     widget->setFocusPolicy(oldpolicy);
     widget->redraw();
   };
-  void leaveEvent(QEvent *e)
+  void leaveEvent(QEvent *)
   {
     if (active)
     {
@@ -202,21 +205,23 @@ private:
     }
   }
 private:
-  bool is_simple()
+  virtual bool is_simple()
   {
     return true;
   }
   
 protected:
   bool	active,     //true if the first point was inserted
-		first_time; //true if it is the first time when 
-		      //draw the rubber band
-  Point_2 rubber,     //the new point of the rubber band
-		  last_of_poly,	//the last point of the polygon
-		  rubber_old; //the old point of the rubber band
-  Polygon poly;	      //the polygon
-  QWidget::FocusPolicy	oldpolicy;
+        first_time; //true if it is the first time when 
+                    //draw the rubber band
+  Point_2 rubber,   //the new point of the rubber band
+          last_of_poly, //the last point of the polygon
+          rubber_old; //the old point of the rubber band
+  Polygon poly;       //the polygon
+  QWidget::FocusPolicy  oldpolicy;
   QCursor oldcursor;
+  QCursor cursor;
+
 };
 
 } // namespace CGAL

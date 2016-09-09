@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/Segment_overlay_traits.h,v $
+// $Revision: 1.18 $ $Date: 2003/09/18 10:23:32 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Nef_2/Segment_overlay_traits.h
-// package       : Nef_2 (1.18)
-// chapter       : Nef Polyhedra
-//
-// source        : nef_2d/Segment_overlay.lw
-// revision      : $Revision: 1.16 $
-// revision_date : $Date: 2002/04/19 08:50:51 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Michael Seel
-//
-// implementation: generic segment intersection sweep
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_SEGMENT_OVERLAY_TRAITS_H
 #define CGAL_SEGMENT_OVERLAY_TRAITS_H
 
@@ -66,7 +35,7 @@
 #include <LEDA/sortseq.h>
 #include <LEDA/p_queue.h>
 #include <utility>
-#include <strstream>
+#include <sstream>
 
 namespace CGAL {
 #ifdef _DEBUG
@@ -166,7 +135,7 @@ public:
 
   leda_string dump_structures() const
   { 
-    std::ostrstream out;
+    std::ostringstream out;
     out << "SQ= ";
     CGAL_LEDA_SCOPE::pq_item pqit;
     forall_items(pqit,SQ) {
@@ -182,8 +151,8 @@ public:
     out << "YS=\n";
     for( sit = YS.max_item(); sit; sit=YS.pred(sit) )
       out << "  "<<YS.key(sit)->first()<<" "<<YS.inf(sit)<<std::endl;
-    out << '\0';
-    leda_string res(out.str()); out.freeze(0); return res;
+    leda_string res(out.str().c_str()); 
+    return res;
   }
 
 
@@ -457,7 +426,7 @@ public:
 #include <list>
 #include <map>
 #include <string>
-#include <strstream>
+#include <sstream>
 
 namespace CGAL {
 
@@ -560,7 +529,7 @@ public:
 
   std::string dump_structures() const
   { 
-    std::ostrstream out; 
+    std::ostringstream out; 
     out << "EventQueue:\n";
     typename EventQueue::const_iterator sit1;
     for(sit1 = XS.begin(); sit1 != XS.end(); ++sit1) 
@@ -576,7 +545,7 @@ public:
     typename SweepStatus::const_iterator sit3;
     for( sit3 = YS.begin(); sit3 != YS.end(); ++sit3 )
       out << sit3->first << " " << &*(sit3->second) << std::endl;
-    std::string res(out.str()); out.freeze(0); return res;
+    return out.str();
   }
 
   Point_2 source(ISegment is) const
@@ -821,10 +790,10 @@ public:
 namespace CGAL {
 #ifdef CGAL_USE_LEDA
 #define Segment_overlay_traits leda_seg_overlay_traits
-static const char* sweepversion = "LEDA segment overlay sweep";
+static const char* const sweepversion = "LEDA segment overlay sweep";
 #else
 #define Segment_overlay_traits stl_seg_overlay_traits
-static const char* sweepversion = "STL segment overlay sweep";
+static const char* const sweepversion = "STL segment overlay sweep";
 #endif
 } // namespace CGAL
 

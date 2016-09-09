@@ -1,47 +1,21 @@
-// ======================================================================
+// Copyright (c) 1999  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/ch_eddy.C,v $
+// $Revision: 1.7 $ $Date: 2003/09/18 10:20:22 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/ch_eddy.C
-// package       : Convex_hull_2 (3.34)
-// source        : convex_hull_2.lw
-// revision      : 3.3
-// revision_date : 03 Aug 2000
-// author(s)     : Stefan Schirra
-//
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Stefan Schirra
 
 
 #ifndef CGAL_CH_EDDY_C
@@ -70,10 +44,11 @@ ch__recursive_eddy(List& L,
                         const Traits& ch_traits)
 {
   typedef  typename Traits::Point_2                         Point_2;    
-  typedef  typename Traits::Leftturn_2                      Leftturn_2;
+  typedef  typename Traits::Left_turn_2                     Left_turn_2;
   typedef  typename Traits::Less_signed_distance_to_line_2  Less_dist;
 
-  Leftturn_2 left_turn = ch_traits.leftturn_2_object();
+  Left_turn_2 left_turn    = ch_traits.left_turn_2_object();
+  
   CGAL_ch_precondition( \
     std::find_if(a_it, b_it, \
             bind_1(bind_1(left_turn, *b_it), *a_it)) \
@@ -111,7 +86,11 @@ ch_eddy(InputIterator first, InputIterator last,
              const Traits& ch_traits)
 {
   typedef  typename Traits::Point_2                         Point_2;    
-  typedef  typename Traits::Leftturn_2                      Leftturn_2;
+  typedef  typename Traits::Left_turn_2                     Left_turn_2;
+  typedef  typename Traits::Equal_2                         Equal_2;   
+
+  Left_turn_2 left_turn    = ch_traits.left_turn_2_object();  
+  Equal_2     equal_points = ch_traits.equal_2_object();   
 
   if (first == last) return result;
   std::list< Point_2 >   L;
@@ -122,7 +101,7 @@ ch_eddy(InputIterator first, InputIterator last,
   ch_we_point(L.begin(), L.end(), w, e, ch_traits);
   Point_2 wp = *w;
   Point_2 ep = *e;
-  if ( wp == ep )
+  if (equal_points(wp,ep) )
   {
       *result = wp;  ++result;
       return result;
@@ -130,7 +109,7 @@ ch_eddy(InputIterator first, InputIterator last,
 
   L.erase(w);
   L.erase(e);
-  Leftturn_2 left_turn = ch_traits.leftturn_2_object();
+  
   e = std::partition(L.begin(), L.end(), 
                      bind_1(bind_1(left_turn, ep), wp) );
   L.push_front(wp);

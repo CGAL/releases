@@ -1,49 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Polygon_2_edge_circulator.h
-// package       : Polygon (4.8.1)
-// source        : 
-// revision      : 1.8a
-// revision_date : 13 Mar 1998
-// author(s)     : Wieger Wesselink
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : Utrecht University
+// $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2_edge_circulator.h,v $
+// $Revision: 1.15 $ $Date: 2003/10/21 12:22:47 $
+// $Name: current_submission $
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
 
 #ifndef CGAL_POLYGON_2_EDGE_CIRCULATOR_H
 #define CGAL_POLYGON_2_EDGE_CIRCULATOR_H
@@ -116,7 +92,7 @@ class Polygon_2_const_edge_circulator {
       return !(first_vertex == x.first_vertex);
     }
 
-    Segment_2 operator*()
+    Segment_2 operator*() const
     {
       Vertex_const_circulator second_vertex = first_vertex;
       ++second_vertex;
@@ -164,7 +140,7 @@ class Polygon_2_const_edge_circulator {
     operator+(difference_type n)
     {
       return Polygon_2_const_edge_circulator<_Traits, _Container>(
-        container, first_vertex + n);
+        this->container, first_vertex + n);
     }
 
     Polygon_2_const_edge_circulator<_Traits, _Container>&
@@ -177,7 +153,7 @@ class Polygon_2_const_edge_circulator {
     operator-(difference_type n)
     {
       return Polygon_2_const_edge_circulator<_Traits, _Container>(
-        container, first_vertex - n);
+        this->container, first_vertex - n);
     }
 
     difference_type
@@ -190,7 +166,7 @@ class Polygon_2_const_edge_circulator {
     Segment_2 operator[](int n)
     {
       return *Polygon_2_const_edge_circulator<_Traits, _Container>(
-        container, first_vertex+n);
+        this->container, first_vertex+n);
     }
 
     bool operator<(

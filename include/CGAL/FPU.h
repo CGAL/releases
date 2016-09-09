@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1998,1999,2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1998,1999,2000,2001,2002  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/FPU.h
-// package       : Interval_arithmetic (4.141)
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 2002/01/07 15:14:54 $
-// author(s)     : Sylvain Pion
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/FPU.h,v $
+// $Revision: 1.19 $ $Date: 2003/10/21 12:17:21 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Sylvain Pion
 
 #ifndef CGAL_FPU_H
 #define CGAL_FPU_H
@@ -52,11 +30,12 @@
 // It also contains the definition of the Protect_FPU_rounding<> classes,
 // a helper class which is a nice way to protect blocks of code needing a
 // particular rounding mode.
+
 #ifdef __MWERKS__
 #  include <fenv.h>
 #elif defined __alpha__  && defined __linux__ 
 extern "C" {
-#include <fenv.h>
+#  include <fenv.h>
 }
 #elif defined __linux__ 
 #  include <fpu_control.h>
@@ -72,20 +51,24 @@ extern "C" {
 #elif defined __BORLANDC__
 #  include <float.h>
 #elif defined __sgi
-    // The 3 C functions provided on IRIX 6.5 do not work !
-    // So we use precompiled (by gcc) object files linked into libCGAL.
-    // See revision 2.23 for the old code.
-extern "C" {
-  void CGAL_workaround_IRIX_set_FPU_cw (int);
-  int  CGAL_workaround_IRIX_get_FPU_cw (void);
-}
+#  include <sys/fpu.h>
+#endif
+
+
+
+// Some useful constants
+
+#if defined CGAL_CFG_NO_LIMITS
+#  define CGAL_IA_MIN_DOUBLE (5e-324)
+#  define CGAL_IA_MAX_DOUBLE (1.7976931348623157081e+308)
+#else
+#  include <limits>
+#  define CGAL_IA_MIN_DOUBLE std::numeric_limits<double>::denorm_min()
+#  define CGAL_IA_MAX_DOUBLE std::numeric_limits<double>::max()
 #endif
 
 CGAL_BEGIN_NAMESPACE
 
-// Some useful constants
-#define CGAL_IA_MIN_DOUBLE (5e-324) // subnormal
-#define CGAL_IA_MAX_DOUBLE (1.7976931348623157081e+308)
 
 // Inline function to stop compiler optimization.
 inline double IA_force_to_double(double x)
@@ -232,13 +215,30 @@ typedef unsigned int FPU_CW_t;
 #define CGAL_FE_DOWNWARD     (0xc0000000 | 0x20000000 | 0x1f)
 
 #elif defined __sgi
-#define CGAL_IA_SETFPCW(CW) CGAL_workaround_IRIX_set_FPU_cw(CW)
-#define CGAL_IA_GETFPCW(CW) CW = CGAL_workaround_IRIX_get_FPU_cw()
 typedef unsigned int FPU_CW_t;
-#define CGAL_FE_TONEAREST    (0x0)
-#define CGAL_FE_TOWARDZERO   (0x1)
-#define CGAL_FE_UPWARD       (0x2)
-#define CGAL_FE_DOWNWARD     (0x3)
+
+inline FPU_CW_t sgi_get_fpu_cw()
+{
+  fpc_csr csr;
+  csr.fc_word = get_fpc_csr();
+  return csr.fc_struct.rounding_mode;
+}
+
+inline void sgi_set_fpu_cw(FPU_CW_t cw)
+{
+  fpc_csr csr;
+  csr.fc_word = get_fpc_csr();
+  csr.fc_struct.rounding_mode = cw;
+  csr.fc_struct.flush = 0; // By default, denormals are flushed to zero !
+  set_fpc_csr(csr.fc_word);
+}
+
+#define CGAL_IA_SETFPCW(CW)  sgi_set_fpu_cw(CW)
+#define CGAL_IA_GETFPCW(CW)  CW = sgi_get_fpu_cw()
+#define CGAL_FE_TONEAREST    ROUND_TO_NEAREST
+#define CGAL_FE_TOWARDZERO   ROUND_TO_ZERO
+#define CGAL_FE_UPWARD       ROUND_TO_PLUS_INFINITY
+#define CGAL_FE_DOWNWARD     ROUND_TO_MINUS_INFINITY
 
 #elif defined __mips__ // && !defined __sgi
 #define CGAL_IA_SETFPCW(CW) asm volatile ("ctc1 %0,$31" : :"r" (CW))

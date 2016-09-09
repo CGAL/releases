@@ -1,52 +1,27 @@
-// ======================================================================
-//
-// Copyright (c) 1997, 1998, 1999, 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2003  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/In_place_list.h
-// package       : STL_Extension (2.57)
-// chapter       : $CGAL_Chapter: STL Extensions for CGAL $
-// source        : stl_extension.fw
-// revision      : $Revision: 1.41 $
-// revision_date : $Date: 2002/03/28 15:24:25 $
-// author(s)     : Michael Hoffmann
-//                 Lutz Kettner
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : ETH
+// $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/In_place_list.h,v $
+// $Revision: 1.54 $ $Date: 2003/10/21 12:23:36 $
+// $Name: current_submission $
 //
-// A doubly linked list managing items in place.
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
+//                 Lutz Kettner <kettner@mpi-sb.mpg.de>
+//                 Sylvain Pion <Sylvain.Pion@mpi-sb.mpg.de>
 
 #ifndef CGAL_IN_PLACE_LIST_H
 #define CGAL_IN_PLACE_LIST_H 1
@@ -259,38 +234,12 @@ public:
   typedef CGALi::In_place_list_iterator<T>        iterator;
   typedef CGALi::In_place_list_const_iterator<T>  const_iterator;
 
-#if defined(__sun) && defined(__SUNPRO_CC)
-  typedef std::reverse_iterator< iterator,
-                                 typename iterator::iterator_category,
-                                 typename iterator::value_type,
-                                 typename iterator::reference,
-                                 typename iterator::pointer,
-                                 typename iterator::difference_type
-                                 > reverse_iterator;
-  typedef std::reverse_iterator< const_iterator,
-                                 typename const_iterator::iterator_category,
-                                 typename const_iterator::value_type,
-                                 typename const_iterator::reference,
-                                 typename const_iterator::pointer,
-                                 typename const_iterator::difference_type
-                                 > const_reverse_iterator;
-  /*
-  typedef iterator reverse_iterator;
-  typedef const_iterator const_reverse_iterator;
-  */
-#else
   typedef std::reverse_iterator< iterator >       reverse_iterator;
   typedef std::reverse_iterator< const_iterator > const_reverse_iterator;
-#endif // defined(__sun) && defined(__SUNPRO_CC)
 
   typedef In_place_list<T,managed,Alloc>          Self;
 
 protected:
-#ifndef _MSC_VER
-  // Somehow the static initialization does not work correctly for MSVC
-  // ---> strange linker errors
-  static
-#endif // _MSC_VER
   Allocator allocator;
 
   pointer      node;
@@ -680,12 +629,6 @@ public:
   }
 
 };
-
-#ifndef _MSC_VER
-// init static member allocator object
-template <class T, bool managed, class Alloc>
-Alloc In_place_list<T,managed,Alloc>::allocator = Alloc();
-#endif // _MSC_VER
 
 template <class T, bool managed, class Alloc>
 void In_place_list<T,managed,Alloc>::

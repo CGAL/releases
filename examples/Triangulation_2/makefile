@@ -34,14 +34,19 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
+                adding_handles$(EXE_EXT) \
                 colored_face$(EXE_EXT) \
                 constrained$(EXE_EXT) \
+                constrained_hierarchy_plus$(EXE_EXT) \
                 constrained_plus$(EXE_EXT) \
-                points$(EXE_EXT) \
+                hierarchy$(EXE_EXT) \
                 regular$(EXE_EXT) \
                 terrain$(EXE_EXT) \
                 triangulation_prog1$(EXE_EXT) \
                 voronoi$(EXE_EXT) 
+
+adding_handles$(EXE_EXT): adding_handles$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)adding_handles adding_handles$(OBJ_EXT) $(LDFLAGS)
 
 colored_face$(EXE_EXT): colored_face$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)colored_face colored_face$(OBJ_EXT) $(LDFLAGS)
@@ -49,11 +54,14 @@ colored_face$(EXE_EXT): colored_face$(OBJ_EXT)
 constrained$(EXE_EXT): constrained$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)constrained constrained$(OBJ_EXT) $(LDFLAGS)
 
+constrained_hierarchy_plus$(EXE_EXT): constrained_hierarchy_plus$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)constrained_hierarchy_plus constrained_hierarchy_plus$(OBJ_EXT) $(LDFLAGS)
+
 constrained_plus$(EXE_EXT): constrained_plus$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)constrained_plus constrained_plus$(OBJ_EXT) $(LDFLAGS)
 
-points$(EXE_EXT): points$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)points points$(OBJ_EXT) $(LDFLAGS)
+hierarchy$(EXE_EXT): hierarchy$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)hierarchy hierarchy$(OBJ_EXT) $(LDFLAGS)
 
 regular$(EXE_EXT): regular$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)regular regular$(OBJ_EXT) $(LDFLAGS)
@@ -68,10 +76,12 @@ voronoi$(EXE_EXT): voronoi$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)voronoi voronoi$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
+                   adding_handles.clean \
                    colored_face.clean \
                    constrained.clean \
+                   constrained_hierarchy_plus.clean \
                    constrained_plus.clean \
-                   points.clean \
+                   hierarchy.clean \
                    regular.clean \
                    terrain.clean \
                    triangulation_prog1.clean \

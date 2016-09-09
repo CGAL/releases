@@ -1,51 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_checker.h,v $
+// $Revision: 1.8 $ $Date: 2003/09/18 10:23:28 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Nef_2/PM_checker.h
-// package       : Nef_2 (1.18)
-// chapter       : Nef Polyhedra
-//
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/07/16 12:47:22 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Michael Seel
-//
-// implementation: Geometric properties checker 
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
 #ifndef CGAL_PM_CHECKER_H
 #define CGAL_PM_CHECKER_H
@@ -54,7 +24,6 @@
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/Nef_2/PM_const_decorator.h>
 
-#define USING(t) typedef typename Base::t t
 CGAL_BEGIN_NAMESPACE
 
 /*{\Moptions outfile=PM_checker.man }*/
@@ -85,12 +54,12 @@ typedef GEOM Geometry;
 typedef typename GEOM::Point_2     Point;
 typedef typename GEOM::Direction_2 Direction;
 
-USING(Vertex_const_handle);
-USING(Halfedge_const_handle);
-USING(Vertex_const_iterator);
-USING(Halfedge_const_iterator);
-USING(Halfedge_around_vertex_const_circulator);
-USING(Halfedge_around_face_const_circulator);
+  typedef typename Base::Vertex_const_handle  Vertex_const_handle;
+  typedef typename Base::Halfedge_const_handle Halfedge_const_handle;
+typedef typename Base::Vertex_const_iterator Vertex_const_iterator;
+typedef typename Base::Halfedge_const_iterator Halfedge_const_iterator;
+typedef typename Base::Halfedge_around_vertex_const_circulator Halfedge_around_vertex_const_circulator;
+typedef typename Base::Halfedge_around_face_const_circulator Halfedge_around_face_const_circulator;
 /*{\Mtext Iterators, handles, and circulators are inherited from 
 |PM_const_decorator|.}*/
 
@@ -142,7 +111,7 @@ void PM_checker<PMCDEC,GEOM>::
 check_order_preserving_embedding(Vertex_const_handle v) const
 {
   if ( is_isolated(v) ) return;
-  std::ostrstream error_status;
+  std::ostringstream error_status;
   CGAL::set_pretty_mode ( error_status );
   Halfedge_const_handle ef = first_out_edge(v) ,e=ef,en,enn;
   error_status << "check_order_preserving_embedding\n";
@@ -161,11 +130,10 @@ check_order_preserving_embedding(Vertex_const_handle v) const
 				       direction(ef));
     if ( !(ccw1 && ccw2) ) {
       error_status << "ccw order violate!" << std::endl << '\0';
-      CGAL_assertion_msg(0,error_status.str());
+      CGAL_assertion_msg(0,error_status.str().c_str());
     }
     e = en;
   }
-  error_status.freeze(0);  
 }
 
 template <typename PMCDEC, typename GEOM>
@@ -174,26 +142,25 @@ check_forward_prefix_condition(Vertex_const_handle v) const
 { Halfedge_const_handle ef = first_out_edge(v);
   if ( ef == Halfedge_const_handle() ) return;
   Halfedge_const_handle el = cyclic_adj_pred(ef);
-  bool is_leftturn = K.leftturn(point(v),
+  bool is_left_turn = K.left_turn(point(v),
                                 point(target(ef)),
                                 point(target(el)));
   bool el_forward = is_forward(el);
   bool ef_forward = is_forward(ef);
   bool ef_el_eq = (ef==el);
-  std::ostrstream error_status;
+  std::ostringstream error_status;
   error_status << "check_forward_prefix_condition: ";
   error_status << PV(v) << "\n";
   error_status << PE(ef) << "\n" << PE(el) << "\n";
   error_status << " ef == el = " << ef_el_eq;
   error_status << " ef_forward = " << ef_forward;
   error_status << " el_forward = " << el_forward;
-  error_status << " is_leftturn = " << is_leftturn << '\0';
+  error_status << " is_left_turn = " << is_left_turn;
   CGAL_assertion_msg( (ef == el ||
                        ef_forward && !el_forward ||
-                       ef_forward &&  el_forward && is_leftturn ||
-                       !ef_forward && !el_forward && is_leftturn) ,
-                       error_status.str());
-  error_status.freeze(0);  
+                       ef_forward &&  el_forward && is_left_turn ||
+                       !ef_forward && !el_forward && is_left_turn) ,
+                       error_status.str().c_str());
 }
 
 /* We check the geometric integrity of the structure. We check
@@ -234,7 +201,7 @@ check_boundary_is_clockwise_weakly_polygon() const
     --hvit;
     Point p1 = point(target(e_boundary_at_v_min));
     Point p2 = point(target(hvit));
-    if ( K.orientation(p_min,p1,p2) > 0 ) { // leftturn
+    if ( K.orientation(p_min,p1,p2) > 0 ) { // left_turn
       e_boundary_at_v_min = hvit;
       break;
     }
@@ -271,7 +238,7 @@ check_is_triangulation() const
 
   CGAL::Unique_hash_map< Halfedge_const_iterator, bool> on_boundary(false);
   Halfedge_around_face_const_circulator hit(eb), hend(hit);
-  std::ostrstream error_status;
+  std::ostringstream error_status;
   CGAL::set_pretty_mode ( error_status );
   error_status << "check_is_triangulation\n";
   error_status << "on boundary:\n";
@@ -288,18 +255,17 @@ check_is_triangulation() const
       error_status << PE(hit);
       ++edges_in_face_cycle;
     }
-    CGAL_assertion_msg(edges_in_face_cycle==3,error_status.str());
+    CGAL_assertion_msg(edges_in_face_cycle==3,error_status.str().c_str());
     CGAL_assertion_msg(
-      K.leftturn(point(source(hit)),point(target(hit)),
-                 point(target(next(hit)))), error_status.str());
+      K.left_turn(point(source(hit)),point(target(hit)),
+                 point(target(next(hit)))), error_status.str().c_str());
   }
-  error_status.freeze(0);
 }
 
 
 
 CGAL_END_NAMESPACE
 
-#undef USING
+
 #endif // CGAL_PM_CHECKER_H
 

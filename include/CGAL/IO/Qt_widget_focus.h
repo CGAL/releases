@@ -1,39 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// Copyright (c) 2002 ENS de Paris
-//
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// The Qt widget we provide for CGAL is distributed under the QPL,
-// which is Trolltech's open source license. For more information see 
-//     http://www.trolltech.com/developer/licensing/qpl.html
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// file          : include/CGAL/IO/Qt_widget_focus.h
-// package       : Qt_widget (1.2.30)
-// author(s)     : Radu Ursu
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : Laurent Rineau
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_focus.h,v $
+// $Revision: 1.14 $ $Date: 2003/10/21 12:23:06 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Radu Ursu
 
 #ifndef CGAL_QT_WIDGET_FOCUS_H
 #define CGAL_QT_WIDGET_FOCUS_H
@@ -60,19 +46,21 @@ namespace CGAL {
 class Qt_widget_focus : public Qt_widget_layer
 {
 private:
-  int	    x2, y2;
+  int     x2, y2;
   QPixmap *mouse_ico1,
           *mouse_ico2,
           *mouse_ico3;
-  QCursor	*cursor1,
+  QCursor *cursor1,
           *cursor2,
           *cursor3;
-  QBitmap	cb, cm;
-  int		  cycle;
+  QBitmap cb, cm;
+  int	  cycle;
   QCursor oldcursor;
 
 public:
-  Qt_widget_focus() : cycle(0) {
+  Qt_widget_focus(QObject* parent = 0, const char* name = 0) 
+    : Qt_widget_layer(parent, name), cycle(0)
+  {
 	mouse_ico1 = new QPixmap( (const char**)focus1_xpm);
 	mouse_ico2 = new QPixmap( (const char**)focus2_xpm);
 	mouse_ico3 = new QPixmap( (const char**)focus3_xpm);
@@ -94,7 +82,7 @@ public:
 	cursor3 = new QCursor(*mouse_ico3);
   };
 
-  void timerEvent( QTimerEvent *e )
+  void timerEvent( QTimerEvent *)
   {
 	switch(cycle){
 	case 1:
@@ -125,11 +113,10 @@ private:
     if(e->button() == Qt::LeftButton
        && is_pure(e->state()))
     {
-      double x=widget->x_real(e->x());
-      double y=widget->y_real(e->y());
-	
+      double x, y;
+      widget->x_real(e->x(), x);
+      widget->y_real(e->y(), y);	
       widget->set_center(x, y);
-      widget->redraw();
     }
   };
   void deactivating()

@@ -7,21 +7,14 @@
 #include <CGAL/Convex_hull_traits_3.h>
 #include <CGAL/convex_hull_3.h>
 #include <vector>
-#ifdef CGAL_USE_LEDA
-#include <CGAL/leda_integer.h>
-typedef leda_integer RT;
-#else
+
 #ifdef CGAL_USE_GMP
 #include <CGAL/Gmpz.h>
 typedef CGAL::Gmpz RT;
 #else
-// NOTE: the choice of double here for a number type may cause problems
-//       for degenerate point sets
-#include <CGAL/double.h>
-typedef double RT;
+#include <CGAL/MP_Float.h>
+typedef CGAL::MP_Float RT;
 #endif
-#endif
-
 
 typedef CGAL::Homogeneous<RT>                     K;
 typedef CGAL::Convex_hull_traits_3<K>             Traits;

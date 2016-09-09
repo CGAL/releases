@@ -1,49 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_short_names_2.h,v $
+// $Revision: 1.16 $ $Date: 2003/09/18 10:26:17 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_short_names_2.h
-// package       : Triangulation_2 (7.32)
-// source        : $RCSfile: Triangulation_short_names_2.h,v $
-// revision      : $Revision: 1.13 $
-// revision_date : $Date: 2002/04/11 07:23:42 $
-// author(s)     : Mariette Yvinec
-//
-// coordinator   : Mariette Yvinec
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Mariette Yvinec
 
 #ifndef CGAL_TRIANGULATION_SHORT_NAMES_2_H
 #define CGAL_TRIANGULATION_SHORT_NAMES_2_H
@@ -51,10 +23,8 @@
 
 //Define shorter names to please linker (g++/egcs)
 
-// for backward compatibilite
-#define Triangulation_default_data_structure_2 TDDS
-#define Triangulation_data_structure_using_list_2 TDSUL
-#define Triangulation_data_structure_2 TDS
+
+#define Triangulation_data_structure_2 Tds2
 #define Triangulation_vertex_base_2  Tvb
 #define Triangulation_face_base_2  Tfb
 #define Triangulation_euclidean_traits_2 Et2
@@ -64,8 +34,8 @@
 
 #define Triangulation_ds_vertex_2             Tdsv
 #define Triangulation_ds_face_2               Tdsf
-#define Triangulation_dsul_vertex_2           Tdsulv
-#define Triangulation_dsul_face_2             Tdsulf
+#define Triangulation_ds_face_base_2          Tdsfb
+#define Triangulation_ds_vertex_base_2        Tdsvb
 #define Triangulation_vertex_2                Tv
 #define Triangulation_face_2                  Tf
 #define Triangulation_vertex_handle_2         Tvh

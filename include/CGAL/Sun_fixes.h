@@ -1,67 +1,60 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2002 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2002  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Sun_fixes.h
-// package       : Configuration (2.32)
-// source        :
-// revision      : 1.11
-// revision_date : 30 Mar 1998
-// author(s)     : Michael Hoffmann
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : Utrecht University
+// $Source: /CVSROOT/CGAL/Packages/Configuration/include/CGAL/Sun_fixes.h,v $
+// $Revision: 1.10 $ $Date: 2003/10/21 12:14:55 $
+// $Name: current_submission $
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Hoffmann (hoffmann@inf.ethz.ch)
 
 #ifndef CGAL_SUN_FIXES_H
 #define CGAL_SUN_FIXES_H 1
 
 //----------------------------------------------------------------------//
-//             enable member templates for stdlib                       //
+//             if member templates for stdlib are not enabled           //
 //----------------------------------------------------------------------//
 
+/*
+
+For reasons of binary backward compatibility, Sun CC does not enable 
+member templates of the STL classes.
+
+An #undef creates runtime errors for some packages, so it is not a 
+viable solution. Instead, we have to offer workarounds in CGAL
+code, whereever we use this feature.
+
+*/
+ 
 #include <stdcomp.h>
-#undef RWSTD_NO_MEMBER_TEMPLATES
-#undef _RWSTD_NO_MEMBER_TEMPLATES
+
+#if defined(RWSTD_NO_MEMBER_TEMPLATES) || defined(_RWSTD_NO_MEMBER_TEMPLATES)
+
+#define CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+
+#endif
 
 //----------------------------------------------------------------------//
 //             fake iterator_traits                                     //
 //----------------------------------------------------------------------//
 
 #include <iterator>
+
 namespace std {
+
   template <class Iterator> struct iterator_traits
   {
     typedef typename Iterator::value_type value_type;
@@ -70,6 +63,7 @@ namespace std {
     typedef typename Iterator::reference reference;
     typedef typename Iterator::iterator_category iterator_category;
   };
+
   template <class T> struct iterator_traits<T*>
   {
     typedef T value_type;
@@ -78,6 +72,7 @@ namespace std {
     typedef T& reference;
     typedef random_access_iterator_tag iterator_category;
   };
+
   template <class T> struct iterator_traits<const T*>
   {
     typedef T value_type;
@@ -86,6 +81,7 @@ namespace std {
     typedef const T& reference;
     typedef random_access_iterator_tag iterator_category;
   };
+
   template <class ForwardIterator>
   inline ptrdiff_t
   distance (ForwardIterator first, ForwardIterator last)
@@ -95,6 +91,10 @@ namespace std {
                iterator_traits<ForwardIterator>::iterator_category());
     return n;
   }
+
+} // namespace std
+
+namespace CGAL {
 
   template < class T >
   inline typename T::value_type*
@@ -113,6 +113,21 @@ namespace std {
     typename T::iterator_category tmp;
     return tmp;
   }
-} // namespace std
+
+  template < class T >
+  inline T* __value_type(T*)
+  { return (T*)(0); }
+
+  template <class T>
+  inline std::ptrdiff_t* 
+  __distance_type (T*)
+  { return (std::ptrdiff_t*)(0); }
+
+  template <class T>
+  inline std::random_access_iterator_tag 
+  __iterator_category (T*)
+  { return std::random_access_iterator_tag(); }
+
+} // namespace CGAL
 
 #endif // CGAL_SUN_FIXES_H

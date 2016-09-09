@@ -1,49 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Constrained_triangulation_sweep_2.h,v $
+// $Revision: 1.21 $ $Date: 2003/09/18 10:26:04 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Constrained_triangulation_sweep_2.h
-// package       : Triangulation_2 (7.32)
-// source        : $RCSfile : Constrained_triangulation_sweep_2.h,v $
-// revision      : $Revision: 1.18 $
-// revision_date : $Date: 2001/12/03 09:03:42 $
-// author(s)     : Mariette Yvinec
-//
-// coordinator   : Mariette Yvinec
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Mariette Yvinec
 
 #ifndef CGAL_CONSTRAINED_TRIANGULATION_SWEEP_2_H
 #define CGAL_CONSTRAINED_TRIANGULATION_SWEEP_2_H
@@ -130,7 +102,7 @@ public:
           if  (t.compare_x(p2,q2) == EQUAL) {
             return (t.compare_y(p1,p2) == SMALLER);}
           // default case
-          return( t.orientation(p2,q2,p1) == RIGHTTURN);
+          return( t.orientation(p2,q2,p1) == RIGHT_TURN);
         }
     
         else if ( t.compare_x(p2,q2) == EQUAL &&
@@ -145,7 +117,7 @@ public:
           if (t.compare_x(p1,q1) == EQUAL) {
             return ( t.compare_y(p1,p2) == SMALLER);}
           // default case
-          return (t.orientation(p1,q1,q2) == LEFTTURN);
+          return (t.orientation(p1,q1,q2) == LEFT_TURN);
         }
     
         // comparison of two non degenerate constraints
@@ -155,15 +127,15 @@ public:
           case SMALLER:
             if ( t.compare_x(q1,p2)  == EQUAL &&
                  t.compare_y(q1,p2)  == EQUAL) {return true;}
-            else return ( t.orientation(p1,q1,p2) == LEFTTURN);
+            else return ( t.orientation(p1,q1,p2) == LEFT_TURN);
           case LARGER :
             if ( t.compare_x(p1,q2)  == EQUAL &&
                  t.compare_y(p1,q2)  == EQUAL) {return false;}
-            else return ( t.orientation(p2,q2,p1) == RIGHTTURN);
+            else return ( t.orientation(p2,q2,p1) == RIGHT_TURN);
           case EQUAL :
             return ( t.compare_y(p1,p2) == SMALLER ||
                      (t.compare_y(p1,p2) == EQUAL &&
-                      t.orientation(p1,q1,q2) == LEFTTURN));
+                      t.orientation(p1,q1,q2) == LEFT_TURN));
           }
         }
 	// shouldn't get there
@@ -184,7 +156,8 @@ public:
     bool is_removable(Face_handle fh)
       {
 	return ( (*fh).vertex(1) == (*fh).vertex(2) &&
-		 !(*fh).neighbor(1).is_null() && !(*fh).neighbor(2).is_null());
+		 (*fh).neighbor(1) != NULL && 
+		 (*fh).neighbor(2) != NULL );
       }
 
     void remove_flat(Face_handle fh) 
@@ -192,9 +165,9 @@ public:
 	CGAL_triangulation_precondition((*fh).vertex(1) == (*fh).vertex(2));
 	Face_handle f2= (*fh).neighbor(2);
 	Face_handle f1= (*fh).neighbor(1);
-	if ( !f2.is_null()) { (*f2).set_neighbor( (*f2).index(fh), f1);}
-	if ( !f1.is_null()) { (*f1).set_neighbor( (*f1).index(fh), f2);}
-	( (*fh). vertex(0))->set_face( !f2.is_null() ? f2 : f1 );
+	if ( f2 != NULL ) { (*f2).set_neighbor( (*f2).index(fh), f1);}
+	if ( f1 != NULL ) { (*f1).set_neighbor( (*f1).index(fh), f2);}
+	( (*fh). vertex(0))->set_face( f2!= NULL ? f2 : f1 );
 	_tr->delete_face(fh);
 	return;
       }
@@ -234,7 +207,7 @@ public:
           cwin = fn->vertex(fn->cw(in));
           ccwin = fn->vertex(fn->ccw(in));
           if ( t.orientation(ccwin->point(),cwin->point(),v->point()) ==
-               RIGHTTURN) {
+               RIGHT_TURN) {
             pop_front();
             newf = _tr->create_face(v,cwin,ccwin);
             last->set_neighbor(2,newf); newf->set_neighbor(1,last);
@@ -262,7 +235,7 @@ public:
           cwin = fn->vertex(fn->cw(in));
           ccwin = fn->vertex(fn->ccw(in));
           if ( t.orientation(ccwin->point(),cwin->point(),v->point()) ==
-	       RIGHTTURN) {
+	       RIGHT_TURN) {
             pop_back();
             newf = _tr->create_face(v,cwin,ccwin);
             first->set_neighbor(1,newf); newf->set_neighbor(2,first);
@@ -449,7 +422,7 @@ treat_in_edges(const Event_queue_iterator & event,
   if (loc == status.end()) { pch = &upper_chain;}
   else { pch = (Chain*)((*loc).second);}
   Vertex_handle w = pch->right_most();
-  if (w.is_null()) { // first event is treated
+  if (w == NULL ) { // first event is treated
     pch->set_right_most(v);
     return v;
   }
@@ -483,7 +456,7 @@ treat_in_edges(const Event_queue_iterator & event,
 
   //delete flat newf if possible
   // i. e. if at least one of its neighbor is not NULL
-  if ( !newf->neighbor(2).is_null() || !newf->neighbor(1).is_null()) {
+  if ( newf->neighbor(2) != NULL  || newf->neighbor(1)!= NULL ) {
     if (first == newf ) { // means newf->neighbor(1) == NULL
        first  = newf->neighbor(2);}
     if (last == newf) { // means newf->neighbor(2) == NULL
@@ -596,7 +569,7 @@ set_infinite_faces()
   Vertex_handle infinite= _tr->infinite_vertex();
 
   // Triangulation may be empty;
-  if (upper_chain.right_most().is_null()) {return;}
+  if (upper_chain.right_most() == NULL ) {return;}
 
   Neighbor_list* upper_list= upper_chain.up_list();
   Neighbor_list* lower_list= upper_chain.down_list();
@@ -633,7 +606,7 @@ set_infinite_faces()
       //turn the vertex [vww] into [wvNULL]
       fn->set_vertex(1, fn->vertex(0));
       fn->set_vertex(0, fn->vertex(2));
-      fn->set_vertex(2, Vertex_handle());
+      fn->set_vertex(2, Vertex_handle(NULL));
       fn->vertex(0)->set_face(fn);
       fn->set_neighbor(1,last);
       last->set_neighbor(0,fn);

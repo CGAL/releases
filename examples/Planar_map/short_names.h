@@ -1,4 +1,6 @@
-#if defined(CGAL_CFG_NO_LONGNAME_PROBLEM) || defined(_MSC_VER)
+#include <CGAL/config.h> // needed for the LONGNAME flag
+
+#if defined(CGAL_CFG_LONGNAME_BUG)
 #define Quotient                        Qt
 #define Homogeneous                     Hs
 #define Cartesian                       Cn
@@ -14,19 +16,16 @@
 #define _Nonconst_traits                NT
 #define Td_traits                       TT
 #define Pm_segment_traits_2             PST
-#define Planar_map_traits_wrap          PMTW
+#define Pm_traits_wrap_2                PMTW
 #define Interval_converter              IC
 #define NT_converter                    NC
 #define Td_X_trapezoid                  TXT
 #define Interval_nt                     IN
 #define PL_X_curve_plus                 PXCP
-#define bidirectional_iterator_tag      BIT
 #define Forward_circulator_tag          FCT
-
 #define remove_in_face_interior         RIFI
 #define I_Polyhedron_const_iterator     PCI
 #define _Rb_tree_iterator               RTI
-
 #define _Rb_tree                        RT
-//#define Trapezoidal_decomposition_2     TD
+
 #endif

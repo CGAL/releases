@@ -1,52 +1,27 @@
-// ======================================================================
-//
-// Copyright (c) 1997, 1998, 1999, 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2003  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/functional.h
-// package       : STL_Extension (2.57)
-// chapter       : $CGAL_Chapter: STL Extensions for CGAL $
-// source        : stl_extension.fw
-// revision      : $Revision: 1.24 $
-// revision_date : $Date: 2002/03/28 15:24:31 $
-// author(s)     : Michael Hoffmann
-//                 Lutz Kettner
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : ETH
+// $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/functional.h,v $
+// $Revision: 1.39 $ $Date: 2003/10/21 12:23:41 $
+// $Name: current_submission $
 //
-// New Functor Adaptors.
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
+//                 Lutz Kettner <kettner@mpi-sb.mpg.de>
+//                 Sylvain Pion <Sylvain.Pion@mpi-sb.mpg.de>
 
 #ifndef CGAL_FUNCTIONAL_H
 #define CGAL_FUNCTIONAL_H 1
@@ -58,6 +33,179 @@
 #else
 
 CGAL_BEGIN_NAMESPACE
+
+// +----------------------------------------------------------------------+
+// | A functor adaptor to define an arity explicitly
+// +----------------------------------------------------------------------+
+
+namespace CGALi {
+
+  template < class F, int a > struct Set_arity_helper;
+
+  template < class F >
+  struct Set_arity_helper< F, 0 > {
+    typedef Arity_tag< 0 >           Arity;
+    typedef typename F::result_type  result_type;
+  
+    Set_arity_helper(const F& f) : f_(f) {}
+  
+    
+    result_type operator()
+    ()
+    const
+    { return f_(); }
+  
+  protected:
+    F f_;
+  };
+  
+  template < class F >
+  struct Set_arity_helper< F, 1 > {
+    typedef Arity_tag< 1 >           Arity;
+    typedef typename F::result_type  result_type;
+  
+    Set_arity_helper(const F& f) : f_(f) {}
+  
+    template < class A1 >
+    result_type operator()
+    (const A1& a1)
+    const
+    { return f_(a1); }
+  
+  protected:
+    F f_;
+  };
+  
+  template < class F >
+  struct Set_arity_helper< F, 2 > {
+    typedef Arity_tag< 2 >           Arity;
+    typedef typename F::result_type  result_type;
+  
+    Set_arity_helper(const F& f) : f_(f) {}
+  
+    template < class A1, class A2 >
+    result_type operator()
+    (const A1& a1, const A2& a2)
+    const
+    { return f_(a1, a2); }
+  
+  protected:
+    F f_;
+  };
+  
+  template < class F >
+  struct Set_arity_helper< F, 3 > {
+    typedef Arity_tag< 3 >           Arity;
+    typedef typename F::result_type  result_type;
+  
+    Set_arity_helper(const F& f) : f_(f) {}
+  
+    template < class A1, class A2, class A3 >
+    result_type operator()
+    (const A1& a1, const A2& a2, const A3& a3)
+    const
+    { return f_(a1, a2, a3); }
+  
+  protected:
+    F f_;
+  };
+  
+  template < class F >
+  struct Set_arity_helper< F, 4 > {
+    typedef Arity_tag< 4 >           Arity;
+    typedef typename F::result_type  result_type;
+  
+    Set_arity_helper(const F& f) : f_(f) {}
+  
+    template < class A1, class A2, class A3, class A4 >
+    result_type operator()
+    (const A1& a1, const A2& a2, const A3& a3, const A4& a4)
+    const
+    { return f_(a1, a2, a3, a4); }
+  
+  protected:
+    F f_;
+  };
+  
+  template < class F >
+  struct Set_arity_helper< F, 5 > {
+    typedef Arity_tag< 5 >           Arity;
+    typedef typename F::result_type  result_type;
+  
+    Set_arity_helper(const F& f) : f_(f) {}
+  
+    template < class A1, class A2, class A3, class A4, class A5 >
+    result_type operator()
+    (const A1& a1, const A2& a2, const A3& a3, const A4& a4, const A5& a5)
+    const
+    { return f_(a1, a2, a3, a4, a5); }
+  
+  protected:
+    F f_;
+  };
+  
+
+} // namespace CGALi
+
+template < class F, int a >
+struct Set_arity {
+  typedef CGALi::Set_arity_helper< F, a > Type;
+};
+
+template < class F >
+inline
+typename Set_arity< F, 0 >::Type
+set_arity_0(const F& f)
+{
+  typedef typename Set_arity< F, 0 >::Type Type;
+  return Type(f);
+}
+
+template < class F >
+inline
+typename Set_arity< F, 1 >::Type
+set_arity_1(const F& f)
+{
+  typedef typename Set_arity< F, 1 >::Type Type;
+  return Type(f);
+}
+
+template < class F >
+inline
+typename Set_arity< F, 2 >::Type
+set_arity_2(const F& f)
+{
+  typedef typename Set_arity< F, 2 >::Type Type;
+  return Type(f);
+}
+
+template < class F >
+inline
+typename Set_arity< F, 3 >::Type
+set_arity_3(const F& f)
+{
+  typedef typename Set_arity< F, 3 >::Type Type;
+  return Type(f);
+}
+
+template < class F >
+inline
+typename Set_arity< F, 4 >::Type
+set_arity_4(const F& f)
+{
+  typedef typename Set_arity< F, 4 >::Type Type;
+  return Type(f);
+}
+
+template < class F >
+inline
+typename Set_arity< F, 5 >::Type
+set_arity_5(const F& f)
+{
+  typedef typename Set_arity< F, 5 >::Type Type;
+  return Type(f);
+}
+
 
 // +----------------------------------------------------------------------+
 // | Functor Adaptors for Swapping Arguments
@@ -82,6 +230,7 @@ namespace CGALi {
   protected:
     F f;
   };
+  
   template < class F >
   struct Swapper< F, 1, Arity_tag< 3 > > {
     typedef typename F::result_type result_type;
@@ -97,6 +246,7 @@ namespace CGALi {
   protected:
     F f;
   };
+  
   template < class F >
   struct Swapper< F, 2, Arity_tag< 3 > > {
     typedef typename F::result_type result_type;
@@ -112,6 +262,7 @@ namespace CGALi {
   protected:
     F f;
   };
+  
   template < class F >
   struct Swapper< F, 1, Arity_tag< 4 > > {
     typedef typename F::result_type result_type;
@@ -127,6 +278,7 @@ namespace CGALi {
   protected:
     F f;
   };
+  
   template < class F >
   struct Swapper< F, 2, Arity_tag< 4 > > {
     typedef typename F::result_type result_type;
@@ -142,6 +294,7 @@ namespace CGALi {
   protected:
     F f;
   };
+  
   template < class F >
   struct Swapper< F, 3, Arity_tag< 4 > > {
     typedef typename F::result_type result_type;
@@ -157,6 +310,7 @@ namespace CGALi {
   protected:
     F f;
   };
+  
   template < class F >
   struct Swapper< F, 1, Arity_tag< 5 > > {
     typedef typename F::result_type result_type;
@@ -173,6 +327,7 @@ namespace CGALi {
   protected:
     F f;
   };
+  
   template < class F >
   struct Swapper< F, 2, Arity_tag< 5 > > {
     typedef typename F::result_type result_type;
@@ -189,6 +344,7 @@ namespace CGALi {
   protected:
     F f;
   };
+  
   template < class F >
   struct Swapper< F, 3, Arity_tag< 5 > > {
     typedef typename F::result_type result_type;
@@ -205,6 +361,7 @@ namespace CGALi {
   protected:
     F f;
   };
+  
   template < class F >
   struct Swapper< F, 4, Arity_tag< 5 > > {
     typedef typename F::result_type result_type;
@@ -221,6 +378,7 @@ namespace CGALi {
   protected:
     F f;
   };
+  
 
 } // namespace CGALi
 
@@ -281,6 +439,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 2 >, A, 1 > {
     typedef typename F::result_type  result_type;
@@ -296,6 +455,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 2 >, A, 2 > {
     typedef typename F::result_type  result_type;
@@ -311,6 +471,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 3 >, A, 1 > {
     typedef typename F::result_type  result_type;
@@ -327,6 +488,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 3 >, A, 2 > {
     typedef typename F::result_type  result_type;
@@ -343,6 +505,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 3 >, A, 3 > {
     typedef typename F::result_type  result_type;
@@ -359,6 +522,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 4 >, A, 1 > {
     typedef typename F::result_type  result_type;
@@ -375,6 +539,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 4 >, A, 2 > {
     typedef typename F::result_type  result_type;
@@ -391,6 +556,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 4 >, A, 3 > {
     typedef typename F::result_type  result_type;
@@ -407,6 +573,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 4 >, A, 4 > {
     typedef typename F::result_type  result_type;
@@ -423,6 +590,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 5 >, A, 1 > {
     typedef typename F::result_type  result_type;
@@ -440,6 +608,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 5 >, A, 2 > {
     typedef typename F::result_type  result_type;
@@ -457,6 +626,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 5 >, A, 3 > {
     typedef typename F::result_type  result_type;
@@ -474,6 +644,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 5 >, A, 4 > {
     typedef typename F::result_type  result_type;
@@ -491,6 +662,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
   template < class F, class A >
   struct Binder< F, Arity_tag< 5 >, A, 5 > {
     typedef typename F::result_type  result_type;
@@ -508,6 +680,7 @@ namespace CGALi {
     F f;
     A a;
   };
+  
 
 } // namespace CGALi
 
@@ -593,6 +766,7 @@ namespace CGALi {
     F0 f0;
     F1 f1;
   };
+  
   template < class F0, class F1 >
   struct Composer< F0, Arity_tag< 1 >,
                    F1, Arity_tag< 1 >,
@@ -612,6 +786,7 @@ namespace CGALi {
     F0 f0;
     F1 f1;
   };
+  
   template < class F0, class F1 >
   struct Composer< F0, Arity_tag< 1 >,
                    F1, Arity_tag< 2 >,
@@ -631,6 +806,7 @@ namespace CGALi {
     F0 f0;
     F1 f1;
   };
+  
   template < class F0, class F1 >
   struct Composer< F0, Arity_tag< 1 >,
                    F1, Arity_tag< 3 >,
@@ -651,6 +827,7 @@ namespace CGALi {
     F0 f0;
     F1 f1;
   };
+  
   template < class F0, class F1 >
   struct Composer< F0, Arity_tag< 1 >,
                    F1, Arity_tag< 4 >,
@@ -672,6 +849,7 @@ namespace CGALi {
     F0 f0;
     F1 f1;
   };
+  
   template < class F0, class F1 >
   struct Composer< F0, Arity_tag< 1 >,
                    F1, Arity_tag< 5 >,
@@ -693,6 +871,7 @@ namespace CGALi {
     F0 f0;
     F1 f1;
   };
+  
 
   // ------------------------------------------------------------------------
   // two functions to compose
@@ -720,6 +899,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
 
   // unary functions
   template < class F0, class F1, class F2 >
@@ -744,6 +924,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 0 >,
@@ -766,6 +947,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
 
   // binary functions
   template < class F0, class F1, class F2 >
@@ -790,6 +972,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 1 >,
@@ -812,6 +995,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 0 >,
@@ -834,6 +1018,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
 
   // 3-arg functions
   template < class F0, class F1, class F2 >
@@ -859,6 +1044,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 2 >,
@@ -882,6 +1068,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 1 >,
@@ -905,6 +1092,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 0 >,
@@ -928,6 +1116,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
 
   // 4-arg functions
   template < class F0, class F1, class F2 >
@@ -954,6 +1143,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 3 >,
@@ -978,6 +1168,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 2 >,
@@ -1002,6 +1193,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 1 >,
@@ -1026,6 +1218,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 0 >,
@@ -1050,6 +1243,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
 
   // 5-arg functions
   template < class F0, class F1, class F2 >
@@ -1076,6 +1270,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 4 >,
@@ -1100,6 +1295,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 3 >,
@@ -1124,6 +1320,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 2 >,
@@ -1148,6 +1345,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 1 >,
@@ -1172,6 +1370,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer< F0, Arity_tag< 2 >,
                    F1, Arity_tag< 0 >,
@@ -1196,6 +1395,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
 
                                           
                                   
@@ -1225,6 +1425,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer_shared< F0, Arity_tag< 2 >,
                           F1, Arity_tag< 1 >,
@@ -1248,6 +1449,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer_shared< F0, Arity_tag< 2 >,
                           F1, Arity_tag< 2 >,
@@ -1271,6 +1473,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer_shared< F0, Arity_tag< 2 >,
                           F1, Arity_tag< 3 >,
@@ -1294,6 +1497,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer_shared< F0, Arity_tag< 2 >,
                           F1, Arity_tag< 4 >,
@@ -1317,6 +1521,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
   template < class F0, class F1, class F2 >
   struct Composer_shared< F0, Arity_tag< 2 >,
                           F1, Arity_tag< 5 >,
@@ -1341,6 +1546,7 @@ namespace CGALi {
     F1 f1;
     F2 f2;
   };
+  
 
 
   // ------------------------------------------------------------------------
@@ -1370,6 +1576,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
 
   // unary functions
   template < class F0, class F1, class F2, class F3 >
@@ -1395,6 +1602,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -1418,6 +1626,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -1441,6 +1650,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
 
   // binary functions
   template < class F0, class F1, class F2, class F3 >
@@ -1467,6 +1677,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -1491,6 +1702,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -1515,6 +1727,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -1539,6 +1752,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -1563,6 +1777,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -1587,6 +1802,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
 
   // 3-arg functions
   template < class F0, class F1, class F2, class F3 >
@@ -1614,6 +1830,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -1639,6 +1856,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -1664,6 +1882,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 2 >,
@@ -1689,6 +1908,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 2 >,
@@ -1714,6 +1934,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -1739,6 +1960,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -1764,6 +1986,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -1789,6 +2012,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -1814,6 +2038,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -1839,6 +2064,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
 
   // 4-arg functions
   template < class F0, class F1, class F2, class F3 >
@@ -1867,6 +2093,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -1893,6 +2120,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -1919,6 +2147,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 3 >,
@@ -1945,6 +2174,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 3 >,
@@ -1971,6 +2201,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -1997,6 +2228,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -2023,6 +2255,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -2049,6 +2282,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -2075,6 +2309,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 2 >,
@@ -2101,6 +2336,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 2 >,
@@ -2127,6 +2363,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -2153,6 +2390,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 2 >,
@@ -2179,6 +2417,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -2205,6 +2444,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -2231,6 +2471,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
 
   // 5-arg functions
   template < class F0, class F1, class F2, class F3 >
@@ -2259,6 +2500,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -2285,6 +2527,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -2311,6 +2554,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 4 >,
@@ -2337,6 +2581,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 4 >,
@@ -2363,6 +2608,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -2389,6 +2635,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -2415,6 +2662,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -2441,6 +2689,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -2467,6 +2716,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 3 >,
@@ -2493,6 +2743,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 3 >,
@@ -2519,6 +2770,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 2 >,
@@ -2545,6 +2797,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -2571,6 +2824,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 2 >,
@@ -2597,6 +2851,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 0 >,
@@ -2623,6 +2878,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 3 >,
@@ -2649,6 +2905,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -2675,6 +2932,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -2701,6 +2959,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 2 >,
@@ -2727,6 +2986,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 2 >,
@@ -2753,6 +3013,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer< F0, Arity_tag< 3 >,
                    F1, Arity_tag< 1 >,
@@ -2779,6 +3040,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
 
   template < class F0, class F1, class F2, class F3 >
   struct Composer_shared< F0, Arity_tag< 3 >,
@@ -2808,6 +3070,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer_shared< F0, Arity_tag< 3 >,
                           F1, Arity_tag< 1 >,
@@ -2836,6 +3099,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer_shared< F0, Arity_tag< 3 >,
                           F1, Arity_tag< 2 >,
@@ -2864,6 +3128,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer_shared< F0, Arity_tag< 3 >,
                           F1, Arity_tag< 3 >,
@@ -2892,6 +3157,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer_shared< F0, Arity_tag< 3 >,
                           F1, Arity_tag< 4 >,
@@ -2920,6 +3186,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
   template < class F0, class F1, class F2, class F3 >
   struct Composer_shared< F0, Arity_tag< 3 >,
                           F1, Arity_tag< 5 >,
@@ -2949,6 +3216,7 @@ namespace CGALi {
     F2 f2;
     F3 f3;
   };
+  
 
 } // namespace CGALi
 
@@ -3021,5 +3289,18 @@ CGAL_END_NAMESPACE
 
 #endif // CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
 
+CGAL_BEGIN_NAMESPACE
+
+// adaptor for not/negation
+template < typename F > inline
+typename Compose< std::logical_not<typename F::result_type>, F >::Type
+negate(const F& f)
+{
+  return compose(std::logical_not<typename F::result_type>(), f);
+}
+
+CGAL_END_NAMESPACE
+
 #endif // CGAL_FUNCTIONAL_H //
+
 // EOF //

@@ -13,7 +13,7 @@ include $(CGAL_MAKEFILE)
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = \
+CXXFLAGS = -I../../../include/ \
            $(CGAL_CXXFLAGS) \
            $(LONG_NAME_PROBLEM_CXXFLAGS) \
            $(DEBUG_OPT)
@@ -27,20 +27,53 @@ LIBPATH = \
 
 LDFLAGS = \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
-          $(CGAL_GEOWIN_LDFLAGS)
+          $(CGAL_QT_LDFLAGS) \
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-all:            \
-                minimum_enclosing_quadrilateral_2_demo$(EXE_EXT) 
+all: min_quadrilateral_2
 
-minimum_enclosing_quadrilateral_2_demo$(EXE_EXT): minimum_enclosing_quadrilateral_2_demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)minimum_enclosing_quadrilateral_2_demo minimum_enclosing_quadrilateral_2_demo$(OBJ_EXT) $(LDFLAGS)
+Qt_widget_toolbar$(OBJ_EXT): Qt_widget_toolbar.C Qt_widget_toolbar.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_toolbar.C
 
-clean: \
-                   minimum_enclosing_quadrilateral_2_demo.clean 
+Qt_widget_toolbar_layers.moc: Qt_widget_toolbar_layers.h
+	$(QT_MOC) -o Qt_widget_toolbar_layers.moc Qt_widget_toolbar_layers.h
+
+Qt_widget_toolbar_layers$(OBJ_EXT): Qt_widget_toolbar_layers.C \
+                                   Qt_widget_toolbar_layers.moc 
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_toolbar_layers.C
+
+Qt_widget_toolbar.moc: Qt_widget_toolbar.h
+	$(QT_MOC) -o Qt_widget_toolbar.moc Qt_widget_toolbar.h
+
+Qt_widget_move_list_point$(OBJ_EXT): Qt_widget_move_list_point.moc \
+					Qt_widget_move_list_point.C
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_move_list_point.C
+
+Qt_widget_move_list_point.moc: Qt_widget_move_list_point.h
+	$(QT_MOC) -o Qt_widget_move_list_point.moc Qt_widget_move_list_point.h
+
+min_quadrilateral_2.moc: min_quadrilateral_2.C Qt_widget_toolbar$(OBJ_EXT) 
+	${QT_MOC} -o min_quadrilateral_2.moc min_quadrilateral_2.C
+
+min_quadrilateral_2$(OBJ_EXT): min_quadrilateral_2.C min_quadrilateral_2.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) min_quadrilateral_2.C
+
+min_quadrilateral_2$(EXE_EXT): min_quadrilateral_2$(OBJ_EXT) \
+                               Qt_widget_toolbar_layers$(OBJ_EXT) \
+                               Qt_widget_toolbar$(OBJ_EXT) \
+				Qt_widget_move_list_point$(OBJ_EXT)
+	$(CGAL_CXX) $(EXE_OPT)min_quadrilateral_2 \
+	min_quadrilateral_2$(OBJ_EXT) Qt_widget_toolbar$(OBJ_EXT) \
+	Qt_widget_toolbar_layers$(OBJ_EXT)  Qt_widget_move_list_point$(OBJ_EXT) \
+	$(LDFLAGS)
+
+clean: min_quadrilateral_2.clean \
+       Qt_widget_toolbar.clean \
+       Qt_widget_toolbar_layers.clean \
+       Qt_widget_move_list_point.clean
 
 #---------------------------------------------------------------------#
 #                    suffix rules
@@ -48,4 +81,3 @@ clean: \
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
-

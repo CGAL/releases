@@ -1,54 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Trapezoidal_decomposition/include/CGAL/Td_traits.h,v $
+// $Revision: 1.8 $ $Date: 2003/09/18 10:25:54 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Td_traits.h
-// package       : Trapezoidal_decomposition (1.26)
-// source		 : 
-// revision 	 : 
-// revision_date : 
-// author(s)	 : Oren Nechushtan
-//
-//
-// maintainer(s) : Oren Nechushtan
-//
-//
-// coordinator	 : Tel-Aviv University (Dan Halperin)
-//
-// Chapter		 : 
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
 #ifndef CGAL_TD_TRAITS_H
 #define CGAL_TD_TRAITS_H
 
@@ -71,7 +38,23 @@ public:
   
   Td_traits(const Traits_base& t) : Traits_base(t){}
   Td_traits() {}
-  
+
+  ~Td_traits(void)
+  {
+    if (POINT_AT_LEFT_TOP_INFINITY) {
+      delete POINT_AT_LEFT_TOP_INFINITY;
+      POINT_AT_LEFT_TOP_INFINITY = 0;
+    }
+    if (POINT_AT_RIGHT_BOTTOM_INFINITY) {
+      delete POINT_AT_RIGHT_BOTTOM_INFINITY;
+      POINT_AT_RIGHT_BOTTOM_INFINITY = 0;
+    }
+    if (CURVE_AT_INFINITY) {
+      delete CURVE_AT_INFINITY;
+      CURVE_AT_INFINITY = 0;
+    }
+  }
+
 protected:
   typedef X_trapezoid_const_ref const_ref;
   
@@ -86,46 +69,46 @@ public:
 /* compare curve with static unbounded curve */
     return cv.identical(CURVE_AT_INFINITY);
   }
-inline bool trapezoid_bottom_curve_is_same(X_trapezoid_const_ref left,
+inline bool trapezoid_bottom_curve_equal(X_trapezoid_const_ref left,
 					   X_trapezoid_const_ref right) const
 /* returns true if bottom curves of input are the same */
 {
   if (left.is_bottom_unbounded()) return right.is_bottom_unbounded();
   if (right.is_bottom_unbounded()) return false;
-  return curve_is_same(left.bottom(),right.bottom());
+  return curve_equal(left.bottom(),right.bottom());
 }
 
-inline bool trapezoid_top_curve_is_same(X_trapezoid_const_ref left,
+inline bool trapezoid_top_curve_equal(X_trapezoid_const_ref left,
 					X_trapezoid_const_ref right) const
 /* returns true if top curves of input are the same */
 {
   if (left.is_top_unbounded()) return right.is_top_unbounded();
   if (right.is_top_unbounded()) return false;
-  return curve_is_same(left.top(),right.top());
+  return curve_equal(left.top(),right.top());
 }
 
   bool is_degenerate(const_ref tr) const {
     return is_degenerate_point(tr) || 
       !tr.is_top_unbounded() && 
       !tr.is_bottom_unbounded() && 
-      curve_is_same(tr.bottom(),tr.top());
+      curve_equal(tr.bottom(),tr.top());
   }		
   
   bool is_degenerate_point(const_ref tr) const
   {
     return !tr.is_left_unbounded() && !tr.is_right_unbounded() && 
-      point_is_same(tr.left(),tr.right());
+      point_equal(tr.left(),tr.right());
   }
   bool is_degenerate_curve(const_ref tr) const
   {
     return !tr.is_top_unbounded() && !tr.is_bottom_unbounded() && 
-      curve_is_same(tr.bottom(),tr.top())&&!is_degenerate_point(tr);
+      curve_equal(tr.bottom(), tr.top()) && !is_degenerate_point(tr);
   }
   bool is_vertical(const_ref tr) const
   {
     return !tr.is_left_unbounded() && 
       !tr.is_right_unbounded() && 
-      point_is_same_x(tr.left(),tr.right());
+      point_equal_x(tr.left(),tr.right());
   }
   
   /* Description:
@@ -139,10 +122,11 @@ inline bool trapezoid_top_curve_is_same(X_trapezoid_const_ref left,
       (tr.is_right_unbounded()||
        point_is_right_top(tr.right(),p))&&
       (tr.is_bottom_unbounded()||
-       curve_get_point_status(tr.bottom(),p)==Traits_base::ABOVE_CURVE)&&
+       curve_compare_y_at_x(p, tr.bottom()) == LARGER)&&
       (tr.is_top_unbounded()||
-       curve_get_point_status(tr.top(),p)==Traits_base::UNDER_CURVE);
+       curve_compare_y_at_x(p, tr.top()) == SMALLER);
   }
+
   bool is_in_closure(const_ref tr,const Point& p) const
   {
     // test left and right sides
@@ -154,17 +138,13 @@ inline bool trapezoid_top_curve_is_same(X_trapezoid_const_ref left,
         // test bottom side
         if (!tr.is_bottom_unbounded()) 
           {
-            typename Traits_base::Curve_point_status 
-              s=curve_get_point_status(tr.bottom(),p);
-            if (s!=Traits_base::ABOVE_CURVE&&s!=Traits_base::ON_CURVE)
+            if (curve_compare_y_at_x(p, tr.bottom()) == SMALLER)
               return false;
           }
         // test top side
         if (!tr.is_top_unbounded())
           {
-            typename Traits_base::Curve_point_status 
-              s=curve_get_point_status(tr.top(),p);
-            if (s!=Traits_base::UNDER_CURVE&&s!=Traits_base::ON_CURVE)
+            if (curve_compare_y_at_x(p, tr.top()) == LARGER)
               return false;
           }
         return true;
@@ -178,9 +158,9 @@ public:
   static const Point& get_point_at_right_bottom_infinity();
   static const X_curve& get_curve_at_infinity();
 private:
-  static Point POINT_AT_LEFT_TOP_INFINITY;
-  static Point POINT_AT_RIGHT_BOTTOM_INFINITY;
-  static X_curve CURVE_AT_INFINITY;
+  static Point * POINT_AT_LEFT_TOP_INFINITY;
+  static Point * POINT_AT_RIGHT_BOTTOM_INFINITY;
+  static X_curve * CURVE_AT_INFINITY;
 };
 
 CGAL_END_NAMESPACE
@@ -189,12 +169,4 @@ CGAL_END_NAMESPACE
 #include <CGAL/Td_traits.C>
 #endif
 
-#endif //CGAL_TD_TRAITS_H
-
-
-
-
-
-
-
-
+#endif

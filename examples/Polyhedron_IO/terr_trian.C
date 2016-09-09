@@ -1,37 +1,30 @@
 // ============================================================================
 //
 // Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
 //
-// This file is part of an example program for CGAL.  This example
-// program may be used, distributed and modified without limitation.
-
-// ----------------------------------------------------------------------
+// This software and related documentation is part of an INTERNAL release
+// of the Computational Geometry Algorithms Library (CGAL). It is not
+// intended for general use.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// ----------------------------------------------------------------------------
+//
+// release       : $CGAL_Revision: CGAL-2.5-I-154 $
+// release_date  : $CGAL_Date: 2003/10/30 $
 //
 // file          : examples/Polyhedron_IO/terr_trian.C
 // package       : $CGAL_Package: Polyhedron_IO 2.11 (04 Feb 2000) $
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/06/29 06:24:56 $
-// author(s)     : Lutz Kettner
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2003/10/07 16:05:42 $
+// author(s)     : Lutz Kettner  <kettner@@inf.ethz.ch>
 //
-// coordinator   : Herve Bronnimann
+// coordinator   : Herve Bronnimann  <Herve.Bronnimann@sophia.inria.fr>
 //
 // Delaunay Triangulation of a set of 3D points in the xy-plane. 
 // (Terrain triangulation)
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// ============================================================================
 
-#include <CGAL/Cartesian.h>
+#include <CGAL/Simple_cartesian.h>
+#include <CGAL/Filtered_kernel.h>
 #include <CGAL/IO/Verbose_ostream.h>
 #include <CGAL/IO/File_scanner_OFF.h>
 #include <CGAL/IO/File_writer_OFF.h>
@@ -44,41 +37,33 @@
 #include <iostream>
 #include <fstream>
 
-#ifdef CGAL_USE_LEDA
-#include <CGAL/leda_rational.h>
-#endif
 #include "triangulation_print_OFF.h"
 
 using namespace std;
-using CGAL::Point_3;
 
 template <class K>
-struct  Indexed_point: public Point_3<K> {
+class Indexed_point: public CGAL::Point_3<K> {
+    typedef CGAL::Point_3<K>  Point_3;
+public:
     int*  index;
     Indexed_point()                                 {}
-    Indexed_point( Point_3<K> p) : Point_3<K>(p)    {}
+    Indexed_point( Point_3 p) : Point_3(p)    {}
     Indexed_point( double x, double y, double z, int* i) 
-        : Point_3<K>(x,y,z), index(i)               {}
+        : Point_3(x,y,z), index(i)               {}
 };
 
-#ifdef CGAL_USE_LEDA
-typedef  CGAL::Cartesian<leda_rational>                     Kernel;
-#else
-typedef  CGAL::Cartesian<double>                            Kernel;
-#endif
-typedef  Indexed_point<Kernel>                              IPoint;
-typedef  CGAL::Triangulation_euclidean_traits_xy_3<Kernel>  Gtraits;
+typedef CGAL::Simple_cartesian<double> SC;
+typedef CGAL::Filtered_kernel<SC> Kernel; 
+
+typedef Indexed_point<Kernel>                              IPoint;
+typedef CGAL::Triangulation_euclidean_traits_xy_3<Kernel>  Gtraits;
 
 struct Gt : public Gtraits {
     typedef IPoint Point;
 };
 
-typedef  CGAL::Triangulation_vertex_base_2<Gt> Vb;
-typedef  CGAL::Triangulation_face_base_2<Gt>  Fb;
-
-typedef  CGAL::Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
-typedef  CGAL::Triangulation_2<Gt,Tds>                 Triangulation;
-typedef  CGAL::Delaunay_triangulation_2<Gt,Tds>        Delaunay_triangulation;
+typedef  CGAL::Triangulation_2<Gt>                 Triangulation;
+typedef  CGAL::Delaunay_triangulation_2<Gt>        Delaunay_triangulation;
 
 bool  verbose      = false;
 bool  binary       = false;

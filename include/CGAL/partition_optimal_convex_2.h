@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/partition_optimal_convex_2.h,v $
+// $Revision: 1.15 $ $Date: 2003/09/18 10:24:28 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/partition_optimal_convex_2.h
-// package       : Partition_2 (1.38)
-// chapter       : Planar Polygon Partitioning
-//
-// revision      : $Revision: 1.13 $
-// revision_date : $Date: 2002/04/18 14:12:17 $
-//
-// author(s)     : Susan Hert
-//
-// coordinator   : MPI (Susan Hert)
-//
-// implementation: Optimal convex polygon partitition
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
 
 // ===========================================================================
@@ -138,11 +107,11 @@ int partition_opt_cvx_best_so_far(Partition_opt_cvx_vertex& pivot_vertex,
                 << ")" << " old = " << old.vertex_num() 
                 << ", " << old.value() << std::endl;
 #endif
-      typedef typename Traits::Leftturn_2    Leftturn_2;
+      typedef typename Traits::Left_turn_2    Left_turn_2;
       typedef typename Traits::Point_2       Point_2;
-      Leftturn_2 leftturn = traits.leftturn_2_object();
-      Turn_reverser<Point_2, Leftturn_2>  rightturn(leftturn);
-      if (rightturn(polygon[old.vertex_num()], 
+      Left_turn_2 left_turn = traits.left_turn_2_object();
+      Turn_reverser<Point_2, Left_turn_2>  right_turn(left_turn);
+      if (right_turn(polygon[old.vertex_num()], 
                     polygon[pivot_vertex.vertex_num()], polygon[extension])) 
       {
 #ifdef CGAL_PARTITION_OPTIMAL_CONVEX_DEBUG
@@ -344,7 +313,7 @@ bool partition_opt_cvx_is_visible_n3(const Polygon& polygon, unsigned int i,
 {
    typedef typename Traits::Segment_2     Segment_2;
    typedef typename Polygon::size_type    size_type;
-   typedef typename Traits::Leftturn_2    Leftturn_2;
+   typedef typename Traits::Left_turn_2    Left_turn_2;
    typedef typename Traits::Point_2       Point_2;
    typedef typename Traits::Construct_segment_2 Construct_segment_2;
 
@@ -357,17 +326,18 @@ bool partition_opt_cvx_is_visible_n3(const Polygon& polygon, unsigned int i,
    size_type prev_j = (j == 0)? polygon.size()-1: j - 1;
 
    // determine if the edge goes through the interior of the polygon or not
-   Leftturn_2 leftturn = traits.leftturn_2_object();
-   Turn_reverser<Point_2, Leftturn_2> rightturn(leftturn);
-   if (rightturn(polygon[prev_i], polygon[i], polygon[next_i]))// concave angle
+   Left_turn_2 left_turn = traits.left_turn_2_object();
+   Turn_reverser<Point_2, Left_turn_2> right_turn(left_turn);
+   if (right_turn(polygon[prev_i], polygon[i], polygon[next_i]))
+                                                      // concave angle
    {
-     if (rightturn(polygon[prev_i], polygon[i], polygon[j]) &&
-         rightturn(polygon[j], polygon[i], polygon[next_i]))
+     if (right_turn(polygon[prev_i], polygon[i], polygon[j]) &&
+         right_turn(polygon[j], polygon[i], polygon[next_i]))
        return false;
    }
    else // left turn or straight
-     if (rightturn(polygon[prev_i], polygon[i], polygon[j]) ||
-         rightturn(polygon[j], polygon[i], polygon[next_i]))
+     if (right_turn(polygon[prev_i], polygon[i], polygon[j]) ||
+         right_turn(polygon[j], polygon[i], polygon[next_i]))
        return false;
 
    size_type next_e;

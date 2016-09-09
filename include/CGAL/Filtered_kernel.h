@@ -1,156 +1,107 @@
-// ======================================================================
-//
-// Copyright (c) 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Filtered_kernel.h
-// package       : Interval_arithmetic (4.141)
-// revision      : $Revision: 1.19 $
-// revision_date : $Date: 2001/12/19 14:10:52 $
-// author(s)     : Sylvain Pion
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Filtered_kernel.h,v $
+// $Revision: 1.31 $ $Date: 2003/10/21 15:50:26 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Sylvain Pion
 
 #ifndef CGAL_FILTERED_KERNEL_H
 #define CGAL_FILTERED_KERNEL_H
-
-// This file contains the definition of a generic kernel filter.
-//
-// TODO:
-// - at the moment, it's restricted to IA filtering, but this should be
-//   generalized to allow filters (static...).
-// - at the moment, only the predicates are filtered.
-//   Constructions will come later.
-// - the kernel only works with traits only and as a pure traits only.
 
 #include <CGAL/basic.h>
 #include <CGAL/Filtered_predicate.h>
 #include <CGAL/Cartesian_converter.h>
 #include <CGAL/Simple_cartesian.h>
+#include <CGAL/Kernel/Type_equality_wrapper.h>
 #include <CGAL/MP_Float.h>
+#include <CGAL/Quotient.h>
+
+// This file contains the definition of a generic kernel filter.
+//
+// TODO:
+// - at the moment, it's restricted to IA filtering, but this should be
+//   generalized to allow other kinds of filters (static...).
+// - at the moment, only the predicates are filtered.
+//   Constructions will come later.
+// - the kernel provides the traits interface, as well as type equality.
+//   Having the global functions working is another story...
+// - The converters are more a property of the types rather than anything else,
+//   so maybe they should not be passed as template parameter, but use a
+//   traits-like mecanism ?
 
 CGAL_BEGIN_NAMESPACE
 
 // CK = construction kernel.
 // EK = exact kernel called when needed by the filter.
 // FK = filtering kernel
-template <class CK,
-          class EK = Simple_cartesian<MP_Float>,
-          class FK = Simple_cartesian<Interval_nt_advanced>,
-	  class C2E = Cartesian_converter<CK, EK>,
-	  class C2F = Cartesian_converter<CK, FK,
-	              Interval_converter<
-#ifndef __SUNPRO_CC
-		      CGAL_TYPENAME_MSVC_NULL
-#endif
-		      CK::RT> > >
-class Filtered_kernel
+template < typename CK, typename Kernel >
+class Filtered_kernel_base
+  : public CK::template Base<Kernel>::Type
 {
+    typedef typename CK::template Base<Kernel>::Type   Kernel_base;
+    // Hardcoded for now.
+    typedef Simple_cartesian<Quotient<MP_Float> >    EK;
+    typedef Simple_cartesian<Interval_nt_advanced>   FK;
+    typedef Cartesian_converter<Kernel_base, EK>     C2E;
+    typedef Cartesian_converter<Kernel_base, FK,
+                                To_interval<typename Kernel_base::RT> > C2F;
 public:
+
+    template < typename Kernel2 >
+    struct Base { typedef Filtered_kernel_base<CK, Kernel2>  Type; };
+
     // What to do with the tag ?
     // Probably this should not exist, should it ?
     // struct filter_tag{};
     // typedef filter_tag                                     Kernel_tag;
     // typedef typename CK::Kernel_tag                       Kernel_tag;
-    typedef typename CK::Rep_tag                          Rep_tag;
-    typedef typename CK::RT                               RT;
-    typedef typename CK::FT                               FT;
+    // typedef typename CK::Rep_tag                          Rep_tag;
 
-    // Macros to define the types, predicates and constructions.
-
-    // If we adopt this solution, then we can simply derive ?
-#define CGAL_Filter_type(X) \
-    typedef typename CK::X X##_base; \
-    typedef typename CK::X X;
-
-#define CGAL_Filter_pred(P, Pf) \
+    // We change the predicates.
+#define CGAL_Kernel_pred(P, Pf) \
     typedef Filtered_predicate<typename EK::P, typename FK::P, \
 	                     C2E, C2F> P; \
     P Pf() const { return P(); }
 
-    // The following could be used instead for some Cartesian predicates
-    // that are exact : compare* and exact*.
-#define CGAL_Filter_already_exact_pred(P, Pf) \
-    typedef typename CK::P P; \
-    P Pf() const { return P(); }
-
-#define CGAL_Filter_cons(C, Cf) \
-    typedef typename CK::C C; \
-    C Cf() const { return C(); }
-
-    // Types :
-
-    // CGAL_Filter_type(RT) // ?
-    // CGAL_Filter_type(FT) // ?
-
-    CGAL_Filter_type(Object_2)
-    CGAL_Filter_type(Point_2)
-    CGAL_Filter_type(Vector_2)
-    CGAL_Filter_type(Direction_2)
-    CGAL_Filter_type(Segment_2)
-    CGAL_Filter_type(Line_2)
-    CGAL_Filter_type(Ray_2)
-    CGAL_Filter_type(Triangle_2)
-    CGAL_Filter_type(Circle_2)
-    CGAL_Filter_type(Iso_rectangle_2)
-    CGAL_Filter_type(Conic_2)
-    // CGAL_Filter_type(Aff_transformation_2)
-    // CGAL_Filter_type(Data_accessor_2) // ?
-
-    CGAL_Filter_type(Object_3)
-    CGAL_Filter_type(Point_3)
-    CGAL_Filter_type(Vector_3)
-    CGAL_Filter_type(Direction_3)
-    CGAL_Filter_type(Segment_3)
-    CGAL_Filter_type(Line_3)
-    CGAL_Filter_type(Plane_3)
-    CGAL_Filter_type(Ray_3)
-    CGAL_Filter_type(Triangle_3)
-    CGAL_Filter_type(Tetrahedron_3)
-    CGAL_Filter_type(Sphere_3)
-    CGAL_Filter_type(Iso_cuboid_3)
-    // CGAL_Filter_type(Aff_transformation_3)
-
-#define CGAL_Kernel_pred(X,Y,Z) CGAL_Filter_pred(Y,Z)
-#define CGAL_Kernel_cons(X,Y,Z) CGAL_Filter_cons(Y,Z)
-#define CGAL_Kernel_pred2(W,X,Y,Z) CGAL_Filter_pred(Y,Z)
-#define CGAL_Kernel_cons2(W,X,Y,Z) CGAL_Filter_cons(Y,Z)
+    // We don't touch the constructions.
+#define CGAL_Kernel_cons(Y,Z)
 
 #include <CGAL/Kernel/interface_macros.h>
 
 };
+
+template <class CK>
+struct Filtered_kernel_adaptor
+  : public Filtered_kernel_base< CK, Filtered_kernel_adaptor<CK> >
+{};
+
+template <class CK>
+struct Filtered_kernel_without_type_equality
+  : public Filtered_kernel_base< CK, Filtered_kernel_without_type_equality<CK> >
+{};
+
+template <class CK>
+struct Filtered_kernel
+  : public Type_equality_wrapper< 
+             Filtered_kernel_base< CK, Filtered_kernel<CK> >,
+             Filtered_kernel<CK> >
+{};
 
 CGAL_END_NAMESPACE
 

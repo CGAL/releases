@@ -1,49 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Polygon_2_algorithms.h
-// package       : Polygon (4.8.1)
-// source        : 
-// revision      : 1.8a
-// revision_date : 13 Mar 1998
-// author(s)     : Wieger Wesselink
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : Utrecht University
+// $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2_algorithms.h,v $
+// $Revision: 1.17 $ $Date: 2003/10/21 12:22:47 $
+// $Name: current_submission $
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
 
 #ifndef CGAL_POLYGON_2_ALGORITHMS_H
 #define CGAL_POLYGON_2_ALGORITHMS_H
@@ -55,9 +31,6 @@
 
 #include <CGAL/polygon_assertions.h>
 
-#ifdef CGAL_REP_CLASS_DEFINED
- #include <CGAL/Polygon_traits_2.h>
-#endif // CGAL_REP_CLASS_DEFINED
 
 CGAL_BEGIN_NAMESPACE
 
@@ -67,23 +40,23 @@ CGAL_BEGIN_NAMESPACE
 
 template <class ForwardIterator, class Traits>
 ForwardIterator left_vertex_2(ForwardIterator first,
-                                   ForwardIterator last,
-                                   const Traits& traits);
+			      ForwardIterator last,
+			      const Traits& traits);
 
 template <class ForwardIterator, class Traits>
 ForwardIterator right_vertex_2(ForwardIterator first,
-                                    ForwardIterator last,
-                                    const Traits& traits);
+			       ForwardIterator last,
+			       const Traits& traits);
 
 template <class ForwardIterator, class Traits>
 ForwardIterator top_vertex_2(ForwardIterator first,
-                                  ForwardIterator last,
-                                  const Traits& traits);
+			     ForwardIterator last,
+			     const Traits& traits);
 
 template <class ForwardIterator, class Traits>
 ForwardIterator bottom_vertex_2(ForwardIterator first,
-                                     ForwardIterator last,
-                                     const Traits& traits);
+				ForwardIterator last,
+				const Traits& traits);
 
 template <class InputIterator>
 Bbox_2 bbox_2(InputIterator first, InputIterator last);
@@ -117,7 +90,7 @@ area_2( ForwardIterator first, ForwardIterator last,
 template <class ForwardIterator, class Traits>
 typename Traits::FT 
 polygon_area_2( ForwardIterator first, ForwardIterator last,
-        const Traits& traits)
+		const Traits& traits)
 {
    typedef typename Traits::FT FT;
    FT result = FT(0);
@@ -141,193 +114,159 @@ polygon_area_2( ForwardIterator first, ForwardIterator last,
 
 template <class ForwardIterator, class Traits>
 bool is_convex_2(ForwardIterator first,
-                      ForwardIterator last,
-                      const Traits& traits);
+		 ForwardIterator last,
+		 const Traits& traits);
 
 template <class ForwardIterator, class Traits>
 bool is_simple_2(ForwardIterator first,
-                      ForwardIterator last,
-                      const Traits& traits);
+		 ForwardIterator last,
+		 const Traits& traits);
 
 // In the following two functions we would like to use Traits::Point_2 instead
 // of Point, but this is not allowed by g++ 2.7.2.
 
 template <class ForwardIterator, class Point, class Traits>
 Oriented_side oriented_side_2(ForwardIterator first,
-                                        ForwardIterator last,
-                                        const Point& point,
-                                        const Traits& traits);
+			      ForwardIterator last,
+			      const Point& point,
+			      const Traits& traits);
 
 template <class ForwardIterator, class Point, class Traits>
 Bounded_side bounded_side_2(ForwardIterator first,
-                                      ForwardIterator last,
-                                      const Point& point,
-                                      const Traits& traits);
+			    ForwardIterator last,
+			    const Point& point,
+			    const Traits& traits);
 
 template <class ForwardIterator, class Traits>
 Orientation orientation_2(ForwardIterator first,
-                                    ForwardIterator last,
-                                    const Traits& traits);
+			  ForwardIterator last,
+			  const Traits& traits);
 
 //-----------------------------------------------------------------------//
 //                         implementation
 //-----------------------------------------------------------------------//
 
 #ifdef CGAL_REP_CLASS_DEFINED
-template <class ForwardIterator, class R>
-inline
-ForwardIterator left_vertex_2_aux(ForwardIterator first,
-                                       ForwardIterator last,
-                                       const Point_2<R>)
-{
-  return left_vertex_2(first, last, R());
-}
 
 template <class ForwardIterator>
 inline
 ForwardIterator left_vertex_2(ForwardIterator first,
-                                   ForwardIterator last)
-{
-  return left_vertex_2_aux(first, last, *first);
+			      ForwardIterator last)
+{  
+  typedef typename Kernel_traits<
+    typename std::iterator_traits<ForwardIterator>::value_type>::Kernel K; 
+  return left_vertex_2(first, last, K());
 }
 
-template <class ForwardIterator, class R>
-inline
-ForwardIterator right_vertex_2_aux(ForwardIterator first,
-                                        ForwardIterator last,
-                                        const Point_2<R>&)
-{
-  return right_vertex_2(first, last, Polygon_traits_2<R>());
-}
+
 
 template <class ForwardIterator>
 inline
 ForwardIterator right_vertex_2(ForwardIterator first,
-                                    ForwardIterator last)
-{
-  return right_vertex_2_aux(first, last, *first);
+			       ForwardIterator last)
+{ 
+  typedef typename Kernel_traits<
+    typename std::iterator_traits<ForwardIterator>::value_type>::Kernel K; 
+  return right_vertex_2(first, last, K());
 }
 
-template <class ForwardIterator, class R>
-inline
-ForwardIterator top_vertex_2_aux(ForwardIterator first,
-                                      ForwardIterator last,
-                                      const Point_2<R>&)
-{
-  return top_vertex_2(first, last, Polygon_traits_2<R>());
-}
+
+
 
 template <class ForwardIterator>
 inline
 ForwardIterator top_vertex_2(ForwardIterator first,
-                                  ForwardIterator last)
+			     ForwardIterator last)
 {
-  return top_vertex_2_aux(first, last, *first);
+  typedef typename Kernel_traits<
+    typename std::iterator_traits<ForwardIterator>::value_type>::Kernel K; 
+  return top_vertex_2(first, last, K());
 }
 
-template <class ForwardIterator, class R>
-inline
-ForwardIterator bottom_vertex_2_aux(ForwardIterator first,
-                                         ForwardIterator last,
-                                         const Point_2<R>&)
-{
-  return bottom_vertex_2(first, last, Polygon_traits_2<R>());
-}
+
 
 template <class ForwardIterator>
 inline
 ForwardIterator bottom_vertex_2(ForwardIterator first,
-                                     ForwardIterator last)
+				ForwardIterator last)
 {
-  return bottom_vertex_2_aux(first, last, *first);
+  typedef typename Kernel_traits<
+    typename std::iterator_traits<ForwardIterator>::value_type>::Kernel K; 
+  return bottom_vertex_2(first, last, K());
 }
 
-template <class ForwardIterator, class Numbertype, class R>
-inline
-void area_2_aux(ForwardIterator first,
-                     ForwardIterator last,
-                     Numbertype& result,
-                     const Point_2<R>&)
-{
-  area_2(first, last, result, Polygon_traits_2<R>());
-}
+
 
 template <class ForwardIterator, class Numbertype>
 inline
 void area_2(ForwardIterator first,
-                 ForwardIterator last,
-                 Numbertype& result)
+	    ForwardIterator last,
+	    Numbertype& result)
 {
-  area_2_aux(first, last, result, *first);
+  typedef typename Kernel_traits<
+    typename std::iterator_traits<ForwardIterator>::value_type>::Kernel K; 
+  area_2(first, last, result, K());
 }
 
-template <class ForwardIterator, class R>
-inline
-bool is_convex_2_aux(ForwardIterator first,
-                          ForwardIterator last,
-                          const Point_2<R>&)
-{
-  return is_convex_2(first, last, Polygon_traits_2<R>());
-}
+
 
 template <class ForwardIterator>
 inline
 bool is_convex_2(ForwardIterator first,
-                      ForwardIterator last)
+		 ForwardIterator last)
 {
-  return is_convex_2_aux(first, last, *first);
+  typedef typename Kernel_traits<
+    typename std::iterator_traits<ForwardIterator>::value_type>::Kernel K; 
+  return is_convex_2(first, last, K());
 }
 
-template <class ForwardIterator, class R>
-inline
-bool is_simple_2_aux(ForwardIterator first,
-                          ForwardIterator last,
-                          const Point_2<R>&)
-{
-  return is_simple_2(first, last, R());
-}
+
 
 template <class ForwardIterator>
 inline
 bool is_simple_2(ForwardIterator first,
-                      ForwardIterator last)
+		 ForwardIterator last)
 {
-  return is_simple_2_aux(first, last, *first);
-}
-
-template <class ForwardIterator, class R>
-inline
-Oriented_side oriented_side_2(ForwardIterator first,
-                                        ForwardIterator last,
-                                        const Point_2<R>& point)
-{
-  return oriented_side_2(first, last, point, Polygon_traits_2<R>());
-}
-
-template <class ForwardIterator, class R>
-inline
-Bounded_side bounded_side_2(ForwardIterator first,
-                                      ForwardIterator last,
-                                      const Point_2<R>& point)
-{
-  return bounded_side_2(first, last, point, Polygon_traits_2<R>());
-}
-
-template <class ForwardIterator, class R>
-inline
-Orientation orientation_2_aux(ForwardIterator first,
-                                        ForwardIterator last,
-                                        const Point_2<R>&)
-{
-  return orientation_2(first, last, Polygon_traits_2<R>());
+  typedef typename Kernel_traits<
+    typename std::iterator_traits<ForwardIterator>::value_type>::Kernel K; 
+  return is_simple_2(first, last, K());
 }
 
 template <class ForwardIterator>
 inline
-Orientation orientation_2(ForwardIterator first,
-                                    ForwardIterator last)
+Oriented_side oriented_side_2(
+  ForwardIterator first,
+  ForwardIterator last,
+  const typename std::iterator_traits<ForwardIterator>::value_type& point)
 {
-  return orientation_2_aux(first, last, *first);
+  typedef typename Kernel_traits<
+    typename std::iterator_traits<ForwardIterator>::value_type>::Kernel K; 
+  return oriented_side_2(first, last, point, K());
+}
+
+
+template <class ForwardIterator>
+inline
+Bounded_side bounded_side_2(
+  ForwardIterator first,
+  ForwardIterator last,
+  const typename std::iterator_traits<ForwardIterator>::value_type& point)
+{
+  typedef typename Kernel_traits<
+    typename std::iterator_traits<ForwardIterator>::value_type>::Kernel K; 
+  return bounded_side_2(first, last, point, K());
+}
+
+
+
+template <class ForwardIterator>
+inline
+Orientation orientation_2(ForwardIterator first,
+			  ForwardIterator last)
+{
+  typedef typename Kernel_traits<
+    typename std::iterator_traits<ForwardIterator>::value_type>::Kernel K; 
+  return orientation_2(first, last, K());
 }
 #endif // CGAL_REP_CLASS_DEFINED
 

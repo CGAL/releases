@@ -1,76 +1,56 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/Iso_cuboid_3.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.29 $
-// revision_date : $Date: 2002/02/06 12:32:36 $
-// author(s)     : Hervé Brönnimann
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Iso_cuboid_3.h,v $
+// $Revision: 1.39 $ $Date: 2003/10/21 12:14:17 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Hervé Brönnimann
 
 #ifndef CGAL_CARTESIAN_ISO_CUBOID_3_H
 #define CGAL_CARTESIAN_ISO_CUBOID_3_H
 
+#include <CGAL/Twotuple.h>
 #include <CGAL/Cartesian/predicates_on_points_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class Iso_cuboidC3
-  : public R_::Iso_cuboid_handle_3
+  : public R_::template Handle<Twotuple<typename R_::Point_3> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
   typedef typename R_::Iso_cuboid_3         Iso_cuboid_3;
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
+  typedef typename R_::Construct_point_3    Construct_point_3;
 
-  typedef typename R_::Iso_cuboid_handle_3  base;
-  typedef typename base::element_type       rep;
+  typedef Twotuple<Point_3>                        rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                                R;
 
-  Iso_cuboidC3()
-    : base(rep()) {}
+  Iso_cuboidC3() {}
 
   Iso_cuboidC3(const Point_3 &p, const Point_3 &q)
   {
+    Construct_point_3 construct_point_3;
     FT minx, maxx, miny, maxy, minz, maxz;
     if (p.x() < q.x()) { minx = p.x(); maxx = q.x(); }
     else               { minx = q.x(); maxx = p.x(); }
@@ -78,15 +58,29 @@ public:
     else               { miny = q.y(); maxy = p.y(); }
     if (p.z() < q.z()) { minz = p.z(); maxz = q.z(); }
     else               { minz = q.z(); maxz = p.z(); }
-    initialize_with(rep(Point_3(minx, miny, minz),
-				     Point_3(maxx, maxy, maxz)));
+    initialize_with(rep(construct_point_3(minx, miny, minz),
+		        construct_point_3(maxx, maxy, maxz)));
+  }
+
+  Iso_cuboidC3(const Point_3 &left,   const Point_3 &right,
+               const Point_3 &bottom, const Point_3 &top,
+               const Point_3 &far_,   const Point_3 &close)
+    : base(rep(Construct_point_3()(left.x(),  bottom.y(), far_.z()),
+               Construct_point_3()(right.x(), top.y(),    close.z())))
+  {
+    CGAL_kernel_precondition(!less_x(right, left));
+    CGAL_kernel_precondition(!less_y(top, bottom));
+    CGAL_kernel_precondition(!less_z(close, far_));
   }
 
   Iso_cuboidC3(const FT& min_x, const FT& min_y, const FT& min_z,
                const FT& max_x, const FT& max_y, const FT& max_z)
+    : base(rep(Construct_point_3()(min_x, min_y, min_z),
+	       Construct_point_3()(max_x, max_y, max_z)))
   {
-    initialize_with(rep(Point_3(min_x, min_y, min_z),
-				     Point_3(max_x, max_y, max_z)));
+    CGAL_kernel_precondition(min_x <= max_x);
+    CGAL_kernel_precondition(min_y <= max_y);
+    CGAL_kernel_precondition(min_z <= max_z);
   }
 
   Iso_cuboidC3(const FT& min_hx, const FT& min_hy, const FT& min_hz,
@@ -94,14 +88,12 @@ public:
                const FT& hw)
   {
     if (hw == FT(1))
-       initialize_with(rep(Point_3(min_hx, min_hy, min_hz),
-				        Point_3(max_hx, max_hy, max_hz)));
+       initialize_with(rep(Construct_point_3()(min_hx, min_hy, min_hz),
+			   Construct_point_3()(max_hx, max_hy, max_hz)));
     else
-       initialize_with(
-         rep(Point_3(min_hx/hw, min_hy/hw, min_hz/hw),
-                          Point_3(max_hx/hw, max_hy/hw, max_hz/hw)));
+       initialize_with( rep( Construct_point_3()(min_hx/hw, min_hy/hw, min_hz/hw),
+                             Construct_point_3()(max_hx/hw, max_hy/hw, max_hz/hw)));
   }
-
 
   bool operator==(const Iso_cuboidC3& s) const;
   bool operator!=(const Iso_cuboidC3& s) const;
@@ -140,10 +132,6 @@ public:
 
   FT           volume() const;
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -244,15 +232,16 @@ CGAL_KERNEL_LARGE_INLINE
 typename Iso_cuboidC3<R>::Point_3
 Iso_cuboidC3<R>::vertex(int i) const
 {
+  Construct_point_3 construct_point_3;
   switch (i%8)
   {
     case 0: return min();
-    case 1: return Point_3(max().hx(), min().hy(), min().hz());
-    case 2: return Point_3(max().hx(), max().hy(), min().hz());
-    case 3: return Point_3(min().hx(), max().hy(), min().hz());
-    case 4: return Point_3(min().hx(), max().hy(), max().hz());
-    case 5: return Point_3(min().hx(), min().hy(), max().hz());
-    case 6: return Point_3(max().hx(), min().hy(), max().hz());
+    case 1: return construct_point_3(max().hx(), min().hy(), min().hz());
+    case 2: return construct_point_3(max().hx(), max().hy(), min().hz());
+    case 3: return construct_point_3(min().hx(), max().hy(), min().hz());
+    case 4: return construct_point_3(min().hx(), max().hy(), max().hz());
+    case 5: return construct_point_3(min().hx(), min().hy(), max().hz());
+    case 6: return construct_point_3(max().hx(), min().hy(), max().hz());
     default: // case 7:
         return max();
   }
@@ -339,7 +328,8 @@ inline
 Bbox_3
 Iso_cuboidC3<R>::bbox() const
 {
-  return min().bbox() + max().bbox();
+  typename R::Construct_bbox_3 construct_bbox_3;
+  return construct_bbox_3(min()) + construct_bbox_3(max());
 }
 
 #ifndef CGAL_NO_OSTREAM_INSERT_ISO_CUBOIDC3
@@ -370,10 +360,6 @@ operator>>(std::istream& is, Iso_cuboidC3<R>& r)
   return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_ISO_CUBOIDC3
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

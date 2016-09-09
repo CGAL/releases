@@ -33,25 +33,7 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 DEMO_SUBDIRS= \
-./Convex_Hull_2 \
-./Examples \
-./Max_k-gon \
-./Min_ellipse_2 \
-./Min_quadrilateral_2 \
-./Largest_empty_rect_2 \
-./Partition_2 \
-./Alpha_shapes_2 \
-./Triangulation_2 \
-./Triangulation_2_constrained \
-./Constrained_triangulation_2 \
-./basic/tutorial1 \
-./basic/tutorial2 \
-./basic/tutorial3 \
-./basic/tutorial4 \
-./basic/tutorial5 \
-./basic/tutorial6 \
-./basic/tutorial7 \
-./basic/tutorial8
+./Examples
 
 all:
 	badexit=""; \
@@ -63,10 +45,8 @@ all:
 $(DEMO_SUBDIRS):
 	cd $@ && make
 
-#	for dir in ${DEMO_SUBDIRS}; do make -C $$dir; done
-
 clean:
-	for dir in ${DEMO_SUBDIRS}; do make -C $$dir clean; done
+	for dir in ${DEMO_SUBDIRS}; do (cd $$dir && make clean); done
 
 #---------------------------------------------------------------------#
 #                    suffix rules

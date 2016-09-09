@@ -1,56 +1,37 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/Vector_2.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.23 $
-// revision_date : $Date: 2002/02/06 12:32:40 $
-// author(s)     : Andreas Fabri, Herve Bronnimann
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Vector_2.h,v $
+// $Revision: 1.31 $ $Date: 2003/10/21 12:14:25 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Andreas Fabri, Herve Bronnimann
 
 #ifndef CGAL_CARTESIAN_VECTOR_2_H
 #define CGAL_CARTESIAN_VECTOR_2_H
+
+#include <CGAL/Origin.h>
+#include <CGAL/Twotuple.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class VectorC2
-  : public R_::Vector_handle_2
+  : public R_::template Handle<Twotuple<typename R_::FT> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
@@ -59,23 +40,22 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef typename R_::Vector_handle_2		 base;
-  typedef typename base::element_type	         rep;
+  typedef Twotuple<FT>	                           rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                                     R;
 
-  VectorC2()
-    : base(rep()) {}
+  VectorC2() {}
 
-  VectorC2(const Null_vector &)
-    : base(rep(FT(0), FT(0))) {}
+  VectorC2(const Null_vector &n)
+    : base(R().construct_vector_2_object()(n)) {}
 
   VectorC2(const Point_2 &p)
     : base(p) {}
 
   VectorC2(const Point_2 &a, const Point_2 &b)
-    : base(b-a) {}
+    : base(R().construct_vector_2_object()(a, b)) {}
 
   VectorC2(const Direction_2 &d)
     : base(d) {}
@@ -90,11 +70,6 @@ public:
     else
       initialize_with(rep(hx, hy));
   }
-
-  bool operator==(const VectorC2 &v) const;
-  bool operator!=(const VectorC2 &v) const;
-  bool operator==(const Null_vector &) const;
-  bool operator!=(const Null_vector &p) const;
 
   const FT & x() const
   {
@@ -142,42 +117,52 @@ public:
   }
 };
 
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
-
 template < class R >
 CGAL_KERNEL_INLINE
-bool
-VectorC2<R>::operator==(const VectorC2<R> &v) const
+bool 
+operator==(const VectorC2<R> &v, const VectorC2<R> &w)
 {
-  if (identical(v))
-      return true;
-  return x() == v.x() && y() == v.y();
+  return w.x() == v.x() && w.y() == v.y();
+}
+
+template < class R >
+inline
+bool 
+operator!=(const VectorC2<R> &v, const VectorC2<R> &w)
+{
+  return !(v == w);
 }
 
 template < class R >
 inline
 bool
-VectorC2<R>::operator!=(const VectorC2<R> &v) const
+operator==(const VectorC2<R> &v, const Null_vector &)
 {
-  return !(*this == v);
+  return CGAL_NTS is_zero(v.x()) && CGAL_NTS is_zero(v.y());
 }
 
 template < class R >
 inline
 bool
-VectorC2<R>::operator==(const Null_vector &) const
+operator==(const Null_vector &n, const VectorC2<R> &v)
 {
-  return CGAL_NTS is_zero(x()) && CGAL_NTS is_zero(y());
+  return v == n;
 }
 
 template < class R >
 inline
 bool
-VectorC2<R>::operator!=(const Null_vector &v) const
+operator!=(const VectorC2<R> &v, const Null_vector &n)
 {
-  return !(*this == v);
+  return !(v == n);
+}
+
+template < class R >
+inline
+bool
+operator!=(const Null_vector &n, const VectorC2<R> &v)
+{
+  return !(v == n);
 }
 
 template < class R >
@@ -222,11 +207,11 @@ VectorC2<R>::operator-(const VectorC2<R> &w) const
 }
 
 template < class R >
-CGAL_KERNEL_INLINE
+inline
 typename VectorC2<R>::Vector_2
 VectorC2<R>::operator-() const
 {
-  return VectorC2<R>(-x(), -y());
+  return R().construct_opposite_vector_2_object()(*this);
 }
 
 template < class R >
@@ -316,10 +301,6 @@ operator>>(std::istream &is, VectorC2<R> &p)
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_VECTORC2
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

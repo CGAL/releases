@@ -1,36 +1,20 @@
-//
 // file          : examples/Convex_hull_3/dynamic_hull_3_ex.C
-//
-#ifdef _MSC_VER
-#define Cartesian Ca
-#endif
-#include <CGAL/Cartesian.h>
+
+
+#include <CGAL/Simple_cartesian.h>
+#include <CGAL/Filtered_kernel.h>
 #include <CGAL/point_generators_3.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/copy_n.h>
-#ifdef CGAL_USE_LEDA
-#include <CGAL/leda_integer.h>
-typedef leda_integer RT;
-#else
-#ifdef CGAL_USE_GMP
-#include <CGAL/Gmpz.h>
-typedef CGAL::Gmpz RT;
-#else
-// NOTE: the choice of double here for a number type may cause problems
-//       for degenerate point sets
-#include <CGAL/double.h>
-typedef double RT;
-#endif
-#endif
 
-#include <set>
+#include <list>
 
-typedef CGAL::Cartesian<RT>                         K;
+typedef CGAL::Simple_cartesian<double> SK;
+typedef CGAL::Filtered_kernel<SK> FK;
+struct K : public FK {};
+
 typedef K::Point_3                                  Point_3;
-typedef CGAL::Triangulation_cell_base_3<K>          Cb;
-typedef CGAL::Triangulation_vertex_base_3<K>        Vb;
-typedef CGAL::Triangulation_data_structure_3<Vb,Cb> Tds;
-typedef CGAL::Delaunay_triangulation_3<K, Tds>      Delaunay;
+typedef CGAL::Delaunay_triangulation_3<K>           Delaunay;
 typedef Delaunay::Vertex_handle                     Vertex_handle;
 
 int main()

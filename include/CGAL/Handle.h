@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Handle.h
-// package       : Kernel_basic (3.90)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2002/04/15 07:21:00 $
-// author(s)     :
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Handle.h,v $
+// $Revision: 1.10 $ $Date: 2003/10/21 12:18:04 $
+// $Name: current_submission $
+//
+// Author(s)     :
 
 #ifndef CGAL_HANDLE_H
 #define CGAL_HANDLE_H
@@ -50,39 +28,39 @@
 
 CGAL_BEGIN_NAMESPACE
 
-class Leda_like_rep
+class Rep
 {
-    friend class Leda_like_handle;
+    friend class Handle;
   protected:
-             Leda_like_rep() { count = 1; }
-    virtual ~Leda_like_rep() {}
+             Rep() { count = 1; }
+    virtual ~Rep() {}
 
     int      count;
 };
 
-class Leda_like_handle
+class Handle
 {
   public:
-    Leda_like_handle()
-	: PTR(static_cast<Leda_like_rep*>(0)) {}
+    Handle()
+	: PTR(static_cast<Rep*>(0)) {}
 
-    Leda_like_handle(const Leda_like_handle& x)
+    Handle(const Handle& x)
     {
-      CGAL_kernel_precondition( x.PTR != static_cast<Leda_like_rep*>(0) );
+      CGAL_kernel_precondition( x.PTR != static_cast<Rep*>(0) );
       PTR = x.PTR;
       PTR->count++;
     }
 
-    ~Leda_like_handle()
+    ~Handle()
     {
 	if ( PTR && (--PTR->count == 0))
 	    delete PTR;
     }
 
-    Leda_like_handle&
-    operator=(const Leda_like_handle& x)
+    Handle&
+    operator=(const Handle& x)
     {
-      CGAL_kernel_precondition( x.PTR != static_cast<Leda_like_rep*>(0) );
+      CGAL_kernel_precondition( x.PTR != static_cast<Rep*>(0) );
       x.PTR->count++;
       if ( PTR && (--PTR->count == 0))
 	  delete PTR;
@@ -93,15 +71,15 @@ class Leda_like_handle
     int
     refs()  const { return PTR->count; }
 
-    friend unsigned long id(const Leda_like_handle& x);
+    friend unsigned long id(const Handle& x);
 
   protected:
-    Leda_like_rep* PTR;
+    Rep* PTR;
 };
 
 inline
 unsigned long
-id(const Leda_like_handle& x)
+id(const Handle& x)
 { return reinterpret_cast<unsigned long>(x.PTR); }
 
 template < class T >
@@ -112,34 +90,4 @@ identical(const T &t1, const T &t2)
 
 CGAL_END_NAMESPACE
 
-#if defined(CGAL_USE_LEDA) && !defined(CGAL_NO_LEDA_HANDLE)
-#  include <LEDA/basic.h>
-
-CGAL_BEGIN_NAMESPACE
-
-#ifdef LEDA_NAMESPACE
-typedef leda::handle_base      Handle;
-typedef leda::handle_rep       Rep;
-#else
-typedef handle_base            Handle;
-typedef handle_rep             Rep;
-#endif
-
-inline
-unsigned long
-id(const Handle& x)
-{ return CGAL_LEDA_SCOPE::ID_Number(x); }
-
-CGAL_END_NAMESPACE
-
-#  else
-
-CGAL_BEGIN_NAMESPACE
-
-typedef Leda_like_handle Handle;
-typedef Leda_like_rep    Rep;
-
-CGAL_END_NAMESPACE
-
-#endif // defined(CGAL_USE_LEDA) && !defined(CGAL_NO_LEDA_HANDLE)
 #endif // CGAL_HANDLE_H

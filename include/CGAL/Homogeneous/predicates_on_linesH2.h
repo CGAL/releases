@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/predicates_on_linesH2.h
-// package       : H2 (2.67)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2002/01/07 17:45:13 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/predicates_on_linesH2.h,v $
+// $Revision: 1.8 $ $Date: 2003/10/21 12:16:14 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
  
 #ifndef CGAL_PREDICATES_ON_LINESH2_H
 #define CGAL_PREDICATES_ON_LINESH2_H
@@ -80,9 +58,9 @@ compare_x(const LineH2<R>& l1,
 template < class R >
 inline
 Comparison_result
-compare_x(const Line_2<R> &l,
-	  const Line_2<R> &h1,
-	  const Line_2<R> &h2)
+compare_x(const LineH2<R> &l,
+	  const LineH2<R> &h1,
+	  const LineH2<R> &h2)
 {
     return compare_x(l, h1, l, h2);
 }
@@ -114,9 +92,9 @@ compare_y(const LineH2<R>& l1,
 template < class R >
 inline
 Comparison_result
-compare_y(const Line_2<R> &l,
-	  const Line_2<R> &h1,
-	  const Line_2<R> &h2)
+compare_y(const LineH2<R> &l,
+	  const LineH2<R> &h1,
+	  const LineH2<R> &h2)
 {
     return compare_y(l, h1, l, h2);
 }
@@ -217,28 +195,27 @@ CGAL_KERNEL_MEDIUM_INLINE
 Comparison_result
 compare_slopes(const LineH2<R>& l1, const LineH2<R>& l2)
 {
+   typedef typename R::RT RT;
    if (l1.is_horizontal())
      return l2.is_vertical() ? 
-         SMALLER : Comparison_result(CGAL_NTS sign(l2.a() * l2.b()));
+         SMALLER : Comparison_result(CGAL_NTS sign<RT>(l2.a() * l2.b()));
    if (l2.is_horizontal()) 
      return l1.is_vertical() ? 
-         LARGER : Comparison_result(- CGAL_NTS sign(l1.a() * l1.b()));
+         LARGER : Comparison_result(- CGAL_NTS sign<RT>(l1.a() * l1.b()));
    if (l1.is_vertical()) return l2.is_vertical() ? EQUAL : LARGER;
    if (l2.is_vertical()) return SMALLER;
-   int l1_sign = CGAL_NTS sign(-l1.a() * l1.b());
-   int l2_sign = CGAL_NTS sign(-l2.a() * l2.b());
+   int l1_sign = CGAL_NTS sign<RT>(-l1.a() * l1.b());
+   int l2_sign = CGAL_NTS sign<RT>(-l2.a() * l2.b());
 
    if (l1_sign < l2_sign) return SMALLER;
    if (l1_sign > l2_sign) return LARGER;
 
    if (l1_sign > 0)
-     return Comparison_result(
-             CGAL_NTS sign ( CGAL_NTS abs(l1.a() * l2.b()) -
-                             CGAL_NTS abs(l2.a() * l1.b()) ) );
+     return CGAL_NTS compare( CGAL_NTS abs<RT>(l1.a() * l2.b()),
+                              CGAL_NTS abs<RT>(l2.a() * l1.b()) );
 
-   return Comparison_result(
-            CGAL_NTS sign ( CGAL_NTS abs(l2.a() * l1.b()) -
-                            CGAL_NTS abs(l1.a() * l2.b()) ) );
+   return CGAL_NTS compare( CGAL_NTS abs<RT>(l2.a() * l1.b()),
+                            CGAL_NTS abs<RT>(l1.a() * l2.b()) );
 }
 
 CGAL_END_NAMESPACE

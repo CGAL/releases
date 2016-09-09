@@ -1,68 +1,26 @@
-// ======================================================================
+// Copyright (c) 1997  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Polyhedron/include/CGAL/Polyhedron_incremental_builder_3.h,v $
+// $Revision: 1.10 $ $Date: 2003/09/18 10:24:57 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Polyhedron_incremental_builder_3.h
-// package       : Polyhedron (3.30)
-// chapter       : 3D-Polyhedral Surfaces
-//
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2002/04/19 14:31:52 $
-//
-// author(s)     : Lutz Kettner)
-// coordinator   : MPI Saarbruecken
-//
-// Incremental Construction of Polyhedral Surfaces.
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
 
 #ifndef CGAL_POLYHEDRON_INCREMENTAL_BUILDER_3_H
 #define CGAL_POLYHEDRON_INCREMENTAL_BUILDER_3_H 1
 
 #include <CGAL/basic.h>
-// MS Visual C++ 6.0 does not work with the new design.
-#if defined( _MSC_VER) && (_MSC_VER <= 1200)
-#ifndef CGAL_USE_POLYHEDRON_DESIGN_TWO
-#define CGAL_USE_POLYHEDRON_DESIGN_ONE 1
-#endif
-#endif
-
-#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
-#include <CGAL/Polyhedron_old/Polyhedron_incremental_builder_3.h>
-#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
-#define CGAL_USE_POLYHEDRON_DESIGN_TWO 1
-
 #include <CGAL/Random_access_adaptor.h>
 #include <CGAL/HalfedgeDS_decorator.h>
 #include <CGAL/Unique_hash_map.h>
@@ -83,6 +41,7 @@ public:
     typedef typename HDS::Vertex_handle     Vertex_handle;
     typedef typename HDS::Halfedge_handle   Halfedge_handle;
     typedef typename HDS::Face_handle       Face_handle;
+    typedef typename HDS::Face_handle       Facet_handle;
     typedef typename Vertex::Base           VBase;
     typedef typename Halfedge::Base         HBase;
     typedef typename Vertex::Point          Point_3;
@@ -206,8 +165,7 @@ protected:
 public:
     bool error() const { return m_error; }
 
-    Polyhedron_incremental_builder_3(HDS& h,
-                                     bool verbose = false)
+    Polyhedron_incremental_builder_3( HDS& h, bool verbose = false)
         // stores a reference to the halfedge data structure `h' in the
         // internal state. The previous polyhedral surface in `h'
         // remains unchanged. The incremental builder adds the new
@@ -221,11 +179,11 @@ public:
     }
 
 // OPERATIONS
-    enum { RELATIVE = 0, ABSOLUTE = 1};
+    enum { RELATIVE_INDEXING = 0, ABSOLUTE_INDEXING = 1};
 
 
     void begin_surface( std::size_t v, std::size_t f, std::size_t h = 0,
-                        int mode = RELATIVE);
+                        int mode = RELATIVE_INDEXING);
         // starts the construction. v is the number of new
         // vertices to expect, f the number of new facets, and h the number of
         // new halfedges. If h is unspecified (`== 0') it is estimated using
@@ -235,13 +193,13 @@ public:
         // supports insertion these values do not restrict the class of
         // readable polyhedrons. If the representation does not support
         // insertion the object must fit in the reserved sizes.
-        //    If `mode' is set to ABSOLUTE the incremental builder uses
-        // absolute indexing and the vertices of the old polyhedral surface
-        // can be used in new facets. Otherwise relative indexing is used 
-        // starting with new indices for the new construction.
+        //    If `mode' is set to ABSOLUTE_INDEXING the incremental builder
+        // uses absolute indexing and the vertices of the old polyhedral 
+        // surface can be used in new facets. Otherwise relative indexing is 
+        // used starting with new indices for the new construction.
 
 
-    void add_vertex( const Point_3& p) {
+    Vertex_handle add_vertex( const Point_3& p) {
         // adds p to the vertex list.
         CGAL_assertion( check_protocoll == 1);
         if ( hds.size_of_vertices() >= hds.capacity_of_vertices()) {
@@ -252,7 +210,7 @@ public:
             verr << "add_vertex(): capacity error: more than " << new_vertices
                  << " vertices added." << std::endl;
             m_error = true;
-            return;
+            return Vertex_handle();
         }
         HalfedgeDS_decorator<HDS> decorator(hds);
         Vertex_handle v = decorator.vertices_push_back( Vertex(p));
@@ -260,17 +218,95 @@ public:
         decorator.set_vertex_halfedge( v, Halfedge_handle());
         push_back_vertex_to_edge_map( Halfedge_handle());
         ++new_vertices;
+        return v;
     }
 
-    void begin_facet();
+    // returns handle for the vertex of index i
+    Vertex_handle vertex( std::size_t i) {
+        if ( i < new_vertices)
+            return index_to_vertex_map[i];
+        return Vertex_handle();
+    }
+
+    Facet_handle begin_facet() {
         // starts a facet.
+        if ( m_error)
+            return Facet_handle();
+        CGAL_assertion( check_protocoll == 1);
+        CGAL_assertion_code( check_protocoll = 2;)
+        if ( hds.size_of_faces() >= hds.capacity_of_faces()) {
+            Verbose_ostream verr( m_verbose);
+            verr << " " << std::endl;
+            verr << "CGAL::Polyhedron_incremental_builder_3<HDS>::"
+                 << std::endl;
+            verr << "begin_facet(): capacity error: more than " << new_vertices
+                 << " facets added." << std::endl;
+            m_error = true;
+            return Facet_handle();
+        }
+        // initialize all status variables.
+        first_vertex = true;  // denotes 'no vertex yet'
+        g1 =  Halfedge_handle();  // denotes 'no halfedge yet'
+        last_vertex = false;
+
+        HalfedgeDS_decorator<HDS> decorator(hds);
+        current_face = decorator.faces_push_back( Face());
+        return current_face;
+    }
 
     void add_vertex_to_facet( std::size_t i);
         // adds a vertex with index i to the current facet. The first
         // point added with `add_vertex()' has the index 0.
 
-    void end_facet();
+    Halfedge_handle end_facet() {
         // ends a facet.
+        if ( m_error)
+            return Halfedge_handle();
+        CGAL_assertion( check_protocoll == 2);
+        CGAL_assertion( ! first_vertex);
+        // cleanup all static status variables
+        add_vertex_to_facet( w1);
+        if ( m_error)
+            return Halfedge_handle();
+        last_vertex = true;
+        add_vertex_to_facet( w2);
+        if ( m_error)
+            return Halfedge_handle();
+        CGAL_assertion( check_protocoll == 2);
+        CGAL_assertion_code( check_protocoll = 1;)
+        HalfedgeDS_items_decorator<HDS> decorator;
+        Halfedge_handle h = get_vertex_to_edge_map(w1);
+        decorator.set_face_halfedge( current_face, h);
+        ++new_faces;
+        return h;
+    }
+
+    template <class InputIterator>
+    Halfedge_handle add_facet( InputIterator first, InputIterator beyond) {
+        // synonym for begin_facet(), a call to add_facet() for each iterator
+        // value type, and end_facet().
+        begin_facet();
+        for ( ; ! m_error && first != beyond; ++first)
+            add_vertex_to_facet( *first);
+        if ( m_error)
+            return Halfedge_handle();
+        return end_facet();
+    }
+
+    template <class InputIterator>
+    bool test_facet( InputIterator first, InputIterator beyond) {
+        // tests if the facet described by the vertex indices in the 
+        // range [first,beyond) can be inserted without creating a 
+        // a non-manifold (and therefore invalid) situation.
+        // First, create a copy of the indices and close it cyclically
+        std::vector< std::size_t> indices( first, beyond);
+        if ( indices.size() < 3)
+            return false;
+        indices.push_back( indices[0]);
+        return test_facet_indices( indices);
+    }
+
+    bool test_facet_indices( std::vector< std::size_t> indices);
 
     void end_surface();
         // ends the construction.
@@ -493,7 +529,7 @@ begin_surface( std::size_t v, std::size_t f, std::size_t h, int mode) {
     CGAL_assertion( check_protocoll == 0);
     CGAL_assertion_code( check_protocoll = 1;)
     CGAL_assertion( ! m_error);
-    if ( mode == RELATIVE) {
+    if ( mode == RELATIVE_INDEXING) {
         new_vertices  = 0;
         new_faces     = 0;
         new_halfedges = 0;
@@ -518,7 +554,7 @@ begin_surface( std::size_t v, std::size_t f, std::size_t h, int mode) {
     hds.reserve( hds.size_of_vertices()  + v,
                  hds.size_of_halfedges() + h,
                  hds.size_of_faces()     + f);
-    if ( mode == RELATIVE) {
+    if ( mode == RELATIVE_INDEXING) {
         index_to_vertex_map = Random_access_index( hds.vertices_end());
         index_to_vertex_map.reserve(v);
         initialize_vertex_to_edge_map( v, false);
@@ -528,33 +564,6 @@ begin_surface( std::size_t v, std::size_t f, std::size_t h, int mode) {
         index_to_vertex_map.reserve( hds.size_of_vertices() + v);
         initialize_vertex_to_edge_map( hds.size_of_vertices() + v, true);
     }
-}
-
-template < class HDS>  CGAL_MEDIUM_INLINE
-void
-Polyhedron_incremental_builder_3<HDS>::
-begin_facet() {
-    if ( m_error)
-        return;
-    CGAL_assertion( check_protocoll == 1);
-    CGAL_assertion_code( check_protocoll = 2;)
-    if ( hds.size_of_faces() >= hds.capacity_of_faces()) {
-        Verbose_ostream verr( m_verbose);
-        verr << " " << std::endl;
-        verr << "CGAL::Polyhedron_incremental_builder_3<HDS>::"
-             << std::endl;
-        verr << "begin_facet(): capacity error: more than " << new_vertices
-             << " facets added." << std::endl;
-        m_error = true;
-        return;
-    }
-    // initialize all status variables.
-    first_vertex = true;  // denotes 'no vertex yet'
-    g1 =  Halfedge_handle();  // denotes 'no halfedge yet'
-    last_vertex = false;
-
-    HalfedgeDS_decorator<HDS> decorator(hds);
-    current_face = decorator.faces_push_back( Face());
 }
 
 template < class HDS>
@@ -706,23 +715,61 @@ add_vertex_to_facet( std::size_t v2) {
 }
 
 template < class HDS>
-void
+bool
 Polyhedron_incremental_builder_3<HDS>::
-end_facet() {
-    if ( m_error)
-        return;
-    CGAL_assertion( check_protocoll == 2);
-    CGAL_assertion( ! first_vertex);
-    // cleanup all static status variables
-    add_vertex_to_facet( w1);
-    last_vertex = true;
-    add_vertex_to_facet( w2);
-    CGAL_assertion( check_protocoll == 2);
-    CGAL_assertion_code( check_protocoll = 1;)
-    HalfedgeDS_items_decorator<HDS> decorator;
-    decorator.set_face_halfedge( current_face, get_vertex_to_edge_map(w1));
-    ++new_faces;
+test_facet_indices( std::vector< std::size_t> indices) {
+    typedef typename HDS::Supports_halfedge_vertex Supports_halfedge_vertex;
+    Assert_compile_time_tag( Supports_halfedge_vertex(), Tag_true());
+    // tests if the facet described by the vertex indices can be inserted 
+    // without creating a a non-manifold (and therefore invalid) situation.
+    // indices are cyclically closed once.
+    std::size_t n = indices.size() - 1;
+    // Test if a vertex is not twice in the indices
+    for ( std::size_t i = 0; i < n; ++i) {
+        CGAL_precondition( indices[i] < new_vertices);
+        // check if vertex indices[i] is already in the sequence [0..i-1]
+        for ( std::size_t k = 0; k+1 < i; ++k) {
+            if ( indices[k] == indices[i])
+                return false;
+        }
+    }
+    // Test non-manifold edges
+    for ( std::size_t i = 0; i < n; ++i) {
+        // edge goes from vertex indices[i] to indices[i+1]
+        // we know already that the edge is only once in the sequence
+        // (otherwise the end-vertices would be twice in the sequence too)
+        // check if edge is already in the HDS and is not border edge
+        Halfedge_handle v = get_vertex_to_edge_map(indices[i]);
+        Vertex_handle   w = index_to_vertex_map[indices[i+1]];
+        if ( v != Halfedge_handle()
+             && get_vertex_to_edge_map(indices[i+1]) != Halfedge_handle()) {
+            // cycle through halfedge-loop and find edge to indices[i+1]
+            Halfedge_handle vstart = v;
+            do {
+                v = v->next()->opposite();
+            } while ( v->next()->vertex() != w && v != vstart);
+            if ( v->next()->vertex() == w && ! v->next()->is_border())
+                return false;
+        }
+    }
+    // test non-manifold vertices
+    for ( std::size_t i = 0; i < n; ++i) {
+        // since we don't allow duplicates in indices[..] and we 
+        // tested for non-manifold edges already, we just need to check
+        // if the vertex indices[i] is not a closed manifold yet.
+        Halfedge_handle v = get_vertex_to_edge_map(indices[i]);
+        if ( v != Halfedge_handle()) {
+            Halfedge_handle vstart = v;
+            do {
+                v = v->next()->opposite();
+            } while ( ! v->is_border() && v != vstart);
+            if ( ! v->is_border())
+                return false;
+        }
+    }
+    return true;
 }
+
 
 template < class HDS>  CGAL_MEDIUM_INLINE
 void
@@ -769,6 +816,5 @@ remove_unconnected_vertices( Tag_true) {
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
 #endif // CGAL_POLYHEDRON_INCREMENTAL_BUILDER_3_H //
 // EOF //

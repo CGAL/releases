@@ -13,7 +13,7 @@ include $(CGAL_MAKEFILE)
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = \
+CXXFLAGS = -I../../../include/ \
            $(CGAL_CXXFLAGS) \
            $(LONG_NAME_PROBLEM_CXXFLAGS) \
            $(DEBUG_OPT)
@@ -23,29 +23,51 @@ CXXFLAGS = \
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(CGAL_WINDOW_LIBPATH)
+          $(CGAL_LIBPATH)
 
 LDFLAGS = \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
-          $(CGAL_WINDOW_LDFLAGS)
+          $(CGAL_QT_LDFLAGS) \
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-all:            \
-                demo$(EXE_EXT) 
+all:largest_empty_rect_2
 
-demo$(EXE_EXT): demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)demo demo$(OBJ_EXT) $(LDFLAGS)
+Qt_widget_toolbar$(OBJ_EXT): Qt_widget_toolbar.C Qt_widget_toolbar.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_toolbar.C
 
-clean: \
-                   demo.clean 
+Qt_widget_toolbar.moc: Qt_widget_toolbar.h
+	$(QT_MOC) -o Qt_widget_toolbar.moc Qt_widget_toolbar.h
 
+Qt_widget_move_list_point$(OBJ_EXT): Qt_widget_move_list_point.moc \
+					Qt_widget_move_list_point.C
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_move_list_point.C
+
+Qt_widget_move_list_point.moc: Qt_widget_move_list_point.h
+	$(QT_MOC) -o Qt_widget_move_list_point.moc Qt_widget_move_list_point.h
+
+largest_empty_rect_2$(OBJ_EXT): largest_empty_rect_2.C largest_empty_rect_2.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) largest_empty_rect_2.C
+
+largest_empty_rect_2.moc: largest_empty_rect_2.C
+	${QT_MOC} -o largest_empty_rect_2.moc largest_empty_rect_2.C
+
+largest_empty_rect_2$(EXE_EXT): largest_empty_rect_2$(OBJ_EXT) \
+			Qt_widget_move_list_point$(OBJ_EXT) \
+			Qt_widget_toolbar$(OBJ_EXT) 
+	$(CGAL_CXX) $(EXE_OPT)largest_empty_rect_2 \
+	largest_empty_rect_2$(OBJ_EXT) \
+	 Qt_widget_toolbar$(OBJ_EXT) Qt_widget_move_list_point$(OBJ_EXT) \
+	$(LDFLAGS)
+
+clean: largest_empty_rect_2.clean \
+       Qt_widget_toolbar.clean \
+       Qt_widget_move_list_point.clean 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
-

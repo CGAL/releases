@@ -15,7 +15,6 @@ to the Alpha Shape.
 #include <list>
 
 #include <CGAL/Alpha_shape_vertex_base_3.h>
-#include <CGAL/Triangulation_cell_base_3.h>
 #include <CGAL/Alpha_shape_cell_base_3.h>
 #include <CGAL/Triangulation_data_structure_3.h>
 #include <CGAL/Weighted_alpha_shape_euclidean_traits_3.h>
@@ -31,21 +30,9 @@ to the Alpha Shape.
 #endif
 
 
-//#include <CGAL/IO/Triangulation_geomview_ostream_3.h>
 
-//Choose the better number type as possible
-// #ifdef CGAL_USE_LEDA
-// #include <CGAL/leda_integer.h>
-// typedef leda_integer coord_type;
-// #else//CGAL_USE_LEDA
-// #ifdef CGAL_USE_GMP
-// #include <CGAL/Gmpz.h>
-// typedef CGAL::Gmpz coord_type;
-// #else//CGAL_USE_GMP
-// #include <CGAL/double.h>
 typedef double coord_type;
-// #endif//CGAL_USE_GMP
-// #endif//CGAL_USE_LEDA
+
 
 typedef CGAL::Cartesian<coord_type>  K;
 
@@ -59,9 +46,7 @@ typedef CGAL::Weighted_alpha_shape_euclidean_traits_3<K> Gt;
 typedef Gt::Point Wpoint;
 
 typedef CGAL::Alpha_shape_vertex_base_3<Gt> Vb;
-
-typedef CGAL::Triangulation_cell_base_3<Gt> Df;
-typedef CGAL::Alpha_shape_cell_base_3<Gt, Df>  Fb;
+typedef CGAL::Alpha_shape_cell_base_3<Gt>   Fb;
 
 typedef CGAL::Triangulation_data_structure_3<Vb,Fb> Tds;
 typedef CGAL::Regular_triangulation_3<Gt,Tds> Triangulation_3;

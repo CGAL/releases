@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/predicates/kernel_ftC2.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2002/01/09 10:48:48 $
-// author(s)     : Herve Bronnimann
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/predicates/kernel_ftC2.h,v $
+// $Revision: 1.12 $ $Date: 2003/10/21 12:14:38 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Herve Bronnimann (Herve.Bronnimann@sophia.inria.fr)
 
 #ifndef CGAL_PREDICATES_KERNEL_FTC2_H
 #define CGAL_PREDICATES_KERNEL_FTC2_H
@@ -80,7 +58,7 @@ compare_xC2(const FT &px,
   FT den = det2x2_by_formula( la, lb, ha, hb);
   Sign s = CGAL_NTS sign(den);
   CGAL_kernel_assertion( s != ZERO );
-  return Comparison_result( s * CGAL_NTS compare( px * den, num) );
+  return Comparison_result( s * CGAL_NTS compare<FT>( px * den, num) );
 }
 
 template < class FT >
@@ -136,7 +114,7 @@ compare_y_at_xC2(const FT &px, const FT &py,
 {
   Sign s = CGAL_NTS sign(lb);
   CGAL_kernel_assertion( s != ZERO );
-  return Comparison_result (s * CGAL_NTS sign(la*px + lb*py + lc));
+  return Comparison_result (s * CGAL_NTS sign<FT>(la*px + lb*py + lc));
 }
 
 template < class FT >
@@ -148,8 +126,8 @@ compare_y_at_xC2(const FT &px,
 {
   Sign s = Sign (CGAL_NTS sign(l1b) * CGAL_NTS sign(l2b));
   CGAL_kernel_assertion( s != ZERO );
-  return Comparison_result ( s * sign_of_determinant2x2(l2a*px+l2c, l2b,
-                                                        l1a*px+l1c, l1b));
+  return Comparison_result ( s * sign_of_determinant2x2<FT>(l2a*px+l2c, l2b,
+                                                            l1a*px+l1c, l1b));
 }
 
 template < class FT >
@@ -180,7 +158,8 @@ compare_y_at_xC2(const FT &l1a, const FT &l1b, const FT &l1c,
   FT den = det2x2_by_formula( l1a, l1b, l2a, l2b);
   Sign s = Sign (CGAL_NTS sign(h1b) * CGAL_NTS sign(h2b) * CGAL_NTS sign(den));
   CGAL_kernel_assertion( s != ZERO );
-  return Comparison_result ( s * sign_of_determinant2x2(h2a*num+h2c*den, h2b,
+  return Comparison_result ( s *
+	                     sign_of_determinant2x2<FT>(h2a*num+h2c*den, h2b,
                                                         h1a*num+h1c*den, h1b));
 }
 
@@ -235,9 +214,9 @@ compare_y_at_x_segment_C2(const FT &px,
 	return Comparison_result(
 	    CGAL_NTS compare(s1sx, s1tx) *
 	    CGAL_NTS compare(s2sx, s2tx) *
-	    CGAL_NTS compare(-(s1sx-px)*(s1sy-s1ty)*s2stx,
-		             (s2sy-s1sy)*s2stx*s1stx
-		             -(s2sx-px)*(s2sy-s2ty)*s1stx ));
+	    CGAL_NTS compare<FT>(-(s1sx-px)*(s1sy-s1ty)*s2stx,
+		                 (s2sy-s1sy)*s2stx*s1stx
+		                 -(s2sx-px)*(s2sy-s2ty)*s1stx ));
     }
     else {
 	if (s1sx == s1tx) { // s1 is vertical
@@ -297,23 +276,25 @@ Comparison_result
 compare_slopesC2(const FT &l1a, const FT &l1b, const FT &l2a, const FT &l2b) 
 {
    if (l1a == FT(0))  // l1 is horizontal
-    return l2b == FT(0) ? SMALLER : Comparison_result(CGAL_NTS sign(l2a*l2b));
+    return l2b == FT(0) ? SMALLER
+	                : Comparison_result(CGAL_NTS sign<FT>(l2a*l2b));
    if (l2a == FT(0)) // l2 is horizontal
-    return l1b == FT(0) ? LARGER : Comparison_result(-CGAL_NTS sign(l1a*l1b));
+    return l1b == FT(0) ? LARGER
+	                : Comparison_result(-CGAL_NTS sign<FT>(l1a*l1b));
    if (l1b == FT(0)) return l2b == FT(0) ? EQUAL : LARGER;
    if (l2b == FT(0)) return SMALLER;
-   int l1_sign = CGAL_NTS sign(-l1a * l1b);
-   int l2_sign = CGAL_NTS sign(-l2a * l2b);
+   int l1_sign = CGAL_NTS sign<FT>(-l1a * l1b);
+   int l2_sign = CGAL_NTS sign<FT>(-l2a * l2b);
 
    if (l1_sign < l2_sign) return SMALLER;
    if (l1_sign > l2_sign) return LARGER;
 
    if (l1_sign > 0)
-     return Comparison_result( CGAL_NTS sign ( CGAL_NTS abs(l1a * l2b) -
-                                               CGAL_NTS abs(l2a * l1b) ) );
+     return CGAL_NTS compare ( CGAL_NTS abs<FT>(l1a * l2b),
+			       CGAL_NTS abs<FT>(l2a * l1b) );
 
-   return Comparison_result( CGAL_NTS sign ( CGAL_NTS abs(l2a * l1b) -
-                                             CGAL_NTS abs(l1a * l2b) ) );
+   return CGAL_NTS compare ( CGAL_NTS abs<FT>(l2a * l1b),
+			     CGAL_NTS abs<FT>(l1a * l2b) );
 }
 
 template < class FT >
@@ -329,8 +310,8 @@ compare_slopesC2(const FT &s1_src_x, const FT &s1_src_y, const FT &s1_tgt_x,
       Comparison_result cmp_x2 = CGAL_NTS compare(s2_src_x, s2_tgt_x);
 
       if (cmp_x2 == EQUAL) return SMALLER;
-      return Comparison_result (- CGAL_NTS sign((s2_src_y - s2_tgt_y) *
-                                                (s2_src_x - s2_tgt_x)) );
+      return Comparison_result (- CGAL_NTS sign<FT>((s2_src_y - s2_tgt_y) *
+                                                    (s2_src_x - s2_tgt_x)) );
    }
 
    Comparison_result cmp_y2 = CGAL_NTS compare(s2_src_y, s2_tgt_y);
@@ -339,8 +320,8 @@ compare_slopesC2(const FT &s1_src_x, const FT &s1_src_y, const FT &s1_tgt_x,
       Comparison_result cmp_x1 = CGAL_NTS compare(s1_src_x, s1_tgt_x);
 
       if (cmp_x1 == EQUAL) return LARGER;
-      return Comparison_result ( CGAL_NTS sign((s1_src_y - s1_tgt_y) *
-                                               (s1_src_x - s1_tgt_x)) );
+      return Comparison_result ( CGAL_NTS sign<FT>((s1_src_y - s1_tgt_y) *
+                                                   (s1_src_x - s1_tgt_x)) );
    }
 
    Comparison_result cmp_x1 = CGAL_NTS compare(s1_src_x, s1_tgt_x);
@@ -354,23 +335,19 @@ compare_slopesC2(const FT &s1_src_x, const FT &s1_src_y, const FT &s1_tgt_x,
    FT s1_ydiff = s1_src_y - s1_tgt_y;
    FT s2_xdiff = s2_src_x - s2_tgt_x;
    FT s2_ydiff = s2_src_y - s2_tgt_y;
-   Sign s1_sign = CGAL_NTS sign(s1_ydiff * s1_xdiff);
-   Sign s2_sign = CGAL_NTS sign(s2_ydiff * s2_xdiff);
+   Sign s1_sign = CGAL_NTS sign<FT>(s1_ydiff * s1_xdiff);
+   Sign s2_sign = CGAL_NTS sign<FT>(s2_ydiff * s2_xdiff);
 
    if (s1_sign < s2_sign) return SMALLER;
    if (s1_sign > s2_sign) return LARGER;
 
    if (s1_sign > 0)
-     return Comparison_result(
-             CGAL_NTS sign ( CGAL_NTS abs(s1_ydiff * s2_xdiff) -
-                             CGAL_NTS abs(s2_ydiff * s1_xdiff)) );
+     return CGAL_NTS compare( CGAL_NTS abs<FT>(s1_ydiff * s2_xdiff),
+                              CGAL_NTS abs<FT>(s2_ydiff * s1_xdiff));
 
-   return Comparison_result(
-            CGAL_NTS sign ( CGAL_NTS abs(s2_ydiff * s1_xdiff) -
-                            CGAL_NTS abs(s1_ydiff * s2_xdiff)) );
+   return CGAL_NTS compare( CGAL_NTS abs<FT>(s2_ydiff * s1_xdiff),
+                            CGAL_NTS abs<FT>(s1_ydiff * s2_xdiff));
 }
-
-
 
 
 template < class FT >
@@ -411,7 +388,7 @@ angleC2(const FT &px, const FT &py,
         const FT &qx, const FT &qy,
         const FT &rx, const FT &ry)
 {
-  return (Angle) CGAL_NTS sign ((px-qx)*(rx-qx)+(py-qy)*(ry-qy));
+  return (Angle) CGAL_NTS sign<FT> ((px-qx)*(rx-qx)+(py-qy)*(ry-qy));
 }
 
 template < class FT >
@@ -468,7 +445,7 @@ side_of_oriented_circleC2(const FT &px, const FT &py,
 //         - sign_of_determinant3x3(qpx, qpy, square(qpx) + square(qpy),
 //                                  rpx, rpy, square(rpx) + square(rpy),
 //                                  tpx, tpy, square(tpx) + square(tpy)));
-  return Oriented_side(sign_of_determinant2x2(
+  return Oriented_side(sign_of_determinant2x2<FT>(
                              qpx*tpy - qpy*tpx, tpx*(tx-qx) + tpy*(ty-qy),
                              qpx*rpy - qpy*rpx, rpx*(rx-qx) + rpy*(ry-qy)));
 }
@@ -604,7 +581,7 @@ Oriented_side
 side_of_oriented_lineC2(const FT &a, const FT &b, const FT &c,
                         const FT &x, const FT &y)
 {
-  return Oriented_side(CGAL_NTS sign(a*x+b*y+c));
+  return Oriented_side(CGAL_NTS sign<FT>(a*x+b*y+c));
 }
 
 CGAL_END_NAMESPACE

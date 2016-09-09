@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_dynamic_open_bounding_box.h,v $
+// $Revision: 1.5 $ $Date: 2003/09/18 10:24:33 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Pm_dynamic_open_bounding_box.h
-// package       : Planar_map (5.113)
-// source        : 
-// revision      : 
-// revision_date : 
-// author(s)     : Oren Nechushtan
-//                 
-//
-// coordinator   : Tel-Aviv University (Dan Halperin)
-//
-// Chapter       : 
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 
 #ifndef CGAL_PM_DYNAMIC_OPEN_BOUNDING_BOX_H
 #define CGAL_PM_DYNAMIC_OPEN_BOUNDING_BOX_H
@@ -295,7 +264,7 @@ public:
         while(it!=pm->halfedges_end()) 
           {
             const X_curve& cv=it->curve();
-            if (!traits->curve_is_in_x_range(cv,p) && !insert(cv,r))
+            if (!traits->point_in_x_range(cv,p) && !insert(cv,r))
               return false;
             else {++it;++it;}
           }
@@ -394,18 +363,18 @@ protected:
   bool cooriented(const Ccb_halfedge_circulator& h,const X_curve& cv) const
   {
 #ifdef CGAL_PMBB_DEBUG
-    if (!traits->curve_is_same(h->curve(),cv))
+    if (!traits->curve_equal(h->curve(),cv))
       std::cerr << "\nbool cooriented(h," << cv << "); h->curve()=" 
                 << h->curve() << std::endl;
 #endif
-    CGAL_precondition(traits->curve_is_same(h->curve(),cv));
+    CGAL_precondition(traits->curve_equal(h->curve(),cv));
     const Point& s=h->source()->point(),&t=h->target()->point();
-    if (traits->point_is_same_x(s,t))
+    if (traits->point_equal_x(s,t))
       {
         CGAL_precondition(
           traits->curve_get_status(cv)==Traits::CURVE_VERTICAL_UP || 
           traits->curve_get_status(cv)==Traits::CURVE_VERTICAL_DOWN);
-        return (traits->point_is_higher(t,s) ==
+        return (traits->point_is_right_top(t,s) ==
 		(traits->curve_get_status(cv)==Traits::CURVE_VERTICAL_UP));
       }
     else
@@ -488,19 +457,19 @@ protected:
           t->set_point(traits->curve_source(cv));
           s->set_point(traits->curve_target(cv));
         }
-      CGAL_postcondition(!traits->point_is_same(
+      CGAL_postcondition(!traits->point_equal(
            h->source()->point(),h->target()->point()));
 #ifdef CGAL_PM_DEBUG
-        if (!(traits->point_is_same(
+        if (!(traits->point_equal(
             traits->curve_source(h->curve()),
             h->source()->point()) &&
-          traits->point_is_same(
+          traits->point_equal(
             traits->curve_target(h->curve()),
             h->target()->point()) ||
-          traits->point_is_same(
+          traits->point_equal(
             traits->curve_source(h->curve()),
             h->target()->point()) &&
-          traits->point_is_same(
+          traits->point_equal(
                                 traits->curve_target(h->curve()),
 				h->source()->point())))
           {
@@ -512,16 +481,16 @@ protected:
             std::cout << " h->target()->point()=" << h->target()->point();
           }
         CGAL_postcondition(
-          traits->point_is_same(
+          traits->point_equal(
             traits->curve_source(h->curve()),
             h->source()->point()) &&
-          traits->point_is_same(
+          traits->point_equal(
             traits->curve_target(h->curve()),
             h->target()->point()) ||
-          traits->point_is_same(
+          traits->point_equal(
             traits->curve_source(h->curve()),
             h->target()->point()) &&
-          traits->point_is_same(
+          traits->point_equal(
             traits->curve_target(h->curve()),h->source()->point()) );
 #endif
         ++it;

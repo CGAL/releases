@@ -1,66 +1,53 @@
-// ======================================================================
+// Copyright (c) 1997  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_utils_2.h,v $
+// $Revision: 1.6 $ $Date: 2003/09/18 10:26:17 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_utils_2.h
-// package       : Triangulation_2 (7.32)
-// revision      : $Revision: 1.3 $
-// author(s)     : Mariette Yvinec
-//                 Sylvain Pion
-//
-// coordinator   : Mariette Yvinec
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
+//                 Sylvain Pion    <Sylvain.Pion@sophia.inria.fr>
+//                 Andreas Fabri   <Andreas.Fabri@geometryfactory.com>
 #ifndef CGAL_TRIANGULATION_UTILS_2_H
 #define CGAL_TRIANGULATION_UTILS_2_H
 
 CGAL_BEGIN_NAMESPACE 
+template < class T = void >
+struct Triangulation_cw_ccw_static_2 {
 
-class Triangulation_cw_ccw_2
+static const int ccw_map[3];
+static const int cw_map[3];
+};
+template < class T >
+const int Triangulation_cw_ccw_static_2<T>::ccw_map[3] = {1, 2, 0};
+
+template < class T >
+const int Triangulation_cw_ccw_static_2<T>::cw_map[3] = {2, 0, 1};
+
+class Triangulation_cw_ccw_2 
+  : public  Triangulation_cw_ccw_static_2<>
 {
 public:
   static int ccw(const int i) 
     {
       CGAL_triangulation_precondition( i >= 0 && i < 3);
-      return (i==2) ? 0 : i+1;
+      return ccw_map[i];
     }
 
   static int cw(const int i)
     {
       CGAL_triangulation_precondition( i >= 0 && i < 3);
-      return (i==0) ? 2 : i-1;
+      return cw_map[i];
     }
 };
 

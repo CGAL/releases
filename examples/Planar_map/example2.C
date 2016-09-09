@@ -1,6 +1,8 @@
 // examples/Planar_map/example2.C
 // ------------------------------
 
+#include "short_names.h"
+
 #include <CGAL/Homogeneous.h>
 #include <CGAL/Pm_segment_traits_2.h>
 #include <CGAL/Pm_default_dcel.h>
@@ -12,7 +14,7 @@
 typedef CGAL::Homogeneous<long>           Kernel;
 typedef CGAL::Pm_segment_traits_2<Kernel> Traits;
 typedef Traits::Point_2                   Point_2;
-typedef Traits::X_curve_2                 X_curve_2;
+typedef Traits::X_monotone_curve_2        X_monotone_curve_2;
 typedef CGAL::Pm_default_dcel<Traits>     Dcel;
 typedef CGAL::Planar_map_2<Dcel,Traits>   Planar_map;
 
@@ -20,23 +22,24 @@ int main()
 {
   // Create an instance of a Planar_map:
   Planar_map pm;
-  X_curve_2 cv[5];
+  X_monotone_curve_2 cv[5];
 
   Point_2 a1(100, 0), a2(20, 50), a3(180, 50), a4(100, 100);
 
   // Create the curves:
-  cv[0] = X_curve_2(a1, a2);
-  cv[1] = X_curve_2(a1, a3);
-  cv[2] = X_curve_2(a2, a3);
-  cv[3] = X_curve_2(a2, a4);
-  cv[4] = X_curve_2(a3, a4);
+  cv[0] = X_monotone_curve_2(a1, a2);
+  cv[1] = X_monotone_curve_2(a1, a3);
+  cv[2] = X_monotone_curve_2(a2, a3);
+  cv[3] = X_monotone_curve_2(a2, a4);
+  cv[4] = X_monotone_curve_2(a3, a4);
   
-  std::cout << "The curves of the map :" << std::endl; 
-  std::copy(&cv[0], &cv[5], std::ostream_iterator<X_curve_2>(std::cout, "\n"));
+  std::cout << "The curves of the map :" << std::endl;
+  std::copy(&cv[0], &cv[5],
+            std::ostream_iterator<X_monotone_curve_2>(std::cout, "\n"));
   std::cout << std::endl;
 
-  // Insert the five curves into the Planar_map:
-  std::cout << "inserting the curves to the map ... ";
+  // Insert the curves into the Planar_map:
+  std::cout << "Inserting the curves to the map ... ";
   pm.insert(&cv[0], &cv[5]);
   std::cout << ((pm.is_valid()) ? "map valid!" : "map invalid!") << std::endl
             << std::endl;

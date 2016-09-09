@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2001  Freie Universitaet Berlin (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/Min_ellipse_2.h,v $
+// $Revision: 1.8 $ $Date: 2003/10/16 09:29:46 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Min_ellipse_2.h
-// package       : Min_ellipse_2 (3.19)
-// chapter       : Geometric Optimisation
-//
-// source        : web/Min_ellipse_2.aw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/07/17 12:51:07 $
-//
-// author(s)     : Sven Schönherr, Bernd Gärtner
-// coordinator   : ETH Zürich (Bernd Gärtner)
-//
-// implementation: 2D Smallest Enclosing Ellipse
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Sven Schönherr <sven@inf.ethz.ch>, Bernd Gärtner
 
 #ifndef CGAL_MIN_ELLIPSE_2_H
 #define CGAL_MIN_ELLIPSE_2_H
@@ -110,8 +79,8 @@ class Min_ellipse_2 {
     Min_ellipse_2( const Traits& traits = Traits());
     Min_ellipse_2( const Point&  p,
                    const Traits& traits = Traits());
-    Min_ellipse_2( const Point&  p,
-                   const Point&  q,
+    Min_ellipse_2( Point  p,
+                   Point  q,
                    const Traits& traits = Traits());
     Min_ellipse_2( const Point&  p1,
                    const Point&  p2,
@@ -372,7 +341,7 @@ class Min_ellipse_2 {
     Min_ellipse_2( InputIterator first,
                    InputIterator last,
                    bool          randomize
-    #if !defined(__BORLANDC__) && (!defined(_MSC_VER) || _MSC_VER > 1200)
+    #if !defined(__BORLANDC__) && (!defined(_MSC_VER) || _MSC_VER > 1300)
                                                = false
     #endif
                                                       ,
@@ -390,7 +359,12 @@ class Min_ellipse_2 {
                 if ( randomize) {
     
                     // shuffle points at random
+#ifndef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
                     std::vector<Point> v( first, last);
+#else
+		    std::vector<Point> v;
+		    std::copy( first, last, std::back_inserter( v));
+#endif
                     std::random_shuffle( v.begin(), v.end(), random);
                     std::copy( v.begin(), v.end(),
                                std::back_inserter( points)); }
@@ -431,8 +405,10 @@ class Min_ellipse_2 {
     }
     
     // constructor for two points
+    // This was const Point& but then Intel 7.0/.net2003 messes it up 
+    // with the constructor taking an iterator range
     inline
-    Min_ellipse_2( const Point& p1, const Point& p2,
+    Min_ellipse_2( Point p1, Point p2,
                    const Traits& traits = Traits())
         : tco( traits)
     {
@@ -539,8 +515,6 @@ class Min_ellipse_2 {
             // append p to the end of the list
             points.push_back( p);
     }
-    #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
-    
         template < class InputIterator >
         void
         insert( InputIterator first, InputIterator last)
@@ -548,36 +522,7 @@ class Min_ellipse_2 {
             for ( ; first != last; ++first)
                 insert( *first);
         }
-    
-    #else
-    
-        inline
-        void
-        insert( const Point* first, const Point* last)
-        {
-            for ( ; first != last; ++first)
-                insert( *first);
-        }
-    
-        inline
-        void
-        insert( std::list<Point>::const_iterator first,
-                std::list<Point>::const_iterator last )
-        {
-            for ( ; first != last; ++first)
-                insert( *first);
-        }
-    
-        inline
-        void
-        insert( std::istream_iterator<Point,std::ptrdiff_t>  first,
-                std::istream_iterator<Point,std::ptrdiff_t>  last )
-        {
-            for ( ; first != last; ++first)
-                insert( *first);
-        }
-    
-    #endif // CGAL_CFG_NO_MEMBER_TEMPLATES
+
     void
     clear( )
     {

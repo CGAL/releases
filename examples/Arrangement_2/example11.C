@@ -6,9 +6,8 @@
 #include <CGAL/Cartesian.h>
 #include <CGAL/MP_Float.h>
 #include <CGAL/Quotient.h>
-#include <CGAL/Arr_2_bases.h>
 #include <CGAL/Arr_2_default_dcel.h>
-#include <CGAL/Arr_segment_exact_traits.h>
+#include <CGAL/Arr_segment_traits_2.h>
 #include <CGAL/Arrangement_2.h>
 #include <CGAL/IO/Arr_iostream.h>
 #include <iostream>
@@ -19,11 +18,11 @@
 
 typedef CGAL::Quotient<CGAL::MP_Float>                  NT;
 typedef CGAL::Cartesian<NT>                             Kernel;
-typedef CGAL::Arr_segment_exact_traits<Kernel>          Traits;
+typedef CGAL::Arr_segment_traits_2<Kernel>              Traits;
 typedef Traits::Curve                                   Curve;
+typedef Traits::X_monotone_curve_2                      X_monotone_curve_2;
 typedef CGAL::Arr_2_default_dcel<Traits>                Dcel;
-typedef CGAL::Arr_base_node<Curve>                      Base_node;
-typedef CGAL::Arrangement_2<Dcel,Traits,Base_node>      Arr;
+typedef CGAL::Arrangement_2<Dcel,Traits>                Arr;
 
 int main()
 {

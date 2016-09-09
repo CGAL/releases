@@ -1,55 +1,33 @@
-// ======================================================================
-//
-// Copyright (c) 2000,2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000,2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Kernel_d/Tuple_d.h
-// package       : Kernel_d (0.9.68)
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 2002/04/11 08:04:54 $
-// author(s)     : Michael Seel
-// coordinator   : MPI Saarbruecken
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Tuple_d.h,v $
+// $Revision: 1.19 $ $Date: 2003/10/21 12:19:30 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Michael Seel
 #ifndef CGAL_TUPLE_D_H
 #define CGAL_TUPLE_D_H
 
 #ifndef NOCGALINCL
-#include <strstream>
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
 #include <CGAL/Quotient.h>
+#include <sstream>
 #endif
 
 CGAL_BEGIN_NAMESPACE
@@ -79,7 +57,7 @@ public:
     typedef Cartesian_const_iterator self;
     typedef std::random_access_iterator_tag iterator_category;
     typedef CGAL::Quotient<NT>              value_type;
-    typedef ptrdiff_t                       difference_type;
+    typedef std::ptrdiff_t                  difference_type;
     typedef const value_type*               pointer;
     typedef const value_type&               reference;
 
@@ -106,7 +84,7 @@ public:
 
   bool operator==(const self& x) const { return _it==x._it; }
   bool operator!=(const self& x) const { return ! (*this==x); }
-  bool operator<(self x) const { (x - *this) > 0; }
+  bool operator<(const self& x) const { return (x - *this) > 0; }
 
   private:
     const_iterator _it, _w;  
@@ -116,7 +94,7 @@ public:
     typedef Homogeneous_const_iterator self;
     typedef std::random_access_iterator_tag iterator_category;
     typedef NT                              value_type;
-    typedef ptrdiff_t                       difference_type;
+    typedef std::ptrdiff_t                  difference_type;
     typedef const value_type*               pointer;
     typedef const value_type&               reference;
 
@@ -159,8 +137,6 @@ public:
   Tuple_d(const NT& a, const NT& b, const NT& c, const NT& d) : v(4)
   { v[0]=a; v[1]=b; v[2]=c; v[3]=d; }
 
-#ifndef CGAL_SIMPLE_INTERFACE
-
   template <typename I>
   Tuple_d(int d, I& start, I end) : v(d) 
   { int i(0); 
@@ -176,21 +152,6 @@ public:
     while ( i < d && start != end ) v[i++] = *start++; 
     v[d-1] = D; 
   }
-
-#else // provide instantiated constructors:
-#define FIXTUPLE(I) \
-Tuple_d(int d, I& start, I end) : v(d) \
-{ int i(0); while ( i < d && start != end ) v[i++] = *start++; } \
-Tuple_d(int d, I start, I end, NT D) : v(d) \
-{ int i(0); while ( i < d && start != end ) v[i++] = *start++; v[d-1] = D; }
-
-//FIXTUPLE(int*)
-FIXTUPLE(const int*)
-//FIXTUPLE(NT*)
-FIXTUPLE(const NT*)
-
-#undef FIXTUPLE
-#endif
 
   int size() const { return v.dimension(); }
   const_iterator begin() const { return v.begin(); }
@@ -332,11 +293,10 @@ void tuple_dim_check(ForwardIterator first, ForwardIterator last,
   int d = first->dimension(); ++first;
   for (; first!=last; ++first) 
     if (first->dimension() != d) {
-      std::ostrstream os;
+      std::ostringstream os;
       os << "Tuple Dimension Error " << 
             "File " << file << "Line " << line << "Operation " << op << '\0';
-      CGAL_assertion_msg(0,os.str()); 
-      os.freeze(0);
+      CGAL_assertion_msg(0,os.str().c_str()); 
     }
 }
 

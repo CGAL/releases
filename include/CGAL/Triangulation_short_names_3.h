@@ -1,48 +1,21 @@
-// ======================================================================
+// Copyright (c) 1999  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_short_names_3.h,v $
+// $Revision: 1.26 $ $Date: 2003/09/18 10:26:32 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_short_names_3.h
-// package       : Triangulation_3 (1.114)
-// revision      : $Revision: 1.22 $
-//
-// author(s)     : Monique Teillaud
-//
-// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
 #ifndef CGAL_TRIANGULATION_SHORT_NAMES_3_H
 #define CGAL_TRIANGULATION_SHORT_NAMES_3_H
@@ -52,13 +25,14 @@
 
 #define Triangulation_data_structure_3              TDS3
 
+#define Triangulation_ds_vertex_base_3              TDS_vb3
+#define Triangulation_ds_cell_base_3                TDS_cb3
+
 #define Triangulation_ds_vertex_3                   TDS_v3
 #define Triangulation_ds_cell_3                     TDS_c3
 
 #define Triangulation_ds_edge_iterator_3            TDS_eit3
 #define Triangulation_ds_facet_iterator_3           TDS_fit3
-
-#define Triangulation_iterator_handle_adaptor_3     T_iha3
 
 #define Triangulation_ds_cell_circulator_3          TDS_ccir3
 #define Triangulation_ds_facet_circulator_3         TDS_fcir3
@@ -68,7 +42,6 @@
 #define Delaunay_triangulation_3                    DT3
 #define Delaunay_remove_tds_face_3_2                DRf32
 #define Delaunay_remove_tds_vertex_3_2              DRv32
-#define Delaunay_remove_tds_halfedge_compare_3_2    DRthc32
 
 #define Regular_triangulation_euclidean_traits_3    R_gt3
 #define Regular_triangulation_3                     RT3

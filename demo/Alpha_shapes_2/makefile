@@ -1,51 +1,75 @@
-
-# This is a makefile exemple for compiling a CGAL application.
+# Created by the script create_makefile
+# This is the makefile for compiling a CGAL application.
 
 #---------------------------------------------------------------------#
 #                    include platform specific settings
 #---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
 
+# CGAL_MAKEFILE = ENTER_YOUR_INCLUDE_MAKEFILE_HERE
 include $(CGAL_MAKEFILE)
 
-# ---------------------------------------------------------------------#
+#---------------------------------------------------------------------#
 #                    compiler flags
 #---------------------------------------------------------------------#
-# rajouter CGAL_LOCAL_CXXFLAGS si on veut les packages de Local
 
-CXXFLAGS = -I../../include $(CGAL_CXXFLAGS) \
-           $(LONG_NAME_PROBLEM_CXXFLAGS)
-
-# -DDEBUG for display additionnal info
-# -O2 supported iff long names are not a problem (on Linux, or with
-# the gnu "binutils")
+CXXFLAGS = -I../../../include/ \
+           $(CGAL_CXXFLAGS) \
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
+           $(DEBUG_OPT)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
-LIBPATH = $(CGAL_LIBPATH)
+LIBPATH = \
+          $(CGAL_LIBPATH)
 
-LDFLAGS = $(CGAL_WINDOW_LDFLAGS) \
-          $(LONG_NAME_PROBLEM_LDFLAGS)
+LDFLAGS = \
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
+          $(CGAL_QT_LDFLAGS)
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-all: demo_alpha$(EXE_EXT) demo_weight$(EXE_EXT)
+all: alpha_shapes_2
 
-demo_alpha$(EXE_EXT): demo_alpha$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)demo_alpha demo_alpha$(OBJ_EXT) $(LDFLAGS)
+Qt_widget_move_point.moc: Qt_widget_move_point.h
+	$(QT_MOC) -o Qt_widget_move_point.moc Qt_widget_move_point.h
 
-demo_weight$(EXE_EXT): demo_weight$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)demo_weight demo_weight$(OBJ_EXT) $(LDFLAGS)
+Qt_widget_move_point$(OBJ_EXT): Qt_widget_move_point.moc Qt_widget_move_point.C
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_move_point.C
 
-clean:
-	\rm -f *.o  *.obj *.exe \
-                   demo_alpha$(EXE_EXT)  demo_weight$(EXE_EXT) \
-                   core
+Qt_widget_toolbar$(OBJ_EXT): Qt_widget_toolbar.C Qt_widget_toolbar.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_toolbar.C
 
+Qt_widget_toolbar.moc: Qt_widget_toolbar.h
+	$(QT_MOC) -o Qt_widget_toolbar.moc Qt_widget_toolbar.h
+
+Qt_widget_toolbar_layers$(OBJ_EXT): Qt_widget_toolbar_layers.C \
+		Qt_widget_toolbar_layers.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_toolbar_layers.C
+
+Qt_widget_toolbar_layers.moc: Qt_widget_toolbar_layers.h
+	$(QT_MOC) -o Qt_widget_toolbar_layers.moc Qt_widget_toolbar_layers.h
+
+alpha_shapes_2.moc: alpha_shapes_2.C \
+			Qt_widget_toolbar$(OBJ_EXT) \
+			Qt_widget_toolbar_layers$(OBJ_EXT) \
+			Qt_widget_move_point$(OBJ_EXT)
+	${QT_MOC} -o alpha_shapes_2.moc alpha_shapes_2.C
+
+alpha_shapes_2$(OBJ_EXT): alpha_shapes_2.C alpha_shapes_2.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) alpha_shapes_2.C
+
+alpha_shapes_2$(EXE_EXT): alpha_shapes_2$(OBJ_EXT)
+	$(CGAL_CXX) $(EXE_OPT)alpha_shapes_2 alpha_shapes_2$(OBJ_EXT) Qt_widget_toolbar$(OBJ_EXT) Qt_widget_toolbar_layers$(OBJ_EXT) Qt_widget_move_point$(OBJ_EXT) $(LDFLAGS)
+
+clean: alpha_shapes_2.clean \
+       Qt_widget_toolbar_layers.clean \
+       Qt_widget_toolbar.clean \
+       Qt_widget_move_point.clean
 
 #---------------------------------------------------------------------#
 #                    suffix rules
@@ -53,6 +77,3 @@ clean:
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
-
-
-

@@ -1,207 +1,86 @@
-// ======================================================================
+// Copyright (c) 1999  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Triangulation_vertex_base_3.h,v $
+// $Revision: 1.24 $ $Date: 2003/10/17 08:49:19 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_vertex_base_3.h
-// package       : Triangulation_3 (1.114)
-// revision      : $Revision: 1.21 $
-// author(s)     : Monique Teillaud
-//
-// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
 #ifndef CGAL_TRIANGULATION_VERTEX_BASE_3_H
 #define CGAL_TRIANGULATION_VERTEX_BASE_3_H
 
 #include <CGAL/basic.h>
 #include <CGAL/Triangulation_short_names_3.h>
+#include <CGAL/Triangulation_ds_vertex_base_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template < class GT >
+template < typename GT, typename DSVb = Triangulation_ds_vertex_base_3<> >
 class Triangulation_vertex_base_3
+  : public DSVb
 {
 public:
-  typedef typename GT::Point_3 Point;
-  
-  // CONSTRUCTORS
-  
+
+  typedef typename DSVb::Cell_handle                   Cell_handle;
+  typedef GT                                           Geom_traits;
+  typedef typename GT::Point_3                         Point;
+
+  template < typename TDS2 >
+  struct Rebind_TDS {
+    typedef typename DSVb::template Rebind_TDS<TDS2>::Other  DSVb2;
+    typedef Triangulation_vertex_base_3<GT, DSVb2>           Other;
+  };
+
   Triangulation_vertex_base_3()
-    : _p(), _c(NULL)
-  {}
-  
+    : DSVb() {}
+
   Triangulation_vertex_base_3(const Point & p)
-    :  _p(p), _c(NULL)
-  {}
-    
-  Triangulation_vertex_base_3(const Point & p, void* c)
-    :  _p(p), _c(c)
-  {}
+    : DSVb(), _p(p) {}
 
-  Triangulation_vertex_base_3(void* c)
-    :  _p(), _c(c)
-  {}
+  Triangulation_vertex_base_3(const Point & p, const Cell_handle& c)
+    : DSVb(c), _p(p) {}
 
-  // ACCES 
+  Triangulation_vertex_base_3(const Cell_handle& c)
+    : DSVb(c), _p() {}
 
   const Point & point() const
   { return _p; }
-    
-  void* cell() const
-  { return _c; }
 
-  // SETTING
+  Point & point()
+  { return _p; }
 
   void set_point(const Point & p)
   { _p = p; }
-    
-  void set_cell(void* c)
-  { _c = c; }
-
-  // CHECKING
-
-  // the following trivial is_valid allows
-  // the user of derived cell base classes 
-  // to add their own purpose checking
-  bool is_valid(bool, int ) const
-  { 
-    return cell() != NULL;
-  }
 
 private:
   Point _p;
-  void * _c;
 };
 
-template < class GT >
-std::istream& operator >>
-(std::istream& is, Triangulation_vertex_base_3<GT> & v)
+template < class GT, class DSVb >
+std::istream&
+operator>>(std::istream &is, Triangulation_vertex_base_3<GT, DSVb> &v)
   // non combinatorial information. Default = point
 {
-  typename GT::Point_3 p;
-  is >> p;
-  v.set_point(p);
-  return is;
+  return is >> static_cast<DSVb&>(v) >> v.point();
 }
 
-template < class GT >
-std::ostream& operator<<
-(std::ostream& os, const Triangulation_vertex_base_3<GT> & v)
+template < class GT, class DSVb >
+std::ostream&
+operator<<(std::ostream &os, const Triangulation_vertex_base_3<GT, DSVb> &v)
   // non combinatorial information. Default = point
 {
-  os << v.point();
-  return os;
-}
-
-template < class GT >
-class Triangulation_vertex_base_pointer_3
-{
-public:
-  typedef typename GT::Point_3 Point;
-  
-  // CONSTRUCTORS
-  
-  Triangulation_vertex_base_pointer_3()
-    : _p(NULL), _c(NULL)
-  {}
-  
-  Triangulation_vertex_base_pointer_3(const Point & p)
-    : _p(&p), _c(NULL)
-  {}
-    
-  Triangulation_vertex_base_pointer_3(const Point & p, void* c)
-    : _p(p), _c(c)
-  {}
-
-  Triangulation_vertex_base_pointer_3(void* c)
-    : _p(NULL), _c(c)
-  {}
-
-  // ACCES 
-
-  const Point & point() const
-  { return *_p; }
-    
-  void* cell() const
-  { return _c; }
-
-  // SETTING
-
-  void set_point(const Point & p)
-  {     
-    _p = &p; 
-  }
-    
-  void set_cell(void* c)
-  { _c = c; }
-
-  // CHECKING
-
-  // the following trivial is_valid allows
-  // the user of derived cell base classes 
-  // to add their own purpose checking
-  bool is_valid(bool, int ) const
-  { 
-    return cell() != NULL;
-  }
-
-private:
-  const Point * _p;
-  void * _c;
-};
-
-template < class GT >
-std::istream& operator >>
-(std::istream& is, Triangulation_vertex_base_pointer_3<GT> & v)
-  // non combinatorial information. Default = point
-{ 
-  typedef typename GT::Point_3 Point;
-  Point * q = new Point();
-  is >> *q;
-  v.set_point(*q);
-  return is;
-}
-
-template < class GT >
-std::ostream& operator<<
-(std::ostream& os, const Triangulation_vertex_base_pointer_3<GT> & v)
-  // non combinatorial information. Default = point
-{
-  os << v.point();
-  return os;
+  return os << static_cast<const DSVb&>(v) << v.point();
 }
 
 CGAL_END_NAMESPACE

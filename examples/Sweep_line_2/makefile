@@ -38,7 +38,7 @@ all:            \
                 example2$(EXE_EXT) \
                 example3$(EXE_EXT) \
                 example4$(EXE_EXT) \
-                example5$(EXE_EXT) 
+                example7$(EXE_EXT) 
 
 example1$(EXE_EXT): example1$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example1 example1$(OBJ_EXT) $(LDFLAGS)
@@ -52,15 +52,15 @@ example3$(EXE_EXT): example3$(OBJ_EXT)
 example4$(EXE_EXT): example4$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example4 example4$(OBJ_EXT) $(LDFLAGS)
 
-example5$(EXE_EXT): example5$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example5 example5$(OBJ_EXT) $(LDFLAGS)
+example7$(EXE_EXT): example7$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example7 example7$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
                    example1.clean \
                    example2.clean \
                    example3.clean \
                    example4.clean \
-                   example5.clean 
+                   example7.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

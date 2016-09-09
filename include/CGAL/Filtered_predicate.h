@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Filtered_predicate.h
-// package       : Interval_arithmetic (4.141)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/09/17 12:03:31 $
-// author(s)     : Sylvain Pion
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Filtered_predicate.h,v $
+// $Revision: 1.9 $ $Date: 2003/10/21 12:17:23 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Sylvain Pion
 
 #ifndef CGAL_FILTER_PREDICATE_H
 #define CGAL_FILTER_PREDICATE_H
@@ -51,19 +29,22 @@
 
 CGAL_BEGIN_NAMESPACE
 
-// This template class is a wrapper that implements the filtering for all
-// predicates (dynamic filters with IA).
+// This template class is a wrapper that implements the filtering for any
+// predicate (dynamic filters with IA).
 
 // TODO :
+// - We should specialize it for the static filters versions when possible...
 // - each predicate in the default kernel should define a tag that says if it
 //   wants to be filtered or not (=> all homogeneous predicate define this
 //   tag).  We could even test-suite that automatically.  It makes a strong
 //   new requirement on the kernel though...
+//   Could be done with a traits mecanism ?
+//   A default template could use the current IA, but other tags or whatever
+//   could specify no filtering at all, or static filtering...
 // - same thing for constructions => virtual operator() ?
 // - similarly, constructions should have a tag saying if they can throw or
 //   not, or we let all this up to the compiler optimizer to figure out ?
-// - The operators() should probably not be inline (?).
-// - Potential caching is done at the Point_2 level.
+// - Some caching should be done at the Point_2 level.
 
 
 template <class EP, class AP, class C2E, class C2F, bool Protection = true>
@@ -77,6 +58,7 @@ class Filtered_predicate
 public:
 
   typedef typename AP::result_type  result_type;
+  typedef typename AP::Arity        Arity;
   // Should be the same type as EP::result_type.
 
   Filtered_predicate()
@@ -99,7 +81,7 @@ public:
   template <class A1>
   result_type
   operator()(const A1 &a1) const
-#ifndef _MSC_VER
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
   ;
 #else
   {
@@ -119,7 +101,7 @@ public:
   template <class A1, class A2>
   result_type
   operator()(const A1 &a1, const A2 &a2) const
-#ifndef _MSC_VER
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
   ;
 #else
   {
@@ -139,7 +121,7 @@ public:
   template <class A1, class A2, class A3>
   result_type
   operator()(const A1 &a1, const A2 &a2, const A3 &a3) const
-#ifndef _MSC_VER
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
   ;
 #else
   {
@@ -159,7 +141,7 @@ public:
   template <class A1, class A2, class A3, class A4>
   result_type
   operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4) const
-#ifndef _MSC_VER
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
   ;
 #else
   {
@@ -182,7 +164,7 @@ public:
   result_type
   operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
 	     const A5 &a5) const
-#ifndef _MSC_VER
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
   ;
 #else
   {
@@ -205,7 +187,7 @@ public:
   result_type
   operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
 	     const A5 &a5, const A6 &a6) const
-#ifndef _MSC_VER
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
   ;
 #else
   {
@@ -229,7 +211,7 @@ public:
   result_type
   operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
 	     const A5 &a5, const A6 &a6, const A7 &a7) const
-#ifndef _MSC_VER
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
   ;
 #else
   {
@@ -251,7 +233,7 @@ public:
   // Idem for more than 7 arguments.  Do it on demand.
 };
 
-#ifndef _MSC_VER
+#ifndef CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
 template <class EP, class AP, class C2E, class C2F, bool Protection>
   template <class A1>
 typename Filtered_predicate<EP,AP,C2E,C2F,Protection>::result_type

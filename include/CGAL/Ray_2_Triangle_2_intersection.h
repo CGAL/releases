@@ -1,48 +1,26 @@
 
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Ray_2_Triangle_2_intersection.h
-// package       : Intersections_2 (2.11.3)
-// source        : intersection_2_2.fw
-// author(s)     : Geert-Jan Giezeman
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : Saarbruecken
+// $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Ray_2_Triangle_2_intersection.h,v $
+// $Revision: 1.9 $ $Date: 2003/10/21 12:16:53 $
+// $Name: current_submission $
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Geert-Jan Giezeman
 
 
 #ifndef CGAL_RAY_2_TRIANGLE_2_INTERSECTION_H
@@ -52,16 +30,26 @@
 #include <CGAL/Ray_2.h>
 #include <CGAL/Triangle_2.h>
 #include <CGAL/Point_2.h>
+#include <CGAL/Line_2.h>
+#include <CGAL/utils.h>
+#include <CGAL/number_utils.h>
+#include <CGAL/Straight_2.h>
+
+
+
+#include <CGAL/Object.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template <class R>
+namespace CGALi {
+
+template <class K>
 class Ray_2_Triangle_2_pair {
 public:
     enum Intersection_results {NO, POINT, SEGMENT};
     Ray_2_Triangle_2_pair() ;
-    Ray_2_Triangle_2_pair(Ray_2<R> const *ray,
-                            Triangle_2<R> const *trian);
+    Ray_2_Triangle_2_pair(typename K::Ray_2 const *ray,
+			  typename K::Triangle_2 const *trian);
     ~Ray_2_Triangle_2_pair() {}
 #ifdef CGAL_CFG_RETURN_TYPE_BUG_2
     Intersection_results intersection_type() const
@@ -70,38 +58,38 @@ public:
             return _result;
     // The non const this pointer is used to cast away const.
         _known = true;
-        Straight_2_<R> straight(*_ray);
-    Line_2<R> l(_trian->vertex(0), _trian->vertex(1));
+        Straight_2_<K> straight(*_ray);
+    typename K::Line_2 l(_trian->vertex(0), _trian->vertex(1));
     if (l.oriented_side(_trian->vertex(2)) == ON_POSITIVE_SIDE) {
     //    if (_trian->is_counterclockwise()) {
             straight.cut_right_off(
-                Line_2<R>(_trian->vertex(0), _trian->vertex(1)));
+                typename K::Line_2(_trian->vertex(0), _trian->vertex(1)));
             straight.cut_right_off(
-                Line_2<R>(_trian->vertex(1), _trian->vertex(2)));
+                typename K::Line_2(_trian->vertex(1), _trian->vertex(2)));
             straight.cut_right_off(
-                Line_2<R>(_trian->vertex(2), _trian->vertex(0)));
+                typename K::Line_2(_trian->vertex(2), _trian->vertex(0)));
         } else {
             straight.cut_right_off(
-                Line_2<R>(_trian->vertex(2), _trian->vertex(1)));
+                typename K::Line_2(_trian->vertex(2), _trian->vertex(1)));
             straight.cut_right_off(
-                Line_2<R>(_trian->vertex(1), _trian->vertex(0)));
+                typename K::Line_2(_trian->vertex(1), _trian->vertex(0)));
             straight.cut_right_off(
-                Line_2<R>(_trian->vertex(0), _trian->vertex(2)));
+                typename K::Line_2(_trian->vertex(0), _trian->vertex(2)));
         }
         switch (straight.current_state()) {
-        case Straight_2_<R>::EMPTY:
+        case Straight_2_<K>::EMPTY:
             _result = NO;
             return _result;
-        case Straight_2_<R>::POINT: {
+        case Straight_2_<K>::POINT: {
             straight.current(_intersection_point);
             _result = POINT;
             return _result;
             }
-        case Straight_2_<R>::SEGMENT: {
-            Segment_2<R> seg;
+        case Straight_2_<K>::SEGMENT: {
+            typename K::Segment_2 seg;
             straight.current(seg);
-            _intersection_point = seg.start();
-            _other_point = seg.end();
+            _intersection_point = seg.source();
+            _other_point = seg.target();
             _result = SEGMENT;
             return _result;
             }
@@ -115,40 +103,25 @@ public:
 #else
     Intersection_results intersection_type() const;
 #endif // CGAL_CFG_RETURN_TYPE_BUG_2
-    bool                intersection(Point_2<R> &result) const;
-    bool                intersection(Segment_2<R> &result) const;
+    bool                intersection(typename K::Point_2 &result) const;
+    bool                intersection(typename K::Segment_2 &result) const;
 protected:
-    Ray_2<R> const* _ray;
-    Triangle_2<R> const *  _trian;
+    typename K::Ray_2 const* _ray;
+    typename K::Triangle_2 const *  _trian;
     mutable bool                    _known;
     mutable Intersection_results     _result;
-    mutable Point_2<R>         _intersection_point;
-    mutable Point_2<R>         _other_point;
+    mutable typename K::Point_2         _intersection_point;
+    mutable typename K::Point_2         _other_point;
 };
 
-template <class R>
-inline bool do_intersect(
-    const Ray_2<R> &p1,
-    const Triangle_2<R> &p2)
-{
-    typedef Ray_2_Triangle_2_pair<R> pair_t;
-    pair_t pair(&p1, &p2);
-    return pair.intersection_type() != pair_t::NO;
-}
-
-CGAL_END_NAMESPACE
 
 
 
-#include <CGAL/Line_2.h>
-#include <CGAL/utils.h>
-#include <CGAL/number_utils.h>
-#include <CGAL/Straight_2.h>
 
-CGAL_BEGIN_NAMESPACE
 
-template <class R>
-Ray_2_Triangle_2_pair<R>::
+
+template <class K>
+Ray_2_Triangle_2_pair<K>::
 Ray_2_Triangle_2_pair()
 {
     _known = false;
@@ -156,10 +129,10 @@ Ray_2_Triangle_2_pair()
     _trian = 0;
 }
 
-template <class R>
-Ray_2_Triangle_2_pair<R>::
-Ray_2_Triangle_2_pair(Ray_2<R> const *ray,
-                            Triangle_2<R> const *trian)
+template <class K>
+Ray_2_Triangle_2_pair<K>::
+Ray_2_Triangle_2_pair(typename K::Ray_2 const *ray,
+                            typename K::Triangle_2 const *trian)
 {
     _known = false;
     _ray = ray;
@@ -167,46 +140,47 @@ Ray_2_Triangle_2_pair(Ray_2<R> const *ray,
 }
 
 #ifndef CGAL_CFG_RETURN_TYPE_BUG_2
-template <class R>
-typename Ray_2_Triangle_2_pair<R>::Intersection_results
-Ray_2_Triangle_2_pair<R>::intersection_type() const
+template <class K>
+typename Ray_2_Triangle_2_pair<K>::Intersection_results
+Ray_2_Triangle_2_pair<K>::intersection_type() const
 {
+  typedef typename K::Line_2  Line_2;
     if (_known)
         return _result;
 // The non const this pointer is used to cast away const.
     _known = true;
-    Straight_2_<R> straight(*_ray);
-Line_2<R> l(_trian->vertex(0), _trian->vertex(1));
+    Straight_2_<K> straight(*_ray);
+    Line_2 l(_trian->vertex(0), _trian->vertex(1));
 if (l.oriented_side(_trian->vertex(2)) == ON_POSITIVE_SIDE) {
 //    if (_trian->is_counterclockwise()) {
         straight.cut_right_off(
-            Line_2<R>(_trian->vertex(0), _trian->vertex(1)));
+            Line_2(_trian->vertex(0), _trian->vertex(1)));
         straight.cut_right_off(
-            Line_2<R>(_trian->vertex(1), _trian->vertex(2)));
+            Line_2(_trian->vertex(1), _trian->vertex(2)));
         straight.cut_right_off(
-            Line_2<R>(_trian->vertex(2), _trian->vertex(0)));
+            Line_2(_trian->vertex(2), _trian->vertex(0)));
     } else {
         straight.cut_right_off(
-            Line_2<R>(_trian->vertex(2), _trian->vertex(1)));
+            Line_2(_trian->vertex(2), _trian->vertex(1)));
         straight.cut_right_off(
-            Line_2<R>(_trian->vertex(1), _trian->vertex(0)));
+            Line_2(_trian->vertex(1), _trian->vertex(0)));
         straight.cut_right_off(
-            Line_2<R>(_trian->vertex(0), _trian->vertex(2)));
+            Line_2(_trian->vertex(0), _trian->vertex(2)));
     }
     switch (straight.current_state()) {
-    case Straight_2_<R>::EMPTY:
+    case Straight_2_<K>::EMPTY:
         _result = NO;
         return _result;
-    case Straight_2_<R>::POINT: {
+    case Straight_2_<K>::POINT: {
         straight.current(_intersection_point);
         _result = POINT;
         return _result;
         }
-    case Straight_2_<R>::SEGMENT: {
-        Segment_2<R> seg;
+    case Straight_2_<K>::SEGMENT: {
+        typename K::Segment_2 seg;
         straight.current(seg);
-        _intersection_point = seg.start();
-        _other_point = seg.end();
+        _intersection_point = seg.source();
+        _other_point = seg.target();
         _result = SEGMENT;
         return _result;
         }
@@ -219,10 +193,10 @@ if (l.oriented_side(_trian->vertex(2)) == ON_POSITIVE_SIDE) {
 
 #endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
-template <class R>
+template <class K>
 bool
-Ray_2_Triangle_2_pair<R>::
-intersection(Point_2<R> &result) const
+Ray_2_Triangle_2_pair<K>::
+intersection(typename K::Point_2 &result) const
 {
     if (!_known)
         intersection_type();
@@ -232,77 +206,121 @@ intersection(Point_2<R> &result) const
     return true;
 }
 
-template <class R>
+template <class K>
 bool
-Ray_2_Triangle_2_pair<R>::
-intersection(Segment_2<R> &result) const
+Ray_2_Triangle_2_pair<K>::
+intersection(typename K::Segment_2 &result) const
 {
+  typedef typename K::Segment_2 Segment_2;
     if (!_known)
         intersection_type();
     if (_result != SEGMENT)
         return false;
-    result = Segment_2<R>(_intersection_point, _other_point);
+    result = Segment_2(_intersection_point, _other_point);
     return true;
 }
 
-CGAL_END_NAMESPACE
 
 
 
-#include <CGAL/Object.h>
 
-CGAL_BEGIN_NAMESPACE
-
-template <class R>
+template <class K>
 Object
-intersection(const Ray_2<R> &ray, const Triangle_2<R>&tr)
+intersection(const typename CGAL_WRAP(K)::Ray_2 &ray, 
+	     const typename CGAL_WRAP(K)::Triangle_2&tr,
+	     const K&)
 {
-    typedef Ray_2_Triangle_2_pair<R> is_t;
+    typedef Ray_2_Triangle_2_pair<K> is_t;
     is_t ispair(&ray, &tr);
     switch (ispair.intersection_type()) {
     case is_t::NO:
     default:
         return Object();
     case is_t::POINT: {
-        Point_2<R> pt;
+        typename K::Point_2 pt;
         ispair.intersection(pt);
         return make_object(pt);
     }
     case is_t::SEGMENT: {
-        Segment_2<R> iseg;
+        typename K::Segment_2 iseg;
         ispair.intersection(iseg);
         return make_object(iseg);
     }
     }
 }
 
-template <class R>
+template <class K>
+Object
+intersection(const typename CGAL_WRAP(K)::Triangle_2&tr,
+	     const typename CGAL_WRAP(K)::Ray_2 &ray, 
+	     const K& k)
+{
+  return CGALi::intersection(ray, tr, k);
+}
+
+
+template <class K>
 class Triangle_2_Ray_2_pair
-: public Ray_2_Triangle_2_pair<R> {
+: public Ray_2_Triangle_2_pair<K> {
 public:
     Triangle_2_Ray_2_pair(
-            Triangle_2<R> const *trian,
-            Ray_2<R> const *ray) :
-                        Ray_2_Triangle_2_pair<R>(ray, trian) {}
+            typename K::Triangle_2 const *trian,
+            typename K::Ray_2 const *ray) :
+                        Ray_2_Triangle_2_pair<K>(ray, trian) {}
 };
 
-template <class R>
+template <class K>
 inline bool do_intersect(
-    const Triangle_2<R> &p1,
-    const Ray_2<R> &p2)
+    const typename CGAL_WRAP(K)::Ray_2 &p1,
+    const typename CGAL_WRAP(K)::Triangle_2 &p2,
+    const K&)
 {
-    typedef Triangle_2_Ray_2_pair<R> pair_t;
+    typedef Ray_2_Triangle_2_pair<K> pair_t;
     pair_t pair(&p1, &p2);
     return pair.intersection_type() != pair_t::NO;
 }
 
-template <class R>
-inline Object
-intersection(const Triangle_2<R> &tr, const Ray_2<R> &ray)
+
+template <class K>
+inline bool do_intersect(
+    const typename CGAL_WRAP(K)::Triangle_2 &p1,
+    const typename CGAL_WRAP(K)::Ray_2 &p2,
+    const K&)
 {
-    return intersection(ray, tr);
+    typedef Triangle_2_Ray_2_pair<K> pair_t;
+    pair_t pair(&p1, &p2);
+    return pair.intersection_type() != pair_t::NO;
 }
 
+} // namespace CGALi
+
+
+template <class K>
+inline bool do_intersect(const Triangle_2<K> &tr,
+			 const Ray_2<K> &ray)
+{
+  return CGALi::do_intersect(ray, triangle, K());
+}
+
+template <class K>
+inline bool do_intersect(const Ray_2<K> &ray,
+			 const Triangle_2<K> &tr)
+{
+  return CGALi::do_intersect(ray, tr, K());
+}
+
+template <class K>
+inline Object
+intersection(const Ray_2<K> &ray, const Triangle_2<K> &tr)
+{
+    return CGALi::intersection(ray, tr, K());
+}
+template <class K>
+inline Object
+intersection(const Triangle_2<K> &tr, const Ray_2<K> &ray)
+{
+    return CGALi::intersection(ray, tr, K());
+}
 CGAL_END_NAMESPACE
 
 #endif

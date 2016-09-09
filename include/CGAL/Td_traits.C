@@ -1,54 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Trapezoidal_decomposition/include/CGAL/Td_traits.C,v $
+// $Revision: 1.4 $ $Date: 2003/09/18 10:25:54 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Td_traits.C
-// package       : Trapezoidal_decomposition (1.26)
-// source        : 
-// revision      : 
-// revision_date : 
-// author(s)     : Oren Nechushtan
-//
-//
-// maintainer(s) : Oren Nechushtan
-//
-//
-// coordinator   : Tel-Aviv University (Dan Halperin)
-//
-// Chapter       : 
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 #ifndef CGAL_TD_TRAITS_H
 #include <CGAL/Td_traits.h>
 #endif
@@ -64,7 +31,9 @@ Td_traits<Traits,X_curve_plus>::get_point_at_left_top_infinity(){
   return Td_traits<Traits,X_curve_plus>::POINT_AT_LEFT_TOP_INFINITY;
   */
   //  static Point POINT_AT_LEFT_TOP_INFINITY;
-  return POINT_AT_LEFT_TOP_INFINITY;
+  if (!POINT_AT_LEFT_TOP_INFINITY)
+    POINT_AT_LEFT_TOP_INFINITY = new Point();
+  return *POINT_AT_LEFT_TOP_INFINITY;
 }
 
 template <class Traits,class X_curve_plus>
@@ -76,7 +45,9 @@ Td_traits<Traits,X_curve_plus>::get_point_at_right_bottom_infinity(){
   return Td_traits<Traits,X_curve_plus>::POINT_AT_RIGHT_BOTTOM_INFINITY;
   */
   //  static Point POINT_AT_RIGHT_BOTTOM_INFINITY;
-  return POINT_AT_RIGHT_BOTTOM_INFINITY;
+  if (!POINT_AT_RIGHT_BOTTOM_INFINITY)
+    POINT_AT_RIGHT_BOTTOM_INFINITY = new Point();
+  return *POINT_AT_RIGHT_BOTTOM_INFINITY;
 }
 
 template <class Traits,class X_curve_plus>
@@ -88,22 +59,21 @@ Td_traits<Traits,X_curve_plus>::get_curve_at_infinity(){
   return Td_traits<Traits,X_curve_plus>::CURVE_AT_INFINITY;
   */
   //  static X_curve CURVE_AT_INFINITY;
-  return CURVE_AT_INFINITY;
+  if (!CURVE_AT_INFINITY)
+    CURVE_AT_INFINITY = new X_curve();
+  return *CURVE_AT_INFINITY;
 }
 
 template <class Traits,class X_curve_plus>
-typename Td_traits<Traits,X_curve_plus>::Point
-Td_traits<Traits,X_curve_plus>::POINT_AT_LEFT_TOP_INFINITY = 
-Point(0,0);
+typename Td_traits<Traits,X_curve_plus>::Point *
+Td_traits<Traits,X_curve_plus>::POINT_AT_LEFT_TOP_INFINITY = 0;
 
 template <class Traits,class X_curve_plus>
-typename Td_traits<Traits,X_curve_plus>::Point
-Td_traits<Traits,X_curve_plus>::POINT_AT_RIGHT_BOTTOM_INFINITY = 
-Point(0,0);
-
+typename Td_traits<Traits,X_curve_plus>::Point *
+Td_traits<Traits,X_curve_plus>::POINT_AT_RIGHT_BOTTOM_INFINITY = 0;
 
 template <class Traits,class X_curve_plus>
-typename Td_traits<Traits,X_curve_plus>::X_curve
-Td_traits<Traits,X_curve_plus>::CURVE_AT_INFINITY = X_curve();
+typename Td_traits<Traits,X_curve_plus>::X_curve *
+Td_traits<Traits,X_curve_plus>::CURVE_AT_INFINITY = 0;
 
 CGAL_END_NAMESPACE

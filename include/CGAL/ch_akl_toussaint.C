@@ -1,46 +1,21 @@
-// ======================================================================
+// Copyright (c) 1999  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/ch_akl_toussaint.C,v $
+// $Revision: 1.8 $ $Date: 2003/09/18 10:20:21 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/ch_akl_toussaint.C
-// package       : Convex_hull_2 (3.34)
-// revision      : 3.3
-// revision_date : 03 Aug 2000
-// author(s)     : Stefan Schirra
-//
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Stefan Schirra
 
 
 #ifndef CGAL_CH_AKL_TOUSSAINT_C
@@ -68,17 +43,21 @@ ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
                  const Traits&   ch_traits)
 {
   typedef  typename Traits::Point_2                    Point_2;    
-  typedef  typename Traits::Leftturn_2                 Left_of_line;
+  typedef  typename Traits::Left_turn_2                Left_of_line;
+  // added 
+  typedef  typename Traits::Equal_2                    Equal_2;
+  
+  Left_of_line  left_turn        = ch_traits.left_turn_2_object();
+  Equal_2       equal_points     = ch_traits.equal_2_object();  
 
   if (first == last) return result;
   ForwardIterator n, s, e, w;
   ch_nswe_point( first, last, n, s, w, e, ch_traits);
-  if ( *n == *s )
+  if (equal_points(*n, *s) )
   {
       *result = *w;  ++result;
       return result;
   }
-
 
   std::vector< Point_2 > region1;
   std::vector< Point_2 > region2;
@@ -92,8 +71,6 @@ ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
   region2.push_back( *s);
   region3.push_back( *e);
   region4.push_back( *n);
-
-  Left_of_line  left_turn = ch_traits.leftturn_2_object();
 
   CGAL_ch_postcondition_code( ForwardIterator save_first = first; )
 
@@ -126,25 +103,25 @@ ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
   std::sort( successor(region4.begin() ), region4.end(), 
              swap_1(ch_traits.less_xy_2_object()) );
 
-  if ( *w != *s )
+  if (! equal_points(*w,*s) )
   {
       region1.push_back( *s );
       ch__ref_graham_andrew_scan( region1.begin(), region1.end(), 
                                        res, ch_traits);
   }
-  if ( *s != *e )
+  if (! equal_points(*s,*e) )
   {
       region2.push_back( *e );
       ch__ref_graham_andrew_scan( region2.begin(), region2.end(),
                                        res, ch_traits);
   }
-  if ( *e != *n )
+  if (! equal_points(*e,*n) )
   {
       region3.push_back( *n );
       ch__ref_graham_andrew_scan( region3.begin(), region3.end(),
                                        res, ch_traits);
   }
-  if ( *n != *w )
+  if (! equal_points(*n,*w) )
   {
       region4.push_back( *w );
       ch__ref_graham_andrew_scan( region4.begin(), region4.end(),

@@ -1,110 +1,77 @@
-// ======================================================================
+// Copyright (c) 1997  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_ds_vertex_2.h,v $
+// $Revision: 1.21 $ $Date: 2003/09/18 10:26:13 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_ds_vertex_2.h
-// package       : Triangulation_2 (7.32)
-// source        : $RCSfile: Triangulation_ds_vertex_2.h,v $
-// revision      : $Revision: 1.17 $
-// revision_date : $Date: 2002/01/24 14:24:29 $
-// author(s)     : Mariette Yvinec
-//
-// coordinator   : Mariette Yvinec
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Mariette Yvinec
 
 #ifndef CGAL_TRIANGULATION_DS_VERTEX_2_H
 #define CGAL_TRIANGULATION_DS_VERTEX_2_H
 
+#include <CGAL/basic.h>
 #include <CGAL/Triangulation_short_names_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template <class Tds>
+template <class Vb>
 class  Triangulation_ds_vertex_2 
-  : public Tds::Vertex_base,    
-    public Triangulation_cw_ccw_2
+  : public Vb 
 {
+  typedef typename Vb::Triangulation_data_structure Tds;
 public:
-  typedef typename Tds::Vertex_base        Vb;
   typedef typename Tds::Vertex             Vertex;
-  typedef typename Tds::Face               Face;
-  typedef typename Tds::Edge               Edge;
   typedef typename Tds::Vertex_handle      Vertex_handle;
   typedef typename Tds::Face_handle        Face_handle;
   typedef typename Tds::Vertex_circulator  Vertex_circulator;
   typedef typename Tds::Face_circulator    Face_circulator;
   typedef typename Tds::Edge_circulator    Edge_circulator;
-  //typedef typename Vb::Point               Point;
  
   //CREATORS
   Triangulation_ds_vertex_2() : Vb() {}
 
-  //SETTING
-  void set_face(Face_handle f)  { Vb::set_face(&*f);}
-
   //ACCESS
-  //Vertex_handle handle() const {return &*this;}
-  Vertex_handle handle() {return const_cast<Vertex*>(this); }
-  Face_handle face() const {return static_cast<Face*>(Vb::face()) ;}
   int degree(); //should be const
 
+  //Deprecated access to circulators - for bacward compatibility
   // the following should be const
   // when Face_circulator, Vertex_circulator and Edge_circulator
   // are created from 
   // Face_const_handle and Face_const_vertex
   Vertex_circulator incident_vertices()     
-    {return Vertex_circulator(this);}
+    {return Vertex_circulator(handle());}
  
   Vertex_circulator incident_vertices( Face_handle f)  
-    {return Vertex_circulator(this,f);}
+    {return Vertex_circulator(handle(),f);}
   
   Face_circulator incident_faces()  
-    { return Face_circulator(this) ;}
+    { return Face_circulator(handle()) ;}
   
   Face_circulator incident_faces( Face_handle f)    
-    { return Face_circulator(this, f);}
+    { return Face_circulator(handle(), f);}
   
   Edge_circulator incident_edges()   
-    { return Edge_circulator(this);}
+    { return Edge_circulator(handle());}
   
   Edge_circulator incident_edges( Face_handle f)  
-    { return Edge_circulator(this, f);}
+    { return Edge_circulator(handle(), f);}
   
   bool is_valid(bool verbose = false, int level = 0);
 
+private:
+  // used to implement deprected access to circulators
+  Vertex_handle handle();
 };
 
 template <class Tds>
@@ -122,18 +89,31 @@ degree() //const
   return count;
 }
 
-
-    
 template <class Tds>
+typename Triangulation_ds_vertex_2<Tds>::Vertex_handle
+Triangulation_ds_vertex_2 <Tds> ::
+handle()
+{
+  Face_handle fh = this->face();
+  for(int i = 0 ; i < 3 ; ++i){
+    if ( &*fh->vertex(i) == this) return fh->vertex(i);
+  }
+  return Vertex_handle();				    
+}
+    
+template <class Vb>
 bool 
-Triangulation_ds_vertex_2<Tds> ::  
+Triangulation_ds_vertex_2<Vb> ::  
 is_valid(bool verbose, int level) 
 {
   bool result = Vb::is_valid(verbose, level);
   CGAL_triangulation_assertion(result);
   if (face() != NULL) { // face==NULL if dim <0
-    result = result && face()->has_vertex(handle());
+    result = result && ( &*face()->vertex(0) == this ||
+			 &*face()->vertex(1) == this ||
+			 &*face()->vertex(2) == this );
   }
+  CGAL_triangulation_assertion(result);
   return result;
 }
 

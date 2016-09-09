@@ -13,9 +13,7 @@ include $(CGAL_MAKEFILE)
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = \
-           $(TESTSUITE_CXXFLAGS) \
-           $(EXTRA_FLAGS) \
+CXXFLAGS = -I../../../include/ \
            $(CGAL_CXXFLAGS) \
            $(LONG_NAME_PROBLEM_CXXFLAGS) \
            $(DEBUG_OPT)
@@ -25,26 +23,46 @@ CXXFLAGS = \
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(TESTSUITE_LIBPATH) \
-          $(CGAL_WINDOW_LIBPATH)
+          $(CGAL_LIBPATH)
 
 LDFLAGS = \
-          $(TESTSUITE_LDFLAGS) \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
-          $(CGAL_WINDOW_LDFLAGS)
+          $(CGAL_QT_LDFLAGS) \
+
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-all:            \
-                demo_Min_circle_2$(EXE_EXT)
+all: min_circle_2
 
-demo_Min_circle_2$(EXE_EXT): demo_Min_circle_2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)demo_Min_circle_2 demo_Min_circle_2$(OBJ_EXT) $(LDFLAGS)
+min_circle_2_toolbar$(OBJ_EXT): min_circle_2_toolbar.C min_circle_2_toolbar.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) min_circle_2_toolbar.C
 
-clean: \
-                demo_Min_circle_2.clean
+min_circle_2_toolbar.moc: min_circle_2_toolbar.h
+	$(QT_MOC) -o min_circle_2_toolbar.moc min_circle_2_toolbar.h
+
+Qt_widget_move_list_point$(OBJ_EXT): Qt_widget_move_list_point.moc \
+					Qt_widget_move_list_point.C
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_move_list_point.C
+
+Qt_widget_move_list_point.moc: Qt_widget_move_list_point.h
+	$(QT_MOC) -o Qt_widget_move_list_point.moc Qt_widget_move_list_point.h
+
+min_circle_2.moc: min_circle_2.C min_circle_2_toolbar$(OBJ_EXT) 
+	${QT_MOC} -o min_circle_2.moc min_circle_2.C
+
+min_circle_2$(OBJ_EXT): min_circle_2.C min_circle_2.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) min_circle_2.C
+
+min_circle_2$(EXE_EXT): min_circle_2$(OBJ_EXT) \
+			Qt_widget_move_list_point$(OBJ_EXT)
+	$(CGAL_CXX) $(EXE_OPT)min_circle_2 min_circle_2$(OBJ_EXT) \
+	 min_circle_2_toolbar$(OBJ_EXT)  Qt_widget_move_list_point$(OBJ_EXT) \
+	$(LDFLAGS)
+
+clean: min_circle_2.clean min_circle_2_toolbar.clean \
+	Qt_widget_move_list_point.clean
 
 #---------------------------------------------------------------------#
 #                    suffix rules
@@ -52,4 +70,3 @@ clean: \
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
-

@@ -1,64 +1,27 @@
-// ======================================================================
+// Copyright (c) 2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/Partitioned_polygon_2.h,v $
+// $Revision: 1.19 $ $Date: 2003/09/18 10:24:22 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Partitioned_polygon_2.h
-// package       : Partition_2 (1.38)
-// chapter       : Planar Polygon Partitioning
-//
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 2002/05/03 12:29:07 $
-//
-// author(s)     : Susan Hert
-//
-// coordinator   : MPI (Susan Hert)
-//
-// implementation: Polygon with diagonals used to represent a partitioning
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
 #ifndef CGAL_PARTITIONED_POLYGON_2_H
 #define CGAL_PARTITIONED_POLYGON_2_H
 
 #include <list>
-//  MSVC6 doesn't work with the CGALi::vector but it does with the std::vector
-//  (from stlport?)
-#if defined( _MSC_VER) && (_MSC_VER <= 1200)
-#include <vector>
-#else
 #include <CGAL/vector.h>
-#endif // MSVC6
 #include <CGAL/circulator.h>
 
 namespace CGAL {
@@ -72,7 +35,8 @@ class Indirect_CW_diag_compare
 public:
    typedef typename Traits::Point_2        Point_2;
    typedef typename Traits::Orientation_2  Orig_orientation;
-
+  
+  Indirect_CW_diag_compare(){}
    Indirect_CW_diag_compare(Point_2 vertex, Iterator prev_ref, 
                          Iterator next_ref) : 
                 _orientation(Traits().orientation_2_object()),
@@ -93,7 +57,7 @@ public:
       // vertex to this vertex then d1 comes before d2 (in CW order from
       // the edge (previous, vertex)) if one makes a left turn from d1 to d2
 
-      if (d1_orientation == d2_orientation) return (d1_to_d2 == LEFTTURN);
+      if (d1_orientation == d2_orientation) return (d1_to_d2 == LEFT_TURN);
 
       // if d1 is on the line containing the edge (previous, vertex), then
       // the vertex must be a reflex vertex (otherwise the diagonal would
@@ -125,41 +89,32 @@ class Partition_vertex;
 // requires 
 //   Traits::Polygon_2
 //   Traits::Point_2
-//   Traits::Leftturn_2
+//   Traits::Left_turn_2
 //   Traits::Orientation_2
 //
-//  MSVC6 doesn't work with the CGALi::vector but it does with the std::vector
-//  (from stlport?)
+
 template <class Traits_>
-#if defined( _MSC_VER) && (_MSC_VER <= 1200)
-class Partitioned_polygon_2 : public std::vector< Partition_vertex< Traits_ > >
-#else
 class Partitioned_polygon_2 : 
                             public CGALi::vector< Partition_vertex< Traits_ > >
-#endif // MSVC 6
 {
 public:
    typedef Traits_                                      Traits;
    typedef Partition_vertex<Traits>                     Vertex;
-#if defined( _MSC_VER) && (_MSC_VER <= 1200)
-   typedef typename std::vector< Vertex >::iterator     Iterator;
-#else
    typedef typename CGALi::vector< Vertex >::iterator   Iterator;
-#endif
    typedef Circulator_from_iterator<Iterator>           Circulator;
    typedef typename Traits::Polygon_2                   Subpolygon_2;
    typedef typename Traits::Point_2                     Point_2;
-   typedef typename Traits::Leftturn_2                  Left_turn_2;
+   typedef typename Traits::Left_turn_2                  Left_turn_2;
    typedef std::list<Circulator>                        Diagonal_list;
    typedef typename Diagonal_list::iterator             Diagonal_iterator;
 
 
-   Partitioned_polygon_2() : _left_turn(Traits().leftturn_2_object())
+   Partitioned_polygon_2() : _left_turn(Traits().left_turn_2_object())
    { }
 
    template <class InputIterator>
    Partitioned_polygon_2(InputIterator first, InputIterator beyond) :  
-       _left_turn(Traits().leftturn_2_object())
+       _left_turn(Traits().left_turn_2_object())
    {
       for (; first != beyond; first++) {
          push_back(Vertex(*first));
@@ -317,7 +272,7 @@ private:
       else
          next = *next_d_it;
    
-//      return _rightturn(*prev, *vertex_ref, *next);
+//      return _right_turn(*prev, *vertex_ref, *next);
       return _left_turn(*vertex_ref, *prev, *next);
    }
 
@@ -337,6 +292,7 @@ class Partition_vertex : public Traits_::Point_2
     typedef Traits_                                              Traits;
     typedef typename Traits::Point_2                             Base_point;
     typedef typename Partitioned_polygon_2< Traits >::Circulator Circulator; 
+  typedef Partition_vertex<Traits>                               Self;
 //
 //  It might be better if this were a set that used Indirect_CW_diag_compare
 //  as the Compare object, but the constructor for Indirect_CW_diag_compare
@@ -348,6 +304,14 @@ class Partition_vertex : public Traits_::Point_2
     typedef std::list<Circulator>                         Diagonal_list;
     typedef typename Diagonal_list::iterator              Diagonal_iterator;
 
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+  static Indirect_CW_diag_compare<Circulator,Traits> indirect_cw_diag_compare;
+
+  static bool compare(const Circulator& circ1, const Circulator& circ2)
+  {
+    return indirect_cw_diag_compare(circ1, circ2);
+  }
+#endif
 
     Partition_vertex(Base_point p): Base_point(p) {}
 
@@ -389,8 +353,14 @@ class Partition_vertex : public Traits_::Point_2
     // and remove any duplicate diagonals
     void sort_diagonals(const Circulator& prev, const Circulator& next) 
     {
-       diag_endpoint_refs.sort(
-               Indirect_CW_diag_compare<Circulator,Traits>(*this, prev, next));
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+      indirect_cw_diag_compare = Indirect_CW_diag_compare<Circulator,Traits>(*this, prev, next);
+      diag_endpoint_refs.sort(&Self::compare);
+     
+#else
+      diag_endpoint_refs.sort(Indirect_CW_diag_compare<Circulator,Traits>(*this, prev, next));
+#endif
+
        diag_endpoint_refs.unique();
        current_diag = diag_endpoint_refs.begin();
     }
@@ -424,6 +394,12 @@ private:
     Diagonal_list diag_endpoint_refs;
     Diagonal_iterator current_diag;
 };
+
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+template <class Traits>
+Indirect_CW_diag_compare<typename Partitioned_polygon_2<Traits>::Circulator,Traits>
+Partition_vertex<Traits>::indirect_cw_diag_compare;
+#endif
 
 }
 

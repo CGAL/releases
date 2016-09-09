@@ -1,52 +1,27 @@
-// ======================================================================
-//
-// Copyright (c) 1997, 1998, 1999, 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2003  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/iterator.h
-// package       : STL_Extension (2.57)
-// chapter       : $CGAL_Chapter: STL Extensions for CGAL $
-// source        : stl_extension.fw
-// revision      : $Revision: 1.17 $
-// revision_date : $Date: 2002/03/28 15:24:32 $
-// author(s)     : Michael Hoffmann
-//                 Lutz Kettner
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : ETH
+// $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/iterator.h,v $
+// $Revision: 1.34 $ $Date: 2003/10/21 12:23:42 $
+// $Name: current_submission $
 //
-// Iterators and Iterator Adaptors
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
+//                 Lutz Kettner <kettner@mpi-sb.mpg.de>
+//                 Sylvain Pion <Sylvain.Pion@mpi-sb.mpg.de>
 
 
 #ifndef CGAL_ITERATOR_H
@@ -82,10 +57,55 @@ struct Emptyset_iterator
   Emptyset_iterator& operator*()         { return *this; }
 };
 
+// +---------------------------------------------------------------------+
+// | Insert_iterator
+// +---------------------------------------------------------------------+
+// | Insert output iterator, which calls insert(value) on the container.
+// | Similar to std::insert_iterator<> except it doesn't pass an iterator.
+// +---------------------------------------------------------------------+
+
+template < class Container >
+class Insert_iterator
+#if defined(__GNUC__) && (__GNUC__ < 3)
+: public std::output_iterator
+#else
+: public std::iterator< std::output_iterator_tag, void, void, void*, void >
+#endif // defined(__GNUC__) && (__GNUC__ < 3)
+{
+protected:
+  Container *container;
+public:
+  typedef Container container_type;
+
+  explicit Insert_iterator(Container &c)
+  : container(&c) {}
+
+  Insert_iterator&
+  operator=(typename Container::const_reference value)
+  {
+    container->insert(value);
+    return *this;
+  }
+
+  Insert_iterator&
+  operator*() { return *this; }
+
+  Insert_iterator&
+  operator++() { return *this; }
+
+  Insert_iterator
+  operator++(int) { return *this; }
+};
+
+template < class Container >
+inline Insert_iterator<Container>
+inserter(Container &x)
+{ return Insert_iterator<Container>(x); }
+
 // +----------------------------------------------------------------+
 // | Oneset_iterator
 // +----------------------------------------------------------------+
-// |  stores a reference to an object of type T
+// |  stores a pointer to an object of type T
 // |  which will be affected by operator*().
 // +----------------------------------------------------------------+
 
@@ -97,24 +117,48 @@ class Oneset_iterator
   : public std::iterator< std::output_iterator_tag, void, void, void*, void >
 #endif // defined(__GNUC__) && (__GNUC__ < 3)
 {
-  T& t;
+  T* t;
 public:
-  Oneset_iterator(T& tt) : t(tt) {}
+  Oneset_iterator(T& tt) : t(&tt) {}
 
   Oneset_iterator& operator++()    { return *this; }
   Oneset_iterator& operator++(int) { return *this; }
 
-  T& operator*() { return t; }
+  T& operator*() { return *t; }
 };
 
-#if defined(CGAL_CFG_NO_ITERATOR_TRAITS) && \
-!defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
-template < class I, class Val>
+// +----------------------------------------------------------------+
+// | Counting_output_iterator
+// +----------------------------------------------------------------+
+// |  stores a pointer to an int,
+// |  which will be incremented by operator=().
+// +----------------------------------------------------------------+
+
+// Undocumented, because there is some hope to merge it into Counting_iterator
+class Counting_output_iterator
+#if defined(__GNUC__) && (__GNUC__ < 3)
+  : public std::output_iterator
 #else
+  : public std::iterator< std::output_iterator_tag, void, void, void*, void >
+#endif // defined(__GNUC__) && (__GNUC__ < 3)
+{
+  std::size_t c;
+public:
+  Counting_output_iterator() : c(0) {}
+
+  Counting_output_iterator& operator++()    { return *this; }
+  Counting_output_iterator& operator++(int) { return *this; }
+
+  Counting_output_iterator& operator*() { return *this; }
+
+  template <typename T>
+  void operator=(const T&) { ++c; }
+
+  std::size_t current_counter() const { return c;}
+};
+
 template < class I,
-           class Val = CGAL_TYPENAME_MSVC_NULL
-                       std::iterator_traits<I>::value_type >
-#endif
+           class Val = typename std::iterator_traits<I>::value_type >
 class Counting_iterator {
 protected:
   I            nt;    // The internal iterator.
@@ -155,79 +199,26 @@ public:
     ++*this;
     return tmp;
   }
-
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-#ifndef CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-  friend inline  value_type*
-  value_type( const Self&) { return (value_type*)(0); }
-  friend inline  iterator_category
-  iterator_category( const Self&){ return iterator_category(); }
-  friend inline  difference_type*
-  distance_type( const Self&) { return (difference_type*)(0); }
-  friend inline  Iterator_tag
-  query_circulator_or_iterator( const Self&) { return Iterator_tag(); }
-#endif // CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
-#ifdef __SUNPRO_CC
-// sunpro 5.3 complains about multiply defined types value_type,
-// reference etc. below, if we use std::iterator_traits directly.
-namespace CGALi {
-  template < class I >
-  struct IT_rename {
-    typedef typename std::iterator_traits<I>::reference         REF;
-    typedef typename std::iterator_traits<I>::pointer           PTR;
-    typedef typename std::iterator_traits<I>::value_type        VAL;
-    typedef typename std::iterator_traits<I>::difference_type   DIF;
-    typedef typename std::iterator_traits<I>::iterator_category CAT;
-  };
-}
-#endif // __SUNPRO_CC
 
-#if defined(CGAL_CFG_NO_ITERATOR_TRAITS) && \
-!defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
-template < class I, int N, class Ref, class Ptr,
-           class Val, class Dist, class Ctg>
-#else
-#ifndef __SUNPRO_CC
-template < class I,
-           int N,
-           class Ref  = CGAL_TYPENAME_MSVC_NULL
-                        std::iterator_traits<I>::reference,
-           class Ptr  = CGAL_TYPENAME_MSVC_NULL
-                        std::iterator_traits<I>::pointer,
-           class Val  = CGAL_TYPENAME_MSVC_NULL
-                        std::iterator_traits<I>::value_type,
-           class Dist = CGAL_TYPENAME_MSVC_NULL
-                        std::iterator_traits<I>::difference_type,
-           class Ctg  = CGAL_TYPENAME_MSVC_NULL
-                        std::iterator_traits<I>::iterator_category >
-#else
-template < class I,
-           int N,
-           class Ref  = typename CGALi::IT_rename<I>::REF,
-           class Ptr  = typename CGALi::IT_rename<I>::PTR,
-           class Val  = typename CGALi::IT_rename<I>::VAL,
-           class Dist = typename CGALi::IT_rename<I>::DIF,
-           class Ctg  = typename CGALi::IT_rename<I>::CAT >
-#endif // __SUNPRO_CC
-#endif
+template < class I, int N,
+           class Ref  = typename std::iterator_traits<I>::reference,
+           class Ptr  = typename std::iterator_traits<I>::pointer,
+           class Val  = typename std::iterator_traits<I>::value_type,
+           class Dist = typename std::iterator_traits<I>::difference_type,
+           class Ctg  = typename std::iterator_traits<I>::iterator_category >
 class N_step_adaptor {
 protected:
   I        nt;    // The internal iterator.
 public:
   typedef I                                        Iterator;
-  typedef N_step_adaptor<I,N,Ref,Ptr,Val,Dist,Ctg> Self;
-  typedef Ctg                                      iterator_category;
-  typedef Val                                      value_type;
-  typedef Dist                                     difference_type;
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  typedef Ref                                      reference;
-  typedef Ptr                                      pointer;
-#else
-  typedef typename std::iterator_traits<I>::reference reference;
-  typedef typename std::iterator_traits<I>::pointer   pointer;
-#endif
+  typedef N_step_adaptor<I,N>                      Self;
+  typedef std::iterator_traits<I>          ITI;
+  typedef typename ITI::reference          reference;
+  typedef typename ITI::pointer            pointer;
+  typedef typename ITI::value_type         value_type;
+  typedef typename ITI::difference_type    difference_type;
+  typedef typename ITI::iterator_category  iterator_category;
   // Special for circulators.
   typedef I_Circulator_size_traits<iterator_category,I> C_S_Traits;
   typedef typename  C_S_Traits::size_type               size_type;
@@ -257,8 +248,8 @@ public:
   bool  operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
   bool  operator==( const Self& i) const { return ( nt == i.nt); }
   bool  operator!=( const Self& i) const { return !(*this == i); }
-  Ref   operator*()  const { return *nt; }
-  Ptr   operator->() const { return nt.operator->(); }
+  reference operator*()  const { return *nt; }
+  pointer   operator->() const { return nt.operator->(); }
   Self& operator++() {
     std::advance( nt, N);
     return *this;
@@ -295,14 +286,6 @@ public:
     tmp.nt += difference_type(N * n);
     return tmp;
   }
-#ifdef CGAL_CFG_NO_CONSTANTS_IN_FUNCTION_TEMPLATES
-  friend inline
-  Self
-  operator+( difference_type n, Self i) {
-    i = i + n;
-    return i;
-  }
-#endif // CGAL_CFG_NO_CONSTANTS_IN_FUNCTION_TEMPLATES //
   Self& operator-=( difference_type n) {
     return operator+=( -n);
   }
@@ -311,7 +294,7 @@ public:
     return tmp += -n;
   }
   difference_type  operator-( const Self& i) const { return (nt-i.nt)/N;}
-  Ref  operator[]( difference_type n) const {
+  reference operator[]( difference_type n) const {
     Self tmp = *this;
     tmp += n;
     return tmp.operator*();
@@ -320,29 +303,17 @@ public:
   bool operator>( const Self& i) const { return i < *this; }
   bool operator<=( const Self& i) const { return !(i < *this); }
   bool operator>=( const Self& i) const { return !(*this < i); }
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-#ifndef CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-  friend inline  iterator_category
-  iterator_category( const Self&) { return iterator_category(); }
-  friend inline  value_type*
-  value_type( const Self&) { return (value_type*)(0); }
-  friend inline  difference_type*
-  distance_type( const Self&) { return (difference_type*)(0); }
-  typedef _Circulator_traits<iterator_category> C_Traits;
-  typedef typename  C_Traits::category  category;
-  friend inline  category
-  query_circulator_or_iterator( const Self&) { return category(); }
-#endif // CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
-#ifndef CGAL_CFG_NO_CONSTANTS_IN_FUNCTION_TEMPLATES
-template < class I, int N, class Ref, class Ptr,
-           class Val, class Dist, class Ctg>
+
+// Microsoft 1300 cannot handle the default template parameters. Hence, ...
+template < class I, int N, class Ref, class Ptr, 
+	   class Val, class Dist, class Ctg >
 inline
 N_step_adaptor<I,N,Ref,Ptr,Val,Dist,Ctg>
-operator+( Dist n, N_step_adaptor<I,N,Ref,Ptr,Val,Dist,Ctg> i)
+operator+(typename N_step_adaptor<I,N,Ref,Ptr,Val,Dist,Ctg>::difference_type n,
+	  N_step_adaptor<I,N,Ref,Ptr,Val,Dist,Ctg> i)
 { return i += n; }
-#endif // CGAL_CFG_NO_CONSTANTS_IN_FUNCTION_TEMPLATES //
+
 template < class I, int N>
 class N_step_adaptor_derived : public I {
 public:
@@ -410,14 +381,6 @@ public:
         tmp += n;
         return tmp;
     }
-#ifdef CGAL_CFG_NO_CONSTANTS_IN_FUNCTION_TEMPLATES
-    friend inline
-    Self
-    operator+( difference_type n, Self i) {
-        i = i + n;
-        return i;
-    }
-#endif // CGAL_CFG_NO_CONSTANTS_IN_FUNCTION_TEMPLATES //
     Self& operator-=( difference_type n) {
         return operator+=( -n);
     }
@@ -433,71 +396,31 @@ public:
         tmp += n;
         return tmp.operator*();
     }
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-#ifndef CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-    friend inline  iterator_category
-    iterator_category( const Self&) { return iterator_category(); }
-    friend inline  value_type*
-    value_type( const Self&) { return (value_type*)(0); }
-    friend inline  difference_type*
-    distance_type( const Self&) { return (difference_type*)(0); }
-    typedef _Circulator_traits<iterator_category> C_Traits;
-    typedef typename  C_Traits::category  category;
-    friend inline  category
-    query_circulator_or_iterator( const Self&) { return category(); }
-#endif // CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
-#ifndef CGAL_CFG_NO_CONSTANTS_IN_FUNCTION_TEMPLATES
-template < class I, int N>
+
+template < class I, int N >
 inline
 N_step_adaptor_derived<I,N>
 operator+( typename N_step_adaptor_derived<I,N>::difference_type n,
            N_step_adaptor_derived<I,N> i)
 { return i += n; }
-#endif // CGAL_CFG_NO_CONSTANTS_IN_FUNCTION_TEMPLATES //
-#if defined(CGAL_CFG_NO_ITERATOR_TRAITS) && \
-!defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
-template < class I, class P, class Ref, class Ptr,
-           class Val, class Dist, class Ctg >
-#else
-#ifndef __SUNPRO_CC
-template < class I,
-           class P,
-           class Ref  = CGAL_TYPENAME_MSVC_NULL
-                        std::iterator_traits<I>::reference,
-           class Ptr  = CGAL_TYPENAME_MSVC_NULL
-                        std::iterator_traits<I>::pointer,
-           class Val  = CGAL_TYPENAME_MSVC_NULL
-                        std::iterator_traits<I>::value_type,
-           class Dist = CGAL_TYPENAME_MSVC_NULL
-                        std::iterator_traits<I>::difference_type,
-           class Ctg  = CGAL_TYPENAME_MSVC_NULL
-                        std::iterator_traits<I>::iterator_category>
-#else
-template < class I,
-           class P,
-           class Ref  = typename CGALi::IT_rename<I>::REF,
-           class Ptr  = typename CGALi::IT_rename<I>::PTR,
-           class Val  = typename CGALi::IT_rename<I>::VAL,
-           class Dist = typename CGALi::IT_rename<I>::DIF,
-           class Ctg  = typename CGALi::IT_rename<I>::CAT >
-#endif // __SUNPRO_CC
-#endif
+
+template < class I, class P > struct Filter_iterator;
+
+template < class I, class P >
+bool operator==(const Filter_iterator<I,P>&, const Filter_iterator<I,P>&);
+
+template < class I, class P >
 struct Filter_iterator {
-  typedef I                                            Iterator;
-  typedef P                                            Predicate;
-  typedef Filter_iterator<I,P,Ref,Ptr,Val,Dist,Ctg>    Self;
-  typedef Ctg                                          iterator_category;
-  typedef Val                                          value_type;
-  typedef Dist                                         difference_type;
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  typedef Ref                                          reference;
-  typedef Ptr                                          pointer;
-#else
-  typedef typename std::iterator_traits<I>::reference  reference;
-  typedef typename std::iterator_traits<I>::pointer    pointer;
-#endif
+  typedef I                                Iterator;
+  typedef P                                Predicate;
+  typedef Filter_iterator<I,P>             Self;
+  typedef std::iterator_traits<I>          ITI;
+  typedef typename ITI::reference          reference;
+  typedef typename ITI::pointer            pointer;
+  typedef typename ITI::value_type         value_type;
+  typedef typename ITI::difference_type    difference_type;
+  typedef typename ITI::iterator_category  iterator_category;
   // Special for circulators.
   typedef I_Circulator_size_traits<iterator_category,I> C_S_Traits;
   typedef typename  C_S_Traits::size_type               size_type;
@@ -524,21 +447,16 @@ public:
       ++c_;
   }
 
-  bool operator==(const Self& it) const {
-    CGAL_precondition(b_ == it.b_ && e_ == it.e_);
-    return c_ == it.c_;
-  }
-  bool operator!=(const Self& it) const { return !(*this == it); }
-
   Self& operator++() {
     do { ++c_; } while (c_ != e_ && p_(c_));
     return *this;
   }
 
   Self& operator--() {
-    do {
-      --c_;
-    } while (p_(c_) && c_ != b_);
+    if (c_ != b_)
+      do {
+        --c_;
+      } while (c_ != b_ && p_(c_));
     return *this;
   }
 
@@ -556,7 +474,12 @@ public:
 
   reference operator*() const { return *c_;  }
   pointer operator->() const  { return &*c_; }
+  const Predicate& predicate() const { return p_; }
+  Iterator base() const { return c_; }
 
+  bool is_end() const { return (c_ == e_); }
+
+  friend bool operator== <>(const Self&, const Self&);
 };
 
 template < class I, class P >
@@ -569,6 +492,19 @@ inline Filter_iterator< I, P >
 filter_iterator(I b, I e, const P& p, I c)
 { return Filter_iterator< I, P >(b, e, p, c); }
 
+template < class I, class P >
+bool operator==(const Filter_iterator<I,P>& it1,
+              const Filter_iterator<I,P>& it2)
+{
+  CGAL_precondition(it1.b_ == it2.b_ && it1.e_ == it2.e_);
+  return it1.base() == it2.base();
+}
+
+template < class I, class P >
+bool operator!=(const Filter_iterator<I,P>& it1,
+              const Filter_iterator<I,P>& it2)
+{ return !(it1 == it2); }
+
 
 template < class I1, class  Creator >
 class Join_input_iterator_1 {
@@ -579,12 +515,8 @@ public:
   typedef Join_input_iterator_1<I1,Creator>  Self;
   typedef std::input_iterator_tag            iterator_category;
   typedef typename Creator::result_type      value_type;
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  typedef std::ptrdiff_t                     difference_type;
-#else
   typedef std::iterator_traits<I1>           ITraits;
   typedef typename ITraits::difference_type  difference_type;
-#endif
   typedef  const value_type&                 reference;
   typedef  const value_type*                 pointer;
 
@@ -618,26 +550,6 @@ public:
     ++*this;
     return tmp;
   }
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-#ifndef CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-  friend inline  value_type*
-  value_type( const Self&) {
-    return (value_type*)(0);
-  }
-  friend inline  std::input_iterator_tag
-  iterator_category( const Self&){
-    return std::input_iterator_tag();
-  }
-  friend inline  difference_type*
-  distance_type( const Self&) {
-    return (difference_type*)(0);
-  }
-  friend inline  Iterator_tag
-  query_circulator_or_iterator( const Self&) {
-    return Iterator_tag();
-  }
-#endif // CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 template < class I1, class I2, class  Creator >
@@ -650,12 +562,8 @@ public:
 
   typedef std::input_iterator_tag              iterator_category;
   typedef typename Creator::result_type        value_type;
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  typedef std::ptrdiff_t                       difference_type;
-#else
   typedef std::iterator_traits<I1>             ITraits;
   typedef typename ITraits::difference_type    difference_type;
-#endif
   typedef const value_type&                    reference;
   typedef const value_type*                    pointer;
 
@@ -695,26 +603,6 @@ public:
     ++*this;
     return tmp;
   }
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-#ifndef CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-  friend inline  value_type*
-  value_type( const Self&) {
-    return (value_type*)(0);
-  }
-  friend inline  std::input_iterator_tag
-  iterator_category( const Self&){
-    return std::input_iterator_tag();
-  }
-  friend inline  difference_type*
-  distance_type( const Self&) {
-    return (difference_type*)(0);
-  }
-  friend inline  Iterator_tag
-  query_circulator_or_iterator( const Self&) {
-    return Iterator_tag();
-  }
-#endif // CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 template < class I1, class I2, class I3, class  Creator >
@@ -727,12 +615,8 @@ public:
 
   typedef std::input_iterator_tag                 iterator_category;
   typedef typename Creator::result_type           value_type;
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  typedef std::ptrdiff_t                          difference_type;
-#else
   typedef std::iterator_traits<I1>                ITraits;
   typedef typename ITraits::difference_type       difference_type;
-#endif
   typedef const value_type&                       reference;
   typedef const value_type*                       pointer;
 
@@ -775,26 +659,6 @@ public:
     ++*this;
     return tmp;
   }
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-#ifndef CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-  friend inline  value_type*
-  value_type( const Self&) {
-    return (value_type*)(0);
-  }
-  friend inline  std::input_iterator_tag
-  iterator_category( const Self&){
-    return std::input_iterator_tag();
-  }
-  friend inline  difference_type*
-  distance_type( const Self&) {
-    return (difference_type*)(0);
-  }
-  friend inline  Iterator_tag
-  query_circulator_or_iterator( const Self&) {
-    return Iterator_tag();
-  }
-#endif // CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 template < class I1, class I2, class I3, class I4, class  Creator >
@@ -807,12 +671,8 @@ public:
 
   typedef std::input_iterator_tag             iterator_category;
   typedef typename Creator::result_type       value_type;
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  typedef std::ptrdiff_t                      difference_type;
-#else
   typedef std::iterator_traits<I1>            ITraits;
   typedef typename ITraits::difference_type   difference_type;
-#endif
   typedef const value_type&                   reference;
   typedef const value_type*                   pointer;
 
@@ -861,26 +721,6 @@ public:
     ++*this;
     return tmp;
   }
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-#ifndef CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-  friend inline  value_type*
-  value_type( const Self&) {
-    return (value_type*)(0);
-  }
-  friend inline  std::input_iterator_tag
-  iterator_category( const Self&){
-    return std::input_iterator_tag();
-  }
-  friend inline  difference_type*
-  distance_type( const Self&) {
-    return (difference_type*)(0);
-  }
-  friend inline  Iterator_tag
-  query_circulator_or_iterator( const Self&) {
-    return Iterator_tag();
-  }
-#endif // CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 template < class I1, class I2, class I3, class I4, class I5,
@@ -894,12 +734,8 @@ public:
 
   typedef std::input_iterator_tag             iterator_category;
   typedef typename Creator::result_type       value_type;
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-  typedef std::ptrdiff_t                      difference_type;
-#else
   typedef std::iterator_traits<I1>            ITraits;
   typedef typename ITraits::difference_type   difference_type;
-#endif
   typedef const value_type&                   reference;
   typedef const value_type*                   pointer;
 
@@ -953,26 +789,6 @@ public:
       ++*this;
       return tmp;
     }
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-#ifndef CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-    friend inline  value_type*
-    value_type( const Self&) {
-      return (value_type*)(0);
-    }
-    friend inline  std::input_iterator_tag
-    iterator_category( const Self&){
-      return std::input_iterator_tag();
-    }
-    friend inline  difference_type*
-    distance_type( const Self&) {
-      return (difference_type*)(0);
-    }
-    friend inline  Iterator_tag
-    query_circulator_or_iterator( const Self&) {
-      return Iterator_tag();
-    }
-#endif // CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT
-#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };    
 template < class IC>
 class Inverse_index {
@@ -1020,13 +836,8 @@ protected:
 
 public:
   void init_index( const IC& i, const IC& j) {
-#if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) || \
-    defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
     typedef typename std::iterator_traits<IC>::iterator_category ICC;
     ini_idx( i, j, ICC());
-#else
-    ini_idx( i, j, std::iterator_category( i));
-#endif
   }
 
 protected:
@@ -1052,13 +863,8 @@ protected:
 public:
   void push_back( const IC& k) {
     // adds k at the end of the indices.
-#if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) || \
-    defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
     typedef typename std::iterator_traits<IC>::iterator_category ICC;
     push_back( k, ICC());
-#else
-    push_back( k, std::iterator_category( k));
-#endif
   }
 
   std::size_t find( const IC& k, std::random_access_iterator_tag) const {
@@ -1076,11 +882,7 @@ public:
   std::size_t find( const IC& k, std::forward_iterator_tag) const {
     return find( k, std::input_iterator_tag());
   }
-  std::size_t find( const IC& k, std::bidirectional_iterator_tag
-#if defined( _MSC_VER ) && (_MSC_VER < 1300 )
-  , int dummy=0
-#endif //_MSC_VER
-  ) const {
+  std::size_t find( const IC& k, std::bidirectional_iterator_tag) const {
     return find( k, std::input_iterator_tag());
   }
   std::size_t find( const IC& k, Forward_circulator_tag) const {
@@ -1109,14 +911,9 @@ public:
 
   std::size_t operator[]( const IC& k) const {
     // returns inverse index of k.
-#if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) || \
-    defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
     typedef typename std::iterator_traits<IC>::iterator_category
       category;
     return find( k, category());
-#else
-    return find( k, std::iterator_category( k));
-#endif
   }
 };
 
@@ -1146,6 +943,7 @@ Inverse_index< IC>::ini_idx( IC i, const IC& j, std::input_iterator_tag) {
   }
 }
 #endif // (__GNUC__ >= 3)
+
 template < class IC>
 class Random_access_adaptor {
 
@@ -1178,13 +976,8 @@ public:
     start = i;
   }
   void init_index( const IC& i, const IC& j) {
-#if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) || \
-    defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
     typedef typename std::iterator_traits<IC>::iterator_category ICC;
     init_index( i, j, ICC());
-#else
-    init_index( i, j, std::iterator_category( i));
-#endif
   }
 
 
@@ -1234,39 +1027,24 @@ public:
 
   void reserve( size_type r) {
     // reserve r entries, if a `vector' is used internally.
-#if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) || \
-    defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
     typedef typename std::iterator_traits<IC>::iterator_category ICC;
     reserve( r, ICC());
-#else
-    reserve( r, std::iterator_category( IC()));
-#endif
   }
 
   // OPERATIONS
 
   IC  find( size_type n) const {
     // returns inverse index of k.
-#if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) || \
-    defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
     typedef typename std::iterator_traits<IC>::iterator_category ICC;
     return find( n, ICC());
-#else
-    return find( n, std::iterator_category( IC()));
-#endif
   }
 
   IC  operator[]( size_type n) const { return find(n); }
 
   void push_back( const IC& k) {
     // adds k at the end of the indices.
-#if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) || \
-    defined(CGAL_LIMITED_ITERATOR_TRAITS_SUPPORT)
     typedef typename std::iterator_traits<IC>::iterator_category ICC;
     push_back( k, ICC());
-#else
-    push_back( k, std::iterator_category( k));
-#endif
   }
 };
 
@@ -1280,6 +1058,7 @@ Random_access_adaptor< IC>::init_index( IC i, const IC& j,
     } while ((++i) != (j));
   }
 }
+
 template < class IC, class T >
 class Random_access_value_adaptor : public Random_access_adaptor<IC> {
 public:

@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2000,2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000,2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Kernel_d/DirectionHd.h
-// package       : Kernel_d (0.9.68)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2002/03/18 20:33:51 $
-// author(s)     : Michael Seel
-// coordinator   : MPI Saarbruecken
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/DirectionHd.h,v $
+// $Revision: 1.13 $ $Date: 2003/10/21 12:19:17 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Michael Seel
 #ifndef CGAL_DIRECTIONHD_H
 #define CGAL_DIRECTIONHD_H
 
@@ -120,8 +98,6 @@ DirectionHd(const VectorHd<RT,LA>& v);
 /*{\Mcreate introduces a variable |\Mvar| of type |DirectionHd<RT,LA>| 
 initialized to the direction of |v|.}*/
 
-#ifndef CGAL_SIMPLE_INTERFACE
-
 template <class InputIterator>
 DirectionHd(int d, InputIterator first, InputIterator last) : 
   Base( Tuple(d+1,first,last,1) ) {}
@@ -129,16 +105,6 @@ DirectionHd(int d, InputIterator first, InputIterator last) :
 with representation tuple |set [first,last)|. \precond |d| is
 nonnegative, |[first,last)| has |d| elements and the value type of 
 |InputIterator| is |RT|.}*/
-
-#else
-#define FIXDIRHD(I) \
-DirectionHd(int d, I first, I last) : Base( Tuple(d+1,first,last,1) ) {}
-FIXDIRHD(int*)
-FIXDIRHD(const int*)
-FIXDIRHD(RT*)
-FIXDIRHD(const RT*)
-#undef FIXDIRHD
-#endif
 
 DirectionHd(int d, Base_direction, int i) : Base( Tuple(d+1) )
 /*{\Mcreate returns a variable |\Mvar| of type |\Mname| initialized  

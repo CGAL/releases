@@ -1,51 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2000  ETH Zurich (Switzerland).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Width_3/include/CGAL/Width_3.h,v $
+// $Revision: 1.6 $ $Date: 2003/09/18 10:26:40 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Width_3.h
-// package       : Width_3 (1.15)
-// chapter       : Geometric Optimisation
-//
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2002/03/19 13:14:28 $
-//
-// author(s)     : Thomas Herrmann, Lutz Kettner
-// coordinator   : ETH Zuerich (Bernd Gaertner)
-//
-// implementation: 3D Width of a Point Set
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Thomas Herrmann, Lutz Kettner
 
 #ifndef CGAL_WIDTH_3_H
 #define CGAL_WIDTH_3_H
@@ -54,14 +24,9 @@
 #include <cstdlib>
 #include <iostream>
 #include <CGAL/convex_hull_3.h>
-// include a file from polyhedron to determine old or new design
-#include <CGAL/Polyhedron_3.h> 
 
-#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
-#include <CGAL/Halfedge_data_structure_using_list.h>
-#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
+#include <CGAL/Polyhedron_3.h> 
 #include <CGAL/HalfedgeDS_list.h>
-#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
 
 #include <CGAL/assertions.h>
 #include <CGAL/Width_polyhedron_3.h>
@@ -202,19 +167,8 @@ class Width_3 {
     INFOMSG(INFO,"Waiting for new HDS to build class Width_Polyhedron!"
 	    <<std::endl<<"Working with extern additional data structures.");
     typedef typename Traits::ChullTraits CHT;
-#ifdef CGAL_USE_POLYHEDRON_DESIGN_ONE
-    // We are in namespace CGAL.
-    typedef Width_vertex_default_base<Point_3,Traits>       VertexStructure;
-    typedef Width_halfedge_default_base                     HalfedgeStructure;
-    typedef Width_facet_default_base<Vector_3,Plane_3,Traits> 
-                                                            FacetStructure;
-    typedef Halfedge_data_structure_using_list<
-        VertexStructure, HalfedgeStructure, FacetStructure> HDS;
-    typedef Polyhedron_3< Traits, HDS >                     LocalPolyhedron;
-#else // CGAL_USE_POLYHEDRON_DESIGN_ONE //
     typedef Width_polyhedron_items_3                        Items;
     typedef Polyhedron_3< Traits, Items, HalfedgeDS_list>   LocalPolyhedron;
-#endif // CGAL_USE_POLYHEDRON_DESIGN_ONE //
     LocalPolyhedron P;
     convex_hull_3( begin, beyond, P, CHT());
     width_3_convex(P);
@@ -1626,7 +1580,8 @@ class Width_3 {
 //    polyhedron is triangulated;  no postprocessing is done to merge coplanar
 //    neighboring facets.
 //
-//    CGAL_assertion(dao.size_of_antipodal_vertices()==int(P.size_of_facets()));
+//    CGAL_assertion(dao.size_of_antipodal_vertices()
+//                    ==int(P.size_of_facets()));
 #endif
       //Begin with phase 4. As long as the set of impassable edges is not empty
       //rotate one of the planes into the other sharing the impassable edge

@@ -1,47 +1,21 @@
-// ======================================================================
+// Copyright (c) 1999  Martin-Luther-University Halle-Wittenberg (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h,v $
+// $Revision: 1.9 $ $Date: 2003/09/18 10:24:50 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/nearest_neighbor_delaunay_2.h
-// package       : Point_set_2 (2.3.2)
-// revision      : 2.3.2
-// revision_date : 11 April 2002 
-// author(s)     : Matthias Baesken
-//
-// coordinator   : Matthias Baesken, Trier  (<baesken>)
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Matthias Baesken
 
 #ifndef CGAL_NEAREST_NEIGHBOR_DELAUNAY_2_H
 #define CGAL_NEAREST_NEIGHBOR_DELAUNAY_2_H
@@ -49,6 +23,7 @@
 #include <CGAL/basic.h>
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/Delaunay_triangulation_2.h>
+#include <CGAL/squared_distance_2_1.h>
 #include <list>
 #include <queue>
 #include <map>
@@ -91,17 +66,17 @@ typename Dt::Vertex_handle  nearest_neighbor(const Dt& delau, typename Dt::Verte
   Vertex_circulator vc = delau.incident_vertices(v);  
   Vertex_circulator start =vc;
      
-  Vertex_handle min_v = (*vc).handle();
+  Vertex_handle min_v = vc;
   if (delau.is_infinite(min_v)){
      vc++;
-     min_v = (*vc).handle();
+     min_v = vc;
   }
      
   Vertex_handle act;
      
   // go through the vertices ...
   do {
-       act = vc->handle();
+       act = vc;
  
        if (! delau.is_infinite(act)) {
         if ( Compare_dist_2()(p,act->point(), min_v->point()) == SMALLER ) min_v = act;
@@ -149,7 +124,7 @@ OutputIterator   nearest_neighbors(Dt& delau, const typename Dt::Point& p, int k
    if ( n <= k ) { // return all finite vertices ...
    
      Vertex_iterator vit = delau.finite_vertices_begin();
-     for (; vit != delau.finite_vertices_end(); vit++) { *res= (*vit).handle(); res++; }    
+     for (; vit != delau.finite_vertices_end(); vit++) { *res= vit; res++; }    
    
      return res;
    }
@@ -196,7 +171,7 @@ OutputIterator  nearest_neighbors(const Dt& delau, typename Dt::Vertex_handle v,
    if ( n <= k ) { // return all (finite) vertices ...
    
      Vertex_iterator vit = delau.finite_vertices_begin();
-     for (; vit != delau.finite_vertices_end(); vit++) { *res= (*vit).handle(); res++; }    
+     for (; vit != delau.finite_vertices_end(); vit++) { *res= vit; res++; }    
    
      return res;
    }
@@ -218,7 +193,7 @@ OutputIterator get_vertices(const Dt& delau, OutputIterator res)
   typedef typename Dt::Vertex_iterator                Vertex_iterator;
 
   Vertex_iterator vit = delau.finite_vertices_begin();
-  for (; vit != delau.finite_vertices_end(); vit++) { *res= (*vit).handle(); res++; }  
+  for (; vit != delau.finite_vertices_end(); vit++) { *res= vit; res++; }  
   return res;   
 }
 
@@ -256,8 +231,8 @@ void nearest_neighbors_list(const Dt& delau, typename Dt::Vertex_handle v, int k
   compare_vertices<Vertex_handle,Numb_type,MAP_TYPE> comp(& priority_number);      // comparison object ...
   std::priority_queue<Vertex_handle, std::vector<Vertex_handle>, CGAL::compare_vertices<Vertex_handle,Numb_type,MAP_TYPE> > PQ(comp);
 
-  priority_number[v.ptr()] = 0;
-  PQ.push(v.ptr());
+  priority_number[v] = 0;
+  PQ.push(v);
      
   // mark vertex v
   mark[v] = cur_mark;
@@ -272,12 +247,12 @@ void nearest_neighbors_list(const Dt& delau, typename Dt::Vertex_handle v, int k
     k--; 
 
     // get the incident vertices of w ...
-    Vertex_circulator vc = delau.incident_vertices(w->handle());
+    Vertex_circulator vc = delau.incident_vertices(w);
     Vertex_circulator start =vc;
     Vertex_handle act;
      
     do {
-         act = vc->handle();
+         act = vc;
 	 
 	 // test, if act is marked ...
 	 bool is_marked = mark.is_defined(act);  

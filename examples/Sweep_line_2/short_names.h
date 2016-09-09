@@ -1,6 +1,6 @@
 #include <CGAL/config.h> // needed for the LONGNAME flag
 
-#if defined(CGAL_CFG_NO_LONGNAME_PROBLEM) || defined(_MSC_VER)
+#if defined(CGAL_CFG_LONGNAME_BUG)
 #define Quotient                        Qt
 #define Homogeneous                     Hs
 #define Cartesian                       Cn
@@ -15,7 +15,7 @@
 #define I_Polyhedron_const_iterator     IPCI
 #define Pm_default_dcel                 PmDD
 #define Arr_2_default_dcel              ADD
-#define Arr_segment_exact_traits        AST
+#define Arr_segment_traits_2            AST
 #define Arr_circles_real_traits         ACRT
 #define Arr_polyline_traits             APT
 #define Arr_base_node                   ABN
@@ -24,16 +24,13 @@
 #define Arr_2_face_base                 AFB
 #define In_place_list_iterator          IPLI
 #define In_place_list_const_iterator    IPLCI
-#define allocator                       All
-#define Planar_map_traits_wrap          PmTW
+#define Pm_traits_wrap_2                PmTW
 #define Td_X_trapezoid                  TXT
 #define PL_X_curve_plus                 PXCP
 #define X_curve_plus_id                 XCPI
 #define Sweep_curves_to_subcurves_utils SCSU
 #define Sweep_curves_base_2             SCB
 #define Intersection_point_node         IPN
-
-// #define bidirectional_iterator_tag      BIT
 
 #if defined(_MSC_VER)
 // Has no effect, probably bug in MSVC

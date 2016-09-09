@@ -1,34 +1,26 @@
 // ============================================================================
 //
 // Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
 //
-// This file is part of an example program for CGAL.  This example
-// program may be used, distributed and modified without limitation.
-
-// ----------------------------------------------------------------------
+// This software and related documentation is part of an INTERNAL release
+// of the Computational Geometry Algorithms Library (CGAL). It is not
+// intended for general use.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// ----------------------------------------------------------------------------
+//
+// release       : $CGAL_Revision: CGAL-2.5-I-154 $
+// release_date  : $CGAL_Date: 2003/10/30 $
 //
 // file          : examples/Polyhedron_IO/off_bbox.C
 // package       : $CGAL_Package: Polyhedron_IO 2.11 (04 Feb 2000) $
 // revision      : $Revision: 1.3 $
 // revision_date : $Date: 2001/06/29 06:24:54 $
-// author(s)     : Lutz Kettner
+// author(s)     : Lutz Kettner  <kettner@@inf.ethz.ch>
 //
-// coordinator   : Herve Bronnimann
+// coordinator   : Herve Bronnimann  <Herve.Bronnimann@sophia.inria.fr>
 //
 // computes bbox of an OFF object.
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// ============================================================================
 
 #include <CGAL/basic.h>
 #include <CGAL/Bbox_3.h>

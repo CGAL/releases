@@ -14,8 +14,6 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
-           $(TESTSUITE_CXXFLAGS) \
-           $(EXTRA_FLAGS) \
            $(CGAL_CXXFLAGS) \
            $(LONG_NAME_PROBLEM_CXXFLAGS) \
            $(DEBUG_OPT)
@@ -25,11 +23,9 @@ CXXFLAGS = \
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(TESTSUITE_LIBPATH) \
           $(CGAL_LIBPATH)
 
 LDFLAGS = \
-          $(TESTSUITE_LDFLAGS) \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
@@ -38,16 +34,17 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                iv2off \
-                off2iv \
-                off2off \
-                off2vrml \
-                off2wav \
-                off_bbox \
-                off_glue \
-                off_transform \
-                polyhedron_copy \
-                terr_trian 
+                iv2off$(EXE_EXT) \
+                off2iv$(EXE_EXT) \
+                off2off$(EXE_EXT) \
+                off2stl$(EXE_EXT) \
+                off2vrml$(EXE_EXT) \
+                off2wav$(EXE_EXT) \
+                off_bbox$(EXE_EXT) \
+                off_glue$(EXE_EXT) \
+                off_transform$(EXE_EXT) \
+                polyhedron_copy$(EXE_EXT) \
+                terr_trian$(EXE_EXT) 
 
 iv2off$(EXE_EXT): iv2off$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)iv2off iv2off$(OBJ_EXT) $(LDFLAGS)
@@ -57,6 +54,9 @@ off2iv$(EXE_EXT): off2iv$(OBJ_EXT)
 
 off2off$(EXE_EXT): off2off$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)off2off off2off$(OBJ_EXT) $(LDFLAGS)
+
+off2stl$(EXE_EXT): off2stl$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)off2stl off2stl$(OBJ_EXT) $(LDFLAGS)
 
 off2vrml$(EXE_EXT): off2vrml$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)off2vrml off2vrml$(OBJ_EXT) $(LDFLAGS)
@@ -83,6 +83,7 @@ clean: \
                    iv2off.clean \
                    off2iv.clean \
                    off2off.clean \
+                   off2stl.clean \
                    off2vrml.clean \
                    off2wav.clean \
                    off_bbox.clean \

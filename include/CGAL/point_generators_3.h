@@ -1,50 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/point_generators_3.h
-// package       : Generator (2.62)
-// chapter       : $CGAL_Chapter: Geometric Object Generators $
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 2002/04/25 07:53:43 $
-// author(s)     : Lutz Kettner
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : INRIA, Sophia Antipolis
+// $Source: /CVSROOT/CGAL/Packages/Generator/include/CGAL/point_generators_3.h,v $
+// $Revision: 1.16 $ $Date: 2003/10/21 12:15:42 $
+// $Name: current_submission $
 //
-// 3D Point Generators
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 
 #ifndef CGAL_POINT_GENERATORS_3_H
 #define CGAL_POINT_GENERATORS_3_H 1
@@ -54,7 +29,8 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class P, class Creator = Creator_uniform_3<double,P> >
+template < class P, class Creator = 
+                   Creator_uniform_3<typename Kernel_traits<P>::Kernel::RT,P> >
 class Random_points_in_sphere_3 : public Random_generator_base<P> {
     void generate_point();
 public:
@@ -82,16 +58,20 @@ generate_point() {
    typedef typename Creator::argument_type T;
    do {
        Creator creator;
-       d_item = creator( T(d_range * ( 2 * _rnd.get_double() - 1.0)),
-                         T(d_range * ( 2 * _rnd.get_double() - 1.0)),
-                         T(d_range * ( 2 * _rnd.get_double() - 1.0)));
+       this->d_item =
+	    creator( T(this->d_range * ( 2 * this->_rnd.get_double() - 1.0)),
+                     T(this->d_range * ( 2 * this->_rnd.get_double() - 1.0)),
+                     T(this->d_range * ( 2 * this->_rnd.get_double() - 1.0)));
    } 
-   while (CGAL::to_double(d_item.x() * d_item.x() + d_item.y() * d_item.y() +
-                          d_item.z() * d_item.z()) >= d_range * d_range);
+   while (CGAL::to_double(this->d_item.x() * this->d_item.x() +
+			  this->d_item.y() * this->d_item.y() +
+                          this->d_item.z() * this->d_item.z()) >=
+		          this->d_range * this->d_range);
 }
 
 
-template < class P, class Creator = Creator_uniform_3<double,P> >
+template < class P, class Creator = 
+                   Creator_uniform_3<typename Kernel_traits<P>::Kernel::RT,P> >
 class Random_points_on_sphere_3 : public Random_generator_base<P> {
     void generate_point();
 public:
@@ -117,17 +97,18 @@ void
 Random_points_on_sphere_3<P,Creator>::
 generate_point() {
     typedef typename Creator::argument_type T;
-    double alpha = _rnd.get_double() * 2.0 * CGAL_PI;
-    double z     = 2 * _rnd.get_double() - 1.0;
+    double alpha = this->_rnd.get_double() * 2.0 * CGAL_PI;
+    double z     = 2 * this->_rnd.get_double() - 1.0;
     double r     = std::sqrt( 1 - z * z);
     Creator creator;
-    d_item = creator( T(d_range * r * CGAL_CLIB_STD::cos(alpha)),
-                      T(d_range * r * CGAL_CLIB_STD::sin(alpha)),
-                      T(d_range * z));
+    this->d_item = creator( T(this->d_range * r * CGAL_CLIB_STD::cos(alpha)),
+                            T(this->d_range * r * CGAL_CLIB_STD::sin(alpha)),
+                            T(this->d_range * z));
 }
 
 
-template < class P, class Creator = Creator_uniform_3<double,P> >
+template < class P, class Creator = 
+                   Creator_uniform_3<typename Kernel_traits<P>::Kernel::RT,P> >
 class Random_points_in_cube_3 : public Random_generator_base<P>{
     void generate_point();
 public:
@@ -151,9 +132,10 @@ Random_points_in_cube_3<P,Creator>::
 generate_point() {
     typedef typename Creator::argument_type T;
     Creator creator;
-    d_item = creator( T(d_range * ( 2 * _rnd.get_double() - 1.0)),
-                      T(d_range * ( 2 * _rnd.get_double() - 1.0)),
-                      T(d_range * ( 2 * _rnd.get_double() - 1.0)));
+    this->d_item =
+	     creator( T(this->d_range * ( 2 * this->_rnd.get_double() - 1.0)),
+                      T(this->d_range * ( 2 * this->_rnd.get_double() - 1.0)),
+                      T(this->d_range * ( 2 * this->_rnd.get_double() - 1.0)));
 }
 
 
@@ -207,7 +189,8 @@ points_on_cube_grid_3( double a, std::size_t n, OutputIterator o)
 {
     typedef std::iterator_traits<OutputIterator> ITraits;
     typedef typename ITraits::value_type         P;
-    return points_on_square_grid_3(a, n, o, Creator_uniform_3<double,P>());
+    return points_on_square_grid_3(a, n, o, 
+                 Creator_uniform_3<typename Kernel_traits<P>::Kernel::RT,P>());
 }
 
 

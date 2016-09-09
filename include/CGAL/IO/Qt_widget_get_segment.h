@@ -1,39 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// Copyright (c) 2002 ENS de Paris
-//
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// The Qt widget we provide for CGAL is distributed under the QPL,
-// which is Trolltech's open source license. For more information see 
-//     http://www.trolltech.com/developer/licensing/qpl.html
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// file          : include/CGAL/IO/Qt_widget_get_segment.h
-// package       : Qt_widget (1.2.30)
-// author(s)     : Radu Ursu
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : Laurent Rineau
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_get_segment.h,v $
+// $Revision: 1.19 $ $Date: 2003/10/21 12:23:15 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Radu Ursu
 
 #ifndef CGAL_QT_WIDGET_GET_SEGMENT_H
 #define CGAL_QT_WIDGET_GET_SEGMENT_H
@@ -56,12 +42,12 @@ public:
   typedef typename R::Segment_2		Segment;
   typedef typename R::FT	FT;
 
-  Qt_widget_get_segment() : firstpoint(false), 
-			    firsttime(true){};
+  Qt_widget_get_segment(const QCursor c=QCursor(Qt::crossCursor),
+			QObject* parent = 0, const char* name = 0)
+    : Qt_widget_layer(parent, name), cursor(c), firstpoint(false),
+      firsttime(true){};
 
-private:
-  QCursor oldcursor;
-
+protected:
   bool is_pure(Qt::ButtonState s){
     if((s & Qt::ControlButton) ||
        (s & Qt::ShiftButton) ||
@@ -77,8 +63,9 @@ private:
        && !firstpoint
        && is_pure(e->state()))
     {
-      FT x=static_cast<FT>(widget->x_real(e->x()));
-      FT y=static_cast<FT>(widget->y_real(e->y()));
+      FT x, y;
+      widget->x_real(e->x(), x);
+      widget->y_real(e->y(), y);
       x1 = x;
       y1 = y;
       x2 = x;
@@ -86,14 +73,37 @@ private:
       firstpoint = TRUE;
     } else if(e->button() == CGAL_QT_WIDGET_GET_POINT_BUTTON 
               && is_pure(e->state())){
-      FT x=static_cast<FT>(widget->x_real(e->x()));
-      FT y=static_cast<FT>(widget->y_real(e->y()));
+      FT x, y;
+      widget->x_real(e->x(), x);
+      widget->y_real(e->y(), y);
       if(x1!=x || y1!=y) {
         widget->new_object(
           make_object(Segment(Point(x1,y1),Point(x,y))));
         firstpoint = FALSE;
       }    
     }
+  }
+
+  void keyPressEvent(QKeyEvent *e)
+  {
+    switch ( e->key() ) {
+      case Key_Escape:			// key_escape
+         if(firstpoint)
+         {
+	   firstpoint = false;
+           RasterOp old_raster = widget->rasterOp();
+           QColor old_color = widget->color();
+           widget->lock();
+           widget->setRasterOp(XorROP);
+           *widget << CGAL::GREEN;
+           *widget << Segment(Point(x1,y1), Point(x2,y2));
+           widget->setRasterOp(old_raster);
+           widget->setColor(old_color);
+           widget->unlock();
+	   firsttime = true;
+         }
+         break;
+    }//endswitch
   }
 
   void leaveEvent(QEvent *e)
@@ -103,11 +113,11 @@ private:
       RasterOp old_raster = widget->rasterOp();//save the initial raster mode
       QColor old_color = widget->color();
       widget->lock();
-	    widget->setRasterOp(XorROP);
-	    *widget << CGAL::GREEN;
-	    *widget << Segment(Point(x1,y1),Point(x2,y2));
-	    widget->setRasterOp(old_raster);
-	    widget->setColor(old_color);
+        widget->setRasterOp(XorROP);
+        *widget << CGAL::GREEN;
+        *widget << Segment(Point(x1,y1), Point(x2,y2));
+        widget->setRasterOp(old_raster);
+        widget->setColor(old_color);
       widget->unlock();
       firsttime = true;
     }
@@ -116,44 +126,52 @@ private:
   {
     if(firstpoint)
     {
-      FT x=static_cast<FT>(widget->x_real(e->x()));
-      FT y=static_cast<FT>(widget->y_real(e->y()));
-	    RasterOp old_raster = widget->rasterOp();//save the initial raster mode
-	    QColor old_color = widget->color();
-	    widget->setRasterOp(XorROP);
-	    widget->lock();
-	    *widget << CGAL::GREEN;
-	    if(!firsttime)
-	      *widget << Segment(Point(x1,y1),Point(x2,y2));
-	    *widget << Segment(Point(x1,y1),Point(x,y));
-	    widget->unlock();
-	    widget->setRasterOp(old_raster);
-	    widget->setColor(old_color);
+      FT x, y;
+      widget->x_real(e->x(), x);
+      widget->y_real(e->y(), y);
+      RasterOp old_raster = widget->rasterOp();//save the initial raster mode
+      QColor old_color = widget->color();
+      widget->setRasterOp(XorROP);
+      widget->lock();
+      *widget << CGAL::GREEN;
+      if(!firsttime)
+      *widget << Segment(Point(x1,y1),Point(x2,y2));
+      *widget << Segment(Point(x1,y1),Point(x,y));
+      widget->unlock();
+      widget->setRasterOp(old_raster);
+      widget->setColor(old_color);
 
-	    //save the last coordinates to redraw the screen
-	    x2 = x;
-	    y2 = y;
-	    firsttime = false;
+      //save the last coordinates to redraw the screen
+      x2 = x;
+      y2 = y;
+      firsttime = false;
     }
   };
   void activating()
   {
+    oldpolicy = widget->focusPolicy();
+    widget->setFocusPolicy(QWidget::StrongFocus);
     oldcursor = widget->cursor();
-    widget->setCursor(crossCursor);
+    widget->setCursor(cursor);
   };
 
   void deactivating()
   {
+    widget->setFocusPolicy(oldpolicy);
     widget->setCursor(oldcursor);
     firstpoint = false;
   };
 
-  FT	x1, //the X of the first point
+  QCursor oldcursor;
+  QCursor cursor;
+
+  FT  x1, //the X of the first point
       y1; //the Y of the first point
-  FT	x2, //the old second point's X
+  FT  x2, //the old second point's X
       y2; //the old second point's Y
   bool	firstpoint, //true if the user left clicked once
         firsttime;  //true if the line is not drawn
+  QWidget::FocusPolicy	oldpolicy;
 };//end class 
 
 } // namespace CGAL

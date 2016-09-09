@@ -1,60 +1,39 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/TetrahedronH3.h
-// package       : H3 (2.49)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2002/02/06 12:35:28 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
- 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H3/include/CGAL/Homogeneous/TetrahedronH3.h,v $
+// $Revision: 1.12 $ $Date: 2003/10/21 12:16:21 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
 
 #ifndef CGAL_TETRAHEDRONH3_H
 #define CGAL_TETRAHEDRONH3_H
 
 #include <vector>
 #include <functional>
+#include <CGAL/Fourtuple.h>
+#include <CGAL/Homogeneous/predicates_on_pointsH3.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class TetrahedronH3
-  : public R_::Tetrahedron_handle_3
+  : public R_::template Handle<Fourtuple<typename R_::Point_3> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::RT                   RT;
@@ -63,20 +42,19 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Vector_3             Vector_3;
   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-  typedef typename R_::Tetrahedron_handle_3            Tetrahedron_handle_3_;
-  typedef typename Tetrahedron_handle_3_::element_type Tetrahedron_ref_3;
+  typedef Fourtuple<Point_3>                       rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                R;
 
-  TetrahedronH3()
-    : Tetrahedron_handle_3_(Tetrahedron_ref_3()) {}
+  TetrahedronH3() {}
 
   TetrahedronH3(const Point_3 &p,
                 const Point_3 &q,
                 const Point_3 &r,
                 const Point_3 &s)
-    : Tetrahedron_handle_3_(Tetrahedron_ref_3(p,q,r,s)) {}
+    : base(rep(p,q,r,s)) {}
 
   const Point_3 & vertex(int i) const;
   const Point_3 & operator[](int i) const;

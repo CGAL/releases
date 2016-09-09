@@ -13,8 +13,7 @@ include $(CGAL_MAKEFILE)
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = \
-           -Iinclude \
+CXXFLAGS = -I../../../include/ \
            $(CGAL_CXXFLAGS) \
            $(LONG_NAME_PROBLEM_CXXFLAGS) \
            $(DEBUG_OPT)
@@ -24,50 +23,46 @@ CXXFLAGS = \
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(CGAL_WINDOW_LIBPATH)
+          $(CGAL_LIBPATH)
 
 LDFLAGS = \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
-          $(CGAL_WINDOW_LDFLAGS)
-
+          $(CGAL_QT_LDFLAGS)
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-all:            \
-                approx_convex_demo$(EXE_EXT) \
-                greene_approx_convex_demo$(EXE_EXT) \
-                optimal_convex_demo$(EXE_EXT) \
-                partition_2_demo$(EXE_EXT) \
-                y_monotone_demo$(EXE_EXT) 
+all: partition_2
 
-approx_convex_demo$(EXE_EXT): approx_convex_demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)approx_convex_demo approx_convex_demo$(OBJ_EXT) $(LDFLAGS)
+partition_2_toolbar$(OBJ_EXT): partition_2_toolbar.C partition_2_toolbar.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) partition_2_toolbar.C
 
-greene_approx_convex_demo$(EXE_EXT): greene_approx_convex_demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)greene_approx_convex_demo greene_approx_convex_demo$(OBJ_EXT) $(LDFLAGS)
+partition_2_toolbar.moc: partition_2_toolbar.h
+	$(QT_MOC) -o partition_2_toolbar.moc partition_2_toolbar.h
 
-optimal_convex_demo$(EXE_EXT): optimal_convex_demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)optimal_convex_demo optimal_convex_demo$(OBJ_EXT) $(LDFLAGS)
+partition_2_toolbar_layers$(OBJ_EXT): partition_2_toolbar_layers.C \
+		partition_2_toolbar_layers.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) partition_2_toolbar_layers.C
 
-partition_2_demo$(EXE_EXT): partition_2_demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)partition_2_demo partition_2_demo$(OBJ_EXT) $(LDFLAGS)
+partition_2_toolbar_layers.moc: partition_2_toolbar_layers.h
+	$(QT_MOC) -o partition_2_toolbar_layers.moc partition_2_toolbar_layers.h
 
-y_monotone_demo$(EXE_EXT): y_monotone_demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)y_monotone_demo y_monotone_demo$(OBJ_EXT) $(LDFLAGS)
+partition_2.moc: partition_2.C \
+		 partition_2_toolbar$(OBJ_EXT) \
+		 partition_2_toolbar_layers$(OBJ_EXT)
+	${QT_MOC} -o partition_2.moc partition_2.C
 
-partition_2_demo.o: \
-        partition_2_demo.C \
-        ./include/polygon_io.h \
-        ./include/polygon_io.C \
-        ./include/typedefs.h
+partition_2$(OBJ_EXT): partition_2.C partition_2.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) partition_2.C
 
-clean: \
-                   approx_convex_demo.clean \
-                   greene_approx_convex_demo.clean \
-                   optimal_convex_demo.clean \
-                   partition_2_demo.clean \
-                   y_monotone_demo.clean 
+partition_2$(EXE_EXT): partition_2$(OBJ_EXT)
+	$(CGAL_CXX) $(EXE_OPT)partition_2 partition_2$(OBJ_EXT) \
+		partition_2_toolbar$(OBJ_EXT) \
+		partition_2_toolbar_layers$(OBJ_EXT) $(LDFLAGS)
+
+clean: partition_2.clean \
+       partition_2_toolbar_layers.clean \
+       partition_2_toolbar.clean
 
 #---------------------------------------------------------------------#
 #                    suffix rules
@@ -75,4 +70,3 @@ clean: \
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
-

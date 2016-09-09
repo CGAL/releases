@@ -1,87 +1,81 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// Copyright (c) 2002 ENS de Paris
-//
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// The Qt widget we provide for CGAL is distributed under the QPL,
-// which is Trolltech's open source license. For more information see 
-//     http://www.trolltech.com/developer/licensing/qpl.html
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// file          : include/CGAL/IO/Qt_widget_standard_toolbar.h
-// package       : Qt_widget (1.2.30)
-// author(s)     : Radu Ursu
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : Laurent Rineau
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_standard_toolbar.h,v $
+// $Revision: 1.26 $ $Date: 2003/10/21 12:23:23 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Radu Ursu
 
 
 #ifndef CGAL_QT_WIDGET_STANDARD_TOOLBAR_H
 #define CGAL_QT_WIDGET_STANDARD_TOOLBAR_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Cartesian.h>
 
-
-// TODO: check if some of those includes shouldn't be in the .C file
-#include <CGAL/IO/Qt_widget.h>
-#include <CGAL/IO/Qt_widget_focus.h>
-#include <CGAL/IO/Qt_widget_zoomrect.h>
-#include <CGAL/IO/Qt_widget_handtool.h>
-
-
-#include <qobject.h>
-#include <qtoolbutton.h>
 #include <qtoolbar.h>
-#include <qmainwindow.h>
 #include <qbuttongroup.h>
+#include <qtoolbutton.h>
 
 namespace CGAL {
 
-class Qt_widget_standard_toolbar : public QObject
+class Qt_widget;
+class Qt_widget_history;
+
+class Qt_widget_standard_toolbar : public QToolBar
 {
 	Q_OBJECT
 public:
-  Qt_widget_standard_toolbar(Qt_widget *w, QMainWindow *mw);
-  QToolBar*	toolbar(){return maintoolbar;}
+  Qt_widget_standard_toolbar(Qt_widget *w,
+			     QMainWindow *parent = 0,
+			     const char* name = 0);
 
+  Qt_widget_standard_toolbar(Qt_widget *w,
+			     QMainWindow *mw,
+			     QWidget* parent,
+			     bool newLine = true,
+			     const char* name = 0);
+
+  ~Qt_widget_standard_toolbar() { delete button_group; }
+
+  // CGAL-2.4 compatibility
+  QToolBar*	toolbar(){return this;}
+
+public slots:
+  void back();
+  void forward();
+  void clear_history();
 
 private slots:
   void zoomin();
   void zoomout();
-  void back();
-  void forward();
-  
+  void group_clicked(int i);
+
 private:
-  QToolBar		  *maintoolbar;
-  QToolButton	  *but[10];
-  Qt_widget		  *widget;
-  QButtonGroup  *button_group;
-  int			      nr_of_buttons;
-	
-  CGAL::Qt_widget_focus         zoombut;
-  CGAL::Qt_widget_zoomrect	    zoomrectbut;
-  CGAL::Qt_widget_handtool	    handtoolbut;
+  void fill_toolbar(QMainWindow *mw);
+
+private:
+  Qt_widget          *widget;
+  Qt_widget_history  *history;
+  QButtonGroup*      button_group;
+  // this group has no parent and is destroyed manually in the
+  // destructor
+
+  QToolButton* nolayerBt;
 };//end class
 
 };//end namespace

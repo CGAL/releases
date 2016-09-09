@@ -1,58 +1,40 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/CircleH2.h
-// package       : H2 (2.67)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2002/02/06 12:34:05 $
-// author(s)     : Sven Schoenherr
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/CircleH2.h,v $
+// $Revision: 1.13 $ $Date: 2003/10/21 12:16:08 $
+// $Name: current_submission $
+//
+// Author(s)     : Sven Schoenherr
 //                 Stefan Schirra
-//
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
  
 
 #ifndef CGAL_CIRCLEH2_H
 #define CGAL_CIRCLEH2_H
 
+#include <CGAL/utility.h>
+#include <CGAL/Interval_arithmetic.h>
+
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class CircleH2
-  : public R_::Circle_handle_2
+  : public R_::template Handle<Triple<typename R_::Point_2,
+                                      typename R_::FT, Orientation> >::type
 {
 CGAL_VC7_BUG_PROTECTED
     typedef typename R_::FT                   FT;
@@ -60,14 +42,13 @@ CGAL_VC7_BUG_PROTECTED
     typedef typename R_::Point_2              Point_2;
     typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-    typedef typename R_::Circle_handle_2            Circle_handle_2_;
-    typedef typename Circle_handle_2_::element_type Circle_ref_2;
+    typedef Triple<Point_2, FT, Orientation>         rep;
+    typedef typename R_::template Handle<rep>::type  base;
 
 public:
     typedef R_                                    R;
 
-    CircleH2()
-      : Circle_handle_2_() {}
+    CircleH2() {}
 
     CircleH2(const Point_2& p, const Point_2& q, const Point_2& r)
     {
@@ -77,7 +58,7 @@ public:
       Point_2    cp   = circumcenter( p, q, r);
       FT         sq_r = squared_distance( p, cp);
 
-      initialize_with( Circle_ref_2( cp, sq_r, o));
+      initialize_with( rep( cp, sq_r, o));
     }
 
     CircleH2(const Point_2& p, const Point_2& q, const Orientation& o)
@@ -88,10 +69,10 @@ public:
       {
          Point_2    cp   = midpoint( p, q);
          FT         sq_r = squared_distance( cp, p);
-         initialize_with( Circle_ref_2( cp, sq_r, o));
+         initialize_with( rep( cp, sq_r, o));
       }
       else
-         initialize_with( Circle_ref_2( p, FT( 0), o));
+         initialize_with( rep( p, FT( 0), o));
     }
 
     CircleH2(const Point_2& cp, const FT& squared_radius,
@@ -99,7 +80,7 @@ public:
     {
       CGAL_precondition( ( ! CGAL_NTS is_negative( squared_radius)) &&
                          ( o != COLLINEAR ) );
-      initialize_with( Circle_ref_2( cp, squared_radius, o ));
+      initialize_with( rep( cp, squared_radius, o ));
     }
 
     Bbox_2
@@ -138,10 +119,6 @@ public:
     // bool  oriented_equal( const CircleH2<R>& ) const;
     // bool  unoriented_equal( const CircleH2<R>& ) const;
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template <class R>
 inline
@@ -271,39 +248,19 @@ CGAL_KERNEL_MEDIUM_INLINE
 Bbox_2
 CircleH2<R>::bbox() const
 {
-#ifndef CGAL_CFG_NO_NAMESPACE
-  using std::swap;
-#endif // CGAL_CFG_NO_NAMESPACE
+  Bbox_2 b = center().bbox();
 
-  double eps  = double(1.0) /(double(1<<26) * double(1<<26));
-  double hxd  = CGAL::to_double( center().hx() );
-  double hyd  = CGAL::to_double( center().hy() );
-  double hwd  = CGAL::to_double( center().hw() );
-  double xmin = ( hxd - eps*hxd ) / ( hwd + eps*hwd );
-  double xmax = ( hxd + eps*hxd ) / ( hwd - eps*hwd );
-  double ymin = ( hyd - eps*hyd ) / ( hwd + eps*hwd );
-  double ymax = ( hyd + eps*hyd ) / ( hwd - eps*hwd );
-  if ( center().hx() < RT(0)   )
-  {
-      swap(xmin, xmax);
-  }
-  if ( center().hy() < RT(0)   )
-  {
-      swap(ymin, ymax);
-  }
-  double sqradd = CGAL::to_double( squared_radius() );
-  sqradd += sqradd*eps;
-  sqradd = sqrt(sqradd);
-  sqradd += sqradd*eps;
-  xmin -= sqradd;
-  xmax += sqradd;
-  xmin -= xmin*eps;
-  xmax += xmax*eps;
-  ymin -= sqradd;
-  ymax += sqradd;
-  ymin -= ymin*eps;
-  ymax += ymax*eps;
-  return Bbox_2(xmin, ymin, xmax, ymax);
+  Interval_nt<> x (b.xmin(), b.xmax());
+  Interval_nt<> y (b.ymin(), b.ymax());
+
+  Interval_nt<> sqr = CGAL::to_interval(squared_radius());
+  Interval_nt<> r = CGAL::sqrt(sqr);
+  Interval_nt<> minx = x-r;
+  Interval_nt<> maxx = x+r;
+  Interval_nt<> miny = y-r;
+  Interval_nt<> maxy = y+r;
+
+  return Bbox_2(minx.inf(), miny.inf(), maxx.sup(), maxy.sup());
 }
 
 template <class R>
@@ -402,10 +359,6 @@ std::istream& operator>>(std::istream &is, CircleH2<R> &c)
   return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_CIRCLEH2
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

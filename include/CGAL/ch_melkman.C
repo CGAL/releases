@@ -1,50 +1,22 @@
 
-// ======================================================================
+// Copyright (c) 1999  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/ch_melkman.C,v $
+// $Revision: 1.5 $ $Date: 2003/09/18 10:20:24 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// source        : melkman.fw
-// file          : include/CGAL/ch_melkman.C
-// package       : Convex_hull_2 (3.34)
-// revision      : 3.3
-// revision_date : 03 Aug 2000 
-// author(s)     : Stefan Schirra
-//
-//
-// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Stefan Schirra
  
 
 #ifndef CGAL_CH_MELKMAN_C
@@ -71,7 +43,11 @@ ch_melkman( InputIterator first, InputIterator last,
 {
   typedef typename Traits::Point_2      Point;
   typedef typename Traits::Segment_2    Segment;
-  typename Traits::Leftturn_2 leftturn  = ch_traits.leftturn_2_object();
+  typedef typename Traits::Equal_2      Equal_2;   
+  
+  typename Traits::Left_turn_2 left_turn  = ch_traits.left_turn_2_object();
+  Equal_2  equal_points = ch_traits.equal_2_object();
+  
   CGAL_ch_assertion_code( \
   typename Traits::Less_xy_2 less       = ch_traits.less_xy_2_object(); )
   
@@ -88,7 +64,7 @@ ch_melkman( InputIterator first, InputIterator last,
   if (++first == last)                        // 2 elements
   {
     *result = p; ++result;
-    if ( p != q)
+    if (! equal_points(p,q))
     { *result = q; ++result; }
     return result;
   }
@@ -100,8 +76,8 @@ ch_melkman( InputIterator first, InputIterator last,
     r = *first;
     CGAL_ch_expensive_postcondition_code( IN.push_back(r); )
     // visited input sequence =  p,..., q, r
-    if ( leftturn(p,q,r)) { Q.push_back( q);  break; }
-    if ( leftturn(q,p,r)) { Q.push_front( q); break; }
+    if ( left_turn(p,q,r)) { Q.push_back( q);  break; }
+    if ( left_turn(q,p,r)) { Q.push_front( q); break; }
     CGAL_ch_assertion( less( p, q) ? less (p, r) : less( r, p));
     q = r;
     ++first;
@@ -120,18 +96,20 @@ ch_melkman( InputIterator first, InputIterator last,
     {
       r = *first;
       CGAL_ch_expensive_postcondition_code( IN.push_back(r); )
-      if (leftturn( current, r, Q.front()) || leftturn( Q.back(), r, current))
+      if (left_turn( current, r, Q.front()) || 
+          left_turn( Q.back(), r, current))
       // r outside cone Q.front(), current, Q.back() <=>
-      // rightturn( current, Q.front(), r) || rightturn( Q.back(), current, r)
+      // right_turn( current, Q.front(), r) || 
+      // right_turn( Q.back(), current, r)
       {
         s = current;
-        while ( !leftturn( r, s, Q.front()))
-        //      !leftturn( r, s, Q.front())
+        while ( !left_turn( r, s, Q.front()))
+        //      !left_turn( r, s, Q.front())
         { s = Q.front(); Q.pop_front(); }
         Q.push_front(s);
         s = current;
-        while ( !leftturn( s, r, Q.back()))
-        //     !rightturn( r, s, Q.back())
+        while ( !left_turn( s, r, Q.back()))
+        //     !right_turn( r, s, Q.back())
         { s = Q.back(); Q.pop_back(); }
         Q.push_back(s);
         current = r;

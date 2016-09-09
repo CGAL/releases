@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/basic_constructionsH3.h
-// package       : H3 (2.49)
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 2001/10/16 16:01:38 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// ======================================================================
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H3/include/CGAL/Homogeneous/basic_constructionsH3.h,v $
+// $Revision: 1.7 $ $Date: 2003/10/21 12:16:22 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
  
 
 #ifndef CGAL_BASIC_CONSTRUCTIONSH3_H
@@ -94,17 +72,18 @@ gp_linear_intersection(const PlaneH3<R> &f,
                        const PlaneH3<R> &g,
                        const PlaneH3<R> &h)
 {
+  typedef typename R::RT RT;
   return PointH3<R>(
-                      det3x3_by_formula(-f.d(), f.b(), f.c(),
+                  det3x3_by_formula<RT>(-f.d(), f.b(), f.c(),
                                         -g.d(), g.b(), g.c(),
                                         -h.d(), h.b(), h.c()),
-                      det3x3_by_formula( f.a(),-f.d(), f.c(),
+                  det3x3_by_formula<RT>( f.a(),-f.d(), f.c(),
                                          g.a(),-g.d(), g.c(),
                                          h.a(),-h.d(), h.c()),
-                      det3x3_by_formula( f.a(), f.b(),-f.d(),
+                  det3x3_by_formula<RT>( f.a(), f.b(),-f.d(),
                                          g.a(), g.b(),-g.d(),
                                          h.a(), h.b(),-h.d()),
-                      det3x3_by_formula( f.a(), f.b(), f.c(),
+                  det3x3_by_formula<RT>( f.a(), f.b(), f.c(),
                                          g.a(), g.b(), g.c(),
                                          h.a(), h.b(), h.c()));
 }
@@ -143,7 +122,7 @@ centroid( PointH3<R> const& p,
          + s.hy()*phw*qhw*rhw);
    RT hz(p.hz()*qhw*rhw*shw + q.hz()*phw*rhw*shw + r.hz()*phw*qhw*shw
          + s.hz()*phw*qhw*rhw);
-   RT hw( phw*qhw*rhw*shw * 4);
+   RT hw( phw*qhw*rhw*shw * RT(4));
    return PointH3<R>(hx, hy, hz, hw);
 }
 
@@ -161,7 +140,7 @@ centroid( PointH3<R> const& p,
    RT hx(p.hx()*qhw*rhw + q.hx()*phw*rhw + r.hx()*phw*qhw);
    RT hy(p.hy()*qhw*rhw + q.hy()*phw*rhw + r.hy()*phw*qhw);
    RT hz(p.hz()*qhw*rhw + q.hz()*phw*rhw + r.hz()*phw*qhw);
-   RT hw( phw*qhw*rhw * 3);
+   RT hw( phw*qhw*rhw * RT(3));
    return PointH3<R>(hx, hy, hz, hw);
 }
 
@@ -244,6 +223,16 @@ circumcenter( PointH3<R> const& p,
   return gp_linear_intersection( PlaneH3<R>(p,q,r),
                                  bisector(p,q),
                                  bisector(p,r));
+}
+
+template <class R>
+CGAL_KERNEL_INLINE
+typename R::FT
+squared_radius( const PointH3<R>& p,
+                const PointH3<R>& q )
+{
+  typedef typename R::FT FT;
+  return squared_distance(p, q) / FT(4);
 }
 
 template <class R>

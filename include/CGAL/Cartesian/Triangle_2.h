@@ -1,58 +1,37 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/Triangle_2.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.26 $
-// revision_date : $Date: 2002/02/06 12:32:40 $
-// author(s)     : Andreas Fabri, Herve Bronnimann
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Triangle_2.h,v $
+// $Revision: 1.36 $ $Date: 2003/10/21 12:14:24 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Andreas Fabri, Herve Bronnimann
 
 #ifndef CGAL_CARTESIAN_TRIANGLE_2_H
 #define CGAL_CARTESIAN_TRIANGLE_2_H
 
+#include <CGAL/Threetuple.h>
 #include <CGAL/Cartesian/predicates_on_points_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class TriangleC2
-  : public R_::Triangle_handle_2
+  : public R_::template Handle<Threetuple<typename R_::Point_2> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
@@ -61,14 +40,13 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Triangle_2           Triangle_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef typename R_::Triangle_handle_2         base;
-  typedef typename base::element_type            rep;
+  typedef Threetuple<Point_2>	                   rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                                    R;
 
-  TriangleC2()
-    : base(rep()) {}
+  TriangleC2() {}
 
   TriangleC2(const Point_2 &p, const Point_2 &q, const Point_2 &r)
     : base(rep(p, q, r)) {}
@@ -105,10 +83,6 @@ public:
 
   FT             area() const;
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
@@ -159,8 +133,9 @@ CGAL_KERNEL_MEDIUM_INLINE
 typename TriangleC2<R>::FT
 TriangleC2<R>::area() const
 {
-  typename R::Vector_2 v1 = vertex(1)-vertex(0);
-  typename R::Vector_2 v2 = vertex(2)-vertex(0);
+  typename R::Construct_vector_2 construct_vector;
+  typename R::Vector_2 v1 = construct_vector(vertex(0), vertex(1));
+  typename R::Vector_2 v2 = construct_vector(vertex(0), vertex(2));
   return det2x2_by_formula(v1.x(), v1.y(), v2.x(), v2.y())/FT(2);
 }
 
@@ -169,7 +144,8 @@ inline
 Orientation
 TriangleC2<R>::orientation() const
 {
-  return CGAL::orientation(vertex(0), vertex(1), vertex(2));
+  typename R::Orientation_2 orientation;
+  return orientation(vertex(0), vertex(1), vertex(2));
 }
 
 template < class R >
@@ -178,9 +154,12 @@ Bounded_side
 TriangleC2<R>::
 bounded_side(const typename TriangleC2<R>::Point_2 &p) const
 {
-  Orientation o1 = CGAL::orientation(vertex(0), vertex(1), p),
-              o2 = CGAL::orientation(vertex(1), vertex(2), p),
-              o3 = CGAL::orientation(vertex(2), vertex(3), p);
+  typename R::Collinear_are_ordered_along_line_2 
+    collinear_are_ordered_along_line;
+  typename R::Orientation_2 orientation;
+  Orientation o1 = orientation(vertex(0), vertex(1), p),
+              o2 = orientation(vertex(1), vertex(2), p),
+              o3 = orientation(vertex(2), vertex(3), p);
 
   if (o2 == o1 && o3 == o1)
     return ON_BOUNDED_SIDE;
@@ -201,11 +180,14 @@ Oriented_side
 TriangleC2<R>::
 oriented_side(const typename TriangleC2<R>::Point_2 &p) const
 {
+  typename R::Collinear_are_ordered_along_line_2 
+    collinear_are_ordered_along_line;
+  typename R::Orientation_2 orientation;
   // depends on the orientation of the vertices
-  Orientation o1 = CGAL::orientation(vertex(0), vertex(1), p),
-              o2 = CGAL::orientation(vertex(1), vertex(2), p),
-              o3 = CGAL::orientation(vertex(2), vertex(3), p),
-              ot = CGAL::orientation(vertex(0), vertex(1), vertex(2));
+  Orientation o1 = orientation(vertex(0), vertex(1), p),
+              o2 = orientation(vertex(1), vertex(2), p),
+              o3 = orientation(vertex(2), vertex(3), p),
+              ot = orientation(vertex(0), vertex(1), vertex(2));
 
   if (o1 == ot && o2 == ot && o3 == ot) // ot cannot be COLLINEAR
     return Oriented_side(ot);
@@ -270,6 +252,7 @@ inline
 bool
 TriangleC2<R>::is_degenerate() const
 {
+  typename R::Collinear_2 collinear;
   return collinear(vertex(0), vertex(1), vertex(2));
 }
 
@@ -278,7 +261,10 @@ inline
 Bbox_2
 TriangleC2<R>::bbox() const
 {
-  return vertex(0).bbox() + vertex(1).bbox() + vertex(2).bbox();
+  typename R::Construct_bbox_2 construct_bbox_2;
+  return construct_bbox_2(vertex(0)) 
+    + construct_bbox_2(vertex(1)) 
+    + construct_bbox_2(vertex(2));
 }
 
 template < class R >
@@ -320,10 +306,6 @@ operator>>(std::istream &is, TriangleC2<R> &t)
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_TRIANGLEC2
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

@@ -1,48 +1,26 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/basic_constructionsH2.h
-// package       : H2 (2.67)
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 2001/10/16 16:02:29 $
-// author(s)     : Sven Schoenherr
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/basic_constructionsH2.h,v $
+// $Revision: 1.7 $ $Date: 2003/10/28 17:57:11 $
+// $Name: current_submission $
+//
+// Author(s)     : Sven Schoenherr
 //                 Stefan Schirra
-//
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
  
 
 #ifndef CGAL_BASIC_CONSTRUCTIONSH2_H
@@ -75,16 +53,16 @@ bisector( const PointH2<R>& p, const PointH2<R>& q )
  // ( X - p.x())^2 + (Y - p.y())^2 == ( X - q.x())^2 + (Y - q.y())
  // and x() = hx()/hw() ...
 
-  RT phx = p.hx();
-  RT phy = p.hy();
-  RT phw = p.hw();
-  RT qhx = q.hx();
-  RT qhy = q.hy();
-  RT qhw = q.hw();
+  const RT & phx = p.hx();
+  const RT & phy = p.hy();
+  const RT & phw = p.hw();
+  const RT & qhx = q.hx();
+  const RT & qhy = q.hy();
+  const RT & qhw = q.hw();
 
-  RT a = RT(2) * ( qhx*qhw*phw*phw - phx*phw*qhw*qhw );
-  RT b = RT(2) * ( qhy*qhw*phw*phw - phy*phw*qhw*qhw );
-  RT c = phx*phx*qhw*qhw + phy*phy*qhw*qhw - qhx*qhx*phw*phw - qhy*qhy*phw*phw;
+  RT a = RT(2) * ( phx*phw*qhw*qhw - qhx*qhw*phw*phw );
+  RT b = RT(2) * ( phy*phw*qhw*qhw - qhy*qhw*phw*phw );
+  RT c = qhx*qhx*phw*phw + qhy*qhy*phw*phw - phx*phx*qhw*qhw - phy*phy*qhw*qhw;
 
   return LineH2<R>( a, b, c );
 }
@@ -97,12 +75,12 @@ squared_distance( const PointH2<R>& p, const PointH2<R>& q )
   typedef typename R::RT RT;
   typedef typename R::FT FT;
 
-  const RT phx = p.hx();
-  const RT phy = p.hy();
-  const RT phw = p.hw();
-  const RT qhx = q.hx();
-  const RT qhy = q.hy();
-  const RT qhw = q.hw();
+  const RT & phx = p.hx();
+  const RT & phy = p.hy();
+  const RT & phw = p.hw();
+  const RT & qhx = q.hx();
+  const RT & qhy = q.hy();
+  const RT & qhw = q.hw();
 
   RT sq_dist_numerator =
           phx * phx * qhw * qhw
@@ -238,19 +216,41 @@ squared_radius( const PointH2<R>& p,
 }
 
 template <class R>
+CGAL_KERNEL_INLINE
+typename R::FT
+squared_radius( const PointH2<R>& p,
+                const PointH2<R>& q )
+{
+  typedef typename R::FT FT;
+  return squared_distance(p, q)/FT(4);
+}
+
+template <class R>
 CGAL_KERNEL_LARGE_INLINE
+typename R::FT
+area(const PointH2<R>& p, const PointH2<R>& q, const PointH2<R>& r)
+{
+    typedef typename R::Vector_2  Vector_2;
+    typedef typename R::RT        RT;
+    typedef typename R::FT        FT;
+
+    Vector_2 v1 = q - p;
+    Vector_2 v2 = r - p;
+
+    RT num = v1.hx()*v2.hy() - v2.hx()*v1.hy();
+    RT den = RT(2) * v1.hw() * v2.hw();
+    return FT(num)/FT(den);
+}
+
+/*  I believe it's undocumented, so I comment it.
+template <class R>
+inline
 typename R::FT
 area(const TriangleH2<R>& t)
 {
-  typedef typename R::RT RT;
-  typedef typename R::FT FT;
-  RT num = determinant_3x3_by_formula(
-               t.vertex(0).hx(), t.vertex(0).hy(), t.vertex(0).hw(),
-               t.vertex(1).hx(), t.vertex(1).hy(), t.vertex(1).hw(),
-               t.vertex(2).hx(), t.vertex(2).hy(), t.vertex(2).hw() );
-  RT den = t.vertex(0).hw() * t.vertex(1).hw() * t.vertex(2).hw();
-  return FT(num) / FT(den);
+    return area(t.vertex(0), t.vertex(1), t.vertex(2));
 }
+*/
 
 CGAL_END_NAMESPACE
 

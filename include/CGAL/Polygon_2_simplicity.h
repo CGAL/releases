@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Polygon_2_simplicity.h
-// package       : Polygon (4.8.1)
-// source        :
-// author(s)     : Geert-Jan Giezeman
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : Utrecht University
+// $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2_simplicity.h,v $
+// $Revision: 1.15 $ $Date: 2003/10/21 12:22:48 $
+// $Name: current_submission $
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 
 #ifndef CGAL_POLYGON_2_SIMPLICITY_H
 #define CGAL_POLYGON_2_SIMPLICITY_H
@@ -245,8 +223,8 @@ less_than_in_tree(Vertex_index new_edge, Vertex_index tree_edge)
     }
     switch (m_vertex_data->orientation_2( m_vertex_data->point(left),
             m_vertex_data->point(mid), m_vertex_data->point(right))) {
-      case LEFTTURN: return true;
-      case RIGHTTURN: return false;
+      case LEFT_TURN: return true;
+      case RIGHT_TURN: return false;
       case COLLINEAR: break;
     }
     m_vertex_data->is_simple_result = false;
@@ -303,7 +281,7 @@ Vertex_data(ForwardIterator begin, ForwardIterator end,
             const PolygonTraits& pgn_traits)
 : Base_class(begin, end, pgn_traits)
 {
-    edges.insert(edges.end(), m_size, Edge_data<Less_segs>());
+    edges.insert(edges.end(), this->m_size, Edge_data<Less_segs>());
 }
 
 
@@ -315,8 +293,8 @@ insertion_event(Tree *tree, Vertex_index prev_vt,
     // check which endpoint is above the other
     bool left_turn;
     switch(orientation_2(point(prev_vt), point(mid_vt), point(next_vt))) {
-      case LEFTTURN: left_turn = true; break;
-      case RIGHTTURN: left_turn = false; break;
+      case LEFT_TURN: left_turn = true; break;
+      case RIGHT_TURN: left_turn = false; break;
       case COLLINEAR: return false;
       
     }
@@ -357,13 +335,13 @@ on_right_side(Vertex_index vt, Vertex_index edge_id, bool above)
 {
     Orientation turn =
         orientation_2(point(edge_id), point(vt), point(next(edge_id)));
-    bool leftturn = edges[edge_id.as_int()].is_left_to_right ? above : !above;
-    if (leftturn) {
-        if (turn != RIGHTTURN) {
+    bool left_turn = edges[edge_id.as_int()].is_left_to_right ? above : !above;
+    if (left_turn) {
+        if (turn != RIGHT_TURN) {
             return false;
         }
     } else {
-        if (turn != LEFTTURN) {
+        if (turn != LEFT_TURN) {
             return false;
         }
     }
@@ -451,10 +429,10 @@ template <class ForwardIterator, class PolygonTraits>
 void Vertex_data<ForwardIterator, PolygonTraits>::
 sweep(Tree *tree)
 {
-    if (m_size < 3)
+    if (this->m_size < 3)
     	return;
     bool succes = true;
-    for (Index_t i=0; i< m_size; ++i) {
+    for (Index_t i=0; i< this->m_size; ++i) {
         Vertex_index cur = index_at_rank(Vertex_order(i));
 	    Vertex_index prev_vt = prev(cur), next_vt = next(cur);
 	    if (ordered_left_to_right(cur, next_vt)) {
@@ -472,7 +450,7 @@ sweep(Tree *tree)
 	        break;
     }
     if (!succes)
-    	is_simple_result = false;
+    	this->is_simple_result = false;
 }
 }
 // ----- End of implementation of i_polygon functions. -----

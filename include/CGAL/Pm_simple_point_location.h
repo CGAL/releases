@@ -1,62 +1,29 @@
-// ======================================================================
+// Copyright (c) 1997  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_simple_point_location.h,v $
+// $Revision: 1.13 $ $Date: 2003/09/18 10:24:36 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Pm_simple_point_location.h
-// package       : Planar_map (5.113)
-// source        : 
-// revision      : 
-// revision_date : 
-// author(s)     : Eyal Flato
-//
-//
-// coordinator   : Tel-Aviv University (Dan Halperin)
-//
-// Chapter       : 
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Eyal Flato <flato@math.tau.ac.il>
 
 #ifndef CGAL_PM_SIMPLE_POINT_LOCATION_H
 #define CGAL_PM_SIMPLE_POINT_LOCATION_H
 
-#ifndef CGAL_PM_POINT_LOCATION_BASE_H
 #include <CGAL/Pm_point_location_base.h>
-#endif
+#include <CGAL/Planar_map_2/Pm_traits_wrap_2.h>
 
-#ifndef CGAL_PLANAR_MAP_MISC_H
-#include <CGAL/Planar_map_2/Planar_map_misc.h>
-#endif
+#include <list>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -108,7 +75,7 @@ public:
     typename Planar_map::Halfedge_iterator hit;
     for (hit = pm->halfedges_begin(); hit != pm->halfedges_end(); ++hit) 
       {
-	if (traits->curve_is_in_x_range(hit->curve(),p)) 
+	if (traits->point_in_x_range(hit->curve(),p)) 
 	  {
 	    relevant.push_back(hit);
 	  }
@@ -122,7 +89,7 @@ public:
     typename Planar_map::Vertex_iterator vit;
     for (vit=pm->vertices_begin(); vit!=pm->vertices_end(); ++vit) 
       {
-	if (traits->point_is_same(p,vit->point()) ) 
+	if (traits->point_equal(p,vit->point()) ) 
 	  {
 	    lt = Planar_map::VERTEX; 
 	    Halfedge_handle h(vit->incident_halfedges());	
@@ -137,8 +104,8 @@ public:
     typename Halfedges_list::const_iterator hit;
     for (hit=relevant_halfedges.begin(); hit!=relevant_halfedges.end(); ++hit) 
       {
-	if (traits->curve_get_point_status((*hit)->curve(),p) ==
-	    Traits::ON_CURVE) 
+	if (traits->point_in_x_range((*hit)->curve(),p) &&
+	    traits->curve_compare_y_at_x(p, (*hit)->curve()) == EQUAL) 
 	  {
 	    lt = Planar_map::EDGE; 
 	    return *hit;
@@ -202,8 +169,9 @@ public:
 		
     typename Planar_map::Halfedge_iterator it, eit, closest_edge;
     bool first = false;
-    typename Traits::Curve_point_status point_above_under, r;
-    int curve_above_under;
+    Comparison_result point_above_under, res;
+    Comparison_result curve_above_under;
+    bool              in_x_range;
 		
     it = pm->halfedges_begin();
     eit = pm->halfedges_end();
@@ -213,41 +181,45 @@ public:
     // set the flags for comparison acording to the ray 
     // direction (up/down)
     if (up) 
-      {
-	point_above_under = Traits::UNDER_CURVE;
-	curve_above_under = LARGER;
-      } 
+    {
+      point_above_under = SMALLER;
+      curve_above_under = LARGER;
+    } 
     else 
-      {
-	point_above_under = Traits::ABOVE_CURVE;
-	curve_above_under = SMALLER;
-      }
+    {
+      point_above_under = LARGER;
+      curve_above_under = SMALLER;
+    }
 
     typename Halfedges_list::const_iterator rel_it;
     for (rel_it = relevant_halfedges.begin(); 
 	 rel_it != relevant_halfedges.end();) 
       {
 	it = *rel_it;
-	r = traits->curve_get_point_status(it->curve(), p);
-	if ( r == point_above_under ) 
-	  {
-	    if (!first) 
-	      {
-		closest_edge = it;
-		first = true;
-	      } 
-	    else 
-	      {
-		if ( traits->curve_compare_at_x(closest_edge->curve(),
-						it->curve(), p) == 
-		     curve_above_under) 
-		  {
-		    closest_edge = it;
-		  }
-	      }
-	  }
-	if ( ( r == Traits::ON_CURVE) && 
-             (traits->curve_is_vertical(it->curve())) )
+
+	in_x_range = traits->point_in_x_range(it->curve(), p);
+	if (in_x_range)
+	  res = traits->curve_compare_y_at_x(p, it->curve());
+
+	if (in_x_range && (res == point_above_under)) 
+        {
+          if (!first) 
+          {
+            closest_edge = it;
+            first = true;
+          } 
+          else 
+          {
+            if (traits->curves_compare_y_at_x(closest_edge->curve(),
+                                              it->curve(), p) == 
+                curve_above_under) 
+            {
+              closest_edge = it;
+            }
+          }
+        }
+	if (in_x_range && res == EQUAL  && 
+	    traits->curve_is_vertical(it->curve()))
         {
           // The vertical ray shoot is not including p itself,
           // thus we are interested only in vertical curves that
@@ -255,9 +227,11 @@ public:
           // In this case the Locate type is always EDGE
           // Remark: This treatment was originally written in the walk PL.
           if (up && 
-              traits->point_is_higher(traits->curve_highest(it->curve()), p) ||
+              traits->point_is_right_top(traits->curve_righttop_most
+					 (it->curve()), p) ||
               ! up &&
-              traits->point_is_lower(traits->curve_lowest(it->curve()), p))
+              traits->point_is_left_low(traits->curve_leftlow_most
+					(it->curve()), p))
             /*
               x       x
               |       |
@@ -288,17 +262,17 @@ public:
     // edge from the vertical segment
     typename Planar_map::Vertex_handle v = pm->vertices_end();
     bool maybe_vertical=false; // BUG fix (Oren)
-    if ( traits->point_is_same_x(closest_edge->target()->point(), p) ) 
+    if ( traits->point_equal_x(closest_edge->target()->point(), p) ) 
       {
 	v = closest_edge->target();
 	maybe_vertical=true; // BUG fix (Oren)
       }
 		
-    if ( traits->point_is_same_x( closest_edge->source()->point(), p) ) 
+    if ( traits->point_equal_x( closest_edge->source()->point(), p) ) 
       {
 	if (!maybe_vertical || 
-	    traits->point_is_higher(closest_edge->target()->point(),
-				    closest_edge->source()->point())==up) 
+	    traits->point_is_right_top(closest_edge->target()->point(),
+				       closest_edge->source()->point())==up) 
                                     // BUG fix (Oren)
 	  v = closest_edge->source();
 				/*
@@ -424,7 +398,7 @@ protected:
 	  if (lowest_left == pm->halfedges_end())
 	    lowest_left = curr;
 				
-	  if (traits->curve_compare_at_x_left(curr->curve(),
+	  if (traits->curves_compare_y_at_x_left(curr->curve(),
 					      lowest_left->curve(), 
 					      v->point())==SMALLER)
 	    lowest_left = curr;
@@ -436,7 +410,7 @@ protected:
 	  if (lowest_right == pm->halfedges_end())
 	    lowest_right = curr;
 				
-	  if (traits->curve_compare_at_x_right(curr->curve(),
+	  if (traits->curves_compare_y_at_x_right(curr->curve(),
 					       lowest_right->curve(), 
 					       v->point())==LARGER
 	      )
@@ -446,8 +420,8 @@ protected:
 			
 			
       if (traits->curve_is_vertical(curr->curve())) {
-	if (traits->compare_y(v->point(),
-			      curr->source()->point())==LARGER)
+	if (traits->compare_xy(v->point(),
+			       curr->source()->point())==LARGER)
 	  //debug
 	  //{ std::cout << "vertical up = " << curr->curve() << std::endl;
 					
@@ -455,8 +429,8 @@ protected:
 				
 				//}//enddebug
 				
-	if (traits->compare_y(v->point(),
-			      curr->source()->point())==SMALLER)
+	if (traits->compare_xy(v->point(),
+			       curr->source()->point())==SMALLER)
 	  //debug
 	  //{ std::cout << "vertical down = " << curr->curve() << std::endl;
 					

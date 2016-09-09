@@ -1,48 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997,1998,1999,2000,2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997,1998,1999,2000,2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/IO/Geomview_stream.h
-// package       : Geomview (3.32)
-// revision      : $Revision: 1.43 $
-// revision_date : $Date: 2001/09/22 10:13:18 $
-// author(s)     : Andreas Fabri, Sylvain Pion
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
+// $Source: /CVSROOT/CGAL/Packages/Geomview/include/CGAL/IO/Geomview_stream.h,v $
+// $Revision: 1.50 $ $Date: 2003/10/21 12:16:04 $
+// $Name: current_submission $
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Andreas Fabri, Sylvain Pion
 
 #ifndef CGAL_GEOMVIEW_STREAM_H
 #define CGAL_GEOMVIEW_STREAM_H
@@ -51,9 +28,14 @@
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Bbox_3.h>
 #include <CGAL/IO/Color.h>
+#include <CGAL/IO/Ostream_iterator.h>
 
 #include <map>
+#include <vector>
+#include <utility>
 #include <string>
+#include <iterator>
+#include <algorithm>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -66,9 +48,16 @@ public:
     ~Geomview_stream();
 
     Geomview_stream &operator<<(const Color &c);
-    Geomview_stream &operator<<(std::string s);
+    Geomview_stream &operator<<(const std::string & s);
     Geomview_stream &operator<<(int i);
+    Geomview_stream &operator<<(unsigned int i);
+    Geomview_stream &operator<<(long i);
+    Geomview_stream &operator<<(unsigned long i);
     Geomview_stream &operator<<(double d);
+
+    template < class InputIterator >
+    void
+    draw_triangles(InputIterator begin, InputIterator end);
 
     Geomview_stream &operator>>(char *expr);
 
@@ -168,6 +157,11 @@ public:
             std::cerr << d << ' ';
     }
     void trace(int i) const
+    {
+        if (get_trace())
+            std::cerr << i << ' ';
+    }
+    void trace(unsigned int i) const
     {
         if (get_trace())
             std::cerr << i << ' ';
@@ -343,6 +337,59 @@ output_triangle(Geomview_stream &gv, const Triangle &triangle)
     gv << 3 << 0 << 1 << 2 << 4 << gv.fcr() << gv.fcg() << gv.fcb() << 1.0
        << "}})";
     gv.set_ascii_mode(ascii_bak);
+}
+
+// Draws a set of triangles as OFF format (it's faster than one by one).
+template < class InputIterator >
+void
+Geomview_stream::draw_triangles(InputIterator begin, InputIterator end)
+{
+    typedef typename std::iterator_traits<InputIterator>::value_type  Triangle;
+    typedef typename Kernel_traits<Triangle>::Kernel                  Kernel;
+    typedef typename Kernel::Point_3                                  Point;
+    typedef typename Kernel::Less_xyz_3                               Comp;
+
+    // We first copy everything in a vector to only require an InputIterator.
+    std::vector<Triangle> triangles(begin, end);
+    typedef typename std::vector<Triangle>::const_iterator            Tit;
+
+    // Put the points in a map and a vector.
+    // The index of a point in the vector is the value associated
+    // to it in the map.
+    typedef std::map<Point, int, Comp>  Point_map;
+    Point_map           point_map(Kernel().less_xyz_3_object());
+    std::vector<Point>  points;
+    for (Tit i = triangles.begin(); i != triangles.end(); ++i)
+        for (int j = 0; j < 3; ++j)
+	    if (point_map.insert(typename Point_map::value_type(i->vertex(j),
+					        points.size())).second)
+                points.push_back(i->vertex(j));
+
+    bool ascii_bak = get_ascii_mode();
+    bool raw_bak = set_raw(true);
+
+    // Header.
+    set_binary_mode();
+    (*this) << "(geometry " << get_new_id("triangles")
+            << " {appearance {}{ OFF BINARY\n"
+            << points.size() << triangles.size() << 0;
+
+    // Points coordinates.
+    std::copy(points.begin(), points.end(),
+              Ostream_iterator<Point, Geomview_stream>(*this));
+
+    // Triangles vertices indices.
+    for (Tit tit = triangles.begin(); tit != triangles.end(); ++tit) {
+        (*this) << 3;
+	for (int j = 0; j < 3; ++j)
+	    (*this) << point_map[tit->vertex(j)];
+        (*this) << 0; // without color.
+    }
+    // Footer.
+    (*this) << "}})";
+
+    set_raw(raw_bak);
+    set_ascii_mode(ascii_bak);
 }
 
 #if defined CGAL_TRIANGLE_2_H && \

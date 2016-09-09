@@ -1,57 +1,32 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Kernel_d/Matrix__.h
-// package       : Kernel_d (0.9.68)
-// chapter       : Kernel
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2002/03/18 20:33:58 $
+// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Matrix__.h,v $
+// $Revision: 1.10 $ $Date: 2003/10/21 12:19:25 $
+// $Name: current_submission $
 //
-// author(s)     : Michael Seel
-// coordinator   : Susan Hert
-//
-// implementation: Higher dimensional geometry
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
 #ifndef CGAL_MATRIX___H
 #define CGAL_MATRIX___H
 
 #include <CGAL/Kernel_d/Vector__.h>
 #include <new>
+#include <cstddef>                 // for std::size_t, std::ptrdiff_t
 
 namespace CGALLA {
 
@@ -185,13 +160,10 @@ vector_pointer* v_; int dm_,dn_;
 
 NT& elem(int i, int j) const { return v_[i]->v_[j]; }
 
-#ifndef CGAL_SIMPLE_INTERFACE
 typedef typename AL_::template rebind<vector_pointer>::other 
         allocator_type;
 static allocator_type MM;
-#endif
 
-#ifndef CGAL_SIMPLE_INTERFACE
 inline void allocate_mat_space(vector_pointer*& vi, int d)
 {
   /* We use this procedure to allocate memory. We use our allocator
@@ -212,16 +184,6 @@ inline void deallocate_mat_space(vector_pointer*& vi, int d)
   MM.deallocate(vi,d);
   vi = (vector_pointer*)0;
 }
-
-#else
-
-inline void allocate_mat_space(vector_pointer*& vi, int d)
-{ vi = new vector_pointer[d]; }
-
-inline void deallocate_mat_space(vector_pointer*& vi, int)
-{ delete[] vi; vi = (vector_pointer*)0; }
-
-#endif
 
 inline void check_dimensions(const Matrix_<NT_,AL_>& mat) const
 { 
@@ -276,8 +238,6 @@ void range_initialize(RAIterator first, RAIterator last,
     v_ = (Vector**)0; 
 }
 
-#ifndef CGAL_SIMPLE_INTERFACE
-
 template <class InputIterator>
 void range_initialize(InputIterator first, InputIterator last, 
                  std::forward_iterator_tag) 
@@ -300,8 +260,6 @@ requirements.}*/
 { typedef typename std::iterator_traits<Forward_iterator>::iterator_category 
     iterator_category;
   range_initialize(first,last,iterator_category()); }
-
-#endif
 
 Matrix_(const std::vector< Vector >& A) 
 /*{\Mcreate creates an instance |\Mvar| of type |\Mname|. Let $A$ be
@@ -344,14 +302,7 @@ Vector& row(int i) const
 Vector column(int i) const 
 /*{\Mop returns the $i$-th column of |\Mvar| (an $n$ - vector).\\
 \precond  $0 \le i \le n - 1$. }*/
-#ifndef CGAL_SIMPLE_INTERFACE
 { return Vector(column_begin(i),column_end(i)); }
-#else
-{ Vector result(row_dimension()); 
-  for (int j=0; j<row_dimension(); ++j)
-    result[j] = elem(j,i); 
-  return result; }
-#endif
 
 Vector to_vector() const 
 { 
@@ -622,6 +573,9 @@ template <class NT_, class AL_>
 Matrix_<NT_,AL_>& Matrix_<NT_,AL_>::
 operator=(const Matrix_<NT_,AL_>& mat)
 { 
+  if (&mat == this)
+    return *this;
+
   register int i,j; 
   if (dm_ != mat.dm_ || dn_ != mat.dn_) { 
     for(i=0; i<dm_; i++) delete v_[i]; 
@@ -790,20 +744,41 @@ std::ostream&  operator<<(std::ostream& os, const Matrix_<NT_,AL_>& M)
                   d2-times
              x_d2-1,0 ... x_d2-1,d1-1 */
 
-  CGAL::print_d<NT_> prt(&os);
-  if (os.iword(CGAL::IO::mode)==CGAL::IO::PRETTY) os << "LA::Matrix(";
-  prt(M.row_dimension());
-  prt(M.column_dimension());
-  if (os.iword(CGAL::IO::mode)==CGAL::IO::PRETTY) 
-  { os << " [\n"; prt.reset(); }
-  for (register int i=0; i<M.row_dimension(); i++) {
-    std::for_each(M.row(i).begin(),M.row(i).end(),prt);
-    if (i != M.row_dimension() && 
-	os.iword(CGAL::IO::mode)==CGAL::IO::PRETTY) 
-    { prt.reset(); os << ",\n";}
-  }
-  if (os.iword(CGAL::IO::mode)==CGAL::IO::PRETTY) os << "])";
-  return os;
+    int d = M.row_dimension();
+    int k = M.column_dimension();
+    switch (os.iword(CGAL::IO::mode)) {
+    case CGAL::IO::BINARY:
+        CGAL::write( os, d);
+        CGAL::write( os, k);
+        for ( int i = 0; i < d; ++i) {
+            for ( register int j = 0; j < k; ++j) {
+                CGAL::write( os, M[i][j]);
+            }
+        }
+        break;
+    case CGAL::IO::ASCII:
+        os << d << ' ' << k;
+        for ( int i = 0; i < d; ++i) {
+            for ( register int j = 0; j < k; ++j) {
+                os << ' ' << M[i][j];
+            }
+        }
+        break;
+    case CGAL::IO::PRETTY:
+        os << "LA::Matrix((" << d << ", " << k << " [";
+        for ( int i = 0; i < d; ++i) {
+            for ( register int j = 0; j < k; ++j) {
+                if ( j != 0)
+                    os << ',' << ' ';
+                os << M[i][j];
+            }
+            if ( i != d)
+                os << ",\n";
+        }
+        os << "])";
+        break;
+    }
+    return os;
 }
 
 template <class NT_, class AL_> 
@@ -835,10 +810,8 @@ std::istream&  operator>>(std::istream& is, Matrix_<NT_,AL_>& M)
   return is;
 }
 
-#ifndef CGAL_SIMPLE_INTERFACE
 template <class NT_, class AL_>
 typename Matrix_<NT_,AL_>::allocator_type Matrix_<NT_,AL_>::MM;
-#endif
 
 
 /*{\Ximplementation 

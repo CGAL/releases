@@ -1,52 +1,58 @@
-// ======================================================================
+// Copyright (c) 2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2000 The CGAL Consortium
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
+//
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+//
+// $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/Vertex_visibility_graph_2.h,v $
+// $Revision: 1.18 $ $Date: 2003/09/18 10:24:25 $
+// $Name: current_submission $
+//
+// Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Vertex_visibility_graph_2.h
-// package       : Partition_2 (1.38)
-// chapter       : Planar Polygon Partitioning
-//
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 2002/04/24 11:24:34 $
-//
-// author(s)     : Susan Hert
-//
-// coordinator   : MPI (Susan Hert)
-//
-// implementation: Polygon vertex visibility graph
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+/*
+    Provides an implementation of the algorithm of Overmars and Welzl
+    for computing the visibility graph of a set of non-intersecting
+    line segments in the plane.  
+
+     @inproceedings{ow-nmcvg-88
+     , author =      "M. H. Overmars and Emo Welzl"
+     , title =       "New methods for computing visibility graphs"
+     , booktitle =   "Proc. 4th Annu. ACM Sympos. Comput. Geom."
+     , year =        1988
+     , pages =       "164--171"
+    }
+
+    The running time is $O(n^2)$ with linear space requirements.
+
+    The algorithm implemented uses a sweep-line technique to construct the
+    visibility graph.  The sweep data structure is a rotation tree, implemented
+    in the class CGAL::Rotation_tree_2.
+
+    A direction vector $d$ is swept from $-\pi/2$ to $\pi/2$,
+    and the sweep data structure, and whenever the direction of this vector
+    coincides with the slope of an edge in the rotation tree, the tree $G$
+    is updated and edges of the visibility graph are reported.  To accomplish
+    the updates, it is necessary to keep track of all the leaves that are
+    leftmost children of their parents.  In particular, one needs to know the
+    rightmost of these leftmost children.
+    
+    Two data structures are needed for the implementation of the algorithm:
+    the sweep data structure $G$, and a stack $S$ that contains all the
+    leaves in $G$ that are the leftmost children of their parents.  
+
+    TODO:
+      --is_valid function is not complete
+      --??? would a list of list of sorted vertices be a better representation?
+
+ */
 
 #ifndef  CGAL_VERTEX_VISIBILITY_GRAPH_2_H
 #define  CGAL_VERTEX_VISIBILITY_GRAPH_2_H
@@ -73,11 +79,12 @@ template <class Traits>
 class Vertex_visibility_graph_2 
 {
 private:
+   typedef Vertex_visibility_graph_2<Traits>  Self;
    typedef typename Traits::Point_2           Point_2;
    typedef typename Traits::Segment_2         Segment_2;
    typedef typename Traits::Ray_2             Ray_2;
    typedef typename Traits::Object_2          Object_2;
-   typedef typename Traits::Leftturn_2        Leftturn_2;
+   typedef typename Traits::Left_turn_2        Left_turn_2;
    typedef typename Traits::Less_xy_2         Less_xy_2;
    typedef typename Traits::Orientation_2     Orientation_2;
    typedef typename Traits::Collinear_are_ordered_along_line_2 
@@ -115,6 +122,15 @@ public:
    typedef typename Edge_set::iterator                iterator;
    typedef typename Edge_set::const_iterator          const_iterator;
 
+
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+  static Indirect_less_xy_2<Traits> indirect_less_xy_2;
+  static bool compare(const Polygon_const_iterator& pit1, const Polygon_const_iterator& pit2)
+  {
+    return indirect_less_xy_2(pit1, pit2);
+  }
+#endif
+
    Vertex_visibility_graph_2()  {}
 
    //
@@ -122,7 +138,7 @@ public:
    //
    template <class ForwardIterator>
    Vertex_visibility_graph_2(ForwardIterator first, ForwardIterator beyond):
-     leftturn_2(Traits().leftturn_2_object()), 
+     left_turn_2(Traits().left_turn_2_object()), 
      orientation_2(Traits().orientation_2_object()), 
      collinear_ordered_2(Traits().collinear_are_ordered_along_line_2_object()),
      are_strictly_ordered_along_line_2(
@@ -140,7 +156,15 @@ public:
    template <class ForwardIterator>
    void build(ForwardIterator first, ForwardIterator beyond)
    {
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+      Polygon         polygon;
+
+      for(ForwardIterator fit = first; fit != beyond; fit++){
+	polygon.push_back(*fit);
+      }
+#else
       Polygon         polygon(first,beyond);
+#endif
       Tree            tree(polygon.begin(), polygon.end());
    
       Vertex_map  vertex_map;
@@ -207,10 +231,10 @@ public:
          {
             // NOTE: no need to check here if z is p_infinity since you are
             // moving DOWN the tree instead of up and p_infinity is at the root
-            Turn_reverser<Point_2, Leftturn_2> rightturn(leftturn_2);
+            Turn_reverser<Point_2, Left_turn_2> right_turn(left_turn_2);
 
             while ((tree.rightmost_child(z) != tree.end()) &&
-                   !rightturn(*p,*tree.rightmost_child(z),*z))
+                   !right_turn(*p,*tree.rightmost_child(z),*z))
             {
                z = tree.rightmost_child(z);
 #ifdef CGAL_VISIBILITY_GRAPH_DEBUG
@@ -286,6 +310,7 @@ public:
          return edges.find(Point_pair(edge.second, edge.first)) != edges.end();
    }
 
+#if 0
 // ??? need to finish this ???
    template <class ForwardIterator>
    bool is_valid(ForwardIterator first, ForwardIterator beyond)
@@ -308,6 +333,7 @@ public:
       //
       // ??? how do you check if there are missing edges ???
    }
+#endif
 
 
 private:
@@ -400,7 +426,7 @@ private:
                Vertex_map& vertex_map);
 
 private:
-   Leftturn_2                            leftturn_2;
+   Left_turn_2                            left_turn_2;
    Orientation_2                         orientation_2;
    Collinear_are_ordered_along_line_2    collinear_ordered_2;
    Are_strictly_ordered_along_line_2     are_strictly_ordered_along_line_2;
@@ -412,6 +438,12 @@ private:
    Edge_set                              edges;
 };
 
+
+#ifdef CGAL_CFG_RWSTD_NO_MEMBER_TEMPLATES
+template <class Traits>
+Indirect_less_xy_2<Traits>
+Vertex_visibility_graph_2<Traits>::indirect_less_xy_2; 
+#endif
 }
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION

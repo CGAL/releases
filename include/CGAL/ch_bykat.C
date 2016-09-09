@@ -1,47 +1,21 @@
-// ======================================================================
+// Copyright (c) 1999  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/ch_bykat.C,v $
+// $Revision: 1.9 $ $Date: 2003/09/18 10:20:22 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/ch_bykat.C
-// package       : Convex_hull_2 (3.34)
-// source        : convex_hull_2.lw
-// revision      : 3.3
-// revision_date : 03 Aug 2000
-// author(s)     : Stefan Schirra
-//
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Stefan Schirra
 
 
 #ifndef CGAL_CH_BYKAT_C
@@ -71,8 +45,13 @@ ch_bykat(InputIterator first, InputIterator last,
               const Traits& ch_traits)
 {
   typedef typename Traits::Point_2                         Point_2;
-  typedef typename Traits::Leftturn_2                      Leftturn_2;
+  typedef typename Traits::Left_turn_2                     Left_turn_2;
   typedef typename Traits::Less_signed_distance_to_line_2  Less_dist;
+  typedef typename Traits::Equal_2                         Equal_2; 
+  
+  Left_turn_2 left_turn    = ch_traits.left_turn_2_object();
+  Less_dist   less_dist    = ch_traits.less_signed_distance_to_line_2_object();
+  Equal_2     equal_points = ch_traits.equal_2_object();         
 
   if (first == last) return result;
 
@@ -94,7 +73,7 @@ ch_bykat(InputIterator first, InputIterator last,
   ch_we_point(P.begin(), P.end(), l, r, ch_traits);
   a = *l;
   b = *r;
-  if ( a == b) 
+  if (equal_points(a,b)) 
   {
       *result = a;  ++result;
       return result;
@@ -107,12 +86,10 @@ ch_bykat(InputIterator first, InputIterator last,
   #endif // no postconditions ...
   H.push_back( a );
   L.push_back( P.begin() );
-  Leftturn_2 left_turn = ch_traits.leftturn_2_object();
   R.push_back( l = std::partition( P.begin(), P.end(), 
                                    bind_1(bind_1(left_turn,a),b) ) );
   r = std::partition( l, P.end(), bind_1(bind_1(left_turn,b),a) );
   
-  Less_dist less_dist = ch_traits.less_signed_distance_to_line_2_object();
   for (;;)
   {
       if ( l != r)
@@ -160,11 +137,14 @@ ch_bykat_with_threshold(InputIterator   first, InputIterator last,
                              const Traits&   ch_traits)
 {
   typedef typename Traits::Point_2               Point_2;
-  typedef typename Traits::Leftturn_2            Leftturn_2;
+  typedef typename Traits::Left_turn_2            Left_turn_2;
   typedef typename Traits::Less_signed_distance_to_line_2     
                                                  Less_dist;
   typedef typename std::vector< Point_2 >::iterator   
                                                  PointIterator;
+  typedef typename Traits::Equal_2                         Equal_2; 
+  
+  Equal_2     equal_points = ch_traits.equal_2_object();         
 
   if (first == last) return result;
 
@@ -189,7 +169,7 @@ ch_bykat_with_threshold(InputIterator   first, InputIterator last,
   ch_we_point(Pbegin, Pend, l, r, ch_traits);
   a = *l;
   b = *r;
-  if ( a == b) 
+  if (equal_points(a,b)) 
   {
       *result = a;  ++result;
       return result;
@@ -202,7 +182,7 @@ ch_bykat_with_threshold(InputIterator   first, InputIterator last,
   #endif // no postconditions ...
   H.push_back( a );
   L.push_back( Pbegin );
-  Leftturn_2 left_turn = ch_traits.leftturn_2_object();
+  Left_turn_2 left_turn = ch_traits.left_turn_2_object();
   R.push_back( l = std::partition( Pbegin, Pend, 
                                    bind_1(bind_1(left_turn, a), b) ) );
   r = std::partition( l, Pend, bind_1(bind_1(left_turn,b),a) );

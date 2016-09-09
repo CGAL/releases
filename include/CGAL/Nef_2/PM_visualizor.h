@@ -1,51 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/PM_visualizor.h,v $
+// $Revision: 1.6 $ $Date: 2003/09/18 10:23:31 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Nef_2/PM_visualizor.h
-// package       : Nef_2 (1.18)
-// chapter       : Nef Polyhedra
-//
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2001/11/07 16:30:57 $
-//
-// author(s)     : Michael Seel
-// coordinator   : Michael Seel
-//
-// implementation: LEDA drawer
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
 #ifndef PM_VISUALIZOR_H
 #define PM_VISUALIZOR_H
@@ -58,7 +28,6 @@
 #define leda_color CGAL::color
 #endif
 
-#define USING(t) typedef typename PMCDEC::t t
 #define LGREY CGAL::Color(190,190,190)
 #define DGREY CGAL::Color(130,130,130)
 CGAL_BEGIN_NAMESPACE
@@ -66,10 +35,10 @@ CGAL_BEGIN_NAMESPACE
 template <typename PMCDEC>
 class PM_BooleColor 
 {
-  USING(Vertex_const_handle);   
-  USING(Halfedge_const_handle); 
-  USING(Face_const_handle);
-  USING(Mark);
+  typedef typename PMCDEC::Vertex_const_handle Vertex_const_handle;   
+  typedef typename PMCDEC::Halfedge_const_handle Halfedge_const_handle; 
+  typedef typename PMCDEC::Face_const_handle Face_const_handle;
+  typedef typename PMCDEC::Mark Mark;
 public:
   Color color(Vertex_const_handle, const Mark& m) const
   { return ( m ? CGAL::BLACK : LGREY ); }
@@ -95,10 +64,11 @@ public:
   PM_DefColor(CGAL::Color cs, CGAL::Color cf, int wv, int we) : 
     _cs(cs), _cf(cf), _wv(wv), _we(we) {}
 
-  USING(Vertex_const_handle);   
-  USING(Halfedge_const_handle); 
-  USING(Face_const_handle);
-  USING(Mark);
+  typedef typename PMCDEC::Vertex_const_handle Vertex_const_handle;   
+  typedef typename PMCDEC::Halfedge_const_handle Halfedge_const_handle; 
+  typedef typename PMCDEC::Face_const_handle Face_const_handle;
+  typedef typename PMCDEC::Mark Mark;
+
   Color color(Vertex_const_handle, const Mark&) const
   { return _cs; }
   int width(Vertex_const_handle, const Mark&) const
@@ -136,19 +106,22 @@ public:
   typedef PM_visualizor<PMCDEC,GEOM,COLORDA> Self;
   typedef PMCDEC Base;
 
-  USING(Plane_map);
-  USING(Vertex_const_handle);   
-  USING(Halfedge_const_handle); 
-  USING(Face_const_handle);     
-  USING(Vertex_const_iterator);
-  USING(Halfedge_const_iterator);
-  USING(Face_const_iterator);
-  USING(Halfedge_around_face_const_circulator);
-  USING(Halfedge_around_vertex_const_circulator);
-  USING(Hole_const_iterator);
-  USING(Isolated_vertex_const_iterator);
-  USING(Point);
-  USING(Mark);
+  typedef typename PMCDEC::Plane_map Plane_map;
+  typedef typename PMCDEC::Vertex_const_handle Vertex_const_handle;   
+  typedef typename PMCDEC::Halfedge_const_handle Halfedge_const_handle; 
+  typedef typename PMCDEC::Face_const_handle Face_const_handle;     
+  typedef typename PMCDEC::Vertex_const_iterator Vertex_const_iterator;
+  typedef typename PMCDEC::Halfedge_const_iterator Halfedge_const_iterator;
+  typedef typename PMCDEC::Face_const_iterator Face_const_iterator;
+  typedef typename PMCDEC::Halfedge_around_face_const_circulator 
+    Halfedge_around_face_const_circulator;
+  typedef typename PMCDEC::Halfedge_around_vertex_const_circulator 
+    Halfedge_around_vertex_const_circulator;
+  typedef typename PMCDEC::Hole_const_iterator Hole_const_iterator;
+  typedef typename PMCDEC::Isolated_vertex_const_iterator 
+    Isolated_vertex_const_iterator;
+  typedef typename PMCDEC::Point Point;
+  typedef typename PMCDEC::Mark Mark;
   typedef typename GEOM::Segment_2 Segment;
   typedef CGAL::Cartesian<double>::Point_2 Draw_point;
 

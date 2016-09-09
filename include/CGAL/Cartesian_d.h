@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2000,2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000,2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian_d.h
-// package       : Kernel_d (0.9.68)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2002/04/17 15:58:14 $
-// author(s)     : Michael Seel
-// coordinator   : MPI Saarbruecken
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Cartesian_d.h,v $
+// $Revision: 1.18 $ $Date: 2003/10/21 12:19:08 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Michael Seel
 
 #ifndef CARTESIAN_D_H
 #define CARTESIAN_D_H
@@ -49,7 +27,7 @@
 #ifndef NOCGALINCL
 #include <CGAL/basic.h>
 #include <CGAL/representation_tags.h>
-#include <CGAL/Kernel/function_objects.h>
+#include <CGAL/Kernel_d/function_objects.h>
 #include <CGAL/Linear_algebraCd.h>
 #include <vector>
 #endif
@@ -94,8 +72,44 @@ public:
   typedef CGAL::Hyperplane_d<Self>         Hyperplane_d;
   typedef CGAL::Aff_transformation_d<Self> Aff_transformation_d;
 
+  typedef typename Point_d_base::Cartesian_const_iterator Cartesian_const_iterator_d;
+
+  template <typename K>
+  class Construct_Cartesian_const_iterator
+  {    
+    typedef typename K::Point_d Point_d;
+    typedef typename K::Cartesian_const_iterator_d  Cartesian_const_iterator_d;
+
+  public:
+    typedef Cartesian_const_iterator_d result_type;
+    typedef Arity_tag< 1> Arity;
+
+    Cartesian_const_iterator_d
+    operator()(const Point_d& p) const
+    {
+      return p.cartesian_begin();
+    }
+    
+    Cartesian_const_iterator_d
+    operator()( const Point_d& p, int) const
+    {
+      return p.cartesian_end();
+    }
+  };
+
+
+    typedef Construct_Cartesian_const_iterator<Self> 
+                           Construct_Cartesian_const_iterator_d;
+
+  Construct_Cartesian_const_iterator_d
+  construct_Cartesian_const_iterator_d_object() const
+  {
+    return Construct_Cartesian_const_iterator_d();
+  }
+
   // meta types (fit both kernels):
   typedef CGAL::Sphere_d<Self>   Sphere_d;
+  typedef CGAL::Iso_box_d<Self>  Iso_box_d;
   typedef CGAL::Segment_d<Self>  Segment_d;
   typedef CGAL::Ray_d<Self>      Ray_d;
   typedef CGAL::Line_d<Self>     Line_d;
@@ -308,6 +322,7 @@ CGAL_END_NAMESPACE
 #include <CGAL/Kernel_d/Hyperplane_d.h>
 #include <CGAL/Kernel_d/Aff_transformation_d.h>
 #include <CGAL/Kernel_d/Sphere_d.h>
+#include <CGAL/Kernel_d/Iso_box_d.h>
 #include <CGAL/Kernel_d/Segment_d.h>
 #include <CGAL/Kernel_d/Ray_d.h>
 #include <CGAL/Kernel_d/Line_d.h>

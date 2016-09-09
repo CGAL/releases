@@ -1,58 +1,36 @@
-// ======================================================================
-//
-// Copyright (c) 1999 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1999  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
-// 
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-// 
-// file          : include/CGAL/Homogeneous/SegmentH2.h
-// package       : H2 (2.67)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2002/02/06 12:34:07 $
-// author(s)     : Stefan Schirra
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// ======================================================================
+// $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/SegmentH2.h,v $
+// $Revision: 1.12 $ $Date: 2003/10/21 12:16:11 $
+// $Name: current_submission $
+//
+// Author(s)     : Stefan Schirra
  
-
 #ifndef CGAL_SEGMENTH2_H
 #define CGAL_SEGMENTH2_H
+
+#include <CGAL/Twotuple.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
 class SegmentH2
-  : public R_::Segment_handle_2
+  : public R_::template Handle<Twotuple<typename R_::Point_2> >::type
 {
 CGAL_VC7_BUG_PROTECTED
   typedef typename R_::FT                   FT;
@@ -60,25 +38,25 @@ CGAL_VC7_BUG_PROTECTED
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Line_2               Line_2;
   typedef typename R_::Direction_2          Direction_2;
+  typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
-  typedef typename R_::Segment_handle_2            Segment_handle_2_;
-  typedef typename Segment_handle_2_::element_type Segment_ref_2;
+  typedef Twotuple<Point_2>                        rep;
+  typedef typename R_::template Handle<rep>::type  base;
 
 public:
   typedef R_                                    R;
 
-    SegmentH2()
-      : Segment_handle_2_(Segment_ref_2()) {}
+    SegmentH2() {}
 
     SegmentH2( const Point_2& sp, const Point_2& ep)
-      : Segment_handle_2_(Segment_ref_2(sp, ep)) {}
+      : base(rep(sp, ep)) {}
 
 #if 1 // FIXME : should this exist at all ?
     SegmentH2( const RT& sx, const RT& sy, const RT& sw,
                const RT& ex, const RT& ey, const RT& ew)
-      : Segment_handle_2_( Segment_ref_2( Point_2(sx,sy,sw),
-                                          Point_2(ex,ey,ew) ) ) {}
+      : base( rep( Point_2(sx,sy,sw),
+                   Point_2(ex,ey,ew) ) ) {}
 #endif
 
     bool    operator==(const SegmentH2<R>& s) const;
@@ -104,16 +82,13 @@ public:
     FT      squared_length() const;
 
     Direction_2    direction() const;
+    Vector_2       to_vector() const;
     Line_2         supporting_line() const;
     SegmentH2<R>   opposite() const;
     Bbox_2         bbox() const;
 
     SegmentH2<R> transform( const Aff_transformation_2 & t) const;
 };
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#define typename
-#endif
 
 template < class R >
 inline
@@ -191,6 +166,15 @@ CGAL_KERNEL_INLINE
 typename SegmentH2<R>::FT
 SegmentH2<R>::squared_length() const
 { return  (end() - start()) * (end() - start()); }
+
+template < class R >
+CGAL_KERNEL_INLINE
+typename SegmentH2<R>::Vector_2
+SegmentH2<R>::to_vector() const
+{
+  CGAL_kernel_precondition( !is_degenerate() );
+  return end() - start();
+}
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -320,10 +304,6 @@ inline
 bool
 SegmentH2<R>::operator!=(const SegmentH2<R>& s) const
 { return ( !operator==(s) ); }
-
-#ifdef CGAL_CFG_TYPENAME_BUG
-#undef typename
-#endif
 
 CGAL_END_NAMESPACE
 

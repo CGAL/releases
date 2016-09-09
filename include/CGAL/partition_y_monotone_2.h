@@ -1,52 +1,21 @@
-// ======================================================================
+// Copyright (c) 2000  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/partition_y_monotone_2.h,v $
+// $Revision: 1.17 $ $Date: 2003/09/18 10:24:28 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/partition_y_monotone_2.h
-// package       : Partition_2 (1.38)
-// chapter       : Planar Polygon Partitioning
-//
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 2002/04/24 11:24:35 $
-//
-// author(s)     : Susan Hert
-//
-// coordinator   : MPI (Susan Hert)
-//
-// implementation: Y-monotone polygon partitioning
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
 //
 // Implementaion of the algorithm from pp 49--55 of "Computational Geometry 
@@ -69,7 +38,6 @@
 #ifndef CGAL_PARTITION_Y_MONOTONE_H
 #define CGAL_PARTITION_Y_MONOTONE_H
 
-#include <CGAL/Circulator_list.h>
 #include <CGAL/Indirect_not_less_yx_2.h>
 #include <CGAL/Indirect_edge_compare.h>
 #include <CGAL/Segment_2_Ray_2_intersection.h>
@@ -115,12 +83,12 @@ Partition_y_mono_vertex_type partition_y_mono_vertex_type(
       return PARTITION_Y_MONO_COLLINEAR_VERTEX;
 
    typename Traits::Less_yx_2   less_yx = traits.less_yx_2_object();
-   typename Traits::Leftturn_2  leftturn = traits.leftturn_2_object();
+   typename Traits::Left_turn_2  left_turn = traits.left_turn_2_object();
 
    if (less_yx(*previous, *c)) 
    {
       if (less_yx(*next, *c))                // previous and next both less_yx
-         if (leftturn(*previous, *c, *next)) // interior angle less than pi
+         if (left_turn(*previous, *c, *next)) // interior angle less than pi
              return PARTITION_Y_MONO_START_VERTEX;
          else                                // interior angle greater than pi
              return PARTITION_Y_MONO_SPLIT_VERTEX;
@@ -130,7 +98,7 @@ Partition_y_mono_vertex_type partition_y_mono_vertex_type(
    else 
    {
       if (less_yx(*c, *next))           // previous and next both not less_yx
-        if (leftturn(*previous, *c, *next)) // interior angle less than pi
+        if (left_turn(*previous, *c, *next)) // interior angle less than pi
            return PARTITION_Y_MONO_END_VERTEX; 
         else                                // interior angle greater than pi
            return PARTITION_Y_MONO_MERGE_VERTEX;
@@ -465,20 +433,29 @@ OutputIterator partition_y_monotone_2(InputIterator first,
    CGAL_partition_precondition(
     orientation_2(polygon.begin(), polygon.end(), traits) == COUNTERCLOCKWISE);
 
-   Circulator first_c(polygon.begin(), polygon.end());
-   Circulator_list<Circulator>  circ_list(first_c);
-   circ_list.sort(Indirect_not_less_yx_2<Traits>(traits));
+   Circulator circ(polygon.begin(), polygon.end()), done = circ;
+   std::vector<Circulator>  circulators;
+   CGAL_For_all(circ, done){
+     circulators.push_back(circ);
+   }
+   std::sort(circulators.begin(), circulators.end(), Indirect_not_less_yx_2<Traits>(traits));
 
 #ifdef CGAL_PARTITION_Y_MONOTONE_DEBUG
-   std::cout << "Initial vertex list: "<< circ_list << std::endl;
+   std::cout << "Initial vertex list: "<< circulators << std::endl;
+   for(std::vector<Circulator>::const_iterator it = circulators.begin();
+       it != circulators.end();
+       it++){
+     std::cout << **it << " " ; 
+   }
+   std::cout << std::endl;
 #endif
 
    typedef std::map<Circulator, Circulator, 
                     Indirect_edge_compare<Circulator, Traits> > Tree;
    Tree tree;
 
-   typename Circulator_list<Circulator>::iterator it = circ_list.begin();
-   for (; it != circ_list.end(); it++) {
+   typename std::vector<Circulator>::iterator it = circulators.begin();
+   for (; it != circulators.end(); it++) {
       switch (partition_y_mono_vertex_type(*it, traits)) 
       {
          case PARTITION_Y_MONO_START_VERTEX:

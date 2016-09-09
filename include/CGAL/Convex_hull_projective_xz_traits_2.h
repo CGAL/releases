@@ -1,46 +1,21 @@
-// ======================================================================
+// Copyright (c) 2001  Max-Planck-Institute Saarbrucken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/Convex_hull_projective_xz_traits_2.h,v $
+// $Revision: 1.8 $ $Date: 2003/09/18 10:20:20 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Convex_hull_projective_xz_traits_2.h
-// package       : Convex_hull_2 (3.34)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2001/07/20 09:21:19 $
-// author(s)     : Susan Hert
-//
-// coordinator   : MPI, Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Susan Hert
 
 #ifndef CONVEX_HULL_PROJECTIVE_XZ_TRAITS_2_H
 #define CONVEX_HULL_PROJECTIVE_XZ_TRAITS_2_H
@@ -64,6 +39,21 @@ public:
    { 
       return 
         compare_lexicographically_xyC2(p.x(), p.z(), q.x(), q.z()) == SMALLER;
+   }
+};
+
+template <class Point_3>
+class Equal_xy_plane_xz_2 
+{
+public:
+   typedef bool           result_type;
+   typedef Arity_tag<2>   Arity;
+
+   bool 
+   operator()(const Point_3& p, const Point_3& q) const
+   { 
+      return 
+        compare_lexicographically_xyC2(p.x(), p.z(), q.x(), q.z()) == EQUAL;
    }
 };
 
@@ -92,7 +82,8 @@ public:
    bool 
    operator()(const Point_3& p, const Point_3& q, const Point_3& r) const
    { 
-    return orientationC2(p.x(), p.z(), q.x(), q.z(), r.x(), r.z()) == LEFTTURN;
+    return orientationC2(p.x(), p.z(), q.x(), q.z(), r.x(), r.z()) 
+                                                          == LEFT_TURN;
    }
 };
 
@@ -135,9 +126,9 @@ public:
    {
       Orientation orient =
                orientationC2(r.x(), r.z(), p.x(), p.z(), q.x(), q.z());
-      if ( orient ==  LEFTTURN )
+      if ( orient ==  LEFT_TURN )
          return true;
-      else if ( orient == RIGHTTURN )
+      else if ( orient == RIGHT_TURN )
          return false;
       else
       {
@@ -160,23 +151,27 @@ class Convex_hull_projective_xz_traits_2
 public:
     typedef Point_3                             Point_2;
     typedef Less_xy_plane_xz_2<Point_3>         Less_xy_2;
+    typedef Equal_xy_plane_xz_2<Point_3>        Equal_2;    
     typedef Less_yx_plane_xz_2<Point_3>         Less_yx_2;
-    typedef Left_turn_plane_xz_2<Point_3>       Leftturn_2;
+    typedef Left_turn_plane_xz_2<Point_3>       Left_turn_2;
     typedef Less_rotate_ccw_plane_xz_2<Point_3> Less_rotate_ccw_2;
     typedef Less_dist_to_line_plane_xz_2<Point_3> 
                                                 Less_signed_distance_to_line_2;
-
     Less_xy_2
     less_xy_2_object() const
     {  return Less_xy_2(); }
+    
+    Equal_2
+    equal_2_object() const
+    {  return Equal_2(); }    
 
     Less_yx_2
     less_yx_2_object() const
     {  return Less_yx_2(); }
 
-    Leftturn_2
-    leftturn_2_object() const
-    {  return Leftturn_2(); }
+    Left_turn_2
+    left_turn_2_object() const
+    {  return Left_turn_2(); }
 
     Less_rotate_ccw_2
     less_rotate_ccw_2_object() const

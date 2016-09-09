@@ -1,49 +1,22 @@
-// ======================================================================
+// Copyright (c) 1999   INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1999  The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Regular_triangulation_euclidean_traits_3.h,v $
+// $Revision: 1.28 $ $Date: 2003/09/18 10:26:25 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Regular_triangulation_euclidean_traits_3.h
-// package       : Triangulation_3 (1.114)
-// revision      : $Revision: 1.26 $
-// revision_date : $Date: 2002/04/12 00:25:58 $
-// author(s)     : Sylvain Pion
-//                 Monique Teillaud
-//
-// coordinator   : INRIA Sophia Antipolis (<Mariette.Yvinec>)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
+//                 Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
 #ifndef CGAL_REGULAR_TRIANGULATION_EUCLIDEAN_TRAITS_3_H
 #define CGAL_REGULAR_TRIANGULATION_EUCLIDEAN_TRAITS_3_H
@@ -86,6 +59,12 @@ public:
 			     const Weighted_point & r) const
     {
       return CGAL::power_test(p,q,r);
+    }
+
+  Oriented_side operator() ( const Weighted_point & p,
+			     const Weighted_point & q) const
+    {
+      return CGAL::power_test(p,q);
     }
 };
 
@@ -163,6 +142,18 @@ power_test(const Weighted_point<pt, Weight> &p,
                         t.x(), t.y(), t.z(), FT(t.weight()));
 }
 
+template < class pt, class Weight >
+inline
+Oriented_side
+power_test(const Weighted_point<pt, Weight> &p,
+           const Weighted_point<pt, Weight> &q,
+	   Cartesian_tag)
+{
+    typedef typename pt::R::FT FT;
+    return power_testC3(FT(p.weight()),
+                        FT(q.weight()));
+}
+
 
 // Homogeneous versions.
 template < class pt, class Weight >
@@ -216,6 +207,18 @@ power_test(const Weighted_point<pt, Weight> &p,
                         t.x(), t.y(), t.z(), FT(t.weight()));
 }
 
+template < class pt, class Weight >
+inline
+Oriented_side
+power_test(const Weighted_point<pt, Weight> &p,
+           const Weighted_point<pt, Weight> &q,
+	   Homogeneous_tag)
+{
+    typedef typename pt::R::FT FT;
+    return power_testC3(FT(p.weight()),
+                        FT(q.weight()));
+}
+
 
 // Kludges for M$.
 
@@ -253,6 +256,16 @@ power_test(const Weighted_point<pt,Weight> &p,
 {
   typedef typename pt::R::Rep_tag Tag;
   return( power_test(p,q,t, Tag()) );
+}
+
+template < class pt, class Weight >
+inline
+Oriented_side
+power_test(const Weighted_point<pt,Weight> &p,
+	   const Weighted_point<pt,Weight> &q)
+{
+  typedef typename pt::R::Rep_tag Tag;
+  return( power_test(p,q, Tag()) );
 }
 
 CGAL_END_NAMESPACE

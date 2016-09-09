@@ -1,93 +1,57 @@
-// ======================================================================
+// Copyright (c) 1997  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Trapezoidal_decomposition/include/CGAL/Td_dag.h,v $
+// $Revision: 1.4 $ $Date: 2003/09/18 10:25:53 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Td_dag.h
-// package       : Trapezoidal_decomposition (1.26)
-// source        : 
-// revision      : 
-// revision_date : 
-// author(s)     : Iddo Hanniel
-//                 Oren Nechushtan
-//
-//
-// coordinator   : Tel-Aviv University (Dan Halperin)
-//
-// Chapter       : 
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Iddo Hanniel <hanniel@math.tau.ac.il>
+//                 Oren Nechushtan <theoren@math.tau.ac.il>
 
 /* Directed acyclic binary graph template class */
 
 #ifndef CGAL_TD_DAG_H
 #define CGAL_TD_DAG_H
 
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif
+#include <CGAL/number_utils.h>
+#include <CGAL/kernel_assertions.h>
+#include <CGAL/Handle.h>
 
 #include <cstdlib>
 #include <iostream>
 #include <list>
 #include <functional>
-#ifndef CGAL_NUMBER_UTILS_H
-#include <CGAL/number_utils.h>
-#endif
-#ifndef CGAL_KERNEL_ASSERTIONS_H
-#include <CGAL/kernel_assertions.h>
-#endif
-#ifndef CGAL_HANDLE_H
-#include <CGAL/Handle.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
 template<class T>
-class Td_dag_base : public Leda_like_handle
+class Td_dag_base : public Handle
 {
 public: //iddo (for CC-7.2) maybe protected?
-  typedef T* pointer;
-  typedef T& reference;
-  typedef const T& const_reference;
+  typedef T * pointer;
+  typedef T & reference;
+  typedef const T & const_reference;
+
 protected:
-  void init() {PTR=0;}
+  void init() { PTR = 0; }
+
 public:
   Td_dag_base() {init();}
-  Td_dag_base(const Td_dag_base<T>& x) : Leda_like_handle(x) {}
-  Td_dag_base& operator=(const Td_dag_base<T>& x) 
-  {Leda_like_handle::operator=(x);return *this;}
-  bool operator!() const {return PTR==0;}
+  Td_dag_base(const Td_dag_base<T> & x) : Handle(x) {}
+  Td_dag_base & operator=(const Td_dag_base<T> & x) 
+  {Handle::operator=(x); return *this; }
+  bool operator!() const { return PTR == 0; }
 };
 
 template<class T>
@@ -101,7 +65,7 @@ public:
   typedef Td_dag<T> Self;
   typedef std::list<pointer> list_pointer;
 protected:	
-  class node : public Leda_like_rep
+  class node : public Rep
   {
 #ifndef __BORLANDC__
     friend class Td_dag<T>;
@@ -135,8 +99,9 @@ public:
   Td_dag(const Self& dag):Td_dag_handle(dag){}
   Td_dag(const T& rootValue){PTR = new node(rootValue);}
   Td_dag(const T& rootValue, const Self& left, const Self& right)
-  {PTR= new node(rootValue, left, right);rebalance_depth();}
+  {PTR = new node(rootValue, left, right); rebalance_depth();}
   ~Td_dag(){}
+
   /* --------information retrieval -------*/
   const Self& left() const
   {
@@ -185,7 +150,7 @@ public:
      Shallow copy	*/
   Self& operator=(const Self& b)
   {
-    Leda_like_handle::operator=(b);
+    Handle::operator=(b);
     return *this;
   }
   /*

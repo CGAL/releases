@@ -13,8 +13,7 @@ include $(CGAL_MAKEFILE)
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = \
-           -Iinclude \
+CXXFLAGS = -I../../../include/ \
            $(CGAL_CXXFLAGS) \
            $(LONG_NAME_PROBLEM_CXXFLAGS) \
            $(DEBUG_OPT)
@@ -24,54 +23,30 @@ CXXFLAGS = \
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(CGAL_WINDOW_LIBPATH)
+          $(CGAL_LIBPATH)
 
 LDFLAGS = \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
-          $(CGAL_WINDOW_LDFLAGS)
+          $(CGAL_QT_LDFLAGS) \
+
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-all:            \
-                cocircular_2$(EXE_EXT) \
-                hull_of_intersection_points_2$(EXE_EXT) \
-                intersection_points_on_segment_2$(EXE_EXT) \
-                orientation_2$(EXE_EXT) \
-                orientation_IA_2$(EXE_EXT) \
-                rotation_2$(EXE_EXT) \
-                triangulation_of_intersection_points_2$(EXE_EXT) 
+all: robustness
 
-cocircular_2$(EXE_EXT): cocircular_2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)cocircular_2 cocircular_2$(OBJ_EXT) $(LDFLAGS)
+robustness.moc: robustness.C
+	${QT_MOC} -o robustness.moc robustness.C
 
-hull_of_intersection_points_2$(EXE_EXT): hull_of_intersection_points_2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)hull_of_intersection_points_2 hull_of_intersection_points_2$(OBJ_EXT) $(LDFLAGS)
+robustness$(OBJ_EXT): robustness.C robustness.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) robustness.C
 
-intersection_points_on_segment_2$(EXE_EXT): intersection_points_on_segment_2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)intersection_points_on_segment_2 intersection_points_on_segment_2$(OBJ_EXT) $(LDFLAGS)
+robustness$(EXE_EXT): robustness$(OBJ_EXT)
+	$(CGAL_CXX) $(EXE_OPT)robustness robustness$(OBJ_EXT) \
+	$(LDFLAGS)
 
-orientation_2$(EXE_EXT): orientation_2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)orientation_2 orientation_2$(OBJ_EXT) $(LDFLAGS)
-
-orientation_IA_2$(EXE_EXT): orientation_IA_2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)orientation_IA_2 orientation_IA_2$(OBJ_EXT) $(LDFLAGS)
-
-rotation_2$(EXE_EXT): rotation_2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)rotation_2 rotation_2$(OBJ_EXT) $(LDFLAGS)
-
-triangulation_of_intersection_points_2$(EXE_EXT): triangulation_of_intersection_points_2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)triangulation_of_intersection_points_2 triangulation_of_intersection_points_2$(OBJ_EXT) $(LDFLAGS)
-
-clean: \
-                   cocircular_2.clean \
-                   hull_of_intersection_points_2.clean \
-                   intersection_points_on_segment_2.clean \
-                   orientation_2.clean \
-                   orientation_IA_2.clean \
-                   rotation_2.clean \
-                   triangulation_of_intersection_points_2.clean 
+clean: robustness.clean
 
 #---------------------------------------------------------------------#
 #                    suffix rules
@@ -79,4 +54,3 @@ clean: \
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
-

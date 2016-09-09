@@ -6,21 +6,20 @@
 #include <CGAL/Cartesian.h>
 #include <CGAL/MP_Float.h>
 #include <CGAL/Quotient.h>
-#include <CGAL/Arr_2_bases.h>
 #include <CGAL/Arr_2_default_dcel.h>
-#include <CGAL/Arr_segment_exact_traits.h>
+#include <CGAL/Arr_segment_traits_2.h>
 #include <CGAL/Arrangement_2.h>
 
 typedef CGAL::Quotient<CGAL::MP_Float>                  NT;
 typedef CGAL::Cartesian<NT>                             Kernel;
-typedef CGAL::Arr_segment_exact_traits<Kernel>          Traits;
+typedef CGAL::Arr_segment_traits_2<Kernel>              Traits;
 
 typedef Traits::Point_2                                 Point_2;
 typedef Traits::Curve_2                                 Curve_2;
+typedef Traits::X_monotone_curve_2                      X_monotone_curve_2;
 
-typedef CGAL::Arr_base_node<Curve_2>                    Base_node;
 typedef CGAL::Arr_2_default_dcel<Traits>                Dcel;
-typedef CGAL::Arrangement_2<Dcel,Traits,Base_node>      Arr_2;
+typedef CGAL::Arrangement_2<Dcel,Traits>                Arr_2;
 
 int main() 
 {
@@ -42,7 +41,7 @@ int main()
     //traversal of the edges of the current curve
     for (eit = cit->edges_begin(); eit != cit->edges_end(); ++eit) 
     {
-      std::cout << eit->curve() << std::endl ;
+      std::cout << eit->x_curve() << std::endl ;
     }
   }
 

@@ -1,39 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 1997-2000 The CGAL Consortium
-
-// Copyright (c) 2002 ENS de Paris
-//
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// The Qt widget we provide for CGAL is distributed under the QPL,
-// which is Trolltech's open source license. For more information see 
-//     http://www.trolltech.com/developer/licensing/qpl.html
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// file          : include/CGAL/IO/Qt_widget_zoomrect.h
-// package       : Qt_widget (1.2.30)
-// author(s)     : Radu Ursu
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// coordinator   : Laurent Rineau
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_zoomrect.h,v $
+// $Revision: 1.21 $ $Date: 2003/10/21 12:23:23 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Radu Ursu
 
 #ifndef CGAL_QT_WIDGET_ZOOMRECT_H
 #define CGAL_QT_WIDGET_ZOOMRECT_H
@@ -57,8 +43,10 @@ public:
   int   first_x, first_y, x2, y2;
   bool  widgetrepainted;
   bool  on_first;
-
-  Qt_widget_zoomrect() : widgetrepainted(TRUE), on_first(FALSE) {};
+  QWidget::FocusPolicy	oldpolicy;
+  Qt_widget_zoomrect(QObject* parent = 0, const char* name = 0)
+    : Qt_widget_layer(parent, name), widgetrepainted(TRUE),
+      on_first(FALSE) {};
 
 private:
   QCursor oldcursor;
@@ -82,9 +70,9 @@ private:
     {
       if (!on_first)
       {
-	      first_x = e->x();
+        first_x = e->x();
         first_y = e->y();
-        on_first = TRUE;
+        on_first = true;
       }
     }
   };
@@ -95,10 +83,11 @@ private:
        && is_pure(e->state()))
     {
       if((e->x() != first_x) && (e->y() != first_y)) {
-        double x=widget->x_real(e->x());
-	      double y=widget->y_real(e->y());
-	      double xfirst2 = widget->x_real(first_x);
-        double yfirst2 = widget->y_real(first_y);
+        double x, y, xfirst2, yfirst2;
+        widget->x_real(e->x(), x);
+        widget->y_real(e->y(), y);
+        widget->x_real(first_x, xfirst2);
+        widget->y_real(first_y, yfirst2);
   			
         double	xmin, xmax, ymin, ymax;
         if(x < xfirst2) {xmin = x; xmax = xfirst2;}
@@ -106,8 +95,7 @@ private:
         if(y < yfirst2) {ymin = y; ymax = yfirst2;}
         else {ymin = yfirst2; ymax = y;};
 
-        widget->set_window(xmin, xmax, ymin, ymax);
-        widget->redraw();
+        widget->set_window(xmin, xmax, ymin, ymax);        
         on_first = FALSE;
       }
     }
@@ -116,20 +104,19 @@ private:
   {
     if(on_first)
     {
-      int
-	      x = e->x(),
-	      y = e->y();
-			*widget << noFill;
+      int x = e->x();
+      int y = e->y();
+      *widget << noFill;
       RasterOp old = widget->rasterOp();	//save the initial raster mode
       QColor old_color=widget->color();
       widget->setRasterOp(XorROP);
       widget->lock();
       widget->setColor(Qt::green);
       if(!widgetrepainted)
-	      widget->get_painter().drawRect(first_x, first_y, 
-										 x2 - first_x, y2 - first_y);
+        widget->get_painter().drawRect(first_x, first_y, 
+                                       x2 - first_x, y2 - first_y);
       widget->get_painter().drawRect(first_x, first_y, x - first_x,
-									 y - first_y);
+                                     y - first_y);
       widget->unlock();
       widget->setColor(old_color);
       widget->setRasterOp(old);
@@ -137,27 +124,72 @@ private:
       //save the last coordinates to redraw the screen
       x2 = x;
       y2 = y;
-      widgetrepainted = FALSE;
+      widgetrepainted = false;
     }
   };
 
+  void keyPressEvent(QKeyEvent *e)
+  {
+    switch ( e->key() ) {
+      case Key_Escape:			// key_escape
+         if (on_first)
+         {
+           widget->lock();
+           *widget << noFill;
+           RasterOp old = widget->rasterOp();	//save the initial raster mode
+           QColor old_color=widget->color();
+           widget->setRasterOp(XorROP);
+           *widget << CGAL::GREEN;
+           if(!widgetrepainted)
+             widget->get_painter().drawRect(first_x, first_y, 
+                                       x2 - first_x, y2 - first_y);
+           widget->setColor(old_color);
+           widget->setRasterOp(old);
+           widgetrepainted = true;
+
+           widget->unlock();
+	   on_first = false;
+         }
+         break;
+    }//endswitch
+  }
+
+  void leaveEvent(QEvent *)
+  {
+    if (on_first)
+    {
+      widget->lock();
+      *widget << noFill;
+      RasterOp old = widget->rasterOp();	//save the initial raster mode
+      QColor old_color=widget->color();
+      widget->setRasterOp(XorROP);
+      *widget << CGAL::GREEN;
+      if(!widgetrepainted)
+        widget->get_painter().drawRect(first_x, first_y, 
+                                       x2 - first_x, y2 - first_y);
+      widget->setColor(old_color);
+      widget->setRasterOp(old);
+      widgetrepainted = true;
+
+      widget->unlock();
+    }
+  }
+
   void activating()
   {
+    oldpolicy = widget->focusPolicy();
+    widget->setFocusPolicy(QWidget::StrongFocus);
     oldcursor = widget->cursor();
     widget->setCursor(crossCursor);
-    widgetrepainted = TRUE;
+    widgetrepainted = true;
   };
 
   void deactivating()
   {
     widget->setCursor(oldcursor);
-		
-    RasterOp old = widget->rasterOp();	//save the initial raster mode
-    widget->setRasterOp(XorROP);
-    widget->lock();
-    *widget << CGAL::GREEN;
-    widget->unlock();
-    widget->setRasterOp(old);
+    widget->setFocusPolicy(oldpolicy);
+    on_first = false;
+    widget->redraw();
   };
 };//end class 
 

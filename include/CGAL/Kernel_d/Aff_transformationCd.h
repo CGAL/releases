@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2000,2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000,2001  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Kernel_d/Aff_transformationCd.h
-// package       : Kernel_d (0.9.68)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 2002/03/18 20:33:50 $
-// author(s)     : Michael Seel
-// coordinator   : MPI Saarbruecken
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Aff_transformationCd.h,v $
+// $Revision: 1.12 $ $Date: 2003/10/21 12:19:15 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Michael Seel
 #ifndef CGAL_AFF_TRANSFORMATIONCD_H
 #define CGAL_AFF_TRANSFORMATIONCD_H
 
@@ -58,7 +36,8 @@ template <class FT, class LA > class Aff_transformationCd;
 template <class FT, class LA > class Aff_transformationCd_rep;
 
 template <class FT, class LA>
-class Aff_transformationCd_rep : public Ref_counted {
+class Aff_transformationCd_rep 
+{
   friend class Aff_transformationCd<FT,LA>;
   typedef typename LA::Matrix Matrix;
   Matrix M_;
@@ -96,8 +75,6 @@ Aff_transformationCd(const Matrix& M) : Base( Rep(M) )
   CGAL_assertion(M(d-1,d-1)==FT(1));
 }
 
-#ifndef CGAL_SIMPLE_INTERFACE
-
 template <typename Forward_iterator>
 Aff_transformationCd(Scaling, Forward_iterator start, Forward_iterator end) :
   Base( Rep(std::distance(start,end)-1) )
@@ -107,18 +84,6 @@ diagonal matrix with entries |set [start,end)| on the diagonal
 dimension $d+1$.}*/
 { int i=0; while (start != end) { ptr()->M_(i,i) = *start++;++i; } }
 
-#else
-#define FIXATCD(I) \
-Aff_transformationCd(Scaling, I start, I end) : \
-  Base( Rep(end-start-1) ) \
-{ int i=0; while (start != end) { ptr()->M_(i,i) = *start++;++i; } }
-
-FIXATCD(int*)
-FIXATCD(const int*)
-FIXATCD(RT*)
-FIXATCD(const RT*)
-#undef FIXATCD
-#endif
 
 Aff_transformationCd(Translation, const VectorCd<RT,LA>& v) :
   Base( Rep(v.dimension()) )

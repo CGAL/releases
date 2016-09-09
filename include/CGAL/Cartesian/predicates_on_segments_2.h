@@ -1,47 +1,25 @@
-// ======================================================================
-//
-// Copyright (c) 2000 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
-//
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
-// ----------------------------------------------------------------------
+// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; version 2.1 of the License.
+// See the file LICENSE.LGPL distributed with CGAL.
 //
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// file          : include/CGAL/Cartesian/predicates_on_segments_2.h
-// package       : Cartesian_kernel (6.59)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 2002/01/23 17:59:17 $
-// author(s)     : Susan Hert
-// coordinator   : INRIA Sophia-Antipolis
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
+// $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/predicates_on_segments_2.h,v $
+// $Revision: 1.8 $ $Date: 2003/10/21 12:14:36 $
+// $Name: current_submission $
 //
-// ======================================================================
+// Author(s)     : Susan Hert
 
 #ifndef CGAL_CARTESIAN_PREDICATES_ON_SEGMENTS_2_H
 #define CGAL_CARTESIAN_PREDICATES_ON_SEGMENTS_2_H
@@ -52,38 +30,30 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class R >
+template < class K >
+inline
 Comparison_result
-compare_slopes(const SegmentC2<R> &s1,
-               const SegmentC2<R> &s2)
+compare_slopes(const SegmentC2<K> &s1, const SegmentC2<K> &s2)
 {
-   return compare_slopesC2(s1.source().x(), s1.source().y(),
-                           s1.target().x(), s1.target().y(),
-                           s2.source().x(), s2.source().y(),
-                           s2.target().x(), s2.target().y());
+  return K().compare_slope_2_object()(s1, s2);
 }
 
-template < class R >
+template < class K >
+inline
 Comparison_result
-compare_y_at_x(const PointC2<R> &p,
-               const SegmentC2<R> &s)
+compare_y_at_x(const PointC2<K> &p, const SegmentC2<K> &s)
 {
-    return compare_y_at_xC2(p.x(), p.y(),
-	                    s.source().x(), s.source().y(),
-	                    s.target().x(), s.target().y());
+  return K().compare_y_at_x_2_object()(p, s);
 }
 
-template < class R >
+template < class K >
+inline
 Comparison_result
-compare_y_at_x(const PointC2<R> &p,
-               const SegmentC2<R> &s1,
-               const SegmentC2<R> &s2)
+compare_y_at_x(const PointC2<K> &p,
+               const SegmentC2<K> &s1,
+               const SegmentC2<K> &s2)
 {
-    return compare_y_at_x_segment_C2(p.x(),
-	                    s1.source().x(), s1.source().y(),
-	                    s1.target().x(), s1.target().y(),
-	                    s2.source().x(), s2.source().y(),
-	                    s2.target().x(), s2.target().y());
+  return K().compare_y_at_x_2_object()(p, s1, s2);
 }
 
 CGAL_END_NAMESPACE

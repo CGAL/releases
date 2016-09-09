@@ -13,10 +13,7 @@ include $(CGAL_MAKEFILE)
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = \
-           $(TESTSUITE_CXXFLAGS) \
-           $(EXTRA_FLAGS) \
-           -Iinclude \
+CXXFLAGS = -I../../../include/ \
            $(CGAL_CXXFLAGS) \
            $(LONG_NAME_PROBLEM_CXXFLAGS) \
            $(DEBUG_OPT)
@@ -26,32 +23,39 @@ CXXFLAGS = \
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(TESTSUITE_LIBPATH) \
           $(CGAL_LIBPATH)
 
 LDFLAGS = \
-          $(TESTSUITE_LDFLAGS) \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
-          $(CGAL_WINDOW_LDFLAGS)
+          $(CGAL_QT_LDFLAGS) \
+
 
 #---------------------------------------------------------------------#
 #                    target entries
 #---------------------------------------------------------------------#
 
-all:    \
-	Nef_polyhedron_2-demo Simple-demo
+all: nef_2
 
-Nef_polyhedron_2-demo$(EXE_EXT): Nef_polyhedron_2-demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Nef_polyhedron_2-demo Nef_polyhedron_2-demo$(OBJ_EXT) $(LDFLAGS)
+Qt_widget_toolbar$(OBJ_EXT): Qt_widget_toolbar.C Qt_widget_toolbar.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) Qt_widget_toolbar.C
 
-Simple-demo$(EXE_EXT): Simple-demo$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Simple-demo Simple-demo$(OBJ_EXT) $(LDFLAGS)
+Qt_widget_toolbar.moc: Qt_widget_toolbar.h
+	$(QT_MOC) -o Qt_widget_toolbar.moc Qt_widget_toolbar.h
 
-nef_2$(EXE_EXT): nef_2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)nef_2 nef_2$(OBJ_EXT) $(LDFLAGS)
+nef_2.moc: nef_2.C
+	${QT_MOC} -o nef_2.moc nef_2.C
 
-clean:  \
-	Nef_polyhedron_2-demo.clean Simple-demo.clean 
+nef_2$(OBJ_EXT): nef_2.C nef_2.moc
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) nef_2.C
+
+nef_2$(EXE_EXT): nef_2$(OBJ_EXT) Qt_widget_toolbar$(OBJ_EXT)
+	$(CGAL_CXX) $(EXE_OPT)nef_2 nef_2$(OBJ_EXT) \
+	 Qt_widget_toolbar$(OBJ_EXT) \
+	$(LDFLAGS)
+
+clean: nef_2.clean \
+       Qt_widget_toolbar.clean
+
 
 #---------------------------------------------------------------------#
 #                    suffix rules
@@ -59,4 +63,3 @@ clean:  \
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
-

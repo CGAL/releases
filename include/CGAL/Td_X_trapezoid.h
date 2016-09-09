@@ -1,54 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Trapezoidal_decomposition/include/CGAL/Td_X_trapezoid.h,v $
+// $Revision: 1.20 $ $Date: 2003/09/18 10:25:53 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Td_X_trapezoid.h
-// package       : Trapezoidal_decomposition (1.26)
-// source		 : 
-// revision 	 : 
-// revision_date : 
-// author(s)	 : Oren Nechushtan
-//
-//
-// maintainer(s) : Oren Nechushtan
-//
-//
-// coordinator	 : Tel-Aviv University (Dan Halperin)
-//
-// Chapter		 : 
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
 
 #ifndef CGAL_TD_X_TRAPEZOID_H
 #define CGAL_TD_X_TRAPEZOID_H
@@ -63,9 +30,7 @@
   
 ------------------------------------------------------------------------ */
 
-#ifndef CGAL_TRAPEZOIDAL_DECOMPOSITION_2_H
 #include <CGAL/Trapezoidal_decomposition_2.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -73,29 +38,43 @@ template < class Td_traits_>
 class Td_X_trapezoid : public Handle
 {
 public:
-  typedef Td_traits_ Traits;
-  typedef typename Traits::Point Point;
-  typedef typename Traits::X_curve X_curve;
-  typedef typename Traits::X_curve_ptr curve_pointer;
-  typedef typename Traits::X_curve_ref curve_ref;
-  typedef typename Traits::X_curve_const_ref curve_const_ref;
-  typedef typename Traits::X_trapezoid X_trapezoid;
-  typedef typename Traits::X_trapezoid_ptr pointer;
-  typedef typename Traits::X_trapezoid_ref reference;
-  typedef typename Traits::X_trapezoid_const_ref const_ref;
+  typedef Td_traits_                                    Traits;
+  typedef typename Traits::Point                        Point;
+  typedef typename Traits::X_curve                      X_curve;
+  typedef typename Traits::X_curve_ptr                  curve_pointer;
+  typedef typename Traits::X_curve_ref                  curve_ref;
+  typedef typename Traits::X_curve_const_ref            curve_const_ref;
+  typedef typename Traits::X_trapezoid                  X_trapezoid;
+  typedef typename Traits::X_trapezoid_ptr              pointer;
+  typedef typename Traits::X_trapezoid_ref              reference;
+  typedef typename Traits::X_trapezoid_const_ref        const_ref;
   typedef Td_ninetuple<Point,Point,X_curve,X_curve,unsigned char,
     pointer,pointer,pointer,pointer> Boundary_type;
-  typedef Trapezoidal_decomposition_2<Traits> TD;
-  typedef typename TD::Unbounded Unbounded;
-  typedef typename TD::Around_point_circulator Around_point_circulator;
-  typedef typename TD::In_face_iterator In_face_iterator;
+  typedef Trapezoidal_decomposition_2<Traits>           TD;
+  typedef typename TD::Unbounded                        Unbounded;
+  typedef typename TD::Around_point_circulator
+    Around_point_circulator;
+  typedef typename TD::In_face_iterator                 In_face_iterator;
   friend class Trapezoidal_decomposition_2<Traits>;
   
 #ifdef CGAL_PM_FRIEND_CLASS
-  
+#if defined(__SUNPRO_CC)
   friend class Trapezoidal_decomposition_2<Traits>::Around_point_circulator;
   friend class Trapezoidal_decomposition_2<Traits>::In_face_iterator;
+#elif defined(__GNUC__)
+
+#if ((__GNUC__ < 3) || ((__GNUC__ == 3) && (__GNUC_MINOR__ <= 2)))
+  friend typename Trapezoidal_decomposition_2<Traits>::Around_point_circulator;
+  friend typename Trapezoidal_decomposition_2<Traits>::In_face_iterator;
+#else
+  friend class Trapezoidal_decomposition_2<Traits>::Around_point_circulator;
+  friend class Trapezoidal_decomposition_2<Traits>::In_face_iterator;
+#endif
   
+#else
+  friend class Around_point_circulator;
+  friend class In_face_iterator;
+#endif
 #endif
   
   typedef typename TD::Data_structure Data_structure;
@@ -161,38 +140,55 @@ public:
   void set_lt(X_trapezoid* lt) {ptr()->e6=lt;}
   void set_rb(X_trapezoid* rb) {ptr()->e7=rb;}
   void set_rt(X_trapezoid* rt) {ptr()->e8=rt;}
+
 public:
-  Td_X_trapezoid(){
-    PTR=new Boundary_type(
-                          Traits::get_point_at_left_top_infinity(),
-                          Traits::get_point_at_right_bottom_infinity(),
-                          Traits::get_curve_at_infinity(),
-                          Traits::get_curve_at_infinity(),
-                          CGAL_TRAPEZOIDAL_DECOMPOSITION_2_TOTALLY_UNBOUNDED,
-                          0,0,0,0);node=0;}
-  Td_X_trapezoid(
-    const Point& l ,const Point&r,const X_curve& b,const X_curve &t,
-    unsigned char c=CGAL_TRAPEZOIDAL_DECOMPOSITION_2_BOUNDED,
-    X_trapezoid *lb=0,X_trapezoid *lt=0,X_trapezoid *rb=0,X_trapezoid *rt=0,
-    Data_structure* p=0){PTR=new Boundary_type(l,r,b,t,c,lb,lt,rb,rt);node=p;}
-  Td_X_trapezoid(
-    const Point* l ,const Point* r , const X_curve* b ,const X_curve *t,
-    X_trapezoid *lb=0,X_trapezoid *lt=0,X_trapezoid *rb=0,X_trapezoid *rt=0,
-    Data_structure* p=0)
+  Td_X_trapezoid(void)
   {
-    PTR=new Boundary_type(
-       l ? *l : Traits::get_point_at_left_top_infinity(),
+    PTR = new Boundary_type(Traits::get_point_at_left_top_infinity(),
+                            Traits::get_point_at_right_bottom_infinity(),
+                            Traits::get_curve_at_infinity(),
+                            Traits::get_curve_at_infinity(),
+                            CGAL_TRAPEZOIDAL_DECOMPOSITION_2_TOTALLY_UNBOUNDED,
+                            0, 0, 0, 0);
+    node = 0;
+  }
+  
+  Td_X_trapezoid(const Point &l, const Point &r,
+                 const X_curve &b, const X_curve &t,
+                 unsigned char c = CGAL_TRAPEZOIDAL_DECOMPOSITION_2_BOUNDED,
+                 X_trapezoid *lb = 0, X_trapezoid *lt = 0,
+                 X_trapezoid *rb = 0, X_trapezoid *rt = 0,
+                 Data_structure *p = 0)
+  {
+    PTR = new Boundary_type(l, r, b, t, c, lb, lt, rb, rt);
+    node = p;
+  }
+  
+  Td_X_trapezoid(const Point *l, const Point *r ,
+                 const X_curve *b, const X_curve *t,
+                 X_trapezoid *lb = 0, X_trapezoid *lt = 0,
+                 X_trapezoid *rb = 0, X_trapezoid *rt = 0,
+                 Data_structure *p = 0)
+  {
+    PTR = new Boundary_type
+      (l ? *l : Traits::get_point_at_left_top_infinity(),
        r ? *r : Traits::get_point_at_right_bottom_infinity(),
        b ? *b : Traits::get_curve_at_infinity(),
        t ? *t : Traits::get_curve_at_infinity(),
-       (l ? 0 : CGAL_TRAPEZOIDAL_DECOMPOSITION_2_LEFT_UNBOUNDED) | 
-       (r ? 0 : CGAL_TRAPEZOIDAL_DECOMPOSITION_2_RIGHT_UNBOUNDED) | 
-       (b ? 0 : CGAL_TRAPEZOIDAL_DECOMPOSITION_2_BOTTOM_UNBOUNDED) | 
-       (t ? 0 : CGAL_TRAPEZOIDAL_DECOMPOSITION_2_TOP_UNBOUNDED),
-       lb,lt,rb,rt);node=p;
+       ((l ? 0 : CGAL_TRAPEZOIDAL_DECOMPOSITION_2_LEFT_UNBOUNDED) | 
+        (r ? 0 : CGAL_TRAPEZOIDAL_DECOMPOSITION_2_RIGHT_UNBOUNDED) | 
+        (b ? 0 : CGAL_TRAPEZOIDAL_DECOMPOSITION_2_BOTTOM_UNBOUNDED) | 
+        (t ? 0 : CGAL_TRAPEZOIDAL_DECOMPOSITION_2_TOP_UNBOUNDED)),
+       lb, lt, rb, rt);
+    node = p;
   }
-  Td_X_trapezoid(const X_trapezoid& tr) : Handle(tr){node=tr.node;}
-  ~Td_X_trapezoid() {}
+  
+  Td_X_trapezoid (const X_trapezoid &tr) :
+    Handle(tr)
+  {
+    node = tr.node;
+  }
+  
   /*
     remark:
     operator= should not copy node (or otherwise update 
@@ -215,19 +211,31 @@ public:
   {
     return !(operator==(t2));
   }
-  const Point& left() const {
+  const Point &left(void) const
+  {
     return !is_left_unbounded() ? 
-      ptr()->e0 : Traits::get_point_at_left_top_infinity();}
-  const Point& right() const {
+      ptr()->e0 : Traits::get_point_at_left_top_infinity();
+  }
+  
+  const Point &right(void) const
+  {
     return !is_right_unbounded() ? 
-      ptr()->e1 : Traits::get_point_at_right_bottom_infinity();}
+      ptr()->e1 : Traits::get_point_at_right_bottom_infinity();
+  }
+  
   // filters out the infinite case where at returns predefined dummy values
-  const X_curve& bottom() const {
+  const X_curve &bottom(void) const
+  {
     return !is_bottom_unbounded() ?  
-      ptr()->e2 : Traits::get_curve_at_infinity();}
-  const X_curve& top() const {
+      ptr()->e2 : Traits::get_curve_at_infinity();
+  }
+  
+  const X_curve &top(void) const
+  {
     return !is_top_unbounded() ?	
-      ptr()->e3 : Traits::get_curve_at_infinity();}
+      ptr()->e3 : Traits::get_curve_at_infinity();
+  }
+  
   unsigned char boundedness() const {return ptr()->e4;}
   bool is_left_unbounded() const {
     return (ptr()->e4&CGAL_TRAPEZOIDAL_DECOMPOSITION_2_LEFT_UNBOUNDED)!=0;}
@@ -312,254 +320,331 @@ public:
   }
 	
 #ifdef CGAL_TD_DEBUG
-	bool is_valid(const Traits* traits) const
-	{
-		typename Traits::Curve_point_status t;
-		if (is_active())
-		{
-			if (get_node() && **get_node()!=*this)
-			{
-				std::cerr << "\nthis=";
-				write(std::cerr,*this,*traits,false);
-				std::cerr << "\nget_node= ";
-				write(std::cerr,**get_node(),*traits,false) << std::flush;
-				CGAL_warning(**get_node()==*this);
-				return false;
-			}
-			if (!is_left_unbounded() && !is_right_unbounded() && traits->point_is_left_low(right(),left()))
-			{
-				std::cerr << "\nthis=";
-				write(std::cerr,*this,*traits,false) << std::flush;
-				CGAL_warning(!traits->point_is_left_low(right(),left()));
-				return false;
-			}
+  bool is_valid(const Traits* traits) const
+  {
+    Comparison_result t;
+    bool              b;
+
+    if (is_active())
+    {
+      if (get_node() && **get_node()!=*this)
+      {
+        std::cerr << "\nthis=";
+        write(std::cerr,*this,*traits,false);
+        std::cerr << "\nget_node= ";
+        write(std::cerr,**get_node(),*traits,false) << std::flush;
+        CGAL_warning(**get_node()==*this);
+        return false;
+      }
+      if (!is_left_unbounded() && !is_right_unbounded() &&
+          traits->point_is_left_low(right(),left()))
+      {
+        std::cerr << "\nthis=";
+        write(std::cerr,*this,*traits,false) << std::flush;
+        CGAL_warning(!traits->point_is_left_low(right(),left()));
+        return false;
+      }
 			
-			if (!is_bottom_unbounded())
-			{
-				if (is_left_unbounded() ||
-					is_right_unbounded())
-				{
-					std::cerr << "\nthis=";
-					write(std::cerr,*this,*traits,false) << std::flush;
-					CGAL_warning(!(is_left_unbounded() ||is_right_unbounded()));
-					return false;
-				}
-				t=traits->curve_get_point_status(bottom(),left());
-				if (!(t==traits->ABOVE_CURVE || t==traits->ON_CURVE))
-				{
-					std::cerr << "\nthis=";
-					write(std::cerr,*this,*traits,false) << std::flush;
-					std::cerr << "\nt==" << t << std::flush;
-					CGAL_warning(t==Traits::ABOVE_CURVE || t==Traits::ON_CURVE);
-					return false;
-				}
-				t=traits->curve_get_point_status(bottom(),right());
-				if (!(t==traits->ABOVE_CURVE || t==traits->ON_CURVE))
-				{
-					std::cerr << "\nthis=";
-					write(std::cerr,*this,*traits,false) << std::flush;
-					std::cerr << "\nt==" << t << std::flush;
-					CGAL_warning(!(!(t==Traits::ABOVE_CURVE || t==Traits::ON_CURVE)));
-					return false;
-				}
-			}
-			if (!is_top_unbounded())
-			{
-				if (is_left_unbounded() || is_right_unbounded())
-				{
-					std::cerr << "\nthis=";
-					write(std::cerr,*this,*traits,false) << std::flush;
-					CGAL_warning(!(is_left_unbounded() || is_right_unbounded()));
-					return false;
-				}
-				t=traits->curve_get_point_status(top(),left());
-				if (!(t==traits->UNDER_CURVE || t==traits->ON_CURVE))
-				{
-					std::cerr << "\nthis=";
-					write(std::cerr,*this,*traits,false) << std::flush;
-					std::cerr << "\nt==" << t << std::flush;
-					CGAL_warning(!(!(t==Traits::UNDER_CURVE || t==Traits::ON_CURVE)));
-					return false;
-				}
-				t=traits->curve_get_point_status(top(),right());
-				if (!(t==traits->UNDER_CURVE || t==traits->ON_CURVE))
-				{
-					std::cerr << "\nthis=";
-					write(std::cerr,*this,*traits,false) << std::flush;
-					std::cerr << "\nt==" << t << std::flush;
-					CGAL_warning(!(!(t==Traits::UNDER_CURVE || t==Traits::ON_CURVE)));
-					return false;
-				}
-			}
-			if (!traits->is_degenerate(*this))
-			{
-				if(
-					right_top_neighbour() && right_top_neighbour()->top()!=top() ||
-					left_top_neighbour() && left_top_neighbour()->top() != top() ||
-					right_bottom_neighbour() && right_bottom_neighbour()->bottom()!=bottom() ||
-					left_bottom_neighbour() && left_bottom_neighbour()->bottom() != bottom() ||
-					right_top_neighbour() && traits->is_degenerate(*right_top_neighbour()) ||
-					left_top_neighbour() && traits->is_degenerate(*left_top_neighbour()) ||
-					right_bottom_neighbour() && traits->is_degenerate(*right_bottom_neighbour()) ||
-					left_bottom_neighbour() && traits->is_degenerate(*left_bottom_neighbour())
-					)
-				{
-					std::cerr << "\nthis=";
-					write(std::cerr,*this,*traits,false) << std::flush;
-					CGAL_warning(!(right_top_neighbour() && right_top_neighbour()->top()!=top()));
-					CGAL_warning(!(left_top_neighbour() && left_top_neighbour()->top() != top()));
-					CGAL_warning(!(right_bottom_neighbour() && right_bottom_neighbour()->bottom()!=bottom()));
-					CGAL_warning(!(left_bottom_neighbour() && left_bottom_neighbour()->bottom() != bottom()));
-					CGAL_warning(!(right_top_neighbour() && traits->is_degenerate(*right_top_neighbour())));
-					CGAL_warning(!(left_top_neighbour() && traits->is_degenerate(*left_top_neighbour())));
-					CGAL_warning(!(right_bottom_neighbour() && traits->is_degenerate(*right_bottom_neighbour())));
-					CGAL_warning(!(left_bottom_neighbour() && traits->is_degenerate(*left_bottom_neighbour())));
-					return false;
-				}
-				if (
-					right_top_neighbour()&&!right_top_neighbour()->is_active()||
-					left_top_neighbour()&&!left_top_neighbour()->is_active()||
-					right_bottom_neighbour()&&!right_bottom_neighbour()->is_active()||
-					left_bottom_neighbour()&&!left_bottom_neighbour()->is_active()
-					)
-				{
-					std::cerr << "\nleft=" << left() << " right=" << right() << " bottom=" << bottom() << " top=" << top() << std::flush;
-					CGAL_warning(!(right_top_neighbour()&&!right_top_neighbour()->is_active()));
-					CGAL_warning(!(left_top_neighbour()&&!left_top_neighbour()->is_active()));
-					CGAL_warning(!(right_bottom_neighbour()&&!right_bottom_neighbour()->is_active()));
-					CGAL_warning(!(left_bottom_neighbour()&&!left_bottom_neighbour()->is_active()));
-					return false;
-				}
-			}
-			else
-			{
-			/* if the trapezoid is degenerate, the left() and right()
-			points should be on the top() and bottom() curves.
-			In any case none of the geometric boundaries should 
-				be unbounded */
-				if (
-					is_bottom_unbounded()||
-					is_top_unbounded()||
-					is_left_unbounded()||
-					is_right_unbounded()
-					)
-				{
-					std::cerr << "\nbottom()==" << bottom() << std::flush;
-					std::cerr << "\ntop()==" << top() << std::flush;
-					std::cerr << "\nleft()==" << left() << std::flush;
-					std::cerr << "\nright()==" << right() << std::flush;
-					CGAL_warning((!is_bottom_unbounded()));
-					CGAL_warning((!is_top_unbounded()));
-					CGAL_warning((!is_left_unbounded()));
-					CGAL_warning((!is_right_unbounded()));
-					return false;
-				}
-				if(!(traits->curve_get_point_status(bottom(),left())==Traits::ON_CURVE))
-				{
-					std::cerr << "\nbottom()==" << bottom() << std::flush;
-					std::cerr << "\nleft()==" << left() << std::flush;
-					CGAL_warning(traits->curve_get_point_status(bottom(),left())==Traits::ON_CURVE);
-					return false;
-				}
-				if(!(traits->curve_get_point_status(bottom(),right())==Traits::ON_CURVE))
-				{
-					std::cerr << "\nbottom()==" << bottom() << std::flush;
-					std::cerr << "\nright()==" << right() << std::flush;
-					CGAL_warning(traits->curve_get_point_status(bottom(),right())==Traits::ON_CURVE);
-					return false;
-				}
-				if(!(traits->curve_get_point_status(top(),left())==Traits::ON_CURVE))
-				{
-					std::cerr << "\ntop()==" << top() << std::flush;
-					std::cerr << "\nleft()==" << left() << std::flush;
-					CGAL_warning(traits->curve_get_point_status(top(),left())==Traits::ON_CURVE);
-					return false;
-				}
-				if(!(traits->curve_get_point_status(top(),right())==Traits::ON_CURVE))
-				{
-					std::cerr << "\ntop()==" << top() << std::flush;
-					std::cerr << "\nright()==" << right() << std::flush;
-					CGAL_warning(traits->curve_get_point_status(top(),right())==Traits::ON_CURVE);
-					return false;
-				}
-				if (traits->is_degenerate_curve(*this))
-				{
-					if(
-						right_top_neighbour()&&!right_top_neighbour()->is_active()||
-						//!left_top_neighbour()||!left_top_neighbour()->is_active()||
-						right_bottom_neighbour()&&!right_bottom_neighbour()->is_active()||
-						left_bottom_neighbour()&&!left_bottom_neighbour()->is_active()
-						)
-					{
-						CGAL_warning(!right_top_neighbour()||right_top_neighbour()->is_active());
-						//CGAL_warning(!left_top_neighbour()||left_top_neighbour()->is_active());
-						CGAL_warning(!right_bottom_neighbour()||right_bottom_neighbour()->is_active());
-						CGAL_warning(!left_bottom_neighbour()||left_bottom_neighbour()->is_active());
-						return false;
-					}
-					if(
-					/* if trapezoid is end relative to supporting X_curve, that is
-					adjacent(trapezoid's right end point,supporting X_curve right end point) , right_top_neighbour() returns next such trapezoid around right() point in clockwise oriented order
-					adjacent(trapezoid's left end point,supporting X_curve left end point), left_bottom_neighbour() returns next such trapezoid around left() point in clockwise oriented order */
-					/* right_bottom_neighbour() points to next trapezoid on supporting X_curve, if such exist */
-					right_top_neighbour()&&!traits->is_degenerate_curve(*right_top_neighbour())||
-					//				!left_top_neighbour()||!traits->is_degenerate_curve(*left_top_neighbour())||
-					right_bottom_neighbour()&&!traits->is_degenerate_curve(*right_bottom_neighbour())||
-					left_bottom_neighbour()&&!traits->is_degenerate_curve(*left_bottom_neighbour())
-					)
-					{
-						CGAL_warning(!right_top_neighbour()||traits->is_degenerate_curve(*right_top_neighbour()));
-						//CGAL_warning(!left_top_neighbour()||!traits->is_degenerate_curve(*left_top_neighbour()));
-						CGAL_warning(!right_bottom_neighbour()||traits->is_degenerate_curve(*right_bottom_neighbour()));
-						CGAL_warning(!left_bottom_neighbour()||traits->is_degenerate_curve(*left_bottom_neighbour()));
-						return false;
-					}
-				}
-				else if (traits->is_degenerate_point(*this))
-				{
-					if(
-						right_top_neighbour()&&!traits->is_degenerate_curve(*right_top_neighbour())||
-						left_bottom_neighbour()&&!traits->is_degenerate_curve(*left_bottom_neighbour())
-						)
-					{
-						CGAL_warning(!right_top_neighbour()||traits->is_degenerate_curve(*right_top_neighbour()));
-						CGAL_warning(!left_bottom_neighbour()||traits->is_degenerate_curve(*left_bottom_neighbour()));
-						return false;
-					}
-					if(
-						right_top_neighbour()&&!right_top_neighbour()->is_active()||
-						left_bottom_neighbour()&&!left_bottom_neighbour()->is_active()
-						)
-					{
-						CGAL_warning(!right_top_neighbour()||right_top_neighbour()->is_active());
-						CGAL_warning(!left_bottom_neighbour()||left_bottom_neighbour()->is_active());
-						return false;
-					}
-					if (!traits->point_is_same(left(),right()))
-					{
-						std::cerr << "\nleft()==" << left() << std::flush;
-						std::cerr << "\nright()==" << right() << std::flush;
-						CGAL_warning(traits->point_is_same(left(),right()));
-						return false;
-					}
-				}
-			}
-		}
-		return true;
-	}
+      if (!is_bottom_unbounded())
+      {
+        if (is_left_unbounded() || is_right_unbounded())
+        {
+          std::cerr << "\nthis=";
+          write(std::cerr,*this,*traits,false) << std::flush;
+          CGAL_warning(!(is_left_unbounded() ||is_right_unbounded()));
+          return false;
+        }
 
-	void debug() const // instantiate ptr functions.
-	{
-		ptr();
-		bottom();
-		top();
-		left();
-		right();
-	}
+	b = traits->point_in_x_range(bottom(),left());
+	if (b) {
+	  t = traits->curve_compare_y_at_x(left(), bottom());
+          if (t == LARGER) t = SMALLER;
+          if (t == SMALLER) t = LARGER;
+        }
+        if (!b || t == LARGER)
+        {
+          std::cerr << "\nthis=";
+          write(std::cerr,*this,*traits,false) << std::flush;
+          std::cerr << "\nt==" << t << std::flush;
+          CGAL_warning(!b || t == LARGER);
+          return false;
+        }
+
+	b=traits->point_in_x_range(bottom(),right());
+	if (b) {
+	  t = traits->curve_compare_y_at_x(right(), bottom());
+          if (t == LARGER) t = SMALLER;
+          if (t == SMALLER) t = LARGER;
+        }
+        if (!b || t == LARGER)
+        {
+          std::cerr << "\nthis=";
+          write(std::cerr,*this,*traits,false) << std::flush;
+          std::cerr << "\nt==" << t << std::flush;
+          CGAL_warning(!b || t == LARGER);
+          return false;
+        }
+      }
+      if (!is_top_unbounded())
+      {
+        if (is_left_unbounded() || is_right_unbounded())
+        {
+          std::cerr << "\nthis=";
+          write(std::cerr,*this,*traits,false) << std::flush;
+          CGAL_warning(!(is_left_unbounded() || is_right_unbounded()));
+          return false;
+        }
+
+	b=traits->point_in_x_range(top(),left());
+	if (b) {
+	  t = traits->curve_compare_y_at_x(left(), top());
+          if (t == LARGER) t = SMALLER;
+          if (t == SMALLER) t = LARGER;
+        }
+	if (!b || t == SMALLER)
+        {
+          std::cerr << "\nthis=";
+          write(std::cerr,*this,*traits,false) << std::flush;
+          std::cerr << "\nt==" << t << std::flush;
+          CGAL_warning(!b || t == SMALLER);
+          return false;
+        }
+
+	b=traits->point_in_x_range(top(),right());
+	if (b) {
+	  t = traits->curve_compare_y_at_x(right(), top());
+          if (t == LARGER) t = SMALLER;
+          if (t == SMALLER) t = LARGER;
+        }
+
+        if (!b || t == SMALLER)
+        {
+          std::cerr << "\nthis=";
+          write(std::cerr,*this,*traits,false) << std::flush;
+          std::cerr << "\nt==" << t << std::flush;
+          CGAL_warning(!b || t == SMALLER);
+          return false;
+        }
+      }
+      if (!traits->is_degenerate(*this))
+      {
+        if (right_top_neighbour() && right_top_neighbour()->top()!=top() ||
+            left_top_neighbour() && left_top_neighbour()->top() != top() ||
+            right_bottom_neighbour() &&
+            right_bottom_neighbour()->bottom() != bottom() ||
+            left_bottom_neighbour() &&
+            left_bottom_neighbour()->bottom() != bottom() ||
+            right_top_neighbour() &&
+            traits->is_degenerate(*right_top_neighbour()) ||
+            left_top_neighbour() &&
+            traits->is_degenerate(*left_top_neighbour()) ||
+            right_bottom_neighbour() &&
+            traits->is_degenerate(*right_bottom_neighbour()) ||
+            left_bottom_neighbour() &&
+            traits->is_degenerate(*left_bottom_neighbour())
+            )
+        {
+          std::cerr << "\nthis=";
+          write(std::cerr,*this,*traits,false) << std::flush;
+          CGAL_warning(!(right_top_neighbour() &&
+                         right_top_neighbour()->top()!=top()));
+          CGAL_warning(!(left_top_neighbour() &&
+                         left_top_neighbour()->top() != top()));
+          CGAL_warning(!(right_bottom_neighbour() &&
+                         right_bottom_neighbour()->bottom()!=bottom()));
+          CGAL_warning(!(left_bottom_neighbour() &&
+                         left_bottom_neighbour()->bottom() != bottom()));
+          CGAL_warning(!(right_top_neighbour() &&
+                         traits->is_degenerate(*right_top_neighbour())));
+          CGAL_warning(!(left_top_neighbour() &&
+                         traits->is_degenerate(*left_top_neighbour())));
+          CGAL_warning(!(right_bottom_neighbour() &&
+                         traits->is_degenerate(*right_bottom_neighbour())));
+          CGAL_warning(!(left_bottom_neighbour() &&
+                         traits->is_degenerate(*left_bottom_neighbour())));
+          return false;
+        }
+        if (right_top_neighbour()&&!right_top_neighbour()->is_active()||
+            left_top_neighbour()&&!left_top_neighbour()->is_active()||
+            right_bottom_neighbour()&&!right_bottom_neighbour()->is_active()||
+            left_bottom_neighbour()&&!left_bottom_neighbour()->is_active()
+            )
+        {
+          std::cerr << "\nleft=" << left() << " right=" << right()
+                    << " bottom=" << bottom() << " top=" << top()
+                    << std::flush;
+          CGAL_warning(!(right_top_neighbour() &&
+                         !right_top_neighbour()->is_active()));
+          CGAL_warning(!(left_top_neighbour() &&
+                         !left_top_neighbour()->is_active()));
+          CGAL_warning(!(right_bottom_neighbour() &&
+                         !right_bottom_neighbour()->is_active()));
+          CGAL_warning(!(left_bottom_neighbour() &&
+                         !left_bottom_neighbour()->is_active()));
+          return false;
+        }
+      }
+      else
+      {
+        /* if the trapezoid is degenerate, the left() and right()
+           points should be on the top() and bottom() curves.
+           In any case none of the geometric boundaries should 
+           be unbounded */
+        if (is_bottom_unbounded()||
+            is_top_unbounded()||
+            is_left_unbounded()||
+            is_right_unbounded()
+            )
+        {
+          std::cerr << "\nbottom()==" << bottom() << std::flush;
+          std::cerr << "\ntop()==" << top() << std::flush;
+          std::cerr << "\nleft()==" << left() << std::flush;
+          std::cerr << "\nright()==" << right() << std::flush;
+          CGAL_warning((!is_bottom_unbounded()));
+          CGAL_warning((!is_top_unbounded()));
+          CGAL_warning((!is_left_unbounded()));
+          CGAL_warning((!is_right_unbounded()));
+          return false;
+        }
+        if (!traits->point_in_x_range(bottom(),left()) ||
+	    traits->curve_compare_y_at_x(left(), bottom()) != EQUAL)
+        {
+          std::cerr << "\nbottom()==" << bottom() << std::flush;
+          std::cerr << "\nleft()==" << left() << std::flush;
+          CGAL_warning(traits->point_in_x_range(bottom(),left()) &&
+		       traits->curve_compare_y_at_x(left(), bottom()) ==
+                       EQUAL);
+          return false;
+        }
+        if (!traits->point_in_x_range(bottom(),right()) ||
+	    traits->curve_compare_y_at_x(right(), bottom()) != EQUAL)
+        {
+          std::cerr << "\nbottom()==" << bottom() << std::flush;
+          std::cerr << "\nright()==" << right() << std::flush;
+          CGAL_warning(traits->point_in_x_range(bottom(),right()) &&
+		       traits->curve_compare_y_at_x(right(), bottom()) ==
+                       EQUAL);
+          return false;
+        }
+        if (!traits->point_in_x_range(top(),left()) ||
+	    traits->curve_compare_y_at_x(left(), top()) != EQUAL)
+        {
+          std::cerr << "\ntop()==" << top() << std::flush;
+          std::cerr << "\nleft()==" << left() << std::flush;
+          CGAL_warning(!traits->point_in_x_range(top(),left()) &&
+		       traits->curve_compare_y_at_x(left(), top()) == EQUAL);
+          return false;
+        }
+        if (!traits->point_in_x_range(top(),right()) ||
+	    traits->curve_compare_y_at_x(right(), top()) != EQUAL)
+        {
+          std::cerr << "\ntop()==" << top() << std::flush;
+          std::cerr << "\nright()==" << right() << std::flush;
+          CGAL_warning(traits->point_in_x_range(top(),right()) &&
+		       traits->curve_compare_y_at_x(right(), top()) == EQUAL);
+          return false;
+        }
+        if (traits->is_degenerate_curve(*this))
+        {
+          if (right_top_neighbour()&&!right_top_neighbour()->is_active()||
+            //!left_top_neighbour()||!left_top_neighbour()->is_active()||
+              right_bottom_neighbour() &&
+              !right_bottom_neighbour()->is_active()||
+              left_bottom_neighbour() && !left_bottom_neighbour()->is_active()
+              )
+          {
+            CGAL_warning(!right_top_neighbour() ||
+                         right_top_neighbour()->is_active());
+            //CGAL_warning(!left_top_neighbour() ||
+            //left_top_neighbour()->is_active());
+            CGAL_warning(!right_bottom_neighbour() ||
+                         right_bottom_neighbour()->is_active());
+            CGAL_warning(!left_bottom_neighbour() ||
+                         left_bottom_neighbour()->is_active());
+            return false;
+          }
+          if (
+             /* if trapezoid is end relative to supporting X_curve, that is
+                adjacent(trapezoid's right end point,supporting X_curve right
+                end point) , right_top_neighbour() returns next such trapezoid
+                around right() point in clockwise oriented order
+                adjacent(trapezoid's left end point,supporting X_curve left end
+                point), left_bottom_neighbour() returns next such trapezoid
+                around left() point in clockwise oriented order */
+              /* right_bottom_neighbour() points to next trapezoid on
+                 supporting X_curve, if such exist */
+              right_top_neighbour() &&
+              !traits->is_degenerate_curve(*right_top_neighbour())||
+              // !left_top_neighbour() ||
+              // !traits->is_degenerate_curve(*left_top_neighbour())||
+              right_bottom_neighbour() &&
+              !traits->is_degenerate_curve(*right_bottom_neighbour())||
+              left_bottom_neighbour() &&
+              !traits->is_degenerate_curve(*left_bottom_neighbour())
+              )
+          {
+            CGAL_warning(!right_top_neighbour() ||
+                         traits->is_degenerate_curve(*right_top_neighbour()));
+            //CGAL_warning(!left_top_neighbour() ||
+            //!traits->is_degenerate_curve(*left_top_neighbour()));
+            CGAL_warning(!right_bottom_neighbour() ||
+                         traits->
+                         is_degenerate_curve(*right_bottom_neighbour()));
+            CGAL_warning(!left_bottom_neighbour() ||
+                         traits->
+                         is_degenerate_curve(*left_bottom_neighbour()));
+            return false;
+          }
+        }
+        else if (traits->is_degenerate_point(*this))
+        {
+          if (right_top_neighbour() &&
+              !traits->is_degenerate_curve(*right_top_neighbour())||
+              left_bottom_neighbour() &&
+              !traits->is_degenerate_curve(*left_bottom_neighbour())
+              )
+          {
+            CGAL_warning(!right_top_neighbour() ||
+                         traits->is_degenerate_curve(*right_top_neighbour()));
+            CGAL_warning(!left_bottom_neighbour() ||
+                         traits->
+                         is_degenerate_curve(*left_bottom_neighbour()));
+            return false;
+          }
+          if (right_top_neighbour()&&!right_top_neighbour()->is_active()||
+              left_bottom_neighbour()&&!left_bottom_neighbour()->is_active()
+              )
+          {
+            CGAL_warning(!right_top_neighbour() ||
+                         right_top_neighbour()->is_active());
+            CGAL_warning(!left_bottom_neighbour() ||
+                         left_bottom_neighbour()->is_active());
+            return false;
+          }
+          if (!traits->point_equal(left(),right()))
+          {
+            std::cerr << "\nleft()==" << left() << std::flush;
+            std::cerr << "\nright()==" << right() << std::flush;
+            CGAL_warning(traits->point_equal(left(),right()));
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
+  void debug() const // instantiate ptr functions.
+  {
+    ptr();
+    bottom();
+    top();
+    left();
+    right();
+  }
 #endif
-
 };
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_TD_X_TRAPEZOID_H
+#endif

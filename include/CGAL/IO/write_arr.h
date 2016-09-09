@@ -1,83 +1,27 @@
-// ======================================================================
+// Copyright (c) 2001  Tel-Aviv University (Israel).
+// All rights reserved.
 //
-// Copyright (c) 2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/write_arr.h,v $
+// $Revision: 1.13 $ $Date: 2003/09/18 10:19:49 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/IO/write_arr.h
-// package       : Arrangement (2.52)
-// author(s)     : Eti Ezra
-// coordinator   : Tel-Aviv University (Dan Halperin)
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
-
-// ======================================================================
-//
-// Copyright (c) 1997 The CGAL Consortium
-//
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
-//
-// ----------------------------------------------------------------------
-//
-// release       : $CGAL_Revision: CGAL-2.4-I-90 $
-// release_date  : $CGAL_Date: 2002/05/15 $
-//
-// file          : include/CGAL/IO/write_arr.h
-// package       : pm (1.81)
-// maintainer    : Eyal Flato <flato@math.tau.ac.il>
-// source        : 
-// revision      : 
-// revision_date : 
-// author(s)     : Eti Ezra <estere@post.tau.ac.il>
-//
-//
-// coordinator   : Tel-Aviv University (Dan Halperin <halperin@math.tau.ac.il>)
-//
-// Chapter       : 
-// ======================================================================
-
+// Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 #ifndef CGAL_IO_WRITE_ARR_H
 #define CGAL_IO_WRITE_ARR_H 
 
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif
-
-//#ifndef CGAL_ARRANGEMENT_2_H
-//#include <CGAL/Arrangement_2.h>
-//#endif
 
 #include <CGAL/Inverse_index.h>
 #include <CGAL/IO/write_pm.h>

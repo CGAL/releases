@@ -1,6 +1,6 @@
 #include <CGAL/config.h> // needed for the LONGNAME flag
 
-#if defined(CGAL_CFG_NO_LONGNAME_PROBLEM) || defined(_MSC_VER)
+#if defined(CGAL_CFG_LONGNAME_BUG)
 #define Quotient                        Qt
 #define Homogeneous                     Hs
 #define Cartesian                       Cn
@@ -16,10 +16,10 @@
 // #define _Nonconst_traits                NTs
 #define Td_traits                       TT
 #define Pm_segment_traits_2             PST
-#define Planar_map_traits_wrap          PMTW
+#define Pm_traits_wrap_2                PMTW
 
 #define Planar_map_with_intersections_2 PMWI
-#define Arr_segment_exact_traits        AST
+#define Arr_segment_traits_2            AST
 
 #define Interval_converter              IC
 #define NT_converter                    NC

@@ -1,46 +1,21 @@
-// ======================================================================
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbruecken (Germany).
+// All rights reserved.
 //
-// Copyright (c) 2000,2001 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Convex_hull_d_to_polyhedron_3.h,v $
+// $Revision: 1.13 $ $Date: 2003/10/21 12:19:09 $
+// $Name:  $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Convex_hull_d_to_polyhedron_3.h
-// package       : Kernel_d (0.9.68)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 2002/05/07 08:22:56 $
-// author(s)     : Michael Seel
-// coordinator   : MPI Saarbruecken
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Michael Seel
 
 #ifndef CGAL_CONVEX_HULL_D_TO_POLYHEDRON_3_H
 #define CGAL_CONVEX_HULL_D_TO_POLYHEDRON_3_H
@@ -127,25 +102,14 @@ private:
 include |<CGAL/Convex_hull_d_to_polyhedron_3.h>|
 \setopdims{2cm}{3cm}}*/
 
-#if defined(_MSC_VER) && defined(CGAL_USE_POLYHEDRON_DESIGN_ONE)
-template <class R, class Tr, class HDS>       
-void 
-convex_hull_d_to_polyhedron_3(const Convex_hull_d<R>& C,
-                              Polyhedron_3<Tr,HDS>& P)
-#else // non-MSVC compilers or MSVC>1200 can handle this more general interface
 template <class R, class Polyhedron_3>
 void convex_hull_d_to_polyhedron_3(
   const Convex_hull_d<R>& C, Polyhedron_3& P)
-#endif
 /*{\Mfunc converts the convex hull |C| to polyedral surface stored in 
    |P|.\\ \precond |dim == 3| and |dcur == 3|. }*/
 { typedef Convex_hull_d<R> ChullType;
 
-#if defined(_MSC_VER) && defined(CGAL_USE_POLYHEDRON_DESIGN_ONE)  
-   typedef typename Polyhedron_3<Tr, HDS>::HalfedgeDS  HDS;
-#else
   typedef typename Polyhedron_3::HalfedgeDS  HDS;
-#endif
   CGAL_assertion_msg(C.dimension()==3&&C.current_dimension()==3,
   "convex_hull_d_to_polyhedron_3: only full manifold can be transformed.");
   Build_polyhedron_from_chull<HDS,ChullType> get_surface(C);

@@ -6,52 +6,30 @@ Alpha shape.
 ************************************************************************/
 
 
-#include <CGAL/Cartesian.h>
-#include <cstdio>
-#include <cstring>
+#include <CGAL/Simple_cartesian.h>
+#include <CGAL/Filtered_kernel.h>
+#include <CGAL/algorithm.h>
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <list>
 
-#include <CGAL/Alpha_shape_euclidean_traits_2.h>
-#include <CGAL/Alpha_shape_vertex_base_2.h>
-
-#include <CGAL/Triangulation_face_base_2.h>
-#include <CGAL/Alpha_shape_face_base_2.h>
-
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <CGAL/Alpha_shape_2.h>
 
-// Choose an exact number type.
-#ifdef CGAL_USE_LEDA
-#  include <CGAL/leda_integer.h>
-typedef leda_integer coord_type;
-#elif defined CGAL_USE_GMP
-#  include <CGAL/Gmpz.h>
-typedef CGAL::Gmpz coord_type;
-#else
-#  include <CGAL/MP_Float.h>
-typedef CGAL::MP_Float coord_type;
-#endif
+typedef double coord_type;
 
-typedef CGAL::Cartesian<coord_type>  K;
+typedef CGAL::Simple_cartesian<coord_type>  SC;
+typedef CGAL::Filtered_kernel<SC> K;
 
 typedef K::Point_2  Point;
 typedef K::Segment_2  Segment;
-typedef K::Ray_2  Ray;
-typedef K::Line_2  Line;
-typedef K::Triangle_2  Triangle;
 
-typedef CGAL::Alpha_shape_euclidean_traits_2<K> Gt;
 
-typedef CGAL::Alpha_shape_vertex_base_2<Gt> Vb;
-
-typedef CGAL::Triangulation_face_base_2<Gt> Df;
-typedef CGAL::Alpha_shape_face_base_2<Gt, Df>  Fb;
-
-typedef CGAL::Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
-typedef CGAL::Delaunay_triangulation_2<Gt,Tds> Triangulation_2;
+typedef CGAL::Alpha_shape_vertex_base_2<K> Vb;
+typedef CGAL::Alpha_shape_face_base_2<K>  Fb;
+typedef CGAL::Triangulation_data_structure_2<Vb,Fb> Tds;
+typedef CGAL::Delaunay_triangulation_2<K,Tds> Triangulation_2;
 
 typedef CGAL::Alpha_shape_2<Triangulation_2>  Alpha_shape_2;
 
@@ -71,22 +49,19 @@ typedef Alpha_shape_2::Vertex_iterator  Vertex_iterator;
 typedef Alpha_shape_2::Edge_iterator  Edge_iterator;
 typedef Alpha_shape_2::Edge_circulator  Edge_circulator;
 
-typedef Alpha_shape_2::Coord_type Coord_type;
 typedef Alpha_shape_2::Alpha_iterator Alpha_iterator;
+typedef Alpha_shape_2::Alpha_shape_edges_iterator Alpha_shape_edges_iterator;
 
 //---------------------------------------------------------------------
 
-std::vector<Gt::Segment>
-construct_alpha_shape(const std::list<Point> &V_p,
-		      const Coord_type &Alpha,
-		      bool mode)
-  // Generate Alpha Shape
+template <class InputIterator, class OutputIterator>
+void
+alpha_edges(InputIterator begin, InputIterator end,
+	    const coord_type &Alpha,
+	    bool mode,
+	    OutputIterator out)
 { 
-  std::vector<Gt::Segment> V_seg;
-  Alpha_shape_2 A;
-  
-  int  n = A.make_alpha_shape(V_p.begin(), V_p.end());
-  std::cout << "Inserted " << n  << " points" << std::endl;
+  Alpha_shape_2 A(begin,end);
   
   if (mode) 
     { A.set_mode(Alpha_shape_2::GENERAL); } 
@@ -94,36 +69,29 @@ construct_alpha_shape(const std::list<Point> &V_p,
     { A.set_mode(Alpha_shape_2::REGULARIZED); };
   A.set_alpha(Alpha);
 
-  //V_seg << A;
-  //return V_seg; 
-
-  return A.op_vect_seg(V_seg);
+  for(Alpha_shape_edges_iterator it =  A.alpha_shape_edges_begin();
+      it != A.alpha_shape_edges_end();
+      ++it){
+    *out++ = A.segment(*it);
+  }
 }
 
+template <class OutputIterator>
 bool
-file_input(std::list<Point>& L)
+file_input(OutputIterator out)
 {
-
   std::ifstream is("./data/fin", std::ios::in);
 
-  if(is.fail())
-    {
-      std::cerr << "unable to open file for input" << std::endl;
-      return false;
-    }
-
-  CGAL::set_ascii_mode(is);
+  if(is.fail()){
+    std::cerr << "unable to open file for input" << std::endl;
+    return false;
+  }
 
   int n;
   is >> n;
-  std::cout << "Reading " << n << " points" << std::endl;
-  Point p;
-  for( ; n>0 ; n--)
-    {
-      is >> p;
-      L.push_back(p);
-    }
-  std::cout << "Points inserted" << std::endl;
+  std::cout << "Reading " << n << " points from file" << std::endl;
+  CGAL::copy_n(std::istream_iterator<Point>(is), n, out);
+
   return true;
 }
     
@@ -131,10 +99,16 @@ file_input(std::list<Point>& L)
 
 int main()
 {
-  std::list<Point> L;
-  file_input(L);
-  std::vector<Gt::Segment> V =
-    construct_alpha_shape(L,Coord_type(10000),Alpha_shape_2::GENERAL);
+  std::list<Point> points;
+  if(! file_input(std::back_inserter(points))){
+    return -1;
+  }
+  std::vector<Segment> segments;
+  alpha_edges(points.begin(), points.end(),
+	      coord_type(10000),Alpha_shape_2::GENERAL, 
+	      std::back_inserter(segments));
+
+  std::cout << segments.size() << " alpha shape edges" << std::endl;
   std::cout << "Alpha Shape computed" << std::endl;
   return 0;
 }

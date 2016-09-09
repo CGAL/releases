@@ -7,10 +7,7 @@
 #include <CGAL/random_polygon_2.h>
 #include <CGAL/Random.h>
 #include <CGAL/copy_n.h>
-#ifdef CGAL_USE_LEDA
-#include <CGAL/leda_integer.h>
-typedef leda_integer RT;
-#else
+
 #ifdef CGAL_USE_GMP
 #include <CGAL/Gmpz.h>
 typedef CGAL::Gmpz RT;
@@ -20,17 +17,16 @@ typedef CGAL::Gmpz RT;
 #include <CGAL/double.h>
 typedef double RT;
 #endif
-#endif
+
 
 #include <fstream>
 #include <list>
 
-typedef CGAL::Cartesian<RT>                             K;
-typedef CGAL::Polygon_traits_2<K>                         Traits;
-typedef Traits::Point_2                                   Point_2;
+typedef CGAL::Cartesian<RT>                               K;
+typedef K::Point_2                                        Point_2;
 typedef std::list<Point_2>                                Container;
-typedef CGAL::Polygon_2<Traits, Container>                Polygon_2;
-typedef CGAL::Creator_uniform_2<int, Point_2>              Creator;
+typedef CGAL::Polygon_2<K, Container>                     Polygon_2;
+typedef CGAL::Creator_uniform_2<int, Point_2>             Creator;
 typedef CGAL::Random_points_in_square_2<Point_2, Creator> Point_generator;
 
 const double RADIUS = 100;

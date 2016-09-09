@@ -1,5 +1,9 @@
 //demo/Qt_widget/Examples/Standard_toolbar.C
-
+#ifndef CGAL_USE_QT
+#include <iostream>
+int main(int, char*){
+  std::cout << "Sorry, this demo needs QT..." << std::endl; return 0;}
+#else
 #include <CGAL/Cartesian.h>
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <CGAL/IO/Qt_widget_Delaunay_triangulation_2.h>
@@ -34,10 +38,10 @@ public:
     }
     
     //How to attach the standard toolbar
-    std_toolbar = new CGAL::Qt_widget_standard_toolbar(widget, this);
-    this->addToolBar(std_toolbar->toolbar(), Top, FALSE);
+    std_toolbar = new CGAL::Qt_widget_standard_toolbar(widget, this,
+						       "Standard Toolbar");
 
-    connect(widget, SIGNAL(custom_redraw()),
+    connect(widget, SIGNAL(redraw_on_back()),
 	    this, SLOT(redraw_win()) );
   }
 
@@ -64,3 +68,4 @@ int main( int argc, char **argv )
     W.setCaption("Using the Standard Toolbar");
     return app.exec();
 }
+#endif

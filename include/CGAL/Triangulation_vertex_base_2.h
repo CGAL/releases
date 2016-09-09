@@ -1,95 +1,94 @@
-// ======================================================================
+// Copyright (c) 1997  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// Copyright (c) 1997 The CGAL Consortium
-
-// This software and related documentation are part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation are provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// This file is part of CGAL (www.cgal.org); you may redistribute it under
+// the terms of the Q Public License version 1.0.
+// See the file LICENSE.QPL distributed with CGAL.
 //
-// Every use of CGAL requires a license. 
+// Licensees holding a valid commercial license may use this file in
+// accordance with the commercial license agreement provided with the software.
 //
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Commercial licenses
-// - Please check the CGAL web site http://www.cgal.org/index2.html for 
-//   availability.
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_vertex_base_2.h,v $
+// $Revision: 1.15 $ $Date: 2003/09/18 10:26:18 $
+// $Name: current_submission $
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
-//
-// ----------------------------------------------------------------------
-//
-// release       : CGAL-2.4
-// release_date  : 2002, May 16
-//
-// file          : include/CGAL/Triangulation_vertex_base_2.h
-// package       : Triangulation_2 (7.32)
-// source        : $RCSfile: Triangulation_vertex_base_2.h,v $
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 2001/05/21 08:51:32 $
-// author(s)     : Mariette Yvinec
-//
-// coordinator   : Mariette Yvinec
-//
-// email         : contact@cgal.org
-// www           : http://www.cgal.org
-//
-// ======================================================================
+// Author(s)     : Mariette Yvinec
 
 
 #ifndef CGAL_TRIANGULATION_VERTEX_BASE_2_H
 #define CGAL_TRIANGULATION_VERTEX_BASE_2_H
 
+#include <CGAL/basic.h>
 #include <CGAL/Triangulation_short_names_2.h>
+#include <CGAL/Triangulation_ds_vertex_base_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template < class GT >
-class Triangulation_vertex_base_2 {
+template < typename GT,
+           typename Vb = Triangulation_ds_vertex_base_2<> >
+class Triangulation_vertex_base_2 
+  : public Vb
+
+{
+  typedef typename Vb::Triangulation_data_structure    Tds;
+public:
+  typedef GT                                    Geom_traits;
+  typedef typename GT::Point_2                  Point;
+  typedef Tds                                   Triangulation_data_structure;
+  typedef typename Tds::Face_handle             Face_handle;
+  typedef typename Tds::Vertex_handle           Vertex_handle;
+
+  template < typename TDS2 >
+  struct Rebind_TDS {
+    typedef typename Vb::template Rebind_TDS<TDS2>::Other  Vb2;
+    typedef Triangulation_vertex_base_2<GT, Vb2>           Other;
+  };
+
+private:
+  Point _p;
 
 public:
-  typedef typename GT::Point_2 Point;
-
-  Triangulation_vertex_base_2 ()
-    : _p(Point()), _f(NULL)
-    {}
-    
-  Triangulation_vertex_base_2(const Point & p, void * f = NULL)
-    :  _p(p), _f(f)
-    {}
+  Triangulation_vertex_base_2 () : Vb() {}
+  Triangulation_vertex_base_2(const Point & p) : Vb(), _p(p) {}
+  Triangulation_vertex_base_2(const Point & p, Face_handle f)
+    : Vb(f), _p(p) {}
+  Triangulation_vertex_base_2(Face_handle f) : Vb(f) {} 
 
   void set_point(const Point & p) { _p = p; }
-  void set_face(void* f) { _f = f ;}
- 
   const Point&  point() const { return _p; }
-  void* face() const { return _f;}
- 
+
   // the non const version of point() is undocument
   // but needed to make the point iterator works
   // using Lutz projection scheme
   Point&        point() { return _p; }
 
-    
   //the following trivial is_valid to allow
   // the user of derived face base classes 
   // to add their own purpose checking
   bool is_valid(bool /* verbose */ = false, int /* level */ = 0) const
     {return true;}
-
-private:
-        Point _p;
-        void * _f;
-
 };
+
+template < class GT, class Vb >
+std::istream&
+operator>>(std::istream &is, Triangulation_vertex_base_2<GT, Vb> &v)
+  // non combinatorial information. Default = point
+{
+  return is >> static_cast<Vb&>(v) >> v.point();
+}
+
+template < class GT, class Vb >
+std::ostream&
+operator<<(std::ostream &os, const Triangulation_vertex_base_2<GT, Vb> &v)
+  // non combinatorial information. Default = point
+{
+  return os << static_cast<const Vb&>(v) << v.point();
+}
+
+
 
 CGAL_END_NAMESPACE
 
