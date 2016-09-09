@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Edge_collapse_impl.h $
-// $Id: Edge_collapse_impl.h 50078 2009-06-25 15:12:52Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Edge_collapse_impl.h $
+// $Id: Edge_collapse_impl.h 52005 2009-09-23 14:53:38Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
@@ -31,7 +31,7 @@ EdgeCollapse<M,SP,VIM,EIM,EBM,CF,PF,V>::EdgeCollapse( ECM&                    aS
                                                     , EdgeIsBorderMap  const& aEdge_is_border_map 
                                                     , GetCost          const& aGet_cost
                                                     , GetPlacement     const& aGet_placement
-                                                    , VisitorT         const& aVisitor
+                                                    , VisitorT                aVisitor
                                                     )
   : 
    mSurface           (aSurface)

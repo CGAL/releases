@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_2/include/CGAL/Straight_2.h $
-// $Id: Straight_2.h 45075 2008-08-21 12:50:41Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Straight_2.h $
+// $Id: Straight_2.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -31,7 +31,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 class Straight_2_base_ {
 public:
@@ -265,7 +265,7 @@ sign_of_cross(typename K::Direction_2 const &dir1,
 	      typename K::Direction_2 const &dir2,
 	      const K&)
 {
-    return static_cast<int>(CGALi::orientation(dir1.to_vector(),
+    return static_cast<int>(internal::orientation(dir1.to_vector(),
                                                dir2.to_vector(), K()));
 }
 
@@ -348,7 +348,7 @@ collinear_order(typename K::Point_2 const &pt1, typename K::Point_2 const & pt2)
     return (diffsign == dir_sign_) ? 1 : -1;
 }
 
-} // namespace CGALi
+} // namespace internal
 
 CGAL_END_NAMESPACE
 

@@ -11,14 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/IO/Complex_2_in_triangulation_3_to_vtk.h $
-// $Id: Complex_2_in_triangulation_3_to_vtk.h 43218 2008-05-20 11:51:10Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_mesher/include/CGAL/IO/Complex_2_in_triangulation_3_to_vtk.h $
+// $Id: Complex_2_in_triangulation_3_to_vtk.h 51558 2009-08-27 14:13:55Z lrineau $
 //
 //
 // Author(s)     : Laurent Rineau
 
-#ifndef CGAL_COMPLEX_3_IN_TRIANGULATION_3_TO_VTK
-#define CGAL_COMPLEX_3_IN_TRIANGULATION_3_TO_VTK
+#ifndef CGAL_COMPLEX_2_IN_TRIANGULATION_3_TO_VTK
+#define CGAL_COMPLEX_2_IN_TRIANGULATION_3_TO_VTK
 
 #include <map>
 
@@ -88,4 +88,4 @@ vtkPolyData* output_c2t3_to_vtk_polydata(const C2T3& c2t3,
 
 } // end namespace CGAL
 
-#endif // CGAL_COMPLEX_3_IN_TRIANGULATION_3_TO_VTK
+#endif // CGAL_COMPLEX_2_IN_TRIANGULATION_3_TO_VTK

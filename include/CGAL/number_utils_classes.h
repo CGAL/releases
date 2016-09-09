@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_foundations/include/CGAL/number_utils_classes.h $
-// $Id: number_utils_classes.h 45636 2008-09-18 15:35:55Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Algebraic_foundations/include/CGAL/number_utils_classes.h $
+// $Id: number_utils_classes.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -80,15 +80,15 @@ struct Is_one : Algebraic_structure_traits<NT>::Is_one {};
 // Algebraic_structure_traits as well as Real_embeddable_traits
 // Of course it is not possible to derive from both since this 
 // would cause an ambiguity. 
-namespace CGALi{
+namespace internal{
 template <class AST_Is_zero, class RET_Is_zero>
 struct Is_zero_base : AST_Is_zero {} ;
 template <class RET_Is_zero>
 struct Is_zero_base <CGAL::Null_functor, RET_Is_zero >: RET_Is_zero {} ;
-} // namespace CGALi
+} // namespace internal
 template < class NT >
 struct Is_zero : 
-  CGALi::Is_zero_base
+  internal::Is_zero_base
   <typename Algebraic_structure_traits<NT>::Is_zero,
    typename Real_embeddable_traits<NT>::Is_zero>{}; 
 
@@ -96,7 +96,7 @@ struct Is_zero :
 // This is due to the fact that CGAL::Compare is used for other 
 // non-realembeddable types as well.
 // In this case we try to provide a default implementation
-namespace CGALi {
+namespace internal {
 template <class NT, class Compare> struct Compare_base: public Compare {};
 template <class NT> struct Compare_base<NT,Null_functor>
   :public std::binary_function< NT, NT, Comparison_result > {
@@ -108,11 +108,11 @@ template <class NT> struct Compare_base<NT,Null_functor>
     return EQUAL;   
   }
 };
-} // namespace CGALi
+} // namespace internal
 
 template < class NT >
 struct Compare
-  :public CGALi::Compare_base
+  :public internal::Compare_base
   <NT,typename Real_embeddable_traits<NT>::Compare>{};
 
 

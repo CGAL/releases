@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Listener.h $
-// $Id: Listener.h 42004 2008-02-06 18:13:32Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/include/CGAL/Kinetic/Listener.h $
+// $Id: Listener.h 53046 2009-11-16 12:05:02Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -251,7 +251,7 @@ private:						\
 #define CGAL_KINETIC_LISTEN1(Notifier, NOTIF, function)\
   private:								\
   class Notifier##_listener: public Notifier::Listener {		\
-    CGAL_KINETIC_LISTENER_BASICS(Notifier##_listener, This);		\
+    CGAL_KINETIC_LISTENER_BASICS(Notifier##_listener, This)		\
   public:								\
     virtual void new_notification(typename Notifier::Listener::Notification_type t) { \
       if (recipient() != NULL && t== Notifier::Listener::NOTIF) recipient()->function; \
@@ -265,7 +265,7 @@ private:						\
 #define CGAL_KINETIC_LISTEN2(Notifier, NOTIF, function, NOTIF2, function2) \
   private:								\
   class Notifier##_listener: public Notifier::Listener {                \
-    CGAL_KINETIC_LISTENER_BASICS(Notifier##_listener, This);		\
+    CGAL_KINETIC_LISTENER_BASICS(Notifier##_listener, This)		\
   public:								\
     virtual void new_notification(typename Notifier::Listener::Notification_type t) { \
       if (recipient()== NULL) return;					\

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Double_map.h $
-// $Id: Double_map.h 45717 2008-09-24 09:13:57Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_2/include/CGAL/Double_map.h $
+// $Id: Double_map.h 53868 2010-01-28 12:42:10Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -29,6 +29,10 @@
 #include <boost/version.hpp>
 #if BOOST_VERSION >= 103500
 #  define CGAL_USE_BOOST_BIMAP
+#endif
+
+#if defined(CGAL_USE_BOOST_BIMAP) && BOOST_VERSION == 104100
+#include <CGAL/internal/container_fwd_fixed.hpp>
 #endif
 
 #ifdef CGAL_USE_BOOST_BIMAP

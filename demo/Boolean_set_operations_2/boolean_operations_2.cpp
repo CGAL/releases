@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/boolean_operations_2.cpp $
-// $Id: boolean_operations_2.cpp 45454 2008-09-09 21:42:42Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/boolean_operations_2.cpp $
+// $Id: boolean_operations_2.cpp 50989 2009-07-31 00:18:31Z fcacciola $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -927,7 +927,7 @@ void MyWindow::perform_mink_sum()
       res_pgns.push_back(res_p_wh);
       draw_result(res_pgns.begin(), res_pgns.end());
       widget->setCursor(old);
-    }
+    } 
   else
     {
       mink_sum_warning();

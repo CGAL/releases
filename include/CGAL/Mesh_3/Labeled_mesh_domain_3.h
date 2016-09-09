@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Labeled_mesh_domain_3.h $
-// $Id: Labeled_mesh_domain_3.h 51555 2009-08-27 13:10:21Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Labeled_mesh_domain_3.h $
+// $Id: Labeled_mesh_domain_3.h 53828 2010-01-27 14:37:25Z lrineau $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -33,7 +33,7 @@
 #include <boost/variant.hpp>
 #include <boost/format.hpp>
 #include <boost/optional.hpp>
-#include <boost/tuple/tuple.hpp>
+#include <CGAL/tuple.h>
 
 namespace CGAL {
 
@@ -98,7 +98,7 @@ public:
 //    Internal_index index_;
 //  };
   typedef boost::variant<Subdomain_index, Surface_index> Index;
-  typedef boost::tuple<Point_3,Index,int> Intersection;
+  typedef CGAL::cpp0x::tuple<Point_3,Index,int> Intersection;
 
 
   typedef typename BGT::FT FT;
@@ -565,7 +565,7 @@ Labeled_mesh_domain_3<F,BGT>::Construct_initial_points::operator()(
     Surface_patch surface = r_domain_.do_intersect_surface_object()(random_seg);
     if ( surface )
     {
-      const Point_3 intersect_pt = boost::get<0>(
+      const Point_3 intersect_pt = CGAL::cpp0x::get<0>(
           r_domain_.construct_intersection_object()(random_seg));
       *pts++ = std::make_pair(intersect_pt,
                               r_domain_.index_from_surface_index(*surface));

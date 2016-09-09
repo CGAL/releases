@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_visitor.h $
-// $Id: Gps_agg_op_visitor.h 49836 2009-06-07 19:21:39Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_visitor.h $
+// $Id: Gps_agg_op_visitor.h 51988 2009-09-21 10:54:53Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -38,10 +38,10 @@ class Gps_agg_op_base_visitor :
     // TODO derive (helper) from topology traits class
     typename boost::mpl::if_< 
     boost::is_same< typename Arr_are_all_sides_oblivious_tag< 
-                                     typename Traits::Arr_left_side_tag, 
-                                     typename Traits::Arr_bottom_side_tag, 
-                                     typename Traits::Arr_top_side_tag, 
-                                     typename Traits::Arr_right_side_tag 
+                                     typename Traits::Arr_left_side_category, 
+                                     typename Traits::Arr_bottom_side_category, 
+                                     typename Traits::Arr_top_side_category, 
+                                     typename Traits::Arr_right_side_category 
     >::result, Arr_all_sides_oblivious_tag >,
     Arr_bounded_planar_construction_helper<Traits, 
                                        Arrangement_,
@@ -61,10 +61,10 @@ class Gps_agg_op_base_visitor :
   
   typedef typename boost::mpl::if_< 
     boost::is_same< typename Arr_are_all_sides_oblivious_tag< 
-                                     typename Traits::Arr_left_side_tag, 
-                                     typename Traits::Arr_bottom_side_tag, 
-                                     typename Traits::Arr_top_side_tag, 
-                                     typename Traits::Arr_right_side_tag 
+                                     typename Traits::Arr_left_side_category, 
+                                     typename Traits::Arr_bottom_side_category, 
+                                     typename Traits::Arr_top_side_category, 
+                                     typename Traits::Arr_right_side_category 
     >::result, Arr_all_sides_oblivious_tag >,
     Arr_bounded_planar_construction_helper<Traits, 
                                        Arrangement,

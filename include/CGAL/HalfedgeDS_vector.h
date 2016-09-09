@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/HalfedgeDS/include/CGAL/HalfedgeDS_vector.h $
-// $Id: HalfedgeDS_vector.h 35751 2007-01-18 13:55:56Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/HalfedgeDS/include/CGAL/HalfedgeDS_vector.h $
+// $Id: HalfedgeDS_vector.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -73,19 +73,19 @@ public:
     typedef typename Face_alloc_rebind::other          Face_allocator;
 
 #ifdef CGAL__HALFEDGEDS_USE_INTERNAL_VECTOR
-    typedef CGALi::vector<Vertex, Vertex_allocator>    Vertex_vector;
+    typedef internal::vector<Vertex, Vertex_allocator>    Vertex_vector;
     typedef typename Vertex_vector::iterator           Vertex_I;
     typedef typename Vertex_vector::const_iterator     Vertex_CI;
     typedef typename Vertex_vector::iterator           Vertex_iterator;
     typedef typename Vertex_vector::const_iterator     Vertex_const_iterator;
 
-    typedef CGALi::vector<Halfedge, Halfedge_allocator>  Halfedge_vector;
+    typedef internal::vector<Halfedge, Halfedge_allocator>  Halfedge_vector;
     typedef typename Halfedge_vector::iterator         Halfedge_I;
     typedef typename Halfedge_vector::const_iterator   Halfedge_CI;
     typedef typename Halfedge_vector::iterator         Halfedge_iterator;
     typedef typename Halfedge_vector::const_iterator   Halfedge_const_iterator;
 
-    typedef CGALi::vector<Face, Face_allocator>        Face_vector;
+    typedef internal::vector<Face, Face_allocator>        Face_vector;
     typedef typename Face_vector::iterator             Face_I;
     typedef typename Face_vector::const_iterator       Face_CI;
     typedef typename Face_vector::iterator             Face_iterator;

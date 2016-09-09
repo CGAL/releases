@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_2/include/CGAL/Segment_2_Line_2_intersection.h $
-// $Id: Segment_2_Line_2_intersection.h 45356 2008-09-07 15:09:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Segment_2_Line_2_intersection.h $
+// $Id: Segment_2_Line_2_intersection.h 52633 2009-10-20 09:57:22Z lrineau $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -35,7 +35,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 class Segment_2_Line_2_pair {
@@ -93,19 +93,17 @@ intersection(const typename K::Line_2 &line,
 	     const typename K::Segment_2 &seg, 
 	     const K& k)
 {
-  return CGALi::intersection(seg, line, k);
+  return internal::intersection(seg, line, k);
 }
 
 
 template <class K>
 inline bool do_intersect(
-    const typename K::Line_2 &p1,
-    const typename K::Segment_2 &p2,
-    const K&)
+    const typename K::Line_2 &line,
+    const typename K::Segment_2 &seg,
+    const K& k)
 {
-    typedef Segment_2_Line_2_pair<K> pair_t;
-    pair_t pair(&p2, &p1);
-    return pair.intersection_type() != pair_t::NO_INTERSECTION;
+  return internal::do_intersect(seg, line, k);
 }
 
 
@@ -155,7 +153,7 @@ Segment_2_Line_2_pair<K>::intersection_segment() const
     return *_seg;
 }
 
-} // namespace CGALi
+} // namespace internal
 
 template <class K>
 inline bool

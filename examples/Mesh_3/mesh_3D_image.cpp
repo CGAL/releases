@@ -10,31 +10,30 @@
 
 // Domain
 struct K: public CGAL::Exact_predicates_inexact_constructions_kernel {};
-typedef CGAL::Image_3 Image;
-typedef CGAL::Labeled_image_mesh_domain_3<Image,K> Mesh_domain;
+typedef CGAL::Labeled_image_mesh_domain_3<CGAL::Image_3,K> Mesh_domain;
 
 // Triangulation
 typedef CGAL::Mesh_triangulation_3<Mesh_domain>::type Tr;
 typedef CGAL::Mesh_complex_3_in_triangulation_3<Tr> C3t3;
 
-// Mesh Criteria
+// Criteria
 typedef CGAL::Mesh_criteria_3<Tr> Mesh_criteria;
-typedef Mesh_criteria::Facet_criteria    Facet_criteria;
-typedef Mesh_criteria::Cell_criteria     Cell_criteria;
+
+// To avoid verbose function and named parameters call
+using namespace CGAL::parameters;
 
 int main()
 {
   // Loads image
-  Image image;
+  CGAL::Image_3 image;
   image.read("data/liver.inr.gz");
 
   // Domain
   Mesh_domain domain(image);
 
   // Mesh criteria
-  Facet_criteria facet_criteria(30, 6, 4); // angle, size, approximation
-  Cell_criteria cell_criteria(3, 8); // radius-edge ratio, size
-  Mesh_criteria criteria(facet_criteria, cell_criteria);
+  Mesh_criteria criteria(facet_angle=30, facet_size=6, facet_distance=4,
+                         cell_radius_edge=3, cell_size=8);
 
   // Meshing
   C3t3 c3t3 = CGAL::make_mesh_3<C3t3>(domain, criteria);

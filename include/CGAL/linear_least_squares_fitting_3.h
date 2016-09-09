@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_3.h $
-// $Id: linear_least_squares_fitting_3.h 42887 2008-04-13 12:38:48Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_3.h $
+// $Id: linear_least_squares_fitting_3.h 51456 2009-08-24 17:10:04Z spion $
 //
 // Author(s)     : Pierre Alliez and Sylvain Pion and Ankit Gupta
 
@@ -54,7 +54,7 @@ linear_least_squares_fitting_3(InputIterator first,
 			                         const Kernel& kernel)
 {
   typedef typename std::iterator_traits<InputIterator>::value_type Value_type;
-  return CGALi::linear_least_squares_fitting_3(first, beyond, object,
+  return internal::linear_least_squares_fitting_3(first, beyond, object,
                                                centroid, (Value_type*) NULL, kernel, tag);
 }
 

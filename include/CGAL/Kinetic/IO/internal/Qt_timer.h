@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/internal/Qt_timer.h $
-// $Id: Qt_timer.h 40530 2007-10-04 11:14:00Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/internal/Qt_timer.h $
+// $Id: Qt_timer.h 53026 2009-11-14 11:49:52Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -33,7 +33,7 @@ namespace CGAL
       class Qt_timer: public QObject, public Non_ref_counted<Qt_timer>
       {
 	Q_OBJECT
-    	CGAL_KINETIC_LISTENERNT1(TICKS);
+    	CGAL_KINETIC_LISTENERNT1(TICKS)
      
       public:
 	Qt_timer();
@@ -46,7 +46,7 @@ namespace CGAL
 	  //CGAL_precondition(id_!=-1);
 	  if (id_!= -1) timer_.killTimer(id_);
 	  id_=-1;
-	};
+	}
 	void run(double time_in_seconds);
       protected:
 	QTimer timer_;
@@ -57,7 +57,7 @@ namespace CGAL
 	 private slots:
 	 void timerDone();
       };
-    };
-  };
-};
+    }
+  }
+}
 #endif

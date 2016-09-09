@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/Index_property_map.h $
-// $Id: Index_property_map.h 51831 2009-09-04 11:38:11Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_processing_3/include/CGAL/Index_property_map.h $
+// $Id: Index_property_map.h 51830 2009-09-04 11:27:51Z lsaboret $
 //
 // Author(s)     : Laurent Saboret
 
@@ -38,7 +38,7 @@ namespace CGAL {
 // ----------------------------------------------------------------------------
 // Private section
 // ----------------------------------------------------------------------------
-namespace CGALi {
+namespace internal {
 
 
 /// Functor for operator< that compares iterators address.
@@ -52,7 +52,7 @@ struct Compare_iterator_address
 };
 
 
-} /* namespace CGALi */
+} /* namespace internal */
 
 
 // ----------------------------------------------------------------------------
@@ -82,12 +82,12 @@ template <class Iter,
 class Index_property_map 
   : public boost::associative_property_map< std::map<Iter,
                                                      unsigned int,
-                                                     CGALi::Compare_iterator_address<Iter> > >
+                                                     internal::Compare_iterator_address<Iter> > >
 {
   // std::map to store indices
   typedef typename std::map<Iter,
                             unsigned int,
-                            CGALi::Compare_iterator_address<Iter> >
+                            internal::Compare_iterator_address<Iter> >
                                             Index_map;
   // base class = property map
   typedef typename boost::associative_property_map<Index_map>

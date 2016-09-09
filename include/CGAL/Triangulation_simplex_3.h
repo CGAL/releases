@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Triangulation_simplex_3.h $
-// $Id: Triangulation_simplex_3.h 40832 2007-11-08 00:27:20Z ameyer $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Triangulation_simplex_3.h $
+// $Id: Triangulation_simplex_3.h 51045 2009-08-04 13:36:15Z spion $
+//
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
 //                 Developed at Rijksuniversiteit Groningen (Netherlands)
@@ -120,7 +120,7 @@ private:
   void set_edge(const Edge &e) {
     ch = e.first;
     ref = (((e.third<< 2) + e.second) << 2) + 1; /* dim */
-    CGAL_assertion (ch != Cell_handle()); 
+    CGAL_assertion (ch != Cell_handle());
   }
   void set_facet(const Facet &f) {
     ch = f.first;
@@ -147,14 +147,14 @@ private:
 ///////////////////////////////
 template < class TriangulationDataStructure_3 >
 bool
-operator!=(Triangulation_simplex_3<TriangulationDataStructure_3> s0, 
+operator!=(Triangulation_simplex_3<TriangulationDataStructure_3> s0,
 	   Triangulation_simplex_3<TriangulationDataStructure_3> s1) {
   return !(s0==s1);
 }
 
 template < class TriangulationDataStructure_3 >
 bool
-operator==(Triangulation_simplex_3<TriangulationDataStructure_3> s0, 
+operator==(Triangulation_simplex_3<TriangulationDataStructure_3> s0,
 	   Triangulation_simplex_3<TriangulationDataStructure_3> s1) {
   typedef Triangulation_simplex_3<TriangulationDataStructure_3> Sim;
   if (s0.dimension() != s1.dimension()) return false;
@@ -189,7 +189,7 @@ operator==(Triangulation_simplex_3<TriangulationDataStructure_3> s0,
 
 template < class TriangulationDataStructure_3 >
 bool
-operator<(Triangulation_simplex_3<TriangulationDataStructure_3> s0, 
+operator<(Triangulation_simplex_3<TriangulationDataStructure_3> s0,
 	  Triangulation_simplex_3<TriangulationDataStructure_3> s1) {
   typedef Triangulation_simplex_3<TriangulationDataStructure_3> Sim;
 
@@ -244,7 +244,7 @@ operator<(Triangulation_simplex_3<TriangulationDataStructure_3> s0,
 
 template < class TriangulationDataStructure_3 >
 std::ostream &
-operator<< (std::ostream& os, 
+operator<< (std::ostream& os,
 	    const Triangulation_simplex_3<TriangulationDataStructure_3> &s)
 {
   typename TriangulationDataStructure_3::Vertex_handle vh;

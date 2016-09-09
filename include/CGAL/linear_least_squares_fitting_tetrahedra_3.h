@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://gankit@scm.gforge.inria.fr/svn/cgal/trunk/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_tetrahedrons_3.h $
-// $Id: linear_least_squares_fitting_2.h 37882 2007-04-03 15:15:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_tetrahedra_3.h $
+// $Id: linear_least_squares_fitting_tetrahedra_3.h 52628 2009-10-20 08:59:26Z lrineau $
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta
 
@@ -33,7 +33,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 // fits a plane to a 3D tetrahedron set
 template < typename InputIterator, 
@@ -314,7 +314,7 @@ linear_least_squares_fitting_3(InputIterator first,
 
 } // end linear_least_squares_fitting_tetrahedra_3
 
-} // end namespace CGALi
+} // end namespace internal
 
 CGAL_END_NAMESPACE
 

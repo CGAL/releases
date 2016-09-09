@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Hash_map/include/CGAL/Unique_hash_map.h $
-// $Id: Unique_hash_map.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Hash_map/include/CGAL/Unique_hash_map.h $
+// $Id: Unique_hash_map.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -48,7 +48,7 @@ public:
     typedef Unique_hash_map<Key,Data,Hash_function>  Self;
 
 private:
-    typedef CGALi::chained_map<Data>                 Map;
+    typedef internal::chained_map<Data>                 Map;
     typedef typename Map::item                       Item;
 
 private:

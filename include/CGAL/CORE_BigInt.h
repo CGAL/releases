@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/CORE_BigInt.h $
-// $Id: CORE_BigInt.h 48598 2009-03-31 17:20:16Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/CORE_BigInt.h $
+// $Id: CORE_BigInt.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -31,7 +31,7 @@
 CGAL_BEGIN_NAMESPACE
 
 template<>
-struct Root_of_traits<CORE::BigInt>: public CGALi::Root_of_traits_helper<CORE::BigInt,
+struct Root_of_traits<CORE::BigInt>: public internal::Root_of_traits_helper<CORE::BigInt,
     Euclidean_ring_tag>{
   typedef CORE::BigRat RootOf_1;
   typedef CORE::BigRat Root_of_1;

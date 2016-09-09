@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/predicates/Regular_triangulation_ftC3.h $
-// $Id: Regular_triangulation_ftC3.h 46206 2008-10-11 20:21:08Z spion $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/predicates/Regular_triangulation_ftC3.h $
+// $Id: Regular_triangulation_ftC3.h 52320 2009-10-15 08:27:22Z sloriot $
+//
 //
 // Author(s)     : Sylvain Pion
 
@@ -39,23 +39,23 @@ power_testC3( const FT &px, const FT &py, const FT &pz, const FT &pwt,
     FT dpx = px - tx;
     FT dpy = py - ty;
     FT dpz = pz - tz;
-    FT dpt = CGAL_NTS square(dpx) + CGAL_NTS square(dpy) + 
-             CGAL_NTS square(dpz) - pwt + twt;
+    FT dpt = CGAL_NTS square(dpx) + CGAL_NTS square(dpy) +
+             CGAL_NTS square(dpz) + (twt - pwt);
     FT dqx = qx - tx;
     FT dqy = qy - ty;
     FT dqz = qz - tz;
     FT dqt = CGAL_NTS square(dqx) + CGAL_NTS square(dqy) +
-             CGAL_NTS square(dqz) - qwt + twt;
+             CGAL_NTS square(dqz) + (twt - qwt);
     FT drx = rx - tx;
     FT dry = ry - ty;
     FT drz = rz - tz;
-    FT drt = CGAL_NTS square(drx) + CGAL_NTS square(dry) + 
-             CGAL_NTS square(drz) - rwt + twt;
+    FT drt = CGAL_NTS square(drx) + CGAL_NTS square(dry) +
+             CGAL_NTS square(drz) + (twt - rwt);
     FT dsx = sx - tx;
     FT dsy = sy - ty;
     FT dsz = sz - tz;
-    FT dst = CGAL_NTS square(dsx) + CGAL_NTS square(dsy) + 
-             CGAL_NTS square(dsz) - swt + twt;
+    FT dst = CGAL_NTS square(dsx) + CGAL_NTS square(dsy) +
+             CGAL_NTS square(dsz) + (twt - swt);
 
     return - sign_of_determinant(dpx, dpy, dpz, dpt,
 				 dqx, dqy, dqz, dqt,
@@ -75,18 +75,18 @@ power_testC3( const FT &px, const FT &py, const FT &pz, const FT &pwt,
     FT dpx = px - tx;
     FT dpy = py - ty;
     FT dpz = pz - tz;
-    FT dpt = CGAL_NTS square(dpx) + CGAL_NTS square(dpy) + 
-             CGAL_NTS square(dpz) - pwt + twt;
+    FT dpt = CGAL_NTS square(dpx) + CGAL_NTS square(dpy) +
+             CGAL_NTS square(dpz) + (twt - pwt);
     FT dqx = qx - tx;
     FT dqy = qy - ty;
     FT dqz = qz - tz;
-    FT dqt = CGAL_NTS square(dqx) + CGAL_NTS square(dqy) + 
-             CGAL_NTS square(dqz) - qwt + twt;
+    FT dqt = CGAL_NTS square(dqx) + CGAL_NTS square(dqy) +
+             CGAL_NTS square(dqz) + (twt - qwt);
     FT drx = rx - tx;
     FT dry = ry - ty;
     FT drz = rz - tz;
-    FT drt = CGAL_NTS square(drx) + CGAL_NTS square(dry) + 
-             CGAL_NTS square(drz) - rwt + twt;
+    FT drt = CGAL_NTS square(drx) + CGAL_NTS square(dry) +
+             CGAL_NTS square(drz) + (twt - rwt);
     Sign cmp;
 
     // Projection on the (xy) plane.
@@ -124,13 +124,13 @@ power_testC3( const FT &px, const FT &py, const FT &pz, const FT &pwt,
     FT dpx = px - tx;
     FT dpy = py - ty;
     FT dpz = pz - tz;
-    FT dpt = CGAL_NTS square(dpx) + CGAL_NTS square(dpy) + 
-             CGAL_NTS square(dpz) - pwt + twt;
+    FT dpt = CGAL_NTS square(dpx) + CGAL_NTS square(dpy) +
+             CGAL_NTS square(dpz) + (twt - pwt);
     FT dqx = qx - tx;
     FT dqy = qy - ty;
     FT dqz = qz - tz;
-    FT dqt = CGAL_NTS square(dqx) + CGAL_NTS square(dqy) + 
-             CGAL_NTS square (dqz) - qwt + twt;
+    FT dqt = CGAL_NTS square(dqx) + CGAL_NTS square(dqy) +
+             CGAL_NTS square (dqz) + (twt - qwt);
     Comparison_result cmp;
 
     // We do an orthogonal projection on the (x) axis, if possible.

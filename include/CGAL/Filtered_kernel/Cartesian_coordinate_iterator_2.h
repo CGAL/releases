@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_2.h $
-// $Id: Cartesian_coordinate_iterator_2.h 42821 2008-04-09 18:06:00Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Filtered_kernel/include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_2.h $
+// $Id: Cartesian_coordinate_iterator_2.h 53155 2009-11-24 14:08:44Z afabri $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -67,11 +67,9 @@ public:
   operator*() const {
     if (const P* const* p = boost::get<const P*>(&var))
       return (*p)->cartesian(index);
-    if (const V* const* v = boost::get<const V*>(&var))
-      return (*v)->cartesian(index);
-    // std::cerr << "type of var = " << var.type().name() << std::endl;
-    CGAL_error();
-    std::abort(); // to kill warning
+    const V* const* v = boost::get<const V*>(&var);
+    CGAL_assertion(v);
+    return (*v)->cartesian(index);
   }
 
   Self&  operator++() {

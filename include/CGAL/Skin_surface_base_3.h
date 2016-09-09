@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://nicokruithof@scm.gforge.inria.fr/svn/cgal/trunk/Skin_surface_3/include/CGAL/Skin_surface_3.h $
-// $Id: Skin_surface_3.h 35826 2007-01-27 16:14:56Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Skin_surface_3/include/CGAL/Skin_surface_base_3.h $
+// $Id: Skin_surface_base_3.h 53818 2010-01-27 13:43:08Z lrineau $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -25,6 +25,10 @@
 #include <CGAL/Simple_cartesian.h>
 
 #include <CGAL/Regular_triangulation_3.h>
+
+#include <boost/random/linear_congruential.hpp>
+#include <boost/random/uniform_smallint.hpp>
+#include <boost/random/variate_generator.hpp>
 
 // For the Weighted_converter
 #include <CGAL/Regular_triangulation_euclidean_traits_3.h>
@@ -179,9 +183,6 @@ private:
   Regular _regular;
   // Triangulated mixed complex or Voronoi diagram:
   TMC _tmc;
-  
-  // Used for random walk in locate_in_tmc
-  mutable Random rng;
   
   bool verbose;
 };
@@ -682,7 +683,10 @@ locate_in_tmc(const Bare_point &p0,
 
   // For the remembering stochastic walk,
   // we need to start trying with a random index :
-  int i = rng.template get_bits<2>();
+  boost::rand48 rng;  
+  boost::uniform_smallint<> four(0, 3);
+  boost::variate_generator<boost::rand48&, boost::uniform_smallint<> > die4(rng, four);
+  int i = die4();
   // For the remembering visibility walk (Delaunay only), we don't :
   // int i = 0;
 

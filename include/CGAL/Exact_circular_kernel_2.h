@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Exact_circular_kernel_2.h $
-// $Id: Exact_circular_kernel_2.h 44373 2008-07-23 17:13:44Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_2/include/CGAL/Exact_circular_kernel_2.h $
+// $Id: Exact_circular_kernel_2.h 51456 2009-08-24 17:10:04Z spion $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -47,7 +47,7 @@ TODO: CORRECT THE MAKE_ROOT_OF_2 of GMPq GMPz
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 /*
 #ifdef CGAL_USE_GMP
   typedef CGAL::Gmpq                                           NT1;
@@ -69,9 +69,9 @@ namespace CGALi {
 //  typedef CGAL::Lazy_circular_kernel_2<CK1,CK2>
 //  Exact_circular_kernel_2;
 
-} // namespace CGALi
+} // namespace internal
 
-typedef Filtered_bbox_circular_kernel_2<CGALi::CK1>   Exact_circular_kernel_2;
+typedef Filtered_bbox_circular_kernel_2<internal::CK1>   Exact_circular_kernel_2;
 
 CGAL_END_NAMESPACE
 

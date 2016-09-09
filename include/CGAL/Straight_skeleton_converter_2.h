@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_converter_2.h $
-// $Id: Straight_skeleton_converter_2.h 43050 2008-04-28 17:03:23Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_converter_2.h $
+// $Id: Straight_skeleton_converter_2.h 51456 2009-08-24 17:10:04Z spion $
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 
@@ -26,7 +26,7 @@ CGAL_BEGIN_NAMESPACE
 
 template<class Source_skeleton_
         ,class Target_skeleton_
-        ,class NT_converter = typename CGALi::Default_converter<typename Source_skeleton_::Traits
+        ,class NT_converter = typename internal::Default_converter<typename Source_skeleton_::Traits
                                                                ,typename Target_skeleton_::Traits
                                                                >::Type 
         >

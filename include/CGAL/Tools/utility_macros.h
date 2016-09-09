@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Tools/Log.h $
-// $Id: Log.h 39016 2007-06-11 00:08:13Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/include/CGAL/Tools/utility_macros.h $
+// $Id: utility_macros.h 53026 2009-11-14 11:49:52Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -370,7 +370,7 @@ template <class A, class B>			\
       typedef name<Tr> T;						\
       CGAL_HAS_INFINITY_BODY;						\
     };									\
-  };
+  }
 
 
 
@@ -396,7 +396,7 @@ template <class A, class B>			\
       typedef name<Tr, Ur> T;						\
       CGAL_HAS_INFINITY_BODY;						\
     };									\
-  };
+  }
 
 #endif
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/CORE_BigFloat.h $
-// $Id: CORE_BigFloat.h 49632 2009-05-26 21:08:11Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/CORE_BigFloat.h $
+// $Id: CORE_BigFloat.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -35,48 +35,48 @@ CGAL_BEGIN_NAMESPACE
 
 template<> 
 class Interval_traits<CORE::BigFloat> 
-    : public CGALi::Interval_traits_base<CORE::BigFloat>{
+    : public internal::Interval_traits_base<CORE::BigFloat>{
 
 public: 
     
     typedef Interval_traits<CORE::BigFloat> Self; 
     typedef CORE::BigFloat Interval;
-    typedef CORE::BigFloat Boundary;
+    typedef CORE::BigFloat Bound;
     typedef CGAL::Tag_true Is_interval; 
  
-    struct Lower :public std::unary_function<Interval,Boundary>{
-        Boundary operator() ( Interval x ) const {   
+    struct Lower :public std::unary_function<Interval,Bound>{
+        Bound operator() ( Interval x ) const {   
             CORE::BigFloat result = ::CORE::BigFloat(x.m()-x.err(),0,x.exp());
             CGAL_postcondition(result <= x);
             return result; 
         }
     };
     
-    struct Upper :public std::unary_function<Interval,Boundary>{
-        Boundary operator() ( Interval x ) const {     
+    struct Upper :public std::unary_function<Interval,Bound>{
+        Bound operator() ( Interval x ) const {     
             CORE::BigFloat result = ::CORE::BigFloat(x.m()+x.err(),0,x.exp());
             CGAL_postcondition(result >= x);
             return result; 
         }
     };
 
-    struct Width :public std::unary_function<Interval,Boundary>{
+    struct Width :public std::unary_function<Interval,Bound>{
          
-        Boundary operator() ( Interval x ) const {    
+        Bound operator() ( Interval x ) const {    
             unsigned long err = 2*x.err();
-            return Boundary(CORE::BigInt(err),0,x.exp());
+            return Bound(CORE::BigInt(err),0,x.exp());
         }
     };
 
-    struct Median :public std::unary_function<Interval,Boundary>{
+    struct Median :public std::unary_function<Interval,Bound>{
          
-        Boundary operator() ( Interval x ) const {   
-            return Boundary(x.m(),0,x.exp());
+        Bound operator() ( Interval x ) const {   
+            return Bound(x.m(),0,x.exp());
         }
     };
 
-    struct Norm :public std::unary_function<Interval,Boundary>{
-        Boundary operator() ( Interval x ) const {
+    struct Norm :public std::unary_function<Interval,Bound>{
+        Bound operator() ( Interval x ) const {
           BOOST_USING_STD_MAX();
           return max BOOST_PREVENT_MACRO_SUBSTITUTION (Upper()(x).abs(),Lower()(x).abs());
         }
@@ -88,8 +88,8 @@ public:
         }
     };
 
-    struct In :public std::binary_function<Boundary,Interval,bool>{  
-        bool operator()( Boundary x, const Interval& a ) const {    
+    struct In :public std::binary_function<Bound,Interval,bool>{  
+        bool operator()( Bound x, const Interval& a ) const {    
             CGAL_precondition(CGAL::singleton(x));
             return (Lower()(a) <= x && x <= Upper()(a));
         }
@@ -118,8 +118,8 @@ public:
             BOOST_USING_STD_MAX();
             BOOST_USING_STD_MIN();
             // std::cout <<"a= (" << a.m() << "+-" << a.err() << ")*2^" << a.exp() << std::endl;
-            Boundary l(max BOOST_PREVENT_MACRO_SUBSTITUTION (Lower()(a),Lower()(b)));
-            Boundary u(min BOOST_PREVENT_MACRO_SUBSTITUTION (Upper()(a),Upper()(b)));
+            Bound l(max BOOST_PREVENT_MACRO_SUBSTITUTION (Lower()(a),Lower()(b)));
+            Bound u(min BOOST_PREVENT_MACRO_SUBSTITUTION (Upper()(a),Upper()(b)));
 
             if(u < l ) throw Exception_intersection_is_empty();
             return Construct()(l,u);
@@ -233,8 +233,8 @@ public:
         }
     };
 
-    struct Construct :public std::binary_function<Boundary,Boundary,Interval>{
-        Interval operator()( const Boundary& l,const Boundary& r) const {
+    struct Construct :public std::binary_function<Bound,Bound,Interval>{
+        Interval operator()( const Bound& l,const Bound& r) const {
             CGAL_precondition( l < r ); 
             return Hull()(l,r);
         }

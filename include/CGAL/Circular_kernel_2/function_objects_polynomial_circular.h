@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/function_objects_polynomial_circular.h $
-// $Id: function_objects_polynomial_circular.h 50522 2009-07-10 08:21:44Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/function_objects_polynomial_circular.h $
+// $Id: function_objects_polynomial_circular.h 51456 2009-08-24 17:10:04Z spion $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -503,7 +503,7 @@ namespace CircularFunctors {
     template <class T1, class T2>
     result_type
     operator()(const T1& t1, const T2& t2) const
-    { return CGALi::do_intersect(t1, t2, CK()); }
+    { return internal::do_intersect(t1, t2, CK()); }
   };
   
   template < class CK >

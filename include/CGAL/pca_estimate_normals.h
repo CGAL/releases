@@ -11,14 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/pca_estimate_normals.h $
-// $Id: pca_estimate_normals.h 49951 2009-06-17 12:39:51Z nsalman $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_processing_3/include/CGAL/pca_estimate_normals.h $
+// $Id: pca_estimate_normals.h 52329 2009-10-15 12:08:25Z ggael $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
 #ifndef CGAL_PCA_ESTIMATE_NORMALS_H
 #define CGAL_PCA_ESTIMATE_NORMALS_H
 
+#include <CGAL/trace.h>
 #include <CGAL/Dimension.h>
 #include <CGAL/Search_traits_3.h>
 #include <CGAL/Orthogonal_k_neighbor_search.h>
@@ -36,7 +37,7 @@ CGAL_BEGIN_NAMESPACE
 // ----------------------------------------------------------------------------
 // Private section
 // ----------------------------------------------------------------------------
-namespace CGALi {
+namespace internal {
 
 
 /// Estimates normal direction using linear least
@@ -93,7 +94,7 @@ pca_estimate_normal(const typename Kernel::Point_3& query, ///< point to compute
 }
 
 
-} /* namespace CGALi */
+} /* namespace internal */
 
 
 // ----------------------------------------------------------------------------
@@ -173,7 +174,7 @@ pca_estimate_normals(
   // vectors (already normalized)
   for(it = first; it != beyond; it++)
   {
-    Vector normal = CGALi::pca_estimate_normal<Kernel,Tree>(get(point_pmap,it), tree, k);
+    Vector normal = internal::pca_estimate_normal<Kernel,Tree>(get(point_pmap,it), tree, k);
     put(normal_pmap, it, normal); // normal_pmap[it] = normal
   }
 

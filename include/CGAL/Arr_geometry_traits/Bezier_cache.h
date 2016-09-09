@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_cache.h $
-// $Id: Bezier_cache.h 40350 2007-09-16 14:35:07Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_cache.h $
+// $Id: Bezier_cache.h 53323 2009-12-08 12:49:11Z efif $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -415,7 +415,7 @@ _Bezier_cache<NtTraits>::get_intersections
 
   // We should now have the same number of s-values and t-values, and we have
   // to pair them together. 
-  CGAL_assertion (s_vals.size() == s_vals.size());
+  CGAL_assertion (s_vals.size() == t_vals.size());
 
   // Compute all points on (X_1, Y_1) that match an s-value from the list.
   typename Parameter_list::iterator  s_it;

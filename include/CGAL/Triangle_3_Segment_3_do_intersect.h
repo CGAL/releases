@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_3/include/CGAL/Triangle_3_Segment_3_do_intersect.h $
-// $Id: Triangle_3_Segment_3_do_intersect.h 39776 2007-08-08 15:15:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_3/include/CGAL/Triangle_3_Segment_3_do_intersect.h $
+// $Id: Triangle_3_Segment_3_do_intersect.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Philippe Guigue
@@ -23,7 +23,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 
 template <class K>
@@ -300,7 +300,7 @@ bool do_intersect(const typename K::Segment_3  &s,
   return do_intersect(t, s, k);
 }
 
-} // namespace CGALi
+} // namespace internal
 
 
 template <class K>
@@ -323,7 +323,7 @@ inline bool do_intersect(const Segment_3<K>  &s,
 			 const Triangle_3<K> &t,
 			 const K & k)
 {
-  return CGALi::do_intersect(t,s,k);
+  return internal::do_intersect(t,s,k);
 }
 */
 

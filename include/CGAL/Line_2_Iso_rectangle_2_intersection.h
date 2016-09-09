@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_2/include/CGAL/Line_2_Iso_rectangle_2_intersection.h $
-// $Id: Line_2_Iso_rectangle_2_intersection.h 45046 2008-08-20 13:49:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Line_2_Iso_rectangle_2_intersection.h $
+// $Id: Line_2_Iso_rectangle_2_intersection.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -34,7 +34,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 class Line_2_Iso_rectangle_2_pair {
@@ -77,7 +77,7 @@ inline bool do_intersect(const typename K::Iso_rectangle_2 &p2,
 			 const typename K::Line_2 &p1,
 			 const K& k)
 {
-  return CGALi::do_intersect(p1, p2, k);
+  return internal::do_intersect(p1, p2, k);
 }
 
 
@@ -209,10 +209,10 @@ intersection(const typename K::Iso_rectangle_2 &iso,
 	     const typename K::Line_2 &line, 
 	     const K& k)
 {
-  return CGALi::intersection(line, iso, k);
+  return internal::intersection(line, iso, k);
 }
 
-} // namespace CGALi
+} // namespace internal
 
 
 template <class K>

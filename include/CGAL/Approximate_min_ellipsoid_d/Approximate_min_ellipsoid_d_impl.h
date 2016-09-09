@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_impl.h $
-// $Id: Approximate_min_ellipsoid_d_impl.h 37145 2007-03-16 08:27:32Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_impl.h $
+// $Id: Approximate_min_ellipsoid_d_impl.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Kaspar Fischer <fischerk@inf.ethz.ch>
@@ -159,7 +159,7 @@ namespace CGAL {
     
     std::pair<Vector_2, Vector_2> eigenvectors; // Note: not neces. normalized.
     std::pair<double, double>     eigenvalues;  // Note: sorted descendent.
-    CGALi::eigen_symmetric_2<K>(matrix, eigenvectors, eigenvalues);
+    internal::eigen_symmetric_2<K>(matrix, eigenvectors, eigenvalues);
     
     // normalize eigenvectors:
     double l1=1.0/std::sqrt(eigenvectors.first.x()*eigenvectors.first.x()+
@@ -200,7 +200,7 @@ namespace CGAL {
     
     double eigenvectors[3 * 3]; // Note: not necessarily normalized.
     double eigenvalues[3];      // Note: sorted descendent.
-    CGALi::eigen_symmetric<double>(matrix, 3, eigenvectors, eigenvalues);
+    internal::eigen_symmetric<double>(matrix, 3, eigenvectors, eigenvalues);
     
     // normalize eigenvectors:
     double l1 = 1.0/std::sqrt(eigenvectors[0] * eigenvectors[0]+  // x^2

@@ -4,8 +4,8 @@
 /* The default style of the LaTeX-to-HTML converter output.                */
 /*                                                                         */
 /* (c) 2004   Lutz Kettner                                                 */
-/* $Id: modern.css 47870 2009-02-02 17:06:34Z spion $                     */
-/* $Date: 2009-02-02 18:06:34 +0100 (Mon, 02 Feb 2009) $                   */
+/* $Id: modern.css 51479 2009-08-25 14:12:18Z spion $                     */
+/* $Date: 2009-08-25 16:12:18 +0200 (Tue, 25 Aug 2009) $                   */
 /* ======================================================================= */
 
 /* ----------------------------------------------------------------------- */
@@ -110,6 +110,16 @@ div.AdvancedBlock      {
     margin: 1em 0;
     background-color: #c0d0ff;
     background-image: url(style/Advanced.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+div.DeprecatedBlock      {
+    border: solid thin;
+    padding: 1.5em 0em 0em 5px;
+    margin: 1em 0;
+    background-color: #FFE4B5;
+    background-image: url(style/Deprecated.gif);
     background-position: top left;
     background-repeat: no-repeat;
 }

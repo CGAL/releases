@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/utils.h $
-// $Id: utils.h 47264 2008-12-08 06:25:14Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/utils.h $
+// $Id: utils.h 53015 2009-11-13 09:50:04Z spion $
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-sb.mpg.de>
@@ -30,32 +30,32 @@ template< class T >
 inline T min BOOST_PREVENT_MACRO_SUBSTITUTION
 ( const T& x , const T& y) {
     return Min<T>()( x , y );
-};
+}
 
 template< class T , class Compare >
 inline T min BOOST_PREVENT_MACRO_SUBSTITUTION
 ( const T& x , const T& y, const Compare& c) {
     return Min<T, Compare>(c)( x , y );
-};
+}
 
 // use Max
 template< class T >
 inline T max BOOST_PREVENT_MACRO_SUBSTITUTION
 ( const T& x , const T& y) {
     return Max<T>()( x , y );
-};
+}
 
 template< class T , class Compare >
 inline T max BOOST_PREVENT_MACRO_SUBSTITUTION
 ( const T& x , const T& y, const Compare& c) {
     return Max<T, Compare>(c)( x , y );
-};
+}
 
 // use Is_valid
 template< class T >
 inline bool is_valid( const T& x ) {
   return Is_valid< T >()( x );
-};
+}
 
 CGAL_END_NAMESPACE
 

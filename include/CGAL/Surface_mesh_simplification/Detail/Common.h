@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Common.h $
-// $Id: Common.h 50078 2009-06-25 15:12:52Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Common.h $
+// $Id: Common.h 51456 2009-08-24 17:10:04Z spion $
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
@@ -120,9 +120,9 @@ CGAL_END_NAMESPACE
 #  include<string>
 #  include<iostream>
 #  include<sstream>
-namespace CGALi { namespace  { bool cgal_enable_ecms_trace = false ; } }
+namespace internal { namespace  { bool cgal_enable_ecms_trace = false ; } }
 #  define CGAL_ECMS_TRACE_IMPL(m) \
-     if ( ::CGALi::cgal_enable_ecms_trace ) { \
+     if ( ::internal::cgal_enable_ecms_trace ) { \
        std::ostringstream ss ; ss << m ; std::string s = ss.str(); \
        Surface_simplification_external_trace(s); \
      }

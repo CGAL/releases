@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Straight_skeleton_2/include/CGAL/Polygon_offset_builder_traits_2.h $
-// $Id: Polygon_offset_builder_traits_2.h 46477 2008-10-25 13:48:37Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Straight_skeleton_2/include/CGAL/Polygon_offset_builder_traits_2.h $
+// $Id: Polygon_offset_builder_traits_2.h 50832 2009-07-24 17:20:12Z fcacciola $
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 #ifndef CGAL_POLYGON_OFFSET_BUILDER_TRAITS_2_H
@@ -24,25 +24,9 @@
 #include <CGAL/constructions/Polygon_offset_cons_ftC2.h>
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 
-#include "boost/type_traits/is_same.hpp"
-#include "boost/mpl/if.hpp"
-#include "boost/mpl/or.hpp"
-
 CGAL_BEGIN_NAMESPACE
 
 namespace CGAL_SS_i {
-
-template<class K> struct Has_inexact_constructions
-{ 
-  typedef typename K::FT FT ;
-  
-  typedef typename boost::mpl::if_< boost::mpl::or_< boost::is_same<FT,double>
-                                                   , boost::is_same<FT,Interval_nt_advanced>
-                                                   > 
-                                  , Tag_true
-                                  , Tag_false
-                                  >::type type ; 
-} ;
 
 template<class K>
 struct Compare_offset_against_event_time_2 : Functor_base_2<K>

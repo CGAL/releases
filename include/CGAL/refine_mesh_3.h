@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/refine_mesh_3.h $
-// $Id: refine_mesh_3.h 51094 2009-08-06 13:11:07Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/refine_mesh_3.h $
+// $Id: refine_mesh_3.h 53413 2009-12-15 13:19:38Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -24,8 +24,9 @@
 #ifndef CGAL_REFINE_MESH_3_H
 #define CGAL_REFINE_MESH_3_H
 
-#include <CGAL/Mesh_3/Slivers_exuder.h>
+#include <CGAL/Mesh_3/global_parameters.h>
 #include <CGAL/Mesh_3/Mesher_3.h>
+#include <CGAL/optimize_mesh_3.h>
 
 namespace CGAL {
 
@@ -71,6 +72,207 @@ namespace CGAL {
   }
   
   
+namespace parameters {
+  
+  namespace internal {
+    
+    const int undef_parameter = -1;
+    
+    // Helpers
+    struct Optimization_options_base
+    {
+      Optimization_options_base(bool b)
+      : b_(b), time_limit_(undef_parameter), bound_(undef_parameter) {}
+      
+      operator bool() const { return b_; }
+      
+      bool is_time_limit_set() const { return time_limit_ != undef_parameter; }
+      void set_time_limit(double d) { time_limit_ = d; }
+      double time_limit() const { return time_limit_; }
+      
+      bool is_bound_set() const { return bound_ != undef_parameter; }
+      void set_bound(double d) { bound_ = d; }
+      double bound() const { return bound_; }
+      
+    private:
+      bool b_;
+      double time_limit_;
+      double bound_;
+    };
+    
+    struct Global_optimization_options_base
+    {
+      Global_optimization_options_base()
+      : convergence_(undef_parameter), max_it_nb_(undef_parameter) {}
+      
+      bool is_convergence_set() const { return convergence_ != undef_parameter; }
+      void set_convergence(double d) { convergence_ = d; }
+      double convergence() const { return convergence_; }
+      
+      bool is_max_iteration_number_set() const { return max_it_nb_ != undef_parameter; }
+      void set_max_iteration_number(int i) { max_it_nb_ = i; }
+      int max_iteration_number() const { return max_it_nb_; }
+      
+    private:
+      double convergence_;
+      int max_it_nb_; 
+    };
+    
+    // Perturb
+    struct Perturb_options : public Optimization_options_base
+    {
+      Perturb_options(bool b) : Optimization_options_base(b) {}
+    };
+    
+    // Exude
+    struct Exude_options : public Optimization_options_base
+    {
+      Exude_options(bool b) : Optimization_options_base(b) {}
+    };
+    
+    // Odt
+    struct Odt_options : public Optimization_options_base
+    , public Global_optimization_options_base
+    {
+      Odt_options(bool b) : Optimization_options_base(b)
+      , Global_optimization_options_base() {}
+    };
+    
+    // Lloyd
+    struct Lloyd_options : public Optimization_options_base
+    , public Global_optimization_options_base
+    {
+      Lloyd_options(bool b) : Optimization_options_base(b)
+      , Global_optimization_options_base() {}
+    };
+    
+  } // end namespace internal
+  
+  // -----------------------------------
+  // Perturb
+  // -----------------------------------
+  BOOST_PARAMETER_FUNCTION((internal::Perturb_options), perturb, tag,
+                           (optional (time_limit_, *, internal::undef_parameter )
+                                     (sliver_bound_, *, default_values::perturb_sliver_bound )))
+  { 
+    internal::Perturb_options options(true);
+    
+    if ( internal::undef_parameter != time_limit_ )
+      options.set_time_limit(time_limit_);
+    
+    options.set_bound(sliver_bound_);
+    
+    return options;
+  }
+  
+  internal::Perturb_options no_perturb() { return internal::Perturb_options(false); }
+  
+  // -----------------------------------
+  // Exude
+  // -----------------------------------
+  BOOST_PARAMETER_FUNCTION((internal::Exude_options), exude, tag,
+                           (optional (time_limit_, *, internal::undef_parameter )
+                                     (sliver_bound_, *, default_values::exude_sliver_bound )))
+  { 
+    internal::Exude_options options(true);
+    
+    if ( internal::undef_parameter != time_limit_ )
+      options.set_time_limit(time_limit_);
+
+    options.set_bound(sliver_bound_);
+    
+    return options;
+  }
+  
+  internal::Exude_options no_exude() { return internal::Exude_options(false); }
+  
+  // -----------------------------------
+  // Odt
+  // -----------------------------------
+  BOOST_PARAMETER_FUNCTION((internal::Odt_options), odt, tag,
+                           (optional (time_limit_, *, 0 )
+                                     (max_iteration_number_, *, 0 )
+                                     (convergence_, *, default_values::odt_convergence_ratio )
+                                     (freeze_bound_, *, default_values::odt_freeze_ratio )))
+  { 
+    internal::Odt_options options(true);
+
+    options.set_time_limit(time_limit_);
+    options.set_bound(freeze_bound_);
+    options.set_convergence(convergence_);
+    options.set_max_iteration_number(max_iteration_number_);
+    
+    return options;
+  }
+  
+  internal::Odt_options no_odt() { return internal::Odt_options(false); }
+  
+  // -----------------------------------
+  // Lloyd
+  // -----------------------------------
+  BOOST_PARAMETER_FUNCTION((internal::Lloyd_options), lloyd, tag,
+                           (optional (time_limit_, *, 0 )
+                                     (max_iteration_number_, *, 0 )
+                                     (convergence_, *, default_values::lloyd_convergence_ratio )
+                                     (freeze_bound_, *, default_values::lloyd_freeze_ratio )))
+  { 
+    internal::Lloyd_options options(true);
+    
+    options.set_time_limit(time_limit_);
+    options.set_bound(freeze_bound_);
+    options.set_convergence(convergence_);
+    options.set_max_iteration_number(max_iteration_number_);
+    
+    return options;
+  }
+  
+  internal::Lloyd_options no_lloyd() { return internal::Lloyd_options(false); }
+  
+  
+  // -----------------------------------
+  // Reset_c3t3 (undocumented)
+  // -----------------------------------
+  CGAL_MESH_BOOLEAN_PARAMETER(Reset,reset_c3t3,no_reset_c3t3)
+  
+  // -----------------------------------
+  // Parameters
+  // -----------------------------------
+  BOOST_PARAMETER_NAME( exude_param )
+  BOOST_PARAMETER_NAME( perturb_param )
+  BOOST_PARAMETER_NAME( odt_param )
+  BOOST_PARAMETER_NAME( lloyd_param )
+  BOOST_PARAMETER_NAME( reset_param )
+  
+} // end namespace parameters
+  
+  
+BOOST_PARAMETER_FUNCTION(
+  (void),
+  refine_mesh_3,
+  parameters::tag,
+  (required (in_out(c3t3),*) (domain,*) (criteria,*) ) // nondeduced
+  (deduced 
+    (optional
+      (exude_param, (parameters::internal::Exude_options), parameters::exude())
+      (perturb_param, (parameters::internal::Perturb_options), parameters::perturb())
+      (odt_param, (parameters::internal::Odt_options), parameters::no_odt())
+      (lloyd_param, (parameters::internal::Lloyd_options), parameters::no_lloyd())
+      (reset_param, (parameters::Reset), parameters::reset_c3t3())
+    )
+  )
+)
+{
+  return refine_mesh_3_impl(c3t3,
+                            domain,
+                            criteria,
+                            exude_param,
+                            perturb_param,
+                            odt_param,
+                            lloyd_param,
+                            reset_param() );
+}
+  
+  
 /**
  * @brief This function refines the mesh c3t3 wrt domain & criteria
  *
@@ -78,22 +280,27 @@ namespace CGAL {
  * @param domain the domain to be discretized
  * @param criteria the criteria
  * @param exude if \c true, an exudation step will be done at
- *   the end of the Delaunay refinment process
+ *   the end of the Delaunay refinement process
+ * @param perturb if \c true, an explicit vertex perturbation step will be
+ *   done at the end of refinement process
  * @param reset_c3t3 if \c true, a new C3T3 will be construct from param c3t3.
  *   The new c3t3 keeps only the vertices (as NON-weighted points with their
  *   dimension and Index) of the triangulation. That allows to refine a mesh
  *   which has been exuded.
  */
 template<class C3T3, class MeshDomain, class MeshCriteria>
-void refine_mesh_3(C3T3& c3t3,
-                   const MeshDomain&   domain,
-                   const MeshCriteria& criteria,
-                   bool exude = true,
-                   bool reset_c3t3 = true)
+void refine_mesh_3_impl(C3T3& c3t3,
+                        const MeshDomain&   domain,
+                        const MeshCriteria& criteria,
+                        const parameters::internal::Exude_options& exude,
+                        const parameters::internal::Perturb_options& perturb,
+                        const parameters::internal::Odt_options& odt,
+                        const parameters::internal::Lloyd_options& lloyd,
+                        bool reset_c3t3)
 {
   typedef Mesh_3::Mesher_3<C3T3, MeshCriteria, MeshDomain> Mesher;
   typedef typename C3T3::Triangulation::Geom_traits Gt;
-  
+
   // Reset c3t3 (i.e. remove weights) if needed
   if ( reset_c3t3 )
   {
@@ -106,26 +313,55 @@ void refine_mesh_3(C3T3& c3t3,
   
   // Build mesher and launch refinement process
   Mesher mesher (c3t3, domain, criteria);
-  mesher.refine_mesh();
+  double refine_time = mesher.refine_mesh();
 
+  // Odt
+  if ( odt )
+  {
+    odt_optimize_mesh_3(c3t3,
+                        domain,
+                        parameters::time_limit = odt.time_limit(),
+                        parameters::max_iteration_number = odt.max_iteration_number(),
+                        parameters::convergence = odt.convergence(),
+                        parameters::freeze_bound = odt.bound());
+  }
+  
+  // Lloyd
+  if ( lloyd )
+  {
+    lloyd_optimize_mesh_3(c3t3,
+                          domain,
+                          parameters::time_limit = lloyd.time_limit(),
+                          parameters::max_iteration_number = lloyd.max_iteration_number(),
+                          parameters::convergence = lloyd.convergence(),
+                          parameters::freeze_bound = lloyd.bound());
+  }
+  
+  // Perturbation
+  if ( perturb )
+  {
+    double perturb_time_limit = refine_time/2;
+    
+    if ( perturb.is_time_limit_set() )
+      perturb_time_limit = perturb.time_limit();
+
+    perturb_mesh_3(c3t3,
+                   domain,
+                   parameters::time_limit = perturb_time_limit,
+                   parameters::sliver_bound = perturb.bound());
+  }
+  
   // Exudation
   if ( exude )
   {
-    typedef Mesh_3::Min_dihedral_angle_criterion<Gt> Sliver_criterion;
-    //typedef Mesh_3::Radius_radio_criterion<Gt> Sliver_criterion;
-    typedef typename Mesh_3::Slivers_exuder<C3T3, Sliver_criterion> Exuder;
+    double exude_time_limit = refine_time/2;
     
-    Exuder exuder(c3t3);
-  
-#ifdef CGAL_MESH_3_VERBOSE
-    exuder.print_stats();
-#endif // CGAL_MESH_3_VERBOSE
-  
-    exuder.pump_vertices();
-  
-#ifdef CGAL_MESH_3_VERBOSE
-    exuder.print_stats();
-#endif // CGAL_MESH_3_VERBOSE
+    if ( exude.is_time_limit_set() )
+      exude_time_limit = exude.time_limit();
+    
+    exude_mesh_3(c3t3,
+                 parameters::time_limit = exude_time_limit,
+                 parameters::sliver_bound = exude.bound());
   }
   
 };

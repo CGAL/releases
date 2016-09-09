@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Qt_widget/src/CGALQt/Qt_widget.cpp $
-// $Id: Qt_widget.cpp 45380 2008-09-08 13:15:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Qt_widget/src/CGALQt/Qt_widget.cpp $
+// $Id: Qt_widget.cpp 53026 2009-11-14 11:49:52Z spion $
 // 
 //
 // Author(s)     : Laurent Rineau and Radu Ursu
@@ -558,7 +558,7 @@ void Qt_widget::clear() {
         emit(redraw_on_front());
       unlock();
     }
-  };
+  }
   
   void Qt_widget::detach(Qt_widget_layer* s)
   {

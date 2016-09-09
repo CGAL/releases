@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/Skin_surface_traits_3.h $
-// $Id: Skin_surface_traits_3.h 44317 2008-07-22 12:29:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Skin_surface_3/include/CGAL/Skin_surface_traits_3.h $
+// $Id: Skin_surface_traits_3.h 53724 2010-01-22 12:34:50Z lrineau $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -152,7 +152,7 @@ private:
 // specialization for Exact_predicates_inexact_constructions_kernel to work,
 // otherwise there is a cycle in the derivation.
 // Similar to Regular_triangulation_euclidean_traits_3
-template < class K >
+template < class K, bool UseFilteredPredicates=K::Has_filtered_predicates >
 class Skin_surface_traits_3
   : public Skin_surface_traits_base_3<K>
 {
@@ -160,6 +160,7 @@ class Skin_surface_traits_3
 public:
   Skin_surface_traits_3() {}
   Skin_surface_traits_3(typename Base::FT s) : Base(s) {}
+  enum { Has_filtered_predicates=false };
 };
 
 CGAL_END_NAMESPACE
@@ -172,17 +173,20 @@ CGAL_END_NAMESPACE
 
 CGAL_BEGIN_NAMESPACE
 
-template < typename CK >
-class Skin_surface_traits_3 < Filtered_kernel<CK> >
-  : public Skin_surface_filtered_traits_3 < Filtered_kernel<CK> >
+// Just FK would be nicer, but VC 2005 messes it up with an "FK" in a base class when compiling degenerate_test.cpp
+template < typename Sst3FK >
+class Skin_surface_traits_3 < Sst3FK,true >
+  : public Skin_surface_filtered_traits_3 < Sst3FK >
 {
-  typedef Skin_surface_filtered_traits_3< Filtered_kernel<CK> > Base;
+  typedef Skin_surface_filtered_traits_3 < Sst3FK > Base;
 public:
-  typedef Filtered_kernel<CK>                                    Kernel;
-
+  typedef Sst3FK                                    Kernel;
+  
   Skin_surface_traits_3() {}
-  Skin_surface_traits_3(typename Base::FT s) : Base(s) {}
+  Skin_surface_traits_3(typename Base::FT s) :  Base(s) {}
+
 };
+
 
 
 CGAL_END_NAMESPACE

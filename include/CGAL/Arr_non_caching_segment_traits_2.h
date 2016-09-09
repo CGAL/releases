@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_traits_2.h $
-// $Id: Arr_non_caching_segment_traits_2.h 50374 2009-07-05 15:04:52Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_traits_2.h $
+// $Id: Arr_non_caching_segment_traits_2.h 51984 2009-09-20 16:18:10Z efif $
 //
 // Author(s)     : Efi Fogel    <efif@post.tau.ac.il>
 //                 Ron Wein     <wein@post.tau.ac.il>
@@ -61,10 +61,10 @@ public:
   // Traits types:
   typedef typename Base::Has_left_category      Has_left_category;
 
-  typedef typename Base::Arr_left_side_tag      Arr_left_side_tag;
-  typedef typename Base::Arr_bottom_side_tag    Arr_bottom_side_tag;
-  typedef typename Base::Arr_top_side_tag       Arr_top_side_tag;
-  typedef typename Base::Arr_right_side_tag     Arr_right_side_tag;
+  typedef typename Base::Arr_left_side_category      Arr_left_side_category;
+  typedef typename Base::Arr_bottom_side_category    Arr_bottom_side_category;
+  typedef typename Base::Arr_top_side_category       Arr_top_side_category;
+  typedef typename Base::Arr_right_side_category     Arr_right_side_category;
 
   typedef typename Base::Point_2                Point_2;
   typedef typename Base::X_monotone_curve_2     X_monotone_curve_2;

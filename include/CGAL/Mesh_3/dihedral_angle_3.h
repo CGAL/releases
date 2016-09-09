@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/dihedral_angle_3.h $
-// $Id: dihedral_angle_3.h 51094 2009-08-06 13:11:07Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/dihedral_angle_3.h $
+// $Id: dihedral_angle_3.h 52705 2009-10-23 10:27:15Z stayeb $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -26,43 +26,6 @@
 
 namespace CGAL {
 namespace Mesh_3 {
-    
-  
-namespace details {
-
-template <typename K>
-typename K::FT
-dihedral_angle_aux_compute_quotient(const typename K::Point_3& p0,
-                                    const typename K::Point_3& p1,
-                                    const typename K::Point_3& p2,
-                                    const typename K::Point_3& p3,
-                                    K k = K())
-{
-  typename K::Construct_triangle_3 make_triangle = 
-    k.construct_triangle_3_object();
-  typename K::Compute_area_3 area = 
-    k.compute_area_3_object();
-  typename K::Compute_squared_distance_3 sq_distance = 
-    k.compute_squared_distance_3_object();
-  
-  return CGAL::sqrt(sq_distance(p0, p1))
-      / area(make_triangle(p0, p1, p3))
-      / area(make_triangle(p0, p1, p2));
-}
-
-} // end namespace details;
-
-  
-/**
- * Computes dihedral angle of planes (a,b,c) and (a,b,d)
- */  
-template <typename Point_3>
-typename Kernel_traits<Point_3>::Kernel::FT
-dihedral_angle(const Point_3& a, const Point_3& b,
-               const Point_3& c, const Point_3& d)
-{
-  return dihedral_angle(a, b, c, d, typename Kernel_traits<Point_3>::Kernel());
-}
 
 /**
  * Computes dihedral angle of planes (a,b,c) and (a,b,d)
@@ -75,19 +38,41 @@ dihedral_angle(const typename K::Point_3& a,
                const typename K::Point_3& d,
                K k = K())
 {
+  typename K::Construct_vector_3 vector = k.construct_vector_3_object();
+  typename K::Construct_cross_product_vector_3 cross_product =
+    k.construct_cross_product_vector_3_object();
+  typename K::Compute_squared_distance_3 sq_distance =
+    k.compute_squared_distance_3_object();
+  typename K::Compute_scalar_product_3 scalar_product =
+    k.compute_scalar_product_3_object();
+
+  typedef typename K::Vector_3 Vector_3;
   typedef typename K::FT FT;
-  typename K::Compute_volume_3 volume = 
-    k.compute_volume_3_object();
-  
-  using details::dihedral_angle_aux_compute_quotient;
-  
-  FT quotient = dihedral_angle_aux_compute_quotient(a, b, c, d, k);
-  
-  return ( std::asin( FT(1.5) * volume(a, b, c, d) * quotient )
-           * FT(180)
-           / FT(CGAL_PI) );
+
+  const Vector_3 ab = vector(a,b);
+  const Vector_3 ac = vector(a,c);
+  const Vector_3 ad = vector(a,d);
+
+  const Vector_3 abad = cross_product(ab,ad);
+  const double x = CGAL::to_double(scalar_product(cross_product(ab,ac), abad));
+  const FT l_ab = CGAL::sqrt(sq_distance(a,b));
+  const double y = CGAL::to_double(l_ab * scalar_product(ac,abad));
+
+  return FT(std::atan2(y, x) * 180 / CGAL_PI );
 }
 
+  
+/**
+ * Computes dihedral angle of planes (a,b,c) and (a,b,d)
+ */  
+template <typename Point_3>
+typename Kernel_traits<Point_3>::Kernel::FT
+dihedral_angle(const Point_3& a, const Point_3& b,
+               const Point_3& c, const Point_3& d)
+{
+  return dihedral_angle(a, b, c, d, typename Kernel_traits<Point_3>::Kernel());
+}
+  
 } // end namespace Mesh_3
 } // end namespace CGAL
 

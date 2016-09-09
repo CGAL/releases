@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_3/include/CGAL/Intersections_3/intersection_3_1_impl.h $
-// $Id: intersection_3_1_impl.h 43518 2008-06-09 07:58:50Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_3/include/CGAL/Intersections_3/intersection_3_1_impl.h $
+// $Id: intersection_3_1_impl.h 53116 2009-11-20 12:36:02Z stayeb $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -26,7 +26,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 Object
@@ -143,13 +143,13 @@ intersection(const typename K::Plane_3 &plane1,
 
     // Intersection between plane1 and plane2 can either be
     // a line, a plane, or empty.
-    Object o12 = CGALi::intersection(plane1, plane2, k);
+    Object o12 = internal::intersection(plane1, plane2, k);
 
     if (const Line_3 *l = object_cast<Line_3>(&o12))
-        return CGALi::intersection(plane3, *l, k);
+        return internal::intersection(plane3, *l, k);
 
     if (const Plane_3 *pl = object_cast<Plane_3>(&o12))
-        return CGALi::intersection(plane3, *pl, k);
+        return internal::intersection(plane3, *pl, k);
 
     return Object();
 }
@@ -437,14 +437,30 @@ intersection(const typename K::Plane_3 &plane,
         case ON_POSITIVE_SIDE:
             return Object();
         case ON_NEGATIVE_SIDE:
-            return intersection(plane, seg.supporting_line(), k);
+          { 
+            // intersection object should be a point, but rounding errors 
+            // could lead to a line. In such case, return seg.
+            Object obj = intersection(plane, seg.supporting_line(), k);
+            if ( NULL == object_cast<typename K::Line_3>(&obj) )
+              return obj;
+            else
+              return make_object(seg);
+          }
         }
     case ON_NEGATIVE_SIDE:
         switch (target_side) {
         case ON_ORIENTED_BOUNDARY:
             return make_object(target);
         case ON_POSITIVE_SIDE:
-            return intersection(plane, seg.supporting_line(), k);
+          { 
+            // intersection object should be a point, but rounding errors 
+            // could lead to a line. In such case, return seg.
+            Object obj = intersection(plane, seg.supporting_line(), k);
+            if ( NULL == object_cast<typename K::Line_3>(&obj) )
+              return obj;
+            else 
+              return make_object(seg);
+          }
         case ON_NEGATIVE_SIDE:
             return Object();
         }
@@ -888,7 +904,7 @@ intersection(
 }
 
 
-} // namespace CGALi
+} // namespace internal
 
 
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Simulator_kds_listener.h $
-// $Id: Simulator_kds_listener.h 29334 2006-03-10 00:00:09Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/include/CGAL/Kinetic/listeners.h $
+// $Id: listeners.h 52628 2009-10-20 08:59:26Z lrineau $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>

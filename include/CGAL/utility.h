@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/utility.h $
-// $Id: utility.h 49057 2009-04-30 14:03:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/utility.h $
+// $Id: utility.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -34,7 +34,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <int i, typename T>
 struct Tuple_get;
@@ -112,17 +112,17 @@ public:
   }
 
   template < int i >
-  typename CGALi::Tuple_get<i, Self>::result_type const &
+  typename internal::Tuple_get<i, Self>::result_type const &
   get() const
   {
-    return CGALi::Tuple_get<i, Self>::get(*this);
+    return internal::Tuple_get<i, Self>::get(*this);
   }
 
   template < int i >
-  typename CGALi::Tuple_get<i, Self>::result_type &
+  typename internal::Tuple_get<i, Self>::result_type &
   get()
   {
-    return CGALi::Tuple_get<i, Self>::get(*this);
+    return internal::Tuple_get<i, Self>::get(*this);
   }
 
 };
@@ -209,17 +209,17 @@ public:
   }
 
   template < int i >
-  typename CGALi::Tuple_get<i, Self>::result_type const &
+  typename internal::Tuple_get<i, Self>::result_type const &
   get() const
   {
-    return CGALi::Tuple_get<i, Self>::get(*this);
+    return internal::Tuple_get<i, Self>::get(*this);
   }
 
   template < int i >
-  typename CGALi::Tuple_get<i, Self>::result_type &
+  typename internal::Tuple_get<i, Self>::result_type &
   get()
   {
-    return CGALi::Tuple_get<i, Self>::get(*this);
+    return internal::Tuple_get<i, Self>::get(*this);
   }
 };
 

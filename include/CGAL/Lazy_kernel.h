@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Lazy_kernel.h $
-// $Id: Lazy_kernel.h 50673 2009-07-17 15:07:11Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Filtered_kernel/include/CGAL/Lazy_kernel.h $
+// $Id: Lazy_kernel.h 52607 2009-10-19 12:10:13Z sloriot $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -75,6 +75,9 @@ public:
   // typedef filter_tag                                     Kernel_tag;
   typedef typename Exact_kernel::Kernel_tag                       Kernel_tag;
   typedef typename Exact_kernel::Rep_tag                          Rep_tag;
+
+  enum { Has_filtered_predicates = true };
+  enum { Has_static_filters = false };
 
   // Types
   typedef CGAL::Lazy_exact_nt<typename Exact_kernel::FT>  FT;

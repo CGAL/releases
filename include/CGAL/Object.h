@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Object.h $
-// $Id: Object.h 45448 2008-09-09 16:03:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/Object.h $
+// $Id: Object.h 53459 2009-12-16 16:09:04Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -129,6 +129,12 @@ class Object
     is_empty() const
     {
 	return empty();
+    }
+
+    template <class T>
+    bool is() const
+    {
+        return NULL != dynamic_cast<const Wrapper<T> *>(Ptr());
     }
 
     const std::type_info & type() const

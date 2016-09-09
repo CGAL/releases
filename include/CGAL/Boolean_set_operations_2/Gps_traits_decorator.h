@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_decorator.h $
-// $Id: Gps_traits_decorator.h 50368 2009-07-05 13:14:14Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_decorator.h $
+// $Id: Gps_traits_decorator.h 51988 2009-09-21 10:54:53Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -52,34 +52,34 @@ public:
   typedef typename Base::Has_left_category         Has_left_category;
   typedef typename Base::Has_merge_category        Has_merge_category;
 
-  typedef typename Base::Arr_left_side_tag         Arr_left_side_tag;
-  typedef typename Base::Arr_bottom_side_tag       Arr_bottom_side_tag;
-  typedef typename Base::Arr_top_side_tag          Arr_top_side_tag;
-  typedef typename Base::Arr_right_side_tag        Arr_right_side_tag;
+  typedef typename Base::Arr_left_side_category         Arr_left_side_category;
+  typedef typename Base::Arr_bottom_side_category       Arr_bottom_side_category;
+  typedef typename Base::Arr_top_side_category          Arr_top_side_category;
+  typedef typename Base::Arr_right_side_category        Arr_right_side_category;
 
   // a side is either oblivious or open (unbounded)
   BOOST_MPL_ASSERT(
       (boost::mpl::or_< 
-       boost::is_same< Arr_left_side_tag, Arr_oblivious_side_tag >,
-       boost::is_same< Arr_left_side_tag, Arr_open_side_tag > >
+       boost::is_same< Arr_left_side_category, Arr_oblivious_side_tag >,
+       boost::is_same< Arr_left_side_category, Arr_open_side_tag > >
       )
   );
   BOOST_MPL_ASSERT(
       (boost::mpl::or_< 
-       boost::is_same< Arr_bottom_side_tag, Arr_oblivious_side_tag >,
-       boost::is_same< Arr_bottom_side_tag, Arr_open_side_tag > >
+       boost::is_same< Arr_bottom_side_category, Arr_oblivious_side_tag >,
+       boost::is_same< Arr_bottom_side_category, Arr_open_side_tag > >
       )
   );
   BOOST_MPL_ASSERT(
       (boost::mpl::or_< 
-       boost::is_same< Arr_top_side_tag, Arr_oblivious_side_tag >,
-       boost::is_same< Arr_top_side_tag, Arr_open_side_tag > >
+       boost::is_same< Arr_top_side_category, Arr_oblivious_side_tag >,
+       boost::is_same< Arr_top_side_category, Arr_open_side_tag > >
       )
   );
   BOOST_MPL_ASSERT(
       (boost::mpl::or_< 
-       boost::is_same< Arr_right_side_tag, Arr_oblivious_side_tag >,
-       boost::is_same< Arr_right_side_tag, Arr_open_side_tag > >
+       boost::is_same< Arr_right_side_category, Arr_oblivious_side_tag >,
+       boost::is_same< Arr_right_side_category, Arr_open_side_tag > >
       )
   );
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Triangulation_2.h $
-// $Id: Triangulation_2.h 49948 2009-06-17 09:00:37Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Triangulation_2.h $
+// $Id: Triangulation_2.h 53845 2010-01-27 16:43:40Z lrineau $
 // 
 //
 // Author(s)     : Olivier Devillers, Mariette Yvinec
@@ -38,9 +38,11 @@
 #include <CGAL/Triangulation_vertex_base_2.h>
 #include <CGAL/Triangulation_face_base_2.h>
 #include <CGAL/Triangulation_line_face_circulator_2.h>
-#include <CGAL/Random.h>
-
 #include <CGAL/spatial_sort.h>
+
+#include <boost/random/linear_congruential.hpp>
+#include <boost/random/uniform_smallint.hpp>
+#include <boost/random/variate_generator.hpp>
 
 CGAL_BEGIN_NAMESPACE
 template < class Gt, class Tds > class Triangulation_2;
@@ -148,7 +150,7 @@ public:
   typedef Finite_edges_iterator                Edge_iterator;
   typedef Finite_vertices_iterator             Vertex_iterator;
 
-  typedef Triangulation_line_face_circulator_2<Gt,Tds>  Line_face_circulator;
+  typedef Triangulation_line_face_circulator_2<Self>  Line_face_circulator;
 
   // Auxiliary iterators for convenience
   // do not use default template argument to please VC++
@@ -179,7 +181,6 @@ protected:
   Gt  _gt;
   Tds _tds;
   Vertex_handle _infinite_vertex;
-  mutable Random rng;
 
 public:
   // CONSTRUCTORS
@@ -266,9 +267,6 @@ public:
   void remove_first(Vertex_handle  v);
   void remove_second(Vertex_handle v);
   void remove(Vertex_handle  v);
-
-  // MOVE
-  bool move(Vertex_handle v, const Point &p);
 
   // POINT LOCATION
   Face_handle
@@ -440,7 +438,6 @@ int insert(InputIterator first, InputIterator last)
   int n = number_of_vertices();
 
   std::vector<Point> points (first, last);
-  std::random_shuffle (points.begin(), points.end());
   spatial_sort (points.begin(), points.end(), geom_traits());
   Face_handle f;
   for (typename std::vector<Point>::const_iterator p = points.begin(), end = points.end();
@@ -448,25 +445,6 @@ int insert(InputIterator first, InputIterator last)
       f = insert (*p, f)->face();
 
   return number_of_vertices() - n;
-}
-
-template < class InputIterator >
-bool move(InputIterator first, InputIterator last)
-{
-  bool blocked = false;
-  std::map<Vertex_handle, int> hash;
-  std::list< std::pair<Vertex_handle, Point> > to_move(first, last);
-  while(!to_move.empty()) {
-    std::pair<Vertex_handle, Point> pp = to_move.front();
-    to_move.pop_front();
-    if(!move(pp.first, pp.second)) {
-      if(hash[pp.first] == 3) break;
-      else if(hash[pp.first] == 2) blocked = true;
-      hash[pp.first]++;
-      to_move.push_back(pp);
-    }
-  }
-  return !blocked;
 }
 
 bool well_oriented(Vertex_handle v)
@@ -1534,105 +1512,6 @@ fill_hole_delaunay(std::list<Edge> & first_hole)
     }
 }
 
-template <class Gt, class Tds >
-bool
-Triangulation_2<Gt, Tds>::
-move(Vertex_handle v, const Point &p) {
-  CGAL_triangulation_precondition(!is_infinite(v));
-  const int dim = dimension();
-
-  if(dim == 2) {
-    Point ant = v->point();
-    v->set_point(p);
-    if(well_oriented(v)) {
-      if(!from_convex_hull(v)) {
-        return true;
-      }
-    }
-    v->set_point(ant);
-  }
-
-  Locate_type lt;
-  int li;
-  Vertex_handle inserted;
-  Face_handle loc = locate(p, lt, li);
-
-  if(lt == VERTEX) return false;
-
-  if(dim < 0) return true;
-
-  if(dim == 0) {
-    v->point() = p;
-    return true;
-  }
-
-  if((loc != NULL) && (dim == 1)) {
-    if(loc->has_vertex(v)) {
-      v->point() = p;
-    } else {
-      inserted = insert(p, lt, loc, li);
-      Face_handle f = v->face();
-      int i = f->index(v);
-      if (i==0) {f = f->neighbor(1);}
-      CGAL_triangulation_assertion(f->index(v) == 1);
-      Face_handle g= f->neighbor(0);
-      f->set_vertex(1, g->vertex(1));
-      f->set_neighbor(0, g->neighbor(0));
-      g->neighbor(0)->set_neighbor(1,f);
-      g->vertex(1)->set_face(f);
-      delete_face(g);
-      Face_handle f_ins = inserted->face();
-      i = f_ins->index(inserted);
-      if (i==0) {f_ins = f_ins->neighbor(1);}
-      CGAL_triangulation_assertion(f_ins->index(inserted) == 1);
-      Face_handle g_ins = f_ins->neighbor(0);
-      f_ins->set_vertex(1, v);
-      g_ins->set_vertex(0, v);
-      std::swap(*v, *inserted);
-      delete_vertex(inserted);
-    }
-    return true;
-  }
-
-  if((loc != NULL) && test_dim_down(v)) {
-    v->point() = p;
-    int i = loc->index(v);
-    Face_handle locl;
-    int i_locl;
-    if(is_infinite(loc)) {
-      int i_inf = loc->index(infinite_vertex());
-      locl = loc->neighbor(i_inf);
-      i_locl = locl->index(v);
-    } else { locl = loc; i_locl = i; }
-    if(orientation(p, locl->vertex(ccw(i_locl))->point(),
-                      locl->vertex(cw(i_locl))->point()) == COLLINEAR) {
-      _tds.dim_2D_1D(loc, i);
-    }
-    return true;
-  }
-
-  inserted = insert(p, lt, loc, li);
-
-  std::list<Edge> hole;
-  make_hole(v, hole);
-  fill_hole(v, hole);
-
-  // fixing pointer
-  Face_circulator fc = incident_faces(inserted), done(fc);
-  std::list<Face_handle> faces_pt;
-  do { faces_pt.push_back(fc); } while(++fc != done);
-  while(!faces_pt.empty()) {
-    Face_handle f = faces_pt.front();
-    faces_pt.pop_front();
-    int i = f->index(inserted);
-    f->set_vertex(i, v);
-  }
-  std::swap(*v, *inserted);
-  delete_vertex(inserted);
-
-  return true;
-}
-  
 template <class Gt, class Tds >    
 inline
 typename Triangulation_2<Gt, Tds>::Face_handle
@@ -1934,6 +1813,11 @@ march_locate_2D(Face_handle c,
 {
   CGAL_triangulation_assertion(! is_infinite(c));
   
+  boost::rand48 rng;
+
+  boost::uniform_smallint<> two(0, 1);
+  boost::variate_generator<boost::rand48&, boost::uniform_smallint<> > coin(rng, two);
+
   Face_handle prev = Face_handle();
   bool first = true;
   while (1) {
@@ -1953,7 +1837,7 @@ march_locate_2D(Face_handle c,
     // We do loop unrolling in order to find out if this is faster.
     // In the very beginning we do not have a prev, but for the first step 
     // we do not need randomness
-    int left_first = rng.template get_bits<1>();
+    int left_first = coin()%2;
     
     const Point & p0 = c->vertex( 0 )->point();
     const Point & p1 = c->vertex( 1 )->point();
@@ -2106,7 +1990,10 @@ march_locate_2D(Face_handle c,
 		int& li) const
 {
   CGAL_triangulation_assertion(! is_infinite(c));
-  
+
+  boost::uniform_smallint<> three(0, 2);
+  boost::variate_generator<boost::rand48&, boost::uniform_smallint<> > die3(rng, three);  
+
   Face_handle prev = Face_handle();
   while (1) {
     if ( is_infinite(c) ) {
@@ -2120,7 +2007,7 @@ march_locate_2D(Face_handle c,
     // we test its edges in a random order until we find a
     // neighbor to go further
 
-    int i = rng.template get_bits<2>();
+    int i = die3();
     int ccwi = ccw(i);
     int cwi = cw(i);
     const Point & p0 = c->vertex( i )->point();

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/mesh_standard_facet_criteria.h $
-// $Id: mesh_standard_facet_criteria.h 51094 2009-08-06 13:11:07Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/mesh_standard_facet_criteria.h $
+// $Id: mesh_standard_facet_criteria.h 53419 2009-12-15 14:26:19Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -21,6 +21,7 @@
 // File Description :
 //
 //******************************************************************************
+
 
 #ifndef CGAL_MESH_3_MESH_STANDARD_FACET_CRITERIA_H
 #define CGAL_MESH_3_MESH_STANDARD_FACET_CRITERIA_H
@@ -42,7 +43,7 @@ namespace details {
         const typename K::FT& b,
         const typename K::FT& c)
   {
-    return (std::min)(a, std::min(b,c));
+    return (std::min)(a, (std::min)(b,c));
   };
 
 } // end namespace details
@@ -100,12 +101,7 @@ protected:
   virtual Badness do_is_bad (const Facet& f) const
   {
     CGAL_assertion (f.first->is_facet_on_surface(f.second));
-
-//    if(B_ == FT(0))
-//    {
-//      q = 1;
-//      return false;
-//    }
+    CGAL_assertion (B_ != 0);
 
     typedef typename Tr::Geom_traits Gt;
     typedef typename Tr::Point Point_3;
@@ -179,11 +175,7 @@ protected:
   virtual Badness do_is_bad (const Facet& f) const
   {
     CGAL_assertion(f.first->is_facet_on_surface(f.second));
-
-//    if(B_ == Quality(0)) {
-//      q = 1;
-//      return false;
-//    }
+    CGAL_assertion (B_ != 0);
 
     typedef typename Tr::Geom_traits Gt;
     typedef typename Tr::Point Point_3;
@@ -255,11 +247,7 @@ protected:
   virtual Badness do_is_bad (const Facet& f) const
   {
     CGAL_assertion (f.first->is_facet_on_surface(f.second));
-
-//    if(B_ == Quality(0)) {
-//      q = 1;
-//      return false;
-//    }
+    CGAL_assertion (B_ != 0);
 
     typedef typename Tr::Geom_traits Gt;
     typedef typename Tr::Point Point_3;
@@ -326,6 +314,7 @@ protected:
   {
     typedef typename Tr::Vertex_handle Vertex_handle;
     typedef typename Tr::Cell_handle Cell_handle;
+    typedef typename Tr::Vertex::Index Index;
 
     const Cell_handle& ch = f.first;
     const int i = f.second;
@@ -334,9 +323,9 @@ protected:
     const Vertex_handle& v3 = ch->vertex((i+3)&3);
 
     // Look if vertex are on surface
-    if ( (v1->in_dimension() != 2) ||
-         (v2->in_dimension() != 2) ||
-         (v3->in_dimension() != 2) )
+    if ( (v1->in_dimension() > 2) ||
+         (v2->in_dimension() > 2) ||
+         (v3->in_dimension() > 2) )
     {
       return Badness(Quality(1));
     }
@@ -374,10 +363,8 @@ public:
 
 };  // end class Facet_criterion_visitor
 
-
 }  // end namespace Mesh_3
 
 }  // end namespace CGAL
-
 
 #endif // CGAL_MESH_3_MESH_STANDARD_FACET_CRITERIA_H

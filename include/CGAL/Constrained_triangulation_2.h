@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Constrained_triangulation_2.h $
-// $Id: Constrained_triangulation_2.h 48844 2009-04-21 18:28:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Constrained_triangulation_2.h $
+// $Id: Constrained_triangulation_2.h 53845 2010-01-27 16:43:40Z lrineau $
 // 
 //
 // Author(s)     : Mariette Yvinec, Jean-Daniel Boissonnat
@@ -248,7 +248,6 @@ public:
       int n = number_of_vertices(); 
 
       std::vector<Point> points (first, last);
-      std::random_shuffle (points.begin(), points.end());
       CGAL::spatial_sort (points.begin(), points.end(), geom_traits());
 
       Face_handle hint;
@@ -1115,7 +1114,7 @@ operator<<(std::ostream& os,
 //Helping functions to compute intersections of constrained edges
 template<class Gt>
 bool
-intersection(Gt ,
+intersection(const Gt& ,
 	     const typename Gt::Point_2& , 
 	     const typename Gt::Point_2& , 
 	     const typename Gt::Point_2& , 
@@ -1128,7 +1127,7 @@ intersection(Gt ,
 	     
 template<class Gt>
 bool
-intersection(Gt gt,
+intersection(const Gt& gt,
 	     const typename Gt::Point_2& pa, 
 	     const typename Gt::Point_2& pb, 
 	     const typename Gt::Point_2& pc, 
@@ -1142,7 +1141,7 @@ intersection(Gt gt,
 
 template<class Gt>
 inline bool
-intersection(Gt gt,
+intersection(const Gt& gt,
 	     const typename Gt::Point_2& pa, 
 	     const typename Gt::Point_2& pb, 
 	     const typename Gt::Point_2& pc, 
@@ -1155,7 +1154,7 @@ intersection(Gt gt,
 
 template<class Gt>
 bool
-compute_intersection(Gt gt,
+compute_intersection(const Gt& gt,
 	     const typename Gt::Point_2& pa, 
 	     const typename Gt::Point_2& pb, 
 	     const typename Gt::Point_2& pc, 
@@ -1173,7 +1172,7 @@ compute_intersection(Gt gt,
 
 template<class Gt>
 int
-limit_intersection(Gt ,
+limit_intersection(const Gt& ,
 		   const typename Gt::Point_2& , 
 		   const typename Gt::Point_2& , 
 		   const typename Gt::Point_2& , 
@@ -1185,7 +1184,7 @@ limit_intersection(Gt ,
 
 template<class Gt>
 int
-limit_intersection(Gt ,
+limit_intersection(const Gt& ,
 		   const typename Gt::Point_2& , 
 		   const typename Gt::Point_2& , 
 		   const typename Gt::Point_2& , 
@@ -1197,7 +1196,7 @@ limit_intersection(Gt ,
 
 template<class Gt>
 int
-limit_intersection(Gt gt,
+limit_intersection(const Gt& gt,
 	     const typename Gt::Point_2& pa, 
 	     const typename Gt::Point_2& pb, 
 	     const typename Gt::Point_2& pc, 

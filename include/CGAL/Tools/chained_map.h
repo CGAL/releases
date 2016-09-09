@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Hash_map/include/CGAL/Tools/chained_map.h $
-// $Id: chained_map.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Hash_map/include/CGAL/Tools/chained_map.h $
+// $Id: chained_map.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Courtesy of LEDA
@@ -25,7 +25,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <typename T> class chained_map;
 template <typename T> class chained_map_elem;
@@ -345,7 +345,7 @@ void chained_map<T>::statistics() const
                ((double) (n - used_in_overflow))/table_size<<"\n";
 }
 
-} // namespace CGALi
+} // namespace internal
 CGAL_END_NAMESPACE
 
 #endif // CGAL_CHAINED_MAP_H

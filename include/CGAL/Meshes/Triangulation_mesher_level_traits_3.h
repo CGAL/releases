@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Meshes/Triangulation_mesher_level_traits_3.h $
-// $Id: Triangulation_mesher_level_traits_3.h 42968 2008-04-21 16:07:38Z lrineau $ $Date: 2008-04-21 18:07:38 +0200 (Mon, 21 Apr 2008) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_2/include/CGAL/Meshes/Triangulation_mesher_level_traits_3.h $
+// $Id: Triangulation_mesher_level_traits_3.h 53026 2009-11-14 11:49:52Z spion $ $Date: 2009-11-14 12:49:52 +0100 (Sat, 14 Nov 2009) $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -137,6 +137,6 @@ struct Triangulation_mesher_level_traits_3 :
 
 }; // end Triangulation_mesher_level_traits_3
 
-}; // end namespace CGAL
+} // end namespace CGAL
 
 #endif // CGAL_MESH_2_TRIANGULATION_MESHER_LEVEL_TRAITS_3_H

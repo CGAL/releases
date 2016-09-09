@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/examples/Filtered_kernel/Cartesian_I.h $
-// $Id: Cartesian_I.h 44317 2008-07-22 12:29:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Filtered_kernel/examples/Filtered_kernel/Cartesian_I.h $
+// $Id: Cartesian_I.h 51161 2009-08-10 15:57:03Z spion $
 //
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion
@@ -67,7 +67,7 @@ struct Cartesian_base_ref_count_I
     typedef FT_                                           RT;
     typedef FT_                                           FT;
 
-    // The mecanism that allows to specify reference-counting or not.
+    // The mechanism that allows to specify reference-counting or not.
     template < typename T >
     struct Handle { typedef Handle_for<T>    type; };
 

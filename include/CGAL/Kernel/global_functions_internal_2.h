@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_2.h $
-// $Id: global_functions_internal_2.h 50420 2009-07-07 10:33:38Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_2.h $
+// $Id: global_functions_internal_2.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -33,7 +33,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template < class K >
 inline
@@ -791,7 +791,7 @@ right_turn(const typename K::Point_2 &p,
            const typename K::Point_2 &q,
            const typename K::Point_2 &r, const K &k)
 {
-  return CGALi::orientation(p, q, r, k) == RIGHT_TURN;
+  return internal::orientation(p, q, r, k) == RIGHT_TURN;
 }
 
 template <class K>
@@ -871,7 +871,7 @@ y_equal(const typename K::Point_2 &p,
   return k.equal_y_2_object()(p, q);
 }
 
-} // namespace CGALi
+} // namespace internal
 
 CGAL_END_NAMESPACE
 

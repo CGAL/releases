@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Partition_2/include/CGAL/Partition_2/Rotation_tree_2.h $
-// $Id: Rotation_tree_2.h 44343 2008-07-23 07:17:34Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Partition_2/include/CGAL/Partition_2/Rotation_tree_2.h $
+// $Id: Rotation_tree_2.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -41,12 +41,12 @@
 namespace CGAL {
 
 template <class Traits_>
-class Rotation_tree_2 : public CGALi::vector< Rotation_tree_node_2<Traits_> >
+class Rotation_tree_2 : public internal::vector< Rotation_tree_node_2<Traits_> >
 {
 public:
    typedef Traits_                                 Traits;
    typedef Rotation_tree_node_2<Traits>            Node;
-   typedef typename CGALi::vector<Node>::iterator  Self_iterator;
+   typedef typename internal::vector<Node>::iterator  Self_iterator;
    typedef typename Traits::Point_2                Point_2;
 
 

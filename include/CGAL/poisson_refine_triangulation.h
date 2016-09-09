@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_reconstruction_points_3/include/CGAL/poisson_refine_triangulation.h $
-// $Id: poisson_refine_triangulation.h 50994 2009-07-31 10:59:11Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_reconstruction_points_3/include/CGAL/poisson_refine_triangulation.h $
+// $Id: poisson_refine_triangulation.h 52585 2009-10-16 08:50:48Z stayeb $
 //
 // Author(s)     : Laurent RINEAU, Laurent Saboret
 
@@ -20,6 +20,7 @@
 #define CGAL_POISSON_REFINE_TRIANGULATION_H
 
 // CGAL
+#include <CGAL/trace.h>
 #include <CGAL/Mesher_level.h>
 #include <CGAL/Mesh_3/Poisson_refine_cells_3.h>
 #include <CGAL/Poisson_mesh_cell_criteria_3.h>

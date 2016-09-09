@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: 
-// $Id: General_polygon_set_2.h 47919 2009-02-05 15:39:55Z guyzucke $ $Date: 2009-02-05 17:39:55 +0200 (Thu, 05 Feb 2009) $
+// $Id: General_polygon_set_on_surface_2.h 52628 2009-10-20 08:59:26Z lrineau $ $Date: 2009-10-20 10:59:26 +0200 (Tue, 20 Oct 2009) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>

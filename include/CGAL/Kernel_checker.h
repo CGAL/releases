@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Kernel_checker.h $
-// $Id: Kernel_checker.h 45156 2008-08-26 13:40:26Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Kernel_checker.h $
+// $Id: Kernel_checker.h 52284 2009-10-13 08:34:43Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -245,6 +245,7 @@ struct dont_check_equal {
 template < class K1, class K2, class Cmp = dont_check_equal >
 class Kernel_checker
 {
+protected:
     K1 k1;
     K2 k2;
     Cmp cmp;

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Kernel/global_functions.h $
-// $Id: global_functions.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Kernel/global_functions.h $
+// $Id: global_functions.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -38,7 +38,7 @@ bool
 parallel(const O &o1, const O &o2)
 {
   typedef typename Kernel_traits<O>::Kernel K;
-  return CGALi::parallel(o1, o2, K());
+  return internal::parallel(o1, o2, K());
 }
 
 CGAL_END_NAMESPACE

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://pmachado@scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_2/interface_macros.h $
-// $Id: interface_macros.h 44444 2008-07-25 15:02:26Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_2/include/CGAL/Filtered_bbox_circular_kernel_2/interface_macros.h $
+// $Id: interface_macros.h 52628 2009-10-20 08:59:26Z lrineau $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 

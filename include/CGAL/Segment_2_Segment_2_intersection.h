@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_2/include/CGAL/Segment_2_Segment_2_intersection.h $
-// $Id: Segment_2_Segment_2_intersection.h 45075 2008-08-21 12:50:41Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Segment_2_Segment_2_intersection.h $
+// $Id: Segment_2_Segment_2_intersection.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -37,7 +37,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 inline bool
@@ -304,7 +304,7 @@ Segment_2_Segment_2_pair<K>::intersection_type() const
     if (_known)
         return _result;
     _known = true;
-    if (!CGALi::do_intersect(*_seg1, *_seg2, K())) {
+    if (!internal::do_intersect(*_seg1, *_seg2, K())) {
         _result = NO_INTERSECTION;
         return _result;
     }
@@ -451,7 +451,7 @@ intersection(const typename K::Segment_2 &seg1,
     }
 }
 
-} // namespace CGALi
+} // namespace internal
 
 template <class K>
 inline

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Interval_traits.h $
-// $Id: Interval_traits.h 47256 2008-12-06 21:43:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Interval_traits.h $
+// $Id: Interval_traits.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-inf.mpg.de>
@@ -55,13 +55,13 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi{
+namespace internal{
 
 template<typename T> struct Interval_traits_base{
     
     typedef Interval_traits_base<T> Self; 
     typedef T                  Interval; 
-    typedef CGAL::Null_functor    Boundary; 
+    typedef CGAL::Null_functor    Bound; 
     typedef CGAL::Tag_false    Is_interval; 
     typedef CGAL::Tag_false    With_empty_interval; 
 
@@ -83,40 +83,40 @@ template<typename T> struct Interval_traits_base{
 };
 }
 
-template <typename T> struct Interval_traits: public CGALi::Interval_traits_base<T>{};
+template <typename T> struct Interval_traits: public internal::Interval_traits_base<T>{};
 class Exception_intersection_is_empty{}; 
 
-// function returning type Boundary 
+// function returning type Bound 
 template<typename Interval> inline 
-typename Interval_traits<Interval>::Boundary 
+typename Interval_traits<Interval>::Bound 
 lower(const Interval& interval) {
     typename Interval_traits<Interval>::Lower lower;
     return lower(interval);
 }
 
 template<typename Interval> inline 
-typename Interval_traits<Interval>::Boundary 
+typename Interval_traits<Interval>::Bound 
 upper(const Interval& interval) {
     typename Interval_traits<Interval>::Upper upper;
     return upper(interval);
 }
 
 template<typename Interval> inline 
-typename Interval_traits<Interval>::Boundary
+typename Interval_traits<Interval>::Bound
 width(Interval interval) {
     typename Interval_traits<Interval>::Width width;
     return width(interval);
 }
 
 template<typename Interval> inline 
-typename Interval_traits<Interval>::Boundary
+typename Interval_traits<Interval>::Bound
 median(Interval interval) {
     typename Interval_traits<Interval>::Median median;
     return median(interval);
 }
 
 template<typename Interval> inline 
-typename Interval_traits<Interval>::Boundary
+typename Interval_traits<Interval>::Bound
 norm(Interval interval) {
     typename Interval_traits<Interval>::Norm norm;
     return norm(interval);
@@ -141,7 +141,7 @@ singleton(Interval interval) {
 
 template<typename Interval> inline 
 typename Interval_traits<Interval>::In::result_type  
-in(typename Interval_traits<Interval>::Boundary x, Interval interval) {
+in(typename Interval_traits<Interval>::Bound x, Interval interval) {
     typename Interval_traits<Interval>::In in;
     return in(x,interval);
 }

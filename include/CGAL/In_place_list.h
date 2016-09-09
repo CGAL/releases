@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/In_place_list.h $
-// $Id: In_place_list.h 46206 2008-10-11 20:21:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/In_place_list.h $
+// $Id: In_place_list.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -38,7 +38,7 @@
 CGAL_BEGIN_NAMESPACE
 
 // Forward declarations
-namespace CGALi {
+namespace internal {
   template <class T, class Alloc> class In_place_list_iterator;
   template <class T, class Alloc> class In_place_list_const_iterator;
 }
@@ -57,14 +57,14 @@ class In_place_list_base {
 public:
   T* next_link;        // forward pointer
   T* prev_link;        // backwards pointer
-  //friend  class CGALi::In_place_list_iterator<T, Alloc>;
-  //friend  class CGALi::In_place_list_const_iterator<T, Alloc>;
+  //friend  class internal::In_place_list_iterator<T, Alloc>;
+  //friend  class internal::In_place_list_const_iterator<T, Alloc>;
   //friend  class In_place_list<T,false, Alloc>;
   //friend  class In_place_list<T,true, Alloc>;
 };
 
 
-namespace CGALi {
+namespace internal {
   template <class T, class Alloc>
   class In_place_list_iterator {
   protected:
@@ -111,7 +111,7 @@ namespace CGALi {
   };
 }
 
-namespace CGALi {
+namespace internal {
   template <class T, class Alloc>
   class In_place_list_const_iterator {
   protected:
@@ -212,8 +212,8 @@ public:
   typedef typename Allocator::size_type           size_type;
   typedef typename Allocator::difference_type     difference_type;
 
-  typedef CGALi::In_place_list_iterator<T, Alloc> iterator;
-  typedef CGALi::In_place_list_const_iterator<T, Alloc> const_iterator;
+  typedef internal::In_place_list_iterator<T, Alloc> iterator;
+  typedef internal::In_place_list_const_iterator<T, Alloc> const_iterator;
 
   typedef std::reverse_iterator<iterator>         reverse_iterator;
   typedef std::reverse_iterator<const_iterator>   const_reverse_iterator;
@@ -598,22 +598,22 @@ public:
 
 template <class T, bool managed, class Alloc>
 void In_place_list<T,managed,Alloc>::
-insert(CGALi::In_place_list_iterator<T, Alloc> position, size_type n) {
+insert(internal::In_place_list_iterator<T, Alloc> position, size_type n) {
   while (n--)
     insert(position, *get_node());
 }
 
 template <class T, bool managed, class Alloc>
 void In_place_list<T,managed,Alloc>::
-insert(CGALi::In_place_list_iterator<T, Alloc> position, size_type n, const T& x) {
+insert(internal::In_place_list_iterator<T, Alloc> position, size_type n, const T& x) {
   while (n--)
     insert(position, *get_node(x));
 }
 
 template <class T, bool managed, class Alloc>
 void In_place_list<T,managed,Alloc>::
-erase(CGALi::In_place_list_iterator<T, Alloc> first,
-      CGALi::In_place_list_iterator<T, Alloc> last)
+erase(internal::In_place_list_iterator<T, Alloc> first,
+      internal::In_place_list_iterator<T, Alloc> last)
 {
   while (first != last)
     erase(first++);

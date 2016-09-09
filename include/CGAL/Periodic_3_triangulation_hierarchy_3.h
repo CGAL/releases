@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_hierarchy_3.h $
-// $Id: Periodic_3_triangulation_hierarchy_3.h 50852 2009-07-27 11:19:44Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_hierarchy_3.h $
+// $Id: Periodic_3_triangulation_hierarchy_3.h 53876 2010-01-28 15:32:06Z lrineau $
 //
 // Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
 //                 Sylvain Pion
@@ -22,8 +22,11 @@
 #define CGAL_PERIODIC_3_TRIANGULATION_HIERARCHY_3_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Random.h>
 #include <CGAL/Triangulation_hierarchy_vertex_base_3.h>
+
+#include <boost/random/linear_congruential.hpp>
+#include <boost/random/geometric_distribution.hpp>
+#include <boost/random/variate_generator.hpp>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -61,7 +64,7 @@ public:
 private:
   // here is the stack of triangulations which form the hierarchy
   PTr_Base*  hierarchy[maxlevel];
-  Random     random; // random generator
+  boost::rand48 random;
   int level_mult_cover;
 
 public:
@@ -76,7 +79,7 @@ public:
   Periodic_3_triangulation_hierarchy_3(InputIterator first, InputIterator last,
       const Iso_cuboid& domain = Iso_cuboid(0,0,0,1,1,1),
       const Geom_traits& traits = Geom_traits())
-    : PTr_Base(domain,traits), random((long)0), level_mult_cover(0)
+    : PTr_Base(domain,traits), level_mult_cover(0)
   {
       hierarchy[0] = this; 
       for(int i=1; i<maxlevel; ++i)
@@ -139,19 +142,7 @@ public:
     return number_of_vertices() - n;
   }
 
-  // bool only for backward compatibility, we document void.
-  bool remove(Vertex_handle v);
-
-  template < typename InputIterator >
-  int remove(InputIterator first, InputIterator beyond)
-  {
-    int n = number_of_vertices();
-    while (first != beyond) {
-      remove(*first);
-      ++first;
-    }
-    return n - number_of_vertices();
-  }
+  void remove(Vertex_handle v);
 
   Vertex_handle move_point(Vertex_handle v, const Point & p);
 
@@ -186,7 +177,7 @@ template <class PTr >
 Periodic_3_triangulation_hierarchy_3<PTr>::
 Periodic_3_triangulation_hierarchy_3(
     const Iso_cuboid& domain, const Geom_traits& traits)
-  : PTr_Base(domain, traits), random((long)0), level_mult_cover(0)
+  : PTr_Base(domain, traits), level_mult_cover(0)
 { 
   hierarchy[0] = this; 
   for(int i=1;i<maxlevel;++i)
@@ -198,7 +189,7 @@ template <class PTr>
 Periodic_3_triangulation_hierarchy_3<PTr>::
 Periodic_3_triangulation_hierarchy_3(
     const Periodic_3_triangulation_hierarchy_3<PTr> &tr)
-  : PTr_Base(tr), random((long)0), level_mult_cover(tr.level_mult_cover)
+  : PTr_Base(tr), level_mult_cover(tr.level_mult_cover)
 { 
   hierarchy[0] = this;
   for(int i=1; i<maxlevel; ++i)
@@ -371,11 +362,12 @@ insert(const Point &p, Locate_type lt, Cell_handle loc, int li, int lj)
 }
 
 template <class PTr>
-bool
+void
 Periodic_3_triangulation_hierarchy_3<PTr>::
 remove(Vertex_handle v)
 {
   CGAL_triangulation_precondition(v != Vertex_handle());
+  CGAL_expensive_precondition(is_vertex(v));
   for (int l = 0; l < maxlevel; ++l) {
     Vertex_handle u = v->up();
     hierarchy[l]->remove(v);
@@ -383,7 +375,6 @@ remove(Vertex_handle v)
 	break;
     v = u;
   }
-  return true;
 }
 
 template < class PTr >
@@ -498,11 +489,10 @@ random_level()
       && hierarchy[level_mult_cover]->number_of_sheets() == make_array(1,1,1) )
     ++level_mult_cover;
 
-  int l = 0;
-  while ( ! random(ratio) && l < level_mult_cover )
-    ++l;
-
-  return l;
+   boost::geometric_distribution<> proba(1.0/ratio);
+   boost::variate_generator<boost::rand48&, boost::geometric_distribution<> >
+     die(random, proba);
+  return std::min(die()-1, level_mult_cover);
 }
 
 CGAL_END_NAMESPACE

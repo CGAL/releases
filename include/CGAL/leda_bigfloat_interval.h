@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/leda_bigfloat_interval.h $
-// $Id: leda_bigfloat_interval.h 47256 2008-12-06 21:43:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/leda_bigfloat_interval.h $
+// $Id: leda_bigfloat_interval.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Michael Hemmer
@@ -46,7 +46,7 @@
 #include <CGAL/Bigfloat_interval_traits.h>
 
 CGAL_BEGIN_NAMESPACE
-namespace CGALi {
+namespace internal {
 
 struct Rounding_for_leda_bigfloat {
 private:  typedef leda::bigfloat T;
@@ -138,7 +138,7 @@ public:
     }
 };
 
-} // namespace CGALi
+} // namespace internal
 CGAL_END_NAMESPACE
 
 namespace boost {
@@ -164,8 +164,8 @@ CGAL_BEGIN_NAMESPACE
 typedef boost::numeric::interval
 < leda::bigfloat,
     boost::numeric::interval_lib::policies
-      < CGALi::Rounding_for_leda_bigfloat,
-        CGALi::Checking_for_leda_bigfloat > > 
+      < internal::Rounding_for_leda_bigfloat,
+        internal::Checking_for_leda_bigfloat > > 
 leda_bigfloat_interval;
 
 template <> class Algebraic_structure_traits< leda_bigfloat_interval >
@@ -309,43 +309,43 @@ class Interval_traits<leda_bigfloat_interval>
 public: 
     typedef Interval_traits<leda_bigfloat_interval> Self; 
     typedef leda_bigfloat_interval Interval; 
-    typedef leda::bigfloat Boundary; 
+    typedef leda::bigfloat Bound; 
     typedef CGAL::Tag_true Is_interval; 
     typedef CGAL::Tag_true With_empty_interval; 
 
-    struct Construct :public std::binary_function<Boundary,Boundary,Interval>{
-        Interval operator()( const Boundary& l,const Boundary& r) const {
+    struct Construct :public std::binary_function<Bound,Bound,Interval>{
+        Interval operator()( const Bound& l,const Bound& r) const {
             CGAL_precondition( l < r ); 
             return Interval(l,r);
         }
     };
 
-    struct Lower :public std::unary_function<Interval,Boundary>{
-        Boundary operator()( const Interval& a ) const {
+    struct Lower :public std::unary_function<Interval,Bound>{
+        Bound operator()( const Interval& a ) const {
             return a.lower();
         }
     };
 
-    struct Upper :public std::unary_function<Interval,Boundary>{
-        Boundary operator()( const Interval& a ) const {
+    struct Upper :public std::unary_function<Interval,Bound>{
+        Bound operator()( const Interval& a ) const {
             return a.upper();
         }
     };
 
-    struct Width :public std::unary_function<Interval,Boundary>{
-        Boundary operator()( const Interval& a ) const {
+    struct Width :public std::unary_function<Interval,Bound>{
+        Bound operator()( const Interval& a ) const {
             return ::boost::numeric::width(a);
         }
     };
 
-    struct Median :public std::unary_function<Interval,Boundary>{
-        Boundary operator()( const Interval& a ) const {
+    struct Median :public std::unary_function<Interval,Bound>{
+        Bound operator()( const Interval& a ) const {
             return ::boost::numeric::median(a);
         }
     };
     
-    struct Norm :public std::unary_function<Interval,Boundary>{
-        Boundary operator()( const Interval& a ) const {
+    struct Norm :public std::unary_function<Interval,Bound>{
+        Bound operator()( const Interval& a ) const {
             return ::boost::numeric::norm(a);
         }
     };
@@ -368,8 +368,8 @@ public:
         }
     };
 
-    struct In :public std::binary_function<Boundary,Interval,bool>{
-        bool operator()( Boundary x, const Interval& a ) const {
+    struct In :public std::binary_function<Bound,Interval,bool>{
+        bool operator()( Bound x, const Interval& a ) const {
             return ::boost::numeric::in(x,a);
         }
     };

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_2/include/CGAL/Ray_2_Ray_2_intersection.h $
-// $Id: Ray_2_Ray_2_intersection.h 45230 2008-08-30 10:29:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Ray_2_Ray_2_intersection.h $
+// $Id: Ray_2_Ray_2_intersection.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -37,7 +37,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 class Ray_2_Ray_2_pair {
@@ -253,7 +253,7 @@ intersection(const typename K::Ray_2 &ray1,
     }
 }
 
-} // namespace CGALi
+} // namespace internal
 
 
 template <class K>

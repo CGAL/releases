@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Number_type_checker.h $
-// $Id: Number_type_checker.h 46557 2008-10-30 10:10:21Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Number_type_checker.h $
+// $Id: Number_type_checker.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -36,7 +36,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 // std::equal_to<T> sticks things to one type, so I define my own.
 struct Equal_to
@@ -46,10 +46,10 @@ struct Equal_to
   { return a == b; }
 };
 
-} // namespace CGALi
+} // namespace internal
 
 
-template < typename NT1, typename NT2, typename Cmp = CGALi::Equal_to >
+template < typename NT1, typename NT2, typename Cmp = internal::Equal_to >
 class Number_type_checker
 {
   NT1 _n1;

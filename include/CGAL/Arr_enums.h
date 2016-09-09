@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_enums.h $
-// $Id: Arr_enums.h 49772 2009-06-03 21:25:53Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_enums.h $
+// $Id: Arr_enums.h 53356 2009-12-09 09:53:05Z lrineau $
 // 
 //
 // Author(s): Ron Wein          <wein@post.tau.ac.il>
@@ -100,7 +100,7 @@ enum Arr_boundary_type {
   ARR_OPEN,
   ARR_CLOSED,
   ARR_CONTRACTION,
-  ARR_IDENTIFICATION,
+  ARR_IDENTIFICATION
 };
 
 //! \brief prints boundary type (for debugging)

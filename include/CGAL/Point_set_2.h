@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_2/include/CGAL/Point_set_2.h $
-// $Id: Point_set_2.h 40729 2007-10-27 08:36:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_2/include/CGAL/Point_set_2.h $
+// $Id: Point_set_2.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Matthias Baesken
@@ -244,9 +244,9 @@ public:
      init_dfs();
 
      MAP_TYPE                                        priority_number;              // here we save the priorities ...
-     CGALi::compare_vertices<Vertex_handle,Numb_type,MAP_TYPE>    
+     internal::compare_vertices<Vertex_handle,Numb_type,MAP_TYPE>    
        comp(& priority_number);      // comparison object ...
-     std::priority_queue<Vertex_handle, std::vector<Vertex_handle>, CGALi::compare_vertices<Vertex_handle,Numb_type,MAP_TYPE> > PQ(comp);
+     std::priority_queue<Vertex_handle, std::vector<Vertex_handle>, internal::compare_vertices<Vertex_handle,Numb_type,MAP_TYPE> > PQ(comp);
 
      priority_number[v] = 0;
      PQ.push(v);

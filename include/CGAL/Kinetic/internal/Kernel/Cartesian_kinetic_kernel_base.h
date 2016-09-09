@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_kinetic_kernel_base.h $
-// $Id: Cartesian_kinetic_kernel_base.h 40832 2007-11-08 00:27:20Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_kinetic_kernel_base.h $
+// $Id: Cartesian_kinetic_kernel_base.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -70,7 +70,7 @@ public:
   typedef Cartesian_moving_weighted_point_3<Motion_function> Weighted_point_3;
 
   //! A 3d lifted Point
-  // typedef CGALi::Cartesian_moving_lifted_point_3<Motion_function> Moving_lifted_point_3;
+  // typedef internal::Cartesian_moving_lifted_point_3<Motion_function> Moving_lifted_point_3;
 
 
   struct Is_constant {

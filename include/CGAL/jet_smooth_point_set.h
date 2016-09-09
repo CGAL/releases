@@ -11,14 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Point_set_processing_3/include/CGAL/improved_laplacian_smooth_point_set.h $
-// $Id: improved_laplacian_smooth_point_set.h 48866 2009-04-22 15:06:24Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_processing_3/include/CGAL/jet_smooth_point_set.h $
+// $Id: jet_smooth_point_set.h 52628 2009-10-20 08:59:26Z lrineau $
 //
 // Author(s) : Pierre Alliez, Marc Pouget and Laurent Saboret
 
 #ifndef CGAL_JET_SMOOTH_POINT_SET_H
 #define CGAL_JET_SMOOTH_POINT_SET_H
 
+#include <CGAL/trace.h>
 #include <CGAL/Search_traits_3.h>
 #include <CGAL/Orthogonal_k_neighbor_search.h>
 #include <CGAL/Monge_via_jet_fitting.h>
@@ -34,7 +35,7 @@ CGAL_BEGIN_NAMESPACE
 // ----------------------------------------------------------------------------
 // Private section
 // ----------------------------------------------------------------------------
-namespace CGALi {
+namespace internal {
 
 
 /// Smoothes one point position using jet fitting on the k
@@ -96,7 +97,7 @@ jet_smooth_point(
 }
 
 
-} /* namespace CGALi */
+} /* namespace internal */
 
 
 // ----------------------------------------------------------------------------
@@ -166,7 +167,7 @@ jet_smooth_point_set(
   for(it = first; it != beyond; it++)
   {
     Point& p = get(point_pmap, it);
-    p = CGALi::jet_smooth_point<Kernel>(p,tree,k,degree_fitting,degree_monge);
+    p = internal::jet_smooth_point<Kernel>(p,tree,k,degree_fitting,degree_monge);
   }
 }
 

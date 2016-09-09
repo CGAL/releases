@@ -1,5 +1,4 @@
-// Copyright (c) 2008  INRIA Sophia-Antipolis (France), ETHZ (Suisse).
-// Copyrigth (c) 2009  GeometryFactory (France)
+// Copyright (c) 2008  INRIA Sophia-Antipolis (France), ETH Zurich (Switzerland).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,11 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/AABB_tree/include/CGAL/AABB_tree.h $
-// $Id: AABB_tree.h 51953 2009-09-16 11:17:12Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/AABB_tree/include/CGAL/AABB_tree.h $
+// $Id: AABB_tree.h 51966 2009-09-18 12:49:03Z stayeb $
 //
 //
-// Author(s) : Camille Wormser, Pierre Alliez, Laurent Rineau, Stephane Tayeb
+// Author(s) : Camille Wormser, Pierre Alliez, Stephane Tayeb
 
 #ifndef CGAL_AABB_TREE_H
 #define CGAL_AABB_TREE_H
@@ -64,7 +63,7 @@ namespace CGAL {
      * Builds an empty tree datastructure. 
      */
     AABB_tree();
-    
+
 		/**
 		* @brief Constructor
 		* @param first iterator over first primitive to insert
@@ -451,7 +450,7 @@ namespace CGAL {
     , m_p_search_tree(NULL)
     , m_search_tree_constructed(false)
   { }
-  
+
 	template<typename Tr>
 	template<typename ConstPrimitiveIterator>
 	AABB_tree<Tr>::AABB_tree(ConstPrimitiveIterator first,

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Jet_fitting_3/include/CGAL/Monge_via_jet_fitting.h $
-// $Id: Monge_via_jet_fitting.h 45273 2008-09-02 07:38:25Z mpouget $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Jet_fitting_3/include/CGAL/Monge_via_jet_fitting.h $
+// $Id: Monge_via_jet_fitting.h 51456 2009-08-24 17:10:04Z spion $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_MONGE_VIA_JET_FITTING_H_
@@ -357,7 +357,7 @@ compute_PCA(InputIterator begin, InputIterator end)
   // solve for eigenvalues and eigenvectors.
   // eigen values are sorted in descending order, 
   // eigen vectors are sorted in accordance.
-  CGAL::CGALi::eigen_symmetric<FT>(covariance,3,eigen_vectors,eigen_values);
+  CGAL::internal::eigen_symmetric<FT>(covariance,3,eigen_vectors,eigen_values);
   //store in m_pca_basis
   for (int i=0; i<3; i++)
     {
@@ -506,7 +506,7 @@ compute_Monge_basis(const FT* A, Monge_form& monge_form)
   FT eval[2];
   FT evec[4];
   //eval in decreasing order
-  CGAL::CGALi::eigen_symmetric<FT>(W,2,evec,eval);
+  CGAL::internal::eigen_symmetric<FT>(W,2,evec,eval);
 
   Vector_3 d_max = evec[0]*Y + evec[1]*Z,
     d_min = evec[2]*Y + evec[3]*Z;

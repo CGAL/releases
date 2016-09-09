@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Lazy_exact_nt.h $
-// $Id: Lazy_exact_nt.h 49008 2009-04-29 13:57:45Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Lazy_exact_nt.h $
+// $Id: Lazy_exact_nt.h 53026 2009-11-14 11:49:52Z spion $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -1134,10 +1134,10 @@ struct Coercion_traits< Lazy_exact_nt<ET1>, Lazy_exact_nt<ET2> >
         :public Coercion_traits<NTX, Lazy_exact_nt<ET> >{};             \
 
 
-CGAL_COERCION_TRAITS_LAZY_EXACT(int);
-CGAL_COERCION_TRAITS_LAZY_EXACT(short);
-CGAL_COERCION_TRAITS_LAZY_EXACT(double);
-CGAL_COERCION_TRAITS_LAZY_EXACT(float);
+CGAL_COERCION_TRAITS_LAZY_EXACT(int)
+CGAL_COERCION_TRAITS_LAZY_EXACT(short)
+CGAL_COERCION_TRAITS_LAZY_EXACT(double)
+CGAL_COERCION_TRAITS_LAZY_EXACT(float)
 #undef CGAL_COERCION_TRAITS_LAZY_EXACT
 
 namespace INTERN_LAZY_EXACT_NT {

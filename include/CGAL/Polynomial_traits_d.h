@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/Polynomial_traits_d.h $
-// $Id: Polynomial_traits_d.h 48562 2009-03-27 17:30:16Z mkerber $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial_traits_d.h $
+// $Id: Polynomial_traits_d.h 53644 2010-01-16 16:31:25Z eric $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -32,14 +32,22 @@
 #include <CGAL/Polynomial/fwd.h>
 #include <CGAL/Polynomial/misc.h>
 #include <CGAL/Polynomial/Polynomial_type.h>
+#include <CGAL/Polynomial/Monomial_representation.h>
+#include <CGAL/Polynomial/Degree.h>
 #include <CGAL/polynomial_utils.h>
 #include <CGAL/Polynomial/square_free_factorize.h>
 #include <CGAL/Polynomial/modular_filter.h>
 #include <CGAL/extended_euclidean_algorithm.h>
 #include <CGAL/Polynomial/resultant.h>
-#include <CGAL/Polynomial/subresultants.h>          // not in release 3.4 
-#include <CGAL/Polynomial/sturm_habicht_sequence.h> // not in release 3.4 
+#include <CGAL/Polynomial/subresultants.h>
+#include <CGAL/Polynomial/sturm_habicht_sequence.h>
 
+
+/*namespace CGAL{
+namespace internal{
+template <typename Polynomial> struct Monomial_representation; 
+}
+}*/
 
 #define CGAL_POLYNOMIAL_TRAITS_D_BASE_TYPEDEFS                          \
   private:                                                              \
@@ -79,9 +87,9 @@
 
  
 
-CGAL_BEGIN_NAMESPACE;
+CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 // Base class for functors depending on the algebraic category of the
 // innermost coefficient
@@ -437,7 +445,7 @@ class Polynomial_traits_d_base< Polynomial< Coefficient_type_ >,
   typedef Polynomial<Coefficient_type_>                  Polynomial_d;       
   typedef Coefficient_type_                              Coefficient_type;        
           
-  typedef typename CGALi::Innermost_coefficient_type<Polynomial_d>::Type    
+  typedef typename internal::Innermost_coefficient_type<Polynomial_d>::Type    
   Innermost_coefficient_type;              
   static const int d = Dimension<Polynomial_d>::value; 
                                                           
@@ -609,16 +617,18 @@ public:
           Monom_rep_iterator begin,
           Monom_rep_iterator end) const {
                 
+        Innermost_coefficient_type zero(0);
         std::vector< Innermost_coefficient_type > coefficients;
         for(Monom_rep_iterator it = begin; it != end; it++){
-          while( it->first[0] > (int) coefficients.size() ){
-            coefficients.push_back(Innermost_coefficient_type(0));
-          }
+          int current_exp = it->first[0];
+          if((int) coefficients.size() < current_exp)
+            coefficients.resize(current_exp,zero);
           coefficients.push_back(it->second);
         }
         return Polynomial_d(coefficients.begin(),coefficients.end());
       }
     };
+    
     template< class T >
     class Create_polynomial_from_monom_rep< Polynomial < T > > {
     public:
@@ -631,25 +641,22 @@ public:
         typename PT::Construct_polynomial construct;
                 
         BOOST_STATIC_ASSERT(PT::d != 0); // Coefficient_type is a Polynomial
-        std::vector<Coefficient_type> coefficients;
+        std::vector<Coefficient_type> coefficients;         
                 
-        Monom_rep_iterator it = begin; 
-        while(it != end){
-          int current_exp = it->first[PT::d];
+        Coefficient_type zero(0);
+        while(begin != end){
+          int current_exp = begin->first[PT::d];
           // fill up with zeros until current exp is reached
-          while( (int) coefficients.size() < current_exp){
-            coefficients.push_back(Coefficient_type(0));
+          if((int) coefficients.size() < current_exp)
+            coefficients.resize(current_exp,zero);
+
+          // select range for coefficient of current exponent 
+          Monom_rep_iterator coeff_end = begin; 
+          while(  coeff_end != end && coeff_end->first[PT::d] == current_exp ){
+            ++coeff_end;
           }
-          // collect all coeffs for this exp
-          Monom_rep monoms; 
-          while(  it != end && it->first[PT::d] == current_exp ){
-            Exponent_vector ev = it->first;
-            ev.pop_back();
-            monoms.push_back( Exponents_coeff_pair(ev,it->second));
-            it++;
-          }                    
-          coefficients.push_back(
-              construct(monoms.begin(), monoms.end()));
+          coefficients.push_back(construct(begin, coeff_end));
+          begin = coeff_end; 
         }
         return Polynomial_d(coefficients.begin(),coefficients.end());
       }
@@ -700,18 +707,18 @@ public:
       CGAL_precondition(0 <= j && j < d);
       typedef std::pair< Exponent_vector, Innermost_coefficient_type >
         Exponents_coeff_pair;
-      typedef std::vector< Exponents_coeff_pair > Monom_rep; 
       Monomial_representation gmr;
       Construct_polynomial construct; 
-      Monom_rep mon_rep;
-      gmr( p, std::back_inserter( mon_rep ) );
-      for( typename Monom_rep::iterator it = mon_rep.begin(); 
-           it != mon_rep.end();
-           ++it ) {
+      typedef std::vector< Exponents_coeff_pair > Monom_vector;
+      typedef typename Monom_vector::iterator MVIterator; 
+      Monom_vector monoms; 
+      gmr( p, std::back_inserter( monoms ) );
+      for( MVIterator it = monoms.begin(); it != monoms.end(); ++it ) {
         std::swap(it->first[i],it->first[j]);
-        // it->first.swap( i, j );
       }
-      return construct( mon_rep.begin(), mon_rep.end() );
+      // sort only once ! 
+      std::sort(monoms.begin(), monoms.end(),Compare_exponents_coeff_pair());
+      return construct(monoms.begin(), monoms.end(),true);
     }
   };
   
@@ -786,13 +793,8 @@ public:
     }
   };
   
-  //       Degree;    
-  struct Degree : public std::unary_function< Polynomial_d , int  >{
-    int operator()(const Polynomial_d& p, int i = (d-1)) const {      
-      if (i == (d-1)) return p.degree();                           
-      else return Swap()(p,i,d-1).degree();
-    }     
-  };
+  //Degree;    
+  typedef CGAL::internal::Degree<Polynomial_d> Degree; 
 
   //       Total_degree;
   struct Total_degree : public std::unary_function< Polynomial_d , int >{
@@ -1031,7 +1033,7 @@ struct Construct_innermost_coefficient_const_iterator_range
   struct Is_square_free 
     : public std::unary_function< Polynomial_d, bool >{
     bool operator()( const Polynomial_d& p ) const {
-      if( !CGALi::may_have_multiple_factor( p ) )
+      if( !internal::may_have_multiple_factor( p ) )
         return true;
             
       Univariate_content_up_to_constant_factor ucontent_utcf;
@@ -1118,8 +1120,8 @@ struct Construct_innermost_coefficient_const_iterator_range
         return Polynomial_d(0);
       }
       // apply modular filter first
-      if (CGALi::may_have_common_factor(p,q)){
-        return CGALi::gcd_utcf(p,q);
+      if (internal::may_have_common_factor(p,q)){
+        return internal::gcd_utcf(p,q);
       }else{
         return Polynomial_d(1);
       }
@@ -1375,7 +1377,7 @@ struct Construct_innermost_coefficient_const_iterator_range
     operator()(
         const Polynomial_d& p, 
         const Polynomial_d& q) const {
-        return CGALi::resultant(p,q);
+        return internal::resultant(p,q);
     }  
   };
 
@@ -1389,9 +1391,9 @@ struct Construct_innermost_coefficient_const_iterator_range
       OutputIterator out,
       int i = (d-1) ) const {
         if(i == (d-1) )
-          return CGAL::CGALi::polynomial_subresultants<PT>(p,q,out);
+          return CGAL::internal::polynomial_subresultants<PT>(p,q,out);
         else
-          return CGAL::CGALi::polynomial_subresultants<PT>(Move()(p,i),
+          return CGAL::internal::polynomial_subresultants<PT>(Move()(p,i),
                                                     Move()(q,i),
                                                     out);
     }  
@@ -1407,9 +1409,9 @@ struct Construct_innermost_coefficient_const_iterator_range
       OutputIterator out,
       int i = (d-1) ) const {
         if(i == (d-1) )
-          return CGAL::CGALi::principal_subresultants<PT>(p,q,out);
+          return CGAL::internal::principal_subresultants<PT>(p,q,out);
         else
-          return CGAL::CGALi::principal_subresultants<PT>(Move()(p,i),
+          return CGAL::internal::principal_subresultants<PT>(Move()(p,i),
                                                           Move()(q,i),
                                                           out);
     }  
@@ -1429,10 +1431,10 @@ struct Construct_innermost_coefficient_const_iterator_range
       OutputIterator3 out_co_q,
       int i = (d-1) ) const {
         if(i == (d-1) )
-            return CGAL::CGALi::polynomial_subresultants_with_cofactors<PT>
+            return CGAL::internal::polynomial_subresultants_with_cofactors<PT>
                 (p,q,out_sres,out_co_p,out_co_q);
         else
-            return CGAL::CGALi::polynomial_subresultants_with_cofactors<PT>
+            return CGAL::internal::polynomial_subresultants_with_cofactors<PT>
                 (Move()(p,i),Move()(q,i),out_sres,out_co_p,out_co_q);
     }  
   };
@@ -1446,9 +1448,9 @@ struct Construct_innermost_coefficient_const_iterator_range
       OutputIterator out,
       int i = (d-1) ) const {
         if(i == (d-1) )
-          return CGAL::CGALi::sturm_habicht_sequence<PT>(p,out);
+          return CGAL::internal::sturm_habicht_sequence<PT>(p,out);
         else
-          return CGAL::CGALi::sturm_habicht_sequence<PT>(Move()(p,i),
+          return CGAL::internal::sturm_habicht_sequence<PT>(Move()(p,i),
                                                          out);
     }  
   };
@@ -1466,10 +1468,10 @@ struct Construct_innermost_coefficient_const_iterator_range
       OutputIterator3 out_fx,
       int i = (d-1) ) const {
         if(i == (d-1) )
-          return CGAL::CGALi::sturm_habicht_sequence_with_cofactors<PT>
+          return CGAL::internal::sturm_habicht_sequence_with_cofactors<PT>
               (p,out_stha,out_f,out_fx);
         else
-          return CGAL::CGALi::sturm_habicht_sequence_with_cofactors<PT>
+          return CGAL::internal::sturm_habicht_sequence_with_cofactors<PT>
               (Move()(p,i),out_stha,out_f,out_fx);
     }  
   };
@@ -1484,64 +1486,17 @@ struct Construct_innermost_coefficient_const_iterator_range
       OutputIterator out,
       int i = (d-1) ) const {
         if(i == (d-1) )
-          return CGAL::CGALi::principal_sturm_habicht_sequence<PT>(p,out);
+          return CGAL::internal::principal_sturm_habicht_sequence<PT>(p,out);
         else
-          return CGAL::CGALi::principal_sturm_habicht_sequence<PT>
+          return CGAL::internal::principal_sturm_habicht_sequence<PT>
               (Move()(p,i),out);
     }  
   };
 
-  struct Monomial_representation {      
-    typedef std::pair< Exponent_vector, Innermost_coefficient_type >
-    Exponents_coeff_pair;       
-    
-    template <class OutputIterator>
-    void operator()( const Polynomial_d& p, OutputIterator oit ) const {
-      if(CGAL::is_zero(p)){
-        *oit= std::make_pair(Exponent_vector(std::vector<int>(d,0)), 
-            Innermost_coefficient_type(0));
-        oit++;
-        return;
-      }
-     
-      typedef Boolean_tag< d == 1 > Is_univariat;
-      create_monom_representation( p, oit , Is_univariat());
-    }
-      
-  private:
-        
-    template <class OutputIterator>
-    void
-    create_monom_representation 
-    ( const Polynomial_d& p, OutputIterator oit, Tag_true ) const{
-      for( int exponent = 0; exponent <= p.degree(); ++exponent ) {
-        if ( !CGAL::is_zero(p[exponent])){
-          Exponent_vector exp_vec;
-          exp_vec.push_back( exponent );
-          *oit = Exponents_coeff_pair( exp_vec, p[exponent] ); 
-        }
-      } 
-    } 
-    template <class OutputIterator>
-    void 
-    create_monom_representation 
-    ( const Polynomial_d& p, OutputIterator oit, Tag_false ) const { 
-      typedef Polynomial_traits_d< Coefficient_type > PT;
-      typename PT::Monomial_representation gmr;
-      for( int exponent = 0; exponent <= p.degree(); ++exponent ) {
-          Monom_rep monom_rep; 
-        if ( !CGAL::is_zero(p[exponent])){
-          gmr( p[exponent], std::back_inserter( monom_rep ) );
-          for( typename Monom_rep::iterator it = monom_rep.begin();
-               it != monom_rep.end(); ++it ) {
-            it->first.push_back( exponent );
-          }
-        }
-        copy( monom_rep.begin(), monom_rep.end(), oit );               
-      }
-    }
-  };
 
+  typedef
+  CGAL::internal::Monomial_representation<Polynomial_d> 
+  Monomial_representation;
 
   // returns the Exponten_vector of the innermost leading coefficient 
   struct Degree_vector{
@@ -1686,7 +1641,7 @@ struct Construct_innermost_coefficient_const_iterator_range
 
 };
 
-} // namespace CGALi
+} // namespace internal
 
 // Definition of Polynomial_traits_d
 //
@@ -1695,9 +1650,9 @@ struct Construct_innermost_coefficient_const_iterator_range
 
 template< class Polynomial >
 class Polynomial_traits_d
-  : public CGALi::Polynomial_traits_d_base< Polynomial,  
+  : public internal::Polynomial_traits_d_base< Polynomial,  
     typename Algebraic_structure_traits<
-typename CGALi::Innermost_coefficient_type<Polynomial>::Type >::Algebraic_category,
+typename internal::Innermost_coefficient_type<Polynomial>::Type >::Algebraic_category,
     typename Algebraic_structure_traits< Polynomial >::Algebraic_category > ,
   public Algebraic_structure_traits<Polynomial>{
 

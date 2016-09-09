@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/Polynomial/Algebraic_structure_traits.h $
-// $Id: Algebraic_structure_traits.h 47254 2008-12-06 21:18:27Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/Algebraic_structure_traits.h $
+// $Id: Algebraic_structure_traits.h 53196 2009-11-26 10:07:09Z penarand $
 //
 //
 // Author(s)     : Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -35,10 +35,10 @@ CGAL_BEGIN_NAMESPACE
 
 // Extend to a UFDomain as coefficient range
 // Forward declaration for <NiX/polynomial_gcd.h> for NT_traits<Poly...>::Gcd
-namespace CGALi {
+namespace internal {
 template <class NT> inline
 Polynomial<NT> gcd(const Polynomial<NT>&, const Polynomial<NT>&);
-} // namespace CGALi
+} // namespace internal
 
 
 // Now we wrap up all of this in the actual NT_traits
@@ -101,6 +101,15 @@ class Polynomial_algebraic_structure_traits_base< POLY,
           return POLY( x.unit_part() );
         }
     };
+  
+  class Is_zero
+    : public std::unary_function< POLY, bool > {
+  public:
+    bool operator()( const POLY& x ) const {
+      return x.is_zero();
+    }
+  };
+  
 };
 
 // Extend to the case that the coefficient range is a IntegralDomain (with div)
@@ -188,7 +197,7 @@ public:
 
        return (r == POLY(0));
      }
-     CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT(POLY,BOOL); 
+     CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT(POLY,BOOL)
    };
 };
 
@@ -226,8 +235,8 @@ class Polynomial_algebraic_structure_traits_base< POLY, Unique_factorization_dom
       if (CGAL::is_zero(y))
         return idiv(x,upart(x));
       
-      if (CGALi::may_have_common_factor(x,y))
-        return CGALi::gcd(x,y);
+      if (internal::may_have_common_factor(x,y))
+        return internal::gcd(x,y);
       else{        
         typename Algebraic_structure_traits<ICoeff>::Algebraic_category category;  
         return POLY(gcd_help(Mcontent()(x),Mcontent()(y), category));

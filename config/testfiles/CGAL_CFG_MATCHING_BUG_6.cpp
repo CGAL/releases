@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/testfiles/CGAL_CFG_MATCHING_BUG_6.cpp $
-// $Id: CGAL_CFG_MATCHING_BUG_6.cpp 49022 2009-04-29 20:03:21Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Installation/config/testfiles/CGAL_CFG_MATCHING_BUG_6.cpp $
+// $Id: CGAL_CFG_MATCHING_BUG_6.cpp 53056 2009-11-16 16:44:37Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -28,7 +28,7 @@
 
 #if (defined _MSC_VER && ! defined __INTEL_COMPILER) || defined __SUNPRO_CC
 
-this should not compile and that is good so
+#error "this should not compile and that is good so"
 
 #endif
 

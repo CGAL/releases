@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/Polynomial/Interpolator.h $
-// $Id: Interpolator.h 47300 2008-12-09 10:48:07Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/Interpolator.h $
+// $Id: Interpolator.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -21,7 +21,7 @@
 #define CGAL_POLYNOMIAL_INTERPOLATE_H
 
 CGAL_BEGIN_NAMESPACE
-namespace CGALi {
+namespace internal {
 
 // Class for interpolation of univariate or multivariate polynomials. 
 // The template argument must be a model of concept Polynomial_d
@@ -128,7 +128,7 @@ public:
     
 };
 
-} // namespace CGALi
+} // namespace internal
 CGAL_END_NAMESPACE
 
 #endif // CGAL_POLYNOMIAL_INTERPOLATE_H 

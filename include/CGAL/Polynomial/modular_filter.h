@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://afabri@scm.gforge.inria.fr/svn/cgal/trunk/Polynomial/include/CGAL/Polynomial/polynomial_functions.h $
-// $Id: polynomial_functions.h 46402 2008-10-21 16:20:05Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/modular_filter.h $
+// $Id: modular_filter.h 52628 2009-10-20 08:59:26Z lrineau $
 //
 //
 // Author(s)     : Michael Hemmer 
@@ -34,7 +34,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
     template <class NT> inline
     bool
     may_have_common_factor_(
@@ -114,7 +114,7 @@ bool may_have_common_factor(const Polynomial<NT>& P,
     typedef Polynomial<NT> POLY;
     typedef Modular_traits<POLY> Mtr;
     typename Mtr::Is_modularizable is_modularizable;
-    return CGALi::may_have_common_factor_(P,Q,is_modularizable);   
+    return internal::may_have_common_factor_(P,Q,is_modularizable);   
 }
 
 /*! \ingroup CGAL_polynomial_utils
@@ -176,10 +176,10 @@ bool may_have_multiple_factor( const Polynomial<NT>& P ) {
     typedef Polynomial<NT> POLY;
     typedef Modular_traits<POLY> Mtr;
     typename Mtr::Is_modularizable is_modularizable;
-    return CGALi::may_have_multiple_factor_(P, is_modularizable);       
+    return internal::may_have_multiple_factor_(P, is_modularizable);       
 }
 
-} //namespace CGALi
+} //namespace internal
 CGAL_END_NAMESPACE
 
 #endif //CGAL_MODULAR_FILTER_H

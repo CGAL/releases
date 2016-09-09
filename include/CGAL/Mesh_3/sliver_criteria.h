@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/sliver_criteria.h $
-// $Id: sliver_criteria.h 50401 2009-07-06 16:10:24Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/sliver_criteria.h $
+// $Id: sliver_criteria.h 53457 2009-12-16 15:17:29Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -39,6 +39,8 @@ class Min_dihedral_angle_criterion
   
 public:
   static double default_value;
+  static double max_value;
+  static double min_value;
   
   double operator()(const Tetrahedron_3& t) const
   {
@@ -47,8 +49,9 @@ public:
   
 };
 
-template<typename K> double Min_dihedral_angle_criterion<K>::default_value = 25.; 
-
+template<typename K> double Min_dihedral_angle_criterion<K>::default_value = 12.; 
+template<typename K> double Min_dihedral_angle_criterion<K>::max_value = 180.; 
+template<typename K> double Min_dihedral_angle_criterion<K>::min_value = 0.; 
   
 template <typename K>
 class Radius_radio_criterion
@@ -57,6 +60,8 @@ class Radius_radio_criterion
   
 public:
   static double default_value;
+  static double max_value;
+  static double min_value;
   
   double operator()(const Tetrahedron_3& t) const
   {
@@ -66,8 +71,8 @@ public:
 };
 
 template<typename K> double Radius_radio_criterion<K>::default_value = 0.25; 
-  
-  
+template<typename K> double Radius_radio_criterion<K>::max_value = 1.;
+template<typename K> double Radius_radio_criterion<K>::min_value = 0.; 
   
 } // end namespace Mesh_3
   

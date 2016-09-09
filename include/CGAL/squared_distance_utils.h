@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Distance_2/include/CGAL/squared_distance_utils.h $
-// $Id: squared_distance_utils.h 42823 2008-04-09 20:57:58Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Distance_2/include/CGAL/squared_distance_utils.h $
+// $Id: squared_distance_utils.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -30,7 +30,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 bool is_null(const  typename K::Vector_2 &v, const K&)
@@ -302,7 +302,7 @@ same_direction(const typename K::Vector_2 &u,
 }
 
 
-} // namespace CGALi
+} // namespace internal
 
 CGAL_END_NAMESPACE
 

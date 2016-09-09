@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_3/include/CGAL/intersection_3.h $
-// $Id: intersection_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_3/include/CGAL/intersection_3.h $
+// $Id: intersection_3.h 53496 2009-12-18 15:12:59Z stayeb $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -34,5 +34,13 @@
 #include <CGAL/Triangle_3_Tetrahedron_3_do_intersect.h> 
 #include <CGAL/Triangle_3_Triangle_3_do_intersect.h>
 
+#include <CGAL/internal/Intersections_3/Bbox_3_Bbox_3_do_intersect.h>
+#include <CGAL/internal/Intersections_3/Bbox_3_Line_3_do_intersect.h>
+#include <CGAL/internal/Intersections_3/Bbox_3_Ray_3_do_intersect.h>
+#include <CGAL/internal/Intersections_3/Bbox_3_Segment_3_do_intersect.h>
+
+#include <CGAL/internal/Intersections_3/Triangle_3_Line_3_intersection.h>
+#include <CGAL/internal/Intersections_3/Triangle_3_Ray_3_intersection.h>
+#include <CGAL/internal/Intersections_3/Triangle_3_Segment_3_intersection.h>
 
 #endif // CGAL_INTERSECTION_3_H

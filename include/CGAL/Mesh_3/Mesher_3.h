@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
-// $Id: Mesher_3.h 51094 2009-08-06 13:11:07Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
+// $Id: Mesher_3.h 52705 2009-10-23 10:27:15Z stayeb $
 //
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb
@@ -99,8 +99,8 @@ public:
   /// Destructor
   ~Mesher_3() { };
   
-  /// Launch mesh refinment
-  void refine_mesh();
+  /// Launch mesh refinement
+  double refine_mesh();
   
 private:
   /// Meshers
@@ -161,15 +161,17 @@ Mesher_3<C3T3,MC,MD>::Mesher_3(C3T3& c3t3,
 
 
 template<class C3T3, class MC, class MD>
-void
+double
 Mesher_3<C3T3,MC,MD>::refine_mesh()
 {
+  CGAL::Timer timer;
+  timer.start();
+  
 #ifndef CGAL_MESH_3_VERBOSE
   cells_mesher_.refine(cells_visitor_);
 #else
   const Triangulation& r_tr = r_c3t3_.triangulation();
   int nbsteps = 0;
-  CGAL::Timer timer;
   
   std::cerr << "Refining...\n";
   std::cerr << "Legende of the following line: "
@@ -177,7 +179,7 @@ Mesher_3<C3T3,MC,MD>::refine_mesh()
             << ")\n";
   std::cerr << "(" << r_tr.number_of_vertices() << ","
             << nbsteps << "," << cells_mesher_.debug_info() << ")";
-  timer.start();
+
   while ( ! cells_mesher_.is_algorithm_done() )
   {
     cells_mesher_.one_step(cells_visitor_);
@@ -189,11 +191,13 @@ Mesher_3<C3T3,MC,MD>::refine_mesh()
         % (nbsteps / timer.time());
     ++nbsteps;
   }
-  timer.stop();
   std::cerr << std::endl;
   std::cerr << "Total refining time: " << timer.time() << "s" << std::endl;
   std::cerr << std::endl;
 #endif
+  
+  timer.stop();
+  return timer.time();
 }
     
 }  // end namespace Mesh_3

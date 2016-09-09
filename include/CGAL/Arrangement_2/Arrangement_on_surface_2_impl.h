@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h $
-// $Id: Arrangement_on_surface_2_impl.h 50552 2009-07-11 14:37:26Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h $
+// $Id: Arrangement_on_surface_2_impl.h 52004 2009-09-23 13:09:15Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -53,32 +53,32 @@ Arrangement_on_surface_2<GeomTraits, TopTraits>::Arrangement_on_surface_2 () :
   m_topol_traits()
 {
   
-  typedef has_Arr_left_side_tag<GeomTraits> Cond_left;
-  typedef CGALi::Validate_left_side_tag< GeomTraits, Cond_left::value > 
+  typedef has_Arr_left_side_category<GeomTraits> Cond_left;
+  typedef internal::Validate_left_side_tag< GeomTraits, Cond_left::value > 
     Validate_left_side_tag;
   void (Validate_left_side_tag::*pleft)(void) =
-    &Validate_left_side_tag::missing__Arr_left_side_tag;
+    &Validate_left_side_tag::missing__Arr_left_side_category;
   (void)pleft;
   
- typedef has_Arr_bottom_side_tag<GeomTraits> Cond_bottom;
-  typedef CGALi::Validate_bottom_side_tag< GeomTraits, Cond_bottom::value > 
+ typedef has_Arr_bottom_side_category<GeomTraits> Cond_bottom;
+  typedef internal::Validate_bottom_side_tag< GeomTraits, Cond_bottom::value > 
     Validate_bottom_side_tag;
   void (Validate_bottom_side_tag::*pbottom)(void) =
-    &Validate_bottom_side_tag::missing__Arr_bottom_side_tag;
+    &Validate_bottom_side_tag::missing__Arr_bottom_side_category;
   (void)pbottom;
 
- typedef has_Arr_top_side_tag<GeomTraits> Cond_top;
-  typedef CGALi::Validate_top_side_tag< GeomTraits, Cond_top::value > 
+ typedef has_Arr_top_side_category<GeomTraits> Cond_top;
+  typedef internal::Validate_top_side_tag< GeomTraits, Cond_top::value > 
     Validate_top_side_tag;
   void (Validate_top_side_tag::*ptop)(void) =
-    &Validate_top_side_tag::missing__Arr_top_side_tag;
+    &Validate_top_side_tag::missing__Arr_top_side_category;
   (void)ptop;
 
- typedef has_Arr_right_side_tag<GeomTraits> Cond_right;
-  typedef CGALi::Validate_right_side_tag< GeomTraits, Cond_right::value > 
+ typedef has_Arr_right_side_category<GeomTraits> Cond_right;
+  typedef internal::Validate_right_side_tag< GeomTraits, Cond_right::value > 
     Validate_right_side_tag;
   void (Validate_right_side_tag::*pright)(void) =
-    &Validate_right_side_tag::missing__Arr_right_side_tag;
+    &Validate_right_side_tag::missing__Arr_right_side_category;
   (void)pright;
 
   // Initialize the DCEL structure to represent an empty arrangement.
@@ -112,32 +112,32 @@ Arrangement_on_surface_2(const Geometry_traits_2 * geom_traits) :
   m_topol_traits (geom_traits)
 {
   
- typedef has_Arr_left_side_tag<GeomTraits> Cond_left;
-  typedef CGALi::Validate_left_side_tag< GeomTraits, Cond_left::value > 
+ typedef has_Arr_left_side_category<GeomTraits> Cond_left;
+  typedef internal::Validate_left_side_tag< GeomTraits, Cond_left::value > 
     Validate_left_side_tag;
   void (Validate_left_side_tag::*pleft)(void) =
-    &Validate_left_side_tag::missing__Arr_left_side_tag;
+    &Validate_left_side_tag::missing__Arr_left_side_category;
   (void)pleft;
   
- typedef has_Arr_bottom_side_tag<GeomTraits> Cond_bottom;
-  typedef CGALi::Validate_bottom_side_tag< GeomTraits, Cond_bottom::value > 
+ typedef has_Arr_bottom_side_category<GeomTraits> Cond_bottom;
+  typedef internal::Validate_bottom_side_tag< GeomTraits, Cond_bottom::value > 
     Validate_bottom_side_tag;
   void (Validate_bottom_side_tag::*pbottom)(void) =
-    &Validate_bottom_side_tag::missing__Arr_bottom_side_tag;
+    &Validate_bottom_side_tag::missing__Arr_bottom_side_category;
   (void)pbottom;
 
- typedef has_Arr_top_side_tag<GeomTraits> Cond_top;
-  typedef CGALi::Validate_top_side_tag< GeomTraits, Cond_top::value > 
+ typedef has_Arr_top_side_category<GeomTraits> Cond_top;
+  typedef internal::Validate_top_side_tag< GeomTraits, Cond_top::value > 
     Validate_top_side_tag;
   void (Validate_top_side_tag::*ptop)(void) =
-    &Validate_top_side_tag::missing__Arr_top_side_tag;
+    &Validate_top_side_tag::missing__Arr_top_side_category;
   (void)ptop;
 
- typedef has_Arr_right_side_tag<GeomTraits> Cond_right;
-  typedef CGALi::Validate_right_side_tag< GeomTraits, Cond_right::value > 
+ typedef has_Arr_right_side_category<GeomTraits> Cond_right;
+  typedef internal::Validate_right_side_tag< GeomTraits, Cond_right::value > 
     Validate_right_side_tag;
   void (Validate_right_side_tag::*pright)(void) =
-    &Validate_right_side_tag::missing__Arr_right_side_tag;
+    &Validate_right_side_tag::missing__Arr_right_side_category;
   (void)pright;
 
   // Initialize the DCEL structure to represent an empty arrangement.
@@ -604,7 +604,7 @@ insert_from_left_vertex(const X_monotone_curve_2& cv,
 #if CGAL_ARRANGEMENT_ON_SURFACE_INSERT_VERBOSE
     std::cout << "Aos_2: insert_from_left_vertex (interface)" << std::endl;
     std::cout << "cv   : " << cv << std::endl;
-    if (!prev->has_null_curve()) {
+    if (!prev->is_fictitious()) {
         std::cout << "prev : " << prev ->curve() << std::endl;
     } else {
       std::cout << "prev : fictitious" << std::endl;
@@ -835,7 +835,7 @@ insert_from_right_vertex(const X_monotone_curve_2& cv,
 #if CGAL_ARRANGEMENT_ON_SURFACE_INSERT_VERBOSE
     std::cout << "Aos_2: insert_from_right_vertexs (interface)" << std::endl;
     std::cout << "cv   : " << cv << std::endl;
-    if (!prev->has_null_curve()) {
+    if (!prev->is_fictitious()) {
       std::cout << "prev : " << prev ->curve() << std::endl;
   } else {
       std::cout << "prev : fictitious" << std::endl;
@@ -2546,7 +2546,7 @@ _insert_at_vertices(const X_monotone_curve_2& cv,
   DVertex     *v2 = prev2->vertex();
 
 #if CGAL_ARRANGEMENT_ON_SURFACE_INSERT_VERBOSE
-  typedef CGALi::Sign_of_path< GeomTraits, TopTraits > Sign_of_path;
+  typedef internal::Sign_of_path< GeomTraits, TopTraits > Sign_of_path;
   
   std::cout << "Aos_2: _insert_at_vertices (internal)" << std::endl;
   

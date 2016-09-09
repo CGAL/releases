@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/GraphicsView/include/CGAL/Qt/GraphicsViewLineInput.h $
-// $Id: GraphicsViewLineInput.h 45924 2008-10-01 09:19:53Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/GraphicsView/include/CGAL/Qt/GraphicsViewLineInput.h $
+// $Id: GraphicsViewLineInput.h 52186 2009-10-07 13:35:12Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -71,7 +71,7 @@ private:
 
 template <typename K>
 QRectF
-LineInput_2<K>::boundingRect()
+GraphicsViewLineInput<K>::boundingRect()
 {
   QRectF rect = CGAL::Qt::viewportsBbox(scene_);
   return rect;

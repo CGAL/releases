@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/vector.h $
-// $Id: vector.h 41698 2008-01-20 15:27:47Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/vector.h $
+// $Id: vector.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@sophia.inria.fr>
@@ -34,7 +34,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 // We give the vector container class a class based iterator implementation.
 // It ensures that iterator_traits work on compilers not supporting
@@ -591,7 +591,7 @@ void vector<T, Alloc>::insert( iterator position, size_type n, const T& x) {
     }
 }
 
-} // namespace CGALi
+} // namespace internal
 
 CGAL_END_NAMESPACE
 

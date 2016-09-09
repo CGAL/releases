@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/mesh_standard_cell_criteria.h $
-// $Id: mesh_standard_cell_criteria.h 51094 2009-08-06 13:11:07Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/mesh_standard_cell_criteria.h $
+// $Id: mesh_standard_cell_criteria.h 53504 2009-12-18 17:15:58Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -32,7 +32,6 @@
 namespace CGAL {
 
 namespace Mesh_3 {
-
 
 
 template <typename Tr, typename Visitor_>
@@ -208,51 +207,6 @@ public:
   }
 
 };  // end class Cell_criterion_visitor
-
-
-//template <typename Tr>
-//class Cell_criterion_protect_edge_visitor
-//  : public Cell_criterion_visitor<Tr>
-//{
-//  typedef Cell_criterion_visitor<Tr> Base;
-//  typedef Cell_criterion_protect_edge_visitor<Tr> Self;
-//
-//public:
-//  typedef Abstract_criterion<Tr, Self> Criterion;
-//  typedef typename Base::Quality Cell_quality;
-//  typedef typename Base::Badness Cell_badness;
-//  typedef typename Base::Cell_handle Cell_handle;
-//
-//
-//  // Constructor
-//  Cell_criterion_protect_edge_visitor(const Cell_handle& ch)
-//    : Base(ch)
-//    , weighted_point_nb_(0) { };
-//
-//  // Destructor
-//  ~Cell_criterion_protect_edge_visitor() { };
-//
-//  void visit(const Criterion& criterion)
-//  {
-//    Base::do_visit(criterion);
-//  }
-//
-//  virtual void visit(const Cell_radius_edge_criterion<Tr,Self>& criterion)
-//  {
-//    if ( weighted_point_nb_ > 3 )
-//    {
-//      Base::increment_counter();
-//      return;
-//    }
-//
-//    Base::do_visit(criterion);
-//  }
-//
-//private:
-//  int weighted_point_nb_;
-//
-//};  // end class Cell_criterion_protect_edge_visitor
-
 
 
 }  // end namespace Mesh_3

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 48845 2009-04-21 18:34:14Z spion $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
+// $Id: Regular_triangulation_3.h 53827 2010-01-27 14:35:38Z lrineau $
+//
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion
@@ -38,16 +38,23 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class Gt,
-           class Tds = Triangulation_data_structure_3 <
-                           Triangulation_vertex_base_3<Gt>,
-                           Regular_triangulation_cell_base_3<Gt> > >
+template < class Gt, class Tds_ = Default >
 class Regular_triangulation_3
-  : public Triangulation_3<Gt,Tds>
+  : public Triangulation_3<Gt,
+              typename Default::Get<Tds_, Triangulation_data_structure_3 <
+                                             Triangulation_vertex_base_3<Gt>,
+                                             Regular_triangulation_cell_base_3<Gt> > >::type>
 {
-  typedef Regular_triangulation_3<Gt, Tds>      Self;
+  typedef Regular_triangulation_3<Gt, Tds_>      Self;
+
+  typedef typename Default::Get<Tds_, Triangulation_data_structure_3 <
+                                           Triangulation_vertex_base_3<Gt>,
+                                           Regular_triangulation_cell_base_3<Gt> > >::type Tds;
+
   typedef Triangulation_3<Gt,Tds>               Tr_Base;
+
 public:
+
   typedef Tds                                   Triangulation_data_structure;
   typedef Gt                                    Geom_traits;
 
@@ -83,7 +90,7 @@ public:
   typedef typename Gt::Object_3      Object;
 
   //Tag to distinguish Delaunay from Regular triangulations
-  typedef Tag_true   Weighted_tag; 
+  typedef Tag_true   Weighted_tag;
 
   using Tr_Base::cw;
   using Tr_Base::ccw;
@@ -113,7 +120,6 @@ public:
     : Tr_Base(gt), hidden_point_visitor(this)
   {}
 
-  // copy constructor duplicates vertices and cells
   Regular_triangulation_3(const Regular_triangulation_3 & rt)
     : Tr_Base(rt), hidden_point_visitor(this)
   {
@@ -136,7 +142,6 @@ public:
     int n = number_of_vertices();
 
     std::vector<Weighted_point> points(first, last);
-    std::random_shuffle (points.begin(), points.end());
     spatial_sort (points.begin(), points.end(), geom_traits());
 
     Cell_handle hint;
@@ -154,6 +159,11 @@ public:
     }
 
     return number_of_vertices() - n;
+  }
+
+  Vertex_handle insert(const Weighted_point & p, Vertex_handle hint)
+  {
+    return insert(p, hint == Vertex_handle() ? this->infinite_cell() : hint->cell());
   }
 
   Vertex_handle insert(const Weighted_point & p,
@@ -202,14 +212,14 @@ public:
       // Reset the conflict flag on the boundary.
       for(typename std::vector<Facet>::iterator fit=facets.begin();
           fit != facets.end(); ++fit) {
-        fit->first->neighbor(fit->second)->set_in_conflict_flag(0);
+        fit->first->neighbor(fit->second)->tds_data().clear();
 	*bfit++ = *fit;
       }
 
       // Reset the conflict flag in the conflict cells.
       for(typename std::vector<Cell_handle>::iterator ccit=cells.begin();
         ccit != cells.end(); ++ccit) {
-        (*ccit)->set_in_conflict_flag(0);
+        (*ccit)->tds_data().clear();
 	*cit++ = *ccit;
       }
       return make_triple(bfit, cit, ifit);
@@ -306,7 +316,7 @@ protected:
                                 const Weighted_point &p,
                                 bool perturb = false) const;
 
-  
+
 public:
 
   // Queries
@@ -330,8 +340,8 @@ public:
                         bool perturb = false) const;
 
   Vertex_handle
-  nearest_power_vertex_in_cell(const Bare_point& p, 
-			       const Cell_handle& c)  const;
+  nearest_power_vertex_in_cell(const Bare_point& p,
+			       Cell_handle c)  const;
 
   Vertex_handle
   nearest_power_vertex(const Bare_point& p, Cell_handle c =
@@ -356,10 +366,10 @@ public:
   Stream& draw_dual(Stream & os)
     {
       for (Finite_facets_iterator fit = finite_facets_begin(),
-                                  end = finite_facets_end(); 
+                                  end = finite_facets_end();
            fit != end; ++fit) {
 	Object o = dual(*fit);
-	if      (const Segment    *s = object_cast<Segment>(&o))    os << *s; 
+	if      (const Segment    *s = object_cast<Segment>(&o))    os << *s;
 	else if (const Ray        *r = object_cast<Ray>(&o))        os << *r;
 	else if (const Bare_point *p = object_cast<Bare_point>(&o)) os << *p;
       }
@@ -370,26 +380,26 @@ public:
 
 private:
   bool
-  less_power_distance(const Bare_point &p, 
-		      const Weighted_point &q, 
-		      const Weighted_point &r)  const 
+  less_power_distance(const Bare_point &p,
+		      const Weighted_point &q,
+		      const Weighted_point &r)  const
   {
-    return 
+    return
       geom_traits().compare_power_distance_3_object()(p, q, r) == SMALLER;
   }
 
   Bare_point
-  construct_weighted_circumcenter(const Weighted_point &p, 
-				  const Weighted_point &q, 
-				  const Weighted_point &r, 
+  construct_weighted_circumcenter(const Weighted_point &p,
+				  const Weighted_point &q,
+				  const Weighted_point &r,
 				  const Weighted_point &s) const
   {
      return geom_traits().construct_weighted_circumcenter_3_object()(p,q,r,s);
   }
 
   Bare_point
-  construct_weighted_circumcenter(const Weighted_point &p, 
-				  const Weighted_point &q, 
+  construct_weighted_circumcenter(const Weighted_point &p,
+				  const Weighted_point &q,
 				  const Weighted_point &r) const
   {
      return geom_traits().construct_weighted_circumcenter_3_object()(p,q,r);
@@ -432,7 +442,7 @@ private:
   }
 
   Vertex_handle
-  nearest_power_vertex(const Bare_point &p, 
+  nearest_power_vertex(const Bare_point &p,
 		       Vertex_handle v,
 		       Vertex_handle w) const
   {
@@ -509,12 +519,12 @@ private:
   {
     const Weighted_point &p;
     const Self *t;
-    
+
   public:
-    
+
     Conflict_tester_3(const Weighted_point &pt, const Self *tr)
       : p(pt), t(tr) {}
-    
+
     bool operator()(const Cell_handle c) const {
       return t->in_conflict_3(p, c);
     }
@@ -522,13 +532,13 @@ private:
     bool test_initial_cell(const Cell_handle c) const {
       return operator()(c);
     }
-    Oriented_side compare_weight(const Weighted_point &wp1, 
+    Oriented_side compare_weight(const Weighted_point &wp1,
 				 const Weighted_point &wp2) const
     {
       return t->power_test (wp1, wp2);
     }
   };
-  
+
   class Conflict_tester_2
   {
       const Weighted_point &p;
@@ -537,7 +547,7 @@ private:
 
     Conflict_tester_2(const Weighted_point &pt, const Self *tr)
       : p(pt), t(tr) {}
-    
+
     bool operator()(const Cell_handle c) const
     {
       return t->in_conflict_2(p, c, 3);
@@ -545,7 +555,7 @@ private:
     bool test_initial_cell(const Cell_handle c) const {
       return operator()(c);
     }
-    Oriented_side compare_weight(const Weighted_point &wp1, 
+    Oriented_side compare_weight(const Weighted_point &wp1,
 				 const Weighted_point &wp2) const
     {
       return t->power_test (wp1, wp2);
@@ -561,7 +571,7 @@ private:
 
     Conflict_tester_1(const Weighted_point &pt, const Self *tr)
       : p(pt), t(tr) {}
-    
+
     bool operator()(const Cell_handle c) const
     {
       return t->in_conflict_1(p, c);
@@ -569,13 +579,13 @@ private:
     bool test_initial_cell(const Cell_handle c) const {
       return operator()(c);
     }
-    Oriented_side compare_weight(const Weighted_point &wp1, 
+    Oriented_side compare_weight(const Weighted_point &wp1,
 				 const Weighted_point &wp2) const
     {
       return t->power_test (wp1, wp2);
     }
   };
-  
+
   class Conflict_tester_0
   {
       const Weighted_point &p;
@@ -585,7 +595,7 @@ private:
 
     Conflict_tester_0(const Weighted_point &pt, const Self *tr)
       : p(pt), t(tr) {}
-    
+
     bool operator()(const Cell_handle c) const
     {
       return t->in_conflict_0(p, c);
@@ -593,13 +603,13 @@ private:
     bool test_initial_cell(const Cell_handle c) const {
       return operator()(c);
     }
-    int compare_weight(const Weighted_point &wp1, 
+    int compare_weight(const Weighted_point &wp1,
 		       const Weighted_point &wp2) const
     {
       return t->power_test (wp1, wp2);
     }
   };
-  
+
   class Hidden_point_visitor
   {
     Self *t;
@@ -637,8 +647,8 @@ private:
 	hc = t->locate ((*vi)->point(), hc);
 	hide_point(hc, (*vi)->point());
 	t->tds().delete_vertex(*vi);
-      }      
-      vertices.clear(); 
+      }
+      vertices.clear();
       for (typename std::vector<Weighted_point>::iterator
 	     hp = hidden_points.begin(); hp != hidden_points.end(); ++hp) {
 	hc = t->locate (*hp, hc);
@@ -646,11 +656,11 @@ private:
       }
       hidden_points.clear();
     }
-    Vertex_handle replace_vertex(Cell_handle c, int index, 
+    Vertex_handle replace_vertex(Cell_handle c, int index,
 				 const Weighted_point &p) {
       Vertex_handle v = c->vertex(index);
       hide_point(c, v->point());
-      v->set_point(p); 
+      v->set_point(p);
       return v;
     }
     void hide_point(Cell_handle c, const Weighted_point &p) {
@@ -668,14 +678,14 @@ private:
 template < class Gt, class Tds >
 typename Regular_triangulation_3<Gt,Tds>::Vertex_handle
 Regular_triangulation_3<Gt,Tds>::
-nearest_power_vertex_in_cell(const Bare_point& p, 
-			     const Cell_handle& c) const
+nearest_power_vertex_in_cell(const Bare_point& p,
+			     Cell_handle c) const
 // Returns the finite vertex of the cell c with smaller
 // power distance  to p.
 {
     CGAL_triangulation_precondition(dimension() >= 1);
-    Vertex_handle nearest = nearest_power_vertex(p, 
-						 c->vertex(0), 
+    Vertex_handle nearest = nearest_power_vertex(p,
+						 c->vertex(0),
 						 c->vertex(1));
     if (dimension() >= 2) {
 	nearest = nearest_power_vertex(p, nearest, c->vertex(2));
@@ -691,24 +701,25 @@ typename Regular_triangulation_3<Gt,Tds>::Vertex_handle
 Regular_triangulation_3<Gt,Tds>::
 nearest_power_vertex(const Bare_point& p, Cell_handle start) const
 {
-    if (number_of_vertices() == 0)  
+    if (number_of_vertices() == 0)
       return Vertex_handle();
 
     // Use a brute-force algorithm if dimension < 3.
     if (dimension() < 3) {
 	Finite_vertices_iterator vit = finite_vertices_begin();
 	Vertex_handle res = vit;
-	for (++vit; vit != finite_vertices_end(); ++vit)
+	++vit;
+	for (Finite_vertices_iterator end = finite_vertices_end(); vit != end; ++vit)
 	    res = nearest_power_vertex(p, res, vit);
 	return res;
     }
 
     Locate_type lt;
     int li, lj;
-    // I put the cast here temporarily 
+    // I put the cast here temporarily
     // until we solve the traits class pb of regular triangulation
     Cell_handle c = locate(static_cast<Weighted_point>(p), lt, li, lj, start);
-  
+
     // - start with the closest vertex from the located cell.
     // - repeatedly take the nearest of its incident vertices if any
     // - if not, we're done.
@@ -752,7 +763,7 @@ dual(Cell_handle c, int i) const
 
   if ( dimension() == 2 ) {
     CGAL_triangulation_precondition( i == 3 );
-    return construct_object( 
+    return construct_object(
        construct_weighted_circumcenter(c->vertex(0)->point(),
 				       c->vertex(1)->point(),
 				       c->vertex(2)->point()) );
@@ -765,7 +776,7 @@ dual(Cell_handle c, int i) const
 
   // either n or c is infinite
   int in;
-  if ( is_infinite(c) ) 
+  if ( is_infinite(c) )
     in = n->index(c);
   else {
     n = c;
@@ -778,7 +789,7 @@ dual(Cell_handle c, int i) const
   const Weighted_point& p = n->vertex(ind[0])->point();
   const Weighted_point& q = n->vertex(ind[1])->point();
   const Weighted_point& r = n->vertex(ind[2])->point();
-  
+
   Line l =
     construct_perpendicular_line( construct_plane(p,q,r),
 				  construct_weighted_circumcenter(p,q,r) );
@@ -1029,7 +1040,7 @@ side_of_bounded_power_segment(const Weighted_point &p0,
     // We are now in a degenerate case => we do a symbolic perturbation.
 
     switch (this->collinear_position(p0, p, p1)) {
-        case Tr_Base::BEFORE: case Tr_Base::AFTER: 
+        case Tr_Base::BEFORE: case Tr_Base::AFTER:
             return ON_UNBOUNDED_SIDE;
         case Tr_Base::MIDDLE:
             return ON_BOUNDED_SIDE;
@@ -1079,7 +1090,7 @@ is_Gabriel(Cell_handle c, int i) const
 {
   CGAL_triangulation_precondition(dimension() == 3 && !is_infinite(c,i));
   typename Geom_traits::Side_of_bounded_orthogonal_sphere_3
-    side_of_bounded_orthogonal_sphere = 
+    side_of_bounded_orthogonal_sphere =
     geom_traits().side_of_bounded_orthogonal_sphere_3_object();
 
   if ((!is_infinite(c->vertex(i))) &&
@@ -1098,11 +1109,11 @@ is_Gabriel(Cell_handle c, int i) const
 	 c->vertex(vertex_triple_index(i,1))->point(),
 	 c->vertex(vertex_triple_index(i,2))->point(),	
 	 neighbor->vertex(in)->point()) == ON_BOUNDED_SIDE ) return false;
- 
+
   return true;
 }
 
-  
+
 template < class Gt, class Tds >
 bool
 Regular_triangulation_3<Gt,Tds>::
@@ -1118,7 +1129,7 @@ is_Gabriel(Cell_handle c, int i, int j) const
 {
   CGAL_triangulation_precondition(dimension() == 3 && !is_infinite(c,i,j));
   typename Geom_traits::Side_of_bounded_orthogonal_sphere_3
-    side_of_bounded_orthogonal_sphere = 
+    side_of_bounded_orthogonal_sphere =
     geom_traits().side_of_bounded_orthogonal_sphere_3_object();
 
   Facet_circulator fcirc = incident_facets(c,i,j),
@@ -1131,9 +1142,9 @@ is_Gabriel(Cell_handle c, int i, int j) const
       Cell_handle cc = (*fcirc).first;
       int ii = (*fcirc).second;
       if (!is_infinite(cc->vertex(ii)) &&
-	  side_of_bounded_orthogonal_sphere( v1->point(), 
+	  side_of_bounded_orthogonal_sphere( v1->point(),
 					 v2->point(),
-					 cc->vertex(ii)->point())  
+					 cc->vertex(ii)->point())
 	  == ON_BOUNDED_SIDE ) return false;
   } while(++fcirc != fdone);
   return true;
@@ -1169,12 +1180,12 @@ insert(const Weighted_point & p, Locate_type lt, Cell_handle c, int li, int lj)
       Conflict_tester_3 tester (p, this);
       return insert_in_conflict(p, lt,c,li,lj, tester, hidden_point_visitor);
     }
-  case 2: 
+  case 2:
     {
       Conflict_tester_2 tester (p, this);
       return insert_in_conflict(p, lt,c,li,lj, tester, hidden_point_visitor);
     }
-  case 1: 
+  case 1:
     {
       Conflict_tester_1 tester (p, this);
       return insert_in_conflict(p, lt,c,li,lj, tester, hidden_point_visitor);
@@ -1199,7 +1210,7 @@ public:
   Regular &tmp;
 
   void add_hidden_points(Cell_handle ch) {
-    std::copy (ch->hidden_points_begin(), ch->hidden_points_end(), 
+    std::copy (ch->hidden_points_begin(), ch->hidden_points_end(),
                 std::back_inserter(hidden));
   }
 
@@ -1236,7 +1247,7 @@ remove(Vertex_handle v)
 
     // Re-insert the points that v was hiding.
     for (typename Vertex_remover<Self>::Hidden_points_iterator
-        hi = remover.hidden_points_begin(); 
+        hi = remover.hidden_points_begin();
         hi != remover.hidden_points_end(); ++hi) {
       Vertex_handle hv = insert (*hi, c);
       if (hv != Vertex_handle()) c = hv->cell();
@@ -1252,17 +1263,17 @@ move_point(Vertex_handle v, const Weighted_point & p)
 {
     CGAL_triangulation_precondition(! is_infinite(v));
     CGAL_triangulation_expensive_precondition(is_vertex(v));
- 
+
     // Dummy implementation for a start.
- 
+
     // Remember an incident vertex to restart
     // the point location after the removal.
     Cell_handle c = v->cell();
     Vertex_handle old_neighbor = c->vertex(c->index(v) == 0 ? 1 : 0);
     CGAL_triangulation_assertion(old_neighbor != v);
- 
+
     remove(v);
- 
+
     if (dimension() <= 0)
         return insert(p);
     return insert(p, old_neighbor->cell());
@@ -1283,10 +1294,9 @@ is_valid(bool verbose, int level) const
   switch ( dimension() ) {
   case 3:
     {
-      Finite_cells_iterator it;
-      for ( it = finite_cells_begin(); it != finite_cells_end(); ++it ) {
+      for(Finite_cells_iterator it = finite_cells_begin(), end = finite_cells_end(); it != end; ++it) {
 	is_valid_finite(it, verbose, level);
-	for (int i=0; i<4; i++ ) {
+	for(int i=0; i<4; i++) {
 	  if ( !is_infinite
 	       (it->neighbor(i)->vertex(it->neighbor(i)->index(it))) ) {
 	    if ( side_of_power_sphere
@@ -1305,10 +1315,9 @@ is_valid(bool verbose, int level) const
     }
   case 2:
     {
-      Finite_facets_iterator it;
-      for ( it = finite_facets_begin(); it != finite_facets_end(); ++it ) {
+      for(Finite_facets_iterator it = finite_facets_begin(), end = finite_facets_end(); it!= end; ++it) {
 	is_valid_finite((*it).first, verbose, level);
-	for (int i=0; i<3; i++ ) {
+	for(int i=0; i<3; i++) {
 	  if( !is_infinite
 	      ((*it).first->neighbor(i)->vertex( (((*it).first)->neighbor(i))
 						 ->index((*it).first))) ) {
@@ -1330,10 +1339,9 @@ is_valid(bool verbose, int level) const
     }
   case 1:
     {
-      Finite_edges_iterator it;
-      for ( it = finite_edges_begin(); it != finite_edges_end(); ++it ) {
+      for(Finite_edges_iterator it = finite_edges_begin(), end = finite_edges_end(); it != end; ++it) {
 	is_valid_finite((*it).first, verbose, level);
-	for (int i=0; i<2; i++ ) {
+	for(int i=0; i<2; i++) {
 	  if( !is_infinite
 	      ((*it).first->neighbor(i)->vertex( (((*it).first)->neighbor(i))
 						 ->index((*it).first))) ) {

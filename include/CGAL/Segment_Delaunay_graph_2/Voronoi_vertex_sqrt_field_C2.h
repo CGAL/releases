@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_C2.h $
-// $Id: Voronoi_vertex_sqrt_field_C2.h 45094 2008-08-22 16:10:06Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_C2.h $
+// $Id: Voronoi_vertex_sqrt_field_C2.h 53637 2010-01-15 06:46:31Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -61,6 +61,7 @@ public:
   typedef typename Base::Comparison_result   Comparison_result;
   typedef typename Base::Oriented_side       Oriented_side;
   typedef typename Base::Sign                Sign;
+  typedef typename Base::Compute_scalar_product_2 Compute_scalar_product_2;
 
 private:
   typedef Are_same_points_C2<K>    Are_same_points_2;
@@ -789,11 +790,19 @@ private:
   }
 
 
+  Site_2 other_site(const Site_2& p, const Site_2& seg) const
+  {
+    if (same_points(p, seg.source_site())){
+      return  seg.target_site();
+    }
+    return  seg.source_site();
+  }
+
 
   //--------------------------------------------------------------------------
   //--------------------------------------------------------------------------
 
-  Sign incircle_s(const Site_2& t, int i) const
+  Sign incircle_s(const Site_2& t, int) const
   {
     CGAL_precondition( t.is_segment() );
 
@@ -812,6 +821,53 @@ private:
 	    is_endpoint_of(q_, t) && is_endpoint_of(r_, t)  ){
 	return NEGATIVE;
       }
+    }
+    if(v_type == PPP){
+      Site_2 const *p1 = NULL;
+      if(is_endpoint_of(p_, t)){
+	p1 = &p_;
+      } else if(is_endpoint_of(q_, t)){
+	p1 = &q_;
+      } else if(is_endpoint_of(r_, t)){
+	p1 = &r_;
+      }
+      if(p1 != NULL){
+        // As the Voronoi circle and the segment t touch in p1,
+        // it is enough to check that the center and the non-touching point of the segment
+        // are not in the same halfspace defined by the tangent line through p1
+	Site_2 p2 = other_site(*p1, t);
+	  Point_2 v(x(),y());
+        
+	  Compute_scalar_product_2 csp;
+	  return -CGAL::sign( csp((v - p1->point()), (p2.point()- p1->point())) );
+      }
+
+    } else if(v_type == PPS){
+      Site_2 const *p1, *p2, *seg;
+      if(p_.is_point()){ 
+	p1 = &p_;
+	if(q_.is_point()){
+	  p2 = &q_;
+	  seg = &r_;
+	} else {
+	  p2 = &r_;
+	  seg = &q_;
+	} 
+      } else {
+	seg = &p_;
+	p1 = &q_;
+	p2 = &r_;
+      }
+
+      if(! is_endpoint_of(*p2, t)){
+	std::swap(p1,p2);
+      }
+	if(is_endpoint_of(*p2, t)){
+	  Site_2 tp = other_site(*p2, t);
+	  Point_2 v(x(),y());
+	  Compute_scalar_product_2 csp;
+          return -CGAL::sign( csp((v - p2->point()), (tp.point()- p2->point())) );
+	}
     }
 
     if ( v_type == PSS ) {
@@ -832,7 +888,7 @@ private:
       }
     }
 
-    return incircle_s_no_easy(t, i);
+    return incircle_s_no_easy(t, 0);
   }
 
   

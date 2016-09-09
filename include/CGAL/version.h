@@ -23,8 +23,12 @@
 #ifndef CGAL_VERSION_H
 #define CGAL_VERSION_H
 
-#define CGAL_VERSION 3.5.1
-#define CGAL_VERSION_NR 1030511000
-#define CGAL_SVN_REVISION 53508
+#define CGAL_xstr(s) #s
+#define CGAL_str(s) CGAL_xstr(s)
+
+#define CGAL_VERSION 3.6
+#define CGAL_VERSION_NR 1030601000
+#define CGAL_SVN_REVISION 54289
+#define CGAL_VERSION_STR CGAL_str(CGAL_VERSION)
 
 #endif

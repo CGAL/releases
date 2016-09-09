@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/CORE_coercion_traits.h $
-// $Id: CORE_coercion_traits.h 47264 2008-12-08 06:25:14Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/CORE_coercion_traits.h $
+// $Id: CORE_coercion_traits.h 53198 2009-11-26 10:11:44Z penarand $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -71,7 +71,7 @@ CGAL_BEGIN_NAMESPACE
     CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int           ,::CORE::BigFloat)
     CGAL_DEFINE_COERCION_TRAITS_FROM_TO(long          ,::CORE::BigFloat)
     CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float         ,::CORE::BigFloat)
-    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(double        ,::CORE::BigFloat);
+    CGAL_DEFINE_COERCION_TRAITS_FROM_TO(double        ,::CORE::BigFloat)
 
 template <> 
 struct Coercion_traits<CORE::BigFloat , ::CORE::BigInt>{

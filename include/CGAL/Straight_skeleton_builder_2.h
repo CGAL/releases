@@ -11,8 +11,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_builder_2.h $
-// $Id: Straight_skeleton_builder_2.h 43050 2008-04-28 17:03:23Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_builder_2.h $
+// $Id: Straight_skeleton_builder_2.h 54007 2010-02-03 13:46:31Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -677,14 +677,14 @@ private :
   
   void CollectSplitEvent( Vertex_handle aNode, Triedge const& aTriedge ) ;
 
-  void CollectSplitEvents( Vertex_handle aNode ) ;
+  void CollectSplitEvents( Vertex_handle aNode, Triedge const& aPrevEventTriedge  ) ;
 
-  EventPtr FindEdgeEvent( Vertex_handle aLNode, Vertex_handle aRNode ) ;
+  EventPtr FindEdgeEvent( Vertex_handle aLNode, Vertex_handle aRNode, Triedge const& aPrevEventTriedge  ) ;
 
   void HandleSimultaneousEdgeEvent( Vertex_handle aA, Vertex_handle aB ) ;
 
-  void CollectNewEvents( Vertex_handle aNode ) ;
-  void UpdatePQ( Vertex_handle aV ) ;
+  void CollectNewEvents( Vertex_handle aNode, Triedge const& aPrevEventTriedge ) ;
+  void UpdatePQ( Vertex_handle aV, Triedge const& aPrevEventTriedge ) ;
   void CreateInitialEvents();
   void CreateContourBisectors();
   void InitPhase();

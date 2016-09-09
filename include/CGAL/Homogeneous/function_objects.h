@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/function_objects.h $
-// $Id: function_objects.h 50388 2009-07-06 11:36:23Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Homogeneous_kernel/include/CGAL/Homogeneous/function_objects.h $
+// $Id: function_objects.h 51444 2009-08-24 15:00:14Z afabri $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hoffmann
@@ -714,6 +714,12 @@ namespace HomogeneousKernelFunctors {
     operator()(const Point_3& p, const Point_3& q, const FT& d2) const
     {
       return CGAL_NTS compare(squared_distance(p, q), d2);
+    }
+
+    result_type
+    operator()(const Point_3& p, const Point_3& q, const Point_3& r, const Point_3& s) const
+    {
+      return CGAL_NTS compare(squared_distance(p, q), squared_distance(r, s));
     }
   };
 

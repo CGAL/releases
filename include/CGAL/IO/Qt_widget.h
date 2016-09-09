@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Qt_widget/include/CGAL/IO/Qt_widget.h $
-// $Id: Qt_widget.h 36699 2007-02-28 17:43:49Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Qt_widget/include/CGAL/IO/Qt_widget.h $
+// $Id: Qt_widget.h 53026 2009-11-14 11:49:52Z spion $
 // 
 //
 // Author(s)     : Laurent Rineau
@@ -282,7 +282,7 @@ inline
 Qt_widget& operator<<(Qt_widget& w, Qt_widget& (*m)(Qt_widget&))
 {
   return m(w);
-};
+}
 
 // w << noFill << ... stop the filling of geometrical object
 inline
@@ -348,7 +348,7 @@ inline
 QColor Qt_widget::color() const
 {
   return painter->pen().color();
-};
+}
 
 
 inline

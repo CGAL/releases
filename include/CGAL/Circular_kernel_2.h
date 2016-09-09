@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2.h $
-// $Id: Circular_kernel_2.h 46366 2008-10-21 07:32:36Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2.h $
+// $Id: Circular_kernel_2.h 51456 2009-08-24 17:10:04Z spion $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -43,14 +43,14 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template < class CircularKernel, class LinearKernelBase, class AlgebraicKernel >
 struct Circular_kernel_base_ref_count: public LinearKernelBase
 {
-  typedef CGALi::Circular_arc_2<CircularKernel>         Circular_arc_2;
-  typedef CGALi::Circular_arc_point_2<CircularKernel>   Circular_arc_point_2;
-  typedef CGALi::Line_arc_2<CircularKernel>             Line_arc_2;
+  typedef internal::Circular_arc_2<CircularKernel>         Circular_arc_2;
+  typedef internal::Circular_arc_point_2<CircularKernel>   Circular_arc_point_2;
+  typedef internal::Line_arc_2<CircularKernel>             Line_arc_2;
   typedef LinearKernelBase                              Linear_kernel;
   typedef AlgebraicKernel                               Algebraic_kernel;
   typedef typename Algebraic_kernel::Root_of_2            Root_of_2;
@@ -61,7 +61,7 @@ struct Circular_kernel_base_ref_count: public LinearKernelBase
   typedef typename Linear_kernel::RT                       RT;
   typedef typename Linear_kernel::FT                       FT;
 
-  // The mecanism that allows to specify reference-counting or not.
+  // The mechanism that allows to specify reference-counting or not.
   template < typename T >
   struct Handle { typedef Handle_for<T>    type; };
 
@@ -80,12 +80,12 @@ struct Circular_kernel_base_ref_count: public LinearKernelBase
 
 };
 
-} // namespace CGALi
+} // namespace internal
 
 template < class LinearKernel, class AlgebraicKernel >
 struct Circular_kernel_2
   : public Circular_kernel_type_equality_wrapper
-     < CGALi::Circular_kernel_base_ref_count
+     < internal::Circular_kernel_base_ref_count
         < Circular_kernel_2<LinearKernel,AlgebraicKernel>,
           typename LinearKernel:: template 
           Base<Circular_kernel_2<LinearKernel,AlgebraicKernel> >::Type,

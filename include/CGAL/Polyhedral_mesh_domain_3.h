@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Polyhedral_mesh_domain_3.h $
-// $Id: Polyhedral_mesh_domain_3.h 53152 2009-11-24 12:43:03Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Polyhedral_mesh_domain_3.h $
+// $Id: Polyhedral_mesh_domain_3.h 53828 2010-01-27 14:37:25Z lrineau $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -38,7 +38,8 @@
 #include <boost/utility/enable_if.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/contains.hpp>
-#include <boost/tuple/tuple.hpp>
+#include <CGAL/tuple.h>
+#include <boost/format.hpp>
 
 namespace CGAL {
 
@@ -91,7 +92,7 @@ public:
   /// complex on which a vertex lie
   typedef boost::variant<Subdomain_index, Surface_index> Index;
 
-  typedef boost::tuple<Point_3,Index,int> Intersection;
+  typedef CGAL::cpp0x::tuple<Point_3,Index,int> Intersection;
 
 
   typedef typename IGT::FT         FT;
@@ -106,7 +107,9 @@ public:
    */
   Polyhedral_mesh_domain_3(const Polyhedron& p)
     : tree_(TriangleAccessor().triangles_begin(p),
-            TriangleAccessor().triangles_end(p))            { };
+            TriangleAccessor().triangles_end(p))
+  { 
+  };
 
   /// Destructor
   ~Polyhedral_mesh_domain_3() { };
@@ -152,6 +155,11 @@ public:
 
   Is_in_domain is_in_domain_object() const { return Is_in_domain(*this); }
 
+  Point_3 project_on_surface(const Point_3& p) const
+  {
+    return tree_.closest_point(p);
+  }
+  
   /// Allowed query types
   typedef boost::mpl::vector<Segment_3, Ray_3, Line_3> Allowed_query_types;
 
@@ -231,13 +239,7 @@ public:
         else if ( const Segment_3* p_intersect_seg =
                               object_cast<Segment_3>(&(*intersection).first) )
         {
-          typename IGT::Construct_midpoint_3 midpoint =
-                                        IGT().construct_midpoint_3_object();
-
-          const Point_3& a = p_intersect_seg->source();
-          const Point_3& b = p_intersect_seg->target();
-
-          return Intersection(midpoint(a,b),
+          return Intersection(p_intersect_seg->source(),
                               r_domain_.index_from_surface_index(
                                                 r_domain_.make_surface_index()),
                               2);
@@ -259,8 +261,8 @@ public:
   {
     return Construct_intersection(*this);
   }
-
-
+  
+  
   /**
    * Returns the index to be stored in a vertex lying on the surface identified
    * by \c index.
@@ -289,6 +291,12 @@ public:
   Subdomain_index subdomain_index(const Index& index) const
   { return boost::get<Subdomain_index>(index); };
 
+public:
+  Surface_index make_surface_index() const
+  {
+    return Surface_index(0,1);
+  }
+  
 private:
   typedef Mesh_3::Triangle_accessor_primitive<TriangleAccessor, IGT>
                                                                 AABB_primitive;
@@ -296,11 +304,7 @@ private:
   typedef class AABB_tree<AABB_traits> AABB_tree;
   typedef typename AABB_traits::Bounding_box Bounding_box;
 
-private:
-  Surface_index make_surface_index() const
-  {
-    return Surface_index(0,1);
-  }
+
 
 private:
   /// The AABB tree: intersection detection and more
@@ -327,50 +331,52 @@ Polyhedral_mesh_domain_3<P_,IGT,TA>::Construct_initial_points::operator()(
 {
   typedef boost::optional<typename AABB_tree::Object_and_primitive_id>
                                                             AABB_intersection;
-
+  
+  typename IGT::Construct_ray_3 ray = IGT().construct_ray_3_object();
+  typename IGT::Construct_vector_3 vector = IGT().construct_vector_3_object();
+  
   const Bounding_box bbox = r_domain_.tree_.bbox();
   const Point_3 center( FT( (bbox.xmin() + bbox.xmax()) / 2),
                         FT( (bbox.ymin() + bbox.ymax()) / 2),
                         FT( (bbox.zmin() + bbox.zmax()) / 2) );
-
-  const double diameter = Mesh_3::details::max_length(bbox) * 2;
+  
   Random_points_on_sphere_3<Point_3> random_point(1.);
 
   int i = n;
-
+#ifdef CGAL_MESH_3_VERBOSE
+  std::cerr << "construct initial points:" << std::endl;
+#endif
   // Point construction by ray shooting from the center of the enclosing bbox
   while ( i > 0 )
   {
-    typename IGT::Construct_vector_3 vector =
-        IGT().construct_vector_3_object();
-    typename IGT::Construct_segment_3 segment =
-        IGT().construct_segment_3_object();
-    typename IGT::Construct_translated_point_3 translate =
-        IGT().construct_translated_point_3_object();
-    typename IGT::Construct_scaled_vector_3 scale =
-        IGT().construct_scaled_vector_3_object();
-
-    const Segment_3 seg =
-        segment(center,
-                translate(center, scale(vector(ORIGIN,*random_point), diameter)));
-
-    AABB_intersection intersection = r_domain_.tree_.any_intersection(seg);
+    const Ray_3 ray_shot = ray(center, vector(CGAL::ORIGIN,*random_point));
+    
+    AABB_intersection intersection = r_domain_.tree_.any_intersection(ray_shot);
     if ( intersection )
     {
       const Point_3* p_pt = object_cast<Point_3>(&(*intersection).first);
-      if ( p_pt)
+      if ( NULL != p_pt )
       {
-        *pts++ = std::make_pair(
-            *p_pt,
-            r_domain_.index_from_surface_index(r_domain_.make_surface_index()));
-
+        *pts++ = std::make_pair(*p_pt,
+          r_domain_.index_from_surface_index(r_domain_.make_surface_index()));
+        
         --i;
+        
+#ifdef CGAL_MESH_3_VERBOSE
+        std::cerr << boost::format("\r             \r"
+                                   "%1%/%2% initial point(s) found...")
+        % (n - i)
+        % n;
+#endif
       }
     }
 
     ++random_point;
   }
-
+  
+#ifdef CGAL_MESH_3_VERBOSE
+  std::cerr << std::endl;
+#endif
   return pts;
 }
 
@@ -388,26 +394,16 @@ Polyhedral_mesh_domain_3<P_,IGT,TA>::Is_in_domain::operator()(
   {
     return Subdomain();
   }
-
-  const double diameter = Mesh_3::details::max_length(bbox) * 2;
-
-  typedef typename IGT::RT RT;
+  
+  // Shoot ray
+  typename IGT::Construct_ray_3 ray = IGT().construct_ray_3_object();
+  typename IGT::Construct_vector_3 vector = IGT().construct_vector_3_object();
+  
   Random_points_on_sphere_3<Point_3> random_point(1.);
 
-  typename IGT::Construct_vector_3 vector =
-    IGT().construct_vector_3_object();
-  typename IGT::Construct_segment_3 segment =
-    IGT().construct_segment_3_object();
-  typename IGT::Construct_translated_point_3 translate =
-    IGT().construct_translated_point_3_object();
-  typename IGT::Construct_scaled_vector_3 scale =
-    IGT().construct_scaled_vector_3_object();
+  const Ray_3 ray_shot = ray(p, vector(CGAL::ORIGIN,*random_point));
 
-  const Segment_3 seg =
-    segment(p,
-            translate(p, scale(vector(ORIGIN,*random_point), diameter)));
-
-  if ( (r_domain_.tree_.number_of_intersected_primitives(seg) % 2) == 1 )
+  if ( (r_domain_.tree_.number_of_intersected_primitives(ray_shot)&1) == 1 )
     return Subdomain(Subdomain_index(1));
   else
     return Subdomain();

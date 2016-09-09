@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/remove_outliers.h $
-// $Id: remove_outliers.h 49951 2009-06-17 12:39:51Z nsalman $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_processing_3/include/CGAL/remove_outliers.h $
+// $Id: remove_outliers.h 51456 2009-08-24 17:10:04Z spion $
 //
 // Author(s) : Laurent Saboret and Nader Salman and Pierre Alliez
 
@@ -34,7 +34,7 @@ CGAL_BEGIN_NAMESPACE
 // ----------------------------------------------------------------------------
 // Private section
 // ----------------------------------------------------------------------------
-namespace CGALi {
+namespace internal {
 
 
 /// Utility function for remove_outliers():
@@ -91,7 +91,7 @@ compute_avg_knn_sq_distance_3(
 }
 
 
-} /* namespace CGALi */
+} /* namespace internal */
 
 
 // ----------------------------------------------------------------------------
@@ -173,7 +173,7 @@ remove_outliers(
   std::multimap<FT,Enriched_point> sorted_points;
   for(it = first; it != beyond; it++)
   {
-    FT sq_distance = CGALi::compute_avg_knn_sq_distance_3<Kernel>(get(point_pmap,it), tree, k);
+    FT sq_distance = internal::compute_avg_knn_sq_distance_3<Kernel>(get(point_pmap,it), tree, k);
     sorted_points.insert( std::make_pair(sq_distance, *it) );
   }
 

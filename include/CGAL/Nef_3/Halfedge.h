@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://hachenb@scm.gforge.inria.fr/svn/cgal/branches/Filtered_Nef/Nef_3/include/CGAL/Nef_3/Halfedge.h $
-// $Id: Halfedge.h 35450 2006-12-06 10:43:20Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Nef_3/include/CGAL/Nef_3/Halfedge.h $
+// $Id: Halfedge.h 52628 2009-10-20 08:59:26Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel        <seel@mpi-sb.mpg.de>

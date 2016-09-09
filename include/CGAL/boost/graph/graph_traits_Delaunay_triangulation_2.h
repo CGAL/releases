@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/BGL/include/CGAL/boost/graph/graph_traits_Delaunay_triangulation_2.h $
-// $Id: graph_traits_Delaunay_triangulation_2.h 37284 2007-03-19 19:36:49Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/BGL/include/CGAL/boost/graph/graph_traits_Delaunay_triangulation_2.h $
+// $Id: graph_traits_Delaunay_triangulation_2.h 51682 2009-09-02 13:09:06Z afabri $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -255,21 +255,21 @@ namespace boost {
 
   template <class Gt, class Tds>
   class DT2_edge_weight_map
-    : public put_get_helper<double, DT2_edge_weight_map<Gt, Tds> >
+    : public put_get_helper<typename Gt::FT, DT2_edge_weight_map<Gt, Tds> >
   {
   private:
     const CGAL::Delaunay_triangulation_2<Gt,Tds>& tr;
   public:
     typedef readable_property_map_tag category;
-    typedef double value_type;
-    typedef double reference;
+    typedef typename Gt::FT value_type;
+    typedef value_type reference;
     typedef typename CGAL::Delaunay_triangulation_2<Gt,Tds>::Edge key_type;
 
     DT2_edge_weight_map(const CGAL::Delaunay_triangulation_2<Gt,Tds>& tr_) 
       : tr(tr_) 
     { }
 
-    double operator[](key_type e) const {
+    typename Gt::FT operator[](key_type e) const {
       return tr.segment(e).squared_length();
     }
   };

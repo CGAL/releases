@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_2/include/CGAL/Point_2_Point_2_intersection.h $
-// $Id: Point_2_Point_2_intersection.h 39776 2007-08-08 15:15:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Point_2_Point_2_intersection.h $
+// $Id: Point_2_Point_2_intersection.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -30,7 +30,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 inline bool
@@ -51,7 +51,7 @@ intersection(const typename K::Point_2 &pt1,
     return Object();
 }
 
-}// namespace CGALi
+}// namespace internal
 
 
 template <class K>

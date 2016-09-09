@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_2/include/CGAL/Triangle_2_Triangle_2_do_intersect.h $
-// $Id: Triangle_2_Triangle_2_do_intersect.h 39776 2007-08-08 15:15:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Triangle_2_Triangle_2_do_intersect.h $
+// $Id: Triangle_2_Triangle_2_do_intersect.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Philippe Guigue
@@ -27,7 +27,7 @@ CGAL_BEGIN_NAMESPACE
 
 
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 bool intersection_test_vertex(const typename K::Point_2 *  P1, 
@@ -151,24 +151,24 @@ bool do_intersect(const typename K::Triangle_2 &t1,
   if ( orientation(*p2,*q2,*p1) != NEGATIVE ) {
     if ( orientation(*q2,*r2,*p1) != NEGATIVE ) { 
       if ( orientation(*r2,*p2,*p1) != NEGATIVE ) return true;
-      return CGALi::intersection_test_edge(p1,q1,r1,p2,q2,r2,k);
+      return internal::intersection_test_edge(p1,q1,r1,p2,q2,r2,k);
     } 
     if ( orientation(*r2,*p2,*p1) != NEGATIVE ) 
-      return CGALi::intersection_test_edge(p1,q1,r1,r2,p2,q2,k);
-    return CGALi::intersection_test_vertex(p1,q1,r1,p2,q2,r2,k);
+      return internal::intersection_test_edge(p1,q1,r1,r2,p2,q2,k);
+    return internal::intersection_test_vertex(p1,q1,r1,p2,q2,r2,k);
     
   }
   
   if ( orientation(*q2,*r2,*p1) != NEGATIVE ) {
     if ( orientation(*r2,*p2,*p1) != NEGATIVE ) 
-      return CGALi::intersection_test_edge(p1,q1,r1,q2,r2,p2,k);
-    return CGALi::intersection_test_vertex(p1,q1,r1,q2,r2,p2,k);
+      return internal::intersection_test_edge(p1,q1,r1,q2,r2,p2,k);
+    return internal::intersection_test_vertex(p1,q1,r1,q2,r2,p2,k);
   }
-  return CGALi::intersection_test_vertex(p1,q1,r1,r2,p2,q2,k);
+  return internal::intersection_test_vertex(p1,q1,r1,r2,p2,q2,k);
   
 }
 
-} // namespace CGALi
+} // namespace internal
 
 
 

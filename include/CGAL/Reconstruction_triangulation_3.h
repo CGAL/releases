@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_reconstruction_points_3/include/CGAL/Reconstruction_triangulation_3.h $
-// $Id: Reconstruction_triangulation_3.h 51895 2009-09-10 16:34:35Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_reconstruction_points_3/include/CGAL/Reconstruction_triangulation_3.h $
+// $Id: Reconstruction_triangulation_3.h 51865 2009-09-07 14:06:13Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez
@@ -190,14 +190,14 @@ struct Reconstruction_triangulation_default_geom_traits_3 : public BaseGt
 
 template <class BaseGt,
           class Gt = Reconstruction_triangulation_default_geom_traits_3<BaseGt>,
-          class Tds = Triangulation_data_structure_3<Reconstruction_vertex_base_3<Gt> > >
-class Reconstruction_triangulation_3 : public Delaunay_triangulation_3<Gt,Tds>
+          class Tds_ = Triangulation_data_structure_3<Reconstruction_vertex_base_3<Gt> > >
+class Reconstruction_triangulation_3 : public Delaunay_triangulation_3<Gt,Tds_>
 {
 // Private types
 private:
 
   // Base class
-  typedef Delaunay_triangulation_3<Gt,Tds>  Base;
+  typedef Delaunay_triangulation_3<Gt,Tds_>  Base;
 
   // Auxiliary class to build an iterator over input points.
   class Is_steiner_point
@@ -219,7 +219,7 @@ public:
 
   // Repeat base class' types
   /// @cond SKIP_IN_MANUAL
-  typedef Tds Triangulation_data_structure;
+  typedef Tds_ Triangulation_data_structure;
   typedef typename Base::Segment      Segment;
   typedef typename Base::Triangle     Triangle;
   typedef typename Base::Tetrahedron  Tetrahedron;

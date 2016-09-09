@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_iterators_3.h $
-// $Id: Periodic_3_triangulation_iterators_3.h 50044 2009-06-24 10:00:40Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_iterators_3.h $
+// $Id: Periodic_3_triangulation_iterators_3.h 52169 2009-10-07 08:24:02Z mcaroli $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -146,6 +146,11 @@ public:
       periodic_tetrahedron = construct_periodic_tetrahedron();
       return &periodic_tetrahedron;
     }
+
+  Cell_iterator get_cell() const
+  {
+    return pos;
+  }
 
 private:
   const T*  _t;
@@ -448,6 +453,11 @@ public:
       return &periodic_triangle;
     }
 
+  Facet_iterator get_facet() const
+  {
+    return pos;
+  }
+
 private:
   const T*  _t;
   Facet_iterator pos; // current facet.
@@ -733,6 +743,10 @@ public:
       return &periodic_segment;
     }
 
+  Edge_iterator get_edge() const
+  {
+    return pos;
+  }
 private:
   const T*  _t;
   Edge_iterator pos; // current edge.
@@ -987,6 +1001,10 @@ public:
     return &periodic_point;
   }
   
+  Vertex_iterator get_vertex() const
+  {
+    return pos;
+  }
 private:
   const T*  _t;
   Vertex_iterator pos; // current vertex.

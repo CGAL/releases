@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Interval_skip_list/include/CGAL/Interval_skip_list.h $
-// $Id: Interval_skip_list.h 40788 2007-11-05 13:18:53Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Interval_skip_list/include/CGAL/Interval_skip_list.h $
+// $Id: Interval_skip_list.h 53867 2010-01-28 12:18:19Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -24,7 +24,10 @@
 #include <CGAL/basic.h>
 #include <list>
 #include <iostream>
-#include <CGAL/Random.h>
+
+#include <boost/random/linear_congruential.hpp>
+#include <boost/random/geometric_distribution.hpp>
+#include <boost/random/variate_generator.hpp>
 
 
 //#define CGAL_ISL_USE_CCC
@@ -126,7 +129,7 @@ class Interval_for_container : public Interval_
   private:
     typedef Interval_ Interval;
     typedef typename Interval::Value Value;
-    Random rand;
+    boost::rand48 random;
 
 #ifdef CGAL_ISL_USE_LIST
     std::list<Interval> container;
@@ -1193,15 +1196,11 @@ template <class Interval>
   int
   Interval_skip_list<Interval>::randomLevel()
   {
-    const float P = 0.5;
-
-    int levels = 0;
-    while( P <  rand.get_double(0,1)) levels++;   
-    if ( levels <= maxLevel) 
-      return(levels);
-    else
-      return(maxLevel+1);
-  }
+    boost::geometric_distribution<> proba(0.5);
+    boost::variate_generator<boost::rand48&, boost::geometric_distribution<> > die(random, proba);
+    
+    return (std::min)(die(), (int)maxLevel)+1;
+}
 
 
   template <class Interval>

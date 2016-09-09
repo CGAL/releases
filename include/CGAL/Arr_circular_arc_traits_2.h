@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_circular_arc_traits_2.h $
-// $Id: Arr_circular_arc_traits_2.h 49772 2009-06-03 21:25:53Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_circular_arc_traits_2.h $
+// $Id: Arr_circular_arc_traits_2.h 51984 2009-09-20 16:18:10Z efif $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion
 
@@ -58,10 +58,10 @@ public:
   typedef CGAL::Tag_false                        Has_left_category;
   typedef CGAL::Tag_false 			 Has_merge_category;
 
-  typedef Arr_oblivious_side_tag                 Arr_left_side_tag;
-  typedef Arr_oblivious_side_tag                 Arr_bottom_side_tag;
-  typedef Arr_oblivious_side_tag                 Arr_top_side_tag;
-  typedef Arr_oblivious_side_tag                 Arr_right_side_tag;
+  typedef Arr_oblivious_side_tag                 Arr_left_side_category;
+  typedef Arr_oblivious_side_tag                 Arr_bottom_side_category;
+  typedef Arr_oblivious_side_tag                 Arr_top_side_category;
+  typedef Arr_oblivious_side_tag                 Arr_right_side_category;
 
   Arr_circular_arc_traits_2(const CircularKernel &k = CircularKernel())
     : ck(k) {}

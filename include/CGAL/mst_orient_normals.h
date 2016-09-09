@@ -11,14 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
-// $Id: mst_orient_normals.h 51831 2009-09-04 11:38:11Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
+// $Id: mst_orient_normals.h 52329 2009-10-15 12:08:25Z ggael $
 //
 // Author(s) : Laurent Saboret and Andreas Fabri
 
 #ifndef CGAL_MST_ORIENT_NORMALS_H
 #define CGAL_MST_ORIENT_NORMALS_H
 
+#include <CGAL/trace.h>
 #include <CGAL/Search_traits_3.h>
 #include <CGAL/Orthogonal_k_neighbor_search.h>
 #include <CGAL/Search_traits_vertex_handle_3.h>
@@ -50,7 +51,7 @@ CGAL_BEGIN_NAMESPACE
 // ----------------------------------------------------------------------------
 // Private section
 // ----------------------------------------------------------------------------
-namespace CGALi {
+namespace internal {
 
 
 /// Generalization of std::distance() to compute the distance between 2 integers
@@ -142,7 +143,7 @@ template <typename ForwardIterator, ///< Input point iterator
 struct Propagate_normal_orientation
   : public boost::base_visitor< Propagate_normal_orientation<ForwardIterator, NormalPMap, Kernel> >
 {
-    typedef CGALi::MST_graph<ForwardIterator, NormalPMap, Kernel> MST_graph;
+    typedef internal::MST_graph<ForwardIterator, NormalPMap, Kernel> MST_graph;
     typedef boost::on_examine_edge event_filter;
 
     Propagate_normal_orientation(double angle_max = M_PI/2.) ///< max angle to propagate the normal orientation (radians)
@@ -287,7 +288,7 @@ create_riemannian_graph(
     typedef typename Neighbor_search::iterator Search_iterator;
 
     // Riemannian_graph types
-    typedef CGALi::Riemannian_graph<ForwardIterator> Riemannian_graph;
+    typedef internal::Riemannian_graph<ForwardIterator> Riemannian_graph;
     typedef typename boost::property_map<Riemannian_graph, boost::edge_weight_t>::type Riemannian_graph_weight_map;
 
     // Precondition: at least one element in the container.
@@ -419,18 +420,18 @@ create_mst_graph(
     ForwardIterator source_point) ///< source point (with an oriented normal)
 {
     // Bring private stuff to scope
-    using namespace CGALi;
+    using namespace internal;
 
     // Input points types
     typedef typename boost::property_traits<PointPMap>::value_type Point;
     typedef typename boost::property_traits<NormalPMap>::value_type Vector;
 
     // Riemannian_graph types
-    typedef CGALi::Riemannian_graph<ForwardIterator> Riemannian_graph;
+    typedef internal::Riemannian_graph<ForwardIterator> Riemannian_graph;
     typedef typename boost::property_map<Riemannian_graph, boost::edge_weight_t>::const_type Riemannian_graph_weight_map;
 
     // MST_graph types
-    typedef CGALi::MST_graph<ForwardIterator, NormalPMap, Kernel> MST_graph;
+    typedef internal::MST_graph<ForwardIterator, NormalPMap, Kernel> MST_graph;
 
     // Precondition: at least one element in the container.
     CGAL_point_set_processing_precondition(first != beyond);
@@ -485,7 +486,7 @@ create_mst_graph(
 }
 
 
-} /* namespace CGALi */
+} /* namespace internal */
 
 
 // ----------------------------------------------------------------------------
@@ -532,7 +533,7 @@ mst_orient_normals(
     CGAL_TRACE("Calls mst_orient_normals()\n");
 
     // Bring private stuff to scope
-    using namespace CGALi;
+    using namespace internal;
 
     // Input points types
     typedef typename std::iterator_traits<ForwardIterator>::value_type Enriched_point; // actual type of input points

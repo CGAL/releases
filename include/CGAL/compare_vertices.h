@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_2/include/CGAL/compare_vertices.h $
-// $Id: compare_vertices.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_2/include/CGAL/compare_vertices.h $
+// $Id: compare_vertices.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Matthias Baesken
@@ -22,7 +22,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 // compare function objects for the priority queues used in nearest neighbor search
 template<class VP, class NT,class MAP_TYPE>
@@ -42,7 +42,7 @@ class compare_vertices {
 };
 
 
-} // namespace CGALi
+} // namespace internal
 
 
 CGAL_END_NAMESPACE

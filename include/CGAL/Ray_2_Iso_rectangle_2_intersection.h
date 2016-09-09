@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_2/include/CGAL/Ray_2_Iso_rectangle_2_intersection.h $
-// $Id: Ray_2_Iso_rectangle_2_intersection.h 45356 2008-09-07 15:09:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Ray_2_Iso_rectangle_2_intersection.h $
+// $Id: Ray_2_Iso_rectangle_2_intersection.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -36,7 +36,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 class Ray_2_Iso_rectangle_2_pair {
@@ -200,7 +200,7 @@ Ray_2_Iso_rectangle_2_pair<K>::intersection_point() const
     return Point_2(translated_point(_ref_point, construct_scaled_vector(_dir, _min)));
 }
 
-} // namespace CGALi
+} // namespace internal
 
 
 template <class K>

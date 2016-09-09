@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Simple_homogeneous.h $
-// $Id: Simple_homogeneous.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Homogeneous_kernel/include/CGAL/Simple_homogeneous.h $
+// $Id: Simple_homogeneous.h 51161 2009-08-10 15:57:03Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
@@ -38,7 +38,7 @@ struct Homogeneous_base_no_ref_count
     typedef RT_                                           RT;
     typedef FT_                                           FT;
 
-    // The mecanism that allows to specify reference-counting or not.
+    // The mechanism that allows to specify reference-counting or not.
     template < typename T >
     struct Handle { typedef T    type; };
 

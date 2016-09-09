@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Triangulation_ds_vertex_base_3.h $
-// $Id: Triangulation_ds_vertex_base_3.h 48845 2009-04-21 18:34:14Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Triangulation_ds_vertex_base_3.h $
+// $Id: Triangulation_ds_vertex_base_3.h 51517 2009-08-26 12:52:38Z spion $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
@@ -20,7 +20,7 @@
 #define CGAL_TRIANGULATION_DS_VERTEX_BASE_3_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Dummy_tds_3.h>
+#include <CGAL/internal/Dummy_tds_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -37,21 +37,21 @@ public:
 
   Triangulation_ds_vertex_base_3()
     : _c() {}
-  
-  Triangulation_ds_vertex_base_3(const Cell_handle& c)
+
+  Triangulation_ds_vertex_base_3(Cell_handle c)
     : _c(c) {}
 
-  const Cell_handle& cell() const
+  Cell_handle cell() const
   { return _c; }
 
-  void set_cell(const Cell_handle& c)
+  void set_cell(Cell_handle c)
   { _c = c; }
 
   // the following trivial is_valid allows
-  // the user of derived cell base classes 
+  // the user of derived cell base classes
   // to add their own purpose checking
   bool is_valid(bool = false, int = 0) const
-  { 
+  {
     return cell() != Cell_handle();
   }
 
@@ -88,7 +88,7 @@ template <>
 class Triangulation_ds_vertex_base_3<void>
 {
 public:
-  typedef Dummy_tds_3             Triangulation_data_structure;
+  typedef internal::Dummy_tds_3                         Triangulation_data_structure;
   typedef Triangulation_data_structure::Vertex_handle   Vertex_handle;
   typedef Triangulation_data_structure::Cell_handle     Cell_handle;
   template <typename TDS2>

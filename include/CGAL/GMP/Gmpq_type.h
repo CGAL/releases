@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/GMP/Gmpq_type.h $
-// $Id: Gmpq_type.h 49008 2009-04-29 13:57:45Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/GMP/Gmpq_type.h $
+// $Id: Gmpq_type.h 53126 2009-11-20 16:58:58Z penarand $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -138,7 +138,7 @@ public:
                                  // of the Gmpq
 // a possible code is:
 //  int tam() const { return std::max(numerator().tam(),
-//  	                                denominator().tam()); }
+//                                      denominator().tam()); }
 // the same as Quotient<MP_Float>
 #endif
 
@@ -362,7 +362,7 @@ operator>>(std::istream& is, Gmpq &z)
     if (Gmpq_detail::is_eof(is, c) || Gmpq_detail::is_space(is, c)) {
       is.flags(old_flags);
       if (digits && !is.fail())
-	z = negative? Gmpq(-n,1): Gmpq(n,1);
+        z = negative? Gmpq(-n,1): Gmpq(n,1);
       return is;
     }
   } else
@@ -377,7 +377,7 @@ operator>>(std::istream& is, Gmpq &z)
       is >> d;
       is.flags(old_flags);
       if (!is.fail())
-	z = negative? Gmpq(-n,d): Gmpq(n,d);
+        z = negative? Gmpq(-n,d): Gmpq(n,d);
       return is;
     }
 
@@ -385,7 +385,7 @@ operator>>(std::istream& is, Gmpq &z)
     while (true) {
       c = is.peek();
       if (Gmpq_detail::is_eof(is, c) || !Gmpq_detail::is_digit(is, c))
-	break;
+        break;
       // now we have a digit
       is.get();
       digits = true;

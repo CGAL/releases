@@ -1,4 +1,4 @@
-// Copyright (c) 2006-2007 Max-Planck-Institute Saarbruecken (Germany).
+// Copyright (c) 2006-2008 Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Modular_arithmetic/include/CGAL/primes.h $
-// $Id: primes.h 45608 2008-09-17 07:47:12Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Modular_arithmetic/include/CGAL/primes.h $
+// $Id: primes.h 53953 2010-02-01 12:18:54Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -26,7 +26,7 @@
 #include <CGAL/basic.h>
 
 namespace CGAL { 
-namespace CGALi {
+namespace internal {
 extern int primes[2000];
 
 static inline 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_element_visitor_3.h $
-// $Id: Envelope_element_visitor_3.h 50515 2009-07-09 17:51:14Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_element_visitor_3.h $
+// $Id: Envelope_element_visitor_3.h 51989 2009-09-21 10:55:53Z efif $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -2155,10 +2155,10 @@ protected:
     typedef typename Minimization_diagram_2::Ccb_halfedge_circulator
      Ccb_halfedge_circulator;
 
-    typedef typename Traits::Arr_left_side_tag             Arr_left_side_tag;
-    typedef typename Traits::Arr_right_side_tag            Arr_right_side_tag;
-    typedef typename Traits::Arr_top_side_tag              Arr_top_side_tag;
-    typedef typename Traits::Arr_bottom_side_tag           Arr_bottom_side_tag;
+    typedef typename Traits::Arr_left_side_category             Arr_left_side_category;
+    typedef typename Traits::Arr_right_side_category            Arr_right_side_category;
+    typedef typename Traits::Arr_top_side_category              Arr_top_side_category;
+    typedef typename Traits::Arr_bottom_side_category           Arr_bottom_side_category;
     
     Copy_observer(Minimization_diagram_2& small_,
                   Minimization_diagram_2& big,
@@ -2211,17 +2211,17 @@ protected:
       // This is the case of create boundary vertex.
       CGAL_assertion((ps_x != ARR_INTERIOR) || (ps_y != ARR_INTERIOR));
       
-      if (ps_x == ARR_LEFT_BOUNDARY && !is_bounded_impl(Arr_left_side_tag()))
+      if (ps_x == ARR_LEFT_BOUNDARY && !is_bounded_impl(Arr_left_side_category()))
         return false;
       
-      if (ps_x == ARR_RIGHT_BOUNDARY && !is_bounded_impl(Arr_right_side_tag()))
+      if (ps_x == ARR_RIGHT_BOUNDARY && !is_bounded_impl(Arr_right_side_category()))
         return false;
 
-      if (ps_y == ARR_TOP_BOUNDARY && !is_bounded_impl(Arr_top_side_tag()))
+      if (ps_y == ARR_TOP_BOUNDARY && !is_bounded_impl(Arr_top_side_category()))
         return false;
       
       if (ps_y == ARR_BOTTOM_BOUNDARY && 
-          !is_bounded_impl(Arr_bottom_side_tag()))
+          !is_bounded_impl(Arr_bottom_side_category()))
         return false;
       
       return true;

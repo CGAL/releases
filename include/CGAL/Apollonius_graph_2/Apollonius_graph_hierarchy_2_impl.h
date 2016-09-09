@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_hierarchy_2_impl.h $
-// $Id: Apollonius_graph_hierarchy_2_impl.h 42744 2008-04-03 12:14:58Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_hierarchy_2_impl.h $
+// $Id: Apollonius_graph_hierarchy_2_impl.h 53904 2010-01-29 14:23:34Z lrineau $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -40,7 +40,7 @@ init_hierarchy(const Geom_traits& gt)
 template<class Gt, class Agds, class LTag>
 Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 Apollonius_graph_hierarchy_2(const Geom_traits& gt)
-  : Apollonius_graph_base(gt), random((long)0)
+  : Apollonius_graph_base(gt)
 { 
   init_hierarchy(gt);
 }
@@ -51,7 +51,7 @@ template<class Gt, class Agds, class LTag>
 Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 Apollonius_graph_hierarchy_2
 (const Apollonius_graph_hierarchy_2<Gt,Agds,LTag>& agh)
-    : Apollonius_graph_base(agh.geom_traits()), random((long)0)
+    : Apollonius_graph_base(agh.geom_traits())
 { 
   init_hierarchy(agh.geom_traits());
   copy(agh);
@@ -428,15 +428,11 @@ template<class Gt, class Agds, class LTag>
 int
 Apollonius_graph_hierarchy_2<Gt,Agds,LTag>::
 random_level()
-{
-  unsigned int l = 0;
-  while (1) {
-    if ( random(ag_hierarchy_2__ratio) ) break;
-    ++l;
-  }
-  if (l >= ag_hierarchy_2__maxlevel)
-    l = ag_hierarchy_2__maxlevel -1;
-  return l;
+{  
+  boost::geometric_distribution<> proba(1.0/ag_hierarchy_2__ratio);
+  boost::variate_generator<boost::rand48&, boost::geometric_distribution<> > die(random, proba);
+
+  return (std::min)(die(), (int)ag_hierarchy_2__maxlevel)-1;
 }
 
 template<class Gt, class Agds, class LTag>

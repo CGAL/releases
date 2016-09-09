@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h $
-// $Id: Apollonius_graph_2.h 42744 2008-04-03 12:14:58Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h $
+// $Id: Apollonius_graph_2.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -50,7 +50,7 @@
 CGAL_BEGIN_NAMESPACE
 
 
-namespace CGALi {
+namespace internal {
 
   template<typename Edge, typename LTag> struct AG2_which_list;
 
@@ -82,7 +82,7 @@ namespace CGALi {
     const Site& operator()( const Node& x) const { return x.site(); }
   };
 
-} // namespace CGALi
+} // namespace internal
 
 
 template<class Gt,class Agds,class LTag>
@@ -188,7 +188,7 @@ public:
 
   // Auxiliary iterators for convenience
   // do not use default template argument to please VC++
-  typedef CGALi::Project_site_2<Vertex>                   Proj_site;
+  typedef internal::Project_site_2<Vertex>                   Proj_site;
   typedef Iterator_project<Finite_vertices_iterator, 
                            Proj_site>
   /*                                           */ Visible_sites_iterator;
@@ -232,7 +232,7 @@ protected:
   typedef Vertex_handle                    Vh_triple[3];
 
   // the edge list
-  typedef typename CGALi::AG2_which_list<Edge,LTag>::List  List;
+  typedef typename internal::AG2_which_list<Edge,LTag>::List  List;
 
   typedef enum { NO_CONFLICT = -1, INTERIOR, LEFT_VERTEX,
 		 RIGHT_VERTEX, BOTH_VERTICES, ENTIRE_EDGE }

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/testfiles/CGAL_CFG_NO_STATEMENT_EXPRESSIONS.cpp $
-// $Id: CGAL_CFG_NO_STATEMENT_EXPRESSIONS.cpp 49022 2009-04-29 20:03:21Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Installation/config/testfiles/CGAL_CFG_NO_STATEMENT_EXPRESSIONS.cpp $
+// $Id: CGAL_CFG_NO_STATEMENT_EXPRESSIONS.cpp 53016 2009-11-13 12:20:21Z spion $
 //
 // Author(s)     : Sylvain Pion
 
@@ -25,7 +25,7 @@
 
 int main()
 {
-  int i = ({ int j = 2; j+j; });
+  int i = __extension__ ({ int j = 2; j+j; });
   assert(i == 4);
   return 0;
 }

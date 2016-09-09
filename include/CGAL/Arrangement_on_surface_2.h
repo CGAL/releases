@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_on_surface_2.h $
-// $Id: Arrangement_on_surface_2.h 50781 2009-07-23 12:28:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_on_surface_2.h $
+// $Id: Arrangement_on_surface_2.h 53164 2009-11-24 15:55:41Z efif $
 // 
 //
 // Author(s): Ron Wein          <wein@post.tau.ac.il>
@@ -73,15 +73,15 @@ public:
   typedef Arr_traits_basic_adaptor_2<Geometry_traits_2>   Traits_adaptor_2;
   
   // .. as it completes (potentially) missing side tags
-  typedef typename Traits_adaptor_2::Arr_left_side_tag    Arr_left_side_tag;
-  typedef typename Traits_adaptor_2::Arr_bottom_side_tag  Arr_bottom_side_tag;
-  typedef typename Traits_adaptor_2::Arr_top_side_tag     Arr_top_side_tag;
-  typedef typename Traits_adaptor_2::Arr_right_side_tag   Arr_right_side_tag;
+  typedef typename Traits_adaptor_2::Arr_left_side_category    Arr_left_side_category;
+  typedef typename Traits_adaptor_2::Arr_bottom_side_category  Arr_bottom_side_category;
+  typedef typename Traits_adaptor_2::Arr_top_side_category     Arr_top_side_category;
+  typedef typename Traits_adaptor_2::Arr_right_side_category   Arr_right_side_category;
   
   BOOST_MPL_ASSERT(
       (typename 
-       Arr_sane_identified_tagging< Arr_left_side_tag, Arr_bottom_side_tag, 
-       Arr_top_side_tag, Arr_right_side_tag >::result)
+       Arr_sane_identified_tagging< Arr_left_side_category, Arr_bottom_side_category, 
+       Arr_top_side_category, Arr_right_side_category >::result)
   );
 
 public:
@@ -95,8 +95,8 @@ public:
   // maybe remove this in a future version (that supports complete handling
   // of all sides)
   typedef typename Arr_are_all_sides_oblivious_tag< 
-    Arr_left_side_tag, Arr_bottom_side_tag, 
-    Arr_top_side_tag, Arr_right_side_tag >::result
+    Arr_left_side_category, Arr_bottom_side_category, 
+    Arr_top_side_category, Arr_right_side_category >::result
   Are_all_sides_oblivious_tag;
   
 public:
@@ -1394,6 +1394,21 @@ public:
                                          _dcel().faces_end(),
                                          _Is_unbounded_face (&m_topol_traits));
   }
+
+  /*! Get the fictitious face (non-const version). */
+  Face_handle fictitious_face ()
+  {
+    // The fictitious contains all other faces in a single hole inside it.
+    return
+      Face_handle(const_cast<DFace*>(this->topology_traits()->initial_face()));
+  }
+  
+  /*! Get the unbounded face (const version). */
+  Face_const_handle fictitious_face () const
+  {
+    // The fictitious contains all other faces in a single hole inside it.
+    return DFace_const_iter (this->topology_traits()->initial_face());
+  }
   //@}
   
   /// \name Casting away constness for handle types.
@@ -1651,10 +1666,10 @@ protected:
   /*! Initialize the boundary_types array */
   inline void init_boundary_types()
   {
-    init_boundary_side(ARR_LEFT_BOUNDARY, Arr_left_side_tag());
-    init_boundary_side(ARR_BOTTOM_BOUNDARY, Arr_bottom_side_tag());
-    init_boundary_side(ARR_TOP_BOUNDARY, Arr_top_side_tag());
-    init_boundary_side(ARR_RIGHT_BOUNDARY, Arr_right_side_tag());
+    init_boundary_side(ARR_LEFT_BOUNDARY, Arr_left_side_category());
+    init_boundary_side(ARR_BOTTOM_BOUNDARY, Arr_bottom_side_category());
+    init_boundary_side(ARR_TOP_BOUNDARY, Arr_top_side_category());
+    init_boundary_side(ARR_RIGHT_BOUNDARY, Arr_right_side_category());
   }
 
   /*! Initialize the boundary_types array */

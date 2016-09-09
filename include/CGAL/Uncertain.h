@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Uncertain.h $
-// $Id: Uncertain.h 48839 2009-04-21 18:00:27Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/Uncertain.h $
+// $Id: Uncertain.h 53016 2009-11-13 12:20:21Z spion $
 //
 // Author(s)     : Sylvain Pion
 
@@ -29,7 +29,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
   // Accessory traits class to provide min and max value of a type.
   // Specialized for bool and CGAL's enums.
@@ -64,7 +64,7 @@ namespace CGALi {
     static const Angle max = ACUTE;
   };
 
-} // namespace CGALi
+} // namespace internal
 
 
 // Exception type for the automatic conversion.
@@ -211,10 +211,10 @@ inline
 Uncertain<T>
 Uncertain<T>::indeterminate()
 {
-  return Uncertain<T>(CGALi::Minmax_traits<T>::min, CGALi::Minmax_traits<T>::max);
+  return Uncertain<T>(internal::Minmax_traits<T>::min, internal::Minmax_traits<T>::max);
 }
 
-namespace CGALi {
+namespace internal {
 
 	// helper class
 	template < typename T >
@@ -231,14 +231,14 @@ namespace CGALi {
 		{ return Uncertain<T>::indeterminate(); }
 	};
 
-} // namespace CGALi
+} // namespace internal
 
 template < typename T >
 inline
-typename CGALi::Indeterminate_helper<T>::result_type
+typename internal::Indeterminate_helper<T>::result_type
 indeterminate()
 {
-  return CGALi::Indeterminate_helper<T>()();
+  return internal::Indeterminate_helper<T>()();
 }
 
 template < typename T >
@@ -346,10 +346,12 @@ Uncertain<bool> operator&(Uncertain<bool> a, bool b)
 #  define CGAL_OR(X, Y)   ((X) || (Y))
 #else
 #  define CGAL_AND(X, Y) \
+       __extension__ \
        ({ CGAL::Uncertain<bool> CGAL_TMP = (X); \
           CGAL::certainly_not(CGAL_TMP) ? CGAL::make_uncertain(false) \
                                         : CGAL_TMP & CGAL::make_uncertain((Y)); })
 #  define CGAL_OR(X, Y) \
+       __extension__ \
        ({ CGAL::Uncertain<bool> CGAL_TMP = (X); \
           CGAL::certainly(CGAL_TMP) ? CGAL::make_uncertain(true) \
                                     : CGAL_TMP | CGAL::make_uncertain((Y)); })

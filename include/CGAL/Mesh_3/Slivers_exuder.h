@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Slivers_exuder.h $
-// $Id: Slivers_exuder.h 50508 2009-07-09 14:17:51Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Slivers_exuder.h $
+// $Id: Slivers_exuder.h 53413 2009-12-15 13:19:38Z stayeb $
 //
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb
@@ -37,7 +37,12 @@
 #include <CGAL/Timer.h>
 
 #include <CGAL/Mesh_3/sliver_criteria.h>
+#include <CGAL/Mesh_optimization_return_code.h>
 
+
+#ifdef CGAL_MESH_3_VERBOSE
+  #define CGAL_MESH_3_EXUDER_VERBOSE
+#endif
 
 
 namespace CGAL {
@@ -173,15 +178,15 @@ public: // methods
    * @param criterion_value_limit All vertices of tetrahedra that have a
    * quality below this bound will be pumped
    */
-  void pump_vertices(double criterion_value_limit = SliverCriteria::default_value)
+  Mesh_optimization_return_code
+  operator()(double criterion_value_limit = SliverCriteria::default_value)
   {
-    pump_vertices<true>(criterion_value_limit);
+    return pump_vertices<true>(criterion_value_limit);
   }
   
-#ifdef CGAL_MESH_3_VERBOSE
-  /// Print some stats about Mesh embedded in c3t3
-  void print_stats(const double sliver_bound = SliverCriteria::default_value) const;
-#endif // CGAL_MESH_3_VERBOSE  
+  /// Time accessors
+  void set_time_limit(double time) { time_limit_ = time; }
+  double time_limit() const { return time_limit_; }
   
 private:
   // -----------------------------------
@@ -191,7 +196,8 @@ private:
    * Pumps vertices
    */
   template <bool pump_vertices_on_surfaces>
-  void pump_vertices(double criterion_value_limit = SliverCriteria::default_value);
+  Mesh_optimization_return_code
+  pump_vertices(double criterion_value_limit = SliverCriteria::default_value);
   
   /**
    * Pump one vertex
@@ -266,15 +272,18 @@ private:
    */
   void init(double radius_ratio_limit = SliverCriteria::default_value )
   {
-    stop_limit_on_radius_ratio_ = radius_ratio_limit;
-    
+    if ( 0 < radius_ratio_limit )
+      sliver_bound_ = radius_ratio_limit;
+    else
+      sliver_bound_ = SliverCriteria::max_value;
+      
     cells_queue_.clear();
     initialize_cells_priority_queue();
     initialized_ = true;
   }
   
   /**
-   * Initialize cells_queue w.r.t stop_limit_on_radius_ratio_
+   * Initialize cells_queue w.r.t sliver_bound_
    */
   void initialize_cells_priority_queue()
   {
@@ -284,7 +293,7 @@ private:
     {
       const double value = sliver_criteria_(tr_.tetrahedron(cit));
       
-      if( value < stop_limit_on_radius_ratio_ )
+      if( value < sliver_bound_ )
         cells_queue_.insert(cit, value);
     }
   }
@@ -414,6 +423,33 @@ private:
     std::for_each(begin, end, Remove_from_complex(c3t3_));
   }
   
+  /**
+   * Returns true if time_limit is reached
+   */
+  bool is_time_limit_reached() const
+  {
+    return ( (time_limit() > 0) && (running_time_.time() > time_limit()) );      
+  }
+  
+  /**
+   * Returns true if all cells of mesh have a sliver_criteria_ value greater
+   * than sliver_bound_
+   */
+  bool check_sliver_bound() const
+  {
+    for( Cell_iterator cit = c3t3_.cells_begin() ;
+        cit != c3t3_.cells_end() ;
+        ++cit)
+    {
+      const double value = sliver_criteria_(tr_.tetrahedron(cit));
+      
+      if( value < sliver_bound_ )
+        return false;
+    }
+    
+    return true;
+  }
+  
 private:
   // -----------------------------------
   // Private data
@@ -421,7 +457,7 @@ private:
   C3T3& c3t3_;
   Tr& tr_;
   double sq_delta_;
-  double stop_limit_on_radius_ratio_;
+  double sliver_bound_;
   
   int num_of_pumped_vertices_;
   int num_of_ignored_vertices_;
@@ -430,6 +466,10 @@ private:
   bool initialized_;
   SliverCriteria sliver_criteria_;
   Tet_priority_queue cells_queue_;
+  
+  // Timer
+  double time_limit_;
+  CGAL::Timer running_time_;
   
 #ifdef CGAL_MESH_3_DEBUG_SLIVERS_EXUDER
   // -----------------------------------
@@ -496,40 +536,38 @@ Slivers_exuder(C3T3& c3t3, const SC& criteria, double d)
   : c3t3_(c3t3)
   , tr_(c3t3_.triangulation())
   , sq_delta_(d*d)
-  , stop_limit_on_radius_ratio_(0.0)
+  , sliver_bound_(0)
   , num_of_pumped_vertices_(0)
   , num_of_ignored_vertices_(0)
   , num_of_treated_vertices_(0)
   , initialized_(false)
   , sliver_criteria_(criteria)
+  , time_limit_(-1)
+  , running_time_()
 {
 }  
   
 
 template <typename C3T3, typename SC, typename FT>  
 template <bool pump_vertices_on_surfaces>
-void
+Mesh_optimization_return_code
 Slivers_exuder<C3T3,SC,FT>:: 
 pump_vertices(double sliver_criterion_limit)
 {
-  //if( ! initialized_ ) 
-    init(sliver_criterion_limit);
+  init(sliver_criterion_limit);
   
-  // store radius_ratio_limit in the member stop_limit_on_radius_ratio_
-  stop_limit_on_radius_ratio_ = sliver_criterion_limit;
-  
-#ifdef CGAL_MESH_3_VERBOSE
-  CGAL::Timer timer;
-  timer.start();
-  
+#ifdef CGAL_MESH_3_EXUDER_VERBOSE
   std::cerr << "Exuding...\n";
   std::cerr << "Legend of the following line: "
             << "(#cells left,#vertices pumped,#vertices ignored)" << std::endl;
 
   std::cerr << "(" << cells_queue_.size() << ",0,0)";
-#endif // CGAL_MESH_3_VERBOSE
+#endif // CGAL_MESH_3_EXUDER_VERBOSE
   
-  while( !cells_queue_.empty() )
+  running_time_.reset();
+  running_time_.start();
+  
+  while( !cells_queue_.empty() && !is_time_limit_reached() )
   {
     typename Tet_priority_queue::Reverse_entry front = *(cells_queue_.front());
     Cell_handle c = front.second;
@@ -553,34 +591,38 @@ pump_vertices(double sliver_criterion_limit)
         
         ++num_of_treated_vertices_;
       }
-#ifdef CGAL_MESH_3_VERBOSE
-      else
-        std::cerr << "s"; // vertex is on a surface
-#endif // CGAL_MESH_3_VERBOSE 
     }
     
     // if the tet could not be deleted
     if ( ! vertex_pumped )
       cells_queue_.pop_front();
     
-#ifdef CGAL_MESH_3_VERBOSE   
+#ifdef CGAL_MESH_3_EXUDER_VERBOSE   
     std::cerr << boost::format("\r             \r"
                                "(%1%,%2%,%3%) (%|4$.1f| vertices/s)")
       % cells_queue_.size()
       % num_of_pumped_vertices_
       % num_of_ignored_vertices_
-      % (num_of_treated_vertices_ / timer.time());
-#endif // CGAL_MESH_3_VERBOSE  
-
+      % (num_of_treated_vertices_ / running_time_.time());
+#endif // CGAL_MESH_3_EXUDER_VERBOSE  
   }
   
-#ifdef CGAL_MESH_3_VERBOSE   
-  timer.stop();
+  running_time_.stop();
+  
+#ifdef CGAL_MESH_3_EXUDER_VERBOSE   
   std::cerr << std::endl;
-  std::cerr << "Total exuding time: " << timer.time() << "s" << std::endl;
-  std::cerr << std::endl;
-#endif // CGAL_MESH_3_VERBOSE  
+  std::cerr << "Total exuding time: " << running_time_.time() << "s";
+  std::cerr << std::endl << std::endl;
+#endif // CGAL_MESH_3_EXUDER_VERBOSE  
+  
+  if ( is_time_limit_reached() )
+    return TIME_LIMIT_REACHED;
 
+  if ( check_sliver_bound() )
+    return BOUND_REACHED;
+    
+  return CANT_IMPROVE_ANYMORE;
+  
 } // end function pump_vertices
 
 
@@ -883,7 +925,7 @@ restore_cells_and_boundary_facets(
     {
       double criterion_value = sliver_criteria_(tr_.tetrahedron(*cit));
 
-      if( criterion_value < stop_limit_on_radius_ratio_ )
+      if( criterion_value < sliver_bound_ )
         cells_queue_.insert(*cit, criterion_value);
     }
   }  
@@ -995,52 +1037,7 @@ update_mesh(const Weighted_point& new_point,
   restore_cells_and_boundary_facets(boundary_facets_from_outside, new_vertex);
   restore_internal_facets(umbrella, new_vertex);
 }
- 
-  
-#ifdef CGAL_MESH_3_VERBOSE
-template <typename C3T3, typename SC, typename FT>
-void
-Slivers_exuder<C3T3,SC,FT>::
-print_stats(const double sliver_bound) const
-{
-  Cell_vector slivers;
-  double min_angle = 180.;
-  double min_ratio = 1.;
-  Cell_handle min_cell_handle;
-  Cell_handle min_cell_handle_angle;
-  
-  for( Cell_iterator cit = c3t3_.cells_begin() ;
-      cit != c3t3_.cells_end() ;
-      ++cit)
-  {
-    if( CGAL::to_double(sliver_criteria_(tr_.tetrahedron(cit)))
-       < sliver_bound )
-    {
-      slivers.push_back(cit);
-    }
-    
-    double min_angle_before = min_angle;
-    min_angle = (std::min)(CGAL::to_double(minimum_dihedral_angle(tr_.tetrahedron(cit))),
-                           min_angle);
-    
-    if ( min_angle < min_angle_before )
-      min_cell_handle_angle = cit;
-    
-    double min_ratio_before = min_ratio;
-    min_ratio = (std::min)(CGAL::to_double(radius_ratio(tr_.tetrahedron(cit))),
-                           min_ratio);
-    if ( min_ratio < min_ratio_before )
-      min_cell_handle = cit;
-  }
- 
-  std::cerr << "Min angle (degree): " << min_angle << std::endl;
-  std::cerr << "Min ratio: " << min_ratio << std::endl;
-  std::cerr << "Nb of slivers (bound:" << sliver_bound 
-            << "): " << slivers.size() << std::endl << std::endl;
-}
-#endif // CGAL_MESH_3_VERBOSE
 
-  
   
 #ifdef CGAL_MESH_3_DEBUG_SLIVERS_EXUDER  
 template <typename C3T3, typename SC, typename FT>
@@ -1266,105 +1263,9 @@ check_ratios(const Sliver_values& criterion_values,
 }
 #endif // CGAL_MESH_3_DEBUG_SLIVERS_EXUDER
   
-  
 
 } // end namespace Mesh_3
 
-template < class C3T3>
-void
-output_slivers_to_off (std::ostream& os, const C3T3& c3t3,
-                       const double sliver_bound = 0.25)
-{
-  typedef typename C3T3::Triangulation Tr;
-  typedef typename C3T3::Cell_iterator Cell_iterator;
-  typedef typename Tr::Finite_cells_iterator Finite_cells_iterator;
-  typedef typename Tr::Finite_vertices_iterator Finite_vertices_iterator;
-  typedef typename Tr::Vertex_handle Vertex_handle;
-  typedef typename Tr::Cell_handle Cell_handle;
-  typedef typename Tr::Point Point;
-  typedef typename Tr::Geom_traits Geom_traits;
-  
-  typedef std::set<Cell_handle> Slivers;
-  Slivers slivers;
-  Geom_traits gt;
-  
-  const Tr& tr = c3t3.triangulation();
-  
-  double min_angle = 180;
-  double min_ratio = 1.;
-  
-  for( Cell_iterator cit = c3t3.cells_begin() ;
-      cit != c3t3.cells_end() ;
-      ++cit)
-  {
-    if( CGAL::to_double(Mesh_3::radius_ratio(tr.tetrahedron(cit),gt))
-       < sliver_bound )
-    {
-      slivers.insert(cit);
-    }
-    
-    min_angle = (std::min)(minimum_dihedral_angle(tr.tetrahedron(cit)), min_angle);
-    min_ratio = (std::min)(Mesh_3::radius_ratio(tr.tetrahedron(cit),gt), min_ratio);
-  }
-  
-  std::cerr << "min angle:" << min_angle << "\n";
-  std::cerr << "min ratio:" << min_ratio << "\n";
-  
-  // Header.
-  os << "OFF \n"
-  << tr.number_of_vertices() << " " <<
-  slivers.size() * 4 <<
-  " " << 0 << "\n";
-  
-  os << std::setprecision(20);
-  
-  // Finite vertices coordinates.
-  std::map<Vertex_handle, int> V;
-  
-  int inum = 0;
-  for(Finite_vertices_iterator vit = tr.finite_vertices_begin();
-      vit != tr.finite_vertices_end();
-      ++vit)
-  {
-    V[vit] = inum++;
-    Point p = static_cast<Point>(vit->point());
-    os << p.x() << " " << p.y() << " " << p.z() << "\n";
-  }
-  
-  int surface_slivers = 0;
-  int flat_slivers = 0;
-  
-  // Finite cells indices.
-  for( typename Slivers::iterator cit = slivers.begin();
-      cit != slivers.end(); ++cit)
-  {
-    const Cell_handle& c = *cit;
-    
-    if( c->vertex(0)->in_dimension() == 2 &&
-       c->vertex(1)->in_dimension() == 2 &&
-       c->vertex(2)->in_dimension() == 2 &&
-       c->vertex(3)->in_dimension() == 2 )
-      ++flat_slivers;
-    
-    if( c->vertex(0)->in_dimension() == 2 ||
-       c->vertex(1)->in_dimension() == 2 ||
-       c->vertex(2)->in_dimension() == 2 ||
-       c->vertex(3)->in_dimension() == 2 )
-      ++surface_slivers;
-    
-    for(int i = 0; i < 4; ++i)
-    {
-      os << "3 ";
-      for (int k=0; k<3; k++)
-        os << V[c->vertex((i+k)&3)] << " ";
-      
-      os << "\n"; // without color.
-    }
-  }
-  std::cerr << "Number of slivers: " << slivers.size()
-  << "\nNumber of surface slivers: " << surface_slivers
-  << "\nNumber of flat slivers: " << flat_slivers << std::endl;
-}
 } // end namespace CGAL
 
 

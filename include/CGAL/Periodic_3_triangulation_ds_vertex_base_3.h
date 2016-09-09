@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_vertex_base_3.h $
-// $Id: Periodic_3_triangulation_ds_vertex_base_3.h 49319 2009-05-12 12:06:23Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_vertex_base_3.h $
+// $Id: Periodic_3_triangulation_ds_vertex_base_3.h 51548 2009-08-27 09:33:40Z mcaroli $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -22,7 +22,7 @@
 #define CGAL_PERIODIC_3_TRIANGULATION_DS_VERTEX_BASE_3_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Dummy_tds_3.h>
+#include <CGAL/internal/Dummy_tds_3.h>
 #include <CGAL/Periodic_3_offset_3.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -111,7 +111,7 @@ template <>
 class Periodic_3_triangulation_ds_vertex_base_3<void>
 {
 public:
-  typedef Dummy_tds_3             Triangulation_data_structure;
+  typedef internal::Dummy_tds_3             Triangulation_data_structure;
   typedef Triangulation_data_structure::Vertex_handle   Vertex_handle;
   typedef Triangulation_data_structure::Cell_handle     Cell_handle;
   template <typename TDS2>

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_2/include/CGAL/Env_default_diagram_1.h $
-// $Id: Env_default_diagram_1.h 37894 2007-04-03 18:32:11Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Envelope_2/include/CGAL/Env_default_diagram_1.h $
+// $Id: Env_default_diagram_1.h 51064 2009-08-05 12:43:39Z efif $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -20,6 +20,9 @@
 #define CGAL_ENV_DEFAULT_DIAGRAM_1_H
 
 #include <list>
+
+#include <CGAL/basic.h>
+#include <CGAL/memory.h>
 
 CGAL_BEGIN_NAMESPACE
 

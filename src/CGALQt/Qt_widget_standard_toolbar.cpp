@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Qt_widget/src/CGALQt/Qt_widget_standard_toolbar.cpp $
-// $Id: Qt_widget_standard_toolbar.cpp 45380 2008-09-08 13:15:39Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Qt_widget/src/CGALQt/Qt_widget_standard_toolbar.cpp $
+// $Id: Qt_widget_standard_toolbar.cpp 53026 2009-11-14 11:49:52Z spion $
 // 
 //
 // Author(s)     : Radu Ursu
@@ -57,7 +57,7 @@ namespace CGAL {
   {
     setLabel("Qt_widget standard toolbar");
     fill_toolbar(parent);
-  };
+  }
   
   Qt_widget_standard_toolbar::
   Qt_widget_standard_toolbar(Qt_widget *w, QMainWindow *mw,
@@ -68,7 +68,7 @@ namespace CGAL {
     widget(w)
   {
     fill_toolbar(mw);
-  };
+  }
   
   void Qt_widget_standard_toolbar::fill_toolbar(QMainWindow *mw)
   {
@@ -206,7 +206,7 @@ namespace CGAL {
     connect(history, SIGNAL(forwardAvaillable(bool)),
             forwardBt, SLOT(setEnabled(bool)));
     history->clear();
-  };
+  }
 
   void Qt_widget_standard_toolbar::group_clicked(int i)
   {

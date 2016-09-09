@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/known_bit_size_integers.h $
-// $Id: known_bit_size_integers.h 41714 2008-01-20 20:24:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/known_bit_size_integers.h $
+// $Id: known_bit_size_integers.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 // Author(s)     : Lutz Kettner, Sylvain Pion
@@ -29,7 +29,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 namespace mpl = boost::mpl;
 
@@ -60,16 +60,16 @@ struct USizeofSelect
 		    No_Integer_Type_Of_Size<s> >::type >::type >::type >::type  Type;
 };
 
-} // namespace CGALi
+} // namespace internal
 
 
-typedef CGALi::SizeofSelect<1>::Type  Integer8;
-typedef CGALi::SizeofSelect<2>::Type  Integer16;
-typedef CGALi::SizeofSelect<4>::Type  Integer32;
+typedef internal::SizeofSelect<1>::Type  Integer8;
+typedef internal::SizeofSelect<2>::Type  Integer16;
+typedef internal::SizeofSelect<4>::Type  Integer32;
 
-typedef CGALi::USizeofSelect<1>::Type  UInteger8;
-typedef CGALi::USizeofSelect<2>::Type  UInteger16;
-typedef CGALi::USizeofSelect<4>::Type  UInteger32;
+typedef internal::USizeofSelect<1>::Type  UInteger8;
+typedef internal::USizeofSelect<2>::Type  UInteger16;
+typedef internal::USizeofSelect<4>::Type  UInteger32;
 
 #if defined __ia64__ || defined __x86_64
     typedef long                     Integer64;

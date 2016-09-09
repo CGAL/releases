@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Triangulation_hierarchy_3.h $
-// $Id: Triangulation_hierarchy_3.h 49334 2009-05-12 15:10:42Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Triangulation_hierarchy_3.h $
+// $Id: Triangulation_hierarchy_3.h 53845 2010-01-27 16:43:40Z lrineau $
 //
 // Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
 //                 Sylvain Pion
@@ -21,10 +21,23 @@
 #define CGAL_TRIANGULATION_HIERARCHY_3_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Random.h>
+#include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_hierarchy_vertex_base_3.h>
+#include <CGAL/Location_policy.h>
+
+#include <boost/random/linear_congruential.hpp>
+#include <boost/random/geometric_distribution.hpp>
+#include <boost/random/variate_generator.hpp>
 
 CGAL_BEGIN_NAMESPACE
+
+// This class is deprecated, but must be kept for backward compatibility.
+//
+// It would be better to move its content to the Delaunay_triangulation_3
+// specializations for Fast_location and make Triangulation_hierarchy_3 the
+// empty nutshell instead.
+//
+// Then, later, maybe merge the Compact/Fast codes in a cleaner factorized way.
 
 template < class Tr >
 class Triangulation_hierarchy_3
@@ -38,6 +51,7 @@ class Triangulation_hierarchy_3
 
 public:
   typedef Tr                                   Tr_Base;
+  typedef Fast_location                        Location_policy;
   typedef typename Tr_Base::Geom_traits        Geom_traits;
   typedef typename Tr_Base::Point              Point;
   typedef typename Tr_Base::size_type          size_type;
@@ -55,25 +69,34 @@ public:
   using Tr_Base::geom_traits;
 
 private:
+
   // here is the stack of triangulations which form the hierarchy
-  Tr_Base*   hierarchy[maxlevel];
-  Random     random; // random generator
+  Tr_Base*       hierarchy[maxlevel];
+  boost::rand48  random;
+
+  void set_up_down(Vertex_handle up, Vertex_handle down)
+  {
+    up->set_down(down);
+    down->set_up(up);
+  }
 
 public:
+
   Triangulation_hierarchy_3(const Geom_traits& traits = Geom_traits());
+
   Triangulation_hierarchy_3(const Triangulation_hierarchy_3& tr);
 
   template < typename InputIterator >
   Triangulation_hierarchy_3(InputIterator first, InputIterator last,
                             const Geom_traits& traits = Geom_traits())
-    : Tr_Base(traits), random((long)0)
+    : Tr_Base(traits)
   {
-      hierarchy[0] = this; 
+      hierarchy[0] = this;
       for(int i=1; i<maxlevel; ++i)
           hierarchy[i] = new Tr_Base(traits);
       insert(first, last);
   }
- 
+
   Triangulation_hierarchy_3 & operator=(const Triangulation_hierarchy_3& tr)
   {
     Triangulation_hierarchy_3 tmp(tr);
@@ -84,15 +107,22 @@ public:
   ~Triangulation_hierarchy_3();
 
   void swap(Triangulation_hierarchy_3 &tr);
+
   void clear();
 
   // CHECKING
   bool is_valid(bool verbose = false, int level = 0) const;
 
   // INSERT REMOVE
+  Vertex_handle insert(const Point &p, Vertex_handle hint)
+  {
+    return insert(p, hint == Vertex_handle() ? this->infinite_cell() : hint->cell());
+  }
+
   Vertex_handle insert(const Point &p, Cell_handle start = Cell_handle ());
+
   Vertex_handle insert(const Point &p, Locate_type lt, Cell_handle loc,
-      int li, int lj);
+                       int li, int lj);
 
   template < class InputIterator >
   int insert(InputIterator first, InputIterator last)
@@ -100,29 +130,23 @@ public:
       int n = number_of_vertices();
 
       std::vector<Point> points (first, last);
-      std::random_shuffle (points.begin(), points.end());
       spatial_sort (points.begin(), points.end(), geom_traits());
 
-      // hints[i] is the cell of the previously inserted point in level i.
+      // hints[i] is the vertex of the previously inserted point in level i.
       // Thanks to spatial sort, they are better hints than what the hierarchy
       // would give us.
-      Cell_handle hints[maxlevel];
+      Vertex_handle hints[maxlevel];
       for (typename std::vector<Point>::const_iterator p = points.begin(), end = points.end();
               p != end; ++p)
       {
           int vertex_level = random_level();
 
-          Vertex_handle v = hierarchy[0]->insert (*p, hints[0]);
-          hints[0] = v->cell();
-
+          Vertex_handle v = hints[0] = hierarchy[0]->insert (*p, hints[0]);
           Vertex_handle prev = v;
 
           for (int level = 1; level <= vertex_level; ++level) {
-              v = hierarchy[level]->insert (*p, hints[level]);
-              hints[level] = v->cell();
-
-              v->set_down (prev);
-              prev->set_up (v);
+              v = hints[level] = hierarchy[level]->insert (*p, hints[level]);
+	      set_up_down(v, prev);
               prev = v;
           }
       }
@@ -130,8 +154,7 @@ public:
       return number_of_vertices() - n;
   }
 
-  // bool only for backward compatibility, we document void.
-  bool remove(Vertex_handle v);
+  void remove(Vertex_handle v);
 
   template < typename InputIterator >
   int remove(InputIterator first, InputIterator beyond)
@@ -148,7 +171,19 @@ public:
 
   //LOCATE
   Cell_handle locate(const Point& p, Locate_type& lt, int& li, int& lj,
-          Cell_handle start = Cell_handle ()) const;
+                     Vertex_handle hint) const
+  {
+    return locate(p, lt, li, lj, hint == Vertex_handle() ? this->infinite_cell() : hint->cell());
+  }
+
+  Cell_handle locate(const Point& p, Vertex_handle hint) const
+  {
+    return locate(p, hint == Vertex_handle() ? this->infinite_cell() : hint->cell());
+  }
+
+  Cell_handle locate(const Point& p, Locate_type& lt, int& li, int& lj,
+                     Cell_handle start = Cell_handle ()) const;
+
   Cell_handle locate(const Point& p, Cell_handle start = Cell_handle ()) const;
 
   Vertex_handle
@@ -164,21 +199,17 @@ private:
 
   void locate(const Point& p, Locate_type& lt, int& li, int& lj,
 	      locs pos[maxlevel], Cell_handle start = Cell_handle ()) const;
+
   int random_level();
-
-  // added to make the test program of usual triangulations work
-  // undocumented
-public:
-
 };
 
 
 template <class Tr >
 Triangulation_hierarchy_3<Tr>::
 Triangulation_hierarchy_3(const Geom_traits& traits)
-  : Tr_Base(traits), random((long)0)
-{ 
-  hierarchy[0] = this; 
+  : Tr_Base(traits)
+{
+  hierarchy[0] = this;
   for(int i=1;i<maxlevel;++i)
     hierarchy[i] = new Tr_Base(traits);
 }
@@ -187,8 +218,8 @@ Triangulation_hierarchy_3(const Geom_traits& traits)
 template <class Tr>
 Triangulation_hierarchy_3<Tr>::
 Triangulation_hierarchy_3(const Triangulation_hierarchy_3<Tr> &tr)
-    : Tr_Base(tr), random((long)0)
-{ 
+    : Tr_Base(tr)
+{
   hierarchy[0] = this;
   for(int i=1; i<maxlevel; ++i)
     hierarchy[i] = new Tr_Base(*tr.hierarchy[i]);
@@ -198,18 +229,16 @@ Triangulation_hierarchy_3(const Triangulation_hierarchy_3<Tr> &tr)
 
   std::map< Vertex_handle, Vertex_handle > V;
 
-  for( Finite_vertices_iterator it=hierarchy[0]->finite_vertices_begin(); 
-       it != hierarchy[0]->finite_vertices_end(); ++it)
+  for( Finite_vertices_iterator it = hierarchy[0]->finite_vertices_begin(),
+       end = hierarchy[0]->finite_vertices_end(); it != end; ++it)
     if (it->up() != Vertex_handle())
       V[ it->up()->down() ] = it;
 
   for(int j=1; j<maxlevel; ++j) {
-    for( Finite_vertices_iterator it=hierarchy[j]->finite_vertices_begin();
-	 it != hierarchy[j]->finite_vertices_end(); ++it) {
-	// down pointer goes in original instead in copied triangulation
-	it->set_down(V[it->down()]);
-	// make reverse link
-	it->down()->set_up( it );
+    for( Finite_vertices_iterator it = hierarchy[j]->finite_vertices_begin(),
+	 end = hierarchy[j]->finite_vertices_end(); it != end; ++it) {
+	// current it->down() pointer goes in original instead in copied triangulation
+	set_up_down(it, V[it->down()]);
 	// make map for next level
 	if (it->up() != Vertex_handle())
 	    V[ it->up()->down() ] = it;
@@ -219,7 +248,7 @@ Triangulation_hierarchy_3(const Triangulation_hierarchy_3<Tr> &tr)
 
 template <class Tr>
 void
-Triangulation_hierarchy_3<Tr>:: 
+Triangulation_hierarchy_3<Tr>::
 swap(Triangulation_hierarchy_3<Tr> &tr)
 {
   Tr_Base::swap(tr);
@@ -228,7 +257,7 @@ swap(Triangulation_hierarchy_3<Tr> &tr)
 }
 
 template <class Tr>
-Triangulation_hierarchy_3<Tr>:: 
+Triangulation_hierarchy_3<Tr>::
 ~Triangulation_hierarchy_3()
 {
   clear();
@@ -238,45 +267,45 @@ Triangulation_hierarchy_3<Tr>::
 
 template <class Tr>
 void
-Triangulation_hierarchy_3<Tr>:: 
+Triangulation_hierarchy_3<Tr>::
 clear()
 {
-        for(int i=0;i<maxlevel;++i)
-	hierarchy[i]->clear();
+  for(int i=0;i<maxlevel;++i)
+    hierarchy[i]->clear();
 }
 
 template <class Tr>
 bool
-Triangulation_hierarchy_3<Tr>:: 
+Triangulation_hierarchy_3<Tr>::
 is_valid(bool verbose, int level) const
 {
   bool result = true;
-  
+
   // verify correctness of triangulation at all levels
   for(int i=0; i<maxlevel; ++i)
 	result = result && hierarchy[i]->is_valid(verbose, level);
 
   // verify that lower level has no down pointers
-  for( Finite_vertices_iterator it = hierarchy[0]->finite_vertices_begin(); 
-       it != hierarchy[0]->finite_vertices_end(); ++it) 
+  for( Finite_vertices_iterator it = hierarchy[0]->finite_vertices_begin(),
+       end = hierarchy[0]->finite_vertices_end(); it != end; ++it)
     result = result && (it->down() == Vertex_handle());
 
   // verify that other levels has down pointer and reciprocal link is fine
   for(int j=1; j<maxlevel; ++j)
-    for( Finite_vertices_iterator it = hierarchy[j]->finite_vertices_begin(); 
-	 it != hierarchy[j]->finite_vertices_end(); ++it) 
+    for( Finite_vertices_iterator it = hierarchy[j]->finite_vertices_begin(),
+	 end = hierarchy[j]->finite_vertices_end(); it != end; ++it)
       result = result && &*(it) == &*(it->down()->up());
 
   // verify that other levels has down pointer and reciprocal link is fine
   for(int k=0; k<maxlevel-1; ++k)
-    for( Finite_vertices_iterator it = hierarchy[k]->finite_vertices_begin(); 
-	 it != hierarchy[k]->finite_vertices_end(); ++it) 
+    for( Finite_vertices_iterator it = hierarchy[k]->finite_vertices_begin(),
+	 end = hierarchy[k]->finite_vertices_end(); it != end; ++it)
       result = result && ( it->up() == Vertex_handle() ||
 	        &*it == &*(it->up())->down() );
 
   return result;
 }
-  
+
 template <class Tr>
 typename Triangulation_hierarchy_3<Tr>::Vertex_handle
 Triangulation_hierarchy_3<Tr>::
@@ -307,8 +336,7 @@ insert(const Point &p, Cell_handle start)
 	                                    positions[level].pos,
 	                                    positions[level].li,
 	                                    positions[level].lj);
-    vertex->set_down(previous);// link with level above
-    previous->set_up(vertex);
+    set_up_down(vertex, previous);
     previous=vertex;
     level++;
   }
@@ -331,8 +359,8 @@ insert(const Point &p, Locate_type lt, Cell_handle loc, int li, int lj)
     int i, j;
     // locate using hierarchy
     locs positions[maxlevel];
-    locate(p, lt, i, j, positions, loc);
-    
+    locate(p, lt, i, j, positions, vertex->cell());
+
     int level = 1;
     while (level <= vertex_level ){
       if (positions[level].pos == Cell_handle())
@@ -343,8 +371,7 @@ insert(const Point &p, Locate_type lt, Cell_handle loc, int li, int lj)
 	    positions[level].pos,
 	    positions[level].li,
 	    positions[level].lj);
-      vertex->set_down(previous);// link with level above
-      previous->set_up(vertex);
+      set_up_down(vertex, previous);
       previous=vertex;
       level++;
     }
@@ -353,7 +380,7 @@ insert(const Point &p, Locate_type lt, Cell_handle loc, int li, int lj)
 }
 
 template <class Tr>
-bool
+void
 Triangulation_hierarchy_3<Tr>::
 remove(Vertex_handle v)
 {
@@ -365,7 +392,6 @@ remove(Vertex_handle v)
 	break;
     v = u;
   }
-  return true;
 }
 
 template < class Tr >
@@ -383,8 +409,7 @@ move_point(Vertex_handle v, const Point & p)
 	ret = w;
     }
     else {
-	old->set_up(w);
-	w->set_down(old);
+        set_up_down(w, old);
     }
     if (u == Vertex_handle())
 	break;
@@ -394,14 +419,15 @@ move_point(Vertex_handle v, const Point & p)
 
   return ret;
 }
- 
+
 template <class Tr>
 inline
 typename Triangulation_hierarchy_3<Tr>::Cell_handle
 Triangulation_hierarchy_3<Tr>::
 locate(const Point& p, Locate_type& lt, int& li, int& lj, Cell_handle start) const
 {
-  if (start != Cell_handle ()) return Tr_Base::locate (p, lt, li, lj, start);
+  if (start != Cell_handle ())
+    return Tr_Base::locate (p, lt, li, lj, start);
   locs positions[maxlevel];
   locate(p, lt, li, lj, positions);
   return positions[0].pos;
@@ -409,11 +435,12 @@ locate(const Point& p, Locate_type& lt, int& li, int& lj, Cell_handle start) con
 
 template <class Tr>
 inline
-typename Triangulation_hierarchy_3<Tr>::Cell_handle 
+typename Triangulation_hierarchy_3<Tr>::Cell_handle
 Triangulation_hierarchy_3<Tr>::
 locate(const Point& p, Cell_handle start) const
 {
-  if (start != Cell_handle ()) return Tr_Base::locate (p, start);
+  if (start != Cell_handle ())
+    return Tr_Base::locate (p, start);
   Locate_type lt;
   int li, lj;
   return locate(p, lt, li, lj);
@@ -446,15 +473,17 @@ locate(const Point& p, Locate_type& lt, int& li, int& lj,
 	                                                 pos[level].lj,
 	                                                 position);
     // find the nearest vertex.
-    Vertex_handle nearest =
-	hierarchy[level]->nearest_vertex_in_cell(p, position);
+    Vertex_handle nearest = hierarchy[level]->nearest_vertex_in_cell(p, position);
 
     // go at the same vertex on level below
     nearest = nearest->down();
     position = nearest->cell();                // incident cell
     --level;
   }
-  if (start != Cell_handle ()) position = start;
+
+  if (start != Cell_handle())
+    position = start;
+
   pos[0].pos = hierarchy[0]->locate(p, lt, li, lj, position); // at level 0
   pos[0].lt = lt;
   pos[0].li = li;
@@ -462,12 +491,11 @@ locate(const Point& p, Locate_type& lt, int& li, int& lj,
 }
 
 template <class Tr>
-typename Triangulation_hierarchy_3<Tr>::Vertex_handle 
+typename Triangulation_hierarchy_3<Tr>::Vertex_handle
 Triangulation_hierarchy_3<Tr>::
 nearest_vertex(const Point& p, Cell_handle start) const
 {
-    return Tr_Base::nearest_vertex(p, start != Cell_handle() ? start
-	                                                     : locate(p));
+    return Tr_Base::nearest_vertex(p, start != Cell_handle() ? start : locate(p));
 }
 
 template <class Tr>
@@ -475,11 +503,10 @@ int
 Triangulation_hierarchy_3<Tr>::
 random_level()
 {
-  int l = 0;
-  while ( ! random(ratio) && l < maxlevel-1 )
-    ++l;
+  boost::geometric_distribution<> proba(1.0/ratio);
+  boost::variate_generator<boost::rand48&, boost::geometric_distribution<> > die(random, proba);
 
-  return l;
+  return (std::min)(die(), (int)maxlevel)-1;
 }
 
 CGAL_END_NAMESPACE

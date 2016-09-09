@@ -54,11 +54,11 @@ Ideally, installing <span class="textsc">Cgal</span>amounts to:
 <P>
 
 <pre class="Verbatim">
-  cd  CGAL-3.5                                # go to CGAL directory
+  cd  CGAL-3.6                                # go to CGAL directory
   cmake .                                     # configure CGAL
   make                                        # build the CGAL libraries
   cd examples/Straight_skeleton_2             # go to an example directory
-  cmake -DCGAL_DIR=$HOME/CGAL-3.5 .           # configure the examples
+  cmake -DCGAL_DIR=$HOME/CGAL-3.6 .           # configure the examples
   make                                        # build the examples 
 </pre>
 <P>
@@ -82,7 +82,7 @@ e.g. for numeric solvers, or visualization.
 <P>
 
 In order to build the <span class="textsc">Cgal</span> libraries, you need a C<TT>++</TT> compiler.  
-<span class="textsc">Cgal</span>&nbsp;3.5 is supported for the following compilers/operating systems:
+<span class="textsc">Cgal</span>&nbsp;3.6 is supported for the following compilers/operating systems:
 <P>
 
 <CENTER>
@@ -97,7 +97,7 @@ In order to build the <span class="textsc">Cgal</span> libraries, you need a C<T
 <B>operating system</B>
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
-<span class="textsc">Gnu</span>&nbsp;<TT>g++</TT>&nbsp;4.0, 4.1, 4.2, 4.3, 4.4 <A HREF="#Footnote_10"><SUP>10</SUP></A>
+<span class="textsc">Gnu</span>&nbsp;<TT>g++</TT>&nbsp;3.4, 4.0, 4.1, 4.2, 4.3, 4.4 <A HREF="#Footnote_10"><SUP>10</SUP></A>
     
     <TD class="math" ALIGN=LEFT NOWRAP>
 Solaris 2.6+ / Linux 2.x / MacOS X
@@ -129,7 +129,7 @@ Note that neither prerelease versions nor repository snapshots of
 In order to configure, build and install the <span class="textsc">Cgal</span> libraries, examples and
 demos, you need CMake, a cross-platform ``makefile generator''.
 If CMake is not installed already you can obtain it from <A HREF="http://www.cmake.org/"><TT>http://www.cmake.org/</TT></A>.
-CMake version&nbsp;2.4-patch-7 or higher is required, but we recommend
+CMake version&nbsp;2.4-patch-8 or higher is required, but we recommend
 using CMake version&nbsp;2.6 or higher.
 <P>
 
@@ -137,7 +137,7 @@ using CMake version&nbsp;2.6 or higher.
 <h3>2.3&nbsp;&nbsp;&nbsp;boost</h3>
 
 <span class="textsc">Cgal</span> requires a working installation of the <span class="textsc">Boost</span> libraries. In particular the header files and the threading library
-binaries. Version 1.33.1 (or higher) is needed. In case
+binaries. Version 1.34.1 (or higher) is needed. In case
 the <span class="textsc">Boost</span> libraries are not installed on your system already, you
 can obtain them from <A HREF="http://www.boost.org/"><TT>http://www.boost.org/</TT></A>. For Windows you can download an
 installer from <A HREF="http://www.boostpro.com/products/free"><TT>http://www.boostpro.com/products/free</TT></A>.
@@ -152,17 +152,22 @@ Some demos depend on <TT>Boost.Program_options</TT>.
 <h3>2.4&nbsp;&nbsp;&nbsp;Exact Arithmetic</h3>
 <P>
 
-<span class="textsc">Cgal</span> combines floating point arithmetic with exact arithmetic, in order
-to be efficient and reliable.  <span class="textsc">Cgal</span> offers support for <span class="textsc">Gmp</span>+<span class="textsc">Mpfr</span> and <span class="textsc">Leda</span> 
-exact number types, as well as a built-in exact number type used when
-none of the above is installed on your system.
+<span class="textsc">Cgal</span> combines floating point arithmetic with exact arithmetic,
+in order to be efficient and reliable.  <span class="textsc">Cgal</span> offers support for
+<span class="textsc">Gmp</span>+<span class="textsc">Mpfr</span>, <span class="textsc">Mpfi</span> and <span class="textsc">Leda</span> number types, as well as a built-in
+exact number type used when none of the above is installed on your
+system.
 <P>
 
-Having <span class="textsc">Gmp</span> version 4.1.4 or higher and <span class="textsc">Mpfr</span> version 2.2.1 or higher
+Having <span class="textsc">Gmp</span> version 4.2 or higher and <span class="textsc">Mpfr</span> version 2.2.1 or higher
 installed is highly recommended. These libraries can be obtained from
 <A HREF="http://gmplib.org/"><TT>http://gmplib.org/</TT></A> and <A HREF="http://www.mpfr.org/"><TT>http://www.mpfr.org/</TT></A>, respectively. As Visual C<TT>++</TT> is not properly
 support by the <span class="textsc">Gmp</span> and <span class="textsc">Mpfr</span> projects, we provide precompiled versions
 of <span class="textsc">Gmp</span> and <span class="textsc">Mpfr</span>.
+<P>
+
+<span class="textsc">Mpfi</span> can be downloaded from <A HREF="http://gforge.inria.fr/projects/mpfi/"><TT>http://gforge.inria.fr/projects/mpfi/</TT></A>. Version 1.4 or higher is
+recommended.
 <P>
 
 <span class="textsc">Leda</span> can be found at <A HREF="http://www.algorithmic-solutions.com/leda/index.html"><TT>http://www.algorithmic-solutions.com/leda/index.html</TT></A>. There is a free and a commercial
@@ -173,9 +178,10 @@ edition for this library.
 <h3>2.5&nbsp;&nbsp;&nbsp;Visualization</h3>
 <P>
 
-Most demos use Trolltech's cross-plaform GUI toolkits Qt3 or Qt4.
+Most demos use Nokia's cross-plaform GUI toolkits Qt3 or Qt4.
 In case Qt is not yet installed on your system, you can download 
-it from <A HREF="http://www.trolltech.com"><TT>http://www.trolltech.com</TT></A>.
+it from <A HREF="http://qt.nokia.com"><TT>http://qt.nokia.com</TT></A>. Qt4 is only supported for versions greater or equal to
+4.2.1.
 <P>
 
 Some 3D demos use the libQGLViewer, which is a 3D widget for Qt4.
@@ -204,6 +210,10 @@ supported by the <span class="textsc">Taucs</span> project, we provide a precomp
 <span class="textsc">Taucs</span>.
 <P>
 
+The Algebraic Kernel package uses the library <span class="textsc">Rs</span> to perform real solving
+on univariate polynomials. It can be downloaded from <A HREF="http://www.loria.fr/equipes/vegas/rs/"><TT>http://www.loria.fr/equipes/vegas/rs/</TT></A>.
+<P>
+
 <a name="Section_3"></a>
         
 <A NAME="sec:gettingcgal"></A><h2>3&nbsp;&nbsp;&nbsp;Downloading CGAL</h2>
@@ -212,17 +222,17 @@ supported by the <span class="textsc">Taucs</span> project, we provide a precomp
 The <span class="textsc">Cgal</span> library can be downloaded from  <A HREF="http://www.cgal.org/download.html"><TT>http://www.cgal.org/download.html</TT></A>.
 <P>
 
-After you have downloaded the file <TT>CGAL-3.5.tar.gz</TT> containing the
+After you have downloaded the file <TT>CGAL-3.6.tar.gz</TT> containing the
 <span class="textsc">Cgal</span> sources, you have to unpack it. Under a Unix-like shell, use the
 command:
 <P>
 
 <pre class="Verbatim">
-      tar xzf CGAL-3.5.tar.gz
+      tar xzf CGAL-3.6.tar.gz
 </pre>
 <P>
 
-When you are on Windows you may download and run the <TT>CGAL-3.5-Setup.exe</TT>. It is a
+When you are on Windows you may download and run the <TT>CGAL-3.6-Setup.exe</TT>. It is a
 self extracting executable that installs the <span class="textsc">Cgal</span> source, and that allows
 you to select and download some precompiled third party libraries.
 <P>
@@ -324,7 +334,7 @@ which <span class="textsc">Cgal</span> libraries you want to build. Gathering
 all this information is called <I>configuration</I>.
 <P>
 
-For CGAL-3.5, the configuration is generated with CMake, a
+For CGAL-3.6, the configuration is generated with CMake, a
 cross-platform build system.  This manual explains only those features of
 CMake which are needed in order to build <span class="textsc">Cgal</span>. Please refer to the CMake 
 documentation at <A HREF="http://www.cmake.org/"><TT>http://www.cmake.org/</TT></A> for further details.
@@ -344,7 +354,7 @@ argument the root directory of <span class="textsc">Cgal</span>. For example:
 <P>
 
 <pre class="Verbatim">
-  cd  CGAL-3.5
+  cd  CGAL-3.6
   cmake-gui . # Notice the dot to indicate the current directory.
 </pre>
 <P>
@@ -373,7 +383,7 @@ Alternatively, you can run the command-line tool called
 <P>
 
 <pre class="Verbatim">
-  cd  CGAL-3.5
+  cd  CGAL-3.6
   cmake . # Notice the dot to indicate the current directory.
 </pre>
 <P>
@@ -404,7 +414,7 @@ build files). For example, the following generates solution files for use in Vis
 <P>
 
 <pre class="Verbatim">
-  cd CGAL-3.5
+  cd CGAL-3.6
   cmake -G&quot;Visual Studio 9 2008&quot; . 
 </pre>
 <P>
@@ -416,7 +426,7 @@ specify the desired compiler in the call to CMake, as in this example:
 <P>
 
 <pre class="Verbatim">
-  cd CGAL-3.5
+  cd CGAL-3.6
   cmake -DCMAKE_CXX_COMPILER:FILEPATH=g++-3.4 . 
 </pre>
 <P>
@@ -542,7 +552,7 @@ If you turn off the configuration of a library, you can still configure it manua
 <P>
 
 <pre class="Verbatim">
-  cd CGAL-3.5/src/CGALQt4 
+  cd CGAL-3.6/src/CGALQt4 
   cmake . # configures only the CGAL_Qt4 library
 </pre>
 <P>
@@ -613,12 +623,12 @@ You can, for example, generate subdirectories <TT>CGAL-x.y</TT><TT>/cmake/platfo
 <P>
 
 <pre class="Verbatim">
-mkdir CGAL-3.5/cmake/platforms/debug
-cd CGAL-3.5/cmake/platforms/debug
+mkdir CGAL-3.6/cmake/platforms/debug
+cd CGAL-3.6/cmake/platforms/debug
 cmake -DCMAKE_BUILD_TYPE=Debug ../../..
 
-mkdir CGAL-3.5/cmake/platforms/release
-cd CGAL-3.5/cmake/platforms/release
+mkdir CGAL-3.6/cmake/platforms/release
+cd CGAL-3.6/cmake/platforms/release
 cmake -DCMAKE_BUILD_TYPE=Release ../../..
 </pre>
 <P>
@@ -641,7 +651,7 @@ succeeding build step as follows:
 
 <pre class="Verbatim">
 
-cd CGAL-3.5
+cd CGAL-3.6
 
 # build all the selected libraries at once
 
@@ -750,7 +760,7 @@ installation in a <span class="textsc">Unix</span>-like environment:
 
 <pre class="Verbatim">
 
-cd CGAL-3.5
+cd CGAL-3.6
 
 cmake .      # configure
 make         # compile
@@ -775,8 +785,8 @@ variable explicitly <I>at the configuration time</I> and not when executing the 
 </div>
 <P>
 
-The file <TT>CGALCOnfig.cmake</TT> is installed by default in
-<TT>$CMAKE_INSTALLED_PREFIX/lib/CGAL-3.5</TT>.
+The file <TT>CGALConfig.cmake</TT> is installed by default in
+<TT>$CMAKE_INSTALLED_PREFIX/lib/CGAL-3.6</TT>.
 <P>
 
 <a name="Section_7"></a>
@@ -798,8 +808,8 @@ to indicate the location of that config file in the CMake variable
 
 <pre class="Verbatim">
 
-cd CGAL-3.5/examples/Straight_skeleton_2
-cmake -DCGAL_DIR=$HOME/CGAL-3.5 .
+cd CGAL-3.6/examples/Straight_skeleton_2
+cmake -DCGAL_DIR=$HOME/CGAL-3.6 .
 make
 
 </pre>
@@ -848,13 +858,13 @@ controlling variable right up front:
 
 <pre class="Verbatim">
 
-cd CGAL-3.5
+cd CGAL-3.6
 
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-g .
 
-cd CGAL-3.5/examples/Straight_skeleton_2
+cd CGAL-3.6/examples/Straight_skeleton_2
 
-cmake -DCGAL_DIR=CGAL-3.5 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O2 -DCGAL_DONT_OVERRIDE_CMAKE_FLAGS=TRUE . 
+cmake -DCGAL_DIR=CGAL-3.6 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O2 -DCGAL_DONT_OVERRIDE_CMAKE_FLAGS=TRUE . 
 
 </pre>
 
@@ -1334,6 +1344,64 @@ CMake
 </TABLE>
 <P>
 
+<h4>MPFI library</h4>
+<P>
+
+CGAL provides a number type based on this library, but the CGAL library
+itself does not depend on MPFI. This means that this library must be
+configured when compiling an application that uses the above number type.
+<P>
+
+When MPFI files are not on the standard path, the locations of the headers
+and library files must be specified by using environment variables.
+<P>
+
+<TABLE CELLSPACING=5  BORDER=2>
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<B>Variable</B>             
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<B>Description</B>                                  
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<B>Type</B>
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>MPFI_INCLUDE_DIR</TT>   
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory containing the <TT>mpfi.h</TT> file         
+    <TD class="math" ALIGN=LEFT NOWRAP>
+CMake
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>MPFI_INC_DIR</TT>       
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Idem                                                  
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>MPFI_LIBRARIES_DIR</TT> 
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory containing the compiled mpfi library        
+    <TD class="math" ALIGN=LEFT NOWRAP>
+CMake
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>MPFI_LIB_DIR</TT>       
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Idem                                                  
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>MPFI_LIBRARIES</TT>      
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Full pathname of the compiled mpfi library            
+    <TD class="math" ALIGN=LEFT NOWRAP>
+CMake
+</TABLE>
+<P>
+
 <h4>LEDA library</h4>
 <P>
 
@@ -1788,6 +1856,69 @@ CMake
 </TABLE>
 <P>
 
+<h4>RS library</h4>
+<P>
+
+As said before, only the <span class="textsc">Cgal</span> univariate algebraic kernel depends on the
+library <span class="textsc">Rs</span>. As the algebraic kernel is not compiled as a part of the <span class="textsc">Cgal</span>
+library, this library is not detected nor configured at installation time.
+<P>
+
+CMake will try to find <span class="textsc">Rs</span> in the standard header and library
+directories. When it is not automatically detected, the locations of the
+headers and library files must be specified using environment variables.
+<P>
+
+<span class="textsc">Rs</span> needs <span class="textsc">Gmp</span>&nbsp;4.2 or later and <span class="textsc">Mpfi</span>&nbsp;1.3.4 or later. The variables
+related to the latter library may also need to be defined.
+<P>
+
+<TABLE CELLSPACING=5  BORDER=2>
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<B>Variable</B>             
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<B>Description</B>                                  
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<B>Type</B>
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>RS_INCLUDE_DIR</TT>     
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory containing the <TT>rs_exports.h</TT> file  
+    <TD class="math" ALIGN=LEFT NOWRAP>
+CMake
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>RS_INC_DIR</TT>         
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Idem                                                  
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>RS_LIBRARIES_DIR</TT>   
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory containing the compiled rs library          
+    <TD class="math" ALIGN=LEFT NOWRAP>
+CMake
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>RS_LIB_DIR</TT>         
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Idem                                                  
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>RS_LIBRARIES</TT>        
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Full pathname of the compiled rs library              
+    <TD class="math" ALIGN=LEFT NOWRAP>
+CMake
+</TABLE>
+<P>
+
 <a name="Section_9"></a>
         
 <h2>9&nbsp;&nbsp;&nbsp;Example</h2>
@@ -1897,7 +2028,7 @@ cmake -DWITH_examples=false
 -- uic executable:     C:/Work/Downloaded/Libraries/qt-win-opensource-src-4.4.1/bin/uic.exe
 -- Configuring done
 -- Generating done
--- Build files have been written to: C:/Work/Active/GeometryFactory/CGAL/Autotest/CGAL-3.5/cmake/platforms/a
+-- Build files have been written to: C:/Work/Active/GeometryFactory/CGAL/Autotest/CGAL-3.6/cmake/platforms/a
 </pre>
 <P>
 
@@ -1977,7 +2108,7 @@ the CGAL and CGALCore libraries.
 <A HREF="http://developer.intel.com/software/products/compilers/"><TT>http://developer.intel.com/software/products/compilers/</TT></A>
 <TR><TD VALIGN=TOP>
         <A NAME="Footnote_4">&nbsp;<SUP>4</SUP>&nbsp;</A><TD VALIGN=TOP>
-<A HREF="http://www.cs.nyu.edu/exact/core\_pages/"><TT>http://www.cs.nyu.edu/exact/core\_pages/</TT></A>
+<A HREF="http://www.cs.nyu.edu/exact/"><TT>http://www.cs.nyu.edu/exact/</TT></A>
 <TR><TD VALIGN=TOP>
         <A NAME="Footnote_15">&nbsp;<SUP>15</SUP>&nbsp;</A><TD VALIGN=TOP>
 CGAL-core++ is not part of <span class="textsc">Cgal</span>, it is a custom version the CORE library distributed 
@@ -2006,6 +2137,6 @@ the '<TT>optimized</TT>' and '<TT>debug</TT>' tags should appear verbatim.
 <div class="NavAddress">
 <SMALL><a href=http://www.cgal.org target=_top>CGAL Open Source Project</a>.
 Separate Build.
-19 December 2009.</SMALL>
+23 February 2010.</SMALL>
 </div>
 </body>  </html>

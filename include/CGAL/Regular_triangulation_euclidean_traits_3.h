@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Regular_triangulation_euclidean_traits_3.h $
-// $Id: Regular_triangulation_euclidean_traits_3.h 48845 2009-04-21 18:34:14Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Regular_triangulation_euclidean_traits_3.h $
+// $Id: Regular_triangulation_euclidean_traits_3.h 53265 2009-12-02 18:16:41Z sloriot $
 //
 // Author(s)     : Sylvain Pion
 //                 Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -32,7 +32,7 @@
 #include <CGAL/predicates/predicates_on_weighted_points_cartesian_3.h>
 #include <CGAL/constructions/constructions_on_weighted_points_cartesian_3.h>
 
-CGAL_BEGIN_NAMESPACE 
+CGAL_BEGIN_NAMESPACE
 
 // returns minus the sign of the determinant of the lifted points
 // associated with p,q,r,s,t  [P,Q,R,S,T]
@@ -124,7 +124,7 @@ public:
     // return in fact minus the 5x5 determinant of lifted (p,q,r,s.t)
     return - o * os;
   }
-  
+
   Sign operator() ( const Weighted_point_3 & p,
 		    const Weighted_point_3 & q,
 		    const Weighted_point_3 & r,
@@ -176,7 +176,7 @@ public :
   {
     return enum_cast<CGAL::Bounded_side>( - In_sphere()(p,q,r,s,t));
   }
-  
+
   Bounded_side operator() ( const Weighted_point_3 & p,
 			    const Weighted_point_3 & q,
 			    const Weighted_point_3 & r,
@@ -196,8 +196,8 @@ public :
 
 
 // operator() returns true if the affine hull of the dual
-// to the given weighted points 
-// intersect  the simplex formed by the bare points 
+// to the given weighted points
+// intersect  the simplex formed by the bare points
 template < typename K >
 class Does_simplex_intersect_weighted_dual_support_3
 {
@@ -226,7 +226,7 @@ public:
     return does_simplex_intersect_weighted_dual_supportC3(
                                         p.x(), p.y(), p.z(), p.weight(),
 					q.x(), q.y(), q.z(), q.weight(),
-					r.x(), r.y(), r.z(), r.weight()); 
+					r.x(), r.y(), r.z(), r.weight());
   }
 
   Bounded_side operator()(const Weighted_point_3 & p,
@@ -342,18 +342,24 @@ public:
 			   p.x(), p.y(), p.z(), p.weight(),
 			   q.x(), q.y(), q.z(), q.weight());
   }
+  
+  FT operator() (const Weighted_point_3 & p) const
+  {
+    return -p.weight();
+  }  
+  
 };
 
 
 // Compute the square radius of the circle centered in t
-// and orthogonal to  the circle orthogonal a p,q,r,s
+// and orthogonal to  the circle orthogonal to p,q,r,s
 template< typename K>
 class Compute_critical_squared_radius_3
 {
  public:
-  typedef typename K::Weighted_point_3                  Weighted_point_3; 
+  typedef typename K::Weighted_point_3                  Weighted_point_3;
   typedef typename K::FT                                FT;
- 
+
   typedef FT               result_type;
 
   result_type operator() (const Weighted_point_3 & p,
@@ -372,7 +378,67 @@ class Compute_critical_squared_radius_3
 
 
 
+template <typename K>
+class Compare_weighted_squared_radius_3
+{
+ 
+  typedef typename K::Weighted_point_3                  Weighted_point_3;
+  typedef typename K::Comparison_result                 Comparison_result;
+  typedef typename K::FT                                FT;
 
+public:
+  typedef Comparison_result  result_type;
+
+
+  result_type operator() (
+        const Weighted_point_3 & p,
+			  const Weighted_point_3 & q,
+			  const Weighted_point_3 & r,
+			  const Weighted_point_3 & s,
+			  const FT& w) const
+  {
+    return compare(
+            squared_radius_orthogonal_sphereC3(
+                p.x(),p.y(),p.z(),p.weight(),
+                q.x(),q.y(),q.z(),q.weight(),
+                r.x(),r.y(),r.z(),r.weight(),
+                s.x(),s.y(),s.z(),s.weight() ),
+            w);
+  }
+
+  result_type operator() (
+        const Weighted_point_3 & p,
+			  const Weighted_point_3 & q,
+			  const Weighted_point_3 & r,
+			  const FT& w) const
+  {
+    return compare(
+            squared_radius_smallest_orthogonal_sphereC3(
+                p.x(),p.y(),p.z(),p.weight(),
+                q.x(),q.y(),q.z(),q.weight(),
+                r.x(),r.y(),r.z(),r.weight() ),
+            w);
+  }
+  
+  result_type operator() (
+        const Weighted_point_3 & p,
+			  const Weighted_point_3 & q,
+			  const FT& w) const
+  {
+    return compare(
+            squared_radius_smallest_orthogonal_sphereC3(
+                p.x(),p.y(),p.z(),p.weight(),
+                q.x(),q.y(),q.z(),q.weight() ),
+            w);
+  }
+
+  result_type operator() (
+        const Weighted_point_3 & p,
+			  const FT& w) const
+  {
+    return compare(-p.weight(),w);
+  }
+};
 
 
 
@@ -404,7 +470,7 @@ public:
   typedef CGAL::Side_of_bounded_orthogonal_sphere_3<Self>
                                 Side_of_bounded_orthogonal_sphere_3;
   typedef CGAL::Does_simplex_intersect_weighted_dual_support_3<Self>
-                                Does_simplex_intersect_dual_support_3; 
+                                Does_simplex_intersect_dual_support_3;
   typedef CGAL::Construct_weighted_circumcenter_3<Self>
                                  Construct_weighted_circumcenter_3;
   typedef CGAL::Compute_squared_radius_smallest_orthogonal_sphere_3<Self>
@@ -412,6 +478,10 @@ public:
   typedef CGAL::Compute_power_product_3<Self>    Compute_power_product_3;
   typedef CGAL::Compute_critical_squared_radius_3<Self>
                                        Compute_critical_squared_radius_3;
+  typedef CGAL::Compare_weighted_squared_radius_3<Self>
+                                       Compare_weighted_squared_radius_3;
+
+  enum { Has_filtered_predicates = false };
   
   Power_test_3   power_test_3_object() const
   { return Power_test_3(); }
@@ -419,7 +489,7 @@ public:
   Compare_power_distance_3 compare_power_distance_3_object() const
   { return Compare_power_distance_3(); }
 
-  In_smallest_orthogonal_sphere_3 
+  In_smallest_orthogonal_sphere_3
   in_smallest_orthogonal_sphere_3_object() const
   { return In_smallest_orthogonal_sphere_3(); }
 
@@ -427,11 +497,11 @@ public:
   side_of_bounded_orthogonal_sphere_3_object() const
   { return Side_of_bounded_orthogonal_sphere_3(); }
 
-  Does_simplex_intersect_dual_support_3 
+  Does_simplex_intersect_dual_support_3
   does_simplex_intersect_dual_support_3_object() const
   { return Does_simplex_intersect_dual_support_3(); }
 
-  Construct_weighted_circumcenter_3 
+  Construct_weighted_circumcenter_3
   construct_weighted_circumcenter_3_object() const
   { return Construct_weighted_circumcenter_3(); }
 
@@ -446,12 +516,16 @@ public:
   Compute_critical_squared_radius_3
   compute_critical_squared_radius_3_object() const
   {return  Compute_critical_squared_radius_3(); }
+  
+  Compare_weighted_squared_radius_3
+  compare_weighted_squared_radius_3_object() const
+  {return Compare_weighted_squared_radius_3();  }
 };
 
 // We need to introduce a "traits_base_3" class in order to get the
 // specialization for Exact_predicates_inexact_constructions_kernel to work,
 // otherwise there is a cycle in the derivation.
-template < class K, class Weight = typename K::RT >
+template < typename K, class Weight = typename K::RT, bool UseFilteredPredicates = K::Has_filtered_predicates> 
 class Regular_triangulation_euclidean_traits_3
   : public Regular_triangulation_euclidean_traits_base_3<K, Weight>
 {};
@@ -530,7 +604,7 @@ compare_power_distance_3 (const Point &p,
    return compare_power_distanceC3(p.x(), p.y(), p.z(),
 				   q.x(), q.y(), q.z(), FT(q.weight()),
 				   r.x(), r.y(), r.z(), FT(r.weight()));
-}     
+}
 
 
 
@@ -610,7 +684,7 @@ compare_power_distance_3 (const Point &p,
   return compare_power_distanceC3(p.x(), p.y(), p.z(), FT(p.weight()),
 				  q.x(), q.y(), q.z(), FT(q.weight()),
 				  t.x(), t.y(), t.z(), FT(t.weight()));
-}     
+}
 
 // Kludges for M$.
 
@@ -675,23 +749,25 @@ CGAL_END_NAMESPACE
 
 // Partial specialization for Filtered_kernel<CK>.
 
-#include <CGAL/Regular_triangulation_filtered_traits_3.h>
+#include <CGAL/internal/Regular_triangulation_filtered_traits_3.h>
 #include <CGAL/Filtered_kernel.h>
 
 CGAL_BEGIN_NAMESPACE
 
-// This declaration is needed to break the cyclic dependency.
-template < typename K >
-class Regular_triangulation_filtered_traits_3;
+namespace internal{
+  // This declaration is needed to break the cyclic dependency.
+  template < typename K,bool b >
+  class Regular_triangulation_filtered_traits_3;
+} //namespace internal
 
-
-template < typename CK, typename T >
-class Regular_triangulation_euclidean_traits_3 < Filtered_kernel<CK>, T>
-  : public Regular_triangulation_filtered_traits_3 < Filtered_kernel<CK> >
+template < typename K, class Weight>
+class Regular_triangulation_euclidean_traits_3<K,Weight,true>
+  : public internal::Regular_triangulation_filtered_traits_3 <K,K::Has_static_filters > 
 {
 public:
-  typedef Filtered_kernel<CK>  Kernel;
+  typedef K  Kernel;
 };
+ 
 
 CGAL_END_NAMESPACE
 

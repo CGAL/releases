@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_core.cpp $
-// $Id: Kinetic_Qt_core.cpp 39365 2007-07-10 22:09:27Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_core.cpp $
+// $Id: Kinetic_Qt_core.cpp 53026 2009-11-14 11:49:52Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -35,7 +35,7 @@ void Qt_core::play_button() {
   CGAL_LOG(Log::SOME, "Play button pushed.\n");
   mode_=RUN;
   CGAL_KINETIC_NOTIFY(LAST_BUTTON_PRESSED);
-};
+}
 
 void Qt_core::pause_button() {
   CGAL_LOG(Log::SOME, "Pause button pushed.\n");

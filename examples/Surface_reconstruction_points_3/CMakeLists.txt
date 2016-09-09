@@ -11,9 +11,13 @@ if ( COMMAND cmake_policy )
 endif(COMMAND cmake_policy)
 
 # Require packages new or improved since CGAL 3.5 beta 1
-include_directories (BEFORE ../../../Installation/include/)
+include_directories (BEFORE ../../../Installation/include)
 include_directories (BEFORE ../../../Point_set_processing_3/include)
 include_directories (BEFORE ../../../Surface_mesher/include)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../../Installation/cmake/modules ${CMAKE_MODULE_PATH})
+
+# TEMPORARY: require experimental-packages/ARAP_Parameterization for MKL support
+include_directories (BEFORE ../../../../experimental-packages/ARAP_Parameterization/include)
 
 # Include this package's headers first
 include_directories (BEFORE . include ../../include)
@@ -48,15 +52,32 @@ if ( CGAL_FOUND )
     message( STATUS "USING RELEASE EXEFLAGS = '${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS_RELEASE}'" )
   endif()
 
+  # Temporary debugging stuff
+  ADD_DEFINITIONS( "-DDEBUG_TRACE" ) # turn on traces
+
   # Link with BLAS, LAPACK and TAUCS (optional)
   find_package(TAUCS)
   if(TAUCS_FOUND)
 
     include( ${TAUCS_USE_FILE} )
 
-    # Executables that require TAUCS (thus BLAS and LAPACK)
-    create_single_source_cgal_program( "poisson_reconstruction.cpp" )
+    # Executables that require TAUCS but not MKL
     create_single_source_cgal_program( "poisson_reconstruction_example.cpp" )
+
+    # Link with TAUCS and MKL (optional)
+    find_package(MKL)
+    if(MKL_FOUND)
+
+      include( ${MKL_USE_FILE} )
+
+      # Executables that require TAUCS and MKL
+      create_single_source_cgal_program( "poisson_reconstruction.cpp" )
+
+    else(MKL_FOUND)
+
+      message(STATUS "NOTICE: Some of the executables in this directory need the MKL library and will not be compiled.")
+
+    endif(MKL_FOUND)
 
   else(TAUCS_FOUND)
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
-// $Id: Regular_triangulation_2.h 44487 2008-07-27 11:32:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
+// $Id: Regular_triangulation_2.h 53845 2010-01-27 16:43:40Z lrineau $
 // 
 //
 // Author(s)     : Frederic Fichel, Mariette Yvinec, Julia Floetotto
@@ -332,7 +332,6 @@ public:
       int n = number_of_vertices();
 
       std::vector<Weighted_point> points (first, last);
-      std::random_shuffle (points.begin(), points.end());
       spatial_sort (points.begin(), points.end(), geom_traits());
 
       Face_handle hint;

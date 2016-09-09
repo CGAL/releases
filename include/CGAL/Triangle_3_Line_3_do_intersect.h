@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_3/include/CGAL/Triangle_3_Line_3_do_intersect.h $
-// $Id: Triangle_3_Line_3_do_intersect.h 39776 2007-08-08 15:15:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_3/include/CGAL/Triangle_3_Line_3_do_intersect.h $
+// $Id: Triangle_3_Line_3_do_intersect.h 53116 2009-11-20 12:36:02Z stayeb $
 // 
 //
 // Author(s)     : Philippe Guigue
@@ -23,7 +23,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 bool do_intersect(const typename K::Triangle_3 &t, 
@@ -72,11 +72,11 @@ bool do_intersect(const typename K::Triangle_3 &t,
 		       orientation(p,q,c,a) != NEGATIVE ;
       case NEGATIVE: return  pqbc != POSITIVE  &&  
 		       orientation(p,q,c,a) != POSITIVE ;
-      case COLLINEAR:
+      case COPLANAR:
 	switch ( pqbc ) {
 	case POSITIVE: return  orientation(p,q,c,a) != NEGATIVE ;
 	case NEGATIVE: return  orientation(p,q,c,a) != POSITIVE ;
-	case COLLINEAR: return true;
+	case COPLANAR: return true;
 	default: // should not happen.
 	  CGAL_kernel_assertion(false);
 	  return false;
@@ -106,7 +106,7 @@ bool do_intersect(const typename K::Line_3     &l,
 }
 
 
-} // namespace CGALi
+} // namespace internal
 
 
 template <class K>

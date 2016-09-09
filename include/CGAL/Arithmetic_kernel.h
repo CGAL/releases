@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Arithmetic_kernel.h $
-// $Id: Arithmetic_kernel.h 47259 2008-12-06 21:47:11Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Arithmetic_kernel.h $
+// $Id: Arithmetic_kernel.h 51456 2009-08-24 17:10:04Z spion $
 // 
 // Author(s)     : Michael Hemmer <mhemmer@uni-mainz.de>
 //
@@ -67,7 +67,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 class Arithmetic_kernel_base{
 public:
@@ -85,7 +85,7 @@ public:
 /*! \ingroup CGAL_Arithmetic_kernel
  *  \brief  The LEDA set of exact number types
  */
-class LEDA_arithmetic_kernel : public CGALi::Arithmetic_kernel_base {
+class LEDA_arithmetic_kernel : public internal::Arithmetic_kernel_base {
 public:
     //! exact integers
     typedef leda_integer Integer;
@@ -107,7 +107,7 @@ public:
 /*! \ingroup CGAL_Arithmetic_kernel
  *  \brief  The CORE set of exact number types
  */
-class CORE_arithmetic_kernel : public CGALi::Arithmetic_kernel_base {
+class CORE_arithmetic_kernel : public internal::Arithmetic_kernel_base {
 public:
     //! exact integers
     typedef CORE::BigInt Integer;
@@ -128,7 +128,7 @@ public:
 /*! \ingroup CGAL_Arithmetic_kernel
  *  \brief  The GMP set of exact number types
  */
-class GMP_arithmetic_kernel : public CGALi::Arithmetic_kernel_base {
+class GMP_arithmetic_kernel : public internal::Arithmetic_kernel_base {
 public:
     //! exact integers
     typedef CGAL::Gmpz Integer;
@@ -147,7 +147,7 @@ public:
 /*! \ingroup CGAL_Arithmetic_kernel
  *  \brief  The GMP set of exact number types
  */
-class GMPXX_arithmetic_kernel : public CGALi::Arithmetic_kernel_base {
+class GMPXX_arithmetic_kernel : public internal::Arithmetic_kernel_base {
 public:
     //! exact integers
     typedef mpz_class Integer;

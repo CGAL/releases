@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Alpha_shapes_3/include/CGAL/Alpha_shape_3.h $
-// $Id: Alpha_shape_3.h 47025 2008-11-25 13:20:21Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Alpha_shapes_3/include/CGAL/Alpha_shape_3.h $
+// $Id: Alpha_shape_3.h 53281 2009-12-04 12:16:03Z mcaroli $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -45,6 +45,33 @@
 //-------------------------------------------------------------------
 CGAL_BEGIN_NAMESPACE
 //-------------------------------------------------------------------
+
+namespace internal{
+  
+  //small class to select predicate in weighted and unweighted case
+  template <class Dt,class Weighted_tag=typename Dt::Weighted_tag>
+  struct Compute_squared_radius_3;
+  
+  template <class Dt>
+  struct Compute_squared_radius_3<Dt,Tag_false>
+  {
+    typename Dt::Geom_traits::Compute_squared_radius_3
+    operator()(const Dt& dt) const{
+      return dt.geom_traits().compute_squared_radius_3_object();
+    }
+  };
+  
+  template <class Dt>
+  struct Compute_squared_radius_3<Dt,Tag_true>
+  {
+    typename Dt::Geom_traits::Compute_squared_radius_smallest_orthogonal_sphere_3
+    operator()(const Dt& dt) const{
+      return dt.geom_traits().compute_squared_radius_smallest_orthogonal_sphere_3_object();
+    }
+  };
+  
+  
+} //namespace internal
 
 template < class Dt >
 class Alpha_shape_3 : public Dt
@@ -389,7 +416,11 @@ public:
       return alpha_spectrum.size();
     }
 
-  
+  const Edge_alpha_map* get_edge_alpha_map() const
+  {
+     return  &edge_alpha_map;
+  }    
+    
   //---------------------------------------------------------------------
 
 private:
@@ -719,18 +750,17 @@ public:
 private:
   NT squared_radius(const Cell_handle& s) const
     {
-      return Gt().compute_squared_radius_3_object()(s->vertex(0)->point(),
-						    s->vertex(1)->point(),
-						    s->vertex(2)->point(),
-						    s->vertex(3)->point());
+      return internal::Compute_squared_radius_3<Dt>()(*this)(
+	  this->point(s,0), this->point(s,1),
+	  this->point(s,2), this->point(s,3));
     }
 
   NT squared_radius(const Cell_handle& s, const int& i) const
     {
-      return Gt().compute_squared_radius_3_object() (
-		  s->vertex(vertex_triple_index(i,0))->point(),
-		  s->vertex(vertex_triple_index(i,1))->point(),
-		  s->vertex(vertex_triple_index(i,2))->point());
+      return internal::Compute_squared_radius_3<Dt>()(*this) (
+	  this->point(s,vertex_triple_index(i,0)),
+	  this->point(s,vertex_triple_index(i,1)),
+	  this->point(s,vertex_triple_index(i,2)) );
     }
 
   NT squared_radius(const Facet& f) const {
@@ -740,8 +770,8 @@ private:
   NT squared_radius(const Cell_handle& s, 
 			    const int& i, const int& j) const
     {
-      return Gt().compute_squared_radius_3_object()(s->vertex(i)->point(),
-						    s->vertex(j)->point());
+      return internal::Compute_squared_radius_3<Dt>()(*this)(
+	  this->point(s,i), this->point(s,j));
     }
 
   NT squared_radius(const Edge& e) const {
@@ -749,7 +779,8 @@ private:
   }
 
   NT squared_radius(const Vertex_handle& v) const {
-    return  Gt().compute_squared_radius_3_object()(v->point()); }
+    return  internal::Compute_squared_radius_3<Dt>()(*this)(v->point()); 
+  }
 
 
   //---------------------------------------------------------------------
@@ -1251,6 +1282,7 @@ Alpha_shape_3<Dt>::initialize_alpha_vertex_maps(bool reinitialize)
       alpha = (*chit)->get_alpha();
       as->set_alpha_mid(alpha);
       as->set_alpha_max(alpha);
+      ++chit;
       for( ; chit != incidents.end(); ++chit) {
 	if (is_infinite(*chit)) as->set_is_on_chull(true);
 	else {
@@ -1584,32 +1616,43 @@ compute_edge_status( const Cell_handle& c,
   Facet_circulator fcirc, done;
   Alpha_status_iterator asf;
   NT alpha;
-
-  fcirc = incident_facets(c,i,j);
-  while (is_infinite(*fcirc) ) ++fcirc; //skip infinite incident faces
-  done = fcirc;
   as.set_is_on_chull(false);
-  asf = (*fcirc).first->get_facet_status((*fcirc).second);
-  as.set_alpha_mid(asf->alpha_mid());  // initialise as.alpha_mid
-  as.set_alpha_max(asf->alpha_mid()); // and as.alpha->max to the same
+  
+  Cell_circulator ccirc, last;
+  ccirc = incident_cells(c,i,j);
+  last=ccirc;
+  while (is_infinite(ccirc) ) ++ccirc; //skip infinite incident cells
+  alpha = (*ccirc).get_alpha();
+  as.set_alpha_mid(alpha); // initialise as.alpha_mid to alpha value of an incident cell
+  as.set_alpha_max(alpha); // same for as.alpha_max 
+  while (++ccirc != last) 
+  {
+    if (!is_infinite(ccirc)) {
+      alpha = (*ccirc).get_alpha();
+      if (alpha < as.alpha_mid())
+        as.set_alpha_mid(alpha);
+      if ( ! as.is_on_chull()) {
+        if( as.alpha_max() <  alpha)
+          as.set_alpha_max( alpha );
+      }
+    }
+  }   
+  
+  fcirc = incident_facets(c,i,j);
+  done = fcirc;  
   do {
     if (!is_infinite(*fcirc)) {
       asf = (*fcirc).first->get_facet_status((*fcirc).second);
-      if (get_mode() == GENERAL && asf->is_Gabriel()) 
-	alpha = asf->alpha_min();
-      else alpha = asf->alpha_mid();
-      if (alpha < as.alpha_mid())  as.set_alpha_mid(alpha) ;
-      if ( ! asf->is_on_chull()) { 
-	if( as.alpha_max() <  asf->alpha_max())
-	  as.set_alpha_max( asf->alpha_max());
+      if (get_mode() == GENERAL && asf->is_Gabriel()){
+        alpha = asf->alpha_min();
+        if (alpha < as.alpha_mid())  as.set_alpha_mid(alpha);
       }
-      else{
-	as.set_is_on_chull(true);
-      }
+      if (asf->is_on_chull())
+        as.set_is_on_chull(true);
     }
-  } while (++fcirc != done);
+  } while (++fcirc != done);  
 
-    // initialize alphamin
+  // initialize alphamin
   if ( get_mode() == GENERAL){
     if (is_Gabriel(c,i,j)) {
       alpha = squared_radius(c,i,j);

@@ -1,8 +1,9 @@
+# Created by the script cgal_create_cmake_script
 # This is the CMake script for compiling a CGAL application.
 
-project( Segment_Delaunay_graph_2 ) 
+project (Segment_voronoi_2)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4.5)
+cmake_minimum_required(VERSION 2.4.5)
 
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
@@ -10,43 +11,50 @@ if ( COMMAND cmake_policy )
   cmake_policy( SET CMP0003 NEW )  
 endif()
 
-find_package(CGAL COMPONENTS Qt3 Core )
-include( ${CGAL_USE_FILE} )
+find_package(CGAL COMPONENTS Qt4 Core)
 
-find_package(Qt3-patched)
-# FindQt3-patched.cmake is FindQt3.cmake patched by CGAL developers, so
-# that it can be used together with FindQt4: all its variables are prefixed
-# by "QT3_" instead of "QT_".
+include(${CGAL_USE_FILE})
 
-if ( CGAL_FOUND AND CGAL_Qt3_FOUND AND QT3_FOUND )
-
-  include_directories (BEFORE ./include)
-
-  # use the Qt MOC preprocessor on classes that derives from QObject
-  include( Qt3Macros-patched )
-
-  qt3_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/qt_file_toolbar.h" qt_file_toolbar.moc )
-  qt3_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/qt_layers_toolbar.h" qt_layers_toolbar.moc )
-  qt3_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/my_window.h" my_window.moc )
+set( QT_USE_QTXML    TRUE )
+set( QT_USE_QTMAIN   TRUE )
+set( QT_USE_QTSCRIPT  TRUE )
+set( QT_USE_QTOPENGL  TRUE )
 
 
-  # The executable itself.
-  add_executable  ( polygon_delaunay_graph_2
-                    polygon_delaunay_graph_2.cpp  
-                    qt_file_toolbar.moc  qt_layers_toolbar.moc  my_window.moc )
+find_package(Qt4)
+include_directories (BEFORE ../../include)
+include_directories (BEFORE ./include)
 
-  add_executable  ( segment_delaunay_graph_2
-                    segment_delaunay_graph_2.cpp
-                    qt_file_toolbar.moc  qt_layers_toolbar.moc  my_window.moc )
 
-  target_link_libraries( polygon_delaunay_graph_2  ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} )
+if ( CGAL_FOUND AND CGAL_Qt4_FOUND AND QT4_FOUND )
 
-  target_link_libraries( segment_delaunay_graph_2  ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} )
+include(${QT_USE_FILE})
 
-  add_to_cached_list( CGAL_EXECUTABLE_TARGETS polygon_delaunay_graph_2 )
-  add_to_cached_list( CGAL_EXECUTABLE_TARGETS segment_delaunay_graph_2 )
+#--------------------------------
+# The "Segment Voronoi" demo: Segment_voronoi_2
+#--------------------------------
+# UI files (Qt Designer files)
+qt4_wrap_ui( CDT_UI_FILES Segment_voronoi_2.ui )
+
+# qrc files (resources files, that contain icons, at least)
+qt4_add_resources ( CDT_RESOURCE_FILES ./Segment_voronoi_2.qrc )
+
+# use the Qt MOC preprocessor on classes that derives from QObject
+qt4_generate_moc( Segment_voronoi_2.cpp Segment_voronoi_2.moc )
+
+# The executable itself.
+add_executable  ( Segment_voronoi_2 Segment_voronoi_2.cpp Segment_voronoi_2.moc ${CDT_UI_FILES} ${CDT_RESOURCE_FILES} )
+
+add_to_cached_list( CGAL_EXECUTABLE_TARGETS Segment_voronoi_2 )
+
+# Link with Qt libraries
+target_link_libraries( Segment_voronoi_2 ${QT_LIBRARIES} )
+# Link with CGAL
+target_link_libraries( Segment_voronoi_2 ${CGAL_LIBRARIES}  ${CGAL_3RD_PARTY_LIBRARIES})
+
+
 else()
 
-  message(STATUS "NOTICE: This demo requires CGAL,, Core, and Qt3, and will not be compiled.")
+  message(STATUS "NOTICE: This demo requires CGAL and Qt4, and will not be compiled.")
 
 endif()

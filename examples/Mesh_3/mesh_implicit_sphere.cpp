@@ -20,29 +20,23 @@ typedef CGAL::Mesh_complex_3_in_triangulation_3<Tr> C3t3;
 
 // Criteria
 typedef CGAL::Mesh_criteria_3<Tr> Mesh_criteria;
-typedef Mesh_criteria::Facet_criteria Facet_criteria;
-typedef Mesh_criteria::Cell_criteria Cell_criteria;
+
+// To avoid verbose function and named parameters call
+using namespace CGAL::parameters;
 
 // Function
 FT sphere_function (const Point& p)
-{
-  const FT x2=p.x()*p.x();
-  const FT y2=p.y()*p.y();
-  const FT z2=p.z()*p.z();
-
-  return x2+y2+z2-1;
-}
+{ return CGAL::squared_distance(p, Point(CGAL::ORIGIN))-1; }
 
 int main()
 {
-  // Domain (Warning: Sphere_3 constructor uses square radius !)
+  // Domain (Warning: Sphere_3 constructor uses squared radius !)
   Mesh_domain domain(sphere_function, K::Sphere_3(CGAL::ORIGIN, 2.));
 
-  // Criteria
-  Facet_criteria facet_criteria(30, 0.1, 0.025); // angle, size, approximation
-  Cell_criteria cell_criteria(3, 0.1); // radius-edge ratio, size
-  Mesh_criteria criteria(facet_criteria, cell_criteria);
-
+  // Mesh criteria
+  Mesh_criteria criteria(facet_angle=30, facet_size=0.1, facet_distance=0.025,
+                         cell_radius_edge=2, cell_size=0.1);
+  
   // Mesh generation
   C3t3 c3t3 = CGAL::make_mesh_3<C3t3>(domain, criteria);
 

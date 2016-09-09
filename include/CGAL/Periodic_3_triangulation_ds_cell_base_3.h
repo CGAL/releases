@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_cell_base_3.h $
-// $Id: Periodic_3_triangulation_ds_cell_base_3.h 50088 2009-06-26 08:25:50Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_cell_base_3.h $
+// $Id: Periodic_3_triangulation_ds_cell_base_3.h 51548 2009-08-27 09:33:40Z mcaroli $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -27,7 +27,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/triangulation_assertions.h>
-#include <CGAL/Dummy_tds_3.h>
+#include <CGAL/internal/Dummy_tds_3.h>
 
 
 #define _off0() (off&7)
@@ -52,35 +52,43 @@ public:
   typedef typename TDS::Cell_handle    Cell_handle;
   typedef typename TDS::Vertex         Vertex;
   typedef typename TDS::Cell           Cell;
+  typedef typename TDS::Cell_data      TDS_data;
 
   template <typename TDS2>
   struct Rebind_TDS {
     typedef Periodic_3_triangulation_ds_cell_base_3<TDS2> Other;
   };
 
-  Periodic_3_triangulation_ds_cell_base_3() : _in_conflict_flag(0),
-      _additional_flag(0), off(0) {
-    set_vertices();
-    set_neighbors();
-  }
+  Periodic_3_triangulation_ds_cell_base_3() : _additional_flag(0), off(0) {}
 
   Periodic_3_triangulation_ds_cell_base_3(
       const Vertex_handle& v0, const Vertex_handle& v1,
-      const Vertex_handle& v2, const Vertex_handle& v3) :
-      _in_conflict_flag(0), _additional_flag(0), off(0) {
-    set_vertices(v0, v1, v2, v3);
-    set_neighbors();
-  }
+      const Vertex_handle& v2, const Vertex_handle& v3)
+#ifndef CGAL_CFG_ARRAY_MEMBER_INITIALIZATION_BUG
+    : V((Vertex_handle[4]) {v0, v1, v2, v3}),
+      _additional_flag(0), off(0) {}
+#else
+    : _additional_flag(0), off(0) {
+      set_vertices(v0, v1, v2, v3);
+      set_neighbors();
+    }
+#endif
 
   Periodic_3_triangulation_ds_cell_base_3(
       const Vertex_handle& v0, const Vertex_handle& v1,
       const Vertex_handle& v2, const Vertex_handle& v3,
       const Cell_handle&   n0, const Cell_handle&   n1,
-      const Cell_handle&   n2, const Cell_handle&   n3) :
-      _in_conflict_flag(0), _additional_flag(0), off(0) {
+      const Cell_handle&   n2, const Cell_handle&   n3) 
+#ifndef CGAL_CFG_ARRAY_MEMBER_INITIALIZATION_BUG
+    : N((Cell_handle[4]) {n0, n1, n2, n3}),
+      V((Vertex_handle[4]) {v0, v1, v2, v3}),
+      _additional_flag(0), off(0) {}
+#else
+    : _additional_flag(0), off(0) {
     set_vertices(v0, v1, v2, v3);
     set_neighbors(n0, n1, n2, n3);
   }
+#endif
 
   // ACCESS FUNCTIONS
 
@@ -249,15 +257,9 @@ public:
   void * for_compact_container() const { return N[0].for_compact_container(); }
   void * & for_compact_container()     { return N[0].for_compact_container(); }
 
-  // Conflict flag access functions.
-  // This should become a property map or something at some point.
-  void set_in_conflict_flag(unsigned char f) {
-    CGAL_triangulation_assertion(f < 4);
-    _in_conflict_flag = f;
-  }
-  unsigned char get_in_conflict_flag() const {
-    return _in_conflict_flag;
-  }
+  // TDS internal data access functions.
+  TDS_data& tds_data() { return _tds_data; }
+  const TDS_data& tds_data() const { return _tds_data; }
 
   // TODO: Get rid of this flag! Used in convert_to_1_cover.
   // Either use the conflict flag or a std::map.
@@ -272,7 +274,7 @@ public:
 private:
   Cell_handle   N[4];
   Vertex_handle V[4];
-  unsigned char _in_conflict_flag:2;
+  TDS_data _tds_data;
   unsigned char _additional_flag:2;
   // 3 respective bits are the offset in x,y and z
   // right to left: bit[0]-bit[2]: vertex(0),
@@ -307,7 +309,7 @@ template <>
 class Periodic_3_triangulation_ds_cell_base_3<void>
 {
 public:
-  typedef Dummy_tds_3                   Triangulation_data_structure;
+  typedef internal::Dummy_tds_3                  Triangulation_data_structure;
   typedef Triangulation_data_structure::Vertex_handle   Vertex_handle;
   typedef Triangulation_data_structure::Cell_handle     Cell_handle;
   template <typename TDS2>

@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://fcacciola@scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/edge_collapse.h $
-// $Id: edge_collapse.h 49869 2009-06-10 15:51:32Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Edge_collapse_visitor_base.h $
+// $Id: Edge_collapse_visitor_base.h 52628 2009-10-20 08:59:26Z lrineau $
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
@@ -42,21 +42,21 @@ struct Edge_collapse_visitor_base
   typedef typename Kernel_traits<Point>::Kernel   Kernel ;
   typedef typename Kernel::FT                     FT ;
   
-  virtual void OnStarted( ECM& ) const {} 
+  void OnStarted( ECM& ) {}
   
-  virtual void OnFinished ( ECM& ) const {} 
+  void OnFinished ( ECM& ) {}
   
-  virtual void OnStopConditionReached( Profile const& ) const {} 
+  void OnStopConditionReached( Profile const& ) {}
   
-  virtual void OnCollected( Profile const&, boost::optional<FT> const& ) const {}                
+  void OnCollected( Profile const&, boost::optional<FT> const& ) {}
   
-  virtual void OnSelected( Profile const&, boost::optional<FT> const&, size_type, size_type ) const {}                
+  void OnSelected( Profile const&, boost::optional<FT> const&, size_type, size_type ) {}
   
-  virtual void OnCollapsing(Profile const&, boost::optional<Point> const& ) const {}                
+  void OnCollapsing(Profile const&, boost::optional<Point> const& ) {}
   
-  virtual void OnCollapsed( Profile const&, vertex_descriptor const& ) const {}
+  void OnCollapsed( Profile const&, vertex_descriptor const& ) {}
 
-  virtual void OnNonCollapsable(Profile const& ) const {}                
+   void OnNonCollapsable(Profile const& ) {}                
 } ;
 
 } // namespace Surface_mesh_simplification

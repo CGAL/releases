@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Triangulation_cell_base_3.h $
-// $Id: Triangulation_cell_base_3.h 48845 2009-04-21 18:34:14Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Triangulation_cell_base_3.h $
+// $Id: Triangulation_cell_base_3.h 51303 2009-08-17 15:11:03Z spion $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion
@@ -52,14 +52,14 @@ public:
   Triangulation_cell_base_3()
     : Cb() {}
 
-  Triangulation_cell_base_3(const Vertex_handle& v0, const Vertex_handle& v1,
-                            const Vertex_handle& v2, const Vertex_handle& v3)
+  Triangulation_cell_base_3(Vertex_handle v0, Vertex_handle v1,
+                            Vertex_handle v2, Vertex_handle v3)
     : Cb(v0, v1, v2, v3) {}
 
-  Triangulation_cell_base_3(const Vertex_handle& v0, const Vertex_handle& v1,
-                            const Vertex_handle& v2, const Vertex_handle& v3,
-                            const Cell_handle&   n0, const Cell_handle&   n1,
-                            const Cell_handle&   n2, const Cell_handle&   n3)
+  Triangulation_cell_base_3(Vertex_handle v0, Vertex_handle v1,
+                            Vertex_handle v2, Vertex_handle v3,
+                            Cell_handle   n0, Cell_handle   n1,
+                            Cell_handle   n2, Cell_handle   n3)
     : Cb(v0, v1, v2, v3, n0, n1, n2, n3) {}
 
   Point_iterator hidden_points_begin() const { return hidden_points_end(); }

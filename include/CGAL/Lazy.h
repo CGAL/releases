@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Lazy.h $
-// $Id: Lazy.h 48759 2009-04-10 21:55:24Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Filtered_kernel/include/CGAL/Lazy.h $
+// $Id: Lazy.h 52580 2009-10-16 08:13:23Z stayeb $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -29,6 +29,8 @@
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/min_max_n.h>
 #include <CGAL/Origin.h>
+#include <CGAL/Bbox_2.h>
+#include <CGAL/Bbox_3.h>
 #include <vector>
 #include <CGAL/Default.h>
 
@@ -93,7 +95,8 @@ CGAL_LAZY_FORWARD(Return_base_tag)
 CGAL_LAZY_FORWARD(Null_vector)
 CGAL_LAZY_FORWARD(Origin)
 CGAL_LAZY_FORWARD(Orientation)
-
+CGAL_LAZY_FORWARD(Bbox_2)
+CGAL_LAZY_FORWARD(Bbox_3)
 
 
 
@@ -843,6 +846,14 @@ struct Approx_converter
   const Null_vector&
   operator()(const Null_vector& n) const
   { return n; }
+  
+  const Bbox_2&
+  operator()(const Bbox_2& b) const
+  { return b; }
+  
+  const Bbox_3&
+  operator()(const Bbox_3& b) const
+  { return b; }
 };
 
 template < typename K1, typename K2 >
@@ -860,6 +871,14 @@ struct Exact_converter
   const Null_vector&
   operator()(const Null_vector& n) const
   { return n; }
+  
+  const Bbox_2&
+  operator()(const Bbox_2& b) const
+  { return b; }
+  
+  const Bbox_3&
+  operator()(const Bbox_3& b) const
+  { return b; }
 };
 
 //____________________________________________________________

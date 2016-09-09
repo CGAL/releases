@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/GraphicsView/include/CGAL/Qt/GraphicsViewPolygonWithHolesInput.h $
-// $Id: GraphicsViewPolygonWithHolesInput.h 47820 2009-01-26 10:39:57Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/GraphicsView/include/CGAL/Qt/GraphicsViewPolygonWithHolesInput.h $
+// $Id: GraphicsViewPolygonWithHolesInput.h 51008 2009-07-31 18:40:19Z fcacciola $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -20,6 +20,8 @@
 
 #ifndef CGAL_QT_GRAPHICS_VIEW_POLYGON_WITH_HOLES_INPUT_H
 #define CGAL_QT_GRAPHICS_VIEW_POLYGON_WITH_HOLES_INPUT_H
+
+#include <list>
 
 #include <QGraphicsView>
 #include <QGraphicsItem>
@@ -29,7 +31,7 @@
 #include <CGAL/Polygon_with_holes_2.h>
 #include <CGAL/Qt/GraphicsViewInput.h>
 #include <CGAL/Qt/PolygonWithHolesGraphicsItem.h>
-#include <CGAL/Qt/ProcessInput.h>
+#include <CGAL/Qt/GraphicsViewPolylineInput.h>
 #include <CGAL/array.h>
 
 namespace CGAL {
@@ -134,7 +136,7 @@ GraphicsViewPolygonWithHolesInput<K>::processInput(CGAL::Object o)
 	}
       }
       holes.push_back(polygon);
-      std::list<Polygon>::iterator it = holes.begin();
+      typename std::list<Polygon>::iterator it = holes.begin();
       it++;
       pwh = Polygon_with_holes(holes.front(), it, holes.end());
     }

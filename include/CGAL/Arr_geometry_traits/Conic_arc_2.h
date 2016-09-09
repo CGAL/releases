@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_arc_2.h $
-// $Id: Conic_arc_2.h 48716 2009-04-08 11:40:21Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_arc_2.h $
+// $Id: Conic_arc_2.h 51304 2009-08-17 15:37:20Z mkerber $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -1667,10 +1667,9 @@ protected:
       {
         for (j = 0; j < n_ys; j++)
         {
-          if (CGAL::compare (ys[j], 
-                             -(nt_traits.convert(_t) * xs[i] + 
-                               nt_traits.convert(_v)) /
-                             nt_traits.convert(_two*_s)) == EQUAL)
+          if (CGAL::compare (nt_traits.convert(_two*_s) * ys[j],
+                             -(nt_traits.convert(_t) * xs[i] +
+                               nt_traits.convert(_v))) == EQUAL) 
           {
             ps[n] = Point_2 (xs[i], ys[j]);
             n++;

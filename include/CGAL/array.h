@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/array.h $
-// $Id: array.h 50707 2009-07-20 08:52:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/array.h $
+// $Id: array.h 51051 2009-08-04 15:03:23Z spion $
 //
 // Author(s)     : Sylvain Pion
 
@@ -59,9 +59,22 @@ using cpp0x::array;
 // I proposed it for Boost.Array, but it has not been integrated so far.
 // See the thread starting at
 // http://lists.boost.org/Archives/boost/2006/08/109003.php
+//
+// C++0x has it under discussion here :
+// http://www.open-std.org/jtc1/sc22/wg21/docs/lwg-active.html#851
 
 // Hopefully C++0x will fix this properly with initializer_lists.
 // So, it's temporary, therefore I do not document it and keep it internal.
+
+// NOTE : The above is actually untrue !  It is possible to do :
+//     struct S2 {
+//       typedef boost::array<M,2> Ar;
+//       Ar m;
+//       S2 (const M&a) : m ((Ar) { { a, a } }) {}
+//     };
+// without spurious copies...  Except VC++ does not eat it :-(
+
+// It's also untrue that this is not documented...  It is !
 
 #ifndef CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES
 

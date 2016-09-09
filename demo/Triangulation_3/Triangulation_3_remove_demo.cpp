@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/demo/Triangulation_3/Triangulation_3_remove_demo.cpp $
-// $Id: Triangulation_3_remove_demo.cpp 47439 2008-12-15 09:44:03Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/demo/Triangulation_3/Triangulation_3_remove_demo.cpp $
+// $Id: Triangulation_3_remove_demo.cpp 52881 2009-11-05 12:29:42Z spion $
 //
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -31,9 +31,7 @@ int main()
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 
-#include <CGAL/Triangulation_3.h>
 #include <CGAL/Delaunay_triangulation_3.h>
-#include <CGAL/Triangulation_hierarchy_3.h>
 
 #include <CGAL/IO/Triangulation_geomview_ostream_3.h>
 
@@ -43,17 +41,12 @@ int main()
 #include <cassert>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
+typedef CGAL::Delaunay_triangulation_3<K, CGAL::Fast_location>  Dt;
 
-typedef CGAL::Triangulation_vertex_base_3<K>             Vb;
-typedef CGAL::Triangulation_hierarchy_vertex_base_3<Vb>  Vbh;
-typedef CGAL::Triangulation_data_structure_3<Vbh>        Tds;
-typedef CGAL::Delaunay_triangulation_3<K,Tds>            Dt;
-typedef CGAL::Triangulation_hierarchy_3<Dt>              Dh;
-
-typedef Dh::Vertex_iterator Vertex_iterator;
-typedef Dh::Vertex_handle   Vertex_handle;
-typedef Dh::Cell_handle     Cell_handle;
-typedef Dh::Point           Point;
+typedef Dt::Vertex_iterator Vertex_iterator;
+typedef Dt::Vertex_handle   Vertex_handle;
+typedef Dt::Cell_handle     Cell_handle;
+typedef Dt::Point           Point;
 
 //////////////////////
 // VISU GEOMVIEW
@@ -112,7 +105,7 @@ int main()
   gv.set_wired(true);
   gv.clear();
 
-  Dh T;
+  Dt T;
 
   std::cout <<"          Inserting points" << std::endl ;
   int x,y,z;

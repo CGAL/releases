@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/Polynomial/misc.h $
-// $Id: misc.h 47254 2008-12-06 21:18:27Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/misc.h $
+// $Id: misc.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 // Author(s)     : Michael Hemmer 
@@ -24,7 +24,7 @@
 #include <CGAL/Polynomial/fwd.h>
 
 namespace CGAL{
-namespace CGALi{
+namespace internal{
 
 // template meta function Innermost_coefficient_type
 // returns the tpye of the innermost coefficient 
@@ -42,7 +42,7 @@ struct Dimension<Polynomial<Coefficient_type> > {
     static const int value = Dimension<Coefficient_type>::value + 1 ; 
 };
 
-} // namespace CGALi
+} // namespace internal
 } // namespace CGAL
 
 #endif // CGAL_POLYNOMIAL_MISC_H

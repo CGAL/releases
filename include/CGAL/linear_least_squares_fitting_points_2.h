@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://gankit@scm.gforge.inria.fr/svn/cgal/trunk/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_triangles.h $
-// $Id: linear_least_squares_fitting_2.h 37882 2007-04-03 15:15:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_points_2.h $
+// $Id: linear_least_squares_fitting_points_2.h 52628 2009-10-20 08:59:26Z lrineau $
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta
 
@@ -29,7 +29,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 // Fits a line to a 2D point set.
 // Returns a fitting quality (1 - lambda_min/lambda_max):
@@ -82,7 +82,7 @@ linear_least_squares_fitting_2(InputIterator first,
   // eigen vectors are sorted in accordance.
   std::pair<FT,FT> eigen_values;
   std::pair<Vector,Vector> eigen_vectors;
-  CGALi::eigen_symmetric_2<K>(covariance, eigen_vectors, eigen_values);
+  internal::eigen_symmetric_2<K>(covariance, eigen_vectors, eigen_values);
 
   // check unicity and build fitting line accordingly
   if(eigen_values.first != eigen_values.second)
@@ -101,7 +101,7 @@ linear_least_squares_fitting_2(InputIterator first,
   } 
 } // end linear_least_squares_fitting_2 for point set
 
-} // end namespace CGALi
+} // end namespace internal
 
 CGAL_END_NAMESPACE
 

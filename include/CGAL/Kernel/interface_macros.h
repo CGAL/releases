@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Kernel/interface_macros.h $
-// $Id: interface_macros.h 46359 2008-10-20 14:44:37Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Kernel/interface_macros.h $
+// $Id: interface_macros.h 51491 2009-08-25 14:48:41Z lrineau $
 // 
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion, Susan Hert
@@ -105,6 +105,8 @@ CGAL_Kernel_pred(Collinear_3,
 		 collinear_3_object)
 CGAL_Kernel_pred(Compare_angle_with_x_axis_2,
 		 compare_angle_with_x_axis_2_object)
+CGAL_Kernel_pred(Compare_dihedral_angle_3,
+		 compare_dihedral_angle_3_object)
 CGAL_Kernel_pred(Compare_distance_2,
 		 compare_distance_2_object)
 CGAL_Kernel_pred(Compare_distance_3,

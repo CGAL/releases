@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_criteria_3.h $
-// $Id: Mesh_criteria_3.h 51555 2009-08-27 13:10:21Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_criteria_3.h $
+// $Id: Mesh_criteria_3.h 52705 2009-10-23 10:27:15Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -26,39 +26,88 @@
 #ifndef CGAL_MESH_CRITERIA_3_H
 #define CGAL_MESH_CRITERIA_3_H
 
-//#include <CGAL/Surface_mesh_default_criteria_3.h>
+#include <CGAL/Mesh_3/global_parameters.h>
 #include <CGAL/Mesh_facet_criteria_3.h>
 #include <CGAL/Mesh_cell_criteria_3.h>
 
 namespace CGAL {
+  
+namespace parameters {
+  BOOST_PARAMETER_NAME( (facet_angle, tag) facet_angle_ )
+  BOOST_PARAMETER_NAME( (facet_size, tag) facet_size_ )
+  BOOST_PARAMETER_NAME( (facet_distance, tag) facet_distance_ )
+  BOOST_PARAMETER_NAME( (cell_radius_edge, tag) cell_radius_edge_ )
+  BOOST_PARAMETER_NAME( (cell_size, tag) cell_size_ )
+} // end namespace parameters
+  
+namespace internal {
 
-// Class Mesh_criteria_3
-// Provides default meshing criteria to drive Mesh_3 process
-template <class Tr>
-class Mesh_criteria_3
+// Class Mesh_criteria_3_impl
+template <class Tr, typename FacetCriteria, typename CellCriteria>
+class Mesh_criteria_3_impl
 {
 public:
-  typedef Mesh_facet_criteria_3<Tr>     Facet_criteria;
-  typedef Mesh_cell_criteria_3<Tr>     Cell_criteria;
-
+  typedef FacetCriteria     Facet_criteria;
+  typedef CellCriteria      Cell_criteria;
+  
   // Constructor
-  Mesh_criteria_3(const Facet_criteria& facet_criteria,
-                  const Cell_criteria& cell_criteria)
+  Mesh_criteria_3_impl(const Facet_criteria& facet_criteria,
+                       const Cell_criteria& cell_criteria)
     : facet_criteria_(facet_criteria)
     , cell_criteria_(cell_criteria) { };
-
-  // Destructor
-  ~Mesh_criteria_3() { };
-
+  
+  // This template constructor is not instantiated when named parameters
+  // are not used, so Facet_criteria and Cell_criteria construction from FT
+  // is not a problem
+  template <class ArgumentPack>
+  Mesh_criteria_3_impl(const ArgumentPack& args)
+    : facet_criteria_(args[parameters::facet_angle | 0],
+                      args[parameters::facet_size | 0],
+                      args[parameters::facet_distance | 0])
+    , cell_criteria_(args[parameters::cell_radius_edge | 0],
+                     args[parameters::cell_size | 0] )              { }
+  
   const Facet_criteria& facet_criteria() const { return facet_criteria_; };
   const Cell_criteria& cell_criteria() const { return cell_criteria_; };
-
+  
 private:
   Facet_criteria facet_criteria_;
   Cell_criteria cell_criteria_;
+  
+};  // end class Mesh_criteria_3_impl  
 
+} // end namespace internal
+  
+  
+  
+// Class Mesh_criteria_3
+// Provides default mesh criteria to drive Mesh_3 process
+template <class Tr,
+          typename FacetCriteria = Mesh_facet_criteria_3<Tr>,
+          typename CellCriteria = Mesh_cell_criteria_3<Tr> >
+class Mesh_criteria_3
+  : public internal::Mesh_criteria_3_impl<Tr, FacetCriteria, CellCriteria>
+{
+  typedef internal::Mesh_criteria_3_impl<Tr, FacetCriteria, CellCriteria> Base;
+  
+public:
+  typedef typename Base::Facet_criteria   Facet_criteria;
+  typedef typename Base::Cell_criteria    Cell_criteria;
+  
+  // Constructor
+  Mesh_criteria_3(const Facet_criteria& facet_criteria,
+                  const Cell_criteria& cell_criteria)
+    : Base(facet_criteria, cell_criteria) { };
+  
+  // For convenient constructor call (see examples)
+  BOOST_PARAMETER_CONSTRUCTOR(Mesh_criteria_3, (Base), parameters::tag,
+                              (optional (facet_angle_,*)
+                                        (facet_size_,*)
+                                        (facet_distance_,*)
+                                        (cell_radius_edge_,*)
+                                        (cell_size_,*)           ))
+  
 };  // end class Mesh_criteria_3
-
 
 }  // end namespace CGAL
 

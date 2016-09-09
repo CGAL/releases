@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Filtered_kernel.h $
-// $Id: Filtered_kernel.h 44541 2008-07-28 16:24:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Filtered_kernel/include/CGAL/Filtered_kernel.h $
+// $Id: Filtered_kernel.h 53184 2009-11-25 14:42:45Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -21,6 +21,7 @@
 #ifndef CGAL_FILTERED_KERNEL_H
 #define CGAL_FILTERED_KERNEL_H
 
+#include <CGAL/Filtered_kernel_fwd.h>
 #include <CGAL/basic.h>
 #include <CGAL/Filtered_predicate.h>
 #include <CGAL/Cartesian_converter.h>
@@ -29,11 +30,9 @@
 
 #include <CGAL/MP_Float.h>
 #include <CGAL/Quotient.h>
-#include <CGAL/Exact_type_selecter.h>
+#include <CGAL/internal/Exact_type_selector.h>
 
-#ifndef CGAL_NO_STATIC_FILTERS
-#  include <CGAL/Static_filters.h>
-#endif
+#include <CGAL/internal/Static_filters/Static_filters.h>
 
 // This file contains the definition of a generic kernel filter.
 //
@@ -44,7 +43,7 @@
 //   Having the global functions working is another story...
 // - The converters are more a property of the types rather than anything else,
 //   so maybe they should not be passed as template parameter, but use a
-//   traits-like mecanism ?
+//   traits-like mechanism ?
 
 CGAL_BEGIN_NAMESPACE
 
@@ -55,11 +54,13 @@ template < typename CK >
 struct Filtered_kernel_base
   : public CK
 {
-    typedef typename Exact_type_selecter<typename CK::RT>::Type  Exact_nt;
+    typedef typename internal::Exact_type_selector<typename CK::RT>::Type  Exact_nt;
     typedef Simple_cartesian<Exact_nt>                           Exact_kernel;
     typedef Simple_cartesian<Interval_nt_advanced>               Approximate_kernel;
     typedef Cartesian_converter<CK, Exact_kernel>                C2E;
     typedef Cartesian_converter<CK, Approximate_kernel>          C2F;
+
+    enum { Has_filtered_predicates = true };
 
     template < typename Kernel2 >
     struct Base {
@@ -89,10 +90,9 @@ struct Filtered_kernel_base
 
 };
 
-#ifndef CGAL_NO_STATIC_FILTERS
 template < typename CK >
 struct Static_filters_base
-  : public Static_filters< Filtered_kernel_base<CK> >
+  : public internal::Static_filters< Filtered_kernel_base<CK> >
 {
     template < typename Kernel2 >
     struct Base {
@@ -100,23 +100,34 @@ struct Static_filters_base
         typedef Static_filters_base<CK2>                   Type;
     };
 };
+
+#ifdef CGAL_NO_STATIC_FILTERS
+template < typename CK, bool UseStaticFilters = false >
+#else
+template < typename CK, bool UseStaticFilters = true >
 #endif
+struct Filtered_kernel_adaptor
+  : public Filtered_kernel_base<CK>
+{
+	enum { Has_static_filters = false };
+};
 
 template < typename CK >
-struct Filtered_kernel_adaptor
-#ifndef CGAL_NO_STATIC_FILTERS
+struct Filtered_kernel_adaptor<CK, true>
   : public Static_filters_base<CK>
-#else
-  : public Filtered_kernel_base<CK>
-#endif
-{};
+{
+	enum { Has_static_filters = true };
+};
 
-template <class CK>
+// UseStaticFilters has a default value, depending on
+// CGAL_NO_STATIC_FILTERS. See in <CGAL/Filtered_kernel_fwd.h>.
+template < typename CK, bool UseStaticFilters >
 struct Filtered_kernel
   : public Filtered_kernel_adaptor<
                Type_equality_wrapper<
-                   typename CK:: template Base< Filtered_kernel<CK> >::Type,
-                   Filtered_kernel<CK> > >
+                   typename CK:: template Base< Filtered_kernel<CK, UseStaticFilters> >::Type,
+                   Filtered_kernel<CK, UseStaticFilters> >,
+	       UseStaticFilters >
 {};
 
 CGAL_END_NAMESPACE

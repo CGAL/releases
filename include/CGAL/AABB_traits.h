@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: $
-// $Id: $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/AABB_tree/include/CGAL/AABB_traits.h $
+// $Id: AABB_traits.h 52944 2009-11-10 16:58:02Z stayeb $
 //
 //
 // Author(s) : Stéphane Tayeb, Pierre Alliez, Camille Wormser
@@ -22,8 +22,8 @@
 //
 //******************************************************************************
 
-#ifndef AABB_TRAITS_H_
-#define AABB_TRAITS_H_
+#ifndef CGAL_AABB_TRAITS_H_
+#define CGAL_AABB_TRAITS_H_
 
 #include <CGAL/Bbox_3.h>
 #include <CGAL/AABB_intersections.h>
@@ -273,4 +273,4 @@ AABB_traits<GT,P>::longest_axis(const Bounding_box& bbox)
 
 }  // end namespace CGAL
 
-#endif // AABB_TRAITS_H_
+#endif // CGAL_AABB_TRAITS_H_

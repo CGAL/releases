@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Filtered_bbox_circular_kernel_2.h $
-// $Id: Filtered_bbox_circular_kernel_2.h 46385 2008-10-21 11:54:39Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_2/include/CGAL/Filtered_bbox_circular_kernel_2.h $
+// $Id: Filtered_bbox_circular_kernel_2.h 51456 2009-08-24 17:10:04Z spion $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -32,7 +32,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template < class FilteredBboxKernel, class CircularKernel >
 struct Filtered_bbox_circular_kernel_base_ref_count : public CircularKernel
@@ -42,7 +42,7 @@ struct Filtered_bbox_circular_kernel_base_ref_count : public CircularKernel
   typedef CGAL::Line_arc_2<FilteredBboxKernel>               Line_arc_2;
   typedef CGAL::Circular_arc_point_2<FilteredBboxKernel>     Circular_arc_point_2;
 	
-  // The mecanism that allows to specify reference-counting or not.
+  // The mechanism that allows to specify reference-counting or not.
   template < typename T >
   struct Handle { typedef Handle_for<T>    type; };
 
@@ -68,7 +68,7 @@ struct Filtered_bbox_circular_kernel_base_ref_count : public CircularKernel
 
 };
 
-} // namespace CGALi
+} // namespace internal
 
 template < typename K_base, typename FbcKernel >
 struct Filtered_bbox_circular_kernel_type_equality_wrapper
@@ -83,7 +83,7 @@ struct Filtered_bbox_circular_kernel_type_equality_wrapper
 template < class CircularKernel >
 struct Filtered_bbox_circular_kernel_2
   : public Filtered_bbox_circular_kernel_type_equality_wrapper
-     < CGALi::Filtered_bbox_circular_kernel_base_ref_count
+     < internal::Filtered_bbox_circular_kernel_base_ref_count
          < Filtered_bbox_circular_kernel_2< CircularKernel >,
            typename CircularKernel:: template 
            Base<Filtered_bbox_circular_kernel_2< CircularKernel > >::Type

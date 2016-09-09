@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_zone_2.h $
-// $Id: Arrangement_zone_2.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_zone_2.h $
+// $Id: Arrangement_zone_2.h 51984 2009-09-20 16:18:10Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -66,15 +66,15 @@ protected:
   
   typedef Arr_traits_adaptor_2<Geometry_traits_2>        Traits_adaptor_2;
 
-  typedef typename Traits_adaptor_2::Arr_left_side_tag   Arr_left_side_tag;
-  typedef typename Traits_adaptor_2::Arr_bottom_side_tag Arr_bottom_side_tag;
-  typedef typename Traits_adaptor_2::Arr_top_side_tag    Arr_top_side_tag;
-  typedef typename Traits_adaptor_2::Arr_right_side_tag  Arr_right_side_tag;
+  typedef typename Traits_adaptor_2::Arr_left_side_category   Arr_left_side_category;
+  typedef typename Traits_adaptor_2::Arr_bottom_side_category Arr_bottom_side_category;
+  typedef typename Traits_adaptor_2::Arr_top_side_category    Arr_top_side_category;
+  typedef typename Traits_adaptor_2::Arr_right_side_category  Arr_right_side_category;
 
   BOOST_MPL_ASSERT(
       (typename 
-       Arr_sane_identified_tagging< Arr_left_side_tag, Arr_bottom_side_tag, 
-       Arr_top_side_tag, Arr_right_side_tag >::result)
+       Arr_sane_identified_tagging< Arr_left_side_category, Arr_bottom_side_category, 
+       Arr_top_side_category, Arr_right_side_category >::result)
   );
 
 public:
@@ -93,8 +93,8 @@ public:
 protected:
 
   typedef typename Arr_are_all_sides_oblivious_tag< 
-                     Arr_left_side_tag, Arr_bottom_side_tag, 
-                     Arr_top_side_tag, Arr_right_side_tag >::result
+                     Arr_left_side_category, Arr_bottom_side_category, 
+                     Arr_top_side_category, Arr_right_side_category >::result
   Are_all_sides_oblivious_tag;
   
   typedef typename Arrangement_2::Vertex_const_handle    Vertex_const_handle;

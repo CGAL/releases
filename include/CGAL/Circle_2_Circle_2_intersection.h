@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_2/include/CGAL/Circle_2_Circle_2_intersection.h $
-// $Id: Circle_2_Circle_2_intersection.h 46250 2008-10-13 20:35:32Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Circle_2_Circle_2_intersection.h $
+// $Id: Circle_2_Circle_2_intersection.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -31,7 +31,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 bool
@@ -47,7 +47,7 @@ do_intersect(const typename K::Circle_2 & circ1,
     return !(FT(4)*sr1*sr2 < temp*temp);
 }
 
-} // namespace CGALi
+} // namespace internal
 
 template <class K>
 inline

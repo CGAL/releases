@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Dimension.h $
-// $Id: Dimension.h 42932 2008-04-17 10:13:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Dimension.h $
+// $Id: Dimension.h 51456 2009-08-24 17:10:04Z spion $
 //
 // Author(s)     : Sylvain Pion
 
@@ -37,7 +37,7 @@ struct Dimension_tag
 struct Dynamic_dimension_tag {};
 
 
-namespace CGALi {
+namespace internal {
 
   template < typename D >
   struct Dim_value {
@@ -47,14 +47,14 @@ namespace CGALi {
   template <>
   struct Dim_value <Dynamic_dimension_tag> {};
 
-} // namespace CGALi
+} // namespace internal
 
 
 // Ambient_dimension gives access to the dimension of the ambient space of an object.
 
 template < typename T, typename K = typename Kernel_traits<T>::Kernel >
 struct Ambient_dimension
-  : public CGALi::Dim_value< typename K::template Ambient_dimension<T>::type >
+  : public internal::Dim_value< typename K::template Ambient_dimension<T>::type >
 {
   typedef typename K::template Ambient_dimension<T>::type type;
 };
@@ -64,7 +64,7 @@ struct Ambient_dimension
 
 template < typename T, typename K = typename Kernel_traits<T>::Kernel >
 struct Feature_dimension
-  : public CGALi::Dim_value< typename K::template Feature_dimension<T>::type >
+  : public internal::Dim_value< typename K::template Feature_dimension<T>::type >
 {
   typedef typename K::template Feature_dimension<T>::type type;
 };

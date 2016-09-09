@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://afabri@scm.gforge.inria.fr/svn/cgal/trunk/Polynomial/include/CGAL/Polynomial/Fraction_traits.h $
-// $Id: Fraction_traits.h 44820 2008-08-07 09:49:32Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/Coercion_traits.h $
+// $Id: Coercion_traits.h 52628 2009-10-20 08:59:26Z lrineau $
 //
 //
 // Author(s)     :  Michael Hemmer <hemmer@mpi-inf.mpg.de>
@@ -42,7 +42,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi{
+namespace internal{
 
 // A has less variables than B
 template <typename A, typename B, bool less >
@@ -106,19 +106,19 @@ class Coercion_traits_for_polynomial
   : public Coercion_traits_for_polynomial_equal_d
    < A , B , Dimension<A>::value, Dimension<B>::value >{};
 
-}// namespace CGALi 
+}// namespace internal 
 
 template <class A,class B>
 class Coercion_traits_for_level< Polynomial<A> , Polynomial<B>, CTL_POLYNOMIAL >
-  :public CGALi::Coercion_traits_for_polynomial< Polynomial<A>, Polynomial<B> >
+  :public internal::Coercion_traits_for_polynomial< Polynomial<A>, Polynomial<B> >
 {};
 template <class A,class B>
 class Coercion_traits_for_level< Polynomial<A> , B , CTL_POLYNOMIAL >
-  :public CGALi::Coercion_traits_for_polynomial< Polynomial<A>, B >
+  :public internal::Coercion_traits_for_polynomial< Polynomial<A>, B >
 {};
 template <class A,class B>
 class Coercion_traits_for_level< A , Polynomial<B> , CTL_POLYNOMIAL >
-  :public CGALi::Coercion_traits_for_polynomial< A , Polynomial<B> >
+  :public internal::Coercion_traits_for_polynomial< A , Polynomial<B> >
 {};
 
 

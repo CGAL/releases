@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
-// $Id: global_functions_internal_3.h 50420 2009-07-07 10:33:38Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
+// $Id: global_functions_internal_3.h 52284 2009-10-13 08:34:43Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -29,7 +29,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <typename K>
 inline
@@ -258,6 +258,62 @@ collinear_are_strictly_ordered_along_line(
   return k.collinear_are_strictly_ordered_along_line_3_object()(p, q, r);
 }
 
+
+template < class K >
+inline
+typename K::Comparison_result
+compare_dihedral_angle(const typename K::Point_3& a1,
+                       const typename K::Point_3& b1, 
+                       const typename K::Point_3& c1,
+                       const typename K::Point_3& d1, 
+                       const typename K::Point_3& a2, 
+                       const typename K::Point_3& b2, 
+                       const typename K::Point_3& c2,
+                       const typename K::Point_3& d2,
+                       const K& k)
+{
+  return k.compare_dihedral_angle_3_object()(a1, b1, c1, d1, a2, b2, c2, d2);
+}
+
+template < class K >
+inline
+typename K::Comparison_result
+compare_dihedral_angle(const typename K::Point_3& a1,
+                       const typename K::Point_3& b1, 
+                       const typename K::Point_3& c1,
+                       const typename K::Point_3& d1, 
+                       const typename K::FT& cosine,
+                       const K& k)
+{
+  return k.compare_dihedral_angle_3_object()(a1, b1, c1, d1, cosine);
+}
+
+template < class K >
+inline
+typename K::Comparison_result
+compare_dihedral_angle(const typename K::Vector_3& ab1, 
+                       const typename K::Vector_3& ac1,
+                       const typename K::Vector_3& ad1,
+                       const typename K::Vector_3& ab2,
+                       const typename K::Vector_3& ac2,
+                       const typename K::Vector_3& ad2,
+                       const K& k)
+{
+  return k.compare_dihedral_angle_3_object()(ab1, ac1, ad1, ab2, ac2, ad2);
+}
+
+template < class K >
+inline
+typename K::Comparison_result
+compare_dihedral_angle(const typename K::Vector_3& ab1, 
+                       const typename K::Vector_3& ac1,
+                       const typename K::Vector_3& ad1,
+                       const typename K::FT& cosine,
+                       const K& k)
+{
+  return k.compare_dihedral_angle_3_object()(ab1, ac1, ad1, cosine);
+}
+
 template < class K >
 inline
 typename K::Comparison_result
@@ -278,6 +334,16 @@ compare_squared_distance(const typename K::Point_3 &p,
 		         const K& k)
 {
   return k.compare_squared_distance_3_object()(p, q, d2);
+}
+
+template < class K >
+inline
+typename K::Comparison_result
+compare_squared_radius(const typename K::Point_3 &p,
+		       const typename K::FT &sr,
+		       const K& k)
+{
+  return k.compare_squared_radius_3_object()(p, sr);
 }
 
 template < class K >
@@ -836,7 +902,7 @@ are_negative_oriented(const typename K::Point_3 &p,
                       const typename K::Point_3 &r,
                       const typename K::Point_3 &s, const K &k)
 {
-  return CGALi::orientation(p, q, r, s, k) == NEGATIVE;
+  return internal::orientation(p, q, r, s, k) == NEGATIVE;
 }
 
 template <typename K>
@@ -847,7 +913,7 @@ are_positive_oriented(const typename K::Point_3 &p,
                       const typename K::Point_3 &r,
                       const typename K::Point_3 &s, const K &k)
 {
-  return CGALi::orientation(p, q, r, s, k) == POSITIVE;
+  return internal::orientation(p, q, r, s, k) == POSITIVE;
 }
 
 template < class K >
@@ -857,10 +923,10 @@ lexicographically_xyz_smaller_or_equal(const typename K::Point_3 &p,
                                        const typename K::Point_3 &q,
                                        const K&k)
 {
-  return CGALi::compare_lexicographically_xyz(p, q, k) != LARGER;
+  return internal::compare_lexicographically_xyz(p, q, k) != LARGER;
 }
 
-} // namespace CGALi
+} // namespace internal
 
 CGAL_END_NAMESPACE
 

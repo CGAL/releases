@@ -1,4 +1,4 @@
-// Max-Planck-Institute Saarbruecken (Germany).
+// Copyright (c) 2006-2008 Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Modular_arithmetic/include/CGAL/Residue.h $
-// $Id: Residue.h 45762 2008-09-25 13:24:05Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Modular_arithmetic/include/CGAL/Residue.h $
+// $Id: Residue.h 53953 2010-02-01 12:18:54Z hemmer $
 //
 // Author(s)     : Michael Hemmer
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Skin_surface_3/include/CGAL/Skin_surface_filtered_traits_3.h $
-// $Id: Skin_surface_filtered_traits_3.h 43854 2008-06-27 13:06:20Z nicokruithof $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Skin_surface_3/include/CGAL/Skin_surface_filtered_traits_3.h $
+// $Id: Skin_surface_filtered_traits_3.h 52614 2009-10-19 14:29:50Z sloriot $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -50,6 +50,9 @@ public:
             typename Filtering_traits::Side_of_mixed_cell_3,
             Weighted_converter_3<C2E>,
             Weighted_converter_3<C2F> >  Side_of_mixed_cell_3;
+
+  enum { Has_filtered_predicates=true };
+  enum { Has_static_filters=false };
 
   Skin_surface_filtered_traits_3() {}
   Skin_surface_filtered_traits_3(typename Base::FT s) : Base(s) {}

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Root_of_traits.h $
-// $Id: Root_of_traits.h 44898 2008-08-12 08:35:42Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Root_of_traits.h $
+// $Id: Root_of_traits.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 // Author(s)     : Sylvain Pion, Monique Teillaud, Athanasios Kakargias, Michael Hemmer
@@ -27,7 +27,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template < typename NT, class Algebraic_category>
 struct Root_of_traits_helper{
@@ -129,16 +129,16 @@ struct Root_of_traits_helper < NT, Field_with_root_of_tag >
     :public Root_of_traits_helper < NT, Field_with_sqrt_tag>{};
 
 
-} // namespace CGALi
+} // namespace internal
 
 
 
 // Default Traits class for NT types
 template < typename NT >
 struct Root_of_traits
-    : public CGALi::Root_of_traits_helper<NT,
+    : public internal::Root_of_traits_helper<NT,
       typename Algebraic_structure_traits<NT>::Algebraic_category> {
-    typedef CGALi::Root_of_traits_helper<NT,
+    typedef internal::Root_of_traits_helper<NT,
       typename Algebraic_structure_traits<NT>::Algebraic_category> Base;
     typedef typename Base::Root_of_1 RootOf_1;
     typedef typename Base::Root_of_2 RootOf_2;

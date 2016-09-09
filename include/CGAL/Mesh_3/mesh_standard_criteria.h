@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/mesh_standard_criteria.h $
-// $Id: mesh_standard_criteria.h 51094 2009-08-06 13:11:07Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/mesh_standard_criteria.h $
+// $Id: mesh_standard_criteria.h 53504 2009-12-18 17:15:58Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -24,8 +24,6 @@
 
 #ifndef CGAL_MESH_3_MESH_STANDARD_CRITERIA_H
 #define CGAL_MESH_3_MESH_STANDARD_CRITERIA_H
-
-
 
 
 #include <boost/optional.hpp>
@@ -163,9 +161,7 @@ public:
   /// Destructor
   ~Criteria() { }; // ptr_vector do the job of criterion deleting
 
-
-
-
+  /// Add a criterion
   void add(Criterion* criterion)
   {
     criterion_vector_.push_back(criterion);

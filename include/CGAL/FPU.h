@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/FPU.h $
-// $Id: FPU.h 47204 2008-12-03 14:43:43Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/FPU.h $
+// $Id: FPU.h 52280 2009-10-12 16:01:26Z spion $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -40,7 +40,7 @@
 extern "C" {
 #  include <fenv.h>
 }
-#elif defined __powerpc__
+#elif defined __powerpc__ && defined __linux__
 #  include <fpu_control.h>
 #elif defined __SUNPRO_CC && defined __sun
 #  include <ieeefp.h>
@@ -66,7 +66,7 @@ extern "C" {
 #  if defined CGAL_CFG_DENORMALS_COMPILE_BUG
      // For compilers crashing when dealing with denormalized values.
      // So we have to generate it at run time instead.
-#    define CGAL_IA_MIN_DOUBLE (CGAL::CGALi::minimin)
+#    define CGAL_IA_MIN_DOUBLE (CGAL::internal::minimin)
 #  else
 #    define CGAL_IA_MIN_DOUBLE (5e-324)
 #  endif
@@ -105,7 +105,7 @@ extern "C" {
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 #ifdef CGAL_CFG_DENORMALS_COMPILE_BUG
 extern double minimin;
@@ -117,7 +117,7 @@ const double infinity = std::numeric_limits<double>::infinity();
 const double infinity = HUGE_VAL;
 #endif
 
-} // namespace CGALi
+} // namespace internal
 
 
 // Inline function to stop compiler optimization.
@@ -228,7 +228,7 @@ typedef unsigned short FPU_CW_t;
 
 #  endif
 
-#elif defined __powerpc__
+#elif defined __powerpc__ && defined __linux__
 #define CGAL_IA_SETFPCW(CW) _FPU_SETCW(CW)
 #define CGAL_IA_GETFPCW(CW) _FPU_GETCW(CW)
 typedef fpu_control_t FPU_CW_t;

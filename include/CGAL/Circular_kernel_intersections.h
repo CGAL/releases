@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_2/include/CGAL/Circular_kernel_intersections.h $
+// $Id: Circular_kernel_intersections.h 52628 2009-10-20 08:59:26Z lrineau $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -41,7 +41,7 @@ intersection(const A <K> &c1, const B <K> &c2, OutputIterator res) \
 { \
   return typename K::Intersect_2()(c1, c2, res); \
 } \
-namespace CGALi { \
+namespace internal { \
   template <class K> \
   inline \
   bool \

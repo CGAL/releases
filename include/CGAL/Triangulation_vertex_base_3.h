@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Triangulation_vertex_base_3.h $
-// $Id: Triangulation_vertex_base_3.h 48845 2009-04-21 18:34:14Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Triangulation_vertex_base_3.h $
+// $Id: Triangulation_vertex_base_3.h 51303 2009-08-17 15:11:03Z spion $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
@@ -46,10 +46,10 @@ public:
   Triangulation_vertex_base_3(const Point & p)
     : DSVb(), _p(p) {}
 
-  Triangulation_vertex_base_3(const Point & p, const Cell_handle& c)
+  Triangulation_vertex_base_3(const Point & p, Cell_handle c)
     : DSVb(c), _p(p) {}
 
-  Triangulation_vertex_base_3(const Cell_handle& c)
+  Triangulation_vertex_base_3(Cell_handle c)
     : DSVb(c), _p() {}
 
   const Point & point() const

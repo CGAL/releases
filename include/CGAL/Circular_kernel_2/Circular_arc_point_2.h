@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_point_2.h $
-// $Id: Circular_arc_point_2.h 45889 2008-09-30 13:36:33Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_point_2.h $
+// $Id: Circular_arc_point_2.h 51456 2009-08-24 17:10:04Z spion $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -31,7 +31,7 @@
 #include <boost/type_traits/is_same.hpp>
 
 namespace CGAL {
-namespace CGALi {
+namespace internal {
 
   template <class CK >
   class Circular_arc_point_2
@@ -86,7 +86,7 @@ namespace CGALi {
 	      << p.x() << ", " << p.y() << ')';
   }
 
-} // namespace CGALi
+} // namespace internal
 } // namespace CGAL
 
 #endif // CGAL_CIRCULAR_KERNEL_CIRCULAR_ARC_POINT_2_H

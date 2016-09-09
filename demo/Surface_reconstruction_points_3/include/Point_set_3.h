@@ -3,7 +3,6 @@
 #ifndef POINT_SET_3_H
 #define POINT_SET_3_H
 
-//#include <CGAL/Point_with_normal_3.h>
 #include <CGAL/property_map.h>
 #include <CGAL/Min_sphere_of_spheres_d.h>
 #include <CGAL/Min_sphere_of_spheres_d_traits_3.h>

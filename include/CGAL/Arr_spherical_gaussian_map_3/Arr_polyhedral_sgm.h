@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm.h $
-// $Id: Arr_polyhedral_sgm.h 50610 2009-07-15 15:21:14Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm.h $
+// $Id: Arr_polyhedral_sgm.h 53403 2009-12-14 09:50:36Z efif $
 // 
 // Author(s)     : Efi Fogel         <efif@post.tau.ac.il>
 
@@ -629,7 +629,8 @@ public:
   // we declare the Base to be public to overcome the problem.
   typedef Arr_spherical_gaussian_map_3<Geometry_traits_2, T_Dcel>   Base;
 
-  typedef Arr_polyhedral_sgm_overlay<Self>
+  // WE NEED TO ADD THE CGAL NAMESPACE TO PACIFY THE G++ 4.3.3 COMPILER.
+  typedef CGAL::Arr_polyhedral_sgm_overlay<Self>
     Arr_polyhedral_sgm_overlay;
 
 #if 0
@@ -794,6 +795,14 @@ public:
     return size;
   }
   
+  /* Print the sgm vertices */
+  void print_vertices()   
+  {
+    typename Base::Face_const_iterator vit;
+    for (vit = this->faces_begin(); vit != this->faces_end(); ++vit)
+      std::cout << "vertex of polyhedron = " << vit->point() << std::endl;
+  }
+
   /*! Print statistics */
   void print_stat()
   {

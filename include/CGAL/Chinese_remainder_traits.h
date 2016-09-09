@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_foundations/include/CGAL/Chinese_remainder_traits.h $
-// $Id: Chinese_remainder_traits.h 43073 2008-04-29 14:14:49Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Algebraic_foundations/include/CGAL/Chinese_remainder_traits.h $
+// $Id: Chinese_remainder_traits.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -31,7 +31,7 @@
 #include <CGAL/extended_euclidean_algorithm.h>
 
 namespace CGAL{
-namespace CGALi{
+namespace internal{
 
 template <class T_, class TAG> 
 class Chinese_remainder_traits_base{
@@ -43,11 +43,11 @@ public:
 }
 
 template <class T> class Chinese_remainder_traits
-    :public CGALi::Chinese_remainder_traits_base<T,
+    :public internal::Chinese_remainder_traits_base<T,
        typename Algebraic_structure_traits<T>::Algebraic_category>{};
 
 
-namespace CGALi {
+namespace internal {
 template <class NT> 
 class  Chinese_remainder_traits_base<NT,Euclidean_ring_tag>{
 public:
@@ -106,7 +106,7 @@ public:
     };
 };
 
-} // namespace CGALi
+} // namespace internal
 } // namespace CGAL
 
 #endif // CGAL_CHINESE_REMAINDER_TRAITS_H //

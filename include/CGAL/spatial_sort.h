@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Spatial_sorting/include/CGAL/spatial_sort.h $
-// $Id: spatial_sort.h 36875 2007-03-07 11:37:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Spatial_sorting/include/CGAL/spatial_sort.h $
+// $Id: spatial_sort.h 53867 2010-01-28 12:18:19Z lrineau $
 //
 // Author(s)     : Christophe Delage
 
@@ -27,15 +27,24 @@
 
 #include <CGAL/Multiscale_sort.h>
 
+#include <boost/random.hpp>
+#include <boost/random/linear_congruential.hpp>
+
+#include <algorithm>
+
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
     template <class RandomAccessIterator, class Kernel>
     void spatial_sort (RandomAccessIterator begin, RandomAccessIterator end,
                        const Kernel &k, typename Kernel::Point_2 *)
     {
         typedef Hilbert_sort_2<Kernel> Sort;
+        boost::rand48 random;
+        boost::random_number_generator<boost::rand48> rng(random);
+        std::random_shuffle(begin,end,rng);
+
         (Multiscale_sort<Sort> (Sort (k, 4), 16, 0.25)) (begin, end);
     }
 
@@ -44,6 +53,10 @@ namespace CGALi {
                        const Kernel &k, typename Kernel::Point_3 *)
     {
         typedef Hilbert_sort_3<Kernel> Sort;
+        boost::rand48 random;
+        boost::random_number_generator<boost::rand48> rng(random);
+        std::random_shuffle(begin,end, rng);
+
         (Multiscale_sort<Sort> (Sort (k, 8), 64, 0.125)) (begin, end);
     }
 }
@@ -55,7 +68,7 @@ void spatial_sort (RandomAccessIterator begin, RandomAccessIterator end,
     typedef std::iterator_traits<RandomAccessIterator> ITraits;
     typedef typename ITraits::value_type               value_type;
 
-    CGALi::spatial_sort (begin, end, k, static_cast<value_type *> (0));
+    internal::spatial_sort (begin, end, k, static_cast<value_type *> (0));
 }
 
 template <class RandomAccessIterator>

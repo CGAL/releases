@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_Delaunay_triangulation_3.h $
-// $Id: Periodic_3_Delaunay_triangulation_3.h 50044 2009-06-24 10:00:40Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_Delaunay_triangulation_3.h $
+// $Id: Periodic_3_Delaunay_triangulation_3.h 53767 2010-01-25 14:08:56Z mcaroli $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -60,6 +60,7 @@ public:
 
   ///Compatibility typedef:
   typedef Geometric_traits                      Geom_traits;
+  typedef typename Gt::FT                       FT;
 
   typedef typename Gt::Point_3                  Point;
   typedef typename Gt::Segment_3                Segment;
@@ -91,6 +92,9 @@ public:
   typedef typename Base::All_edges_iterator     All_edges_iterator;
   typedef typename Base::All_vertices_iterator  All_vertices_iterator;
 
+  typedef typename Base::size_type              size_type;
+  typedef typename Base::difference_type        difference_type;
+
   typedef typename Base::Locate_type            Locate_type;
   typedef typename Base::Iterator_type          Iterator_type;
 
@@ -107,7 +111,9 @@ public:
   using Base::int_to_off;
   using Base::number_of_sheets;
   using Base::number_of_vertices;
+  using Base::number_of_edges;
   using Base::number_of_facets;
+  using Base::number_of_cells;
   using Base::cells_begin;
   using Base::cells_end;
   using Base::vertices_begin;
@@ -123,6 +129,7 @@ public:
   using Base::swap;
   using Base::is_1_cover;
   using Base::is_virtual;
+  using Base::point;
 #endif
 
 public:
@@ -164,6 +171,7 @@ public:
   template < class InputIterator >
   int insert(InputIterator first, InputIterator last,
       bool is_large_point_set = false) {
+    if (first == last) return 0;
     int n = number_of_vertices();
     // The heuristic discards the existing triangulation so it can only be
     // applied to empty triangulations.
@@ -215,16 +223,6 @@ public:
 public:
   /** @name Removal */ //@{
   void remove(Vertex_handle v);
-
-  template < typename InputIterator >
-  int remove(InputIterator first, InputIterator beyond) {
-    int n = number_of_vertices();
-    while (first != beyond) {
-      remove(*first);
-      ++first;
-    }
-    return n - number_of_vertices();
-  }
   //@}
 
 public:
@@ -324,7 +322,7 @@ private:
     return (cumm_off == Offset(0,0,0));
   }
   //@}
-
+public:
   Periodic_point periodic_circumcenter(Cell_handle c) const {
     CGAL_triangulation_precondition(c != Cell_handle());
     Point v = geom_traits().construct_circumcenter_3_object()(
@@ -332,7 +330,7 @@ private:
 	c->vertex(2)->point(), c->vertex(3)->point(),
         get_offset(c,0), get_offset(c,1),
 	get_offset(c,2), get_offset(c,3));
-    
+
     // check that v lies within the domain. If not: translate
     Covering_sheets nos = number_of_sheets();
     Iso_cuboid dom = domain();
@@ -378,6 +376,7 @@ private:
     return ppv;
   }
 
+private:
 bool is_canonical(const Facet &f) const {
   if (number_of_sheets() == make_array(1,1,1)) return true;
   Offset cell_off0 = int_to_off(f.first->offset((f.second+1)&3));
@@ -451,8 +450,49 @@ public:
     return ps;
   }
 
+  template <class OutputIterator>
+  OutputIterator dual(const Edge & e, OutputIterator points) const {
+    return dual(e.first, e.second, e.third, points);
+  }
+
+  template <class OutputIterator>
+  OutputIterator dual(Cell_handle c, int i, int j,
+      OutputIterator points) const {
+    std::vector<Facet> facets;
+    Facet_circulator fstart = incident_facets(c, i, j);
+
+    Offset offv = periodic_point(c,i).second;
+    Vertex_handle v = c->vertex(i);
+
+    Facet_circulator fcit = fstart;
+    do {
+      Point dual_orig = periodic_circumcenter(fcit->first).first;
+      int idx = fcit->first->index(v);
+      Offset off = periodic_point(fcit->first,idx).second;
+      Point dual = point(std::make_pair(dual_orig,-off+offv));
+      *points++ = dual;
+      ++fcit;
+    } while (fcit != fstart);
+    return points;
+  }
+
+  template <class OutputIterator>
+  OutputIterator dual(Vertex_handle v, OutputIterator points) const {
+    std::vector<Cell_handle> cells;
+    incident_cells(v,std::back_inserter(cells));
+
+    for (unsigned int i=0; i<cells.size() ; i++) {
+      Point dual_orig = periodic_circumcenter(cells[i]).first;
+      int idx = cells[i]->index(v);
+      Offset off = periodic_point(cells[i],idx).second;
+      Point dual = point(std::make_pair(dual_orig,-off));
+      *points++ = dual;
+    }
+    return points;
+  }
+
   template <class Stream>
-  Stream& draw_dual(Stream& os) {
+  Stream& draw_dual(Stream& os) const {
     CGAL_triangulation_assertion_code( unsigned int i = 0; )
     for (Facet_iterator fit = facets_begin(), end = facets_end();
 	 fit != end; ++fit) {
@@ -464,6 +504,100 @@ public:
     }
     CGAL_triangulation_assertion( i == number_of_facets() );
     return os;
+  }
+
+  /// Volume computations
+
+  // Note: Polygon area computation requires to evaluate square roots
+  // and thus cannot be done without changing the Traits concept.
+
+  FT dual_volume(Vertex_handle v) const {
+    std::list<Edge> edges;
+    incident_edges(v, std::back_inserter(edges));
+
+    FT vol(0);
+    for (typename std::list<Edge>::iterator eit = edges.begin() ; 
+	 eit != edges.end() ; ++eit) {
+
+      // compute the dual of the edge *eit but handle the translations
+      // with respect to the dual of v. That is why we cannot use one
+      // of the existing dual functions here.
+      Facet_circulator fstart = incident_facets(*eit);
+      Facet_circulator fcit = fstart;
+      std::vector<Point> pts;
+      do {
+	// TODO: possible speed-up by caching the circumcenters
+	Point dual_orig = periodic_circumcenter(fcit->first).first;
+	int idx = fcit->first->index(v);
+	Offset off = periodic_point(fcit->first,idx).second;
+	pts.push_back(point(std::make_pair(dual_orig,-off)));
+	++fcit;
+      } while (fcit != fstart);
+
+      Point orig(0,0,0);
+      for (unsigned int i=1 ; i<pts.size()-1 ; i++) 
+	vol += Tetrahedron(orig,pts[0],pts[i],pts[i+1]).volume();
+    }
+    return vol;
+  }
+
+  /// Centroid computations
+
+  // Note: Centroid computation for polygons requires to evaluate
+  // square roots and thus cannot be done without changing the
+  // Traits concept.
+
+  Point dual_centroid(Vertex_handle v) const {
+    std::list<Edge> edges;
+    incident_edges(v, std::back_inserter(edges));
+
+    FT vol(0);
+    FT x(0), y(0), z(0);
+    for (typename std::list<Edge>::iterator eit = edges.begin() ; 
+	 eit != edges.end() ; ++eit) {
+
+      // compute the dual of the edge *eit but handle the translations
+      // with respect to the dual of v. That is why we cannot use one
+      // of the existing dual functions here.
+      Facet_circulator fstart = incident_facets(*eit);
+      Facet_circulator fcit = fstart;
+      std::vector<Point> pts;
+      do {
+	// TODO: possible speed-up by caching the circumcenters
+	Point dual_orig = periodic_circumcenter(fcit->first).first;
+	int idx = fcit->first->index(v);
+	Offset off = periodic_point(fcit->first,idx).second;
+	pts.push_back(point(std::make_pair(dual_orig,-off)));
+	++fcit;
+      } while (fcit != fstart);
+
+      Point orig(0,0,0);
+      FT tetvol;
+      for (unsigned int i=1 ; i<pts.size()-1 ; i++) {
+	tetvol = Tetrahedron(orig,pts[0],pts[i],pts[i+1]).volume();
+	x += (pts[0].x() + pts[i].x() + pts[i+1].x()) * tetvol;
+	y += (pts[0].y() + pts[i].y() + pts[i+1].y()) * tetvol;
+	z += (pts[0].z() + pts[i].z() + pts[i+1].z()) * tetvol;
+	vol += tetvol;
+      }
+    }
+    x /= ( 4 * vol );
+    y /= ( 4 * vol );
+    z /= ( 4 * vol );
+
+    Iso_cuboid d = domain();
+    x = (x < d.xmin() ? x+d.xmax()-d.xmin() 
+	: (x >= d.xmax() ? x-d.xmax()+d.xmin() : x));
+    y = (y < d.ymin() ? y+d.ymax()-d.ymin() 
+	: (y >= d.ymax() ? y-d.ymax()+d.ymin() : y));
+    z = (z < d.zmin() ? z+d.zmax()-d.zmin() 
+	: (z >= d.zmax() ? z-d.zmax()+d.zmin() : z));
+
+    CGAL_triangulation_postcondition((d.xmin()<=x)&&(x<d.xmax()));
+    CGAL_triangulation_postcondition((d.ymin()<=y)&&(y<d.ymax()));
+    CGAL_triangulation_postcondition((d.zmin()<=z)&&(z<d.zmax()));
+
+    return Point(x,y,z);
   }
   //@}
   
@@ -524,6 +658,22 @@ private:
     std::vector<Point> hidden;
   };
 #endif //CGAL_CFG_OUTOFLINE_TEMPLATE_MEMBER_DEFINITION_BUG
+
+  // unused and undocumented types and functions required to be
+  // compatible to Alpha_shape_3
+public:
+  typedef Cell_iterator   Finite_cells_iterator;
+  typedef Facet_iterator  Finite_facets_iterator;
+  typedef Edge_iterator   Finite_edges_iterator;
+  typedef Vertex_iterator Finite_vertices_iterator;
+
+  int dimension() const { return 3; }
+  template < class T >
+  bool is_infinite(const T&, int = 0, int = 0) const { return false; }
+  size_type number_of_finite_cells() const { return number_of_cells(); }
+  size_type number_of_finite_facets() const { return number_of_facets(); }
+  size_type number_of_finite_edges() const { return number_of_edges(); }
+  size_type number_of_finite_vertices() const { return number_of_vertices(); }
 };
 
 template < class GT, class Tds >
@@ -548,7 +698,7 @@ Periodic_3_Delaunay_triangulation_3<GT,Tds>::nearest_vertex(const Point& p,
   while (true) {
     Vertex_handle tmp = nearest;
     Offset tmp_off = get_min_dist_offset(p,o,tmp);
-    incident_vertices(nearest, std::back_inserter(vs));
+    adjacent_vertices(nearest, std::back_inserter(vs));
     for (typename std::vector<Vertex_handle>::const_iterator
 	   vsit = vs.begin(); vsit != vs.end(); ++vsit)
       tmp = (compare_distance(p,tmp->point(),(*vsit)->point(),
@@ -634,7 +784,6 @@ move_point(Vertex_handle v, const Point & p) {
 template < class Gt, class Tds >
 void Periodic_3_Delaunay_triangulation_3<Gt,Tds>::remove(Vertex_handle v)
 {
-  if ( !is_vertex(v) ) return;
   typedef CGAL::Periodic_3_triangulation_remove_traits_3< Gt > P3removeT;
   typedef CGAL::Delaunay_triangulation_3< P3removeT >
     Euclidean_triangulation;
@@ -675,14 +824,14 @@ Periodic_3_Delaunay_triangulation_3<Gt,Tds>::find_conflicts( const Point
   // Reset the conflict flag on the boundary.
   for(typename std::vector<Facet>::iterator fit=facets.begin();
   fit != facets.end(); ++fit) {
-    fit->first->neighbor(fit->second)->set_in_conflict_flag(0);
+    fit->first->neighbor(fit->second)->tds_data().clear();
     *bfit++ = *fit;
   }
 
   // Reset the conflict flag in the conflict cells.
   for(typename std::vector<Cell_handle>::iterator ccit=cells.begin();
       ccit != cells.end(); ++ccit) {
-    (*ccit)->set_in_conflict_flag(0);
+    (*ccit)->tds_data().clear();
     *cit++ = *ccit;
   }
 
@@ -885,13 +1034,25 @@ is_valid(Cell_handle ch, bool verbose, int level) const {
     for (int i=-1; i<=1; i++)
       for (int j=-1; j<=1; j++)
 	for (int k=-1; k<=1; k++) {
-	  if (_side_of_sphere(ch, vit->point(), Offset(i,j,k))
+	  if (periodic_point(ch,0) == std::make_pair(periodic_point(vit).first,
+		  periodic_point(vit).second+Offset(i,j,k))
+	  || periodic_point(ch,1) == std::make_pair(periodic_point(vit).first,
+		  periodic_point(vit).second+Offset(i,j,k))
+          || periodic_point(ch,2) == std::make_pair(periodic_point(vit).first,
+		  periodic_point(vit).second+Offset(i,j,k))
+	  || periodic_point(ch,3) == std::make_pair(periodic_point(vit).first,
+                  periodic_point(vit).second+Offset(i,j,k)) )
+	    continue;
+	  if (_side_of_sphere(ch, periodic_point(vit).first,
+		  periodic_point(vit).second+Offset(i,j,k),true)
 	      != ON_UNBOUNDED_SIDE) {
 	    error = true;
 	    if (verbose) {
 	      std::cerr << "Delaunay invalid cell" << std::endl;
-	      for (int i=0; i<4; i++ )
-		std::cerr << ch->vertex(i)->point() << ", ";
+	      for (int i=0; i<4; i++ ) {
+		Periodic_point pp = periodic_point(ch,i);
+		std::cerr <<"("<<pp.first <<","<<pp.second<< "), ";
+	      }
 	      std::cerr << std::endl;
 	    }
 	  }

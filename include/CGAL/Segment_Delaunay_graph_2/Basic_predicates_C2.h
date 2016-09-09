@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Basic_predicates_C2.h $
-// $Id: Basic_predicates_C2.h 45156 2008-08-26 13:40:26Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Basic_predicates_C2.h $
+// $Id: Basic_predicates_C2.h 53134 2009-11-23 09:11:19Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -52,6 +52,7 @@ public:
   typedef typename K::Comparison_result   Comparison_result;
   typedef typename K::Sign                Sign;
   typedef typename K::Orientation         Orientation;
+  typedef typename K::Compute_scalar_product_2 Compute_scalar_product_2;
   typedef typename K::Boolean             Boolean;
 
   typedef CGAL::Sqrt_extension_1<RT>       Sqrt_1;

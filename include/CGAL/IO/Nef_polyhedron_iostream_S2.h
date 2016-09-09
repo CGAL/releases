@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://hachenb@scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/IO/Nef_polyhedron_iostream_3.h $
-// $Id: Nef_polyhedron_iostream_3.h 38348 2007-04-19 17:29:45Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Nef_S2/include/CGAL/IO/Nef_polyhedron_iostream_S2.h $
+// $Id: Nef_polyhedron_iostream_S2.h 52628 2009-10-20 08:59:26Z lrineau $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>

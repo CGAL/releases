@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://scm.gforge.inria.fr/svn/cgal/trunk/AABB_tree/include/CGAL/AABB_tree.h $
-// $Id: AABB_tree.h 48894 2009-04-24 14:11:17Z palliez $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/AABB_tree/include/CGAL/AABB_search_tree.h $
+// $Id: AABB_search_tree.h 52628 2009-10-20 08:59:26Z lrineau $
 //
 //
 // Author(s) : Pierre Alliez, Camille Wormser

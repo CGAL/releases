@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/grid_simplify_point_set.h $
-// $Id: grid_simplify_point_set.h 49943 2009-06-17 07:49:35Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_processing_3/include/CGAL/grid_simplify_point_set.h $
+// $Id: grid_simplify_point_set.h 53392 2009-12-11 15:34:07Z nsalman $
 //
-// Author(s) : Laurent Saboret and Nader Salman
+// Author(s) : Nader Salman and Laurent Saboret 
 
 #ifndef CGAL_GRID_SIMPLIFY_POINT_SET_H
 #define CGAL_GRID_SIMPLIFY_POINT_SET_H
@@ -34,36 +34,43 @@ CGAL_BEGIN_NAMESPACE
 // ----------------------------------------------------------------------------
 // Private section
 // ----------------------------------------------------------------------------
-namespace CGALi {
+namespace internal {
 
 
 /// Utility class for grid_simplify_point_set():
 /// Less_epsilon_points_3 defines a 3D points order / 2 points are equal
 /// iff they belong to the same cell of a grid of cell size = epsilon.
-template <class Point_3>
+template <class Point_3, class PointPMap>
 struct Less_epsilon_points_3
 {
 private:
 
     double m_epsilon;
-
+    PointPMap point_pmap;
+    
 public:
 
-    Less_epsilon_points_3 (double epsilon)
-        : m_epsilon (epsilon)
+    Less_epsilon_points_3 (double epsilon, PointPMap p_pmap) 
+        : m_epsilon (epsilon), point_pmap(p_pmap)
     {
         CGAL_point_set_processing_precondition(epsilon > 0);
     }
 
     bool operator() (const Point_3& a, const Point_3& b) const
     {
+        typedef typename boost::property_traits<PointPMap>::value_type Point;
+        
         // Round points to multiples of m_epsilon, then compare.
-        Point_3 rounded_a(round_epsilon(a.x(), m_epsilon),
-                          round_epsilon(a.y(), m_epsilon),
-                          round_epsilon(a.z(), m_epsilon));
-        Point_3 rounded_b(round_epsilon(b.x(), m_epsilon),
-                          round_epsilon(b.y(), m_epsilon),
-                          round_epsilon(b.z(), m_epsilon));
+        Point a_n = get(point_pmap,&a),
+              b_n = get(point_pmap,&b);
+        
+        Point rounded_a(round_epsilon(a_n.x(), m_epsilon),
+                        round_epsilon(a_n.y(), m_epsilon),
+                        round_epsilon(a_n.z(), m_epsilon));
+        Point rounded_b(round_epsilon(b_n.x(), m_epsilon),
+                        round_epsilon(b_n.y(), m_epsilon),
+                        round_epsilon(b_n.z(), m_epsilon));
+                        
         return (rounded_a < rounded_b);
     }
 
@@ -77,7 +84,7 @@ private:
 };
 
 
-} /* namespace CGALi */
+} /* namespace internal */
 
 
 // ----------------------------------------------------------------------------
@@ -93,19 +100,19 @@ private:
 /// This class is a container sorted wrt points position
 /// => you should not modify directly the order or the position of points.
 
-template <class Point_3>
+template <class Point_3, class PointPMap>
 class Epsilon_point_set_3
-  : public std::set<Point_3, CGALi::Less_epsilon_points_3<Point_3> >
+  : public std::set<Point_3, internal::Less_epsilon_points_3<Point_3, PointPMap> >
 {
 private:
 
     // superclass
-    typedef std::set<Point_3, CGALi::Less_epsilon_points_3<Point_3> > Base;
+    typedef std::set<Point_3, internal::Less_epsilon_points_3<Point_3, PointPMap> > Base;
 
 public:
 
-    Epsilon_point_set_3 (double epsilon)
-        : Base( CGALi::Less_epsilon_points_3<Point_3>(epsilon) )
+    Epsilon_point_set_3 (double epsilon, PointPMap point_pmap)
+        : Base( internal::Less_epsilon_points_3<Point_3, PointPMap>(epsilon, point_pmap) )
     {
         CGAL_point_set_processing_precondition(epsilon > 0);
     }
@@ -134,10 +141,8 @@ public:
 // This variant requires all parameters.
 template <typename ForwardIterator,
           typename PointPMap,
-          typename Kernel
->
-ForwardIterator
-grid_simplify_point_set(
+          typename Kernel>
+ForwardIterator grid_simplify_point_set(
   ForwardIterator first,  ///< iterator over the first input point.
   ForwardIterator beyond, ///< past-the-end iterator over the input points.
   PointPMap point_pmap, ///< property map ForwardIterator -> Point_3
@@ -151,11 +156,11 @@ grid_simplify_point_set(
 
   // Merges points which belong to the same cell of a grid of cell size = epsilon.
   // points_to_keep[] will contain 1 point per cell; the others will be in points_to_remove[].
-  Epsilon_point_set_3<Enriched_point> points_to_keep(epsilon);
+  Epsilon_point_set_3<Enriched_point, PointPMap> points_to_keep(epsilon, point_pmap);
   std::deque<Enriched_point> points_to_remove;
   for (ForwardIterator it=first ; it != beyond ; it++)
   {
-      std::pair<typename Epsilon_point_set_3<Enriched_point>::iterator,bool> result;
+      std::pair<typename Epsilon_point_set_3<Enriched_point, PointPMap>::iterator,bool> result;
       result = points_to_keep.insert(*it);
       if (!result.second) // if not inserted
         points_to_remove.push_back(*it);
@@ -164,7 +169,7 @@ grid_simplify_point_set(
   // Replaces [first, beyond) range by the content of points_to_keep, then points_to_remove.
   ForwardIterator first_point_to_remove =
     std::copy(points_to_keep.begin(), points_to_keep.end(), first);
-  std::copy(points_to_remove.begin(), points_to_remove.end(), first_point_to_remove);
+    std::copy(points_to_remove.begin(), points_to_remove.end(), first_point_to_remove);
 
   return first_point_to_remove;
 }

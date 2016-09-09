@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/GraphicsView/src/CGALQt4/DemosMainWindow.cpp $
-// $Id: DemosMainWindow.cpp 46606 2008-10-31 13:48:01Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/GraphicsView/src/CGALQt4/DemosMainWindow.cpp $
+// $Id: DemosMainWindow.cpp 53108 2009-11-19 13:17:13Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -33,7 +33,9 @@
 #include <QSettings>
 #include <QFileInfo>
 
+#include <CGAL/config.h> // needed to get CGAL_VERSION_STR
 #include <CGAL/Qt/DemosMainWindow.h>
+#include <iostream>
 
 namespace CGAL {
 namespace Qt {
@@ -182,11 +184,28 @@ DemosMainWindow::popupAboutBox(QString title, QString html_resource_name)
 {
   QFile about_CGAL(html_resource_name);
   about_CGAL.open(QIODevice::ReadOnly);
+  QString about_CGAL_txt = QTextStream(&about_CGAL).readAll();
+#ifdef CGAL_VERSION_STR
+  about_CGAL_txt.replace("<!--CGAL_VERSION-->",
+                         QString(" (version %1, svn r%2)")
+                         .arg(CGAL_VERSION_STR).arg(CGAL_SVN_REVISION));
+#endif
   QMessageBox mb(QMessageBox::NoIcon,
                  title,
-                 QTextStream(&about_CGAL).readAll(),
+                 about_CGAL_txt,
                  QMessageBox::Ok,
                  this);
+
+  QLabel* mb_label = mb.findChild<QLabel*>("qt_msgbox_label");
+  if(mb_label) {
+    mb_label->setTextInteractionFlags(mb_label->textInteractionFlags() | 
+                                      ::Qt::LinksAccessibleByMouse | 
+                                      ::Qt::LinksAccessibleByKeyboard);
+  }
+  else {
+    std::cerr << "Cannot find child \"qt_msgbox_label\" in QMessageBox\n"
+              << "  with Qt version " << QT_VERSION_STR << "!\n";
+  }
   mb.exec();
 }
 

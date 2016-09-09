@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_traits_2.h $
-// $Id: Arr_geodesic_arc_on_sphere_traits_2.h 49924 2009-06-16 07:14:42Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_traits_2.h $
+// $Id: Arr_geodesic_arc_on_sphere_traits_2.h 51984 2009-09-20 16:18:10Z efif $
 // 
 //
 // Author(s)     : Efi Fogel         <efif@post.tau.ac.il>
@@ -66,10 +66,10 @@ public:
   typedef Tag_true                              Has_left_category;
   typedef Tag_true                              Has_merge_category;
 
-  typedef Arr_identified_side_tag               Arr_left_side_tag;
-  typedef Arr_contracted_side_tag               Arr_bottom_side_tag;
-  typedef Arr_contracted_side_tag               Arr_top_side_tag;
-  typedef Arr_identified_side_tag               Arr_right_side_tag;
+  typedef Arr_identified_side_tag               Arr_left_side_category;
+  typedef Arr_contracted_side_tag               Arr_bottom_side_category;
+  typedef Arr_contracted_side_tag               Arr_top_side_category;
+  typedef Arr_identified_side_tag               Arr_right_side_category;
 
   /*! Default constructor */
   Arr_geodesic_arc_on_sphere_traits_2(){}

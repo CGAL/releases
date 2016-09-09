@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3.h $
-// $Id: Periodic_3_triangulation_3.h 52582 2009-10-16 08:19:24Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3.h $
+// $Id: Periodic_3_triangulation_3.h 53867 2010-01-28 12:18:19Z lrineau $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -32,6 +32,9 @@
 #include <list>
 
 #include <boost/tuple/tuple.hpp>
+#include <boost/random/linear_congruential.hpp>
+#include <boost/random/uniform_smallint.hpp>
+#include <boost/random/variate_generator.hpp>
 
 #include <CGAL/triangulation_assertions.h>
 
@@ -43,7 +46,6 @@
 
 #include <CGAL/Periodic_3_triangulation_iterators_3.h>
 
-#include <CGAL/Random.h>
 #include <CGAL/Unique_hash_map.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -170,13 +172,14 @@ public:
     EDGE, //1
     FACET, //2
     CELL, //3
-    EMPTY }; //4
+    EMPTY , //4
+    OUTSIDE_CONVEX_HULL, // unused, for compatibility with Alpha_shape_3
+    OUTSIDE_AFFINE_HULL }; // unused, for compatibility with Alpha_shape_3
 
 private:
   Geometric_traits  _gt;
   Triangulation_data_structure _tds; 
   Iso_cuboid _domain;
-  mutable Random rng;
   /// This threshold should be chosen such that if all edges are shorter,
   /// we can be sure that there are no self-edges anymore.
   FT edge_length_threshold;
@@ -280,8 +283,17 @@ public:
   const Geometric_traits& geom_traits() const { return _gt; }
   const TDS & tds() const { return _tds; }
   TDS & tds() { return _tds; }
-  
+
   const Iso_cuboid & domain() const { return _domain; }
+  // TODO: Documentation and tests
+  void set_domain(const Iso_cuboid & domain) {
+    clear();
+    _domain = domain;
+    _gt.set_domain(domain);
+    edge_length_threshold = FT(0.166) * (_domain.xmax()-_domain.xmin())
+                                      * (_domain.xmax()-_domain.xmin());
+  }
+
   const Covering_sheets & number_of_sheets() const { return _cover; }
 
   bool is_extensible_triangulation_in_1_sheet_h1() const;
@@ -1069,14 +1081,14 @@ public:
   template <class OutputIterator>
   OutputIterator adjacent_vertices(
       Vertex_handle v, OutputIterator vertices) const {
-    return _tds.incident_vertices(v, vertices);
+    return _tds.adjacent_vertices(v, vertices);
   }
 
   //deprecated, don't use anymore
   template <class OutputIterator>
   OutputIterator incident_vertices(
       Vertex_handle v, OutputIterator vertices) const {
-    return _tds.incident_vertices(v, vertices);
+    return _tds.adjacent_vertices(v, vertices);
   }
 
   size_type degree(Vertex_handle v) const {
@@ -1172,6 +1184,55 @@ protected:
   friend std::ostream& operator<< <>
       (std::ostream& os, const Periodic_3_triangulation_3<GT,TDS> &tr);
   //@}
+
+  // unused and undocumented function required to be compatible to
+  // Alpha_shape_3
+public:
+  Point point(Cell_handle c, int idx) const {
+    //    if (is_1_cover())
+      return point(periodic_point(c,idx));
+
+    Offset vec_off[4];
+    for (int i=0 ; i<4 ; i++) vec_off[i] = periodic_point(c,i).second;
+    int ox = vec_off[0].x();
+    int oy = vec_off[0].y();
+    int oz = vec_off[0].z();
+    for (int i=1 ; i<4 ; i++) {
+      ox = std::min(ox,vec_off[i].x());
+      oy = std::min(oy,vec_off[i].y());
+      oz = std::min(oz,vec_off[i].z());
+    }
+    Offset diff_off(-ox,-oy,-oz);
+    if (diff_off.is_null()) return point(periodic_point(c,idx));
+
+    for (unsigned int i=0 ; i<4 ; i++) vec_off[i] += diff_off;
+    Vertex_handle canonic_vh[4];
+    for (int i=0 ; i<4 ; i++) {
+      Virtual_vertex_map_it vvmit = virtual_vertices.find(c->vertex(i));
+      Vertex_handle orig_vh;
+      if (vvmit == virtual_vertices.end()) orig_vh = c->vertex(i);
+      else orig_vh = vvmit->second.first;
+      if (vec_off[i].is_null()) canonic_vh[i] = orig_vh;
+      else {
+	CGAL_assertion(virtual_vertices_reverse.find(orig_vh)
+	    != virtual_vertices_reverse.end());
+	canonic_vh[i] = virtual_vertices_reverse.find(orig_vh)
+	  ->second[9*vec_off[i][0]+3*vec_off[i][1]+vec_off[i][2]-1];
+      }
+    }
+    
+    std::vector<Cell_handle> cells;
+    incident_cells(canonic_vh[0], std::back_inserter(cells));
+    for (unsigned int i=0 ; i<cells.size() ; i++) {
+      CGAL_assertion(cells[i]->has_vertex(canonic_vh[0]));
+      if (cells[i]->has_vertex(canonic_vh[1])
+	  && cells[i]->has_vertex(canonic_vh[2])
+	  && cells[i]->has_vertex(canonic_vh[3]) )
+	return point(periodic_point(cells[i],cells[i]->index(canonic_vh[idx])));
+    }
+    CGAL_assertion(false);
+  
+  }
 };
 
 template < class GT, class TDS >
@@ -1315,7 +1376,7 @@ is_triangulation_in_1_sheet() const {
     std::set<Vertex_handle> nb_v_odom;
     Vertex_handle vh;
     Offset off;
-    incident_vertices(vit, std::back_inserter(nb_v));
+    adjacent_vertices(vit, std::back_inserter(nb_v));
     for (unsigned int i=0; i<nb_v.size(); i++) {
       get_vertex(nb_v[i],vh,off);
       nb_v_odom.insert(vh);
@@ -1450,12 +1511,16 @@ Periodic_3_triangulation_3<GT,TDS>::locate(const Point & p, const Offset &o_p,
   // at the end to decide if p lies on a face/edge/vertex/interior.
   Orientation o[4];
   
+  boost::rand48 rng;      
+  boost::uniform_smallint<> four(0, 3);
+  boost::variate_generator<boost::rand48&, boost::uniform_smallint<> > die4(rng, four);
+
   
   // Now treat the cell c.
 try_next_cell:
   // For the remembering stochastic walk,
   // we need to start trying with a random index :
-  int i = rng.template get_bits<2>();
+  int i = die4();
   // For the remembering visibility walk (Delaunay only), we don't :
   // int i = 0;
 
@@ -2075,12 +2140,6 @@ too_long_edges[vit].push_back(temp_inc_cells[i]->vertex(j));
   *
   * c is the current cell, which must be in conflict.
   * tester is the function object that tests if a cell is in conflict.
-  * the cells in conflict are additionally marked by the in_conflict_flag
-  *
-  * in_conflict_flag value :
-  * 0 -> unknown
-  * 1 -> in conflict
-  * 2 -> not in conflict (== on boundary)
   */
 template <class GT, class TDS>
 template <class Conflict_test, class OutputIteratorBoundaryFacets,
@@ -2096,19 +2155,19 @@ find_conflicts(Cell_handle c, const Offset &current_off,
   CGAL_triangulation_precondition( number_of_vertices() != 0 );
   CGAL_triangulation_precondition( tester(c, current_off) );
 
-  c->set_in_conflict_flag(1);
+  c->tds_data().mark_in_conflict();
   
   *it.second++ = c;
 
   for (int i=0; i< 4; ++i) {
     Cell_handle test = c->neighbor(i);
-    if (test->get_in_conflict_flag() == 1) {
+    if (test->tds_data().is_in_conflict()) {
       if (c < test) {
         *it.third++ = Facet(c, i); // Internal facet.
       }
       continue; // test was already in conflict.
     }
-    if (test->get_in_conflict_flag() == 0) {
+    if (!test->tds_data().is_in_conflict()) {
       Offset o_test = current_off + get_neighbor_offset(c, i, test);
       if (tester(test,o_test)) {
         if (c < test)
@@ -2116,7 +2175,7 @@ find_conflicts(Cell_handle c, const Offset &current_off,
         it = find_conflicts(test, o_test, tester, it);
         continue;
       }
-      test->set_in_conflict_flag(2); // test is on the boundary.
+      test->tds_data().mark_on_boundary(); // test is on the boundary.
     }
     *it.first++ = Facet(c, i);
     for (int j = 0 ; j<4 ; j++){
@@ -2386,7 +2445,7 @@ template < class GT, class TDS >
 template < class PointRemover, class Conflict_tester>
 inline void Periodic_3_triangulation_3<GT,TDS>::remove(Vertex_handle v,
     PointRemover &r, Conflict_tester &t) {
-  CGAL_triangulation_assertion(is_vertex(v));
+  CGAL_expensive_precondition(is_vertex(v));
   std::vector<Vertex_handle> vhrem;
   if (!is_1_cover()) {
     if (number_of_vertices() == 1) {
@@ -2693,6 +2752,7 @@ Periodic_3_triangulation_3<GT,TDS>::convert_to_1_sheeted_covering() {
   // ### First cell iteration ##########################################
   // ###################################################################
   {
+    if (is_1_cover()) return;
     bool to_delete, has_simplifiable_offset;
     Virtual_vertex_map_it vvmit;
     // First iteration over all cells: Mark the cells that are to delete.
@@ -2859,11 +2919,13 @@ Periodic_3_triangulation_3<GT,TDS>::convert_to_1_sheeted_covering() {
   // ###################################################################
   {
     // Delete the marked cells.
+    std::vector<Cell_handle> cells_to_delete;
     for ( Cell_iterator cit = all_cells_begin() ;
     cit != all_cells_end() ; ++cit ) {
       if ( cit->get_additional_flag() == 1 )
-        _tds.delete_cell( cit );
+        cells_to_delete.push_back( cit );
     }
+    _tds.delete_cells(cells_to_delete.begin(), cells_to_delete.end());
   }
   
   // ###################################################################
@@ -2872,13 +2934,15 @@ Periodic_3_triangulation_3<GT,TDS>::convert_to_1_sheeted_covering() {
   {
     // Delete all the vertices in virtual_vertices, that is all vertices
     // outside the original domain.
+    std::vector<Vertex_handle> vertices_to_delete;
     for ( Vertex_iterator vit = all_vertices_begin() ;
-    vit != all_vertices_end() ; ++vit ) {
+	  vit != all_vertices_end() ; ++vit ) {
       if ( virtual_vertices.count( vit ) != 0 ) {
         CGAL_triangulation_assertion( virtual_vertices.count( vit ) == 1 );
-        _tds.delete_vertex( vit ) ;
+        vertices_to_delete.push_back( vit ) ;
       }
     }
+    _tds.delete_vertices(vertices_to_delete.begin(), vertices_to_delete.end());
   }
   _cover = make_array(1,1,1);
   virtual_vertices.clear();
@@ -3479,14 +3543,14 @@ operator<< (std::ostream& os,const Periodic_3_triangulation_3<GT,TDS> &tr)
   typedef typename Triangulation::Iso_cuboid       Iso_cuboid;
 
   // outputs dimension, domain and number of vertices
-  unsigned int n = tr.number_of_vertices();
   Iso_cuboid domain = tr.domain();
   Covering_sheets cover = tr.number_of_sheets();
+  unsigned int n = tr.number_of_vertices();
 
   if (is_ascii(os))
     os << domain << std::endl
        << cover[0] << " " << cover[1] << " " << cover[2] << std::endl
-       << n*cover[0]*cover[1]*cover[2] << std::endl;
+       << n*cover[0]*cover[1]*cover[2] << std::endl;       
   else {
     os << domain;
     write(os,cover[0]);
@@ -3570,7 +3634,7 @@ operator<< (std::ostream& os,const Periodic_3_triangulation_3<GT,TDS> &tr)
   return os ;
 }
 
-namespace CGALi {
+namespace internal {
 
   /// Internal function used by operator==.
   //TODO: introduce offsets
@@ -3649,7 +3713,7 @@ namespace CGALi {
     return true;
   }
 
-} // namespace CGALi
+} // namespace internal
 
 
 template < class GT, class TDS1, class TDS2  >
@@ -3773,7 +3837,7 @@ operator==(const Periodic_3_triangulation_3<GT,TDS1> &t1,
     return false;
 
   // We now have one cell, we need to propagate recursively.
-  return CGALi::test_next(t1, t2,
+  return internal::test_next(t1, t2,
       Cmap.begin()->first, Cmap.begin()->second, Cmap, Vmap);
 }
 

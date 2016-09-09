@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_triangulation_3.h $
-// $Id: Mesh_triangulation_3.h 51094 2009-08-06 13:11:07Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_triangulation_3.h $
+// $Id: Mesh_triangulation_3.h 52705 2009-10-23 10:27:15Z stayeb $
 //
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb
@@ -39,8 +39,7 @@ namespace CGAL {
     struct Mesh_geom_traits_generator
     {
     private:
-      typedef Regular_triangulation_filtered_traits_3<K>          Regular_traits;
-      typedef Robust_weighted_circumcenter_filtered_traits_3<Regular_traits>
+      typedef Robust_weighted_circumcenter_filtered_traits_3<K>
         Geom_traits;
       
     public:
@@ -51,13 +50,11 @@ namespace CGAL {
   }  // end namespace details
   
   
-  
-  
 // Struct Mesh_triangulation_3
 //
 template<class MD, class K=typename Kernel_traits<MD>::Kernel>
 struct Mesh_triangulation_3
-{
+  {
 private:
   typedef typename details::Mesh_geom_traits_generator<K>::type Geom_traits;
   typedef Mesh_vertex_base_3<Geom_traits, MD>                   Vertex_base;
@@ -69,6 +66,7 @@ public:
   typedef Triangulation type;
   typedef type Type;
 };  // end struct Mesh_triangulation_3
+
 
 
 }  // end namespace CGAL

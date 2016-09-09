@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/function_objects.h $
-// $Id: function_objects.h 44370 2008-07-23 15:27:18Z hoffmann $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_d/include/CGAL/Kernel_d/function_objects.h $
+// $Id: function_objects.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -29,7 +29,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class ToBeConstructed>
 class Construct
@@ -147,7 +147,7 @@ class Intersect
     { return intersection( t1, t2); }
 };
 
-} // end namespace CGALi
+} // end namespace internal
 CGAL_END_NAMESPACE
 
 #endif // CGAL_KERNEL_D_FUNCTION_OBJECTS_H

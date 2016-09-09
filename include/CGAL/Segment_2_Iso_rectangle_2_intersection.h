@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_2/include/CGAL/Segment_2_Iso_rectangle_2_intersection.h $
-// $Id: Segment_2_Iso_rectangle_2_intersection.h 45231 2008-08-30 11:10:46Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Segment_2_Iso_rectangle_2_intersection.h $
+// $Id: Segment_2_Iso_rectangle_2_intersection.h 52636 2009-10-20 10:18:30Z lrineau $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -33,7 +33,7 @@
 #include <CGAL/Object.h>
 
 CGAL_BEGIN_NAMESPACE
-namespace CGALi {
+namespace internal {
 
 template <class K>
 class Segment_2_Iso_rectangle_2_pair {
@@ -99,7 +99,7 @@ intersection(const typename K::Iso_rectangle_2 &iso,
 	     const typename K::Segment_2 &seg,
 	     const K& k)
 {
-  return CGALi::intersection(seg, iso, k);
+  return internal::intersection(seg, iso, k);
 }
 
 template <class K>
@@ -160,7 +160,7 @@ Segment_2_Iso_rectangle_2_pair<K>::intersection_type() const
             } else {
                 newmin = ( (*isomax_it) - (*ref_point_it)) /
                     _dir.cartesian(i);
-                newmax = ( (*isomin_it) - *(ref_point_it)) /
+                newmax = ( (*isomin_it) - (*ref_point_it)) /
                     _dir.cartesian(i);
             }
             if (newmin > _min)
@@ -224,7 +224,7 @@ inline bool do_intersect(
     return pair.intersection_type() != pair_t::NO_INTERSECTION;
 }
 
-} // namespace CGALi
+} // namespace internal
 
 template <class K>
 inline bool

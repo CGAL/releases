@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_global.h $
-// $Id: Arrangement_on_surface_2_global.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_global.h $
+// $Id: Arrangement_on_surface_2_global.h 53356 2009-12-09 09:53:05Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -378,7 +378,7 @@ void insert_non_empty(Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
                typename Insert_visitor::Event>
     sweep_line(&traits, &visitor);
   sweep_line.sweep(ex_cvs.begin(), ex_cvs.end(),ex_pts.begin(), ex_pts.end());
-};
+}
 
 //-----------------------------------------------------------------------------
 // Insert a range of curves into the arrangement (aggregated insertion). 

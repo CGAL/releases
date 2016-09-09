@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_filtered_traits_3.h $
-// $Id: Periodic_3_triangulation_filtered_traits_3.h 50129 2009-06-27 12:27:12Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_filtered_traits_3.h $
+// $Id: Periodic_3_triangulation_filtered_traits_3.h 51161 2009-08-10 15:57:03Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -41,7 +41,7 @@ CGAL_BEGIN_NAMESPACE
 //   wants to be filtered or not (=> all homogeneous predicate define this
 //   tag).  We could even test-suite that automatically.  It makes a strong
 //   new requirement on the kernel though...
-//   Could be done with a traits mecanism ?
+//   Could be done with a traits mechanism ?
 //   A default template could use the current IA, but other tags or whatever
 //   could specify no filtering at all, or static filtering...
 // - same thing for constructions => virtual operator() ?

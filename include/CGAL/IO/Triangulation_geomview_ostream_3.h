@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/IO/Triangulation_geomview_ostream_3.h $
-// $Id: Triangulation_geomview_ostream_3.h 46206 2008-10-11 20:21:08Z spion $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/IO/Triangulation_geomview_ostream_3.h $
+// $Id: Triangulation_geomview_ostream_3.h 51045 2009-08-04 13:36:15Z spion $
+//
 //
 // Author(s)     : Sylvain Pion
 
@@ -49,7 +49,7 @@ show_triangulation_edges(Geomview_stream &gv, const Triangulation_3<GT,TDS> &T)
     V[vit] = inum++;
     gv << vit->point() << "\n";
   }
-  
+
   // Finite edges indices.
   for( typename Triangulation_3<GT, TDS>::Finite_edges_iterator
 	  eit = T.finite_edges_begin(); eit != T.finite_edges_end(); ++eit) {

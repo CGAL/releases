@@ -1,5 +1,4 @@
-// Copyright (c) 2008  INRIA Sophia-Antipolis (France), ETHZ (Suisse).
-// Copyrigth (c) 2009  GeometryFactory (France)
+// Copyright (c) 2008  INRIA Sophia-Antipolis (France), ETH Zurich (Switzerland).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,11 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/AABB_tree/include/CGAL/AABB_drawing_traits.h $
-// $Id: AABB_drawing_traits.h 49810 2009-06-05 18:04:47Z cwormser $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/AABB_tree/include/CGAL/AABB_drawing_traits.h $
+// $Id: AABB_drawing_traits.h 51129 2009-08-07 18:57:08Z palliez $
 //
 //
-// Author(s)     :  Camille Wormser, Jane Tournois, Pierre Alliez
+// Author(s)     :  Camille Wormser, Pierre Alliez
 
 #ifndef CGAL_AABB_DRAWING_TRAITS_H
 #define CGAL_AABB_DRAWING_TRAITS_H

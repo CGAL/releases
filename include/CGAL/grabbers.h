@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL:  $
-// $Id:   $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/CGAL_ipelets/include/CGAL/grabbers.h $
+// $Id: grabbers.h 52628 2009-10-20 08:59:26Z lrineau $
 // 
 //
 // Author(s)     : Sebastien Loriot, Sylvain Pion
@@ -26,7 +26,7 @@
 
 namespace CGAL{
   
-namespace CGALi{
+namespace internal{
 
 template <class Kernel, class output_iterator>
 class Point_grabber{
@@ -124,6 +124,6 @@ wpoint_grabber(output_iterator it){
   return boost::make_function_output_iterator(Wpoint_grabber<Kernel,output_iterator>(it));
 }
 
-}//CGALi
+}//internal
 }//CGAL
 #endif //CGAL_GRABBER_H

@@ -1,5 +1,5 @@
 // Copyright (c) 2008  INRIA Sophia-Antipolis (France).
-// Copyrigth (c) 2009  GeometryFactory (France)
+// Copyright (c) 2009  GeometryFactory (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polyhedron/demo/Polyhedron/include/CGAL/AABB_polyhedral_oracle.h $
-// $Id: AABB_polyhedral_oracle.h 50761 2009-07-22 14:06:10Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polyhedron/demo/Polyhedron/include/CGAL/AABB_polyhedral_oracle.h $
+// $Id: AABB_polyhedral_oracle.h 51119 2009-08-07 11:32:21Z spion $
 //
 //
 // Author(s) : Pierre Alliez, Laurent Rineau, Stephane Tayeb

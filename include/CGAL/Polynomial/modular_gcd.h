@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/Polynomial/modular_gcd.h $
-// $Id: modular_gcd.h 47311 2008-12-09 13:28:13Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/modular_gcd.h $
+// $Id: modular_gcd.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 //Author(s) : Michael Hemmer <mhemmer@uni-mainz.de>
@@ -37,7 +37,7 @@
 
 
 namespace CGAL {
-namespace CGALi {
+namespace internal {
 
 template <class NT> 
 Polynomial<NT> modular_gcd_utcf(
@@ -53,7 +53,7 @@ Polynomial<NT> modular_gcd_utcf(
     return modular_gcd_utcf_algorithm_M(FF1, FF2);
 }
 
-}// namespace CGALi
+}// namespace internal
 }///namespace CGAL
 
 #endif //#ifndef CGAL_POLYNOMIAL_MODULAR_GCD_H 1

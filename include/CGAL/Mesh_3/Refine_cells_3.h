@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Refine_cells_3.h $
-// $Id: Refine_cells_3.h 51094 2009-08-06 13:11:07Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Refine_cells_3.h $
+// $Id: Refine_cells_3.h 52705 2009-10-23 10:27:15Z stayeb $
 // 
 //
 // Author(s)     : Laurent RINEAU, Stephane Tayeb
@@ -277,7 +277,7 @@ before_insertion_handle_cells_in_conflict_zone(Zone& zone)
   typename Zone::Cells_iterator cit = zone.cells.begin();
   for ( ; cit != zone.cells.end() ; ++cit )
   {
-    // Remove cell from refinment queue
+    // Remove cell from refinement queue
     remove_element(*cit);
     
     // Remove cell from complex

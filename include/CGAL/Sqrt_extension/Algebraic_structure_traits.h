@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: $
-// $Id: $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Sqrt_extension/Algebraic_structure_traits.h $
+// $Id: Algebraic_structure_traits.h 52628 2009-10-20 08:59:26Z lrineau $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -26,7 +26,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 // Algebraic structure traits
 template< class Type, class Algebraic_type >
@@ -193,12 +193,12 @@ class Sqrt_extension_algebraic_structure_traits_base< Type,
   // Nothing new
 };
 
-} // namespace CGALi
+} // namespace internal
 
 
 template< class COEFF_, class ROOT_>
 class Algebraic_structure_traits< Sqrt_extension< COEFF_, ROOT_ > >
-    : public CGALi::Sqrt_extension_algebraic_structure_traits_base<
+    : public internal::Sqrt_extension_algebraic_structure_traits_base<
       Sqrt_extension< COEFF_, ROOT_ >,
       typename Algebraic_structure_traits< COEFF_ >::Algebraic_category > {
 public:

@@ -14,11 +14,13 @@ if(COMMAND cmake_policy)
 endif(COMMAND cmake_policy)
 
 # Use packages improved since CGAL 3.4
-foreach(DEP_PKG AABB_tree STL_Extension GraphicsView Surface_mesher Filtered_kernel Profiling_tools Mesh_3)
+foreach(DEP_PKG AABB_tree STL_Extension GraphicsView Surface_mesher Filtered_kernel Profiling_tools Mesh_3 Triangulation_3 )
   foreach(CGAL_SVN_TRUNK ../../../ ../../trunk ..)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${CGAL_SVN_TRUNK}/${DEP_PKG}/include")
       include_directories (BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/${CGAL_SVN_TRUNK}/${DEP_PKG}/include")
-      break()
+      if(COMMAND break)
+        break()
+      endif()
     endif()
   endforeach()
 endforeach()
@@ -54,6 +56,8 @@ find_package(TAUCS)
 
 if(CGAL_Qt4_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND)
 
+  find_package(Boost)
+
   include_directories ( ${QGLVIEWER_INCLUDE_DIR} )
 
   # Link with BLAS, LAPACK and TAUCS (optional)
@@ -74,6 +78,8 @@ if(CGAL_Qt4_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND)
 
   qt4_wrap_ui( UI_FILES MainWindow.ui )
 
+  qt4_wrap_ui( remeshingUI_FILES  Remeshing_dialog.ui)
+
   include(AddFileDependencies)
 
   qt4_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/MainWindow.h" MainWindow_moc.cpp )
@@ -85,12 +91,17 @@ if(CGAL_Qt4_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND)
   qt4_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/Scene.h" Scene_moc.cpp )
   add_file_dependencies( Scene_moc.cpp "${CMAKE_CURRENT_SOURCE_DIR}/Scene.h" )
 
+  
+  qt4_generate_moc( "${CMAKE_CURRENT_SOURCE_DIR}/Polyhedron_demo_remeshing_plugin_cgal_code.cpp" Polyhedron_demo_remeshing_plugin_cgal_code.moc )
+
   qt4_add_resources ( RESOURCE_FILES Polyhedron_3.qrc )
 
   qt4_automoc(Scene_item.cpp
               Scene_plane_item.cpp
               Scene_polygon_soup.cpp 
               Scene_polyhedron_item.cpp
+              Scene_textured_polyhedron_item.cpp
+              Scene_c2t3_item.cpp
               Scene_nef_polyhedron_item.cpp)
 
   # AUXILIARY LIBRARIES
@@ -109,9 +120,19 @@ if(CGAL_Qt4_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND)
     Scene_plane_item.cpp Scene_plane_item.moc)
   target_link_libraries(scene_basic_objects scene_item ${QGLVIEWER_LIBRARIES} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
 
+  add_library(scene_c2t3_item SHARED
+    Scene_c2t3_item.cpp Scene_c2t3_item.moc)
+  target_link_libraries(scene_c2t3_item scene_item)
+
   add_library(scene_polyhedron_item SHARED
     Scene_polyhedron_item.cpp Scene_polyhedron_item.moc)
   target_link_libraries(scene_polyhedron_item scene_item)
+
+  if(TAUCS_FOUND)
+  add_library(scene_textured_polyhedron_item SHARED
+    Scene_textured_polyhedron_item.cpp Scene_textured_polyhedron_item.moc)
+  target_link_libraries(scene_textured_polyhedron_item scene_item)
+  endif(TAUCS_FOUND)
 
   add_library(polygon_soup SHARED
     Scene_polygon_soup.cpp Scene_polygon_soup.moc)
@@ -134,7 +155,6 @@ if(CGAL_Qt4_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND)
       Viewer.cpp
       Scene.cpp
 #      MainWindow_curvature_estimation.cpp
-#      MainWindow_parameterization.cpp
       MainWindow_moc.cpp
       Scene_moc.cpp
       Viewer_moc.cpp
@@ -193,14 +213,18 @@ if(CGAL_Qt4_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND)
     target_link_libraries( ${plugin_name} ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} )
   endmacro(polyhedron_demo_plugin)
 
-  polyhedron_demo_plugin(remeshing_plugin Polyhedron_demo_remeshing_plugin Polyhedron_demo_remeshing_plugin_cgal_code.cpp)
-  target_link_libraries(remeshing_plugin scene_polyhedron_item)
+  polyhedron_demo_plugin(remeshing_plugin Polyhedron_demo_remeshing_plugin Polyhedron_demo_remeshing_plugin_cgal_code.cpp Polyhedron_demo_remeshing_plugin_cgal_code.moc ${remeshingUI_FILES})
+  target_link_libraries(remeshing_plugin scene_polyhedron_item polygon_soup scene_c2t3_item)
 
-  qt4_generate_moc("${CMAKE_CURRENT_SOURCE_DIR}/Polyhedron_demo_mesh_3_plugin_cgal_code.cpp" Scene_c3t3_item.moc )
+  if ( Boost_VERSION GREATER 103400 )
+    qt4_generate_moc("${CMAKE_CURRENT_SOURCE_DIR}/Polyhedron_demo_mesh_3_plugin_cgal_code.cpp" Scene_c3t3_item.moc )
 
-  polyhedron_demo_plugin(mesh_3_plugin Polyhedron_demo_mesh_3_plugin 
-    Polyhedron_demo_mesh_3_plugin_cgal_code.cpp Scene_c3t3_item.moc)
-  target_link_libraries(mesh_3_plugin scene_polyhedron_item ${QGLVIEWER_LIBRARIES} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
+    polyhedron_demo_plugin(mesh_3_plugin Polyhedron_demo_mesh_3_plugin 
+      Polyhedron_demo_mesh_3_plugin_cgal_code.cpp Scene_c3t3_item.moc)
+    target_link_libraries(mesh_3_plugin scene_polyhedron_item ${QGLVIEWER_LIBRARIES} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
+  else( Boost_VERSION GREATER 103400 )
+    message(STATUS "warning: the plugin mesh_3_plugin requires Boost>=1.34.1 and will not be compiled.")
+  endif( Boost_VERSION GREATER 103400 )
 
   polyhedron_demo_plugin(inside_out_plugin Polyhedron_demo_inside_out_plugin)
   target_link_libraries(inside_out_plugin scene_polyhedron_item polygon_soup)
@@ -210,6 +234,9 @@ if(CGAL_Qt4_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND)
 
   polyhedron_demo_plugin(orient_soup_plugin Polyhedron_demo_orient_soup_plugin)
   target_link_libraries(orient_soup_plugin polygon_soup)
+
+  polyhedron_demo_plugin(triangulate_facets_plugin Polyhedron_demo_triangulate_facets_plugin)
+  target_link_libraries(triangulate_facets_plugin scene_polyhedron_item)
 
   polyhedron_demo_plugin(off_to_nef_plugin Polyhedron_demo_off_to_nef_plugin EXCLUDE_FROM_ALL)
   target_link_libraries(off_to_nef_plugin scene_nef_polyhedron_item)
@@ -222,6 +249,11 @@ if(CGAL_Qt4_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND)
 
   polyhedron_demo_plugin(pca_plugin Polyhedron_demo_pca_plugin)
   target_link_libraries(pca_plugin scene_polyhedron_item scene_basic_objects)
+
+  if(TAUCS_FOUND)
+    polyhedron_demo_plugin(parameterization_plugin Polyhedron_demo_parameterization_plugin)
+    target_link_libraries(parameterization_plugin scene_polyhedron_item scene_textured_polyhedron_item )
+  endif(TAUCS_FOUND)
 
   polyhedron_demo_plugin(self_intersection_plugin Polyhedron_demo_self_intersection_plugin)
   target_link_libraries(self_intersection_plugin scene_polyhedron_item)

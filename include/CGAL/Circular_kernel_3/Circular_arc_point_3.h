@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_point_3.h $
-// $Id: Circular_arc_point_3.h 50731 2009-07-21 09:08:07Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_point_3.h $
+// $Id: Circular_arc_point_3.h 51456 2009-08-24 17:10:04Z spion $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
 //             Sebastien Loriot, Julien Hazebrouck, Damien Leroy
@@ -31,7 +31,7 @@
 // appeler fonction de global_functions_on_circular_arcs
 
 namespace CGAL {
-  namespace CGALi {
+  namespace internal {
 
 template <class SK >
 class Circular_arc_point_3
@@ -246,7 +246,7 @@ print(std::ostream & os, const Circular_arc_point_3<SK> &p)
   return os << "CirclArcEndPoint_3(" << p.x() << ", " << p.y() << ')' << std::endl;
 }
 
-  } // namespace CGALi
+  } // namespace internal
 } // namespace CGAL
 
 #endif // CGAL_SPHERICAL_KERNEL_CIRCULAR_ARC_POINT_3_H

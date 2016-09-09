@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
-// $Id: Mesh_vertex_base_3.h 51960 2009-09-17 11:10:50Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
+// $Id: Mesh_vertex_base_3.h 53213 2009-11-26 17:08:34Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -51,13 +51,15 @@ public:
     typedef Mesh_vertex_base_3 <GT, MT, Vb3> Other;
   };
 
-  // Index type
+  // Types
   typedef typename MT::Index                      Index;
+  typedef typename GT::FT                         FT;
 
   // Constructor
   Mesh_vertex_base_3() : Surface_mesh_vertex_base_3<GT, Vb>()
                        , index_()
-                       , dimension_(-1) { };
+                       , dimension_(-1)
+                       , meshing_info_(0) { };
 
   // Destructor
   virtual ~Mesh_vertex_base_3() { };
@@ -78,6 +80,10 @@ public:
   // that contains the vertex
   void set_index(const Index& index) { index_ = index; };
 
+  // Accessors to meshing_info private data
+  const FT& meshing_info() const { return meshing_info_; }
+  void set_meshing_info(const FT& value) { meshing_info_ = value; }
+
 private:
   // Index of the lowest dimensional face of the input 3D complex
   // that contains me
@@ -85,6 +91,8 @@ private:
   // Dimension of the lowest dimensional face of the input 3D complex
   // that contains me
   int dimension_;
+  // Stores info needed by optimizers
+  FT meshing_info_;
 
 };  // end class Mesh_vertex_base_3
 

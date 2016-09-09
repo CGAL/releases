@@ -32,7 +32,7 @@ typedef Mesh_criteria::Cell_criteria Cell_criteria;
 typedef Tr::Point Point_3;
 
 #include "Scene_item.h"
-#include <QtCore/qglobal.h>
+#include <Qt/qglobal.h>
 #include <CGAL/gl.h>
 #include <QGLViewer/manipulatedFrame.h>
 #include <QGLViewer/qglviewer.h>
@@ -95,7 +95,7 @@ public:
     if(isEmpty())
       return Bbox();
     else {
-      CGAL::Bbox_3 result = c3t3().triangulation().vertices_begin()->point().bbox();
+      CGAL::Bbox_3 result = c3t3().triangulation().finite_vertices_begin()->point().bbox();
       for(Tr::Finite_vertices_iterator
             vit = ++c3t3().triangulation().finite_vertices_begin(),
             end = c3t3().triangulation().finite_vertices_end();
@@ -279,6 +279,7 @@ private:
 };
 
 Scene_item* cgal_code_mesh_3(const Polyhedron* pMesh,
+                             const QString filename,
                              const double angle,
                              const double sizing,
                              const double approx,
@@ -297,6 +298,11 @@ Scene_item* cgal_code_mesh_3(const Polyhedron* pMesh,
 
   CGAL::Timer timer;
   timer.start();
+  std::cerr << "Meshing file \"" << qPrintable(filename) << "\"\n";
+  std::cerr << "  angle: " << angle << std::endl
+            << "  facets size bound: " << sizing << std::endl
+            << "  approximation bound: " << approx << std::endl
+            << "  tetrahedra size bound: " << tets_sizing << std::endl;
   std::cerr << "Build AABB tree...";
   // Create domain
   Mesh_domain domain(*pMesh);

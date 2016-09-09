@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Triangulation_utils_3.h $
-// $Id: Triangulation_utils_3.h 48845 2009-04-21 18:34:14Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Triangulation_utils_3.h $
+// $Id: Triangulation_utils_3.h 51045 2009-08-04 13:36:15Z spion $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
@@ -43,9 +43,9 @@ const char Triangulation_utils_base_3<T>::tab_next_around_edge[4][4] = {
 
 template < class T >
 const int Triangulation_utils_base_3<T>::tab_vertex_triple_index[4][3] = {
- {1, 3, 2}, 
+ {1, 3, 2},
  {0, 2, 3},
- {0, 3, 1}, 
+ {0, 3, 1},
  {0, 1, 2}
 };
 

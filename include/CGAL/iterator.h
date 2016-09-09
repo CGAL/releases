@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/iterator.h $
-// $Id: iterator.h 50386 2009-07-06 09:30:22Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/iterator.h $
+// $Id: iterator.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -1178,7 +1178,7 @@ filter_output_iterator(I e, const P& p)
 
 #ifndef CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES
 
-namespace CGALi {
+namespace internal {
 
 template < typename D, typename V = cpp0x::tuple<>, typename O = cpp0x::tuple<> >
 struct Derivator
@@ -1209,7 +1209,7 @@ struct Derivator<D, cpp0x::tuple<V1, V...>, cpp0x::tuple<O1, O...> >
   }
 };
 
-} // CGALi
+} // internal
 
 
 // OutputIterator which accepts several types in *o++= and dispatches,
@@ -1219,7 +1219,7 @@ class Dispatch_output_iterator;
 
 template < typename... V, typename... O >
 class Dispatch_output_iterator < cpp0x::tuple<V...>, cpp0x::tuple<O...> >
- : private CGALi::Derivator<Dispatch_output_iterator< cpp0x::tuple<V...>, cpp0x::tuple<O...> >, cpp0x::tuple<V...>, cpp0x::tuple<O...> >
+ : private internal::Derivator<Dispatch_output_iterator< cpp0x::tuple<V...>, cpp0x::tuple<O...> >, cpp0x::tuple<V...>, cpp0x::tuple<O...> >
  , public cpp0x::tuple<O...>
 {
   static_assert(sizeof...(V) == sizeof...(O),
@@ -1228,7 +1228,7 @@ class Dispatch_output_iterator < cpp0x::tuple<V...>, cpp0x::tuple<O...> >
   static const int size = sizeof...(V);
 
   template <typename D, typename V_, typename O_>
-  friend class CGALi::Derivator;
+  friend class internal::Derivator;
 
 public:
 
@@ -1244,7 +1244,7 @@ public:
 private:
 
   typedef Dispatch_output_iterator Self;
-  typedef CGALi::Derivator<Self, Value_type_tuple, Iterator_tuple > Base;
+  typedef internal::Derivator<Self, Value_type_tuple, Iterator_tuple > Base;
 
 public:
 
@@ -1287,7 +1287,7 @@ class Dispatch_or_drop_output_iterator < cpp0x::tuple<V...>, cpp0x::tuple<O...> 
   typedef Dispatch_output_iterator< cpp0x::tuple<V...>, cpp0x::tuple<O...> > Base;
 
   template <typename D, typename V_, typename O_>
-  friend class CGALi::Derivator;
+  friend class internal::Derivator;
 
 public:
 

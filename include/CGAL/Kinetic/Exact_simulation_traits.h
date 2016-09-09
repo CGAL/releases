@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/include/CGAL/Kinetic/Exact_simulation_traits_2.h $
-// $Id: Exact_simulation_traits_2.h 35766 2007-01-20 21:39:01Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kinetic_data_structures/include/CGAL/Kinetic/Exact_simulation_traits.h $
+// $Id: Exact_simulation_traits.h 52628 2009-10-20 08:59:26Z lrineau $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>

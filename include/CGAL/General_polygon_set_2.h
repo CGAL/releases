@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/General_polygon_set_2.h $
-// $Id: General_polygon_set_2.h 49788 2009-06-04 09:17:15Z eric $ $Date: 2009-06-04 11:17:15 +0200 (Thu, 04 Jun 2009) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Boolean_set_operations_2/include/CGAL/General_polygon_set_2.h $
+// $Id: General_polygon_set_2.h 53311 2009-12-07 10:26:37Z efif $ $Date: 2009-12-07 11:26:37 +0100 (Mon, 07 Dec 2009) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -26,6 +26,7 @@
 #include <CGAL/Boolean_set_operations_2/Gps_default_dcel.h>
 #include <CGAL/General_polygon_set_on_surface_2.h>
 #include <CGAL/Arrangement_2/Arr_default_planar_topology.h>
+#include <CGAL/Arrangement_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -34,22 +35,21 @@ template <class Traits_, class Dcel_ = Gps_default_dcel<Traits_> >
 class General_polygon_set_2 : public General_polygon_set_on_surface_2
   <Traits_, typename Default_planar_topology<Traits_, Dcel_ >::Traits>
 {
+protected:
+  typedef General_polygon_set_2< Traits_, Dcel_ >         Self;
+  
 public:
   typedef Traits_                                         Traits_2;
   typedef Dcel_                                           Dcel;
 
-  typedef General_polygon_set_2< Traits_, Dcel_ >         Self;
   typedef General_polygon_set_on_surface_2 <Traits_2,
     typename Default_planar_topology<Traits_2, Dcel >::Traits>
                                                           Base;
 
-  typedef typename Base::Arrangement_on_surface_2         Arrangement_2;
+  typedef CGAL::Arrangement_2<Traits_2, Dcel>             Arrangement_2;
 
-protected:
   typedef typename Base::Polygon_2                        Polygon_2;
   typedef typename Base::Polygon_with_holes_2             Polygon_with_holes_2;
-
-public:
 
   // default costructor
   General_polygon_set_2() : Base()
@@ -96,6 +96,25 @@ public:
                        static_cast<const Base&>(ps2));
   }
 
+  //@{
+  
+  /*! Obtain a const reference to the underlying arrangement
+   * \return the underlying arrangement.
+   */
+  const Arrangement_2& arrangement() const
+  {
+    return *(static_cast<const Arrangement_2*>(this->m_arr));
+  }
+
+  /*! Obtain a reference to the underlying arrangement
+   * \return the underlying arrangement.
+   */
+  Arrangement_2& arrangement()
+  {
+    return *(static_cast<Arrangement_2*>(this->m_arr));
+  }
+
+  //@}
 };
 
 CGAL_END_NAMESPACE

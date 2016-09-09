@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/ch_function_objects_2.h $
-// $Id: ch_function_objects_2.h 44371 2008-07-23 15:31:38Z hoffmann $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Convex_hull_2/include/CGAL/ch_function_objects_2.h $
+// $Id: ch_function_objects_2.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Susan Hert
@@ -22,7 +22,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class R>
 class r_Less_dist_to_line
@@ -64,7 +64,7 @@ private:
   mutable Line l_ab;
 };
 
-} // namespace CGALi
+} // namespace internal
 
 CGAL_END_NAMESPACE
 

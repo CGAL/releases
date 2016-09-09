@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_functors.h $
-// $Id: Sweep_line_functors.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_functors.h $
+// $Id: Sweep_line_functors.h 51984 2009-09-20 16:18:10Z efif $
 // 
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>
@@ -51,10 +51,10 @@ public:
   typedef typename Traits_2::X_monotone_curve_2     X_monotone_curve_2;
 
   // should be ok, as Traits_2 is supposed to be the adaptor
-  typedef typename Traits_2::Arr_left_side_tag          Arr_left_side_tag;
-  typedef typename Traits_2::Arr_bottom_side_tag        Arr_bottom_side_tag;
-  typedef typename Traits_2::Arr_top_side_tag           Arr_top_side_tag;
-  typedef typename Traits_2::Arr_right_side_tag         Arr_right_side_tag;
+  typedef typename Traits_2::Arr_left_side_category          Arr_left_side_category;
+  typedef typename Traits_2::Arr_bottom_side_category        Arr_bottom_side_category;
+  typedef typename Traits_2::Arr_top_side_category           Arr_top_side_category;
+  typedef typename Traits_2::Arr_right_side_category         Arr_right_side_category;
 
 private:
 

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Distance_3/include/CGAL/squared_distance_3_0.h $
-// $Id: squared_distance_3_0.h 39776 2007-08-08 15:15:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Distance_3/include/CGAL/squared_distance_3_0.h $
+// $Id: squared_distance_3_0.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman, Andreas Fabri
@@ -36,7 +36,7 @@
 CGAL_BEGIN_NAMESPACE
 
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 bool is_null(const typename K::Vector_3 &v, const K&)
@@ -294,7 +294,7 @@ same_direction(const typename K::Vector_3 &u,
 }
 
 
-} // namespace CGALi
+} // namespace internal
 
 template <class K>
 inline 
@@ -302,7 +302,7 @@ typename K::FT
 squared_distance(const Point_3<K> & pt1,
 		 const Point_3<K> & pt2)
 {
-  return CGALi::squared_distance(pt1,pt2, K());
+  return internal::squared_distance(pt1,pt2, K());
 }
 
 
@@ -312,7 +312,7 @@ typename K::FT
 squared_distance_to_plane(const Vector_3<K> & normal,
 			  const Vector_3<K> & diff)
 {
-  return CGALi::squared_distance_to_plane(normal, diff, K());
+  return internal::squared_distance_to_plane(normal, diff, K());
 }
 
 
@@ -322,7 +322,7 @@ typename K::FT
 squared_distance_to_line(const Vector_3<K> & dir,
 			 const Vector_3<K> & diff)
 {
-  return CGALi::squared_distance_to_line(dir, diff, K());
+  return internal::squared_distance_to_line(dir, diff, K());
 }
 
 

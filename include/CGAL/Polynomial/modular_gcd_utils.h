@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/Polynomial/modular_gcd_utils.h $
-// $Id: modular_gcd_utils.h 47300 2008-12-09 10:48:07Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/modular_gcd_utils.h $
+// $Id: modular_gcd_utils.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-inf.mpg.de>
@@ -35,7 +35,7 @@
 
 namespace CGAL{
 
-namespace CGALi { 
+namespace internal { 
 
 template <class NT>
 void euclidean_division_obstinate(const NT& F1, const NT& F2, 
@@ -96,7 +96,7 @@ void euclidean_division_obstinate(const Polynomial<NT>& F1,
     CGAL_postcondition(F1 == F2*Q + R);
 }
 
-} // namespace CGALi
+} // namespace internal
 } // namespace CGAL
 
 #endif //#ifnedef CGAL_POLYNOMIAL_MODULAR_GCD_UTILS_H 1

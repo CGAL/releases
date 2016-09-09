@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/Polynomial/fwd.h $
-// $Id: fwd.h 48562 2009-03-27 17:30:16Z mkerber $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/fwd.h $
+// $Id: fwd.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 // Author(s)     : Michael Hemmer 
@@ -28,7 +28,7 @@ namespace CGAL{
 
 template <class NT> class Polynomial; 
 
-namespace CGALi{
+namespace internal{
 template <class NT> inline Polynomial<NT> gcd (const Polynomial<NT>&, const Polynomial<NT>&);
 template <class NT> inline Polynomial<NT> gcd_(const Polynomial<NT>&, const Polynomial<NT>&, Field_tag);
 template <class NT> inline Polynomial<NT> gcd_(const Polynomial<NT>&, const Polynomial<NT>&, Unique_factorization_domain_tag);
@@ -95,7 +95,7 @@ template< class Coeff >
 struct Simple_matrix;
 
 template<class NT>
-CGALi::Simple_matrix<NT> polynomial_subresultant_matrix(
+internal::Simple_matrix<NT> polynomial_subresultant_matrix(
                                                CGAL::Polynomial<NT> f,
 					       CGAL::Polynomial<NT> g,
 					       int d=0);
@@ -148,7 +148,7 @@ sturm_habicht_sequence_with_cofactors
  OutputIterator2 out_f,
  OutputIterator3 out_fx);
 
-} // namespace CGALi
+} // namespace internal
 
 
 } // namespace CGAL

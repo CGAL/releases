@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_3/include/CGAL/Env_sphere_traits_3.h $
-// $Id: Env_sphere_traits_3.h 50370 2009-07-05 13:22:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Envelope_3/include/CGAL/Env_sphere_traits_3.h $
+// $Id: Env_sphere_traits_3.h 51065 2009-08-05 12:44:39Z efif $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -25,6 +25,7 @@
 #include <CGAL/Object.h>
 #include <CGAL/enum.h>
 #include <CGAL/Bbox_3.h>
+#include <CGAL/Sphere_3.h>
 #include <CGAL/functions_on_signs.h>
 #include <CGAL/Envelope_3/Envelope_base.h>
 

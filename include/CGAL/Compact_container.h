@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Compact_container.h $
-// $Id: Compact_container.h 48759 2009-04-10 21:55:24Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/Compact_container.h $
+// $Id: Compact_container.h 53634 2010-01-14 20:18:24Z spion $
 //
 // Author(s)     : Sylvain Pion
 
@@ -26,6 +26,7 @@
 #include <iterator>
 #include <algorithm>
 #include <vector>
+#include <cstring>
 
 #include <CGAL/memory.h>
 #include <CGAL/iterator.h>
@@ -48,7 +49,7 @@
 //   Also for the allocated memory alignment, and sizeof().
 // - Do a benchmark before/after.
 // - Check the end result with Valgrind.
-// - The bit squatting mecanism will be reused for the conflict flag, maybe
+// - The bit squatting mechanism will be reused for the conflict flag, maybe
 //   it could be put out of the class.
 
 // TODO low priority :
@@ -104,7 +105,7 @@ struct Compact_container_traits {
   static void * & pointer(T &t)       { return t.for_compact_container(); }
 };
 
-namespace CGALi {
+namespace internal {
   template < class DSC, bool Const >
   class CC_iterator;
 }
@@ -125,13 +126,13 @@ public:
   typedef typename Allocator::const_pointer         const_pointer;
   typedef typename Allocator::size_type             size_type;
   typedef typename Allocator::difference_type       difference_type;
-  typedef CGALi::CC_iterator<Self, false>           iterator;
-  typedef CGALi::CC_iterator<Self, true>            const_iterator;
+  typedef internal::CC_iterator<Self, false>           iterator;
+  typedef internal::CC_iterator<Self, true>            const_iterator;
   typedef std::reverse_iterator<iterator>           reverse_iterator;
   typedef std::reverse_iterator<const_iterator>     const_reverse_iterator;
 
-  friend class CGALi::CC_iterator<Self, false>;
-  friend class CGALi::CC_iterator<Self, true>;
+  friend class internal::CC_iterator<Self, false>;
+  friend class internal::CC_iterator<Self, true>;
 
   explicit Compact_container(const Allocator &a = Allocator())
   : alloc(a)
@@ -402,13 +403,16 @@ public:
   {
     CGAL_precondition(type(&*x) == USED);
     alloc.destroy(&*x);
+#ifndef CGAL_NO_ASSERTIONS
+    std::memset(&*x, 0, sizeof(T));
+#endif
     put_on_free_list(&*x);
     --size_;
   }
 
   void erase(iterator first, iterator last) {
-    for (; first != last; ++first)
-      erase(first);
+    while (first != last)
+      erase(first++);
   }
 
   void clear();
@@ -662,7 +666,7 @@ bool operator>=(const Compact_container<T, Allocator> &lhs,
   return ! (lhs < rhs);
 }
 
-namespace CGALi {
+namespace internal {
 
   template < class DSC, bool Const >
   class CC_iterator
@@ -739,9 +743,9 @@ namespace CGALi {
     {
       // It's either pointing to end(), or valid.
       CGAL_assertion_msg(m_ptr.p != NULL,
-                         "Doing ++ on empty container iterator ?");
+	 "Incrementing a singular iterator or an empty container iterator ?");
       CGAL_assertion_msg(DSC::type(m_ptr.p) != DSC::START_END,
-                         "Doing ++ on end() ?");
+	 "Incrementing end() ?");
 
       // If it's not end(), then it's valid, we can do ++.
       do {
@@ -759,9 +763,9 @@ namespace CGALi {
     {
       // It's either pointing to end(), or valid.
       CGAL_assertion_msg(m_ptr.p != NULL,
-                         "Doing -- on empty container iterator ?");
+	 "Decrementing a singular iterator or an empty container iterator ?");
       CGAL_assertion_msg(DSC::type(m_ptr.p - 1) != DSC::START_END,
-                         "Doing -- on begin() ?");
+	 "Decrementing begin() ?");
 
       // If it's not begin(), then it's valid, we can do --.
       do {
@@ -777,8 +781,26 @@ namespace CGALi {
 
   public:
 
-    Self & operator++() { increment(); return *this; }
-    Self & operator--() { decrement(); return *this; }
+    Self & operator++()
+    {
+      CGAL_assertion_msg(m_ptr.p != NULL,
+	 "Incrementing a singular iterator or an empty container iterator ?");
+      CGAL_assertion_msg(DSC::type(m_ptr.p) == DSC::USED,
+                         "Incrementing an invalid iterator.");
+      increment();
+      return *this;
+    }
+
+    Self & operator--()
+    {
+      CGAL_assertion_msg(m_ptr.p != NULL,
+	 "Decrementing a singular iterator or an empty container iterator ?");
+      CGAL_assertion_msg(DSC::type(m_ptr.p) == DSC::USED
+		      || DSC::type(m_ptr.p) == DSC::START_END,
+                         "Decrementing an invalid iterator.");
+      decrement();
+      return *this;
+    }
 
     Self operator++(int) { Self tmp(*this); ++(*this); return tmp; }
     Self operator--(int) { Self tmp(*this); --(*this); return tmp; }
@@ -833,7 +855,7 @@ namespace CGALi {
     return &*rhs != NULL;
   }
 
-} // namespace CGALi
+} // namespace internal
 
 CGAL_END_NAMESPACE
 

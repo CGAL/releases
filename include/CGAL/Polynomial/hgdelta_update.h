@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://afabri@scm.gforge.inria.fr/svn/cgal/trunk/Polynomial/include/CGAL/Polynomial/polynomial_functions.h $
-// $Id: polynomial_functions.h 46402 2008-10-21 16:20:05Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/hgdelta_update.h $
+// $Id: hgdelta_update.h 52628 2009-10-20 08:59:26Z lrineau $
 //
 //
 // Author(s)     : Michael Hemmer 
@@ -27,7 +27,7 @@
 CGAL_BEGIN_NAMESPACE
 
 // This subroutine has been retained here for use in both new files.
-namespace CGALi {
+namespace internal {
     template <class NT> inline
     void hgdelta_update(NT& h, const NT& g, int delta) {
         typename Algebraic_structure_traits<NT>::Integral_division idiv;
@@ -45,7 +45,7 @@ namespace CGALi {
             break;
         }
     }
-} // namespace CGALi
+} // namespace internal
 
 CGAL_END_NAMESPACE
 

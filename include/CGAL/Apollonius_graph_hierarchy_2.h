@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_2.h $
-// $Id: Apollonius_graph_hierarchy_2.h 48840 2009-04-21 18:17:32Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_2.h $
+// $Id: Apollonius_graph_hierarchy_2.h 53845 2010-01-27 16:43:40Z lrineau $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -22,7 +22,9 @@
 
 #include <map>
 
-#include <CGAL/Random.h>
+#include <boost/random/linear_congruential.hpp>
+#include <boost/random/geometric_distribution.hpp>
+#include <boost/random/variate_generator.hpp>
 
 #include <CGAL/Apollonius_graph_2.h>
 #include <CGAL/Triangulation_data_structure_2.h>
@@ -200,7 +202,7 @@ private:
   // class variables
   // here is the stack of graphs which form the hierarchy
   Apollonius_graph_base*   hierarchy[ag_hierarchy_2__maxlevel];
-  Random random; // random generator
+  boost::rand48  random; // random generator
 
 public:
   template<class OutputItFaces, class OutputItBoundaryEdges,

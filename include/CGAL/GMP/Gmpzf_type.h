@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/GMP/Gmpzf_type.h $
-// $Id: Gmpzf_type.h 49256 2009-05-09 15:21:26Z spion $
+// $Id: Gmpzf_type.h 53126 2009-11-20 16:58:58Z penarand $
 //
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>

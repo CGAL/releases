@@ -27,8 +27,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/MemoryPool.h $
- * $Id: MemoryPool.h 41683 2008-01-18 19:58:49Z spion $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Core/include/CGAL/CORE/MemoryPool.h $
+ * $Id: MemoryPool.h 53026 2009-11-14 11:49:52Z spion $
  ***************************************************************************/
 #ifndef _CORE_MEMORYPOOL_H_
 #define _CORE_MEMORYPOOL_H_
@@ -104,4 +104,5 @@ void MemoryPool< T, nObjects >::free(void* t) {
 }
 
 CORE_END_NAMESPACE
+
 #endif // _CORE_MEMORYPOOL_H_

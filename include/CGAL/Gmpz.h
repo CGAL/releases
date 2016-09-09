@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Gmpz.h $
-// $Id: Gmpz.h 47264 2008-12-08 06:25:14Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/Gmpz.h $
+// $Id: Gmpz.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -44,7 +44,7 @@ CGAL_BEGIN_NAMESPACE
 class Gmpq;
 
 template<>
-struct Root_of_traits<Gmpz>: public CGALi::Root_of_traits_helper<Gmpz,
+struct Root_of_traits<Gmpz>: public internal::Root_of_traits_helper<Gmpz,
     Euclidean_ring_tag>{
   typedef Gmpq RootOf_1;
   typedef Gmpq Root_of_1;

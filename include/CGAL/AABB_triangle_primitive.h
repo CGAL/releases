@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: $
-// $Id: $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/AABB_tree/include/CGAL/AABB_triangle_primitive.h $
+// $Id: AABB_triangle_primitive.h 52790 2009-10-29 10:42:53Z palliez $
 //
 //
 // Author(s)     : Pierre Alliez, Stephane Tayeb
@@ -22,8 +22,8 @@
 //
 //******************************************************************************
 
-#ifndef AABB_TRIANGLE_PRIMITIVE_H_
-#define AABB_TRIANGLE_PRIMITIVE_H_
+#ifndef CGAL_AABB_TRIANGLE_PRIMITIVE_H_
+#define CGAL_AABB_TRIANGLE_PRIMITIVE_H_
 
 namespace CGAL {
 
@@ -67,5 +67,5 @@ namespace CGAL {
 }  // end namespace CGAL
 
 
-#endif // AABB_TRIANGLE_PRIMITIVE_H_
+#endif // CGAL_AABB_TRIANGLE_PRIMITIVE_H_
 

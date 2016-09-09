@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/Exponent_vector.h $
-// $Id: Exponent_vector.h 47915 2009-02-05 12:51:19Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Exponent_vector.h $
+// $Id: Exponent_vector.h 51274 2009-08-17 07:28:32Z hemmer $
 // 
 //
 // Author(s)     : Michael Hemmer
@@ -121,19 +121,10 @@ public:
 
   // this is the actual change 
   bool operator<( const Exponent_vector& ev ) const {
-    CGAL_precondition(this->size() == ev.size());
-    const_reverse_iterator rit1(this->rbegin());
-    const_reverse_iterator rit2(ev.rbegin());
-    while(rit1!=this->rend()){
-      if(*rit1 < *rit2) return true;
-      if(*rit1 > *rit2) return false;
-      rit1++; rit2++;
-    }
-    CGAL_postcondition(rit1 == this->rend());
-    CGAL_postcondition(rit2 == ev.rend());
-    return false;
-  }
-    
+    return std::lexicographical_compare (
+        this->rbegin(), this->rend(),  ev.rbegin(), ev.rend()); 
+}
+  
   void output_benchmark( std::ostream& os ) const {
     os << "( ";
     for( unsigned i = 0; i < size(); ++i ) {

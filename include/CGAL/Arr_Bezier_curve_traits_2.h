@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_Bezier_curve_traits_2.h $
-// $Id: Arr_Bezier_curve_traits_2.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_Bezier_curve_traits_2.h $
+// $Id: Arr_Bezier_curve_traits_2.h 51984 2009-09-20 16:18:10Z efif $
 // 
 // 
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -77,10 +77,10 @@ public:
   typedef Tag_true                               Has_left_category;
   typedef Tag_true                               Has_merge_category;
 
-  typedef Arr_oblivious_side_tag                 Arr_left_side_tag;
-  typedef Arr_oblivious_side_tag                 Arr_bottom_side_tag;
-  typedef Arr_oblivious_side_tag                 Arr_top_side_tag;
-  typedef Arr_oblivious_side_tag                 Arr_right_side_tag;
+  typedef Arr_oblivious_side_tag                 Arr_left_side_category;
+  typedef Arr_oblivious_side_tag                 Arr_bottom_side_category;
+  typedef Arr_oblivious_side_tag                 Arr_top_side_category;
+  typedef Arr_oblivious_side_tag                 Arr_right_side_category;
 
   // Traits-class types:
   typedef _Bezier_curve_2<Rat_kernel,

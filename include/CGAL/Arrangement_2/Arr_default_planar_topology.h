@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_default_planar_topology.h $
-// $Id: Arr_default_planar_topology.h 49772 2009-06-03 21:25:53Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_default_planar_topology.h $
+// $Id: Arr_default_planar_topology.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s): Ron Wein          <wein@post.tau.ac.il>
@@ -34,7 +34,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class GeomTraits, class Dcel, class Tag>
 struct Default_planar_topology_impl {};
@@ -57,17 +57,17 @@ struct Default_planar_topology_impl< GeomTraits, Dcel,
 };
 
 
-} // namespace CGALi
+} // namespace internal
 
 template < class GeomTraits, class Dcel >
 struct Default_planar_topology : 
-  public CGALi::Default_planar_topology_impl < 
+  public internal::Default_planar_topology_impl < 
     GeomTraits, Dcel, 
     typename Arr_are_all_sides_oblivious_tag< 
-      typename CGALi::Arr_complete_left_side_tag< GeomTraits >::Tag,
-      typename CGALi::Arr_complete_bottom_side_tag< GeomTraits> ::Tag,
-      typename CGALi::Arr_complete_top_side_tag< GeomTraits >::Tag,
-      typename CGALi::Arr_complete_right_side_tag< GeomTraits >::Tag >::result 
+      typename internal::Arr_complete_left_side_tag< GeomTraits >::Tag,
+      typename internal::Arr_complete_bottom_side_tag< GeomTraits> ::Tag,
+      typename internal::Arr_complete_top_side_tag< GeomTraits >::Tag,
+      typename internal::Arr_complete_right_side_tag< GeomTraits >::Tag >::result 
 >
 {};
 

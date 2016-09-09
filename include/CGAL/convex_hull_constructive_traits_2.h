@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/convex_hull_constructive_traits_2.h $
-// $Id: convex_hull_constructive_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Convex_hull_2/include/CGAL/convex_hull_constructive_traits_2.h $
+// $Id: convex_hull_constructive_traits_2.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -35,7 +35,7 @@ public:
   typedef typename K::Point_2                 Point_2;    
   typedef typename K::Less_xy_2               Less_xy_2;
   typedef typename K::Less_yx_2               Less_yx_2;
-  typedef CGALi::r_Less_dist_to_line<K>       Less_signed_distance_to_line_2;
+  typedef internal::r_Less_dist_to_line<K>       Less_signed_distance_to_line_2;
   typedef typename K::Less_rotate_ccw_2       Less_rotate_ccw_2;
   typedef typename K::Left_turn_2             Left_turn_2;
   typedef typename K::Equal_2                 Equal_2;  

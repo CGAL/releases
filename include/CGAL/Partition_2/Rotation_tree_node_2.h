@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Partition_2/include/CGAL/Partition_2/Rotation_tree_node_2.h $
-// $Id: Rotation_tree_node_2.h 41714 2008-01-20 20:24:20Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Partition_2/include/CGAL/Partition_2/Rotation_tree_node_2.h $
+// $Id: Rotation_tree_node_2.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -46,7 +46,7 @@ public:
 
    typedef typename Traits::Point_2          Base_point;
    typedef Rotation_tree_node_2<Traits>      Self;
-   typedef CGALi::vector< Self >             Tree;
+   typedef internal::vector< Self >             Tree;
    typedef typename Tree::iterator           Tree_iterator;
    typedef std::pair<Tree_iterator, bool>    Node_ref;
 

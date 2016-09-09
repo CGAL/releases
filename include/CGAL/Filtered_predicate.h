@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Filtered_predicate.h $
-// $Id: Filtered_predicate.h 46443 2008-10-23 13:01:01Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Filtered_kernel/include/CGAL/Filtered_predicate.h $
+// $Id: Filtered_predicate.h 51161 2009-08-10 15:57:03Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -37,7 +37,7 @@ CGAL_BEGIN_NAMESPACE
 //   wants to be filtered or not (=> all homogeneous predicate define this
 //   tag).  We could even test-suite that automatically.  It makes a strong
 //   new requirement on the kernel though...
-//   Could be done with a traits mecanism ?
+//   Could be done with a traits mechanism ?
 //   A default template could use the current IA, but other tags or whatever
 //   could specify no filtering at all, or static filtering...
 // - same thing for constructions => virtual operator() ?

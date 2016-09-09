@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Triangulation_ds_cell_base_3.h $
-// $Id: Triangulation_ds_cell_base_3.h 48845 2009-04-21 18:34:14Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Triangulation_ds_cell_base_3.h $
+// $Id: Triangulation_ds_cell_base_3.h 51517 2009-08-26 12:52:38Z spion $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion
@@ -24,7 +24,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/triangulation_assertions.h>
-#include <CGAL/Dummy_tds_3.h>
+#include <CGAL/internal/Dummy_tds_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -37,49 +37,48 @@ public:
   typedef typename TDS::Cell_handle    Cell_handle;
   typedef typename TDS::Vertex         Vertex;
   typedef typename TDS::Cell           Cell;
+  typedef typename TDS::Cell_data      TDS_data;
 
   template <typename TDS2>
   struct Rebind_TDS { typedef Triangulation_ds_cell_base_3<TDS2> Other; };
 
-  Triangulation_ds_cell_base_3()
-  {
-    set_vertices();
-    set_neighbors();
-    set_in_conflict_flag(0);
-  }
+  Triangulation_ds_cell_base_3() {}
 
-  Triangulation_ds_cell_base_3(const Vertex_handle& v0, const Vertex_handle& v1,
-                               const Vertex_handle& v2, const Vertex_handle& v3)
-  {
-    set_vertices(v0, v1, v2, v3);
-    set_neighbors();
-    set_in_conflict_flag(0);
-  }
+  Triangulation_ds_cell_base_3(Vertex_handle v0, Vertex_handle v1,
+                               Vertex_handle v2, Vertex_handle v3)
+#ifndef CGAL_CFG_ARRAY_MEMBER_INITIALIZATION_BUG
+    : V((Vertex_handle[4]) {v0, v1, v2, v3} ) {}
+#else
+  { set_vertices(v0, v1, v2, v3); }
+#endif
 
-  Triangulation_ds_cell_base_3(const Vertex_handle& v0, const Vertex_handle& v1,
-                               const Vertex_handle& v2, const Vertex_handle& v3,
-                               const Cell_handle&   n0, const Cell_handle&   n1,
-                               const Cell_handle&   n2, const Cell_handle&   n3)
+  Triangulation_ds_cell_base_3(Vertex_handle v0, Vertex_handle v1,
+                               Vertex_handle v2, Vertex_handle v3,
+                               Cell_handle   n0, Cell_handle   n1,
+                               Cell_handle   n2, Cell_handle   n3)
+#ifndef CGAL_CFG_ARRAY_MEMBER_INITIALIZATION_BUG
+    : N((Cell_handle[4]) {n0, n1, n2, n3}), V((Vertex_handle[4]) {v0, v1, v2, v3} ) {}
+#else
   {
-    set_vertices(v0, v1, v2, v3);
     set_neighbors(n0, n1, n2, n3);
-    set_in_conflict_flag(0);
+    set_vertices(v0, v1, v2, v3);
   }
+#endif
 
   // ACCESS FUNCTIONS
 
-  const Vertex_handle& vertex(int i) const
+  Vertex_handle vertex(int i) const
   {
     CGAL_triangulation_precondition( i >= 0 && i <= 3 );
     return V[i];
   }
 
-  bool has_vertex(const Vertex_handle& v) const
+  bool has_vertex(Vertex_handle v) const
   {
     return (V[0] == v) || (V[1] == v) || (V[2]== v) || (V[3]== v);
   }
 
-  bool has_vertex(const Vertex_handle& v, int & i) const
+  bool has_vertex(Vertex_handle v, int & i) const
     {
       if (v == V[0]) { i = 0; return true; }
       if (v == V[1]) { i = 1; return true; }
@@ -88,7 +87,7 @@ public:
       return false;
     }
 
-  int index(const Vertex_handle& v) const
+  int index(Vertex_handle v) const
   {
     if (v == V[0]) { return 0; }
     if (v == V[1]) { return 1; }
@@ -97,18 +96,18 @@ public:
     return 3;
   }
 
-  const Cell_handle& neighbor(int i) const
+  Cell_handle neighbor(int i) const
   {
     CGAL_triangulation_precondition( i >= 0 && i <= 3);
     return N[i];
   }
 
-  bool has_neighbor(const Cell_handle& n) const
+  bool has_neighbor(Cell_handle n) const
   {
     return (N[0] == n) || (N[1] == n) || (N[2] == n) || (N[3] == n);
   }
 
-  bool has_neighbor(const Cell_handle& n, int & i) const
+  bool has_neighbor(Cell_handle n, int & i) const
   {
     if(n == N[0]){ i = 0; return true; }
     if(n == N[1]){ i = 1; return true; }
@@ -117,7 +116,7 @@ public:
     return false;
   }
 
-  int index(const Cell_handle& n) const
+  int index(Cell_handle n) const
   {
     if (n == N[0]) return 0;
     if (n == N[1]) return 1;
@@ -128,13 +127,13 @@ public:
 
   // SETTING
 
-  void set_vertex(int i, const Vertex_handle& v)
+  void set_vertex(int i, Vertex_handle v)
   {
     CGAL_triangulation_precondition( i >= 0 && i <= 3);
     V[i] = v;
   }
 
-  void set_neighbor(int i, const Cell_handle& n)
+  void set_neighbor(int i, Cell_handle n)
   {
     CGAL_triangulation_precondition( i >= 0 && i <= 3);
     CGAL_triangulation_precondition( this != &*n );
@@ -146,8 +145,8 @@ public:
     V[0] = V[1] = V[2] = V[3] = Vertex_handle();
   }
 
-  void set_vertices(const Vertex_handle& v0, const Vertex_handle& v1,
-                    const Vertex_handle& v2, const Vertex_handle& v3)
+  void set_vertices(Vertex_handle v0, Vertex_handle v1,
+                    Vertex_handle v2, Vertex_handle v3)
   {
     V[0] = v0;
     V[1] = v1;
@@ -160,8 +159,8 @@ public:
     N[0] = N[1] = N[2] = N[3] = Cell_handle();
   }
 
-  void set_neighbors(const Cell_handle& n0, const Cell_handle& n1,
-                     const Cell_handle& n2, const Cell_handle& n3)
+  void set_neighbors(Cell_handle n0, Cell_handle n1,
+                     Cell_handle n2, Cell_handle n3)
   {
     CGAL_triangulation_precondition( this != &*n0 );
     CGAL_triangulation_precondition( this != &*n1 );
@@ -198,16 +197,15 @@ public:
   void * for_compact_container() const { return N[0].for_compact_container(); }
   void * & for_compact_container()     { return N[0].for_compact_container(); }
 
-  // Conflict flag access functions.
-  // This should become a property map or something at some point.
-  void set_in_conflict_flag(unsigned char f) { _in_conflict_flag = f; }
-  unsigned char get_in_conflict_flag() const { return _in_conflict_flag; }
+  // TDS internal data access functions.
+        TDS_data& tds_data()       { return _tds_data; }
+  const TDS_data& tds_data() const { return _tds_data; }
 
 private:
 
   Cell_handle   N[4];
   Vertex_handle V[4];
-  unsigned char _in_conflict_flag;
+  TDS_data      _tds_data;
 };
 
 template < class TDS >
@@ -233,7 +231,7 @@ template <>
 class Triangulation_ds_cell_base_3<void>
 {
 public:
-  typedef Dummy_tds_3                   Triangulation_data_structure;
+  typedef internal::Dummy_tds_3                         Triangulation_data_structure;
   typedef Triangulation_data_structure::Vertex_handle   Vertex_handle;
   typedef Triangulation_data_structure::Cell_handle     Cell_handle;
   template <typename TDS2>

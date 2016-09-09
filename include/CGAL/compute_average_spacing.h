@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Point_set_processing_3/include/CGAL/improved_laplacian_smooth_point_set.h $
-// $Id: improved_laplacian_smooth_point_set.h 48866 2009-04-22 15:06:24Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_processing_3/include/CGAL/compute_average_spacing.h $
+// $Id: compute_average_spacing.h 52628 2009-10-20 08:59:26Z lrineau $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
@@ -33,7 +33,7 @@ CGAL_BEGIN_NAMESPACE
 // ----------------------------------------------------------------------------
 // Private section
 // ----------------------------------------------------------------------------
-namespace CGALi {
+namespace internal {
 
 
 /// Computes average spacing of one query point from K nearest neighbors.
@@ -85,7 +85,7 @@ compute_average_spacing(const typename Kernel::Point_3& query, ///< 3D point who
 }
 
 
-} /* namespace CGALi */
+} /* namespace internal */
 
 
 // ----------------------------------------------------------------------------
@@ -154,7 +154,7 @@ compute_average_spacing(
   unsigned int nb_points = 0;
   for(it = first; it != beyond; it++)
   {
-    sum_spacings += CGALi::compute_average_spacing<Kernel,Tree>(get(point_pmap,it),tree,k);
+    sum_spacings += internal::compute_average_spacing<Kernel,Tree>(get(point_pmap,it),tree,k);
     nb_points++;
   }
 

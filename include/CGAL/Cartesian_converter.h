@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian_converter.h $
-// $Id: Cartesian_converter.h 46841 2008-11-12 11:51:47Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Cartesian_kernel/include/CGAL/Cartesian_converter.h $
+// $Id: Cartesian_converter.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -41,18 +41,18 @@
 CGAL_BEGIN_NAMESPACE
 
 // Guess which compiler needs this work around ?
-namespace CGALi {
+namespace internal {
 template < typename K1, typename K2 >
 struct Default_converter {
   typedef typename K1::FT FT1;
   typedef typename K2::FT FT2;
   typedef ::CGAL::NT_converter<FT1, FT2> Type;
 };
-} // namespace CGALi
+} // namespace internal
 
 template < class K1, class K2,
 //          class Converter = NT_converter<typename K1::FT, typename K2::FT> >
-           class Converter = typename CGALi::Default_converter<K1, K2>::Type >
+           class Converter = typename internal::Default_converter<K1, K2>::Type >
 class Cartesian_converter : public Enum_converter
 {
     typedef Enum_converter   Base;

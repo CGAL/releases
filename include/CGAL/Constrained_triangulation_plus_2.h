@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
-// $Id: Constrained_triangulation_plus_2.h 48844 2009-04-21 18:28:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
+// $Id: Constrained_triangulation_plus_2.h 53845 2010-01-27 16:43:40Z lrineau $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -204,7 +204,6 @@ public:
 
     std::vector<Point> points (first, last);
 
-    std::random_shuffle (points.begin(), points.end());
     spatial_sort (points.begin(), points.end(), geom_traits());
 
     Face_handle hint;

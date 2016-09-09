@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Union_find/include/CGAL/Union_find.h $
-// $Id: Union_find.h 46254 2008-10-14 07:23:48Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Union_find/include/CGAL/Union_find.h $
+// $Id: Union_find.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>,
@@ -32,7 +32,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class PTR_, class V_, class R_, class P_>
 class UF_forward_iterator {
@@ -71,7 +71,7 @@ public:
     }
 };
 
-} // CGALi
+} // internal
 
 
 // Union-Find with path compression.
@@ -107,9 +107,9 @@ public:
     typedef T&                                               reference; 
     typedef const T&                                         const_reference; 
 
-    typedef CGALi::UF_forward_iterator< pointer, T, T&, T*>  iterator;
+    typedef internal::UF_forward_iterator< pointer, T, T&, T*>  iterator;
     typedef iterator                                         handle;
-    typedef CGALi::UF_forward_iterator< const_pointer, T, const T&, const T*>
+    typedef internal::UF_forward_iterator< const_pointer, T, const T&, const T*>
                                                              const_iterator;
     typedef const_iterator                                   const_handle;
 

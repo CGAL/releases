@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/GraphicsView/include/CGAL/Qt/GraphicsItem.h $
-// $Id: GraphicsItem.h 45422 2008-09-09 11:56:57Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/GraphicsView/include/CGAL/Qt/GraphicsItem.h $
+// $Id: GraphicsItem.h 52853 2009-11-02 20:48:11Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -34,7 +34,9 @@ namespace Qt {
 class GraphicsItem : public QObject, public QGraphicsItem {
 
   Q_OBJECT
-
+#if QT_VERSION >= 0x040600
+  Q_INTERFACES(QGraphicsItem)
+#endif
 public slots:
 
   virtual void modelChanged() = 0;

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Principal_component_analysis/include/CGAL/eigen_2.h $
-// $Id: eigen_2.h 42115 2008-02-11 11:44:08Z palliez $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Principal_component_analysis/include/CGAL/eigen_2.h $
+// $Id: eigen_2.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s) : Pierre Alliez
@@ -23,7 +23,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
   // extract eigenvalues and eigenvectors from a 2x2 symmetric
   // positive definite matrix. 
@@ -110,7 +110,7 @@ namespace CGALi {
       } // end generic case
     } // end non-degenerate case
   } // end eigen_symmetric_2
-} // end namespace CGALi
+} // end namespace internal
 
 CGAL_END_NAMESPACE
 

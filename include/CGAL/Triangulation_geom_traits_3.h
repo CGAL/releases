@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Triangulation_geom_traits_3.h $
-// $Id: Triangulation_geom_traits_3.h 48845 2009-04-21 18:34:14Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Triangulation_geom_traits_3.h $
+// $Id: Triangulation_geom_traits_3.h 51045 2009-08-04 13:36:15Z spion $
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@sophia.inria.fr>
 //                 Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -53,7 +53,7 @@ public:
   // The next typedef is there for backward compatibility
   // Some users take their point type from the traits class.
   // Before this type was Point
-  typedef Point_3                      Point; 
+  typedef Point_3                      Point;
 
   typedef typename Rep::Compare_x_3                Compare_x_3;
   typedef typename Rep::Compare_y_3                Compare_y_3;

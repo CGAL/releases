@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/Polynomial/Cached_extended_euclidean_algorithm.h $
-// $Id: Cached_extended_euclidean_algorithm.h 47300 2008-12-09 10:48:07Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/Cached_extended_euclidean_algorithm.h $
+// $Id: Cached_extended_euclidean_algorithm.h 51456 2009-08-24 17:10:04Z spion $
 //
 //
 // Author(s)     : Michael Hemmer <mhemmer@uni-mainz.de>
@@ -27,7 +27,7 @@
 #include <CGAL/extended_euclidean_algorithm.h>
 
 CGAL_BEGIN_NAMESPACE
-namespace CGALi{
+namespace internal{
 
 template <class UFD, int i = 0 > 
 struct Cached_extended_euclidean_algorithm{
@@ -62,7 +62,7 @@ typename Cached_extended_euclidean_algorithm<UFD,i>::CACHE
 Cached_extended_euclidean_algorithm<UFD,i>::cache;
 
 
-} // namespace CGALi
+} // namespace internal
 CGAL_END_NAMESPACE
 
 #endif//CGAL_POLYNOMIAL_CACHED_EXTENDED_EUCLIDEAN_ALGORITHM_H

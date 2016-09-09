@@ -11,14 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/jet_estimate_normals.h $
-// $Id: jet_estimate_normals.h 49951 2009-06-17 12:39:51Z nsalman $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Point_set_processing_3/include/CGAL/jet_estimate_normals.h $
+// $Id: jet_estimate_normals.h 52329 2009-10-15 12:08:25Z ggael $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret and Marc Pouget and Frederic Cazals
 
 #ifndef CGAL_JET_ESTIMATE_NORMALS_H
 #define CGAL_JET_ESTIMATE_NORMALS_H
 
+#include <CGAL/trace.h>
 #include <CGAL/Search_traits_3.h>
 #include <CGAL/Orthogonal_k_neighbor_search.h>
 #include <CGAL/Monge_via_jet_fitting.h>
@@ -35,7 +36,7 @@ CGAL_BEGIN_NAMESPACE
 // ----------------------------------------------------------------------------
 // Private section
 // ----------------------------------------------------------------------------
-namespace CGALi {
+namespace internal {
 
 
 /// Estimates normal direction using jet fitting
@@ -98,7 +99,7 @@ jet_estimate_normal(const typename Kernel::Point_3& query, ///< point to compute
 }
 
 
-} /* namespace CGALi */
+} /* namespace internal */
 
 
 // ----------------------------------------------------------------------------
@@ -179,7 +180,7 @@ jet_estimate_normals(
   // vectors (already normalized)
   for(it = first; it != beyond; it++)
   {
-    Vector normal = CGALi::jet_estimate_normal<Kernel,Tree>(get(point_pmap,it), tree, k, degree_fitting);
+    Vector normal = internal::jet_estimate_normal<Kernel,Tree>(get(point_pmap,it), tree, k, degree_fitting);
     put(normal_pmap, it, normal); // normal_pmap[it] = normal
   }
 

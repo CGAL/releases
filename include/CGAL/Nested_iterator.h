@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Nested_iterator.h $
-// $Id: Nested_iterator.h 50431 2009-07-07 15:56:20Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/STL_Extension/include/CGAL/Nested_iterator.h $
+// $Id: Nested_iterator.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -45,7 +45,7 @@ struct Nested_iterator_traits
   Iterator end(It it) const { return it->end(); }
 };
 
-namespace CGALi {
+namespace internal {
 
   template<class Tr>
   struct Emptyness_predicate : public Tr
@@ -98,8 +98,8 @@ bool operator==(const Nested_iterator<Base_it,Tr>&,
 template <typename Base_it,
 	  typename Tr = Nested_iterator_traits<Base_it> >
 class Nested_iterator
-  : private CGALi::FI_w_begin_end<
-  Filter_iterator<Base_it, CGALi::Emptyness_predicate<Tr> > >
+  : private internal::FI_w_begin_end<
+  Filter_iterator<Base_it, internal::Emptyness_predicate<Tr> > >
 {
   typedef Nested_iterator<Base_it,Tr>           Self;
 public:
@@ -108,9 +108,9 @@ public:
   typedef typename Tr::Iterator                 Iterator;
 
 protected:
-  typedef CGALi::
+  typedef internal::
   FI_w_begin_end< Filter_iterator<Base_iterator,
-				  CGALi::Emptyness_predicate<Tr> > >
+				  internal::Emptyness_predicate<Tr> > >
   Filter_base_iterator;
 
 private:

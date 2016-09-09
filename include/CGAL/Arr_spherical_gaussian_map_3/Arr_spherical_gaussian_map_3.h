@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_spherical_gaussian_map_3.h $
-// $Id: Arr_spherical_gaussian_map_3.h 50366 2009-07-05 12:56:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_spherical_gaussian_map_3.h $
+// $Id: Arr_spherical_gaussian_map_3.h 53400 2009-12-13 13:51:07Z naamamay $
 // 
 // Author(s)     : Efi Fogel          <efif@post.tau.ac.il>
 
@@ -351,6 +351,10 @@ public:
   typedef T_Traits                                          Traits;
   typedef Traits                                            Geometry_traits_2;
   
+  typedef Arrangement_on_surface_2<Traits, 
+	Arr_spherical_topology_traits_2<Traits, T_Dcel<Traits> > >
+															Base;
+
   /*! Parameter-less Constructor */
   Arr_spherical_gaussian_map_3() { }
 

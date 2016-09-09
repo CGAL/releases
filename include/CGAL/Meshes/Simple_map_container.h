@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Meshes/Simple_map_container.h $
-// $Id: Simple_map_container.h 42968 2008-04-21 16:07:38Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_2/include/CGAL/Meshes/Simple_map_container.h $
+// $Id: Simple_map_container.h 53026 2009-11-14 11:49:52Z spion $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -77,7 +77,7 @@ namespace CGAL {
       }
     }; // end Simple_map_container
     
-  }; // end namespace Mesh_3
-}; // end namespace CGAL
+  } // end namespace Mesh_3
+} // end namespace CGAL
 
 #endif // CGAL_MESHES_SIMPLE_MAP_CONTAINER_H

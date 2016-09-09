@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Intersections_2/include/CGAL/Point_2_Triangle_2_intersection.h $
-// $Id: Point_2_Triangle_2_intersection.h 45046 2008-08-20 13:49:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Intersections_2/include/CGAL/Point_2_Triangle_2_intersection.h $
+// $Id: Point_2_Triangle_2_intersection.h 51456 2009-08-24 17:10:04Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -35,7 +35,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
 template <class K>
 class Point_2_Triangle_2_pair {
@@ -72,7 +72,7 @@ inline bool do_intersect(const typename K::Triangle_2 &p2,
 			 const typename K::Point_2 &p1,
 			 const K& k)
 {
-  return CGALi::do_intersect(p1, p2, k);
+  return internal::do_intersect(p1, p2, k);
 }
 
 
@@ -151,10 +151,10 @@ intersection(const typename K::Triangle_2 &tr,
 	     const typename K::Point_2 &pt, 
 	     const K&k)
 {
-  return CGALi::intersection(pt, tr, k);
+  return internal::intersection(pt, tr, k);
 }
 
-} // namespace CGALi
+} // namespace internal
 
 
 template <class K>

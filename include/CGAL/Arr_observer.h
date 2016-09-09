@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_observer.h $
-// $Id: Arr_observer.h 41108 2007-12-06 15:26:30Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_observer.h $
+// $Id: Arr_observer.h 51063 2009-08-05 12:02:56Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -130,7 +130,7 @@ public:
     return;
   }
 
-  /*! Detach the observer to the arrangement. */
+  /*! Detach the observer from the arrangement. */
   void detach ()
   {
     if (p_arr == NULL)

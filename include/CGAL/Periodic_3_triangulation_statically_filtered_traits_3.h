@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_statically_filtered_traits_3.h $
-// $Id: Periodic_3_triangulation_statically_filtered_traits_3.h 48838 2009-04-21 16:19:17Z mcaroli $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_statically_filtered_traits_3.h $
+// $Id: Periodic_3_triangulation_statically_filtered_traits_3.h 52312 2009-10-14 18:53:15Z mcaroli $
 // 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -34,9 +34,9 @@
 #include <CGAL/Kernel/function_objects.h>
 #include <CGAL/Cartesian/function_objects.h>
 
-#include <CGAL/Static_filters/tools.h>
-#include <CGAL/Static_filters/Periodic_3_orientation_3.h>
-#include <CGAL/Static_filters/Periodic_3_side_of_oriented_sphere_3.h>
+#include <CGAL/internal/Static_filters/tools.h>
+#include <CGAL/internal/Static_filters/Periodic_3_orientation_3.h>
+#include <CGAL/internal/Static_filters/Periodic_3_side_of_oriented_sphere_3.h>
 
 // TODO :
 // - add more predicates :
@@ -57,8 +57,9 @@ class Periodic_3_triangulation_statically_filtered_traits_3 : public Traits
 
 public:
 
-  typedef SF_Periodic_3_orientation_3<Traits>  Orientation_3;
-  typedef SF_Periodic_3_side_of_oriented_sphere_3<Traits>
+  typedef internal::Static_filters_predicates::Periodic_3_orientation_3<Traits>
+    Orientation_3;
+  typedef internal::Static_filters_predicates::Periodic_3_side_of_oriented_sphere_3<Traits>
     Side_of_oriented_sphere_3;
 
   Orientation_3 orientation_3_object() const {

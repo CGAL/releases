@@ -2,20 +2,25 @@
 #ifdef CGAL_POLYHEDRON_DEMO_USE_SURFACE_MESHER
 #include "Polyhedron_demo_plugin_helper.h"
 #include "Polyhedron_demo_plugin_interface.h"
+#include "ui_Remeshing_dialog.h"
 
 #include <QObject>
 #include <QAction>
 #include <QMainWindow>
+#include <QMenu>
 #include <QApplication>
 #include <QtPlugin>
 #include "Scene_polyhedron_item.h"
 #include <QInputDialog>
+#include <QStringList>
 
 // declare the CGAL function
-Polyhedron* cgal_code_remesh(const Polyhedron*,
+Scene_item* cgal_code_remesh(QWidget* parent,
+                             Polyhedron*,
                              const double angle,
                              const double sizing,
-                             const double approx);
+                             const double approx,
+                             int tag);
 
 class Polyhedron_demo_remeshing_plugin : 
   public QObject,
@@ -57,50 +62,58 @@ void Polyhedron_demo_remeshing_plugin::remesh()
 
     if(!pMesh) return;
 
-    // TODO: get parameters using ONE dialog box
+    // TODO: 
     // sizing and approximation parameters should be expressed as ratio of 
     // scene bbox diagonal.
 
+    QDialog dialog(mw);
+    Ui::Remeshing_dialog ui;
+    ui.setupUi(&dialog);
+    connect(ui.buttonBox, SIGNAL(accepted()),
+            &dialog, SLOT(accept()));
+    connect(ui.buttonBox, SIGNAL(rejected()),
+            &dialog, SLOT(reject()));
     double diag = scene->len_diagonal();
 
-    bool ok;
-    const double angle = 
-      QInputDialog::getDouble(mw, tr("Min triangle angle"),
-                              tr("Angle:"),
-                              25., // default value
-                              1., // min
-                              30., // max
-                              2, // decimals
-                              &ok);
-    if(!ok) return;
+    ui.sizing->setDecimals(4);
+    ui.sizing->setRange(diag * 10e-6, // min
+                       diag); // max
+    ui.sizing->setValue(diag * 0.05); // default value
 
-    const double sizing = 
-      QInputDialog::getDouble(mw, "Sizing",
-      "Size:",
-      diag * 0.05, // default value
-      diag * 10e-6, // min
-      diag, // max
-      4, // decimals
-      &ok);
-    if(!ok) return;
+    ui.approx->setDecimals(6);
+    ui.approx->setRange(diag * 10e-7, // min
+                       diag); // max
+    ui.approx->setValue(diag * 0.005);
 
-    const double approx = 
-      QInputDialog::getDouble(mw, "Approximation error",
-      "Error:",
-      diag * 0.005, // default value
-      diag * 10e-7, // min
-      diag, // max
-      6, // decimals
-      &ok);
-    if(!ok) return;
+
+    int i = dialog.exec();
+    if(i == QDialog::Rejected)
+      return;
+
+    const double angle = ui.angle->value();
+    const double approx = ui.approx->value();
+    const double sizing = ui.sizing->value();
+    const int tag_index = ui.tags->currentIndex();
+    if(tag_index < 0) return;
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-    Polyhedron* pRemesh = cgal_code_remesh(pMesh, angle, sizing, approx);
+    std::cerr << "remesh with:"
+              << "\n  angle=" << angle
+              << "\n  sizing=" << sizing
+              << "\n  approx=" << approx
+              << "\n  tag=" << tag_index
+              << std::boolalpha
+              << std::endl;
+    Scene_item* new_item = cgal_code_remesh(mw, 
+                                            pMesh,
+                                            angle,
+                                            sizing,
+                                            approx,
+                                            tag_index);
 
-    if(pRemesh)
+    if(new_item)
     {
-      Scene_polyhedron_item* new_item = new Scene_polyhedron_item(pRemesh);
       new_item->setName(tr("%1 remeshed (%2 %3 %4)")
                          .arg(item->name())
                          .arg(angle)

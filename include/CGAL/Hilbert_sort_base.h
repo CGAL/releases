@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Spatial_sorting/include/CGAL/Hilbert_sort_base.h $
-// $Id: Hilbert_sort_base.h 36875 2007-03-07 11:37:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Spatial_sorting/include/CGAL/Hilbert_sort_base.h $
+// $Id: Hilbert_sort_base.h 51456 2009-08-24 17:10:04Z spion $
 //
 // Author(s)     : Christophe Delage
 
@@ -25,7 +25,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+namespace internal {
 
     template <class RandomAccessIterator, class Cmp>
     RandomAccessIterator
