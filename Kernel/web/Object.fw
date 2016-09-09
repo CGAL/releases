@@ -1,0 +1,263 @@
+@! $RCSfile: Object.fw,v $
+@! $Revision: 1.2 $
+@! $Date: 1996/11/05 08:59:03 $
+
+@! Author: Andreas.Fabri@@sophia.inria.fr
+
+@B@<A generic object@>
+
+Generic objects that support run time type identification are
+useful when we have functions that can return objects of different
+types. This is for example the case for the intersection
+routines.
+
+@$@<Example@>@Z+=@{@-
+CGAL_Object obj = CGAL_intersection(segment_1, segment_2);
+
+if (CGAL_assign(point, obj)){
+  // do something with point
+} else if ((CGAL_assign(segment, obj)){
+  // do something with segment
+}
+// there was no intersection
+@}
+
+where the intersection code looks roughly as follows
+
+@$@<Example@>+=@{@-
+template < class R >
+CGAL_Object CGAL_intersection(const CGAL_Segment_2<R> &s1,
+                              const CGAL_Segment_2<R> &s2)
+{
+  // intersection in a point
+  CGAL_Point_2<R> p = ...
+  return CGAL_make_object(p);
+}
+@}
+
+@C@<Base@>
+
+We need an abstract base class.
+
+@$@<class CGAL_Base@>==@{@-
+class CGAL_Base {
+public:
+  virtual ~CGAL_Base() {}
+#ifdef CGAL_WORKAROUND_012
+    virtual int* type_id() const {return 0;}
+#endif  // CGAL_WORKAROUND_012
+};
+@}
+
+
+@C@<Wrapper@>
+
+A wrapper is a class that can wrap arbitrary objects. It is
+derived from the base class, so that we can do run time
+type identifiction when we have a pointer on such an object.
+
+The only functionality a wrapper provides is putting an object
+in and getting it out by a conversion operator.
+
+@$@<class CGAL_Wrapper@>==@{@-
+template < class T >
+class CGAL_Wrapper : public CGAL_Base {
+public:
+  CGAL_Wrapper(const T& object)
+    : _object(object)
+  {}
+  CGAL_Wrapper() {}
+
+  operator T()
+  {
+    return _object;
+  }
+
+  virtual ~CGAL_Wrapper() {}
+#ifdef CGAL_WORKAROUND_012
+    virtual int* type_id() const {return &_typebase;}
+#endif  // CGAL_WORKAROUND_012
+private:
+  T _object;
+#ifdef CGAL_WORKAROUND_012
+    static int _typebase;
+#endif  // CGAL_WORKAROUND_012
+};
+
+#ifdef CGAL_WORKAROUND_012
+template <class T>
+  //static
+int CGAL_Wrapper<T>::_typebase = 42;
+#endif // CGAL_WORKAROUND_012
+@}
+
+
+@C@<Object@>
+
+An object of the class {\tt CGAL\_Object} contains a pointer to a base
+class object. We will put pointers to wrappers around CGAL objects in
+there. It is the owner of this pointer and responsible for calling the
+virtual destructor of the wrapper when the object goes out of scope.
+
+As we want a copy constructor and an assignemnt, for example to
+put several of them in a list, we use a reference counting
+scheme. Here comes the representative class.
+
+@$@<class CGAL__Object@>==@{@-
+class CGAL__Object : public CGAL_Rep
+{
+public:
+  CGAL__Object()
+    : _base(0)
+  {}
+
+  CGAL__Object(CGAL_Base *base)
+    : _base(base)
+  {}
+
+  ~CGAL__Object()
+  {
+    if (_base != 0 ){
+      delete _base;
+    }
+  }
+
+  CGAL_Base *base() const
+  {
+    return _base;
+  }
+
+private:
+  CGAL_Base *_base;
+};
+@}
+
+And here comes the handle.
+
+@$@<class CGAL_Object@>==@{@-
+class CGAL_Object : public CGAL_Handle
+{
+public:
+  CGAL_Object()
+  {
+    PTR = new CGAL__Object();
+  }
+
+  CGAL_Object(CGAL_Base *base)
+  {
+    PTR = new CGAL__Object(base);
+  }
+
+  CGAL_Object::CGAL_Object(const CGAL_Object &o)
+    : CGAL_Handle((CGAL_Handle&)o)
+  {}
+
+  CGAL_Object &CGAL_Object::operator=(const CGAL_Object &o)
+  {
+    CGAL_Handle::operator=(o);
+    return *this;
+  }
+
+  CGAL__Object *ptr() const
+  {
+    return (CGAL__Object *)PTR;
+  }
+};
+@}
+
+@C@<Creating a CGAL_Object@>
+
+The following function creates objects.
+
+@$@<Creating a CGAL_Object@>==@{@-
+template <class T>
+CGAL_Object CGAL_make_object(const T & t)
+{
+  return CGAL_Object(new CGAL_Wrapper< T >(t));
+}
+@}
+
+@C@<Assignment@>
+
+The assignment makes use of run time type identification. The following
+looks difficult, but it is not: An object is a handle, so we have to
+get its representative which contains a pointer to a base class object.
+We know that this pointer is a pointer to a wrapped class, and we know
+the class of the object we want to assign to.
+
+@$@<Assigning a CGAL_Object@>==@{@-
+#ifdef CGAL_WORKAROUND_012
+template <class T>
+T* CGAL_dynamic_cast(CGAL_Base *base, const T*)
+{
+    T dummy;
+    if (base == 0)
+        return (T*) 0;
+    if (dummy.type_id() != base->type_id())
+        return (T*) 0;
+    return (T*) base;
+}
+
+template <class T>
+const T* CGAL_dynamic_cast(const CGAL_Base *base, const T*)
+{
+    T* dummy;
+    if (t->type_id() != base->type_id())
+        return (const T*) 0;
+    return (const T*) base;
+}
+#endif // CGAL_WORKAROUND_012
+
+template < class T >
+bool CGAL_assign(T &t, const CGAL_Object &o)
+{
+#ifdef CGAL_WORKAROUND_012
+    CGAL_Wrapper<T> *wp =
+        CGAL_dynamic_cast(o.ptr()->base(), (CGAL_Wrapper<T>*) 0);
+#else
+
+    CGAL_Wrapper<T> *wp = 0;
+    if ((o.ptr()->base()) != 0){
+      wp = dynamic_cast< CGAL_Wrapper<T>* >(o.ptr()->base());
+    }
+#endif // CGAL_WORKAROUND_012
+  if( wp == 0 ){
+    return false;
+  }
+  t = *(wp);
+  return true;
+}
+@}
+
+@O@<../include/CGAL/Object.h@>==@{@-
+@<CGAL notice@>
+// Source: Object.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL_OBJECT_H
+#define CGAL_OBJECT_H
+
+@<class CGAL_Base@>
+
+@<class CGAL_Wrapper@>
+
+@<class CGAL__Object@>
+
+@<class CGAL_Object@>
+
+@<Creating a CGAL_Object@>
+
+@<Assigning a CGAL_Object@>
+#endif // CGAL_OBJECT_H
+@}
+
+@! $Log: Object.fw,v $
+@! Revision 1.2  1996/11/05 08:59:03  fabri
+@! Added the test whether the pointer that we want to cast
+@! dynamically is non-null. Otherwise GNU g++ produces code
+@! with a runtime error.
+@!
+@! Revision 1.1  1996/10/02 08:57:58  fabri
+@! Initial revision
+@!
+

@@ -1,10 +1,25 @@
 
-This is the README file for compiling applications which makes use of CGAL
+This is the README file for compiling applications which makes use of CGAL.
+
+File program.C is a first example of how CGAL code looks like. Don't
+be dissappointed that nothing spectacular happens when you execute it.
+
+In this directory you see files with the extension '.fw'. These are
+funnelweb files, that is files which contain code and documentation in
+LaTeX. As it is `all-in-one-file' you need a tool to separate them.
+We separated them for you, so that there is no need to ftp this tool for
+the moment.  You find PostScript versions of the LaTeX'ed documents in
+the directory Cgal/doc.
+
+funnelweb.fw should give you a rough idea what you can do with funnelweb.
+support-library.fw  shows you how to get graphical IO with CGAL.
+
+You should compile the file io2window.C to see how it works.
 
 
 
 If you are not expected to compile in this directory you should copy
-the entire directory Cgal/example to your home drectory. Do NOT copy
+the entire directory Cgal/example to your own directory. Do NOT copy
 the library itself, that is the header or source files. Do NOT copy
 the compiler and architecture specific files that are included by the
 makefile. Not only that it takes space on disks, you will sooner or
@@ -27,4 +42,4 @@ That should be it. Type `make program' and cross your fingers.
 
 If you build the program for several compilers in a row,
 you have to force the compiler to recompile the source. 
-Type `gmake touch' followed by `gmake program'. 
+Type `make touch' followed by `make program'. 

@@ -1,0 +1,271 @@
+<HEAD>
+<TITLE>The CGAL Kernel Manual: CGAL_Tetrahedron_3</TITLE>
+<!-- Manual page automatically extracted from the TeX source. -->
+</HEAD>
+
+<BODY BGCOLOR="FAF8E8" TEXT="#000000"><A HREF="Chapter_Simplices.html">Chapter</A>,
+<A HREF="contents.html">Table of Contents</A>,
+<A HREF="biblio.html">Bibliography</A>,
+<A HREF="manual_index.html">Index</A>,
+<A HREF="title.html">Title Page</A>
+<HR>
+
+
+<P>
+
+<H1> 3D Tetrahedron (<VAR><A HREF="CGAL_Tetrahedron_3.html">CGAL_Tetrahedron_3</A></VAR>)</H1>
+<P>
+
+<H3>Definition</H3>An object <MATH>t</MATH> of the class
+<VAR><A HREF="CGAL_Tetrahedron_3.html">CGAL_Tetrahedron_3</A></VAR> is an oriented tetrahedron in the
+three-dimensional Euclidean space <MATH><B>E</B><SUB>3</SUB></MATH>.
+<P>
+
+It is defined by four vertices <MATH>p<SUB>0</SUB></MATH>,
+<MATH>p<SUB>1</SUB></MATH>, <MATH>p<SUB>2</SUB></MATH> and
+<MATH>p<SUB>3</SUB></MATH>. The orientation of a tetrahedron is the
+orientation of its four vertices. That means it is positive when
+<MATH>p<SUB>3</SUB></MATH> is on the positive side of the plane defined
+by <MATH>p<SUB>0</SUB></MATH>, <MATH>p<SUB>1</SUB></MATH> and
+<MATH>p<SUB>2</SUB></MATH>.
+<P>
+
+The tetrahedron itself splits the space <MATH>E<SUB>3</SUB></MATH> in a
+<EM> positive</EM> and a <EM> negative</EM> side.
+<P>
+
+The boundary of a tetrahedron splits the space in two open regions, a
+bounded one and an unbounded one.
+<P>
+
+<H3>Creation</H3>
+<P>
+
+<VAR>#include &lt;CGAL/Tetrahedron_3.h&gt;</VAR>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    <A HREF="CGAL_Tetrahedron_3.html">CGAL_Tetrahedron_3&lt;R&gt;</A> t ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+     <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p0, <BR>
+     <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p1, <BR>
+     <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p2, <BR>
+     <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p3);</TD></TR></TABLE>
+    
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a tetrahedron <VAR>t</VAR> with vertices
+    <MATH>p<SUB>0</SUB></MATH>, <MATH>p<SUB>1</SUB></MATH>,
+    <MATH>p<SUB>2</SUB></MATH> and <MATH>p<SUB>3</SUB></MATH>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+     t ==  t2
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for equality: two tetrahedra are equal, iff there exists a
+    cyclic permutation of the vertices of <MATH>t2</MATH>, such that
+    they are equal to the vertices of <VAR>t</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+     t !=  t2
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for inequality.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    t.vertex ( int i)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the i'th vertex modulo 4 of <VAR>t</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+     t [ int i]
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <VAR>vertex(int i)</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    t.is_degenerate ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Tetrahedron <VAR>t</VAR> is degenerate, if the vertices are
+    coplanar.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="Chapter_Predicates.html#Enum_CGAL_Orientation">CGAL_Orientation</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    t.orientation ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="Chapter_Predicates.html#Enum_CGAL_Oriented_side">CGAL_Oriented_side</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    t.oriented_side (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="Chapter_Predicates.html#Enum_CGAL_Bounded_side">CGAL_Bounded_side</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    t.bounded_side (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+For convenience we provide the following boolean functions:
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    t.has_on_positive_side (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    t.has_on_negative_side (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    t.has_on_boundary (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    t.has_on_bounded_side (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    t.has_on_unbounded_side (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Bbox_3.html">CGAL_Bbox_3</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    t.bbox ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a bounding box containing <VAR>t</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Tetrahedron_3.html">CGAL_Tetrahedron_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    t.transform ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+     <A HREF="CGAL_Aff_transformation_3.html">CGAL_Aff_transformation_3&lt;R&gt;</A> at)</TD></TR></TABLE>
+    
+        </VAR>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the tetrahedron obtained by applying <MATH>at</MATH> on the
+    three vertices of <VAR>t</VAR>.
+        </TD></TR>
+        </TABLE><!3>
+<HR> Return to chapter: <A HREF="Chapter_Simplices.html">2D and 3D Simplices<A NAME="Simplices"></A></A>
+
+
+<HR><address> The <A HREF="http://www.cs.ruu.nl/CGAL/"><TT>CGAL</TT> Project</A>.</address>
+</BODY>
+</HTML>

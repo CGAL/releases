@@ -1,0 +1,282 @@
+<HEAD>
+<TITLE>The CGAL Kernel Manual: Intersections</TITLE>
+<!-- Manual page automatically extracted from the TeX source. -->
+</HEAD>
+
+<BODY BGCOLOR="FAF8E8" TEXT="#000000"><A HREF="contents.html">Table of Contents</A>,
+<A HREF="biblio.html">Bibliography</A>,
+<A HREF="manual_index.html">Index</A>,
+<A HREF="title.html">Title Page</A>
+<HR>
+
+<H1>Intersections</H1>
+<P>
+
+An important relation between geometrical objects is the intersection
+relation.
+Two objects <VAR>obj1</VAR> and <VAR>obj2</VAR> intersect if there is a point
+<VAR>p</VAR> that is part of both <VAR>obj1</VAR> and <VAR>obj2</VAR>.
+The intersection region of those two objects is defined as the set of all
+points <VAR>p</VAR> that are part of both <VAR>obj1</VAR> and <VAR>obj2</VAR>.<P>
+
+Note that for objects like triangles and polygons that enclose a
+bounded region, this region is part of the object.
+If a segment lies completely inside a triangle, then those two objects
+intersect and the intersection region is the complete segment.<P>
+
+In the following sections we describe two families of functions.
+One that checks whether two objects intersect; one that computes the
+intersection region.<P>
+
+There are two ways to use those functions.
+The simplest way is to include the header file
+<VAR>CGAL/intersections.h</VAR>. Here all intersection routines are declared.<P>
+
+The drawback of this approach is that a lot is included, which results
+in long compilation times.
+It is also possible to include only the intersections that are of interest.
+The naming scheme of the header files is as follows.
+Intersections of types <VAR>CGAL_Type1&lt;R&gt;</VAR> and <VAR>CGAL_Type2&lt;R&gt;</VAR>
+are declared in header file
+<VAR>CGAL/Type1_Type2_intersection.h</VAR>.
+So, intersection routines of segments and lines in 2D are declared in
+<VAR>CGAL/Segment_2_Line_2_intersection.h</VAR>
+The order of the type names does not matter.
+It is also possible to include
+<VAR>CGAL/Line_2_Segment_2_intersection.h</VAR><P>
+
+For intersections of two objects of the same type, the type name should be
+mentioned twice: <VAR>#include &lt;CGAL/Segment_2_Segment_2_intersection.h&gt;</VAR><P>
+
+Every intersection header file declares both the checking routines and the
+routines to compute the intersection region.<P>
+
+<A NAME="Section_23"></A>
+<H2>Checking</H2>
+<P>
+
+In order to check if two objects of type <VAR>Type1</VAR> and <VAR>Type2</VAR>
+intersect, there are routines of the following form:<P>
+
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    CGAL_do_intersect ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    Type1&lt;R&gt; obj1, <BR>
+     Type2&lt;R&gt; obj2)</TD></TR></TABLE>
+    
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+The types <VAR>Type1</VAR> and <VAR>Type2</VAR> can be any of the
+following:
+<UL>
+<LI><VAR><A HREF="CGAL_Point_2.html">CGAL_Point_2</A></VAR>
+<LI><VAR><A HREF="CGAL_Line_2.html">CGAL_Line_2</A></VAR>
+<LI><VAR><A HREF="CGAL_Ray_2.html">CGAL_Ray_2</A></VAR>
+<LI><VAR><A HREF="CGAL_Segment_2.html">CGAL_Segment_2</A></VAR>
+<LI><VAR><A HREF="CGAL_Triangle_2.html">CGAL_Triangle_2</A></VAR>
+<LI><VAR><A HREF="CGAL_Iso_rectangle_2.html">CGAL_Iso_rectangle_2</A></VAR><P>
+
+</UL><P>
+
+<A NAME="Section_24"></A>
+<H2>Computing the intersection region</H2>
+<P>
+
+The intersection region of two geometrical objects of type <VAR>Type1</VAR>
+and <VAR>Type2</VAR> can be computed with the following family of routines:<P>
+
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Object.html">CGAL_Object</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    CGAL_intersection ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    Type1&lt;R&gt; obj1, <BR>
+     Type2&lt;R&gt; obj2)</TD></TR></TABLE>
+    
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+The return value is <VAR><A HREF="CGAL_Object.html">CGAL_Object</A></VAR>. This is a special kind of object
+that can contain an object of any type.
+A previous section<P>
+
+describes the use of this class.<P>
+
+The types <VAR>Type1</VAR> and <VAR>Type2</VAR> can be any of the
+following:
+<UL>
+<LI><VAR><A HREF="CGAL_Point_2.html">CGAL_Point_2</A></VAR>
+<LI><VAR><A HREF="CGAL_Line_2.html">CGAL_Line_2</A></VAR>
+<LI><VAR><A HREF="CGAL_Ray_2.html">CGAL_Ray_2</A></VAR>
+<LI><VAR><A HREF="CGAL_Segment_2.html">CGAL_Segment_2</A></VAR>
+<LI><VAR><A HREF="CGAL_Triangle_2.html">CGAL_Triangle_2</A></VAR>
+<LI><VAR><A HREF="CGAL_Iso_rectangle_2.html">CGAL_Iso_rectangle_2</A></VAR>
+</UL><P>
+
+The family of routines that compute the intersection region is not as complete
+as the family of intersection checking routines.
+Not all combinations of types are possible.
+The result must be representable by a single geometric object.<P>
+
+For the current types there is no problem.
+With future types like polygons and discs those routines will not be
+available.
+The intersection of a line segment with a polygon can result in several line
+segments.
+The intersection of a triangle and a disc can result in an object bounded by
+curved and straight edges.<P>
+
+A future implementation of boolean operations will provide more functionality
+for computing intersections of this kind.<P>
+
+<H3>Example</H3>The first example demonstrates the most common use of intersection routines.
+<PRE>
+#include &lt;CGAL/Segment_2_Line_2_intersection.h&gt;
+
+template &lt;class R&gt;
+void foo(<A HREF="CGAL_Segment_2.html">CGAL_Segment_2&lt;R&gt;</A> seg, <A HREF="CGAL_Line_2.html">CGAL_Line_2&lt;R&gt;</A> line)
+{
+    <A HREF="CGAL_Object.html">CGAL_Object</A> result;
+    <A HREF="CGAL_Point_2.html">CGAL_Point_2&lt;R&gt;</A> ipoint;
+    <A HREF="CGAL_Segment_2.html">CGAL_Segment_2&lt;R&gt;</A> iseg;
+
+    result = CGAL_intersection(seg, line);
+    if (CGAL_assign(ipoint, result)) {
+        // handle the point intersection case.
+    } else
+        if (CGAL_assign(iseg, result)) {
+            // handle the segment intersection case.
+        } else {
+            // handle the no intersection case.
+        }
+}
+</PRE><P>
+
+<H3>Possible Result Values</H3>
+
+<A NAME="all_intersection_results"></A><P>
+
+Here we describe the types that can be contained in the <VAR><A HREF="CGAL_Object.html">CGAL_Object</A></VAR>
+return value for every possible pair of geometric objects.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=1 CELLPADDING=0 WIDTH=450>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH==33% NOWRAP>
+     type A
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+     type B
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33%>
+     return type
+        </TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Line_2.html">CGAL_Line_2</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+        <VAR>
+     <A HREF="CGAL_Line_2.html">CGAL_Line_2</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33%>
+        <VAR>
+     <A HREF="CGAL_Point_2.html">CGAL_Point_2</A>, <A HREF="CGAL_Line_2.html">CGAL_Line_2</A>
+        </VAR>
+        </TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Segment_2.html">CGAL_Segment_2</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+        <VAR>
+     <A HREF="CGAL_Line_2.html">CGAL_Line_2</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33%>
+        <VAR>
+     <A HREF="CGAL_Point_2.html">CGAL_Point_2</A>, <A HREF="CGAL_Segment_2.html">CGAL_Segment_2</A>
+        </VAR>
+        </TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Segment_2.html">CGAL_Segment_2</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+        <VAR>
+     <A HREF="CGAL_Segment_2.html">CGAL_Segment_2</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33%>
+        <VAR>
+     <A HREF="CGAL_Point_2.html">CGAL_Point_2</A>, <A HREF="CGAL_Segment_2.html">CGAL_Segment_2</A>
+        </VAR>
+        </TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Ray_2.html">CGAL_Ray_2</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+        <VAR>
+     <A HREF="CGAL_Line_2.html">CGAL_Line_2</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33%>
+        <VAR>
+     <A HREF="CGAL_Point_2.html">CGAL_Point_2</A>, <A HREF="CGAL_Ray_2.html">CGAL_Ray_2</A>
+        </VAR>
+        </TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Ray_2.html">CGAL_Ray_2</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+        <VAR>
+     <A HREF="CGAL_Segment_2.html">CGAL_Segment_2</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33%>
+        <VAR>
+     <A HREF="CGAL_Point_2.html">CGAL_Point_2</A>, <A HREF="CGAL_Segment_2.html">CGAL_Segment_2</A>
+        </VAR>
+        </TD></TR>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Ray_2.html">CGAL_Ray_2</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33% NOWRAP>
+        <VAR>
+     <A HREF="CGAL_Ray_2.html">CGAL_Ray_2</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=33%>
+        <VAR>
+     <A HREF="CGAL_Point_2.html">CGAL_Point_2</A>, <A HREF="CGAL_Segment_2.html">CGAL_Segment_2</A>, <A HREF="CGAL_Ray_2.html">CGAL_Ray_2</A>
+        </VAR>
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<P><HR> Next chapter: <A HREF="Chapter_sqdistance.html">Squared Distances</A>
+
+
+<HR><address> The <A HREF="http://www.cs.ruu.nl/CGAL/"><TT>CGAL</TT> Project</A>.</address>
+</BODY>
+</HTML>

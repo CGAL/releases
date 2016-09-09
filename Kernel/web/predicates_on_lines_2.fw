@@ -1,0 +1,204 @@
+
+@! $RCSfile: predicates_on_lines_2.fw,v $
+@! $Revision: 1.1 $
+@! $Date: 1996/06/07 15:56:39 $
+
+@! Author: Andreas.Fabri@@sophia.inria.fr
+
+
+@B@<Comparing coordinates of points@>
+
+Points can be given implicitely. The question is if we want to
+define extra classes, or if we want to overload functions dealing
+with points. For the moment we opt for the latter and provide
+functions for comparing $x$ and $y$ coordinates of points which
+are given as the intersection of two lines.
+
+
+@C
+
+The first instance of this function compares a point with its
+projection on the line $l$.
+@$@<Comparing y-coordinates at a given x-coordinate@>+=@{@-
+
+template < class R >
+CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_Point_2<R> &p,
+                                           const CGAL_Line_2<R> &h)
+{
+  return CGAL_compare_y_at_x((const R::Point_2&)p,
+                             (const R::Line_2&)h);
+}
+@}
+
+In the  second instance of this function the point is implicitely given.
+
+@$@<Comparing y-coordinates at a given x-coordinate@>+=@{@-
+
+template < class R >
+CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_Line_2<R> &l1,
+                                           const CGAL_Line_2<R> &l2,
+                                           const CGAL_Line_2<R> &h)
+{
+  return CGAL_compare_y_at_x((const R::Line_2&)l1,
+                             (const R::Line_2&)l2,
+                             (const R::Line_2&)h) ;
+/*
+  CGAL_Point_2<R> q;
+  CGAL_Line_2_Line_2_pair<R> pair(&l1, &l2);
+  if(pair.intersection_type() ==  CGAL_Line_2_Line_2_pair<R>::POINT){
+    pair.intersection(q);
+  } else {
+    cerr << "Line l1 and l2 do not intersect.";
+    CGAL_kernel_assertion(false);
+  }
+
+  return CGAL_compare_y_at_x(q, h);
+*/
+}
+@}
+
+In the third instance of this function we compare two lines with each
+other and not with the point defining the $x$-coodinate.
+
+
+@$@<Comparing y-coordinates at a given x-coordinate@>+=@{@-
+
+template < class R >
+CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_Point_2<R> &p,
+                                           const CGAL_Line_2<R> &h1,
+                                           const CGAL_Line_2<R> &h2)
+{
+  CGAL_kernel_precondition( (! h1.is_vertical()) && (! h2.is_vertical()) );
+
+
+  return CGAL_compare_y_at_x((const R::Point_2&)p,
+                             (const R::Line_2&)h1,
+                             (const R::Line_2&)h2);
+}
+@}
+
+
+In the  fourth instance of this function the point is implicitely given.
+
+@$@<Comparing y-coordinates at a given x-coordinate@>+=@{@-
+
+template < class R >
+CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_Line_2<R> &l1,
+                                           const CGAL_Line_2<R> &l2,
+                                           const CGAL_Line_2<R> &h1,
+                                           const CGAL_Line_2<R> &h2)
+{
+  CGAL_kernel_precondition( (! h1.is_vertical()) && (! h2.is_vertical()) );
+
+
+  return CGAL_compare_y_at_x((const R::Line_2&)l1,
+                             (const R::Line_2&)l2,
+                             (const R::Line_2&)h1,
+                             (const R::Line_2&)h2);
+}
+@}
+
+
+
+
+@$@<Alignement of 2D Points (implicitely given)@>+=@{@-
+
+template < class R >
+inline CGAL_Comparison_result CGAL_compare_x(const CGAL_Point_2<R> &p,
+                                             const CGAL_Line_2<R> &l1,
+                                             const CGAL_Line_2<R> &l2)
+{
+  return CGAL_compare_x((const R::Point_2&)p,
+                        (const R::Line_2&)l1,
+                        (const R::Line_2&)l2);
+}
+
+
+template < class R >
+inline CGAL_Comparison_result CGAL_compare_x(const CGAL_Line_2<R> &l1,
+                                             const CGAL_Line_2<R> &l2,
+                                             const CGAL_Line_2<R> &h1,
+                                             const CGAL_Line_2<R> &h2)
+{
+  return CGAL_compare_x((const R::Line_2&)l1, (const R::Line_2&)l2,
+                        (const R::Line_2&)h1, (const R::Line_2&)h2);
+}
+
+
+template < class R >
+inline CGAL_Comparison_result CGAL_compare_x(const CGAL_Line_2<R> &l,
+                                             const CGAL_Line_2<R> &h1,
+                                             const CGAL_Line_2<R> &h2)
+{
+  return CGAL_compare_x((const R::Line_2&)l, (const R::Line_2&)h1,
+                        (const R::Line_2&)l, (const R::Line_2&)h2);
+}
+
+template < class R >
+inline CGAL_Comparison_result CGAL_compare_y(const CGAL_Point_2<R> &p,
+                                             const CGAL_Line_2<R> &l1,
+                                             const CGAL_Line_2<R> &l2)
+{
+  return CGAL_compare_y((const R::Point_2&)p,
+                        (const R::Line_2&)l1,
+                        (const R::Line_2&)l2);
+}
+
+template < class R >
+inline CGAL_Comparison_result CGAL_compare_y(const CGAL_Line_2<R> &l1,
+                                             const CGAL_Line_2<R> &l2,
+                                             const CGAL_Line_2<R> &h1,
+                                             const CGAL_Line_2<R> &h2)
+{
+  return CGAL_compare_y((const R::Line_2&)l1, (const R::Line_2&)l2,
+                        (const R::Line_2&)h1, (const R::Line_2&)h2);
+}
+
+
+template < class R >
+inline CGAL_Comparison_result CGAL_compare_y(const CGAL_Line_2<R> &l,
+                                             const CGAL_Line_2<R> &h1,
+                                             const CGAL_Line_2<R> &h2)
+{
+  return CGAL_compare_y((const R::Line_2&)l, (const R::Line_2&)h1,
+                        (const R::Line_2&)l, (const R::Line_2&)h2);
+}
+@}
+
+
+@C@<Code@>
+
+@D@<Header File@>
+
+@O@<../include/CGAL/predicates_on_lines_2.h@>==@{@-
+@<CGAL notice@>
+// Source: predicates_on_lines_2.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL_PREDICATES_ON_LINES_2_H
+#define CGAL_PREDICATES_ON_LINES_2_H
+
+#ifdef CGAL_HOMOGENEOUS_H
+#include <CGAL/predicates_on_linesH2.h>
+#endif // CGAL_HOMOGENEOUS_H
+
+#ifdef CGAL_CARTESIAN_H
+#include <CGAL/predicates_on_linesC2.h>
+#endif // CGAL_CARTESIAN_H
+
+#include <CGAL/Point_2.h>
+#include <CGAL/predicates_on_points_2.h>
+#include <CGAL/Line_2.h>
+
+@<Alignement of 2D Points (implicitely given)@>
+
+@<Comparing y-coordinates at a given x-coordinate@>
+
+#endif  // CGAL_PREDICATES_ON_LINES_2_H
+@}
+
+@! $Log: predicates_on_lines_2.fw,v $
+@! Revision 1.1  1996/06/07 15:56:39  fabri
+@! Initial revision
+@!
+@!

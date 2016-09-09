@@ -1,0 +1,466 @@
+<HEAD>
+<TITLE>The CGAL Kernel Manual: CGAL_Plane_3</TITLE>
+<!-- Manual page automatically extracted from the TeX source. -->
+</HEAD>
+
+<BODY BGCOLOR="FAF8E8" TEXT="#000000"><A HREF="Chapter_Plane_3.html">Chapter</A>,
+<A HREF="contents.html">Table of Contents</A>,
+<A HREF="biblio.html">Bibliography</A>,
+<A HREF="manual_index.html">Index</A>,
+<A HREF="title.html">Title Page</A>
+<HR>
+
+
+<P>
+
+<H1> 3D Plane (<VAR><A HREF="CGAL_Plane_3.html">CGAL_Plane_3</A></VAR>)</H1>
+<P>
+
+<H3>Definition</H3>An object <VAR>h</VAR> of the data type
+<VAR><A HREF="CGAL_Plane_3.html">CGAL_Plane_3</A></VAR> is an oriented plane in the three-dimensional
+Euclidean space <MATH><B>E</B><SUB>3</SUB></MATH>. It is defined by the
+set of points with coordinates <MATH>(x,y,z)</MATH> that satisfy the
+plane equation
+<P>
+
+
+H : a x + b y + c z + d = 0
+
+<P>
+
+
+The plane splits <MATH><B>E</B><SUB>3</SUB></MATH> in a <EM> positive
+</EM> and a <EM> negative side</EM>
+(see <A HREF="Chapter_Predicates.html#Enum_CGAL_Oriented_side">CGAL_Oriented_side</A>).
+
+A point <MATH>p</MATH> with coordinates <MATH>(px, py, pz)</MATH> is on
+the positive side of <VAR>h</VAR>, iff a px + b py +c pz + d > 0, it is
+on the negative side, iff a px + b py +c pz + d < 0.
+<P>
+
+<H3>Creation</H3>
+<P>
+
+<VAR>#include &lt;CGAL/Plane_3.h&gt;</VAR>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <A HREF="CGAL_Plane_3.html">CGAL_Plane_3&lt;R&gt;</A> h (  R::RT a,  R::RT b,  R::RT c,  R::RT d);
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a plane <VAR>h</VAR> defined by the equation
+    a px + b py + c pz + d = 0.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    <A HREF="CGAL_Plane_3.html">CGAL_Plane_3&lt;R&gt;</A> h ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+     <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> r);</TD></TR></TABLE>
+    
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a plane <VAR>h</VAR> passing through the points
+    <VAR>p</VAR>, <VAR>q</VAR> and <VAR>r</VAR>. The plane is oriented
+    such that <VAR>p</VAR>, <VAR>q</VAR> and <VAR>r</VAR> are oriented
+    in a positive sense (that is counterclockwise) when seen from the
+    positive side of <VAR>h</VAR>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <A HREF="CGAL_Plane_3.html">CGAL_Plane_3&lt;R&gt;</A> h (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p,  <A HREF="CGAL_Direction_3.html">CGAL_Direction_3&lt;R&gt;</A> d);
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a plane <VAR>h</VAR> that passes through point
+    <VAR>p</VAR> and that has as an orthogonal direction equal to
+    <VAR>d</VAR>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <A HREF="CGAL_Plane_3.html">CGAL_Plane_3&lt;R&gt;</A> h (  <A HREF="CGAL_Line_3.html">CGAL_Line_3&lt;R&gt;</A> l,  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p);
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a plane <VAR>h</VAR> that is defined through the three
+    points <VAR>l.point(0)</VAR>, <VAR>l.point(1)</VAR> and
+    <VAR>p</VAR>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <A HREF="CGAL_Plane_3.html">CGAL_Plane_3&lt;R&gt;</A> h (  <A HREF="CGAL_Ray_3.html">CGAL_Ray_3&lt;R&gt;</A> r,  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p);
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a plane <VAR>h</VAR> that is defined through the three
+    points <VAR>r.point(0)</VAR>, <VAR>r.point(1)</VAR> and
+    <VAR>p</VAR>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <A HREF="CGAL_Plane_3.html">CGAL_Plane_3&lt;R&gt;</A> h (  <A HREF="CGAL_Segment_3.html">CGAL_Segment_3&lt;R&gt;</A> s,  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p);
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a plane <VAR>h</VAR> that is defined through the three
+    points <VAR>s.source()</VAR>, <VAR>s.target()</VAR> and
+    <VAR>p</VAR>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+     h ==  h2
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for equality: two planes are equal, iff they have a non empty
+    intersection and the same orientation.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+     h !=  h2
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for inequality.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    R::RT
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    h.a ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the first coefficient of H.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    R::RT
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    h.b ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the second coefficient of H.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    R::RT
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    h.c ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the third coefficient of H.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    R::RT
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    h.d ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the fourth coefficient of H.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Line_3.html">CGAL_Line_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    h.perpendicular_line (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the line that is perpendicular to <VAR>h</VAR> and that
+    passes through point <VAR>p</VAR>. The line is oriented from the
+    negative to the positive side of <VAR>h</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Plane_3.html">CGAL_Plane_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    h.opposite ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the plane with opposite orientation.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    h.projection (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the vertical projection of <MATH>p</MATH> on <VAR>h</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    h.point ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns an arbitrary point on <VAR>h</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Vector_3.html">CGAL_Vector_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    h.orthogonal_vector ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the vector that is orthogonal to <VAR>h</VAR> and that is
+    directed to the positive side of <VAR>h</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Direction_3.html">CGAL_Direction_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    h.orthogonal_direction ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the direction that is orthogonal to <VAR>h</VAR> and that
+    is directed to the positive side of <VAR>h</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Vector_3.html">CGAL_Vector_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    h.base1 ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a vector that is orthogonal to <VAR>orthogonal_vector(
+    )</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Vector_3.html">CGAL_Vector_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    h.base2 ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a vector that is orthogonal to both <VAR>orthogonal_vector(
+    )</VAR> and <VAR>base1()</VAR>, such that <VAR>CGAL_orientation(
+    point(), point() + base1(), point()+base2(), point() +
+    orthogonal_vector() )</VAR> is positive.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+The following functions provide conversion between a plane and CGAL's
+two dimensional space. The transformation is affine, but not
+necessarily an isometry. This means, the transformation preserves
+combinatorics, but not distances.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Point_2.html">CGAL_Point_2&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    h.to_2d (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the image point of the projection of <VAR>p</VAR> under an
+    affine transformation, which maps <VAR>h</VAR> onto the
+    <MATH>xy</MATH>-plane, with the <MATH>z</MATH>-coordinate removed.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    h.to_3d (  <A HREF="CGAL_Point_2.html">CGAL_Point_2&lt;R&gt;</A> p)
+        </VAR>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a point <MATH>q</MATH>, such that <VAR>to_2d( to_3d( p )
+    )</VAR> is equal to <VAR>p</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="Chapter_Predicates.html#Enum_CGAL_Oriented_side">CGAL_Oriented_side</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    h.oriented_side (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <VAR>CGAL_ON_POSITIVE_SIDE</VAR>,
+    <VAR><A HREF="Chapter_Predicates.html#Enum_CGAL_Oriented_side">CGAL_ON_ORIENTED_BOUNDARY</A></VAR> or
+    <VAR><A HREF="Chapter_Predicates.html#Enum_CGAL_Oriented_side">CGAL_ON_NEGATIVE_SIDE</A></VAR>, depending where point
+    <MATH>p</MATH> is relative to the oriented plane <VAR>h</VAR>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+For convenience we provide the following boolean functions:
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    h.has_on (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    h.has_on_boundary (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    h.has_on_positive_side (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    h.has_on_negative_side (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    h.has_on (  <A HREF="CGAL_Line_3.html">CGAL_Line_3&lt;R&gt;</A> l)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    h.has_on_boundary (  <A HREF="CGAL_Line_3.html">CGAL_Line_3&lt;R&gt;</A> l)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    h.is_degenerate ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Plane <VAR>h</VAR> is degenerate, if the coefficients <VAR>a</VAR>
+    and <VAR>b</VAR> of the plane equation are zero.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Plane_3.html">CGAL_Plane_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    h.transform (  <A HREF="CGAL_Aff_transformation_3.html">CGAL_Aff_transformation_3&lt;R&gt;</A> t)
+        </VAR>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the plane obtained by applying <MATH>t</MATH> on a point of
+    <VAR>h</VAR> and the orthogonal direction of <VAR>h</VAR>.
+        </TD></TR>
+        </TABLE><!3>
+<HR> Return to chapter: <A HREF="Chapter_Plane_3.html">3D Plane</A>
+
+
+<HR><address> The <A HREF="http://www.cs.ruu.nl/CGAL/"><TT>CGAL</TT> Project</A>.</address>
+</BODY>
+</HTML>

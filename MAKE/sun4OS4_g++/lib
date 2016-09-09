@@ -1,0 +1,108 @@
+
+.SUFFIXES:	.o .C
+
+
+CGAL_LIB_NAME =CGALkernel
+
+
+#..........................................................................
+# Flags for compiling the static library 
+# 
+CFLAGS = \
+	       -DCGAL_LEDA_BASIC \
+               -DCGAL_CHECK_ASSERTIONS \
+               -DCGAL_CHECK_PRECONDITIONS \
+               -DCGAL_CHECK_EXACTNESS_PRECONDITIONS \
+               -I$(CGAL_INCL_DIR)   \
+               -I$(LEDA_INCL_DIR) \
+               -Wall \
+	       -frtti -D_POSIX_SOURCE \
+               $(CGAL_FLAG_G)
+
+
+
+
+CGAL_OBJ_DIR = obj/$(CGAL_OSTYPE)_$(CC)
+
+
+
+
+
+
+LIBSOURCES = Double_eps.C Rational.C  Double.C Float.C \
+             Bbox_2.C utils.C aff_transformation_tags.C \
+             double-specializationsC2.C Origin.C enum.C
+
+
+#LIBOBJS = $(LIBSOURCES:.C=.o)
+LIBOBJS = $(CGAL_OBJ_DIR)/Double_eps.o \
+          $(CGAL_OBJ_DIR)/Rational.o \
+          $(CGAL_OBJ_DIR)/Double.o \
+          $(CGAL_OBJ_DIR)/Float.o \
+          $(CGAL_OBJ_DIR)/Bbox_2.o \
+          $(CGAL_OBJ_DIR)/utils.o \
+	  $(CGAL_OBJ_DIR)/Origin.o \
+          $(CGAL_OBJ_DIR)/aff_transformation_tags.o \
+          $(CGAL_OBJ_DIR)/double-specializationsC2.o \
+	  $(CGAL_OBJ_DIR)/enum.o
+
+
+
+
+$(CGAL_OBJ_DIR)/Double_eps.o: Double_eps.C
+	$(CC)  -o $(CGAL_OBJ_DIR)/Double_eps.o $(CFLAGS)  -c Double_eps.C 
+
+
+$(CGAL_OBJ_DIR)/Rational.o: Rational.C
+	$(CC)  -o $(CGAL_OBJ_DIR)/Rational.o $(CFLAGS)  -c Rational.C 
+
+$(CGAL_OBJ_DIR)/Double.o: Double.C
+	$(CC)  -o $(CGAL_OBJ_DIR)/Double.o $(CFLAGS)  -c Double.C 
+
+$(CGAL_OBJ_DIR)/Float.o: Float.C
+	$(CC)  -o $(CGAL_OBJ_DIR)/Float.o $(CFLAGS)  -c Float.C 
+
+$(CGAL_OBJ_DIR)/Bbox_2.o: Bbox_2.C
+	$(CC)  -o $(CGAL_OBJ_DIR)/Bbox_2.o $(CFLAGS)  -c Bbox_2.C 
+
+$(CGAL_OBJ_DIR)/utils.o: utils.C
+	$(CC)  -o $(CGAL_OBJ_DIR)/utils.o $(CFLAGS)  -c utils.C 
+
+$(CGAL_OBJ_DIR)/Origin.o: Origin.C
+	$(CC)  -o $(CGAL_OBJ_DIR)/Origin.o $(CFLAGS)  -c Origin.C 
+
+$(CGAL_OBJ_DIR)/aff_transformation_tags.o: aff_transformation_tags.C
+	$(CC)  -o $(CGAL_OBJ_DIR)/aff_transformation_tags.o $(CFLAGS)  -c aff_transformation_tags.C 
+
+$(CGAL_OBJ_DIR)/Bbox_2_intersections.o: Bbox_2_intersections.C
+	$(CC)  $(CFLAGS) -UCGAL_CHECK_ASSERTIONS -UCGAL_CHECK_PRECONDITIONS \
+	-UCGAL_CHECK_EXACTNESS_PRECONDITIONS \
+	-o $(CGAL_OBJ_DIR)/Bbox_2_intersections.o \
+	-c Bbox_2_intersections.C
+
+$(CGAL_OBJ_DIR)/double-specializationsC2.o: double-specializationsC2.C
+	$(CC)  $(CFLAGS) -UCGAL_CHECK_EXACTNESS_PRECONDITIONS \
+	-o $(CGAL_OBJ_DIR)/double-specializationsC2.o \
+	-c double-specializationsC2.C
+
+$(CGAL_OBJ_DIR)/enum.o: enum.C
+	$(CC)  -o $(CGAL_OBJ_DIR)/enum.o $(CFLAGS)  -c enum.C 
+
+
+.C.o:
+	@echo "compiling "  
+	$(CC)  $(CFLAGS)  -c $<
+
+
+CGAL_LIB = lib$(CGAL_LIB_NAME).a
+
+
+lib:  $(CGAL_LIB_DIR)/$(CGAL_LIB)
+
+$(CGAL_LIB_DIR)/$(CGAL_LIB):  $(LIBOBJS)
+	ar r -o  $(CGAL_LIB) $(LIBOBJS)
+	ranlib  $(CGAL_LIB)
+	mv $(CGAL_LIB) $(CGAL_LIB_DIR)/$(CGAL_LIB)
+
+
+

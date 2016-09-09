@@ -1,0 +1,164 @@
+<HEAD>
+<TITLE>The CGAL Kernel Manual: CGAL_Triangle_3</TITLE>
+<!-- Manual page automatically extracted from the TeX source. -->
+</HEAD>
+
+<BODY BGCOLOR="FAF8E8" TEXT="#000000"><A HREF="Chapter_Simplices.html">Chapter</A>,
+<A HREF="contents.html">Table of Contents</A>,
+<A HREF="biblio.html">Bibliography</A>,
+<A HREF="manual_index.html">Index</A>,
+<A HREF="title.html">Title Page</A>
+<HR>
+
+
+<P>
+
+<H1> 3D Triangle (<VAR><A HREF="CGAL_Triangle_3.html">CGAL_Triangle_3</A></VAR>)</H1>
+<P>
+
+<H3>Definition</H3>An object <MATH>t</MATH> of the class
+<VAR><A HREF="CGAL_Triangle_3.html">CGAL_Triangle_3</A></VAR> is a triangle in the three-dimensional
+Euclidean space <MATH><B>E</B><SUB>3</SUB></MATH>. As the triangle is
+not a full-dimensional object there is only a test whether a point lies
+on the triangle or not.
+<P>
+
+<H3>Creation</H3>
+<P>
+
+<VAR>#include &lt;CGAL/Triangle_3.h&gt;</VAR>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    <A HREF="CGAL_Triangle_3.html">CGAL_Triangle_3&lt;R&gt;</A> t ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+     <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> r);</TD></TR></TABLE>
+    
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a triangle <VAR>t</VAR> with vertices <MATH>p</MATH>,
+    <MATH>q</MATH> and <MATH>r</MATH>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+     t ==  t2
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for equality: two triangles t and <MATH>t<SUB>2</SUB></MATH>
+    are equal, iff there exists a cyclic permutation of the vertices of
+    <MATH>t2</MATH>, such that they are equal to the vertices of
+    <VAR>t</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+     t !=  t2
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for inequality.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    t.vertex ( int i)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the i'th vertex modulo 3 of <VAR>t</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+     t [ int i]
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <VAR>vertex(int i)</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    t.is_degenerate ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Triangle <VAR>t</VAR> is degenerate, if the vertices are collinear.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    t.has_on (  <A HREF="CGAL_Point_3.html">CGAL_Point_3&lt;R&gt;</A> p)
+        </VAR>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    A point is on <VAR>t</VAR>, if it is on a vertex, an edge or the
+    face of <VAR>t</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Bbox_3.html">CGAL_Bbox_3</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    t.bbox ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a bounding box containing <VAR>t</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Triangle_3.html">CGAL_Triangle_3&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    t.transform ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+     <A HREF="CGAL_Aff_transformation_3.html">CGAL_Aff_transformation_3&lt;R&gt;</A> at)</TD></TR></TABLE>
+    
+        </VAR>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the triangle obtained by applying <MATH>at</MATH> on the
+    three vertices of <VAR>t</VAR>.
+        </TD></TR>
+        </TABLE><!3>
+<HR> Next class declaration: <VAR><A HREF="CGAL_Tetrahedron_3.html">CGAL_Tetrahedron_3&lt;R&gt;</A></VAR>
+
+
+<HR><address> The <A HREF="http://www.cs.ruu.nl/CGAL/"><TT>CGAL</TT> Project</A>.</address>
+</BODY>
+</HTML>

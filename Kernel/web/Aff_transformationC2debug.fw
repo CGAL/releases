@@ -1,0 +1,104 @@
+@! $RCSfile: Aff_transformationC2debug.fw,v $
+@! $Revision: 1.1 $
+@! $Date: 1995/11/08 15:36:30 $
+
+@! Author: Andreas.Fabri@@sophia.inria.fr
+
+
+
+@O@<../include/CGAL/Aff_transformationC2debug.h@>==@{@-
+
+#ifndef CGAL_AFF_TRANSFORMATIONDEBUGC2_H
+#define CGAL_AFF_TRANSFORMATIONDEBUGC2_H
+#include <math.h>
+#include <LEDA/basic.h>
+#include <CGAL/cartesian_classes.h>
+#include <CGAL/PointC2.h>
+#include <CGAL/VectorC2.h>
+#include <CGAL/DirectionC2.h>
+
+#include <CGAL/determinant.h>
+
+class CGAL_Translation {};
+
+extern CGAL_Translation     CGAL_TRANSLATION;
+
+template < class FT >
+class CGAL__Aff_transformation_rep_baseC2 : public CGAL_Rep
+{
+public:
+  virtual ~CGAL__Aff_transformation_rep_baseC2() {}
+
+  virtual CGAL_Aff_transformationC2<FT>
+  compose(const CGAL__Translation_repC2<FT> &t) const = 0;
+};
+
+//..........................................................................
+template < class FT >
+class CGAL__Translation_repC2 : public CGAL__Aff_transformation_rep_baseC2<FT>
+{
+private:
+  CGAL_VectorC2<FT>   _translationvector;
+
+public:
+  CGAL__Translation_repC2();
+
+  CGAL__Translation_repC2(const CGAL_VectorC2<FT> &tv);
+
+  virtual ~CGAL__Translation_repC2()
+  {}
+
+  CGAL_Aff_transformationC2<FT>
+  compose(const CGAL__Translation_repC2<FT> &t) const;
+ };
+
+//..........................................................................
+template < class FT >
+class CGAL_Aff_transformationC2 : public CGAL_Handle
+{
+public:
+  CGAL_Aff_transformationC2()
+  {
+    PTR = NULL;
+  }
+
+  CGAL_Aff_transformationC2(const CGAL_Translation,
+                            const CGAL_VectorC2<FT> &v)
+  {
+    PTR = new CGAL__Translation_repC2<FT>(v);
+  }
+
+  ~CGAL_Aff_transformationC2()
+  {}
+
+  private:
+  CGAL__Aff_transformation_rep_baseC2<FT>* ptr() const
+  {
+    return  (CGAL__Aff_transformation_rep_baseC2<FT>*)PTR;
+  }
+
+};
+
+//..........................................................................
+template < class FT >
+CGAL__Translation_repC2<FT>::CGAL__Translation_repC2()
+  {}
+
+template < class FT >
+CGAL__Translation_repC2<FT>::CGAL__Translation_repC2(
+                                               const CGAL_VectorC2<FT> &tv) :
+    _translationvector(tv)
+  {}
+
+
+template < class FT >
+CGAL_Aff_transformationC2<FT>
+CGAL__Translation_repC2<FT>::compose(const CGAL__Translation_repC2<FT> &t) const
+  {
+    return CGAL_Aff_transformationC2<FT>(
+                                   CGAL_TRANSLATION,
+                                   _translationvector + t._translationvector);
+  }
+
+#endif // CGAL_AFF_TRANSFORMATIONDEBUGC2_H
+@}

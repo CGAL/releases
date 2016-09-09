@@ -1,0 +1,11 @@
+
+
+template <class FT>
+inline FT
+CGAL_squared_distance(
+    const CGAL_PointC2<FT> & pt1,
+    const CGAL_PointC2<FT> & pt2)
+{
+    CGAL_VectorC2<FT> vec(pt1-pt2);
+    return (const FT&)(vec*vec);
+}

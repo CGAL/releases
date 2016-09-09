@@ -1,0 +1,112 @@
+<HEAD>
+<TITLE>The CGAL Kernel Manual: 2D Point, Vector and Direction <A NAME="PointVectorDirection"></A></TITLE>
+<!-- Manual page automatically extracted from the TeX source. -->
+</HEAD>
+
+<BODY BGCOLOR="FAF8E8" TEXT="#000000"><A HREF="contents.html">Table of Contents</A>,
+<A HREF="biblio.html">Bibliography</A>,
+<A HREF="manual_index.html">Index</A>,
+<A HREF="title.html">Title Page</A>
+<HR>
+
+<H1>2D Point, Vector and Direction <A NAME="PointVectorDirection"></A></H1>
+<P>
+
+We strictly distinguish between points, vectors and directions:
+A  point is a point in the two-dimensional euclidean plane
+<MATH><B>E</B><SUB>2</SUB></MATH>, a  vector is the difference of two points <MATH>p<SUB>2</SUB></MATH>, <MATH>p<SUB>1</SUB></MATH>
+and denotes the direction and the distance from <MATH>p<SUB>1</SUB></MATH> to <MATH>p<SUB>2</SUB></MATH> in the
+vector space <MATH><B>R</B><SUP>2</SUP></MATH>, a  direction is a vector where we forget
+about its length.<P>
+
+They are different mathematical concepts, for example they behave
+different under affine transformations and an addition of two
+points is meaningless in affine geometry. By putting them in different
+classes we not only get cleaner code, but also type checking from the
+compiler which avoids ambigous expressions. Hence, it pays twice to
+make this distinction.<P>
+
+<UL><LI>
+Class declaration for <VAR><A HREF="CGAL_Point_2.html">CGAL_Point_2&lt;R&gt;</A></VAR>.</UL>
+
+<P>
+
+<P><P>
+
+<UL><LI>
+Class declaration for <VAR><A HREF="CGAL_Vector_2.html">CGAL_Vector_2&lt;R&gt;</A></VAR>.</UL>
+
+<P>
+
+<P><P>
+
+<UL><LI>
+Class declaration for <VAR><A HREF="CGAL_Direction_2.html">CGAL_Direction_2&lt;R&gt;</A></VAR>.</UL>
+
+<P>
+
+<A NAME="Section_15"></A>
+<H2>Conversion between Points and Vectors<A NAME="conversion"></A></H2>
+<P>
+
+We said that it does not make sense to add two points, but it does
+make sense to subtract them and the result should be a vector.
+CGAL defines a symbolic constant <VAR>CGAL_ORIGIN</VAR> which denotes
+the point at the origin. Subtracting it from a
+point <MATH>p</MATH> results in the locus vector of <MATH>p</MATH>.<P>
+
+<PRE>
+
+  <A HREF="CGAL_Point_2.html">CGAL_Point_2&lt; CGAL_Cartesian&lt;double&gt; &gt;</A>  p(1.0, 1.0), q;
+
+  CGAL_Vector2&lt; CGAL_Cartesian&lt;double&gt; &gt;  v;
+
+  v = p - CGAL_ORIGIN;
+
+  q = CGAL_ORIGIN + v;  
+</PRE><P>
+
+In order to obtain the point corresponding to a vector <MATH>v</MATH> you simply
+have to add <MATH>v</MATH> to <VAR>CGAL_ORIGIN</VAR>. If you want to determine
+the point <MATH>q</MATH> in the middle between two points <MATH>p<SUB>1</SUB></MATH> and <MATH>p<SUB>2</SUB></MATH>, you can write<P>
+
+<PRE>
+
+  q = p_1 + (p_2 - p_1) / 2.0;
+</PRE><P>
+
+<A NAME="Section_16"></A>
+<H2>Implementation</H2>
+<P>
+
+Points, vectors and directions use a handle/representative mechanism:
+A handle is an intelligent pointer, a representative is an object with a
+reference counter. The three classes have the same internal
+representation, namely a tuple of coordinates (plus a homogenizing
+coordinate in the case of homogeneous coordinates), which makes
+assignment, copy constructors and type conversion cheap.<P>
+
+An assigment makes the handle of the left hand side point to the
+representative the handle on the right hand sidepoints to. The copy
+constructor creates a new handle which points to the same
+representative. This especially pays if your coordinates are of
+non-constant size.<P>
+
+What about conversion? We explained that you convert by subtracting
+the origin from a point to obtain its locus vector, or by adding a
+vector to the origin to obtain the corresponding point. Although the
+origin behaves like a point, <VAR>CGAL_ORIGIN</VAR> is not an object of
+the class <VAR><A HREF="CGAL_Point_2.html">CGAL_Point_2&lt;R&gt;</A></VAR> but of the class
+<VAR>CGAL_Origin</VAR>. All constructors and operators taking a point
+as argument are overloaded with the origin class in order to avoid
+memory allocation (for a point with coordinates zero), and arithmetic
+operations (where numbers would be added to zero). To give an example:
+When you ``add'' a vector <MATH>v</MATH> to the origin only a new handle is created
+which points to the representation of <MATH>v</MATH>.<P>
+
+<P><HR> Next chapter: <A HREF="Chapter_LineRaySegment_2.html">2D Line, Ray and Segment</A>
+
+
+<HR><address> The <A HREF="http://www.cs.ruu.nl/CGAL/"><TT>CGAL</TT> Project</A>.</address>
+</BODY>
+</HTML>

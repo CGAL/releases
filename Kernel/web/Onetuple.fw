@@ -1,0 +1,48 @@
+@! $RCSfile: Onetuple.fw,v $
+@! $Revision: 1.3 $
+@! $Date: 1996/03/13 15:32:23 $
+
+@! Author: Andreas.Fabri@@sophia.inria.fr
+
+
+@C@<Class CGAL__Onetuple<Type>@>
+
+@O@<../include/CGAL/Onetuple.h@>==@{@-
+@<CGAL notice@>
+// Source: Onetuple_Rep.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL__ONETUPLE_H
+#define CGAL__ONETUPLE_H
+
+
+template < class T >
+class CGAL__Onetuple : public CGAL_Rep
+{
+public:
+  T  e0;
+
+  CGAL__Onetuple()
+  {}
+
+  CGAL__Onetuple(const T & a0)
+    : e0(a0)
+  {}
+
+  ~CGAL__Onetuple()
+  {}
+};
+
+#endif
+@}
+
+@! $Log: Onetuple.fw,v $
+@! Revision 1.3  1996/03/13 15:32:23  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.2  1995/11/08 15:36:30  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.1  1995/10/19 18:01:10  fabri
+@! Initial revision
+@!

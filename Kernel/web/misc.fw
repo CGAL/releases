@@ -1,0 +1,72 @@
+@! $RCSfile: misc.fw,v $
+@! $Revision: 1.3 $
+@! $Date: 1996/03/13 15:32:23 $
+
+@! Author: Andreas.Fabri@@sophia.inria.fr
+
+@B@<Miscellaneous@>
+
+@C@<Number Tags@>
+
+In order to be able to distinguish template arguments we sometimes
+have functions that return a tag. Here are some of them that are used
+for number types.
+
+@$@<Number Tags@>+=@{@-
+struct CGAL_No_number_tag{};
+struct CGAL_Number_tag{};
+struct CGAL_Quotient_tag{};
+@}
+
+For the built in types we provide the following functions.
+
+@$@<Number Tags@>+=@{@-
+inline CGAL_Number_tag CGAL_number_type_tag(int)
+{
+  return CGAL_Number_tag();
+}
+@}
+
+@O@<../include/CGAL/misc.h@>==@{@-
+@<CGAL notice@>
+// Source: misc.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL_MISC_H
+#define CGAL_MISC_H
+
+#include <CGAL/workaround.h>
+#include <CGAL/workaround_10.h>
+
+// compilers that have rtti need the following file
+#ifndef CGAL_WORKAROUND_012
+#include <std/typeinfo.h>
+#endif  // CGAL_WORKAROUND_012
+
+
+@<Number Tags@>
+
+template < class T >
+inline
+void
+CGAL_swap(T& a, T& b)
+{
+ T c;
+ c = a;
+ a = b;
+ b = c;
+}
+
+#endif // CGAL_MISC_H
+@}
+
+@! $Log: misc.fw,v $
+@! Revision 1.3  1996/03/13 15:32:23  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.2  1995/11/08 15:36:30  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.1  1995/10/19 18:01:10  fabri
+@! Initial revision
+@!

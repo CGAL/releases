@@ -1,3 +1,20 @@
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: Segment_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -27,59 +44,47 @@ public:
 
   CGAL_Segment_2(const CGAL_Segment_2<R>  &s)
     : R::Segment_2((R::Segment_2&)s)  // does the handle stuff
-  {
-    CGAL_kernel_precondition(s.is_defined());
-  }
+  {}
 
   CGAL_Segment_2(const CGAL_Point_2<R> &sp, const CGAL_Point_2<R> &ep)
     :  R::Segment_2(sp,ep)
-  {
-    CGAL_kernel_precondition(sp.is_defined() && ep.is_defined());
- }
+  {}
 
 
   // conversion from implementation class object to interface class object
   CGAL_Segment_2(const R::Segment_2  &s)
     : R::Segment_2(s)  // does the handle stuff
-  {
-    CGAL_kernel_precondition(s.is_defined());
-  }
+  {}
 
   CGAL_Segment_2<R>   &operator=(const CGAL_Segment_2<R> &s)
   {
-    CGAL_kernel_precondition(s.is_defined());
     R::Segment_2::operator=(s);
     return *this;
   }
 
   bool                 is_horizontal() const
   {
-    CGAL_kernel_precondition(is_defined());
-    return R::Segment_2::is_horizontal();
+      return R::Segment_2::is_horizontal();
   }
 
   bool                 is_vertical() const
   {
-    CGAL_kernel_precondition(is_defined());
-    return R::Segment_2::is_vertical();
+      return R::Segment_2::is_vertical();
   }
 
-  bool                 is_on(const CGAL_Point_2<R> &p) const
+  bool                 has_on(const CGAL_Point_2<R> &p) const
   {
-    CGAL_kernel_precondition(is_defined() && p.is_defined());
-    return R::Segment_2::is_on(p);
+    return R::Segment_2::has_on(p);
   }
 
-  bool                 collinear_is_on(const CGAL_Point_2<R> &p) const
+  bool                 collinear_has_on(const CGAL_Point_2<R> &p) const
   {
-    CGAL_kernel_precondition(is_defined() && p.is_defined());
-    return R::Segment_2::collinear_is_on(p);
+    return R::Segment_2::collinear_has_on(p);
   }
 
 
   bool                 operator==(const CGAL_Segment_2<R> &s) const
   {
-    CGAL_kernel_precondition(is_defined() && s.is_defined());
     return R::Segment_2::operator==(s);
   }
 
@@ -88,68 +93,68 @@ public:
     return !(*this == s);
   }
 
-  bool                 identical(const CGAL_Segment_2<R> &s) const
+  int                  id() const
   {
-    CGAL_kernel_precondition(s.is_defined());
-    return PTR == s.PTR ;
+    return (int) PTR  ;
   }
 
 
   CGAL_Point_2<R>     start() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Segment_2::start();
   }
 
   CGAL_Point_2<R>     end() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Segment_2::end();
+  }
+
+  CGAL_Point_2<R>     source() const
+  {
+    return R::Segment_2::source();
+  }
+
+  CGAL_Point_2<R>     target() const
+  {
+    return R::Segment_2::target();
   }
 
   CGAL_Point_2<R>     min() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Segment_2::min();
   }
 
   CGAL_Point_2<R>     max() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Segment_2::max();
   }
 
   CGAL_Point_2<R>     vertex(int i) const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Segment_2::vertex(i);
   }
 
   CGAL_Point_2<R>     operator[](int i) const
   {
-    CGAL_kernel_precondition(is_defined());
-    return vertex(i);
+      return vertex(i);
   }
 
 
   R::FT                 squared_length() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Segment_2::squared_length();
   }
 
 
   CGAL_Direction_2<R> direction() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Segment_2::direction();
   }
 
 
   CGAL_Segment_2<R>  opposite() const
   {
-    CGAL_kernel_precondition(is_defined());
-    return CGAL_Segment_2<R>(end(),start());
+    return CGAL_Segment_2<R>(target(),source());
   }
 
   // this makes use of the constructor of the interface class
@@ -157,39 +162,26 @@ public:
 
   CGAL_Segment_2<R>       transform(const CGAL_Aff_transformation_2<R> &t) const
   {
-    CGAL_kernel_precondition(is_defined() && t.is_defined());
-    return  CGAL_Segment_2<R>(R::Segment_2::transform(t));
+    return  R::Segment_2::transform(t);
   }
 
 
   CGAL_Line_2<R>      supporting_line() const
   {
-    CGAL_kernel_precondition(is_defined());
-    return CGAL_Line_2<R>(R::Segment_2::supporting_line());
+    return R::Segment_2::supporting_line();
   }
 
   bool                 is_degenerate() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Segment_2::is_degenerate();
   }
 
   CGAL_Bbox_2            bbox() const
   {
-    CGAL_kernel_precondition(is_defined());
-    return start().bbox() + end().bbox();
+    return source().bbox() + target().bbox();
   }
-
-#ifdef CGAL_CHECK_PRECONDITIONS
-  bool             is_defined() const
-  {
-    return (PTR == NULL)? false : true;
-  }
-#endif
-
 };
 
 
 
-
-#endif
+#endif //  CGAL_SEGMENT_2_H

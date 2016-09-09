@@ -1,0 +1,122 @@
+% $Id: Parabola_arc_2.tex,v 1.3 1996/07/08 12:19:15 fabri Exp fabri $
+
+
+\begin{classtemplate}{CGAL_Parabola_arc_2<R>}
+\CCsection{2D Parabola Arc}
+
+This class exist only for Cartesian representations.
+
+\definition  An object \CCstyle{arc} of the class \classname\ is a parabola arc
+in the two-dimensional Euclidean plane $\E_2$.  It is defined by its
+supporting parabola and two parameters $\lambda_1$ and $\lambda_2$ of
+the supporting parabola \CCstyle{par} and it is oriented from 
+\CCstyle{par}$(\lambda_1)$ to \CCstyle{par}$(\lambda_2)$.
+
+\creation
+\creationvariable{arc}
+
+\CCstyle{#include <CGAL/Parabola_arc_2.h>}
+
+\hidden \constructor{CGAL_Parabola_arc_2();}
+             {introduces an uninitialized variable \var.}
+
+\hidden \constructor{CGAL_Parabola_arc_2(const CGAL_Parabola_arc_2<R> &q);}
+ 	    {copy constructor.}
+
+
+\def\CCalternateThreeColumn{\CCtrue}
+
+% \constructor{CGAL_Parabola_arc_2(const CGAL_Parabola_2<R> &par,
+% 	                         const CGAL_Point_2<R> &p,
+% 	                         const CGAL_Point_2<R> &q);}
+%             {introduces a parabola arc \var\ of the parabola $par$ 
+%              between points $p$ and $q$.}
+% 
+\constructor{CGAL_Parabola_arc_2(const CGAL_Parabola_2<R> &par,
+	                         const R::RT &lambda_1,
+	                         const R::RT &lambda_2);}
+            {introduces a parabola arc \var\ of the parabola $par$ 
+             between points $par(\lambda_1)$ and $par(\lambda_2)$.}
+
+
+\operations
+\threecolumns{3.5cm}{4cm}
+
+\hidden \method{CGAL_Parabola_arc_2<R> & operator=(const CGAL_Parabola_arc_2<R> &a);}
+        {Assignment.}
+
+\method{bool operator==(const CGAL_Parabola_arc_2<R> &a) const;}
+       {Test for equality: two parabola arcs are equal, iff the supporting
+        parabolas and the sources and targets are equal.}
+
+\method{bool operator!=(const CGAL_Parabola_arc_2<R> &a) const;}
+       {Test for inequality.}
+
+
+
+\method{bool is_degenerate() const;}
+       {A parabola arc \var\ is degenerate, if the supporting parabola is
+        degenerate, or if source and target are equal.}
+
+\method{CGAL_Parabola_2<R> supporting_parabola() const;}
+       { returns the supporting parabola of \var.}
+
+\method{CGAL_Point_2<R> source() const;}
+       {returns the source of \var.}
+
+\method{CGAL_Point_2<R> target() const;}
+       {returns the target of \var.}
+
+\method{CGAL_Point_2<R> vertex(int i) const;}
+       {\CCstyle{vertex(0)} returns
+        the source, \CCstyle{vertex(1)} returns the target of~\var. 
+        The parameter \CCstyle{i} is taken modulo 2, which gives 
+        easy access to the other end point.}
+
+\method{CGAL_Point_2<R> operator[](int i) const;}
+       {returns \CCstyle{vertex(i)}.}
+
+\method{R::RT lambda_source() const;}
+       {returns the lambda of the source of \var.}
+
+\method{R::RT lambda_target() const;}
+       {returns the lambda of the target of \var.}
+
+\method{R::RT lambda(int i) const;}
+       {returns the lambda of source or target of~\var:
+        \CCstyle{lambda(0)} returns the lambda of the source,
+        \CCstyle{lambda(1)} returns the lambda of the target of ~\var.
+        The parameter \CCstyle{i} is taken modulo 2, which gives easy
+        access to the lambda of the other end point.}
+ 
+\method{bool has_on(const CGAL_Point_2<R> &p) const;}
+       {A point is on \var, iff it is equal to the source or target 
+        of \var, or if it is in the interior of \var.}
+
+\method{CGAL_Parabola_arc_2<R> opposite() const;}
+       {returns a parabola arc with source and target interchanged.}
+
+\method{CGAL_Bbox_2  bbox() const;}
+       {returns the smallest bounding box containing~\var.}
+
+\hidden\method{CGAL_Parabola_arc_2<R>  transform(const CGAL_Aff_transformation_2<R> &at) const;}
+       {returns the parabola obtained by applying $at$ on the three
+        vertices of \var.}
+
+
+\end{classtemplate} 
+
+% $Log: Parabola_arc_2.tex,v $
+% Revision 1.3  1996/07/08 12:19:15  fabri
+% *** empty log message ***
+%
+% Revision 1.2  1996/03/13 15:42:07  fabri
+% *** empty log message ***
+%
+% Revision 1.1  1996/02/22 14:10:17  fabri
+% Initial revision
+%
+% Revision 1.1  1995/10/19 18:22:12  fabri
+% Initial revision
+%
+

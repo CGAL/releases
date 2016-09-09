@@ -1,0 +1,53 @@
+@! $RCSfile: Line_base_2.fw,v $
+@! $Revision: 1.2 $
+@! $Date: 1996/03/13 15:32:23 $
+
+
+@C@<Class CGAL_Line_base_2<FT>@>
+template < class FT >
+class CGAL_Line_base_2 : public CGAL_Handle
+{
+public:
+ virtual                      ~CGAL_Line_base_2();
+
+
+  CGAL_Line_base_2<FT> &operator=(const CGAL_Line_base_2<FT> &l);
+
+   virtual bool                 operator==(const CGAL_Line_base_2<FT> &l) const;
+   virtual bool                 operator!=(const CGAL_Line_base_2<FT> &l) const;
+   virtual int                  id() const;
+
+   virtual FT                   a() const;
+   virtual FT                   b() const;
+   virtual FT                   c() const;
+
+   virtual FT                   x_at_y(const FT &y) const;
+   virtual FT                   y_at_x(const FT &x) const;
+
+  CGAL_Line_base_2<FT>      perpendicular(const CGAL_PointC2<FT> &p) const;
+  CGAL_Line_base_2<FT>      opposite() const;
+  CGAL_PointC2<FT>     point() const;
+
+  CGAL_PointC2<FT>     projection(const CGAL_PointC2<FT> &p) const;
+
+  CGAL_DirectionC2<FT> direction() const;
+
+  CGAL_Oriented_side   oriented_side(const CGAL_PointC2<FT> &p) const;
+  bool                 has_on_positive_side(const CGAL_PointC2<FT> &p) const;
+  bool                 has_on_negaitive_side(const CGAL_PointC2<FT> &p) const;
+  bool                 has_on_boundary(const CGAL_PointC2<FT> &p) const;
+
+  bool                 is_horizontal() const;
+  bool                 is_vertical() const;
+  bool                 is_degenerate() const;
+
+  CGAL_Line_base_2<FT>      transform(const CGAL_Aff_transformationC2<FT> &t) const;
+
+private:
+  CGAL__Threetuple<FT>* ptr() const;
+  void                 new_rep(const CGAL_PointC2<FT> &p,
+                               const CGAL_PointC2<FT> &q);
+  void                 new_rep(const FT &a, const FT &b, const FT &c);
+
+};
+@}

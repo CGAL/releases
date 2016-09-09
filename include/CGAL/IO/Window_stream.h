@@ -1,4 +1,4 @@
- 
+#line 543 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 // Source: Window_stream.h
 // Author: Andreas.Fabri@sophia.inria.fr
 #ifndef CGAL_WINDOW_STREAM_H
@@ -8,47 +8,41 @@
 #include <CGAL/IO/Color.h>
 
 #include <LEDA/window.h>
+#include <LEDA/REDEFINE_NAMES.h>
+typedef window LEDA_Window;
+#include <LEDA/UNDEFINE_NAMES.h>
 
- 
-class CGAL_Window_stream : public window  {
+#line 20 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
+class CGAL_Window_stream : public LEDA_Window  {
 
 public:
-  CGAL_Window_stream(float xpix = 300.0,
-                     float ypix = 300.0,
-                     float xpos = 400.0,
-                     float ypos = 400.0)
-    : window(xpix, ypix)
+  CGAL_Window_stream(int xpix = 300,
+                     int ypix = 300,
+                     int xpos = 400,
+                     int ypos = 400)
+    : LEDA_Window(xpix, ypix)
   {
-    window::display(int(xpos), int(ypos));
+    set_frame_label("CGAL_Window_stream");
+    LEDA_Window::display(xpos, ypos);
   }
 
-  void color_init()
-  {
-    CGAL_black = CGAL_Color(0.0, 0.0, 0.0);
-    CGAL_white = CGAL_Color(1.0, 1.0, 1.0);
-    CGAL_red = CGAL_Color(1.0, 0.0, 0.0);
-    CGAL_green = CGAL_Color(0.0, 1.0, 0.0);
-    CGAL_blue = CGAL_Color(0.0, 0.0, 1.0);
-    CGAL_violet = CGAL_Color(1.0, 0.0, 1.0);
-    CGAL_orange = CGAL_Color(1.0, 0.75, 0.0);
-    set_fg_color(black);
-  }
+
 
   void init(const CGAL_Bbox_2 &b = CGAL_Bbox_2(0, 0, 100, 100))
   {
-    window::init(b.xmin(), b.xmax(), b.ymin());
-    color_init();
+    LEDA_Window::init(b.xmin(), b.xmax(), b.ymin());
+    set_fg_color(black);
   }
 
-  void init(double x0, double x1, double y0)
+  void init(double xmin, double xmax, double ymin)
   {
-    window::init(x0, x1, y0);
-    color_init();
+    LEDA_Window::init(xmin, xmax, ymin);
+    set_fg_color(black);
   }
 
   int read_mouse(double& x, double& y)
   {
-    button = window::read_mouse(x,y);
+    button = LEDA_Window::read_mouse(x,y);
     return button;
   }
 
@@ -62,10 +56,10 @@ private:
   int button;
 
 };
- 
+#line 556 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 
 
- 
+#line 68 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 #ifdef CGAL_POINT_2_H
 template< class R >
 CGAL_Window_stream& operator<<(CGAL_Window_stream &w, const CGAL_Point_2<R> &p)
@@ -85,15 +79,17 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w, CGAL_Point_2<R> &p)
   return w;
 }
 #endif //  CGAL_POINT_2_H
- 
+#line 558 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 
- 
+#line 91 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 #ifdef CGAL_LINE_2_H
 template< class R >
 CGAL_Window_stream& operator<<(CGAL_Window_stream &w,const CGAL_Segment_2<R> &s)
 {
-  w.draw_segment(CGAL_to_double(s.start().x()), CGAL_to_double(s.start().y()),
-                 CGAL_to_double(s.end().x()), CGAL_to_double(s.end().y()));
+  w.draw_segment(CGAL_to_double(s.source().x()),
+                 CGAL_to_double(s.source().y()),
+                 CGAL_to_double(s.target().x()),
+                 CGAL_to_double(s.target().y()));
   return w;
 }
 
@@ -140,34 +136,52 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w, CGAL_Line_2<R> &l)
 
 #ifdef CGAL_RAY_2_H
 
+#include <CGAL/Object.h>
 #include <CGAL/intersection_2_1.h>
 
 template< class R >
 CGAL_Window_stream& operator<<(CGAL_Window_stream &w, const CGAL_Ray_2<R> &r)
 {
+  CGAL_Point_2<R> p;
+  CGAL_Segment_2<R> s;
+  CGAL_Point_2<R> point[4];
+  CGAL_Point_2<R> ipoint[2];
 
+  point[0] = CGAL_Point_2<R>(w.xmin(), w.ymin());
+  point[1] = CGAL_Point_2<R>(w.xmin(), w.ymax());
+  point[2] = CGAL_Point_2<R>(w.xmax(), w.ymax());
+  point[3] = CGAL_Point_2<R>(w.xmax(), w.ymin());
 
-  CGAL_Point_2< C<double> > p;
-  CGAL_Segment_2< C<double> > s, segment;
-
-  CGAL_Bbox_2 bbox(w.xmin(), w.ymin(), w.xmax(), w.ymax());
-
-  CGAL_Bbox_2_Ray_2_pair<R> pair(&bbox, &r);
-
-  switch (pair.intersection_type()){
-  case CGAL_Bbox_2_Ray_2_pair<R>::NO :
-    return w;
-  case CGAL_Bbox_2_Ray_2_pair<R>::POINT :
-    pair.intersection(p);
-    w.draw_segment(CGAL_to_double(r.start().x()), CGAL_to_double(r.start().y()),
-                   p.x(), p.y());
-    return w;
-  case CGAL_Bbox_2_Ray_2_pair<R>::SEGMENT :
-    pair.intersection(s);
-    w.draw_segment(s.start().x(), s.start().y(),
-                   s.end().x(), s.end().y());
-    return w;
+  int no_of_intersections = 0;
+  for(int i=0; i < 4; i++) {
+    CGAL_Segment_2<R> seg(point[i],point[(i+1)%4]);
+    CGAL_Object o = CGAL_intersection(seg, r);
+    if ( CGAL_assign(p, o) ) {
+      ipoint[no_of_intersections] = p;
+      no_of_intersections++;
+    }else if( CGAL_assign(s, o) ) {
+      w.draw_segment(CGAL_to_double(s.source().x()),
+                     CGAL_to_double(s.source().y()),
+                     CGAL_to_double(s.target().x()),
+                     CGAL_to_double(s.target().y()));
+      return w;
+    }
   }
+
+  if( no_of_intersections == 1 ) {
+    // the start point of the ray is inside the window
+
+    w.draw_segment(CGAL_to_double(r.source().x()),
+                   CGAL_to_double(r.source().y()),
+                   CGAL_to_double(ipoint[0].x()),
+                   CGAL_to_double(ipoint[0].y()));
+  } else if( no_of_intersections == 2 ) {
+    w.draw_segment(CGAL_to_double(ipoint[0].x()),
+                   CGAL_to_double(ipoint[0].y()),
+                   CGAL_to_double(ipoint[1].x()),
+                   CGAL_to_double(ipoint[1].y()));
+  }
+
   return w;
 }
 
@@ -184,9 +198,118 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w, CGAL_Ray_2<R> &r)
 }
 #endif //CGAL_RAY_2_H
 
- 
+#line 559 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 
- 
+
+#line 387 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
+#ifdef CGAL_TRIANGLE_2_H
+template< class R >
+CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
+                               const CGAL_Triangle_2<R> &t)
+{
+  double x0 = CGAL_to_double(t.vertex(0).x()),
+         y0 = CGAL_to_double(t.vertex(0).y()),
+         x1 = CGAL_to_double(t.vertex(1).x()),
+         y1 = CGAL_to_double(t.vertex(1).y()),
+         x2 = CGAL_to_double(t.vertex(2).x()),
+         y2 = CGAL_to_double(t.vertex(2).y());
+
+
+  w.draw_segment(x0, y0, x1, y1);
+  w.draw_segment(x1, y1, x2, y2);
+  w.draw_segment(x2, y2, x0, y0);
+
+  return w;
+}
+
+template< class R >
+CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
+                               CGAL_Triangle_2<R> &t)
+{
+  double x0, y0, x1, y1, x2, y2;
+  w.read_mouse(x0,y0);
+  w.read_mouse_seg(x0,y0, x1, y1);
+  w.draw_seg(x0,y0, x1, y1);
+  w.read_mouse_seg(x1,y1, x2, y2);
+  w.draw_seg(x1,y1, x2, y2);
+  w.draw_seg(x2,y2, x0, y0);
+  r = CGAL_Triangle_2<R>(CGAL_Point_2<R>(x0,y0),
+                         CGAL_Point_2<R>(x1,y1),
+                         CGAL_Point_2<R>(x2,y2));
+  return w;
+}
+
+#endif // CGAL_TRIANGLE_2_H
+#line 561 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
+
+#line 435 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
+#ifdef CGAL_TRIANGULATION_ELEMENT_2_H
+template < class R >
+CGAL_Window_stream& operator<<(CGAL_Window_stream &os,
+                               const CGAL_Triangulation_element_2<R> *t)
+{
+
+  switch(t->finite_vertices()){
+  case 3 :
+    {
+      os <<  t->triangle();
+      break;
+    }
+  case 2 :
+    {
+      int fi = 0;
+      if (! t->is_finite(1)){
+        fi = 1;
+      }else if(! t->is_finite(2)){
+        fi = 2;
+      }
+      os << CGAL_Segment_2<R>((*t)[fi-1], (*t)[fi+1]);
+      os << CGAL_Ray_2<R>((*t)[fi+2],
+                          (*t)[fi+2] + ((*t)[fi] - CGAL_ORIGIN));
+      os << CGAL_Ray_2<R>((*t)[fi+1],
+                          (*t)[fi+1] + ((*t)[fi] - CGAL_ORIGIN));
+   break;
+    }
+  case 1:
+    {
+      int fi = 0;
+      if (t->is_finite(1)){
+        fi = 1;
+      }else if(t->is_finite(2)){
+        fi = 2;
+      }
+
+      os << CGAL_Ray_2<R>((*t)[fi],
+                          (*t)[fi]+ ((*t)[fi+1] - CGAL_ORIGIN));
+      os << CGAL_Ray_2<R>((*t)[fi],
+                          (*t)[fi]+ ((*t)[fi+2] - CGAL_ORIGIN));
+      break;
+    }
+  }
+  return os;
+}
+#endif // CGAL_TRIANGULATION_ELEMENT_2_H
+#line 562 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
+
+#line 487 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
+#ifdef CGAL_TRIANGULATION_2_H
+
+template < class R >
+CGAL_Window_stream &operator<<(CGAL_Window_stream &os,
+                               CGAL_Triangulation_2<R> &T)
+{
+  CGAL_Triangulation_element_2<R> *t;
+
+  forall_triangulation_elements(t, T){
+    os << t;
+  }
+  return os;
+}
+#endif //  CGAL_TRIANGULATION_2_H
+#line 563 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
+
+
+#line 310 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 #ifdef CGAL_ISO_RECTANGLE_2_H
 template< class R >
 CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
@@ -220,9 +343,9 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
 }
 
 #endif // CGAL_ISO_RECTANGLE_2_H
- 
+#line 565 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 
- 
+#line 219 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 #ifdef CGAL_PARABOLA_2_H
 template< class R >
 CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
@@ -277,9 +400,9 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
 }
 
 #endif // CGAL_PARABOLA_2_H
- 
+#line 566 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 
- 
+#line 278 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 #ifdef CGAL_PARABOLA_ARC_2_H
 template< class R >
 CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
@@ -287,17 +410,17 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
 {
   double lambda, lmin, lmax;
 
-  if (arc.lambda_end() > arc.lambda_start()){
-    lmin = arc.lambda_start();
-    lmax = arc.lambda_end();
+  if (arc.lambda_target() > arc.lambda_source()){
+    lmin = arc.lambda_source();
+    lmax = arc.lambda_target();
   } else {
-    lmin = arc.lambda_end();
-    lmax = arc.lambda_start();
+    lmin = arc.lambda_target();
+    lmax = arc.lambda_source();
   }
 
   double delta = CGAL_abs(lmax - lmin)/100.0;
 
-  CGAL_Point_2<R> p1 = arc.start();
+  CGAL_Point_2<R> p1 = arc.source();
   for(lambda = lmin;  lambda <= lmax; lambda += delta)
     {
       CGAL_Point_2<R> p2 = arc.supporting_parabola()(lambda);
@@ -307,43 +430,56 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
   return w;
 }
 #endif // CGAL_PARABOLA_ARC_2_H
- 
+#line 567 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 
 
- 
-CGAL_Window_stream& operator<<(CGAL_Window_stream &w, const CGAL_Color& c)
+#line 349 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
+#ifdef CGAL_CIRCLE_2_H
+template< class R >
+CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
+                               const CGAL_Circle_2<R> &c)
 {
-  if ((c.r() == 0.0) && (c.g() == 0.0) && (c.b() == 0.0)) {
-    w.set_fg_color(black);
-  }
-  else if ((c.r() == 1.0) && (c.g() == 1.0) && (c.b() == 1.0)) {
-    w.set_fg_color(white);
-  }
-  else if ((c.r() == 0.0) && (c.g() == 0.0) && (c.b() == 1.0)) {
-    w.set_fg_color(blue);
-  }
-  else if ((c.r() == 0.0) && (c.g() == 1.0) && (c.b() == 0.0)) {
-    w.set_fg_color(green);
-  }
-  else if ((c.r() == 1.0) && (c.g() == 0.0) && (c.b() == 0.0)) {
-    w.set_fg_color(red);
-  }
-  else if ((c.r() == 1.0) && (c.g() == 0.75) && (c.b() == 0.0)) {
-    w.set_fg_color(orange);
-  }
-  else if ((c.r() == 1.0) && (c.g() == 0.0) && (c.b() == 1.0)) {
-    w.set_fg_color(violet);
-  }
-  else {
-    cerr << "Warning: color(" << c.r() << ", " << c.g() << ", " << c.b() << ")";
-    cerr << "not available." << endl;
-    w.set_fg_color(black);
-  }
+  double cx = CGAL_to_double(c.center().x()),
+         cy = CGAL_to_double(c.center().y()),
+         r = CGAL_to_double(c.squared_radius());
+
+  w.draw_circle(cx, cy , sqrt(r));
   return w;
 }
- 
 
- 
+template< class R >
+CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
+                               CGAL_Circle_2<R> &c)
+{
+  double cx, cy, x1, y1;
+  w.read_mouse(cx,cy);
+  w.read_mouse_circle(cx,cy, x1, y1);
+  CGAL_Point_2<R> center(cx, cy),
+                  p(x1, y1);
+
+  CGAL_Vector_2<R> v = center - p;
+  R::FT sr = v*v;
+
+  w.draw_circle(cx, cy , sqrt(sr));
+  c = CGAL_Circle_2<R>(center, sr);
+  return w;
+}
+
+#endif // CGAL_CIRCLE_2_H
+#line 569 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
+
+
+#line 531 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
+inline CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
+                                      const CGAL_Color& c)
+{
+  w.set_fg_color(color(c.red(), c.green(), c.blue()));
+
+  return w;
+}
+#line 571 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
+
+#line 506 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 #ifdef CGAL_BBOX_2_H
 inline CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
                                       const CGAL_Bbox_2 &b)
@@ -364,7 +500,7 @@ inline CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
   return w;
 }
 #endif // CGAL_BBOX_2_H
- 
+#line 572 "/u/sargas/2/prisme/fabri/Cgal/IO/web/Window_stream.fw"
 
 
 #endif // CGAL_WINDOW_STREAM_H

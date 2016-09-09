@@ -1,0 +1,267 @@
+@! $RCSfile: DirectionC3.fw,v $
+@! $Revision: 1.4 $
+@! $Date: 1996/06/07 15:56:39 $
+
+
+
+@C@<Class CGAL_DirectionC3<FT>@>
+A direction is somewhat similar to a vector, but there are some differences.
+It has no length, and directions cannot be added.
+@$@<class CGAL_DirectionC3<FT>@>==@{@-
+template < class FT >
+class CGAL_DirectionC3 : public CGAL_Handle
+{
+public:
+                      CGAL_DirectionC3();
+                      CGAL_DirectionC3(const CGAL_DirectionC3<FT> &d);
+                      CGAL_DirectionC3(const CGAL_VectorC3<FT> &v);
+                      CGAL_DirectionC3(const FT &x, const FT &y, const FT &z);
+                      ~CGAL_DirectionC3();
+
+  CGAL_DirectionC3<FT> &operator=(const CGAL_DirectionC3<FT> &d);
+
+  bool                operator==(const CGAL_DirectionC3<FT> &d) const;
+  bool                operator!=(const CGAL_DirectionC3<FT> &d) const;
+  int                 id() const;
+
+  CGAL_VectorC3<FT>   vector() const;
+
+
+  CGAL_DirectionC3    transform(const CGAL_Aff_transformationC3<FT> &t) const;
+
+
+  CGAL_DirectionC3    operator-() const;
+
+  FT                  delta(int i) const;
+  FT                  dx() const;
+  FT                  dy() const;
+  FT                  dz() const;
+
+  FT                  hdx() const;
+  FT                  hdy() const;
+  FT                  hdz() const;
+  FT                  hw() const;
+
+
+private:
+  CGAL__Threetuple<FT>*   ptr() const;
+};
+@}
+
+@D@<Constructors and Destructors@>
+@$@<code templates of CGAL_DirectionC3<FT>@>+=@{@-
+template < class FT >
+CGAL_DirectionC3<FT>::CGAL_DirectionC3()
+{
+  PTR = new CGAL__Threetuple<FT>();
+}
+
+template < class FT >
+CGAL_DirectionC3<FT>::CGAL_DirectionC3(const CGAL_DirectionC3<FT> &d) :
+  CGAL_Handle(d)
+{
+
+}
+
+template < class FT >
+CGAL_DirectionC3<FT>::CGAL_DirectionC3(const CGAL_VectorC3<FT> &v) :
+  CGAL_Handle(v)
+{
+
+}
+
+template < class FT >
+CGAL_DirectionC3<FT>::CGAL_DirectionC3(const FT &x, const FT &y, const FT &z)
+{
+  PTR = new CGAL__Threetuple<FT>(x, y, z);
+}
+
+
+template < class FT >
+CGAL_DirectionC3<FT>:: ~CGAL_DirectionC3()
+{}
+
+template < class FT >
+CGAL_DirectionC3<FT> &CGAL_DirectionC3<FT>::operator=(
+                                               const CGAL_DirectionC3<FT> &d)
+{
+
+  CGAL_Handle::operator=(d);
+  return *this;
+}
+@}
+
+@D@<Equalness and Identity@>
+
+Directions $d_1$ and $d_2$ are equal, iff there exists a $\lambda > 0$,
+such that $d_1 = \lambda d_2$.
+
+@$@<code templates of CGAL_DirectionC3<FT>@>+=@{@-
+template < class FT >
+bool CGAL_DirectionC3<FT>::operator==(const CGAL_DirectionC3<FT> &d) const
+{
+  return ( ( dx()*d.dy() == dy()*d.dx() )
+        &&( dx()*d.dz() == dz()*d.dx() )
+        &&( dy()*d.dz() == dz()*d.dy() )
+        &&( CGAL_sign( dx() ) == CGAL_sign( d.dx() ) )
+        &&( CGAL_sign( dy() ) == CGAL_sign( d.dy() ) )
+        &&( CGAL_sign( dz() ) == CGAL_sign( d.dz() ) ) );
+}
+
+template < class FT >
+inline bool  CGAL_DirectionC3<FT>::operator!=(
+                                         const CGAL_DirectionC3<FT> &d) const
+{
+  return !(*this == d);
+}
+
+template < class FT >
+int  CGAL_DirectionC3<FT>::id() const
+{
+  return (int) PTR;
+}
+@}
+
+@D@<Miscellaneous@>
+Note that in this class we can inline the access functions although they
+are public.
+
+@$@<code templates of CGAL_DirectionC3<FT>@>+=@{@-
+template < class FT >
+inline CGAL_VectorC3<FT> CGAL_DirectionC3<FT>::vector() const
+{
+
+  return CGAL_VectorC3<FT>(*this);
+}
+
+
+template < class FT >
+inline CGAL_DirectionC3<FT> CGAL_DirectionC3<FT>::transform(
+                               const CGAL_Aff_transformationC3<FT> &t) const
+{
+  return t.transform(*this);
+}
+
+
+template < class FT >
+inline CGAL_DirectionC3<FT> CGAL_DirectionC3<FT>::operator-() const
+{
+
+  return CGAL_DirectionC3<FT>(-dx(), -dy(), -dz());
+}
+
+
+
+template < class FT >
+FT CGAL_DirectionC3<FT>::delta(int i) const
+{
+  CGAL_kernel_precondition( i >= 0 && i <= 2 );
+  if(i == 0) {
+    return dx();
+  }
+  if(i == 1) {
+    return dy();
+  }
+  return dz();
+}
+
+
+template < class FT >
+inline FT CGAL_DirectionC3<FT>::dx() const
+{
+
+  return ptr()->e0;
+}
+
+template < class FT >
+inline FT CGAL_DirectionC3<FT>::dy() const
+{
+
+  return ptr()->e1;
+}
+
+template < class FT >
+inline FT CGAL_DirectionC3<FT>::dz() const
+{
+
+  return ptr()->e2;
+}
+template < class FT >
+inline FT CGAL_DirectionC3<FT>::hdx() const
+{
+
+  return ptr()->e0;
+}
+
+template < class FT >
+inline FT CGAL_DirectionC3<FT>::hdy() const
+{
+
+  return ptr()->e1;
+}
+
+template < class FT >
+inline FT CGAL_DirectionC3<FT>::hdz() const
+{
+
+  return ptr()->e2;
+}
+
+template < class FT >
+inline FT CGAL_DirectionC3<FT>::hw() const
+{
+
+  return FT(1);
+}
+@}
+
+@$@<inline code of CGAL_DirectionC3<FT>@>+=@{@-
+template < class FT >
+inline CGAL__Threetuple<FT>*   CGAL_DirectionC3<FT>::ptr() const
+{
+  return (CGAL__Threetuple<FT>*)PTR;
+}
+@}
+
+
+@D@<Header File@>
+
+@O@<../include/CGAL/DirectionC3.h@>==@{@-
+@<CGAL notice@>
+// Source: DirectionC3.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL_DIRECTIONC3_H
+#define CGAL_DIRECTIONC3_H
+
+#include <CGAL/Threetuple.h>
+#include <CGAL/VectorC3.h>
+
+@<class CGAL_DirectionC3<FT>@>
+
+@<inline code of CGAL_DirectionC3<FT>@>
+
+@<code templates of CGAL_DirectionC3<FT>@>
+
+#endif
+@}
+
+@! $Log: DirectionC3.fw,v $
+@! Revision 1.4  1996/06/07 15:56:39  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.3  1996/03/13 15:32:23  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.2  1995/10/19 18:01:10  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.1  1995/09/18 13:22:38  fabri
+@! Initial revision
+@!
+@! Revision 1.2  1995/08/21 14:29:16  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.1  1995/08/16 11:56:08  fabri
+@! Initial revision
+@!

@@ -1,5 +1,21 @@
- 
 
+
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
 
 // Source: LineH2.h
 // Author: Stefan.Schirra@mpi-sb.mpg.de
@@ -9,12 +25,11 @@
 
 #include <CGAL/PointH2.h>
 
- 
 
 
 
 template < class FT, class RT >
-class CGAL_LineH2 : public handle_base
+class CGAL_LineH2 : public CGAL_Handle
 {
 
 public:
@@ -33,6 +48,7 @@ public:
     bool                operator==(const CGAL_LineH2& l) const ;
     bool                operator!=(const CGAL_LineH2& l) const ;
     bool                identical(const CGAL_LineH2& l)  const ;
+    int                 id()  const ;
 
     RT                  a() const;
     RT                  b() const;
@@ -40,60 +56,62 @@ public:
 
     FT                  x_at_y(FT y) const;
     FT                  y_at_x(FT x) const;
-    CGAL_LineH2         perpendicular(const CGAL_PointH2<FT,RT>& p ) const;
-    CGAL_LineH2         opposite() const;
+
+    CGAL_LineH2<FT,RT>  perpendicular(const CGAL_PointH2<FT,RT>& p ) const;
+    CGAL_LineH2<FT,RT>  opposite() const;
     CGAL_PointH2<FT,RT> point() const;
+    CGAL_PointH2<FT,RT> point(int i) const;
     CGAL_PointH2<FT,RT> projection(const CGAL_PointH2<FT,RT>& p) const;
     CGAL_DirectionH2<FT,RT>
                         direction() const;
-    bool                is_on( const CGAL_PointH2<FT,RT>& p ) const;
-    CGAL_Side           where_is( const CGAL_PointH2<FT,RT>& p ) const;
+    CGAL_Oriented_side  oriented_side( const CGAL_PointH2<FT,RT>& p ) const;
+    bool                has_on( const CGAL_PointH2<FT,RT>& p ) const;
+    bool                has_on_boundary( const CGAL_PointH2<FT,RT>& p ) const;
+    bool                has_on_positive_side( const CGAL_PointH2<FT,RT>& p )
+                                                                         const;
+    bool                has_on_negative_side( const CGAL_PointH2<FT,RT>& p )
+                                                                         const;
     bool                is_horizontal() const;
     bool                is_vertical()   const;
     bool                is_degenerate() const;
 
-    CGAL_LineH2         transform(const CGAL_Aff_transformationH2<FT,RT>&)
+    CGAL_LineH2<FT,RT>  transform(const CGAL_Aff_transformationH2<FT,RT>&)
                                                          const;
-
-#ifdef CGAL_CHECK_PRECONDITIONS
-    bool                is_defined() const
-                        {
-                         return !(PTR == NULL);
-                        }
-#endif // CGAL_CHECK_PRECONDITIONS
 
 protected:
 
     CGAL__Threetuple<RT>*  ptr() const;
 };
- 
 
 
- 
+
+template < class FT, class RT >
+inline
+CGAL__Threetuple<RT>*
+CGAL_LineH2<FT,RT>::ptr() const
+{
+ return (CGAL__Threetuple<RT>*)PTR;
+}
+
+
 
 
 template < class FT, class RT >
 CGAL_LineH2<FT,RT>::CGAL_LineH2()
 {
-#ifdef CGAL_CHECK_PRECONDITIONS
- PTR = NULL;
-#else
  PTR = new CGAL__Threetuple<RT>();
-#endif // CGAL_CHECK_PRECONDITIONS
 }
 
 template < class FT, class RT >
 CGAL_LineH2<FT,RT>::CGAL_LineH2(const CGAL_LineH2<FT,RT>& l) :
- handle_base(l)
+ CGAL_Handle(l)
 {
- CGAL_kernel_precondition( is_defined() );
 }
 
 template < class FT, class RT >
 CGAL_LineH2<FT,RT>::CGAL_LineH2(const CGAL_PointH2<FT,RT>& p,
                                 const CGAL_PointH2<FT,RT>& q)
 {
- CGAL_kernel_precondition( p.is_defined() && q.is_defined() );
  //  a() * X + b() * Y + c() * W() == 0
  //      |    X        Y       W     |
  //      |  p.hx()   p.hy()  p.hw()  |
@@ -116,7 +134,6 @@ CGAL_LineH2<FT,RT>::CGAL_LineH2(const RT& a, const RT& b, const RT& c)
 template < class FT, class RT >
 CGAL_LineH2<FT,RT>::CGAL_LineH2(const CGAL_SegmentH2<FT,RT>& s)
 {
- CGAL_kernel_precondition( s.is_defined() );
  CGAL_PointH2<FT,RT> p = s.start();
  CGAL_PointH2<FT,RT> q = s.end();
  PTR = new CGAL__Threetuple<RT> (
@@ -130,7 +147,6 @@ CGAL_LineH2<FT,RT>::CGAL_LineH2(const CGAL_SegmentH2<FT,RT>& s)
 template < class FT, class RT >
 CGAL_LineH2<FT,RT>::CGAL_LineH2(const CGAL_RayH2<FT,RT>& r)
 {
- CGAL_kernel_precondition( r.is_defined() );
  CGAL_PointH2<FT,RT> p = r.start();
  CGAL_PointH2<FT,RT> q = r.second_point();
  PTR = new CGAL__Threetuple<RT> (
@@ -145,7 +161,6 @@ template < class FT, class RT >
 CGAL_LineH2<FT,RT>::CGAL_LineH2(const CGAL_PointH2<FT,RT>& p,
                                 const CGAL_DirectionH2<FT,RT>& d)
 {
- CGAL_kernel_precondition( p.is_defined() && d.is_defined() );
  CGAL_PointH2<FT,RT> q = p + CGAL_VectorH2<FT,RT>(d);
  PTR = new CGAL__Threetuple<RT> (
             p.hy()*q.hw() - p.hw()*q.hy(),
@@ -159,18 +174,15 @@ template < class FT, class RT >
 CGAL_LineH2<FT,RT>&
 CGAL_LineH2<FT,RT>::operator=(const CGAL_LineH2<FT,RT>& l)
 {
- CGAL_kernel_precondition(l.is_defined());
- handle_base::operator=(l);
+ CGAL_Handle::operator=(l);
  return *this;
 }
- 
 
 
 template < class FT, class RT >
 RT
 CGAL_LineH2<FT,RT>::a() const
 {
- CGAL_kernel_precondition( is_defined() );
  return ptr()->e0;
 }
 
@@ -178,7 +190,6 @@ template < class FT, class RT >
 RT
 CGAL_LineH2<FT,RT>::b() const
 {
- CGAL_kernel_precondition( is_defined() );
  return ptr()->e1;
 }
 
@@ -186,17 +197,14 @@ template < class FT, class RT >
 RT
 CGAL_LineH2<FT,RT>::c() const
 {
- CGAL_kernel_precondition( is_defined() );
  return ptr()->e2;
 }
- 
 
 
 template < class FT, class RT >
 FT
 CGAL_LineH2<FT,RT>::x_at_y(FT y) const
 {
- CGAL_kernel_precondition( is_defined() );
  CGAL_nondegeneracy_precondition( !is_degenerate() );
  return (FT(-b())*y - FT(c()) )/FT(a());
 }
@@ -205,7 +213,6 @@ template < class FT, class RT >
 FT
 CGAL_LineH2<FT,RT>::y_at_x(FT x) const
 {
- CGAL_kernel_precondition( is_defined() );
  CGAL_nondegeneracy_precondition( !is_degenerate() );
  return (FT(-a())*x - FT(c()) )/FT(b());
 }
@@ -214,7 +221,6 @@ template < class FT, class RT >
 CGAL_LineH2<FT,RT>
 CGAL_LineH2<FT,RT>::perpendicular(const CGAL_PointH2<FT,RT>& p ) const
 {
- CGAL_kernel_precondition( is_defined() && p.is_defined() );
  CGAL_nondegeneracy_precondition( !is_degenerate() );
  return CGAL_LineH2<FT,RT>( -b()*p.hw(), a()*p.hw(), b()*p.hx() - a()*p.hy() );
 }
@@ -223,7 +229,6 @@ template < class FT, class RT >
 CGAL_LineH2<FT,RT>
 CGAL_LineH2<FT,RT>::opposite() const
 {
- CGAL_kernel_precondition( is_defined() );
  return CGAL_LineH2<FT,RT>( -a(), -b(), -c() );
 }
 
@@ -231,7 +236,6 @@ template < class FT, class RT >
 CGAL_PointH2<FT,RT>
 CGAL_LineH2<FT,RT>::point() const
 {
- CGAL_kernel_precondition( is_defined() );
  CGAL_nondegeneracy_precondition( !is_degenerate() );
  if (is_vertical() )
  {
@@ -245,9 +249,15 @@ CGAL_LineH2<FT,RT>::point() const
 
 template < class FT, class RT >
 CGAL_PointH2<FT,RT>
+CGAL_LineH2<FT,RT>::point(int i) const
+{
+ return point() + i*direction().vector();
+}
+
+template < class FT, class RT >
+CGAL_PointH2<FT,RT>
 CGAL_LineH2<FT,RT>::projection(const CGAL_PointH2<FT,RT>& p) const
 {
- CGAL_kernel_precondition( is_defined() && p.is_defined() );
  CGAL_nondegeneracy_precondition( !is_degenerate() );
  CGAL_LineH2<FT,RT>  l( p, CGAL_DirectionH2<FT,RT>( a(), b() ));
  return CGAL_PointH2<FT,RT>( b()*l.c() - l.b()*c(),
@@ -259,7 +269,6 @@ template < class FT, class RT >
 CGAL_DirectionH2<FT,RT>
 CGAL_LineH2<FT,RT>::direction() const
 {
- CGAL_kernel_precondition( is_defined() );
  CGAL_nondegeneracy_precondition( !is_degenerate() );
  return CGAL_DirectionH2<FT,RT>( b(), -a() );
 }
@@ -268,35 +277,57 @@ template < class FT, class RT >
 CGAL_LineH2<FT,RT>
 CGAL_LineH2<FT,RT>::transform(const CGAL_Aff_transformationH2<FT,RT>& t) const
 {
- CGAL_kernel_precondition( is_defined() && t.is_defined() );
  CGAL_nondegeneracy_precondition( !is_degenerate() );
- CGAL_PointH2<FT,RT> p = point() + CGAL_VectorH2<FT,RT>(direction() );
+ CGAL_PointH2<FT,RT> p = point() + direction().vector();
  return CGAL_LineH2<FT,RT>( t.transform(point() ), t.transform(p) );
 }
- 
 
 
 template < class FT, class RT >
 bool
-CGAL_LineH2<FT,RT>::is_on( const CGAL_PointH2<FT,RT>& p ) const
+CGAL_LineH2<FT,RT>::has_on( const CGAL_PointH2<FT,RT>& p ) const
 {
- CGAL_kernel_precondition( is_defined() && p.is_defined() );
+ CGAL_nondegeneracy_precondition( !is_degenerate() );
  return ( ( a()*p.hx() + b()*p.hy() + c()*p.hw() ) == RT(0)   );
 }
 
 template < class FT, class RT >
-CGAL_Side
-CGAL_LineH2<FT,RT>::where_is( const CGAL_PointH2<FT,RT>& p ) const
+bool
+CGAL_LineH2<FT,RT>::has_on_boundary( const CGAL_PointH2<FT,RT>& p ) const
 {
- CGAL_kernel_precondition( is_defined() && p.is_defined() );
+ CGAL_nondegeneracy_precondition( !is_degenerate() );
+ return ( ( a()*p.hx() + b()*p.hy() + c()*p.hw() ) == RT(0)   );
+}
+
+template < class FT, class RT >
+bool
+CGAL_LineH2<FT,RT>::has_on_positive_side( const CGAL_PointH2<FT,RT>& p ) const
+{
+ CGAL_nondegeneracy_precondition( !is_degenerate() );
+ return ( ( a()*p.hx() + b()*p.hy() + c()*p.hw() ) > RT(0)   );
+}
+
+template < class FT, class RT >
+bool
+CGAL_LineH2<FT,RT>::has_on_negative_side( const CGAL_PointH2<FT,RT>& p ) const
+{
+ CGAL_nondegeneracy_precondition( !is_degenerate() );
+ return ( ( a()*p.hx() + b()*p.hy() + c()*p.hw() ) < RT(0)   );
+}
+
+template < class FT, class RT >
+CGAL_Oriented_side
+CGAL_LineH2<FT,RT>::oriented_side( const CGAL_PointH2<FT,RT>& p ) const
+{
+ CGAL_nondegeneracy_precondition( !is_degenerate() );
  RT v = a()*p.hx() + b()*p.hy() + c()*p.hw();
- if (v == RT(0)   )
+ if (v > RT(0)   )
  {
-    return CGAL_ON;
+    return CGAL_ON_POSITIVE_SIDE;
  }
  else
  {
-    return (v > RT(0)   ) ? CGAL_LEFT : CGAL_RIGHT;
+    return (v < RT(0)   ) ? CGAL_ON_NEGATIVE_SIDE : CGAL_ON_ORIENTED_BOUNDARY;
  }
 }
 
@@ -304,7 +335,6 @@ template < class FT, class RT >
 bool
 CGAL_LineH2<FT,RT>::is_horizontal() const
 {
- CGAL_kernel_precondition( is_defined() );
  return ( a() == RT(0)   );
 }
 
@@ -312,7 +342,6 @@ template < class FT, class RT >
 bool
 CGAL_LineH2<FT,RT>::is_vertical() const
 {
- CGAL_kernel_precondition( is_defined() );
  return ( b() == RT(0)   );
 }
 
@@ -320,17 +349,14 @@ template < class FT, class RT >
 bool
 CGAL_LineH2<FT,RT>::is_degenerate() const
 {
- CGAL_kernel_precondition( is_defined() );
  return (a() == RT(0)  )&&(b() == RT(0)  ) ;
 }
- 
 
 
 template < class FT, class RT >
 bool
 CGAL_LineH2<FT,RT>::operator==(const CGAL_LineH2<FT,RT>& l) const
 {
- CGAL_kernel_precondition( is_defined() && l.is_defined() );
  if (  (a() * l.c() != l.a() * c() )
      ||(b() * l.c() != l.b() * c() ) )
  {
@@ -368,20 +394,15 @@ template < class FT, class RT >
 bool
 CGAL_LineH2<FT,RT>::identical(const CGAL_LineH2<FT,RT>& l) const
 {
- CGAL_kernel_precondition( is_defined() && l.is_defined() );
  return PTR == l.PTR;
 }
- 
-
 
 template < class FT, class RT >
-inline
-CGAL__Threetuple<RT>*
-CGAL_LineH2<FT,RT>::ptr() const
+int
+CGAL_LineH2<FT,RT>::id() const
 {
- return (CGAL__Threetuple<RT>*)PTR;
+ return (int)PTR;
 }
- 
 
 
 #endif // CGAL_LINEH2_H

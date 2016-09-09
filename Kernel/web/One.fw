@@ -1,0 +1,48 @@
+@! $RCSfile: One.fw,v $
+@! $Revision: 1.2 $
+@! $Date: 1995/11/08 15:36:30 $
+
+@! Author: Andreas.Fabri@@sophia.inria.fr
+
+@C@<One@>
+
+Some number types contain a numerator and a denominator. These
+can be accessed by global functions {\tt CGAL\_numerator}
+and {\tt CGAL\_denominator}. These functions are overloaded for
+built-in number types, where the numerator function just returns
+its argument and the denominator function returns 1, or better
+the constant {\tt CGAL\_ONE},
+
+
+@O@<../include/CGAL/One.h@>==@{@-
+@<CGAL notice@>
+// Source: One.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL_ONE_H
+#define CGAL_ONE_H
+
+
+class CGAL_One
+{};
+
+const CGAL_One CGAL_ONE;
+
+template < class T >
+T operator*(const T &t, const CGAL_One&)
+{
+  return t;
+}
+
+template < class T >
+T operator*(const CGAL_One&, const T &t)
+{
+  return t;
+}
+
+template < class T >
+T operator/(const T &t, const CGAL_One&)
+{
+  return t;
+}
+#endif // CGAL_ONE_H

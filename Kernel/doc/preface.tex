@@ -1,0 +1,84 @@
+\cleardoublepage
+\chapter*{Preface}
+%\chapter{Preface}
+
+
+\cgal\ is the {\em Computational Geometry Algorithms Library} that is
+developped by the {\sc Esprit} project \cgal\  which is carried out by
+a consortium of seven sites: 
+\Anchor{http://www.cs.ruu.nl}{Utrecht University} (The Netherlands), 
+\Anchor{http://www.inf.ethz.ch/}{ETH Z\"urich} (Switzerland), 
+\Anchor{http://www.inf.fu-berlin.de}{Free University of Berlin} (Germany), 
+\Anchor{http://www.inria.fr/Equipes/PRISME-eng.html}{INRIA Sophia-Antipolis}
+ (France),
+\Anchor{http://www.mpi-sb.mpg.de}{Max-Planck Institute for Computer Science},
+Saarbr\"ucken (Germany),
+\Anchor{http://info.risc.uni-linz.ac.at}{RISC} Linz (Austria) and 
+\Anchor{http://www.math.tau.ac.il/}{Tel-Aviv University} (Israel).
+You find more information on the project on the 
+\Anchor{http://www.cs.ruu.nl/CGAL}{\cgal\ home page}
+\LatexHtml{at {\tt http://www.cs.ruu.nl/CGAL}}{}.
+
+The library is written in \CC\ and consists of three parts: (1) the
+{\em kernel}, (2) the {\em basic library}, and (3) {\em support libraries}.
+
+\medskip
+The \cgal\ kernel, more precisely its specification and partially
+its implementation, is to some extent in imitation of its ancestors
+in the \cgal\ consortium.
+These ancestors are XYZ library \cite{XYZ}, developed at ETH Z\"urich, 
+PlaGeo/SpaGeo \cite{PlaGeo}, developed at Utrecht University, 
+{\sc \CC Gal} \cite{Protocgal}, developed at {\sc Inria} Sophia-Antipolis, France,
+and the former geometric part of 
+\Anchor{http://www.mpi-sb.mpg.de/LEDA/leda.html}{LEDA}~\cite{leda-manual}, a library for 
+combinatorial and geometric computing, developed at MPI f\"ur 
+Informatik, Saarbr\"ucken, Germany.
+All people having contributed to one of these more or less 
+proto-typical ancestors indirectly contributed to the \cgal\ kernel
+as well.
+Here, ``former geometric part of \leda'' means the geometry distributed
+as part of \leda\ at the time when the idea of developing \cgal\ was born,
+i.e.\ in 1994.
+In the meantime \leda's geometry evolved considerably, and the 
+development of \cgal\ and the evolution of \leda\ surely stimulated
+each other.
+
+\medskip
+Among all the ancestors it is undoubtably \leda\ that has the most
+success. It is hence not surprising that \cgal\ is designed such
+that it will work with the combinatorial algorithm part of \leda\ in a
+seamless way. As far as the geometric part of \leda\ is concerned
+the long term goal of the \cgal\ project is to replace it.
+
+In order to facilitate the life of a user of both
+libraries we adopted the manual layout developed by the \leda\
+project. In order to facilitate our life, the classes and algorithms
+in \cgal\ make partially use of \leda, or are code that was
+scavenged and adapted to our needs. Some of these features are
+entirely hidden to the user and may be subject to change in
+future releases, e.g., the memory management, others are visible, 
+as for example the arithmetic and algebra packages, which support 
+exact computation.
+
+
+\medskip
+The authors are grateful for the discussions and the feedback on Release~0.4 
+of the kernel provided by the people in their local research groups.
+We  would like to thank the \leda\ people for plenty of discussions
+and for giving us liberate access to their code. We
+especially would like to thank Michael Seel from MPI, who joined the
+kernel desing group for a couple of weeks.
+Furthermore we would like to thank Karsten 
+Weihe and Dietmar K\"uhl from Konstanz University (Germany) who
+gave us a valuable hint that helped solving a problem that occupied us
+for a couple of weeks. 
+
+\smallskip
+We would like to extend our thanks to the institutes that gave us the
+opportunity to work on the library before the Esprit project \cgal\
+started.  {\sc Inria}, the Max-Planck Institute and Utrecht University
+invested each more than a man year in the design and development of
+the kernel.  The Free University of Berlin allowed two of us to
+participate in the design of the kernel and to provide tools for
+documentation. Each institute hosted the kernel design group for a
+meeting or invited members of this group for a couple of days.

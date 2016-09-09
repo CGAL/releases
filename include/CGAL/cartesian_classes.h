@@ -1,21 +1,9 @@
- 
 // Source: cartesian_classes.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
 #ifndef CGAL_CARTESIAN_CLASSES_H
 #define CGAL_CARTESIAN_CLASSES_H
 
- 
-#include <LEDA/basic.h>
-#include <CGAL/workaround.h>
-#include <CGAL/enum.h>
-#include <CGAL/utils.h>
-#include <CGAL/misc.h>
-#include <CGAL/Handle.h>
-#include <CGAL/number_utils.h>
-#include <CGAL/doublefield.h>
-
- 
 
 #include <CGAL/basic_classes.h>
 
@@ -39,6 +27,9 @@ class CGAL_SegmentC2;
 
 template < class FT >
 class CGAL_TriangleC2;
+
+template < class FT >
+class CGAL_CircleC2;
 
 template < class FT >
 class CGAL_ParabolaC2;

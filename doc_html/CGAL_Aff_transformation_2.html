@@ -1,0 +1,339 @@
+<HEAD>
+<TITLE>The CGAL Kernel Manual: CGAL_Aff_transformation_2</TITLE>
+<!-- Manual page automatically extracted from the TeX source. -->
+</HEAD>
+
+<BODY BGCOLOR="FAF8E8" TEXT="#000000"><A HREF="Chapter_AffTransformation.html">Chapter</A>,
+<A HREF="contents.html">Table of Contents</A>,
+<A HREF="biblio.html">Bibliography</A>,
+<A HREF="manual_index.html">Index</A>,
+<A HREF="title.html">Title Page</A>
+<HR>
+
+
+<P>
+
+<H1> 2D Affine Transformation (<VAR><A HREF="CGAL_Aff_transformation_2.html">CGAL_Aff_transformation_2</A></VAR>
+)</H1>
+<P>
+
+<H3>Definition</H3>Since two-dimensional points have three homogeneous
+coordinates we have a <MATH>3x 3</MATH> matrix
+(<MATH>m<SUB>ij</SUB></MATH>).
+<P>
+
+If the homogeneous representations are normalized such that the
+homogenizing coordinate is 1, then the upper left <MATH>2x 2</MATH>
+matrix realizes linear transformations and in the matrix form of a
+translation, the translation vector <MATH>(v<SUB>0</SUB>,</MATH>
+<MATH>v<SUB>1</SUB>,</MATH> <MATH>1)</MATH> appears in the last column
+of the matrix. In this case entry <MATH>hw</MATH> is always 1. Entries
+<MATH>m<SUB>31</SUB></MATH> and <MATH>m<SUB>32</SUB></MATH> are always
+zero and therefore do not appear in the constructors.
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    <A HREF="CGAL_Aff_transformation_2.html">CGAL_Aff_transformation_2&lt;R&gt;</A> t ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    const CGAL_Translation, <BR>
+     <A HREF="CGAL_Vector_2.html">CGAL_Vector_2&lt;R&gt;</A> v);</TD></TR></TABLE>
+    
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a translation by a vector <MATH>v</MATH>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    <A HREF="CGAL_Aff_transformation_2.html">CGAL_Aff_transformation_2&lt;R&gt;</A> t ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    const CGAL_Rotation, <BR>
+     <A HREF="CGAL_Direction_2.html">CGAL_Direction_2&lt;R&gt;</A> d, <BR>
+     R::RT num, <BR>
+     R::RT den = RT(1));</TD></TR></TABLE>
+    
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    approximates the rotation given by direction <MATH>d</MATH>, such
+    that the differences between the sines and cosines of the rotation
+    given by d and the approximating rotation are at most
+    <MATH>num/den</MATH> each.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    <A HREF="CGAL_Aff_transformation_2.html">CGAL_Aff_transformation_2&lt;R&gt;</A> t ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    const CGAL_Rotation, <BR>
+     R::RT sine_rho, <BR>
+     R::RT cosine_rho, <BR>
+     R::RT hw = RT(1));</TD></TR></TABLE>
+    
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a rotation by the angle <VAR>rho</VAR>.
+    <BR><STRONG>Precondition: </STRONG>
+    <MATH>sine_rho<SUP>2</SUP> + cosine_rho<SUP>2</SUP> == hw<SUP>2</SUP></MATH>
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+.
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    <A HREF="CGAL_Aff_transformation_2.html">CGAL_Aff_transformation_2&lt;R&gt;</A> t ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    const CGAL_Scaling, <BR>
+     R::RT s, <BR>
+     R::RT hw = RT(1));</TD></TR></TABLE>
+    
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a scaling by a scale factor <MATH>s/hw</MATH>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    <A HREF="CGAL_Aff_transformation_2.html">CGAL_Aff_transformation_2&lt;R&gt;</A> t ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+     R::RT m11, <BR>
+     R::RT m12, <BR>
+     R::RT m13, <BR>
+     R::RT m21, <BR>
+     R::RT m22, <BR>
+     R::RT m23, <BR>
+     R::RT hw = RT(1));</TD></TR></TABLE>
+    
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a general affine transformation in the 3x3 matrix form .
+    The sub-matrix
+    <MATH>((m<SUB>11</SUB>, m<SUB>21</SUB>)<SUP>t</SUP>, (m<SUB>12</SUB>, m<SUB>22</SUB>)<SUP>t</SUP>) </MATH>
+    contains the scaling and rotation information, the vector
+    <MATH>(m<SUB>13</SUB>, m<SUB>23</SUB>)<SUP>t</SUP> </MATH> contains
+    the translational part of the transformation.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    <A HREF="CGAL_Aff_transformation_2.html">CGAL_Aff_transformation_2&lt;R&gt;</A> t ( </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+     R::RT m11, <BR>
+     R::RT m12, <BR>
+     R::RT m21, <BR>
+     R::RT m22, <BR>
+     R::RT hw = RT(1));</TD></TR></TABLE>
+    
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a general linear transformation , i.e. there is no
+    translational part.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+The main thing to do with transformations is to apply them on geometric
+objects. Each class <VAR>CGAL_Class_2&lt;R&gt;</VAR> representing a
+geometric object has a member function:
+<P>
+
+<VAR>CGAL_Class_2&lt;R&gt; transform(<A HREF="CGAL_Aff_transformation_2.html">CGAL_Aff_transformation_2&lt;R&gt;</A>
+t)</VAR>.
+<P>
+
+The transformation classes provide a member function <VAR>transform(
+)</VAR> for points, vectors, directions, and lines:
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Point_2.html">CGAL_Point_2&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    t.transform (  <A HREF="CGAL_Point_2.html">CGAL_Point_2&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Vector_2.html">CGAL_Vector_2&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    t.transform (  <A HREF="CGAL_Vector_2.html">CGAL_Vector_2&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Direction_2.html">CGAL_Direction_2&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    t.transform (  <A HREF="CGAL_Direction_2.html">CGAL_Direction_2&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="CGAL_Line_2.html">CGAL_Line_2&lt;R&gt;</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <VAR>
+    t.transform (  <A HREF="CGAL_Line_2.html">CGAL_Line_2&lt;R&gt;</A> p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+CGAL provides function operators for these member functions, that is:
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    CGAL_PVDL_2&lt;R&gt;
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+     t (  CGAL_PVDL_2&lt;R&gt; p)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <VAR>
+    <A HREF="CGAL_Aff_transformation_2.html">CGAL_Aff_transformation_2&lt;R&gt;</A>
+        </VAR>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+     t *  s
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    composes two affine transformations.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <VAR>
+    <A HREF="CGAL_Aff_transformation_2.html">CGAL_Aff_transformation_2&lt;R&gt;</A>
+        </VAR>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    t.inverse ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    gives the inverse transformation.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    t.is_even ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <VAR>true</VAR>, if the transformation is not reflecting,
+    i.e. the determinant of the involved linear transformation is
+    non-negative.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    t.is_odd ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <VAR>true</VAR>, if the transformation is reflecting.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Implementation</H3>Depending on the constructor we have different
+internal representations. This approach uses less memory and the
+transformation can be applied faster.
+<P>
+
+Affine transformations offer no <VAR>transform()</VAR> member function
+for complex objects because they are defined in terms of points vectors
+and directions. As the internal representation of a complex object is
+private the transformation code should go there.
+<P>
+
+<H3>Example</H3>
+<PRE>
+  typedef CGAL_Cartesian&lt;double&gt; RepClass;
+  typedef <A HREF="CGAL_Aff_transformation_2.html">CGAL_Aff_transformation_2&lt;RepClass&gt;</A> Transformation;
+  typedef <A HREF="CGAL_Point_2.html">CGAL_Point_2&lt;RepClass&gt;</A> Point;
+  typedef <A HREF="CGAL_Vector_2.html">CGAL_Vector_2&lt;RepClass&gt;</A> Vector;
+  typedef <A HREF="CGAL_Direction_2.html">CGAL_Direction_2&lt;RepClass&gt;</A> Direction;
+
+  Transformation rotate(<A HREF="Chapter_AffTransformation.html#Var_CGAL_ROTATION">CGAL_ROTATION</A>, sin(pi), cos(pi));
+  Transformation rational_rotate(<A HREF="Chapter_AffTransformation.html#Var_CGAL_ROTATION">CGAL_ROTATION</A>,Direction(1,1), 1, 100);
+  Transformation translate(<A HREF="Chapter_AffTransformation.html#Var_CGAL_TRANSLATION">CGAL_TRANSLATION</A>, Vector(-2, 0));
+  Transformation scale(<A HREF="Chapter_AffTransformation.html#Var_CGAL_SCALING">CGAL_SCALING</A>, 3);
+
+  Point q(0, 1);
+  q = rational_rotate(q); 
+
+  Point p(1, 1);
+
+  p = rotate(p); 
+
+  p = translate(p); 
+
+  p = scale(p);
+</PRE>
+<P>
+
+The same would have been achieved with
+<P>
+
+<PRE>
+
+  Transformation transform = scale * (translate * rotate);
+  p = transform(Point(1.0, 1.0));
+</PRE>
+<P>
+<HR> Next class declaration: <VAR><A HREF="CGAL_Aff_transformation_3.html">CGAL_Aff_transformation_3&lt;R&gt;</A></VAR>
+
+
+<HR><address> The <A HREF="http://www.cs.ruu.nl/CGAL/"><TT>CGAL</TT> Project</A>.</address>
+</BODY>
+</HTML>

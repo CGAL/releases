@@ -1,18 +1,35 @@
- 
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: homogeneous_rep.h
 // Author: Stefan.Schirra@mpi-sb.mpg.de
 #ifndef CGAL_HOMOGENEOUS_REP_H
 #define CGAL_HOMOGENEOUS_REP_H
 
- 
-template<class ft, class rt>
-class H
+#include <CGAL/Quotient.h>
+
+template<class nt>
+class CGAL_Homogeneous
 {
 public:
 // number-type
 
-    typedef ft                                FT;
-    typedef rt                                RT;
+    typedef     nt                            RT;
+    typedef     CGAL_Quotient<nt>             FT;
 
 // two-dimensional
 
@@ -27,10 +44,11 @@ public:
     typedef CGAL_RayH2<FT,RT>                 Ray_2;
 
     typedef CGAL_TriangleH2<FT,RT>            Triangle_2;
+    typedef CGAL_CircleH2<FT,RT>              Circle_2;
 
     typedef CGAL_Iso_rectangleH2<FT,RT>       Iso_rectangle_2;
 
-    typedef CGAL_PolygonH2<FT,RT>             Polygon_2;
+//    typedef CGAL_PolygonH2<FT,RT>             Polygon_2;
 
 // three-dimensional
 
@@ -50,7 +68,42 @@ public:
     typedef CGAL_Iso_rectangleH3<FT,RT>       Iso_rectangle_3;
 
     typedef CGAL_TetrahedronH3<FT,RT>         Tetrahedron_3;
+
+#ifdef CGAL_WORKAROUND_013
+    typedef CGAL__Vector_2_rft_wrapper< CGAL_Homogeneous<RT> >* W2ptr;
+    typedef CGAL__Vector_3_rft_wrapper< CGAL_Homogeneous<RT> >* W3ptr;
+#endif // CGAL_WORKAROUND_013
+
+// Geert-Jan's additional features
+
+  static
+  FT
+  make_FT(const RT & num, const RT& denom)
+  {
+   return FT(num, denom);
+  }
+
+  static
+  FT
+  make_FT(const RT & num)
+  {
+   return FT(num);
+  }
+
+  static
+  RT
+  FT_numerator(const FT &r)
+  {
+   return r.numerator();
+  }
+
+  static
+  RT
+  FT_denominator(const FT &r)
+  {
+   return r.denominator();
+  }
+
 };
- 
 
 #endif // CGAL_HOMOGENEOUS_REP_H

@@ -1,0 +1,347 @@
+
+
+@! $RCSfile: Iso_rectangleC2.fw,v $
+@! $Revision: 1.4 $
+@! $Date: 1996/03/13 15:32:23 $
+
+@! Author: Andreas.Fabri@@sophia.inria.fr
+
+
+@C@<Class CGAL_Iso_rectangleC2<FT>@>
+
+@$@<class CGAL_Iso_rectangleC2<FT>@>==@{@-
+template <class FT>
+class CGAL_Iso_rectangleC2 : public CGAL_Handle
+{
+public:
+                       CGAL_Iso_rectangleC2();
+                       CGAL_Iso_rectangleC2(const CGAL_Iso_rectangleC2<FT> &);
+                       CGAL_Iso_rectangleC2(const CGAL_PointC2<FT> &p,
+                                            const CGAL_PointC2<FT> &q);
+                       ~CGAL_Iso_rectangleC2();
+
+  CGAL_Iso_rectangleC2<FT>  &operator=(const CGAL_Iso_rectangleC2<FT> &r);
+
+  bool                 operator==(const CGAL_Iso_rectangleC2<FT> &s) const;
+  bool                 operator!=(const CGAL_Iso_rectangleC2<FT> &s) const;
+  int                  id() const;
+
+  CGAL_PointC2<FT>     min() const;
+  CGAL_PointC2<FT>     max() const;
+  CGAL_PointC2<FT>     vertex(int i) const;
+  CGAL_PointC2<FT>     operator[](int i) const;
+
+  CGAL_Iso_rectangleC2<FT> transform(
+                               const CGAL_Aff_transformationC2<FT> &t) const;
+
+  CGAL_Bounded_side    bounded_side(const CGAL_PointC2<FT> &p) const;
+
+  bool                 has_on_boundary(const CGAL_PointC2<FT> &p) const;
+
+  bool                 has_on_bounded_side(const CGAL_PointC2<FT> &p) const;
+  bool                 has_on_unbounded_side(const CGAL_PointC2<FT> &p) const;
+
+  bool                 is_degenerate() const;
+
+  CGAL_Bbox_2          bbox() const;
+
+  FT                   xmin() const;
+  FT                   ymin() const;
+  FT                   xmax() const;
+  FT                   ymax() const;
+
+private:
+  CGAL__Twotuple< CGAL_PointC2<FT> >*   ptr() const;
+};
+@}
+
+@D@<Constructors and Destructors@>
+
+@$@<code templates of CGAL_Iso_rectangleC2<FT>@>+=@{@-
+template < class FT >
+CGAL_Iso_rectangleC2<FT>::CGAL_Iso_rectangleC2()
+{
+  PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >;
+}
+
+template < class FT >
+CGAL_Iso_rectangleC2<FT>::CGAL_Iso_rectangleC2(
+                                      const CGAL_Iso_rectangleC2<FT> &r) :
+  CGAL_Handle((CGAL_Handle&)r)
+{
+
+}
+
+template < class FT >
+CGAL_Iso_rectangleC2<FT>::CGAL_Iso_rectangleC2(const CGAL_PointC2<FT> &p,
+                                               const CGAL_PointC2<FT> &q)
+{
+  FT vx0 = p.x();
+  FT vy0 = p.y();
+  FT vx1 = q.x();
+  FT vy1 = q.y();
+
+  bool b1 = false,
+       b2 = false;
+  if( (b1 = (vx0 > vx1)) || (b2 = (vy0 > vy1)) ) {
+    if (b1 && b2) {
+      PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >(q,p);
+    } else {
+      if (vx0 > vx1){
+        FT z = vx1;
+        vx1 = vx0;
+        vx0 = z;
+      }
+      if (vy0 > vy1){
+        FT z = vy1;
+        vy1 = vy0;
+        vy0 = z;
+      }
+
+      PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >(CGAL_PointC2<FT>(vx0,vy0),
+                                                   CGAL_PointC2<FT>(vx1,vy1));
+    }
+  }else {
+    PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >(p,q);
+  }
+  CGAL_nondegeneracy_assertion;
+}
+
+
+template < class FT >
+inline CGAL_Iso_rectangleC2<FT>::~CGAL_Iso_rectangleC2()
+{}
+
+
+template < class FT >
+CGAL_Iso_rectangleC2<FT> &CGAL_Iso_rectangleC2<FT>::operator=(
+                                            const CGAL_Iso_rectangleC2<FT> &r)
+{
+
+  CGAL_Handle::operator=(r);
+  return *this;
+}
+@}
+
+@D@<Equalness and Identity@>
+
+@$@<code templates of CGAL_Iso_rectangleC2<FT>@>+=@{@-
+template < class FT >
+bool CGAL_Iso_rectangleC2<FT>::operator==(
+                                  const CGAL_Iso_rectangleC2<FT> &r) const
+{
+  return  vertex(0) == r.vertex(0) && vertex(2) == r.vertex(2);
+}
+
+template < class FT >
+inline bool CGAL_Iso_rectangleC2<FT>::operator!=(
+                                  const CGAL_Iso_rectangleC2<FT> &r) const
+{
+  return !(*this == r);
+}
+
+template < class FT >
+int CGAL_Iso_rectangleC2<FT>::id() const
+{
+  return (int)PTR;
+}
+@}
+
+@D@<Access Functions@>
+
+Although we store only two vertices, namely lower left and upper right
+vertex of the rectangle, we provide functions for ``accessing'' the other
+vertices as well. The vertices are returned in counterclockwise order.
+
+@$@<code templates of CGAL_Iso_rectangleC2<FT>@>+=@{@-
+template < class FT >
+CGAL_PointC2<FT>  CGAL_Iso_rectangleC2<FT>::min() const
+{
+
+  return  ptr()->e0;
+}
+
+template < class FT >
+CGAL_PointC2<FT> CGAL_Iso_rectangleC2<FT>::max() const
+{
+
+  return  ptr()->e1;
+}
+
+template < class FT >
+inline FT CGAL_Iso_rectangleC2<FT>::xmin() const
+{
+
+  return  min().x();
+}
+
+template < class FT >
+inline FT CGAL_Iso_rectangleC2<FT>::ymin() const
+{
+
+  return  min().y();
+}
+
+template < class FT >
+inline FT CGAL_Iso_rectangleC2<FT>::xmax() const
+{
+
+  return  max().x();
+}
+
+template < class FT >
+inline FT CGAL_Iso_rectangleC2<FT>::ymax() const
+{
+
+  return  max().y();
+}
+
+
+
+template < class FT >
+CGAL_PointC2<FT> CGAL_Iso_rectangleC2<FT>::vertex(int i) const
+{
+
+  switch (i%4) {
+  case 0: return min();
+  case 1: return CGAL_PointC2<FT>(xmax(), ymin());
+  case 2: return max();
+  default: return CGAL_PointC2<FT>(xmin(), ymax());
+  }
+}
+
+template < class FT >
+inline CGAL_PointC2<FT> CGAL_Iso_rectangleC2<FT>::operator[](int i) const
+{
+
+  return vertex(i);
+}
+@}
+
+@D@<Tests@>
+
+@$@<code templates of CGAL_Iso_rectangleC2<FT>@>+=@{@-
+template < class FT >
+CGAL_Bounded_side CGAL_Iso_rectangleC2<FT>::bounded_side(
+                                               const CGAL_PointC2<FT> &p) const
+{
+  bool x_incr = (xmin() < p.x()) &&  (p.x() < xmax()),
+       y_incr = (ymin() < p.y()) &&  (p.y() < ymax());
+  if( x_incr )
+    {
+      if( y_incr )
+        {
+          return CGAL_ON_BOUNDED_SIDE;
+        }
+      if( (p.y() == ymin()) || (ymax() == p.y()) )
+        {
+          return CGAL_ON_BOUNDARY;
+        }
+    }
+  if( (p.x() == xmin()) || (xmax() == p.x()) )
+    {
+      if( y_incr || (p.y() == ymin()) || (ymax() == p.y()) )
+        {
+          return CGAL_ON_BOUNDARY;
+        }
+    }
+
+  return CGAL_ON_UNBOUNDED_SIDE;
+}
+
+template < class FT >
+inline bool CGAL_Iso_rectangleC2<FT>::has_on_boundary(
+                                              const CGAL_PointC2<FT> &p) const
+{
+  return bounded_side(p) == CGAL_ON_BOUNDARY;
+}
+
+template < class FT >
+inline bool CGAL_Iso_rectangleC2<FT>::has_on_bounded_side(
+                                             const CGAL_PointC2<FT> &p) const
+{
+  return bounded_side(p) == CGAL_ON_BOUNDED_SIDE;
+}
+
+template < class FT >
+inline bool CGAL_Iso_rectangleC2<FT>::has_on_unbounded_side(
+                                             const CGAL_PointC2<FT> &p) const
+{
+  return bounded_side(p) == CGAL_ON_UNBOUNDED_SIDE;
+}
+
+template < class FT >
+bool CGAL_Iso_rectangleC2<FT>::is_degenerate() const
+{
+
+  return (xmin() == xmax()) || (ymin() ==ymax());
+}
+@}
+
+@D@<Miscellaneous@>
+
+{\bf Q:} What is a rotation of an iso rectangle? In this implementation
+the lower left vertex is rotated and the rectangle remains the same.
+
+@$@<code templates of CGAL_Iso_rectangleC2<FT>@>+=@{@-
+template < class FT >
+inline CGAL_Bbox_2 CGAL_Iso_rectangleC2<FT>::bbox() const
+{
+
+  return CGAL_Bbox_2(CGAL_to_double(xmin()), CGAL_to_double(ymin()),
+                     CGAL_to_double(xmax()), CGAL_to_double(ymax()));
+}
+
+template < class FT >
+inline CGAL_Iso_rectangleC2<FT> CGAL_Iso_rectangleC2<FT>::transform(
+                                  const CGAL_Aff_transformationC2<FT> &t) const
+{
+  return CGAL_Iso_rectangleC2<FT>(t.transform(vertex(0)),
+                                  t.transform(vertex(2)));
+}
+@}
+
+@$@<inline code of CGAL_Iso_rectangleC2<FT>@>+=@{@-
+template < class FT >
+inline CGAL__Twotuple< CGAL_PointC2<FT> > *CGAL_Iso_rectangleC2<FT>::ptr() const
+{
+  return (CGAL__Twotuple< CGAL_PointC2<FT> >*)PTR;
+}
+@}
+
+
+@D@<Header File@>
+
+@O@<../include/CGAL/Iso_rectangleC2.h@>==@{@-
+@<CGAL notice@>
+// Source: Iso_rectangleC2.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL_ISO_RECTANGLEC2_H
+#define CGAL_ISO_RECTANGLEC2_H
+
+#include <CGAL/Twotuple.h>
+#include <CGAL/PointC2.h>
+
+@<class CGAL_Iso_rectangleC2<FT>@>
+
+@<inline code of CGAL_Iso_rectangleC2<FT>@>
+
+@<code templates of CGAL_Iso_rectangleC2<FT>@>
+
+#endif
+@}
+
+@! $Log: Iso_rectangleC2.fw,v $
+@! Revision 1.4  1996/03/13 15:32:23  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.3  1995/11/06 17:39:50  fabri
+@! compiles with GNU g++
+@!
+@! Revision 1.2  1995/10/19 18:01:10  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.1  1995/09/18 13:22:38  fabri
+@! Initial revision
+@!

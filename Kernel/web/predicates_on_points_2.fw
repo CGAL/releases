@@ -1,0 +1,252 @@
+
+@! $RCSfile: predicates_on_points_2.fw,v $
+@! $Revision: 1.2 $
+@! $Date: 1996/06/07 15:56:39 $
+
+@! Author: Andreas.Fabri@@sophia.inria.fr
+
+@A@<Geometric Predicates@>
+
+@B
+
+@$@<Alignement of 2D Points@>==@{@-
+template < class R >
+bool CGAL_x_equal(const CGAL_Point_2<R> &p,
+                  const CGAL_Point_2<R> &q)
+{
+  return CGAL_x_equal((const R::Point_2&)p, (const R::Point_2&)q);
+}
+
+template < class R >
+bool CGAL_y_equal(const CGAL_Point_2<R> &p,
+                  const CGAL_Point_2<R> &q)
+{
+  return CGAL_y_equal((const R::Point_2&)p, (const R::Point_2&)q);
+}
+
+
+template < class R >
+CGAL_Comparison_result CGAL_compare_x(const CGAL_Point_2<R> &p,
+                                      const CGAL_Point_2<R> &q)
+{
+  return CGAL_compare_x((const R::Point_2&)p, (const R::Point_2&)q);
+}
+
+template < class R >
+CGAL_Comparison_result CGAL_compare_y(const CGAL_Point_2<R> &p,
+                                      const CGAL_Point_2<R> &q)
+{
+  return CGAL_compare_y((const R::Point_2&)p, (const R::Point_2&)q);
+}
+@}
+
+@B
+
+@$@<Lexicograpical Order of 2D Points@>==@{@-
+template < class R >
+CGAL_Comparison_result
+CGAL_compare_lexicographically_xy(const CGAL_Point_2<R>& p,
+                                  const CGAL_Point_2<R>& q)
+{
+  return  CGAL_compare_lexicographically_xy((const R::Point_2&)p,
+                                            (const R::Point_2&)q);
+}
+
+template < class R >
+bool
+CGAL_lexicographically_xy_smaller_or_equal(const CGAL_Point_2<R>& p,
+                                           const CGAL_Point_2<R>& q)
+{
+  return CGAL_lexicographically_xy_smaller_or_equal((const R::Point_2&)p,
+                                                    (const R::Point_2&)q);
+}
+
+template < class R >
+bool
+CGAL_lexicographically_xy_smaller(const CGAL_Point_2<R>& p,
+                                  const CGAL_Point_2<R>& q)
+{
+ return CGAL_lexicographically_xy_smaller((const R::Point_2&)p,
+                                          (const R::Point_2&)q);
+}
+
+template < class R >
+bool
+CGAL_lexicographically_xy_larger_or_equal(const CGAL_Point_2<R>& p,
+                                          const CGAL_Point_2<R>& q)
+{
+ return !CGAL_lexicographically_xy_smaller((const R::Point_2&)p,
+                                           (const R::Point_2&)q);
+}
+
+template < class R >
+bool
+CGAL_lexicographically_xy_larger(const CGAL_Point_2<R>& p,
+                                 const CGAL_Point_2<R>& q)
+{
+  return !CGAL_lexicographically_xy_smaller_or_equal((const R::Point_2&)p,
+                                                     (const R::Point_2&)q);
+}
+@}
+
+@B@<2D Ordertype Functions@>
+
+There are no specializations. The problems with non-exactness are catched
+in the tests. Those are specialized.
+
+@C
+@$@<2d Ordertype Interface Functions@>==@{@-
+template < class R >
+bool CGAL_collinear(const CGAL_Point_2<R> &p,
+                    const CGAL_Point_2<R> &q,
+                    const CGAL_Point_2<R> &r)
+{
+  return (CGAL_collinear((const R::Point_2&)p,
+                         (const R::Point_2&)q,
+                         (const R::Point_2&)r));
+}
+
+template < class R >
+bool CGAL_between(const CGAL_Point_2<R> &p,
+                  const CGAL_Point_2<R> &q,
+                  const CGAL_Point_2<R> &r)
+{
+  if (!CGAL_collinear(p, q, r))
+    {
+      return false;
+    }
+  return CGAL_collinear_between(p, q, r);
+
+}
+
+template < class R >
+inline bool CGAL_collinear_between(const CGAL_Point_2<R> &p,
+                                   const CGAL_Point_2<R> &q,
+                                   const CGAL_Point_2<R> &r)
+{
+  return (CGAL_collinear_between((const R::Point_2&)p,
+                                 (const R::Point_2&)q,
+                                 (const R::Point_2&)r));
+}
+
+template < class R >
+inline bool CGAL_leftturn(const CGAL_Point_2<R> &p,
+                          const CGAL_Point_2<R> &q,
+                          const CGAL_Point_2<R> &r)
+{
+  return CGAL_leftturn((const R::Point_2&)p,
+                       (const R::Point_2&)q,
+                       (const R::Point_2&)r);
+}
+
+template < class R >
+inline bool CGAL_rightturn(const CGAL_Point_2<R> &p,
+                           const CGAL_Point_2<R> &q,
+                           const CGAL_Point_2<R> &r)
+{
+   return CGAL_rightturn((const R::Point_2&)p,
+                         (const R::Point_2&)q,
+                         (const R::Point_2&)r);
+}
+
+template < class R >
+inline bool CGAL_rightturn(const CGAL_Origin &o,
+                           const CGAL_Point_2<R> &q,
+                           const CGAL_Point_2<R> &r)
+{
+   return CGAL_rightturn(o,
+                         (const R::Point_2&)q,
+                         (const R::Point_2&)r);
+}
+
+template < class R >
+inline CGAL_Orientation CGAL_orientation(const CGAL_Point_2<R> &p,
+                                         const CGAL_Point_2<R>&q,
+                                         const CGAL_Point_2<R> &r)
+{
+  return CGAL_orientation((const R::Point_2&)p,
+                          (const R::Point_2&)q,
+                          (const R::Point_2&)r);
+}
+/*
+template < class RT, class R >
+inline RT CGAL_area2(const CGAL_Point_2<R> &p,
+                     const CGAL_Point_2<R> &q,
+                     const CGAL_Point_2<R> &r)
+{
+  return CGAL_area2((const R::Point_2&)p,
+                    (const R::Point_2&)q,
+                    (const R::Point_2&)r);
+}
+*/
+template <class R >
+CGAL_Oriented_side CGAL_side_of_oriented_circle(const CGAL_Point_2<R> &p,
+                                                const CGAL_Point_2<R> &q,
+                                                const CGAL_Point_2<R> &r,
+                                                const CGAL_Point_2<R> &test)
+{
+  return CGAL_side_of_oriented_circle((const R::Point_2&)p,
+                                      (const R::Point_2&)q,
+                                      (const R::Point_2&)r,
+                                      (const R::Point_2&)test);
+}
+
+template <class R >
+CGAL_Bounded_side CGAL_side_of_bounded_circle(const CGAL_Point_2<R> &p,
+                                               const CGAL_Point_2<R> &q,
+                                               const CGAL_Point_2<R> &r,
+                                               const CGAL_Point_2<R> &test)
+{
+  return CGAL_side_of_bounded_circle((const R::Point_2&)p,
+                                     (const R::Point_2&)q,
+                                     (const R::Point_2&)r,
+                                     (const R::Point_2&)test);
+}
+@}
+
+
+@D@<Header File@>
+
+@O@<../include/CGAL/predicates_on_points_2.h@>==@{@-
+@<CGAL notice@>
+// Source: predicates_on_points_2.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL_PREDICATES_ON_POINTS_2_H
+#define CGAL_PREDICATES_ON_POINTS_2_H
+
+#ifdef CGAL_HOMOGENEOUS_H
+#include <CGAL/predicates_on_pointsH2.h>
+#endif // CGAL_HOMOGENEOUS_H
+
+#ifdef CGAL_CARTESIAN_H
+#include <CGAL/predicates_on_pointsC2.h>
+#endif // CGAL_CARTESIAN_H
+
+#include <CGAL/Point_2.h>
+@<Alignement of 2D Points@>
+
+@<Lexicograpical Order of 2D Points@>
+
+@<2d Ordertype Interface Functions@>
+
+#endif  // CGAL_PREDICATES_ON_POINTS_2_H
+@}
+
+
+@! $Log: predicates_on_points_2.fw,v $
+@! Revision 1.2  1996/06/07 15:56:39  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.1  1996/03/13 15:32:23  fabri
+@! Initial revision
+@!
+@! Revision 1.3  1995/11/08 15:36:30  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.2  1995/11/06 17:39:50  fabri
+@! compiles with GNU g++
+@!
+@! Revision 1.1  1995/10/19 18:01:10  fabri
+@! Initial revision
+@!

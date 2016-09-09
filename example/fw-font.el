@@ -1,4 +1,4 @@
-#line 238 "funnelweb.fw"
+#line 239 "funnelweb.fw"
 
  (make-face 'funnelweb-face)
  (set-face-foreground  'funnelweb-face "cadetblue")

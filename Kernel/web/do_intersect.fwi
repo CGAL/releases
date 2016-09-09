@@ -1,0 +1,11 @@
+@$@<do_intersect macro@>@(@2@)@Z@M==@{@-
+template <class R>
+inline bool CGAL_do_intersect(
+    const CGAL_@1<R> &p1,
+    const CGAL_@2<R> &p2)
+{
+    typedef CGAL_@1_@2_pair<R> pair_t;
+    pair_t pair(&p1, &p2);
+    return pair.intersection_type() == pair_t::NO;
+}@-
+@}

@@ -1,16 +1,17 @@
-#include <stream.h>
+#include <CGAL/Cartesian.h>
+
+#include <iostream.h>
 #include <LEDA/random.h>
 
-#include <CGAL/cartesian.h>
 #include <CGAL/IO/geomview.h>
 
 typedef double coord_type;
 
-typedef CGAL_Point_3< C<coord_type> > Point;
-typedef CGAL_Segment_3< C<coord_type> > Segment;
+typedef CGAL_Point_3< CGAL_Cartesian<coord_type> > Point;
+typedef CGAL_Segment_3< CGAL_Cartesian<coord_type> > Segment;
 
-typedef CGAL_Triangle_3< C<coord_type> > Triangle;
-typedef CGAL_Tetrahedron_3< C<coord_type> > Tetrahedron;
+typedef CGAL_Triangle_3< CGAL_Cartesian<coord_type> > Triangle;
+typedef CGAL_Tetrahedron_3< CGAL_Cartesian<coord_type> > Tetrahedron;
 
 typedef CGAL_Bbox_3 Bbox;
 

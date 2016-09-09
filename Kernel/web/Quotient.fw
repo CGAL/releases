@@ -1,0 +1,883 @@
+
+@B@<Quotients@>
+
+@C@<CGAL_Quotient<NT>@>
+A formal qoutient of a numbertype is defined as a template class,
+analogously to the (non-template) numbertype @{rational@} in LEDA.
+LEDA's class @{rational@} was written by Stefan N\"aher and Christian Uhrig.
+The type @{CGAL_Quotient@} has a restricted functionality compared to
+@{rational@}, however, it is templated with a (number) type.
+A @{CGAL_Quotient<NT>@} is implemented by two numbers of type @{NT@}
+which represent numerator and denominator. The denominator is never zero.
+
+@$@<quotient_interface@>+=@{@-
+template <class NT>
+class CGAL_Quotient
+{
+
+protected:
+
+  NT num;
+  NT den;
+
+public:
+
+  CGAL_Quotient() : num( NT(0) ), den( NT(1) )
+    {
+    }
+  CGAL_Quotient(const NT& n) : num(n), den( NT(1) )
+    {
+    }
+  CGAL_Quotient(const NT& n, const NT& d) : num(n), den(d)
+    {
+      CGAL_kernel_precondition( d!= NT(0) );
+    }
+  CGAL_Quotient(const CGAL_Quotient<NT>& r) : num(r.num), den(r.den)
+    {
+    }
+  CGAL_Quotient<NT>& operator=(const CGAL_Quotient<NT>&);
+
+
+ ~CGAL_Quotient()
+    {
+    }
+@}
+
+The arithmetic operations $+,\ -,\ *,\ /,\ +=,\
+-=,\ *=,\ /=,\ -$(unary),
+the comparison operations $<,\ <=,\ >,\
+>=,\ ==,\ !=$ and the stream operations are all available.
+Since g++ has type unification problems if a conversion from
+@{NT@} to @{CGAL_Quotient<NT>@} is needed, operations with parameters
+of type @{NT@} are disposed as well.
+
+@$@<quotient_interface@>+=@{@-
+
+  CGAL_Quotient<NT>& operator+= (const CGAL_Quotient<NT>& r);
+  CGAL_Quotient<NT>& operator+= (const NT& r);
+  CGAL_Quotient<NT>& operator-= (const CGAL_Quotient<NT>& r);
+  CGAL_Quotient<NT>& operator-= (const NT& r);
+  CGAL_Quotient<NT>& operator*= (const CGAL_Quotient<NT>& r);
+  CGAL_Quotient<NT>& operator*= (const NT& r);
+  CGAL_Quotient<NT>& operator/= (const CGAL_Quotient<NT>& r);
+  CGAL_Quotient<NT>& operator/= (const NT& r);
+
+// arithmetic operators
+
+  friend CGAL_Quotient<NT> operator+ (const CGAL_Quotient<NT>& q,
+                                      const CGAL_Quotient<NT>& r);
+  friend CGAL_Quotient<NT> operator+ (const NT& q, const CGAL_Quotient<NT>& r);
+  friend CGAL_Quotient<NT> operator+ (const CGAL_Quotient<NT>& q, const NT& r);
+
+  friend CGAL_Quotient<NT> operator- (const CGAL_Quotient<NT>& q,
+                                      const CGAL_Quotient<NT>& r);
+  friend CGAL_Quotient<NT> operator- (const NT& q, const CGAL_Quotient<NT>& r);
+  friend CGAL_Quotient<NT> operator- (const CGAL_Quotient<NT>& q, const NT& r);
+
+  friend CGAL_Quotient<NT> operator* (const CGAL_Quotient<NT>& q,
+                                      const CGAL_Quotient<NT>& r);
+  friend CGAL_Quotient<NT> operator* (const NT& q, const CGAL_Quotient<NT>& r);
+  friend CGAL_Quotient<NT> operator* (const CGAL_Quotient<NT>& q, const NT& r);
+
+  friend CGAL_Quotient<NT> operator/ (const CGAL_Quotient<NT>& q,
+                                      const CGAL_Quotient<NT>& r);
+  friend CGAL_Quotient<NT> operator/ (const NT& q, const CGAL_Quotient<NT>& r);
+  friend CGAL_Quotient<NT> operator/ (const CGAL_Quotient<NT>& q, const NT& r);
+
+  friend CGAL_Quotient<NT> operator- (const CGAL_Quotient<NT>&);
+@}
+
+The working horse for comparsions is @{CGAL_Quotient<NT>::compare@}.
+@$@<quotient_interface@>+=@{@-
+  friend
+  CGAL_Comparison_result
+  quotient_cmp(const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+@}
+
+@$@<quotient_interface@>+=@{@-
+// comparison operators
+
+  friend bool operator==(const CGAL_Quotient<NT>& q,
+                         const CGAL_Quotient<NT>& r);
+  friend bool operator==(const CGAL_Quotient<NT>& q, const NT& a);
+  friend bool operator==(const NT& n, const CGAL_Quotient<NT>& q);
+
+  friend bool operator!=(const CGAL_Quotient<NT>& q,
+                         const CGAL_Quotient<NT>& r);
+  friend bool operator!=(const CGAL_Quotient<NT>& q, const NT& a);
+  friend bool operator!=(const NT& n, const CGAL_Quotient<NT>& q);
+
+  friend bool operator< (const CGAL_Quotient<NT>& q,
+                         const CGAL_Quotient<NT>& r);
+  friend bool operator< (const CGAL_Quotient<NT>& q, const NT& r);
+  friend bool operator< (const NT& q, const CGAL_Quotient<NT>& r);
+
+  friend bool operator<=(const CGAL_Quotient<NT>& q,
+                         const CGAL_Quotient<NT>& r);
+  friend bool operator<=(const CGAL_Quotient<NT>& q, const NT& r);
+  friend bool operator<=(const NT& q, const CGAL_Quotient<NT>& r);
+
+  friend bool operator> (const CGAL_Quotient<NT>& q,
+                         const CGAL_Quotient<NT>& r);
+  friend bool operator> (const CGAL_Quotient<NT>& q, const NT& r);
+  friend bool operator> (const NT& q, const CGAL_Quotient<NT>& r);
+
+  friend bool operator>=(const CGAL_Quotient<NT>& q,
+                         const CGAL_Quotient<NT>& r);
+  friend bool operator>=(const CGAL_Quotient<NT>& q, const NT& r);
+  friend bool operator>=(const NT& q, const CGAL_Quotient<NT>& r);
+@}
+
+Numerator and Denominator can be accessed directly.
+@$@<quotient_interface@>+=@{@-
+  NT            numerator() const;
+
+  NT            denominator() const;
+@}
+
+CGAL requires some functions for number types.
+@$@<CGAL quotient_interface@>+=@{@-
+  friend double CGAL_to_double(const CGAL_Quotient<NT>& q);
+  friend bool   CGAL_is_valid(const CGAL_Quotient<NT>& q);
+  friend bool   CGAL_is_finite(const CGAL_Quotient<NT>& q);
+  friend NT     CGAL_numerator(const CGAL_Quotient<NT>& q);
+  friend NT     CGAL_denominator(const CGAL_Quotient<NT>& q);
+
+@}
+
+@$@<quotient_interface@>+=@{@-
+@<CGAL quotient_interface@>
+
+  CGAL_Quotient<NT>& normalize();
+
+  friend NT  CGAL_quotient_truncation(const CGAL_Quotient<NT>& r);
+
+@}
+And finally I/O operations.
+@$@<quotient_interface@>+=@{@-
+  friend istream& operator>>(istream& in, CGAL_Quotient<NT>& q);
+  friend ostream& operator<<(ostream& out, const CGAL_Quotient<NT>& q);
+};
+@}
+
+Here come the definitions of the functions.
+@$@<quotient_definitions@>+=@{@-
+template <class NT>
+CGAL_Quotient<NT> &
+CGAL_Quotient<NT>::normalize()
+{
+  // divides numerator and denominator by their greatest common divisor
+
+  if (num == den)
+  {
+      num = den = 1;
+      return (*this);
+  }
+  if (-num == den)
+  {
+      num = -1;
+      den = 1;
+      return (*this);
+  }
+  NT ggt = CGAL_gcd(num, den);
+  if (ggt != 1)
+  {
+      num /= ggt;
+      den /= ggt;
+  }
+  return (*this);
+}
+
+// Arithmetic Operators
+
+template <class NT>
+CGAL_Quotient<NT>&
+CGAL_Quotient<NT>::operator+= (const CGAL_Quotient<NT>& r)
+{
+    num = num * r.den + r.num * den;
+    den *= r.den;
+    return (*this);
+}
+
+template <class NT>
+CGAL_Quotient<NT>&
+CGAL_Quotient<NT>::operator+= (const NT& r)
+{
+    num = num + r * den;
+    return (*this);
+}
+
+template <class NT>
+CGAL_Quotient<NT>&
+CGAL_Quotient<NT>::operator-= (const CGAL_Quotient<NT>& r)
+{
+    num = num * r.den - r.num * den;
+    den *= r.den;
+    return (*this);
+}
+
+template <class NT>
+CGAL_Quotient<NT>&
+CGAL_Quotient<NT>::operator-= (const NT& r)
+{
+    num = num - r * den;
+    return (*this);
+}
+
+template <class NT>
+CGAL_Quotient<NT>&
+CGAL_Quotient<NT>::operator*= (const CGAL_Quotient<NT>& r)
+{
+    num *= r.num;
+    den *= r.den;
+    return (*this);
+}
+
+template <class NT>
+CGAL_Quotient<NT>&
+CGAL_Quotient<NT>::operator*= (const NT& r)
+{
+    num *= r ;
+    return (*this);
+}
+
+template <class NT>
+CGAL_Quotient<NT>&
+CGAL_Quotient<NT>::operator/= (const CGAL_Quotient<NT>& r)
+{
+    CGAL_kernel_precondition( r.num != NT(0) );
+    num *= r.den;
+    den *= r.num;
+    return (*this);
+}
+
+template <class NT>
+CGAL_Quotient<NT>&
+CGAL_Quotient<NT>::operator/= (const NT& r)
+{
+    CGAL_kernel_precondition( r != NT(0) );
+    den *= r ;
+    return (*this);
+}
+
+// Assignment Operator
+
+template <class NT>
+CGAL_Quotient<NT>&
+CGAL_Quotient<NT>::operator= (const CGAL_Quotient<NT>& r)
+{
+    if (this == &r) return *this; // to handle r = r correctly
+    num = r.num;
+    den = r.den;
+    return *this;
+}
+
+template <class NT>
+CGAL_Comparison_result
+quotient_cmp(const CGAL_Quotient<NT>& x, const CGAL_Quotient<NT>& y)
+{
+    // In contrast to LEDA class rational, no assumptions
+    // on the sign of  den  are made
+
+    // code assumes that CGAL_SMALLER == - 1;
+    CGAL_kernel_precondition( CGAL_SMALLER == (CGAL_Comparison_result)(-1) );
+
+    int xsign = CGAL_sign(x.num) * CGAL_sign(x.den) ;
+    int ysign = CGAL_sign(y.num) * CGAL_sign(y.den) ;
+    if (xsign == 0) return (CGAL_Comparison_result) -ysign;
+    if (ysign == 0) return (CGAL_Comparison_result)  xsign;
+    // now (x != 0) && (y != 0)
+    int diff = xsign - ysign;
+    if (diff == 0)
+    {
+        int msign = CGAL_sign(x.den) * CGAL_sign(y.den);
+        NT leftop  = x.num * y.den * NT(msign);
+        NT rightop = y.num * x.den * NT(msign);
+        if (leftop < rightop)
+        {
+            return CGAL_SMALLER;
+        }
+        else
+        {
+            return (leftop > rightop) ? CGAL_LARGER : CGAL_EQUAL;
+        }
+    }
+    else
+    {
+        return (xsign < ysign) ? CGAL_SMALLER : CGAL_LARGER;
+    }
+}
+
+
+// friend functions
+
+template <class NT>
+ostream&
+operator<< (ostream& s, const CGAL_Quotient<NT>& r)
+{
+   s << r.num << "/" << r.den;
+   return s;
+}
+
+template <class NT>
+istream&
+operator>> (istream& in, CGAL_Quotient<NT>& r)
+{
+   // Format: "r.num / r.den"
+   char c;
+
+   do in.get(c); while (isspace(c));
+   in.putback(c);
+
+   NT rx;
+   in >> rx;
+
+   do in.get(c); while (isspace(c));
+
+   CGAL_kernel_precondition( c == '/' );
+
+   do in.get(c); while (isspace(c));
+   in.putback(c);
+
+   NT ry;
+   in >> ry;
+
+   r = CGAL_Quotient<NT>(rx,ry);
+
+   return in;
+}
+
+template <class NT>
+NT
+CGAL_Quotient<NT>::numerator() const
+{
+  return num;
+}
+
+template <class NT>
+NT
+CGAL_Quotient<NT>::denominator() const
+{
+  return den;
+}
+
+template <class NT>
+CGAL_Quotient<NT>
+operator+(const CGAL_Quotient<NT>& x, const CGAL_Quotient<NT>& y)
+{
+  CGAL_Quotient<NT> z = x;
+  return z += y;
+}
+
+template <class NT>
+CGAL_Quotient<NT>
+operator+(const NT& x, const CGAL_Quotient<NT>& y)
+{
+  CGAL_Quotient<NT> z(x);
+  return z += y;
+}
+
+template <class NT>
+CGAL_Quotient<NT>
+operator+(const CGAL_Quotient<NT>& x, const NT& y)
+{
+  CGAL_Quotient<NT> z = x;
+  return z += y;
+}
+
+
+template <class NT>
+CGAL_Quotient<NT>
+operator-(const CGAL_Quotient<NT>& x, const CGAL_Quotient<NT>& y)
+{
+  CGAL_Quotient<NT> z = x;
+  return z -= y;
+}
+
+template <class NT>
+CGAL_Quotient<NT>
+operator-(const NT& x, const CGAL_Quotient<NT>& y)
+{
+  CGAL_Quotient<NT> z(x);
+  return z -= y;
+}
+
+template <class NT>
+CGAL_Quotient<NT>
+operator-(const CGAL_Quotient<NT>& x, const NT& y)
+{
+  CGAL_Quotient<NT> z = x;
+  return z -= y;
+}
+
+
+template <class NT>
+CGAL_Quotient<NT>
+operator*(const CGAL_Quotient<NT>& x, const CGAL_Quotient<NT>& y)
+{
+  CGAL_Quotient<NT> z = x;
+  return z *= y;
+}
+
+template <class NT>
+CGAL_Quotient<NT>
+operator*(const NT& x, const CGAL_Quotient<NT>& y)
+{
+  CGAL_Quotient<NT> z(x);
+  return z *= y;
+}
+
+template <class NT>
+CGAL_Quotient<NT>
+operator*(const CGAL_Quotient<NT>& x, const NT& y)
+{
+  CGAL_Quotient<NT> z = x;
+  return z *= y;
+}
+
+
+template <class NT>
+CGAL_Quotient<NT>
+operator/(const CGAL_Quotient<NT>& x, const CGAL_Quotient<NT>& y)
+{
+  CGAL_Quotient<NT> z = x;
+  return z /= y;
+}
+
+template <class NT>
+CGAL_Quotient<NT>
+operator/(const NT& x, const CGAL_Quotient<NT>& y)
+{
+  CGAL_Quotient<NT> z(x) ;
+  return z /= y;
+}
+
+template <class NT>
+CGAL_Quotient<NT>
+operator/(const CGAL_Quotient<NT>& x, const NT& y)
+{
+  CGAL_Quotient<NT> z = x;
+  return z /= y;
+}
+
+
+template <class NT>
+CGAL_Quotient<NT>
+operator-(const CGAL_Quotient<NT>& x)
+{
+  return CGAL_Quotient<NT>(-x.num,x.den);
+}
+
+//template <class NT>
+//int
+//quotient_sign(const CGAL_Quotient<NT>& r)
+//{
+  //return sign(r.num) * sign(r.den);
+//}
+
+template <class NT>
+NT
+CGAL_quotient_truncation(const CGAL_Quotient<NT>& r)
+{
+   return (r.num / r.den);
+}
+
+// comparison operators
+
+template <class NT>
+bool
+operator==(const CGAL_Quotient<NT>& x, const CGAL_Quotient<NT>& y)
+{
+  return x.num * y.den == x.den * y.num;
+}
+
+template <class NT>
+bool
+operator==(const CGAL_Quotient<NT>& x, const NT& y)
+{
+  return x.den * y == x.num;
+}
+
+template <class NT>
+bool
+operator==(const NT& x, const CGAL_Quotient<NT>& y)
+{
+  return y.den * x == y.num;
+}
+
+template <class NT>
+bool
+operator!=(const CGAL_Quotient<NT>& x, const CGAL_Quotient<NT>& y)
+{
+  return x.num * y.den != x.den * y.num;
+}
+
+template <class NT>
+bool
+operator!=(const CGAL_Quotient<NT>& x, const NT& y)
+{
+  return x.den * y != x.num;
+}
+
+template <class NT>
+bool
+operator!=(const NT& x, const CGAL_Quotient<NT>& y)
+{
+  return y.den * x != y.num;
+}
+
+template <class NT>
+bool
+operator<(const CGAL_Quotient<NT>& x, const CGAL_Quotient<NT>& y)
+{
+  return quotient_cmp(x,y) == CGAL_SMALLER; // < 0
+}
+
+template <class NT>
+bool
+operator<(const CGAL_Quotient<NT>& x, const NT& y)
+{
+  return quotient_cmp(x,CGAL_Quotient<NT>(y)) == CGAL_SMALLER; // < 0
+}
+
+template <class NT>
+bool
+operator<(const NT& x, const CGAL_Quotient<NT>& y)
+{
+  return quotient_cmp(CGAL_Quotient<NT>(x),y) == CGAL_SMALLER; // < 0
+}
+
+template <class NT>
+bool
+operator<=(const CGAL_Quotient<NT>& x, const CGAL_Quotient<NT>& y)
+{
+  return quotient_cmp(x,y) != CGAL_LARGER; // <= 0
+}
+
+template <class NT>
+bool
+operator<=(const CGAL_Quotient<NT>& x, const NT& y)
+{
+  return quotient_cmp(x,CGAL_Quotient<NT>(y)) != CGAL_LARGER; // <= 0
+}
+
+template <class NT>
+bool
+operator<=(const NT& x, const CGAL_Quotient<NT>& y)
+{
+  return quotient_cmp(CGAL_Quotient<NT>(x),y) != CGAL_LARGER; // <= 0
+}
+
+template <class NT>
+bool
+operator>(const CGAL_Quotient<NT>& x, const CGAL_Quotient<NT>& y)
+{
+  return  quotient_cmp(x,y) == CGAL_LARGER; // > 0
+}
+
+template <class NT>
+bool
+operator>(const CGAL_Quotient<NT>& x, const NT& y)
+{
+  return  quotient_cmp(x,CGAL_Quotient<NT>(y)) == CGAL_LARGER; // > 0
+}
+
+template <class NT>
+bool
+operator>(const NT& x, const CGAL_Quotient<NT>& y)
+{
+  return  quotient_cmp(CGAL_Quotient<NT>(x),y) == CGAL_LARGER; // > 0
+}
+
+template <class NT>
+bool
+operator>=(const CGAL_Quotient<NT>& x, const CGAL_Quotient<NT>& y)
+{
+  return quotient_cmp(x,y) != CGAL_SMALLER; // >= 0
+}
+
+template <class NT>
+bool
+operator>=(const CGAL_Quotient<NT>& x, const NT& y)
+{
+  return quotient_cmp(x,CGAL_Quotient<NT>(y)) != CGAL_SMALLER; // >= 0
+}
+
+template <class NT>
+bool
+operator>=(const NT& x, const CGAL_Quotient<NT>& y)
+{
+  return quotient_cmp(CGAL_Quotient<NT>(x),y) != CGAL_SMALLER; // >= 0
+}
+@}
+
+Here is the definiton of the additional global functions required
+by CGAL's requirements on number types.
+@$@<CGAL required definitions@>+=@{@-
+template <class NT>
+double
+CGAL_to_double(const CGAL_Quotient<NT>& q)
+{
+ if (q.num == NT(0) )
+ {
+    return 0;
+ }
+
+ double nd = CGAL_to_double( q.num );
+
+ if (q.den == NT(1) )
+ {
+    return nd;
+ }
+
+ double dd = CGAL_to_double( q.den );
+
+ if ( CGAL_is_finite( q.den )&&(CGAL_is_finite( q.num )) )
+ {
+    return nd/dd ;
+ }
+ if ( CGAL_abs(q.num) > CGAL_abs(q.den) )
+ {
+    NT  nt_div = q.num / q.den;
+    double divd = CGAL_to_double(nt_div);
+    if ( divd >= ldexp(1.0,53) )
+    {
+        return divd;
+    }
+ }
+ if ( CGAL_abs(q.num) < CGAL_abs(q.den) )
+ {
+    return 1.0 / CGAL_to_double( NT(1) / q );
+ }
+ return nd/dd ;
+}
+
+template <class NT>
+bool
+CGAL_is_valid(const CGAL_Quotient<NT>& q)
+{
+ return CGAL_is_valid(q.num) && CGAL_is_valid(q.den) ;
+}
+
+template <class NT>
+bool
+CGAL_is_finite(const CGAL_Quotient<NT>& q)
+{
+ return (CGAL_is_finite(q.num))&&(CGAL_is_finite(q.den)) ;
+}
+
+template <class NT>
+NT
+CGAL_denominator(const CGAL_Quotient<NT>& q)
+{
+ return q.den ;
+}
+
+template <class NT>
+NT
+CGAL_numerator(const CGAL_Quotient<NT>& q)
+{
+ return q.num ;
+}
+
+template <class NT>
+CGAL_Quotient_tag
+CGAL_number_type_tag(const CGAL_Quotient<NT>& q)
+{
+ return CGAL_Quotient_tag();
+}
+@}
+
+For computing greatest common divisor a dummy template is provided that
+always returns @{NT(1)@}. For number types providing a gcd-functions,
+this should be overwritten by explicit specialisation, e.g.\ for @{int@} and
+LEDA's @{integer@}.
+@$@<dummy_gcd@>==@{@-
+template <class NT>
+NT
+CGAL_gcd(const NT& p, const NT& q)
+{
+  return NT(1);
+}
+@}
+
+@$@<template declarations for Quotient@>+=@{@-
+template <class NT> class CGAL_Quotient;
+
+template <class NT> double CGAL_to_double(const CGAL_Quotient<NT>& q);
+template <class NT> bool   CGAL_is_valid(const CGAL_Quotient<NT>& q);
+template <class NT> bool   CGAL_is_finite(const CGAL_Quotient<NT>& q);
+template <class NT> NT     CGAL_numerator(const CGAL_Quotient<NT>& q);
+template <class NT> NT     CGAL_denominator(const CGAL_Quotient<NT>& q);
+template <class NT> CGAL_Quotient_tag
+                           CGAL_number_type_tag(const CGAL_Quotient<NT>& q);
+@}
+
+And now the file:
+
+@O@<../include/CGAL/Quotient.h@>==@{@-
+@<CGAL notice@>
+//  Author:
+//  The template class CGAL_Quotient<NT> is based on the LEDA class
+//  rational written by Stefan Naeher and Christian Uhrig.
+//  It is basically a templated version with restricted functionality
+//  of the version of rational in LEDA release 3.3.
+//  The modification was made by Stefan.Schirra@@mpi-sb.mpg.de
+
+
+#ifndef CGAL_QUOTIENT_H
+#define CGAL_QUOTIENT_H
+
+#include <math.h>
+#include <CGAL/utils.h>
+#include <CGAL/enum.h>
+#include <CGAL/misc.h>
+#include <CGAL/number_utils.h>
+// #include <CGAL/Float.h>
+#include <CGAL/Double.h>
+#include <iostream.h>
+
+@<template declarations for Quotient@>
+@<quotient_interface@>
+
+#include <CGAL/Quotient.cc>
+
+
+
+#endif // QUOTIENT_H
+@}
+
+Here are the definitions!
+The template @{CGAL_gcd()@} should get a different home.
+
+@O@<../include/CGAL/Quotient.cc@>==@{@-
+@<CGAL notice@>
+//  Author:
+//  The template class CGAL_Quotient<NT> is based on the LEDA class
+//  rational written by Stefan Naeher and Christian Uhrig.
+//  It is basically a templated version with restricted functionality
+//  of the version of rational in LEDA release 3.3.
+//  The modification was made by Stefan.Schirra@@mpi-sb.mpg.de
+
+
+#ifndef CGAL_QUOTIENT_CC
+#define CGAL_QUOTIENT_CC
+
+@<dummy_gcd@>
+@<CGAL required definitions@>
+@<quotient_definitions@>
+
+#endif  // CGAL_QUOTIENT_CC
+@}
+
+And finally an aid to instantiate @{Quotient<integer>@}.
+@$@<Quotient_Integer instantiation@>@Z@M==@{@-
+#include <CGAL/Integer.h>
+#include <CGAL/misc.h>
+#include <CGAL/Quotient.h>
+
+integer
+CGAL_gcd(const integer& i1, const integer& i2)
+{
+ return gcd(i1,i2);
+}
+
+typedef        integer     number;
+
+@<Manual instantiation of Quotient for gnu@>
+@}
+
+@$@<Manual instantiation of Quotient for gnu@>+=@{@-
+#include <stream.h>
+#include <CGAL/enum.h>
+#include <CGAL/number_utils.h>
+
+#ifdef __GNUG__
+
+template class CGAL_Quotient<number>;  // instantiates the class
+/*
+
+                                       // and now the globals
+
+template CGAL_Quotient<number> operator+ (const CGAL_Quotient<number>& q,
+                                          const CGAL_Quotient<number>& r);
+template CGAL_Quotient<number> operator+ (const number& q,
+                                          const CGAL_Quotient<number>& r);
+template CGAL_Quotient<number> operator+ (const CGAL_Quotient<number>& q,
+                                          const number& r);
+template CGAL_Quotient<number> operator- (const CGAL_Quotient<number>& q,
+                                          const CGAL_Quotient<number>& r);
+template CGAL_Quotient<number> operator- (const number& q,
+                                          const CGAL_Quotient<number>& r);
+template CGAL_Quotient<number> operator- (const CGAL_Quotient<number>& q,
+                                          const number& r);
+template CGAL_Quotient<number> operator* (const CGAL_Quotient<number>& q,
+                                          const CGAL_Quotient<number>& r);
+template CGAL_Quotient<number> operator* (const number& q,
+                                          const CGAL_Quotient<number>& r);
+template CGAL_Quotient<number> operator* (const CGAL_Quotient<number>& q,
+                                          const number& r);
+template CGAL_Quotient<number> operator/ (const CGAL_Quotient<number>& q,
+                                          const CGAL_Quotient<number>& r);
+template CGAL_Quotient<number> operator/ (const number& q,
+                                          const CGAL_Quotient<number>& r);
+template CGAL_Quotient<number> operator/ (const CGAL_Quotient<number>& q,
+                                          const number& r);
+template CGAL_Quotient<number> operator- (const CGAL_Quotient<number>&);
+
+template CGAL_Comparison_result quotient_cmp(const CGAL_Quotient<number>& q,
+                                             const CGAL_Quotient<number>& r);
+template bool operator==(const CGAL_Quotient<number>& q,
+                         const CGAL_Quotient<number>& r);
+template bool operator==(const CGAL_Quotient<number>& q, const number& a);
+template bool operator==(const number& n, const CGAL_Quotient<number>& q);
+template bool operator!=(const CGAL_Quotient<number>& q,
+                         const CGAL_Quotient<number>& r);
+template bool operator!=(const CGAL_Quotient<number>& q, const number& a);
+template bool operator!=(const number& n, const CGAL_Quotient<number>& q);
+template bool operator< (const CGAL_Quotient<number>& q,
+                         const CGAL_Quotient<number>& r);
+template bool operator< (const CGAL_Quotient<number>& q, const number& r);
+template bool operator< (const number& q, const CGAL_Quotient<number>& r);
+template bool operator<=(const CGAL_Quotient<number>& q,
+                         const CGAL_Quotient<number>& r);
+template bool operator<=(const CGAL_Quotient<number>& q, const number& r);
+template bool operator<=(const number& q, const CGAL_Quotient<number>& r);
+template bool operator> (const CGAL_Quotient<number>& q,
+                         const CGAL_Quotient<number>& r);
+template bool operator> (const CGAL_Quotient<number>& q, const number& r);
+template bool operator> (const number& q, const CGAL_Quotient<number>& r);
+template bool operator>=(const CGAL_Quotient<number>& q,
+                         const CGAL_Quotient<number>& r);
+template bool operator>=(const CGAL_Quotient<number>& q, const number& r);
+template bool operator>=(const number& q, const CGAL_Quotient<number>& r);
+
+template istream& operator>>(istream& in, CGAL_Quotient<number>& q);
+template ostream& operator<<(ostream& out, const CGAL_Quotient<number>& q);
+
+template double CGAL_to_double(const CGAL_Quotient<number>& q);
+template bool   CGAL_is_valid(const CGAL_Quotient<number>& q);
+template bool   CGAL_is_finite(const CGAL_Quotient<number>& q);
+template CGAL_Quotient_tag
+                CGAL_number_type_tag(const CGAL_Quotient<number>& q);
+*/
+
+#ifdef 0
+template number CGAL_numerator(const CGAL_Quotient<number>& q);
+template number CGAL_denominator(const CGAL_Quotient<number>& q);
+#endif // 0
+
+
+// the following functions are inline and hence not instantiated:
+// template inline bool   CGAL_is_zero(const CGAL_Quotient<number>& q);
+// template inline bool   CGAL_is_negative(const CGAL_Quotient<number>& q);
+// template inline bool   CGAL_is_positive(const CGAL_Quotient<number>& q);
+// template inline int    CGAL_sign(const CGAL_Quotient<number>& q);
+// template inline number CGAL_abs(const CGAL_Quotient<number>& q);
+// template inline number CGAL_min(const CGAL_Quotient<number>& q);
+// template inline number CGAL_max(const CGAL_Quotient<number>& q);
+// template inline CGAL_Comparison_result
+//                        CGAL_compare(const number &n1, const number &n2);
+
+#endif // __GNUG__
+@}

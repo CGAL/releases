@@ -1,0 +1,54 @@
+<HEAD>
+<TITLE>The CGAL Kernel Manual: Changes from Rel. 0.4 to Rel. 0.5</TITLE>
+<!-- Manual page automatically extracted from the TeX source. -->
+</HEAD>
+
+<BODY BGCOLOR="FAF8E8" TEXT="#000000"><A HREF="contents.html">Table of Contents</A>,
+<A HREF="biblio.html">Bibliography</A>,
+<A HREF="manual_index.html">Index</A>,
+<A HREF="title.html">Title Page</A>
+<HR>
+
+<H1>Changes from Rel. 0.4 to Rel. 0.5</H1>
+ <A NAME="Changes"></A><P>
+
+<OL><P>
+
+<LI><VAR>CGAL_Cartesian</VAR> replaces <VAR>C</VAR>.<P>
+
+<LI><VAR>CGAL_Homogeneous</VAR> replaces <VAR>H</VAR>.<P>
+
+<LI> #include &lt;CGAL/Cartesian.h&gt;
+replaces  #include &lt;CGAL/cartesian.h&gt;.<P>
+
+<LI> #include &lt;CGAL/Homogeneous.h&gt;
+replaces  #include &lt;CGAL/homogeneous.h&gt;.<P>
+
+<LI><VAR>CGAL_Homogeneous</VAR> has only one parameter
+namely the ring type.<P>
+
+<LI>The global function <VAR>bool CGAL_identical(CGAL_Class &amp;, CGAL_Class &amp;)</VAR>
+replaces the member functions
+<VAR>bool CGAL_Class::identical(CGAL_Class &amp;)</VAR>.<P>
+
+<LI>In class <VAR><A HREF="CGAL_Segment_2.html">CGAL_Segment_2</A></VAR>: <VAR>source()</VAR>/<VAR>target()</VAR>
+replaces <VAR>start()</VAR><VAR>end()</VAR>.<P>
+
+<LI>In class <VAR><A HREF="CGAL_Ray_2.html">CGAL_Ray_2</A></VAR>: <VAR>source()</VAR>
+replaces <VAR>start()</VAR>.<P>
+
+<LI>We introduced <VAR><A HREF="Chapter_Predicates.html#Enum_CGAL_Oriented_side">CGAL_Oriented_side</A></VAR> and
+<VAR><A HREF="Chapter_Predicates.html#Enum_CGAL_Bounded_side">CGAL_Bounded_side</A></VAR> which replace <VAR><A HREF="Chapter_Predicates.html#Enum_CGAL_Oriented_side">CGAL_Oriented_side</A></VAR>.<P>
+
+<LI>Most predicates that started with <VAR>is_</VAR> now start
+with <VAR>has_</VAR>.<P>
+
+<LI>Intersection computations have now a more elegant mechanism.
+</OL><P>
+
+<HR> Next chapter: <A HREF="Chapter_Installation.html">Installation and Use</A>
+
+
+<HR><address> The <A HREF="http://www.cs.ruu.nl/CGAL/"><TT>CGAL</TT> Project</A>.</address>
+</BODY>
+</HTML>

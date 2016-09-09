@@ -1,0 +1,19 @@
+@p automatic_line_directive_macro = "line"
+@p #line_offset = 0
+@p #line_depth = 1
+@$@<line@>@Z@M==@{#line @<#line@> "@<#file@>"@}
+@A@<A@>
+@B@<B@>
+@C@<C@>
+
+@i notice.fwi
+
+@i Aff_transformationH2.fw
+@i Aff_transformationH3.fw
+@i Aff_transformationC3.fw
+@i RayH3.fw
+@i Direction_2.fw
+@i Circle_2.fw
+@i Iso_rectangleC2.fw
+@i Real.fw
+

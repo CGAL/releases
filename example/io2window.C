@@ -1,6 +1,6 @@
 
-#include <stream.h>
-#include <CGAL/cartesian.h>
+#include <CGAL/Cartesian.h>
+#include <iostream.h>
 #include <CGAL/Ray_2.h>
 #include <CGAL/Line_2.h>
 #include <CGAL/Iso_rectangle_2.h>
@@ -9,15 +9,15 @@
 
 
 typedef double coord_type;
-typedef CGAL_Point_2< C<coord_type> > Point;
-typedef CGAL_Vector_2< C<coord_type> > Vector;
-typedef CGAL_Direction_2< C<coord_type> > Direction;
+typedef CGAL_Point_2< CGAL_Cartesian<coord_type> > Point;
+typedef CGAL_Vector_2< CGAL_Cartesian<coord_type> > Vector;
+typedef CGAL_Direction_2< CGAL_Cartesian<coord_type> > Direction;
 
-typedef CGAL_Segment_2< C<coord_type> > Segment;
-typedef CGAL_Line_2< C<coord_type> > Line;
-typedef CGAL_Ray_2< C<coord_type> > Ray;
+typedef CGAL_Segment_2< CGAL_Cartesian<coord_type> > Segment;
+typedef CGAL_Line_2< CGAL_Cartesian<coord_type> > Line;
+typedef CGAL_Ray_2< CGAL_Cartesian<coord_type> > Ray;
 
-typedef CGAL_Iso_rectangle_2< C<coord_type> > Iso_rectangle;
+typedef CGAL_Iso_rectangle_2< CGAL_Cartesian<coord_type> > Iso_rectangle;
 
 typedef CGAL_Bbox_2 Bbox;
 
@@ -33,7 +33,7 @@ int main()
 
     {
       int i;
-      W << CGAL_red;
+      W << CGAL_RED;
       W << Line(Point(0.0, 0.0), Direction(1.0, 0.0));
       W << Line(Point(0.0, 0.0), Direction(0.0, 1.0));
       for(i = -35; i<=35; i+=5){
@@ -48,7 +48,7 @@ int main()
   
 
     {
-      W << CGAL_black;
+      W << CGAL_BLACK;
       Line line;
       W >> line;
   
@@ -63,14 +63,14 @@ int main()
   
     Segment segment;
     for(int count = 0; count < 10; count++){
-      W << CGAL_blue ;
+      W << CGAL_BLUE ;
   
       W >> segment ;
   
-      W << CGAL_green  << segment.start() ;
-      W << CGAL_orange << segment.end() ;
+      W << CGAL_GREEN  << segment.start() ;
+      W << CGAL_ORANGE << segment.end() ;
       Line line = segment.supporting_line().perpendicular(segment.start()) ;
-      W << CGAL_violet << line ;
+      W << CGAL_VIOLET << line ;
       W << segment.bbox() ;
   
     }

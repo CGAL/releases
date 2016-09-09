@@ -16,12 +16,27 @@
 
  
 
+#ifdef CGAL_Z_H
+inline ostream& operator<<(ostream& os, const CGAL_Z &z)
+{
+  char *str = new char [mpz_sizeinbase(z.ptr()->mpZ,10) + 2];
+  str = mpz_get_str(str, 10, z.ptr()->mpZ);
+  os << str ;
+  delete str;
+  return os;
+}
+#endif // CGAL_Z_H
+ 
+
+
+ 
+
 #ifdef CGAL_POINT_2_H
 
 template < class R >
 ostream &operator<<(ostream &os, const CGAL_Point_2<R> &p)
 {
-  CGAL_kernel_precondition(p.is_defined());
+
   os << "Point_2(" << p.hx() << ", " << p.hy() << ", " << p.hw() << ")";
   return os;
 }
@@ -37,7 +52,7 @@ ostream &operator<<(ostream &os, const CGAL_Point_2<R> &p)
 template < class R >
 ostream &operator<<(ostream &os, const CGAL_Vector_2<R> &v)
 {
-  CGAL_kernel_precondition(v.is_defined());
+
   os << "Vector_2(" << v.hx() << ", " << v.hy() << ", " << v.hw() << ")";
   return os;
 }
@@ -53,9 +68,9 @@ ostream &operator<<(ostream &os, const CGAL_Vector_2<R> &v)
 template < class R >
 ostream &operator<<(ostream &os, const CGAL_Direction_2<R> &d)
 {
-  CGAL_kernel_precondition(d.is_defined());
+
   CGAL_Vector_2<R> v = d.vector();
-  os << "Direction_2(" << v.hx() << ", " << v.hy() << ", " << v.hw() << ")";
+  os << "Direction_2(" << v.x() << ", " << v.y() << ")";
   return os;
 }
 
@@ -70,7 +85,7 @@ ostream &operator<<(ostream &os, const CGAL_Direction_2<R> &d)
 template < class R >
 ostream &operator<<(ostream &os, const CGAL_Line_2<R> &l)
 {
-  CGAL_kernel_precondition(l.is_defined());
+
   os << "Line_2(" << l.a() << ", "<< l.b() << ", " << l.c() << ")";
   return os;
 }
@@ -86,8 +101,8 @@ ostream &operator<<(ostream &os, const CGAL_Line_2<R> &l)
 template < class R >
 ostream &operator<<(ostream &os, const CGAL_Ray_2<R> &r)
 {
-  CGAL_kernel_precondition(r.is_defined());
-  os << "Ray_2(" << r.start() <<  ", " << r.direction() << ")";
+
+  os << "Ray_2(" << r.source() <<  ", " << r.direction() << ")";
   return os;
 }
 
@@ -102,8 +117,8 @@ ostream &operator<<(ostream &os, const CGAL_Ray_2<R> &r)
 template < class R >
 ostream &operator<<(ostream &os, const CGAL_Segment_2<R> &s)
 {
-  CGAL_kernel_precondition(s.is_defined());
-  os << "Segment_2(" << s.start() <<  ", " << s.end() << ")";
+
+  os << "Segment_2(" << s.source() <<  ", " << s.target() << ")";
   return os;
 }
 
@@ -147,7 +162,7 @@ ostream &operator<<(ostream &os, const CGAL_Iso_rectangle_2<R> &r)
 
 inline ostream &operator<<(ostream &os, const CGAL_Bbox_2 &bbox)
 {
-  os << "Bbox_2((" << bbox.xmin() << ", " << bbox.ymin() << "),";
+  os << "Bbox_2((" << bbox.xmin() << ", " << bbox.ymin() << "), (";
   os <<               bbox.xmax() << ", " << bbox.ymax() << "))";
   return os;
 }
@@ -166,6 +181,21 @@ ostream &operator<<(ostream &os, const CGAL_Parabola_2<R> &p)
   return os;
 }
 #endif // CGAL_PARABOLA_2_H
+ 
+
+
+ 
+
+#ifdef CGAL_CIRCLE_2_H
+
+template < class R >
+ostream &operator<<(ostream &os, const CGAL_Circle_2<R> &t)
+{
+  os << "Circle_2(" << t.center() <<  ", " << t.squared_radius()  <<")";
+  return os;
+}
+
+#endif // CGAL_CIRCLE_2_H
  
 
 

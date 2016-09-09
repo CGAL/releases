@@ -1,0 +1,124 @@
+% $Id: Segment_3.tex,v 1.2 1996/07/08 12:19:15 fabri Exp fabri $
+
+\begin {classtemplate} {CGAL_Segment_3<R>}
+\CCsection{3D Segment}
+
+\definition  An object $s$ of the data type \classname\ is a directed
+straight line segment in the three-dimensional space $\E_3$, i.e.\ a
+straight line segment $[p,q]$ connecting two points $p,q \in
+\R^3$. The segment is topologically closed, i.e.\  the end
+points belong to it. Point $p$ is called the {\em source} and $q$
+is called the {\em target} of $s$. The length of $s$ is the
+Euclidean distance between $p$ and $q$. Note that there is only a function
+to compute the square of the length, because otherwise we had to
+perform a square root operation which is not defined for all
+number types, which is expensive and not exact.
+
+\creation
+\creationvariable{s}
+
+\CCstyle{#include <CGAL/Segment_3.h>}
+
+\hidden \constructor{CGAL_Segment_3();}
+             {introduces an uninitialized variable \var.}
+
+\hidden \constructor{CGAL_Segment_3(const CGAL_Segment_3<R> &q);}
+ 	    {copy constructor.}
+
+\constructor{CGAL_Segment_3(const CGAL_Point_3<R> &p, const CGAL_Point_3<R> &q);}
+            {introduces a segment \var\ with source $p$
+             and target $q$. It is directed from the source towards
+             the target.}
+
+
+\operations
+\threecolumns{5cm}{4cm}
+
+\hidden \method{CGAL_Segment_3<R> & operator=(const CGAL_Segment_3<R> &q);}
+        {Assignment.}
+
+\method{bool operator==(const CGAL_Segment_3<R> &q) const;}
+       {Test for equality: Two segments are equal, iff their sources and
+        targets are equal.}
+
+\method{bool operator!=(const CGAL_Segment_3<R> &q) const;}
+       {Test for inequality.}
+
+
+
+\method{CGAL_Point_3<R> source() const;}
+       {returns the source  of \var.}
+
+\method{CGAL_Point_3<R> target() const;}
+       {returns the target of \var.}
+
+\method{CGAL_Point_3<R> min() const;}
+       {returns the point of \var with smallest coordinate (lexicographically).}
+
+\method{CGAL_Point_3<R> max() const;}
+       {returns the point of \var with largest coordinate (lexicographically).}
+
+
+\method{CGAL_Point_3<R> vertex(int i) const;}
+       {returns source or target of \var:   \CCstyle{vertex(0)} returns
+        the source, \CCstyle{vertex(1)} returns the target. 
+        The parameter \CCstyle{i} is taken modulo 2, which gives 
+        easy access to the other vertex.}
+
+\method{CGAL_Point_3<R> point(int i) const;}
+       {returns \CCstyle{vertex(i)}.}
+
+\method{CGAL_Point_3<R> operator[](int i) const;}
+       {returns \CCstyle{vertex(i)}.}
+
+\method{R::FT squared_length() const;}
+       {returns the squared length of \var. }
+
+\method{CGAL_Direction_3<R> direction() const;}
+       {returns the direction from source to target.}
+
+
+\method{CGAL_Segment_3<R> opposite() const; }
+       {returns a segment with source and target interchanged.}
+
+\method{CGAL_Line_3<R> supporting_line() const;}
+       {returns the line $l$ passing through \var. Line $l$  has the
+        same orientation as segment \var, that is 
+        from the source to the target of \var.}
+
+\method{bool is_degenerate() const;}
+       {segment \var\ is degenerate, if source and target fall together.}
+
+
+\method{bool has_on(const CGAL_Point_3<R> &p) const;}
+       {A point is on \var, iff it is equal to the source or target
+        of \var, or if it is in the interior of \var.}
+% 
+% \method{bool collinear_has_on(const CGAL_Point_3<R> &p) const;}
+%        {checks if point $p$ is on segment~\var. This function is faster
+%         than function \CCstyle{has_on()}.
+%         \precond $p$ is collinear to \var.}
+% 
+\method{CGAL_Bbox_3 bbox() const;}
+       {returns a bounding box containing~\var.}
+
+\method{CGAL_Segment_3<R>  transform(const CGAL_Aff_transformation_3<R> &t) const;}
+       {returns the segment obtained by applying $t$ on the source
+        and the target of \var.}
+
+\implementation
+A segment is internally represented by two points. 
+
+
+\end{classtemplate} 
+
+% $Log: Segment_3.tex,v $
+% Revision 1.2  1996/07/08 12:19:15  fabri
+% *** empty log message ***
+%
+% Revision 1.1  1996/03/13 15:42:07  fabri
+% Initial revision
+%
+% Revision 1.1  1995/10/19 18:22:12  fabri
+% Initial revision
+%

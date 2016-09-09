@@ -1,0 +1,14 @@
+The files in this directory can be used to generate the 
+CGAL kernel code. In order to do so you should install
+symbolic links as follows:
+
+ln -s  ../../include  ../include
+
+ln -s  ../../src  ../src
+
+ln -s  ../../Templates.DB  ../Templates.DB
+
+and call funnelweb on kernel.fw.
+
+The links ensure that files are written at the correct
+place.

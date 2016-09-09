@@ -1,0 +1,284 @@
+@! $RCSfile: utils.fw,v $
+@! $Revision: 1.5 $
+@! $Date: 1996/06/07 15:56:39 $
+
+@! Author: Geert-Jan Giezeman (geert@cs.ruu.nl)
+
+
+@B@<Utility routines for CGAL project@>
+
+
+@O@<../include/CGAL/utils.h@>==@{@-
+@<CGAL notice@>
+#ifndef CGAL_UTILS_H
+#define CGAL_UTILS_H
+
+#include <assert.h>
+
+#if 0
+#define DYNAMIC_CAST(Type, Expr) dynamic_cast<Type> (Expr)
+#else
+#define DYNAMIC_CAST(Type, Expr) (Type) (Expr)
+#endif
+
+extern void cgal_assertion_fail(const char *, const char *,
+                                int, const char *);
+
+extern void cgal_precondition_fail(const char *, const char *,
+                                   int, const char *);
+
+extern void cgal_postcondition_fail(const char *, const char *,
+                                    int, const char *);
+
+extern void cgal_check_fail(const char *, const char *,
+                            int, const char *);
+
+
+void not_implemented();
+
+#ifdef CGAL_CHECK_ASSERTIONS
+#define CGAL_kernel_assertion(EX) \
+ ((EX)?((void)0):cgal_assertion_fail( # EX , __FILE__, __LINE__, NULL))
+
+#define CGAL_kernel_assertion_msg(EX,MSG) \
+ ((EX)?((void)0):cgal_assertion_fail( # EX , __FILE__, __LINE__, MSG))
+
+#else
+#define CGAL_kernel_assertion(EX) ((void)0)
+#define CGAL_kernel_assertion_msg(EX,MSG) ((void)0)
+
+#endif /* CGAL_CHECK_ASSERTIONS */
+
+
+
+#ifdef CGAL_CHECK_PRECONDITIONS
+#define CGAL_kernel_precondition(EX) \
+ ((EX)?((void)0):cgal_precondition_fail( # EX , __FILE__, __LINE__, NULL))
+
+#define CGAL_kernel_precondition_msg(EX,MSG) \
+ ((EX)?((void)0):cgal_precondition_fail( # EX , __FILE__, __LINE__, MSG))
+
+#else
+#define CGAL_kernel_precondition(EX) ((void)0)
+#define CGAL_kernel_precondition_msg(EX,MSG) ((void)0)
+#endif /* CGAL_CHECK_PRECONDITIONS */
+
+
+#ifdef CGAL_CHECK_EXACTNESS_PRECONDITIONS
+#define CGAL_exactness_precondition(EX) \
+ ((EX)?((void)0):cgal_precondition_fail( # EX , __FILE__, __LINE__, NULL))
+
+#define CGAL_exactness_precondition_msg(EX,MSG) \
+ ((EX)?((void)0):cgal_precondition_fail( # EX , __FILE__, __LINE__, MSG))
+#else
+#define CGAL_exactness_precondition(EX) ((void)0)
+#define CGAL_exactness_precondition_msg(EX,MSG) ((void)0)
+#endif /* CGAL_CHECK_EXACTNESS_PRECONDITIONS */
+
+
+#ifdef CGAL_CHECK_POSTCONDITIONS
+#define CGAL_kernel_postcondition(EX) \
+ ((EX)?((void)0):cgal_postcondition_fail( # EX , __FILE__, __LINE__, NULL))
+
+#define CGAL_kernel_postcondition_msg(EX,MSG) \
+ ((EX)?((void)0):cgal_postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+
+#else
+
+#define CGAL_kernel_postcondition(EX) ((void)0)
+#define CGAL_kernel_postcondition_msg(EX,MSG) ((void)0)
+#endif /* CGAL_CHECK_POSTCONDITIONS */
+
+
+#ifdef CGAL_CHECK_EXACTNESS_POSTCONDITIONS
+#define CGAL_exactness_postcondition(EX) \
+ ((EX)?((void)0):cgal_postcondition_fail( # EX , __FILE__, __LINE__, NULL))
+
+#define CGAL_exactness_postcondition_msg(EX,MSG) \
+ ((EX)?((void)0):cgal_postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+
+#else
+
+#define CGAL_exactness_postcondition(EX) ((void)0)
+#define CGAL_exactness_postcondition_msg(EX,MSG) ((void)0)
+#endif /* CGAL_CHECK_EXACTNESS_POSTCONDITIONS */
+
+
+#ifdef CGAL_CHECK_NONDEGENERACY_PRECONDITIONS
+#define CGAL_nondegeneracy_precondition(EX) \
+ ((EX)?((void)0):cgal_precondition_fail( # EX , __FILE__, __LINE__, \
+                           "algorithm works only for nondegenerate objects"))
+#else
+#define CGAL_nondegeneracy_precondition(EX) ((void)0)
+#endif /* CGAL_CHECK_NONDEGENERACY_PRECONDITIONS */
+
+
+#ifdef CGAL_CHECK_DEGENERACY
+#define CGAL_nondegeneracy_assertion \
+ is_degenerate() ? cgal_assertion_fail( "! is_degenerate()" , \
+                                        __FILE__, __LINE__, NULL)) : ((void)0)
+#else
+
+#define CGAL_nondegeneracy_assertion ((void)0)
+#endif /* CGAL_CHECK_DEGENERACY */
+
+
+
+#ifdef CGAL_CHECK_CHECKS
+#define CGAL_kernel_check(EX) \
+ ((EX)?((void)0):cgal_check_fail( # EX , __FILE__, __LINE__, NULL))
+
+#define CGAL_kernel_check_msg(EX,MSG) \
+ ((EX)?((void)0):cgal_check_fail( # EX , __FILE__, __LINE__, MSG))
+
+#else
+
+#define CGAL_kernel_check(EX) ((void)0)
+#define CGAL_kernel_check_msg(EX,MSG) ((void)0)
+#endif /* CGAL_CHECK_CHECKS */
+
+extern void cgal_set_assertion_handler(
+        void (*handler)(const char *, const char *, int, const char *));
+
+extern void cgal_set_precondition_handler(
+        void (*handler)(const char *, const char *, int, const char *));
+
+extern void cgal_set_postcondition_handler(
+        void (*handler)(const char *, const char *, int, const char *));
+
+extern void cgal_set_check_handler(
+        void (*handler)(const char *, const char *, int, const char *));
+#endif
+@}
+
+@O@<../src/utils.C@>==@{@-
+@<CGAL notice@>
+#include <CGAL/misc.h>
+#include <stdlib.h>
+#include <LEDA/basic.h>
+#include <CGAL/utils.h>
+#include <iostream.h>
+
+void not_implemented()
+{
+    assert(false);
+}
+
+void standard_assertion_handler(
+        const char *expr, const char *file, int line, const char *msg)
+{
+  cerr << "The assertion\n   " << expr << "\nis violated\n"
+       <<"File: " << file
+       << ".\nLine: " << line << '\n';
+
+  if (msg != 0) {
+    cerr << "Explanation:\n" << msg <<'\n';
+  }
+}
+
+void standard_precondition_handler(
+        const char *expr, const char *file, int line, const char *msg)
+{
+    cerr << "The precondition:\n   "<< expr << "\nis not satisfied.\n"
+         << "File: " << file
+         << "\nLine: " << line <<"\n";
+
+    if (msg != 0) {
+    cerr << "Explanation:\n" << msg << '\n';
+    }
+}
+
+void standard_postcondition_handler(
+        const char *expr, const char *file, int line, const char *msg)
+{
+    cerr << "The postcondition:\n   "<< expr << "\nis not satisfied.\n"
+        << "File: " << file
+         << "\nLine: " << line << '\n';
+
+    if (msg != 0) {
+    cerr << "Explanation:\n" << msg << '\n';
+    }
+}
+
+void standard_check_handler(
+        const char *expr, const char *file, int line, const char *msg)
+{
+    cerr << "The check:\n   "<< expr << "\nfailed.\n"
+         << "File: " << file
+         << "\nLine: " << line << '\n';
+
+    if (msg != 0) {
+    cerr << "Explanation:\n" << msg <<'\n';
+    }
+}
+
+typedef void (*failure_function)(const char *, const char *,
+                                 int, const char *);
+
+static failure_function assertion_handler
+                = standard_assertion_handler;
+
+static failure_function precondition_handler
+                = standard_precondition_handler;
+
+static failure_function postcondition_handler
+                = standard_postcondition_handler;
+
+static failure_function check_handler
+                = standard_check_handler;
+
+
+void cgal_assertion_fail(const char *expr, const char *file,
+                         int line, const char *msg)
+{
+    (*assertion_handler)(expr, file, line, msg);
+    abort();
+}
+
+void cgal_precondition_fail(const char *expr, const char *file,
+                            int line, const char *msg)
+{
+    (*precondition_handler)(expr, file, line, msg);
+    abort();
+}
+
+void cgal_postcondition_fail(const char *expr, const char *file,
+                             int line, const char *msg)
+{
+    (*postcondition_handler)(expr, file, line, msg);
+    abort();
+}
+
+void cgal_check_fail(const char *expr, const char *file,
+                     int line, const char *msg)
+{
+    (*check_handler)(expr, file, line, msg);
+    abort();
+}
+
+void cgal_set_assertion_handler(
+        void (*handler)(const char *, const char *, int, const char *))
+{
+    assertion_handler = handler;
+}
+
+void cgal_set_precondition_handler(
+        void (*handler)(const char *, const char *, int, const char *))
+{
+    precondition_handler = handler;
+}
+
+void cgal_set_postcondition_handler(
+        void (*handler)(const char *, const char *, int, const char *))
+{
+    postcondition_handler = handler;
+}
+
+void cgal_set_check_handler(
+        void (*handler)(const char *, const char *, int, const char *))
+{
+    check_handler = handler;
+}
+
+@}
+

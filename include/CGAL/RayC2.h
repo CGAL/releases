@@ -1,3 +1,20 @@
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source:RayC2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -9,7 +26,7 @@
 #include <CGAL/LineC2.h>
 
 template < class FT >
-class CGAL_RayC2 : public CGAL_Handle_base
+class CGAL_RayC2 : public CGAL_Handle
 {
 public:
                        CGAL_RayC2();
@@ -26,10 +43,11 @@ public:
 
   bool                 operator==(const CGAL_RayC2<FT> &r) const;
   bool                 operator!=(const CGAL_RayC2<FT> &r) const;
-  bool                 identical(const CGAL_RayC2<FT> &r) const;
+  int                  id() const;
 
   CGAL_PointC2<FT>     start() const;
-  CGAL_PointC2<FT>     second_point() const;
+  CGAL_PointC2<FT>     source() const;
+  CGAL_PointC2<FT>     point(int i) const;
 
   CGAL_DirectionC2<FT> direction() const;
   CGAL_LineC2<FT>      supporting_line() const;
@@ -40,17 +58,12 @@ public:
   bool                 is_horizontal() const;
   bool                 is_vertical() const;
   bool                 is_degenerate() const;
-  bool                 is_on(const CGAL_PointC2<FT> &p) const;
-  bool                 collinear_is_on(const CGAL_PointC2<FT> &p) const;
+  bool                 has_on(const CGAL_PointC2<FT> &p) const;
+  bool                 collinear_has_on(const CGAL_PointC2<FT> &p) const;
 
-#ifdef CGAL_CHECK_PRECONDITIONS
-  bool                is_defined() const
-  {
-    return (PTR == NULL) ? false : true;
-  }
-#endif // CGAL_CHECK_PRECONDITIONS
-
+  CGAL_PointC2<FT>     second_point() const;
 private:
+
 CGAL__Twotuple< CGAL_PointC2<FT> > *ptr() const
 {
   return (CGAL__Twotuple< CGAL_PointC2<FT> >*)PTR;
@@ -70,16 +83,12 @@ inline CGAL__Twotuple< CGAL_PointC2<FT> > *CGAL_RayC2<FT>::ptr() const
 template < class FT >
 CGAL_RayC2<FT>::CGAL_RayC2()
 {
-#ifdef CGAL_CHECK_PRECONDITIONS
-  PTR = NULL;
-#else
   PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >;
-#endif // CGAL_CHECK_PRECONDITIONS
 }
 
 template < class FT >
 CGAL_RayC2<FT>::CGAL_RayC2(const CGAL_RayC2<FT>  &r) :
-  CGAL_Handle_base((CGAL_Handle_base&)r)
+  CGAL_Handle((CGAL_Handle&)r)
 {}
 
 template < class FT >
@@ -106,63 +115,78 @@ CGAL_RayC2<FT>::~CGAL_RayC2()
 template < class FT >
 CGAL_RayC2<FT> &CGAL_RayC2<FT>::operator=(const CGAL_RayC2<FT> &r)
 {
-  CGAL_kernel_precondition(r.is_defined());
-  CGAL_Handle_base::operator=(r);
+
+  CGAL_Handle::operator=(r);
   return *this;
 }
 template < class FT >
 bool CGAL_RayC2<FT>::operator==(const CGAL_RayC2<FT> &r) const
 {
-  CGAL_kernel_precondition(is_defined() && r.is_defined());
-  return ((start() == r.start()) && (direction() == r.direction()) );
+  return ((source() == r.source()) && (direction() == r.direction()) );
 }
 
 template < class FT >
 bool CGAL_RayC2<FT>::operator!=(const CGAL_RayC2<FT> &r) const
 {
-  CGAL_kernel_precondition(is_defined() && r.is_defined());
   return !(*this == r);
 }
 
 template < class FT >
-bool CGAL_RayC2<FT>::identical(const CGAL_RayC2<FT> &r) const
+int CGAL_RayC2<FT>::id() const
 {
-  CGAL_kernel_precondition(is_defined() && r.is_defined());
-  return ( PTR == r.PTR );
+  return (int) PTR ;
 }
 template < class FT >
 CGAL_PointC2<FT>  CGAL_RayC2<FT>::start() const
 {
-  CGAL_kernel_precondition(is_defined());
+  return ptr()->e0;
+}
+
+template < class FT >
+CGAL_PointC2<FT>  CGAL_RayC2<FT>::source() const
+{
   return ptr()->e0;
 }
 
 template < class FT >
 CGAL_PointC2<FT>  CGAL_RayC2<FT>::second_point() const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return ptr()->e1;
+}
+
+template < class FT >
+CGAL_PointC2<FT>  CGAL_RayC2<FT>::point(int i) const
+{
+  CGAL_kernel_precondition( i >= 0 );
+  if (i == 0){
+    return ptr()->e0;
+  }
+  if (i == 1){
+    return ptr()->e1;
+  }
+  return source() + FT(i) * (second_point() - source());
 }
 
 template < class FT >
 CGAL_DirectionC2<FT> CGAL_RayC2<FT>::direction() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return CGAL_DirectionC2<FT>(  second_point() - start() );
+
+  return CGAL_DirectionC2<FT>(  second_point() - source() );
 }
 
 template < class FT >
 CGAL_LineC2<FT> CGAL_RayC2<FT>::supporting_line() const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return CGAL_LineC2<FT>(*this);
 }
 
 template < class FT >
 CGAL_RayC2<FT> CGAL_RayC2<FT>::opposite() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return CGAL_RayC2<FT>( start(), - direction() );
+
+  return CGAL_RayC2<FT>( source(), - direction() );
 }
 
 
@@ -170,8 +194,7 @@ template < class FT >
 CGAL_RayC2<FT> CGAL_RayC2<FT>::transform(const
                                      CGAL_Aff_transformationC2<FT> &t) const
 {
-  CGAL_kernel_precondition(is_defined() && t.is_defined());
-  return CGAL_RayC2<FT>(t.transform(start()),
+  return CGAL_RayC2<FT>(t.transform(source()),
                         t.transform(second_point()));
 }
 
@@ -179,41 +202,38 @@ CGAL_RayC2<FT> CGAL_RayC2<FT>::transform(const
 template < class FT >
 bool CGAL_RayC2<FT>::is_horizontal() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return (start().y() ==  second_point().y());
+
+  return (source().y() ==  second_point().y());
 }
 
 template < class FT >
 bool CGAL_RayC2<FT>::is_vertical() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return  (start().x() == second_point().x());
+
+  return  (source().x() == second_point().x());
 }
 
 template < class FT >
 bool CGAL_RayC2<FT>::is_degenerate() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return (start() == second_point());
+
+  return (source() == second_point());
 }
 
 template < class FT >
-bool CGAL_RayC2<FT>::is_on(const CGAL_PointC2<FT> &p) const
+bool CGAL_RayC2<FT>::has_on(const CGAL_PointC2<FT> &p) const
 {
-  CGAL_kernel_precondition(is_defined() && p.is_defined());
-  return ( p == start()
-           || ( CGAL_collinear(start(), p, second_point())
-                && ( CGAL_DirectionC2<FT>(p - start()) == direction() )));
+  return ( p == source()
+           || ( CGAL_collinear(source(), p, second_point())
+                && ( CGAL_DirectionC2<FT>(p - source()) == direction() )));
 
 }
 
 template < class FT >
-bool CGAL_RayC2<FT>::collinear_is_on(const CGAL_PointC2<FT> &p) const
+bool CGAL_RayC2<FT>::collinear_has_on(const CGAL_PointC2<FT> &p) const
 {
-  CGAL_kernel_precondition(is_defined() && p.is_defined());
-  CGAL_exactness_precondition( CGAL_collinear(start(), p, second_point()) );
-  return ( p == start()
-           || ( CGAL_DirectionC2<FT>(p - start()) == direction()) );
+  return ( p == source()
+           || ( CGAL_DirectionC2<FT>(p - source()) == direction()) );
 
 }
 

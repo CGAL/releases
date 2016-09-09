@@ -1,0 +1,359 @@
+
+\cleardoublepage
+\chapter{Geometric Predicates} \label{Predicates}
+
+\section{Ordertypes}
+
+
+\threecolumns{3cm}{5cm}
+
+In geometric algorithms we often want to know the enumeration type 
+of  a sequence of $d$ points in $d-1$ dimensional space. \cgal\
+provides the following enumeration type:
+
+
+\globalenum{enum  CGAL_Sign { CGAL_NEGATIVE   = -1,
+                              CGAL_ZERO,
+                              CGAL_POSITIVE
+                            };}
+
+and a \CCstyle{typedef CGAL_Sign, CGAL_Orientation}. For the
+two-dimensional space, different names are often used in the
+literature. Here one wants to know whether three points perform a {\em
+leftturn}, or a {\em rightturn}, or if they are {\em collinear}. The
+latter includes the case that two or even all three points have the
+same coordinates. Therefor \cgal\ provides also
+
+\globalenum{enum  CGAL_Orientation { CGAL_CLOCKWISE   = -1,
+                                   CGAL_COLLINEAR,
+                                   CGAL_COUNTERCLOCKWISE };}
+
+
+\globalvariable{const CGAL_Orientation CGAL_LEFTTURN  = CGAL_POSITIVE;}
+\globalvariable{const CGAL_Orientation CGAL_RIGHTTURN = CGAL_NEGATIVE;}
+
+\globalvariable{const CGAL_Orientation CGAL_COUNTERCLOCKWISE = CGAL_POSITIVE;}
+\globalvariable{const CGAL_Orientation CGAL_CLOCKWISE = CGAL_NEGATIVE;}
+
+\globalvariable{const CGAL_Orientation CGAL_COPLANAR  = CGAL_ZERO;}
+\globalvariable{const CGAL_Orientation CGAL_COLLINEAR = CGAL_ZERO;}
+\globalvariable{const CGAL_Orientation CGAL_DEGENERATE = CGAL_ZERO;}
+
+
+
+
+\function{CGAL_Orientation CGAL_orientation(const CGAL_Point_2<R> &p,
+                                   const CGAL_Point_2<R>&q,
+                                   const CGAL_Point_2<R> &r);}
+{returns \CCstyle{CGAL_LEFTTURN}, if $r$ lies to the left of the oriented 
+line $l$ defined by $p$ and $q$, returns \CCstyle{CGAL_RIGHTTURN} if $r$ 
+lies to the right of $l$ and returns \CCstyle{CGAL_COLLINEAR} if $r$ lies
+on $l$.}
+
+\pagebreak[3]
+The following functions  return \CCstyle{true} or \CCstyle{false}
+depending on whether the orientation of three points is equal to
+one of the before mentioned constants.
+
+
+\function{bool CGAL_leftturn(const CGAL_Point_2<R> &p,
+                             const CGAL_Point_2<R> &q,
+                             const CGAL_Point_2<R> &r);}{}
+
+\function{bool CGAL_rightturn(const CGAL_Point_2<R> &p,
+                              const CGAL_Point_2<R> &q,
+                              const CGAL_Point_2<R> &r);}{}
+
+\function{bool CGAL_collinear(const CGAL_Point_2<R> &p, 
+                              const CGAL_Point_2<R> &q, 
+                              const CGAL_Point_2<R> &r);}{}
+
+Finally, there are some special cases of collinearity. If we not only
+want to know if three points are collinear but also if they respect a 
+certain order on the line, this is the function to call:
+
+
+\function{bool CGAL_between(const CGAL_Point_2<R> &p, 
+                            const CGAL_Point_2<R> &q, 
+                            const CGAL_Point_2<R> &r);}
+         {returns \CCstyle{true}, iff the three points are collinear and 
+          \CCstyle{q} lies between \CCstyle{p} and \CCstyle{r}.}
+
+
+If we already know that three points are collinear, we should not
+check it again (as it is an expensive operation). 
+
+\function{bool CGAL_collinear_between(const CGAL_Point_2<R> &p,
+                                      const CGAL_Point_2<R> &q,
+                                      const CGAL_Point_2<R> &r);}
+         {returns \CCstyle{true}, iff \CCstyle{q} lies between \CCstyle{p} 
+          and \CCstyle{r}. \precond \CCstyle{p, q} and \CCstyle{r} are 
+	collinear.}
+
+
+
+\subsubsection*{Implementation}
+
+ The orientation computation boils down to a computation of the sign
+of a determinant. For some number types this computation can be done
+exact. For some numbertypes there is a direct way of computing the sign 
+of a determinant without computing the determinant itself~\cite{ABDPY}. 
+Moreover, this approach is numerically more stable and efficient.
+
+
+\section{Relative Position}
+
+Geometric objects in \cgal\ have member functions that test the
+position of a point relative to the object.  Full dimensional objects
+and their boundaries are represented by the same type, e.g.\
+halfspaces and hyperplanes are not distinghuished, neither are spheres
+and circles. Such objects split the ambient space into two
+full-dimensional parts, a bounded part and an unbounded part (e.g.\
+circles), or two unbounded parts (e.g.\ hyperplanes). By default these
+objects are oriented, i.e., one of the resulting parts is called the
+positive side, the other one is called the negative side. Both of
+these may be unbounded.
+
+For these objects there is a function \CCstyle{oriented_side()} that
+determines whether a test point is on the positive side, the negative
+side, or on the oriented boundary. These function returns an enumeration
+type
+
+
+\globalenum{enum  CGAL_Oriented_side
+                  { CGAL_ON_NEGATIVE_SIDE = -1,
+                    CGAL_ON_ORIENTED_BOUNDARY,
+                    CGAL_POSITIVE_SIDE
+                  }; }
+
+Accordingly there are member functions
+\CCstyle{has_on_positive_side(CGAL_Point_2<R>)},
+\CCstyle{has_on_boundary(CGAL_Point_2<R>)} and
+\CCstyle{has_on_negative_side(CGAL_Point_2<R>)} returning a boolean value.
+
+Those objects that split the space in a bounded and an unbounded part, hava
+a member function \CCstyle{bounded_side()} with the return type
+
+
+\globalenum{enum  CGAL_Bounded_side
+                  { CGAL_ON_BOUNDED_SIDE = -1,
+                    CGAL_ON_BOUNDARY,
+                    CGAL_ON_UNBOUNDED_SIDE
+                  }; }
+
+Accordingly there are member functions
+\CCstyle{has_on_bounded_side(CGAL_Point_2<R>)},
+\CCstyle{has_on_unbounded_side(CGAL_Point_2<R>)} returning a boolean value.
+
+If an object is lower dimensional, e.g.\ a triangle in three-dimensional
+space or a segment in tw-dimensional space, there is only a test whether a
+point belongs to the object or not. This member function, which takes a 
+point as an argument and returns a boolean value, is called \CCstyle{has_on()}.
+
+
+\section{The Incircle Test}
+
+Instead of constructing a circle and performing the test if a 
+given point lies inside or outside you might use the following
+predicate:
+
+\function{CGAL_Bounded_side CGAL_side_of_bounded_circle(
+	                           const CGAL_Point_2<R> &p, 
+	                           const CGAL_Point_2<R> &q,
+                                   const CGAL_Point_2<R> &r, 
+                                   const CGAL_Point_2<R> &test);}
+         {returns the relative position of point \CCstyle{test}
+          to the circle defined by $p$, $q$ and $r$. The order
+          of the points $p$, $q$ and $r$ does not matter.
+          \precond \CCstyle{p, q} and \CCstyle{r} are not collinear.}
+ 
+\function{CGAL_Oriented_side CGAL_side_of_oriented_circle(
+	                           const CGAL_Point_2<R> &p, 
+	                           const CGAL_Point_2<R> &q,
+                                   const CGAL_Point_2<R> &r, 
+                                   const CGAL_Point_2<R> &test);}
+         {returns the relative position of point \CCstyle{test}
+          to the oriented circle defined by $p$, $q$ and $r$.
+	  The order of the points $p$, $q$ and $r$ is important,
+	  since it determines the orientation of the implicitely
+          constructed circle.
+          \precond \CCstyle{p, q} and \CCstyle{r} are not collinear.}
+
+
+\section{Comparison Results}
+
+\globalenum{enum  CGAL_Comparison_result { CGAL_SMALLER   = -1,
+                                           CGAL_EQUAL,
+                                           CGAL_LARGER
+                                 	};}
+
+
+\section{Comparison of Coordinates of Points}
+
+In order to check if two points have the same $x$ or $y$ coordinate
+we provide the following functions. They allow to write code that
+does not depend on the representation type.
+
+\CCstyle{#include <CGAL/predicates_on_points_2.h>}
+
+\function{bool CGAL_x_equal(const CGAL_Point_2<R> &p,
+                            const CGAL_Point_2<R> &q);}
+         {returns \CCstyle{true}, iff \CCstyle{p} and \CCstyle{q}
+	  have the same \CCstyle{x}-coordinate.}
+
+\function{bool CGAL_y_equal(const CGAL_Point_2<R> &p,
+                            const CGAL_Point_2<R> &q);}
+         {returns \CCstyle{true}, iff \CCstyle{p} and \CCstyle{q}
+	  have the same \CCstyle{y}-coordinate.}
+
+
+The above functions are decision versions of the following 
+comparison functions returning a \CCstyle{CGAL_Comparison_result}.
+
+\function{CGAL_Comparison_result CGAL_compare_x(const CGAL_Point_2<R> &p,
+                            	                const CGAL_Point_2<R> &q);}
+	{}
+
+\function{CGAL_Comparison_result CGAL_compare_y(const CGAL_Point_2<R> &p,
+                            	                const CGAL_Point_2<R> &q);}
+	{}
+
+
+\cgal\ offers the same functions for points given implicitely as intersection
+of two lines.  We provide these functions because we can provide
+better code for the test, than simply computing the intersection and
+calling the respective function for points.
+
+\precond Lines that define an intersection point may not be parallel.
+
+\CCstyle{#include <CGAL/predicates_on_lines_2.h>}
+
+
+
+\function{CGAL_Comparison_result CGAL_compare_x(const CGAL_Point_2<R> &p,
+                                                const CGAL_Line_2<R> &l1,
+                                                const CGAL_Line_2<R> &l2);}
+	{compares the $x$-coordinates of $p$ and the intersection 
+         of lines $l1$ and $l2$ (Figure~\ref{fig-compare} (a)).}
+
+
+\function{CGAL_Comparison_result CGAL_compare_x(const CGAL_Line_2<R> &l,
+                                                const CGAL_Line_2<R> &h1,
+                                                const CGAL_Line_2<R> &h2);}
+	{compares the $x$-coordinates of  the intersection of line $l$
+         with line $h1$ and with line $h2$ (Figure~\ref{fig-compare} (b)).}
+
+
+\function{CGAL_Comparison_result CGAL_compare_x(const CGAL_Line_2<R> &l1,
+                                                const CGAL_Line_2<R> &l2,
+                                                const CGAL_Line_2<R> &h1,
+                                                const CGAL_Line_2<R> &h2);}
+	{compares the $x$-coordinates of the intersection of lines $l1$
+         and $l2$ and  the intersection of lines $h1$ and $h2$
+	 (Figure~\ref{fig-compare} (c)).}
+	
+
+\function{CGAL_Comparison_result CGAL_compare_y(const CGAL_Point_2<R> &p,
+                                                const CGAL_Line_2<R> &l1,
+                                                const CGAL_Line_2<R> &l2);}
+	{compares the $y$-coordinates of $p$ and the intersection of lines
+         $l1$ and $l2$ (Figure~\ref{fig-compare} (a)).}
+
+
+\function{CGAL_Comparison_result CGAL_compare_y(const CGAL_Line_2<R> &l,
+                                                const CGAL_Line_2<R> &h1,
+                                                const CGAL_Line_2<R> &h2);}
+	{compares the $y$-coordinates of the intersection of line $l$
+         with line $h1$ and with line $h2$. (Figure~\ref{fig-compare} (b))}
+
+
+\function{CGAL_Comparison_result CGAL_compare_y(const CGAL_Line_2<R> &l1,
+                                                const CGAL_Line_2<R> &l2,
+                                                const CGAL_Line_2<R> &h1,
+                                                const CGAL_Line_2<R> &h2);}
+	{compares the $y$-coordinates of the intersection of lines $l1$
+         and $l2$ and  the intersection of lines $h1$ and $h2$ 
+	(Figure~\ref{fig-compare} (c))}
+
+
+\begin{figure}[h]
+\centerline{\Ipe{compare.ipe}}
+\caption{Comparison of the $x$ or $y$-coordinates of the (implicitely
+given) points in the boxes.\label{fig-compare}}
+\end{figure} 
+
+
+The following functions compare the \CCstyle{y} coodinate of an point
+(that may be given implicitely) with a line. 
+
+\precond If the point is given as an intersection of two lines these
+lines may not be parallel. Lines where points are projected on may not be
+vertical.
+
+\function{CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_Point_2<R> &p,
+                                           	const CGAL_Line_2<R> &h);}
+        {compares the $y$-coordinates of $p$ and the vertical projection
+         of \CCstyle{p} on \CCstyle{h} (Figure~\ref{fig-compare2} (d)).}
+
+
+\function{CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_Point_2<R> &p,
+                                           const CGAL_Line_2<R> &h1,
+                                           const CGAL_Line_2<R> &h2);}
+{This function compares the $y$-coordinates of the vertical projection 
+ of \CCstyle{p} on \CCstyle{h1} and on \CCstyle{h2} (Figure~\ref{fig-compare2} (e)).}
+
+\function{CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_Line_2<R> &l1,
+                                           const CGAL_Line_2<R> &l2,
+                                           const CGAL_Line_2<R> &h);}
+      {Let $p$ be the intersection of lines $l1$ and $l2$.
+       This function compares the $y$-coordinates of $p$ and 
+       the vertical projection of \CCstyle{p} on \CCstyle{h}
+	 (Figure~\ref{fig-compare2} (f))}
+
+
+\function{CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_Line_2<R> &l1,
+                                           const CGAL_Line_2<R> &l2,
+                                           const CGAL_Line_2<R> &h1,
+                                           const CGAL_Line_2<R> &h2);}
+{Let $p$ be the intersection of lines $l1$ and $l2$. This function 
+ compares the $y$-coordinates of the vertical projection of \CCstyle{p} on 
+ \CCstyle{h1} and on \CCstyle{h2} (Figure~\ref{fig-compare2} (g)).}
+
+\begin{figure}[h]
+\centerline{\Ipe{compare2.ipe}}
+\caption{Comparison of the $y$-coordinates of the (implicitely given)
+         points in the boxes, at an $x$-coordinate. The $x$-coordinate
+         is either given explicitely (disc) or implicitely (circle).
+	 \label{fig-compare2}}
+\end{figure} 
+
+
+For lexicographical comparison \cgal\ provides
+
+\function{CGAL_Comparison_result
+CGAL_compare_lexicographically_xy(const CGAL_Point_2<R>& p,
+                                  const CGAL_Point_2<R>& q);}
+      {Compares the Cartesian coordinates of points \CCstyle{p} and
+       \CCstyle{q} lexicographically in $xy$ order: first 
+       $x$-coordinates are compared, if they are equal, $y$-coordinates
+       are compared.}
+
+In addition, \cgal\ provides the following comparison functions
+returning \CCstyle{true} or \CCstyle{false} depending on the result
+of \CCstyle{CGAL_compare_lexicographically_xy(p,q)}.
+
+\function{bool 
+CGAL_lexicographically_xy_smaller_or_equal(const CGAL_Point_2<R>& p,
+                                           const CGAL_Point_2<R>& q);} {}
+
+\function{bool
+CGAL_lexicographically_xy_smaller(const CGAL_Point_2<R>& p,
+                                  const CGAL_Point_2<R>& q);} {}
+
+\function{bool
+CGAL_lexicographically_xy_larger_or_equal(const CGAL_Point_2<R>& p,
+                                          const CGAL_Point_2<R>& q);} {}
+
+\function{bool
+CGAL_lexicographically_xy_larger(const CGAL_Point_2<R>& p,
+                                 const CGAL_Point_2<R>& q);} {}

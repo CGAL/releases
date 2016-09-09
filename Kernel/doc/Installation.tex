@@ -1,0 +1,57 @@
+
+\chapter{Installation and Use}
+
+\section{How to Install CGAL}
+Please have a look at the {\tt README} and {\tt INSTALL} files
+in the distribution.
+
+\section{Compile Time Switches\label{CompilerFlags}}
+
+For debugging it is reasonable to have as much internal checking as
+possible.  When entering a function it may be useful to check whether
+a set of preconditions is fulfilled. When leaving a function it may be 
+useful to check some postconditions.  However, when your code goes into 
+production mode you would like to switch all this checking 
+off, as it may be expensive; Imagine an incremental convex hull algorithm
+checking before and after each incremental step if the current object
+is convex.
+
+The switches are compile time switches.  By default they are switched on, 
+as it is the case for the standard {\tt assert()} macro. You can switch them
+off by putting a {\tt -U<switch>} in the {\tt CFLAGS} in your {\tt makefile}.
+
+\subsubsection*{{\tt CGAL\_CHECK\_PRECONDITIONS}}
+Before the execution of a function preconditions may be tested.
+The preconditions are only of logical nature and never related to 
+precision problems. 
+
+\subsubsection*{{\tt CGAL\_CHECK\_POSTCONDITIONS}}
+After the execution of a function postconditions may be tested.
+The preconditions are only of logical nature and never related to 
+precision problems.
+
+\subsubsection*{{\tt CGAL\_CHECK\_ASSERTIONS}}
+During the execution of a function assertions may be verified.
+The preconditions are only of logical nature and never related to 
+precision problems.
+
+\subsubsection*{{\tt CGAL\_CHECK\_EXACTNESS\_PRECONDITIONS}}
+Before the execution of a function postconditons that assume exact
+computation may be tested.  Checking preconditions can be useful, but
+if you use a numbertype as {\tt double}, you sooner or later run in
+trouble due to inexact computations. An example: The function
+\CCstyle{CGAL_Segment_2<R>::collinear_has_on(CGAL_Point_2<R> &p)} has
+the precondition that the point $p$ is on the line supporting
+the segment. The chance that this precondition test fails is high.
+
+\subsubsection*{{\tt CGAL\_CHECK\_EXACTNESS\_POSTCONDITIONS}}
+After the execution of a function postconditons that assume exact
+computation may be tested.
+
+\subsubsection*{{\tt CGAL\_CHECK\_DEGENERACY}}
+Signals an error as soon as a degenerate object is created.
+
+%\medskip
+%There are further compile time switches that are not related to debugging.
+
+%\subsubsection*{{\tt CGAL\_IO}}

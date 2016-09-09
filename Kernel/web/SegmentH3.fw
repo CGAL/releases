@@ -1,0 +1,364 @@
+@C@<Class CGAL_SegmentH3<FT,RT>@>
+
+We start with the representation class.
+
+@D@<Representatives for threedimensional segments@>
+
+@$@<class CGAL_SegmentH3_rep<FT,RT>@>==@{@-
+
+template < class FT, class RT >
+class CGAL__Segment_repH3 : public CGAL_Rep
+{
+public:
+                         CGAL__Segment_repH3()
+                         {
+                         }
+                         CGAL__Segment_repH3(const CGAL_PointH3<FT,RT>& sp,
+                                             const CGAL_PointH3<FT,RT>& ep)
+                         {
+                           startpoint = sp;
+                           endpoint   = ep;
+                         }
+                         ~CGAL__Segment_repH3()
+                         {
+                         }
+
+    CGAL_PointH3<FT,RT>  start() const;
+    CGAL_PointH3<FT,RT>  end()   const;
+
+private:
+
+    CGAL_PointH3<FT,RT>  startpoint;
+    CGAL_PointH3<FT,RT>  endpoint;
+
+};
+@}
+
+@$@<inline code for class CGAL_SegmentH3_rep@>+=@{@-
+template < class FT, class RT >
+inline
+CGAL_PointH3<FT,RT>
+CGAL__Segment_repH3<FT,RT>::start() const
+{
+ return startpoint;
+}
+
+template < class FT, class RT >
+inline
+CGAL_PointH3<FT,RT>
+CGAL__Segment_repH3<FT,RT>::end() const
+{
+ return endpoint;
+}
+@}
+
+@D@<Class CGAL_SegmentH3<FT,RT>@>
+
+@$@<class CGAL_SegmentH3<FT,RT>@>==@{@-
+template < class FT, class RT >
+class CGAL_SegmentH3 : public CGAL_Handle
+{
+public:
+                         CGAL_SegmentH3();
+                         CGAL_SegmentH3( const CGAL_SegmentH3<FT,RT> & tbc);
+                         CGAL_SegmentH3( const CGAL_PointH3<FT,RT>& sp,
+                                         const CGAL_PointH3<FT,RT>& ep);
+                         ~CGAL_SegmentH3();
+
+    CGAL_SegmentH3<FT,RT>&
+                         operator=( const CGAL_SegmentH3<FT,RT>& s);
+
+    CGAL_PointH3<FT,RT>  source() const;
+    CGAL_PointH3<FT,RT>  target() const;
+
+    CGAL_PointH3<FT,RT>  start() const;
+    CGAL_PointH3<FT,RT>  end() const;
+    CGAL_PointH3<FT,RT>  min() const;
+    CGAL_PointH3<FT,RT>  max() const;
+    CGAL_PointH3<FT,RT>  vertex(int i) const;
+    CGAL_PointH3<FT,RT>  point(int i) const;
+    CGAL_PointH3<FT,RT>  operator[](int i) const;
+
+    FT                   squared_length() const;
+    CGAL_DirectionH3<FT,RT>
+                         direction() const;
+    CGAL_LineH3<FT,RT>   supporting_line() const;
+    CGAL_SegmentH3       opposite() const;
+    CGAL_SegmentH3       transform( const CGAL_Aff_transformationH3<FT,RT> & t)
+                                                                         const;
+    CGAL_Bbox_3          bbox() const;
+    bool                 has_on(const CGAL_PointH3<FT,RT> p) const;
+    bool                 collinear_has_on(const CGAL_PointH3<FT,RT> p) const;
+    bool                 is_degenerate() const;
+
+    bool                 operator==(const CGAL_SegmentH3& s) const;
+    bool                 operator!=(const CGAL_SegmentH3& s) const;
+    bool                 identical (const CGAL_SegmentH3& s) const;
+    int                  id() const;
+
+protected:
+
+    CGAL__Segment_repH3<FT,RT>*   ptr() const;
+
+};
+@}
+
+@D@<Constructors and destructor@>
+@$@<code for CGAL_SegmentH3<FT,RT>@>+=@{@-
+template < class FT, class RT >
+CGAL_SegmentH3<FT,RT>::CGAL_SegmentH3()
+{
+ PTR = new CGAL__Segment_repH3<FT,RT>;
+}
+
+template < class FT, class RT >
+CGAL_SegmentH3<FT,RT>::CGAL_SegmentH3(const CGAL_SegmentH3 & tbc)
+ : CGAL_Handle( (CGAL_Handle&) tbc)
+{
+}
+
+template < class FT, class RT >
+CGAL_SegmentH3<FT,RT>::CGAL_SegmentH3( const CGAL_PointH3<FT,RT>& sp,
+                                       const CGAL_PointH3<FT,RT>& ep)
+{
+ PTR = new CGAL__Segment_repH3<FT,RT>(sp,ep);
+}
+
+template < class FT, class RT >
+CGAL_SegmentH3<FT,RT>::~CGAL_SegmentH3()
+{
+}
+
+template < class FT, class RT >
+CGAL_SegmentH3<FT,RT> &
+CGAL_SegmentH3<FT,RT>::operator=(const CGAL_SegmentH3 & s)
+{
+ CGAL_Handle::operator=((CGAL_Handle&) s);
+ return *this;
+}
+@}
+
+@D@<Access member functions@>
+@$@<code for CGAL_SegmentH3<FT,RT>@>+=@{@-
+template < class FT, class RT >
+CGAL_PointH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::source() const
+{
+ return ptr()->start();
+}
+
+template < class FT, class RT >
+CGAL_PointH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::target() const
+{
+ return ptr()->end();
+}
+
+template < class FT, class RT >
+CGAL_PointH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::start() const
+{
+ return ptr()->start();
+}
+
+template < class FT, class RT >
+CGAL_PointH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::end() const
+{
+ return ptr()->end();
+}
+
+template < class FT, class RT >
+CGAL_PointH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::min() const
+{
+ return
+ CGAL_lexicographically_xyz_smaller(target(),source()) ? target() : source();
+}
+
+template < class FT, class RT >
+CGAL_PointH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::max() const
+{
+ return
+ CGAL_lexicographically_xyz_smaller_or_equal(source(),target()) ?
+                                                         target() : source();
+}
+
+template < class FT, class RT >
+CGAL_PointH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::vertex(int i) const
+{
+ return ( i%2 == 0 ) ? start() : end() ;
+}
+
+template < class FT, class RT >
+CGAL_PointH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::point(int i) const
+{
+ return ( i%2 == 0 ) ? start() : end() ;
+}
+
+template < class FT, class RT >
+CGAL_PointH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::operator[](int i) const
+{
+ return ( i%2 == 0 ) ? start() : end() ;
+}
+@}
+
+@D@<Further member functions@>
+
+@$@<code for CGAL_SegmentH3<FT,RT>@>+=@{@-
+
+template < class FT, class RT >
+FT
+CGAL_SegmentH3<FT,RT>::squared_length() const
+{
+ return  (ptr()->end() - ptr()->start()) *
+         (ptr()->end() - ptr()->start())   ;
+}
+
+template < class FT, class RT >
+CGAL_DirectionH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::direction() const
+{
+ return CGAL_DirectionH3<FT,RT>( ptr()->end() - ptr()->start() );
+}
+
+template < class FT, class RT >
+CGAL_LineH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::supporting_line() const
+{
+ return CGAL_LineH3<FT,RT>(ptr()->start(), ptr()->end());
+}
+
+template < class FT, class RT >
+CGAL_SegmentH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::opposite() const
+{
+ return CGAL_SegmentH3(ptr()->end(), ptr()->start());
+}
+
+template < class FT, class RT >
+CGAL_SegmentH3<FT,RT>
+CGAL_SegmentH3<FT,RT>::transform( const CGAL_Aff_transformationH3<FT,RT>& t)
+                                                                          const
+{
+ return CGAL_SegmentH3(t.transform(ptr()->start()),
+                       t.transform(ptr()->end())   );
+}
+
+template < class FT, class RT >
+CGAL_Bbox_3
+CGAL_SegmentH3<FT,RT>::bbox() const
+{
+ return source().bbox() + target().bbox();
+}
+@}
+
+@D@<Predicates@>
+@$@<code for CGAL_SegmentH3<FT,RT>@>+=@{@-
+template < class FT, class RT >
+bool
+CGAL_SegmentH3<FT,RT>::is_degenerate() const
+{
+ return  source()==target();
+}
+
+template < class FT, class RT >
+bool
+CGAL_SegmentH3<FT,RT>::has_on(const CGAL_PointH3<FT,RT> p) const
+{
+ return( ( p == start() )
+      || ( p == end() )
+      || (  ( CGAL_collinear(p,source(),target() )
+          &&( CGAL_DirectionH3<FT,RT>( p - ptr()->start())
+              !=
+              CGAL_DirectionH3<FT,RT>( p - ptr()->end()))
+            )
+         )
+      );
+}
+
+template < class FT, class RT >
+bool
+CGAL_SegmentH3<FT,RT>::collinear_has_on(const CGAL_PointH3<FT,RT> p) const
+{
+ return( ( p == start() )
+      || ( p == end() )
+      || ( CGAL_DirectionH3<FT,RT>( p - ptr()->start())
+           !=
+           CGAL_DirectionH3<FT,RT>( p - ptr()->end())
+         )
+       );
+}
+@}
+
+@D@<Equality and Identity@>
+
+@$@<code for CGAL_SegmentH3<FT,RT>@>+=@{@-
+template < class FT, class RT >
+bool
+CGAL_SegmentH3<FT,RT>::operator==(const CGAL_SegmentH3<FT,RT>& s) const
+{
+ return ( (start() == s.start() )
+        &&(end()   == s.end()   ) );
+}
+
+template < class FT, class RT >
+bool
+CGAL_SegmentH3<FT,RT>::identical(const CGAL_SegmentH3<FT,RT>& s) const
+{
+ return  PTR == s.PTR;
+}
+
+template < class FT, class RT >
+int
+CGAL_SegmentH3<FT,RT>::id() const
+{
+ return (int)PTR;
+}
+@}
+
+@$@<inline code for CGAL_SegmentH3<FT,RT>@>+=@{@-
+template < class FT, class RT >
+inline
+bool
+CGAL_SegmentH3<FT,RT>::operator!=(const CGAL_SegmentH3<FT,RT>& s) const
+{
+return ( !operator==(s) );
+}
+@}
+
+@D@<For internal use only@>
+@$@<inline code for CGAL_SegmentH3<FT,RT>@>+=@{@-
+template < class FT, class RT >
+inline
+CGAL__Segment_repH3<FT,RT>*
+CGAL_SegmentH3<FT,RT>::ptr() const
+{
+ return (CGAL__Segment_repH3<FT,RT>*)PTR;
+}
+@}
+
+@D@<Header file@>
+
+@O@<../include/CGAL/SegmentH3.h@>==@{@-
+@<CGAL notice@>
+// Source: SegmentH3.h
+// Author: Stefan.Schirra@@mpi-sb.mpg.de
+
+#ifndef CGAL_SEGMENTH3_H
+#define CGAL_SEGMENTH3_H
+
+#include <CGAL/LineH3.h>
+
+@<class CGAL_SegmentH3_rep<FT,RT>@>
+@<class CGAL_SegmentH3<FT,RT>@>
+@<inline code for class CGAL_SegmentH3_rep@>
+@<inline code for CGAL_SegmentH3<FT,RT>@>
+@<code for CGAL_SegmentH3<FT,RT>@>
+
+#endif // CGAL_SEGMENTH3_H
+@}

@@ -1,0 +1,279 @@
+\documentclass[]{article}
+\usepackage{amssymb}
+\usepackage{fw-latex}
+\usepackage{cgal}
+
+\textwidth=6in 
+\textheight=8.9in 
+\oddsidemargin=0.25in
+\evensidemargin=0.25in 
+\topmargin=-0.5in
+\begin{document}
+%   
+%   @p typesetter = tex
+%   @p no_doc_header
+%   
+%   @!@p maximum_output_line_length = 120
+%   @!@p maximum_input_line_length = 120
+%   
+\title{\bf Requirements for CGAL Number Type}
+\author{Geert-Jan Giezeman}
+\date{}
+\maketitle
+
+\section{Introduction}
+
+This document describes the properties a number type must have in
+order that it can be used as a type parameter in \cgal\ template
+code. It further defines what operations the users of those number
+types can use.  It finally presents a test suite for checking if a user
+supplied class is conform to the requirements.
+
+\section{Requirements for Number Types}
+
+The requirements differ a bit depending on whether the number type is used for
+cartesian or homogenuous representation and, in the latter case, whether it is
+used as ring or field type.
+
+In the table below we use {\em nt} as a the name for the number type.
+{\em nt} may be replaced by a class name or a builtin type like double.
+A variable of this type is called {\em ntvar}.
+Expressions of this type are called {\em ntval}, {\em ntval1} or {\em ntval2}.
+
+
+
+The following expressions should be valid:
+
+\begin{tabular}[h]{|l|l|l|}
+\hline
+expression		& return type	& comment \\
+\hline
+nt ntvar;		&		& declaration of a variable \\
+nt ntvar(ntval);	&		& declaration and initialisation \\
+nt ntvar(0);		&		& declaration and initialisation \\
+nt ntvar(1);		&		& declaration and initialisation \\
+
+ntvar = ntval		& arbitrary	& assignment   \\
+nt(0)			& nt		& the zero element of the field \\
+nt(1)			& nt		& the one element of the field \\
+
+is\_valid(x1)		& bool		& \\
+is\_finite(x1)		& bool		& is\_finite implies is\_valid \\
+
+ntval1 == ntval2	& bool		& \\
+ntval1 != ntval2	& bool		& \\
+ntval1 $<$ ntval2	& bool		& \\
+ntval2 $>$ ntval2	& bool		& \\
+ntval1 $<=$ ntval2	& bool		& \\
+ntval1 $>=$ ntval2	& bool		& \\
+
+ntval1 + ntval2		& nt		& \\
+ntval1 - ntval2		& nt		& \\
+ntval1 $*$ ntval2	& nt		& \\
+-ntval1			& nt		& \\
+
+to\_double(ntval)	& double	& \\
+\hline
+ntval1/ntval2		& nt		& not required for ring type\\
+\hline
+nt(rep)			& nt		& see below\\
+\hline
+\end{tabular}
+
+The return type of the assignment operator is arbitrary.
+This means that the user of the number type should not rely on it,
+when writing a routine that must be usable for all \cgal\ number types.
+So, don't write
+\begin{verbatim}
+    ntvar2 = ntvar1 = ntval;
+\end{verbatim}
+but instead write
+\begin{verbatim}
+    ntvar1 = ntval;
+    ntvar2 = ntvar1;
+\end{verbatim}
+
+We do not list all the rules to which the numbers must conform.
+They are the usual ones: associativity, commutativity, distributivity;
+the zero element must be the neutral element for addition;
+the one element must be the neutral element for multiplication; and so on.
+Of course, inexact number types do not always exactly fulfill the mathematical
+notions.
+
+\verb~to_double~ gives the double value for a number type.
+This is usually an approximation for the real (stored) value.
+It can be used to send numbers to a renderer or to store them in a file.
+
+Division by zero need not be defined. It may result in a runtime error, an
+invalid value, a valid value or anything else. This basicly means that the
+library tests for zero whenever it does a division.
+
+No other numeric operation may result in a runtime error (except when there is
+no more memory left).
+
+Not all values of a number type need be valid. The routine \verb~is_valid~
+checks this. For example, an expression like \verb~nt(0)/nt(0)~ can result in
+an invalid number. Routines often have as a precondition that all numerical
+values are valid.
+
+A useful test is whether a number is finite or not.
+When two large doubles are multiplied, the result may not fit in a double.
+Some number types (the standard float and double type when they conform to
+standards) have a way to represent a too big value as infinity.
+
+It is not said that a number type needs to have a representation for infinite
+and invalid numbers. It is perfectly well imaginable to have an exact number
+type that does not have these. The result of every computation can be
+represented, unless the memory is full or a division by zero is tried.
+In those cases a runtime error may be produced. This would mean that
+\verb~is\_valid~ and \verb~is\_finite~ always return true. Such calls can be
+optimised away by the compiler.
+
+The constructor that takes a \verb~rep~ as argument is only required for a
+(homegeneous) field type. \verb~rep~ stands for the corresponding rep
+type. So, if we have a representation class {\tt R}, the following 
+fragment should be legal.
+\begin{verbatim}
+   R::RT r;
+   R::FT f(r);
+\end{verbatim}
+
+
+
+
+\section{Utility Routines for Number Types}
+
+\label{sec_number_utilities}
+
+The previous section listed all the required functionality.
+For the user of a number type it is handy to have a bigger set of
+operations available.
+A number of them is declared in a header file.
+\begin{verbatim}
+#include <CGAL/number_utils.h>
+\end{verbatim}
+
+
+\begin{tabular}[h]{|l|l|l|}
+\hline
+expression      & return type  & comment \\
+\hline
+abs(ntval)          & nt   & the absolute value \\
+sign(ntval)         & int  & the sign: -1, 0 or 1 \\
+is\_negative(ntval) & bool & \\
+is\_positive(ntval) & bool & \\
+is\_zero(ntval)     & bool & \\
+is\_one(ntval)     & bool & \\
+\hline
+\end{tabular}
+
+Those routines are implemented using the required operations.
+They are defined by means of templates.
+In this way the writer of a number type does not need to supply all those
+operations, while they still are available to the user.
+
+
+\section{A Test Suite for Number Types}
+
+Once you may be tempted to design your own number types. In order to make it
+easier to check if those types conform to the requirements, \cgal\ provides a
+test suite. This test suite is a templated routine which should compile
+correctly when supplied your number type.
+
+The routine returns a boolean value which should be true.
+Otherwise your number type has strange semantics; 1 is smaller than 0 or
+something like that.
+Note that the semantic checks are in no way complete. They can not be.
+
+The following program tests a user defined field type meant for cartesian
+arithmetic. We suppose that the number type to be checked is called
+\verb~my_own_number_type~ and is defined in header file
+\verb~my_own_number_type.h~.
+\begin{verbatim}
+#include <CGAL/numcheck.h>
+#include <CGAL/cartesian_classes.h>
+#include <my_own_number_type.h>
+
+void main()
+{
+    C<my_own_number_type> dummy;
+    if (CGAL_number_requirements_test(dummy))
+        cout << "OK!\n";
+    else
+        cout << "Some semantic error :-(.\n";
+}
+\end{verbatim}
+
+
+In order to check a ring type and an associated field type for
+homogeneous arithmetic, the example should be adapted as follows.
+The number types are again called \verb~my_own_...~
+\begin{verbatim}
+#include <CGAL/numcheck.h>
+#include <CGAL/homogeneous_classes.h>
+#include <my_own_field_type.h>
+#include <my_own_rep_type.h>
+
+void main()
+{
+    H<my_own_field_type, my_own_rep_type> dummy;
+    if (CGAL_number_requirements_test(dummy))
+        cout << "OK!\n";
+    else
+        cout << "Some semantic error :-(.\n";
+}
+\end{verbatim}
+
+
+\section{Built-in Number Types}
+
+In this section we describe the number types that come with \cgal.
+All those number types conform to all the requirements for number types.
+There are types for exact and inexact arithmetic and there are types just for
+testing purposes.
+
+
+\subsection{Test Number Types}
+
+\begin{verbatim}
+#include <CGAL/test_types.h>
+\end{verbatim}
+
+\cgal\ provides three number types for test purposes: CGAL\_TestfieldC (a
+cartesian number type), CGAL\_TestrepH and CGAL\_TestfieldH (a homogeneous
+ring and field type).
+They can be used to test whether a routine or
+a set of routines limits itself to the required set of operations.
+In this way those test types are complementary to the test suite for number
+types. With the test types you can test whether your code needs no more than
+the minimal required functionality. The test suite makes sure that a number
+type provides at least the minimum required functionality.
+
+Ideally, the test types would implement the required operations and give a
+compilation error in all other cases. However, that is hard to realise:
+the expression \verb~CGAL_TestfieldC(1)~ should be valid whereas
+\verb~CGAL_TestfieldC(2)~ should be invalid. In the current implementation the
+second expression does not give a compilation error. At run time this is
+checked, though, and an error message is generated.
+
+Another point is that sometimes we would like use the test number types with
+other values than 0 and 1. For this case, every test number type has an
+additional constructor. This means that the test types have yet more
+functionality than required. In order to minimise the chance that those
+constructors are used by accident, very unnatural constructors have been
+chosen. They all take three parameters: an unsigned char, a signed char and a
+double. The first two parameters are dummy parameters. The third parameter is
+the value of the number. This awkward way of constructing test number types
+can of course be encapsulated in a function. Here we show such a function for
+\verb~CGAL_TestrepH~.
+\begin{verbatim}
+CGAL_TestrepH to_rt(double d)
+{
+    unsigned char dummy1;
+    signed char dummy2;
+    return CGAL_TestrepH(dummy1, dummy2, d);
+}
+\end{verbatim}
+
+
+\end{document} 

@@ -1,4 +1,20 @@
- 
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: Parabola_arc_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -15,7 +31,6 @@
 
 #include <CGAL/Parabola_2.h>
 
- 
 template < class R >
 class CGAL_Parabola_arc_2 : public R::Parabola_arc_2
 {
@@ -46,21 +61,17 @@ public:
   // conversion impl -> interface class
   CGAL_Parabola_arc_2(const R::Parabola_arc_2 &l)
     : R::Parabola_arc_2(l)
-  {
-    CGAL_kernel_precondition(l.is_defined());
-  }
+  {}
 
 
   CGAL_Parabola_arc_2<R> &operator=(const CGAL_Parabola_arc_2<R> &l)
   {
-    CGAL_kernel_precondition(l.is_defined());
     R::Parabola_arc_2::operator=(l);
     return *this;
   }
 
   bool operator==(const CGAL_Parabola_arc_2<R> &l) const
   {
-    CGAL_kernel_precondition(l.is_defined());
     return R::Parabola_arc_2::operator==(l);
   }
 
@@ -69,102 +80,78 @@ public:
     return !(*this == l);
   }
 
-  bool identical(const CGAL_Parabola_arc_2<R> &l) const
+  int id() const
   {
-    CGAL_kernel_precondition(l.is_defined());
-    return ( PTR == l.PTR );
+    return (int) PTR ;
   }
 
   CGAL_Parabola_2<R> supporting_parabola() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_arc_2::supporting_parabola();
   }
 
-  R::RT lambda_start() const
+  R::RT lambda_source() const
   {
-    CGAL_kernel_precondition(is_defined());
-    return R::Parabola_arc_2::lambda_start();
+    return R::Parabola_arc_2::lambda_source();
   }
 
-  R::RT lambda_end() const
+  R::RT lambda_target() const
   {
-    CGAL_kernel_precondition(is_defined());
-    return R::Parabola_arc_2::lambda_end();
+    return R::Parabola_arc_2::lambda_target();
   }
 
 
   R::RT lambda(int i) const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_arc_2::lambda(i);
   }
 
-  CGAL_Point_2<R> start() const
+  CGAL_Point_2<R> source() const
   {
-    CGAL_kernel_precondition(is_defined());
-    return R::Parabola_arc_2::start();
+    return R::Parabola_arc_2::source();
   }
 
-  CGAL_Point_2<R> end() const
+  CGAL_Point_2<R> target() const
   {
-    CGAL_kernel_precondition(is_defined());
-    return R::Parabola_arc_2::end();
+    return R::Parabola_arc_2::target();
   }
 
   CGAL_Point_2<R> vertex(int i) const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_arc_2::vertex(i);
   }
 
   CGAL_Point_2<R> operator[](int i) const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_arc_2::operator[](i);
   }
 
   bool is_on(const CGAL_Point_2<R> &p) const
   {
-    CGAL_kernel_precondition(is_defined() && p.is_defined());
     return R::Parabola_arc_2::is_on(p);
   }
 
   bool is_degenerate() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_arc_2::is_degenerate();
   }
 
   CGAL_Parabola_arc_2<R> opposite() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_arc_2::opposite();
   }
 
   CGAL_Bbox_2  bbox() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_arc_2::bbox();
   }
 
-  /*
+
   CGAL_Parabola_arc_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
   {
-    CGAL_kernel_precondition(is_defined() && t.is_defined());
-    return  CGAL_Parabola_arc_2<R>(R::Parabola_arc_2::transform(t));
+    return  R::Parabola_arc_2::transform(t);
   }
-  */
-
-#ifdef CGAL_CHECK_PRECONDITIONS
-  bool             is_defined() const
-  {
-    return (PTR == NULL)? false : true;
-  }
-#endif
-
 };
- 
 
 
 

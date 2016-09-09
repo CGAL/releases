@@ -1,4 +1,20 @@
- 
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: solve.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -7,7 +23,6 @@
 #define CGAL_SOLVE_H
 
 
- 
 
 template <class FT>
 void CGAL_solve (const FT &a1, const FT &a2, const FT &a3,
@@ -42,7 +57,6 @@ void CGAL_solve_quadratic (const FT &a1, const FT &a2, const FT &a3,
   y = (a2*d1-a2*d3-d1*a3+a1*d3+d2*a3-d2*a1)/denom;
 }
 
- 
 
 
 #endif // CGAL_SOLVE_H

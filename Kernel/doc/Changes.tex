@@ -1,0 +1,38 @@
+
+\cleardoublepage
+
+\chapter{Changes from Rel.\ 0.4 to Rel.\ 0.5} \label{Changes}
+
+\begin{enumerate}
+
+\item \CCstyle{CGAL_Cartesian} replaces  \CCstyle{C}.
+
+\item \CCstyle{CGAL_Homogeneous} replaces \CCstyle{H}.
+
+\item {\tt \#include <CGAL/Cartesian.h>}
+      replaces {\tt \#include <CGAL/cartesian.h>}.
+
+\item {\tt \#include <CGAL/Homogeneous.h>}
+      replaces {\tt \#include <CGAL/homogeneous.h>}.
+
+\item \CCstyle{CGAL_Homogeneous} has only one parameter
+      namely the ring type.
+
+\item The global function \CCstyle{bool CGAL_identical(CGAL_Class &, CGAL_Class &)}
+      replaces the member functions 
+      \CCstyle{bool CGAL_Class::identical(CGAL_Class &)}.
+
+\item In class \CCstyle{CGAL_Segment_2}: \CCstyle{source()}/\CCstyle{target()}
+      replaces \CCstyle{start()}\CCstyle{end()}.
+
+\item In class \CCstyle{CGAL_Ray_2}: \CCstyle{source()}
+      replaces \CCstyle{start()}.
+
+\item We introduced \CCstyle{CGAL_Oriented_side} and 
+      \CCstyle{CGAL_Bounded_side} which replace \CCstyle{CGAL_Oriented_side}.
+
+\item Most predicates that started with \CCstyle{is_} now start
+      with \CCstyle{has_}.
+
+\item Intersection computations have now a more elegant mechanism.
+\end{enumerate} 

@@ -1,0 +1,106 @@
+% $Id: Iso_rectangle_2.tex,v 1.1 1995/10/19 18:22:12 fabri Exp fabri $
+
+\begin {classtemplate} {CGAL_Iso_rectangle_2<R>}
+\CCsection{2D Iso Rectangle}
+
+\definition  An object $s$ of the data type \CCstyle{Iso_rectangle} is a
+rectangle in the Euclidean plane $\E_2$ with sides parallel to the $x$ and
+$y$ axis of the coordinate system.
+ 
+Although they are represented in a canonical form by only two
+vertices, namely the lower left and the upper right vertex, we provide
+functions for ``accessing'' the other vertices as well. The vertices
+are returned in counterclockwise order.
+
+Iso-oriented rectangles and bounding boxes are quite similar. The
+difference however is that bounding boxes have always double coordinates, 
+whereas the coordinate type of an iso-oriented rectangle is chosen by
+the user.
+
+
+\creation
+\creationvariable{r}
+
+\CCstyle{#include <CGAL/Iso_rectangle_2.h>}
+
+\hidden \constructor{CGAL_Iso_rectangle_2();}
+             {introduces an uninitialized variable \var.}
+
+\hidden \constructor{CGAL_Iso_rectangle_2(const CGAL_Iso_rectangle_2<R> &u);}
+ 	    {copy constructor.}
+
+\constructor{CGAL_Iso_rectangle_2(const CGAL_Point_2<R> &p, 
+	                          const CGAL_Point_2<R> &q);}
+            {introduces an iso-oriented rectangle \var\ with diagonal
+             opposite vertices $p$ and $q$. Note, that the object is 
+             brought in the canonical form.}
+
+
+\operations
+\threecolumns{5cm}{4cm}
+
+\hidden \method{CGAL_Iso_rectangle_2<R> & operator=(const CGAL_Iso_rectangle_2<R> &q);}
+        {Assignment.}
+
+\method{bool operator==(const CGAL_Iso_rectangle_2<R> &r2) const;}
+       {Test for equality: two iso-oriented rectangles are equal, iff their
+        lower left and their upper right vertices are equal.}
+
+\method{bool operator!=(const CGAL_Iso_rectangle_2<R> &r2) const;}
+       {Test for inequality.}
+
+
+\method{CGAL_Point_2<R> vertex(int i) const;}
+       {returns the i'th vertex modulo 4  of \var\ in counterclockwise order, 
+        starting with the lower left vertex.}
+
+\method{CGAL_Point_2<R> operator[](int i) const;}
+       {returns  \CCstyle{vertex(i)}.}
+
+\method{CGAL_Point_2<R> min() const;}
+       {returns the lower left vertex of \var\ (= \CCstyle{vertex(0)}).}
+
+
+\method{CGAL_Point_2<R> max() const;}
+       {returns the upper right vertex of \var\ (= \CCstyle{vertex(2)}).}
+
+
+\method{bool is_degenerate() const;}
+       {the iso-oriented rectangle \var\ is degenerate, if all vertices
+        are collinear.}
+
+
+\method{CGAL_Bounded_side bounded_side(const CGAL_Point_2<R> &p) const;}
+       {returns \CCstyle{CGAL_ON_BOUNDED_SIDE}, \CCstyle{CGAL_ON_BOUNDARY} or 
+        \CCstyle{CGAL_ON_UNBOUNDED_SIDE}, depending on where point $p$ is.}
+
+\method{bool has_on_boundary(const CGAL_Point_2<R> &p) const;}
+       {}
+
+\method{bool has_on_bounded_side(const CGAL_Point_2<R> &p) const;}
+       {}
+
+\method{bool has_on_unbounded_side(const CGAL_Point_2<R> &p) const;}
+       {}
+
+\method{CGAL_Bbox bbox() const;}
+       {returns a bounding box containing \var. }
+
+\method{CGAL_Iso_rectangle_2<R>  transform(const CGAL_Aff_transformation_2<R> &t) const;}
+       {returns the iso-oriented rectangle obtained by applying $t$ on 
+        the lower left and the upper right corner of \var.
+        \precond The angle at a rotation must be a multiple of $\pi/2$,
+        otherwise the resulting rectangle does not have the same side length.
+        Note that rotating about an arbitrary angle can even result in
+        a degenerate  iso-oriented rectangle.}
+
+
+
+
+
+\end {classtemplate} 
+
+% $Log: Iso_rectangle_2.tex,v $
+% Revision 1.1  1995/10/19 18:22:12  fabri
+% Initial revision
+%

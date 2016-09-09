@@ -1,0 +1,186 @@
+@! $RCSfile: Float.fw,v $
+@! $Revision: 1.1 $
+@! $Date: 1996/03/13 15:32:23 $
+
+@! Author: Geert-Jan Giezeman (geert@cs.ruu.nl)
+
+@B@<How float became a valid CGAL field type@>
+
+The following routines are necessary in order for @{float@} to obey the
+rules for CGAL field types.
+
+@O@<../include/CGAL/Float.h@>==@{@-
+@<CGAL notice@>
+
+#ifndef CGAL_FLOAT_H
+#define CGAL_FLOAT_H 1
+
+#include <CGAL/misc.h>
+#include <CGAL/bool.h>
+#include <math.h>
+
+
+
+inline double CGAL_to_double(float f)
+{
+    return (double)f;
+}
+/*
+inline float CGAL_abs(float f)
+{
+    return fabs(f);
+}
+*/
+inline float CGAL_denominator(float)
+{
+  return 1.0;
+}
+
+inline float CGAL_numerator(float f)
+{
+  return f;
+}
+
+inline CGAL_Number_tag CGAL_number_type_tag(float)
+{
+  return CGAL_Number_tag();
+}
+
+extern bool CGAL_is_finite(float f);
+
+extern bool CGAL_is_valid(float f);
+
+
+
+#endif // CGAL_FLOAT_H
+@}
+
+
+@C@<Source File@>
+
+The implementation of the IEEE standard for floating point is different
+on the
+various systems.
+
+
+@O@<../src/Float.C@>==@{@-
+@<CGAL notice@>
+#include <CGAL/Float.h>
+
+@<Float definitions for SGI@>
+@<Float definitions for HP@>
+@<Float definitions for Sun@>
+
+@}
+
+
+@$@<Float definitions for SGI@>==@{@-
+#ifdef __sgi
+
+// implementation for SGI IRIX 5.3.
+#include <fp_class.h>
+
+bool CGAL_is_finite(float d)
+{
+    switch (fp_class_f(d)) {
+    case FP_POS_NORM:
+    case FP_NEG_NORM:
+    case FP_POS_ZERO:
+    case FP_NEG_ZERO:
+    case FP_POS_DENORM:
+    case FP_NEG_DENORM:
+        return true;
+    case FP_SNAN:
+    case FP_QNAN:
+    case FP_POS_INF:
+    case FP_NEG_INF:
+        return false;
+    }
+    return false; // NOT REACHED
+}
+
+bool CGAL_is_valid(float d)
+{
+    switch (fp_class_f(d)) {
+    case FP_POS_NORM:
+    case FP_NEG_NORM:
+    case FP_POS_ZERO:
+    case FP_NEG_ZERO:
+    case FP_POS_INF:
+    case FP_NEG_INF:
+    case FP_POS_DENORM:
+    case FP_NEG_DENORM:
+        return true;
+    case FP_SNAN:
+    case FP_QNAN:
+        return false;
+    }
+    return false; // NOT REACHED
+}
+
+#endif // __sgi
+@}
+
+@$@<Float definitions for HP@>==@{@-
+#ifdef __hpux
+
+// implementation for HP
+#include <math.h>
+
+bool CGAL_is_valid(float f)
+{
+    return isnanf(f) == 0;
+}
+
+bool CGAL_is_finite(float f)
+{
+    switch (fpclassifyf(f)) {
+    case FP_PLUS_NORM:
+    case FP_MINUS_NORM:
+    case FP_PLUS_ZERO:
+    case FP_MINUS_ZERO:
+    case FP_PLUS_DENORM:
+    case FP_MINUS_DENORM:
+        return true;
+    case FP_PLUS_INF:
+    case FP_MINUS_INF:
+    case FP_SNAN:
+    case FP_QNAN:
+        return false;
+    }
+    return false; // NOT REACHED
+}
+
+#endif // __hpux
+@}
+
+
+
+@$@<Float definitions for Sun@>==@{@-
+#ifdef __sun
+
+// implementation for SUN
+
+#ifdef __SVR4
+#include <ieeefp.h>
+#endif // __SVR4
+
+#ifdef __svr4__
+#include <ieeefp.h>
+#endif //  __svr4__
+
+// implementation for Sun
+#include <math.h>
+
+bool CGAL_is_valid(float f)
+{
+    return isnanf(f) == 0;
+}
+
+bool CGAL_is_finite(float f)
+{
+    return finite(f);
+}
+
+#endif // __sun
+@}

@@ -1,0 +1,108 @@
+<HEAD>
+<TITLE>The CGAL Kernel Manual: Transformations</TITLE>
+<!-- Manual page automatically extracted from the TeX source. -->
+</HEAD>
+
+<BODY BGCOLOR="FAF8E8" TEXT="#000000"><A HREF="contents.html">Table of Contents</A>,
+<A HREF="biblio.html">Bibliography</A>,
+<A HREF="manual_index.html">Index</A>,
+<A HREF="title.html">Title Page</A>
+<HR>
+
+<H1>Transformations</H1>
+<A NAME="AffTransformation"></A><P>
+
+CGAL provides affine transformations. The primitive objects in
+CGAL are closed under affine transformations except
+for iso-oriented objects and bounding boxes.<P>
+
+The general form of an affine transformation is based on homogeneous
+representation of points. Thereby all transformations can be realized by
+matrix multiplication.<P>
+
+Since the general form is based on the homogeneous representation, a
+transformation matrix multiplication by a scalar does not change
+the represented transformation. Therefore, any transformation represented
+by a matrix with rational entries can be represented by a
+transformation matrix with integer entries as well by multiplying
+the matrix with the common denominator of the rational entries.
+Hence it is sufficient to have number type <VAR>R::RT</VAR> for the entries
+of an affine transformation.<P>
+
+CGAL offers several specialized affine transformations. They are
+hidden behind the interface class.
+Different constructors are provided to create them.
+They are parameterized with a symbolic name to
+denote the transformation type, followed by additional parameters.
+The symbolic name tags solves ambiguities in the function
+overloading and they make the code more readable, i.e. what type
+of transformation is created. These name tags are constants of an
+appropriate type.<P>
+
+<A NAME="Var_CGAL_TRANSLATION"></A>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    const CGAL_Translation
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="Chapter_AffTransformation.html#Var_CGAL_TRANSLATION">CGAL_TRANSLATION</A>;
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<A NAME="Var_CGAL_ROTATION"></A>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    const CGAL_Rotation
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="Chapter_AffTransformation.html#Var_CGAL_ROTATION">CGAL_ROTATION</A>;
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<A NAME="Var_CGAL_SCALING"></A>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    const CGAL_Scaling
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="Chapter_AffTransformation.html#Var_CGAL_SCALING">CGAL_SCALING</A>;
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<UL><LI>
+Class declaration for <VAR><A HREF="CGAL_Aff_transformation_2.html">CGAL_Aff_transformation_2&lt;R&gt;</A></VAR>.</UL>
+
+<P>
+
+<UL><LI>
+Class declaration for <VAR><A HREF="CGAL_Aff_transformation_3.html">CGAL_Aff_transformation_3&lt;R&gt;</A></VAR>.</UL>
+
+<P>
+
+<P><HR> Next chapter: <A HREF="Chapter_Bbox_2.html">Bounding Boxes</A>
+
+
+<HR><address> The <A HREF="http://www.cs.ruu.nl/CGAL/"><TT>CGAL</TT> Project</A>.</address>
+</BODY>
+</HTML>

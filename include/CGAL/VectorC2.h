@@ -1,4 +1,20 @@
- 
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: VectorC2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -8,9 +24,8 @@
 #include <CGAL/Twotuple.h>
 #include <CGAL/PointC2.h>
 
- 
 template < class FT >
-class CGAL_VectorC2 : public CGAL_Handle_base
+class CGAL_VectorC2 : public CGAL_Handle
 {
 friend CGAL_VectorC2<FT> operator-(const CGAL_PointC2<FT> &p,
                                    const CGAL_Origin &o);
@@ -34,8 +49,13 @@ friend CGAL_VectorC2<FT> CGAL_DirectionC2<FT>::vector() const;
 
 public:
                        CGAL_VectorC2();
+
                        CGAL_VectorC2(const CGAL_VectorC2 &v);
+
+                       CGAL_VectorC2(const CGAL_Null_vector &);
+
                        CGAL_VectorC2(const FT &hx, const FT &hy, const FT &hw);
+
                        CGAL_VectorC2(const FT &x, const FT &y);
 
                        ~CGAL_VectorC2();
@@ -43,9 +63,13 @@ public:
 
   CGAL_VectorC2<FT>    &operator=(const CGAL_VectorC2<FT> &v);
 
-  bool                 operator==(const CGAL_VectorC2 &p) const;
-  bool                 operator!=(const CGAL_VectorC2 &p) const;
-  bool                 identical(const CGAL_VectorC2 &p) const;
+  bool                 operator==(const CGAL_VectorC2<FT> &v) const;
+  bool                 operator!=(const CGAL_VectorC2<FT> &v) const;
+
+  bool                 operator==(const CGAL_Null_vector &) const;
+  bool                 operator!=(const CGAL_Null_vector &p) const;
+
+  int                  id() const;
 
   FT                   hx() const;
   FT                   hy() const;
@@ -60,20 +84,15 @@ public:
 
   int                  dimension() const;
 
-  CGAL_VectorC2        operator+(const CGAL_VectorC2 &w) const;
-  CGAL_VectorC2        operator-(const CGAL_VectorC2 &w) const;
+  CGAL_VectorC2        operator+(const CGAL_VectorC2<FT> &w) const;
+  CGAL_VectorC2        operator-(const CGAL_VectorC2<FT> &w) const;
   CGAL_VectorC2        operator-() const;
-  FT                   operator*(const CGAL_VectorC2 &w) const;
-  CGAL_VectorC2        operator*(const FT &c) const;
+  FT                   operator*(const CGAL_VectorC2<FT> &w) const;
   CGAL_VectorC2        operator/(const FT &c) const;
   CGAL_DirectionC2<FT> direction() const;
 
-  CGAL_VectorC2<FT>    perpendicular(const CGAL_Ordertype &o) const;
+  CGAL_VectorC2<FT>    perpendicular(const CGAL_Orientation &o) const;
   CGAL_VectorC2<FT>    transform(const CGAL_Aff_transformationC2<FT> &) const;
-
-#ifdef CGAL_CHECK_PRECONDITIONS
-  bool                 is_defined() const;
-#endif
 
 protected:
                        CGAL_VectorC2(const CGAL_PointC2<FT> &p);
@@ -81,45 +100,34 @@ protected:
 private:
   CGAL__Twotuple<FT>*   ptr() const;
 };
- 
-
- 
-#ifdef CGAL_CHECK_PRECONDITIONS
-template < class FT >
-inline bool CGAL_VectorC2<FT>::is_defined() const
-{
-  return (PTR == NULL)? false : true;
-}
-#endif
 
 template < class FT >
 inline CGAL__Twotuple<FT>*   CGAL_VectorC2<FT>::ptr() const
 {
   return (CGAL__Twotuple<FT>*)PTR;
 }
- 
 
 
 #include <CGAL/DirectionC2.h>
 
 
- 
 template < class FT >
 CGAL_VectorC2<FT>::CGAL_VectorC2()
 {
-#ifdef CGAL_CHECK_PRECONDITIONS
-  PTR = NULL;
-#else
   PTR = new CGAL__Twotuple<FT>();
-#endif
 }
 
 template < class FT >
 inline CGAL_VectorC2<FT>::CGAL_VectorC2(const CGAL_VectorC2<FT>  &v) :
-  CGAL_Handle_base((CGAL_Handle_base&)v)
+  CGAL_Handle((CGAL_Handle&)v)
+{}
+
+template < class FT >
+CGAL_VectorC2<FT>::CGAL_VectorC2(const CGAL_Null_vector &)
 {
-  // CGAL_kernel_precondition(v.is_defined());
+PTR = new CGAL__Twotuple<FT>(FT(0), FT(0));
 }
+
 
 template < class FT >
 CGAL_VectorC2<FT>::CGAL_VectorC2(const FT &hx, const FT &hy, const FT &hw)
@@ -144,29 +152,26 @@ inline CGAL_VectorC2<FT>::~CGAL_VectorC2()
 template < class FT >
 CGAL_VectorC2<FT> &CGAL_VectorC2<FT>::operator=(const CGAL_VectorC2<FT> &v)
 {
-  CGAL_kernel_precondition(v.is_defined());
-  CGAL_Handle_base::operator=(v);
+
+  CGAL_Handle::operator=(v);
   return *this;
 }
- 
 template < class FT >
 inline CGAL_VectorC2<FT>::CGAL_VectorC2(const CGAL_PointC2<FT> &p) :
-  CGAL_Handle_base((CGAL_Handle_base&)p)
+  CGAL_Handle((CGAL_Handle&)p)
 {
-  CGAL_kernel_precondition(p.is_defined());
+
 }
 
 template < class FT >
 inline CGAL_VectorC2<FT>::CGAL_VectorC2(const CGAL_DirectionC2<FT> &d) :
-  CGAL_Handle_base((CGAL_Handle_base&)d)
+  CGAL_Handle((CGAL_Handle&)d)
 {
-  CGAL_kernel_precondition(d.is_defined());
+
 }
- 
 template < class FT >
 bool CGAL_VectorC2<FT>::operator==(const CGAL_VectorC2<FT> &v) const
 {
-  CGAL_kernel_precondition(is_defined() && v.is_defined());
   return  ((x() == v.x()) && (y() == v.y())) ;
 }
 
@@ -177,30 +182,40 @@ inline bool CGAL_VectorC2<FT>::operator!=(const CGAL_VectorC2<FT> &v) const
 }
 
 template < class FT >
-bool CGAL_VectorC2<FT>::identical(const CGAL_VectorC2<FT> &v) const
+bool CGAL_VectorC2<FT>::operator==(const CGAL_Null_vector &) const
 {
-  CGAL_kernel_precondition(is_defined() && v.is_defined());
-  return ( PTR == v.PTR );
+  return  ((x() == FT(0)) && (y() == FT(0))) ;
 }
- 
+
+template < class FT >
+inline bool CGAL_VectorC2<FT>::operator!=(const CGAL_Null_vector &v) const
+{
+  return !(*this == v);
+}
+
+template < class FT >
+int CGAL_VectorC2<FT>::id() const
+{
+  return (int) PTR ;
+}
 template < class FT >
 FT CGAL_VectorC2<FT>::x()  const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return ptr()->e0;
 }
 
 template < class FT >
 FT CGAL_VectorC2<FT>::y()  const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return  ptr()->e1 ;
 }
 
 template < class FT >
 inline FT  CGAL_VectorC2<FT>::cartesian(int i) const
 {
-  CGAL_kernel_precondition((i == 0 || i == 1) && is_defined());
+  CGAL_kernel_precondition( (i == 0) || (i == 1) );
   if(i == 0) {
     return x();
   }
@@ -216,42 +231,43 @@ inline FT  CGAL_VectorC2<FT>::operator[](int i) const
 template < class FT >
 inline int CGAL_VectorC2<FT>::dimension() const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return 2;
 }
 
 template < class FT >
 FT CGAL_VectorC2<FT>::hx()  const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return ptr()->e0;
 }
 
 template < class FT >
 FT CGAL_VectorC2<FT>::hy()  const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return ptr()->e1;
 }
 
 template < class FT >
 FT CGAL_VectorC2<FT>::hw()  const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return FT(1);
 }
 
 template < class FT >
 FT  CGAL_VectorC2<FT>::homogeneous(int i) const
 {
+  if (i == 2) {
+    return FT(1);
+  }
   return cartesian(i);
 }
- 
 template < class FT >
 inline CGAL_VectorC2<FT> CGAL_VectorC2<FT>::operator+(
                                              const CGAL_VectorC2<FT> &w) const
 {
-  CGAL_kernel_precondition(is_defined() && w.is_defined());
   return CGAL_VectorC2<FT>(x() + w.x(), y() + w.y()) ;
 }
 
@@ -259,58 +275,46 @@ template < class FT >
 inline CGAL_VectorC2<FT> CGAL_VectorC2<FT>::operator-(
                                              const CGAL_VectorC2<FT> &w) const
 {
-  CGAL_kernel_precondition(is_defined() && w.is_defined());
   return CGAL_VectorC2<FT>(x() - w.x(), y() - w.y()) ;
 }
 
 template < class FT >
 inline CGAL_VectorC2<FT> CGAL_VectorC2<FT>::operator-() const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return CGAL_VectorC2<FT>(-x(), -y()) ;
 }
 
 template < class FT >
 inline FT CGAL_VectorC2<FT>::operator*(const CGAL_VectorC2<FT> &w) const
 {
-  CGAL_kernel_precondition(is_defined() && w.is_defined());
   return x() * w.x() + y() * w.y() ;
 }
 
 template < class FT >
 CGAL_VectorC2<FT> operator*(const FT &c, const CGAL_VectorC2<FT> &w)
 {
-  CGAL_kernel_precondition(w.is_defined());
    return CGAL_VectorC2<FT>( c* w.x(), c * w.y()) ;
 }
 
-template < class FT >
-inline CGAL_VectorC2<FT> CGAL_VectorC2<FT>::operator*(const FT &c) const
-{
-  CGAL_kernel_precondition(is_defined());
-  return CGAL_VectorC2<FT>( c* x(), c * y()) ;
-}
 
 template < class FT >
 inline CGAL_VectorC2<FT> CGAL_VectorC2<FT>::operator/(const FT &c) const
 {
-  CGAL_kernel_precondition(is_defined());
   return CGAL_VectorC2<FT>( x()/c, y()/c) ;
 }
- 
 
 template < class FT >
 inline CGAL_DirectionC2<FT>   CGAL_VectorC2<FT>::direction() const
 {
-  CGAL_kernel_precondition(is_defined());
   return CGAL_DirectionC2<FT>(*this) ;
 }
 
 template < class FT >
 CGAL_VectorC2<FT> CGAL_VectorC2<FT>::perpendicular(
-                                                const CGAL_Ordertype &o) const
+                                                const CGAL_Orientation &o) const
 {
-  CGAL_kernel_precondition(is_defined() && (o != CGAL_COLLINEAR));
+  CGAL_kernel_precondition( o != CGAL_COLLINEAR );
   if(o == CGAL_COUNTERCLOCKWISE){
     return CGAL_VectorC2<FT>(-y(), x());
   }else{
@@ -322,11 +326,9 @@ template < class FT >
 CGAL_VectorC2<FT> CGAL_VectorC2<FT>::transform(
                                  const CGAL_Aff_transformationC2<FT> &t) const
 {
-  CGAL_kernel_precondition(is_defined());
   return t.transform(*this);
 }
 
- 
 
 
 #endif

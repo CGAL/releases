@@ -1,3 +1,20 @@
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: Iso_rectangle_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -52,9 +69,9 @@ public:
     return !(*this == r);
   }
 
-  bool identical(const CGAL_Iso_rectangle_2<R> &r) const
+  int id() const
   {
-    return (PTR == r.PTR);
+    return (int)PTR;
   }
 
   CGAL_Point_2<R> min() const
@@ -97,9 +114,34 @@ public:
     return vertex(i);
   }
 
+  CGAL_Bounded_side bounded_side(const CGAL_Point_2<R> &p) const
+    {
+      return R::Iso_rectangle_2::bounded_side(p);
+    }
+
+  bool has_on_boundary(const CGAL_Point_2<R> &p) const
+    {
+      return R::Iso_rectangle_2::has_on_boundary(p);
+    }
+
+  bool has_on_bounded_side(const CGAL_Point_2<R> &p) const
+    {
+      return R::Iso_rectangle_2::has_on_bounded_side(p);
+    }
+
+  bool has_on_unbounded_side(const CGAL_Point_2<R> &p) const
+    {
+      return R::Iso_rectangle_2::has_on_unbounded_side(p);
+    }
+
+  bool is_degenerate() const
+  {
+    return R::Iso_rectangle_2::is_degenerate();
+  }
+
   CGAL_Iso_rectangle_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
   {
-    return  CGAL_Iso_rectangle_2<R>(R::Iso_rectangle_2::transform(t));
+    return  R::Iso_rectangle_2::transform(t);
   }
 
 };

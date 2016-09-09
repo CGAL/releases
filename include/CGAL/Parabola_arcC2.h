@@ -1,4 +1,20 @@
- 
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: Parabola_arcC2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -7,33 +23,30 @@
 
 #include <CGAL/ParabolaC2.h>
 
- 
 template <class FT>
-class CGAL__Parabola_arcC2 : public CGAL_Handle_rep
+class CGAL__Parabola_arcC2 : public CGAL_Rep
 {
 public:
   CGAL_ParabolaC2<FT>  _par;
-  FT  _lambda_start;
-  FT  _lambda_end;
+  FT  _lambda_source;
+  FT  _lambda_target;
 
   CGAL__Parabola_arcC2()
     {}
 
   CGAL__Parabola_arcC2(const CGAL_ParabolaC2<FT> &par,
-                       const FT &lambda_start,
-                       const FT &lambda_end)
-    : _par(par), _lambda_start(lambda_start), _lambda_end(lambda_end)
+                       const FT &lambda_source,
+                       const FT &lambda_target)
+    : _par(par), _lambda_source(lambda_source), _lambda_target(lambda_target)
     {}
 
   ~CGAL__Parabola_arcC2()
     {}
 };
- 
 
 
- 
 template < class FT >
-class CGAL_Parabola_arcC2 : public CGAL_Handle_base
+class CGAL_Parabola_arcC2 : public CGAL_Handle
 {
 public:
                        CGAL_Parabola_arcC2();
@@ -53,16 +66,16 @@ public:
 
   bool                 operator==(const CGAL_Parabola_arcC2<FT> &l) const;
   bool                 operator!=(const CGAL_Parabola_arcC2<FT> &l) const;
-  bool                 identical(const CGAL_Parabola_arcC2<FT> &l) const;
+  int                  id() const;
 
   CGAL_ParabolaC2<FT>  supporting_parabola() const;
 
-  FT                   lambda_start() const;
-  FT                   lambda_end() const;
+  FT                   lambda_source() const;
+  FT                   lambda_target() const;
   FT                   lambda(int i) const;
 
-  CGAL_PointC2<FT>     start() const;
-  CGAL_PointC2<FT>     end() const;
+  CGAL_PointC2<FT>     source() const;
+  CGAL_PointC2<FT>     target() const;
   CGAL_PointC2<FT>     vertex(int i) const;
   CGAL_PointC2<FT>     operator[](int i) const;
 
@@ -71,25 +84,15 @@ public:
 
   CGAL_Parabola_arcC2<FT> opposite() const;
   CGAL_Bbox_2          bbox() const;
-  /*
+
   CGAL_Parabola_arcC2<FT> transform(
                               const CGAL_Aff_transformationC2<FT> &t) const;
-  */
-
-#ifdef CGAL_CHECK_PRECONDITIONS
-  bool                 is_defined() const
-  {
-    return (PTR == NULL) ? false : true;
-  }
-#endif // CGAL_CHECK_PRECONDITIONS
 
 private:
   CGAL__Parabola_arcC2<FT>* ptr() const;
 };
- 
 
 
- 
 
 template < class FT >
 inline CGAL__Parabola_arcC2<FT>* CGAL_Parabola_arcC2<FT>::ptr() const
@@ -97,24 +100,18 @@ inline CGAL__Parabola_arcC2<FT>* CGAL_Parabola_arcC2<FT>::ptr() const
   return (CGAL__Parabola_arcC2<FT>*)PTR;
 }
 
- 
 
 
 
- 
 template < class FT >
 CGAL_Parabola_arcC2<FT>::CGAL_Parabola_arcC2()
 {
-#ifdef CGAL_CHECK_PRECONDITIONS
-  PTR = NULL;
-#else
   PTR = new CGAL__Parabola_arcC2<FT>;
-#endif // CGAL_CHECK_PRECONDITIONS
 }
 
 template < class FT >
 CGAL_Parabola_arcC2<FT>::CGAL_Parabola_arcC2(const CGAL_Parabola_arcC2<FT>  &l)
-  : CGAL_Handle_base((CGAL_Handle_base&)l)
+  : CGAL_Handle((CGAL_Handle&)l)
 {}
 
 template < class FT >
@@ -135,107 +132,99 @@ template < class FT >
 CGAL_Parabola_arcC2<FT> &CGAL_Parabola_arcC2<FT>::operator=(
                                               const CGAL_Parabola_arcC2<FT> &l)
 {
-  CGAL_kernel_precondition(l.is_defined());
-  CGAL_Handle_base::operator=(l);
+
+  CGAL_Handle::operator=(l);
   return *this;
 }
- 
 template < class FT >
 bool CGAL_Parabola_arcC2<FT>::operator==(const CGAL_Parabola_arcC2<FT> &l) const
 {
-  CGAL_kernel_precondition(is_defined() && l.is_defined());
-
   return (supporting_parabola() == l.supporting_parabola()) &&
-         (lambda_start() == l.lambda_start()) &&
-         (lambda_end() == l.lambda_end());
+         (lambda_source() == l.lambda_source()) &&
+         (lambda_target() == l.lambda_target());
 
 }
 
 template < class FT >
 bool CGAL_Parabola_arcC2<FT>::operator!=(const CGAL_Parabola_arcC2<FT> &l) const
 {
-  CGAL_kernel_precondition(is_defined() && l.is_defined());
   return !(*this == l);
 }
 
 template < class FT >
-bool CGAL_Parabola_arcC2<FT>::identical(const CGAL_Parabola_arcC2<FT> &l) const
+int CGAL_Parabola_arcC2<FT>::id() const
 {
-  CGAL_kernel_precondition(is_defined() && l.is_defined());
-  return ( PTR == l.PTR );
+  return (int) PTR ;
 }
- 
 template < class FT >
 CGAL_ParabolaC2<FT> CGAL_Parabola_arcC2<FT>::supporting_parabola() const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return ptr()->_par;
 }
 
 template < class FT >
-FT CGAL_Parabola_arcC2<FT>::lambda_start() const
+FT CGAL_Parabola_arcC2<FT>::lambda_source() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return ptr()->_lambda_start;
+
+  return ptr()->_lambda_source;
 }
 
 template < class FT >
-FT CGAL_Parabola_arcC2<FT>::lambda_end() const
+FT CGAL_Parabola_arcC2<FT>::lambda_target() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return ptr()->_lambda_end;
+
+  return ptr()->_lambda_target;
 }
 
 template < class FT >
 FT CGAL_Parabola_arcC2<FT>::lambda(int i)  const
 {
-  CGAL_kernel_precondition(is_defined());
+
  switch (i%2) {
-  case 0: return lambda_start();
-  case 1: return lambda_end();
+  case 0: return lambda_source();
+  case 1: return lambda_target();
   }
-  return lambda_start();  // otherwise the SGI compiler complains
+  return lambda_source();  // otherwise the SGI compiler complains
 }
 
 
 template < class FT >
-CGAL_PointC2<FT> CGAL_Parabola_arcC2<FT>::start() const
+CGAL_PointC2<FT> CGAL_Parabola_arcC2<FT>::source() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return supporting_parabola()(lambda_start());
+
+  return supporting_parabola()(lambda_source());
 }
 
 template < class FT >
-CGAL_PointC2<FT> CGAL_Parabola_arcC2<FT>::end() const
+CGAL_PointC2<FT> CGAL_Parabola_arcC2<FT>::target() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return supporting_parabola()(lambda_end());
+
+  return supporting_parabola()(lambda_target());
 }
 
 
 template < class FT >
 CGAL_PointC2<FT> CGAL_Parabola_arcC2<FT>::vertex(int i) const
 {
-  CGAL_kernel_precondition(is_defined());
+
   switch (i%2) {
-  case 0: return start();
-  case 1: return end();
+  case 0: return source();
+  case 1: return target();
   }
-  return start();  // otherwise the SGI compiler complains
+  return source();  // otherwise the SGI compiler complains
 }
 
 template < class FT >
 CGAL_PointC2<FT> CGAL_Parabola_arcC2<FT>::operator[](int i) const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return vertex(i);
 }
- 
 
 template < class FT >
 bool CGAL_Parabola_arcC2<FT>::is_on(const CGAL_PointC2<FT> &p) const
 {
-  CGAL_kernel_precondition( is_defined() && p.is_defined() );
   CGAL_ParabolaC2<FT> par = supporting_parabola();
   FT lambda1, lambda2;
   switch (par.lambdas_at_x(p.x(), lambda1, lambda2)) {
@@ -253,7 +242,7 @@ bool CGAL_Parabola_arcC2<FT>::is_on(const CGAL_PointC2<FT> &p) const
 template < class FT >
 bool CGAL_Parabola_arcC2<FT>::is_degenerate() const
 {
-  CGAL_kernel_precondition( is_defined() );
+
   return (supporting_parabola().curvature() == FT(0)) ;
 }
 
@@ -261,28 +250,29 @@ template < class FT >
 CGAL_Parabola_arcC2<FT> CGAL_Parabola_arcC2<FT>::opposite() const
 {
   return CGAL_Parabola_arcC2<FT>(supporting_parabola().opposite(),
-                                 -lambda_end(),
-                                 -lambda_start());
+                                 -lambda_target(),
+                                 -lambda_source());
 }
 
 template < class FT >
 CGAL_Bbox_2  CGAL_Parabola_arcC2<FT>::bbox() const
 {
-  CGAL_kernel_precondition( is_defined() );
-  return supporting_parabola().base().bbox() + start().bbox() + end().bbox();
+
+  return supporting_parabola().base().bbox() +
+         source().bbox() + target().bbox();
 }
 
-/*
+
 template < class FT >
 CGAL_Parabola_arcC2<FT> CGAL_Parabola_arcC2<FT>::transform(
                                   const CGAL_Aff_transformationC2<FT> &t) const
 {
-  CGAL_kernel_precondition( is_defined() && t.is_defined() );
-  return CGAL_Parabola_arcC2<FT>( t.transform(point() ),
-                          t.transform(direction() ));
+  CGAL_ParabolaC2<FT> par = supporting_parabola().transform(t);
+  return CGAL_Parabola_arcC2<FT>(par,
+                                 lambda_source(),
+                                 lambda_target());
 }
-*/
- 
+
 
 
 

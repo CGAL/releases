@@ -1,0 +1,136 @@
+
+@ Some of the compiler flags are the same for application code,
+as well as for the static and the shared library.
+
+<< Internal CFLAGS >>=
+	       -DCGAL_LEDA_BASIC \
+               -DCGAL_CHECK_ASSERTIONS \
+               -DCGAL_CHECK_PRECONDITIONS \
+               -DCGAL_CHECK_EXACTNESS_PRECONDITIONS \
+               -I$(CGAL_INCL_DIR)   \
+               -I$(LEDA_INCL_DIR) \
+	       $(CGAL_FLAG_G)
+@
+
+<< CFLAGS >>=
+#..........................................................................
+# Compile time flags for application code
+
+CGAL_CFLAGS = \
+<< Internal CFLAGS >>
+
+
+@ 
+
+<< CGAL_LIB_CFLAGS >>=
+#..........................................................................
+# Compile time flags for compiling the static library 
+# 
+CFLAGS = \
+<< Internal CFLAGS >>
+
+
+@ For the shared library we have to create position independent code.
+
+<< CGAL_SH_LIB_CFLAGS >>=
+#..........................................................................
+# Compile time flags for compiling the shared library 
+# 
+CFLAGS =\
+<< Internal CFLAGS >>
+
+
+
+
+@ The Link time flags are only needed when applications are compiled.
+
+<< Linker Flags >>=
+#..........................................................................
+# Linker flags. Depending on whether you use the CGAL_Window_stream
+# or not you need more or less LEDA libraries:
+
+# without using the CGAL_Window_stream:
+#
+CGAL_LDFLAGS = -L$(LEDA_LIB_DIR) \
+               -L$(CGAL_LIB_DIR) \
+               -l$(CGAL_LIB_NAME)  -lL  -lm
+
+# with using the CGAL_Window_stream:
+#
+CGAL_WINDOW_LDFLAGS = -L$(LEDA_LIB_DIR) \
+                      -L$(CGAL_LIB_DIR) \
+                      -L/usr/lib/X11  \  \
+		      -rpath $(LEDA_LIB_DIR):$(CGAL_LIB_DIR) \
+                      -l$(CGAL_LIB_NAME) \
+                      -lW -lP -lG -lL  -lX11 -lm
+
+
+
+@ The Makefile for the static version of the library for SGI
+and the CC Compiler:
+
+<<irix5_CC/lib>>=
+
+<< Suffix Rule >>
+
+<< Kernel Library Name >>
+
+<< CGAL_LIB_CFLAGS >>
+
+<< Static Object Directory >>
+
+<< platform independent settings for making the library >>
+
+
+CGAL_LIB = lib$(CGAL_LIB_NAME).a
+
+
+lib:  $(CGAL_LIB_DIR)/$(CGAL_LIB)
+
+$(CGAL_LIB_DIR)/$(CGAL_LIB):  $(LIBOBJS)
+	ar cr   $(CGAL_LIB) $(LIBOBJS)
+	mv $(CGAL_LIB) $(CGAL_LIB_DIR)/$(CGAL_LIB)
+
+
+
+@ The Makefile for the shared version of the library for SGI
+and the CC Compiler:
+
+<<irix5_CC/sharedlib>>=
+
+<< Suffix Rule >>
+
+<< Kernel Library Name >>
+
+CGAL_LIB = lib$(CGAL_LIB_NAME).so
+
+
+<< CGAL_SH_LIB_CFLAGS >>
+
+<< Shared Object Directory >>
+
+<< platform independent settings for making the library >>
+
+
+sharedlib: $(CGAL_LIB_DIR)/$(CGAL_LIB)
+
+
+$(CGAL_LIB_DIR)/$(CGAL_LIB):  $(LIBOBJS)
+	@$(CC) -shared -o  $(CGAL_LIB) $(LIBOBJS) 
+	mv $(CGAL_LIB) $(CGAL_LIB_DIR)
+
+
+
+@ The Makefile for CGAL applications for SGI
+and the CC Compiler:
+
+<<irix5_CC/application>>=
+
+
+<< Suffix Rule >>
+
+<< Kernel Library Name >>
+
+<< CFLAGS >>
+
+<< Linker Flags >>

@@ -1,3 +1,20 @@
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: determinant.h
 // Author: Stefan.Schirra@mpi-sb.mpg.de
 
@@ -5,6 +22,16 @@
 #define CGAL_DETERMINANT_H
 
 
+
+
+
+template <class FT>
+FT
+CGAL_det2x2_by_formula( const FT& a, const FT& b,
+                        const FT& c, const FT& d)
+{
+return (   a*d - b*c );
+}
 
 
 template <class FT>

@@ -1,73 +1,20 @@
+This is the README file the CGAL Kernel library
 
-CGAL KERNEL README
-
-Release 0.4
-
-.......................................................................
-The files are organized as follows:
-
-Cgal/include/CGAL/*.h        --- header files
-Cgal/src/*.C                 --- C++ source code
-
-Cgal/doc/manual.ps           --- The User Manual
-Cgal/doc/*.ps                --- Other helpful documents
-
-Cgal/example/*               --- Example applications
   
-Cgal/test/*                  --- Test suites for the kernel
-        
 
-.......................................................................
-How to install CGAL:
+See in the INSTALL file for how to install CGAL
 
-See the file Cgal/src/README
+See directory doc_ps for some Postscript documents, among others the 
+Cgal Reference Manual.
 
+See directory doc_html for the online manual cgal.html.
 
-.......................................................................
-How to use CGAL in your own application? 
+Please have a look at README_RTTI if you are using g++
 
-You best look at the directory Cgal/example. It gives you a master
-makefile and some examples for applications. 
+The directory 'example' is intended for the first steps with Cgal.
+Users should copy it to their own file system, read the README to
+see how to adapt the makefile, compile the two example programs
+and use them as a starting point for developing Cgal code.
 
-See the file Cgal/example/README
+CGAl-0.5/makefile is a master copy of a makefile for users of Cgal.
 
-
-.......................................................................
-Documentation
-
-The directory Cgal/doc contains several Postscript files. 
-
-The manual (manual.ps) comes in A4 format. It is written in LaTeX book
-style and you obtain a little booklet if you use the ps2book command.
-
-Input/Output is not part of the geometric objects but in support
-libraries. The file support-library.ps gives more details.
-
-The file coding-conventions.ps gives some rules and recommendations on
-who to write good C++ code. Consider the rules as recommendations too.
-
-The file funnelweb.ps gives a four page introduction to funnelweb,
-a literate programming tool we used during the development of the 
-kernel. 
-
-Finally the file workshop.ps contains the article we wrote for the 
-implementation workshop, Philadelphia 96.
-
-
-.......................................................................
-What if you have problems?
-
-First have a look at the manual. Maybe we only have explained things in
-an obscure way and a second look at it reveals what we really meant.
-
-If that does not help ask the local CGAL responsable. 
-
-If that does not help have a look at the header file and send an 
-email to the person who wrote the code. Most probably you will find 
-
-
- o  fabri@sophia.inria.fr      (Andreas Fabri)
- o  geert@cs.ruu.nl            (Geert-Jan Giezeman)
- o  kettner@inf.fu-berlin.de   (Lutz Kettner)
- o  schirra@mpi-sb.mpg.de      (Stefan Schirra)
- o  sven@inf.fu-berlin.de      (Sven Schoenherr) 

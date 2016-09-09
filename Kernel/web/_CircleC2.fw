@@ -1,0 +1,47 @@
+@! $RCSfile: _CircleC2.fw,v $
+@! $Revision: $
+@! $Date:  $
+
+@! Author: Andreas.Fabri@@sophia.inria.fr
+
+
+@C@<Class CGAL__CircleC2<Type>@>
+
+This is the representation class of cartesian circles represented by
+the center point and the squared radius.
+
+@O@<../include/CGAL/_CircleC2.h@>==@{@-
+@<CGAL notice@>
+// Source: _CircleC2.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL__CIRCLEC2_H
+#define CGAL__CIRCLEC2_H
+
+template < class T >
+class CGAL__CircleC2 : public CGAL_Rep
+{
+public:
+
+  CGAL_PointC2<T>  center;
+  T  squared_radius;
+  CGAL_Orientation orientation;
+
+
+  CGAL__CircleC2()
+    {}
+
+  CGAL__CircleC2(const CGAL_PointC2<T> & c,
+                 const T & r,
+                 const CGAL_Orientation &o)
+    : center(c), squared_radius(r), orientation(o)
+    {}
+
+  ~CGAL__CircleC2()
+    {}
+};
+#endif  // CGAL__CIRCLEC2_H
+@}
+
+@! $Log: _CircleC2.fw,v $
+@!

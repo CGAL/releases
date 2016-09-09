@@ -1,0 +1,36 @@
+
+
+@C@<Boolean@>
+
+Some compilers have a built-in boolena type, LEDA defines one
+and CGAL also defines one, if it is not defined by LEDA.
+
+@O@<../include/CGAL/bool.h@>==@{@-
+@<CGAL notice@>
+// Source: bool.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL_BOOL_H
+#define CGAL_BOOL_H
+
+
+#if !defined(__BUILTIN_BOOL__)
+
+
+#ifndef CGAL_LEDA_BASIC
+
+typedef char bool;
+
+enum {false=0, true=1};
+
+#else
+
+#include <LEDA/basic.h>
+
+#endif // CGAL_LEDA_BASIC
+
+#endif  // __BUILTIN_BOOL__
+
+#endif // CGAL_BOOL_H
+
+@}

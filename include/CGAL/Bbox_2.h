@@ -1,17 +1,32 @@
- 
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: Bbox_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
 #ifndef CGAL_BBOX_2_H
 #define CGAL_BBOX_2_H
 
-#include <CGAL/cartesian_classes.h>
-#include <CGAL/Handle.h>
-#include <CGAL/Fourtuple.h>
-#include <LEDA/misc.h>
 
- 
-class CGAL_Bbox_2 : public CGAL_Handle_base
+#include <CGAL/basic.h>
+#include <CGAL/cartesian_classes.h>
+#include <CGAL/Fourtuple.h>
+
+class CGAL_Bbox_2 : public CGAL_Handle
 {
 public:
                          CGAL_Bbox_2();
@@ -34,23 +49,10 @@ public:
 
   CGAL_Bbox_2              operator+(const CGAL_Bbox_2 &b) const;
 
-#ifdef CGAL_CHECK_PRECONDITIONS
-  bool             is_defined() const;
-#endif // CGAL_CHECK_PRECONDITIONS
-
 private:
   inline CGAL__Fourtuple<double>*   ptr() const;
 };
- 
 
-
- 
-#ifdef CGAL_CHECK_PRECONDITIONS
-inline bool CGAL_Bbox_2::is_defined() const
-{
-  return (PTR == NULL)? false : true;
-}
-#endif // CGAL_CHECK_PRECONDITIONS
 
 
 inline CGAL__Fourtuple<double>* CGAL_Bbox_2::ptr() const
@@ -85,7 +87,7 @@ inline double CGAL_Bbox_2::ymax() const
 
 inline double CGAL_Bbox_2::min(int i) const
 {
-  CGAL_kernel_precondition((i == 0 || i == 1 ) && is_defined());
+  CGAL_kernel_precondition( (i == 0 ) || ( i == 1 ) );
   if(i == 0) {
     return xmin();
   }
@@ -94,22 +96,20 @@ inline double CGAL_Bbox_2::min(int i) const
 
 inline double CGAL_Bbox_2::max(int i) const
 {
-  CGAL_kernel_precondition((i == 0 || i == 1 ) && is_defined());
+  CGAL_kernel_precondition( (i == 0 ) || ( i == 1 ) );
   if(i == 0) {
     return xmax();
   }
   return ymax();
 }
- 
 inline CGAL_Bbox_2 CGAL_Bbox_2::operator+(const CGAL_Bbox_2 &b) const
 {
-  return CGAL_Bbox_2(Min(xmin(), b.xmin()),
-                    Min(ymin(), b.ymin()),
-                    Max(xmax(), b.xmax()),
-                    Max(ymax(), b.ymax()));
+  return CGAL_Bbox_2(CGAL_min(xmin(), b.xmin()),
+                     CGAL_min(ymin(), b.ymin()),
+                     CGAL_max(xmax(), b.xmax()),
+                     CGAL_max(ymax(), b.ymax()));
 }
- 
-inline bool do_overlap(const CGAL_Bbox_2 &bb1, const CGAL_Bbox_2 &bb2)
+inline bool CGAL_do_overlap(const CGAL_Bbox_2 &bb1, const CGAL_Bbox_2 &bb2)
 {
     // check for emptiness ??
     if (bb1.xmax() < bb2.xmin() || bb2.xmax() < bb1.xmin())
@@ -118,6 +118,5 @@ inline bool do_overlap(const CGAL_Bbox_2 &bb1, const CGAL_Bbox_2 &bb2)
         return false;
     return true;
 }
- 
 
 #endif // CGAL_BBOX_2_H

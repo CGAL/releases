@@ -1,0 +1,209 @@
+@! $RCSfile: kernel.fw,v $
+@! $Revision: 1.5 $
+@! $Date: 1996/06/07 15:56:39 $
+
+\documentclass[]{article}
+\usepackage{amssymb}   % better mathematical symbols
+\usepackage{fw-latex}
+\usepackage{cgal}      % useful macros concerning CGAL
+
+\textwidth=6in
+\textheight=8.9in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.5in
+\begin{document}
+
+@p typesetter = tex
+@p no_doc_header
+
+\def\fwodef{\parindent=15pt\vskip0pt\parindent=20pt}
+\def\fwcdef{\vskip0pt\parindent=0pt}
+
+
+\title{\bf CGAL Kernel Implementation}
+\author{}
+
+\maketitle
+
+@t table_of_contents
+
+@i preliminaries.fw
+
+@i Numbertype.fw
+
+
+@i user_classes.fw
+
+@i PointVectorDirection_2.fw
+
+@i LineRaySegment_2.fw
+
+@i Simplices_2.fw
+
+@i Iso_objects_2.fw
+
+@i Circle_2.fw
+
+@i Parabola_2.fw
+
+@i Parabola_arc_2.fw
+
+@i aff_transformation_tags.fw
+
+@i rational_rotation.fw
+@i Aff_transformation_2.fw
+
+
+@i intersection.fw
+
+@i sqdistance_2.fw
+
+@i predicates_on_points_2.fw
+
+@i predicates_on_lines_2.fw
+
+@i Bbox_2.fw
+
+
+@i PointVectorDirection_3.fw
+
+@i LineRaySegment_3.fw
+
+@i Triangle_3.fw
+
+@i Tetrahedron_3.fw
+
+@i Plane_3.fw
+
+@i predicates_on_points_3.fw
+
+@i Aff_transformation_3.fw
+
+
+@i Bbox_3.fw
+
+
+
+@A@<2D Cartesian Geometric Objects@>
+
+@i Cartesian.fw
+
+@i PointVectorDirectionC2.fw
+
+@i LineRaySegmentC2.fw
+
+@i SimplicesC2.fw
+
+@i Iso_objectsC2.fw
+
+@i CircleC2.fw
+@i _CircleC2.fw
+
+@i ParabolaC2.fw
+
+@i Parabola_arcC2.fw
+
+@i Aff_transformationC2.fw
+
+@i predicates_on_pointsC2.fw
+
+@i predicates_on_linesC2.fw
+
+@A@<2D Homogeneous Objects@>
+
+@i Homogeneous.fw
+
+@i PointVectorDirectionH2.fw
+
+@i LineRaySegmentH2.fw
+
+@i TriangleH2.fw
+
+@i Iso_rectangleH2.fw
+
+@i CircleH2.fw
+
+@i Aff_transformationH2.fw
+
+
+@i predicates_on_pointsH2.fw
+
+@i predicates_on_linesH2.fw
+
+@i distance_predicatesH2.fw
+
+@i basic_constructionsH2.fw
+
+
+
+@A@<3D Cartesian Geometric Objects@>
+
+@i PointVectorDirectionC3.fw
+
+@i LineRaySegmentC3.fw
+
+@i PlaneC3.fw
+
+@i TriangleC3.fw
+
+@i TetrahedronC3.fw
+
+@i Aff_transformationC3.fw
+
+
+@i predicates_on_pointsC3.fw
+
+@i solveC3.fw
+
+
+@A@<3D Homogeneous Geometric Objects@>
+
+@i PointVectorDirectionH3.fw
+
+@i LineRaySegmentH3.fw
+
+@i PlaneH3.fw
+
+@i TriangleH3.fw
+
+@i TetrahedronH3.fw
+
+@i Aff_transformationH3.fw
+
+
+@i predicates_on_pointsH3.fw
+
+
+
+@A@<Specializations@>
+
+@i double-specializationsC2.fw
+
+
+
+@i notice.fwi
+
+\end{document}
+
+@!
+@! $Log: kernel.fw,v $
+@! Revision 1.5  1996/06/07 15:56:39  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.4  1996/03/13 15:32:23  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.3  1995/11/08 15:36:30  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.2  1995/10/19 18:01:10  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.1  1995/09/18 13:22:38  fabri
+@! Initial revision
+@!
+@! Revision 1.1  1995/08/16 11:58:45  fabri
+@! Initial revision
+@!
+@!

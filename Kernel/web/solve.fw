@@ -1,0 +1,82 @@
+@! $RCSfile: solve.fw,v $
+@! $Revision: 1.3 $
+@! $Date: 1996/03/13 15:32:23 $
+
+@! Author: Andreas.Fabri@@sophia.inria.fr
+
+@B@<Solving systems of linear equations@>
+
+@C
+
+These functions solve a system of linear equations $Ax=b$ for
+a $3\times 3$ matrix $A=(v1,v2,v3)$.
+
+Precondition: the rank of the matrix is 3.
+
+@$@<non-singular-matrix@>==@{@-
+
+template <class FT>
+void CGAL_solve (const FT &a1, const FT &a2, const FT &a3,
+                 const FT &b1, const FT &b2, const FT &b3,
+                 const FT &c1, const FT &c2, const FT &c3,
+                 const FT &d1, const FT &d2, const FT &d3,
+                 FT &x, FT &y, FT &z)
+{
+  FT denom = b2*c1*a3-b1*c2*a3+c3*b1*a2+b3*c2*a1-c1*b3*a2-b2*c3*a1;
+
+  x = - (b2*c3*d1-b2*c1*d3+c1*b3*d2+b1*c2*d3-c3*b1*d2-b3*c2*d1)/denom;
+
+  z = (b2*d1*a3-b2*a1*d3+b1*a2*d3-b1*d2*a3-d1*b3*a2+a1*b3*d2)/denom;
+
+  y = (a2*c3*d1-a2*c1*d3-c2*d1*a3+c2*a1*d3+d2*c1*a3-d2*c3*a1)/denom;
+}
+
+
+// this is for a parabola c1, c2, c3 are equal to 1
+template <class FT>
+void CGAL_solve_quadratic (const FT &a1, const FT &a2, const FT &a3,
+                           const FT &b1, const FT &b2, const FT &b3,
+                           const FT &d1, const FT &d2, const FT &d3,
+                           FT &x, FT &y, FT &z)
+{
+  FT denom = b2*a3-b1*a3+b1*a2+b3*a1-b3*a2-b2*a1;
+
+  x = - (b2*d1-b2*d3+b3*d2+b1*d3-b1*d2-b3*d1)/denom;
+
+  z = (b2*d1*a3-b2*a1*d3+b1*a2*d3-b1*d2*a3-d1*b3*a2+a1*b3*d2)/denom;
+
+  y = (a2*d1-a2*d3-d1*a3+a1*d3+d2*a3-d2*a1)/denom;
+}
+
+@}
+
+@D@<Header File@>
+
+@O@<../include/CGAL/solve.h@>==@{@-
+@<CGAL notice@>
+// Source: solve.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+
+#ifndef CGAL_SOLVE_H
+#define CGAL_SOLVE_H
+
+
+@<non-singular-matrix@>
+
+#endif // CGAL_SOLVE_H
+@}
+
+@! $Log: solve.fw,v $
+@! Revision 1.3  1996/03/13 15:32:23  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.2  1995/11/08 15:36:30  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.1  1995/09/18 13:22:38  fabri
+@! Initial revision
+@!
+@! Revision 1.1  1995/08/16 11:59:21  fabri
+@! Initial revision
+@!

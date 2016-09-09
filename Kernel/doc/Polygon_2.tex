@@ -1,0 +1,100 @@
+
+\cleardoublepage
+\chapter{Non-constant size geometric objects}
+
+\begin{classtemplate}{CGAL_Simple_polygon_2<R>}
+\CCsection{Simple Polygon in 2D}
+
+\definition
+
+An object \CCstyle{P} of type \classname\ is a simple polygon
+(i.e.~no self-intersections, no antennas, no overlapping edges, etc.)
+in the two-dimensional plane $E_2$ defined by the sequence of its vertices.
+The boundary of a polygon is the sequence of its edges including the
+vertices.
+
+\creation
+\creationvariable{P}
+
+%%   \constructor{CGAL_Simple_polygon_2();}{
+%%     introduces a variable \var\ of type \classname.}
+
+%%   \constructor{CGAL_Simple_polygon_2(const CGAL_Simple_polygon_2<R>& Q);}{
+%%     introduces a variable \var\ of type \classname\ initialized to the
+%%     simple polygon \CCstyle{Q}.}
+
+  \constructor{CGAL_Simple_polygon_2(const CGAL_Triangle_2<R>& T);}{
+    introduces a variable \var\ of type \classname\ initialized to the
+    triangle \CCstyle{T}.}
+
+  \constructor{CGAL_Simple_polygon_2(
+    const CGAL_List< CGAL_Point_2<R> >& pl);}{
+    introduces a variable \var\ of type \classname\ initialized to the
+    simple polygon defined by the vertices in \CCstyle{pl}.
+    \precond The vertices in \CCstyle{pl} define a simple polygon.}
+
+\operations
+\threecolumns{4.0cm}{3.5cm}
+
+  \method{CGAL_List< CGAL_Point_2<R> >    vertices() const;}{
+    returns the sequence of vertices of \var.}
+
+  \method{CGAL_List< CGAL_Segment_2<R> >  edges() const;}{
+    returns the sequence of edges of \var.}
+
+  \method{CGAL_Point_2<R>                 vertex(int i) const;}{
+    returns the \CCstyle{i}-th vertex of \var.
+    \precond $0 \leq \CCstyle{i} < \CCstyle{P.size()}$.}
+
+  \method{CGAL_Segment_2<R>               edge(int i) const;}{
+    returns the \CCstyle{i}-th edge of \var.
+    \precond $0 \leq \CCstyle{i} < \CCstyle{P.size()}$.}
+
+  \method{CGAL_Point_2<R>                 operator[](int i) const;}{
+    returns \CCstyle{P.vertex(i)}.}
+
+  \method{bool                      is_convex() const;}{
+    returns \CCstyle{true} if \var\ is convex, \CCstyle{false} otherwise.}
+
+  \method{CGAL_Oriented_side   oriented_side(const CGAL_Point_2<R>& p) const;}{}
+
+  \method{bool                      has_on_positive_side(const CGAL_Point_2<R>& p) const;}{}
+
+
+  \method{bool                      has_on_negative_side(const CGAL_Point_2<R>& p) const;}{}
+
+  \method{CGAL_Bounded_side   bounded_side(const CGAL_Point_2<R>& p) const;}{}
+
+  \method{bool                      has_on(const CGAL_Point_2<R>& p) const;}{
+    returns \CCstyle{true} if \CCstyle{p} lies on the boundary
+    of~\var, \CCstyle{false} otherwise.}
+
+  \method{bool                      has_on_bounded_side(const CGAL_Point_2<R>& p) const;}{
+    returns \CCstyle{true} if \CCstyle{p} lies in the interior
+    of~\var, \CCstyle{false} otherwise.}
+
+  \method{bool                      has_on_unbounded_side(const CGAL_Point_2<R>& p) const;}{
+    returns \CCstyle{true} if \CCstyle{p} lies neither in the interior
+    nor on the boundary of \var, \CCstyle{false} otherwise.}
+
+  \method{CGAL_Orientation            orientation() const;}{
+    returns \CCstyle{CGAL_COUNTERCLOCKWISE} if the sequence of
+    vertices of~\var\ is in counterclockwise order,
+    \CCstyle{CGAL_CLOCKWISE} otherwise.}
+
+  \method{int                       size() const;}
+         {returns the number of vertices of \var.}
+
+  \method{R::FT                     area() const;}
+         {returns the area of \var.}
+
+  \method{CGAL_Simple_Polygon_2<R>  transform  (
+    const CGAL_Aff_transformation_2<R>& t) const;}{
+    returns the polygon created by applying \CCstyle{t} to all
+    vertices of \var.}
+
+  \method{CGAL_Bbox_2               bbox() const;}{
+    returns the bounding box containing \var.}
+
+\end{classtemplate}  
+

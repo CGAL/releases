@@ -1,0 +1,182 @@
+@B@<Homogeneous header file@>
+
+Here are some files that are regularly included. They contain the
+enumeration types, assertions, some useful templates for number types,
+and platform dependend definitions for the IEEE floating point standard.
+
+@$@<basic includes@>==@{@-
+#include <CGAL/enum.h>
+#include <assert.h>
+#include <CGAL/utils.h>
+#include <CGAL/numbertypes.h>
+@}
+
+The following header file are used with homogeneous representation.
+
+
+
+@O@<../include/CGAL/classesH2.h@>==@{@-
+// Source: classesH2.h
+// Author: Stefan.Schirra@@mpi-sb.mpg.de
+#ifndef CLASSESH2_H
+#define CLASSESH2_H
+
+template < class FT, class RT >
+class CGAL_PointH2;
+
+template < class FT, class RT >
+class CGAL_VectorH2;
+
+template < class FT, class RT >
+class CGAL_DirectionH2;
+
+template < class FT, class RT >
+class CGAL_LineH2;
+
+template < class FT, class RT >
+class CGAL_RayH2;
+
+template < class FT, class RT >
+class CGAL_SegmentH2;
+
+template < class FT, class RT >
+class CGAL_TriangleH2;
+
+template < class FT, class RT >
+class CGAL_PolygonH2;
+
+template < class FT, class RT >
+class CGAL_Iso_rectangleH2;
+
+template < class FT, class RT >
+class CGAL_Aff_transformationH2;
+
+#endif
+@}
+
+@O@<../include/CGAL/classesH3.h@>==@{@-
+// Source: classesH3.h
+// Author: Stefan.Schirra@@mpi-sb.mpg.de
+#ifndef CLASSESH3_H
+#define CLASSESH3_H
+
+template < class FT, class RT >
+class CGAL_PointH3;
+
+template < class FT, class RT >
+class CGAL_VectorH3;
+
+template < class FT, class RT >
+class CGAL_DirectionH3;
+
+template < class FT, class RT >
+class CGAL_PlaneH3;
+
+template < class FT, class RT >
+class CGAL_LineH3;
+
+template < class FT, class RT >
+class CGAL_RayH3;
+
+template < class FT, class RT >
+class CGAL_SegmentH3;
+
+template < class FT, class RT >
+class CGAL_TriangleH3;
+
+template < class FT, class RT >
+class CGAL_Iso_rectangleH3;
+
+template < class FT, class RT >
+class CGAL_TetrahedronH3;
+
+template < class FT, class RT >
+class CGAL_Aff_transformationH3;
+#endif
+@}
+
+@O@<../include/CGAL/homogeneous_classes.h@>==@{@-
+#include <CGAL/classesH2.h>
+#include <CGAL/classesH3.h>
+@}
+
+The following class is the representation class for homogeneous
+representation. The user can then use homogeneous points by a
+typedef like
+@{typedef CGAL_Point_2< H<double, CGAL_Filtered_integer> >  Point@}.
+@$@<typedefs for homogeneous representation@>==@{@-
+template<class ft, class rt>
+class H
+{
+public:
+// number-type
+
+    typedef ft                                FT;
+    typedef rt                                RT;
+
+// two-dimensional
+
+    typedef CGAL_PointH2<FT,RT>               Point_2;
+    typedef CGAL_VectorH2<FT,RT>              Vector_2;
+    typedef CGAL_DirectionH2<FT,RT>           Direction_2;
+
+    typedef CGAL_Aff_transformationH2<FT,RT>  Aff_transformation_2;
+
+    typedef CGAL_SegmentH2<FT,RT>             Segment_2;
+    typedef CGAL_LineH2<FT,RT>                Line_2;
+    typedef CGAL_RayH2<FT,RT>                 Ray_2;
+
+    typedef CGAL_TriangleH2<FT,RT>            Triangle_2;
+
+    typedef CGAL_Iso_rectangleH2<FT,RT>       Iso_rectangle_2;
+
+    typedef CGAL_PolygonH2<FT,RT>             Polygon_2;
+
+// three-dimensional
+
+    typedef CGAL_PointH3<FT,RT>               Point_3;
+    typedef CGAL_VectorH3<FT,RT>              Vector_3;
+    typedef CGAL_DirectionH3<FT,RT>           Direction_3;
+
+    typedef CGAL_Aff_transformationH3<FT,RT>  Aff_transformation_3;
+
+    typedef CGAL_PlaneH3<FT,RT>               Plane_3;
+
+    typedef CGAL_SegmentH3<FT,RT>             Segment_3;
+    typedef CGAL_LineH3<FT,RT>                Line_3;
+    typedef CGAL_RayH3<FT,RT>                 Ray_3;
+    typedef CGAL_TriangleH3<FT,RT>            Triangle_3;
+
+    typedef CGAL_Iso_rectangleH3<FT,RT>       Iso_rectangle_3;
+
+    typedef CGAL_TetrahedronH3<FT,RT>         Tetrahedron_3;
+};
+@}
+@O@<../include/CGAL/homogeneous_rep.h@>==@{@-
+// Source: homogeneous_rep.h
+// Author: Stefan.Schirra@@mpi-sb.mpg.de
+#ifndef HOMOGENEOUS_REP_H
+#define HOMOGENEOUS_REP_H
+
+@<typedefs for homogeneous representation@>
+#endif
+@}
+
+Here is the generic header file to be used with homogeneous
+representation.
+@O@<../include/CGAL/Homogeneous.h@>==@{@-
+// Source: Homogeneous.h
+// Author: Stefan.Schirra@@mpi-sb.mpg.de
+
+#ifndef HOMOGENEOUS_H
+#define HOMOGENEOUS_H
+
+@<basic includes@>
+#include <CGAL/basic_classes.h>
+
+#include <CGAL/homogeneous_classes.h>
+#include <CGAL/homogeneous_rep.h>
+#include <CGAL/user_classes.h>
+
+#endif
+@}

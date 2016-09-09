@@ -86,7 +86,8 @@ the text in the printed document is taken from the next macro.
 {\sf We include the following header files containing the class definitions.}
 
 @$@<Header Files@>==@{@-
-#include <stream.h>
+#include <CGAL/Cartesian.h>
+#include <iostream.h>
 #include <CGAL/Point_2.h>
 #include <CGAL/Segment_2.h>
 @}
@@ -101,14 +102,14 @@ it is practical to define new types with the {\tt typedef} from \CC.}
 
 @$@<typedefs@>+=@{@-
 typedef double coord_type;
-typedef CGAL_Point_2< C<coord_type> > Point;
+typedef CGAL_Point_2< CGAL_Cartesian<coord_type> > Point;
 @}
 
 The macro with the nametag ``typedefs'' is additive, and here comes another
 piece of it:
 
 @$@<typedefs@>+=@{@-
-typedef CGAL_Segment_2< C<coord_type> > Segment;
+typedef CGAL_Segment_2< CGAL_Cartesian<coord_type> > Segment;
 @}
 
 

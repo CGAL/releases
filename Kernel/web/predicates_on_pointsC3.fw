@@ -1,0 +1,277 @@
+@! $RCSfile: predicates_on_pointsC3.fw,v $
+@! $Revision: 1.1 $
+@! $Date: 1996/03/13 15:32:23 $
+
+@! Author: Andreas.Fabri@@sophia.inria.fr
+
+@B
+
+@$@<Alignement of Cartesian 3D Points@>==@{@-
+template < class FT >
+bool CGAL_x_equal(const CGAL_PointC3<FT> &p,
+                  const CGAL_PointC3<FT> &q)
+{
+  return p.x() == q.x();
+}
+
+template < class FT >
+bool CGAL_y_equal(const CGAL_PointC3<FT> &p,
+                  const CGAL_PointC3<FT> &q)
+{
+  return p.y() == q.y();
+}
+
+template < class FT >
+bool CGAL_z_equal(const CGAL_PointC3<FT> &p,
+                  const CGAL_PointC3<FT> &q)
+{
+  return p.z() == q.z();
+}
+@}
+
+@B
+
+@$@<Lexicograpical Order of 3D Cartesian Points@>+=@{@-
+template < class FT >
+CGAL_Comparison_result CGAL_compare_lexicographically_xyz(
+                                                     const CGAL_PointC3<FT> &p,
+                                                     const CGAL_PointC3<FT> &q)
+{
+  if (p.x() < q.x()){
+    return CGAL_SMALLER;
+  }
+
+  if (p.x() == q.x()){
+    if (p.y() < q.y()){
+      return CGAL_SMALLER;
+    }
+    //-----
+    if (p.y() == q.y()){
+      if (p.z() < q.z()){
+        return CGAL_SMALLER;
+      }
+
+      if (p.z() == q.z()){
+        return CGAL_EQUAL;
+      }
+    }
+  }
+  return CGAL_LARGER;
+}
+
+
+template < class FT >
+bool CGAL_lexicographically_xyz_smaller_or_equal(const CGAL_PointC3<FT> &p,
+                                                 const CGAL_PointC3<FT> &q)
+{
+  return ( !( CGAL_compare_lexicographically_xyz(p,q) == CGAL_LARGER ) );
+}
+
+template < class FT >
+bool CGAL_lexicographically_xyz_smaller(const CGAL_PointC3<FT> &p,
+                                        const CGAL_PointC3<FT> &q)
+{
+  return CGAL_compare_lexicographically_xyz(p,q) == CGAL_SMALLER ;
+}
+@}
+
+
+@B@<3D Ordertype Functions@>
+
+There are no specializations. The problems with non-exactness are catched
+in the tests. Those are specialized.
+
+@C
+@$@<3D Cartesian Point Ordertype Interface Functions@>==@{@-
+template < class FT >
+inline bool CGAL_coplanar(const CGAL_PointC3<FT> &p,
+                          const CGAL_PointC3<FT> &q,
+                          const CGAL_PointC3<FT> &r,
+                          const CGAL_PointC3<FT> &s)
+{
+  return (CGAL_orientation(p, q, r, s) == CGAL_COLLINEAR);
+}
+
+template < class FT >
+bool CGAL_collinear(const CGAL_PointC3<FT> &p,
+                    const CGAL_PointC3<FT> &q,
+                    const CGAL_PointC3<FT> &r)
+{
+  if ( (p == q) || (r == q) ){
+    return true;
+  } else {
+    CGAL_DirectionC3<FT> dir_pq = (p - q).direction();
+    CGAL_DirectionC3<FT> dir_rq = (r - q).direction();
+
+
+    return ( dir_pq == dir_rq ) || (dir_pq == -dir_rq);
+  }
+}
+
+template < class FT >
+inline bool CGAL_between(const CGAL_PointC3<FT> &p,
+                         const CGAL_PointC3<FT> &q,
+                         const CGAL_PointC3<FT> &r)
+{
+  if (!CGAL_collinear(p, q, r))
+    {
+      return false;
+    }
+
+  return CGAL_collinear_between(p, q, r);
+}
+
+template < class FT >
+inline bool CGAL_collinear_between(const CGAL_PointC3<FT> &p,
+                                   const CGAL_PointC3<FT> &q,
+                                   const CGAL_PointC3<FT> &r)
+{
+  CGAL_exactness_precondition( CGAL_collinear(p, q, r) );
+  if (p.x() != q.x())
+    {
+      return ((p.x() <= r.x()) && r.x() <= q.x()) ||
+             ((q.x() <= r.x()) && r.x() <= p.x());
+    }
+  if (p.y() != q.y())
+    {
+      return ((p.y() <= r.y()) && r.y() <= q.y()) ||
+             ((q.y() <= r.y()) && r.y() <= p.y());
+    }
+  return ((p.z() <= r.z()) && r.z() <= q.z()) ||
+         ((q.z() <= r.z()) && r.z() <= p.z());
+
+}
+
+
+template < class FT >
+inline CGAL_Orientation CGAL_orientation(const CGAL_PointC3<FT> &p,
+                                         const CGAL_PointC3<FT>&q,
+                                         const CGAL_PointC3<FT> &r,
+                                         const CGAL_PointC3<FT> &s)
+{
+  return CGAL_orientation(p.x(), p.y(), p.z(), q.x(), q.y(), q.z(),
+                        r.x(), r.y(), r.z(), s.x(), s.y(), s.z());
+}
+
+template <class FT >
+CGAL_Bounded_side CGAL_side_of_bounded_sphere(
+                         const CGAL_PointC3<FT> &p, const CGAL_PointC3<FT> &q,
+                         const CGAL_PointC3<FT> &r, const CGAL_PointC3<FT> &s,
+                         const CGAL_PointC3<FT> &test)
+{
+  assert(0); // not implemented
+  return CGAL_ON_BOUNDED_SIDE;
+}
+@}
+
+@D
+@$@<Internal 3D Ordertype Function@>==@{@-
+template < class FT >
+CGAL_Orientation CGAL_orientation(const FT &px, const FT &py, const FT &pz,
+                                  const FT &qx, const FT &qy, const FT &qz,
+                                  const FT &rx, const FT &ry, const FT &rz,
+                                  const FT &sx, const FT &sy, const FT &sz)
+{
+  /*
+  FT t1 = px*ry;
+  FT t2 = px*sy;
+  FT t3 = qx*py;
+  FT t4 = qx*ry;
+  FT t5 = qx*sy;
+  FT t6 = t0*rz-t0*sz-t1*qz+t1*sz+t2*qz-t2*rz-t3*rz+
+          t3*sz+t4*pz-t4*sz-t5*pz+t5*rz;
+  t0 = rx*py;
+  t1 = rx*qy;
+  t2 = rx*sy;
+  t3 = sx*py;
+  t4 = sx*qy;
+  t6 = sx*ry;
+  FT det = t6 + t0*qz-t0*sz-t1*pz+t1*sz+t2*pz-t2*qz-t3*qz+
+           t3*rz+t4*pz-t4*rz-t6*pz+t6*qz;
+           */
+  FT t0 = ry*sz;
+  FT t1 = rz*sy;
+  FT t2 = qz*sy;
+  FT t3 = qy*rz;
+  FT t4 = qz*ry;
+  FT t5 = py*sz - pz*sy;
+  FT t6 = py*rz - pz*ry ;
+  FT t7 = py*qz - pz*qy;
+
+FT det =   (  qx*( ry*sz - rz*sy )
+                    - rx*( qy*sz - qz*sy )
+                    + sx*( qy*rz - qz*ry ) )
+          - (  px*( ry*sz - rz*sy )
+                    - rx*( py*sz - pz*sy )
+                    + sx*( py*rz - pz*ry ) )
+          + (  px*( qy*sz - qz*sy )
+                    - qx*( py*sz - pz*sy )
+                    + sx*( py*qz - pz*qy ) )
+          - (  px*( qy*rz - qz*ry )
+                    - qx*( py*rz - pz*ry )
+                    + rx*( py*qz - pz*qy ) ) ;
+
+FT det2 =   (  qx*( t0 - t1 )
+                    - rx*( qy*sz - t2 )
+                    + sx*( t3 - t4 ) )
+          - (  px*( t0 - t1 )
+                    - rx* t5
+                    + sx* t6  )
+          + (  px*( qy*sz - t2 )
+                    - qx* t5
+                    + sx* t7  )
+          - (  px*( t3 - t4 )
+                    - qx* t6
+                    + rx* t7  ) ;
+
+assert(det == det2);
+
+  return  (det == FT(0))? CGAL_COPLANAR : ((det > FT(0)) ? CGAL_POSITIVE
+                                                         : CGAL_NEGATIVE);
+}
+@}
+
+
+
+@D@<Header File@>
+
+@O@<../include/CGAL/predicates_on_pointsC3.h@>==@{@-
+@<CGAL notice@>
+// Source: predicates_on_pointsC3.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL_PREDICATES_ON_POINTSC3_H
+#define CGAL_PREDICATES_ON_POINTSC3_H
+
+#include <CGAL/PointC3.h>
+
+@<Lexicograpical Order of 3D Cartesian Points@>
+
+@<Alignement of Cartesian 3D Points@>
+
+@<Internal 3D Ordertype Function@>
+
+@<3D Cartesian Point Ordertype Interface Functions@>
+
+#endif // CGAL_PREDICATES_ON_POINTSC3_H
+@}
+
+@! $Log: predicates_on_pointsC3.fw,v $
+@! Revision 1.1  1996/03/13 15:32:23  fabri
+@! Initial revision
+@!
+@! Revision 1.3  1995/10/19 18:01:10  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.2  1995/10/05 15:11:48  fabri
+@! uses CGAL_zero for tests
+@!
+@! Revision 1.1  1995/09/18 13:22:38  fabri
+@! Initial revision
+@!
+@! Revision 1.2  1995/08/21 14:29:16  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.1  1995/08/16 11:56:08  fabri
+@! Initial revision
+@!

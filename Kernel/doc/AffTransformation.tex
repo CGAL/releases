@@ -1,0 +1,378 @@
+% $Id: AffTransformation.tex,v 1.5 1996/07/08 12:19:15 fabri Exp fabri $
+
+\chapter{Transformations}\label{AffTransformation}
+
+\cgal\ provides affine transformations. The primitive objects in
+\cgal\ are closed under affine transformations except
+for iso-oriented objects and bounding boxes.
+%\CCstyle{CGAL_Iso_rectangle_2} and \CCstyle{CGAL_Bbox_2}.
+
+The general form of an affine transformation is based on homogeneous
+representation of points. Thereby all transformations can be realized by
+matrix multiplication. 
+
+Since the general form is based on the homogeneous representation, a
+transformation matrix multiplication by a scalar does not change
+the represented transformation. Therefore, any transformation represented
+by a matrix with rational entries can be represented by a 
+transformation matrix with integer entries as well by multiplying
+the matrix with the common denominator of the rational entries. 
+Hence it is sufficient to have number type \CCstyle{R::RT} for the entries 
+of an affine transformation.
+
+\cgal\ offers several specialized affine transformations. They are
+hidden behind the interface class.
+Different constructors are provided to create them. 
+They are parameterized with a symbolic name to
+denote the transformation type, followed by additional parameters.
+The symbolic name tags solves ambiguities in the function
+overloading and they make the code more readable, i.e.\ what type
+of transformation is created. These name tags are constants of an
+appropriate type.
+
+\threecolumns{6cm}{3.5cm}
+
+\globalvariable{const CGAL_Translation    CGAL_TRANSLATION;}
+
+\globalvariable{const CGAL_Rotation       CGAL_ROTATION;}
+
+\globalvariable{const CGAL_Scaling        CGAL_SCALING;}
+
+\begin{classtemplate}{CGAL_Aff_transformation_2<R>}
+\CCsection{2D Affine Transformation}
+\definition
+
+Since two-dimensional points have three 
+homogeneous coordinates we have a $3\times 3$ matrix ($m_{ij}$).
+
+If the homogeneous representations are normalized such that the 
+homogenizing coordinate is 1, then the upper left $2\times 2$ matrix realizes
+linear transformations and in the matrix form of a translation,  the
+translation vector $(v_0,$ $v_1,$ $1)$ appears in the last column of the 
+matrix. In this case entry $hw$ is always 1.
+Entries $m_{31}$ and $m_{32}$ are always zero and therefore do not appear in
+the constructors.
+
+\creation
+\creationvariable{t}
+
+\constructor{CGAL_Aff_transformation_2(const CGAL_Translation,
+                                       const CGAL_Vector_2<R> &v);}
+            {introduces a translation by a vector $v$.}
+
+\constructor{CGAL_Aff_transformation_2(const CGAL_Rotation,
+                             const CGAL_Direction_2<R> &d,
+                             const R::RT &num,
+                             const R::RT &den = RT(1));}
+            {approximates the rotation given by direction $d$,
+             such that the differences between the sines and cosines
+             of the rotation given by d and the approximating rotation
+             are at most $num/den$ each.}
+
+\constructor{CGAL_Aff_transformation_2(const CGAL_Rotation,
+                                       const R::RT &sine_rho, 
+                                       const R::RT &cosine_rho, 
+                                       const R::RT &hw = RT(1));}
+            {introduces a rotation by the angle \CCstyle{rho}.
+             \precond \LatexHtml{$\mbox{\it sine\_rho}^2 + 
+	                          \mbox{\it cosine\_rho}^2 == hw^2$}{<MATH>sine_rho<SUP>2</SUP> + cosine_rho<SUP>2</SUP> == hw<SUP>2</SUP></MATH>}}.
+
+\constructor{CGAL_Aff_transformation_2(const CGAL_Scaling,
+                                       const R::RT &s,
+                                       const R::RT &hw = RT(1));}
+            {introduces a scaling by a scale factor $s/hw$.}
+
+\newsavebox{\arr}
+\newsavebox{\arrlin}
+\newsavebox{\transvec}
+
+\savebox{\arr}{\small $\left(\begin{array}{ccc}
+                 m_{11} & m_{12} & m_{13}\\
+                 m_{21} & m_{22} & m_{23}\\
+                  0     &  0     & hw
+              \end{array}\right)$}
+
+\savebox{\arrlin}{\small $\left(\begin{array}{cc}
+                 m_{11} & m_{12}\\
+                 m_{21} & m_{22}
+              \end{array}\right)$}
+
+\savebox{\transvec}{\small $\left(\begin{array}{c}
+                 m_{13}\\
+                 m_{23}
+              \end{array}\right)$}
+
+\constructor{CGAL_Aff_transformation_2(
+                const R::RT &m11, const R::RT &m12, const R::RT &m13,
+                const R::RT &m21, const R::RT &m22, const R::RT &m23,
+                const R::RT &hw = RT(1));}
+            {introduces a general affine transformation in the
+             \LatexHtml{$3 \times 3$}{3x3} matrix
+             form \usebox{\arr}. The sub-matrix 
+             \LatexHtml{\usebox{\arrlin}}{<MATH>((m<SUB>11</SUB>, m<SUB>21</SUB>)<SUP>t</SUP>, (m<SUB>12</SUB>, m<SUB>22</SUB>)<SUP>t</SUP>) </MATH>}
+              contains the scaling and rotation 
+             information, the vector \LatexHtml{\usebox{\transvec}}{<MATH>(m<SUB>13</SUB>, m<SUB>23</SUB>)<SUP>t</SUP> </MATH>}
+             contains the translational part of the transformation.
+}
+
+\savebox{\arr}{\small $\left(\begin{array}{ccc}
+                 m_{11} & m_{12} & 0\\
+                 m_{21} & m_{22} & 0\\
+                  0     &  0     & hw
+              \end{array}\right)$}
+                  
+\constructor{CGAL_Aff_transformation_2(
+                                       const R::RT &m11, const R::RT &m12,
+                                       const R::RT &m21, const R::RT &m22,
+                                       const R::RT &hw = RT(1));}
+            {introduces a general linear transformation \usebox{\arr},
+             i.e.\ there is no translational part.}
+
+
+\operations
+\threecolumns{6cm}{3.5cm}
+
+The main thing to do with transformations is to apply them on
+geometric objects. Each class \CCstyle{CGAL_Class_2<R>} representing
+a geometric object has a member function:
+
+\CCstyle{CGAL_Class_2<R>  transform(CGAL_Aff_transformation_2<R> t)}.
+
+
+The transformation classes provide a member function \CCstyle{transform()}
+for points, vectors, directions, and lines:
+
+\method{CGAL_Point_2<R>  transform(const CGAL_Point_2<R> &p) const;}
+       {}
+
+\method{CGAL_Vector_2<R>  transform(const CGAL_Vector_2<R> &p) const;}
+       {}
+
+\method{CGAL_Direction_2<R>  transform(const CGAL_Direction_2<R> &p) const;}
+       {}
+
+\method{CGAL_Line_2<R>  transform(const CGAL_Line_2<R> &p) const;}
+       {}
+
+\cgal\ provides function operators for these member functions,
+that is:
+
+\method{CGAL_PVDL_2<R>  operator()(const CGAL_PVDL_2<R> &p) const;}
+       {}
+
+
+\medskip
+
+\method{CGAL_Aff_transformation_2<R> operator*(const CGAL_Aff_transformation_2<R> &s) const;}{composes two affine transformations.}
+
+\method{CGAL_Aff_transformation_2<R>  inverse() const;}
+       {gives the inverse transformation.}
+
+%\method{CGAL_Aff_transformation_2<R>  transpose() const;}
+%       {returns the affine transformation defined by transposing
+%       the linear transformation in \var\ and setting the
+%       translational part to zero.}
+
+\method{bool                 is_even() const;}
+       {returns \CCstyle{true}, if the transformation is not reflecting,
+        i.e.\ the determinant of the involved linear transformation is
+        non-negative.}
+
+\method{bool                 is_odd() const;}
+       {returns \CCstyle{true}, if the transformation is reflecting.}
+
+
+%\method{CGAL_Aff_transformation_2<R>  general_form() const;}
+%       {returns the affine transformation in matrix form.}
+
+
+\implementation
+Depending on the constructor we have different internal representations.
+This approach uses less memory and the transformation can be applied
+faster.
+
+Affine transformations offer no \CCstyle{transform()} member function
+for complex objects because they are defined in terms of  points vectors and 
+directions.  As the internal representation of a complex object
+is private the transformation code should go there.
+
+\example
+
+\begin{cprog}
+  typedef CGAL_Cartesian<double> RepClass;
+  typedef CGAL_Aff_transformation_2<RepClass> Transformation;
+  typedef CGAL_Point_2<RepClass> Point;
+  typedef CGAL_Vector_2<RepClass> Vector;
+  typedef CGAL_Direction_2<RepClass> Direction;
+
+  Transformation rotate(CGAL_ROTATION, sin(pi), cos(pi));
+  Transformation rational_rotate(CGAL_ROTATION,Direction(1,1), 1, 100);
+  Transformation translate(CGAL_TRANSLATION, Vector(-2, 0));
+  Transformation scale(CGAL_SCALING, 3);
+
+  Point q(0, 1);
+  q = rational_rotate(q); 
+
+  Point p(1, 1);
+
+  p = rotate(p); 
+
+  p = translate(p); 
+
+  p = scale(p);
+\end{cprog} 
+
+The same would have been achieved with
+
+\begin{cprog}
+
+  Transformation transform = scale * (translate * rotate);
+  p = transform(Point(1.0, 1.0));
+\end{cprog} 
+\end{classtemplate} 
+
+\begin{classtemplate}{CGAL_Aff_transformation_3<R>}
+\CCsection{3D Affine Transformation}
+\definition
+
+In three-dimensional space we have a $4\times 4$ matrix ($m_{ij}$).
+Entries $m_{41}$, $m_{42}$, and $m_{43}$ are always zero and 
+therefore do not appear in the constructors.
+
+\creation
+\creationvariable{t}
+
+\constructor{CGAL_Aff_transformation_3(const CGAL_Translation,
+                                       const CGAL_Vector_3<R> &v);}
+            {introduces a translation by a vector $v$.}
+ 
+\constructor{CGAL_Aff_transformation_3(const CGAL_Scaling,
+                                       const R::RT &s,
+                                       const R::RT &hw = RT(1));}
+            {introduces a scaling by a scale factor $s/hw$.}
+
+\newsavebox{\arrthree}
+\newsavebox{\arrlinthree}
+\newsavebox{\transvecthree}
+
+\savebox{\arrthree}{\small $\left(\begin{array}{cccc}
+                 m_{11} & m_{12} & m_{13} & m_{14}\\
+                 m_{21} & m_{22} & m_{23} & m_{24}\\
+                 m_{31} & m_{32} & m_{33} & m_{34}\\
+                  0     &  0     &      0 & hw
+              \end{array}\right)$}
+
+\savebox{\arrlinthree}{\small $\left(\begin{array}{ccc}
+                 m_{11} & m_{12} & m_{13}\\
+                 m_{21} & m_{22} & m_{23}\\
+                 m_{31} & m_{32} & m_{33}\\
+              \end{array}\right)$}
+
+\savebox{\transvecthree}{\small $\left(\begin{array}{c}
+                 m_{14}\\
+                 m_{24}\\
+                 m_{34}
+              \end{array}\right)$}
+
+\constructor{CGAL_Aff_transformation_3(
+    const R::RT &m11, const R::RT &m12, const R::RT &m13, const R::RT &m14,
+    const R::RT &m21, const R::RT &m22, const R::RT &m23, const R::RT &m24,
+    const R::RT &m31, const R::RT &m32, const R::RT &m33, const R::RT &m34,
+                const R::RT &hw = RT(1));}
+            {introduces a general affine transformation in the
+             \LatexHtml{$4 \times 4$}{4x4} matrix
+             form \usebox{\arrthree}.
+             If $hw == 1$ then the sub-matrix 
+             \usebox{\arrlinthree} contains the scaling and rotation 
+             information, the vector \usebox{\transvecthree}
+             contains the translational part of the transformation.}
+
+\savebox{\arrthree}{\small $\left(\begin{array}{cccc}
+                 m_{11} & m_{12} & m_{13} & 0\\
+                 m_{21} & m_{22} & m_{23} & 0\\
+                 m_{31} & m_{32} & m_{33} & 0\\
+                  0     &  0     &  0     &hw
+              \end{array}\right)$}
+
+\constructor{CGAL_Aff_transformation_2(
+                        const R::RT &m11, const R::RT &m12, const R::RT& m13,
+                        const R::RT &m21, const R::RT &m22, const R::RT& m23,
+                        const R::RT &m31, const R::RT &m32, const R::RT& m33,
+                                                      const R::RT &hw = RT(1));}
+            {introduces a general linear transformation \usebox{\arrthree},
+             i.e.\ an affine transformation without translational part.}
+
+
+\operations
+\threecolumns{6cm}{3.5cm}
+
+Each class \CCstyle{CGAL_Class_3<R>} representing
+a geometric object in 3D has a member function:
+
+\CCstyle{CGAL_Class_3<R>  transform(CGAL_Aff_transformation_3<R> t)}.
+
+
+The transformation classes provide a member function \CCstyle{transform()}
+for points, vectors, directions, and planes:
+
+\method{CGAL_Point_3<R>  transform(const CGAL_Point_3<R> &p) const;}
+       {}
+
+\method{CGAL_Vector_3<R>  transform(const CGAL_Vector_3<R> &p) const;}
+       {}
+
+\method{CGAL_Direction_3<R>  transform(const CGAL_Direction_3<R> &p) const;}
+       {}
+
+\method{CGAL_Plane_3<R>  transform(const CGAL_Plane_3<R> &p) const;}
+       {}
+
+\cgal\ provides four function operators for these member functions, that is:
+
+\method{CGAL_PVDP_3<R>  operator()(const CGAL_PVDP_3<R> &p) const;}
+       {}
+
+\medskip
+
+\method{CGAL_Aff_transformation_3<R> operator*(const CGAL_Aff_transformation_3<R
+> &s) const;}{composes two affine transformations.}
+
+\method{CGAL_Aff_transformation_3<R>  inverse() const;}
+       {gives the inverse transformation.}
+
+%\method{CGAL_Aff_transformation_3<R>  transpose() const;}
+%       {returns the affine transformation defined by transposing
+%       the linear transformation in \var\ and setting the
+%       translational part to zero.}
+
+\method{bool                 is_even() const;}
+       {returns \CCstyle{true}, if the transformation is not reflecting,
+        i.e.\ the determinant of the involved linear transformation is
+        non-negative.}
+
+\method{bool                 is_odd() const;}
+       {returns \CCstyle{true}, if the transformation is reflecting.}
+
+
+%\method{CGAL_Aff_transformation_3<R>  general_form() const;}
+%       {returns the affine transformation in matrix form.}
+
+\end{classtemplate} 
+
+
+% $Log: AffTransformation.tex,v $
+% Revision 1.5  1996/07/08 12:19:15  fabri
+% *** empty log message ***
+%
+% Revision 1.4  1996/03/13 15:45:39  fabri
+% *** empty log message ***
+%
+% Revision 1.3  1995/10/17 12:26:50  fabri
+% a hierarchy of Affine Transformations
+%
+% Revision 1.2  1995/10/11 14:39:33  fabri
+% The affine transformations are organzied in a hierarchy.
+%
+% Revision 1.1  1995/10/09 14:53:26  fabri
+% Initial revision
+%

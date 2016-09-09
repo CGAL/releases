@@ -1,3 +1,4 @@
+ 
 // Source: Color.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -8,16 +9,23 @@
 class CGAL_Color {
 public:
   CGAL_Color() {}
-  CGAL_Color(float r, float g, float b) {red = r; green =g; blue =b;}
-  float r() const {return red;}
-  float g() const {return green;}
-  float b() const {return blue;}
+  CGAL_Color(int red, int green, int blue)
+    : _red(red), _green(green), _blue(blue)
+  {}
+
+  int r() const {return _red;}
+  int g() const {return _green;}
+  int b() const {return _blue;}
+
+  int red() const {return _red;}
+  int green() const {return _green;}
+  int blue() const {return _blue;}
 
   bool operator==(const CGAL_Color &c)
   {
-    return ( (red == c.r()) &&
-             (green == c.g()) &&
-             (blue == c.b()) );
+    return ( (_red == c.red()) &&
+             (_green == c.green()) &&
+             (_blue == c.blue()) );
   }
 
   bool operator!=(CGAL_Color &c)
@@ -26,17 +34,17 @@ public:
   }
 
 private:
-  float red;
-  float green;
-  float blue;
+  int _red;
+  int _green;
+  int _blue;
 };
 
-extern CGAL_Color CGAL_black;
-extern CGAL_Color CGAL_white;
-extern CGAL_Color CGAL_red;
-extern CGAL_Color CGAL_green;
-extern CGAL_Color CGAL_blue;
-extern CGAL_Color CGAL_violet;
-extern CGAL_Color CGAL_orange;
+const CGAL_Color CGAL_BLACK  = CGAL_Color(0, 0, 0);
+const CGAL_Color CGAL_WHITE  = CGAL_Color(255, 255, 255);
+const CGAL_Color CGAL_RED    = CGAL_Color(255, 0, 0);
+const CGAL_Color CGAL_GREEN  = CGAL_Color(0, 255, 0);
+const CGAL_Color CGAL_BLUE   = CGAL_Color(0, 0, 255);
+const CGAL_Color CGAL_VIOLET = CGAL_Color(255, 0, 255);
+const CGAL_Color CGAL_ORANGE = CGAL_Color(255, 170, 0);
 #endif  // CGAL_COLOR_H
 

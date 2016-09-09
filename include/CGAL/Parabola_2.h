@@ -1,4 +1,20 @@
- 
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: Parabola_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -15,7 +31,6 @@
 
 #include <CGAL/Vector_2.h>
 
- 
 template < class R >
 class CGAL_Parabola_2 : public R::Parabola_2
 {
@@ -31,7 +46,7 @@ public:
   CGAL_Parabola_2(const CGAL_Parabola_2  &l)
     : R::Parabola_2((R::Parabola_2&)l)
   {
-    CGAL_kernel_precondition(l.is_defined());
+
   }
 
   CGAL_Parabola_2(const CGAL_Point_2<R> &p,
@@ -49,20 +64,20 @@ public:
   CGAL_Parabola_2(const R::Parabola_2 &l) // conversion impl -> interface class
     : R::Parabola_2(l)
   {
-    CGAL_kernel_precondition(l.is_defined());
+
   }
 
 
   CGAL_Parabola_2<R> &operator=(const CGAL_Parabola_2<R> &l)
   {
-    CGAL_kernel_precondition(l.is_defined());
+
     R::Parabola_2::operator=(l);
     return *this;
   }
 
   bool operator==(const CGAL_Parabola_2<R> &l) const
   {
-    CGAL_kernel_precondition(l.is_defined());
+
     return R::Parabola_2::operator==(l);
   }
 
@@ -71,10 +86,9 @@ public:
     return !(*this == l);
   }
 
-  bool identical(const CGAL_Parabola_2<R> &l) const
+  int id() const
   {
-    CGAL_kernel_precondition(l.is_defined());
-    return ( PTR == l.PTR );
+    return (int) PTR ;
   }
 
   CGAL_Point_2<R> base() const
@@ -99,20 +113,17 @@ public:
 
   R::RT curvature() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_2::curvature();
   }
 
 
   CGAL_Parabola_2<R> opposite() const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_2::opposite();
   }
 
   CGAL_Point_2<R> operator()(const R::FT &lambda) const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_2::operator()(lambda);
   }
 
@@ -120,7 +131,6 @@ public:
                    R::FT &lambda1,
                    R::FT &lambda2) const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_2::lambdas_at_x(x, lambda1, lambda2);
   }
 
@@ -129,62 +139,60 @@ public:
                    R::FT &lambda1,
                    R::FT &lambda2) const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_2::lambdas_at_y(y, lambda1, lambda2);
   }
 
   R::FT x_at_lambda(const R::FT &lambda) const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_2::x_at_lambda(lambda);
   }
 
   R::FT y_at_lambda(const R::FT &lambda) const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_2::y_at_lambda(lambda);
   }
 
   CGAL_Point_2<R> projection(const CGAL_Point_2<R> &p) const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_2::projection(p);
   }
 
   CGAL_Point_2<R> projection(const CGAL_Point_2<R> &p, R::FT &lambda) const
   {
-    CGAL_kernel_precondition(is_defined());
     return R::Parabola_2::projection(p, lambda);
   }
 
-  bool is_on(const CGAL_Point_2<R> &p) const
+  CGAL_Oriented_side oriented_side(const CGAL_Point_2<R> &p) const
   {
-    CGAL_kernel_precondition(is_defined() && p.is_defined());
-    return R::Parabola_2::is_on(p);
+    return R::Parabola_2::oriented_side(p);
+  }
+
+  bool has_on_positive_side(const CGAL_Point_2<R> &p) const
+  {
+    return R::Parabola_2::has_on_positive_side(p);
+  }
+
+  bool has_on_negative_side(const CGAL_Point_2<R> &p) const
+  {
+    return R::Parabola_2::has_on_negative_side(p);
+  }
+
+  bool has_on_boundary(const CGAL_Point_2<R> &p) const
+  {
+    return R::Parabola_2::has_on_boundary(p);
   }
 
   bool is_degenerate() const
   {
-    CGAL_kernel_precondition(is_defined());
-    return R::Parabola_2::is_degenerate();
+      return R::Parabola_2::is_degenerate();
   }
-  /*
+
   CGAL_Parabola_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
   {
-    CGAL_kernel_precondition(is_defined() && t.is_defined());
-    return  CGAL_Parabola_2<R>(R::Parabola_2::transform(t));
+    return  R::Parabola_2::transform(t);
   }
-  */
-
-#ifdef CGAL_CHECK_PRECONDITIONS
-  bool             is_defined() const
-  {
-    return (PTR == NULL)? false : true;
-  }
-#endif
 
 };
- 
 
 
 

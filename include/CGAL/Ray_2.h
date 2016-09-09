@@ -1,4 +1,20 @@
- 
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source:Ray_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -15,7 +31,6 @@
 #include <CGAL/RayC2.h>
 #endif // CGAL_CARTESIAN_H
 
- 
 template < class R >
 class CGAL_Ray_2 : public R::Ray_2
 {
@@ -30,13 +45,13 @@ public:
   CGAL_Ray_2(const CGAL_Ray_2<R> &r)
     : R::Ray_2((const R::Ray_2&)r)
   {
-    CGAL_kernel_precondition(r.is_defined());
+
   }
 
   CGAL_Ray_2(const R::Ray_2 &r)
     : R::Ray_2(r)
   {
-    CGAL_kernel_precondition(r.is_defined());
+
   }
 
   CGAL_Ray_2(const CGAL_Point_2<R> &sp,
@@ -52,7 +67,7 @@ public:
 
   CGAL_Ray_2<R> &operator=(const CGAL_Ray_2<R> &r)
   {
-    CGAL_kernel_precondition(r.is_defined());
+
 
     R::Ray_2::operator=(r);
     return *this;
@@ -68,9 +83,9 @@ public:
     return !(*this == r);
   }
 
-  bool identical(const CGAL_Ray_2<R> &r) const
+  int id() const
   {
-    return ( PTR == r.PTR );
+    return (int) PTR ;
   }
 
   CGAL_Point_2<R> start() const
@@ -78,11 +93,20 @@ public:
     return R::Ray_2::start();
   }
 
+  CGAL_Point_2<R> source() const
+  {
+    return R::Ray_2::source();
+  }
+
   CGAL_Point_2<R> second_point() const
   {
     return R::Ray_2::second_point();
   }
 
+  CGAL_Point_2<R> point(int i) const
+  {
+    return R::Ray_2::point(i);
+  }
 
   CGAL_Direction_2<R> direction() const
   {
@@ -91,25 +115,25 @@ public:
 
   CGAL_Line_2<R> supporting_line() const
   {
-    return CGAL_Line_2<R>(R::Ray_2::supporting_line());
+    return R::Ray_2::supporting_line();
   }
 
   CGAL_Ray_2<R> opposite() const
   {
-    return CGAL_Ray_2<R>(R::Ray_2::opposite());
+    return R::Ray_2::opposite();
   }
 
 
   CGAL_Ray_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
   {
-    return CGAL_Ray_2<R>(R::Ray_2::transform(t));
+    return R::Ray_2::transform(t);
   }
 
 
   bool is_horizontal() const
-    {
-      return R::Ray_2::is_horizontal();
-    }
+  {
+    return R::Ray_2::is_horizontal();
+  }
 
   bool is_vertical() const
   {
@@ -121,19 +145,11 @@ public:
     return R::Ray_2::is_degenerate();
   }
 
-  bool is_on(const CGAL_Point_2<R> &p) const
+  bool has_on(const CGAL_Point_2<R> &p) const
   {
-    return R::Ray_2::is_on(p);
+    return R::Ray_2::has_on(p);
   }
-
-#ifdef CGAL_CHECK_PRECONDITIONS
-  bool is_defined() const
-  {
-    return (PTR == NULL)? false : true;
-  }
-#endif
 };
- 
 
 
 #endif  // CGAL_RAY_2_H

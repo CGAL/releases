@@ -1,0 +1,503 @@
+<HEAD>
+<TITLE>The CGAL Kernel Manual: Introduction</TITLE>
+<!-- Manual page automatically extracted from the TeX source. -->
+</HEAD>
+
+<BODY BGCOLOR="FAF8E8" TEXT="#000000"><A HREF="contents.html">Table of Contents</A>,
+<A HREF="biblio.html">Bibliography</A>,
+<A HREF="manual_index.html">Index</A>,
+<A HREF="title.html">Title Page</A>
+<HR>
+
+<H1>Introduction</H1>
+<P>
+
+CGAL is the  Computational Geometry Algorithms Library that is
+developed by the  Esprit project CGAL.
+The library is written in C++ and consists of three parts: (1) the
+ kernel, which is subject of this document, (2) the  basic
+library, which contains a large collection of basic algorithms as for
+example triangulations and data structures for searching in planar
+subdivisions, and (3)  support libraries (see the CGAL Support Library
+Manual) for file I/O, debugging and for interfacing CGAL to various
+visualization tools.<P>
+
+This document describes the kernel, which contains basic geometric
+data types. Objects of some of these types have constant size: 
+point, vector, direction, line, ray, segment, triangle, iso-oriented
+rectangle and  tetrahedron. For other types the objects are of
+non-constant size:  polygon, polyline, polyhedron and  planar
+map. With each type comes a set of functions which can be applied on
+an object of this type. You will typically find access functions (to
+the coordinates of a point or to the vertices of a polygon), tests of
+the position of a point relative to the object, a function returning
+the bounding box, the length or the area of an object and so on.<P>
+
+The CGAL kernel further contains basic operations like  affine
+transformations,  intersection detection and computation and
+ distance computation.<P>
+
+<BLOCKQUOTE>
+In this document we assume that the reader is familiar with the
+C++ programming language.
+</BLOCKQUOTE><P>
+
+<A NAME="Section_1"></A>
+<H2>Representation Classes</H2>
+
+Geometric algorithms arise in various application areas.
+The demands in the application areas are quite heterogeneous.
+For some applications speed is the absolutely most important issue
+while for other applications exactness is much more important,
+e.g. in some applications in computational metrology.
+The geometry kernel of a geometric algorithms
+library that aims for generality has to be quite flexible to be
+able to satisfy the different demands.
+The CGAL kernel provides this flexibility by disposing different
+versions for the kernel primitives.<P>
+
+In C and C++, a standard way to select a type from a set
+of available data types with the same syntax is the use of
+ typedefs. At compile time you select which special type
+you are going to use. For example, one could write all arithmetic
+code using a type  number and then map  number via
+typedef to a number type which is appropriate for the application,
+e.g.<P>
+
+<PRE>
+
+typedef    double     number;
+
+</PRE><P>
+
+The code compiles as long as all operations you do on  numbers
+are provided by the number type you plug in.
+The code written with the `type'  number is just a `template'
+for code vivified through the typedef.
+By the way, operator overloading
+in C++ allows you to use the standard syntax with your own
+number type classes, i.e., such number types can be plugged in
+for  number as well.<P>
+
+The CGAL approach to selection is more flexible.
+The objects and algorithms in the CGAL kernel are C++-templates
+parametrized by a class which we call representation class.
+A representation class encapsulates selection via typedefs.
+You don't have to know this mechanism to use the CGAL kernel.
+For your first steps in CGAL (or if you don't need flexibility)
+you even do not have to know that representation classes exist.
+The CGAL tutorial will be a guide for your first steps in CGAL.
+In the following
+chapters we always denote the template variable for the representation
+class with <VAR>R</VAR>.<P>
+
+If you are curious here is how representation classes
+look like, if not, simply skip this paragraph.<P>
+
+<PRE>
+class CGAL_Rep_Cls
+{
+public:
+    typedef ...   Point_2;
+    typedef ...   Vector_2;
+    typedef ...   Direction_2;
+    typedef ...   Segment_2;
+    typedef ...   Line_2;
+    typedef ...   Ray_2;
+    typedef ...   Triangle_2;
+    typedef ...   Circle_2;
+    typedef ...   Polygon_2;
+    ...
+}
+</PRE><P>
+
+where  ... is replaced by a type provided by CGAL.
+<VAR>Rep_Cls::Point_2</VAR> is then another name for the type specified in
+ ... in <VAR>typedef ... Point_2</VAR>.<P>
+
+Currently, CGAL provides two families of representation classes,
+<VAR>CGAL_Cartesian</VAR> and <VAR>CGAL_Homogeneous</VAR>,
+each parametrized by a number type.
+The parametrization allows a user to choose a
+number type that is appropriate to represent the numerical data that
+are to be handled by an application program.
+Furthermore this allows one to choose the arithmetic and thereby
+to influence the precision of arithmetic computations.
+Finally, you can adopt CGAL primitives to your specific needs.<P>
+
+The correctness proof of nearly all geometric algorithms presented
+in theory papers assumes exact computation with real numbers.
+This leads to a fundamental problem with the implementation of
+geometric algorithms.
+Often exact real arithmetic is in the implementation simply
+replaced by inexact floating-point arithmetic, the more
+or less standard substitution for real numbers scientific computation.
+This might lead to acceptable results for most of the input data
+that are to be handled.
+However, even for the implementation of the simplest geometric
+algorithms this simplification occasionally does not work.
+Rounding errors introduced by an inaccurate arithmetic may lead to
+inconsistent decisions causing unexpected failures for some correct
+input data.<P>
+
+There are many approaches to this problem. A thorough discussion of
+attacks to this problem is beyond the scope of this reference manual.
+C.M. Hoffmann [<A HREF="biblio.html#Biblio_Ho_GSM">Hoffmann1</A>, <A HREF="biblio.html#Biblio_Ho_prec89">Hoffmann2</A>] illustrates
+problems arising in the implementation of geometric algorithms
+and discusses some approaches to solve them.
+More recent surveys are given in [<A HREF="biblio.html#Biblio_fortune_survey">Fortune</A>, <A HREF="biblio.html#Biblio_yap:crc">Yap1</A>, <A HREF="biblio.html#Biblio_Udine_notes">Schirra</A>].
+Furthermore the notes on robustness issues in geometric computation
+at the Workshop on Applied Computational Geometry [<A HREF="biblio.html#Biblio_wacg">WACG</A>] might
+serve for further reference.
+The probably easiest way to save the theoretical correctness in an
+actual implementation is  exact geometric computation
+[<A HREF="biblio.html#Biblio_BKMNSU95_prec">Burnikel et al.</A>, <A HREF="biblio.html#Biblio_Yap_exact_CCCG">Yap2</A>, <A HREF="biblio.html#Biblio_YD_ecp_prec">Yap and Dub&eacute;</A>]
+which is possible in many cases but more expensive
+than standard floating-point arithmetic.<P>
+
+The use of the C++ template mechanism for parametrization by
+representation classes and by number types gives a lot of
+flexibility. If you know that the geometric objects
+your algorithm handles are aligned on an integer grid, the built-in
+type  int might be a good choice. If it is crucial for you
+that the computation is exact the right choice might be to use
+arithmetic packages such as  rational or  real
+[<A HREF="biblio.html#Biblio_reals_TR">Burnikel et al.</A>]
+which are provided by LEDA. Still other people use the built-in
+type  double, because they need speed and can live with
+approximate results, or even algorithms that, from time to time,
+crash or compute incorrect results due to accumulated rounding errors.
+The kernel is constructed such that the user can use
+different types of arithmetic simultaneously and that the
+choice can be easily changed, e.g. for testing.<P>
+
+<BLOCKQUOTE>
+Note that exactness of the CGAL primitives is guaranteed only
+if appropriate number types are used.
+</BLOCKQUOTE><P>
+
+Hints on how to select representation classes
+and an appropriate number type for a specific application will be given
+to small extent in Chapter <A HREF="Chapter_Numbertype.html#Numbertype">here</A> and to larger extent
+in a document of its own.
+In the future CGAL will offer number types for which
+special versions of basic predicates are provided.
+The motivation for these special versions is to provide
+efficient exact geometric computation via techniques that cannot at all
+or only with reduced efficiency be incorporated into number types.
+Developing an own representation class is an advanced feature which
+will be explained in a separate document.<P>
+
+<A NAME="Section_2"></A>
+<H2>Cartesian Coordinates</H2>
+
+The <VAR>CGAL_Cartesian</VAR> family of representation classes uses
+the standard way of representing coordinates, Cartesian coordinates.
+When you declare a variable of, say, the CGAL point type you
+have to declare at the same time the type of the coordinates of that
+point. In what follows we call the coordinate type
+of Cartesian coordinates a  field type, or
+<VAR>FT</VAR>, because the coordinates are numbers from a field in
+the algebraic sense.
+The declaration for a point in <VAR>CGAL_Cartesian</VAR> representation
+with <VAR>FT</VAR> = <VAR>double</VAR> and with coordinates <MATH>(1/3, 5/3)</MATH>
+looks as follows:<P>
+
+<PRE>
+
+  <A HREF="CGAL_Point_2.html">CGAL_Point_2&lt; CGAL_Cartesian&lt;double&gt; &gt;</A> p(1.0/3.0, 5.0/3.0);
+
+</PRE><P>
+
+<A NAME="Section_3"></A>
+<H2>Homogeneous Coordinates</H2>
+
+In addition to the use of  Cartesian coordinates CGAL further offers
+the use of  homogeneous coordinates.
+In <MATH>d</MATH>-dimensional Euclidian space a point with homogeneous coordinates
+<MATH>(h<SUB>0</SUB>,h<SUB>1</SUB>,...,h<SUB>
+d</SUB>)</MATH>, <MATH>h<SUB>d</SUB> != 0</MATH>,
+has Cartesian coordinates
+<MATH>(c<SUB>0</SUB>,c<SUB>1</SUB>,...,c<SUB>d-1</SUB>)</MATH>
+where
+<MATH>c<SUB>i</SUB> = h<SUB>i</SUB>/h<SUB>d</SUB></M
+ATH>, i.e., with homogeneous
+representation we have one additional coordinate.
+Note that homogeneous coordinates are not unique.
+For <MATH>lambda != 0</MATH>, the tuples
+<MATH>(h<SUB>0</SUB>,h<SUB>1</SUB>,...,h<SUB>
+d</SUB>)</MATH>
+and
+<MATH>
+(lambda  h<SUB>0</SUB>,lambda  h<SUB>1</SUB>,...,lambda  h<SUB>d</SUB>)</MATH>
+represent the
+same point.
+For a point with Cartesian coordinates <M
+ATH>(c<SUB>0</SUB>,c<SUB>1</SUB>,...,c<SUB>d-1</SUB>)</MATH> a
+homogeneous representation is 
+<MATH>(c<SUB>0</SUB>,c<SUB>1</SUB>,...,c<SUB>d-1</SUB>,1)</MATH>.
+Homogeneous coordinates permit to avoid division operations in
+numerical computations. The additional coordinate can serve as a common
+denominator.<P>
+
+The number type used to represent the homogeneous coordinates is called
+ ring type or <VAR>RT</VAR>, which indicates that essentially no divisions
+are needed for this number type.
+The homogeneous representation with ring type <VAR>RT</VAR> induces a number
+type <VAR><A HREF="CGAL_Quotient.html">CGAL_Quotient&lt;RT&gt;</A></VAR> which is used whenever a division is needed,
+e.g. for returning a Cartesian coordinate. This number type is called
+ field type or <VAR>FT</VAR>, indicating that divisions are involved.
+For the ring type <VAR>RT</VAR>
+<MATH>=</MATH> <VAR>int</VAR>, the induced field type is
+<VAR><A HREF="CGAL_Quotient.html">CGAL_Quotient&lt;int&gt;</A></VAR>.<P>
+
+A variable declaration for a point at coordinates <MATH>(1/3, 5/3)</MATH>
+represented with homogeneous coordinates with ring type <VAR>double</VAR>
+then looks as follows:<P>
+
+<PRE>
+
+  <A HREF="CGAL_Point_2.html">CGAL_Point_2&lt; CGAL_Homogeneous&lt;double&gt; &gt;</A> p(1.0, 5.0, 3.0);
+
+</PRE><P>
+
+Avoiding divisions can be useful for exact geometric computation.<P>
+
+<A NAME="Section_4"></A>
+<H2>Uniform Interface</H2>
+
+Representation classes provide a uniform interface for both
+representation classes provided by CGAL, <VAR>CGAL_Cartesian</VAR> and
+<VAR>CGAL_Homogeneous</VAR>.
+The idea is to be able to develop code that is independent
+from the chosen representation.
+At a sufficiently high level this is certainly possible.
+At the lower levels, especially the lowest level, the arithmetic,
+optimal implementations will be different.
+Fortunately, arithmetic can be encapsulated in primitives.
+Geometric primitives requiring different code are then provided
+in different versions.<P>
+
+For easy implementation of those primitives that are not
+provided by the CGAL kernel a representation class provides
+access to the number types.
+Since homogeneous representations involve both ring and field type
+a representation class gives access to both.
+We have <VAR>R::FT</VAR> for the field type and
+<VAR>R::RT</VAR> for the ring type of the representation class
+<VAR>R</VAR>.
+For the representation class <VAR>CGAL_Cartesian</VAR> the types
+<VAR>R::RT</VAR> and <VAR>R::FT</VAR> are equal.
+More precisely, we have<P>
+
+
+<BR><VAR>CGAL_Cartesian&lt;number_type&gt;::RT =  number_type</VAR>
+<BR><VAR>CGAL_Homogeneous&lt;number_type&gt;::RT =  number_type</VAR>
+<BR><VAR>CGAL_Cartesian&lt;number_type&gt;::FT =  number_type</VAR>
+<BR><VAR>CGAL_Homogeneous&lt;number_type&gt;::FT =  <A HREF="CGAL_Quotient.html">CGAL_Quotient&lt;number_type&gt;</A></VAR>
+<P>
+
+<A NAME="Section_5"></A>
+<H2>Naming Conventions</H2>
+<P>
+
+Not only that introducing representation classes solves problems, it
+also makes all CGAL classes very uniform. They  always consist of:
+<OL>
+<LI>The  namespace prefix <VAR>CGAL_</VAR>, which avoids name
+clashes. It will be dropped as soon as C++ compilers support the
+concept of namespaces as a feature of the programming language.<P>
+
+<LI>The  capitalized base name of the geometric object, as
+<VAR>Point</VAR>, <VAR>Segment</VAR>, <VAR>Triangle</VAR>.<P>
+
+<LI>An  underscore followed by the  dimension of the object,
+that is <MATH>_2</MATH>, <MATH>_3</MATH> or <MATH>_d</MATH>.<P>
+
+<LI>A  representation class as parameter, which itself is
+parameterized with a number type, as <VAR>CGAL_Cartesian&lt;double&gt;</VAR>
+or <VAR>CGAL_Homogeneous&lt;integer&gt;</VAR>.
+</OL><P>
+
+<A NAME="Section_6"></A>
+<H2>Order of Header File Inclusion</H2>
+<P>
+
+The order of the inclusion of header files is important. First include
+representation class header files, then include header files of geometric
+classes and finally include header files from the I/O support library.<P>
+
+<OL>
+<LI>The files  CGAL/Homogeneous.h or/and  CGAL/Cartesian.h
+must be included before the inclusion of header files for geometric
+classes.
+Which one to include depends on whether you use the
+homogeneous or the Cartesian representation class provided by
+CGAL. If you use both representation classes you have to include both
+header files.
+For  g++ user it is very important that  &lt;std/typeinfo.h&gt;
+is included before all other include files.
+The inclusion of  CGAL/Cartesian.h or  CGAL/Homogeneous.h
+(or  CGAL/basic.h) at first assures this.<P>
+
+<LI>When you use a geometric class
+<VAR>CGAL_Class_2</VAR>, you have to include the header file
+<VAR>CGAL/Class_2.h</VAR>. As the header files form a hierarchy,
+it is enough to include the highest level header files.<P>
+
+In sections describing not classes but geometric functions we
+explicitly give the name of the header file to include.<P>
+
+<LI>Header files for the I/O support library must be included after the
+inclusion of header files for geometric classes. These header files
+are are in the subdirectory  CGAL/IO.
+</OL><P>
+
+<H4>Example</H4>
+<P>
+
+In order to declare two dimensional segments with homogeneous
+coordinates with ring type <VAR>integer</VAR> you have to write:<P>
+
+<PRE>
+
+#include &lt;CGAL/Homogeneous.h&gt;
+#include &lt;CGAL/Segment_2.h&gt;
+#include &lt;CGAL/Integer.h&gt;
+#include &lt;CGAL/IO/ostream_2.h&gt;
+
+typedef CGAL_Homogeneous&lt;integer&gt; RepClass;
+typedef <A HREF="CGAL_Segment_2.html">CGAL_Segment_2&lt; RepClass  &gt;</A> Segment;
+typedef <A HREF="CGAL_Point_2.html">CGAL_Point_2&lt; RepClass &gt;</A> Point;
+
+{
+  Point p(0.0), q(1.0);
+  Segment s(p,q);
+
+  cout &lt;&lt; p &lt;&lt; endl &lt;&lt; s &lt;&lt; endl;
+}
+</PRE><P>
+
+Note that the use of C++  typedefs makes the CGAL types
+looking less clumsy. The use of  typedefs further increases code
+maintainability as it localizes type information.<P>
+
+<H4>Implementation</H4>
+<P>
+
+The reason for this order of inclusion is the following: CGAL is designed
+such that only the necessary header files are included. When you
+include the header file <VAR>CGAL/Class_2.h</VAR> you implicitly
+include either the header file <VAR>CGAL/ClassH2.h</VAR> or the header file
+<VAR>CGAL/ClassC2.h</VAR> which contains the implementation of either the
+homogeneous or the Cartesian representation. This depends on the choice
+of the representation class. The header files of the I/O support library
+have to be included last, because they declare input and output operators
+only for the geometric classes that were included.<P>
+
+<A NAME="Section_7"></A>
+<H2>CGAL Classes are in the Orthodox Canonical Form</H2>
+<P>
+
+A class is  in the orthodox canonical form, if it provides the
+following member functions: a  default constructor, a  copy
+constructor, the  assignment operator and a  destructor.
+All geometric classes in CGAL are in this form, if not stated
+otherwise, and we will
+not describe these member functions in the description of each class.<P>
+
+The default constructor introduces a variable of
+a given type.<P>
+
+<PRE>
+
+  CGAL_Class_2&lt;R&gt; o;
+</PRE><P>
+
+How this variable is initialized depends on the default constructor
+of the data members of the class. For a point it depends on the
+type of the coordinates. Some number types are initialized with zero,
+others are not initialized at all. To be on the save side the variable
+should not be used on the right hand side of an assignment nor
+should its data members be accessed.<P>
+
+The copy constructor makes an identical copy of <VAR>p</VAR>.<P>
+
+<PRE>
+
+CGAL_Class_2&lt;R&gt; o(p);
+</PRE><P>
+
+The assignment is much like the copy constructor. After
+the assignment <VAR>o</VAR> and <VAR>p</VAR> are identical.<P>
+
+<PRE>
+
+CGAL_Class_2&lt;R&gt;  o = p;
+</PRE><P>
+
+There is not much to say about the destructor. It just guarantees
+that when an automatic variable goes out of scope the memory associated
+to it is freed again.<P>
+
+We said that copy constructor and assignment make identical copies
+of an object. It is important to see that  identity and
+ equality are different concepts.<P>
+
+All CGAL classes have a test for equality, namely the
+operator <VAR>==</VAR>. What it means that two objects are
+equal depends on the type of the object and will be explained
+for each class.<P>
+
+For all CGAL classes we provide a test for identity, namely the
+function <VAR>CGAL_identical</VAR>. It means that you have two different
+variables which refer to the same object.<P>
+
+<PRE>
+
+assert( CGAL_identical(o, p) == false );
+  
+p = o;
+assert( CGAL_identical(o, p) == true );
+</PRE><P>
+
+<A NAME="Section_8"></A>
+<H2>Organization of this Manual</H2>
+<P>
+
+This document is organized as follows.
+<A HREF="Chapter_Numbertype.html#Numbertype">This Chapter</A> describes some number types you might
+use and briefly discusses their advantages and disadvantages.
+Chapters <A HREF="Chapter_Numbertype.html#PointVectorDirection">here</A> to <A HREF="Chapter_Iso-Objects.html#IsoObjects">here</A> explain the
+basic geometric types. Each section in these chapters is self
+contained: It gives a complete description of a geometric type, i.e. the full set of functions which can be applied on an object of this
+type. We further give an example and describe how the underlying
+C++ class is implemented. Chapters <A HREF="Chapter_Predicates.html#Predicates">here</A>
+to <A HREF="Chapter_AffTransformation.html#AffTransformation">here</A> explain the basic operations. Finally,
+<A HREF="Chapter_Bbox_2.html#Bbox">This Chapter</A> introduces the concept of the bounding box and explains
+where to use them.<P>
+
+<P><H3>If You have a Problem</H3>
+<P>
+
+If you have any questions,
+comments, remarks or criticism concerning CGAL, feel free and give us
+a note under the email addresses mentioned in the  README file,
+or send it to <A HREF="mailto:cgal@cs.ruu.nl">
+cgal@cs.ruu.nl;</A>.<P>
+
+<H3>What is missing in this Release?</H3>
+<P>
+
+This release of CGAL provides only constant sized two and
+three-dimensional objects. The higher dimensional part of the kernel
+will be available soon. Intersection routines and distance
+functions are not provided for all combinations of geometric objects,
+especially not for curved objects.<P>
+
+<HR> Next chapter: <A HREF="Chapter_Numbertype.html">Number Types</A>
+
+
+<HR><address> The <A HREF="http://www.cs.ruu.nl/CGAL/"><TT>CGAL</TT> Project</A>.</address>
+</BODY>
+</HTML>

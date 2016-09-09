@@ -1,3 +1,20 @@
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: SegmentC2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -7,13 +24,13 @@
 #include <CGAL/LineC2.h>
 
 template < class FT >
-class CGAL_SegmentC2 : public CGAL_Handle_base
+class CGAL_SegmentC2 : public CGAL_Handle
 {
 public:
                        CGAL_SegmentC2();
                        CGAL_SegmentC2(const CGAL_SegmentC2<FT>  &s);
                        CGAL_SegmentC2(const CGAL_PointC2<FT> &sp,
-                                    const CGAL_PointC2<FT> &ep);
+                                      const CGAL_PointC2<FT> &ep);
 
                        ~CGAL_SegmentC2();
 
@@ -21,18 +38,23 @@ public:
 
   bool                 is_horizontal() const;
   bool                 is_vertical() const;
-  bool                 is_on(const CGAL_PointC2<FT> &p) const;
-  bool                 collinear_is_on(const CGAL_PointC2<FT> &p) const;
+  bool                 has_on(const CGAL_PointC2<FT> &p) const;
+  bool                 collinear_has_on(const CGAL_PointC2<FT> &p) const;
 
   bool                 operator==(const CGAL_SegmentC2<FT> &s) const;
   bool                 operator!=(const CGAL_SegmentC2<FT> &s) const;
-  bool                 identical(const CGAL_SegmentC2<FT> &s) const;
+  int                  id() const;
 
   CGAL_PointC2<FT>     start() const;
   CGAL_PointC2<FT>     end() const;
+
+  CGAL_PointC2<FT>     source() const;
+  CGAL_PointC2<FT>     target() const;
+
   CGAL_PointC2<FT>     min() const;
   CGAL_PointC2<FT>     max() const;
   CGAL_PointC2<FT>     vertex(int i) const;
+  CGAL_PointC2<FT>     point(int i) const;
   CGAL_PointC2<FT>     operator[](int i) const;
 
   FT                   squared_length() const;
@@ -45,10 +67,6 @@ public:
   bool                 is_degenerate() const;
   CGAL_Bbox_2          bbox() const;
 
-#ifdef CGAL_CHECK_PRECONDITIONS
-  bool                 is_defined() const;
-#endif // CGAL_CHECK_PRECONDITIONS
-
 private:
   CGAL__Twotuple< CGAL_PointC2<FT> >*   ptr() const
   {
@@ -57,51 +75,26 @@ private:
 };
 
 
-#ifdef CGAL_CHECK_PRECONDITIONS
-template < class FT >
-inline bool CGAL_SegmentC2<FT>::is_defined() const
-{
-  return (PTR == NULL)? false : true;
-}
-#endif // CGAL_CHECK_PRECONDITIONS
-
-
-
 template < class FT >
 CGAL_SegmentC2<FT>::CGAL_SegmentC2()
 {
-#ifdef CGAL_CHECK_PRECONDITIONS
-  PTR = NULL;
-#else
   PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >;
-#endif // CGAL_CHECK_PRECONDITIONS
 }
 
 template < class FT >
 CGAL_SegmentC2<FT>::CGAL_SegmentC2(const CGAL_SegmentC2<FT>  &s) :
-  CGAL_Handle_base((CGAL_Handle_base&)s)
+  CGAL_Handle((CGAL_Handle&)s)
 {}
 
 template < class FT >
 CGAL_SegmentC2<FT>::CGAL_SegmentC2(const CGAL_PointC2<FT> &sp,
                                  const CGAL_PointC2<FT> &ep)
 {
-  CGAL_kernel_precondition( sp.is_defined() && ep.is_defined() );
   PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >(sp, ep);
 
   CGAL_nondegeneracy_assertion;
 }
 
-/*
-template < class FT >
-CGAL_SegmentC2<FT>::CGAL_SegmentC2(const FT &sx, const FT &sy,
-                                   const FT &ex, const FT &ey)
-{
-  PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >(CGAL_PointC2<FT>(sx,sy),
-                                               CGAL_PointC2<FT>(ex,ey) );
-  CGAL_nondegeneracy_assertion;
-}
-*/
 template < class FT >
 CGAL_SegmentC2<FT>::~CGAL_SegmentC2()
 {}
@@ -110,22 +103,20 @@ CGAL_SegmentC2<FT>::~CGAL_SegmentC2()
 template < class FT >
 CGAL_SegmentC2<FT>::operator CGAL_SegmentC2<double>() const
 {
-  return CGAL_SegmentC2<double>(start(), end());
+  return CGAL_SegmentC2<double>(source(), target());
 }
 #endif // CGAL_TO_DOUBLE
 
 template < class FT >
 CGAL_SegmentC2<FT> &CGAL_SegmentC2<FT>::operator=(const CGAL_SegmentC2<FT> &s)
 {
-  CGAL_kernel_precondition(s.is_defined());
-  CGAL_Handle_base::operator=(s);
+  CGAL_Handle::operator=(s);
   return *this;
 }
 template < class FT >
 bool  CGAL_SegmentC2<FT>::operator==(const CGAL_SegmentC2<FT> &s) const
 {
-  CGAL_kernel_precondition(is_defined() && s.is_defined());
-  return ( (start() == s.start())  && (end() == s.end()) );
+  return ( (source() == s.source())  && (target() == s.target()) );
 }
 
 template < class FT >
@@ -135,156 +126,176 @@ bool  CGAL_SegmentC2<FT>::operator!=(const CGAL_SegmentC2<FT> &s) const
 }
 
 template < class FT >
-bool CGAL_SegmentC2<FT>::identical(const CGAL_SegmentC2<FT> &s) const
+int CGAL_SegmentC2<FT>::id() const
 {
-  CGAL_kernel_precondition(is_defined() && s.is_defined());
-  return (PTR == s.PTR);
+  return (int) PTR ;
 }
 template < class FT >
 CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::start() const
 {
-  CGAL_kernel_precondition(is_defined());
   return ptr()->e0;
 }
 
 template < class FT >
 CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::end() const
 {
-  CGAL_kernel_precondition(is_defined());
   return ptr()->e1;
 }
+
+
+template < class FT >
+CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::source() const
+{
+  return ptr()->e0;
+}
+
+template < class FT >
+CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::target() const
+{
+  return ptr()->e1;
+}
+
 
 template < class FT >
 CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::min() const
 {
-  CGAL_kernel_precondition(is_defined());
 
-  return (CGAL_lexicographically_xy_smaller(start(),end())) ? start() : end();
+
+  return (CGAL_lexicographically_xy_smaller(source(),target())) ? source()
+                                                                : target();
 }
 
 template < class FT >
 CGAL_PointC2<FT>  CGAL_SegmentC2<FT>::max() const
 {
-  CGAL_kernel_precondition(is_defined());
 
-  return (CGAL_lexicographically_xy_smaller(start(),end())) ? end() : start();
+
+  return (CGAL_lexicographically_xy_smaller(source(),target())) ? target()
+                                                                : source();
 }
 
 template < class FT >
 CGAL_PointC2<FT> CGAL_SegmentC2<FT>::vertex(int i) const
 {
-  CGAL_kernel_precondition(is_defined());
-  switch (i%2) {
-  case 0: return start();
-  case 1: return end();
+
+  if(i%2 == 0) {
+  return source();
   }
-  return start();  // otherwise the SGI compiler complains
+  return target();
+}
+
+template < class FT >
+CGAL_PointC2<FT> CGAL_SegmentC2<FT>::point(int i) const
+{
+
+  if(i%2 == 0) {
+  return source();
+  }
+  return target();
 }
 
 template < class FT >
 CGAL_PointC2<FT> CGAL_SegmentC2<FT>::operator[](int i) const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return vertex(i);
 }
 template < class FT >
 FT CGAL_SegmentC2<FT>::squared_length() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return  ( (end() - start()) * (end() - start()));
+
+  return  ( (target() - source()) * (target() - source()));
 }
 
 template < class FT >
 CGAL_DirectionC2<FT> CGAL_SegmentC2<FT>::direction() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return CGAL_DirectionC2<FT>( end() - start() );
+
+  return CGAL_DirectionC2<FT>( target() - source() );
 }
 
 template < class FT >
 CGAL_LineC2<FT> CGAL_SegmentC2<FT>::supporting_line() const
 {
-  CGAL_kernel_precondition(is_defined());
+
   return CGAL_LineC2<FT>(*this);
 }
 
 template < class FT >
 CGAL_SegmentC2<FT> CGAL_SegmentC2<FT>::opposite() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return CGAL_SegmentC2<FT>(end(), start());
+
+  return CGAL_SegmentC2<FT>(target(), source());
 }
 
 template < class FT >
 CGAL_SegmentC2<FT> CGAL_SegmentC2<FT>::transform(
                                const CGAL_Aff_transformationC2<FT> &t) const
 {
-  CGAL_kernel_precondition(is_defined() && t.is_defined());
-  return CGAL_SegmentC2<FT>(t.transform(start()),
-                           t.transform(end()));
+  return CGAL_SegmentC2<FT>(t.transform(source()),
+                           t.transform(target()));
 }
 
 template < class FT >
 CGAL_Bbox_2 CGAL_SegmentC2<FT>::bbox() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return start().bbox() + end().bbox();
+
+  return source().bbox() + target().bbox();
 }
 
 template < class FT >
 bool  CGAL_SegmentC2<FT>::is_degenerate() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return (start() == end());
+
+  return (source() == target());
 }
 
 template < class FT >
 bool CGAL_SegmentC2<FT>::is_horizontal() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return (start().y() == end().y());
+
+  return (source().y() == target().y());
 }
 
 template < class FT >
 bool CGAL_SegmentC2<FT>::is_vertical() const
 {
-  CGAL_kernel_precondition(is_defined());
-  return (start().x() == end().x());
+
+  return (source().x() == target().x());
 }
 
 template < class FT >
-bool CGAL_SegmentC2<FT>::is_on(const CGAL_PointC2<FT> &p) const
+bool CGAL_SegmentC2<FT>::has_on(const CGAL_PointC2<FT> &p) const
 {
-  CGAL_kernel_precondition(is_defined() && p.is_defined());
-  return(( p == start() )
-         || ( p == end() )
-         || ( CGAL_collinear(start(), p, end())
-              &&( CGAL_DirectionC2<FT>(p - start())
+  return(( p == source() )
+         || ( p == target() )
+         || ( CGAL_collinear(source(), p, target())
+              &&( CGAL_DirectionC2<FT>(p - source())
                   !=
-                  CGAL_DirectionC2<FT> (p - end()))
+                  CGAL_DirectionC2<FT> (p - target()))
              )
          );
 }
 
 
 template < class FT >
-bool CGAL_SegmentC2<FT>::collinear_is_on(const CGAL_PointC2<FT> &p)
+bool CGAL_SegmentC2<FT>::collinear_has_on(const CGAL_PointC2<FT> &p)
 const
 {
-  CGAL_kernel_precondition(is_defined() && p.is_defined());
-  CGAL_exactness_precondition( CGAL_collinear(start(), p, end()) );
-    if (CGAL_abs(end().x()-start().x()) > CGAL_abs(end().y()-start().y())) {
-        if (p.x() < start().x())
-            return (p.x() >= end().x());
-        if (p.x() <= end().x())
+    CGAL_exactness_precondition( CGAL_collinear(source(), p, target()) );
+    if (CGAL_abs(target().x()-source().x())
+        > CGAL_abs(target().y()-source().y())) {
+        if (p.x() < source().x())
+            return (p.x() >= target().x());
+        if (p.x() <= target().x())
             return true;
-        return (p.x() == start().x());
+        return (p.x() == source().x());
     } else {
-        if (p.y() < start().y())
-            return (p.y() >= end().y());
-        if (p.y() <= end().y())
+        if (p.y() < source().y())
+            return (p.y() >= target().y());
+        if (p.y() <= target().y())
             return true;
-        return (p.y() == start().y());
+        return (p.y() == source().y());
     }
 }
 

@@ -1,0 +1,179 @@
+% $Id: Line_2.tex,v 1.2 1996/07/08 12:19:15 fabri Exp fabri $
+
+\begin {classtemplate} {CGAL_Line_2<R>}
+\CCsection{2D Line}
+
+\definition
+An object \CCstyle{l} of the data type \classname\ is a directed
+straight line in the two-dimensional Euclidean plane $\E_2$. It is
+defined by the set of points with coordinates $(x,y)$ that satisfy the
+equation 
+\begin{TexOnly}
+\[ {\cal L}:\; a\, x +b\, y +c = 0. \]
+\end{TexOnly}
+\begin{HtmlOnly}
+ L : ax + by + c = 0 
+\end{HtmlOnly}
+ 
+\begin{TexOnly}%
+The line splits $\E_2$ in a {\em positive} and a {\em negative}
+side%
+.\footnote{See Section~\ref{Predicates} for the definition of 
+\CCstyle{CGAL_Oriented_side}.}
+\end{TexOnly}
+\begin{HtmlOnly}
+The line splits <MATH><B>E</B><SUB>3</SUB></MATH> in a <EM> positive
+</EM> and a <EM> negative side</EM>
+(see CGAL_Oriented_side).
+\end{HtmlOnly}
+A point $p$ with coordinates $(px, py)$
+is on the positive side of \CCstyle{l}, iff
+\LatexHtml{$a\, px + b\, py +c > 0$}{a px + b py + c > 0}, it is
+on the negative side of \CCstyle{l}, iff 
+\LatexHtml{$a\, px + b\, py +c < 0$}{a px + b py + c < 0}.
+
+\creation
+\creationvariable{l}
+
+\CCstyle{#include <CGAL/Line_2.h>}
+
+\hidden \constructor{CGAL_Line_2();}
+             {introduces an uninitialized variable \var.}
+
+\hidden \constructor{CGAL_Line_2(const CGAL_Line_2<R> &h);}
+ 	    {copy constructor.}
+
+\constructor{CGAL_Line_2(const R::RT &a, const R::RT &b, const R::RT &c)}
+            {introduces a line \var\ with the line equation $ax +by +c = 0$.}
+
+\constructor{CGAL_Line_2(const CGAL_Point_2<R> &p, const CGAL_Point_2<R> &q);}
+            {introduces a line \var\ passing through the points $p$ and $q$. 
+             Line \var\ is directed from $p$ to $q$.}
+
+\constructor{CGAL_Line_2(const CGAL_Point_2<R> &p, const CGAL_Direction_2<R>&d)}
+            {introduces a line \var\ passing through point $p$ with 
+             direction $d$.}
+
+\operations
+\threecolumns{5cm}{4cm}
+
+\hidden \method{CGAL_Line_2<R> & operator=(const CGAL_Line_2<R> &h);}
+        {Assignment.}
+
+\method{bool operator==(const CGAL_Line_2<R> &h) const;}
+       {Test for equality: two lines are equal, iff they have a non 
+        empty intersection and the same direction.}
+
+\method{bool operator!=(const CGAL_Line_2<R> &h) const;}
+       {Test for inequality.}
+
+
+\method{R::RT a() const;}
+       {returns the first coefficient of ${\cal L}$.}
+
+\method{R::RT b() const;}
+       {returns the second coefficient of ${\cal L}$.}
+
+\method{R::RT c() const;}
+       {returns the third coefficient of ${\cal L}$.}
+
+\method{CGAL_Point_2<R> point(int i) const;}
+       {returns an arbitrary point on \var. It holds 
+        \CCstyle{point(i) == point(j)}, iff \CCstyle{i==j}.
+        Furthermore, \var\ is directed from \CCstyle{point(i)}
+        to \CCstyle{point(j)}, for all \CCstyle{i} $<$ \CCstyle{j}.}
+
+\method{CGAL_Direction_2<R> direction() const;}
+       {returns the direction of \var.}
+
+\method{R::FT               x_at_y(const R::FT &y) const;}
+       {returns the $x$-coordinate of \var\ at a given $y$-coordinate.
+        \precond \var\ is not horizontal.}
+
+\method{R::FT               y_at_x(const R::FT &x) const;}
+       {returns the $y$-coordinate of \var\ at a given $x$-coordinate.
+        \precond \var\ is not vertical.}
+
+\method{CGAL_Line_2<R>      perpendicular(const CGAL_Point_2<R> &p) const;}
+%       {returns the line perpendicular to \var\ passing through $p$. It is 
+%        directed from the intersection point towards $p$.}
+        {returns the line perpendicular to \var\ passing through $p$ where the
+         direction is the direction of \var\ rotated counterclockwise by
+         90 degrees.}
+
+\method{CGAL_Line_2<R>      opposite() const;}
+       {returns the line with opposite direction.}
+
+\method{CGAL_Point_2<R>    projection(const CGAL_Point_2<R> &p) const;}
+       {returns the vertical projection of $p$ on \var.}
+
+\method{bool is_degenerate() const;}
+       {line \var\ is degenerate, if the coefficients \CCstyle{a} and 
+        \CCstyle{b} of the line equation are zero.}
+
+\method{bool is_horizontal() const;}
+       {}
+
+\method{bool is_vertical() const;}
+       {}
+
+\method{CGAL_Oriented_side oriented_side(const CGAL_Point_2<R> &p) const;}
+       {returns \CCstyle{CGAL_ON_POSITIVE_SIDE}, 
+	\CCstyle{CGAL_ON_ORIENTED_BOUNDARY} or \CCstyle{CGAL_ON_NEGATIVE_SIDE},
+        depending where point $p$ is relative to the oriented line \var.
+        }
+
+
+For convenience we provide the following boolean functions:
+
+\method{bool has_on(const CGAL_Point_2<R> &p) const;}
+       {}
+
+\method{bool has_on_boundary(const CGAL_Point_2<R> &p) const;}
+       {returns \CCstyle{has_on()}.}
+
+\method{bool has_on_positive_side(const CGAL_Point_2<R> &p) const;}
+       {}
+
+\method{bool has_on_negative_side(const CGAL_Point_2<R> &p) const;}
+       {}
+
+\method{CGAL_Line_2<R>  transform(const CGAL_Aff_transformation_2<R> &t) const;}
+       {returns the line obtained by applying $t$ on a point on \var\ 
+        and the direction of \var.}
+
+
+\implementation
+
+Lines are implemented as a line equation. You might loose precision,
+if you construct them from points or a point and a direction, if the
+number type is not exact.
+
+\example
+Let us first define two Cartesian two-dimensional points in the Euclidean 
+plane $\E_2$. Their
+dimension and the fact that they are Cartesian is expressed by
+the suffix \CCstyle{_2} and the representation type \CCstyle{CGAL_Cartesian}.
+
+\begin{cprog}
+
+  CGAL_Point_2< CGAL_Cartesian<double> >  p(1.0,1.0), q(4.0,7.0);
+\end{cprog} 
+
+To define a line $l$ we write:
+
+\begin{cprog}
+
+  CGAL_Line_2< CGAL_Cartesian<double> > l(p,q);
+\end{cprog} 
+
+
+\end {classtemplate} 
+
+% $Log: Line_2.tex,v $
+% Revision 1.2  1996/07/08 12:19:15  fabri
+% *** empty log message ***
+%
+% Revision 1.1  1995/10/19 18:22:12  fabri
+% Initial revision
+%

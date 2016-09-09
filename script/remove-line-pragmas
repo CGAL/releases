@@ -1,0 +1,4 @@
+#!/usr/local/bin/perl -pi
+
+#  removes #line pragmas 
+s/.*\#line.*/ /g;

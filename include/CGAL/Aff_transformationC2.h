@@ -1,15 +1,36 @@
- 
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: Aff_transformationC2.h
 // Author: Andreas.Fabri@sophia.inria.fr, kettner@inf.fu-berlin.de
 
 #ifndef CGAL_AFF_TRANSFORMATIONC2_H
 #define CGAL_AFF_TRANSFORMATIONC2_H
 #include <math.h>
-#include <CGAL/PointC2.h>
+#include <CGAL/rational_rotation.h>
+#include <CGAL/bool.h>
+#include <CGAL/Handle.h>
+#include <CGAL/cartesian_classes.h>
 #include <CGAL/determinant.h>
 
-#include <CGAL/aff_transformation_tags.h>
- 
+#ifdef CGAL_WORKAROUND_015
+#define CGAL_NO_LINE_TRANSFORM_IN_AT
+#endif // CGAL_WORKAROUND_015
+
 
 template < class FT >
 class CGAL__Translation_repC2;
@@ -23,13 +44,9 @@ class CGAL__Scaling_repC2;
 template < class FT >
 class CGAL__Aff_transformation_repC2;
 
- 
-
-
- 
 
 template < class FT >
-  class CGAL__Aff_transformation_rep_baseC2 : public CGAL_Handle_rep
+  class CGAL__Aff_transformation_rep_baseC2 : public CGAL_Rep
 {
 public:
   virtual                       ~CGAL__Aff_transformation_rep_baseC2() {}
@@ -37,7 +54,6 @@ public:
   virtual CGAL_PointC2<FT>     transform(const CGAL_PointC2<FT> &p) const  = 0;
   virtual CGAL_VectorC2<FT>    transform(const CGAL_VectorC2<FT> &v) const = 0;
   virtual CGAL_DirectionC2<FT> transform(const CGAL_DirectionC2<FT> &d) const=0;
-
 #ifdef CGAL_WORKAROUND_004
 
   virtual CGAL_Aff_transformationC2<FT> general_form() const  = 0;
@@ -56,32 +72,26 @@ public:
 
   virtual CGAL_Aff_transformationC2<FT> compose(
                        const CGAL__Aff_transformation_repC2<FT> &t) const  = 0;
-
-#endif // CGAL_WORKAROUND_004
-
+#endif // GAL_WORKAROUND_004
   virtual CGAL_Aff_transformationC2<FT> inverse() const  = 0;
 
   virtual bool                 is_even() const  = 0;
-#ifdef _STREAM_H_
+// #ifdef _STREAM_H_
   virtual ostream              &print(ostream &os) const
     {
       os << "virtual fct called";
       return os;
     }
-#endif // _STREAM_H_
+// #endif // _STREAM_H_
 };
- 
 
 
-
- 
 
 
 template < class FT >
 class CGAL__Aff_transformation_repC2 :
                               public CGAL__Aff_transformation_rep_baseC2<FT>
 {
-
 friend class CGAL__Translation_repC2<FT>;
 friend class CGAL__Rotation_repC2<FT>;
 friend class CGAL__Scaling_repC2<FT>;
@@ -93,8 +103,8 @@ public:
 
   CGAL__Aff_transformation_repC2( const FT& m11, const FT& m12,
                                   const FT& m21, const FT& m22)
-    : t11(m11), t12(m12), t13(FT(0)),
-      t21(m21), t22(m22), t23(FT(0))
+    : t11(m11), t12(m12), t13(0),
+      t21(m21), t22(m22), t23(0)
   {}
 
   CGAL__Aff_transformation_repC2( const FT& m11, const FT& m12, const FT& m13,
@@ -203,28 +213,25 @@ public:
   }
 #endif // CGAL_WORKAROUND_004
 
-
  virtual bool is_even() const
   {
     return ( CGAL_sign(t11 * t22 - t12 * t21) == 1 );
   }
-#ifdef _STREAM_H_
+// #ifdef _STREAM_H_
  virtual ostream &print(ostream &os) const
   {
     os << "Aff_transformationC2(" << t11 << " " << t12 << " " << t13 << endl;
     os << "                     " << t21 << " " << t22 << " " << t23 << ")";
     return os;
   }
-#endif // _STREAM_H_
+// #endif // _STREAM_H_
 private:
 
     FT   t11, t12, t13;
     FT   t21, t22, t23;
 
 };
- 
 
- 
 template < class FT >
 class CGAL__Translation_repC2 : public CGAL__Aff_transformation_rep_baseC2<FT>
 {
@@ -322,7 +329,6 @@ public:
                                          + t.t22*_translationvector.y()
                                          + t.t23);
   }
-
 #endif // CGAL_WORKAROUND_004
 
   CGAL_Aff_transformationC2<FT>  inverse() const
@@ -336,19 +342,18 @@ public:
     return true;
   }
 
-#ifdef _STREAM_H_
+// #ifdef _STREAM_H_
  virtual ostream &print(ostream &os) const
   {
-    os << "Aff_transformationC2(" << _translationvector <<  ")";
+    os << "Aff_transformationC2(VectorC2(" << _translationvector.x() << ", "
+       << _translationvector.y()  <<  "))";
     return os;
   }
-#endif // _STREAM_H_
+// #endif // _STREAM_H_
 private:
   CGAL_VectorC2<FT>   _translationvector;
 };
- 
 
- 
 template < class FT >
 class CGAL__Rotation_repC2: public CGAL__Aff_transformation_rep_baseC2<FT>
 {
@@ -364,20 +369,23 @@ public:
   {}
 
   CGAL__Rotation_repC2(const CGAL_DirectionC2<FT> &d,
-                       const FT &num,
-                       const FT &den = FT(1))
+                       const FT &eps_num,
+                       const FT &eps_den = FT(1))
   {
-    const FT &x = d.vector().x();
-    const FT &y = d.vector().y();
-    // the CGAL_to_double messes it totally up, but how else do
-    // we want to compute the square root ???
-    // somehow that's where the imprecision num/den comes in
-    const FT hypothenuse = sqrt(CGAL_to_double(x*x + y*y));
+    FT sin_num;
+    FT cos_num;
+    FT denom;
 
-    _sinus   = y/hypothenuse;
-    _cosinus = x/hypothenuse;
+    CGAL_rational_rotation_approximation(d.vector().x(),
+                                         d.vector().y(),
+                                         sin_num,
+                                         cos_num,
+                                         denom,
+                                         eps_num,
+                                         eps_den);
+    _sinus   = sin_num/denom;
+    _cosinus = cos_num/denom;
   }
-
 
   ~CGAL__Rotation_repC2()
   {}
@@ -406,7 +414,6 @@ public:
     return CGAL_Aff_transformationC2<FT>(CGAL_ROTATION,
                                          - _sinus, _cosinus, FT(1));
   }
-
 #ifdef CGAL_WORKAROUND_004
 
   CGAL_Aff_transformationC2<FT> general_form() const
@@ -416,6 +423,7 @@ public:
   }
 
 #else
+
   CGAL_Aff_transformationC2<FT> operator*(
                             const CGAL__Aff_transformation_rep_baseC2<FT> &t)
   {
@@ -466,26 +474,23 @@ public:
   }
 #endif // CGAL_WORKAROUND_004
 
-
   virtual bool                 is_even() const
   {
     return true;
   }
 
-#ifdef _STREAM_H_
+// #ifdef _STREAM_H_
  virtual ostream &print(ostream &os) const
   {
     os << "Aff_transformationC2(" << _sinus << ", " << _cosinus <<  ")";
     return os;
   }
-#endif // _STREAM_H_
+// #endif // _STREAM_H_
 private:
   FT _sinus;
   FT _cosinus;
 };
- 
 
- 
 template < class FT >
 class CGAL__Scaling_repC2: public CGAL__Aff_transformation_rep_baseC2<FT>
 {
@@ -576,7 +581,6 @@ public:
                                          _scalefactor * t.t22,
                                           t.t23);
   }
-
 #endif // CGAL_WORKAROUND_004
 
   CGAL_Aff_transformationC2<FT>  inverse() const
@@ -589,24 +593,21 @@ public:
     return true;
   }
 
-#ifdef _STREAM_H_
+// #ifdef _STREAM_H_
  virtual ostream &print(ostream &os) const
   {
     os << "Aff_transformationC2(" << _scalefactor <<  ")";
     return os;
   }
-#endif // _STREAM_H_
+// #endif // _STREAM_H_
 private:
   FT _scalefactor;
 };
- 
 
 
 
-
- 
 template < class FT >
-class CGAL_Aff_transformationC2 : public CGAL_Handle_base
+class CGAL_Aff_transformationC2 : public CGAL_Handle
 {
 
 
@@ -662,26 +663,58 @@ public:
   CGAL_DirectionC2<FT> transform(const CGAL_DirectionC2<FT> &d) const;
   CGAL_DirectionC2<FT> operator()(const CGAL_DirectionC2<FT> &d) const;
 
+#ifndef CGAL_NO_LINE_TRANSFORM_IN_AT
+  CGAL_LineC2<FT> transform(const CGAL_LineC2<FT> &l) const;
+  CGAL_LineC2<FT> operator()(const CGAL_LineC2<FT> &l) const;
+#endif // CGAL_NO_LINE_TRANSFORM_IN_AT
+
   CGAL_Aff_transformationC2<FT>  inverse() const;
 
   bool                 is_even() const {return ptr()->is_even();}
   bool                 is_odd() const;
+#ifdef CGAL_WORKAROUND_004
 
-  CGAL_Aff_transformationC2<FT>  general_form() const;
+CGAL_Aff_transformationC2<FT>  general_form() const
+{
+  return ptr()->general_form();
+}
 
-  CGAL_Aff_transformationC2<FT> operator*(
-                           const CGAL_Aff_transformationC2<FT> &t) const;
 
-#ifdef _STREAM_H_
+CGAL_Aff_transformationC2<FT> operator*(
+                                 const CGAL_Aff_transformationC2<FT> &t) const
+{
+  CGAL_Aff_transformationC2<FT> tt1 = general_form(),
+                                tt2 = t.general_form();
+  CGAL__Aff_transformation_repC2<FT> *t1 =
+                                (CGAL__Aff_transformation_repC2<FT>*)tt1.ptr();
+
+  CGAL__Aff_transformation_repC2<FT> *t2 =
+                                (CGAL__Aff_transformation_repC2<FT>*)tt2.ptr();
+
+  return CGAL_Aff_transformationC2<FT>(
+            t1->t11*t2->t11 + t1->t12*t2->t21,
+            t1->t11*t2->t12 + t1->t12*t2->t22,
+            t1->t11*t2->t13 + t1->t12*t2->t23 + t1->t13,
+
+            t1->t21*t2->t11 + t1->t22*t2->t21,
+            t1->t21*t2->t12 + t1->t22*t2->t22,
+            t1->t21*t2->t13 + t1->t22*t2->t23 + t1->t23 );
+}
+
+#else
+
+CGAL_Aff_transformationC2<FT> operator*(
+                                 const CGAL_Aff_transformationC2<FT> &t) const
+{
+  return (*ptr()) * (*t.ptr());
+}
+
+#endif // CGAL_WORKAROUND_004
+
+// #ifdef _STREAM_H_
   ostream              &print(ostream &os) const;
-#endif // _STREAM_H_
+// #endif // _STREAM_H_
 
-#ifdef CGAL_CHECK_PRECONDITIONS
-  bool             is_defined() const
-  {
-    return (PTR == NULL)? false : true;
-  }
-#endif // CGAL_CHECK_PRECONDITIONS
 
 private:
     CGAL__Aff_transformation_rep_baseC2<FT>* ptr() const
@@ -690,26 +723,20 @@ private:
     }
 
 };
- 
 
 
- 
 
 template < class FT >
 CGAL_Aff_transformationC2<FT>::CGAL_Aff_transformationC2()
 {
-#ifdef CGAL_CHECK_PRECONDITIONS
-  PTR = NULL;
-#else
   PTR = new CGAL__Aff_transformation_repC2<FT>(FT(1), FT(0),
                                                FT(0), FT(1));
-#endif // CGAL_CHECK_PRECONDITIONS
 }
 
 template < class FT >
 CGAL_Aff_transformationC2<FT>::CGAL_Aff_transformationC2(
                                      const CGAL_Aff_transformationC2<FT> &t)
-  : CGAL_Handle_base(t)
+  : CGAL_Handle(t)
 {}
 
 
@@ -781,7 +808,7 @@ CGAL_Aff_transformationC2<FT>::CGAL_Aff_transformationC2(
   if (w != FT(1)){
     PTR = new CGAL__Aff_transformation_repC2<FT>(m11/w, m12/w, m13/w,
                                                  m21/w, m22/w, m23/w);
-  }else{
+  } else {
     PTR = new CGAL__Aff_transformation_repC2<FT>(m11, m12, m13,
                                                  m21, m22, m23);
   }
@@ -793,13 +820,12 @@ CGAL_Aff_transformationC2<FT>::~CGAL_Aff_transformationC2()
 
 template < class FT >
 CGAL_Aff_transformationC2<FT> &CGAL_Aff_transformationC2<FT>::operator=(
-                                       const CGAL_Aff_transformationC2<FT> &t)
+                                        const CGAL_Aff_transformationC2<FT> &t)
 {
-  CGAL_Handle_base::operator=(t);
+  CGAL_Handle::operator=(t);
   return *this;
 }
 
- 
 
 
 template < class FT >
@@ -843,6 +869,23 @@ inline CGAL_DirectionC2<FT> CGAL_Aff_transformationC2<FT>::operator()(
   return transform(d);
 }
 
+#ifndef CGAL_NO_LINE_TRANSFORM_IN_AT
+template < class FT >
+inline CGAL_LineC2<FT> CGAL_Aff_transformationC2<FT>::transform(
+                                           const CGAL_LineC2<FT> &l) const
+{
+  return CGAL_LineC2<FT>(ptr()->transform(l.point(0)),
+                         ptr()->transform(l.direction()));
+}
+
+template < class FT >
+inline CGAL_LineC2<FT> CGAL_Aff_transformationC2<FT>::operator()(
+                                           const CGAL_LineC2<FT> &l) const
+{
+  return transform(l);
+}
+#endif // CGAL_NO_LINE_TRANSFORM_IN_AT
+
 template < class FT >
 CGAL_Aff_transformationC2<FT>  CGAL_Aff_transformationC2<FT>::inverse() const
 {
@@ -856,56 +899,16 @@ bool  CGAL_Aff_transformationC2<FT>::is_odd() const
   return ! (ptr()->is_even());
 }
 
-#ifdef CGAL_WORKAROUND_004
-template < class FT >
-CGAL_Aff_transformationC2<FT>  CGAL_Aff_transformationC2<FT>::general_form()
-                                                                          const
-{
-  return ptr()->general_form();
-}
 
-template < class FT >
-CGAL_Aff_transformationC2<FT> CGAL_Aff_transformationC2<FT>::operator*(
-                                 const CGAL_Aff_transformationC2<FT> &t) const
-{
-  CGAL_Aff_transformationC2<FT> tt1 = general_form(),
-                                tt2 = t.general_form();
-  CGAL__Aff_transformation_repC2<FT> *t1 =
-                                (CGAL__Aff_transformation_repC2<FT>*)tt1.ptr();
 
-  CGAL__Aff_transformation_repC2<FT> *t2 =
-                                (CGAL__Aff_transformation_repC2<FT>*)tt2.ptr();
-
-  return CGAL_Aff_transformationC2<FT>(
-            t1->t11*t2->t11 + t1->t12*t2->t21,
-            t1->t11*t2->t12 + t1->t12*t2->t22,
-            t1->t11*t2->t13 + t1->t12*t2->t23 + t1->t13,
-
-            t1->t21*t2->t11 + t1->t22*t2->t21,
-            t1->t21*t2->t12 + t1->t22*t2->t22,
-            t1->t21*t2->t13 + t1->t22*t2->t23 + t1->t23 );
-}
-
-#else
-template < class FT >
-CGAL_Aff_transformationC2<FT> CGAL_Aff_transformationC2<FT>::operator*(
-                                 const CGAL_Aff_transformationC2<FT> &t) const
-{
-  return (*ptr()) * (*t.ptr());
-}
-
-#endif // CGAL_WORKAROUND_004
-
-#ifdef _STREAM_H_
+// #ifdef _STREAM_H_
 template < class FT >
 ostream &CGAL_Aff_transformationC2<FT>::print(ostream &os) const
 {
   ptr()->print(os);
   return os;
 }
-#endif // _STREAM_H_
- 
-
+// #endif // _STREAM_H_
 
 
 #endif // CGAL_AFF_TRANSFORMATIONC2_H

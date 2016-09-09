@@ -1,4 +1,20 @@
- 
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: Iso_rectangleH2.h
 // Author: Stefan.Schirra@mpi-sb.mpg.de
 
@@ -9,9 +25,8 @@
 #include <CGAL/PointH2.h>
 #include <CGAL/predicates_on_pointsH2.h>
 
- 
 template <class FT, class RT>
-class CGAL_Iso_rectangleH2 : public handle_base
+class CGAL_Iso_rectangleH2 : public CGAL_Handle
 {
 public:
             CGAL_Iso_rectangleH2();
@@ -26,6 +41,7 @@ public:
   bool      operator==(const CGAL_Iso_rectangleH2<FT,RT> &s) const;
   bool      operator!=(const CGAL_Iso_rectangleH2<FT,RT> &s) const;
   bool      identical(const CGAL_Iso_rectangleH2<FT,RT> &s) const;
+  int       id() const;
 
   CGAL_PointH2<FT,RT>  min() const;
   CGAL_PointH2<FT,RT>  max() const;
@@ -35,10 +51,12 @@ public:
   CGAL_Iso_rectangleH2<FT,RT>
             transform(const CGAL_Aff_transformationH2<FT,RT> &t) const;
 
-  CGAL_Side where_is(const CGAL_PointH2<FT,RT> &p) const;
-  bool      is_on(const CGAL_PointH2<FT,RT> &p) const;
-  bool      is_inside(const CGAL_PointH2<FT,RT> &p) const;
-  bool      is_outside(const CGAL_PointH2<FT,RT> &p) const;
+  CGAL_Bounded_side
+            bounded_side(const CGAL_PointH2<FT,RT> &p) const;
+  bool      has_on(const CGAL_PointH2<FT,RT> &p) const;
+  bool      has_on_boundary(const CGAL_PointH2<FT,RT> &p) const;
+  bool      has_on_bounded_side(const CGAL_PointH2<FT,RT> &p) const;
+  bool      has_on_unbounded_side(const CGAL_PointH2<FT,RT> &p) const;
   bool      is_degenerate() const;
 
   CGAL_Bbox_2
@@ -50,28 +68,12 @@ public:
   FT        ymax() const;
 
 
-#ifdef CGAL_CHECK_PRECONDITIONS
-  bool      is_defined() const;
-#endif // CGAL_CHECK_PRECONDITIONS
-
 protected:
 
   CGAL__Twotuple< CGAL_PointH2<FT,RT> >*
             ptr() const;
 };
- 
 
-
- 
-#ifdef CGAL_CHECK_PRECONDITIONS
-template < class FT, class RT >
-inline
-bool
-CGAL_Iso_rectangleH2<FT,RT>::is_defined() const
-{
- return (PTR == NULL)? false : true;
-}
-#endif // CGAL_CHECK_PRECONDITIONS
 
 template < class FT, class RT >
 inline
@@ -80,33 +82,25 @@ CGAL_Iso_rectangleH2<FT,RT>::ptr() const
 {
  return (CGAL__Twotuple< CGAL_PointH2<FT,RT> >*)PTR;
 }
- 
 
 
- 
 template < class FT, class RT >
 CGAL_Iso_rectangleH2<FT,RT>::CGAL_Iso_rectangleH2()
 {
-#ifdef CGAL_CHECK_PRECONDITIONS
-  PTR = NULL;
-#else
-  PTR = new CGAL__Twotuple< CGAL_PointH2<FT,RT> >;
-#endif // CGAL_CHECK_PRECONDITIONS
+ PTR = new CGAL__Twotuple< CGAL_PointH2<FT,RT> >;
 }
 
 template < class FT, class RT >
 CGAL_Iso_rectangleH2<FT,RT>::CGAL_Iso_rectangleH2(
-                                 const CGAL_Iso_rectangleH2<FT,RT> &r)
-  : handle_base((handle_base&)r)
+                                          const CGAL_Iso_rectangleH2<FT,RT> &r)
+ : CGAL_Handle((CGAL_Handle&)r)
 {
-  CGAL_kernel_precondition( r.is_defined() );
 }
 
 template < class FT, class RT >
 CGAL_Iso_rectangleH2<FT,RT>::CGAL_Iso_rectangleH2(const CGAL_PointH2<FT,RT> &p,
                                                   const CGAL_PointH2<FT,RT> &q)
 {
- CGAL_kernel_precondition( p.is_defined() && q.is_defined() );
 
  bool px_g_qx = ( p.hx()*q.hw() > q.hx()*p.hw() );
  bool py_g_qy = ( p.hy()*q.hw() > q.hy()*p.hw() );
@@ -149,17 +143,14 @@ template < class FT, class RT >
 CGAL_Iso_rectangleH2<FT,RT> &CGAL_Iso_rectangleH2<FT,RT>::operator=(
                                   const CGAL_Iso_rectangleH2<FT,RT> &r)
 {
- CGAL_kernel_precondition( r.is_defined() );
- handle_base::operator=(r);
+ CGAL_Handle::operator=(r);
  return *this;
 }
- 
 template < class FT, class RT >
 bool
 CGAL_Iso_rectangleH2<FT,RT>::operator==(const CGAL_Iso_rectangleH2<FT,RT> &r)
                                                                           const
 {
- CGAL_kernel_precondition( is_defined() && r.is_defined() );
  return  vertex(0) == r.vertex(0) && vertex(2) == r.vertex(2);
 }
 
@@ -169,8 +160,14 @@ bool
 CGAL_Iso_rectangleH2<FT,RT>::operator!=(const CGAL_Iso_rectangleH2<FT,RT> &r)
                                                                           const
 {
- CGAL_kernel_precondition( is_defined() && r.is_defined() );
  return !(*this == r);
+}
+
+template < class FT, class RT >
+int
+CGAL_Iso_rectangleH2<FT,RT>::id() const
+{
+ return (int)PTR;
 }
 
 template < class FT, class RT >
@@ -178,15 +175,12 @@ bool
 CGAL_Iso_rectangleH2<FT,RT>::identical(const CGAL_Iso_rectangleH2<FT,RT> &r)
                                                                           const
 {
- CGAL_kernel_precondition( is_defined() && r.is_defined() );
- return (PTR == t.PTR);
+ return (PTR == r.PTR);
 }
- 
 template < class FT, class RT >
 CGAL_PointH2<FT,RT>
 CGAL_Iso_rectangleH2<FT,RT>::min() const
 {
- CGAL_kernel_precondition( is_defined() );
  return  ptr()->e0;
 }
 
@@ -194,7 +188,6 @@ template < class FT, class RT >
 CGAL_PointH2<FT,RT>
 CGAL_Iso_rectangleH2<FT,RT>::max() const
 {
- CGAL_kernel_precondition( is_defined() );
  return  ptr()->e1;
 }
 
@@ -203,7 +196,6 @@ inline
 FT
 CGAL_Iso_rectangleH2<FT,RT>::xmin() const
 {
- CGAL_kernel_precondition( is_defined() );
  return  FT( min().hx() ) / FT( min().hw() );
 }
 
@@ -212,7 +204,6 @@ inline
 FT
 CGAL_Iso_rectangleH2<FT,RT>::ymin() const
 {
- CGAL_kernel_precondition( is_defined() );
  return  FT( min().hy() ) / FT( min().hw() );
 }
 
@@ -221,7 +212,6 @@ inline
 FT
 CGAL_Iso_rectangleH2<FT,RT>::xmax() const
 {
- CGAL_kernel_precondition( is_defined() );
  return  FT( max().hx() ) / FT( max().hw() );
 }
 
@@ -230,7 +220,6 @@ inline
 FT
 CGAL_Iso_rectangleH2<FT,RT>::ymax() const
 {
- CGAL_kernel_precondition( is_defined() );
  return  FT( max().hy() ) / FT( max().hw() );
 }
 
@@ -238,7 +227,6 @@ template < class FT, class RT >
 CGAL_PointH2<FT,RT>
 CGAL_Iso_rectangleH2<FT,RT>::vertex(int i) const
 {
- CGAL_kernel_precondition( is_defined() );
  switch (i%4)
  {
     case 0:
@@ -262,69 +250,71 @@ inline
 CGAL_PointH2<FT,RT>
 CGAL_Iso_rectangleH2<FT,RT>::operator[](int i) const
 {
- CGAL_kernel_precondition( is_defined() );
  return vertex(i);
 }
- 
 template < class FT, class RT >
-CGAL_Side CGAL_Iso_rectangleH2<FT,RT>::where_is(const CGAL_PointH2<FT,RT> &p)
-                                                                          const
+CGAL_Bounded_side
+CGAL_Iso_rectangleH2<FT,RT>::bounded_side(const CGAL_PointH2<FT,RT> &p) const
 {
- CGAL_kernel_precondition( is_defined() && p.is_defined() );
- CGAL_Side wrt_min = CGAL__where_wrt_L_wedge(min(),p);
- CGAL_Side wrt_max = CGAL__where_wrt_L_wedge(p,max());
- if (( wrt_min == CGAL_OUTSIDE )||( wrt_max == CGAL_OUTSIDE))
+ CGAL_Oriented_side wrt_min = CGAL__where_wrt_L_wedge(min(),p);
+ CGAL_Oriented_side wrt_max = CGAL__where_wrt_L_wedge(p,max());
+ if (( wrt_min == CGAL_ON_NEGATIVE_SIDE )||( wrt_max == CGAL_ON_NEGATIVE_SIDE))
  {
-    return CGAL_OUTSIDE;
+    return CGAL_ON_UNBOUNDED_SIDE;
  }
- if (( wrt_min == CGAL_ON )||( wrt_max == CGAL_ON))
+ if (  ( wrt_min == CGAL_ON_ORIENTED_BOUNDARY )
+     ||( wrt_max == CGAL_ON_ORIENTED_BOUNDARY ) )
  {
-    return CGAL_ON;
+    return CGAL_ON_BOUNDARY;
  }
- return CGAL_INSIDE;
+ return CGAL_ON_BOUNDED_SIDE;
 }
 
 template < class FT, class RT >
 inline
 bool
-CGAL_Iso_rectangleH2<FT,RT>::is_on(const CGAL_PointH2<FT,RT> &p) const
+CGAL_Iso_rectangleH2<FT,RT>::has_on_boundary(const CGAL_PointH2<FT,RT> &p) const
 {
- CGAL_kernel_precondition( is_defined() && p.is_defined());
- return ( where_is(p) == CGAL_ON );
+ return ( bounded_side(p) == CGAL_ON_BOUNDARY );
 }
 
 template < class FT, class RT >
 inline
 bool
-CGAL_Iso_rectangleH2<FT,RT>::is_inside(const CGAL_PointH2<FT,RT> &p) const
+CGAL_Iso_rectangleH2<FT,RT>::has_on(const CGAL_PointH2<FT,RT> &p) const
 {
- CGAL_kernel_precondition( is_defined() && p.is_defined());
- return ( where_is(p) == CGAL_INSIDE );
+ return ( bounded_side(p) == CGAL_ON_BOUNDARY );
+}
+
+template < class FT, class RT >
+inline
+bool
+CGAL_Iso_rectangleH2<FT,RT>::has_on_bounded_side(const CGAL_PointH2<FT,RT> &p)
+                                                                           const
+{
+ return ( bounded_side(p) == CGAL_ON_BOUNDED_SIDE );
 }
 
 template < class FT, class RT >
 bool
-CGAL_Iso_rectangleH2<FT,RT>::is_outside(const CGAL_PointH2<FT,RT> &p) const
+CGAL_Iso_rectangleH2<FT,RT>::has_on_unbounded_side(const CGAL_PointH2<FT,RT> &p)
+                                                                           const
 {
- CGAL_kernel_precondition( is_defined() && p.is_defined());
- return (  (CGAL__where_wrt_L_wedge(min(),p) == CGAL_OUTSIDE)
-         ||(CGAL__where_wrt_L_wedge(p,max()) == CGAL_OUTSIDE) );
+ return (  (CGAL__where_wrt_L_wedge(min(),p) == CGAL_ON_NEGATIVE_SIDE)
+         ||(CGAL__where_wrt_L_wedge(p,max()) == CGAL_ON_NEGATIVE_SIDE) );
 }
 
 template < class FT, class RT >
 bool
 CGAL_Iso_rectangleH2<FT,RT>::is_degenerate() const
 {
- CGAL_kernel_precondition( is_defined() );
  return (   ( min().hx()*max().hw() == max().hx()*min().hw() )
          || ( min().hy()*max().hw() == max().hy()*min().hw() ) );
 }
- 
 template < class FT, class RT >
 CGAL_Bbox_2
 CGAL_Iso_rectangleH2<FT,RT>::bbox() const
 {
- CGAL_kernel_precondition( is_defined() );
  return  min().bbox() + max().bbox();
 }
 
@@ -333,11 +323,9 @@ CGAL_Iso_rectangleH2<FT,RT>
 CGAL_Iso_rectangleH2<FT,RT>::transform(const CGAL_Aff_transformationH2<FT,RT>&t)
                                                                           const
 {
- CGAL_kernel_precondition( is_defined() && t.is_defined() );
  return CGAL_Iso_rectangleH2<FT,RT>(t.transform(min() ),
                                     t.transform(max() ) );
 }
- 
 
 
 #endif // CGAL_ISO_RECTANGLEH2_H

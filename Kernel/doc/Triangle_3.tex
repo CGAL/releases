@@ -1,0 +1,74 @@
+% $Id: Triangle_3.tex,v 1.1 1996/03/13 15:42:07 fabri Exp fabri $
+
+
+\begin {classtemplate} {CGAL_Triangle_3<R>}
+\CCsection{3D Triangle}
+
+\definition  An object $t$ of the class \classname\ is a triangle in
+the three-dimensional Euclidean space $\E_3$. As the triangle is not
+a full-dimensional object there is only a test whether a point lies on
+the triangle or not.
+ 
+\creation
+\creationvariable{t}
+
+\CCstyle{#include <CGAL/Triangle_3.h>}
+
+\hidden \constructor{CGAL_Triangle_3();}
+             {introduces an uninitialized variable \var.}
+
+\hidden \constructor{CGAL_Triangle_3(const CGAL_Triangle_3<R> &u);}
+ 	    {copy constructor.}
+
+
+\def\CCalternateThreeColumn{\CCtrue}
+\constructor{CGAL_Triangle_3(const CGAL_Point_3<R> &p, 
+	                     const CGAL_Point_3<R> &q, 
+	                     const CGAL_Point_3<R> &r);}
+            {introduces a triangle \var\ with vertices $p$, $q$ and $r$.}
+
+
+\operations
+\threecolumns{5cm}{4cm}
+
+\hidden \method{CGAL_Triangle_3<R> & operator=(const CGAL_Triangle_3<R> &t2);}
+        {Assignment.}
+
+\method{bool operator==(const CGAL_Triangle_3<R> &t2) const;}
+       {Test for equality: two triangles t and $t_2$ are equal, iff there 
+        exists a cyclic permutation of the vertices of $t2$, such that 
+        they are equal to the vertices of~\var.}
+
+\method{bool operator!=(const CGAL_Triangle_3<R> &t2) const;}
+       {Test for inequality.}
+
+\method{CGAL_Point_3<R> vertex(int i) const;}
+       {returns the i'th vertex modulo 3  of~\var.}
+
+\method{CGAL_Point_3<R> operator[](int i) const;}
+       {returns \CCstyle{vertex(int i)}.}
+
+
+\method{bool is_degenerate() const;}
+       {Triangle \var\ is degenerate, if the vertices are collinear.}
+
+
+\method{bool has_on(const CGAL_Point_3<R> &p) const;}
+       {A point is on \var, if it is on a vertex, an edge or the
+        face of \var.}
+
+\method{CGAL_Bbox_3 bbox() const;}
+       {returns a bounding box containing \var.}
+
+\method{CGAL_Triangle_3<R>  transform(const CGAL_Aff_transformation_3<R> &at) const;}
+       {returns the triangle obtained by applying $at$ on the three
+        vertices of~\var.}
+
+
+
+\end {classtemplate} 
+
+% $Log: Triangle_3.tex,v $
+% Revision 1.1  1996/03/13 15:42:07  fabri
+% Initial revision
+%

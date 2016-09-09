@@ -1,0 +1,185 @@
+@! $RCSfile: Double.fw,v $
+@! $Revision: 1.3 $
+@! $Date: 1996/03/13 15:32:23 $
+
+@! Author: Geert-Jan Giezeman (geert@cs.ruu.nl)
+
+@B@<How double became a valid CGAL field type@>
+
+The following routines are necessary in order for @{double@} to obey the
+rules for CGAL field types.
+
+@O@<../include/CGAL/Double.h@>==@{@-
+@<CGAL notice@>
+
+#ifndef DOUBLECOMP_H
+#define DOUBLECOMP_H 1
+
+#include <CGAL/misc.h>
+#include <CGAL/bool.h>
+#include <math.h>
+
+
+inline double CGAL_to_double(double d)
+{
+    return d;
+}
+/*
+inline double CGAL_abs(double d)
+{
+    return fabs(d);
+}
+*/
+inline double CGAL_numerator(double d)
+{
+  return d;
+}
+
+inline double CGAL_denominator(double)
+{
+  return 1.0;
+}
+
+inline CGAL_Number_tag CGAL_number_type_tag(double)
+{
+  return CGAL_Number_tag();
+}
+
+extern bool CGAL_is_finite(double d);
+
+extern bool CGAL_is_valid(double d);
+
+#endif
+@}
+
+@C@<Source File@>
+
+The implementation of the IEEE standard for floating point is different on the
+various systems.
+
+
+@O@<../src/Double.C@>==@{@-
+@<CGAL notice@>
+
+#include <CGAL/Double.h>
+
+
+@<Double definitions for SGI@>
+
+@<Double definitions for HP@>
+
+@<Double definitions for SUN@>
+
+@}
+
+
+@$@<Double definitions for SGI@>==@{@-
+#ifdef __sgi
+
+// implementation for SGI IRIX 5.3.
+#include <fp_class.h>
+
+bool CGAL_is_finite(double d)
+{
+    switch (fp_class_d(d)) {
+    case FP_POS_NORM:
+    case FP_NEG_NORM:
+    case FP_POS_ZERO:
+    case FP_NEG_ZERO:
+    case FP_POS_DENORM:
+    case FP_NEG_DENORM:
+        return true;
+    case FP_SNAN:
+    case FP_QNAN:
+    case FP_POS_INF:
+    case FP_NEG_INF:
+        return false;
+    }
+    return false; // NOT REACHED
+}
+
+bool CGAL_is_valid(double d)
+{
+    switch (fp_class_d(d)) {
+    case FP_POS_NORM:
+    case FP_NEG_NORM:
+    case FP_POS_ZERO:
+    case FP_NEG_ZERO:
+    case FP_POS_INF:
+    case FP_NEG_INF:
+    case FP_POS_DENORM:
+    case FP_NEG_DENORM:
+        return true;
+    case FP_SNAN:
+    case FP_QNAN:
+        return false;
+    }
+    return false; // NOT REACHED
+}
+
+#endif // __sgi
+@}
+
+@$@<Double definitions for SUN@>==@{@-
+#ifdef __sun
+
+// implementation for SUN
+
+#ifdef __SVR4
+#include <ieeefp.h>
+#endif // __SVR4
+
+#ifdef __svr4__
+#include <ieeefp.h>
+#endif //  __svr4__
+
+#include <math.h>
+#include <CGAL/bool.h>
+bool CGAL_is_finite(double d)
+{
+  if(finite(d)){
+    return true;
+  }
+  return false; // NOT REACHED
+}
+
+bool CGAL_is_valid(double d)
+{
+  return isnan(d) == 0;
+}
+
+#endif // __sun
+@}
+
+@$@<Double definitions for HP@>==@{@-
+#ifdef __hpux
+
+// implementation for HP
+#include <math.h>
+
+bool CGAL_is_valid(double d)
+{
+    return isnan(d) == 0;
+}
+
+bool CGAL_is_finite(double d)
+{
+    switch (fpclassify(d)) {
+    case FP_PLUS_NORM:
+    case FP_MINUS_NORM:
+    case FP_PLUS_ZERO:
+    case FP_MINUS_ZERO:
+    case FP_PLUS_DENORM:
+    case FP_MINUS_DENORM:
+        return true;
+    case FP_PLUS_INF:
+    case FP_MINUS_INF:
+    case FP_SNAN:
+    case FP_QNAN:
+        return false;
+    }
+    return false; // NOT REACHED
+}
+
+#endif // __hpux
+@}

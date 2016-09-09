@@ -1,0 +1,56 @@
+@! $RCSfile: Origin.fw,v $
+@! $Revision: 1.2 $
+@! $Date: 1995/11/08 15:36:30 $
+
+@! Author: Andreas.Fabri@@sophia.inria.fr
+
+@C@<Origin@>
+
+The origin is a point in an arbitrary dimensional space. The purpose
+of this class is to properly ``convert'' points to vectors and vice versa.
+It can further be used as an argument for point constructors, and hence in
+any function which takes a point as an argument.
+
+@O@<../include/CGAL/Origin.h@>==@{@-
+@<CGAL notice@>
+// Source: Origin.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL_ORIGIN_H
+#define CGAL_ORIGIN_H
+
+
+class CGAL_Origin
+{};
+
+extern CGAL_Origin CGAL_ORIGIN;
+
+class CGAL_Null_vector
+{};
+
+extern CGAL_Null_vector CGAL_NULL_VECTOR;
+#endif
+@}
+
+
+@O@<../src/Origin.C@>==@{@-
+@<CGAL notice@>
+#include <CGAL/Origin.h>
+
+CGAL_Origin CGAL_ORIGIN ;
+
+CGAL_Null_vector CGAL_NULL_VECTOR ;
+
+@}
+
+@! $Log: Origin.fw,v $
+@! Revision 1.2  1995/11/08 15:36:30  fabri
+@! *** empty log message ***
+@!
+@! Revision 1.1  1995/09/18 13:22:38  fabri
+@! Initial revision
+@!
+@! Revision 1.1  1995/08/16 11:58:04  fabri
+@! Initial revision
+@!
+

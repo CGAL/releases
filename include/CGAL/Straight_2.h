@@ -1,15 +1,14 @@
- 
 
 #ifndef CGAL_STRAIGHT_2_H
 #define CGAL_STRAIGHT_2_H
 
- 
 
 template <class R>
 class CGAL__Straight_2 {
 public:
     enum states {EMPTY, POINT, SEGMENT, RAY, LINE};
                             CGAL__Straight_2() ;
+                            CGAL__Straight_2(CGAL_Point_2<R> const &point) ;
                             CGAL__Straight_2(CGAL_Line_2<R> const &line) ;
                             CGAL__Straight_2(CGAL_Ray_2<R> const &ray) ;
                             CGAL__Straight_2(CGAL_Segment_2<R> const &seg) ;
@@ -34,9 +33,8 @@ protected:
 };
 
 
- 
 
-#include <CGAL/Line_2_Line_2_pair.h>
+#include <CGAL/Line_2_Line_2_intersection.h>
 
 template <class R>
 CGAL__Straight_2<R>::
@@ -51,10 +49,21 @@ CGAL__Straight_2(CGAL_Line_2<R> const &line)
 {
     _support = line;
     CGAL_Vector_2<R> const &dir(_support.direction().vector());
-//    _main_dir = (CGAL_abs(dir.hx()) > CGAL_abs(dir.hy()) ) ? 0 : 1;
     _main_dir = (CGAL_abs(dir.x()) > CGAL_abs(dir.y()) ) ? 0 : 1;
     _dir_sign = CGAL_sign(_support.direction().vector().cartesian(_main_dir));
     _bound_state = BOTH_UNBOUNDED;
+}
+
+template <class R>
+CGAL__Straight_2<R>::
+CGAL__Straight_2(CGAL_Point_2<R> const &point)
+{
+    _support = CGAL_Line_2<R>(point, CGAL_Direction_2<R>(R::RT(1),R::RT(0)));
+    _main_dir = 0;
+    _dir_sign = 1;
+    _bound_state = NO_UNBOUNDED;
+    _min = point;
+    _max = point;
 }
 
 template <class R>
@@ -63,7 +72,7 @@ CGAL__Straight_2(CGAL_Ray_2<R> const &ray)
 {
     _support = ray.supporting_line();
     CGAL_Vector_2<R> const &dir(ray.direction().vector());
-//    _main_dir = (CGAL_abs(dir.hx()) > CGAL_abs(dir.hy()) ) ? 0 : 1;
+//    _main_dir = (abs(dir.hx()) > abs(dir.hy()) ) ? 0 : 1;
     _main_dir = (CGAL_abs(dir.x()) > CGAL_abs(dir.y()) ) ? 0 : 1;
     _dir_sign = CGAL_sign(_support.direction().vector().cartesian(_main_dir));
     _bound_state = MAX_UNBOUNDED;
@@ -76,7 +85,7 @@ CGAL__Straight_2(CGAL_Segment_2<R> const &seg)
 {
     _support = seg.supporting_line();
     CGAL_Vector_2<R> const &dir(_support.direction().vector());
-//    _main_dir = (CGAL_abs(dir.hx()) > CGAL_abs(dir.hy()) ) ? 0 : 1;
+//    _main_dir = (abs(dir.hx()) > abs(dir.hy()) ) ? 0 : 1;
     _main_dir = (CGAL_abs(dir.x()) > CGAL_abs(dir.y()) ) ? 0 : 1;
     _dir_sign = CGAL_sign(_support.direction().vector().cartesian(_main_dir));
     _bound_state = NO_UNBOUNDED;
@@ -157,7 +166,8 @@ cross(CGAL_Vector_2<R> const &vec1, CGAL_Vector_2<R> const &vec2)
 
 template <class FT>
 FT
-cross(CGAL_Vector_2< C<FT> > const &vec1, CGAL_Vector_2< C<FT> > const &vec2)
+cross(CGAL_Vector_2< CGAL_Cartesian<FT> > const &vec1,
+      CGAL_Vector_2< CGAL_Cartesian<FT> > const &vec2)
 {
     return vec1.x() * vec2.y() - vec1.y() * vec2.x();
 }
@@ -183,7 +193,7 @@ cut_right_off(CGAL_Line_2<R> const & cutter)
     CGAL_Line_2_Line_2_pair<R> pair(&_support, &cutter);
     switch (pair.intersection_type()) {
     case CGAL_Line_2_Line_2_pair<R>::NO:
-        if (cutter.where_is(_support.point()) == CGAL_RIGHT)
+        if (cutter.has_on_negative_side(_support.point()))
             _bound_state = LINE_EMPTY;
         break;
     case CGAL_Line_2_Line_2_pair<R>::LINE:
@@ -246,10 +256,8 @@ collinear_order(CGAL_Point_2<R> const &pt1, CGAL_Point_2<R> const & pt2) const
         return 0;
     return (diffsign == _dir_sign) ? 1 : -1;
 }
- 
 
 
 
- 
 
 #endif

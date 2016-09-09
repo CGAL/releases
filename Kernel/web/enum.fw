@@ -1,0 +1,114 @@
+@! $RCSfile: enum.fw,v $
+@! $Revision: 1.7 $
+@! $Date: 1996/11/05 09:04:15 $
+
+@! Author: Stefan.Schirra@@mpi-sb.mpg.de
+
+@B@<Enumeration types@>
+
+@C@<Public enumeration types@>
+
+There are a lot of enumeration types used in the kernel code.
+First there is an ordertype.
+
+@$@<ordertype enum@>==@{@-
+
+enum  CGAL_Sign
+      { CGAL_NEGATIVE   = -1,
+        CGAL_ZERO,
+        CGAL_POSITIVE
+      };
+
+typedef CGAL_Sign CGAL_Orientation;
+
+extern CGAL_Orientation  CGAL_LEFTTURN;
+extern CGAL_Orientation  CGAL_RIGHTTURN;
+
+extern CGAL_Orientation  CGAL_CLOCKWISE;
+extern CGAL_Orientation  CGAL_COUNTERCLOCKWISE;
+
+extern CGAL_Orientation  CGAL_COLLINEAR;
+extern CGAL_Orientation  CGAL_COPLANAR;
+extern CGAL_Orientation  CGAL_DEGENERATE;
+
+@}
+
+@O@<../src/enum.C@>==@{@-
+@<CGAL notice@>
+#include <CGAL/enum.h>
+
+CGAL_Orientation  CGAL_LEFTTURN   = CGAL_POSITIVE;
+CGAL_Orientation  CGAL_RIGHTTURN  = CGAL_NEGATIVE;
+
+CGAL_Orientation  CGAL_CLOCKWISE  = CGAL_NEGATIVE;
+CGAL_Orientation  CGAL_COUNTERCLOCKWISE = CGAL_POSITIVE;
+
+CGAL_Orientation  CGAL_COLLINEAR  = CGAL_ZERO;
+CGAL_Orientation  CGAL_COPLANAR   = CGAL_ZERO;
+CGAL_Orientation  CGAL_DEGENERATE = CGAL_ZERO;
+@}
+
+
+Next there is a type for relative position to an object, e.g.
+the relative position of a point to a line or a point to triangle.
+
+@$@<sideness enum@>==@{@-
+
+enum  CGAL_Oriented_side
+      { CGAL_ON_NEGATIVE_SIDE = -1,
+        CGAL_ON_ORIENTED_BOUNDARY,
+        CGAL_ON_POSITIVE_SIDE
+      };
+
+
+enum  CGAL_Bounded_side
+      { CGAL_ON_BOUNDED_SIDE = -1,
+        CGAL_ON_BOUNDARY,
+        CGAL_ON_UNBOUNDED_SIDE
+      };
+@}
+
+
+There is also a type representing the result of a comparison.
+
+@$@<comparison result@>==@{@-
+
+enum  CGAL_Comparison_result
+      { CGAL_SMALLER   = -1,
+        CGAL_EQUAL,
+        CGAL_LARGER
+      };
+@}
+
+
+
+
+@D@<The enum header file@>
+
+@O@<../include/CGAL/enum.h@>==@{@-
+@<CGAL notice@>
+#ifndef CGAL_ENUM_H
+#define CGAL_ENUM_H
+
+
+@<ordertype enum@>
+
+@<sideness enum@>
+
+@<comparison result@>
+
+
+
+#include <CGAL/functions_on_enums.h>
+
+#endif // CGAL_ENUM_H
+@}
+
+
+
+@! $Log: enum.fw,v $
+@! Revision 1.7  1996/11/05 09:04:15  fabri
+@! Split the header file in .h  with extern variable
+@! declarations and a .C file. Otherwise the SUN Pro CC
+@! has unresolved symbols.
+@!

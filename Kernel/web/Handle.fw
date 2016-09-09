@@ -1,0 +1,131 @@
+@B@<Handles and Representatives@>
+
+Handles are intelligent pointers. For the moment we map it to the
+following \leda\ classes.
+
+@$@<Handle_base/Handle_rep typedefs@>==@{@-
+typedef handle_base CGAL_Handle;
+typedef handle_rep CGAL_Rep;
+@}
+
+
+
+@$@<Identity of objects@>==@{@-
+template < class T >
+inline bool CGAL_identical(const T &t1, const T &t2)
+{
+  return t1.id() == t2.id();
+}
+@}
+
+
+
+@$@<Identity of objects for our own Handle@>==@{@-
+template < class T >
+inline bool CGAL_identical(const T &t1, const T &t2)
+{
+   return CGAL_id(t1) == CGAL_id(t2);
+}
+@}
+
+
+We might provide our own implementation to get independent from \leda.
+The disadvantage is that \leda\ data structures, as for example the
+map, can be used more efficiently when we stick to their classes.
+
+Here comes the alternative definition:
+
+@$@<Class CGAL_Handle@>==@{@-
+
+class CGAL_Handle {
+
+protected:
+
+  CGAL_Rep* PTR;
+
+public:
+
+  CGAL_Handle() {}
+  CGAL_Handle(const CGAL_Handle& x)
+  {
+    CGAL_kernel_precondition( x.PTR != 0 );
+    PTR = x.PTR;
+    PTR->count++;
+  }
+
+  ~CGAL_Handle()
+  {
+    if (PTR && --PTR->count == 0) {
+      delete PTR;
+    }
+  }
+
+  CGAL_Handle& operator=(const CGAL_Handle& x)
+  {
+    x.PTR->count++;
+    if (PTR && --PTR->count == 0)
+      {
+        delete PTR; // left side may be 0
+      }
+    PTR = x.PTR;
+    return *this;
+  }
+
+  int refs()  const { return PTR->count; }
+
+
+  friend unsigned long CGAL_id(const CGAL_Handle& x);
+
+};
+
+inline unsigned long CGAL_id(const CGAL_Handle& x)
+{
+  return (unsigned long)x.PTR;
+}
+@}
+
+
+@$@<Class CGAL_Rep@>==@{@-
+
+class CGAL_Rep  {
+
+  friend class CGAL_Handle;
+
+protected:
+
+  int  count;
+
+  CGAL_Rep()
+  {
+    count = 1;
+  }
+
+  virtual ~CGAL_Rep()
+  {}
+
+};
+@}
+
+@O@<../include/CGAL/Handle.h@>==@{@-
+@<CGAL notice@>
+// Source: Handle.h
+// Author: from LEDA
+#ifndef CGAL_HANDLE_H
+#define CGAL_HANDLE_H
+
+#ifdef CGAL_HANDLE
+
+@<Class CGAL_Rep@>
+@<Class CGAL_Handle@>
+
+@<Identity of objects for our own Handle@>
+#else
+
+@<Handle_base/Handle_rep typedefs@>
+
+@<Identity of objects@>
+
+#endif // CGAL_HANDLE
+
+#endif // CGAL_HANDLE_H
+@}

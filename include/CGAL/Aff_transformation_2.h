@@ -1,8 +1,31 @@
+//  Copyright CGAL 1996
+//
+//  cgal@cs.ruu.nl
+//
+//  This file is part of an internal release of the CGAL kernel.
+//  The code herein may be used and/or copied only in accordance
+//  with the terms and conditions stipulated in the agreement
+//  under which the code has been supplied or with the written
+//  permission of the CGAL Project.
+//
+//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
+//  Please send any bug reports and comments to cgal@cs.ruu.nl
+//
+//  The code comes WITHOUT ANY WARRANTY; without even the implied
+//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
+//
+
 // Source: Aff_transformation_2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
 #ifndef CGAL_AFF_TRANSFORMATION_2_H
 #define CGAL_AFF_TRANSFORMATION_2_H
+
+#ifdef CGAL_WORKAROUND_015
+#define CGAL_NO_LINE_TRANSFORM_IN_AT
+#endif // CGAL_WORKAROUND_015
+
+#include <CGAL/Line_2.h>
 
 #ifdef CGAL_HOMOGENEOUS_H
 #include <CGAL/Aff_transformationH2.h>
@@ -11,6 +34,8 @@
 #ifdef CGAL_CARTESIAN_H
 #include <CGAL/Aff_transformationC2.h>
 #endif // CGAL_CARTESIAN_H
+
+
 
 template < class R >
 class CGAL_Aff_transformation_2 : public R::Aff_transformation_2
@@ -46,10 +71,10 @@ public:
   {}
 
   CGAL_Aff_transformation_2(const CGAL_Rotation tag,
-                            const R::RT &sine,
-                            const R::RT &cosine,
-                            const R::RT &denominator = R::RT(1))
-    : R::Aff_transformation_2(tag, sine, cosine, denominator)
+                            const R::RT &sin,
+                            const R::RT &cos,
+                            const R::RT &den = R::RT(1))
+    : R::Aff_transformation_2(tag, sin, cos, den)
   {}
 
   // Scaling:
@@ -85,6 +110,13 @@ public:
   ~CGAL_Aff_transformation_2()
   {}
 
+  CGAL_Aff_transformation_2<R>& operator=(const CGAL_Aff_transformation_2<R>& t)
+  {
+    R::Aff_transformation_2::operator=(t);
+    return *this;
+  }
+
+
   CGAL_Point_2<R>     transform(const CGAL_Point_2<R> &p) const
   {
     return R::Aff_transformation_2::transform(p);
@@ -115,67 +147,44 @@ public:
     return transform(d);
   }
 
-#ifdef TRANSFORM
-  CGAL_Line_2<R>      transform(const CGAL_Line_2<R> &l) const
+
+  CGAL_Line_2<R> transform(const CGAL_Line_2<R> &l) const
   {
+#ifndef CGAL_NO_LINE_TRANSFORM_IN_AT
     return R::Aff_transformation_2::transform(l);
+#else
+    return
+      ((const R::Line_2&)l).transform((const R::Aff_transformation_2&)(*this));
+#endif // CGAL_NO_LINE_TRANSFORM_IN_AT
   }
 
-  CGAL_Line_2<R>      operator()(const CGAL_Line_2<R> &l) const
+  CGAL_Line_2<R> operator()(const CGAL_Line_2<R> &l) const
   {
     return transform(l);
   }
 
 
-  CGAL_Ray_2<R>       transform(const CGAL_Ray_2<R> &r) const
-  {
-    return R::Aff_transformation_2::transform(r);
-  }
-
-  CGAL_Ray_2<R>       operator()(const CGAL_Ray_2<R> &r) const
-  {
-    return transform(r);
-  }
-
-
-  CGAL_Segment_2<R>   transform(const CGAL_Segment_2<R> &s) const
-  {
-    return R::Aff_transformation_2::transform(s);
-  }
-
-  CGAL_Segment_2<R>   operator()(const CGAL_Segment_2<R> &s) const
-  {
-    return transform(s);
-  }
-
-
-  CGAL_Triangle_2<R>  transform(const CGAL_Triangle_2<R> &t) const
-  {
-    return R::Aff_transformation_2::transform(t);
-  }
-
-  CGAL_Triangle_2<R>  operator()(const CGAL_Triangle_2<R> &t) const
-  {
-    return transform(t);
-  }
-#endif // TRANSFORM
 
   CGAL_Aff_transformation_2<R>  inverse() const
   {
     return R::Aff_transformation_2::inverse();
   }
 
+  bool                 is_even() const
+  {
+    return R::Aff_transformation_2::is_even();
+  }
+
   bool                 is_odd() const
   {
     return !is_even();
   }
-  //#ifdef COMPOSE
+
   CGAL_Aff_transformation_2<R> operator*(
-                                const CGAL_Aff_transformation_2<R> &t) const
+                              const CGAL_Aff_transformation_2<R> &t) const
   {
     return R::Aff_transformation_2::operator*(t);
   }
-  //#endif // COMPOSE
 };
 
 

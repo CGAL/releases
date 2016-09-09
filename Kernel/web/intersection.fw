@@ -1,0 +1,56 @@
+@! $RCSfile: intersection.fw $
+@! $Revision: 1.1 $
+@! $Date: 1996/10/25 09:03:32 $
+
+@! Author: Geert-Jan Giezeman (geert@cs.ruu.nl)
+
+@i do_intersect.fwi
+@i straight_2.fw
+@i intersection_2_1.fw
+@i intersection_2_2.fw
+
+@B@<Packing intersections together@>
+
+This package defines header files that pack intersection declarations together
+in different header files.
+
+@O@<../include/CGAL/intersection_2.h@>==@{@-
+
+#ifndef CGAL_INTERSECTION_2_H
+#define CGAL_INTERSECTION_2_H
+
+#include <CGAL/intersection_2_1.h>
+#include <CGAL/intersection_2_2.h>
+#endif
+@}
+
+@O@<../include/CGAL/intersection_3.h@>==@{@-
+
+#ifndef CGAL_INTERSECTION_3_H
+#define CGAL_INTERSECTION_3_H
+
+//#include <CGAL/intersection_3_1.h>
+//#include <CGAL/intersection_3_2.h>
+#endif
+@}
+
+@O@<../include/CGAL/intersection_d.h@>==@{@-
+
+#ifndef CGAL_INTERSECTION_D_H
+#define CGAL_INTERSECTION_D_H
+
+//#include <CGAL/intersection_d_1.h>
+//#include <CGAL/intersection_d_2.h>
+#endif
+@}
+
+@O@<../include/CGAL/intersections.h@>==@{@-
+
+#ifndef CGAL_INTERSECTIONS_H
+#define CGAL_INTERSECTIONS_H
+
+#include <CGAL/intersection_2.h>
+#include <CGAL/intersection_3.h>
+#include <CGAL/intersection_d.h>
+#endif
+@}

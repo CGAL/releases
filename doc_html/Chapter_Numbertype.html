@@ -1,0 +1,169 @@
+<HEAD>
+<TITLE>The CGAL Kernel Manual: Number Types</TITLE>
+<!-- Manual page automatically extracted from the TeX source. -->
+</HEAD>
+
+<BODY BGCOLOR="FAF8E8" TEXT="#000000"><A HREF="contents.html">Table of Contents</A>,
+<A HREF="biblio.html">Bibliography</A>,
+<A HREF="manual_index.html">Index</A>,
+<A HREF="title.html">Title Page</A>
+<HR>
+
+<H1>Number Types</H1>
+<A NAME="Numbertype"></A><P>
+
+CGAL representation classes are parameterized by number types.
+Choosing the underlying arithmetic by choosing a number type
+can be used to do exact geometric computation efficiently by
+selecting number type and representation class appropriately,
+depending on the problem and the input data that have to be handled,
+and to provide a trade-off between efficiency and accuracy.<P>
+
+In homogeneous representation, two number types are involved,
+although only one of them appears as a template parameter in
+the homogeneous representation class.
+This type, for sake of simplicity and readability called ring type is
+used for the representation of homogeneous coordinates and all
+internal computations. These internal computations are basically
+division-free; rarely divisions are made if it is assured that second
+operand divides the first one.
+The ring type is a placeholder for an integer type (or an integral
+domain type) rather than for elements of arbitrary rings.
+The name should remember you that the division operation is not
+really needed (with the exception mentioned above) for this number type.
+Of course, more general number types can be used as a ring type
+in a homogeneous representation class as well.
+In some computations, e.g. accessing Cartesian coordinates, divisions
+cannot be avoided. In these computations a second number type, the
+field type, is used. CGAL automatically generates this number
+type as a <VAR><A HREF="CGAL_Quotient.html">CGAL_Quotient</A></VAR>.
+For the Cartesian representation there is only one number type that is
+used for all calculations.<P>
+
+The representation classes provide access to the numbertypes
+involved in the representation, although it is not expected that
+such access is needed at this level, since low-level geometric
+operations are wrapped in geometric primitives provided by the kernel.
+This access can be useful if appropriate kernel primitives are
+missing.
+In a homogeneous representation class <VAR>R</VAR> ring type and field
+type can be accessed as <VAR>R::RT</VAR> and <VAR>R::FT</VAR>, respectively.
+The number type used in Cartesian representation is considered as
+ring type and as field type depending on the context.
+If can be accessed as <VAR>R::RT</VAR> and <VAR>R::FT</VAR>, according
+to the use of number types used in the homogeneous counterpart.<P>
+
+<A NAME="Section_9"></A>
+<H2>Required Functionality of Number Types<A NAME="nt-requirements"></A></H2>
+
+Number types must fulfill certain requirements, such that they can
+be successfully used in CGAL code.
+This section describes those requirements.
+We focus on the syntactical requirements. Of course, number types also
+have evident semantic constraints. They should be meaningful in the
+sense that they approximate the integers or the rationals
+or some other subfield of the real numbers.<P>
+
+The requirements are described as a class interface of a class
+<VAR><A HREF="NT.html">NT</A></VAR>, with constructors, methods and the like. This is only a
+matter of presentation. In fact
+ double and  float also fulfill the requirements.<P>
+
+<UL><LI>
+Class declaration for <VAR><A HREF="NT.html">NT</A></VAR>.</UL>
+
+<P>
+
+<A NAME="Section_11"></A>
+<H2>Built-in Number Types</H2>
+<P>
+
+The built in number types  float and  double have the
+required arithmetic and comparison operators. They lack some required
+routines though which are automatically included by CGAL.
+<P>
+
+All built-in number types of C++ can represent a discrete (bounded)
+subset of the rational numbers only. We assume that the
+floating-point arithmetic of your machine follows  Ieee
+floating-point-standard. Since the floating-point culture has much
+more infrastructural support (hardware, language definition and
+compiler) than exact computation it is very efficient.
+Like with all number types with finite precision representation
+which are used as approximations to the infinite ranges of
+integers or real numbers the built-in number types are inherently
+potentially inexact.
+Be aware of this if you decide to use the efficient built-in
+number types:
+You have to cope with numerical problems. For example, you can
+compute the intersection point of two lines and then check whether
+this point lies on the two lines.<P>
+
+With floating point arithmetic,
+roundoff errors may cause the answer of the check to be  false.
+With the built-in integer types overflow might occur.<P>
+
+<A NAME="Section_12"></A>
+<H2>Number Types Provided by LEDA</H2>
+<P>
+
+LEDA provides number types that can be used for exact computation
+with both Cartesian and homogeneous representation. If you are using
+homogeneous representation with the built-in integer types 
+short,  int, and  long as ring type, exactness of
+computations can be guaranteed only if your input data come from a
+sufficiently small integral range and the depth of the computations is
+sufficiently small. LEDA provides the number type  integer for
+integers, of arbitrary length. (Of course the length is
+somehow bounded by the resources of your computer.) It can be used as
+ring type in homogeneous representation and leads to exact
+computation as long as all intermediate results are rational. For the
+same kind of problems Cartesian representation with number type 
+rational leads to exact computation as well.<P>
+
+The most sophisticated number type in LEDA is the number type called
+ real. Like in Pascal, where the name  real is used for
+floating-point numbers, the name  real does not describe the
+number type exactly.  reals are a subset of real algebraic
+numbers. Any integer is  real and  reals are closed under
+the operations <MATH>+,-,*,/</MATH> and <MATH>\sqrt </MATH>.  reals guarantee that
+all comparisons between expressions involving  reals produce the
+exact result.<P>
+
+In the files  CGAL/Integer.h,  CGAL/Rational.h, and
+ CGAL/Real.h, the LEDA types  integer,  rational,
+and  real are made conform to the requirements presented in
+<A HREF="Chapter_Numbertype.html#nt-requirements">This Section</A>.
+Also, in these files the LEDA number types are included.
+For more details on the number types of LEDA we refer to the LEDA
+manual [<A HREF="biblio.html#Biblio_leda-manual">Mehlhorn et al.</A>].<P>
+
+<A NAME="Section_13"></A>
+<H2>Number Types Provided by CGAL</H2>
+<P>
+
+Currently, CGAL has no proper number types.<P>
+
+<P><UL><LI>
+Class declaration for <VAR><A HREF="CGAL_Quotient.html">CGAL_Quotient&lt;NT&gt;</A></VAR>.</UL>
+
+<P>
+
+<A NAME="Section_14"></A>
+<H2>User-supplied Number Types</H2>
+<P>
+
+You can also use your own number type with the CGAL representation
+classes, e.g. the  BigNum package [<A HREF="biblio.html#Biblio_BigNum">Serpette et al.</A>], or classes
+built on top of the  Gnu Multiple Precision Library [<A HREF="biblio.html#Biblio_Gmp">Gmp</A>].
+Depending on the arithmetic operations carried out by the algorithms
+that you are going to use the number types must fulfill the
+requirements from <A HREF="Chapter_Numbertype.html#nt-requirements">This Section</A>. The CGAL support library
+provides a framework to check the compliance of number-types.<P>
+
+<P><HR> Next chapter: <A HREF="Chapter_PointVectorDirection_2.html">2D Point, Vector and Direction <A NAME="PointVectorDirection"></A></A>
+
+
+<HR><address> The <A HREF="http://www.cs.ruu.nl/CGAL/"><TT>CGAL</TT> Project</A>.</address>
+</BODY>
+</HTML>

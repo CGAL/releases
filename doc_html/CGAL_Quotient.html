@@ -1,0 +1,157 @@
+<HEAD>
+<TITLE>The CGAL Kernel Manual: CGAL_Quotient</TITLE>
+<!-- Manual page automatically extracted from the TeX source. -->
+</HEAD>
+
+<BODY BGCOLOR="FAF8E8" TEXT="#000000"><A HREF="Chapter_Numbertype.html">Chapter</A>,
+<A HREF="contents.html">Table of Contents</A>,
+<A HREF="biblio.html">Bibliography</A>,
+<A HREF="manual_index.html">Index</A>,
+<A HREF="title.html">Title Page</A>
+<HR>
+
+
+<P>
+
+<A NAME="<A HREF="CGAL_Quotient.html">CGAL_Quotient</A>"></A>
+<P>
+
+<H1> Quotient (<VAR><A HREF="CGAL_Quotient.html">CGAL_Quotient</A></VAR>)</H1>
+<P>
+
+<H3>Definition</H3>An object of the class
+<VAR><A HREF="CGAL_Quotient.html">CGAL_Quotient&lt;NT&gt;</A></VAR> is an element of the ring of
+quotients of the integral domain type <VAR><A HREF="NT.html">NT</A></VAR>. If <VAR><A HREF="NT.html">NT</A></VAR>
+behaves like an integer, <VAR><A HREF="CGAL_Quotient.html">CGAL_Quotient&lt;NT&gt;</A></VAR> behaves
+like the rational numbers. LEDA's class <VAR>rational</VAR> has been
+the basis for <VAR><A HREF="CGAL_Quotient.html">CGAL_Quotient&lt;NT&gt;</A></VAR>. A
+<VAR><A HREF="CGAL_Quotient.html">CGAL_Quotient&lt;NT&gt;</A></VAR> <VAR>q</VAR> is represented as a
+pair of <VAR><A HREF="NT.html">NT</A></VAR>s, representing numerator and denominator.
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <A HREF="CGAL_Quotient.html">CGAL_Quotient&lt;NT&gt;</A> q;
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces an uninitialized variable <VAR>q</VAR>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <A HREF="CGAL_Quotient.html">CGAL_Quotient&lt;NT&gt;</A> q (  <A HREF="NT.html">NT</A> n);
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces the quotient <VAR>n/1</VAR>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <VAR>
+    <A HREF="CGAL_Quotient.html">CGAL_Quotient&lt;NT&gt;</A> q (  <A HREF="NT.html">NT</A> n,  <A HREF="NT.html">NT</A> d);
+        </VAR>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces the quotient <VAR>n/d</VAR>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>The arithmetic operations
+<MATH>+, -, *, /, +=, -=, *=, /=, -</MATH>(unary), the comparison
+operations <MATH>&lt;, &lt;=, &gt;, 
+&gt;=, ==, !=</MATH> and the
+stream operations are all available.
+<P>
+
+There are two access functions, namely to the numerator and the
+denominator of a quotient. Note that these values are not uniquely
+defined. It is guaranteed that <VAR>q.numerator()</VAR> and
+<VAR>q.denominator()</VAR> return values <VAR>nt_num</VAR> and
+<VAR>nt_den</VAR> such that <VAR>q = nt_num/nt_den</VAR>, only if
+<VAR>q.numerator()</VAR> and <VAR>q.denominator()</VAR> are called
+consequtively wrt <VAR>q</VAR>, i.e. <VAR>q</VAR> is not involved in
+any other operation between these calls.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="NT.html">NT</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    q.numerator ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a numerator of <VAR>q</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    <A HREF="NT.html">NT</A>
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    q.denominator ()
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a denominator of <VAR>q</VAR>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+The following functions are added to fulfill the CGAL requirements on
+number types.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    double
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    CGAL_to_double (  q)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns some double approximation to <VAR>q</VAR>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    CGAL_is_valid (  q)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns true, if numerator and denominator are valid.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    bool
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <VAR>
+    CGAL_is_finite (  q)
+        </VAR>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns true, if numerator and denominator are finite.
+        </TD></TR>
+        </TABLE><!3>
+<HR> Return to chapter: <A HREF="Chapter_Numbertype.html">Number Types</A>
+
+
+<HR><address> The <A HREF="http://www.cs.ruu.nl/CGAL/"><TT>CGAL</TT> Project</A>.</address>
+</BODY>
+</HTML>

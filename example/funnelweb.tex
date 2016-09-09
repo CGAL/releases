@@ -115,7 +115,8 @@ the text in the printed document is taken from the next macro.
 {\sf We include the following header files containing the class definitions.}
 
 \fwbeginmacro
-\fwmacroname{Header Files}{2}\fwequals \fwodef \fwbtx[#include <stream.h>
+\fwmacroname{Header Files}{2}\fwequals \fwodef \fwbtx[#include <CGAL/Cartesian.h>
+#include <iostream.h>
 #include <CGAL/Point_2.h>
 #include <CGAL/Segment_2.h>
 ]fwetx=%
@@ -136,7 +137,7 @@ it is practical to define new types with the {\tt typedef} from \CC.}
 
 \fwbeginmacro
 \fwmacroname{typedefs}{3}\fwplusequals \fwodef \fwbtx[typedef double coord_type;
-typedef CGAL_Point_2< C<coord_type> > Point;
+typedef CGAL_Point_2< CGAL_Cartesian<coord_type> > Point;
 ]fwetx=%
 \fwcdef 
 \fwbeginmacronotes
@@ -150,7 +151,7 @@ The macro with the nametag ``typedefs'' is additive, and here comes another
 piece of it:
 
 \fwbeginmacro
-\fwmacroname{typedefs}{4}\fwplusequals \fwodef \fwbtx[typedef CGAL_Segment_2< C<coord_type> > Segment;
+\fwmacroname{typedefs}{4}\fwplusequals \fwodef \fwbtx[typedef CGAL_Segment_2< CGAL_Cartesian<coord_type> > Segment;
 ]fwetx=%
 \fwcdef 
 \fwbeginmacronotes

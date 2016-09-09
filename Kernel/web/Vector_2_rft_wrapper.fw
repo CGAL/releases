@@ -1,0 +1,85 @@
+@! $RCSfile: Vector_2_rft_wrapper.fw,v $
+@! $Revision: $
+@! $Date:  $
+
+
+@C
+
+This class is used in the vector multiplication code of the vector
+interface class.
+
+@$@<Class CGAL__Vector_2_rft_wrapper<R>@>+=@{@-
+template < class R >
+class CGAL__Vector_2_rft_wrapper {
+public:
+  CGAL__Vector_2_rft_wrapper(const CGAL_Vector_2<R> &vector)
+    : _vector(vector)
+  {
+#ifdef CGAL_CHECK_ASSERTIONS
+    _wraps_vector = true;
+    _wraps_rft = false;
+#endif // CGAL_CHECK_ASSERTIONS
+  }
+
+ CGAL__Vector_2_rft_wrapper(const R::FT &rft)
+    : _rft(rft)
+  {
+#ifdef CGAL_CHECK_ASSERTIONS
+    _wraps_vector = false;
+    _wraps_rft = true;
+#endif // CGAL_CHECK_ASSERTIONS
+  }
+@}
+
+In order to make this class transparent to the user he can get the
+data back that were wrapped in by the constructor. In the debug
+version the conversion checks first if the wrapper contains the
+right thing.
+
+@$@<Class CGAL__Vector_2_rft_wrapper<R>@>+=@{@-
+  operator CGAL_Vector_2<R>() const
+  {
+    CGAL_kernel_assertion_msg(
+                       _wraps_vector == true,
+                       "Illegal conversion from R::FT to CGAL_Vector<R>");
+    return _vector;
+  }
+
+  operator R::FT() const
+  {
+    CGAL_kernel_assertion_msg(
+                       _wraps_rft == true,
+                       "Illegal conversion from CGAL_Vector<R> to R::FT");
+    return _rft;
+  }
+@}
+
+The private part contains the two possible data items and a boolean
+flag, if we are in the debug version.
+@$@<Class CGAL__Vector_2_rft_wrapper<R>@>+=@{@-
+private:
+
+  CGAL_Vector_2<R> _vector;
+  R::FT            _rft;
+#ifdef CGAL_CHECK_ASSERTIONS
+  bool _wraps_vector;
+  bool _wraps_rft;
+#endif // CGAL_CHECK_ASSERTIONS
+};
+@}
+
+@O@<../include/CGAL/Vector_2_rft_wrapper.h@>==@{@-
+@<CGAL notice@>
+// Source: Vector_2_rft_wrapper.h
+// Author: Andreas.Fabri@@sophia.inria.fr
+
+#ifndef CGAL__VECTOR_2_RFT_WRAPPER_H
+#define CGAL__VECTOR_2_RFT_WRAPPER_H
+
+@<Class CGAL__Vector_2_rft_wrapper<R>@>
+
+#endif //  CGAL__VECTOR_2_RFT_WRAPPER_H
+@}
+
+
+@! $Log: $

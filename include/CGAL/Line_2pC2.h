@@ -8,7 +8,7 @@
 #include <CGAL/predicates_on_points_2.h>
 
 template < class FT >
-class CGAL_Line_2pC2 : public CGAL_Handle_base
+class CGAL_Line_2pC2 : public CGAL_Handle
 {
 public:
                        CGAL_Line_2pC2();
@@ -27,7 +27,7 @@ public:
 
   bool                 operator==(const CGAL_Line_2pC2<FT> &l) const;
   bool                 operator!=(const CGAL_Line_2pC2<FT> &l) const;
-  bool                 identical(const CGAL_Line_2pC2<FT> &l) const;
+  int                  id() const;
 
   FT                   a() const;
   FT                   b() const;
@@ -38,25 +38,24 @@ public:
 
   CGAL_Line_2pC2<FT>   perpendicular(const CGAL_PointC2<FT> &p) const;
   CGAL_Line_2pC2<FT>   opposite() const;
+  CGAL_PointC2<FT>     point(int i) const;
+
   CGAL_PointC2<FT>     point() const;
 
   CGAL_PointC2<FT>     projection(const CGAL_PointC2<FT> &p) const;
 
   CGAL_DirectionC2<FT> direction() const;
 
-  bool                 is_on(const CGAL_PointC2<FT> &p) const;
-  CGAL_Side            where_is(const CGAL_PointC2<FT> &p) const;
+  CGAL_Oriented_side   oriented_side(const CGAL_PointC2<FT> &p) const;
+  bool                 has_on_boundary(const CGAL_PointC2<FT> &p) const;
+  bool                 has_on_positive_side(const CGAL_PointC2<FT> &p) const;
+  bool                 has_on_negative_side(const CGAL_PointC2<FT> &p) const;
+
   bool                 is_horizontal() const;
   bool                 is_vertical() const;
   bool                 is_degenerate() const;
   CGAL_Line_2pC2<FT>   transform(const CGAL_Aff_transformationC2<FT> &t) const;
 
-#ifdef CGAL_CHECK_PRECONDITIONS
-  bool                 is_defined() const
-  {
-    return (PTR == NULL) ? false : true;
-  }
-#endif // CGAL_CHECK_PRECONDITIONS
 private:
   CGAL_PointC2<FT>     first_point() const;
   CGAL_PointC2<FT>     second_point() const;
@@ -67,26 +66,22 @@ private:
 template < class FT >
 inline CGAL_Line_2pC2<FT>::CGAL_Line_2pC2()
 {
-#ifdef CGAL_CHECK_PRECONDITIONS
-  PTR = NULL;
-#else
   PTR = new CGAL__Twotuple_rep< CGAL_PointC2<FT> >();
-#endif // CGAL_CHECK_PRECONDITIONS
 }
 
 template < class FT >
 inline CGAL_Line_2pC2<FT>::CGAL_Line_2pC2(const CGAL_Line_2pC2<FT>  &l) :
-  CGAL_Handle_base((CGAL_Handle_base&)l)
+  CGAL_Handle((CGAL_Handle&)l)
 {}
 
 template < class FT >
 inline CGAL_Line_2pC2<FT>::CGAL_Line_2pC2(const CGAL_RayC2<FT> &r) :
-  CGAL_Handle_base((CGAL_Handle_base&)r)
+  CGAL_Handle((CGAL_Handle&)r)
 {}
 
 template < class FT >
 inline CGAL_Line_2pC2<FT>::CGAL_Line_2pC2(const CGAL_SegmentC2<FT> &s) :
-  CGAL_Handle_base((CGAL_Handle_base&)s)
+  CGAL_Handle((CGAL_Handle&)s)
 {}
 
 template < class FT >
@@ -134,7 +129,7 @@ inline CGAL_Line_2pC2<FT>::~CGAL_Line_2pC2()
 template < class FT >
 CGAL_Line_2pC2<FT> &CGAL_Line_2pC2<FT>::operator=(const CGAL_Line_2pC2<FT> &l)
 {
-  CGAL_Handle_base::operator=(l);
+  CGAL_Handle::operator=(l);
   return *this;
 }
 template < class FT >
@@ -150,9 +145,9 @@ inline bool CGAL_Line_2pC2<FT>::operator!=(const CGAL_Line_2pC2<FT> &l) const
 }
 
 template < class FT >
-inline bool CGAL_Line_2pC2<FT>::identical(const CGAL_Line_2pC2<FT> &l) const
+inline int CGAL_Line_2pC2<FT>::id const
 {
-  return ( PTR == l.PTR );
+  return (int) PTR ;
 }
 template < class FT >
 inline FT CGAL_Line_2pC2<FT>::a() const
@@ -207,6 +202,12 @@ inline CGAL_PointC2<FT> CGAL_Line_2pC2<FT>::point() const
 }
 
 template < class FT >
+CGAL_PointC2<FT> CGAL_Line_2pC2<FT>::point(int i) const
+{
+  return first_point() + FT(i) * (second_point() - first_point()) ;
+}
+
+template < class FT >
 inline CGAL_PointC2<FT> CGAL_Line_2pC2<FT>::projection(
                                              const CGAL_PointC2<FT> &p) const
 {
@@ -221,16 +222,31 @@ inline CGAL_DirectionC2<FT> CGAL_Line_2pC2<FT>::direction() const
 }
 
 template < class FT >
-bool CGAL_Line_2pC2<FT>::is_on(const CGAL_PointC2<FT> &p) const
+CGAL_Oriented_side CGAL_Line_2pC2<FT>::oriented_side(
+                                           const CGAL_PointC2<FT> &p) const
+{
+  return CGAL_orientation(first_point(), second_point(), p);
+}
+
+template < class FT >
+bool CGAL_Line_2pC2<FT>::has_on_boundary(const CGAL_PointC2<FT> &p) const
 {
   return CGAL_collinear(first_point(), second_point(), p);
 }
 
 template < class FT >
-CGAL_Side CGAL_Line_2pC2<FT>::where_is(const CGAL_PointC2<FT> &p) const
+bool CGAL_Line_2pC2<FT>::has_on_positive_side(const CGAL_PointC2<FT> &p) const
 {
-  return CGAL_ordertype(first_point(), second_point(), p);
+  return CGAL_leftturn(first_point(), second_point(), p);
 }
+
+
+template < class FT >
+bool CGAL_Line_2pC2<FT>::has_on_negative_side(const CGAL_PointC2<FT> &p) const
+{
+  return CGAL_rightturn(first_point(), second_point(), p);
+}
+
 
 template < class FT >
 bool CGAL_Line_2pC2<FT>::is_horizontal() const
@@ -255,7 +271,7 @@ inline CGAL_Line_2pC2<FT> CGAL_Line_2pC2<FT>::transform(
                                   const CGAL_Aff_transformationC2<FT> &t) const
 {
   return CGAL_Line_2pC2<FT>(t.transform(first_point()),
-                         t.transform(second_point()));
+                            t.transform(second_point()));
 }
 
 template < class FT >

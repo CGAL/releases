@@ -1,4 +1,0 @@
-
-special CGAL_Ordertype CGAL_ordertype(const dint &px, const dint &py, \
-                                      const dint &qx, const dint &qy, \
-                                      const dint &rx, const dint &ry);

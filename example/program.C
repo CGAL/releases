@@ -1,22 +1,25 @@
 
-#include <stream.h>
-#include <CGAL/cartesian.h>
-#include <CGAL/Ray_2.h>
+#include <CGAL/Cartesian.h>
+#include <iostream.h>
 
+#include <CGAL/Point_2.h>
+#include <CGAL/Ray_2.h>
 #include <CGAL/Line_2.h>
 #include <CGAL/Iso_rectangle_2.h>
 
-typedef CGAL_Segment_2< C<double> > Segment;
-typedef CGAL_Line_2< C<double> > Line;
-typedef CGAL_Ray_2< C<double> > Ray;
-typedef CGAL_Iso_rectangle_2< C<double> > Iso_rectangle;
+typedef CGAL_Segment_2< CGAL_Cartesian<double> > Segment;
+typedef CGAL_Line_2< CGAL_Cartesian<double> > Line;
+typedef CGAL_Ray_2< CGAL_Cartesian<double> > Ray;
+typedef CGAL_Iso_rectangle_2< CGAL_Cartesian<double> > Iso_rectangle;
 
-typedef CGAL_Point_2< C<double> > Point;
-typedef CGAL_Vector_2< C<double> > Vector;
-typedef CGAL_Direction_2< C<double> > Direction;
+
+typedef CGAL_Vector_2< CGAL_Cartesian<double> > Vector;
+typedef CGAL_Direction_2< CGAL_Cartesian<double> > Direction;
 
 typedef CGAL_Bbox_2 Bbox;
 
+
+typedef CGAL_Point_2< CGAL_Cartesian<double> > Point;
 
 int main()
 {  
@@ -26,23 +29,27 @@ int main()
          x2 = 3.0,
          y2 = 4.0;
 
+
+
+
   Point p1(x1,y1), p2(x2,y2), p3(20.0, 40.0);
 
   Segment s(p1,p2);
+  
   Segment scoord(p1,p2), sc, scopy(s);
   
   sc = s;
-  assert( s.identical(sc) );
-  assert( s.identical(scopy) );
+  assert( identical(s, sc) );
+  assert( identical(s, scopy) );
 
   assert( s == sc );
   assert( s == scoord );
-  assert( s.start() == p1 );
-  assert( s.end() == p2 );
-  assert( s.opposite().start() == p2 );
-  assert( s.opposite().end() == p1 );
-  assert( s.vertex(0) == s.start() );
-  assert( s.vertex(1) == s.end() );
+  assert( s.source() == p1 );
+  assert( s.target() == p2 );
+  assert( s.opposite().source() == p2 );
+  assert( s.opposite().target() == p1 );
+  assert( s.vertex(0) == s.source() );
+  assert( s.vertex(1) == s.target() );
   assert( s.direction() == Direction(p2-p1) );
   assert( s.supporting_line() == Line(p1,p2) );
  
@@ -52,8 +59,8 @@ int main()
   assert( !sver.is_horizontal() && sver.is_vertical() );
   assert( !shor.is_degenerate()  && !sver.is_degenerate() );
 
-  assert( s.is_on(Point(2,3)) && s.is_on(p1) && s.is_on(p2) );
-  assert( ! s.is_on(CGAL_ORIGIN) );
+  assert( s.has_on(Point(2,3)) && s.has_on(p1) && s.has_on(p2) );
+  assert( ! s.has_on(CGAL_ORIGIN) );
   assert( s.squared_length() == 8 );
 
   Bbox b = s.bbox();
