@@ -39,27 +39,27 @@ public:
   CGAL_DirectionC2<FT> direction() const;
   CGAL_LineC2<FT>      supporting_line() const;
   CGAL_SegmentC2       opposite() const;
-  CGAL_SegmentC2       transform(const CGAL_Aff_transformation_baseC2<FT> &t) const;
+  CGAL_SegmentC2       transform(const CGAL_Aff_transformationC2<FT> &t) const;
 
   bool                 is_degenerate() const;
   CGAL_Bbox_2          bbox() const;
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool                 is_defined() const;
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 
 private:
   CGAL__Twotuple< CGAL_PointC2<FT> >*   ptr() const;
 };
 
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
 template < class FT >
 inline bool CGAL_SegmentC2<FT>::is_defined() const
 {
   return (PTR == NULL)? false : true;
 }
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 
 
 template < class FT >
@@ -72,11 +72,11 @@ inline CGAL__Twotuple< CGAL_PointC2<FT> > *CGAL_SegmentC2<FT>::ptr() const
 template < class FT >
 CGAL_SegmentC2<FT>::CGAL_SegmentC2()
 {
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   PTR = NULL;
 #else
   PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >;
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 }
 
 template < class FT >
@@ -188,7 +188,7 @@ inline CGAL_SegmentC2<FT> CGAL_SegmentC2<FT>::opposite() const
 }
 
 template < class FT >
-inline CGAL_SegmentC2<FT> CGAL_SegmentC2<FT>::transform(const CGAL_Aff_transformation_baseC2<FT> &t) const
+inline CGAL_SegmentC2<FT> CGAL_SegmentC2<FT>::transform(const CGAL_Aff_transformationC2<FT> &t) const
 {
   return CGAL_SegmentC2<FT>(t.transform(start()),
                            t.transform(end()));

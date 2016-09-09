@@ -52,14 +52,14 @@ public:
   bool                 is_vertical() const;
   bool                 is_degenerate() const;
 
-  CGAL_LineC2          transform(const CGAL_Aff_transformation_baseC2<FT> &t) const;
+  CGAL_LineC2          transform(const CGAL_Aff_transformationC2<FT> &t) const;
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool                 is_defined() const
   {
     return (PTR == NULL) ? false : true;
   }
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 
 private:
   CGAL__Threetuple<FT>* ptr() const;
@@ -99,11 +99,11 @@ inline void CGAL_LineC2<FT>::new_rep(const FT &a, const FT &b, const FT &c)
 template < class FT >
 CGAL_LineC2<FT>::CGAL_LineC2()
 {
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   PTR = NULL;
 #else
   PTR = new CGAL__Threetuple<FT>;
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 }
 
 template < class FT >
@@ -298,7 +298,7 @@ bool CGAL_LineC2<FT>::is_degenerate() const
 }
 
 template < class FT >
-inline CGAL_LineC2<FT> CGAL_LineC2<FT>::transform(const CGAL_Aff_transformation_baseC2<FT> &t) const
+inline CGAL_LineC2<FT> CGAL_LineC2<FT>::transform(const CGAL_Aff_transformationC2<FT> &t) const
 {
   return CGAL_LineC2<FT>( t.transform(point() ),
                           t.transform(direction() ));

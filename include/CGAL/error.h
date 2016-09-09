@@ -10,7 +10,7 @@ int CGAL_breakpoint(char *msg);
 
 
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
 
 extern void CGAL_kernel_assert(int expr);
 

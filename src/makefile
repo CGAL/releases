@@ -1,3 +1,6 @@
+
+default : $(CGALLIB)
+
 include ../makefile
 
 CFLAGS = -g0  $(CGALFLAGS)
@@ -18,7 +21,8 @@ HEADERS = Onetuple.h Twotuple.h Threetuple.h Fourtuple.h Sixtuple.h \
        Bbox_2.h
 
 
-LIBSOURCES = Origin.C OrdertypeC2.C error.C Bbox_2.C doublefield.C
+LIBSOURCES = Origin.C OrdertypeC2.C  error.C Bbox_2.C doublefield.C \
+             utils.C Aff_transformationC2.C enum.C
 
 
 LIBOBJS = $(LIBSOURCES:.C=.o)

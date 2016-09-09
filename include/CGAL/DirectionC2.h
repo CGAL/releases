@@ -31,13 +31,13 @@ public:
   bool                 identical(const CGAL_DirectionC2<FT> &d) const;
 
   CGAL_VectorC2<FT>    vector() const;
-  CGAL_DirectionC2<FT> transform(const CGAL_Aff_transformation_baseC2<FT> &t) const;
+  CGAL_DirectionC2<FT> transform(const CGAL_Aff_transformationC2<FT> &t) const;
   CGAL_DirectionC2<FT> operator-() const;
   // public but hidden
   FT                   x() const;
   FT                   y() const;
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool                 is_defined() const;
 #endif
 
@@ -46,13 +46,13 @@ private:
 };
 
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
 template < class FT >
 inline bool CGAL_DirectionC2<FT>::is_defined() const
 {
   return (PTR == NULL)? false : true;
 }
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 
 template < class FT >
 inline CGAL__Twotuple<FT>*   CGAL_DirectionC2<FT>::ptr() const
@@ -64,7 +64,7 @@ inline CGAL__Twotuple<FT>*   CGAL_DirectionC2<FT>::ptr() const
 template < class FT >
 CGAL_DirectionC2<FT>::CGAL_DirectionC2()
 {
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   PTR = NULL;
 #else
   PTR = new CGAL__Twotuple<FT>();
@@ -186,7 +186,7 @@ inline CGAL_VectorC2<FT> CGAL_DirectionC2<FT>::vector() const
 }
 
 template < class FT >
-inline CGAL_DirectionC2<FT> CGAL_DirectionC2<FT>::transform(const CGAL_Aff_transformation_baseC2<FT> &t) const
+inline CGAL_DirectionC2<FT> CGAL_DirectionC2<FT>::transform(const CGAL_Aff_transformationC2<FT> &t) const
 {
   CGAL_kernel_precondition(is_defined());
   return t.transform(*this);

@@ -115,7 +115,7 @@ public:
     return R::Point_2::bbox();
   }
 
-  CGAL_Point_2<R> transform(const CGAL_Aff_transformation_base_2<R> &t) const
+  CGAL_Point_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
   {
     return R::Point_2::transform(t);
   }

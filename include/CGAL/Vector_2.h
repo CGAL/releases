@@ -128,7 +128,7 @@ public:
   }
 
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool                 is_defined() const
   {
     return R::Vector_2::is_defined();
@@ -163,7 +163,7 @@ inline CGAL_Vector_2<R> operator*(const FT &c, const CGAL_Vector_2<R> &w)
 #include <stream.h>
 
 template < class R >
-ostream &operator<<(ostream &os, CGAL_Vector_2<R> &v)
+ostream &operator<<(ostream &os, const CGAL_Vector_2<R> &v)
 {
   CGAL_kernel_precondition(v.is_defined());
   os << "Vector_2(" << v.x() << ", " << v.y() << ")";

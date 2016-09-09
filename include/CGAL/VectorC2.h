@@ -48,9 +48,9 @@ public:
   CGAL_VectorC2        operator*(const FT &c) const;
   CGAL_VectorC2        operator/(const FT &c) const;
   CGAL_DirectionC2<FT> direction() const;
-  CGAL_VectorC2<FT>    transform(const CGAL_Aff_transformation_baseC2<FT> &) const;
+  CGAL_VectorC2<FT>    transform(const CGAL_Aff_transformationC2<FT> &) const;
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool                 is_defined() const;
 #endif
 
@@ -62,7 +62,7 @@ private:
 };
 
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
 template < class FT >
 inline bool CGAL_VectorC2<FT>::is_defined() const
 {
@@ -80,7 +80,7 @@ inline CGAL__Twotuple<FT>*   CGAL_VectorC2<FT>::ptr() const
 template < class FT >
 CGAL_VectorC2<FT>::CGAL_VectorC2()
 {
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   PTR = NULL;
 #else
   PTR = new CGAL__Twotuple<FT>();
@@ -246,7 +246,7 @@ inline CGAL_DirectionC2<FT>   CGAL_VectorC2<FT>::direction() const
 }
 
 template < class FT >
-inline CGAL_VectorC2<FT> CGAL_VectorC2<FT>::transform(const CGAL_Aff_transformation_baseC2<FT> &t) const
+inline CGAL_VectorC2<FT> CGAL_VectorC2<FT>::transform(const CGAL_Aff_transformationC2<FT> &t) const
 {
   CGAL_kernel_precondition(is_defined());
   return t.transform(*this);
@@ -259,7 +259,7 @@ inline CGAL_VectorC2<FT> CGAL_VectorC2<FT>::transform(const CGAL_Aff_transformat
 #include <stream.h>
 
 template < class FT >
-ostream &operator<<(ostream &os, CGAL_VectorC2<FT> &v)
+ostream &operator<<(ostream &os, const CGAL_VectorC2<FT> &v)
 {
   os << "VectorC2(" << v.x() << ", " << v.y() << ")";
   return os;

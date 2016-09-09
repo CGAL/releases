@@ -4,10 +4,10 @@
 #ifndef CGAL_CLASSES_H
 #define CGAL_CLASSES_H
 
-#include<CGAL/enum.h>
-#include<assert.h>
-#include<CGAL/error.h>
-
+#include <CGAL/enum.h>
+#include <assert.h>
+#include <CGAL/utils.h>
+#include <CGAL/doublefield.h>
 
 class CGAL_Origin;
 
@@ -85,24 +85,6 @@ template < class R >
 class CGAL_Aff_transformation_2;
 
 template < class FT >
-class CGAL_RotationC2;
-
-template < class R >
-class CGAL_Rotation_2;
-
-template < class FT >
-class CGAL_TranslationC2;
-
-template < class R >
-class CGAL_Translation_2;
-
-template < class FT >
-class CGAL_ScalingC2;
-
-template < class R >
-class CGAL_Scaling_2;
-
-template < class FT >
 class CGAL_PlaneC3;
 
 template < class R >
@@ -172,10 +154,6 @@ public:
 
     typedef CGAL_PolygonC2<FT> Polygon_2;
     typedef CGAL_Aff_transformationC2<FT>  Aff_transformation_2;
-    typedef CGAL_Aff_transformation_baseC2<FT>  Aff_transformation_base_2;
-    typedef CGAL_RotationC2<FT>  Rotation_2;
-    typedef CGAL_TranslationC2<FT>  Translation_2;
-    typedef CGAL_ScalingC2<FT>  Scaling_2;
 
     typedef CGAL_PointC3<FT>  Point_3;
     typedef CGAL_VectorC3<FT> Vector_3;

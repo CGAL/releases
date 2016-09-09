@@ -91,7 +91,7 @@ public:
     return CGAL_Ray_2<R>(R::Ray_2::opposite());
   }
 
-  CGAL_Ray_2<R> transform(const CGAL_Aff_transformation_base_2<R> &t) const
+  CGAL_Ray_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
   {
     return  CGAL_Ray_2<R>(R::Ray_2::transform(t));
   }
@@ -116,7 +116,7 @@ public:
     return R::Ray_2::is_on(p);
   }
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool is_defined() const
   {
     return (PTR == NULL)? false : true;
@@ -131,7 +131,7 @@ public:
 #include <stream.h>
 
 template < class R >
-ostream &operator<<(ostream &os, CGAL_Ray_2<R> &r)
+ostream &operator<<(ostream &os, const CGAL_Ray_2<R> &r)
 {
   os << "Ray_2(" << r.start() <<  ", " << r.direction() << ")";
   return os;

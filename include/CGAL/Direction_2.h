@@ -85,9 +85,9 @@ public:
     return R::Direction_2::vector();
   }
 
-  CGAL_Direction_2<R> transform(const CGAL_Aff_transformation_base_2<R> &t) const
+  CGAL_Direction_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
   {
-    return R::Direction_2::transform(t);
+    return R::Direction_2::transform(R::Aff_transformation_2(t));
   }
 
   CGAL_Direction_2<R> operator-() const
@@ -106,7 +106,7 @@ public:
     return R::Direction_2::y();
   }
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool is_defined() const
   {
     return R::Direction_2::is_defined();

@@ -177,13 +177,13 @@ public:
     return R::Line_2::is_degenerate();
   }
 
-  CGAL_Line_2<R> transform(const CGAL_Aff_transformation_base_2<R> &t) const
+  CGAL_Line_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
   {
     CGAL_kernel_precondition(is_defined() && t.is_defined());
     return  CGAL_Line_2<R>(R::Line_2::transform(t));
   }
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool             is_defined() const
   {
     return (PTR == NULL)? false : true;
@@ -199,7 +199,7 @@ public:
 #include <stream.h>
 
 template < class R >
-ostream &operator<<(ostream &os, CGAL_Line_2<R> &l)
+ostream &operator<<(ostream &os, const CGAL_Line_2<R> &l)
 {
     CGAL_kernel_precondition(l.is_defined());
   os << "Line_2(" << l.a() << ", "<< l.b() << ", " << l.c() << ")";

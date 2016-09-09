@@ -27,7 +27,7 @@ public:
   CGAL_PointC2<FT>     vertex(int i) const;
   CGAL_PointC2<FT>     operator[](int i) const;
 
-  CGAL_TriangleC2      transform(const CGAL_Aff_transformation_baseC2<FT> &t) const;
+  CGAL_TriangleC2      transform(const CGAL_Aff_transformationC2<FT> &t) const;
 
   CGAL_Side           where_is(const CGAL_PointC2<FT> &p) const;
   bool                is_on(const CGAL_PointC2<FT> &p) const;
@@ -147,9 +147,9 @@ CGAL_Side CGAL_TriangleC2<FT>::where_is(const CGAL_PointC2<FT> &p) const
 
  if (o1 == CGAL_COLLINEAR || o2 == CGAL_COLLINEAR || o3 == CGAL_COLLINEAR)
     {
-      if ((o1 == CGAL_COLLINEAR && CGAL_collinear_between(vertex(0), vertex(1), p)) ||
-          (o2 == CGAL_COLLINEAR && CGAL_collinear_between(vertex(1), vertex(2), p)) ||
-          (o3 == CGAL_COLLINEAR && CGAL_collinear_between(vertex(2), vertex(3), p)))
+      if ((o1 == CGAL_COLLINEAR && CGAL_collinear_between(vertex(0), p, vertex(1))) ||
+          (o2 == CGAL_COLLINEAR && CGAL_collinear_between(vertex(1), p, vertex(2))) ||
+          (o3 == CGAL_COLLINEAR && CGAL_collinear_between(vertex(2), p, vertex(3))))
         {
           return CGAL_ON;
         }
@@ -201,7 +201,7 @@ inline CGAL_Bbox_2 CGAL_TriangleC2<FT>::bbox() const
 }
 
 template < class FT >
-inline CGAL_TriangleC2<FT> CGAL_TriangleC2<FT>::transform(const CGAL_Aff_transformation_baseC2<FT> &t) const
+inline CGAL_TriangleC2<FT> CGAL_TriangleC2<FT>::transform(const CGAL_Aff_transformationC2<FT> &t) const
 {
   return CGAL_TriangleC2<FT>(t.transform(vertex(0)),
                             t.transform(vertex(1)),

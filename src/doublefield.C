@@ -90,6 +90,11 @@ bool is_finite(double d)
 #ifdef __sun
 
 // implementation for SUN
+
+#ifdef __SVR4  // and even more special for SOLARIS
+#include <ieeefp.h>
+#endif // __SVR4
+
 #include <sunmath.h>
 #include <LEDA/misc.h>
 bool is_finite(double d)

@@ -32,7 +32,7 @@ public:
   CGAL_LineC2<FT>      supporting_line() const;
   CGAL_RayC2           opposite() const;
 
-  CGAL_RayC2           transform(const CGAL_Aff_transformation_baseC2<FT> &t) const;
+  CGAL_RayC2           transform(const CGAL_Aff_transformationC2<FT> &t) const;
 
   bool                is_horizontal() const;
   bool                is_vertical() const;
@@ -40,12 +40,12 @@ public:
   bool                is_on(const CGAL_PointC2<FT> &p) const;
   bool                collinear_is_on(const CGAL_PointC2<FT> &p) const;
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool                is_defined() const
   {
     return (PTR == NULL) ? false : true;
   }
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 
 private:
 CGAL__Twotuple< CGAL_PointC2<FT> > *ptr() const;
@@ -62,11 +62,11 @@ inline CGAL__Twotuple< CGAL_PointC2<FT> > *CGAL_RayC2<FT>::ptr() const
 template < class FT >
 CGAL_RayC2<FT>::CGAL_RayC2()
 {
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   PTR = NULL;
 #else
   PTR = new CGAL__Twotuple< CGAL_PointC2<FT> >;
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 }
 
 template < class FT >
@@ -152,7 +152,7 @@ inline CGAL_RayC2<FT> CGAL_RayC2<FT>::opposite() const
 }
 
 template < class FT >
-inline CGAL_RayC2<FT> CGAL_RayC2<FT>::transform(const CGAL_Aff_transformation_baseC2<FT> &t) const
+inline CGAL_RayC2<FT> CGAL_RayC2<FT>::transform(const CGAL_Aff_transformationC2<FT> &t) const
 {
   return CGAL_RayC2<FT>(t.transform(start()),
                        t.transform(second_point()));

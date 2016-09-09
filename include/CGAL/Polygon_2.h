@@ -121,9 +121,9 @@ public:
   CGAL_Polygon_2<R>            transform(const CGAL_Aff_transformation_2<R> &t) const;
 
   bool                          is_degenerate() const;
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool                          is_defined() const;
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 
 private:
   typedef list<CGAL_Point_2<R> > List;
@@ -159,11 +159,11 @@ template < class R >
 CGAL_Polygon_2<R>::CGAL_Polygon_2()
 {
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   PTR = NULL;
 #else
   PTR = new CGAL__Polygon<CGAL_Point_2<R> >;
-#endif  // CGAL_KERNEL_PRECONDITION
+#endif  // CGAL_CHECK_PRECONDITIONS
 }
 
 template < class R >
@@ -405,13 +405,13 @@ bool CGAL_Polygon_2<R>::is_degenerate() const
   exit(-1);
 }
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
 template < class R >
 bool CGAL_Polygon_2<R>::is_defined() const
 {
   return size() >= 3;
 }
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 
 
 

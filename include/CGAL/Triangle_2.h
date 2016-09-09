@@ -65,7 +65,7 @@ public:
     }
 
 
-  CGAL_Triangle_2<R>  transform(const CGAL_Aff_transformation_base_2<R> &t) const
+  CGAL_Triangle_2<R>  transform(const CGAL_Aff_transformation_2<R> &t) const
   {
     return  CGAL_Triangle_2<R>(R::Triangle_2::transform(t));
   }
@@ -108,7 +108,7 @@ public:
 #include <stream.h>
 
 template < class R >
-ostream &operator<<(ostream &os, CGAL_Triangle_2<R> &t)
+ostream &operator<<(ostream &os, const CGAL_Triangle_2<R> &t)
 {
   os << "Triangle_2(" << t[0] <<  ", " << t[1] <<   ", " << t[2] <<")";
   return os;

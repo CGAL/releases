@@ -13,24 +13,25 @@ enum  CGAL_Ordertype
         CGAL_COUNTERCLOCKWISE
       };
 
-// We should not have global constants?
-
-const CGAL_Ordertype   CGAL_LEFTTURN  = CGAL_COUNTERCLOCKWISE;
-const CGAL_Ordertype   CGAL_RIGHTTURN = CGAL_CLOCKWISE;
-const CGAL_Ordertype   CGAL_POSITIVE  = CGAL_COUNTERCLOCKWISE;
-const CGAL_Ordertype   CGAL_NEGATIVE  = CGAL_CLOCKWISE;
-const CGAL_Ordertype   CGAL_COPLANAR  = CGAL_COLLINEAR;
+extern const CGAL_Ordertype   CGAL_LEFTTURN ;
+extern const CGAL_Ordertype   CGAL_RIGHTTURN;
+extern const CGAL_Ordertype   CGAL_POSITIVE ;
+extern const CGAL_Ordertype   CGAL_NEGATIVE ;
+extern const CGAL_Ordertype   CGAL_COPLANAR ;
 
 
 
 
 enum  CGAL_Side
-      { CGAL_INSIDE = -2,
-        CGAL_LEFT,
+      { CGAL_INSIDE = -1,
         CGAL_ON,
-        CGAL_RIGHT,
         CGAL_OUTSIDE
       };
+
+
+extern const CGAL_Side  CGAL_LEFT;
+extern const CGAL_Side  CGAL_RIGHT;
+extern const CGAL_Side CGAL_ON_BOUNDARY;
 
 
 
@@ -46,8 +47,8 @@ enum  CGAL_Comparison_result
 
 enum CGAL_Intersection_result {CGAL_NO_INTERSECTION = 0,
                                CGAL_POINT_INTERSECTION,
-                               CGAL_LINE_INTERSECTION,
+                               CGAL_SEGMENT_INTERSECTION,
                                CGAL_RAY_INTERSECTION,
-                               CGAL_SEGMENT_INTERSECTION};
+                               CGAL_LINE_INTERSECTION};
 
 #endif

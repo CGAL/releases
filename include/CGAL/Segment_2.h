@@ -134,7 +134,7 @@ public:
 
   // this makes use of the constructor of the interface class
   // taking an object of the implemetation class as argument.
-  CGAL_Segment_2<R>       transform(const CGAL_Aff_transformation_base_2<R> &t) const
+  CGAL_Segment_2<R>       transform(const CGAL_Aff_transformation_2<R> &t) const
   {
     CGAL_kernel_precondition(is_defined() && t.is_defined());
     return  CGAL_Segment_2<R>(R::Segment_2::transform(t));
@@ -158,7 +158,7 @@ public:
     return start().bbox() + end().bbox();
   }
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool             is_defined() const
   {
     return (PTR == NULL)? false : true;
@@ -175,7 +175,7 @@ public:
 #include <stream.h>
 
 template < class R >
-ostream &operator<<(ostream &os, CGAL_Segment_2<R> &s)
+ostream &operator<<(ostream &os, const CGAL_Segment_2<R> &s)
 {
   CGAL_kernel_precondition(s.is_defined());
   os << "Segment_2(" << s.start() <<  ", " << s.end() << ")";

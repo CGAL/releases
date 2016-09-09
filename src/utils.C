@@ -1,7 +1,8 @@
 
 #include <assert.h>
 #include <stdlib.h>
-#include <bool.h>
+//#include <bool.h>
+#include <LEDA/basic.h>
 #include <CGAL/utils.h>
 #include <iostream.h>
 

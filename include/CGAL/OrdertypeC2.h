@@ -51,7 +51,8 @@ inline bool CGAL_collinear_between(const CGAL_PointC2<FT> &p,
                                    const CGAL_PointC2<FT> &r)
 {
   assert( CGAL_collinear(p, q, r) );
-  if (p.x() != q.x())
+
+  if (p.x() != r.x())
     {
       return ((p.x() <= q.x()) && q.x() <= r.x()) ||
              ((r.x() <= q.x()) && q.x() <= p.x());

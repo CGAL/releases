@@ -53,11 +53,11 @@ public:
 
   int              dimension() const;
   CGAL_Bbox_2      bbox() const;
-  CGAL_PointC2<FT> transform(const CGAL_Aff_transformation_baseC2<FT> &) const;
+  CGAL_PointC2<FT> transform(const CGAL_Aff_transformationC2<FT> &) const;
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool             is_defined() const;
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 
   void decrease_count(){ptr()->decrease_count();}
 protected:
@@ -68,13 +68,13 @@ private:
 };
 
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
 template < class FT >
 inline bool CGAL_PointC2<FT>::is_defined() const
 {
   return (PTR == NULL)? false : true;
 }
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 
 template < class FT >
 inline CGAL__Twotuple<FT>* CGAL_PointC2<FT>::ptr() const
@@ -86,11 +86,11 @@ inline CGAL__Twotuple<FT>* CGAL_PointC2<FT>::ptr() const
 template < class FT >
 CGAL_PointC2<FT>::CGAL_PointC2()
 {
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   PTR = NULL;
 #else
   PTR = new CGAL__Twotuple<FT>;
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 }
 
 template < class FT >
@@ -279,7 +279,7 @@ inline CGAL_VectorC2<FT> operator-(const CGAL_Origin &,
 }
 
 template < class FT >
-inline CGAL_PointC2<FT> CGAL_PointC2<FT>::transform(const CGAL_Aff_transformation_baseC2<FT> &t) const
+inline CGAL_PointC2<FT> CGAL_PointC2<FT>::transform(const CGAL_Aff_transformationC2<FT> &t) const
 {
   CGAL_kernel_precondition(is_defined());
   return t.transform(*this);

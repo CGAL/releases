@@ -28,7 +28,7 @@ public:
   CGAL_PointC2<FT>     vertex(int i) const;
   CGAL_PointC2<FT>     operator[](int i) const;
 
-  CGAL_Iso_rectangleC2<FT> transform(const CGAL_Aff_transformation_baseC2<FT> &t) const;
+  CGAL_Iso_rectangleC2<FT> transform(const CGAL_Aff_transformationC2<FT> &t) const;
 
   CGAL_Side            where_is(const CGAL_PointC2<FT> &p) const;
   bool                 is_on(const CGAL_PointC2<FT> &p) const;
@@ -245,7 +245,7 @@ inline CGAL_Bbox_2 CGAL_Iso_rectangleC2<FT>::bbox() const
 }
 
 template < class FT >
-inline CGAL_Iso_rectangleC2<FT> CGAL_Iso_rectangleC2<FT>::transform(const CGAL_Aff_transformation_baseC2<FT> &t) const
+inline CGAL_Iso_rectangleC2<FT> CGAL_Iso_rectangleC2<FT>::transform(const CGAL_Aff_transformationC2<FT> &t) const
 {
   return CGAL_Iso_rectangleC2<FT>(t.transform(vertex(0)),
                                   t.transform(vertex(2)));

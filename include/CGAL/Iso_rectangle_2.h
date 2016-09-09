@@ -90,12 +90,27 @@ public:
     return vertex(i);
   }
 
-  CGAL_Iso_rectangle_2<R> transform(const CGAL_Aff_transformation_base_2<R> &t) const
+  CGAL_Iso_rectangle_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
   {
     return  CGAL_Iso_rectangle_2<R>(R::Iso_rectangle_2::transform(t));
   }
 
 };
+
+
+
+#ifdef CGAL_IO
+
+#include <stream.h>
+
+template < class R >
+ostream &operator<<(ostream &os, const CGAL_Iso_rectangle_2<R> &r)
+{
+  os << "Iso_rectangle_2(" << r.vertex(0) <<  ", " << r.vertex(2) << ")";
+  return os;
+}
+
+#endif
 
 
 #endif

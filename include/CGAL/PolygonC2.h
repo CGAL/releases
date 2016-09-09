@@ -75,9 +75,9 @@ public:
   CGAL_PolygonC2<FT>            transform(const CGAL_Aff_transformationC2<FT> &t) const;
 
   bool                          is_degenerate() const;
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   bool                          is_defined() const;
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 
 protected:
   typedef array<CGAL_PointC2<FT> > Array;
@@ -109,11 +109,11 @@ template < class FT >
 CGAL_PolygonC2<FT>::CGAL_PolygonC2()
 {
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
   PTR = NULL;
 #else
   PTR = new CGAL__Polygon<CGAL_PointC2<FT> >;
-#endif  // CGAL_KERNEL_PRECONDITION
+#endif  // CGAL_CHECK_PRECONDITIONS
 }
 
 template < class FT >
@@ -363,13 +363,13 @@ bool CGAL_PolygonC2<FT>::is_degenerate() const
   exit(-1);
 }
 
-#ifdef CGAL_KERNEL_PRECONDITION
+#ifdef CGAL_CHECK_PRECONDITIONS
 template < class FT >
 bool CGAL_PolygonC2<FT>::is_defined() const
 {
   return size() >= 3;
 }
-#endif // CGAL_KERNEL_PRECONDITION
+#endif // CGAL_CHECK_PRECONDITIONS
 
 
 
