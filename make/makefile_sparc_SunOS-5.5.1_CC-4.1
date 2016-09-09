@@ -1,0 +1,67 @@
+# This file contains CGAL makefile settings for the following platform:
+#    operating system: Sun Solaris 2.5
+#    compiler:         SUNPRO CC 4.1
+#    without LEDA
+
+#---------------------------------------------------------------------#
+#                    include directory settings
+#---------------------------------------------------------------------#
+
+CGAL_DIRECTORIES = /KM/projects/CGAL/make/CGAL_directories
+include $(CGAL_DIRECTORIES)
+
+#---------------------------------------------------------------------#
+#                    os/compiler description
+#---------------------------------------------------------------------#
+
+CGAL_OS_COMPILER = sparc_SunOS-5.5.1_CC-4.1
+
+#---------------------------------------------------------------------#
+#                    compiler
+#---------------------------------------------------------------------#
+
+CGAL_CXX = CC
+
+#---------------------------------------------------------------------#
+#                    compiler flags
+#---------------------------------------------------------------------#
+# For more information about the compiler flags see the installation guide.
+
+CGAL_STL_VERSION = CGAL_STL_HP
+# *** Fill in your STL_include_directory ***
+# (including the -I directive)
+# (e.g. -I/usr/local/STL)
+CGAL_STL_INCLUDE_DIRECTIVE = -I/KM/projects/CGAL/Work_in_Progress/CGAL/include/STL
+
+CGAL_CXXFLAGS = \
+	-DCGAL_SUNPRO_CC_41 \
+	-D$(CGAL_STL_VERSION) \
+	-pto \
+	$(CGAL_STL_INCLUDE_DIRECTIVE) \
+        -I/KM/projects/CGAL/Work_in_Progress/Number_types/gmp-2.0.2 \
+	-I$(CGAL_INCL_DIR)
+
+#---------------------------------------------------------------------#
+#                    linker flags
+#---------------------------------------------------------------------#
+
+CGAL_LDFLAGS = \
+       -L$(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER) \
+       -L/KM/projects/CGAL/Work_in_Progress/Number_types/gmp-2.0.2 \
+       -R $(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER) \
+       -lCGAL -lgmp -lm
+
+#---------------------------------------------------------------------#
+#                    commands and flags for creating libraries
+#---------------------------------------------------------------------#
+
+CGAL_LIB = libCGAL.a
+CGAL_LIB_CXXFLAGS = $(CGAL_CXXFLAGS) 
+CGAL_LIB_LDFLAGS = 
+CGAL_LIB_CREATE = CC -xar -o
+
+CGAL_SHARED_LIB = libCGAL.so
+CGAL_SHARED_LIB_CXXFLAGS = $(CGAL_CXXFLAGS) -pic
+CGAL_SHARED_LIB_LDFLAGS = 
+CGAL_SHARED_LIB_CREATE = CC -G -o
+

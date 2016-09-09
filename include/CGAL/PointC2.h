@@ -1,22 +1,37 @@
-//  Copyright CGAL 1996
-//
-//  cgal@cs.ruu.nl
-//
-//  This file is part of an internal release of the CGAL kernel.
-//  The code herein may be used and/or copied only in accordance
-//  with the terms and conditions stipulated in the agreement
-//  under which the code has been supplied or with the written
-//  permission of the CGAL Project.
-//
-//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
-//  Please send any bug reports and comments to cgal@cs.ruu.nl
-//
-//  The code comes WITHOUT ANY WARRANTY; without even the implied
-//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
-//
+/* 
+
+Copyright (c) 1997 The CGAL Consortium
+
+This software and related documentation is part of the 
+Computational Geometry Algorithms Library (CGAL).
+
+Permission to use, copy, and distribute this software and its 
+documentation is hereby granted free of charge, provided that 
+(1) it is not a component of a commercial product, and 
+(2) this notice appears in all copies of the software and
+    related documentation. 
+
+CGAL may be distributed by any means, provided that the original
+files remain intact, and no charge is made other than for
+reasonable distribution costs.
+
+CGAL may not be distributed as a component of any commercial
+product without a prior license agreement with the authors.
+
+This software and documentation is provided "as-is" and without 
+warranty of any kind. In no event shall the CGAL Consortium be
+liable for any damage of any kind.
+
+The CGAL Consortium consists of Utrecht University (The Netherlands), 
+ETH Zurich (Switzerland), Free University of Berlin (Germany), 
+INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+
+*/
+
 
 // Source: PointC2.h
-// Author: Andreas.Fabri@sophia.inria.fr
+// Author: Andreas Fabri
 
 #ifndef CGAL_POINTC2_H
 #define CGAL_POINTC2_H
@@ -72,7 +87,7 @@ public:
 protected:
                    CGAL_PointC2(const CGAL_VectorC2<FT> &v);
 
-private:
+public: // was private
   CGAL__Twotuple<FT>*  ptr() const;
 };
 
@@ -294,6 +309,46 @@ CGAL_Bbox_2 CGAL_PointC2<FT>::bbox() const
   double by = CGAL_to_double(y());
   return CGAL_Bbox_2(bx,by, bx,by);
 }
+
+#ifndef CGAL_NO_OSTREAM_INSERT_POINTC2
+template < class FT >
+ostream &operator<<(ostream &os, const CGAL_PointC2<FT> &p)
+{
+    switch(os.iword(CGAL_IO::mode)) {
+    case CGAL_IO::ASCII :
+        return os << p.x() << ' ' << p.y();
+    case CGAL_IO::BINARY :
+        CGAL_write(os, p.x());
+        CGAL_write(os, p.y());
+        return os;
+    default:
+        return os << "PointC2(" << p.x() << ", " << p.y() << ')';
+    }
+}
+#endif // CGAL_NO_OSTREAM_INSERT_POINTC2
+
+#ifndef CGAL_NO_ISTREAM_EXTRACT_POINTC2
+template < class FT >
+istream &operator>>(istream &is, CGAL_PointC2<FT> &p)
+{
+    FT x, y;
+    switch(is.iword(CGAL_IO::mode)) {
+    case CGAL_IO::ASCII :
+        is >> x >> y;
+        break;
+    case CGAL_IO::BINARY :
+        CGAL_read(is, x);
+        CGAL_read(is, y);
+        break;
+    default:
+        cerr << "" << endl;
+        cerr << "Stream must be in ascii or binary mode" << endl;
+        break;
+    }
+    p = CGAL_PointC2<FT>(x, y);
+    return is;
+}
+#endif // CGAL_NO_ISTREAM_EXTRACT_POINTC2
 
 
 

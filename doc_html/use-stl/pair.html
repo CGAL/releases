@@ -1,0 +1,152 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_Preliminaries.html -->
+  <!-- by cc_extract_html, $Revision: 2.7 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: pair<T1, T2></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Preliminaries.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_0"></A>
+
+<A NAME="Cross_link_anchor_0"></A>
+
+<P>
+
+<H1> Pair (<I><A HREF="pair.html#Cross_link_anchor_0">pair</A></I>)</H1>
+<P>
+
+<H3>Definition</H3>A struct <I><A HREF="pair.html#Cross_link_anchor_0">pair</A></I> is a heterogeneous <A HREF="pair.html#Cross_link_anchor_0">pair</A> of
+values. Its data members are <I>first</I> and <I>second</I>.
+<P>
+
+<I>#include &lt;<A HREF="../../include/pair.h">pair.h</A>&gt;</I>
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt;T1, T2&gt; p (  T1 x,  T2 y);
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Introduces a <A HREF="pair.html#Cross_link_anchor_0">pair</A>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class T1, class T2&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_operator==6const_pair6T1+T29__p+_const_pair6T1+T29__p19_const;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+      <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt;T1,T2&gt; p ==  <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt;T1,T2&gt; p1
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+Test for equality: Two pairs are equal, iff their data members are
+equal.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class T1, class T2&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_operator66const_pair6T1+T29__p+__const_pair6T1+T29__p19_const;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+      <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt;T1,T2&gt; p &lt;  <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt;T1,T2&gt; p1
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+Lexicographical comparison of two pairs.
+<P>
+
+<H3>Example</H3>
+<PRE>
+  Employee irene(&quot;Irene&quot;, &quot;Eneri&quot;);
+  Employee leo(&quot;Leonard&quot;, &quot;Eneri&quot;);
+  typedef int Social_security_number;
+
+  <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt;Social_security_number, Employee&gt; p1(7812, irene),  p2(5555, leo);
+
+  assert( p1.first == 7812 );
+  assert( p2.second == leo );
+  
+</PRE>
+<P>
+<HR><B> Return to chapter:</B> <A HREF="Chapter_Preliminaries.html">Preliminaries</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Preliminaries.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

@@ -1,0 +1,273 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_generators.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: CGAL_Random</TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_generators.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_28"></A>
+
+<A NAME="Cross_link_anchor_28"></A>
+
+<P>
+
+<H1> Random Numbers Generator (<I><A HREF="CGAL_Random.html#Cross_link_anchor_28">CGAL_Random</A></I>)</H1>
+<P>
+
+<H3>Definition</H3>An instance of type <I><A HREF="CGAL_Random.html#Cross_link_anchor_28">CGAL_Random</A></I> is a random
+numbers generator. It allows to generate uniformly distributed random
+<I>bool</I>s, <I>int</I>s and <I>double</I>s. It can be used as the
+random number generating function object in the STL algorithm
+<I>random_shuffle</I>.
+<P>
+
+Instances of <I><A HREF="CGAL_Random.html#Cross_link_anchor_28">CGAL_Random</A></I> can be seen as input streams. Different
+streams are <EM>independent</EM> of each other, i.e. the sequence of
+numbers from one stream does <EM>not</EM> depend upon how many numbers
+were extracted from the other streams.
+<P>
+
+It can be very useful, e.g. for debugging, to reproduce a sequence of
+random numbers. This can be done by either initialising
+deterministically or using the seed functions as described below.
+<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/Random.h">CGAL/Random.h
+</A>&gt;</I>
+<P>
+
+<H3> Global Variables</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Var_CGAL_random"></A>
+<A HREF="CGAL_Random.html#Cross_link_anchor_28">CGAL_Random</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    CGAL_random;
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    This global variable is used as the default random numbers
+    generator.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A NAME="Nested_type_Seed"></A>
+<A HREF="CGAL_Random.html#Cross_link_anchor_28">CGAL_Random</A>::Seed
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Seed type.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Random.html#Cross_link_anchor_28">CGAL_Random</A> random;
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a variable <I>random</I> of type <I><A HREF="CGAL_Random.html#Cross_link_anchor_28">CGAL_Random</A></I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Random.html#Cross_link_anchor_28">CGAL_Random</A> random ( Seed seed);
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a variable <I>random</I> of type <I><A HREF="CGAL_Random.html#Cross_link_anchor_28">CGAL_Random</A></I> and
+    initializes its internal seed with <I>seed</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Random.html#Cross_link_anchor_28">CGAL_Random</A> random ( long init);
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a variable <I>random</I> of type <I><A HREF="CGAL_Random.html#Cross_link_anchor_28">CGAL_Random</A></I> and
+    initializes its internal seed using <I>init</I>. Equal values for
+    <I>init</I> result in equal sequences of random numbers.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    random.get_bool ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a random <I>bool</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    int
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    random.get_int ( int lower,  int upper)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a random <I>int</I> from the interval
+    <MATH>[</MATH><I>lower</I>,<I>upper</I><MATH>)</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    double
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    random.get_double ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    double lower = 0.0, <BR>
+     double upper = 1.0)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a random <I>double</I> from the interval
+    <MATH>[</MATH><I>lower</I>,<I>upper</I><MATH>)</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    int
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+     random ( int upper)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>random</I><I>.get_int( 0, upper)</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Seed Functions</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    random.save_seed ( Seed&amp; seed)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    saves the current internal seed in <I>seed</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    random.restore_seed ( Seed seed)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    restores the internal seed from <I>seed</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Equality Test</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+     random == <A HREF="CGAL_Random.html#Cross_link_anchor_28">CGAL_Random</A> random2
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>random</I> and <I>random2</I> have
+    equal internal seeds.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Implementation</H3>We use the C library function <I>erand48</I> to
+generate the random numbers, i.e. the sequence of numbers depends on
+the implementation of <I>erand48</I> on your specific platform.
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Segment_generator.html"><I>CGAL_Segment_generator&lt;S,P1,P2&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_generators.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

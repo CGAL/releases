@@ -1,0 +1,274 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_generators.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: CGAL_Segment_generator<S,P1,P2></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_generators.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_34"></A>
+
+<A NAME="Cross_link_anchor_34"></A>
+<H3>A Generic Segment Generator from Two Points</H3>
+
+<P>
+
+<H3>Definition</H3>The generic segment generator
+<I><A HREF="CGAL_Segment_generator.html#Cross_link_anchor_34">CGAL_Segment_generator</A>&lt;S,P1,P2&gt;</I> uses two point generators
+<I>P1</I> and <I>P2</I> to create a segment of type <MATH>S</MATH> from
+two endpoints. <I><A HREF="CGAL_Segment_generator.html#Cross_link_anchor_34">CGAL_Segment_generator</A>&lt;S,P1,P2&gt;</I> satisfies
+the requirements for an input iterator. It represents the possibly
+infinite sequence of generated segments. Each call to the
+<I>operator*</I> returns a new segment. To create a finite sequence in
+a container, the function <I>CGAL_copy_n()</I> could be used, see
+Section <A HREF="Chapter_generators.html#sectionCopyN"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/Segment_generator_2.h">
+CGAL/Segment_generator_2.h</A>&gt;</I>
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Segment_generator.html#Cross_link_anchor_34">CGAL_Segment_generator</A>&lt;S,P1,P2&gt; g ( P1&amp; p1,  P2&amp; p2);
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    <MATH>g</MATH> is an input iterator creating segments of type
+    <I>S</I> from two input points, one chosen from <I>p1</I>, the
+    other chosen from <I>p2</I>. <I>p1</I> and <I>p2</I> are allowed be
+    be same point
+    generator.<BR><STRONG>Precondition: </STRONG><MATH>S</MATH> must
+    provide a constructor with two arguments, such that the value type
+    of <I>P1</I> and the value type of <I>P2</I> can be used to
+    construct a segment.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3><MATH>g</MATH> satisfies the requirements of an
+input iterator. Each call to the <I>operator*</I> returns a new
+segment.
+<P>
+
+<H3>Example</H3>We want to generate a test set of 200 segments, where
+one endpoint is chosen randomly from a horizontal segment of length
+200, and the other endpoint is chosen randomly from a circle of radius
+250. See
+Figure <A
+  HREF="#SegmentGenerator"> <IMG SRC="cc_ref_up_arrow.gif"
+  ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>
+for the example output.
+<P>
+
+<PRE>/*  Segment_generator_prog1.C      */
+/*  ------------------------------------------ */
+/*  CGAL example program for the generic segment generator. */
+
+#include &lt;CGAL/basic.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;vector.h&gt;
+#include &lt;algo.h&gt;
+#include &lt;CGAL/Cartesian.h&gt;
+#include &lt;CGAL/Point_2.h&gt;
+#include &lt;CGAL/Segment_2.h&gt;
+#include &lt;CGAL/point_generators_2.h&gt;
+#include &lt;CGAL/Segment_generator.h&gt;
+#include &lt;CGAL/copy_n.h&gt;
+#include &lt;CGAL/IO/Window_stream.h&gt;  /* only for visualization used */
+
+typedef CGAL_Cartesian&lt;double&gt;  R;
+typedef CGAL_Point_2&lt;R&gt;         Point;
+typedef CGAL_Segment_2&lt;R&gt;       Segment;
+
+int main()
+{
+    /* Create test segment set. Prepare a vector for 200 segments. */
+    vector&lt;Segment&gt; segs;
+    segs.reserve(200);
+
+    /* Prepare point generator for the horizontal segment, length 200. */
+    typedef  <A HREF="Chapter_generators.html#Cross_link_anchor_33">CGAL_Random_points_on_segment_2&lt;Point&gt;</A>  P1;
+    P1 p1( Point(-100,0), Point(100,0));
+    
+    /* Prepare point generator for random points on circle, radius 250. */
+    typedef  <A HREF="Chapter_generators.html#Cross_link_anchor_30">CGAL_Random_points_on_circle_2&lt;Point&gt;</A>  P2;
+    P2 p2( 250);
+    
+    /* Create 200 segments. */
+    <A HREF="CGAL_Segment_generator.html#Cross_link_anchor_34">CGAL_Segment_generator</A>&lt;Segment, P1, P2&gt; g( p1, p2);
+    CGAL_copy_n( g, 200, back_inserter( segs));
+
+    /* Visualize segments. Can be omitted, see example programs */
+    /* in the CGAL source code distribution. */
+    <A HREF="CGAL_Window_stream.html#Cross_link_anchor_38">CGAL_Window_stream</A> W(512, 512);
+    W.init(-256.0, 255.0, -256.0);
+    W &lt;&lt; CGAL_BLACK;
+    for( vector&lt;Segment&gt;::iterator i = segs.begin(); i != segs.end(); i++)
+	W &lt;&lt; *i;
+
+    /*  Wait for program termination. */
+    char c;
+    cout &lt;&lt; &quot; Type any character to continue: &quot; &lt;&lt; endl;
+    cin &gt;&gt; c;
+    cout &lt;&lt; &quot; done&quot; &lt;&lt; endl;
+
+    return 0;
+}
+</PRE>
+<P>
+
+
+  <A NAME="SegmentGenerator">
+  <TABLE><TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=60%>
+    <A HREF="./Segment_generator_prog1.gif">Figure:</A>
+    Output of example program for the generic segment generator.
+  </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=5% NOWRAP>
+  </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=35% NOWRAP>
+    <A HREF="./Segment_generator_prog1.gif">
+        <img src="./Segment_generator_prog1_small.gif" 
+             alt="Segment Generator Example Output"></A>
+  </TD></TR></TABLE>
+
+<P>
+
+The second example uses precomputed point vectors to generate a regular
+structure of 100 segments, see
+Figure <A
+  HREF="#SegmentGeneratorFan"> <IMG SRC="cc_ref_up_arrow.gif"
+  ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>
+for the example output.
+<P>
+
+<PRE>/*  Segment_generator_prog2.C   */
+/*  -------------------------------------- */
+/*  CGAL example program for the generic segment generator  */
+/*  using precomputed point locations.                      */
+
+#include &lt;CGAL/basic.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;vector.h&gt;
+#include &lt;algo.h&gt;
+#include &lt;CGAL/Cartesian.h&gt;
+#include &lt;CGAL/Point_2.h&gt;
+#include &lt;CGAL/Segment_2.h&gt;
+#include &lt;CGAL/point_generators_2.h&gt;
+#include &lt;CGAL/Segment_generator.h&gt;
+#include &lt;CGAL/copy_n.h&gt;
+#include &lt;CGAL/IO/Window_stream.h&gt;  /* only for visualization used */
+
+typedef CGAL_Cartesian&lt;double&gt;  R;
+typedef CGAL_Point_2&lt;R&gt;         Point;
+typedef CGAL_Segment_2&lt;R&gt;       Segment;
+
+int main()
+{
+    /* Prepare two point vectors for the precomputed points. */
+    vector&lt;Point&gt; p1, p2;
+    p1.reserve(100);
+    p2.reserve(100);
+
+    /* Create points for a horizontal like fan. */
+    CGAL_points_on_segment_2( Point(-250, -50), Point(-250, 50),
+			      50, back_inserter( p1));
+    CGAL_points_on_segment_2( Point( 250,-250), Point( 250,250),
+			      50, back_inserter( p2));
+    
+    /* Create points for a vertical like fan. */
+    CGAL_points_on_segment_2( Point( -50,-250), Point(  50,-250),
+			      50, back_inserter( p1));
+    CGAL_points_on_segment_2( Point(-250, 250), Point( 250, 250),
+			      50, back_inserter( p2));
+    
+    /* Create test segment set. Prepare a vector for 100 segments. */
+    vector&lt;Segment&gt; segs;
+    segs.reserve(100);
+
+    /* Create both fans at once from the precomputed points. */
+    typedef  vector&lt;Point&gt;::iterator  I;
+    I i1 = p1.begin();
+    I i2 = p2.begin();
+    <A HREF="CGAL_Segment_generator.html#Cross_link_anchor_34">CGAL_Segment_generator</A>&lt;Segment,I,I&gt; g( i1, i2);
+    CGAL_copy_n( g, 100, back_inserter( segs));
+
+    /* Visualize segments. Can be omitted, see example programs */
+    /* in the CGAL source code distribution. */
+    <A HREF="CGAL_Window_stream.html#Cross_link_anchor_38">CGAL_Window_stream</A> W(512, 512);
+    W.init(-256.0, 255.0, -256.0);
+    W &lt;&lt; CGAL_BLACK;
+    for( vector&lt;Segment&gt;::iterator i = segs.begin(); i != segs.end(); i++)
+	W &lt;&lt; *i;
+
+    /*  Wait for program termination. */
+    char c;
+    cout &lt;&lt; &quot; Type any character to continue: &quot; &lt;&lt; endl;
+    cin &gt;&gt; c;
+    cout &lt;&lt; &quot; done&quot; &lt;&lt; endl;
+
+    return 0;
+}
+</PRE>
+<P>
+
+
+  <A NAME="SegmentGeneratorFan">
+  <TABLE><TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=60%>
+    <A HREF="./Segment_generator_prog2.gif">Figure:</A>
+    Output of example program for the generic segment generator using
+    precomputed point locations.
+  </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=5% NOWRAP>
+  </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=35% NOWRAP>
+    <A HREF="./Segment_generator_prog2.gif">
+        <img src="./Segment_generator_prog2_small.gif" 
+             alt="Segment Generator Example Output 2"></A>
+  </TD></TR></TABLE>
+
+<P>
+<HR><B> Return to chapter:</B> <A HREF="Chapter_generators.html">Random Sources and Geometric Object Generators</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_generators.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

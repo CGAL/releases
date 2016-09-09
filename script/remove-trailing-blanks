@@ -1,4 +1,0 @@
-#!/usr/local/bin/perl -pi.bak
-
-
-s/ *$//g;

@@ -1,0 +1,15 @@
+install.ps contains the installation guide.
+
+The reference manual is split in three files, numbered 1, 2 and 3.
+No 1 describes the kernel: basic data types like points, lines, triangles etc.
+No 2 describes the besic library: algorithms to compute e.g. convec hulls,
+intersection of polygons, triangulations etcetera.
+No 3 describes non-geometric stuff.
+
+get-started.ps is a tutorial style document. It is a good starting point.
+
+use-stl.ps contains some information about programming with the help of the
+Standard Template Library. Some familiarity with this library is helpful when
+using CGAL.
+
+

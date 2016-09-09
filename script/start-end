@@ -1,5 +1,0 @@
-#!/usr/local/bin/perl -pi.bak
-
-
-s/start/source/g;
-s/end/target/g;

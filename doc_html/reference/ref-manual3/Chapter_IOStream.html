@@ -1,0 +1,210 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_IOStream.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_IOStream.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Operators for IO Streams</H1>
+<A NAME="ChapterIO"></A><P>
+
+All classes in the CGAL kernel provide input and output operators for
+IOStreams. The basic task of such an operator is to produce a
+representation of an object that can be written as a sequence of
+characters on devices as a console, a file, or a pipe.
+In CGAL we distinguish between a raw <TT>Ascii</TT>, a raw binary and a
+pretty printing format.<P>
+
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A NAME="Enum_Mode_="></A>
+CGAL_IO::<A HREF="Chapter_IOStream.html#Enum_Mode_=">Mode =</A> { <A HREF="Chapter_IOStream.html#Enum_Mode_=">ASCII</A> = 0, <A HREF="Chapter_IOStream.html#Enum_Mode_=">BINARY</A>, <A HREF="Chapter_IOStream.html#Enum_Mode_=">PRETTY</A>};
+        </I>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+<P>
+
+The first one just writes number, e.g. the coordinates of a point or
+the coefficients of a line in a machine independent format. The second
+one writes the data in a binary format, e.g. a double is represented
+as a sequence of four byte. The format depends on the machine. The
+last one serves mainly for debugging as the type of the geometric
+object is written, as well as the data defining the object. For example
+for a point at the origin with Cartesian double coordinates, the output
+would be <I>CGAL_PointC2(0.0, 0.0)</I>. At the moment CGAL does not
+provide input operations for pretty printed data. By default a stream
+is in <TT>Ascii</TT> mode.<P>
+
+CGAL provides the following functions to modify the mode of an IO stream.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_IO::Mode_CGAL_set_mode6ios__s+_CGAL_IO::Mode_m9;"></A>
+CGAL_IO::Mode
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    CGAL_set_mode ( ios&amp; s,  CGAL_IO::Mode m)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_IO::Mode_CGAL_set_ascii_mode6ios__s9;"></A>
+CGAL_IO::Mode
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    CGAL_set_ascii_mode ( ios&amp; s)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_IO::Mode_CGAL_set_binary_mode6ios__s9;"></A>
+CGAL_IO::Mode
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    CGAL_set_binary_mode ( ios&amp; s)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_IO::Mode_CGAL_set_pretty_mode6ios__s9;"></A>
+CGAL_IO::Mode
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    CGAL_set_pretty_mode ( ios&amp; s)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+The following functions allow to test whether a stream is in a certain mode.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_IO::Mode_CGAL_get_mode6ios__s9;"></A>
+CGAL_IO::Mode
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    CGAL_get_mode ( ios&amp; s)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_CGAL_is_ascii6ios__s9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    CGAL_is_ascii ( ios&amp; s)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_CGAL_is_binary6ios__s9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    CGAL_is_binary ( ios&amp; s)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_CGAL_is_pretty6ios__s9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    CGAL_is_pretty ( ios&amp; s)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<P><UL><LI>
+ Class declaration of <A HREF="ostream.html"><I>ostream</I></A>.</UL>
+
+<P>
+
+<P><UL><LI>
+ Class declaration of <A HREF="istream.html"><I>istream</I></A>.</UL>
+
+<P>
+
+<P><HR> Next chapter: <A HREF="Chapter_Colors.html">Colors</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_IOStream.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

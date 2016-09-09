@@ -1,0 +1,78 @@
+# This file contains CGAL makefile settings for the following platform:
+#    operating system: Sun Solaris 2.5
+#    compiler:         SUNPRO CC 4.1
+#    with LEDA
+
+#---------------------------------------------------------------------#
+#                    include directory settings
+#---------------------------------------------------------------------#
+
+CGAL_DIRECTORIES = /KM/projects/CGAL/make/CGAL_directories
+include $(CGAL_DIRECTORIES)
+
+#---------------------------------------------------------------------#
+#                    os/compiler description
+#---------------------------------------------------------------------#
+
+CGAL_OS_COMPILER = sparc_SunOS-5.5.1_CC-4.1_LEDA
+
+#---------------------------------------------------------------------#
+#                    compiler
+#---------------------------------------------------------------------#
+
+CGAL_CXX = CC
+
+#---------------------------------------------------------------------#
+#                    compiler flags
+#---------------------------------------------------------------------#
+# For more information about the compiler flags see the installation guide.
+
+CGAL_STL_VERSION = CGAL_STL_HP
+# *** Fill in your STL_include_directory ***
+# (including the -I directive)
+# (e.g. -I/usr/local/STL)
+CGAL_STL_INCLUDE_DIRECTIVE = -I/KM/projects/CGAL/Work_in_Progress/CGAL/include/STL
+LEDA_INCL_DIR = /LEDA/INSTALL/incl
+
+CGAL_CXXFLAGS = \
+	-DCGAL_SUNPRO_CC_41 \
+	-D$(CGAL_STL_VERSION) \
+	-DCGAL_USE_LEDA_BOOL \
+	-DCGAL_USE_LEDA_HANDLE \
+	-pto \
+	$(CGAL_STL_INCLUDE_DIRECTIVE) \
+        -I/KM/projects/CGAL/Work_in_Progress/Number_types/gmp-2.0.2 \
+	-I$(CGAL_INCL_DIR) \
+	-I$(LEDA_INCL_DIR)
+
+#---------------------------------------------------------------------#
+#                    linker flags
+#---------------------------------------------------------------------#
+
+# *** Fill in your LEDA_lib_directory ***
+LEDA_LIB_DIR = /LEDA/INSTALL/solaris/CC
+
+CGAL_LDFLAGS = \
+       -L$(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER) -L$(LEDA_LIB_DIR) \
+       -R $(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER):$(LEDA_LIB_DIR) \
+       -lCGAL -lL -lm -lsocket -lthread
+
+CGAL_WINDOW_LDFLAGS = \
+       -L$(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER) -L$(LEDA_LIB_DIR) -L/usr/lib/X11 \
+       -R $(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER):$(LEDA_LIB_DIR):/usr/lib/X11 \
+       -lW -lP -lG -lX11 -lCGAL -lL -lm -lsocket -lthread
+
+#---------------------------------------------------------------------#
+#                    commands and flags for creating libraries
+#---------------------------------------------------------------------#
+
+CGAL_LIB = libCGAL.a
+CGAL_LIB_CXXFLAGS = $(CGAL_CXXFLAGS) 
+CGAL_LIB_LDFLAGS = 
+CGAL_LIB_CREATE = CC -xar -o
+
+CGAL_SHARED_LIB = libCGAL.so
+CGAL_SHARED_LIB_CXXFLAGS = $(CGAL_CXXFLAGS) -pic
+CGAL_SHARED_LIB_LDFLAGS = -L$(LEDA_LIB_DIR) -R $(LEDA_LIB_DIR) -lL 
+CGAL_SHARED_LIB_CREATE = CC -G -o
+

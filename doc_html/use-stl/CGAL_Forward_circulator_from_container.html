@@ -1,0 +1,294 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_Circulator_stl.html -->
+  <!-- by cc_extract_html, $Revision: 2.7 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Circulator_stl.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<P>
+
+
+<A NAME="Index_anchor_16"></A>
+
+<A NAME="Cross_link_anchor_16"></A>
+
+<P>
+
+<H3>Definition</H3>The adaptor
+<I><A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_16">CGAL_Forward_circulator_from_container&lt;C&gt;</A></I> is a class that
+provides a forward circulator for a container <MATH>C</MATH> as
+specified by the \stl. The iterators belonging to the container
+<MATH>C</MATH> are supposed to be at least forward iterators. The
+adaptor for bidirectional circulators is
+<I><A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_18">CGAL_Bidirectional_circulator_from_container&lt;C&gt;</A></I> and for
+random access circulators it is
+<I><A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_20">CGAL_Random_access_circulator_from_container&lt;C&gt;</A></I>.
+Appropriate const circulators are also available.
+<P>
+
+<I>C</I> is the container type. The container is supposed to conform to
+the \stl requirements for container (i.e. to have a <I>begin()</I> and
+an <I>end()</I> <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> as well as the local types <I>value_type</I>,
+<I>size_type()</I>, and <I>difference_type</I>).
+<P>
+
+<I>#include &lt;<A HREF="../../include/CGAL/circulator.h">
+CGAL/circulator.h</A>&gt;</I>
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A NAME="Nested_type_Container"></A>
+<A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_16">CGAL_Forward_circulator_from_container&lt;C&gt;</A>::Container
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the template argument <I>C</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_16">CGAL_Forward_circulator_from_container&lt;C&gt;</A> c;
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a circulator <I>c</I> with a singular value.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_16">CGAL_Forward_circulator_from_container&lt;C&gt;</A> c ( C* container);
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a circulator <I>c</I> initialized to refer to the first element in
+    <I>container</I>, i.e. <I>container.begin()</I>. The circulator
+    <I>c</I> contains a singular value if the <I>container</I> is
+    empty.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_16">CGAL_Forward_circulator_from_container&lt;C&gt;</A> c ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    C* container, <BR>
+     C::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A> i);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a circulator <I>c</I> initialized to refer to the element <I>*i</I>
+    in <I>container</I>. <BR><STRONG>Precondition: </STRONG><I>*i</I>
+    is dereferenceable and refers to <I>container</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_17"></A>
+
+<A NAME="Cross_link_anchor_17"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_17">CGAL_Forward_const_circulator_from_container&lt;C&gt;</A> c;
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a const circulator <I>c</I> with a singular value.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_17">CGAL_Forward_const_circulator_from_container&lt;C&gt;</A> c ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    const C* container);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a const circulator <I>c</I> initialized to refer to the first
+    element in <I>container</I>, i.e. <I>container.begin()</I>. The
+    circulator <I>c</I> contains a singular value if the
+    <I>container</I> is empty.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_17">CGAL_Forward_const_circulator_from_container&lt;C&gt;</A> c ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    const C* container, <BR>
+     C::const_iterator i);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a const circulator <I>c</I> initialized to refer to the element
+    <I>*i</I> in <I>container</I>. <BR><STRONG>Precondition: </STRONG>
+    <I>*i</I> is dereferenceable and refers to the <I>container</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+The bidirectional and random access circulators have similar
+constructors. The default construction is shown here to present the
+adaptor names.<P>
+
+
+<A NAME="Index_anchor_18"></A>
+
+<A NAME="Cross_link_anchor_18"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_18">CGAL_Bidirectional_circulator_from_container&lt;C&gt;</A> c;
+        </I>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_19"></A>
+
+<A NAME="Cross_link_anchor_19"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_19">CGAL_Bidirectional_const_circulator_from_container&lt;C&gt;</A> c;
+        </I>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_20"></A>
+
+<A NAME="Cross_link_anchor_20"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_20">CGAL_Random_access_circulator_from_container&lt;C&gt;</A> c;
+        </I>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_21"></A>
+
+<A NAME="Cross_link_anchor_21"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_21">CGAL_Random_access_const_circulator_from_container&lt;C&gt;</A> c;
+        </I>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+<P>
+
+<H3>Operations</H3>The adaptors conform to the requirements of the different circulator
+categories. An additional member function <I>current_iterator()</I> is
+provided that returns the current <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> that points to the same
+position as the circulator does.<P>
+
+<H3>Example</H3>This program uses two adaptors, container to circulators and back to
+iterators. It applies an \stl sort algorithm on a \stl <A HREF="vector.html#Cross_link_anchor_25">vector</A> with three
+elements. The resulting <A HREF="vector.html#Cross_link_anchor_25">vector</A> will be <TT>[2 5 9]</TT> as it will be
+checked by the assertions. The program is part of the CGAL
+distribution.<P>
+
+<PRE>/*  circulator_prog2.C      */
+/*  ------------------------------ */
+#include &lt;assert.h&gt;
+#include &lt;<A HREF="vector.html#Cross_link_anchor_25">vector</A>.h&gt;
+#include &lt;algo.h&gt;
+#include &lt;CGAL/circulator.h&gt;
+
+typedef <A HREF="CGAL_Forward_circulator_from_container.html#Cross_link_anchor_20">CGAL_Random_access_circulator_from_container</A>&lt; <A HREF="vector.html#Cross_link_anchor_25">vector&lt;int&gt;</A> &gt;  <A HREF="Circulator.html#Cross_link_anchor_6">Circulator</A>;
+typedef <A HREF="CGAL_Forward_container_from_circulator.html#Cross_link_anchor_9">CGAL_Random_access_container_from_circulator&lt;Circulator&gt;</A> Container;
+typedef Container::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A> Iterator;
+
+main() {
+    <A HREF="vector.html#Cross_link_anchor_25">vector&lt;int&gt;</A> v;
+    v.push_back(5);
+    v.push_back(2);
+    v.push_back(9);
+    <A HREF="Circulator.html#Cross_link_anchor_6">Circulator</A> c( &amp;v);
+    Container  container( c);
+    sort( container.begin(), container.end());
+    Iterator i = container.begin();
+    assert( *i == 2);
+    i++;    assert( *i == 5);
+    i++;    assert( *i == 9);
+    i++;    assert(  i == container.end());
+    return 0;
+}
+</PRE><P>
+
+<HR><B> Return to chapter:</B> <A HREF="Chapter_Circulator_stl.html">Circulators</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Circulator_stl.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

@@ -1,0 +1,367 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_PointVectorDirection_3.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: CGAL_Point_3<R></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_PointVectorDirection_3.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_6"></A>
+
+<A NAME="Cross_link_anchor_6"></A>
+
+<P>
+
+<H1> 3D Point (<I><A HREF="CGAL_Point_3.html#Cross_link_anchor_6">CGAL_Point_3</A></I>)</H1>
+<P>
+
+<H3>Definition</H3>An object of the class <I><A HREF="CGAL_Point_3.html#Cross_link_anchor_6">CGAL_Point_3</A></I> is a
+point in the three-dimensional Euclidean space
+<MATH><B>E</B><SUB>3</SUB></MATH>.
+<P>
+
+Remember that <I>R::RT</I> and <I>R::FT</I> denote a ring type and a
+field type. For the representation class <I>CGAL_Cartesian&lt;T&gt;</I>
+the two types are equivalent. For the representation class
+<I>CGAL_Homogeneous&lt;T&gt;</I> the ring type is <I>R::RT</I> ==
+<I>T</I> and the field type is <I>R::FT</I> ==
+<I>CGAL_Quotient&lt;T&gt;</I>.
+<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/Point_3.h">
+CGAL/Point_3.h</A>&gt;</I>
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_6">CGAL_Point_3&lt;R&gt;</A> p ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     R::RT hx, <BR>
+     R::RT hy, <BR>
+     R::RT hz, <BR>
+     R::RT hw = R::RT(1));</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a point <I>p</I> initialized to
+    <MATH>(hx/hw,hy/hw, hz/hw)</MATH>. If the third argument is not
+    explicitly given it defaults to <I>R::RT(1)</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+     p ==  q
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for equality: Two points are equal, iff their <MATH>x</MATH>,
+    <MATH>y</MATH> and <MATH>z</MATH> coordinates are equal.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+     p !=  q
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for inequality.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+There are two sets of coordinate access functions, namely to the
+homogeneous and to the Cartesian coordinates. They can be used
+independently from the chosen representation type <I>R</I>.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    R::RT
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    p.hx ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the homogeneous <MATH>x</MATH> coordinate.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    R::RT
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    p.hy ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the homogeneous <MATH>y</MATH> coordinate.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    R::RT
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    p.hz ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the homogeneous <MATH>z</MATH> coordinate.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    R::RT
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    p.hw ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the homogenizing coordinate.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+Here come the Cartesian access functions. Note that you do not loose
+information with the homogeneous representation, because then the field
+type is a quotient.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    R::FT
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    p.x ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the Cartesian <MATH>x</MATH> coordinate, that is
+    <MATH>hx/hw</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    R::FT
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    p.y ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the Cartesian <MATH>y</MATH> coordinate, that is
+    <MATH>hy/hw</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    R::FT
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    p.z ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the Cartesian <MATH>z</MATH> coordinate, that is
+    <MATH>hz/hw</MATH>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+The following operations are for convenience and for making this point
+class compatible with code for higher dimensional points. Again they
+come in a Cartesian and homogeneous flavor.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    R::RT
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    p.homogeneous ( int i)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the i'th homogeneous coordinate of <I>p</I>, starting with
+    0. <BR><STRONG>Precondition: </STRONG><MATH>0&lt;=i &lt;=3</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    R::FT
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    p.cartesian ( int i)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the i'th Cartesian coordinate of <I>p</I>, starting with 0.
+    <BR><STRONG>Precondition: </STRONG><MATH>0&lt;=i &lt;=2</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    R::FT
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+     p [ int i]
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>cartesian(i)</I>.
+    <BR><STRONG>Precondition: </STRONG><MATH>0&lt;=i &lt;=2</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    int
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    p.dimension ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the dimension (the constant 3).
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Bbox_3.html#Cross_link_anchor_18">CGAL_Bbox_3</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    p.bbox ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a bounding box containing <I>p</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_6">CGAL_Point_3&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    p.transform (  <A HREF="CGAL_Aff_transformation_3.html#Cross_link_anchor_22">CGAL_Aff_transformation_3&lt;R&gt;</A> t)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the point obtained by applying <MATH>t</MATH> on <I>p</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+The following operations can be applied on points:
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Vector_36R9_operator-6const_CGAL_Point_36R9__p+__const_CGAL_Point_36R9__q9;"></A>
+<A HREF="CGAL_Vector_3.html#Cross_link_anchor_7">CGAL_Vector_3&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+      p -  q
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the difference vector between <I>q</I> and <I>p</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Point_36R9_operator+6const_CGAL_Point_36R9__p+__const_CGAL_Vector_36R9__v9;"></A>
+<A HREF="CGAL_Point_3.html#Cross_link_anchor_6">CGAL_Point_3&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+      p +  <A HREF="CGAL_Vector_3.html#Cross_link_anchor_7">CGAL_Vector_3&lt;R&gt;</A> v
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a point obtained by translating <I>p</I> by the vector
+    <I>v</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Point_36R9_operator-6const_CGAL_Point_36R9__p+__const_CGAL_Vector_36R9__v9;"></A>
+<A HREF="CGAL_Point_3.html#Cross_link_anchor_6">CGAL_Point_3&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+      p -  <A HREF="CGAL_Vector_3.html#Cross_link_anchor_7">CGAL_Vector_3&lt;R&gt;</A> v
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a point obtained by translating <I>p</I> by the vector
+    <MATH>-</MATH><I>v</I>.
+        </TD></TR>
+        </TABLE><!3>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Vector_3.html"><I>CGAL_Vector_3&lt;R&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_PointVectorDirection_3.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

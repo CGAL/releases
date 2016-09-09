@@ -1,0 +1,149 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_AssociativeContainer.html -->
+  <!-- by cc_extract_html, $Revision: 2.7 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: multimap<Key, T, Compare></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_AssociativeContainer.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_30"></A>
+
+<A NAME="Cross_link_anchor_30"></A>
+
+<P>
+
+<H1> <A HREF="multimap.html#Cross_link_anchor_30">multimap</A> (<I><A HREF="multimap.html#Cross_link_anchor_30">multimap</A></I>)</H1>
+<P>
+
+<H3>Definition</H3>An object of the class
+<I><A HREF="multimap.html#Cross_link_anchor_30">multimap</A>&lt;Key, T, Compare&gt;</I> can store multiple equivalent
+keys of type <I>Key</I>, and provides retrieval of values of type
+<I>T</I> based on the keys. The keys in the <A HREF="multimap.html#Cross_link_anchor_30">multimap</A> are ordered by the
+ordering relation <I>Compare</I>.
+<P>
+
+The interface of the class <I><A HREF="multimap.html#Cross_link_anchor_30">multimap</A>&lt;Key, T, Compare&gt;</I> is
+almost the same as of the class <I><A HREF="map.html#Cross_link_anchor_29">map</A>&lt;Key, Compare&gt;</I>. We only
+<A HREF="list.html#Cross_link_anchor_24">list</A> the functions that have a different syntax or semantics.
+<P>
+
+<I>#include &lt;<A HREF="../../include/multimap.h">multimap.h</A>
+&gt;</I>
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A NAME="Nested_type_iterator"></A>
+<A HREF="multimap.html#Cross_link_anchor_30">multimap</A>&lt;Key, T, Compare&gt;::<A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    A const bidirectional <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    M.insert ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos,  <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt;constKey,T&gt; val)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Inserts <I>val</I> in the <A HREF="set.html#Cross_link_anchor_27">set</A>. The <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> <I>pos</I> is the
+    starting point of the search. The return value points to the
+    inserted item.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="iterator.html#Cross_link_anchor_1">iterator</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    M.insert (  <A HREF="pair.html#Cross_link_anchor_0">pair</A>&lt;constKey,T&gt; val)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Inserts <I>val</I> in the <A HREF="set.html#Cross_link_anchor_27">set</A>. Returns an <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> that points to
+    the inserted item.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    M.erase ( <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pos)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Erases the element where pos points to. This erases only one
+    element
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    int
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    M.erase ( Key k)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Erases all elements that are equal to <I>k</I>. Returns the number
+    of erased elements.
+        </TD></TR>
+        </TABLE><!3>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_AssociativeContainer.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

@@ -1,0 +1,16 @@
+
+
+Example for boolean operations in CGAL: 
+---------------------------------------
+(June 1997, RISC)
+
+
+README      ... this file
+run_example ... script that starts 'make' and runs the program
+makefile    ... according makefile
+                (type 'make' or 'make BooleanOperations_example')
+BooleanOperations_example.output  ... output of the program
+
+BooleanOperations_example.C ... source code
+example_io.h                ... i/o routines for source
+

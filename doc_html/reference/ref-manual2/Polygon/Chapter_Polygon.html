@@ -1,0 +1,392 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_Polygon.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Polygon.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Polygon</H1>
+<A NAME="Polygon"></A><P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Polygon_2.html"><I>CGAL_Polygon_2&lt;Traits,Container&gt;</I></A>.</UL>
+
+<P>
+
+<H3>Algorithms</H3>
+A number of algorithms on sequences of 2D points is supplied as global functions.
+The iterators <I>InputIterator</I> and <I>ForwardIterator</I> are
+expected to have an appropriate 2D point type as their value type.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_ForwardIterator_CGAL_left_vertex_26ForwardIterator_first+_ForwardIterator_last9;"></A>
+ForwardIterator
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_left_vertex_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the leftmost point from the range <I>[first,last)</I> with
+    the smallest <I>y</I>-coordinate
+    <BR><STRONG>Precondition: </STRONG>The value type of <I>first</I>
+    and <I>last</I> is <I>Point</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_ForwardIterator_CGAL_right_vertex_26ForwardIterator_first+_ForwardIterator_last9;"></A>
+ForwardIterator
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_right_vertex_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the rightmost point in the range <I>[first,last)</I> with
+    the largest <I>y</I>-coordinate
+    <BR><STRONG>Precondition: </STRONG>The value type of <I>first</I>
+    and <I>last</I> is <I>Point</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_ForwardIterator_CGAL_top_vertex_26ForwardIterator_first+_ForwardIterator_last9;"></A>
+ForwardIterator
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_top_vertex_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the topmost point from the range <I>[first,last)</I> with
+    the largest <I>x</I>-coordinate
+    <BR><STRONG>Precondition: </STRONG>The value type of <I>first</I>
+    and <I>last</I> is <I>Point</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_ForwardIterator_CGAL_bottom_vertex_26ForwardIterator_first+_ForwardIterator_last9;"></A>
+ForwardIterator
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_bottom_vertex_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the bottommost point from the range <I>[first,last)</I>
+    with the smallest <I>x</I>-coordinate
+    <BR><STRONG>Precondition: </STRONG>The value type of <I>first</I>
+    and <I>last</I> is <I>Point</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class InputIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Bbox_2_CGAL_bbox_26InputIterator_first+_InputIterator_last9;"></A>
+CGAL_Bbox_2
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_bbox_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    InputIterator first, <BR>
+     InputIterator last)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the smallest bounding box of the points in the range
+    <I>[first,last)</I>. <BR><STRONG>Precondition: </STRONG>The value
+    type of <I>first</I> and <I>last</I> is <I>Point</I>. and the range
+    <I>[first,last)</I> is not empty.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator, class Numbertype&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_void_CGAL_area_26ForwardIterator_first+_ForwardIterator_last+_Numbertype__result9;"></A>
+void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_area_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     Numbertype&amp; result)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the area of the polygon formed by the points in the range
+    <I>[first,last)</I>. <BR><STRONG>Precondition: </STRONG>The value
+    type of <I>first</I> and <I>last</I> is <I>Point</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_CGAL_is_convex_26ForwardIterator_first+_ForwardIterator_last9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_is_convex_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns <I>true</I> if the polygon formed by the points in the
+    range <I>[first,last)</I> is convex.
+    <BR><STRONG>Precondition: </STRONG>The value type of <I>first</I>
+    and <I>last</I> is <I>Point</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_CGAL_is_simple_26ForwardIterator_first+_ForwardIterator_last9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_is_simple_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns <I>true</I> if the polygon formed by the points in the
+    range <I>[first,last)</I> is simple.
+    <BR><STRONG>Precondition: </STRONG>The value type of <I>first</I>
+    and <I>last</I> is <I>Point</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class <A HREF="CGAL_Polygon_2.html#PolygonTraits">Traits</A>, class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Oriented_side_oriented_side6const_Traits::Point__q9_const;"></A>
+CGAL_Oriented_side
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    oriented_side (  <A HREF="CGAL_Polygon_2.html#PolygonTraits">Traits</A>::Point q)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    This determines the location of the point <I>q</I> with respect to
+    the polygon formed by the points in the range <I>[first,last)</I>.
+    Returns <I>CGAL_NEGATIVE_SIDE</I>, <I>CGAL_POSITIVE_SIDE</I>, or
+    <I>CGAL_ON_ORIENTED_BOUNDARY</I>, depending on where point <I>q</I>
+    is. <BR><STRONG>Precondition: </STRONG>The value type of
+    <I>first</I> and <I>last</I> is <I>Point</I> and the points in the
+    range <I>[first,last)</I> form the vertices of a simple polygon.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class <A HREF="CGAL_Polygon_2.html#PolygonTraits">Traits</A>, class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Bounded_side_bounded_side6const_Traits::Point__q9;"></A>
+CGAL_Bounded_side
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    bounded_side (  <A HREF="CGAL_Polygon_2.html#PolygonTraits">Traits</A>::Point q)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Determines the location of the point <I>q</I> with respect to the
+    polygon formed by the points in the range <I>[first,last)</I>.
+    Returns <I>CGAL_ON_BOUNDED_SIDE</I>, <I>CGAL_ON_BOUNDARY</I> or
+    <I>CGAL_ON_UNBOUNDED_SIDE</I>, depending on where point <I>q</I>
+    is. <BR><STRONG>Precondition: </STRONG>The value type of
+    <I>first</I> and <I>last</I> is <I>Point</I>. and the points in the
+    range <I>[first,last)</I> form the vertices of a simple polygon.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Orientation_CGAL_orientation_26ForwardIterator_first+_ForwardIterator_last9;"></A>
+CGAL_Orientation
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_orientation_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Returns the orientation of the polygon formed by the points in the
+    range <I>[first,last)</I>. If the number of points is smaller than
+    three, <I>CGAL_COLLINEAR</I> is returned.
+    <BR><STRONG>Precondition: </STRONG>The value type of <I>first</I>
+    and <I>last</I> is <I>Point</I>. and the points in the range
+    <I>[first,last)</I> form the vertices of a simple polygon.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Polygon.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

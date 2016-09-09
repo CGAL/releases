@@ -1,0 +1,300 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_SearchStructures.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: CGAL_Segment_tree_\T\k\I\<Traits></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_SearchStructures.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_1"></A>
+
+<A NAME="Cross_link_anchor_1"></A>
+
+<P>
+
+<H3>Definition</H3>An object of the class
+<I><A HREF="CGAL_Segment_tree_k.html#Cross_link_anchor_1">CGAL_Segment_tree_</I><TT>k</TT><I></A></I> is a
+<MATH>k</MATH>-dimensional segment tree that can store k-dimensional
+intervals of type <I>Interval</I>. The class allows to perform window
+queries on the keys. The class
+<I><A HREF="CGAL_Segment_tree_k.html#Cross_link_anchor_1">CGAL_Segment_tree_</I><TT>k</TT><I></A></I> is parameterized with a
+segment tree traits class <I><A HREF="Chapter_SearchStructures.html#Section_4">Traits</A></I> that defines, among other
+things, the type of the <I>Interval</I>.
+<P>
+
+CGAL provides traits class implementations that allow to use the
+segment tree with point classes from the CGAL kernel as keys. These
+classes are presented in Section <A HREF="Chapter_SearchStructures.html#RT::SectPredefined"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. In Section
+<A HREF="Chapter_SearchStructures.html#RT::SectReq"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> we give the requirements that segment tree traits
+classes must fulfill. This allows the advanced user to develop further
+segment tree traits classes.
+<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/Segment_tree_k.h">
+CGAL/Segment_tree_k.h</A>&gt;</I>
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A NAME="Nested_type_Traits"></A>
+<A HREF="CGAL_Segment_tree_k.html#Cross_link_anchor_1">CGAL_Segment_tree_</I><TT>k</TT><I>&lt;Traits&gt;</A>::<A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    the type of the segment tree traits class.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Typedef_Key"></A>
+typedef <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>::Key
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    Key;
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Typedef_Interval"></A>
+typedef <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>::Interval
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    Interval;
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Segment_tree_k.html#Cross_link_anchor_1">CGAL_Segment_tree_</I><TT>k</TT><I>&lt;Traits&gt;</A> S;
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Introduces an empty segment tree <I>S</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    template &lt; class ForwardIterator &gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Segment_tree_k.html#Cross_link_anchor_1">CGAL_Segment_tree_</I><TT>k</TT><I>&lt;Traits&gt;</A> S ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    Introduces a segment tree <I>S</I> and initializes it with the data
+    in the range <I>[first, last)</I>.
+    <BR><STRONG>Precondition: </STRONG>
+    <I>value_type(first) == <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>::Interval</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt; class ForwardIterator &gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    S.make_tree ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Introduces a segment tree <I>S</I> and initializes it with the data
+    in the range <I>[first, last)</I>. This function can only be
+    applied once on an empty segment tree.
+    <BR><STRONG>Precondition: </STRONG>
+    <I>value_type(first) == <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>::Interval</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt; class OutputIterator &gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    OutputIterator
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    S.window_query ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    Interval window, <BR>
+     OutputIterator out)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    writes all intervals that have non empty intersection with interval
+    <I>window</I> to the container where <I>out</I> points to, and
+    returns an output iterator that points to the last location the
+    function wrote to. <BR><STRONG>Precondition: </STRONG>
+    <I>value_type(out) == <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>::Interval</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt; class OutputIterator &gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    OutputIterator
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    S.enclosing_query ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    Interval window, <BR>
+     OutputIterator out)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    writes all intervals that enclose in the interval <I>window</I> to
+    the container where <I>out</I> points to, and returns an output
+    iterator that points to the last location the function wrote to.
+    <BR><STRONG>Precondition: </STRONG>
+    <I>value_type(out) == <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>::Interval</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Example</H3>The following piece of code creates some 2-dimensional
+intervals and constructs a 2-dimensional segment tree for these data.
+Then a window query and an enclosing query is performed. The result is
+written to standard output.
+<P>
+
+<PRE>
+
+#include &lt;CGAL/Homogeneous.h&gt;
+#include &lt;CGAL/Point_2.h&gt;
+#include &lt;CGAL/Segment_tree_k.h&gt;
+#include &lt;CGAL/Range_segment_tree_traits.h&gt;
+
+typedef CGAL_Cartesian&lt;double&gt; Rep;
+typedef CGAL_Range_segment_tree_traits_2&lt;Rep&gt; <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>;
+typedef CGAL_Segment_tree_2&lt;<A HREF="Chapter_SearchStructures.html#Section_4">Traits</A> &gt; Segment_tree_2_type;
+
+int main()
+{
+  typedef <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>::Key Key;              /* is a CGAL_Point_2&lt;Rep&gt; */
+  typedef <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>::Interval Interval;  /* is a pair&lt;Key,Key&gt; */
+  list&lt;Interval&gt; InputList, OutputList, N;
+
+  InputList.push_back(Interval(Key(1,5), Key(2,7)));
+  InputList.push_back(Interval(Key(2,7), Key(3,8)));
+  InputList.push_back(Interval(Key(6,9), Key(9,13)));
+  InputList.push_back(Interval(Key(1,3), Key(3,9)));
+ 
+  Segment_tree_2_type Segment_tree_2(InputList.begin(), InputList.end());
+
+  Interval a(Key(3,6), Key(7,12));
+  Segment_tree_2.window_query(a,back_inserter(OutputList));
+
+  /* output of the query elements on stdout */
+  list&lt;Interval&gt;::iterator j = OutputList.begin();
+  cout &lt;&lt; &quot;\n window_query \n&quot;;
+  while(j!=OutputList.end())
+  {
+    cout &lt;&lt; (*j).first.x() &lt;&lt; &quot;-&quot; &lt;&lt; (*j).second.x() &lt;&lt; &quot; &quot; 
+         &lt;&lt; (*j).first.y() &lt;&lt; &quot;-&quot; &lt;&lt; (*j++).second.y() &lt;&lt; endl; 
+  }
+  Interval b(Key(6,10),Key(7,11));
+  Segment_tree_2.enclosing_query(b,back_inserter(OutputList));
+  cout &lt;&lt; &quot;\n enclosing_query \n&quot;;
+  while(j!=OutputList.end())
+  {
+    cout &lt;&lt; (*j).first.x() &lt;&lt; &quot;-&quot; &lt;&lt; (*j).second.x() &lt;&lt; &quot; &quot; 
+         &lt;&lt; (*j).first.y() &lt;&lt; &quot;-&quot; &lt;&lt; (*j++).second.y() &lt;&lt; endl; 
+  }
+}
+
+</PRE>
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Range_segment_tree_traits_set_2.html"><I>CGAL_Range_segment_tree_traits_set_2&lt;R&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_SearchStructures.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

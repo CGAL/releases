@@ -1,0 +1,275 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_IsoObjects.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: CGAL_Iso_rectangle_2<R></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_IsoObjects.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_16"></A>
+
+<A NAME="Cross_link_anchor_16"></A>
+
+<P>
+
+<H1> 2D Iso Rectangle (<I><A HREF="CGAL_Iso_rectangle_2.html#Cross_link_anchor_16">CGAL_Iso_rectangle_2</A></I>)</H1>
+<P>
+
+<H3>Definition</H3>An object <MATH>s</MATH> of the data type
+<I>CGAL_Iso_rectangle</I> is a rectangle in the Euclidean plane
+<MATH><B>E</B><SUB>2</SUB></MATH> with sides parallel to the
+<MATH>x</MATH> and <MATH>y</MATH> axis of the coordinate system.
+<P>
+
+Although they are represented in a canonical form by only two vertices,
+namely the lower left and the upper right vertex, we provide functions
+for ``accessing'' the other vertices as well. The vertices are returned
+in counterclockwise order.
+<P>
+
+Iso-oriented rectangles and bounding boxes are quite similar. The
+difference however is that bounding boxes have always double
+coordinates, whereas the coordinate type of an iso-oriented rectangle
+is chosen by the user.
+<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/Iso_rectangle_2.h">
+CGAL/Iso_rectangle_2.h</A>&gt;</I>
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Iso_rectangle_2.html#Cross_link_anchor_16">CGAL_Iso_rectangle_2&lt;R&gt;</A> r ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> q);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces an iso-oriented rectangle <I>r</I> with diagonal
+    opposite vertices <MATH>p</MATH> and <MATH>q</MATH>. Note, that the
+    object is brought in the canonical form.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+     r ==  r2
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for equality: two iso-oriented rectangles are equal, iff their
+    lower left and their upper right vertices are equal.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+     r !=  r2
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for inequality.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.vertex ( int i)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the i'th vertex modulo 4 of <I>r</I> in counterclockwise
+    order, starting with the lower left vertex.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+     r [ int i]
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>vertex(i)</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.min ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the lower left vertex of <I>r</I> (= <I>vertex(0)</I>).
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.max ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the upper right vertex of <I>r</I> (= <I>vertex(2)</I>).
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.is_degenerate ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    the iso-oriented rectangle <I>r</I> is degenerate, if all vertices
+    are collinear.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="Chapter_Predicates.html#Enum_CGAL_Bounded_side">CGAL_Bounded_side</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    r.bounded_side (  <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Bounded_side">CGAL_ON_BOUNDED_SIDE</A></I>, <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Bounded_side">CGAL_ON_BOUNDARY</A></I> or
+    <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Bounded_side">CGAL_ON_UNBOUNDED_SIDE</A></I>, depending on where point
+    <MATH>p</MATH> is.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    r.has_on_boundary (  <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    r.has_on_bounded_side (  <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    r.has_on_unbounded_side (  <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    CGAL_Bbox
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.bbox ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a bounding box containing <I>r</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Iso_rectangle_2.html#Cross_link_anchor_16">CGAL_Iso_rectangle_2&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    r.transform (  <A HREF="CGAL_Aff_transformation_2.html#Cross_link_anchor_21">CGAL_Aff_transformation_2&lt;R&gt;</A> t)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the iso-oriented rectangle obtained by applying
+    <MATH>t</MATH> on the lower left and the upper right corner of
+    <I>r</I>. <BR><STRONG>Precondition: </STRONG>The angle at a
+    rotation must be a multiple of <MATH>pi/2</MATH>, otherwise the
+    resulting rectangle does not have the same side length. Note that
+    rotating about an arbitrary angle can even result in a degenerate
+    iso-oriented rectangle.
+        </TD></TR>
+        </TABLE><!3>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Bbox_2.html"><I>CGAL_Bbox_2</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_IsoObjects.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

@@ -1,0 +1,626 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_Preliminaries.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Preliminaries.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Preliminaries</H1>
+<A NAME="Preliminaries"></A><P>
+
+The objects in computational geometry are sets of points in Euclidean
+space. The objects in CGAL are stored in a computer, and a computer
+usually has difficulties with numbers as <MATH>pi</MATH>. If numbers are not encoded
+the right way the expression <MATH>3.0 * (1.0 / 3.0)</MATH> will not even equal
+<MATH>1.0</MATH> but <MATH>0.99999999</MATH>.<P>
+
+<A NAME="Section_1"></A>
+<H2>Coordinates and number types</H2>
+<P>
+
+When you declare a variable in a C++ program you have to declare its
+type. When you declare a variable of, say, the CGAL point type you
+have to declare at the same time the type of the coordinates of that
+point. In what follows we call it a <EM>field type</EM>, or
+<I>FT</I>, because the coordinates are numbers from a field in
+the algebraic sense. (This roughly means that <I>FT</I> is a type
+for which operations as <MATH>+</MATH>, <MATH>-</MATH>, <MATH>*</MATH> and <MATH>/</MATH> are defined.)
+The declaration for a point with
+<I>FT</I> = <TT>double</TT> and with coordinates <MATH>(1/3, 5/3)</MATH> then
+looks as follows:<P>
+
+<PRE>
+
+  <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2</A>&lt; CGAL_Cartesian&lt;double&gt; &gt; p(1.0/3.0, 5.0/3.0);
+
+</PRE><P>
+
+The keyword <TT>double</TT> makes that the program allocates memory for
+storing the <MATH>x</MATH> and <MATH>y</MATH> coordinate in double precision format.
+<I>CGAL_Cartesian</I> stands for the Cartesian representation of
+coordinates, see the next section.<P>
+
+The type declaration is done using the C++ template mechanism
+which gives you flexibility. If you know that the geometric objects
+your algorithm handles are aligned on an integer grid, the built-in
+type <TT>int</TT> might be a good choice. If it is crucial for you
+that the computation is exact, the right choice might be to use
+sophisticated arithmetic packages as <TT>real</TT> or <TT>rational</TT>
+which are provided by LEDA. Still other people use the built-in
+type <TT>double</TT>, because they need speed and can live with
+approximate results, or even algorithms that, from time to time,
+crash or compute incorrect results due to accumulated rounding errors.<P>
+
+<A NAME="Section_2"></A>
+<H2>Cartesian and homogeneous coordinates</H2>
+<P>
+
+In addition to the use of <EM>Cartesian</EM> coordinates, CGAL offers
+the use of <EM>homogeneous</EM> coordinates.
+In <MATH>d</MATH>-dimensional Euclidean space a point with homogeneous coordinates
+<MATH>(h<SUB>0</SUB>,h<SUB>1</SUB>,...,h<SUB>d</SUB>)</MATH>, <MATH>h<SUB>d</SUB> != 0</MATH>,
+has Cartesian coordinates
+<MATH>(c<SUB>0</SUB>,c<SUB>1</SUB>,...,c<SUB>d-1</SUB>)</MATH>
+where
+<MATH>c<SUB>i</SUB> = h<SUB>i</SUB>/h<SUB>d</SUB></MATH>, i.e., with homogeneous
+representation we have one additional coordinate.
+Note that homogeneous coordinates are not unique.
+For <MATH>lambda != 0</MATH>, the tuples
+<MATH>(h<SUB>0</SUB>,h<SUB>1</SUB>,...,h<SUB>d</SUB>)</MATH>
+and
+<MATH>(lambda  h<SUB>0</SUB>,lambda  h<SUB>1</SUB>,...,lambda  h<SUB>d</SUB>)</MATH> represent the
+same point.
+For a point with Cartesian coordinates <MATH>(c<SUB>0</SUB>,c<SUB>1</SUB>,...,c<SUB>d-1</SUB>)</MATH> a
+homogeneous representation is 
+<MATH>(c<SUB>0</SUB>,c<SUB>1</SUB>,...,c<SUB>d-1</SUB>,1)</MATH>.
+Homogeneous coordinates permit to avoid division operations in
+numerical computations, since the additional coordinate can serve as a common
+denominator.
+Avoiding divisions can be useful for exact geometric computation.<P>
+
+The number type used to represent the homogeneous coordinates is called
+<EM>ring type</EM> or <I>RT</I>, which indicates that essentially no divisions
+are needed for this number type.
+The homogeneous representation with ring type <I>RT</I> induces a number
+type <I>CGAL_Quotient&lt;RT&gt;</I> which is used whenever a division is needed,
+e.g. for returning a Cartesian coordinate. This number type is called
+<EM>field type</EM> or <I>FT</I>, indicating that divisions are involved.
+For the ring type <I>RT</I>
+<MATH>=</MATH> <I>int</I>, the induced field type is
+<I>CGAL_Quotient&lt;int&gt;</I>.<P>
+
+A variable declaration for a point at coordinates <MATH>(1/3, 5/3)</MATH>
+represented with homogeneous coordinates with ring type <I>double</I>
+then looks as follows:<P>
+
+<PRE>
+
+  <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2</A>&lt; CGAL_Homogeneous&lt;double&gt; &gt; p(1.0, 5.0, 3.0);
+
+</PRE><P>
+
+This explains what <I>CGAL_Cartesian</I> and <I>CGAL_Homogeneous</I>
+stand for, namely for Cartesian and homogeneous representation of
+coordinates.<P>
+
+<A NAME="Section_3"></A>
+<H2>Representation classes<A NAME="sectRepType"></A></H2>
+<P>
+
+A look at the class descriptions in the following chapters shows
+that geometric objects with Cartesian and homogeneous
+representation only differ where data of a number type are accessed or
+created. That is for example the case when you access the coordinates of a point
+or when you compute the area of a triangle. This is especially true
+if you look at higher level geometric algorithms.
+[<A HREF="#Footnote_1">^1</A>]<P>
+
+Because <I>CGAL_Cartesian</I> and <I>CGAL_Homogeneous</I> are not part
+of the geometric class names, but proper classes that are passed as a
+template argument, it is possible to develop code that is independent
+of the chosen representation. Even more this mechanism allows to
+develop further representation classes.<P>
+
+For the moment CGAL only provides the two representation classes
+<I>CGAL_Cartesian</I> and <I>CGAL_Homogeneous</I>. In the following
+chapters we always denote the template variable for the representation
+class with <I>R</I>. Representation classes give access to the
+types they are templated with. We write <I>R::FT</I> for the field
+type and
+<I>R::RT</I> for the ring type of the representation class
+<I>R</I>. For example, for a segment <I>s</I> of type<P>
+
+<I><A HREF="CGAL_Segment_2.html#Cross_link_anchor_5">CGAL_Segment_2</A>&lt; CGAL_Cartesian&lt;double&gt; &gt;</I><P>
+
+, the type <I>R::FT</I> is <TT>double</TT>.<P>
+
+<P>
+
+For the representation class <I>CGAL_Cartesian</I> the types <I>R::RT</I>
+and <I>R::FT</I> are equal.<P>
+
+<A NAME="Section_4"></A>
+<H2>Naming conventions</H2>
+<P>
+
+The use of representation classes not only avoids problems, it
+also makes all CGAL classes very uniform. They <B>always</B> consist of:
+<OL>
+<LI>The <EM>namespace prefix</EM> <I>CGAL_</I>. This avoids name
+clashes. It will be dropped as soon as C++ compilers support the
+concept of namespaces as a feature of the programming language.<P>
+
+<LI>The <EM>capitalized base name</EM> of the geometric object, such as
+<I>Point</I>, <I>Segment</I>, <I>Triangle</I>.<P>
+
+<LI>An <EM>underscore</EM> followed by the <EM>dimension</EM> of the object,
+for example <MATH>_2</MATH>, <MATH>_3</MATH> or <MATH>_d</MATH>.<P>
+
+<LI>A <EM>representation class</EM> as parameter, which itself is
+parameterized with a number type, such as <I>CGAL_Cartesian&lt;double&gt;</I>
+or <I>CGAL_Homogeneous&lt;integer&gt;</I>.
+</OL><P>
+
+<P><A NAME="Section_5"></A>
+<H2>Order of header file inclusion</H2>
+<P>
+
+The order of the inclusion of header files is important. First include
+representation class header files, then include header files of geometric
+classes.<P>
+
+<OL>
+<LI>The files <TT>CGAL/Homogeneous.h</TT> or/and <TT>CGAL/Cartesian.h</TT>
+must be included before the inclusion of header files for geometric
+classes. Which one to include depends on whether you use the
+homogeneous or the Cartesian representation class provided by
+CGAL. If you use both representation classes you have to include both
+header files.<P>
+
+Developing an own representation class is an advanced feature which
+will be explained in a separate document.<P>
+
+<LI>When you use a geometric class, say <I>CGAL_Class_2</I>,
+you have to include the header file <I>CGAL/Class_2.h</I>.
+As the header files form a hierarchy,
+it is sufficient to include the highest level header files.<P>
+
+In sections describing geometric functions rather than classes, we
+explicitly give the name of the header file to include.<P>
+
+</OL><P>
+
+<H4>Example</H4>
+<P>
+
+In order to declare two-dimensional segments with homogeneous
+coordinates with ring type <I>integer</I> you have to write:<P>
+
+<PRE>
+
+#include &lt;CGAL/Homogeneous.h&gt;
+#include &lt;CGAL/Segment_2.h&gt;
+#include &lt;CGAL/Integer.h&gt;
+
+
+typedef CGAL_Homogeneous&lt;integer&gt; RepClass;
+typedef <A HREF="CGAL_Segment_2.html#Cross_link_anchor_5">CGAL_Segment_2&lt; RepClass  &gt;</A> Segment;
+typedef <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt; RepClass &gt;</A> Point;
+
+{
+  Point p(0.0), q(1.0);
+  Segment s(p,q);
+
+  cout &lt;&lt; p &lt;&lt; endl &lt;&lt; s &lt;&lt; endl;
+}
+</PRE><P>
+
+<I>CGAL/Point_2.h</I> is included by <I>CGAL/Segment_2.h</I>
+Note that the use of C++ <TT>typedef</TT>s makes the CGAL types
+look less clumsy. The use of <TT>typedef</TT>s further increases code
+maintainability as it localizes type information.<P>
+
+<H4>Implementation</H4>
+<P>
+
+The reason for this order of inclusion is the following: CGAL is designed
+such that only the necessary header files are included. When you
+include the header file <I>CGAL/Class_2.h</I> you implicitly
+(automatically) include either the header file <I>CGAL/ClassH2.h</I> or
+the header file
+<I>CGAL/ClassC2.h</I> which contains the implementation of either the
+homogeneous or the Cartesian representation. This depends on the choice
+of the representation class.<P>
+
+<P><A NAME="Section_6"></A>
+<H2>Member functions common to all CGAL classes</H2>
+<P>
+
+All classes in CGAL provide the following member functions: a <EM>default constructor</EM>, a <EM>copy constructor</EM>, the <EM>assignment
+operator</EM> and a <EM>destructor</EM>. We will not describe these member
+functions in the description of each single class.<P>
+
+The default constructor introduces a variable of a given type:<P>
+
+<PRE>
+
+  CGAL_Class_2&lt;R&gt; o;
+</PRE><P>
+
+How this variable is initialized depends on the default constructor
+of the data members of the class. For a point it depends on the
+type of the coordinates. Some number types are initialized with zero,
+others are not initialized at all. To be on the save side, the variable
+should not be used on the right hand side of an assignment nor
+should its data members be accessed.<P>
+
+The copy constructor makes an identical copy of <I>p</I>.
+For example:<P>
+
+<PRE>
+{
+    CGAL_Class_2&lt;R&gt; o(p);
+}
+</PRE><P>
+
+The assignment is much like the copy constructor. After
+the assignment <I>o</I> and <I>p</I> are identical:<P>
+
+<PRE>
+{
+    CGAL_Class_2&lt;R&gt;  o = p;
+}
+</PRE><P>
+
+There is not much to say about the destructor. It just guarantees
+that when an automatic variable goes out of scope the memory associated
+to it is freed again.<P>
+
+We mentioned that copy constructor and assignment make identical copies
+of an object. It is important to see that <EM>identity</EM> and
+<EM>equality</EM> are different concepts.<P>
+
+All CGAL classes have a test for equality, namely the
+operator <I>==</I>. What it means if two objects are
+equal depends on the type of the object and will be explained
+for each class.<P>
+
+For all CGAL classes we provide a test for identity, namely the
+function <I>CGAL_identical</I>. It means that you have two different
+variables which refer to the same object.<P>
+
+<PRE>
+{
+    assert( CGAL_identical(o, p) == false );
+  
+    p = o;
+    assert( CGAL_identical(o, p) == true );
+}
+</PRE><P>
+
+Finally, for all CGAL classes we provide input and output operators for
+IOStreams, so that you can write:<P>
+
+<PRE>
+
+#include &lt;iostream.h&gt;
+
+{
+    cout &lt;&lt; o &lt;&lt; endl;
+
+    ifstream fs(&quot;data.dat&quot;);
+    fs &gt;&gt; o &gt;&gt; p;
+}
+</PRE><P>
+
+<A NAME="Section_7"></A>
+<H2>Checks, how to turn them on and off</H2>
+<P>
+
+The code of the library contains a number of checks. Some are there to check
+if the library behaves correctly, others are there to check if the user calls
+library routines in an acceptable manner.<P>
+
+There are four types of checks. The first three are errors and lead to a halt
+of the program if they fail. The last only leads to a warning.
+<DL>
+<DT><B>preconditions</B><DD> check if the caller of a routine has called it in a
+proper fashion. If such a check fails it is the responsibility of the caller
+(usually the user of the library).
+<DT><B>postconditions</B><DD> check if a routine does what it promises to do. If such
+a check fails it is the fault of this routine, so of the library.
+<DT><B>assertions</B><DD> are other checks that do not fit in the above two
+categories.
+<DT><B>warnings</B><DD> are checks for which it is not so severe if they fail.
+</DL><P>
+
+By default, those checks are performed. It is however possible to turn them
+off by means of compile time switches.
+These are <I>CGAL_NO_PRECONDITIONS</I>, <I>CGAL_NO_POSTCONDITIONS</I>,
+<I>CGAL_NO_ASSERTIONS</I> and <I>CGAL_NO_WARNINGS</I>.
+So, in order to compile the file <TT>foo.C</TT> with the postcondition checks
+off, you should do:<BR><TT>CC -DCGAL_NO_POSTCONDITIONS foo.C</TT><P>
+
+Not all checks are on by default.
+All four types of checks can be marked as expensive or exactness checks
+(or both).
+These checks need to be turned on explicitly by supplying one or both of
+the compile time
+switches <I>CGAL_CHECK_EXPENSIVE</I> and <I>CGAL_CHECK_EXACTNESS</I>.<P>
+
+Expensive checks are, as the word says, checks that take a considerable time
+to compute. Considerable is an imprecise phrase. Checks that add less than 10
+percent to the execution time of the routine they are in are not expensive.
+Checks that can double the execution time are. Somewhere in between lies the
+border line.
+Exactness checks are checks that rely on exact arithmetic. For example, if the
+intersection of two lines is computed, the postcondition of this routine may
+state that the intersection point lies on both lines. However, if the
+computation is done with doubles as number type, this may not be the case, due
+to round off errors. So, exactness checks should only be turned on if the
+computation is done with some exact number type.<P>
+
+<H3>Altering the failure behaviour</H3>
+<P>
+
+As stated above, if a postcondition, precondition or assertion is
+violated, the program will abort (stop and produce a core dump).
+This behaviour can be changed by means of the following function.<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/assertions.h">CGAL/assertions.h</A>&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Failure_behaviour_CGAL_set_error_behaviour6CGAL_Failure_behaviour_eb9;"></A>
+<A HREF="Chapter_Preliminaries.html#Enum_CGAL_Failure_behaviour">CGAL_Failure_behaviour</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_set_error_behaviour ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="Chapter_Preliminaries.html#Enum_CGAL_Failure_behaviour">CGAL_Failure_behaviour</A> eb)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+The parameter should have one of the following values.<P>
+
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A NAME="Enum_CGAL_Failure_behaviour"></A>
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    enum <A HREF="Chapter_Preliminaries.html#Enum_CGAL_Failure_behaviour">CGAL_Failure_behaviour</A> { </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+    <A HREF="Chapter_Preliminaries.html#Enum_CGAL_Failure_behaviour">CGAL_ABORT</A>, <BR>
+    <A HREF="Chapter_Preliminaries.html#Enum_CGAL_Failure_behaviour">CGAL_EXIT</A>, <BR>
+    <A HREF="Chapter_Preliminaries.html#Enum_CGAL_Failure_behaviour">CGAL_CONTINUE</A>};</TD></TR></TABLE>
+    
+        </I>
+        </TD></TR>
+    
+    <P>
+        </TABLE><!2>
+
+The first value is the default. If the <I><A HREF="Chapter_Preliminaries.html#Enum_CGAL_Failure_behaviour">CGAL_EXIT</A></I> value is set,
+the program will stop but not dump core.
+The last value tells the checks to go on after
+diagnosing the error.
+The value that is returned is the value that was in use before.<P>
+
+For warnings there is a separate routine, which works in the same way.
+The only difference is that for warnings the default value is
+<I><A HREF="Chapter_Preliminaries.html#Enum_CGAL_Failure_behaviour">CGAL_CONTINUE</A></I>.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Failure_behaviour_CGAL_set_warning_behaviour6CGAL_Failure_behaviour_eb9;"></A>
+<A HREF="Chapter_Preliminaries.html#Enum_CGAL_Failure_behaviour">CGAL_Failure_behaviour</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_set_warning_behaviour ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="Chapter_Preliminaries.html#Enum_CGAL_Failure_behaviour">CGAL_Failure_behaviour</A> eb)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<H3>Control at a finer granularity</H3>
+<P>
+
+The compile time flags as described up to now all operate on the whole library.
+Sometimes you may want to have a finer control.
+CGAL offers the possibility to turn checks on and off with a bit finer
+granularity, namely the module in which the routines are defined.
+The name of the module is to be appended directly after the CGAL prefix.
+So, the flag <I>CGAL_KERNEL_NO_ASSERTIONS</I> switches off assertions in the
+kernel only, the flag <I>CGAL_CH_CHECK_EXPENSIVE</I> turns on
+expensive checks in the convex hull module.
+The name of a particular module is documented with that module.<P>
+
+<H3>Customising how errors are reported</H3>
+<P>
+
+Normally, error messages are written to the standard error output.
+It is possible to do something different with them.
+To that end you can register your own handler.
+This function should be declared as follows.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_void_my_failure_function6_const_char_*type+_const_char_*expression+_const_char_*file+_int_line+_const_char_*explanation9;"></A>
+void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    my_failure_function ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    const char *type, <BR>
+     const char *expression, <BR>
+     const char *file, <BR>
+     int line, <BR>
+     const char *explanation)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+Your failure function will be called with the following parameters.
+<I>type</I> is a string that contains one of the words precondition,
+postcondition, assertion or warning. The parameter <I>expression</I>
+contains the expression that was violated.
+<I>file</I> and <I>line</I> contain the place where the check was made.
+The <I>explanation</I> parameter
+contains an explanation of what was checked. It can be <I>NULL</I>, in
+which case the <I>expression</I> is thought to be descriptive enough.<P>
+
+There are several things that you can do with your own handler.
+You can display a diagnostic message in a different way, for instance in a pop
+up window or to a log file (or a combination).
+You can also implement a different policy on what to do after an error.
+For instance, you can throw an exception or ask the user in a dialog whether
+to abort or to continue.
+If you do this, it is best to set the error behaviour to
+<I><A HREF="Chapter_Preliminaries.html#Enum_CGAL_Failure_behaviour">CGAL_CONTINUE</A></I>, so that it does not interfere with your policy.<P>
+
+You can register two handlers, one for warnings and one for errors.
+Of course, you can use the same function for both if you want.
+When you set a handler, the previous handler is returned, so you can restore
+it if you want.<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/assertions.h">CGAL/assertions.h</A>&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Failure_function_CGAL_set_error_handler6CGAL_Failure_function_handler9;"></A>
+CGAL_Failure_function
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_set_error_handler ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_Failure_function handler)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Failure_function_CGAL_set_warning_handler6CGAL_Failure_function_handler9;"></A>
+CGAL_Failure_function
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_set_warning_handler ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_Failure_function handler)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<H4>Example</H4>
+<P>
+
+<PRE>
+#include &lt;CGAL/assertions.h&gt;
+
+void my_failure_handler(
+    const char *type,
+    const char *expr,
+    const char* file,
+    int line,
+    const char* msg)
+{
+    /* report the error in some way. */
+}
+
+void foo()
+{
+    CGAL_Failure_function prev;
+    prev = CGAL_set_error_handler(my_failure_handler);
+    /* call some routines. */
+    CGAL_set_error_handler(prev);
+}
+</PRE><P>
+
+<P>
+
+<P><HR><H3>Footnotes</H3><P>
+
+<OL>
+<LI><A NAME="Footnote_1">Where this is not true, C++ allows to write specialized code.
+<LI><A NAME="Footnote_2">The double colon :: is the C++ scope operator.   The class <I>CGAL_Cartesian</I>   is templated with a field type. This type is assigned to the type   <I>FT</I> via a <TT>typedef</TT> local to the class   <I>CGAL_Cartesian</I>.
+</OL>
+<HR> Next chapter: <A HREF="Chapter_PointVectorDirection_2.html">2D Point, Vector and Direction <A NAME="PointVectorDirection"></A></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Preliminaries.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

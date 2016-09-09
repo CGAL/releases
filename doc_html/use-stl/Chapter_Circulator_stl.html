@@ -1,0 +1,193 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_Circulator_stl.html -->
+  <!-- by cc_extract_html, $Revision: 2.7 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Circulator_stl.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Circulators</H1>
+
+<A NAME="sectionCirculatorWarning"></A><P>
+
+Circulators are quite similar to iterators that are described in
+Chapter <A HREF="Chapter_Preliminaries.html#chapterIterators"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. Circulators are a generalization of
+pointers that allow a programmer to work with different circular data
+structures like a ring <A HREF="list.html#Cross_link_anchor_24">list</A> in a uniform manner. Please note that
+circulators are not part of the \stl, but of CGAL. The requirements
+for circulators are presented here. Thereafter a number of adaptors
+is described that convert between iterators and circulators.<P>
+
+The specialization on circular data structures gives the reason for
+the slightly different requirements for circulators than for
+iterators. A circular data structure has no natural past-the-end
+value. In consequence, a container supporting circulators will not
+have an <TT>end()</TT>-member function, only a <TT>begin()</TT>-member
+function. The semantic of a range is different for a circulator <MATH>c</MATH>:
+The range <MATH>[c, c)</MATH> denotes the sequence of all elements in
+the data structure. For iterators, this range would be empty. A
+separate test for an empty sequence has been added to the
+requirements. A comparison <MATH>c ==</MATH> <TT>NULL</TT> for a circulator <MATH>c</MATH>
+tests whether the data structure is empty or not. An <TT>example()</TT>
+function demonstrates a typical use of circulators. The function
+accepts a range <MATH>[c, d)</MATH> of circulators and process each
+element in this range.<P>
+
+<PRE>
+template &lt;class <A HREF="Circulator.html#Cross_link_anchor_6">Circulator</A>&gt;
+void example( <A HREF="Circulator.html#Cross_link_anchor_6">Circulator</A> c, <A HREF="Circulator.html#Cross_link_anchor_6">Circulator</A> d)
+{
+    if (c != NULL) { // assures that there is at least one element
+        do {
+            foo(*c);  // process element
+            ++c;
+        } while (c != d);
+    }
+}
+</PRE><P>
+
+Given a circular data structure <MATH>S</MATH>, this function could be used
+to process all elements like this: <TT>example(</TT><MATH>S</MATH><TT>.begin(),</TT><MATH>S</MATH><TT>.begin())</TT>.<P>
+
+As for iterators, circulators come in different flavors. There are
+<EM>forward, bidirectional</EM> and <EM>random access circulators</EM>.
+They are either <EM>mutable</EM> or <EM>constant</EM>. The past-the-end
+value is not applicable for circulators.<P>
+
+<B>Reachability:</B>
+A circulator <MATH>d</MATH> is called <EM>reachable</EM> from a circulator <MATH>c</MATH> if
+and only if there is a finite sequence of applications of
+<I>operator++</I> to <MATH>c</MATH> that makes <MATH>c == d</MATH>. If <MATH>c</MATH> and <MATH>d</MATH> refer
+to the same non-empty data structure, then <MATH>d</MATH> is reachable from <MATH>c</MATH>,
+and <MATH>c</MATH> is reachable from <MATH>d</MATH>. In particular, any circulator <MATH>c</MATH>
+referring to a non-empty data structure will return to itself after a
+finite sequence of applications of <I>operator++</I> to <MATH>c</MATH>.<P>
+
+<B>Range:</B>
+Most of the library's algorithmic templates that operate on data
+structures have interfaces that use <EM>ranges</EM>. A range is a <A HREF="pair.html#Cross_link_anchor_0">pair</A> of
+circulators that designate the beginning and end of the computation. A
+range <MATH>[c, c)</MATH> is a <EM>full range</EM>; in general, a range
+<MATH>[c, d)</MATH> refers to the elements in the data structure
+starting with the one pointed to by <MATH>c</MATH> and up to but not including
+the one pointed to by <MATH>d</MATH>. Range <MATH>[c, d)</MATH> is valid if and
+only if both refer to the same data structure. The result of the
+application of the algorithms in the library to invalid ranges is
+undefined.<P>
+
+<B>Warning:</B> Please note that the definition of a range is different
+from that of iterators. An interface of a data structure must declare
+whether it works with iterators, circulators, or both. \stl algorithms
+always specify only iterators in their interfaces. A range <MATH>[c,
+  d)</MATH> of circulators used in an interface for iterators will
+work as expected as long as <MATH>c != d</MATH>. A range <MATH>[c, c)</MATH> will
+be interpreted as the empty range like for iterators, which is
+different than the full range that it should denote for circulators.<P>
+
+Algorithms could be written to support both, iterators and
+circulators, in a single interface. Here, the range <MATH>[c,
+  c)</MATH> would be interpreted correctly. For more information how
+to program your own applications to have this behavior, please refer
+to the CGAL reference manual.<P>
+
+As we mentioned in the introduction we are a little bit sloppy in the
+presentation, in order to make it easier to understand. A class is
+said to be a circulator if it fulfills a <A HREF="set.html#Cross_link_anchor_27">set</A> of requirements. In the
+following sections we do not present the requirements, but we state
+properties that are true, if the requirements are fulfilled. The
+difference is best seen by an example: we write that the return value
+of the test for equality returns a <I>bool</I>, but the requirement is
+only that the return value is convertible to <I>bool</I>.<P>
+
+<UL><LI>
+<A HREF="Circulator.html">Requirements for Circulators</A>.</UL>
+
+
+<P><A NAME="Section_1"></A>
+<H2>Adaptor: Container with Iterators from <A HREF="Circulator.html#Cross_link_anchor_6">Circulator</A></H2>
+
+<A NAME="sectionContainerFromCirc"></A><P>
+
+Algorithms working on iterators could not be applied to circulators in
+full generality, only to subranges (see the warning in
+Section <A HREF="Chapter_Circulator_stl.html#sectionCirculatorWarning"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>). The following adaptors convert
+circulators to iterators (with a space and time penalty) to
+reestablish this generality.<P>
+
+<UL><LI>
+<A HREF="CGAL_Forward_container_from_circulator.html">Class declaration of <I>CGAL_..._container_from_circulator&lt;C&gt;</I></A>.</UL>
+
+
+<P><A NAME="Section_2"></A>
+<H2>Adaptor: <A HREF="Circulator.html#Cross_link_anchor_6">Circulator</A> from Iterator</H2>
+
+<A NAME="sectionCircFromIter"></A><P>
+
+To obtain circulators, one could use a container class like those in
+the Standard Template Library (\stl) or a <A HREF="pair.html#Cross_link_anchor_0">pair</A> of <I>begin()</I>-,
+<I>end()</I>-iterators and one of the following adaptors. Adaptors
+for <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pairs are described here, adaptors for container classes
+are described in the next section.<P>
+
+<UL><LI>
+<A HREF="CGAL_Forward_circulator_from_iterator.html">Class declaration of   <I>CGAL_..._circulator_from_iterator&lt;I,T,Size,Dist&gt;</I></A>.</UL>
+
+
+<P><A NAME="Section_3"></A>
+<H2>Adaptor: <A HREF="Circulator.html#Cross_link_anchor_6">Circulator</A> from Container</H2>
+
+<A NAME="sectionCircFromContainer"></A><P>
+
+To obtain circulators, one could use a container class like those in the
+Standard Template Library (\stl) or a <A HREF="pair.html#Cross_link_anchor_0">pair</A> of <I>begin()</I>-,
+<I>end()</I>-iterators and one of the provided adaptors here.
+Adaptors for <A HREF="iterator.html#Cross_link_anchor_1">iterator</A> pairs are described in the previous section,
+adaptors for container classes are described here.<P>
+
+<UL><LI>
+<A HREF="CGAL_Forward_circulator_from_container.html">Class declaration of <I>CGAL_..._circulator_from_container&lt;C&gt;</I></A>.</UL>
+
+<P>
+
+<P><HR> Next chapter: <A HREF="Chapter_FunctionObject.html">Function Objects</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Circulator_stl.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

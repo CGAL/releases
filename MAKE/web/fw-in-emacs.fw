@@ -1,8 +1,0 @@
-@p automatic_line_directive_macro = "line"
-@p #line_offset = 0
-@p #line_depth = 1
-@$@<line@>@Z@M==@{#line @<#line@> "@<#file@>"@}
-@A@<A@>
-@B@<B@>
-@C@<C@>
-@i make_sun4OS5_CC.nw

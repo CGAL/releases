@@ -1,0 +1,371 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_SqDistance.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_SqDistance.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Squared Distances</H1>
+<P>
+
+There is a family of functions called <I>CGAL_squared_distance</I> that
+compute the square of the Euclidean distance between two geometric objects.<P>
+
+The squared distance between two two-dimensional points <I>p1</I> and
+<I>p2</I> is defined as <MATH>d<SUB>x</SUB><SUP>2</SUP> + d<SUB>y</SUB><SUP>2</SUP></MATH>, where <MATH>d<SUB>x</SUB></MATH>
+==
+<I>p2.x()-p1.x()</I> and <MATH>d<SUB>y</SUB></MATH>== <I>p2.y()-p1.y()</I>.<P>
+
+For arbitrary two-dimensional geometric objects <I>obj1</I> and
+<I>obj2</I> the squared distance is defined as the minimal
+<I>CGAL_squared_distance(p1, p2)</I>, where <I>p1</I> is a point of
+<I>obj1</I> and <I>p2</I> is a point of <I>obj2</I>.
+Note that for objects like triangles and polygons that have an inside (a
+bounded region), this inside is part of the object.
+So, the squared distance from a point inside a triangle to that triangle is
+zero, not the squared distance to the closest edge of the triangle.<P>
+
+The general format of the functions is:<P>
+
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_R::FT_CGAL_squared_distance6Type16R9_obj1+_Type26R9_obj29;"></A>
+R::FT
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_squared_distance ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    Type1&lt;R&gt; obj1, <BR>
+     Type2&lt;R&gt; obj2)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+
+<P>
+
+\noindent
+where the types <I>Type1</I> and <I>Type2</I> can be any of the
+following:
+<UL>
+<LI><I><A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2</A></I>
+<LI><I><A HREF="CGAL_Line_2.html#Cross_link_anchor_3">CGAL_Line_2</A></I>
+<LI><I><A HREF="CGAL_Ray_2.html#Cross_link_anchor_4">CGAL_Ray_2</A></I>
+<LI><I><A HREF="CGAL_Segment_2.html#Cross_link_anchor_5">CGAL_Segment_2</A></I>
+<LI><I><A HREF="CGAL_Triangle_2.html#Cross_link_anchor_13">CGAL_Triangle_2</A></I><P>
+
+</UL><P>
+
+Those routines are defined in the header file
+<I>CGAL/squared_distance.h</I>.<P>
+
+<H3>Why the square?</H3>
+<P>
+
+There are routines that compute the square of the Euclidean distance, but no
+routines that compute the distance itself. Why?<P>
+
+First of all, the two values can be derived from each other quite easily (by
+taking the square root or taking the square). So, supplying only the one and
+not the other is only a minor inconvenience for the user.<P>
+
+Second, often either value can be used. This is for example the case when
+(squared) distances are compared.<P>
+
+Third, the library wants to stimulate the use of the squared distance instead
+of the distance. The squared distance can be computed in more cases and the
+computation is cheaper.
+We do this by not providing the perhaps more natural routine,<P>
+
+The problem of a distance routine is that it needs the <I>sqrt</I>
+operation.
+This has two drawbacks.
+<UL>
+<LI>The <I>sqrt</I> operation can be costly. Even if it is not very costly for
+a specific number type and platform, avoiding it is always cheaper.
+<LI>There are number types on which no <I>sqrt</I> operation is defined,
+especially integer types and rationals.
+</UL><P>
+
+<A NAME="Section_18"></A>
+<H2>Distance Comparisons</H2>
+<P>
+
+Instead of computing distances and comparing them the following
+predicates can be used to that:<P>
+
+<I>#include &lt;CGAL/distance_predicates_2.h&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_cmp_dist_to_point6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q+__const_CGAL_Point_26R9__r9;"></A>
+<A HREF="Chapter_Predicates.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_cmp_dist_to_point ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> r)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    compares the distances of points <I>q</I> and <I>r</I> to point
+    <I>p</I>. returns <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Comparison_result">CGAL_SMALLER</A></I>, iff <I>q</I> is closer to
+    <I>p</I> as <I>r</I>, <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Comparison_result">CGAL_LARGER</A></I>, iff <I>r</I> is closer to
+    <I>p</I> as <I>q</I>, and <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Comparison_result">CGAL_EQUAL</A></I> otherwise.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_CGAL_has_larger_dist_to_point6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q+__const_CGAL_Point_26R9__r9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_has_larger_dist_to_point ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> r)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> iff the distance between <I>q</I> and <I>p</I>
+    is larger as the distance between <I>r</I> and <I>p</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_CGAL_has_smaller_dist_to_point6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q+__const_CGAL_Point_26R9__r9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_has_smaller_dist_to_point ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> r)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> iff the distance between <I>q</I> and <I>p</I>
+    is smaller as the distance between <I>r</I> and <I>p</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+The following compares the signed distances of two points and an
+oriented line. The sign of the distance of a point to an oriented line
+is positive (negative) iff the point lies on the positive (negative)
+side of the line, and zero otherwise.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_cmp_signed_dist_to_line6const_CGAL_Line_26R9__l+__const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q9;"></A>
+<A HREF="Chapter_Predicates.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_cmp_signed_dist_to_line ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_3">CGAL_Line_2&lt;R&gt;</A> l, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> q)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Comparison_result">CGAL_LARGER</A></I> iff the signed distance of <I>p</I> and
+    <I>q</I> is larger as the signed distance of <I>q</I> and <I>l</I>,
+    <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Comparison_result">CGAL_SMALLER</A></I>, iff it is smaller, and <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Comparison_result">CGAL_EQUAL</A></I> iff
+    both are equal.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_CGAL_has_larger_signed_dist_to_line6const_CGAL_Line_26R9__l+__const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_has_larger_signed_dist_to_line ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_3">CGAL_Line_2&lt;R&gt;</A> l, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> q)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> iff the signed distance of <I>p</I> and
+    <I>q</I> is larger as the signed distance of <I>q</I> and <I>l</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_CGAL_has_smaller_signed_dist_to_line6const_CGAL_Line_26R9__l+__const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_has_smaller_signed_dist_to_line ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Line_2.html#Cross_link_anchor_3">CGAL_Line_2&lt;R&gt;</A> l, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> q)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I> iff the signed distance of <I>p</I> and
+    <I>q</I> is smaller as the signed distance of <I>q</I> and <I>l</I>
+    .
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+The following functions corresponds to the preceding ones with the
+exception that the line is implicitly given by the first two points
+<I>p</I> and <I>q</I>. The points whose signed distance to the
+line is compared are <I>r</I> and <I>s</I>.<P>
+
+<BR><STRONG>Precondition: </STRONG>Points defining the line are not equal.<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_CGAL_Comparison_result_CGAL_cmp_signed_dist_to_line6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q+__const_CGAL_Point_26R9__r+__const_CGAL_Point_26R9__s9;"></A>
+<A HREF="Chapter_Predicates.html#Enum_CGAL_Comparison_result">CGAL_Comparison_result</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_cmp_signed_dist_to_line ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> r, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> s)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_CGAL_has_smaller_signed_dist_to_line6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q+__const_CGAL_Point_26R9__r+__const_CGAL_Point_26R9__s9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_has_smaller_signed_dist_to_line ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> r, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> s)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool_CGAL_has_larger_signed_dist_to_line6const_CGAL_Point_26R9__p+__const_CGAL_Point_26R9__q+__const_CGAL_Point_26R9__r+__const_CGAL_Point_26R9__s9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_has_larger_signed_dist_to_line ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> r, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> s)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<HR> Next chapter: <A HREF="Chapter_AffTransformation.html">Transformations</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_SqDistance.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

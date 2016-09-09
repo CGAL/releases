@@ -1,0 +1,616 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_ConvexHull.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_ConvexHull.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../../../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Convex Hulls and Extreme Points</H1>
+<A NAME="CH1_SectConvexHull_2"></A><P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_ch_....html"><I>CGAL_ch_...</I></A>.</UL>
+
+<P>
+
+<H3>Definition</H3>A subset <MATH>S</MATH> of the plane is convex if with any two points <MATH>p</MATH> and <MATH>q</MATH>
+in the set the line segment with endpoints <MATH>p</MATH> and <MATH>q</MATH> is contained
+in <MATH>S</MATH>. The convex hull of a set <MATH>S</MATH> is the smallest convex set containing
+<MATH>S</MATH>. The convex hull of a set of points <MATH>P</MATH> is a convex polygon with vertices
+in <MATH>P</MATH>. A point in <MATH>P</MATH> is an extreme point (with respect to <MATH>P</MATH>) if it is
+a vertex of the convex hull of <MATH>P</MATH>.<P>
+
+CGAL provides functions computing the counterclockwise sequence of extreme
+points for a set of points, i.e. the counterclockwise sequence of points on the
+convex hull of the set of points. Furthermore, functions computing special
+extreme points are provided. Finally, there are functions that check whether
+a given sequence of points forms a (counter)clockwise convex polygon.<P>
+
+The last parameter <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A></I> in the convex hull and extreme point
+functions is a traits class that defines the primitives that are used in
+the algorithms. For example <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Point_2</I> is a mapping on
+a point class.<P>
+
+CGAL provides implementations of convex hull traits classes as
+described in  Section <A HREF="Chapter_ConvexHull.html#CH1_SectPredefined"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. A default
+implementation <I><A HREF="CGAL_convex_hull_traits_2.html#Cross_link_anchor_1">CGAL_convex_hull_traits_2&lt;R&gt;</A></I> is provided
+for the two-dimensional CGAL kernel.
+This traits class is used in default versions of the functions that do not
+have a traits class parameter. Such default versions exists for all the
+functions specified below.
+Own convex hull traits classes can be designed according to the
+requirements for such traits classes listed in  Section <A HREF="Chapter_ConvexHull.html#CH1_SectReq"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+<H4>Assertions</H4>
+
+The code in this module uses infix <I>CH</I> in the assertions, e.g.
+defining <I>CGAL_CH_CHECK_EXPENSIVE</I> switches expensive checking on,
+cf. Section 2.7 of the `CGAL Reference Manual Part 1: Kernel'.<P>
+
+<H3>Convex Hull</H3>
+
+CGAL provides a function <I>CGAL_convex_hull_points_2()</I> to compute
+the counterclockwise sequence of extreme points for a set of points.<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/convex_hull_2.h">CGAL/convex_hull_2.h</A>&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator, class OutputIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_OutputIterator__CGAL_convex_hull_points_26ForwardIterator_first+_ForwardIterator_last+__OutputIterator_result+__const_Traits___ch_traits_9;"></A>
+OutputIterator
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_convex_hull_points_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     OutputIterator result, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    generates the counterclockwise sequence of extreme points of the
+    points in the range [<I>first</I>,<I>last</I>). The resulting
+    sequence is placed starting at position <I>result</I>, and the
+    past-the-end iterator for the resulting sequence is returned. It is
+    not specified at which point the cyclic sequence of extreme points
+    is cut into a linear sequence.
+    <BR><STRONG>Precondition: </STRONG>The source range [<I>first</I>,
+    <I>last</I>) does not contain <I>result</I>.<BR><TT>TRAITS</TT>:
+    uses <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Point_2</I>, <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_xy</I>,
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_yx</I>, <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Greater_xy</I>,
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Greater_yx</I>, <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Right_of_line</I>, and
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::leftturn(...)</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR>Besides the default algorithm for computing convex hulls, implementations
+of some classical convex hull algorithms are available, with the same semantics
+as the default algorithm.<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/ch_akl_toussaint.h">CGAL/ch_akl_toussaint.h</A>&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator, class OutputIterator, class <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_OutputIterator__CGAL_ch_akl_toussaint6ForwardIterator_first+_ForwardIterator_last+__OutputIterator_result+__const_Traits__ch_traits9;"></A>
+OutputIterator
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_ch_akl_toussaint ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     OutputIterator result, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    <TT>TRAITS</TT>: uses <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Point_2</I>,
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_xy</I>, <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_yx</I>,
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Greater_xy</I>, <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Greater_yx</I>,
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Right_of_line</I>, and <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::leftturn(...)</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/ch_graham_andrew.h">CGAL/ch_graham_andrew.h</A>&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class InputIterator, class OutputIterator, class <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_OutputIterator__CGAL_ch_graham_andrew6_InputIterator_first+__InputIterator_last+__OutputIterator_result+__const_Traits___ch_traits9;"></A>
+OutputIterator
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_ch_graham_andrew ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    InputIterator first, <BR>
+     InputIterator last, <BR>
+     OutputIterator result, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    <TT>TRAITS</TT>: operates on <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Point_2</I> using
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::leftturn(...)</I> and <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_xy</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/ch_eddy.h">CGAL/ch_eddy.h</A>&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class InputIterator, class OutputIterator, class <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_OutputIterator__CGAL_ch_eddy6InputIterator_first+_InputIterator_last+__OutputIterator_result+__const_Traits__ch_traits9;"></A>
+OutputIterator
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_ch_eddy ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    InputIterator first, <BR>
+     InputIterator last, <BR>
+     OutputIterator result, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    <TT>TRAITS</TT>: uses the types <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Point_2</I>,
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_dist_to_line</I>, <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Right_of_line</I>,
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_xy</I>, and <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Greater_xy</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/ch_jarvis.h">CGAL/ch_jarvis.h</A>&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator, class OutputIterator, class <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_OutputIterator__CGAL_ch_jarvis6ForwardIterator_first+_ForwardIterator_last+__OutputIterator_result+__const_Traits__ch_traits9;"></A>
+OutputIterator
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_ch_jarvis ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     OutputIterator result, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    <TT>TRAITS</TT>: uses types <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Point_2</I>,
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_rotate_ccw</I>, and <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_xy</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><H3>Extreme Points in Coordinate Directions</H3>
+
+CGAL provides functions computing extreme points with respect to
+the directions of the underlying Cartesian coordinate system.
+Each function name has a part that tells you which
+extreme points are reported in the reference arguments and in which order.
+<I>n</I> means north, <I>w</I> west, <I>s</I> south, and <I>e</I> east,
+which stands for a point with maximal <MATH>y</MATH>-, minimal <MATH>x</MATH>-, minimal <MATH>y</MATH>-,
+and maximal <MATH>x</MATH>-coordinate resp. For the <MATH>x</MATH>-coordinate comparison,
+<I>xy</I>-lexicographical order is used, for <MATH>y</MATH>-coordinate comparison
+<I>yx</I>-lexicographical order.<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/ch_selected_extreme_points_2.h">CGAL/ch_selected_extreme_points_2.h</A>&gt;</I><P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_void__CGAL_ch_nswe_point6_ForwardIterator_first+_ForwardIterator_last+__ForwardIterator__n+__ForwardIterator__s+__ForwardIterator__w+__ForwardIterator__e+__const_Traits___ch_traits9;"></A>
+void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_ch_nswe_point ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     ForwardIterator&amp; n, <BR>
+     ForwardIterator&amp; s, <BR>
+     ForwardIterator&amp; w, <BR>
+     ForwardIterator&amp; e, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    traverses the range [<I>first</I>,<I>last</I>). After execution,
+    the value of <I>n</I> is an iterator in the range such that
+    <I>*n</I> <MATH>&gt;=<SUB>yx</SUB></MATH> <I>*it</I> for all
+    iterators <I>it</I> in the range. Similarly, for <I>s</I>, <I>w</I>
+    , and <I>e</I> the inequations <I>*s</I>
+    <MATH>&lt;=<SUB>yx</SUB></MATH> <I>*it</I>, <I>*w</I>
+    <MATH>&lt;=<SUB>xy</SUB></MATH> <I>*it</I>, and <I>*e</I>
+    <MATH>&gt;=<SUB>yx</SUB></MATH> <I>*it</I> hold respectively for
+    all iterators <I>it</I> in the range.<BR><TT>TRAITS</TT>: uses the
+    types <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Greater_xy</I>, <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Greater_yx</I>,
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_xy</I>, and <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_yx</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+Analogously, we have<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_void__CGAL_ch_we_point6_ForwardIterator_first+_ForwardIterator_last+__ForwardIterator__w+__ForwardIterator__e+__const_Traits___ch_traits9;"></A>
+void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_ch_we_point ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     ForwardIterator&amp; w, <BR>
+     ForwardIterator&amp; e, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_void__CGAL_ch_ns_point6_ForwardIterator_first+_ForwardIterator_last+__ForwardIterator__n+__ForwardIterator__s+__const_Traits___ch_traits9;"></A>
+void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_ch_ns_point ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     ForwardIterator&amp; n, <BR>
+     ForwardIterator&amp; s, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_void__CGAL_ch_n_point6_ForwardIterator_first+_ForwardIterator_last+__ForwardIterator__n+__const_Traits___ch_traits9;"></A>
+void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_ch_n_point ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     ForwardIterator&amp; n, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_void__CGAL_ch_s_point6_ForwardIterator_first+_ForwardIterator_last+__ForwardIterator__s+__const_Traits___ch_traits9;"></A>
+void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_ch_s_point ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     ForwardIterator&amp; s, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_void__CGAL_ch_w_point6_ForwardIterator_first+_ForwardIterator_last+__ForwardIterator__w+__const_Traits___ch_traits9;"></A>
+void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_ch_w_point ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     ForwardIterator&amp; w, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_void__CGAL_ch_e_point6_ForwardIterator_first+_ForwardIterator_last+__ForwardIterator__e+__const_Traits___ch_traits9;"></A>
+void
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_ch_e_point ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     ForwardIterator&amp; e, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TR>
+        </TABLE><!3>
+<P>
+
+<H3>Convexity Checking</H3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator, class <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool__CGAL_is_ccw_strongly_convex_26_ForwardIterator_first+__ForwardIterator_last+__const_Traits___ch_traits9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_is_ccw_strongly_convex_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff the point elements in [<I>first</I>,
+    <I>last</I>) form a counterclockwise oriented strongly convex
+    polygon.<BR><TT>TRAITS</TT>: uses <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::leftturn()</I> and
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_xy</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template &lt;class ForwardIterator, class <A HREF="Traits.html#Cross_link_anchor_4">Traits</A>&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Function_bool__CGAL_is_cw_strongly_convex_26_ForwardIterator_first+__ForwardIterator_last+__const_Traits___ch_traits9;"></A>
+bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_is_cw_strongly_convex_2 ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last, <BR>
+     <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> ch_traits)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff the point elements in [<I>first</I>,
+    <I>last</I>) form a clockwise oriented strongly convex polygon.<BR>
+    <TT>TRAITS</TT>: uses <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::rightturn()</I> and
+    <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A>::Less_xy</I>.
+        </TD></TR>
+        </TABLE><!3>
+<P>
+
+<A NAME="Section_1"></A>
+<H2>Convex Hull <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> Class Implementations <A NAME="CH1_SectPredefined"></A></H2>
+<P>
+
+The convex hull algorithms in Chapter <A HREF="Chapter_ConvexHull.html#CH1_SectConvexHull_2"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> are
+parameterized with a traits class <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A></I>. Besides the traits class
+<I><A HREF="CGAL_convex_hull_traits_2.html#Cross_link_anchor_1">CGAL_convex_hull_traits_2&lt;R&gt;</A></I> used in the default versions of
+the functions, CGAL provides a traits class
+<I><A HREF="CGAL_convex_hull_constructive_traits_2.html#Cross_link_anchor_2">CGAL_convex_hull_constructive_traits_2&lt;R&gt;</A></I> which also uses
+CGAL primitives and reuses intermediate results to
+speed up computation.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_convex_hull_traits_2.html"><I>CGAL_convex_hull_traits_2&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_convex_hull_constructive_traits_2.html"><I>CGAL_convex_hull_constructive_traits_2&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_begin.gif" ALT="begin of advanced section"><BR><UL><LI>
+ Class declaration of <A HREF="CGAL_convex_hull_rat_leda_traits_2.html"><I>CGAL_convex_hull_rat_leda_traits_2</I></A>.</UL>
+
+
+<BR><IMG BORDER=0 SRC="../cc_advanced_end.gif" ALT="end of advanced section"><BR><A NAME="Section_2"></A>
+<H2>Convex Hulls <A HREF="Traits.html#Cross_link_anchor_4">Traits</A> Class Requirements <A NAME="CH1_SectReq"></A></H2>
+<P>
+
+The convex hull algorithms in Chapter <A HREF="Chapter_ConvexHull.html#CH1_SectConvexHull_2"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> are
+parameterized with an traits class <I><A HREF="Traits.html#Cross_link_anchor_4">Traits</A></I> which defines the
+primitives (objects and predicates) that the convex hull algorithms use.
+The following catalog lists the primitives involved in the
+convex hull and extreme point functions. The primitives that are actually
+required for a function are listed with the specification of the function
+in Chapter <A HREF="Chapter_ConvexHull.html#CH1_SectConvexHull_2"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+Available convex hull traits classes implementations provided by CGAL are described in Section <A HREF="Chapter_ConvexHull.html#CH1_SectPredefined"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="Traits.html"><I>Traits</I></A>.</UL>
+
+
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_ConvexHull.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

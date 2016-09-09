@@ -1,0 +1,232 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_LineRaySegment_3.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: CGAL_Ray_3<R></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_LineRaySegment_3.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_10"></A>
+
+<A NAME="Cross_link_anchor_10"></A>
+
+<P>
+
+<H1> 3D Ray (<I><A HREF="CGAL_Ray_3.html#Cross_link_anchor_10">CGAL_Ray_3</A></I>)</H1>
+<P>
+
+<H3>Definition</H3>An object <I>r</I> of the data type
+<I><A HREF="CGAL_Ray_3.html#Cross_link_anchor_10">CGAL_Ray_3</A></I> is a directed straight ray in the three-dimensional
+Euclidean space <MATH><B>E</B><SUB>3</SUB></MATH>. It starts in a point
+called the <EM>source</EM> of <I>r</I> and it reaches infinity.
+<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/Ray_3.h">CGAL/Ray_3.h
+</A>&gt;</I>
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Ray_3.html#Cross_link_anchor_10">CGAL_Ray_3&lt;R&gt;</A> r (  <A HREF="CGAL_Point_3.html#Cross_link_anchor_6">CGAL_Point_3&lt;R&gt;</A> p,  Point_3 q);
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a ray <I>r</I> with source <MATH>p</MATH> and passing
+    through point <MATH>q</MATH>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Ray_3.html#Cross_link_anchor_10">CGAL_Ray_3&lt;R&gt;</A> r (  <A HREF="CGAL_Point_3.html#Cross_link_anchor_6">CGAL_Point_3&lt;R&gt;</A> p,  <A HREF="CGAL_Direction_3.html#Cross_link_anchor_8">CGAL_Direction_3&lt;R&gt;</A> d);
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a ray <I>r</I> with source <MATH>p</MATH> and with
+    direction <MATH>d</MATH>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+     r ==  h
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for equality: two rays are equal, iff they have the same
+    source and the same direction.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+     r !=  h
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    Test for inequality.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_6">CGAL_Point_3&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.source ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the source of <I>r</I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Point_3.html#Cross_link_anchor_6">CGAL_Point_3&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.point ( int i)
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a point on <I>r</I>. <I>point(0)</I> is the source.
+    <I>point(i)</I>, with <MATH>i&gt;0</MATH>, is different from the
+    source. <BR><STRONG>Precondition: </STRONG><MATH>i &gt;=0</MATH>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Direction_3.html#Cross_link_anchor_8">CGAL_Direction_3&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.direction ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the direction of <I>r</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Line_3.html#Cross_link_anchor_9">CGAL_Line_3&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.supporting_line ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the line supporting <I>r</I> which has the same direction.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Ray_3.html#Cross_link_anchor_10">CGAL_Ray_3&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.opposite ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the ray with the same source and the opposite direction.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.is_degenerate ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    ray <I>r</I> is degenerate, if the source and the second defining
+    point fall together (that is if the direction is degenerate).
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    r.has_on (  <A HREF="CGAL_Point_3.html#Cross_link_anchor_6">CGAL_Point_3&lt;R&gt;</A> p)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    A point is on <I>r</I>, iff it is equal to the source of <I>r</I>,
+    or if it is in the interior of <I>r</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Ray_3.html#Cross_link_anchor_10">CGAL_Ray_3&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    r.transform (  <A HREF="CGAL_Aff_transformation_3.html#Cross_link_anchor_22">CGAL_Aff_transformation_3&lt;R&gt;</A> t)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the ray obtained by applying <MATH>t</MATH> on the source
+    and on the direction of <I>r</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Implementation</H3>A ray is stored as a point and a direction.
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Segment_3.html"><I>CGAL_Segment_3&lt;R&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_LineRaySegment_3.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

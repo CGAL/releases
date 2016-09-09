@@ -1,0 +1,8 @@
+#---------------------------------------------------------------------#
+# This file contains the locations of include and lib-directories.
+# It is included in all makefiles.
+#---------------------------------------------------------------------#
+
+CGAL_INCL_DIR      = /KM/projects/CGAL/include
+CGAL_LIB_DIR       = /KM/projects/CGAL/lib
+

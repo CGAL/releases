@@ -1,0 +1,93 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_intro3.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_intro3.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Introduction</H1>
+<P>
+
+CGAL, the <EM>Computational Geometry Algorithms Library</EM>, is written in
+C++ and consists of three parts.
+The first part is the kernel, which consists of constant size non-modifiable
+geometric primitive objects and operations on these objects.
+The objects are parameterized by a representation class, which specifies
+the underlying number types used for calculations.
+The second part is a collection of basic geometric datastructures and
+algorithms, which are parameterized by traits classes that define the
+interface between the datastructure or algorithm, and the primitives they use.
+The third part consists of non-geometric support facilities, such as
+`circulators', random sources, I/O support for debugging and for interfacing
+CGAL to various visualization tools.
+Some of these facilities may depend on other tools or libraries, such as LEDA.<P>
+
+<EM>This</EM> part of the reference manual covers the support library.<P>
+
+<H3>Organization of this Manual</H3>
+<P>
+
+This document is organized as follows.
+Chapter <A HREF="Chapter_Numbertype.html#Numbertype"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> is about number types that can be used with CGAL.
+Chapter <A HREF="Chapter_Circulators.html#chapterCirculators"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> introduces the notion of circulators, a
+concept like STL iterators, used for inherently circular sequences.
+Circulators are used in many algorithms and datastructures of the basic
+library.
+Chapter <A HREF="Chapter_generators.html#chapterGenerators"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> describes a number of generators for random numbers
+and geometric objects.
+All classes in the CGAL kernel provide input and output operators for
+IOStreams; they are described in Chapter <A HREF="Chapter_IOStream.html#ChapterIO"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.
+Chapter <A HREF="Chapter_Colors.html#colors"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A> introduces the notion of color for graphical IO.
+The window stream, which is derived from <TT>Leda</TT> windows, is described in
+Chapter <A HREF="Chapter_Window.html#window"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>.<P>
+
+<H3>If you have a problem</H3>
+<P>
+
+Should you have any questions, comments, remarks or criticism
+concerning CGAL, please send a message to
+<A HREF="mailto:cgal@cs.ruu.nl">&#60;cgal@cs.ruu.nl&#62;</A>.<P>
+
+<P><HR> Next chapter: <A HREF="Chapter_Numbertype.html">Number Types</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_intro3.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

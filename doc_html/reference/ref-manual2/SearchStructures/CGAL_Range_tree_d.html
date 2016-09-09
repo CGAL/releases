@@ -1,0 +1,262 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_SearchStructures.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: CGAL_Range_tree_d<Data, Window, Traits></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_SearchStructures.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_11"></A>
+
+<A NAME="Cross_link_anchor_11"></A>
+<H4>CGAL_Range_tree</H4>
+
+<P>
+
+<A NAME="RangeTree"></A>
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A NAME="Nested_type_Data"></A>
+<A HREF="CGAL_Range_tree_d.html#Cross_link_anchor_11">CGAL_Range_tree_d</A>&lt;Data, Window, <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>&gt;::Data
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    container <I>Data</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A NAME="Nested_type_Window"></A>
+<A HREF="CGAL_Range_tree_d.html#Cross_link_anchor_11">CGAL_Range_tree_d</A>&lt;Data, Window, <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>&gt;::Window
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    container <I>Window</I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A NAME="Nested_type_Traits"></A>
+<A HREF="CGAL_Range_tree_d.html#Cross_link_anchor_11">CGAL_Range_tree_d</A>&lt;Data, Window, <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>&gt;::<A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    container <I><A HREF="Chapter_SearchStructures.html#Section_4">Traits</A></I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<P><H3>Creation</H3>
+<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/Range_tree_d.h">
+CGAL/Range_tree_d.h</A>&gt;</I><BR>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Range_tree_d.html#Cross_link_anchor_11">CGAL_Range_tree_d</A>&lt;Data, Window, <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>&gt; r ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    CGAL_Tree_base&lt;Data, Window&gt; sublayer_tree);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    A range tree is constructed, such that the subtree of each vertex
+    is of the same type prototype <I>sublayer_tree</I> is. <BR>We
+    assume that the dimension of the tree is <MATH>d</MATH>. This
+    means, that <I> sublayer_tree</I> is a prototype of a
+    <MATH>d-1</MATH>-dimensional tree. All data items of the
+    <MATH>d</MATH>-dimensional range tree have container type
+    <I>Data</I>. The query window of the tree has container type
+    <I>Window</I>. <I><A HREF="Chapter_SearchStructures.html#Section_4">Traits</A></I> provides access to the corresponding
+    data slots of container <I>Data</I> and <I>Window</I> for the
+    <MATH>d</MATH>-th dimension. The traits class <I><A HREF="Chapter_SearchStructures.html#Section_4">Traits</A></I> must at
+    least provide all functions and type definitions as described in
+    Section <A HREF="Chapter_SearchStructures.html#TreeInterface"><IMG SRC="../cc_ref_up_arrow.gif" ALT="reference arrow" WIDTH="10" HEIGHT="10"></A>. The template class described there is
+    fully generic and should fulfill the most requirements one can
+    have. In order to generate a one-dimensional range tree instantiate
+    <I><A HREF="CGAL_Tree_anchor.html#Cross_link_anchor_13">CGAL_Tree_anchor</A>&lt;Data, Window&gt; sublayer_tree</I> with the
+    same template parameters (<I>Data</I> and <I>Window</I>)
+    <I><A HREF="CGAL_Range_tree_d.html#Cross_link_anchor_11">CGAL_Range_tree_d</A></I> is defined. In order to construct a
+    two-dimensional range tree, create <I><A HREF="CGAL_Range_tree_d.html#Cross_link_anchor_11">CGAL_Range_tree_d</A></I> with a
+    one-dimensional <I><A HREF="CGAL_Range_tree_d.html#Cross_link_anchor_11">CGAL_Range_tree_d</A></I> with the corresponding
+    <I><A HREF="Chapter_SearchStructures.html#Section_4">Traits</A></I> class of the first dimension.<BR>
+    <I>Precondition: <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>::Data==Data and\  <A HREF="Chapter_SearchStructures.html#Section_4">Traits</A>::Window==Window.</I>
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Operations</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template&lt;class ForwardIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    r.make_tree ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    ForwardIterator first, <BR>
+     ForwardIterator last)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    The tree is constructed according to the data items in the sequence
+    between the element pointed by iterator <I>first</I> and iterator
+    <I>last</I>. The data items of the iterator must have type
+    <I>Data</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<BR><STRONG>Precondition: </STRONG>This function can only be called
+once. If it is the first call the tree is build and <I>true</I> is
+returned. Otherwise, nothing is done but a <I>CGAL warning</I> is given
+and <I>false</I> returned.
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=3>
+        <I>
+    template&lt;class OutputIterator&gt;
+        </I>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    OutputIterator
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    r.window_query ( Q win,  OutputIterator result)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    <I>  win</I>
+    <MATH>=[a<SUB>1</SUB>,b<SUB>1</SUB>),..., [a<SUB>d</SUB>,b<SUB>d</SUB>)</MATH>,
+    <MATH>a<SUB>i</SUB>,b<SUB>i</SUB> is in  T<SUB>i</SUB></MATH>,
+    <MATH>1&lt;=i&lt;=d</MATH>. All elements that lay inside the
+    <MATH>d</MATH>-dimensional interval defined through <I>win</I> are
+    placed in the sequence container of <I>OutputIterator</I>; the
+    output iterator that points to the last location the function wrote
+    to is returned.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.is_valid ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    The tree structure is checked. For each vertex the subtree is
+    checked on being valid and it is checked weather the value of the
+    <I>Key_type</I> of a vertex corresponds to the highest
+    <I>Key_type</I> value of the left subtree.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<B>Protected Operations</B>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    r.is_inside ( const Q win,  const C object)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns true, if the data of <I>object</I> lies between the start
+    and endpoint of interval <I>win</I>. False otherwise.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    r.is_anchor ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns false.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Implementation</H3>The construction of a <MATH>d</MATH>-dimensional
+range tree takes <MATH><TT>O</TT>(nlog n<SUP>d</SUP>)</MATH> time. The
+points in the query window are reported in time
+<MATH><TT>O</TT>(k+log<SUP>d</SUP> n )</MATH>, where <MATH>k</MATH> is
+the number of reported points. The tree uses
+<MATH><TT>O</TT>(nlog n<SUP>d</SUP>)</MATH> storage.
+<P>
+<HR> <B>Next:</B>  Class declaration of <A HREF="CGAL_Segment_tree_d.html"><I>CGAL_Segment_tree_d&lt;Data, Window, Traits&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_SearchStructures.html">Up</A>,
+  <A HREF="../contents.html">Table of Contents</A>,
+  <A HREF="../biblio.html">Bibliography</A>,
+  <A HREF="../manual_index.html">Index</A>,
+  <A HREF="../../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

@@ -1,18 +1,34 @@
-//  Copyright CGAL 1996
-//
-//  cgal@cs.ruu.nl
-//
-//  This file is part of an internal release of the CGAL kernel.
-//  The code herein may be used and/or copied only in accordance
-//  with the terms and conditions stipulated in the agreement
-//  under which the code has been supplied or with the written
-//  permission of the CGAL Project.
-//
-//  Look at http://www.cs.ruu.nl/CGAL/ for more information.
-//  Please send any bug reports and comments to cgal@cs.ruu.nl
-//
-//  The code comes WITHOUT ANY WARRANTY; without even the implied
-//  warranty of FITNESS FOR A PARTICULAR PURPOSE.
-//
+/* 
+
+Copyright (c) 1997 The CGAL Consortium
+
+This software and related documentation is part of the 
+Computational Geometry Algorithms Library (CGAL).
+
+Permission to use, copy, and distribute this software and its 
+documentation is hereby granted free of charge, provided that 
+(1) it is not a component of a commercial product, and 
+(2) this notice appears in all copies of the software and
+    related documentation. 
+
+CGAL may be distributed by any means, provided that the original
+files remain intact, and no charge is made other than for
+reasonable distribution costs.
+
+CGAL may not be distributed as a component of any commercial
+product without a prior license agreement with the authors.
+
+This software and documentation is provided "as-is" and without 
+warranty of any kind. In no event shall the CGAL Consortium be
+liable for any damage of any kind.
+
+The CGAL Consortium consists of Utrecht University (The Netherlands), 
+ETH Zurich (Switzerland), Free University of Berlin (Germany), 
+INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+
+*/
+
+
 
 #include <CGAL/PVDH2.h>

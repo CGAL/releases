@@ -1,0 +1,5 @@
+This directory contains a file with directory information (CGAL_directories) and
+a number of files with platform dependent information (makefile_<os>_<compiler>).
+The files with extension _L and _LEDA should be used if you use CGAL and LEDA
+simultaneously, where with the latter the LEDA memory management is used in CGAL
+as well. The former uses bools from LEDA, but not the memory management.

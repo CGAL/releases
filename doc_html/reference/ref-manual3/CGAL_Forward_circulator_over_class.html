@@ -1,0 +1,322 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_Circulators.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Circulators.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+
+<A NAME="Index_anchor_22"></A>
+
+<A NAME="Cross_link_anchor_22"></A>
+
+<P>
+
+<H3>Definition</H3>Given a class <I>C</I> that have member functions
+with return values of type <I>C*</I> that realizes a ring like data
+structure the adaptor
+<I><A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_22">CGAL_Forward_circulator_over_class</A>&lt; C, C*  (C::*next)() = &amp;C::next&gt;</I>
+provides a forward circulator for it. If the class <I>C</I> has
+additionally a second member function that realizes the reverse
+direction the adaptor
+<I><A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_23">CGAL_Bidirectional_circulator_over_class</A>&lt; C, C* (C::*next)() =  &amp;C::next, C* (C::*prev)() = &amp;C::prev&gt;</I>
+provides a bidirectional circulator for it. In addition, adaptors for
+const circulators are provided with the names
+<I><A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_24">CGAL_Forward_const_circulator_over_class</A>&lt; C, const C*  (C::*next)() const = &amp;C::next&gt;</I>
+and
+<I><A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_25">CGAL_Bidirectional_const_circulator_over_class</A>&lt; C, const C*  (C::*next)() const = &amp;C::next, const C* (C::*prev)() const =  &amp;C::prev&gt;</I>
+. A circulator becomes invalid whenever the object it refers to gets
+deleted from the data structure.
+<P>
+
+As long as default template parameters are not supported the adaptors
+will not provide the member pointer template parameters. The adaptors
+will use the default values. All adaptors have a counterpart with the
+suffix <I>_mptr</I> supporting all template parameters, but no default
+settings. As soon as member pointers are supported by our reference
+compilers[<A HREF="#Footnote_1">^1</A>], these counterparts can be
+used.
+<P>
+
+<I>C</I> is a structure or class. The public member functions with
+return type <I>C*</I> which form the linked structure are given as
+member pointers <I>C* (C::*next)()</I> and <I>C*  (C::*prev)()</I> .
+For the const circulators the member pointers are of the form
+<I>const C* (C::*next)() const</I> and
+<I>const C*  (C::*prev)() const</I> . Both have default values
+<I>&amp;C::next</I> and <I>&amp;C::prev</I> respectively.
+<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/circulator_impl.h">
+CGAL/circulator_impl.h</A>&gt;</I>
+<P>
+
+<H3>Types</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Typedef_value_type"></A>
+typedef C
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    value_type;
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Typedef_reference"></A>
+typedef C&amp;
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    reference;
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Typedef_const_reference"></A>
+typedef const C&amp;
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    const_reference;
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Typedef_size_type"></A>
+typedef size_t
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    size_type;
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A NAME="Typedef_difference_type"></A>
+typedef ptrdiff_t
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    difference_type;
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_22">CGAL_Forward_circulator_over_class</A>&lt; C, C* (C::*next)()&gt; c;
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a circulator <I>c</I> with singular value.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_22">CGAL_Forward_circulator_over_class</A>&lt; C, C* (C::*next)()&gt; c ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    C* ptr);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a circulator <I>c</I> initialized to refer to the element
+    <I>*ptr</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_23"></A>
+
+<A NAME="Cross_link_anchor_23"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_23">CGAL_Bidirectional_circulator_over_class</A>&lt; C, C* (C::*next)(), C* (C::*prev)()&gt; c;
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a circulator <I>c</I> with singular value.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_23">CGAL_Bidirectional_circulator_over_class</A>&lt; C, C* (C::*next)(), C* (C::*prev)()&gt; c ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    C* ptr);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a circulator <I>c</I> initialized to refer to the element
+    <I>*ptr</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_24"></A>
+
+<A NAME="Cross_link_anchor_24"></A>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_24">CGAL_Forward_const_circulator_over_class</A>&lt; C, const C* (C::*next)() const&gt; c;
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a const circulator <I>c</I> with singular value.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_24">CGAL_Forward_const_circulator_over_class</A>&lt; C, const C* (C::*next)() const&gt; c ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    const C* ptr);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    a const circulator <I>c</I> initialized to refer to the element
+    <I>*ptr</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+<P>
+
+
+<A NAME="Index_anchor_25"></A>
+
+<A NAME="Cross_link_anchor_25"></A>
+
+<P>
+
+\ccTopSkip <I><A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_25">CGAL_Bidirectional_const_circulator_over_class</A></I>\par
+<P>
+
+<I>&lt; C, const C* (C::*next)() const, const C* (C::*prev)() const&gt;</I>
+\par <I>circ()</I>\par
+<P>
+
+a const circulator <I>c</I> with singular value. \ccBottomBigSkip
+<P>
+
+\ccTopSkip <I><A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_25">CGAL_Bidirectional_const_circulator_over_class</A></I>\par
+<P>
+
+<I>&lt; C, const C* (C::*next)() const, const C* (C::*prev)() const&gt;</I>
+\par <I>circ( const C* ptr)</I>\par
+<P>
+
+a const circulator <I>c</I> initialized to refer to the element
+<I>*ptr</I>. \ccBottomBigSkip
+<P>
+<P>
+
+<H3>Operations</H3>The operations conform to the requirements for forward and
+bidirectional circulators respectively.<P>
+
+<H3>Example</H3>Considering a typical class <TT>Node</TT> linked with <TT>next()</TT> and
+<TT>prev()</TT> member functions, a bidirectional circulator and const
+circulator can be provided using the adaptors. Note that the default
+values apply.<P>
+
+<PRE>
+class Node {
+    Node* _n;
+    Node* _p;
+    int   key;
+public:
+    Node*        next()        { return _n;}
+    const Node* next() const { return _n;}
+    Node*        prev()        { return _p;}
+    const Node* prev() const { return _p;}
+    /* ... */
+};
+typedef <A HREF="CGAL_Forward_circulator_over_class.html#Cross_link_anchor_23">CGAL_Bidirectional_circulator_over_class&lt; Node&gt;</A> Node_circulator;
+typedef CGAL_Bidirectional_const_irculator_over_class&lt; Node&gt; Node_const_circulator;
+</PRE><P>
+
+With a data structure formed from these nodes and a pointer <TT>Node*
+p</TT> to its anchor the expression <TT>Node_circulator(p)</TT> is a
+bidirectional circulator and the expression <TT>Node_const_circulator(p)</TT> is a bidirectional const circulator over
+this data structure.<P>
+
+
+
+<P><HR><H3>Footnotes</H3><P>
+
+<OL>
+<LI><A NAME="Footnote_1">The SGI CC and the Gnu g++ do support  member pointers in template arguments, the Sun CC does not. In this  case, the Gnu g++ fails also. The older C++ standard drafts rule  out this application of template arguments, the new drafts include  it.
+</OL>
+<HR> <B>Next:</B> <A HREF="CGAL_Circulator_over_array.html">Class declaration of   <I>CGAL_Circulator_over_array&lt; A, T, U, I, T&amp; (A::* access)(U i)&gt;</I></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_Circulators.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

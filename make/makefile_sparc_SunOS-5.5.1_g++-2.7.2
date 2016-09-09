@@ -1,0 +1,66 @@
+# This file contains CGAL makefile settings for the following platform:
+#    operating system: Sun Solaris 2.5
+#    compiler:         GNU g++ 2.7.2
+
+#---------------------------------------------------------------------#
+#                    include directory settings
+#---------------------------------------------------------------------#
+
+CGAL_DIRECTORIES = /KM/projects/CGAL/make/CGAL_directories
+include $(CGAL_DIRECTORIES)
+
+#---------------------------------------------------------------------#
+#                    os/compiler description
+#---------------------------------------------------------------------#
+
+CGAL_OS_COMPILER = sparc_SunOS-5.5.1_g++-2.7.2
+
+#---------------------------------------------------------------------#
+#                    compiler
+#---------------------------------------------------------------------#
+
+CGAL_CXX = g++
+
+#---------------------------------------------------------------------#
+#                    compiler flags
+#---------------------------------------------------------------------#
+# For more information about the compiler flags see the installation guide.
+
+CGAL_STL_VERSION = CGAL_STL_GCC
+# *** Fill in your STL_include_directory ***
+# (including the -I directive)
+# (e.g. -I/usr/local/STL)
+CGAL_STL_INCLUDE_DIRECTIVE =
+
+CGAL_CXXFLAGS = \
+	-DCGAL_GNU_GCC_272 \
+        -DCGAL_WORKAROUND_012 \
+	-D$(CGAL_STL_VERSION) \
+	$(CGAL_STL_INCLUDE_DIRECTIVE) \
+        -I/KM/projects/CGAL/Work_in_Progress/Number_types/gmp-2.0.2 \
+	-I$(CGAL_INCL_DIR)
+
+#---------------------------------------------------------------------#
+#                    linker flags
+#---------------------------------------------------------------------#
+
+
+CGAL_LDFLAGS = \
+       -L$(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER) \
+       -R $(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER) \
+       -lCGAL 
+
+#---------------------------------------------------------------------#
+#                    commands and flags for creating libraries
+#---------------------------------------------------------------------#
+
+CGAL_LIB = libCGAL.a
+CGAL_LIB_CXXFLAGS = $(CGAL_CXXFLAGS) 
+CGAL_LIB_LDFLAGS = 
+CGAL_LIB_CREATE = ar cr
+
+CGAL_SHARED_LIB = libCGAL.so
+CGAL_SHARED_LIB_CXXFLAGS = $(CGAL_CXXFLAGS) -fpic
+CGAL_SHARED_LIB_LDFLAGS = 
+CGAL_SHARED_LIB_CREATE = g++ -G -o
+

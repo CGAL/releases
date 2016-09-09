@@ -1,0 +1,144 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_PointVectorDirection_2.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_PointVectorDirection_2.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>2D Point, Vector and Direction <A NAME="PointVectorDirection"></A></H1>
+<P>
+
+We strictly distinguish between points, vectors and directions.
+A <EM>point</EM> is a point in the two-dimensional Euclidean plane
+<MATH><B>E</B><SUB>2</SUB></MATH>, a <EM>vector</EM> is the difference of two points <MATH>p<SUB>2</SUB></MATH>, <MATH>p<SUB>1</SUB></MATH>
+and denotes the direction and the distance from <MATH>p<SUB>1</SUB></MATH> to <MATH>p<SUB>2</SUB></MATH> in the
+vector space <MATH><B>R</B><SUP>2</SUP></MATH>, and a <EM>direction</EM> is a vector where we forget
+about its length.
+They are different mathematical concepts. For example, they behave
+different under affine transformations and an addition of two
+points is meaningless in affine geometry. By putting them in different
+classes we not only get cleaner code, but also type checking by the
+compiler which avoids ambiguous expressions. Hence, it pays twice to
+make this distinction.<P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Point_2.html"><I>CGAL_Point_2&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<P><P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Vector_2.html"><I>CGAL_Vector_2&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<P><P>
+
+<UL><LI>
+ Class declaration of <A HREF="CGAL_Direction_2.html"><I>CGAL_Direction_2&lt;R&gt;</I></A>.</UL>
+
+<P>
+
+<A NAME="Section_8"></A>
+<H2>Conversion between Points and Vectors<A NAME="conversion"></A></H2>
+<P>
+
+We stated earlier that it does not make sense to add two points, but it does
+make sense to subtract them and the result should be a vector.
+CGAL defines a symbolic constant <I>CGAL_ORIGIN</I> which denotes
+the point at the origin. Subtracting it from a
+point <MATH>p</MATH> results in the locus vector of <MATH>p</MATH>.<P>
+
+<PRE>
+
+  <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2</A>&lt; CGAL_Cartesian&lt;double&gt; &gt;  p(1.0, 1.0), q;
+
+  CGAL_Vector2&lt; CGAL_Cartesian&lt;double&gt; &gt;  v;
+
+  v = p - CGAL_ORIGIN;
+
+  q = CGAL_ORIGIN + v;  
+</PRE><P>
+
+In order to obtain the point corresponding to a vector <MATH>v</MATH> you simply
+have to add <MATH>v</MATH> to <I>CGAL_ORIGIN</I>. If you want to determine
+the point <MATH>q</MATH> in the middle between two points <MATH>p<SUB>1</SUB></MATH> and <MATH>p<SUB>2</SUB></MATH>, you can write<P>
+
+<PRE>
+
+  q = p_1 + (p_2 - p_1) / 2.0;
+</PRE><P>
+
+<A NAME="Section_9"></A>
+<H2>Implementation</H2>
+<P>
+
+Points, vectors and directions use a handle/representative mechanism.
+A handle is an intelligent pointer, a representative is an object with a
+reference counter. The three classes have the same internal
+representation, namely a tuple of coordinates (plus a homogenizing
+coordinate in the case of homogeneous coordinates), which makes
+assignment, copy constructors and type conversion cheap.<P>
+
+An assignment makes the handle of the left hand side point to the
+representative the handle on the right hand sidepoints to. The copy
+constructor creates a new handle which points to the same
+representative. This especially pays if your coordinates are of
+non-constant size.<P>
+
+What about conversion? We explained that you convert by subtracting
+the origin from a point to obtain its locus vector, or by adding a
+vector to the origin to obtain the corresponding point. Although the
+origin behaves like a point, <I>CGAL_ORIGIN</I> is not an object of
+the class <I><A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A></I> but of the class
+<I>CGAL_Origin</I>. All constructors and operators taking a point
+as argument are overloaded with the origin class in order to avoid
+memory allocation (for a point with coordinates zero), and arithmetic
+operations (where numbers would be added to zero). To give an example:
+when you ``add'' a vector <MATH>v</MATH> to the origin, only a new handle is created
+which points to the representation of <MATH>v</MATH>.<P>
+
+<P><HR> Next chapter: <A HREF="Chapter_LineRaySegment_2.html">2D Line, Ray and Segment</A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_PointVectorDirection_2.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

@@ -1,0 +1,401 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_CurvedObjects.html -->
+  <!-- by cc_extract_html, $Revision: 2.8 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>The CGAL Kernel Manual: CGAL_Circle_2<R></TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_CurvedObjects.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+
+<A NAME="Index_anchor_19"></A>
+
+<A NAME="Cross_link_anchor_19"></A>
+
+<P>
+
+<H1> 2D Circle (<I><A HREF="CGAL_Circle_2.html#Cross_link_anchor_19">CGAL_Circle_2</A></I>)</H1>
+<P>
+
+<H3>Definition</H3>An object of type <I><A HREF="CGAL_Circle_2.html#Cross_link_anchor_19">CGAL_Circle_2&lt;R&gt;</A></I> is a
+circle in the two-dimensional Euclidean plane
+<MATH><B>E</B><SUB>2</SUB></MATH>. The circle is oriented, i.e. its
+boundary has clockwise or counterclockwise orientation. The boundary
+splits <MATH><B>E</B><SUB>2</SUB></MATH> into a positive and a negative
+side, where the positive side is to the left of the boundary. The
+boundary further splits <MATH><B>E</B><SUB>2</SUB></MATH> into a
+bounded and an unbounded side. Note that the circle can be degenerated,
+i.e. the squared radius may be zero.
+<P>
+
+<I>#include &lt;<A HREF="../../../include/CGAL/Circle_2.h">
+CGAL/Circle_2.h</A>&gt;</I>
+<P>
+
+<H3>Creation</H3>
+<P>
+
+        <!2><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Circle_2.html#Cross_link_anchor_19">CGAL_Circle_2&lt;R&gt;</A> circle ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> center, <BR>
+     R::FT squared_radius, <BR>
+     <A HREF="Chapter_Predicates.html#Enum_CGAL_Orientation">CGAL_Orientation</A> orientation = <A HREF="Chapter_Predicates.html#Enum_CGAL_Orientation">CGAL_COUNTERCLOCKWISE</A>);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a variable <I>circle</I> of type
+    <I><A HREF="CGAL_Circle_2.html#Cross_link_anchor_19">CGAL_Circle_2&lt;R&gt;</A></I>. It is initialized to the circle with
+    center <I>center</I>, squared radius <I>squared_radius</I> and
+    orientation <I>orientation</I>. <BR><STRONG>Precondition: </STRONG>
+    <I>squared_radius</I> <MATH>&gt;=</MATH> 0, and also
+    <I>orientation</I> <MATH>&ne;</MATH> <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Orientation">CGAL_COLLINEAR</A></I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Circle_2.html#Cross_link_anchor_19">CGAL_Circle_2&lt;R&gt;</A> circle ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> r);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a variable <I>circle</I> of type
+    <I><A HREF="CGAL_Circle_2.html#Cross_link_anchor_19">CGAL_Circle_2&lt;R&gt;</A></I>. It is initialized to the unique
+    circle which passes through the points <I>p</I>, <I>q</I> and
+    <I>r</I>. The orientation of the circle is the orientation of the
+    point triple <I>p</I>, <I>q</I>, <I>r</I>.
+    <BR><STRONG>Precondition: </STRONG><I>p</I>, <I>q</I>, and <I>r</I>
+    are not collinear.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Circle_2.html#Cross_link_anchor_19">CGAL_Circle_2&lt;R&gt;</A> circle ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p, <BR>
+     <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> q, <BR>
+     <A HREF="Chapter_Predicates.html#Enum_CGAL_Orientation">CGAL_Orientation</A> orientation = <A HREF="Chapter_Predicates.html#Enum_CGAL_Orientation">CGAL_COUNTERCLOCKWISE</A>);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a variable <I>circle</I> of type
+    <I><A HREF="CGAL_Circle_2.html#Cross_link_anchor_19">CGAL_Circle_2&lt;R&gt;</A></I>. It is initialized to the circle with
+    diameter <MATH>\overlinepq</MATH> and orientation
+    <I>orientation</I>. <BR><STRONG>Precondition: </STRONG>
+    <I>orientation</I> <MATH>&ne;</MATH> <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Orientation">CGAL_COLLINEAR</A></I>.
+    <P>
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=30% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Circle_2.html#Cross_link_anchor_19">CGAL_Circle_2&lt;R&gt;</A> circle ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> center, <BR>
+     <A HREF="Chapter_Predicates.html#Enum_CGAL_Orientation">CGAL_Orientation</A> orientation = <A HREF="Chapter_Predicates.html#Enum_CGAL_Orientation">CGAL_COUNTERCLOCKWISE</A>);</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=30%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=70%>
+    introduces a variable <I>circle</I> of type
+    <I><A HREF="CGAL_Circle_2.html#Cross_link_anchor_19">CGAL_Circle_2&lt;R&gt;</A></I>. It is initialized to the circle with
+    center <I>center</I>, squared radius zero and orientation
+    <I>orientation</I>. <BR><STRONG>Precondition: </STRONG>
+    <I>orientation</I> <MATH>&ne;</MATH> <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Orientation">CGAL_COLLINEAR</A></I>.
+    <BR><STRONG>Postcondition: </STRONG><I>\ccVar.is_degenerate()</I> =
+    <I>true</I>.
+    <P>
+        </TD></TR>
+        </TABLE><!2>
+
+<P>
+
+<H3>Access Functions</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    circle.center ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the center of <I>circle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    R::FT
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    circle.squared_radius ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the squared radius of <I>circle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    CGAL_orientation
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    circle.orientation ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the orientation of <I>circle</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Equality Tests</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+     circle ==  circle2
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>circle</I> and <I>circle2</I> are
+    equal, i.e. if they have the same center, same squared radius and
+    same orientation.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+     circle !=  circle2
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>circle</I> and <I>circle2</I> are not
+    equal.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Predicates</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="Chapter_Predicates.html#Enum_CGAL_Oriented_side">CGAL_Oriented_side</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    circle.oriented_side ( <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    This returns the constant <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Oriented_side">CGAL_ON_ORIENTED_BOUNDARY</A></I>,
+    <I>CGAL_ON_POSITIVE_SIDE</I>, or <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Oriented_side">CGAL_ON_NEGATIVE_SIDE</A></I>, iff
+    <I>p</I> lies on the boundary, properly on the positive side, or
+    properly on the negative side of <I>circle</I>, resp.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="Chapter_Predicates.html#Enum_CGAL_Bounded_side">CGAL_Bounded_side</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    circle.bounded_side ( <A HREF="CGAL_Point_2.html#Cross_link_anchor_0">CGAL_Point_2&lt;R&gt;</A> p)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Bounded_side">CGAL_ON_BOUNDED_SIDE</A></I>,  <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Bounded_side">CGAL_ON_BOUNDARY</A></I>, or
+    <I><A HREF="Chapter_Predicates.html#Enum_CGAL_Bounded_side">CGAL_ON_UNBOUNDED_SIDE</A></I> iff <I>p</I> lies properly inside, on
+    the boundary, or properly outside of <I>circle</I>, resp.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    circle.has_on_positive_side ( Point p)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>p</I> lies properly on the positive
+    side of <I>circle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    circle.has_on_negative_side ( Point p)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>p</I> lies properly on the negative
+    side of <I>circle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    circle.has_on_boundary ( Point p)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>p</I> lies on the boundary of
+    <I>circle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    circle.has_on_bounded_side ( Point p)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>p</I> lies properly inside
+    <I>circle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    circle.has_on_unbounded_side ( Point p)
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>p</I> lies properly outside of
+    <I>circle</I>.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    bool
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    circle.is_degenerate ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns <I>true</I>, iff <I>circle</I>is degenerate, i.e. if
+    <I>circle</I> has squared radius zero.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3> Miscellaneous</H3>
+<P>
+
+        <!3><TABLE BORDER=0 CELLSPACING=2 CELLPADDING=0 WIDTH=550>
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Circle_2.html#Cross_link_anchor_19">CGAL_Circle_2&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    circle.opposite ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the circle with the same center and squared radius as
+    <I>circle</I> but with opposite orientation.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Circle_2.html#Cross_link_anchor_19">CGAL_Circle_2&lt;R&gt;</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP COLSPAN=2>
+        <I>
+    <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    circle.orthogonal_transform ( </I></TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP><I>
+    <A HREF="CGAL_Aff_transformation_2.html#Cross_link_anchor_21">CGAL_Aff_transformation_2&lt;R&gt;</A> at)</I></TD></TR></TABLE>
+    
+        </I>
+        </TD></TR><TR><TD WIDTH=25%></TD><TD WIDTH=25%></TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns the circle obtained by applying <MATH>at</MATH> on
+    <I>circle</I>. <BR><STRONG>Precondition: </STRONG><I>at</I> is an
+    orthogonal transformation.
+        </TD></TR>
+        
+        <TR><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    <A HREF="CGAL_Bbox_2.html#Cross_link_anchor_17">CGAL_Bbox_2</A>
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=25% NOWRAP>
+        <I>
+    circle.bbox ()
+        </I>
+        </TD><TD ALIGN=LEFT VALIGN=TOP WIDTH=50%>
+    returns a bounding box containing <I>circle</I>.
+        </TD></TR>
+        </TABLE><!3>
+
+<P>
+
+<H3>Implementation</H3>A circle is internally represented as a point, a
+squared radius and an orientation.
+<P>
+<HR><B> Return to chapter:</B> <A HREF="Chapter_CurvedObjects.html">Curved Objects<A NAME="CurvedObjects"></A></A>
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 1.1 $ -->
+<!-- $Date: 1997/05/09 12:27:08 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_CurvedObjects.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="../index.html">Title Page</A>
+<HR>
+
+<address> 
+  The <A HREF=http://www.cs.ruu.nl/CGAL/><TT>CGAL</TT> Project</A>.    Mon, June 30, 1997. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->
