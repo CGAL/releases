@@ -2516,7 +2516,7 @@ private: //------------------------------------------------------- private data
     int n, f, e;
     std::string off;
     is >> off;
-    assert(off == "OFF" || off == "COFF");
+    CGAL_assertion(off == "OFF" || off == "COFF");
     is >> n >> f >> e;
     sm.reserve(n,2*f,e);
     P p;
@@ -2964,10 +2964,7 @@ namespace std {
 #  pragma warning(disable:4099) // For VC10 it is class hash 
 #endif
 
-#ifndef DOXYGEN_RUNNING
-  template < class T>
-  struct hash;
-#endif
+#ifndef CGAL_CFG_NO_STD_HASH
 
   template <>
   struct hash<CGAL::SM_Halfedge_index >
@@ -3008,7 +3005,13 @@ namespace std {
       return i;
     }
   };
-}
+#endif // CGAL_CFG_NO_STD_HASH
+
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
+
+} // namespace std
 
 namespace boost {
   template <>
@@ -3019,11 +3022,7 @@ namespace boost {
     }
   };
 
-#if defined(BOOST_MSVC)
-#  pragma warning(pop)
-#endif
-
-}
+} // namespace boost
 
 #endif /* CGAL_SURFACE_MESH_H */
 

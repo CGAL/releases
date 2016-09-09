@@ -699,7 +699,7 @@ void MainWindow::reload_item() {
   new_item->setColor(item->color());
   new_item->setRenderingMode(item->renderingMode());
   new_item->setVisible(item->visible());
-  new_item->changed();
+  new_item->invalidate_buffers();
   scene->replaceItem(item_index, new_item, true);
   item->deleteLater();
 }
@@ -959,7 +959,7 @@ QList<int> MainWindow::getSelectedSceneItemIndices() const
 
 void MainWindow::selectionChanged()
 {
-  scene->setSelectedItem(getSelectedSceneItemIndex());
+  scene->setSelectedItemIndex(getSelectedSceneItemIndex());
   scene->setSelectedItemsList(getSelectedSceneItemIndices());
   Scene_item* item = scene->item(getSelectedSceneItemIndex());
   if(item != NULL && item->manipulatable()) {

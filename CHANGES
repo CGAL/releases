@@ -1,7 +1,7 @@
 
 -------------------------------- Release 4.7 --------------------------------
 
-Release date: September 2015
+Release date: October 2015
 
 
 * Installation
@@ -20,11 +20,10 @@ Release date: September 2015
   - The code of the 3D demos now use modern OpenGL, with shaders, instead of
     the fixed pipeline API of OpenGL-1.
 
-
-* General
-
-  - Support for unordered sets and maps of the stdlib and of boost for handle
-    and index classes.
+  - The Microsoft Windows Visual C++ compiler 2015 (VC14) is now supported.
+    However, since this compiler is not officially supported by Intel TBB 4.4
+    and Qt 5.5 (the latest versions available at the time of this release), the
+    parallelism features of CGAL and Qt5 demos will not work.
 
 
 * L Infinity Segment Delaunay Graphs (new package)
@@ -53,8 +52,7 @@ Release date: September 2015
     surface meshes. Given a set of source points on the surface, this package
     provides a data structure that can efficiently provides the shortest path
     from any point on the surface to the sources points. There is no
-    restriction on the genus or the number of connnected components of the
-    mesh.
+    restriction on the genus or the number of connected components of the mesh.
 
 
 * Triangulated Surface Mesh Skeletonization (new package)
@@ -92,6 +90,12 @@ Release date: September 2015
     mesh processing.
 
 
+* General
+
+  - Support for unordered sets and maps of the stdlib and of boost for handle
+    and index classes.
+
+
 * Approximation of Ridges and Umbilics on Triangulated Surface Meshes
 
   - This package now supports any model of the concept FaceGraph.
@@ -101,15 +105,11 @@ Release date: September 2015
     FaceGraph.
 
 
-
-
 * dD Geometry Kernel
 
   - Epick_d gains 3 new functors: Construct_circumcenter_d,
     Compute_squared_radius_d, Side_of_bounded_sphere_d. Those are essential for
     the computation of alpha-shapes.
-
-
 
 
 * 2D Arrangements
@@ -151,6 +151,16 @@ Release date: September 2015
 
 
 
+* 3D Periodic Triangulations
+
+  - Rename Periodic_3_triangulation_traits_3 to
+    Periodic_3_Delaunay_triangulation_traits_3.
+
+  - Rename the concept Periodic_3TriangulationTraits_3 to
+    Periodic_3DelaunayTriangulationTraits_3.
+
+  - Create Periodic_3_triangulation_traits_3 and the concept
+    Periodic_3TriangulationTraits_3.
 
 
 * 2D Conforming Triangulations and Meshes
@@ -179,13 +189,20 @@ Release date: September 2015
     spatial_sort_on_sphere.
 
 
-
-
 * Geometric Object Generators
 
   - Add new random generator of points in a 2D and 3D triangle and in a
     tetrahedron (CGAL::Random_points_in_triangle_2, CGAL::
     Random_points_in_triangle_3, CGAL::Random_points_in_tetrahedron_3).
+
+
+-------------------------------- Release 4.6.2 --------------------------------
+
+Release date: August 2015
+
+This release only fixes bugs. See the list of fixed bugs on Github:
+
+https://github.com/CGAL/cgal/issues?q=milestone%3A4.6.2
 
 
 -------------------------------- Release 4.6.1 --------------------------------
@@ -491,6 +508,15 @@ Release date: October 2014
     regular triangulation algorithms, which allows parallel insertion and
     removal of point ranges.
 
+  - Add caching of circumcenters to Regular_triangulation_cell_base_3. The
+    cache value is computed when cell->circumcenter() or rt.dual(cell)
+    functions are called.
+
+
+* 3D Periodic Triangulations
+
+  - Add a method to locate point with inexact predicates.
+
 
 * 3D Mesh Generation
 
@@ -505,10 +531,6 @@ Release date: October 2014
 
   - Add an experimental parallel version of the 3D mesh refinement and mesh
     optimization methods.
-
-  - Add caching of circumcenters to Regular_triangulation_cell_base_3. The
-    cache value is computed when cell->circumcenter() or rt.dual(cell)
-    functions are called.
 
 
 * Point Set Processing and Surface Reconstruction from Point Sets
@@ -634,20 +656,6 @@ Release date: April 2014
   - Add different overloads of the function insert_constraints that inserts a
     range of points and segments, or a range of segments. These functions uses
     the spatial sorting in order to speed up the time needed for the insertion.
-
-
-* 3D Periodic Triangulations
-
-  - Add a method to locate point with inexact predicates.
-
-  - Rename Periodic_3_triangulation_traits_3
-    Periodic_3_Delaunay_triangulation_traits_3.
-
-  - Rename the concept Periodic_3TriangulationTraits_3
-    Periodic_3DelaunayTriangulationTraits_3.
-
-  - Create Periodic_3_triangulation_traits_3 and the concept
-    Periodic_3TriangulationTraits_3.
 
 
 * 3D Alpha Shapes
