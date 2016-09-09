@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Polygon_2.h
-// package       : Polygon (2.9.1)
+// package       : Polygon (2.19)
 // source        : 
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
@@ -42,16 +42,15 @@
 //
 // coordinator   : Utrecht University
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 #ifndef CGAL_POLYGON_2_H
 #define CGAL_POLYGON_2_H
 
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif // CGAL_BASIC_H
 
 #ifdef CGAL_CFG_NO_MEMBER_TEMPLATES
 #include <vector>
@@ -60,31 +59,17 @@
 
 #include <iterator>
 
-#ifndef CGAL_CIRCULATOR_H
 #include <CGAL/circulator.h>
-#endif // CGAL_CIRCULATOR_H
-#ifndef CGAL_ENUM_H
 #include <CGAL/enum.h>
-#endif // CGAL_ENUM_H
 
 #ifdef CGAL_REP_CLASS_DEFINED
-#ifndef CGAL_POLYGON_TRAITS_2_H
 #include <CGAL/Polygon_traits_2.h>
-#endif // CGAL_POLYGON_TRAITS_2_H
-#ifndef CGAL_AFF_TRANSFORMATION_2_H
 #include <CGAL/Aff_transformation_2.h>
-#endif // CGAL_AFF_TRANSFORMATION_2_H
 #endif // CGAL_REP_CLASS_DEFINED
 
-#ifndef CGAL_POLYGON_2_ALGORITHMS_H
 #include <CGAL/Polygon_2_algorithms.h>
-#endif // CGAL_POLYGON_2_ALGORITHMS_H
-#ifndef CGAL_POLYGON_2_EDGE_ITERATOR_H
 #include <CGAL/Polygon_2_edge_iterator.h>
-#endif // CGAL_POLYGON_2_EDGE_ITERATOR_H
-#ifndef CGAL_POLYGON_2_EDGE_CIRCULATOR_H
 #include <CGAL/Polygon_2_edge_circulator.h>
-#endif // CGAL_POLYGON_2_EDGE_CIRCULATOR_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -455,9 +440,7 @@ operator!=(const Polygon_2<Traits_P,Container1_P> &x,
 
 CGAL_END_NAMESPACE
 
-#  ifndef CGAL_POLYGON_TRAITS_2_H
 #    include <CGAL/Polygon_traits_2.h>
-#  endif // CGAL_POLYGON_TRAITS_2_H
 
 CGAL_BEGIN_NAMESPACE
 

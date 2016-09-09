@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Polygon_traits_2.h
-// package       : Polygon (2.9.1)
+// package       : Polygon (2.19)
 // source        :
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
@@ -42,44 +42,25 @@
 //
 // coordinator   : Utrecht University
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 #ifndef CGAL_POLYGON_TRAITS_2_H
 #define CGAL_POLYGON_TRAITS_2_H
 
-#ifndef CGAL_DIRECTION_2_H
 #include <CGAL/Direction_2.h>
-#endif // CGAL_DIRECTION_2_H
-#ifndef CGAL_ISO_RECTANGLE_2_H
 #include <CGAL/Iso_rectangle_2.h>
-#endif // CGAL_ISO_RECTANGLE_2_H
-#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
-#endif // CGAL_POINT_2_H
-#ifndef CGAL_SEGMENT_2_H
 #include <CGAL/Segment_2.h>
-#endif // CGAL_SEGMENT_2_H
-#ifndef CGAL_TRIANGLE_2_H
 #include <CGAL/Triangle_2.h>
-#endif // CGAL_TRIANGLE_2_H
-#ifndef CGAL_VECTOR_2_H
 #include <CGAL/Vector_2.h>
-#endif // CGAL_VECTOR_2_H
 
-#ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
-#endif // CGAL_NUMBER_UTILS_H
-#ifndef CGAL_PREDICATES_ON_POINTS_2_H
 #include <CGAL/predicates_on_points_2.h>
-#endif // CGAL_PREDICATES_ON_POINTS_2_H
-#ifndef CGAL_PREDICATES_CLASSES_2_H
 #include <CGAL/predicate_classes_2.h>
-#endif // CGAL_PREDICATES_CLASSES_2_H
-#ifndef CGAL_SEGMENT_2_SEGMENT_2_INTERSECTION_H
 #include <CGAL/Segment_2_Segment_2_intersection.h>
-#endif // CGAL_SEGMENT_2_SEGMENT_2_INTERSECTION_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -130,12 +111,12 @@ class Polygon_traits_2_aux : public _R
 
     int sign(const FT& x) const
     {
-      return ::CGAL::sign(x);
+      return CGAL_NTS sign(x);
     }
 
     bool is_negative(const FT& x) const
     {
-      return ::CGAL::is_negative(x);
+      return CGAL_NTS is_negative(x);
     }
 
     bool do_intersect(const Point_2& p1,

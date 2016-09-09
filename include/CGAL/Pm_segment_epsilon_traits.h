@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Pm_segment_epsilon_traits.h
-// package       : pm (4.20)
+// package       : pm (5.43)
 // source        :
 // revision      :
 // revision_date :
@@ -45,7 +45,8 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 // chapter       : Planar Map
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -97,21 +98,11 @@ public:
   
   
 public:
-#ifndef CGAL_CFG_NO_DEFAULT_TEMPLATE_ARGUMENTS
-  Pm_segment_epsilon_traits()
-  {
-    epsilon_type eps = (double)(numer)/(double)(denom);
-    EPSILON = eps;
-  }
-#else
-  Pm_segment_epsilon_traits(epsilon_type eps = 0.0001)
-  {
-    EPSILON = eps;
-  }
-#endif
+  Pm_segment_epsilon_traits(epsilon_type e = (double)(numer)/(double)(denom)) 
+	  : eps(e)  {}
 
 private:
-  epsilon_type EPSILON;
+  epsilon_type eps;
   
   
   
@@ -543,8 +534,9 @@ private:
   Comparison_result compare_value(const typename R::FT &v1, 
                                        const typename R::FT &v2) const
   {
+	CGAL_assertion(eps>0);
     epsilon_type d = to_double(v1 - v2);
-    if (fabs(d) < EPSILON)
+    if (fabs(d) < eps)
       return EQUAL;
     if (d > 0)
       return LARGER;

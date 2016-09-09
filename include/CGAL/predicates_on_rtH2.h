@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : predicates_on_rtH2.fw
 // file          : include/CGAL/predicates_on_rtH2.h
-// package       : H2 (2.4.8)
-// revision      : 2.4.8
-// revision_date : 10 Dec 1999 
+// package       : H2 (2.12)
+// revision      : 2.12
+// revision_date : 03 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_PREDICATES_ON_RTH2_H
 #define CGAL_PREDICATES_ON_RTH2_H
@@ -302,8 +304,8 @@ compare_deltax_deltayH2(const RT& phx, const RT& phw,
                         const RT& rhy, const RT& rhw,
                         const RT& shy, const RT& shw )
 {
-  const RT  tbc1 = abs(phx*qhw - qhx*phw) * rhw*shw;
-  const RT  tbc2 = abs(rhy*shw - shy*rhw) * phw*qhw;
+  const RT  tbc1 = CGAL_NTS abs(phx*qhw - qhx*phw) * rhw*shw;
+  const RT  tbc2 = CGAL_NTS abs(rhy*shw - shy*rhw) * phw*qhw;
   return (tbc2 < tbc1) ? LARGER
                        : (tbc1 == tbc2) ? EQUAL : SMALLER;
 

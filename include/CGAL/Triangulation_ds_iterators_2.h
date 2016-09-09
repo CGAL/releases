@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Triangulation_ds_iterators_2.h
-// package       : Triangulation (4.30)
+// package       : Triangulation (4.69)
 // source        : $RCSfile: Triangulation_ds_iterators_2.h,v $
-// revision      : $Revision: 1.16 $
-// revision_date : $Date: 1999/10/04 09:58:26 $
+// revision      : $Revision: 1.22 $
+// revision_date : $Date: 2000/06/30 09:22:04 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -77,6 +78,7 @@ public:
   typedef std::bidirectional_iterator_tag   iterator_category;
 
   typedef typename Tds::Geom_traits Geom_traits;
+  typedef typename Geom_traits::Compare_y_2   Compare_y;
   typedef typename Tds::Vertex Vertex;
   typedef typename Tds::Face  Face;
   typedef typename Tds::Edge Edge;
@@ -185,6 +187,7 @@ public:
 
   typedef Triangulation_ds_iterator_base_2<Tds> Iterator_base;
   typedef Triangulation_ds_vertex_iterator_2<Tds> Vertex_iterator;
+  typedef typename Triangulation_ds_iterator_base_2<Tds>::Face Face;
 
 private :
   int index;
@@ -247,6 +250,7 @@ public:
 
   typedef Triangulation_ds_iterator_base_2<Tds> Iterator_base;
   typedef Triangulation_ds_edge_iterator_2<Tds> Edge_iterator;
+  typedef typename Triangulation_ds_iterator_base_2<Tds>::Face Face;
 
 private:
 int index;
@@ -289,6 +293,7 @@ void
 Triangulation_ds_iterator_base_2<Tds>::
 increment()
 {
+  CGAL_triangulation_precondition(_tds->dimension() >= 0);
   if (_tds->dimension() == 1 || _tds->dimension() == 0){
     pos = pos->neighbor(0);
     return;
@@ -328,6 +333,7 @@ void
 Triangulation_ds_iterator_base_2<Tds>::
 decrement()
 {
+  CGAL_triangulation_precondition(_tds->dimension() >= 0);
   if(_tds->dimension() == 0){
     pos = pos->neighbor(0);
     return;
@@ -374,14 +380,16 @@ int
 Triangulation_ds_iterator_base_2<Tds>::
 maximum(const Face* f) const
 {
+  Compare_y compare_y = _tds->geom_traits().compare_y_2_object();
+  
   if ( _tds->is_infinite(f) ){
     return f->index( _tds->infinite_vertex() );
   }
-  if(_tds->geom_traits().compare_y(f->vertex(0)->point(),
-				   f->vertex(1)->point()) == CGAL::SMALLER)
+  if(compare_y(f->vertex(0)->point(),
+	       f->vertex(1)->point()) == CGAL::SMALLER)
     //  v0 < v1
-    if(_tds->geom_traits().compare_y(f->vertex(2)->point(),
-				     f->vertex(1)->point())==CGAL::SMALLER)
+    if(compare_y(f->vertex(2)->point(),
+		 f->vertex(1)->point())==CGAL::SMALLER)
       //  v0,v2 < v1
       { return 1; }
     else
@@ -390,11 +398,11 @@ maximum(const Face* f) const
   else
     //  v1 <= v0
         
-    if(_tds->geom_traits().compare_y(f->vertex(1)->point(),
-				     f->vertex(2)->point())!=CGAL::SMALLER)
+    if(compare_y(f->vertex(1)->point(),
+		 f->vertex(2)->point())!=CGAL::SMALLER)
       //  v2 <= v1 <= v0
-      if(_tds->geom_traits().compare_y(f->vertex(0)->point(),
-				       f->vertex(1)->point()) == CGAL::EQUAL)
+      if(compare_y(f->vertex(0)->point(),
+		   f->vertex(1)->point()) == CGAL::EQUAL)
 	//  v2 <= v1 == v0
 	{ return 1; }
       else
@@ -402,8 +410,8 @@ maximum(const Face* f) const
 	{ return 0; }
     else
       //  v1<=v0, v1<v2
-      if(_tds->geom_traits().compare_y(f->vertex(0)->point(),
-				       f->vertex(2)->point())
+      if(compare_y(f->vertex(0)->point(),
+		   f->vertex(2)->point())
 	 ==CGAL::SMALLER)
 	//  v1 <= v0 < v2
 	{ return 2; }
@@ -458,9 +466,12 @@ Triangulation_ds_iterator_base_2<Tds>&
 Triangulation_ds_iterator_base_2<Tds> ::
 operator--()
 {
-  CGAL_triangulation_precondition( pos != NULL ); //past the end
-  if(pos == _tds->infinite_face())   pos = NULL; //first, return past the end
-  else decrement(); 
+  CGAL_triangulation_precondition( _tds != NULL && 
+			       pos !=  _tds->infinite_face());
+  // can't decrement first
+  // to decrement past_the_end go to first and decrement
+  if(pos == NULL)   pos = _tds->infinite_face(); 
+  decrement(); 
   return *this;
 }
         
@@ -521,6 +532,7 @@ Triangulation_ds_face_iterator_2<Tds>&
 Triangulation_ds_face_iterator_2<Tds>::
 operator++()
 {
+  CGAL_triangulation_precondition(_tds != NULL &&_tds->dimension()==2);
   Iterator_base::operator++();    
   return *this;           
 }
@@ -531,6 +543,7 @@ Triangulation_ds_face_iterator_2<Tds>&
 Triangulation_ds_face_iterator_2<Tds>::
 operator--()
 {
+  CGAL_triangulation_precondition(_tds != NULL &&_tds->dimension()==2);
   Iterator_base::operator--();    
   return *this;           
 }
@@ -587,6 +600,7 @@ void
 Triangulation_ds_vertex_iterator_2<Tds> ::
 increment()
 {
+  CGAL_triangulation_precondition(_tds->dimension() >=0);
   if ( index==_tds->dimension()) {Iterator_base::increment(); index = 0;}
   else { index +=1; }
   return;
@@ -597,6 +611,7 @@ void
 Triangulation_ds_vertex_iterator_2<Tds> ::
 decrement()
 {
+  CGAL_triangulation_precondition(_tds->dimension() >=0);
   if (index == 0) { 
     Iterator_base::decrement();
     index = _tds->dimension();
@@ -618,7 +633,12 @@ Triangulation_ds_vertex_iterator_2<Tds>&
 Triangulation_ds_vertex_iterator_2<Tds> ::
 operator++()
 {
+   CGAL_triangulation_precondition(_tds != NULL );
    CGAL_triangulation_precondition(*this != Vertex_iterator(_tds,1));
+   if (_tds->dimension()== -1) { //single vertex
+     *this = Vertex_iterator(_tds,1);
+     return *this;
+   }
    do{
      increment();
      if (*this == Vertex_iterator(_tds)) *this= Vertex_iterator(_tds,1);
@@ -631,13 +651,18 @@ Triangulation_ds_vertex_iterator_2<Tds>&
 Triangulation_ds_vertex_iterator_2<Tds> ::    
 operator--()
 {
-   CGAL_triangulation_assertion( *this != Vertex_iterator(_tds,1));
-   if( *this == Vertex_iterator(_tds)){
-     return *this=Vertex_iterator(_tds,1) ;
+   CGAL_triangulation_precondition(_tds != NULL );
+   CGAL_triangulation_assertion( *this != Vertex_iterator(_tds));
+   if (_tds->dimension()== -1) { //single vertex
+     *this = Vertex_iterator(_tds);
+     return *this;
+   }
+   if( *this == Vertex_iterator(_tds,1)){
+     *this=Vertex_iterator(_tds) ;
    }
    do   
    decrement();
-   while ( *this != Vertex_iterator(_tds,1) && !associated_vertex()); 
+   while ( *this != Vertex_iterator(_tds) && !associated_vertex()); 
    return *this;
 }
     
@@ -781,6 +806,7 @@ Triangulation_ds_edge_iterator_2<Tds>&
 Triangulation_ds_edge_iterator_2<Tds> ::
 operator++()
 {
+  CGAL_triangulation_precondition(_tds != NULL  && _tds->dimension()>=1);
   CGAL_triangulation_precondition(*this != Edge_iterator(_tds,1));
   do {
     increment();
@@ -795,13 +821,14 @@ Triangulation_ds_edge_iterator_2<Tds>&
 Triangulation_ds_edge_iterator_2<Tds> ::
 operator--()
 {
-  CGAL_triangulation_assertion(*this != Edge_iterator(_tds,1));
-  if( *this == Edge_iterator(_tds)){
-     return *this=Edge_iterator(_tds,1) ;
+  CGAL_triangulation_precondition(_tds != NULL  && _tds->dimension()>=1);
+  CGAL_triangulation_assertion(*this != Edge_iterator(_tds));
+  if( *this == Edge_iterator(_tds,1)){
+     *this=Edge_iterator(_tds) ;
    }
   do   
    decrement();
-  while ( *this != Edge_iterator(_tds,1) && !associated_edge()); 
+  while ( *this != Edge_iterator(_tds) && !associated_edge()); 
   return *this;
 }
 

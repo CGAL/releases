@@ -32,17 +32,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/polygon_assertions.h
-// package       : Polygon (2.9.1)
+// package       : Polygon (2.19)
 // source        : Generated from script create_assertions.sh
 // author(s)     : script by Geert-Jan Giezeman and Sven Schönherr 
 //
 // coordinator   : MPI, Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

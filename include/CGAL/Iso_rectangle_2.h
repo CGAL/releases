@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Iso_rectangle_2.fw
 // file          : include/CGAL/Iso_rectangle_2.h
-// package       : _2 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _2 (3.6)
+// revision      : 3.6
+// revision_date : 30 Jul 2000 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -65,17 +66,22 @@
 #endif // CGAL_ISO_RECTANGLEC2_H
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/Iso_rectangleS2.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 #ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
 #endif // CGAL_POINT_2_H
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-class Iso_rectangle_2 : public _R::Iso_rectangle_2_base
+template <class R_>
+class Iso_rectangle_2 : public R_::Iso_rectangle_2_base
 {
 public:
-  typedef  _R   R;
+  typedef  R_   R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
   typedef typename R::Iso_rectangle_2_base  RIso_rectangle_2;
@@ -98,96 +104,70 @@ public:
   {}
 
 
-  CGAL::Iso_rectangle_2<R>  &operator=(const CGAL::Iso_rectangle_2<R> &r)
-  {
-    RIso_rectangle_2::operator=(r);
-    return *this;
-  }
+  bool
+  operator==(const CGAL::Iso_rectangle_2<R> &r) const
+  { return  vertex(0) == r.vertex(0) && vertex(2) == r.vertex(2); }
 
-  bool  operator==(const CGAL::Iso_rectangle_2<R> &r) const
-  {
-    return  vertex(0) == r.vertex(0) && vertex(2) == r.vertex(2);
-  }
+  bool
+  operator!=(const CGAL::Iso_rectangle_2<R> &r) const
+  { return !(*this == r); }
 
-  bool operator!=(const CGAL::Iso_rectangle_2<R> &r) const
-  {
-    return !(*this == r);
-  }
 
-  int id() const
-  {
-    return (int)PTR;
-  }
+  CGAL::Point_2<R>
+  min() const
+  { return RIso_rectangle_2::min(); }
 
-  CGAL::Point_2<R> min() const
-  {
-    return RIso_rectangle_2::min();
-  }
+  CGAL::Point_2<R>
+  max() const
+  { return RIso_rectangle_2::max(); }
 
-  CGAL::Point_2<R> max() const
-  {
-    return RIso_rectangle_2::max();
-  }
+  FT
+  xmin() const
+  { return RIso_rectangle_2::xmin(); }
 
-  FT xmin() const
-  {
-    return RIso_rectangle_2::xmin();
-  }
+  FT
+  ymin() const
+  { return RIso_rectangle_2::ymin(); }
 
-  FT ymin() const
-  {
-    return RIso_rectangle_2::ymin();
-  }
+  FT
+  xmax() const
+  { return RIso_rectangle_2::xmax(); }
 
-  FT xmax() const
-  {
-    return RIso_rectangle_2::xmax();
-  }
+  FT
+  ymax() const
+  { return RIso_rectangle_2::ymax(); }
 
-  FT ymax() const
-  {
-    return RIso_rectangle_2::ymax();
-  }
+  CGAL::Point_2<R>
+  vertex(int i) const
+  { return RIso_rectangle_2::vertex(i); }
 
-  CGAL::Point_2<R> vertex(int i) const
-  {
-    return RIso_rectangle_2::vertex(i);
-  }
+  CGAL::Point_2<R>
+  operator[](int i) const
+  { return vertex(i); }
 
-  CGAL::Point_2<R> operator[](int i) const
-  {
-    return vertex(i);
-  }
+  Bounded_side
+  bounded_side(const CGAL::Point_2<R> &p) const
+  { return RIso_rectangle_2::bounded_side(p); }
 
-  Bounded_side bounded_side(const CGAL::Point_2<R> &p) const
-    {
-      return RIso_rectangle_2::bounded_side(p);
-    }
+  bool
+  has_on_boundary(const CGAL::Point_2<R> &p) const
+  { return RIso_rectangle_2::has_on_boundary(p); }
 
-  bool has_on_boundary(const CGAL::Point_2<R> &p) const
-    {
-      return RIso_rectangle_2::has_on_boundary(p);
-    }
+  bool
+  has_on_bounded_side(const CGAL::Point_2<R> &p) const
+  { return RIso_rectangle_2::has_on_bounded_side(p); }
 
-  bool has_on_bounded_side(const CGAL::Point_2<R> &p) const
-    {
-      return RIso_rectangle_2::has_on_bounded_side(p);
-    }
+  bool
+  has_on_unbounded_side(const CGAL::Point_2<R> &p) const
+  { return RIso_rectangle_2::has_on_unbounded_side(p); }
 
-  bool has_on_unbounded_side(const CGAL::Point_2<R> &p) const
-    {
-      return RIso_rectangle_2::has_on_unbounded_side(p);
-    }
+  bool
+  is_degenerate() const
+  { return RIso_rectangle_2::is_degenerate(); }
 
-  bool is_degenerate() const
-  {
-    return RIso_rectangle_2::is_degenerate();
-  }
-
-  CGAL::Iso_rectangle_2<R> transform(const CGAL::Aff_transformation_2<R> &t) const
-  {
-    return  RIso_rectangle_2::transform(t);
-  }
+  CGAL::Iso_rectangle_2<R>
+  transform(const CGAL::Aff_transformation_2<R> &t) const
+  { return  RIso_rectangle_2::transform(t); }
 
 };
 

@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,23 +30,27 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : all_furthest_neighbors_2_demo.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Matrix_search $
 // source        : mon_search.aw
-// revision      : $Revision: 1.30 $
-// revision_date : $Date: 1999/12/17 11:58:04 $
+// revision      : $Revision: 1.43 $
+// revision_date : $Date: 2000/09/15 07:24:34 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // Demo program: All Furthest Neighbors for a Convex Polygon
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
+
+
+#ifdef CGAL_USE_LEDA
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/Point_2.h>
@@ -70,7 +74,7 @@ using CGAL::Creator_uniform_2;
 using CGAL::Random_points_in_square_2;
 using CGAL::random_convex_set_2;
 using CGAL::has_smaller_dist_to_point;
-using CGAL::all_furthest_neighbors;
+using CGAL::all_furthest_neighbors_2;
 using CGAL::cgalize;
 using CGAL::RED;
 
@@ -119,7 +123,7 @@ main()
   W << RED << p;
   // compute all furthest neighbors:
   Index_cont neighbors;
-  all_furthest_neighbors(
+  all_furthest_neighbors_2(
     p.vertices_begin(),
     p.vertices_end(),
     back_inserter( neighbors));
@@ -161,6 +165,19 @@ main()
 
   return 0;
 } // int main()
+
+#else
+
+#include <iostream>
+
+int main()
+{
+  std::cerr << "This demo requires LEDA." << std::endl;
+  return 0;
+}
+
+#endif
+
 // ----------------------------------------------------------------------------
 // ** EOF
 // ----------------------------------------------------------------------------

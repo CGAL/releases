@@ -1,3 +1,15 @@
+#include <CGAL/basic.h>
+
+#if !defined(CGAL_USE_LEDA)
+#include <iostream>
+
+int main(int argc, char *argv[])
+{
+ std::cout << "No LEDA installed!\n";
+ return 0;
+}
+#else 
+
 #include <CGAL/config.h>
 #include <list>
 #include <LEDA/window.h>
@@ -83,6 +95,6 @@ int main()
 
   W.read_mouse();
 
-  return 1;
+  return 0;
 }
-
+#endif

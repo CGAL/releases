@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Tuples.fw
 // file          : include/CGAL/Fourtuple.h
-// package       : Kernel_basic (2.9)
-// revision      : 2.9
-// revision_date : 04 Dec 1999 
+// package       : Kernel_basic (3.14)
+// revision      : 3.14
+// revision_date : 15 Sep 2000 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -69,6 +70,25 @@ public:
   ~_Fourtuple()
   {}
 };
+
+template < class T >
+class Fourtuple : public Ref_counted
+{
+public:
+  T  e0;
+  T  e1;
+  T  e2;
+  T  e3;
+
+  Fourtuple()
+  {}
+
+  Fourtuple(const T & a0, const T & a1, const T & a2, const T & a3)
+    : e0(a0), e1(a1), e2(a2), e3(a3)
+  {}
+
+};
+
 CGAL_END_NAMESPACE
 
 #endif // CGAL__FOURTUPLE_H

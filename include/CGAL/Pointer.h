@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Pointer.h
-// package       : Triangulation (4.30)
+// package       : Triangulation (4.69)
 // source        : $RCSfile: Pointer.h,v $
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1999/12/10 15:05:53 $
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2000/04/14 14:35:19 $
 // author(s)     : Olivier Devillers, Mariette Yvinec, Sylvain Pion
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -102,6 +103,8 @@ struct Pointer
  
   T*& ptr()       { return _pointer; }
   T*  ptr() const { return _pointer; }
+
+  bool operator<(const Pointer& p) const { return ptr() < p.ptr();}
 
 private:
   T* _pointer;

@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/convex_hull_constructive_traits_2.h
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -55,48 +56,44 @@
 #include <CGAL/predicate_objects_on_points_2.h>
 
 CGAL_BEGIN_NAMESPACE
-template <class _R>
-class convex_hull_constructive_traits_2 : public _R
+template <class R_>
+class convex_hull_constructive_traits_2 : public R_
 {
 public:
-  typedef   _R                                              R;
+  typedef   R_                                              R;
   typedef   CGAL::Point_2<R>                                Point_2;    
-  typedef   CGAL::p_Less_xy<Point_2>                        Less_xy;
-  typedef   CGAL::p_Less_yx<Point_2>                        Less_yx;
-  typedef   CGAL::r_Right_of_line<R>                        Right_of_line;
-  typedef   CGAL::r_Less_negative_dist_to_line<R>           Less_dist_to_line;
-  typedef   CGAL::p_Less_rotate_ccw<Point_2>                Less_rotate_ccw;
-  typedef   CGAL::p_Leftturn<Point_2>                       Leftturn;
-  typedef   CGAL::p_Rightturn<Point_2>                      Rightturn;
+  typedef   CGAL::p_Less_xy<Point_2>                        Less_xy_2;
+  typedef   CGAL::p_Less_yx<Point_2>                        Less_yx_2;
+  typedef   CGAL::r_Left_of_line<R>                         Left_of_line_2;
+  typedef   CGAL::r_Less_dist_to_line<R>                    Less_signed_distance_to_line_2;
+  typedef   CGAL::p_Less_rotate_ccw<Point_2>                Less_rotate_ccw_2;
+  typedef   CGAL::p_Leftturn<Point_2>                       Leftturn_2;
   typedef   CGAL::Segment_2<R>                              Segment_2;    
   
-  Less_xy
-  get_less_xy_object() const 
-  { return Less_xy(); } 
+  Less_xy_2
+  less_xy_2_object() const 
+  { return Less_xy_2(); } 
 
-  Less_yx
-  get_less_yx_object() const 
-  { return Less_yx(); } 
+  Less_yx_2
+  less_yx_2_object() const 
+  { return Less_yx_2(); } 
 
-  Right_of_line
-  get_right_of_line_object( const Point_2& p, const Point_2& q) const 
-  { return Right_of_line( p, q); } 
+  Left_of_line_2
+  left_of_line_2_object( const Point_2& p, const Point_2& q) const 
+  { return Left_of_line_2( p, q); } 
 
-  Less_dist_to_line
-  get_less_dist_to_line_object( const Point_2& p, const Point_2& q) const
-  { return Less_dist_to_line( p, q); } 
+  Less_signed_distance_to_line_2
+  less_signed_distance_to_line_2_object( const Point_2& p, const Point_2& q) const
+  { return Less_signed_distance_to_line_2( p, q); } 
 
-  Less_rotate_ccw
-  get_less_rotate_ccw_object( const Point_2& p ) const
-  { return Less_rotate_ccw( p); }
+  Less_rotate_ccw_2
+  less_rotate_ccw_2_object( const Point_2& p ) const
+  { return Less_rotate_ccw_2( p); }
 
-  Leftturn
-  get_leftturn_object() const
-  { return Leftturn(); }
+  Leftturn_2
+  leftturn_2_object() const
+  { return Leftturn_2(); }
 
-  Rightturn
-  get_rightturn_object() const
-  { return Rightturn(); }
 };
 
 CGAL_END_NAMESPACE

@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/Geomview_stream.h
-// package       : Geomview (2.7)
+// package       : Geomview (2.9)
 // source        : RCSfile$
 // revision      : $Revision: 1.5 $
 // revision_date : $Date: 2000/01/13 10:14:10 $
@@ -42,7 +42,8 @@
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

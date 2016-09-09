@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/intersection_3_1.C
-// package       : Intersections_3 (2.2.5)
+// package       : Intersections_3 (2.3)
 // source        : web/intersection_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

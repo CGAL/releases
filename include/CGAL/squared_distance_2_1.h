@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/squared_distance_2_1.h
-// package       : Distance_2 (2.3.3)
+// package       : Distance_2 (2.3.5)
 // source        : sqdistance_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -48,35 +49,17 @@
 #ifndef CGAL_SQUARED_DISTANCE_2_1_H
 #define CGAL_SQUARED_DISTANCE_2_1_H
 
-#ifndef CGAL_USER_CLASSES_H
 #include <CGAL/user_classes.h>
-#endif // CGAL_USER_CLASSES_H
 
 
-#ifndef CGAL_UTILS_H
 #include <CGAL/utils.h>
-#endif // CGAL_UTILS_H
-#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
-#endif // CGAL_POINT_2_H
-#ifndef CGAL_SEGMENT_2_H
 #include <CGAL/Segment_2.h>
-#endif // CGAL_SEGMENT_2_H
-#ifndef CGAL_LINE_2_H
 #include <CGAL/Line_2.h>
-#endif // CGAL_LINE_2_H
-#ifndef CGAL_RAY_2_H
 #include <CGAL/Ray_2.h>
-#endif // CGAL_RAY_2_H
-#ifndef CGAL_ENUM_H
 #include <CGAL/enum.h>
-#endif // CGAL_ENUM_H
-#ifndef CGAL_WMULT_H
 #include <CGAL/wmult.h>
-#endif // CGAL_WMULT_H
-#ifndef CGAL_SQUARED_DISTANCE_UTILS_H
 #include <CGAL/squared_distance_utils.h>
-#endif // CGAL_SQUARED_DISTANCE_UTILS_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -245,10 +228,10 @@ squared_distance_parallel(
     bool same_direction;
     const Vector_2<R> &dir1 = seg1.direction().vector();
     const Vector_2<R> &dir2 = seg2.direction().vector();
-    if (abs(dir1.hx()) > abs(dir1.hy())) {
-        same_direction = (sign(dir1.hx()) == sign(dir2.hx()));
+    if (CGAL_NTS abs(dir1.hx()) > CGAL_NTS abs(dir1.hy())) {
+        same_direction = (CGAL_NTS sign(dir1.hx()) == CGAL_NTS sign(dir2.hx()));
     } else {
-        same_direction = (sign(dir1.hy()) == sign(dir2.hy()));
+        same_direction = (CGAL_NTS sign(dir1.hy()) == CGAL_NTS sign(dir2.hy()));
     }
     if (same_direction) {
         if (!is_acute_angle(seg1.source(), seg1.target(), seg2.source()))
@@ -271,8 +254,8 @@ RT _distance_measure_sub(RT startwcross, RT endwcross,
 const Point_2<R> &start, const Point_2<R> &end
 )
 {
-    return  abs(wmult((R*)0, startwcross, end.hw())) -
-            abs(wmult((R*)0, endwcross, start.hw()));
+    return  CGAL_NTS abs(wmult((R*)0, startwcross, end.hw())) -
+            CGAL_NTS abs(wmult((R*)0, endwcross, start.hw()));
 }
 
 
@@ -380,8 +363,8 @@ RT _distance_measure_sub(RT startwcross, RT endwcross,
 const Vector_2<R> &start, const Vector_2<R> &end
 )
 {
-    return  abs(wmult((R*)0, startwcross, end.hw())) -
-            abs(wmult((R*)0, endwcross, start.hw()));
+    return  CGAL_NTS abs(wmult((R*)0, startwcross, end.hw())) -
+            CGAL_NTS abs(wmult((R*)0, endwcross, start.hw()));
 }
 
 
@@ -394,10 +377,10 @@ squared_distance_parallel(
     bool same_direction;
     const Vector_2<R> &dir1 = seg.direction().vector();
     const Vector_2<R> &dir2 = ray.direction().vector();
-    if (abs(dir1.hx()) > abs(dir1.hy())) {
-        same_direction = (sign(dir1.hx()) == sign(dir2.hx()));
+    if (CGAL_NTS abs(dir1.hx()) > CGAL_NTS abs(dir1.hy())) {
+        same_direction = (CGAL_NTS sign(dir1.hx()) == CGAL_NTS sign(dir2.hx()));
     } else {
-        same_direction = (sign(dir1.hy()) == sign(dir2.hy()));
+        same_direction = (CGAL_NTS sign(dir1.hy()) == CGAL_NTS sign(dir2.hy()));
     }
     if (same_direction) {
         if (!is_acute_angle(seg.source(), seg.target(), ray.source()))
@@ -584,12 +567,12 @@ ray_ray_squared_distance_parallel(
     typedef typename R::FT FT;
     if (!is_acute_angle(ray1dir, from1to2)) {
         bool same_direction;
-        if (abs(ray1dir.hx()) > abs(ray1dir.hy())) {
+        if (CGAL_NTS abs(ray1dir.hx()) > CGAL_NTS abs(ray1dir.hy())) {
             same_direction =
-                (sign(ray1dir.hx()) == sign(ray2dir.hx()));
+                (CGAL_NTS sign(ray1dir.hx()) == CGAL_NTS sign(ray2dir.hx()));
         } else {
             same_direction =
-                (sign(ray1dir.hy()) == sign(ray2dir.hy()));
+                (CGAL_NTS sign(ray1dir.hy()) == CGAL_NTS sign(ray2dir.hy()));
         }
         if (!same_direction)
             return (typename R::FT)(from1to2*from1to2);

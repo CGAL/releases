@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/workaround_stl.h
-// package       : Configuration (1.54)
+// package       : Configuration (2.4)
 // chapter       : $CGAL_Chapter: Configuration $
 //
 // source        : web/workarounds.aw
@@ -45,7 +45,8 @@
 // coordinator   : Utrecht University (Wieger Wesselink)
 //
 // implementation: Workarounds for STL
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

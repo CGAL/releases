@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Point_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 1999/11/05 22:29:47 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2000/08/23 14:35:36 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -52,16 +53,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
-class PointC2
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-// This is a partial specialization
-<_R,Cartesian_tag>
-#endif
- : public Handle // Later we will use the handles of Lutz and Michael
+template < class R_ >
+class PointC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+ : public Handle_for< Twotuple<typename R_::FT> >
 {
 public:
-  typedef _R                                    R;
+  typedef R_                                    R;
   typedef typename R::FT                        FT;
   typedef typename R::RT                        RT;
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
@@ -96,12 +93,9 @@ public:
   PointC2(const Vector_2 &v);
   ~PointC2();
 
-  Self    &operator=(const Self &p);
-
   bool    operator==(const Self &p) const;
   bool    operator!=(const Self &p) const;
-  int     id() const;
-
+ 
   FT      x() const;
   FT      y() const;
   FT      cartesian(int i) const;
@@ -118,8 +112,6 @@ public:
 
   Self transform(const Aff_transformation_2 &) const;
 
-private:
-  _Twotuple<FT>*  ptr() const;
 };
 
 CGAL_END_NAMESPACE

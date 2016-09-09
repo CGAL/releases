@@ -1,4 +1,4 @@
-This is Computational Geometry Algorithms Library version 2.1 (CGAL-2.1).
+This is Computational Geometry Algorithms Library version 2.2 (CGAL-2.2).
 
 Installation notes are available in several formats. 
 A PostScript file named installation.ps can be found in directory doc_ps.
@@ -8,7 +8,7 @@ The HTML version is in doc_html/installation/main.html.
 The documentation of CGAL is available in various formats (HTML, PostScript,
 PDF). It is not bundled with the software but can be downloaded separately.
 
-For more information on CGAL, see the URL http://www.cs.uu.nl/CGAL/.
+For more information on CGAL, see the URL http://www.cgal.org/.
 
 The CGAL software falls under the license below. 
 // ============================================================================
@@ -53,44 +53,60 @@ has its own license.
 Changes
 =======
 
-The major changes of CGAL-2.1 with respect to release CGAL-2.0.
+The major changes of CGAL-2.2 with respect to release CGAL-2.1.
 
 Supported platforms
 -------------------
 
-We support the newest gnu compiler (2.95.2) on Sun, Mips, Linux and Windows.
-We support the Microsoft Visual C++ compiler, version 6.
-We support the mips CC compiler version 7.3 under Irix.
-Support for the old g++ compiler (2.8) and for mips CC 7.2 has been dropped.
+The Borland C++ compiler version 5.5 (which is the compiler of C++Builder 5
+and the freely available Borland compiler).
+The KAI compiler (version 4.0) has been tested under Solaris 2.8.
 
 
 The following functionality has been added
 ------------------------------------------
 
-Alpha shapes and weighted alpha shapes in 2D. Alpha shapes are a
-generalization of the convex hull of a point set.
+New optimisation algorithms
+  o Min_annulus_d
+    Algorithm for computing the smallest enclosing annulus of points
+    in arbitrary dimension 
 
-Arrangements in 2D. Arrangements are related to and based on planar maps.
-The major difference between the two is that curves are allowed to intersect
-in the case of arrangements.
+  o Polytope_distance_d
+    Algorithm for computing the (squared) distance between
+    two convex polytopes in arbitrary dimension
 
-Extensions to triangulations in 2D.
-Constrained triangulations are now dynamic: they support insertions of new 
-constraint as well as  removal of constraints.
-There are also constrained Delaunay triangulations.
+  o Width_3
+    Algorithm for computing the (squared) width of points sets
+    in three dimensions
 
-Triangulations in 3D were added, both Delaunay triangulations and regular
-triangulations.
+There is a new, non-reference counted kernel, Simple_cartesian. Because
+reference counting is not used, and thus coordinates are stored within a
+class, debugging is easier using this kernel.
 
-Min_quadrilateral optimisations have been added..
-This are algorithms to compute the minimum enclosing rectangle/parallelogram
-(arbitrary orientation) and the minimum enclosing strip of a convex point set. 
+About 2d Triangulations
+- There are now two triangulation data structures available in CGAL.
+  The new one uses a list to store the faces and allows one to represent 
+  two-dimensional triangulations embedded in three spaces as well as
+  planar triangulations.
+- The triangulation hierarchy which allows fast location query
+  is now available.
 
-2d Point_set is a package for 2d range search operations, Delaunay
-triangulation, nearest neighbor queries. This package works only if LEDA
-is installed.
 
-Support for GeoWin visualization library. This depends also on LEDA.
+The 3d triangulation now allows removal of vertices as well as insertions.
 
-Support for using the CLN number type together with CGAL.
-The CLN library is available at http://clisp.cons.org/~haible/packages-cln.html
+A function that generates random simple polygons is now available.
+
+In directory demo/Robustness programs that demonstrate typical robustness
+problems in geometric computing are presented along with the solutions to
+these problems that CGAL provides.
+
+
+
+The following functionality has been removed
+--------------------------------------------
+
+The binary operations on polygons (union, intersection ...) have been removed.
+Those operations were not documented in the previous release (2.1).
+Arrangements can often be used as a substitute.
+
+

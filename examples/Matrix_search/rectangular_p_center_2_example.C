@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,21 +30,22 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : examples/Matrix_search/rectangular_p_center_2_example.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Matrix_search $
 // source        : pcenter.aw
-// revision      : $Revision: 1.30 $
-// revision_date : $Date: 1999/12/17 11:58:20 $
+// revision      : $Revision: 1.43 $
+// revision_date : $Date: 2000/09/15 07:25:23 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // 2-4-Centering Axis-Parallel 2D-Rectangles - example program
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

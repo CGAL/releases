@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Circle_2.C
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 1999/12/10 16:19:44 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.21 $
+// revision_date : $Date: 2000/09/01 17:04:00 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -63,23 +64,16 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
-inline
-Circle_repC2<R> *CircleC2<R CGAL_CTAG>::ptr() const
-{
-  return (Circle_repC2<R>*)PTR;
-}
-
-template < class R >
 CGAL_KERNEL_CTOR_INLINE
 CircleC2<R CGAL_CTAG>::CircleC2()
 {
-  PTR = new Circle_repC2<R> ;
+  new ( static_cast< void*>(ptr)) Circle_repC2<R>();
 }
 
 template < class R >
 CGAL_KERNEL_CTOR_INLINE
 CircleC2<R CGAL_CTAG>::CircleC2(const CircleC2<R CGAL_CTAG> &c)
-  : Handle((Handle&)c)
+  : Handle_for< Circle_repC2<R> > (c)
 {}
 
 template < class R >
@@ -92,7 +86,9 @@ CircleC2(const typename CircleC2<R CGAL_CTAG>::Point_2 &center,
   CGAL_kernel_precondition( ( squared_radius >= FT(0) ) &&
                             ( orient    != COLLINEAR) );
 
-  PTR = new Circle_repC2<R>(center, squared_radius, orient);
+  new ( static_cast< void*>(ptr)) Circle_repC2<R>(center, 
+						  squared_radius, 
+						  orient);
 }
 
 template < class R >
@@ -101,9 +97,9 @@ CircleC2<R CGAL_CTAG>::
 CircleC2(const typename CircleC2<R CGAL_CTAG>::Point_2 &center,
          const Orientation &orient)
 {
-  CGAL_kernel_precondition( ( orient    != COLLINEAR) );
+  CGAL_kernel_precondition( orient != COLLINEAR );
 
-  PTR = new Circle_repC2<R>(center, FT(0), orient);
+  new ( static_cast< void*>(ptr)) Circle_repC2<R>(center, FT(0), orient);
 }
 
 template < class R >
@@ -119,9 +115,11 @@ CircleC2(const typename CircleC2<R CGAL_CTAG>::Point_2 &p,
     Point_2 center = midpoint(p,q);
     FT      squared_radius = squared_distance(p,center);
 
-    PTR = new Circle_repC2<R>( center, squared_radius, orient);
+    new ( static_cast< void*>(ptr)) Circle_repC2<R>(center, 
+						     squared_radius, 
+						     orient);
   } else
-    PTR = new Circle_repC2<R>( p, FT(0), orient);
+    new ( static_cast< void*>(ptr)) Circle_repC2<R>(p, FT(0), orient);
 }
 
 template < class R >
@@ -137,7 +135,9 @@ CircleC2(const typename CircleC2<R CGAL_CTAG>::Point_2 &p,
   Point_2 center = circumcenter(p,q,r);
   FT      squared_radius = squared_distance(p,center);
 
-  PTR = new Circle_repC2<R>(center, squared_radius, orient);
+  new ( static_cast< void*>(ptr)) Circle_repC2<R>(center, 
+						  squared_radius, 
+						  orient);
 }
 
 template < class R >
@@ -146,22 +146,13 @@ CircleC2<R CGAL_CTAG>::~CircleC2()
 {}
 
 template < class R >
-inline
-CircleC2<R CGAL_CTAG> &
-CircleC2<R CGAL_CTAG>::operator=(const CircleC2<R CGAL_CTAG> &c)
-{
-  Handle::operator=(c);
-  return *this;
-}
-
-template < class R >
 CGAL_KERNEL_INLINE
 bool
 CircleC2<R CGAL_CTAG>::operator==(const CircleC2<R CGAL_CTAG> &c) const
 {
-  return (center() == c.center()) &&
-         (squared_radius() == c.squared_radius() &&
-          orientation() == c.orientation());
+  return center() == c.center() &&
+         squared_radius() == c.squared_radius() &&
+         orientation() == c.orientation();
 }
 
 template < class R >
@@ -174,18 +165,10 @@ CircleC2<R CGAL_CTAG>::operator!=(const CircleC2<R CGAL_CTAG> &c) const
 
 template < class R >
 inline
-int
-CircleC2<R CGAL_CTAG>::id() const
-{
-  return (int)PTR;
-}
-
-template < class R >
-inline
 CircleC2<R CGAL_CTAG>::Point_2
 CircleC2<R CGAL_CTAG>::center() const
 {
- return ptr()->center;
+ return ptr->center;
 }
 
 template < class R >
@@ -193,7 +176,7 @@ inline
 CircleC2<R CGAL_CTAG>::FT
 CircleC2<R CGAL_CTAG>::squared_radius() const
 {
- return ptr()->squared_radius;
+ return ptr->squared_radius;
 }
 
 template < class R >
@@ -201,7 +184,7 @@ inline
 Orientation
 CircleC2<R CGAL_CTAG>::orientation() const
 {
- return ptr()->orient;
+ return ptr->orient;
 }
 
 template < class R >
@@ -219,8 +202,8 @@ Bounded_side
 CircleC2<R CGAL_CTAG>::
 bounded_side(const typename CircleC2<R CGAL_CTAG>::Point_2 &p) const
 {
-  return Bounded_side(CGAL::compare(squared_radius(),
-                                    squared_distance(center(),p)));
+  return Bounded_side(CGAL_NTS compare(squared_radius(),
+                                       squared_distance(center(),p)));
 }
 
 template < class R >
@@ -277,7 +260,7 @@ inline
 bool
 CircleC2<R CGAL_CTAG>::is_degenerate() const
 {
-  return is_zero(squared_radius());
+  return CGAL_NTS is_zero(squared_radius());
 }
 
 template < class R >
@@ -306,13 +289,12 @@ CircleC2<R CGAL_CTAG>::bbox() const
 template < class R >
 CGAL_KERNEL_INLINE
 CircleC2<R CGAL_CTAG>
-CircleC2<R CGAL_CTAG>::
-orthogonal_transform
+CircleC2<R CGAL_CTAG>::orthogonal_transform
   (const typename CircleC2<R CGAL_CTAG>::Aff_transformation_2 &t) const
 {
   Vector_2 vec(FT(1), FT(0) );   // unit vector
   vec = vec.transform(t);             // transformed
-  FT  sq_scale = FT( vec*vec );       // squared scaling factor
+  FT sq_scale = vec.squared_length();       // squared scaling factor
 
   return CircleC2<R CGAL_CTAG>(t.transform(center()),
                                sq_scale * squared_radius(),
@@ -402,4 +384,4 @@ CGAL_END_NAMESPACE
 #undef typename
 #endif
 
-#endif // CGAL_CARTESIAN_CIRCLE_2_H
+#endif // CGAL_CARTESIAN_CIRCLE_2_C

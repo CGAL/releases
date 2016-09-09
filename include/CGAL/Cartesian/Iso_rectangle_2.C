@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Iso_rectangle_2.C
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1999/11/05 22:29:43 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.19 $
+// revision_date : $Date: 2000/09/01 17:03:22 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -59,24 +60,16 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R >
 inline
-_Twotuple< typename Iso_rectangleC2<R CGAL_CTAG>::Point_2 > *
-Iso_rectangleC2<R CGAL_CTAG>::ptr() const
-{
-  return (_Twotuple<Point_2>*)PTR;
-}
-
-template < class R >
-inline
 Iso_rectangleC2<R CGAL_CTAG>::Iso_rectangleC2()
 {
-  PTR = new _Twotuple<Point_2>;
+  new ( static_cast< void*>(ptr)) Twotuple<Point_2>();
 }
 
 template < class R >
 inline
 Iso_rectangleC2<R CGAL_CTAG>::
 Iso_rectangleC2(const Iso_rectangleC2<R CGAL_CTAG> &r)
-  : Handle((Handle&)r)
+  : Handle_for<Twotuple<typename R::Point_2> >(r)
 {}
 
 template < class R >
@@ -85,48 +78,19 @@ Iso_rectangleC2<R CGAL_CTAG>::
 Iso_rectangleC2(const typename Iso_rectangleC2<R CGAL_CTAG>::Point_2 &p,
                 const typename Iso_rectangleC2<R CGAL_CTAG>::Point_2 &q)
 {
-  FT vx0 = p.x();
-  FT vy0 = p.y();
-  FT vx1 = q.x();
-  FT vy1 = q.y();
-
-  bool b1 = false,
-       b2 = false;
-  if ( (b1 = (vx0 > vx1)) || (b2 = (vy0 > vy1)) ) {
-    if (b1 && b2) {
-      PTR = new _Twotuple<Point_2>(q,p);
-    } else {
-      if (vx0 > vx1){
-        FT z = vx1;
-        vx1 = vx0;
-        vx0 = z;
-      }
-      if (vy0 > vy1){
-        FT z = vy1;
-        vy1 = vy0;
-        vy0 = z;
-      }
-
-      PTR = new _Twotuple<Point_2>(Point_2(vx0,vy0), Point_2(vx1,vy1));
-    }
-  } else {
-    PTR = new _Twotuple<Point_2>(p,q);
-  }
+  FT minx, maxx, miny, maxy;
+  if (p.x() < q.x()) { minx = p.x(); maxx = q.x(); }
+  else               { minx = q.x(); maxx = p.x(); }
+  if (p.y() < q.y()) { miny = p.y(); maxy = q.y(); }
+  else               { miny = q.y(); maxy = p.y(); }
+  new ( static_cast< void*>(ptr)) Twotuple<Point_2>(Point_2(minx, miny),
+						    Point_2(maxx, maxy));
 }
 
 template < class R >
 inline
 Iso_rectangleC2<R CGAL_CTAG>::~Iso_rectangleC2()
 {}
-
-template < class R >
-inline
-Iso_rectangleC2<R CGAL_CTAG> &
-Iso_rectangleC2<R CGAL_CTAG>::operator=(const Iso_rectangleC2<R CGAL_CTAG> &r)
-{
-  Handle::operator=(r);
-  return *this;
-}
 
 template < class R >
 inline
@@ -148,18 +112,10 @@ operator!=(const Iso_rectangleC2<R CGAL_CTAG> &r) const
 
 template < class R >
 inline
-int
-Iso_rectangleC2<R CGAL_CTAG>::id() const
-{
-  return (int)PTR;
-}
-
-template < class R >
-inline
 typename Iso_rectangleC2<R CGAL_CTAG>::Point_2
 Iso_rectangleC2<R CGAL_CTAG>::min() const
 {
-  return  ptr()->e0;
+  return  ptr->e0;
 }
 
 template < class R >
@@ -167,7 +123,7 @@ inline
 typename Iso_rectangleC2<R CGAL_CTAG>::Point_2
 Iso_rectangleC2<R CGAL_CTAG>::max() const
 {
-  return  ptr()->e1;
+  return  ptr->e1;
 }
 
 template < class R >
@@ -276,7 +232,7 @@ has_on_unbounded_side(const typename Iso_rectangleC2<R CGAL_CTAG>::Point_2 &p)
 template < class R >
 bool Iso_rectangleC2<R CGAL_CTAG>::is_degenerate() const
 {
-  return (xmin() == xmax()) || (ymin() ==ymax());
+  return (xmin() == xmax()) || (ymin() == ymax());
 }
 
 template < class R >

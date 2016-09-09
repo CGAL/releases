@@ -35,11 +35,19 @@ LDFLAGS = \
 
 all:            \
                 Circle_arr_from_file$(EXE_EXT) \
+                Polyline_arr_from_file$(EXE_EXT) \
+                Polyline_arr_from_mouse$(EXE_EXT) \
                 Segment_arr_from_file$(EXE_EXT) \
                 Segment_arr_from_mouse$(EXE_EXT) 
 
 Circle_arr_from_file$(EXE_EXT): Circle_arr_from_file$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Circle_arr_from_file Circle_arr_from_file$(OBJ_EXT) $(LDFLAGS)
+
+Polyline_arr_from_file$(EXE_EXT): Polyline_arr_from_file$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Polyline_arr_from_file Polyline_arr_from_file$(OBJ_EXT) $(LDFLAGS)
+
+Polyline_arr_from_mouse$(EXE_EXT): Polyline_arr_from_mouse$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Polyline_arr_from_mouse Polyline_arr_from_mouse$(OBJ_EXT) $(LDFLAGS)
 
 Segment_arr_from_file$(EXE_EXT): Segment_arr_from_file$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Segment_arr_from_file Segment_arr_from_file$(OBJ_EXT) $(LDFLAGS)
@@ -49,6 +57,8 @@ Segment_arr_from_mouse$(EXE_EXT): Segment_arr_from_mouse$(OBJ_EXT)
 
 clean: \
                    Circle_arr_from_file.clean \
+                   Polyline_arr_from_file.clean \
+                   Polyline_arr_from_mouse.clean \
                    Segment_arr_from_file.clean \
                    Segment_arr_from_mouse.clean 
 

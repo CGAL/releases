@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 1999,2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,15 +30,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // file          : include/CGAL/Arithmetic_filter/static_infos/predicates/kernel_ftC3.h
-// package       : Interval_arithmetic (4.39)
+// package       : Interval_arithmetic (4.58)
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -47,6 +48,24 @@
 
 #ifndef CGAL_ARITHMETIC_FILTER_PREDICATES_KERNEL_FTC3_H_STATIC_INFO_H
 #define CGAL_ARITHMETIC_FILTER_PREDICATES_KERNEL_FTC3_H_STATIC_INFO_H
+
+double Static_Filtered_strict_dominanceC3_6::_epsilon_0;
+double Static_Filtered_strict_dominanceC3_6::_epsilon_1;
+double Static_Filtered_strict_dominanceC3_6::_epsilon_2;
+double Static_Filtered_strict_dominanceC3_6::_bound = -1.0;
+
+unsigned Static_Filtered_strict_dominanceC3_6::number_of_updates = 0;
+
+unsigned Static_Filtered_strict_dominanceC3_6::number_of_failures = 0;
+
+double Static_Filtered_dominanceC3_6::_epsilon_0;
+double Static_Filtered_dominanceC3_6::_epsilon_1;
+double Static_Filtered_dominanceC3_6::_epsilon_2;
+double Static_Filtered_dominanceC3_6::_bound = -1.0;
+
+unsigned Static_Filtered_dominanceC3_6::number_of_updates = 0;
+
+unsigned Static_Filtered_dominanceC3_6::number_of_failures = 0;
 
 double Static_Filtered_collinearC3_9::_epsilon_0;
 double Static_Filtered_collinearC3_9::_epsilon_1;

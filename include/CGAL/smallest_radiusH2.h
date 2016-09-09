@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/smallest_radiusH2.h
-// package       : Alpha_shapes_2 (5.5)
+// package       : Alpha_shapes_2 (8.3)
 // source        : $RCSfile: smallest_radiusH2.h,v $
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1999/11/05 16:37:29 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2000/02/04 12:56:05 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -60,12 +61,12 @@ inline squared_radius_circumcircle(const PointH2<FT,RT> &p,
   // compute the smallest radius directly
   if (orientation(p, q, r) == COLLINEAR)
     // what do we do 
-    return R_FT_return(R)(0);
+    return typename R::FT (0);
   else
     
     {
       Circle_2<R> c(p, q, r);
-      return R_FT_return(R)(c.squared_radius());
+      return typename R::FT (c.squared_radius());
     }
 }
 

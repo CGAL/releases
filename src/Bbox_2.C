@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Bbox_2.fw
 // file          : src/Bbox_2.C
-// package       : _2 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _2 (3.6)
+// revision      : 3.6
+// revision_date : 30 Jul 2000 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -53,28 +54,15 @@
 CGAL_BEGIN_NAMESPACE
 
 Bbox_2::Bbox_2()
-{
-  PTR = new _Fourtuple<double>();
-}
-
-Bbox_2::Bbox_2(const Bbox_2 &b) :
-  Handle(b)
-{}
+{ new ( static_cast< void*>(ptr)) Fourtuple<double>(); }
 
 Bbox_2::Bbox_2(double x_min, double y_min,
-                         double x_max, double y_max)
+               double x_max, double y_max)
 {
-  PTR = new _Fourtuple<double>(x_min, y_min, x_max, y_max);
+  new ( static_cast< void*>(ptr)) Fourtuple<double>(x_min, y_min,
+                                                    x_max, y_max);
 }
 
-Bbox_2::~Bbox_2()
-{}
-
-Bbox_2 &Bbox_2::operator=(const Bbox_2 &b)
-{
-  Handle::operator=(b);
-  return *this;
-}
 bool Bbox_2::operator==(const Bbox_2 &b) const
 {
   return    xmin() == b.xmin() && xmax() == b.xmax()

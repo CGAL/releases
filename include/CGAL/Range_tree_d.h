@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Range_tree_d.h
-// package       : SearchStructures (2.50)
+// package       : SearchStructures (2.54)
 // source        : include/CGAL/Range_tree_d.h
 // revision      : $Revision: 1.5 $
 // revision_date : $Date: 1998/02/03 13:15:00 $
@@ -44,7 +44,8 @@
 //
 //
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -61,30 +62,30 @@
 
 // A d-dimensional Range Tree or a multilayer tree consisting of Range 
 // and other trees that are derived public 
-// Tree_base<_Data, _Window, _Interface>
+// Tree_base<C_Data, C_Window, C_Interface>
 // can be construced within this class.
-// _Data: container class which contains the d-dimensional data the tree holds.
-// _Window: Query window -- a d-dimensional interval
-// _Interface: Interface for the class with functions that allow to 
+// C_Data: container class which contains the d-dimensional data the tree holds.
+// C_Window: Query window -- a d-dimensional interval
+// C_Interface: Interface for the class with functions that allow to 
 // access the data.
 // cf. file Tree_interface.h, class point_interface for the requirements.
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _Data, class _Window, class _Interface>
+template <class C_Data, class C_Window, class C_Interface>
 class Range_tree_d;
 
-template <class _Data, class _Window, class _Interface>
+template <class C_Data, class C_Window, class C_Interface>
 struct range_tree_node: public tree_node_base
 {
   private	:
-  typedef  _Data Data;
-  typedef  _Window Window;
-  typedef typename _Interface::Key Key;
-  typedef  _Interface Interface;
-  typedef typename tree_base< _Data,  _Window>::tree_base_type tree_base_type;
+  typedef  C_Data Data;
+  typedef  C_Window Window;
+  typedef typename C_Interface::Key Key;
+  typedef  C_Interface Interface;
+  typedef typename tree_base< C_Data,  C_Window>::tree_base_type tree_base_type;
   protected:
-  typedef Range_tree_d< _Data,  _Window,  _Interface> rT_d;
+  typedef Range_tree_d< C_Data,  C_Window,  C_Interface> rT_d;
 public:
   friend rT_d;
   
@@ -93,24 +94,24 @@ public:
     sublayer = 0;// (tree_base_type *)0; 
   }
   
-  range_tree_node( range_tree_node    * _left,
-		   range_tree_node    * _right,
-		   const  Data & _obj,
-		   const  Key  & _key ) :
-    object( _obj ), key( _key )
+  range_tree_node( range_tree_node    * p_left,
+		   range_tree_node    * p_right,
+		   const  Data & v_obj,
+		   const  Key  & v_key ) :
+    object( v_obj ), key( v_key )
   {
-    left_link = _left;
-    right_link = _right;
+    left_link = p_left;
+    right_link = p_right;
     sublayer = 0;//(tree_base_type *)0; 
   }
   
-  range_tree_node( range_tree_node    * _left,
-		   range_tree_node    * _right,
-		   const  Key  & _key ) :
-    key( _key )
+  range_tree_node( range_tree_node    * p_left,
+		   range_tree_node    * p_right,
+		   const  Key  & v_key ) :
+    key( v_key )
   {
-    left_link = _left;
-    right_link = _right;
+    left_link = p_left;
+    right_link = p_right;
     sublayer = 0;//(tree_base_type *)0; 
   }
   virtual ~range_tree_node()
@@ -124,30 +125,30 @@ public:
   tree_base_type *sublayer;
 };
 
-template <class _Data, class _Window, class _Interface>
-class Range_tree_d: public tree_base< _Data,  _Window>
+template <class C_Data, class C_Window, class C_Interface>
+class Range_tree_d: public tree_base< C_Data,  C_Window>
 {
  private:
-  typedef  _Data Data;
-  typedef  _Window Window;
-  typedef typename _Interface::Key Key;
-  typedef  _Interface Interface;
-  typedef tree_base< _Data,  _Window>  tbt;
+  typedef  C_Data Data;
+  typedef  C_Window Window;
+  typedef typename C_Interface::Key Key;
+  typedef  C_Interface Interface;
+  typedef tree_base< C_Data,  C_Window>  tbt;
 protected:
-  typedef Range_tree_d< _Data,  _Window,  _Interface> rT_d;
-  tree_base<_Data, _Window> *sublayer_tree;
+  typedef Range_tree_d< C_Data,  C_Window,  C_Interface> rT_d;
+  tree_base<C_Data, C_Window> *sublayer_tree;
   //tree_base_type *sublayer_tree;
-   _Interface interface;
+   C_Interface interface;
   int is_build;
 
  
   // A vertex is of this type:
   //  struct range_tree_node;
 
-  friend range_tree_node<_Data,_Window,_Interface>;
+  friend range_tree_node<C_Data,C_Window,C_Interface>;
 
-  typedef range_tree_node<_Data,_Window,_Interface> range_tree_node2;
-  typedef range_tree_node<_Data,_Window,_Interface> *link_type;
+  typedef range_tree_node<C_Data,C_Window,C_Interface> range_tree_node2;
+  typedef range_tree_node<C_Data,C_Window,C_Interface> *link_type;
 
   static link_type& left(link_type x) { 
   //  link_type left(link_type x) { 
@@ -191,7 +192,7 @@ protected:
   bool is_anchor(){return false;}
 
   // returns true, if the object lies inside of win
-  bool is_inside( _Window const &win,  _Data const& object)
+  bool is_inside( C_Window const &win,  C_Data const& object)
   {
     if(is_less_equal(interface.get_left(win), interface.get_key(object)) 
        && interface.comp(interface.get_key(object),interface.get_right(win)))
@@ -294,7 +295,7 @@ protected:
       if ( leftmostlink == 0) //TREE_BASE_NULL
 	leftmostlink = leftchild;
 
-      tree_base<_Data, _Window> *g = sublayer_tree->clone();
+      tree_base<C_Data, C_Window> *g = sublayer_tree->clone();
       
       T sub_first = sublevel_first;
       T sub_last = sublevel_last;
@@ -337,7 +338,7 @@ protected:
 	vparent->right_link = prevchild;
 	prevchild->parent_link = vparent;
 	prevchild = vparent;
-	tree_base<_Data, _Window> *g = sublayer_tree->clone();
+	tree_base<C_Data, C_Window> *g = sublayer_tree->clone();
 	T sub_first = sublevel_first;
 	T sub_last = sublevel_last;
 	g->make_tree(sub_first, sub_last);
@@ -399,7 +400,7 @@ protected:
       rightmost_child_r;
     if (v->sublayer != 0) //(tree_base_type *)
     {
-      tree_base<_Data, _Window> *T= v->sublayer;
+      tree_base<C_Data, C_Window> *T= v->sublayer;
       if(!(*T).is_valid())
 	return false;
     }
@@ -436,7 +437,7 @@ public:
   }
 
   // construction of a tree
-  Range_tree_d(tree_base<_Data, _Window> const &fact):
+  Range_tree_d(tree_base<C_Data, C_Window> const &fact):
     sublayer_tree(fact.clone()), is_build(false)
   {
     header = 0; //TREE_BASE_NULL
@@ -457,27 +458,27 @@ public:
 
 
  // a prototype of the tree is returned
-  tree_base<_Data, _Window> *clone() const 
+  tree_base<C_Data, C_Window> *clone() const 
   { 
     return new Range_tree_d(*this, true); 
   }
   
-  bool make_tree(typename std::list< _Data>::iterator& beg, 
-		 typename std::list< _Data>::iterator& end,
+  bool make_tree(typename std::list< C_Data>::iterator& beg, 
+		 typename std::list< C_Data>::iterator& end,
 		 typename tbt::lit *dummy=0){ 
     return make_tree_impl(beg,end);
   }
 
 #ifdef stlvector
-  bool make_tree(typename std::vector< _Data>::iterator& beg, 
-		 typename std::vector< _Data>::iterator& end,
+  bool make_tree(typename std::vector< C_Data>::iterator& beg, 
+		 typename std::vector< C_Data>::iterator& end,
 		 typename tbt::vbit *dummy=0){ 
     return make_tree_impl(beg,end);
   }
 #endif
 #ifdef carray
-  bool make_tree(_Data *beg, 
-		 _Data *end){
+  bool make_tree(C_Data *beg, 
+		 C_Data *end){
     return make_tree_impl(beg,end);
   }
 #endif
@@ -519,31 +520,31 @@ public:
     return true;
   }
 
-  std::back_insert_iterator< std::list< _Data> > window_query
-          ( _Window const &win, 
-	    std::back_insert_iterator< std::list< _Data> > out,
+  std::back_insert_iterator< std::list< C_Data> > window_query
+          ( C_Window const &win, 
+	    std::back_insert_iterator< std::list< C_Data> > out,
 	    typename tbt::lbit *dummy=0){
     return window_query_impl(win,out);
   }
 
 
-  std::back_insert_iterator< std::vector< _Data> > window_query
-          ( _Window const &win, 
-	    std::back_insert_iterator< std::vector< _Data> > out,
+  std::back_insert_iterator< std::vector< C_Data> > window_query
+          ( C_Window const &win, 
+	    std::back_insert_iterator< std::vector< C_Data> > out,
 	    typename tbt::vbit *dummy=0){
     return window_query_impl(win,out);
   }
 
 
 #ifdef carray
-  _Data *window_query( _Window const &win, _Data *out){
+  C_Data *window_query( C_Window const &win, C_Data *out){
     return window_query_impl(win,out);
   }
 #endif
 
 #ifdef ostreamiterator
-  std::ostream_iterator< _Data>  window_query( _Window const &win, 
-		     std::ostream_iterator< _Data> out,
+  std::ostream_iterator< C_Data>  window_query( C_Window const &win, 
+		     std::ostream_iterator< C_Data> out,
 		     typename tbt::oit *dummy=0){
     return window_query_impl(win,out);
   }
@@ -552,7 +553,7 @@ public:
   // all elements that ly in win are inserted in result
   template <class X>
   inline  
-  X window_query_impl( _Window const &win, X result)
+  X window_query_impl( C_Window const &win, X result)
   {
     if(is_less_equal(interface.get_right(win), interface.get_left(win)))
        return result;
@@ -575,7 +576,7 @@ public:
 	  link_type w = right(v);
 	  if(left(w)!=0) //TREE_BASE_NULL
 	  {
-	    tree_base<_Data, _Window> *T= (w)->sublayer;
+	    tree_base<C_Data, C_Window> *T= (w)->sublayer;
 	    if(T->is_anchor())
 	      report_subtree(w,result);
 	    else
@@ -600,7 +601,7 @@ public:
 	{
 	  if(left(left(v))!=0) //TREE_BASE_NULL
 	  {
-	    tree_base<_Data, _Window> *T= (left(v))->sublayer;
+	    tree_base<C_Data, C_Window> *T= (left(v))->sublayer;
 	    if(T->is_anchor())
 	      report_subtree(left(v),result);
 	    else
@@ -624,28 +625,28 @@ public:
     return result;
   }
 
-  std::back_insert_iterator< std::list< _Data> > enclosing_query( _Window const &win, 
-			     std::back_insert_iterator< std::list< _Data> > out,
+  std::back_insert_iterator< std::list< C_Data> > enclosing_query( C_Window const &win, 
+			     std::back_insert_iterator< std::list< C_Data> > out,
 			     typename tbt::lbit *dummy=0){
     return enclosing_query_impl(win,out);
   }
 
-  std::back_insert_iterator< std::vector< _Data> > enclosing_query( _Window const &win, 
-			     std::back_insert_iterator< std::vector< _Data> > out,
+  std::back_insert_iterator< std::vector< C_Data> > enclosing_query( C_Window const &win, 
+			     std::back_insert_iterator< std::vector< C_Data> > out,
 			     typename tbt::vbit *dummy=0){
     return enclosing_query_impl(win,out);
   }
 
 
 #ifdef carray
-  _Data *enclosing_query( _Window const &win, _Data *out){
+  C_Data *enclosing_query( C_Window const &win, C_Data *out){
     return enclosing_query_impl(win,out);
   }
 #endif
 
 #ifdef ostreamiterator
-  std::ostream_iterator< _Data>  enclosing_query( _Window const &win, 
-			     std::ostream_iterator< _Data> out,
+  std::ostream_iterator< C_Data>  enclosing_query( C_Window const &win, 
+			     std::ostream_iterator< C_Data> out,
 			     typename tbt::oit *dummy=0){
     return enclosing_query_impl(win,out);
   }
@@ -654,7 +655,7 @@ public:
   // a window query is performed 
   template <class T>
   inline
-  T enclosing_query_impl(_Window const &win, T result)
+  T enclosing_query_impl(C_Window const &win, T result)
   {
     return window_query_impl(win, result);
   }

@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/window_stream_xy_3.h
-// package       : window (2.5.8)
+// package       : window (2.7.1)
 // chapter       : $CGAL_Chapter: Window Stream $
 // source        : 
 // revision      : 2.1.3 
@@ -44,7 +44,8 @@
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 //
 // Supports the display of 3D objects in the 2d CGAL_Window_stream.
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

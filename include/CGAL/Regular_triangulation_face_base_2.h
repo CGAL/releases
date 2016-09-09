@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Regular_triangulation_face_base_2.h
-// package       : Triangulation (4.30)
+// package       : Triangulation (4.69)
 // source        : $RCSfile: Regular_triangulation_face_base_2.h,v $
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1999/12/10 15:05:53 $
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2000/06/30 09:22:03 $
 // author(s)     : Frederic Fichel, Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -64,11 +65,11 @@ public:
   typedef Gt Geom_traits;
   typedef Triangulation_face_base_2<Gt> Fbase;
   typedef Regular_triangulation_face_base_2<Gt> Regular_face_base;
-  typedef typename Gt::Point  Point;
-  typedef std::list<Point> Point_list;
+  typedef typename Gt::Weighted_point   Weighted_point;
+  typedef std::list<Weighted_point>     Weighted_point_list;
 
 protected:
- Point_list  plist;
+ Weighted_point_list  plist;
 
 public:
  Regular_triangulation_face_base_2()
@@ -89,7 +90,7 @@ public:
     plist.clear();
   }
 
-  Point_list& point_list()
+  Weighted_point_list& point_list()
   {
     return plist;
   }

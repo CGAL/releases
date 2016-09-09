@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Regular_triangulation_euclidean_traits_3.h
-// package       : Triangulation3 (1.29)
+// package       : Triangulation3 (1.42)
 // revision      : $Revision: 1.13 $
 // revision_date : $Date: 1999/11/02 10:50:21 $
 // author(s)     : Sylvain Pion
@@ -43,7 +43,8 @@
 // coordinator   : INRIA Sophia Antipolis 
 //                 (Mariette Yvinec)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

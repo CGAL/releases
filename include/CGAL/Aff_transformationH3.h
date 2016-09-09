@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Aff_transformationH3.fw
 // file          : include/CGAL/Aff_transformationH3.h
-// package       : H3 (2.3.7)
-// revision      : 2.3.7
-// revision_date : 03 Dec 1999 
+// package       : H3 (2.12)
+// revision      : 2.12
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_AFF_TRANSFORMATIONH3_H
 #define CGAL_AFF_TRANSFORMATIONH3_H
@@ -75,13 +77,13 @@ _general_transformation_composition (
                            Aff_transformation_repH3<FT,RT> r
                                          );
 
-template <class _FT, class _RT >
+template <class FT_, class RT_ >
 class Aff_transformation_rep_baseH3 : public Rep
 // abstract base class of aff transformation representations
 {
 public:
-  typedef _FT           FT;
-  typedef _RT           RT;
+  typedef FT_           FT;
+  typedef RT_           RT;
 
   virtual  ~Aff_transformation_rep_baseH3(){}
 
@@ -118,12 +120,12 @@ public:
            cartesian(int i, int j) const = 0;
 };
 
-template < class _FT, class _RT >
-class Aff_transformation_repH3 : public Aff_transformation_rep_baseH3<_FT,_RT>
+template < class FT_, class RT_ >
+class Aff_transformation_repH3 : public Aff_transformation_rep_baseH3<FT_,RT_>
 {
 public:
-  typedef _FT           FT;
-  typedef _RT           RT;
+  typedef FT_           FT;
+  typedef RT_           RT;
 
   Aff_transformation_repH3();
   Aff_transformation_repH3(
@@ -186,12 +188,12 @@ private:
     RT                  t33;
 };
 
-template < class _FT, class _RT >
-class Identity_repH3 : public Aff_transformation_rep_baseH3<_FT,_RT>
+template < class FT_, class RT_ >
+class Identity_repH3 : public Aff_transformation_rep_baseH3<FT_,RT_>
 {
 public:
-  typedef _FT           FT;
-  typedef _RT           RT;
+  typedef FT_           FT;
+  typedef RT_           RT;
 
            Identity_repH3()
            {}
@@ -242,12 +244,12 @@ public:
 };
 
 
-template < class _FT, class _RT >
-class Translation_repH3 : public Aff_transformation_rep_baseH3<_FT,_RT>
+template < class FT_, class RT_ >
+class Translation_repH3 : public Aff_transformation_rep_baseH3<FT_,RT_>
 {
 public:
-  typedef _FT           FT;
-  typedef _RT           RT;
+  typedef FT_           FT;
+  typedef RT_           RT;
 
            Translation_repH3();
 
@@ -295,12 +297,12 @@ private:
 };
 
 
-template < class _FT, class _RT >
+template < class FT_, class RT_ >
 class Aff_transformationH3 : public Handle
 {
 public:
-  typedef _FT           FT;
-  typedef _RT           RT;
+  typedef FT_           FT;
+  typedef RT_           RT;
 
   Aff_transformationH3();
 
@@ -559,7 +561,7 @@ CGAL_KERNEL_INLINE
 bool
 Aff_transformation_repH3<FT,RT>::is_even() const
 {
-  return (CGAL::sign( t33 * det3x3_by_formula(t00, t01, t02,
+  return (CGAL_NTS sign( t33 * det3x3_by_formula(t00, t01, t02,
                                               t10, t11, t12,
                                               t20, t21, t22 ) ) == 1 );
 }

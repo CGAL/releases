@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Segment_3.fw
 // file          : include/CGAL/Segment_3.h
-// package       : _3 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _3 (3.7)
+// revision      : 3.7
+// revision_date : 16 Aug 2000 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -66,17 +67,22 @@
 #endif // CGAL_SEGMENTC3_H
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/SegmentS3.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 #ifndef CGAL_LINE_3_H
 #include <CGAL/Line_3.h>
 #endif // CGAL_LINE_3_H
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-class Segment_3 : public _R::Segment_3_base
+template <class R_>
+class Segment_3 : public R_::Segment_3_base
 {
 public:
-  typedef          _R                       R;
+  typedef          R_                       R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
   typedef typename R::Segment_3_base  RSegment_3;
@@ -91,19 +97,12 @@ public:
   Segment_3(const RSegment_3&  s) : RSegment_3(s)
   {}
 
-  CGAL::Segment_3<R>&   operator=(const CGAL::Segment_3<R>& s)
-  {
-    RSegment_3::operator=(s);
-    return *this;
-  }
   bool                 has_on(const CGAL::Point_3<R>& p) const
   { return RSegment_3::has_on(p); }
   bool                 operator==(const CGAL::Segment_3<R>& s) const
   { return RSegment_3::operator==(s); }
   bool                 operator!=(const CGAL::Segment_3<R>& s) const
   { return !(*this == s); }
-  int                  id() const   /* XXX */
-  { return (int) PTR ; }
   CGAL::Point_3<R>     start() const
   { return RSegment_3::start(); }
   CGAL::Point_3<R>     end() const

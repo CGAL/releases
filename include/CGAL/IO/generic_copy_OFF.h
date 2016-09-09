@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/generic_copy_OFF.h
-// package       : Polyhedron_IO (2.9)
+// package       : Polyhedron_IO (2.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
 // revision      : $Revision: 1.5 $
@@ -44,7 +44,8 @@
 // coordinator   : Herve Bronnimann
 //
 // Generic copy of an object file format (OFF) file
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

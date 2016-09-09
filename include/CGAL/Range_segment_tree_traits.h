@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Range_segment_tree_traits.h
-// package       : SearchStructures (2.50)
+// package       : SearchStructures (2.54)
 // source        : include/CGAL/Range_segment_tree_traits.h
 // revision      : $Revision: 1.3 $
 // revision_date : $Date: 1998/02/03 13:14:57 $
@@ -44,7 +44,8 @@
 //
 //
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -62,7 +63,7 @@ CGAL_BEGIN_NAMESPACE
 
 
 template<class Key_1>
-  class _Compare_1{
+  class C_Compare_1{
   public:
     
     bool operator()(Key_1 k1, Key_1 k2)
@@ -75,7 +76,7 @@ template<class Key_1>
   };
 
 template<class Key_2>
-  class _Compare_2{
+  class C_Compare_2{
   public:
     
     bool operator()(Key_2 k1, Key_2 k2)
@@ -88,7 +89,7 @@ template<class Key_2>
   };
 
 template<class Key_3>
-  class _Compare_3{
+  class C_Compare_3{
   public:
     
     bool operator()(Key_3 k1, Key_3 k2)
@@ -102,53 +103,53 @@ template<class Key_3>
 
 
 template<class Key_1,class Interval>
-  class _Low_1{
+  class C_Low_1{
   public:
     Key_1 operator()(const Interval& i)
     { return i.first;}
   };
 
 template<class Key_1,class Interval>
-  class _High_1{
+  class C_High_1{
   public:
     Key_1 operator()(const Interval& i)
     { return i.second;}
   };
 
 template<class Key_2,class Interval>
-  class _Low_2{
+  class C_Low_2{
   public:
     Key_2 operator()(const Interval& i)
     { return i.first;}
   };
 template<class Key_2,class Interval>
-  class _High_2{
+  class C_High_2{
   public:
     Key_2 operator()(const Interval& i)
     { return i.second;}
   };
 template<class Key_3,class Interval>
-  class _Low_3{
+  class C_Low_3{
   public:
     Key_3 operator()(const Interval& i)
     { return i.first;}
   };
 template<class Key_3,class Interval>
-  class _High_3{
+  class C_High_3{
   public:
     Key_3 operator()(const Interval& i)
     { return i.second;}
   };
 
 template<class Key_1>
-  class _Key_1{
+  class C_Key_1{
   public:
     Key_1 operator()(const Key_1& k)
     { return k;}
   };
 
  template<class Key_2>
- class _Key_2{
+ class C_Key_2{
   public:
     Key_2 operator()(const Key_2& k)
     { return k;}
@@ -156,7 +157,7 @@ template<class Key_1>
 
 
 template<class Key_3>
-  class _Key_3{
+  class C_Key_3{
   public:
     Key_3 operator()(const Key_3& k)
     { return k;}
@@ -196,13 +197,13 @@ class Range_tree_map_traits_2{
   typedef Point_2< Rep> Key_2;
   typedef std::pair<Pure_key, Pure_key> Interval;
 
-  typedef _Compare_1<Key_1> compare_1;
-  typedef _Compare_2<Key_2> compare_2;
-  typedef _Low_1<Key_1,Interval> low_1;
-  typedef _High_1<Key_1,Interval> high_1;
+  typedef C_Compare_1<Key_1> compare_1;
+  typedef C_Compare_2<Key_2> compare_2;
+  typedef C_Low_1<Key_1,Interval> low_1;
+  typedef C_High_1<Key_1,Interval> high_1;
   typedef T_Key_1<Key_1,Key> key_1;
-  typedef _Low_2<Key_2,Interval> low_2;
-  typedef _High_2<Key_2,Interval> high_2;
+  typedef C_Low_2<Key_2,Interval> low_2;
+  typedef C_High_2<Key_2,Interval> high_2;
   typedef T_Key_2<Key_2,Key> key_2;
 
 };
@@ -261,9 +262,9 @@ class Range_tree_map_traits_3{
   typedef Point_3< Rep> Key_3;
   typedef std::pair<Key,Key> Interval;
 
-  typedef _Compare_1<Key_1> compare_1;
-  typedef _Compare_2<Key_2> compare_2;
-  typedef _Compare_3<Key_3> compare_3;
+  typedef C_Compare_1<Key_1> compare_1;
+  typedef C_Compare_2<Key_2> compare_2;
+  typedef C_Compare_3<Key_3> compare_3;
   typedef T_Low_1<Key_1,Interval> low_1;
   typedef T_High_1<Key_1,Interval> high_1;
   typedef T_Key_1<Key_1,Key> key_1;
@@ -328,14 +329,14 @@ class Segment_tree_map_traits_2{
   typedef std::pair<Key,Key> Pure_interval;
   typedef std::pair<Pure_interval, T> Interval;
 
-  typedef _Compare_1<Key_1> compare_1;
-  typedef _Compare_2<Key_2> compare_2;
+  typedef C_Compare_1<Key_1> compare_1;
+  typedef C_Compare_2<Key_2> compare_2;
   typedef S_Low_1<Key_1,Interval> low_1;
   typedef S_High_1<Key_1,Interval> high_1;
-  typedef _Key_1<Key_1> key_1;
+  typedef C_Key_1<Key_1> key_1;
   typedef S_Low_2<Key_2,Interval> low_2;
   typedef S_High_2<Key_2,Interval> high_2;
-  typedef _Key_2<Key_2> key_2;
+  typedef C_Key_2<Key_2> key_2;
 
 };
 
@@ -351,18 +352,18 @@ class Segment_tree_map_traits_3{
   typedef std::pair<Pure_interval,T> Interval;
 
 
-  typedef _Compare_1<Key_1> compare_1;
-  typedef _Compare_2<Key_2> compare_2;
-  typedef _Compare_3<Key_3> compare_3;
+  typedef C_Compare_1<Key_1> compare_1;
+  typedef C_Compare_2<Key_2> compare_2;
+  typedef C_Compare_3<Key_3> compare_3;
   typedef S_Low_1<Key_1,Interval> low_1;
   typedef S_High_1<Key_1,Interval> high_1;
-  typedef _Key_1<Key_1> key_1;
+  typedef C_Key_1<Key_1> key_1;
   typedef S_Low_2<Key_2,Interval> low_2;
   typedef S_High_2<Key_2,Interval> high_2;
-  typedef _Key_2<Key_2> key_2;
+  typedef C_Key_2<Key_2> key_2;
   typedef S_Low_3<Key_3,Interval> low_3;
   typedef S_High_3<Key_3,Interval> high_3;
-  typedef _Key_3<Key_3> key_3;
+  typedef C_Key_3<Key_3> key_3;
 };
 
 
@@ -377,18 +378,18 @@ class Range_segment_tree_set_traits_3{
   typedef Point_3< Rep> Key_3;
   typedef std::pair<Key,Key> Interval;
 
-  typedef _Compare_1<Key_1> compare_1;
-  typedef _Compare_2<Key_2> compare_2;
-  typedef _Compare_3<Key_3> compare_3;
-  typedef _Low_1<Key_1,Interval>  low_1;
-  typedef _High_1<Key_1,Interval>  high_1;
-  typedef _Key_1<Key_1>  key_1;
-  typedef _Low_2<Key_2,Interval>  low_2;
-  typedef _High_2<Key_2,Interval> high_2;
-  typedef _Key_2<Key_2> key_2;
-  typedef _Low_3<Key_3,Interval> low_3;
-  typedef _High_3<Key_3,Interval> high_3;
-  typedef _Key_3<Key_3> key_3;
+  typedef C_Compare_1<Key_1> compare_1;
+  typedef C_Compare_2<Key_2> compare_2;
+  typedef C_Compare_3<Key_3> compare_3;
+  typedef C_Low_1<Key_1,Interval>  low_1;
+  typedef C_High_1<Key_1,Interval>  high_1;
+  typedef C_Key_1<Key_1>  key_1;
+  typedef C_Low_2<Key_2,Interval>  low_2;
+  typedef C_High_2<Key_2,Interval> high_2;
+  typedef C_Key_2<Key_2> key_2;
+  typedef C_Low_3<Key_3,Interval> low_3;
+  typedef C_High_3<Key_3,Interval> high_3;
+  typedef C_Key_3<Key_3> key_3;
 
 };
 
@@ -403,14 +404,14 @@ class Range_segment_tree_set_traits_2{
   typedef Point_2< Rep> Key_2;
   typedef std::pair<Key,Key> Interval;
 
-  typedef _Compare_1<Key_1> compare_1;
-  typedef _Compare_2<Key_2> compare_2;
-  typedef _Low_1<Key_1,Interval> low_1;
-  typedef _High_1<Key_1,Interval> high_1;
-  typedef _Key_1<Key_1> key_1;
-  typedef _Low_2<Key_2,Interval> low_2;
-  typedef _High_2<Key_2,Interval> high_2;
-  typedef _Key_2<Key_2> key_2;
+  typedef C_Compare_1<Key_1> compare_1;
+  typedef C_Compare_2<Key_2> compare_2;
+  typedef C_Low_1<Key_1,Interval> low_1;
+  typedef C_High_1<Key_1,Interval> high_1;
+  typedef C_Key_1<Key_1> key_1;
+  typedef C_Low_2<Key_2,Interval> low_2;
+  typedef C_High_2<Key_2,Interval> high_2;
+  typedef C_Key_2<Key_2> key_2;
 
 };
 

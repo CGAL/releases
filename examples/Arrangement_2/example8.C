@@ -1,15 +1,10 @@
-//The following example reads an arrangement of segments from standard
-//input and a query point, and performs a vertical ray shoot. To avoid
-//getting into infinite loops and crashes it needs to be compiled with
-//a multiprecision integer type (e.g., leda_integer or Gmpz)
-
 //example8.C
 
 // Define shorter names to please linker (g++/egcs)
 #define Arrangement_2 Ar
 #define _In_place_list_iterator IPLI
 #define Homogeneous Ho
-#define Arr_segment_exact_cached_traits ASECT
+#define Arr_segment_exact_traits ASET
 
 #include <CGAL/basic.h>
 #include <CGAL/Homogeneous.h>
@@ -19,13 +14,15 @@
 #include <fstream>
 //#include <CGAL/leda_integer.h>
 
-#include <CGAL/Arr_segment_exact_cached_traits.h>
+//#include <CGAL/Arr_segment_exact_cached_traits.h>
+#include <CGAL/Arr_segment_exact_traits.h>
 
 //typedef leda_integer                              NT;
 typedef long                                        NT;
 
 typedef CGAL::Homogeneous<NT>                       R;
-typedef CGAL::Arr_segment_exact_cached_traits<R>    Traits;
+//typedef CGAL::Arr_segment_exact_cached_traits<R>    Traits;
+typedef CGAL::Arr_segment_exact_traits<R>           Traits;
 
 typedef Traits::Point                               Point;
 typedef Traits::X_curve                             X_curve;
@@ -75,24 +72,3 @@ int main(int argc, char* argv[])
 
   return 0;  
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

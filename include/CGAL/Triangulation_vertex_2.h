@@ -30,20 +30,21 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Triangulation_vertex_2.h
-// package       : Triangulation (4.30)
+// package       : Triangulation (4.69)
 // source        : $RCSfile: Triangulation_vertex_2.h,v $
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 1999/12/10 15:05:54 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2000/06/08 15:10:30 $
 //
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -85,9 +86,9 @@ public:
   typedef Tds Triangulation_data_structure;
 
   typedef Gt  Geom_traits;
-  typedef typename Geom_traits::Point Point;
-  typedef typename Geom_traits::Segment Segment;
-  typedef typename Geom_traits::Triangle Triangle;
+  typedef typename Geom_traits::Point_2 Point;
+  typedef typename Geom_traits::Segment_2 Segment;
+  typedef typename Geom_traits::Triangle_2 Triangle;
 
   typedef typename Tds::Vertex Ve;
   typedef typename Tds::Face Fa;

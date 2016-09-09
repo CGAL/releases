@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : PointVectorDirectionH3.fw
 // file          : include/CGAL/RepH3.h
-// package       : H3 (2.3.7)
-// revision      : 2.3.7
-// revision_date : 03 Dec 1999 
+// package       : H3 (2.12)
+// revision      : 2.12
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_REPH3_H
 #define CGAL_REPH3_H
@@ -52,7 +54,7 @@
 CGAL_BEGIN_NAMESPACE
 
 template <class NT>
-class iRepH3 : public Rep
+class RepH3 : public Ref_counted
 {
 public:
   NT  e0;
@@ -60,13 +62,11 @@ public:
   NT  e2;
   NT  e3;
 
-  iRepH3()
+  RepH3()
    // : e0(NT(42)), e1(NT(42)), e2(NT(42)), e3(NT(1))
   {}
-  iRepH3(const NT& a0, const NT& a1, const NT& a2, const NT& a3)
+  RepH3(const NT& a0, const NT& a1, const NT& a2, const NT& a3)
     : e0(a0), e1(a1), e2(a2), e3(a3)
-  {}
-  ~iRepH3()
   {}
 
   NT    hx() { return e0; }

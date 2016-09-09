@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Tree_traits.h
-// package       : SearchStructures (2.50)
+// package       : SearchStructures (2.54)
 // source        : include/CGAL/Tree_traits.h
 // revision      : $Revision: 1.3 $
 // revision_date : $Date: 1998/02/03 13:15:20 $
@@ -44,7 +44,8 @@
 //
 //
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -60,56 +61,56 @@
 CGAL_BEGIN_NAMESPACE
 
 // Interface as it is expected for one layer of a Range Tree
-template<class _Data, class _Window, class _Key,          
-         class _Data_func, class _Window_left_func, 
-	 class _Window_right_func, class _Compare>
+template<class C_Data, class C_Window, class C_Key,          
+         class C_Data_func, class C_Window_left_func, 
+	 class C_Window_right_func, class C_Compare>
 class tree_point_traits{
  public:
-  typedef  _Key Key;
-  typedef  _Data Data;
-  typedef  _Window Window;
-  typedef  _Compare Compare;
+  typedef  C_Key Key;
+  typedef  C_Data Data;
+  typedef  C_Window Window;
+  typedef  C_Compare Compare;
 
-   _Key get_key(const  _Data&  dt)
-    const {return  _Data_func()(dt);}
-   _Key get_left(const  _Window& dt)
-    const {return  _Window_left_func()(dt);}
-   _Key get_right(const  _Window& dt)
-    const {return  _Window_right_func()(dt);}
+   C_Key get_key(const  C_Data&  dt)
+    const {return  C_Data_func()(dt);}
+   C_Key get_left(const  C_Window& dt)
+    const {return  C_Window_left_func()(dt);}
+   C_Key get_right(const  C_Window& dt)
+    const {return  C_Window_right_func()(dt);}
 
-  static bool comp( _Key const& key1,  _Key const& key2) 
-  {return  _Compare()(key1, key2);} 
-  static bool key_comp( _Data const& data1,  _Data const& data2)
+  static bool comp( C_Key const& key1,  C_Key const& key2) 
+  {return  C_Compare()(key1, key2);} 
+  static bool key_comp( C_Data const& data1,  C_Data const& data2)
   {
-    const Key d1= _Data_func()(data1);
-    const Key d2= _Data_func()(data2);
-    return  _Compare()(d1,d2);
+    const Key d1= C_Data_func()(data1);
+    const Key d2= C_Data_func()(data2);
+    return  C_Compare()(d1,d2);
   }
 };
 
 
 // Interface as it is expected for one layer of a Segment Tree
-template<class _Data, class _Window, class _Key,  
-         class _Data_left_func, class _Data_right_func, 
-	 class _Window_left_func, class _Window_right_func, class _Compare>
+template<class C_Data, class C_Window, class C_Key,  
+         class C_Data_left_func, class C_Data_right_func, 
+	 class C_Window_left_func, class C_Window_right_func, class C_Compare>
 class tree_interval_traits{
  public:
-  typedef  _Data Data;
-  typedef  _Window Window;
-  typedef  _Key Key;
-  typedef  _Compare Compare;
+  typedef  C_Data Data;
+  typedef  C_Window Window;
+  typedef  C_Key Key;
+  typedef  C_Compare Compare;
   
-   _Key get_left(const  _Data&  dt)
-    const {return  _Data_left_func()(dt);}
-   _Key get_right(const  _Data& dt)
-    const {return  _Data_right_func()(dt);}
-   _Key get_left_win(const  _Window& dt)
-    const {return  _Window_left_func()(dt);}
-   _Key get_right_win(const  _Window& dt)
-    const {return  _Window_right_func()(dt);}
+   C_Key get_left(const  C_Data&  dt)
+    const {return  C_Data_left_func()(dt);}
+   C_Key get_right(const  C_Data& dt)
+    const {return  C_Data_right_func()(dt);}
+   C_Key get_left_win(const  C_Window& dt)
+    const {return  C_Window_left_func()(dt);}
+   C_Key get_right_win(const  C_Window& dt)
+    const {return  C_Window_right_func()(dt);}
 
-  static bool comp( _Key const& key1,  _Key const& key2) 
-    {return  _Compare()(key1, key2);} 
+  static bool comp( C_Key const& key1,  C_Key const& key2) 
+    {return  C_Compare()(key1, key2);} 
 };
 
 CGAL_END_NAMESPACE

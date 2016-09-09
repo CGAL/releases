@@ -1,3 +1,5 @@
+//example4
+
 #include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/Point_2.h>
@@ -77,19 +79,3 @@ int main() {
 
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

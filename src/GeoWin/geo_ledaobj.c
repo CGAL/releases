@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 //
 // This software and related documentation is part of an INTERNAL release
 // of the Computational Geometry Algorithms Library (CGAL). It is not
@@ -12,13 +12,14 @@
 // release_date  :
 //
 // file          : src/GeoWin/geo_ledaobj.c
-// package       : GeoWin (1.0.8)
-// revision      : 1.0.8
-// revision_date : 17 December 1999 
+// package       : GeoWin (1.1.9)
+// revision      : 1.1.9
+// revision_date : 27 September 2000 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
-// coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-halle.de>)
+// coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-trier.de>)
 // ============================================================================
+
 
 #include <LEDA/geowin_init.h>
 
@@ -36,9 +37,25 @@ void geowin_Translate(segment& obj, double dx, double dy)
   obj = obnew;
 }
 
+void geowin_Translatepoint(segment& obj, double dx, double dy, int pnr)
+{ 
+  segment obnew;
+  if (pnr==0) obnew = segment(obj.source().translate(dx,dy),obj.target()); 
+  else obnew = segment(obj.source(),obj.target().translate(dx,dy)); 
+  obj = obnew;
+}
+
 void geowin_Translate(ray& obj, double dx, double dy)
 { 
   ray obnew = obj.translate(dx,dy);
+  obj = obnew;
+}
+
+void geowin_Translatepoint(ray& obj, double dx, double dy, int pnr)
+{ 
+  ray obnew;
+  if (pnr==0) obnew = ray(obj.point1().translate(dx,dy),obj.point2()); 
+  else obnew = ray(obj.point1(),obj.point2().translate(dx,dy)); 
   obj = obnew;
 }
 
@@ -48,16 +65,48 @@ void geowin_Translate(line& obj, double dx, double dy)
   obj = obnew;
 }
 
+void geowin_Translatepoint(line& obj, double dx, double dy, int pnr)
+{ 
+  line obnew;
+  if (pnr==0) obnew = line(obj.point1().translate(dx,dy),obj.point2()); 
+  else obnew = line(obj.point1(),obj.point2().translate(dx,dy)); 
+  obj = obnew;
+}
+
 void geowin_Translate(circle& obj, double dx, double dy)
 { 
   circle obnew = obj.translate(dx,dy);
   obj = obnew;
 }
 
+void geowin_Translatepoint(circle& obj, double dx, double dy, int pnr)
+{ 
+  circle obnew;
+  if (pnr==0) obnew = circle(obj.point1().translate(dx,dy),obj.point2(),obj.point3()); 
+  else {
+   if (pnr==1) obnew = circle(obj.point1(),obj.point2().translate(dx,dy),obj.point3()); 
+   else
+    obnew = circle(obj.point1(),obj.point2(),obj.point3().translate(dx,dy)); 
+  }
+  obj = obnew;
+}
+
+
 void geowin_Translate(polygon& obj, double dx, double dy)
 { 
   polygon obnew = obj.translate(dx,dy);
   obj = obnew;
+}
+
+void geowin_Translatepoint(polygon& obj, double dx, double dy, int pnr)
+{ 
+  list<point> PL = obj.vertices();
+  if (pnr >= PL.size()) return;
+  // translate a polygon vertex 
+  list_item it = PL.get_item(pnr);
+  //cout << PL[it] << " " << pnr << "\n"; cout.flush();
+  PL[it]=PL[it].translate(dx,dy);
+  obj = polygon(PL);
 }
 
 void geowin_Translate(gen_polygon& obj, double dx, double dy)
@@ -66,9 +115,28 @@ void geowin_Translate(gen_polygon& obj, double dx, double dy)
   obj = obnew;
 }
 
+void geowin_Translatepoint(gen_polygon& obj, double dx, double dy, int pnr)
+{ 
+  list<point> PL = obj.vertices();
+  if (pnr >= PL.size()) return;
+  // translate a polygon vertex 
+  list_item it = PL.get_item(pnr);
+  //cout << PL[it] << " " << pnr << "\n"; cout.flush();
+  PL[it]=PL[it].translate(dx,dy);
+  obj = gen_polygon(PL);  
+}
+
 void geowin_Translate(d3_point& obj, double dx, double dy)
 { 
-  d3_point obnew = obj.translate(dx,dy,0);
+  int dm = GeoWin::get_projection_mode();
+  d3_point obnew;
+  
+  switch(dm){
+   case 0: { obnew = obj.translate(dx,dy,0); break; } //xy
+   case 1: { obnew = obj.translate(dx,0,dy); break; } //xz
+   default: { obnew = obj.translate(0,dx,dy); break; } //yz
+  }
+  
   obj = obnew;
 }
 
@@ -78,6 +146,13 @@ void geowin_Translate(rectangle& obj, double dx, double dy)
   obj = obnew;
 }
 
+#if (__LEDA__ >= 420)
+void geowin_Translate(triangle& obj, double dx, double dy)
+{ 
+  triangle obnew = obj.translate(dx,dy);
+  obj = obnew;
+}
+#endif
 
 
 void geowin_Rotate(point& obj, double x, double y, double a)
@@ -128,9 +203,13 @@ void geowin_Rotate(d3_point& obj, double x, double y, double a)
 void geowin_Rotate(rectangle& obj, double x, double y, double a)
 { return; } 
 
-
-
-
+#if (__LEDA__ >= 420)
+void geowin_Rotate(triangle& obj, double x, double y, double a)
+{ 
+ triangle objnew = obj.rotate(point(x,y), a); 
+ obj = objnew;
+}
+#endif
 
 
 // IntersectsBox and BoundingBox for leda-types
@@ -218,6 +297,9 @@ bool geowin_IntersectsBox(const circle& c, double x1, double y1,
 bool geowin_IntersectsBox(const polygon& p,  double x1, double y1,
 		       double x2, double y2 , bool filled)
 {
+  if (p.size() == 0) return false;
+  if (p.size() == 1) geowin_IntersectsBox(p.vertices().head(), x1, y1, x2, y2 ,filled);
+
   segment s1(x1, y1, x2, y1);
   segment s2(x1, y2, x2, y2);
   segment s3(x1, y1, x1, y2);
@@ -256,6 +338,20 @@ bool geowin_IntersectsBox(const gen_polygon& p,  double x1, double y1,
   return false;
 }
 
+#if (__LEDA__ >= 420)
+bool geowin_IntersectsBox(const triangle& t,  double x1, double y1,
+		       double x2, double y2 , bool filled)
+{
+  list<point> LP;
+  if (left_turn(t.point1(),t.point2(),t.point3()))
+   { LP.append(t.point1()); LP.append(t.point2()); LP.append(t.point3()); }
+  else
+   { LP.push(t.point1()); LP.push(t.point2()); LP.push(t.point3()); } 
+  polygon pol(LP);
+  return geowin_IntersectsBox(pol,x1,y1,x2,y2,filled);
+}
+#endif
+
 bool geowin_IntersectsBox(const rectangle& obj, double x1,double y1,double x2, double y2,bool f)
 {
  point p1(x1,y1),p2(x2,y2);
@@ -265,7 +361,16 @@ bool geowin_IntersectsBox(const rectangle& obj, double x1,double y1,double x2, d
 }
 
 bool geowin_IntersectsBox(const d3_point& p,double x1,double y1,double x2, double y2,bool f)
-{ double xw=p.xcoord(), yw=p.ycoord();  
+{ 
+  int dm = GeoWin::get_projection_mode();
+  double xw,yw;
+  
+  switch(dm){
+    case 0:  { xw=p.xcoord(); yw=p.ycoord(); break; } //xy
+    case 1:  { xw=p.xcoord(); yw=p.zcoord(); break; } //xz
+    default:{ xw=p.ycoord(); yw=p.zcoord(); break; } //yz
+  }
+  
   if (x1<=xw && x2>=xw && y1<=yw && y2>=yw) return true; else return false;
 }
 
@@ -327,7 +432,7 @@ void geowin_BoundingBox(const polygon& P, double& x1, double& x2,
   if (L.empty()) return;
 
   x1= (L.head()).xcoord(); x2=x1;
-  y1= (L.head()).ycoord(); y2=x1;
+  y1= (L.head()).ycoord(); y2=y1;
   double xakt,yakt;
 
   forall(p, L){
@@ -345,7 +450,7 @@ void geowin_BoundingBox(const gen_polygon& P, double& x1, double& x2,
   point p;
   const list<point>&  L = P.vertices(); // polygons with 0 points ??
   x1= (L.head()).xcoord(); x2=x1;
-  y1= (L.head()).ycoord(); y2=x1;
+  y1= (L.head()).ycoord(); y2=y1;
   double xakt,yakt;
 
   forall(p, L){
@@ -357,13 +462,41 @@ void geowin_BoundingBox(const gen_polygon& P, double& x1, double& x2,
   }
 }
 
+#if (__LEDA__ >= 420)
+void geowin_BoundingBox(const triangle& t, double& x1, double& x2,
+		double& y1, double& y2)
+{
+  point p;
+  list<point> L;
+  L.append(t.point1()); L.append(t.point2()); L.append(t.point3());
+  x1= (L.head()).xcoord(); x2=x1;
+  y1= (L.head()).ycoord(); y2=y1;
+  double xakt,yakt;
+
+  forall(p, L){
+   xakt=p.xcoord(); yakt=p.ycoord();
+   if (xakt<x1) x1=xakt;
+   if (xakt>x2) x2=xakt;
+   if (yakt<y1) y1=yakt;
+   if (yakt>y2) y2=yakt;
+  }
+}
+#endif
+
 void geowin_BoundingBox(const rectangle& obj, double& x1, double& x2,double& y1, double& y2)
 {
   x1=obj.xmin(); x2=obj.xmax(); y1=obj.ymin(); y2=obj.ymax(); 
 }
 
 void geowin_BoundingBox(const d3_point& p, double& x1, double& x2, double& y1, double& y2)
-{ x1=p.xcoord(); x2=p.xcoord(); y1=p.ycoord(); y2=p.ycoord(); }
+{ 
+  int dm = GeoWin::get_projection_mode();
+  switch(dm){
+    case 0:   { x1=p.xcoord(); x2=p.xcoord(); y1=p.ycoord(); y2=p.ycoord(); return; }
+    case 1:   { x1=p.xcoord(); x2=p.xcoord(); y1=p.zcoord(); y2=p.zcoord(); return; }
+    default: { x1=p.xcoord(); x2=p.xcoord(); y1=p.zcoord(); y2=p.zcoord(); return; }
+  }
+}
 
 
 // ********************* end BB   *****************************************
@@ -381,31 +514,83 @@ void geowin_Translate(rat_point& p, double dx, double dy)
 void geowin_Translate(rat_segment& s, double dx, double dy)
 { s = rat_segment(s.to_segment().translate(dx, dy), 20); }
 
+void geowin_Translatepoint(rat_segment& s, double dx, double dy,int pnr)
+{ segment sf = s.to_segment(); 
+  geowin_Translatepoint(sf,dx,dy,pnr);
+  s = rat_segment(sf, 20); 
+}
+
 void geowin_Translate(rat_ray& r, double dx, double dy)
 { r = rat_ray(r.to_ray().translate(dx, dy), 20); }
+
+void geowin_Translatepoint(rat_ray& r, double dx, double dy,int pnr)
+{ ray rf = r.to_ray(); 
+  geowin_Translatepoint(rf,dx,dy,pnr);
+  r = rat_ray(rf, 20); 
+}
 
 void geowin_Translate(rat_line& l, double dx, double dy)
 { l = rat_line(l.to_line().translate(dx, dy), 20); }
 
+void geowin_Translatepoint(rat_line& l, double dx, double dy,int pnr)
+{ line lf = l.to_line(); 
+  geowin_Translatepoint(lf,dx,dy,pnr);
+  l = rat_line(lf, 20); 
+}
+
 void geowin_Translate(rat_circle& ci, double dx, double dy)
 { ci = rat_circle(ci.to_circle().translate(dx, dy), 20); }
+
+void geowin_Translatepoint(rat_circle& c, double dx, double dy,int pnr)
+{ circle cf = c.to_circle(); 
+  geowin_Translatepoint(cf,dx,dy,pnr);
+  c = rat_circle(cf, 20); 
+}
 
 void geowin_Translate(rat_polygon& p, double dx, double dy)
 { p = rat_polygon(p.to_polygon().translate(dx, dy), 20); }
 
+void geowin_Translatepoint(rat_polygon& p, double dx, double dy, int pnr)
+{ polygon pf = p.to_polygon(); 
+  geowin_Translatepoint(pf,dx,dy,pnr);
+  p = rat_polygon(pf, 20); 
+}
+
 void geowin_Translate(rat_gen_polygon& p, double dx, double dy)
 { p = rat_gen_polygon(p.to_gen_polygon().translate(dx, dy), 20); }
 
-void geowin_Translate(d3_rat_point& p, double dx, double dy)
-{ d3_point phelp= p.to_d3_point().translate(dx,dy,0);
-  double x=phelp.xcoord(), y=phelp.ycoord(), z=phelp.zcoord();
-  p = d3_rat_point(integer(x*100000),integer(y*100000), integer(z*100000),
-                                                                   100000);
+void geowin_Translatepoint(rat_gen_polygon& p, double dx, double dy,int pnr)
+{ gen_polygon pf = p.to_gen_polygon(); 
+  geowin_Translatepoint(pf,dx,dy,pnr);
+  p = rat_gen_polygon(pf, 20); 
 }
+
+void geowin_Translate(d3_rat_point& p, double dx, double dy)
+{ 
+  int dm = GeoWin::get_projection_mode();
+  d3_point phelp;
+  
+  switch(dm){
+    case 0:  { phelp= p.to_d3_point().translate(dx,dy,0); break; }
+    case 1:  { phelp= p.to_d3_point().translate(dx,0,dy); break; }
+    default:{ phelp= p.to_d3_point().translate(0,dx,dy); break; }
+  }
+  
+  double x=phelp.xcoord(), y=phelp.ycoord(), z=phelp.zcoord();
+  p = d3_rat_point(integer(x*100000),integer(y*100000), integer(z*100000),                                                                  100000);
+}
+
+#if (__LEDA__ >= 420)
+void geowin_Translate(rat_triangle& obj, double dx, double dy)
+{
+  triangle t = obj.to_float().translate(dx,dy);
+  obj = rat_triangle(rat_point(t.point1(),20), rat_point(t.point2(),20), rat_point(t.point3(),20));
+}
+#endif
 
 void geowin_Translate(rat_rectangle& obj, double dx, double dy)
 {  
-  return;
+  obj = rat_rectangle(obj.to_float().translate(dx, dy), 20);
 }
 
 
@@ -436,7 +621,13 @@ void geowin_Rotate(d3_rat_point& p, double x, double y,double a)
 void geowin_Rotate(rat_rectangle& obj, double x, double y, double a)
 { return; }
 
-
+#if (__LEDA__ >= 420)
+void geowin_Rotate(rat_triangle& obj, double x, double y, double a)
+{
+  triangle t = obj.to_float().rotate(point(x,y),a);
+  obj = rat_triangle(rat_point(t.point1(),20), rat_point(t.point2(),20), rat_point(t.point3(),20));
+}
+#endif
 
 
 // *********************************************`***************************
@@ -470,11 +661,25 @@ bool geowin_IntersectsBox(const rat_gen_polygon& p, double x1, double y1,
 		       double x2, double y2, bool filled )  
 { return geowin_IntersectsBox( p.to_gen_polygon(), x1, y1, x2, y2, filled ); }
 
+#if (__LEDA__ >= 420)
+bool geowin_IntersectsBox(const rat_triangle& obj, double x1,double y1,double x2, double y2,bool f)
+{ return geowin_IntersectsBox(obj.to_float(),x1,y1,x2,y2,f); }
+#endif
+
 bool geowin_IntersectsBox(const rat_rectangle& obj, double x1,double y1,double x2, double y2,bool f)
 { return geowin_IntersectsBox(obj.to_rectangle(),x1,y1,x2,y2,f); }
 
 bool geowin_IntersectsBox(const d3_rat_point& p,double x1,double y1,double x2, double y2,bool f)
-{ double xw=p.xcoord().to_double(), yw=p.ycoord().to_double();  
+{ 
+  int dm = GeoWin::get_projection_mode();
+  double xw, yw;
+  
+  switch(dm){
+   case 0:   { xw=p.xcoord().to_double(); yw=p.ycoord().to_double(); break; }
+   case 1:   { xw=p.xcoord().to_double(); yw=p.zcoord().to_double(); break; }
+   default: { xw=p.ycoord().to_double(); yw=p.zcoord().to_double(); break; }   
+  }
+  
   if (x1<=xw && x2>=xw && y1<=yw && y2>=yw) return true; else return false;
 }
 
@@ -518,11 +723,24 @@ void geowin_BoundingBox(const rat_gen_polygon& p, double& x1, double& x2,
 		double& y1, double& y2)
 { geowin_BoundingBox( p.to_gen_polygon(), x1, x2, y1, y2); }
 
+#if (__LEDA__ >= 420)
+void geowin_BoundingBox(const rat_triangle& obj, double& x1, double& x2,double& y1, double& y2)
+{  geowin_BoundingBox(obj.to_float(),x1,x2,y1,y2); }
+#endif
+
 void geowin_BoundingBox(const rat_rectangle& obj, double& x1, double& x2,double& y1, double& y2)
 {  geowin_BoundingBox(obj.to_rectangle(),x1,x2,y1,y2); }
 
 void geowin_BoundingBox(const d3_rat_point& p, double& x1, double& x2, double& y1, double& y2)
-{ x1=p.xcoordD(); x2=p.xcoordD(); y1=p.ycoordD(); y2=p.ycoordD(); }
+{ 
+  int dm = GeoWin::get_projection_mode();
+
+  switch(dm){  
+    case 0:   { x1=p.xcoordD(); x2=p.xcoordD(); y1=p.ycoordD(); y2=p.ycoordD(); break; }
+    case 1:   { x1=p.xcoordD(); x2=p.xcoordD(); y1=p.zcoordD(); y2=p.zcoordD(); break; }
+    default: { x1=p.ycoordD(); x2=p.ycoordD(); y1=p.zcoordD(); y2=p.zcoordD(); break; }   
+  } 
+}
 
 
 // ********************* end  bounding box ********************************

@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Bbox_2.fw
 // file          : include/CGAL/Bbox_2.h
-// package       : _2 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _2 (3.6)
+// revision      : 3.6
+// revision_date : 30 Jul 2000 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -61,79 +62,70 @@
 
 CGAL_BEGIN_NAMESPACE
 
-class Bbox_2 : public Handle
+class Bbox_2 : public Handle_for< Fourtuple<double> >
 {
 public:
-                         Bbox_2();
-                         Bbox_2(const Bbox_2 &);
-                         Bbox_2(double x_min, double y_min,
-                                double x_max, double y_max);
-                         ~Bbox_2();
-  Bbox_2 &               operator=(const Bbox_2 &b);
-  bool                   operator==(const Bbox_2 &b) const;
-  bool                   operator!=(const Bbox_2 &b) const;
+             Bbox_2();
+             Bbox_2(double x_min, double y_min,
+                    double x_max, double y_max);
 
-  int                    dimension() const;
-  double                 xmin() const;
-  double                 ymin() const;
-  double                 xmax() const;
-  double                 ymax() const;
+  bool       operator==(const Bbox_2 &b) const;
+  bool       operator!=(const Bbox_2 &b) const;
 
-  double                 max(int i) const;
-  double                 min(int i) const;
+  int        dimension() const;
+  double     xmin() const;
+  double     ymin() const;
+  double     xmax() const;
+  double     ymax() const;
 
-  Bbox_2              operator+(const Bbox_2 &b) const;
+  double     max(int i) const;
+  double     min(int i) const;
 
-private:
-  _Fourtuple<double>*   ptr() const;
+  Bbox_2     operator+(const Bbox_2 &b) const;
+
 };
 
 
-inline _Fourtuple<double>* Bbox_2::ptr() const
-{
-  return (_Fourtuple<double>*)PTR;
-}
+inline
+int
+Bbox_2::dimension() const
+{ return 2; }
 
-inline int Bbox_2::dimension() const
-{
-  return 2;
-}
+inline
+double
+Bbox_2::xmin() const
+{ return ptr->e0; }
 
-inline double Bbox_2::xmin() const
-{
-  return ptr()->e0;
-}
+inline
+double
+Bbox_2::ymin() const
+{ return ptr->e1; }
 
-inline double Bbox_2::ymin() const
-{
-  return ptr()->e1;
-}
+inline
+double
+Bbox_2::xmax() const
+{ return ptr->e2; }
 
-inline double Bbox_2::xmax() const
-{
-  return ptr()->e2;
-}
+inline
+double
+Bbox_2::ymax() const
+{ return ptr->e3; }
 
-inline double Bbox_2::ymax() const
-{
-  return ptr()->e3;
-}
-
-inline double Bbox_2::min(int i) const
+inline
+double
+Bbox_2::min(int i) const
 {
   CGAL_kernel_precondition( (i == 0 ) || ( i == 1 ) );
-  if(i == 0) {
-    return xmin();
-  }
+  if(i == 0) { return xmin(); }
   return ymin();
 }
 
-inline double Bbox_2::max(int i) const
+inline
+double
+Bbox_2::max(int i) const
 {
   CGAL_kernel_precondition( (i == 0 ) || ( i == 1 ) );
-  if(i == 0) {
-    return xmax();
-  }
+  if(i == 0) { return xmax(); }
   return ymax();
 }
 inline Bbox_2 Bbox_2::operator+(const Bbox_2 &b) const

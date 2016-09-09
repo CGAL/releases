@@ -30,15 +30,16 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // file          : include/CGAL/Arithmetic_filter/predicates/builtin.h
-// package       : Interval_arithmetic (4.39)
+// package       : Interval_arithmetic (4.58)
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -46,6 +47,8 @@
 #define CGAL_ARITHMETIC_FILTER_PREDICATES_BUILTIN_H
 
 CGAL_BEGIN_NAMESPACE
+
+namespace NTS { // because the script transforms CGAL_NTS sign() into ...
 
 struct Static_Filtered_sign_1
 {
@@ -136,6 +139,8 @@ struct Static_Filtered_lexicographical_sign_2
     throw Interval_nt_advanced::unsafe_comparison();
   }
 };
+
+} // namespace NTS
 
 CGAL_END_NAMESPACE
 

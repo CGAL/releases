@@ -2,8 +2,8 @@ ABSTRACT. This is a short guide to installing and using CGAL with
 Windows compilers using native tools, that is, no extra add-on for the
 development environment, such as Cygwin, is needed.  The present
 document concerns mainly the MSVC 6.0 (Visual C++) compiler and
-IDE. Command-line interface for Borland C++ Builder 4 is very similar
-and is briefly described, as well.
+IDE. Command-line interface for Borland C++ compilers (versions 5.4 and 5.5)
+is very similar and is briefly described, as well.
 
 This document addresses Windows-specific issues of using CGAL. General
 questions of CGAL programming are considered in the CGAL Manual.
@@ -22,23 +22,25 @@ CONTENTS.
 
  5. GNU MP support
 
- Appendix. Using Borland C++ Builder 4 with CGAL.
+ Appendix. Using Borland C++ Builder 4 and Borland C++ 5.5 with CGAL.
 
 
 1. Introduction
 
 1.1. What is supported.
 
-The present CGAL release provides a basic support for MSVC 6.0
-compiler.  It can also be considered an early beta release for Inprise
-Borland C++ Builder 4. Using the latter with CGAL is briefly described
+The present CGAL release provides a basic support for the following
+compiler: MSVC 6.0, Borland C++ Builder 4 (with underlying Borland C++
+5.4), Borland C++ 5.5 and 5.5.1.  This guide mainly concerns MSVC 6.0.
+Using Borland compilers with CGAL is very similar is briefly described
 in the Appendix.
 
 Interfaces to arbitrary precision arithmetic packages (GNU MP and
 the corresponding part of LEDA) are supported. A precompiled GNU MP
-librarry is included in the distribution.
+library is included in the distribution.
 
-A 2D visualization via LEDA Window is supported.
+A 2D visualization via LEDA Window and 3D visialization via
+LEDA GeoWin is supported.
 
 
 1.2. What is not (yet) supported.
@@ -50,10 +52,10 @@ decide to support it at some point.
 Interface to CLN does not work for MSVC, as CLN cannot be compiled
 into an MSVC compatible library.
 
-There is no 3D visualization supported on Windows at the moment.  Such
-a support will be provided via forthcoming LEDA features.  Also, the
-openGL-based CGAL viewer that interfaces via FLTK library is being
-developed.
+CGAL 3D visualization on Windows is provided via LEDA-dependent
+GeoWin.  Geomview is not ported to Windows, thus using it with CGAL is
+not an option.  Also, the openGL-based CGAL viewer that interfaces via
+FLTK (or Mesa) library is being developed.
 
 
 1.3. What is needed.
@@ -67,20 +69,18 @@ NT4.0)  and about 15MB of disk space, is required.
 It is highly recommended that you have a recent (at least 4.0) version
 of LEDA installed. Most of the CGAL demos would not work without LEDA.
 
+The procedure is known to work on "mainstream" MS Windows platforms,
+such as Windows 2000, NT 4, 95 and 98. 
 
 1.1. Getting CGAL
 
 The easiest way to download CGAL is via the CGAL homepage: 
-http://www.cs.uu.nl/CGAL/
+http://www.cgal.org/
 and go to the `Software' section. 
 Follow the instructions on this page to obtain your copy of the
 library. 
 
-In the near future we plan to make an automated (by means of
-InstallShield or a similar tool) installation available.
-Currently, one should proceed as follows.
-
-Download the file called CGAL-2.1.zip and decompress it into a
+Download the file called CGAL-2.2.zip and decompress it into a
 suitable directory.  For the latter, either your web browser is able
 to interact with a decompression program like WinZip 
 (see http://www.winzip.com), or you can save
@@ -90,7 +90,7 @@ http://www.itribe.net/virtunix/
 
 Do *not* use directory names that have spaces in them for the
 installation path.
-A subdirectory called CGAL-2.1 will be created. 
+A subdirectory called CGAL-2.2 will be created. 
 The full path to it is referred as CGALROOT in the sequel.
 CGALROOT contains the following subdirectories: 
 
@@ -124,7 +124,7 @@ LEDA configuration is described below.
 2. Initial customization.
 
 Open a Command Prompt (on Win9* it is called MS-DOS Prompt) window.
-(do not try using a Cygwin bash window. If you like to use Cygwin, then
+(do not try using a Cygwin bash window. Should you like to use Cygwin,
  use the usual bash script install_cgal instead. See the "generic"
  Installation manual.)
 Change to CGALROOT and run the batch file cgal_config.bat at the
@@ -183,7 +183,7 @@ files can be considerable, up to several hundereds megabytes for all
 the executable, object and debug files.
 
 Examples and demos can also be built on per directory, or even on per
-executable basis.  Each examples/ and demo/ subdirectory contains a
+executable basis.  Each examples\ and demo\ subdirectory contains a
 file makefile.mak that is an MSVC nmake makefile.  For instance,
 change to CGALROOT\demo\Point_set_2 and type "nmake -f makefile.mak
 all" to build all the examples.  Typing "nmake -f makefile.mak
@@ -223,7 +223,7 @@ generated.  Customization of IDE is described in Sect 4.2 below.
 
 4.1. Using nmake makefiles.
 
-Simply adapt a makefile.mak from an examples/ or demos/ subdirectory.
+Simply adapt a makefile.mak from an examples\ or demos\ subdirectory.
 This means changing the target "all" and changing the targets that
 create executables (look in the subsection "target entries" there).
 For instance, you would like to create an executable demo_beta.exe
@@ -348,16 +348,8 @@ separate MSVC-compiled library that does I/O of the GMP numbers.)  It
 was checked that all tests that come with GMP distribution pass.  See
 CGALROOT\auxiliary\wingmp\gmp-2.0.2\msvc\src for details.
 
-Subject to time constraints, we might provide a smoother GMP support
-for MSVC in the future. A new major release of GMP is expected in
-March 2000, probably CGAL will be upgraded to use it then.
-
 -------------------------------------------------------------------
-Appendix. Using Borland C++ Builder 4 with CGAL
-
-NB. First, we repeat that the support of BCB4 by CGAL 2.1 is not
-complete. Expect that some demos and examples would not
-compile, and some crash at run-time.
+Appendix. Using Borland compilers with CGAL
 
 Here we describe the differences with MSVC installation described
 above.
@@ -385,8 +377,8 @@ difference that the platform-specific library paths end on bcc rather
 than on msvc, and that stlport include directory should NOT be added
 at all.
 
-GNU MP support for BCB4 is preliminary, and can be considered beta, as
-well.  A precompiled static library is located in
+GNU MP support for Borland compilers is preliminary, and can be
+considered beta, as well.  A precompiled static library is located in
 CGALROOT\auxiliary\wingmp\gmp-2.0.2\bcc
 
 It is built by configuring GMP to be compiled with BCB, and then
@@ -397,4 +389,3 @@ Thus do not expect it to be fast.
  assembler available that can generate BCB object format, OMF, from the
  AT&T format source code. Nor a convertor from COFF to OMF
  that works with GAS output is available.)
-

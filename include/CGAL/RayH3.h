@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : RayH3.fw
 // file          : include/CGAL/RayH3.h
-// package       : H3 (2.3.7)
-// revision      : 2.3.7
-// revision_date : 03 Dec 1999 
+// package       : H3 (2.12)
+// revision      : 2.12
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_RAYH3_H
 #define CGAL_RAYH3_H
@@ -56,108 +58,77 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class FT, class RT >
-class _Ray_repH3 : public Rep
+class Ray_repH3 : public Ref_counted
 {
-public:
-  _Ray_repH3() {}
-  _Ray_repH3(const PointH3<FT,RT>& p,
-                  const DirectionH3<FT,RT>& d)
-  {
-      startpoint = p;
-      direction  = d;
-  }
-  ~_Ray_repH3() {}
+ public:
+  Ray_repH3() {}
+  Ray_repH3(const PointH3<FT,RT>& p, const DirectionH3<FT,RT>& d)
+   : startpoint(p), direction(d)
+  {}
 
-friend class RayH3<FT,RT>;
+ friend class RayH3<FT,RT>;
 
-private:
+ private:
   PointH3<FT,RT>      startpoint;
   DirectionH3<FT,RT>  direction;
 };
 
 template < class FT, class RT >
-class RayH3 : public Handle
+class RayH3 : public Handle_for< Ray_repH3<FT,RT> >
 {
-public:
+  public:
         RayH3();
-        RayH3( const RayH3<FT,RT>& tbc);
-        RayH3( const PointH3<FT,RT>& sp,
-                    const PointH3<FT,RT>& secondp);
-        RayH3( const PointH3<FT,RT>& sp,
-                    const DirectionH3<FT,RT>& d);
-        ~RayH3();
-
-    RayH3<FT,RT>&  operator=(const RayH3<FT,RT>& r);
+        RayH3( const PointH3<FT,RT>& sp, const PointH3<FT,RT>& secondp);
+        RayH3( const PointH3<FT,RT>& sp, const DirectionH3<FT,RT>& d);
 
     PointH3<FT,RT> start() const;
     PointH3<FT,RT> source() const;
     PointH3<FT,RT> second_point() const;
     PointH3<FT,RT> point(int i) const;
     DirectionH3<FT,RT>
-                        direction() const;
+                   direction() const;
     LineH3<FT,RT>  supporting_line() const;
     RayH3<FT,RT>   opposite() const;
-    RayH3<FT,RT>   transform( const Aff_transformationH3<FT,RT> & t)
-                                                                         const;
-    bool                has_on(const PointH3<FT,RT> p) const;
-    bool                collinear_has_on(const PointH3<FT,RT> p) const;
-    bool                is_degenerate() const;
+    RayH3<FT,RT>   transform( const Aff_transformationH3<FT,RT> & t) const;
+    bool           has_on(const PointH3<FT,RT> p) const;
+    bool           collinear_has_on(const PointH3<FT,RT> p) const;
+    bool           is_degenerate() const;
 
-    bool                operator==(const RayH3<FT,RT>& r) const;
-    bool                operator!=(const RayH3<FT,RT>& r) const;
-    bool                identical( const RayH3<FT,RT>& r) const;
-
-protected:
-    _Ray_repH3<FT,RT>*  ptr() const;
+    bool           operator==(const RayH3<FT,RT>& r) const;
+    bool           operator!=(const RayH3<FT,RT>& r) const;
 };
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 RayH3<FT,RT>::RayH3()
-{ PTR = new _Ray_repH3<FT,RT>; }
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-RayH3<FT,RT>::RayH3(const RayH3<FT,RT>& tbc)
-  : Handle(tbc)
+ : Handle_for< Ray_repH3<FT,RT> >( Ray_repH3<FT,RT>() )
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 RayH3<FT,RT>::RayH3( const PointH3<FT,RT>& sp,
-                               const PointH3<FT,RT>& secondp)
-{ PTR = new _Ray_repH3<FT,RT>(sp,(secondp - sp).direction() ); }
+                     const PointH3<FT,RT>& secondp)
+ : Handle_for<Ray_repH3<FT,RT> >(Ray_repH3<FT,RT>(sp,(secondp-sp).direction()))
+{}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 RayH3<FT,RT>::RayH3( const PointH3<FT,RT>& sp,
-                               const DirectionH3<FT,RT>& d)
-{ PTR = new _Ray_repH3<FT,RT>(sp, d ); }
-
-template < class FT, class RT >
-inline
-RayH3<FT,RT>::~RayH3()
+                     const DirectionH3<FT,RT>& d)
+ : Handle_for<Ray_repH3<FT,RT> >( Ray_repH3<FT,RT>(sp, d ))
 {}
 
-template < class FT, class RT >
-CGAL_KERNEL_INLINE
-RayH3<FT,RT>&
-RayH3<FT,RT>::operator=(const RayH3<FT,RT>& r)
-{
-  Handle::operator=(r);
-  return *this;
-}
 template < class FT, class RT >
 inline
 PointH3<FT,RT>
 RayH3<FT,RT>::source() const
-{ return ptr()->startpoint; }
+{ return ptr->startpoint; }
 
 template < class FT, class RT >
 inline
 PointH3<FT,RT>
 RayH3<FT,RT>::start() const
-{ return ptr()->startpoint; }
+{ return ptr->startpoint; }
 
 template < class FT, class RT >
 inline
@@ -165,7 +136,7 @@ DirectionH3<FT,RT>
 RayH3<FT,RT>::direction() const
 {
   CGAL_kernel_precondition( !is_degenerate() );
-  return DirectionH3<FT,RT>( ptr()->direction );
+  return DirectionH3<FT,RT>( ptr->direction );
 }
 
 
@@ -252,7 +223,7 @@ template < class FT, class RT >
 inline
 bool
 RayH3<FT,RT>::is_degenerate() const
-{ return (ptr()->direction).is_degenerate() ; }
+{ return (ptr->direction).is_degenerate() ; }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
@@ -266,17 +237,6 @@ bool
 RayH3<FT,RT>::operator!=( const RayH3<FT,RT>& r) const
 { return !operator==(r); }
 
-template < class FT, class RT >
-inline
-bool
-RayH3<FT,RT>::identical( const RayH3<FT,RT>& r) const
-{ return ( PTR == r.PTR ); }
-
-template < class FT, class RT >
-inline
-_Ray_repH3<FT,RT>*
-RayH3<FT,RT>::ptr() const
-{ return (_Ray_repH3<FT,RT>*) PTR; }
 
 
 CGAL_END_NAMESPACE

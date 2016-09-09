@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Planar_map_2/Planar_map_misc.h
-// package       : pm (4.20)
+// package       : pm (5.43)
 // source        :
 // revision      :
 // revision_date :
@@ -44,7 +44,8 @@
 //
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -183,6 +184,10 @@ public:
 		  point_is_same(curve_righttop_most(part2),curve_leftlow_most(part1))&&
 		  point_is_same(curve_righttop_most(whole),curve_righttop_most(part1));
   }
+  inline bool curve_is_degenerate(const X_curve& cv) const
+  {
+	  return point_is_same(curve_source(cv),curve_target(cv));
+  }
 public:
   /* precondition:
 		cv1,cv2 are adjacent to q
@@ -299,6 +304,12 @@ public:
               return EQUAL;
 	}
     }
+  bool curve_is_unbounded(const X_curve& cv) const 
+  {
+    return 
+      curve_is_source_unbounded(cv)||
+      curve_is_target_unbounded(cv);
+  }
 };
 
 

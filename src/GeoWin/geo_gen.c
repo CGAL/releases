@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 //
 // This software and related documentation is part of an INTERNAL release
 // of the Computational Geometry Algorithms Library (CGAL). It is not
@@ -12,12 +12,12 @@
 // release_date  :
 //
 // file          : src/GeoWin/geo_gen.c
-// package       : GeoWin (1.0.8)
-// revision      : 1.0.8
-// revision_date : 17 December 1999 
+// package       : GeoWin (1.1.9)
+// revision      : 1.1.9
+// revision_date : 27 September 2000 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
-// coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-halle.de>)
+// coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-trier.de>)
 // ============================================================================
 
 
@@ -94,7 +94,7 @@ void lattice_points(list<point>& L, int N, double xmin, double ymin,
 }
 
 void segment_points( list<point>& L, segment s, int n)
-{ 
+{
   double x  = n*s.xcoord1();
   double y  = n*s.ycoord1();
   double dx = s.xcoord2() - s.xcoord1();
@@ -129,6 +129,21 @@ void circle_points(list<rat_point>& L, circle C, int n)
     }
 }
 
+void circle_segments(list<segment>& LS, circle C, int n)
+{
+  list<rat_point> L;
+  circle_points(L, C, n);
+
+  list_item lit = L.first();
+  
+  while(lit && L.succ(lit))
+  {
+    LS.append(segment(L[lit].to_point(), L[L.succ(lit)].to_point()));
+    lit = L.succ(lit);
+  }
+  LS.append(segment(L.tail().to_point(), L.head().to_point()));    
+}
+
 void rectangle_points(list<point>& L, rectangle R, int n)
 {
   double xmin = R.xmin();
@@ -144,6 +159,17 @@ void rectangle_points(list<point>& L, rectangle R, int n)
   for(i=0;i<n;i++){
     SR >> wt_x; SR >> wt_y;
     L.append(point(xmin + wt_x*dx, ymin + wt_y*dy));
+  }
+}
+
+void polygon_points(list<point>& L, polygon P, int n)
+{
+  list<segment> LS = P.edges();
+  segment siter;
+  forall(siter,LS){
+    list<point> Lh;
+    segment_points(Lh,siter,n);
+    L.conc(Lh);
   }
 }
 
@@ -236,22 +262,26 @@ void geowin_generate_objects(GeoWin& gw, list<point>& L)
   segment seg;
   circle  cir;
   rectangle rect;
+  polygon pol;
   
   int   ps = 20;
   int   pc = 20;
-  int   gen_count = 200;
+  int   gen_count = 0, gen_count2 = 20;
   
-  P.int_item("number", gen_count, 0, 2000);
+  P.int_item("number*100", gen_count, 0, 19);
+  P.int_item("+ n", gen_count2, 0, 99);   
+  
   P.button(" RANDOM ", 1);
 
   P.int_item("points on segment", ps, 2, 100);
-  P.button(" SEGMENT ", 2);
+  P.button(" NEAR SEGMENT ", 2);
 
   P.int_item("points on circle", pc, 2, 100);
   P.button(" CIRCLE ", 3);
   P.button(" LATTICE ",4);
   P.button(" IN DISC ",5);  
   P.button(" IN RECT ",6);
+  P.button(" ON POLYGON ",7);
   
   P.button(" DONE ", 0);
 
@@ -264,7 +294,7 @@ void geowin_generate_objects(GeoWin& gw, list<point>& L)
     {
     case 0 : break;
     case 1 :
-     { random_points( L, gen_count, x1, y1,  x2,  y2, grid);
+     { random_points( L, gen_count*100+gen_count2, x1, y1,  x2,  y2, grid);
        break;
      }
     case 2 :
@@ -283,21 +313,27 @@ void geowin_generate_objects(GeoWin& gw, list<point>& L)
      }
     case 4 :
      {
-      lattice_points(L, gen_count, x1, y1,  x2,  y2);
+      lattice_points(L, gen_count*100+gen_count2, x1, y1,  x2,  y2);
       break;
      }
     case 5 :
      {
       w >> cir;
-      disc_points(L, gen_count,cir);
+      disc_points(L, gen_count*100+gen_count2, cir);
       break;
      }
     case 6 :
      {
       w >> rect;
-      rectangle_points(L, rect, gen_count);
+      rectangle_points(L, rect, gen_count*100+gen_count2);
       break;
      }     
+    case 7 :
+     {
+      w >> pol;
+      polygon_points(L, pol, ps);
+      break;
+     }
     default : cout << but << endl; break;
     }
 }
@@ -331,7 +367,7 @@ void geowin_generate_objects(GeoWin& gw, list<segment>& S)
   int wi = 0, d = (int)(x2-x1)/10;
   int gen_count = 100;
 
-  P.int_item("number", gen_count, 0, 1000);
+  P.int_item("number", gen_count, 0, 300);
   P.int_item("direction", wi, 0, 360);
   P.int_item("distance", d, 0, (int)(x2-x1));
   P.int_item("segments in circle", pc, 2, 100);
@@ -554,6 +590,7 @@ void geowin_generate_objects(GeoWin& gw, list<polygon>& Pl)
 	  else L2.push(p);
 	}
       L1.conc(L2);
+      L1.reverse();
       Pl.append(polygon(L1));
       break;
      }
@@ -642,6 +679,12 @@ void geowin_generate_objects(GeoWin& gw, list<gen_polygon>& Pl)
     }  
 }
 
+#if (__LEDA__ >= 420)
+void geowin_generate_objects(GeoWin& gw, list<triangle>& L)
+{
+}
+#endif
+
 void geowin_generate_objects(GeoWin& gw, list<rectangle>& L)
 {
 }
@@ -676,9 +719,11 @@ void geowin_generate_objects(GeoWin& gw, list<d3_point>& L)
   
   double wt = ((x2-x1) > (y2-y1)) ? (y2-y1)/2 : (x2-x1)/2 ;
   int   maxc = (int)wt;
-  int   number = 200;
+  int   number = 20, number2 =0;
   
-  P.int_item("number", number, 0, 5000);
+  P.int_item("number*100", number2, 0, 19);
+  P.int_item("+ n", number, 0, 99);
+    
   P.button(" CUBE ", 1);
 
   //P.int_item("max coord", maxc, 2, 100);
@@ -698,19 +743,45 @@ void geowin_generate_objects(GeoWin& gw, list<d3_point>& L)
 
   switch (but) {
    case 0: return;
-   case 1: random_points_in_cube(number,3*maxc/4,Lr); break;
-   case 2: random_points_in_ball(number,maxc,Lr); break;
-   case 3: random_points_in_square(number,maxc,Lr); break;
-   case 4: random_points_on_paraboloid(number,maxc,Lr); break;
-   case 5: lattice_points(number,3*maxc/4,Lr); break;
-   case 6: random_points_on_sphere(number,maxc,Lr); break;
-   case 7: random_points_on_segment(number,maxc,Lr); break;
+   case 1: random_points_in_cube(number+number2*100,3*maxc/4,Lr); break;
+   case 2: random_points_in_ball(number+number2*100,maxc,Lr); break;
+   case 3: random_points_in_square(number+number2*100,maxc,Lr); break;
+   case 4: random_points_on_paraboloid(number+number2*100,maxc,Lr); break;
+   case 5: lattice_points(number+number2*100,3*maxc/4,Lr); break;
+   case 6: random_points_on_sphere(number+number2*100,maxc,Lr); break;
+   case 7: random_points_on_segment(number+number2*100,maxc,Lr); break;
   }
 
   L=conversion(Lr,wt);
 }
 
 #if !defined(NO_RAT_ALGORITHMS)
+
+void rat_segment_points( list<rat_point>& L, rat_segment s, int n)
+{
+  rational x  = n*s.xcoord1();
+  rational y  = n*s.ycoord1();
+  rational dx = s.xcoord2() - s.xcoord1();
+  rational dy = s.ycoord2() - s.ycoord1();
+  
+  for(int i=0; i < n; i++)
+  { 
+    rat_point p(x/n, y/n);
+    L.append(p);
+    x += dx; y += dy;
+  }
+}
+
+void rat_polygon_points(list<rat_point>& L, rat_polygon P, int n)
+{
+  list<rat_segment> LS = P.edges();
+  rat_segment siter;
+  forall(siter,LS){
+    list<rat_point> Lh;
+    rat_segment_points(Lh,siter,n);
+    L.conc(Lh);
+  }
+}
 
 void geowin_generate_objects(GeoWin& gw, list<rat_point>& L)
 {
@@ -769,9 +840,13 @@ void geowin_generate_objects(GeoWin& gw, list<rat_gen_polygon>& Pl)
   forall(p, L1) Pl.append(rat_gen_polygon(p)); 
 }
 
+#if (__LEDA__ >= 420)
+void geowin_generate_objects(GeoWin& gw, list<rat_triangle>& L)
+{ }
+#endif
+
 void geowin_generate_objects(GeoWin& gw, list<rat_rectangle>& L) 
-{ 
-}
+{ }
 
 void geowin_generate_objects(GeoWin& gw, list<d3_rat_point>& L) 
 { 

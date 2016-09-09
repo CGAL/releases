@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : basic_constructionsH3.fw
 // file          : include/CGAL/basic_constructionsH3.h
-// package       : H3 (2.3.7)
-// revision      : 2.3.7
-// revision_date : 03 Dec 1999 
+// package       : H3 (2.12)
+// revision      : 2.12
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_BASIC_CONSTRUCTIONSH3_H
 #define CGAL_BASIC_CONSTRUCTIONSH3_H
@@ -88,12 +90,49 @@ midpoint( const PointH3<FT,RT>& p,
                               RT(2) * phw * qhw );
 }
 
+
+template <class FT, class RT>
+PointH3<FT,RT>
+gp_linear_intersection(const PlaneH3<FT,RT> &f,
+                       const PlaneH3<FT,RT> &g,
+                       const PlaneH3<FT,RT> &h)
+{
+  return PointH3<FT,RT>(
+                      det3x3_by_formula(-f.d(), f.b(), f.c(),
+                                        -g.d(), g.b(), g.c(),
+                                        -h.d(), h.b(), h.c()),
+                      det3x3_by_formula( f.a(),-f.d(), f.c(),
+                                         g.a(),-g.d(), g.c(),
+                                         h.a(),-h.d(), h.c()),
+                      det3x3_by_formula( f.a(), f.b(),-f.d(),
+                                         g.a(), g.b(),-g.d(),
+                                         h.a(), h.b(),-h.d()),
+                      det3x3_by_formula( f.a(), f.b(), f.c(),
+                                         g.a(), g.b(), g.c(),
+                                         h.a(), h.b(), h.c()));
+}
+
+
+template <class FT, class RT>
+CGAL_KERNEL_INLINE
+FT
+squared_distance( PointH3<FT,RT> const& p, PointH3<FT,RT> const& q)
+{ return (p-q)*(p-q); }
+
+
+template <class FT, class RT>
+inline
+PlaneH3<FT,RT>
+bisector( PointH3<FT,RT> const& p,
+          PointH3<FT,RT> const& q)
+{ return PlaneH3<FT,RT>( midpoint(p,q), q-p); }
+
 template <class FT, class RT>
 PointH3<FT,RT>
 circumcenter( PointH3<FT,RT> const& p,
-                   PointH3<FT,RT> const& q,
-                   PointH3<FT,RT> const& r,
-                   PointH3<FT,RT> const& s)
+              PointH3<FT,RT> const& q,
+              PointH3<FT,RT> const& r,
+              PointH3<FT,RT> const& s)
 {
   RT phw( p.hw() );
   RT qhw( q.hw() );
@@ -153,6 +192,17 @@ circumcenter( PointH3<FT,RT> const& p,
                                    shx, shy, shz, shw );
 
  return PointH3<FT,RT>( chx, -chy, chz, RT(2)*chw);
+}
+template <class FT, class RT>
+CGAL_KERNEL_INLINE
+PointH3<FT,RT>
+circumcenter( PointH3<FT,RT> const& p,
+              PointH3<FT,RT> const& q,
+              PointH3<FT,RT> const& r)
+{
+  return gp_linear_intersection( PlaneH3<FT,RT>(p,q,r),
+                                 bisector(p,q),
+                                 bisector(p,r));
 }
 
 CGAL_END_NAMESPACE

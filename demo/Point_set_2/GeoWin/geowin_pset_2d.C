@@ -1,3 +1,17 @@
+#include <CGAL/basic.h>
+
+#if !defined(CGAL_USE_LEDA) || (__LEDA__ < 400)
+#include <iostream>
+
+int main(int argc, char *argv[])
+{
+ std::cout << "No LEDA 4.0 or higher installed!\n";
+ std::cout << "A LEDA version >= 4.0 is required !\n";
+ return 0;
+}
+#else 
+
+
 #include <CGAL/geowin_support.h>
 #include <CGAL/Point_set_2.h>
 
@@ -101,6 +115,6 @@ int main()
 
   gw.edit(sc1);
 
-  return 1;
+  return 0;
 }
-
+#endif

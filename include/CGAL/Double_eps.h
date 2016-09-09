@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Double_eps.fw
 // file          : include/CGAL/Double_eps.h
-// package       : Number_types (2.7.1)
-// revision      : 2.7.1
-// revision_date : 04 Dec 1999 
+// package       : Number_types (3.4)
+// revision      : 3.4
+// revision_date : 13 Jul 2000 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -140,7 +141,7 @@ public:
 
   bool operator==(const Double_eps &de) const
   {
-    return abs(_d - de._d) <= _eps;
+    return CGAL_NTS abs(_d - de._d) <= _eps;
   }
 
   bool operator!=(const Double_eps &de) const

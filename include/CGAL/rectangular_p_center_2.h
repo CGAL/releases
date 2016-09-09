@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,21 +30,22 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/rectangular_p_center_2.h
-// package       : Matrix_search (1.30)
+// package       : Matrix_search (1.43)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : pcenter.aw
-// revision      : $Revision: 1.30 $
-// revision_date : $Date: 1999/12/17 11:58:50 $
+// revision      : $Revision: 1.43 $
+// revision_date : $Date: 2000/09/15 07:25:34 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // 2-4-Center Computation for Axis-Parallel 2D-Rectangles
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -158,7 +159,7 @@ struct Pcenter_gcc291_operation
 : public CGAL_STD::binary_function< NT, NT, NT >
 {
   NT operator()(const NT& n1, const NT& n2) const
-  { return CGAL::max(NT(0), n1 - n2); }
+  { return max(NT(0), n1 - n2); }
 };
 #endif // defined(__GNUC__) && (__GNUC__ == 2) && (__GNUC_MINOR__ <= 91)
 /*
@@ -242,8 +243,8 @@ rectangular_p_center_2_binary_search(
                    (pierce_it.number_of_points() - 1));
   for ( ForwardIterator i( f); i != l; ++i)
     for ( ForwardIterator j( i + 1); j != l; ++j) {
-      c_diffs.push_back( abs( i->x() - j->x()));
-      c_diffs.push_back( abs( i->y() - j->y()));
+      c_diffs.push_back( CGAL_NTS abs( i->x() - j->x()));
+      c_diffs.push_back( CGAL_NTS abs( i->y() - j->y()));
     }
   CGAL_optimisation_assertion(
     c_diffs.size() == pierce_it.number_of_points() *

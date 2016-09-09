@@ -30,22 +30,22 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : examples/Benchmark_LK/point_distributions.h
 // chapter       : 
 // package       : Benchmark_LK
 // source        : Benchmark_LK/web/point_distributions.h
-// revision      : 2.3.2 
-// revision_date : 16 Dec 99
+// revision      : 2.4 
+// revision_date : 19 Apr 2000
 // author(s)     : Lutz Kettner
-//                 maintained by Stefan Schirra
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // A benchmark measuring the performance of the default convex hull impl.
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -113,7 +113,9 @@ template < class ForwardIterator>
 ForwardIterator point_distributions( const char* d, double range, 
 				     ForwardIterator o,
 				     int n, long seed) {
-    return point_distributions( d, range, o, n, seed, std::value_type(o));
+    return point_distributions( d, range, o, n, seed, 
+        static_cast< std::iterator_traits<ForwardIterator>::value_type*>(0 ));
+                                // std::value_type(o));
 }
 
 CGAL_END_NAMESPACE

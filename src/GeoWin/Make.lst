@@ -6,9 +6,9 @@ geo_gen$o \
 geo_obj$o \
 geo_scene$o \
 geo_win$o \
+geo_algo$o \
 geo_menu$o \
 geo_default_fl$o \
-geo_default_rat$o \
-version$o
+geo_default_rat$o 
 
 

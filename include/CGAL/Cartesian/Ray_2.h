@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Ray_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1999/11/05 22:29:48 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2000/08/23 14:35:36 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -52,16 +53,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
-class RayC2
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-// This is a partial specialization
-<_R,Cartesian_tag>
-#endif
-  : public Handle
+template < class R_ >
+class RayC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+  : public Handle_for< Twotuple< typename R_::Point_2> >
 {
 public:
-  typedef _R                                    R;
+  typedef R_                                    R;
   typedef typename R::FT                        FT;
   typedef typename R::RT                        RT;
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
@@ -94,11 +91,8 @@ public:
   RayC2(const Point_2 &sp, const Direction_2 &d);
   ~RayC2();
 
-  Self        &operator=(const Self &r);
-
   bool        operator==(const Self &r) const;
   bool        operator!=(const Self &r) const;
-  int         id() const;
 
   Point_2     start() const;
   Point_2     source() const;
@@ -117,8 +111,6 @@ public:
   bool        has_on(const Point_2 &p) const;
   bool        collinear_has_on(const Point_2 &p) const;
 
-private:
-  _Twotuple< Point_2 > *ptr() const;
 };
 
 CGAL_END_NAMESPACE

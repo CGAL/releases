@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : TriangleH3.fw
 // file          : include/CGAL/TriangleH3.h
-// package       : H3 (2.3.7)
-// revision      : 2.3.7
-// revision_date : 03 Dec 1999 
+// package       : H3 (2.12)
+// revision      : 2.12
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_TRIANGLEH3_H
 #define CGAL_TRIANGLEH3_H
@@ -62,24 +64,16 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class FT, class RT >
-class TriangleH3 : public Handle
+class TriangleH3 : public Handle_for< Threetuple< PointH3<FT,RT> > >
 {
 public:
   TriangleH3();
-  TriangleH3(const TriangleH3<FT,RT> &t);
   TriangleH3(const PointH3<FT,RT> &p,
-                  const PointH3<FT,RT> &q,
-                  const PointH3<FT,RT> &r);
-
-  ~TriangleH3();
-
-  TriangleH3<FT,RT> &
-                operator=(const TriangleH3<FT,RT> &t);
+             const PointH3<FT,RT> &q,
+             const PointH3<FT,RT> &r);
 
   bool          operator==(const TriangleH3<FT,RT> &t) const;
   bool          operator!=(const TriangleH3<FT,RT> &t) const;
-  bool          identical(const TriangleH3<FT,RT> &t) const;
-  int           id() const;
 
   PlaneH3<FT,RT>
                 supporting_plane() const;
@@ -96,43 +90,22 @@ public:
 
   Bbox_3   bbox() const;
 
-private:
-  _Threetuple< PointH3<FT,RT> >*   ptr() const;
 };
 
 
-template < class FT, class RT >
-inline
-_Threetuple< PointH3<FT,RT> > *
-TriangleH3<FT,RT>::ptr() const
-{ return (_Threetuple< PointH3<FT,RT> >*)PTR; }
 
 template < class FT, class RT >
 inline
 TriangleH3<FT,RT>::TriangleH3()
-{ PTR = new _Threetuple< PointH3<FT,RT> >; }
-
-template < class FT, class RT >
-inline
-TriangleH3<FT,RT>::TriangleH3(const TriangleH3<FT,RT> &t)
-  : Handle( (Handle&) t)
+ : Handle_for< Threetuple< PointH3<FT,RT> > >( Threetuple< PointH3<FT,RT> >())
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 TriangleH3<FT,RT>::TriangleH3(const PointH3<FT,RT> &p,
-                                        const PointH3<FT,RT> &q,
-                                        const PointH3<FT,RT> &r)
-{ PTR = new _Threetuple< PointH3<FT,RT> >(p, q, r); }
-
-template < class FT, class RT >
-CGAL_KERNEL_INLINE
-TriangleH3<FT,RT> &
-TriangleH3<FT,RT>::operator=(const TriangleH3<FT,RT> &t)
-{ Handle::operator=(t); return *this; }
-template < class FT, class RT >
-inline
-TriangleH3<FT,RT>::~TriangleH3()
+                              const PointH3<FT,RT> &q,
+                              const PointH3<FT,RT> &r)
+ : Handle_for<Threetuple<PointH3<FT,RT> > >(Threetuple<PointH3<FT,RT> >(p,q,r))
 {}
 
 template < class FT, class RT >
@@ -152,17 +125,6 @@ TriangleH3<FT,RT>::operator==(const TriangleH3<FT,RT> &t) const
 template < class FT, class RT >
 inline
 bool
-TriangleH3<FT,RT>::identical(const TriangleH3<FT,RT> &t) const
-{ return PTR == t.PTR; }
-
-template < class FT, class RT >
-inline
-int
-TriangleH3<FT,RT>::id() const
-{ return (int) PTR ; }
-template < class FT, class RT >
-inline
-bool
 TriangleH3<FT,RT>::operator!=(const TriangleH3<FT,RT> &t) const
 { return !(*this == t); }
 template < class FT, class RT >
@@ -172,9 +134,9 @@ TriangleH3<FT,RT>::vertex(int i) const
 {
   switch (i)
   {
-      case 0:  return ptr()->e0;
-      case 1:  return ptr()->e1;
-      case 2:  return ptr()->e2;
+      case 0:  return ptr->e0;
+      case 1:  return ptr->e1;
+      case 2:  return ptr->e2;
       default: return vertex(i%3);
   }
   // return PointH3<FT,RT>();

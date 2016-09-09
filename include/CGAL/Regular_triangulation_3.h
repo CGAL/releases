@@ -30,20 +30,21 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Regular_triangulation_3.h
-// package       : Triangulation3 (1.29)
-// revision      : $Revision: 1.22 $
-// revision_date : $Date: 1999/11/02 10:50:21 $
+// package       : Triangulation3 (1.42)
+// revision      : $Revision: 1.24 $
+// revision_date : $Date: 2000/08/02 09:00:09 $
 // author(s)     : Monique Teillaud
 //                 Sylvain Pion
 //                 
 // coordinator   : INRIA Sophia Antipolis 
 //                 (Mariette Yvinec)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -77,12 +78,13 @@ public:
   typedef typename Triangulation_3<Gt,Tds>::Cell Cell;
   typedef typename Triangulation_3<Gt,Tds>::Facet Facet;
   typedef typename Triangulation_3<Gt,Tds>::Edge Edge;
+
   typedef typename Triangulation_3<Gt,Tds>::Locate_type Locate_type;
   typedef typename Triangulation_3<Gt,Tds>::Cell_iterator Cell_iterator;
   typedef typename Triangulation_3<Gt,Tds>::Facet_iterator Facet_iterator;
   typedef typename Triangulation_3<Gt,Tds>::Edge_iterator Edge_iterator;
- 
-   Regular_triangulation_3()
+
+  Regular_triangulation_3()
     : Triangulation_3<Gt,Tds>() {}
   
   Regular_triangulation_3(const Gt & gt)
@@ -566,7 +568,7 @@ star_region_delete_points(std::set<void*, std::less<void*> > & region,
   _tds.star_region( region, v, c, li );
     
   // get the vertices incident to v
-  std::set<Vertex*, std::less<Vertex*> > inc_vert;
+  std::set<Vertex_handle, std::less<Vertex_handle> > inc_vert;
   incident_vertices(v, inc_vert);
     
   // for each vertex, check if it is a vertex incident to v

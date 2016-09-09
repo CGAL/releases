@@ -1,20 +1,36 @@
 //constructs a segment arrangement from file.
 // We use a homogeneous representation with the cached traits.
 
-//File format is (coordinates should be between [-400,400] to be in window):
-//#number_of_segments
-//#x1 y1 x2 y2
-// ....
- 
+#include <CGAL/config.h> // needed for the LONGNAME flag
+
+#ifdef CGAL_CFG_NO_LONGNAME_PROBLEM
 // Define shorter names to please linker (g++/egcs)
+#define Arrangement_2 Ar
+#define Arr_leda_segment_exact_traits Alset
+#define Arr_2_default_dcel A2d
+#define In_place_list_iterator IPLI
+#define Arr_2_vertex_base Avb
+#define Arr_2_halfedge_base Ahb
+#define Arr_2_face_base Afb
+#define Point_2 pT
+#define Segment_2 sT
+#define Topological_map TpM
+#define _List_iterator Lit
+#define Halfedge hE
+#define Forward_circulator_tag Fct
 #define Homogeneous Ho
 #define Quotient Qu
 #define _In_place_list_iterator IPLI
 #define Arrangement_2 Ar
 #define Arr_segment_exact_traits ASET
-#define bidirectional_iterator_tag BIT
 #define Arr_base_node ABN
-#define Arr_2_default_dcel A2DD
+#endif
+
+//File format is (coordinates should be between [-400,400] to be in window):
+//#number_of_segments
+//#x1 y1 x2 y2
+// ....
+ 
 
 
 #include <CGAL/basic.h>
@@ -26,6 +42,18 @@
 
 #include <vector>
 #include <fstream>
+
+#ifndef CGAL_USE_LEDA
+int main(int argc, char* argv[])
+{
+
+  std::cout << "Sorry, this demo needs LEDA for visualisation.";
+  std::cout << std::endl;
+
+  return 0;
+}
+
+#else
 
 #include <CGAL/leda_integer.h>
 //#include <CGAL/leda_real.h>
@@ -60,7 +88,13 @@ typedef CGAL::Arr_base_node<X_curve>   Base_node;
 typedef CGAL::Arr_2_default_dcel<Traits> Dcel;
 typedef CGAL::Arrangement_2<Dcel,Traits,Base_node > Arr_2;
 
+// global variables are used so that the redraw function for the LEDA window
+// can be defined to draw information found in these variables.
+static Arr_2               arr; 
+static CGAL::Window_stream W(400, 400, "CGAL - Segment Arrangement Demo");
+
 CGAL_BEGIN_NAMESPACE
+
 Window_stream& operator<<(Window_stream& os,
                           Arr_2 &A)
 {
@@ -111,6 +145,16 @@ void color_face(CGAL::Window_stream& W, Arr_2::Halfedge_handle e,
     
   }
 }
+// redraw function for the LEDA window. used automatically when window reappears
+void redraw(CGAL::Window_stream * wp) 
+{ wp->start_buffering();
+  wp->clear();
+  // draw arragnement
+  *wp << arr;
+  wp->flush_buffer();
+  wp->stop_buffering();
+}
+
 
 int main(int argc, char* argv[])
 {
@@ -124,12 +168,13 @@ int main(int argc, char* argv[])
 
   CGAL::Timer insrt_t;
 
-  Arr_2 arr(new CGAL::Pm_walk_along_line_point_location<Arr_2::Planar_map>);
+  //  Arr_2 arr(new CGAL::Pm_walk_along_line_point_location<Arr_2::Planar_map>);
 
-  CGAL::Window_stream W(400, 400);
+  //  CGAL::Window_stream W(400, 400);
   double x0=-200,x1=200,y0=-200;
 
   W.init(x0,x1,y0);
+  W.set_redraw(redraw);
   W.set_mode(leda_src_mode);
   W.set_node_width(3);
   W.button("finish",10);
@@ -188,23 +233,4 @@ int main(int argc, char* argv[])
   return 0;  
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif // CGAL_USE_LEDA

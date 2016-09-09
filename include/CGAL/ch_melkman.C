@@ -31,21 +31,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : melkman.fw
 // file          : include/CGAL/ch_melkman.C
-// package       : Convex_hull (2.2.19)
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999 
+// package       : Convex_hull (3.3)
+// revision      : 3.3
+// revision_date : 03 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_CH_MELKMAN_C
 #define CGAL_CH_MELKMAN_C
@@ -71,7 +73,7 @@ inline
 OutputIterator
 _ch_melkman(ForwardIterator first, ForwardIterator last,
             OutputIterator  result, Point_2<R>* )
-{ return ch_melkman(first, last, result, convex_hull_traits_2<R>() ); }
+{ return ch_melkman(first, last, result, R() ); }
 
 
 template <class InputIterator, class OutputIterator>
@@ -87,9 +89,9 @@ ch_melkman( InputIterator first, InputIterator last,
 {
   typedef typename Traits::Point_2      Point;
   typedef typename Traits::Segment_2    Segment;
-  typename Traits::Leftturn leftturn  = ch_traits.get_leftturn_object();
+  typename Traits::Leftturn_2 leftturn  = ch_traits.leftturn_2_object();
   CGAL_ch_assertion_code( \
-  typename Traits::Less_xy less       = ch_traits.get_less_xy_object();)
+  typename Traits::Less_xy_2 less       = ch_traits.less_xy_2_object(); )
   
   std::deque< Point> Q;
   

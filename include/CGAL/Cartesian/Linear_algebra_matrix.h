@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Linear_algebra_matrix.h
-// package       : Cd (1.1.1)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/12/07 18:53:23 $
+// package       : Cd (1.5)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2000/07/09 10:55:31 $
 // author(s)     : Herve.Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -57,21 +58,21 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _LA >
+template < class LA_ >
 class LA_matrixCd;
 
 template < class LA >
 std::ostream &
 operator<<(std::ostream &, const LA_matrixCd<LA> &);
 
-template < class _LA >
+template < class LA_ >
 class LA_matrixCd : public Handle
 {
   // Matrix class
   // Internal representation is a single n*m vector of FTs
   // Rows are stored consecutively
 public:
-  typedef _LA                              LA;
+  typedef LA_                              LA;
   typedef typename LA::FT                  FT;
   typedef typename LA::RT                  RT;
   typedef typename LA::Vector              Vector;
@@ -153,7 +154,7 @@ public:
   // it's amazing there is no such adaptor for iterators
   // so we must step manually by column_dimension()
   const_iterator column_begin(int j) const { return begin() + j; }
-  const_iterator column_end(int j)   const { return end() + j ; }
+  const_iterator column_end(int j)   const { return end() + j; }
 
   void swap_columns(int j, int k);
 
@@ -163,7 +164,7 @@ public:
   iterator       row_begin()               { return ptr()->e + i*_cdim; }
   iterator       row_end()                 { return ptr()->e + (i+1)*_cdim; }
   iterator       column_begin(int j)       { return begin() + j; }
-  iterator       column_end(int j)         { return end() + j ; }
+  iterator       column_end(int j)         { return end() + j; }
 
 // debug:
   void print() const { std::cout << *this; }

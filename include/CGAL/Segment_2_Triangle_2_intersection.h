@@ -1,7 +1,7 @@
 
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -31,17 +31,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Segment_2_Triangle_2_intersection.h
-// package       : Intersections_2 (2.2.2)
+// package       : Intersections_2 (2.6.3)
 // source        : intersection_2_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -49,15 +50,9 @@
 #ifndef CGAL_SEGMENT_2_TRIANGLE_2_INTERSECTION_H
 #define CGAL_SEGMENT_2_TRIANGLE_2_INTERSECTION_H
 
-#ifndef CGAL_SEGMENT_2_H
 #include <CGAL/Segment_2.h>
-#endif // CGAL_SEGMENT_2_H
-#ifndef CGAL_TRIANGLE_2_H
 #include <CGAL/Triangle_2.h>
-#endif // CGAL_TRIANGLE_2_H
-#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
-#endif // CGAL_POINT_2_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -75,9 +70,7 @@ public:
         if (_known)
             return _result;
     // The non const this pointer is used to cast away const.
-        Segment_2_Triangle_2_pair<R> *ncthis =
-                    (Segment_2_Triangle_2_pair<R> *) this;
-        ncthis->_known = true;
+        _known = true;
         Straight_2_<R> straight(*_seg);
     Line_2<R> l(_trian->vertex(0), _trian->vertex(1));
     if (l.oriented_side(_trian->vertex(2)) == ON_POSITIVE_SIDE) {
@@ -97,24 +90,24 @@ public:
         }
         switch (straight.current_state()) {
         case Straight_2_<R>::EMPTY:
-            ncthis->_result = NO;
+            _result = NO;
             return _result;
         case Straight_2_<R>::POINT: {
-            straight.current(ncthis->_intersection_point);
-            ncthis->_result = POINT;
+            straight.current(_intersection_point);
+            _result = POINT;
             return _result;
             }
         case Straight_2_<R>::SEGMENT: {
             Segment_2<R> seg;
             straight.current(seg);
-            ncthis->_intersection_point = seg.start();
-            ncthis->_other_point = seg.end();
-            ncthis->_result = SEGMENT;
+            _intersection_point = seg.start();
+            _other_point = seg.end();
+            _result = SEGMENT;
             return _result;
             }
         default:  // should not happen.
             CGAL_kernel_assertion_msg(false, "Internal CGAL error.");
-            ncthis->_result = NO;
+            _result = NO;
             return _result;
         }
     }
@@ -127,10 +120,10 @@ public:
 protected:
     Segment_2<R> const *  _seg;
     Triangle_2<R> const * _trian;
-    bool                       _known;
-    Intersection_results       _result;
-    Point_2<R>            _intersection_point;
-    Point_2<R>            _other_point;
+    mutable bool                       _known;
+    mutable Intersection_results       _result;
+    mutable Point_2<R>            _intersection_point;
+    mutable Point_2<R>            _other_point;
 };
 
 template <class R>
@@ -147,18 +140,10 @@ CGAL_END_NAMESPACE
 
 
 
-#ifndef CGAL_LINE_2_H
 #include <CGAL/Line_2.h>
-#endif // CGAL_LINE_2_H
-#ifndef CGAL_UTILS_H
 #include <CGAL/utils.h>
-#endif // CGAL_UTILS_H
-#ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
-#endif // CGAL_NUMBER_UTILS_H
-#ifndef CGAL_STRAIGHT_2_H
 #include <CGAL/Straight_2.h>
-#endif // CGAL_STRAIGHT_2_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -189,9 +174,7 @@ Segment_2_Triangle_2_pair<R>::intersection_type() const
     if (_known)
         return _result;
 // The non const this pointer is used to cast away const.
-    Segment_2_Triangle_2_pair<R> *ncthis =
-                (Segment_2_Triangle_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
     Straight_2_<R> straight(*_seg);
 Line_2<R> l(_trian->vertex(0), _trian->vertex(1));
 if (l.oriented_side(_trian->vertex(2)) == ON_POSITIVE_SIDE) {
@@ -211,24 +194,24 @@ if (l.oriented_side(_trian->vertex(2)) == ON_POSITIVE_SIDE) {
     }
     switch (straight.current_state()) {
     case Straight_2_<R>::EMPTY:
-        ncthis->_result = NO;
+        _result = NO;
         return _result;
     case Straight_2_<R>::POINT: {
-        straight.current(ncthis->_intersection_point);
-        ncthis->_result = POINT;
+        straight.current(_intersection_point);
+        _result = POINT;
         return _result;
         }
     case Straight_2_<R>::SEGMENT: {
         Segment_2<R> seg;
         straight.current(seg);
-        ncthis->_intersection_point = seg.start();
-        ncthis->_other_point = seg.end();
-        ncthis->_result = SEGMENT;
+        _intersection_point = seg.start();
+        _other_point = seg.end();
+        _result = SEGMENT;
         return _result;
         }
     default:  // should not happen.
         CGAL_kernel_assertion_msg(false, "Internal CGAL error.");
-        ncthis->_result = NO;
+        _result = NO;
         return _result;
     }
 }
@@ -266,9 +249,7 @@ CGAL_END_NAMESPACE
 
 
 
-#ifndef CGAL_OBJECT_H
 #include <CGAL/Object.h>
-#endif // CGAL_OBJECT_H
 
 CGAL_BEGIN_NAMESPACE
 

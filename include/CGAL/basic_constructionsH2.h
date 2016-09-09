@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : basic_constructionsH2.fw
 // file          : include/CGAL/basic_constructionsH2.h
-// package       : H2 (2.4.8)
-// revision      : 2.4.8
-// revision_date : 10 Dec 1999 
+// package       : H2 (2.12)
+// revision      : 2.12
+// revision_date : 03 Aug 2000 
 // author(s)     : Sven Schoenherr
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -50,31 +51,26 @@
 #ifndef CGAL_BASIC_CONSTRUCTIONSH2_H
 #define CGAL_BASIC_CONSTRUCTIONSH2_H
 
-#ifndef CGAL_POINTH2_H
 #include <CGAL/PointH2.h>
-#endif // CGAL_POINTH2_H
-#ifndef CGAL_LINEH2_H
 #include <CGAL/LineH2.h>
-#endif // CGAL_LINEH2_H
+#include <CGAL/TriangleH2.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template <class FT, class RT>
 CGAL_KERNEL_MEDIUM_INLINE
 PointH2<FT,RT>
-gp_linear_intersection(const LineH2<FT,RT>& l1,
-                            const LineH2<FT,RT>& l2)
+gp_linear_intersection(const LineH2<FT,RT>& l1, const LineH2<FT,RT>& l2)
 {
   return PointH2<FT,RT>( l1.b()*l2.c() - l2.b()*l1.c(),
-                              l2.a()*l1.c() - l1.a()*l2.c(),
-                              l1.a()*l2.b() - l2.a()*l1.b() );
+                         l2.a()*l1.c() - l1.a()*l2.c(),
+                         l1.a()*l2.b() - l2.a()*l1.b() );
 }
 
 template <class FT, class RT>
 CGAL_KERNEL_MEDIUM_INLINE
 LineH2<FT,RT>
-bisector( const PointH2<FT,RT>& p,
-               const PointH2<FT,RT>& q )
+bisector( const PointH2<FT,RT>& p, const PointH2<FT,RT>& q )
 {
  // Bisector equation is based on equation
  // ( X - p.x())^2 + (Y - p.y())^2 == ( X - q.x())^2 + (Y - q.y())
@@ -97,8 +93,7 @@ bisector( const PointH2<FT,RT>& p,
 template <class FT, class RT>
 CGAL_KERNEL_MEDIUM_INLINE
 FT
-squared_distance( const PointH2<FT,RT>& p,
-                       const PointH2<FT,RT>& q )
+squared_distance( const PointH2<FT,RT>& p, const PointH2<FT,RT>& q )
 {
   const RT phx = p.hx();
   const RT phy = p.hy();
@@ -124,8 +119,7 @@ squared_distance( const PointH2<FT,RT>& p,
 template < class FT, class RT >
 CGAL_KERNEL_MEDIUM_INLINE
 PointH2<FT,RT>
-midpoint( PointH2<FT,RT> const& p,
-               PointH2<FT,RT> const& q )
+midpoint( PointH2<FT,RT> const& p, PointH2<FT,RT> const& q )
 {
     const RT phw( p.hw());
     const RT qhw( q.hw());
@@ -142,8 +136,8 @@ template <class FT, class RT>
 CGAL_KERNEL_LARGE_INLINE
 PointH2<FT,RT>
 circumcenter( const PointH2<FT,RT>& p,
-                   const PointH2<FT,RT>& q,
-                   const PointH2<FT,RT>& r )
+              const PointH2<FT,RT>& q,
+              const PointH2<FT,RT>& r )
 {
   RT phx = p.hx();
   RT phy = p.hy();
@@ -156,7 +150,6 @@ circumcenter( const PointH2<FT,RT>& p,
   RT rhw = r.hw();
 
 #ifdef EXPANDED_CIRCUMCENTER_COMPUTATION   /* strange flag -- XXX */
-                                                /* was EXPANDED before */
   RT vvx =
       ( qhy*qhw*phw*phw - phy*phw*qhw*qhw )
      *( phx*phx*rhw*rhw + phy*phy*rhw*rhw - rhx*rhx*phw*phw - rhy*rhy*phw*phw )
@@ -191,6 +184,18 @@ circumcenter( const PointH2<FT,RT>& p,
   RT vvw = RT(2) * ( qx_px * ry_py - rx_px * qy_py );
 
   return PointH2<FT,RT>( vvx, vvy, vvw );
+}
+
+template <class FT, class RT>
+FT
+area(const TriangleH2<FT,RT>& t)
+{
+  RT num = determinant_3x3_by_formula(
+               t.vertex(0).hx(), t.vertex(0).hy(), t.vertex(0).hw(),
+               t.vertex(1).hx(), t.vertex(1).hy(), t.vertex(1).hw(),
+               t.vertex(2).hx(), t.vertex(2).hy(), t.vertex(2).hw() );
+  RT den = t.vertex(0).hw() * t.vertex(1).hw() * t.vertex(2).hw();
+  return FT(num) / FT(den);
 }
 
 CGAL_END_NAMESPACE

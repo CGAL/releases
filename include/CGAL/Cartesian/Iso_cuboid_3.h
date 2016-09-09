@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Iso_cuboid_3.h
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 1999/11/05 23:34:16 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2000/08/23 14:35:45 $
 // author(s)     : Hervé Brönnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -51,16 +52,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
-class Iso_cuboidC3
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-// This is a partial specialization
-<_R,Cartesian_tag>
-#endif
-  : public Handle
+template < class R_ >
+class Iso_cuboidC3 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+  : public Handle_for< Twotuple< typename R_::Point_3> >
 {
 public:
-  typedef _R                               R;
+  typedef R_                               R;
   typedef typename R::FT                   FT;
   typedef typename R::RT                   RT;
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
@@ -68,28 +65,25 @@ public:
   typedef typename R::Point_3              Point_3;
   typedef typename R::Aff_transformation_3 Aff_transformation_3;
 #else
-  typedef PointC3<R>                       Self;
+  typedef Iso_cuboidC3<R>                  Self;
   typedef typename R::Point_3_base         Point_3;
   typedef typename R::Aff_transformation_3_base Aff_transformation_3;
 #endif
 
 public:
-  Iso_cuboidH3();
-  Iso_cuboidH3(const Self& );
-  Iso_cuboidH3(const Point_3& p, const Point_3& q);
-  ~Iso_cuboidH3();
-
-  Self&        operator=(const Self& r);
+  Iso_cuboidC3();
+  Iso_cuboidC3(const Self& );
+  Iso_cuboidC3(const Point_3& p, const Point_3& q);
+  ~Iso_cuboidC3();
 
   bool         operator==(const Self& s) const;
   bool         operator!=(const Self& s) const;
   bool         identical(const Self& s) const;
-  int          id() const;
 
-  Self         min() const;
-  Self         max() const;
-  Self         vertex(int i) const;
-  Self         operator[](int i) const;
+  Point_3         min() const;
+  Point_3         max() const;
+  Point_3         vertex(int i) const;
+  Point_3         operator[](int i) const;
 
   Self         transform(const Aff_transformation_3& t) const;
   Bounded_side bounded_side(const Point_3& p) const;
@@ -98,7 +92,7 @@ public:
   bool         has_on_bounded_side(const Point_3& p) const;
   bool         has_on_unbounded_side(const Point_3& p) const;
   bool         is_degenerate() const;
-  Bbox_2       bbox() const;
+  Bbox_3       bbox() const;
   FT           xmin() const;
   FT           ymin() const;
   FT           zmin() const;
@@ -106,8 +100,6 @@ public:
   FT           ymax() const;
   FT           zmax() const;
 
-protected:
-  _Twotuple<Point_3>*  ptr() const;
 };
 
 CGAL_END_NAMESPACE

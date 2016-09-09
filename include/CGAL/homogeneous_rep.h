@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // source        : Homogeneous_traits.lw
 // file          : include/CGAL/homogeneous_rep.h
-// package       : Kernel_basic (2.9)
-// revision      : 1.0.2
-// revision_date : 16 Nov 1999
+// package       : Kernel_basic (3.14)
+// revision      : 3.13
+// revision_date : 10 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -58,13 +59,13 @@
 #include <CGAL/predicate_objects_on_points_2.h>
 #include <CGAL/Kernel/function_objects.h>
 
-CGAL_BEGIN_NAMESPACE
-template < class _FT, class _RT >
+namespace CGAL {
+template < class FT_, class RT_ >
 class Data_accessorH2
 {
 public:
-    typedef  _FT                  FT;
-    typedef  _RT                  RT;
+    typedef  FT_             FT;
+    typedef  RT_             RT;
     typedef  PointH2<FT,RT>  Point;
 
     RT  get_hx( Point const& p) const { return( p.hx()); }
@@ -85,44 +86,47 @@ public:
         p = Point( hx, hy, hw);
     }
 };
-template <class _R, class _RT, class _FT>
+template <class R_, class RT_, class FT_>
 class Homogeneous_base
 {
   public:
-    typedef _RT                RT;
-    typedef _FT                FT;
+    typedef RT_                RT;
+    typedef FT_                FT;
+    typedef CGAL::Object                            Object_2;
     // we have: template <class R> CGAL::Point_2 : public R::Point_2_base
-    typedef CGAL::Point_2< _R >                     Point_2;
-    typedef CGAL::Vector_2< _R >                    Vector_2;
-    typedef CGAL::Direction_2< _R >                 Direction_2;
-    typedef CGAL::Segment_2< _R >                   Segment_2;
-    typedef CGAL::Line_2< _R >                      Line_2;
-    typedef CGAL::Ray_2< _R >                       Ray_2;
-    typedef CGAL::Circle_2< _R >                    Circle_2;
-    typedef CGAL::Triangle_2< _R >                  Triangle_2;
-    typedef CGAL::Iso_rectangle_2< _R >             Iso_rectangle_2;
-    typedef CGAL::Aff_transformation_2< _R >        Aff_transformation_2;
-    typedef CGAL::Point_3< _R >                        Point_3;
-    typedef CGAL::Vector_3< _R >                       Vector_3;
-    typedef CGAL::Direction_3< _R >                    Direction_3;
-    typedef CGAL::Segment_3< _R >                      Segment_3;
-    typedef CGAL::Plane_3< _R >                        Plane_3;
-    typedef CGAL::Line_3< _R >                         Line_3;
-    typedef CGAL::Ray_3< _R >                          Ray_3;
-    typedef CGAL::Triangle_3< _R >                     Triangle_3;
-    typedef CGAL::Tetrahedron_3< _R >                  Tetrahedron_3;
-    typedef CGAL::Iso_cuboid_3< _R >                   Iso_cuboid_3;
-    typedef CGAL::Aff_transformation_3< _R >           Aff_transformation_3;
+    typedef CGAL::Point_2< R_ >                     Point_2;
+    typedef CGAL::Vector_2< R_ >                    Vector_2;
+    typedef CGAL::Direction_2< R_ >                 Direction_2;
+    typedef CGAL::Segment_2< R_ >                   Segment_2;
+    typedef CGAL::Line_2< R_ >                      Line_2;
+    typedef CGAL::Ray_2< R_ >                       Ray_2;
+    typedef CGAL::Circle_2< R_ >                    Circle_2;
+    typedef CGAL::Triangle_2< R_ >                  Triangle_2;
+    typedef CGAL::Iso_rectangle_2< R_ >             Iso_rectangle_2;
+    typedef CGAL::Aff_transformation_2< R_ >        Aff_transformation_2;
+    typedef CGAL::Object                               Object_3;
+    typedef CGAL::Point_3< R_ >                        Point_3;
+    typedef CGAL::Vector_3< R_ >                       Vector_3;
+    typedef CGAL::Direction_3< R_ >                    Direction_3;
+    typedef CGAL::Segment_3< R_ >                      Segment_3;
+    typedef CGAL::Plane_3< R_ >                        Plane_3;
+    typedef CGAL::Line_3< R_ >                         Line_3;
+    typedef CGAL::Ray_3< R_ >                          Ray_3;
+    typedef CGAL::Triangle_3< R_ >                     Triangle_3;
+    typedef CGAL::Tetrahedron_3< R_ >                  Tetrahedron_3;
+    typedef CGAL::Iso_cuboid_3< R_ >                   Iso_cuboid_3;
+    typedef CGAL::Sphere_3< R_ >                       Sphere_3;
+    typedef CGAL::Aff_transformation_3< R_ >           Aff_transformation_3;
     // we have: template <class R> CGAL::Point_d : public R::Point_d_base
-    typedef CGAL::Point_d< _R >                    Point_d;
+    typedef CGAL::Point_d< R_ >                    Point_d;
 
 };
-template <class _RT, class _FT = Quotient<_RT> >
-class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
+template <class RT_, class FT_ = Quotient<RT_> >
+class Homogeneous : public Homogeneous_base< Homogeneous<RT_,FT_>, RT_, FT_ >
 {
   public:
-    typedef _RT                RT;
-    typedef _FT                FT;
+    typedef RT_                RT;
+    typedef FT_                FT;
     typedef Homogeneous_tag        Rep_tag;
     typedef PointH2< FT, RT>                        Point_2_base;        
     typedef VectorH2< FT, RT>                       Vector_2_base;        
@@ -134,7 +138,7 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     typedef TriangleH2< FT, RT>                     Triangle_2_base;        
     typedef Iso_rectangleH2< FT, RT>                Iso_rectangle_2_base;        
     typedef Aff_transformationH2< FT, RT>           Aff_transformation_2_base;        
-    typedef Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >   KernelBase;
+    typedef Homogeneous_base< Homogeneous<RT_,FT_>, RT_, FT_ >   KernelBase;
 
     typedef typename KernelBase::Point_2               Point_2;
     typedef typename KernelBase::Vector_2              Vector_2;
@@ -154,6 +158,7 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     typedef CGALi::Construct<Ray_2>                    Construct_ray_2;
     typedef CGALi::Construct<Circle_2>                 Construct_circle_2;
     typedef CGALi::Construct<Triangle_2>               Construct_triangle_2;
+    typedef CGALi::Construct<Iso_rectangle_2>          Construct_iso_rectangle_2;
     typedef CGALi::Construct<Aff_transformation_2>     Construct_aff_transformation_2;
 
     Construct_point_2 
@@ -187,6 +192,10 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     Construct_triangle_2
     construct_triangle_2_object() const 
     { return Construct_triangle_2(); }
+
+    Construct_iso_rectangle_2
+    construct_iso_rectangle_2_object() const 
+    { return Construct_iso_rectangle_2(); }
 
     Construct_aff_transformation_2
     construct_aff_transformation_2_object() const 
@@ -299,15 +308,20 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     { return Transform_2(); }
 
     
+    typedef CGALi::Assign                                  Assign_2;
+    Assign_2
+    assign_2_object() const 
+    { return Assign_2(); }
+
     typedef CGALi::Intersect                               Intersect_2;
     Intersect_2
     intersect_2_object() const 
     { return Intersect_2(); }
 
-    typedef CGALi::Call_y_at_x_to_get<FT>                  Compute_y_at_x;
-    Compute_y_at_x
-    compute_y_at_x_object() const 
-    { return Compute_y_at_x(); }
+    typedef CGALi::Call_y_at_x_to_get<FT>                  Compute_y_at_x_2;
+    Compute_y_at_x_2
+    compute_y_at_x_2_object() const 
+    { return Compute_y_at_x_2(); }
 
     typedef CGALi::Call_squared_length_to_get<FT>          Compute_squared_length_2;
     Compute_squared_length_2
@@ -348,6 +362,11 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     less_xy_2_object() const 
     { return Less_xy_2(); }
 
+    typedef CGAL::p_Less_yx<Point_2>                       Less_yx_2;
+    Less_yx_2
+    less_yx_2_object() const 
+    { return Less_yx_2(); }
+
     typedef CGALi::Compare_x                               Compare_x_2;
     Compare_x_2
     compare_x_2_object() const 
@@ -368,6 +387,11 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     compare_y_at_x_2_object() const 
     { return Compare_y_at_x_2(); }
 
+    typedef CGALi::Compare_x_at_y                          Compare_x_at_y_2;
+    Compare_x_at_y_2
+    compare_x_at_y_2_object() const 
+    { return Compare_x_at_y_2(); }
+
     typedef CGAL ::p_Less_dist_to_point<Point_2>           Less_distance_to_point_2;
     Less_distance_to_point_2
     less_distance_to_point_2_object(const Point_2& p) const 
@@ -380,8 +404,13 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
 
     typedef CGAL ::p_Less_rotate_ccw<Point_2>              Less_rotate_ccw_2;
     Less_rotate_ccw_2
-    less_rotate_ccw_2(const Point_2& p) const 
+    less_rotate_ccw_2_object(const Point_2& p) const 
     { return Less_rotate_ccw_2(p); }
+
+    typedef CGALi::Counterclockwise_in_between             Counterclockwise_in_between_2;
+    Counterclockwise_in_between_2
+    counterclockwise_in_between_2_object() const 
+    { return Counterclockwise_in_between_2(); }
 
     typedef CGAL ::p_Leftturn<Point_2>                     Leftturn_2;
     Leftturn_2
@@ -392,6 +421,16 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     Left_of_line_2
     left_of_line_2_object(const Point_2& p, const Point_2& q) const 
     { return Left_of_line_2(p,q); }
+
+    // this is a hack
+    typedef CGAL ::p_Left_of_line_2p<Point_2>              Right_of_line_2;
+    Right_of_line_2
+    right_of_line_2_object(const Point_2& p, const Point_2& q) const 
+    { return Left_of_line_2(q,p); }  // !!!
+
+    Left_of_line_2
+    left_of_vertical_2_object(const Point_2& p) const 
+    { return Left_of_line_2(p,p + construct_vector_2_object()(RT(0),RT(1),RT(1))); }
 
     typedef CGALi::Collinear                               Collinear_2;
     Collinear_2
@@ -498,6 +537,7 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     typedef TriangleH3< FT, RT>                        Triangle_3_base;        
     typedef TetrahedronH3< FT, RT>                     Tetrahedron_3_base;        
     typedef Iso_cuboidH3< FT, RT>                      Iso_cuboid_3_base;        
+    typedef SphereH3< FT, RT>                          Sphere_3_base;        
     typedef Aff_transformationH3< FT, RT>              Aff_transformation_3_base;        
     typedef typename KernelBase::Point_3               Point_3;
     typedef typename KernelBase::Vector_3              Vector_3;
@@ -508,6 +548,7 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     typedef typename KernelBase::Ray_3                 Ray_3;
     typedef typename KernelBase::Triangle_3            Triangle_3;
     typedef typename KernelBase::Tetrahedron_3         Tetrahedron_3;
+    typedef typename KernelBase::Iso_cuboid_3          Iso_cuboid_3;
     typedef typename KernelBase::Aff_transformation_3  Aff_transformation_3;
 
     typedef CGALi::Construct<Point_3>                  Construct_point_3;
@@ -519,6 +560,7 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     typedef CGALi::Construct<Ray_3>                    Construct_ray_3;
     typedef CGALi::Construct<Triangle_3>               Construct_triangle_3;
     typedef CGALi::Construct<Tetrahedron_3>            Construct_tetrahedron_3;
+    typedef CGALi::Construct<Iso_cuboid_3>             Construct_iso_cuboid_3;
     typedef CGALi::Construct<Aff_transformation_3>     Construct_aff_transformation_3;
 
     Construct_point_3 
@@ -557,6 +599,10 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     construct_tetrahedron_object() const 
     { return Construct_tetrahedron_3(); }
 
+    Construct_iso_cuboid_3
+    construct_iso_cuboid_object() const 
+    { return Construct_iso_cuboid_3(); }
+
     Construct_aff_transformation_3
     construct_aff_transformation_3_object() const 
     { return Construct_aff_transformation_3(); }
@@ -580,6 +626,11 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     Construct_midpoint_3
     construct_midpoint_3_object() const 
     { return Construct_midpoint_3(); }
+
+    typedef CGALi::p_Circumcenter<Point_3>                 Construct_circumcenter_3;
+    Construct_circumcenter_3
+    construct_circumcenter_3_object() const 
+    { return Construct_circumcenter_3(); }
 
     typedef CGALi::Call_opposite_to_get<Segment_3>         Construct_opposite_segment_3;
     Construct_opposite_segment_3
@@ -607,6 +658,11 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     { return Transform_2(); }
 
     
+    typedef CGALi::Assign                                  Assign_3;
+    Assign_3
+    assign_3_object() const 
+    { return Assign_3(); }
+
     typedef CGALi::Intersect                               Intersect_3;
     Intersect_3
     intersect_3_object() const 
@@ -690,7 +746,7 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     typedef CGALi::Compare_xy                              Compare_xy_3;
     Compare_xy_3
     compare_xy_3_object() const 
-    { return Compare_xyz_3(); }
+    { return Compare_xy_3(); }
 
     typedef CGALi::Compare_xyz                             Compare_xyz_3;
     Compare_xyz_3
@@ -699,8 +755,8 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
 
     typedef CGAL ::p_Less_dist_to_point<Point_3>           Less_distance_to_point_3;
     Less_distance_to_point_3
-    less_distance_to_point_3_object() const 
-    { return Less_distance_to_point_3(); }
+    less_distance_to_point_3_object(const Point_3& p) const 
+    { return Less_distance_to_point_3(p); }
 
     typedef CGALi::Collinear                               Collinear_3;
     Collinear_3
@@ -820,6 +876,6 @@ class Homogeneous : public Homogeneous_base< Homogeneous<_RT,_FT>, _RT, _FT >
     { return r.denominator(); }
 
 };
-CGAL_END_NAMESPACE
+} // namespace CGAL
 
 #endif // CGAL_HOMOGENEOUS_REP_H

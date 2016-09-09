@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/constructions/kernel_ftCd.h
-// package       : Cd (1.1.1)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 1999/12/07 20:29:36 $
+// package       : Cd (1.5)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2000/06/27 14:29:53 $
 // author(s)     : Hervé Brönnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -214,7 +215,7 @@ squared_distanceCd(InputIterator pb, const InputIterator &pe,
 {
   typename std::iterator_traits<InputIterator>::value_type result(0);
   for (; pb!=pe; ++pb,++qb)
-    result += CGAL::square(*pb - *qb);
+    result += CGAL_NTS square(*pb - *qb);
   return result;
 }
 
@@ -252,7 +253,6 @@ scaled_distance_to_planeCd(const PointIterator &first,
   // scaled distance is simply the determinant
   typename R::LA La;
   return La.determinant(M);
-
 }
 
 CGAL_END_NAMESPACE

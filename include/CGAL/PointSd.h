@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : ddim_points.fw
 // file          : include/CGAL/PointSd.h
-// package       : _d (2.2.7)
-// revision      : 2.2.7
-// revision_date : 08 Oct 1999 
+// package       : _d (2.4)
+// revision      : 2.4
+// revision_date : 20 Jul 2000 
 // author(s)     : Sven Schoenherr
 //                 Bernd Gaertner
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -79,10 +80,10 @@ class PointSd : public Handle
       InputIterator i;
       for ( i=first, o=e; ( i < last)&&( o < e+dim ); *(o++) = *(i++) ) {};
       CGAL_kernel_precondition( o == e+dim );
-      if ( i < last ) 
+      if ( i < last )
       {
         FT h = *(i++);
-        CGAL_kernel_precondition( !is_zero (h) );
+        CGAL_kernel_precondition( !CGAL_NTS is_zero (h) );
         CGAL_kernel_precondition( i == last );
         for ( o=e; o < e+dim; *(o++) /= h ) ;
         // if ( h != FT(1) ) { for ( o=e; o < e+dim; *(o++) /= h ) {}; }
@@ -184,7 +185,7 @@ bool PointSd<FT>::operator==(const PointSd<FT>& p) const
 
 template < class FT >
 inline
-bool 
+bool
 PointSd<FT>::operator!=(const PointSd<FT>& p) const
 { return !(*this == p); }
 
@@ -195,7 +196,7 @@ int PointSd<FT>::id() const
 
 template < class FT >
 inline
-FT  
+FT
 PointSd<FT>::homogeneous(int i) const
 {
     CGAL_kernel_precondition ( (i>=0) && (i<=dimension()) );
@@ -207,7 +208,7 @@ PointSd<FT>::homogeneous(int i) const
 
 template < class FT >
 CGAL_KERNEL_INLINE
-FT  
+FT
 PointSd<FT>::cartesian(int i) const
 {
     CGAL_kernel_precondition ( (i>=0) && (i<dimension()) );
@@ -216,20 +217,20 @@ PointSd<FT>::cartesian(int i) const
 
 template < class FT >
 inline
-FT  
+FT
 PointSd<FT>::operator[](int i) const
 { return cartesian(i); }
 
 
 template < class FT >
 inline
-int 
+int
 PointSd<FT>::dimension() const
 { return ptr()->d; }
 
 template < class FT >
 inline
-const FT* 
+const FT*
 PointSd<FT>::begin() const
 { return ptr()->e; }
 
@@ -240,18 +241,18 @@ const FT* PointSd<FT>::end() const
 
 #ifndef NO_OSTREAM_INSERT_POINTSD
 template < class FT >
-std::ostream& 
+std::ostream&
 operator<<(std::ostream& os, const PointSd<FT> &p)
 {
     int d = p.dimension();
     int i;
-    switch(os.iword(IO::mode)) 
+    switch(os.iword(IO::mode))
     {
-      case IO::ASCII : 
+      case IO::ASCII :
         os << d << ' ';
         for (i=0; i<d-1; ++i)
         { os << p.cartesian(i) << ' '; }
-        os << p.cartesian(d-1); 
+        os << p.cartesian(d-1);
         return os;
       case IO::BINARY :
         write(os, d);
@@ -270,12 +271,12 @@ operator<<(std::ostream& os, const PointSd<FT> &p)
 
 #ifndef NO_ISTREAM_EXTRACT_POINTSD
 template < class FT >
-std::istream& 
+std::istream&
 operator>>(std::istream& is, PointSd<FT> &p)
 {
     int d=0, i;
     FT* e=0;
-    switch(is.iword(IO::mode)) 
+    switch(is.iword(IO::mode))
     {
       case IO::ASCII :
         is >> d;
@@ -289,7 +290,7 @@ operator>>(std::istream& is, PointSd<FT> &p)
         break;
       default:
         CGAL_kernel_assertion_msg(false,\
-                                  "Stream must be in ascii or binary mode"); 
+                                  "Stream must be in ascii or binary mode");
         // throw ios_base::failure("Stream must be in ascii or binary mode");
         return is;
     }

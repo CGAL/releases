@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : src/File_header_OFF.C
-// package       : Polyhedron_IO (2.9)
+// package       : Polyhedron_IO (2.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
 // revision      : $Revision: 1.5 $
@@ -44,7 +44,8 @@
 // coordinator   : Herve Bronnimann
 //
 // File header information of an object file format (OFF) file
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -227,7 +228,7 @@ operator+=( const File_header_OFF& header) {
 std::ostream& operator<<( std::ostream& out, const File_header_OFF& h) {
     if ( h.comments()) {
         out << "# Output of a CGAL tool\n";
-        out << CGAL_static_cast(const File_header_extended_OFF&, h);
+        out << static_cast<const File_header_extended_OFF&>( h);
     }
     if ( h.has_normals())
         out << 'N';
@@ -265,7 +266,7 @@ std::istream& operator>>( std::istream& in, File_header_OFF& h) {
         if ( in.get(c) && c == 'C' &&
              in.get(c) && c == 'B' &&
              in.get(c) && c == 'P') {
-            in >> CGAL_static_cast(File_header_extended_OFF&, h);
+            in >> static_cast<File_header_extended_OFF&>( h);
         } else if ( c != '\n')
             in >> skip_until_EOL;
     }

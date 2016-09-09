@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Iso_cuboid_3.fw
 // file          : include/CGAL/Iso_cuboid_3.h
-// package       : _3 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _3 (3.7)
+// revision      : 3.7
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_ISO_CUBOID_3_H
 #define CGAL_ISO_CUBOID_3_H
@@ -61,15 +63,20 @@
 #include <CGAL/Cartesian/Iso_cuboid_3.h>
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/Iso_cuboidS3.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 #include <CGAL/Point_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-class Iso_cuboid_3 : public _R::Iso_cuboid_3_base
+template <class R_>
+class Iso_cuboid_3 : public R_::Iso_cuboid_3_base
 {
 public:
-  typedef          _R                    R;
+  typedef          R_                    R;
   typedef typename R::RT                 RT;
   typedef typename R::FT                 FT;
   typedef typename R::Iso_cuboid_3_base  RIso_cuboid_3;
@@ -88,18 +95,10 @@ public:
   {}
 
 /*
-  Iso_cuboid_3<R>& operator=(const CGAL::Iso_cuboid_3<R>& r)
-  {
-    RIso_cuboid_3::operator=(r);
-    return *this;
-  }
-
   bool     operator==(const CGAL::Iso_cuboid_3<R>& r) const
            { return (const RIso_cuboid_3& )*this == (const RIso_cuboid_3& )r ; }
   bool     operator!=(const CGAL::Iso_cuboid_3<R>& r) const
            { return !(*this == r); }
-  int      id() const
-           { return (int) PTR; }
   CGAL::Point_3<R>
            min() const
            { return RIso_cuboid_3::min(); }

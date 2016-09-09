@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian_dynamic_d.h
-// package       : Cartesian_basic (3.3.7)
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 1999/11/22 13:44:11 $
+// package       : Cartesian_basic (4.2)
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2000/06/27 14:52:40 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -61,12 +62,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template< class R, class _FT >
+template< class R, class FT_ >
 struct Cartesian_base_dynamic_d
 {
     // Number types and representation tag
-    typedef _FT                                 RT;
-    typedef _FT                                 FT;
+    typedef FT_                                 RT;
+    typedef FT_                                 FT;
     typedef Cartesian_tag                       Rep_tag;
 
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
@@ -90,17 +91,17 @@ CGAL_BEGIN_NAMESPACE
 // It is useful only if you do not need the 3D kernel
 // If you need both, you should be using Cartesian<FT>
 
-template< class _FT >
+template< class FT_ >
 struct Cartesian_dynamic_d
-  : public Cartesian_base_dynamic_d< Cartesian_dynamic_d<_FT>, _FT >
+  : public Cartesian_base_dynamic_d< Cartesian_dynamic_d<FT_>, FT_ >
 {
     // Number types and representation tag
-    typedef _FT                                 RT;
-    typedef _FT                                 FT;
+    typedef FT_                                 RT;
+    typedef FT_                                 FT;
     typedef Cartesian_tag                       Rep_tag;
 
-    typedef Cartesian_dynamic_d<_FT>            Self;
-    typedef Cartesian_base_dynamic_d<Self,_FT>  Kernel_base;
+    typedef Cartesian_dynamic_d<FT_>            Self;
+    typedef Cartesian_base_dynamic_d<Self,FT_>  Kernel_base;
 
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
     // The lasses are inherited and because of partial specialization,

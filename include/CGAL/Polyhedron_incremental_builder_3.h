@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Polyhedron_incremental_builder_3.h
-// package       : Polyhedron (2.8)
+// package       : Polyhedron (2.9)
 // chapter       : $CGAL_Chapter: 3D-Polyhedral Surfaces $
 // source        : polyhedron_builder.fw
 // revision      : $Revision: 1.2 $
@@ -44,7 +44,8 @@
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
 //
 // Incremental Construction of Polyhedral Surfaces.
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

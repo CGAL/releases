@@ -12,6 +12,19 @@
 #include <CGAL/Arr_2_bases.h>
 #include <CGAL/Arr_2_default_dcel.h>
 #include <CGAL/Arrangement_2.h>
+
+#ifndef CGAL_USE_LEDA
+int main(int argc, char* argv[])
+{
+
+  std::cout << "Sorry, this demo needs LEDA for visualisation.";
+  std::cout << std::endl;
+
+  return 0;
+}
+
+#else
+
 #include <CGAL/leda_real.h>
 #include <CGAL/IO/Window_stream.h>
 #include <CGAL/IO/leda_window.h>
@@ -23,9 +36,14 @@ typedef Traits::Point                                  Point;
 typedef Traits::Curve                                  Curve; 
 typedef Traits::X_curve                                X_curve;
 
-typedef CGAL::Arr_base_node<Curve>   Base_node;
-typedef CGAL::Arr_2_default_dcel<Traits> Dcel;
-typedef CGAL::Arrangement_2<Dcel,Traits,Base_node > Arr_2;
+typedef CGAL::Arr_base_node<Curve>                     Base_node;
+typedef CGAL::Arr_2_default_dcel<Traits>               Dcel;
+typedef CGAL::Arrangement_2<Dcel,Traits,Base_node >    Arr_2;
+
+// global variables are used so that the redraw function for the LEDA window
+// can be defined to draw information found in these variables.
+static Arr_2 arr;
+static CGAL::Window_stream W(400, 400, "CGAL - Circle Arrangement Demo");
  
 CGAL_BEGIN_NAMESPACE
 
@@ -55,8 +73,20 @@ Window_stream& operator<<(Window_stream& os,
 }
 CGAL_END_NAMESPACE
 
+// redraw function for the LEDA window. used automatically when window reappears
+void redraw(CGAL::Window_stream * wp) 
+{ wp->start_buffering();
+  wp->clear();
+  // draw arragnement
+  *wp << arr;
+  wp->flush_buffer();
+  wp->stop_buffering();
+}
+
 int main(int argc, char* argv[])
 {
+  CGAL::Timer insrt_t;
+
   int circles_num;
   if (argc<2) {
     std::cerr << "usage: Circle_arr_from_file <filename>" << std::endl;
@@ -85,23 +115,22 @@ int main(int argc, char* argv[])
   }
   f.close();
 
-  Arr_2 arr;
-  /*  Arr_2::Curve_iterator cit;*/
-
-  CGAL::Window_stream W(400, 400);
   W.init(min_x-2*sqrt(max_r2),max_x+2*sqrt(max_r2),min_y-2*sqrt(max_r2));
+  W.set_redraw(redraw);
   W.set_mode(leda_src_mode);
   W.set_node_width(3);
   W.button("finish",10);
   W.display();
 
   for (unsigned int i=0; i<circles.size(); ++i) {
-    arr.insert(circles[i]);
-    //W << arr;
     std::cout << "inserting circle " << i+1 << std::endl;
+    insrt_t.start();
+    arr.insert(circles[i]);
+    insrt_t.stop();
   }
 
   W << arr;
+  std::cout << "Total insertion time: " <<  insrt_t.time() << std::endl;
 
   //POINT LOCATION
   std::cout << "\nEnter a point with left button." << std::endl;
@@ -145,15 +174,4 @@ int main(int argc, char* argv[])
   return 0;  
 }
 
-
-
-
- 
-
-
-
-
-
-
-
-
+#endif // CGAL_USE_LEDA

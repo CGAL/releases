@@ -30,21 +30,22 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/Istream_iterator.h
-// package       : Stream_support (2.8)
+// package       : Stream_support (2.9)
 // chapter       : $CGAL_Chapter: Stream Support $
 // source        : support.fw
-// revision      : $Revision: 1.1.1.1 $
-// revision_date : $Date: 1999/07/30 14:21:30 $
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2000/05/29 16:33:52 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // A General Istream_iterator
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -87,6 +88,10 @@ public:
     bool      operator==( const Self& i) const {
                   return stream == i.stream;
     }
+   bool      operator!=( const Self& i) const {
+                  return stream != i.stream;
+    }
+
     reference operator*()  const { return value; }
 #ifdef  CGAL_ARROW_OPERATOR
     pointer   operator->() const { return &(operator*()); }

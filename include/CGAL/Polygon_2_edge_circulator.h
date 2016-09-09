@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Polygon_2_edge_circulator.h
-// package       : Polygon (2.9.1)
+// package       : Polygon (2.19)
 // source        : 
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
@@ -42,20 +42,16 @@
 //
 // coordinator   : Utrecht University
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 #ifndef CGAL_POLYGON_2_EDGE_CIRCULATOR_H
 #define CGAL_POLYGON_2_EDGE_CIRCULATOR_H
 
-#ifndef CGAL_PROTECT_ITERATOR
 #include <iterator>
-#define CGAL_PROTECT_ITERATOR
-#endif
-#ifndef CGAL_CIRCULATOR_H
 #include <CGAL/circulator.h>
-#endif // CGAL_CIRCULATOR_H
 #include <CGAL/polygon_assertions.h>
 
 CGAL_BEGIN_NAMESPACE

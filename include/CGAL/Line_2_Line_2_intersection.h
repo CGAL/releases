@@ -1,7 +1,7 @@
 
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -31,17 +31,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Line_2_Line_2_intersection.h
-// package       : Intersections_2 (2.2.2)
+// package       : Intersections_2 (2.6.3)
 // source        : intersection_2_1.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -49,18 +50,10 @@
 #ifndef CGAL_LINE_2_LINE_2_INTERSECTION_H
 #define CGAL_LINE_2_LINE_2_INTERSECTION_H
 
-#ifndef CGAL_LINE_2_H
 #include <CGAL/Line_2.h>
-#endif // CGAL_LINE_2_H
-#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
-#endif // CGAL_POINT_2_H
-#ifndef CGAL_UTILS_H
 #include <CGAL/utils.h>
-#endif // CGAL_UTILS_H
-#ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
-#endif // CGAL_NUMBER_UTILS_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -84,34 +77,33 @@ public:
         return _result;
     RT nom1, nom2, denom;
     // The non const this pointer is used to cast away const.
-    Line_2_Line_2_pair<R> *ncthis = (Line_2_Line_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
     denom = _line1->a()*_line2->b() - _line2->a()*_line1->b();
     if (denom == RT(0)) {
         if (RT(0) == (_line1->a()*_line2->c() - _line2->a()*_line1->c()) &&
             RT(0) == (_line1->b()*_line2->c() - _line2->b()*_line1->c()))
-            ncthis->_result = LINE;
+            _result = LINE;
         else
-            ncthis->_result = NO;
+            _result = NO;
         return _result;
     }
     nom1 = (_line1->b()*_line2->c() - _line2->b()*_line1->c());
     if (!::CGAL::is_finite(nom1)) {
-        ncthis->_result = NO;
+        _result = NO;
         return _result;
     }
     nom2 = (_line2->a()*_line1->c() - _line1->a()*_line2->c());
     if (!::CGAL::is_finite(nom2)) {
-        ncthis->_result = NO;
+        _result = NO;
         return _result;
     }
     R dummyR;
-    if (!construct_if_finite(ncthis->_intersection_point,
+    if (!construct_if_finite(_intersection_point,
                             nom1, nom2, denom, dummyR)){
-        ncthis->_result = NO;
+        _result = NO;
         return _result;
     }
-    ncthis->_result = POINT;
+    _result = POINT;
     return _result;
 }
 
@@ -122,9 +114,9 @@ public:
 protected:
     Line_2<R> const*   _line1;
     Line_2<R> const *  _line2;
-    bool                    _known;
-    Intersection_results    _result;
-    Point_2<R>         _intersection_point;
+    mutable bool                    _known;
+    mutable Intersection_results    _result;
+    mutable Point_2<R>         _intersection_point;
 };
 
 template <class R>
@@ -139,9 +131,7 @@ inline bool do_intersect(
 
 CGAL_END_NAMESPACE
 
-#ifndef CGAL_OBJECT_H
 #include <CGAL/Object.h>
-#endif // CGAL_OBJECT_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -217,34 +207,33 @@ Line_2_Line_2_pair<R>::intersection_type() const
         return _result;
     RT nom1, nom2, denom;
     // The non const this pointer is used to cast away const.
-    Line_2_Line_2_pair<R> *ncthis = (Line_2_Line_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
     denom = _line1->a()*_line2->b() - _line2->a()*_line1->b();
     if (denom == RT(0)) {
         if (RT(0) == (_line1->a()*_line2->c() - _line2->a()*_line1->c()) &&
             RT(0) == (_line1->b()*_line2->c() - _line2->b()*_line1->c()))
-            ncthis->_result = LINE;
+            _result = LINE;
         else
-            ncthis->_result = NO;
+            _result = NO;
         return _result;
     }
     nom1 = (_line1->b()*_line2->c() - _line2->b()*_line1->c());
     if (!::CGAL::is_finite(nom1)) {
-        ncthis->_result = NO;
+        _result = NO;
         return _result;
     }
     nom2 = (_line2->a()*_line1->c() - _line1->a()*_line2->c());
     if (!::CGAL::is_finite(nom2)) {
-        ncthis->_result = NO;
+        _result = NO;
         return _result;
     }
     R dummyR;
-    if (!construct_if_finite(ncthis->_intersection_point,
+    if (!construct_if_finite(_intersection_point,
                             nom1, nom2, denom, dummyR)){
-        ncthis->_result = NO;
+        _result = NO;
         return _result;
     }
-    ncthis->_result = POINT;
+    _result = POINT;
     return _result;
 }
 

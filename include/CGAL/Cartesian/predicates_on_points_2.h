@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/predicates_on_points_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/11/05 22:30:01 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2000/08/23 13:50:17 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -71,10 +72,34 @@ y_equal(const PointC2<R CGAL_CTAG> &p, const PointC2<R CGAL_CTAG> &q)
 
 template < class R >
 inline
+bool
+equal_xy(const PointC2<R CGAL_CTAG> &p, const PointC2<R CGAL_CTAG> &q)
+{
+    return p.x() == q.x() && p.y() == q.y();
+}
+
+template < class R >
+inline
+bool
+less_x(const PointC2<R CGAL_CTAG> &p, const PointC2<R CGAL_CTAG> &q)
+{
+    return p.x() < q.x();
+}
+
+template < class R >
+inline
+bool
+less_y(const PointC2<R CGAL_CTAG> &p, const PointC2<R CGAL_CTAG> &q)
+{
+    return p.y() < q.y();
+}
+
+template < class R >
+inline
 Comparison_result
 compare_x(const PointC2<R CGAL_CTAG> &p, const PointC2<R CGAL_CTAG> &q)
 {
-    return CGAL::compare(p.x(), q.x());
+    return CGAL_NTS compare(p.x(), q.x());
 }
 
 template < class R >
@@ -82,7 +107,15 @@ inline
 Comparison_result
 compare_y(const PointC2<R CGAL_CTAG> &p, const PointC2<R CGAL_CTAG> &q)
 {
-    return CGAL::compare(p.y(), q.y());
+    return CGAL_NTS compare(p.y(), q.y());
+}
+
+template < class R >
+inline
+Comparison_result
+compare_xy(const PointC2<R CGAL_CTAG> &p, const PointC2<R CGAL_CTAG> &q)
+{
+    return compare_lexicographically_xy(p,q);
 }
 
 template < class R >
@@ -256,17 +289,7 @@ leftturn(const PointC2<R CGAL_CTAG> &p,
          const PointC2<R CGAL_CTAG> &q,
          const PointC2<R CGAL_CTAG> &r)
 {
-    return orientation(p,q,r) == LEFTTURN;
-}
-
-template < class R >
-inline
-bool
-leftturn(const Origin &o,
-         const PointC2<R CGAL_CTAG> &q,
-         const PointC2<R CGAL_CTAG> &r)
-{
-   return orientationC2(FT(0), FT(0), q.x(), q.y(), r.x(), r.y()) == LEFTTURN;
+    return orientation(p, q, r) == LEFTTURN;
 }
 
 template < class R >
@@ -276,7 +299,17 @@ rightturn(const PointC2<R CGAL_CTAG> &p,
           const PointC2<R CGAL_CTAG> &q,
           const PointC2<R CGAL_CTAG> &r)
 {
-   return orientationC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y()) == RIGHTTURN;
+   return orientation(p, q, r) == RIGHTTURN;
+}
+
+template < class R >
+inline
+bool
+leftturn(const Origin &o,
+         const PointC2<R CGAL_CTAG> &q,
+         const PointC2<R CGAL_CTAG> &r)
+{
+  return Orientation (sign_of_determinant2x2(qx, qy, rx, ry)) == LEFTTURN;
 }
 
 template < class R >
@@ -286,7 +319,7 @@ rightturn(const Origin &o,
           const PointC2<R CGAL_CTAG> &q,
           const PointC2<R CGAL_CTAG> &r)
 {
-   return orientationC2(FT(0), FT(0), q.x(), q.y(), r.x(), r.y()) == RIGHTTURN;
+  return Orientation (sign_of_determinant2x2(qx, qy, rx, ry)) == RIGHTTURN;
 }
 
 template <class R >

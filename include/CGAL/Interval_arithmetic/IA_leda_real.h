@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998,1999 The CGAL Consortium
+// Copyright (c) 1998,1999,2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,18 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Interval_arithmetic/IA_leda_real.h
-// package       : Interval_arithmetic (4.39)
-// revision      : $Revision: 2.22 $
-// revision_date : $Date: 1999/11/07 17:53:35 $
+// package       : Interval_arithmetic (4.58)
+// revision      : $Revision: 2.29 $
+// revision_date : $Date: 2000/09/01 16:43:23 $
 // author(s)     : Sylvain Pion
-//
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -49,6 +49,19 @@
 #define CGAL_IA_LEDA_REAL_H
 
 CGAL_BEGIN_NAMESPACE
+
+#if 0
+inline // hum...
+Interval_base
+to_interval (const leda_real & z)
+{
+  Protect_FPU_rounding<> P (CGAL_FE_TONEAREST);
+  double approx = z.to_double();
+  double rel_error = z.get_double_error();
+  FPU_set_cw(CGAL_FE_UPWARD);
+  return ( Interval_nt_advanced(-rel_error,rel_error) + 1 ) * approx;
+}
+#endif
 
 inline
 Interval_nt_advanced
@@ -59,7 +72,7 @@ convert_from_to (const Interval_nt_advanced&, const leda_real & z)
     double approx = CGAL::to_double(z);
     double rel_error = z.get_double_error();
     FPU_set_cw(CGAL_FE_UPWARD);
-    Interval_nt_advanced result = approx
+    Interval_nt_advanced result = Interval_nt_advanced(approx)
 	* ( Interval_nt_advanced(-rel_error,rel_error) + 1 );
     CGAL_expensive_assertion_code(FPU_set_cw(CGAL_FE_TONEAREST);)
     CGAL_expensive_assertion( leda_real(result.inf()) <= z &&
@@ -68,7 +81,6 @@ convert_from_to (const Interval_nt_advanced&, const leda_real & z)
     return result;
 }
 
-#ifndef CGAL_CFG_NO_EXPLICIT_TEMPLATE_FUNCTION_ARGUMENT_SPECIFICATION
 template <>
 struct converter<Interval_nt_advanced,leda_real>
 {
@@ -77,8 +89,7 @@ struct converter<Interval_nt_advanced,leda_real>
 	return convert_from_to(Interval_nt_advanced(), z);
     }
 };
-#endif // CGAL_CFG_NO_EXPLICIT_TEMPLATE_FUNCTION_ARGUMENT_SPECIFICATION
 
 CGAL_END_NAMESPACE
 
-#endif	 // CGAL_IA_LEDA_REAL_H
+#endif // CGAL_IA_LEDA_REAL_H

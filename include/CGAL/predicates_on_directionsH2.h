@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : geometric_predicates.fw
 // file          : include/CGAL/predicates_on_directionsH2.h
-// package       : H2 (2.4.8)
-// revision      : 2.4.8
-// revision_date : 10 Dec 1999 
+// package       : H2 (2.12)
+// revision      : 2.12
+// revision_date : 03 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_PREDICATES_ON_DIRECTIONSH2_H
 #define CGAL_PREDICATES_ON_DIRECTIONSH2_H
@@ -62,7 +64,7 @@ template <class FT, class RT>
 CGAL_KERNEL_LARGE_INLINE
 Comparison_result
 compare_angles_with_x_axis(const DirectionH2<FT,RT>& d1,
-                                const DirectionH2<FT,RT>& d2)
+                           const DirectionH2<FT,RT>& d2)
 {
   CGAL_kernel_precondition( (
         (Comparison_result)COUNTERCLOCKWISE == LARGER
@@ -81,10 +83,10 @@ compare_angles_with_x_axis(const DirectionH2<FT,RT>& d1,
   CGAL_kernel_precondition( RT0 < p1.hw_ref() );
   CGAL_kernel_precondition( RT0 < p2.hw_ref() );
 
-  int       x_sign1 = (int)CGAL::sign( p1.hx_ref() );
-  int       x_sign2 = (int)CGAL::sign( p2.hx_ref() );
-  int       y_sign1 = (int)CGAL::sign( p1.hy_ref() );
-  int       y_sign2 = (int)CGAL::sign( p2.hy_ref() );
+  int       x_sign1 = (int)CGAL_NTS sign( p1.hx_ref() );
+  int       x_sign2 = (int)CGAL_NTS sign( p2.hx_ref() );
+  int       y_sign1 = (int)CGAL_NTS sign( p1.hy_ref() );
+  int       y_sign2 = (int)CGAL_NTS sign( p2.hy_ref() );
 
   if ( y_sign1 * y_sign2 < 0)
   {

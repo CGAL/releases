@@ -30,10 +30,10 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
-// file          : demo/Random/rcs_demo.C
+// file          : demo/Generator_LEDA/random_polys_demo.C
 // package       : $CGAL_Package: Generator 2.12 (28 Jul 1999) $
 // source        : src/rcs/rcs.aw
 // revision      : $Revision: 1.2 $
@@ -43,42 +43,24 @@
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // Random Convex Point Sets: Demo Program
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
-#ifndef CGAL_CARTESIAN_H
+#include <CGAL/basic.h>
+#ifndef CGAL_USE_LEDA
+int main() { std::cout << "\nSorry, this demo needs LEDA\n"; return 0; }
+#else
 #include <CGAL/Cartesian.h>
-#endif // CGAL_CARTESIAN_H
-#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
-#endif // CGAL_POINT_2_H
-#ifndef CGAL_POLYGON_2_H
 #include <CGAL/Polygon_2.h>
-#endif // CGAL_POLYGON_2_H
-#ifndef CGAL_POINT_GENERATORS_2_H
 #include <CGAL/point_generators_2.h>
-#endif // CGAL_POINT_GENERATORS_2_H
-#ifndef RANDOM_CONVEX_SETS_2_H
 #include <CGAL/random_convex_set_2.h>
-#endif // RANDOM_CONVEX_SETS_2_H
-#ifndef CGAL_PROTECT_VECTOR
 #include <vector>
-#define CGAL_PROTECT_VECTOR
-#endif
-#ifndef CGAL_PROTECT_IOSTREAM
 #include <iostream>
-#define CGAL_PROTECT_IOSTREAM
-#endif
-#ifndef CGAL_PROTECT_CSTDLIB
 #include <cstdlib>
-#define CGAL_PROTECT_CSTDLIB
-#endif
-#ifdef CGAL_USE_LEDA
-#ifndef CGAL_IO_WINDOW_STREAM_H
 #include <CGAL/IO/Window_stream.h>
-#endif // CGAL_IO_WINDOW_STREAM_H
-#endif // CGAL_USE_LEDA
 
 using CGAL::cgalize;
 
@@ -95,13 +77,13 @@ using CGAL::Random_points_in_square_2;
 using CGAL::set_pretty_mode;
 using CGAL::random_convex_set_2;
 
-typedef Cartesian< double >                            R;
-typedef CGAL::Point_2< R >                             Point_2;
-typedef Polygon_traits_2< R >                          P_traits;
-typedef vector< Point_2 >                              Cont;
-typedef CGAL::Polygon_2< P_traits, Cont >              Polygon_2;
-typedef Creator_uniform_2< double, Point_2 >           Creator;
-typedef Random_points_in_square_2< Point_2, Creator >  Point_generator;
+typedef Cartesian< double >                          R;
+typedef CGAL::Point_2< R >                           Point;
+typedef Polygon_traits_2< R >                        P_traits;
+typedef vector< Point >                              Cont;
+typedef CGAL::Polygon_2< P_traits, Cont >            Polygon_2;
+typedef Creator_uniform_2< double, Point >           Creator;
+typedef Random_points_in_square_2< Point, Creator >  Point_generator;
 
 int
 main( int argc, char* argv[])
@@ -137,8 +119,7 @@ main( int argc, char* argv[])
   W << p;
 
   // wait for mouse-click:
-  Point_2 tmp_p;
-  W >> tmp_p;
+  W.read_mouse();
 #else
   cout << p << endl;
 #endif
@@ -153,6 +134,7 @@ main( int argc, char* argv[])
   return 0;
 } // int main( argc, argv)
 
+#endif // CGAL_USE_LEDA
 // ----------------------------------------------------------------------------
 // ** EOF
 // ----------------------------------------------------------------------------

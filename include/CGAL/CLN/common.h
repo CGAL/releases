@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 1999,2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/CLN/common.h
-// package       : CLN (1.7)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/10/27 12:18:31 $
+// package       : CLN (2.0)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2000/08/03 15:13:45 $
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -55,9 +56,12 @@
 #include <CGAL/number_type_tags.h>
 #include <CGAL/IO/io_tags.h>
 
+// So that CLN defines the operators += -= *= /=
 #define WANT_OBFUSCATING_OPERATORS
+
 #include <cl_number.h>
 #include <cl_io.h>
+#include <cl_output.h> // for cl_default_print_flags
 
 CGAL_BEGIN_NAMESPACE
 
@@ -65,6 +69,24 @@ inline bool        is_valid        (const cl_number&) { return true; }
 inline bool        is_finite       (const cl_number&) { return true; } 
 inline io_Operator io_tag          (const cl_number&) { return io_Operator(); }
 inline Number_tag  number_type_tag (const cl_number&) { return Number_tag(); }
+
+
+// The following is a workaround for a bug that happens on Solaris 2.6 with
+// gcc 2.95, and libcln.so (not .a).  It doesn't happen on Linux with gcc 2.95.
+//  
+// Namely, the default base for printing should be 10, but it's not
+// initialized as it should for some reason...
+//   
+// So we make a static object that we initialize here instead.
+// We put this code here instead of src/CLN.C so that libCGAL doesn't depend
+// on CLN.
+
+struct workaround_4_CLN
+{
+  workaround_4_CLN() { cl_default_print_flags.rational_base = 10; }
+};
+ 
+static workaround_4_CLN workaroung_4_CLN_object;                                
 
 CGAL_END_NAMESPACE
 

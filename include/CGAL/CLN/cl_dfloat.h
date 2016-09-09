@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/CLN/cl_dfloat.h
-// package       : CLN (1.7)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 1999/10/27 12:18:29 $
+// package       : CLN (2.0)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2000/06/25 18:41:58 $
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -59,12 +60,15 @@ CGAL_BEGIN_NAMESPACE
 inline double	to_double	(const cl_DF &I) { return cl_double_approx(I); }
 
 // Specialized utilities.
+namespace NTS {
 
 inline bool is_negative		(const cl_DF &I) { return minusp(I); } 
 inline bool is_positive		(const cl_DF &I) { return plusp(I); }
 inline bool is_zero		(const cl_DF &I) { return zerop(I); }
 inline Comparison_result compare (const cl_DF &I, const cl_DF &J)
 { return Comparison_result(cl_compare(I,J)); }
+
+} // namespace NTS
 
 CGAL_END_NAMESPACE
 

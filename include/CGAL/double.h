@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Double.fw
 // file          : include/CGAL/double.h
-// package       : Number_types (2.7.1)
-// revision      : 2.7.1
-// revision_date : 04 Dec 1999 
+// package       : Number_types (3.4)
+// revision      : 3.4
+// revision_date : 13 Jul 2000 
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -71,6 +72,11 @@ inline
 double
 sqrt(double d)
 { return std::sqrt(d); }
+
+inline
+bool
+is_integral (const double d)
+{ return ceil(d) == d; }
 
 inline
 Number_tag
@@ -194,7 +200,8 @@ io_Operator
 io_tag(double)
 { return io_Operator(); }
 
-#ifndef CGAL_CFG_NO_NAMESPACE
+#ifndef CGAL_NO_NTS_NAMESPACE
+namespace NTS {
 #ifndef CGAL_NUMBER_UTILS_H
 template <class NT> NT abs(const NT &x);
 #endif // CGAL_NUMBER_UTILS_H
@@ -206,7 +213,20 @@ abs(const double& d)
 { return CGAL_CLIB_STD::fabs(d); }
 
 
-#endif // CGAL_CFG_NO_NAMESPACE
+} // namespace NTS
+#else
+#ifndef CGAL_NUMBER_UTILS_H
+template <class NT> NT abs(const NT &x);
+#endif // CGAL_NUMBER_UTILS_H
+
+CGAL_TEMPLATE_NULL
+inline
+double
+abs(const double& d)
+{ return CGAL_CLIB_STD::fabs(d); }
+
+
+#endif // CGAL_NO_NTS_NAMESPACE
 
 CGAL_END_NAMESPACE
 

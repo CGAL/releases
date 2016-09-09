@@ -1,7 +1,7 @@
 
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -31,17 +31,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Bbox_2_Line_2_intersection.h
-// package       : Intersections_2 (2.2.2)
+// package       : Intersections_2 (2.6.3)
 // source        : intersection_2_1.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : MPI, Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -50,25 +51,12 @@
 #define CGAL_BBOX_2_LINE_2_INTERSECTION_H
 
 #include <CGAL/Cartesian.h>
-
-#ifndef CGAL_BBOX_2_H
 #include <CGAL/Bbox_2.h>
-#endif // CGAL_BBOX_2_H
-#ifndef CGAL_LINE_2_H
 #include <CGAL/Line_2.h>
-#endif // CGAL_LINE_2_H
-#ifndef CGAL_SEGMENT_2_H
 #include <CGAL/Segment_2.h>
-#endif // CGAL_SEGMENT_2_H
-#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
-#endif // CGAL_POINT_2_H
-#ifndef CGAL_UTILS_H
 #include <CGAL/utils.h>
-#endif // CGAL_UTILS_H
-#ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
-#endif // CGAL_NUMBER_UTILS_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -92,8 +80,7 @@ public:
     if (_known)
         return _result;
     // The non const this pointer is used to cast away const.
-    Bbox_2_Line_2_pair<R> *ncthis = (Bbox_2_Line_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
     const Point_2< Cartesian<double> > &ref_point = _line.point();
     const Vector_2< Cartesian<double> > &dir =
                                _line.direction().to_vector();
@@ -101,11 +88,11 @@ public:
 // first on x value
     if (dir.x() == 0.0) {
         if (ref_point.x() < _bbox->xmin()) {
-            ncthis->_result = NO;
+            _result = NO;
             return _result;
         }
         if (ref_point.x() > _bbox->xmax()) {
-            ncthis->_result = NO;
+            _result = NO;
             return _result;
         }
     } else {
@@ -118,15 +105,15 @@ public:
             newmax = (_bbox->xmin()-ref_point.x())/dir.x();
         }
         if (to_infinity) {
-            ncthis->_min = newmin;
-            ncthis->_max = newmax;
+            _min = newmin;
+            _max = newmax;
         } else {
             if (newmin > _min)
-                ncthis->_min = newmin;
+                _min = newmin;
             if (newmax < _max)
-                ncthis->_max = newmax;
+                _max = newmax;
             if (_max < _min) {
-                ncthis->_result = NO;
+                _result = NO;
                 return _result;
             }
         }
@@ -135,11 +122,11 @@ public:
 // now on y value
     if (dir.y() == 0.0) {
         if (ref_point.y() < _bbox->ymin()) {
-            ncthis->_result = NO;
+            _result = NO;
             return _result;
         }
         if (ref_point.y() > _bbox->ymax()) {
-            ncthis->_result = NO;
+            _result = NO;
             return _result;
         }
     } else {
@@ -152,15 +139,15 @@ public:
             newmax = (_bbox->ymin()-ref_point.y())/dir.y();
         }
         if (to_infinity) {
-            ncthis->_min = newmin;
-            ncthis->_max = newmax;
+            _min = newmin;
+            _max = newmax;
         } else {
             if (newmin > _min)
-                ncthis->_min = newmin;
+                _min = newmin;
             if (newmax < _max)
-                ncthis->_max = newmax;
+                _max = newmax;
             if (_max < _min) {
-                ncthis->_result = NO;
+                _result = NO;
                 return _result;
             }
         }
@@ -168,10 +155,10 @@ public:
     }
     CGAL_kernel_assertion(!to_infinity);
     if (_max == _min) {
-        ncthis->_result = POINT;
+        _result = POINT;
         return _result;
     }
-    ncthis->_result = SEGMENT;
+    _result = SEGMENT;
     return _result;
 }
 
@@ -182,9 +169,9 @@ public:
 protected:
     Bbox_2 const *      _bbox;
     Line_2< Rcart > _line;
-    bool                     _known;
-    Intersection_results     _result;
-    double                   _min, _max;
+    mutable bool                     _known;
+    mutable Intersection_results     _result;
+    mutable double                   _min, _max;
 };
 
 template <class R>
@@ -228,8 +215,7 @@ Bbox_2_Line_2_pair<R>::intersection_type() const
     if (_known)
         return _result;
     // The non const this pointer is used to cast away const.
-    Bbox_2_Line_2_pair<R> *ncthis = (Bbox_2_Line_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
     const Point_2< Cartesian<double> > &ref_point = _line.point();
     const Vector_2< Cartesian<double> > &dir =
                                _line.direction().to_vector();
@@ -237,11 +223,11 @@ Bbox_2_Line_2_pair<R>::intersection_type() const
 // first on x value
     if (dir.x() == 0.0) {
         if (ref_point.x() < _bbox->xmin()) {
-            ncthis->_result = NO;
+            _result = NO;
             return _result;
         }
         if (ref_point.x() > _bbox->xmax()) {
-            ncthis->_result = NO;
+            _result = NO;
             return _result;
         }
     } else {
@@ -254,15 +240,15 @@ Bbox_2_Line_2_pair<R>::intersection_type() const
             newmax = (_bbox->xmin()-ref_point.x())/dir.x();
         }
         if (to_infinity) {
-            ncthis->_min = newmin;
-            ncthis->_max = newmax;
+            _min = newmin;
+            _max = newmax;
         } else {
             if (newmin > _min)
-                ncthis->_min = newmin;
+                _min = newmin;
             if (newmax < _max)
-                ncthis->_max = newmax;
+                _max = newmax;
             if (_max < _min) {
-                ncthis->_result = NO;
+                _result = NO;
                 return _result;
             }
         }
@@ -271,11 +257,11 @@ Bbox_2_Line_2_pair<R>::intersection_type() const
 // now on y value
     if (dir.y() == 0.0) {
         if (ref_point.y() < _bbox->ymin()) {
-            ncthis->_result = NO;
+            _result = NO;
             return _result;
         }
         if (ref_point.y() > _bbox->ymax()) {
-            ncthis->_result = NO;
+            _result = NO;
             return _result;
         }
     } else {
@@ -288,15 +274,15 @@ Bbox_2_Line_2_pair<R>::intersection_type() const
             newmax = (_bbox->ymin()-ref_point.y())/dir.y();
         }
         if (to_infinity) {
-            ncthis->_min = newmin;
-            ncthis->_max = newmax;
+            _min = newmin;
+            _max = newmax;
         } else {
             if (newmin > _min)
-                ncthis->_min = newmin;
+                _min = newmin;
             if (newmax < _max)
-                ncthis->_max = newmax;
+                _max = newmax;
             if (_max < _min) {
-                ncthis->_result = NO;
+                _result = NO;
                 return _result;
             }
         }
@@ -304,10 +290,10 @@ Bbox_2_Line_2_pair<R>::intersection_type() const
     }
     CGAL_kernel_assertion(!to_infinity);
     if (_max == _min) {
-        ncthis->_result = POINT;
+        _result = POINT;
         return _result;
     }
-    ncthis->_result = SEGMENT;
+    _result = SEGMENT;
     return _result;
 }
 

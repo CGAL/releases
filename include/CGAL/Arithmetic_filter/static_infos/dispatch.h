@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // file          : include/CGAL/Arithmetic_filter/static_infos/dispatch.h
-// package       : Interval_arithmetic (4.39)
+// package       : Interval_arithmetic (4.58)
 // revision      : $Revision: 1.3 $
 // revision_date : $Date: 1999/10/07 12:50:59 $
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

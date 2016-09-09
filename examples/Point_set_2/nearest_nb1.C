@@ -29,18 +29,33 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : examples/Point_set_2/nearest_nb1.C
-// revision      : 1.1.8
-// revision_date : 21 December 1999
+// revision      : 1.2.4
+// revision_date : 14 September 2000
 // author(s)     : Kurt Mehlhorn, Stefan Naeher, Matthias Baesken
 //
 // coordinator   :  Matthias Baesken, Halle  (<baesken>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
+
+
+#include <CGAL/basic.h>
+
+#if !defined(CGAL_USE_LEDA) 
+#include <iostream>
+
+int main(int argc, char *argv[])
+{
+ std::cout << "No LEDA installed!\n";
+ return 0;
+}
+#else 
+
 
 #include <CGAL/config.h>
 
@@ -128,3 +143,4 @@ int main()
   else return 1;
 }
 
+#endif

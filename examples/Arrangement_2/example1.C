@@ -1,4 +1,3 @@
-//the following example is taken from the documentation.
 //example1.C
 #include <CGAL/Cartesian.h>
 #include <CGAL/Arr_2_bases.h>
@@ -6,6 +5,9 @@
 #include <CGAL/Arr_segment_exact_traits.h>
 #include <CGAL/Arrangement_2.h>
 
+// We use here double instead of leda_real to enable compilation without LEDA.
+// This is not recommended generally.
+// Read more in the README file or in the manual.
 typedef double                                        NT;
 typedef CGAL::Cartesian<NT>                            R;
 typedef CGAL::Arr_segment_exact_traits<R>              Traits;
@@ -40,20 +42,3 @@ int main() {
 
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : src/GeoWin/LEDA/geowin_init.h
-// package       : GeoWin (1.0.8)
-// revision      : 1.0.8
-// revision_date : 17 December 1999 
+// package       : GeoWin (1.1.9)
+// revision      : 1.1.9
+// revision_date : 27 September 2000 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
 // coordinator   : Matthias Baesken, Halle  (<baesken>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -67,6 +68,9 @@ bool geowin_IntersectsBox(const polygon&,  double, double, double, double, bool)
 bool geowin_IntersectsBox(const gen_polygon&,  double, double, double, double, bool);
 bool geowin_IntersectsBox(const d3_point&, double, double, double, double, bool);
 bool geowin_IntersectsBox(const rectangle&, double, double, double, double, bool);
+#if (__LEDA__ >= 420)
+bool geowin_IntersectsBox(const triangle&, double, double, double, double, bool);
+#endif
 
 
 void geowin_BoundingBox(const point&, double&, double&, double&, double&);
@@ -78,6 +82,9 @@ void geowin_BoundingBox(const polygon&, double&, double&, double&, double&);
 void geowin_BoundingBox(const gen_polygon&, double&, double&, double&, double&);
 void geowin_BoundingBox(const d3_point&, double&, double&, double&, double&);
 void geowin_BoundingBox(const rectangle&, double&, double&, double&, double&);
+#if (__LEDA__ >= 420)
+void geowin_BoundingBox(const triangle&, double&, double&, double&, double&);
+#endif
 
 
 void geowin_Translate(point& obj, double dx, double dy);
@@ -89,6 +96,17 @@ void geowin_Translate(polygon& obj, double dx, double dy);
 void geowin_Translate(gen_polygon& obj, double dx, double dy);
 void geowin_Translate(d3_point& p, double dx, double dy);
 void geowin_Translate(rectangle& obj, double dx, double dy);
+#if (__LEDA__ >= 420)
+void geowin_Translate(triangle& obj, double dx, double dy);
+#endif
+
+// move point functions ...
+void geowin_Translatepoint(segment& obj, double dx, double dy, int pnr);
+void geowin_Translatepoint(ray& obj, double dx, double dy, int pnr);
+void geowin_Translatepoint(line& obj, double dx, double dy, int pnr);
+void geowin_Translatepoint(circle& obj, double dx, double dy, int pnr);
+void geowin_Translatepoint(polygon& obj, double dx, double dy, int pnr);
+void geowin_Translatepoint(gen_polygon& obj, double dx, double dy, int pnr);
 
 
 void geowin_Rotate(point& obj, double x, double y, double a);
@@ -100,6 +118,9 @@ void geowin_Rotate(polygon& obj, double x, double y, double a);
 void geowin_Rotate(gen_polygon& obj, double x, double y, double a);
 void geowin_Rotate(d3_point& p, double x, double y, double a);
 void geowin_Rotate(rectangle& obj, double x, double y, double a);
+#if (__LEDA__ >= 420)
+void geowin_Rotate(triangle& obj, double x, double y, double a);
+#endif
 
 
 void geowin_generate_objects(GeoWin& gw, list<point>& L);
@@ -111,6 +132,9 @@ void geowin_generate_objects(GeoWin& gw, list<polygon>& Pl);
 void geowin_generate_objects(GeoWin& gw, list<gen_polygon>& Pl);
 void geowin_generate_objects(GeoWin& gw, list<d3_point>& Pl);
 void geowin_generate_objects(GeoWin& gw, list<rectangle>& Pl);
+#if (__LEDA__ >= 420)
+void geowin_generate_objects(GeoWin& gw, list<triangle>& Pl);
+#endif
 
 
 #if !defined(NO_RAT_ALGORITHMS)
@@ -124,6 +148,18 @@ void geowin_Translate(rat_polygon& obj, double dx, double dy);
 void geowin_Translate(rat_gen_polygon& obj, double dx, double dy);
 void geowin_Translate(d3_rat_point& p, double dx, double dy);
 void geowin_Translate(rat_rectangle& obj, double dx, double dy);
+#if (__LEDA__ >= 420)
+void geowin_Translate(rat_triangle& obj, double dx, double dy);
+#endif
+
+// move point functions ...
+void geowin_Translatepoint(rat_segment& obj, double dx, double dy, int pnr);
+void geowin_Translatepoint(rat_ray& obj, double dx, double dy, int pnr);
+void geowin_Translatepoint(rat_line& obj, double dx, double dy, int pnr);
+void geowin_Translatepoint(rat_circle& obj, double dx, double dy, int pnr);
+void geowin_Translatepoint(rat_polygon& obj, double dx, double dy, int pnr);
+void geowin_Translatepoint(rat_gen_polygon& obj, double dx, double dy, int pnr);
+
 
 void geowin_Rotate(rat_point& obj, double x, double y, double a);
 void geowin_Rotate(rat_segment& obj, double x, double y, double a);
@@ -134,6 +170,9 @@ void geowin_Rotate(rat_polygon& obj, double x, double y, double a);
 void geowin_Rotate(rat_gen_polygon& obj, double x, double y,double a);
 void geowin_Rotate(d3_rat_point& p, double x, double y, double a);
 void geowin_Rotate(rat_rectangle& obj, double x, double y, double a);
+#if (__LEDA__ >= 420)
+void geowin_Rotate(rat_triangle& obj, double x, double y, double a);
+#endif
 
 
 bool geowin_IntersectsBox(const rat_point& p, double, double, double, double, bool);
@@ -145,6 +184,9 @@ bool geowin_IntersectsBox(const rat_polygon& p, double, double, double, double, 
 bool geowin_IntersectsBox(const rat_gen_polygon& p, double, double, double, double, bool);
 bool geowin_IntersectsBox(const d3_rat_point&, double, double, double, double, bool);
 bool geowin_IntersectsBox(const rat_rectangle&, double, double, double, double, bool);
+#if (__LEDA__ >= 420)
+bool geowin_IntersectsBox(const rat_triangle&, double, double, double, double, bool);
+#endif
 
 
 void geowin_BoundingBox(const rat_point&, double&, double&, double&, double&);
@@ -156,6 +198,9 @@ void geowin_BoundingBox(const rat_polygon&, double&, double&, double&, double&);
 void geowin_BoundingBox(const rat_gen_polygon&, double&, double&, double&, double&);
 void geowin_BoundingBox(const d3_rat_point&, double&, double&, double&, double&);
 void geowin_BoundingBox(const rat_rectangle&, double&, double&, double&, double&);
+#if (__LEDA__ >= 420)
+void geowin_BoundingBox(const rat_triangle&, double&, double&, double&, double&);
+#endif
 
 
 void geowin_generate_objects(GeoWin& gw, list<rat_point>& L);
@@ -167,6 +212,9 @@ void geowin_generate_objects(GeoWin& gw, list<rat_polygon>& L);
 void geowin_generate_objects(GeoWin& gw, list<rat_gen_polygon>& L);
 void geowin_generate_objects(GeoWin& gw, list<d3_rat_point>& L); 
 void geowin_generate_objects(GeoWin& gw, list<rat_rectangle>& L); 
+#if (__LEDA__ >= 420)
+void geowin_generate_objects(GeoWin& gw, list<rat_triangle>& L);
+#endif
 
 #endif
 
@@ -199,14 +247,90 @@ string geowin_info_fcn(const list<T>& L)
     return string("\\black\\tt %d %ss",n, leda_tname((T*)0));
 }
 
+/*{\Manpage {GeoWin} {} {Geometry Windows - Initialization}}*/
 
-template<class T> void geowin_init_default_type( T* t, string str)
+ /*{\Mtext
+    \medskip
+    The following non-member functions can be used to register additional containers storing
+    geometric objects for usage in $GeoWin$. Note that they have to be called before
+    creating a $GeoWin$.
+    
+    |template<class T>| 
+    |GeoEditScene<T>* geowin_init_default_type( T* t, string str);|
+
+    |template<class T>| 
+    |GeoEditScene<T>* geowin_init_basic_type(T* t,string str);|
+
+    |t| is a pointer to the container and |str| is the name that will be assoziated with
+    this container in |GeoWin|.
+    Note that the container of |T| type has to provide
+    \begin{itemize}
+    \item STL-style iteration
+    \item |value_type| - type of the values the container stores
+    \item |iterator|
+    \item operations |begin| and |end| returning iterators, that can the used for traversal
+          of the container
+    \item operation |void push_back(const T::value_type&)| for inserting elements at the end of
+          the container
+    \item operation |iterator insert(iterator, const T::value_type&)| for inserting elements
+    \item operation |void erase(iterator it)| for deleting elements in the container at position |it|
+    \item operation |bool empty()| returning |true| if the container is empty, |false| otherwise
+    \end{itemize} 
+    
+    The following functions have to be provided as well for the geometric objects (type |G|)
+    and the container of type |CONT|:
+    \begin{itemize}
+    \item operators for stream and LEDA window I/O and for writing to |ps_file| \\
+     |ostream& operator<<(ostream&, const G&);| \\
+     |istream& operator>>(istream&, G&);| \\
+     |window& operator<<(window&, const G&);| \\
+     |window& operator>>(window&, G&);| \\
+     |ps_file& operator<<(ps_file&, const G&);| \\
+    \item translate and rotate operations for translating/rotating objects\\
+     |void geowin_Translate(G& o, double dx, double dy);| \\
+     |void geowin_Rotate(G& o, double x, double y, double phi);| \\
+    \item simple geometric queries for getting the bounding box of an object
+          and queriing, if an object intersects a box \\
+     |bool geowin_BoundingBox(const G& o, double& x0, double& y0, double& x1, double& y1);| \\
+     |bool geowin_IntersectsBox(const G& o, double x0, double y0, double x1, double y1);|
+     \item other functions: object generation and info function \\
+      |template<class CONT>|
+      |void geowin_generate_objects(GeoWin& gw, CONT& C);|
+
+      |template<class CONT>|
+      |string geowin_info_fcn(const CONT& C);|
+   \end{itemize}
+   
+   Note that for the |geowin_init_basic_type|-function the functions
+   |geowin_Translate|, |geowin_Rotate|, |geowin_generate_objects| and |geowin_info_fcn| are not needed.
+ }*/
+ 
+#if !defined(__SUNPRO_CC)
+template<class TRAITS> 
+GeoEditScene<__typename TRAITS::CONTAINER>* geowin_init_default_type(TRAITS tr)
+{
+  typedef typename TRAITS::CONTAINER  CONT;
+  
+  CONT* t;
+  GeoEditScene<CONT>* sc = make_edit_prototype(t, tr.get_name());
+
+  sc->set_info_fcn(tr.geowin_info_fcn);
+  sc->set_box_intersection_fcn(tr.geowin_IntersectsBox);
+  sc->set_get_bounding_box_fcn(tr.geowin_BoundingBox);
+  sc->set_move_fcn(tr.geowin_Translate);
+  sc->set_rotate_fcn(tr.geowin_Rotate);
+  sc->generate_fcn = tr.geowin_generate_objects;
+  
+  return sc;
+}
+#endif
+
+template<class T> 
+GeoEditScene<T>* geowin_init_default_type( T* t, string str)
 { 
   //links a string (the scene-typename) with the real type
- 
+  make_base_prototype(t, str+string("B"));
   GeoEditScene< T >* sc = make_edit_prototype(t, str);
-
-  sc->set_redraw_fcn(0);
 
 #if !defined GEOWIN_USE_NAMESPACE
   string (*f)(const T&) = geowin_info_fcn;
@@ -215,7 +339,7 @@ template<class T> void geowin_init_default_type( T* t, string str)
   sc->set_get_bounding_box_fcn(geowin_BoundingBox);
   sc->set_move_fcn(geowin_Translate);
   sc->set_rotate_fcn(geowin_Rotate);
-  sc->set_generate_fcn(geowin_generate_objects);
+  sc->generate_fcn = geowin_generate_objects;
 #else
   string (*f)(const T&) = GEOWIN_NAMESPACE_NAME::geowin_info_fcn;
   sc->set_info_fcn(f);
@@ -223,15 +347,48 @@ template<class T> void geowin_init_default_type( T* t, string str)
   sc->set_get_bounding_box_fcn(GEOWIN_NAMESPACE_NAME::geowin_BoundingBox);
   sc->set_move_fcn(GEOWIN_NAMESPACE_NAME::geowin_Translate);
   sc->set_rotate_fcn(GEOWIN_NAMESPACE_NAME::geowin_Rotate);
-  sc->set_generate_fcn(GEOWIN_NAMESPACE_NAME::geowin_generate_objects);
+  sc->generate_fcn = GEOWIN_NAMESPACE_NAME::geowin_generate_objects;
 #endif
+
+  return sc;
 } 
 
-
-template<class T> void geowin_init_basic_type(T* t,string str)
-{
+template<class T,class F> 
+GeoEditScene<T>* geowin_init_default_type( T* t, string str, F d3_f)
+{ 
+  //links a string (the scene-typename) with the real type
+  GeoBaseScene< T >* bsc = make_base_prototype(t, str+string("B"));
+  bsc->set_objects_init_d3_window(d3_f);
+ 
   GeoEditScene< T >* sc = make_edit_prototype(t, str);
-  sc->set_redraw_fcn(0);
+  sc->set_objects_init_d3_window(d3_f);
+
+#if !defined GEOWIN_USE_NAMESPACE
+  string (*f)(const T&) = geowin_info_fcn;
+  sc->set_info_fcn(f);
+  sc->set_box_intersection_fcn(geowin_IntersectsBox);
+  sc->set_get_bounding_box_fcn(geowin_BoundingBox);
+  sc->set_move_fcn(geowin_Translate);
+  sc->set_rotate_fcn(geowin_Rotate);
+  sc->generate_fcn = geowin_generate_objects;
+#else
+  string (*f)(const T&) = GEOWIN_NAMESPACE_NAME::geowin_info_fcn;
+  sc->set_info_fcn(f);
+  sc->set_box_intersection_fcn(GEOWIN_NAMESPACE_NAME::geowin_IntersectsBox);
+  sc->set_get_bounding_box_fcn(GEOWIN_NAMESPACE_NAME::geowin_BoundingBox);
+  sc->set_move_fcn(GEOWIN_NAMESPACE_NAME::geowin_Translate);
+  sc->set_rotate_fcn(GEOWIN_NAMESPACE_NAME::geowin_Rotate);
+  sc->generate_fcn = GEOWIN_NAMESPACE_NAME::geowin_generate_objects;
+#endif
+
+  return sc;
+} 
+
+template<class T> 
+GeoEditScene<T>* geowin_init_basic_type(T* t,string str)
+{
+  make_base_prototype(t, str+string("B"));
+  GeoEditScene< T >* sc = make_edit_prototype(t, str);
 
 #if !defined GEOWIN_USE_NAMESPACE  
   sc->set_box_intersection_fcn(geowin_IntersectsBox);
@@ -240,7 +397,30 @@ template<class T> void geowin_init_basic_type(T* t,string str)
   sc->set_box_intersection_fcn(GEOWIN_NAMESPACE_NAME::geowin_IntersectsBox);
   sc->set_get_bounding_box_fcn(GEOWIN_NAMESPACE_NAME::geowin_BoundingBox);
 #endif
+
+  return sc;
 }
+
+template<class T,class F> 
+GeoEditScene<T>* geowin_init_basic_type(T* t,string str, F d3_f)
+{
+  GeoBaseScene< T >* bsc = make_base_prototype(t, str+string("B"));
+  bsc->set_objects_init_d3_window(d3_f);
+ 
+  GeoEditScene< T >* sc = make_edit_prototype(t, str);
+  sc->set_objects_init_d3_window(d3_f);
+ 
+#if !defined GEOWIN_USE_NAMESPACE  
+  sc->set_box_intersection_fcn(geowin_IntersectsBox);
+  sc->set_get_bounding_box_fcn(geowin_BoundingBox);
+#else
+  sc->set_box_intersection_fcn(GEOWIN_NAMESPACE_NAME::geowin_IntersectsBox);
+  sc->set_get_bounding_box_fcn(GEOWIN_NAMESPACE_NAME::geowin_BoundingBox);
+#endif
+
+  return sc;
+}
+
 
 
 GEOWIN_END_NAMESPACE

@@ -3,6 +3,9 @@
 //  CGAL example program generating a regular triangle pattern.
 
 #include <CGAL/basic.h>
+#ifndef CGAL_USE_LEDA
+int main() { std::cout << "\nSorry, this demo needs LEDA\n"; return 0; }
+#else
 #include <algorithm>
 #include <CGAL/Cartesian.h>
 #include <CGAL/Point_2.h>
@@ -41,8 +44,8 @@ int main() {
                Ostream_iterator<Triangle,Window_stream>(*window));
 
     // Wait for mouse click in window.
-    Point p;
-    *window >> p;
+    (*window).read_mouse();
     delete window;
     return 0;
 }
+#endif // CGAL_USE_LEDA

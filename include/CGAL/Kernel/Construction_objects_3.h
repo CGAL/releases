@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Kernel/Construction_objects_3.h
-// package       : Cartesian_basic (3.3.7)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/11/22 13:44:12 $
+// package       : Cartesian_basic (4.2)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2000/07/09 12:22:15 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -124,12 +125,13 @@ Construct_point_on_3
 construct_point_on_3_object() const 
 { return Construct_point_on_3(); }
 
-typedef CGALi::Call_second_point_to_get<Point_3>       Construct_second_point_on_3;
+typedef CGALi::Call_second_point_to_get<Point_3>  Construct_second_point_on_3;
 Construct_second_point_on_3
 construct_second_point_on_3_object() const 
 { return Construct_second_point_on_3(); }
 
-typedef CGALi::Call_perpendicular_plane_to_get<Plane_3> Construct_perpendicular_plane_3;
+typedef CGALi::Call_perpendicular_plane_to_get<Plane_3> 
+                                         Construct_perpendicular_plane_3;
 Construct_perpendicular_plane_3
 construct_perpendicular_plane_3() const 
 { return Construct_perpendicular_plane_3(); }
@@ -139,7 +141,12 @@ Construct_midpoint_3
 construct_midpoint_3_object() const 
 { return Construct_midpoint_3(); }
 
-typedef CGALi::Call_opposite_to_get<Segment_3>     Construct_opposite_segment_3;
+typedef CGALi::p_Circumcenter<Point_3>                Construct_circumcenter_3;
+Construct_circumcenter_3
+construct_circumcenter_3_object() const 
+{ return Construct_circumcenter_3(); }
+
+typedef CGALi::Call_opposite_to_get<Segment_3>  Construct_opposite_segment_3;
 Construct_opposite_segment_3
 construct_opposite_segment_3_object() const 
 { return Construct_opposite_segment_3(); }
@@ -154,7 +161,8 @@ Construct_opposite_line_3
 construct_opposite_line_3_object() const 
 { return Construct_opposite_line_3(); }
 
-typedef CGALi::Call_supporting_plane_to_get<Plane_3> Construct_supporting_plane_3;
+typedef CGALi::Call_supporting_plane_to_get<Plane_3> 
+                                             Construct_supporting_plane_3;
 Construct_supporting_plane_3
 construct_supporting_plane_3_object() const 
 { return Construct_supporting_plane_3(); }

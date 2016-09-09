@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,21 +30,22 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Extremal_polygon_traits_2.h
-// package       : Matrix_search (1.30)
+// package       : Matrix_search (1.43)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.30 $
-// revision_date : $Date: 1999/12/17 11:58:46 $
+// revision      : $Revision: 1.43 $
+// revision_date : $Date: 2000/09/15 07:25:30 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // Predefined Traits classes for Extremal Polygon Computation
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -67,23 +68,23 @@ Kgon_triangle_area( const Point_2< R >& p,
                          const Point_2< R >& q,
                          const Point_2< R >& r)
 {
-  return abs( p.x() * ( q.y() - r.y()) +
-                   q.x() * ( r.y() - p.y()) +
-                   r.x() * ( p.y() - q.y()));
+  return CGAL_NTS abs( p.x() * ( q.y() - r.y()) +
+                         q.x() * ( r.y() - p.y()) +
+                         r.x() * ( p.y() - q.y()));
 }
 
-template < class _R >
-class _Kgon_area_operator
-: public CGAL_STD::binary_function< Point_2< _R >,
-                                    Point_2< _R >,
-                                    typename _R::FT >
+template < class R_ >
+class Kgon_area_operator
+: public CGAL_STD::binary_function< Point_2< R_ >,
+                                    Point_2< R_ >,
+                                    typename R_::FT >
 {
 public:
-  typedef _R                 R;
+  typedef R_                 R;
   typedef Point_2< R >  Point_2;
   typedef typename R::FT     FT;
 
-  _Kgon_area_operator( const Point_2& p)
+  Kgon_area_operator( const Point_2& p)
   : root( p)
   {}
 
@@ -97,14 +98,14 @@ private:
 
 
 
-template < class _R >
-class Kgon_area_traits
+template < class R_ >
+class Extremal_polygon_area_traits_2
 {
 public:
-  typedef          _R                   R;
+  typedef          R_              R;
   typedef          Point_2< R >    Point_2;
-  typedef typename _R::FT               FT;
-  typedef _Kgon_area_operator< R > Operation;
+  typedef typename R::FT           FT;
+  typedef Kgon_area_operator< R >  Operation;
 
   int
   min_k() const
@@ -139,7 +140,7 @@ public:
   //  the points described by the range [points_begin, points_end)
   //  form the boundary of a convex polygon oriented counterclockwise.
   //
-  // POST: write the points of [points_begin, points_end)
+  // POST: write indices of the points from [points_begin, points_end)
   //  forming a min_k()-gon rooted at points_begin[0]
   //  of maximum area to o in counterclockwise order and return
   //  the past-the-end iterator for that range (== o + min_k()).
@@ -215,29 +216,24 @@ CGAL_END_NAMESPACE
 #endif // CGAL_USE_LEDA
 CGAL_BEGIN_NAMESPACE
 
-template < class _FT >
-struct Sqrt
-: public CGAL_STD::binary_function< _FT, _FT, _FT >
+template < class FT_ >
+struct Sqrt : public CGAL_STD::binary_function< FT_, FT_, FT_ >
 {
-  typedef _FT  FT;
-
-  FT
-  operator()( const FT& x) const
-  { return CGAL::sqrt( x); }
-
+  typedef FT_  FT;
+  FT operator()(const FT& x) const { return CGAL_NTS sqrt(x); }
 };
-template < class _R >
-class _Kgon_perimeter_operator
-: public CGAL_STD::binary_function< Point_2< _R >,
-                                    Point_2< _R >,
-                                    typename _R::FT >
+template < class R_ >
+class Kgon_perimeter_operator
+: public CGAL_STD::binary_function< Point_2< R_ >,
+                                    Point_2< R_ >,
+                                    typename R_::FT >
 {
 public:
-  typedef _R              R;
+  typedef R_              R;
   typedef Point_2< R >    Point_2;
   typedef typename R::FT  FT;
 
-  _Kgon_perimeter_operator( const Point_2& p)
+  Kgon_perimeter_operator( const Point_2& p)
   : root( p)
   {}
 
@@ -249,20 +245,20 @@ private:
   static
   FT
   dist( const Point_2& p, const Point_2& q)
-  { return CGAL::sqrt( squared_distance( p, q)); }
+  { return CGAL_NTS sqrt( squared_distance( p, q)); }
 
   const Point_2& root;
 };
 
 
-template < class _R >
-class Kgon_perimeter_traits
+template < class R_ >
+class Extremal_polygon_perimeter_traits_2
 {
 public:
-  typedef          _R                    R;
+  typedef          R_                    R;
   typedef          Point_2< R >          Point_2;
-  typedef typename _R::FT                FT;
-  typedef _Kgon_perimeter_operator< R >  Operation;
+  typedef typename R::FT                 FT;
+  typedef Kgon_perimeter_operator< R >   Operation;
 
   int
   min_k() const
@@ -291,16 +287,17 @@ public:
                      OutputIterator o) const
   // RandomAccessIC is a random access iterator or
   // circulator with value_type Point_2.
-  // OutputIterator has value_type Point_2.
+  // OutputIterator accepts int as value_type.
   //
   // PRE: n := | [points_begin, points_end) | >= min_k() and
   //  the points described by the range [points_begin, points_end)
   //  form the boundary of a convex polygon oriented counterclockwise.
   //
-  // POST: write the points of [points_begin, points_end)
+  // POST: write indices of the points from [points_begin, points_end)
   //  forming a min_k()-gon rooted at points_begin[0] of maximum
-  //  perimeter to o in counterclockwise order and return the
-  //  past-the-end iterator for that range (== o + min_k()).
+  //  perimeter to o in counterclockwise order, set max_perimeter
+  //  to twice this perimeter and return the past-the-end iterator
+  //  for the range (== o + min_k()).
   {
 #ifndef CGAL_CFG_NO_NAMESPACE
     using std::bind2nd;
@@ -321,11 +318,12 @@ public:
         points_end,
         compose2_2(
           less< FT >(),
-          bind2nd( operation( points_begin[0]), points_begin[0]),
-          bind2nd( operation( points_begin[0]), points_begin[0]))));
+          bind2nd(operation(points_begin[0]), points_begin[0]),
+          bind2nd(operation(points_begin[0]), points_begin[0]))));
     
     // give result:
-    *o++ = iterator_distance( points_begin, maxi);
+    max_perimeter = operation(*points_begin)(*maxi, *points_begin);
+    *o++ = iterator_distance(points_begin, maxi);
     *o++ = 0;
     
     return o;
@@ -352,8 +350,46 @@ public:
 };
 
 
-template < class RandomAccessIC,
-           class OutputIterator >
+template < class RandomAccessIC, class OutputIterator >
+inline
+OutputIterator
+maximum_area_inscribed_k_gon_2(
+  RandomAccessIC points_begin,
+  RandomAccessIC points_end,
+  int k,
+  OutputIterator o)
+//
+// preconditions:
+// --------------
+//  * Traits fulfills the requirements for an extremal polygon
+//    traits class
+//  * the range [points_begin, points_end) of size n > 0
+//    describes the vertices of a convex polygon $P$
+//    enumerated clock- or counterclockwise
+//  * R is a CGAL representation class
+//  * value_type of RandomAccessIC is Point_2<R>
+//  * OutputIterator accepts Point_2<R> as value_type
+//  * k >= 3
+//
+// functionality:
+// --------------
+// computes maximum area inscribed k-gon $P_k$
+// of the polygon $P$,
+// writes the indices (relative to points_begin)
+// of $P_k$'s vertices to o and
+// returns the past-the-end iterator of that sequence.
+{
+  typedef typename std::iterator_traits< RandomAccessIC >::value_type::R R;
+  return extremal_polygon_2(
+    points_begin,
+    points_end,
+    k,
+    o,
+    Extremal_polygon_area_traits_2< R >());
+} // maximum_area_inscribed_k_gon_2( ... )
+
+// backwards compatibility
+template < class RandomAccessIC, class OutputIterator >
 inline
 OutputIterator
 maximum_area_inscribed_k_gon(
@@ -361,80 +397,15 @@ maximum_area_inscribed_k_gon(
   RandomAccessIC points_end,
   int k,
   OutputIterator o)
-//
-// preconditions:
-// --------------
-//  * Traits fulfills the requirements for an extremal polygon
-//    traits class
-//  * the range [points_begin, points_end) of size n > 0
-//    describes the vertices of a convex polygon $P$
-//    enumerated clock- or counterclockwise
-//  * value_type of RandomAccessIC (=: Point_2)
-//    is Point_2<R> for some representation class R
-//  * OutputIterator accepts Point_2 as value_type
-//  * k >= 3
-//
-// functionality:
-// --------------
-// computes maximum area inscribed k-gon $P_k$
-// of the polygon $P$,
-// writes the indices (relative to points_begin)
-// of $P_k$'s vertices to o and
-// returns the past-the-end iterator of that sequence.
 {
-  return CGAL_maximum_area_inscribed_k_gon(
-    points_begin,
-    points_end,
-    k,
-    o,
-    std::value_type( points_begin));
+  return maximum_area_inscribed_k_gon_2(
+    points_begin, points_end, k, o);
 } // maximum_area_inscribed_k_gon( ... )
 
-template < class RandomAccessIC,
-           class OutputIterator,
-           class R >
+template < class RandomAccessIC, class OutputIterator >
 inline
 OutputIterator
-CGAL_maximum_area_inscribed_k_gon(
-  RandomAccessIC points_begin,
-  RandomAccessIC points_end,
-  int k,
-  OutputIterator o,
-  Point_2< R >*)
-//
-// preconditions:
-// --------------
-//  * Traits fulfills the requirements for an extremal polygon
-//    traits class
-//  * the range [points_begin, points_end) of size n > 0
-//    describes the vertices of a convex polygon $P$
-//    enumerated clock- or counterclockwise
-//  * R is a CGAL representation class
-//  * value_type of RandomAccessIC is Point_2<R>
-//  * OutputIterator accepts Point_2<R> as value_type
-//  * k >= 3
-//
-// functionality:
-// --------------
-// computes maximum area inscribed k-gon $P_k$
-// of the polygon $P$,
-// writes the indices (relative to points_begin)
-// of $P_k$'s vertices to o and
-// returns the past-the-end iterator of that sequence.
-{
-  return extremal_polygon(
-    points_begin,
-    points_end,
-    k,
-    o,
-    Kgon_area_traits< R >());
-} // CGAL_maximum_area_inscribed_k_gon( ... )
-
-template < class RandomAccessIC,
-           class OutputIterator >
-inline
-OutputIterator
-maximum_perimeter_inscribed_k_gon(
+maximum_perimeter_inscribed_k_gon_2(
   RandomAccessIC points_begin,
   RandomAccessIC points_end,
   int k,
@@ -447,46 +418,6 @@ maximum_perimeter_inscribed_k_gon(
 //  * the range [points_begin, points_end) of size n > 0
 //    describes the vertices of a convex polygon $P$
 //    enumerated clock- or counterclockwise
-//  * value_type of RandomAccessIC (=: Point_2)
-//    is Point_2<R> for some representation class R
-//  * OutputIterator accepts Point_2 as value_type
-//  * k >= 2
-//
-// functionality:
-// --------------
-// computes maximum perimeter inscribed k-gon $P_k$
-// of the polygon $P$,
-// writes the indices (relative to points_begin)
-// of $P_k$'s vertices to o and
-// returns the past-the-end iterator of that sequence.
-{
-  return CGAL_maximum_perimeter_inscribed_k_gon(
-    points_begin,
-    points_end,
-    k,
-    o,
-    std::value_type( points_begin));
-} // maximum_perimeter_inscribed_k_gon( ... )
-
-template < class RandomAccessIC,
-           class OutputIterator,
-           class R >
-inline
-OutputIterator
-CGAL_maximum_perimeter_inscribed_k_gon(
-  RandomAccessIC points_begin,
-  RandomAccessIC points_end,
-  int k,
-  OutputIterator o,
-  Point_2< R >*)
-//
-// preconditions:
-// --------------
-//  * Traits fulfills the requirements for an extremal polygon
-//    traits class
-//  * the range [points_begin, points_end) of size n > 0
-//    describes the vertices of a convex polygon $P$
-//    enumerated clock- or counterclockwise
 //  * R is a CGAL representation class
 //  * value_type of RandomAccessIC is Point_2<R>
 //  * OutputIterator accepts Point_2<R> as value_type
@@ -500,13 +431,28 @@ CGAL_maximum_perimeter_inscribed_k_gon(
 // of $P_k$'s vertices to o and
 // returns the past-the-end iterator of that sequence.
 {
-  return extremal_polygon(
+  typedef typename std::iterator_traits< RandomAccessIC >::value_type::R R;
+  return extremal_polygon_2(
     points_begin,
     points_end,
     k,
     o,
-    Kgon_perimeter_traits< R >());
-} // CGAL_maximum_perimeter_inscribed_k_gon( ... )
+    Extremal_polygon_perimeter_traits_2< R >());
+} // maximum_perimeter_inscribed_k_gon_2( ... )
+
+// backwards compatibility
+template < class RandomAccessIC, class OutputIterator >
+inline
+OutputIterator
+maximum_perimeter_inscribed_k_gon(
+  RandomAccessIC points_begin,
+  RandomAccessIC points_end,
+  int k,
+  OutputIterator o)
+{
+  return maximum_perimeter_inscribed_k_gon_2(
+    points_begin, points_end, k, o);
+} // maximum_perimeter_inscribed_k_gon( ... )
 
 CGAL_END_NAMESPACE
 

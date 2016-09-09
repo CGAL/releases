@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : PointVectorDirectionH3.fw
 // file          : include/CGAL/PVDH3.h
-// package       : H3 (2.3.7)
-// revision      : 2.3.7
-// revision_date : 03 Dec 1999 
+// package       : H3 (2.12)
+// revision      : 2.12
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_PVDH3_H
 #define CGAL_PVDH3_H
@@ -128,13 +130,17 @@ operator/   ( const VectorH3<FT,RT> &, const RT & );
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
 VectorH3<FT,RT>
-cross_product   (const VectorH3<FT,RT>& a,
-                 const VectorH3<FT,RT>& b);
+cross_product( const VectorH3<FT,RT>& a, const VectorH3<FT,RT>& b);
+
+template <class FT, class RT>
+CGAL_KERNEL_INLINE
+DirectionH3<FT,RT>
+cross_product( const DirectionH3<FT,RT>& a, const DirectionH3<FT,RT>& b);
 
 
 
 template < class FT, class RT >
-class PointH3 : public Handle
+class PointH3 : public Handle_for< RepH3<RT> >
 {
 
 public:
@@ -144,9 +150,6 @@ public:
   PointH3(const VectorH3<FT,RT>& v);
   PointH3(const RT& x, const RT& y, const RT& z);
   PointH3(const RT& x, const RT& y, const RT& z, const RT& w);
-  ~PointH3();
-
-  PointH3<FT,RT>&      operator=( const PointH3<FT,RT> & p);
 
   FT    x()  const;
   FT    y()  const;
@@ -170,7 +173,11 @@ public:
 
   bool  operator==( const PointH3<FT,RT>& p) const;
   bool  operator!=( const PointH3<FT,RT>& p) const;
-  bool  identical(  const PointH3<FT,RT>& p) const;
+
+  const RT&     hx_ref() const;
+  const RT&     hy_ref() const;
+  const RT&     hz_ref() const;
+  const RT&     hw_ref() const;
 
 friend CGAL_FRIEND_INLINE
        PointH3<FT,RT>
@@ -180,13 +187,11 @@ friend CGAL_FRIEND_INLINE
        PointH3<FT,RT>
        operator-  CGAL_NULL_TMPL_ARGS (const Origin &,
                                        const VectorH3<FT,RT> & v);
-protected:
-  iRepH3<RT>*         ptr() const;
 };
 
 
 template < class FT, class RT >
-class VectorH3 : public Handle
+class VectorH3 : public Handle_for< RepH3<RT> >
 {
 public:
   VectorH3();
@@ -194,10 +199,6 @@ public:
   VectorH3(const Null_vector&);
   VectorH3(const RT& x, const RT& y, const RT& z);
   VectorH3(const RT& w, const RT& x, const RT& y, const RT& z);
-  ~VectorH3();
-
-  VectorH3<FT,RT>&
-        operator=( const VectorH3<FT,RT>& v);
 
   FT    x()  const;
   FT    y()  const;
@@ -222,7 +223,6 @@ public:
 
   bool  operator==( const VectorH3<FT,RT>& v) const;
   bool  operator!=( const VectorH3<FT,RT>& v) const;
-  bool  identical ( const VectorH3<FT,RT>& v) const;
 
 // undocumented:
 
@@ -273,18 +273,11 @@ friend CGAL_KERNEL_FRIEND_INLINE
        VectorH3<FT,RT>
        operator/  CGAL_NULL_TMPL_ARGS ( const VectorH3<FT,RT> &,
                                         const RT & );
-friend CGAL_KERNEL_FRIEND_INLINE
-       VectorH3<FT,RT>
-       cross_product  CGAL_NULL_TMPL_ARGS (const VectorH3<FT,RT>& a,
-                                           const VectorH3<FT,RT>& b);
-
-protected:
-  iRepH3<RT>*    ptr() const;
 };
 
 
 template < class FT, class RT >
-class DirectionH3 : public Handle
+class DirectionH3 : public Handle_for< RepH3<RT> >
 {
 public:
   DirectionH3();
@@ -293,10 +286,6 @@ public:
   DirectionH3(const VectorH3<FT,RT> & v );
   DirectionH3(const RT& x, const RT& y,
                    const RT& z, const RT& w = RT(1) );
-  ~DirectionH3();
-
-  DirectionH3<FT,RT>&
-               operator=(const DirectionH3<FT,RT>& d);
 
   DirectionH3<FT,RT>
         transform(const Aff_transformationH3<FT,RT> &) const ;
@@ -307,7 +296,6 @@ public:
 
   bool  operator==( const DirectionH3<FT,RT>& d) const;
   bool  operator!=( const DirectionH3<FT,RT>& d) const;
-  bool  identical ( const DirectionH3<FT,RT>& d) const;
 
   VectorH3<FT,RT>    to_vector() const;
   // VectorH3<FT,RT>    vector() const { return to_vector(); }
@@ -324,43 +312,21 @@ public:
 
   RT    delta(int i) const;
 
+/*
 friend CGAL_KERNEL_FRIEND_INLINE
 DirectionH3<FT,RT>
 cross_product CGAL_NULL_TMPL_ARGS (const DirectionH3<FT,RT>& d1,
                                    const DirectionH3<FT,RT>& d2);
-
-protected:
-  iRepH3<RT>*    ptr()    const;
+*/
 };
 
-
-
-
-template < class FT, class RT >
-inline
-iRepH3<RT>*
-PointH3<FT,RT>::ptr() const
-{ return (iRepH3<RT>*) PTR; }
-
-
-
-template < class FT, class RT >
-inline
-iRepH3<RT>*
-VectorH3<FT,RT>::ptr() const
-{ return (iRepH3<RT>*)PTR; }
-
-template <class FT, class RT >
-inline
-iRepH3<RT>*
-DirectionH3<FT,RT>::ptr() const
-{ return (iRepH3<RT>*) PTR; }
 
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PointH3<FT,RT>::PointH3()
-{ PTR = new iRepH3<RT>(); }
+ : Handle_for< RepH3<RT> >( RepH3<RT>())
+{}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
@@ -368,97 +334,104 @@ PointH3<FT,RT>::PointH3(const Origin&)
 {
  const RT RT0(0);
  const RT RT1(1);
- PTR = new iRepH3<RT>( RT0, RT0, RT0, RT1 );
+ initialize_with( RepH3<RT>( RT0, RT0, RT0, RT1 ));
 }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PointH3<FT,RT>::PointH3(const PointH3<FT,RT>& tbc)
-  : Handle(tbc)
+ : Handle_for< RepH3<RT> >(tbc)
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PointH3<FT,RT>::PointH3(const VectorH3<FT,RT>& v)
-  : Handle(v)
+ : Handle_for< RepH3<RT> >(v)
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PointH3<FT,RT>::PointH3(const RT& x, const RT& y, const RT& z)
-{ PTR = new iRepH3<RT>(x,y,z, RT(1)); }
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-PointH3<FT,RT>::PointH3(const RT& x, const RT& y,
-                                  const RT& z, const RT& w)
-{
-  if ( w < RT(0) )
-  {
-      PTR = new iRepH3<RT>(-x,-y,-z,-w);
-  }
-  else
-  {
-      PTR = new iRepH3<RT>(x,y,z,w);
-  }
-}
-
-template < class FT, class RT >
-inline
-PointH3<FT,RT>::~PointH3()
+ : Handle_for< RepH3<RT> >( RepH3<RT>(x,y,z, RT(1)) )
 {}
 
 template < class FT, class RT >
-CGAL_KERNEL_INLINE
-PointH3<FT,RT>&
-PointH3<FT,RT>::operator=(const PointH3<FT,RT>& p)
+CGAL_KERNEL_CTOR_INLINE
+PointH3<FT,RT>::PointH3(const RT& x, const RT& y, const RT& z,
+                        const RT& w)
 {
-  Handle::operator=(p);
-  return *this;
+  if ( w < RT(0) )
+  { initialize_with( RepH3<RT>(-x,-y,-z,-w)); }
+  else
+  { initialize_with( RepH3<RT>(x,y,z,w)); }
 }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 FT
 PointH3<FT,RT>::x()  const
-{ return ( FT(ptr()->hx() ) / FT(ptr()->hw() )); }
+{ return ( FT(ptr->hx() ) / FT(ptr->hw() )); }
 
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 FT
 PointH3<FT,RT>::y()  const
-{ return ( FT(ptr()->hy() ) / FT(ptr()->hw() )); }
+{ return ( FT(ptr->hy() ) / FT(ptr->hw() )); }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 FT
 PointH3<FT,RT>::z()  const
-{ return ( FT(ptr()->hz() ) / FT(ptr()->hw() )); }
+{ return ( FT(ptr->hz() ) / FT(ptr->hw() )); }
 
 template < class FT, class RT >
 inline
 RT
 PointH3<FT,RT>::hx() const
-{ return  ptr()->hx() ; }
+{ return  ptr->hx() ; }
 
 template < class FT, class RT >
 inline
 RT
 PointH3<FT,RT>::hy() const
-{ return  ptr()->hy() ; }
+{ return  ptr->hy() ; }
 
 template < class FT, class RT >
 inline
 RT
 PointH3<FT,RT>::hz() const
-{ return  ptr()->hz() ; }
+{ return  ptr->hz() ; }
 
 template < class FT, class RT >
 inline
 RT
 PointH3<FT,RT>::hw() const
-{ return  ptr()->hw(); }
+{ return  ptr->hw(); }
+
+template < class FT, class RT >
+inline
+const RT&
+PointH3<FT,RT>::hx_ref() const
+{ return  ptr->e0 ; }
+
+template < class FT, class RT >
+inline
+const RT&
+PointH3<FT,RT>::hy_ref() const
+{ return  ptr->e1 ; }
+
+template < class FT, class RT >
+inline
+const RT&
+PointH3<FT,RT>::hz_ref() const
+{ return  ptr->e2 ; }
+
+template < class FT, class RT >
+inline
+const RT&
+PointH3<FT,RT>::hw_ref() const
+{ return  ptr->e3; }
 
 template < class FT, class RT >
 inline
@@ -523,12 +496,6 @@ bool
 PointH3<FT,RT>::operator!=( const PointH3<FT,RT> & p) const
 { return !(*this == p); }
 
-template < class FT, class RT >
-inline
-bool
-PointH3<FT,RT>::identical( const PointH3<FT,RT>& p) const
-{ return (PTR == p.PTR); }
-
 
 #ifndef NO_OSTREAM_INSERT_POINTH3
 template < class FT, class RT >
@@ -580,110 +547,91 @@ std::istream &operator>>(std::istream &is, PointH3<FT,RT> &p)
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 VectorH3<FT,RT>::VectorH3()
-{ PTR = new iRepH3<RT>();
-  // std::cout << "default ctor VectorH3 allocates iRepH3"
-  //      << (int)PTR << std::endl << flush;
-}
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-VectorH3<FT,RT>::VectorH3(const VectorH3<FT,RT>& tbc)
-  : Handle((Handle&) tbc)
+ : Handle_for< RepH3<RT> >( RepH3<RT>() )
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-VectorH3<FT,RT>::VectorH3(const Null_vector&)
-{ PTR = new iRepH3<RT>( RT(0), RT(0), RT(0), RT(1) ); }
+VectorH3<FT,RT>::VectorH3(const VectorH3<FT,RT>& tbc)
+ : Handle_for< RepH3<RT> >(tbc)
+{}
 
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
+VectorH3<FT,RT>::VectorH3(const Null_vector&)
+ : Handle_for< RepH3<RT> >( RepH3<RT>(RT(0), RT(0), RT(0), RT(1)) )
+{}
+
+template < class FT, class RT >
+CGAL_KERNEL_CTOR_INLINE
 VectorH3<FT,RT>::VectorH3(const PointH3<FT,RT> & p)
-  : Handle( (Handle&) p )
+ : Handle_for< RepH3<RT> >(p)
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 VectorH3<FT,RT>::VectorH3(const DirectionH3<FT,RT> & d)
-  : Handle( static_cast<const Handle&>(d) )
+ : Handle_for< RepH3<RT> >(d)
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-VectorH3<FT,RT>::VectorH3(const RT& x, const RT& y,
-                          const RT& z, const RT& w)
+VectorH3<FT,RT>::VectorH3(const RT& x, const RT& y, const RT& z,
+                          const RT& w)
 {
   if ( w >= RT(0) )
-  {
-      PTR = new iRepH3<RT>(x, y, z, w);
-  }
+  { initialize_with( RepH3<RT>(x, y, z, w)); }
   else
-  {
-      PTR = new iRepH3<RT>(-x,-y,-z,-w);
-  }
+  { initialize_with( RepH3<RT>(-x,-y,-z,-w)); }
 }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 VectorH3<FT,RT>::VectorH3(const RT& x, const RT& y, const RT& z)
-{ PTR = new iRepH3<RT>(x, y, z, RT(1) ); }
-
-template < class FT, class RT >
-inline
-VectorH3<FT,RT>::~VectorH3()
+ : Handle_for< RepH3<RT> >( RepH3<RT>(x, y, z, RT(1)) )
 {}
-
-template < class FT, class RT >
-inline
-VectorH3<FT,RT> &
-VectorH3<FT,RT>::operator=(const VectorH3<FT,RT>& v)
-{
-  Handle::operator=(v);
-  return *this;
-}
-
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 FT
 VectorH3<FT,RT>::x()  const
-{ return FT(ptr()->hx() )/FT(ptr()->hw() ) ; }
+{ return FT(ptr->hx() )/FT(ptr->hw() ) ; }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 FT
 VectorH3<FT,RT>::y()  const
-{ return FT(ptr()->hy() )/FT(ptr()->hw() ) ; }
+{ return FT(ptr->hy() )/FT(ptr->hw() ) ; }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 FT
 VectorH3<FT,RT>::z()  const
-{ return FT(ptr()->hz() )/FT(ptr()->hw() ) ; }
+{ return FT(ptr->hz() )/FT(ptr->hw() ) ; }
 
 template < class FT, class RT >
 inline
 RT
 VectorH3<FT,RT>::hx() const
-{ return  ptr()->hx() ; }
+{ return  ptr->hx() ; }
 
 template < class FT, class RT >
 inline
 RT
 VectorH3<FT,RT>::hy() const
-{ return  ptr()->hy() ; }
+{ return  ptr->hy() ; }
 
 template < class FT, class RT >
 inline
 RT
 VectorH3<FT,RT>::hz() const
-{ return  ptr()->hz() ; }
+{ return  ptr->hz() ; }
 
 template < class FT, class RT >
 inline
 RT
 VectorH3<FT,RT>::hw() const
-{ return  ptr()->hw() ; }
+{ return  ptr->hw() ; }
 
 template < class FT, class RT >
 inline
@@ -743,12 +691,6 @@ VectorH3<FT,RT>::operator!=( const VectorH3<FT,RT>& v) const
 
 template < class FT, class RT >
 inline
-bool
-VectorH3<FT,RT>::identical( const VectorH3<FT,RT>& v) const
-{ return ( PTR == v.PTR ); }
-
-template < class FT, class RT >
-inline
 FT
 VectorH3<FT,RT>::operator[](int i) const
 { return cartesian(i); }
@@ -763,53 +705,36 @@ VectorH3<FT,RT>::operator-() const
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 DirectionH3<FT,RT>::DirectionH3()
-{ PTR = new iRepH3<RT>(); }
+ : Handle_for< RepH3<RT> >( RepH3<RT>() )
+{}
 
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 DirectionH3<FT,RT>::DirectionH3(const DirectionH3<FT,RT>& tbc )
- : Handle(tbc)
+ : Handle_for< RepH3<RT> >(tbc)
 {}
 
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 DirectionH3<FT,RT>::DirectionH3(const PointH3<FT,RT> & p )
- : Handle( (Handle&) p )
+ : Handle_for< RepH3<RT> >( p )
 {}
 
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 DirectionH3<FT,RT>::DirectionH3(const VectorH3<FT,RT> & v )
- : Handle( (Handle&) v )
+ : Handle_for< RepH3<RT> >( v )
 {}
 
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-DirectionH3<FT,RT>::DirectionH3(const RT& x, const RT& y,
-                                          const RT& z, const RT& w)
+DirectionH3<FT,RT>::DirectionH3(const RT& x, const RT& y, const RT& z,
+                                const RT& w)
 {
   if ( w >= RT(0) )
-  {
-     PTR = new iRepH3<RT>(x,y,z,w);
-  }
+  { initialize_with( RepH3<RT>(x,y,z,w)); }
   else
-  {
-     PTR = new iRepH3<RT>(-x,-y,-z,-w);
-  }
-}
-
-template <class FT, class RT >
-inline
-DirectionH3<FT,RT>::~DirectionH3()
-{}
-
-template < class FT, class RT >
-inline
-DirectionH3<FT,RT> &
-DirectionH3<FT,RT>::operator=(const DirectionH3<FT,RT> &d)
-{
-  Handle::operator=(d);
-  return *this;
+  { initialize_with( RepH3<RT>(-x,-y,-z,-w)); }
 }
 
 template <class FT, class RT >
@@ -830,66 +755,66 @@ template <class FT, class RT >
 inline
 RT
 DirectionH3<FT,RT>::dx() const
-{ return ptr()->e0; }
+{ return ptr->e0; }
 
 template <class FT, class RT >
 inline
 RT
 DirectionH3<FT,RT>::x() const
-{ return ptr()->e0; }
+{ return ptr->e0; }
 
 template <class FT, class RT >
 inline
 RT
 DirectionH3<FT,RT>::hx() const
-{ return ptr()->e0; }
+{ return ptr->e0; }
 
 template <class FT, class RT >
 inline
 RT
 DirectionH3<FT,RT>::dy() const
-{ return ptr()->e1; }
+{ return ptr->e1; }
 
 template <class FT, class RT >
 inline
 RT
 DirectionH3<FT,RT>::y() const
-{ return ptr()->e1; }
+{ return ptr->e1; }
 
 template <class FT, class RT >
 inline
 RT
 DirectionH3<FT,RT>::hy() const
-{ return ptr()->e1; }
+{ return ptr->e1; }
 
 template <class FT, class RT >
 inline
 RT
 DirectionH3<FT,RT>::dz() const
-{ return ptr()->e2; }
+{ return ptr->e2; }
 
 template <class FT, class RT >
 inline
 RT
 DirectionH3<FT,RT>::z() const
-{ return ptr()->e2; }
+{ return ptr->e2; }
 
 template <class FT, class RT >
 inline
 RT
 DirectionH3<FT,RT>::hz() const
-{ return ptr()->e2; }
+{ return ptr->e2; }
 template <class FT, class RT >
 CGAL_KERNEL_INLINE
 bool
 DirectionH3<FT,RT>::operator==( const DirectionH3<FT,RT>& d) const
 {
-  return ( ( ptr()->hx()*d.ptr()->hy() == ptr()->hy()*d.ptr()->hx() )
-         &&( ptr()->hx()*d.ptr()->hz() == ptr()->hz()*d.ptr()->hx() )
-         &&( ptr()->hy()*d.ptr()->hz() == ptr()->hz()*d.ptr()->hy() )
-         &&( CGAL::sign( ptr()->hx() ) == CGAL::sign( d.ptr()->hx() ) )
-         &&( CGAL::sign( ptr()->hy() ) == CGAL::sign( d.ptr()->hy() ) )
-         &&( CGAL::sign( ptr()->hz() ) == CGAL::sign( d.ptr()->hz() ) ) );
+  return ( ( ptr->hx()*d.ptr->hy() == ptr->hy()*d.ptr->hx() )
+         &&( ptr->hx()*d.ptr->hz() == ptr->hz()*d.ptr->hx() )
+         &&( ptr->hy()*d.ptr->hz() == ptr->hz()*d.ptr->hy() )
+         &&( CGAL_NTS sign( ptr->hx() ) == CGAL_NTS sign( d.ptr->hx() ) )
+         &&( CGAL_NTS sign( ptr->hy() ) == CGAL_NTS sign( d.ptr->hy() ) )
+         &&( CGAL_NTS sign( ptr->hz() ) == CGAL_NTS sign( d.ptr->hz() ) ) );
 }
 
 template <class FT, class RT >
@@ -906,15 +831,9 @@ DirectionH3<FT,RT>::is_degenerate() const
 
 template <class FT, class RT >
 inline
-bool
-DirectionH3<FT,RT>::identical( const DirectionH3<FT,RT>& d) const
-{ return ( PTR == d.PTR ); }
-
-template <class FT, class RT >
-inline
 DirectionH3<FT,RT>
 DirectionH3<FT,RT>::operator-() const
-{ return DirectionH3<FT,RT>(- ptr()->hx(),- ptr()->hy(),- ptr()->hz() ); }
+{ return DirectionH3<FT,RT>(- ptr->hx(),- ptr->hy(),- ptr->hz() ); }
 
 
 template <class FT, class RT >
@@ -1017,9 +936,9 @@ PointH3<FT,RT>
 operator+(const PointH3<FT,RT>& p, const VectorH3<FT,RT>& v)
 {
   return PointH3<FT,RT>(p.hx()*v.hw() + v.hx()*p.hw(),
-                             p.hy()*v.hw() + v.hy()*p.hw(),
-                             p.hz()*v.hw() + v.hz()*p.hw(),
-                             p.hw()*v.hw() );
+                        p.hy()*v.hw() + v.hy()*p.hw(),
+                        p.hz()*v.hw() + v.hz()*p.hw(),
+                        p.hw()*v.hw() );
 }
 
 template <class FT, class RT>

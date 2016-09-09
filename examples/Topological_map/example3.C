@@ -1,3 +1,5 @@
+//example3
+
 #include <CGAL/basic.h>
 #include <iostream>
 
@@ -69,19 +71,3 @@ int main() {
 
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

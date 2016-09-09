@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/cartesian_classes.h
-// package       : Cartesian_basic (3.3.7)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/11/22 13:44:11 $
+// package       : Cartesian_basic (4.2)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2000/06/27 14:52:40 $
 // authors       : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -80,7 +81,7 @@ template < class R, class T = typename R::Rep_tag > class Ray_3;
 template < class R, class T = typename R::Rep_tag > class Segment_3;
 template < class R, class T = typename R::Rep_tag > class Triangle_3;
 template < class R, class T = typename R::Rep_tag > class Tetrahedron_3;
-template < class R, class T = typename R::Rep_tag > class Iso_rectangle_3;
+template < class R, class T = typename R::Rep_tag > class Iso_cuboid_3;
 template < class R, class T = typename R::Rep_tag > class Aff_transformation_3;
 
 template < class R > class PointCd;
@@ -119,7 +120,7 @@ template < class R > class RayC3;
 template < class R > class SegmentC3;
 template < class R > class TriangleC3;
 template < class R > class TetrahedronC3;
-template < class R > class Iso_rectangleC3;
+template < class R > class Iso_cuboidC3;
 template < class R > class Aff_transformationC3;
 
 template < class R > class PointCd;

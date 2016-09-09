@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Triangulation_euclidean_traits_xy_3.h
-// package       : Triangulation (4.30)
+// package       : Triangulation (4.69)
 // source        : $RCSfile: Triangulation_euclidean_traits_xy_3.h,v $
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1999/10/15 16:45:05 $
+// revision      : $Revision: 1.17 $
+// revision_date : $Date: 2000/08/07 07:10:21 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -54,8 +55,6 @@
 
 #include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/triangulation_assertions.h>
-#include <CGAL/Distance_2.h>
-
 
 #include <CGAL/Point_3.h>
 #include <CGAL/Segment_3.h>
@@ -64,63 +63,97 @@
 
 CGAL_BEGIN_NAMESPACE 
 
-template < class R >
-class Triangulation_euclidean_traits_xy_3 {
+template <class R>
+class Orientation_xy_3 
+{
 public:
-    typedef Triangulation_euclidean_traits_xy_3<R> Traits;
-    typedef R Rp;
-    typedef Point_3<R>  Point;
-    typedef Segment_3<R> Segment;
-    typedef Triangle_3<R> Triangle;
-    typedef Line_3<R>   Line;
-    typedef Ray_3<R>    Ray;
-    typedef Direction_3<R> Direction;
-    typedef Distance_xy_3<Traits> Distance;
-    
-  Triangulation_euclidean_traits_xy_3(){}
-  Triangulation_euclidean_traits_xy_3(
-		   const Triangulation_euclidean_traits_xy_3& et){}
-  Triangulation_euclidean_traits_xy_3 &operator=(
-	    const Triangulation_euclidean_traits_xy_3&  et){return *this;}
+  typedef Point_3<R>     Point; 
+  typename R::FT x(const Point &p) const { return p.x(); }
+  typename R::FT y(const Point &p) const { return p.y(); }
 
-
-    
-  typename Rp::FT x(const Point &p) const { return p.x(); }
-  typename Rp::FT y(const Point &p) const { return p.y(); }
-    
-    Comparison_result compare_x(const Point &p, const Point &q) const
-      {
-        return CGAL::compare(x(p), x(q));
-      }
-    Comparison_result compare_y(const Point &p, const Point &q) const
-      {
-        return CGAL::compare(y(p), y(q));
-      }
-    bool compare(const Point &p, const Point &q) const
-      {
-        return (compare_x(p, q)== EQUAL &&  
-		compare_y(p, q)== EQUAL);
-      }
-    
-    Orientation orientation(const Point &p,
-			    const Point &q,
-			    const Point &r) const
+  CGAL::Orientation operator()(const Point& p,
+			       const Point& q,
+			       const Point& r)
     {
       return orientationC2(x(p), y(p), x(q), y(q), x(r), y(r));
     }
-   
-  Oriented_side side_of_oriented_circle(const Point &p,
-					const Point &q,
-					const Point &r,
-					const Point &s) const
+};
+
+template <class R>
+class Side_of_oriented_circle_xy_3 
+{
+public:
+  typedef Point_3<R>     Point; 
+  typename R::FT x(const Point &p) const { return p.x(); }
+  typename R::FT y(const Point &p) const { return p.y(); }
+
+  CGAL::Oriented_side operator() (const Point &p, 
+				  const Point &q,
+				  const Point &r, 
+				  const Point &s) 
     {
       return side_of_oriented_circleC2(x(p), y(p),
 				       x(q), y(q),
 				       x(r), y(r),
 				       x(s), y(s));
     }
-    
 };
+
+template < class R >
+class Triangulation_euclidean_traits_xy_3 {
+public:
+  typedef Triangulation_euclidean_traits_xy_3<R> Traits;
+  typedef R Rp;
+  typedef Point_3<R>     Point_2;
+  typedef Segment_3<R>   Segment_2;
+  typedef Triangle_3<R>  Triangle_2;
+
+  typedef typename Rp::Compare_x_3          Compare_x_2;
+  typedef typename Rp::Compare_y_3          Compare_y_2;
+  typedef Orientation_xy_3<Rp>              Orientation_2;
+  typedef Side_of_oriented_circle_xy_3<Rp>  Side_of_oriented_circle_2;
+  typedef typename Rp::Construct_segment_3   Construct_segment_2;
+  typedef typename Rp::Construct_triangle_3  Construct_triangle_2;
+
+  // for compatibility with previous versions
+  typedef Point_2      Point;
+  typedef Segment_2    Segment;
+  typedef Triangle_2   Triangle;
+
+  Triangulation_euclidean_traits_xy_3(){}
+  Triangulation_euclidean_traits_xy_3(
+		   const Triangulation_euclidean_traits_xy_3& et){}
+  Triangulation_euclidean_traits_xy_3 &operator=(
+	    const Triangulation_euclidean_traits_xy_3&  et){return *this;}
+
+  typename Rp::FT x(const Point_2 &p) const { return p.x(); }
+  typename Rp::FT y(const Point_2 &p) const { return p.y(); }
+    
+ 
+  Compare_x_2
+  compare_x_2_object() const
+    { return Compare_x_2();}
+
+  Compare_y_2
+  compare_y_2_object() const
+    { return Compare_y_2();}
+
+  Orientation_2
+  orientation_2_object() const
+    { return Orientation_2();}
+
+  Side_of_oriented_circle_2
+  side_of_oriented_circle_2_object() const
+    {return Side_of_oriented_circle_2();}
+
+  Construct_segment_2  construct_segment_2_object() const
+    {return Construct_segment_2();}
+
+  Construct_triangle_2  construct_triangle_2_object() const
+    {return Construct_triangle_2();}
+
+};
+  
 
 CGAL_END_NAMESPACE 
 

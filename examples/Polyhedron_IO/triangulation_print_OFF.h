@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : examples/Polyhedron_IO/triangulation_print_OFF.h
-// package       : $CGAL_Package: Polyhedron_IO 2.9 (13 Dec 1999) $
+// package       : $CGAL_Package: Polyhedron_IO 2.11 (04 Feb 2000) $
 // revision      : $Revision: 1.5 $
 // revision_date : $Date: 1999/03/09 22:18:32 $
 // author(s)     : Lutz Kettner
@@ -42,7 +42,8 @@
 // coordinator   : Herve Bronnimann
 //
 // Print a Triangulation<Traits> with 3d points in object file format (OFF).
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

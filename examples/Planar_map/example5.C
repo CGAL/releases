@@ -1,11 +1,4 @@
-/********************************************************************/
-/* This is an example program for the Planar Map package            */
-/* It tests the direct insertion functions (insert_from_vertex etc.)*/
-/* and uses the naive point location strategy instead of the        */
-/* default strategy provided.                                       */
-/*******************************************************************/
-/* By:   Iddo Hanniel < hanniel@math.tau.ac.il>                    */
-/*******************************************************************/
+//example5
 
 #include <CGAL/Homogeneous.h>
 #include <CGAL/Pm_segment_exact_traits.h>
@@ -15,34 +8,36 @@
 
 #include <CGAL/Pm_naive_point_location.h>
 
-typedef CGAL::Homogeneous<long>                     coord_t;
-typedef CGAL::Pm_segment_exact_traits<coord_t>         pmtraits;
-typedef pmtraits::Point                               point;
-typedef pmtraits::X_curve                             curve;
-typedef CGAL::Pm_default_dcel<pmtraits>                pmdcel;
-typedef CGAL::Planar_map_2<pmdcel,pmtraits>            pmap;
+using namespace CGAL;
+
+typedef Homogeneous<long>                        coord_t;
+typedef Pm_segment_exact_traits<coord_t>         Pmtraits;
+typedef Pmtraits::Point                          Point;
+typedef Pmtraits::X_curve                        Curve;
+typedef Pm_default_dcel<Pmtraits>                Pmdcel;
+typedef Planar_map_2<Pmdcel,Pmtraits>            Pmap;
 int main()
 {
-  // creating an instance of CGAL::Planar_map_2<pmdcel,pmtraits>
+  // creating an instance of Planar_map_2<Pmdcel,Pmtraits>
   //with a naive point location strategy
-  CGAL::Pm_naive_point_location<pmap> naive_pl;
-  pmap pm(&naive_pl);
+  Pm_naive_point_location<Pmap> naive_pl;
+  Pmap pm(&naive_pl);
 
-  curve cv[4];
+  Curve cv[4];
   int i;
 
-  CGAL::set_ascii_mode(std::cout);
+  set_ascii_mode(std::cout);
 
-  point a1(1, 1), a2(1, 0), a3(0, 0), a4(0, 1);
+  Point a1(1, 1), a2(1, 0), a3(0, 0), a4(0, 1);
 
-  cv[0] = curve(a1, a2);
-  cv[1] = curve(a2, a3);
-  cv[2] = curve(a3, a4);
-  cv[3] = curve(a4, a1);
+  cv[0] = Curve(a1, a2);
+  cv[1] = Curve(a2, a3);
+  cv[2] = Curve(a3, a4);
+  cv[3] = Curve(a4, a1);
 
 
   // inserting the curves to the map
-  CGAL::Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e[4];  
+  Planar_map_2<Pmdcel,Pmtraits>::Halfedge_handle e[4];  
 
   e[0]=pm.insert_in_face_interior(cv[0],pm.unbounded_face());
 
@@ -58,17 +53,3 @@ int main()
 
   return 0;  
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

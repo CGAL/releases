@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Direction_3.C
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.16 $
-// revision_date : $Date: 1999/11/22 13:34:07 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.25 $
+// revision_date : $Date: 2000/08/23 13:57:41 $
 // author(s)     : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -58,30 +59,22 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
-inline
-_Threetuple<typename R::FT>*
-DirectionC3<R CGAL_CTAG>::ptr() const
-{
-  return (_Threetuple<FT>*)PTR;
-}
-
-template < class R >
 DirectionC3<R CGAL_CTAG>::
 DirectionC3()
 {
-  PTR = new _Threetuple<FT>();
+   new ( static_cast< void*>(ptr)) Threetuple<FT>();
 }
 
 template < class R >
 DirectionC3<R CGAL_CTAG>::
 DirectionC3(const DirectionC3<R CGAL_CTAG> &d)
-  : Handle(d)
+  : Handle_for<Threetuple<typename R::FT> >(d)
 {}
 
 template < class R >
 DirectionC3<R CGAL_CTAG>::
 DirectionC3(const typename DirectionC3<R CGAL_CTAG>::Vector_3 &v)
-  : Handle(v)
+  : Handle_for<Threetuple<typename R::FT> >(v)
 {}
 
 template < class R >
@@ -90,7 +83,7 @@ DirectionC3(const typename DirectionC3<R CGAL_CTAG>::FT &x,
             const typename DirectionC3<R CGAL_CTAG>::FT &y,
             const typename DirectionC3<R CGAL_CTAG>::FT &z)
 {
-  PTR = new _Threetuple<typename R::FT>(x, y, z);
+  new ( static_cast< void*>(ptr)) Threetuple<FT>(x, y, z);
 }
 
 template < class R >
@@ -98,19 +91,10 @@ DirectionC3<R CGAL_CTAG>::~DirectionC3()
 {}
 
 template < class R >
-DirectionC3<R CGAL_CTAG> &
-DirectionC3<R CGAL_CTAG>::operator=(const DirectionC3<R CGAL_CTAG> &d)
-{
-
-  Handle::operator=(d);
-  return *this;
-}
-
-template < class R >
 bool
 DirectionC3<R CGAL_CTAG>::operator==(const DirectionC3<R CGAL_CTAG> &d) const
 {
-  if (id() == d.id()) return true;
+  if (ptr == d.ptr) return true;
   return equal_directionC3(dx(), dy(), dz(), d.dx(), d.dy(), d.dz());
 }
 
@@ -120,13 +104,6 @@ bool
 DirectionC3<R CGAL_CTAG>::operator!=(const DirectionC3<R CGAL_CTAG> &d) const
 {
   return !(*this == d);
-}
-
-template < class R >
-long
-DirectionC3<R CGAL_CTAG>::id() const
-{
-  return (long) PTR;
 }
 
 template < class R >
@@ -160,8 +137,9 @@ typename DirectionC3<R CGAL_CTAG>::FT
 DirectionC3<R CGAL_CTAG>::delta(int i) const
 {
   CGAL_kernel_precondition( i >= 0 && i <= 2 );
-  return (i==0) ? dx() :
-         (i==1) ? dy() : dz() ;
+  if (i==0) return dx();
+  if (i==1) return dy();
+  return dz();
 }
 
 template < class R >
@@ -169,7 +147,7 @@ inline
 typename DirectionC3<R CGAL_CTAG>::FT
 DirectionC3<R CGAL_CTAG>::dx() const
 {
-  return ptr()->e0;
+  return ptr->e0;
 }
 
 template < class R >
@@ -177,7 +155,7 @@ inline
 typename DirectionC3<R CGAL_CTAG>::FT
 DirectionC3<R CGAL_CTAG>::dy() const
 {
-  return ptr()->e1;
+  return ptr->e1;
 }
 
 template < class R >
@@ -185,7 +163,7 @@ inline
 typename DirectionC3<R CGAL_CTAG>::FT
 DirectionC3<R CGAL_CTAG>::dz() const
 {
-  return ptr()->e2;
+  return ptr->e2;
 }
 
 template < class R >
@@ -193,7 +171,7 @@ inline
 typename DirectionC3<R CGAL_CTAG>::FT
 DirectionC3<R CGAL_CTAG>::hdx() const
 {
-  return ptr()->e0;
+  return dx();
 }
 
 template < class R >
@@ -201,7 +179,7 @@ inline
 typename DirectionC3<R CGAL_CTAG>::FT
 DirectionC3<R CGAL_CTAG>::hdy() const
 {
-  return ptr()->e1;
+  return dy();
 }
 
 template < class R >
@@ -209,7 +187,7 @@ inline
 typename DirectionC3<R CGAL_CTAG>::FT
 DirectionC3<R CGAL_CTAG>::hdz() const
 {
-  return ptr()->e2;
+  return dz();
 }
 
 template < class R >

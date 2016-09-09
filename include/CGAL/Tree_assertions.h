@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Tree_assertions.h
-// package       : SearchStructures (2.50)
+// package       : SearchStructures (2.54)
 // source        : include/CGAL/Tree_assertions.h
 // revision      : $Revision: 1.2 $
 // revision_date : $Date: 1997/11/11 08:39:49 $
@@ -44,7 +44,8 @@
 //
 //
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

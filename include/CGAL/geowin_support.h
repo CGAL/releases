@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/geowin_support.h
-// package       : GeoWin (1.0.8)
-// revision      : 1.0.8
-// revision_date : 17 December 1999 
+// package       : GeoWin (1.1.9)
+// revision      : 1.1.9
+// revision_date : 27 September 2000 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
 // coordinator   : Matthias Baesken, Halle  (<baesken>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -61,12 +62,41 @@
 #include <CGAL/intersections.h>
 #include <CGAL/IO/Window_stream.h>
 #include <CGAL/Point_3.h>
+#include <CGAL/Segment_3.h>
+#include <CGAL/Line_3.h>
+#include <CGAL/Ray_3.h>
+#include <CGAL/Triangle_3.h>
+#include <CGAL/Tetrahedron_3.h>
 #include <CGAL/Aff_transformation_2.h>
 #include <LEDA/ps_file.h>
+#include <LEDA/d3_segment.h>
+#include <LEDA/d3_line.h>
+#include <LEDA/rat_circle.h>
+#include <LEDA/float_geo_alg.h>
+
 #include<list>
 #include<vector>
 
 #include<LEDA/d3_point.h>
+
+#if (__LEDA__ < 410)
+// fix problem with missing prefixing for d3 rays ...
+#if !defined(LEDA_ROOT_INCL_ID)
+#define LEDA_ROOT_INCL_ID 420047
+#include <LEDA/REDEFINE_NAMES.h>
+#endif
+
+#include <LEDA/d3_ray.h>
+
+#if LEDA_ROOT_INCL_ID == 420047
+#undef LEDA_ROOT_INCL_ID
+#include <LEDA/UNDEFINE_NAMES.h>
+#endif
+
+typedef d3_ray  leda_d3_ray;
+#else
+#include <LEDA/d3_ray.h>
+#endif
 
 
 typedef CGAL::Cartesian<double>  DEFREP;
@@ -100,6 +130,27 @@ typedef std::list<CGALPolygon>                        CGALPolygonlist;
 //3d - points
 typedef CGAL::Point_3< DEFREP >      CGALPoint_3;
 typedef std::list<CGALPoint_3>    CGALPoint_3_list;
+
+//3d - segments
+typedef CGAL::Segment_3< DEFREP >      CGALSegment_3;
+typedef std::list<CGALSegment_3>    CGALSegment_3_list;
+
+//3d - lines
+typedef CGAL::Line_3< DEFREP >      CGALLine_3;
+typedef std::list<CGALLine_3>    CGALLine_3_list;
+
+//3d - rays
+typedef CGAL::Ray_3< DEFREP >      CGALRay_3;
+typedef std::list<CGALRay_3>    CGALRay_3_list;
+
+//3d - triangles
+typedef CGAL::Triangle_3< DEFREP >      CGALTriangle_3;
+typedef std::list<CGALTriangle_3>    CGALTriangle_3_list;
+
+//3d - tetrahedra
+typedef CGAL::Tetrahedron_3< DEFREP >      CGALTetrahedron_3;
+typedef std::list<CGALTetrahedron_3>    CGALTetrahedron_3_list;
+
 
 #if defined GEOWIN_USE_NAMESPACE
 
@@ -241,6 +292,72 @@ leda_d3_point convert_to_leda(const CGAL::Point_3<REP>& obj)
 }
 
 template<class REP>
+leda_d3_segment convert_to_leda(const CGAL::Segment_3<REP>& obj)
+{
+  leda_d3_segment s(convert_to_leda(obj.source()), convert_to_leda(obj.target()));
+  return s;
+}
+
+template<class REP>
+leda_d3_line convert_to_leda(const CGAL::Line_3<REP>& obj)
+{
+  leda_d3_line l(convert_to_leda(obj.point(0)), convert_to_leda(obj.point(1)));
+  return l;  
+}
+
+template<class REP>
+leda_d3_ray convert_to_leda(const CGAL::Ray_3<REP>& obj)
+{
+  leda_d3_ray r(convert_to_leda(obj.source()), convert_to_leda(obj.point(1)));
+  return r;  
+}
+
+// d2 projection into xy - plane ...
+
+template<class REP>
+leda_polygon convert_to_leda(const CGAL::Triangle_3<REP>& obj)
+{
+  CGAL::Point_3<REP> p1 = obj[0];
+  CGAL::Point_3<REP> p2 = obj[1];
+  CGAL::Point_3<REP> p3 = obj[2];
+  leda_point pl1(CGAL::to_double(p1.x()), CGAL::to_double(p1.y()));  
+  leda_point pl2(CGAL::to_double(p2.x()), CGAL::to_double(p2.y()));  
+  leda_point pl3(CGAL::to_double(p3.x()), CGAL::to_double(p3.y()));    
+  leda_list<leda_point> Lh;
+  
+  if (orientation(pl1,pl2,pl3)== CGAL::LEFTTURN)
+  { Lh.append(pl1); Lh.append(pl2); Lh.append(pl3); }
+  else
+  { Lh.push(pl1); Lh.push(pl2); Lh.push(pl3); }
+
+  leda_polygon pol(Lh);
+  return pol; 
+}
+
+// d2 projection into xy - plane
+
+template<class REP>
+leda_polygon convert_to_leda(const CGAL::Tetrahedron_3<REP>& obj)
+{
+  CGAL::Point_3<REP> p1 = obj[0];
+  CGAL::Point_3<REP> p2 = obj[1];
+  CGAL::Point_3<REP> p3 = obj[2];
+  CGAL::Point_3<REP> p4 = obj[3]; 
+  leda_point pl1(CGAL::to_double(p1.x()), CGAL::to_double(p1.y()));  
+  leda_point pl2(CGAL::to_double(p2.x()), CGAL::to_double(p2.y()));  
+  leda_point pl3(CGAL::to_double(p3.x()), CGAL::to_double(p3.y()));    
+  leda_point pl4(CGAL::to_double(p4.x()), CGAL::to_double(p4.y()));  
+    
+  leda_list<leda_point> Lh;
+  Lh.append(pl1); Lh.append(pl2); Lh.append(pl3); Lh.append(pl4);
+  
+  leda_list<leda_point> Lres = CONVEX_HULL(Lh);
+  
+  leda_polygon pol(Lres);
+  return pol;  
+}
+
+template<class REP>
 ps_file& operator<<(ps_file& F,const CGAL::Point_2<REP>& o) { F << convert_to_leda(o); return F; }
 
 template<class REP>
@@ -268,6 +385,94 @@ ps_file& operator<<(ps_file& F,const CGAL::Iso_rectangle_2<REP>& o)
 
 template<class REP>
 ps_file& operator<<(ps_file& F,const CGAL::Point_3<REP>& o) { F << convert_to_leda(o); return F; }
+
+template<class REP>
+ps_file& operator<<(ps_file& F,const CGAL::Segment_3<REP>& o) 
+{ leda_d3_segment seg = convert_to_leda(o); 
+  F << seg.project_xy();
+  return F; 
+}
+
+template<class REP>
+ps_file& operator<<(ps_file& F,const CGAL::Line_3<REP>& o) 
+{ leda_d3_line l = convert_to_leda(o);
+  leda_line m;
+  
+  if (l.project_xy(m)){ // projection is a line ...
+    F << m;
+  }
+  else { // ... a point ...
+    F << leda_point(l.point1().xcoord(), l.point1().ycoord());
+  }
+  
+  return F; 
+}
+
+template<class REP>
+ps_file& operator<<(ps_file& F,const CGAL::Ray_3<REP>& o) 
+{ leda_d3_ray r = convert_to_leda(o);
+  leda_ray m;
+  
+  if (r.project_xy(m)){ // projection is a line ...
+    F << m;
+  }
+  else { // ... a point ...
+    F << leda_point(r.point1().xcoord(), r.point1().ycoord());
+  }
+  
+  return F; 
+}
+
+template<class REP>
+ps_file& operator<<(ps_file& F,const CGAL::Triangle_3<REP>& o) 
+{ F << convert_to_leda(o); return F; }
+
+template<class REP>
+ps_file& operator<<(ps_file& F,const CGAL::Tetrahedron_3<REP>& obj) 
+{
+  CGAL::Point_3<REP> p1 = obj[0];
+  CGAL::Point_3<REP> p2 = obj[1];
+  CGAL::Point_3<REP> p3 = obj[2];
+  CGAL::Point_3<REP> p4 = obj[3]; 
+  leda_point pl1(CGAL::to_double(p1.x()), CGAL::to_double(p1.y()));  
+  leda_point pl2(CGAL::to_double(p2.x()), CGAL::to_double(p2.y()));  
+  leda_point pl3(CGAL::to_double(p3.x()), CGAL::to_double(p3.y()));    
+  leda_point pl4(CGAL::to_double(p4.x()), CGAL::to_double(p4.y()));  
+  F << leda_segment(pl1,pl2); F << leda_segment(pl1,pl3); F << leda_segment(pl1,pl4);
+  F << leda_segment(pl2,pl3); F << leda_segment(pl2,pl4); F << leda_segment(pl3,pl4);
+  return F;
+}
+
+
+static void geowin_generate_circle_segments(leda_list<leda_segment>& LS, leda_circle C, int n)
+{
+  leda_list<leda_rat_point> L;
+  leda_point p = C.point1(), q = C.point2(), r = C.point3();
+  leda_rat_point rp(p), rq(q), rr(r);
+  leda_rat_circle R(rp,rq,rr);
+  
+  double d = (2*LEDA_PI)/n;
+  double eps = 0.001;
+  double a = 0;
+  
+  for(int i=0; i < n; i++)
+    { 
+      leda_rat_point pp = R.point_on_circle(a,eps);
+      L.append(pp);
+      a += d;
+    }
+    
+  // now generate the segments desribing the circle ...
+  list_item lit = L.first();
+  
+  while(lit && L.succ(lit))
+  {
+    LS.append(leda_segment(L[lit].to_point(), L[L.succ(lit)].to_point()));
+    lit = L.succ(lit);
+  }
+  LS.append(leda_segment(L.tail().to_point(), L.head().to_point()));  
+}
+
 
 #include <math.h>
 #include <ctype.h>
@@ -300,6 +505,21 @@ bool geowin_IntersectsBox(const CGAL::Iso_rectangle_2<REP>& obj, double x1,doubl
 
 template<class REP>
 bool geowin_IntersectsBox(const CGAL::Point_3<REP>& obj, double x1,double y1,double x2, double y2,bool f);
+
+template<class REP>
+bool geowin_IntersectsBox(const CGAL::Segment_3<REP>& obj, double x1,double y1,double x2, double y2,bool f);
+
+template<class REP>
+bool geowin_IntersectsBox(const CGAL::Line_3<REP>& obj, double x1,double y1,double x2, double y2,bool f);
+
+template<class REP>
+bool geowin_IntersectsBox(const CGAL::Ray_3<REP>& obj, double x1,double y1,double x2, double y2,bool f);
+
+template<class REP>
+bool geowin_IntersectsBox(const CGAL::Triangle_3<REP>& obj, double x1,double y1,double x2, double y2,bool f);
+
+template<class REP>
+bool geowin_IntersectsBox(const CGAL::Tetrahedron_3<REP>& obj, double x1,double y1,double x2, double y2,bool f);
 
 
 // ----------------------------------------------
@@ -434,6 +654,7 @@ leda_string geowin_info_fcn(const std::list<CGAL::Point_2<REP> >& L)
   leda_string str("~~~\\black \\tt STL-list of %d %ss", L.size(), " CGAL-point");  return str;
 }
 
+
 template<class REP>
 void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Point_2<REP> >& L)
 {
@@ -450,6 +671,20 @@ void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Point_2<REP> >& L)
    p= CGAL::Point_2<REP>(RT(mp.xcoord()), RT(mp.ycoord()));
    L.push_front(p);
   }
+}
+
+// 3d output ...
+template<class T>
+void cgal_Point_2_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ 
+ for(;iter != L.end(); iter++) {
+   leda_point p = convert_to_leda(*iter);
+   G.new_node(leda_d3_point(p.xcoord(), p.ycoord(),0));
+ }
+ H.join(G);
 }
 
 
@@ -535,6 +770,26 @@ void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Segment_2<REP> >& L)
   }
 }
 
+
+// 3d output ...
+template<class T>
+void cgal_Segment_2_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ 
+ for(;iter != L.end(); iter++) {
+   leda_segment s = convert_to_leda(*iter);
+   leda_node v1 = G.new_node(leda_d3_point(s.source().xcoord(),s.source().ycoord(),0));
+   leda_node v2 = G.new_node(leda_d3_point(s.target().xcoord(),s.target().ycoord(),0));   
+   leda_edge e1 = G.new_edge(v1,v2);
+   leda_edge e2 = G.new_edge(v2,v1);
+   G.set_reversal(e1,e2);
+ }
+ H.join(G);
+}
+
+
 // Circles
 
 template<class REP>
@@ -587,7 +842,6 @@ void geowin_Rotate(CGAL::Circle_2<REP>& obj, double x, double y, double a)
 }
 
 
-
 template<class REP>
 leda_string geowin_info_fcn(const std::list<CGAL::Circle_2<REP> >& L)
 {
@@ -608,6 +862,29 @@ void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Circle_2<REP> >& L)
    convert_from_leda(mp,c);
    L.push_front(c);
   }
+}
+
+// 3d output ...
+template<class T>
+void cgal_Circle_2_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ 
+ for(;iter != L.end(); iter++) {
+   leda_circle c = convert_to_leda(*iter);
+   leda_list<leda_segment> LS;
+   geowin_generate_circle_segments(LS,c,30);
+   leda_segment siter;
+   forall(siter,LS){
+     leda_node v1 = G.new_node(leda_d3_point(siter.source().xcoord(),siter.source().ycoord(),0));
+     leda_node v2 = G.new_node(leda_d3_point(siter.target().xcoord(),siter.target().ycoord(),0));   
+     leda_edge e1 = G.new_edge(v1,v2);
+     leda_edge e2 = G.new_edge(v2,v1);
+     G.set_reversal(e1,e2);     
+   }   
+ }
+ H.join(G);
 }
 
 
@@ -686,6 +963,27 @@ void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Line_2<REP> >& L)
   }
 }
 
+// 3d output ...
+template<class T>
+void cgal_Line_2_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ 
+ for(;iter != L.end(); iter++) {
+   leda_line li = convert_to_leda(*iter);
+   leda_point pm((li.point1().xcoord()+li.point2().xcoord())/2,(li.point1().ycoord()+li.point2().ycoord())/2);
+   leda_vector v = li.point1() - li.point2();
+   v= v * 50;
+   leda_point p1=pm+v, p2=pm-v;
+   leda_node v1 = G.new_node(leda_d3_point(p1.xcoord(),p1.ycoord(),0));
+   leda_node v2 = G.new_node(leda_d3_point(p2.xcoord(),p2.ycoord(),0));   
+   leda_edge e1 = G.new_edge(v1,v2);
+   leda_edge e2 = G.new_edge(v2,v1);
+   G.set_reversal(e1,e2);   
+ }
+ H.join(G);
+}
 
 // Rays
 
@@ -762,6 +1060,26 @@ void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Ray_2<REP> >& L)
   }
 }
 
+// 3d output ...
+template<class T>
+void cgal_Ray_2_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ 
+ for(;iter != L.end(); iter++) {
+   leda_ray r = convert_to_leda(*iter);
+   leda_vector v = r.point2() - r.point1();
+   v= v * 50;
+   leda_point p1=r.source(), p2=p1 + v;
+   leda_node v1 = G.new_node(leda_d3_point(p1.xcoord(),p1.ycoord(),0));
+   leda_node v2 = G.new_node(leda_d3_point(p2.xcoord(),p2.ycoord(),0));   
+   leda_edge e1 = G.new_edge(v1,v2);
+   leda_edge e2 = G.new_edge(v2,v1);
+   G.set_reversal(e1,e2);   
+ }
+ H.join(G);
+}
 
 // Triangles
 
@@ -828,6 +1146,35 @@ void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Triangle_2<REP> >& L)
 {
 }
 
+// 3d output ...
+template<class T>
+void cgal_Triangle_2_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ 
+ for(;iter != L.end(); iter++) {
+   leda_point p0 = convert_to_leda((*iter).vertex(0));
+   leda_point p1 = convert_to_leda((*iter).vertex(1)); 
+   leda_point p2 = convert_to_leda((*iter).vertex(2)); 
+    
+   leda_node v0 = G.new_node(leda_d3_point(p0.xcoord(),p0.ycoord(),0));
+   leda_node v1 = G.new_node(leda_d3_point(p1.xcoord(),p1.ycoord(),0));  
+   leda_node v2 = G.new_node(leda_d3_point(p2.xcoord(),p2.ycoord(),0)); 
+
+   leda_edge e1 = G.new_edge(v0,v1);
+   leda_edge e2 = G.new_edge(v1,v0);       
+   leda_edge e3 = G.new_edge(v1,v2);
+   leda_edge e4 = G.new_edge(v2,v1);
+   leda_edge e5 = G.new_edge(v2,v0);
+   leda_edge e6 = G.new_edge(v0,v2);
+   
+   G.set_reversal(e1,e2);   
+   G.set_reversal(e3,e4);
+   G.set_reversal(e5,e6);
+ }
+ H.join(G);
+}
 
 // Rectangles
 
@@ -896,6 +1243,41 @@ leda_string geowin_info_fcn(const std::list<CGAL::Iso_rectangle_2<REP> >& L)
 template<class REP>
 void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Iso_rectangle_2<REP> >& L)
 {
+}
+
+// 3d output ...
+template<class T>
+void cgal_Iso_rectangle_2_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ 
+ for(;iter != L.end(); iter++) {
+   leda_point p0 = convert_to_leda((*iter).vertex(0));
+   leda_point p1 = convert_to_leda((*iter).vertex(1)); 
+   leda_point p2 = convert_to_leda((*iter).vertex(2)); 
+   leda_point p3 = convert_to_leda((*iter).vertex(3));    
+    
+   leda_node v0 = G.new_node(leda_d3_point(p0.xcoord(),p0.ycoord(),0));
+   leda_node v1 = G.new_node(leda_d3_point(p1.xcoord(),p1.ycoord(),0));  
+   leda_node v2 = G.new_node(leda_d3_point(p2.xcoord(),p2.ycoord(),0));
+   leda_node v3 = G.new_node(leda_d3_point(p3.xcoord(),p3.ycoord(),0));    
+
+   leda_edge e1 = G.new_edge(v0,v1);
+   leda_edge e2 = G.new_edge(v1,v0);       
+   leda_edge e3 = G.new_edge(v1,v2);
+   leda_edge e4 = G.new_edge(v2,v1);
+   leda_edge e5 = G.new_edge(v2,v3);
+   leda_edge e6 = G.new_edge(v3,v2);
+   leda_edge e7 = G.new_edge(v3,v0);
+   leda_edge e8 = G.new_edge(v0,v3);
+      
+   G.set_reversal(e1,e2);   
+   G.set_reversal(e3,e4);
+   G.set_reversal(e5,e6);
+   G.set_reversal(e7,e8);   
+ }
+ H.join(G);
 }
 
 
@@ -986,6 +1368,31 @@ void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Polygon_2<TRAITS,CONTAI
   }
 }
 
+
+// 3d output ...
+template<class T>
+void cgal_Polygon_2_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ leda_list<leda_segment> LS;
+ 
+ for(;iter != L.end(); iter++) {
+   leda_polygon p = convert_to_leda(*iter);
+   LS = p.segments();
+   leda_segment siter;
+   forall(siter,LS) {
+    leda_node v1 = G.new_node(leda_d3_point(siter.source().xcoord(),siter.source().ycoord(),0));
+    leda_node v2 = G.new_node(leda_d3_point(siter.target().xcoord(),siter.target().ycoord(),0));   
+    leda_edge e1 = G.new_edge(v1,v2);
+    leda_edge e2 = G.new_edge(v2,v1);
+    G.set_reversal(e1,e2);
+   }       
+ }
+ H.join(G);
+}
+
+
 // 3d Points ...
 
 template<class REP>
@@ -1075,9 +1482,573 @@ void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Point_3<REP> >& L)
 
   forall(mp,H){
    convert_from_leda(mp,obj);
-   L.push_front(obj);
+   L.push_back(obj);
   }
 }
+
+// 3d output ...
+template<class T>
+void cgal_Point_3_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ for(;iter != L.end(); iter++) {
+   leda_d3_point p = convert_to_leda(*iter);
+   G.new_node(p);
+ }
+ H.join(G);
+}
+
+
+// 3d Segments
+
+template<class REP>
+const char* leda_tname(CGAL::Segment_3<REP>* p) {  return "CGALSegment_3"; }
+
+template<class REP>
+leda_window& operator << (leda_window& w, const CGAL::Segment_3<REP>& obj)
+{
+  leda_d3_segment seg3 = convert_to_leda(obj);
+  leda_segment seg(seg3.source().xcoord(),seg3.source().ycoord(), seg3.target().xcoord(),seg3.target().ycoord());
+  w << seg;
+  return w;
+}
+
+template<class REP>
+leda_window& operator >> (leda_window& w, CGAL::Segment_3<REP>& p)
+{
+  typedef typename REP::RT RT;
+
+  leda_segment seg;
+  if( w >> seg ) {
+    leda_point ps = seg.source(), pt = seg.target();
+    CGAL::Point_3<REP> cps(RT(ps.xcoord()), RT(ps.ycoord()), RT(0));
+    CGAL::Point_3<REP> cpt(RT(pt.xcoord()), RT(pt.ycoord()), RT(0));    
+    
+    p = CGAL::Segment_3<REP>(cps, cpt);
+  }
+  return w;
+}
+
+template<class REP>
+bool geowin_IntersectsBox(const CGAL::Segment_3<REP>& obj, double x1,double y1,double x2, double y2,bool f)
+{
+  leda_d3_segment seg3 = convert_to_leda(obj);
+  leda_segment seg(seg3.source().xcoord(),seg3.source().ycoord(), seg3.target().xcoord(),seg3.target().ycoord() );
+  return geowin_IntersectsBox(seg,x1,y1,x2,y2,f);
+}
+
+template<class REP>
+void geowin_BoundingBox(const CGAL::Segment_3<REP>& obj,double& x1, double& x2,
+	 double& y1, double& y2)
+{
+  CGAL::Bbox_3 bb= obj.bbox();
+  x1= bb.xmin(); x2=bb.xmax(); y1=bb.ymin(); y2=bb.ymax();
+}
+
+template<class REP>
+void geowin_Translate(CGAL::Segment_3<REP>& obj, double dx, double dy)
+{
+  typedef typename REP::RT RT;
+
+  CGAL::Vector_3<REP> vec;
+  vec= CGAL::Vector_3<REP>(RT(dx), RT(dy), RT(0)); 
+  
+  CGAL::Aff_transformation_3<REP> translate(CGAL::TRANSLATION, vec);
+  
+  obj = obj.transform(translate);
+}
+
+template<class REP>
+void geowin_Rotate(CGAL::Segment_3<REP>& obj, double x, double y, double a)
+{
+}
+
+// functions for the container
+
+template<class REP>
+leda_string geowin_info_fcn(const std::list<CGAL::Segment_3<REP> >& L)
+{
+  leda_string str("~~~\\black \\tt STL-list of %d %ss", L.size(), " d3-segment");  return str;
+}
+
+template<class REP>
+void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Segment_3<REP> >& L)
+{
+}
+
+// 3d output ...
+template<class T>
+void cgal_Segment_3_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ 
+ for(;iter != L.end(); iter++) {
+   leda_d3_segment s = convert_to_leda(*iter);
+   leda_node v1 = G.new_node(s.source());
+   leda_node v2 = G.new_node(s.target());   
+   leda_edge e1 = G.new_edge(v1,v2);
+   leda_edge e2 = G.new_edge(v2,v1);
+   G.set_reversal(e1,e2);
+ }
+ H.join(G);
+}
+
+// 3d Lines
+
+template<class REP>
+const char* leda_tname(CGAL::Line_3<REP>* p) {  return "CGALLine_3"; }
+
+template<class REP>
+leda_window& operator << (leda_window& w, const CGAL::Line_3<REP>& obj)
+{
+  leda_d3_line l3 = convert_to_leda(obj);
+  leda_d3_point p1 = l3.point1();
+  leda_d3_point p2 = l3.point2();
+  
+  if ((p1.xcoord()==p2.xcoord()) && (p1.ycoord()==p2.ycoord())) 
+    w << leda_point(p1.xcoord(), p1.ycoord());
+  else {
+   leda_line l(leda_point(l3.point1().xcoord(),l3.point1().ycoord()), leda_point(l3.point2().xcoord(), l3.point2().ycoord()));
+   w << l;
+  } 
+   
+  return w;
+}
+
+template<class REP>
+leda_window& operator >> (leda_window& w, CGAL::Line_3<REP>& l)
+{
+  typedef typename REP::RT RT;
+
+  leda_line lh;
+  if( w >> lh ) {
+    leda_point ps = lh.point1(), pt = lh.point2();
+    CGAL::Point_3<REP> cps(RT(ps.xcoord()), RT(ps.ycoord()), RT(0));
+    CGAL::Point_3<REP> cpt(RT(pt.xcoord()), RT(pt.ycoord()), RT(0)); 
+    
+    if (cps == cpt) cpt = CGAL::Point_3<REP>(RT(pt.xcoord()), RT(pt.ycoord()), RT(10));   
+    
+    l = CGAL::Line_3<REP>(cps, cpt);
+  }
+  return w;
+}
+
+template<class REP>
+bool geowin_IntersectsBox(const CGAL::Line_3<REP>& obj, double x1,double y1,double x2, double y2,bool f)
+{
+  leda_d3_line l3 = convert_to_leda(obj);
+  leda_segment seg(l3.point1().xcoord(),l3.point1().ycoord(), l3.point2().xcoord(),l3.point2().ycoord() );
+  return geowin_IntersectsBox(seg,x1,y1,x2,y2,f);
+}
+
+template<class REP>
+void geowin_BoundingBox(const CGAL::Line_3<REP>& obj,double& x1, double& x2,
+	 double& y1, double& y2)
+{
+  CGAL::Point_3<REP> cps = obj.point(0), cpt = obj.point(1);
+  CGAL::Segment_3<REP> hobj(cps, cpt);
+  CGAL::Bbox_3 bb= hobj.bbox();
+  x1= bb.xmin(); x2=bb.xmax(); y1=bb.ymin(); y2=bb.ymax();
+}
+
+template<class REP>
+void geowin_Translate(CGAL::Line_3<REP>& obj, double dx, double dy)
+{
+  typedef typename REP::RT RT;
+
+  CGAL::Vector_3<REP> vec;
+  vec= CGAL::Vector_3<REP>(RT(dx), RT(dy), RT(0)); 
+  
+  CGAL::Aff_transformation_3<REP> translate(CGAL::TRANSLATION, vec);
+  
+  obj = obj.transform(translate);
+}
+
+template<class REP>
+void geowin_Rotate(CGAL::Line_3<REP>& obj, double x, double y, double a)
+{
+}
+
+// functions for the container
+
+template<class REP>
+leda_string geowin_info_fcn(const std::list<CGAL::Line_3<REP> >& L)
+{
+  leda_string str("~~~\\black \\tt STL-list of %d %ss", L.size(), " d3-line");  return str;
+}
+
+template<class REP>
+void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Line_3<REP> >& L)
+{
+}
+
+
+// 3d output ...
+template<class T>
+void cgal_Line_3_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ 
+ for(;iter != L.end(); iter++) {
+   leda_d3_line l = convert_to_leda(*iter);
+
+   leda_d3_point pm((l.point1().xcoord()+l.point2().xcoord())/2, \
+               (l.point1().ycoord()+l.point2().ycoord())/2, \
+	       (l.point1().zcoord()+l.point2().zcoord())/2);
+	       
+   leda_vector v = l.point1() - l.point2();
+   v= v * 50;
+   leda_d3_point p1=pm+v, p2=pm-v;
+   leda_node v1 = G.new_node(p1);
+   leda_node v2 = G.new_node(p2);   
+   leda_edge e1 = G.new_edge(v1,v2);
+   leda_edge e2 = G.new_edge(v2,v1);
+   G.set_reversal(e1,e2);   
+ }
+ H.join(G);
+}
+
+
+// 3d Ray
+
+template<class REP>
+const char* leda_tname(CGAL::Ray_3<REP>* p) {  return "CGALRay_3"; }
+
+template<class REP>
+leda_window& operator << (leda_window& w, const CGAL::Ray_3<REP>& obj)
+{
+  leda_d3_ray r3 = convert_to_leda(obj);
+  leda_d3_point p1 = r3.point1();
+  leda_d3_point p2 = r3.point2();
+  
+  if ((p1.xcoord()==p2.xcoord()) && (p1.ycoord()==p2.ycoord())) 
+    w << leda_point(p1.xcoord(), p1.ycoord());
+  else {
+   leda_ray r(leda_point(p1.xcoord(),p1.ycoord()), leda_point(p2.xcoord(), p2.ycoord()));
+   w << r;
+  } 
+   
+  return w;
+}
+
+template<class REP>
+leda_window& operator >> (leda_window& w, CGAL::Ray_3<REP>& r)
+{
+  typedef typename REP::RT RT;
+
+  leda_ray rh;
+  if( w >> rh ) {
+    leda_point ps = rh.point1(), pt = rh.point2();
+    CGAL::Point_3<REP> cps(RT(ps.xcoord()), RT(ps.ycoord()), RT(0));
+    CGAL::Point_3<REP> cpt(RT(pt.xcoord()), RT(pt.ycoord()), RT(0));    
+  
+    if (cps == cpt) cpt = CGAL::Point_3<REP>(RT(pt.xcoord()), RT(pt.ycoord()), RT(10));   
+    
+    r = CGAL::Ray_3<REP>(cps, cpt);
+  }
+  return w;
+}
+
+template<class REP>
+bool geowin_IntersectsBox(const CGAL::Ray_3<REP>& obj, double x1,double y1,double x2, double y2,bool f)
+{
+  leda_d3_ray r3 = convert_to_leda(obj);
+  leda_segment seg(r3.point1().xcoord(),r3.point1().ycoord(), r3.point2().xcoord(),r3.point2().ycoord() );
+  return geowin_IntersectsBox(seg,x1,y1,x2,y2,f);
+}
+
+template<class REP>
+void geowin_BoundingBox(const CGAL::Ray_3<REP>& obj,double& x1, double& x2,
+	 double& y1, double& y2)
+{
+  CGAL::Point_3<REP> cps = obj.point(0), cpt = obj.point(1);
+  CGAL::Segment_3<REP> hobj(cps, cpt);
+  CGAL::Bbox_3 bb= hobj.bbox();
+  x1= bb.xmin(); x2=bb.xmax(); y1=bb.ymin(); y2=bb.ymax();
+}
+
+template<class REP>
+void geowin_Translate(CGAL::Ray_3<REP>& obj, double dx, double dy)
+{
+  typedef typename REP::RT RT;
+
+  CGAL::Vector_3<REP> vec;
+  vec= CGAL::Vector_3<REP>(RT(dx), RT(dy), RT(0)); 
+  
+  CGAL::Aff_transformation_3<REP> translate(CGAL::TRANSLATION, vec);
+  
+  obj = obj.transform(translate);
+}
+
+template<class REP>
+void geowin_Rotate(CGAL::Ray_3<REP>& obj, double x, double y, double a)
+{
+}
+
+// functions for the container
+
+template<class REP>
+leda_string geowin_info_fcn(const std::list<CGAL::Ray_3<REP> >& L)
+{
+  leda_string str("~~~\\black \\tt STL-list of %d %ss", L.size(), " d3-ray");  return str;
+}
+
+template<class REP>
+void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Ray_3<REP> >& L)
+{
+}
+
+// 3d output ...
+template<class T>
+void cgal_Ray_3_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ 
+ for(;iter != L.end(); iter++) {
+   leda_d3_ray r = convert_to_leda(*iter);
+   leda_vector v = r.point2() - r.point1();
+   v= v * 50;
+   leda_d3_point p1=r.source(), p2=p1 + v;
+   leda_node v1 = G.new_node(p1);
+   leda_node v2 = G.new_node(p2);   
+   leda_edge e1 = G.new_edge(v1,v2);
+   leda_edge e2 = G.new_edge(v2,v1);
+   G.set_reversal(e1,e2);   
+ }
+ H.join(G);
+}
+
+
+// 3d Triangles
+
+template<class REP>
+const char* leda_tname(CGAL::Triangle_3<REP>* t) {  return "CGALTriangle_3"; }
+
+template<class REP>
+leda_window& operator << (leda_window& w, const CGAL::Triangle_3<REP>& obj)
+{  
+  w << convert_to_leda(obj);
+  return w;
+}
+
+template<class REP>
+leda_window& operator >> (leda_window& w, CGAL::Triangle_3<REP>& obj)
+{
+  typedef typename REP::RT RT;
+  
+  CGAL::Triangle_2<REP> th;
+  if (w >> th){
+    CGAL::Point_2<REP> pa1(th.vertex(0)), pa2(th.vertex(1)), pa3(th.vertex(2));
+  
+    CGAL::Point_3<REP> p1(pa1.hx(), pa1.hy(), RT(0), pa1.hw());
+    CGAL::Point_3<REP> p2(pa2.hx(), pa2.hy(), RT(0), pa2.hw());     
+    CGAL::Point_3<REP> p3(pa3.hx(), pa3.hy(), RT(0), pa3.hw());     
+    
+    obj = CGAL::Triangle_3<REP>(p1, p2, p3);
+  }
+  return w;
+}
+
+template<class REP>
+bool geowin_IntersectsBox(const CGAL::Triangle_3<REP>& obj, double x1,double y1,double x2, double y2,bool f)
+{  
+  return geowin_IntersectsBox(convert_to_leda(obj),x1,y1,x2,y2,f); 
+}
+
+template<class REP>
+void geowin_BoundingBox(const CGAL::Triangle_3<REP>& obj,double& x1, double& x2,
+	 double& y1, double& y2)
+{
+  CGAL::Bbox_3 bb= obj.bbox();
+  x1= bb.xmin(); x2=bb.xmax(); y1=bb.ymin(); y2=bb.ymax();
+}
+
+template<class REP>
+void geowin_Translate(CGAL::Triangle_3<REP>& obj, double dx, double dy)
+{
+  typedef typename REP::RT RT;
+
+  CGAL::Vector_3<REP> vec;
+  vec= CGAL::Vector_3<REP>(RT(dx), RT(dy), RT(0)); 
+  
+  CGAL::Aff_transformation_3<REP> translate(CGAL::TRANSLATION, vec);
+  
+  obj = obj.transform(translate);
+}
+
+template<class REP>
+void geowin_Rotate(CGAL::Triangle_3<REP>& obj, double x, double y, double a)
+{  
+}
+
+template<class REP>
+leda_string geowin_info_fcn(const std::list<CGAL::Triangle_3<REP> >& L)
+{
+  leda_string str("~~~\\black \\tt STL-list of %d %ss", L.size(), " 3d-triangle");  return str;
+}
+
+template<class REP>
+void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Triangle_3<REP> >& L)
+{
+}
+
+
+// 3d output ...
+template<class T>
+void cgal_Triangle_3_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ 
+ for(;iter != L.end(); iter++) {
+   leda_d3_point p0 = convert_to_leda((*iter).vertex(0));
+   leda_d3_point p1 = convert_to_leda((*iter).vertex(1)); 
+   leda_d3_point p2 = convert_to_leda((*iter).vertex(2)); 
+    
+   leda_node v0 = G.new_node(p0);
+   leda_node v1 = G.new_node(p1);  
+   leda_node v2 = G.new_node(p2); 
+
+   leda_edge e1 = G.new_edge(v0,v1);
+   leda_edge e2 = G.new_edge(v1,v0);       
+   leda_edge e3 = G.new_edge(v1,v2);
+   leda_edge e4 = G.new_edge(v2,v1);
+   leda_edge e5 = G.new_edge(v2,v0);
+   leda_edge e6 = G.new_edge(v0,v2);
+   
+   G.set_reversal(e1,e2);   
+   G.set_reversal(e3,e4);
+   G.set_reversal(e5,e6);
+ }
+ H.join(G);
+}
+
+// 3d tetrahedron ...
+
+template<class REP>
+const char* leda_tname(CGAL::Tetrahedron_3<REP>* t) {  return "CGALTetrahedron_3"; }
+
+template<class REP>
+leda_window& operator << (leda_window& w, const CGAL::Tetrahedron_3<REP>& t)
+{  
+  w << CGAL::Segment_3<REP>( t[0], t[1]);
+  w << CGAL::Segment_3<REP>( t[1], t[2]);
+  w << CGAL::Segment_3<REP>( t[2], t[0]);
+  w << CGAL::Segment_3<REP>( t[0], t[3]);
+  w << CGAL::Segment_3<REP>( t[1], t[3]);
+  w << CGAL::Segment_3<REP>( t[2], t[3]);
+  
+  return w;
+}
+
+template<class REP>
+leda_window& operator >> (leda_window& w, CGAL::Tetrahedron_3<REP>& obj)
+{
+  typedef typename REP::RT   RT;
+  
+  CGAL::Triangle_3<REP> q;
+  w >> q;
+  double x0 = CGAL::to_double( q[0].x());
+  double y0 = CGAL::to_double( q[0].y());
+  double x1, y1;
+  w.read_mouse_seg(x0, y0, x1, y1);
+  CGAL::Point_3<REP> p = CGAL::Point_3<REP>( RT(x1), RT(y1), RT(0));
+  w << CGAL::Segment_3<REP>( q[0], p);
+  w << CGAL::Segment_3<REP>( q[1], p);
+  w << CGAL::Segment_3<REP>( q[2], p);
+  obj =  CGAL::Tetrahedron_3<REP>( q[0], q[1], q[2], p);
+  return w;
+}
+
+template<class REP>
+bool geowin_IntersectsBox(const CGAL::Tetrahedron_3<REP>& obj, double x1,double y1,double x2, double y2,bool f)
+{  
+  return geowin_IntersectsBox(convert_to_leda(obj),x1,y1,x2,y2,f); 
+}
+
+template<class REP>
+void geowin_BoundingBox(const CGAL::Tetrahedron_3<REP>& obj,double& x1, double& x2,
+	 double& y1, double& y2)
+{
+  CGAL::Bbox_3 bb= obj.bbox();
+  x1= bb.xmin(); x2=bb.xmax(); y1=bb.ymin(); y2=bb.ymax();
+}
+
+template<class REP>
+void geowin_Translate(CGAL::Tetrahedron_3<REP>& obj, double dx, double dy)
+{
+  typedef typename REP::RT RT;
+
+  CGAL::Vector_3<REP> vec;
+  vec= CGAL::Vector_3<REP>(RT(dx), RT(dy), RT(0)); 
+  
+  CGAL::Aff_transformation_3<REP> translate(CGAL::TRANSLATION, vec);
+  
+  obj = obj.transform(translate);
+}
+
+template<class REP>
+void geowin_Rotate(CGAL::Tetrahedron_3<REP>& obj, double x, double y, double a)
+{  
+}
+
+template<class REP>
+leda_string geowin_info_fcn(const std::list<CGAL::Tetrahedron_3<REP> >& L)
+{
+  leda_string str("~~~\\black \\tt STL-list of %d %s", L.size(), " 3d-tetrahedra");  return str;
+}
+
+template<class REP>
+void geowin_generate_objects(GeoWin& gw, std::list<CGAL::Tetrahedron_3<REP> >& L)
+{
+}
+
+// 3d output ...
+template<class T>
+void cgal_Tetrahedron_3_d3(const T& L, leda_d3_window& W, GRAPH<leda_d3_point,int>& H)
+{
+ GRAPH<leda_d3_point,int> G;
+ typename T::const_iterator iter = L.begin();
+ 
+ for(;iter != L.end(); iter++) {
+   leda_d3_point p0 = convert_to_leda((*iter).vertex(0));
+   leda_d3_point p1 = convert_to_leda((*iter).vertex(1)); 
+   leda_d3_point p2 = convert_to_leda((*iter).vertex(2)); 
+   leda_d3_point p3 = convert_to_leda((*iter).vertex(3));  
+    
+   leda_node v0 = G.new_node(p0);
+   leda_node v1 = G.new_node(p1);  
+   leda_node v2 = G.new_node(p2); 
+   leda_node v3 = G.new_node(p3);    
+
+   leda_edge e1 = G.new_edge(v0,v1);
+   leda_edge e2 = G.new_edge(v1,v0);       
+   leda_edge e3 = G.new_edge(v1,v2);
+   leda_edge e4 = G.new_edge(v2,v1);
+   leda_edge e5 = G.new_edge(v2,v0);
+   leda_edge e6 = G.new_edge(v0,v2);
+   
+   leda_edge e7 = G.new_edge(v0,v3);
+   leda_edge e8 = G.new_edge(v3,v0);       
+   leda_edge e9 = G.new_edge(v1,v3);
+   leda_edge e10 = G.new_edge(v3,v1);
+   leda_edge e11 = G.new_edge(v2,v3);
+   leda_edge e12 = G.new_edge(v3,v2);
+      
+   G.set_reversal(e1,e2);   
+   G.set_reversal(e3,e4);
+   G.set_reversal(e5,e6);
+   G.set_reversal(e7,e8);   
+   G.set_reversal(e9,e10);
+   G.set_reversal(e11,e12);   
+ }
+ H.join(G);
+}
+
 
 GEOWIN_END_NAMESPACE
 

@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Tetrahedron_3.fw
 // file          : include/CGAL/Tetrahedron_3.h
-// package       : _3 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _3 (3.7)
+// revision      : 3.7
+// revision_date : 16 Aug 2000 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -66,17 +67,22 @@
 #endif // CGAL_TETRAHEDRONC3_H
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/TetrahedronS3.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 #ifndef CGAL_PLANE_3_H
 #include <CGAL/Plane_3.h>
 #endif // CGAL_PLANE_3_H
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-class Tetrahedron_3 : public _R::Tetrahedron_3_base
+template <class R_>
+class Tetrahedron_3 : public R_::Tetrahedron_3_base
 {
 public:
-  typedef          _R                       R;
+  typedef          R_                       R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
   typedef typename R::Tetrahedron_3_base  RTetrahedron_3;
@@ -94,12 +100,6 @@ public:
     : RTetrahedron_3(p,q,r,s)
   {}
 
-  CGAL::Tetrahedron_3<R>&
-                     operator=(const CGAL::Tetrahedron_3<R>& t)
-                     {
-                       RTetrahedron_3::operator=(t);
-                       return *this;
-                     }
   CGAL::Point_3<R>    vertex(int i) const
                      { return RTetrahedron_3::vertex(i); }
   CGAL::Point_3<R>    operator[](int i) const
@@ -108,8 +108,6 @@ public:
                      { return RTetrahedron_3::operator==(t); }
   bool               operator!=(const CGAL::Tetrahedron_3<R>& t) const
                      { return !(*this == t); }
-  int                id() const    /* XXX */
-                     { return (int)PTR ; }
   Bbox_3        bbox() const
                      {
                        return vertex(0).bbox() + vertex(1).bbox()

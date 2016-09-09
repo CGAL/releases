@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Pm_leda_segment_exact_traits.h
-// package       : pm (4.20)
+// package       : pm (5.43)
 // author(s)     : Eyal flato
 //		   Iddo hanniel
 //
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 #ifndef CGAL_PM_LEDA_SEGMENT_EXACT_TRAITS_H
@@ -88,7 +89,7 @@ public:
 		UNDER_CURVE = -1,
 		ABOVE_CURVE = 1,
 		ON_CURVE = 2,
-		CURVE_NOT_IN_RANGE = 0,
+		CURVE_NOT_IN_RANGE = 0
 		//CURVE_VERTICAL = 3
 	} Curve_point_status;	
 	

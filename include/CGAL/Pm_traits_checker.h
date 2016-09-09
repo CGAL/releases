@@ -30,15 +30,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Pm_traits_checker.h
-// package       : pm (4.20)
+// package       : pm (5.43)
 // author(s)     : Oren Nechushtan
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 /*
@@ -60,9 +61,12 @@ It is assumed through out this traits that the parameter traits do not require a
 */
 CGAL_BEGIN_NAMESPACE
 
-// T and B are traits with the same predicate names
-// C is a converted between the geometric objects of T to those of B
-template <class Tr1,class Tr2,class C> 
+// Tr1 and Tr2 are traits with the same predicate names
+// C is a convertion between the geometric objects of Tr1 to those of Tr2
+template <class Tr1,class Tr2>
+class Pm_traits_checker_default_adaptor;
+
+template <class Tr1,class Tr2,class C=Pm_traits_checker_default_adaptor<Tr1,Tr2> >
 class Pm_traits_checker : public Tr1
 /* The inheritance here is to ensure that constants, enumerations, public classes, etc are inherited to the checker whenever this is required */
 {
@@ -157,7 +161,7 @@ public:
     }
   Point point_to_right(const Point& p) const 
     {
-    CGAL_assertion(P(t.point_to_right(p)==b.point_to_right(P(p))));
+    CGAL_assertion(P(t.point_to_right(p))==b.point_to_right(P(p)));
     return t.point_to_right(p);
     }
   bool curve_is_same(const X_curve &cv1, const X_curve &cv2) const
@@ -166,6 +170,14 @@ public:
     return t.curve_is_same(cv1,cv2);
     }
 
+};
+
+template <class Tr1,class Tr2>
+class Pm_traits_checker_default_adaptor
+{
+public:
+	const typename Tr2::Point operator()(const typename Tr1::Point& p) const {return typename Tr2::Point(p);}
+	const typename Tr2::X_curve operator()(const typename Tr1::X_curve& c) const {return typename Tr2::X_curve(c);}
 };
 
 CGAL_END_NAMESPACE

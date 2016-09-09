@@ -30,29 +30,26 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : ddim_points.fw
 // file          : include/CGAL/PointCd.h
-// package       : Cd (1.1.1)
+// package       : Cd (1.5)
 // revision      : 2.2.3
 // revision_date : 14 Sep 1999 
-// author(s)     : Sven Schoenherr
-//                 Bernd Gaertner
+// author(s)     : Sven Schoenherr, Bernd Gaertner
+// coordinator   : INRIA, Sophia-Antipolis
 //
-// coordinator   : INRIA, Sophia-Antipolis (<Herve.Bronnimann>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
- 
 
 #ifndef CGAL_POINTCD_H
 #define CGAL_POINTCD_H
 
-#ifndef D_TUPLE_H
 #include <CGAL/d_tuple.h>
-#endif // D_TUPLE_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -82,7 +79,7 @@ class PointCd : public Handle
       if ( i < last ) 
       {
         FT h = *(i++);
-        CGAL_kernel_precondition( !is_zero (h) );
+        CGAL_kernel_precondition( !CGAL_NTS is_zero (h) );
         CGAL_kernel_precondition( i == last );
         for ( o=e; o < e+dim; *(o++) /= h ) ;
         // if ( h != FT(1) ) { for ( o=e; o < e+dim; *(o++) /= h ) {}; }
@@ -118,13 +115,8 @@ const _d_tuple<FT>* PointCd<FT>::ptr() const
 }
 CGAL_END_NAMESPACE
 
-
-#ifndef CGAL_ORIGIN_H
 #include <CGAL/Origin.h>
-#endif // CGAL_ORIGIN_H
-#ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
-#endif // CGAL_NUMBER_UTILS_H
 
 CGAL_BEGIN_NAMESPACE
 

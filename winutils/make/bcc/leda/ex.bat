@@ -46,7 +46,11 @@ cd examples\Min_sphere_d
 %MMAKE% clean
 %MMAKE% all  
 cd ..\.. 
-cd examples\Optimisation
+cd examples\Min_circle_2
+%MMAKE% clean
+%MMAKE% all  
+cd ..\.. 
+cd examples\Min_ellipse_2
 %MMAKE% clean
 %MMAKE% all  
 cd ..\.. 

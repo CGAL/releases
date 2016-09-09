@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Bbox_3.fw
 // file          : include/CGAL/Bbox_3.h
-// package       : _3 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _3 (3.7)
+// revision      : 3.7
+// revision_date : 16 Aug 2000 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -61,15 +62,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-class Bbox_3 : public Handle
+class Bbox_3 : public Handle_for< Sixtuple<double> >
 {
 public:
                          Bbox_3();
-                         Bbox_3(const Bbox_3& );
                          Bbox_3(double x_min, double y_min, double zmin,
-                                    double x_max, double y_max, double z_max);
-                         ~Bbox_3();
-  Bbox_3& operator=(const Bbox_3& b);
+                                double x_max, double y_max, double z_max);
 
   double                 xmin() const;
   double                 ymin() const;
@@ -79,63 +77,49 @@ public:
   double                 zmax() const;
 
   Bbox_3             operator+(const Bbox_3& b) const;
-
-private:
-  inline _Sixtuple<double>* ptr() const;
 };
 
-inline Bbox_3::Bbox_3()
+inline
+Bbox_3::Bbox_3()
+{ new ( static_cast< void*>(ptr)) Sixtuple<double>(); }
+
+inline
+Bbox_3::Bbox_3(double x_min, double y_min, double z_min,
+               double x_max, double y_max, double z_max)
 {
-  PTR = new _Sixtuple<double>;
+  new ( static_cast< void*>(ptr)) Sixtuple<double>(x_min, y_min, z_min,
+                                                   x_max, y_max, z_max);
 }
 
-inline Bbox_3::Bbox_3(const Bbox_3& b) :
-  Handle(b)
-{}
+inline
+double
+Bbox_3::xmin() const
+{ return ptr->e0; }
 
-inline Bbox_3::Bbox_3(double x_min, double y_min, double z_min,
-                              double x_max, double y_max, double z_max)
-{
-  PTR = new _Sixtuple<double>(x_min, y_min, z_min, x_max, y_max, z_max);
-}
+inline
+double
+Bbox_3::ymin() const
+{ return ptr->e1; }
 
-inline Bbox_3::~Bbox_3()
-{}
+inline
+double
+Bbox_3::zmin() const
+{ return ptr->e2; }
 
-inline Bbox_3& Bbox_3::operator=(const Bbox_3& b)
-{
-  Handle::operator=(b);
-  return *this;
-}
-inline double Bbox_3::xmin() const
-{
-  return ptr()->e0;
-}
+inline
+double
+Bbox_3::xmax() const
+{ return ptr->e3; }
 
-inline double Bbox_3::ymin() const
-{
-  return ptr()->e1;
-}
+inline
+double
+Bbox_3::ymax() const
+{ return ptr->e4; }
 
-inline double Bbox_3::zmin() const
-{
-  return ptr()->e2;
-}
-
-inline double Bbox_3::xmax() const
-{
-  return ptr()->e3;
-}
-
-inline double Bbox_3::ymax() const
-{
-  return ptr()->e4;
-}
-
-inline double Bbox_3::zmax() const
-{
-  return ptr()->e5;
-}
+inline
+double
+Bbox_3::zmax() const
+{ return ptr->e5; }
 inline Bbox_3 Bbox_3::operator+(const Bbox_3& b) const
 {
   return Bbox_3(std::min(xmin(), b.xmin()),
@@ -156,11 +140,6 @@ inline bool do_overlap(const Bbox_3& bb1, const Bbox_3& bb2)
         return false;
     return true;
 }
-inline _Sixtuple<double>* Bbox_3::ptr() const
-{
-  return (_Sixtuple<double>*)PTR;
-}
-
 #ifndef NO_OSTREAM_INSERT_BBOX_3
 inline
 std::ostream&

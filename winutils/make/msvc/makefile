@@ -96,8 +96,8 @@ CGAL_CXXFLAGS = \
 	-DCGAL_USE_GMP \
 	-I$(GMP_INCL_DIR) \
 	-I$(CGAL_INCL_CONF_DIR) \
-	$(LE_CXXFLAGS) \
 	-I$(CGAL_INCL_DIR) \
+	$(LE_CXXFLAGS) \
 
 
 #---------------------------------------------------------------------#
@@ -136,12 +136,12 @@ CGAL_LD_WINDOW_LIBPATH = \
 CGAL_WINDOW_LDFLAGS = $(CUSTOM1_LDFLAGS) \
 	-link $(CGAL_LD_WINDOW_LIBPATH) -nologo \
 	$(CUSTOM_LDFLAGS) \
-	CGAL.lib  libW.lib libP.lib libG.lib libL.lib  user32.lib gdi32.lib comdlg32.lib shell32.lib advapi32.lib gmp.lib  
+	CGAL.lib  libW.lib libP.lib libG.lib libL.lib ws2_32.lib user32.lib gdi32.lib comdlg32.lib shell32.lib advapi32.lib gmp.lib  
 
 CGAL_GEOWIN_LDFLAGS = $(CUSTOM1_LDFLAGS) \
 	-link $(CGAL_LD_WINDOW_LIBPATH) -nologo \
 	$(CUSTOM_LDFLAGS) \
-	CGAL.lib  libGeoW.lib libD3.lib libW.lib libP.lib libG.lib libL.lib  user32.lib gdi32.lib comdlg32.lib shell32.lib advapi32.lib gmp.lib  
+	CGAL.lib  libGeoW.lib libD3.lib libW.lib libP.lib libG.lib libL.lib ws2_32.lib user32.lib gdi32.lib comdlg32.lib shell32.lib advapi32.lib gmp.lib  
 
 
 #---------------------------------------------------------------------#

@@ -1,7 +1,7 @@
 
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -31,17 +31,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Ray_2_Ray_2_intersection.h
-// package       : Intersections_2 (2.2.2)
+// package       : Intersections_2 (2.6.3)
 // source        : intersection_2_1.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -49,21 +50,11 @@
 #ifndef CGAL_RAY_2_RAY_2_INTERSECTION_H
 #define CGAL_RAY_2_RAY_2_INTERSECTION_H
 
-#ifndef CGAL_RAY_2_H
 #include <CGAL/Ray_2.h>
-#endif // CGAL_RAY_2_H
-#ifndef CGAL_SEGMENT_2_H
 #include <CGAL/Segment_2.h>
-#endif // CGAL_SEGMENT_2_H
-#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
-#endif // CGAL_POINT_2_H
-#ifndef CGAL_UTILS_H
 #include <CGAL/utils.h>
-#endif // CGAL_UTILS_H
-#ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
-#endif // CGAL_NUMBER_UTILS_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -84,9 +75,7 @@ public:
     if (_known)
         return _result;
     // The non const this pointer is used to cast away const.
-    Ray_2_Ray_2_pair<R> *ncthis =
-                (Ray_2_Ray_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
 //    if (!do_overlap(_ray1->bbox(), _ray2->bbox()))
 //        return NO;
     const Line_2<R> &l1 = _ray1->supporting_line();
@@ -94,11 +83,11 @@ public:
     Line_2_Line_2_pair<R> linepair(&l1, &l2);
     switch ( linepair.intersection_type()) {
     case Line_2_Line_2_pair<R>::NO:
-        ncthis->_result = NO;
+        _result = NO;
         return _result;
     case Line_2_Line_2_pair<R>::POINT:
-        linepair.intersection(ncthis->_intersection_point);
-        ncthis->_result = (_ray1->collinear_has_on(_intersection_point)
+        linepair.intersection(_intersection_point);
+        _result = (_ray1->collinear_has_on(_intersection_point)
                 && _ray2->collinear_has_on(_intersection_point) )
             ? POINT :  NO;
         return _result;
@@ -107,46 +96,46 @@ public:
         typedef typename R::RT RT;
         const Vector_2<R> &dir1 = _ray1->direction().to_vector();
         const Vector_2<R> &dir2 = _ray2->direction().to_vector();
-        if (abs(dir1.x()) > abs(dir1.y())) {
+        if (CGAL_NTS abs(dir1.x()) > CGAL_NTS abs(dir1.y())) {
             typedef typename R::FT FT;
             if (dir1.x() > FT(0)) {
                 if (dir2.x() > FT(0)) {
-                    ncthis->_intersection_point =
+                    _intersection_point =
                             (_ray1->start().x() < _ray2->start().x())
                             ? _ray2->start() : _ray1->start();
-                    ncthis->_result = RAY;
+                    _result = RAY;
                     return _result;
                 } else {
                     if (_ray1->start().x() > _ray2->start().x()) {
-                        ncthis->_result = NO;
+                        _result = NO;
                         return _result;
                     }
                     if (_ray1->start().x() == _ray2->start().x()) {
-                        ncthis->_intersection_point = _ray1->start();
-                        ncthis->_result = POINT;
+                        _intersection_point = _ray1->start();
+                        _result = POINT;
                         return _result;
                     }
-                    ncthis->_result = SEGMENT;
+                    _result = SEGMENT;
                     return _result;
                 }
             } else {
                 if (dir2.x() < FT(0)) {
-                    ncthis->_intersection_point =
+                    _intersection_point =
                             (_ray1->start().x() > _ray2->start().x())
                             ? _ray2->start() : _ray1->start();
-                    ncthis->_result = RAY;
+                    _result = RAY;
                     return _result;
                 } else {
                     if (_ray1->start().x() < _ray2->start().x()) {
-                        ncthis->_result = NO;
+                        _result = NO;
                         return _result;
                     }
                     if (_ray1->start().x() == _ray2->start().x()) {
-                        ncthis->_intersection_point = _ray1->start();
-                        ncthis->_result = POINT;
+                        _intersection_point = _ray1->start();
+                        _result = POINT;
                         return _result;
                     }
-                    ncthis->_result = SEGMENT;
+                    _result = SEGMENT;
                     return _result;
                 }
             }
@@ -155,42 +144,42 @@ public:
             typedef typename R::FT FT;
             if (dir1.y() > FT(0)) {
                 if (dir2.y() > FT(0)) {
-                    ncthis->_intersection_point =
+                    _intersection_point =
                             (_ray1->start().y() < _ray2->start().y())
                             ? _ray2->start() : _ray1->start();
-                    ncthis->_result = RAY;
+                    _result = RAY;
                     return _result;
                 } else {
                     if (_ray1->start().y() > _ray2->start().y()) {
-                        ncthis->_result = NO;
+                        _result = NO;
                         return _result;
                     }
                     if (_ray1->start().y() == _ray2->start().y()) {
-                        ncthis->_intersection_point = _ray1->start();
-                        ncthis->_result = POINT;
+                        _intersection_point = _ray1->start();
+                        _result = POINT;
                         return _result;
                     }
-                    ncthis->_result = SEGMENT;
+                    _result = SEGMENT;
                     return _result;
                 }
             } else {
                 if (dir2.y() < FT(0)) {
-                    ncthis->_intersection_point =
+                    _intersection_point =
                             (_ray1->start().y() > _ray2->start().y())
                             ? _ray2->start() : _ray1->start();
-                    ncthis->_result = RAY;
+                    _result = RAY;
                     return _result;
                 } else {
                     if (_ray1->start().y() < _ray2->start().y()) {
-                        ncthis->_result = NO;
+                        _result = NO;
                         return _result;
                     }
                     if (_ray1->start().y() == _ray2->start().y()) {
-                        ncthis->_intersection_point = _ray1->start();
-                        ncthis->_result = POINT;
+                        _intersection_point = _ray1->start();
+                        _result = POINT;
                         return _result;
                     }
-                    ncthis->_result = SEGMENT;
+                    _result = SEGMENT;
                     return _result;
                 }
             }
@@ -211,9 +200,9 @@ public:
 protected:
     Ray_2<R> const*    _ray1;
     Ray_2<R> const *   _ray2;
-    bool                    _known;
-    Intersection_results    _result;
-    Point_2<R>         _intersection_point, _other_point;
+    mutable bool                    _known;
+    mutable Intersection_results    _result;
+    mutable Point_2<R>         _intersection_point, _other_point;
 };
 
 template <class R>
@@ -230,12 +219,8 @@ CGAL_END_NAMESPACE
 
 
 
-#ifndef CGAL_LINE_2_H
 #include <CGAL/Line_2.h>
-#endif // CGAL_LINE_2_H
-#ifndef CGAL_LINE_2_LINE_2_INTERSECTION_H
 #include <CGAL/Line_2_Line_2_intersection.h>
-#endif // CGAL_LINE_2_LINE_2_INTERSECTION_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -264,9 +249,7 @@ Ray_2_Ray_2_pair<R>::intersection_type() const
     if (_known)
         return _result;
     // The non const this pointer is used to cast away const.
-    Ray_2_Ray_2_pair<R> *ncthis =
-                (Ray_2_Ray_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
 //    if (!do_overlap(_ray1->bbox(), _ray2->bbox()))
 //        return NO;
     const Line_2<R> &l1 = _ray1->supporting_line();
@@ -274,11 +257,11 @@ Ray_2_Ray_2_pair<R>::intersection_type() const
     Line_2_Line_2_pair<R> linepair(&l1, &l2);
     switch ( linepair.intersection_type()) {
     case Line_2_Line_2_pair<R>::NO:
-        ncthis->_result = NO;
+        _result = NO;
         return _result;
     case Line_2_Line_2_pair<R>::POINT:
-        linepair.intersection(ncthis->_intersection_point);
-        ncthis->_result = (_ray1->collinear_has_on(_intersection_point)
+        linepair.intersection(_intersection_point);
+        _result = (_ray1->collinear_has_on(_intersection_point)
                 && _ray2->collinear_has_on(_intersection_point) )
             ? POINT :  NO;
         return _result;
@@ -287,46 +270,46 @@ Ray_2_Ray_2_pair<R>::intersection_type() const
         typedef typename R::RT RT;
         const Vector_2<R> &dir1 = _ray1->direction().to_vector();
         const Vector_2<R> &dir2 = _ray2->direction().to_vector();
-        if (abs(dir1.x()) > abs(dir1.y())) {
+        if (CGAL_NTS abs(dir1.x()) > CGAL_NTS abs(dir1.y())) {
             typedef typename R::FT FT;
             if (dir1.x() > FT(0)) {
                 if (dir2.x() > FT(0)) {
-                    ncthis->_intersection_point =
+                    _intersection_point =
                             (_ray1->start().x() < _ray2->start().x())
                             ? _ray2->start() : _ray1->start();
-                    ncthis->_result = RAY;
+                    _result = RAY;
                     return _result;
                 } else {
                     if (_ray1->start().x() > _ray2->start().x()) {
-                        ncthis->_result = NO;
+                        _result = NO;
                         return _result;
                     }
                     if (_ray1->start().x() == _ray2->start().x()) {
-                        ncthis->_intersection_point = _ray1->start();
-                        ncthis->_result = POINT;
+                        _intersection_point = _ray1->start();
+                        _result = POINT;
                         return _result;
                     }
-                    ncthis->_result = SEGMENT;
+                    _result = SEGMENT;
                     return _result;
                 }
             } else {
                 if (dir2.x() < FT(0)) {
-                    ncthis->_intersection_point =
+                    _intersection_point =
                             (_ray1->start().x() > _ray2->start().x())
                             ? _ray2->start() : _ray1->start();
-                    ncthis->_result = RAY;
+                    _result = RAY;
                     return _result;
                 } else {
                     if (_ray1->start().x() < _ray2->start().x()) {
-                        ncthis->_result = NO;
+                        _result = NO;
                         return _result;
                     }
                     if (_ray1->start().x() == _ray2->start().x()) {
-                        ncthis->_intersection_point = _ray1->start();
-                        ncthis->_result = POINT;
+                        _intersection_point = _ray1->start();
+                        _result = POINT;
                         return _result;
                     }
-                    ncthis->_result = SEGMENT;
+                    _result = SEGMENT;
                     return _result;
                 }
             }
@@ -335,42 +318,42 @@ Ray_2_Ray_2_pair<R>::intersection_type() const
             typedef typename R::FT FT;
             if (dir1.y() > FT(0)) {
                 if (dir2.y() > FT(0)) {
-                    ncthis->_intersection_point =
+                    _intersection_point =
                             (_ray1->start().y() < _ray2->start().y())
                             ? _ray2->start() : _ray1->start();
-                    ncthis->_result = RAY;
+                    _result = RAY;
                     return _result;
                 } else {
                     if (_ray1->start().y() > _ray2->start().y()) {
-                        ncthis->_result = NO;
+                        _result = NO;
                         return _result;
                     }
                     if (_ray1->start().y() == _ray2->start().y()) {
-                        ncthis->_intersection_point = _ray1->start();
-                        ncthis->_result = POINT;
+                        _intersection_point = _ray1->start();
+                        _result = POINT;
                         return _result;
                     }
-                    ncthis->_result = SEGMENT;
+                    _result = SEGMENT;
                     return _result;
                 }
             } else {
                 if (dir2.y() < FT(0)) {
-                    ncthis->_intersection_point =
+                    _intersection_point =
                             (_ray1->start().y() > _ray2->start().y())
                             ? _ray2->start() : _ray1->start();
-                    ncthis->_result = RAY;
+                    _result = RAY;
                     return _result;
                 } else {
                     if (_ray1->start().y() < _ray2->start().y()) {
-                        ncthis->_result = NO;
+                        _result = NO;
                         return _result;
                     }
                     if (_ray1->start().y() == _ray2->start().y()) {
-                        ncthis->_intersection_point = _ray1->start();
-                        ncthis->_result = POINT;
+                        _intersection_point = _ray1->start();
+                        _result = POINT;
                         return _result;
                     }
-                    ncthis->_result = SEGMENT;
+                    _result = SEGMENT;
                     return _result;
                 }
             }
@@ -425,9 +408,7 @@ CGAL_END_NAMESPACE
 
 
 
-#ifndef CGAL_OBJECT_H
 #include <CGAL/Object.h>
-#endif // CGAL_OBJECT_H
 
 CGAL_BEGIN_NAMESPACE
 

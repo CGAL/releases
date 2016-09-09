@@ -29,11 +29,11 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/dd_geo/config.h
-// package       : Convex_hull_3 (2.2.3)
+// package       : Convex_hull_3 (2.6)
 // source        : LEP dd_geo_kernel
 // revision      : 2.1.2
 // revision_date : 09 Jul 1998
@@ -42,7 +42,8 @@
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 /*******************************************************************************

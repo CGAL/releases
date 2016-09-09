@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Line_3.fw
 // file          : include/CGAL/Line_3.h
-// package       : _3 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _3 (3.7)
+// revision      : 3.7
+// revision_date : 16 Aug 2000 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -67,6 +68,11 @@
 #endif // CGAL_LINEC3_H
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/LineS3.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 #ifndef CGAL_SEGMENT_3_H
 #include <CGAL/Segment_3.h>
 #endif // CGAL_SEGMENT_3_H
@@ -79,11 +85,11 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-class Line_3 : public _R::Line_3_base
+template <class R_>
+class Line_3 : public R_::Line_3_base
 {
 public:
-  typedef          _R                       R;
+  typedef          R_                       R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
   typedef typename R::Line_3_base  RLine_3;
@@ -106,20 +112,11 @@ public:
               const CGAL::Direction_3<R> & d) : RLine_3( p, d )
   {}
 
-  CGAL::Line_3<R>&     operator=(const CGAL::Line_3<R> & l)
-  {
-    RLine_3::operator=(l);
-    return *this;
-  }
-
   bool                operator==(const CGAL::Line_3<R> & l) const
   { return RLine_3::operator==(l); }
 
   bool                operator!=(const CGAL::Line_3<R> & l) const
   { return !(*this == l); }
-
-  int                 id() const    /* XXX */
-  { return (int) PTR; }
 
   CGAL::Plane_3<R>     perpendicular_plane(const CGAL::Point_3<R> & p) const
   { return RLine_3::perpendicular_plane(p); }

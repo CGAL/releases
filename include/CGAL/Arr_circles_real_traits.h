@@ -30,15 +30,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Arr_circles_real_traits.h
-// package       : arr (1.16)
+// package       : arr (1.73)
 // author(s)     : Iddo Hanniel
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 #ifndef CGAL_ARR_CIRCLES_REAL_TRAITS_H
@@ -64,26 +65,33 @@ template <class NT>
 class Circ_Curve {
 
 public:
-  typedef Point_2<Cartesian<NT> > Point;
-  typedef Circle_2<Cartesian<NT> > Circle;
+  typedef Cartesian<NT>        R;
+  typedef Point_2<R>           Point;
+  typedef Circle_2<R>          Circle;
 
-  Circ_Curve(const NT& x, const NT& y, const NT& r2) : c(Point(x,y),r2), s(x-CGAL::sqrt(r2),y),t(x-CGAL::sqrt(r2),y)
-    {}
-  Circ_Curve(const NT& x, const NT& y, const NT& r2, const Point& src , const Point& trgt) :
+  Circ_Curve(const NT& x, const NT& y, const NT& r2) : 
+    c(Point(x,y),r2), s(x-CGAL::sqrt(r2),y),t(x-CGAL::sqrt(r2),y)
+  {}
+  Circ_Curve(const NT& x, const NT& y, const NT& r2, 
+	     const Point& src , const Point& trgt) :
     c(Point(x,y),r2), s(src),t(trgt)
-    {}
+  {}
   
-    //a ctr with cgal_circle
+  //a ctr with cgal_circle
   Circ_Curve(const Circle& _c) : c(_c), 
-      s(_c.center().x()-CGAL::sqrt(c.squared_radius()), _c.center().y()),
-      t(_c.center().x()-CGAL::sqrt(c.squared_radius()), _c.center().y()) {}
+    s(_c.center().x()-CGAL::sqrt(c.squared_radius()), _c.center().y()),
+    t(_c.center().x()-CGAL::sqrt(c.squared_radius()), _c.center().y()) {}
   
+  Circ_Curve(const Circle& _c, const Point& _s, const Point& _t) :
+    c(_c), s(_s), t(_t)
+  {}
+
   Circ_Curve () {}
   Circ_Curve (const Circ_Curve& cv) : c(cv.c),s(cv.s),t(cv.t)
-    {}
+  {}
   Circ_Curve& operator=(const Circ_Curve& cv) {
     c=cv.c; s=cv.s; t=cv.t;
-      return *this;
+    return *this;
   }
   
   //Public member functions for the users
@@ -94,7 +102,8 @@ public:
   bool is_x_monotone() const {
     if (s==t) 
       return false;  //closed circle
-    int point_position=CGAL::compare_y(s,c.center()) * CGAL::compare_y(t,c.center());
+    int point_position=CGAL::compare_y(s,c.center()) * 
+      CGAL::compare_y(t,c.center());
     if (point_position < 0)
       return false; //one above and one below
     if  (orientation(s,c.center(),t)!=(c.orientation()) )
@@ -106,7 +115,8 @@ public:
   
   friend class Arr_circles_real_traits<NT>;
   
-  friend ::std::ostream& operator <<  (::std::ostream& os,const Circ_Curve& cv) {  
+  friend ::std::ostream& operator <<  
+  (::std::ostream& os,const Circ_Curve& cv) {  
     os << "Curve:\n" ;
     os << "s: " << cv.s << std::endl;
     os << "t: " << cv.t << std::endl;
@@ -124,69 +134,19 @@ template <class _NT>
 class Arr_circles_real_traits {
 public:
   
-  typedef _NT NT;
-  typedef Point_2<Cartesian<NT> > Point;
-  typedef Circle_2<Cartesian<NT> > Circle;
-  typedef Vector_2<Cartesian<NT> > Vector;
+  typedef _NT                    NT;
 
-  /*
-  class Curve {
-    Circle c;
-    Point s,t;  //source, target
-  public:
-    Curve(const NT& x, const NT& y, const NT& r2) : c(Point(x,y),r2), s(x-CGAL::sqrt(r2),y),t(x-CGAL::sqrt(r2),y)
-    {}
-    Curve(const NT& x, const NT& y, const NT& r2, const Point& src , const Point& trgt) :
-      c(Point(x,y),r2), s(src),t(trgt)
-    {}
-
-    //a ctr with cgal_circle
-    Curve(const Circle& _c) : c(_c), 
-      s(_c.center().x()-CGAL::sqrt(c.squared_radius()), _c.center().y()),
-      t(_c.center().x()-CGAL::sqrt(c.squared_radius()), _c.center().y()) {}
-
-    Curve () {}
-    Curve (const Curve& cv) : c(cv.c),s(cv.s),t(cv.t)
-    {}
-    Curve& operator=(const Curve& cv) {
-      c=cv.c; s=cv.s; t=cv.t;
-      return *this;
-    }
-
-    //Public member functions for the users
-    const Circle& circle() const {return c;}
-    const Point& source() const {return s;}
-    const Point& target() const {return t;}
-
-    bool is_x_monotone() const {
-      if (s==t) 
-        return false;  //closed circle
-      int point_position=CGAL::compare_y(s,c.center()) * CGAL::compare_y(t,c.center());
-      if (point_position < 0)
-        return false; //one above and one below
-      if  (orientation(s,c.center(),t)!=(c.orientation()) )
-        return true; //if the same orientation or on diameter (==COLLINEAR)
-      return false;
-    }
-
-    
-    
-    friend class Arr_circles_real_traits<NT>;
-
-    friend ::std::ostream& operator <<  (::std::ostream& os,const Curve& cv) {  
-      os << "Curve:\n" ;
-      os << "s: " << cv.s << std::endl;
-      os << "t: " << cv.t << std::endl;
-      os << "circle: " << cv.c << std::endl;
-    }
-  };
-  */
-
- 
   //the difference between Curve and X_curve is semantical only,
   // NOT syntactical
-  typedef Circ_Curve<NT> Curve;
-  typedef Curve X_curve;
+  typedef Circ_Curve<NT>         Curve;
+  typedef Curve                  X_curve;
+ 
+  // using typename to please compiler (e.g., CC with IRIX64 on mips)
+  typedef typename Curve::R      R;
+  typedef typename Curve::Point  Point;
+  typedef typename Curve::Circle Circle;
+
+  typedef Vector_2<R>            Vector;
 
 #ifndef __GNUC__
   enum Curve_point_status {
@@ -214,7 +174,8 @@ public:
     return compare_value(p0.y(),p1.y());
   }
 
-  bool curve_is_vertical(const X_curve&) const {return false;} //no vertical segments
+  //no vertical segments :
+  bool curve_is_vertical(const X_curve&) const {return false;} 
 
   bool curve_is_in_x_range(const X_curve& cv, const Point& p) const {
     CGAL_precondition(is_x_monotone(cv));
@@ -223,8 +184,8 @@ public:
   }
 
   Comparison_result curve_compare_at_x(const X_curve& cv1, 
-                                            const X_curve& cv2, 
-                                            const Point& p) const {
+				       const X_curve& cv2, 
+				       const Point& p) const {
     CGAL_precondition(is_x_monotone(cv1));
     CGAL_precondition(is_x_monotone(cv2));
 
@@ -239,8 +200,8 @@ public:
 
 
   Comparison_result curve_compare_at_x_left(const X_curve& cva, 
-                                           const X_curve& cvb,
-                                           const Point& p) const {
+					    const X_curve& cvb,
+					    const Point& p) const {
 
     CGAL_precondition(is_x_monotone(cva));
     CGAL_precondition(is_x_monotone(cvb));
@@ -281,7 +242,7 @@ public:
 
     if ((compare_value(d1[0],0)==EQUAL)||
         (compare_value(d2[0],0)==EQUAL) ) { //one or both are infinite
-      if (is_negative(d1[1]*d2[1])) {
+      if (CGAL_NTS is_negative(d1[1]*d2[1])) {
         return compare_value(d1[1],d2[1]) ;
       }
       else {
@@ -293,7 +254,8 @@ public:
         //otherwise both are vertical
         //and they share a tangent at q
         //compare the norm of tangent vector (==second derivative)
-        if (is_negative(compare_x(cv1.s,cv1.t) * cv1.c.orientation()) ) { 
+        if (CGAL_NTS is_negative(compare_x(cv1.s,cv1.t) * 
+				 cv1.c.orientation()) ) { 
           //curves are on lower part of circle (if d2 has greater value then
           //it is below d1 and return LARGER)
           return 
@@ -311,37 +273,37 @@ public:
     //    return compare_value(derivative(cv2,q), derivative(cv1,q));
     Comparison_result ccr=compare_value(d2[1]/d2[0], d1[1]/d1[0] );
 
-     if (ccr!=EQUAL)
-       return ccr;
-     else {
-       //they share a common tangent
-       //compare the second derivative (norm of vectors) - needs checking
-       //check if we are above or below
+    if (ccr!=EQUAL)
+      return ccr;
+    else {
+      //they share a common tangent
+      //compare the second derivative (norm of vectors) - needs checking
+      //check if we are above or below
 
-       bool cv1_is_on_lower=(compare_x(cv1.s,cv1.t) * cv1.c.orientation() < 0);
-       bool cv2_is_on_lower=(compare_x(cv2.s,cv2.t) * cv2.c.orientation() < 0);
+      bool cv1_is_on_lower=(compare_x(cv1.s,cv1.t) * cv1.c.orientation() < 0);
+      bool cv2_is_on_lower=(compare_x(cv2.s,cv2.t) * cv2.c.orientation() < 0);
        
-       if (cv1_is_on_lower != cv2_is_on_lower) { 
-         //one is from above one from below
-         if (cv1_is_on_lower) return LARGER; 
-         else
-           return SMALLER;
-       }
+      if (cv1_is_on_lower != cv2_is_on_lower) { 
+	//one is from above one from below
+	if (cv1_is_on_lower) return LARGER; 
+	else
+	  return SMALLER;
+      }
 
-       //otherwise both are on upper or both on lower
-        if (cv1_is_on_lower) { 
-          //curves are on lower part of circle (if |d2| has greater value then
-          //it is below d1 and return LARGER)
-          return 
-            compare_value(d2[0]*d2[0]+d2[1]*d2[1], d1[0]*d1[0]+d1[1]*d1[1]);
-        }      
-        else { //upper part of circle(if |d1| has greater value then
-          //it is above d2 and return LARGER)
-          return
-            compare_value(d1[0]*d1[0]+d1[1]*d1[1], d2[0]*d2[0]+d2[1]*d2[1]);
-        }
+      //otherwise both are on upper or both on lower
+      if (cv1_is_on_lower) { 
+	//curves are on lower part of circle (if |d2| has greater value then
+	//it is below d1 and return LARGER)
+	return 
+	  compare_value(d2[0]*d2[0]+d2[1]*d2[1], d1[0]*d1[0]+d1[1]*d1[1]);
+      }      
+      else { //upper part of circle(if |d1| has greater value then
+	//it is above d2 and return LARGER)
+	return
+	  compare_value(d1[0]*d1[0]+d1[1]*d1[1], d2[0]*d2[0]+d2[1]*d2[1]);
+      }
 
-     }
+    }
 
   }
 
@@ -349,8 +311,8 @@ public:
 
 
   Comparison_result curve_compare_at_x_right(const X_curve& cva, 
-                                           const X_curve& cvb,
-                                           const Point& p) const {
+					     const X_curve& cvb,
+					     const Point& p) const {
     CGAL_precondition(is_x_monotone(cva));
     CGAL_precondition(is_x_monotone(cvb));
 
@@ -387,7 +349,7 @@ public:
 
     if ((compare_value(d1[0],0)==EQUAL)||
         (compare_value(d2[0],0)==EQUAL) ) { //one or both are vertical
-      if (is_negative(d1[1]*d2[1]) ) {
+      if (CGAL_NTS is_negative(d1[1]*d2[1]) ) {
         return compare_value(d1[1],d2[1]) ;
       }
       else {
@@ -410,46 +372,43 @@ public:
             compare_value(d1[0]*d1[0]+d1[1]*d1[1], d2[0]*d2[0]+d2[1]*d2[1]);
         }
 
-        //debug
-        CGAL_assertion(false); //code shouldn't get here
-        
       }
     }
 
     //in other case both derivatives are finite and to the right of q
     //return compare_value(derivative(cv1,q), derivative(cv2,q));
-     Comparison_result ccr=compare_value(d1[1]/d1[0], d2[1]/d2[0] );
-     if (ccr!=EQUAL)
-       return ccr;
-     else {
-       //they share a common tangent
-       //compare the second derivative (norm of vectors) - needs checking
-       //check if we are above or below
+    Comparison_result ccr=compare_value(d1[1]/d1[0], d2[1]/d2[0] );
+    if (ccr!=EQUAL)
+      return ccr;
+    else {
+      //they share a common tangent
+      //compare the second derivative (norm of vectors) - needs checking
+      //check if we are above or below
 
-       bool cv1_is_on_lower=(compare_x(cv1.s,cv1.t) * cv1.c.orientation() < 0);
-       bool cv2_is_on_lower=(compare_x(cv2.s,cv2.t) * cv2.c.orientation() < 0);
+      bool cv1_is_on_lower=(compare_x(cv1.s,cv1.t) * cv1.c.orientation() < 0);
+      bool cv2_is_on_lower=(compare_x(cv2.s,cv2.t) * cv2.c.orientation() < 0);
        
-       if (cv1_is_on_lower != cv2_is_on_lower) { 
-         //one is from above one from below
-         if (cv1_is_on_lower) return LARGER; 
-         else
-           return SMALLER;
-       }
+      if (cv1_is_on_lower != cv2_is_on_lower) { 
+	//one is from above one from below
+	if (cv1_is_on_lower) return LARGER; 
+	else
+	  return SMALLER;
+      }
 
-       //otherwise both are on upper or on lower
-        if (cv1_is_on_lower) { 
-          //curves are on lower part of circle (if |d2| has greater value then
-          //it is below d1 and return LARGER)
-          return 
-            compare_value(d2[0]*d2[0]+d2[1]*d2[1], d1[0]*d1[0]+d1[1]*d1[1]);
-        }      
-        else { //upper part of circle(if |d1| has greater value then
-          //it is above d2 and return LARGER)
-          return
-            compare_value(d1[0]*d1[0]+d1[1]*d1[1], d2[0]*d2[0]+d2[1]*d2[1]);
-        }
+      //otherwise both are on upper or on lower
+      if (cv1_is_on_lower) { 
+	//curves are on lower part of circle (if |d2| has greater value then
+	//it is below d1 and return LARGER)
+	return 
+	  compare_value(d2[0]*d2[0]+d2[1]*d2[1], d1[0]*d1[0]+d1[1]*d1[1]);
+      }      
+      else { //upper part of circle(if |d1| has greater value then
+	//it is above d2 and return LARGER)
+	return
+	  compare_value(d1[0]*d1[0]+d1[1]*d1[1], d2[0]*d2[0]+d2[1]*d2[1]);
+      }
 
-     }
+    }
   }
 
   Curve_point_status 
@@ -535,11 +494,11 @@ public:
     CGAL_precondition(is_x_monotone(cv1));
     CGAL_precondition(is_x_monotone(cv2));
 
-    return (is_same(cv1.s,cv2.s) && is_same(cv1.t,cv2.t) &&
-            (cv1.c.orientation()==cv2.c.orientation()) &&
-            is_same(cv1.c.center(),cv2.c.center()) &&
-            compare_value(cv1.c.squared_radius(),cv2.c.squared_radius())==EQUAL);
-
+    return (is_same( cv1.s,cv2.s) && is_same( cv1.t,cv2.t) &&
+            ( cv1.c.orientation()==cv2.c.orientation()) &&
+            is_same( cv1.c.center(), cv2.c.center()) &&
+            compare_value( cv1.c.squared_radius(),
+			   cv2.c.squared_radius()) == EQUAL);
   }
 
   Point curve_source(const X_curve& cv) const {
@@ -563,7 +522,8 @@ public:
 
 
   X_curve curve_flip(const X_curve& cv) const {
-    X_curve xc(cv.c.center().x(),cv.c.center().y(),cv.c.squared_radius(),cv.t, cv.s);
+    X_curve xc(cv.c.center().x(),cv.c.center().y(),
+	       cv.c.squared_radius(),cv.t, cv.s);
     xc.c=cv.c.opposite();
     return xc;
   }
@@ -577,10 +537,14 @@ public:
 
     //for arrangements of circles this is all that is needed
     if (cv.s==cv.t) {
-      Point src(cv.c.center().x()-CGAL::sqrt(cv.c.squared_radius()), cv.c.center().y());
-      Point trg(cv.c.center().x()+CGAL::sqrt(cv.c.squared_radius()), cv.c.center().y());
-      l.push_back(Curve(cv.c.center().x(),cv.c.center().y(),cv.c.squared_radius(),src,trg));
-      l.push_back(Curve(cv.c.center().x(),cv.c.center().y(),cv.c.squared_radius(),trg,src));
+      Point src(cv.c.center().x()-CGAL::sqrt(cv.c.squared_radius()), 
+		cv.c.center().y());
+      Point trg(cv.c.center().x()+CGAL::sqrt(cv.c.squared_radius()), 
+		cv.c.center().y());
+      l.push_back(Curve(cv.c.center().x(),cv.c.center().y(),
+			cv.c.squared_radius(),src,trg));
+      l.push_back(Curve(cv.c.center().x(),cv.c.center().y(),
+			cv.c.squared_radius(),trg,src));
     }
 
     else { //if we get a curve that is not a closed circle - for completeness
@@ -594,22 +558,24 @@ public:
         px=cv.c.center().x()-CGAL::sqrt(R2);
       }
       else
-      if (compare_y(cv.s,cv.c.center())*cv.c.orientation() < 0) {
-        //either s is under center and orient is ccw or
-        //s is above and orient is cw
-        px=cv.c.center().x()+CGAL::sqrt(R2);
-      }
-      else 
-        { //s is one of the endpoints of the circle choos other endpoint
-          if (compare_x(cv.s,cv.c.center())==SMALLER)
-            px=cv.c.center().x()+CGAL::sqrt(R2);
-          else
-            px=cv.c.center().x()-CGAL::sqrt(R2);
-        }
+	if (compare_y(cv.s,cv.c.center())*cv.c.orientation() < 0) {
+	  //either s is under center and orient is ccw or
+	  //s is above and orient is cw
+	  px=cv.c.center().x()+CGAL::sqrt(R2);
+	}
+	else 
+	  { //s is one of the endpoints of the circle choos other endpoint
+	    if (compare_x(cv.s,cv.c.center())==SMALLER)
+	      px=cv.c.center().x()+CGAL::sqrt(R2);
+	    else
+	      px=cv.c.center().x()-CGAL::sqrt(R2);
+	  }
       
       Point mid(px,cv.c.center().y());
-      Curve c1(cv.c.center().x(),cv.c.center().y(),cv.c.squared_radius(),src,mid);
-      Curve c2(cv.c.center().x(),cv.c.center().y(),cv.c.squared_radius(),mid,trg);
+      Curve c1(cv.c.center().x(),cv.c.center().y(),
+	       cv.c.squared_radius(),src,mid);
+      Curve c2(cv.c.center().x(),cv.c.center().y(),
+	       cv.c.squared_radius(),mid,trg);
       //the following is needed because orientation is not in the ctr
       //(need to make a ctr with circle and s,t
       if (c1.c.orientation()!=cv.c.orientation())
@@ -723,8 +689,8 @@ public:
 
 
   bool nearest_intersection_to_right(const X_curve& c1,
-                                      const X_curve& c2,
-                                      const Point& pt,
+				     const X_curve& c2,
+				     const Point& pt,
                                      Point& p1,
                                      Point& p2) const {
 
@@ -773,8 +739,8 @@ public:
       }
 
       //now we are dealing with two x-curves on the same side of circle
-      if ( (compare_x(rightmost1,pt)==SMALLER) ||
-           (compare_x(rightmost2,pt)==SMALLER) )
+      if ( (compare_x(rightmost1,pt) != LARGER) ||
+           (compare_x(rightmost2,pt) != LARGER) )
         return false; //the intersection can't be right of pt
  
       //now, if there is an intersection it has a point right of pt
@@ -800,7 +766,9 @@ public:
         p1=leftmost2;
       }
       if (compare_x(p1,pt)==SMALLER) {
-        p1=pt; //this assumes pt is on the curve, maybe we need to have p1=point_on_curve (pt.x())...?
+	//this assumes pt is on the curve, maybe we 
+	//need to have p1=point_on_curve (pt.x())...?
+        p1=pt; 
       }
        
       return true;
@@ -832,14 +800,36 @@ public:
 
     if (compare_x(lft,pt)==LARGER) {
       if ((curve_get_point_status(c1,lft) == ON_CURVE) &&
-          (curve_get_point_status(c2,lft) == ON_CURVE) )
+          (curve_get_point_status(c2,lft) == ON_CURVE) ) {
         p1=p2=lft;
         return true;
+      }
     }
 
     //can be done differently (the check first)
     return false;
 
+  }
+
+  Point point_reflect_in_x_and_y (const Point& pt) const
+  {
+    // use hx(), hy(), hw() in order to support both Homogeneous and Cartesian
+    Point reflected_pt( -pt.hx(), -pt.hy(), pt.hw());
+    return reflected_pt;
+  }
+      
+
+  X_curve curve_reflect_in_x_and_y (const X_curve& cv) const
+  {
+    Circle circ( point_reflect_in_x_and_y (cv.circle().center()),
+		 cv.circle().squared_radius(), 
+		 //reflection in two axes means no change in orientation
+		 cv.circle().orientation());  
+    // 		 CGAL::opposite( cv.circle().orientation()));
+    X_curve reflected_cv( circ,
+			  point_reflect_in_x_and_y (cv.source()),
+			  point_reflect_in_x_and_y (cv.target()));
+    return reflected_cv;
   }
 
 
@@ -892,7 +882,7 @@ public:
   // PRIVATE FUNCS
 private:
   Comparison_result  compare_value (const NT& a, const NT& b) const {
-    return CGAL::compare(a,b);
+    return CGAL_NTS compare(a,b);
   }
 
   
@@ -906,7 +896,7 @@ private:
 
     NT px(p.x());
     NT sqr = (CGAL::sqrt(cv.c.squared_radius() - 
-                       (px-cv.c.center().x())*(px-cv.c.center().x()) ));
+			 (px-cv.c.center().x())*(px-cv.c.center().x()) ));
     
     Point lst1_first(px,cv.c.center().y() + sqr);
     Point lst1_last(px,cv.c.center().y() - sqr);
@@ -946,7 +936,7 @@ private:
 
 
   bool circle_intersection(const Circle& ca, const Circle& cb,
-                    Point* p1, Point* p2) const {
+			   Point* p1, Point* p2) const {
     //function checks if the circles ca,cb intersect,
     //if they don't - returns false
     //if they do p1,p2 will hold the intersection points
@@ -992,110 +982,116 @@ private:
 
 
 /*
-//#define ARR_IDDO_DEBUG
-#ifdef ARR_IDDO_DEBUG
-//debug - specialization of output for reals, to make points more readable
-//(otherwise I get these lon..g reals in printouts)
-template<class NT> 
-inline ::std::ostream& operator<<(::std::ostream& o, const Point_2<Cartesian<NT> >& p)
-{
+  //#define CGAL_ARR_IDDO_DEBUG
+  #ifdef CGAL_ARR_IDDO_DEBUG
+  //debug - specialization of output for reals, to make points more readable
+  //(otherwise I get these lon..g reals in printouts)
+  template<class NT> 
+  inline ::std::ostream& operator<<(::std::ostream& o, 
+  const Point_2<Cartesian<NT> >& p)
+  {
   double x = CGAL::to_double(p.x());
   double y = CGAL::to_double(p.y());
   o << " (" << x << "," << y << ") " ;
   return o;
-}
-#endif
+  }
+  #endif
 
 
 
-#ifndef ARR_IDDO_DEBUG
+  #ifndef CGAL_ARR_IDDO_DEBUG
 //a simple version of the windowstream operator (sufficient for X_curve)
 template <class NT>
 //friend
 Window_stream& operator<<(Window_stream& os,
-                          const typename Arr_circles_real_traits<NT>::Curve &cv)
+  const typename Arr_circles_real_traits<NT>::Curve &cv)
 {
-  //This is not good enough - it assumes s and t have different x coord, 
-  //but for x-monotone arcs it is sufficient (and that's all I need).
-  //runs faster than above
-  double px= CGAL::to_double((cv.source().x()+cv.target().x())/2);
-  double R2= CGAL::to_double(cv.circle().squared_radius());
-  double sqr = CGAL::sqrt(R2 - 
-                    (CGAL::to_double(px-cv.circle().center().x())*
-                     CGAL::to_double(px-cv.circle().center().x())));
+//This is not good enough - it assumes s and t have different x coord, 
+//but for x-monotone arcs it is sufficient (and that's all I need).
+//runs faster than above
+double px= CGAL::to_double((cv.source().x()+cv.target().x())/2);
+double R2= CGAL::to_double(cv.circle().squared_radius());
+double sqr = CGAL::sqrt(R2 - 
+(CGAL::to_double(px-cv.circle().center().x())*
+CGAL::to_double(px-cv.circle().center().x())));
   
-  double py;
-  if ((cv.source().x()-cv.target().x()) * cv.circle().orientation() < 0) //under part
-    py= CGAL::to_double(cv.circle().center().y())-sqr;
-  else
-    py= CGAL::to_double(cv.circle().center().y())+sqr;
+double py;
+//under part
+if ((cv.source().x()-cv.target().x()) * cv.circle().orientation() < 0) 
+  py= CGAL::to_double(cv.circle().center().y())-sqr;
+else
+py= CGAL::to_double(cv.circle().center().y())+sqr;
   
   
-  os.draw_arc(leda_point(CGAL::to_double(cv.source().x()),
-                         CGAL::to_double(cv.source().y())),
-              leda_point(px,py),
-              leda_point(CGAL::to_double(cv.target().x()),
-                         CGAL::to_double(cv.target().y())));
+os.draw_arc(leda_point(CGAL::to_double(cv.source().x()),
+			     CGAL::to_double(cv.source().y())),
+			     leda_point(px,py),
+			     leda_point(CGAL::to_double(cv.target().x()),
+					CGAL::to_double(cv.target().y())));
   
-  return os;
+return os;
 }
 
-#else //ARR_IDDO_DEBUG defined - use the complicated version for general Curves
+#else 
+//CGAL_ARR_IDDO_DEBUG defined - use the complicated version for general Curves
 template <class NT>
 Window_stream& operator<<(Window_stream& os,
-                          const Arr_circles_real_traits<NT>::Curve &cv)
+  const Arr_circles_real_traits<NT>::Curve &cv)
 {
-      double px,py; //middle point coordinates
-      double R2= CGAL::to_double(cv.circle().squared_radius());
+  double px,py; //middle point coordinates
+  double R2= CGAL::to_double(cv.circle().squared_radius());
 
-      //checking for X-monotone case
-      //the folowing is equivelent to "if (curve is x-monotone)"
-      if (cv.is_x_monotone()) {
-        px= CGAL::to_double((cv.source().x()+cv.target().x()))/2;
-        double sqr = CGAL::sqrt(R2 - 
-                          (CGAL::to_double(px-cv.circle().center().x())*
-                           CGAL::to_double(px-cv.circle().center().x())));
-        if (CGAL::sign(cv.source().x()-cv.target().x()) * cv.circle().orientation() < 0) //under part
-          py= CGAL::to_double(cv.circle().center().y())-sqr;
-        else
-          py= CGAL::to_double(cv.circle().center().y())+sqr;
-      }
-      else { //if not x-monotone the above is not good enough
-        if (cv.source()==cv.target()) { //closed circle
-          return os << cv.circle() ;
-        }
+  //checking for X-monotone case
+  //the folowing is equivelent to "if (curve is x-monotone)"
+  if (cv.is_x_monotone()) {
+    px= CGAL::to_double((cv.source().x()+cv.target().x()))/2;
+    double sqr = CGAL::sqrt(R2 - 
+			    (CGAL::to_double(px-cv.circle().center().x())*
+			     CGAL::to_double(px-cv.circle().center().x())));
+    if (CGAL_NTS sign(cv.source().x()-cv.target().x()) * 
+	cv.circle().orientation() < 0) //under part
+      py= CGAL::to_double(cv.circle().center().y())-sqr;
+    else
+      py= CGAL::to_double(cv.circle().center().y())+sqr;
+  }
+  else { //if not x-monotone the above is not good enough
+    if (cv.source()==cv.target()) { //closed circle
+      return os << cv.circle() ;
+    }
         
-        py=CGAL::to_double(cv.circle().center().y());          
-        if (CGAL::compare_y(cv.source(),cv.circle().center())*cv.circle().orientation() >0) {
-          //either s is under center and orient is cw or
-          //s is above and orient is ccw
-          px=CGAL::to_double(cv.circle().center().x())-CGAL::sqrt(R2);
-        }
-        else
-        if (CGAL::compare_y(cv.source(),cv.circle().center())*cv.circle().orientation() < 0) {
-          //either s is under center and orient is ccw or
-          //s is above and orient is cw
-          px=CGAL::to_double(cv.circle().center().x())+CGAL::sqrt(R2);
-        }
-        else 
-          { //s is one of the endpoints of the circle choos other endpoint
-            if (CGAL::compare_x(cv.source(),cv.circle().center())==SMALLER)
-              px=CGAL::to_double(cv.circle().center().x())+CGAL::sqrt(R2);
-            else
-              px=CGAL::to_double(cv.circle().center().x())-CGAL::sqrt(R2);
-          }
+    py=CGAL::to_double(cv.circle().center().y());          
+    if (CGAL::compare_y(cv.source(),cv.circle().center())*
+	cv.circle().orientation() >0) {
+      //either s is under center and orient is cw or
+      //s is above and orient is ccw
+      px=CGAL::to_double(cv.circle().center().x())-CGAL::sqrt(R2);
+    }
+    else
+      if (CGAL::compare_y(cv.source(),cv.circle().center())*
+	  cv.circle().orientation() < 0) {
+	//either s is under center and orient is ccw or
+	//s is above and orient is cw
+	px=CGAL::to_double(cv.circle().center().x())+CGAL::sqrt(R2);
       }
+      else 
+	{ //s is one of the endpoints of the circle choos other endpoint
+	  if (CGAL::compare_x(cv.source(),cv.circle().center())==SMALLER)
+	    px=CGAL::to_double(cv.circle().center().x())+CGAL::sqrt(R2);
+	  else
+	    px=CGAL::to_double(cv.circle().center().x())-CGAL::sqrt(R2);
+	}
+  }
 
-      os.draw_arc(leda_point(CGAL::to_double(cv.source().x()),
-                             CGAL::to_double(cv.source().y())),
-                  leda_point(px,py),
-                  leda_point(CGAL::to_double(cv.target().x()),
-                             CGAL::to_double(cv.target().y())));
+  os.draw_arc(leda_point(CGAL::to_double(cv.source().x()),
+			 CGAL::to_double(cv.source().y())),
+	      leda_point(px,py),
+	      leda_point(CGAL::to_double(cv.target().x()),
+			 CGAL::to_double(cv.target().y())));
 
 
   return os;
 }
-#endif //ARR_IDDO_DEBUG
+#endif //CGAL_ARR_IDDO_DEBUG
 */
 
 CGAL_END_NAMESPACE

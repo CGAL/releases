@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian.h
-// package       : Cartesian_basic (3.3.7)
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1999/11/22 13:42:09 $
+// package       : Cartesian_basic (4.2)
+// revision      : $Revision: 1.28 $
+// revision_date : $Date: 2000/08/11 14:09:40 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -58,26 +59,31 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template< class R, class _FT >
+template< class R, class FT_ >
 struct Cartesian_base :
-    public Cartesian_base_2<R,_FT>
-    , public Cartesian_base_3<R,_FT>
-    , public Cartesian_base_dynamic_d<R,_FT>
+    public Cartesian_base_2<R,FT_>
+    , public Cartesian_base_3<R,FT_>
+    , public Cartesian_base_dynamic_d<R,FT_>
 {
     // Number types and representation tag (to avoid ambiguity in
     // inheritance tree)
-    typedef _FT                                           RT;
-    typedef _FT                                           FT;
+    typedef FT_                                           RT;
+    typedef FT_                                           FT;
     typedef Cartesian_tag                                 Rep_tag;
+    typedef Cartesian_tag                                 Kernel_tag;
+
 
     // All the classes are inherited, but because we inherit from a
     // template parameter, we need to explicitly write the inheritance
     // (see mail from Michael Hoffmann of July 28th 1999 in cgal-develop)
 
-    typedef Cartesian_base_2<R,_FT>                       Kernel_base_2;
-    typedef Cartesian_base_3<R,_FT>                       Kernel_base_3;
-    typedef Cartesian_base_dynamic_d<R,_FT>               Kernel_base_d;
+    typedef Cartesian_base_2<R,FT_>                       Kernel_base_2;
+    typedef Cartesian_base_3<R,FT_>                       Kernel_base_3;
+    typedef Cartesian_base_dynamic_d<R,FT_>               Kernel_base_d;
 
+    typedef typename Kernel_base_2::Object_2              Object_2;
+    typedef typename Kernel_base_3::Object_3              Object_3;          
+  
     typedef typename Kernel_base_2::Point_2               Point_2;
     typedef typename Kernel_base_2::Vector_2              Vector_2;
     typedef typename Kernel_base_2::Direction_2           Direction_2;
@@ -101,6 +107,7 @@ struct Cartesian_base :
     typedef typename Kernel_base_3::Segment_3             Segment_3;
     typedef typename Kernel_base_3::Triangle_3            Triangle_3;
     typedef typename Kernel_base_3::Tetrahedron_3         Tetrahedron_3;
+    typedef typename Kernel_base_3::Iso_cuboid_3          Iso_cuboid_3;
     typedef typename Kernel_base_3::Aff_transformation_3  Aff_transformation_3;
 
     typedef typename Kernel_base_d::Point_d                     Point_d;
@@ -114,16 +121,21 @@ CGAL_END_NAMESPACE
 
 CGAL_BEGIN_NAMESPACE
 
-template< class _FT >
-struct Cartesian : public Cartesian_base< Cartesian<_FT>, _FT >
+template< class FT_ >
+struct Cartesian : public Cartesian_base< Cartesian<FT_>, FT_ >
 {
     // Number types and representation tag (to avoid ambiguity)
-    typedef _FT                                           RT;
-    typedef _FT                                           FT;
+    typedef FT_                                           RT;
+    typedef FT_                                           FT;
     typedef Cartesian_tag                                 Rep_tag;
+    typedef Cartesian_tag                                 Kernel_tag;
 
     typedef Cartesian<FT>                                 Self;
     typedef Cartesian_base<Self,FT>                       Kernel_base;
+
+    typedef typename Kernel_base::Object_2                Object_2;
+    typedef typename Kernel_base::Object_3                Object_3;          
+  
 
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
     // The other classes are inherited and because of partial specialization,
@@ -153,6 +165,7 @@ struct Cartesian : public Cartesian_base< Cartesian<_FT>, _FT >
     typedef typename Kernel_base::Segment_3               Segment_3;
     typedef typename Kernel_base::Triangle_3              Triangle_3;
     typedef typename Kernel_base::Tetrahedron_3           Tetrahedron_3;
+    typedef typename Kernel_base::Iso_cuboid_3            Iso_cuboid_3;
     typedef typename Kernel_base::Aff_transformation_3    Aff_transformation_3;
 
     typedef typename Kernel_base::Point_d                 Point_d;
@@ -174,7 +187,8 @@ struct Cartesian : public Cartesian_base< Cartesian<_FT>, _FT >
     typedef typename Kernel_base::Triangle_2              Triangle_2_base;
     typedef typename Kernel_base::Circle_2                Circle_2_base;
     typedef typename Kernel_base::Iso_rectangle_2         Iso_rectangle_2_base;
-    typedef typename Kernel_base::Aff_transformation_2    Aff_transformation_2_base;
+    typedef typename Kernel_base::Aff_transformation_2  
+                                                     Aff_transformation_2_base;
 
     typedef typename Kernel_base::Point_3                 Point_3_base;
     typedef typename Kernel_base::Vector_3                Vector_3_base;
@@ -185,7 +199,9 @@ struct Cartesian : public Cartesian_base< Cartesian<_FT>, _FT >
     typedef typename Kernel_base::Segment_3               Segment_3_base;
     typedef typename Kernel_base::Triangle_3              Triangle_3_base;
     typedef typename Kernel_base::Tetrahedron_3           Tetrahedron_3_base;
-    typedef typename Kernel_base::Aff_transformation_3    Aff_transformation_3_base;
+    typedef typename Kernel_base::Iso_cuboid_3            Iso_cuboid_3_base;
+    typedef typename Kernel_base::Aff_transformation_3    
+                                                  Aff_transformation_3_base;
   
     typedef typename Kernel_base::Point_d                 Point_d_base;
 
@@ -216,6 +232,7 @@ struct Cartesian : public Cartesian_base< Cartesian<_FT>, _FT >
     typedef CGAL::Segment_3<Self>                         Segment_3;
     typedef CGAL::Triangle_3<Self>                        Triangle_3;
     typedef CGAL::Tetrahedron_3<Self>                     Tetrahedron_3;
+    typedef CGAL::Iso_cuboid_3<Self>                      Iso_cuboid_3;
     typedef CGAL::Aff_transformation_3<Self>              Aff_transformation_3;
 
     typedef CGAL::Point_d<Self>                           Point_d;
@@ -236,6 +253,7 @@ typedef CGALi::Construct<Line_2>               Construct_line_2;
 typedef CGALi::Construct<Ray_2>                Construct_ray_2;
 typedef CGALi::Construct<Circle_2>             Construct_circle_2;
 typedef CGALi::Construct<Triangle_2>           Construct_triangle_2;
+typedef CGALi::Construct<Iso_rectangle_2>      Construct_iso_rectangle_2;
 typedef CGALi::Construct<Aff_transformation_2> Construct_aff_transformation_2;
 
 Construct_point_2 
@@ -269,6 +287,10 @@ construct_circle_2_object() const
 Construct_triangle_2
 construct_triangle_2_object() const 
 { return Construct_triangle_2(); }
+
+Construct_iso_rectangle_2
+construct_iso_rectangle_2_object() const
+{ return Construct_iso_rectangle_2();}
 
 Construct_aff_transformation_2
 construct_aff_transformation_2_object() const 
@@ -304,32 +326,38 @@ Construct_max_point_2
 construct_max_point_2_object() const 
 { return Construct_max_point_2(); }
 
-typedef CGALi::Call_direction_to_get<Direction_2> Construct_direction_of_line_2;
+typedef CGALi::Call_direction_to_get<Direction_2> 
+                                             Construct_direction_of_line_2;
 Construct_direction_of_line_2
 construct_direction_of_line_2_object() const 
 { return Construct_direction_of_line_2(); }
 
-typedef CGALi::Call_direction_to_get<Direction_2> Construct_direction_of_ray_2;
+typedef CGALi::Call_direction_to_get<Direction_2> 
+                                             Construct_direction_of_ray_2;
 Construct_direction_of_ray_2
 construct_direction_of_ray_2_object() const 
 { return Construct_direction_of_ray_2(); }
 
-typedef CGALi::Call_supporting_line_to_get<Line_2> Construct_supporting_line_2;
+typedef CGALi::Call_supporting_line_to_get<Line_2> 
+                                               Construct_supporting_line_2;
 Construct_supporting_line_2
 construct_supporting_line_2_object() const 
 { return Construct_supporting_line_2(); }
 
-typedef CGALi::Call_perpendicular_to_get<Vector_2> Construct_perpendicular_vector_2;
+typedef CGALi::Call_perpendicular_to_get<Vector_2> 
+                                          Construct_perpendicular_vector_2;
 Construct_perpendicular_vector_2
 construct_perpendicular_vector_2_object() const 
 { return Construct_perpendicular_vector_2(); }
 
-typedef CGALi::Call_perpendicular_to_get<Direction_2>  Construct_perpendicular_direction_2;
+typedef CGALi::Call_perpendicular_to_get<Direction_2>  
+                                       Construct_perpendicular_direction_2;
 Construct_perpendicular_direction_2
 construct_perpendicular_direction_2_object() const 
 { return Construct_perpendicular_direction_2(); }
 
-typedef CGALi::Call_perpendicular_to_get<Line_2>   Construct_perpendicular_line_2;
+typedef CGALi::Call_perpendicular_to_get<Line_2>   
+                                           Construct_perpendicular_line_2;
 Construct_perpendicular_line_2
 construct_perpendicular_line_2_object() const 
 { return Construct_perpendicular_line_2(); }
@@ -349,7 +377,8 @@ Construct_bisector_2
 construct_bisector_2_object() const 
 { return Construct_bisector_2(); }
 
-typedef CGALi::Call_opposite_to_get<Segment_2>     Construct_opposite_segment_2;
+typedef CGALi::Call_opposite_to_get<Segment_2>     
+                                              Construct_opposite_segment_2;
 Construct_opposite_segment_2
 construct_opposite_segment_2_object() const 
 { return Construct_opposite_segment_2(); }
@@ -364,7 +393,8 @@ Construct_opposite_line_2
 construct_opposite_line_2_object() const 
 { return Construct_opposite_line_2(); }
 
-typedef CGALi::Call_opposite_to_get<Triangle_2>    Construct_opposite_triangle_2;
+typedef CGALi::Call_opposite_to_get<Triangle_2>    
+                                             Construct_opposite_triangle_2;
 Construct_opposite_triangle_2
 construct_opposite_triangle_2_object() const 
 { return Construct_opposite_triangle_2(); }
@@ -373,6 +403,11 @@ typedef CGALi::Call_opposite_to_get<Circle_2>      Construct_opposite_circle_2;
 Construct_opposite_circle_2
 construct_opposite_circle_2_object() const 
 { return Construct_opposite_circle_2(); }
+
+typedef CGALi::Assign                                  Assign_2;
+Assign_2
+assign_2_object() const 
+{ return Assign_2(); }
 
 typedef CGALi::Call_transform                      Transform_2;
 Transform_2
@@ -384,10 +419,10 @@ Intersect_2
 intersect_2_object() const 
 { return Intersect_2(); }
 
-typedef CGALi::Call_y_at_x_to_get<FT>              Compute_y_at_x;
-Compute_y_at_x
-compute_y_at_x_object() const 
-{ return Compute_y_at_x(); }
+typedef CGALi::Call_y_at_x_to_get<FT>              Compute_y_at_x_2;
+Compute_y_at_x_2
+compute_y_at_x_2_object() const 
+{ return Compute_y_at_x_2(); }
 
 typedef CGALi::Call_squared_length_to_get<FT>      Compute_squared_length_2;
 Compute_squared_length_2
@@ -429,6 +464,11 @@ Less_xy_2
 less_xy_2_object() const 
 { return Less_xy_2(); }
 
+typedef CGAL::p_Less_yx<Point_2>                   Less_yx_2;
+Less_yx_2
+less_yx_2_object() const 
+{ return Less_yx_2(); }
+
 typedef CGALi::Compare_x                           Compare_x_2;
 Compare_x_2
 compare_x_2_object() const 
@@ -454,15 +494,22 @@ Less_distance_to_point_2
 less_distance_to_point_2_object(const Point_2& p) const 
 { return Less_distance_to_point_2(p); }
 
-typedef CGAL ::p_Less_dist_to_line_2p<Point_2>     Less_signed_distance_to_line_2;
+typedef CGAL ::p_Less_dist_to_line_2p<Point_2>  Less_signed_distance_to_line_2;
 Less_signed_distance_to_line_2
-less_signed_distance_to_line_2_object(const Point_2& p, const Point_2& q) const 
+less_signed_distance_to_line_2_object(const Point_2& p, 
+				      const Point_2& q)  const 
 { return Less_signed_distance_to_line_2(p,q); }
 
 typedef CGAL ::p_Less_rotate_ccw<Point_2>          Less_rotate_ccw_2;
 Less_rotate_ccw_2
-less_rotate_ccw_2(const Point_2& p) const 
+less_rotate_ccw_2_object(const Point_2& p) const 
 { return Less_rotate_ccw_2(p); }
+
+typedef CGALi::Counterclockwise_in_between   Counterclockwise_in_between_2;
+Counterclockwise_in_between_2
+counterclockwise_in_between_2_object() const 
+{ return Counterclockwise_in_between_2(); }
+
 
 typedef CGAL ::p_Leftturn<Point_2>                 Leftturn_2;
 Leftturn_2
@@ -554,17 +601,20 @@ Are_ordered_along_line_2
 are_ordered_along_line_2_object() const 
 { return Are_ordered_along_line_2(); }
 
-typedef CGALi::Are_strictly_ordered_along_line     Are_strictly_ordered_along_line_2;
+typedef CGALi::Are_strictly_ordered_along_line     
+                                         Are_strictly_ordered_along_line_2;
 Are_strictly_ordered_along_line_2
 are_strictly_ordered_along_line_2_object() const 
 { return Are_strictly_ordered_along_line_2(); }
 
-typedef CGALi::Collinear_are_ordered_along_line    Collinear_are_ordered_along_line_2;
+typedef CGALi::Collinear_are_ordered_along_line    
+                                            Collinear_are_ordered_along_line_2;
 Collinear_are_ordered_along_line_2
 collinear_are_ordered_along_line_2_object() const 
 { return Collinear_are_ordered_along_line_2(); }
 
-typedef CGALi::Collinear_are_strictly_ordered_along_line Collinear_are_strictly_ordered_along_line_2;
+typedef CGALi::Collinear_are_strictly_ordered_along_line 
+                                   Collinear_are_strictly_ordered_along_line_2;
 Collinear_are_strictly_ordered_along_line_2
 collinear_are_strictly_ordered_along_line_2_object() const 
 { return Collinear_are_strictly_ordered_along_line_2(); }
@@ -578,7 +628,9 @@ typedef CGALi::Construct<Line_3>                   Construct_line_3;
 typedef CGALi::Construct<Ray_3>                    Construct_ray_3;
 typedef CGALi::Construct<Triangle_3>               Construct_triangle_3;
 typedef CGALi::Construct<Tetrahedron_3>            Construct_tetrahedron_3;
-typedef CGALi::Construct<Aff_transformation_3>     Construct_aff_transformation_3;
+typedef CGALi::Construct<Iso_cuboid_3>             Construct_iso_cuboid_3;
+typedef CGALi::Construct<Aff_transformation_3>     
+                                            Construct_aff_transformation_3;
 
 Construct_point_3 
 construct_point_3_object() const 
@@ -616,6 +668,10 @@ Construct_tetrahedron_3
 construct_tetrahedron_object() const 
 { return Construct_tetrahedron_3(); }
 
+Construct_iso_cuboid_3
+construct_iso_cuboid_3_object() const
+{return Construct_iso_cuboid_3();}
+
 Construct_aff_transformation_3
 construct_aff_transformation_3_object() const 
 { return Construct_aff_transformation_3(); }
@@ -625,12 +681,14 @@ Construct_point_on_3
 construct_point_on_3_object() const 
 { return Construct_point_on_3(); }
 
-typedef CGALi::Call_second_point_to_get<Point_3>       Construct_second_point_on_3;
+typedef CGALi::Call_second_point_to_get<Point_3>       
+                                                Construct_second_point_on_3;
 Construct_second_point_on_3
 construct_second_point_on_3_object() const 
 { return Construct_second_point_on_3(); }
 
-typedef CGALi::Call_perpendicular_plane_to_get<Plane_3> Construct_perpendicular_plane_3;
+typedef CGALi::Call_perpendicular_plane_to_get<Plane_3> 
+                                               Construct_perpendicular_plane_3;
 Construct_perpendicular_plane_3
 construct_perpendicular_plane_3() const 
 { return Construct_perpendicular_plane_3(); }
@@ -640,22 +698,31 @@ Construct_midpoint_3
 construct_midpoint_3_object() const 
 { return Construct_midpoint_3(); }
 
-typedef CGALi::Call_opposite_to_get<Segment_3>         Construct_opposite_segment_3;
+typedef CGALi::p_Circumcenter<Point_3>             Construct_circumcenter_3;
+Construct_circumcenter_3
+construct_circumcenter_3_object() const 
+{ return Construct_circumcenter_3(); }
+
+typedef CGALi::Call_opposite_to_get<Segment_3>         
+                                                 Construct_opposite_segment_3;
 Construct_opposite_segment_3
 construct_opposite_segment_3_object() const 
 { return Construct_opposite_segment_3(); }
 
-typedef CGALi::Call_opposite_to_get<Ray_3>             Construct_opposite_ray_3;
+typedef CGALi::Call_opposite_to_get<Ray_3>             
+                                                    Construct_opposite_ray_3;
 Construct_opposite_ray_3
 construct_opposite_ray_3_object() const 
 { return Construct_opposite_ray_3(); }
 
-typedef CGALi::Call_opposite_to_get<Line_3>            Construct_opposite_line_3;
+typedef CGALi::Call_opposite_to_get<Line_3>            
+                                                   Construct_opposite_line_3;
 Construct_opposite_line_3
 construct_opposite_line_3_object() const 
 { return Construct_opposite_line_3(); }
 
-typedef CGALi::Call_supporting_plane_to_get<Plane_3>   Construct_supporting_plane_3;
+typedef CGALi::Call_supporting_plane_to_get<Plane_3>   
+                                                 Construct_supporting_plane_3;
 Construct_supporting_plane_3
 construct_supporting_plane_3_object() const 
 { return Construct_supporting_plane_3(); }
@@ -663,14 +730,21 @@ construct_supporting_plane_3_object() const
 typedef CGALi::Call_transform                          Transform_3;
 Transform_3
 transform_3_object() const 
-{ return Transform_2(); }
+{ return Transform_3(); }
+
+typedef CGALi::Assign                                  Assign_3;
+Assign_3
+assign_3_object() const 
+{ return Assign_3(); }
+
 
 typedef CGALi::Intersect                               Intersect_3;
 Intersect_3
 intersect_3_object() const 
 { return Intersect_3(); }
 
-typedef CGALi::Call_squared_length_to_get<FT>          Compute_squared_length_3;
+typedef CGALi::Call_squared_length_to_get<FT>          
+                                                   Compute_squared_length_3;
 Compute_squared_length_3
 compute_squared_length_3_object() const 
 { return Compute_squared_length_3(); }
@@ -748,17 +822,18 @@ compare_z_3_object() const
 typedef CGALi::Compare_xy                              Compare_xy_3;
 Compare_xy_3
 compare_xy_3_object() const 
-{ return Compare_xyz_3(); }
+{ return Compare_xy_3(); }
 
 typedef CGALi::Compare_xyz                             Compare_xyz_3;
 Compare_xyz_3
 compare_xyz_3_object() const 
 { return Compare_xyz_3(); }
 
-typedef CGAL ::p_Less_dist_to_point<Point_3>           Less_distance_to_point_3;
+typedef CGAL ::p_Less_dist_to_point<Point_3>           
+                                              Less_distance_to_point_3;
 Less_distance_to_point_3
-less_distance_to_point_3_object() const 
-{ return Less_distance_to_point_3(); }
+less_distance_to_point_3_object(const Point_3& p) const 
+{ return Less_distance_to_point_3(p); }
 
 typedef CGALi::Collinear                               Collinear_3;
 Collinear_3
@@ -815,32 +890,36 @@ Oriented_side_3
 oriented_side_3_object() const 
 { return Oriented_side_3(); }
 
-typedef CGALi::Are_ordered_along_line                  Are_ordered_along_line_3 ;
+typedef CGALi::Are_ordered_along_line                  
+                                                    Are_ordered_along_line_3 ;
 Are_ordered_along_line_3
 are_ordered_along_line_3_object() const 
 { return Are_ordered_along_line_3(); }
 
-typedef CGALi::Are_strictly_ordered_along_line         Are_strictly_ordered_along_line_3;
+typedef CGALi::Are_strictly_ordered_along_line         
+                                            Are_strictly_ordered_along_line_3;
 Are_strictly_ordered_along_line_3
 are_strictly_ordered_along_line_3_object() const 
 { return Are_strictly_ordered_along_line_3(); }
 
-typedef CGALi::Collinear_are_ordered_along_line        Collinear_are_ordered_along_line_3;
+typedef CGALi::Collinear_are_ordered_along_line        
+                                            Collinear_are_ordered_along_line_3;
 Collinear_are_ordered_along_line_3
 collinear_are_ordered_along_line_3_object() const 
 { return Collinear_are_ordered_along_line_3(); }
 
-typedef CGALi::Collinear_are_strictly_ordered_along_line Collinear_are_strictly_ordered_along_line_3;
+typedef CGALi::Collinear_are_strictly_ordered_along_line 
+                                 Collinear_are_strictly_ordered_along_line_3;
 Collinear_are_strictly_ordered_along_line_3
 collinear_are_strictly_ordered_along_line_3_object() const 
 { return Collinear_are_strictly_ordered_along_line_3(); }
 
-typedef CGALi::Side_of_oriented_sphere                 Side_of_oriented_sphere_3;
+typedef CGALi::Side_of_oriented_sphere      Side_of_oriented_sphere_3;
 Side_of_oriented_sphere_3
 side_of_oriented_sphere_3_object() const 
 { return Side_of_oriented_sphere_3(); }
 
-typedef CGALi::Side_of_bounded_sphere                  Side_of_bounded_sphere_3;
+typedef CGALi::Side_of_bounded_sphere        Side_of_bounded_sphere_3;
 Side_of_bounded_sphere_3
 side_of_bounded_sphere_3_object() const 
 { return Side_of_bounded_sphere_3(); }

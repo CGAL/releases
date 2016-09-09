@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/Tee_for_output_iterator.h
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

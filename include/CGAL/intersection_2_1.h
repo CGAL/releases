@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/intersection_2_1.h
-// package       : Intersections_2 (2.2.2)
+// package       : Intersections_2 (2.6.3)
 // source        : intersection_2_1.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -49,41 +50,15 @@
 #ifndef CGAL_INTERSECTION_2_1_H
 #define CGAL_INTERSECTION_2_1_H
 
-#ifndef CGAL_BBOX_2_LINE_2_INTERSECTION_H
-#include <CGAL/Bbox_2_Line_2_intersection.h>
-#endif // CGAL_BBOX_2_LINE_2_INTERSECTION_H
-#ifndef CGAL_RAY_2_BBOX_2_INTERSECTION_H
-#include <CGAL/Ray_2_Bbox_2_intersection.h>
-#endif // CGAL_RAY_2_BBOX_2_INTERSECTION_H
-#ifndef CGAL_LINE_2_LINE_2_INTERSECTION_H
 #include <CGAL/Line_2_Line_2_intersection.h>
-#endif // CGAL_LINE_2_LINE_2_INTERSECTION_H
-#ifndef CGAL_SEGMENT_2_LINE_2_INTERSECTION_H
 #include <CGAL/Segment_2_Line_2_intersection.h>
-#endif // CGAL_SEGMENT_2_LINE_2_INTERSECTION_H
-#ifndef CGAL_SEGMENT_2_SEGMENT_2_INTERSECTION_H
 #include <CGAL/Segment_2_Segment_2_intersection.h>
-#endif // CGAL_SEGMENT_2_SEGMENT_2_INTERSECTION_H
-#ifndef CGAL_RAY_2_LINE_2_INTERSECTION_H
 #include <CGAL/Ray_2_Line_2_intersection.h>
-#endif // CGAL_RAY_2_LINE_2_INTERSECTION_H
-#ifndef CGAL_RAY_2_SEGMENT_2_INTERSECTION_H
 #include <CGAL/Ray_2_Segment_2_intersection.h>
-#endif // CGAL_RAY_2_SEGMENT_2_INTERSECTION_H
-#ifndef CGAL_RAY_2_RAY_2_INTERSECTION_H
 #include <CGAL/Ray_2_Ray_2_intersection.h>
-#endif // CGAL_RAY_2_RAY_2_INTERSECTION_H
-#ifndef CGAL_POINT_2_LINE_2_INTERSECTION_H
 #include <CGAL/Point_2_Line_2_intersection.h>
-#endif // CGAL_POINT_2_LINE_2_INTERSECTION_H
-#ifndef CGAL_POINT_2_RAY_2_INTERSECTION_H
 #include <CGAL/Point_2_Ray_2_intersection.h>
-#endif // CGAL_POINT_2_RAY_2_INTERSECTION_H
-#ifndef CGAL_POINT_2_SEGMENT_2_INTERSECTION_H
 #include <CGAL/Point_2_Segment_2_intersection.h>
-#endif // CGAL_POINT_2_SEGMENT_2_INTERSECTION_H
-#ifndef CGAL_POINT_2_POINT_2_INTERSECTION_H
 #include <CGAL/Point_2_Point_2_intersection.h>
-#endif // CGAL_POINT_2_POINT_2_INTERSECTION_H
 
 #endif

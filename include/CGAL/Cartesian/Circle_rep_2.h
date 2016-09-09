@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Circle_rep_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1999/11/05 22:29:41 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2000/06/26 15:00:21 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -50,7 +51,9 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
-class Circle_repC2 : public Rep
+class Circle_repC2 
+//: public Rep
+  : public Ref_counted
 {
 public:
   typedef typename R::FT                        FT;

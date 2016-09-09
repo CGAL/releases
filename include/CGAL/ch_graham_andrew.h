@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/ch_graham_andrew.h
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -94,7 +95,7 @@ where $p$ is the value of |first| and $q$ is the value of |last| $-1$.
 The sequence reported starts with $p$, point $q$ is omitted.\\
 {\it Precondition:} The points in [|first|,|last|) are sorted with respect
 to $pq$ and the range [|first|,|last|) contains at least two different points.\\
-{\sc traits}: uses |Traits::Leftturn| operating on the 
+{\sc traits}: uses |Traits::Leftturn_2| operating on the 
 point type |Traits::Point_2|.
 }*/
 
@@ -120,8 +121,8 @@ ch_graham_andrew( InputIterator  first,
                        const Traits&  ch_traits );
 /*{\Mfuncl 
 same as |convex_hull_points_2(first,last,result)|.\\
-{\sc traits}: uses |Traits::Point_2|, |Traits::Leftturn|
-and |Traits::Less_xy|.
+{\sc traits}: uses |Traits::Point_2|, |Traits::Leftturn_2|
+and |Traits::Less_xy_2|.
 }*/
 
 #ifdef CGAL_POINT_2_H
@@ -146,7 +147,7 @@ ch__graham_andrew_scan( BidirectionalIterator first,
                              Point_2<R>* )
 {
   return ch_graham_andrew_scan( first, last, result, 
-                                convex_hull_traits_2<R>() );
+                                R() );
 }
 
 template <class BidirectionalIterator, class OutputIterator>
@@ -179,7 +180,7 @@ ch__graham_andrew( InputIterator     first,
                         Point_2<R>* )
 {
   return ch_graham_andrew(first, last, result, 
-                               convex_hull_traits_2<R>());
+                               R());
 }
 
 template <class InputIterator, class OutputIterator>

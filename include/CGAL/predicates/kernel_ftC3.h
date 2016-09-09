@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/predicates/kernel_ftC3.h
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.16 $
-// revision_date : $Date: 1999/11/06 12:32:19 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.22 $
+// revision_date : $Date: 2000/06/27 14:06:50 $
 // author(s)     : Herve Bronnimann, Sylvain Pion
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -60,45 +61,33 @@ Comparison_result
 compare_lexicographically_xyzC3(const FT &px, const FT &py, const FT &pz,
                                 const FT &qx, const FT &qy, const FT &qz)
 {
-  Comparison_result c = CGAL::compare(px, qx);
+  Comparison_result c = CGAL_NTS compare(px, qx);
   if (c != EQUAL) return c;
-  c = CGAL::compare(py, qy);
+  c = CGAL_NTS compare(py, qy);
   if (c != EQUAL) return c;
-  return CGAL::compare(pz, qz);
+  return CGAL_NTS compare(pz, qz);
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
-Comparison_result
-compare_dominanceC3(const FT &px, const FT &py, const FT &pz,
-                    const FT &qx, const FT &qy, const FT &qz)
+bool
+strict_dominanceC3(const FT &px, const FT &py, const FT &pz,
+		   const FT &qx, const FT &qy, const FT &qz)
 {
-  Comparison_result cx = CGAL::compare(px, qx);
-  if (cx == SMALLER) return SMALLER;
-  Comparison_result cy = CGAL::compare(py, qy);
-  if (cy == SMALLER) return SMALLER;
-  Comparison_result cz = CGAL::compare(pz, qz);
-  if (cz == SMALLER) return SMALLER;
-  if (cx == LARGER && cy == LARGER && cz == LARGER) return LARGER;
-  return EQUAL;
+  return CGAL_NTS compare(px, qx) == LARGER &&
+	 CGAL_NTS compare(py, qy) == LARGER &&
+	 CGAL_NTS compare(pz, qz) == LARGER;
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
-Comparison_result
-compare_submittanceC3(const FT &px, const FT &py, const FT &pz,
-                      const FT &qx, const FT &qy, const FT &qz)
+bool
+dominanceC3(const FT &px, const FT &py, const FT &pz,
+	    const FT &qx, const FT &qy, const FT &qz)
 {
-  Comparison_result cx = CGAL::compare(px, qx);
-  if (cx == LARGER) return LARGER;
-  Comparison_result cy = CGAL::compare(py, qy);
-  if (cy == LARGER) return LARGER;
-  Comparison_result cz = CGAL::compare(pz, qz);
-  if (cz == LARGER) return LARGER;
-  if (cx == SMALLER && cy == SMALLER && cz == SMALLER) return SMALLER;
-  return EQUAL;
+  return CGAL_NTS compare(px, qx) != SMALLER && 
+	 CGAL_NTS compare(py, qy) != SMALLER &&
+	 CGAL_NTS compare(pz, qz) != SMALLER;
 }
 
 template < class FT >
@@ -198,9 +187,9 @@ equal_directionC3(const FT &dx1, const FT &dy1, const FT &dz1,
   return sign_of_determinant2x2(dx1, dy1, dx2, dy2) == ZERO
       && sign_of_determinant2x2(dx1, dz1, dx2, dz2) == ZERO
       && sign_of_determinant2x2(dy1, dz1, dy2, dz2) == ZERO
-      && CGAL::sign(dx1) == CGAL::sign(dx2)
-      && CGAL::sign(dy1) == CGAL::sign(dy2)
-      && CGAL::sign(dz1) == CGAL::sign(dz2);
+      && CGAL_NTS sign(dx1) == CGAL_NTS sign(dx2)
+      && CGAL_NTS sign(dy1) == CGAL_NTS sign(dy2)
+      && CGAL_NTS sign(dz1) == CGAL_NTS sign(dz2);
 }
 
 template <class FT >
@@ -209,7 +198,7 @@ Oriented_side
 side_of_oriented_planeC3(const FT &a,  const FT &b,  const FT &c, const FT &d,
                          const FT &px, const FT &py, const FT &pz)
 {
-  return Oriented_side(CGAL::sign(a*px + b*py + c*pz +d));
+  return Oriented_side(CGAL_NTS sign(a*px + b*py + c*pz +d));
 }
 
 template <class FT >
@@ -224,19 +213,19 @@ side_of_oriented_sphereC3(const FT &px, const FT &py, const FT &pz,
   FT ptx = px - tx;
   FT pty = py - ty;
   FT ptz = pz - tz;
-  FT pt2 = square(ptx) + square(pty) + square(ptz);
+  FT pt2 = CGAL_NTS square(ptx) + CGAL_NTS square(pty) + CGAL_NTS square(ptz);
   FT qtx = qx - tx;
   FT qty = qy - ty;
   FT qtz = qz - tz;
-  FT qt2 = square(qtx) + square(qty) + square(qtz);
+  FT qt2 = CGAL_NTS square(qtx) + CGAL_NTS square(qty) + CGAL_NTS square(qtz);
   FT rtx = rx - tx;
   FT rty = ry - ty;
   FT rtz = rz - tz;
-  FT rt2 = square(rtx) + square(rty) + square(rtz);
+  FT rt2 = CGAL_NTS square(rtx) + CGAL_NTS square(rty) + CGAL_NTS square(rtz);
   FT stx = sx - tx;
   FT sty = sy - ty;
   FT stz = sz - tz;
-  FT st2 = square(stx) + square(sty) + square(stz);
+  FT st2 = CGAL_NTS square(stx) + CGAL_NTS square(sty) + CGAL_NTS square(stz);
   return Oriented_side(sign_of_determinant4x4(ptx,pty,ptz,pt2,
                                               rtx,rty,rtz,rt2,
                                               qtx,qty,qtz,qt2,
@@ -271,8 +260,8 @@ cmp_dist_to_pointC3(const FT &px, const FT &py, const FT &pz,
                     const FT &qx, const FT &qy, const FT &qz,
                     const FT &rx, const FT &ry, const FT &rz)
 {
-  return CGAL::compare(squared_distanceC3(px,py,pz,qx,qy,qz),
-                       squared_distanceC3(px,py,pz,rx,ry,rz));
+  return CGAL_NTS compare(squared_distanceC3(px,py,pz,qx,qy,qz),
+                          squared_distanceC3(px,py,pz,rx,ry,rz));
 }
 
 template < class FT >
@@ -305,8 +294,8 @@ cmp_signed_dist_to_directionC3(
      const FT &px, const FT &py, const FT &pz,
      const FT &qx, const FT &qy, const FT &qz)
 {
-  return CGAL::compare(scaled_distance_to_directionC3(pa,pb,pc,px,py,pz),
-                       scaled_distance_to_directionC3(pa,pb,pc,qx,qy,qz));
+  return CGAL_NTS compare(scaled_distance_to_directionC3(pa,pb,pc,px,py,pz),
+                          scaled_distance_to_directionC3(pa,pb,pc,qx,qy,qz));
 }
 
 template < class FT >

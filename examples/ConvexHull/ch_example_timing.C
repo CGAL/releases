@@ -22,15 +22,12 @@
 #include <CGAL/ch_bykat.h>
 #include <CGAL/ch_jarvis.h>
 
-#include <CGAL/Timer.h>
-
 #include <CGAL/ch_timing_2.h>
 
 using namespace std;
 
 typedef double                                      nu_type;
-typedef CGAL::Cartesian< nu_type >                  RepCls;
-typedef CGAL::convex_hull_traits_2<RepCls>          TraitsCls;
+typedef CGAL::Cartesian< nu_type >                  TraitsCls;
 typedef TraitsCls::Point_2                          Point2;
 
 int

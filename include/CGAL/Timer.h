@@ -30,17 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Timer.h
-// package       : Timer (1.5)
+// package       : Timer (1.8)
+// revision      : 1.8
+// revision_date : 11 August 2000 
 // author(s)     : Lutz Kettner  
 //                 Matthias Baesken
 // coordinator   : INRIA, Sophia Antipolis
 //
 // A timer class to measure cpu time of user-processes.
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

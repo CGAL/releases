@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : geometric_predicatesH2.fw
 // file          : include/CGAL/predicates_on_pointsH2.h
-// package       : H2 (2.4.8)
-// revision      : 2.4.8
-// revision_date : 10 Dec 1999 
+// package       : H2 (2.12)
+// revision      : 2.12
+// revision_date : 03 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_PREDICATES_ON_POINTSH2_H
 #define CGAL_PREDICATES_ON_POINTSH2_H
@@ -57,6 +59,20 @@
 #endif // CGAL_PREDICATES_ON_POINTSH2_H
 
 CGAL_BEGIN_NAMESPACE
+
+template < class FT, class RT>
+CGAL_KERNEL_INLINE
+bool
+less_x(const PointH2<FT,RT>& p,
+       const PointH2<FT,RT>& q)
+{ return ( p.hx()*q.hw() == q.hx()*p.hw() ); }
+
+template < class FT, class RT>
+CGAL_KERNEL_INLINE
+bool
+less_y(const PointH2<FT,RT>& p,
+       const PointH2<FT,RT>& q)
+{ return ( p.hy()*q.hw() == q.hy()*p.hw() ); }
 
 template < class FT, class RT>
 CGAL_KERNEL_INLINE
@@ -200,7 +216,7 @@ template < class FT, class RT>
 CGAL_KERNEL_INLINE
 Comparison_result
 compare_lexicographically_yx(const PointH2<FT,RT>& p,
-                                  const PointH2<FT,RT>& q)
+                             const PointH2<FT,RT>& q)
 {
   const RT& phx = p.hx_ref();
   const RT& phy = p.hy_ref();
@@ -315,7 +331,7 @@ template < class FT, class RT>
 CGAL_KERNEL_INLINE
 Comparison_result
 compare_x(const PointH2<FT,RT>& p,
-               const PointH2<FT,RT>& q)
+          const PointH2<FT,RT>& q)
 {
   const RT& phx = p.hx_ref();
   const RT& phw = p.hw_ref();
@@ -338,7 +354,7 @@ template < class FT, class RT>
 CGAL_KERNEL_INLINE
 Comparison_result
 compare_y(const PointH2<FT,RT>& p,
-               const PointH2<FT,RT>& q)
+          const PointH2<FT,RT>& q)
 {
   const RT& phy = p.hy_ref();
   const RT& phw = p.hw_ref();
@@ -390,7 +406,7 @@ orientation( const PointH2<FT,RT>& p,
                 + p.hy_ref() * (q.hw_ref()*r.hx_ref() - q.hx_ref()*r.hw_ref() )
                 + p.hw_ref() * (q.hx_ref()*r.hy_ref() - q.hy_ref()*r.hx_ref() );
 
-  if ( !(CGAL::sign(det) == CGAL::sign(det_old)) )
+  if ( !(CGAL_NTS sign(det) == CGAL_NTS sign(det_old)) )
   {
       std::cerr << "det: " << det << " det_old: " << det_old << flush;
   }
@@ -441,7 +457,7 @@ leftturn( const PointH2<FT,RT>& p,
                 + p.hy_ref() * (q.hw_ref()*r.hx_ref() - q.hx_ref()*r.hw_ref() )
                 + p.hw_ref() * (q.hx_ref()*r.hy_ref() - q.hy_ref()*r.hx_ref() );
 
-  if ( !(CGAL::sign(det) == CGAL::sign(det_old)) )
+  if ( !(CGAL_NTS sign(det) == CGAL_NTS sign(det_old)) )
   {
       std::cerr << "det: " << det << " det_old: " << det_old << flush;
   }
@@ -484,7 +500,7 @@ rightturn( const PointH2<FT,RT>& p,
                 + p.hy_ref() * (q.hw_ref()*r.hx_ref() - q.hx_ref()*r.hw_ref() )
                 + p.hw_ref() * (q.hx_ref()*r.hy_ref() - q.hy_ref()*r.hx_ref() );
 
-  if ( !(CGAL::sign(det) == CGAL::sign(det_old)) )
+  if ( !(CGAL_NTS sign(det) == CGAL_NTS sign(det_old)) )
   {
       std::cerr << "det: " << det << " det_old: " << det_old << flush;
   }
@@ -527,7 +543,7 @@ collinear( const PointH2<FT,RT>& p,
                 + p.hy_ref() * (q.hw_ref()*r.hx_ref() - q.hx_ref()*r.hw_ref() )
                 + p.hw_ref() * (q.hx_ref()*r.hy_ref() - q.hy_ref()*r.hx_ref() );
 
-  if ( !(CGAL::sign(det) == CGAL::sign(det_old)) )
+  if ( !(CGAL_NTS sign(det) == CGAL_NTS sign(det_old)) )
   {
       std::cerr << "det: " << det << " det_old: " << det_old << flush;
   }
@@ -802,8 +818,8 @@ _where_wrt_L_wedge( const PointH2<FT,RT>& p,
   const RT& qhy = q.hy_ref();
   const RT& qhw = q.hw_ref();
 
-  int xs = (int)CGAL::sign( qhx*phw - phx*qhw );  // sign( qx - px )
-  int ys = (int)CGAL::sign( qhy*phw - phy*qhw );  // sign( qy - py )
+  int xs = (int)CGAL_NTS sign( qhx*phw - phx*qhw );  // sign( qx - px )
+  int ys = (int)CGAL_NTS sign( qhy*phw - phy*qhw );  // sign( qy - py )
 
   if (( xs == -1 ) || ( ys == -1 ))
   {
@@ -820,9 +836,9 @@ template < class FT, class RT >
 CGAL_KERNEL_MEDIUM_INLINE
 Comparison_result
 compare_deltax_deltay(const PointH2<FT,RT>& p,
-                           const PointH2<FT,RT>& q,
-                           const PointH2<FT,RT>& r,
-                           const PointH2<FT,RT>& s)
+                      const PointH2<FT,RT>& q,
+                      const PointH2<FT,RT>& r,
+                      const PointH2<FT,RT>& s)
 {
   const RT& phx = p.hx_ref();
   const RT& phw = p.hw_ref();
@@ -832,8 +848,8 @@ compare_deltax_deltay(const PointH2<FT,RT>& p,
   const RT& rhw = r.hw_ref();
   const RT& shy = s.hy_ref();
   const RT& shw = s.hw_ref();
-  const RT  tbc1 = abs(phx*qhw - qhx*phw) * rhw*shw;
-  const RT  tbc2 = abs(rhy*shw - shy*rhw) * phw*qhw;
+  const RT  tbc1 = CGAL_NTS abs(phx*qhw - qhx*phw) * rhw*shw;
+  const RT  tbc2 = CGAL_NTS abs(rhy*shw - shy*rhw) * phw*qhw;
 
   return (tbc2 < tbc1) ? LARGER
                        : (tbc1 == tbc2) ? EQUAL : SMALLER;

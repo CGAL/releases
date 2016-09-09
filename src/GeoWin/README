@@ -4,7 +4,5 @@ However the recommended way to build the GeoWin library
 (especially on other platforms like MIPSPRO CC or Visual C++) is to build it
 together with the other LEDA libs (lconfig / make or make_lib) in the
 LEDA installation process. 
-The provided sources in this directory are identical to the sources
-coming with LEDA 4.0; note that you need this version of LEDA to use
-GeoWin because of some important changes in the LEDA window library.
+
 

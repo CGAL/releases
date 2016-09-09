@@ -30,30 +30,31 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // file          : include/CGAL/Arithmetic_filter/static_infos/predicates/builtin.h
-// package       : Interval_arithmetic (4.39)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/10/14 08:50:39 $
+// package       : Interval_arithmetic (4.58)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2000/08/03 15:23:10 $
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 #ifndef CGAL_ARITHMETIC_FILTER_STATIC_INFOS_BUILTIN_H
 #define CGAL_ARITHMETIC_FILTER_STATIC_INFOS_BUILTIN_H
 
-double CGAL::Static_Filtered_sign_1::_bound=-1.0;
-double CGAL::Static_Filtered_sign_1::_epsilon_0;
+double CGAL_NTS Static_Filtered_sign_1::_bound=-1.0;
+double CGAL_NTS Static_Filtered_sign_1::_epsilon_0;
 
-double CGAL::Static_Filtered_compare_2::_bound=-1.0;
-double CGAL::Static_Filtered_compare_2::_epsilon_0;
+double CGAL_NTS Static_Filtered_compare_2::_bound=-1.0;
+double CGAL_NTS Static_Filtered_compare_2::_epsilon_0;
 
-double CGAL::Static_Filtered_lexicographical_sign_2::_bound=-1.0;
-double CGAL::Static_Filtered_lexicographical_sign_2::_epsilon_0;
+double CGAL_NTS Static_Filtered_lexicographical_sign_2::_bound=-1.0;
+double CGAL_NTS Static_Filtered_lexicographical_sign_2::_epsilon_0;
 
 #endif // CGAL_ARITHMETIC_FILTER_STATIC_INFOS_BUILTIN_H

@@ -30,15 +30,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/Arr_circle_traits_Window_stream.h
-// package       : arr (1.16)
+// package       : arr (1.73)
 // author(s)     : Iddo Hanniel
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 #ifdef CGAL_ARR_CIRCLES_REAL_TRAITS_H
@@ -53,7 +54,8 @@ CGAL_BEGIN_NAMESPACE
 //a simple version of the windowstream operator (sufficient for X_curve)
 template <class NT>
 Window_stream& operator<<(Window_stream& os,
-                          //const typename Arr_circles_real_traits<NT>::Curve &cv)
+			  //const typename 
+			  //Arr_circles_real_traits<NT>::Curve &cv)
                           const Circ_Curve<NT>& cv)
 {
   //This is not good enough - it assumes s and t have different x coord, 
@@ -62,11 +64,12 @@ Window_stream& operator<<(Window_stream& os,
   double px= CGAL::to_double((cv.source().x()+cv.target().x())/2);
   double R2= CGAL::to_double(cv.circle().squared_radius());
   double sqr = CGAL::sqrt(R2 - 
-                    (CGAL::to_double(px-cv.circle().center().x())*
-                     CGAL::to_double(px-cv.circle().center().x())));
+			  (CGAL::to_double(px-cv.circle().center().x())*
+			   CGAL::to_double(px-cv.circle().center().x())));
   
   double py;
-  if ((cv.source().x()-cv.target().x()) * cv.circle().orientation() < 0) //underpart
+  if ((cv.source().x()-cv.target().x()) * cv.circle().orientation() < 0) 
+    //underpart
     py= CGAL::to_double(cv.circle().center().y())-sqr;
   else
     py= CGAL::to_double(cv.circle().center().y())+sqr;
@@ -87,52 +90,55 @@ Window_stream& operator<<(Window_stream& os,
                           //const Arr_circles_real_traits<NT>::Curve &cv)
                           const Circ_Curve<NT>& cv)
 {
-      double px,py; //middle point coordinates
-      double R2= CGAL::to_double(cv.circle().squared_radius());
+  double px,py; //middle point coordinates
+  double R2= CGAL::to_double(cv.circle().squared_radius());
 
-      //checking for X-monotone case
-      //the folowing is equivelent to "if (curve is x-monotone)"
-      if (cv.is_x_monotone()) {
-        px= CGAL::to_double((cv.source().x()+cv.target().x()))/2;
-        double sqr = CGAL::sqrt(R2 - 
-                          (CGAL::to_double(px-cv.circle().center().x())*
-                           CGAL::to_double(px-cv.circle().center().x())));
-        if (CGAL::sign(cv.source().x()-cv.target().x()) * cv.circle().orientation() < 0) //under part
-          py= CGAL::to_double(cv.circle().center().y())-sqr;
-        else
-          py= CGAL::to_double(cv.circle().center().y())+sqr;
-      }
-      else { //if not x-monotone the above is not good enough
-        if (cv.source()==cv.target()) { //closed circle
-          return os << cv.circle() ;
-        }
+  //checking for X-monotone case
+  //the folowing is equivelent to "if (curve is x-monotone)"
+  if (cv.is_x_monotone()) {
+    px= CGAL::to_double((cv.source().x()+cv.target().x()))/2;
+    double sqr = CGAL::sqrt(R2 - 
+			    (CGAL::to_double(px-cv.circle().center().x())*
+			     CGAL::to_double(px-cv.circle().center().x())));
+    if (CGAL::sign(cv.source().x()-cv.target().x()) * 
+	cv.circle().orientation() < 0) //under part
+      py= CGAL::to_double(cv.circle().center().y())-sqr;
+    else
+      py= CGAL::to_double(cv.circle().center().y())+sqr;
+  }
+  else { //if not x-monotone the above is not good enough
+    if (cv.source()==cv.target()) { //closed circle
+      return os << cv.circle() ;
+    }
         
-        py=CGAL::to_double(cv.circle().center().y());          
-        if (CGAL::compare_y(cv.source(),cv.circle().center())*cv.circle().orientation() >0) {
-          //either s is under center and orient is cw or
-          //s is above and orient is ccw
-          px=CGAL::to_double(cv.circle().center().x())-CGAL::sqrt(R2);
-        }
-        else
-        if (CGAL::compare_y(cv.source(),cv.circle().center())*cv.circle().orientation() < 0) {
-          //either s is under center and orient is ccw or
-          //s is above and orient is cw
-          px=CGAL::to_double(cv.circle().center().x())+CGAL::sqrt(R2);
-        }
-        else 
-          { //s is one of the endpoints of the circle choos other endpoint
-            if (CGAL::compare_x(cv.source(),cv.circle().center())==SMALLER)
-              px=CGAL::to_double(cv.circle().center().x())+CGAL::sqrt(R2);
-            else
-              px=CGAL::to_double(cv.circle().center().x())-CGAL::sqrt(R2);
-          }
+    py=CGAL::to_double(cv.circle().center().y());          
+    if (CGAL::compare_y(cv.source(),cv.circle().center()) *
+	cv.circle().orientation() > 0) {
+      //either s is under center and orient is cw or
+      //s is above and orient is ccw
+      px=CGAL::to_double(cv.circle().center().x())-CGAL::sqrt(R2);
+    }
+    else
+      if (CGAL::compare_y(cv.source(), cv.circle().center()) * 
+	  cv.circle().orientation() < 0) {
+	//either s is under center and orient is ccw or
+	//s is above and orient is cw
+	px=CGAL::to_double(cv.circle().center().x())+CGAL::sqrt(R2);
       }
+      else 
+	{ //s is one of the endpoints of the circle choos other endpoint
+	  if (CGAL::compare_x(cv.source(),cv.circle().center())==SMALLER)
+	    px=CGAL::to_double(cv.circle().center().x())+CGAL::sqrt(R2);
+	  else
+	    px=CGAL::to_double(cv.circle().center().x())-CGAL::sqrt(R2);
+	}
+  }
 
-      os.draw_arc(leda_point(CGAL::to_double(cv.source().x()),
-                             CGAL::to_double(cv.source().y())),
-                  leda_point(px,py),
-                  leda_point(CGAL::to_double(cv.target().x()),
-                             CGAL::to_double(cv.target().y())));
+  os.draw_arc(leda_point(CGAL::to_double(cv.source().x()),
+			 CGAL::to_double(cv.source().y())),
+	      leda_point(px,py),
+	      leda_point(CGAL::to_double(cv.target().x()),
+			 CGAL::to_double(cv.target().y())));
 
 
   return os;

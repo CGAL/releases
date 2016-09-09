@@ -3,6 +3,9 @@
 // CGAL example program for point generators creating integer points.
 
 #include <CGAL/basic.h>
+#ifndef CGAL_USE_LEDA
+int main() { std::cout << "\nSorry, this demo needs LEDA\n"; return 0; }
+#else
 #include <cassert>
 #include <vector>
 #include <algorithm>
@@ -14,10 +17,10 @@
 
 using namespace CGAL;
 
-typedef Cartesian<double>                R;
-typedef Point_2<R>                       Point;
-typedef Creator_uniform_2<double,Point>  Creator;
-typedef std::vector<Point>               Vector;
+typedef Cartesian<double>                  R;
+typedef Point_2<R>                         Point;
+typedef Creator_uniform_2<double,Point>    Creator;
+typedef std::vector<Point>                 Vector;
 
 int main() {
     // Create test point set. Prepare a vector for 400 points.
@@ -51,8 +54,8 @@ int main() {
         *window << *i;
 
     //  Wait for mouse click in window.
-    Point p;
-    *window >> p;
+    (*window).read_mouse();
     delete window;
     return 0;
 }
+#endif // CGAL_USE_LEDA

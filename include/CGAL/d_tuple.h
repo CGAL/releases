@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : ddim_points.fw
 // file          : include/CGAL/d_tuple.h
-// package       : _d (2.2.7)
-// revision      : 2.2.7
-// revision_date : 08 Oct 1999 
+// package       : _d (2.4)
+// revision      : 2.4
+// revision_date : 20 Jul 2000 
 // author(s)     : Sven Schoenherr
 //                 Bernd Gaertner
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  

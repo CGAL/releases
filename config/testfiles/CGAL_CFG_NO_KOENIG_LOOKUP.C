@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : config/testfiles/CGAL_CFG_NO_KOENIG_LOOKUP.C
-// package       : Configuration (1.54)
+// package       : Configuration (2.4)
 // source        :
 // revision      : 1
 // revision_date : 17 Oct 1999
@@ -42,7 +42,8 @@
 //
 // coordinator   : Utrecht University
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Iso_cuboidH3.fw
 // file          : include/CGAL/Iso_cuboidH3.h
-// package       : H3 (2.3.7)
-// revision      : 2.3.7
-// revision_date : 03 Dec 1999 
+// package       : H3 (2.12)
+// revision      : 2.12
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_ISO_CUBOIDH3_H
 #define CGAL_ISO_CUBOIDH3_H
@@ -56,16 +58,12 @@
 CGAL_BEGIN_NAMESPACE
 
 template <class FT, class RT>
-class Iso_cuboidH3 : public Handle
+class Iso_cuboidH3 : public Handle_for< Twotuple< PointH3<FT,RT> > >
 {
 public:
   Iso_cuboidH3();
-  Iso_cuboidH3(const Iso_cuboidH3<FT,RT>& );
   Iso_cuboidH3(const PointH3<FT,RT>& p, const PointH3<FT,RT>& q);
   ~Iso_cuboidH3();
-
-  Iso_cuboidH3<FT,RT>&
-            operator=(const Iso_cuboidH3<FT,RT>& r);
 
   bool      operator==(const Iso_cuboidH3<FT,RT>& s) const;
   bool      operator!=(const Iso_cuboidH3<FT,RT>& s) const;
@@ -94,27 +92,14 @@ public:
   FT        zmax() const;
 
 
-protected:
-  _Twotuple< PointH3<FT,RT> >*  ptr() const;
 };
-
-template < class FT, class RT >
-inline
-_Twotuple< PointH3<FT,RT> > *
-Iso_cuboidH3<FT,RT>::ptr() const
-{ return (_Twotuple< PointH3<FT,RT> >*)PTR; }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 Iso_cuboidH3<FT,RT>::Iso_cuboidH3()
-{ PTR = new _Twotuple< PointH3<FT,RT> >; }
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-Iso_cuboidH3<FT,RT>::
-Iso_cuboidH3(const Iso_cuboidH3<FT,RT>& r)
-  : Handle((Handle&)r)
+ : Handle_for< Twotuple< PointH3<FT,RT> > >( Twotuple< PointH3<FT,RT> >())
 {}
+
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_LARGE_INLINE
 Iso_cuboidH3<FT,RT>::
@@ -162,9 +147,9 @@ Iso_cuboidH3(const PointH3<FT,RT>& p, const PointH3<FT,RT>& q)
       minz = q.hz()*p.hw();
       maxz = p.hz()*q.hw();
   }
-  PTR = new _Twotuple<PointH3<FT,RT> >(
-                 PointH3<FT,RT>(minx, miny, minz, minw),
-                 PointH3<FT,RT>(maxx, maxy, maxz, maxw) );
+  initialize_with(
+      Twotuple<PointH3<FT,RT> >( PointH3<FT,RT>(minx, miny, minz, minw),
+                                 PointH3<FT,RT>(maxx, maxy, maxz, maxw) ));
 }
 
 template < class FT, class RT >
@@ -172,15 +157,6 @@ inline
 Iso_cuboidH3<FT,RT>::~Iso_cuboidH3()
 {}
 
-template < class FT, class RT >
-CGAL_KERNEL_INLINE
-Iso_cuboidH3<FT,RT>&
-Iso_cuboidH3<FT,RT>::
-operator=(const Iso_cuboidH3<FT,RT>& r)
-{
- Handle::operator=(r);
- return *this;
-}
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 bool
@@ -199,13 +175,13 @@ template < class FT, class RT >
 inline
 PointH3<FT,RT>
 Iso_cuboidH3<FT,RT>::min() const
-{ return  ptr()->e0; }
+{ return  ptr->e0; }
 
 template < class FT, class RT >
 inline
 PointH3<FT,RT>
 Iso_cuboidH3<FT,RT>::max() const
-{ return  ptr()->e1; }
+{ return  ptr->e1; }
 
 template < class FT, class RT >
 inline
@@ -273,8 +249,12 @@ Bounded_side
 Iso_cuboidH3<FT,RT>::
 bounded_side(const PointH3<FT,RT>& p) const
 {
-  if (   ( lexicographically_xyz_smaller(p,min() ))
-       ||( lexicographically_xyz_smaller(max(),p) )  )
+  if (    (p.hx()*min().hw() < min().hx()*p.hw() )
+        ||(p.hy()*min().hw() < min().hy()*p.hw() )
+        ||(p.hz()*min().hw() < min().hz()*p.hw() )
+        ||(p.hx()*max().hw() > max().hx()*p.hw() )
+        ||(p.hy()*max().hw() > max().hy()*p.hw() )
+        ||(p.hz()*max().hw() > max().hz()*p.hw() )  )
   { return ON_UNBOUNDED_SIDE; }
   if (    (p.hx()*min().hw() == min().hx()*p.hw() )
         ||(p.hy()*min().hw() == min().hy()*p.hw() )

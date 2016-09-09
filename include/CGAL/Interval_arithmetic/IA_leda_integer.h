@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998,1999 The CGAL Consortium
+// Copyright (c) 1998,1999,2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,18 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Interval_arithmetic/IA_leda_integer.h
-// package       : Interval_arithmetic (4.39)
-// revision      : $Revision: 2.27 $
-// revision_date : $Date: 1999/11/07 17:53:34 $
+// package       : Interval_arithmetic (4.58)
+// revision      : $Revision: 2.34 $
+// revision_date : $Date: 2000/09/01 16:43:22 $
 // author(s)     : Sylvain Pion
-//
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -56,6 +56,18 @@ CGAL_BEGIN_NAMESPACE
 // LEDA integer's internal representation, which is not possible without
 // modifying LEDA.
 
+#if 0
+inline // ?
+Interval_base
+to_interval (const leda_integer & z)
+{
+  Protect_FPU_rounding<> P (CGAL_FE_TONEAREST);
+  Interval_nt_advanced approx (z.to_double());
+  FPU_set_cw(CGAL_FE_UPWARD);
+  return approx + Interval_base::Smallest;
+}
+#endif
+
 inline
 Interval_nt_advanced
 convert_from_to (const Interval_nt_advanced&, const leda_integer & z)
@@ -64,7 +76,8 @@ convert_from_to (const Interval_nt_advanced&, const leda_integer & z)
     FPU_set_cw(CGAL_FE_TONEAREST);
     double approx = CGAL::to_double(z);
     FPU_set_cw(CGAL_FE_UPWARD);
-    Interval_nt_advanced result = approx + Interval_nt_advanced::Smallest;
+    Interval_nt_advanced result = Interval_nt_advanced(approx) +
+	    Interval_nt_advanced::Smallest;
     CGAL_expensive_assertion_code(FPU_set_cw(CGAL_FE_TONEAREST);)
     CGAL_expensive_assertion( leda_integer(result.inf()) <= z &&
 		              leda_integer(result.sup()) >= z);
@@ -72,7 +85,6 @@ convert_from_to (const Interval_nt_advanced&, const leda_integer & z)
     return result;
 }
 
-#ifndef CGAL_CFG_NO_EXPLICIT_TEMPLATE_FUNCTION_ARGUMENT_SPECIFICATION
 template <>
 struct converter<Interval_nt_advanced,leda_integer>
 {
@@ -81,8 +93,7 @@ struct converter<Interval_nt_advanced,leda_integer>
 	return convert_from_to(Interval_nt_advanced(), z);
     }
 };
-#endif // CGAL_CFG_NO_EXPLICIT_TEMPLATE_FUNCTION_ARGUMENT_SPECIFICATION
 
 CGAL_END_NAMESPACE
 
-#endif	 // CGAL_IA_LEDA_INTEGER_H
+#endif // CGAL_IA_LEDA_INTEGER_H

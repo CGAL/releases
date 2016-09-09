@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,22 +30,23 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : examples/Min_quadrilateral_2/minimum_enclosing_strip_2_example.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Min_quadrilaterals $
 // source        : oops.aw
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 2000/01/06 14:54:57 $
+// revision      : $Revision: 1.15 $
+// revision_date : $Date: 2000/09/15 07:41:02 $
 // author(s)     : Michael Hoffmann and
 //                 Emo Welzl
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // Example Program: Computing a minimum enclosing strip
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -54,13 +55,13 @@
 #include <CGAL/Polygon_2.h>
 #include <CGAL/point_generators_2.h>
 #include <CGAL/random_convex_set_2.h>
-#include <CGAL/minimum_enclosing_quadrilateral_2.h>
+#include <CGAL/min_quadrilateral_2.h>
 #include <vector>
 #include <iostream>
 
 using CGAL::Random_points_in_square_2;
 using CGAL::random_convex_set_2;
-using CGAL::minimum_enclosing_strip_2;
+using CGAL::min_strip_2;
 using std::back_inserter;
 using std::cout;
 using std::endl;
@@ -83,8 +84,7 @@ int main()
 
   // compute the minimal enclosing strip p_m of p
   Line_2 p_m[2];
-  minimum_enclosing_strip_2(
-    p.vertices_begin(), p.vertices_end(), p_m);
+  min_strip_2(p.vertices_begin(), p.vertices_end(), p_m);
   cout << p_m[0] << "\n" << p_m[1] << endl;
 
   return 0;

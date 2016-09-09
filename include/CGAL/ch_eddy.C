@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/ch_eddy.C
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -59,23 +60,24 @@ ch__recursive_eddy(List& L,
                         ListIterator  a_it, ListIterator  b_it, 
                         const Traits& ch_traits)
 {
-  typedef  typename Traits::Point_2                    Point_2;    
-  typedef  typename Traits::Right_of_line              Right_of_line;
-  typedef  typename Traits::Less_dist_to_line          Less_dist;
+  typedef  typename Traits::Point_2                         Point_2;    
+  typedef  typename Traits::Left_of_line_2                  Left_of_line;
+  typedef  typename Traits::Less_signed_distance_to_line_2  Less_dist;
 
   CGAL_ch_precondition( \
     std::find_if(a_it, b_it, \
-            ch_traits.get_right_of_line_object(*a_it,*b_it)) \
+            ch_traits.left_of_line_2_object(*b_it, *a_it)) \
     != b_it );
 
 
   ListIterator f_it = successor(a_it);
   ListIterator 
-      c_it = std::max_element( f_it, b_it, ch_traits.get_less_dist_to_line_object(*a_it,*b_it));
+      c_it = std::min_element( f_it, b_it,  // max before
+                               ch_traits.less_signed_distance_to_line_2_object(*a_it,*b_it));
   Point_2 c = *c_it;
 
-  c_it = std::partition( f_it, b_it, ch_traits.get_right_of_line_object(*a_it, c ) );
-  f_it = std::partition( c_it, b_it, ch_traits.get_right_of_line_object(c, *b_it ) );
+  c_it = std::partition( f_it, b_it, ch_traits.left_of_line_2_object(c, *a_it ) );
+  f_it = std::partition( c_it, b_it, ch_traits.left_of_line_2_object(*b_it, c ) );
   c_it = L.insert(c_it, c);
   L.erase( f_it, b_it );
 
@@ -97,9 +99,9 @@ ch_eddy(InputIterator first, InputIterator last,
              OutputIterator  result,
              const Traits& ch_traits)
 {
-  typedef  typename Traits::Point_2                    Point_2;    
-  typedef  typename Traits::Right_of_line              Right_of_line;
-  typedef  typename Traits::Less_dist_to_line          Less_dist;
+  typedef  typename Traits::Point_2                         Point_2;    
+  typedef  typename Traits::Left_of_line_2                  Left_of_line;
+  typedef  typename Traits::Less_signed_distance_to_line_2  Less_dist;
 
   if (first == last) return result;
   std::list< Point_2 >   L;
@@ -118,7 +120,7 @@ ch_eddy(InputIterator first, InputIterator last,
 
   L.erase(w);
   L.erase(e);
-  e = std::partition(L.begin(), L.end(), ch_traits.get_right_of_line_object( wp, ep) );
+  e = std::partition(L.begin(), L.end(), ch_traits.left_of_line_2_object( ep, wp) );
   L.push_front(wp);
   e = L.insert(e, ep);
 
@@ -126,7 +128,7 @@ ch_eddy(InputIterator first, InputIterator last,
   {
       ch__recursive_eddy( L, L.begin(), e, ch_traits);
   }
-  w = std::find_if( e, L.end(), ch_traits.get_right_of_line_object( ep, wp) );
+  w = std::find_if( e, L.end(), ch_traits.left_of_line_2_object( wp, ep) );
   if ( w == L.end() )
   {
       L.erase( ++e, L.end() );

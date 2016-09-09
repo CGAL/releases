@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/convex_hull_2.h
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -141,8 +142,8 @@ point the cyclic sequence of extreme points is cut into a linear
 sequence.\\
 {\it Preconditions:}
 [|first|,|last|) does not contain |result|.\\
-{\sc traits}: operates on |Traits::Point_2| using |Traits::Less_xy|, 
-|Traits::Less_yx|, and |Traits::Leftturn|.
+{\sc traits}: operates on |Traits::Point_2| using |Traits::Less_xy_2|, 
+|Traits::Less_yx_2|, and |Traits::Leftturn_2|.
 }*/
 
 /*{\Moptions
@@ -171,8 +172,8 @@ The sequence starts with the leftmost point, the rightmost point is
 not included.\\
 {\it Preconditions:}
 [|first|,|last|) does not contain |result|.\\
-{\sc traits}: operates on |Traits::Point_2| using |Traits::Less_xy|
-and |Traits::Leftturn|.
+{\sc traits}: operates on |Traits::Point_2| using |Traits::Less_xy_2|
+and |Traits::Leftturn_2|.
 }*/
 
 template <class InputIterator, class OutputIterator, class Traits>
@@ -190,8 +191,8 @@ The sequence starts with the rightmost point, the leftmost point is
 not included.\\
 {\it Preconditions:}
 [|first|,|last|) does not contain |result|.\\
-{\sc traits}: operates on |Traits::Point_2| using |Traits::Less_xy|
-and |Traits::Leftturn|.
+{\sc traits}: operates on |Traits::Point_2| using |Traits::Less_xy_2|
+and |Traits::Leftturn_2|.
 }*/
 #ifdef CGAL_POINT_2_H
 /*{\Moptions
@@ -213,7 +214,7 @@ _convex_hull_points_2(ForwardIterator first, ForwardIterator last,
                       Point_2<R>* )
 { 
   return convex_hull_points_2(first, last, result,
-                              convex_hull_traits_2<R>() );
+                              R() );
 }
 
 template <class ForwardIterator, class OutputIterator>
@@ -255,7 +256,7 @@ _lower_hull_points_2(ForwardIterator first, ForwardIterator last,
                           Point_2<R>* )
 { 
   return lower_hull_points_2(first, last, result,
-                                  convex_hull_traits_2<R>() );
+                                  R() );
 }
 
 template <class ForwardIterator, class OutputIterator>
@@ -287,7 +288,7 @@ _upper_hull_points_2(ForwardIterator first, ForwardIterator last,
                           Point_2<R>* )
 { 
   return upper_hull_points_2(first, last, result,
-                                  convex_hull_traits_2<R>() );
+                                  R() );
 }
 
 template <class ForwardIterator, class OutputIterator>

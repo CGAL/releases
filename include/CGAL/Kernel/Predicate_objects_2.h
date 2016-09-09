@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Kernel/Predicate_objects_2.h
-// package       : Cartesian_basic (3.3.7)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/11/22 13:44:13 $
+// package       : Cartesian_basic (4.2)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2000/06/27 14:52:42 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -83,14 +84,15 @@ Less_xy_2
 less_xy_2_object() const { return Less_xy_2(); }
 
 /*
-typedef CGALi::p_Less_dist_to_point<Point_2>           Less_distance_to_point_2;
+typedef CGALi::p_Less_dist_to_point<Point_2>  Less_distance_to_point_2;
 Less_distance_to_point_2
 less_distance_to_point_2_object() const { return Less_distance_to_point_2(); }
 */
 
-typedef p_Less_dist_to_line_2p<Point_2>         Less_signed_distance_to_line_2;
+typedef p_Less_dist_to_line_2p<Point_2> Less_signed_distance_to_line_2;
 Less_signed_distance_to_line_2
-less_signed_distance_to_line_2_object() const { return Less_signed_distance_to_line_2(); }
+less_signed_distance_to_line_2_object() const 
+{ return Less_signed_distance_to_line_2(); }
 
 typedef p_Leftturn<Point_2>                     Leftturn_2;
 Leftturn_2
@@ -108,9 +110,10 @@ typedef p_Orientation<Point_2>                  Orientation_2;
 Orientation_2
 orientation_2_object() const { return Orientation_2(); }
 
-typedef CGALi::Side_of_oriented_circle                 Side_of_oriented_circle_2;
+typedef CGALi::Side_of_oriented_circle       Side_of_oriented_circle_2;
 Side_of_oriented_circle_2
-side_of_oriented_circle_2_object() const { return Side_of_oriented_circle_2(); }
+side_of_oriented_circle_2_object() const 
+{ return Side_of_oriented_circle_2(); }
 
 typedef CGALi::Call_is_horizontal                      Is_horizontal_2;
 Is_horizontal_2
@@ -160,13 +163,15 @@ typedef CGALi::Compare_y_at_x                          Compare_y_at_x_2;
 Compare_y_at_x_2
 compare_y_at_x_2_object() const { return Compare_y_at_x_2(); }
 
-typedef CGALi::Are_ordered_along_line                  Are_ordered_along_line_2 ;
+typedef CGALi::Are_ordered_along_line       Are_ordered_along_line_2 ;
 Are_ordered_along_line_2
 are_ordered_along_line_2_object() const { return Are_ordered_along_line_2(); }
 
-typedef CGALi::Are_strictly_ordered_along_line         Are_strictly_ordered_along_line_2;
+typedef CGALi::Are_strictly_ordered_along_line 
+                                       Are_strictly_ordered_along_line_2;
 Are_strictly_ordered_along_line_2
-are_strictly_ordered_along_line_2_object() const { return Are_strictly_ordered_along_line_2(); }
+are_strictly_ordered_along_line_2_object() const 
+{ return Are_strictly_ordered_along_line_2(); }
 
 };
 
@@ -182,9 +187,11 @@ typedef PR::Less_xy_2    Less_xy_2; \
 Less_xy_2 \
 less_xy_2_object() const { return Less_xy_2(); } \
  \
-typedef PR::Less_signed_distance_to_line_2     Less_signed_distance_to_line_2; \
+typedef PR::Less_signed_distance_to_line_2   \
+  Less_signed_distance_to_line_2; \
 Less_signed_distance_to_line_2 \
-less_signed_distance_to_line_2_object() const { return Less_signed_distance_to_line_2(); } \
+less_signed_distance_to_line_2_object() const \
+{ return Less_signed_distance_to_line_2(); } \
  \
 typedef PR::Leftturn_2    Leftturn_2; \
 Leftturn_2 \
@@ -204,7 +211,8 @@ orientation_2_object() const { return Orientation_2(); } \
  \
 typedef PR::Side_of_oriented_circle_2    Side_of_oriented_circle_2; \
 Side_of_oriented_circle_2 \
-side_of_oriented_circle_2_object() const { return Side_of_oriented_circle_2(); } \
+side_of_oriented_circle_2_object() const \
+{ return Side_of_oriented_circle_2(); } \
  \
 typedef PR::Is_horizontal_2       Is_horizontal_2; \
 Is_horizontal_2 \
@@ -256,10 +264,13 @@ compare_y_at_x_2_object() const { return Compare_y_at_x_2(); } \
  \
 typedef PR::Are_ordered_along_line_2    Are_ordered_along_line_2 ; \
 Are_ordered_along_line_2 \
-are_ordered_along_line_2_object() const { return Are_ordered_along_line_2(); } \
+are_ordered_along_line_2_object() const \
+{ return Are_ordered_along_line_2(); } \
  \
-typedef PR::Are_strictly_ordered_along_line_2     Are_strictly_ordered_along_line_2; \
+typedef PR::Are_strictly_ordered_along_line_2 \
+    Are_strictly_ordered_along_line_2; \
 Are_strictly_ordered_along_line_2 \
-are_strictly_ordered_along_line_2_object() const { return Are_strictly_ordered_along_line_2(); }
+are_strictly_ordered_along_line_2_object() const \
+{ return Are_strictly_ordered_along_line_2(); }
 
 #endif // CGAL_KERNEL_PREDICATE_OBJECTS_2_H

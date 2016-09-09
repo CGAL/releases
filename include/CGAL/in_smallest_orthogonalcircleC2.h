@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/in_smallest_orthogonalcircleC2.h
-// package       : Alpha_shapes_2 (5.5)
+// package       : Alpha_shapes_2 (8.3)
 // source        : $RCSfile: in_smallest_orthogonalcircleC2.h,v $
 // revision      : $Revision: 1.5 $
 // revision_date : $Date: 1999/11/05 16:37:28 $
@@ -42,7 +42,8 @@
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

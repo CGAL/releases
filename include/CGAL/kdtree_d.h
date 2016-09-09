@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/kdtree_d.h
-// package       : kdtree (2.2.5)
+// package       : kdtree (2.2.14)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -44,7 +44,8 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // 
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

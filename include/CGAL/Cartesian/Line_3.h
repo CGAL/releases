@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Line_3.h
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1999/11/05 22:29:35 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.14 $
+// revision_date : $Date: 2000/08/23 14:35:46 $
 // author(s)     : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -52,16 +53,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
-class LineC3
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-// This is a partial specialization
-<_R,Cartesian_tag>
-#endif
-  : public Handle
+template < class R_ >
+class LineC3 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+  : public Handle_for<Twotuple<typename R_::Point_3> >
 {
 public:
-  typedef _R                               R;
+  typedef R_                               R;
   typedef typename R::FT                   FT;
   typedef typename R::RT                   RT;
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
@@ -92,11 +89,8 @@ public:
   LineC3(const Point_3 &p, const Direction_3 &d);
   ~LineC3();
 
-  Self        &operator=(const Self &l);
-
   bool        operator==(const Self &l) const;
   bool        operator!=(const Self &l) const;
-  long        id() const;
 
   Plane_3     perpendicular_plane(const Point_3 &p) const;
   Self        opposite() const;
@@ -114,7 +108,6 @@ public:
   Self        transform(const Aff_transformation_3 &t) const;
 
 private:
-  _Twotuple< Point_3 >* ptr() const;
   void            new_rep(const Point_3 &p,
                           const Vector_3 &v);
 };

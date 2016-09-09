@@ -3,6 +3,9 @@
 // CGAL example program for the generic segment generator.
 
 #include <CGAL/basic.h>
+#ifndef CGAL_USE_LEDA
+int main() { std::cout << "\nSorry, this demo needs LEDA\n"; return 0; }
+#else
 #include <cassert>
 #include <vector>
 #include <algorithm>
@@ -48,8 +51,8 @@ int main() {
         *window << *i;
 
     //  Wait for mouse click in window.
-    Point p;
-    *window >> p;
+    (*window).read_mouse();
     delete window;
     return 0;
 }
+#endif // CGAL_USE_LEDA

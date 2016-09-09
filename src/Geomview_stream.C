@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 1999,2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : src/Geomview_stream.C
-// package       : Geomview (2.7)
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 1999/07/29 08:16:48 $
+// package       : Geomview (2.9)
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2000/06/28 15:46:19 $
 // author(s)     : Andreas Fabri and Herve Bronnimann
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -53,6 +54,7 @@
 
 #include <unistd.h>
 #include <errno.h>
+#include <string.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -99,20 +101,20 @@ void Geomview_stream::setup_geomview(const char *machine, const char *login)
     // Communication between CGAL and geomview should be possible
     // in two directions. To achieve this we open two pipes
 
-    std::cout << "Starting Geomview..." << std::flush ;
+    std::cout << "Starting Geomview..." << std::flush;
     if (pipe(pipe_out) < 0) {
-        std::cerr << "out pipe failed" << std::endl ;
+        std::cerr << "out pipe failed" << std::endl;
         exit(-1);
     }
 
     if (pipe(pipe_in) < 0) {
-        std::cerr << "in pipe failed" << std::endl ;
+        std::cerr << "in pipe failed" << std::endl;
         exit(-1);
     }
 
     switch (pid = fork()){
     case -1:
-        std::cerr << "fork failed" << std::endl ;
+        std::cerr << "fork failed" << std::endl;
         exit(-1);
     case 0:               // The child process
         close(pipe_out[1]); // does not write to the out pipe,
@@ -124,15 +126,14 @@ void Geomview_stream::setup_geomview(const char *machine, const char *login)
         dup(pipe_in[1]);    // we connect it to the pipe
         if (machine && (strlen(machine)>0)) {
             std::ostrstream os;
-            os << " rgeomview " << machine << ":0.0" << std::ends ;
-            std::ostrstream logos;
+            os << " rgeomview " << machine << ":0.0" << std::ends;
             execlp("rsh", "rsh", machine, "-l", login, os.str(), (char *)0);
         } else {
             execlp("geomview", "geomview", "-c", "-", (char *)0);
         }
 
         // if we get to this point something went wrong.
-        std::cerr << "execl geomview failed" << std::endl ;
+        std::cerr << "execl geomview failed" << std::endl;
         switch(errno) {
         case EACCES:
             std::cerr << "please check your environment variable PATH" 	      
@@ -166,7 +167,7 @@ void Geomview_stream::setup_geomview(const char *machine, const char *login)
         segment_count = 0;
         point_count = 0;
         tetrahedron_count = 0;
-        (*this) << "(normalization g* none)(bbox-draw g* no)" ;
+        (*this) << "(normalization g* none)(bbox-draw g* no)";
 
         break;
     }
@@ -186,7 +187,7 @@ Geomview_stream::pickplane(const Bbox_3 &bbox)
 
     // close the text bracket
             << "}) (pickable pickplane no)"
-            << ascii ;
+            << ascii;
 }
 
 void
@@ -339,7 +340,7 @@ Geomview_stream::operator<<(double d)
     } else {
         // 'copy' the float in a string and append a blank
         std::ostrstream str;
-        str << f << " " << std::ends ;
+        str << f << " " << std::ends;
         char *bptr = str.str();
 
         ::write(out, bptr, int(strlen(bptr)));
@@ -352,21 +353,21 @@ Geomview_stream&
 operator<<(Geomview_stream &gv, const Bbox_2 &bbox)
 {
     std::ostrstream os;
-    os << "bbox" << gv.bbox_count++ << std::ends ;
+    os << "bbox" << gv.bbox_count++ << std::ends;
     char *id = os.str();
 
     gv << ascii
-       << "(geometry " << id << " {VECT 1 5 0 5 0 " ;
+       << "(geometry " << id << " {VECT 1 5 0 5 0 ";
     // here are the four corners
 
     gv << bbox.xmin() << bbox.ymin() << 0.0
        << bbox.xmin() << bbox.ymax() << 0.0
        << bbox.xmax() << bbox.ymax() << 0.0
        << bbox.xmax() << bbox.ymin() << 0.0
-       << bbox.xmin() << bbox.ymin() << 0.0 ;
+       << bbox.xmin() << bbox.ymin() << 0.0;
 
     // close the text bracket
-    gv << "})" ;
+    gv << "})";
 
     return gv;
 }
@@ -375,7 +376,7 @@ Geomview_stream&
 operator<<(Geomview_stream &gv, const Bbox_3 &bbox)
 {
     std::ostrstream os;
-    os << "bbox" << gv.bbox_count++ << std::ends ;
+    os << "bbox" << gv.bbox_count++ << std::ends;
     char *id = os.str();
 
     gv << ascii
@@ -397,7 +398,7 @@ operator<<(Geomview_stream &gv, const Bbox_3 &bbox)
        << "2 4 7\n"
 
     // close the text bracket
-       << "}})" ;
+       << "}})";
 
     return gv;
 }
@@ -521,7 +522,7 @@ Geomview_stream::frame(const Bbox_3 &bbox)
 {
     (*this) << bbox
             << ascii
-            << "(look-recenter g0 c0)(delete bbox0)" ;
+            << "(look-recenter g0 c0)(delete bbox0)";
 }
 
 Geomview_stream&
@@ -547,83 +548,55 @@ Geomview_stream::operator>>(char *expr)
         }
         i++;
     }
-    return *this ;
+    return *this;
 }
 
+// Parse a Lisp expression, return a pointer to the beginning of the
+// nth subexpression, and terminate it by '\0'.
+// It's either a word terminated by ' ' or ')', or a well parenthesed
+// expression, or a quoted "string".
 char*
 nth(char* s, int count)
 {
-    // int length = strlen(s);
-
-    // the first character is always a parenthesis
-    int i = 1,  // char count
-        wc = 0; // word count
-
-    while (1) {
-        // skip whitespace
-        while(s[i]==' '){
-            i++;
-        }
-        int j = 0;
-        int pcount = 1;
-        switch (s[i]){
-        case '(':
-            j=i+1;
-            while (1) {
-                if ( s[j]==')' ) {
-                    pcount--;
-                } else if (s[j]=='(' ) {
-                    pcount++;
-                }
-                if ((pcount == 0 )&& (wc == count)) {
-                    s[j+1] = '\0';
-                    return s + i;
-                }
-                j++;
-            }
-            i = j+1;
-            break;
-        case '"':
-            j = i+1;
-            while (1) {
-                if ( (s[j]=='"') && (wc == count) ) {
-                    s[j+1] = '\0';
-                    return s + i;
-                }
-                j++;
-            }
-            i = j+1;
-            break;
-        default:
-            j=i+1;
-            while( ( s[j]!=' ' ) && ( s[j]!=')' ) ){
-                j++;
-            }
-            if (wc == count){
-                s[j] = '\0';
-                return s + i;
-            }
-            i = j;
-            break;
-        }
-        wc++;
+    s++; // skip first character (always a parenthesis)
+ 
+    // Skip "count" words.
+    for(; count != 0; count--) {
+        while (*s == ' ')       // skip whitespaces
+            s++;
+        s++;
+        while (*s != ' ')       // skip a word
+            s++;
     }
-
+    while (*s == ' ')           // skip whitespaces
+        s++;
+ 
+    // Now we have the beginning of the searched sub-expression.
+    int j = 1;
+    if (*s == '(')              // Case of a well-parenthesed expression.
+        for (int pcount = 1; pcount != 0;) {
+            if (s[j] == ')') pcount--;
+            if (s[j] == '(') pcount++;
+            j++;
+        }
+    else if (*s == '"') {       // Case of a quoted "string".
+        while (s[j] != '"')
+            j++;
+        j++;
+    }
+    else                        // Case of a word terminated by ' ' or ')'.
+        while (s[j] != ' ' && s[j] != ')')
+            j++;
+ 
+    s[j] = '\0';
     return s;
 }
 
+// Returns whether "p" is a prefix of "w".
 bool
 is_prefix(const char* p, const char* w)
 {
-    while((*p != '\0') && (*w != '\0'))
-    {
-        if(*p != *w)
-            return false;
-        ++p;
-        ++w;
-    }
-
-    return ! ((*w == '\0') && (*p != '\0'));
+    return w == ::strstr(w, p);
 }
 
 CGAL_END_NAMESPACE

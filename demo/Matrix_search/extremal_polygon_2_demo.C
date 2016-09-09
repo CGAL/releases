@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,23 +30,27 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : extremal_polygon_2_demo.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Matrix_search $
 // source        : mon_search.aw
-// revision      : $Revision: 1.30 $
-// revision_date : $Date: 1999/12/17 11:58:05 $
+// revision      : $Revision: 1.43 $
+// revision_date : $Date: 2000/09/15 07:24:35 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // Demo program: Compute extremal polygons of a convex polygon
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
+
+
+#ifdef CGAL_USE_LEDA
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/Point_2.h>
@@ -78,8 +82,8 @@ using CGAL::Cartesian;
 using CGAL::Random_access_circulator_from_container;
 using CGAL::convex_hull_points_2;
 using CGAL::squared_distance;
-using CGAL::maximum_area_inscribed_k_gon;
-using CGAL::maximum_perimeter_inscribed_k_gon;
+using CGAL::maximum_area_inscribed_k_gon_2;
+using CGAL::maximum_perimeter_inscribed_k_gon_2;
 using CGAL::Random_points_in_square_2;
 using CGAL::Creator_uniform_2;
 using CGAL::random_convex_set_2;
@@ -147,8 +151,9 @@ main()
   PointCont points;
   Polygon p;
   bool polygon_changed(false);
+  bool done(false);
 
-  for (;;) {
+  while(!done) {
     if (polygon_changed) {
       // compute convex hull:
       PointCont ch_points;
@@ -190,12 +195,14 @@ main()
       } // for (;;)
     } // if ( !p.empty())
     
+    #ifndef _MSC_VER
     char vertices_message[80];
     int num( points.size());
-    sprintf( vertices_message,
-             "Polygon has %d vertices.",
-             num);
+    std::sprintf( vertices_message,
+                  "Polygon has %d vertices.",
+                  num);
     W.message( vertices_message);
+    #endif // ! _MSC_VER
     
     
 
@@ -208,7 +215,7 @@ main()
         Timer t;
         t.start();
 #endif // EXTREMAL_POLYGON_MEASURE
-        maximum_area_inscribed_k_gon(
+        maximum_area_inscribed_k_gon_2(
           p.begin(),
           p.end(),
           k,
@@ -234,13 +241,13 @@ main()
       t.start();
 #endif // EXTREMAL_POLYGON_MEASURE
 #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
-      maximum_perimeter_inscribed_k_gon(
+      maximum_perimeter_inscribed_k_gon_2(
         Vertex_circulator( &p),
         Vertex_circulator( &p),
         k,
         back_inserter( k_gon));
 #else
-      maximum_perimeter_inscribed_k_gon(
+      maximum_perimeter_inscribed_k_gon_2(
         p.begin(),
         p.end(),
         k,
@@ -376,10 +383,11 @@ main()
         W.message( " <middle mouse button> -  move vertex");
         W.message( " <right mouse button>     -  delete vertex");
       }
-      else if ( input == quit_button)
+      else if ( input == quit_button) {
         // quit program
-        return 0;
-      else if ( input == generate_button) {
+        done = true;
+        break;
+      } else if ( input == generate_button) {
         // generate random convex polygon with n vertices
         typedef Random_points_in_square_2<
           Point,
@@ -404,11 +412,24 @@ main()
         break;
       }
     } // for (;;)
-  } // for (;;)
+  } // while (!done)
 
   return 0;
 } // int main()
 
+
+
+#else
+
+#include <iostream>
+
+int main()
+{
+  std::cerr << "This demo requires LEDA." << std::endl;
+  return 0;
+}
+
+#endif
 
 // ----------------------------------------------------------------------------
 // ** EOF

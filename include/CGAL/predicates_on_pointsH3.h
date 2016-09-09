@@ -30,24 +30,26 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : predicates_on_pointsH3.fw
 // file          : include/CGAL/predicates_on_pointsH3.h
-// package       : H3 (2.3.7)
-// revision      : 2.3.7
-// revision_date : 03 Dec 1999 
+// package       : H3 (2.12)
+// revision      : 2.12
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
+ 
 
-
-#ifndef PREDICATES_ON_POINTSH3_H
-#define PREDICATES_ON_POINTSH3_H
+#ifndef CGAL_PREDICATES_ON_POINTSH3_H
+#define CGAL_PREDICATES_ON_POINTSH3_H
 
 #ifndef CGAL_PVDH3_H
 #include <CGAL/PVDH3.h>
@@ -59,21 +61,21 @@ template < class FT, class RT >
 inline
 bool
 x_equal(const PointH3<FT,RT> &p,
-             const PointH3<FT,RT> &q)
+        const PointH3<FT,RT> &q)
 { return p.x()*q.hw() == q.x()*p.hw(); }
 
 template < class FT, class RT >
 inline
 bool
 y_equal(const PointH3<FT,RT> &p,
-             const PointH3<FT,RT> &q)
+        const PointH3<FT,RT> &q)
 { return p.y()*q.hw() == q.y()*p.hw(); }
 
 template < class FT, class RT >
 inline
 bool
 z_equal(const PointH3<FT,RT> &p,
-             const PointH3<FT,RT> &q)
+        const PointH3<FT,RT> &q)
 { return p.z()*q.hw() == q.z()*p.hw(); }
 
 template < class FT, class RT>
@@ -156,7 +158,7 @@ lexicographically_xyz_smaller_or_equal(const PointH3<FT,RT> &p,
 template < class FT, class RT >
 CGAL_KERNEL_MEDIUM_INLINE
 bool lexicographically_xyz_smaller(const PointH3<FT,RT> &p,
-                                        const PointH3<FT,RT> &q)
+                                   const PointH3<FT,RT> &q)
 {
   RT pV = p.hx()*q.hw();
   RT qV = q.hx()*p.hw();
@@ -190,22 +192,117 @@ bool lexicographically_xyz_smaller(const PointH3<FT,RT> &p,
 }
 
 template < class FT, class RT >
+CGAL_KERNEL_MEDIUM_INLINE
+bool lexicographically_xy_smaller(const PointH3<FT,RT> &p,
+                                  const PointH3<FT,RT> &q)
+{
+  RT pV = p.hx()*q.hw();
+  RT qV = q.hx()*p.hw();
+  if ( pV < qV )
+  {
+      return true;
+  }
+  if ( qV < pV )
+  {
+      return false;
+  }
+  // same x
+  pV = p.hy()*q.hw();
+  qV = q.hy()*p.hw();
+  if ( pV < qV )
+  {
+      return true;
+  }
+  return false;
+}
+
+template < class FT, class RT>
+CGAL_KERNEL_MEDIUM_INLINE
+Comparison_result
+compare_lexicographically_xy(const PointH3<FT,RT>& p,
+                             const PointH3<FT,RT>& q)
+{
+  RT pV = p.hx()*q.hw();
+  RT qV = q.hx()*p.hw();
+  if ( pV < qV )
+  {
+      return SMALLER;
+  }
+  if ( qV < pV )    //   ( pV > qV )
+  {
+      return LARGER;
+  }
+  // same x
+  pV = p.hy()*q.hw();
+  qV = q.hy()*p.hw();
+  if ( pV < qV )
+  {
+      return SMALLER;
+  }
+  if ( qV < pV )    //   ( pV > qV )
+  {
+      return LARGER;
+  }
+  // same x and y
+  return EQUAL;
+}
+
+template < class FT, class RT >
 inline
 Comparison_result
 compare_x(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
-{ return CGAL::compare(p.hx() * q.hw(), q.hx() * p.hw() ); }
+{ return CGAL_NTS compare(p.hx() * q.hw(), q.hx() * p.hw() ); }
 
 template < class FT, class RT >
 inline
 Comparison_result
 compare_y(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
-{ return CGAL::compare(p.hy() * q.hw(), q.hy() * p.hw() ); }
+{ return CGAL_NTS compare(p.hy() * q.hw(), q.hy() * p.hw() ); }
 
 template < class FT, class RT >
 inline
 Comparison_result
 compare_z(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
-{ return CGAL::compare(p.hz() * q.hw(), q.hz() * p.hw() ); }
+{ return CGAL_NTS compare(p.hz() * q.hw(), q.hz() * p.hw() ); }
+
+template < class FT, class RT >
+CGAL_KERNEL_INLINE
+bool
+equal_xy(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+{
+  return   (p.hx_ref() * q.hw_ref() == q.hx_ref() * p.hw_ref() )
+        && (p.hy_ref() * q.hw_ref() == q.hy_ref() * p.hw_ref() );
+}
+
+template < class FT, class RT >  // ???  ->   ==
+CGAL_KERNEL_INLINE
+bool
+equal_xyz(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+{
+  return   (p.hx_ref() * q.hw_ref() == q.hx_ref() * p.hw_ref() )
+        && (p.hy_ref() * q.hw_ref() == q.hy_ref() * p.hw_ref() )
+        && (p.hz_ref() * q.hw_ref() == q.hz_ref() * p.hw_ref() );
+}
+
+template < class FT, class RT >
+CGAL_KERNEL_INLINE
+bool
+less_x(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+{ return   (p.hx_ref() * q.hw_ref() < q.hx_ref() * p.hw_ref() ); }
+
+
+template < class FT, class RT >
+CGAL_KERNEL_INLINE
+bool
+less_y(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+{ return   (p.hy_ref() * q.hw_ref() < q.hy_ref() * p.hw_ref() ); }
+
+template < class FT, class RT >
+CGAL_KERNEL_INLINE
+bool
+less_z(const PointH3<FT,RT> &p, const PointH3<FT,RT> &q)
+{ return   (p.hz_ref() * q.hw_ref() < q.hz_ref() * p.hw_ref() ); }
+
 
 CGAL_END_NAMESPACE
 

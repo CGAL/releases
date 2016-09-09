@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/squared_distance_2_2.h
-// package       : Distance_2 (2.3.3)
+// package       : Distance_2 (2.3.5)
 // source        : sqdistance_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -48,40 +49,18 @@
 #ifndef CGAL_SQUARED_DISTANCE_2_2_H
 #define CGAL_SQUARED_DISTANCE_2_2_H
 
-#ifndef CGAL_USER_CLASSES_H
 #include <CGAL/user_classes.h>
-#endif // CGAL_USER_CLASSES_H
 
-#ifndef CGAL_UTILS_H
 #include <CGAL/utils.h>
-#endif // CGAL_UTILS_H
-#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
-#endif // CGAL_POINT_2_H
-#ifndef CGAL_SEGMENT_2_H
 #include <CGAL/Segment_2.h>
-#endif // CGAL_SEGMENT_2_H
-#ifndef CGAL_LINE_2_H
 #include <CGAL/Line_2.h>
-#endif // CGAL_LINE_2_H
-#ifndef CGAL_RAY_2_H
 #include <CGAL/Ray_2.h>
-#endif // CGAL_RAY_2_H
-#ifndef CGAL_TRIANGLE_2_H
 #include <CGAL/Triangle_2.h>
-#endif // CGAL_TRIANGLE_2_H
-#ifndef CGAL_ENUM_H
 #include <CGAL/enum.h>
-#endif // CGAL_ENUM_H
-#ifndef CGAL_WMULT_H
 #include <CGAL/wmult.h>
-#endif // CGAL_WMULT_H
-#ifndef CGAL_SQUARED_DISTANCE_UTILS_H
 #include <CGAL/squared_distance_utils.h>
-#endif // CGAL_SQUARED_DISTANCE_UTILS_H
-#ifndef CGAL_SQUARED_DISTANCE_2_1_H
 #include <CGAL/squared_distance_2_1.h>
-#endif // CGAL_SQUARED_DISTANCE_2_1_H
 
 CGAL_BEGIN_NAMESPACE
 

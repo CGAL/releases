@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Line_2.fw
 // file          : include/CGAL/Line_2.h
-// package       : _2 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _2 (3.6)
+// revision      : 3.6
+// revision_date : 30 Jul 2000 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -65,6 +66,11 @@
 #endif // CGAL_LINEC2_H
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/LineS2.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 #ifndef CGAL_PREDICATES_ON_POINTS_2_H
 #include <CGAL/predicates_on_points_2.h>
 #endif // CGAL_PREDICATES_ON_POINTS_2_H
@@ -74,11 +80,11 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-class Line_2 : public _R::Line_2_base
+template <class R_>
+class Line_2 : public R_::Line_2_base
 {
 public:
-  typedef  _R   R;
+  typedef  R_   R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
   typedef typename R::Line_2_base  RLine_2;
@@ -121,12 +127,6 @@ public:
   {}
 
 
-  CGAL::Line_2<R> &operator=(const CGAL::Line_2<R> &l)
-  {
-    RLine_2::operator=(l);
-    return *this;
-  }
-
   bool operator==(const CGAL::Line_2<R> &l) const
   {
     return RLine_2::operator==(l);
@@ -135,11 +135,6 @@ public:
   bool operator!=(const CGAL::Line_2<R> &l) const
   {
     return !(*this == l);
-  }
-
-  int id() const
-  {
-    return (int) PTR;
   }
 
   RT a() const

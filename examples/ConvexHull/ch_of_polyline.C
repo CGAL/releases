@@ -31,20 +31,22 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : webCH2D/melkman.fw
 // file          : examples/ConvexHull/ch_of_polyline.C
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999 
+// revision      : 3.3
+// revision_date : 03 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>

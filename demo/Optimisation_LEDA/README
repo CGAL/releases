@@ -1,9 +1,0 @@
-demo/Optimisation_LEDA/README
------------------------------
-
-Interactive demo programs of some optimisation algorithms in CGAL.
-Input (mouse clicks) and output are visualized in a LEDA window.
-
-The provided makefile is prepared to link with LEDA.
-
-Sven Schönherr

@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/ch_bykat.h
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -84,8 +85,8 @@ ch_bykat(InputIterator first, InputIterator last,
              const Traits& ch_traits);
 /*{\Mfuncl 
 same as |convex_hull_points_2(first,last,result)|.\\
-{\sc traits}: uses |Traits::Point_2|, |Traits::Less_dist_to_line|, 
-|Traits::Right_of_line|, and |Traits::Less_xy|.
+{\sc traits}: uses |Traits::Point_2|, |Traits::Less_signed_distance_to_line_2|, 
+|Traits::Left_of_line_2|, and |Traits::Less_xy_2|.
 }*/
 
 template <class InputIterator, class OutputIterator, class Traits>
@@ -105,7 +106,7 @@ ch__bykat(InputIterator first, InputIterator last,
               OutputIterator  result,
               Point_2<R>* )
 {
-  return ch_bykat(first, last, result, convex_hull_traits_2<R>() );
+  return ch_bykat(first, last, result, R() );
 }
 
 template <class InputIterator, class OutputIterator>
@@ -127,7 +128,7 @@ ch__bykat_with_threshold(InputIterator first, InputIterator last,
                               Point_2<R>* )
 {
   return ch_bykat_with_threshold(first, last, result, 
-                                 convex_hull_traits_2<R>() );
+                                 R() );
 }
 
 template <class InputIterator, class OutputIterator>

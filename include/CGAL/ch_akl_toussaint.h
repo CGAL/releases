@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/ch_akl_toussaint.h
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -82,8 +83,8 @@ ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
                       const Traits&   ch_traits);
 /*{\Mfuncl
 same as |convex_hull_points_2(first,last,result)|.\\
-{\sc traits}: operates on |Traits::Point_2| using |Traits::Less_xy|, 
-|Traits::Less_yx|, and |Traits::Leftturn|.
+{\sc traits}: operates on |Traits::Point_2| using |Traits::Less_xy_2|, 
+|Traits::Less_yx_2|, and |Traits::Leftturn_2|.
 }*/
 
 #ifdef CGAL_POINT_2_H
@@ -99,7 +100,7 @@ ch__akl_toussaint(ForwardIterator first, ForwardIterator last,
                        Point_2<R>* )
 {
   return ch_akl_toussaint(first, last, result, 
-                               convex_hull_traits_2<R>() );
+                               R() );
 }
 
 template <class ForwardIterator, class OutputIterator>

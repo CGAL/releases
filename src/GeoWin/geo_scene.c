@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 //
 // This software and related documentation is part of an INTERNAL release
 // of the Computational Geometry Algorithms Library (CGAL). It is not
@@ -12,13 +12,14 @@
 // release_date  :
 //
 // file          : src/GeoWin/geo_scene.c
-// package       : GeoWin (1.0.8)
-// revision      : 1.0.8
-// revision_date : 17 December 1999 
+// package       : GeoWin (1.1.9)
+// revision      : 1.1.9
+// revision_date : 27 September 2000 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
-// coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-halle.de>)
+// coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-trier.de>)
 // ============================================================================
+
 
 #include<LEDA/geowin.h>
 #include "geo_localdefs.h"
@@ -128,11 +129,14 @@ list<string> GeoScenePrototypes::get_all_editables()
 
 // ***************************************************************
 // ****************** GeoScene ***********************************
+
+  
 void GeoScene::init_default_values()
 {
  col1=gw->DEFAULT_color;
  col2=gw->DEFAULT_color2; 
- filling_color=gw->DEFAULT_fill_color;      
+ filling_color=gw->DEFAULT_fill_color; 
+ text_color=gw->DEFAULT_color;     
  back_line_width=gw->DEFAULT_line_width;       
  active_line_width=gw->DEFAULT_active_line_width;  
  l_style=gw->DEFAULT_line_style;        
@@ -144,19 +148,27 @@ GeoScene::GeoScene(GeoWin* win) : gw(win)
 {
   set_name(string(""));
   pos               = 0;
+  edit_mode         = 0;
+  z                 = 0;
+  fcn_state         = 0;
+  draw_mode_number  = 0;
   col1              = black;        
   col2              = red;   
-  filling_color     = ivory;       
+  filling_color     = ivory;
+  cyclic_colors     = false;         
   back_line_width   = 1;     
   active_line_width = 1;      
   l_style           = solid;      
-  p_style           = cross_point;      
+  p_style           = cross_point;  
+  copy_attr         = false;    
   visible           = false;
   active            = false;
   edit_menu_type    = -1;
   while_dragging    = false;
   mouse_changing    = false;
   redraw_pt         = NULL;
+  debug_mode        = false;
+  debug_file_name   = string("debug.geo");
   
   for(int i = 0; i<geo_max_ids; i++) ids[i] = -1;
   
@@ -165,6 +177,14 @@ GeoScene::GeoScene(GeoWin* win) : gw(win)
   labels[geo_col2_label] = "selected";
 
   init_d3_window = NULL;
+  
+  // removed from GeoBaseScene / GeoEditScene
+   myobjs        = true;
+   base_mode     = true;
+   change_mode   = -1;			   
+   high_light = false;
+   mouse_obj_exist = false;
+   base_mode = false;  
 }
 
 GeoScene::~GeoScene() 
@@ -225,6 +245,33 @@ string GeoScene::get_type_name() const
   return GeoScenePrototypes::get_type_name(id);
 }
 
+color GeoScene::get_default_color1()          
+{ 
+ return col1; 
+}
+
+color GeoScene::get_sel_color()               
+{ 
+  return col2;
+}
+
+color GeoScene::get_default_color2()          
+{
+ return filling_color; 
+}
+
+point_style GeoScene::get_default_point_style() 
+{ return p_style; }
+
+color GeoScene::get_default_text_color()        
+{ return text_color; }
+
+line_style GeoScene::get_default_line_style() 
+{ return l_style; }
+
+int  GeoScene::get_default_line_width()       
+{ return get_line_width(); }
+
 
 bool GeoScene::IsMyKindOfScene(geo_scene sc)
 {
@@ -234,8 +281,20 @@ bool GeoScene::IsMyKindOfScene(geo_scene sc)
 void GeoScene::init_from_prototype(geo_scene proto)
 {
   set_base_name(proto->get_base_name());
+  draw_object_parameters = proto->draw_object_parameters;
 }
- 
+
+void GeoScene::init_data()
+{
+  update();
+  if (gw){
+    gw->redraw();
+    gw->update_status_line();
+  }
+}
+
+void GeoScene::edit()
+{ if ( gw) gw->redraw(); }
 
 list_item GeoScene::add_remark(double x,double y,string rem)
 {
@@ -299,7 +358,24 @@ void GeoScene::redraw(window* w, double x1, double y1, double x2, double y2)
       if( sc->is_visible() && sc->gw != gw )   sc->gw->redraw();
       if( sc->get_active() )  sc->gw->update_status_line();
     }
-  
+
+  // reset point style , line style, line width
+  w->set_point_style(oldpstl);
+  w->set_line_style(oldstl);
+  w->set_line_width(oldwl);  
+}
+
+void GeoScene::show_points(const list<point>& L)
+{
+  window& w = gw->get_window();
+  point_style pold=w.set_point_style(rect_point);
+  color cold = w.set_fill_color(ivory);
+    
+  point piter;
+  forall(piter,L) w << piter;
+     
+  w.set_point_style(pold);
+  w.set_fill_color(cold);  
 }
 
 void GeoScene::write_postscript(ps_file& f)
@@ -314,8 +390,18 @@ void GeoScene::write_postscript(ps_file& f)
 void GeoScene::update()
 {
   geo_scene sc;
-  forall( sc, results )
-    if( !while_dragging || sc->is_visible() )  sc->update();
+  forall( sc, results ) {
+    if( !while_dragging || sc->is_visible() || (! (sc->results).empty()))  sc->update();
+  }
+    
+  // clean up lists of added/ deleted objects ...
+  clear_op_objs();
+}
+
+void GeoScene::update_and_redraw()
+{
+  update();
+  gw->redraw_and_update_status_line();
 }
 
 string GeoScene::information()
@@ -326,6 +412,18 @@ string GeoScene::information()
 void GeoScene::mouse_at_pos(double, double, long& MASK)
 {
   gw->set_cursor(-1);
+}
+
+void GeoScene::split_and_append(string s, list<string>& LS, int cnt)
+{
+  int posact=0, posmax= s.length()-1, pos2=0;
+  
+  for(;posact< posmax+1;posact=posact+cnt){
+    pos2 = posact+cnt-1;
+    if (pos2 > posmax) pos2=posmax;
+    LS.append(s(posact,pos2)); 
+  }  
+  LS.append(string(" "));
 }
 
 void GeoScene::contents()
@@ -340,16 +438,16 @@ void GeoScene::contents()
   act=h.pos(sh,posakt);
   
   while(act != -1){
-    Ls.append(h(posakt,act-1));
+    split_and_append(h(posakt,act-1),Ls,77);
     posakt=act+1;
     act=h.pos(sh,posakt);
   }
   
-  Ls.append(h(posakt,posmax));
+  split_and_append(h(posakt,posmax),Ls,77);
   LedaFileViewer(Ls);
 }
 
-void GeoScene::options(panel* p)
+bool GeoScene::options(panel* p)
 { 
   panel* P = p;
   int own_but;
@@ -363,7 +461,10 @@ void GeoScene::options(panel* p)
   color c0 = filling_color; 
   color c1 = col1; 
   color c2 = col2;
-  bool vis = visible;
+  bool enum_col = cyclic_colors;
+  bool dbg = debug_mode;
+  string dbs = debug_file_name;
+  string xstr("");
 
   int aw = active_line_width, bw = back_line_width;
   line_style lst = l_style;
@@ -373,6 +474,7 @@ void GeoScene::options(panel* p)
   P->color_item(labels[geo_col0_label], c0);
   P->color_item(labels[geo_col1_label], c1);
   P->color_item(labels[geo_col2_label], c2);
+  P->bool_item("enum colors",enum_col);
   P->text_item("");
 
   P->text_item("\\bf\\blue Points"); 
@@ -382,22 +484,28 @@ void GeoScene::options(panel* p)
   P->lstyle_item("line style", lst);
   P->lwidth_item("line width", bw);
   P->lwidth_item("active width", aw);
-  
-  
-  P->text_item("\\bf\\blue Visibility");
-  P->bool_item("always visible", vis);
   P->text_item("");
+  
+  if (! draw_object_parameters.empty()) {
+   xstr = draw_object_parameters[draw_object_parameters.get_item(draw_mode_number)];
+   P->text_item("\\bf\\blue Draw function");
+   P->string_item("Drawing mode:", xstr, draw_object_parameters, 8);
+   P->text_item("");
+  }
+  
+  P->text_item("\\bf\\blue Debug");      
+  P->bool_item("Output input scene", dbg);
+  P->string_item("File name:", dbs);
+  P->text_item("");  
   
   P->fbutton("apply",   APPLY_BUTTON);
   P->button("cancel",   CANCEL_BUTTON);
   
-  int& but = *((int*)(P->get_inf()));
+  int& butt = *((int*)(P->get_inf()));
  
-  but = gw->open_panel(*P);
- 
-  //but = P->open(w);
+  butt = gw->open_panel(*P);
   
-  if( but == CANCEL_BUTTON ) return;
+  if( butt == CANCEL_BUTTON ) return false;
   
   filling_color = c0;
   col1 = c1;
@@ -406,7 +514,23 @@ void GeoScene::options(panel* p)
   back_line_width = bw;
   l_style = lst;
   p_style = pst;
-  visible = vis;
+  debug_mode = dbg;
+  cyclic_colors = enum_col;
+  debug_file_name = dbs;
+  
+  if (! draw_object_parameters.empty()) {
+   if (xstr.length() > 0){ // a new draw mode was choosen
+    string iter; 
+    int nb=0, counter=0;
+    forall(iter, draw_object_parameters){
+      if (iter == xstr) nb=counter; counter++;
+    }
+    draw_mode_number = nb;
+   }
+  }
+
+  if(!p) gw->redraw();  
+  return true;
 }
  
 GEOWIN_END_NAMESPACE

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,21 +30,22 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/rectangular_3_center_2.h
-// package       : Matrix_search (1.30)
+// package       : Matrix_search (1.43)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : 3cover.aw
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1999/12/17 11:58:50 $
+// revision      : $Revision: 1.21 $
+// revision_date : $Date: 2000/09/15 07:25:33 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // 2,3-Center Computation for Axis-Parallel 2D-Rectangles
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -101,7 +102,7 @@ rectangular_2_center_2(
   using std::less;
   using std::bind1st;
   using std::binder1st;
-  using std::binary_compose;
+  using CGAL::Binary_compose_1;
 #endif
   typedef typename Traits::Iso_rectangle_2        Rectangle;
   typedef typename Traits::Point_2                Point;
@@ -117,7 +118,7 @@ rectangular_2_center_2(
     P_below_right;
   typedef typename Traits::Construct_point_2_below_left_implicit_point_2
     P_below_left;
-  typedef binary_compose< Min< FT >, binder1st< Dist >, binder1st< Dist > >
+  typedef Binary_compose_1< Min< FT >, binder1st< Dist >, binder1st< Dist > >
     Gamma;
 
   // fetch function objects from traits class
@@ -179,7 +180,7 @@ rectangular_3_center_2_type1(
   using std::nth_element;
   using std::bind1st;
   using std::binder1st;
-  using std::binary_compose;
+  using CGAL::Binary_compose_1;
 #endif
   typedef typename Traits::FT                         FT;
   typedef typename Traits::Iso_rectangle_2            Rectangle;
@@ -198,7 +199,7 @@ rectangular_3_center_2_type1(
     P_below_right;
   typedef typename Traits::Construct_point_2_below_left_implicit_point_2
     P_below_left;
-  typedef binary_compose< Min< FT >, binder1st< Dist >, binder1st< Dist > >
+  typedef Binary_compose_1< Min< FT >, binder1st< Dist >, binder1st< Dist > >
     Gamma;
 
   // fetch function objects from traits class
@@ -394,92 +395,120 @@ struct Rectangular_3_center_2_type2_operations0
                        const Point& first_uncovered,
                        const Rectangle& bbox) const
   {
-    return construct_projection_onto_horizontal_implicit_line_2_object()(
-      constraint_empty ? first_uncovered :
-      minx()(first_uncovered, construct_min_point_2_object()(constraint)),
+  #ifdef __BORLANDC__
+      Point bpt = constraint_empty ? first_uncovered :
+      minx()(first_uncovered, construct_min_point_2_object()(constraint));
+      return construct_projection_onto_horizontal_implicit_line_2_object()(
+        bpt, construct_max_point_2_object()(bbox));
+  #else
+      return construct_projection_onto_horizontal_implicit_line_2_object()(
+        constraint_empty ? first_uncovered :
+        minx()(first_uncovered, construct_min_point_2_object()(constraint)),
+          construct_max_point_2_object()(bbox));
+  #endif
+    }
+  
+    Point place_x_square(bool constraint_empty,
+                         const Rectangle& constraint,
+                         const Rectangle& bbox) const
+    {
+  #ifdef __BORLANDC__
+      Point bpt = constraint_empty ? construct_max_point_2_object()(bbox) :
+      construct_min_point_2_object()(constraint);
+      return construct_projection_onto_horizontal_implicit_line_2_object()(
+        bpt, construct_max_point_2_object()(bbox));
+  #else
+      return construct_projection_onto_horizontal_implicit_line_2_object()(
+        constraint_empty ?
+        construct_max_point_2_object()(bbox) :
+        construct_min_point_2_object()(constraint),
         construct_max_point_2_object()(bbox));
-  }
+  #endif
+    }
   
-  Point place_x_square(bool constraint_empty,
-                       const Rectangle& constraint,
-                       const Rectangle& bbox) const
-  {
-    return construct_projection_onto_horizontal_implicit_line_2_object()(
-      constraint_empty ?
+    Point place_x_square(const Point& so_far,
+                         const Rectangle& bbox,
+                         FT radius) const
+    {
+      return construct_projection_onto_horizontal_implicit_line_2_object()(
+        minx()(
+          pt_b_l()(construct_max_point_2_object()(bbox),
+                   construct_max_point_2_object()(bbox), radius), so_far),
+          so_far);
+    }
+  
+    Point place_y_square(bool constraint_empty,
+                         const Rectangle& constraint,
+                         const Point& first_uncovered,
+                         const Rectangle& bbox) const
+    {
+  #ifdef __BORLANDC__
+      Point bpt = constraint_empty ? first_uncovered :
+      miny()(first_uncovered, construct_min_point_2_object()(constraint));
+      return construct_projection_onto_horizontal_implicit_line_2_object()(
+        construct_max_point_2_object()(bbox), bpt);
+  #else
+      return construct_projection_onto_horizontal_implicit_line_2_object()(
+        construct_max_point_2_object()(bbox),
+        constraint_empty ? first_uncovered :
+      miny()(first_uncovered, construct_min_point_2_object()(constraint)));
+  #endif
+    }
+  
+    Point place_y_square(bool constraint_empty,
+                         const Rectangle& constraint,
+                         const Rectangle& bbox) const
+    {
+  #ifdef __BORLANDC__
+      Point bpt = constraint_empty ? construct_max_point_2_object()(bbox) :
+      construct_min_point_2_object()(constraint);
+      return construct_projection_onto_horizontal_implicit_line_2_object()(
+        construct_max_point_2_object()(bbox), bpt);
+  #else
+      return construct_projection_onto_horizontal_implicit_line_2_object()(
+        construct_max_point_2_object()(bbox),
+        constraint_empty ?
       construct_max_point_2_object()(bbox) :
-      construct_min_point_2_object()(constraint),
-      construct_max_point_2_object()(bbox));
-  }
+      construct_min_point_2_object()(constraint));
+  #endif
+    }
   
-  Point place_x_square(const Point& so_far,
-                       const Rectangle& bbox,
-                       FT radius) const
-  {
-    return construct_projection_onto_horizontal_implicit_line_2_object()(
-      minx()(
-        pt_b_l()(construct_max_point_2_object()(bbox),
-                 construct_max_point_2_object()(bbox), radius), so_far),
-        so_far);
-  }
+    Point place_y_square(const Point& so_far,
+                         const Rectangle& bbox,
+                         FT radius) const
+    {
+      return construct_projection_onto_horizontal_implicit_line_2_object()(
+        so_far,
+        miny()(pt_b_l()(construct_max_point_2_object()(bbox),
+                        construct_max_point_2_object()(bbox), radius),
+               so_far));
+    }
   
-  Point place_y_square(bool constraint_empty,
-                       const Rectangle& constraint,
-                       const Point& first_uncovered,
-                       const Rectangle& bbox) const
-  {
-    return construct_projection_onto_horizontal_implicit_line_2_object()(
-      construct_max_point_2_object()(bbox),
-      constraint_empty ? first_uncovered :
-    miny()(first_uncovered, construct_min_point_2_object()(constraint)));
-  }
+    Point update_x_square(const Point& s, const Point& newp) const
+    { return construct_projection_onto_horizontal_implicit_line_2_object()(
+      minx()(s, newp), s); }
   
-  Point place_y_square(bool constraint_empty,
-                       const Rectangle& constraint,
-                       const Rectangle& bbox) const
-  {
-    return construct_projection_onto_horizontal_implicit_line_2_object()(
-      construct_max_point_2_object()(bbox),
-      constraint_empty ?
-    construct_max_point_2_object()(bbox) :
-    construct_min_point_2_object()(constraint));
-  }
+    Point update_y_square(const Point& s, const Point& newp) const
+    { return construct_projection_onto_horizontal_implicit_line_2_object()(
+      s, miny()(s, newp)); }
   
-  Point place_y_square(const Point& so_far,
-                       const Rectangle& bbox,
-                       FT radius) const
-  {
-    return construct_projection_onto_horizontal_implicit_line_2_object()(
-      so_far,
-      miny()(pt_b_l()(construct_max_point_2_object()(bbox),
-                      construct_max_point_2_object()(bbox), radius),
-             so_far));
-  }
+    FT compute_x_distance(const Point& extreme,
+                          const Rectangle& constraint) const
+    { return distance()(extreme, corner()(constraint, 1)); }
   
-  Point update_x_square(const Point& s, const Point& newp) const
-  { return construct_projection_onto_horizontal_implicit_line_2_object()(
-    minx()(s, newp), s); }
+    FT compute_y_distance(const Point& extreme,
+                          const Rectangle& constraint) const
+    { return distance()(extreme, corner()(constraint, 3)); }
   
-  Point update_y_square(const Point& s, const Point& newp) const
-  { return construct_projection_onto_horizontal_implicit_line_2_object()(
-    s, miny()(s, newp)); }
+    Point construct_corner_square(const Rectangle& bbox, FT r) const
+    { return pt_a_r()(construct_min_point_2_object()(bbox),
+                      construct_min_point_2_object()(bbox), r); }
   
-  FT compute_x_distance(const Point& extreme,
-                        const Rectangle& constraint) const
-  { return distance()(extreme, corner()(constraint, 1)); }
+    Point construct_x_square(const Point& p, FT r) const
+    { return pt_b_r()(p, p, r); }
   
-  FT compute_y_distance(const Point& extreme,
-                        const Rectangle& constraint) const
-  { return distance()(extreme, corner()(constraint, 3)); }
-  
-  Point construct_corner_square(const Rectangle& bbox, FT r) const
-  { return pt_a_r()(construct_min_point_2_object()(bbox),
-                    construct_min_point_2_object()(bbox), r); }
-  
-  Point construct_x_square(const Point& p, FT r) const
-  { return pt_b_r()(p, p, r); }
-  
-  Point construct_y_square(const Point& p, FT r) const
-  { return pt_a_l()(p, p, r); }
+    Point construct_y_square(const Point& p, FT r) const
+    { return pt_a_l()(p, p, r); }
 };
 template < class R >
 struct Rectangular_3_center_2_type2_operations1
@@ -505,21 +534,35 @@ struct Rectangular_3_center_2_type2_operations1
                        const Point& first_uncovered,
                        const Rectangle& bbox) const
   {
+  #ifdef __BORLANDC__
+    Point bpt = constraint_empty ? first_uncovered :
+    maxx()(first_uncovered, construct_max_point_2_object()(constraint));
+    return construct_projection_onto_horizontal_implicit_line_2_object()(
+      bpt, construct_max_point_2_object()(bbox));
+  #else
     return construct_projection_onto_horizontal_implicit_line_2_object()(
       constraint_empty ? first_uncovered :
       maxx()(first_uncovered, construct_max_point_2_object()(constraint)),
         construct_max_point_2_object()(bbox));
+  #endif
   }
   
   Point place_x_square(bool constraint_empty,
                        const Rectangle& constraint,
                        const Rectangle& bbox) const
   {
+  #ifdef __BORLANDC__
+    Point bpt = constraint_empty ? construct_min_point_2_object()(bbox) :
+    construct_max_point_2_object()(constraint);
+    return construct_projection_onto_horizontal_implicit_line_2_object()(
+      bpt, construct_max_point_2_object()(bbox));
+  #else
     return construct_projection_onto_horizontal_implicit_line_2_object()(
       constraint_empty ?
       construct_min_point_2_object()(bbox) :
       construct_max_point_2_object()(constraint),
-      construct_max_point_2_object()(bbox));
+        construct_max_point_2_object()(bbox));
+  #endif
   }
   
   Point place_x_square(const Point& so_far,
@@ -537,21 +580,35 @@ struct Rectangular_3_center_2_type2_operations1
                        const Point& first_uncovered,
                        const Rectangle& bbox) const
   {
+  #ifdef __BORLANDC__
+    Point bpt = constraint_empty ? first_uncovered :
+    miny()(first_uncovered, construct_min_point_2_object()(constraint));
+    return construct_projection_onto_horizontal_implicit_line_2_object()(
+      construct_min_point_2_object()(bbox), bpt);
+  #else
     return construct_projection_onto_horizontal_implicit_line_2_object()(
       construct_min_point_2_object()(bbox),
       constraint_empty ? first_uncovered :
     miny()(first_uncovered, construct_min_point_2_object()(constraint)));
+  #endif
   }
   
   Point place_y_square(bool constraint_empty,
                        const Rectangle& constraint,
                        const Rectangle& bbox) const
   {
+  #ifdef __BORLANDC__
+    Point bpt = constraint_empty ? construct_max_point_2_object()(bbox) :
+    construct_min_point_2_object()(constraint);
+    return construct_projection_onto_horizontal_implicit_line_2_object()(
+      construct_min_point_2_object()(bbox), bpt);
+  #else
     return construct_projection_onto_horizontal_implicit_line_2_object()(
       construct_min_point_2_object()(bbox),
       constraint_empty ?
       construct_max_point_2_object()(bbox) :
       construct_min_point_2_object()(constraint));
+  #endif
   }
   
   Point place_y_square(const Point& so_far,
@@ -614,21 +671,35 @@ struct Rectangular_3_center_2_type2_operations2
                        const Point& first_uncovered,
                        const Rectangle& bbox) const
   {
+  #ifdef __BORLANDC__
+    Point bpt = constraint_empty ? first_uncovered :
+    maxx()(first_uncovered, construct_max_point_2_object()(constraint));
+    return construct_projection_onto_horizontal_implicit_line_2_object()(
+      bpt, construct_min_point_2_object()(bbox));
+  #else
     return construct_projection_onto_horizontal_implicit_line_2_object()(
       constraint_empty ? first_uncovered :
       maxx()(first_uncovered, construct_max_point_2_object()(constraint)),
         construct_min_point_2_object()(bbox));
+  #endif
   }
   
   Point place_x_square(bool constraint_empty,
                        const Rectangle& constraint,
                        const Rectangle& bbox) const
   {
+  #ifdef __BORLANDC__
+    Point bpt = constraint_empty ? construct_min_point_2_object()(bbox) :
+    construct_max_point_2_object()(constraint);
+    return construct_projection_onto_horizontal_implicit_line_2_object()(
+      bpt, construct_min_point_2_object()(bbox));
+  #else
     return construct_projection_onto_horizontal_implicit_line_2_object()(
       constraint_empty ?
       construct_min_point_2_object()(bbox) :
       construct_max_point_2_object()(constraint),
       construct_min_point_2_object()(bbox));
+  #endif
   }
   
   Point place_x_square(const Point& so_far,
@@ -646,21 +717,35 @@ struct Rectangular_3_center_2_type2_operations2
                        const Point& first_uncovered,
                        const Rectangle& bbox) const
   {
+  #ifdef __BORLANDC__
+    Point bpt = constraint_empty ? first_uncovered :
+    maxy()(first_uncovered, construct_max_point_2_object()(constraint));
+    return construct_projection_onto_horizontal_implicit_line_2_object()(
+      construct_min_point_2_object()(bbox), bpt);
+  #else
     return construct_projection_onto_horizontal_implicit_line_2_object()(
       construct_min_point_2_object()(bbox),
       constraint_empty ? first_uncovered :
     maxy()(first_uncovered, construct_max_point_2_object()(constraint)));
+  #endif
   }
   
   Point place_y_square(bool constraint_empty,
                        const Rectangle& constraint,
                        const Rectangle& bbox) const
   {
+  #ifdef __BORLANDC__
+    Point bpt = constraint_empty ? construct_min_point_2_object()(bbox) :
+    construct_max_point_2_object()(constraint);
+    return construct_projection_onto_horizontal_implicit_line_2_object()(
+      construct_min_point_2_object()(bbox), bpt);
+  #else
     return construct_projection_onto_horizontal_implicit_line_2_object()(
       construct_min_point_2_object()(bbox),
       constraint_empty ?
       construct_min_point_2_object()(bbox) :
       construct_max_point_2_object()(constraint));
+  #endif
   }
   
   Point place_y_square(const Point& so_far,
@@ -723,21 +808,35 @@ struct Rectangular_3_center_2_type2_operations3
                        const Point& first_uncovered,
                        const Rectangle& bbox) const
   {
+  #ifdef __BORLANDC__
+    Point bpt = constraint_empty ? first_uncovered :
+    minx()(first_uncovered, construct_min_point_2_object()(constraint));
+    return construct_projection_onto_horizontal_implicit_line_2_object()(
+      bpt, construct_min_point_2_object()(bbox));
+  #else
     return construct_projection_onto_horizontal_implicit_line_2_object()(
       constraint_empty ? first_uncovered :
       minx()(first_uncovered, construct_min_point_2_object()(constraint)),
         construct_min_point_2_object()(bbox));
+  #endif
   }
   
   Point place_x_square(bool constraint_empty,
                        const Rectangle& constraint,
                        const Rectangle& bbox) const
   {
+  #ifdef __BORLANDC__
+    Point bpt = constraint_empty ? construct_max_point_2_object()(bbox) :
+    construct_min_point_2_object()(constraint);
+    return construct_projection_onto_horizontal_implicit_line_2_object()(
+      bpt, construct_min_point_2_object()(bbox));
+  #else
     return construct_projection_onto_horizontal_implicit_line_2_object()(
       constraint_empty ?
       construct_max_point_2_object()(bbox) :
       construct_min_point_2_object()(constraint),
       construct_min_point_2_object()(bbox));
+  #endif
   }
   
   Point place_x_square(const Point& so_far,
@@ -755,21 +854,35 @@ struct Rectangular_3_center_2_type2_operations3
                        const Point& first_uncovered,
                        const Rectangle& bbox) const
   {
+  #ifdef __BORLANDC__
+    Point bpt = constraint_empty ? first_uncovered :
+    maxy()(first_uncovered, construct_max_point_2_object()(constraint));
+    return construct_projection_onto_horizontal_implicit_line_2_object()(
+      construct_max_point_2_object()(bbox), bpt);
+  #else
     return construct_projection_onto_horizontal_implicit_line_2_object()(
       construct_max_point_2_object()(bbox),
       constraint_empty ? first_uncovered :
     maxy()(first_uncovered, construct_max_point_2_object()(constraint)));
+  #endif
   }
   
   Point place_y_square(bool constraint_empty,
                        const Rectangle& constraint,
                        const Rectangle& bbox) const
   {
+  #ifdef __BORLANDC__
+    Point bpt = constraint_empty ? construct_min_point_2_object()(bbox) :
+    construct_max_point_2_object()(constraint);
+    return construct_projection_onto_horizontal_implicit_line_2_object()(
+      construct_max_point_2_object()(bbox), bpt);
+  #else
     return construct_projection_onto_horizontal_implicit_line_2_object()(
       construct_max_point_2_object()(bbox),
       constraint_empty ?
       construct_min_point_2_object()(bbox) :
       construct_max_point_2_object()(constraint));
+  #endif
   }
   
   Point place_y_square(const Point& so_far,
@@ -843,9 +956,9 @@ rectangular_3_center_2_type2(
   using std::pair;
   using std::binder1st;
   using std::bind1st;
-  using std::compose1;
-  using std::compose2;
-  using std::binary_compose;
+  using CGAL::compose1_1;
+  using CGAL::compose2_1;
+  using CGAL::Binary_compose_1;
 #endif
 
   typedef typename Operations::Point                       Point;
@@ -881,7 +994,7 @@ rectangular_3_center_2_type2(
   {
     // First try whether the best radius so far can be reached at all
     RandomAccessIterator m =
-      partition(f, l, compose1(bind1st(greater< FT >(), rad), op.delta()));
+      partition(f, l, compose1_1(bind1st(greater< FT >(), rad), op.delta()));
     IP pos = min_max_element(m, l, op.compare_x(), op.compare_y());
     // extreme points of the two other squares
     Point q_t =
@@ -895,9 +1008,9 @@ rectangular_3_center_2_type2(
     binder1st< greater_equal< FT > >
       le_rad = bind1st(greater_equal< FT >(), rad);
     RandomAccessIterator b1 =
-      partition(m, l, compose1(le_rad, bind1st(op.distance(), q_t)));
+      partition(m, l, compose1_1(le_rad, bind1st(op.distance(), q_t)));
     RandomAccessIterator b2 =
-      partition(b1, l, compose1(le_rad, bind1st(op.distance(), q_r)));
+      partition(b1, l, compose1_1(le_rad, bind1st(op.distance(), q_r)));
 
     if (b2 != l)
       return o;
@@ -925,9 +1038,10 @@ rectangular_3_center_2_type2(
     binder1st< greater_equal< FT > >
       le_delta_m(bind1st(greater_equal< FT >(), op.delta()(*m)));
     RandomAccessIterator b1 =
-      partition(m + 1, e, compose1(le_delta_m, bind1st(op.distance(), q_t)));
+      partition(m + 1, e,
+                compose1_1(le_delta_m, bind1st(op.distance(), q_t)));
     RandomAccessIterator b2 =
-      partition(b1, e, compose1(le_delta_m, bind1st(op.distance(), q_r)));
+      partition(b1, e, compose1_1(le_delta_m, bind1st(op.distance(), q_r)));
 
     if (b2 != e)
       s = m;
@@ -965,14 +1079,14 @@ rectangular_3_center_2_type2(
         (Q_r_empty || op.compute_y_distance(q_r, Q_r) <= op.delta()(*m))) {
       binder1st< less< FT > >
         greater_delta_m(bind1st(less< FT >(), op.delta()(*m)));
-      RandomAccessIterator iii =
+      CGAL_optimisation_assertion_code(RandomAccessIterator iii =)
         find_if(e,
                 l,
-                compose2(logical_and< bool >(),
-                         compose1(greater_delta_m,
-                                  bind1st(op.distance(), q_t)),
-                         compose1(greater_delta_m,
-                                  bind1st(op.distance(), q_r))));
+                compose2_1(logical_and< bool >(),
+                           compose1_1(greater_delta_m,
+                                      bind1st(op.distance(), q_t)),
+                           compose1_1(greater_delta_m,
+                                      bind1st(op.distance(), q_r))));
       CGAL_optimisation_assertion(iii == l);
     }
     // check whether the points in [f,s) are covered
@@ -980,11 +1094,11 @@ rectangular_3_center_2_type2(
       binder1st< greater_equal< FT > >
       le_delta_m(bind1st(greater_equal< FT >(), op.delta()(*m)));
       RandomAccessIterator iii =
-        partition(f, s, compose1(le_delta_m, op.delta()));
+        partition(f, s, compose1_1(le_delta_m, op.delta()));
       iii = partition(iii, s,
-                      compose1(le_delta_m, bind1st(op.distance(), q_t)));
+                      compose1_1(le_delta_m, bind1st(op.distance(), q_t)));
       iii = partition(iii, s,
-                      compose1(le_delta_m, bind1st(op.distance(), q_r)));
+                      compose1_1(le_delta_m, bind1st(op.distance(), q_r)));
       CGAL_optimisation_assertion(iii == s);
     }
 #endif // CGAL_3COVER_CHECK
@@ -995,11 +1109,12 @@ rectangular_3_center_2_type2(
     binder1st< greater_equal< FT > >
     le_delta_m(bind1st(greater_equal< FT >(), op.delta()(*m)));
     RandomAccessIterator b2 =
-      partition(m + 1, e, compose1(le_delta_m, bind1st(op.distance(), q_t)));
+      partition(m + 1, e, compose1_1(le_delta_m, bind1st(op.distance(), q_t)));
     RandomAccessIterator b1 =
-      partition(m + 1, b2, compose1(le_delta_m, bind1st(op.distance(), q_r)));
+      partition(m + 1, b2,
+                compose1_1(le_delta_m, bind1st(op.distance(), q_r)));
     RandomAccessIterator b3 =
-      partition(b2, e, compose1(le_delta_m, bind1st(op.distance(), q_r)));
+      partition(b2, e, compose1_1(le_delta_m, bind1st(op.distance(), q_r)));
 
 
     // step (c)
@@ -1013,12 +1128,12 @@ rectangular_3_center_2_type2(
         q_t_q_r_cover_at_rho_min = 0;
         if (!Q_t_empty)
           q_t_q_r_cover_at_rho_min =
-            CGAL::max(q_t_q_r_cover_at_rho_min,
-                      op.compute_x_distance(q_t, Q_t));
+            max(q_t_q_r_cover_at_rho_min,
+                           op.compute_x_distance(q_t, Q_t));
         if (!Q_r_empty)
           q_t_q_r_cover_at_rho_min =
-            CGAL::max(q_t_q_r_cover_at_rho_min,
-                      op.compute_y_distance(q_r, Q_r));
+            max(q_t_q_r_cover_at_rho_min,
+                           op.compute_y_distance(q_r, Q_r));
         q_t_at_rho_min = q_t, q_r_at_rho_min = q_r;
         s_at_rho_min = s, e_at_rho_min = e;
         continue;
@@ -1110,11 +1225,12 @@ rectangular_3_center_2_type2(
     //     R      G cap q_t  G cap q_r      none
     binder1st< greater_equal< FT > >
     le_delta_sb = bind1st(greater_equal< FT >(), op.delta()(*s_b));
-    b2 = partition(s_b + 1, e, compose1(le_delta_sb,
-                                        bind1st(op.distance(), q_t)));
-    b1 = partition(s_b + 1, b2, compose1(le_delta_sb,
-                                         bind1st(op.distance(), q_r)));
-    b3 = partition(b2, e, compose1(le_delta_sb, bind1st(op.distance(), q_r)));
+    b2 = partition(s_b + 1, e, compose1_1(le_delta_sb,
+                                          bind1st(op.distance(), q_t)));
+    b1 = partition(s_b + 1, b2, compose1_1(le_delta_sb,
+                                           bind1st(op.distance(), q_r)));
+    b3 = partition(b2, e,
+                   compose1_1(le_delta_sb, bind1st(op.distance(), q_r)));
 
     if (b3 != e ||
         !Q_t_empty && op.compute_x_distance(q_t, Q_t) > op.delta()(*s_b) ||
@@ -1127,12 +1243,12 @@ rectangular_3_center_2_type2(
       q_t_q_r_cover_at_rho_min = 0;
       if (!Q_t_empty)
         q_t_q_r_cover_at_rho_min =
-          CGAL::max(q_t_q_r_cover_at_rho_min,
-                    op.compute_x_distance(q_t, Q_t));
+          max(q_t_q_r_cover_at_rho_min,
+                         op.compute_x_distance(q_t, Q_t));
       if (!Q_r_empty)
         q_t_q_r_cover_at_rho_min =
-          CGAL::max(q_t_q_r_cover_at_rho_min,
-                    op.compute_y_distance(q_r, Q_r));
+          max(q_t_q_r_cover_at_rho_min,
+                         op.compute_y_distance(q_r, Q_r));
       s_at_rho_min = s, e_at_rho_min = e;
       continue;
     }
@@ -1141,14 +1257,17 @@ rectangular_3_center_2_type2(
 
     if (s_b == s) {
       CGAL_optimisation_expensive_assertion_code(
+        std::vector< Point > tmppts(f, l);
         RandomAccessIterator ii =
-        partition(f, l, compose1(le_delta_sb, op.delta()));
-        pos = min_max_element(ii, l, op.compare_x(), op.compare_y());
+          partition(tmppts.begin(), tmppts.end(),
+                    compose1_1(le_delta_sb, op.delta()));
+        IP tmppos = min_max_element(ii, tmppts.end(),
+                                    op.compare_x(), op.compare_y());
         )
       CGAL_optimisation_expensive_assertion(
-        !op.compare_x()(*pos.first, q_t));
+        !op.compare_x()(*tmppos.first, q_t));
       CGAL_optimisation_expensive_assertion(
-        !op.compare_y()(q_r, *pos.second));
+        !op.compare_y()(q_r, *tmppos.second));
 
       // we are done
       rho_max = op.delta()(*s);
@@ -1185,8 +1304,8 @@ rectangular_3_center_2_type2(
     RandomAccessIterator next =
       max_element_if(s, s_b,
                      compose2_2(less< FT >(), op.delta(), op.delta()),
-                     compose1(bind1st(not_equal_to< FT >(),
-                                      op.delta()(*s_b)),
+                     compose1_1(bind1st(not_equal_to< FT >(),
+                                        op.delta()(*s_b)),
                      op.delta()));
     rho_max = op.delta()(*s_b);
     q_t_at_rho_max = q_t, q_r_at_rho_max = q_r;
@@ -1200,11 +1319,11 @@ rectangular_3_center_2_type2(
     binder1st< greater_equal< FT > >
     le_delta_next = bind1st(greater_equal< FT >(), op.delta()(*next));
     b2 = partition(s_b, e,
-                   compose1(le_delta_next, bind1st(op.distance(), q_t)));
+                   compose1_1(le_delta_next, bind1st(op.distance(), q_t)));
     b1 = partition(s_b, b2,
-                   compose1(le_delta_next, bind1st(op.distance(), q_r)));
+                   compose1_1(le_delta_next, bind1st(op.distance(), q_r)));
     b3 = partition(b2, e,
-                   compose1(le_delta_next, bind1st(op.distance(), q_r)));
+                   compose1_1(le_delta_next, bind1st(op.distance(), q_r)));
 
     if (b3 != e ||
         !Q_t_empty && op.compute_x_distance(q_t, Q_t) > op.delta()(*next) ||
@@ -1214,12 +1333,12 @@ rectangular_3_center_2_type2(
       q_t_q_r_cover_at_rho_min = 0;
       if (!Q_t_empty)
         q_t_q_r_cover_at_rho_min =
-          CGAL::max(q_t_q_r_cover_at_rho_min,
-                    op.compute_x_distance(q_t, Q_t));
+          max(q_t_q_r_cover_at_rho_min,
+                         op.compute_x_distance(q_t, Q_t));
       if (!Q_r_empty)
         q_t_q_r_cover_at_rho_min =
-          CGAL::max(q_t_q_r_cover_at_rho_min,
-                    op.compute_y_distance(q_r, Q_r));
+          max(q_t_q_r_cover_at_rho_min,
+                         op.compute_y_distance(q_r, Q_r));
       q_t_at_rho_min = q_t, q_r_at_rho_min = q_r;
       s_at_rho_min = b3, e_at_rho_min = e;
       radius_is_known = true;
@@ -1266,8 +1385,8 @@ rectangular_3_center_2_type2(
 
     if (!Q_t_empty && op.compute_x_distance(q_t, Q_t) > rho_max ||
         !Q_r_empty && op.compute_y_distance(q_r, Q_r) > rho_max) {
-      rho_max = CGAL::max(op.compute_x_distance(q_t, Q_t),
-                          op.compute_y_distance(q_r, Q_r));
+      rho_max = max(op.compute_x_distance(q_t, Q_t),
+                               op.compute_y_distance(q_r, Q_r));
 #ifndef CGAL_3COVER_NO_CHECK_OPTIMUM_FIRST
       CGAL_optimisation_assertion(rho_max <= rad);
 #endif // ! CGAL_3COVER_NO_CHECK_OPTIMUM_FIRST
@@ -1305,21 +1424,21 @@ rectangular_3_center_2_type2(
           !Q_r_empty && op.compute_y_distance(q_r, Q_r) > try_rho ||
           e != find_if(t + 1,
                        e,
-                       compose2(logical_and< bool >(),
-                                compose1(greater_rho_max,
-                                         bind1st(op.distance(), q_t)),
-                                compose1(greater_rho_max,
-                                         bind1st(op.distance(), q_r))))) {
+                       compose2_1(logical_and< bool >(),
+                                  compose1_1(greater_rho_max,
+                                             bind1st(op.distance(), q_t)),
+                                  compose1_1(greater_rho_max,
+                                             bind1st(op.distance(), q_r))))) {
         rho_min = try_rho;
         q_t_q_r_cover_at_rho_min = 0;
         if (!Q_t_empty)
           q_t_q_r_cover_at_rho_min =
-            CGAL::max(q_t_q_r_cover_at_rho_min,
-                      op.compute_x_distance(q_t, Q_t));
+            max(q_t_q_r_cover_at_rho_min,
+                           op.compute_x_distance(q_t, Q_t));
         if (!Q_r_empty)
           q_t_q_r_cover_at_rho_min =
-            CGAL::max(q_t_q_r_cover_at_rho_min,
-                      op.compute_y_distance(q_r, Q_r));
+            max(q_t_q_r_cover_at_rho_min,
+                           op.compute_y_distance(q_r, Q_r));
         q_t_at_rho_min = q_t, q_r_at_rho_min = q_r;
         s_at_rho_min = t + 1, e_at_rho_min = e;
         break;
@@ -1346,12 +1465,12 @@ rectangular_3_center_2_type2(
   FT rad2 = q_t_q_r_cover_at_rho_min;
   typedef binder1st< Distance > Dist_bind;
   if (s_at_rho_min != e_at_rho_min) {
-    binary_compose< Min< FT >, Dist_bind, Dist_bind >
-      mydist(compose2(Min< FT >(),
-                      bind1st(op.distance(), q_t_at_rho_min),
-                      bind1st(op.distance(), q_r_at_rho_min)));
+    Binary_compose_1< Min< FT >, Dist_bind, Dist_bind >
+      mydist(compose2_1(Min< FT >(),
+                        bind1st(op.distance(), q_t_at_rho_min),
+                        bind1st(op.distance(), q_r_at_rho_min)));
     rad2 =
-      CGAL::max(
+      max(
         rad2,
         mydist(*max_element(s_at_rho_min,
                             e_at_rho_min,

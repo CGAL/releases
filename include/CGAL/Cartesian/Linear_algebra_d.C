@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Linear_algebra_d.C
-// package       : Cd (1.1.1)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/12/07 18:53:22 $
+// package       : Cd (1.5)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2000/07/09 10:55:30 $
 // author(s)     : Herve.Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -125,7 +126,7 @@ Gaussian_elimination(const Linear_algebraCd<FT>::Matrix &M,
     // Total pivoting, without looking for the maximum entry
     for (i=k,j=k;
          j<cdim && U[i][j] == FT(0);
-         (++i==dim)? ++j,i=k : 0 ) ;
+         (++i==dim)? ++j,i=k : 0 );
     //DEBUG: std::cerr << "before swap [k="<<k<<"] :";
     //std::cerr << " found i="<<i<<" and j="<<j<<std::endl;
     //DEBUG: std::cerr << U << std::endl;

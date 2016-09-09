@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : src/assertions.C
-// package       : Kernel_basic (2.9)
+// package       : Kernel_basic (3.14)
 // source        : assertions.fw
 // author(s)     : Geert-Jan Giezeman and Sven Schönherr
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

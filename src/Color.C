@@ -30,33 +30,42 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : src/Color.C
-// package       : iostream (2.5)
+// package       : iostream (2.8)
 // source        : $RCSfile: Color.C,v $
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 1999/03/08 13:28:32 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2000/08/18 14:03:17 $
 // author(s)     : Andreas Fabri, Hervé Brönnimann
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
-#include <CGAL/config.h>
 #include <CGAL/IO/Color.h>
+
 
 CGAL_BEGIN_NAMESPACE
 
 const Color BLACK  = Color(0, 0, 0);
 const Color WHITE  = Color(255, 255, 255);
-const Color RED    = Color(255, 0, 0);
+const Color GRAY   = Color(100,100,100);
+
 const Color GREEN  = Color(0, 255, 0);
+
+const Color DEEPBLUE   = Color(10, 0, 100);
 const Color BLUE   = Color(0, 0, 255);
 const Color VIOLET = Color(255, 0, 255);
-const Color ORANGE = Color(255, 170, 0);
+const Color PURPLE = Color(100, 0, 70);
+
+const Color RED    = Color(255, 0, 0);
+const Color ORANGE = Color(235, 150, 0);
+const Color YELLOW = Color(255, 255, 0);
 
 CGAL_END_NAMESPACE
+

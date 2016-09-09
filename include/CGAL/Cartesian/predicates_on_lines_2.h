@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/predicates_on_lines_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1999/12/10 16:19:45 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2000/08/23 13:49:09 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -48,11 +49,9 @@
 #define CGAL_CARTESIAN_PREDICATES_ON_LINES_2_H
 
 #include <CGAL/Cartesian/redefine_names_2.h>
-
 #include <CGAL/cartesian_classes.h>
 #include <CGAL/Cartesian/Point_2.h>
 #include <CGAL/Cartesian/Line_2.h>
-
 #include <CGAL/predicates/kernel_ftC2.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -170,6 +169,15 @@ compare_y_at_x(const LineC2<R CGAL_CTAG> &l1,
 {
   return compare_y_at_xC2(l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c(),
                           h1.a(),h1.b(),h1.c(),h2.a(),h2.b(),h2.c());
+}
+
+template < class R >
+inline
+Oriented_side
+side_of_oriented_line(const LineC2<R CGAL_CTAG> &l,
+                      const PointC2<R CGAL_CTAG> &p)
+{
+  return side_of_oriented_lineC2(l.a(), l.b(), l.c(), p.x(), p.y());
 }
 
 CGAL_END_NAMESPACE

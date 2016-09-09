@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/redefine_names_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/11/05 22:30:01 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 2000/08/23 14:35:37 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -79,9 +80,14 @@
 // We unify this with PointC2<R CGAL_CTAG >::function
 #define CGAL_CTAG   , Cartesian_tag
 
+// This is the mark of a partial specialization.  Used by all kernel classes.
+#define CGAL_ADVANCED_KERNEL_PARTIAL_SPEC <R_,Cartesian_tag>
+
 #else
 
-#define CGAL_CTAG   
+#define CGAL_CTAG
+
+#define CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
 
 // Note that it was not possible to keep the opposite (changing the
 // Point_2 into PointC2 for Stefan's design) because it would also

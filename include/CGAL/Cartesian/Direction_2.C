@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Direction_2.C
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 1999/11/22 12:30:47 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.20 $
+// revision_date : $Date: 2000/07/09 10:46:10 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -58,32 +59,24 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
-inline
-_Twotuple<typename DirectionC2<R CGAL_CTAG>::FT>*
-DirectionC2<R CGAL_CTAG>::ptr() const
-{
-  return (_Twotuple<FT>*)PTR;
-}
-
-template < class R >
 CGAL_KERNEL_CTOR_INLINE
 DirectionC2<R CGAL_CTAG>::DirectionC2()
 {
-  PTR = new _Twotuple<FT>();
+  new ( static_cast< void*>(ptr)) Twotuple<FT>(); 
 }
 
 template < class R >
 CGAL_KERNEL_CTOR_INLINE
 DirectionC2<R CGAL_CTAG>::
 DirectionC2(const DirectionC2<R CGAL_CTAG> &d)
-  : Handle((Handle&)d)
+  : Handle_for<Twotuple<typename R::FT> >(d)
 {}
 
 template < class R >
 CGAL_KERNEL_CTOR_INLINE
 DirectionC2<R CGAL_CTAG>::
-DirectionC2(const typename DirectionC2<R CGAL_CTAG>::Vector_2 &v) :
-  Handle((Handle&)v)
+DirectionC2(const typename DirectionC2<R CGAL_CTAG>::Vector_2 &v)
+ : Handle_for<Twotuple<typename R::FT> >(v)
 {}
 
 template < class R >
@@ -92,7 +85,7 @@ DirectionC2<R CGAL_CTAG>::
 DirectionC2(const typename DirectionC2<R CGAL_CTAG>::FT &x,
             const typename DirectionC2<R CGAL_CTAG>::FT &y)
 {
-  PTR = new _Twotuple<FT>(x, y);
+  new ( static_cast< void*>(ptr)) Twotuple<FT>(x, y);
 }
 
 template < class R >
@@ -101,20 +94,11 @@ DirectionC2<R CGAL_CTAG>::~DirectionC2()
 {}
 
 template < class R >
-CGAL_KERNEL_INLINE
-DirectionC2<R CGAL_CTAG> &
-DirectionC2<R CGAL_CTAG>::operator=(const DirectionC2<R CGAL_CTAG> &d)
-{
-  Handle::operator=(d);
-  return *this;
-}
-
-template < class R >
 inline
 bool
 DirectionC2<R CGAL_CTAG>::operator==(const DirectionC2<R CGAL_CTAG> &d) const
 {
-  if ( id() == d.id() ) return true;
+  if ( ptr == d.ptr ) return true;
   return equal_direction(*this, d);
 }
 
@@ -124,14 +108,6 @@ bool
 DirectionC2<R CGAL_CTAG>::operator!=(const DirectionC2<R CGAL_CTAG> &d) const
 {
   return !( *this == d );
-}
-
-template < class R >
-inline
-int
-DirectionC2<R CGAL_CTAG>::id() const
-{
-  return (int)PTR;
 }
 
 template < class R >
@@ -147,7 +123,7 @@ CGAL_KERNEL_INLINE
 bool
 DirectionC2<R CGAL_CTAG>::operator>(const DirectionC2<R CGAL_CTAG> &d) const
 {
-  return d < *this ;
+  return d < *this;
 }
 
 template < class R >
@@ -172,8 +148,16 @@ bool
 DirectionC2<R CGAL_CTAG>::
 counterclockwise_in_between(const DirectionC2<R CGAL_CTAG> &d1,
                             const DirectionC2<R CGAL_CTAG> &d2) const
+// returns true, iff \ccVar\ is not equal to \ccc{d1}, and 
+// while rotating counterclockwise starting at \ccc{d1}, 
+// \ccVar\ is reached strictly before \ccc{d2} is reached.
+// Note that true is returned if \ccc{d1} == \ccc{d2}, unless
+//  also \ccVar\ == \ccc{d1}.
 {
-  return (d1 < *this) && (*this < d2) ;
+  if ( d1 < *this)
+    return ( *this < d2 )||( d2 <= d1 );
+  else
+    return ( *this < d2 )&&( d2 <= d1 );
 }
 
 template < class R >
@@ -228,7 +212,7 @@ inline
 typename DirectionC2<R CGAL_CTAG>::FT
 DirectionC2<R CGAL_CTAG>::dx() const
 {
-  return ptr()->e0;
+  return ptr->e0;
 }
 
 template < class R >
@@ -236,7 +220,7 @@ inline
 typename DirectionC2<R CGAL_CTAG>::FT
 DirectionC2<R CGAL_CTAG>::dy() const
 {
-  return ptr()->e1;
+  return ptr->e1;
 }
 
 #ifndef CGAL_NO_OSTREAM_INSERT_DIRECTIONC2

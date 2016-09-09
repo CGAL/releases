@@ -44,6 +44,8 @@ WINDOW_LDFLAGS = \
 all:            \
                 ch_example_from_cin_to_cout \
                 ch_example_timing \
+                ch_example_leda_point \
+                ch_example_leda_rat_point \
                 ch_of_polyline 
 
 ch_example_from_cin_to_cout$(EXE_EXT): ch_example_from_cin_to_cout$(OBJ_EXT)
@@ -51,6 +53,12 @@ ch_example_from_cin_to_cout$(EXE_EXT): ch_example_from_cin_to_cout$(OBJ_EXT)
 
 ch_example_timing$(EXE_EXT): ch_example_timing$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ch_example_timing ch_example_timing$(OBJ_EXT) $(LDFLAGS)
+
+ch_example_leda_point$(EXE_EXT): ch_example_leda_point$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ch_example_leda_point ch_example_leda_point$(OBJ_EXT) $(LDFLAGS)
+
+ch_example_leda_rat_point$(EXE_EXT): ch_example_leda_rat_point$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ch_example_leda_rat_point ch_example_leda_rat_point$(OBJ_EXT) $(LDFLAGS)
 
 ch_of_polyline$(EXE_EXT): ch_of_polyline$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ch_of_polyline ch_of_polyline$(OBJ_EXT) $(WINDOW_LDFLAGS)

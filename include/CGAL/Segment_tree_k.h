@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Segment_tree_k.h
-// package       : SearchStructures (2.50)
+// package       : SearchStructures (2.54)
 // source        : include/CGAL/Segment_tree_pre.h
 // revision      : $Revision: 1.5 $
 // revision_date : $Date: 1998/02/03 13:15:15 $
@@ -44,7 +44,8 @@
 //
 //
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -67,18 +68,18 @@
 #include <CGAL/Segment_tree_d.h>
 CGAL_BEGIN_NAMESPACE
 
-template <class _Traits_1>
+template <class C_Traits_1>
 class Segment_tree_1
 { 
 public:
-  typedef  _Traits_1 Traits;
-  typedef typename _Traits_1::Key Key;
-  typedef typename _Traits_1::Interval Interval;
-  typedef typename _Traits_1::Key_1 Key_1;
-  typedef typename _Traits_1::key_1 key_1;
-  typedef typename _Traits_1::low_1 low_1;
-  typedef typename _Traits_1::high_1 high_1;
-  typedef typename _Traits_1::compare_1 compare_1;
+  typedef  C_Traits_1 Traits;
+  typedef typename C_Traits_1::Key Key;
+  typedef typename C_Traits_1::Interval Interval;
+  typedef typename C_Traits_1::Key_1 Key_1;
+  typedef typename C_Traits_1::key_1 key_1;
+  typedef typename C_Traits_1::low_1 low_1;
+  typedef typename C_Traits_1::high_1 high_1;
+  typedef typename C_Traits_1::compare_1 compare_1;
 
   typedef tree_interval_traits<Interval, Interval, 
   Key_1,  low_1, high_1, low_1, 
@@ -145,23 +146,23 @@ public:
 // A two dimensional Segment Tree is defined in this class.
 // Ti is the type of each dimension of the tree.
 
-template <class _Traits_2>
+template <class C_Traits_2>
 class Segment_tree_2
 { 
 public:
-  typedef _Traits_2 Traits;
-  typedef typename _Traits_2::Key Key;
-  typedef typename _Traits_2::Interval Interval;
-  typedef typename _Traits_2::Key_2 Key_2;
-  typedef typename _Traits_2::Key_1 Key_1;
-  typedef typename _Traits_2::key_1 key_1;
-  typedef typename _Traits_2::key_2 key_2;
-  typedef typename _Traits_2::low_1 low_1;
-  typedef typename _Traits_2::high_1 high_1;
-  typedef typename _Traits_2::low_2 low_2;
-  typedef typename _Traits_2::high_2 high_2;
-  typedef typename _Traits_2::compare_1 compare_1;
-  typedef typename _Traits_2::compare_2 compare_2;
+  typedef C_Traits_2 Traits;
+  typedef typename C_Traits_2::Key Key;
+  typedef typename C_Traits_2::Interval Interval;
+  typedef typename C_Traits_2::Key_2 Key_2;
+  typedef typename C_Traits_2::Key_1 Key_1;
+  typedef typename C_Traits_2::key_1 key_1;
+  typedef typename C_Traits_2::key_2 key_2;
+  typedef typename C_Traits_2::low_1 low_1;
+  typedef typename C_Traits_2::high_1 high_1;
+  typedef typename C_Traits_2::low_2 low_2;
+  typedef typename C_Traits_2::high_2 high_2;
+  typedef typename C_Traits_2::compare_1 compare_1;
+  typedef typename C_Traits_2::compare_2 compare_2;
 
   typedef typename std::list<Interval>::iterator l_iterator;
   typedef typename std::vector<Interval>::iterator v_iterator;
@@ -241,28 +242,28 @@ public:
 //-------------------------------------------------------------------
 // A three dimensional Segment Tree is defined in this class.
 // Ti is the type of each dimension of the tree.
-template <class _Traits_3>
+template <class C_Traits_3>
 class Segment_tree_3
 { 
 public:
-  typedef _Traits_3 Traits;
-  typedef typename _Traits_3::Key Key;
-  typedef typename _Traits_3::Interval Interval;
-  typedef typename _Traits_3::Key_1 Key_1;
-  typedef typename _Traits_3::Key_2 Key_2;
-  typedef typename _Traits_3::Key_3 Key_3;
-  typedef typename _Traits_3::key_1 key_1;
-  typedef typename _Traits_3::key_2 key_2;
-  typedef typename _Traits_3::key_3 key_3;
-  typedef typename _Traits_3::low_1 low_1;
-  typedef typename _Traits_3::high_1 high_1;
-  typedef typename _Traits_3::low_2 low_2;
-  typedef typename _Traits_3::high_2 high_2;
-  typedef typename _Traits_3::low_3 low_3;
-  typedef typename _Traits_3::high_3 high_3;
-  typedef typename _Traits_3::compare_1 compare_1;
-  typedef typename _Traits_3::compare_2 compare_2;
-  typedef typename _Traits_3::compare_3 compare_3;
+  typedef C_Traits_3 Traits;
+  typedef typename C_Traits_3::Key Key;
+  typedef typename C_Traits_3::Interval Interval;
+  typedef typename C_Traits_3::Key_1 Key_1;
+  typedef typename C_Traits_3::Key_2 Key_2;
+  typedef typename C_Traits_3::Key_3 Key_3;
+  typedef typename C_Traits_3::key_1 key_1;
+  typedef typename C_Traits_3::key_2 key_2;
+  typedef typename C_Traits_3::key_3 key_3;
+  typedef typename C_Traits_3::low_1 low_1;
+  typedef typename C_Traits_3::high_1 high_1;
+  typedef typename C_Traits_3::low_2 low_2;
+  typedef typename C_Traits_3::high_2 high_2;
+  typedef typename C_Traits_3::low_3 low_3;
+  typedef typename C_Traits_3::high_3 high_3;
+  typedef typename C_Traits_3::compare_1 compare_1;
+  typedef typename C_Traits_3::compare_2 compare_2;
+  typedef typename C_Traits_3::compare_3 compare_3;
 
   typedef typename std::list<Interval>::iterator l_iterator;
   typedef typename std::vector<Interval>::iterator v_iterator;
@@ -358,33 +359,33 @@ public:
 //-------------------------------------------------------------------
 // A three dimensional Segment Tree is defined in this class.
 // Ti is the type of each dimension of the tree.
-template <class _Traits_4>
+template <class C_Traits_4>
 class Segment_tree_4
 { 
 public:
-  typedef _Traits_4 Traits;
-  typedef typename _Traits_4::Key Key;
-  typedef typename _Traits_4::Interval Interval;
-  typedef typename _Traits_4::Key_1 Key_1;
-  typedef typename _Traits_4::Key_2 Key_2;
-  typedef typename _Traits_4::Key_3 Key_3;
-  typedef typename _Traits_4::Key_4 Key_4;
-  typedef typename _Traits_4::key_1 key_1;
-  typedef typename _Traits_4::key_2 key_2;
-  typedef typename _Traits_4::key_4 key_4;
-  typedef typename _Traits_4::key_3 key_3;
-  typedef typename _Traits_4::low_1 low_1;
-  typedef typename _Traits_4::high_1 high_1;
-  typedef typename _Traits_4::low_2 low_2;
-  typedef typename _Traits_4::high_2 high_2;
-  typedef typename _Traits_4::low_3 low_3;
-  typedef typename _Traits_4::high_3 high_3;
-  typedef typename _Traits_4::low_4 low_4;
-  typedef typename _Traits_4::high_4 high_4;
-  typedef typename _Traits_4::compare_1 compare_1;
-  typedef typename _Traits_4::compare_2 compare_2;
-  typedef typename _Traits_4::compare_3 compare_3;
-  typedef typename _Traits_4::compare_4 compare_4;
+  typedef C_Traits_4 Traits;
+  typedef typename C_Traits_4::Key Key;
+  typedef typename C_Traits_4::Interval Interval;
+  typedef typename C_Traits_4::Key_1 Key_1;
+  typedef typename C_Traits_4::Key_2 Key_2;
+  typedef typename C_Traits_4::Key_3 Key_3;
+  typedef typename C_Traits_4::Key_4 Key_4;
+  typedef typename C_Traits_4::key_1 key_1;
+  typedef typename C_Traits_4::key_2 key_2;
+  typedef typename C_Traits_4::key_4 key_4;
+  typedef typename C_Traits_4::key_3 key_3;
+  typedef typename C_Traits_4::low_1 low_1;
+  typedef typename C_Traits_4::high_1 high_1;
+  typedef typename C_Traits_4::low_2 low_2;
+  typedef typename C_Traits_4::high_2 high_2;
+  typedef typename C_Traits_4::low_3 low_3;
+  typedef typename C_Traits_4::high_3 high_3;
+  typedef typename C_Traits_4::low_4 low_4;
+  typedef typename C_Traits_4::high_4 high_4;
+  typedef typename C_Traits_4::compare_1 compare_1;
+  typedef typename C_Traits_4::compare_2 compare_2;
+  typedef typename C_Traits_4::compare_3 compare_3;
+  typedef typename C_Traits_4::compare_4 compare_4;
 
   typedef typename std::list<Interval>::iterator l_iterator;
   typedef typename std::vector<Interval>::iterator v_iterator;

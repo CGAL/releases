@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Point_set_2.h
-// package       : Point_set_2 (1.1.8)
-// revision      : 1.1.8
-// revision_date : 21 December 1999 
+// package       : Point_set_2 (1.2.4)
+// revision      : 1.2.4
+// revision_date : 14 September 2000 
 // author(s)     : Kurt Mehlhorn, Stefan Naeher, Matthias Baesken
 //
 // coordinator   : Matthias Baesken, Halle  (<baesken>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -55,6 +56,7 @@
 #if !defined(LEDA_STL_ITERATORS)
 #define LEDA_STL_ITERATORS
 #endif
+
 
 #ifndef POINT_SET_LEDA_ONLY
 #include <CGAL/config.h>
@@ -216,7 +218,552 @@ private:
    void  del_edge(leda_edge e)  { GRAPH<Point,int>::del_edge(e); }
 
 
-   void init_hull()
+   void init_hull();
+   
+   void make_delaunay(leda_list<leda_edge>& S);
+   
+   void make_delaunay();
+
+   void check_locate(leda_edge answer,const Point& p) const;
+
+   void dfs(leda_node s, const Circle& C, leda_list<leda_node>& L) const;
+
+   void dfs(leda_node s, const Point& pv, const Point& p, leda_list<leda_node>& L) const;
+
+public:
+
+   Point_set_2()
+   { cur_dart = nil; 
+     hull_dart = nil;
+     init_node_marks();
+     check = false;
+   }
+
+   Point_set_2(const leda_list<Point>& S)
+   { cur_dart = nil; 
+     hull_dart = nil;
+     init_node_marks();
+     check = false;
+     
+     init(S);
+   }
+
+   Point_set_2(const std::list<Point>& S)
+   { cur_dart = nil; 
+     hull_dart = nil;
+     init_node_marks();
+     check = false;
+     
+     init(S);
+   }
+   
+   template<class InputIterator>
+   Point_set_2(InputIterator first, InputIterator last)
+   { cur_dart = nil; 
+     hull_dart = nil;
+     init_node_marks();
+     check = false;
+     
+     init(first,last);
+   }
+
+   Point_set_2(const GRAPH<Point,int>& G) :GRAPH<Point,int>(G)
+   { 
+     leda_edge e;
+     forall_edges(e,*this) mark_edge(e,CGAL_DIAGRAM_DART);
+     init_hull(); 
+     make_delaunay(); 
+     if (number_of_edges() > 0) 
+       cur_dart = reversal(hull_dart); 
+     else 
+       cur_dart = nil;
+     init_node_marks();
+     check = false;
+   }
+
+   Point_set_2(const Point_set_2& T):GRAPH<Point,int>(T)
+   { 
+     init_hull(); 
+     if (number_of_edges() > 0) 
+        cur_dart = reversal(hull_dart); 
+     else 
+        cur_dart = nil;
+     init_node_marks();
+     check = false;
+   }
+   
+   Point_set_2& operator=(const Point_set_2& T)
+   { 
+     GRAPH<Point,int>::operator=(T); 
+     init_hull(); 
+     if (number_of_edges() > 0) 
+       cur_dart = reversal(hull_dart); 
+     else 
+       cur_dart = nil;
+     init_node_marks();
+     check = false;
+     return *this; 
+   } 
+   
+   ~Point_set_2() {}
+
+   void  init(const leda_list<Point>& L0);
+ 
+   void  init(const std::list<Point>& L0);
+   
+   template<class InputIterator>
+   void init(InputIterator first, InputIterator last)
+   { 
+    // construct a triangulation for the points in L0
+
+    clear();
+
+    if (first==last) return;
+
+    leda_list<Point> L;
+    InputIterator it=first;
+    
+    for(;it!=last;++it){
+      L.append(*it);
+    }
+    
+    L.sort(tr_comparepoints);  
+
+    // initialize graph with a single edge starting at the first point
+
+    Point last_p = L.pop();          // last visited point
+    leda_node  last_v = new_node(last_p); // last inserted node
+
+    while (!L.empty() && last_p == L.head()) L.pop();
+
+    if (L.empty()) return;
+
+    last_p = L.pop();
+    leda_node v = new_node(last_p);
+    leda_edge x = new_edge(last_v,v);
+    leda_edge y = new_edge(v,last_v);
+    set_reversal(x,y);
+    last_v = v;
+
+
+    // scan remaining points
+
+    Point p=last_p; // changed ....
+    forall(p,L) 
+    { if (p == last_p) continue; 
+
+      leda_edge e =  last_adj_edge(last_v);
+
+      last_v = new_node(p);
+      last_p = p;
+
+      // walk up to upper tangent
+      do e = face_cycle_pred(e); while (orientation(e,p) > 0);
+
+      // walk down to lower tangent and triangulate
+      do { e = face_cycle_succ(e);
+         leda_edge x = new_edge(e,last_v);
+         leda_edge y = new_edge(last_v,source(e));
+         set_reversal(x,y);
+         } while (orientation(e,p) > 0);
+     }
+
+    // mark edges of convex hull
+
+    hull_dart = last_edge();
+  
+    cur_dart = reversal(hull_dart);
+ 
+    leda_edge e0 = hull_dart;
+    leda_edge e  = e0;
+    do { mark_edge(e,CGAL_HULL_DART);
+       e = face_cycle_succ(e);
+       } while (e != e0); 
+
+    make_delaunay();
+
+    init_node_marks();
+  } 
+
+   leda_list<Point>  points() const;
+
+   template<class OutputIterator>
+   OutputIterator points(OutputIterator out)
+   {    
+     leda_node v;
+     forall_nodes(v,*this) { *out= pos(v); out++; } 
+     return out;
+   }
+   
+   template<class OutputIterator>
+   OutputIterator segments(OutputIterator out)
+   {    
+     leda_edge e;
+     forall_edges(e,*this) { *out= seg(e); out++; } 
+     return out;
+   }     
+   
+   template<class OutputIterator>
+   OutputIterator vertices(OutputIterator out)
+   {    
+     leda_node v;
+     forall_nodes(v,*this) { *out= v; out++; } 
+     return out;
+   }
+   
+   template<class OutputIterator>
+   OutputIterator edges(OutputIterator out)
+   {    
+     leda_edge e;
+     forall_edges(e,*this) { *out= e; out++; } 
+     return out;
+   }        
+  
+   Edge   d_face_cycle_succ(Edge e) const
+   { e = reversal(e);
+     do e = cyclic_adj_pred(e); 
+     while (!is_diagram_dart(e));
+     return e;
+   }
+
+   Edge   d_face_cycle_pred(Edge e) const
+   { do e = cyclic_adj_succ(e); 
+       while (!is_diagram_dart(e));
+     return reversal(e);
+   }
+
+   bool   empty() { return number_of_nodes() == 0; }
+   
+   bool   is_empty() { return number_of_nodes() == 0; }
+
+   void   clear() { GRAPH<Point,int>::clear(); cur_dart = hull_dart = nil; }
+
+   Edge   locate(Point p) const;
+
+   Vertex   lookup(Point p) const;
+
+   Vertex   insert(Point p);
+
+   void del(Vertex v);
+
+   void del(Point p);
+
+   Vertex   nearest_neighbor(Point p);
+
+   Vertex   nearest_neighbor(Vertex v) const;   
+   
+   Vertex   nearest_neighborA(Vertex v) const;
+   
+   Vertex   nearest_neighborD(Point p) const;
+
+    template<class OutputIterator>
+    OutputIterator   nearest_neighbors(Point p, int k,OutputIterator res)
+    { leda_list<leda_node> result;
+     int n = number_of_nodes();
+     leda_node nd;
+   
+     if ( k <= 0 ) return res;
+     if ( n <= k ) {
+      result=all_nodes();
+      forall(nd,result) { *res=nd; res++; }
+      return res;
+     }
+   
+     // insert p and search neighbors graph starting at p
+   
+     leda_node v = lookup(p);  
+     bool old_node = true;
+     if ( v == nil ) 
+     { v = ((Point_set_2*)this)->insert(p);
+       old_node = false;
+       k++;
+     } 
+   
+     result = nearest_neighbors(v,k);
+      
+     if ( !old_node ) 
+     { result.pop();
+       ((Point_set_2*)this)->del(v);
+     }
+
+     forall(nd,result) { *res=nd; res++; }
+     return res;   
+    }  
+
+   leda_list<Vertex>   nearest_neighbors(Point p, int k);
+
+   template<class OutputIterator>  
+   OutputIterator  nearest_neighbors(Vertex v, int k,OutputIterator res) const
+   { leda_list<leda_node> result;
+     int n = number_of_nodes();
+     leda_node nd;
+   
+     if ( k <= 0 ) return res;
+     if ( n <= k ) {
+       result=all_nodes();
+       forall(nd,result) { *res=nd; res++; }
+       return res;
+     }
+     
+     Point p = pos(v);
+   
+     unmark_all_nodes();
+     
+     leda_p_queue<Numb_type,leda_node> PQ;
+   
+     PQ.insert(0,v); mark_node(v);
+   
+     while ( k > 0 )
+     { pq_item it = PQ.find_min();
+       leda_node w = PQ.inf(it); PQ.del_item(it);
+   
+       result.append(w); k--; 
+   
+       leda_node z;
+       forall_adj_nodes(z,w)
+       { if ( !is_marked(z) )
+         { PQ.insert(tr_sqrdist(p,pos(z)),z);
+           mark_node(z);
+         }
+       }
+     }
+
+     forall(nd,result) { *res=nd; res++; }   
+     return res;
+   } 
+   
+      
+   leda_list<Vertex>   nearest_neighbors(Vertex v, int k) const;
+
+   template<class OutputIterator>
+   OutputIterator range_search(const Circle& C, OutputIterator res)
+   { 
+     leda_list<leda_node> L;
+     leda_node nd;
+   
+     //int orient = C.orientation();  // Achtung !!!!!!!!
+     //if (orient == 0)
+     //    error_handler(1,"Point_set_2::range_search: circle must be proper");
+   
+     if (number_of_nodes() == 0) return res;
+     if ( number_of_nodes() == 1 && !(tr_circleptori(C,pos(first_node()))==ON_UNBOUNDED_SIDE)) //changed
+     { //L.append(first_node());
+       //return L;
+       *res=first_node(); res++;
+       return res;
+     }
+   
+     Point p = tr_circlecenter(C);
+     leda_node v = lookup(p);  
+     bool new_v = false;
+   
+     if ( v == nil )
+     { new_v = true;
+       v = insert(p); 
+     }
+   
+     unmark_all_nodes(); 
+   
+     dfs(v,C,L);
+   
+     if (new_v)
+     { L.pop();   
+       del(v);
+     }
+     
+     forall(nd,L){ *res=nd; res++; }
+     return res;
+   }
+   
+   leda_list<Vertex> range_search(const Circle& C);
+   
+   template<class OutputIterator> 
+   OutputIterator range_search(Vertex v,const Point& p, OutputIterator res) const
+   { 
+    leda_list<leda_node> L;
+
+    Point pv = pos(v);
+
+    unmark_all_nodes(); 
+
+    dfs(v,pv,p,L);
+
+    leda_node nd;
+    forall(nd,L){ *res=nd; res++; }
+    return res;
+  }
+
+
+   leda_list<Vertex> range_search(Vertex v,const Point& p) const;
+
+
+   template<class OutputIterator>
+   OutputIterator range_search(const Point& a, const Point& b, const Point& c,OutputIterator res)
+   { int orient = (int)(tr_orientation(a,b,c));
+     Circle C = tr_createcircle_3p(a,b,c);
+     leda_list<leda_node> L = range_search(C);
+     list_item it = L.first_item();
+     while (it != nil)
+     { Point p = pos(L[it]);
+       list_item next_it = L.succ(it);
+       if ( ((int)(tr_orientation(a,b,p))) == - orient ||
+            ((int)(tr_orientation(b,c,p))) == - orient ||
+            ((int)(tr_orientation(c,a,p))) == - orient )      
+          L.del_item(it);
+       it = next_it;
+     }
+     leda_node nd;
+     
+     forall(nd,L){ *res=nd; res++; }
+     return res;     
+   }
+
+   leda_list<Vertex> range_search(const Point& a, const Point& b, const Point& c);
+
+
+   template<class OutputIterator>
+   OutputIterator range_search(const Point& a1, const Point& b1, const Point& c1,const Point&
+   d1,OutputIterator res)
+   // a1 lower left, b1 lower right , c1 upper right
+   {
+     //Point b(c.xcoord(),a.ycoord());
+     //Point d(a.xcoord(),c.ycoord());
+     Point a=a1,b=b1,c=c1,d=d1;
+   
+     if (tr_orientation(a,b,c) == RIGHTTURN) 
+     { Point tmp = b;
+       b = d;
+       d = tmp;
+      }
+   
+     //W.set_color(leda_red);
+     //W << a; W << b; W << c;
+     Circle C = tr_createcircle_3p(a,b,c);
+     //W << C;
+   
+     leda_list<leda_node> L = range_search(C);
+     
+     list_item it = L.first_item();
+     while (it != nil)
+     { Point p = pos(L[it]);
+       list_item next_it = L.succ(it);
+       if ( tr_orientation(a,b,p) == RIGHTTURN || tr_orientation(b,c,p) == RIGHTTURN ||
+            tr_orientation(c,d,p) == RIGHTTURN || tr_orientation(d,a,p) == RIGHTTURN )
+          L.del_item(it);
+       it = next_it;
+     }
+     
+     leda_node nd; 
+     forall(nd,L){ *res=nd; res++; }
+     return res;    
+   }
+
+
+   leda_list<Vertex> rectangular_range_search(const Point& a1, const Point& b1, const Point& c1,const Point& d1);
+
+   static const Point_set_2<TR>* T_tmp; 
+
+   static int cmp_edge_length(const leda_edge& e1, const leda_edge& e2)
+   { Numb_type l1 = T_tmp->tr_sqrdist(T_tmp->pos_source(e1),T_tmp->pos_target(e1)); 
+     Numb_type l2 = T_tmp->tr_sqrdist(T_tmp->pos_source(e2),T_tmp->pos_target(e2)); 
+#if defined  POINT_SET_LEDA_ONLY
+     return compare(l1,l2);
+#else
+     return CGAL::compare(l1,l2);
+#endif
+   }     
+   
+   leda_list<Edge> minimum_spanning_tree() const
+   { T_tmp = this; 
+     return MIN_SPANNING_TREE(*this, Point_set_2<TR>::cmp_edge_length);
+   }   
+   
+   template<class OutputIterator>
+   OutputIterator minimum_spanning_tree(OutputIterator result) const
+   { 
+     leda_list<Edge> EL;
+     T_tmp = this; 
+     EL=MIN_SPANNING_TREE(*this, Point_set_2<TR>::cmp_edge_length);
+     Edge e;
+     forall(e,EL) {  *result = e;  ++result; }
+     return result;
+   }      
+
+   void   compute_voronoi(GRAPH<Circle,Point>& VD) const;
+ 
+   void checking_on()
+   { check = true; }
+
+   void checking_off()
+   { check = false; }
+
+   bool check_state(const leda_string& location) const;
+ 
+   bool     IS_NON_DIAGRAM_DART(Edge e) const;
+  
+  bool is_non_diagram_edge(Edge e) const
+  {
+    return IS_NON_DIAGRAM_DART(e); 
+  }
+
+   Edge get_cur_dart()  const { return cur_dart; }
+   void set_cur_dart(Edge e)  { cur_dart = e;    }
+   void set_hull_dart(Edge e) { hull_dart = e;   }
+
+   Point pos(Vertex v) const
+   { return inf(v); }
+    
+   Point pos_source(Edge e) const
+   { return inf(source(e)); }
+    
+   Point pos_target(Edge e) const
+   { return inf(target(e)); }
+    
+   Segment seg(Edge e) const           
+   { return tr_createsegment_2p(inf(source(e)),inf(target(e))); }
+    
+   Line supporting_line(Edge e) const           
+   { return tr_createline_2p(inf(source(e)),inf(target(e))); }
+    
+   Edge  get_hull_dart() const
+   { return hull_dart; }
+    
+   Edge  get_hull_edge() const
+   { return hull_dart; }
+    
+   bool is_diagram_dart(Edge e) const
+   { return !(inf(e) & CGAL_NON_DIAGRAM_DART); }
+    
+   bool  is_diagram_edge(Edge e) const
+   { return is_diagram_dart(e); }
+    
+   bool is_hull_dart(Edge e) const
+   { return inf(e) & CGAL_HULL_DART; }
+    
+   bool is_hull_edge(Edge e) const
+   { return is_hull_dart(e); }
+    
+   int orientation(Edge e, Point p) const
+   { return ((int)tr_orientation(pos(source(e)),pos(target(e)),p)); }
+    
+   int dim() const
+   { int n = number_of_nodes();
+     if (n <= 1) 
+        return n - 1;
+     else
+        return (is_hull_dart(reversal(hull_dart))) ? 1 : 2 ;
+   }
+
+};
+
+template<class TR> const Point_set_2<TR>* Point_set_2<TR>::T_tmp;
+
+
+
+// Impl. ...
+
+   template<class TR>
+   void Point_set_2<TR>::init_hull()
    { 
     hull_dart = nil;
 
@@ -237,8 +784,8 @@ private:
     }
    }
    
-   
-   void make_delaunay(leda_list<leda_edge>& S)
+   template<class TR>
+   void Point_set_2<TR>::make_delaunay(leda_list<leda_edge>& S)
    {
     // Transforms graph into a Delaunay triangulation by flipping edges.
     // Diagonals of co-circular convex quadrilaterals are marked as 
@@ -293,13 +840,14 @@ private:
 
   } 
    
-   void make_delaunay()
+   template<class TR>
+   void Point_set_2<TR>::make_delaunay()
    { leda_list<leda_edge> S = all_edges();
      make_delaunay(S);
    }
 
-
-   void check_locate(leda_edge answer,const Point& p) const
+   template<class TR>
+   void Point_set_2<TR>::check_locate(leda_edge answer,const Point& p) const
    { 
     if (answer == nil && dim() < 1) return;
 
@@ -342,10 +890,8 @@ private:
    exit(1);
   }
    
-
-   //bool simplify_face(leda_node v, leda_list<leda_edge>& E);
-
-   void dfs(leda_node s, const Circle& C, leda_list<leda_node>& L) const
+   template<class TR>
+   void Point_set_2<TR>::dfs(leda_node s, const Circle& C, leda_list<leda_node>& L) const
    /* a procedure used in range_search(const Circle& C) */
   { L.append(s);
     mark_node(s);
@@ -354,8 +900,8 @@ private:
       if (!is_marked(u) && ! (tr_circleptori(C,pos(u))==ON_UNBOUNDED_SIDE) ) dfs(u,C,L);  //was C.outside
   }
       
-
-   void dfs(leda_node s, const Point& pv, const Point& p, leda_list<leda_node>& L) const
+   template<class TR>
+   void Point_set_2<TR>::dfs(leda_node s, const Point& pv, const Point& p, leda_list<leda_node>& L) const
    /* a procedure used in range_search(leda_node v, const Point& p) */
   { L.append(s);
     mark_node(s);
@@ -366,90 +912,9 @@ private:
        if (cr==SMALLER || cr==EQUAL) dfs(u,pv,p,L);
       }
   }  
-
-
-public:
-
-   Point_set_2()
-   { cur_dart = nil; 
-     hull_dart = nil;
-     init_node_marks();
-     check = false;
-   }
-
-   Point_set_2(const leda_list<Point>& S)
-   { cur_dart = nil; 
-     hull_dart = nil;
-     init_node_marks();
-     check = false;
-     
-     init(S);
-   }
-
-   Point_set_2(const std::list<Point>& S)
-   { cur_dart = nil; 
-     hull_dart = nil;
-     init_node_marks();
-     check = false;
-     
-     init(S);
-   }
    
-   template<class InputIterator>
-   Point_set_2(InputIterator first, InputIterator last)
-   { cur_dart = nil; 
-     hull_dart = nil;
-     init_node_marks();
-     check = false;
-     
-     init(first,last);
-   }
-
-   Point_set_2(const GRAPH<Point,int>& G) :GRAPH<Point,int>(G)
-   { 
-     leda_edge e;
-     forall_edges(e,*this) mark_edge(e,CGAL_DIAGRAM_DART);
-     init_hull(); 
-     make_delaunay(); 
-     if (number_of_edges() > 0) 
-       cur_dart = reversal(hull_dart); 
-     else 
-       cur_dart = nil;
-     init_node_marks();
-     check = false;
-   }
-   
-
-   Point_set_2(const Point_set_2& T):GRAPH<Point,int>(T)
-   { 
-     init_hull(); 
-     if (number_of_edges() > 0) 
-        cur_dart = reversal(hull_dart); 
-     else 
-        cur_dart = nil;
-     init_node_marks();
-     check = false;
-   }
-
-
-   Point_set_2& operator=(const Point_set_2& T)
-   { 
-     GRAPH<Point,int>::operator=(T); 
-     init_hull(); 
-     if (number_of_edges() > 0) 
-       cur_dart = reversal(hull_dart); 
-     else 
-       cur_dart = nil;
-     init_node_marks();
-     check = false;
-     return *this; 
-   } 
-    
-   
-   
-   ~Point_set_2() {}
-
-   void  init(const leda_list<Point>& L0)
+   template<class TR>
+   void  Point_set_2<TR>::init(const leda_list<Point>& L0)
    { 
     // construct a triangulation for the points in L0
 
@@ -516,8 +981,9 @@ public:
 
     init_node_marks();
   }    
-
-   void  init(const std::list<Point>& L0)
+  
+   template<class TR>
+   void  Point_set_2<TR>::init(const std::list<Point>& L0)
    { 
     // construct a triangulation for the points in L0
 
@@ -595,141 +1061,17 @@ public:
     init_node_marks();
   }    
 
-   
-   template<class InputIterator>
-   void init(InputIterator first, InputIterator last)
-   { 
-    // construct a triangulation for the points in L0
-
-    clear();
-
-    if (first==last) return;
-
-    leda_list<Point> L;
-    InputIterator it=first;
-    
-    for(;it!=last;++it){
-      L.append(*it);
-    }
-    
-    L.sort(tr_comparepoints);  
-
-    // initialize graph with a single edge starting at the first point
-
-    Point last_p = L.pop();          // last visited point
-    leda_node  last_v = new_node(last_p); // last inserted node
-
-    while (!L.empty() && last_p == L.head()) L.pop();
-
-    if (L.empty()) return;
-
-    last_p = L.pop();
-    leda_node v = new_node(last_p);
-    leda_edge x = new_edge(last_v,v);
-    leda_edge y = new_edge(v,last_v);
-    set_reversal(x,y);
-    last_v = v;
-
-
-    // scan remaining points
-
-    Point p=last_p; // changed ....
-    forall(p,L) 
-    { if (p == last_p) continue; 
-
-      leda_edge e =  last_adj_edge(last_v);
-
-      last_v = new_node(p);
-      last_p = p;
-
-      // walk up to upper tangent
-      do e = face_cycle_pred(e); while (orientation(e,p) > 0);
-
-      // walk down to lower tangent and triangulate
-      do { e = face_cycle_succ(e);
-         leda_edge x = new_edge(e,last_v);
-         leda_edge y = new_edge(last_v,source(e));
-         set_reversal(x,y);
-         } while (orientation(e,p) > 0);
-     }
-
-    // mark edges of convex hull
-
-    hull_dart = last_edge();
-  
-    cur_dart = reversal(hull_dart);
- 
-    leda_edge e0 = hull_dart;
-    leda_edge e  = e0;
-    do { mark_edge(e,CGAL_HULL_DART);
-       e = face_cycle_succ(e);
-       } while (e != e0); 
-
-    make_delaunay();
-
-    init_node_marks();
-  } 
-
-
-   leda_list<Point>  points() const
+   template<class TR>
+   leda_list<CGAL_TYPENAME_MSVC_NULL Point_set_2<TR>::Point>  Point_set_2<TR>::points() const
    { leda_list <Point> L;
      leda_node v;
      forall_nodes(v,*this) L.append(pos(v));
      return L;
-   }
-
-   template<class OutputIterator>
-   OutputIterator points(OutputIterator out)
-   {    
-     leda_node v;
-     forall_nodes(v,*this) { *out= pos(v); out++; } 
-     return out;
-   }
-   
-   template<class OutputIterator>
-   OutputIterator segments(OutputIterator out)
-   {    
-     leda_edge e;
-     forall_edges(e,*this) { *out= seg(e); out++; } 
-     return out;
-   }     
-   
-   template<class OutputIterator>
-   OutputIterator vertices(OutputIterator out)
-   {    
-     leda_node v;
-     forall_nodes(v,*this) { *out= v; out++; } 
-     return out;
-   }
-   
-   template<class OutputIterator>
-   OutputIterator edges(OutputIterator out)
-   {    
-     leda_edge e;
-     forall_edges(e,*this) { *out= e; out++; } 
-     return out;
-   }        
+   }      
   
-   Edge   d_face_cycle_succ(Edge e) const
-   { e = reversal(e);
-     do e = cyclic_adj_pred(e); 
-     while (!is_diagram_dart(e));
-     return e;
-   }
-
-   Edge   d_face_cycle_pred(Edge e) const
-   { do e = cyclic_adj_succ(e); 
-       while (!is_diagram_dart(e));
-     return reversal(e);
-   }
-
-   bool   empty() { return number_of_nodes() == 0; }
-   
-   bool   is_empty() { return number_of_nodes() == 0; }
-
-   void   clear() { GRAPH<Point,int>::clear(); cur_dart = hull_dart = nil; }
-
-   Edge   locate(Point p) const
+   template<class TR>
+   Point_set_2<TR>::Edge   
+   Point_set_2<TR>::locate(Point p) const
    { 
     if (number_of_edges() == 0) return nil;
 
@@ -802,8 +1144,9 @@ public:
     return e;
   }
 
-
-   Vertex   lookup(Point p) const
+   template<class TR>
+   Point_set_2<TR>::Vertex   
+   Point_set_2<TR>::lookup(Point p) const
    { 
      if (number_of_nodes() == 0) return nil;   
      
@@ -817,7 +1160,9 @@ public:
      return nil;
    }
 
-   Vertex   insert(Point p)
+   template<class TR>
+   Point_set_2<TR>::Vertex   
+   Point_set_2<TR>::insert(Point p)
    { 
      leda_node v; 
   
@@ -942,7 +1287,8 @@ public:
    }
 
    
-   void del(Vertex v)
+   template<class TR>
+   void Point_set_2<TR>::del(Vertex v)
    {  
      if (v == nil) 
         error_handler(1,"Point_set_2::del: nil argument.");
@@ -1045,14 +1391,16 @@ public:
    
    }
 
-
-   void del(Point p)
+   template<class TR>
+   void Point_set_2<TR>::del(Point p)
    { leda_node v = lookup(p);
      if ( v != nil ) del(v);
    }
 
 
-   Vertex   nearest_neighbor(Point p)
+   template<class TR>
+   Point_set_2<TR>::Vertex   
+   Point_set_2<TR>::nearest_neighbor(Point p)
     {
      if (number_of_nodes() == 0) return nil;
    
@@ -1073,7 +1421,9 @@ public:
    }
      
 
-   Vertex   nearest_neighbor(Vertex v) const
+   template<class TR>
+   Point_set_2<TR>::Vertex   
+   Point_set_2<TR>::nearest_neighbor(Vertex v) const
    {
      if (number_of_nodes() <= 1) return nil;
    
@@ -1090,8 +1440,9 @@ public:
      return min_v;
    }
    
-   
-   Vertex   nearest_neighborA(Vertex v) const
+   template<class TR>
+   Point_set_2<TR>::Vertex   
+   Point_set_2<TR>::nearest_neighborA(Vertex v) const
    {
      if (number_of_nodes() <= 1) return nil;
    
@@ -1114,7 +1465,9 @@ public:
      return min_v;
    }  
    
-   Vertex   nearest_neighborD(Point p) const
+   template<class TR>
+   Point_set_2<TR>::Vertex   
+   Point_set_2<TR>::nearest_neighborD(Point p) const
    { 
      if (number_of_nodes() == 0) return nil;
      if (number_of_nodes() == 1) return first_node();
@@ -1161,41 +1514,10 @@ public:
    
    }
  
-    template<class OutputIterator>
-    OutputIterator   nearest_neighbors(Point p, int k,OutputIterator res)
-    { leda_list<leda_node> result;
-     int n = number_of_nodes();
-     leda_node nd;
-   
-     if ( k <= 0 ) return res;
-     if ( n <= k ) {
-      result=all_nodes();
-      forall(nd,result) { *res=nd; res++; }
-      return res;
-     }
-   
-     // insert p and search neighbors graph starting at p
-   
-     leda_node v = lookup(p);  
-     bool old_node = true;
-     if ( v == nil ) 
-     { v = ((Point_set_2*)this)->insert(p);
-       old_node = false;
-       k++;
-     } 
-   
-     result = nearest_neighbors(v,k);
-      
-     if ( !old_node ) 
-     { result.pop();
-       ((Point_set_2*)this)->del(v);
-     }
-
-     forall(nd,result) { *res=nd; res++; }
-     return res;   
-    }  
-
-   leda_list<Vertex>   nearest_neighbors(Point p, int k)
+  
+   template<class TR>
+   leda_list<CGAL_TYPENAME_MSVC_NULL Point_set_2<TR>::Vertex>   
+   Point_set_2<TR>::nearest_neighbors(Point p, int k)
     { leda_list<leda_node> result;
      int n = number_of_nodes();
    
@@ -1222,48 +1544,10 @@ public:
      return result;
    } 
 
-   template<class OutputIterator>  
-   OutputIterator  nearest_neighbors(Vertex v, int k,OutputIterator res) const
-   { leda_list<leda_node> result;
-     int n = number_of_nodes();
-     leda_node nd;
-   
-     if ( k <= 0 ) return res;
-     if ( n <= k ) {
-       result=all_nodes();
-       forall(nd,result) { *res=nd; res++; }
-       return res;
-     }
-     
-     Point p = pos(v);
-   
-     unmark_all_nodes();
-     
-     leda_p_queue<Numb_type,leda_node> PQ;
-   
-     PQ.insert(0,v); mark_node(v);
-   
-     while ( k > 0 )
-     { pq_item it = PQ.find_min();
-       leda_node w = PQ.inf(it); PQ.del_item(it);
-   
-       result.append(w); k--; 
-   
-       leda_node z;
-       forall_adj_nodes(z,w)
-       { if ( !is_marked(z) )
-         { PQ.insert(tr_sqrdist(p,pos(z)),z);
-           mark_node(z);
-         }
-       }
-     }
 
-     forall(nd,result) { *res=nd; res++; }   
-     return res;
-   } 
-   
-      
-   leda_list<Vertex>   nearest_neighbors(Vertex v, int k) const
+   template<class TR>
+   leda_list<CGAL_TYPENAME_MSVC_NULL Point_set_2<TR>::Vertex>   
+   Point_set_2<TR>::nearest_neighbors(Vertex v, int k) const
    { leda_list<leda_node> result;
      int n = number_of_nodes();
    
@@ -1296,47 +1580,10 @@ public:
      return result;
    } 
 
-   template<class OutputIterator>
-   OutputIterator range_search(const Circle& C, OutputIterator res)
-   { 
-     leda_list<leda_node> L;
-     leda_node nd;
-   
-     //int orient = C.orientation();  // Achtung !!!!!!!!
-     //if (orient == 0)
-     //    error_handler(1,"Point_set_2::range_search: circle must be proper");
-   
-     if (number_of_nodes() == 0) return res;
-     if ( number_of_nodes() == 1 && !(tr_circleptori(C,pos(first_node()))==ON_UNBOUNDED_SIDE)) //changed
-     { //L.append(first_node());
-       //return L;
-       *res=first_node(); res++;
-       return res;
-     }
-   
-     Point p = tr_circlecenter(C);
-     leda_node v = lookup(p);  
-     bool new_v = false;
-   
-     if ( v == nil )
-     { new_v = true;
-       v = insert(p); 
-     }
-   
-     unmark_all_nodes(); 
-   
-     dfs(v,C,L);
-   
-     if (new_v)
-     { L.pop();   
-       del(v);
-     }
-     
-     forall(nd,L){ *res=nd; res++; }
-     return res;
-   }
-   
-   leda_list<Vertex> range_search(const Circle& C)
+
+   template<class TR>
+   leda_list<CGAL_TYPENAME_MSVC_NULL Point_set_2<TR>::Vertex> 
+   Point_set_2<TR>::range_search(const Circle& C)
    { 
      leda_list<leda_node> L;
    
@@ -1369,25 +1616,10 @@ public:
      }
      return L;
    }
-   
-   template<class OutputIterator> 
-   OutputIterator range_search(Vertex v,const Point& p, OutputIterator res) const
-   { 
-    leda_list<leda_node> L;
 
-    Point pv = pos(v);
-
-    unmark_all_nodes(); 
-
-    dfs(v,pv,p,L);
-
-    leda_node nd;
-    forall(nd,L){ *res=nd; res++; }
-    return res;
-  }
-
-
-   leda_list<Vertex> range_search(Vertex v,const Point& p) const
+   template<class TR>
+   leda_list<CGAL_TYPENAME_MSVC_NULL Point_set_2<TR>::Vertex> 
+   Point_set_2<TR>::range_search(Vertex v,const Point& p) const
    { 
     leda_list<leda_node> L;
 
@@ -1400,28 +1632,9 @@ public:
     return L;
   }
 
-   template<class OutputIterator>
-   OutputIterator range_search(const Point& a, const Point& b, const Point& c,OutputIterator res)
-   { int orient = (int)(tr_orientation(a,b,c));
-     Circle C = tr_createcircle_3p(a,b,c);
-     leda_list<leda_node> L = range_search(C);
-     list_item it = L.first_item();
-     while (it != nil)
-     { Point p = pos(L[it]);
-       list_item next_it = L.succ(it);
-       if ( ((int)(tr_orientation(a,b,p))) == - orient ||
-            ((int)(tr_orientation(b,c,p))) == - orient ||
-            ((int)(tr_orientation(c,a,p))) == - orient )      
-          L.del_item(it);
-       it = next_it;
-     }
-     leda_node nd;
-     
-     forall(nd,L){ *res=nd; res++; }
-     return res;     
-   }
-
-   leda_list<Vertex> range_search(const Point& a, const Point& b, const Point& c)
+   template<class TR>
+   leda_list<CGAL_TYPENAME_MSVC_NULL Point_set_2<TR>::Vertex> 
+   Point_set_2<TR>::range_search(const Point& a, const Point& b, const Point& c)
    { int orient = (int)(tr_orientation(a,b,c));
      Circle C = tr_createcircle_3p(a,b,c);
      leda_list<leda_node> L = range_search(C);
@@ -1438,46 +1651,9 @@ public:
      return L;
    }
 
-
-   template<class OutputIterator>
-   OutputIterator range_search(const Point& a1, const Point& b1, const Point& c1,const Point&
-   d1,OutputIterator res)
-   // a1 lower left, b1 lower right , c1 upper right
-   {
-     //Point b(c.xcoord(),a.ycoord());
-     //Point d(a.xcoord(),c.ycoord());
-     Point a=a1,b=b1,c=c1,d=d1;
-   
-     if (tr_orientation(a,b,c) == RIGHTTURN) 
-     { Point tmp = b;
-       b = d;
-       d = tmp;
-      }
-   
-     //W.set_color(leda_red);
-     //W << a; W << b; W << c;
-     Circle C = tr_createcircle_3p(a,b,c);
-     //W << C;
-   
-     leda_list<leda_node> L = range_search(C);
-     
-     list_item it = L.first_item();
-     while (it != nil)
-     { Point p = pos(L[it]);
-       list_item next_it = L.succ(it);
-       if ( tr_orientation(a,b,p) == RIGHTTURN || tr_orientation(b,c,p) == RIGHTTURN ||
-            tr_orientation(c,d,p) == RIGHTTURN || tr_orientation(d,a,p) == RIGHTTURN )
-          L.del_item(it);
-       it = next_it;
-     }
-     
-     leda_node nd; 
-     forall(nd,L){ *res=nd; res++; }
-     return res;    
-   }
-
-
-   leda_list<Vertex> rectangular_range_search(const Point& a1, const Point& b1, const Point& c1,const Point& d1)
+   template<class TR>
+   leda_list<CGAL_TYPENAME_MSVC_NULL Point_set_2<TR>::Vertex> 
+   Point_set_2<TR>::rectangular_range_search(const Point& a1, const Point& b1, const Point& c1,const Point& d1)
    {
      //Point b(c.xcoord(),a.ycoord());
      //Point d(a.xcoord(),c.ycoord());
@@ -1503,36 +1679,9 @@ public:
      }
      return L;
    }
-
-   static const Point_set_2<TR>* T_tmp; 
-
-   static int cmp_edge_length(const leda_edge& e1, const leda_edge& e2)
-   { Numb_type l1 = T_tmp->tr_sqrdist(T_tmp->pos_source(e1),T_tmp->pos_target(e1)); 
-     Numb_type l2 = T_tmp->tr_sqrdist(T_tmp->pos_source(e2),T_tmp->pos_target(e2)); 
-#if defined  POINT_SET_LEDA_ONLY
-     return compare(l1,l2);
-#else
-     return CGAL::compare(l1,l2);
-#endif
-   }     
-   
-   leda_list<Edge> minimum_spanning_tree() const
-   { T_tmp = this; 
-     return MIN_SPANNING_TREE(*this, Point_set_2<TR>::cmp_edge_length);
-   }   
-   
-   template<class OutputIterator>
-   OutputIterator minimum_spanning_tree(OutputIterator result) const
-   { 
-     leda_list<Edge> EL;
-     T_tmp = this; 
-     EL=MIN_SPANNING_TREE(*this, Point_set_2<TR>::cmp_edge_length);
-     Edge e;
-     forall(e,EL) {  *result = e;  ++result; }
-     return result;
-   }      
-
-   void   compute_voronoi(GRAPH<Circle,Point>& VD) const
+           
+   template<class TR>
+   void  Point_set_2<TR>::compute_voronoi(GRAPH<Circle,Point>& VD) const
    { 
      VD.clear();
    
@@ -1599,14 +1748,9 @@ public:
       }
       // add a check for correctness
    }
- 
-   void checking_on()
-   { check = true; }
 
-   void checking_off()
-   { check = false; }
-
-   bool check_state(const leda_string& location) const
+   template<class TR>
+   bool Point_set_2<TR>::check_state(const leda_string& location) const
    { 
     if ( !check ) return true;
 
@@ -1714,8 +1858,8 @@ public:
    return true;
   } 
    
- 
-   bool     IS_NON_DIAGRAM_DART(Edge e) const
+   template<class TR>
+   bool     Point_set_2<TR>::IS_NON_DIAGRAM_DART(Edge e) const
    { leda_edge r = reversal(e);
   
     // e1,e2,e3,e4: edges of quadrilateral with diagonal e
@@ -1734,63 +1878,7 @@ public:
         return true;
     return false;
   }
-  
-  bool is_non_diagram_edge(Edge e) const
-  {
-    return IS_NON_DIAGRAM_DART(e); 
-  }
 
-   Edge get_cur_dart()  const { return cur_dart; }
-   void set_cur_dart(Edge e)  { cur_dart = e;    }
-   void set_hull_dart(Edge e) { hull_dart = e;   }
-
-   Point pos(Vertex v) const
-   { return inf(v); }
-    
-   Point pos_source(Edge e) const
-   { return inf(source(e)); }
-    
-   Point pos_target(Edge e) const
-   { return inf(target(e)); }
-    
-   Segment seg(Edge e) const           
-   { return tr_createsegment_2p(inf(source(e)),inf(target(e))); }
-    
-   Line supporting_line(Edge e) const           
-   { return tr_createline_2p(inf(source(e)),inf(target(e))); }
-    
-   Edge  get_hull_dart() const
-   { return hull_dart; }
-    
-   Edge  get_hull_edge() const
-   { return hull_dart; }
-    
-   bool is_diagram_dart(Edge e) const
-   { return !(inf(e) & CGAL_NON_DIAGRAM_DART); }
-    
-   bool  is_diagram_edge(Edge e) const
-   { return is_diagram_dart(e); }
-    
-   bool is_hull_dart(Edge e) const
-   { return inf(e) & CGAL_HULL_DART; }
-    
-   bool is_hull_edge(Edge e) const
-   { return is_hull_dart(e); }
-    
-   int orientation(Edge e, Point p) const
-   { return ((int)tr_orientation(pos(source(e)),pos(target(e)),p)); }
-    
-   int dim() const
-   { int n = number_of_nodes();
-     if (n <= 1) 
-        return n - 1;
-     else
-        return (is_hull_dart(reversal(hull_dart))) ? 1 : 2 ;
-   }
-
-};
-
-template<class TR> const Point_set_2<TR>* Point_set_2<TR>::T_tmp;
 
 CGAL_END_NAMESPACE
 

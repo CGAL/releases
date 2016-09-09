@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Weighted_alpha_shape_euclidean_traits_2.h
-// package       : Alpha_shapes_2 (5.5)
+// package       : Alpha_shapes_2 (8.3)
 // source        : $RCSfile: Weighted_alpha_shape_euclidean_traits_2.h,v $
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/11/08 16:11:55 $
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2000/07/11 16:16:06 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -81,7 +82,8 @@ public:
   
   typedef typename R::FT Coord_type;
   typedef typename 
-  Regular_triangulation_euclidean_traits_2<R, typename R::FT>::Point Point;
+   Regular_triangulation_euclidean_traits_2<R, typename R::FT>::Weighted_point 
+     Point;
 
   //---------------------------------------------------------------------
 

@@ -1,7 +1,7 @@
 
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -31,17 +31,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Straight_2.h
-// package       : Intersections_2 (2.2.2)
+// package       : Intersections_2 (2.6.3)
 // source        : straight_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : MPI, Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -56,13 +57,15 @@ CGAL_BEGIN_NAMESPACE
 class Straight_2_base_ {
 public:
     enum states {EMPTY, POINT, SEGMENT, RAY, LINE};
-protected:
     enum bound_states {NO_UNBOUNDED=0, MIN_UNBOUNDED=1, MAX_UNBOUNDED=2,
                         BOTH_UNBOUNDED = 3, LINE_EMPTY = 4};
+protected:
                             Straight_2_base_() ;
     int                     main_dir_;  // support_ is x or y directed (0/1).
     int                     dir_sign_;  // sign of main direction coord.
     unsigned int            bound_state_; // 0, 1, 2, 3, 4.
+public:
+inline unsigned int            bound_state() const {return bound_state_;}
 };
 
 template <class R>
@@ -72,6 +75,7 @@ public:
                             Straight_2_(Point_2<R> const &point) ;
                             Straight_2_(Line_2<R> const &line) ;
                             Straight_2_(Ray_2<R> const &ray) ;
+                            Straight_2_(Ray_2<R> const &ray,bool cooriented) ;
                             Straight_2_(Segment_2<R> const &seg) ;
                             ~Straight_2_() {}
     void                    cut_right_off(Line_2<R> const & cutter) ;
@@ -82,6 +86,9 @@ public:
     void                    current(Segment_2<R> &seg) const;
     void                    current(Point_2<R> &point) const;
     states                  current_state() const;
+    bool                    operator==(const Straight_2_<R>&) const;
+    bool                    operator!=(const Straight_2_<R>&other) const
+                { return !(*this == other);}
 protected:
     Line_2<R>          support_;   // The supporting line.
     Point_2<R>         min_;
@@ -134,8 +141,9 @@ Straight_2_(Line_2<R> const &line)
 {
     support_ = line;
     Vector_2<R> const &dir = support_.direction().to_vector();
-    main_dir_ = (abs(dir.x()) > abs(dir.y()) ) ? 0 : 1;
-    dir_sign_ = sign(support_.direction().to_vector().cartesian(main_dir_));
+    main_dir_ = (CGAL_NTS abs(dir.x()) > CGAL_NTS abs(dir.y()) ) ? 0 : 1;
+    dir_sign_ =
+        CGAL_NTS sign(support_.direction().to_vector().cartesian(main_dir_));
     bound_state_ = BOTH_UNBOUNDED;
 }
 
@@ -157,11 +165,37 @@ Straight_2_(Ray_2<R> const &ray)
 {
     support_ = ray.supporting_line();
     Vector_2<R> const &dir = ray.direction().to_vector();
-//    main_dir_ = (abs(dir.hx()) > abs(dir.hy()) ) ? 0 : 1;
-    main_dir_ = (abs(dir.x()) > abs(dir.y()) ) ? 0 : 1;
-    dir_sign_ = sign(support_.direction().to_vector().cartesian(main_dir_));
+//    main_dir_ = (CGAL_NTS abs(dir.hx()) > CGAL_NTS abs(dir.hy()) ) ? 0 : 1;
+    main_dir_ = (CGAL_NTS abs(dir.x()) > CGAL_NTS abs(dir.y()) ) ? 0 : 1;
+    dir_sign_ =
+        CGAL_NTS sign(support_.direction().to_vector().cartesian(main_dir_));
     bound_state_ = MAX_UNBOUNDED;
     min_ = ray.start();
+}
+
+template <class R>
+Straight_2_<R>::
+Straight_2_(Ray_2<R> const &ray_,bool cooriented)
+{
+        Ray_2<R> const &ray = cooriented ? ray_ : ray_.opposite();
+        support_ = ray.supporting_line();
+        /* the supporting line is cooriented with the input ray iff
+        cooriented is true */
+    Vector_2<R> const &dir = ray.direction().to_vector();
+//    main_dir_ = (CGAL_NTS abs(dir.hx()) > CGAL_NTS abs(dir.hy()) ) ? 0 : 1;
+    main_dir_ = (CGAL_NTS abs(dir.x()) > CGAL_NTS abs(dir.y()) ) ? 0 : 1;
+    dir_sign_ =
+        CGAL_NTS sign(support_.direction().to_vector().cartesian(main_dir_));
+    if (cooriented)
+        {
+            bound_state_ = MAX_UNBOUNDED;
+                min_ = ray.start();
+        }
+        else
+        {
+                bound_state_ = MIN_UNBOUNDED;
+                max_ = ray.start();
+        }
 }
 
 template <class R>
@@ -170,8 +204,9 @@ Straight_2_(Segment_2<R> const &seg)
 {
     support_ = seg.supporting_line();
     Vector_2<R> const &dir = support_.direction().to_vector();
-    main_dir_ = (abs(dir.x()) > abs(dir.y()) ) ? 0 : 1;
-    dir_sign_ = sign(support_.direction().to_vector().cartesian(main_dir_));
+    main_dir_ = (CGAL_NTS abs(dir.x()) > CGAL_NTS abs(dir.y()) ) ? 0 : 1;
+    dir_sign_ =
+        CGAL_NTS sign(support_.direction().to_vector().cartesian(main_dir_));
     bound_state_ = NO_UNBOUNDED;
     min_ = seg.start();
     max_ = seg.end();
@@ -195,7 +230,7 @@ current(Ray_2<R> &ray) const
     CGAL_kernel_assertion(bound_state_ == MIN_UNBOUNDED
                         || bound_state_ == MAX_UNBOUNDED);
     if (bound_state_ == MIN_UNBOUNDED) {
-        ray = Ray_2<R>(max_, -_support.direction());
+        ray = Ray_2<R>(max_, -support_.direction());
     } else {
         ray = Ray_2<R>(min_, support_.direction());
     }
@@ -221,6 +256,31 @@ current(Point_2<R> &pt) const
     pt = min_;
 }
 
+
+template <class R>
+bool Straight_2_<R>::operator==(const Straight_2_<R>& s) const
+{
+  typedef Straight_2_<R> Straight_2;
+  //    enum bound_states {NO_UNBOUNDED=0, MIN_UNBOUNDED=1, MAX_UNBOUNDED=2,
+  //                    BOTH_UNBOUNDED = 3, LINE_EMPTY = 4};
+  if (bound_state_!=s.bound_state()) return false;
+  if (bound_state_==Straight_2::LINE_EMPTY) return true; // empty
+  if (support_!=s.support_)
+    return false; // on different lines, even if both are points.
+  switch (bound_state_)
+    {
+    case Straight_2::NO_UNBOUNDED:
+      return min_==s.min_ && max_==s.max_;
+    case Straight_2::MAX_UNBOUNDED:
+      return min_==s.min_;
+    case Straight_2::MIN_UNBOUNDED:
+      return max_==s.max_;
+    case Straight_2::BOTH_UNBOUNDED:
+      return true;
+    }
+  return false;
+}
+
 /*
 template <class R>
 R::FT
@@ -244,7 +304,7 @@ int
 sign_of_cross(Direction_2<R> const &dir1,
             Direction_2<R> const &dir2)
 {
-    return sign(cross(dir1.to_vector(), dir2.to_vector()));
+    return CGAL_NTS sign(cross(dir1.to_vector(), dir2.to_vector()));
 }
 #endif
 
@@ -346,7 +406,7 @@ collinear_order(Point_2<R> const &pt1, Point_2<R> const & pt2) const
 // Other results are -1 (other side) and 0 (coincidence).
 {
     int diffsign;
-    diffsign = sign(pt2.cartesian(main_dir_)-pt1.cartesian(main_dir_));
+    diffsign = CGAL_NTS sign(pt2.cartesian(main_dir_)-pt1.cartesian(main_dir_));
     if (diffsign == 0)
         return 0;
     return (diffsign == dir_sign_) ? 1 : -1;

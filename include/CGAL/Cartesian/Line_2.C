@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Line_2.C
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.16 $
-// revision_date : $Date: 1999/11/22 12:30:47 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.24 $
+// revision_date : $Date: 2000/08/23 13:44:07 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -61,21 +62,13 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
-inline
-_Threetuple<typename LineC2<R CGAL_CTAG>::FT>*
-LineC2<R CGAL_CTAG>::ptr() const
-{
-  return (_Threetuple<FT>*)PTR;
-}
-
-template < class R >
 CGAL_KERNEL_INLINE
 void
 LineC2<R CGAL_CTAG>::new_rep(const typename LineC2<R CGAL_CTAG>::FT &a,
                              const typename LineC2<R CGAL_CTAG>::FT &b,
 			     const typename LineC2<R CGAL_CTAG>::FT &c)
 {
-  PTR = new _Threetuple<FT> (a, b, c);
+  new ( static_cast< void*>(ptr)) Threetuple<FT>(a, b, c);
 }
 
 template < class R >
@@ -84,7 +77,7 @@ void
 LineC2<R CGAL_CTAG>::new_rep(const typename LineC2<R CGAL_CTAG>::Point_2 &p,
                              const typename LineC2<R CGAL_CTAG>::Point_2 &q)
 {
-  LineC2<R CGAL_CTAG> l =  line_from_points(p,q);
+  LineC2<R CGAL_CTAG> l = line_from_points(p,q);
   new_rep(l.a(), l.b(), l.c());
 }
 
@@ -92,13 +85,13 @@ template < class R >
 inline
 LineC2<R CGAL_CTAG>::LineC2()
 {
-  PTR = new _Threetuple<FT>;
+  new ( static_cast< void*>(ptr)) Threetuple<FT>();
 }
 
 template < class R >
 inline
 LineC2<R CGAL_CTAG>::LineC2(const LineC2<R CGAL_CTAG>  &l)
-  : Handle((Handle&)l)
+  : Handle_for<Threetuple<typename R::FT> >(l)
 {}
 
 template < class R >
@@ -106,7 +99,7 @@ inline
 LineC2<R CGAL_CTAG>::LineC2(const typename LineC2<R CGAL_CTAG>::Point_2 &p,
                             const typename LineC2<R CGAL_CTAG>::Point_2 &q)
 {
-  new_rep(p, q);
+  new_rep(p,q);
 }
 
 template < class R >
@@ -122,14 +115,14 @@ template < class R >
 inline
 LineC2<R CGAL_CTAG>::LineC2(const typename LineC2<R CGAL_CTAG>::Segment_2 &s)
 {
-  new_rep(s.start(), s.end());
+  new_rep(s.source(), s.target());
 }
 
 template < class R >
 inline
 LineC2<R CGAL_CTAG>::LineC2(const typename LineC2<R CGAL_CTAG>::Ray_2 &r)
 {
-  new_rep(r.start(), r.second_point());
+  new_rep(r.point(0), r.point(1));
 }
 
 template < class R >
@@ -137,7 +130,7 @@ CGAL_KERNEL_INLINE
 LineC2<R CGAL_CTAG>::LineC2(const typename LineC2<R CGAL_CTAG>::Point_2 &p,
                             const typename LineC2<R CGAL_CTAG>::Direction_2 &d)
 {
-  LineC2<R CGAL_CTAG> l =  line_from_point_direction(p,d);
+  LineC2<R CGAL_CTAG> l = line_from_point_direction(p,d);
   new_rep(l.a(), l.b(), l.c());
 }
 
@@ -147,19 +140,10 @@ LineC2<R CGAL_CTAG>::~LineC2()
 {}
 
 template < class R >
-CGAL_KERNEL_INLINE
-LineC2<R CGAL_CTAG> &
-LineC2<R CGAL_CTAG>::operator=(const LineC2<R CGAL_CTAG> &l)
-{
-  Handle::operator=(l);
-  return *this;
-}
-
-template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
 bool LineC2<R CGAL_CTAG>::operator==(const LineC2<R CGAL_CTAG> &l) const
 {
-  if ( id() == l.id() ) return true;
+  if ( ptr == l.ptr ) return true;
   return equal_line(*this,l);
 }
 
@@ -173,18 +157,10 @@ LineC2<R CGAL_CTAG>::operator!=(const LineC2<R CGAL_CTAG> &l) const
 
 template < class R >
 inline
-int
-LineC2<R CGAL_CTAG>::id() const
-{
-  return (int) PTR;
-}
-
-template < class R >
-inline
 typename LineC2<R CGAL_CTAG>::FT
 LineC2<R CGAL_CTAG>::a() const
 {
-  return ptr()->e0;
+  return ptr->e0;
 }
 
 template < class R >
@@ -192,7 +168,7 @@ inline
 typename LineC2<R CGAL_CTAG>::FT
 LineC2<R CGAL_CTAG>::b() const
 {
-  return ptr()->e1;
+  return ptr->e1;
 }
 
 template < class R >
@@ -200,7 +176,23 @@ inline
 typename LineC2<R CGAL_CTAG>::FT
 LineC2<R CGAL_CTAG>::c() const
 {
-  return ptr()->e2;
+  return ptr->e2;
+}
+
+template < class R >
+inline
+bool
+LineC2<R CGAL_CTAG>::is_horizontal() const
+{
+  return a() == FT(0);
+}
+
+template < class R >
+inline
+bool
+LineC2<R CGAL_CTAG>::is_vertical() const
+{
+  return b() == FT(0);
 }
 
 template < class R >
@@ -208,8 +200,8 @@ CGAL_KERNEL_INLINE
 typename LineC2<R CGAL_CTAG>::FT
 LineC2<R CGAL_CTAG>::x_at_y(const typename LineC2<R CGAL_CTAG>::FT &y) const
 {
-  CGAL_kernel_precondition_msg( (a() != FT(0)),
-  "Line::x_at_y(const typename LineC2<R CGAL_CTAG>::FT &y) is undefined for horizontal line" );
+  CGAL_kernel_precondition_msg( a() != FT(0),
+  "Line::x_at_y(FT y) is undefined for horizontal line");
   return line_x_at_y(*this,y);
 }
 
@@ -218,8 +210,8 @@ CGAL_KERNEL_INLINE
 typename LineC2<R CGAL_CTAG>::FT
 LineC2<R CGAL_CTAG>::y_at_x(const typename LineC2<R CGAL_CTAG>::FT &x) const
 {
-  CGAL_kernel_precondition_msg( (b() != FT(0)),
-  "Line::x_at_y(const typename LineC2<R CGAL_CTAG>::FT &y) is undefined for vertical line");
+  CGAL_kernel_precondition_msg( b() != FT(0),
+  "Line::y_at_x(FT x) is undefined for vertical line");
   return line_y_at_x(*this,x);
 }
 
@@ -229,7 +221,7 @@ LineC2<R CGAL_CTAG>
 LineC2<R CGAL_CTAG>::
 perpendicular(const typename LineC2<R CGAL_CTAG>::Point_2 &p) const
 {
-  return LineC2<R CGAL_CTAG>( -b(), a(), b() * p.x() - a() * p.y());
+  return perpendicular_through_point(*this, p);
 }
 
 template < class R >
@@ -262,12 +254,7 @@ typename LineC2<R CGAL_CTAG>::Point_2
 LineC2<R CGAL_CTAG>::
 projection(const typename LineC2<R CGAL_CTAG>::Point_2 &p) const
 {
-  if (is_horizontal()) return Point_2(p.x(), -c()/b());
-  if (is_vertical())   return Point_2( -c()/a(), p.y());
-
-  FT ab = a()/b(), ba = b()/a(), ca = c()/a();
-  FT y = ( -p.x() + ab*p.y() - ca ) / ( ba + ab );
-  return Point_2(-ba * y - ca, y);
+  return line_project_point(*this, p);
 }
 
 template < class R >
@@ -317,25 +304,9 @@ has_on_negative_side(const typename LineC2<R CGAL_CTAG>::Point_2 &p) const
 template < class R >
 inline
 bool
-LineC2<R CGAL_CTAG>::is_horizontal() const
-{
-  return a() == LineC2<R CGAL_CTAG>::FT(0) ;
-}
-
-template < class R >
-inline
-bool
-LineC2<R CGAL_CTAG>::is_vertical() const
-{
-  return b() == FT(0) ;
-}
-
-template < class R >
-inline
-bool
 LineC2<R CGAL_CTAG>::is_degenerate() const
 {
-  return (a() == FT(0)) && (b() == FT(0)) ;
+  return a() == FT(0) && b() == FT(0);
 }
 
 template < class R >
@@ -362,7 +333,8 @@ operator<<(std::ostream &os, const LineC2<R CGAL_CTAG> &l)
         write(os, l.c());
         return os;
     default:
-        return os << "LineC2(" << l.a() << ", " << l.b() << ", " << l.c() <<')';
+        return os << "LineC2(" << l.a() 
+		  << ", " << l.b() << ", " << l.c() <<')';
     }
 }
 #endif // CGAL_NO_OSTREAM_INSERT_LINEC2

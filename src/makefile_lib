@@ -26,7 +26,6 @@ CGAL_OBJECTS = \
 Bbox_2$(OBJ_EXT) \
 Bbox_2_intersections$(OBJ_EXT) \
 Bbox_3_intersections$(OBJ_EXT) \
-CLN$(OBJ_EXT) \
 Color$(OBJ_EXT) \
 Double$(OBJ_EXT) \
 Double_eps$(OBJ_EXT) \

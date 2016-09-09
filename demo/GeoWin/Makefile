@@ -7,9 +7,7 @@ include $(CGAL_MAKEFILE)
 
 CXXFLAGS = \
            $(EXTRA_FLAGS) \
-           $(CGAL_CXXFLAGS) \
-           $(LONG_NAME_PROBLEM_CXXFLAGS) \
-           $(DEBUG_OPT)
+           $(CGAL_CXXFLAGS) 
 
 #---------------------------------------------------------------------#
 #                    linker flags
@@ -18,8 +16,7 @@ CXXFLAGS = \
 LIBPATH = \
           $(CGAL_LIBPATH)
 
-LDFLAGS = \
-          $(LONG_NAME_PROBLEM_LDFLAGS) 
+LDFLAGS = 
 
 CGDL = \
           $(LDFLAGS) $(CGAL_GEOWIN_LDFLAGS)
@@ -61,9 +58,9 @@ CGALafn$(EXE_EXT) :  CGALafn$(OBJ_EXT)
 CGALdemo$(EXE_EXT) :  CGALdemo$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)CGALdemo CGALdemo$(OBJ_EXT)  $(CGDL)
 
-CGALnewtype$(EXE_EXT) :  CGALnewtype$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)CGALnewtype CGALnewtype$(OBJ_EXT)  $(CGDL)
-
+CGALreg_triang$(EXE_EXT) :  CGALreg_triang$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)CGALreg_triang CGALreg_triang$(OBJ_EXT)  $(CGDL)
+	
 CGALtriang$(EXE_EXT) :  CGALtriang$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)CGALtriang CGALtriang$(OBJ_EXT)  $(CGDL)
 
@@ -88,15 +85,18 @@ CGALcircle_tr$(EXE_EXT) :  CGALcircle_tr$(OBJ_EXT)
 CGALmin_ellipse$(EXE_EXT) :  CGALmin_ellipse$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)CGALmin_ellipse CGALmin_ellipse$(OBJ_EXT)  $(CGDL)
 
+CGALmin_sphere$(EXE_EXT) :  CGALmin_sphere$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)CGALmin_sphere CGALmin_sphere$(OBJ_EXT)  $(CGDL)
+
 CGALplmap$(EXE_EXT) :  CGALplmap$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)CGALplmap CGALplmap$(OBJ_EXT)  $(CGDL)
 
-all: CGALdemo CGALconstr_triang CGALdt3d D2_demo CGALhull CGALhull2 CGALsegint CGALtriang CGALtriang2 CGALcircle CGALdtfl CGALmaxpoly CGALafn CGALhull3d CGAL2dtree CGAL3dtree CGALmin_ellipse CGALnewtype CGALpolyinout
+all: CGALdemo CGALmin_sphere CGALreg_triang CGALconstr_triang CGALdt3d D2_demo CGALhull CGALhull2 CGALsegint CGALtriang CGALtriang2 CGALcircle CGALdtfl CGALmaxpoly CGALafn CGALhull3d CGAL2dtree CGAL3dtree CGALmin_ellipse CGALpolyinout
 
 
 clean :
 	rm -f  tt *~ *.o core *.obj *.exe
-	rm -f  CGALconstr_triang CGALdt3d D2_demo CGALcircle_tr CGALdtfl_tr CGALconstr_triang CGALdemo CGALhull CGALhull2 CGALsegint CGALtriang CGALtriang2 CGALcircle CGALdtfl CGALnewtype2 CGALmaxpoly CGALboolop CGALafn CGALpolyinout  CGALovl CGALhull3d CGAL2dtree CGAL3dtree CGALmin_ellipse CGALnewtype CGALplmap
+	rm -f  CGALconstr_triang CGALmin_sphere CGALreg_triang CGALdt3d D2_demo CGALcircle_tr CGALdtfl_tr CGALconstr_triang CGALdemo CGALhull CGALhull2 CGALsegint CGALtriang CGALtriang2 CGALcircle CGALdtfl CGALnewtype2 CGALmaxpoly CGALboolop CGALafn CGALpolyinout  CGALovl CGALhull3d CGAL2dtree CGAL3dtree CGALmin_ellipse CGALplmap
 
 
 cleano :

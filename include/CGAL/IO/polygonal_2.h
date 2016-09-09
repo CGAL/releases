@@ -31,21 +31,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : polygonal.fw
 // file          : include/CGAL/IO/polygonal_2.h
-// package       : window (2.5.8)
-// revision      : 2.5.8
-// revision_date : 13 Jan 2000 
+// package       : window (2.7.1)
+// revision      : 2.7
+// revision_date : 21 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_IO_POLYGONAL_2_H
 #define CGAL_IO_POLYGONAL_2_H
@@ -56,8 +58,9 @@
 #include <CGAL/convex_hull_traits_2.h>
 #include <CGAL/stl_extensions.h>
 #include <CGAL/ch_value_type.h>
+#include <CGAL/circulator.h>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL {
 
 //---------------------- Polygon --------------------------
 
@@ -149,7 +152,55 @@ send_to_stream_as_polyline(Stream& W,
   }
   return;
 }
-CGAL_END_NAMESPACE
+
+
+
+template <class Stream, class Circulator, class Traits>
+void
+send_to_stream_as_polygon(Stream& W,
+                          Circulator C,
+                          const Forward_circulator_tag&,
+                          const Traits& );
+
+
+template <class Stream, class Circulator, class R>
+inline
+void
+_send_to_stream_as_polygon(Stream& W,
+                           Circulator C,
+                           const Forward_circulator_tag& ct,
+                           Point_2<R>* )
+{ send_to_stream_as_polygon(W, C, ct, R() ); }
+
+
+template <class Stream, class Circulator>
+inline
+void
+send_to_stream_as_polygon(Stream& W,
+                          Circulator C,
+                          const Forward_circulator_tag& ct)
+{ _send_to_stream_as_polygon(W, C, ct, ch_value_type(C)); }
+
+
+template <class Stream, class Circulator, class Traits>
+void
+send_to_stream_as_polygon(Stream& W,
+                          Circulator C,
+                          const Forward_circulator_tag&,
+                          const Traits& )
+{
+  typedef  typename Traits::Segment_2   Segment2;
+  if ( is_empty_range(C,C) ) return;
+  Circulator start = C;
+  do
+  {
+    W << Segment2(*C, *successor(C));
+    ++C;
+  } while ( C != start );
+}
+
+
+} // namespace CGAL
 
 
 #endif // CGAL_IO_POLYGONAL_2_H

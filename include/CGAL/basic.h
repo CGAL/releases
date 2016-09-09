@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : basic.fw
 // file          : include/CGAL/basic.h
-// package       : Kernel_basic (2.9)
-// revision      : 2.9
-// revision_date : 04 Dec 1999 
+// package       : Kernel_basic (3.14)
+// revision      : 3.14
+// revision_date : 15 Sep 2000 
 // author(s)     : Lutz Kettner
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -53,6 +54,12 @@
 #ifndef CGAL_CONFIG_H
 #  include <CGAL/config.h>
 #endif // CGAL_CONFIG_H
+
+#define CGAL_NTS CGAL::NTS::
+
+#if ((__GNUC__ == 2) && (__GNUC_MINOR__ == 95))
+#include <cmath>
+#endif  // gcc 2.95
 
 #include <iostream>
 #include <cstdlib>
@@ -81,6 +88,37 @@
 #    define CGAL_PROTECT_LEDA_BASIC_H
 #  endif // CGAL_PROTECT_LEDA_BASIC_H
 #endif  // CGAL_USE_LEDA
+
+// CGAL uses std::min and std::max
+// (see ISO C++ 25.3.7, page 562),
+// if feasible
+#include <algorithm>
+
+namespace CGAL {
+
+#if !defined(CGAL_CFG_USING_USING_BUG) && !defined(CGAL_CFG_BROKEN_USING)
+
+ using std::min;
+ using std::max;
+
+#else
+
+ template <class NT>
+ inline
+ NT
+ // const NT&
+ min(const NT& x, const NT& y)
+ { return (y < x) ? y : x; }
+
+ template <class NT>
+ inline
+ NT
+ // const NT&
+ max(const NT& x, const NT& y)
+ { return (x < y) ? y : x; }
+
+#endif // CGAL_CFG_BROKEN_USING
+} // namespace CGAL
 
 
 #ifndef CGAL_ASSERTIONS_H
@@ -136,7 +174,7 @@ inline bool check_tag( Tag_false) {return false;}
 #ifndef CGAL_ASSERT_COMPILE_TIME_TAG
 #define CGAL_ASSERT_COMPILE_TIME_TAG 1
 template <class Base>
-struct _Assert_tag_class
+struct Assert_tag_class
 {
     void match_compile_time_tag( const Base&) const {}
 };
@@ -146,7 +184,7 @@ inline
 void
 Assert_compile_time_tag( const Tag&, const Derived& b)
 {
-  _Assert_tag_class<Tag> x;
+  Assert_tag_class<Tag> x;
   x.match_compile_time_tag(b);
 }
 #endif // CGAL_ASSERT_COMPILE_TIME_TAG

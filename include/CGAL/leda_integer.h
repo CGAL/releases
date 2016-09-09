@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Integer.fw
 // file          : include/CGAL/leda_integer.h
-// package       : Number_types (2.7.1)
-// revision      : 2.7.1
-// revision_date : 04 Dec 1999 
+// package       : Number_types (3.4)
+// revision      : 3.4
+// revision_date : 13 Jul 2000 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -79,7 +80,7 @@ CGAL_BEGIN_NAMESPACE
 inline
 double
 to_double(const leda_integer & i)
-{ return i.todouble(); }
+{ return i.to_double(); }
 #endif // CGAL_CFG_NO_NAMESPACE
 
 inline

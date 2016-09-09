@@ -30,26 +30,29 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : examples/Benchmark_LK/convex_hull.C
 // chapter       : 
 // package       : Benchmark_LK
 // source        : 
-// revision      : 2.3.2
-// revision_date : 16 Dec 1999
+// revision      : 2.4
+// revision_date : 19 Apr 2000
 // author(s)     : Lutz Kettner
-//                 maintained by Stefan Schirra
 //
 // coordinator   : 
 //
 // A benchmark measuring the performance of the default convex hull impl.
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 #include <CGAL/basic.h>
+#ifndef CGAL_USE_LEDA
+int main() { std::cout << "\nSorry, this demo needs LEDA\n"; return 0; }
+#else
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -185,5 +188,5 @@ int main( int argc, char** argv) {
     delete[] hull;
     return 0;
 }
-
+#endif // USE_LEDA
 // EOF //

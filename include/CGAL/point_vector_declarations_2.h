@@ -31,21 +31,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : PV_decl_2.fw
 // file          : include/CGAL/point_vector_declarations_2.h
-// package       : _2 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _2 (3.6)
+// revision      : 3.6
+// revision_date : 30 Jul 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_POINT_VECTOR_DECLARATIONS_2_H
 #define CGAL_POINT_VECTOR_DECLARATIONS_2_H

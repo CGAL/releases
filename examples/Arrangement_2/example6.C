@@ -1,12 +1,3 @@
-//the following example creates an arrangement with a walk point location
-//with the cached info traits class. You can see the difference between
-//the regular exact traits and the cached traits by replacing the relevant 
-//lines with the commented lines.
-//NOTE: if you want to run this example with different numbers
-//(even slightly larger numbers), use a
-//multiple precision integer (e.g., gmpz or leda_integer). Otherwise there
-//will be an overflow and the program will go into an infinite loop.
-
 //example6.C
 
 // Define shorter names to please linker (g++/egcs)
@@ -27,11 +18,11 @@
 //#include <CGAL/leda_integer.h>
 //typedef leda_integer                              NT;
 typedef long                                        NT;
-
+ 
 typedef CGAL::Homogeneous<NT>                            R;
 
-typedef CGAL::Arr_segment_exact_cached_traits<R>      Traits;
-//typedef CGAL::Arr_segment_exact_traits<R>      Traits;
+//typedef CGAL::Arr_segment_exact_cached_traits<R>      Traits;
+typedef CGAL::Arr_segment_exact_traits<R>      Traits;
 
 typedef Traits::Point                                 Point;
 typedef Traits::X_curve                               X_curve;
@@ -67,20 +58,3 @@ int main() {
   }
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

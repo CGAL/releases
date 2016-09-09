@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : rational_rotation.fw
 // file          : include/CGAL/rational_rotation.h
-// package       : Kernel_basic (2.9)
-// revision      : 2.9
-// revision_date : 04 Dec 1999 
+// package       : Kernel_basic (3.14)
+// revision      : 3.14
+// revision_date : 15 Sep 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_RATIONAL_ROTATION_H
 #define CGAL_RATIONAL_ROTATION_H
@@ -56,12 +58,12 @@ CGAL_BEGIN_NAMESPACE
 template < class NT >
 void
 rational_rotation_approximation( const NT &  dirx,     // dir.x()
-                                      const NT &  diry,     // dir.y()
-                                            NT &  sin_num,  // return
-                                            NT &  cos_num,  // return
-                                            NT &  denom,    // return
-                                      const NT &  eps_num,  // quality_bound
-                                      const NT &  eps_den )
+                                 const NT &  diry,     // dir.y()
+                                       NT &  sin_num,  // return
+                                       NT &  cos_num,  // return
+                                       NT &  denom,    // return
+                                 const NT &  eps_num,  // quality_bound
+                                 const NT &  eps_den )
 {
 #ifndef CGAL_CFG_NO_NAMESPACE
   using std::swap;
@@ -76,8 +78,8 @@ rational_rotation_approximation( const NT &  dirx,     // dir.x()
   NT & sin = sin_num;
   NT & cos = cos_num;
   NT & den = denom;
-  NT   dx = abs(dirx);
-  NT   dy = abs(diry);
+  NT   dx = CGAL_NTS abs(dirx);
+  NT   dy = CGAL_NTS abs(diry);
   NT   sq_hypotenuse = dx*dx + dy*dy;
   NT   common_part;
   NT   diff_part;
@@ -202,8 +204,8 @@ rational_rotation_approximation( const double& angle,
   double dn = CGAL::to_double(n);
   double dd = CGAL::to_double(d);
   double eps = dn / dd;
-  dsin = abs( dsin);
-  dcos = abs( dcos);
+  dsin = CGAL_NTS abs( dsin);
+  dcos = CGAL_NTS abs( dcos);
   NT   common_part;
   NT   diff_part;
   NT   os;

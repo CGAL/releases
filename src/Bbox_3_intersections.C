@@ -30,30 +30,25 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : src/Bbox_3_intersections.C
-// package       : Intersections_3 (2.2.5)
+// package       : Intersections_3 (2.3)
 // source        : web/intersection_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 
-#ifndef CGAL_CARTESIAN_H
 #include <CGAL/Cartesian.h>
-#endif // CGAL_CARTESIAN_H
-#ifndef CGAL_POINT_3_H
 #include <CGAL/Point_3.h>
-#endif // CGAL_POINT_3_H
-#ifndef CGAL_BBOX_INTERSECTION_3_H
 #include <CGAL/bbox_intersection_3.h>
-#endif // CGAL_BBOX_INTERSECTION_3_H
 
 
 CGAL_BEGIN_NAMESPACE

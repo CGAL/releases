@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/io.h
-// package       : iostream (2.5)
+// package       : iostream (2.8)
 // source        : $RCSfile: io.h,v $
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1999/07/02 09:02:51 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2000/08/18 13:49:44 $
 // author(s)     : Andreas Fabri
 //
-// coordinator   : Herve Bronnimann
+// coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -166,15 +167,18 @@ std::ostream& operator<<( std::ostream& out, const Color& col)
 {
     switch(out.iword(IO::mode)) {
     case IO::ASCII :
-        return out << col.red() << ' ' << col.green() << ' ' << col.blue();
+        return out << static_cast<int>(col.red())   << ' ' 
+		   << static_cast<int>(col.green()) << ' ' 
+		   << static_cast<int>(col.blue());
     case IO::BINARY :
-        write(out, col.red());
-        write(out, col.green());
-        write(out, col.blue());
+        write(out, static_cast<int>(col.red()));
+        write(out, static_cast<int>(col.green()));
+        write(out, static_cast<int>(col.blue()));
         return out;
     default:
-        return out << "Color(" << col.red() << ", " << col.green() << ", "
-                   << col.blue() << ')';
+        return out << "Color(" << static_cast<int>(col.red()) << ", " 
+		   << static_cast<int>(col.green()) << ", "
+                   << static_cast<int>(col.blue()) << ')';
     }
 }
 

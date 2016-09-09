@@ -1,4 +1,17 @@
 #include <CGAL/basic.h>
+
+#if !defined(CGAL_USE_LEDA) || (__LEDA__ < 400)
+#include <iostream>
+
+int main(int argc, char *argv[])
+{
+ std::cout << "No LEDA 4.0 or higher installed!\n";
+ std::cout << "A LEDA version >= 4.0 is required to run GeoWin!\n";
+ return 0;
+}
+#else 
+
+
 #include <CGAL/Cartesian.h>
 #include <CGAL/Triangulation_euclidean_traits_2.h>
 #include <CGAL/Triangulation_2.h>
@@ -7,10 +20,14 @@
 #include <CGAL/Triangulation_default_data_structure_2.h>
 #include <CGAL/Constrained_triangulation_2.h>
 
-//#include <CGAL/leda_integer.h>
-//typedef leda_integer coord_type;
+#include <CGAL/leda_rational.h>
 
+//#if !defined(_MSC_VER)
+//typedef leda_rational coord_type;
+//#else
 typedef double coord_type;
+//#endif
+
 typedef CGAL::Cartesian<coord_type>  Rep;
 
 typedef CGAL::Point_2<Rep>  Point;
@@ -79,12 +96,10 @@ int main()
   geo_scene res2 = GW.new_scene(CT, my_scene, leda_string("Constrained Triangulation"));
   GW.set_color(res2, leda_red);
   GW.set_visible(res2, true);
-
-  leda_string msg("Input constrained edges. The constrained edges must not intersect!");
-  GW.message(msg); 
   
   GW.edit(my_scene);
   
   return 0;  
 }
 
+#endif

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Aff_transformation_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1999/11/05 22:29:37 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.16 $
+// revision_date : $Date: 2000/08/23 14:35:34 $
 // author(s)     : Andreas Fabri, Lutz Kettner
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -69,16 +70,12 @@ CGAL_END_NAMESPACE
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
-class Aff_transformationC2
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-// This is a partial specialization
-<_R,Cartesian_tag>
-#endif
+template < class R_ >
+class Aff_transformationC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
   : public Handle
 {
 public:
-  typedef _R                               R;
+  typedef R_                               R;
   typedef typename R::FT                   FT;
   typedef typename R::RT                   RT;
   typedef Aff_transformation_rep_baseC2<R> Aff_t_base;
@@ -139,14 +136,19 @@ public:
 
   Self &operator=(const Self &t);
 
-  Point_2     transform(const Point_2 &p) const { return ptr()->transform(p); } 
+  Point_2     transform(const Point_2 &p) const 
+    { return ptr()->transform(p); } 
+
   Point_2     operator()(const Point_2 &p) const { return transform(p); }
 
-  Vector_2    transform(const Vector_2 &v) const { return ptr()->transform(v); }
+  Vector_2    transform(const Vector_2 &v) const 
+    { return ptr()->transform(v); }
+
   Vector_2    operator()(const Vector_2 &v) const { return transform(p); }
 
   Direction_2 transform(const Direction_2 &d) const
-                                              { return ptr()->transform(d); }
+    { return ptr()->transform(d); }
+
   Direction_2 operator()(const Direction_2 &d) const { return transform(d); }
 
   Line_2      transform(const Line_2 &l) const { return l.transform(*this); }

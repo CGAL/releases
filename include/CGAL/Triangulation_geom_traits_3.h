@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Triangulation_geom_traits_3.h
-// package       : Triangulation3 (1.29)
-// revision      : $Revision: 1.25 $
+// package       : Triangulation3 (1.42)
+// revision      : $Revision: 1.27 $
 // 
 // author(s)     : Monique Teillaud
 //
 // coordinator   : INRIA Sophia Antipolis 
 //                 (Mariette Yvinec)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 //
@@ -54,6 +55,8 @@
 #define CGAL_TRIANGULATION_GEOM_TRAITS_3_H
 
 #include <CGAL/basic.h>
+
+#include <CGAL/Cartesian.h>
 
 #include <CGAL/Point_3.h>
 #include <CGAL/Point_2.h>
@@ -70,7 +73,7 @@ template < class Repres >
 class Triangulation_geom_traits_3 
 {
 public:
-
+  typedef Repres Rep;
   typedef Point_3<Repres>  Point;
   typedef Point_2< Cartesian< typename Repres::FT> >  Point2;
   typedef Segment_3<Repres> Segment;

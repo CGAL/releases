@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Tetrahedron_d.C
-// package       : Cd (1.1.1)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1999/12/07 18:53:26 $
+// package       : Cd (1.5)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2000/07/09 10:55:31 $
 // author(s)     : Hervé Brönnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -327,7 +328,7 @@ std::ostream &operator<<(std::ostream &os, const TetrahedronCd<R CGAL_CTAG> &t)
     case IO::BINARY :
         return os << t[0]  << t[1]  << t[2] << t[3];
     default:
-        os << "TetrahedronCd(" << t[0] <<  ", " << t[1] <<   ", " << t[2] ;
+        os << "TetrahedronCd(" << t[0] <<  ", " << t[1] <<   ", " << t[2];
         os <<  ", " << t[3] << ")";
         return os;
     }

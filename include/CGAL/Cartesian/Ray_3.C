@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Ray_3.C
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1999/11/05 22:29:38 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.20 $
+// revision_date : $Date: 2000/08/23 13:57:41 $
 // author(s)     : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -60,22 +61,15 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
-_Twotuple< typename RayC3<R CGAL_CTAG>::Point_3 > *
-RayC3<R CGAL_CTAG>::ptr() const
-{
-  return (_Twotuple< Point_3 >*)PTR;
-}
-
-template < class R >
 RayC3<R CGAL_CTAG>::RayC3()
 {
-  PTR = new _Twotuple< Point_3 >;
+  new (static_cast< void*>(ptr)) Twotuple< Point_3 >;
 }
 
 template < class R >
 RayC3<R CGAL_CTAG>::
 RayC3(const RayC3<R CGAL_CTAG>  &r)
-  : Handle((Handle&)r)
+  : Handle_for<Twotuple<typename R::Point_3> >(r)
 {}
 
 template < class R >
@@ -83,7 +77,7 @@ RayC3<R CGAL_CTAG>::
 RayC3(const typename RayC3<R CGAL_CTAG>::Point_3 &sp,
       const typename RayC3<R CGAL_CTAG>::Point_3 &secondp)
 {
-  PTR = new _Twotuple< Point_3 >(sp,secondp);
+  new (static_cast< void*>(ptr)) Twotuple< Point_3 >(sp,secondp);
 }
 
 template < class R >
@@ -91,7 +85,7 @@ RayC3<R CGAL_CTAG>::
 RayC3(const typename RayC3<R CGAL_CTAG>::Point_3 &sp,
       const typename RayC3<R CGAL_CTAG>::Direction_3 &d)
 {
-  PTR = new _Twotuple< Point_3 >(sp, sp + d.to_vector());
+  new (static_cast< void*>(ptr)) Twotuple< Point_3 >(sp, sp + d.to_vector());
 }
 
 template < class R >
@@ -99,17 +93,9 @@ inline RayC3<R CGAL_CTAG>::~RayC3()
 {}
 
 template < class R >
-RayC3<R CGAL_CTAG> &
-RayC3<R CGAL_CTAG>::operator=(const RayC3<R CGAL_CTAG> &r)
-{
-  Handle::operator=(r);
-  return *this;
-}
-
-template < class R >
 inline bool RayC3<R CGAL_CTAG>::operator==(const RayC3<R CGAL_CTAG> &r) const
 {
-  return (source() == r.source()) && (direction() == r.direction());
+  return source() == r.source() && direction() == r.direction();
 }
 
 template < class R >
@@ -120,9 +106,10 @@ inline bool RayC3<R CGAL_CTAG>::operator!=(const RayC3<R CGAL_CTAG> &r) const
 
 template < class R >
 inline
-long RayC3<R CGAL_CTAG>::id() const
+typename RayC3<R CGAL_CTAG>::Point_3
+RayC3<R CGAL_CTAG>::source() const
 {
-  return (long) PTR;
+  return ptr->e0;
 }
 
 template < class R >
@@ -130,15 +117,7 @@ inline
 typename RayC3<R CGAL_CTAG>::Point_3
 RayC3<R CGAL_CTAG>::start() const
 {
-  return ptr()->e0;
-}
-
-template < class R >
-inline
-typename RayC3<R CGAL_CTAG>::Point_3
-RayC3<R CGAL_CTAG>::source() const
-{
-  return ptr()->e0;
+  return source();
 }
 
 template < class R >
@@ -146,7 +125,7 @@ inline
 typename RayC3<R CGAL_CTAG>::Point_3
 RayC3<R CGAL_CTAG>::second_point() const
 {
-  return ptr()->e1;
+  return ptr->e1;
 }
 
 template < class R >
@@ -155,12 +134,8 @@ typename RayC3<R CGAL_CTAG>::Point_3
 RayC3<R CGAL_CTAG>::point(int i) const
 {
   CGAL_kernel_precondition( i >= 0 );
-  if (i == 0)
-    return ptr()->e0;
-
-  if (i == 1)
-    return ptr()->e1;
-
+  if (i == 0) return source();
+  if (i == 1) return second_point();
   return source() + FT(i) * (second_point() - source());
 }
 
@@ -239,7 +214,7 @@ collinear_has_on(const typename RayC3<R CGAL_CTAG>::Point_3 &p) const
   return true; // p == source()
 }
 
-#ifndef CGAL_NO_OSTREAM_INSERT_RAYC3
+#ifndef CGAL_NO_OSTREAM_INSERTR_AYC3
 template < class R >
 std::ostream &
 operator<<(std::ostream &os, const RayC3<R CGAL_CTAG> &r)
@@ -253,9 +228,9 @@ operator<<(std::ostream &os, const RayC3<R CGAL_CTAG> &r)
         return os << "RayC3(" << r.start() <<  ", " << r.direction() << ")";
     }
 }
-#endif // CGAL_NO_OSTREAM_INSERT_RAYC3
+#endif // CGAL_NO_OSTREAM_INSERTR_AYC3
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_RAYC3
+#ifndef CGAL_NO_ISTREAM_EXTRACTR_AYC3
 template < class R >
 std::istream &
 operator>>(std::istream &is, RayC3<R CGAL_CTAG> &r)
@@ -268,7 +243,7 @@ operator>>(std::istream &is, RayC3<R CGAL_CTAG> &r)
     r = RayC3<R CGAL_CTAG>(p, d);
     return is;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_RAYC3
+#endif // CGAL_NO_ISTREAM_EXTRACTR_AYC3
 
 CGAL_END_NAMESPACE
 

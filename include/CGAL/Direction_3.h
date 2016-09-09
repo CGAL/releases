@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Direction_3.fw
 // file          : include/CGAL/Direction_3.h
-// package       : _3 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _3 (3.7)
+// revision      : 3.7
+// revision_date : 16 Aug 2000 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -66,17 +67,22 @@
 #endif // CGAL_DIRECTIONC3_H
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/DirectionS3.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 #ifndef CGAL_VECTOR_3_H
 #include <CGAL/Vector_3.h>
 #endif // CGAL_VECTOR_3_H
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-class Direction_3 : public _R::Direction_3_base
+template <class R_>
+class Direction_3 : public R_::Direction_3_base
 {
 public:
-  typedef          _R                       R;
+  typedef          R_                       R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
   typedef typename R::Direction_3_base  RDirection_3;
@@ -96,20 +102,12 @@ public:
   Direction_3(const RT& hx, const RT& hy, const RT& hz)
     : RDirection_3(hx, hy, hz)
   {}
-  CGAL::Direction_3<R> & operator=(const CGAL::Direction_3<R> & d)
-  {
-    RDirection_3::operator=(d);
-    return *this;
-  }
 
   bool operator==(const CGAL::Direction_3<R> & d) const
   { return RDirection_3::operator==(d); }
 
   bool operator!=(const CGAL::Direction_3<R> & d) const
   { return !(*this == d); }
-
-  int id() const             /* XXX */
-  { return (int) PTR; }
 
   CGAL::Vector_3<R> vector() const
   { return (CGAL::Vector_3<R>)RDirection_3::to_vector(); }

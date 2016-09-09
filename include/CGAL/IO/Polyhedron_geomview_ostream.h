@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/Polyhedron_geomview_ostream.h
-// package       : Polyhedron_IO (2.9)
+// package       : Polyhedron_IO (2.11)
 // revision      : $Revision: 1.3 $
 // revision_date : $Date: 1999/03/09 22:18:32 $
 // author(s)     : Lutz Kettner
@@ -42,7 +42,8 @@
 // coordinator   : Herve Bronnimann
 //
 // Output stream operator for Polyhedrons into Geomview_stream.
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Range_tree_k.h
-// package       : SearchStructures (2.50)
+// package       : SearchStructures (2.54)
 // source        : include/CGAL/Range_tree_k.h
 // revision      : $Revision: 1.4 $
 // revision_date : $Date: 1998/02/03 13:15:03 $
@@ -44,7 +44,8 @@
 //
 //
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -72,19 +73,19 @@
 CGAL_BEGIN_NAMESPACE
 
 
-template <class _Traits_1>
+template <class C_Traits_1>
 class Range_tree_1
 { 
 
 public:
-  typedef _Traits_1 Traits;
-  typedef typename _Traits_1::Key Key;
-  typedef typename _Traits_1::Interval Interval;
-  typedef typename _Traits_1::Key_1 Key_1;
-  typedef typename _Traits_1::key_1 key_1;
-  typedef typename _Traits_1::low_1 low_1;
-  typedef typename _Traits_1::high_1 high_1;
-  typedef typename _Traits_1::compare_1 compare_1;
+  typedef C_Traits_1 Traits;
+  typedef typename C_Traits_1::Key Key;
+  typedef typename C_Traits_1::Interval Interval;
+  typedef typename C_Traits_1::Key_1 Key_1;
+  typedef typename C_Traits_1::key_1 key_1;
+  typedef typename C_Traits_1::low_1 low_1;
+  typedef typename C_Traits_1::high_1 high_1;
+  typedef typename C_Traits_1::compare_1 compare_1;
 
 
   typedef tree_point_traits<Key, Interval, Key_1, key_1, low_1, 
@@ -146,24 +147,24 @@ public:
 // A two dimensional Range Tree is defined in this class.
 // Ti is the type of each dimension of the tree.
 
-template <class _Traits_2>
+template <class C_Traits_2>
 class Range_tree_2
 { 
 
 public:
-  typedef _Traits_2 Traits;
-  typedef typename _Traits_2::Key Key;
-  typedef typename _Traits_2::Interval Interval;
-  typedef typename _Traits_2::Key_2 Key_2;
-  typedef typename _Traits_2::Key_1 Key_1;
-  typedef typename _Traits_2::key_1 key_1;
-  typedef typename _Traits_2::key_2 key_2;
-  typedef typename _Traits_2::low_1 low_1;
-  typedef typename _Traits_2::high_1 high_1;
-  typedef typename _Traits_2::low_2 low_2;
-  typedef typename _Traits_2::high_2 high_2;
-  typedef typename _Traits_2::compare_1 compare_1;
-  typedef typename _Traits_2::compare_2 compare_2;
+  typedef C_Traits_2 Traits;
+  typedef typename C_Traits_2::Key Key;
+  typedef typename C_Traits_2::Interval Interval;
+  typedef typename C_Traits_2::Key_2 Key_2;
+  typedef typename C_Traits_2::Key_1 Key_1;
+  typedef typename C_Traits_2::key_1 key_1;
+  typedef typename C_Traits_2::key_2 key_2;
+  typedef typename C_Traits_2::low_1 low_1;
+  typedef typename C_Traits_2::high_1 high_1;
+  typedef typename C_Traits_2::low_2 low_2;
+  typedef typename C_Traits_2::high_2 high_2;
+  typedef typename C_Traits_2::compare_1 compare_1;
+  typedef typename C_Traits_2::compare_2 compare_2;
 
 
   typedef tree_point_traits<Key, Interval, 
@@ -238,28 +239,28 @@ public:
 //-------------------------------------------------------------------
 // A three dimensional Range Tree is defined in this class.
 // Ti is the type of each dimension of the tree.
-template <class _Traits_3>
+template <class C_Traits_3>
 class Range_tree_3
 { 
 public:
-  typedef _Traits_3 Traits;
-  typedef typename _Traits_3::Key Key;
-  typedef typename _Traits_3::Interval Interval;
-  typedef typename _Traits_3::Key_1 Key_1;
-  typedef typename _Traits_3::Key_2 Key_2;
-  typedef typename _Traits_3::Key_3 Key_3;
-  typedef typename _Traits_3::key_1 key_1;
-  typedef typename _Traits_3::key_2 key_2;
-  typedef typename _Traits_3::key_3 key_3;
-  typedef typename _Traits_3::low_1 low_1;
-  typedef typename _Traits_3::high_1 high_1;
-  typedef typename _Traits_3::low_2 low_2;
-  typedef typename _Traits_3::high_2 high_2;
-  typedef typename _Traits_3::low_3 low_3;
-  typedef typename _Traits_3::high_3 high_3;
-  typedef typename _Traits_3::compare_1 compare_1;
-  typedef typename _Traits_3::compare_2 compare_2;
-  typedef typename _Traits_3::compare_3 compare_3;
+  typedef C_Traits_3 Traits;
+  typedef typename C_Traits_3::Key Key;
+  typedef typename C_Traits_3::Interval Interval;
+  typedef typename C_Traits_3::Key_1 Key_1;
+  typedef typename C_Traits_3::Key_2 Key_2;
+  typedef typename C_Traits_3::Key_3 Key_3;
+  typedef typename C_Traits_3::key_1 key_1;
+  typedef typename C_Traits_3::key_2 key_2;
+  typedef typename C_Traits_3::key_3 key_3;
+  typedef typename C_Traits_3::low_1 low_1;
+  typedef typename C_Traits_3::high_1 high_1;
+  typedef typename C_Traits_3::low_2 low_2;
+  typedef typename C_Traits_3::high_2 high_2;
+  typedef typename C_Traits_3::low_3 low_3;
+  typedef typename C_Traits_3::high_3 high_3;
+  typedef typename C_Traits_3::compare_1 compare_1;
+  typedef typename C_Traits_3::compare_2 compare_2;
+  typedef typename C_Traits_3::compare_3 compare_3;
 
   typedef tree_point_traits<Key, Interval, Key_1,
   key_1, low_1, high_1, compare_1> I1;
@@ -343,33 +344,33 @@ public:
 // A three dimensional Range Tree is defined in this class.
 // Ti is the type of each dimension of the tree.
 
-template <class _Traits_4>
+template <class C_Traits_4>
 class Range_tree_4
 { 
 public:
-  typedef _Traits_4 Traits;
-  typedef typename _Traits_4::Key Key;
-  typedef typename _Traits_4::Interval Interval;
-  typedef typename _Traits_4::Key_1 Key_1;
-  typedef typename _Traits_4::Key_2 Key_2;
-  typedef typename _Traits_4::Key_3 Key_3;
-  typedef typename _Traits_4::Key_4 Key_4;
-  typedef typename _Traits_4::key_1 key_1;
-  typedef typename _Traits_4::key_2 key_2;
-  typedef typename _Traits_4::key_4 key_4;
-  typedef typename _Traits_4::key_3 key_3;
-  typedef typename _Traits_4::low_1 low_1;
-  typedef typename _Traits_4::high_1 high_1;
-  typedef typename _Traits_4::low_2 low_2;
-  typedef typename _Traits_4::high_2 high_2;
-  typedef typename _Traits_4::low_3 low_3;
-  typedef typename _Traits_4::high_3 high_3;
-  typedef typename _Traits_4::low_4 low_4;
-  typedef typename _Traits_4::high_4 high_4;
-  typedef typename _Traits_4::compare_1 compare_1;
-  typedef typename _Traits_4::compare_2 compare_2;
-  typedef typename _Traits_4::compare_3 compare_3;
-  typedef typename _Traits_4::compare_4 compare_4;
+  typedef C_Traits_4 Traits;
+  typedef typename C_Traits_4::Key Key;
+  typedef typename C_Traits_4::Interval Interval;
+  typedef typename C_Traits_4::Key_1 Key_1;
+  typedef typename C_Traits_4::Key_2 Key_2;
+  typedef typename C_Traits_4::Key_3 Key_3;
+  typedef typename C_Traits_4::Key_4 Key_4;
+  typedef typename C_Traits_4::key_1 key_1;
+  typedef typename C_Traits_4::key_2 key_2;
+  typedef typename C_Traits_4::key_4 key_4;
+  typedef typename C_Traits_4::key_3 key_3;
+  typedef typename C_Traits_4::low_1 low_1;
+  typedef typename C_Traits_4::high_1 high_1;
+  typedef typename C_Traits_4::low_2 low_2;
+  typedef typename C_Traits_4::high_2 high_2;
+  typedef typename C_Traits_4::low_3 low_3;
+  typedef typename C_Traits_4::high_3 high_3;
+  typedef typename C_Traits_4::low_4 low_4;
+  typedef typename C_Traits_4::high_4 high_4;
+  typedef typename C_Traits_4::compare_1 compare_1;
+  typedef typename C_Traits_4::compare_2 compare_2;
+  typedef typename C_Traits_4::compare_3 compare_3;
+  typedef typename C_Traits_4::compare_4 compare_4;
 
   typedef tree_point_traits<Key, Interval, Key_1,
   key_1, low_1, high_1, compare_1> I1;  

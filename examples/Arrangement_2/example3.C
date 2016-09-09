@@ -1,6 +1,4 @@
-////the following example is taken from the documentation, we use here double 
-//instead of leda_real to enable compilation without LEDA.
-//example3.C
+//example3.C   
 #include <CGAL/basic.h>
 #include <CGAL/Arr_2_bases.h>
 #include <CGAL/Arr_2_default_dcel.h>
@@ -10,7 +8,10 @@
 //#include <CGAL/leda_real.h>
 //typedef leda_real                                     NT;
 
-typedef double NT;
+// We use here double instead of leda_real to enable compilation without LEDA.
+// This is not recommended generally.
+// Read more in the README file or in the manual.
+typedef double                                        NT;
 
 typedef CGAL::Arr_circles_real_traits<NT>             Traits;
 
@@ -25,7 +26,7 @@ typedef CGAL::Arrangement_2<Dcel,Traits,Base_node >    Arr_2;
 using namespace std;
 
 int main() {
-   Arr_2 arr;
+   Arr_2 arr;  
 
    //2 ccw circles with radius 5 and center (0,0) and (6,0) resp.
    Arr_2::Curve_iterator cit=arr.insert(Curve(0,0,25));
@@ -33,21 +34,13 @@ int main() {
 
    //upward vertical ray shooting
    Arr_2::Locate_type lt;
-   Arr_2::Halfedge_handle e=arr.vertical_ray_shoot(Point(-1,0),lt,true);
+#ifndef CGAL_NO_ASSERTIONS // in order to avoid warnings
+   Arr_2::Halfedge_handle e=
+#endif
+     arr.vertical_ray_shoot(Point(-1,0),lt,true);
 
    CGAL_assertion(e->source()->point()==Point(3,4)); 
    CGAL_assertion(e->target()->point()==Point(-5,0));
 
    return 0;
 }
-
-
-
-
-
-
-
-
-
-
-

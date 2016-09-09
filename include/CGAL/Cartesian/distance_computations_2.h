@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,24 +30,24 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/distance_computations_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 1999/11/05 22:29:57 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2000/08/23 13:48:38 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 #ifndef CGAL_CARTESIAN_DISTANCE_COMPUTATIONS_2_H
 #define CGAL_CARTESIAN_DISTANCE_COMPUTATIONS_2_H
 
-#include <utility>
 #include <CGAL/Cartesian/redefine_names_2.h>
 
 CGAL_BEGIN_NAMESPACE

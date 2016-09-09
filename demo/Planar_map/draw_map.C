@@ -1,5 +1,8 @@
-// fstream should appear first
-//(otherwise ifstream is not added into the global std)
+#include <iostream>
+
+// if LEDA is not installed, a message will be issued in runtime.
+#ifdef CGAL_USE_LEDA
+
 #include <CGAL/basic.h>
 #include <fstream>
 #include <list>
@@ -8,39 +11,40 @@
 
 /*=========================================================================
  * Start of Code
-\*=========================================================================*/
+ \*=========================================================================*/
 
 
 void MarkCcb (const Ccb_halfedge_circulator & b, std::list<Pm_curve>& l)
 {
-    Ccb_halfedge_circulator first = b, iter = b;
-    do
+  Ccb_halfedge_circulator first = b, iter = b;
+  do
     {
       l.push_back(iter->curve());
-        iter++;
+      iter++;
     }
-    while (iter != first);
+  while (iter != first);
 }
 
 
 
-void draw_arrow (Pm_point p1, Pm_point p2, bool black , CGAL::Window_stream & W )
+void draw_arrow (Pm_point p1, Pm_point p2, bool black , 
+                 CGAL::Window_stream & W )
 {
-    if (black)
-	W << CGAL::BLACK;
-    else
-	W << CGAL::WHITE;
-
-    //float 
-    number_type ar_size=(W.xmax()-W.xmin())/20 ;
-
-    W << Pm_curve (p1, p2);
+  if (black)
+    W << CGAL::BLACK;
+  else
+    W << CGAL::WHITE;
+  
+  //float 
+  number_type ar_size=(W.xmax()-W.xmin())/20 ;
+  
+  W << Pm_curve (p1, p2);
 #ifndef USE_LEDA_RAT_KERNEL
-    W << Pm_curve (p2, Pm_point (p2.x () - ar_size , p2.y () - ar_size));
-    W << Pm_curve (p2, Pm_point (p2.x () + ar_size , p2.y () - ar_size));
+  W << Pm_curve (p2, Pm_point (p2.x () - ar_size , p2.y () - ar_size));
+  W << Pm_curve (p2, Pm_point (p2.x () + ar_size , p2.y () - ar_size));
 #else
-    W << Pm_curve (p2, Pm_point (p2.xcoord () - ar_size , p2.ycoord () - ar_size));
-    W << Pm_curve (p2, Pm_point (p2.xcoord () + ar_size , p2.ycoord () - ar_size));
+  W << Pm_curve (p2, Pm_point (p2.xcoord () - ar_size , p2.ycoord () - ar_size));
+  W << Pm_curve (p2, Pm_point (p2.xcoord () + ar_size , p2.ycoord () - ar_size));
 #endif
 }
 
@@ -181,7 +185,7 @@ int draw_pm (Planar_map & pm , CGAL::Window_stream & W)
   std::list<Pm_curve> l;
   Pm_point pnt (20, 20);
   Pm_point ar1, ar2;
-  int button = 0;
+  int mbutton = 0;
   double x, y;
 
   std::cerr << "Drawing the map:" << std::endl;
@@ -191,12 +195,12 @@ int draw_pm (Planar_map & pm , CGAL::Window_stream & W)
   std::cerr << "2.Middle button: point location." << std::endl;
   std::cerr << "3.Right button: exit" << std::endl;
   
-  while (button != 3)
+  while (mbutton != 3)
     {
       int b=W.read_mouse(x,y);
       if (b==10) return 0;
       
-      button = -b;
+      mbutton = -b;
       //      pnt = Pm_point (x, y);
 #ifndef USE_LEDA_RAT_KERNEL
     pnt = Pm_point(Rep::FT(x),
@@ -206,19 +210,19 @@ int draw_pm (Planar_map & pm , CGAL::Window_stream & W)
 #endif
 
       draw_arrow (ar1, ar2, false,W);
-      if (button == 1)
+      if (mbutton == 1)
 	{
           ar1 = pnt;
           if (VerticalRayShoot (ar1, ar2, true,pm))
             draw_arrow (ar1, ar2, true,W);
 	}
       
-      if (button == 2)
+      if (mbutton == 2)
 	{
           FindFace (pnt,pm,l);
 	}
       
-      if (button != 0)
+      if (mbutton != 0)
 	{
           Draw (W,pm);
           W << CGAL::RED;
@@ -332,9 +336,9 @@ bool Init (char *filename , Planar_map & pm)
     for (i = 0; i < num_curves; i++)
     {
 #ifdef CGAL_PM_DEBUG
-      printf( "inserting curve: %d\n", i );
+      std::cout << "inserting curve: i\n";
       std::cout << cvs[i] << std::endl;
-      W << cvs[i] ;
+      //     W << cvs[i] ;
 #endif
 #ifdef CGAL_PM_TIMER
       t_insert.start();
@@ -422,7 +426,7 @@ void window_input(Planar_map & M,
 #else
     p = Pm_point(leda_rational(x),leda_rational(y));
 #endif
-		
+    
     if (b == MOUSE_BUTTON(1))
       {
         if (start_flag)
@@ -439,22 +443,24 @@ void window_input(Planar_map & M,
 #ifdef CGAL_PM_DEBUG
             Halfedge_handle e=
 #endif
-
-		M.insert(Pm_curve(first_point,p));
-
+              
+              M.insert(Pm_curve(first_point,p));
+            
 #ifdef CGAL_PM_TIMER
             t_insert.stop();
             n_insert++;
 #endif
 #ifdef CGAL_PM_DEBUG
-            CGAL_postcondition(M.traits.point_is_same(e->source()->point(),first_point));
-            CGAL_postcondition(M.traits.point_is_same(e->target()->point(),p));
+            Traits_wrap traits=M.get_traits();
+            CGAL_postcondition(traits.point_is_same(e->source()->point(),
+                                                    first_point));
+            CGAL_postcondition(traits.point_is_same(e->target()->point(),p));
 #endif
           }
-
+        
         W << M;
       }
-
+    
     else
       if (b==MOUSE_BUTTON(2))
         {
@@ -484,8 +490,11 @@ void window_input(Planar_map & M,
               n_insert++;
 #endif
 #ifdef CGAL_PM_DEBUG
-              CGAL_postcondition(M.traits.point_is_same(e->source()->point(),first_point));
-              CGAL_postcondition(M.traits.point_is_same(e->target()->point(),v->point()));
+              Traits_wrap traits=M.get_traits();
+              CGAL_postcondition(traits.point_is_same(e->source()->point(),
+                                                      first_point));
+              CGAL_postcondition(traits.point_is_same(e->target()->point(),
+                                                      v->point()));
 #endif
               start_flag=true;
             }
@@ -537,13 +546,4 @@ void window_input(Planar_map & M,
         
 }
 
-
-
-
-
-
-
-
-
-
-
+#endif // CGAL_USE_LEDA

@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : ddim_points.fw
 // file          : include/CGAL/PointHd.h
-// package       : _d (2.2.7)
-// revision      : 2.2.7
-// revision_date : 08 Oct 1999 
+// package       : _d (2.4)
+// revision      : 2.4
+// revision_date : 20 Jul 2000 
 // author(s)     : Sven Schoenherr
 //                 Bernd Gaertner
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -75,17 +76,17 @@ class PointHd : public Handle
       CGAL_kernel_precondition( dim >= 0 );
       PTR = new _d_tuple<RT>( dim, false);
       RT* o;
-      RT* e = ptr()->e; 
+      RT* e = ptr()->e;
       InputIterator i;
       for (i = first, o = e; ( i < last )&&( o < e+dim ); *(o++) = *(i++) ) {};
       CGAL_kernel_precondition ( o == e+dim );
-      if (i < last) 
+      if (i < last)
       {
         RT h = *(i++);
-        CGAL_kernel_precondition( !is_zero (h) );
+        CGAL_kernel_precondition( !CGAL_NTS is_zero (h) );
         CGAL_kernel_precondition( i == last );
         *o = h;
-      } 
+      }
       else
       { *o = RT(1); }
     }
@@ -168,7 +169,7 @@ PointHd<FT,RT>::operator=(const PointHd<FT,RT> &p)
 
 template < class FT, class RT >
 inline
-bool 
+bool
 PointHd<FT,RT>::operator==(const PointHd<FT,RT>& p) const
 {
   int d = dimension();
@@ -185,19 +186,19 @@ PointHd<FT,RT>::operator==(const PointHd<FT,RT>& p) const
 
 template < class FT, class RT >
 inline
-bool 
+bool
 PointHd<FT,RT>::operator!=(const PointHd<FT,RT>& p) const
 { return !(*this == p); }
 
 template < class FT, class RT >
 inline
-int 
+int
 PointHd<FT,RT>::id() const
 { return (int)PTR; }
 
 template < class FT, class RT >
 inline
-RT  
+RT
 PointHd<FT,RT>::homogeneous(int i) const
 {
     CGAL_kernel_precondition ( (i>=0) && (i<=dimension()) );
@@ -206,7 +207,7 @@ PointHd<FT,RT>::homogeneous(int i) const
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
-FT 
+FT
 PointHd<FT,RT>::cartesian(int i) const
 {
     CGAL_kernel_precondition ( (i>=0) && (i<dimension()) );
@@ -215,38 +216,38 @@ PointHd<FT,RT>::cartesian(int i) const
 
 template < class FT, class RT >
 inline
-FT  
+FT
 PointHd<FT,RT>::operator[](int i) const
 { return cartesian(i); }
 
 template < class FT, class RT >
 inline
-int 
+int
 PointHd<FT,RT>::dimension() const
 { return ptr()->d; }
 
 template < class FT, class RT >
 inline
-const RT* 
+const RT*
 PointHd<FT,RT>::begin() const
 { return ptr()->e; }
 
 template < class FT, class RT >
 inline
-const RT* 
+const RT*
 PointHd<FT,RT>::end() const
 { return ptr()->e + dimension() + 1; }
 
 #ifndef NO_OSTREAM_INSERT_POINTHD
 template < class FT, class RT >
-std::ostream& 
+std::ostream&
 operator<<(std::ostream& os, const PointHd<FT,RT>& p)
 {
     int d = p.dimension();
     int i;
     switch(os.iword(IO::mode))
     {
-      case IO::ASCII : 
+      case IO::ASCII :
         os << d << ' ';
         for (i=0; i<d; ++i) { os << p.homogeneous(i) << ' '; }
         os << p.homogeneous(d);
@@ -267,12 +268,12 @@ operator<<(std::ostream& os, const PointHd<FT,RT>& p)
 
 #ifndef NO_ISTREAM_EXTRACT_POINTHD
 template < class FT, class RT >
-std::istream& 
+std::istream&
 operator>>(std::istream& is, PointHd<FT,RT> &p)
 {
     int d=0, i;
     RT* e=0;
-    switch(is.iword(IO::mode)) 
+    switch(is.iword(IO::mode))
     {
       case IO::ASCII :
         is >> d;
@@ -286,7 +287,7 @@ operator>>(std::istream& is, PointHd<FT,RT> &p)
         break;
       default:
         CGAL_kernel_assertion_msg(false,\
-                                  "Stream must be in ascii or binary mode"); 
+                                  "Stream must be in ascii or binary mode");
         // throw ios_base::failure("Stream must be in ascii or binary mode");
         return is;
     }

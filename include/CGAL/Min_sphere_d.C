@@ -30,22 +30,23 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // chapter       : $CGAL_Chapter: Optimisation $
 // file          : include/CGAL/Min_sphere_d.C
-// package       : Min_sphere_d (2.12)
+// package       : Min_sphere_d (2.25)
 // source        : web/Optimisation/Min_sphere_d.aw
-// revision      : $Revision: 2.12 $
-// revision_date : $Date: 1999/12/20 12:02:17 $
+// revision      : $Revision: 2.25 $
+// revision_date : $Date: 2000/09/28 13:12:29 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zurich (Bernd Gärtner)
 //
 // implementation: dD Smallest Enclosing Sphere
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -64,35 +65,37 @@ operator << ( std::ostream& os, const Min_sphere_d<Traits>& min_sphere)
     switch ( get_mode( os)) {
 
       case IO::PRETTY:
-        os << endl;
+        os << std::endl;
         os << "Min_sphere_d( |P| = " << min_sphere.number_of_points()
-           << ", |S| = " << min_sphere.number_of_support_points() << endl;
-        os << "  P = {" << endl;
+           << ", |S| = " << min_sphere.number_of_support_points()
+           << std::endl;
+        os << "  P = {" << std::endl;
         os << "    ";
-        copy( min_sphere.points_begin(), min_sphere.points_end(),
-              ostream_iterator<Point>( os, ",\n    "));
-        os << "}" << endl;
-        os << "  S = {" << endl;
+        std::copy( min_sphere.points_begin(), min_sphere.points_end(),
+              std::ostream_iterator<Point>( os, ",\n    "));
+        os << "}" << std::endl;
+        os << "  S = {" << std::endl;
         os << "    ";
-        copy( min_sphere.support_points_begin(),
+        std::copy( min_sphere.support_points_begin(),
               min_sphere.support_points_end(),
-              ostream_iterator<Point>( os, ",\n    "));
-        os << "}" << endl;
-        os << "  center = " << min_sphere.center() << endl;
-        os << "  squared radius = " << min_sphere.squared_radius() << endl;
-        os << ")" << endl;
+              std::ostream_iterator<Point>( os, ",\n    "));
+        os << "}" << std::endl;
+        os << "  center = " << min_sphere.center() << std::endl;
+        os << "  squared radius = " << min_sphere.squared_radius()
+           << std::endl;
+        os << ")" << std::endl;
         break;
 
       case IO::ASCII:
-        os << min_sphere.number_of_points() << endl;
-        copy( min_sphere.points_begin(), min_sphere.points_end(),
-              ostream_iterator<Point>( os, "\n"));
+        os << min_sphere.number_of_points() << std::endl;
+        std::copy( min_sphere.points_begin(), min_sphere.points_end(),
+              std::ostream_iterator<Point>( os, "\n"));
         break;
 
       case IO::BINARY:
         os << min_sphere.number_of_points() << " ";
-        copy( min_sphere.points_begin(), min_sphere.points_end(),
-              ostream_iterator<Point>( os, " "));
+        std::copy( min_sphere.points_begin(), min_sphere.points_end(),
+              std::ostream_iterator<Point>( os, " "));
         break;
 
       default:
@@ -110,8 +113,8 @@ operator >> ( std::istream& is, Min_sphere_d<Traits>& min_sphere)
     switch ( get_mode( is)) {
 
       case IO::PRETTY:
-        cerr << endl;
-        cerr << "Stream must be in ascii or binary mode" << endl;
+        std::cerr << std::endl;
+        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
 
       case IO::ASCII:

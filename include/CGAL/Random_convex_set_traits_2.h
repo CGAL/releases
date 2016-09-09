@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Random_convex_set_traits_2.h
-// package       : Generator (2.23)
+// package       : Generator (2.34)
 // source        : src/rcs/rcs.aw
 // revision      : $Revision: 1.2 $
 // revision_date : $Date: 1998/03/06 16:19:47 $
@@ -43,7 +43,8 @@
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // Default Traits For Random Convex Point Sets
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -58,9 +59,9 @@ CGAL_BEGIN_NAMESPACE
 template < class R >
 struct Random_convex_set_traits {
 
-  typedef Point_2< R >      Point_2;
-  typedef Direction_2< R >  Direction_2;
-  typedef typename R::FT    FT;
+  typedef typename R::Point_2      Point_2;
+  typedef typename R::Direction_2  Direction_2;
+  typedef typename R::FT           FT;
 
   Random_convex_set_traits() : _origin( ORIGIN)
   {}
@@ -74,7 +75,7 @@ struct Random_convex_set_traits {
   {
     FT
     operator()( const Point_2& p) const
-    { return std::max( abs( p.x()), abs( p.y())); }
+    { return max( CGAL_NTS  abs( p.x()), CGAL_NTS  abs( p.y())); }
   };
 
   struct Sum
@@ -115,16 +116,15 @@ random_convex_set_2( int n,
                      const Point_generator& pg)
 {
   typedef typename Point_generator::value_type Point_2;
-  return _random_convex_set_2(
-    n, o, pg, CGAL_reinterpret_cast( Point_2*, 0));
+  return CGAL_random_convex_set_2(n, o, pg, reinterpret_cast<Point_2*>(0));
 }
 template < class OutputIterator, class Point_generator, class R >
 inline
 OutputIterator
-_random_convex_set_2( int n,
-                      OutputIterator o,
-                      const Point_generator& pg,
-                      Point_2< R >*)
+CGAL_random_convex_set_2( int n,
+                          OutputIterator o,
+                          const Point_generator& pg,
+                          Point_2< R >*)
 {
   return random_convex_set_2(
     n, o, pg, Random_convex_set_traits< R >());

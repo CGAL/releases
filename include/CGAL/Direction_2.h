@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Direction_2.fw
 // file          : include/CGAL/Direction_2.h
-// package       : _2 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _2 (3.6)
+// revision      : 3.6
+// revision_date : 30 Jul 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_DIRECTION_2_H
 #define CGAL_DIRECTION_2_H
@@ -65,17 +67,22 @@
 #endif // CGAL_DIRECTIONC2_H
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/DirectionS2.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 #ifndef CGAL_VECTOR_2_H
 #include <CGAL/Vector_2.h>
 #endif // CGAL_VECTOR_2_H
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-class Direction_2 : public _R::Direction_2_base
+template <class R_>
+class Direction_2 : public R_::Direction_2_base
 {
 public:
-  typedef  _R   R;
+  typedef  R_   R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
   typedef typename R::Vector_2_base  RVector_2;
@@ -103,57 +110,61 @@ public:
     :  RDirection_2(x,y)
   {}
 
-  CGAL::Direction_2<R> &operator=(const CGAL::Direction_2<R> &d)
-  {
-    RDirection_2::operator=(d);
-    return *this;
-  }
-
-
-  bool operator==(const CGAL::Direction_2<R> &d) const
+  bool
+  operator==(const CGAL::Direction_2<R> &d) const
   { return RDirection_2::operator==(d); }
 
-  bool operator!=(const CGAL::Direction_2<R> &d) const
+  bool
+  operator!=(const CGAL::Direction_2<R> &d) const
   { return !(*this == d); }
 
-  bool operator>=(const CGAL::Direction_2<R> &d) const
+  bool
+  operator>=(const CGAL::Direction_2<R> &d) const
   { return RDirection_2::operator>=(d); }
 
-  bool operator<=(const CGAL::Direction_2<R> &d) const
+  bool
+  operator<=(const CGAL::Direction_2<R> &d) const
   { return RDirection_2::operator<=(d); }
 
-  bool operator>(const CGAL::Direction_2<R> &d) const
+  bool
+  operator>(const CGAL::Direction_2<R> &d) const
   { return RDirection_2::operator>(d); }
 
-  bool operator<(const CGAL::Direction_2<R> &d) const
+  bool
+  operator<(const CGAL::Direction_2<R> &d) const
   { return RDirection_2::operator<(d); }
 
-  bool counterclockwise_in_between(const CGAL::Direction_2<R> &d1,
+  bool
+  counterclockwise_in_between(const CGAL::Direction_2<R> &d1,
                                    const CGAL::Direction_2<R> &d2) const
   { return RDirection_2::counterclockwise_in_between(d1,d2); }
 
-  int id() const
-  { return (int)PTR; }
-
-  CGAL::Vector_2<R> vector() const
+  CGAL::Vector_2<R>
+  vector() const
   { return (CGAL::Vector_2<R>)RDirection_2::to_vector(); }
 
-  CGAL::Vector_2<R> to_vector() const
+  CGAL::Vector_2<R>
+  to_vector() const
   { return (CGAL::Vector_2<R>)RDirection_2::to_vector(); }
 
-  CGAL::Direction_2<R> transform(const CGAL::Aff_transformation_2<R> &t) const
+  CGAL::Direction_2<R>
+  transform(const CGAL::Aff_transformation_2<R> &t) const
   { return RDirection_2::transform(t); }
 
-  CGAL::Direction_2<R> operator-() const
+  CGAL::Direction_2<R>
+  operator-() const
   { return RDirection_2::operator-(); }
 
-  RT delta(int i) const
+  RT
+  delta(int i) const
   { return RDirection_2::delta(i); }
 
-  RT dx() const
+  RT
+  dx() const
   { return RDirection_2::dx(); }
 
-  RT dy() const
+  RT
+  dy() const
   { return RDirection_2::dy(); }
 };
 

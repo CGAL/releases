@@ -8,11 +8,11 @@
 //
 // ----------------------------------------------------------------------------
 //
-// release       : $CGAL_Revision: CGAL-2.1-I-59 $
-// release_date  : $CGAL_Date: 2000/01/17 $
+// release       : $CGAL_Revision: CGAL-2.2-I-51 $
+// release_date  : $CGAL_Date: 2000/10/01 $
 //
 // file          : examples/Triangulation3/example1.C
-// revision      : $Revision: 1.10 $
+// revision      : $Revision: 1.12 $
 // author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //
 // coordinator   : INRIA Sophia Antipolis (Mariette Yvinec)
@@ -34,11 +34,23 @@
 #include <CGAL/Triangulation_data_structure_3.h>
 #include <CGAL/Triangulation_geom_traits_3.h>
 #include <CGAL/Triangulation_3.h>
-//#include <CGAL/Delaunay_triangulation_3.h>
 
-typedef CGAL::Cartesian<double>  Repr;
+// for this simple example, using doubles is ok
+//
+typedef double NT;
 
+// for more complicated examples with degenerate configurations,
+// using Filtered_exact number type is advised :
+// 
+// #include <CGAL/Arithmetic_filter.h>
+// #include <CGAL/leda_real.h>
+// #include <CGAL/double.h>
+// 
+// typedef CGAL::Filtered_exact<double, leda_real> NT;
+
+typedef CGAL::Cartesian<NT> Repr;
 typedef CGAL::Triangulation_geom_traits_3<Repr> Gt;
+
 typedef CGAL::Triangulation_vertex_base_pointer_3<Gt> Vb;
 typedef CGAL::Triangulation_cell_base_3<Gt>  Cb;
 
@@ -97,6 +109,7 @@ int main(int argc, char* argv[])
 
   std::ofstream oFileT("output",std::ios::out);
   // writing file output; 
+  // this file is meant to be read only by the operator >>
   oFileT << T; 
 
   Triangulation T1;

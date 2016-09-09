@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,23 +30,27 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : rectangular_p_center_2_demo.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Matrix_search $
 // source        : pcenter.aw
-// revision      : $Revision: 1.30 $
-// revision_date : $Date: 1999/12/17 11:58:06 $
+// revision      : $Revision: 1.43 $
+// revision_date : $Date: 2000/09/15 07:24:35 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // Demo: 2-4-Centering Axis-Parallel 2D-Rectangles
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
+
+
+#ifdef CGAL_USE_LEDA
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/Iso_rectangle_2.h>
@@ -107,12 +111,12 @@ using CGAL::GREEN;
 template < class P,
            class Creator =
            CGAL_STD::Creator_uniform_2< typename P::FT, P > >
-class Random_p_clusters_2 : public CGAL_STD::_Random_generator_base< P > {
+class Random_p_clusters_2 : public CGAL_STD::Random_generator_base< P > {
 #else
 template < class P,
            class Creator =
            CGAL::Creator_uniform_2< CGAL_TYPENAME_MSVC_NULL P::FT, P > >
-class Random_p_clusters_2 : public CGAL::_Random_generator_base< P > {
+class Random_p_clusters_2 : public CGAL::Random_generator_base< P > {
 #endif // CGAL_CFG_NO_NAMESPACE
   void generate_point() {
     typedef typename P::FT FT;
@@ -137,7 +141,7 @@ class Random_p_clusters_2 : public CGAL::_Random_generator_base< P > {
   }
 public:
   typedef Random_p_clusters_2< P, Creator > This;
-  typedef CGAL::_Random_generator_base< P > Base;
+  typedef CGAL::Random_generator_base< P > Base;
   Random_p_clusters_2(int n_,
                       double c_size_,
                       double r = 1,
@@ -599,6 +603,19 @@ main(int argc, char* argv[])
 
   return 0;
 }
+
+#else
+
+#include <iostream>
+
+int main()
+{
+  std::cerr << "This demo requires LEDA." << std::endl;
+  return 0;
+}
+
+#endif
+
 // ----------------------------------------------------------------------------
 // ** EOF
 // ----------------------------------------------------------------------------

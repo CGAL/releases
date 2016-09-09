@@ -36,8 +36,8 @@
 // file          : include/CGAL/Weighted_alpha_shape_2.h
 // package       : Alpha_shapes_2 (1.0)
 // source        : $RCSfile: weights_heuristic_2.h,v $
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1999/12/08 09:55:29 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2000/07/11 15:52:06 $
 // author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec@sophia.inria.fr>)
@@ -89,7 +89,6 @@ public:
   typedef typename Gt::Coord_type Coord_type;
   typedef typename Gt::Point Point;
 
-  typedef typename Gt::Distance Distance;
   typedef typename Gt::Ray Ray;
   typedef typename Gt::Line Line;
   typedef typename Gt::Direction Direction;

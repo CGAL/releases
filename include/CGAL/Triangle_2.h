@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Triangle_2.fw
 // file          : include/CGAL/Triangle_2.h
-// package       : _2 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _2 (3.6)
+// revision      : 3.6
+// revision_date : 30 Jul 2000 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -66,132 +67,99 @@
 #endif // CGAL_TRIANGLEC2_H
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/TriangleS2.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 #ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
 #endif // CGAL_POINT_2_H
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-  class Triangle_2 : public _R::Triangle_2_base
+template <class R_>
+  class Triangle_2 : public R_::Triangle_2_base
 {
 public:
-  typedef  _R   R;
-  typedef typename R::RT                    RT;
-  typedef typename R::FT                    FT;
+  typedef  R_                          R;
+  typedef typename R::RT               RT;
+  typedef typename R::FT               FT;
   typedef typename R::Triangle_2_base  RTriangle_2;
 
-    Triangle_2()
-      : RTriangle_2()
-    {}
+  Triangle_2() : RTriangle_2() {}
 
-    Triangle_2(const CGAL::Triangle_2<R> &t)
-      : RTriangle_2((RTriangle_2&)t)
-    {}
+  Triangle_2(const CGAL::Triangle_2<R> &t) : RTriangle_2((RTriangle_2&)t) {}
 
-    Triangle_2(const RTriangle_2& t)
-      : RTriangle_2(t)
-    {}
+  Triangle_2(const RTriangle_2& t) : RTriangle_2(t) {}
 
-    Triangle_2(const CGAL::Point_2<R> &p,
-                    const CGAL::Point_2<R> &q,
-                    const CGAL::Point_2<R> &r)
-      : RTriangle_2(p,q,r)
-    {}
+  Triangle_2(const CGAL::Point_2<R> &p,
+             const CGAL::Point_2<R> &q,
+             const CGAL::Point_2<R> &r) : RTriangle_2(p,q,r) {}
 
 
-  CGAL::Triangle_2<R>  &operator=(const CGAL::Triangle_2<R> &t)
-    {
-      RTriangle_2::operator=(t);
-      return *this;
-    }
+  bool
+  operator==(const CGAL::Triangle_2<R> &t) const
+  { return RTriangle_2::operator==(t); }
 
-  bool                operator==(const CGAL::Triangle_2<R> &t) const
-    {
-      return RTriangle_2::operator==(t);
-    }
+  bool
+  operator!=(const CGAL::Triangle_2<R> &t) const
+  { return !(*this == t); }
 
-  bool                operator!=(const CGAL::Triangle_2<R> &t) const
-    {
-      return !(*this == t);
-    }
+  CGAL::Point_2<R>
+  vertex(int i) const
+  { return RTriangle_2::vertex(i); }
 
-  int                id() const
-    {
-      return (int) PTR;
-    }
+  CGAL::Point_2<R>
+  operator[](int i) const
+  { return vertex(i); }
 
-
-  CGAL::Point_2<R>     vertex(int i) const
-    {
-      return RTriangle_2::vertex(i);
-    }
-
-  CGAL::Point_2<R>     operator[](int i) const
-    {
-      return vertex(i);
-    }
-
-
-  CGAL::Triangle_2<R>  transform(const CGAL::Aff_transformation_2<R> &t) const
-  {
-    return  RTriangle_2::transform(t);
-  }
+  CGAL::Triangle_2<R>
+  transform(const CGAL::Aff_transformation_2<R> &t) const
+  { return  RTriangle_2::transform(t); }
 
   CGAL::Triangle_2<R>  opposite() const
-  {
-    return  CGAL::Triangle_2<R>(vertex(0), vertex(2), vertex(1));
-  }
+  { return  CGAL::Triangle_2<R>(vertex(0), vertex(2), vertex(1)); }
 
-  Orientation  orientation() const
-    {
-      return RTriangle_2::orientation();
-    }
+  Orientation
+  orientation() const
+  { return RTriangle_2::orientation(); }
 
-  Oriented_side           oriented_side(const CGAL::Point_2<R> &p) const
-    {
-      return RTriangle_2::oriented_side(p);
-    }
+  Oriented_side
+  oriented_side(const CGAL::Point_2<R> &p) const
+  { return RTriangle_2::oriented_side(p); }
 
-  Bounded_side           bounded_side(const CGAL::Point_2<R> &p) const
-    {
-      return RTriangle_2::bounded_side(p);
-    }
+  Bounded_side
+  bounded_side(const CGAL::Point_2<R> &p) const
+  { return RTriangle_2::bounded_side(p); }
 
-  bool                has_on_boundary(const CGAL::Point_2<R> &p) const
-    {
-      return RTriangle_2::has_on_boundary(p);
-    }
+  bool
+  has_on_boundary(const CGAL::Point_2<R> &p) const
+  { return RTriangle_2::has_on_boundary(p); }
 
-  bool                has_on_positive_side(const CGAL::Point_2<R> &p) const
-    {
-      return RTriangle_2::has_on_positive_side(p);
-    }
+  bool
+  has_on_positive_side(const CGAL::Point_2<R> &p) const
+  { return RTriangle_2::has_on_positive_side(p); }
 
-  bool                has_on_negative_side(const CGAL::Point_2<R> &p) const
-    {
-      return RTriangle_2::has_on_negative_side(p);
-    }
+  bool
+  has_on_negative_side(const CGAL::Point_2<R> &p) const
+  { return RTriangle_2::has_on_negative_side(p); }
 
-  bool                has_on_unbounded_side(const CGAL::Point_2<R> &p) const
-    {
-      return RTriangle_2::has_on_unbounded_side(p);
-    }
+  bool
+  has_on_unbounded_side(const CGAL::Point_2<R> &p) const
+  { return RTriangle_2::has_on_unbounded_side(p); }
 
-  bool                has_on_bounded_side(const CGAL::Point_2<R> &p) const
-    {
-      return RTriangle_2::has_on_bounded_side(p);
-    }
+  bool
+  has_on_bounded_side(const CGAL::Point_2<R> &p) const
+  { return RTriangle_2::has_on_bounded_side(p); }
 
-  bool                is_degenerate() const
-    {
-      return RTriangle_2::is_degenerate();
-    }
+  bool
+  is_degenerate() const
+  { return RTriangle_2::is_degenerate(); }
 
-  Bbox_2           bbox() const
-    {
-      return vertex(0).bbox() + vertex(1).bbox() + vertex(2).bbox();
-    }
+  Bbox_2
+  bbox() const
+  { return vertex(0).bbox() + vertex(1).bbox() + vertex(2).bbox(); }
 };
 
 #ifndef NO_OSTREAM_INSERT_TRIANGLE_2

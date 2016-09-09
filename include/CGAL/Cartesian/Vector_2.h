@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Vector_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 1999/11/05 22:29:54 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 2000/08/23 14:34:46 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -52,16 +53,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
-class VectorC2
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-// This is a partial specialization
-<_R,Cartesian_tag>
-#endif
-  : public Handle
+template < class R_ >
+class VectorC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+  : public Handle_for< Twotuple<typename R_::FT> >
 {
 public:
-  typedef _R                                    R;
+  typedef R_                                    R;
   typedef typename R::FT                        FT;
   typedef typename R::RT                        RT;
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
@@ -97,8 +94,6 @@ public:
   VectorC2(const FT &x, const FT &y);
   ~VectorC2();
 
-  Self            &operator=(const Self &v);
-
   bool            operator==(const Self &v) const;
   bool            operator!=(const Self &v) const;
   bool            operator==(const Null_vector &) const;
@@ -114,21 +109,19 @@ public:
   FT              hw() const;
   FT              homogeneous(int i) const;
 
-  int             id() const;
   int             dimension() const;
 
   Self            operator+(const Self &w) const;
   Self            operator-(const Self &w) const;
   Self            operator-() const;
   FT              operator*(const Self &w) const;
+  FT              squared_length() const;
   Self            operator/(const FT &c) const;
   Direction_2     direction() const;
 
   Self            perpendicular(const Orientation &o) const;
   Self            transform(const Aff_transformation_2 &) const;
 
-private:
-  _Twotuple<FT>*  ptr() const;
 };
 
 CGAL_END_NAMESPACE

@@ -1,9 +1,24 @@
+#include <CGAL/basic.h>
+
+#if !defined(CGAL_USE_LEDA) || (__LEDA__ < 400)
+#include <iostream>
+
+int main(int argc, char *argv[])
+{
+ std::cout << "No LEDA 4.0 or higher installed!\n";
+ std::cout << "A LEDA version >= 4.0 is required !\n";
+ return 0;
+}
+#else 
+
+
 // Pointset demo using LEDA lists as containers;
 // LEDA 4.0 or higher should be used
 
 #include <CGAL/config.h>
 #include <list>
 #include <LEDA/window.h>
+#include <LEDA/rat_window.h>
 #include <CGAL/Point_set_2.h>
 
 
@@ -91,6 +106,6 @@ int main()
   std::cout << "\nMST: " << El.size() << " vertices\n";
 
   W.read_mouse();
-  return 1;
+  return 0;
 }
-
+#endif

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,21 +30,22 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Pierce_rectangles_2_traits.h
-// package       : Matrix_search (1.30)
+// package       : Matrix_search (1.43)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : pcenter.aw
-// revision      : $Revision: 1.30 $
-// revision_date : $Date: 1999/12/17 11:58:46 $
+// revision      : $Revision: 1.43 $
+// revision_date : $Date: 2000/09/15 07:25:30 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // 2-4-Piercing Axis-Parallel 2D-Rectangles
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -55,10 +56,10 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
+template < class R_ >
 struct Piercing_traits_cartesian {
   // types
-  typedef _R                           R;
+  typedef R_                           R;
   typedef typename R::FT               FT;
   typedef Point_2< R >                 Point_2;
   // constructions

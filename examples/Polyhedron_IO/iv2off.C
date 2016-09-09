@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : examples/Polyhedron_IO/iv2off.C
-// package       : $CGAL_Package: Polyhedron_IO 2.9 (13 Dec 1999) $
+// package       : $CGAL_Package: Polyhedron_IO 2.11 (04 Feb 2000) $
 // revision      : $Revision: 1.3 $
 // revision_date : $Date: 1999/03/09 22:18:32 $
 // author(s)     : Lutz Kettner
@@ -44,7 +44,8 @@
 // Converts Geometry Information in Inventor files (*.iv) into OFF format. 
 // The scanner triggers on Coordinate3, IndexedFaceSet, and IndexedLineSet
 // keywords. It does not recognize transformations nor groups.
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

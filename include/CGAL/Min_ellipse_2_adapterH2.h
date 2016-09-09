@@ -1,53 +1,29 @@
 // ======================================================================
 //
-// Copyright (c) 1997,1998,1999 The CGAL Consortium
-
-// This software and related documentation is part of the Computational
-// Geometry Algorithms Library (CGAL).
-// This software and documentation is provided "as-is" and without warranty
-// of any kind. In no event shall the CGAL Consortium be liable for any
-// damage of any kind. 
+// Copyright (c) 1997-2000 The CGAL Consortium
 //
-// Every use of CGAL requires a license. 
-//
-// Academic research and teaching license
-// - For academic research and teaching purposes, permission to use and copy
-//   the software and its documentation is hereby granted free of charge,
-//   provided that it is not a component of a commercial product, and this
-//   notice appears in all copies of the software and related documentation. 
-//
-// Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.de). 
-// - Commercial users may apply for an evaluation license by writing to
-//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
-//
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).
+// This software and related documentation is part of an INTERNAL release
+// of the Computational Geometry Algorithms Library (CGAL). It is not
+// intended for general use.
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : $CGAL_Revision: CGAL-2.2-I-51 $
+// release_date  : $CGAL_Date: 2000/10/01 $
 //
 // file          : include/CGAL/Min_ellipse_2_adapterH2.h
-// package       : Min_ellipse_2 (3.5.4)
+// package       : Min_ellipse_2 (3.10.2)
+// maintainer    : Sven Schönherr <sven@inf.ethz.ch>
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_ellipse_2.aw
-// revision      : $Revision: 5.22 $
-// revision_date : $Date: 1999/12/20 19:06:47 $
-// author(s)     : Sven Schönherr
-//                 Bernd Gärtner
+// revision      : $Revision: 5.29 $
+// revision_date : $Date: 2000/09/18 09:57:06 $
 //
-// coordinator   : ETH Zürich (Bernd Gärtner)
+// author(s)     : Sven Schönherr, Bernd Gärtner
+// coordinator   : ETH Zürich (Bernd Gärtner <gaertner@inf.ethz.ch>)
 //
 // implementation: traits class adapter for 2D Smallest Enclosing Ellipse
-// email         : cgal@cs.uu.nl
-//
 // ======================================================================
 
 #ifndef CGAL_MIN_ELLIPSE_2_ADAPTERH2_H
@@ -98,8 +74,8 @@ are_ordered_along_lineH2( const PT& p, const PT& q, const PT& r,
     da.get( r, rhx, rhy, rhw);
 
     // p,q,r collinear?
-    if ( ! CGAL::is_zero(   ( phx*rhw - rhx*phw) * ( qhy*rhw - rhy*qhw)
-                          - ( phy*rhw - rhy*phw) * ( qhx*rhw - rhx*qhw)))
+    if ( ! CGAL_NTS is_zero(  ( phx*rhw - rhx*phw) * ( qhy*rhw - rhy*qhw)
+                            - ( phy*rhw - rhy*phw) * ( qhx*rhw - rhx*qhw)))
         return( false);
 
     // p,q,r vertical?
@@ -153,9 +129,9 @@ class Min_ellipse_2_adapterH2 {
         dao.get( q, qhx, qhy, qhw);
         dao.get( r, rhx, rhy, rhw);
     
-        return( CGAL_static_cast( CGAL::Orientation,
-                    CGAL::sign( ( phx*rhw - rhx*phw) * ( qhy*rhw - rhy*qhw)
-                             - ( phy*rhw - rhy*phw) * ( qhx*rhw - rhx*qhw))));
+        return( static_cast< CGAL::Orientation>(
+                 CGAL_NTS sign( ( phx*rhw - rhx*phw) * ( qhy*rhw - rhy*qhw)
+                              - ( phy*rhw - rhy*phw) * ( qhx*rhw - rhx*qhw))));
     }
 };
 
@@ -282,7 +258,7 @@ class _Min_ellipse_2_adapterH2__Ellipse {
                 return( c.convex_side( p)); }
             else {
                 int tau_star = c.vol_derivative( dr, ds, dt, du, dv, dw);
-                return( CGAL::Bounded_side( CGAL::sign( tau_star))); } }
+                return( CGAL::Bounded_side( CGAL_NTS sign( tau_star))); } }
           default:
             CGAL_optimisation_assertion( ( n_boundary_points >= 0) &&
                                          ( n_boundary_points <= 5) ); }

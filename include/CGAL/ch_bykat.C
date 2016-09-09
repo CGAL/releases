@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/ch_bykat.C
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -59,9 +60,9 @@ ch_bykat(InputIterator first, InputIterator last,
               OutputIterator  result,
               const Traits& ch_traits)
 {
-  typedef typename Traits::Point_2               Point_2;
-  typedef typename Traits::Right_of_line         Right_of_line;
-  typedef typename Traits::Less_dist_to_line     Less_dist;
+  typedef typename Traits::Point_2                         Point_2;
+  typedef typename Traits::Left_of_line_2                  Left_of_line;
+  typedef typename Traits::Less_signed_distance_to_line_2  Less_dist;
 
   if (first == last) return result;
 
@@ -97,18 +98,19 @@ ch_bykat(InputIterator first, InputIterator last,
   H.push_back( a );
   L.push_back( P.begin() );
   R.push_back( l = std::partition( P.begin(), P.end(), 
-                                   ch_traits.get_right_of_line_object(b,a) ) );
-  r = std::partition( l, P.end(), ch_traits.get_right_of_line_object(a,b) );
+                                   ch_traits.left_of_line_2_object(a,b) ) );
+  r = std::partition( l, P.end(), ch_traits.left_of_line_2_object(b,a) );
   
   for (;;)
   {
       if ( l != r)
       {
-          c = *std::max_element( l, r, ch_traits.get_less_dist_to_line_object(a,b) );
+          c = *std::min_element( l, r, 
+                                 ch_traits.less_signed_distance_to_line_2_object(a,b) );
           H.push_back( b );
           L.push_back( l );
-          R.push_back( l = std::partition(l, r, ch_traits.get_right_of_line_object(c,b)));
-          r = std::partition(l, r, ch_traits.get_right_of_line_object(a,c));
+          R.push_back( l = std::partition(l, r, ch_traits.left_of_line_2_object(b,c)));
+          r = std::partition(l, r, ch_traits.left_of_line_2_object(c,a));
           b = c; 
       }
       else
@@ -146,12 +148,14 @@ ch_bykat_with_threshold(InputIterator   first, InputIterator last,
                              const Traits&   ch_traits)
 {
   typedef typename Traits::Point_2               Point_2;
-  typedef typename Traits::Right_of_line         Right_of_line;
-  typedef typename Traits::Less_dist_to_line     Less_dist;
-  typedef typename Traits::Less_xy               Less_xy;
+  typedef typename Traits::Left_of_line_2        Left_of_line;
+  typedef typename Traits::Less_signed_distance_to_line_2     
+                                                 Less_dist;
+  typedef typename Traits::Less_xy_2             Less_xy;
   typedef ch_Binary_predicate_reversor< Point_2, Less_xy >
                                                  Greater_xy;
-  typedef typename std::vector< Point_2 >::iterator   PointIterator;
+  typedef typename std::vector< Point_2 >::iterator   
+                                                 PointIterator;
 
   if (first == last) return result;
 
@@ -189,8 +193,8 @@ ch_bykat_with_threshold(InputIterator   first, InputIterator last,
   #endif // no postconditions ...
   H.push_back( a );
   L.push_back( Pbegin );
-  R.push_back( l = std::partition( Pbegin, Pend, ch_traits.get_right_of_line_object(b,a) ) );
-  r = std::partition( l, Pend, ch_traits.get_right_of_line_object(a,b) );
+  R.push_back( l = std::partition( Pbegin, Pend, ch_traits.left_of_line_2_object(a,b) ) );
+  r = std::partition( l, Pend, ch_traits.left_of_line_2_object(b,a) );
   
   for (;;)
   {
@@ -198,26 +202,27 @@ ch_bykat_with_threshold(InputIterator   first, InputIterator last,
       {
           if ( r-l > CGAL_ch_THRESHOLD )
           {
-              c = *std::max_element( l, r, ch_traits.get_less_dist_to_line_object(a,b) );
+              c = *std::min_element( l, r, 
+                                     ch_traits.less_signed_distance_to_line_2_object(a,b) );
               H.push_back( b );
               L.push_back( l );
-              R.push_back( l = std::partition(l, r, ch_traits.get_right_of_line_object(c,b)) );
-              r = std::partition(l, r, ch_traits.get_right_of_line_object(a,c));
+              R.push_back( l = std::partition(l, r, ch_traits.left_of_line_2_object(b,c)) );
+              r = std::partition(l, r, ch_traits.left_of_line_2_object(c,a));
               b = c; 
           }
           else
           {
               std::swap( a, *--l);
               std::swap( b, *++r);
-              if ( ch_traits.get_less_xy_object()(*l,*r) )
+              if ( ch_traits.less_xy_2_object()(*l,*r) )
               {
                   std::sort(successor(l), r, 
-                            ch_traits.get_less_xy_object() );
+                            ch_traits.less_xy_2_object() );
               }
               else
               {
                   std::sort(successor(l), r, 
-                            Greater_xy(ch_traits.get_less_xy_object()) );
+                            Greater_xy(ch_traits.less_xy_2_object()) );
               }
               ch__ref_graham_andrew_scan(l, successor(r), res, ch_traits);
               std::swap( a, *l);

@@ -31,21 +31,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : IEEE.fw
 // file          : include/CGAL/IEEE_754_unions.h
-// package       : Number_types (2.7.1)
-// revision      : 2.7.1
-// revision_date : 04 Dec 1999 
+// package       : Number_types (3.4)
+// revision      : 3.4
+// revision_date : 13 Jul 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #include <iomanip>
 

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Triangle_2.C
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1999/11/22 12:30:48 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.18 $
+// revision_date : $Date: 2000/07/09 10:46:13 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -59,25 +60,18 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class R >
-inline
-_Threetuple< typename TriangleC2<R CGAL_CTAG>::Point_2 > *
-TriangleC2<R CGAL_CTAG>::ptr() const
-{
-  return (_Threetuple<Point_2>*)PTR;
-}
 
 template < class R >
 CGAL_KERNEL_CTOR_INLINE
 TriangleC2<R CGAL_CTAG>::TriangleC2()
 {
-  PTR = new _Threetuple<Point_2>;
+  new ( static_cast< void*>(ptr)) Threetuple<Point_2>();
 }
 
 template < class R >
 CGAL_KERNEL_CTOR_INLINE
 TriangleC2<R CGAL_CTAG>::TriangleC2(const TriangleC2<R CGAL_CTAG> &t)
-  : Handle((Handle&)t)
+  : Handle_for<Threetuple< typename R::Point_2> >(t)
 {}
 
 template < class R >
@@ -87,7 +81,7 @@ TriangleC2(const typename TriangleC2<R CGAL_CTAG>::Point_2 &p,
            const typename TriangleC2<R CGAL_CTAG>::Point_2 &q,
            const typename TriangleC2<R CGAL_CTAG>::Point_2 &r)
 {
-  PTR = new _Threetuple<Point_2>(p, q, r);
+  new ( static_cast< void*>(ptr)) Threetuple<Point_2>(p, q, r);
 }
 
 template < class R >
@@ -95,21 +89,13 @@ inline
 TriangleC2<R CGAL_CTAG>::~TriangleC2()
 {}
 
-template < class R >
-inline
-TriangleC2<R CGAL_CTAG> &
-TriangleC2<R CGAL_CTAG>::operator=(const TriangleC2<R CGAL_CTAG> &t)
-{
-  Handle::operator=(t);
-  return *this;
-}
 
 template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
 TriangleC2<R CGAL_CTAG>::operator==(const TriangleC2<R CGAL_CTAG> &t) const
 {
-  if ( id() == t.id() ) return true;
+  if ( ptr == t.ptr ) return true;
   int i;
   for(i=0; i<3; i++)
     if ( vertex(0) == t.vertex(i) )
@@ -127,23 +113,15 @@ TriangleC2<R CGAL_CTAG>::operator!=(const TriangleC2<R CGAL_CTAG> &t) const
 }
 
 template < class R >
-inline
-int
-TriangleC2<R CGAL_CTAG>::id() const
-{
-  return (int) PTR;
-}
-
-template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
 typename TriangleC2<R CGAL_CTAG>::Point_2
 TriangleC2<R CGAL_CTAG>::vertex(int i) const
 {
   if (i>2) i = i%3;
   else if (i<0) i = (i%3) + 3;
-  return (i==0) ? ptr()->e0 :
-         (i==1) ? ptr()->e1 :
-                  ptr()->e2 ;
+  return (i==0) ? ptr->e0 :
+         (i==1) ? ptr->e1 :
+                  ptr->e2;
 }
 
 template < class R >
@@ -273,7 +251,8 @@ template < class R >
 inline
 TriangleC2<R CGAL_CTAG>
 TriangleC2<R CGAL_CTAG>::
-transform(const typename TriangleC2<R CGAL_CTAG>::Aff_transformation_2 &t) const
+transform(const 
+	  typename TriangleC2<R CGAL_CTAG>::Aff_transformation_2 &t) const
 {
   return TriangleC2<R CGAL_CTAG>(t.transform(vertex(0)),
                         t.transform(vertex(1)),
@@ -300,7 +279,8 @@ operator<<(std::ostream &os, const TriangleC2<R CGAL_CTAG> &t)
     case IO::BINARY :
         return os << t[0] << t[1]  << t[2];
     default:
-        return os<< "TriangleC2(" << t[0] << ", " << t[1] << ", " << t[2] <<")";
+        return os<< "TriangleC2(" << t[0] << ", " 
+		 << t[1] << ", " << t[2] <<")";
     }
 }
 #endif // CGAL_NO_OSTREAM_INSERT_TRIANGLEC2

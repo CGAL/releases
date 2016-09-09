@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Topological_map_bases.h
-// package       : pm (4.20)
+// package       : pm (5.43)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -44,7 +44,8 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 #ifndef  CGAL_TOPOLOGICAL_MAP_BASES_H

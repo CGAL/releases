@@ -1,11 +1,11 @@
 <!-- Begin of cc_manual_header -->
 <!-- ------------------------- -->
-<!-- $Revision: 3.4 $ -->
-<!-- $Date: 1999/09/27 11:47:26 $ -->
+<!-- $Revision: 1.3 $ -->
+<!-- $Date: 2000/01/10 16:57:05 $ -->
 
   <!-- CC manual page automatically extracted from a TeX specification -->
   <!-- in file Chapter_installation.html -->
-  <!-- by cc_extract_html, $Revision: 3.4 $. -->
+  <!-- by cc_extract_html, $Revision: 1.3 $. -->
 
 <!--  Title -->
   <HEAD>
@@ -59,8 +59,7 @@ we could not work around all of them.
 
 On MS&nbsp;Windows, one has two options for installing: one is specifically
 targeted for this OS and is described in
-section&nbsp;<A HREF="Chapter_installation.html#sec:wininst"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A><A HREF="#Footnote_5"><SUP>5</SUP></A>;
-the other is using
+section&nbsp;<A HREF="Chapter_installation.html#sec:wininst"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A><A HREF="#Footnote_5"><SUP>5</SUP></A>; the other is using
 Cygwin<A HREF="#Footnote_6"><SUP>6</SUP></A> and the
 generic installation procedure for Unix-like environments described in
 section&nbsp;<A HREF="Chapter_installation.html#sec:sample-inst"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> and subsequent sections.  If you are
@@ -1200,8 +1199,7 @@ section&nbsp;<A HREF="Chapter_installation.html#sec:gettingcgal"><IMG SRC="cc_re
 <P>
 
 In order to install and use C<SMALL>GAL</SMALL> with MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;, you need MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; 
-command line tools installed and working<A HREF="#Footnote_13"><SUP>13</SUP></A>. 
-Certain familiarity with using Windows command prompt
+command line tools installed and working<A HREF="#Footnote_13"><SUP>13</SUP></A>. Certain familiarity with using Windows command prompt
 and these tools is assumed. A reasonable amount of system resources,
 that is enough memory to run large compilations (64 Mb on NT4.0) and
 about 15MB of disk space, is required. Note, however, that 
@@ -1229,12 +1227,11 @@ unpacked.
 <P>
 
 <H3>Initial customization</H3>
-<A NAME="subs::inicu"></A>
 <P>
 
 Change to <TT>CGALROOT</TT> and run the batch file <TT>cgal_config.bat</TT> at the
 command prompt.  This script will set the appropriate makefiles for
-subsequent compilation.<A HREF="#Footnote_14"><SUP>14</SUP></A>
+subsequent compilation.
 <P>
 
 <TT>cgal_config.bat</TT> accepts 4 parameters.
@@ -1628,7 +1625,7 @@ there is a good chance that you suffer from this ``long-name''
 problem.
 <P>
 
-A solution is to install the G<SMALL>NU</SMALL>-binutils<A HREF="#Footnote_15"><SUP>15</SUP></A> and to tell the
+A solution is to install the G<SMALL>NU</SMALL>-binutils<A HREF="#Footnote_14"><SUP>14</SUP></A> and to tell the
 compiler that it shall use the G<SMALL>NU</SMALL>- instead of the native tools.
 From the compiler-menu (described in section <A HREF="Chapter_installation.html#sec:compiler-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>)
 you can set the corresponding option through the custom compiler
@@ -1677,12 +1674,12 @@ LDFLAGS = $(LONG_NAME_PROBLEM_LDFLAGS) $(CGAL_LDFLAGS)
 
 If you are using an old version of L<SMALL>EDA</SMALL>, the combination of L<SMALL>EDA</SMALL> 
 and STL may give some problems. In order to avoid them, it is highly
-recommended to use the latest L<SMALL>EDA</SMALL> release<A HREF="#Footnote_16"><SUP>16</SUP></A>, since this is what we test C<SMALL>GAL</SMALL> with.
+recommended to use the latest L<SMALL>EDA</SMALL> release<A HREF="#Footnote_15"><SUP>15</SUP></A>, since this is what we test C<SMALL>GAL</SMALL> with.
 <P>
 
-<B>MS&nbsp;Visual&nbsp;</B><TT><B>C++</B></TT><B>&nbsp;specific problems.</B>&nbsp;&nbsp;Using MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; with L<SMALL>EDA</SMALL> requires<A HREF="#Footnote_17"><SUP>17</SUP></A> the
+<B>MS&nbsp;Visual&nbsp;</B><TT><B>C++</B></TT><B>&nbsp;specific problems.</B>&nbsp;&nbsp;Using MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; with L<SMALL>EDA</SMALL> requires<A HREF="#Footnote_16"><SUP>16</SUP></A> the
 latter to be compiled and used with <TT>LEDA_STD_HEADERS</TT> flag
-on. C<SMALL>GAL</SMALL> uses new-style C++ standard conformant headers<A HREF="#Footnote_18"><SUP>18</SUP></A>, while L<SMALL>EDA</SMALL> can work
+on. C<SMALL>GAL</SMALL> uses new-style C++ standard conformant headers<A HREF="#Footnote_17"><SUP>17</SUP></A>, while L<SMALL>EDA</SMALL> can work
 with both styles. Mixing these styles is a strict no-no for MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;.
 Before compiling L<SMALL>EDA</SMALL> edit the file
 <TT>$(LEDAROOT)/incl/LEDA/system.h</TT> and uncomment the
@@ -1695,14 +1692,7 @@ Before compiling L<SMALL>EDA</SMALL> edit the file
 
 Also, L<SMALL>EDA</SMALL> and C<SMALL>GAL</SMALL> libraries must be compiled with the same
 options controlling the use of debugging and multithreading.
-<A HREF="#Footnote_19"><SUP>19</SUP></A>
-<P>
-
-If a binary release of L<SMALL>EDA</SMALL>4.0 is used, make sure that it is one of
-them that uses new-style headers. Namely, among the self-extracting
-executables on
-<TT>http://www.mpi-sb.mpg.de/LEDA/download/windows/</TT>, choose one of
-these that have the name ending with <TT>-std.exe</TT>.
+<A HREF="#Footnote_18"><SUP>18</SUP></A>
 <P>
 
 <H3>MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6.0-specific C++ problems</H3>
@@ -1735,12 +1725,12 @@ instantiated when <TT>T</TT> is a C pointer.
 
 C<SMALL>GAL</SMALL> provides
 these instantiations for most commonly used primitive data types and
-C<SMALL>GAL</SMALL> kernel types<A HREF="#Footnote_20"><SUP>20</SUP></A>.
+C<SMALL>GAL</SMALL> kernel types<A HREF="#Footnote_19"><SUP>19</SUP></A>.
 For other types the user must do this himself.  
 This can be done by using the macro
 <TT>CGAL_DEFINE_ITERATOR_TRAITS_POINTER_SPEC(T)</TT>.
 Note that the parameter of this macro cannot contain symbols <MATH><I>&lt;</I></MATH> and
-<MATH><I>&gt;</I></MATH>. Thus the macro cannot be used with types that contain <MATH><I>&lt;</I></MATH> and <MATH><I>&gt;</I></MATH>
+<MATH><I>&gt;</I></MATH>. Thus the macro cannot on types that contain <MATH><I>&lt;</I></MATH> and <MATH><I>&gt;</I></MATH>
 directly. However, one can be done by first define a new type using 
 <TT>typedef</TT> and then applying the macro to this new type.
 See e.g. <TT>examples/Getting_started/advanced_hull.C</TT>
@@ -1803,8 +1793,8 @@ option. In C<SMALL>GAL</SMALL> makefiles it is set to <TT>-Zm900</TT>, meaning
     error C2587: '_U' :<BR>
 
 illegal use of local variable as default parameter</TT> can
-  occur<A HREF="#Footnote_21"><SUP>21</SUP></A>. The only workaround we know is to redefine the macro
-  <TT>_VIRTUAL</TT> in <TT>&lt;xlocnum&gt;</TT><A HREF="#Footnote_22"><SUP>22</SUP></A>
+  occur<A HREF="#Footnote_20"><SUP>20</SUP></A>. The only workaround we know is to redefine the macro
+  <TT>_VIRTUAL</TT> in <TT>&lt;xlocnum&gt;</TT><A HREF="#Footnote_21"><SUP>21</SUP></A>
   to be empty. Search for<BR>
 
 <TT>#define&nbsp;_VIRTUAL&nbsp;virtual</TT> there and replace it by
@@ -1924,8 +1914,8 @@ see e.g.
     information
 </TD></TR><TR><TD VALIGN=TOP>
         <A NAME="Footnote_5">&nbsp;<SUP>5</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
-see also the file
-  <TT>wininstall.txt</TT> in the root directory of the installation
+see also <TT>wininstall.txt</TT> in
+  the root directory of the installation
 </TD></TR><TR><TD VALIGN=TOP>
         <A NAME="Footnote_6">&nbsp;<SUP>6</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 <A HREF="http://sourceware.cygnus.com/cygwin"><TT>http://sourceware.cygnus.com/cygwin</TT></A>
@@ -1965,48 +1955,37 @@ open MyComputer, press right mouse button,
 </TD></TR><TR><TD VALIGN=TOP>
         <A NAME="Footnote_13">&nbsp;<SUP>13</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 To make sure that
-  certain environment variables are set correctly, one should execute
+  certain environment variables are set correctly, one can execute
   <TT>VCVARS32.BAT</TT> located in the same directory as the MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; 
-  executables. A possible MS&nbsp;Windows-9* - specific problem (and a
-  solution) is discussed in section <A HREF="Chapter_installation.html#subs::inicu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>
+  executables.
 </TD></TR><TR><TD VALIGN=TOP>
         <A NAME="Footnote_14">&nbsp;<SUP>14</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
-
-<B>MS&nbsp;Windows-9*.</B> 
-The memory for environment variables might have to be increased.
-Select the MS-DOS icon from the Start-menu, press the right mouse
-button and choose <I>Properties</I>. Go to <I>Memory</I>, select
-<I>Initial Environment</I>, set it to at least 2048 and
-<I>apply</I> the changes. Then press <I>OK</I> and kill the window.
-
-</TD></TR><TR><TD VALIGN=TOP>
-        <A NAME="Footnote_15">&nbsp;<SUP>15</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 see
   <A HREF="http://www.gnu.org/software/binutils/"><TT>http://www.gnu.org/software/binutils/</TT></A>
 </TD></TR><TR><TD VALIGN=TOP>
-        <A NAME="Footnote_16">&nbsp;<SUP>16</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+        <A NAME="Footnote_15">&nbsp;<SUP>15</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 At the moment
   this is L<SMALL>EDA</SMALL> 4.0.
 </TD></TR><TR><TD VALIGN=TOP>
-        <A NAME="Footnote_17">&nbsp;<SUP>17</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+        <A NAME="Footnote_16">&nbsp;<SUP>16</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 Also applies to B<SMALL>ORLAND</SMALL>&nbsp;<TT>C++</TT>&nbsp;.
 </TD></TR><TR><TD VALIGN=TOP>
-        <A NAME="Footnote_18">&nbsp;<SUP>18</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+        <A NAME="Footnote_17">&nbsp;<SUP>17</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 the
   ones that do not have <TT>.h</TT> suffix
 </TD></TR><TR><TD VALIGN=TOP>
-        <A NAME="Footnote_19">&nbsp;<SUP>19</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+        <A NAME="Footnote_18">&nbsp;<SUP>18</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; compilation/linking options 
 <TT>-ML, -MT, -MD, -MLD, -MTD, -MDD</TT>
 </TD></TR><TR><TD VALIGN=TOP>
-        <A NAME="Footnote_20">&nbsp;<SUP>20</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+        <A NAME="Footnote_19">&nbsp;<SUP>19</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 C<SMALL>GAL</SMALL> <TT>Point, Segment</TT>, etc.
 </TD></TR><TR><TD VALIGN=TOP>
-        <A NAME="Footnote_21">&nbsp;<SUP>21</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+        <A NAME="Footnote_20">&nbsp;<SUP>20</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 For instance, in C<SMALL>GAL</SMALL> <TT>Min_circle</TT>
     package
 </TD></TR><TR><TD VALIGN=TOP>
-        <A NAME="Footnote_22">&nbsp;<SUP>22</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+        <A NAME="Footnote_21">&nbsp;<SUP>21</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
 Yes, in the MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp; 
     header! You need not edit the actual file though. Copy it to
     <TT>CGAL-2.1</TT><TT>/stlport/</TT> and edit it there. As
@@ -2020,8 +1999,8 @@ Yes, in the MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;
 
 <!-- Begin of cc_manual_footer -->
 <!-- ------------------------- -->
-<!-- $Revision: 3.4 $ -->
-<!-- $Date: 1999/09/27 11:47:26 $ -->
+<!-- $Revision: 1.3 $ -->
+<!-- $Date: 2000/01/10 16:57:05 $ -->
 
 <!-- Navigation -->
 <HR>
@@ -2034,7 +2013,7 @@ Yes, in the MS&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;
 <HR>
 
 <address> 
-  <A HREF=http://www.mpi-sb.mpg.de/GALIA target=_top>The GALIA project</A>.    Jan 11, 2000. 
+  The <A HREF="http://www.cs.uu.nl/CGAL/">CGAL Project</A>.    Jan  6,  2000. 
 </address>
 </BODY>
 </HTML>

@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/ch_jarvis.C
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -63,7 +64,7 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
                 const Traits& ch_traits)
 {
   if (first == last) return result;
-  typedef   typename Traits::Less_rotate_ccw       Less_rotate_ccw;
+  typedef   typename Traits::Less_rotate_ccw_2       Less_rotate_ccw;
   typedef   typename Traits::Point_2               Point_2;
   #if defined(CGAL_CH_NO_POSTCONDITIONS) || defined(CGAL_NO_POSTCONDITIONS) \
     || defined(NDEBUG)
@@ -77,7 +78,7 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
       for (ForwardIterator fit = first; fit!= last; ++fit) ++count_points; )
 
   Less_rotate_ccw  
-      rotation_predicate = ch_traits.get_less_rotate_ccw_object( start_p );
+      rotation_predicate = ch_traits.less_rotate_ccw_2_object( start_p );
   *res = start_p;  ++res;
   CGAL_ch_assertion_code( \
       int constructed_points = 1; )
@@ -98,7 +99,7 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
       CGAL_ch_assertion( \
           constructed_points <= count_points + 1 );
 
-      rotation_predicate = ch_traits.get_less_rotate_ccw_object( *it );
+      rotation_predicate = ch_traits.less_rotate_ccw_2_object( *it );
       it = std::min_element( first, last, rotation_predicate );
   } 
   CGAL_ch_postcondition( \

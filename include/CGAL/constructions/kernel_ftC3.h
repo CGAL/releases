@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/constructions/kernel_ftC3.h
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 1999/11/05 22:29:57 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.19 $
+// revision_date : $Date: 2000/08/31 16:57:18 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -76,15 +77,15 @@ circumcenterC3( const FT &px, const FT &py, const FT &pz,
   FT psx = px-sx;
   FT psy = py-sy;
   FT psz = pz-sz;
-  FT ps2 = square(psx) + square(psy) + square(psz);
+  FT ps2 = CGAL_NTS square(psx) + CGAL_NTS square(psy) + CGAL_NTS square(psz);
   FT qsx = qx-sx;
   FT qsy = qy-sy;
   FT qsz = qz-sz;
-  FT qs2 = square(qsx) + square(qsy) + square(qsz);
+  FT qs2 = CGAL_NTS square(qsx) + CGAL_NTS square(qsy) + CGAL_NTS square(qsz);
   FT rsx = rx-sx;
   FT rsy = ry-sy;
   FT rsz = rz-sz;
-  FT rs2 = square(rsx) + square(rsy) + square(rsz);
+  FT rs2 = CGAL_NTS square(rsx) + CGAL_NTS square(rsy) + CGAL_NTS square(rsz);
 
   FT num_x = det3x3_by_formula(psy,psz,ps2,
                                qsy,qsz,qs2,
@@ -95,6 +96,46 @@ circumcenterC3( const FT &px, const FT &py, const FT &pz,
   FT num_z = det3x3_by_formula(psx,psy,ps2,
                                qsx,qsy,qs2,
                                rsx,rsy,rs2);
+  FT den   = det3x3_by_formula(psx,psy,psz,
+                               qsx,qsy,qsz,
+                               rsx,rsy,rsz);
+  CGAL_kernel_assertion( den != FT(0) );
+  FT inv = FT(1)/(FT(2) * den);
+
+  x = sx + num_x*inv;
+  y = sy - num_y*inv;
+  z = sz + num_z*inv;
+}
+
+template < class FT >
+void
+circumcenterC3( const FT &px, const FT &py, const FT &pz,
+                const FT &qx, const FT &qy, const FT &qz,
+                const FT &sx, const FT &sy, const FT &sz,
+                FT &x, FT &y, FT &z)
+{
+  // Translate s to origin to simplify the expression.
+  FT psx = px-sx;
+  FT psy = py-sy;
+  FT psz = pz-sz;
+  FT ps2 = CGAL_NTS square(psx) + CGAL_NTS square(psy) + CGAL_NTS square(psz);
+  FT qsx = qx-sx;
+  FT qsy = qy-sy;
+  FT qsz = qz-sz;
+  FT qs2 = CGAL_NTS square(qsx) + CGAL_NTS square(qsy) + CGAL_NTS square(qsz);
+  FT rsx = psy*qsz-psz*qsy;
+  FT rsy = psz*qsx-psx*qsz;
+  FT rsz = psx*qsy-psy*qsx;
+  
+  FT num_x = det3x3_by_formula(psy,psz,ps2,
+                               qsy,qsz,qs2,
+                               rsy,rsz,FT(0));
+  FT num_y = det3x3_by_formula(psx,psz,ps2,
+                               qsx,qsz,qs2,
+                               rsx,rsz,FT(0));
+  FT num_z = det3x3_by_formula(psx,psy,ps2,
+                               qsx,qsy,qs2,
+                               rsx,rsy,FT(0));
   FT den   = det3x3_by_formula(psx,psy,psz,
                                qsx,qsy,qsz,
                                rsx,rsy,rsz);
@@ -208,7 +249,8 @@ FT
 squared_distanceC3( const FT &px, const FT &py, const FT &pz,
                     const FT &qx, const FT &qy, const FT &qz)
 {
-  return square(px-qx) + square(py-qy) + square(pz-qz);
+  return CGAL_NTS square(px-qx) + CGAL_NTS square(py-qy) +
+	 CGAL_NTS square(pz-qz);
 }
 
 template < class FT >

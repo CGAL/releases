@@ -30,8 +30,8 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : src/Random.C
 // package       : Random_numbers (2.1.2)
@@ -45,7 +45,8 @@
 // coordinator   : INRIA Sophia-Antipolis (<Herve.Bronnimann>)
 //
 // implementation: Random Numbers Generator
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

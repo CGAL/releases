@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/ch_selected_extreme_points_2.h
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -95,7 +96,7 @@ all iterators |it| in the range. Similarly, for |s|, |w|, and |e|
 the inequations |*s| $\le_{\rm yx}$ |*it|, |*w| $\le_{\rm xy}$ |*it|,
 and |*e| $\ge_{\rm yx}$ |*it| hold respectively for all iterators 
 |it| in the range.\\
-{\sc traits}: uses |Traits::Less_xy| and |Traits::Less_yx|.
+{\sc traits}: uses |Traits::Less_xy_2| and |Traits::Less_yx_2|.
 }*/
 
 
@@ -121,7 +122,7 @@ After execution, the value of |n| is
 an iterator in the range such that |*n| $\ge_{\rm yx}$ |*it| for
 all iterators |it| in the range. Similarly, for |s| the inequation
 |*s| $\le_{\rm yx}$ |*it| holds for all iterators |it| in the range.\\
-{\sc traits}: uses function object type |Traits::Less_yx|.
+{\sc traits}: uses function object type |Traits::Less_yx_2|.
 }*/
 
 template <class ForwardIterator, class Traits>
@@ -135,7 +136,7 @@ After execution, the value of |w| is
 an iterator in the range such that |*w| $\le_{\rm xy}$ |*it| for
 all iterators |it| in the range. Similarly, for |e| the inequation
 |*e| $\ge_{\rm yx}$ |*it| holds for all iterators |it| in the range.\\
-{\sc traits}: uses function object type |Traits::Less_xy|.
+{\sc traits}: uses function object type |Traits::Less_xy_2|.
 }*/
 
 
@@ -148,7 +149,7 @@ ch_n_point( ForwardIterator first, ForwardIterator last,
 the value of |n| is
 an iterator in the range such that |*n| $\ge_{\rm yx}$ |*it| for
 all iterators |it| in the range.\\ 
-{\sc traits}: uses |Traits::Less_yx|.
+{\sc traits}: uses |Traits::Less_yx_2|.
 }*/
 
 template <class ForwardIterator, class Traits>
@@ -160,7 +161,7 @@ ch_s_point( ForwardIterator first, ForwardIterator last,
 the value of |s| is
 an iterator in the range such that |*s| $\le_{\rm yx}$ |*it| for
 all iterators |it| in the range.\\ 
-{\sc traits}: uses |Traits::Less_yx|.
+{\sc traits}: uses |Traits::Less_yx_2|.
 }*/
 
 template <class ForwardIterator, class Traits>
@@ -172,7 +173,7 @@ ch__e_point( ForwardIterator first, ForwardIterator last,
 the value of |e| is
 an iterator in the range such that |*e| $\ge_{\rm yx}$ |*it| for
 for all iterators |it| in the range.\\
-{\sc traits}: uses |Traits::Less_xy|.
+{\sc traits}: uses |Traits::Less_xy_2|.
 }*/
 
 template <class ForwardIterator, class Traits>
@@ -184,7 +185,7 @@ ch_w_point( ForwardIterator first, ForwardIterator last,
 the value of |w| is
 an iterator in the range such that |*w| $\le_{\rm yx}$ |*it| for
 for all iterators |it| in the range.\\
-{\sc traits}: uses |Traits::Less_yx|.
+{\sc traits}: uses |Traits::Less_yx_2|.
 }*/
 #ifdef CGAL_POINT_2_H
 /*{\Moptions
@@ -207,7 +208,7 @@ ch__nswe_point( ForwardIterator first, ForwardIterator last,
                      ForwardIterator& w,
                      ForwardIterator& e,
                      Point_2<R>* )
-{ ch_nswe_point(first, last, n, s, w, e, convex_hull_traits_2<R>()); }
+{ ch_nswe_point(first, last, n, s, w, e, R()); }
 
 template <class ForwardIterator>
 inline
@@ -245,7 +246,7 @@ ch__n_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& n, 
                  Point_2<R>* )
 {
-  ch_n_point(first, last, n, convex_hull_traits_2<R>() );
+  ch_n_point(first, last, n, R() );
 }
 
 template <class ForwardIterator>
@@ -269,7 +270,7 @@ ch__s_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& s,
                   Point_2<R>* )
 {
-  ch_s_point(first, last, s, convex_hull_traits_2<R>() );
+  ch_s_point(first, last, s, R() );
 }
 
 template <class ForwardIterator>
@@ -293,7 +294,7 @@ ch__e_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& e,
                   Point_2<R>* )
 {
-  ch_e_point(first, last, e, convex_hull_traits_2<R>() );
+  ch_e_point(first, last, e, R() );
 }
 
 template <class ForwardIterator>
@@ -317,7 +318,7 @@ ch__w_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& w,
                   Point_2<R>* )
 {
-  ch_w_point(first, last, w, convex_hull_traits_2<R>() );
+  ch_w_point(first, last, w, R() );
 }
 
 template <class ForwardIterator>
@@ -342,7 +343,7 @@ ch__ns_point( ForwardIterator first, ForwardIterator last,
                    ForwardIterator& s,
                    Point_2<R>* )
 {
-  ch_ns_point(first, last, n, s, convex_hull_traits_2<R>() );
+  ch_ns_point(first, last, n, s, R() );
 }
 
 template <class ForwardIterator>
@@ -368,7 +369,7 @@ ch__we_point( ForwardIterator first, ForwardIterator last,
                    ForwardIterator& e,
                    Point_2<R>* )
 {
-  ch_we_point(first, last, w, e, convex_hull_traits_2<R>() );
+  ch_we_point(first, last, w, e, R() );
 }
 
 template <class ForwardIterator>

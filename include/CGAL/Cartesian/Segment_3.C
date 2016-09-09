@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Segment_3.C
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.13 $
-// revision_date : $Date: 1999/11/05 22:29:40 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.20 $
+// revision_date : $Date: 2000/07/09 10:39:15 $
 // author(s)     : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -60,24 +61,16 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
-inline
-_Twotuple< typename SegmentC3<R CGAL_CTAG>::Point_3 > *
-SegmentC3<R CGAL_CTAG>::ptr() const
-{
-  return (_Twotuple< Point_3 >*)PTR;
-}
-
-template < class R >
 SegmentC3<R CGAL_CTAG>::
 SegmentC3()
 {
-  PTR = new _Twotuple< Point_3 >;
+  new (static_cast< void*>(ptr)) Twotuple< Point_3 >;
 }
 
 template < class R >
 SegmentC3<R CGAL_CTAG>::
 SegmentC3(const SegmentC3<R CGAL_CTAG>  &s) :
-  Handle((Handle&)s)
+  Handle_for<Twotuple<typename R::Point_3 > >(s)
 {}
 
 template < class R >
@@ -85,7 +78,7 @@ SegmentC3<R CGAL_CTAG>::
 SegmentC3(const typename SegmentC3<R CGAL_CTAG>::Point_3 &sp,
           const typename SegmentC3<R CGAL_CTAG>::Point_3 &ep)
 {
-  PTR = new _Twotuple< Point_3 >(sp, ep);
+  new (static_cast< void*>(ptr)) Twotuple< Point_3 >(sp, ep);
 }
 
 template < class R >
@@ -93,19 +86,11 @@ inline SegmentC3<R CGAL_CTAG>::~SegmentC3()
 {}
 
 template < class R >
-SegmentC3<R CGAL_CTAG> &
-SegmentC3<R CGAL_CTAG>::operator=(const SegmentC3<R CGAL_CTAG> &s)
-{
-  Handle::operator=(s);
-  return *this;
-}
-
-template < class R >
 inline
 bool
 SegmentC3<R CGAL_CTAG>::operator==(const SegmentC3<R CGAL_CTAG> &s) const
 {
-  return (source() == s.source())  && (target() == s.target());
+  return source() == s.source()  && target() == s.target();
 }
 
 template < class R >
@@ -117,37 +102,31 @@ SegmentC3<R CGAL_CTAG>::operator!=(const SegmentC3<R CGAL_CTAG> &s) const
 }
 
 template < class R >
-long  SegmentC3<R CGAL_CTAG>::id() const
-{
-  return (long) PTR;
-}
-
-template < class R >
-typename SegmentC3<R CGAL_CTAG>::Point_3
-SegmentC3<R CGAL_CTAG>::start() const
-{
-  return ptr()->e0;
-}
-
-template < class R >
-typename SegmentC3<R CGAL_CTAG>::Point_3
-SegmentC3<R CGAL_CTAG>::end() const
-{
-  return ptr()->e1;
-}
-
-template < class R >
 typename SegmentC3<R CGAL_CTAG>::Point_3
 SegmentC3<R CGAL_CTAG>::source() const
 {
-  return ptr()->e0;
+  return ptr->e0;
 }
 
 template < class R >
 typename SegmentC3<R CGAL_CTAG>::Point_3
 SegmentC3<R CGAL_CTAG>::target() const
 {
-  return ptr()->e1;
+  return ptr->e1;
+}
+
+template < class R >
+typename SegmentC3<R CGAL_CTAG>::Point_3
+SegmentC3<R CGAL_CTAG>::start() const
+{
+  return source();
+}
+
+template < class R >
+typename SegmentC3<R CGAL_CTAG>::Point_3
+SegmentC3<R CGAL_CTAG>::end() const
+{
+  return target();
 }
 
 template < class R >
@@ -155,8 +134,8 @@ inline
 typename SegmentC3<R CGAL_CTAG>::Point_3
 SegmentC3<R CGAL_CTAG>::min() const
 {
-  return (lexicographically_xyz_smaller(source(),target())) ? source()
-                                                            : target();
+  return lexicographically_xyz_smaller(source(),target()) ? source()
+                                                          : target();
 }
 
 template < class R >
@@ -164,8 +143,8 @@ inline
 typename SegmentC3<R CGAL_CTAG>::Point_3
 SegmentC3<R CGAL_CTAG>::max() const
 {
-  return (lexicographically_xyz_smaller(source(),target())) ? target()
-                                                            : source();
+  return lexicographically_xyz_smaller(source(),target()) ? target()
+                                                          : source();
 }
 
 template < class R >

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/intersection_2_2.h
-// package       : Intersections_2 (2.2.2)
+// package       : Intersections_2 (2.6.3)
 // source        : intersection_2_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -49,32 +50,14 @@
 #ifndef CGAL_INTERSECTION_2_2_H
 #define CGAL_INTERSECTION_2_2_H
 
-#ifndef CGAL_TRIANGLE_2_TRIANGLE_2_INTERSECTION_H
 #include <CGAL/Triangle_2_Triangle_2_intersection.h>
-#endif // CGAL_TRIANGLE_2_TRIANGLE_2_INTERSECTION_H
-#ifndef CGAL_TRIANGLE_2_LINE_2_INTERSECTION_H
 #include <CGAL/Triangle_2_Line_2_intersection.h>
-#endif // CGAL_TRIANGLE_2_LINE_2_INTERSECTION_H
-#ifndef CGAL_TRIANGLE_2_RAY_2_INTERSECTION_H
 #include <CGAL/Triangle_2_Ray_2_intersection.h>
-#endif // CGAL_TRIANGLE_2_RAY_2_INTERSECTION_H
-#ifndef CGAL_TRIANGLE_2_SEGMENT_2_INTERSECTION_H
 #include <CGAL/Triangle_2_Segment_2_intersection.h>
-#endif // CGAL_TRIANGLE_2_SEGMENT_2_INTERSECTION_H
-#ifndef CGAL_LINE_2_ISO_RECTANGLE_2_INTERSECTION_H
 #include <CGAL/Line_2_Iso_rectangle_2_intersection.h>
-#endif // CGAL_LINE_2_ISO_RECTANGLE_2_INTERSECTION_H
-#ifndef CGAL_RAY_2_ISO_RECTANGLE_2_INTERSECTION_H
 #include <CGAL/Ray_2_Iso_rectangle_2_intersection.h>
-#endif // CGAL_RAY_2_ISO_RECTANGLE_2_INTERSECTION_H
-#ifndef CGAL_SEGMENT_2_ISO_RECTANGLE_2_INTERSECTION_H
 #include <CGAL/Segment_2_Iso_rectangle_2_intersection.h>
-#endif // CGAL_SEGMENT_2_ISO_RECTANGLE_2_INTERSECTION_H
-#ifndef CGAL_POINT_2_ISO_RECTANGLE_2_INTERSECTION_H
 #include <CGAL/Point_2_Iso_rectangle_2_intersection.h>
-#endif // CGAL_POINT_2_ISO_RECTANGLE_2_INTERSECTION_H
-#ifndef CGAL_ISO_RECTANGLE_2_ISO_RECTANGLE_2_INTERSECTION_H
 #include <CGAL/Iso_rectangle_2_Iso_rectangle_2_intersection.h>
-#endif // CGAL_ISO_RECTANGLE_2_ISO_RECTANGLE_2_INTERSECTION_H
 
 #endif

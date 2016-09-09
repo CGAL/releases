@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : basic_constructions_3.fw
 // file          : include/CGAL/basic_constructions_3.h
-// package       : _3 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _3 (3.7)
+// revision      : 3.7
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_BASIC_CONSTRUCTIONS_3_H
 #define CGAL_BASIC_CONSTRUCTIONS_3_H
@@ -57,6 +59,11 @@
 #include <CGAL/Cartesian/basic_constructions_3.h>
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/basic_constructionsS3.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
@@ -66,8 +73,8 @@ midpoint( const Point_3<R>& p,
           const Point_3<R>& q )
 {
     typedef typename R::Point_3_base  RPoint_3;
-    return( midpoint( CGAL_static_cast( const RPoint_3& , p),
-                           CGAL_static_cast( const RPoint_3& , q)));
+    return( midpoint( static_cast<const RPoint_3&>(p),
+                      static_cast<const RPoint_3&>(q)));
 }
 template < class R >
 inline
@@ -78,10 +85,10 @@ circumcenter( const Point_3<R>& p,
               const Point_3<R>& s)
 {
     typedef typename R::Point_3_base  RPoint_3;
-    return( circumcenter( CGAL_static_cast( const RPoint_3& , p),
-                          CGAL_static_cast( const RPoint_3& , q),
-                          CGAL_static_cast( const RPoint_3& , r),
-                          CGAL_static_cast( const RPoint_3& , s)));
+    return( circumcenter( static_cast<const RPoint_3&>(p),
+                          static_cast<const RPoint_3&>(q),
+                          static_cast<const RPoint_3&>(r),
+                          static_cast<const RPoint_3&>(s)));
 }
 CGAL_END_NAMESPACE
 

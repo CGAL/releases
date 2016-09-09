@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/Planar_map_iostream.h
-// package       : pm (4.20)
+// package       : pm (5.43)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -45,12 +45,17 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
+#endif
+
+#ifndef CGAL_PLANAR_MAP_2_H
+#include <CGAL/Planar_map_2.h>
 #endif
 
 #include <iostream>
@@ -62,28 +67,28 @@ template <class Dcel, class Traits>
 const Planar_map_2<Dcel,Traits>& pm) 
 {
   o << "Vertices ---------------" << std::endl;
-  typename CGAL::Planar_map_2<Dcel,Traits>::Vertex_const_iterator vi;
+  typename Planar_map_2<Dcel,Traits>::Vertex_const_iterator vi;
   for (vi = pm.vertices_begin(); vi != pm.vertices_end(); ++vi)
     {
       o << "(" << vi->point() << ")" << std::endl;
       }
   
   o << "Halfedges ------------------" << std::endl;
-  typename CGAL::Planar_map_2<Dcel,Traits>::Halfedge_const_iterator ei;
+  typename Planar_map_2<Dcel,Traits>::Halfedge_const_iterator ei;
   for (ei = pm.halfedges_begin(); ei != pm.halfedges_end(); ++ei)
     {
       o << "{" << ei->curve() << "}" << std::endl;
     } 
   
   o << "Faces ------------------" << std::endl;
-  typename CGAL::Planar_map_2<Dcel,Traits>::Face_const_iterator fi;
+  typename Planar_map_2<Dcel,Traits>::Face_const_iterator fi;
   
-  typename CGAL::Planar_map_2<Dcel,Traits>::Holes_const_iterator iccbit;
-  //typename CGAL::Planar_map_2<Dcel,Traits>::Holes_iterator iccbit;
+  typename Planar_map_2<Dcel,Traits>::Holes_const_iterator iccbit;
+  //typename Planar_map_2<Dcel,Traits>::Holes_iterator iccbit;
   
   
-  typename CGAL::Planar_map_2<Dcel,Traits>::Ccb_halfedge_const_circulator ccb_circ;
-  //typename CGAL::Planar_map_2<Dcel,Traits>::Ccb_halfedge_circulator ccb_circ;
+  typename Planar_map_2<Dcel,Traits>::Ccb_halfedge_const_circulator ccb_circ;
+  //typename Planar_map_2<Dcel,Traits>::Ccb_halfedge_circulator ccb_circ;
   int ck;
   int fc_counter;
   for (fc_counter=0,fi = pm.faces_begin(); fi != pm.faces_end(); 
@@ -97,8 +102,8 @@ const Planar_map_2<Dcel,Traits>& pm)
           o << "UNBOUNDED"  << std::endl;
         }
       else {
-        //        typename CGAL::Planar_map_2<Dcel,Traits>::Ccb_halfedge_circulator 
-        typename CGAL::Planar_map_2<Dcel,Traits>::Ccb_halfedge_const_circulator 
+        //        typename Planar_map_2<Dcel,Traits>::Ccb_halfedge_circulator 
+        typename Planar_map_2<Dcel,Traits>::Ccb_halfedge_const_circulator 
           first = fi->outer_ccb(), iter = first;
         
         o << "[";
@@ -117,8 +122,8 @@ const Planar_map_2<Dcel,Traits>& pm)
         {
           o << "inner ccb " << ck << ": " ;
           ccb_circ = (*iccbit);
-          typename CGAL::Planar_map_2<Dcel,Traits>::Ccb_halfedge_const_circulator 
-          //typename CGAL::Planar_map_2<Dcel,Traits>::Ccb_halfedge_circulator 
+          typename Planar_map_2<Dcel,Traits>::Ccb_halfedge_const_circulator 
+          //typename Planar_map_2<Dcel,Traits>::Ccb_halfedge_circulator 
             iter = ccb_circ;
           
           o << "[";

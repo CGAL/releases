@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Vector_3.fw
 // file          : include/CGAL/Vector_3.h
-// package       : _3 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _3 (3.7)
+// revision      : 3.7
+// revision_date : 16 Aug 2000 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -72,11 +73,11 @@
 CGAL_BEGIN_NAMESPACE
 
 template <class T> class Quotient;
-template <class _R>
-class Vector_3 : public _R::Vector_3_base
+template <class R_>
+class Vector_3 : public R_::Vector_3_base
 {
 public:
-  typedef          _R                       R;
+  typedef          R_                       R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
   typedef typename R::Vector_3_base  RVector_3;
@@ -106,11 +107,6 @@ friend CGAL::Vector_3<R>
     : RVector_3(x, y, z, w)
   {}
 
-  CGAL::Vector_3<R>& operator=(const CGAL::Vector_3<R>& v)
-  {
-    RVector_3::operator=(v);
-    return *this;
-  }
   bool operator==(const CGAL::Vector_3<R>& v) const
   { return RVector_3::operator==(v); }
   bool operator!=(const CGAL::Vector_3<R>& v) const
@@ -119,8 +115,6 @@ friend CGAL::Vector_3<R>
   { return RVector_3::operator==(v); }
   bool operator!=(const Null_vector& v) const
   { return !(*this == v); }
-  int id() const    /* XXX */
-  { return (int) PTR ; }
   RT hx() const
   { return RVector_3::hx(); }
   RT hy() const

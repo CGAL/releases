@@ -30,8 +30,8 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : examples/RangeSegmentTrees/segment_tree_set_2.C
 // source        : src/examples/RangeSegmentTrees/segment_tree_set_2.C
@@ -50,7 +50,8 @@
 // window query is performed.
 //
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 #include <CGAL/basic.h>

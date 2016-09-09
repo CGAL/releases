@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : representation_tags.fw
 // file          : include/CGAL/representation_tags.h
-// package       : Kernel_basic (2.9)
-// revision      : 2.9
-// revision_date : 04 Dec 1999 
+// package       : Kernel_basic (3.14)
+// revision      : 3.14
+// revision_date : 15 Sep 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_REPRESENTATION_TAGS_H
 #define CGAL_REPRESENTATION_TAGS_H
@@ -52,6 +54,7 @@ CGAL_BEGIN_NAMESPACE
 
 class Cartesian_tag {};
 class Homogeneous_tag {};
+class Old_style_tag {};
 
 CGAL_END_NAMESPACE
 

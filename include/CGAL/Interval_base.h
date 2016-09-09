@@ -1,0 +1,180 @@
+// ======================================================================
+//
+// Copyright (c) 2000 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
+//
+// Every use of CGAL requires a license. 
+//
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
+//
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
+//
+// ----------------------------------------------------------------------
+//
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
+//
+// file          : include/CGAL/Interval_base.h
+// package       : Interval_arithmetic (4.58)
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2000/09/06 17:39:58 $
+// author(s)     : Sylvain Pion
+// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
+//
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
+//
+// ======================================================================
+
+#ifndef CGAL_INTERVAL_BASE_H
+#define CGAL_INTERVAL_BASE_H
+
+// This file contains the description of the Interval_base class, which is used
+// by the number types Interval_nt<>.
+
+#include <CGAL/basic.h>
+#include <utility>				// Relational operators.
+
+CGAL_BEGIN_NAMESPACE
+
+struct Interval_base
+{
+  typedef Interval_base IA;
+  struct unsafe_comparison {};		// Exception class.
+  static unsigned number_of_failures;	// Number of filter failures.
+  static const IA Smallest, Largest;	// Useful constant intervals.
+
+  Interval_base () {}
+
+  Interval_base (const double d)
+    : inf_(d), sup_(d) {}
+
+  Interval_base (const double i, const double s)
+    : inf_(i), sup_(s)
+  {
+    CGAL_assertion_msg(i<=s,
+	      " Variable used before being initialized (or CGAL bug)");
+  }
+
+  static void overlap_action() // throw (unsafe_comparison)
+  {
+    number_of_failures++;
+    throw unsafe_comparison();
+  }
+
+  bool operator<  (const IA &d) const
+  {
+    if (sup_  < d.inf_) return true;
+    if (inf_ >= d.sup_) return false;
+    overlap_action();
+    return false;
+  }
+
+  bool operator<= (const IA &d) const
+  {
+    if (sup_ <= d.inf_) return true;
+    if (inf_ >  d.sup_) return false;
+    overlap_action();
+    return false;
+  }
+
+  bool operator>= (const IA &d) const
+  {
+    return d <= *this;
+  }
+
+  bool operator== (const IA &d) const
+  {
+    if (d.inf_ >  sup_ || d.sup_  < inf_) return false;
+    if (d.inf_ == sup_ && d.sup_ == inf_) return true;
+    overlap_action();
+    return false;
+  }
+
+  bool is_point() const
+  {
+    return sup_ == inf_;
+  }
+
+  bool is_same (const IA & d) const
+  {
+    return inf_ == d.inf_ && sup_ == d.sup_;
+  }
+
+  bool do_overlap (const IA & d) const
+  {
+    return !(d.inf_ > sup_ || d.sup_ < inf_);
+  }
+
+  double inf() const { return inf_; }
+  double sup() const { return sup_; }
+
+// protected:
+  double inf_, sup_;	// "inf_" stores the lower bound, "sup_" the upper.
+};
+
+inline
+double
+to_double (const Interval_base & d)
+{
+  return (d.sup_ + d.inf_) * 0.5;
+}
+
+inline
+bool
+is_valid (const Interval_base & d)
+{
+#if defined _MSC_VER || defined __sgi || defined __BORLANDC__
+  return is_valid(d.inf_) && is_valid(d.sup_) && d.inf_ <= d.sup_;
+#else
+  // The 2 first is_valid() are implicitely done by the 3rd test ;-)
+  return d.inf_ <= d.sup_;
+#endif
+}
+
+inline
+bool
+is_finite (const Interval_base & d)
+{
+  return is_finite(d.inf_) && is_finite(d.sup_);
+}
+
+inline
+io_Operator
+io_tag (const Interval_base &)
+{
+  return io_Operator();
+}
+
+inline
+Number_tag
+number_type_tag (const Interval_base &)
+{
+  return Number_tag();
+}
+
+std::ostream & operator<< (std::ostream &, const Interval_base &);
+std::istream & operator>> (std::istream &, Interval_base &);
+
+CGAL_END_NAMESPACE
+
+#endif // CGAL_INTERVAL_BASE_H

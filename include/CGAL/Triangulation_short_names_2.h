@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Triangulation_short_names_2.h
-// package       : Triangulation (4.30)
+// package       : Triangulation (4.69)
 // source        : $RCSfile: Triangulation_short_names_2.h,v $
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 1999/08/19 15:06:02 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2000/02/10 17:50:45 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -53,6 +54,7 @@
 //Define shorter names to please linker (g++/egcs)
 
 #define Triangulation_default_data_structure_2 Tdds
+#define Triangulation_data_structure_using_list_2 Tdsul
 #define Triangulation_vertex_base_2  Tvb
 #define Triangulation_face_base_2  Tfb
 #define Triangulation_euclidean_traits_2 Et2
@@ -64,9 +66,11 @@
 
 #define Triangulation_ds_vertex_2             Tdsv
 #define Triangulation_ds_face_2               Tdsf
+#define Triangulation_dsul_vertex_2           Tdsulv
+#define Triangulation_dsul_face_2             Tdsulf
 #define Triangulation_vertex_2                Tv
 #define Triangulation_face_2                  Tf
-#define Triangulation_vertex_handle_2           Tvh
+#define Triangulation_vertex_handle_2         Tvh
 #define Triangulation_face_handle_2           Tfh
 #define Triangulation_vertex_iterator_2       Tvi
 #define Triangulation_face_iterator_2         Tfi

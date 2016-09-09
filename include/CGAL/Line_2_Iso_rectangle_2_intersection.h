@@ -1,7 +1,7 @@
 
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -31,17 +31,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Line_2_Iso_rectangle_2_intersection.h
-// package       : Intersections_2 (2.2.2)
+// package       : Intersections_2 (2.6.3)
 // source        : intersection_2_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -49,12 +50,8 @@
 #ifndef CGAL_LINE_2_ISO_RECTANGLE_2_INTERSECTION_H
 #define CGAL_LINE_2_ISO_RECTANGLE_2_INTERSECTION_H
 
-#ifndef CGAL_LINE_2_H
 #include <CGAL/Line_2.h>
-#endif // CGAL_LINE_2_H
-#ifndef CGAL_ISO_RECTANGLE_2_H
 #include <CGAL/Iso_rectangle_2.h>
-#endif // CGAL_ISO_RECTANGLE_2_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -75,9 +72,7 @@ public:
     if (_known)
         return _result;
 // The non const this pointer is used to cast away const.
-    Line_2_Iso_rectangle_2_pair<R> *ncthis =
-                (Line_2_Iso_rectangle_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
     typedef typename R::FT FT;
     typedef typename R::RT RT;
     bool all_values = true;
@@ -85,11 +80,11 @@ public:
     for (i=0; i< _ref_point.dimension(); i++) {
         if (_dir.homogeneous(i) == RT(0)) {
             if (_ref_point.cartesian(i) < _isomin.cartesian(i)) {
-                ncthis->_result = NO;
+                _result = NO;
                 return NO;
             }
             if (_ref_point.cartesian(i) > _isomax.cartesian(i)) {
-                ncthis->_result = NO;
+                _result = NO;
                 return NO;
             }
         } else {
@@ -106,15 +101,15 @@ public:
                     _dir.cartesian(i);
             }
             if (all_values) {
-                ncthis->_min = newmin;
-                ncthis->_max = newmax;
+                _min = newmin;
+                _max = newmax;
             } else {
                 if (newmin > _min)
-                    ncthis->_min = newmin;
+                    _min = newmin;
                 if (newmax < _max)
-                    ncthis->_max = newmax;
+                    _max = newmax;
                 if (_max < _min) {
-                    ncthis->_result = NO;
+                    _result = NO;
                     return NO;
                 }
             }
@@ -123,10 +118,10 @@ public:
     }
     CGAL_kernel_assertion(!all_values);
     if (_max == _min) {
-        ncthis->_result = POINT;
+        _result = POINT;
         return POINT;
     }
-    ncthis->_result = SEGMENT;
+    _result = SEGMENT;
     return SEGMENT;
 }
 
@@ -138,9 +133,9 @@ protected:
     Vector_2<R>            _dir;
     Point_2<R>             _isomin;
     Point_2<R>             _isomax;
-    bool                        _known;
-    Intersection_results        _result;
-    typename R::FT              _min, _max;
+    mutable bool                        _known;
+    mutable Intersection_results        _result;
+    mutable typename R::FT              _min, _max;
 };
 
 template <class R>
@@ -157,15 +152,9 @@ CGAL_END_NAMESPACE
 
 
 
-#ifndef CGAL_LINE_2_H
 #include <CGAL/Line_2.h>
-#endif // CGAL_LINE_2_H
-#ifndef CGAL_UTILS_H
 #include <CGAL/utils.h>
-#endif // CGAL_UTILS_H
-#ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
-#endif // CGAL_NUMBER_UTILS_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -197,9 +186,7 @@ Line_2_Iso_rectangle_2_pair<R>::intersection_type() const
     if (_known)
         return _result;
 // The non const this pointer is used to cast away const.
-    Line_2_Iso_rectangle_2_pair<R> *ncthis =
-                (Line_2_Iso_rectangle_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
     typedef typename R::FT FT;
     typedef typename R::RT RT;
     bool all_values = true;
@@ -207,11 +194,11 @@ Line_2_Iso_rectangle_2_pair<R>::intersection_type() const
     for (i=0; i< _ref_point.dimension(); i++) {
         if (_dir.homogeneous(i) == RT(0)) {
             if (_ref_point.cartesian(i) < _isomin.cartesian(i)) {
-                ncthis->_result = NO;
+                _result = NO;
                 return NO;
             }
             if (_ref_point.cartesian(i) > _isomax.cartesian(i)) {
-                ncthis->_result = NO;
+                _result = NO;
                 return NO;
             }
         } else {
@@ -228,15 +215,15 @@ Line_2_Iso_rectangle_2_pair<R>::intersection_type() const
                     _dir.cartesian(i);
             }
             if (all_values) {
-                ncthis->_min = newmin;
-                ncthis->_max = newmax;
+                _min = newmin;
+                _max = newmax;
             } else {
                 if (newmin > _min)
-                    ncthis->_min = newmin;
+                    _min = newmin;
                 if (newmax < _max)
-                    ncthis->_max = newmax;
+                    _max = newmax;
                 if (_max < _min) {
-                    ncthis->_result = NO;
+                    _result = NO;
                     return NO;
                 }
             }
@@ -245,10 +232,10 @@ Line_2_Iso_rectangle_2_pair<R>::intersection_type() const
     }
     CGAL_kernel_assertion(!all_values);
     if (_max == _min) {
-        ncthis->_result = POINT;
+        _result = POINT;
         return POINT;
     }
-    ncthis->_result = SEGMENT;
+    _result = SEGMENT;
     return SEGMENT;
 }
 
@@ -285,9 +272,7 @@ CGAL_END_NAMESPACE
 
 
 
-#ifndef CGAL_OBJECT_H
 #include <CGAL/Object.h>
-#endif // CGAL_OBJECT_H
 
 CGAL_BEGIN_NAMESPACE
 

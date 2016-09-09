@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/ch_graham_andrew.C
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -62,9 +63,9 @@ ch_graham_andrew_scan( BidirectionalIterator first,
                        OutputIterator        result,
                        const Traits&         ch_traits)
 {
-  typedef  typename Traits::Less_xy   Less_xy;
-  typedef  typename Traits::Point_2   Point_2;
-  typedef  typename Traits::Leftturn  Leftturn;
+  typedef  typename Traits::Less_xy_2   Less_xy;
+  typedef  typename Traits::Point_2     Point_2;
+  typedef  typename Traits::Leftturn_2  Leftturn;
 
   std::vector< BidirectionalIterator >    S;
   BidirectionalIterator              alpha;
@@ -77,7 +78,7 @@ ch_graham_andrew_scan( BidirectionalIterator first,
   CGAL_ch_precondition( *first != *last );
   S.push_back( last  );
   S.push_back( first );
-  Leftturn    leftturn = ch_traits.get_leftturn_object();
+  Leftturn    leftturn = ch_traits.leftturn_2_object();
 
 
   iter = first;
@@ -150,9 +151,9 @@ ch__ref_graham_andrew_scan( BidirectionalIterator first,
                                  OutputIterator&       result,
                                  const Traits&         ch_traits)
 {
-  typedef  typename Traits::Less_xy   Less_xy;
-  typedef  typename Traits::Point_2   Point_2;
-  typedef  typename Traits::Leftturn  Leftturn;
+  typedef  typename Traits::Less_xy_2   Less_xy;
+  typedef  typename Traits::Point_2     Point_2;
+  typedef  typename Traits::Leftturn_2  Leftturn;
 
   std::vector< BidirectionalIterator >    S;
   BidirectionalIterator              alpha;
@@ -165,7 +166,7 @@ ch__ref_graham_andrew_scan( BidirectionalIterator first,
   CGAL_ch_precondition( *first != *last );
   S.push_back( last  );
   S.push_back( first );
-  Leftturn    leftturn = ch_traits.get_leftturn_object();
+  Leftturn    leftturn = ch_traits.leftturn_2_object();
 
 
   iter = first;
@@ -218,14 +219,14 @@ ch_graham_andrew( InputIterator  first,
                        OutputIterator result,
                        const Traits&  ch_traits)
 {
-  typedef  typename Traits::Less_xy   Less_xy;
-  typedef  typename Traits::Point_2   Point_2;
-  typedef  typename Traits::Leftturn  Leftturn;
+  typedef  typename Traits::Less_xy_2   Less_xy;
+  typedef  typename Traits::Point_2     Point_2;
+  typedef  typename Traits::Leftturn_2  Leftturn;
 
   if (first == last) return result;
   std::vector< Point_2 >  V;
   std::copy( first, last, std::back_inserter(V) );
-  std::sort( V.begin(), V.end(), ch_traits.get_less_xy_object() );
+  std::sort( V.begin(), V.end(), ch_traits.less_xy_2_object() );
   if ( *(V.begin()) == *(V.rbegin()) )
   {
       *result = *(V.begin());  ++result;
@@ -266,14 +267,14 @@ ch_lower_hull_scan( InputIterator  first,
                          OutputIterator result,
                          const Traits&  ch_traits)
 {
-  typedef  typename Traits::Less_xy   Less_xy;
-  typedef  typename Traits::Point_2   Point_2;
-  typedef  typename Traits::Leftturn  Leftturn;
+  typedef  typename Traits::Less_xy_2   Less_xy;
+  typedef  typename Traits::Point_2     Point_2;
+  typedef  typename Traits::Leftturn_2  Leftturn;
 
   if (first == last) return result;
   std::vector< Point_2 >  V;
   std::copy( first, last, std::back_inserter(V) );
-  std::sort( V.begin(), V.end(), ch_traits.get_less_xy_object() );
+  std::sort( V.begin(), V.end(), ch_traits.less_xy_2_object() );
   if ( *(V.begin()) == *(V.rbegin()) )
   {
       *result = *(V.begin());  ++result;
@@ -301,14 +302,14 @@ ch_upper_hull_scan( InputIterator  first,
                          OutputIterator result,
                          const Traits&  ch_traits)
 {
-  typedef  typename Traits::Less_xy   Less_xy;
-  typedef  typename Traits::Point_2   Point_2;
-  typedef  typename Traits::Leftturn  Leftturn;
+  typedef  typename Traits::Less_xy_2   Less_xy;
+  typedef  typename Traits::Point_2     Point_2;
+  typedef  typename Traits::Leftturn_2  Leftturn;
 
   if (first == last) return result;
   std::vector< Point_2 >  V;
   std::copy( first, last, std::back_inserter(V) );
-  std::sort( V.begin(), V.end(), ch_traits.get_less_xy_object() );
+  std::sort( V.begin(), V.end(), ch_traits.less_xy_2_object() );
   if ( *(V.begin()) == *(V.rbegin()) )
   { return result; }
   #if defined(CGAL_CH_NO_POSTCONDITIONS) || defined(CGAL_NO_POSTCONDITIONS) \

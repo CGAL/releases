@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/circulator_bases.h
-// package       : Circulator (3.11)
+// package       : Circulator (3.15)
 // chapter       : $CGAL_Chapter: Circulators $
 // source        : circulator.fw
 // revision      : $Revision: 1.1.1.1 $
@@ -44,7 +44,8 @@
 // coordinator   : INRIA, Sophia Antipolis
 //
 // Base classes and tags to build own circulators.
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

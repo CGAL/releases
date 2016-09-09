@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/smallest_radius_2.h
-// package       : Alpha_shapes_2 (5.5)
+// package       : Alpha_shapes_2 (8.3)
 // source        : $RCSfile: smallest_radius_2.h,v $
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1999/11/23 09:53:27 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2000/02/04 12:56:06 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -66,9 +67,9 @@ CGAL_BEGIN_NAMESPACE
 
 template <class R >
 inline
-R_FT_return(R)
-  squared_radius_smallest_circumcircle(const Point_2<R> &p,
-				       const Point_2<R> &q) 
+typename R::FT
+squared_radius_smallest_circumcircle(const Point_2<R> &p,
+				     const Point_2<R> &q) 
 {
   typedef typename R::FT Return_type;
   Vector_2<R> v(p - q);
@@ -77,10 +78,10 @@ R_FT_return(R)
 
 template <class R >
 inline
-R_FT_return(R)
-  squared_radius_circumcircle(const Point_2<R> &p,
-				       const Point_2<R> &q,
-				       const Point_2<R> &r) 
+typename R::FT
+squared_radius_circumcircle(const Point_2<R> &p,
+			    const Point_2<R> &q,
+			    const Point_2<R> &r) 
 {
   typedef typename R::Point_2_base Point_two; 
   // compute the smallest radius directly

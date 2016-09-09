@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Iso_cuboid_3.C
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/11/06 12:32:19 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.15 $
+// revision_date : $Date: 2000/06/27 14:06:38 $
 // author(s)     : Hervé Brönnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -48,7 +49,7 @@
 #define CGAL_CARTESIAN_ISO_CUBOID_3_C
 
 #include <CGAL/Bbox_3.h>
-#include <CGAL/predicates_on_points_3.h>
+#include <CGAL/Cartesian/predicates_on_points_3.h>
 
 #ifndef CGAL_CARTESIAN_REDEFINE_NAMES_3_H
 #define CGAL_CTAG
@@ -61,24 +62,16 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
-inline
-_Twotuple< Iso_cuboidC3<R CGAL_CTAG>::Point_3 > *
-Iso_cuboidC3<R CGAL_CTAG>::ptr() const
-{
-  return (_Twotuple<Point_3>*)PTR;
-}
-
-template < class R >
 CGAL_KERNEL_CTOR_INLINE
 Iso_cuboidC3<R CGAL_CTAG>::Iso_cuboidC3()
 {
-  PTR = new _Twotuple< Point_3 >;
+  new ( static_cast< void*>(ptr)) Twotuple< Point_3 >();
 }
 
 template < class R >
 CGAL_KERNEL_CTOR_INLINE
 Iso_cuboidC3<R CGAL_CTAG>::Iso_cuboidC3(const Iso_cuboidC3<R CGAL_CTAG>& r)
-  : Handle((Handle&)r)
+  : Handle_for<Twotuple<typename R::Point_3> >(r)
 {}
 
 template < class R >
@@ -90,27 +83,18 @@ Iso_cuboidC3(const Iso_cuboidC3<R CGAL_CTAG>::Point_3& p,
   FT minx, maxx, miny, maxy, minz, maxz;
   if (p.x() < q.x()) { minx = p.x(); maxx = q.x(); }
   else               { minx = q.x(); maxx = p.x(); }
-  if (p.y() < q.y()) { minx = p.y(); maxx = q.y(); }
-  else               { minx = q.y(); maxx = p.y(); }
-  if (p.z() < q.z()) { minx = p.z(); maxx = q.z(); }
-  else               { minx = q.z(); maxx = p.z(); }
-  PTR = new _Twotuple<Point_3 >(Point_3(minx, miny, minz),
-                                Point_3(maxx, maxy, maxz) );
+  if (p.y() < q.y()) { miny = p.y(); maxy = q.y(); }
+  else               { miny = q.y(); maxy = p.y(); }
+  if (p.z() < q.z()) { minz = p.z(); maxz = q.z(); }
+  else               { minz = q.z(); maxz = p.z(); }
+  new (static_cast< void*>(ptr)) Twotuple<Point_3>(Point_3(minx, miny, minz),
+						   Point_3(maxx, maxy, maxz));
 }
 
 template < class R >
 inline
-Iso_cuboidC3<R CGAL_CTAG>::~Iso_cuboidH3()
+Iso_cuboidC3<R CGAL_CTAG>::~Iso_cuboidC3()
 {}
-
-template < class R >
-CGAL_KERNEL_INLINE
-Iso_cuboidC3<R CGAL_CTAG>&
-Iso_cuboidC3<R CGAL_CTAG>::operator=(const Iso_cuboidC3<R CGAL_CTAG>& r)
-{
- Handle::operator=(r);
- return *this;
-}
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -130,18 +114,10 @@ Iso_cuboidC3<R CGAL_CTAG>::operator!=(const Iso_cuboidC3<R CGAL_CTAG>& r) const
 
 template < class R >
 inline
-int
-Iso_cuboidC3<R CGAL_CTAG>::id() const
-{
-  return (int)PTR;
-}
-
-template < class R >
-inline
 Iso_cuboidC3<R CGAL_CTAG>::Point_3
 Iso_cuboidC3<R CGAL_CTAG>::min() const
 {
-  return  ptr()->e0;
+  return  ptr->e0;
 }
 
 template < class R >
@@ -149,7 +125,7 @@ inline
 Iso_cuboidC3<R CGAL_CTAG>::Point_3
 Iso_cuboidC3<R CGAL_CTAG>::max() const
 {
-  return  ptr()->e1;
+  return  ptr->e1;
 }
 
 template < class R >
@@ -208,12 +184,12 @@ Iso_cuboidC3<R CGAL_CTAG>::vertex(int i) const
   switch (i%8)
   {
     case 0: return min();
-    case 1: return Point_3(max.hx(), min.hy(), min.hz());
-    case 2: return Point_3(max.hx(), max.hy(), min.hz());
-    case 3: return Point_3(min.hx(), max.hy(), min.hz());
-    case 4: return Point_3(min.hx(), max.hy(), max.hz());
-    case 5: return Point_3(min.hx(), min.hy(), max.hz());
-    case 6: return Point_3(max.hx(), min.hy(), max.hz());
+    case 1: return Point_3(max().hx(), min().hy(), min().hz());
+    case 2: return Point_3(max().hx(), max().hy(), min().hz());
+    case 3: return Point_3(min().hx(), max().hy(), min().hz());
+    case 4: return Point_3(min().hx(), max().hy(), max().hz());
+    case 5: return Point_3(min().hx(), min().hy(), max().hz());
+    case 6: return Point_3(max().hx(), min().hy(), max().hz());
     case 7: return max();
   }
   return Point_3();
@@ -233,11 +209,11 @@ Bounded_side
 Iso_cuboidC3<R CGAL_CTAG>::
 bounded_side(const Iso_cuboidC3<R CGAL_CTAG>::Point_3& p) const
 {
-  Comparison_result m = compare_dominance(p,min());
-  Comparison_result M = compare_submittance(p,max());
-  if (m == SMALLER || M == SMALLER) return ON_UNBOUNDED_SIDE;
-  if (m == LARGER  && M == LARGER)  return ON_BOUNDED_SIDE;
-  return ON_BOUNDARY;
+  if (strict_dominance(p,min()) && strict_dominance(max(),p) )
+    return ON_BOUNDED_SIDE;
+  if (dominance(p,min()) && dominance(max(),p))
+    return ON_BOUNDARY;
+  return ON_UNBOUNDED_SIDE;
 }
 
 template < class R >
@@ -273,8 +249,7 @@ bool
 Iso_cuboidC3<R CGAL_CTAG>::
 has_on_unbounded_side(const Iso_cuboidC3<R CGAL_CTAG>::Point_3& p) const
 {
-  return lexicographically_smaller(p,min())
-      || lexicographically_smaller(max(),p);
+  return  bounded_side(p) == ON_UNBOUNDED_SIDE;
 }
 
 template < class R >

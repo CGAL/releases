@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Pm_default_dcel.h
-// package       : pm (4.20)
+// package       : pm (5.43)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -45,7 +45,8 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 #ifndef CGAL_PM_DEFAULT_DCEL_H
@@ -54,13 +55,11 @@
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif
-
 #include <list>
-
+#include <map>
 #ifndef CGAL_IN_PLACE_LIST_H
 #include <CGAL/In_place_list.h>
 #endif
-
 //needed for holes iterator
 #ifndef CGAL_PLANAR_MAP_MISC_H
 #include <CGAL/Planar_map_2/Planar_map_misc.h>
@@ -79,6 +78,8 @@ public:
   Pm_vertex_base() {}
   Pm_vertex_base( const Pt& p) : pt(p) {}
   
+  virtual ~Pm_vertex_base() {}
+
   void*       halfedge()               {return hdg;}
   const void* halfedge() const         {return hdg;}
   void        set_halfedge( void* h)   { hdg = h;}
@@ -88,6 +89,12 @@ public:
   const Point& point() const { return pt;}
   
   void set_point(const Point& p) {pt=p;}
+
+  // assign function for non-connectivity data
+  virtual void assign(const Pm_vertex_base<Pt> &v)
+  {
+	pt = v.pt;
+  }
 };
 
 
@@ -100,6 +107,8 @@ public:
   Pm_halfedge_base() {}
 
   Pm_halfedge_base(const X_curve& c) : cv(c) {}
+
+  virtual ~Pm_halfedge_base() {}
 
   void*       opposite()       { return opp;}
   const void* opposite() const { return opp;}
@@ -129,6 +138,12 @@ public:
 
   void set_curve(const X_curve& c) {cv=c;}
 
+  // assign function for non-connectivity data
+  virtual void assign(const Pm_halfedge_base<X_curve> &e)
+  {
+	cv = e.cv;
+  }
+
 protected:
   void* opp;
   void* nxt;
@@ -149,6 +164,7 @@ public:
 
 
   Pm_face_base() : holes() {};
+  virtual ~Pm_face_base() {}
 
   void* halfedge() { return hdg;}
   const void* halfedge() const { return hdg;}
@@ -177,6 +193,10 @@ public:
     holes.erase(first,last);
   }
 
+  // assign function for non-connectivity data
+  virtual void assign(const Pm_face_base &f)
+  {
+  }
   
 
 private:
@@ -264,7 +284,7 @@ public:
 
   void  set_face( Face* face)   { H::set_face(face);}
   
-private:
+//private:
   void  set_opposite( void* h)     { H::set_opposite(h);}
 
   /*
@@ -511,6 +531,108 @@ public:
     faces.destroy();
   }
   
+  // returns the unbounded face in the assigned map
+  void *assign(const Self &d, void *u_face)
+  {
+	  //typedef std::map<Vertex_list::iterator, Vertex_list::iterator> VertexMap;
+	  //typedef std::map<Halfedge_list::iterator, Halfedge_list::iterator> HalfedgeMap;
+	  //typedef std::map<Face_list::iterator, Face_list::iterator> FaceMap;
+	  typedef std::map<void*, void*> ConnectMap;
+
+	  delete_all();
+
+	  
+	  ConnectMap vm, hm, fm;
+	  //VertexMap vm;
+	  //HalfedgeMap hm;
+	  //FaceMap fm;
+
+	  Vertex_const_iterator vit;
+	  Halfedge_const_iterator hit;
+	  Face_const_iterator fit;
+
+	  for (vit = d.vertices_begin(); vit != d.vertices_end(); vit++)
+	  {
+		  Vertex* nv = new Vertex;
+		  nv->assign(*vit);
+		  vertices.push_back(*nv);
+		  vm.insert(ConnectMap::value_type((void*)&(*vit), (void*)nv));
+	  }
+
+	  for (hit = d.halfedges_begin(); hit != d.halfedges_end(); hit++)
+	  {
+		  Halfedge* nh = new Halfedge;
+		  nh->assign(*hit);
+		  halfedges.push_back(*nh);
+		  hm.insert(ConnectMap::value_type((void*)(&(*hit)), (void*)nh));
+	  }
+
+	  for (fit = d.faces_begin(); fit != d.faces_end(); fit++)
+	  {
+		  Face* nf = new Face;
+		  nf->assign(*fit);
+		  faces.push_back(*nf);
+		  fm.insert(ConnectMap::value_type((void*)&(*fit), (void*)nf));
+	  }
+
+
+	  // update pointers
+	  for (vit = d.vertices_begin(); vit != d.vertices_end(); vit++)
+	  {
+		  void *he, *nhe, *nv, *v;
+		  v = (void*)(&(*vit));
+		  nv = (void*)(vm.find(v)->second);
+		  he = (void*)vit->halfedge();
+		  nhe = (void*)(hm.find(he)->second);
+		  ((Vertex*)nv)->set_halfedge((Halfedge*)nhe);
+	  }
+
+	  
+	  for (hit = d.halfedges_begin(); hit != d.halfedges_end(); hit++)
+	  {
+		  void *he, *nhe, *v, *nv, *f, *nf, *op, *nop, *xt, *nxt;
+		  he = (void*)(&(*hit));
+		  nhe = hm.find(he)->second;
+		  v = (void*)hit->vertex();
+		  f = (void*)hit->face();
+		  op = (void*)hit->opposite();
+		  xt = (void*)hit->next();
+
+		  nv = vm.find(v)->second;
+		  nf = fm.find(f)->second;
+		  nop = hm.find(op)->second;
+		  nxt = hm.find(xt)->second;
+
+		  ((Halfedge*)nhe)->set_vertex((Vertex*)nv);
+		  ((Halfedge*)nhe)->set_face((Face*)nf);
+		  ((Halfedge*)nhe)->set_opposite((Halfedge*)nop);
+		  ((Halfedge*)nhe)->set_next((Halfedge*)nxt);
+	  }
+
+	  for (fit = d.faces_begin(); fit != d.faces_end(); fit++)
+	  {
+		  void *f, *nf, *he, *nhe, *h, *nh;
+		  typename Face::Holes_const_iterator holes;
+		  f = (void*)(&(*fit));
+		  nf = fm.find(f)->second;
+		  he = (void*)fit->halfedge();
+		  if (he != NULL)
+			  nhe = hm.find(he)->second;
+		  else
+			  nhe = NULL;
+		  ((Face*)nf)->set_halfedge((Halfedge*)nhe);
+
+		  
+		  for (holes = fit->holes_begin(); holes != fit->holes_end(); holes++)
+		  {
+			  h = (void*)(*holes);
+			  nh = hm.find(h)->second;
+			  ((Face*)nf)->add_hole((Halfedge*)nh);
+		  }
+	  }
+	  return fm.find(u_face)->second;
+  }
+
 };
 
 

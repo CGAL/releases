@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Linear_algebra_d.h
-// package       : Cd (1.1.1)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/12/07 18:53:22 $
+// package       : Cd (1.5)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2000/06/27 14:32:23 $
 // author(s)     : Herve.Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -55,12 +56,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _FT >
+template < class FT_ >
 class Linear_algebraCd
 {
 public:
-  typedef _FT                              FT;
-  typedef _FT                              RT;
+  typedef FT_                              FT;
+  typedef FT_                              RT;
   typedef Linear_algebraCd<FT>             Self;
   typedef LA_vectorCd<Self>                Vector;
   typedef LA_matrixCd<Self>                Matrix;

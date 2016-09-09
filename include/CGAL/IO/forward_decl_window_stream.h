@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : leda_window.fw
 // file          : include/CGAL/IO/forward_decl_window_stream.h
-// package       : window (2.5.8)
-// revision      : 2.5.8
-// revision_date : 13 Jan 2000 
+// package       : window (2.7.1)
+// revision      : 2.7
+// revision_date : 21 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 #ifndef CGAL_IO_FORWARD_DECL_WINDOW_STREAM_H
 #define CGAL_IO_FORWARD_DECL_WINDOW_STREAM_H
 class leda_window;

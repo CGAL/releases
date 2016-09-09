@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Polygon_2.C
-// package       : Polygon (2.9.1)
+// package       : Polygon (2.19)
 // source        :
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
@@ -42,13 +42,12 @@
 //
 // coordinator   : Utrecht University
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
-#ifndef CGAL_POLYGON_2_H
 #include <CGAL/Polygon_2.h>
-#endif // CGAL_POLYGON_2_H
 
 //-----------------------------------------------------------------------//
 //                          operator==
@@ -101,12 +100,15 @@ std::istream &operator>>(std::istream &is, Polygon_2<Traits_P,Container_P>& p)
   int n; // number of vertices
   is >> n;
   typename Traits_P::Point_2 point;
-
-  for (int i=0; i<n; i++) {
-    is >> point;
-    p.push_back(point);
+ 
+  if (is) {
+      p.erase(p.vertices_begin(),p.vertices_end());
+      for (int i=0; i<n; i++) {
+        is >> point;
+        p.push_back(point);
+      }
   }
-
+ 
   return is;
 }
 
@@ -151,9 +153,7 @@ CGAL_END_NAMESPACE
 //-----------------------------------------------------------------------//
 
 #ifdef CGAL_REP_CLASS_DEFINED
-#ifndef CGAL_POLYGON_TRAITS_2_H
 #include <CGAL/Polygon_traits_2.h>
-#endif // CGAL_POLYGON_TRAITS_2_H
 
 CGAL_BEGIN_NAMESPACE
 

@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/squared_distance_3_2.h
-// package       : Distance_3 (2.4.3)
+// package       : Distance_3 (2.4.5)
 // source        : sqdistance_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -48,38 +49,18 @@
 #ifndef CGAL_DISTANCE_3_2_H
 #define CGAL_DISTANCE_3_2_H
 
-#ifndef CGAL_SEGMENT_3_H
 #include <CGAL/Segment_3.h>
-#endif // CGAL_SEGMENT_3_H
-#ifndef CGAL_LINE_3_H
 #include <CGAL/Line_3.h>
-#endif // CGAL_LINE_3_H
-#ifndef CGAL_RAY_3_H
 #include <CGAL/Ray_3.h>
-#endif // CGAL_RAY_3_H
-#ifndef CGAL_PLANE_3_H
 #include <CGAL/Plane_3.h>
-#endif // CGAL_PLANE_3_H
 
 
-#ifndef CGAL_UTILS_H
 #include <CGAL/utils.h>
-#endif // CGAL_UTILS_H
-#ifndef CGAL_POINT_3_H
 #include <CGAL/Point_3.h>
-#endif // CGAL_POINT_3_H
-#ifndef CGAL_PLANE_3_H
 #include <CGAL/Plane_3.h>
-#endif // CGAL_PLANE_3_H
-#ifndef CGAL_ENUM_H
 #include <CGAL/enum.h>
-#endif // CGAL_ENUM_H
-#ifndef CGAL_WMULT_H
 #include <CGAL/wmult.h>
-#endif // CGAL_WMULT_H
-#ifndef CGAL_SQUARED_DISTANCE_3_0_H
 #include <CGAL/squared_distance_3_0.h>
-#endif // CGAL_SQUARED_DISTANCE_3_0_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -152,7 +133,7 @@ squared_distance(
     const Vector_3<R> &normal = plane.orthogonal_vector();
     RT sdm_rs2pp = wdot(normal, start_min_pp);
     RT sdm_re2pp = wdot(normal, end_min_pp);
-    switch (sign(sdm_rs2pp)) {
+    switch (CGAL_NTS sign(sdm_rs2pp)) {
     case -1:
         if (sdm_re2pp > RT(0))
             return FT(0);
@@ -195,7 +176,7 @@ squared_distance(
     const Vector_3<R> &normal = plane.orthogonal_vector();
     RT sdm_ss2pp = wdot(normal, start_min_pp);
     RT sdm_se2pp = wdot(normal, end_min_pp);
-    switch (sign(sdm_ss2pp)) {
+    switch (CGAL_NTS sign(sdm_ss2pp)) {
     case -1:
         if (sdm_se2pp >= RT(0))
             return FT(0);

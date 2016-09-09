@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : predicates_on_points_3.fw
 // file          : include/CGAL/predicates_on_points_3.h
-// package       : _3 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _3 (3.7)
+// revision      : 3.7
+// revision_date : 16 Aug 2000 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -65,6 +66,11 @@
 #include <CGAL/Cartesian/predicates_on_points_3.h>
 #endif // CGAL_PREDICATES_ON_POINTSC3_H
 #endif // CGAL_CARTESIAN_H
+
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/predicates_on_pointsS3.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
 
 #ifndef CGAL_POINT_3_H
 #include <CGAL/Point_3.h>

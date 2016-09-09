@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,21 +30,22 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/all_furthest_neighbors_2.h
-// package       : Matrix_search (1.30)
+// package       : Matrix_search (1.43)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.30 $
-// revision_date : $Date: 1999/12/17 11:58:48 $
+// revision      : $Revision: 1.43 $
+// revision_date : $Date: 2000/09/15 07:25:31 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // Compute all furthest neighbors for the vertices of a convex polygon
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -80,29 +81,33 @@ public:
   typedef
     Cartesian_matrix< Operation, RandomAccessIC, RandomAccessIC >
   Base;
+  typedef typename Base::Value Value;
 
-  All_furthest_neighbor_matrix( RandomAccessIC f,
-                                RandomAccessIC l)
-  : Base( f, l, f, l)
+  All_furthest_neighbor_matrix(RandomAccessIC f, RandomAccessIC l)
+  : Base(f, l, f, l)
   {}
 
-  int
-  number_of_columns() const
-  { return 2 * number_of_rows() - 1; }
+  All_furthest_neighbor_matrix(RandomAccessIC f,
+                               RandomAccessIC l,
+                               const Operation& o)
+  : Base(f, l, f, l, o)
+  {}
 
-  typename Base::Value
+  int number_of_columns() const { return 2 * number_of_rows() - 1; }
+
+  Value
   operator()( int r, int c) const
   {
-    CGAL_optimisation_precondition( r >= 0 && r < number_of_rows());
-    CGAL_optimisation_precondition( c >= 0 && c < number_of_columns());
-    if ( c <= r)
-      return Value( c - r);
-    else if ( c >= r + number_of_rows())
-      return Value( 0);
-    else if ( c >= number_of_rows())
-      return Base::operator()( r, c - number_of_rows());
+    CGAL_optimisation_precondition(r >= 0 && r < number_of_rows());
+    CGAL_optimisation_precondition(c >= 0 && c < number_of_columns());
+    if (c <= r)
+      return Value(c - r);
+    else if (c >= r + number_of_rows())
+      return Value(0);
+    else if (c >= number_of_rows())
+      return Base::operator()(r, c - number_of_rows());
     else
-      return Base::operator()( r, c);
+      return Base::operator()(r, c);
   }
 };
 
@@ -117,77 +122,25 @@ CGAL_END_NAMESPACE
 #include <iterator>
 CGAL_BEGIN_NAMESPACE
 
-template < class RandomAccessIC, class OutputIterator, class Traits >
-inline
-OutputIterator
-all_furthest_neighbors( RandomAccessIC points_begin,
-                        RandomAccessIC points_end,
-                        OutputIterator o,
-                        const Traits& t)
-{
-  return
-  all_furthest_neighbors(
-    points_begin,
-    points_end,
-    o,
-    t,
-    std::iterator_traits< OutputIterator >::iterator_category());
-} // all_furthest_neighbors( ... )
-
-template < class RandomAccessIC,
-           class OutputIterator,
-           class Traits >
-OutputIterator
-all_furthest_neighbors( RandomAccessIC points_begin,
-                        RandomAccessIC points_end,
-                        OutputIterator o,
-                        const Traits& t,
-                        std::random_access_iterator_tag)
-{
-#ifndef CGAL_CFG_TYPENAME_BUG
-  typedef All_furthest_neighbor_matrix< typename Traits::Distance,
-                                        RandomAccessIC >
-  Afn_matrix;
-#else
-  typedef All_furthest_neighbor_matrix< Traits::Distance, RandomAccessIC >
-    Afn_matrix;
-#endif // CGAL_CFG_TYPENAME_BUG
-
-  // check preconditions:
-  int number_of_points(
-    iterator_distance( points_begin, points_end));
-  CGAL_optimisation_precondition( number_of_points > 0);
-  CGAL_optimisation_expensive_precondition(
-    t.is_convex( points_begin, points_end));
-
-  // compute maxima:
-  monotone_matrix_search(
-    dynamic_matrix(
-      Afn_matrix( points_begin, points_end)),
-    o);
-
-  return o + number_of_points;
-} // all_furthest_neighbors( ... )
-
 template < class RandomAccessIC,
            class OutputIterator,
            class Traits,
            class IteratorCategory >
 OutputIterator
-all_furthest_neighbors( RandomAccessIC points_begin,
-                        RandomAccessIC points_end,
-                        OutputIterator o,
-                        const Traits& t,
-                        IteratorCategory)
+all_furthest_neighbors_2( RandomAccessIC points_begin,
+                          RandomAccessIC points_end,
+                          OutputIterator o,
+                          const Traits& t,
+                          IteratorCategory)
 #else
 template < class RandomAccessIC,
            class OutputIterator,
            class Traits >
 OutputIterator
-all_furthest_neighbors( RandomAccessIC points_begin,
-                        RandomAccessIC points_end,
-                        OutputIterator o,
-                        const Traits& t)
+all_furthest_neighbors_2( RandomAccessIC points_begin,
+                          RandomAccessIC points_end,
+                          OutputIterator o,
+                          const Traits& t)
 #endif
 {
 #ifndef CGAL_CFG_NO_NAMESPACE
@@ -223,7 +176,7 @@ all_furthest_neighbors( RandomAccessIC points_begin,
   // compute maxima:
   monotone_matrix_search(
     dynamic_matrix(
-      Afn_matrix( points_begin, points_end)),
+      Afn_matrix(points_begin, points_end, t.distance_object())),
     v.begin());
 
   // output result:
@@ -231,7 +184,63 @@ all_furthest_neighbors( RandomAccessIC points_begin,
                     v.end(),
                     o,
                     bind2nd( modulus< int >(), number_of_points));
-} // all_furthest_neighbors( ... )
+} // all_furthest_neighbors_2( ... )
+
+#if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) && \
+!defined(CGAL_CFG_MATCHING_BUG_2)
+
+template < class RandomAccessIC,
+           class OutputIterator,
+           class Traits >
+OutputIterator
+all_furthest_neighbors_2( RandomAccessIC points_begin,
+                          RandomAccessIC points_end,
+                          OutputIterator o,
+                          const Traits& t,
+                          std::random_access_iterator_tag)
+{
+#ifndef CGAL_CFG_TYPENAME_BUG
+  typedef All_furthest_neighbor_matrix< typename Traits::Distance,
+                                        RandomAccessIC >
+  Afn_matrix;
+#else
+  typedef All_furthest_neighbor_matrix< Traits::Distance, RandomAccessIC >
+    Afn_matrix;
+#endif // CGAL_CFG_TYPENAME_BUG
+
+  // check preconditions:
+  int number_of_points(
+    iterator_distance( points_begin, points_end));
+  CGAL_optimisation_precondition( number_of_points > 0);
+  CGAL_optimisation_expensive_precondition(
+    t.is_convex( points_begin, points_end));
+
+  // compute maxima:
+  monotone_matrix_search(
+    dynamic_matrix(
+      Afn_matrix( points_begin, points_end)),
+    o);
+
+  return o + number_of_points;
+} // all_furthest_neighbors_2( ... )
+
+template < class RandomAccessIC, class OutputIterator, class Traits >
+inline
+OutputIterator
+all_furthest_neighbors_2( RandomAccessIC points_begin,
+                          RandomAccessIC points_end,
+                          OutputIterator o,
+                          const Traits& t)
+{
+  typedef typename
+    std::iterator_traits< OutputIterator >::iterator_category
+  iterator_category;
+
+  return all_furthest_neighbors_2(
+    points_begin, points_end, o, t, iterator_category());
+} // all_furthest_neighbors_2( ... )
+
+#endif // !CGAL_CFG_NO_ITERATOR_TRAITS && !CGAL_CFG_MATCHING_BUG_2
 
 CGAL_END_NAMESPACE
 

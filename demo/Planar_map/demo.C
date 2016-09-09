@@ -1,12 +1,20 @@
-//#define USE_NAIVE_POINT_LOCATION  //for naive strategy
-//#define USE_WALK_POINT_LOCATION  //for naive strategy
-//#define USE_RATIONAL              //for leda_rational coordinates
-//#define USE_LEDA_RAT_KERNEL              //for rational kernel (rat_point,etc..)
-//#define CGAL_PM_DEBUG				// internal debug flag
-//#define CGAL_PM_TIMER				// internal timing flag
+#include <iostream>
+
+#ifndef CGAL_USE_LEDA
+int main(int argc, char* argv[])
+{
+
+  std::cout << "Sorry, this demo needs LEDA for visualisation.";
+  std::cout << std::endl;
+
+  return 0;
+}
+
+#else
+
+#include "configuration"
 
 #include <CGAL/basic.h>
-#include <iostream>
 #include <fstream>
 
 
@@ -21,7 +29,6 @@
 
 //typedef CGAL::Point_2<Rep>  Point;
 //typedef CGAL::Segment_2<Rep>  Segment;
-
 
 typedef CGAL::Window_stream  Window_stream;
 
@@ -200,7 +207,8 @@ int main(int argc, char* argv[])
 	Planar_map M(&naive_pl);
 	test(M,"naive",argc,argv);
         std::cout << std::endl;
-#elif defined(USE_WALK_POINT_LOCATION) 
+#else 
+#if defined(USE_WALK_POINT_LOCATION) 
 #ifdef USE_NAIVE_POINT_LOCATION
 #error USE one point location
 #endif
@@ -211,7 +219,8 @@ int main(int argc, char* argv[])
 	Planar_map M(&pl);
 	test(M,"walk_along_line",argc,argv);
         std::cout << std::endl;
-#elif defined(USE_DEFAULT_WITHOUT_REBUILD)
+#else
+#if defined(USE_DEFAULT_WITHOUT_REBUILD)
 #ifdef USE_NAIVE_POINT_LOCATION
 #error USE one point location
 #endif
@@ -227,11 +236,9 @@ int main(int argc, char* argv[])
         test(M,"default",argc,argv);
 	std::cout << std::endl;
 #endif
+#endif
+#endif
 	return 0;
 }
 
-
-
-
-
-
+#endif // CGAL_USE_LEDA

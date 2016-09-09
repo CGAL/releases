@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/random_selection.h
-// package       : Generator (2.23)
+// package       : Generator (2.34)
 // chapter       : $CGAL_Chapter: Geometric Object Generators $
 // source        : generators.fw
 // revision      : $Revision: 1.14 $
@@ -44,7 +44,8 @@
 // coordinator   : INRIA, Sophia Antipolis
 //
 // Copy n randomly chosen items
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

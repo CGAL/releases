@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/number_utils_classes.h
-// package       : Number_types (2.7.1)
+// package       : Number_types (3.4)
 // source        : 
 // revision      : 2.0.5
 // revision_date : 14 Mar 99
@@ -43,7 +43,8 @@
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 //           
 //                 slight modification of Michael's 1.1 version
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

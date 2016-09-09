@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Regular_triangulation_2.h
-// package       : Triangulation (4.30)
+// package       : Triangulation (4.69)
 // source        : $RCSfile: Regular_triangulation_2.h,v $
-// revision      : $Revision: 1.20 $
-// revision_date : $Date: 1999/10/28 16:21:10 $
+// revision      : $Revision: 1.25 $
+// revision_date : $Date: 2000/06/30 09:22:01 $
 // author(s)     : Frederic Fichel, Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -63,13 +64,16 @@ public:
   typedef typename Gt::Bare_point     Point;
   typedef typename Gt::Weighted_point Weighted_point;
   typedef typename Gt::Weight         Weight;
-  
-  // the following typedef to satisfy MIPS CC 7.3
+
   typedef typename Triangulation::Face_handle    Face_handle;
   typedef typename Triangulation::Vertex_handle  Vertex_handle;
   typedef typename Triangulation::Edge           Edge;
   typedef typename Triangulation::Locate_type    Locate_type;
-
+  typedef typename Triangulation::Face_circulator       Face_circulator;
+  typedef typename Triangulation::Finite_edges_iterator Finite_edges_iterator;
+  typedef typename Triangulation::Finite_faces_iterator Finite_faces_iterator;
+  typedef typename Triangulation::Finite_vertices_iterator 
+                                                     Finite_vertices_iterator;
   // a list to memorise temporary the faces around a point
   typedef std::list<Face_handle>      Faces_around_stack; 
 
@@ -85,6 +89,13 @@ public:
 
  
   // CHECK - QUERY
+  Oriented_side power_test(const Weighted_point &p,
+			   const Weighted_point &q,
+			   const Weighted_point &r,
+			   const Weighted_point &s) const;
+  Oriented_side power_test(const Weighted_point &p,
+			   const Weighted_point &q,
+			   const Weighted_point &r) const;
   Oriented_side power_test(const Face_handle &f, 
 			   const Weighted_point &p) const;
   Oriented_side power_test(const Face_handle& f, int i,
@@ -159,15 +170,16 @@ power_test(const Face_handle &f, const Weighted_point &p) const
   // (p has to be hidden)
   int i;
   if ( ! f->has_vertex(infinite_vertex(), i) )
-    return geom_traits().power_test(f->vertex(0)->point(),
-				    f->vertex(1)->point(),
-				    f->vertex(2)->point(),p);
+    return power_test(f->vertex(0)->point(),
+		      f->vertex(1)->point(),
+		      f->vertex(2)->point(),p);
 
-  Orientation o = geom_traits().orientation(f->vertex(ccw(i))->point(),
-					    f->vertex( cw(i))->point(),p);
+  Orientation o = orientation(f->vertex(ccw(i))->point(),
+			      f->vertex( cw(i))->point(),
+			      p);
   if (o==COLLINEAR)
-    return geom_traits().power_test(f->vertex(ccw(i))->point(),
-				    f->vertex( cw(i))->point(),p);
+    return power_test(f->vertex(ccw(i))->point(),
+		      f->vertex( cw(i))->point(),p);
 
   return Oriented_side(o);
 }
@@ -183,11 +195,35 @@ power_test(const Face_handle& f, int i,
   // return ON_NEGATIVE_SIDE if p is above (f,i)
   // (p has to be hidden)
   CGAL_triangulation_precondition (!is_infinite(f,i) &&
-       geom_traits().orientation(f->vertex(ccw(i))->point(),
-			       f->vertex( cw(i))->point(),
-			       p) == COLLINEAR);
-  return geom_traits().power_test(f->vertex(ccw(i))->point(),
-				  f->vertex( cw(i))->point(),p);
+	     orientation(f->vertex(ccw(i))->point(),
+			 f->vertex( cw(i))->point(),
+			 p) == COLLINEAR);
+  return  power_test(f->vertex(ccw(i))->point(),
+		     f->vertex( cw(i))->point(),
+		     p);
+}
+
+template < class Gt, class Tds >
+inline
+Oriented_side
+Regular_triangulation_2<Gt,Tds>::
+power_test(const Weighted_point &p,
+	   const Weighted_point &q,
+	   const Weighted_point &r,
+	   const Weighted_point &s) const
+{
+  return geom_traits().power_test_2_object()(p,q,r,s);
+}
+
+template < class Gt, class Tds >
+inline
+Oriented_side
+Regular_triangulation_2<Gt,Tds>::
+power_test(const Weighted_point &p,
+	   const Weighted_point &q,
+	   const Weighted_point &r) const
+{
+  return geom_traits().power_test_degenerated_2_object()(p,q,r);
 }
 
 template < class Gt, class Tds >
@@ -220,8 +256,8 @@ is_valid(bool verbose, int level) const
       CGAL_triangulation_assertion(result);
     }
     
-    Weighted_point_list::iterator plit   = it->point_list().begin(),
-                                  pldone = it->point_list().end();
+    typename Weighted_point_list::iterator plit = it->point_list().begin(),
+                                         pldone = it->point_list().end();
     for (; plit != pldone; plit++)
     {
       result = result && power_test(it, *plit) == ON_NEGATIVE_SIDE;
@@ -274,7 +310,7 @@ affiche_tout()
 	   <<"/"<<(fi->neighbor(2))->vertex(2)->point()<<"]"
 	   <<std::endl;
 
-      Weighted_point_list::iterator current;
+      typename Weighted_point_list::iterator current;
       std::cerr << "  +++++>>>    ";
       for (current= fi->point_list().begin() ; 
 	   current!= fi->point_list().end() ; current++ )
@@ -293,7 +329,7 @@ affiche_tout()
     std::cerr<<(void*)&(*fc) <<" = "<< fc->vertex(0)->point()<<" / "
 	<< fc->vertex(1)->point()<<" / "<< fc->vertex(2)->point()
 	<<" / ";
-    Weighted_point_list::iterator current;
+    typename Weighted_point_list::iterator current;
     std::cerr << "  +++++>>>    ";
     for (current= fc->point_list().begin() ; 
 	 current!= fc->point_list().end() ; current++ )
@@ -537,12 +573,12 @@ fill_hole_regular(std::list<Edge> & first_hole)
     {
       hole = hole_list.front();
       hole_list.pop_front();
-      Hole::iterator hit = hole.begin();
+      typename Hole::iterator hit = hole.begin();
 	    
       // if the hole has only three edges, create the triangle
       if (hole.size() == 3)
 	{
-	  Face_handle  newf = new Face();
+	  Face_handle  newf = create_face();
 	  hit = hole.begin();
 	  for(int j=0; j<3; j++)
 	    {
@@ -593,9 +629,9 @@ fill_hole_regular(std::list<Edge> & first_hole)
       Vertex_handle  vv;
       Weighted_point p;
  
-      Hole::iterator hdone = hole.end();
+      typename Hole::iterator hdone = hole.end();
       hit = hole.begin();
-      Hole::iterator cut_after(hit);
+      typename Hole::iterator cut_after(hit);
  
       // if tested vertex is c with respect to the vertex opposite
       // to NULL neighbor,
@@ -614,7 +650,7 @@ fill_hole_regular(std::list<Edge> & first_hole)
 	  else 
 	    {	// vv is a finite vertex
 	      p = vv->point();
-	      if (geom_traits().orientation(p0,p1,p) == 
+	      if (orientation(p0,p1,p) == 
 		  COUNTERCLOCKWISE)
 		{
 		  if (is_infinite(v2))
@@ -623,7 +659,7 @@ fill_hole_regular(std::list<Edge> & first_hole)
 		      p2=p;
 		      cut_after=hit;
 		    }
-		  else if (geom_traits().power_test(p0,p1,p2,p) == 
+		  else if (power_test(p0,p1,p2,p) == 
 			   ON_POSITIVE_SIDE)
 		    {
 		      v2=vv;
@@ -636,7 +672,7 @@ fill_hole_regular(std::list<Edge> & first_hole)
 	}
  
       // create new triangle and update adjacency relations
-      Face_handle newf = new Face(v0,v1,v2);
+      Face_handle newf = create_face(v0,v1,v2);
       newf->set_neighbor(2,ff);
       ff->set_neighbor(ii, newf);
  
@@ -729,10 +765,10 @@ update_hidden_points_2_2(const Face_handle& f1, const Face_handle& f2)
     Weighted_point a2 = f2->vertex(f2->index(f1))->point();
     Weighted_point a  = f1->vertex(1-f1->index(f2))->point();
     while ( ! p_list.empty() ) {
-      if ( geom_traits().compare_x(a, p_list.front()) == 
-	   geom_traits().compare_x(a, a1)  &&
-	   geom_traits().compare_y(a, p_list.front()) == 
-	   geom_traits().compare_y(a, a1))
+      if ( compare_x(a, p_list.front()) == 
+	   compare_x(a, a1)  &&
+	   compare_y(a, p_list.front()) == 
+	   compare_y(a, a1))
 	(f1->point_list()).push_back(p_list.front());
       else
 	(f2->point_list()).push_back(p_list.front());
@@ -851,9 +887,9 @@ stack_flip(Vertex_handle v, Faces_around_stack &faces_around)
   // TODO : the 1dim-dimensional case
   if (dimension() == 1 ) {
     if ( is_infinite(f)  || is_infinite(n) ) return;
-    if ( geom_traits().power_test( v->point(),
-				   f->vertex(1-i)->point(),
-				   n->vertex(n->index(f))->point()) ==
+    if ( power_test( v->point(),
+		     f->vertex(1-i)->point(),
+		     n->vertex(n->index(f))->point()) ==
 	 ON_NEGATIVE_SIDE) return;
     stack_flip_dim1(f,i);
     return;
@@ -874,12 +910,12 @@ stack_flip(Vertex_handle v, Faces_around_stack &faces_around)
 
     // now f and n are both finite faces
     int ni = n->index(f);
-    Orientation occw = geom_traits().orientation(f->vertex(i)->point(),
-						 f->vertex(ccw(i))->point(),
-						 n->vertex(ni)->point());
-    Orientation ocw  = geom_traits().orientation(f->vertex(i)->point(),
-						 f->vertex(cw(i))->point(),
-						 n->vertex(ni)->point());
+    Orientation occw = orientation(f->vertex(i)->point(),
+				   f->vertex(ccw(i))->point(),
+				   n->vertex(ni)->point());
+    Orientation ocw  = orientation(f->vertex(i)->point(),
+				   f->vertex(cw(i))->point(),
+				   n->vertex(ni)->point());
     if (occw == LEFTTURN && ocw == RIGHTTURN) {
       // quadrilater (f,n) is convex
       stack_flip_2_2(f,i, faces_around);
@@ -983,7 +1019,7 @@ stack_flip_dim1(Face_handle f, int i)
   f->set_neighbor(i, n->neighbor(1-in));
   n->neighbor(1-in)->set_neighbor(n->neighbor(1-in)->index(n), f);
   (f->point_list()).splice(f->point_list().end(),n->point_list());
-  delete &(*n);
+  delete_face(n);
 }
 CGAL_END_NAMESPACE 
 

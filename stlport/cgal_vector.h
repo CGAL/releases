@@ -163,8 +163,8 @@ class vector {
     typedef typename _Alloc::difference_type difference_type;
     typedef vector_const_iterator<T,_Alloc> const_iterator;
     typedef vector_iterator<T,_Alloc> iterator;
-    typedef stlport::reverse_iterator<iterator,value_type,reference,difference_type> reverse_iterator;
-    typedef stlport::reverse_iterator<const_iterator,value_type,const_reference,difference_type>
+    typedef stlport::reverse_iterator<iterator> reverse_iterator;
+    typedef stlport::reverse_iterator<const_iterator>
             const_reverse_iterator;
   protected:
     pointer data_;

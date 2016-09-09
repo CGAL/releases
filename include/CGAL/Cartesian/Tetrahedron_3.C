@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Tetrahedron_3.C
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.13 $
-// revision_date : $Date: 1999/12/13 16:45:50 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.22 $
+// revision_date : $Date: 2000/08/23 13:57:42 $
 // author(s)     : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -62,23 +63,16 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
-_Fourtuple< typename TetrahedronC3<R CGAL_CTAG>::Point_3 >*  
-TetrahedronC3<R CGAL_CTAG>::ptr() const
-{
-  return (_Fourtuple< Point_3 >*)PTR;
-}
-
-template < class R >
 TetrahedronC3<R CGAL_CTAG>::
 TetrahedronC3()
 {
-  PTR = new _Fourtuple< Point_3 >;
+  new ( static_cast< void*>(ptr)) Fourtuple< Point_3 >;
 }
 
 template < class R >
 TetrahedronC3<R CGAL_CTAG>::
 TetrahedronC3(const TetrahedronC3<R CGAL_CTAG> &t)
-  : Handle(t)
+  : Handle_for<Fourtuple< typename R::Point_3> >(t)
 {}
 
 template < class R >
@@ -88,22 +82,13 @@ TetrahedronC3(const typename TetrahedronC3<R CGAL_CTAG>::Point_3 &p,
               const typename TetrahedronC3<R CGAL_CTAG>::Point_3 &r,
               const typename TetrahedronC3<R CGAL_CTAG>::Point_3 &s)
 {
-  PTR = new _Fourtuple< Point_3 >(p, q, r, s);
+  new ( static_cast< void*>(ptr)) Fourtuple< Point_3 >(p, q, r, s);
 }
 
 template < class R >
 inline
 TetrahedronC3<R CGAL_CTAG>::~TetrahedronC3()
 {}
-
-template < class R >
-TetrahedronC3<R CGAL_CTAG> &
-TetrahedronC3<R CGAL_CTAG>::
-operator=(const TetrahedronC3<R CGAL_CTAG> &t)
-{
-  Handle::operator=(t);
-  return *this;
-}
 
 template < class Point_3 >
 struct Less_xyzC3 {
@@ -119,7 +104,7 @@ bool
 TetrahedronC3<R CGAL_CTAG>::
 operator==(const TetrahedronC3<R CGAL_CTAG> &t) const
 {
-  if ( id() == t.id() ) return true;
+  if ( ptr == t.ptr ) return true;
   if ( orientation() != t.orientation() ) return false;
 
   std::vector< Point_3 > V1;
@@ -148,13 +133,6 @@ operator!=(const TetrahedronC3<R CGAL_CTAG> &t) const
 }
 
 template < class R >
-inline
-long TetrahedronC3<R CGAL_CTAG>::id() const
-{
-  return (long) PTR;
-}
-
-template < class R >
 typename TetrahedronC3<R CGAL_CTAG>::Point_3
 TetrahedronC3<R CGAL_CTAG>::
 vertex(int i) const
@@ -163,10 +141,10 @@ vertex(int i) const
   else if (i>3) i=i%4;
   switch (i)
     {
-    case 0: return ptr()->e0;
-    case 1: return ptr()->e1;
-    case 2: return ptr()->e2;
-    default: return ptr()->e3;
+    case 0: return ptr->e0;
+    case 1: return ptr->e1;
+    case 2: return ptr->e2;
+    default: return ptr->e3;
     }
 }
 
@@ -306,7 +284,7 @@ operator<<(std::ostream &os, const TetrahedronC3<R CGAL_CTAG> &t)
     case IO::BINARY :
         return os << t[0]  << t[1]  << t[2] << t[3];
     default:
-        os << "TetrahedronC3(" << t[0] <<  ", " << t[1] <<   ", " << t[2] ;
+        os << "TetrahedronC3(" << t[0] <<  ", " << t[1] <<   ", " << t[2];
         os <<  ", " << t[3] << ")";
         return os;
     }

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/global_operators_3.h
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1999/11/05 22:29:53 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2000/07/09 10:39:17 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -56,7 +57,7 @@ inline
 PointC3<R CGAL_CTAG>
 operator+(const PointC3<R CGAL_CTAG> &p, const VectorC3<R CGAL_CTAG> &v)
 {
-  return PointC3<R CGAL_CTAG>(p.x() + v.x(), p.y() + v.y(), p.z() + v.z()) ;
+  return PointC3<R CGAL_CTAG>(p.x() + v.x(), p.y() + v.y(), p.z() + v.z());
 }
 
 template < class R >
@@ -64,7 +65,7 @@ inline
 PointC3<R CGAL_CTAG>
 operator-(const PointC3<R CGAL_CTAG> &p, const VectorC3<R CGAL_CTAG> &v)
 {
-  return PointC3<R CGAL_CTAG>(p.x() - v.x(), p.y() - v.y(), p.z() - v.z()) ;
+  return PointC3<R CGAL_CTAG>(p.x() - v.x(), p.y() - v.y(), p.z() - v.z());
 }
 
 template < class R >
@@ -88,7 +89,7 @@ inline
 VectorC3<R CGAL_CTAG>
 operator-(const PointC3<R CGAL_CTAG> &p, const PointC3<R CGAL_CTAG> &q)
 {
-  return VectorC3<R CGAL_CTAG>(p.x() - q.x(), p.y() - q.y(), p.z() - q.z()) ;
+  return VectorC3<R CGAL_CTAG>(p.x() - q.x(), p.y() - q.y(), p.z() - q.z());
 }
 
 template < class R >
@@ -96,7 +97,7 @@ inline
 VectorC3<R CGAL_CTAG>
 operator-(const PointC3<R CGAL_CTAG> &p, const Origin &)
 {
-  return VectorC3<R CGAL_CTAG>(p) ;
+  return VectorC3<R CGAL_CTAG>(p);
 }
 
 template < class R >
@@ -104,7 +105,7 @@ inline
 VectorC3<R CGAL_CTAG>
 operator-(const Origin &, const PointC3<R CGAL_CTAG> &p)
 {
-  return VectorC3<R CGAL_CTAG>(-p.x(), -p.y(), -p.z()) ;
+  return VectorC3<R CGAL_CTAG>(-p.x(), -p.y(), -p.z());
 }
 
 template < class R >
@@ -112,7 +113,7 @@ CGAL_KERNEL_INLINE
 VectorC3<R CGAL_CTAG>
 operator*(const typename R::FT &c, const VectorC3<R CGAL_CTAG> &w)
 {
-   return VectorC3<R CGAL_CTAG>( c* w.x(), c * w.y(), c * w.z()) ;
+   return VectorC3<R CGAL_CTAG>( c * w.x(), c * w.y(), c * w.z());
 }
 
 template < class R >
@@ -120,7 +121,7 @@ CGAL_KERNEL_INLINE
 VectorC3<R CGAL_CTAG>
 operator*(const VectorC3<R CGAL_CTAG> &w, const typename R::FT &c)
 {
-   return VectorC3<R CGAL_CTAG>( c* w.x(), c * w.y(), c * w.z()) ;
+   return VectorC3<R CGAL_CTAG>( c * w.x(), c * w.y(), c * w.z());
 }
 
 CGAL_END_NAMESPACE

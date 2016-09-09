@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Ray_2.fw
 // file          : include/CGAL/Ray_2.h
-// package       : _2 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _2 (3.6)
+// revision      : 3.6
+// revision_date : 30 Jul 2000 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -69,13 +70,18 @@
 #endif // CGAL_RAYC2_H
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/RayS2.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-class Ray_2 : public _R::Ray_2_base
+template <class R_>
+class Ray_2 : public R_::Ray_2_base
 {
 public:
-  typedef  _R   R;
+  typedef  R_   R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
   typedef typename R::Ray_2_base  RRay_2;
@@ -110,22 +116,11 @@ public:
   {}
 
 
-  CGAL::Ray_2<R> &operator=(const CGAL::Ray_2<R> &r)
-  {
-
-
-    RRay_2::operator=(r);
-    return *this;
-  }
-
   bool operator==(const CGAL::Ray_2<R> &r) const
   { return RRay_2::operator==(r); }
 
   bool operator!=(const CGAL::Ray_2<R> &r) const
   { return !(*this == r); }
-
-  int id() const
-  { return (int) PTR ; }
 
   CGAL::Point_2<R> start() const
   { return RRay_2::start(); }

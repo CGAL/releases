@@ -2,41 +2,41 @@
 # ---------------------------------------------------------------------
 # A CGAL Installation Script Prototype 
 # ---------------------------------------------------------------------
-# $Id: install_cgal,v 1.81 2000/01/14 11:35:03 hoffmann Exp $
+# $Id: install_cgal,v 1.92 2000/09/08 10:05:43 hoffmann Exp $
 # ---------------------------------------------------------------------
 # 
-# Copyright (c) 1998, 1999 The CGAL Consortium
+# ============================================================================
 #
-# This software and related documentation is part of the
-# Computational Geometry Algorithms Library (CGAL).
+# Copyright (c) 1997-2000 The CGAL Consortium
+
+
+# This software and related documentation is part of the Computational
+# Geometry Algorithms Library (CGAL).
+# This software and documentation is provided "as-is" and without warranty
+# of any kind. In no event shall the CGAL Consortium be liable for any
+# damage of any kind. 
 #
-# Every use of CGAL requires a license. Licenses come in three kinds:
+# Every use of CGAL requires a license. 
 #
-# - For academic research and teaching purposes, permission to use and
-#   copy the software and its documentation is hereby granted free of  
-#   charge, provided that
-#   (1) it is not a component of a commercial product, and
-#   (2) this notice appears in all copies of the software and
-#       related documentation.
-# - Development licenses grant access to the source code of the library 
-#   to develop programs. These programs may be sold to other parties as 
-#   executable code. To obtain a development license, please contact
-#   the CGAL Consortium (at cgal@cs.uu.nl).
-# - Commercialization licenses grant access to the source code and the
-#   right to sell development licenses. To obtain a commercialization 
-#   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+# Academic research and teaching license
+# - For academic research and teaching purposes, permission to use and copy
+#   the software and its documentation is hereby granted free of charge,
+#   provided that it is not a component of a commercial product, and this
+#   notice appears in all copies of the software and related documentation. 
 #
-# This software and documentation is provided "as-is" and without
-# warranty of any kind. In no event shall the CGAL Consortium be
-# liable for any damage of any kind.
+# Commercial licenses
+# - A commercial license is available through Algorithmic Solutions, who also
+#   markets LEDA (http://www.algorithmic-solutions.de). 
+# - Commercial users may apply for an evaluation license by writing to
+#   Algorithmic Solutions (contact@algorithmic-solutions.com). 
 #
 # The CGAL Consortium consists of Utrecht University (The Netherlands),
 # ETH Zurich (Switzerland), Free University of Berlin (Germany),
 # INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-# (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+# (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
 # and Tel-Aviv University (Israel).
 #
-# ---------------------------------------------------------------------
+# ============================================================================
 
 # ---------------------------------------------------------------------
 # some important global variables
@@ -46,11 +46,11 @@
 # CGAL specific:
 
 # ---------------------------------------------
-CGAL_VERSION='2.1'
+CGAL_VERSION='2.2'
 # ---------------------------------------------
 CGAL_INSTALL_CGAL="`basename ${0}`"
 # ---------------------------------------------
-CGAL_INSTALL_VERSION='$Revision: 1.81 $'
+CGAL_INSTALL_VERSION='$Revision: 1.92 $'
 # ---------------------------------------------
 CGAL_INSTALL_CONF_VERSION='1.1'
 # ---------------------------------------------
@@ -379,7 +379,7 @@ _real_dirname()
 
 _real_options()
 {
-    ${_basename} "`${_printf} \"${*}\" | ${_awk} '{ for (i=2; i<=NF; ++i) if (substr($i,0,1) == \"-\") printf \"%s\",$i }'`"
+    ${_printf} "${*}" | ${_awk} '{ for (i=2; i<=NF; ++i) if (substr($i,0,1) == "-") printf "%s",$i }'
 }
 
 # print to logfile
@@ -613,7 +613,7 @@ guess_os()
     else
 	$1 "WARNING: Could not determine architecture."
     fi
-    SYST="${_tmp}`${_uname} -s | ${_sed} 's/_//g'`-`${_uname} -r | ${_awk} '{print $1}'`"
+    SYST="${_tmp}`${_uname} -s | ${_sed} 's/_//g'`-`${_uname} -r | ${_sed} 's/[(\/]/-/g' | ${_sed} 's/)//g' | ${_awk} '{print $1}'`"
     $1 "OS is \"${SYST}\"." 
 }
 
@@ -663,6 +663,17 @@ _sunpro_version()
 	# sunpro 4.1
 	$* -V 2>&1 | ${_fgrep} "C++" | ${_awk} '{print $NF}'
     fi
+}
+
+# give version numbers for KAI C++ (KCC)
+# ($* is full path to executable)
+_kcc_version()
+{
+    TMP_KCC_FILE=./tmp_kcc.C
+    ${_printf} "%s\n" "int main() {return 0;}" > ${TMP_KCC_FILE}
+    _tmp="`$* --version ${TMP_KCC_FILE} 2>&1 | ${_fgrep} \"KAI C++\" | ${_awk} '{print $3}'`"
+    ${_printf} "%s" "${_tmp}" 
+    ${_rm} -f ${TMP_KCC_FILE}
 }
 
 # give version numbers for IRIX MIPSPRO CC
@@ -720,6 +731,7 @@ set_compiler_flags()
     # defaults:
     ADDITIONAL_CXXFLAGS=""
     ADDITIONAL_LDFLAGS=""
+    LONG_NAME_PROBLEM_LDFLAGS=""
     CGAL_LIB_CXXFLAGS=""
     CGAL_LIB_LDFLAGS=""
     CGAL_LIB_CREATE="ar cr ''"
@@ -742,6 +754,7 @@ set_compiler_flags()
     LIBPATH_OPT="-L"
     DEBUG_OPT="-g"
     EXE_OPT="-o "
+    SAVE_THE_BLANK=""
     EXE_EXT=""
     CGAL_LIBNAME="libCGAL.a"
     GMP_LIBNAME="libgmp.a"
@@ -786,7 +799,7 @@ set_compiler_flags()
 	    CGAL_SHARED_LIB_CXXFLAGS=
 	    CGAL_SHARED_LIB_CREATE=
 	    WINDOW_DIR=
-	    XLIBS="user32.lib gdi32.lib comdlg32.lib shell32.lib advapi32.lib"
+	    XLIBS="ws2_32.lib user32.lib gdi32.lib comdlg32.lib shell32.lib advapi32.lib"
 	    SUFFIX_LIST=".obj .exe"
 	    OBJ_EXT=".obj"
 	    LIB_SUFFIX=".lib"
@@ -829,11 +842,23 @@ set_compiler_flags()
 	*IRIX*g++*)
 	    #### settings for egcs/gcc2.8 on irix
 	    ADDITIONAL_CXXFLAGS="-Wall -ftemplate-depth-25"
+	    LONG_NAME_PROBLEM_LDFLAGS="-U -s"
 	    CGAL_SHARED_LIB_LDFLAGS="-lm"
 	    CGAL_SHARED_LIB_CREATE="\$(CGAL_CXX) -shared"
 	    RUNTIME_LINKER_FLAG="-rpath "
 	    PRINT_STACKTRACE_PROGRAM="gdb"
 	    ;;
+        *SunOS*5.*KCC*)
+            #### settings for KAI C++ compiler on solaris
+            ADDITIONAL_CXXFLAGS="--one_instantiation_per_object"
+            CGAL_LIB_CREATE="\$(CGAL_CXX) -o ''"
+            CGAL_SHARED_LIB_CXXFLAGS="-Kpic"
+            CGAL_SHARED_LIB_CREATE="\$(CGAL_CXX) -G"
+            WINDOW_DIR="/usr/openwin/lib"
+            RUNTIME_LINKER_FLAG="-R "
+            PRINT_STACKTRACE_PROGRAM="dbx"
+	    SAVE_THE_BLANK="\$(SAVESTHEBLANK)"
+            ;;
 	*SunOS*5.*CC*)
 	    #### settings for sunpro compiler on solaris
 	    ADDITIONAL_CXXFLAGS="-pto"
@@ -847,6 +872,7 @@ set_compiler_flags()
 	*SunOS*5.*g++*)
 	    #### settings for egcs/gcc2.8 on solaris
 	    ADDITIONAL_CXXFLAGS="-Wall -ftemplate-depth-25"
+	    LONG_NAME_PROBLEM_LDFLAGS="-z nodefs -s"
 	    CGAL_SHARED_LIB_CREATE="\$(CGAL_CXX) -G"
 	    WINDOW_DIR="/usr/openwin/lib"
 	    RUNTIME_LINKER_FLAG="-R "
@@ -878,7 +904,7 @@ set_compiler_flags()
 
 # --------------------------------------------------------------------------
 # Following code is taken from make_redirection_headers
-# (by Geert-Jan <geert@cs.uu.nl>)
+# (by Geert-Jan )
 
 #
 # internal variables from make_redirection_headers
@@ -1588,6 +1614,8 @@ get_compiler_version()
 		_borland_version "$*";;
 	*CL*|*cl*)
 		_microsoft_vc_version "$*";;
+	*KCC*)
+		_kcc_version "$*";;
 	*CC*)
 	    case ${SYST} in
 		*IRIX*)  _check_for_sysutil versions y
@@ -1609,6 +1637,8 @@ get_compiler_description()
     case ${1:-${COMPILER}} in
 	*bcc32*)
 	    ${_printf} "%s" "Borland";;
+	*KCC*)
+	    ${_printf} "%s" "KAI CC";;
 	*CL*|*cl*)
 	    ${_printf} "%s" "VC++";;
 	*CC*-32*)
@@ -1775,6 +1805,7 @@ search_for_compilers()
 		fi
 	    fi
 	    _search_compiler gcc g++ ''
+	    _search_compiler cc KCC ''
 	    ;;
 	*IRIX*-6*)
 	    if _search_compiler cc CC 'n'; then
@@ -1784,9 +1815,11 @@ search_for_compilers()
 		    "`_add_flags \"${COMPILER}\" '-32' ' (o32)' ' -32'`"
 	    fi
 	    _search_compiler gcc g++ ''
+	    _search_compiler cc KCC ''
 	    ;;
 	*IRIX*|*SunOS*)
 	    _search_compiler gcc g++ ''
+	    _search_compiler cc KCC ''
 	    _search_compiler cc CC ''
 	    ;;
 	*CYGWIN*)
@@ -1796,6 +1829,7 @@ search_for_compilers()
 	    ;;
 	*)
 	    _search_compiler gcc g++ ''
+	    _search_compiler cc KCC ''
 	    ;;
     esac
     if [ ${_COMPILER_NUMBER} = 1 ]; then
@@ -1915,7 +1949,7 @@ set_expr()
 _read()
 {
     _tmp=${IFS}
-    IFS='\n'
+    IFS=''
     read KEY
     IFS=${_tmp}
 }
@@ -3158,6 +3192,17 @@ _choose_compiler()
 _set_support()
 {
     case `compiler_description` in
+	*Borland*)
+	    case `compiler_version` in
+		5.5*) CGAL_SUPPORT_COMPILER='y';;
+		*) CGAL_SUPPORT_COMPILER='';;
+	    esac
+	    ;;
+	*KAI*)
+	    case `compiler_version` in
+		4.*) CGAL_SUPPORT_COMPILER='y';;
+	    esac
+	    ;;
 	*SUNPRO*) CGAL_SUPPORT_COMPILER='';;
 	*MIPSPRO*n32*) 
 	    case `compiler_version` in
@@ -3175,6 +3220,7 @@ _set_support()
 	*VC++*)
 	    case `compiler_version` in
 		12.00.8168*) CGAL_SUPPORT_COMPILER='y';;
+		12.00.8804*) CGAL_SUPPORT_COMPILER='y';;
 		*) CGAL_SUPPORT_COMPILER='';;
 	    esac
 	    ;;
@@ -4051,7 +4097,7 @@ write_linker_flags()
 {
   makefile_header "linker flags" >> ${FILE}
 
-  ${_printf} "%s%s\n" "EXE_OPT = " "${EXE_OPT}" >> ${FILE}
+  ${_printf} "%s%s\n" "EXE_OPT = " "${EXE_OPT}${SAVE_THE_BLANK}" >> ${FILE}
 
   #
   # LEDA_LIB_DIR
@@ -4181,7 +4227,7 @@ write_linker_flags()
   print_as_shell_comment \
     "*** to work around the long-name-problem with sun as/ld" >> ${FILE}
   if [ -n "${LONG_NAME_PROBLEM}" ]; then
-    ${_printf} "%s\n\n" "LONG_NAME_PROBLEM_LDFLAGS = -z nodefs -s" \
+    ${_printf} "%s\n\n" "LONG_NAME_PROBLEM_LDFLAGS = ${LONG_NAME_PROBLEM_LDFLAGS}" \
     >> ${FILE}
   else
     ${_printf} "%s\n\n" "LONG_NAME_PROBLEM_LDFLAGS =" >> ${FILE}

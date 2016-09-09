@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 //
 // This software and related documentation is part of an INTERNAL release
 // of the Computational Geometry Algorithms Library (CGAL). It is not
@@ -12,12 +12,12 @@
 // release_date  :
 //
 // file          : src/GeoWin/geo_menu.c
-// package       : GeoWin (1.0.8)
-// revision      : 1.0.8
-// revision_date : 17 December 1999 
+// package       : GeoWin (1.1.9)
+// revision      : 1.1.9
+// revision_date : 27 September 2000 
 // author(s)     : Matthias Baesken, Ulrike Bartuschka, Stefan Naeher
 //
-// coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-halle.de>)
+// coordinator   : Matthias Baesken, Halle  (<baesken@informatik.uni-trier.de>)
 // ============================================================================
 
 
@@ -62,6 +62,19 @@ void GeoWin::scene_options(int id)
     if( sc->ids[geo_opt_id] == id )  { sc->options();  return; }
 }
 
+void GeoWin::scene_group_menu(int id)
+{
+  //cout << id << "\n";
+  geo_scenegroup gsg;
+  forall(gsg, get_scenegroups()){
+    if (gsg->id == id) {
+       cout << "Found\n";
+       scenegroup_dialog(gsg);
+       return;
+    }
+  }
+}
+
 void GeoWin::scene_contents(int id)
 {
   geo_scene sc;
@@ -81,6 +94,22 @@ void geo_scene_option(int n)
   gw->scene_options(n);
 }
 
+void geo_scene_algo(int n)
+{
+  window*    wp = window::get_call_window();
+  GeoWin* gw = (GeoWin*)wp->get_inf();
+  geo_scene cur = gw->get_active_scene();
+  
+  if (cur) cur->call_buffer_fcn(n,true);
+}
+
+void geo_scene_groups(int n)
+{
+  window*    wp = window::get_call_window();
+  GeoWin* gw = (GeoWin*)wp->get_inf();
+  gw->scene_group_menu(n);
+}
+
 void geo_scene_contents(int n)
 {
   window*    wp = window::get_call_window();
@@ -92,8 +121,9 @@ void geo_scene_contents(int n)
 void GeoWin::new_scene(int n)
 {
   string type_name = editables[editables[n]];
+  //cout << type_name << "\n";
   geo_scene sc = GeoScene::new_scene(type_name);
-  insert(sc);
+  insert_scene(sc);
   sc->init_default_values();
   if( !sc->active) activate(sc);
 }
@@ -206,18 +236,27 @@ void GeoWin::init_menu()
   add_call( new GeowinMember(&GeoWin::move_menu), "Move", menus[operate_menu]);
   add_call( new GeowinMember(&GeoWin::rotate_menu), "Rotate",  
 	    menus[operate_menu]); 
+  add_call( new GeowinMember(&GeoWin::show_sel), "Show Buffer",  
+	    menus[operate_menu]);     
   add_call( new GeoEditorMember(&GeoEditor::del_sel), "Delete", 
 	    menus[operate_menu]);
+	
   menus[edit_menu2]->button("Edit Selection", menu_const + edit_menu2,
 			    *(menus[operate_menu]));
-  
+/*  
   add_call(new GeoEditorMember(&GeoEditor::mouse_read_object), 
 	   "Mouse Read Object",  menus[readobject_menu]);
   add_call(new GeoEditorMember(&GeoEditor::keyboard_read_object), 
 	   "Keyboard Read Object",  menus[readobject_menu]);
+*/
+  add_call(new GeowinMember(&GeoWin::call_mouse_read_object), 
+	   "Mouse Read Object",  menus[readobject_menu]);
+  add_call(new GeowinMember(&GeoWin::call_keyboard_read_object), 
+	   "Keyboard Read Object",  menus[readobject_menu]);
+	   
   menus[edit_menu2]->button("Read Object", menu_const + edit_menu2,
 			    *(menus[readobject_menu]));
-  
+  menus[edit_menu2]->new_line();  
   add_call(new GeoEditorMember(&GeoEditor::generate), "Generate", 
 	   menus[edit_menu2]);
 
@@ -230,8 +269,6 @@ void GeoWin::init_menu()
 	   menus[view_menu]);
   add_call(new GeowinMember(&GeoWin::zoom_down) , "Zoom &Down", 
 	   menus[view_menu]); 
-  //add_call(new GeowinMember(&GeoWin::zoom_area) , "Zoom Area",
-  //	   menus[view_menu]);
   add_call(new GeowinMember(za) , "Zoom Area",
 	   menus[view_menu]);
   add_call(new GeowinMember(&GeoWin::fill_window),"Fill &Window", 
@@ -245,6 +282,8 @@ void GeoWin::init_menu()
   // Options menu
   add_call(new GeowinMember(&GeoWin::global_options), "General", 
 	   menus[option_menu]);
+  add_call(new GeowinMember(&GeoWin::advanced_global_options), "Advanced", 
+	   menus[option_menu]);	   
   add_call(new GeowinMember(&GeoWin::d3_options), "3d Output", 
 	   menus[option_menu]);
   add_call(new GeowinMember(&GeoWin::scaling_options), "Scaling", 
@@ -284,6 +323,12 @@ void GeoWin::init_menu()
 	      menus[scene_menu]);
   button_info[GEO_CM_CLOSE] = 1;
 
+  buttons[GEO_CM_CLOSE_ALL] = 
+    add_call( new GeowinMember(&GeoWin::destroy_all), "close all",
+	      menus[scene_menu]);
+  button_info[GEO_CM_CLOSE_ALL] = 1;
+
+
   buttons[GEO_CM_CLEAR] =
   add_call( new GeoEditorMember(&GeoEditor::clear), "clear",
 	    menus[scene_menu]);
@@ -293,6 +338,11 @@ void GeoWin::init_menu()
     add_call( new GeowinMember(&GeoWin::visible_scenes) , "visibility", 
 	    menus[scene_menu]);
   button_info[GEO_CM_VISIBLE]=1;
+  
+  buttons[GEO_CM_Z]=
+    add_call( new GeowinMember(&GeoWin::z_scenes) , "z-order", 
+	    menus[scene_menu]);
+  button_info[GEO_CM_Z]=1;
 
   menus[scene_menu]->button("options", menu_const + scene_opt_menu,
 			     *(menus[scene_opt_menu]));
@@ -300,6 +350,9 @@ void GeoWin::init_menu()
   menus[scene_menu]->button("activate", menu_const + scene_list_menu,
 			    *(menus[scene_list_menu])); 
 
+  menus[scene_menu]->button("groups", menu_const + scene_groups_menu,
+			    *(menus[scene_groups_menu])); 
+			    
   menus[scene_menu]->new_line();
   
   menus[scene_menu]->button("contents", menu_const + scene_cont_menu,
@@ -309,10 +362,17 @@ void GeoWin::init_menu()
   add_call(new GeowinMember(&GeoWin::help_about), "About", 
 	   menus[help_menu]);
   add_call(new GeowinMember(&GeoWin::help_news), "News", 
-	   menus[help_menu]); 
-  add_call(new GeowinMember(&GeoWin::help_buttons), "Buttons", 
-	   menus[help_menu]); 
-  
+	   menus[help_menu]);  
+  // help
+  add_help_text("geowin_buttons");
+  add_help_text("geowin_file");
+  add_help_text("geowin_edit");
+  add_help_text("geowin_scenes");
+  add_help_text("geowin_scene_options");
+  add_help_text("geowin_window");
+  add_help_text("geowin_options1");
+  add_help_text("geowin_options2");
+	     
   if (!help_list.empty())
   { menus[help_menu]->new_line(); 
     string hlp;
@@ -320,6 +380,13 @@ void GeoWin::init_menu()
         add_call(new GeowinMember(&GeoWin::help_user), hlp, menus[help_menu]); 
    }
    
+  //Algorithm menu
+  menus[algo_menu]->button("Algorithm", menu_const + algo_algorithm_menu,
+			     *(menus[algo_algorithm_menu]));
+
+  menus[algo_menu]->button("Algorithm options", menu_const + algo_options_menu,
+			    *(menus[algo_options_menu])); 
+  
   // Main Menu
   Wp->button("File", menu_const + io_menu, *(menus[io_menu]));
   Wp->button("Edit", menu_const + edit_menu1,*(menus[edit_menu1]));
@@ -330,6 +397,7 @@ void GeoWin::init_menu()
   but = add_call( new GeowinMember(&GeoWin::done_button_pressed), 
 		  "Done", Wp ); 
   Wp->button("Options", menu_const + option_menu, *(menus[option_menu]));
+  Wp->button("Algorithms", menu_const + algo_menu, *(menus[algo_menu]));
   Wp->button("Help", menu_const + help_menu, *(menus[help_menu]));
   buttons[GEO_CM_OK]     = but;
 
@@ -352,7 +420,20 @@ void   GeoWin::make_scene_menu()
       m2->set_inf(this);
       menu* m3 = menus[scene_cont_menu] = new menu;
       m3->set_inf(this);     
+      menu* m4 = menus[scene_groups_menu] = new menu;
+      m4->set_inf(this);
+      menu* m5 = menus[algo_algorithm_menu] = new menu;
+      m5->set_inf(this);
+      
       int count = 0;
+      
+      if (cur){
+        int dummy; 
+        list<string> LS = cur->get_fcn_names(dummy, false);
+	//cout << LS << "\n";
+	string iter;
+	forall(iter,LS) m5->button(iter,geo_scene_algo);
+      }
       
       if( cur )
 	{
@@ -370,8 +451,19 @@ void   GeoWin::make_scene_menu()
 	      sc->ids[geo_cont_id] = 
 		m3->button(sc->get_name(),geo_scene_contents);	
 	    }
+	  // scene groups ...
+	  geo_scenegroup gsg;
+	  
+	  forall(gsg,scene_groups)
+	  {
+	     if (gsg->id == -1) {
+	       gsg->id = m4->button(gsg->name,geo_scene_groups);
+	       //cout << gsg->name << "\n";
+	     }
+	  }  
+	    
 	}
-      
+	
       if( count )
 	{
 	  delete menus[scene_menu]->set_window( menu_const+scene_list_menu,m1);
@@ -380,7 +472,23 @@ void   GeoWin::make_scene_menu()
       else menus[scene_menu]->disable_button(menu_const + scene_list_menu);
       delete menus[scene_menu]->set_window(menu_const + scene_opt_menu,  m2);
       delete menus[scene_menu]->set_window(menu_const + scene_cont_menu,  m3);
+      delete menus[scene_menu]->set_window(menu_const + scene_groups_menu, m4);
+      delete menus[algo_menu]->set_window(menu_const + algo_algorithm_menu, m5);
     }
+}
+
+void GeoWin::make_algo_menu(geo_scene sc)
+{
+  if (is_open){
+      menu* m5 = menus[algo_algorithm_menu] = new menu;
+      m5->set_inf(this);
+      
+      int dummy;
+      list<string> LS = sc->get_fcn_names(dummy,false);
+      string iter;
+      forall(iter,LS) m5->button(iter,geo_scene_algo);
+      delete menus[algo_menu]->set_window(menu_const + algo_algorithm_menu, m5);
+  }
 }
 
 void GeoWin::enable_done_button()
@@ -398,13 +506,17 @@ void GeoWin::disable_done_button()
 void GeoWin::enable_close_button()
 {
   menus[scene_menu]->enable_button(buttons[GEO_CM_CLOSE]);
+  menus[scene_menu]->enable_button(buttons[GEO_CM_CLOSE_ALL]);
   button_info[GEO_CM_CLOSE] = 1;
+  button_info[GEO_CM_CLOSE_ALL] = 1;  
 }
 
 void GeoWin::disable_close_button()
 {
   menus[scene_menu]->disable_button(buttons[GEO_CM_CLOSE]);
+  menus[scene_menu]->disable_button(buttons[GEO_CM_CLOSE_ALL]);  
   button_info[GEO_CM_CLOSE] = 0;
+  button_info[GEO_CM_CLOSE_ALL] = 0;
 }
 
 void GeoWin::enable_new_button()
@@ -458,12 +570,15 @@ void GeoWin::no_scene_on()
 
   menus[scene_menu]->disable_button(menu_const + scene_list_menu);
   menus[scene_menu]->disable_button(buttons[GEO_CM_CLEAR]);
+  menus[scene_menu]->disable_button(buttons[GEO_CM_Z]);  
   menus[scene_menu]->disable_button(buttons[GEO_CM_VISIBLE]);
   menus[scene_menu]->disable_button(menu_const + scene_opt_menu);
   menus[scene_menu]->disable_button(menu_const + scene_cont_menu); 
+  menus[scene_menu]->disable_button(menu_const + scene_groups_menu);
 
   menus[option_menu]->disable_button(buttons[GEO_CM_ACTIVE_OPT]);
   menus[scene_menu]->disable_button(buttons[GEO_CM_CLOSE]);
+  menus[scene_menu]->disable_button(buttons[GEO_CM_CLOSE_ALL]);
   Wp->disable_button(menu_const + edit_menu1);
 }
 
@@ -476,12 +591,15 @@ void GeoWin::no_scene_off()
 
   menus[scene_menu]->enable_button(menu_const + scene_list_menu);
   menus[scene_menu]->enable_button(buttons[GEO_CM_CLEAR]);
+  menus[scene_menu]->enable_button(buttons[GEO_CM_Z]);
   menus[scene_menu]->enable_button(buttons[GEO_CM_VISIBLE]);
   menus[scene_menu]->enable_button(menu_const + scene_opt_menu);
   menus[scene_menu]->enable_button(menu_const + scene_cont_menu);  
+  menus[scene_menu]->enable_button(menu_const + scene_groups_menu);  
 
   menus[option_menu]->enable_button(buttons[GEO_CM_ACTIVE_OPT]);
   menus[scene_menu]->enable_button(buttons[GEO_CM_CLOSE]);  
+  menus[scene_menu]->enable_button(buttons[GEO_CM_CLOSE_ALL]);  
   if( cur->edit_menu_type != -1)
     Wp->enable_button(menu_const + edit_menu1);
 } 
@@ -516,13 +634,15 @@ void geo_mouse_input(GeoWin& gw, const point& p)
     {
       //restore_events();
       W.set_point_buffer(p);
-      ed->mouse_read_object();
+      ed->scene_read_object(0);
     }
 }
 
 void geo_scroll_scene(GeoWin& gw, const point& p)
 { window& W = gw.get_window();
+  if (gw.show_grid) { W.set_grid_dist(-W.get_grid_dist()); }
   W.scroll_window(p,GeoWin::redraw_geowin);
+  if (gw.show_grid) { W.set_grid_dist(-W.get_grid_dist()); }
 }
 
 
@@ -547,7 +667,6 @@ void geo_move(GeoWin& gw, const point& p)
 {
   geo_scene  sc = gw.get_active_scene();
   geo_editor ed = sc ? sc->type_editor() : 0;
-  
   if (ed) gw.move(p);
 }
 
@@ -564,7 +683,7 @@ void geo_object_dragging(GeoWin& gw, const point& p)
   geo_scene sc = gw.get_active_scene();
   geo_editor ed = sc ? sc->type_editor() : 0;
   if( !ed ) return;
-  
+ 
   point pp;
   if( gw.get_pin_point(pp) ) gw.rotate(pp, p);
   else                       gw.move(p);
@@ -579,23 +698,31 @@ void geo_local_object_menu(GeoWin& gw, const point& p)
   
   menu  M;
   M.button("setup",  1);
-  M.button("select", 2);
+  M.button("(de)select", 2);
   M.button("delete", 3);
   M.button("object", 4);
   M.button("raise",  5);
+  M.button("edit",   6);
   
   int x = w.xpix(p.xcoord()) - 1;
   int y = w.ypix(p.ycoord()) + 2;
+  
+  int ymax = w.ypix(gw.get_ymin());
+  int xmax = w.xpix(gw.get_xmax());
+  
+  if (y > ymax-100) y=y-100;
+  if (x > xmax-65) x=x-65;
 
   int but = M.open(w, x, y);
   
   switch (but) 
     {
-    case 1 :  ed->setup_focus(); break;
+    case 1 :  ed->setup_focus_or_raise(true); break;  // setup focus
     case 2 :  ed->toggle_selection(); break;
     case 3 :  ed->del_focus(); break;
     case 4 :  ed->obj_focus(); break;
-    case 5 :  ed->raise_object(); break;
+    case 5 :  ed->setup_focus_or_raise(false); break; // raise
+    case 6 :  ed->obj_edit(); break;
     default :  break;
     }
   
@@ -605,8 +732,14 @@ void geo_active_scene_options(GeoWin& gw, const point&)
 {
   geo_scene sc = gw.get_active_scene();
   if(sc) sc->scene_options();
-
 }
+
+void geo_active_scene_input_options(GeoWin& gw, const point&)
+{
+  geo_scene sc = gw.get_active_scene();
+  if(sc) sc->scene_input_options();
+}
+
 
 void geo_pin_point(GeoWin& gw, const point& p)
 {
@@ -648,7 +781,8 @@ void GeoWin::reset_actions()
   set_action( A_MIDDLE |  A_OBJECT, geo_toggle_selection);
   set_action( A_MIDDLE |  A_DRAG, geo_select); 
   set_action( A_MIDDLE |  A_DRAG | A_OBJECT, geo_select); 
-
+  
+  set_action( A_RIGHT | A_CTRL, geo_active_scene_input_options);
   set_action( A_RIGHT | A_IMMEDIATE, geo_active_scene_options);
   set_action( A_RIGHT | A_IMMEDIATE | A_OBJECT, geo_local_object_menu);
   

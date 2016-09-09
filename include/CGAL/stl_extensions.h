@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/stl_extensions.h
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : stl_extensions.lw
-// revision      : 2.2.4
-// revision_date : 01 Sep 1999
+// revision      : 3.2.1
+// revision_date : 19 Apr 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

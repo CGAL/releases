@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : basic_constructions_2.fw
 // file          : include/CGAL/basic_constructions_2.h
-// package       : _2 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _2 (3.6)
+// revision      : 3.6
+// revision_date : 30 Jul 2000 
 // author(s)     : Sven Schoenherr
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -61,6 +62,11 @@
 #endif // CGAL_BASIC_CONSTRUCTIONSC2_H
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/basic_constructionsS2.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
@@ -70,8 +76,8 @@ midpoint( const Point_2<R>& p,
           const Point_2<R>& q )
 {
     typedef typename R::Point_2_base  RPoint_2;
-    return( midpoint( CGAL_static_cast( const RPoint_2&, p),
-                      CGAL_static_cast( const RPoint_2&, q)));
+    return( midpoint( static_cast<const RPoint_2&>(p),
+                      static_cast<const RPoint_2&>(q)));
 }
 template < class R >
 inline
@@ -81,9 +87,9 @@ circumcenter( const Point_2<R>& p,
               const Point_2<R>& r)
 {
     typedef typename R::Point_2_base  RPoint_2;
-    return( circumcenter( CGAL_static_cast( const RPoint_2&, p),
-                          CGAL_static_cast( const RPoint_2&, q),
-                          CGAL_static_cast( const RPoint_2&, r)));
+    return( circumcenter( static_cast<const RPoint_2&>(p),
+                          static_cast<const RPoint_2&>(q),
+                          static_cast<const RPoint_2&>(r)));
 }
 CGAL_END_NAMESPACE
 

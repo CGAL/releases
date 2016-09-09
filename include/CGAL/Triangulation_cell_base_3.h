@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Triangulation_cell_base_3.h
-// package       : Triangulation3 (1.29)
+// package       : Triangulation3 (1.42)
 // revision      : $Revision: 1.16 $
 // author(s)     : Monique Teillaud
 //
 // coordinator   : INRIA Sophia Antipolis 
 //                 (Mariette Yvinec)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 //

@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/random_convex_set_2.h
-// package       : Generator (2.23)
+// package       : Generator (2.34)
 // source        : src/rcs/rcs.aw
 // revision      : $Revision: 1.2 $
 // revision_date : $Date: 1998/03/06 16:19:47 $
@@ -43,35 +43,21 @@
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // Random Convex Point Sets
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 #if ! (CGAL_RANDOM_CONVEX_SET_2_H)
 #define CGAL_RANDOM_CONVEX_SET_2_H 1
 
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif
-#ifndef CGAL_COPY_N_H
 #include <CGAL/copy_n.h>
-#endif
-#ifndef CGAL_PROTECT_VECTOR
 #include <vector>
-#define CGAL_PROTECT_VECTOR
-#endif
-#ifndef CGAL_PROTECT_ALGORITHM
 #include <algorithm>
-#define CGAL_PROTECT_ALGORITHM
-#endif
-#ifndef CGAL_PROTECT_NUMERIC
 #include <numeric>
-#define CGAL_PROTECT_NUMERIC
-#endif
 #ifdef CGAL_REP_CLASS_DEFINED
-#ifndef CGAL_RANDOM_CONVEX_SET_TRAITS_2_H
 #include <CGAL/Random_convex_set_traits_2.h>
-#endif
 #endif
 
 CGAL_BEGIN_NAMESPACE

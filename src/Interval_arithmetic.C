@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 1999,2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,22 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // file          : src/Interval_arithmetic.C
-// package       : Interval_arithmetic (4.39)
-// revision      : $Revision: 1.18 $
-// revision_date : $Date: 1999/11/07 17:54:57 $
+// package       : Interval_arithmetic (4.58)
+// revision      : $Revision: 1.23 $
+// revision_date : $Date: 2000/09/01 16:37:44 $
 // author(s)     : Sylvain Pion
-//
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
 #include <CGAL/basic.h>
+#include <CGAL/Interval_base.h>
 
 // M$ VC++ doesn't like them yet.
 #ifdef CGAL_IA_NEW_FILTERS
@@ -67,19 +68,20 @@ CGAL_BEGIN_NAMESPACE
 #include <CGAL/Arithmetic_filter/static_infos/dispatch.h>
 #endif
 
-unsigned Interval_nt_advanced::number_of_failures = 0;
-const Interval_nt_advanced Interval_nt_advanced::Largest (-HUGE_VAL, HUGE_VAL);
-const Interval_nt_advanced Interval_nt_advanced::Smallest
-             (-CGAL_IA_MIN_DOUBLE, CGAL_IA_MIN_DOUBLE);
+unsigned Interval_base::number_of_failures;
+
+const Interval_base Interval_base::Largest (-HUGE_VAL, HUGE_VAL);
+const Interval_base Interval_base::Smallest (-CGAL_IA_MIN_DOUBLE,
+                                              CGAL_IA_MIN_DOUBLE);
 
 std::ostream &
-operator<< (std::ostream & os, const Interval_nt_advanced & I)
+operator<< (std::ostream & os, const Interval_base & I)
 {
     return os << "[" << I.inf() << ";" << I.sup() << "]";
 }
 
 std::istream &
-operator>> (std::istream & is, Interval_nt_advanced & I)
+operator>> (std::istream & is, Interval_base & I)
 {
     double d;
     is >> d;
@@ -116,16 +118,16 @@ static Borland_workaround Borland_workaround_object;
 //               | -1+ulp | +inf |  zero |
 //               +--------+------+-------+
 
+// I use a global variable here to avoid constant propagation.
+double IA_min_double = CGAL_IA_MIN_DOUBLE;
+
 FPU_CW_t
 FPU_empiric_test()
 {
-    // If not marked "volatile", the result is false when optimizing
-    // because the constants are propagated at compile time !!!
-    volatile const double m = CGAL_IA_MIN_DOUBLE;
-    const double y = 1.0, z = -1.0;
+    double y = 1.0, z = -1.0;
     double ye, ze;
-    ye = y - m;
-    ze = z + m;
+    ye = y - IA_min_double;
+    ze = z + IA_min_double;
     if (y == ye && z == ze) return CGAL_FE_TONEAREST;
     if (y == ye) return CGAL_FE_UPWARD;
     if (z == ze) return CGAL_FE_DOWNWARD;

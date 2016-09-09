@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,21 +30,22 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Rectangular_p_center_traits_2.h
-// package       : Matrix_search (1.30)
+// package       : Matrix_search (1.43)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : pcenter.aw
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1999/12/17 11:58:47 $
+// revision      : $Revision: 1.21 $
+// revision_date : $Date: 2000/09/15 07:25:30 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // 2-4-Center Computation for Axis-Parallel 2D-Rectangles
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -124,12 +125,14 @@ private:
   S s_;
 };
 
+/*
 template < class R >
 struct Construct_iso_rectangle_2 {
   Iso_rectangle_2< R >
   operator()(const Point_2< R >& min, const Point_2< R >& max) const
   { return Iso_rectangle_2< R >(min, max); }
 };
+*/
 template < class R >
 struct Signed_x_distance_2
 : public CGAL_STD::binary_function<
@@ -155,8 +158,8 @@ struct Infinity_distance_2
 {
   typename R::FT
   operator()(const Point_2< R >& q1, const Point_2< R >& q2) const {
-    return std::max(CGAL::abs(q1.x() - q2.x()),
-                    CGAL::abs(q1.y() - q2.y()));
+    return max(CGAL_NTS abs(q1.x() - q2.x()),
+               CGAL_NTS abs(q1.y() - q2.y()));
   }
 };
 template < class R >
@@ -166,7 +169,7 @@ struct Signed_infinity_distance_2
 {
   typename R::FT
   operator()(const Point_2< R >& q1, const Point_2< R >& q2) const
-  { return std::max(q1.x() - q2.x(), q1.y() - q2.y()); }
+  { return max(q1.x() - q2.x(), q1.y() - q2.y()); }
 };
 template < class R >
 struct Construct_corner_2
@@ -289,12 +292,16 @@ struct Rectangular_p_center_default_traits_2 : public R
   // from the kernel
   typedef typename R::Construct_min_point_2     Construct_min_point_2;
   typedef typename R::Construct_max_point_2     Construct_max_point_2;
+  typedef typename R::Construct_iso_rectangle_2 Construct_iso_rectangle_2;
 
   // additions
+  /*
+  Now from the Kernel (hopefully :)
   typedef Construct_iso_rectangle_2< R > Construct_iso_rectangle_2;
   Construct_iso_rectangle_2
   construct_iso_rectangle_2_object() const
   { return Construct_iso_rectangle_2(); }
+  */
 
   typedef Signed_x_distance_2< R >  Signed_x_distance_2;
   typedef Signed_y_distance_2< R >  Signed_y_distance_2;
@@ -375,12 +382,12 @@ struct Rectangular_p_center_default_traits_2 : public R
   { return Max_y_2(greater_y_2_object()); }
 };
 
-template < class _Traits, class _PiercingFunction >
+template < class Traits_, class PiercingFunction_ >
 struct Rectangular_p_center_matrix_search_traits_2 {
-  typedef _Traits                        Traits;
+  typedef Traits_                        Traits;
   typedef typename Traits::FT            FT;
   typedef typename Traits::Point_2       Point_2;
-  typedef _PiercingFunction              PiercingFunction;
+  typedef PiercingFunction_              PiercingFunction;
   typedef Staircases< Traits >           LD;
   typedef typename LD::size_type         size_type;
 
@@ -506,11 +513,20 @@ construct_bounding_box_union_2(const Rectangle& r1,
   Pohil    pohil =
     t.construct_projection_onto_horizontal_implicit_line_2_object();
 
+#ifdef __BORLANDC__
+  typedef typename Traits::Point_2 Point_2;
+  Point_2 bpt1 = lessx(minpt(r1), r2.min()) ? minpt(r1) : minpt(r2);
+  Point_2 bpt2 = lessy(minpt(r1), r2.min()) ? minpt(r1) : minpt(r2);
+  Point_2 bpt3 = lessx(maxpt(r2), maxpt(r1)) ? maxpt(r1) : maxpt(r2);
+  Point_2 bpt4 = lessy(maxpt(r2), maxpt(r1)) ? maxpt(r1) : maxpt(r2);
+  return rect(pohil(bpt1, bpt2), pohil(bpt3, bpt4));
+#else
   return rect(
     pohil(lessx(minpt(r1), r2.min()) ? minpt(r1) : minpt(r2),
           lessy(minpt(r1), r2.min()) ? minpt(r1) : minpt(r2)),
     pohil(lessx(maxpt(r2), maxpt(r1)) ? maxpt(r1) : maxpt(r2),
           lessy(maxpt(r2), maxpt(r1)) ? maxpt(r1) : maxpt(r2)));
+#endif
 } // construct_bounding_box_union_2(r1, r2, t)
 template < class Rectangle >
 inline Rectangle

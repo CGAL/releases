@@ -1,7 +1,7 @@
 
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -31,17 +31,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Segment_2_Line_2_intersection.h
-// package       : Intersections_2 (2.2.2)
+// package       : Intersections_2 (2.6.3)
 // source        : intersection_2_1.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -49,21 +50,11 @@
 #ifndef CGAL_SEGMENT_2_LINE_2_INTERSECTION_H
 #define CGAL_SEGMENT_2_LINE_2_INTERSECTION_H
 
-#ifndef CGAL_LINE_2_H
 #include <CGAL/Line_2.h>
-#endif // CGAL_LINE_2_H
-#ifndef CGAL_SEGMENT_2_H
 #include <CGAL/Segment_2.h>
-#endif // CGAL_SEGMENT_2_H
-#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
-#endif // CGAL_POINT_2_H
-#ifndef CGAL_UTILS_H
 #include <CGAL/utils.h>
-#endif // CGAL_UTILS_H
-#ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
-#endif // CGAL_NUMBER_UTILS_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -84,22 +75,20 @@ public:
     if (_known)
         return _result;
     // The non const this pointer is used to cast away const.
-    Segment_2_Line_2_pair<R> *ncthis =
-            (Segment_2_Line_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
     const Line_2<R> &l1 = _seg->supporting_line();
     Line_2_Line_2_pair<R> linepair(&l1, _line);
     switch ( linepair.intersection_type()) {
     case Line_2_Line_2_pair<R>::NO:
-        ncthis->_result = NO;
+        _result = NO;
         break;
     case Line_2_Line_2_pair<R>::POINT:
-        linepair.intersection(ncthis->_intersection_point);
-        ncthis->_result = (_seg->collinear_has_on(_intersection_point) )
+        linepair.intersection(_intersection_point);
+        _result = (_seg->collinear_has_on(_intersection_point) )
                 ? POINT : NO;
         break;
     case Line_2_Line_2_pair<R>::LINE:
-        ncthis->_result = SEGMENT;
+        _result = SEGMENT;
         break;
     }
     return _result;
@@ -112,9 +101,9 @@ public:
 protected:
     Segment_2<R> const*_seg;
     Line_2<R> const *  _line;
-    bool                    _known;
-    Intersection_results     _result;
-    Point_2<R>         _intersection_point;
+    mutable bool                    _known;
+    mutable Intersection_results     _result;
+    mutable Point_2<R>         _intersection_point;
 };
 
 template <class R>
@@ -129,9 +118,7 @@ inline bool do_intersect(
 
 CGAL_END_NAMESPACE
 
-#ifndef CGAL_OBJECT_H
 #include <CGAL/Object.h>
-#endif // CGAL_OBJECT_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -184,9 +171,7 @@ intersection(const Line_2<R> &line, const Segment_2<R> &seg)
 CGAL_END_NAMESPACE
 
 
-#ifndef CGAL_LINE_2_LINE_2_INTERSECTION_H
 #include <CGAL/Line_2_Line_2_intersection.h>
-#endif // CGAL_LINE_2_LINE_2_INTERSECTION_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -215,22 +200,20 @@ Segment_2_Line_2_pair<R>::intersection_type() const
     if (_known)
         return _result;
     // The non const this pointer is used to cast away const.
-    Segment_2_Line_2_pair<R> *ncthis =
-            (Segment_2_Line_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
     const Line_2<R> &l1 = _seg->supporting_line();
     Line_2_Line_2_pair<R> linepair(&l1, _line);
     switch ( linepair.intersection_type()) {
     case Line_2_Line_2_pair<R>::NO:
-        ncthis->_result = NO;
+        _result = NO;
         break;
     case Line_2_Line_2_pair<R>::POINT:
-        linepair.intersection(ncthis->_intersection_point);
-        ncthis->_result = (_seg->collinear_has_on(_intersection_point) )
+        linepair.intersection(_intersection_point);
+        _result = (_seg->collinear_has_on(_intersection_point) )
                 ? POINT : NO;
         break;
     case Line_2_Line_2_pair<R>::LINE:
-        ncthis->_result = SEGMENT;
+        _result = SEGMENT;
         break;
     }
     return _result;

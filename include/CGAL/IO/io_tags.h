@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/io_tags.h
-// package       : iostream (2.5)
+// package       : iostream (2.8)
 // source        : $RCSfile: io_tags.h,v $
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1999/03/08 10:51:23 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2000/01/31 09:45:42 $
 // author(s)     : Andreas Fabri
 //
-// coordinator   : Herve Bronnimann
+// coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

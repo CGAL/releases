@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : SegmentH2.fw
 // file          : include/CGAL/SegmentH2.h
-// package       : H2 (2.4.8)
-// revision      : 2.4.8
-// revision_date : 10 Dec 1999 
+// package       : H2 (2.12)
+// revision      : 2.12
+// revision_date : 03 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_SEGMENTH2_H
 #define CGAL_SEGMENTH2_H
@@ -60,13 +62,12 @@ CGAL_BEGIN_NAMESPACE
 
 
 template < class FT, class RT >
-class _Segment_repH2 : public Rep
+class Segment_repH2 : public Ref_counted
 {
 public:
-            _Segment_repH2();
-            _Segment_repH2(const PointH2<FT,RT>& sp,
-                                const PointH2<FT,RT>& ep);
-            ~_Segment_repH2(){}
+            Segment_repH2();
+            Segment_repH2(const PointH2<FT,RT>& sp,
+                          const PointH2<FT,RT>& ep);
 
     PointH2<FT,RT>  start;
     PointH2<FT,RT>  end;
@@ -74,23 +75,17 @@ public:
 };
 
 template < class FT, class RT >
-class SegmentH2 : public Handle
+class SegmentH2 : public Handle_for< Segment_repH2<FT,RT> >
 {
 public:
             SegmentH2();
-            SegmentH2( const SegmentH2<FT,RT>& s);
             SegmentH2( const PointH2<FT,RT>& sp,
-                            const PointH2<FT,RT>& ep);
-            SegmentH2(const RT& sw, const RT& sx, const RT& sy,
-                           const RT& ew, const RT& ex, const RT& ey);
-            ~SegmentH2();
-    SegmentH2<FT,RT>&
-            operator=(const SegmentH2<FT,RT>& s);
+                       const PointH2<FT,RT>& ep);
+            SegmentH2( const RT& sw, const RT& sx, const RT& sy,
+                       const RT& ew, const RT& ex, const RT& ey);
 
     bool    operator==(const SegmentH2<FT,RT>& s) const;
     bool    operator!=(const SegmentH2<FT,RT>& s) const;
-    bool    identical (const SegmentH2<FT,RT>& s) const;
-    int     id() const;
 
     PointH2<FT,RT>  source() const;
     PointH2<FT,RT>  target() const;
@@ -119,90 +114,67 @@ public:
     SegmentH2<FT,RT>
             transform( const Aff_transformationH2<FT,RT> & t) const;
 
-protected:
-    _Segment_repH2<FT,RT>*   ptr() const;
 };
 
-template < class FT, class RT >
-inline
-_Segment_repH2<FT,RT>*
-SegmentH2<FT,RT>::ptr() const
-{ return (_Segment_repH2<FT,RT>*)PTR; }
+
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-_Segment_repH2<FT,RT>::_Segment_repH2()
+Segment_repH2<FT,RT>::Segment_repH2()
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-_Segment_repH2<FT,RT>::
-_Segment_repH2(const PointH2<FT,RT>& sp,
-                    const PointH2<FT,RT>& ep) : start(sp), end(ep)
+Segment_repH2<FT,RT>::
+Segment_repH2(const PointH2<FT,RT>& sp, const PointH2<FT,RT>& ep)
+ : start(sp), end(ep)
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 SegmentH2<FT,RT>::SegmentH2()
-{ PTR = new _Segment_repH2<FT,RT>; }
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-SegmentH2<FT,RT>::SegmentH2(const SegmentH2<FT,RT>& s)
-  : Handle( (Handle&) s)
+ : Handle_for< Segment_repH2<FT,RT> >( Segment_repH2<FT,RT>() )
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 SegmentH2<FT,RT>::SegmentH2( const PointH2<FT,RT>& sp,
-                                       const PointH2<FT,RT>& ep)
-{ PTR = new _Segment_repH2<FT,RT>(sp,ep); }
+                             const PointH2<FT,RT>& ep)
+ : Handle_for< Segment_repH2<FT,RT> >( Segment_repH2<FT,RT>(sp,ep) )
+{}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 SegmentH2<FT,RT>::SegmentH2(const RT& sx, const RT& sy, const RT& sw,
-                                      const RT& ex, const RT& ey, const RT& ew)
-{
-  PTR = new _Segment_repH2<FT,RT> (PointH2<FT,RT>(sx,sy,sw),
-                                        PointH2<FT,RT>(ex,ey,ew) );
-}
-
-template < class FT, class RT >
-inline
-SegmentH2<FT,RT>::~SegmentH2()
+                            const RT& ex, const RT& ey, const RT& ew)
+ : Handle_for< Segment_repH2<FT,RT> >( Segment_repH2<FT,RT>(
+                                         PointH2<FT,RT>(sx,sy,sw),
+                                         PointH2<FT,RT>(ex,ey,ew) ) )
 {}
 
-template < class FT, class RT >
-CGAL_KERNEL_INLINE
-SegmentH2<FT,RT>&
-SegmentH2<FT,RT>::operator=(const SegmentH2<FT,RT>& s)
-{
-  Handle::operator=(s);
-  return *this;
-}
 template < class FT, class RT >
 inline
 PointH2<FT,RT>
 SegmentH2<FT,RT>::source() const
-{ return ptr()->start; }
+{ return ptr->start; }
 
 template < class FT, class RT >
 inline
 PointH2<FT,RT>
 SegmentH2<FT,RT>::start() const
-{ return ptr()->start; }
+{ return ptr->start; }
 
 template < class FT, class RT >
 inline
 PointH2<FT,RT>
 SegmentH2<FT,RT>::target() const
-{ return ptr()->end; }
+{ return ptr->end; }
 
 template < class FT, class RT >
 inline
 PointH2<FT,RT>
 SegmentH2<FT,RT>::end() const
-{ return ptr()->end; }
+{ return ptr->end; }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
@@ -238,8 +210,8 @@ SegmentH2<FT,RT>::vertex(int i) const
 {
   switch (i%2)
   {
-    case 0:  return ptr()->start;
-    case 1:  return ptr()->end;
+    case 0:  return ptr->start;
+    case 1:  return ptr->end;
   };
   return PointH2<FT,RT>(); // otherwise the SGI compiler complains
 }
@@ -259,7 +231,7 @@ template < class FT, class RT >
 CGAL_KERNEL_INLINE
 FT
 SegmentH2<FT,RT>::squared_length() const
-{ return  (ptr()->end - ptr()->start) * (ptr()->end - ptr()->start); }
+{ return  (ptr->end - ptr->start) * (ptr->end - ptr->start); }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
@@ -267,7 +239,7 @@ DirectionH2<FT,RT>
 SegmentH2<FT,RT>::direction() const
 {
   CGAL_kernel_precondition( !is_degenerate() );
-  return DirectionH2<FT,RT>( ptr()->end - ptr()->start );
+  return DirectionH2<FT,RT>( ptr->end - ptr->start );
 }
 
 template < class FT, class RT >
@@ -276,14 +248,14 @@ LineH2<FT,RT>
 SegmentH2<FT,RT>::supporting_line() const
 {
   CGAL_kernel_precondition( !is_degenerate() );
-  return LineH2<FT,RT>(ptr()->start, ptr()->end);
+  return LineH2<FT,RT>(ptr->start, ptr->end);
 }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 SegmentH2<FT,RT>
 SegmentH2<FT,RT>::opposite() const
-{ return SegmentH2<FT,RT>(ptr()->end, ptr()->start); }
+{ return SegmentH2<FT,RT>(ptr->end, ptr->start); }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
@@ -291,8 +263,8 @@ SegmentH2<FT,RT>
 SegmentH2<FT,RT>::
 transform(const Aff_transformationH2<FT,RT>& t) const
 {
-  return SegmentH2<FT,RT>(t.transform(ptr()->start),
-                               t.transform(ptr()->end)   );
+  return SegmentH2<FT,RT>(t.transform(ptr->start),
+                               t.transform(ptr->end)   );
 }
 
 template < class FT, class RT >
@@ -334,8 +306,8 @@ CGAL_KERNEL_INLINE
 bool
 SegmentH2<FT,RT>::is_horizontal() const
 {
-  return (    ptr()->start.hy() * ptr()->end.hw()
-           == ptr()->end.hy() * ptr()->start.hw() );
+  return (    ptr->start.hy() * ptr->end.hw()
+           == ptr->end.hy() * ptr->start.hw() );
 }
 
 template < class FT, class RT >
@@ -343,8 +315,8 @@ CGAL_KERNEL_INLINE
 bool
 SegmentH2<FT,RT>::is_vertical() const
 {
-  return (    ptr()->start.hx() * ptr()->end.hw()
-           == ptr()->end.hx() * ptr()->start.hw() );
+  return (    ptr->start.hx() * ptr->end.hw()
+           == ptr->end.hx() * ptr->start.hw() );
 }
 
 template < class FT, class RT >
@@ -357,7 +329,7 @@ CGAL_KERNEL_INLINE
 bool
 SegmentH2<FT,RT>::has_on(const PointH2<FT,RT>& p) const
 {
-  if ( collinear(ptr()->start, p, ptr()->end ) )
+  if ( collinear(ptr->start, p, ptr->end ) )
   {
       return collinear_has_on(p);
   }
@@ -388,19 +360,7 @@ template < class FT, class RT >
 inline
 bool
 SegmentH2<FT,RT>::operator!=(const SegmentH2<FT,RT>& s) const
-{ return ( !operator==(s) ); }  /* XXX */
-
-template < class FT, class RT >
-inline
-bool
-SegmentH2<FT,RT>::identical(const SegmentH2<FT,RT>& s) const
-{ return  PTR == s.PTR; }
-
-template < class FT, class RT >
-inline
-int
-SegmentH2<FT,RT>::id() const
-{ return (int)PTR; }
+{ return ( !operator==(s) ); }
 
 CGAL_END_NAMESPACE
 

@@ -30,19 +30,21 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+//
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : src/io.C
-// package       : iostream (2.5)
+// package       : iostream (2.8)
 // source        : $RCSfile: io.C,v $
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1999/05/27 14:19:24 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2000/08/18 14:03:17 $
 // author(s)     : Andreas Fabri
 //
 // coordinator   : Mariette.Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -61,7 +63,7 @@ int IO::mode = std::ios::xalloc();
 IO::Mode
 get_mode(std::ios& i)
 {
-    return CGAL_static_cast(IO::Mode,i.iword(IO::mode));
+    return static_cast<IO::Mode>(i.iword(IO::mode));
 }
 
 IO::Mode

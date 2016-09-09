@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,21 +30,22 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Sorted_matrix_search_traits_adaptor.h
-// package       : Matrix_search (1.30)
+// package       : Matrix_search (1.43)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : fjsearch.aw
-// revision      : $Revision: 1.30 $
-// revision_date : $Date: 1999/12/17 11:58:47 $
+// revision      : $Revision: 1.43 $
+// revision_date : $Date: 2000/09/15 07:25:31 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // Frederickson-Johnson matrix search: traits class adaptor
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -53,17 +54,17 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _FeasibilityTest, class _Matrix >
+template < class FeasibilityTest_, class Matrix_ >
 class Sorted_matrix_search_traits_adaptor {
 public:
-  typedef _FeasibilityTest         FeasibilityTest;
-  typedef _Matrix                  Matrix;
-  typedef typename _Matrix::Value  Value;
+  typedef FeasibilityTest_         FeasibilityTest;
+  typedef Matrix_                  Matrix;
+  typedef typename Matrix::Value   Value;
   typedef std::less< Value >       Compare_strictly;
   typedef std::less_equal< Value > Compare_non_strictly;
 
   Sorted_matrix_search_traits_adaptor(FeasibilityTest ft)
-  : _ft( ft)
+  : ft_( ft)
   {}
 
   Compare_strictly
@@ -76,10 +77,10 @@ public:
 
   bool
   is_feasible(Value a)
-  { return _ft( a); }
+  { return ft_( a); }
 
 protected:
-  FeasibilityTest _ft;
+  FeasibilityTest ft_;
 };
 
 //!!! with iterator traits we replace const Matrix&

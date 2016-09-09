@@ -1,4 +1,17 @@
 #include <CGAL/basic.h>
+
+#if !defined(CGAL_USE_LEDA) || (__LEDA__ < 400)
+#include <iostream>
+
+int main(int argc, char *argv[])
+{
+ std::cout << "No LEDA 4.0 or higher installed!\n";
+ std::cout << "A LEDA version >= 4.0 is required to run GeoWin!\n";
+ return 0;
+}
+#else 
+
+
 #include <CGAL/Cartesian.h>
 #include <CGAL/geowin_support.h>
 #include <CGAL/leda_rational.h>
@@ -83,7 +96,8 @@ int main()
   geowin_init_default_type((CGALPoint_3_list*)0, leda_string("CGALPoint_3_List"));
  
   CGALPoint_3_list L;
-  GeoWin GW("CGALTEST - convex hull in 3d");
+  GeoWin GW("Convex hull in 3d");
+  GW.message("To show the convex hull use 'Show d3 output' in Window menu.");
 
   geo_scene my_scene= GW.new_scene(L);  
   GW.set_d3_fcn(my_scene, show_d3_points);
@@ -93,3 +107,4 @@ int main()
   return 0;  
 }
 
+#endif

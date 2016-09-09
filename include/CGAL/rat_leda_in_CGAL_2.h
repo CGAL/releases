@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/rat_leda_in_CGAL_2.h
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -157,7 +158,7 @@ bool
 are_ordered_along_line( const leda_rat_point & p, 
                         const leda_rat_point & q, 
                         const leda_rat_point & r)
-{ return ( collinear(p,q,r) &&  collinear_are_ordered_along_line(p,q,r)); }  
+{ return ( ::collinear(p,q,r) &&  collinear_are_ordered_along_line(p,q,r)); }  
 
 inline
 bool
@@ -165,7 +166,7 @@ are_strictly_ordered_along_line( const leda_rat_point & p,
                                  const leda_rat_point & q, 
                                  const leda_rat_point & r)
 { 
-  return (    collinear(p,q,r) 
+  return (    ::collinear(p,q,r) 
            && collinear_are_strictly_ordered_along_line(p,q,r)
          ); 
 }  

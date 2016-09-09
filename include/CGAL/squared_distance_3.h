@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/squared_distance_3.h
-// package       : Distance_3 (2.4.3)
+// package       : Distance_3 (2.4.5)
 // source        : sqdistance_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -48,14 +49,8 @@
 #ifndef CGAL_DISTANCE_3_H
 #define CGAL_DISTANCE_3_H
 
-#ifndef CGAL_SQUARED_DISTANCE_3_0_H
 #include <CGAL/squared_distance_3_0.h>
-#endif // CGAL_SQUARED_DISTANCE_3_0_H
-#ifndef CGAL_SQUARED_DISTANCE_3_1_H
 #include <CGAL/squared_distance_3_1.h>
-#endif // CGAL_SQUARED_DISTANCE_3_1_H
-#ifndef CGAL_SQUARED_DISTANCE_3_2_H
 #include <CGAL/squared_distance_3_2.h>
-#endif // CGAL_SQUARED_DISTANCE_3_2_H
 
 #endif

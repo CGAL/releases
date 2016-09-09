@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Point_2.fw
 // file          : include/CGAL/Point_2.h
-// package       : _2 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _2 (3.6)
+// revision      : 3.6
+// revision_date : 30 Jul 2000 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -55,26 +56,27 @@
 #endif  // CGAL_REP_CLASS_DEFINED
 
 #ifdef CGAL_HOMOGENEOUS_H
-#ifndef CGAL_POINTH2_H
 #include <CGAL/PointH2.h>
-#endif // CGAL_POINTH2_H
 #endif // CGAL_HOMOGENEOUS_H
 
 #ifdef CGAL_CARTESIAN_H
-#ifndef CGAL_POINTC2_H
 #include <CGAL/Cartesian/Point_2.h>
-#endif // CGAL_POINTC2_H
 #endif // CGAL_CARTESIAN_H
+
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/PointS2.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
 
 #include <CGAL/point_vector_declarations_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-class Point_2 : public _R::Point_2_base
+template <class R_>
+class Point_2 : public R_::Point_2_base
 {
 public:
-  typedef  _R   R;
+  typedef  R_   R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
   typedef typename R::Point_2_base  RPoint_2;
@@ -109,11 +111,6 @@ friend  CGAL_FRIEND_INLINE
     : RPoint_2(hx, hy, hw)
   {}
 
-  CGAL::Point_2<R>& operator=(const CGAL::Point_2<R>& p)
-  {
-    RPoint_2::operator=(p);
-    return *this;
-  }
 
   bool operator==(const CGAL::Point_2<R>& p) const
   {
@@ -123,11 +120,6 @@ friend  CGAL_FRIEND_INLINE
   bool operator!=(const CGAL::Point_2<R>& p) const
   {
     return !(*this == p);
-  }
-
-  int id() const
-  {
-    return (int) PTR;
   }
 
   RT hx() const

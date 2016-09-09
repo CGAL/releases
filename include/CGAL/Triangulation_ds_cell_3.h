@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Triangulation_ds_cell_3.h
-// package       : Triangulation3 (1.29)
-// revision      : $Revision: 1.26 $
+// package       : Triangulation3 (1.42)
+// revision      : $Revision: 1.27 $
 // author(s)     : Monique Teillaud
 //
 // coordinator   : INRIA Sophia Antipolis 
 //                 (Mariette Yvinec)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 //
@@ -270,9 +271,9 @@ private:
 //     this->_previous_cell = tds.past_end_cell();
 //   }
 
-  void error_orient( Cell * , int ) const
+  void error_orient( Cell * , int i ) const
   {
-    std::cerr << " pb orientation with neighbor " << std::endl;
+    std::cerr << " pb orientation with neighbor " << i << std::endl;
   }
 
   void error_neighbor( Cell* , int , int ) const

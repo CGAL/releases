@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : aff_transformation_tags.fw
 // file          : src/aff_transformation_tags.C
-// package       : Kernel_basic (2.9)
-// revision      : 2.9
-// revision_date : 04 Dec 1999 
+// package       : Kernel_basic (3.14)
+// revision      : 3.14
+// revision_date : 15 Sep 2000 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -56,6 +57,7 @@ CGAL_BEGIN_NAMESPACE
 Translation             TRANSLATION;
 Rotation                ROTATION;
 Scaling                 SCALING;
+Reflection              REFLECTION;
 Identity_transformation IDENTITY;
 
 CGAL_END_NAMESPACE

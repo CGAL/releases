@@ -31,13 +31,13 @@ struct Special_less_yx {
         { return CGAL::lexicographically_yx_smaller(p->pt, q->pt); }
 };
 
-struct Special_right_of_line {
-    Special_right_of_line(Special_point *p, Special_point *q)
-                    :rol(p->pt, q->pt) {}
+struct Special_left_of_line {
+    Special_left_of_line(Special_point *p, Special_point *q)
+                    :lol(p->pt, q->pt) {}
     bool operator()(Special_point *r) const
-                    { return rol(r->pt);}
+                    { return lol(r->pt);}
 private:
-    CGAL::r_Right_of_line<Rep_class> rol;
+    Rep_class::Left_of_line_2 lol;
 };
 
 struct Special_leftturn {
@@ -47,19 +47,19 @@ struct Special_leftturn {
 
 struct Special_point_traits {
     typedef Special_point * Point_2;
-    typedef Special_less_xy Less_xy;
-    typedef Special_less_yx Less_yx;
-    typedef Special_right_of_line Right_of_line;
-    typedef Special_leftturn Leftturn;
-    Less_xy get_less_xy_object() const
-      { return Less_xy(); }
-    Less_yx get_less_yx_object() const
-      { return Less_yx(); }
-    Right_of_line get_right_of_line_object(
+    typedef Special_less_xy Less_xy_2;
+    typedef Special_less_yx Less_yx_2;
+    typedef Special_left_of_line Left_of_line_2;
+    typedef Special_leftturn Leftturn_2;
+    Less_xy_2 less_xy_2_object() const
+      { return Less_xy_2(); }
+    Less_yx_2 less_yx_2_object() const
+      { return Less_yx_2(); }
+    Left_of_line_2 left_of_line_2_object(
                       const Point_2& p, const Point_2& q) const
-      { return Right_of_line( p, q); }
-    Leftturn get_leftturn_object() const
-      { return Leftturn(); }
+      { return Left_of_line_2( p, q); }
+    Leftturn_2 leftturn_2_object() const
+      { return Leftturn_2(); }
     Special_point_traits() {}
 };
 
@@ -98,7 +98,7 @@ link(Pointer_collection &c)
     return *prev;
 }
 
-int main()
+main()
 {
 // Initialise a vector with pointers to the input points.
     Pointer_collection pointers(IN_COUNT), out;
@@ -122,5 +122,4 @@ int main()
             std::cout << cur->pt << '\n';
             cur = cur->next_on_hull;
         } while (cur != first);
-    return 0;
 }

@@ -30,20 +30,22 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : webIO/demo.fw
 // file          : demo/Window_stream/window_input.C
-// revision      : 2.5.8
-// revision_date : 13 Jan 2000 
+// revision      : 2.7
+// revision_date : 21 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/Point_2.h>

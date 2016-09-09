@@ -1,4 +1,16 @@
 #include <CGAL/basic.h>
+
+#if !defined(CGAL_USE_LEDA) || (__LEDA__ < 400)
+#include <iostream>
+
+int main(int argc, char *argv[])
+{
+ std::cout << "No LEDA 4.0 or higher installed!\n";
+ std::cout << "A LEDA version >= 4.0 is required to run GeoWin!\n";
+ return 0;
+}
+#else 
+
 #include <CGAL/Cartesian.h>
 #include <CGAL/squared_distance_2.h>   
 #include <CGAL/Point_2.h>
@@ -29,13 +41,15 @@ typedef Triang_2::Edge Edge;
 typedef Triang_2::Vertex_handle Vertex_handle;
 typedef Triang_2::Edge_iterator  Edge_iterator;
 
+Delaunay_triang_2 dt;
+
 
 class geo_delau : public geowin_update<std::list<CGALPoint>,std::list<CGALSegment> >
 {
 public:
  void update(const CGALPointlist& L, CGALSegmentlist& Sl)
  {
-  Delaunay_triang_2 dt;    
+  dt.clear();    
   Sl.clear();      
   dt.insert(L.begin(),L.end());
 
@@ -50,6 +64,46 @@ public:
   }       
  }
 };
+
+
+class geo_nearest : public geowin_redraw, public geowin_update<CGALPointlist, CGALPointlist >
+{
+public:
+
+  CGALPointlist pls,plt;
+
+  virtual ~geo_nearest() {}
+  
+  virtual void draw(leda_window& W, leda_color c1, leda_color c2,double x1,double y1,double x2,double y2)
+  { 
+   CGALPointlist::const_iterator iter = pls.begin(), iter2 = plt.begin();
+   for(;iter != pls.end();iter++,iter2++){
+      W.draw_arrow((*iter).x(),(*iter).y(),(*iter2).x(),(*iter2).y(),c1);
+   }
+  }
+
+  virtual bool write_postscript(ps_file& PS,leda_color c1,leda_color c2)
+  {
+   CGALPointlist::const_iterator iter = pls.begin(), iter2 = plt.begin();
+   for(;iter != pls.end();iter++,iter2++){
+      PS.draw_arrow((*iter).x(),(*iter).y(),(*iter2).x(),(*iter2).y(),c1);
+   }  
+   return false;
+  }
+  
+  virtual void update(const CGALPointlist& L, CGALPointlist&)
+  { 
+    pls.clear(); plt.clear();
+    CGALPointlist::const_iterator iter = L.begin();
+    
+    for(;iter != L.end(); iter++){
+      Vertex_handle vh = dt.nearest_vertex(*iter);
+      pls.push_back(*iter);
+      plt.push_back(vh->point());
+    }
+  }  
+};
+
 
 class geo_triangles : public geowin_redraw, public geowin_update<CGALPointlist, CGALPointlist >
 {
@@ -87,9 +141,6 @@ public:
 
   virtual void update(const CGALPointlist& L, CGALPointlist&)
   { 
-
-    Delaunay_triang_2 dt;    
-    dt.insert(L.begin(),L.end());
     LT.clear();
 
     if (dt.dimension() != 2) return;
@@ -119,8 +170,8 @@ public:
       
     }   
   }
-
 };
+
 
 class geo_triangles2 : public geowin_redraw, public geowin_update<CGALPointlist, CGALPointlist >
 {
@@ -158,10 +209,6 @@ public:
 
   virtual void update(const CGALPointlist& L, CGALPointlist&)
   { 
-
-    Delaunay_triang_2 dt;    
-    dt.insert(L.begin(),L.end());
-
     LT.clear();
 
     if (dt.dimension() != 2) return;
@@ -188,7 +235,7 @@ int main()
   geowin_init_default_type((CGALPointlist*)0, leda_string("CGALPointList"));
   geowin_init_default_type((CGALLinelist*)0, leda_string("CGALLineList"));
 
-  CGALPointlist L, LOC;
+  CGALPointlist L, LOC, NN;
   CGALLinelist  CGLL;
 
   GeoWin GW("CGAL - Delaunay triangulation demo");
@@ -196,34 +243,45 @@ int main()
 
   geo_scene my_scene= GW.new_scene(L); 
   // another input scene for the lines ...
+  
   geo_scene line_scene= GW.new_scene(CGLL);
   GW.set_color(line_scene, leda_grey2);
-
+  
   // another input scene for the points for location algor. ...
   geo_scene pointloc_scene= GW.new_scene(LOC);
   GW.set_color(pointloc_scene, leda_blue);
+  
+  geo_scene p_scene= GW.new_scene(NN);
+  GW.set_color(p_scene, leda_red);  
+  
+  geo_delau delaunay_triang;
+  geo_scene res2 = GW.new_scene(delaunay_triang, my_scene, "Delaunay Triangulation");
+  GW.set_color(res2, leda_blue);
+  GW.set_line_width(res2, 2);
 
   geo_triangles TRS;
   geo_scene sc1 = GW.new_scene( TRS, TRS, my_scene, "Triangles"); 
   GW.set_color(sc1, leda_blue);
   GW.set_visible(sc1,true);
   TRS.lines = line_scene;
- 
-  geo_delau delaunay_triang;
-  geo_scene res2 = GW.new_scene(delaunay_triang, my_scene, leda_string("Delaunay Triangulation"));
-  GW.set_color(res2, leda_blue);
-  GW.set_line_width(res2, 2);
 
   geo_triangles2 TPT;
   geo_scene res3 = GW.new_scene( TPT, TPT, my_scene, "Triangles2"); 
   GW.set_color(res3, leda_red);
   TPT.locate_points = pointloc_scene;
   
+  geo_nearest NST;
+  geo_scene res4 = GW.new_scene( NST, NST, p_scene, "Nearest vertex");   
+  GW.set_color(res4, leda_blue2);
+  
   GW.add_dependence(line_scene,sc1);
   GW.add_dependence(pointloc_scene,res3);
+  GW.add_dependence(my_scene,res4);
+  
   GW.set_all_visible(true);
 
   GW.edit(my_scene);
   return 0;  
 }
 
+#endif

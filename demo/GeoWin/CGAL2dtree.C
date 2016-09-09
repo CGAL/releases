@@ -1,3 +1,17 @@
+#include <CGAL/basic.h>
+
+#if !defined(CGAL_USE_LEDA) || (__LEDA__ < 400)
+#include <iostream>
+
+int main(int argc, char *argv[])
+{
+ std::cout << "No LEDA 4.0 or higher installed!\n";
+ std::cout << "A LEDA version >= 4.0 is required to run GeoWin!\n";
+ return 0;
+}
+#else 
+
+
 #include <CGAL/Cartesian.h>
 #include <CGAL/geowin_support.h>
 #include  <CGAL/kdtree_d.h>
@@ -66,3 +80,4 @@ int main()
   return 0;  
 }
 
+#endif

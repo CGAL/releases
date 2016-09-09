@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/side_of_smallest_circle_2.h
-// package       : Alpha_shapes_2 (5.5)
+// package       : Alpha_shapes_2 (8.3)
 // source        : $RCSfile: side_of_smallest_circle_2.h,v $
 // revision      : $Revision: 1.1.1.1 $
 // revision_date : $Date: 1999/07/27 14:19:40 $
@@ -43,7 +43,8 @@
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 // Additional predicates for predicates_on_points_2.h needed for computing
 // alpha-shapes.
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

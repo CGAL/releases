@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,21 +30,22 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Transform_iterator.h
-// package       : Matrix_search (1.30)
+// package       : Matrix_search (1.43)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.30 $
-// revision_date : $Date: 1999/12/17 11:58:48 $
+// revision      : $Revision: 1.43 $
+// revision_date : $Date: 2000/09/15 07:25:31 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // An OutputIterator Adaptor applying an unary function
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -58,39 +59,32 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class OutputIterator, class Operation >
-class Transform_iterator : public CGAL_STD::output_iterator {
-public:
-  typedef Transform_iterator< OutputIterator, Operation >
-    self;
-  typedef typename Operation::argument_type
-    argument_type;
+struct Transform_iterator {
+  typedef std::output_iterator_tag             iterator_category;
+  typedef Transform_iterator< OutputIterator, Operation >   self;
+  typedef typename Operation::argument_type        argument_type;
 
   Transform_iterator( const OutputIterator& o,
                       const Operation& op)
-    : _o( o), _op( op)
+    : o_( o), op_( op)
   {}
 
-  operator OutputIterator()
-  { return _o; }
+  operator OutputIterator() { return o_; }
 
-  self& operator*()
-  { return *this; }
+  self& operator*() { return *this; }
 
-  self& operator++()
-  { return *this; }
+  self& operator++() { return *this; }
 
-  self& operator++( int)
-  { return *this; }
+  self& operator++( int) { return *this; }
 
-  self& operator=( const argument_type& a)
-  {
-    *(_o++) = _op( a);
+  self& operator=( const argument_type& a) {
+    *(o_++) = op_( a);
     return *this;
   }
 
 private:
-  OutputIterator _o;
-  Operation      _op;
+  OutputIterator o_;
+  Operation      op_;
 };
 
 template < class OutputIterator, class Operation > inline
@@ -98,12 +92,6 @@ Transform_iterator< OutputIterator, Operation >
 transform_iterator( const OutputIterator& o,
                          const Operation& op)
 { return Transform_iterator< OutputIterator, Operation >( o, op); }
-
-template < class OutputIterator, class Operation > inline
-std::output_iterator_tag
-iterator_category(
-  const Transform_iterator< OutputIterator, Operation >&)
-{ return output_iterator_tag(); }
 
 template < class OutputIterator, class Operation > inline
 Iterator_tag

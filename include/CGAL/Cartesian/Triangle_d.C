@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Triangle_d.C
-// package       : Cd (1.1.1)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/12/07 18:53:27 $
+// package       : Cd (1.5)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2000/07/09 10:55:33 $
 // author(s)     : Hervé Brönnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -143,7 +144,7 @@ TriangleCd<R CGAL_CTAG>::vertex(int i) const
   else if (i>3) i=i%3;
   return (i==0) ? ptr()->e0 :
          (i==1) ? ptr()->e1 :
-                  ptr()->e2 ;
+                  ptr()->e2;
 }
 
 template < class R >

@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Topological_map.h
-// package       : pm (4.20)
+// package       : pm (5.43)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -45,7 +45,8 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 #ifndef  CGAL_TOPOLOGICAL_MAP_H
@@ -384,44 +385,47 @@ public:
   public:
     typedef typename Dcel::Face Base;
 
+#ifndef _MSC_VER
+    // the following two typedefs are needed for compilation on irix64 (CC7.30)
+    typedef Topological_map<Dcel>::Holes_iterator 
+    Holes_iterator; 
+    typedef Topological_map<Dcel>::Holes_const_iterator 
+    Holes_const_iterator; 
+#endif
+    
     Face()
     {}
     
-    //Face(dface *f) : dface(*f) {}
     Face(Base *f) : Base(*f) {}
 
-    //Face(dface& f) : dface(f) {} 
     Face(Base& f) : Base(f) {} 
 
 
     bool is_unbounded() const  
     {
       // face is not bounded iff it has no outer boundary
-      //return (dface::halfedge() == NULL);
       return (Base::halfedge() == NULL);
     }
     
+
+    // must explicitly say Topological_map::Holes_iterator. Otherwise
+    // the CC compiler thinks we mean Base::Holes_iterator.
     Holes_iterator holes_begin() 
     {
-      //return TR_HOI(dface::holes_begin());
       return TR_HOI(Base::holes_begin());
     }
-
     Holes_const_iterator holes_begin() const
     {
-      //return TR_C_HOI(dface::holes_begin()); 
       return TR_C_HOI(Base::holes_begin()); 
     }
     
     Holes_iterator holes_end() 
     {
-      //return TR_HOI(dface::holes_end()); 
       return TR_HOI(Base::holes_end()); 
-   }
+    }
 
     Holes_const_iterator holes_end() const 
     {
-      //return TR_C_HOI(dface::holes_end()); 
       return TR_C_HOI(Base::holes_end()); 
     }
 
@@ -448,21 +452,18 @@ public:
 	
     bool does_outer_ccb_exist() const
     {
-      //return dface::halfedge() != NULL;
       return Base::halfedge() != NULL;
     }
     
     Halfedge_handle halfedge_on_outer_ccb() 
     {
       CGAL_precondition(does_outer_ccb_exist());      
-      //return TR_HI(dface::halfedge()); 
       return TR_HI(Base::halfedge()); 
     }
 
     Halfedge_const_handle halfedge_on_outer_ccb() const 
     {
       CGAL_precondition(does_outer_ccb_exist());      
-      //return TR_C_HI(dface::halfedge());  
       return TR_C_HI(Base::halfedge());  
     }
 
@@ -480,10 +481,8 @@ public:
     }
 
   private:
-    //void            set_halfedge( Halfedge* h) { dface::set_halfedge(h);}
     void  set_halfedge( Halfedge* h) { Base::set_halfedge(h);}
 
-    //void add_hole(Halfedge* h) {dface::add_hole(h);}
     void add_hole(Halfedge* h) {Base::add_hole(h);}
 
   };
@@ -613,8 +612,17 @@ public:
   void clear()
   {
     d.delete_all();
+    u_face = NULL;
+    u_face = d.new_face();
+    u_face->set_halfedge(NULL);
   }
   
+  void assign(const Topological_map<Dcel> &tpm)
+  {
+	  d.delete_all();
+	  u_face = NULL;
+	  u_face = (Face*)d.assign(tpm.d, tpm.u_face);
+  }
 
   
   /**************************************************************/
@@ -775,49 +783,8 @@ private:
     
     return prev;
 }
-  /*
-friend bool is_halfedge_on_inner_ccb(const typename Dcel::Halfedge* e, 
-                              typename Dcel::Face* f, 
-                              typename Dcel::Halfedge* &iccb) 
-{
-  //move over all holes in face and check
-    for (typename dface::Holes_iterator dhi=f->holes_begin();dhi!=f->holes_end();++dhi)
-    {
-      iccb=(*dhi);
-      const typename Dcel::Halfedge* aux=iccb;
-      do
-        {
-          if (aux==e) 
-            return true;
-          aux=aux->next() ;
-        } while (aux!=(*dhi)); 
-    }
-  iccb=NULL;
-  return false;
-
-}
 
 
-//returns the representative halfedge of outer ccb in occb, or false
-friend bool is_halfedge_on_outer_ccb(const typename Dcel::Halfedge* e, 
-                              typename Dcel::Face* f, 
-                              typename Dcel::Halfedge* &occb)
-{
-  occb=f->halfedge();
-  if ( occb ) {  //if f isn't the unbounded face
-  const typename Dcel::Halfedge* aux=occb;    
-    do
-      {
-        if (aux==e)
-          return true;
-        aux=aux->next();
-      }while (aux!=f->halfedge());
-  }
-  
-  occb=NULL;  
-  return false;
-}
-*/
 bool find_and_erase_hole(typename Dcel::Halfedge* e, typename Dcel::Face* f)
 {
   typename Dcel::Face::Holes_iterator it=f->holes_begin();
@@ -1313,8 +1280,12 @@ remove_edge(Halfedge_handle e)
     }
 
     else { //antenna is a hole - split it into two holes
-      is_halfedge_on_inner_ccb<Dcel>(prev1,df1,ccb1); 
-      CGAL_assertion(find_and_erase_hole(ccb1,df1)) ;//ccb1 must be a hole in df1
+      is_halfedge_on_inner_ccb<Dcel>(prev1,df1,ccb1);
+#ifndef CGAL_NO_ASSERTIONS // in order to avoid warnings
+      bool hole_found = 
+#endif
+	find_and_erase_hole(ccb1,df1); 
+      CGAL_assertion(hole_found) ;//ccb1 must be a hole in df1
       df1->add_hole(prev1);
       df1->add_hole(prev2);
     }

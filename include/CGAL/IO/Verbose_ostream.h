@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/Verbose_ostream.h
-// package       : Stream_support (2.8)
+// package       : Stream_support (2.9)
 // chapter       : $CGAL_Chapter: Stream Support $
 // source        : support.fw
 // revision      : $Revision: 1.1.1.1 $
@@ -44,7 +44,8 @@
 // coordinator   : INRIA, Sophia Antipolis
 //
 // A stream like output class for verbose output.
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

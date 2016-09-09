@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Data_accessor_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 1999/11/05 22:29:41 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 2000/08/23 14:35:35 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -52,15 +53,11 @@
 CGAL_BEGIN_NAMESPACE
 
 // 2D Cartesian point data accessor
-template < class _R >
-class Data_accessorC2
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-// This is a partial specialization
-<_R,Cartesian_tag>
-#endif
+template < class R_ >
+class Data_accessorC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
 {
 public:
-    typedef _R                           R;
+    typedef R_                           R;
     typedef typename R::FT               FT;
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
     typedef  typename R::Point_2          Point;

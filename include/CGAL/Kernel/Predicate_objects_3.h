@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Kernel/Predicate_objects_3.h
-// package       : Cartesian_basic (3.3.7)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/11/22 13:44:13 $
+// package       : Cartesian_basic (4.2)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2000/06/27 14:52:43 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -213,17 +214,20 @@ Are_ordered_along_line_3
 are_ordered_along_line_3_object() const 
 { return Are_ordered_along_line_3(); }
 
-typedef CGALi::Are_strictly_ordered_along_line Are_strictly_ordered_along_line_3;
+typedef CGALi::Are_strictly_ordered_along_line 
+                                         Are_strictly_ordered_along_line_3;
 Are_strictly_ordered_along_line_3
 are_strictly_ordered_along_line_3_object() const 
 { return Are_strictly_ordered_along_line_3(); }
 
-typedef CGALi::Collinear_are_ordered_along_line Collinear_are_ordered_along_line_3;
+typedef CGALi::Collinear_are_ordered_along_line 
+                                         Collinear_are_ordered_along_line_3;
 Collinear_are_ordered_along_line_3
 collinear_are_ordered_along_line_3_object() const 
 { return Collinear_are_ordered_along_line_3(); }
 
-typedef CGALi::Collinear_are_strictly_ordered_along_line Collinear_are_strictly_ordered_along_line_3;
+typedef CGALi::Collinear_are_strictly_ordered_along_line 
+                               Collinear_are_strictly_ordered_along_line_3;
 Collinear_are_strictly_ordered_along_line_3
 collinear_are_strictly_ordered_along_line_3_object() const 
 { return Collinear_are_strictly_ordered_along_line_3(); }

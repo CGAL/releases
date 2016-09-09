@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Direction_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 1999/11/05 22:29:43 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2000/08/23 14:35:35 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -52,16 +53,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
-class DirectionC2
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-// This is a partial specialization
-<_R,Cartesian_tag>
-#endif
-  : public Handle
+template < class R_ >
+class DirectionC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+  : public Handle_for< Twotuple<typename R_::FT> >
 {
 public:
-  typedef _R                                    R;
+  typedef R_                                    R;
   typedef typename R::FT                        FT;
   typedef typename R::RT                        RT;
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
@@ -94,8 +91,6 @@ public:
   DirectionC2(const FT &x, const FT &y);
   ~DirectionC2();
 
-  Self     &operator=(const Self &d);
-
   bool     operator==(const Self &d) const;
   bool     operator!=(const Self &d) const;
   bool     operator>=(const Self &d) const;
@@ -103,8 +98,7 @@ public:
   bool     operator>(const Self &d) const;
   bool     operator<(const Self &d) const;
   bool     counterclockwise_in_between( const Self &d1, const Self &d2) const;
-  int      id() const;
-
+  
   Vector_2 to_vector() const;
 
   Self     perpendicular(const Orientation &o) const;
@@ -115,9 +109,6 @@ public:
   FT       delta(int i) const;
   FT       dx() const;
   FT       dy() const;
-
-private:
-  _Twotuple<FT>*   ptr() const;
 };
 
 CGAL_END_NAMESPACE

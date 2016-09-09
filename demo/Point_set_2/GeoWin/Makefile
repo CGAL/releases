@@ -1,6 +1,6 @@
 include $(CGAL_MAKEFILE)
 
-CC   = $(CGAL_CXX)
+CC   = $(CGAL_CXX) $(CGAL_WINDOW_LIBPATH)
 
 CGALCFLAGS =  $(CGAL_CXXFLAGS)
 
@@ -8,10 +8,10 @@ CGALCFLAGS =  $(CGAL_CXXFLAGS)
 CGDL = $(CGAL_GEOWIN_LDFLAGS)
 
 geowin_pset_2d$(EXE_EXT) :  geowin_pset_2d$(OBJ_EXT)
-	$(CC) $(CGALDFLAGS) $(EXE_OPT) geowin_pset_2d geowin_pset_2d$(OBJ_EXT) $(CGDL)
+	$(CC) $(EXE_OPT)geowin_pset_2d geowin_pset_2d$(OBJ_EXT) $(CGDL)
 
 geowin_k_nearest_neighbors$(EXE_EXT) : geowin_k_nearest_neighbors$(OBJ_EXT)
-	$(CC) $(CGALDFLAGS) $(EXE_OPT) geowin_k_nearest_neighbors geowin_k_nearest_neighbors$(OBJ_EXT) $(CGDL)
+	$(CC) $(EXE_OPT)geowin_k_nearest_neighbors geowin_k_nearest_neighbors$(OBJ_EXT) $(CGDL)
 
 	
 clean :

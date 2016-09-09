@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/File_scanner_OFF.h
-// package       : Polyhedron_IO (2.9)
+// package       : Polyhedron_IO (2.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
 // revision      : $Revision: 1.5 $
@@ -44,7 +44,8 @@
 // coordinator   : Herve Bronnimann
 //
 // File scanner for an object in an object file format (OFF) file
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -80,7 +81,7 @@ class File_scanner_OFF : public File_header_OFF {
 public:
     File_scanner_OFF( std::istream& in, bool verbose = false)
       : File_header_OFF(verbose), m_in(in), normals_read(false) {
-        in >> CGAL_static_cast(File_header_OFF&, *this);
+        in >> static_cast<File_header_OFF&>( *this);
     }
     File_scanner_OFF( std::istream& in, const File_header_OFF& header)
       : File_header_OFF(header), m_in(in), normals_read(false) {}

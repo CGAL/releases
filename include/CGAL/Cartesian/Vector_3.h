@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Vector_3.h
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 1999/11/05 22:29:48 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.13 $
+// revision_date : $Date: 2000/08/23 14:34:46 $
 // author        : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -52,16 +53,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
-class VectorC3
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-// This is a partial specialization
-<_R,Cartesian_tag>
-#endif
-  : public Handle
+template < class R_ >
+class VectorC3 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+  : public Handle_for<Threetuple<typename R_::FT> >
 {
 public:
-  typedef _R                               R;
+  typedef R_                               R;
   typedef typename R::FT                   FT;
   typedef typename R::RT                   RT;
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
@@ -85,15 +82,11 @@ public:
   VectorC3(const FT &x, const FT &y, const FT &z, const FT &w);
   ~VectorC3();
 
-  Self            &operator=(const Self &v);
-
   bool            operator==(const Self &p) const;
   bool            operator!=(const Self &p) const;
 
   bool            operator==(const Null_vector &) const;
   bool            operator!=(const Null_vector &) const;
-
-  long            id() const;
 
   FT              x() const;
   FT              y() const;
@@ -113,12 +106,11 @@ public:
   Self            operator-(const Self &w) const;
   Self            operator-() const;
   FT              operator*(const Self &w) const;
+  FT              squared_length() const;
   Self            operator/(const FT &c) const;
   Direction_3 direction() const;
   Self            transform(const Aff_transformation_3 &) const;
 
-private:
-  _Threetuple<FT>*   ptr() const;
 };
 
 CGAL_END_NAMESPACE

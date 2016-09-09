@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Borland_fixes.h
-// package       : Configuration (1.54)
+// package       : Configuration (2.4)
 // chapter       : $CGAL_Chapter: Configuration $
 //
 // author(s)     : Dimitri Pasechnik
 //
 // coordinator   : Utrecht University
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

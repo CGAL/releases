@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Line_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1999/11/05 22:29:45 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 2000/08/23 14:35:36 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -52,16 +53,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
-class LineC2
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-// This is a partial specialization
-<_R,Cartesian_tag>
-#endif
-  : public Handle
+template < class R_ >
+class LineC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+  : public Handle_for< Threetuple<typename R_::FT> >
 {
 public:
-  typedef _R                                    R;
+  typedef R_                                    R;
   typedef typename R::FT                        FT;
   typedef typename R::RT                        RT;
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
@@ -97,11 +94,8 @@ public:
   LineC2(const Point_2 &p, const Direction_2 &d);
   ~LineC2();
 
-  Self            &operator=(const Self &l);
-
   bool            operator==(const Self &l) const;
   bool            operator!=(const Self &l) const;
-  int             id() const;
 
   FT              a() const;
   FT              b() const;
@@ -132,7 +126,6 @@ public:
   Self            transform(const Aff_transformation_2 &t) const;
 
 private:
-  _Threetuple<FT>* ptr() const;
   void            new_rep(const Point_2 &p, const Point_2 &q);
   void            new_rep(const FT &a, const FT &b, const FT &c);
 };

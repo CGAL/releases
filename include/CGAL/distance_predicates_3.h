@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : distance_predicates_3.fw
 // file          : include/CGAL/distance_predicates_3.h
-// package       : _3 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _3 (3.7)
+// revision      : 3.7
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_DISTANCE_PREDICATES_3_H
 #define CGAL_DISTANCE_PREDICATES_3_H
@@ -64,6 +66,11 @@
 #include <CGAL/Cartesian/distance_predicates_3.h>
 #endif // CGAL_DISTANCE_PREDICATESC3_H
 #endif // CGAL_CARTESIAN_H
+
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/distance_predicatesS3.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
 
 #ifndef CGAL_POINT_3_H
 #include <CGAL/Point_3.h>

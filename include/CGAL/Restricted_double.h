@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 1999,2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,18 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Restricted_double.h
-// package       : Interval_arithmetic (4.39)
-// revision      : $Revision: 2.3 $
-// revision_date : $Date: 1999/10/27 09:28:26 $
+// package       : Interval_arithmetic (4.58)
+// revision      : $Revision: 2.7 $
+// revision_date : $Date: 2000/06/25 18:54:18 $
 // author(s)     : Sylvain Pion
-//
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -95,12 +95,12 @@ private:
 inline
 Restricted_double
 sqrt(const Restricted_double &f)
-{ return std::sqrt(f.dbl()); }
+{ return CGAL_CLIB_STD::sqrt(f.dbl()); }
 
 inline
 Restricted_double
 abs(const Restricted_double &f)
-{ return std::fabs(f.dbl()); }
+{ return CGAL_CLIB_STD::fabs(f.dbl()); }
 
 inline
 double

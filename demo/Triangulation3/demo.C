@@ -12,7 +12,7 @@
 // release_date  :
 //
 // file          : demo/Triangulation3/demo.C
-// revision      : $Revision: 1.12 $
+// revision      : $Revision: 1.13 $
 // author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //
 // coordinator   : INRIA Sophia Antipolis (Mariette Yvinec)
@@ -240,6 +240,7 @@ int main(int argc, char* argv[])
   std::ofstream oFileT("data/output",std::ios::out);
   std::cout <<"                writing file data/output" << std::endl ;
   oFileT << T;
+
 
   char ch;
   std::cout << "enter any character to quit" << std::endl;

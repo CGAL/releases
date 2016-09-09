@@ -1,0 +1,141 @@
+// ============================================================================
+//
+// Copyright (c) 1999 The CGAL Consortium
+
+// This software and related documentation is part of the Computational
+// Geometry Algorithms Library (CGAL).
+// This software and documentation is provided "as-is" and without warranty
+// of any kind. In no event shall the CGAL Consortium be liable for any
+// damage of any kind. 
+//
+// Every use of CGAL requires a license. 
+//
+// Academic research and teaching license
+// - For academic research and teaching purposes, permission to use and copy
+//   the software and its documentation is hereby granted free of charge,
+//   provided that it is not a component of a commercial product, and this
+//   notice appears in all copies of the software and related documentation. 
+//
+// Commercial licenses
+// - A commercial license is available through Algorithmic Solutions, who also
+//   markets LEDA (http://www.algorithmic-solutions.de). 
+// - Commercial users may apply for an evaluation license by writing to
+//   Algorithmic Solutions (contact@algorithmic-solutions.com). 
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany), Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
+//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
+// 
+// source        : orientation.fw
+// file          : demo/Robustness/orientation_IA_2.C
+// revision      : 1.5
+// revision_date : 20 Sep 2000 
+// author(s)     : Stefan Schirra
+//
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
+//
+// ======================================================================
+ 
+
+#include <CGAL/basic.h>
+#ifndef CGAL_USE_LEDA
+int main() { std::cout << "\nSorry, this demo needs LEDA\n"; return 0; }
+#else
+#include <CGAL/Homogeneous.h>
+#include <CGAL/Cartesian.h>
+#include <cassert>
+#include <vector>
+#include <algorithm>
+#include <CGAL/Point_2.h>
+#include <CGAL/Segment_2.h>
+#include <CGAL/point_generators_2.h>
+#include <CGAL/copy_n.h>
+#include <CGAL/IO/leda_window.h>
+#include <CGAL/IO/Ostream_iterator.h>
+#include <CGAL/leda_real.h>
+#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/kernel_to_kernel.h>
+#include <CGAL/orientation_test_statistics.h>
+
+typedef CGAL::Cartesian<double>                   CartesianDouble;
+typedef CGAL::Point_2<CartesianDouble>            Point;
+typedef CGAL::Creator_uniform_2<double,Point>     Pt_creator;
+typedef std::vector<Point>                        Vector;
+typedef CGAL::Cartesian<CGAL::Interval_nt<true> > CartesianInterval;
+
+int
+main(int argc, char** argv)
+{
+    int N = (argc > 1) ? CGAL_CLIB_STD::atoi(argv[1]) : 30;
+    
+    typedef leda_window  CGAL_Stream;
+    CGAL_Stream W( 950, 520);
+    CGAL_Stream W1( 400, 400);
+    CGAL_Stream W2( 400, 400);
+    CGAL::cgalize(W);
+    CGAL::cgalize(W1);
+    CGAL::cgalize(W2);
+    
+    W.init( 0, 950, 0);
+    W1.init(-1.1, 1.1, -1.1);
+    W2.init(-1.1, 1.1, -1.1);
+    W.display();
+    W1.display(W,50,50);
+    W2.display(W,500,50);
+    
+    W.draw_ctext(475,495,"Orientation computation with interval arithmetic");
+    W1 << CGAL::GREEN;
+    W2 << CGAL::GREEN;
+    
+    Vector points1;
+    Vector points2;
+    typedef CGAL::Random_points_in_square_2<Point,Pt_creator>   P_in_square;
+    typedef CGAL::Random_points_on_segment_2<Point,Pt_creator>  P_on_seg;
+    P_in_square  pc1;
+    Point p1 = Point(-0.8, 0.3);
+    Point p2 = Point( 0.8,-0.4);
+    P_on_seg     pc2(p1, p2);
+    CGAL::copy_n( pc1, N, std::back_inserter(points1));
+    CGAL::copy_n( pc2, N, std::back_inserter(points2));
+    
+    std::copy( points1.begin(), points1.end(),
+               CGAL::Ostream_iterator< Point, CGAL_Stream>( W1));
+    std::copy( points2.begin(), points2.end(),
+               CGAL::Ostream_iterator< Point, CGAL_Stream>( W2));
+
+    std::vector< CartesianInterval::Point_2>  SIA;
+    CGAL::Cartesian_double_to_Cartesian< CartesianInterval::RT > converterIA;
+    leda_string s1;
+    leda_string s2;
+
+
+    std::transform( points1.begin(), points1.end(),
+                    std::back_inserter( SIA), converterIA);
+    orientation_statistics_IA(SIA.begin(), SIA.end(),
+                              s1, s2, CartesianInterval());
+    W.draw_ctext( 250, 50, s1);
+    W.draw_ctext( 250, 30, s2);
+
+
+    std::transform( points2.begin(), points2.end(),
+                    SIA.begin(), converterIA);
+    orientation_statistics_IA(SIA.begin(), SIA.end(),
+                              s1, s2, CartesianInterval());
+    W.draw_ctext( 700, 50, s1);
+    W.draw_ctext( 700, 30, s2);
+
+    W.read_mouse();
+
+    return 0;
+}
+#endif // USE_LEDA

@@ -48,9 +48,7 @@ int main() {
         CGAL_assertion( CGAL::circulator_size(j) >= 3);
         std::cout << CGAL::circulator_size(j) << " ";
         do {
-            std::size_t d = 0;
-            std::distance( P.vertices_begin(), j->vertex(), d);
-            std::cout << " " << d;
+            std::cout << " " << std::distance(P.vertices_begin(), j->vertex());
         } while ( ++j != i->facet_begin());
         std::cout << std::endl;
     }

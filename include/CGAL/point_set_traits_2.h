@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/point_set_traits_2.h
-// package       : Point_set_2 (1.1.8)
-// revision      : 1.1.8
-// revision_date : 18 December 1999 
+// package       : Point_set_2 (1.2.4)
+// revision      : 1.2.4
+// revision_date : 14 September 2000 
 // author(s)     : Kurt Mehlhorn, Stefan Naeher, Matthias Baesken
 //
 // coordinator   : Matthias Baesken, Halle  (<baesken>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

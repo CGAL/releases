@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Triangulation_ds_face_2.h
-// package       : Triangulation (4.30)
+// package       : Triangulation (4.69)
 // source        : $RCSfile: Triangulation_ds_face_2.h,v $
-// revision      : $Revision: 1.26 $
-// revision_date : $Date: 1999/11/12 09:47:04 $
+// revision      : $Revision: 1.30 $
+// revision_date : $Date: 2000/08/21 12:26:53 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -53,41 +54,43 @@
 
 CGAL_BEGIN_NAMESPACE 
 
-template <class Vb, class Fb >
+template <class Vb, class Fb>
 class  Triangulation_ds_vertex_2 ;
 
 
-template < class Vb, class Fb >
+template < class Vb, class Fb>
 class  Triangulation_ds_face_2
   : public Fb
 {
 public:
-  typedef Triangulation_ds_vertex_2<Vb,Fb> Vertex;
-  typedef Triangulation_ds_face_2<Vb,Fb> Face;
+  typedef Vb Vertex_base;
+  typedef Fb Face_base;
+  typedef Triangulation_ds_vertex_2<Vertex_base,Face_base> Vertex;
+  typedef Triangulation_ds_face_2<Vertex_base,Face_base> Face;
 
   // creators
   Triangulation_ds_face_2()
-    : Fb()
+    : Face_base()
   {}
     
   Triangulation_ds_face_2(Vertex* v0, Vertex* v1, Vertex* v2)
-    :  Fb(v0,v1,v2)
+    :  Face_base(v0,v1,v2)
   {}
     
   Triangulation_ds_face_2(Vertex* v0, Vertex* v1, Vertex* v2,
 			  Face* n0, Face* n1, Face* n2)
-    :  Fb(v0,v1,v2,n0,n1,n2)
+    :  Face_base(v0,v1,v2,n0,n1,n2)
   {}
 
   Triangulation_ds_face_2( const Face & f)
-    : Fb(f)
+    : Face_base(f)
     {}
 
   //setting
-  void set_vertex(int i, Vertex* v) { Fb::set_vertex(i,v);}
-  void set_neighbor(int i, Face* n) { Fb::set_neighbor(i,n);}
-  void set_vertices() { Fb::set_vertices();}
-  void set_neighbors() { Fb::set_neighbors();}
+  void set_vertex(int i, Vertex* v) { Face_base::set_vertex(i,v);}
+  void set_neighbor(int i, Face* n) { Face_base::set_neighbor(i,n);}
+  void set_vertices() { Face_base::set_vertices();}
+  void set_neighbors() { Face_base::set_neighbors();}
   void set_vertices(Vertex* v0, Vertex* v1, Vertex* v2);
   void set_neighbors(Face* n0, Face* n1, Face* n2);
   //void reorient();  inherited from Face_base
@@ -117,7 +120,7 @@ inline void
 Triangulation_ds_face_2<Vb,Fb>::
 set_vertices(Vertex* v0, Vertex* v1, Vertex* v2)
 {
-  Fb::set_vertices(v0,v1,v2);
+  Face_base::set_vertices(v0,v1,v2);
 }
 
 template < class Vb, class Fb >
@@ -125,7 +128,7 @@ inline void
 Triangulation_ds_face_2<Vb,Fb>::
 set_neighbors(Face* n0, Face* n1, Face* n2)
 {
-  Fb::set_neighbors(n0,n1,n2);
+  Face_base::set_neighbors(n0,n1,n2);
 }
 
 template < class Vb, class Fb >
@@ -134,7 +137,7 @@ Triangulation_ds_vertex_2<Vb,Fb> *
 Triangulation_ds_face_2<Vb,Fb>::
 vertex(int i) const
 {
-  return( (Vertex*) (Fb::vertex(i)));
+  return( static_cast<Vertex*>(Face_base::vertex(i)) );
 } 
 
 template < class Vb, class Fb >
@@ -161,7 +164,7 @@ inline  bool
 Triangulation_ds_face_2<Vb,Fb>::
 has_vertex(const Vertex* v) const
 {
-  return (Fb::has_vertex(v));
+  return (Face_base::has_vertex(v));
 }
     
 template < class Vb, class Fb >
@@ -169,7 +172,7 @@ inline  bool
 Triangulation_ds_face_2<Vb,Fb>::    
 has_vertex(const Vertex* v, int& i) const
 {
-  return (Fb::has_vertex(v,i));
+  return (Face_base::has_vertex(v,i));
 }
     
 template < class Vb, class Fb >
@@ -177,7 +180,7 @@ inline  int
 Triangulation_ds_face_2<Vb,Fb>::  
 index(const Vertex* v) const
 {
-  return(Fb::vertex_index(v));
+  return(Face_base::vertex_index(v));
 }
 
 // Neighbors Access Functions
@@ -187,7 +190,7 @@ Triangulation_ds_face_2<Vb,Fb>*
 Triangulation_ds_face_2<Vb,Fb>::  
 neighbor(int i) const
 {
-  return ((Face*) Fb::neighbor(i));
+  return (static_cast<Face*>(Face_base::neighbor(i)) );
 }
     
 template < class Vb, class Fb >
@@ -195,7 +198,7 @@ inline  bool
 Triangulation_ds_face_2<Vb,Fb>::  
 has_neighbor(const Face* n) const
 {
-  return (Fb::has_neighbor(n));
+  return (Face_base::has_neighbor(n));
 }
     
 template < class Vb, class Fb >
@@ -203,7 +206,7 @@ inline  bool
 Triangulation_ds_face_2<Vb,Fb>::      
 has_neighbor(const Face* n, int& i) const
 {
-  return (Fb::has_neighbor(n,i));
+  return (Face_base::has_neighbor(n,i));
 }
     
 template < class Vb, class Fb >
@@ -211,7 +214,7 @@ inline  int
 Triangulation_ds_face_2<Vb,Fb>::    
 index(const Face* n) const
 {
-  return(Fb::face_index(n));
+  return(Face_base::face_index(n));
 }
     
 //Miscelleanous
@@ -220,7 +223,7 @@ bool
 Triangulation_ds_face_2<Vb,Fb>::  
 is_valid(bool verbose, int level) const
 {
-  bool result = Fb::is_valid(verbose, level);
+  bool result = Face_base::is_valid(verbose, level);
   for(int i = 0; i <= dimension(); i++) {
     Face* n = neighbor(i);
     int in = n->index(this);

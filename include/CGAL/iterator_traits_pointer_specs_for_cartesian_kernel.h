@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/iterator_traits_pointer_specs_for_cartesian_kernel.h
-// package       : Kernel_basic (2.9)
+// package       : Kernel_basic (3.14)
 // source        : bangbang.lw
 // revision      : 2.7.1
 // revision_date : 06 Oct 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

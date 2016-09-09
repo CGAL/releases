@@ -30,18 +30,19 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Triangulation_utils_2.h
-// package       : Triangulation (4.30)
+// package       : Triangulation (4.69)
 // revision      : $Revision: 1.2 $
 // author(s)     : Mariette Yvinec
 //                 Sylvain Pion
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 #ifndef CGAL_TRIANGULATION_UTILS_2_H

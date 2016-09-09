@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Constrained_triangulation_face_base_2.h
-// package       : Triangulation (4.30)
+// package       : Triangulation (4.69)
 // source        : $RCSfile: Constrained_triangulation_face_base_2.h,v $
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 1999/11/12 09:47:03 $
+// revision      : $Revision: 1.16 $
+// revision_date : $Date: 2000/06/08 15:10:23 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -63,7 +64,7 @@ public:
   typedef Gt Geom_traits;
   typedef Triangulation_face_base_2<Gt> Fab;
   typedef Constrained_triangulation_face_base_2<Gt> Constrained_face_base;
-  typedef typename Gt::Point  Point;
+  typedef typename Gt::Point_2  Point;
 
 protected:
   bool C[3];

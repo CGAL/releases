@@ -1,7 +1,7 @@
 
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -31,17 +31,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Segment_2_Segment_2_intersection.h
-// package       : Intersections_2 (2.2.2)
+// package       : Intersections_2 (2.6.3)
 // source        : intersection_2_1.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -49,18 +50,10 @@
 #ifndef CGAL_SEGMENT_2_SEGMENT_2_INTERSECTION_H
 #define CGAL_SEGMENT_2_SEGMENT_2_INTERSECTION_H
 
-#ifndef CGAL_SEGMENT_2_H
 #include <CGAL/Segment_2.h>
-#endif // CGAL_SEGMENT_2_H
-#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
-#endif // CGAL_POINT_2_H
-#ifndef CGAL_UTILS_H
 #include <CGAL/utils.h>
-#endif // CGAL_UTILS_H
-#ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
-#endif // CGAL_NUMBER_UTILS_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -81,11 +74,9 @@ public:
     if (_known)
         return _result;
     // The non const this pointer is used to cast away const.
-    Segment_2_Segment_2_pair<R> *ncthis =
-                (Segment_2_Segment_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
     if (!do_overlap(_seg1->bbox(), _seg2->bbox())) {
-        ncthis->_result = NO;
+        _result = NO;
         return _result;
     }
     Line_2<R> const &l1 = _seg1->supporting_line();
@@ -93,11 +84,11 @@ public:
     Line_2_Line_2_pair<R> linepair(&l1, &l2);
     switch ( linepair.intersection_type()) {
     case Line_2_Line_2_pair<R>::NO:
-        ncthis->_result = NO;
+        _result = NO;
         break;
     case Line_2_Line_2_pair<R>::POINT:
-        linepair.intersection(ncthis->_intersection_point);
-        ncthis->_result = (_seg1->collinear_has_on(_intersection_point)
+        linepair.intersection(_intersection_point);
+        _result = (_seg1->collinear_has_on(_intersection_point)
             && _seg2->collinear_has_on(_intersection_point)) ? POINT : NO;
         break;
     case Line_2_Line_2_pair<R>::LINE:
@@ -110,7 +101,7 @@ public:
         Vector_2<R> diff1 = end1-start1;
         Point_2<R> const *minpt;
         Point_2<R> const *maxpt;
-        if (abs(diff1.x()) > abs(diff1.y())) {
+        if (CGAL_NTS abs(diff1.x()) > CGAL_NTS abs(diff1.y())) {
             if (start1.x() < end1.x()) {
                 minpt = &start1;
                 maxpt = &end1;
@@ -134,17 +125,17 @@ public:
                 }
             }
             if (maxpt->x() < minpt->x()) {
-                ncthis->_result = NO;
+                _result = NO;
                 return _result;
             }
             if (maxpt->x() == minpt->x()) {
-                ncthis->_intersection_point = *minpt;
-                ncthis->_result = POINT;
+                _intersection_point = *minpt;
+                _result = POINT;
                 return _result;
             }
-            ncthis->_intersection_point = *minpt;
-            ncthis->_other_point = *maxpt;
-            ncthis->_result = SEGMENT;
+            _intersection_point = *minpt;
+            _other_point = *maxpt;
+            _result = SEGMENT;
             return _result; 
         } else {
             if (start1.y() < end1.y()) {
@@ -170,17 +161,17 @@ public:
                 }
             }
             if (maxpt->y() < minpt->y()) {
-                ncthis->_result = NO;
+                _result = NO;
                 return _result;
             }
             if (maxpt->y() == minpt->y()) {
-                ncthis->_intersection_point = *minpt;
-                ncthis->_result = POINT;
+                _intersection_point = *minpt;
+                _result = POINT;
                 return _result;
             }
-            ncthis->_intersection_point = *minpt;
-            ncthis->_other_point = *maxpt;
-            ncthis->_result = SEGMENT;
+            _intersection_point = *minpt;
+            _other_point = *maxpt;
+            _result = SEGMENT;
             return _result; 
         }
         } 
@@ -194,30 +185,251 @@ public:
 protected:
     Segment_2<R> const*   _seg1;
     Segment_2<R> const *  _seg2;
-    bool                       _known;
-    Intersection_results       _result;
-    Point_2<R>            _intersection_point, _other_point;
+    mutable bool                       _known;
+    mutable Intersection_results       _result;
+    mutable Point_2<R>            _intersection_point, _other_point;
 };
 
 template <class R>
-inline bool do_intersect(
-    const Segment_2<R> &p1,
-    const Segment_2<R> &p2)
-{
-    typedef Segment_2_Segment_2_pair<R> pair_t;
-    pair_t pair(&p1, &p2);
-    return pair.intersection_type() != pair_t::NO;
-}
+inline bool
+do_intersect(const Segment_2<R> &seg1, const Segment_2<R> &seg2);
+
 
 CGAL_END_NAMESPACE
 
 
-#ifndef CGAL_LINE_2_H
+#include <cassert>
+#include <CGAL/predicates_on_points_2.h>
+
+namespace CGAL {
+
+template <class PT>
+bool seg_seg_do_intersect_crossing(
+        PT const &p1, PT const &p2, PT const &p3, PT const &p4)
+{
+    switch (orientation(p1,p2,p3)) {
+    case LEFTTURN:
+        return !rightturn(p3,p4,p2);
+    case RIGHTTURN:
+        return !leftturn(p3,p4,p2);
+    case COLLINEAR:
+        return true;
+    }
+    assert(false);
+    return false;
+}
+
+
+template <class PT>
+bool seg_seg_do_intersect_contained(
+        PT const &p1, PT const &p2, PT const &p3, PT const &p4)
+{
+    switch (orientation(p1,p2,p3)) {
+    case LEFTTURN:
+        return !leftturn(p1,p2,p4);
+    case RIGHTTURN:
+        return !rightturn(p1,p2,p4);
+    case COLLINEAR:
+        return true;
+    }
+    assert(false);
+    return false;
+}
+
+
+template <class R>
+bool
+do_intersect(const Segment_2<R> &seg1, const Segment_2<R> &seg2)
+{
+    typename R::Point_2 const & A1 = seg1.source();
+    typename R::Point_2 const & A2 = seg1.target();
+    typename R::Point_2 const & B1 = seg2.source();
+    typename R::Point_2 const & B2 = seg2.target();
+    if (lexicographically_yx_smaller(A1,A2)) {
+        if (lexicographically_yx_smaller(B1,B2)) {
+            if (lexicographically_yx_smaller(A2,B1)
+             || lexicographically_yx_smaller(B2,A1))
+                return false;
+        } else {
+            if (lexicographically_yx_smaller(A2,B2)
+             || lexicographically_yx_smaller(B1,A1))
+                return false;
+        }
+    } else {
+        if (lexicographically_yx_smaller(B1,B2)) {
+            if (lexicographically_yx_smaller(A1,B1)
+             || lexicographically_yx_smaller(B2,A2))
+                return false;
+        } else {
+            if (lexicographically_yx_smaller(A1,B2)
+             || lexicographically_yx_smaller(B1,A2))
+                return false;
+        }
+    }
+    if (lexicographically_xy_smaller(A1,A2)) {
+        if (lexicographically_xy_smaller(B1,B2)) {
+            switch(compare_lexicographically_xy(A1,B1)) {
+            case SMALLER:
+                switch(compare_lexicographically_xy(A2,B1)) {
+                case SMALLER:
+                    return false;
+                case EQUAL:
+                    return true;
+                case LARGER:
+                    switch(compare_lexicographically_xy(A2,B2)) {
+                    case SMALLER:
+                        return seg_seg_do_intersect_crossing(A1,A2,B1,B2);
+                    case EQUAL:
+                        return true;
+                    case LARGER:
+                        return seg_seg_do_intersect_contained(A1,A2,B1,B2);
+                    }
+                }
+            case EQUAL:
+                return true;
+            case LARGER:
+                switch(compare_lexicographically_xy(B2,A1)) {
+                case SMALLER:
+                    return false;
+                case EQUAL:
+                    return true;
+                case LARGER:
+                    switch(compare_lexicographically_xy(B2,A2)) {
+                    case SMALLER:
+                        return seg_seg_do_intersect_crossing(B1,B2,A1,A2);
+                    case EQUAL:
+                        return true;
+                    case LARGER:
+                        return seg_seg_do_intersect_contained(B1,B2,A1,A2);
+                    }
+                }
+            }
+        } else {
+            switch(compare_lexicographically_xy(A1,B2)) {
+            case SMALLER:
+                switch(compare_lexicographically_xy(A2,B2)) {
+                case SMALLER:
+                    return false;
+                case EQUAL:
+                    return true;
+                case LARGER:
+                    switch(compare_lexicographically_xy(A2,B1)) {
+                    case SMALLER:
+                        return seg_seg_do_intersect_crossing(A1,A2,B2,B1);
+                    case EQUAL:
+                        return true;
+                    case LARGER:
+                        return seg_seg_do_intersect_contained(A1,A2,B2,B1);
+                    }
+                }
+            case EQUAL:
+                return true;
+            case LARGER:
+                switch(compare_lexicographically_xy(B1,A1)) {
+                case SMALLER:
+                    return false;
+                case EQUAL:
+                    return true;
+                case LARGER:
+                    switch(compare_lexicographically_xy(B1,A2)) {
+                    case SMALLER:
+                        return seg_seg_do_intersect_crossing(B2,B1,A1,A2);
+                    case EQUAL:
+                        return true;
+                    case LARGER:
+                        return seg_seg_do_intersect_contained(B2,B1,A1,A2);
+                    }
+                }
+            }
+        }
+    } else {
+        if (lexicographically_xy_smaller(B1,B2)) {
+            switch(compare_lexicographically_xy(A2,B1)) {
+            case SMALLER:
+                switch(compare_lexicographically_xy(A1,B1)) {
+                case SMALLER:
+                    return false;
+                case EQUAL:
+                    return true;
+                case LARGER:
+                    switch(compare_lexicographically_xy(A1,B2)) {
+                    case SMALLER:
+                        return seg_seg_do_intersect_crossing(A2,A1,B1,B2);
+                    case EQUAL:
+                        return true;
+                    case LARGER:
+                        return seg_seg_do_intersect_contained(A2,A1,B1,B2);
+                    }
+                }
+            case EQUAL:
+                return true;
+            case LARGER:
+                switch(compare_lexicographically_xy(B2,A2)) {
+                case SMALLER:
+                    return false;
+                case EQUAL:
+                    return true;
+                case LARGER:
+                    switch(compare_lexicographically_xy(B2,A1)) {
+                    case SMALLER:
+                        return seg_seg_do_intersect_crossing(B1,B2,A2,A1);
+                    case EQUAL:
+                        return true;
+                    case LARGER:
+                        return seg_seg_do_intersect_contained(B1,B2,A2,A1);
+                    }
+                }
+            }
+        } else {
+            switch(compare_lexicographically_xy(A2,B2)) {
+            case SMALLER:
+                switch(compare_lexicographically_xy(A1,B2)) {
+                case SMALLER:
+                    return false;
+                case EQUAL:
+                    return true;
+                case LARGER:
+                    switch(compare_lexicographically_xy(A1,B1)) {
+                    case SMALLER:
+                        return seg_seg_do_intersect_crossing(A2,A1,B2,B1);
+                    case EQUAL:
+                        return true;
+                    case LARGER:
+                        return seg_seg_do_intersect_contained(A2,A1,B2,B1);
+                    }
+                }
+            case EQUAL:
+                return true;
+            case LARGER:
+                switch(compare_lexicographically_xy(B1,A2)) {
+                case SMALLER:
+                    return false;
+                case EQUAL:
+                    return true;
+                case LARGER:
+                    switch(compare_lexicographically_xy(B1,A1)) {
+                    case SMALLER:
+                        return seg_seg_do_intersect_crossing(B2,B1,A2,A1);
+                    case EQUAL:
+                        return true;
+                    case LARGER:
+                        return seg_seg_do_intersect_contained(B2,B1,A2,A1);
+                    }
+                }
+            }
+        }
+    }
+    assert(false);
+    return false;
+}
+
+} // end namespace CGAL
+
+
+
+
 #include <CGAL/Line_2.h>
-#endif // CGAL_LINE_2_H
-#ifndef CGAL_LINE_2_LINE_2_INTERSECTION_H
 #include <CGAL/Line_2_Line_2_intersection.h>
-#endif // CGAL_LINE_2_LINE_2_INTERSECTION_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -246,11 +458,9 @@ Segment_2_Segment_2_pair<R>::intersection_type() const
     if (_known)
         return _result;
     // The non const this pointer is used to cast away const.
-    Segment_2_Segment_2_pair<R> *ncthis =
-                (Segment_2_Segment_2_pair<R> *) this;
-    ncthis->_known = true;
+    _known = true;
     if (!do_overlap(_seg1->bbox(), _seg2->bbox())) {
-        ncthis->_result = NO;
+        _result = NO;
         return _result;
     }
     Line_2<R> const &l1 = _seg1->supporting_line();
@@ -258,11 +468,11 @@ Segment_2_Segment_2_pair<R>::intersection_type() const
     Line_2_Line_2_pair<R> linepair(&l1, &l2);
     switch ( linepair.intersection_type()) {
     case Line_2_Line_2_pair<R>::NO:
-        ncthis->_result = NO;
+        _result = NO;
         break;
     case Line_2_Line_2_pair<R>::POINT:
-        linepair.intersection(ncthis->_intersection_point);
-        ncthis->_result = (_seg1->collinear_has_on(_intersection_point)
+        linepair.intersection(_intersection_point);
+        _result = (_seg1->collinear_has_on(_intersection_point)
             && _seg2->collinear_has_on(_intersection_point)) ? POINT : NO;
         break;
     case Line_2_Line_2_pair<R>::LINE:
@@ -275,7 +485,7 @@ Segment_2_Segment_2_pair<R>::intersection_type() const
         Vector_2<R> diff1 = end1-start1;
         Point_2<R> const *minpt;
         Point_2<R> const *maxpt;
-        if (abs(diff1.x()) > abs(diff1.y())) {
+        if (CGAL_NTS abs(diff1.x()) > CGAL_NTS abs(diff1.y())) {
             if (start1.x() < end1.x()) {
                 minpt = &start1;
                 maxpt = &end1;
@@ -299,17 +509,17 @@ Segment_2_Segment_2_pair<R>::intersection_type() const
                 }
             }
             if (maxpt->x() < minpt->x()) {
-                ncthis->_result = NO;
+                _result = NO;
                 return _result;
             }
             if (maxpt->x() == minpt->x()) {
-                ncthis->_intersection_point = *minpt;
-                ncthis->_result = POINT;
+                _intersection_point = *minpt;
+                _result = POINT;
                 return _result;
             }
-            ncthis->_intersection_point = *minpt;
-            ncthis->_other_point = *maxpt;
-            ncthis->_result = SEGMENT;
+            _intersection_point = *minpt;
+            _other_point = *maxpt;
+            _result = SEGMENT;
             return _result; 
         } else {
             if (start1.y() < end1.y()) {
@@ -335,17 +545,17 @@ Segment_2_Segment_2_pair<R>::intersection_type() const
                 }
             }
             if (maxpt->y() < minpt->y()) {
-                ncthis->_result = NO;
+                _result = NO;
                 return _result;
             }
             if (maxpt->y() == minpt->y()) {
-                ncthis->_intersection_point = *minpt;
-                ncthis->_result = POINT;
+                _intersection_point = *minpt;
+                _result = POINT;
                 return _result;
             }
-            ncthis->_intersection_point = *minpt;
-            ncthis->_other_point = *maxpt;
-            ncthis->_result = SEGMENT;
+            _intersection_point = *minpt;
+            _other_point = *maxpt;
+            _result = SEGMENT;
             return _result; 
         }
         } 
@@ -383,9 +593,7 @@ CGAL_END_NAMESPACE
 
 
 
-#ifndef CGAL_OBJECT_H
 #include <CGAL/Object.h>
-#endif // CGAL_OBJECT_H
 
 CGAL_BEGIN_NAMESPACE
 

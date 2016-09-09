@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/convexity_check_2.h
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -86,7 +87,7 @@ is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
                           const Traits& ch_traits);
 /*{\Mfunc returns true, if the point elements in [|first|,|last|) form a 
 counterclockwise oriented strongly convex polygon.\\ 
-{\sc traits}: uses |Traits::Leftturn| and |Traits::Less_xy|.
+{\sc traits}: uses |Traits::Leftturn_2| and |Traits::Less_xy_2|.
 }*/
 
 template <class ForwardIterator, class Traits>
@@ -95,7 +96,7 @@ is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
                          const Traits& ch_traits);
 /*{\Mfunc returns true, if the point elements in [|first|,|last|) form a 
 clockwise oriented strongly convex polygon.\\ 
-{\sc traits}: uses |Traits::Rightturn| and |Traits::Less_xy|.
+{\sc traits}: uses |Traits::Leftturn_2| and |Traits::Less_xy_2|.
 }*/
 
 
@@ -111,7 +112,7 @@ ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
 /*{\Mfunc returns true, if all points in [|first1|,|last1|) are 
 not right of the lines defined by consecutive points in the range 
 [|first2|,|last2|), where the range is considered as a cycle.\\
-{\sc traits}: uses |Traits::Right_of_line|.
+{\sc traits}: uses |Traits::Left_of_line_2|.
 }*/
 
 
@@ -129,7 +130,7 @@ ch_brute_force_chain_check_2(ForwardIterator1 first1,
 /*{\Mfunc returns true, if all points in [|first1|,|last1|) are 
 not right of the lines defined by consecutive points in the range 
 [|first2|,|last2|).\\ 
-{\sc traits}: uses |Traits::Right_of_line|.
+{\sc traits}: uses |Traits::Left_of_line_2|.
 }*/
 
 #ifdef CGAL_POINT_2_H
@@ -148,7 +149,7 @@ template <class ForwardIterator, class R>
 inline
 bool
 _is_cw_convex_2( ForwardIterator first, ForwardIterator last, Point_2<R>* )
-{ return is_cw_strongly_convex_2(first, last, convex_hull_traits_2<R>()); }
+{ return is_cw_strongly_convex_2(first, last, R()); }
 
 template <class ForwardIterator>
 inline
@@ -163,7 +164,7 @@ template <class ForwardIterator, class R>
 inline
 bool
 _is_ccw_convex_2( ForwardIterator first, ForwardIterator last, Point_2<R>* )
-{ return is_ccw_strongly_convex_2(first, last, convex_hull_traits_2<R>()); }
+{ return is_ccw_strongly_convex_2(first, last, R()); }
 
 template <class ForwardIterator>
 inline
@@ -188,7 +189,7 @@ CCGAL_ch__brute_force_check_2(ForwardIterator1 first1,ForwardIterator1 last1,
 {
   return ch_brute_force_check_2( first1, last1, 
                                       first2, last2,
-                                      convex_hull_traits_2<R>() );
+                                      R() );
 }
 
 template <class ForwardIterator1, class ForwardIterator2>
@@ -218,7 +219,7 @@ CCGAL_ch__brute_force_chain_check_2(ForwardIterator1 first1,
 {
   return ch_brute_force_chain_check_2( first1, last1, 
                                             first2, last2,
-                                            convex_hull_traits_2<R>() );
+                                            R() );
 }
 
 template <class ForwardIterator1, class ForwardIterator2>

@@ -46,10 +46,26 @@ goto :ledaconf
 :bccconf
 if "%2" == "d"		set ccopt=-v
 
-set cxx=bcc32 -nologo
+set cxx=bcc32
+rem set cxx=bcc32 -nologo -- BCC 5.5.1 does not have -nologo option!
 set make=make -s -N
 set extralibs=
 set cgallibpref=-L
+
+rem --------------------------------------------------------
+rem	5.4 or 5.5 ?
+rem --------------------------------------------------------
+if exist tmpt0.cpp del tmpt0.cpp > NUL
+echo #if ( __BORLANDC__ == 0x540 ) > tmpt0.cpp
+echo #error 1 >> tmpt0.cpp
+echo #endif >> tmpt0.cpp
+%cxx% -c tmpt0.cpp >NUL
+if ERRORLEVEL 1 goto :bcc54
+if exist include\CGAL\config\bcc\cctype del include\CGAL\config\bcc\cctype >NUL
+goto :ledaconf
+
+:bcc54
+copy include\CGAL\config\bcc\cctype.txt include\CGAL\config\bcc\cctype >NUL
 goto :ledaconf
 
 
@@ -61,7 +77,8 @@ rem --------------------------------------------------------
 rem --------------------------------------------------------
 rem	checking if the compiler works...
 rem --------------------------------------------------------
-echo int main() {return 0;} >> tmpt0.cpp
+if exist tmpt0.cpp del tmpt0.cpp > NUL
+echo int main() {return 0;} > tmpt0.cpp
 %cxx% -c tmpt0.cpp >NUL
 if ERRORLEVEL 1 goto :nocxx
 
@@ -95,7 +112,7 @@ if not exist %ledaincl%\LEDA\basic.h goto :noledai
 rem --------------------------------------------------------
 rem	checking LEDA_STD_HEADERS
 rem --------------------------------------------------------
-del tmpt0.cpp >NUL
+if exist tmpt0.cpp del tmpt0.cpp >NUL
 copy winutils\src\ledatst.cpp tmpt0.cpp >NUL
 %cxx% -I%ledaincl% -DLEDA_PREFIX -c tmpt0.cpp >NUL
 if ERRORLEVEL 1 goto :noledast
@@ -136,7 +153,7 @@ echo Usage: cgal_config cc [comp. opts] [LEDA libs dir] [LEDA includes dir]
 echo.
 echo Possible compilers (cc):
 echo msc    : Microsoft Visual C++ 6.0	(opts: ml mld md mt mdd mtd)
-echo bcc    : Borland C++ Builder 4	(opts: d)
+echo bcc    : Borland C++ Builder 4, C++ 5.4, 5.5	(opts: d)
 echo.
 echo   examples: "> cgal_config msc mld g:\LEDA"
 echo             "> cgal_config msc g:\LEDA"
@@ -266,7 +283,7 @@ rem --------------------------------------------------------
 rem	building lib
 rem --------------------------------------------------------
 echo cd src >> make_lib.bat
-echo nmake -f makefile_lib.mak >> make_lib.bat
+echo %make% -f makefile_lib.mak >> make_lib.bat
 echo cd .. >> make_lib.bat
 echo @echo off >> make_lib.bat
 echo echo Done. Now you can build examples and demo's >> make_lib.bat
@@ -274,9 +291,9 @@ echo echo.  >> make_lib.bat
 echo echo Use make_demo and make_examples batch files  >> make_lib.bat
 echo echo.  >> make_lib.bat
 echo echo Or change to examples\"desired example"  >> make_lib.bat
-echo echo and type "nmake -f makefile.mak all" >> make_lib.bat
+echo echo and type %make% -f makefile.mak all >> make_lib.bat
 echo echo or, change to demo\"desired demo"  >> make_lib.bat
-echo echo     and type "nmake -f makefile.mak all" >> make_lib.bat
+echo echo     and type %make% -f makefile.mak all >> make_lib.bat
 echo echo.  >> make_lib.bat 
 
 rem ------------------------------------------------------------------

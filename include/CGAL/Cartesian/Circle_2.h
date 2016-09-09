@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Circle_2.h
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 1999/11/05 22:29:40 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 2000/08/23 14:35:34 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -52,16 +53,12 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R >
-class CircleC2
-#ifndef CGAL_CFG_NO_ADVANCED_KERNEL
-// This is a partial specialization
-<_R,Cartesian_tag>
-#endif
-  : public Handle
+template <class R_ >
+class CircleC2 CGAL_ADVANCED_KERNEL_PARTIAL_SPEC
+  : public Handle_for< Circle_repC2<R_> >
 {
 public:
-  typedef _R                                    R;
+  typedef R_                                    R;
   typedef typename R::FT                        FT;
   typedef typename R::RT                        RT;
 #ifndef CGAL_CFG_NO_ADVANCED_KERNEL
@@ -98,11 +95,8 @@ public:
   CircleC2(const Point_2 &p, const Point_2 &q, const Point_2 &r);
   ~CircleC2();
 
-  Self   &operator=(const Self &t);
-
   bool           operator==(const Self &s) const;
   bool           operator!=(const Self &s) const;
-  int            id() const;
 
   Point_2    center() const;
   FT             squared_radius() const;
@@ -129,8 +123,6 @@ public:
 
   Bbox_2         bbox() const;
 
-private:
-  Circle_repC2<R> *ptr() const;
 };
 
 CGAL_END_NAMESPACE

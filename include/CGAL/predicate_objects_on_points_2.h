@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/predicate_objects_on_points_2.h
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -84,17 +85,17 @@ private:
 };
 
 template <class Point>
-class p_Right_of_line_2p_safer
+class p_Left_of_line_2p_safer
 {
 public:
-        p_Right_of_line_2p_safer(const Point& a, const Point& b)
+        p_Left_of_line_2p_safer(const Point& a, const Point& b)
          : p_a(a), p_b(b)
         {}
 
   bool  operator()(const Point& c) const
         {
           if ( (c == p_a) || ( c == p_b ) ) return false;
-          return rightturn( p_a, p_b, c );
+          return leftturn( p_a, p_b, c );
         }
 
 private:
@@ -304,16 +305,16 @@ class r_Right_of_line
 public:
         typedef typename R::Point_2  Point;
         typedef typename R::Line_2   Line;
-        r_Right_of_line(const Point& a, 
-                        const Point& b)
+        r_Right_of_line(const Point& a, const Point& b)
          : l_ab( a, b )
         {}
 
-  bool  operator()(const Point& c) const
-        {
-          if ( l_ab.is_degenerate() ) return false;
-          return (l_ab.oriented_side(c) == ON_NEGATIVE_SIDE);
-        }
+  bool  
+  operator()(const Point& c) const
+  {
+    if ( l_ab.is_degenerate() ) return false;
+    return (l_ab.oriented_side(c) == ON_NEGATIVE_SIDE);
+  }
 
 private:
   Line    l_ab;
@@ -325,16 +326,17 @@ class r_Left_of_line
 public:
         typedef typename R::Point_2  Point;
         typedef typename R::Line_2   Line;
-        r_Left_of_line(const Point& a, 
-                       const Point& b)
-         : l_ab( a, b )
+        r_Left_of_line(const Point& a, const Point& b)
+         : l_ab( a, b ), is_deg( a == b)
         {}
 
-  bool  operator()(const Point& c) const
-        { return (l_ab.oriented_side(c) == ON_POSITIVE_SIDE); }
+  bool  
+  operator()(const Point& c) const
+  { return ( !is_deg && (l_ab.oriented_side(c) == ON_POSITIVE_SIDE)); }
 
 private:
   Line    l_ab;
+  bool    is_deg;
 };
 
 template <class Point>
@@ -349,12 +351,12 @@ class p_Less_dist_to_point
 };
 
 template <class R>
-class r_Less_dist_to_line
+class r_Less_negative_dist_to_line
 {
 public:
         typedef typename R::Point_2  Point;
         typedef typename R::Line_2   Line;
-        r_Less_dist_to_line(const Point& a, 
+        r_Less_negative_dist_to_line(const Point& a, 
                             const Point& b)
          : l_ab( a, b )
         {}
@@ -362,7 +364,7 @@ public:
   bool  operator()(const Point& c, const Point& d) const
         {
           Comparison_result res = cmp_signed_dist_to_line(l_ab, c, d);
-          if ( res == LARGER )
+          if ( res == SMALLER )
           {
               return false;
           }
@@ -381,20 +383,19 @@ private:
 };
 
 template <class R>
-class r_Less_negative_dist_to_line
+class r_Less_dist_to_line
 {
 public:
         typedef typename R::Point_2  Point;
         typedef typename R::Line_2   Line;
-        r_Less_negative_dist_to_line(const Point& a, 
-                                     const Point& b)
+        r_Less_dist_to_line(const Point& a, const Point& b)
          : l_ab( a, b )
         {}
 
   bool  operator()(const Point& c, const Point& d) const
         {
           Comparison_result res = cmp_signed_dist_to_line(l_ab, c, d);
-          if ( res == LARGER )
+          if ( res == SMALLER )
           {
               return true;
           }

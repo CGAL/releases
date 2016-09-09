@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Segment_2.C
-// package       : C2 (3.3.11)
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1999/12/10 16:19:44 $
+// package       : C2 (4.4)
+// revision      : $Revision: 1.18 $
+// revision_date : $Date: 2000/08/23 13:45:36 $
 // author(s)     : Andreas Fabri, Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -63,13 +64,13 @@ template < class R >
 CGAL_KERNEL_CTOR_INLINE
 SegmentC2<R CGAL_CTAG>::SegmentC2()
 {
-  PTR = new _Twotuple< Point_2 >;
+  new ( static_cast< void*>(ptr)) Twotuple<Point_2>();
 }
 
 template < class R >
 CGAL_KERNEL_CTOR_INLINE
 SegmentC2<R CGAL_CTAG>::SegmentC2(const SegmentC2<R CGAL_CTAG>  &s)
-  : Handle((Handle&)s)
+  : Handle_for<Twotuple<typename R::Point_2> >(s)
 {}
 
 template < class R >
@@ -78,7 +79,7 @@ SegmentC2<R CGAL_CTAG>::
 SegmentC2(const typename SegmentC2<R CGAL_CTAG>::Point_2 &sp,
           const typename SegmentC2<R CGAL_CTAG>::Point_2 &ep)
 {
-  PTR = new _Twotuple< Point_2 >(sp, ep);
+   new ( static_cast< void*>(ptr)) Twotuple<Point_2>(sp, ep);
 }
 
 template < class R >
@@ -88,19 +89,10 @@ SegmentC2<R CGAL_CTAG>::~SegmentC2()
 
 template < class R >
 inline
-SegmentC2<R CGAL_CTAG> &
-SegmentC2<R CGAL_CTAG>::operator=(const SegmentC2<R CGAL_CTAG> &s)
-{
-  Handle::operator=(s);
-  return *this;
-}
-
-template < class R >
-inline
 bool
 SegmentC2<R CGAL_CTAG>::operator==(const SegmentC2<R CGAL_CTAG> &s) const
 {
-  return source() == s.source()  && target() == s.target();
+  return source() == s.source() && target() == s.target();
 }
 
 template < class R >
@@ -113,34 +105,10 @@ SegmentC2<R CGAL_CTAG>::operator!=(const SegmentC2<R CGAL_CTAG> &s) const
 
 template < class R >
 inline
-int
-SegmentC2<R CGAL_CTAG>::id() const
-{
-  return (int) PTR;
-}
-
-template < class R >
-inline
-typename SegmentC2<R CGAL_CTAG>::Point_2
-SegmentC2<R CGAL_CTAG>::start() const
-{
-  return ptr()->e0;
-}
-
-template < class R >
-inline
-typename SegmentC2<R CGAL_CTAG>::Point_2
-SegmentC2<R CGAL_CTAG>::end() const
-{
-  return ptr()->e1;
-}
-
-template < class R >
-inline
 typename SegmentC2<R CGAL_CTAG>::Point_2
 SegmentC2<R CGAL_CTAG>::source() const
 {
-  return ptr()->e0;
+  return ptr->e0;
 }
 
 template < class R >
@@ -148,7 +116,23 @@ inline
 typename SegmentC2<R CGAL_CTAG>::Point_2
 SegmentC2<R CGAL_CTAG>::target() const
 {
-  return ptr()->e1;
+  return ptr->e1;
+}
+
+template < class R >
+inline
+typename SegmentC2<R CGAL_CTAG>::Point_2
+SegmentC2<R CGAL_CTAG>::start() const
+{
+  return source();
+}
+
+template < class R >
+inline
+typename SegmentC2<R CGAL_CTAG>::Point_2
+SegmentC2<R CGAL_CTAG>::end() const
+{
+  return target();
 }
 
 template < class R >
@@ -245,7 +229,7 @@ inline
 bool
 SegmentC2<R CGAL_CTAG>::is_degenerate() const
 {
-  return (source() == target());
+  return source() == target();
 }
 
 template < class R >
@@ -253,7 +237,7 @@ CGAL_KERNEL_INLINE
 bool
 SegmentC2<R CGAL_CTAG>::is_horizontal() const
 {
-  return source().y() == target().y();
+  return y_equal(source(), target());
 }
 
 template < class R >
@@ -261,7 +245,7 @@ CGAL_KERNEL_INLINE
 bool
 SegmentC2<R CGAL_CTAG>::is_vertical() const
 {
-  return source().x() == target().x();
+  return x_equal(source(), target());
 }
 
 template < class R >

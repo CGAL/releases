@@ -1,33 +1,26 @@
-/*********************************************************************/
-/*  This is an example program for the Planar_map package.           */
-/*  It is identical to example1 but uses the exact traits (with      */
-/*  Homogeneous coordinates. It also tests the remove function       */
-/*********************************************************************/
-/* By:   Eyal Flato                                                  */
-/*       Iddo Hanniel <hanniel@math.tau.ac.il>                       */
-/*********************************************************************/
+//example2
 
-//#include <CGAL/name_defs.h>
-
-#include <CGAL/Homogeneous.h>    //change from example1
+#include <CGAL/Homogeneous.h>             //change from example1
 #include <CGAL/Pm_segment_exact_traits.h> //change from example1
 
 #include <CGAL/Pm_default_dcel.h>
 #include <CGAL/Planar_map_2.h>
 
-typedef CGAL::Homogeneous<long>                 coord_t;  //change from example1
-typedef CGAL::Pm_segment_exact_traits<coord_t>  pmtraits; //change from example1
+using namespace CGAL;
 
-typedef pmtraits::Point                                  point;
-typedef pmtraits::X_curve                                curve;
-typedef CGAL::Pm_default_dcel<pmtraits>                   pmdcel;
+typedef Homogeneous<long>                 coord_t;  //change from example1
+typedef Pm_segment_exact_traits<coord_t>  pmtraits; //change from example1
+
+typedef pmtraits::Point                   point;
+typedef pmtraits::X_curve                 curve;
+typedef Pm_default_dcel<pmtraits>         pmdcel;
 
 int main()
 {
-  // creating an instance of CGAL::Planar_map_2<pmdcel,pmtraits>
-  //CGAL::Pm_naive_point_location_strategy<pmdcel,pmtraits> pl_strategy;  
-  //CGAL::Planar_map_2<pmdcel,pmtraits> pm(&pl_strategy);
-    CGAL::Planar_map_2<pmdcel,pmtraits> pm;
+  // creating an instance of Planar_map_2<pmdcel,pmtraits>
+  //Pm_naive_point_location_strategy<pmdcel,pmtraits> pl_strategy;  
+  //Planar_map_2<pmdcel,pmtraits> pm(&pl_strategy);
+  Planar_map_2<pmdcel,pmtraits> pm;
 
   curve cv[5];
   int i;
@@ -65,13 +58,15 @@ int main()
   
   // vertical ray shooting upward from p
   point p(95, 30);
-  CGAL::Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e;  
-  CGAL::Planar_map_2<pmdcel,pmtraits>::Locate_type lt;
+  Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e;  
+  Planar_map_2<pmdcel,pmtraits>::Locate_type lt;
 
-  std::cout << std::endl << "upward vertical ray shooting from " << p << std::endl; 
+  std::cout << std::endl << "upward vertical ray shooting from " << p;
+  std::cout << std::endl; 
+
   e=pm.vertical_ray_shoot(p, lt, true);
-  std::cout << "returned the curve :" << e->curve() << std::endl;
-
+  std::cout << "returned the curve :" << e->curve() << " oriented toward " 
+            << e->target()->point() << std::endl;
 
   //testing the removal function
 
@@ -88,16 +83,4 @@ int main()
 
   return 0;  
 }
-
-
-
-
-
-
-
-
-
-
-
-
 

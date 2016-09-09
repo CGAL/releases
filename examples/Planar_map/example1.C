@@ -1,30 +1,26 @@
-/*********************************************************************/
-/*  This is an example program for the Planar_map package.           */
-/*  It can be found in the manual .                                  */
-/*********************************************************************/
-/* By:   Eyal Flato                                                  */
-/*       Iddo Hanniel <hanniel@math.tau.ac.il>                       */
-/*********************************************************************/
+//example1
 
-//#include <CGAL/name_defs.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/Pm_segment_epsilon_traits.h>
 #include <CGAL/Pm_default_dcel.h>
 #include <CGAL/Planar_map_2.h>
 
-typedef double                                           number_type;
-typedef CGAL::Cartesian<number_type>                      coord_t;
-typedef CGAL::Pm_segment_epsilon_traits<coord_t>          pmtraits;
-typedef pmtraits::Point                                  point;
-typedef pmtraits::X_curve                                curve;
-typedef CGAL::Pm_default_dcel<pmtraits>                   pmdcel;
+using namespace CGAL;
+
+
+typedef double                                      number_type;
+typedef Cartesian<number_type>                      coord_t;
+typedef Pm_segment_epsilon_traits<coord_t>          pmtraits;
+typedef pmtraits::Point                             point;
+typedef pmtraits::X_curve                           curve;
+typedef Pm_default_dcel<pmtraits>                   pmdcel;
 
 int main()
 {
-  // creating an instance of CGAL::Planar_map_2<pmdcel,pmtraits>
-  //CGAL::Pm_naive_point_location_strategy<pmdcel,pmtraits> pl_strategy;  
-  //CGAL::Planar_map_2<pmdcel,pmtraits> pm(&pl_strategy);
-    CGAL::Planar_map_2<pmdcel,pmtraits> pm;
+  // creating an instance of Planar_map_2<pmdcel,pmtraits>
+  // Pm_naive_point_location_strategy<pmdcel,pmtraits> pl_strategy;  
+  // Planar_map_2<pmdcel,pmtraits> pm(&pl_strategy);
+  Planar_map_2<pmdcel,pmtraits> pm;
 
   curve cv[5];
   int i;
@@ -62,25 +58,15 @@ int main()
   
   // vertical ray shooting upward from p
   point p(95, 30);
-  CGAL::Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e;  
-  CGAL::Planar_map_2<pmdcel,pmtraits>::Locate_type lt;
+  Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e;  
+  Planar_map_2<pmdcel,pmtraits>::Locate_type lt;
 
-  std::cout << std::endl << "upward vertical ray shooting from " << p << std::endl; 
+  std::cout << std::endl << "upward vertical ray shooting from " << p;
+  std::cout << std::endl; 
+
   e=pm.vertical_ray_shoot(p, lt, true);
-  std::cout << "returned the curve :" << e->curve() << std::endl;
-  
-  return 0;  
+  std::cout << "returned the curve :" << e->curve() <<  " oriented toward " 
+            << e->target()->point() << std::endl; 
+  return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 

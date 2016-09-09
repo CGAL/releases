@@ -3,15 +3,13 @@
 #include<iostream>
 #include<cstdlib>
 #include<CGAL/Random.h>
+#include<CGAL/Optimisation_d_traits_d.h>
 #include<CGAL/Min_sphere_d.h>
 
-using namespace CGAL;
-using namespace std;
-
-typedef Cartesian<double>                R;
-typedef Min_sphere_d_traits_d<R>         Traits;
-typedef Min_sphere_d<Traits>             Min_sphere;
-typedef Point_d<R>                       Point;
+typedef CGAL::Cartesian<double>                R;
+typedef CGAL::Optimisation_d_traits_d<R>       Traits;
+typedef CGAL::Min_sphere_d<Traits>             Min_sphere;
+typedef R::Point_d                             Point;
 
 const int n = 10;                        // number of points
 const int d = 5;                         // dimension of points
@@ -20,7 +18,7 @@ int main ()
 {
     Point         P[n];                  // n points
     double        coord[d];              // d coordinates
-    Random        r;                     // random number generator
+    CGAL::Random  r;                     // random number generator
 
     for (int i=0; i<n; ++i) {
         for (int j=0; j<d; ++j)
@@ -30,8 +28,8 @@ int main ()
 
     Min_sphere  ms (P, P+n);             // smallest enclosing sphere
 
-    set_pretty_mode (cout);
-    cout << ms;                          // output the sphere
+    CGAL::set_pretty_mode (std::cout);
+    std::cout << ms;                     // output the sphere
 
     return 0;
 }

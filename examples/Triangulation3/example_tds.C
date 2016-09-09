@@ -8,8 +8,8 @@
 //
 // ----------------------------------------------------------------------------
 //
-// release       : $CGAL_Revision: CGAL-2.1-I-59 $
-// release_date  : $CGAL_Date: 2000/01/17 $
+// release       : $CGAL_Revision: CGAL-2.2-I-51 $
+// release_date  : $CGAL_Date: 2000/10/01 $
 //
 // file          : examples/Triangulation3/example_tds.C
 // revision      : $Revision: 1.6 $

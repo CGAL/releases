@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Tree_base.h
-// package       : SearchStructures (2.50)
+// package       : SearchStructures (2.54)
 // source        : include/CGAL/Tree_base.h 
 // revision      : $Revision: 1.4 $
 // revision_date : $Date: 1998/02/03 13:15:18 $
@@ -44,7 +44,8 @@
 //
 //
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -116,7 +117,7 @@ struct tree_node_base {
 // Designed according to the Prototype Design Pattern 
 // A tree class has to be derived from this class.
 
-template <class _Data, class _Window>
+template <class C_Data, class C_Window>
 class tree_base
 {
 
@@ -130,64 +131,64 @@ public:
   typedef int lbit;
   typedef double vbit;
   typedef char oit;
-  //  typedef std::vector<_Data>::iterator vit;
-  //typedef std::list<_Data>::iterator lit;
+  //  typedef std::vector<C_Data>::iterator vit;
+  //typedef std::list<C_Data>::iterator lit;
   //typedef std::back_insert_iterator<lit>  lbit;
   //typedef std::back_insert_iterator<vit>  vbit;
-  typedef tree_base<_Data, _Window> tree_base_type;
+  typedef tree_base<C_Data, C_Window> tree_base_type;
   tree_base() {}
   virtual ~tree_base() {}
 
   // 'clone()' returns an object which can be used as argument to 'delete'
-  virtual tree_base<_Data, _Window>  *clone() const = 0;
+  virtual tree_base<C_Data, C_Window>  *clone() const = 0;
   //virtual tree_base_type   *clone() const = 0;
 
   // 'make_tree()' returns an object which can be used as argument to 'delete'
-  virtual bool make_tree(typename std::list<_Data>::iterator& beg, 
-			 typename std::list<_Data>::iterator& end,
+  virtual bool make_tree(typename std::list<C_Data>::iterator& beg, 
+			 typename std::list<C_Data>::iterator& end,
 			 lit *dummy=0) =0;
 #ifdef stlvector
-  virtual bool make_tree(typename std::vector<_Data>::iterator& beg, 
-			 typename std::vector<_Data>::iterator& end,
+  virtual bool make_tree(typename std::vector<C_Data>::iterator& beg, 
+			 typename std::vector<C_Data>::iterator& end,
 			 vit *dummy=0) =0;
 #endif
 #ifdef carray
-  virtual bool make_tree(_Data *beg, 
-                         _Data *end) =0;
+  virtual bool make_tree(C_Data *beg, 
+                         C_Data *end) =0;
 #endif
-  virtual std::back_insert_iterator< std::list<_Data> > 
-    window_query(_Window const &win,  std::back_insert_iterator<
-		 std::list<_Data> > out,lbit *dummy=0 ) = 0; 
-  virtual std::back_insert_iterator< std::vector<_Data> >
-    window_query(_Window const &win,  std::back_insert_iterator<
-		  std::vector<_Data> > out,vbit *dummy=0) = 0; 
+  virtual std::back_insert_iterator< std::list<C_Data> > 
+    window_query(C_Window const &win,  std::back_insert_iterator<
+		 std::list<C_Data> > out,lbit *dummy=0 ) = 0; 
+  virtual std::back_insert_iterator< std::vector<C_Data> >
+    window_query(C_Window const &win,  std::back_insert_iterator<
+		  std::vector<C_Data> > out,vbit *dummy=0) = 0; 
 #ifdef carray
-  virtual _Data * window_query( _Window const &win, 
-			        _Data * out) = 0; 
+  virtual C_Data * window_query( C_Window const &win, 
+			        C_Data * out) = 0; 
 #endif
 #ifdef ostreamiterator
-  typedef std::ostream_iterator< _Data> oit;
-  virtual  std::ostream_iterator< _Data> window_query( _Window const &win, 
-				     std::ostream_iterator< _Data> out,
+  typedef std::ostream_iterator< C_Data> oit;
+  virtual  std::ostream_iterator< C_Data> window_query( C_Window const &win, 
+				     std::ostream_iterator< C_Data> out,
 					oit *dummy=0	       ) = 0; 
 #endif
-  virtual  std::back_insert_iterator< std::list< _Data> > 
-    enclosing_query( _Window const &win,  std::back_insert_iterator<
-		     std::list< _Data> > out, lbit *dummy=0 ) = 0; 
-  virtual  std::back_insert_iterator< std::vector< _Data> > 
-    enclosing_query( _Window const &win,  std::back_insert_iterator<
-		     std::vector< _Data> > out,vbit *dummy=0 ) = 0; 
+  virtual  std::back_insert_iterator< std::list< C_Data> > 
+    enclosing_query( C_Window const &win,  std::back_insert_iterator<
+		     std::list< C_Data> > out, lbit *dummy=0 ) = 0; 
+  virtual  std::back_insert_iterator< std::vector< C_Data> > 
+    enclosing_query( C_Window const &win,  std::back_insert_iterator<
+		     std::vector< C_Data> > out,vbit *dummy=0 ) = 0; 
 #ifdef carray
-  virtual   _Data * enclosing_query( _Window const &win, 
-				    _Data *out) = 0; 
+  virtual   C_Data * enclosing_query( C_Window const &win, 
+				    C_Data *out) = 0; 
 #endif
 #ifdef ostreamiterator
-  virtual  std::ostream_iterator< _Data> enclosing_query( _Window const &win, 
-				           std::ostream_iterator< _Data> out,
+  virtual  std::ostream_iterator< C_Data> enclosing_query( C_Window const &win, 
+				           std::ostream_iterator< C_Data> out,
 					   oit *dummy=0) = 0; 
 #endif
-  virtual bool is_inside( _Window const &win,
-			  _Data const& object)=0;  
+  virtual bool is_inside( C_Window const &win,
+			  C_Data const& object)=0;  
   virtual bool is_anchor()=0;
   virtual bool is_valid()=0;
 };
@@ -198,19 +199,19 @@ public:
 // The derived tree classes can be nested. Use this class as the
 // most inner class. This class is doing nothin exept stopping the recursion
 
-template <class _Data, class _Window>
-class tree_anchor: public tree_base< _Data,  _Window>
+template <class C_Data, class C_Window>
+class tree_anchor: public tree_base< C_Data,  C_Window>
 {
 public:
   // Construct a factory with the given factory as sublayer
   tree_anchor() {}
   virtual ~tree_anchor(){}
-  tree_base<_Data, _Window> *clone() const { return new tree_anchor(); }
-  typedef tree_base<_Data, _Window> tbt;
+  tree_base<C_Data, C_Window> *clone() const { return new tree_anchor(); }
+  typedef tree_base<C_Data, C_Window> tbt;
 //  tree_base_type *clone() const { return new tree_anchor(); }
 
-  bool make_tree(typename std::list< _Data>::iterator& beg, 
-		 typename std::list< _Data>::iterator& end, 
+  bool make_tree(typename std::list< C_Data>::iterator& beg, 
+		 typename std::list< C_Data>::iterator& end, 
 		 typename tbt::lit *dummy=0) 
   {
     USE_ARGUMENT(beg);
@@ -218,8 +219,8 @@ public:
     return true;
   }
 #ifdef stlvector
-  bool make_tree(typename std::vector< _Data>::iterator& beg, 
-		 typename std::vector< _Data>::iterator& end, 
+  bool make_tree(typename std::vector< C_Data>::iterator& beg, 
+		 typename std::vector< C_Data>::iterator& end, 
 		 typename tbt::vit *dummy=0) 
   {
     USE_ARGUMENT(beg);
@@ -228,74 +229,74 @@ public:
   }
 #endif
 #ifdef carray
-  bool make_tree( _Data *beg, 
-                  _Data *end) 
+  bool make_tree( C_Data *beg, 
+                  C_Data *end) 
   {
     USE_ARGUMENT(beg);
     USE_ARGUMENT(end);
     return true;
   }
 #endif
-   std::back_insert_iterator< std::list< _Data> > 
+   std::back_insert_iterator< std::list< C_Data> > 
       window_query( 
-       _Window const &win, 
-       std::back_insert_iterator< std::list< _Data> > out,
+       C_Window const &win, 
+       std::back_insert_iterator< std::list< C_Data> > out,
        typename tbt::lbit *dummy=0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
    
-  std::back_insert_iterator< std::vector< _Data> >  
-      window_query( _Window const &win, 
-		    std::back_insert_iterator< std::vector< _Data> > out, 
+  std::back_insert_iterator< std::vector< C_Data> >  
+      window_query( C_Window const &win, 
+		    std::back_insert_iterator< std::vector< C_Data> > out, 
                     typename tbt::vbit *dummy=0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
 #ifdef carray
-   _Data * window_query( _Window const &win, 
-                     _Data * out){
+   C_Data * window_query( C_Window const &win, 
+                     C_Data * out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
 #endif
 #ifdef ostreamiterator
-   std::ostream_iterator< _Data> window_query( _Window const &win, 
-				        std::ostream_iterator< _Data> out, 
+   std::ostream_iterator< C_Data> window_query( C_Window const &win, 
+				        std::ostream_iterator< C_Data> out, 
 					typename tbt::oit *dummy=0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
 #endif
-   std::back_insert_iterator< std::list< _Data> > enclosing_query( _Window const &win, 
-                                   std::back_insert_iterator< std::list< _Data> > out,
+   std::back_insert_iterator< std::list< C_Data> > enclosing_query( C_Window const &win, 
+                                   std::back_insert_iterator< std::list< C_Data> > out,
 				   typename tbt::lbit *dummy=0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
-   std::back_insert_iterator< std::vector< _Data> > enclosing_query( _Window const &win, 
-                                   std::back_insert_iterator< std::vector< _Data> > out,
+   std::back_insert_iterator< std::vector< C_Data> > enclosing_query( C_Window const &win, 
+                                   std::back_insert_iterator< std::vector< C_Data> > out,
 				   typename tbt::vbit *dummy=0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out); 
     return out;
   }
 #ifdef carray
-   _Data * enclosing_query( _Window const &win, 
-                        _Data * out){
+   C_Data * enclosing_query( C_Window const &win, 
+                        C_Data * out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
 #endif
 #ifdef ostreamiterator
-   std::ostream_iterator< _Data> enclosing_query( _Window const &win, 
-					   std::ostream_iterator< _Data> out,
+   std::ostream_iterator< C_Data> enclosing_query( C_Window const &win, 
+					   std::ostream_iterator< C_Data> out,
                                            typename tbt::oit *dummy=0){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
@@ -306,8 +307,8 @@ public:
 
 protected:
 
-  bool is_inside( _Window const &win, 
-		  _Data const& object)
+  bool is_inside( C_Window const &win, 
+		  C_Data const& object)
   {     
     USE_ARGUMENT(win);
     USE_ARGUMENT(object);

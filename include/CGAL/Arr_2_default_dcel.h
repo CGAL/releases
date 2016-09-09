@@ -30,15 +30,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Arr_2_default_dcel.h
-// package       : arr (1.16)
+// package       : arr (1.73)
 // author(s)     : Iddo Hanniel
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 #ifndef CGAL_ARR_2_DEFAULT_DCEL_H

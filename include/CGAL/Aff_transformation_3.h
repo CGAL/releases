@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Aff_transformation_3.fw
 // file          : include/CGAL/Aff_transformation_3.h
-// package       : _3 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _3 (3.7)
+// revision      : 3.7
+// revision_date : 16 Aug 2000 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -67,6 +68,11 @@
 #include <CGAL/Cartesian/Aff_transformation_3.h>
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/Aff_transformationS3.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 #include <CGAL/Point_3.h>
 #include <CGAL/Vector_3.h>
 #include <CGAL/Direction_3.h>
@@ -74,11 +80,11 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-class Aff_transformation_3 : public _R::Aff_transformation_3_base
+template <class R_>
+class Aff_transformation_3 : public R_::Aff_transformation_3_base
 {
 public:
-  typedef _R                                R;
+  typedef R_                                R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
   typedef typename R::Plane_3_base  RPlane_3;

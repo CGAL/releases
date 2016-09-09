@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Circle_2.fw
 // file          : include/CGAL/Circle_2.h
-// package       : _2 (2.8.1)
-// revision      : 2.8.1
-// revision_date : 07 Nov 1999 
+// package       : _2 (3.6)
+// revision      : 3.6
+// revision_date : 30 Jul 2000 
 // author(s)     : Andreas Fabri
 //                 Sven Schoenherr
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -66,17 +67,22 @@
 #endif // CGAL_CIRCLEC2_H
 #endif // CGAL_CARTESIAN_H
 
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/SimpleCartesian/CircleS2.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
+
+
 #ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
 #endif // CGAL_POINT_2_H
 
 CGAL_BEGIN_NAMESPACE
 
-template <class _R>
-  class Circle_2 : public _R::Circle_2_base
+template <class R_>
+  class Circle_2 : public R_::Circle_2_base
 {
 public:
-  typedef  _R   R;
+  typedef  R_   R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
   typedef typename R::Circle_2_base  RCircle_2;
@@ -94,35 +100,35 @@ public:
     {}
 
     Circle_2(const CGAL::Point_2<R> &center,
-                  const FT &squared_radius,
-                  const Orientation &orientation)
+             const FT &squared_radius,
+             const Orientation &orientation)
       : RCircle_2(center, squared_radius, orientation)
     {}
 
     Circle_2(const CGAL::Point_2<R> &center,
-                  const FT &squared_radius)
+             const FT &squared_radius)
       : RCircle_2(center, squared_radius, COUNTERCLOCKWISE)
     {}
 
     Circle_2(const CGAL::Point_2<R> &p,
-                  const CGAL::Point_2<R> &q,
-                  const CGAL::Point_2<R> &r)
+             const CGAL::Point_2<R> &q,
+             const CGAL::Point_2<R> &r)
       : RCircle_2(p,q,r)
     {}
 
     Circle_2(const CGAL::Point_2<R> & p,
-                  const CGAL::Point_2<R> & q,
-                  const Orientation &orientation)
+             const CGAL::Point_2<R> & q,
+             const Orientation &orientation)
       : RCircle_2(p,q,orientation)
     {}
 
     Circle_2(const CGAL::Point_2<R> & p,
-                  const CGAL::Point_2<R> & q)
+             const CGAL::Point_2<R> & q)
       : RCircle_2(p,q,COUNTERCLOCKWISE)
     {}
 
     Circle_2(const CGAL::Point_2<R> & center,
-                  const Orientation& orientation)
+             const Orientation& orientation)
       : RCircle_2(center,FT(0),orientation)
     {}
 
@@ -131,48 +137,31 @@ public:
     {}
 
 
-  CGAL::Circle_2<R>  &operator=(const CGAL::Circle_2<R> &t)
-    {
-      RCircle_2::operator=(t);
-      return *this;
-    }
+  bool
+  operator==(const CGAL::Circle_2<R> &t) const
+  { return RCircle_2::operator==(t); }
 
-  bool                operator==(const CGAL::Circle_2<R> &t) const
-    {
-      return RCircle_2::operator==(t);
-    }
+  bool
+  operator!=(const CGAL::Circle_2<R> &t) const
+  { return !(*this == t); }
 
-  bool                operator!=(const CGAL::Circle_2<R> &t) const
-    {
-      return !(*this == t);
-    }
 
-  int                 id() const
-    {
-      return (int)PTR;
-    }
+  CGAL::Point_2<R>
+  center() const
+  { return RCircle_2::center(); }
 
-  CGAL::Point_2<R>     center() const
-    {
-      return RCircle_2::center();
-    }
-
-  FT     squared_radius() const
-    {
-      return RCircle_2::squared_radius();
-    }
+  FT
+  squared_radius() const
+  { return RCircle_2::squared_radius(); }
 
   Orientation orientation() const
-    {
-      return RCircle_2::orientation();
-    }
+  { return RCircle_2::orientation(); }
 
 
   CGAL::Circle_2<R>
-            orthogonal_transform(const CGAL::Aff_transformation_2<R> &t) const
-  {
-    return  RCircle_2::orthogonal_transform(t);
-  }
+
+  orthogonal_transform(const CGAL::Aff_transformation_2<R> &t) const
+  { return  RCircle_2::orthogonal_transform(t); }
 
 /*
   CGAL::Circle_2<R>  transform(const CGAL::Aff_transformation_2<R> &t) const
@@ -181,57 +170,49 @@ public:
   }
 */
 
-  Oriented_side           oriented_side(const CGAL::Point_2<R> &p) const
-    {
-      return RCircle_2::oriented_side(p);
-    }
+  Oriented_side
+  oriented_side(const CGAL::Point_2<R> &p) const
+  { return RCircle_2::oriented_side(p); }
 
-  Bounded_side           bounded_side(const CGAL::Point_2<R> &p) const
-    {
-      return RCircle_2::bounded_side(p);
-    }
+  Bounded_side
+  bounded_side(const CGAL::Point_2<R> &p) const
+  { return RCircle_2::bounded_side(p); }
 
-  bool                has_on_boundary(const CGAL::Point_2<R> &p) const
-    {
-      return RCircle_2::has_on_boundary(p);
-    }
+  bool
+  has_on_boundary(const CGAL::Point_2<R> &p) const
+  { return RCircle_2::has_on_boundary(p); }
 
-  bool                has_on_positive_side(const CGAL::Point_2<R> &p) const
-    {
-      return RCircle_2::has_on_positive_side(p);
-    }
+  bool
+  has_on_positive_side(const CGAL::Point_2<R> &p) const
+  { return RCircle_2::has_on_positive_side(p); }
 
-  bool                has_on_negative_side(const CGAL::Point_2<R> &p) const
-    {
-      return RCircle_2::has_on_negative_side(p);
-    }
+  bool
+  has_on_negative_side(const CGAL::Point_2<R> &p) const
+  { return RCircle_2::has_on_negative_side(p); }
 
-  bool                has_on_bounded_side(const CGAL::Point_2<R> &p) const
-    {
-      return RCircle_2::has_on_bounded_side(p);
-    }
+  bool
+  has_on_bounded_side(const CGAL::Point_2<R> &p) const
+  { return RCircle_2::has_on_bounded_side(p); }
 
-  bool                has_on_unbounded_side(const CGAL::Point_2<R> &p) const
-    {
-      return RCircle_2::has_on_unbounded_side(p);
-    }
+  bool
+  has_on_unbounded_side(const CGAL::Point_2<R> &p) const
+  { return RCircle_2::has_on_unbounded_side(p); }
 
-  bool                is_degenerate() const
-    {
-      return RCircle_2::is_degenerate();
-    }
+  bool
+  is_degenerate() const
+  { return RCircle_2::is_degenerate(); }
 
-  CGAL::Circle_2<R>     opposite() const
-    {
-      return CGAL::Circle_2<R>(center(),
-                         squared_radius(),
-                         CGAL::opposite(orientation()));
-    }
+  CGAL::Circle_2<R>
+  opposite() const
+  {
+      return CGAL::Circle_2<R>(center(), squared_radius(),
+                               CGAL::opposite(orientation()));
+  }
 
-  Bbox_2           bbox() const
-    {
-      return RCircle_2::bbox();
-    }
+  Bbox_2
+  bbox() const
+  { return RCircle_2::bbox(); }
+
 };
 
 

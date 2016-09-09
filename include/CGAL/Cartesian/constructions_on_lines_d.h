@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/constructions_on_lines_d.h
-// package       : Cd (1.1.1)
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 1999/12/07 18:56:02 $
+// package       : Cd (1.5)
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 2000/06/27 14:32:32 $
 // author(s)     : Herve.Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

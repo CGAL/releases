@@ -30,20 +30,20 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : ddim_points.fw
 // file          : include/CGAL/Point_d.h
-// package       : _d (2.2.7)
-// revision      : 2.2.7
-// revision_date : 08 Oct 1999 
+// package       : _d (2.4)
+// revision      : 2.4
+// revision_date : 20 Jul 2000 
 // author(s)     : Sven Schoenherr
 //                 Bernd Gaertner
-// maintained by   Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
  
@@ -56,25 +56,25 @@
 #endif  // CGAL_REP_CLASS_DEFINED
 
 #ifdef CGAL_HOMOGENEOUS_H
-#ifndef CGAL_POINTHD_H
 #include <CGAL/PointHd.h>
-#endif // CGAL_POINTHD_H
 #endif // CGAL_HOMOGENEOUS_H
 
 #ifdef CGAL_CARTESIAN_H
-#ifndef CGAL_POINTCD_H
 #include <CGAL/PointCd.h>
 // #include <CGAL/Cartesian/Point_d.h>
-#endif // CGAL_POINTCD_H
 #endif // CGAL_CARTESIAN_H
+
+#ifdef CGAL_SIMPLE_CARTESIAN_H
+#include <CGAL/PointCd.h>
+#endif // CGAL_SIMPLE_CARTESIAN_H
 
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
-class Point_d : public _R::Point_d_base
+template < class R_ >
+class Point_d : public R_::Point_d_base
 {
 public:
-    typedef  _R   R;
+    typedef  R_   R;
     typedef typename R::RT              RT;
     typedef typename R::FT              FT;
     typedef typename R::Point_d_base    Point;
@@ -145,7 +145,7 @@ public:
     const_iterator end() const
     {
         return Point::end();
-    }   
+    }
 
     int dimension() const
     {
@@ -155,7 +155,7 @@ public:
 
 #ifndef NO_OSTREAM_INSERT_POINT_D
 template < class R >
-std::ostream& 
+std::ostream&
 operator<<(std::ostream& os, const Point_d<R>& p)
 {
   typedef typename  R::Point_d_base    Point;
@@ -165,7 +165,7 @@ operator<<(std::ostream& os, const Point_d<R>& p)
 
 #ifndef NO_ISTREAM_EXTRACT_POINT_D
 template < class R >
-std::istream& 
+std::istream&
 operator>>(std::istream& is, Point_d<R> &p)
 {
   typedef typename  R::Point_d_base    Point;

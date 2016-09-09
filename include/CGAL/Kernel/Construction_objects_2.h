@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Kernel/Construction_objects_2.h
-// package       : Cartesian_basic (3.3.7)
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/11/22 13:44:12 $
+// package       : Cartesian_basic (4.2)
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 2000/06/27 14:52:41 $
 // author(s)     : Herve Bronnimann
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -96,37 +97,46 @@ construct_circle_2() const { return Construct_circle_2(); }
 Construct_triangle_2
 construct_triangle_2_object() const { return Construct_triangle_2(); }
 Construct_aff_transformation_2
-construct_aff_transformation_2_object() const { return Construct_aff_transformation_2(); }
+construct_aff_transformation_2_object() const 
+{ return Construct_aff_transformation_2(); }
 
-typedef CGALi::Call_point_to_get<Point_2>              Construct_point_on_2;
+typedef CGALi::Call_point_to_get<Point_2>      Construct_point_on_2;
 Construct_point_on_2
 construct_point_on_2_object() const { return Construct_point_on_2(); }
 
-typedef CGALi::Call_second_point_to_get<Point_2>       Construct_second_point_on_2;
+typedef CGALi::Call_second_point_to_get<Point_2>  Construct_second_point_on_2;
 Construct_second_point_on_2
-construct_second_point_on_2_object() const { return Construct_second_point_on_2(); }
+construct_second_point_on_2_object() const 
+{ return Construct_second_point_on_2(); }
 
-typedef CGALi::Call_perpendicular_to_get<Vector_2>     Construct_perpendicular_vector_2;
+typedef CGALi::Call_perpendicular_to_get<Vector_2> 
+                                      Construct_perpendicular_vector_2;
 Construct_perpendicular_vector_2
-construct_perpendicular_vector_2_object() const { return Construct_perpendicular_vector_2(); }
+construct_perpendicular_vector_2_object() const 
+{ return Construct_perpendicular_vector_2(); }
 
-typedef CGALi::Call_perpendicular_to_get<Direction_2>  Construct_perpendicular_direction_2;
+typedef CGALi::Call_perpendicular_to_get<Direction_2>  
+                                       Construct_perpendicular_direction_2;
 Construct_perpendicular_direction_2
-construct_perpendicular_direction_2_object() const { return Construct_perpendicular_direction_2(); }
+construct_perpendicular_direction_2_object() const 
+{ return Construct_perpendicular_direction_2(); }
 
-typedef CGALi::Call_perpendicular_to_get<Line_2>       Construct_perpendicular_line_2;
+typedef CGALi::Call_perpendicular_to_get<Line_2>       
+                                   Construct_perpendicular_line_2;
 Construct_perpendicular_line_2
-construct_perpendicular_line_2_object() const { return Construct_perpendicular_line_2(); }
+construct_perpendicular_line_2_object() const 
+{ return Construct_perpendicular_line_2(); }
 
-typedef CGALi::p_Midpoint<Point_2>                     Construct_midpoint_2;
+typedef CGALi::p_Midpoint<Point_2>              Construct_midpoint_2;
 Construct_midpoint_2
-construct_midpoint_2_object() const { return Construct_midpoint_2(); }
+construct_midpoint_2_object() const 
+{ return Construct_midpoint_2(); }
 
-typedef CGALi::p_Circumcenter<Point_2>                 Construct_circumcenter_2;
+typedef CGALi::p_Circumcenter<Point_2>      Construct_circumcenter_2;
 Construct_circumcenter_2
 construct_circumcenter_2_object() const { return Construct_circumcenter_2(); }
 
-typedef CGALi::pl_Bisector<Point_2, Line_2>            Construct_bisector_2;
+typedef CGALi::pl_Bisector<Point_2, Line_2>       Construct_bisector_2;
 Construct_bisector_2
 construct_bisector_2_object() const { return Construct_bisector_2(); }
 
@@ -177,7 +187,8 @@ construct_circle_2() const { return Construct_circle_2(); } \
 Construct_triangle_2 \
 construct_triangle_2_object() const { return Construct_triangle_2(); } \
 Construct_aff_transformation_2 \
-construct_aff_transformation_2_object() const { return Construct_aff_transformation_2(); } \
+construct_aff_transformation_2_object() const \
+{ return Construct_aff_transformation_2(); } \
  \
 typedef CO::Construct_point_on_2     Construct_point_on_2; \
 Construct_point_on_2 \
@@ -185,19 +196,25 @@ construct_point_on_2_object() const { return Construct_point_on_2(); } \
  \
 typedef CO::Construct_second_point_on_2   Construct_second_point_on_2; \
 Construct_second_point_on_2 \
-construct_second_point_on_2_object() const { return Construct_second_point_on_2(); } \
+construct_second_point_on_2_object() const \
+{ return Construct_second_point_on_2(); } \
  \
-typedef CO::Construct_perpendicular_vector_2    Construct_perpendicular_vector_2; \
+typedef CO::Construct_perpendicular_vector_2 \
+                     Construct_perpendicular_vector_2; \
 Construct_perpendicular_vector_2 \
-construct_perpendicular_vector_2_object() const { return Construct_perpendicular_vector_2(); } \
+construct_perpendicular_vector_2_object() const \
+{ return Construct_perpendicular_vector_2(); } \
  \
-typedef CO::Construct_perpendicular_direction_2  Construct_perpendicular_direction_2; \
+typedef CO::Construct_perpendicular_direction_2  \
+                     Construct_perpendicular_direction_2; \
 Construct_perpendicular_direction_2 \
-construct_perpendicular_direction_2_object() const { return Construct_perpendicular_direction_2(); } \
+construct_perpendicular_direction_2_object() const \
+{ return Construct_perpendicular_direction_2(); } \
  \
-typedef CO::Construct_perpendicular_line_2    Construct_perpendicular_line_2; \
+typedef CO::Construct_perpendicular_line_2   Construct_perpendicular_line_2; \
 Construct_perpendicular_line_2 \
-construct_perpendicular_line_2_object() const { return Construct_perpendicular_line_2(); } \
+construct_perpendicular_line_2_object() const \
+{ return Construct_perpendicular_line_2(); } \
  \
 typedef CO::Construct_midpoint_2   Construct_midpoint_2; \
 Construct_midpoint_2 \
@@ -205,7 +222,8 @@ construct_midpoint_2_object() const { return Construct_midpoint_2(); } \
  \
 typedef CO::Construct_circumcenter_2    Construct_circumcenter_2; \
 Construct_circumcenter_2 \
-construct_circumcenter_2_object() const { return Construct_circumcenter_2(); } \
+construct_circumcenter_2_object() \
+const { return Construct_circumcenter_2(); } \
  \
 typedef CO::Construct_bisector_2    Construct_bisector_2; \
 Construct_bisector_2 \

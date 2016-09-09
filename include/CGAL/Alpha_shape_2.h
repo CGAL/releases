@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Alpha_shape_2.h
-// package       : Alpha_shapes_2 (5.5)
+// package       : Alpha_shapes_2 (8.3)
 // source        : $RCSfile: Alpha_shape_2.h,v $
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 1999/12/16 10:32:14 $
+// revision      : $Revision: 1.15 $
+// revision_date : $Date: 2000/07/11 15:52:09 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -104,11 +105,9 @@ public:
   typedef typename Gt::Coord_type Coord_type;
   typedef typename Gt::Point Point;
 
-  typedef typename Gt::Distance Distance;
   typedef typename Gt::Ray Ray;
   typedef typename Gt::Line Line;
   typedef typename Gt::Direction Direction;
-
 
   typedef typename Dt::Face_handle Face_handle;
   typedef typename Dt::Vertex_handle Vertex_handle;

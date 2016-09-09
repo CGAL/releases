@@ -1,6 +1,13 @@
 #ifndef __DRAW_MAP_H
 #define __DRAW_MAP_H
 
+#include <iostream>
+
+// if LEDA is not installed, a message will be issued in runtime by demo.C.
+#ifdef CGAL_USE_LEDA
+
+#include "configuration"
+
 #include <CGAL/Cartesian.h>
 #include <CGAL/squared_distance_2.h>  
 #include <CGAL/Point_2.h>
@@ -10,10 +17,12 @@
 #ifdef USE_RATIONAL
 #include <CGAL/Pm_segment_exact_traits.h>
 #include <CGAL/leda_rational.h>
-#elif defined (USE_LEDA_RAT_KERNEL)
+#else
+#if defined (USE_LEDA_RAT_KERNEL)
 #include <CGAL/Pm_leda_segment_exact_traits.h>
 #else
 #include <CGAL/Pm_segment_epsilon_traits.h>
+#endif
 #endif
 
 #include <CGAL/Pm_default_dcel.h>
@@ -43,19 +52,22 @@ typedef double                                 number_type;
 #endif
 
 #ifndef USE_LEDA_RAT_KERNEL
-typedef CGAL::Cartesian<number_type>            Rep;
+typedef CGAL::Cartesian<number_type>           Rep;
 #endif
 
 #ifdef USE_RATIONAL
-typedef CGAL::Pm_segment_exact_traits<Rep>      Traits;
-#elif defined(USE_LEDA_RAT_KERNEL)
-typedef CGAL::Pm_leda_segment_exact_traits      Traits;
+typedef CGAL::Pm_segment_exact_traits<Rep>     Traits;
 #else
-typedef CGAL::Pm_segment_epsilon_traits<Rep>    Traits;
+#if defined(USE_LEDA_RAT_KERNEL)
+typedef CGAL::Pm_leda_segment_exact_traits     Traits;
+#else
+typedef CGAL::Pm_segment_epsilon_traits<Rep>   Traits;
+#endif
 #endif
 
-typedef CGAL::Pm_default_dcel<Traits>           Dcel;
-typedef CGAL::Planar_map_2<Dcel,Traits>         Planar_map;
+typedef CGAL::Pm_default_dcel<Traits>          Dcel;
+typedef CGAL::Planar_map_2<Dcel,Traits>        Planar_map;
+typedef Planar_map::Traits_wrap                Traits_wrap;
 
 typedef Planar_map::Vertex                     Vertex;
 typedef Planar_map::Halfedge                   Halfedge;
@@ -74,18 +86,17 @@ typedef Traits::Point                          Pm_point;
 typedef Traits::X_curve                        Pm_curve; 
 
 
-// extern "C" to makes VC happy
-extern "C" int draw_pm (Planar_map & pm , CGAL::Window_stream & W);
+extern  int draw_pm (Planar_map & pm , CGAL::Window_stream & W);
 
-extern "C" bool Init (char *filename , Planar_map & pm) ;
+extern  bool Init (char *filename , Planar_map & pm) ;
 
-extern "C" void win_border( double &x0 , double &x1 , double &y0 ,
+extern  void win_border( double &x0 , double &x1 , double &y0 ,
                             Planar_map &pm);
 
-extern "C" CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
+extern  CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
                                           Planar_map &M);
 
-extern "C" void window_input(Planar_map & M, CGAL::Window_stream &W );
+extern  void window_input(Planar_map & M, CGAL::Window_stream &W );
 
 #ifdef CGAL_PM_TIMER
 extern CGAL::Timer t_total,t_construction,t_insert,t_remove,t_locate,t_vertical;
@@ -103,21 +114,7 @@ inline CGAL::Window_stream& operator<<(CGAL::Window_stream& os, const Pm_curve& 
   }
 #endif
 
+#endif // CGAL_USE_LEDA
 
-#endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif // __DRAW_MAP_H
 

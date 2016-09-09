@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Point_3.C
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1999/11/05 22:29:37 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.21 $
+// revision_date : $Date: 2000/08/23 13:59:18 $
 // author(s)     : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -62,28 +63,20 @@
 CGAL_BEGIN_NAMESPACE
 
 template < class R >
-inline
-_Threetuple<typename R::FT>*
-PointC3<R CGAL_CTAG>::ptr() const
-{
-  return (_Threetuple<FT>*)PTR;
-}
-
-template < class R >
 PointC3<R CGAL_CTAG>::PointC3()
 {
-  PTR = new _Threetuple<typename R::FT>(FT(0), FT(0), FT(0));
+  new ( static_cast< void*>(ptr)) Threetuple<FT>(FT(0), FT(0), FT(0));
 }
 
 template < class R >
 PointC3<R CGAL_CTAG>::PointC3(const Origin &)
 {
-  PTR = new _Threetuple<FT>(FT(0), FT(0), FT(0));
+  new ( static_cast< void*>(ptr)) Threetuple<FT>(FT(0), FT(0), FT(0));
 }
 
 template < class R >
 PointC3<R CGAL_CTAG>::PointC3(const PointC3<R CGAL_CTAG> &p)
-  : Handle((Handle&)p)
+  : Handle_for< Threetuple< typename R::FT> > (p)
 {}
 
 template < class R >
@@ -91,7 +84,7 @@ PointC3<R CGAL_CTAG>::PointC3(const typename PointC3<R CGAL_CTAG>::FT &x,
                               const typename PointC3<R CGAL_CTAG>::FT &y,
 			      const typename PointC3<R CGAL_CTAG>::FT &z)
 {
-  PTR = new _Threetuple<FT>(x, y, z);
+  new ( static_cast< void*>(ptr)) Threetuple<FT>(x, y, z);
 }
 
 template < class R >
@@ -101,9 +94,9 @@ PointC3<R CGAL_CTAG>::PointC3(const typename PointC3<R CGAL_CTAG>::FT &x,
 			      const FT &w)
 {
   if (w != FT(1))
-    PTR = new _Threetuple<FT>(x/w, y/w, z/w);
+    new ( static_cast< void*>(ptr)) Threetuple<FT>(x/w, y/w, z/w);
   else
-    PTR = new _Threetuple<FT>(x, y, z);
+    new ( static_cast< void*>(ptr)) Threetuple<FT>(x, y, z);
 }
 
 template < class R >
@@ -111,25 +104,41 @@ PointC3<R CGAL_CTAG>::~PointC3()
 {}
 
 template < class R >
-PointC3<R CGAL_CTAG> &
-PointC3<R CGAL_CTAG>::operator=(const PointC3<R CGAL_CTAG> &p)
+PointC3<R CGAL_CTAG>::
+PointC3(const typename PointC3<R CGAL_CTAG>::Vector_3 &v)
+  : Handle_for< Threetuple< typename R::FT> > (v)
+{}
+
+template < class R >
+inline
+typename PointC3<R CGAL_CTAG>::FT
+PointC3<R CGAL_CTAG>::x()  const
 {
-  Handle::operator=(p);
-  return *this;
+  return ptr->e0;
 }
 
 template < class R >
-PointC3<R CGAL_CTAG>::
-PointC3(const typename PointC3<R CGAL_CTAG>::Vector_3 &v)
-  : Handle((Handle&)v)
-{}
+inline
+typename PointC3<R CGAL_CTAG>::FT
+PointC3<R CGAL_CTAG>::y()  const
+{
+  return ptr->e1;
+}
+
+template < class R >
+inline
+typename PointC3<R CGAL_CTAG>::FT
+PointC3<R CGAL_CTAG>::z()  const
+{
+  return ptr->e2;
+}
 
 template < class R >
 inline
 bool
 PointC3<R CGAL_CTAG>::operator==(const PointC3<R CGAL_CTAG>& p) const
 {
-  return (x() == p.x()) && (y() == p.y()) && (z() == p.z());
+  return x_equal(*this, p) && y_equal(*this, p) && z_equal(*this, p);
 }
 
 template < class R >
@@ -138,38 +147,6 @@ bool
 PointC3<R CGAL_CTAG>::operator!=(const PointC3<R CGAL_CTAG>& p) const
 {
   return !(*this == p);
-}
-
-template < class R >
-inline
-long
-PointC3<R CGAL_CTAG>::id() const
-{
-  return (long) PTR;
-}
-
-template < class R >
-inline
-typename PointC3<R CGAL_CTAG>::FT
-PointC3<R CGAL_CTAG>::x()  const
-{
-  return ptr()->e0;
-}
-
-template < class R >
-inline
-typename PointC3<R CGAL_CTAG>::FT
-PointC3<R CGAL_CTAG>::y()  const
-{
-  return  ptr()->e1;
-}
-
-template < class R >
-inline
-typename PointC3<R CGAL_CTAG>::FT
-PointC3<R CGAL_CTAG>::z()  const
-{
-  return  ptr()->e2;
 }
 
 template < class R >
@@ -186,8 +163,11 @@ typename PointC3<R CGAL_CTAG>::FT
 PointC3<R CGAL_CTAG>::cartesian(int i) const
 {
   CGAL_kernel_precondition( (i>=0) && (i<=2) );
-  return (i==0) ? x() :
-         (i==1) ? y() : z();
+  // return (i==0) ? x() :
+//          (i==1) ? y() : z();
+  if (i==0) return x();
+  else if (i==1) return y();
+  return z();
 }
 
 template < class R >
@@ -203,7 +183,7 @@ inline
 typename PointC3<R CGAL_CTAG>::FT
 PointC3<R CGAL_CTAG>::hx()  const
 {
-  return ptr()->e0;
+  return x();
 }
 
 template < class R >
@@ -211,7 +191,7 @@ inline
 typename PointC3<R CGAL_CTAG>::FT
 PointC3<R CGAL_CTAG>::hy()  const
 {
-  return ptr()->e1;
+  return y();
 }
 
 template < class R >
@@ -219,7 +199,7 @@ inline
 typename PointC3<R CGAL_CTAG>::FT
 PointC3<R CGAL_CTAG>::hz()  const
 {
-  return ptr()->e2;
+  return z();
 }
 
 template < class R >
@@ -234,8 +214,9 @@ template < class R >
 typename PointC3<R CGAL_CTAG>::FT
 PointC3<R CGAL_CTAG>::homogeneous(int i) const
 {
-  CGAL_kernel_precondition((i>=0) && (i<=3));
-  return (i<3) ? cartesian(i) : FT(1);
+  CGAL_kernel_precondition(i>=0 && i<=3);
+  if (i<3) return cartesian(i);
+  return FT(1);
 }
 
 template < class R >

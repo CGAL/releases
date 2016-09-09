@@ -30,19 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Triangulation_3.h
-// package       : Triangulation3 (1.29)
-// revision      : $Revision: 1.74 $
+// package       : Triangulation3 (1.42)
+// revision      : $Revision: 1.80 $
 //
 // author(s)     : Monique Teillaud
 //
 // coordinator   : INRIA Sophia Antipolis 
 //                 (Mariette Yvinec)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -59,7 +60,7 @@
 #include <utility>
 
 #include <CGAL/Triangulation_utils_3.h>
-#include <CGAL/Random.h>
+// #include <CGAL/Random.h>
 #include <CGAL/triple.h>
 
 #include <CGAL/Pointer.h>
@@ -188,6 +189,8 @@ protected:
       insert_increase_dimension(p2);
       insert_increase_dimension(p3);
     } 
+
+  bool test_dim_down(Vertex_handle v);
 
 public:
 
@@ -373,6 +376,32 @@ public:
   //QUERIES
 
   bool is_vertex(const Point & p, Vertex_handle & v) const;
+
+  bool is_vertex(Vertex_handle v) const;
+  bool is_edge(Vertex_handle u, Vertex_handle v,
+	       Cell_handle & c, int & i, int & j) const;
+  // returns false when dimension <1
+  bool is_facet(Vertex_handle u, Vertex_handle v, Vertex_handle w,
+		Cell_handle & c, int & i, int & j, int & k) const;
+  // returns false when dimension <2
+  bool is_cell(Cell_handle c) const;
+  // returns false when dimension <3
+  bool is_cell(Vertex_handle u, Vertex_handle v, 
+	       Vertex_handle w, Vertex_handle t,
+	       Cell_handle & c, int & i, int & j, int & k, int & l) const;
+  // returns false when dimension <3
+  bool is_cell(Vertex_handle u, Vertex_handle v, 
+	       Vertex_handle w, Vertex_handle t,
+	       Cell_handle & c) const;
+
+  bool has_vertex(const Facet & f, Vertex_handle v, int & j) const;
+  bool has_vertex(Cell_handle c, int i, Vertex_handle v, int & j) const;
+  bool has_vertex(const Facet & f, Vertex_handle v) const;
+  bool has_vertex(Cell_handle c, int i, Vertex_handle v) const;
+
+  bool are_equal(Cell_handle c, int i, Cell_handle n, int j) const;
+  bool are_equal(const Facet & f, const Facet & g) const;
+  bool are_equal(const Facet & f, Cell_handle n, int j) const;
 
   Cell_handle locate(const Point & p) const;
 
@@ -605,6 +634,7 @@ private:
   // c belongs to the hat of v and has a facet on its boundary
   // traverses the boundary of the hat and finds adjacencies
   // traversal is done counterclockwise as seen from v
+
 public:
 
   Vertex_handle
@@ -778,21 +808,47 @@ public:
   // around a vertex
   void
   incident_cells(Vertex_handle v, 
-		 std::set<Cell*, std::less<Cell*> > & cells,
+		 std::set<Cell_handle, std::less<Cell_handle> > & cells,
 		 Cell_handle c = (Cell*) NULL ) const;
 
 
   void
   incident_vertices(Vertex_handle v, 
-		    std::set<Vertex*, std::less<Vertex*> > & vertices,
+		    std::set<Vertex_handle, std::less<Vertex_handle> > 
+		    & vertices,
 		    Cell_handle c = (Cell*) NULL ) const;
+
+  // old methods, kept for compatibility with previous versions
+  void
+  incident_cells(Vertex_handle v, 
+		 std::set<Cell*, std::less<Cell*> > & cells,
+		 Cell_handle c = (Cell*) NULL,
+		 int dummy_for_windows = 0) const;
+
+
+  void
+  incident_vertices(Vertex_handle v, 
+		    std::set<Vertex*, std::less<Vertex*> > 
+		    & vertices,
+		    Cell_handle c = (Cell*) NULL,
+		    int dummy_for_windows = 0) const;
 
 private:
   void 
   util_incident_vertices(Vertex_handle v, 
-			 std::set<Vertex*, std::less<Vertex*> > & vertices,
-			 std::set<Cell*, std::less<Cell*> > & cells,
+			 std::set<Vertex_handle, std::less<Vertex_handle> > 
+			 & vertices,
+			 std::set<Cell_handle, std::less<Cell_handle> > 
+			 & cells,
 			 Cell_handle c ) const;
+  void 
+  util_incident_vertices(Vertex_handle v, 
+			 std::set<Vertex*, std::less<Vertex*> > 
+			 & vertices,
+			 std::set<Cell*, std::less<Cell*> > 
+			 & cells,
+			 Cell_handle c,
+			 int dummy_for_windows = 0) const;
   inline
   Cell_handle create_cell(Vertex_handle v0, Vertex_handle v1,
 			  Vertex_handle v2, Vertex_handle v3,
@@ -832,12 +888,12 @@ operator>> (std::istream& is, Triangulation_3<GT, Tds> &tr)
 {
   //  return operator>>(is, tr._tds);
   typedef Triangulation_3<GT, Tds> Triangulation;
-  typedef  typename Triangulation::Vertex_handle  Vertex_handle;
-  typedef  typename Triangulation::Cell_handle Cell_handle;
-  typedef  typename Triangulation::Vertex  Vertex;
-  typedef  typename Triangulation::Cell Cell;
-  typedef  typename Triangulation::Edge Edge;
-  typedef  typename Triangulation::Facet Facet;
+  typedef typename Triangulation::Vertex_handle  Vertex_handle;
+  typedef typename Triangulation::Cell_handle Cell_handle;
+  typedef typename Triangulation::Vertex  Vertex;
+  typedef typename Triangulation::Cell Cell;
+  typedef typename Triangulation::Edge Edge;
+  typedef typename Triangulation::Facet Facet;
   typedef typename GT::Point Point;
   typedef typename Tds::Vertex TdsVertex;
   typedef typename Tds::Cell TdsCell;
@@ -867,7 +923,8 @@ operator>> (std::istream& is, Triangulation_3<GT, Tds> &tr)
 
   std::map< int, TdsCell*, std::less<int> > C;
 
-  read_cells(is, tr._tds, n+1, V, m, C);
+  //  read_cells(is, tr._tds, n+1, V, m, C);
+  read_cells(is, tr._tds, V, m, C);
   for ( i=0 ; i<m; i++ ) {
     is >> *(C[i]);
   }
@@ -890,14 +947,14 @@ operator<< (std::ostream& os, const Triangulation_3<GT, Tds> &tr)
   // when dimension < 3 : the same with faces of maximal dimension
 {
   typedef Triangulation_3<GT, Tds> Triangulation;
-  typedef  typename Triangulation::Vertex  Vertex;
-  typedef  typename Triangulation::Cell Cell;
-  typedef  typename Triangulation::Edge Edge;
-  typedef  typename Triangulation::Facet Facet;
-  typedef  typename Triangulation::Vertex_iterator  Vertex_iterator;
-  typedef  typename Triangulation::Cell_iterator  Cell_iterator;
-  typedef  typename Triangulation::Edge_iterator  Edge_iterator;
-  typedef  typename Triangulation::Facet_iterator  Facet_iterator;
+  typedef typename Triangulation::Vertex  Vertex;
+  typedef typename Triangulation::Cell Cell;
+  typedef typename Triangulation::Edge Edge;
+  typedef typename Triangulation::Facet Facet;
+  typedef typename Triangulation::Vertex_iterator  Vertex_iterator;
+  typedef typename Triangulation::Cell_iterator  Cell_iterator;
+  typedef typename Triangulation::Edge_iterator  Edge_iterator;
+  typedef typename Triangulation::Facet_iterator  Facet_iterator;
  
   std::map< void*, int, std::less<void*> > V;
   //  std::map< void*, int, less<void*> > C;
@@ -1147,6 +1204,42 @@ operator<< (std::ostream& os, const Triangulation_3<GT, Tds> &tr)
   //   }
   return os ;
 }
+
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+test_dim_down(Vertex_handle v)
+{
+  // tests whether removing v decreases the dimension of the triangulation 
+  // true iff
+  // v is incident to all finite cells
+  // and all the other vertices are coplanar
+  CGAL_triangulation_precondition(dimension() == 3);
+  CGAL_triangulation_precondition(! is_infinite(v) );
+
+  Cell_iterator cit = finite_cells_begin();
+  Cell_iterator cdone = cells_end();
+
+  int i, iv;
+  if ( ! cit->has_vertex(v,iv) ) return false;
+  Point p1=cit->vertex((iv+1)&3)->point();  
+  Point p2=cit->vertex((iv+2)&3)->point();  
+  Point p3=cit->vertex((iv+3)&3)->point();
+  ++cit;
+  
+  while ( cit != cdone ) {
+    if ( ! cit->has_vertex(v,iv) )
+      return false;
+    for ( i=1; i<4; i++ ) {
+	if ( geom_traits().orientation
+	     (p1,p2,p3,cit->vertex((iv+i)&3)->point()) != COPLANAR )
+	  return false;
+    }
+    ++cit;
+  }
+
+  return true;
+}// test_dim_down
 
 template < class GT, class Tds >
 int
@@ -1427,6 +1520,137 @@ is_vertex(const Point & p, Vertex_handle & v) const
 }
 
 template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+is_vertex(Vertex_handle v) const
+{
+  return( _tds.is_vertex(&(*v)) );
+}
+
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+is_edge(Vertex_handle u, Vertex_handle v,
+	Cell_handle & c, int & i, int & j) const
+{
+  CGAL_triangulation_expensive_precondition( _tds.is_vertex(&(*u)) &&
+					     _tds.is_vertex(&(*v)) );
+  typename Tds::Cell* cstar;
+  bool b= _tds.is_edge(&(*u),&(*v),cstar,i,j);
+  if (b) {c = ((Cell*) cstar)->handle();}
+  return b;
+}
+
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+is_facet(Vertex_handle u, Vertex_handle v, Vertex_handle w,
+	 Cell_handle & c, int & i, int & j, int & k) const
+{
+  CGAL_triangulation_expensive_precondition( _tds.is_vertex(&(*u)) &&
+					     _tds.is_vertex(&(*v)) &&
+					     _tds.is_vertex(&(*w)) );
+  typename Tds::Cell* cstar;
+  bool b= _tds.is_facet(&(*u),&(*v),&(*w),cstar,i,j,k);
+  if (b) {c = ((Cell*) cstar)->handle();}
+  return b;
+}
+
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+is_cell(Cell_handle c) const
+{
+  return( _tds.is_cell(&(*c)) );
+}
+
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+is_cell(Vertex_handle u, Vertex_handle v, 
+	Vertex_handle w, Vertex_handle t,
+	Cell_handle & c, int & i, int & j, int & k, int & l) const
+{
+  CGAL_triangulation_expensive_precondition( _tds.is_vertex(&(*u)) &&
+					     _tds.is_vertex(&(*v)) &&
+					     _tds.is_vertex(&(*w)) &&
+					     _tds.is_vertex(&(*t)) );
+  typename Tds::Cell* cstar;
+  bool b= _tds.is_cell(&(*u),&(*v),&(*w),&(*t),cstar,i,j,k,l);
+  if (b) {c = ((Cell*) cstar)->handle();}
+  return b;
+}
+
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+is_cell(Vertex_handle u, Vertex_handle v, 
+	Vertex_handle w, Vertex_handle t,
+	Cell_handle & c) const
+{
+  CGAL_triangulation_expensive_precondition( _tds.is_vertex(&(*u)) &&
+					     _tds.is_vertex(&(*v)) &&
+					     _tds.is_vertex(&(*w)) &&
+					     _tds.is_vertex(&(*t)) );
+  int i,j,k,l;
+  typename Tds::Cell* cstar;
+  bool b= _tds.is_cell(&(*u),&(*v),&(*w),&(*t),cstar,i,j,k,l);
+  if (b) {c = ((Cell*) cstar)->handle();}
+  return b;
+}
+
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+has_vertex(const Facet & f, Vertex_handle v, int & j) const
+{
+  return( _tds.has_vertex(&*(f.first), f.second, &*v, j) );
+}
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+has_vertex(Cell_handle c, int i, Vertex_handle v, int & j) const
+{
+  return( _tds.has_vertex(&*c, i, &*v, j) );
+}
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+has_vertex(const Facet & f, Vertex_handle v) const
+{
+  return( _tds.has_vertex(&*(f.first), f.second, &*v) );
+}
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+has_vertex(Cell_handle c, int i, Vertex_handle v) const
+{
+  return( _tds.has_vertex(&*c, i, &*v) );
+}
+
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+are_equal(Cell_handle c, int i, Cell_handle n, int j) const
+{
+  return( _tds.are_equal(&*c, i, &*n, j) );
+}
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+are_equal(const Facet & f, const Facet & g) const
+{
+  return( _tds.are_equal(&*(f.first), f.second, &*(g.first), g.second) );
+}
+template < class GT, class Tds >
+bool
+Triangulation_3<GT,Tds>::
+are_equal(const Facet & f, Cell_handle n, int j) const
+{
+  return( _tds.are_equal(&*(f.first), f.second, &*n, j) );
+}
+
+template < class GT, class Tds >
 Triangulation_3<GT,Tds>::Cell_handle
 Triangulation_3<GT,Tds>::
 locate(const Point & p) const
@@ -1475,7 +1699,7 @@ locate(const Point & p,
        int & lj) const
   // returns the (finite or infinite) cell p lies in
   // starts at cell "start"
-  // start must be non NULL and finite
+  // start must be non NULL 
   // if lt == OUTSIDE_CONVEX_HULL, li is the
   // index of a facet separating p from the rest of the triangulation
   // in dimension 2 :
@@ -1486,16 +1710,28 @@ locate(const Point & p,
   // separating p from the rest of the triangulation
   // lt = OUTSIDE_AFFINE_HULL if p is not coplanar with the triangulation
 {
-  static Random rand( (long) 0 );
+  //  static Random rand( (long) 0 );
+  static int rand = 0;
+  const int rand_a = 421;
+  const int rand_b = 2073;
+  const int rand_c = 32749;
   int i, inf;
   Point p0,p1,p2,p3;
   switch (dimension()) {
   case 3:
     {
-      CGAL_triangulation_precondition
-	( (&(*start) != NULL) 
-	  && ( ! start->has_vertex(infinite) ) );
-      Cell_handle c = start;
+//       CGAL_triangulation_precondition
+// 	( (&(*start) != NULL) 
+// 	  && ( ! start->has_vertex(infinite) ) );
+//       Cell_handle c = start;
+      CGAL_triangulation_precondition( (&(*start) != NULL) );
+      Cell_handle c;
+      int ind_inf;
+      if ( start->has_vertex(infinite,ind_inf) ) 
+	c = start->neighbor(ind_inf);
+      else
+	c = start;
+ 
       Orientation o[4];
       while (1) {
 	  
@@ -1508,7 +1744,9 @@ locate(const Point & p,
 	// else c is finite
 	// we test its facets in a random order until we find a
 	// neighbor to go further
-	i = rand.get_int(0,4);
+	//	i = rand.get_int(0,4);
+	rand = ( rand_a * rand + rand_b ) % rand_c;
+	i = rand &3;
 	p0 = c->vertex( i )->point();
 	p1 = c->vertex( (i+1)&3 )->point();
 	p2 = c->vertex( (i+2)&3 )->point();
@@ -1616,9 +1854,18 @@ locate(const Point & p,
     }
   case 2:
     {
-      CGAL_triangulation_precondition
-	( (&(*start) != NULL) 
-	  && ( ! start->has_vertex(infinite) ) );
+//       CGAL_triangulation_precondition
+// 	( (&(*start) != NULL) 
+// 	  && ( ! start->has_vertex(infinite) ) );
+//       Cell_handle c = start;
+      CGAL_triangulation_precondition( (&(*start) != NULL) );
+      Cell_handle c;
+      int ind_inf;
+      if ( start->has_vertex(infinite,ind_inf) ) 
+	c = start->neighbor(ind_inf);
+      else
+	c = start;
+
       //first tests whether p is coplanar with the current triangulation
       Facet_iterator finite_fit = finite_facets_begin();
       if ( geom_traits().orientation
@@ -1633,7 +1880,6 @@ locate(const Point & p,
       }
       // if p is coplanar, location in the triangulation
       // only the facet numbered 3 exists in each cell
-      Cell_handle c = start;
       Orientation o[3];
       while (1) {
 	  
@@ -1648,7 +1894,9 @@ locate(const Point & p,
 	// else c is finite
 	// we test its edges in a random order until we find a
 	// neighbor to go further
-	i = rand.get_int(0,3);
+	//	i = rand.get_int(0,3);
+	rand = ( rand_a * rand + rand_b ) % rand_c;
+	i = rand %3;
 	p0 = c->vertex( i )->point();
 	p1 = c->vertex( ccw(i) )->point();
 	p2 = c->vertex( cw(i) )->point();
@@ -1704,23 +1952,32 @@ locate(const Point & p,
     }
   case 1:
     {
-      CGAL_triangulation_precondition
-	( (&(*start) != NULL) 
-	  && ( ! start->has_vertex(infinite) ) );
+//       CGAL_triangulation_precondition
+// 	( (&(*start) != NULL) 
+// 	  && ( ! start->has_vertex(infinite) ) );
+//       Cell_handle c = start;
+      CGAL_triangulation_precondition( (&(*start) != NULL) );
+      Cell_handle c;
+      int ind_inf;
+      if ( start->has_vertex(infinite,ind_inf) ) 
+	c = start->neighbor(ind_inf);
+      else
+	c = start;
+
       //first tests whether p is collinear with the current triangulation
       Edge_iterator finite_eit = finite_edges_begin();
-      if ( ! geom_traits().collinear(p,
-				     (*finite_eit).first->vertex(0)->point(),
-				     (*finite_eit).first->vertex(1)->point()) ) {
+      if ( ! geom_traits().collinear
+	   (p,
+	    (*finite_eit).first->vertex(0)->point(),
+	    (*finite_eit).first->vertex(1)->point()) ) {
 	lt = OUTSIDE_AFFINE_HULL;
 	return (*finite_eit).first;
       }
       // if p is collinear, location :
-      Cell_handle c = start;
       Comparison_result o, o0, o1;
       int xyz;
-      p0 = start->vertex(0)->point();
-      p1 = start->vertex(1)->point();
+      p0 = c->vertex(0)->point();
+      p1 = c->vertex(1)->point();
       CGAL_triangulation_assertion
 	( ( geom_traits().compare_x(p0,p1) != EQUAL ) ||
 	  ( geom_traits().compare_y(p0,p1) != EQUAL ) ||
@@ -3098,7 +3355,8 @@ void
 Triangulation_3<GT,Tds>::
 incident_cells(Vertex_handle v, 
 	       std::set<Cell*, std::less<Cell*> > & cells,
-	       Cell_handle c ) const
+	       Cell_handle c,
+	       int dummy_for_windows) const
 {
   CGAL_triangulation_precondition( &(*v) != NULL );
   CGAL_triangulation_precondition( _tds.is_vertex(&(*v)) );
@@ -3118,6 +3376,36 @@ incident_cells(Vertex_handle v,
       
   for ( int j=0; j<4; j++ ) {
     if ( j != c->index(v) ) {
+      incident_cells( v, cells, c->neighbor(j), dummy_for_windows);
+    }
+  }
+}
+
+template < class GT, class Tds >
+void
+Triangulation_3<GT,Tds>::
+incident_cells(Vertex_handle v, 
+	       std::set<Cell_handle, std::less<Cell_handle> > & cells,
+	       Cell_handle c ) const
+{
+  CGAL_triangulation_precondition( &(*v) != NULL );
+  CGAL_triangulation_precondition( _tds.is_vertex(&(*v)) );
+
+  if ( dimension() < 3 ) { return; }
+
+  if ( &(*c) == NULL ) {
+    c = v->cell();
+  }
+  else {
+    CGAL_triangulation_precondition( c->has_vertex(v) );
+  }
+  if ( cells.find( c ) != cells.end() ) {
+    return; // c was already found
+  }
+  cells.insert( c );
+      
+  for ( int j=0; j<4; j++ ) {
+    if ( j != c->index(v) ) {
       incident_cells( v, cells, c->neighbor(j) );
     }
   }
@@ -3128,7 +3416,8 @@ void
 Triangulation_3<GT,Tds>::
 incident_vertices(Vertex_handle v, 
 		  std::set<Vertex*, std::less<Vertex*> > & vertices,
-		  Cell_handle c ) const
+		  Cell_handle c,
+		  int dummy_for_windows) const
 {
   CGAL_triangulation_precondition( &(*v) != NULL );
   CGAL_triangulation_precondition( _tds.is_vertex(&(*v)) );
@@ -3143,7 +3432,7 @@ incident_vertices(Vertex_handle v,
   }
 
   std::set<Cell*, std::less<Cell*> > cells;
-  util_incident_vertices(v, vertices, cells, c);
+  util_incident_vertices(v, vertices, cells, c, dummy_for_windows);
   return;
   // previous buggy version !
   //       int found = 0;
@@ -3169,10 +3458,36 @@ incident_vertices(Vertex_handle v,
 template < class GT, class Tds >
 void
 Triangulation_3<GT,Tds>::
+incident_vertices(Vertex_handle v, 
+		  std::set<Vertex_handle, std::less<Vertex_handle> > 
+		  & vertices,
+		  Cell_handle c ) const
+{
+  CGAL_triangulation_precondition( &(*v) != NULL );
+  CGAL_triangulation_precondition( _tds.is_vertex(&(*v)) );
+      
+  if ( number_of_vertices() < 2 ) { return; }
+
+  if ( &(*c) == NULL ) {
+    c = v->cell();
+  }
+  else {
+    CGAL_triangulation_precondition( c->has_vertex(v) );
+  }
+
+  std::set<Cell_handle, std::less<Cell_handle> > cells;
+  util_incident_vertices(v, vertices, cells, c);
+  return;
+}
+
+template < class GT, class Tds >
+void
+Triangulation_3<GT,Tds>::
 util_incident_vertices(Vertex_handle v, 
 		       std::set<Vertex*, std::less<Vertex*> > & vertices,
 		       std::set<Cell*, std::less<Cell*> > & cells,
-		       Cell_handle c ) const
+		       Cell_handle c,
+		       int dummy_for_windows) const
 {
   if ( cells.find( &(*c) ) != cells.end() ) {
     return; // c was already visited
@@ -3185,6 +3500,34 @@ util_incident_vertices(Vertex_handle v,
     if ( j != c->index(v) ) {
       if ( vertices.find( &(*(c->vertex(j))) ) == vertices.end() ) {
 	vertices.insert( &(*(c->vertex(j))) );
+      }
+      util_incident_vertices( v, vertices, cells, c->neighbor(j), 
+			      dummy_for_windows);
+    }
+  }
+      
+}
+
+template < class GT, class Tds >
+void
+Triangulation_3<GT,Tds>::
+util_incident_vertices(Vertex_handle v, 
+		       std::set<Vertex_handle, std::less<Vertex_handle> > 
+		       & vertices,
+		       std::set<Cell_handle, std::less<Cell_handle> > & cells,
+		       Cell_handle c ) const
+{
+  if ( cells.find( c ) != cells.end() ) {
+    return; // c was already visited
+  }
+  cells.insert( c );
+
+  int d = dimension();
+  int j;
+  for ( j=0; j <= d; j++ ) {
+    if ( j != c->index(v) ) {
+      if ( vertices.find( c->vertex(j) ) == vertices.end() ) {
+	vertices.insert( c->vertex(j) );
       }
       util_incident_vertices( v, vertices, cells, c->neighbor(j) );
     }

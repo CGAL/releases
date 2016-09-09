@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/point_generators_3.h
-// package       : Generator (2.23)
+// package       : Generator (2.34)
 // chapter       : $CGAL_Chapter: Geometric Object Generators $
 // source        : generators.fw
 // revision      : $Revision: 1.14 $
@@ -44,7 +44,8 @@
 // coordinator   : INRIA, Sophia Antipolis
 //
 // 3D Point Generators
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -64,7 +65,7 @@ template < class P, class Creator = Creator_uniform_3<double,P> >
 #else
 template < class P, class Creator >
 #endif
-class Random_points_in_sphere_3 : public _Random_generator_base<P> {
+class Random_points_in_sphere_3 : public Random_generator_base<P> {
     void generate_point();
 public:
     typedef Random_points_in_sphere_3<P,Creator> This;
@@ -72,7 +73,7 @@ public:
         // g is an input iterator creating points of type `P' uniformly
         // distributed in the open sphere with radius r, i.e. |`*g'| < r .
         // Three random numbers are needed from `rnd' for each point.
-    : _Random_generator_base<P>( r, rnd) { generate_point(); }
+    : Random_generator_base<P>( r, rnd) { generate_point(); }
     This& operator++()    {
         generate_point();
         return *this;
@@ -103,7 +104,7 @@ template < class P, class Creator = Creator_uniform_3<double,P> >
 #else
 template < class P, class Creator >
 #endif
-class Random_points_on_sphere_3 : public _Random_generator_base<P> {
+class Random_points_on_sphere_3 : public Random_generator_base<P> {
     void generate_point();
 public:
     typedef Random_points_on_sphere_3<P,Creator> This;
@@ -111,7 +112,7 @@ public:
         // g is an input iterator creating points of type `P' uniformly
         // distributed on the circle with radius r, i.e. |`*g'| == r . A
         // single random number is needed from `rnd' for each point.
-    : _Random_generator_base<P>( r, rnd) { generate_point(); }
+    : Random_generator_base<P>( r, rnd) { generate_point(); }
     This& operator++()    {
         generate_point();
         return *this;
@@ -142,12 +143,12 @@ template < class P, class Creator = Creator_uniform_3<double,P> >
 #else
 template < class P, class Creator >
 #endif
-class Random_points_in_cube_3 : public _Random_generator_base<P>{
+class Random_points_in_cube_3 : public Random_generator_base<P>{
     void generate_point();
 public:
     typedef Random_points_in_cube_3<P,Creator> This;
     Random_points_in_cube_3( double a = 1, Random& rnd = default_random)
-    : _Random_generator_base<P>( a, rnd) { generate_point(); }
+    : Random_generator_base<P>( a, rnd) { generate_point(); }
     This& operator++()    {
         generate_point();
         return *this;

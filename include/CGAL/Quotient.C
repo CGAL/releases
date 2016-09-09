@@ -30,14 +30,14 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : Quotient.fw
 // file          : include/CGAL/Quotient.C
-// package       : Number_types (2.7.1)
-// revision      : 2.7.1
-// revision_date : 04 Dec 1999 
+// package       : Number_types (3.4)
+// revision      : 3.4
+// revision_date : 13 Jul 2000 
 //
 // author(s)     :
 //
@@ -48,7 +48,8 @@
 //  The modification was done by Stefan.Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -175,15 +176,15 @@ quotient_cmp(const Quotient<NumberType>& x, const Quotient<NumberType>& y)
     // code assumes that SMALLER == - 1;
     CGAL_kernel_precondition( SMALLER == (Comparison_result)(-1) );
 
-    int xsign = CGAL::sign(x.num) * CGAL::sign(x.den) ;
-    int ysign = CGAL::sign(y.num) * CGAL::sign(y.den) ;
+    int xsign = CGAL_NTS sign(x.num) * CGAL_NTS sign(x.den) ;
+    int ysign = CGAL_NTS sign(y.num) * CGAL_NTS sign(y.den) ;
     if (xsign == 0) return (Comparison_result) -ysign;
     if (ysign == 0) return (Comparison_result)  xsign;
     // now (x != 0) && (y != 0)
     int diff = xsign - ysign;
     if (diff == 0)
     {
-        int msign = CGAL::sign(x.den) * CGAL::sign(y.den);
+        int msign = CGAL_NTS sign(x.den) * CGAL_NTS sign(y.den);
         NumberType leftop  = x.num * y.den * NumberType(msign);
         NumberType rightop = y.num * x.den * NumberType(msign);
         if (leftop < rightop)
@@ -535,14 +536,14 @@ to_double(const Quotient<NumberType>& q)   /* TODO */
 
   if ( is_finite( q.den )&&(is_finite( q.num )) )
   { return nd/dd ; }
-  if ( abs(q.num) > abs(q.den) )
+  if ( CGAL_NTS abs(q.num) > CGAL_NTS abs(q.den) )
   {
       NumberType  nt_div = q.num / q.den;
       double divd = CGAL::to_double(nt_div);
       if ( divd >= ldexp(1.0,53) )
       { return divd; }
   }
-  if ( abs(q.num) < abs(q.den) )
+  if ( CGAL_NTS abs(q.num) < CGAL_NTS abs(q.den) )
   { return 1.0 / CGAL::to_double( NumberType(1) / q ); }
 
   return nd/dd ;

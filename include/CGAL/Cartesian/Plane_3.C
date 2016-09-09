@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,17 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Cartesian/Plane_3.C
-// package       : C3 (4.0.3)
-// revision      : $Revision: 1.17 $
-// revision_date : $Date: 1999/11/22 13:34:08 $
+// package       : C3 (5.2)
+// revision      : $Revision: 1.25 $
+// revision_date : $Date: 2000/08/23 13:57:41 $
 // author(s)     : Andreas Fabri
 // coordinator   : INRIA Sophia-Antipolis
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -63,14 +64,6 @@ CGAL_BEGIN_NAMESPACE
 
 template < class R >
 inline
-_Fourtuple<typename R::FT>*
-PlaneC3<R CGAL_CTAG>::ptr() const
-{
-    return (_Fourtuple<FT>*)PTR;
-}
-
-template < class R >
-inline
 void
 PlaneC3<R CGAL_CTAG>::
 new_rep(const typename PlaneC3<R CGAL_CTAG>::FT &a,
@@ -78,7 +71,7 @@ new_rep(const typename PlaneC3<R CGAL_CTAG>::FT &a,
         const typename PlaneC3<R CGAL_CTAG>::FT &c,
         const typename PlaneC3<R CGAL_CTAG>::FT &d)
 {
-  PTR = new _Fourtuple<FT>(a, b, c, d);
+  new ( static_cast< void*>(ptr)) Fourtuple<FT>(a, b, c, d);
 }
 
 template < class R >
@@ -97,14 +90,14 @@ inline
 PlaneC3<R CGAL_CTAG>::
 PlaneC3()
 {
-  PTR = new _Fourtuple<FT>();
+  new ( static_cast< void*>(ptr)) Fourtuple<FT>();
 }
 
 template < class R >
 inline
 PlaneC3<R CGAL_CTAG>::
 PlaneC3(const PlaneC3<R CGAL_CTAG> &p)
-  : Handle(p)
+  : Handle_for<Fourtuple<typename R::FT> >(p)
 {}
 
 template < class R >
@@ -182,20 +175,11 @@ PlaneC3<R CGAL_CTAG>::~PlaneC3()
 {}
 
 template < class R >
-inline
-PlaneC3<R CGAL_CTAG> &PlaneC3<R CGAL_CTAG>::
-operator=(const PlaneC3<R CGAL_CTAG> &p)
-{
-  Handle::operator=(p);
-  return *this;
-}
-
-template < class R >
 CGAL_KERNEL_INLINE
 bool PlaneC3<R CGAL_CTAG>::
 operator==(const PlaneC3<R CGAL_CTAG> &p) const
 {
-  if (id() == p.id()) return true;
+  if (ptr == p.ptr) return true;
   return has_on_boundary(p.point()) &&
          (orthogonal_direction() == p.orthogonal_direction());
 
@@ -211,17 +195,10 @@ operator!=(const PlaneC3<R CGAL_CTAG> &p) const
 
 template < class R >
 inline
-long PlaneC3<R CGAL_CTAG>::id() const
-{
-  return (long) PTR;
-}
-
-template < class R >
-inline
 typename PlaneC3<R CGAL_CTAG>::FT
 PlaneC3<R CGAL_CTAG>::a() const
 {
-  return ptr()->e0;
+  return ptr->e0;
 }
 
 template < class R >
@@ -229,7 +206,7 @@ inline
 typename PlaneC3<R CGAL_CTAG>::FT
 PlaneC3<R CGAL_CTAG>::b() const
 {
-  return ptr()->e1;
+  return ptr->e1;
 }
 
 template < class R >
@@ -237,7 +214,7 @@ inline
 typename PlaneC3<R CGAL_CTAG>::FT
 PlaneC3<R CGAL_CTAG>::c() const
 {
-  return ptr()->e2;
+  return ptr->e2;
 }
 
 template < class R >
@@ -245,7 +222,7 @@ inline
 typename PlaneC3<R CGAL_CTAG>::FT
 PlaneC3<R CGAL_CTAG>::d() const
 {
-  return ptr()->e3;
+  return ptr->e3;
 }
 
 template < class R >
@@ -325,11 +302,9 @@ typename PlaneC3<R CGAL_CTAG>::Point_3
 PlaneC3<R CGAL_CTAG>::
 to_plane_basis(const typename PlaneC3<R CGAL_CTAG>::Point_3 &p) const
 {
-  const Vector_3 &e1 = base1();
-  const Vector_3 &e2 = base2();
   FT alpha, beta, gamma;
 
-  solve(e1, e2, orthogonal_vector(), p - point(), alpha, beta, gamma);
+  solve(base1(), base2(), orthogonal_vector(), p - point(), alpha, beta, gamma);
 
   return Point_3(alpha, beta, gamma);
 }
@@ -339,11 +314,9 @@ typename PlaneC3<R CGAL_CTAG>::Point_2
 PlaneC3<R CGAL_CTAG>::
 to_2d(const typename PlaneC3<R CGAL_CTAG>::Point_3 &p) const
 {
-  const Vector_3 &e1 = base1();
-  const Vector_3 &e2 = base2();
   FT alpha, beta, gamma;
 
-  solve(e1, e2, orthogonal_vector(), p - point(), alpha, beta, gamma);
+  solve(base1(), base2(), orthogonal_vector(), p - point(), alpha, beta, gamma);
 
   return Point_2(alpha, beta);
 }
@@ -354,9 +327,7 @@ typename PlaneC3<R CGAL_CTAG>::Point_3
 PlaneC3<R CGAL_CTAG>::
 to_3d(const typename PlaneC3<R CGAL_CTAG>::Point_2 &p) const
 {
-  Vector_3 e1 = base1(),
-               e2 = base2();
-  return point() + p.x() * e1 + p.y() * e2;
+  return point() + p.x() * base1() + p.y() * base2();
 }
 
 template < class R >
@@ -450,7 +421,7 @@ bool
 PlaneC3<R CGAL_CTAG>::
 is_degenerate() const
 {
-  return (a() == FT(0)) && (b() == FT(0)) && (c() == FT(0));
+  return a() == FT(0) && b() == FT(0) && c() == FT(0);
 }
 
 #ifndef CGAL_NO_OSTREAM_INSERT_PLANEC3

@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/point_generators_2.h
-// package       : Generator (2.23)
+// package       : Generator (2.34)
 // chapter       : $CGAL_Chapter: Geometric Object Generators $
 // source        : generators.fw
 // revision      : $Revision: 1.14 $
@@ -44,7 +44,8 @@
 // coordinator   : INRIA, Sophia Antipolis
 //
 // 2D Point Generators
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -53,6 +54,7 @@
 #ifndef CGAL_GENERATORS_H
 #include <CGAL/generators.h>
 #endif
+#include <CGAL/ch_value_type.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -61,7 +63,7 @@ template < class P, class Creator = Creator_uniform_2<double,P> >
 #else
 template < class P, class Creator >
 #endif
-class Random_points_in_disc_2 : public _Random_generator_base<P>{
+class Random_points_in_disc_2 : public Random_generator_base<P>{
     void generate_point();
 public:
     typedef Random_points_in_disc_2<P,Creator> This;
@@ -69,7 +71,7 @@ public:
         // g is an input iterator creating points of type `P' uniformly
         // distributed in the open disc with radius r, i.e. |`*g'| < r .
         // Two random numbers are needed from `rnd' for each point.
-    : _Random_generator_base<P>(r, rnd) { generate_point(); }
+    : Random_generator_base<P>(r, rnd) { generate_point(); }
     This& operator++() {
         generate_point();
         return *this;
@@ -86,9 +88,10 @@ void
 Random_points_in_disc_2<P,Creator>::
 generate_point() {
     double alpha = _rnd.get_double() * 2.0 * M_PI;
-    double r     = d_range * std::sqrt( _rnd.get_double());
+    double r     = d_range * CGAL_CLIB_STD::sqrt( _rnd.get_double());
     Creator creator;
-    d_item = creator( r * CGAL_CLIB_STD::cos(alpha), r * CGAL_CLIB_STD::sin(alpha));
+    d_item = creator( r * CGAL_CLIB_STD::cos(alpha), 
+                      r * CGAL_CLIB_STD::sin(alpha));
 }
 
 
@@ -97,7 +100,7 @@ template < class P, class Creator = Creator_uniform_2<double,P> >
 #else
 template < class P, class Creator >
 #endif
-class Random_points_on_circle_2 : public _Random_generator_base<P> {
+class Random_points_on_circle_2 : public Random_generator_base<P> {
     void generate_point();
 public:
     typedef Random_points_on_circle_2<P,Creator> This;
@@ -105,7 +108,7 @@ public:
         // g is an input iterator creating points of type `P' uniformly
         // distributed on the circle with radius r, i.e. |`*g'| == r . A
         // single random number is needed from `rnd' for each point.
-    : _Random_generator_base<P>(r, rnd) { generate_point(); }
+    : Random_generator_base<P>(r, rnd) { generate_point(); }
     This& operator++()    {
         generate_point();
         return *this;
@@ -123,7 +126,8 @@ Random_points_on_circle_2<P,Creator>::
 generate_point() {
     double a = _rnd.get_double() * 2.0 * M_PI;
     Creator creator;
-    d_item = creator( d_range * CGAL_CLIB_STD::cos(a), d_range * CGAL_CLIB_STD::sin(a));
+    d_item = creator( d_range * CGAL_CLIB_STD::cos(a), 
+                      d_range * CGAL_CLIB_STD::sin(a));
 }
 
 
@@ -132,7 +136,7 @@ template < class P, class Creator = Creator_uniform_2<double,P> >
 #else
 template < class P, class Creator >
 #endif
-class Random_points_in_square_2 : public _Random_generator_base<P> {
+class Random_points_in_square_2 : public Random_generator_base<P> {
     void generate_point();
 public:
     typedef Random_points_in_square_2<P,Creator> This;
@@ -142,7 +146,7 @@ public:
         // centered around the origin, i.e. \forall p = `*g': -\frac{a}{2}
         // <= p.x() < \frac{a}{2} and -\frac{a}{2} <= p.y() < \frac{a}{2}
         // . Two random numbers are needed from `rnd' for each point.
-    : _Random_generator_base<P>( a, rnd) { generate_point(); }
+    : Random_generator_base<P>( a, rnd) { generate_point(); }
     This& operator++()    {
         generate_point();
         return *this;
@@ -169,7 +173,7 @@ template < class P, class Creator = Creator_uniform_2<double,P> >
 #else
 template < class P, class Creator >
 #endif
-class Random_points_on_square_2 : public _Random_generator_base<P> {
+class Random_points_on_square_2 : public Random_generator_base<P> {
     void generate_point();
 public:
     typedef Random_points_on_square_2<P,Creator> This;
@@ -180,7 +184,7 @@ public:
         // coordinate is either \frac{a}{2} or -\frac{a}{2} and for the
         // other coordinate c holds -\frac{a}{2} <= c < \frac{a}{2} . A
         // single random number is needed from `rnd' for each point.
-    : _Random_generator_base<P>( a, rnd)  { generate_point(); }
+    : Random_generator_base<P>( a, rnd)  { generate_point(); }
     This& operator++()    {
         generate_point();
         return *this;
@@ -223,7 +227,7 @@ template < class P, class Creator = Creator_uniform_2<double,P> >
 #else
 template < class P, class Creator >
 #endif
-class Random_points_on_segment_2 : public _Random_generator_base<P> {
+class Random_points_on_segment_2 : public Random_generator_base<P> {
     P _p;
     P _q;
     void generate_point();
@@ -236,10 +240,9 @@ public:
         // distributed on the segment from p to q except q, i.e. `*g' ==
         // \lambda p + (1-\lambda)\, q where 0 <= \lambda < 1 . A single
         // random number is needed from `rnd' for each point.
-    : _Random_generator_base<P>( std::max( std::max( to_double(p.x()),
-                                                     to_double(q.x())),
-                                           std::max( to_double(p.y()),
-                                                     to_double(q.y()))),
+    : Random_generator_base<P>( max( max( to_double(p.x()), to_double(q.x())),
+                                          max( to_double(p.y()),
+                                               to_double(q.y()))),
                                  rnd) , _p(p), _q(q) {
         generate_point();
     }
@@ -268,7 +271,7 @@ generate_point() {
 }
 
 template < class P >
-class Points_on_segment_2 : public _Generator_base<P> {
+class Points_on_segment_2 : public Generator_base<P> {
     P _p;
     P _q;
     std::size_t  d_i;
@@ -279,10 +282,8 @@ public:
     Points_on_segment_2() {}
     Points_on_segment_2( const P& p, const P& q,
                          std::size_t mx, std::size_t i = 0)
-    : _Generator_base<P>( std::max( std::max( to_double(p.x()),
-                                              to_double(q.x())),
-                                    std::max( to_double(p.y()),
-                                              to_double(q.y())))),
+    : Generator_base<P>( max( max( to_double(p.x()), to_double(q.x())),
+                                   max( to_double(p.y()), to_double(q.y())))),
                           _p(p), _q(q), d_i(i), d_mx(mx) {
         generate_point();
     }
@@ -349,7 +350,7 @@ template <class OutputIterator>
 OutputIterator
 points_on_square_grid_2( double a, std::size_t n, OutputIterator o)
 {
-    return _points_on_square_grid_2( a, n, o, std::value_type(o));
+    return _points_on_square_grid_2( a, n, o, ch_value_type(o));
 }
 
 
@@ -410,8 +411,7 @@ void perturb_points_2( ForwardIterator first,
                        double yeps,
                        Random& rnd)
 {
-    _perturb_points_2( first, last, xeps, yeps, rnd,
-                       std::value_type(first));
+    _perturb_points_2( first, last, xeps, yeps, rnd, ch_value_type(first));
 }
 
 template <class ForwardIterator>
@@ -494,7 +494,7 @@ OutputIterator random_collinear_points_2(
     // )' and `to_double((*first).y())' must be legal.
 {
     return  _random_collinear_points_2( first, last, n, first2, rnd,
-                                        std::value_type(first));
+                                        ch_value_type(first));
 }
 
 template <class RandomAccessIterator, class OutputIterator>

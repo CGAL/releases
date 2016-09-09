@@ -3,6 +3,9 @@
 // CGAL example program generating random triangles.
 
 #include <CGAL/basic.h>
+#ifndef CGAL_USE_LEDA
+int main() { std::cout << "\nSorry, this demo needs LEDA\n"; return 0; }
+#else
 #include <cassert>
 #include <vector>
 #include <algorithm>
@@ -38,7 +41,7 @@ int main() {
     typedef Creator_uniform_3< Point, Triangle> T_creator;
     typedef Join_input_iterator_3< RP, RP, RP, T_creator> Triang_iterator;
     Triang_iterator ti( p1, p2, p3);
-    std::copy_n( ti, 20, std::back_inserter(triang));
+    CGAL::copy_n( ti, 20, std::back_inserter(triang));
 
     // Visualize triangles.
     leda_window* window = create_and_display_demo_window();
@@ -46,8 +49,8 @@ int main() {
         *window << *i;
 
     // Wait for mouse click in window.
-    Point p;
-    *window >> p;
+    (*window).read_mouse();
     delete window;
     return 0;
 }
+#endif // CGAL_USE_LEDA

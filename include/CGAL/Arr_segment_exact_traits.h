@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Arr_segment_exact_traits.h
-// package       : arr (1.16)
+// package       : arr (1.73)
 // source        :
 // revision      :
 // revision_date :
@@ -43,13 +43,14 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 // chapter       : Arrangement_2
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 
-#ifndef ARR_SEGMENT_EXACT_TRAITS_H
-#define ARR_SEGMENT_EXACT_TRAITS_H
+#ifndef CGAL_ARR_SEGMENT_EXACT_TRAITS_H
+#define CGAL_ARR_SEGMENT_EXACT_TRAITS_H
 #include <CGAL/Pm_segment_exact_traits.h>
 #include <CGAL/Segment_2_Segment_2_intersection.h>
 
@@ -81,8 +82,9 @@ public:
   { }
 
   bool is_x_monotone(const Curve&) {return true;}
-  void make_x_monotone(const Curve& /*cv*/, std::list<Curve>& /*l*/) {} //segments are x_monotone
-
+  
+  //segments are x_monotone :
+  void make_x_monotone(const Curve& /*cv*/, std::list<Curve>& /*l*/) {} 
 
   X_curve curve_flip(const X_curve& cv) const {
     return X_curve(cv.target(), cv.source());
@@ -93,8 +95,10 @@ public:
   {
     //split curve at split point (x coordinate) into c1 and c2
     CGAL_precondition(curve_get_point_status(cv,split_pt)==ON_CURVE);
-    CGAL_precondition(compare_lexicographically_xy(curve_source(cv),split_pt)!=EQUAL);
-    CGAL_precondition(compare_lexicographically_xy(curve_target(cv),split_pt)!=EQUAL);
+    CGAL_precondition(compare_lexicographically_xy(curve_source(cv),split_pt)
+		      != EQUAL);
+    CGAL_precondition(compare_lexicographically_xy(curve_target(cv),split_pt)
+		      != EQUAL);
     
     c1=X_curve(curve_source(cv),split_pt);
     c2=X_curve(split_pt,curve_target(cv));
@@ -133,7 +137,8 @@ public:
     res=intersection(c1,c2);
     if (assign(seg,res)) {
       //p1, p2 will always be ordered left,right (make seg left to right)
-      if (compare_lexicographically_xy(curve_source(seg), curve_target(seg))==LARGER)
+      if (compare_lexicographically_xy(curve_source(seg), curve_target(seg))
+	  == LARGER)
           seg=curve_flip(seg);
 
       if (compare_lexicographically_xy(curve_target(seg),pt)==LARGER) {
@@ -159,19 +164,27 @@ public:
     }
 
     return false;
+  }
+
+  X_curve curve_reflect_in_x_and_y (const X_curve& cv) const
+  {
+    // use hx(), hy(), hw() in order to support both Homogeneous and Cartesian
+    X_curve reflected_cv( point_reflect_in_x_and_y ( cv.source()),
+			  point_reflect_in_x_and_y ( cv.target()));
+    return reflected_cv;
+  }
 
 
-    //debug - for leda_rational normilizing improves efficiency
-    //#ifdef CGAL_LEDA_RATIONAL_H  //normalize if we are with rational numbers
-    //return Point(ip.x().normalize(),ip.y().normalize());
-    //#else
-    //return ip;
-    //#endif
-
+  Point point_reflect_in_x_and_y (const Point& pt) const
+  {
+    // use hx(), hy(), hw() in order to support both Homogeneous and Cartesian
+    Point reflected_pt( -pt.hx(), -pt.hy(), pt.hw());
+    return reflected_pt;
   }
 
   //the following function is needed to deal with overlaps
-  bool curves_overlap(const X_curve& cv1, const X_curve& cv2) const {
+  bool curves_overlap(const X_curve& cv1, const X_curve& cv2) const 
+  {
     Object res;
     X_curve seg;
     res=intersection(cv1,cv2);

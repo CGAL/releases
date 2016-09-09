@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Halfedge_data_structure_polyhedron_default_3.h
-// package       : Halfedge_DS (2.7)
+// package       : Halfedge_DS (2.8)
 // chapter       : $CGAL_Chapter: Halfedge Data Structures $
 // source        : hds.fw
 // revision      : $Revision: 1.3 $
@@ -44,7 +44,8 @@
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
 //
 // Halfedge Data Structure Default for Polyhedral Surfaces.
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

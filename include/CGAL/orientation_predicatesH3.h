@@ -30,24 +30,26 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : predicates_on_pointsH3.fw
 // file          : include/CGAL/orientation_predicatesH3.h
-// package       : H3 (2.3.7)
-// revision      : 2.3.7
-// revision_date : 03 Dec 1999 
+// package       : H3 (2.12)
+// revision      : 2.12
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
+ 
 
-
-#ifndef ORIENTATION_PREDICATESH3_H
-#define ORIENTATION_PREDICATESH3_H
+#ifndef CGAL_ORIENTATION_PREDICATESH3_H
+#define CGAL_ORIENTATION_PREDICATESH3_H
 
 #ifndef CGAL_PVDH3_H
 #include <CGAL/PVDH3.h>
@@ -61,9 +63,9 @@ template < class FT, class RT>
 CGAL_KERNEL_INLINE
 Orientation
 orientation( const PointH3<FT,RT>& p,
-                  const PointH3<FT,RT>& q,
-                  const PointH3<FT,RT>& r,
-                  const PointH3<FT,RT>& s)
+             const PointH3<FT,RT>& q,
+             const PointH3<FT,RT>& r,
+             const PointH3<FT,RT>& s)
 {
   RT det = det4x4_by_formula(
                p.hx(), p.hy(), p.hz(), p.hw(),

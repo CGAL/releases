@@ -29,18 +29,19 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/convexity_check_2.C
-// package       : Convex_hull (2.2.19)
+// package       : Convex_hull (3.3)
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -48,9 +49,8 @@
 #ifndef CGAL_CONVEXITY_CHECK_2_C
 #define CGAL_CONVEXITY_CHECK_2_C
 
-#ifndef CGAL_CONVEXITY_CHECK_2_H
+#include <CGAL/Kernel/traits_aids.h>
 #include <CGAL/convexity_check_2.h>
-#endif // CGAL_CONVEXITY_CHECK_2_H
 
 CGAL_BEGIN_NAMESPACE
 template <class ForwardIterator, class Traits>
@@ -58,11 +58,11 @@ bool
 is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last, 
                           const Traits& ch_traits)
 {
-  typedef  typename Traits::Less_xy      Less_xy;
-  typedef  typename Traits::Leftturn     Leftturn;
+  typedef  typename Traits::Less_xy_2      Less_xy;
+  typedef  typename Traits::Leftturn_2     Leftturn;
 
-  Less_xy  smaller_xy = ch_traits.get_less_xy_object();
-  Leftturn leftturn = ch_traits.get_leftturn_object();
+  Less_xy  smaller_xy = ch_traits.less_xy_2_object();
+  Leftturn leftturn = ch_traits.leftturn_2_object();
 
   ForwardIterator iter1;
   ForwardIterator iter2;
@@ -110,13 +110,14 @@ is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
 template <class ForwardIterator, class Traits>
 bool
 is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last, 
-                              const Traits& ch_traits)
+                         const Traits& ch_traits)
 {
-  typedef  typename Traits::Less_xy      Less_xy;
-  typedef  typename Traits::Rightturn    Rightturn;
+  typedef  typename Traits::Less_xy_2       Less_xy;
+  typedef  typename Traits::Leftturn_2      Leftturn;
+  typedef  Rightturn_by_leftturn< Leftturn> Rightturn;
 
-  Less_xy  smaller_xy = ch_traits.get_less_xy_object();
-  Rightturn rightturn = ch_traits.get_rightturn_object();
+  Less_xy  smaller_xy = ch_traits.less_xy_2_object();
+  Rightturn rightturn = ch_traits.leftturn_2_object();
 
   ForwardIterator iter1;
   ForwardIterator iter2;
@@ -167,7 +168,7 @@ ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
                             ForwardIterator2 first2, ForwardIterator2 last2,
                             const Traits&  ch_traits)
 {
-  typedef    typename Traits::Right_of_line    Right_of_line;
+  typedef    typename Traits::Left_of_line_2    Left_of_line;
   ForwardIterator1 iter11;
   ForwardIterator2 iter21;
   ForwardIterator2 iter22;
@@ -185,18 +186,17 @@ ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
       return true;
   }
 
-  Right_of_line  
-      rol = ch_traits.get_right_of_line_object(*first2, *successor(first2) );
+  Left_of_line  rol = ch_traits.left_of_line_2_object(*successor(first2), *first2);
   iter22 = first2;
   iter21 = iter22++;
   while (iter22 != last2)
   {
-      rol = ch_traits.get_right_of_line_object( *iter21++, *iter22++ );
+      rol = ch_traits.left_of_line_2_object( *iter22++, *iter21++);
       iter11 = std::find_if( first1, last1, rol );
       if (iter11 != last1 ) return false;
   }
 
-  rol = ch_traits.get_right_of_line_object( *iter21, *first2 );   
+  rol = ch_traits.left_of_line_2_object( *first2, *iter21 );   
   iter11 = std::find_if( first1, last1, rol );
   if (iter11 != last1 ) return false;
   return true;
@@ -210,7 +210,7 @@ ch_brute_force_chain_check_2(ForwardIterator1 first1,
                                   ForwardIterator2 last2,
                                   const Traits& ch_traits )
 {
-  typedef    typename Traits::Right_of_line    Right_of_line;
+  typedef    typename Traits::Left_of_line_2    Left_of_line;
   ForwardIterator1 iter11;
   ForwardIterator2 iter21;
   ForwardIterator2 iter22;
@@ -221,13 +221,12 @@ ch_brute_force_chain_check_2(ForwardIterator1 first1,
 
   if ( successor(first2) == last2 ) return true;
 
-  Right_of_line  
-      rol = ch_traits.get_right_of_line_object(*first2, *successor(first2) );
+  Left_of_line  rol = ch_traits.left_of_line_2_object(*successor(first2), *first2);
   iter22 = first2;
   iter21 = iter22++;
   while (iter22 != last2)
   {
-      rol = ch_traits.get_right_of_line_object( *iter21++, *iter22++ );
+      rol = ch_traits.left_of_line_2_object( *iter22++, *iter21++);
       iter11 = std::find_if( first1, last1, rol );
       if (iter11 != last1 ) return false;
   }

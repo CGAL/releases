@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998,1999 The CGAL Consortium
+// Copyright (c) 1998,1999,2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,616 +30,432 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Interval_arithmetic.h
-// package       : Interval_arithmetic (4.39)
-// revision      : $Revision: 2.103 $
-// revision_date : $Date: 1999/11/07 17:54:27 $
+// package       : Interval_arithmetic (4.58)
+// revision      : $Revision: 2.116 $
+// revision_date : $Date: 2000/09/13 14:38:18 $
 // author(s)     : Sylvain Pion
-//
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 #ifndef CGAL_INTERVAL_ARITHMETIC_H
 #define CGAL_INTERVAL_ARITHMETIC_H
 
-// This file contains the description of the two classes:
-// - Interval_nt_advanced  (do the FPU rounding mode changes yourself)
-// - Interval_nt           ("plug-in" version, derived from the other one)
-//
-// The differences are:
-// - The second one is slower.
-// - The first one assumes that the rounding mode is set -> +infinity before
-// some operations, and might set it -> +infinity when leaving, whereas
-// the second leaves the rounding -> nearest.
+// This file contains the description of the following classes:
+// - Interval_nt<false>  It's a number type that needs the FPU rounding mode
+//                       to be set to +inf.  It is also typedef'd to
+//                       Interval_nt_advanced for backward compatibility.
+// - Interval_nt<true>   Same but it does the rounding mode itself so you
+//                       don't have to worry about it.  But it's slower.
 //
 // Note: When rounding is towards +infinity, to make an operation rounded
 // towards -infinity, it's enough to take the opposite of some of the operand,
 // and the opposite of the result (see operator+, operator*,...).
 
 #include <CGAL/basic.h>
-#include <CGAL/Interval_arithmetic/_FPU.h>	// FPU rounding mode functions.
-
-#if defined _MSC_VER || defined __CYGWIN__
-extern "C" { double CGAL_ms_sqrt(double); }
-#endif
+#include <CGAL/Interval_arithmetic/_FPU.h>
+#include <CGAL/Interval_base.h>
 
 CGAL_BEGIN_NAMESPACE
 
-#ifdef CGAL_IA_NO_INLINE
-struct Interval_nt_advanced;
-static Interval_nt_advanced operator*(const Interval_nt_advanced&,
-	                              const Interval_nt_advanced&);
-static Interval_nt_advanced operator/(const Interval_nt_advanced&,
-	                              const Interval_nt_advanced&);
-#endif
-
-struct Interval_nt_advanced
+// bool or Tag_true/false, I don't know yet.
+// Note that later, other behaviours might arise, such as "nothrow" => bool is
+// probably not the best choice.  But it's easy to have !Protected. We'll see !
+template <bool Protected = true>
+struct Interval_nt : public Interval_base
 {
-  typedef Interval_nt_advanced IA;
-  struct unsafe_comparison {};		// Exception class.
-  static unsigned number_of_failures;	// Number of filter failures.
-  static const IA Smallest, Largest;	// Useful constant intervals.
+  typedef Interval_nt<Protected> IA;
 
-  friend inline IA operator+     (const IA &, const IA &);
-  friend inline IA operator-     (const IA &, const IA &);
-#ifdef CGAL_IA_NO_INLINE
-  friend        IA operator*     (const IA &, const IA &);
-  friend        IA operator/     (const IA &, const IA &);
-#else
-  friend inline IA operator*     (const IA &, const IA &);
-  friend inline IA operator/     (const IA &, const IA &);
-#endif
-  friend inline IA operator||    (const IA &, const IA &);
-  friend inline IA operator&&    (const IA &, const IA &);
-  friend inline bool operator<   (const IA &, const IA &);
-  friend inline bool operator>   (const IA &, const IA &);
-  friend inline bool operator<=  (const IA &, const IA &);
-  friend inline bool operator>=  (const IA &, const IA &);
-  friend inline bool operator==  (const IA &, const IA &);
-  friend inline bool operator!=  (const IA &, const IA &);
-  friend inline IA min           (const IA &, const IA &);
-  friend inline IA max           (const IA &, const IA &);
-  friend inline IA sqrt          (const IA &);
-  friend inline IA square        (const IA &);
-  friend inline IA abs           (const IA &);
-  friend inline double to_double (const IA &);
-  friend inline bool is_valid    (const IA &);
-  friend inline bool is_finite   (const IA &);
-  friend inline Sign sign        (const IA &);
-  friend inline Comparison_result compare (const IA &, const IA &);
+  Interval_nt() {}
 
-private:
-  static void overlap_action() // throw (unsafe_comparison)
+  Interval_nt(const double d)
+	  : Interval_base(d) {}
+
+  Interval_nt(const double i, const double s)
+	  : Interval_base(i,s) {}
+
+  Interval_nt(const Interval_base & d)
+	  : Interval_base(d) {}
+
+  // The advantage of non-member operators is that (double * IA) just works...
+  // But is it really useful and wishable in CGAL ?
+  IA operator+ (const IA &d) const
   {
-      number_of_failures++;
-      throw unsafe_comparison();
+    Protect_FPU_rounding<Protected> P;
+    return IA(-CGAL_IA_SUB(-inf_, d.inf_), CGAL_IA_ADD(sup_, d.sup_));
   }
 
-public:
-
-  // The constructors.
-  Interval_nt_advanced() {}
-
-  // To stop constant propagation, I need these CGAL_IA_STOP_CPROP().
-  // Ideally, these barriers should be placed just before the critical
-  // operations.
-
-  Interval_nt_advanced(const double d)
+  IA operator- (const IA &d) const
   {
-      _inf = _sup = CGAL_IA_STOP_CPROP(d);
+    Protect_FPU_rounding<Protected> P;
+    return IA(-CGAL_IA_SUB(d.sup_, inf_), CGAL_IA_SUB(sup_, d.inf_));
   }
 
-  Interval_nt_advanced(const double i, const double s)
+  IA operator* (const IA &) const;
+  IA operator/ (const IA &) const;
+
+  IA operator-() const { return IA (-sup_, -inf_); }
+
+  IA & operator+= (const IA &d) { return *this = *this + d; }
+  IA & operator-= (const IA &d) { return *this = *this - d; }
+  IA & operator*= (const IA &d) { return *this = *this * d; }
+  IA & operator/= (const IA &d) { return *this = *this / d; }
+
+  // The (join, union, ||) operator.
+  IA operator|| (const IA & d) const
   {
-#ifndef CGAL_LAZY_EXACT_NT_H
-      CGAL_assertion_msg(i<=s,
-	      " CGAL bug or variable used before being initialized");
-#endif
-      _inf = CGAL_IA_STOP_CPROP(i);
-      _sup = CGAL_IA_STOP_CPROP(s);
+    return IA(std::min(inf_, d.inf_), std::max(sup_, d.sup_));
   }
 
-#if 1
-  // The copy constructors/assignment: useless.
-  // The default ones are ok, but these appear to be faster...
-  Interval_nt_advanced(const IA & d)
-      : _inf(d._inf), _sup(d._sup) {}
-
-  IA & operator=(const IA & d)
-  { _inf = d._inf; _sup = d._sup; return *this; }
-#endif
-
-  IA  operator-() const { return IA (-_sup, -_inf); }
-
-  IA & operator+= (const IA &);
-  IA & operator-= (const IA &);
-  IA & operator*= (const IA &);
-  IA & operator/= (const IA &);
-
-  bool is_same (const IA & d) const
-  { return _inf == d._inf && _sup == d._sup; }
-
-  bool is_point() const
-  { return _sup == _inf; }
-
-  bool overlap (const IA & d) const
-  { return !(d._inf > _sup || d._sup < _inf); }
-
-  double inf() const { return _inf; }
-  double sup() const { return _sup; }
-
-protected:
-  double _inf, _sup;	// "_inf" stores the lower bound, "_sup" the upper.
+  // The (meet, intersection, &&) operator.  Valid if intervals overlap.
+  IA operator&& (const IA & d) const
+  {
+    return IA(std::max(inf_, d.inf_), std::min(sup_, d.sup_));
+  }
 };
 
-inline
-Interval_nt_advanced
-operator+ (const Interval_nt_advanced & e, const Interval_nt_advanced & d)
-{
-    CGAL_expensive_assertion(FPU_empiric_test() == CGAL_FE_UPWARD);
-    return Interval_nt_advanced (-CGAL_IA_FORCE_TO_DOUBLE((-e._inf) - d._inf),
-	                          CGAL_IA_FORCE_TO_DOUBLE( e._sup + d._sup));
-}
-
-inline
-Interval_nt_advanced
-operator- (const Interval_nt_advanced & e, const Interval_nt_advanced & d)
-{
-    CGAL_expensive_assertion(FPU_empiric_test() == CGAL_FE_UPWARD);
-    return Interval_nt_advanced (-CGAL_IA_FORCE_TO_DOUBLE(d._sup - e._inf),
-	                          CGAL_IA_FORCE_TO_DOUBLE(e._sup - d._inf));
-}
-
-#ifdef CGAL_IA_NO_INLINE
-static
-#else
+template <bool Protected>
+#ifndef CGAL_IA_NO_INLINE
 inline
 #endif
-Interval_nt_advanced
-operator* (const Interval_nt_advanced & e, const Interval_nt_advanced & d)
+Interval_nt<Protected>
+Interval_nt<Protected>::operator* (const Interval_nt<Protected> & d) const
 {
-  CGAL_expensive_assertion(FPU_empiric_test() == CGAL_FE_UPWARD);
-  if (e._inf>=0.0)					// e>=0
+  Protect_FPU_rounding<Protected> P;
+  if (inf_>=0.0)					// e>=0
   {
-    // d>=0     [_inf*d._inf; _sup*d._sup]
-    // d<=0     [_sup*d._inf; _inf*d._sup]
-    // d~=0     [_sup*d._inf; _sup*d._sup]
-    double a = e._inf, b = e._sup;
-    if (d._inf < 0.0)
+    // d>=0     [inf_*d.inf_; sup_*d.sup_]
+    // d<=0     [sup_*d.inf_; inf_*d.sup_]
+    // d~=0     [sup_*d.inf_; sup_*d.sup_]
+    double a = inf_, b = sup_;
+    if (d.inf_ < 0.0)
     {
 	a=b;
-	if (d._sup < 0.0)
-	    b=e._inf;
+	if (d.sup_ < 0.0)
+	    b=inf_;
     }
-    return Interval_nt_advanced(-CGAL_IA_FORCE_TO_DOUBLE(a*(-d._inf)),
-	                         CGAL_IA_FORCE_TO_DOUBLE(b*d._sup));
+    return IA(-CGAL_IA_MUL(a, -d.inf_), CGAL_IA_MUL(b, d.sup_));
   }
-  else if (e._sup<=0.0)				// e<=0
+  else if (sup_<=0.0)				// e<=0
   {
-    // d>=0     [_inf*d._sup; _sup*d._inf]
-    // d<=0     [_sup*d._sup; _inf*d._inf]
-    // d~=0     [_inf*d._sup; _inf*d._inf]
-    double a = e._sup, b = e._inf;
-    if (d._inf < 0.0)
+    // d>=0     [inf_*d.sup_; sup_*d.inf_]
+    // d<=0     [sup_*d.sup_; inf_*d.inf_]
+    // d~=0     [inf_*d.sup_; inf_*d.inf_]
+    double a = sup_, b = inf_;
+    if (d.inf_ < 0.0)
     {
 	a=b;
-	if (d._sup < 0.0)
-	    b=e._sup;
+	if (d.sup_ < 0.0)
+	    b=sup_;
     }
-    return Interval_nt_advanced(-CGAL_IA_FORCE_TO_DOUBLE(b*(-d._sup)),
-	                         CGAL_IA_FORCE_TO_DOUBLE(a*d._inf));
+    return IA(-CGAL_IA_MUL(b, -d.sup_), CGAL_IA_MUL(a, d.inf_));
   }
-  else						// 0 \in [_inf;_sup]
+  else						// 0 \in [inf_;sup_]
   {
-    if (d._inf>=0.0)				// d>=0
-      return Interval_nt_advanced (-CGAL_IA_FORCE_TO_DOUBLE((-e._inf)*d._sup),
-	                            CGAL_IA_FORCE_TO_DOUBLE(e._sup*d._sup));
-    if (d._sup<=0.0)				// d<=0
-      return Interval_nt_advanced (-CGAL_IA_FORCE_TO_DOUBLE(e._sup*(-d._inf)),
-	                            CGAL_IA_FORCE_TO_DOUBLE(e._inf*d._inf));
+    if (d.inf_>=0.0)				// d>=0
+      return IA(-CGAL_IA_MUL(-inf_, d.sup_), CGAL_IA_MUL(sup_, d.sup_));
+    if (d.sup_<=0.0)				// d<=0
+      return IA(-CGAL_IA_MUL(sup_, -d.inf_), CGAL_IA_MUL(inf_, d.inf_));
         					// 0 \in d
-    double tmp1 = CGAL_IA_FORCE_TO_DOUBLE((-e._inf)*d._sup);
-    double tmp2 = CGAL_IA_FORCE_TO_DOUBLE(e._sup*(-d._inf));
-    double tmp3 = CGAL_IA_FORCE_TO_DOUBLE(e._inf*d._inf);
-    double tmp4 = CGAL_IA_FORCE_TO_DOUBLE(e._sup*d._sup);
-    return Interval_nt_advanced(-std::max(tmp1,tmp2), std::max(tmp3,tmp4));
+    double tmp1 = CGAL_IA_MUL(-inf_, d.sup_);
+    double tmp2 = CGAL_IA_MUL(sup_, -d.inf_);
+    double tmp3 = CGAL_IA_MUL(inf_, d.inf_);
+    double tmp4 = CGAL_IA_MUL(sup_, d.sup_);
+    return IA(-std::max(tmp1,tmp2), std::max(tmp3,tmp4));
   };
 }
 
-#ifdef CGAL_IA_NO_INLINE
-static
-#else
+template <bool Protected>
+#ifndef CGAL_IA_NO_INLINE
 inline
 #endif
-Interval_nt_advanced
-operator/ (const Interval_nt_advanced & e, const Interval_nt_advanced & d)
+Interval_nt<Protected>
+Interval_nt<Protected>::operator/ (const Interval_nt<Protected> & d) const
 {
-  CGAL_expensive_assertion(FPU_empiric_test() == CGAL_FE_UPWARD);
-  if (d._inf>0.0)				// d>0
+  Protect_FPU_rounding<Protected> P;
+  if (d.inf_>0.0)				// d>0
   {
-    // e>=0	[_inf/d._sup; _sup/d._inf]
-    // e<=0	[_inf/d._inf; _sup/d._sup]
-    // e~=0	[_inf/d._inf; _sup/d._inf]
-    double a = d._sup, b = d._inf;
-    if (e._inf<0.0)
+    // e>=0	[inf_/d.sup_; sup_/d.inf_]
+    // e<=0	[inf_/d.inf_; sup_/d.sup_]
+    // e~=0	[inf_/d.inf_; sup_/d.inf_]
+    double a = d.sup_, b = d.inf_;
+    if (inf_<0.0)
     {
 	a=b;
-	if (e._sup<0.0)
-	    b=d._sup;
+	if (sup_<0.0)
+	    b=d.sup_;
     };
-    return Interval_nt_advanced(-CGAL_IA_FORCE_TO_DOUBLE((-e._inf)/a),
-	                         CGAL_IA_FORCE_TO_DOUBLE(e._sup/b));
+    return IA(-CGAL_IA_DIV(-inf_, a), CGAL_IA_DIV(sup_, b));
   }
-  else if (d._sup<0.0)			// d<0
+  else if (d.sup_<0.0)			// d<0
   {
-    // e>=0	[_sup/d._sup; _inf/d._inf]
-    // e<=0	[_sup/d._inf; _inf/d._sup]
-    // e~=0	[_sup/d._sup; _inf/d._sup]
-    double a = d._sup, b = d._inf;
-    if (e._inf<0.0)
+    // e>=0	[sup_/d.sup_; inf_/d.inf_]
+    // e<=0	[sup_/d.inf_; inf_/d.sup_]
+    // e~=0	[sup_/d.sup_; inf_/d.sup_]
+    double a = d.sup_, b = d.inf_;
+    if (inf_<0.0)
     {
 	b=a;
-	if (e._sup<0.0)
-	    a=d._inf;
+	if (sup_<0.0)
+	    a=d.inf_;
     };
-    return Interval_nt_advanced(-CGAL_IA_FORCE_TO_DOUBLE((-e._sup)/a),
-	                         CGAL_IA_FORCE_TO_DOUBLE(e._inf/b));
+    return IA(-CGAL_IA_DIV(-sup_, a), CGAL_IA_DIV(inf_, b));
   }
   else					// d~0
-    return Interval_nt_advanced::Largest;
-	   // We could do slightly better -> [0;HUGE_VAL] when d._sup==0,
+    return IA::Largest;
+	   // We could do slightly better -> [0;HUGE_VAL] when d.sup_==0,
 	   // but is this worth ?
 }
 
+template <bool Protected>
 inline
-Interval_nt_advanced
-sqrt (const Interval_nt_advanced & d)
+Interval_nt<Protected>
+sqrt (const Interval_nt<Protected> & d)
 {
+  Protect_FPU_rounding<Protected> P;  // not optimal here.
   // sqrt([+a,+b]) => [sqrt(+a);sqrt(+b)]
   // sqrt([-a,+b]) => [0;sqrt(+b)] => assumes roundoff error.
   // sqrt([-a,-b]) => [0;sqrt(-b)] => assumes user bug (unspecified result).
   FPU_set_cw(CGAL_FE_DOWNWARD);
-#if defined _MSC_VER || defined __CYGWIN__
-  // sqrt(double) on M$ is buggy.
-  double i = (d._inf>0.0) ? CGAL_IA_FORCE_TO_DOUBLE(CGAL_ms_sqrt(d._inf)) : 0.0;
+  double i = (d.inf_ > 0.0) ? CGAL_IA_SQRT(d.inf_) : 0.0;
   FPU_set_cw(CGAL_FE_UPWARD);
-  return Interval_nt_advanced(i, CGAL_IA_FORCE_TO_DOUBLE(CGAL_ms_sqrt(d._sup)));
+  return Interval_nt<Protected>(i, CGAL_IA_SQRT(d.sup_));
+}
+
+#ifndef CGAL_CFG_MATCHING_BUG_2
+template <bool Protected>
+inline
+Interval_nt<Protected>
+min (const Interval_nt<Protected> & d, const Interval_nt<Protected> & e)
+{
+  return Interval_nt<Protected>(std::min(d.inf_, e.inf_),
+		                std::min(d.sup_, e.sup_));
+}
+
+template <bool Protected>
+inline
+Interval_nt<Protected>
+max (const Interval_nt<Protected> & d, const Interval_nt<Protected> & e)
+{
+  return Interval_nt<Protected>(std::max(d.inf_, e.inf_),
+		                std::max(d.sup_, e.sup_));
+}
+
 #else
-  double i = (d._inf>0.0) ? CGAL_IA_FORCE_TO_DOUBLE(std::sqrt(d._inf)) : 0.0;
-  FPU_set_cw(CGAL_FE_UPWARD);
-  return Interval_nt_advanced(i, CGAL_IA_FORCE_TO_DOUBLE(std::sqrt(d._sup)));
-#endif
-}
 
 inline
-Interval_nt_advanced
-square (const Interval_nt_advanced & d)
+Interval_nt<false>
+min (const Interval_nt<false> & d, const Interval_nt<false> & e)
 {
-  CGAL_expensive_assertion(FPU_empiric_test() == CGAL_FE_UPWARD);
-  if (d._inf>=0.0)
-      return Interval_nt_advanced(-CGAL_IA_FORCE_TO_DOUBLE(d._inf*(-d._inf)),
-	     			   CGAL_IA_FORCE_TO_DOUBLE(d._sup*d._sup));
-  if (d._sup<=0.0)
-      return Interval_nt_advanced(-CGAL_IA_FORCE_TO_DOUBLE(d._sup*(-d._sup)),
-	     			   CGAL_IA_FORCE_TO_DOUBLE(d._inf*d._inf));
-  return Interval_nt_advanced(0.0,
-	  CGAL_IA_FORCE_TO_DOUBLE(square(std::max(-d._inf, d._sup))));
+  return Interval_nt<false>(min(d.inf_, e.inf_),min(d.sup_, e.sup_));
 }
 
 inline
-bool
-operator< (const Interval_nt_advanced & e, const Interval_nt_advanced & d)
+Interval_nt<false>
+max (const Interval_nt<false> & d, const Interval_nt<false> & e)
 {
-    if (e._sup  < d._inf) return true;
-    if (e._inf >= d._sup) return false;
-    Interval_nt_advanced::overlap_action();
-    return false;
+  return Interval_nt<false>(max(d.inf_, e.inf_),max(d.sup_, e.sup_));
 }
 
 inline
-bool
-operator<= (const Interval_nt_advanced & e, const Interval_nt_advanced & d)
+Interval_nt<true>
+min (const Interval_nt<true> & d, const Interval_nt<true> & e)
 {
-    if (e._sup <= d._inf) return true;
-    if (e._inf >  d._sup) return false;
-    Interval_nt_advanced::overlap_action();
-    return false;
+  return Interval_nt<true>(min(d.inf_, e.inf_),min(d.sup_, e.sup_));
 }
 
 inline
-bool
-operator== (const Interval_nt_advanced & e, const Interval_nt_advanced & d)
+Interval_nt<true>
+max (const Interval_nt<true> & d, const Interval_nt<true> & e)
 {
-    if (d._inf >  e._sup || d._sup  < e._inf) return false;
-    if (d._inf == e._sup && d._sup == e._inf) return true;
-    Interval_nt_advanced::overlap_action();
-    return false;
+  return Interval_nt<true>(max(d.inf_, e.inf_),max(d.sup_, e.sup_));
 }
 
-inline
-bool
-operator> (const Interval_nt_advanced & e, const Interval_nt_advanced & d)
-{ return d < e; }
+#endif // CGAL_CFG_MATCHING_BUG_2
 
-inline
-bool
-operator>= (const Interval_nt_advanced & e, const Interval_nt_advanced & d)
-{ return d <= e; }
+namespace NTS {
 
+#ifndef CGAL_CFG_MATCHING_BUG_2
+template <bool Protected>
 inline
-bool
-operator!= (const Interval_nt_advanced & e, const Interval_nt_advanced & d)
-{ return !(d == e); }
-
-inline
-Interval_nt_advanced &
-Interval_nt_advanced::operator+= (const Interval_nt_advanced & d)
-{ return *this = *this + d; }
-
-inline
-Interval_nt_advanced &
-Interval_nt_advanced::operator-= (const Interval_nt_advanced & d)
-{ return *this = *this - d; }
-
-inline
-Interval_nt_advanced &
-Interval_nt_advanced::operator*= (const Interval_nt_advanced & d)
-{ return *this = *this * d; }
-
-inline
-Interval_nt_advanced &
-Interval_nt_advanced::operator/= (const Interval_nt_advanced & d)
-{ return *this = *this / d; }
-
-inline
-double
-to_double (const Interval_nt_advanced & d)
-{ return (d._sup + d._inf) * 0.5; }
-
-inline
-bool
-is_valid (const Interval_nt_advanced & d)
+Interval_nt<Protected>
+square (const Interval_nt<Protected> & d)
 {
-#if defined _MSC_VER || defined __sgi || defined __BORLANDC__
-    return is_valid(d._inf) && is_valid(d._sup) && d._inf <= d._sup;
-#else
-    // The 2 first is_valid() are implicitely done by the 3rd test ;-)
-    return d._inf <= d._sup;
-#endif
+  Protect_FPU_rounding<Protected> P;
+  if (d.inf_>=0.0)
+      return Interval_nt<Protected>(-CGAL_IA_MUL(d.inf_, -d.inf_),
+	                             CGAL_IA_MUL(d.sup_, d.sup_));
+  if (d.sup_<=0.0)
+      return Interval_nt<Protected>(-CGAL_IA_MUL(d.sup_, -d.sup_),
+	     	                     CGAL_IA_MUL(d.inf_, d.inf_));
+  return Interval_nt<Protected>(0.0, CGAL_IA_SQUARE(std::max(-d.inf_,d.sup_)));
+}
+
+template <bool Protected>
+inline
+Interval_nt<Protected>
+abs (const Interval_nt<Protected> & d)
+{
+  if (d.inf_ >= 0.0) return d;
+  if (d.sup_ <= 0.0) return -d;
+  return Interval_nt<Protected>(0.0, std::max(-d.inf_, d.sup_));
+}
+
+template <bool Protected>
+inline
+Sign
+sign (const Interval_nt<Protected> & d)
+{
+  if (d.inf_ > 0.0) return POSITIVE;
+  if (d.sup_ < 0.0) return NEGATIVE;
+  if (d.inf_ == d.sup_) return ZERO;
+  Interval_nt<Protected>::overlap_action();
+  return ZERO;
+}
+
+template <bool Protected>
+inline
+Comparison_result
+compare (const Interval_nt<Protected> & d, const Interval_nt<Protected> & e)
+{
+  if (d.inf_ > e.sup_) return LARGER;
+  if (e.inf_ > d.sup_) return SMALLER;
+  if (e.inf_ == d.sup_ && d.inf_ == e.sup_) return EQUAL;
+  Interval_nt<Protected>::overlap_action();
+  return EQUAL;
+}
+#else // CGAL_CFG_MATCHING_BUG_2
+// For crappy "compilers", we have to define complete overloaded functions.
+// First we overload for true.
+inline
+Interval_nt<true>
+square (const Interval_nt<true> & d)
+{
+  Protect_FPU_rounding<true> P;
+  if (d.inf_>=0.0)
+      return Interval_nt<true>(-CGAL_IA_MUL(d.inf_, -d.inf_),
+	                        CGAL_IA_MUL(d.sup_, d.sup_));
+  if (d.sup_<=0.0)
+      return Interval_nt<true>(-CGAL_IA_MUL(d.sup_, -d.sup_),
+	                        CGAL_IA_MUL(d.inf_, d.inf_));
+  return Interval_nt<true>(0.0, CGAL_IA_SQUARE(std::max(-d.inf_, d.sup_)));
 }
 
 inline
-bool
-is_finite (const Interval_nt_advanced & d)
-{ return is_finite(d._inf) && is_finite(d._sup); }
+Interval_nt<true>
+abs (const Interval_nt<true> & d)
+{
+  if (d.inf_ >= 0.0) return d;
+  if (d.sup_ <= 0.0) return -d;
+  return Interval_nt<true>(0.0, std::max(-d.inf_, d.sup_));
+}
 
 inline
 Sign
-sign (const Interval_nt_advanced & d)
+sign (const Interval_nt<true> & d)
 {
-  if (d._inf > 0.0) return POSITIVE;
-  if (d._sup < 0.0) return NEGATIVE;
-  if (d._inf == d._sup) return ZERO;
-  Interval_nt_advanced::overlap_action();
+  if (d.inf_ > 0.0) return POSITIVE;
+  if (d.sup_ < 0.0) return NEGATIVE;
+  if (d.inf_ == d.sup_) return ZERO;
+  Interval_nt<true>::overlap_action();
   return ZERO;
 }
 
 inline
 Comparison_result
-compare (const Interval_nt_advanced & d, const Interval_nt_advanced & e)
+compare (const Interval_nt<true> & d, const Interval_nt<true> & e)
 {
-  if (d._inf > e._sup) return LARGER;
-  if (e._inf > d._sup) return SMALLER;
-  if (e._inf == d._sup && d._inf == e._sup) return EQUAL;
-  Interval_nt_advanced::overlap_action();
+  if (d.inf_ > e.sup_) return LARGER;
+  if (e.inf_ > d.sup_) return SMALLER;
+  if (e.inf_ == d.sup_ && d.inf_ == e.sup_) return EQUAL;
+  Interval_nt<true>::overlap_action();
   return EQUAL;
 }
 
+// Then we overload for false.
 inline
-Interval_nt_advanced
-abs (const Interval_nt_advanced & d)
+Interval_nt<false>
+square (const Interval_nt<false> & d)
 {
-  if (d._inf >= 0.0) return d;
-  if (d._sup <= 0.0) return -d;
-  return Interval_nt_advanced(0.0, std::max(-d._inf, d._sup));
+  Protect_FPU_rounding<false> P;
+  if (d.inf_>=0.0)
+      return Interval_nt<false>(-CGAL_IA_MUL(d.inf_, -d.inf_),
+	                         CGAL_IA_MUL(d.sup_, d.sup_));
+  if (d.sup_<=0.0)
+      return Interval_nt<false>(-CGAL_IA_MUL(d.sup_, -d.sup_),
+	                         CGAL_IA_MUL(d.inf_, d.inf_));
+  return Interval_nt<false>(0.0, CGAL_IA_SQUARE(std::max(-d.inf_, d.sup_)));
 }
 
 inline
-Interval_nt_advanced
-min (const Interval_nt_advanced & d, const Interval_nt_advanced & e)
+Interval_nt<false>
+abs (const Interval_nt<false> & d)
 {
-  return Interval_nt_advanced(std::min(d._inf, e._inf),
-			      std::min(d._sup, e._sup));
+  if (d.inf_ >= 0.0) return d;
+  if (d.sup_ <= 0.0) return -d;
+  return Interval_nt<false>(0.0, std::max(-d.inf_, d.sup_));
 }
 
 inline
-Interval_nt_advanced
-max (const Interval_nt_advanced & d, const Interval_nt_advanced & e)
+Sign
+sign (const Interval_nt<false> & d)
 {
-  return Interval_nt_advanced(std::max(d._inf, e._inf),
-			      std::max(d._sup, e._sup));
-}
-
-// The (join, union, ||) operator.
-inline
-Interval_nt_advanced
-operator|| (const Interval_nt_advanced & d, const Interval_nt_advanced & e)
-{
-    return Interval_nt_advanced(std::min(e._inf, d._inf),
-	                        std::max(e._sup, d._sup));
-}
-
-// The (meet, intersection, &&) operator.  Valid if intervals overlap.
-inline
-Interval_nt_advanced
-operator&& (const Interval_nt_advanced & d, const Interval_nt_advanced & e)
-{
-    return Interval_nt_advanced(std::max(e._inf, d._inf),
-	                        std::min(e._sup, d._sup));
-}
-
-
-// The non-advanced class.
-
-struct Interval_nt : public Interval_nt_advanced
-{
-  typedef Interval_nt IA;
-
-  // Constructors are identical.
-  Interval_nt()
-      {}
-  Interval_nt(const double d)
-      : Interval_nt_advanced(d) {}
-  Interval_nt(const double a, const double b)
-      : Interval_nt_advanced(a,b) {}
-
-  // Private constructor for casts. (remade public)
-  Interval_nt(const Interval_nt_advanced &d)
-      : Interval_nt_advanced(d) {}
-
-  IA operator-() const 
-    { return IA(-_sup, -_inf); }
-
-  IA & operator+=(const IA &);
-  IA & operator-=(const IA &);
-  IA & operator*=(const IA &);
-  IA & operator/=(const IA &);
-};
-
-
-inline
-Interval_nt
-operator+ (const Interval_nt & e, const Interval_nt & d)
-{
-  FPU_CW_t backup = FPU_get_and_set_cw(CGAL_FE_UPWARD);
-  Interval_nt tmp ( Interval_nt_advanced(e) + Interval_nt_advanced(d) );
-  FPU_set_cw(backup);
-  return tmp;
+  if (d.inf_ > 0.0) return POSITIVE;
+  if (d.sup_ < 0.0) return NEGATIVE;
+  if (d.inf_ == d.sup_) return ZERO;
+  Interval_nt<false>::overlap_action();
+  return ZERO;
 }
 
 inline
-Interval_nt
-operator- (const Interval_nt & e, const Interval_nt & d)
+Comparison_result
+compare (const Interval_nt<false> & d, const Interval_nt<false> & e)
 {
-  FPU_CW_t backup = FPU_get_and_set_cw(CGAL_FE_UPWARD);
-  Interval_nt tmp ( Interval_nt_advanced(e) - Interval_nt_advanced(d) );
-  FPU_set_cw(backup);
-  return tmp;
+  if (d.inf_ > e.sup_) return LARGER;
+  if (e.inf_ > d.sup_) return SMALLER;
+  if (e.inf_ == d.sup_ && d.inf_ == e.sup_) return EQUAL;
+  Interval_nt<false>::overlap_action();
+  return EQUAL;
 }
+#endif // CGAL_CFG_MATCHING_BUG_2
 
-inline
-Interval_nt
-operator* (const Interval_nt & e, const Interval_nt & d)
-{
-  FPU_CW_t backup = FPU_get_and_set_cw(CGAL_FE_UPWARD);
-  Interval_nt tmp ( Interval_nt_advanced(e) * Interval_nt_advanced(d) );
-  FPU_set_cw(backup);
-  return tmp;
-}
+} // namespace NTS
 
-inline
-Interval_nt
-operator/ (const Interval_nt & e, const Interval_nt & d)
-{
-  FPU_CW_t backup = FPU_get_and_set_cw(CGAL_FE_UPWARD);
-  Interval_nt tmp ( Interval_nt_advanced(e) / Interval_nt_advanced(d) );
-  FPU_set_cw(backup);
-  return tmp;
-}
-
-inline
-Interval_nt
-sqrt (const Interval_nt & d)
-{
-  FPU_CW_t backup = FPU_get_cw();
-  Interval_nt tmp = sqrt( (Interval_nt_advanced) d);
-  FPU_set_cw(backup);
-  return tmp;
-}
-
-inline
-Interval_nt
-square (const Interval_nt & d)
-{
-  FPU_CW_t backup = FPU_get_and_set_cw(CGAL_FE_UPWARD);
-  Interval_nt tmp = square( (Interval_nt_advanced) d);
-  FPU_set_cw(backup);
-  return tmp;
-}
-
-inline
-Interval_nt &
-Interval_nt::operator+= (const Interval_nt & d)
-{ return *this = *this + d; }
-
-inline
-Interval_nt &
-Interval_nt::operator-= (const Interval_nt & d)
-{ return *this = *this - d; }
-
-inline
-Interval_nt &
-Interval_nt::operator*= (const Interval_nt & d)
-{ return *this = *this * d; }
-
-inline
-Interval_nt &
-Interval_nt::operator/= (const Interval_nt & d)
-{ return *this = *this / d; }
-
-inline
-Interval_nt
-abs (const Interval_nt & d)
-{ return abs( (Interval_nt_advanced) d); }
-
-inline
-Interval_nt
-min (const Interval_nt & d, const Interval_nt & e)
-{ return min( (Interval_nt_advanced) d, (Interval_nt_advanced) e); }
-
-inline
-Interval_nt
-max (const Interval_nt & d, const Interval_nt & e)
-{ return max( (Interval_nt_advanced) d, (Interval_nt_advanced) e); }
-
-inline
-Interval_nt
-operator|| (const Interval_nt & d, const Interval_nt & e)
-{ return ((Interval_nt_advanced) d) || (Interval_nt_advanced) e; }
-
-inline
-Interval_nt
-operator&& (const Interval_nt & d, const Interval_nt & e)
-{ return ((Interval_nt_advanced) d) && (Interval_nt_advanced) e; }
-
-
-std::ostream & operator<< (std::ostream &, const Interval_nt_advanced &);
-std::istream & operator>> (std::istream &, Interval_nt_advanced &);
-
-// The undocumented tags.
-
-inline
-io_Operator
-io_tag (const Interval_nt_advanced &)
-{ return io_Operator(); }
-
-inline
-Number_tag
-number_type_tag (const Interval_nt_advanced &)
-{ return Number_tag(); }
+typedef Interval_nt<false> Interval_nt_advanced;  // for back-compatibility
 
 CGAL_END_NAMESPACE
 
 // Finally we deal with the convert_to<Interval_nt_advanced>(NT).
+// This is going to be obsoleted by the new NT requirement : to_interval().
 //
 // For the builtin types (well, all those that can be casted to double
 // exactly), the template in misc.h is enough.
+
+#if 0
+inline
+Interval_base
+to_interval(const long long z)
+{
+  double dz = (double) z;
+  if (z == (long long) dz)
+    return dz;
+  return Interval_nt<>(dz) + Interval_base::Smallest;
+}
+
+inline
+Interval_base
+to_interval(const long double z)
+{
+  return Interval_nt<>((double) z) + Interval_base::Smallest;
+}
+#endif
 
 #ifdef CGAL_GMPZ_H
 #include <CGAL/Interval_arithmetic/IA_Gmpz.h>

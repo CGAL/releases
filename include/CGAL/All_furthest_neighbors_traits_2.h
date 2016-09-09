@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1998, 1999, 2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,21 +30,22 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/All_furthest_neighbors_traits_2.h
-// package       : Matrix_search (1.30)
+// package       : Matrix_search (1.43)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.31 $
-// revision_date : $Date: 1999/12/17 11:58:45 $
+// revision      : $Revision: 1.44 $
+// revision_date : $Date: 2000/09/15 07:25:29 $
 // author(s)     : Michael Hoffmann
 //
-// coordinator   : ETH Zurich (Bernd Gaertner)
+// coordinator   : ETH
 //
 // Compute all furthest neighbors for the vertices of a convex polygon
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -64,8 +65,8 @@ struct Squared_distance
 : public CGAL_STD::binary_function< T1, T2, typename T1::R::FT >
 {
   typename T1::R::FT
-  operator()( const T1& t1, const T2& t2) const
-  { return squared_distance( t1, t2); }
+  operator()(const T1& t1, const T2& t2) const
+  { return squared_distance(t1, t2); }
 };
 
 CGAL_END_NAMESPACE
@@ -74,10 +75,10 @@ CGAL_END_NAMESPACE
 #endif
 CGAL_BEGIN_NAMESPACE
 
-template < class _R >
-class All_furthest_neighbors_traits {
+template < class R_ >
+class All_furthest_neighbors_default_traits_2 {
 public:
-  typedef _R                                    R;
+  typedef R_                                    R;
   typedef Point_2< R >                          Point_2;
   typedef Squared_distance< Point_2, Point_2 >  Distance;
 
@@ -87,6 +88,9 @@ public:
   typedef typename std::vector< int >::reverse_iterator
     OutputIterator;
 #endif
+
+  // return distance object
+  Distance distance_object() const { return d; }
 
   #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
   template < class RandomAccessIC >
@@ -105,40 +109,35 @@ public:
     Polygon_2 p( points_begin, points_end);
     return p.is_convex();
   } // is_convex( points_begin, points_end)
+
+private:
+  Distance d;
 };
 
+template < class RandomAccessIC, class OutputIterator >
+inline
+OutputIterator
+all_furthest_neighbors_2( RandomAccessIC points_begin,
+                          RandomAccessIC points_end,
+                          OutputIterator o)
+{
+  typedef typename std::iterator_traits< RandomAccessIC >::value_type::R R;
+  return
+  all_furthest_neighbors_2(
+    points_begin,
+    points_end,
+    o,
+    All_furthest_neighbors_default_traits_2< R >());
+} // all_furthest_neighbors_2( ... )
+
+// backwards compatibility
 template < class RandomAccessIC, class OutputIterator >
 inline
 OutputIterator
 all_furthest_neighbors( RandomAccessIC points_begin,
                         RandomAccessIC points_end,
                         OutputIterator o)
-{
-  return
-  CGAL_all_furthest_neighbors(
-    points_begin,
-    points_end,
-    o,
-    std::value_type( points_begin));
-} // all_furthest_neighbors( ... )
-
-template < class RandomAccessIC,
-           class OutputIterator,
-           class R >
-inline
-OutputIterator
-CGAL_all_furthest_neighbors( RandomAccessIC points_begin,
-                              RandomAccessIC points_end,
-                              OutputIterator o,
-                              Point_2< R >*)
-{
-  return
-  all_furthest_neighbors(
-    points_begin,
-    points_end,
-    o,
-    All_furthest_neighbors_traits< R >());
-} // CGAL_all_furthest_neighbors( ... )
+{ return all_furthest_neighbors_2( points_begin, points_end, o); }
 
 CGAL_END_NAMESPACE
 

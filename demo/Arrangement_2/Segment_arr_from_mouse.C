@@ -1,8 +1,40 @@
 //constructs a segment arrangement from CGAL window.
 // We use the leda traits (therefore we are using leda functions).
 
+#include <CGAL/config.h> // needed for the LONGNAME flag
+
+#ifdef CGAL_CFG_NO_LONGNAME_PROBLEM
+// Define shorter names to please linker (g++/egcs)
+#define Arrangement_2 Ar
+#define Arr_leda_segment_exact_traits Alset
+#define Arr_2_default_dcel A2d
+#define In_place_list_iterator IPLI
+#define Arr_2_vertex_base Avb
+#define Arr_2_halfedge_base Ahb
+#define Arr_2_face_base Afb
+#define Point_2 pT
+#define Segment_2 sT
+#define Topological_map TpM
+#define _List_iterator Lit
+#define Halfedge hE
+#define Forward_circulator_tag Fct
+#endif
+
 #include <CGAL/basic.h>
 
+#ifndef CGAL_USE_LEDA
+int main(int argc, char* argv[])
+{
+
+  std::cout << "Sorry, this demo needs LEDA for visualisation.";
+  std::cout << std::endl;
+
+  return 0;
+}
+
+#else
+
+#include <CGAL/IO/Window_stream.h>
 #include <CGAL/Arr_leda_segment_exact_traits.h>
 #include <CGAL/Arr_2_bases.h>
 #include <CGAL/Arr_2_default_dcel.h>
@@ -22,8 +54,29 @@ typedef CGAL::Arr_2_default_dcel<Traits> Dcel;
 
 typedef CGAL::Arrangement_2<Dcel,Traits,Base_node > Arr_2;
 
+//I had to add these in global namespace for the program to compile
+CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
+                          const Point& p)
+{
+  //return os << leda_point(p.xcoordD(),p.ycoordD());
+  return os << p.to_point();
+}
+
+CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
+                          const X_curve &c)
+{
+  //  return os << leda_segment(c.xcoord1D(),c.ycoord1D(),c.xcoord2D(),c.ycoord2D());
+  return os << c.to_segment();
+}
+
+// global variables are used so that the redraw function for the LEDA window
+// can be defined to draw information found in these variables.
+static Arr_2 arr;
+static CGAL::Window_stream W(400, 400, "CGAL - Segment Arrangement Demo");
+
 
 CGAL_BEGIN_NAMESPACE
+
 Window_stream& operator<<(Window_stream& os,
                           Arr_2 &A)
 {
@@ -50,34 +103,26 @@ Window_stream& operator<<(Window_stream& os,
 
     return os;
 }
+
 CGAL_END_NAMESPACE
 
-//I had to add these in global namespace for the program to compile
-CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
-                          const Point& p);
-/*
-{
-  //return os << leda_point(p.xcoordD(),p.ycoordD());
-  return os << p.to_point();
+// redraw function for the LEDA window. used automatically when window reappears
+void redraw(CGAL::Window_stream * wp) 
+{ wp->start_buffering();
+  wp->clear();
+  // draw arragnement
+  *wp << arr;
+  wp->flush_buffer();
+  wp->stop_buffering();
 }
-*/
-CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
-                          const X_curve &c);
-/*
-{
-  //  return os << leda_segment(c.xcoord1D(),c.ycoord1D(),c.xcoord2D(),c.ycoord2D());
-  return os << c.to_segment();
-}
-*/
+
+
 int main()
 {
-  Arr_2 pm; //confusing with the names but easier work
-
- //for now
-  CGAL::Window_stream W(400, 400);
   double x0=-400,x1=400,y0=-400;
 
   W.init(x0,x1,y0);
+  W.set_redraw(redraw);
   W.set_mode(leda_src_mode);
   W.set_node_width(3);
   W.button("finish",10);
@@ -102,8 +147,8 @@ int main()
     if (b == MOUSE_BUTTON(1))
       {
         
-        for(Arr_2::Vertex_iterator vi = pm.vertices_begin();
-            vi != pm.vertices_end(); ++vi) {
+        for(Arr_2::Vertex_iterator vi = arr.vertices_begin();
+            vi != arr.vertices_end(); ++vi) {
           //we are using the leda sqr_dist func
           if ( pnt.sqr_dist(vi->point()) < ((x1-x0)/50)*((x1-x0)/50) )
             pnt=vi->point();
@@ -115,9 +160,9 @@ int main()
         W << CGAL::GREEN;
         
         if (!begin) {
-          pm.insert(X_curve(cv1[0],cv1[1]));
+          arr.insert(X_curve(cv1[0],cv1[1]));
           cv1.clear();
-          W << pm;
+          W << arr;
         }
         begin=!begin;
       }
@@ -125,7 +170,7 @@ int main()
   }
 
   
-  W << pm;
+  W << arr;
    
   //LOCATION
   std::cout << "\nEnter a point with left button." << std::endl;
@@ -143,10 +188,10 @@ int main()
     else
       p=Point(x,y);
 
-    W << pm;
+    W << arr;
     
     Arr_2::Locate_type lt;
-    e = pm.locate(p,lt);
+    e = arr.locate(p,lt);
 
     //color the face on the screen
     Arr_2::Face_handle f=e->face();
@@ -172,23 +217,4 @@ int main()
   return 0;  
 }
 
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif // CGAL_USE_LEDA

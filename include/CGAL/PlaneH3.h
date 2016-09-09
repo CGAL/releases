@@ -30,21 +30,23 @@
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 // 
 // source        : PlaneH3.fw
 // file          : include/CGAL/PlaneH3.h
-// package       : H3 (2.3.7)
-// revision      : 2.3.7
-// revision_date : 03 Dec 1999 
+// package       : H3 (2.12)
+// revision      : 2.12
+// revision_date : 16 Aug 2000 
 // author(s)     : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
-
+ 
 
 #ifndef CGAL_PLANEH3_H
 #define CGAL_PLANEH3_H
@@ -75,62 +77,42 @@ CGAL_BEGIN_NAMESPACE
 
 
 template < class FT, class RT >
-class PlaneH3 : public Handle
+class PlaneH3 : public Handle_for< Fourtuple<RT> >
 {
- public:
-                        PlaneH3();
+  public:
+    PlaneH3();
+    PlaneH3(const PointH3<FT,RT>& ,
+            const PointH3<FT,RT>& ,
+            const PointH3<FT,RT>& );
+    PlaneH3(const RT& a, const RT& b,
+            const RT& c, const RT& d );
+    PlaneH3(const PointH3<FT,RT>& ,
+            const RayH3<FT,RT>& );
+    PlaneH3(const PointH3<FT,RT>& ,
+            const LineH3<FT,RT>& );
+    PlaneH3(const PointH3<FT,RT>& ,
+            const SegmentH3<FT,RT>& );
+    PlaneH3(const LineH3<FT,RT>& ,
+            const PointH3<FT,RT>& );
+    PlaneH3(const SegmentH3<FT,RT>& ,
+            const PointH3<FT,RT>& );
+    PlaneH3(const RayH3<FT,RT>& ,
+            const PointH3<FT,RT>& );
+    PlaneH3(const PointH3<FT,RT>&,
+            const DirectionH3<FT,RT>& );
+    PlaneH3(const PointH3<FT,RT>&,
+            const VectorH3<FT,RT>& );
+    PlaneH3(const PointH3<FT,RT>&,
+            const DirectionH3<FT,RT>&,
+            const DirectionH3<FT,RT>& );
 
-                        PlaneH3(const PlaneH3<FT,RT>& );
+    RT             a() const;
+    RT             b() const;
+    RT             c() const;
+    RT             d() const;
 
-                        PlaneH3(const PointH3<FT,RT>& ,
-                                     const PointH3<FT,RT>& ,
-                                     const PointH3<FT,RT>& );
-
-                        PlaneH3(const RT& a, const RT& b,
-                                     const RT& c, const RT& d );
-
-                        PlaneH3(const PointH3<FT,RT>& ,
-                                     const RayH3<FT,RT>& );
-
-                        PlaneH3(const PointH3<FT,RT>& ,
-                                     const LineH3<FT,RT>& );
-
-                        PlaneH3(const PointH3<FT,RT>& ,
-                                     const SegmentH3<FT,RT>& );
-
-                        PlaneH3(const LineH3<FT,RT>& ,
-                                     const PointH3<FT,RT>& );
-
-                        PlaneH3(const SegmentH3<FT,RT>& ,
-                                     const PointH3<FT,RT>& );
-
-                        PlaneH3(const RayH3<FT,RT>& ,
-                                     const PointH3<FT,RT>& );
-
-                        PlaneH3(const PointH3<FT,RT>&,
-                                     const DirectionH3<FT,RT>& );
-
-                        PlaneH3(const PointH3<FT,RT>&,
-                                     const VectorH3<FT,RT>& );
-
-                        PlaneH3(const PointH3<FT,RT>&,
-                                     const DirectionH3<FT,RT>&,
-                                     const DirectionH3<FT,RT>& );
-
-                        ~PlaneH3();
-
-    PlaneH3<FT,RT>&
-                        operator=(const PlaneH3<FT,RT> & pl);
-
-    RT                  a() const;
-    RT                  b() const;
-    RT                  c() const;
-    RT                  d() const;
-
-    bool                operator==( const PlaneH3<FT,RT>& )    const;
-    bool                operator!=( const PlaneH3<FT,RT>& )    const;
-    bool                identical ( const PlaneH3<FT,RT>& )    const;
-    int                 id() const;
+    bool           operator==( const PlaneH3<FT,RT>& ) const;
+    bool           operator!=( const PlaneH3<FT,RT>& ) const;
 
     LineH3<FT,RT>  perpendicular_line(const PointH3<FT,RT>& ) const;
     PlaneH3<FT,RT> opposite() const;  // plane with opposite orientation
@@ -138,26 +120,25 @@ class PlaneH3 : public Handle
 
     PointH3<FT,RT> point() const;     // same point on the plane
     DirectionH3<FT,RT>
-                        orthogonal_direction() const;
+                   orthogonal_direction() const;
     VectorH3<FT,RT>
-                        orthogonal_vector() const;
+                   orthogonal_vector() const;
 
     Oriented_side  oriented_side(const PointH3<FT,RT> &p) const;
-    bool                has_on(const PointH3<FT,RT> &p) const;
-    bool                has_on(const LineH3<FT,RT> &p) const;
-    bool                has_on_boundary(const PointH3<FT,RT> &p) const;
-    bool                has_on_boundary(const LineH3<FT,RT> &p) const;
-    bool                has_on_positive_side(const PointH3<FT,RT>&l) const;
-    bool                has_on_negative_side(const PointH3<FT,RT>&l) const;
+    bool           has_on(const PointH3<FT,RT> &p) const;
+    bool           has_on(const LineH3<FT,RT> &p) const;
+    bool           has_on_boundary(const PointH3<FT,RT> &p) const;
+    bool           has_on_boundary(const LineH3<FT,RT> &p) const;
+    bool           has_on_positive_side(const PointH3<FT,RT>&l) const;
+    bool           has_on_negative_side(const PointH3<FT,RT>&l) const;
 
-    bool                is_degenerate() const;
+    bool           is_degenerate() const;
 
-    PlaneH3<FT,RT> transform(const Aff_transformationH3<FT,RT>& )
-                                                                         const;
+    PlaneH3<FT,RT> transform(const Aff_transformationH3<FT,RT>& ) const;
 
 
     Aff_transformationH3<FT,RT>
-                          transform_to_2d() const;
+                     transform_to_2d() const;
     PointH2<FT,RT>   to_2d(const PointH3<FT,RT>& )  const;
     PointH3<FT,RT>   to_3d(const PointH2<FT,RT>& )  const;
     VectorH3<FT,RT>  base1() const;
@@ -167,17 +148,14 @@ class PlaneH3 : public Handle
 protected:
     PointH3<FT,RT>   point1() const;   // same point different from point()
     PointH3<FT,RT>   point2() const;   // same point different from point()
-                                            // and point1()
+                                       // and point1()
 
-    _Fourtuple<RT>*  ptr() const;
+    void             new_rep(const PointH3<FT,RT> &p,
+                             const PointH3<FT,RT> &q,
+                             const PointH3<FT,RT> &r);
 
-
-    void                  new_rep(const PointH3<FT,RT> &p,
-                                  const PointH3<FT,RT> &q,
-                                  const PointH3<FT,RT> &r);
-
-    void                  new_rep(const RT &a, const RT &b,
-                                  const RT &c, const RT &d);
+    void             new_rep(const RT &a, const RT &b,
+                             const RT &c, const RT &d);
 };
 
 //
@@ -188,14 +166,14 @@ protected:
 //      |  q.hx()   q.hy()  q.hz()  q.hw()  |
 //      |  r.hx()   r.hy()  r.hz()  r.hw()  |
 //
-//  _Fourtuple<RT> ( a(), b(), c(), d() )
+//  Fourtuple<RT> ( a(), b(), c(), d() )
 
 template < class FT, class RT >
 inline
 void
 PlaneH3<FT,RT>::new_rep(const PointH3<FT,RT> &p,
-                             const PointH3<FT,RT> &q,
-                             const PointH3<FT,RT> &r)
+                        const PointH3<FT,RT> &q,
+                        const PointH3<FT,RT> &r)
 {
   RT phx = p.hx();
   RT phy = p.hy();
@@ -212,7 +190,7 @@ PlaneH3<FT,RT>::new_rep(const PointH3<FT,RT> &p,
   RT rhz = r.hz();
   RT rhw = r.hw();
 
-  PTR = new _Fourtuple<RT> (
+  initialize_with( Fourtuple<RT> (
               phy*( qhz*rhw - qhw*rhz )
             - qhy*( phz*rhw - phw*rhz )     // * X
             + rhy*( phz*qhw - phw*qhz ),
@@ -227,14 +205,15 @@ PlaneH3<FT,RT>::new_rep(const PointH3<FT,RT> &p,
 
             - phx*( qhy*rhz - qhz*rhy )
             + qhx*( phy*rhz - phz*rhy )     // * W
-            - rhx*( phy*qhz - phz*qhy ) );
+            - rhx*( phy*qhz - phz*qhy )          ) );
 }
 
 template < class FT, class RT >
 inline
 void
 PlaneH3<FT,RT>::new_rep(const RT &a, const RT &b, const RT &c, const RT &d)
-{ PTR = new _Fourtuple<RT>(a, b, c, d); }
+{ initialize_with( Fourtuple<RT>(a, b, c, d) ); }
+
 template < class FT, class RT >
 inline
 bool
@@ -243,76 +222,67 @@ PlaneH3<FT,RT>::operator!=(const PlaneH3<FT,RT>& l) const
  return !(*this == l);
 }
 
-template < class FT, class RT >
-inline
-_Fourtuple<RT>*
-PlaneH3<FT,RT>::ptr() const
-{ return (_Fourtuple<RT>*)PTR; }
+
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3()
-{ PTR = new _Fourtuple<RT>(); }
-
-template < class FT, class RT >
-CGAL_KERNEL_CTOR_INLINE
-PlaneH3<FT,RT>::PlaneH3(const PlaneH3<FT,RT>& tbc)
-  : Handle(tbc)
+ : Handle_for< Fourtuple<RT> >(Fourtuple<RT>() )
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const PointH3<FT,RT>& p,
-                                  const PointH3<FT,RT>& q,
-                                  const PointH3<FT,RT>& r)
+                        const PointH3<FT,RT>& q,
+                        const PointH3<FT,RT>& r)
 { new_rep(p,q,r); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const RT& a, const RT& b,
-                                  const RT& c, const RT& d)
+                        const RT& c, const RT& d)
 { new_rep(a,b,c,d); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const PointH3<FT,RT>& p ,
-                                  const LineH3<FT,RT>&  l)
+                        const LineH3<FT,RT>&  l)
 { new_rep(p, l.point(0), l.point(1) ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const PointH3<FT,RT>& p,
-                                  const SegmentH3<FT,RT>& s)
+                        const SegmentH3<FT,RT>& s)
 { new_rep(p, s.source(), s.target() ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const PointH3<FT,RT>& p ,
-                                  const RayH3<FT,RT>&  r)
+                        const RayH3<FT,RT>&  r)
 { new_rep(p, r.start(), r.start() + r.direction().to_vector() ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const LineH3<FT,RT>& l ,
-                                  const PointH3<FT,RT>& p)
+                        const PointH3<FT,RT>& p)
 { new_rep(l.point(0), p, l.point(1) ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const SegmentH3<FT,RT>& s,
-                                  const PointH3<FT,RT>& p)
+                        const PointH3<FT,RT>& p)
 { new_rep(s.source(), p, s.target() ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const RayH3<FT,RT>&  r,
-                                  const PointH3<FT,RT>& p)
+                        const PointH3<FT,RT>& p)
 { new_rep(r.start(), p, r.start() + r.direction().to_vector() ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const PointH3<FT,RT>& p,
-                                  const DirectionH3<FT,RT>& d)
+                        const DirectionH3<FT,RT>& d)
 {
   VectorH3<FT,RT> ov = d.to_vector();
   new_rep( ov.hx()*p.hw(),
@@ -324,7 +294,7 @@ PlaneH3<FT,RT>::PlaneH3(const PointH3<FT,RT>& p,
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const PointH3<FT,RT>& p,
-                                  const VectorH3<FT,RT>& ov)
+                        const VectorH3<FT,RT>& ov)
 {
   new_rep( ov.hx()*p.hw(),
            ov.hy()*p.hw(),
@@ -335,46 +305,33 @@ PlaneH3<FT,RT>::PlaneH3(const PointH3<FT,RT>& p,
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 PlaneH3<FT,RT>::PlaneH3(const PointH3<FT,RT>& p,
-                                  const DirectionH3<FT,RT>& d1,
-                                  const DirectionH3<FT,RT>& d2)
+                        const DirectionH3<FT,RT>& d1,
+                        const DirectionH3<FT,RT>& d2)
 { new_rep( p, p + d1.to_vector(), p + d2.to_vector() ); }
 
 template < class FT, class RT >
 inline
-PlaneH3<FT,RT>::~PlaneH3()
-{}
-
-template < class FT, class RT >
-inline
-PlaneH3<FT,RT>&
-PlaneH3<FT,RT>::operator=(const PlaneH3<FT,RT>& pl )
-{
- Handle::operator=((Handle&) pl);
- return *this;
-}
-template < class FT, class RT >
-inline
 RT
 PlaneH3<FT,RT>::a() const
-{ return ptr()->e0; }
+{ return ptr->e0; }
 
 template < class FT, class RT >
 inline
 RT
 PlaneH3<FT,RT>::b() const
-{ return ptr()->e1; }
+{ return ptr->e1; }
 
 template < class FT, class RT >
 inline
 RT
 PlaneH3<FT,RT>::c() const
-{ return ptr()->e2; }
+{ return ptr->e2; }
 
 template < class FT, class RT >
 inline
 RT
 PlaneH3<FT,RT>::d() const
-{ return ptr()->e3; }
+{ return ptr->e3; }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
@@ -443,7 +400,17 @@ template < class FT, class RT >
 inline
 VectorH3<FT,RT>
 PlaneH3<FT,RT>::base2() const
-{ return cross_product( orthogonal_vector(), base1() ); }
+{
+  VectorH3<FT,RT> a = orthogonal_vector();
+  VectorH3<FT,RT> b = base1();
+  return VectorH3<FT,RT>(a.hy()*b.hz() - a.hz()*b.hy(),
+                         a.hz()*b.hx() - a.hx()*b.hz(),
+                         a.hx()*b.hy() - a.hy()*b.hx(),
+                         a.hw()*b.hw() );
+}
+// Actually, the following should work, but bcc doesn't like it:
+// { return cross_product( orthogonal_vector(), base1() ); }
+
 
 template < class FT, class RT >
 inline
@@ -620,8 +587,8 @@ PlaneH3<FT,RT>::operator==(const PlaneH3<FT,RT>& l) const
  {
     return false;
  }
- int sd  = (int)CGAL::sign(d() );
- int sld = (int)CGAL::sign(l.d() );
+ int sd  = (int)CGAL_NTS sign(d() );
+ int sld = (int)CGAL_NTS sign(l.d() );
  if ( sd == sld )
  {
     if (sd == 0)
@@ -629,9 +596,9 @@ PlaneH3<FT,RT>::operator==(const PlaneH3<FT,RT>& l) const
         return (  (a()*l.b() == b()*l.a() )
                 &&(a()*l.c() == c()*l.a() )
                 &&(b()*l.c() == c()*l.b() )
-                &&(CGAL::sign(a() )== CGAL::sign( l.a() ))
-                &&(CGAL::sign(b() )== CGAL::sign( l.b() ))
-                &&(CGAL::sign(c() )== CGAL::sign( l.c() )) );
+                &&(CGAL_NTS sign(a() )== CGAL_NTS sign( l.a() ))
+                &&(CGAL_NTS sign(b() )== CGAL_NTS sign( l.b() ))
+                &&(CGAL_NTS sign(c() )== CGAL_NTS sign( l.c() )) );
     }
     else
     {
@@ -644,19 +611,6 @@ PlaneH3<FT,RT>::operator==(const PlaneH3<FT,RT>& l) const
  }
 }
 
-template < class FT, class RT >
-bool
-PlaneH3<FT,RT>::identical(const PlaneH3<FT,RT>& l) const
-{
- return PTR == l.PTR;
-}
-
-template < class FT, class RT >
-int
-PlaneH3<FT,RT>::id() const
-{
- return (int)PTR ;
-}
 
 CGAL_END_NAMESPACE
 

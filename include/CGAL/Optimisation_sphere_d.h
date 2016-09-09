@@ -30,22 +30,23 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // chapter       : $CGAL_Chapter: Optimisation $
 // file          : include/CGAL/Optimisation_sphere_d.h
-// package       : Min_sphere_d (2.12)
+// package       : Min_sphere_d (2.25)
 // source        : web/Optimisation/Min_sphere_d.aw
-// revision      : $Revision: 2.12 $
-// revision_date : $Date: 1999/12/20 12:02:17 $
+// revision      : $Revision: 2.25 $
+// revision_date : $Date: 2000/09/28 13:12:29 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zurich (Bernd Gärtner)
 //
 // implementation: dD Smallest Enclosing Sphere
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -57,26 +58,26 @@ CGAL_BEGIN_NAMESPACE
 // Class declarations
 // ==================
 // general template
-template <class Rep_tag, class FT, class RT, class PT, class DA>
+template <class Rep_tag, class FT, class RT, class PT, class Traits>
 class Optimisation_sphere_d;
 
 #ifndef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
 
-    template <class FT, class RT, class PT, class DA>
-    class Optimisation_sphere_d<Homogeneous_tag, FT, RT, PT, DA>;
+    template <class FT, class RT, class PT, class Traits>
+    class Optimisation_sphere_d<Homogeneous_tag, FT, RT, PT, Traits>;
     
     
-    template <class FT, class RT, class PT, class DA>
-    class Optimisation_sphere_d<Cartesian_tag, FT, RT, PT, DA>;
+    template <class FT, class RT, class PT, class Traits>
+    class Optimisation_sphere_d<Cartesian_tag, FT, RT, PT, Traits>;
     
     
 
 #else
 
-   template <class FT, class RT, class PT, class DA>
+   template <class FT, class RT, class PT, class Traits>
    class Optimisation_sphereCd;
 
-   template < class FT, class RT, class PT, class DA>
+   template < class FT, class RT, class PT, class Traits>
    class Optimisation_sphereHd;
 
 #endif
@@ -87,13 +88,11 @@ class Optimisation_sphere_d;
     // ==================================
     // includes
 
-    #ifndef CGAL_OPTIMISATION_BASIC_H
-    #include <CGAL/Optimisation/basic.h>
-    #endif
 
-    #ifndef CGAL_OPTIMISATION_ASSERTIONS_H
+    #include <CGAL/Optimisation/basic.h>
+
     #include <CGAL/Optimisation/assertions.h>
-    #endif
+
 
     CGAL_BEGIN_NAMESPACE
 
@@ -101,11 +100,12 @@ class Optimisation_sphere_d;
 
     // Cartesian version
     // -----------------
-    template <class FT, class RT, class PT, class DA>
-    class Optimisation_sphere_d<Cartesian_tag, FT, RT, PT, DA>
+    template <class FT, class RT, class PT, class Traits>
+    class Optimisation_sphere_d<Cartesian_tag, FT, RT, PT, Traits>
     {
     private:
-        typedef             typename DA::InputIterator      It;
+        typedef
+          typename Traits::Access_coordinates_begin_d::Coordinate_iterator  It;
         
         // hack needed for egcs, see also test programs
         typedef             FT                              FT_;
@@ -125,7 +125,7 @@ class Optimisation_sphere_d;
         PT                  ctr;                    // center, for external use
         FT                  sqr_r;                  // squared_radius
         
-        DA                  da;                     // data accessor object
+        Traits              tco;
         
         
         
@@ -140,19 +140,19 @@ class Optimisation_sphere_d;
           get_sphere (Cartesian_tag t) const
         {return *this;}
 
-        Optimisation_sphere_d (const DA& dao = DA())
-            : d(-1), m(0), s(0), da (dao)
+        Optimisation_sphere_d (const Traits& t = Traits())
+            : d(-1), m(0), s(0), tco (t)
         {}
         
-        void set_da (const DA& dao)
+        void set_tco (const Traits& tcobj)
         {
-            da = dao;
+            tco = tcobj;
         }
         
         
-        void init (int ambient_dim)
+        void init (int ambient_dimension)
         {
-            d = ambient_dim;
+            d = ambient_dimension;
             m = 0;
             s = 0;
             sqr_r = -FT(1);
@@ -201,12 +201,12 @@ class Optimisation_sphere_d;
         }
         
         
-        void set_size (int ambient_dim)
+        void set_size (int ambient_dimension)
         {
             if (d != -1)
                 destroy();
-            if (ambient_dim != -1)
-                init(ambient_dim);
+            if (ambient_dimension != -1)
+                init(ambient_dimension);
             else {
                 d = -1;
                 m = 0;
@@ -218,8 +218,8 @@ class Optimisation_sphere_d;
         void push (const PT& p)
         {
             // store q_m = p by copying its cartesian coordinates into q[m]
-            It i; FT *o;
-            for (i=da.get_begin(p), o=q[m]; o<q[m]+d; *(o++)=*(i++));
+            It i(tco.access_coordinates_begin_d_object()(p)); FT *o;
+            for (o=q[m]; o<q[m]+d; *(o++)=*(i++));
         
             // update v_basis by appending q_m^Tq_m
             v_basis[m+1] = prod(q[m],q[m],d);
@@ -242,7 +242,7 @@ class Optimisation_sphere_d;
         
                 // compute z
                 FT z = FT_(2)*v_basis[m+1] - prod(v,x,m+1);
-                CGAL_optimisation_assertion (!is_zero (z));
+                CGAL_optimisation_assertion (!CGAL_NTS is_zero (z));
                 FT inv_z = FT_(1)/z;
         
                 // set up A^{-1}_{B^m}
@@ -275,9 +275,10 @@ class Optimisation_sphere_d;
         {
             // compute (c-p)^2
             FT sqr_dist (FT(0));
-            It i; FT *j;
-            for (i=da.get_begin(p), j=c; j<c+d; ++i, ++j)
-                sqr_dist += square (*i-*j);
+            It i(tco.access_coordinates_begin_d_object()(p));
+            FT *j;
+            for (j=c; j<c+d; ++i, ++j)
+                sqr_dist += CGAL_NTS square(*i-*j);
             return sqr_dist - sqr_r;
          }
         
@@ -285,9 +286,7 @@ class Optimisation_sphere_d;
         
         PT center () const
         {
-             PT p;
-             da.set (p, c, c+d);
-             return p;
+             return tco.construct_point_d_object()(d, c, c+d);
         }
         
         FT squared_radius () const
@@ -310,7 +309,7 @@ class Optimisation_sphere_d;
         {
             Verbose_ostream verr (verbose);
             for (int j=1; j<m+1; ++j)
-                if (!is_positive (x[j]))
+                if (!CGAL_NTS is_positive (x[j]))
                     return (_optimisation_is_valid_fail
                         (verr, "center not in convex hull of support points"));
             return (true);
@@ -356,11 +355,12 @@ class Optimisation_sphere_d;
 
     // Homogeneous version
     // -----------------
-    template <class FT, class RT, class PT, class DA>
-    class Optimisation_sphere_d<Homogeneous_tag, FT, RT, PT, DA>
+    template <class FT, class RT, class PT, class Traits>
+    class Optimisation_sphere_d<Homogeneous_tag, FT, RT, PT, Traits>
     {
     private:
-        typedef             typename DA::InputIterator      It;
+        typedef
+          typename Traits::Access_coordinates_begin_d::Coordinate_iterator  It;
         
         // hack needed for egcs, see also test programs
         typedef             RT                              RT_;
@@ -381,7 +381,7 @@ class Optimisation_sphere_d;
         PT                  ctr;                    // center, for external use
         RT                  sqr_r;                  // numerator of squared_radius
         
-        DA                  da;                     // data accessor object
+        Traits              tco;
         
         
 
@@ -394,19 +394,19 @@ class Optimisation_sphere_d;
           get_sphere (Homogeneous_tag t) const
         {return *this;}
 
-        Optimisation_sphere_d (const DA& dao = DA())
-            : d(-1), m(0), s(0), da(dao)
+        Optimisation_sphere_d (const Traits& t = Traits())
+            : d(-1), m(0), s(0), tco(t)
         {}
         
-        void set_da (const DA& dao)
+        void set_tco (const Traits& tcobj)
         {
-            da = dao;
+            tco = tcobj;
         }
         
         
-        void init (int ambient_dim)
+        void init (int ambient_dimension)
         {
-            d = ambient_dim;
+            d = ambient_dimension;
             m = 0;
             s = 0;
             sqr_r = -RT(1);
@@ -459,12 +459,12 @@ class Optimisation_sphere_d;
         }
         
         
-        void set_size (int ambient_dim)
+        void set_size (int ambient_dimension)
         {
             if (d != -1)
                 destroy();
-            if (ambient_dim != -1)
-                init(ambient_dim);
+            if (ambient_dimension != -1)
+                init(ambient_dimension);
             else {
                 d = -1;
                 m = 0;
@@ -476,8 +476,8 @@ class Optimisation_sphere_d;
         void push (const PT& p)
         {
             // store q_m = p by copying its cartesian part into q[m]
-            It i; RT *o;
-            for (i=da.get_begin(p), o=q[m]; o<q[m]+d; *(o++)=*(i++));
+            It i(tco.access_coordinates_begin_d_object()(p)); RT *o;
+            for (o=q[m]; o<q[m]+d; *(o++)=*(i++));
         
             // get homogenizing coordinate
             RT hom = *(i++);
@@ -493,7 +493,7 @@ class Optimisation_sphere_d;
                 M[0][0] = RT_(2)*v_basis[0][1];
                 M[1][0] = -hom;
                 M[1][1] = RT_(0);
-                denom[0] = -square(hom);  // det(\tilde{A}_{B^0})
+                denom[0] = -CGAL_NTS square(hom);  // det(\tilde{A}_{B^0})
         
             } else {
                 // set up v_{B^m}
@@ -515,7 +515,7 @@ class Optimisation_sphere_d;
                 // compute \tilde{z}
                 RT old_denom = denom[m-1];
                 RT z = old_denom*RT_(2)*sqr_q_m - prod(v,x,m+1);
-                CGAL_optimisation_assertion (!is_zero (z));
+                CGAL_optimisation_assertion (!CGAL_NTS is_zero (z));
         
                 // set up \tilde{A}^{-1}_{B^m}
                 RT** M = inv[m-1];          // \tilde{A}^{-1}_B, old matrix
@@ -551,41 +551,39 @@ class Optimisation_sphere_d;
         {
             // store hD times the cartesian part of p in v
             RT hD = c[d];
-            It i; RT *o;
+            It i(tco.access_coordinates_begin_d_object()(p)); RT *o;
         
         #ifndef CGAL_CFG_NO_MUTABLE
         
-                for (i=da.get_begin(p), o=v; o<v+d; *(o++)=hD*(*(i++)));
+                for ( o=v; o<v+d; *(o++)=hD*(*(i++)));
         #else
-                for (i=da.get_begin(p), o=(RT*)v; o<(RT*)v+d; *(o++)=hD*(*(i++)));
+                for (o=(RT*)v; o<(RT*)v+d; *(o++)=hD*(*(i++)));
         
         #endif // CGAL_CFG_NO_MUTABLE
         
                 // get h_p
                 RT h_p = *(i++);
-                CGAL_optimisation_precondition (!is_zero (h_p));
+                CGAL_optimisation_precondition (!CGAL_NTS is_zero (h_p));
         
                 // compute (h_p h D)^2 (c-p)^2
                 RT sqr_dist(RT(0));
                 for (int k=0; k<d; ++k)
-                    sqr_dist += square (h_p*c[k]-v[k]);
+                    sqr_dist += CGAL_NTS square(h_p*c[k]-v[k]);
         
                 // compute excess
-                return sqr_dist - square(h_p)*sqr_r;
+                return sqr_dist - CGAL_NTS square(h_p)*sqr_r;
              }
         
         
         
         PT center () const
         {
-             PT p;
-             da.set (p, c, c+d+1);
-             return p;
+             return tco.construct_point_d_object()(d,c,c+d+1);
         }
         
         FT squared_radius () const
         {
-             return FT(sqr_r)/FT(square(c[d]));
+             return FT(sqr_r)/FT(CGAL_NTS square(c[d]));
         }
         
         int number_of_support_points () const
@@ -607,7 +605,7 @@ class Optimisation_sphere_d;
                 s_new = CGAL::sign(v_basis[0][0]), signum;
             for (int j=1; j<m+1; ++j) {
                 signum = sign_hD * s_old * s_new * CGAL::sign(x[j]);
-                if (!is_positive (signum))
+                if (!CGAL_NTS is_positive (signum))
                     return (_optimisation_is_valid_fail
                         (verr, "center not in convex hull of support points"));
                 s_old = s_new; s_new = CGAL::sign(v_basis[j][0]);
@@ -658,31 +656,31 @@ class Optimisation_sphere_d;
 #else
 
     // general template
-    template <class Rep_tag, class FT, class RT, class PT,class DA>
+    template <class Rep_tag, class FT, class RT, class PT,class Traits>
     class Optimisation_sphere_d
     {
-        Optimisation_sphereCd<FT,RT,PT,DA> ms_cart;
-        Optimisation_sphereHd<FT,RT,PT,DA> ms_hom;
+        Optimisation_sphereCd<FT,RT,PT,Traits> ms_cart;
+        Optimisation_sphereHd<FT,RT,PT,Traits> ms_hom;
 
     public:
 
-        Optimisation_sphere_d (Cartesian_tag t, const DA dao = DA())
-        : ms_cart (dao) {}
+        Optimisation_sphere_d (Cartesian_tag t, const Traits& tr = Traits())
+        : ms_cart (tr) {}
 
-        Optimisation_sphere_d (Homogeneous_tag t, const DA dao = DA())
-        : ms_hom (dao) {}
+        Optimisation_sphere_d (Homogeneous_tag t, const Traits& tr = Traits())
+        : ms_hom (tr) {}
 
-        Optimisation_sphereCd<FT,RT,PT,DA>& get_sphere (Cartesian_tag t)
+        Optimisation_sphereCd<FT,RT,PT,Traits>& get_sphere (Cartesian_tag t)
         {return ms_cart;}
 
-        Optimisation_sphereHd<FT,RT,PT,DA>& get_sphere (Homogeneous_tag t)
+        Optimisation_sphereHd<FT,RT,PT,Traits>& get_sphere (Homogeneous_tag t)
         {return ms_hom;}
 
-        const Optimisation_sphereCd<FT,RT,PT,DA>& get_sphere
+        const Optimisation_sphereCd<FT,RT,PT,Traits>& get_sphere
         (Cartesian_tag t) const
         {return ms_cart;}
 
-        const Optimisation_sphereHd<FT,RT,PT,DA>& get_sphere
+        const Optimisation_sphereHd<FT,RT,PT,Traits>& get_sphere
         (Homogeneous_tag t) const
         {return ms_hom;}
 
@@ -690,13 +688,14 @@ class Optimisation_sphere_d;
 
     // Cartesian version
     // -----------------
-    template <class FT, class RT, class PT, class DA>
+    template <class FT, class RT, class PT, class Traits>
     class Optimisation_sphereCd
 
     #define Optimisation_sphere_d Optimisation_sphereCd
     {
     private:
-        typedef             typename DA::InputIterator      It;
+        typedef
+          typename Traits::Access_coordinates_begin_d::Coordinate_iterator  It;
         
         // hack needed for egcs, see also test programs
         typedef             FT                              FT_;
@@ -716,26 +715,26 @@ class Optimisation_sphere_d;
         PT                  ctr;                    // center, for external use
         FT                  sqr_r;                  // squared_radius
         
-        DA                  da;                     // data accessor object
+        Traits              tco;
         
         
         
         
 
     public:
-        Optimisation_sphere_d (const DA& dao = DA())
-            : d(-1), m(0), s(0), da (dao)
+        Optimisation_sphere_d (const Traits& t = Traits())
+            : d(-1), m(0), s(0), tco (t)
         {}
         
-        void set_da (const DA& dao)
+        void set_tco (const Traits& tcobj)
         {
-            da = dao;
+            tco = tcobj;
         }
         
         
-        void init (int ambient_dim)
+        void init (int ambient_dimension)
         {
-            d = ambient_dim;
+            d = ambient_dimension;
             m = 0;
             s = 0;
             sqr_r = -FT(1);
@@ -784,12 +783,12 @@ class Optimisation_sphere_d;
         }
         
         
-        void set_size (int ambient_dim)
+        void set_size (int ambient_dimension)
         {
             if (d != -1)
                 destroy();
-            if (ambient_dim != -1)
-                init(ambient_dim);
+            if (ambient_dimension != -1)
+                init(ambient_dimension);
             else {
                 d = -1;
                 m = 0;
@@ -801,8 +800,8 @@ class Optimisation_sphere_d;
         void push (const PT& p)
         {
             // store q_m = p by copying its cartesian coordinates into q[m]
-            It i; FT *o;
-            for (i=da.get_begin(p), o=q[m]; o<q[m]+d; *(o++)=*(i++));
+            It i(tco.access_coordinates_begin_d_object()(p)); FT *o;
+            for (o=q[m]; o<q[m]+d; *(o++)=*(i++));
         
             // update v_basis by appending q_m^Tq_m
             v_basis[m+1] = prod(q[m],q[m],d);
@@ -825,7 +824,7 @@ class Optimisation_sphere_d;
         
                 // compute z
                 FT z = FT_(2)*v_basis[m+1] - prod(v,x,m+1);
-                CGAL_optimisation_assertion (!is_zero (z));
+                CGAL_optimisation_assertion (!CGAL_NTS is_zero (z));
                 FT inv_z = FT_(1)/z;
         
                 // set up A^{-1}_{B^m}
@@ -858,9 +857,10 @@ class Optimisation_sphere_d;
         {
             // compute (c-p)^2
             FT sqr_dist (FT(0));
-            It i; FT *j;
-            for (i=da.get_begin(p), j=c; j<c+d; ++i, ++j)
-                sqr_dist += square (*i-*j);
+            It i(tco.access_coordinates_begin_d_object()(p));
+            FT *j;
+            for (j=c; j<c+d; ++i, ++j)
+                sqr_dist += CGAL_NTS square(*i-*j);
             return sqr_dist - sqr_r;
          }
         
@@ -868,9 +868,7 @@ class Optimisation_sphere_d;
         
         PT center () const
         {
-             PT p;
-             da.set (p, c, c+d);
-             return p;
+             return tco.construct_point_d_object()(d, c, c+d);
         }
         
         FT squared_radius () const
@@ -893,7 +891,7 @@ class Optimisation_sphere_d;
         {
             Verbose_ostream verr (verbose);
             for (int j=1; j<m+1; ++j)
-                if (!is_positive (x[j]))
+                if (!CGAL_NTS is_positive (x[j]))
                     return (_optimisation_is_valid_fail
                         (verr, "center not in convex hull of support points"));
             return (true);
@@ -941,13 +939,14 @@ class Optimisation_sphere_d;
 
     // Homogeneous version
     // -----------------
-    template <class FT, class RT, class PT, class DA>
+    template <class FT, class RT, class PT, class Traits>
     class Optimisation_sphereHd
 
     #define Optimisation_sphere_d Optimisation_sphereHd
     {
     private:
-        typedef             typename DA::InputIterator      It;
+        typedef
+          typename Traits::Access_coordinates_begin_d::Coordinate_iterator  It;
         
         // hack needed for egcs, see also test programs
         typedef             RT                              RT_;
@@ -968,24 +967,24 @@ class Optimisation_sphere_d;
         PT                  ctr;                    // center, for external use
         RT                  sqr_r;                  // numerator of squared_radius
         
-        DA                  da;                     // data accessor object
+        Traits              tco;
         
         
 
     public:
-        Optimisation_sphere_d (const DA& dao = DA())
-            : d(-1), m(0), s(0), da(dao)
+        Optimisation_sphere_d (const Traits& t = Traits())
+            : d(-1), m(0), s(0), tco(t)
         {}
         
-        void set_da (const DA& dao)
+        void set_tco (const Traits& tcobj)
         {
-            da = dao;
+            tco = tcobj;
         }
         
         
-        void init (int ambient_dim)
+        void init (int ambient_dimension)
         {
-            d = ambient_dim;
+            d = ambient_dimension;
             m = 0;
             s = 0;
             sqr_r = -RT(1);
@@ -1038,12 +1037,12 @@ class Optimisation_sphere_d;
         }
         
         
-        void set_size (int ambient_dim)
+        void set_size (int ambient_dimension)
         {
             if (d != -1)
                 destroy();
-            if (ambient_dim != -1)
-                init(ambient_dim);
+            if (ambient_dimension != -1)
+                init(ambient_dimension);
             else {
                 d = -1;
                 m = 0;
@@ -1055,8 +1054,8 @@ class Optimisation_sphere_d;
         void push (const PT& p)
         {
             // store q_m = p by copying its cartesian part into q[m]
-            It i; RT *o;
-            for (i=da.get_begin(p), o=q[m]; o<q[m]+d; *(o++)=*(i++));
+            It i(tco.access_coordinates_begin_d_object()(p)); RT *o;
+            for (o=q[m]; o<q[m]+d; *(o++)=*(i++));
         
             // get homogenizing coordinate
             RT hom = *(i++);
@@ -1072,7 +1071,7 @@ class Optimisation_sphere_d;
                 M[0][0] = RT_(2)*v_basis[0][1];
                 M[1][0] = -hom;
                 M[1][1] = RT_(0);
-                denom[0] = -square(hom);  // det(\tilde{A}_{B^0})
+                denom[0] = -CGAL_NTS square(hom);  // det(\tilde{A}_{B^0})
         
             } else {
                 // set up v_{B^m}
@@ -1094,7 +1093,7 @@ class Optimisation_sphere_d;
                 // compute \tilde{z}
                 RT old_denom = denom[m-1];
                 RT z = old_denom*RT_(2)*sqr_q_m - prod(v,x,m+1);
-                CGAL_optimisation_assertion (!is_zero (z));
+                CGAL_optimisation_assertion (!CGAL_NTS is_zero (z));
         
                 // set up \tilde{A}^{-1}_{B^m}
                 RT** M = inv[m-1];          // \tilde{A}^{-1}_B, old matrix
@@ -1130,41 +1129,39 @@ class Optimisation_sphere_d;
         {
             // store hD times the cartesian part of p in v
             RT hD = c[d];
-            It i; RT *o;
+            It i(tco.access_coordinates_begin_d_object()(p)); RT *o;
         
         #ifndef CGAL_CFG_NO_MUTABLE
         
-                for (i=da.get_begin(p), o=v; o<v+d; *(o++)=hD*(*(i++)));
+                for ( o=v; o<v+d; *(o++)=hD*(*(i++)));
         #else
-                for (i=da.get_begin(p), o=(RT*)v; o<(RT*)v+d; *(o++)=hD*(*(i++)));
+                for (o=(RT*)v; o<(RT*)v+d; *(o++)=hD*(*(i++)));
         
         #endif // CGAL_CFG_NO_MUTABLE
         
                 // get h_p
                 RT h_p = *(i++);
-                CGAL_optimisation_precondition (!is_zero (h_p));
+                CGAL_optimisation_precondition (!CGAL_NTS is_zero (h_p));
         
                 // compute (h_p h D)^2 (c-p)^2
                 RT sqr_dist(RT(0));
                 for (int k=0; k<d; ++k)
-                    sqr_dist += square (h_p*c[k]-v[k]);
+                    sqr_dist += CGAL_NTS square(h_p*c[k]-v[k]);
         
                 // compute excess
-                return sqr_dist - square(h_p)*sqr_r;
+                return sqr_dist - CGAL_NTS square(h_p)*sqr_r;
              }
         
         
         
         PT center () const
         {
-             PT p;
-             da.set (p, c, c+d+1);
-             return p;
+             return tco.construct_point_d_object()(d,c,c+d+1);
         }
         
         FT squared_radius () const
         {
-             return FT(sqr_r)/FT(square(c[d]));
+             return FT(sqr_r)/FT(CGAL_NTS square(c[d]));
         }
         
         int number_of_support_points () const
@@ -1186,7 +1183,7 @@ class Optimisation_sphere_d;
                 s_new = CGAL::sign(v_basis[0][0]), signum;
             for (int j=1; j<m+1; ++j) {
                 signum = sign_hD * s_old * s_new * CGAL::sign(x[j]);
-                if (!is_positive (signum))
+                if (!CGAL_NTS is_positive (signum))
                     return (_optimisation_is_valid_fail
                         (verr, "center not in convex hull of support points"));
                 s_old = s_new; s_new = CGAL::sign(v_basis[j][0]);

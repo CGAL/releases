@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -29,22 +29,25 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
-//
+// 
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
+// 
+// source        : chull.fw
 // file          : include/CGAL/dd_geo/chull.h
-// package       : Convex_hull_3 (2.2.3)
-// source        : ^
-// revision      : 2.2
-// revision_date : 05 Oct 99
+// package       : Convex_hull_3 (2.6)
+// revision      : 2.6
+// revision_date : 21 Aug 2000 
 // author(s)     : Kurt Mehlhorn
 //                 Michael Seel
-// modified by   : Stefan Schirra
 //
-// coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
+ 
+
 
 #ifndef CGAL_DD_GEO_CHULL_H
 #define CGAL_DD_GEO_CHULL_H
@@ -87,7 +90,7 @@ simplex $t$ opposite to the $i$-th vertex of $s$.  The function
 otherwise. If $t$ exists then $s$ and $t$ share |dcur| vertices,
 namely all but the vertex with index $i$ of $s$ and the vertex with
 index |C.index_of_vertex_in_opposite_simplex(s,i)| of $t$. Assume that
-$t$ exists and let |j =C.index_of_vertex_in_opposite_simplex(s,i)|. 
+$t$ exists and let |j =C.index_of_vertex_in_opposite_simplex(s,i)|.
 Then $s =$ |C.opposite_simplex(t,j)| and $i =$
 |C.index_of_vertex_in_opposite_simplex(t,j)|.
 
@@ -100,8 +103,8 @@ to the $i$-th vertex of $f$.  The function |C.opposite_facet(f,i)|
 returns $g$.  Two neighboring facets $f$ and $g$ share |dcur - 1|
 vertices, namely all but the vertex with index $i$ of $f$ and the
 vertex with index |C.index_of_vertex_in_opposite_facet(f,i)| of $g$.
-Let |j = C.index_of_vertex_in_opposite_facet(f,i)|. Then 
-|f = C.opposite_facet(g,j)| and 
+Let |j = C.index_of_vertex_in_opposite_facet(f,i)|. Then
+|f = C.opposite_facet(g,j)| and
 |i = C.index_of_vertex_in_opposite_facet(g,j)|.}*/
 
 #include <LEDA/array.h>
@@ -125,7 +128,7 @@ template <class CHTRAITS,class POINT,class PLANE> class chull;
 #else
 template <class CHTRAITS,
           class POINT = CGAL_TYPENAME_MSVC_NULL CHTRAITS::POINT,
-          class PLANE = CGAL_TYPENAME_MSVC_NULL CHTRAITS::PLANE> 
+          class PLANE = CGAL_TYPENAME_MSVC_NULL CHTRAITS::PLANE>
 class chull;
 #endif
 
@@ -135,33 +138,33 @@ template <class CHTRAITS,class POINT,class PLANE>
 #else
 template <class CHTRAITS,
           class POINT = CGAL_TYPENAME_MSVC_NULL CHTRAITS::POINT,
-          class PLANE = CGAL_TYPENAME_MSVC_NULL CHTRAITS::PLANE> 
+          class PLANE = CGAL_TYPENAME_MSVC_NULL CHTRAITS::PLANE>
 #endif
 class ch_Simplex : public rc_Simplex<CHTRAITS,POINT>
-{ 
+{
 
 
   typedef ch_Simplex<CHTRAITS,POINT,PLANE>* ch_simplex;
   typedef ch_Simplex<CHTRAITS,POINT,PLANE>* ch_facet;
   typedef rc_Vertex<CHTRAITS,POINT>*        ch_vertex;
-  friend class chull<CHTRAITS,POINT,PLANE>; 
+  friend class chull<CHTRAITS,POINT,PLANE>;
   // chull has unrestricted access
-  
+
   PLANE base_facet;  // hyperplane supporting base facet
   bool  visited;     // visited mark when traversing the triangulation
 
-  ch_Simplex(int dmax)  : rc_Simplex<CHTRAITS,POINT>(dmax)                   
+  ch_Simplex(int dmax)  : rc_Simplex<CHTRAITS,POINT>(dmax)
   { visited = false; }
 
   ~ch_Simplex() {}  // cleanup in ~rc_Simplex suffices
 
-  LEDA_MEMORY(ch_Simplex); 
-}; 
+  LEDA_MEMORY(ch_Simplex);
+};
 
 
 template <class CHTRAITS,class POINT,class PLANE>
 class chull : public regl_complex<CHTRAITS,POINT>
-{ 
+{
 public:
 /*{\Mtypes 4}*/
 typedef ch_Simplex<CHTRAITS,POINT,PLANE>* ch_simplex;
@@ -189,28 +192,28 @@ typedef rc_Vertex<CHTRAITS,POINT>*        ch_vertex;
   friend class ch_point_iterator;
   friend class ch_simplex_iterator;
 
-  class ch_point_iterator 
+  class ch_point_iterator
   /*{\Mtypemember the const iterator for points.}*/
   {
     friend class chull<CHTRAITS,POINT,PLANE>;
     const chull<CHTRAITS,POINT,PLANE>* CH;
     list_item it;
-    ch_point_iterator(const chull<CHTRAITS,POINT,PLANE>* x, 
+    ch_point_iterator(const chull<CHTRAITS,POINT,PLANE>* x,
     list_item y) : CH(x), it(y)  {}
   public:
     ch_point_iterator() : CH(0),it(0) {}
     ch_point_iterator& operator++()
     { it = CH->all_pnts.stl_next_item(it); return *this; }
-    ch_point_iterator& operator--()    
+    ch_point_iterator& operator--()
     { it = CH->all_pnts.stl_pred_item(it); return *this; }
-    ch_point_iterator  operator++(int) 
+    ch_point_iterator  operator++(int)
     { ch_point_iterator tmp = *this; ++(*this); return tmp; }
-    ch_point_iterator  operator--(int) 
+    ch_point_iterator  operator--(int)
     { ch_point_iterator tmp = *this; --(*this); return tmp; }
     const POINT& operator*() const { return CH->all_pnts[it]; }
     list_item* operator->() { return &it; }
-    friend bool operator==(const ch_point_iterator& x, 
-                           const ch_point_iterator& y) 
+    friend bool operator==(const ch_point_iterator& x,
+                           const ch_point_iterator& y)
     { return x.it == y.it; }
 
     typedef POINT  value_type;
@@ -224,29 +227,29 @@ typedef rc_Vertex<CHTRAITS,POINT>*        ch_vertex;
   typedef rc_vertex_iterator ch_vertex_iterator;
   /*{\Mtypemember the const iterator for vertices.}*/
 
-  class ch_simplex_iterator 
+  class ch_simplex_iterator
   /*{\Mtypemember the const iterator for simplices.}*/
   {
     friend class chull<CHTRAITS,POINT,PLANE>;
     const chull<CHTRAITS,POINT,PLANE>* CH;
     list_item it;
-    ch_simplex_iterator(const chull<CHTRAITS,POINT,PLANE>* x, 
+    ch_simplex_iterator(const chull<CHTRAITS,POINT,PLANE>* x,
     list_item y) : CH(x), it(y)  {}
   public:
     ch_simplex_iterator() : CH(0),it(0) {}
     ch_simplex_iterator& operator++()
     { it = CH->all_simps.stl_next_item(it); return *this; }
-    ch_simplex_iterator& operator--()    
+    ch_simplex_iterator& operator--()
     { it = CH->all_simps.stl_pred_item(it); return *this; }
-    ch_simplex_iterator  operator++(int) 
+    ch_simplex_iterator  operator++(int)
     { ch_simplex_iterator tmp = *this; ++(*this); return tmp; }
-    ch_simplex_iterator  operator--(int) 
+    ch_simplex_iterator  operator--(int)
     { ch_simplex_iterator tmp = *this; --(*this); return tmp; }
-    const ch_simplex& operator*() const 
+    const ch_simplex& operator*() const
     { return (const ch_simplex&)CH->all_simps[it]; }
     list_item* operator->() { return &it; }
-    friend bool operator==(const ch_simplex_iterator& x, 
-                           const ch_simplex_iterator& y) 
+    friend bool operator==(const ch_simplex_iterator& x,
+                           const ch_simplex_iterator& y)
     { return x.it == y.it; }
 
     typedef ch_simplex  value_type;
@@ -268,13 +271,13 @@ typedef rc_Vertex<CHTRAITS,POINT>*        ch_vertex;
     //         visited[candidates] = true;
     //         all facet neighbors of current are
     //         in candidates or have left it already
-    ch_facet_iterator(const chull<CHTRAITS,POINT,PLANE>* x, 
-    ch_facet y) : CH(x), current(y), visited(false)  
+    ch_facet_iterator(const chull<CHTRAITS,POINT,PLANE>* x,
+    ch_facet y) : CH(x), current(y), visited(false)
     /* if the facet is not nil we set the current marker to
        the facet and insert all it's neighbors into the
        candidates stack */
     { if (current != nil) {
-        visited[current] = true; 
+        visited[current] = true;
         ASSERT(!CH->vertex_of_simplex(current,0), facet_iterator);
         if ( CH->dcurrent() > 1 )
           for(int i = 1; i<= CH->dcurrent(); ++i) {
@@ -304,15 +307,15 @@ typedef rc_Vertex<CHTRAITS,POINT>*        ch_vertex;
       }
       else
         current = nil;
-      return *this; 
+      return *this;
     }
-    ch_facet_iterator  operator++(int) 
+    ch_facet_iterator  operator++(int)
     { ch_facet_iterator tmp = *this; ++(*this); return tmp; }
-    const ch_facet& operator*() const 
+    const ch_facet& operator*() const
     { return (const ch_facet&) current; }
     list_item* operator->() { return &current; }
-    friend bool operator==(const ch_facet_iterator& x, 
-                           const ch_facet_iterator& y) 
+    friend bool operator==(const ch_facet_iterator& x,
+                           const ch_facet_iterator& y)
     { return x.current == y.current; }
 
     typedef ch_facet  value_type;
@@ -331,7 +334,7 @@ protected:
   VECTOR      quasi_center;    // sum of the vertices of the origin simplex
   ch_simplex  origin_simplex;  // pointer to the origin simplex
   ch_facet    start_facet;     // pointer to some facet on the surface
-  ch_vertex   anti_origin; 
+  ch_vertex   anti_origin;
 
 public: // until there are template friend functions possible
   IPOINT center() const        // compute center from quasi center
@@ -349,30 +352,30 @@ protected:
 
   void clean_dynamic_memory()
   {
-    ch_simplex s;  
+    ch_simplex s;
     while (!all_simps.empty()) {
       s = (ch_simplex)all_simps.pop();
-      delete(s); 
+      delete(s);
     }
-    ch_vertex v;  
-    while (!all_verts.empty()) { 
+    ch_vertex v;
+    while (!all_verts.empty()) {
       v = (ch_vertex)all_verts.pop();
-      delete(v); 
+      delete(v);
     }
   }
- 
-  int number_of_bounded_simplices; 
-  int number_of_unbounded_simplices; 
-  int number_of_visibility_tests; 
-  int number_of_points; 
-  int number_of_vertices; 
 
-  
+  int number_of_bounded_simplices;
+  int number_of_unbounded_simplices;
+  int number_of_visibility_tests;
+  int number_of_points;
+  int number_of_vertices;
+
+
   void  compute_equation_of_base_facet(ch_simplex s);
   /*{\Xop computes the equation of the base facet of $s$ and sets the
           |base_facet| member of $s$. The equation is normalized such
           that the origin simplex lies in the negative halfspace.}*/
-   
+
   bool is_base_facet_visible(ch_simplex s, const POINT& x) const
   { return ( CHTRAITS::side(s->base_facet,x) > 0); }
   /*{\Xop returns true if $x$ sees the base facet of $s$, i.e., lies in
@@ -384,7 +387,7 @@ protected:
 
 
   ch_simplex  new_simplex()
-  { 
+  {
     ch_simplex s = new ch_Simplex<CHTRAITS,POINT,PLANE>(dmax);
     all_simps.append(s);
     return s;
@@ -408,7 +411,7 @@ protected:
           boundary of |\Mvar| then a facet incident to $x$ is returned
           in $f$.}*/
 
-  void clear_visited_marks(ch_Simplex<CHTRAITS,POINT,PLANE>* s) const; 
+  void clear_visited_marks(ch_Simplex<CHTRAITS,POINT,PLANE>* s) const;
   /*{\Xop removes the mark bits from all marked simplices reachable from $s$. }*/
 
 
@@ -417,10 +420,10 @@ protected:
   with $x$ lies outside the affine hull of the current point set.  }*/
 
 public:
-  
+
   /*{\Mcreation 3}*/
 
-  chull(int d = 2); 
+  chull(int d = 2);
   /*{\Mcreate creates an instance |\Mvar| of type |\Mtype|. The
   dimension of the underlying space is $d$ and |S| is initialized to the
   empty point set. The traits class |CHTRAITS| specifies the models of
@@ -434,11 +437,11 @@ public:
 
   /*{\Mtext The above template instantiation works only for compilers
   which can handle \textit{template default arguments}. The exact
-  template prototype is 
-  [[<CHTRAITS, POINT = CHTRAITS::POINT, PLANE = CHTRAITS::PLANE>]].  
+  template prototype is
+  [[<CHTRAITS, POINT = CHTRAITS::POINT, PLANE = CHTRAITS::PLANE>]].
   In case you use a compiler without that feature please write
   [[chull<CHTRAITS,POINT,PLANE>]] where we write [[\Mname]] after
-  providing [[POINT]] and [[PLANE]] in the global scope.  }*/ 
+  providing [[POINT]] and [[PLANE]] in the global scope.  }*/
 
   ~chull() { clean_dynamic_memory(); }
 
@@ -449,8 +452,8 @@ public:
       either implement them correctly or to make them inaccessible. We
       do the latter. */
 
-    chull(const chull&); 
-    chull& operator=(const chull&); 
+    chull(const chull&);
+    chull& operator=(const chull&);
 
   /*{\Mtext The data type |\Mtype| offers neither copy constructor nor
             assignment operator.}*/
@@ -464,14 +467,14 @@ public:
             space.}*/
 
   /*{\Moptions nextwarning=no}*/
-  /* inherited 
-  int dim(){ return dmax; } 
+  /* inherited
+  int dim(){ return dmax; }
   */
   /*{\Mop returns the dimension of ambient space}*/
 
   /*{\Moptions nextwarning=no}*/
-  /* inherited 
-  int dcurrent(){ return dcur; } 
+  /* inherited
+  int dcurrent(){ return dcur; }
   */
   /*{\Mop returns the affine dimension of $S$.}*/
 
@@ -497,7 +500,7 @@ public:
   int  index_of_vertex_in_opposite_simplex(ch_simplex s,int i) const
   { return regl_complex<CHTRAITS,POINT>::index_of_opposite_vertex(s,i); }
   /*{\Mop returns the index of the vertex opposite to the $i$-th vertex
-          of $s$.\\ 
+          of $s$.\\
           \precond $0 \leq i \leq |dcur|$ and there is a
           simplex opposite to the $i$-th vertex of $s$. }*/
 
@@ -554,10 +557,10 @@ public:
 
   bool is_dimension_jump(const POINT& x) const
   /*{\Mop returns true if $x$ is not contained in the affine hull of |S|. }*/
-  { 
+  {
     if (dcur == dmax) return false;
-    array<POINT>  A(0,dcur); 
-    for (int l = 0; l <= dcur; l++) 
+    array<POINT>  A(0,dcur);
+    for (int l = 0; l <= dcur; l++)
       A[l] = point_of_simplex(origin_simplex,l);
     return ( !CHTRAITS::contained_in_affine_hull(A,x) );
   }
@@ -570,7 +573,7 @@ public:
   int is_where(const POINT& x);
   /*{\Mop returns |-1| (|0|,|1|) if |x| is contained in the interior
           (lies on the boundary, is contained in the exterior) of
-          |\Mvar|.\\ 
+          |\Mvar|.\\
           \precond |x| is contained in the affine hull of |S|.}*/
 
 
@@ -582,31 +585,31 @@ public:
   { return vertex_of_simplex(S,0) != anti_origin; }
 
   void init(int d = 2)
-  { 
+  {
     clean_dynamic_memory();
     quasi_center = CHTRAITS::zero_vector(d);
     anti_origin = nil;
-    origin_simplex = nil; 
+    origin_simplex = nil;
     all_pnts.clear();
     regl_complex<CHTRAITS,POINT>::init(d);
-    number_of_points = number_of_vertices = 0; 
-    number_of_unbounded_simplices = number_of_bounded_simplices = 0; 
-    number_of_visibility_tests = 0; 
+    number_of_points = number_of_vertices = 0;
+    number_of_unbounded_simplices = number_of_bounded_simplices = 0;
+    number_of_visibility_tests = 0;
   }
   /*{\Mop reinitializes |\Mvar| to an empty hull in $d$-dimensional space.}*/
 
   #define STATISTIC(t) cout << #t << " = " << t << endl
 
   void print_statistics()
-  { 
-    newline; 
+  {
+    newline;
     cout << "chull(" << dim() << ") - statistic" << endl;
     STATISTIC(number_of_points);
     STATISTIC(number_of_vertices);
     STATISTIC(number_of_unbounded_simplices);
     STATISTIC(number_of_bounded_simplices);
     STATISTIC(number_of_visibility_tests);
-    newline; 
+    newline;
   }
   /*{\Mop gives information about the size of the current hull and the
           number of visibility tests performed. }*/
@@ -634,7 +637,7 @@ public:
   (also interior ones).}*/
 
   list<ch_simplex> all_simplices() const
-  { list_item it; 
+  { list_item it;
     list<ch_simplex> result;
     forall_items(it,all_simps) {
       result.append((ch_simplex) all_simps[it]);
@@ -721,7 +724,7 @@ times the number of points.}*/
 /*{\Mexample See the section on Delaunay triangulations and convex
 hulls of the LEDA book for an extensive example. Or the demo package
 of the LEP |dd_geokernel|.}*/
- 
+
 
 /*{\Mtext \headerline{Low Dimensional Output Routines}
 \setopdims{2cm}{3cm}}*/
@@ -733,15 +736,15 @@ void d2_show(const chull<CHTRAITS,POINT,PLANE>& C, window& W);
 
 /*{\Moptions nextwarning=no}*/
 /* inherited from regl_complex:
-void d2_map(const chull<CHTRAITS,POINT,PLANE>& C, GRAPH<PNT,int>& G); 
+void d2_map(const chull<CHTRAITS,POINT,PLANE>& C, GRAPH<PNT,int>& G);
 */
 /*{\Mfunc constructs the representation of |C| as a bidirected graph |G|.\\
 \precond |dim == 3|.}*/
 
 template <class CHTRAITS,class POINT,class PLANE>
-void d3_surface_map(const chull<CHTRAITS,POINT,PLANE>& C, 
+void d3_surface_map(const chull<CHTRAITS,POINT,PLANE>& C,
                     GRAPH<POINT,int>& G);
-/*{\Mfunc constructs the representation of the surface of |\Mvar| as a 
+/*{\Mfunc constructs the representation of the surface of |\Mvar| as a
 bidirected graph |G|.\\ \precond |dim == 3|.}*/
 
 
@@ -776,7 +779,7 @@ $d$-space based on LEDA's $dd$ geometry kernel (LEP |dd_geo_kernel|).
 \end{itemize} }*/
 
 
-class CHTRAITS { 
+class CHTRAITS {
 /*{\Mcreation}*/
 /*{\Mtext There are no constructors necessary as this type only provides
 necessary operations by inline static operations.}*/
@@ -861,7 +864,7 @@ the constructed hyperplane.\\ \precond A hyperplane with the stated
 properties must exist.}*/
 
 
-static bool intersection(const PLANE& h, const IRAY& r, 
+static bool intersection(const PLANE& h, const IRAY& r,
                          IPOINT& p);
 /*{\Mstatic returns true if the intersection set $S = h \cap r$ is
 empty, else false. |p| is a point on |h| if $S \neq \emptyset$.}*/
@@ -900,10 +903,10 @@ in $2$-space. Implementation \emph{only necessary} if |d2_map| is used.}*/
 
 };
 
-/*{\Mexample 
+/*{\Mexample
 Together with the abstract data type |chull| come three instantiations.
 \begin{enumerate}
-\item $2$-dimensional convex hulls 
+\item $2$-dimensional convex hulls
 
 The class |d2_chull_traits| is an instantiation for $2d$-convex hulls
 based on LEDA's $2d$ geometry kernel. We have

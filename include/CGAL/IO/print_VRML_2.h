@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/IO/print_VRML_2.h
-// package       : Polyhedron_IO (2.9)
+// package       : Polyhedron_IO (2.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
 // revision      : $Revision: 1.5 $
@@ -44,7 +44,8 @@
 // coordinator   : Herve Bronnimann
 //
 // Print a Polyhedron_3 in VRML 2.0 file format (.wrl)
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 

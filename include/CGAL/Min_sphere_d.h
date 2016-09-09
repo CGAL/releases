@@ -30,22 +30,23 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // chapter       : $CGAL_Chapter: Optimisation $
 // file          : include/CGAL/Min_sphere_d.h
-// package       : Min_sphere_d (2.12)
+// package       : Min_sphere_d (2.25)
 // source        : web/Optimisation/Min_sphere_d.aw
-// revision      : $Revision: 2.12 $
-// revision_date : $Date: 1999/12/20 12:02:17 $
+// revision      : $Revision: 2.25 $
+// revision_date : $Date: 2000/09/28 13:12:29 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zurich (Bernd Gärtner)
 //
 // implementation: dD Smallest Enclosing Sphere
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -59,33 +60,14 @@
 // ==================================
 // includes
 
-#ifndef CGAL_BASIC_H
 #  include <CGAL/basic.h>
-#endif
 
-#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
 #  include <CGAL/Optimisation/assertions.h>
-#endif
 
-#ifndef CGAL_OPTIMISATION_BASIC_H
 #  include <CGAL/Optimisation/basic.h>
-#endif
 
-#ifndef CGAL_MIN_SPHERE_D_TRAITS_2_H
-#  include <CGAL/Min_sphere_d_traits_2.h>
-#endif // CGAL_MIN_SPHERE_D_TRAITS_2_H
-
-#ifndef CGAL_MIN_SPHERE_D_TRAITS_3_H
-#  include <CGAL/Min_sphere_d_traits_3.h>
-#endif // CGAL_MIN_SPHERE_D_TRAITS_3_H
-
-#ifndef CGAL_MIN_SPHERE_D_TRAITS_D_H
-#  include <CGAL/Min_sphere_d_traits_d.h>
-#endif // CGAL_MIN_SPHERE_D_TRAITS_D_H
-
-#ifndef CGAL_OPTIMISATION_SPHERE_D_H
 #  include <CGAL/Optimisation_sphere_d.h>
-#endif // CGAL_OPTIMISATION_SPHERE_D_H
+
 
 #ifndef CGAL_PROTECT_LIST
 #  include <list>
@@ -106,57 +88,6 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template <class Rep_tag, class NT>
-struct NT_rep_traits;
-
-#ifndef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
-
-   template <class NT>
-   struct NT_rep_traits<Cartesian_tag, NT>
-   {
-            typedef NT           FT;
-            typedef NT           RT;
-   };
-
-   template <class NT>
-   struct  NT_rep_traits<Homogeneous_tag, NT>
-   {
-            typedef Quotient<NT> FT;
-            typedef NT           RT;
-   };
-
-#else
-
-template <class Rep_tag, class _NT>
-struct NT_rep_traits
-{
-  typedef _NT NT;
-
-  template <class Rep_tag>
-  struct A
-  {};
-
-  template <>
-  struct A<Cartesian_tag>
-  {
-    typedef NT           FT;
-    typedef NT           RT;
-  };
-
-  template <>
-  struct A<Homogeneous_tag>
-  {
-    typedef Quotient<NT> FT;
-    typedef NT           RT;
-  };
-
-  typedef typename A<Rep_tag>::FT FT;
-  typedef typename A<Rep_tag>::RT RT;
-};
-
-#endif
-
-
 
 template <class Traits>
 class Min_sphere_d
@@ -165,11 +96,16 @@ class Min_sphere_d
     
     public:
         typedef typename Traits::Rep_tag        Rep_tag;
-        typedef typename Traits::NT             NT;
-        typedef typename NT_rep_traits<Rep_tag, NT>::FT FT;
-        typedef typename NT_rep_traits<Rep_tag, NT>::RT RT;
-        typedef typename Traits::Point          Point; // Point type
-        typedef typename Traits::DA             DA; // Data accessor type
+        typedef typename Traits::RT             RT;
+        typedef typename Traits::FT             FT;
+        typedef typename Traits::Point_d        Point; // Point type
+    
+        typedef  typename Traits::Access_dimension_d
+          Access_dimension_d;
+        typedef  typename Traits::Access_coordinates_begin_d
+          Access_coordinates_begin_d;
+        typedef  typename Traits::Construct_point_d
+          Construct_point_d;
     
         typedef typename std::list<Point>::const_iterator
                 Point_iterator;
@@ -183,10 +119,10 @@ class Min_sphere_d
     private:
         int                                     d;            // ambient dim
         std::list<Point>                        points;       // keeps P = Q_n
-        Optimisation_sphere_d<Rep_tag, FT, RT, Point,DA>
+        Traits                                  tco;          // traits object
+        Optimisation_sphere_d<Rep_tag, FT, RT, Point,Traits>
                                                 ms_basis; // keeps  miniball
         It                                      support_end;  // delimites S
-        Traits                                  tco;          // traits object
     
     #ifdef CGAL_CFG_NO_PARTIAL_CLASS_TEMPLATE_SPECIALISATION
             #define ms_basis(X) ms_basis(typename Traits::Rep_tag(), X)
@@ -194,31 +130,54 @@ class Min_sphere_d
     
     
 public:
-    Min_sphere_d (const Traits& traits = Traits())
-        : d(-1), ms_basis (traits.da), support_end(points.begin()),
-          tco( traits)
-    {}
+    Min_sphere_d ()
+    : d(-1), tco( Traits()), ms_basis (tco),
+      support_end(points.begin())
+        {}
+    
+    
+    Min_sphere_d (const Traits& traits)
+    : d(-1), tco( traits), ms_basis (tco),
+      support_end(points.begin())
+        {}
+    
+    
     
     // STL-like constructor (member template)
     template <class InputIterator>
     Min_sphere_d( InputIterator first,
-                       InputIterator last,
-                       const Traits& traits = Traits())
-        : d(-1), points( first, last), ms_basis (traits.da),
-          support_end(points.begin()), tco( traits)
+                       InputIterator last)
+        : d(-1), points( first, last), tco( Traits()), ms_basis (tco),
+          support_end(points.begin())
     {
         if (points.size()>0) {
-            d = tco.da.get_dimension (points.front());
+            d = tco.access_dimension_d_object() (points.front());
             CGAL_optimisation_precondition ((d>=0) && all_points_have_dim(d));
             ms_basis.get_sphere(Rep_tag()).set_size (d);
             pivot_ms();
         }
     }
+    
+    template <class InputIterator>
+    Min_sphere_d( InputIterator first,
+                       InputIterator last,
+                       const Traits& traits)
+        : d(-1), points( first, last), tco( traits), ms_basis (tco),
+          support_end(points.begin())
+    {
+        if (points.size()>0) {
+            d = tco.access_dimension_d_object() (points.front());
+            CGAL_optimisation_precondition ((d>=0) && all_points_have_dim(d));
+            ms_basis.get_sphere(Rep_tag()).set_size (d);
+            pivot_ms();
+        }
+    }
+    
     Min_sphere_d (const Min_sphere_d& msph)
-    : d(msph.ambient_dim()),
-      points (msph.points_begin(), msph.points_end()),
-          ms_basis (msph.traits().da), support_end (points.begin()),
-          tco (msph.traits())
+    : d(msph.ambient_dimension()),
+      points (msph.points_begin(), msph.points_end()), tco (msph.tco),
+          ms_basis (tco), support_end (points.begin())
+    
     {
         if (d != -1) {
             ms_basis.get_sphere(Rep_tag()).set_size (d);
@@ -230,12 +189,12 @@ public:
     {
         if (this != &msph) {
             points.erase (points.begin(), points.end());
-            d = msph.ambient_dim();
+            d = msph.ambient_dimension();
             points.insert
               (points.begin(), msph.points_begin(), msph.points_end());
-            ms_basis.get_sphere(Rep_tag()).set_da(msph.traits().da);
+              ms_basis.get_sphere(Rep_tag()).set_tco(msph.tco);
             support_end = points.begin();
-            tco = msph.traits();
+            tco = msph.tco;
             if (d != -1) {
                 ms_basis.get_sphere(Rep_tag()).set_size (d);
                 pivot_ms();
@@ -275,7 +234,7 @@ public:
         return support_end;
     }
     
-    int ambient_dim () const
+    int ambient_dimension () const
     {
         return d;
     }
@@ -298,7 +257,8 @@ public:
         if (d == -1)
            return ON_UNBOUNDED_SIDE;
         else {
-           CGAL_optimisation_precondition (d == tco.da.get_dimension(p));
+          CGAL_optimisation_precondition
+           (d == tco.access_dimension_d_object()(p));
            return (Bounded_side
                (-CGAL::sign (ms_basis.get_sphere(Rep_tag()).excess (p))));
         }
@@ -309,8 +269,9 @@ public:
         if (d == -1)
            return false;
         else {
-           CGAL_optimisation_precondition (d == tco.da.get_dimension(p));
-           return (is_negative (ms_basis.get_sphere(Rep_tag()).excess (p)));
+          CGAL_optimisation_precondition
+           (d == tco.access_dimension_d_object()(p));
+           return (CGAL_NTS is_negative (ms_basis.get_sphere(Rep_tag()).excess (p)));
         }
     }
     
@@ -319,8 +280,9 @@ public:
         if (d == -1)
            return true;
         else {
-           CGAL_optimisation_precondition (d == tco.da.get_dimension(p));
-           return (is_positive (ms_basis.get_sphere(Rep_tag()).excess (p)));
+          CGAL_optimisation_precondition
+          (d == tco.access_dimension_d_object()(p));
+           return (CGAL_NTS is_positive (ms_basis.get_sphere(Rep_tag()).excess (p)));
         }
     }
     
@@ -329,8 +291,9 @@ public:
         if (d == -1)
            return false;
         else {
-           CGAL_optimisation_precondition (d == tco.da.get_dimension(p));
-           return (is_zero (ms_basis.get_sphere(Rep_tag()).excess (p)));
+          CGAL_optimisation_precondition
+          (d == tco.access_dimension_d_object()(p));
+           return (CGAL_NTS is_zero (ms_basis.get_sphere(Rep_tag()).excess (p)));
         }
     }
     
@@ -362,7 +325,7 @@ public:
         points.insert (points.begin(), first, last);
         support_end = points.begin();
         if (points.size()>0) {
-            d = tco.da.get_dimension (points.front());
+            d = tco.access_dimension_d_object() (points.front());
             CGAL_optimisation_precondition ((d>=0) && all_points_have_dim (d));
             ms_basis.get_sphere(Rep_tag()).set_size (d);
             pivot_ms();
@@ -376,7 +339,7 @@ public:
     {
         if (has_on_unbounded_side (p)) {
             if (is_empty()) {
-                d = tco.da.get_dimension (p);
+                d = tco.access_dimension_d_object() (p);
                 CGAL_optimisation_precondition (d>=0);
                 ms_basis.get_sphere(Rep_tag()).set_size (d);
             }
@@ -403,14 +366,14 @@ public:
         Verbose_ostream verr (verbose);
     
         // sphere verification
-        verr << "  (a) sphere verification..." << flush;
+        verr << "  (a) sphere verification..." << std::flush;
         if (ms_basis.get_sphere(Rep_tag()).is_valid (verbose))
-            verr << "passed." << endl;
+            verr << "passed." << std::endl;
         else
             return false;
     
         // containment check
-        verr << "  (b) containment check..." << flush;
+        verr << "  (b) containment check..." << std::flush;
     
         // non-support-points
         Point_iterator i;
@@ -425,8 +388,8 @@ public:
                 return (_optimisation_is_valid_fail (verr,
                   "sphere does not have all support points on boundary"));
     
-        verr << "passed." << endl;
-        verr << "object is valid!" << endl;
+        verr << "passed." << std::endl;
+        verr << "object is valid!" << std::endl;
         return true;
     }
     
@@ -444,7 +407,7 @@ private:
         if (ms_basis.get_sphere(Rep_tag()).size_of_basis()==d+1) return;
         for (It i = points.begin(); i!=k;) {
             It j = i++;
-            if (is_positive (ms_basis.get_sphere(Rep_tag()).excess(*j))) {
+            if (CGAL_NTS is_positive (ms_basis.get_sphere(Rep_tag()).excess(*j))) {
                 ms_basis.get_sphere(Rep_tag()).push (*j);
                 mtf_ms (j);
                 ms_basis.get_sphere(Rep_tag()).pop();
@@ -457,7 +420,7 @@ private:
     void pivot_ms ()
     {
         It t = points.begin();
-        advance (t, std::min (d+1, (int)points.size()));
+        std::advance (t, std::min (d+1, (int)points.size()));
         mtf_ms (t);
     
         RT excess, e;
@@ -471,7 +434,7 @@ private:
                    pivot = i;
                 }
             }
-            if (is_positive (excess)) {
+            if (CGAL_NTS is_positive (excess)) {
                 t = support_end;
                 if (t==pivot) ++t; //  inserted from the esa code
                 ms_basis.get_sphere(Rep_tag()).push (*pivot);
@@ -479,7 +442,7 @@ private:
                 ms_basis.get_sphere(Rep_tag()).pop();
                 move_to_front (pivot);
             }
-        } while (is_positive (excess));
+        } while (CGAL_NTS is_positive (excess));
     }
     
     
@@ -494,7 +457,7 @@ private:
     bool all_points_have_dim (int dim) const
     {
         for (Point_iterator i=points.begin(); i!=points.end(); ++i)
-            if (tco.da.get_dimension(*i) != dim)
+            if (tco.access_dimension_d_object()(*i) != dim)
                 return false;
         return true;
     }

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 1999,2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,18 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Static_filter_error.h
-// package       : Interval_arithmetic (4.39)
-// revision      : $Revision: 2.8 $
-// revision_date : $Date: 1999/11/07 17:54:42 $
+// package       : Interval_arithmetic (4.58)
+// revision      : $Revision: 2.12 $
+// revision_date : $Date: 2000/06/25 18:54:19 $
 // author(s)     : Sylvain Pion
-//
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -150,9 +150,9 @@ sqrt(const Static_filter_error &f)
 {
   CGAL_warning_msg(f.degree() & 1 == 0,
 	  "you really want a non integer degree ???");
-  double b = std::sqrt(f.bound());
+  double b = CGAL_CLIB_STD::sqrt(f.bound());
   FPU_CW_t backup = FPU_get_and_set_cw(CGAL_FE_UPWARD);
-  double e = std::sqrt(f.error()) + Static_filter_error::ulp(b)/2;
+  double e = CGAL_CLIB_STD::sqrt(f.error()) + Static_filter_error::ulp(b)/2;
   FPU_set_cw(backup);
   return Static_filter_error(b, e, f.degree()/2);
 }

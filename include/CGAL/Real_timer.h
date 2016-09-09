@@ -30,17 +30,20 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Real_timer.h
-// package       : Timer (1.5)
+// package       : Timer (1.8)
+// revision      : 1.8
+// revision_date : 11 August 2000 
 // author(s)     : Lutz Kettner
 //                 Matthias Baesken
 // coordinator   : INRIA, Sophia Antipolis
 //
 // A timer class to measure real-time.
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -50,19 +53,17 @@
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif
-#ifndef CGAL_PROTECT_CSTDLIB
-#include <cstdlib>
-#define CGAL_PROTECT_CSTDLIB
-#endif
-#ifndef CGAL_PROTECT_CLIMITS
-#include <climits>
-#define CGAL_PROTECT_CLIMITS
-#endif
 
 #if defined (_MSC_VER)
 #define CGAL_PROTECT_SYS_TIME_H
 #include <sys/timeb.h>
 #include <sys/types.h>
+#endif
+
+#if defined (__BORLANDC__)
+#define CGAL_PROTECT_SYS_TIME_H
+#include <sys/timeb>
+#include <ctype> 
 #endif
 
 // used for gettimeofday()
@@ -86,14 +87,22 @@ CGAL_BEGIN_NAMESPACE
 
 class Real_timer {
 private:
-    double          elapsed;
 
-#if !defined (_MSC_VER)
-    struct timeval  started;
+#if !defined (_MSC_VER) && !defined(__BORLANDC__)
+    typedef struct timeval  Timetype;
 #else
-    struct _timeb   started;
+#if defined (_MSC_VER)
+    typedef struct _timeb   Timetype; //MSC
+#else
+    typedef struct timeb    Timetype; //Borland
+#endif 
 #endif
 
+    const inline int get_time(Timetype* t) const;
+    const inline void report_err() const;
+    const inline double recalc_time(const Timetype& t) const;
+    double          elapsed;
+    Timetype        started;
     int             interv;
     bool            running;
     double          eps;
@@ -119,60 +128,61 @@ public:
 
 /*****************************************************************************/
 
+// private member functions.
+// all the platform-specific functions are encapsulated here.
+
+const inline int Real_timer::get_time(Timetype* t) const {
+#if !defined(_MSC_VER) && !defined(__BORLANDC__)
+  return gettimeofday( t, NULL);
+#else
+#if defined (_MSC_VER)
+    _ftime(t);  
+#else
+    ftime(t);  
+#endif
+  return 0;
+#endif 
+}
+
+const inline void Real_timer::report_err() const {
+ #if !defined (_MSC_VER) && !defined(__BORLANDC__)
+  std::cerr << "Real_timer error: gettimeofday() returned -1.\n"
+	    << std::endl;
+  CGAL_CLIB_STD::abort();
+#else
+  std::cout << "Real_timer error!.\n" << std::endl;
+#endif
+}
+
+const inline double Real_timer::recalc_time(const Timetype& t) const {
+#if !defined(_MSC_VER) && !defined(__BORLANDC__)
+  return double(t.tv_sec  - started.tv_sec) 
+    + double(t.tv_usec - started.tv_usec) / 1000000;
+#else
+  return ((double)(t.time - started.time)) 
+    + ((double)(t.millitm - started.millitm))/1000.0;
+#endif
+}
+
 // Member functions Real_timer
 // ================================
 
 inline void Real_timer::start() {
     CGAL_assertion( ! running);
     int res=0;
-
-#if !defined (_MSC_VER)
-    res = gettimeofday( &started, NULL);
-#else
-    _ftime(&started);  
-#endif    
-
-    if ( res < 0) {
-#if !defined (_MSC_VER)
-	std::cerr << "Real_timer error: gettimeofday() returned -1.\n";
-	CGAL_CLIB_STD::abort();
-#endif
-    }
+    res = get_time(&started);
+    if ( res < 0) report_err();
     running = true;
     ++ interv;
 }
 
 inline void Real_timer::stop() {
     CGAL_assertion(running);
-
-#if !defined (_MSC_VER)
-    struct timeval t;
-#else
-    struct _timeb t;
-#endif
-
-   int res=0;
-
-#if !defined (_MSC_VER)
-    res = gettimeofday( &t, NULL);
-#else
-    _ftime(&t);
-#endif
-
-    if ( res < 0) {
-#if !defined (_MSC_VER)
-	std::cerr << "Real_timer error: gettimeofday() returned -1.\n";
-	CGAL_CLIB_STD::abort();
-#endif
-    }
-
-#if !defined (_MSC_VER)
-    elapsed +=   double(t.tv_sec  - started.tv_sec) 
-               + double(t.tv_usec - started.tv_usec) / 1000000;
-#else
-    elapsed += ((double)(t.time - started.time)) + ((double)(t.millitm - started.millitm))/1000.0;
-#endif
-
+    Timetype t;
+    int res=0;
+    res = get_time(&t);
+    if ( res < 0) report_err();
+    elapsed += recalc_time(t);
     running  = false;
 }
 
@@ -181,57 +191,21 @@ inline void Real_timer::reset() {
     elapsed = 0;
     if (running) {
 	int res = 0;
-
-#if !defined(_MSC_VER)
-        res = gettimeofday( &started, NULL);
-#else
-        _ftime(&started);
-#endif        
-
-	if ( res < 0) {
-#if !defined (_MSC_VER)
-	    std::cerr << "Real_timer error: gettimeofday() returned -1.\n";
-	    CGAL_CLIB_STD::abort();
-#else
-	    std::cout << "Real_timer error!.\n";
-#endif
-	}
+        res = get_time(&started);
+	if ( res < 0)  report_err();
 	++ interv;
     }
 }
 
 inline double Real_timer::time() const {
-    if (running) {
-
-#if !defined (_MSC_VER)
-	struct timeval t;
-#else
-    struct _timeb t;
-#endif
-
-	int res = 0;
-
-#if !defined(_MSC_VER)
-        res = gettimeofday( &t, NULL);
-#else
-        _ftime(&t);
-#endif 
-
-	if ( res < 0) {
-#if !defined(_MSC_VER)
-	    std::cerr << "Real_timer error: gettimeofday() returned -1.\n";
-	    CGAL_CLIB_STD::abort();
-#endif
-	}
-#if !defined(_MSC_VER)
-	return elapsed  + double(t.tv_sec  - started.tv_sec) 
-                        + double(t.tv_usec - started.tv_usec) / 1000000;
-#else
-        return elapsed  + ((double)(t.time - started.time)) 
-			            + ((double)(t.millitm - started.millitm))/1000.0;
-#endif
-    }
-    return elapsed;
+  if (running) {
+    Timetype t;
+    int res = 0;
+    res = get_time(&t);
+    if ( res < 0) report_err();
+    return elapsed + recalc_time(t);
+  }
+  return elapsed;
 }
 
 CGAL_END_NAMESPACE

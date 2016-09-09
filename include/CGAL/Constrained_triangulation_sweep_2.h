@@ -30,25 +30,25 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Constrained_triangulation_sweep_2.h
-// package       : Triangulation (4.30)
+// package       : Triangulation (4.69)
 // source        : $RCSfile : Constrained_triangulation_sweep_2.h,v $
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 1999/10/18 13:36:03 $
+// revision      : $Revision: 1.16 $
+// revision_date : $Date: 2000/06/30 09:22:00 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 #ifndef CGAL_CONSTRAINED_TRIANGULATION_SWEEP_2_H
 #define CGAL_CONSTRAINED_TRIANGULATION_SWEEP_2_H
-
 #include <utility>
 #include <list>
 #include <map>
@@ -175,17 +175,21 @@ public:
       
   };
     
-    class Neighbor_list : public CGAL_STD::list<Neighbor>
-    {
-    public:
-      bool is_removable(Face_handle fh)
+  class Neighbor_list : public CGAL_STD::list<Neighbor>
+  {
+  private:
+     Ctriangulation* _tr;
+    
+  public:
+    Neighbor_list (Ctriangulation *tr) : _tr(tr) {}
+
+    bool is_removable(Face_handle fh)
       {
 	return ( (*fh).vertex(1) == (*fh).vertex(2) &&
 		 !(*fh).neighbor(1).is_null() && !(*fh).neighbor(2).is_null());
       }
 
-      void remove_flat(Face_handle fh) 
-	// must be followed by a Delete() in calling code
+    void remove_flat(Face_handle fh) 
       {
 	assert((*fh).vertex(1) == (*fh).vertex(2));
 	Face_handle f2= (*fh).neighbor(2);
@@ -193,13 +197,12 @@ public:
 	if ( !f2.is_null()) { (*f2).set_neighbor( (*f2).index(fh), f1);}
 	if ( !f1.is_null()) { (*f1).set_neighbor( (*f1).index(fh), f2);}
 	( (*fh). vertex(0))->set_face( !f2.is_null() ? f2 : f1 );
-	//fh.Delete();
-	delete &(*fh);
+	_tr->delete_face(fh);
 	return;
       }
 
 
-      Face_handle up_visit_without_test(Vertex_handle v, Face_handle last)
+    Face_handle up_visit_without_test(Vertex_handle v, Face_handle last)
       {
         Face_handle newf;
         Face_handle fn; int in;
@@ -207,8 +210,9 @@ public:
           fn= front().first;
           in= front().second;
           pop_front();
-          newf = (new Face(v,fn->vertex(fn->cw(in)),
-                           fn->vertex(fn->ccw(in))))->handle();
+          newf = _tr->create_face(v,
+				  fn->vertex(fn->cw(in)),
+				  fn->vertex(fn->ccw(in)));
           last->set_neighbor(2,newf); newf->set_neighbor(1,last);
           fn->set_neighbor(in, newf); newf->set_neighbor(0,fn);
           newf->set_constraint(1, last->is_constrained(2));
@@ -220,7 +224,7 @@ public:
         return last;
       }
     
-      Face_handle up_visit( Vertex_handle v, Face_handle last)
+    Face_handle up_visit( Vertex_handle v, Face_handle last)
       {
         Geom_traits t=Geom_traits();
         Face_handle newf;
@@ -234,7 +238,7 @@ public:
           if ( t.orientation(ccwin->point(),cwin->point(),v->point()) ==
                RIGHTTURN) {
             pop_front();
-            newf = (new Face(v,cwin,ccwin))->handle();
+            newf = _tr->create_face(v,cwin,ccwin);
             last->set_neighbor(2,newf); newf->set_neighbor(1,last);
             fn->set_neighbor(in, newf); newf->set_neighbor(0,fn);
             newf->set_constraint(1, last->is_constrained(2));
@@ -248,7 +252,7 @@ public:
         return last;
       }
     
-      Face_handle down_visit(Vertex_handle v, Face_handle first)
+    Face_handle down_visit(Vertex_handle v, Face_handle first)
       {
         Geom_traits t=Geom_traits();
         Face_handle newf;
@@ -260,9 +264,9 @@ public:
           cwin = fn->vertex(fn->cw(in));
           ccwin = fn->vertex(fn->ccw(in));
           if ( t.orientation(ccwin->point(),cwin->point(),v->point()) ==
-                                          RIGHTTURN) {
+	       RIGHTTURN) {
             pop_back();
-            newf = (new Face(v,cwin,ccwin))->handle();
+            newf = _tr->create_face(v,cwin,ccwin);
             first->set_neighbor(1,newf); newf->set_neighbor(2,first);
             fn->set_neighbor(in, newf); newf->set_neighbor(0,fn);
             newf->set_constraint(2, first->is_constrained(1));
@@ -276,9 +280,9 @@ public:
         return first;
       }
     
-    };
+  };
     
-    class Chain
+  class Chain
     {
     private:
       Vertex_handle rm;
@@ -286,7 +290,7 @@ public:
       Neighbor_list down;
     
     public:
-      Chain() : rm(NULL), up(), down() {}
+      Chain(Ctriangulation* tr) : rm(NULL), up(tr), down(tr) {}
       Vertex_handle right_most() { return rm;}
       Neighbor_list* up_list(){return &up;}
       Neighbor_list* down_list(){return &down;}
@@ -315,7 +319,7 @@ public:
  
  public:
     Constrained_triangulation_sweep_2()
-      : _tr(NULL), _lc(NULL)
+      : _tr(NULL), _lc(NULL), upper_chain(NULL)
     {
     }
     
@@ -324,7 +328,7 @@ public:
        : _tr(ct), _lc(&lc), 
       event_less(ct->geom_traits()), queue(event_less), 
       status_comp(ct->geom_traits()), status(status_comp),
-      upper_chain()
+      upper_chain(ct)
     {
       make_event_queue();
       build_triangulation();
@@ -345,7 +349,6 @@ public:
     //Vertex_handle set_infinite_faces();
     void set_infinite_faces();
     bool do_intersect(const Constraint& c1, const Constraint& c2 );
-    
 };
 
 
@@ -355,8 +358,8 @@ Constrained_triangulation_sweep_2<Gt,Tds>::
 make_event_queue()
 {
   if ( ! queue.empty()) {return;} // queue already done
-  std::list<Constraint>::iterator sit=_lc->begin();
-  std::list<Constraint>::iterator sdone=_lc->end();
+  typename std::list<Constraint>::iterator sit=_lc->begin();
+  typename std::list<Constraint>::iterator sdone=_lc->end();
   Constraint s;
   Point p,q;
   Event_queue_iterator look_up;
@@ -370,7 +373,7 @@ make_event_queue()
           event_less(p,(*look_up).first) ) {
         // the event p does not yet exists
         Out_edges* out= new Out_edges();
-        Event_queue::value_type event(p,out);
+        typename Event_queue::value_type event(p,out);
         look_up=queue.insert(look_up,event);
       }
 
@@ -387,7 +390,7 @@ make_event_queue()
            event_less(q,(*look_up).first)){
         // the event q does not yet exists
         Out_edges* out= new Out_edges();
-        Event_queue::value_type  event(q,out);
+        typename Event_queue::value_type  event(q,out);
         look_up=queue.insert(look_up,event);
         }
       }
@@ -452,7 +455,7 @@ treat_in_edges(const Event_queue_iterator & event,
     pch->set_right_most(v);
     return v;
   }
-  Face_handle newf= (new Face(v,w,w))->handle();
+  Face_handle newf= _tr->create_face(v,w,w);
   // test if the edge vw is a constraint
   // this is not possible if loc == status.end()
   if ( loc != status.end() &&
@@ -534,7 +537,7 @@ treat_out_edges(const Event_queue_iterator & event,
 {
   Point p = (*event).first;
   Out_edges* out = (*event).second;
-  Out_edges::iterator outit= (*out).begin();
+  typename Out_edges::iterator outit= (*out).begin();
   Chain* newpc;
   Chain* pc_up;
   Constraint c;
@@ -571,7 +574,7 @@ treat_out_edges(const Event_queue_iterator & event,
     // if the constraint of *out are sorted (with out_comp())
     // loc should be always equal to status.lower_bound(c)
     // and  status-insert should be constant time
-    newpc = new Chain;
+    newpc = new Chain(_tr);
     newpc->set_right_most(v);
     loc = status.insert(loc,
                         std::pair<const Constraint, void*>(c, (void*)newpc ));
@@ -623,10 +626,10 @@ set_infinite_faces()
     //both test are necessary because it may remain some  flat faces
     //in the upper chain.
     _tr->set_dimension(1);
-    newf = new Face(infinite, first->vertex(1), NULL);
+    newf = _tr->create_face(infinite, first->vertex(1), NULL);
     first = last = newf;
     infinite->set_face(first);
-    Neighbor_list::iterator it = lower_list->begin();
+    typename Neighbor_list::iterator it = lower_list->begin();
     for( ; it != lower_list->end(); it++) {
       fn = (*it).first;
       //turn the vertex [vww] into [wvNULL]
@@ -638,7 +641,7 @@ set_infinite_faces()
       last->set_neighbor(0,fn);
       last = fn;
     }
-    fn = new Face(last->vertex(1), infinite,NULL);
+    fn = _tr->create_face(last->vertex(1), infinite,NULL);
     fn->vertex(0)->set_face(fn);
     fn->set_neighbor(1,last);
     last->set_neighbor(0,fn);
@@ -654,9 +657,11 @@ set_infinite_faces()
   fn = (*(lower_list->begin())).first;
   in = (*(lower_list->begin())).second;
   lower_list->pop_front();
-  newf = (new Face( infinite, fn->vertex(fn->cw(in)),
-                   fn->vertex(fn->ccw(in))))->handle();
-  fn->set_neighbor(in,newf); newf->set_neighbor(0,fn);
+  newf = _tr->create_face( infinite, 
+			   fn->vertex(fn->cw(in)),
+			   fn->vertex(fn->ccw(in)));
+  fn->set_neighbor(in,newf); 
+  newf->set_neighbor(0,fn);
   newf->set_constraint(0, fn->is_constrained(in));
   if (lower_list->is_removable(fn)) { lower_list->remove_flat(fn); }
   first = last = newf;
@@ -665,10 +670,13 @@ set_infinite_faces()
     fn =(* (lower_list->begin())).first;
     in =(* (lower_list->begin())).second;
     lower_list->pop_front();
-    newf= (new Face( infinite, fn->vertex(fn->cw(in)),
-                    fn->vertex(fn->ccw(in))))->handle();
-    fn->set_neighbor(in,newf); newf->set_neighbor(0,fn);
-    last->set_neighbor(2,newf);newf->set_neighbor(1,last);
+    newf= _tr->create_face( infinite, 
+			    fn->vertex(fn->cw(in)),
+			    fn->vertex(fn->ccw(in)));
+    fn->set_neighbor(in,newf); 
+    newf->set_neighbor(0,fn);
+    last->set_neighbor(2,newf);
+    newf->set_neighbor(1,last);
     newf->set_constraint(0, fn->is_constrained(in));
     if (lower_list->is_removable(fn)) { lower_list->remove_flat(fn); }
     (newf->vertex(2))->set_face(newf->neighbor(0));
@@ -704,6 +712,9 @@ do_intersect(const Constraint& c1, const Constraint& c2 )
   }
    // return false;
 }
+
+
+
 
 CGAL_END_NAMESPACE
 

@@ -1,3 +1,5 @@
+//example5
+
 #include <CGAL/basic.h>
 #include <iostream>
 
@@ -50,7 +52,10 @@ int main() {
   std::cout << "map is valid." << std::endl;
 
   std::cout << "removing edge ...";
-  Face_handle f=t.remove_edge(e5);
+#ifndef CGAL_NO_ASSERTIONS // in order to avoid warnings
+  Face_handle f=
+#endif
+    t.remove_edge(e5); 
   CGAL_assertion(t.is_valid());
   std::cout << "map is valid." << std::endl;
 
@@ -60,19 +65,3 @@ int main() {
 
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

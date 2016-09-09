@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998,1999 The CGAL Consortium
+// Copyright (c) 1998,1999,2000 The CGAL Consortium
 
 // This software and related documentation is part of the Computational
 // Geometry Algorithms Library (CGAL).
@@ -30,18 +30,18 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : include/CGAL/Interval_arithmetic/IA_Fixed.h
-// package       : Interval_arithmetic (4.39)
-// revision      : $Revision: 2.12 $
-// revision_date : $Date: 1999/10/10 13:47:44 $
+// package       : Interval_arithmetic (4.58)
+// revision      : $Revision: 2.19 $
+// revision_date : $Date: 2000/09/01 16:43:21 $
 // author(s)     : Sylvain Pion
-//
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
 //
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
@@ -50,25 +50,31 @@
 
 CGAL_BEGIN_NAMESPACE
 
-// The Fixed is in fact a float => trivial conversion.
+// Fixed is in fact a float => trivial conversion.
+
+#if 0
+inline
+Interval_base
+to_interval (const Fixed_precision_nt & z)
+{
+  return CGAL::to_double(z);
+}
+#endif
 
 inline
 Interval_nt_advanced
 convert_from_to (const Interval_nt_advanced&, const Fixed_precision_nt & z)
 {
-    return to_double(z);
+    return CGAL::to_double(z);
 }
 
-#ifndef CGAL_CFG_NO_EXPLICIT_TEMPLATE_FUNCTION_ARGUMENT_SPECIFICATION
 template <>
 struct converter<Interval_nt_advanced,Fixed_precision_nt>
 {
     static inline Interval_nt_advanced do_it (const Fixed_precision_nt & z)
-    { return to_double(z); }
+    { return CGAL::to_double(z); }
 };
-#endif // CGAL_CFG_NO_EXPLICIT_TEMPLATE_FUNCTION_ARGUMENT_SPECIFICATION
-
 
 CGAL_END_NAMESPACE
 
-#endif	 // CGAL_IA_FIXED_H
+#endif // CGAL_IA_FIXED_H

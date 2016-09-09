@@ -29,23 +29,27 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.1
-// release_date  : 2000, January 11
+// release       : CGAL-2.2
+// release_date  : 2000, September 30
 //
 // file          : examples/ConvexHull/include/CGAL/ch_timing_2.h
 // source        : convex_hull_2.lw
-// revision      : 2.2.19
-// revision_date : 03 Dec 1999
+// revision      : 3.3
+// revision_date : 03 Aug 2000
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-// email         : cgal@cs.uu.nl
+// email         : contact@cgal.org
+// www           : http://www.cgal.org
 //
 // ======================================================================
 
 
 #ifndef CGAL_CH_TIMING_2_H
 #define CGAL_CH_TIMING_2_H
+
+#include <CGAL/Timer.h>
+
 
 CGAL_BEGIN_NAMESPACE
 template <class ForwardIterator, class OutputIterator, class Traits>

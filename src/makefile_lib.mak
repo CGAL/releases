@@ -21,7 +21,6 @@ CGAL_OBJECTS = \
 Bbox_2$(OBJ_EXT) \
 Bbox_2_intersections$(OBJ_EXT) \
 Bbox_3_intersections$(OBJ_EXT) \
-CLN$(OBJ_EXT) \
 Color$(OBJ_EXT) \
 Double$(OBJ_EXT) \
 Double_eps$(OBJ_EXT) \
@@ -52,7 +51,6 @@ CGAL_OBJECTS_LIBPARAM = \
 $(CGAL_OBJ_PREFIX)Bbox_2$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)Bbox_2_intersections$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)Bbox_3_intersections$(OBJ_EXT) \
-$(CGAL_OBJ_PREFIX)CLN$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)Color$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)Double$(OBJ_EXT) \
 $(CGAL_OBJ_PREFIX)Double_eps$(OBJ_EXT) \
@@ -93,9 +91,6 @@ lib_no_install: $(CGAL_OBJECTS) $(CGAL_EXTRA_OBJECTS)
 
 
 
-#	`ls *$(OBJ_EXT) | awk '{for (i=1; i<=NF;++i){printf "$(CGAL_OBJ_PREFIX)";print $$i}}'`\
-#		$(CGAL_LIB_LDFLAGS)
-
 workaround_4_ms$(OBJ_EXT):
 	$(CP) Interval_arithmetic\workaround_4_ms.obj workaround_4_ms$(OBJ_EXT)
 
@@ -108,8 +103,4 @@ clean:
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX)  $(CXXFLAGS)  -c $<
-
-#---------------------------------------------------------------------#
-#                    rule to create/clean library directory
-#---------------------------------------------------------------------#
 
