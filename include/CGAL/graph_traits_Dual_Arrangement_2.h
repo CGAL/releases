@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/graph_traits_Dual_Arrangement_2.h $
-// $Id: graph_traits_Dual_Arrangement_2.h 37934 2007-04-04 17:09:08Z efif $
+// $Id: graph_traits_Dual_Arrangement_2.h 39820 2007-08-12 10:19:39Z efif $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -249,8 +249,10 @@ protected:
       {
         ++_outer_ccb_circ;
 
-        if (_outer_ccb_circ != _face->outer_ccb())
-          return;
+        if ((_outer_ccb_circ == _face->outer_ccb()) &&
+            (_hole_iter == _face->holes_end()))
+          _end = true;
+        return;
       }
 
       // Otherwise, we have to move along the current hole boundary.

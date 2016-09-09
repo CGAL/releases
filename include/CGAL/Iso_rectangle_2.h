@@ -16,7 +16,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Iso_rectangle_2.h $
-// $Id: Iso_rectangle_2.h 33348 2006-08-16 14:56:11Z spion $
+// $Id: Iso_rectangle_2.h 39993 2007-08-23 08:58:55Z spion $
 //
 //
 // Author(s)     : Andreas Fabri
@@ -27,6 +27,7 @@
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
+#include <CGAL/Bbox_2.h>
 
 CGAL_BEGIN_NAMESPACE
 

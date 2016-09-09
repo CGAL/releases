@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/Normalizing.h $
-// $Id: Normalizing.h 36309 2007-02-15 16:03:18Z hachenb $
+// $Id: Normalizing.h 39747 2007-08-07 20:10:54Z hachenb $
 // 
 //
 // Author(s)     : Peter Hachenberger  <hachenberger@mpi-sb.mpg.de>
@@ -58,7 +58,7 @@ class Normalizing<Homogeneous_tag> {
     g=CGAL_NTS abs(g);
 
     for(; i!=end; ++i)
-      *i/=g;
+      *i = CGAL::integral_division(*i,g);
   }
 
   template <typename R> static

@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # The CGAL Installation Script
 # ---------------------------------------------------------------------
-# $Id: install_cgal 38808 2007-05-22 16:29:31Z spion $
+# $Id: install_cgal 39460 2007-07-23 09:12:18Z spion $
 # ---------------------------------------------------------------------
 #
 # Copyright (c) 1997-2007  Utrecht University (The Netherlands),
@@ -20,8 +20,8 @@
 # WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 #
 # $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/install_cgal $
-# $Id: install_cgal 38808 2007-05-22 16:29:31Z spion $
-# $Date: 2007-05-22 18:29:31 +0200 (Tue, 22 May 2007) $
+# $Id: install_cgal 39460 2007-07-23 09:12:18Z spion $
+# $Date: 2007-07-23 11:12:18 +0200 (Mon, 23 Jul 2007) $
 #
 # Author(s): various
 
@@ -38,7 +38,7 @@ CGAL_VERSION="version_to_be_determined"
 # ---------------------------------------------
 CGAL_INSTALL_CGAL="`basename \"${0}\"`"
 # ---------------------------------------------
-CGAL_INSTALL_VERSION='$Revision: 38808 $'
+CGAL_INSTALL_VERSION='$Revision: 39460 $'
 # ---------------------------------------------
 CGAL_DIR="$PWD"
 # ---------------------------------------------
@@ -1092,7 +1092,7 @@ set_compiler_flags()
                       # At some point before g++ 4.2.0 we have been hit by this bug:
                       # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=31268
                       # The workaround does not seem to be needed anymore.
-	              # CGAL_LIBS_OPTFLAGS="${CGAL_LIBS_OPTFLAGS} -fno-strict-aliasing"
+	              CGAL_LIBS_OPTFLAGS="${CGAL_LIBS_OPTFLAGS} -fno-strict-aliasing"
                       ;;
 		*) ADDITIONAL_CXXFLAGS="${ADDITIONAL_CXXFLAGS} -frounding-math";;
 		   # g++-4.x and after: we need -frounding-math to avoid FPU rounding mode optimisations
@@ -3451,7 +3451,7 @@ _set_support()
 	    ;;
 	*Intel*|*ICC*)
 	    case `compiler_version` in
-		[78]*) CGAL_SUPPORT_COMPILER='y';;
+		[789]*) CGAL_SUPPORT_COMPILER='y';;
 	    esac
 	    ;;
 	*VC++*)

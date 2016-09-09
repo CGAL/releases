@@ -16,7 +16,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/FPU.h $
-// $Id: FPU.h 37955 2007-04-05 13:02:19Z spion $
+// $Id: FPU.h 39304 2007-07-04 20:16:19Z reichel $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -268,15 +268,6 @@ typedef unsigned int FPU_CW_t;
 #define CGAL_FE_TOWARDZERO   FP_RND_RZ
 #define CGAL_FE_UPWARD       FP_RND_RP
 #define CGAL_FE_DOWNWARD     FP_RND_RM
-
-#elif defined __alpha__  // preliminary support.
-#define CGAL_IA_SETFPCW(CW) (__ieee_set_fp_control(CW))
-#define CGAL_IA_GETFPCW(CW) (CW = __ieee_get_fp_control())
-typedef unsigned long FPU_CW_t;
-#define CGAL_FE_TONEAREST   FE_TONEAREST
-#define CGAL_FE_TOWARDZERO  FE_TOWARDZERO
-#define CGAL_FE_UPWARD      FE_UPWARD
-#define CGAL_FE_DOWNWARD    FE_DOWNWARD
 
 #elif defined ( _MSC_VER )
 #if ( _MSC_VER < 1400)

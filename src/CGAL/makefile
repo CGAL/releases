@@ -13,7 +13,7 @@
 # WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 #
 # $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/src/CGAL/makefile $
-# $Id: makefile 36492 2007-02-20 23:58:32Z lrineau $
+# $Id: makefile 39854 2007-08-14 19:24:34Z reichel $
 #
 # Author(s)     : Laurent Rineau
 
@@ -53,7 +53,7 @@ Turkowski_numeric_solver$(OBJ_EXT)
 #                    libCGAL settings
 #---------------------------------------------------------------------#
 
-SOVERSION=2.0.0
+SOVERSION=2.0.1
 SOMAJOR=2
 
 LIB_NAME_BASE = CGAL

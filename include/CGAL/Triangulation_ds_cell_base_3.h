@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Triangulation_ds_cell_base_3.h $
-// $Id: Triangulation_ds_cell_base_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $Id: Triangulation_ds_cell_base_3.h 39929 2007-08-21 13:24:52Z spion $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -200,6 +200,19 @@ public:
       return neighbor(i)->vertex(mirror_index(i));
   }
 #endif
+
+  // This is here in the *ds*_cell_base to ease its use as default
+  // template parameter, so that the .dual() functions of Delaunay_3
+  // still work.
+  template < typename Traits >
+  typename Traits::Point_3
+  circumcenter(const Traits& gt) const
+  {
+    return gt.construct_circumcenter_3_object()(this->vertex(0)->point(),
+                                                this->vertex(1)->point(),
+                                                this->vertex(2)->point(),
+                                                this->vertex(3)->point());
+  }
 
   // For use by Compact_container.
   void * for_compact_container() const { return N[0].for_compact_container(); }

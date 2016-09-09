@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Partition_2/include/CGAL/Partition_2/Partition_traits_2_base.h $
-// $Id: Partition_traits_2_base.h 36337 2007-02-15 21:29:22Z spion $
+// $Id: Partition_traits_2_base.h 39256 2007-06-28 09:09:07Z cwormser $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -34,12 +34,17 @@ class Partition_traits_2_base
     typedef typename Kernel::Point_2                Point_2;
     typedef ::std::list<Point_2>                    Container;
     typedef CGAL::Polygon_2<Kernel, Container>      Polygon_2;
+    typedef typename Kernel::Equal_2                Equal_2;
     typedef typename Kernel::Less_yx_2              Less_yx_2;
     typedef typename Kernel::Less_xy_2              Less_xy_2;
     typedef typename Kernel::Left_turn_2             Left_turn_2;
     typedef typename Kernel::Orientation_2          Orientation_2;
     typedef typename Kernel::Compare_y_2            Compare_y_2;
     typedef typename Kernel::Compare_x_2            Compare_x_2;
+
+    Equal_2
+    equal_2_object() const
+    { return Equal_2(); }
 
     Less_yx_2
     less_yx_2_object() const

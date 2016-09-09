@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/Lazy_exact_nt.h $
-// $Id: Lazy_exact_nt.h 38284 2007-04-18 11:26:40Z spion $
+// $Id: Lazy_exact_nt.h 39968 2007-08-22 15:43:16Z spion $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -1078,8 +1078,8 @@ template < typename ET > class Real_embeddable_traits< Lazy_exact_nt<ET> >
                 return r;
 
             // If it's precise enough, then OK.
-            if (compare_relative_precision(app,
-                 Lazy_exact_nt<ET>::get_relative_precision_of_to_double()) <= 0)
+            if (has_smaller_relative_precision(app,
+                 Lazy_exact_nt<ET>::get_relative_precision_of_to_double()))
                 return CGAL_NTS to_double(app);
 
             CGAL_PROFILER(std::string("failures of : ") + std::string(CGAL_PRETTY_FUNCTION));

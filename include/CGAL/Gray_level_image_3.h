@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Gray_level_image_3.h $
-// $Id: Gray_level_image_3.h 37876 2007-04-03 13:59:17Z lrineau $
+// $Id: Gray_level_image_3.h 39186 2007-06-21 13:09:17Z fcacciola $
 //
 // Author(s)     : Laurent RINEAU
 
@@ -20,6 +20,9 @@
 #define CGAL_MESH_3_GRAY_LEVEL_IMAGE_3_H
 
 #include <CGAL/basic.h>
+
+#include <CGAL/auto_link/ImageIO.h>
+
 
 #ifdef CGAL_SURFACE_MESHER_DEBUG_GRAY_LEVEL_IMAGE_3_CONSTRUCTOR
 #include <boost/format.hpp>

@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Taucs_solver_traits.h $
-// $Id: Taucs_solver_traits.h 38881 2007-05-30 15:18:43Z lsaboret $
+// $Id: Taucs_solver_traits.h 39800 2007-08-09 13:39:20Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -182,16 +182,12 @@ public:
             if ( perm == NULL || invperm == NULL)
                 throw std::runtime_error("Ordering Failed");
 
-            // create multi-file for out-of-core swapping
-        #ifndef __GNUC__
+            // Create multi-file for out-of-core swapping.
+            // Note: g++ complains that tempnam() is deprecated. Jus ignore the warning.
             boost::shared_ptr<char> matrixfile(tempnam(NULL, "taucs.L"), free);
             if (matrixfile == NULL)
                 throw std::runtime_error("Cannot Create Multifile");
             boost::shared_ptr<taucs_io_handle> oocL(taucs_io_create_multifile(matrixfile.get()), taucs_io_delete);
-        #else
-            const char* matrixfile = "/tmp/taucs.L"; // less robust but g++ complains that tempnam() is deprecated
-            boost::shared_ptr<taucs_io_handle> oocL(taucs_io_create_multifile((char*)matrixfile), taucs_io_delete);
-        #endif
             if (oocL == NULL)
                 throw std::runtime_error("Cannot Create Multifile");
 

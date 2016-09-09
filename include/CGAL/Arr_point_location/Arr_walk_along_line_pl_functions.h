@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_functions.h $
-// $Id: Arr_walk_along_line_pl_functions.h 36688 2007-02-28 16:29:19Z ophirset $
+// $Id: Arr_walk_along_line_pl_functions.h 39244 2007-06-27 09:44:50Z ophirset $
 // 
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -846,9 +846,10 @@ _first_around_vertex (Vertex_const_handle v,
       // of v.
       if (lowest_left == invalid_handle ||
           (! curr->is_fictitious() &&
-           compare_y_at_x_left (curr->curve(),
-                                lowest_left->curve(), 
-                                v->point()) == SMALLER))
+           (lowest_left->is_fictitious() ||
+            compare_y_at_x_left (curr->curve(),
+                                 lowest_left->curve(), 
+                                 v->point()) == SMALLER)))
       {
         lowest_left = curr;
       }
@@ -859,9 +860,10 @@ _first_around_vertex (Vertex_const_handle v,
       // of v.
       if (top_right == invalid_handle ||
           (! curr->is_fictitious() &&
-           compare_y_at_x_right (curr->curve(),
-                                 top_right->curve(), 
-                                 v->point()) == LARGER))
+           (top_right->is_fictitious() ||
+            compare_y_at_x_right (curr->curve(),
+                                  top_right->curve(), 
+                                  v->point()) == LARGER)))
       {
         top_right = curr;
       }

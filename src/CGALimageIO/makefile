@@ -13,7 +13,7 @@
 # WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 #
 # $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/CGALimageIO/src/CGALimageIO/makefile $
-# $Id: makefile 36750 2007-03-02 08:00:45Z lrineau $
+# $Id: makefile 39854 2007-08-14 19:24:34Z reichel $
 #
 # Author(s)     : Laurent Rineau
 
@@ -43,7 +43,7 @@ OBJECTS = \
 #                    libCGALimageIO settings
 #---------------------------------------------------------------------#
 
-SOVERSION=2.0.0
+SOVERSION=2.0.1
 SOMAJOR=2
 
 LIB_NAME_BASE = CGALimageIO

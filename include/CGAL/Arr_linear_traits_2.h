@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_linear_traits_2.h $
-// $Id: Arr_linear_traits_2.h 37075 2007-03-14 11:57:01Z hemmer $
+// $Id: Arr_linear_traits_2.h 39246 2007-06-27 09:49:41Z ophirset $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -677,7 +677,8 @@ public:
       CGAL_assertion (cv2.is_vertical());
 
       Kernel                    kernel;
-      return (kernel.compare_x_at_y_2_object() (ORIGIN,
+      Point_2 org = kernel.construct_point_2_object()(ORIGIN);
+      return (kernel.compare_x_at_y_2_object() (org,
                                                 cv1.supp_line(),
                                                 cv2.supp_line()));
     }
@@ -909,7 +910,8 @@ public:
         // In case the two supporting line are parallel, compare their
         // relative position at x = 0, which is the same as their position
         // at infinity.
-        return (kernel.compare_y_at_x_2_object() (ORIGIN,
+        Point_2 org = kernel.construct_point_2_object()(ORIGIN);          
+        return (kernel.compare_y_at_x_2_object() (org,
                                                   cv1.supp_line(),
                                                   cv2.supp_line()));
       }

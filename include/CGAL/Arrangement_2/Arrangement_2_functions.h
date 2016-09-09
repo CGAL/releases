@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arrangement_2/Arrangement_2_functions.h $
-// $Id: Arrangement_2_functions.h 36938 2007-03-08 13:45:40Z efif $
+// $Id: Arrangement_2_functions.h 39243 2007-06-27 09:41:54Z ophirset $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -669,9 +669,11 @@ Arrangement_2<Traits,Dcel>::insert_from_left_vertex
   {    
     // Locate a halfedge along the outer CCB of the incident face of prev1
     // that contains cv's right end in its range.
-    CGAL_assertion (prev1->face()->is_unbounded());
+    DFace      *uf = prev1->is_on_hole() ? prev1->hole()->face() :
+                                           prev1->face();
+    CGAL_assertion (uf->is_unbounded());
 
-    fict_prev2 = _locate_along_ccb (prev1->face(), cv, MAX_END,
+    fict_prev2 = _locate_along_ccb (uf, cv, MAX_END,
                                     inf_x2, inf_y2);
 
     CGAL_assertion (fict_prev2 != NULL);
@@ -757,9 +759,11 @@ Arrangement_2<Traits,Dcel>::insert_from_left_vertex
   {    
     // Locate a halfedge along the outer CCB of prev's incident face that
     // contains cv's right end in its range.
-    CGAL_precondition (prev->face()->is_unbounded());
+    DFace      *uf = prev1->is_on_hole() ? prev1->hole()->face() :
+                                           prev1->face();
+    CGAL_precondition (uf->is_unbounded());
 
-    fict_prev2 = _locate_along_ccb (prev1->face(), cv, MAX_END,
+    fict_prev2 = _locate_along_ccb (uf, cv, MAX_END,
                                     inf_x2, inf_y2);
 
     CGAL_assertion (fict_prev2 != NULL);
@@ -968,9 +972,11 @@ Arrangement_2<Traits,Dcel>::insert_from_right_vertex
   {    
     // Locate a halfedge along the outer CCB of the incident face of prev2
     // that contains cv's left end in its range.
-    CGAL_assertion (prev2->face()->is_unbounded());
+    DFace      *uf = prev2->is_on_hole() ? prev2->hole()->face() :
+                                           prev2->face();
+    CGAL_assertion (uf->is_unbounded());
 
-    fict_prev1 = _locate_along_ccb (prev2->face(), cv, MIN_END,
+    fict_prev1 = _locate_along_ccb (uf, cv, MIN_END,
                                     inf_x1, inf_y1);
 
     CGAL_assertion (fict_prev1 != NULL);
@@ -1058,9 +1064,11 @@ Arrangement_2<Traits,Dcel>::insert_from_right_vertex
   {    
     // Locate a halfedge along the outer CCB of prev's incident face that
     // contains cv's left end in its range.
-    CGAL_precondition (prev->face()->is_unbounded());
+    DFace      *uf = prev2->is_on_hole() ? prev2->hole()->face() :
+                                           prev2->face();
+    CGAL_precondition (uf->is_unbounded());
 
-    fict_prev1 = _locate_along_ccb (prev2->face(), cv, MIN_END,
+    fict_prev1 = _locate_along_ccb (uf, cv, MIN_END,
                                     inf_x1, inf_y1);
 
     CGAL_assertion (fict_prev1 != NULL);

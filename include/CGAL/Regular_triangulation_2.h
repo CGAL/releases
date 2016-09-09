@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
-// $Id: Regular_triangulation_2.h 37832 2007-04-02 20:40:18Z spion $
+// $Id: Regular_triangulation_2.h 39297 2007-07-04 12:13:24Z cwormser $
 // 
 //
 // Author(s)     : Frederic Fichel, Mariette Yvinec, Julia Floetotto
@@ -1067,16 +1067,24 @@ insert(const Weighted_point &p, Locate_type lt, Face_handle loc, int li)
             }
 
             Vertex_handle vv = loc->vertex(li);
-            if (power_test (vv->point(), p) < 0) {
-                return hide_new_vertex (loc, p);
-            }
-
-            v = this->_tds.create_vertex(); 
-            v->set_point(p);
-            exchange_incidences(v,vv);
-            hide_vertex(loc, vv);
-            regularize (v);
-            return v;
+	    CGAL::Oriented_side side = power_test (vv->point(), p);
+	    
+	    switch(side) {
+	      
+	    case ON_NEGATIVE_SIDE:
+	      return hide_new_vertex (loc, p);
+	      
+	    case ON_POSITIVE_SIDE:
+	      v = this->_tds.create_vertex(); 
+	      v->set_point(p);
+	      exchange_incidences(v,vv);
+	      hide_vertex(loc, vv);
+	      regularize (v);
+	      return v;
+	      
+	    case ON_ORIENTED_BOUNDARY:
+	      return vv;
+	    }
         }
     case Base::EDGE:
         {
@@ -1881,11 +1889,17 @@ stack_flip_4_2(Face_handle f, int i, int j, Faces_around_stack & faces_around)
     
     this->_tds.flip( f, i); //not using flip because the vertex j is flat.
     update_hidden_points_2_2(f,fn);
-    Face_handle h1 = ( f->has_vertex(vq) ? fn : f);
+    Face_handle h1 = ( j == ccw(i) ? fn : f);
     //hide_vertex(h1, vq);
     hide_remove_degree_3(g,vq);
-    faces_around.push_front(g);
-    faces_around.push_front(h1);    
+    if(j == ccw(i)) {
+      faces_around.push_front(h1); 
+      faces_around.push_front(g);
+    }
+    else {
+      faces_around.push_front(g);
+      faces_around.push_front(h1); 
+    }
 }
 
 

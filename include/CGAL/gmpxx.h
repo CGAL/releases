@@ -16,7 +16,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/gmpxx.h $
-// $Id: gmpxx.h 37955 2007-04-05 13:02:19Z spion $
+// $Id: gmpxx.h 38995 2007-06-08 14:00:19Z spion $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -39,6 +39,7 @@
 
 #include <CGAL/number_type_basic.h>
 
+#include <cstring> // needed by GMP 4.1.4 since <gmpxx.h> misses it.
 #include <gmpxx.h>
 #include <utility>
 

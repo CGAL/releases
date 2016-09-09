@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_traits_2/Circle_segment_2.h $
-// $Id: Circle_segment_2.h 37177 2007-03-17 08:48:10Z afabri $
+// $Id: Circle_segment_2.h 39311 2007-07-05 12:44:29Z golubevs $
 // 
 //
 // Author(s)     : Ron Wein        <wein@post.tau.ac.il>
@@ -138,7 +138,12 @@ public:
     return (CGAL::compare (this->ptr()->_x, p.ptr()->_x) == EQUAL &&
             CGAL::compare (this->ptr()->_y, p.ptr()->_y) == EQUAL);
   }
-
+/*
+  bool operator != (const Self& p) const
+  {
+    return !equals(p);
+  }
+*/
   /*! Set the point coordinates. */
   void set (const NT& x, const NT& y)
   {
@@ -162,13 +167,25 @@ public:
  * Exporter for conic arcs.
  */
 template <class NT, bool Filter>
-std::ostream& 
-operator<< (std::ostream& os, 
+std::ostream&
+operator<< (std::ostream& os,
             const _One_root_point_2<NT, Filter>& p)
 {
   os << CGAL::to_double(p.x()) << ' ' << CGAL::to_double(p.y());
   return (os);
 }
+
+/*
+template <class NT, bool Filter>
+std::istream & operator >> (std::istream & is, 
+                            _One_root_point_2<NT, Filter>& p)
+{
+  typename _One_root_point_2<NT, Filter>::CoordNT ort1,ort2;
+  is >> ort1 >> ort2;
+  p=_One_root_point_2<NT, Filter>(ort1,ort2);
+  return is;
+}
+*/
 
 /*! \class
  * Representation of a circle, a circular arc or a line segment.
@@ -996,6 +1013,7 @@ public:
       return (_circ_point_position (p));
   }
 
+
   /*!
    * Compare the two arcs to the right of their intersection point.
    */
@@ -1431,6 +1449,9 @@ protected:
   Comparison_result _line_point_position (const Point_2& p) const
   {
     // Check if we have a vertical segment.
+
+    CGAL_precondition (is_in_x_range(p));
+
     Comparison_result    res;
 
     if (is_vertical())

@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_traits_2/Bezier_point_2.h $
-// $Id: Bezier_point_2.h 35172 2006-11-15 11:28:50Z wein $
+// $Id: Bezier_point_2.h 39308 2007-07-05 10:22:22Z golubevs $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -1182,7 +1182,7 @@ bool _Bezier_point_2_rep<RatKer, AlgKer, NtTrt, BndTrt>::_refine ()
   }
 
   // We should never reach here:
-  CGAL_assertion (false);
+  //CGAL_assertion (false);
   return (false);
 }
 

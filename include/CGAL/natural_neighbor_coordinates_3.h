@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/include/CGAL/natural_neighbor_coordinates_3.h $
-// $Id: natural_neighbor_coordinates_3.h 36783 2007-03-03 09:02:08Z spion $
+// $Id: natural_neighbor_coordinates_3.h 39471 2007-07-23 14:56:45Z spion $
 //
 //
 // Author(s)     : Raphaelle Chaine
@@ -268,7 +268,7 @@ sibson_natural_neighbor_coordinates_3(const Dt& dt,
 	    }
 	}
     }
-  norm_coeff=1;
+  norm_coeff=0;
   for (coor_it = coordinate.begin(); 
        coor_it != coordinate.end();
        ++coor_it)

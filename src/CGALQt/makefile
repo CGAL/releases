@@ -13,7 +13,7 @@
 # WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 #
 # $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Qt_widget/src/CGALQt/makefile $
-# $Id: makefile 38534 2007-05-04 13:32:40Z lrineau $
+# $Id: makefile 39854 2007-08-14 19:24:34Z reichel $
 #
 # Author(s)     : Laurent Rineau
 
@@ -48,7 +48,7 @@ $(CGAL_KDS_OBJECTS)
 #                    libCGALQt settings
 #---------------------------------------------------------------------#
 
-SOVERSION=2.0.0
+SOVERSION=2.0.1
 SOMAJOR=2
 
 LIB_NAME_BASE = CGALQt

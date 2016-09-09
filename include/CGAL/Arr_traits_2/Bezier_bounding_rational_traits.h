@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_traits_2/Bezier_bounding_rational_traits.h $
-// $Id: Bezier_bounding_rational_traits.h 37177 2007-03-17 08:48:10Z afabri $
+// $Id: Bezier_bounding_rational_traits.h 39309 2007-07-05 10:23:02Z golubevs $
 // 
 //
 // Author(s)     : Iddo Hanniel <iddoh@cs.technion.ac.il>
@@ -157,7 +157,7 @@ public:
     CGAL_precondition(intersection_point.bound2.can_refine);
     // The following precondition makes sure the point is not rational already
     // (in which case it would not need refinement).
-    CGAL_precondition(intersection_point.bbox.min_x != intersection_point.bbox.max_x);
+    //CGAL_precondition(intersection_point.bbox.min_x != intersection_point.bbox.max_x);
 
     const Control_point_vec& cv1 = intersection_point.bound1.bounding_polyline;
     const NT& l1 = intersection_point.bound1.t_min;

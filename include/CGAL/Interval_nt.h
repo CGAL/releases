@@ -16,7 +16,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/Interval_nt.h $
-// $Id: Interval_nt.h 38284 2007-04-18 11:26:40Z spion $
+// $Id: Interval_nt.h 39968 2007-08-22 15:43:16Z spion $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -433,10 +433,21 @@ width (const Interval_nt<Protected> & d)
 // Non-documented
 template <bool Protected>
 inline
-Comparison_result
-compare_relative_precision(const Interval_nt<Protected> & d, double prec)
+double
+radius (const Interval_nt<Protected> & d)
 {
-  return CGAL::compare(width(d), prec * magnitude(d));
+  return width(d)/2; // This could be improved to avoid overflow.
+}
+
+// Non-documented
+// This is the relative precision of to_double() (the center of the interval),
+// hence we use radius() instead of width().
+template <bool Protected>
+inline
+bool
+has_smaller_relative_precision(const Interval_nt<Protected> & d, double prec)
+{
+  return magnitude(d) == 0 || radius(d) < prec * magnitude(d);
 }
 
 // Non-documented
@@ -446,7 +457,7 @@ relative_precision(const Interval_nt<Protected> & d)
 {
   if (magnitude(d) == 0.0)
     return 0.0;
-  return width(d) / magnitude(d);
+  return radius(d) / magnitude(d);
 }
 
 

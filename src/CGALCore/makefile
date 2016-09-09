@@ -13,7 +13,7 @@
 # WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 #
 # $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Core/src/CGALCore/makefile $
-# $Id: makefile 37060 2007-03-13 18:10:39Z reichel $
+# $Id: makefile 39854 2007-08-14 19:24:34Z reichel $
 #
 # Author(s)     : Laurent Rineau
 
@@ -35,7 +35,7 @@ GmpIO$(OBJ_EXT)
 #                    libCore settings
 #---------------------------------------------------------------------#
 
-SOVERSION=2.0.0
+SOVERSION=2.0.1
 SOMAJOR=2
 
 LIB_NAME_BASE = CGALcore++

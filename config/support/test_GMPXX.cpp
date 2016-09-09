@@ -16,7 +16,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/config/support/test_GMPXX.cpp $
-// $Id: test_GMPXX.cpp 36984 2007-03-10 11:06:41Z spion $
+// $Id: test_GMPXX.cpp 38995 2007-06-08 14:00:19Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -24,6 +24,7 @@
 // Tests if GMPXX is available.
 
 #include <iostream>
+#include <cstring> // needed by GMP 4.1.4 since <gmpxx.h> misses it.
 #include <gmpxx.h>
 
 int main()
