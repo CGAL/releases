@@ -26,6 +26,7 @@ if ( CGAL_FOUND )
   create_single_source_cgal_program( "dijkstra.cpp" )
   create_single_source_cgal_program( "dijkstra_with_internal_properties.cpp" )
   create_single_source_cgal_program( "emst.cpp" )
+  create_single_source_cgal_program( "face_graph.cpp" )
 
 else()
   

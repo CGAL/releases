@@ -24,8 +24,7 @@ if ( CGAL_FOUND )
   include_directories (BEFORE "../../include")
 
   create_single_source_cgal_program( "dynamic_hull_3.cpp" )
-  create_single_source_cgal_program( "incremental_hull_3.cpp" )
-  create_single_source_cgal_program( "incremental_hull_class_3.cpp" )
+  create_single_source_cgal_program( "halfspace_intersection_3.cpp" )
   create_single_source_cgal_program( "quickhull_3.cpp" )
 
 else()

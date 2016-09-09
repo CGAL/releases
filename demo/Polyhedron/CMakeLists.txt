@@ -301,7 +301,7 @@ if(CGAL_Qt4_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND)
     polyhedron_demo_plugin(mesh_3_plugin Polyhedron_demo_mesh_3_plugin 
       Polyhedron_demo_mesh_3_plugin_cgal_code.cpp Scene_c3t3_item.moc
       ${meshingUI_FILES})
-    target_link_libraries(mesh_3_plugin scene_polyhedron_item ${QGLVIEWER_LIBRARIES} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
+    target_link_libraries(mesh_3_plugin scene_polyhedron_item scene_polygon_soup_item ${QGLVIEWER_LIBRARIES} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
   else( Boost_VERSION GREATER 103400 )
     message(STATUS "warning: the plugin mesh_3_plugin requires Boost>=1.34.1 and will not be compiled.")
   endif( Boost_VERSION GREATER 103400 )
@@ -325,7 +325,7 @@ if(CGAL_Qt4_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND)
   target_link_libraries(gocad_plugin scene_polyhedron_item)
 
   polyhedron_demo_plugin(stl_plugin Polyhedron_demo_stl_plugin)
-  target_link_libraries(stl_plugin scene_polyhedron_item)
+  target_link_libraries(stl_plugin scene_polyhedron_item scene_polygon_soup_item)
 
   polyhedron_demo_plugin(xyz_plugin Polyhedron_demo_xyz_plugin)
   target_link_libraries(xyz_plugin scene_points_with_normal_item)
@@ -355,6 +355,10 @@ if(CGAL_Qt4_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND)
   target_link_libraries(pca_plugin scene_polyhedron_item scene_basic_objects)
 
   if(EIGEN3_FOUND)
+    qt4_wrap_ui( scale_spaceUI_FILES Polyhedron_demo_scale_space_reconstruction_plugin.ui)
+    polyhedron_demo_plugin(scale_space_reconstruction_plugin Polyhedron_demo_scale_space_reconstruction_plugin ${scale_spaceUI_FILES})
+    target_link_libraries(scale_space_reconstruction_plugin scene_polygon_soup_item scene_polyhedron_item scene_points_with_normal_item)
+
     polyhedron_demo_plugin(parameterization_plugin Polyhedron_demo_parameterization_plugin)
     target_link_libraries(parameterization_plugin scene_polyhedron_item scene_textured_polyhedron_item )
 
@@ -381,6 +385,7 @@ if(CGAL_Qt4_FOUND AND QT4_FOUND AND OPENGL_FOUND AND QGLVIEWER_FOUND)
     message(STATUS "NOTICE: Eigen 3.1 (or greater) was not found. Smoothing plugin will not be available.")
     message(STATUS "NOTICE: Eigen 3.1 (or greater) was not found. Average spacing plugin will not be available.")
     message(STATUS "NOTICE: Eigen 3.1 (or greater) was not found. Jet fitting plugin will not be available.")
+    message(STATUS "NOTICE: Eigen 3.1 (or greater) was not found. Scale space reconstruction plugin will not be available.")
   endif(EIGEN3_FOUND)
 
   polyhedron_demo_plugin(self_intersection_plugin Polyhedron_demo_self_intersection_plugin)

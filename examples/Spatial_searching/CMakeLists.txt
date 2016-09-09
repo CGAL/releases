@@ -1,8 +1,8 @@
-# Created by the script cgal_create_cmake_script
-# This is the CMake script for compiling a CGAL application.
+# Created by the script cgal_create_CMakeLists
+# This is the CMake script for compiling a set of CGAL applications.
 
+project( Spatial_searching )
 
-project( Spatial_searching_example )
 
 cmake_minimum_required(VERSION 2.6.2)
 if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
@@ -13,33 +13,82 @@ if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
   endif()
 endif()
 
-find_package(CGAL QUIET COMPONENTS Core )
+set( CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true )
+ 
+if ( COMMAND cmake_policy )
 
-if ( CGAL_FOUND )
+  cmake_policy( SET CMP0003 NEW )  
 
-  include( ${CGAL_USE_FILE} )
-
-  include( CGAL_CreateSingleSourceCGALProgram )
-
-  include_directories (BEFORE "../../include")
-
-  create_single_source_cgal_program( "circular_query.cpp" )
-  create_single_source_cgal_program( "distance_browsing.cpp" )
-  create_single_source_cgal_program( "fuzzy_range_query.cpp" )
-  create_single_source_cgal_program( "general_neighbor_searching.cpp" )
-  create_single_source_cgal_program( "iso_rectangle_2_query.cpp" )
-  create_single_source_cgal_program( "nearest_neighbor_searching.cpp" )
-  create_single_source_cgal_program( "searching_with_circular_query.cpp" )
-  create_single_source_cgal_program( "searching_with_point_with_info.cpp" )
-  create_single_source_cgal_program( "searching_with_point_with_info_inplace.cpp" )
-  create_single_source_cgal_program( "searching_with_point_with_info_pmap.cpp" )
-  create_single_source_cgal_program( "user_defined_point_and_distance.cpp" )
-  create_single_source_cgal_program( "using_fair_splitting_rule.cpp" )
-  create_single_source_cgal_program( "weighted_Minkowski_distance.cpp" )
-
-else()
-  
-    message(STATUS "This program requires the CGAL library, and will not be compiled.")
-  
 endif()
+
+# CGAL and its components
+find_package( CGAL QUIET COMPONENTS  )
+
+if ( NOT CGAL_FOUND )
+
+  message(STATUS "This project requires the CGAL library, and will not be compiled.")
+  return()  
+
+endif()
+
+# include helper file
+include( ${CGAL_USE_FILE} )
+ 
+if (MSVC)
+    # Turn off VC++ warning
+    SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4244")
+endif()
+
+# Boost and its components
+find_package( Boost REQUIRED )
+
+if ( NOT Boost_FOUND )
+
+  message(STATUS "This project requires the Boost library, and will not be compiled.")
+
+  return()  
+
+endif()
+
+# include for local directory
+
+# include for local package
+include_directories( BEFORE ../../include )
+
+
+# Creating entries for all .cpp/.C files with "main" routine
+# ##########################################################
+
+include( CGAL_CreateSingleSourceCGALProgram )
+
+create_single_source_cgal_program( "circular_query.cpp" )
+
+create_single_source_cgal_program( "distance_browsing.cpp" )
+
+create_single_source_cgal_program( "fuzzy_range_query.cpp" )
+
+create_single_source_cgal_program( "general_neighbor_searching.cpp" )
+
+create_single_source_cgal_program( "iso_rectangle_2_query.cpp" )
+
+create_single_source_cgal_program( "nearest_neighbor_searching.cpp" )
+
+create_single_source_cgal_program( "searching_with_circular_query.cpp" )
+
+create_single_source_cgal_program( "searching_with_point_with_info.cpp" )
+
+create_single_source_cgal_program( "searching_with_point_with_info_inplace.cpp" )
+
+create_single_source_cgal_program( "searching_with_point_with_info_pmap.cpp" )
+
+create_single_source_cgal_program( "searching_surface_mesh_vertices.cpp" )
+
+create_single_source_cgal_program( "searching_polyhedron_vertices.cpp" )
+
+create_single_source_cgal_program( "user_defined_point_and_distance.cpp" )
+
+create_single_source_cgal_program( "using_fair_splitting_rule.cpp" )
+
+create_single_source_cgal_program( "weighted_Minkowski_distance.cpp" )
+
 
