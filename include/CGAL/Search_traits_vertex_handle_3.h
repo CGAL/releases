@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Point_set_processing_3/include/CGAL/Search_traits_vertex_handle_3.h $
-// $Id: Search_traits_vertex_handle_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Point_set_processing_3/include/CGAL/Search_traits_vertex_handle_3.h $
+// $Id: Search_traits_vertex_handle_3.h 64637 2011-07-06 11:11:58Z lrineau $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
@@ -96,7 +96,7 @@ template <class Vertex_handle>
 struct Construct_cartesian_const_iterator_vertex_handle_3
 {
   typedef CGAL::Point_vertex_handle_3<Vertex_handle> Point_vertex_handle_3;
-
+  typedef const double* result_type;
   const double* operator()(const Point_vertex_handle_3& p) const
   { return static_cast<const double*>(p.m_coord); }
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/StreamLinesGraphicsItem.h $
-// $Id: StreamLinesGraphicsItem.h 58770 2010-09-22 06:16:09Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/StreamLinesGraphicsItem.h $
+// $Id: StreamLinesGraphicsItem.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -95,7 +95,7 @@ StreamLinesGraphicsItem<SL,K>::boundingRect() const
 
 template <typename SL, typename K>
 void 
-StreamLinesGraphicsItem<SL,K>::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w)
+StreamLinesGraphicsItem<SL,K>::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /*w*/)
 {
   painter->setPen(this->edgesPen());
   QRectF rect = option->exposedRect;

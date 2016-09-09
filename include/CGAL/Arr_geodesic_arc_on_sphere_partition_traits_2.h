@@ -1,4 +1,4 @@
-// Copyright (c) 2006 Tel-Aviv University (Israel).
+// Copyright (c) 2009,2010,2011 Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $ 
-// $Id: Arr_geodesic_arc_on_sphere_partition_traits_2.h 57194 2010-06-29 12:47:18Z lrineau $ 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $ 
+// $Id: Arr_geodesic_arc_on_sphere_partition_traits_2.h 64639 2011-07-06 11:41:06Z lrineau $ 
 // 
 //
 // Author(s)     : Ophir Setter         <ophir.setter@cs.au.ac.il>
@@ -312,7 +312,7 @@ public:
 #endif  // CGAL_ARR_GEODESIC_ARC_ON_SPHERE_PARTITION_TRAITS_2_H
 
 
-// Copyright (c) 2006 Tel-Aviv University (Israel).
+// Copyright (c) 2009,2010,2011 Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -325,8 +325,8 @@ public:
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $ 
-// $Id: Arr_geodesic_arc_on_sphere_partition_traits_2.h 57194 2010-06-29 12:47:18Z lrineau $ 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $ 
+// $Id: Arr_geodesic_arc_on_sphere_partition_traits_2.h 64639 2011-07-06 11:41:06Z lrineau $ 
 // 
 //
 // Author(s)     : Ophir Setter         <ophir.setter@cs.au.ac.il>

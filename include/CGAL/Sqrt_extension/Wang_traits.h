@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Sqrt_extension/Wang_traits.h $
-// $Id: Wang_traits.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/include/CGAL/Sqrt_extension/Wang_traits.h $
+// $Id: Wang_traits.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -31,12 +31,12 @@ namespace internal{
 
 template <class NT_> class Wang_traits; 
 
-template <class AS, class ROOT>
-class Wang_traits< CGAL::Sqrt_extension<AS,ROOT> >{
+template <class AS, class ROOT, class ACDE_TAG, class FP_TAG>
+class Wang_traits< CGAL::Sqrt_extension<AS,ROOT,ACDE_TAG,FP_TAG> >{
     typedef Wang_traits<AS> WT; 
 public:
     // the supported number type
-    typedef  CGAL::Sqrt_extension<AS,ROOT> NT;
+  typedef  CGAL::Sqrt_extension<AS,ROOT,ACDE_TAG,FP_TAG> NT;
     // the scalar type (same as Scalar factor traits ?) 
     typedef typename WT::Scalar Scalar;
 

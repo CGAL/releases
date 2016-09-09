@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/iostream/include/CGAL/IO/io_tags.h $
-// $Id: io_tags.h 57737 2010-08-03 10:27:42Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/iostream/include/CGAL/IO/io_tags.h $
+// $Id: io_tags.h 63732 2011-05-30 10:12:38Z glisse $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -26,7 +26,7 @@
 #define CGAL_IO_TAGS_H
 
 #include <cstddef>
-#include <CGAL/compiler_config.h>
+#include <CGAL/config.h>
 
 namespace CGAL {
 

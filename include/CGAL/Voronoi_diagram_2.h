@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2.h $
-// $Id: Voronoi_diagram_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2.h $
+// $Id: Voronoi_diagram_2.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -746,6 +746,7 @@ public:
   // insert is not really supported...
   inline Face_handle insert(const Site_2& t, const Tag_false&) {
     INSERT_IS_NOT_SUPPORTED(t);
+    return Face_handle();
   }
 
  public:

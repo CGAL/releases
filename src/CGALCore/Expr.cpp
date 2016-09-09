@@ -29,8 +29,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/src/CGALCore/Expr.cpp $
- * $Id: Expr.cpp 56668 2010-06-09 08:45:58Z sloriot $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Core/src/CGALCore/Expr.cpp $
+ * $Id: Expr.cpp 64637 2011-07-06 11:11:58Z lrineau $
  ***************************************************************************/
 
 #include <CGAL/CORE/Expr.h>
@@ -75,7 +75,7 @@ const Expr& Expr::getOne() {
 //
 void Expr::doubleInterval(double & lb, double & ub) const {
   double d = doubleValue();
-  if (!finite(d)) {	// if overflow, underflow or NaN
+  if (! CGAL_CORE_finite(d)) {	// if overflow, underflow or NaN
     lb = ub = d;
     return;
   }

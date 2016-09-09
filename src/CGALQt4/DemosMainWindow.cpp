@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/GraphicsView/src/CGALQt4/DemosMainWindow.cpp $
-// $Id: DemosMainWindow.cpp 61620 2011-03-09 17:48:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/src/CGALQt4/DemosMainWindow.cpp $
+// $Id: DemosMainWindow.cpp 63976 2011-06-08 07:50:16Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -386,7 +386,7 @@ void DemosMainWindow::writeState(QString groupname)
   settings.endGroup();
 }
 
-void DemosMainWindow::readState(QString groupname, Options what_to_save)
+void DemosMainWindow::readState(QString groupname, Options /*what_to_save*/)
 {
   QSettings settings;
   

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Point_set_processing_3/include/CGAL/compute_average_spacing.h $
-// $Id: compute_average_spacing.h 61441 2011-02-28 15:28:28Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Point_set_processing_3/include/CGAL/compute_average_spacing.h $
+// $Id: compute_average_spacing.h 63388 2011-05-06 10:24:08Z lrineau $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
@@ -136,12 +136,10 @@ compute_average_spacing(
   // precondition: at least 2 nearest neighbors
   CGAL_point_set_processing_precondition(k >= 2);
 
-  InputIterator it;
-
   // Instanciate a KD-tree search.
   // Note: We have to convert each input iterator to Point_3.
   std::vector<Point> kd_tree_points; 
-  for(it = first; it != beyond; it++)
+  for(InputIterator it = first; it != beyond; it++)
   {
       Point point = get(point_pmap, it);
       kd_tree_points.push_back(point);
@@ -152,7 +150,7 @@ compute_average_spacing(
   // vectors (already normalized)
   FT sum_spacings = (FT)0.0;
   unsigned int nb_points = 0;
-  for(it = first; it != beyond; it++)
+  for(InputIterator it = first; it != beyond; it++)
   {
     sum_spacings += internal::compute_average_spacing<Kernel,Tree>(get(point_pmap,it),tree,k);
     nb_points++;

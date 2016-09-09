@@ -1,4 +1,4 @@
-// Copyright (c) 2002  Utrecht University (The Netherlands).
+// Copyright (c) 2002,2011  Utrecht University (The Netherlands).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_searching/include/CGAL/Kd_tree_node.h $
-// $Id: Kd_tree_node.h 56967 2010-06-22 10:34:02Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Spatial_searching/include/CGAL/Kd_tree_node.h $
+// $Id: Kd_tree_node.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -248,7 +248,7 @@ namespace CGAL {
     template <class OutputIterator, class FuzzyQueryItem>
     OutputIterator 
     search(OutputIterator it, const FuzzyQueryItem& q,
-	   Kd_tree_rectangle<TreeTraits>& b) 
+	   Kd_tree_rectangle<FT>& b) 
     {
       if (is_leaf()) { 
 	if (n>0) 
@@ -258,7 +258,7 @@ namespace CGAL {
       }
       else {
 	// after splitting b denotes the lower part of b
-	Kd_tree_rectangle<TreeTraits> b_upper(b);
+	Kd_tree_rectangle<FT> b_upper(b);
 	b.split(b_upper, sep.cutting_dimension(),
 		sep.cutting_value());
                              

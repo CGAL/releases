@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Polygon_2_curve_iterator.h $
-// $Id: Polygon_2_curve_iterator.h 56667 2010-06-09 07:37:13Z sloriot $
+// $Id: Polygon_2_curve_iterator.h 61744 2011-03-13 11:42:28Z glisse $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>

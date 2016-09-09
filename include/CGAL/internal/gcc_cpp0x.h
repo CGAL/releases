@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/include/CGAL/internal/gcc_cpp0x.h $
-// $Id: gcc_cpp0x.h 54753 2010-03-16 09:32:04Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Installation/include/CGAL/internal/gcc_cpp0x.h $
+// $Id: gcc_cpp0x.h 63457 2011-05-11 10:14:02Z glisse $
 //
 // Author(s)     : Sylvain Pion
 
@@ -35,6 +35,7 @@
 #undef CGAL_CFG_NO_CPP0X_ISFINITE
 #undef CGAL_CFG_NO_CPP0X_LONG_LONG
 #undef CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE
+#undef CGAL_CFG_NO_CPP0X_STATIC_ASSERT
 #undef CGAL_CFG_NO_CPP0X_TUPLE
 #undef CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES
 

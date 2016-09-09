@@ -12,9 +12,9 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/RS/algebraic_1_comparisons.h $
-// $Id: algebraic_1_comparisons.h 59002 2010-10-04 11:00:27Z lrineau $
+// $Id: algebraic_1_comparisons.h 61907 2011-03-22 10:11:01Z penarand $
 //
-// Author: Luis Peñaranda <luis.penaranda@loria.fr>
+// Author: Luis PeÃ±aranda <luis.penaranda@gmx.com>
 
 #ifndef CGAL_RS_ALGEBRAIC_1_COMPARISONS_H
 #define CGAL_RS_ALGEBRAIC_1_COMPARISONS_H
@@ -50,5 +50,3 @@ Algebraic_1 max BOOST_PREVENT_MACRO_SUBSTITUTION (const Algebraic_1 &a,const Alg
 } // namespace CGAL
 
 #endif  // CGAL_RS_ALGEBRAIC_1_COMPARISONS_H
-
-// vim: tabstop=8: softtabstop=8: smarttab: shiftwidth=8: expandtab

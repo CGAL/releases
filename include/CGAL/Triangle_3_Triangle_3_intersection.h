@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_3/include/CGAL/Triangle_3_Triangle_3_intersection.h $
-// $Id: Triangle_3_Triangle_3_intersection.h 59655 2010-11-12 08:33:25Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Intersections_3/include/CGAL/Triangle_3_Triangle_3_intersection.h $
+// $Id: Triangle_3_Triangle_3_intersection.h 63519 2011-05-16 17:12:06Z sloriot $
 //
 //
 // Author(s)     : Sebastien Loriot
@@ -138,8 +138,8 @@ intersection(
   }
   
   //The supporting planes of the triangles intersect along a line.
-  Object inter1=inter(t1,*line);
-  Object inter2=inter(t2,*line);
+  Object inter1=intersection_coplanar(t1,*line,k);
+  Object inter2=intersection_coplanar(t2,*line,k);
   
   
   const typename Kernel::Segment_3* sgt1=CGAL::object_cast<typename Kernel::Segment_3>(&inter1);

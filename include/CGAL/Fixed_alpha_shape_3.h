@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Alpha_shapes_3/include/CGAL/Fixed_alpha_shape_3.h $
-// $Id: Fixed_alpha_shape_3.h 62058 2011-03-29 17:59:30Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Alpha_shapes_3/include/CGAL/Fixed_alpha_shape_3.h $
+// $Id: Fixed_alpha_shape_3.h 62057 2011-03-29 17:55:19Z sloriot $
 // 
 //
 // Author(s)     : Sebastien Loriot

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/K3_tree.h $
-// $Id: K3_tree.h 60866 2011-01-19 11:11:26Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Nef_3/include/CGAL/Nef_3/K3_tree.h $
+// $Id: K3_tree.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
@@ -504,8 +504,8 @@ public:
       std::list<Candidate> S;
       const Node* node;
       Traits traits;
-      CGAL_assertion_code( Segment_3 prev_segment);
-      CGAL_assertion_code( bool first_segment);
+      CGAL_assertion_code( Segment_3 prev_segment;)
+      CGAL_assertion_code( bool first_segment;)
     public:
       Iterator() : node(0) {}
       Iterator( const Node* root, const Segment_3& s) {

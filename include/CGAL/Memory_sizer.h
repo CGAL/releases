@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Profiling_tools/include/CGAL/Memory_sizer.h $
-// $Id: Memory_sizer.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Profiling_tools/include/CGAL/Memory_sizer.h $
+// $Id: Memory_sizer.h 63737 2011-05-30 11:28:15Z lrineau $
 // 
 // Author(s)     : Sylvain Pion, Andreas Fabri
 
@@ -43,6 +43,12 @@ struct Memory_sizer
 #if defined _MSC_VER
 #  include <windows.h>
 #  include "psapi.h"
+
+// auto-link with psapi.lib
+#  define CGAL_LIB_NAME psapi
+#  define CGAL_AUTO_LINK_NOMANGLE
+#  include <CGAL/auto_link/auto_link.h>
+
 #elif defined __linux__ 
 #  include <fstream>
 #  include <cstddef>

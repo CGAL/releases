@@ -1,4 +1,4 @@
-// Copyright (c) 2006  Tel-Aviv University (Israel).
+// Copyright (c) 2006,2007,2009,2010,2011 Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_curve_2.h $
-// $Id: Bezier_curve_2.h 61259 2011-02-16 15:10:34Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_curve_2.h $
+// $Id: Bezier_curve_2.h 64639 2011-07-06 11:41:06Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -151,11 +151,6 @@ public:
     p_polyY(NULL),
     p_normY(NULL)
   {
-    CGAL_precondition_code (
-        Rat_kernel                    ker;
-        typename Rat_kernel::Equal_2  equal = ker.equal_2_object();
-    );
-
     // Copy the control points and compute their bounding box.
     const int   pts_size = std::distance (pts_begin, pts_end);
     double      x, y;

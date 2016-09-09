@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/SegmentDelaunayGraphGraphicsItem.h $
-// $Id: SegmentDelaunayGraphGraphicsItem.h 53036 2009-11-16 08:30:17Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/SegmentDelaunayGraphGraphicsItem.h $
+// $Id: SegmentDelaunayGraphGraphicsItem.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Laurent Rineau <Laurent.Rineau@geometryfactory.com>
@@ -113,7 +113,7 @@ protected:
 
 template <typename T>
 void 
-SegmentDelaunayGraphGraphicsItem<T>::drawDualEdge(QPainter *painter, typename T::Edge e)
+SegmentDelaunayGraphGraphicsItem<T>::drawDualEdge(QPainter * /*painter*/, typename T::Edge e)
 {
    CGAL_precondition( ! t->is_infinite(e) );
 
@@ -262,7 +262,7 @@ template <typename T>
 void 
 SegmentDelaunayGraphGraphicsItem<T>::paint(QPainter *painter, 
                                     const QStyleOptionGraphicsItem *option,
-                                    QWidget * widget)
+                                    QWidget * /*widget*/)
 {
 
 //   painter->drawRect(boundingRect());

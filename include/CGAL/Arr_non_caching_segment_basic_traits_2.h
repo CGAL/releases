@@ -1,4 +1,4 @@
-// Copyright (c) 2005  Tel-Aviv University (Israel).
+// Copyright (c) 2005,2006,2007,2009,2010,2011 Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_basic_traits_2.h $
-// $Id: Arr_non_caching_segment_basic_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_basic_traits_2.h $
+// $Id: Arr_non_caching_segment_basic_traits_2.h 64639 2011-07-06 11:41:06Z lrineau $
 // 
 //
 // Author(s)     : Efi Fogel <efif@post.tau.ac.il>
@@ -69,10 +69,10 @@ public:
   typedef Tag_true                              Has_left_category;
   typedef Tag_false                             Has_do_intersect_category;
  
-  typedef Arr_oblivious_side_tag                Arr_left_side_category;
-  typedef Arr_oblivious_side_tag                Arr_bottom_side_category;
-  typedef Arr_oblivious_side_tag                Arr_top_side_category;
-  typedef Arr_oblivious_side_tag                Arr_right_side_category;
+  typedef Arr_oblivious_side_tag                Left_side_category;
+  typedef Arr_oblivious_side_tag                Bottom_side_category;
+  typedef Arr_oblivious_side_tag                Top_side_category;
+  typedef Arr_oblivious_side_tag                Right_side_category;
     
   /*! Default Constructor */
   Arr_non_caching_segment_basic_traits_2()
@@ -136,10 +136,6 @@ public:
       Kernel kernel;
 
       // The two segments must be defined at q and also to its left.
-      CGAL_precondition_code(
-        Compare_y_at_x_2 compare_y_at_x = kernel.compare_y_at_x_2_object();
-        );
-      
       CGAL_precondition
         (Segment_assertions::_assert_is_point_on(p, cv1, Has_exact_division())&&
          Segment_assertions::_assert_is_point_on(p, cv2, Has_exact_division()));
@@ -200,10 +196,6 @@ public:
       Kernel kernel;
 
       // The two segments must be defined at q and also to its right.
-      CGAL_precondition_code(
-        Compare_y_at_x_2 compare_y_at_x = kernel.compare_y_at_x_2_object();
-        );
-
       CGAL_precondition
         (Segment_assertions::_assert_is_point_on(p, cv1, Has_exact_division())&&
          Segment_assertions::_assert_is_point_on(p, cv2, Has_exact_division()));

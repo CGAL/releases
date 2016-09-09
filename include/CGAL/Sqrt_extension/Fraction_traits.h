@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Sqrt_extension/Fraction_traits.h $
-// $Id: Fraction_traits.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/include/CGAL/Sqrt_extension/Fraction_traits.h $
+// $Id: Fraction_traits.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -57,10 +57,10 @@ namespace Intern{
  *  This works for nested Sqrt_extensions, too.
  */
 
-template <class COEFF, class ROOT_NT >
-class Fraction_traits< Sqrt_extension<COEFF,ROOT_NT > >
+template <class COEFF, class ROOT, class ACDE_TAG, class FP_TAG >
+class Fraction_traits< Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG > >
     : public Intern::Sqrt_ext_Ftr_base_1<
-    Sqrt_extension<COEFF,ROOT_NT >,
+    Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG >,
     typename CGAL::Fraction_traits<COEFF>::Is_fraction >
 {
     // nothing new
@@ -82,14 +82,14 @@ public:
     typedef ::CGAL::Null_tag Compose;
 };
 
-template <class COEFF, class ROOT_NT>
-class Sqrt_ext_Ftr_base_2< Sqrt_extension<COEFF,ROOT_NT>, true > {
+template <class COEFF, class ROOT, class ACDE_TAG,class FP_TAG>
+class Sqrt_ext_Ftr_base_2< Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG>, true > {
 private:
     typedef Fraction_traits<COEFF> CFT;
 public:
-    typedef Sqrt_extension<COEFF,ROOT_NT> NT;
+  typedef Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG> NT;
     typedef CGAL::Tag_true Is_fraction;
-    typedef Sqrt_extension<typename CFT::Numerator_type,ROOT_NT> Numerator_type;
+  typedef Sqrt_extension<typename CFT::Numerator_type,ROOT,ACDE_TAG,FP_TAG> Numerator_type;
     typedef typename CFT::Denominator_type Denominator_type;
     typedef typename Algebraic_structure_traits<Denominator_type>::Gcd Common_factor;
 
@@ -151,19 +151,19 @@ public:
 template <class EXT, class BOOL_TAG>
 class Sqrt_ext_Ftr_base_1;
 
-template <class COEFF, class ROOT_NT>
-class Sqrt_ext_Ftr_base_1< Sqrt_extension<COEFF,ROOT_NT >, CGAL::Tag_true >
+template <class COEFF, class ROOT, class ACDE_TAG, class FP_TAG>
+class Sqrt_ext_Ftr_base_1< Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG>, CGAL::Tag_true >
     : public Sqrt_ext_Ftr_base_2<
-    Sqrt_extension<COEFF,ROOT_NT >,
-    ::boost::is_same< typename CGAL::Coercion_traits<ROOT_NT,typename CGAL::Fraction_traits<COEFF>::Numerator_type>::Type,
+    Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG>,
+    ::boost::is_same< typename CGAL::Coercion_traits<ROOT,typename CGAL::Fraction_traits<COEFF>::Numerator_type>::Type,
                         typename CGAL::Fraction_traits<COEFF>::Numerator_type>::value >
 {
     //nothing new
 };
 
-    template <class COEFF, class ROOT_NT>
-    class Sqrt_ext_Ftr_base_1< Sqrt_extension<COEFF,ROOT_NT>, CGAL::Tag_false >
-        : public Sqrt_ext_Ftr_base_2< Sqrt_extension<COEFF,ROOT_NT >, false>
+    template <class COEFF, class ROOT, class ACDE_TAG, class FP_TAG>
+    class Sqrt_ext_Ftr_base_1< Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG>, CGAL::Tag_false >
+      : public Sqrt_ext_Ftr_base_2< Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG>, false>
     {
         //nothing new
     };
@@ -193,7 +193,7 @@ namespace Intern{
         typedef SqrtExt                                       Numerator_type;
         typedef ::CGAL::Tag_true                               Is_composable;
         typedef typename CFT::Denominator_type                Denominator;
-        typedef CGAL::Sqrt_extension<Type_coeff,Root> Type;
+        typedef CGAL::Sqrt_extension<Type_coeff,Root,ACDE_TAG,FP_TAG> Type;
 
         class Compose {
     public:
@@ -220,10 +220,10 @@ namespace Intern{
     };
 }
 
-template <class Coeff, class Root>
-class Cofraction_traits<Sqrt_extension<Coeff,Root> >
+template <class Coeff, class Root,class ACDE_TAG, class FP_TAG>
+class Cofraction_traits<Sqrt_extension<Coeff,Root,ACDE_TAG,FP_TAG> >
     :public Intern::Sqrt_ext_Coftr_base_1<
-    Sqrt_extension<Coeff,Root>,
+    Sqrt_extension<Coeff,Root,ACDE_TAG,FP_TAG>,
     typename CGAL::Cofraction_traits<Coeff>::Is_composable>{
     //nothing new;
 };

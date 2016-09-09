@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Triangulation_data_structure_2.h $
-// $Id: Triangulation_data_structure_2.h 59734 2010-11-16 17:27:06Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Triangulation_2/include/CGAL/Triangulation_data_structure_2.h $
+// $Id: Triangulation_data_structure_2.h 62376 2011-04-12 10:08:00Z glisse $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -994,8 +994,8 @@ dim_down(Face_handle f, int i)
   }
   set_dimension(dimension() -1);
   Face_handle n0 = f->neighbor(0);
-  Face_handle n1 = f->neighbor(1);
-  Vertex_handle v0 = f->vertex(0);
+  //Face_handle n1 = f->neighbor(1);
+  //Vertex_handle v0 = f->vertex(0);
   Vertex_handle v1 = f->vertex(1);
   f->set_vertex(1, v);
   Face_handle fl = create_face(v, v1, Vertex_handle(),

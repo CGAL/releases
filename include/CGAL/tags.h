@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/tags.h $
-// $Id: tags.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/STL_Extension/include/CGAL/tags.h $
+// $Id: tags.h 63225 2011-04-29 14:32:31Z sloriot $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -26,6 +26,7 @@
 #define CGAL_TAGS_H
 
 #include <CGAL/IO/io_tags.h>
+#include <boost/config.hpp>
 
 namespace CGAL {
 
@@ -48,8 +49,10 @@ inline bool check_tag( Tag_false) {return false;}
 struct Null_tag {};
 
 struct Null_functor {
+  #if defined(BOOST_MSVC) //temporary fix for VC
   typedef Null_tag result_type;
   typedef Null_tag second_argument_type; 
+  #endif
 };
 
 

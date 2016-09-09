@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_searching/include/CGAL/internal/K_neighbor_search.h $
-// $Id: K_neighbor_search.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Spatial_searching/include/CGAL/internal/K_neighbor_search.h $
+// $Id: K_neighbor_search.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -33,10 +33,7 @@
 namespace CGAL {
 namespace internal{
   
-template <class SearchTraits, 
-          class Distance_= Euclidean_distance<SearchTraits>,
-          class Splitter_= Sliding_midpoint<SearchTraits> ,
-          class Tree_= Kd_tree<SearchTraits, Splitter_, Tag_true> >
+template <class SearchTraits,class Distance_,class Splitter_,class Tree_>
 class K_neighbor_search {
 
 public:

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_S2/include/CGAL/IO/Qt_widget_OpenGL.h $
-// $Id: Qt_widget_OpenGL.h 38978 2007-06-06 16:11:12Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Nef_S2/include/CGAL/IO/Qt_widget_OpenGL.h $
+// $Id: Qt_widget_OpenGL.h 63000 2011-04-15 09:12:06Z eric $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -33,7 +33,7 @@
 #include <qpopupmenu.h>
 #include <qpoint.h>
 
-#include <CGAL/auto_link/CGALQt.h>
+#include <CGAL/auto_link/CGALQt3.h>
 
 namespace CGAL {
 

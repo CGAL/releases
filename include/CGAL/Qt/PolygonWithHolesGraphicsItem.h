@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/PolygonWithHolesGraphicsItem.h $
-// $Id: PolygonWithHolesGraphicsItem.h 47806 2009-01-23 21:08:30Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/PolygonWithHolesGraphicsItem.h $
+// $Id: PolygonWithHolesGraphicsItem.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -135,8 +135,8 @@ PolygonWithHolesGraphicsItem<P>::boundingRect() const
 template <typename P>
 void 
 PolygonWithHolesGraphicsItem<P>::paint(QPainter *painter, 
-				       const QStyleOptionGraphicsItem *option,
-				       QWidget * widget)
+				       const QStyleOptionGraphicsItem * /*option*/,
+				       QWidget * /*widget*/)
 {
   Converter<Traits> convert;
   QPainterPath border;

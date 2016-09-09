@@ -1,4 +1,4 @@
-// Copyright (c) 2006-2009 Max-Planck-Institute Saarbruecken (Germany).
+// Copyright (c) 2006,2007,2008,2009,2010,2011 Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Arrangement_on_surface_2/include/CGAL/Arr_algebraic_segment_traits_2.h $
-// $Id: Arr_algebraic_segment_traits_2.h 63033 2011-04-18 14:19:04Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_algebraic_segment_traits_2.h $
+// $Id: Arr_algebraic_segment_traits_2.h 64650 2011-07-06 12:50:44Z lrineau $
 // 
 //
 // Author(s)     : Michael Kerber    <mkerber@mpi-inf.mpg.de>
@@ -92,10 +92,10 @@ public:
     typedef typename CKvA_2::Has_do_intersect_category 
       Has_do_intersect_category;
 
-    typedef typename CKvA_2::Arr_left_side_category Arr_left_side_category;
-    typedef typename CKvA_2::Arr_bottom_side_category Arr_bottom_side_category;
-    typedef typename CKvA_2::Arr_top_side_category Arr_top_side_category;
-    typedef typename CKvA_2::Arr_right_side_category Arr_right_side_category;
+    typedef typename CKvA_2::Left_side_category Left_side_category;
+    typedef typename CKvA_2::Bottom_side_category Bottom_side_category;
+    typedef typename CKvA_2::Top_side_category Top_side_category;
+    typedef typename CKvA_2::Right_side_category Right_side_category;
 
     typedef typename CKvA_2::Multiplicity Multiplicity;
 
@@ -119,23 +119,9 @@ public:
         return CKvA_2::instance().equal_2_object();
     }
 
-
-
-    typedef typename CKvA_2::Parameter_space_in_x_2 Parameter_space_in_x_2;
-    Parameter_space_in_x_2 parameter_space_in_x_2_object() const {
-        return CKvA_2::instance().parameter_space_in_x_2_object();
-    }
-
     typedef typename CKvA_2::Parameter_space_in_y_2 Parameter_space_in_y_2;
     Parameter_space_in_y_2 parameter_space_in_y_2_object() const {
         return CKvA_2::instance().parameter_space_in_y_2_object();
-    }
-
-
-    typedef typename CKvA_2::Compare_x_near_boundary_2 
-       Compare_x_near_boundary_2;
-    Compare_x_near_boundary_2 compare_x_near_boundary_2_object() const {
-        return CKvA_2::instance().compare_x_near_boundary_2_object();
     }
 
     typedef typename CKvA_2::Compare_y_near_boundary_2 
@@ -144,6 +130,20 @@ public:
         return CKvA_2::instance().compare_y_near_boundary_2_object();
     }
 
+    typedef typename CKvA_2::Parameter_space_in_x_2 Parameter_space_in_x_2;
+    Parameter_space_in_x_2 parameter_space_in_x_2_object() const {
+        return CKvA_2::instance().parameter_space_in_x_2_object();
+    }
+
+    typedef typename CKvA_2::Compare_x_at_limit_2 Compare_x_at_limit_2;
+    Compare_x_at_limit_2 compare_x_at_limit_2_object() const {
+        return CKvA_2::instance().compare_x_at_limit_2_object();
+    }
+
+    typedef typename CKvA_2::Compare_x_near_limit_2  Compare_x_near_limit_2;
+    Compare_x_near_limit_2 compare_x_near_limit_2_object() const {
+        return CKvA_2::instance().compare_x_near_limit_2_object();
+    }
 
     typedef typename CKvA_2::Construct_min_vertex_2 Construct_min_vertex_2;
     Construct_min_vertex_2 construct_min_vertex_2_object() const {
@@ -200,13 +200,7 @@ public:
         return CKvA_2::instance().merge_2_object();
     }
 
-  // TODO typedef ArrangementDirectionalXMonotoneTraits_2 functors +
-  ///     check Intersect_2 & Split return order
-
-
-  typedef typename CKvA_2::Make_x_monotone_2 Make_x_monotone_2;
-
-
+    typedef typename CKvA_2::Make_x_monotone_2 Make_x_monotone_2;
     Make_x_monotone_2 make_x_monotone_2_object() const {
         return Make_x_monotone_2(&CKvA_2::instance());
     }

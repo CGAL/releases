@@ -12,9 +12,9 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/RS/compare_1.h $
-// $Id: compare_1.h 59002 2010-10-04 11:00:27Z lrineau $
+// $Id: compare_1.h 61907 2011-03-22 10:11:01Z penarand $
 //
-// Author: Luis Peñaranda <luis.penaranda@loria.fr>
+// Author: Luis PeÃ±aranda <luis.penaranda@gmx.com>
 
 #ifndef CGAL_RS_COMPARE_1_H
 #define CGAL_RS_COMPARE_1_H

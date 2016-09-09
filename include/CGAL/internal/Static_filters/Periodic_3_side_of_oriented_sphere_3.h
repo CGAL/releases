@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Periodic_3_triangulation_3/include/CGAL/internal/Static_filters/Periodic_3_side_of_oriented_sphere_3.h $
-// $Id: Periodic_3_side_of_oriented_sphere_3.h 61302 2011-02-18 15:37:40Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Periodic_3_triangulation_3/include/CGAL/internal/Static_filters/Periodic_3_side_of_oriented_sphere_3.h $
+// $Id: Periodic_3_side_of_oriented_sphere_3.h 63158 2011-04-27 20:54:11Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -98,17 +98,17 @@ public:
           double maxy = CGAL::abs(pty);
           double maxz = CGAL::abs(ptz);
 
-          double aqtx = CGAL::abs(aqtx);
-          double aqty = CGAL::abs(aqty);
-          double aqtz = CGAL::abs(aqtz);
+          double aqtx = CGAL::abs(qtx);
+          double aqty = CGAL::abs(qty);
+          double aqtz = CGAL::abs(qtz);
 
-          double artx = CGAL::abs(artx);
-          double arty = CGAL::abs(arty);
-          double artz = CGAL::abs(artz);
+          double artx = CGAL::abs(rtx);
+          double arty = CGAL::abs(rty);
+          double artz = CGAL::abs(rtz);
 
-          double astx = CGAL::abs(astx);
-          double asty = CGAL::abs(asty);
-          double astz = CGAL::abs(astz);
+          double astx = CGAL::abs(stx);
+          double asty = CGAL::abs(sty);
+          double astz = CGAL::abs(stz);
           
           if (maxx < aqtx) maxx = aqtx;
           if (maxx < artx) maxx = artx;

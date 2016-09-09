@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Sqrt_extension/Get_arithmetic_kernel.h $
-// $Id: Get_arithmetic_kernel.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/include/CGAL/Sqrt_extension/Get_arithmetic_kernel.h $
+// $Id: Get_arithmetic_kernel.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -27,8 +27,8 @@
 
 namespace CGAL {
 
-template <class COEFF, class ROOT>
-struct Get_arithmetic_kernel<Sqrt_extension<COEFF,ROOT> >{
+template <class COEFF, class ROOT, class ACDE_TAG,class FP_TAG>
+struct Get_arithmetic_kernel<Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG> >{
   typedef Get_arithmetic_kernel<COEFF> GET;
   typedef typename GET::Arithmetic_kernel Arithmetic_kernel;
 };

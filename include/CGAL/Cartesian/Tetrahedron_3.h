@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Cartesian_kernel/include/CGAL/Cartesian/Tetrahedron_3.h $
-// $Id: Tetrahedron_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Cartesian_kernel/include/CGAL/Cartesian/Tetrahedron_3.h $
+// $Id: Tetrahedron_3.h 64466 2011-06-29 07:02:20Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -161,7 +161,7 @@ TetrahedronC3<R>::
 bounded_side(const typename TetrahedronC3<R>::Point_3 &p) const
 {
   return R().bounded_side_3_object()
-               (static_cast<const typename R::Tetrahedron_3>(*this), p);
+               (static_cast<const typename R::Tetrahedron_3&>(*this), p);
 }
 
 template < class R >

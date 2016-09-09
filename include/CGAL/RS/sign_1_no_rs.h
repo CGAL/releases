@@ -12,9 +12,9 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/RS/sign_1_no_rs.h $
-// $Id: sign_1_no_rs.h 59002 2010-10-04 11:00:27Z lrineau $
+// $Id: sign_1_no_rs.h 61907 2011-03-22 10:11:01Z penarand $
 //
-// Author: Luis Peñaranda <luis.penaranda@loria.fr>
+// Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
 #ifndef CGAL_RS_SIGN_1_NO_RS_H
 #define CGAL_RS_SIGN_1_NO_RS_H

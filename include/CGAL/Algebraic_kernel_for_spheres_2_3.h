@@ -17,8 +17,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres_2_3.h $
-// $Id: Algebraic_kernel_for_spheres_2_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres_2_3.h $
+// $Id: Algebraic_kernel_for_spheres_2_3.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //             Sylvain Pion
@@ -29,7 +29,7 @@
 #ifndef CGAL_ALGEBRAIC_KERNEL_FOR_SPHERES_2_3_H
 #define CGAL_ALGEBRAIC_KERNEL_FOR_SPHERES_2_3_H
 
-#include <CGAL/Root_of_2.h>
+#include <CGAL/Root_of_traits.h>
 #include <CGAL/Polynomials_2_3.h>
 #include <CGAL/Polynomials_1_3.h>
 #include <CGAL/Polynomials_for_line_3.h>

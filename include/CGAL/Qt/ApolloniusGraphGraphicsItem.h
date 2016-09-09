@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/ApolloniusGraphGraphicsItem.h $
-// $Id: ApolloniusGraphGraphicsItem.h 58510 2010-09-07 11:28:32Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/ApolloniusGraphGraphicsItem.h $
+// $Id: ApolloniusGraphGraphicsItem.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -99,7 +99,7 @@ ApolloniusGraphGraphicsItem<AG,K>::boundingRect() const
 
 template <typename AG, typename K>
 void 
-ApolloniusGraphGraphicsItem<AG,K>::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w)
+ApolloniusGraphGraphicsItem<AG,K>::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /*w*/)
 {
 
   painter->setPen(this->sitesPen());

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Sqrt_extension/Algebraic_extension_traits.h $
-// $Id: Algebraic_extension_traits.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/include/CGAL/Sqrt_extension/Algebraic_extension_traits.h $
+// $Id: Algebraic_extension_traits.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -26,8 +26,8 @@
 
 namespace CGAL {
 
-template <class COEFF, class ROOT >
-class Algebraic_extension_traits<CGAL::Sqrt_extension<COEFF,ROOT> > {
+template <class COEFF, class ROOT, class ACDE_TAG,class FP_TAG>
+class Algebraic_extension_traits<CGAL::Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG> > {
 /* needed to 'add up' sqrt_extensions in iterator range such that all roots 
    are collected in order to keep operation time minimal all scalar coeffs 
    are set to 1 by standardise. 
@@ -43,11 +43,11 @@ class Algebraic_extension_traits<CGAL::Sqrt_extension<COEFF,ROOT> > {
         }
     };
     
-    template <class COEFF_, class ROOT_>
-    class Standardise<CGAL::Sqrt_extension<COEFF_,ROOT_> > {
+  template <class COEFF_, class ROOT_,class ACDE_TAG_,class FP_TAG_>
+  class Standardise<CGAL::Sqrt_extension<COEFF_,ROOT_,ACDE_TAG_,FP_TAG_> > {
         Standardise<COEFF_> standardise;
     public:
-        typedef CGAL::Sqrt_extension<COEFF_,ROOT_> Type_;
+    typedef CGAL::Sqrt_extension<COEFF_,ROOT_,ACDE_TAG_,FP_TAG_> Type_;
         typedef Type_ argument_type;
         typedef Type_ result_type;
     Type_ operator () (const Type_& a) const {       
@@ -62,7 +62,7 @@ class Algebraic_extension_traits<CGAL::Sqrt_extension<COEFF,ROOT> > {
 public:
     //! \name Typedefs 
     //! the number type for which this instance has been instantiated
-    typedef CGAL::Sqrt_extension<COEFF,ROOT> Type;
+    typedef CGAL::Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG> Type;
     //! Sqrt_extension as a number type is extended
     typedef ::CGAL::Tag_true Is_extended;
     

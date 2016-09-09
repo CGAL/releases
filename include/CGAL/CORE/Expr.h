@@ -31,8 +31,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/include/CGAL/CORE/Expr.h $
- * $Id: Expr.h 56668 2010-06-09 08:45:58Z sloriot $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Core/include/CGAL/CORE/Expr.h $
+ * $Id: Expr.h 64637 2011-07-06 11:11:58Z lrineau $
  ***************************************************************************/
 
 #ifndef _CORE_EXPR_H_
@@ -74,7 +74,7 @@ public:
    */
   Expr(float f) : RCExpr(NULL) { // check for valid numbers
     // (i.e., not infinite and not NaN)
-    if (!finite(f)) {
+    if (! CGAL_CORE_finite(f)) {
       std::cerr << " ERROR : constructed an invalid float! " << std::endl;
       if (AbortFlag)
         abort();
@@ -85,7 +85,7 @@ public:
   /// constructor for <tt>double</tt>
   Expr(double d) : RCExpr(NULL) { // check for valid numbers
     // (i.e., not infinite and not NaN)
-    if (!finite(d)) {
+    if (! CGAL_CORE_finite(d)) {
       std::cerr << " ERROR : constructed an invalid double! " << std::endl;
       if (AbortFlag)
         abort();

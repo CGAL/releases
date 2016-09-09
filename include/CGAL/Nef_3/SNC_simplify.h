@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_3/include/CGAL/Nef_3/SNC_simplify.h $
-// $Id: SNC_simplify.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Nef_3/include/CGAL/Nef_3/SNC_simplify.h $
+// $Id: SNC_simplify.h 63706 2011-05-27 11:26:40Z sloriot $
 //
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -590,7 +590,22 @@ class SNC_simplify_base : public SNC_decorator<SNC_structure> {
     SHalfloop_handle sl;
     CGAL_forall_shalfloops(sl, *this->sncp()) {
       SM_decorator SD(&*sl->incident_sface()->center_vertex());
-      SD.store_sm_boundary_object( sl, sl->incident_sface());
+      //I added the following 'if' because even if the map has been cleared, when merging edges
+      //if one sloop is created and the vertex not simplified, then the map is updated.
+      //In the example below, the edge e is removed and a sloop is create on the sphere map
+      //of a vertex v. But since three edges are still incident to v, v is not simplified. 
+      //There is one point where the distance between two non-edge-adjacent facets is 0.
+      //
+      //      |               |
+      // |    |  \  |  / |    |
+      // |    /   \ | /  |    /
+      // |   /     \|/   |   /
+      // |  /      /     |  /
+      // | /      / e    | /
+      // |/______/_______|/
+      //   
+      if (!SD.map()->is_sm_boundary_object(sl)) 
+        SD.store_sm_boundary_object( sl, sl->incident_sface());
     }
   }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2005  Tel-Aviv University (Israel).
+// Copyright (c) 2006,2007,2009,2010,2011 Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arrangement_zone_2.h $
-// $Id: Arrangement_zone_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arrangement_zone_2.h $
+// $Id: Arrangement_zone_2.h 64639 2011-07-06 11:41:06Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -66,15 +66,15 @@ protected:
   
   typedef Arr_traits_adaptor_2<Geometry_traits_2>        Traits_adaptor_2;
 
-  typedef typename Traits_adaptor_2::Arr_left_side_category   Arr_left_side_category;
-  typedef typename Traits_adaptor_2::Arr_bottom_side_category Arr_bottom_side_category;
-  typedef typename Traits_adaptor_2::Arr_top_side_category    Arr_top_side_category;
-  typedef typename Traits_adaptor_2::Arr_right_side_category  Arr_right_side_category;
+  typedef typename Traits_adaptor_2::Left_side_category   Left_side_category;
+  typedef typename Traits_adaptor_2::Bottom_side_category Bottom_side_category;
+  typedef typename Traits_adaptor_2::Top_side_category    Top_side_category;
+  typedef typename Traits_adaptor_2::Right_side_category  Right_side_category;
 
   BOOST_MPL_ASSERT(
       (typename 
-       Arr_sane_identified_tagging< Arr_left_side_category, Arr_bottom_side_category, 
-       Arr_top_side_category, Arr_right_side_category >::result)
+       Arr_sane_identified_tagging< Left_side_category, Bottom_side_category, 
+       Top_side_category, Right_side_category >::result)
   );
 
 public:
@@ -93,8 +93,8 @@ public:
 protected:
 
   typedef typename Arr_are_all_sides_oblivious_tag< 
-                     Arr_left_side_category, Arr_bottom_side_category, 
-                     Arr_top_side_category, Arr_right_side_category >::result
+                     Left_side_category, Bottom_side_category, 
+                     Top_side_category, Right_side_category >::result
   Are_all_sides_oblivious_tag;
   
   typedef typename Arrangement_2::Vertex_const_handle    Vertex_const_handle;

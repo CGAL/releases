@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_3/Sliver_perturber.h $
-// $Id: Sliver_perturber.h 61232 2011-02-15 16:03:46Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Mesh_3/include/CGAL/Mesh_3/Sliver_perturber.h $
+// $Id: Sliver_perturber.h 64637 2011-07-06 11:11:58Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -163,7 +163,7 @@ private:
       else if ( perturbation() != pv.perturbation() )
         return *perturbation() < *pv.perturbation();
       else
-        return true; // all characteristics are the same!
+        return false; // all characteristics are the same!
     }
     
   private:

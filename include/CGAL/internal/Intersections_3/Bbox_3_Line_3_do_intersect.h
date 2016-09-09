@@ -1,5 +1,5 @@
 // Copyright (c) 2008 ETH Zurich (Switzerland)
-// Copyright (c) 2008-2009 INRIA Sophia-Antipolis (France)
+// Copyright (c) 2008-2011 INRIA Sophia-Antipolis (France)
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Line_3_do_intersect.h $
-// $Id: Bbox_3_Line_3_do_intersect.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Line_3_do_intersect.h $
+// $Id: Bbox_3_Line_3_do_intersect.h 64772 2011-07-13 14:35:58Z sloriot $
 //
 //
 // Author(s)     : Camille Wormser, Jane Tournois, Pierre Alliez, Stephane Tayeb
@@ -57,10 +57,9 @@ namespace internal {
       dmin = px - qx;
     }
 
-    if ( dmin == FT(0) && (tmin > FT(0) || tmax < FT(0)) )
-    {
-      return false;
-    }
+    //if px is not in the x-slab
+    if ( dmin == FT(0) && (tmin > FT(0) || tmax < FT(0)) ) return false;
+
     FT dmax = dmin;
 
     // -----------------------------------
@@ -79,9 +78,17 @@ namespace internal {
       tmax_ = py - bymin;
       d_ = py - qy;
     }
-
-    if ( (dmin*tmax_) < (d_*tmin) || (dmax*tmin_) > (d_*tmax) )
-      return false;
+    
+    
+    
+    
+    if ( d_ == FT(0) ){
+      //if py is not in the y-slab
+      if( (tmin_ > FT(0) || tmax_ < FT(0)) ) return false;
+    }
+    else
+      if ( (dmin*tmax_) < (d_*tmin) || (dmax*tmin_) > (d_*tmax) )
+        return false;
 
     if( (dmin*tmin_) > (d_*tmin) )
     {
@@ -110,6 +117,12 @@ namespace internal {
       tmax_ = pz - bzmin;
       d_ = pz - qz;
     }
+    
+    //if pz is not in the z-slab
+    //if ( d_ == FT(0) && (tmin_ > FT(0) || tmax_ < FT(0)) ) return false;
+    //The previous line is not needed as either dmin or d_ are not 0 
+    //(otherwise the direction of the line would be null). 
+    // The following is equivalent to the in z-slab test if d_=0.
 
     return ( (dmin*tmax_) >= (d_*tmin) && (dmax*tmin_) <= (d_*tmax) );
   }

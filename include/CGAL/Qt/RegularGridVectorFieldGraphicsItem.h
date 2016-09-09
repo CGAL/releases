@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/RegularGridVectorFieldGraphicsItem.h $
-// $Id: RegularGridVectorFieldGraphicsItem.h 58706 2010-09-20 12:19:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/RegularGridVectorFieldGraphicsItem.h $
+// $Id: RegularGridVectorFieldGraphicsItem.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -136,8 +136,8 @@ QRectF
   template <typename T, typename K>
 void 
   RegularGridVectorFieldGraphicsItem<T,K>::paint(QPainter *painter, 
-                                    const QStyleOptionGraphicsItem *option,
-                                    QWidget * widget)
+                                    const QStyleOptionGraphicsItem * /*option*/,
+                                    QWidget * /*widget*/)
 {
 
   painterostream = PainterOstream<Geom_traits>(painter);

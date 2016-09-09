@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/demo/Mesh_3/Io_implicit_function_plugin.cpp $
-// $Id: Io_implicit_function_plugin.cpp 57336 2010-07-06 07:26:40Z stayeb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Mesh_3/demo/Mesh_3/Io_implicit_function_plugin.cpp $
+// $Id: Io_implicit_function_plugin.cpp 63392 2011-05-06 13:53:40Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -164,7 +164,14 @@ Io_implicit_function_plugin::
 load_function_plugins()
 {
   QDir pluginsDir(qApp->applicationDirPath());
-  if ( !pluginsDir.cd("implicit_functions") ) { return; }
+  QString dirname = pluginsDir.dirName();
+  if ( !pluginsDir.cd("implicit_functions") ) { 
+    // In that case, dirname may be "Debug" or "Release" and one has to
+    // search in ../implicit_functions/Debug or
+    // ../implicit_functions/Release
+    QString newDir = QString("../implicit_functions/") + dirname;
+    if( !pluginsDir.cd(newDir) ) return; 
+  }
   
   Q_FOREACH (QString fileName, pluginsDir.entryList(QDir::Files))
   {

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Sqrt_extension/Modular_traits.h $
-// $Id: Modular_traits.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/include/CGAL/Sqrt_extension/Modular_traits.h $
+// $Id: Modular_traits.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -30,19 +30,19 @@ namespace CGAL {
 
 /////////// MODULAR_TRAITS BEGIN
 
-template< class COEFF, class ROOT>
-class Modular_traits< Sqrt_extension<COEFF,ROOT> > {
+template< class COEFF, class ROOT, class ACDE_TAG, class FP_TAG>
+class Modular_traits< Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG> > {
     
 private:
-    typedef Sqrt_extension<COEFF,ROOT> EXT; 
+  typedef Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG> EXT; 
     typedef Modular_traits<COEFF> MT_COEFF;
     typedef Modular_traits<ROOT>  MT_ROOT;
     typedef typename MT_COEFF::Residue_type Residue_type_coeff;
     typedef typename MT_ROOT::Residue_type  Residue_type_root;
 public:
-    typedef Sqrt_extension<COEFF, ROOT > NT;
+    typedef EXT NT;
     typedef typename MT_COEFF::Is_modularizable Is_modularizable;
-    typedef Sqrt_extension<Residue_type_coeff, Residue_type_root> Residue_type;
+    typedef Sqrt_extension<Residue_type_coeff, Residue_type_root, ACDE_TAG,FP_TAG> Residue_type;
     
     struct Modular_image{
         Residue_type operator()(const EXT& a){

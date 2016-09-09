@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/number_type_basic.h $
-// $Id: number_type_basic.h 61485 2011-03-02 18:52:57Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/include/CGAL/number_type_basic.h $
+// $Id: number_type_basic.h 64106 2011-06-14 15:52:53Z pmoeller $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
@@ -53,7 +53,6 @@
 #include <CGAL/Quotient_fwd.h>
 
 #include <CGAL/Kernel/mpl.h>      // First_if_different
-#include <CGAL/known_bit_size_integers.h>
 #include <CGAL/enum.h>            // CGAL::Sign etc.
 #include <CGAL/tags.h>            // Tag_true / Tag_false
 
@@ -86,7 +85,6 @@
 #include <CGAL/long_long.h>
 #endif
 
-#include <CGAL/Root_of_traits.h>
 
 
 #ifdef CGAL_USE_GMP

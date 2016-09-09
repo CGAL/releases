@@ -11,11 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/uncertain/Uncertain_vertex_conflict_2.h $
-// $Id: Uncertain_vertex_conflict_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/uncertain/Uncertain_vertex_conflict_2.h $
+// $Id: Uncertain_vertex_conflict_2.h 63970 2011-06-08 06:31:19Z mkaravel $
 // 
 //
-// Author(s)     : Menelaos Karavelas <mkaravel@tem.uoc.gr>
+// Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
 //                 Christophe Delage <Christophe.Delage@sophia.inria.fr>
 //                 David Millman <dlm336@cs.nyu.edu>
 

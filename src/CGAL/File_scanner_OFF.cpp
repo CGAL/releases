@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Stream_support/src/CGAL/File_scanner_OFF.cpp $
-// $Id: File_scanner_OFF.cpp 56979 2010-06-22 13:15:46Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Stream_support/src/CGAL/File_scanner_OFF.cpp $
+// $Id: File_scanner_OFF.cpp 64106 2011-06-14 15:52:53Z pmoeller $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -46,7 +46,7 @@ skip_to_next_vertex( std::size_t current_vertex) {
             // It is not well stated in the Geomview manual
             // how color is coded following a vertex. It is
             // parsed similar to the optional color for facets.
-            Integer32 k;
+	    boost::int32_t k;
             I_Binary_read_big_endian_integer32( m_in, k);
             if (k<0 || k>4) {
                 m_in.clear( std::ios::badbit);
@@ -97,7 +97,7 @@ File_scanner_OFF::
 skip_to_next_facet( std::size_t current_facet) {
     // Take care of trailing informations like color triples.
     if ( binary()) {
-        Integer32 k;
+        boost::int32_t k;
         I_Binary_read_big_endian_integer32( m_in, k);
         if (k<0 || k>4) {
             m_in.clear( std::ios::badbit);

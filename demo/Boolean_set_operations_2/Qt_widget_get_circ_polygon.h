@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/demo/Boolean_set_operations_2/Qt_widget_get_circ_polygon.h $
-// $Id: Qt_widget_get_circ_polygon.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Boolean_set_operations_2/demo/Boolean_set_operations_2/Qt_widget_get_circ_polygon.h $
+// $Id: Qt_widget_get_circ_polygon.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -220,7 +220,7 @@ namespace CGAL
           if(m_pgn.is_empty())
             return;
           const Arc_point_2& first_point = m_pgn.curves_begin()->source();
-          CGAL_assertion(first_point.x().is_rational() && first_point.y().is_rational());
+          CGAL_assertion(!first_point.x().is_extended() && !first_point.y().is_extended());
           FT xs = first_point.x().alpha();
           FT ys = first_point.y().alpha();
           m_pgn.push_back(X_monotone_curve_2(m_last_of_poly, Point_2(xs, ys)));
@@ -284,7 +284,7 @@ namespace CGAL
             *widget << Segment_2(m_rubber, m_last_of_poly);
             const Arc_point_2& last_point = last->source();
 
-            CGAL_assertion(last_point.x().is_rational() && last_point.y().is_rational());
+            CGAL_assertion(!last_point.x().is_extended() && !last_point.y().is_extended());
             FT xs = last_point.x().alpha();
             FT ys = last_point.y().alpha();
 
@@ -338,7 +338,7 @@ namespace CGAL
              *widget << Segment_2(m_rubber, m_last_of_poly);
              const Arc_point_2& last_point = first->source();
 
-             CGAL_assertion(last_point.x().is_rational() && last_point.y().is_rational());
+             CGAL_assertion(!last_point.x().is_extended() && !last_point.y().is_extended());
              FT xs = last_point.x().alpha();
              FT ys = last_point.y().alpha();
 
@@ -509,7 +509,7 @@ namespace CGAL
         if(is_last_curve)
         {
           const Arc_point_2& first_point = m_pgn.curves_begin()->source();
-          CGAL_assertion(first_point.x().is_rational() && first_point.y().is_rational());
+          CGAL_assertion(!first_point.x().is_extended() && !first_point.y().is_extended());
           FT xs = first_point.x().alpha();
           FT ys = first_point.y().alpha();
           rubber_curve = X_monotone_curve_2(m_last_of_poly, Point_2(xs, ys));

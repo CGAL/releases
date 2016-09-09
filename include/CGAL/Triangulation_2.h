@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Triangulation_2/include/CGAL/Triangulation_2.h $
-// $Id: Triangulation_2.h 60298 2010-12-10 17:02:10Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Triangulation_2/include/CGAL/Triangulation_2.h $
+// $Id: Triangulation_2.h 62376 2011-04-12 10:08:00Z glisse $
 // 
 //
 // Author(s)     : Olivier Devillers, Mariette Yvinec
@@ -593,7 +593,6 @@ std::ptrdiff_t insert(InputIterator first, InputIterator last)
 bool well_oriented(Vertex_handle v) const
 {
   typedef typename Geom_traits::Orientation_2   Orientation_2; 
-  Orientation_2 orientation_2 = geom_traits().orientation_2_object();
   Face_circulator fc = incident_faces(v), done(fc);
   do {
     if(!is_infinite(fc)) {

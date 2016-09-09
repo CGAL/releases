@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/BGL/include/CGAL/boost/graph/halfedge_graph_traits_Polyhedron_3.h $
-// $Id: halfedge_graph_traits_Polyhedron_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/BGL/include/CGAL/boost/graph/halfedge_graph_traits_Polyhedron_3.h $
+// $Id: halfedge_graph_traits_Polyhedron_3.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -96,21 +96,21 @@ opposite_edge( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> const>::ed
 
 template<class Gt, class I, CGAL_HDS_PARAM_, class A>
 typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> const>::edge_descriptor
-next_edge_ccw( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> const>::edge_descriptor outedge
+next_edge_ccw( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> const>::edge_descriptor inedge
              , Polyhedron_3<Gt,I,HDS,A> const& 
              )
 {
   HalfedgeDS_items_decorator< Polyhedron_3<Gt,I,HDS,A> > D ;
-  return D.get_prev(outedge)->opposite();
+  return D.get_prev(inedge->opposite());
 }
 
 template<class Gt, class I, CGAL_HDS_PARAM_, class A>
 typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> const>::edge_descriptor
-next_edge_cw( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> const>::edge_descriptor outedge
+next_edge_cw( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> const>::edge_descriptor inedge
             , Polyhedron_3<Gt,I,HDS,A> const& 
             )
 {
-  return outedge->opposite()->next();
+  return inedge->next()->opposite();
 }
 
 
@@ -168,22 +168,22 @@ opposite_edge( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::edge_de
 
 template<class Gt, class I, CGAL_HDS_PARAM_, class A>
 typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::edge_descriptor 
-next_edge_ccw( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::edge_descriptor outedge
+next_edge_ccw( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::edge_descriptor inedge
              , Polyhedron_3<Gt,I,HDS,A>& 
              )
 {
   HalfedgeDS_items_decorator< Polyhedron_3<Gt,I,HDS,A> > D ;
-  return D.get_prev(outedge)->opposite();
+  return D.get_prev(inedge->opposite());
 }
 
 
 template<class Gt, class I, CGAL_HDS_PARAM_, class A>
 typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::edge_descriptor
-next_edge_cw( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::edge_descriptor outedge
+next_edge_cw( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::edge_descriptor inedge
             , Polyhedron_3<Gt,I,HDS,A>& 
             )
 {
-  return outedge->opposite()->next();
+  return inedge->next()->opposite();
 }
 
 

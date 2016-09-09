@@ -1,4 +1,4 @@
-// Copyright (c) 2007 Max-Planck-Institute for Computer Science (Germany).
+// Copyright (c) 2007,2009,2011 Max-Planck-Institute for Computer Science (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_overlay.h $
-// $Id: Arr_overlay.h 40377 2007-09-19 11:05:08Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_overlay.h $
+// $Id: Arr_overlay.h 64639 2011-07-06 11:41:06Z lrineau $
 // 
 //
 // Author(s)     : Eric Berberich <eric@mpi-inf.mpg.de>

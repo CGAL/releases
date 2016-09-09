@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/RegularGridGraphicsItem.h $
-// $Id: RegularGridGraphicsItem.h 58805 2010-09-23 07:32:53Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/RegularGridGraphicsItem.h $
+// $Id: RegularGridGraphicsItem.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -141,8 +141,8 @@ QRectF
   template <typename K>
 void 
   RegularGridGraphicsItem<K>::paint(QPainter *painter, 
-                                    const QStyleOptionGraphicsItem *option,
-                                    QWidget * widget)
+                                    const QStyleOptionGraphicsItem * /*option*/,
+                                    QWidget * /*widget*/)
 {
   QRectF rect = boundingRect();
   double b = rect.bottom();

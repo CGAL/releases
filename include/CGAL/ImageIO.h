@@ -14,14 +14,14 @@
 //
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/CGALimageIO/include/CGAL/ImageIO.h $
-// $Id: ImageIO.h 53026 2009-11-14 11:49:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/CGALimageIO/include/CGAL/ImageIO.h $
+// $Id: ImageIO.h 63732 2011-05-30 10:12:38Z glisse $
 //
 
 #ifndef IMAGEIO_H
 #define IMAGEIO_H
 
-#include <CGAL/compiler_config.h>
+#include <CGAL/config.h>
 
 #include <CGAL/auto_link/ImageIO.h>
 

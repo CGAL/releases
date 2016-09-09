@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/demo_tab.h $
-// $Id: demo_tab.h 61402 2011-02-24 11:34:03Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/demo_tab.h $
+// $Id: demo_tab.h 64639 2011-07-06 11:41:06Z lrineau $
 //
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -1335,13 +1335,13 @@ public:
       x_real(first_x, xfirst2);
       y_real(first_y, yfirst2);
 
-      double    xmin, xmax, ymin, ymax, distx, disty;
-      if (x < xfirst2) { xmin = x; xmax = xfirst2; }
-      else { xmin = xfirst2; xmax = x; }
-      if (y < yfirst2) { ymin = y; ymax = yfirst2; }
-      else { ymin = yfirst2; ymax = y; }
-      distx = xfirst2 - x;
-      disty = yfirst2 - y;
+      // double    xmin, xmax, ymin, ymax;
+      // if (x < xfirst2) { xmin = x; xmax = xfirst2; }
+      // else { xmin = xfirst2; xmax = x; }
+      // if (y < yfirst2) { ymin = y; ymax = yfirst2; }
+      // else { ymin = yfirst2; ymax = y; }
+      double distx = xfirst2 - x;
+      double disty = yfirst2 - y;
       move_center(distx, disty);
       on_first = FALSE;
     }

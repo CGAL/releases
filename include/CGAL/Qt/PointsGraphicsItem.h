@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/PointsGraphicsItem.h $
-// $Id: PointsGraphicsItem.h 58801 2010-09-22 20:22:00Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/PointsGraphicsItem.h $
+// $Id: PointsGraphicsItem.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -112,8 +112,8 @@ PointsGraphicsItem<P>::boundingRect() const
 template <typename P>
 void 
 PointsGraphicsItem<P>::paint(QPainter *painter, 
-                                    const QStyleOptionGraphicsItem *option,
-                                    QWidget * widget)
+                                    const QStyleOptionGraphicsItem * /*option*/,
+                                    QWidget * /*widget*/)
 {
   if(drawVertices()) {
     Converter<Traits> convert;

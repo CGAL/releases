@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/assertions.h $
-// $Id: assertions.h 58190 2010-08-20 12:57:32Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/STL_Extension/include/CGAL/assertions.h $
+// $Id: assertions.h 64111 2011-06-14 16:56:45Z gdamiand $
 //
 //
 // Author(s)     : Geert-Jan Giezeman and Sven Schoenherr
@@ -27,6 +27,12 @@
 #define CGAL_ASSERTIONS_H
 
 // #include <CGAL/assertions_behaviour.h> // for backward compatibility
+
+#ifndef CGAL_NO_ASSERTIONS 
+#ifdef CGAL_CFG_NO_CPP0X_STATIC_ASSERT
+#include <boost/static_assert.hpp>
+#endif
+#endif
 
 namespace CGAL {
 
@@ -72,12 +78,33 @@ inline bool possibly(Uncertain<bool> c);
 #  define CGAL_assertion(EX) (static_cast<void>(0))
 #  define CGAL_assertion_msg(EX,MSG) (static_cast<void>(0))
 #  define CGAL_assertion_code(CODE)
+#  define CGAL_static_assertion(EX) 
+#  define CGAL_static_assertion_msg(EX,MSG) 
 #else
 #  define CGAL_assertion(EX) \
    (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
 #  define CGAL_assertion_msg(EX,MSG) \
    (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_assertion_code(CODE) CODE
+
+#ifndef CGAL_CFG_NO_CPP0X_STATIC_ASSERT
+
+#  define CGAL_static_assertion(EX) \
+   static_assert(EX, #EX)
+
+#  define CGAL_static_assertion_msg(EX,MSG) \
+   static_assert(EX, MSG)
+
+#else
+
+#  define CGAL_static_assertion(EX) \
+   BOOST_STATIC_ASSERT(EX)
+  
+#  define CGAL_static_assertion_msg(EX,MSG) \
+   BOOST_STATIC_ASSERT(EX)
+
+#endif
+  
 #endif // CGAL_NO_ASSERTIONS
 
 #if defined(CGAL_NO_ASSERTIONS) || !defined(CGAL_CHECK_EXACTNESS)

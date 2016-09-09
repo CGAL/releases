@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kernel_d/include/CGAL/Kernel_d/Vector_d.h $
-// $Id: Vector_d.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Kernel_d/include/CGAL/Kernel_d/Vector_d.h $
+// $Id: Vector_d.h 64637 2011-07-06 11:11:58Z lrineau $
 //
 // Author(s)     : Michael Seel
 
@@ -97,11 +97,11 @@ class Vector_d : public pR::Vector_d_base
 
 template <class R> Point_d<R> 
 operator+ (const Origin& o, const Vector_d<R>& v)
-{ return Point_d<R>( o + static_cast<typename Vector_d<R>::Base>(v) ); }
+{ return Point_d<R>( o + static_cast<const typename Vector_d<R>::Base&>(v) ); }
 
 template <class NT, class R>
 Vector_d<R> operator*(const NT& n, const Vector_d<R>& v) 
-{ return Vector_d<R>( n * static_cast<typename Vector_d<R>::Base>(v) ); }
+{ return Vector_d<R>( n * static_cast<const typename Vector_d<R>::Base&>(v) ); }
 
 } //namespace CGAL
 #endif //CGAL_VECTOR_D_H

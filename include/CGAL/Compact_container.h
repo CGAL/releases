@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/Compact_container.h $
-// $Id: Compact_container.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/STL_Extension/include/CGAL/Compact_container.h $
+// $Id: Compact_container.h 64111 2011-06-14 16:56:45Z gdamiand $
 //
 // Author(s)     : Sylvain Pion
 
@@ -466,8 +466,8 @@ public:
 
     const_pointer c = &*cit;
 
-    for (typename All_items::const_iterator it = all_items.begin(), end = all_items.end();
-         it != end; ++it) {
+    for (typename All_items::const_iterator it = all_items.begin(), itend = all_items.end();
+         it != itend; ++it) {
       const_pointer p = it->first;
       size_type s = it->second;
 
@@ -610,8 +610,8 @@ void Compact_container<T, Allocator>::merge(Self &d)
 template < class T, class Allocator >
 void Compact_container<T, Allocator>::clear()
 {
-  for (typename All_items::iterator it = all_items.begin(), end = all_items.end();
-       it != end; ++it) {
+  for (typename All_items::iterator it = all_items.begin(), itend = all_items.end();
+       it != itend; ++it) {
     pointer p = it->first;
     size_type s = it->second;
     for (pointer pp = p + 1; pp != p + s - 1; ++pp) {

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Envelope_3/include/CGAL/Env_plane_traits_3.h $
-// $Id: Env_plane_traits_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Envelope_3/include/CGAL/Env_plane_traits_3.h $
+// $Id: Env_plane_traits_3.h 64639 2011-07-06 11:41:06Z lrineau $
 //
 // Author(s)     : Baruch Zukerman     <baruchzu@post.tau.ac.il>
 
@@ -54,10 +54,10 @@ public:
   typedef typename Kernel::Object_3            Object_3;
   typedef std::pair<Curve_2, Multiplicity>     Intersection_curve;
 
-  typedef typename Base::Arr_left_side_category     Arr_left_side_category;
-  typedef typename Base::Arr_bottom_side_category   Arr_bottom_side_category;
-  typedef typename Base::Arr_top_side_category      Arr_top_side_category;
-  typedef typename Base::Arr_right_side_category    Arr_right_side_category;
+  typedef typename Base::Left_side_category    Left_side_category;
+  typedef typename Base::Bottom_side_category  Bottom_side_category;
+  typedef typename Base::Top_side_category     Top_side_category;
+  typedef typename Base::Right_side_category   Right_side_category;
   
   class Is_vertical_3
   {

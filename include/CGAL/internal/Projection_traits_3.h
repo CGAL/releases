@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Kernel_23/include/CGAL/internal/Projection_traits_3.h $
-// $Id: Projection_traits_3.h 62252 2011-04-06 07:59:23Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Kernel_23/include/CGAL/internal/Projection_traits_3.h $
+// $Id: Projection_traits_3.h 64319 2011-06-23 11:59:29Z sloriot $
 // 
 //
 // Author(s)     : Mariette Yvinec, Sebastien Loriot
@@ -402,7 +402,7 @@ public:
 
   //for natural_neighbor_coordinates_2
   typedef typename Projector<R,dim>::Equal_x_2                Equal_x_2;
-  typedef typename Projector<R,dim>::Equal_x_2                Equal_y_2;
+  typedef typename Projector<R,dim>::Equal_y_2                Equal_y_2;
   typedef Circumcenter_center_projected<Rp,dim>               Construct_circumcenter_2;
   typedef Compute_area_projected<Rp,dim>                      Compute_area_2;
   Construct_circumcenter_2 construct_circumcenter_2_object () const {return Construct_circumcenter_2();}

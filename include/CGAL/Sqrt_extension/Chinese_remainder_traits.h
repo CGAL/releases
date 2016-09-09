@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Sqrt_extension/Chinese_remainder_traits.h $
-// $Id: Chinese_remainder_traits.h 47257 2008-12-06 21:43:32Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/include/CGAL/Sqrt_extension/Chinese_remainder_traits.h $
+// $Id: Chinese_remainder_traits.h 63778 2011-05-31 13:03:27Z sloriot $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -27,10 +27,10 @@
 
 namespace CGAL {
  
-template <class NT, class ROOT> 
-class Chinese_remainder_traits<CGAL::Sqrt_extension<NT,ROOT> >{
+template <class NT, class ROOT, class ACDE_TAG,class FP_TAG> 
+class Chinese_remainder_traits<CGAL::Sqrt_extension<NT,ROOT,ACDE_TAG,FP_TAG> >{
 private:
-    typedef CGAL::Sqrt_extension<NT,ROOT> EXT;   
+  typedef CGAL::Sqrt_extension<NT,ROOT,ACDE_TAG,FP_TAG> EXT;   
     typedef Chinese_remainder_traits<NT> CRT_NT;
     typedef Chinese_remainder_traits<ROOT> CRT_ROOT;
 

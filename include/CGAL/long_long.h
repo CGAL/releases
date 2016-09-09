@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/long_long.h $
-// $Id: long_long.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/include/CGAL/long_long.h $
+// $Id: long_long.h 64106 2011-06-14 15:52:53Z pmoeller $
 //
 //
 // Author(s)     : Stefan Schirra, Michael Hemmer
@@ -76,15 +76,6 @@ template <> class Real_embeddable_traits< long long int >
         }
     };
 };
-
-#if (defined(__sparc__) || defined(__sparc) || defined(sparc)) || \
-    (defined(__i386__)  || defined(__i386)  || defined(i386)) || \
-    (defined(__ppc__)   || defined(__ppc)   || defined(ppc)) || \
-    (defined(__powerpc__) || defined(__powerpc) || defined(powerpc))
-typedef  long long int           Integer64;
-typedef  unsigned long long int  UInteger64;
-#define CGAL_HAS_INTEGER64
-#endif
 
 } //namespace CGAL
 

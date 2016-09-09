@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/STL_Extension/include/CGAL/Uncertain.h $
-// $Id: Uncertain.h 61835 2011-03-17 10:19:54Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/Uncertain.h $
+// $Id: Uncertain.h 61834 2011-03-17 10:16:30Z sloriot $
 //
 // Author(s)     : Sylvain Pion
 

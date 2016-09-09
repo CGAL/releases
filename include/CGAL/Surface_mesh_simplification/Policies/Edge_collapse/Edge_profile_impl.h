@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_profile_impl.h $
-// $Id: Edge_profile_impl.h 56898 2010-06-20 21:48:20Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_profile_impl.h $
+// $Id: Edge_profile_impl.h 64089 2011-06-14 12:55:51Z afabri $
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
@@ -189,8 +189,7 @@ void Edge_profile<ECM>::Extract_triangles_and_link( VertexIdxMap const&    verte
   
   do
   {
-    e02 = next_edge_ccw(e02,surface());
-    
+    e02 = opposite_edge(prev_edge(e02,surface()), surface());
     vertex_descriptor v2 = target(e02,surface());
   
     if ( v2 != mV1 )
@@ -212,7 +211,7 @@ void Edge_profile<ECM>::Extract_triangles_and_link( VertexIdxMap const&    verte
   
   v0 = mV1;
   
-  e02 = next_edge_ccw(mV1V0,surface());
+  e02 = opposite_edge(prev_edge(mV1V0,surface()), surface());
   
   v1 = target(e02,surface()); 
 
@@ -221,7 +220,7 @@ void Edge_profile<ECM>::Extract_triangles_and_link( VertexIdxMap const&    verte
   if ( v1 != mV0 && lCollected.find(vertex_idx[v1]) == lCollected.end() )
     mLink.push_back(v1) ;
   
-  e02 = next_edge_ccw(e02,surface());
+  e02 = opposite_edge(prev_edge(e02,surface()), surface());
   
   do
   {
@@ -235,8 +234,7 @@ void Edge_profile<ECM>::Extract_triangles_and_link( VertexIdxMap const&    verte
     
     v1 = v2 ;
      
-    e02 = next_edge_ccw(e02,surface());
-    
+    e02 = opposite_edge(prev_edge(e02,surface()), surface());
   }
   while ( e02 != mV1V0 ) ;
 }

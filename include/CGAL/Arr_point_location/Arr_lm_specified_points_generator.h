@@ -1,4 +1,4 @@
-// Copyright (c) 2005  Tel-Aviv University (Israel).
+// Copyright (c) 2005,2008,2009,2010,2011 Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_specified_points_generator.h $
-// $Id: Arr_lm_specified_points_generator.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_specified_points_generator.h $
+// $Id: Arr_lm_specified_points_generator.h 64639 2011-07-06 11:41:06Z lrineau $
 // 
 // Author(s)     : Shlomo Golubev   <golubevs@post.tau.ac.il>
 #ifndef CGAL_ARR_SPECIFIED_POINTS_GENERATOR_H

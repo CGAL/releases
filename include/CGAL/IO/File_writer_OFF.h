@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Stream_support/include/CGAL/IO/File_writer_OFF.h $
-// $Id: File_writer_OFF.h 56972 2010-06-22 11:54:07Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Stream_support/include/CGAL/IO/File_writer_OFF.h $
+// $Id: File_writer_OFF.h 64106 2011-06-14 15:52:53Z pmoeller $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -84,13 +84,13 @@ public:
     }
     void write_facet_begin( std::size_t no) {
         if ( m_header.binary())
-          I_Binary_write_big_endian_integer32( out(), static_cast<Integer32>(no));
+          I_Binary_write_big_endian_integer32( out(), static_cast<boost::int32_t>(no));
         else
             out() << no << ' ';
     }
     void write_facet_vertex_index( std::size_t index) {
         if ( m_header.binary())
-          I_Binary_write_big_endian_integer32( out(), static_cast<Integer32>(index));
+          I_Binary_write_big_endian_integer32( out(), static_cast<boost::int32_t>(index));
         else
             out() << ' ' << index;
     }

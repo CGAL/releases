@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/AABB_tree/include/CGAL/AABB_tree.h $
-// $Id: AABB_tree.h 60668 2011-01-10 10:46:16Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/AABB_tree/include/CGAL/AABB_tree.h $
+// $Id: AABB_tree.h 62294 2011-04-07 12:54:35Z lrineau $
 //
 //
 // Author(s) : Camille Wormser, Pierre Alliez, Stephane Tayeb
@@ -113,7 +113,7 @@ namespace CGAL {
 		}
 
 		// bbox and size
-		Bounding_box bbox() const { return root_node()->bbox(); }
+		const Bounding_box& bbox() const { return root_node()->bbox(); }
 		size_type size() const { return m_primitives.size(); }
 		bool empty() const { return m_primitives.empty(); }
 

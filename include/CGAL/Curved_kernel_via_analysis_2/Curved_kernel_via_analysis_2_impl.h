@@ -1,4 +1,4 @@
-// Copyright (c) 2004-2008 Max-Planck-Institute Saarbruecken (Germany), 
+// Copyright (c) 2007,2008,2009,2010,2011 Max-Planck-Institute Saarbruecken (Germany), 
 // and Tel-Aviv University (Israel).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curved_kernel_via_analysis_2_impl.h $
-// $Id: Curved_kernel_via_analysis_2_impl.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curved_kernel_via_analysis_2_impl.h $
+// $Id: Curved_kernel_via_analysis_2_impl.h 64639 2011-07-06 11:41:06Z lrineau $
 //
 //
 // Author(s)     : Eric Berberich <eric@mpi-inf.mpg.de>
@@ -95,10 +95,10 @@ public:
 
     typedef CGAL::Tag_false Has_do_intersect_category;
 
-    typedef Arr_open_side_tag Arr_left_side_category;
-    typedef Arr_open_side_tag Arr_bottom_side_category;
-    typedef Arr_open_side_tag Arr_top_side_category;
-    typedef Arr_open_side_tag Arr_right_side_category;
+    typedef Arr_open_side_tag Left_side_category;
+    typedef Arr_open_side_tag Bottom_side_category;
+    typedef Arr_open_side_tag Top_side_category;
+    typedef Arr_open_side_tag Right_side_category;
 
     //!@}
 

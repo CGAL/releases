@@ -11,15 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 // 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Number_types/include/CGAL/Gmpfi.h $
-// $Id: Gmpfi.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Gmpfi.h $
+// $Id: Gmpfi.h 61900 2011-03-22 07:59:52Z penarand $
 // 
-// Author: Luis Peñaranda <luis.penaranda@loria.fr>
+// Author: Luis Peñaranda <luis.penaranda@gmx.com>
 //         Michael Hemmer <Michael.Hemmer@sophia.inria.fr>
 
 #ifndef CGAL_GMPFI_H
 #define CGAL_GMPFI_H
 
+#include <CGAL/GMP/Gmpfi_type.h>
 #include <CGAL/number_type_basic.h>
 #include <CGAL/mpfi_coercion_traits.h>
 #include <CGAL/Interval_traits.h>

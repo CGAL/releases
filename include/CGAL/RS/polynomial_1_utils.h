@@ -12,9 +12,9 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/RS/polynomial_1_utils.h $
-// $Id: polynomial_1_utils.h 59002 2010-10-04 11:00:27Z lrineau $
+// $Id: polynomial_1_utils.h 61907 2011-03-22 10:11:01Z penarand $
 //
-// Author: Luis Peñaranda <luis.penaranda@loria.fr>
+// Author: Luis PeÃ±aranda <luis.penaranda@gmx.com>
 
 #ifndef CGAL_RS_POLYNOMIAL_1_UTILS_H
 #define CGAL_RS_POLYNOMIAL_1_UTILS_H
@@ -401,5 +401,3 @@ public std::unary_function<RS_polynomial_1,RS_polynomial_1*>{
 } // namespace CGAL
 
 #endif  // CGAL_RS_POLYNOMIAL_1_UTILS_H
-
-// vim: tabstop=4: softtabstop=4: smarttab: shiftwidth=4: expandtab

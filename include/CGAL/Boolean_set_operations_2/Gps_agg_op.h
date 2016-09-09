@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op.h $
-// $Id: Gps_agg_op.h 56667 2010-06-09 07:37:13Z sloriot $ $Date: 2010-06-09 09:37:13 +0200 (Wed, 09 Jun 2010) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op.h $
+// $Id: Gps_agg_op.h 64639 2011-07-06 11:41:06Z lrineau $ $Date: 2011-07-06 13:41:06 +0200 (Wed, 06 Jul 2011) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -121,9 +121,6 @@ public:
                           std::vector<Arr_entry>& arr_vec)
   {
     std::list<Meta_X_monotone_curve_2> curves_list;
-
-    typename Meta_traits::Compare_endpoints_xy_2 cmp_endpoints = 
-      m_traits->compare_endpoints_xy_2_object();
 
     unsigned int n_inf_pgn = 0; // number of infinte polygons (arrangement 
                                 // with a contained unbounded face

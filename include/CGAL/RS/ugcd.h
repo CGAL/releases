@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/RS/ugcd.h $
-// $Id: ugcd.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_kernel_d/include/CGAL/RS/ugcd.h $
+// $Id: ugcd.h 63062 2011-04-20 13:56:23Z lrineau $
 //
-// Author: Luis Peñaranda <luis.penaranda@loria.fr>
+// Author: Luis PeÃ±aranda <luis.penaranda@gmx.com>
 
 #ifndef CGAL_RS__UGCD_H
 #define CGAL_RS__UGCD_H
@@ -189,11 +189,9 @@ class Ugcd:public Primes{
             return dG;
         };
 
-}; // class Primes
+}; // class Ugcd
 
 } // namespace RS_MGCD
 } // namespace CGAL
 
 #endif  // CGAL_RS__UGCD_H
-
-// vim: tabstop=4: softtabstop=4: smarttab: shiftwidth=4: expandtab

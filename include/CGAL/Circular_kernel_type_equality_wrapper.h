@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_2/include/CGAL/Circular_kernel_type_equality_wrapper.h $
-// $Id: Circular_kernel_type_equality_wrapper.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Circular_kernel_2/include/CGAL/Circular_kernel_type_equality_wrapper.h $
+// $Id: Circular_kernel_type_equality_wrapper.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
 
@@ -31,7 +31,7 @@
 #include <CGAL/Circular_arc_2.h>
 #include <CGAL/Circular_arc_point_2.h>
 #include <CGAL/Line_arc_2.h>
-#include <CGAL/Root_of_2.h>
+#include <CGAL/Root_of_traits.h>
 
 
 namespace CGAL {
@@ -49,13 +49,10 @@ struct Circular_kernel_type_equality_wrapper
     typedef CGAL::Line_arc_2<Kernel>                   Line_arc_2;
     typedef CGAL::Circular_arc_point_2<Kernel>         Circular_arc_point_2;
 
-    //typedef CGAL::Root_of_2<typename Kernel_base::FT>  Root_of_2;
-    
-	//Something has to be done with these 3, maybe a lazy Algebraic kernel?
+    //Something has to be done with these 3, maybe a lazy Algebraic kernel?
 	   
     //typedef Polynomial_for_circles_2_2<Kernel>   Polynomial_for_circles_2_2;
     //typedef Polynomial_1_2<Kernel>               Polynomial_1_2;
-    //typedef Root_of_2<Kernel>                    Root_of_2;   
 };
 
 } //namespace CGAL

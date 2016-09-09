@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_traits.h $
-// $Id: Curve_renderer_traits.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_traits.h $
+// $Id: Curve_renderer_traits.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 // Author(s)     : Pavel Emeliyanenko <asm@mpi-sb.mpg.de>
 //
@@ -153,9 +153,9 @@ struct Curve_renderer_traits_base
     struct Rat_to_float {
         typedef Float result_type;
 
-        template <class X, class Y>
-        Float operator()(const Sqrt_extension<X, Y>& x) const { 
-            typename CGAL::Coercion_traits<Sqrt_extension<X, Y>, Float>::Cast
+        template <class X, class Y,class ACDE_TAG,class FP_TAG>
+        Float operator()(const Sqrt_extension<X, Y, ACDE_TAG, FP_TAG>& x) const { 
+            typename CGAL::Coercion_traits<Sqrt_extension<X, Y, ACDE_TAG, FP_TAG>, Float>::Cast
                 cast;        
             return cast(x); 
         }
@@ -502,9 +502,9 @@ struct Curve_renderer_traits<leda::bigfloat, class leda::rational>
     struct Rat_to_float {
         typedef Float result_type;
 
-        template <class X, class Y>
-        Float operator()(const Sqrt_extension<X, Y>& x) const { 
-            typename CGAL::Coercion_traits<Sqrt_extension<X, Y>, Float>::Cast
+        template <class X, class Y,class ACDE_TAG,class FP_TAG>
+        Float operator()(const Sqrt_extension<X, Y, ACDE_TAG, FP_TAG>& x) const { 
+            typename CGAL::Coercion_traits<Sqrt_extension<X, Y, ACDE_TAG, FP_TAG>, Float>::Cast
                 cast;        
             return cast(x); 
         }

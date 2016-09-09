@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Minkowski_sum_conv_2.h $
-// $Id: Minkowski_sum_conv_2.h 61310 2011-02-19 21:27:18Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Minkowski_sum_conv_2.h $
+// $Id: Minkowski_sum_conv_2.h 64639 2011-07-06 11:41:06Z lrineau $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -197,7 +197,7 @@ public:
     std::vector<Direction_2>  dirs2 (n2);
     Vertex_circulator         prev2, curr2, next2;
     Vertex_ref                bottom_left;
-    bool                      is_convex2 = true;
+    // bool                      is_convex2 = true;
     std::list<Vertex_ref>     reflex_vertices;
     unsigned int              k2;
     
@@ -223,7 +223,7 @@ public:
       if (f_orientation (*prev2, *curr2, *next2) == RIGHT_TURN)
       {
         // We found a reflex vertex.
-        is_convex2 = false;
+        // is_convex2 = false;
         reflex_vertices.push_back (Vertex_ref (curr2, k2));
       }
 

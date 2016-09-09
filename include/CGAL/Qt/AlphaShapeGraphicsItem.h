@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/AlphaShapeGraphicsItem.h $
-// $Id: AlphaShapeGraphicsItem.h 58678 2010-09-17 14:20:59Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/AlphaShapeGraphicsItem.h $
+// $Id: AlphaShapeGraphicsItem.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -277,8 +277,8 @@ AlphaShapeGraphicsItem<T>::paintVertex(typename T::Vertex_handle vh)
 template <typename T>
 void 
 AlphaShapeGraphicsItem<T>::paint(QPainter *painter, 
-                                    const QStyleOptionGraphicsItem *option,
-                                    QWidget * widget)
+                                    const QStyleOptionGraphicsItem * /*option*/,
+                                    QWidget * /*widget*/)
 {
   painter->setPen(this->edgesPen());
 //   painter->drawRect(boundingRect());

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/src/CGAL/MP_Float.cpp $
-// $Id: MP_Float.cpp 57004 2010-06-23 08:32:08Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/src/CGAL/MP_Float.cpp $
+// $Id: MP_Float.cpp 63778 2011-05-31 13:03:27Z sloriot $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -21,7 +21,6 @@
 #include <CGAL/basic.h>
 #include <CGAL/MP_Float.h>
 #include <CGAL/Quotient.h>
-#include <CGAL/Root_of_2.h>
 #include <functional>
 #include <cmath>
 
@@ -416,47 +415,6 @@ INTERN_MP_FLOAT::to_double(const Quotient<MP_Float> &q)
     double scale = std::ldexp(1.0, n.second - d.second);
     return (n.first / d.first) * scale;
 }
-
-
-double
-INTERN_MP_FLOAT::to_double(const Root_of_2<MP_Float> &x)
-{
-  typedef MP_Float RT;
-  typedef Quotient<RT> FT;
-  typedef CGAL::Rational_traits< FT > Rational;
-  Rational r;
-  const RT r1 = r.numerator(x.alpha());
-  const RT d1 = r.denominator(x.alpha());
-
-  if(x.is_rational()) {
-    std::pair<double, int> n = to_double_exp(r1);
-    std::pair<double, int> d = to_double_exp(d1);
-    double scale = std::ldexp(1.0, n.second - d.second);
-    return (n.first / d.first) * scale;
-  }
-
-  const RT r2 = r.numerator(x.beta());
-  const RT d2 = r.denominator(x.beta());
-  const RT r3 = r.numerator(x.gamma());
-  const RT d3 = r.denominator(x.gamma());
-
-  std::pair<double, int> n1 = to_double_exp(r1);
-  std::pair<double, int> v1 = to_double_exp(d1);
-  double scale1 = std::ldexp(1.0, n1.second - v1.second);
-
-  std::pair<double, int> n2 = to_double_exp(r2);
-  std::pair<double, int> v2 = to_double_exp(d2);
-  double scale2 = std::ldexp(1.0, n2.second - v2.second);
-
-  std::pair<double, int> n3 = to_double_exp(r3);
-  std::pair<double, int> v3 = to_double_exp(d3);
-  double scale3 = std::ldexp(1.0, n3.second - v3.second);
-
-  return ((n1.first / v1.first) * scale1) + 
-         ((n2.first / v2.first) * scale2) *
-         std::sqrt((n3.first / v3.first) * scale3);
-}
-
 
 // FIXME : This function deserves proper testing...
 pair<double,double>

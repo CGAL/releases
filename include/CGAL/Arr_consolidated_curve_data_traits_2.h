@@ -1,4 +1,4 @@
-// Copyright (c) 2005, 2009  Tel-Aviv University (Israel).
+// Copyright (c) 2006,2007,2009,2010,2011 Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_consolidated_curve_data_traits_2.h $
-// $Id: Arr_consolidated_curve_data_traits_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_consolidated_curve_data_traits_2.h $
+// $Id: Arr_consolidated_curve_data_traits_2.h 64639 2011-07-06 11:41:06Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -82,14 +82,14 @@ public:
 
   // Base_traits_2 is Arr_curve_data_traits that already completes
   // incomplete tags
-  typedef typename Base_traits_2::Arr_left_side_category
-                                                      Arr_left_side_category;
-  typedef typename Base_traits_2::Arr_bottom_side_category
-                                                      Arr_bottom_side_category;
-  typedef typename Base_traits_2::Arr_top_side_category
-                                                      Arr_top_side_category;
-  typedef typename Base_traits_2::Arr_right_side_category
-                                                      Arr_right_side_category;
+  typedef typename Base_traits_2::Left_side_category
+                                                      Left_side_category;
+  typedef typename Base_traits_2::Bottom_side_category
+                                                      Bottom_side_category;
+  typedef typename Base_traits_2::Top_side_category
+                                                      Top_side_category;
+  typedef typename Base_traits_2::Right_side_category
+                                                      Right_side_category;
 };
 
 } //namespace CGAL

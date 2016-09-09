@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_on_surface_base_2.h $ 
-// $Id: Gps_on_surface_base_2.h 57194 2010-06-29 12:47:18Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_on_surface_base_2.h $ 
+// $Id: Gps_on_surface_base_2.h 64639 2011-07-06 11:41:06Z lrineau $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -545,7 +545,6 @@ protected:
 
     Compare_endpoints_xy_2 cmp_endpoints =
       m_traits->compare_endpoints_xy_2_object();
-    Construct_opposite_2 ctr_opp = m_traits->construct_opposite_2_object();
 
     for (Edge_const_iterator eci = arr.edges_begin();
          eci != arr.edges_end();

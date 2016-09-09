@@ -1,4 +1,4 @@
-// Copyright (c) 2002 Utrecht University (The Netherlands).
+// Copyright (c) 2002,2011 Utrecht University (The Netherlands).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_searching/include/CGAL/Search_traits_d.h $
-// $Id: Search_traits_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Spatial_searching/include/CGAL/Search_traits_d.h $
+// $Id: Search_traits_d.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -36,6 +36,9 @@ namespace CGAL {
     typedef typename K::Iso_box_d Iso_box_d;
     typedef typename K::FT FT;
     
+    Construct_cartesian_const_iterator_d construct_cartesian_const_iterator_d_object() const {
+       return Construct_cartesian_const_iterator_d();
+    }  
   };
 
   

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Filtered_kernel/include/CGAL/internal/Static_filters/tools.h $
-// $Id: tools.h 63033 2011-04-18 14:19:04Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/internal/Static_filters/tools.h $
+// $Id: tools.h 61824 2011-03-16 11:40:02Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion

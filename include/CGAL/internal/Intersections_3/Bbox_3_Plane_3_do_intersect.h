@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Plane_3_do_intersect.h $
-// $Id: Bbox_3_Plane_3_do_intersect.h 61682 2011-03-11 12:54:43Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Plane_3_do_intersect.h $
+// $Id: Bbox_3_Plane_3_do_intersect.h 61668 2011-03-10 21:15:14Z afabri $
 //
 //
 // Author(s)     : Camille Wormser, Jane Tournois, Pierre Alliez

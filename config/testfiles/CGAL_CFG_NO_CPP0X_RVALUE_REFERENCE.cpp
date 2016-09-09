@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE.cpp $
-// $Id: CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE.cpp 49022 2009-04-29 20:03:21Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE.cpp $
+// $Id: CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE.cpp 63062 2011-04-20 13:56:23Z lrineau $
 //
 // Author(s)     : Sylvain Pion
 
@@ -39,11 +39,19 @@ A f()
   return A();
 }
 
+#include <utility>
+
+A&& f(A&& a)
+{
+  return std::forward<A>(a);
+}
+
 int main()
 {
   A a = f();
   A b;
   b = a;
   b = f();
+  b = f(A());
   return 0;
 }

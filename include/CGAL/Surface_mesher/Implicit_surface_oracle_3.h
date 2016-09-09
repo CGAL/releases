@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Surface_mesher/Implicit_surface_oracle_3.h $
-// $Id: Implicit_surface_oracle_3.h 56293 2010-05-17 14:19:22Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Surface_mesher/include/CGAL/Surface_mesher/Implicit_surface_oracle_3.h $
+// $Id: Implicit_surface_oracle_3.h 64637 2011-07-06 11:11:58Z lrineau $
 //
 //
 // Author(s)     : Steve OUDOT, Laurent RINEAU
@@ -25,6 +25,7 @@
 #include <CGAL/point_generators_3.h>
 #include <CGAL/Surface_mesher/Sphere_oracle_3.h>
 #include <CGAL/Real_embeddable_traits.h>
+#include <CGAL/Surface_mesher/Profile_counter.h>
 
 #include <boost/mpl/has_xxx.hpp>
 

@@ -3,6 +3,7 @@ if( NOT CGAL_MACROS_FILE_INCLUDED )
 
   include("${CGAL_MODULES_DIR}/CGAL_VersionUtils.cmake")
   
+  # Probably unused. -- Laurent Rineau, 2011/07/21
   macro(assert _arg )
     if ( NOT ${_arg} )
       message( FATAL_ERROR "Variable ${_arg} must be defined" ) 
@@ -71,6 +72,7 @@ if( NOT CGAL_MACROS_FILE_INCLUDED )
     endif()
   endmacro()
 
+  # Probably unused. -- Laurent Rineau, 2011/07/21
   macro( at list idx var )
     list( LENGTH ${list} ${list}_length )
     if ( ${idx} LESS ${${list}_length} )
@@ -105,20 +107,34 @@ if( NOT CGAL_MACROS_FILE_INCLUDED )
   endmacro()
 
   function( CGAL_display_compiler_version )
-    message(STATUS "Compiler version:")
+    set(search_dirs "")
+    message("Compiler version:")
     set(version "Unknown compiler. Cannot display its version")
     foreach(flag "-V" "--version" "-v")
-      execute_process(COMMAND ${CMAKE_CXX_COMPILER} ${flag}
+      execute_process(COMMAND "${CMAKE_CXX_COMPILER}" ${flag}
         RESULT_VARIABLE ok
         OUTPUT_VARIABLE out_version
         ERROR_VARIABLE out_version
         TIMEOUT 5)
       if(ok EQUAL 0)
+        if("${out_version}" MATCHES "^clang")
+          execute_process(COMMAND "${CMAKE_CXX_COMPILER}" -print-search-dirs
+            RESULT_VARIABLE ok
+            OUTPUT_VARIABLE out_search_dirs
+            TIMEOUT 5)
+          if(ok EQUAL 0)
+            set(search_dirs "${out_search_dirs}")
+          endif()
+        endif()
         set(version "${out_version}")
         break()
       endif()
     endforeach()
-    message(STATUS "${version}")
+    message("${version}")
+    if(search_dirs)
+      message("Search dirs:")
+      message("${search_dirs}")
+    endif()
   endfunction()
   
   macro( get_dependency_version LIB )
@@ -136,10 +152,10 @@ if( NOT CGAL_MACROS_FILE_INCLUDED )
       try_run( ${LIB}_RUN_RES
                ${LIB}_COMPILE_RES 
                "${CMAKE_BINARY_DIR}"
-               "${CMAKE_SOURCE_DIR}/config/support/print_${LIB}_version.cpp"
-               CMAKE_FLAGS "-DINCLUDE_DIRECTORIES:STRING=${${PKG}_DEPENDENCY_INCLUDE_DIR};${${PKG}_INCLUDE_DIR}"
-                           "-DLINK_LIBRARIES:STRING=${${PKG}_DEPENDENCY_LIBRARIES};${${PKG}_LIBRARIES}"
-                           "-DLINK_DIRECTORIES:STRING=${${PKG}_DEPENDENCY_LIBRARY_DIR};${${PKG}_LIBRARY_DIR}"
+               "${CGAL_INSTALLATION_PACKAGE_DIR}/config/support/print_${LIB}_version.cpp"
+               CMAKE_FLAGS "-DINCLUDE_DIRECTORIES:STRING=${${PKG}_INCLUDE_DIR};${${PKG}_DEPENDENCY_INCLUDE_DIR}"
+                           "-DLINK_LIBRARIES:STRING=${${PKG}_LIBRARIES};${${PKG}_DEPENDENCY_LIBRARIES}"
+                           "-DLINK_DIRECTORIES:STRING=${${PKG}_LIBRARY_DIR};${${PKG}_DEPENDENCY_LIBRARY_DIR}"
                OUTPUT_VARIABLE ${LIB}_OUTPUT 
             )
             
@@ -227,6 +243,9 @@ if( NOT CGAL_MACROS_FILE_INCLUDED )
       endif()
     endif()
   endmacro()
+
+
+## All the following macros are probably unused. -- Laurent Rineau, 2011/07/21
   
   # Composes a tagged list of libraries: a list with interpersed keywords or tags
   # indicating that all following libraries, up to the next tag, are to be linked only for the

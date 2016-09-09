@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_circle_3.h $
-// $Id: internal_functions_on_circle_3.h 56812 2010-06-16 17:24:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_circle_3.h $
+// $Id: internal_functions_on_circle_3.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
 //             Sebastien Loriot, Julien Hazebrouck, Damien Leroy
@@ -71,7 +71,7 @@ namespace CGAL {
         return CGAL::THREADED;
       }
       
-      typename SK::Root_of_2 radius=CGAL::make_root_of_2(typename SK::FT(1),typename SK::FT(0),-sphere.squared_radius(),false);
+      typename SK::Root_of_2 radius=CGAL::make_sqrt(sphere.squared_radius());
       Circular_arc_point_3 north_pole( Root_for_spheres_2_3(sphere.center().x(),sphere.center().y(),sphere.center().z()+radius) );
       Circular_arc_point_3 south_pole( Root_for_spheres_2_3(sphere.center().x(),sphere.center().y(),sphere.center().z()-radius) );
 
@@ -163,7 +163,7 @@ namespace CGAL {
           typename SK::Vector_3 ortho=circle.center()-sphere.center();
           CGAL_kernel_precondition(ortho.z()!=0);
           bool is_north_pole=ortho.z()>0;
-          typename SK::Root_of_2 radius = make_root_of_2(typename SK::FT(1),typename SK::FT(0),-sphere.squared_radius(),!is_north_pole);
+          typename SK::Root_of_2 radius = (is_north_pole?1:-1)* make_sqrt(sphere.squared_radius());
           typename SK::Circular_arc_point_3 source_target(
             typename SK::Algebraic_kernel::Root_for_spheres_2_3(
               sphere.center().x(),

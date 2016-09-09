@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Spatial_sorting/include/CGAL/Hilbert_sort_base.h $
-// $Id: Hilbert_sort_base.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Spatial_sorting/include/CGAL/Hilbert_sort_base.h $
+// $Id: Hilbert_sort_base.h 63930 2011-06-07 08:20:54Z sloriot $
 //
 // Author(s)     : Christophe Delage
 
@@ -40,6 +40,6 @@ namespace internal {
     }
 }
 
-} //namespace CGAL
+} // namespace CGAL
 
 #endif//CGAL_HILBERT_SORT_BASE_H

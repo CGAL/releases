@@ -12,9 +12,9 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/GMP/Gmpfr_type_static.h $
-// $Id: Gmpfr_type_static.h 59002 2010-10-04 11:00:27Z lrineau $
+// $Id: Gmpfr_type_static.h 61900 2011-03-22 07:59:52Z penarand $
 //
-// Author: Luis Peñaranda <luis.penaranda@loria.fr>
+// Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
 // This file contains the arithmetic functions not members of the Gmpfr
 // class.

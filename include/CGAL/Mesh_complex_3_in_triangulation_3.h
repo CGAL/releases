@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_complex_3_in_triangulation_3.h $
-// $Id: Mesh_complex_3_in_triangulation_3.h 60688 2011-01-10 15:43:22Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Mesh_3/include/CGAL/Mesh_complex_3_in_triangulation_3.h $
+// $Id: Mesh_complex_3_in_triangulation_3.h 63062 2011-04-20 13:56:23Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -377,7 +377,7 @@ public:
   }
   
   /// Returns past-the-end iterator on facet of the 1D complex
-  Edges_in_complex_iterator edges_in_complex_end() const
+  Edges_in_complex_iterator edges_in_complex_end(const Curve_segment_index& = Curve_segment_index()) const
   {
     return CGAL::filter_iterator(this->triangulation().finite_edges_end(),
                                  Edge_iterator_not_in_complex(*this));

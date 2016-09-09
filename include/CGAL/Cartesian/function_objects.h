@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Cartesian_kernel/include/CGAL/Cartesian/function_objects.h $
-// $Id: function_objects.h 63033 2011-04-18 14:19:04Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Cartesian_kernel/include/CGAL/Cartesian/function_objects.h $
+// $Id: function_objects.h 64650 2011-07-06 12:50:44Z lrineau $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hoffmann
@@ -2870,15 +2870,15 @@ namespace CartesianKernelFunctors {
 
     Point_2
     operator()(Origin o) const
-    { return this->operator()(Return_base_tag(), o); }
+    { return Point_2(o); }
 
     Point_2
     operator()(const RT& x, const RT& y) const
-    { return this->operator()(Return_base_tag(), x, y); }
+    { return Point_2(x, y); }
 
     Point_2
     operator()(const RT& x, const RT& y, const RT& w) const
-    { return this->operator()(Return_base_tag(), x, y, w); }
+    { return Point_2(x, y, w); }
   };
 
   template <typename K>
@@ -2905,15 +2905,15 @@ namespace CartesianKernelFunctors {
 
     Point_3
     operator()(Origin o) const
-    { return this->operator()(Return_base_tag(), o); }
+    { return Point_3(o); }
 
     Point_3
     operator()(const RT& x, const RT& y, const RT& z) const
-    { return this->operator()(Return_base_tag(), x, y, z); }
+    { return Point_3(x, y, z); }
 
     Point_3
     operator()(const RT& x, const RT& y, const RT& z, const RT& w) const
-    { return this->operator()(Return_base_tag(), x, y, z, w); }
+    { return Point_3(x, y, z, w); }
   };
 
 

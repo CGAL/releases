@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/is_iterator.h $
-// $Id: is_iterator.h 60844 2011-01-18 10:50:05Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/STL_Extension/include/CGAL/is_iterator.h $
+// $Id: is_iterator.h 63750 2011-05-30 15:27:09Z glisse $
 // 
 //
 // Author(s)     : Marc Glisse
@@ -41,13 +41,15 @@ template <class T,class U> struct is_iterator_type_<T,U,true> :
 	//boost::is_base_of<U,typename std::iterator_traits<T>::iterator_category>
 	boost::is_convertible<typename std::iterator_traits<T>::iterator_category,U>
 	{};
+
 }
 
+// NOTE: we don't want the real std::decay or functions are included
 template <class T> struct is_iterator :
-	internal::is_iterator_<typename boost::decay<T>::type> {};
+	internal::is_iterator_<typename boost::remove_cv<typename boost::remove_reference<T>::type>::type> {};
 
 template <class T,class Tag> struct is_iterator_type :
-	internal::is_iterator_type_<typename boost::decay<T>::type,Tag> {};
+	internal::is_iterator_type_<typename boost::remove_cv<typename boost::remove_reference<T>::type>::type,Tag> {};
 
 }
 

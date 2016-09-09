@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Gmpz.h $
-// $Id: Gmpz.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/include/CGAL/Gmpz.h $
+// $Id: Gmpz.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -36,20 +36,9 @@
 #include <string>
 #include <locale>
 
-#include <CGAL/Root_of_traits.h>
 #include <CGAL/Modular_traits.h>
 
 namespace CGAL {
-
-class Gmpq;
-
-template<>
-struct Root_of_traits<Gmpz>: public internal::Root_of_traits_helper<Gmpz,
-    Euclidean_ring_tag>{
-  typedef Gmpq RootOf_1;
-  typedef Gmpq Root_of_1;
-};
-
 
 // Algebraic structure traits
 template <> class Algebraic_structure_traits< Gmpz >

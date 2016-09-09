@@ -1,4 +1,4 @@
-// Copyright (c) 2001  Max-Planck-Institute Saarbruecken (Germany).
+// Copyright (c) 2001,2011  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_3/include/CGAL/convex_hull_incremental_3.h $
-// $Id: convex_hull_incremental_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Convex_hull_3/include/CGAL/convex_hull_incremental_3.h $
+// $Id: convex_hull_incremental_3.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Stefan Schirra <Stefan.Schirra@mpi-sb.mpg.de>
@@ -41,6 +41,7 @@ convex_hull_incremental_3(InputIterator first, InputIterator beyond,
   ChullType CH(3);
   for ( ; first != beyond ; ++first)  CH.insert(*first);
   if ( test_correctness ) CGAL_ch_assertion(CH.is_valid());
+  P.clear();
   CGAL::convex_hull_d_to_polyhedron_3(CH,P);
 }
 

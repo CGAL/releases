@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/PointsInKdTreeGraphicsItem.h $
-// $Id: PointsInKdTreeGraphicsItem.h 60332 2010-12-13 19:28:34Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/PointsInKdTreeGraphicsItem.h $
+// $Id: PointsInKdTreeGraphicsItem.h 64005 2011-06-09 10:16:29Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -150,7 +150,7 @@ template <typename KdTree>
 void 
 PointsInKdTreeGraphicsItem<KdTree>::paint(QPainter *painter, 
                                     const QStyleOptionGraphicsItem *option,
-                                    QWidget * widget)
+                                    QWidget * /*widget*/)
 {
   Iso_rectangle_2 isor = convert(option->exposedRect);
   Fuzzy_iso_box range(isor.vertex(0), isor.vertex(2));

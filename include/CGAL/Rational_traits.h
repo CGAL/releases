@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Algebraic_foundations/include/CGAL/Rational_traits.h $
-// $Id: Rational_traits.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_foundations/include/CGAL/Rational_traits.h $
+// $Id: Rational_traits.h 61559 2011-03-08 10:27:31Z glisse $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -28,6 +28,8 @@
 
 #include <CGAL/number_type_basic.h>
 #include <CGAL/Fraction_traits.h>
+#include <CGAL/is_convertible.h>
+#include <boost/utility/enable_if.hpp>
 
 namespace CGAL {
 
@@ -68,10 +70,13 @@ public:
         return den; 
     }
     
-    Rational make_rational(const RT & n, const RT & d) const
+    template<class N,class D>
+    Rational make_rational(const N& n, const D& d,typename boost::enable_if_c<is_implicit_convertible<N,RT>::value&&is_implicit_convertible<D,RT>::value,int>::type=0) const
     { return Compose()(n,d); } 
-    Rational make_rational(const Rational & n, const Rational & d) const
-    { return n/d; } 
+
+    template<class N,class D>
+    Rational make_rational(const N& n, const D& d,typename boost::enable_if_c<!is_implicit_convertible<N,RT>::value||!is_implicit_convertible<D,RT>::value,int>::type=0) const
+    { return n/d; } // Assume that n or d is already a fraction
 };
 }// namespace internal
 

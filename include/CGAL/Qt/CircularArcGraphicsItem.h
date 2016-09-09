@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/CircularArcGraphicsItem.h $
-// $Id: CircularArcGraphicsItem.h 56114 2010-05-11 09:11:59Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/CircularArcGraphicsItem.h $
+// $Id: CircularArcGraphicsItem.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -123,8 +123,8 @@ CircularArcGraphicsItem<CK>::boundingRect() const
 template <typename CK>
 void 
 CircularArcGraphicsItem<CK>::paint(QPainter *painter, 
-                                    const QStyleOptionGraphicsItem *option,
-                                    QWidget * widget)
+                                    const QStyleOptionGraphicsItem * /*option*/,
+                                    QWidget * /*widget*/)
 {
   painter->setPen(this->edgesPen());
   painterostream = PainterOstream<CK>(painter);

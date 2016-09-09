@@ -11,10 +11,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/RS/Algebraic_kernel_rs_1.h $
-// $Id: Algebraic_kernel_rs_1.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_kernel_d/include/CGAL/RS/Algebraic_kernel_rs_1.h $
+// $Id: Algebraic_kernel_rs_1.h 63062 2011-04-20 13:56:23Z lrineau $
 //
-// Author: Luis Peñaranda <luis.penaranda@loria.fr>
+// Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
 #ifndef CGAL_RS_ALGEBRAIC_KERNEL_RS_1
 #define CGAL_RS_ALGEBRAIC_KERNEL_RS_1
@@ -22,7 +22,7 @@
 #include <CGAL/Polynomial.h>
 #include <CGAL/Polynomial_traits_d.h>
 #include <CGAL/Polynomial_type_generator.h>
-#include <CGAL/RS/functors.h>
+#include <CGAL/RS/functors_1.h>
 
 template <class _C,class _G=CGAL::Rsgcd_1>
 struct Algebraic_kernel_rs_1{

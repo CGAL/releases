@@ -1,4 +1,4 @@
-// Copyright (c) 2006 Tel-Aviv University (Israel).
+// Copyright (c) 2006,2007,2009,2010,2011 Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arrangement_2.h $
-// $Id: Arrangement_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arrangement_2.h $
+// $Id: Arrangement_2.h 64639 2011-07-06 11:41:06Z lrineau $
 // 
 //
 // Author(s): Ron Wein          <wein@post.tau.ac.il>
@@ -164,18 +164,13 @@ public:
   ///! \name Specialized access methods.
   //@{
 
-  /*! Get the geometry-traits class (for backward compatibility). */
+  /*! Obtain the geometry-traits class. */
   const Traits_2* traits () const
   {
     return (this->geometry_traits());
   }
 
-  Traits_2* traits ()
-  {
-    return (this->geometry_traits());
-  }
-
-  /*! Get the number of vertices at infinity. */
+  /*! Obtain the number of vertices at infinity. */
   Size number_of_vertices_at_infinity () const
   {
     // The vertices at infinity are valid, but not concrete:
@@ -183,7 +178,7 @@ public:
             this->topology_traits()->number_of_concrete_vertices());
   }
 
-  /*! Get the unbounded face (non-const version). */
+  /*! Obtain the unbounded face (non-const version). */
   Face_handle unbounded_face ()
   {
     // The fictitious un_face contains all other valid faces in a single

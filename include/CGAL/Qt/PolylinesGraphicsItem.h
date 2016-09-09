@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/PolylinesGraphicsItem.h $
-// $Id: PolylinesGraphicsItem.h 58769 2010-09-22 06:15:46Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/PolylinesGraphicsItem.h $
+// $Id: PolylinesGraphicsItem.h 64637 2011-07-06 11:11:58Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -124,8 +124,8 @@ PolylinesGraphicsItem<P>::boundingRect() const
 template <typename P>
 void 
 PolylinesGraphicsItem<P>::paint(QPainter *painter, 
-                                const QStyleOptionGraphicsItem *option,
-                                QWidget * widget)
+                                const QStyleOptionGraphicsItem * /*option*/,
+                                QWidget * /*widget*/)
 {
 
   painterostream = PainterOstream<Traits>(painter);

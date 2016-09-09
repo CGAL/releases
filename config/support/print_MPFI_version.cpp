@@ -12,9 +12,9 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Installation/config/support/print_MPFI_version.cpp $
-// $Id: print_MPFI_version.cpp 54792 2010-03-17 14:28:15Z penarand $
+// $Id: print_MPFI_version.cpp 61901 2011-03-22 08:07:15Z penarand $
 //
-// Author: Luis Peñaranda <luis.penaranda@loria.fr>
+// Author: Luis Peñaranda <luis.penaranda@gmx.com>
 
 #include <iostream>
 #include <string>

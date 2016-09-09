@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Sqrt_extension_2.h $
-// $Id: Sqrt_extension_2.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Sqrt_extension_2.h $
+// $Id: Sqrt_extension_2.h 63778 2011-05-31 13:03:27Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -23,7 +23,7 @@
 #ifndef CGAL_SEGMENT_DELAUNAY_GRAPH_2_SQRT_EXTENSION_2_H
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_SQRT_EXTENSION_2_H
 
-#include <CGAL/Segment_Delaunay_graph_2/Sqrt_extension_1.h>
+#include <CGAL/Sqrt_extension.h>
 
 
 
@@ -36,7 +36,7 @@ class Sqrt_extension_2
 {
 private:
   typedef Sqrt_extension_2<NT>  Self;
-  typedef Sqrt_extension_1<NT>  Sqrt_1;
+  typedef Sqrt_extension<NT,NT,Tag_true>  Sqrt_1;
 
   NT a0_, a1_, a2_, a3_;
   NT A_, B_;

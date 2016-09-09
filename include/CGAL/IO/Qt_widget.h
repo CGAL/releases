@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Qt_widget/include/CGAL/IO/Qt_widget.h $
-// $Id: Qt_widget.h 61302 2011-02-18 15:37:40Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Qt_widget/include/CGAL/IO/Qt_widget.h $
+// $Id: Qt_widget.h 63000 2011-04-15 09:12:06Z eric $
 // 
 //
 // Author(s)     : Laurent Rineau
@@ -39,7 +39,7 @@
 #include <qpixmap.h>
 #include <qprinter.h>
 
-#include <CGAL/auto_link/CGALQt.h>
+#include <CGAL/auto_link/CGALQt3.h>
 
 namespace CGAL {
 

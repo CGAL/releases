@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/Sqrt_extension/Algebraic_structure_traits.h $
-// $Id: Algebraic_structure_traits.h 59547 2010-11-07 07:53:01Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/include/CGAL/Sqrt_extension/Algebraic_structure_traits.h $
+// $Id: Algebraic_structure_traits.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -172,8 +172,6 @@ class Sqrt_extension_algebraic_structure_traits_base< Type,
       return Type(1)/x ;
     }
   };
-  
-  
 };
 
 template< class Type >
@@ -205,13 +203,13 @@ class Sqrt_extension_algebraic_structure_traits_base< Type,
 } // namespace internal
 
 
-template< class COEFF_, class ROOT_>
-class Algebraic_structure_traits< Sqrt_extension< COEFF_, ROOT_ > >
+template< class COEFF_, class ROOT_, class ACDE_TAG,class FP_TAG>
+class Algebraic_structure_traits< Sqrt_extension< COEFF_, ROOT_, ACDE_TAG,FP_TAG > >
     : public internal::Sqrt_extension_algebraic_structure_traits_base<
-      Sqrt_extension< COEFF_, ROOT_ >,
+      Sqrt_extension< COEFF_, ROOT_, ACDE_TAG,FP_TAG >,
       typename Algebraic_structure_traits< COEFF_ >::Algebraic_category > {
 public:
-    typedef Sqrt_extension< COEFF_, ROOT_ > Type;
+  typedef Sqrt_extension< COEFF_, ROOT_, ACDE_TAG,FP_TAG > Type;
 
     // Tag_true if COEFF and ROOT are exact
     typedef typename ::boost::mpl::if_c<

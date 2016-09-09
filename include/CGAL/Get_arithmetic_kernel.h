@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arithmetic_kernel/include/CGAL/Get_arithmetic_kernel.h $
-// $Id: Get_arithmetic_kernel.h 58703 2010-09-20 12:12:46Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arithmetic_kernel/include/CGAL/Get_arithmetic_kernel.h $
+// $Id: Get_arithmetic_kernel.h 63778 2011-05-31 13:03:27Z sloriot $
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-inf.mpg.de> 
 //
@@ -28,7 +28,7 @@
 #include  <CGAL/basic.h>
 
 namespace CGAL {
-template< class NT > struct Get_arithmetic_kernel;
+template< class NT > struct Get_arithmetic_kernel{};
 } //namespace CGAL
 
 #endif // CGAL_GET_ARITHMETIC_KERNEL_H

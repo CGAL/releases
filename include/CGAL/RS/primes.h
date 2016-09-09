@@ -12,9 +12,9 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/RS/primes.h $
-// $Id: primes.h 59002 2010-10-04 11:00:27Z lrineau $
+// $Id: primes.h 61907 2011-03-22 10:11:01Z penarand $
 //
-// Author: Luis Peñaranda <luis.penaranda@loria.fr>
+// Author: Luis PeÃ±aranda <luis.penaranda@gmx.com>
 
 #ifndef CGAL_RS__PRIMES_H
 #define CGAL_RS__PRIMES_H
@@ -140,5 +140,3 @@ class Primes:public Crt{
 } // namespace CGAL
 
 #endif  // CGAL_RS__PRIMES_H
-
-// vim: tabstop=4: softtabstop=4: smarttab: shiftwidth=4: expandtab

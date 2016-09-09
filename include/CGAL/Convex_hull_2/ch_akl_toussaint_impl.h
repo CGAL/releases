@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_2/include/CGAL/Convex_hull_2/ch_akl_toussaint_impl.h $
-// $Id: ch_akl_toussaint_impl.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Convex_hull_2/include/CGAL/Convex_hull_2/ch_akl_toussaint_impl.h $
+// $Id: ch_akl_toussaint_impl.h 63877 2011-06-03 16:42:30Z lrineau $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -98,9 +98,9 @@ ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
   std::sort( successor(region2.begin() ), region2.end(), 
              ch_traits.less_xy_2_object() );
   std::sort( successor(region3.begin() ), region3.end(),
-             bind(ch_traits.less_xy_2_object(), _2, _1) );
+             boost::bind(ch_traits.less_xy_2_object(), _2, _1) );
   std::sort( successor(region4.begin() ), region4.end(), 
-             bind(ch_traits.less_xy_2_object(), _2, _1) );
+             boost::bind(ch_traits.less_xy_2_object(), _2, _1) );
 
   if (! equal_points(*w,*s) )
   {

@@ -49,11 +49,11 @@ Ideally, installing <span class="textsc">Cgal</span> amounts to:
 <P>
 
 <pre class="Verbatim">
-  cd  CGAL-3.8                                # go to CGAL directory
+  cd  CGAL-3.9                                # go to CGAL directory
   cmake .                                     # configure CGAL
   make                                        # build the CGAL libraries
   cd examples/Straight_skeleton_2             # go to an example directory
-  cmake -DCGAL_DIR=$HOME/CGAL-3.8 .           # configure the examples
+  cmake -DCGAL_DIR=$HOME/CGAL-3.9 .           # configure the examples
   make                                        # build the examples 
 </pre>
 <P>
@@ -68,7 +68,7 @@ generator, and third party libraries. That's what this manual is about.
 <P>
 
 In order to build the <span class="textsc">Cgal</span> libraries, you need a C<TT>++</TT> compiler.  
-<span class="textsc">Cgal</span>&nbsp;3.8 is supported for the following compilers/operating systems:
+<span class="textsc">Cgal</span>&nbsp;3.9 is supported for the following compilers/operating systems:
 <P>
 
 <CENTER>
@@ -167,6 +167,10 @@ Since <TT>Boost.Thread</TT> is required, make sure to either install the precomp
 libraries for your compiler or to build <TT>libboost-thread</TT>.
 <P>
 
+As on Windows there is no canonical directory for where to find <span class="textsc">Boost</span> we recommend that you define the environment variable <I>BOOST_ROOT</I> and set it 
+to  where you have installed <span class="textsc">Boost</span>, that is it should be something like <A HREF="C:\boost\boost_1_41_0"><TT>C:\boost\boost_1_41_0</TT></A>.
+<P>
+
 <A NAME="thirdparty:MPFR"></A><a name="Subsection_4.3"></a>
 <h3>4.3&nbsp;&nbsp;&nbsp;GMP and MPFR <A NAME="thirdparty:GMP"></A> </h3>
 <P>
@@ -189,7 +193,7 @@ installed is recommended. These libraries can be obtained from
 As Visual C<TT>++</TT> is not properly
 supported by the <span class="textsc">Gmp</span> and <span class="textsc">Mpfr</span> projects, we provide precompiled versions
 of <span class="textsc">Gmp</span> and <span class="textsc">Mpfr</span>, which can be downloaded with the installer
-<TT>CGAL-3.8-Setup.exe</TT>.
+<TT>CGAL-3.9-Setup.exe</TT>.
 <P>
 
 <A NAME="thirdparty:Core"></A><a name="Subsection_4.4"></a>
@@ -239,7 +243,7 @@ In <span class="textsc">Cgal</span> RS is used by one model of the Algebraic Ker
 <P>
 
 RS is freely distributable for non-commercial use. You can download it
-from <A HREF="http://vegas.loria.fr/rs/"><TT>http://vegas.loria.fr/rs/</TT></A>. The library RS needs <span class="textsc">Mpfi</span>, which can be downloaded from <A HREF="http://gforge.inria.fr/projects/mpfi/"><TT>http://gforge.inria.fr/projects/mpfi/</TT></A>. 
+from <A HREF="http://vegas.loria.fr/rs/"><TT>http://vegas.loria.fr/rs/</TT></A>. The library RS needs <span class="textsc">Mpfi</span>, which can be downloaded from <A HREF="http://mpfi.gforge.inria.fr/"><TT>http://mpfi.gforge.inria.fr/</TT></A>. 
 Version 1.4 or higher is recommended.
 <P>
 
@@ -294,7 +298,7 @@ It also contains a complete <span class="textsc">lapack</span> implementation.
 As Visual&nbsp;C<TT>++</TT> is not properly
 supported by the <span class="textsc">Taucs</span> project, we provide a precompiled version of
 <span class="textsc">Taucs</span>, which can be downloaded with the installer
-<TT>CGAL-3.8-Setup.exe</TT>.
+<TT>CGAL-3.9-Setup.exe</TT>.
 <P>
 
 <I>CAUTION:</I> Since version 3.3.1, <span class="textsc">Cgal</span> is no longer compatible with the official
@@ -416,17 +420,17 @@ It can be downloaded from <A HREF="http://esbtl.sourceforge.net/"><TT>http://esb
 The <span class="textsc">Cgal</span> library can be downloaded from  <A HREF="http://www.cgal.org/download.html"><TT>http://www.cgal.org/download.html</TT></A>.
 <P>
 
-After you have downloaded the file <TT>CGAL-3.8.tar.gz</TT> containing the
+After you have downloaded the file <TT>CGAL-3.9.tar.gz</TT> containing the
 <span class="textsc">Cgal</span> sources, you have to unpack it. Under a Unix-like shell, use the
 command:
 <P>
 
 <pre class="Verbatim">
-      tar xzf CGAL-3.8.tar.gz
+      tar xzf CGAL-3.9.tar.gz
 </pre>
 <P>
 
-When you are on Windows you may download and run the <TT>CGAL-3.8-Setup.exe</TT>. It is a
+When you are on Windows you may download and run the <TT>CGAL-3.9-Setup.exe</TT>. It is a
 self extracting executable that installs the <span class="textsc">Cgal</span> source, and that allows
 you to select and download some precompiled third party libraries.
 <P>
@@ -528,7 +532,7 @@ which <span class="textsc">Cgal</span> libraries you want to build. Gathering
 all this information is called <I>configuration</I>.
 <P>
 
-For CGAL-3.8, the configuration is generated with CMake, a
+For CGAL-3.9, the configuration is generated with CMake, a
 cross-platform build system.  This manual explains only those features of
 CMake which are needed in order to build <span class="textsc">Cgal</span>. Please refer to the CMake 
 documentation at <A HREF="http://www.cmake.org/"><TT>http://www.cmake.org/</TT></A> for further details.
@@ -548,7 +552,7 @@ argument the root directory of <span class="textsc">Cgal</span>. For example:
 <P>
 
 <pre class="Verbatim">
-  cd  CGAL-3.8
+  cd  CGAL-3.9
   cmake-gui . # Notice the dot to indicate the current directory.
 </pre>
 <P>
@@ -577,7 +581,7 @@ Alternatively, you can run the command-line tool called
 <P>
 
 <pre class="Verbatim">
-  cd  CGAL-3.8
+  cd  CGAL-3.9
   cmake . # Notice the dot to indicate the current directory.
 </pre>
 <P>
@@ -608,7 +612,7 @@ build files). For example, the following generates solution files for use in Vis
 <P>
 
 <pre class="Verbatim">
-  cd CGAL-3.8
+  cd CGAL-3.9
   cmake -G&quot;Visual Studio 9 2008&quot; . 
 </pre>
 <P>
@@ -620,7 +624,7 @@ specify the desired compiler in the call to CMake, as in this example:
 <P>
 
 <pre class="Verbatim">
-  cd CGAL-3.8
+  cd CGAL-3.9
   cmake -DCMAKE_CXX_COMPILER:FILEPATH=g++-3.4 . 
 </pre>
 <P>
@@ -737,7 +741,7 @@ If you turn off the configuration of a library, you can still configure it manua
 <P>
 
 <pre class="Verbatim">
-  cd CGAL-3.8/src/CGALQt4 
+  cd CGAL-3.9/src/CGALQt4 
   cmake . # configures only the CGAL_Qt4 library
 </pre>
 <P>
@@ -808,12 +812,12 @@ You can, for example, generate subdirectories <TT>CGAL-x.y</TT><TT>/cmake/platfo
 <P>
 
 <pre class="Verbatim">
-mkdir CGAL-3.8/cmake/platforms/debug
-cd CGAL-3.8/cmake/platforms/debug
+mkdir CGAL-3.9/cmake/platforms/debug
+cd CGAL-3.9/cmake/platforms/debug
 cmake -DCMAKE_BUILD_TYPE=Debug ../../..
 
-mkdir CGAL-3.8/cmake/platforms/release
-cd CGAL-3.8/cmake/platforms/release
+mkdir CGAL-3.9/cmake/platforms/release
+cd CGAL-3.9/cmake/platforms/release
 cmake -DCMAKE_BUILD_TYPE=Release ../../..
 </pre>
 <P>
@@ -836,7 +840,7 @@ succeeding build step as follows:
 
 <pre class="Verbatim">
 
-cd CGAL-3.8
+cd CGAL-3.9
 
 # build all the selected libraries at once
 
@@ -945,7 +949,7 @@ installation in a <span class="textsc">Unix</span>-like environment:
 
 <pre class="Verbatim">
 
-cd CGAL-3.8
+cd CGAL-3.9
 
 cmake .      # configure
 make         # compile
@@ -971,7 +975,7 @@ variable explicitly <I>at the configuration time</I> and not when executing the 
 <P>
 
 The file <TT>CGALConfig.cmake</TT> is installed by default in
-<TT>$CMAKE_INSTALLED_PREFIX/lib/CGAL-3.8</TT>.
+<TT>$CMAKE_INSTALLED_PREFIX/lib/CGAL-3.9</TT>.
 <P>
 
 <a name="Section_9"></a>
@@ -993,8 +997,8 @@ to indicate the location of that config file in the CMake variable
 
 <pre class="Verbatim">
 
-cd CGAL-3.8/examples/Straight_skeleton_2
-cmake -DCGAL_DIR=$HOME/CGAL-3.8 .
+cd CGAL-3.9/examples/Straight_skeleton_2
+cmake -DCGAL_DIR=$HOME/CGAL-3.9 .
 make
 
 </pre>
@@ -1043,13 +1047,13 @@ controlling variable right up front:
 
 <pre class="Verbatim">
 
-cd CGAL-3.8
+cd CGAL-3.9
 
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-g .
 
-cd CGAL-3.8/examples/Straight_skeleton_2
+cd CGAL-3.9/examples/Straight_skeleton_2
 
-cmake -DCGAL_DIR=CGAL-3.8 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O2 -DCGAL_DONT_OVERRIDE_CMAKE_FLAGS=TRUE . 
+cmake -DCGAL_DIR=CGAL-3.9 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O2 -DCGAL_DONT_OVERRIDE_CMAKE_FLAGS=TRUE . 
 
 </pre>
 
@@ -1063,9 +1067,9 @@ cmake -DCGAL_DIR=CGAL-3.8 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O2 -DCGAL_
 
 For relatively simple programs the Bourne-shell script <TT>cgal_create_cmake_script</TT> can be used
 (a short description of this file is provided in Appendix <A HREF="Chapter_installation_manual.html#sec:create_cgal_cmake_script">C.1</A>).
-More generally, within a cmake script, once CGAL has been found using <TT>find_package</TT>
+More generally, within a cmake script, once <span class="textsc">Cgal</span> has been found using <TT>find_package</TT>
 the variable <TT>CGAL_USE_FILE</TT> is set to a compilation environment CMake file. Including
-this file within a cmake script sets up include paths and libraries to link with of CGAL and third party libraries.
+this file within a cmake script sets up include paths and libraries to link with of <span class="textsc">Cgal</span> and third party libraries.
 <P>
 
 <a name="Section_10"></a>
@@ -1538,7 +1542,7 @@ CMake
 <h4>MPFI library</h4>
 <P>
 
-CGAL provides a number type based on this library, but the CGAL library
+<span class="textsc">Cgal</span> provides a number type based on this library, but the <span class="textsc">Cgal</span> library
 itself does not depend on MPFI. This means that this library must be
 configured when compiling an application that uses the above number type.
 <P>
@@ -2267,7 +2271,7 @@ cmake -DWITH_examples=false
 -- uic executable:     C:/Work/Downloaded/Libraries/qt-win-opensource-src-4.4.1/bin/uic.exe
 -- Configuring done
 -- Generating done
--- Build files have been written to: C:/Work/Active/GeometryFactory/CGAL/Autotest/CGAL-3.8/cmake/platforms/a
+-- Build files have been written to: C:/Work/Active/GeometryFactory/CGAL/Autotest/CGAL-3.9/cmake/platforms/a
 </pre>
 <P>
 
@@ -2330,7 +2334,7 @@ The Bourne-shell script <TT>cgal_create_cmake_script</TT> is contained in the
 <TT>cgal_create_cmake_script</TT> in an application directory creates a
 <TT>CMakeLists.txt</TT> containing rules for every <TT>*.cpp</TT> file
 there. Currently, that script only works for applications that only need
-the CGAL and CGALCore libraries.
+the <span class="textsc">Cgal</span> and CGALCore libraries.
 <P>
 
 <HR><H3>Footnotes</H3>
@@ -2344,7 +2348,7 @@ the CGAL and CGALCore libraries.
 <A HREF="http://software.intel.com/en-us/intel-compilers/"><TT>http://software.intel.com/en-us/intel-compilers/</TT></A>
 <TR><TD VALIGN=TOP>
         <A NAME="Footnote_3">&nbsp;<SUP>3</SUP>&nbsp;</A><TD VALIGN=TOP>
-<A HREF="http://msdn.microsoft.com/visualc/"><TT>http://msdn.microsoft.com/visualc/</TT></A>
+<A HREF="http://msdn.microsoft.com/en-us/visualc/"><TT>http://msdn.microsoft.com/en-us/visualc/</TT></A>
 <TR><TD VALIGN=TOP>
         <A NAME="Footnote_4">&nbsp;<SUP>4</SUP>&nbsp;</A><TD VALIGN=TOP>
 <A HREF="http://www.cs.nyu.edu/exact/"><TT>http://www.cs.nyu.edu/exact/</TT></A>
@@ -2376,6 +2380,6 @@ the '<TT>optimized</TT>' and '<TT>debug</TT>' tags should appear verbatim.
 <div class="NavAddress">
 <SMALL><a href="http://www.cgal.org" target="_top">CGAL Open Source Project</a>.
 Separate Build.
-18 April 2011.</SMALL>
+3 August 2011.</SMALL>
 </div>
 </body>  </html>

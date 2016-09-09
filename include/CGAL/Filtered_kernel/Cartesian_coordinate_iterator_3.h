@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_3.h $
-// $Id: Cartesian_coordinate_iterator_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Filtered_kernel/include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_3.h $
+// $Id: Cartesian_coordinate_iterator_3.h 64595 2011-07-05 12:16:28Z lrineau $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -65,7 +65,7 @@ public:
     if (const P* const* p = boost::get<const P*>(&var))
       return (*p)->cartesian(index);
     const V* const* v = boost::get<const V*>(&var);
-    CGAL_assertion(v);
+    CGAL_assertion(v != 0);
     return (*v)->cartesian(index);
   }
 

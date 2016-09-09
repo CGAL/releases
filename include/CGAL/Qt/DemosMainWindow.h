@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/DemosMainWindow.h $
-// $Id: DemosMainWindow.h 58045 2010-08-13 14:38:51Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/DemosMainWindow.h $
+// $Id: DemosMainWindow.h 64055 2011-06-10 17:14:27Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -26,6 +26,8 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <CGAL/auto_link/Qt4.h>
+#include <CGAL/Qt/CGAL_Qt4_config.h>
+#include <CGAL/Qt/resources.h>
 
 // forward declaration
 class QLabel;
@@ -39,7 +41,7 @@ namespace Qt {
 // forward declaration
 class GraphicsViewNavigation;
 
-class DemosMainWindow : public QMainWindow 
+class CGAL_QT4_EXPORT DemosMainWindow : public QMainWindow 
 {
   Q_OBJECT
 

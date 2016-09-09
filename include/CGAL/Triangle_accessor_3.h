@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Triangle_accessor_3.h $
-// $Id: Triangle_accessor_3.h 59062 2010-10-06 13:49:59Z sloriot $
+// $Id: Triangle_accessor_3.h 61926 2011-03-23 11:42:49Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -29,7 +29,11 @@
 namespace CGAL {
 
 template <typename Polyhedron, typename K>
-class Triangle_accessor_3 {};
+class Triangle_accessor_3 {
+  // This class template should never be instantiated, but only its
+  // specializations.
+  typedef typename Polyhedron::Error_bad_match Error_bad_match;
+};
 
 
 template < class K,class Items,

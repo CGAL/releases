@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_ring_C2.h $
-// $Id: Voronoi_vertex_ring_C2.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_ring_C2.h $
+// $Id: Voronoi_vertex_ring_C2.h 63778 2011-05-31 13:03:27Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -717,7 +717,7 @@ private:
   Orientation
   orientation(const Line_2& l, Type) const
   {
-    Sqrt_1 Zero(RT(0), RT(0), ux.a().c());
+    Sqrt_1 Zero(RT(0), RT(0), ux.a().root());
 
     Sqrt_1 a = l.a() + Zero;
     Sqrt_1 b = l.b() + Zero;
@@ -837,7 +837,7 @@ private:
     CGAL_precondition( st.is_point() );
     Point_2 t = st.point();
 
-    Sqrt_1 Zero(RT(0), RT(0), ux.a().c());
+    Sqrt_1 Zero(RT(0), RT(0), ux.a().root());
 
     Point_2 pref = p_ref().point();
 
@@ -868,7 +868,7 @@ private:
 
     Point_2 t = st.point();
 
-    Sqrt_1 Zero(RT(0), RT(0), ux.a().c());
+    Sqrt_1 Zero(RT(0), RT(0), ux.a().root());
 
     RT a1, b1, c1;
     compute_supporting_line(p_.supporting_site(), a1, b1, c1);
@@ -977,7 +977,7 @@ private:
   Oriented_side
   oriented_side(const Line_2& l, const Point_2& p, Type) const
   {
-    Sqrt_1 Zero(RT(0), RT(0), ux.a().c());
+    Sqrt_1 Zero(RT(0), RT(0), ux.a().root());
     Sqrt_1 px = p.x() + Zero;
     Sqrt_1 py = p.y() + Zero;
 
@@ -1036,7 +1036,7 @@ private:
 
   Sign incircle(const Line_2& l, PSS_Type) const
   {
-    Sqrt_1 Zero(RT(0), RT(0), ux.a().c());
+    Sqrt_1 Zero(RT(0), RT(0), ux.a().root());
 
     Point_2 pref = p_ref().point();
 
@@ -1062,7 +1062,7 @@ private:
 
   Sign incircle(const Line_2& l, SSS_Type) const
   {
-    Sqrt_1 Zero(RT(0), RT(0), ux.a().c());
+    Sqrt_1 Zero(RT(0), RT(0), ux.a().root());
 
     RT a1, b1, c1;
     compute_supporting_line(p_.supporting_site(), a1, b1, c1);

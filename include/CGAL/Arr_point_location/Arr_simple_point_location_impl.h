@@ -1,4 +1,4 @@
-// Copyright (c) 2005  Tel-Aviv University (Israel).
+// Copyright (c) 2006,2007,2008,2009,2010,2011 Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_simple_point_location_impl.h $
-// $Id: Arr_simple_point_location_impl.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_simple_point_location_impl.h $
+// $Id: Arr_simple_point_location_impl.h 64639 2011-07-06 11:41:06Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -122,10 +122,6 @@ Object Arr_simple_point_location<Arrangement>::_base_vertical_ray_shoot
   const Comparison_result curve_above_under = (shoot_up ? LARGER : SMALLER);
 
   // Go over all halfedges in the arrangement.
-  typename Traits_adaptor_2::Is_in_x_range_2      is_in_x_range =
-                                  geom_traits->is_in_x_range_2_object();
-  typename Traits_adaptor_2::Compare_y_at_x_2     compare_y_at_x =
-                                  geom_traits->compare_y_at_x_2_object();
   typename Traits_adaptor_2::Is_vertical_2        is_vertical =
                                   geom_traits->is_vertical_2_object();
   typename Traits_adaptor_2::Compare_y_position_2 compare_y_position =
@@ -134,8 +130,6 @@ Object Arr_simple_point_location<Arrangement>::_base_vertical_ray_shoot
                                   geom_traits->compare_y_at_x_right_2_object();
   typename Traits_adaptor_2::Compare_y_at_x_left_2   compare_y_at_x_left =
                                   geom_traits->compare_y_at_x_left_2_object();
-  typename Traits_adaptor_2::Compare_xy_2            compare_xy =
-                                  geom_traits->compare_xy_2_object();
 
   typename Dcel::Edge_const_iterator  eit = 
                                         top_traits->dcel().edges_begin();
