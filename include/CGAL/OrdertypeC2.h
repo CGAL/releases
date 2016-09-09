@@ -14,7 +14,8 @@ CGAL_Ordertype CGAL_ordertype(const FT &px, const FT &py,
   FT det = px * qy - py * qx +
            py * rx - px * ry +
            qx * ry - rx * qy ;
-  return  (det == FT(0.0))? CGAL_COLLINEAR : ((det > FT(0.0))? CGAL_LEFTTURN : CGAL_RIGHTTURN);
+  return  (det == FT(0.0)) ? CGAL_COLLINEAR 
+                           : ((det > FT(0.0))? CGAL_LEFTTURN : CGAL_RIGHTTURN);
 }
 
 template < class FT >
@@ -29,13 +30,18 @@ FT CGAL_area2(const FT &px, const FT &py,
 
 
 template < class FT >
-bool CGAL_collinear(const CGAL_PointC2<FT> &p, const CGAL_PointC2<FT> &q, const CGAL_PointC2<FT> &r)
+bool CGAL_collinear(const CGAL_PointC2<FT> &p, 
+                    const CGAL_PointC2<FT> &q, 
+                    const CGAL_PointC2<FT> &r)
 {
-  return (CGAL_ordertype(p.x(), p.y(), q.x(), q.y(), r.x(), r.y()) == CGAL_COLLINEAR);
+  return (CGAL_ordertype(p.x(), p.y(), q.x(), q.y(), r.x(), r.y()) 
+          == CGAL_COLLINEAR);
 }
 
 template < class FT >
-bool CGAL_between(const CGAL_PointC2<FT> &p, const CGAL_PointC2<FT> &q, const CGAL_PointC2<FT> &r)
+bool CGAL_between(const CGAL_PointC2<FT> &p, 
+                  const CGAL_PointC2<FT> &q, 
+                  const CGAL_PointC2<FT> &r)
 {
   if (!CGAL_collinear(p, q, r))
     {
@@ -67,7 +73,8 @@ inline bool CGAL_leftturn(const CGAL_PointC2<FT> &p,
                           const CGAL_PointC2<FT> &q,
                           const CGAL_PointC2<FT> &r)
 {
-  return (CGAL_ordertype(p.x(), p.y(), q.x(), q.y(), r.x(), r.y()) == CGAL_LEFTTURN );
+  return (CGAL_ordertype(p.x(), p.y(), q.x(), q.y(), r.x(), r.y()) 
+          == CGAL_LEFTTURN );
 }
 
 template < class FT >
@@ -75,7 +82,8 @@ inline bool CGAL_rightturn(const CGAL_PointC2<FT> &p,
                            const CGAL_PointC2<FT> &q,
                            const CGAL_PointC2<FT> &r)
 {
-   return (CGAL_ordertype(p.x(), p.y(), q.x(), q.y(), r.x(), r.y()) == CGAL_RIGHTTURN);
+   return (CGAL_ordertype(p.x(), p.y(), q.x(), q.y(), r.x(), r.y()) 
+           == CGAL_RIGHTTURN);
 }
 
 template < class FT >
@@ -94,8 +102,10 @@ inline FT CGAL_area2(const CGAL_PointC2<FT> &p,
   return CGAL_area2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
 }
 template <class FT >
-CGAL_Side CGAL_in_circle(const CGAL_PointC2<FT> &p, const CGAL_PointC2<FT> &q,
-                         const CGAL_PointC2<FT> &r, const CGAL_PointC2<FT> &test)
+CGAL_Side CGAL_in_circle(const CGAL_PointC2<FT> &p, 
+                         const CGAL_PointC2<FT> &q,
+                         const CGAL_PointC2<FT> &r, 
+                         const CGAL_PointC2<FT> &test)
 {
   assert(0); // not implemented
   return CGAL_ON;

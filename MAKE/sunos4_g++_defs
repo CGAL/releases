@@ -1,0 +1,30 @@
+# Settings for the Sun (OS4, Sun Pro C++ Compiler)
+
+
+
+
+CGAL_CFLAGS =  -DCGAL_IO -DCGAL_REPCLASS -DCGAL_CHECK_PRECONDITIONS \
+	       -DCGAL_WORKAROUND_002 -DCGAL_WORKAROUND_003 \
+               -Wall \
+               -I$(CGAL_DIR)/include  \
+	       -I$(LEDA_INCL_DIR)
+
+
+ARPREPROCESSOR = /bin/true
+ARPOSTPROCESSOR = ranlib
+
+AR = ar r
+
+CGALLIB = lib$(CGAL_LIBNAME).a
+
+# I don't know if it is possible to make a shared library for the suns.
+# Please adapt the following if this is possible.
+
+AR_SH = /bin/false
+
+AR_SHPREPROCESSOR = /bin/true
+AR_SHPOSTPROCESSOR = /bin/true
+
+CGALSHAREDLIB = lib$(CGAL_LIBNAME).so
+
+

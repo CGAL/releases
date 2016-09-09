@@ -6,7 +6,7 @@
 
 #include <CGAL/PointC2.h>
 #include <CGAL/Vector_2.h>
-#include <CGAL/Aff_transformation_2.h>
+
 template < class R >
 class CGAL_Point_2 : public R::Point_2
 {
@@ -32,9 +32,9 @@ public:
   {}
 
   CGAL_Point_2(const CGAL_Point_2<R> &p)
-    : R::Point_2(p)
+    : R::Point_2((R::Point_2&)p)
   {}
-
+  
   CGAL_Point_2(const R::Point_2 &p)
     : R::Point_2(p)
   {}
@@ -43,7 +43,6 @@ public:
     : R::Point_2(hx, hy, hw)
   {}
 
-  // operator CGAL_Point_2<double>() const;
 
   CGAL_Point_2<R> &operator=(const CGAL_Point_2<R> &p)
   {
@@ -120,7 +119,6 @@ public:
     return R::Point_2::transform(t);
   }
 
-  void decrease_count(){ R::Point_2::decrease_count();}
 private:
 
   CGAL_Point_2(const R::Vector_2 &v)
@@ -128,6 +126,8 @@ private:
   {}
 };
 
+
+#include <CGAL/Aff_transformation_2.h>
 
 template < class R >
 inline CGAL_Point_2<R> operator+(const CGAL_Point_2<R> &p,
@@ -191,9 +191,8 @@ inline CGAL_Vector_2<R> operator-(const CGAL_Origin &,
 
 #ifdef CGAL_IO
 
-#include <stream.h>
 template < class R >
-ostream &operator<<(ostream &os, CGAL_Point_2<R> &p)
+ostream &operator<<(ostream &os, const CGAL_Point_2<R> &p)
 {
   CGAL_kernel_precondition(p.is_defined());
   os << "Point_2(" << p.x() << ", " << p.y() << ")";

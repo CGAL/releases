@@ -8,13 +8,17 @@
 #include <CGAL/Point_2.h>
 
 template < class R >
-bool CGAL_collinear(const CGAL_Point_2<R> &p, const CGAL_Point_2<R> &q, const CGAL_Point_2<R> &r)
+bool CGAL_collinear(const CGAL_Point_2<R> &p, 
+                    const CGAL_Point_2<R> &q, 
+                    const CGAL_Point_2<R> &r)
 {
   return (CGAL_collinear(R::Point_2(p), R::Point_2(q), R::Point_2(r)));
 }
 
 template < class R >
-bool CGAL_between(const CGAL_Point_2<R> &p, const CGAL_Point_2<R> &q, const CGAL_Point_2<R> &r)
+bool CGAL_between(const CGAL_Point_2<R> &p, 
+                  const CGAL_Point_2<R> &q, 
+                  const CGAL_Point_2<R> &r)
 {
   if (!CGAL_collinear(p, q, r))
     {

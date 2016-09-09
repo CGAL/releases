@@ -95,7 +95,7 @@ bool is_finite(double d)
 #include <ieeefp.h>
 #endif // __SVR4
 
-#include <sunmath.h>
+#include <math.h>
 #include <LEDA/misc.h>
 bool is_finite(double d)
 {

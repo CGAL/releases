@@ -480,7 +480,7 @@ CGAL_intersection_type(
                     minpt = &end2;
                 }
                 if (start2.x() < maxpt->x()) {
-                    maxpt = &end2;
+                    maxpt = &start2;
                 }
             }
             if (maxpt->x() < minpt->x())
@@ -517,7 +517,7 @@ CGAL_intersection_type(
                     minpt = &end2;
                 }
                 if (start2.y() < maxpt->y()) {
-                    maxpt = &end2;
+                    maxpt = &start2;
                 }
             }
             if (maxpt->y() < minpt->y())

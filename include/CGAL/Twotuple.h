@@ -13,7 +13,6 @@ public:
   T  e0;
   T  e1;
 
-  void decrease_count(){count--;}
   CGAL__Twotuple()
     {
     }

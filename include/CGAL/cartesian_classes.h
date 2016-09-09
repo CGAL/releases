@@ -7,6 +7,7 @@
 #include <CGAL/enum.h>
 #include <assert.h>
 #include <CGAL/utils.h>
+#include <CGAL/number_utils.h>
 #include <CGAL/doublefield.h>
 
 class CGAL_Origin;

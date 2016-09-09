@@ -20,7 +20,7 @@ public:
   {}
 
   CGAL_Line_2(const CGAL_Line_2  &l)
-    : R::Line_2(l)
+    : R::Line_2((R::Line_2&)l)
   {
     CGAL_kernel_precondition(l.is_defined());
   }
@@ -35,11 +35,13 @@ public:
     : R::Line_2(a,b,c)
   {}
 
+
   CGAL_Line_2(const R::Line_2 &l)  // conversion impl -> interface class
     : R::Line_2(l)
   {
     CGAL_kernel_precondition(l.is_defined());
   }
+
 
   CGAL_Line_2(const CGAL_Segment_2<R> &s)
     : R::Line_2(s)
@@ -48,7 +50,7 @@ public:
   }
 
   CGAL_Line_2(const CGAL_Ray_2<R> &r)
-    : R::Line_2(r)
+    : R::Line_2((R::Ray_2&)r)
   {
     CGAL_kernel_precondition(r.is_defined());
   }
@@ -59,8 +61,6 @@ public:
     CGAL_kernel_precondition(p.is_defined() && d.is_defined());
   }
 
-
-  //                  operator CGAL_Line_2<double>() const;
 
   CGAL_Line_2<R> &operator=(const CGAL_Line_2<R> &l)
   {
@@ -195,8 +195,6 @@ public:
 
 
 #ifdef CGAL_IO
-
-#include <stream.h>
 
 template < class R >
 ostream &operator<<(ostream &os, const CGAL_Line_2<R> &l)

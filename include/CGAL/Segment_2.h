@@ -19,7 +19,7 @@ public:
   {}
 
   CGAL_Segment_2(const CGAL_Segment_2<R>  &s)
-    : R::Segment_2(s)  // does the handle stuff
+    : R::Segment_2((R::Segment_2&)s)  // does the handle stuff
   {
     CGAL_kernel_precondition(s.is_defined());
   }
@@ -29,6 +29,7 @@ public:
   {
     CGAL_kernel_precondition(sp.is_defined() && ep.is_defined());
  }
+
 
   // conversion from implementation class object to interface class object
   CGAL_Segment_2(const R::Segment_2  &s)
@@ -134,11 +135,13 @@ public:
 
   // this makes use of the constructor of the interface class
   // taking an object of the implemetation class as argument.
+
   CGAL_Segment_2<R>       transform(const CGAL_Aff_transformation_2<R> &t) const
   {
     CGAL_kernel_precondition(is_defined() && t.is_defined());
     return  CGAL_Segment_2<R>(R::Segment_2::transform(t));
   }
+
 
   CGAL_Line_2<R>      supporting_line() const
   {
@@ -171,8 +174,6 @@ public:
 
 
 #ifdef CGAL_IO
-
-#include <stream.h>
 
 template < class R >
 ostream &operator<<(ostream &os, const CGAL_Segment_2<R> &s)

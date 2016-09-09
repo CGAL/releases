@@ -1,3 +1,4 @@
+#line 11 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/Onetuple.fw"
 // Source: Onetuple_Rep.h
 // Author: Andreas.Fabri@sophia.inria.fr
 

@@ -2,6 +2,10 @@
 #ifndef CGAL_UTILS_H
 #define CGAL_UTILS_H
 
+#ifdef CGAL_IO
+#include <stream.h>
+#endif // CGAL_IO
+
 #if 0
 #define DYNAMIC_CAST(Type, Expr) dynamic_cast<Type> (Expr)
 #else
@@ -35,6 +39,16 @@ void not_implemented();
 #else
 #define CGAL_kernel_postcondition(EX) ((void)0)
 #endif /* CGAL_CHECK_POSTCONDITIONS */
+
+#ifdef CGAL_CHECK_DEGENERACY
+#define CGAL_nondegeneracy_assertion \
+ is_degenerate() ? cgal_assertion_fail( "degenerate object" ,
+__FILE__, __LINE__)) : ((void)0)
+#else
+#define CGAL_nondegeneracy_assertion ((void)0)
+#endif /* CGAL_CHECK_DEGENERACY */
+
+
 
 #ifdef CGAL_CHECK_CHECKS
 #define CGAL_kernel_check(EX) \

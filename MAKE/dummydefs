@@ -1,0 +1,33 @@
+# Those settings serve just to remind people that they should choose
+# settings appropriate for their system and compiler.
+
+CC   = /bin/false
+
+CGALFLAGS =  
+
+
+
+#  Variables for the four LEDA libraries 
+#
+LEDA_L = 
+LEDA_G = 
+LEDA_P = 
+LEDA_Wx = 
+
+ARPREPROCESSOR = /bin/false
+ARPOSTPROCESSOR = /bin/false
+
+AR = /bin/false
+
+CGALLIB = lib$(CGAL_LIBNAME).a
+
+
+AR_SH = /bin/false
+
+AR_SHPREPROCESSOR = /bin/false
+AR_SHPOSTPROCESSOR = /bin/false
+
+CGALSHAREDLIB = lib$(CGAL_LIBNAME).a
+
+
+

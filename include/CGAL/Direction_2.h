@@ -15,12 +15,14 @@ public:
   {}
 
   CGAL_Direction_2(const CGAL_Direction_2<R> &d)
-    : R::Direction_2(d)
+    : R::Direction_2((R::Direction_2&)d)
   {}
+
 
   CGAL_Direction_2(const R::Direction_2 &d)
     : R::Direction_2(d)
   {}
+
 
   CGAL_Direction_2(const R::Vector_2 &v)
     : R::Direction_2(v)
@@ -29,8 +31,6 @@ public:
   CGAL_Direction_2(const R::FT &x, const R::FT &y, const R::FT &w = R::FT(1.0))
     :  R::Direction_2(x,y,w)
   {}
-
-  // operator CGAL_Direction_2<double>() const;
 
   CGAL_Direction_2<R> &operator=(const CGAL_Direction_2<R> &d)
   {
@@ -82,7 +82,7 @@ public:
 
   CGAL_Vector_2<R> vector() const
   {
-    return R::Direction_2::vector();
+    return (CGAL_Vector_2<R>)R::Direction_2::vector();
   }
 
   CGAL_Direction_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
@@ -119,10 +119,8 @@ public:
 
 #ifdef CGAL_IO
 
-#include <stream.h>
-
 template < class R >
-ostream &operator<<(ostream &os, CGAL_Direction_2<R> &d)
+ostream &operator<<(ostream &os, const CGAL_Direction_2<R> &d)
 {
   CGAL_Vector_2<R> v = d.vector();
   os << "Direction_2(" << v.x() << ", " << v.y() << ")";

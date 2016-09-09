@@ -1,0 +1,18 @@
+This is the README file for compiling an application which makes use of CGAL
+
+You have to modify three things in the makefile in this directory.
+This makefile is generic for any application making use of CGAL
+
+(1) The compiler, either g++ (GNU), or CC (SUN, Silicon Graphics).
+
+(2) The directory where LEDA is installed at your site.
+
+(3) The directory where CGAL is installed at your site.
+
+
+
+That should be it. Type `gmake program' and cross your fingers.
+
+If you build the program for several compilers in a row,
+you have to force the compiler to recompile the source. 
+Type `gmake touch' followed by `gmake program'. 

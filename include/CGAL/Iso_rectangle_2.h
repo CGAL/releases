@@ -28,7 +28,7 @@ public:
     : R::Iso_rectangle_2(p,q)
   {}
 
-  // operator CGAL_Iso_rectangle_2<double>() const;
+
   CGAL_Iso_rectangle_2<R>  &operator=(const CGAL_Iso_rectangle_2<R> &r)
   {
     R::Iso_rectangle_2::operator=(r);
@@ -100,8 +100,6 @@ public:
 
 
 #ifdef CGAL_IO
-
-#include <stream.h>
 
 template < class R >
 ostream &operator<<(ostream &os, const CGAL_Iso_rectangle_2<R> &r)

@@ -19,7 +19,7 @@ public:
   {}
 
   CGAL_Ray_2(const CGAL_Ray_2<R> &r)
-    : R::Ray_2(r)
+    : R::Ray_2((R::Ray_2&)r)
   {
     CGAL_kernel_precondition(r.is_defined());
   }
@@ -40,7 +40,6 @@ public:
     : R::Ray_2(sp, d)
   {}
 
-  //                      operator CGAL_Ray_2<double>() const;
 
   CGAL_Ray_2<R> &operator=(const CGAL_Ray_2<R> &r)
   {
@@ -91,10 +90,12 @@ public:
     return CGAL_Ray_2<R>(R::Ray_2::opposite());
   }
 
+
   CGAL_Ray_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
   {
-    return  CGAL_Ray_2<R>(R::Ray_2::transform(t));
+    return  CGAL_Ray_2<R>(R::Ray_2::transform((R::Aff_transformation_2&)t));
   }
+
 
   bool is_horizontal() const
     {
@@ -127,8 +128,6 @@ public:
 
 
 #ifdef CGAL_IO
-
-#include <stream.h>
 
 template < class R >
 ostream &operator<<(ostream &os, const CGAL_Ray_2<R> &r)

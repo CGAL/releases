@@ -42,25 +42,25 @@ public:
   // Scaling:
   CGAL_Aff_transformation_2(const CGAL_Scaling tag,
                             const R::RT &s,
-                            const R::RT &hw= R::RT(1.0))
-    : R::Aff_transformation_2(tag, s, hw)
+                            const R::RT &w= R::RT(1.0))
+    : R::Aff_transformation_2(tag, s, w)
   {}
 
   // The general case:
   CGAL_Aff_transformation_2(const R::RT & m11, const R::RT & m12, const R::RT & m13,
                             const R::RT & m21, const R::RT & m22, const R::RT & m23,
-                            const R::RT &hw= R::RT(1.0))
+                            const R::RT &w= R::RT(1.0))
     : R::Aff_transformation_2(m11, m12, m13,
                               m21, m22, m23,
-                              hw)
+                              w)
   {}
 
   CGAL_Aff_transformation_2(const R::RT & m11, const R::RT & m12,
                             const R::RT & m21, const R::RT & m22,
-                            const R::RT &hw = R::RT(1.0))
+                            const R::RT &w = R::RT(1.0))
     : R::Aff_transformation_2(m11, m12,
                               m21, m22,
-                              hw)
+                              w)
   {}
 
   ~CGAL_Aff_transformation_2()
@@ -96,7 +96,7 @@ public:
     return transform(d);
   }
 
-
+#ifdef TRANSFORM
   CGAL_Line_2<R>      transform(const CGAL_Line_2<R> &l) const
   {
     return R::Aff_transformation_2::transform(l);
@@ -139,7 +139,7 @@ public:
   {
     return transform(t);
   }
-
+#endif // TRANSFORM
 
   CGAL_Aff_transformation_2<R>  inverse() const
   {
@@ -151,10 +151,12 @@ public:
     return !is_even();
   }
 
-  CGAL_Aff_transformation_2<R> operator*(const CGAL_Aff_transformation_2<R> &s) const
+#ifdef COMPOSE
+  CGAL_Aff_transformation_2<R> operator*(const CGAL_Aff_transformation_2<R> &t) const
   {
-    return R::Aff_transformation_2::operator*(s);
+    return R::Aff_transformation_2::operator*(t);
   }
+#endif // COMPOSE
 };
 
 

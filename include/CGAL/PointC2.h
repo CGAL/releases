@@ -1,3 +1,4 @@
+#line 346 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 // Source: PointC2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -6,12 +7,8 @@
 
 #include <CGAL/Twotuple.h>
 #include <CGAL/cartesian_classes.h>
-#include <CGAL/Origin.h>
-#include <CGAL/VectorC2.h>
-#include <CGAL/Aff_transformationC2.h>
-#include <CGAL/Bbox_2.h>
-#include <CGAL/misc.h>
 
+#line 9 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 template < class FT >
 class CGAL_PointC2 : public handle_base
 {
@@ -30,9 +27,9 @@ public:
                    CGAL_PointC2();
                    CGAL_PointC2(const CGAL_Origin &o);
                    CGAL_PointC2(const CGAL_PointC2<FT> &p);
-                   CGAL_PointC2(const FT &hx, const FT &hy, const FT &hw = FT(1.0));
+                   CGAL_PointC2(const FT &hx, const FT &hy, 
+                                const FT &hw = FT(1.0));
                    ~CGAL_PointC2();
-                   operator CGAL_PointC2<double>() const;
 
   CGAL_PointC2<FT> &operator=(const CGAL_PointC2<FT> &p);
 
@@ -53,21 +50,24 @@ public:
 
   int              dimension() const;
   CGAL_Bbox_2      bbox() const;
+
+
   CGAL_PointC2<FT> transform(const CGAL_Aff_transformationC2<FT> &) const;
+
 
 #ifdef CGAL_CHECK_PRECONDITIONS
   bool             is_defined() const;
 #endif // CGAL_CHECK_PRECONDITIONS
 
-  void decrease_count(){ptr()->decrease_count();}
 protected:
                    CGAL_PointC2(const CGAL_VectorC2<FT> &v);
 
 private:
   CGAL__Twotuple<FT>*  ptr() const;
 };
+#line 355 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 
-
+#line 314 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 #ifdef CGAL_CHECK_PRECONDITIONS
 template < class FT >
 inline bool CGAL_PointC2<FT>::is_defined() const
@@ -81,8 +81,19 @@ inline CGAL__Twotuple<FT>* CGAL_PointC2<FT>::ptr() const
 {
   return (CGAL__Twotuple<FT>*)PTR;
 }
+#line 356 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 
 
+#include <CGAL/Origin.h>
+#include <CGAL/VectorC2.h>
+
+#include <CGAL/Aff_transformationC2.h>
+
+#include <CGAL/Bbox_2.h>
+#include <CGAL/misc.h>
+
+
+#line 71 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 template < class FT >
 CGAL_PointC2<FT>::CGAL_PointC2()
 {
@@ -101,7 +112,7 @@ CGAL_PointC2<FT>::CGAL_PointC2(const CGAL_Origin &)
 
 template < class FT >
 CGAL_PointC2<FT>::CGAL_PointC2(const CGAL_PointC2<FT> &p) :
-  handle_base(p)
+  handle_base((handle_base&)p)
 {
   CGAL_kernel_precondition(p.is_defined());
 }
@@ -120,12 +131,6 @@ template < class FT >
 CGAL_PointC2<FT>::~CGAL_PointC2()
 {}
 
-template < class FT >
-CGAL_PointC2<FT>::operator CGAL_PointC2<double>() const
-{
-  CGAL_kernel_precondition(is_defined());
-  return CGAL_PointC2<double>(x(), y());
-}
 
 template < class FT >
 CGAL_PointC2<FT> &CGAL_PointC2<FT>::operator=(const CGAL_PointC2<FT> &p)
@@ -134,10 +139,12 @@ CGAL_PointC2<FT> &CGAL_PointC2<FT>::operator=(const CGAL_PointC2<FT> &p)
   handle_base::operator=(p);
   return *this;
 }
+#line 124 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 template < class FT >
 CGAL_PointC2<FT>::CGAL_PointC2(const CGAL_VectorC2<FT> &v) :
-  handle_base(v)
+  handle_base((handle_base&)v)
 {}
+#line 133 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 template < class FT >
 bool CGAL_PointC2<FT>::operator==(const CGAL_PointC2<FT>& p) const
 {
@@ -157,6 +164,7 @@ bool CGAL_PointC2<FT>::identical(const CGAL_PointC2<FT>& p) const
   CGAL_kernel_precondition(is_defined() && p.is_defined());
   return ( PTR == p.PTR );
 }
+#line 158 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 
 template < class FT >
 FT CGAL_PointC2<FT>::x()  const
@@ -222,6 +230,7 @@ FT  CGAL_PointC2<FT>::homogeneous(int i) const
   return cartesian(i);
 }
 
+#line 234 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 template < class FT >
 inline CGAL_PointC2<FT> operator+(const CGAL_PointC2<FT> &p,
                                   const CGAL_VectorC2<FT> &v)
@@ -259,7 +268,7 @@ inline CGAL_VectorC2<FT> operator-(const CGAL_PointC2<FT> &p,
                                    const CGAL_PointC2<FT> &q)
 {
   CGAL_kernel_precondition(p.is_defined() && q.is_defined());
-  return CGAL_VectorC2<FT>(p.x() - + q.x(), p.y() - q.y()) ;
+  return CGAL_VectorC2<FT>(p.x() - q.x(), p.y() - q.y()) ;
 }
 
 template < class FT >
@@ -278,8 +287,11 @@ inline CGAL_VectorC2<FT> operator-(const CGAL_Origin &,
   return CGAL_VectorC2<FT>(-p.x(), -p.y()) ;
 }
 
+#line 294 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
+
 template < class FT >
-inline CGAL_PointC2<FT> CGAL_PointC2<FT>::transform(const CGAL_Aff_transformationC2<FT> &t) const
+CGAL_PointC2<FT> CGAL_PointC2<FT>::transform(
+                                  const CGAL_Aff_transformationC2<FT> &t) const
 {
   CGAL_kernel_precondition(is_defined());
   return t.transform(*this);
@@ -289,14 +301,17 @@ template < class FT >
 CGAL_Bbox_2 CGAL_PointC2<FT>::bbox() const
 {
   CGAL_kernel_precondition(is_defined());
-  return CGAL_Bbox_2(x(),y(), x(),y());
+  double bx = to_double(x());
+  double by = to_double(y());
+  return CGAL_Bbox_2(bx,by, bx,by);
 }
+#line 367 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 
 
+#line 330 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 
 #ifdef CGAL_IO
 
-#include <stream.h>
 template < class FT >
 ostream &operator<<(ostream &os, CGAL_PointC2<FT> &p)
 {
@@ -305,6 +320,7 @@ ostream &operator<<(ostream &os, CGAL_PointC2<FT> &p)
 }
 
 #endif
+#line 369 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PointC2.fw"
 
 
 #endif

@@ -1,3 +1,4 @@
+#line 454 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 // Source: PolygonC2.h
 // Author: Andreas.Fabri@sophia.inria.fr
 
@@ -9,6 +10,7 @@
 
 #include <CGAL/SegmentC2.h>
 
+#line 429 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 template < class T >
 class CGAL__Polygon : public handle_rep
 {
@@ -29,8 +31,10 @@ public:
   ~CGAL__Polygon()
   {}
 };
+#line 465 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 
 
+#line 10 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 
 
 template < class FT >
@@ -88,8 +92,10 @@ private:
   CGAL__Polygon<CGAL_PointC2<FT> >             *ptr() const;
 
 };
+#line 467 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 
 
+#line 392 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 
 template < class FT >
 inline CGAL__Polygon<CGAL_PointC2<FT> >* CGAL_PolygonC2<FT>::ptr() const
@@ -102,8 +108,10 @@ inline array<CGAL_PointC2<FT> > &CGAL_PolygonC2<FT>::vertex_array() const
 {
   return ptr()->v_array ;
 }
+#line 469 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 
 
+#line 73 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 
 template < class FT >
 CGAL_PolygonC2<FT>::CGAL_PolygonC2()
@@ -166,6 +174,7 @@ CGAL_PolygonC2<FT> &CGAL_PolygonC2<FT>::operator=(const CGAL_PolygonC2<FT> &p)
 template < class FT >
 CGAL_PolygonC2<FT>::~CGAL_PolygonC2()
 {}
+#line 140 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 template < class FT >
 bool CGAL_PolygonC2<FT>::operator==(const CGAL_PolygonC2<FT>& p) const
 {
@@ -201,6 +210,7 @@ bool CGAL_PolygonC2<FT>::identical(const CGAL_PolygonC2<FT>& p) const
 
   return PTR == p.PTR ;
 }
+#line 197 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 template < class FT >
 list< CGAL_PointC2<FT> > CGAL_PolygonC2<FT>::vertices() const
 {
@@ -242,6 +252,7 @@ int CGAL_PolygonC2<FT>::size() const
 {
   return vertex_array().high() + 1;
 }
+#line 246 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 template < class FT >
 CGAL_PointC2<FT> CGAL_PolygonC2<FT>::vertex(int i) const
 { const int&s = size();
@@ -273,6 +284,7 @@ int CGAL_PolygonC2<FT>::leftmost_vertex() const
   }
   return lm_i;
 }
+#line 285 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 template < class FT >
 bool CGAL_PolygonC2<FT>::is_convex() const
 {
@@ -334,6 +346,7 @@ bool CGAL_PolygonC2<FT>::is_on(const CGAL_PointC2<FT>  &p) const
 {
   return where_is(p) == CGAL_ON;
 }
+#line 351 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 
 template < class FT >
 CGAL_Bbox_2 CGAL_PolygonC2<FT>::bbox() const
@@ -371,8 +384,10 @@ bool CGAL_PolygonC2<FT>::is_defined() const
 }
 #endif // CGAL_CHECK_PRECONDITIONS
 
+#line 471 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 
 
+#line 407 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 
 #ifdef CGAL_IO
 
@@ -390,6 +405,7 @@ ostream &operator<<(ostream &os, CGAL_PolygonC2<FT> &p)
 }
 
 #endif  // CGAL_IO
+#line 473 "/u/sargas/2/prisme/fabri/Cgal/Kernel/spec/PolygonC2.fw"
 
 
 #endif  // CGAL_POLYGONC2_H

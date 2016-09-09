@@ -17,13 +17,13 @@ public:
     {}
 
     CGAL_Triangle_2(const CGAL_Triangle_2<R> &t)
-      : R::Triangle_2(t)
+      : R::Triangle_2((R::Triangle_2&)t)
     {}
-
+    
     CGAL_Triangle_2(const R::Triangle_2 &t)
       : R::Triangle_2(t)
     {}
-
+    
     CGAL_Triangle_2(const CGAL_Point_2<R> &p,
                     const CGAL_Point_2<R> &q,
                     const CGAL_Point_2<R> &r)
@@ -31,7 +31,6 @@ public:
     {}
 
 
-  // operator CGAL_Triangle_2<double>() const;
   CGAL_Triangle_2<R>  &operator=(const CGAL_Triangle_2<R> &t)
   {
     R::Triangle_2::operator=(t);
@@ -67,8 +66,9 @@ public:
 
   CGAL_Triangle_2<R>  transform(const CGAL_Aff_transformation_2<R> &t) const
   {
-    return  CGAL_Triangle_2<R>(R::Triangle_2::transform(t));
+    return  R::Triangle_2::transform(t);
   }
+
 
   CGAL_Side           where_is(const CGAL_Point_2<R> &p) const
     {
@@ -104,8 +104,6 @@ public:
 
 
 #ifdef CGAL_IO
-
-#include <stream.h>
 
 template < class R >
 ostream &operator<<(ostream &os, const CGAL_Triangle_2<R> &t)
