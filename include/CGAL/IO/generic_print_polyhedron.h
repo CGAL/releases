@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/generic_print_polyhedron.h
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // A generic writer for polyhedral surfaces parameterized by file format
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -83,10 +85,10 @@ CGAL_generic_print_polyhedron( ostream& out,
     typedef typename Poly::Halfedge_around_facet_const_circulator
                                                             HFCC;
     // Print header.
-    writer.header( out,
-                   P.size_of_vertices(),
-                   P.size_of_halfedges(),
-                   P.size_of_facets());
+    writer.write_header( out,
+                         P.size_of_vertices(),
+                         P.size_of_halfedges(),
+                         P.size_of_facets());
     for( VCI vi = P.vertices_begin(); vi != P.vertices_end(); ++vi) {
         writer.write_vertex( (*vi).point().x(),
                              (*vi).point().y(),
@@ -108,7 +110,7 @@ CGAL_generic_print_polyhedron( ostream& out,
         } while( hc != hc_end);
         writer.write_facet_end();
     }
-    writer.footer();
+    writer.write_footer();
 }
 #endif // CGAL_IO_GENERIC_PRINT_POLYHEDRON_H //
 // EOF //

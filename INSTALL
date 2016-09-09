@@ -1,10 +1,12 @@
 
 // A PostScript version of this file can be found in directory doc_ps.
 // A PDF version of this file can be found in directory doc_pdf.
+// This text version was derived from the postscript documentation partly
+// automatically partly manually.
 
 CGAL Installation  Guide
 
-Release 1.1, July 1998
+Release 1.2, January 1999
 
 
 
@@ -14,7 +16,7 @@ Authors
 
 Acknowledgement
     This work was supported by the ESPRIT IV Long Term Research Project
-    No. 21957 (CGAL).
+    No. 21957 (CGAL) and No. 28155 (GALIA).
 
 
 
@@ -49,7 +51,7 @@ Contents
           12.2.1  Definition of type bool
           12.2.2  'red' and 'black' conflict
 13 The Standard Template Library
-14 Upgrading a CGAL 1.0 installation
+14 Upgrading a CGAL 1.1 installation
 15 Compiler workarounds
 
 
@@ -81,7 +83,7 @@ The reason is that most compilers do not conform to the upcoming ANSI/ISO
 standard [2] and some of them have so many limitations/bugs that we could
 not work around all of them.
 
-More precisely, CGAL-1.1 supports the following Unix compilers/operating
+More precisely, CGAL-1.2 supports the following Unix compilers/operating
 systems:
 
  ______________________________________________________________________________
@@ -110,7 +112,7 @@ downloaded using FTP. The library can be found at the following location:
 
         ftp.cs.uu.nl
 
-in the directory /pub/CGAL. This directory contains release 1.1 of the
+in the directory /pub/CGAL. This directory contains release 1.2 of the
 CGAL library.  There is also a README file that contains descriptions of
 the files in this directory.  An example of an FTP-session is given
 below.
@@ -121,7 +123,7 @@ below.
         ftp>  cd  pub/CGAL
         ftp>  get  README
         ftp>  binary
-        ftp>  get  CGAL-1.1.tar.gz
+        ftp>  get  CGAL-1.2.tar.gz
         ftp>  quit
 
 After you have downloaded the file containing the CGAL library, you have
@@ -134,7 +136,7 @@ and for the gzipped file use the commands
         gunzip  <filename>.tar.gz
         tar  xvf  <filename>.tar
 
-In both cases the directory CGAL-1.1 will be created.  This directory
+In both cases the directory CGAL-1.2 will be created.  This directory
 contains the following subdirectories:
  ______________________________________________________________________
 |    directory   |                       contents                      |
@@ -158,7 +160,7 @@ contains the following subdirectories:
 --4--     Installing  CGAL
 
 
-The directory CGAL-1.1 contains a Bourne shell script called install_cgal.
+The directory CGAL-1.2 contains a Bourne shell script called install_cgal.
 The script can be run in two modes: a menu-driven interactive mode and a
 non-interactive mode. Normally you should use the interactive mode, but in
 case you run into problems with it, or don't like it for some reason, you
@@ -186,7 +188,7 @@ different menus and their options refer to section 6.
 5.1     Starting the script
 
 
-Go to the CGAL-1.1 directory and enter the command
+Go to the CGAL-1.2 directory and enter the command
 
 
         ./install_cgal  -i
@@ -200,7 +202,7 @@ progress.
 
 
 --------------------------------------------------------
- This is the install script for CGAL 1.1
+ This is the install script for CGAL 1.2
 --------------------------------------------------------
 
 starting interactive mode - one moment, please
@@ -223,7 +225,7 @@ A menu similar to the following will appear on your screen.
 
 
  ****************************************************************
- **              CGAL 1.1 Installation Main Menu               **
+ **              CGAL 1.2 Installation Main Menu               **
  **              -------------------------------               **
  **                                                            **
  **   OS:                  sparc_SunOS-5.5                     **
@@ -279,7 +281,7 @@ i.e.  a feature is supported resp.  a bug is not present.  On the other
 hand no resp. unfortunately indicate a lack of support resp. bug.
 
  ****************************************************************
- **            CGAL 1.1 Installation Compiler Menu             **
+ **            CGAL 1.2 Installation Compiler Menu             **
  **            -----------------------------------             **
  **                                                            **
  **   OS:                  sparc_SunOS-5.5                     **
@@ -317,7 +319,7 @@ hand no resp. unfortunately indicate a lack of support resp. bug.
  Saving current setup ... done.
 
 If the STL test succeeds, the current setup is marked as tested and the
-settings are saved to a file in the directory CGAL-1.1/config/install.
+settings are saved to a file in the directory CGAL-1.2/config/install.
 Thus,  if you run the install script a second time for this  OS/compiler,
 you  will not  have  to  enter  the  STL  directory  again,  but  it  is
 retrieved  from  the corresponding config file instead.
@@ -346,7 +348,7 @@ linker).
 
  ****************************************************************
  **                                                            **
- **                     Compiling CGAL 1.1                     **
+ **                     Compiling CGAL 1.2                     **
  **                     ------------------                     **
  **                                                            **
  ****************************************************************
@@ -381,7 +383,7 @@ CGAL' document that can be found in the doc_ps directory.
 --6--     The  interactive  mode
 
 
-To run the install script in the interactive mode, go to the CGAL-1.1
+To run the install script in the interactive mode, go to the CGAL-1.2
 directory and enter the command
 
 
@@ -418,7 +420,7 @@ time you enable Leda/GMP support for an OS/compiler combination.
 The install script stores all relevant settings for an OS/compiler
 combination in the directory
 
-                 CGAL-1.1/config/install/<CGAL-OS-description >
+                 CGAL-1.2/config/install/<CGAL-OS-description >
 
 
 where <CGAL-OS-description> identifies your OS/compiler combination in a
@@ -431,7 +433,7 @@ interactive installation. Most of them are removed after use, but some are
 not, since it might be helpful to keep some information about the last
 run. You can keep or delete them as you like, as they are not needed
 anymore once the script terminates. Here follows a list of these files
-(all are plain ASCII and reside in CGAL-1.1).
+(all are plain ASCII and reside in CGAL-1.2).
 
 ________________________________________________________________________________
 | filename           |   content                                               |
@@ -562,7 +564,7 @@ ________________________________________________________________________________
 --7--     The  non-interactive  mode
 
 
-To run the install script in the non-interactive mode,  go to the CGAL-1.1
+To run the install script in the non-interactive mode,  go to the CGAL-1.2
 directory and enter the command
 
 
@@ -705,8 +707,8 @@ cgal@cs.uu.nl.
 
 Since CGAL supports several different operating systems and compilers,
 this is also reflected in the structure of the CGAL directory tree.  Each
-OS/compiler combination has its own lib directory under CGAL-1.1/lib) (and
-analogously its own include makefile in CGAL-1.1/make) named as determined
+OS/compiler combination has its own lib directory under CGAL-1.2/lib) (and
+analogously its own include makefile in CGAL-1.2/make) named as determined
 by the following scheme.
 
                      <arch>_<os>-<os-version>_<comp>-<comp-version>[_LEDA]
@@ -736,22 +738,22 @@ the install script to get your CGAL-OS description, see section 7.4.
 
 The CGAL distribution contains the following makefiles:
 
-   o  CGAL-1.1/src/makefile_lib for compiling the CGAL object library libCGAL.a,
+   o  CGAL-1.2/src/makefile_lib for compiling the CGAL object library libCGAL.a,
 
-   o  CGAL-1.1/src/makefile_sharedlib for compiling the CGAL shared object
+   o  CGAL-1.2/src/makefile_sharedlib for compiling the CGAL shared object
       library libCGAL.so,
 
-   o  CGAL-1.1/src/makefile_geomview for compiling a library for geomview support,
+   o  CGAL-1.2/src/makefile_geomview for compiling a library for geomview support,
 
-   o  CGAL-1.1/examples/makefile as sample makefile and
+   o  CGAL-1.2/examples/makefile as sample makefile and
 
-   o  CGAL-1.1/examples/*/makefile for compiling the CGAL example programs.
+   o  CGAL-1.2/examples/*/makefile for compiling the CGAL example programs.
 
 All these makefiles are generic: they can be used for more than one
 compiler. To achieve this, the first section of each makefile contains an
 include statement that looks as follows:
 
-    CGAL_MAKEFILE  =  /users/jannes/CGAL-1.1/make/makefile_<CGAL-OS  description>
+    CGAL_MAKEFILE  =  /users/jannes/CGAL-1.2/make/makefile_<CGAL-OS  description>
     include  $(CGAL_MAKEFILE)
 
 The file CGAL_MAKEFILE is an include file with platform dependent makefile
@@ -761,7 +763,7 @@ the settings hold.  For example,  the file makefile_mips_IRIX-6.2_CC-7.2
 contains makefile settings for the IRIX 6.2 operating system and the SGI
 Mips(Pro) CC 7.2 compiler.  These include files are automatically
 generated by the install_cgal script and they are all located in the
-CGAL-1.1/make directory. For convenience, the install_cgal script will
+CGAL-1.2/make directory. For convenience, the install_cgal script will
 substitute the include makefile that was generated most recently.
 
 If you want to compile an application or an object library with a
@@ -774,11 +776,11 @@ option for the make utility. A comfortable way to set CGAL_MAKEFILE is by
 using install_cgal  -os (see section 7.4). E.g. if your compiler is g++,
 you would type
 
-CGAL_MAKEFILE=`<insert  your  CGAL-1.1  dir >/install_cgal  -os  g++`
+CGAL_MAKEFILE=`<insert  your  CGAL-1.2  dir >/install_cgal  -os  g++`
 
 in bourne shell resp.
 
-setenv  CGAL_MAKEFILE  `<insert  your  CGAL-1.1  dir >/install_cgal  -os  g++`
+setenv  CGAL_MAKEFILE  `<insert  your  CGAL-1.2  dir >/install_cgal  -os  g++`
 
 in csh derivatives.
 
@@ -799,16 +801,16 @@ CGAL_CXX and CXXFLAGS.
 --11--      Compiling  a  CGAL  application
 
 
-The directory CGAL-1.1/examples contains a small program (example.C) and a
+The directory CGAL-1.2/examples contains a small program (example.C) and a
 sample makefile with some comments.  The CGAL_MAKEFILE variable in this
 makefile (see section 10) is automatically substituted by the
 install_cgal script and equals the most recently generated include
-makefile in the CGAL-1.1/make directory.  After the installation of CGAL
+makefile in the CGAL-1.2/make directory.  After the installation of CGAL
 this sample makefile is ready for use.  Just type 'make example' to
 compile the program example.C. You may use this makefile as a blueprint
 for your own makefiles.
 
-Furthermore the directories CGAL-1.1/examples and CGAL-1.1/demo contain
+Furthermore the directories CGAL-1.2/examples and CGAL-1.2/demo contain
 many subdirectories with non-graphical and graphical example programs. In
 all these directories you will find a makefile that is ready for use.
 
@@ -837,7 +839,7 @@ CGAL supports Leda in the following ways:
             the flag CGAL_NO_LEDA_HANDLE. In that case no memory management 
             will be used (see <CGAL/Handle.h>).
 
-The include makefiles in the CGAL-1.1/make directory corresponding to Leda
+The include makefiles in the CGAL-1.2/make directory corresponding to Leda
 can be recognized by the suffix "_LEDA".
 
 
@@ -847,7 +849,7 @@ can be recognized by the suffix "_LEDA".
 If you are using an old compiler or an old version of STL, the combination 
 of Leda and STL may give some problems. In order to avoid them, it is 
 highly recommended to use the latest Leda release (at the moment this is 
-Leda 3.6.1.) since this is what we test CGAL with.
+Leda 3.7) since this is what we test CGAL with.
 
 
 12.2.1    Definition of type bool
@@ -954,7 +956,7 @@ cp -r <OLD_CGAL_DIR>/config/install <NEW_CGAL_DIR>/config
 
 where <OLD_CGAL_DIR> is your CGAL 1.1 root directory (e.g. 
 /pub/local/CGAL-1.1) and <NEW_CGAL_DIR> is the root directory of your 
-new CGAL installation (e.g. /pub/local/CGAL-1.1).
+new CGAL installation (e.g. /pub/local/CGAL-1.2).
 
 It is strongly recommended to rerun all tests using the option A from 
 the main menu.
@@ -975,7 +977,7 @@ the file <pair.h>).
 For each compiler a file <CGAL/compiler_config.h> is defined, with the
 correct settings of all flags.  This file is generated automatically by
 the install_cgal script.  For this the test programs in the directory
-CGAL-1.1/config/testfiles are used.  The file <CGAL/compiler_config.h> and
+CGAL-1.2/config/testfiles are used.  The file <CGAL/compiler_config.h> and
 the test programs contain a description of the problem, so in case of
 trouble with a CGAL_CFG flag it is a good idea to take a look at it.
 
@@ -1005,7 +1007,7 @@ definitions).
 [3] e.g. we would expect Cygnus egcs 1.0.* to work on IRIX 6.4 as well
 
 [4] If you are that curious what happens exactly, have a look at the file
-    CGAL-1.1/install.log.
+    CGAL-1.2/install.log.
 
 [5] If your compiler has a built-in STL, you will have to wait for a
     moment while the script tests for a number of language features, which

@@ -5,6 +5,9 @@
 #include <fstream.h>
 #include <strstream.h>
 
+//to get shorter names
+#define CGAL_Cartesian CGAL_Ca
+
 #include <CGAL/Cartesian.h>
 //#include <CGAL/Homogeneous.h>
 //#include <CGAL/Integer.h>
@@ -17,8 +20,8 @@
 #include <CGAL/Triangle_2.h>
 #include <CGAL/Segment_2.h>
 
+#include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/Triangulation_euclidean_traits_2.h>
-
 #include <CGAL/Triangulation_2.h>
 #include <CGAL/Delaunay_triangulation_2.h>
 
@@ -41,10 +44,12 @@ typedef CGAL_Ray_2<Rep>  Ray_;
 typedef CGAL_Line_2<Rep>  Line_;
 typedef CGAL_Triangle_2<Rep>  Triangle_;
 
-typedef CGAL_Triangulation_euclidean_traits_2<Rep> Traits_;
-
-typedef CGAL_Triangulation_2<Traits_>  Triangulation_;
-typedef CGAL_Delaunay_triangulation_2<Traits_>  Delaunay_;
+typedef CGAL_Triangulation_euclidean_traits_2<Rep> Gt;
+typedef CGAL_Triangulation_vertex_base_2<Gt> Vb;
+typedef CGAL_Triangulation_face_base_2<Gt>  Fb;
+typedef CGAL_Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
+typedef CGAL_Triangulation_2<Gt,Tds>  Triangulation_;
+typedef CGAL_Delaunay_triangulation_2<Gt,Tds>  Delaunay_;
 
 typedef Triangulation_::Face  Face_;
 typedef Triangulation_::Vertex Vertex_;
@@ -130,7 +135,7 @@ void window_input(TRIANGULATION &T,
         bool mouse_moved = p != q;
         bool face_change = true,
              vertex_change = false;
-        if( (highlight != NULL) && (button_pressed || mouse_moved) ){
+        if( (highlight != (CGAL_NULL_TYPE) NULL) && (button_pressed || mouse_moved) ){
             face_change = mouse_moved &&
                           ( T.oriented_side(highlight, p)
                                 == CGAL_ON_NEGATIVE_SIDE );
@@ -163,7 +168,7 @@ void window_input(TRIANGULATION &T,
                 W << T;
             }
         } else if(b == MOUSE_BUTTON(2)){
-            if(hv != NULL){
+            if(hv != (CGAL_NULL_TYPE) NULL){
                 T.remove(hv);
                 face_change = vertex_change = true;
                 highlight = NULL;
@@ -175,9 +180,9 @@ void window_input(TRIANGULATION &T,
             break;
         }
         if( button_pressed || face_change){
-            bool outside = highlight == NULL;
+            bool outside = highlight == (CGAL_NULL_TYPE) NULL;
             highlight = T.locate(p, highlight);
-            if((highlight != NULL) && (! T.is_infinite(highlight))){
+            if((highlight != (CGAL_NULL_TYPE) NULL) && (! T.is_infinite(highlight))){
                 vertex_change = outside && true;
                 drawing_mode dm = W.set_mode(leda_src_mode);
                 W << CGAL_RED << T.triangle(highlight) << CGAL_BLUE;
@@ -190,7 +195,7 @@ void window_input(TRIANGULATION &T,
             hv.clear();
         }
         if(button_pressed || vertex_change){
-            if((highlight != NULL) && (! T.is_infinite(highlight))){
+            if((highlight != (CGAL_NULL_TYPE) NULL) && (! T.is_infinite(highlight))){
                 drawing_mode dm = W.set_mode(leda_xor_mode);
                 W << CGAL_RED;
                 hv = closest_vertex(T, highlight, p);
@@ -352,17 +357,20 @@ void draw_faces_along_line(Triangulation_ &T,
     if (T.dimension()<2) return;
     Point_ p, q;
     cerr << "Enter two points" << endl;
+    cerr << "The faces intersected by the line joining those points "<< endl;
+    cerr << " will be highlighted" << endl;
+    cerr << endl;
     W << CGAL_RED;
     drawing_mode dm = W.set_mode(leda_xor_mode);
     W >> p >> q;
     while (p==q) W<<q;
-    W << p << q << Line_(p,q) << CGAL_RED;
+    W << p << q << Line_(p,q);
     W.set_mode(dm);
 
     Face_handle_ f = T.locate(p);
     Line_face_circulator_ lfc = T.line_walk(p, q, f),
                          done(lfc);
-    if(lfc == NULL){
+    if(lfc == (CGAL_NULL_TYPE) NULL){
         cerr << "Line does not intersect convex hull" << endl;
     } else {
         do{
@@ -374,13 +382,15 @@ void draw_faces_along_line(Triangulation_ &T,
         any_button(W);
         // Remove the line and unhighlight again
         dm = W.set_mode(leda_xor_mode);
-        W << Line_(p,q) << CGAL_BLUE;
-        W.set_mode(dm);
-        do{
+        W << p << q << Line_(p,q);
+	W.set_mode(dm);
+	W << CGAL_BLUE;
+	do{
             if(! T.is_infinite( lfc )){
                 W << T.triangle( lfc );
             }
         }while(--lfc != done);
+	
     }
 }
 
@@ -393,7 +403,7 @@ void draw_convex_hull(Triangulation_ &T,
 
     Vertex_circulator_ chc = T.infinite_vertex()->incident_vertices(),
                            done(chc);
-    if(chc == NULL) {
+    if(chc == (CGAL_NULL_TYPE) NULL) {
         cerr << "convex hull is empty" << endl;
     } else {
         drawing_mode dm = W.set_mode(leda_src_mode);
@@ -417,6 +427,27 @@ void draw_convex_hull(Triangulation_ &T,
         W.set_mode(dm);
     }
 }
+
+void show_faces_iterator(Triangulation_ &T,
+                 Window_stream &W)
+{
+  cerr << "Highlighting in turn each face traversed by the face iterarot "<<endl;
+  W << CGAL_GREEN;
+  Face_iterator_ fit= T.faces_begin();
+  while (fit != T.faces_end()) {
+    W << T.triangle(fit);
+    fit++;
+    any_button(W);
+  }
+  any_button;
+  W << CGAL_BLUE;
+  W << T;
+  any_button;
+}
+
+
+
+
 
 void show_nearest_vertex(Delaunay_ &T,
                     Window_stream &W)
@@ -445,7 +476,7 @@ void show_nearest_vertex(Delaunay_ &T,
 	  v = T.nearest_vertex(p); W << p<<v->point();W.set_mode(dm);
         }
 
-        if( (nv != NULL) && ( (b != NO_BUTTON) || ((p != q) && (v != nv) ) )){
+        if( (nv != (CGAL_NULL_TYPE) NULL) && ( (b != NO_BUTTON) || ((p != q) && (v != nv) ) )){
             // unhighlight
             x = CGAL_to_double(nv->point().x());
             y = CGAL_to_double(nv->point().y());
@@ -506,8 +537,8 @@ void draw_dual( Delaunay_ &T, Window_stream &W )
     for (eit=ebegin; eit != eend; ++eit)
     {
         CGAL_Object o = T.dual(eit);
-        Traits_::Ray r;
-        Traits_::Segment s;
+        Gt::Ray r;
+        Gt::Segment s;
         if (CGAL_assign(s,o)) W << s;
         if (CGAL_assign(r,o)) W << r;
     }
@@ -534,12 +565,13 @@ int main(int argc, char* argv[])
     W.init(opt.min, opt.max, opt.min);   // logical window size
     //  W.set_show_coordinates(true);
     W << CGAL_BLUE;
-    W.set_mode(leda_src_mode);
-    W.set_node_width(3);
+    //W.set_mode(leda_src_mode);
+    //W.set_node_width(3);
     // W.button("toto",1,action);
+    CGAL_cgalize( W);
     W.display();
     
-    file_input(T, W, opt);
+     file_input(T, W, opt);
     (void) T.is_valid();
     W << T;
     window_input(T, W, opt);
@@ -558,6 +590,7 @@ int main(int argc, char* argv[])
     draw_faces_along_line(T, W);
     draw_incident_edges(T, W);
     draw_convex_hull(T, W);
+    show_faces_iterator(T,W);
  
     cout <<endl<<endl<< "DELAUNAY TRIANGULATION"<<endl;
     T_global = (Triangulation_ *)&D;

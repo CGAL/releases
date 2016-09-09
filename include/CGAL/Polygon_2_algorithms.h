@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Polygon_2_algorithms.h
-// package       : Polygon (1.10)
+// package       : Polygon (1.13)
 // source        : 
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
 // author(s)     : Wieger Wesselink
 //
 // coordinator   : Utrecht University
+//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -51,15 +53,25 @@
 #ifndef CGAL_POLYGON_2_ALGORITHMS_H
 #define CGAL_POLYGON_2_ALGORITHMS_H
 
+#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
+#endif // CGAL_BASIC_H
 
+#ifndef CGAL_ENUM_H
 #include <CGAL/enum.h>
+#endif // CGAL_ENUM_H
+#ifndef CGAL_BBOX_2_H
 #include <CGAL/Bbox_2.h>
+#endif // CGAL_BBOX_2_H
 
+#ifndef CGAL_POLYGON_ASSERTIONS_H
 #include <CGAL/polygon_assertions.h>
+#endif // CGAL_POLYGON_ASSERTIONS_H
 
 #ifdef CGAL_REP_CLASS_DEFINED
+#ifndef CGAL_POLYGON_TRAITS_2_H
 #include <CGAL/Polygon_traits_2.h>
+#endif // CGAL_POLYGON_TRAITS_2_H
 #endif // CGAL_REP_CLASS_DEFINED
 
 //-----------------------------------------------------------------------//

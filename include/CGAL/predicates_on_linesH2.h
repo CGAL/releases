@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : predicates_on_linesH2.fw
 // file          : include/CGAL/predicates_on_linesH2.h
-// package       : H2 (1.2.1)
-// revision      : 1.2.1
-// revision_date : 15 Jan 1998 
+// package       : H2 (1.3.1)
+// revision      : 1.3.1
+// revision_date : 02 Jan 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -60,6 +62,9 @@
 #ifndef CGAL_PREDICATES_ON_POINTSH2_H
 #include <CGAL/predicates_on_pointsH2.h>
 #endif // CGAL_PREDICATES_ON_POINTSH2_H
+#ifndef CGAL_BASIC_CONSTRUCTIONSH2_H
+#include <CGAL/basic_constructionsH2.h>
+#endif // CGAL_BASIC_CONSTRUCTIONSH2_H
 
 
 template <class FT, class RT>

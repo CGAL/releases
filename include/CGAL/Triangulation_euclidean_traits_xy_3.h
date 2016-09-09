@@ -27,38 +27,38 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Triangulation_euclidean_traits_xy_3.h
-// package       : Triangulation (1.23)
-// source        : web/Triangulation_euclidean_traits_xy_3.fw
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 1998/06/23 15:11:57 $
-// author(s)     : Herve Bronnimann and Andreas Fabri
+// package       : Triangulation (2.10)
+// source        : $Source: /u/alcor/0/prisme_util/CGAL/Local/cvsroot/Triangulation/include/CGAL/Triangulation_euclidean_traits_xy_3.h,v $
+// revision      : $Revision: 1.2.1.5 $
+// revision_date : $Date: 1998/12/18 10:22:58 $
+// author(s)     : Mariette Yvinec
 //
-// coordinator   : Herve Bronnimann
+// coordinator   : Mariette Yvinec
+//
 //
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
 
+
 #ifndef CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_XY_3_H
 #define CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_XY_3_H
 
+#include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Distance_2.h>
-#include <CGAL/Triangulation_vertex.h>
-#include <CGAL/Triangulation_face.h>
-#include <CGAL/Triangulation_face_circulator.h>
-#include <CGAL/Triangulation_edge_circulator.h>
-#include <CGAL/Triangulation_vertex_circulator.h>
+
 
 #include <CGAL/Point_3.h>
 #include <CGAL/Segment_3.h>
@@ -77,10 +77,7 @@ public:
     typedef CGAL_Ray_3<R>    Ray;
     typedef CGAL_Direction_3<R> Direction;
     
-    typedef CGAL_Triangulation_vertex<Point> Vertex;
-    typedef CGAL_Triangulation_face<Vertex> Face;
-    typedef typename Vertex::Vertex_handle Vertex_handle;
-    typedef typename Face::Face_handle Face_handle;
+
     
       static typename Rep::FT x(const Point &p) { return p.x(); }
       static typename Rep::FT y(const Point &p) { return p.y(); }
@@ -110,9 +107,9 @@ public:
                               const Point &q,
                               const Point &r) const
       {
-        if (p==q) return CGAL_COLLINEAR;
-        if (p==r) return CGAL_COLLINEAR;
-        if (r==q) return CGAL_COLLINEAR;
+        if (compare(p,q)) return CGAL_COLLINEAR;
+        if (compare(p,r)) return CGAL_COLLINEAR;
+        if (compare(r,q)) return CGAL_COLLINEAR;
     
         return CGAL_orientationC2(x(p), y(p), x(q), y(q), x(r), y(r));
       }
@@ -122,9 +119,9 @@ public:
                                                const Point &r,
                                                const Point &s) const
       {
-        if (p==s) return CGAL_ON_ORIENTED_BOUNDARY;
-        if (q==s) return CGAL_ON_ORIENTED_BOUNDARY;
-        if (r==s) return CGAL_ON_ORIENTED_BOUNDARY;
+        if (compare(p,s)) return CGAL_ON_ORIENTED_BOUNDARY;
+        if (compare(q,s)) return CGAL_ON_ORIENTED_BOUNDARY;
+        if (compare(r,s)) return CGAL_ON_ORIENTED_BOUNDARY;
     
         return CGAL_side_of_oriented_circleC2(x(p), y(p),
                                               x(q), y(q),

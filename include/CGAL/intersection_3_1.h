@@ -27,20 +27,22 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/intersection_3_1.h
-// package       : Intersections_3 (1.2)
+// package       : Intersections_3 (1.3)
 // source        : web/intersection_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
+//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -64,6 +66,13 @@ template <class R>
 CGAL_Object
 CGAL_intersection(const CGAL_Plane_3<R> &plane1, const CGAL_Plane_3<R>&plane2);
 
+template <class R>
+inline bool
+CGAL_do_intersect(const CGAL_Plane_3<R> &plane1, const CGAL_Plane_3<R>&plane2)
+{
+    return ! CGAL_intersection(plane1, plane2).is_empty();
+}
+
 
 
 
@@ -77,6 +86,20 @@ CGAL_Object
 CGAL_intersection(const CGAL_Line_3<R>&line, const CGAL_Plane_3<R> &plane)
 {
     return CGAL_intersection(plane,line);
+}
+
+template <class R>
+bool
+CGAL_do_intersect(const CGAL_Plane_3<R> &p2, const CGAL_Line_3<R> &p1);
+
+
+template <class R>
+inline bool
+CGAL_do_intersect(
+    const CGAL_Line_3<R> &p1,
+    const CGAL_Plane_3<R> &p2)
+{
+    return CGAL_do_intersect(p2,p1);
 }
 
 
@@ -93,6 +116,20 @@ CGAL_intersection(const CGAL_Ray_3<R>&ray, const CGAL_Plane_3<R> &plane)
     return CGAL_intersection(plane,ray);
 }
 
+template <class R>
+bool
+CGAL_do_intersect(const CGAL_Plane_3<R> &p1, const CGAL_Ray_3<R> &p2);
+
+
+template <class R>
+inline bool
+CGAL_do_intersect(
+    const CGAL_Ray_3<R> &p1,
+    const CGAL_Plane_3<R> &p2)
+{
+    return CGAL_do_intersect(p2,p1);
+}
+
 
 
 template <class R>
@@ -105,6 +142,20 @@ CGAL_Object
 CGAL_intersection(const CGAL_Segment_3<R>&seg, const CGAL_Plane_3<R> &plane)
 {
     return CGAL_intersection(plane,seg);
+}
+
+template <class R>
+bool
+CGAL_do_intersect(const CGAL_Plane_3<R> &p1, const CGAL_Segment_3<R> &p2);
+
+
+template <class R>
+inline bool
+CGAL_do_intersect(
+    const CGAL_Segment_3<R> &p1,
+    const CGAL_Plane_3<R> &p2)
+{
+    return CGAL_do_intersect(p2,p1);
 }
 
 

@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/generic_copy_OFF.h
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Generic copy of an object file format (OFF) file
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -78,13 +80,12 @@ template <class Writer>
 void
 CGAL_generic_copy_OFF( CGAL_File_scanner_OFF& scanner,
                       ostream& out,
-                      Writer& writer,
-                      bool verbose = false) {
+                      Writer& writer) {
     istream& in = scanner.in();
     // scans a polyhedral surface in OFF from `in' and writes it
     // to `out' in the format provided by `writer'.
     if ( ! in) {
-        if ( verbose) {
+        if ( scanner.verbose()) {
             cerr << " " << endl;
             cerr << "CGAL_generic_copy_OFF(): "
                     "input error: file format is not in OFF." << endl;
@@ -94,10 +95,11 @@ CGAL_generic_copy_OFF( CGAL_File_scanner_OFF& scanner,
 
     // Print header. Number of halfedges is only trusted if it is
     // a polyhedral surface.
-    writer.header( out,
-                   scanner.size_of_vertices(),
-                   scanner.file_info().n_halfedges(),
-                   scanner.size_of_facets());
+    writer.write_header( out,
+                         scanner.size_of_vertices(),
+                         scanner.polyhedral_surface() ?
+                             scanner.size_of_halfedges() : 0,
+                         scanner.size_of_facets());
 
     // read in all vertices
     double  x,  y,  z;  // Point coordinates.
@@ -124,7 +126,7 @@ CGAL_generic_copy_OFF( CGAL_File_scanner_OFF& scanner,
         writer.write_facet_end();
         scanner.skip_to_next_facet( i);
     }
-    writer.footer();
+    writer.write_footer();
 }
 
 
@@ -135,7 +137,7 @@ CGAL_generic_copy_OFF( istream& in, ostream& out, Writer& writer,
     // scans a polyhedral surface in OFF from `in' and writes it
     // to `out' in the format provided by `writer'.
     CGAL_File_scanner_OFF scanner( in, verbose);
-    CGAL_generic_copy_OFF( scanner, out, writer, verbose);
+    CGAL_generic_copy_OFF( scanner, out, writer);
 }
 #endif // CGAL_IO_GENERIC_COPY_OFF_H //
 // EOF //

@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/File_scanner_OFF.h
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // File scanner for an object in an object file format (OFF) file
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -81,32 +83,28 @@
 class CGAL_File_scanner_OFF : public CGAL_File_header_OFF {
     istream&  m_in;
     bool      normals_read;
-    void skip_comment() {
-        char c;
-        while ( (m_in >> c) && c == '#') {
-            while ( m_in.get(c) && c != '\n')
-                ;
-        }
-        m_in.putback(c);
-    }
+    void skip_comment() { m_in >> CGAL_skip_comment_OFF; }
 public:
     CGAL_File_scanner_OFF( istream& in, bool verbose = false)
-        : CGAL_File_header_OFF( in, verbose),
-          m_in( in), normals_read( false) {}
-    CGAL_File_scanner_OFF( istream& in,
-                          const CGAL_File_header_OFF& header)
-        : CGAL_File_header_OFF( header), m_in( in), normals_read( false) {}
+    :   CGAL_File_header_OFF(verbose),
+        m_in(in),
+        normals_read(false)
+    {
+        in >> CGAL_static_cast(CGAL_File_header_OFF&, *this);
+    }
+    CGAL_File_scanner_OFF( istream& in, const CGAL_File_header_OFF& header)
+    : CGAL_File_header_OFF(header), m_in(in), normals_read(false) {}
 
     istream& in() { return m_in; }
 
     // The scan_vertex() routine is provided for multiple
     // coordinate types to support parameterized polytopes.
     void scan_vertex( float&  x, float&  y, float&  z) {
-        if ( m_binary) {
+        if ( binary()) {
             CGAL__Binary_read_float32( m_in, x);
             CGAL__Binary_read_float32( m_in, y);
             CGAL__Binary_read_float32( m_in, z);
-            if ( m_tag4) {
+            if ( is_homogeneous()) {
                 float w;
                 CGAL__Binary_read_float32( m_in, w);
                 x /= w;
@@ -116,7 +114,7 @@ public:
         } else {
             skip_comment();
             m_in >> x >> y >> z;
-            if ( m_tag4) {
+            if ( is_homogeneous()) {
                 float w;
                 m_in >> w;
                 x /= w;
@@ -126,7 +124,7 @@ public:
         }
     }
     void scan_vertex( double& x, double& y, double& z) {
-        if ( m_binary) {
+        if ( binary()) {
             float f;
             CGAL__Binary_read_float32( m_in, f);
             x = f;
@@ -134,7 +132,7 @@ public:
             y = f;
             CGAL__Binary_read_float32( m_in, f);
             z = f;
-            if ( m_tag4) {
+            if ( is_homogeneous()) {
                 CGAL__Binary_read_float32( m_in, f);
                 x /= f;
                 y /= f;
@@ -143,7 +141,7 @@ public:
         } else {
             skip_comment();
             m_in >> x >> y >> z;
-            if ( m_tag4) {
+            if ( is_homogeneous()) {
                 double w;
                 m_in >> w;
                 x /= w;
@@ -152,13 +150,13 @@ public:
             }
         }
     }
-    void scan_vertex( int&    x, int&    y, int&    z) {
-        if ( m_binary) {
+    void scan_vertex( int& x, int& y, int& z) {
+        if ( binary()) {
             float fx, fy, fz;
             CGAL__Binary_read_float32( m_in, fx);
             CGAL__Binary_read_float32( m_in, fy);
             CGAL__Binary_read_float32( m_in, fz);
-            if ( m_tag4) {
+            if ( is_homogeneous()) {
                 float fw;
                 CGAL__Binary_read_float32( m_in, fw);
                 x = int( fx / fw);
@@ -171,7 +169,7 @@ public:
             }
         } else {
             skip_comment();
-            if ( m_tag4) {
+            if ( is_homogeneous()) {
                 double fx, fy, fz, fw;
                 m_in >> fx >> fy >> fz >> fw;
                 x = int( fx / fw);
@@ -191,22 +189,22 @@ public:
 
     void scan_vertex( float&  x, float&  y, float&  z, float&  w) {
         w = 1;
-        if ( m_binary) {
+        if ( binary()) {
             CGAL__Binary_read_float32( m_in, x);
             CGAL__Binary_read_float32( m_in, y);
             CGAL__Binary_read_float32( m_in, z);
-            if ( m_tag4)
+            if ( is_homogeneous())
                 CGAL__Binary_read_float32( m_in, w);
         } else {
             skip_comment();
             m_in >> x >> y >> z;
-            if ( m_tag4)
+            if ( is_homogeneous())
                 m_in >> w;
         }
     }
     void scan_vertex( double& x, double& y, double& z, double& w) {
         w = 1;
-        if ( m_binary) {
+        if ( binary()) {
             float f;
             CGAL__Binary_read_float32( m_in, f);
             x = f;
@@ -214,20 +212,20 @@ public:
             y = f;
             CGAL__Binary_read_float32( m_in, f);
             z = f;
-            if ( m_tag4) {
+            if ( is_homogeneous()) {
                 CGAL__Binary_read_float32( m_in, f);
                 w = f;
             }
         } else {
             skip_comment();
             m_in >> x >> y >> z;
-            if ( m_tag4)
+            if ( is_homogeneous())
                 m_in >> w;
         }
     }
-    void scan_vertex( int&    x, int&    y, int&    z, int&    w) {
+    void scan_vertex( int& x, int& y, int& z, int& w) {
         w = 1;
-        if ( m_binary) {
+        if ( binary()) {
             float f;
             CGAL__Binary_read_float32( m_in, f);
             x = int(f);
@@ -235,7 +233,7 @@ public:
             y = int(f);
             CGAL__Binary_read_float32( m_in, f);
             z = int(f);
-            if ( m_tag4) {
+            if ( is_homogeneous()) {
                 CGAL__Binary_read_float32( m_in, f);
                 w = int(f);
             }
@@ -248,7 +246,7 @@ public:
             y = int(d);
             m_in >> d;
             z = int(d);
-            if ( m_tag4) {
+            if ( is_homogeneous()) {
                 m_in >> d;
                 w = int(d);
             }
@@ -256,13 +254,13 @@ public:
     }
 
     void scan_normal( float&  x, float&  y, float&  z) {
-        if ( m_normals) {
+        if ( has_normals()) {
             normals_read = true;
-            if ( m_binary) {
+            if ( binary()) {
                 CGAL__Binary_read_float32( m_in, x);
                 CGAL__Binary_read_float32( m_in, y);
                 CGAL__Binary_read_float32( m_in, z);
-                if ( m_tag4) {
+                if ( is_homogeneous()) {
                     float w;
                     CGAL__Binary_read_float32( m_in, w);
                     x /= w;
@@ -271,7 +269,7 @@ public:
                 }
             } else {
                 m_in >> x >> y >> z;
-                if ( m_tag4) {
+                if ( is_homogeneous()) {
                     float w;
                     m_in >> w;
                     x /= w;
@@ -282,14 +280,14 @@ public:
         }
     }
     void scan_normal( double& x, double& y, double& z) {
-        if ( m_normals) {
+        if ( has_normals()) {
             normals_read = true;
-            if ( m_binary) {
+            if ( binary()) {
                 float fx, fy, fz;
                 CGAL__Binary_read_float32( m_in, fx);
                 CGAL__Binary_read_float32( m_in, fy);
                 CGAL__Binary_read_float32( m_in, fz);
-                if ( m_tag4) {
+                if ( is_homogeneous()) {
                     float fw;
                     CGAL__Binary_read_float32( m_in, fw);
                     x = fx / fw;
@@ -301,7 +299,7 @@ public:
                     z = fz;
                 }
             } else {
-                if ( m_tag4) {
+                if ( is_homogeneous()) {
                     float fx, fy, fz, fw;
                     m_in >> fx >> fy >> fz >> fw;
                     x = fx / fw;
@@ -312,15 +310,15 @@ public:
             }
         }
     }
-    void scan_normal( int&    x, int&    y, int&    z) {
-        if ( m_normals) {
+    void scan_normal( int& x, int& y, int& z) {
+        if ( has_normals()) {
             normals_read = true;
-            if ( m_binary) {
+            if ( binary()) {
                 float fx, fy, fz;
                 CGAL__Binary_read_float32( m_in, fx);
                 CGAL__Binary_read_float32( m_in, fy);
                 CGAL__Binary_read_float32( m_in, fz);
-                if ( m_tag4) {
+                if ( is_homogeneous()) {
                     float fw;
                     CGAL__Binary_read_float32( m_in, fw);
                     x = int( fx / fw);
@@ -332,7 +330,7 @@ public:
                     z = int(fz);
                 }
             } else {
-                if ( m_tag4) {
+                if ( is_homogeneous()) {
                     float fx, fy, fz, fw;
                     m_in >> fx >> fy >> fz >> fw;
                     x = int( fx / fw);
@@ -353,26 +351,26 @@ public:
 
     void scan_normal( float&  x, float&  y, float&  z, float&  w) {
         w = 1;
-        if ( m_normals) {
+        if ( has_normals()) {
             normals_read = true;
-            if ( m_binary) {
+            if ( binary()) {
                 CGAL__Binary_read_float32( m_in, x);
                 CGAL__Binary_read_float32( m_in, y);
                 CGAL__Binary_read_float32( m_in, z);
-                if ( m_tag4)
+                if ( is_homogeneous())
                     CGAL__Binary_read_float32( m_in, w);
             } else {
                 m_in >> x >> y >> z;
-                if ( m_tag4)
+                if ( is_homogeneous())
                     m_in >> w;
             }
         }
     }
     void scan_normal( double& x, double& y, double& z, double& w) {
         w = 1;
-        if ( m_normals) {
+        if ( has_normals()) {
             normals_read = true;
-            if ( m_binary) {
+            if ( binary()) {
                 float f;
                 CGAL__Binary_read_float32( m_in, f);
                 x = f;
@@ -380,22 +378,22 @@ public:
                 y = f;
                 CGAL__Binary_read_float32( m_in, f);
                 z = f;
-                if ( m_tag4) {
+                if ( is_homogeneous()) {
                     CGAL__Binary_read_float32( m_in, f);
                     w = f;
                 }
             } else {
                 m_in >> x >> y >> z;
-                if ( m_tag4)
+                if ( is_homogeneous())
                     m_in >> w;
             }
         }
     }
-    void scan_normal( int&    x, int&    y, int&    z, int&    w) {
+    void scan_normal( int& x, int& y, int& z, int& w) {
         w = 1;
-        if ( m_normals) {
+        if ( has_normals()) {
             normals_read = true;
-            if ( m_binary) {
+            if ( binary()) {
                 float f;
                 CGAL__Binary_read_float32( m_in, f);
                 x = int(f);
@@ -403,7 +401,7 @@ public:
                 y = int(f);
                 CGAL__Binary_read_float32( m_in, f);
                 z = int(f);
-                if ( m_tag4) {
+                if ( is_homogeneous()) {
                     CGAL__Binary_read_float32( m_in, f);
                     w = int(f);
                 }
@@ -415,7 +413,7 @@ public:
                 y = int(d);
                 m_in >> d;
                 z = int(d);
-                if ( m_tag4) {
+                if ( is_homogeneous()) {
                     m_in >> d;
                     w = int(d);
                 }
@@ -426,8 +424,8 @@ public:
     void skip_to_next_vertex( int current_vertex);
 
     void scan_facet( CGAL_Integer32& size, int current_facet) {
-        CGAL_assertion( current_facet < n_facets);
-        if ( m_binary)
+        CGAL_assertion( current_facet < size_of_facets());
+        if ( binary())
             CGAL__Binary_read_integer32( m_in, size);
         else {
             skip_comment();
@@ -437,30 +435,33 @@ public:
 
     void scan_facet_vertex_index( CGAL_Integer32& index,
                                   int current_facet) {
-        if ( m_binary)
+        if ( binary())
             CGAL__Binary_read_integer32( m_in, index);
         else
             m_in >> index;
         if( ! m_in) {
-            if ( m_verbose) {
+            if ( verbose()) {
                 cerr << " " << endl;
                 cerr << "CGAL_File_scanner_OFF::" << endl;
                 cerr << "scan_facet_vertex_index(): input error: cannot "
                         "read OFF file beyond facet " << current_facet
                      << "." << endl;
             }
+            set_off_header( false);
             return;
         }
-        index -= m_offset;
-        if( index < 0 || index >= n_vertices) {
+        index -= index_offset();
+        if( index < 0 || index >= size_of_vertices()) {
             m_in.clear( ios::badbit);
-            if ( m_verbose) {
+            if ( verbose()) {
                 cerr << " " << endl;
                 cerr << "CGAL_File_scanner_OFF::" << endl;
                 cerr << "scan_facet_vertex_index(): input error: facet "
                      << current_facet << ": vertex index "
-                     << index+m_offset << ": is out of range." << endl;
+                     << index + index_offset() << ": is out of range."
+                     << endl;
             }
+            set_off_header( false);
             return;
         }
     }
@@ -527,8 +528,7 @@ CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner, Pt& p,
     return p;
 }
 
-inline
-CGAL_Point_3<float>&
+inline CGAL_Point_3<float>&
 CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner,
                       CGAL_Point_3<float>& p,
                       CGAL_Cartesian_tag,
@@ -537,8 +537,7 @@ CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner,
     return p;
 }
 
-inline
-CGAL_Point_3<double>&
+inline CGAL_Point_3<double>&
 CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner,
                       CGAL_Point_3<double>& p,
                       CGAL_Cartesian_tag,
@@ -547,8 +546,7 @@ CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner,
     return p;
 }
 
-inline
-CGAL_Point_3<int>&
+inline CGAL_Point_3<int>&
 CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner,
                       CGAL_Point_3<int>& p,
                       CGAL_Cartesian_tag,
@@ -567,8 +565,7 @@ CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner, Pt& p,
     return p;
 }
 
-inline
-CGAL_Point_3<float,float>&
+inline CGAL_Point_3<float,float>&
 CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner,
                       CGAL_Point_3<float,float>& p,
                       CGAL_Rational_tag, float*) {
@@ -576,8 +573,7 @@ CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner,
     return p;
 }
 
-inline
-CGAL_Point_3<double,double>&
+inline CGAL_Point_3<double,double>&
 CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner,
                       CGAL_Point_3<double,double>& p,
                       CGAL_Rational_tag, double*) {
@@ -585,8 +581,7 @@ CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner,
     return p;
 }
 
-inline
-CGAL_Point_3<double,int>&
+inline CGAL_Point_3<double,int>&
 CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner,
                       CGAL_Point_3<double,int>& p,
                       CGAL_Rational_tag, int*) {
@@ -612,8 +607,7 @@ CGAL_file_scan_normal( CGAL_File_scanner_OFF& scanner, V& v,
     return v;
 }
 
-inline
-CGAL_Vector_3<float>&
+inline CGAL_Vector_3<float>&
 CGAL_file_scan_normal( CGAL_File_scanner_OFF& scanner,
                       CGAL_Vector_3<float>& v,
                       CGAL_Cartesian_tag,
@@ -622,8 +616,7 @@ CGAL_file_scan_normal( CGAL_File_scanner_OFF& scanner,
     return v;
 }
 
-inline
-CGAL_Vector_3<double>&
+inline CGAL_Vector_3<double>&
 CGAL_file_scan_normal( CGAL_File_scanner_OFF& scanner,
                       CGAL_Vector_3<double>& v,
                       CGAL_Cartesian_tag, double*) {
@@ -631,8 +624,7 @@ CGAL_file_scan_normal( CGAL_File_scanner_OFF& scanner,
     return v;
 }
 
-inline
-CGAL_Vector_3<int>&
+inline CGAL_Vector_3<int>&
 CGAL_file_scan_normal( CGAL_File_scanner_OFF& scanner,
                       CGAL_Vector_3<int>& v,
                       CGAL_Cartesian_tag,
@@ -651,8 +643,7 @@ CGAL_file_scan_normal( CGAL_File_scanner_OFF& scanner, V& v,
     return v;
 }
 
-inline
-CGAL_Vector_3<float,float>&
+inline CGAL_Vector_3<float,float>&
 CGAL_file_scan_normal( CGAL_File_scanner_OFF& scanner,
                       CGAL_Vector_3<float,float>& v,
                       CGAL_Rational_tag, float*) {
@@ -660,8 +651,7 @@ CGAL_file_scan_normal( CGAL_File_scanner_OFF& scanner,
     return v;
 }
 
-inline
-CGAL_Vector_3<double,double>&
+inline CGAL_Vector_3<double,double>&
 CGAL_file_scan_normal( CGAL_File_scanner_OFF& scanner,
                       CGAL_Vector_3<double,double>& v,
                       CGAL_Rational_tag, double*) {
@@ -669,8 +659,7 @@ CGAL_file_scan_normal( CGAL_File_scanner_OFF& scanner,
     return v;
 }
 
-inline
-CGAL_Vector_3<double,int>&
+inline CGAL_Vector_3<double,int>&
 CGAL_file_scan_normal( CGAL_File_scanner_OFF& scanner,
                       CGAL_Vector_3<double,int>& v,
                       CGAL_Rational_tag, int*) {

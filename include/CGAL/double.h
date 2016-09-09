@@ -27,29 +27,31 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : Double.fw
 // file          : include/CGAL/double.h
-// package       : Number_types (1.2.8)
-// revision      : 1.2.8
-// revision_date : 01 Jul 1998 
+// package       : Number_types (1.6)
+// revision      : 1.6
+// revision_date : 13 Jan 1999 
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
  
 
-#ifndef DOUBLECOMP_H
-#define DOUBLECOMP_H 1
+#ifndef CGAL_DOUBLE_H
+#define CGAL_DOUBLE_H 1
 
 #ifndef CGAL_TAGS_H
 #include <CGAL/tags.h>
@@ -65,28 +67,12 @@ double
 CGAL_to_double(double d)
 { return d; }
 
-/*
-inline double CGAL_abs(double d)
-{ return fabs(d); }
-*/
-
-/*  Is this used ? XXX
-inline
-double
-CGAL_numerator(double d)
-{ return d; }
-
-inline
-double
-CGAL_denominator(double)
-{ return 1.0; }
-*/
-
 inline
 CGAL_Number_tag
 CGAL_number_type_tag(double)
 { return CGAL_Number_tag(); }
 
+#ifdef CGAL_OLD_FINITE_VALID
 extern
 bool
 CGAL_is_finite(double d);
@@ -95,9 +81,34 @@ extern
 bool
 CGAL_is_valid(double d);
 
+#else
+inline
+bool
+CGAL_is_valid(double d)
+{ return (d == d); }
+
+inline
+bool
+CGAL_is_finite(double d)
+{ return (d == d) && (CGAL_is_valid(d-d)); }
+
+#endif // CGAL_OLD_FINITE_VALID
+
 inline
 CGAL_io_Operator
 CGAL_io_tag(double)
 { return CGAL_io_Operator(); }
+
+#ifndef CGAL_NUMBER_UTILS_H
+template <class NT> NT CGAL_abs(const NT &x);
+#endif // CGAL_NUMBER_UTILS_H
+
+CGAL_TEMPLATE_NULL
+inline
+double
+CGAL_abs(const double& d)
+{ return fabs(d); }
+
+
 
 #endif // CGAL_DOUBLE_H

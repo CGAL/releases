@@ -28,20 +28,21 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/bops_Convex_Polygon_2.C
-// package       : bops (1.0.5)
+// package       : bops (1.1.2)
 // source        : include/CGAL/bops_Convex_Polygon_2.C
-// revision      : $Revision: 1.0.5 $
-// revision_date : $Date: Tue Jun 30 19:04:34 MET DST 1998  $
-// author(s)     :        Wolfgang Freiseisen
+// revision      : $Revision: 1.1.2 $
+// revision_date : $Date: Wed Dec  9 13:28:56 MET 1998  $
+// author(s)     :             Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
@@ -57,18 +58,20 @@
 
 #include <CGAL/bops_Convex_Polygon_2.h>
 
+#define ORIGINAL // now use this
+#ifdef ORIGINAL
 template <class R_type, class Container>
-CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container>
-CGAL_Convex_Intersection(
+    CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container>
+       CGAL_Convex_Intersection(
            CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container> P,
-           CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container> Q
-)
+           CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container> Q)
+
+
 {
    typedef CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>,Container> My_Polygon;
    typedef CGAL_Point_2<R_type> My_Point;
    typedef CGAL_Segment_2<R_type> My_Segment;
    typedef CGAL_Vector_2<R_type> My_Vector;
-   typedef typename R_type::FT FT;
 
    enum tInFlag {unknown, Pin, Qin};  
 
@@ -77,7 +80,8 @@ CGAL_Convex_Intersection(
    My_Point ipoint,targ;              // variables for intersection
    My_Polygon::Vertex_circulator pCir, qCir, pCir1, qCir1;
                                       // circulators over polygons 
-   CGAL_Orientation bHA, aHB; // orientation of polygons
+   CGAL_Orientation bHA, aHB, orient; // orientation of polygons
+   typedef typename R_type::FT FT;
    FT cross;         // cross product
    tInFlag inflag;                    // which polygon is inside
    My_Vector aVec, bVec;              // vectors for computation
@@ -149,6 +153,8 @@ CGAL_Convex_Intersection(
 		       {
                           
 			 //point of intersection is end of Q, i.e. it lies on P
+			 orient=CGAL_orientation(ipoint,*pCir,*(qCir++));
+
                          if (CGAL_orientation(ipoint,*pCir,*(qCir++))==CGAL_LEFTTURN)
 			     {inflag=Qin;}
 			 else
@@ -198,7 +204,7 @@ CGAL_Convex_Intersection(
 	     } //end of else for intersection
 	 } //end of intersection
        
-       if (cross >= FT(0))
+       if (cross >= FT(0) )
 	 {
 	   if (bHA == CGAL_LEFTTURN)
  	     {
@@ -250,5 +256,314 @@ CGAL_Convex_Intersection(
        return final;
      }
 }
- 
+
+#else
+
+template <class R_type, class Container>
+CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container>
+CGAL_Convex_Intersection(
+           CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container> P,
+           CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container> Q
+)
+{
+   typedef CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>,Container> My_Polygon;
+   typedef CGAL_Point_2<R_type> My_Point;
+   typedef CGAL_Segment_2<R_type> My_Segment;
+   typedef CGAL_Vector_2<R_type> My_Vector;
+   typedef typename R_type::FT FT;
+
+   enum tInFlag {unknown, Pin, Qin};  
+
+   int pSize, qSize;                  // size of polygons
+   int aAdv, bAdv;                    // number of iterations over each polygon
+   My_Point ipoint,targ;              // variables for intersection
+   My_Polygon::Vertex_circulator pCir, qCir, pCir1, qCir1;
+                                      // circulators over polygons 
+   CGAL_Orientation bHA, aHB; // orientation of polygons
+   FT cross;         // cross product
+   tInFlag inflag;                    // which polygon is inside
+   My_Vector aVec, bVec;              // vectors for computation
+   My_Segment s1,s2,iseg;             // segments to check intersection
+   CGAL_Object result;                // result of intersection of s1 and s2
+   list<My_Point> pt_list;            // points forming solution-polynom
+   int lastaAdv, lastbAdv;            // variables to avoid endless loop
+
+   //check correct orientation for algorithm
+   if (!(P.orientation()==CGAL_COUNTERCLOCKWISE)) P.reverse_orientation();
+   if (!(Q.orientation()==CGAL_COUNTERCLOCKWISE)) Q.reverse_orientation(); 
+
+   // initialize variables
+   lastaAdv = lastbAdv = 0;
+   aAdv = bAdv = 0;
+   pSize = P.size(); qSize = Q.size();
+   inflag = unknown;
+   pCir = pCir1 = P.vertices_circulator ();
+   qCir = qCir1 = Q.vertices_circulator ();
+   pCir1 = pCir; qCir1 = qCir;
+   pCir1--; qCir1--;   
+
+   do {
+       // create vectors
+       aVec = *pCir-*pCir1; bVec=*qCir-*qCir1;
+       // calculate 'cross-product'
+       cross = aVec[0]*bVec[1]-aVec[1]*bVec[0];
+       // get orientation
+       bHA = CGAL_orientation(*pCir1, *pCir, *qCir);
+       aHB = CGAL_orientation(*qCir1, *qCir, *pCir);
+       // create segments for intersection
+       CGAL_Segment_2<R_type> s1(*pCir1,*pCir);
+       CGAL_Segment_2<R_type> s2(*qCir1,*qCir);
+       //check for intersection
+       if (CGAL_do_intersect(s1,s2)) {
+	   // get type of intersection
+	   result = CGAL_intersection(s1,s2);
+	   // if result is a point, insert in result-polynom
+	   if (CGAL_assign(ipoint, result)) {
+	       // if first intersection start algorithm
+	       //if (inflag == unknown) aAdv=bAdv=0;
+	       if (aHB==CGAL_LEFTTURN) {inflag=Pin;}
+	       else if (aHB==CGAL_RIGHTTURN) {inflag=Qin;}
+	       else {
+       		   // aHB is collinear
+		      if (*pCir == *qCir) {
+		         //the endpoints of the segments are the same
+		         //check which polynom is inside
+				if (CGAL_orientation(*pCir,*(qCir++),*(pCir++))==CGAL_RIGHTTURN) {
+				  inflag = Qin;
+				}
+				else {
+				  inflag=Pin;
+				}
+				pCir--;qCir--;    
+			   } // end of pCir==qCir
+			   else if (ipoint == *pCir) {
+				 //intersection-point is end of P, i.e. it lies on Q 
+				 if (CGAL_orientation(ipoint,*(pCir++),*qCir)==CGAL_RIGHTTURN) {
+					inflag=Pin;
+				 }
+				 else {
+					inflag = Qin;
+				 }
+				 pCir--;
+			   } // end of ipoint==pCir
+			   else {          
+				 //point of intersection is end of Q, i.e. it lies on P
+        		 if (CGAL_orientation(ipoint,*pCir,*(qCir++))==CGAL_LEFTTURN) {
+					inflag=Qin;
+				 }
+			     else {
+					inflag=Pin;
+				}
+					qCir--;
+			   } // end of default      
+		  } //end of else
+		  
+	      if (!pt_list.empty() ) {
+		  	if ((pt_list.back()!=ipoint)&&(pt_list.front()!=ipoint))
+				pt_list.push_back(ipoint);
+		  }
+	      else
+		 	pt_list.push_back(ipoint);
+
+	   } // end of point intersection
+	   else {
+	       // segment intersection              
+         if (CGAL_assign(iseg,result)) {
+		   // make sure that pCir or qCir is target
+           targ= ((iseg.source()==*pCir) || (iseg.source()==*qCir)) ?
+		      		iseg.source() : iseg.target();
+			  
+		   // if P and Q have the same endpoint
+		   if (*pCir == *qCir) {
+		   		if (CGAL_orientation(*pCir,*(qCir++),*(pCir++))==CGAL_RIGHTTURN) {
+		   			inflag = Qin;
+		   		}
+		    	else {
+				   inflag = Pin;
+				}
+		    	pCir--;qCir--;
+		   } // end of if (*pCir == *qCir)
+		   else if (targ==*pCir) {
+		        // segment of intersection is on end of P
+           		if ((pt_list.back()!=targ)&&(pt_list.front()!=targ))
+					pt_list.push_back(targ);
+		   		inflag = Pin;
+		   } //end of else if
+		   else {
+     	   		if ((pt_list.back()!=targ)&&(pt_list.front()!=targ))
+					pt_list.push_back(targ);
+		        inflag = Qin;
+		   } // end of else
+         } //end of segment intersection
+	   } //end of else for intersection
+	 } //end of intersection
+       
+     if (cross >= FT(0)) {
+	   if (bHA == CGAL_LEFTTURN) {
+	       if ((inflag == Pin)&&(pt_list.back()!=*pCir)&&(pt_list.front()!=*pCir))
+		   		pt_list.push_back(*pCir);
+	       aAdv++; pCir++; pCir1++;
+	       // abortion check
+	       lastaAdv++; lastbAdv=0;
+	   }
+	   else { 
+	       if ((inflag == Qin)&&(pt_list.back()!=*qCir)&&(pt_list.front()!=*qCir))
+		   		pt_list.push_back(*qCir);
+	       bAdv++; qCir++; qCir1++;
+	       // abortion check
+	       lastbAdv++; lastaAdv=0;
+	   }
+	 }
+     else {
+	   if (aHB == CGAL_LEFTTURN) {
+	       if ((inflag == Qin)&&(pt_list.back()!=*qCir)&&(pt_list.front()!=*qCir))
+		   		pt_list.push_back(*qCir);
+	       bAdv++; qCir++; qCir1++;
+	       // abortion check
+	       lastbAdv++; lastaAdv=0;
+	   }
+	   else {  
+	       if ((inflag == Pin)&&(pt_list.back()!=*pCir)&&(pt_list.front()!=*pCir))
+		   		pt_list.push_back(*pCir);
+	       aAdv++; pCir++; pCir1++;
+	       // abortion check
+	       lastaAdv++; lastbAdv=0;
+	   }
+	 }
+   } //end of do-loop
+   while (((aAdv < pSize) || (bAdv < qSize))&&(lastaAdv <= pSize)&&(lastbAdv<=qSize));
+   //create result polygon
+   My_Polygon final(pt_list.begin(),pt_list.end());
+
+   if (inflag == unknown) {
+       //polygons do not intersect
+       if (P.bounded_side(*qCir)==CGAL_ON_BOUNDED_SIDE)
+	   		return Q;
+       else if (Q.bounded_side(*pCir)==CGAL_ON_BOUNDED_SIDE)
+	   		return P;
+       else
+	   		return final;
+   }
+   else {
+       return final;
+   }
+}
+#endif
+
+template< class I>
+CGAL_Bops_Convex_Polygons_2<I>::InFlag
+CGAL_Bops_Convex_Polygons_2<I>::handleIntersectionPoint(
+	const Point& pt, const Orientation& aHB
+)
+{
+	InFlag inflag;
+	if ( aHB == CGAL_LEFTTURN ) 
+		inflag= Pin;
+	else if ( aHB == CGAL_RIGHTTURN )
+		inflag= Qin;
+	else { // aHB is collinear
+		if (*_pCir == *_qCir) {
+			//the endpoints of the segments are the same
+			//check which polynom is inside
+			inflag= is_leftturn(*_pCir, *(_qCir++), *(_pCir++)) ? Pin : Qin;
+			_pCir--;
+			_qCir--;
+		} // end of pCir==qCir
+		else if (pt == *_pCir) {
+			//intersection-point is end of P, i.e. it lies on Q 
+			inflag= is_leftturn(pt, *(_pCir++), *_qCir) ? Qin : Pin;
+			_pCir--;
+		} // end of ipoint==pCir
+		else {          
+			//point of intersection is end of Q, i.e. it lies on P
+			inflag= is_leftturn(pt, *_pCir, *(_qCir++)) ? Qin : Pin;
+			_qCir--;
+		} // end of default      
+	} //end of else
+	insert(pt);
+	return inflag;
+}
+
+
+
+template< class I>
+CGAL_Bops_Convex_Polygons_2<I>::InFlag
+CGAL_Bops_Convex_Polygons_2<I>::handleIntersectionSegment(const Segment& seg)
+{
+	InFlag inflag;
+	// make sure that pCir or qCir is target
+	Point_2 targ= (seg.source()==*_pCir || seg.source()==*_qCir) ?
+			seg.source() : seg.target();
+	// if P and Q have the same endpoint
+	if (*_pCir == *_qCir) {
+		inflag= is_leftturn(*_pCir,*(_qCir++),*(_pCir++)) ? Pin : Qin; // is_rightturn
+		   _pCir--; _qCir--;
+	} // end of if (*pCir == *qCir)
+	else { // segment of intersection is on end of P or Q
+		inflag= (targ==*_pCir) ? Pin : Qin;
+		insert(targ);
+	} // end of else
+	return inflag;
+}
+
+
+template< class I>
+void CGAL_Bops_Convex_Polygons_2<I>::mainProcedure()
+{
+	Orientation bHA, aHB; 		// orientation of polygons
+	NT cross;         			// cross product
+
+	Segment s1,s2,iseg;       // segments to check intersection
+	Point ipoint, targ;       // variables for intersection
+	Vector aVec, bVec;        // vectors for computation
+	Object result;              // result of intersection of s1 and s2
+
+	do {
+		// create vectors
+		aVec= *_pCir-*_pCir1;
+		bVec= *_qCir-*_qCir1;
+		// calculate 'cross-product'
+		cross = aVec[0]*bVec[1]-aVec[1]*bVec[0];
+		// get orientation
+		bHA = CGAL_orientation(*_pCir1, *_pCir, *_qCir);
+		aHB = CGAL_orientation(*_qCir1, *_qCir, *_pCir);
+		// create segments for intersection
+		Segment s1(*_pCir1,*_pCir);
+		Segment s2(*_qCir1,*_qCir);
+		//check for intersection
+		if (CGAL_do_intersect(s1,s2)) {
+			// get type of intersection
+			result = CGAL_intersection(s1,s2);
+			// if result is a point, insert in result-polynom
+			if ( CGAL_assign(ipoint, result) )
+				_inflag= handleIntersectionPoint(ipoint, aHB);
+			else if ( CGAL_assign(iseg,result) ) // segment intersection   
+				_inflag= handleIntersectionSegment( iseg );
+			else // empty intersection
+			;
+		} //end of intersection
+
+		bool is_in_A;
+		if (cross >= NT(0)) 
+			is_in_A=  (bHA == CGAL_LEFTTURN) ? true : false;
+		else 
+			is_in_A= !(aHB == CGAL_LEFTTURN) ? true : false;
+		
+		if( is_in_A == true ) {
+			conditional_insert(Pin, _inflag, *_pCir);
+			advancePolygonA();
+		}
+		else { // otherwise is_in_B == true
+			conditional_insert(Qin, _inflag, *_qCir);
+			advancePolygonB();
+		}
+		
+		
+   	} //end of do-loop
+   	while ( !wentAround() );
+	return;
+}
+
+
+
 #endif // CGAL_BOPS_CONVEX_POLYGON_2_C

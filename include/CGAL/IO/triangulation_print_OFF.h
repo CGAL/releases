@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/triangulation_print_OFF.h
-// package       : Triangulation (1.23)
+// package       : Triangulation (2.10)
 // source        : web/Triangulation_2.fw
-// revision      : $Revision: 1.45 $
-// revision_date : $Date: 1998/07/15 14:07:01 $
+// revision      : $Revision: 1.1 $
+// revision_date : $Date: 1998/06/29 12:37:31 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
+//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -58,10 +60,6 @@
 #include <map.h>
 #define CGAL_PROTECT_MAP_H
 #endif // CGAL_PROTECT_MAP_H
-
-#ifndef CGAL_FILE_WRITER_OFF
-#include <CGAL/IO/File_writer_OFF.h>
-#endif
 
 template < class Triang >
 void

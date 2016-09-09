@@ -2,25 +2,53 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 //
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
 //
-// ----------------------------------------------------------------------------
+// Every use of CGAL requires a license. Licenses come in three kinds:
 //
-// release       : $CGAL_Revision: $
-// release_date  : $CGAL_Date: $
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
+//
+// ----------------------------------------------------------------------
+//
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : viewpoint2off.C
-// package       : $CGAL_Package: Polyhedron_IO 1.9 (10 Jul 1998) $
+// package       : $CGAL_Package: Polyhedron_IO 1.11 (17 Dec 1998) $
 // revision      : $Revision: 1.1 $
 // revision_date : $Date: 1998/03/01 06:51:10 $
-// author(s)     : Lutz Kettner  <kettner@@inf.ethz.ch>
+// author(s)     : Lutz Kettner
 //
-// coordinator   : Herve Bronnimann  <Herve.Bronnimann@sophia.inria.fr>
+// coordinator   : Herve Bronnimann
 //
 // Copies from Viewpoint ASCII format into OFF format.
-// ============================================================================
+//
+// email         : cgal@cs.uu.nl
+//
+// ======================================================================
 
 #include <CGAL/basic.h>
 
@@ -46,53 +74,24 @@ typedef  vector<int>                            Facet;
 typedef  vector<Facet>                          Facet_vector;
 
 
-/* main */
-/* ==== */
-
 #define MaxParameters          3
 #define MaxOptionalParameters  2
 #define ErrParameters          10000
 
-typedef char Switch;
-
-#define NO_SWITCH    0
-#define MINUS_SWITCH 1
-#define PLUS_SWITCH  2
-
-Switch  dummy_switch = NO_SWITCH;
-Switch  verbose      = NO_SWITCH;
-Switch  binary       = NO_SWITCH;
-Switch  binary_mesh  = NO_SWITCH;
-Switch  ascii_mesh   = NO_SWITCH;
-Switch  normals_file = NO_SWITCH;
-Switch  no_normals   = NO_SWITCH;
+bool  verbose      = false;
+bool  binary       = false;
+bool  skel         = false;
+bool  noc          = false;
+bool  binary_mesh  = false;
+bool  ascii_mesh   = false;
+bool  normals_file = false;
+bool  no_normals   = false;
 
 const char* normals_filename = 0;
 
-
-/* this macro opens a block, in which the switch is detected */
-/* it must be closed with the macro endDetect()              */
-#define detectSwitch( var, text) \
-    if ( (( argv[i][0] == '/' ) || ( argv[i][0] == '-' ) || \
-	  ( argv[i][0] == '+' )) && ( strcmp( text, argv[i]+1) == 0)) { \
-	if ( argv[i][0] == '+' ) \
-	    var = PLUS_SWITCH; \
-	else \
-	    var = MINUS_SWITCH;
-
-#define endDetect() \
-	if ( nParameters <= MaxParameters ) \
-	    continue; \
-	else \
-	    break; \
-    }
-
-
-
-/* >main: main function with standard unix parameter input */
-/* ------------------------------------------------------- */
-
-main( int argc, char **argv) {
+// main function with standard unix commandline arguments
+// ------------------------------------------------------
+int main( int argc, char **argv) {
 #if CGAL_CFG_INCOMPLETE_TYPE_BUG_5
     Point _work_around_incomplete_type;
 #endif  // CGAL_CFG_INCOMPLETE_TYPE_BUG_5
@@ -100,51 +99,46 @@ main( int argc, char **argv) {
     int nParameters = 0;
     char *parameters[ MaxParameters + 1];
 
-    Switch help_switch = NO_SWITCH;
+    bool help = false;
 
-    for (i = 1; i < argc; i++) {
-
-	/* check switches */
-	detectSwitch( verbose, "v");
-	endDetect();
-	detectSwitch( binary, "b");
-	endDetect();
-	detectSwitch( binary_mesh, "mesh");
-	endDetect();
-	detectSwitch( ascii_mesh, "ascii");
-	endDetect();
-	detectSwitch( normals_file, "normals");
+    for (i = 1; i < argc && nParameters <= MaxParameters; i++) {
+	// check commandline options
+	if ( strcmp( "-v", argv[i]) == 0)
+	    verbose = true;
+	else if ( strcmp( "-b", argv[i]) == 0)
+	    binary = true;
+	else if ( strcmp( "-skel", argv[i]) == 0)
+	    skel = true;
+	else if ( strcmp( "-noc", argv[i]) == 0)
+	    noc = true;
+	else if ( strcmp( "-mesh", argv[i]) == 0)
+	    binary_mesh = true;
+	else if ( strcmp( "-ascii", argv[i]) == 0)
+	    ascii_mesh = true;
+	else if ( strcmp( "-no_normals", argv[i]) == 0)
+	    no_normals = true;
+	else if ( strcmp( "-normals", argv[i]) == 0) {
+	    normals_file = true;
 	    i++;
 	    if ( i < argc) {
 		normals_filename = argv[i];
 	    } else {
 		cerr << argv[0] << ": error: -normals need a filename as "
 		     "parameter." << endl;
-		help_switch = MINUS_SWITCH;
+		help = true;
 	    }
-	endDetect();
-	detectSwitch( no_normals, "no_normals");
-	endDetect();
-
-	detectSwitch( help_switch, "h");
-	endDetect();
-	detectSwitch( help_switch, "H");
-	endDetect();
-	detectSwitch( help_switch, "help");
-	endDetect();
-
-	/* else get standard or optional parameters */
-	if ( nParameters < MaxParameters ) {
+	} else if ( (strcmp( "-h", argv[i]) == 0) || 
+		  (strcmp( "-help", argv[i]) == 0))
+	    help = true;
+	// else parse mandatory or optional commandline arguments
+	else if ( nParameters < MaxParameters ) {
 	    parameters[nParameters ++] = argv[i];
-	    continue;
-	}
-	nParameters = ErrParameters;
-	break;
+	} else 
+	    nParameters = ErrParameters;
     }
-
     if ((nParameters < MaxParameters - MaxOptionalParameters) ||
-	(nParameters > MaxParameters) || (help_switch != NO_SWITCH)) {
-	if (help_switch == NO_SWITCH)
+	(nParameters > MaxParameters) || help) {
+	if ( ! help)
 	    cerr << "Error: in parameter list" << endl;
 	cerr << "Usage: " << argv[0] 
 	     << " [<options>] <infile.coo> <infile.ele> [<outfile>]" << endl;
@@ -152,7 +146,6 @@ main( int argc, char **argv) {
 	     << " [<options>] <infile.msh> [<outfile>]" << endl;
 	cerr << "       convert an object from Viewpoint formats into OFF." 
 	     << endl;
-	cerr << "       -b      binary output (default is ASCII)." << endl;
 	cerr << "       -mesh   forces input to be read from mesh file." 
 	     << endl;
 	cerr << "       -ascii  forces input to be read from ascii mesh file." 
@@ -160,8 +153,11 @@ main( int argc, char **argv) {
 	cerr << "       -normals <filename>   reads normals file (in "
 	        "polygon format)." << endl;
 	cerr << "       -no_normals           ignore normals." << endl;
+	cerr << "       -b      binary output (default is ASCII)." << endl;
+	cerr << "       -skel   Geomview SKEL format." << endl;
+	cerr << "       -noc    no comments in file." << endl;
 	cerr << "       -v      verbose." << endl;
-	exit(help_switch == NO_SWITCH);
+	exit( ! help);
     }
 
     CGAL_Verbose_ostream vout( verbose);
@@ -368,8 +364,10 @@ main( int argc, char **argv) {
 
     vout << "CGAL_File_writer_OFF( " << (binary ? ", binary" : ", ASCII") 
 	 << ") ...." << endl;
-    CGAL_File_writer_OFF  writer( binary);
-    writer.header( *p_out, points.size(), 0, facets.size(), normals.size()>0);
+    CGAL_File_header_OFF  header( binary, noc, skel, verbose);
+    CGAL_File_writer_OFF  writer( header);
+    writer.write_header( *p_out, points.size(), 0, facets.size(), 
+			 normals.size()>0);
     Point_vector::iterator norm = normals.begin();
     for ( Point_vector::iterator p = points.begin(); p != points.end(); ++p) {
 	writer.write_vertex( (*p).x(), (*p).y(), (*p).z());
@@ -386,14 +384,13 @@ main( int argc, char **argv) {
 	}
 	writer.write_facet_end();
     }
-    writer.footer();
+    writer.write_footer();
     vout << "    .... done." << endl;
     if ( !*p_out) { 
 	cerr << argv[0] << " write error: while writing file '"<< oname 
 	     << "'."  << endl;
 	exit( 1);
     }
-
     return 0;
 }
 

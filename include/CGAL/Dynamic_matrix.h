@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Dynamic_matrix.h
-// package       : Matrix_search (1.7)
+// package       : Matrix_search (1.10)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 1998/07/23 16:53:44 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1998/11/26 16:25:26 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // A Representation for Dynamic Matrices
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -64,10 +66,9 @@ class CGAL_Dynamic_matrix
 // and extraction of all even rows in linear time
 {
 public:
-  typedef vector< int >             CoordContainer;
-  typedef CGAL_Dynamic_matrix< Matrix >
-    ThisMatrixClass;
-  typedef typename Matrix::Value    Value;
+  typedef vector< int >                  CoordContainer;
+  typedef CGAL_Dynamic_matrix< Matrix >  ThisMatrixClass;
+  typedef typename Matrix::Value         Value;
 
   CGAL_Dynamic_matrix( const Matrix& m,
                        int r_p = 0)
@@ -76,7 +77,7 @@ public:
     row_power( r_p),
     row_offset( (1 << r_p) - 1)
   {
-    for ( int i( 0); i < column_indices.size(); ++i)
+    for ( unsigned int i( 0); i < column_indices.size(); ++i)
       column_indices[i] = i;
   }
 

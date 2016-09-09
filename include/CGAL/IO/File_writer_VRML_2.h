@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/File_writer_VRML_2.h
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Writer for polyhedral surfaces in VRML_2.0 format (.wrl)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -59,32 +61,37 @@
 #include <iostream.h>
 #define CGAL_PROTECT_IOSTREAM_H
 #endif // CGAL_PROTECT_IOSTREAM_H
+#ifndef CGAL_PROTECT_STDDEF_H
+#include <stddef.h>
+#define CGAL_PROTECT_STDDEF_H
+#endif // CGAL_PROTECT_STDDEF_H
 
 class CGAL_File_writer_VRML_2 {
-    ostream*      out;
-    size_t        _facets;
+    ostream*      m_out;
+    size_t        m_facets;
 public:
     CGAL_File_writer_VRML_2() {}
-    void header( ostream& o,
-                 size_t vertices,
-                 size_t halfedges,
-                 size_t facets);
-    void footer() const;
+    ostream& out() const { return *m_out; }
+    void write_header( ostream& o,
+                       size_t vertices,
+                       size_t halfedges,
+                       size_t facets);
+    void write_footer() const;
 
     void write_vertex( const double& x, const double& y, const double& z) {
-        *out << "                                "
-             << x << ' ' << y << ' ' << z << ',' << '\n';
+        out() << "                                "
+              << x << ' ' << y << ' ' << z << ',' << '\n';
     }
     void write_facet_header() const;
 
     void write_facet_begin( size_t no) {
-        *out << "                            ";
+        out() << "                            ";
     }
     void write_facet_vertex_index( size_t index) {
-        *out << index << ',';
+        out() << index << ',';
     }
     void write_facet_end() {
-        *out << "-1,\n";
+        out() << "-1,\n";
     }
 };
 #endif // CGAL_IO_FILE_WRITER_VRML_2_H //

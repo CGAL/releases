@@ -6,6 +6,10 @@
 #include <iostream.h>
 #include <fstream.h>
 #include <strstream.h>
+#include <iterator.h>
+
+// Define shorter names to please linker (g++/egcs)
+#define CGAL_Cartesian Cart
 
 #include <CGAL/Gmpz.h>
 #include <CGAL/Cartesian.h>
@@ -18,7 +22,6 @@
 #include <CGAL/Segment_2.h>
 
 #include <CGAL/Triangulation_euclidean_traits_2.h>
-
 #include <CGAL/Triangulation_2.h>
 #include <CGAL/Delaunay_triangulation_2.h>
 
@@ -102,11 +105,12 @@ typedef CGAL_Ray_2<Rep>  Ray;
 typedef CGAL_Line_2<Rep>  Line;
 typedef CGAL_Triangle_2<Rep>  Triangle;
 
-typedef CGAL_Triangulation_euclidean_traits_2<Rep> Traits;
-
-typedef CGAL_Triangulation_2<Traits>  Triangulation_2;
-// typedef CGAL_Delaunay_triangulation_2<Traits>  Triangulation_2;
-typedef CGAL_Delaunay_triangulation_2<Traits>  Delaunay_triangulation_2;
+typedef CGAL_Triangulation_euclidean_traits_2<Rep> Gt;
+typedef CGAL_Triangulation_vertex_base_2<Gt> Vb;
+typedef CGAL_Triangulation_face_base_2<Gt>  Fb;
+typedef CGAL_Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
+typedef CGAL_Triangulation_2<Gt,Tds>  Triangulation_2;
+//typedef CGAL_Delaunay_triangulation_2<Gt,Tds>  Delaunay_triangulation_2;
 
 typedef Triangulation_2::Face  Face;
 typedef Triangulation_2::Vertex Vertex;
@@ -181,7 +185,7 @@ void faces_along_line(Triangulation_2 &T)
     Face_handle f = T.locate(p);
     Line_face_circulator lfc = T.line_walk(p, q, f),
                          done(lfc);
-    if(lfc == NULL){
+    if(lfc == (CGAL_NULL_TYPE) NULL){
         cout << "Line does not intersect convex hull" << endl;
     } else {
         int count = 0;
@@ -200,7 +204,7 @@ void convex_hull(Triangulation_2 &T)
 
     Vertex_circulator chc = T.infinite_vertex()->incident_vertices(),
                       done(chc);
-    if(chc == NULL) {
+    if(chc == (CGAL_NULL_TYPE)NULL) {
         cout << "convex hull is empty" << endl;
     } else {
         p = chc->point();
@@ -241,7 +245,7 @@ main(int argc, char* argv[])
 
     input_from_range(T);
     input_from_file(T, opt);
-
+ 
     faces_along_line(T);
 
     convex_hull(T);

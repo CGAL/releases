@@ -27,27 +27,26 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : src/File_writer_VRML_2.C
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Writer for polyhedral surfaces VRML_2.0 format (.wrl)
-//
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -66,41 +65,41 @@
 
 void
 CGAL_File_writer_VRML_2::
-header( ostream& o, size_t vertices, size_t halfedges, size_t facets) {
-    out = &o;
-    _facets = facets;
+write_header( ostream& o, size_t vertices, size_t halfedges,size_t facets){
+    m_out    = &o;
+    m_facets = facets;
 
-    *out << "        #-- Begin of CGAL_Polyhedron_3\n";
-    *out << "        # " << vertices  << " vertices\n";
-    *out << "        # " << halfedges << " halfedges\n";
-    *out << "        # " << facets    << " facets\n";
-    *out << "        Group {\n"
-            "            children [\n"
-            "                Shape {\n"
-            "                    appearance Appearance { material "
-                                              "USE CGAL_Material }\n"
-            "                    geometry IndexedFaceSet {\n"
-            "                        convex FALSE\n"
-            "                        solid  FALSE\n"
-            "                        coord  Coordinate {\n"
-            "                            point [" << endl;
+    out() << "        #-- Begin of CGAL_Polyhedron_3\n";
+    out() << "        # " << vertices  << " vertices\n";
+    out() << "        # " << halfedges << " halfedges\n";
+    out() << "        # " << facets    << " facets\n";
+    out() << "        Group {\n"
+             "            children [\n"
+             "                Shape {\n"
+             "                    appearance Appearance { material "
+                                               "USE CGAL_Material }\n"
+             "                    geometry IndexedFaceSet {\n"
+             "                        convex FALSE\n"
+             "                        solid  FALSE\n"
+             "                        coord  Coordinate {\n"
+             "                            point [" << endl;
 }
 
 void
 CGAL_File_writer_VRML_2::
 write_facet_header() const {
-    *out << "                            ] #point\n"
-            "                        } #coord Coordinate\n"
-            "                        coordIndex  [" << endl;
+    out() << "                            ] #point\n"
+             "                        } #coord Coordinate\n"
+             "                        coordIndex  [" << endl;
 }
 
 void
 CGAL_File_writer_VRML_2::
-footer() const {
-    *out << "                        ] #coordIndex\n"
-            "                    } #geometry\n"
-            "                } #Shape\n"
-            "            ] #children\n"
-            "        } #Group" << endl;
+write_footer() const {
+    out() << "                        ] #coordIndex\n"
+             "                    } #geometry\n"
+             "                } #Shape\n"
+             "            ] #children\n"
+             "        } #Group" << endl;
 }
 // EOF //

@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Polyhedron_incremental_builder_3.h
-// package       : Polyhedron (1.11)
+// package       : Polyhedron (1.14)
 // chapter       : $CGAL_Chapter: 3D-Polyhedral Surfaces $
 // source        : polyhedron_builder.fw
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1998/02/25 04:33:56 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1998/10/08 14:30:40 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
 //
 // Incremental Construction of Polyhedral Surfaces.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -349,7 +351,7 @@ protected:
                 cerr << "CGAL_Polyhedron_incremental_builder_3<HDS>::"
                      << endl;
                 cerr << "lookup_halfedge(): input error: facet "
-                     << current_facet << " has a self intersection at vertex "
+                     << new_facets << " has a self intersection at vertex "
                      << w << "." << endl;
               }
               _error = true;
@@ -562,7 +564,7 @@ lookup_halfedge( Size w, Size v) {
             cerr << "CGAL_Polyhedron_incremental_builder_3<HDS>::"
                  << endl;
             cerr << "lookup_halfedge(): input error: facet "
-                 << current_facet << " has a self intersection at vertex "
+                 << new_facets << " has a self intersection at vertex "
                  << w << "." << endl;
           }
           _error = true;
@@ -713,7 +715,7 @@ rollback() {
     CGAL_assertion( rollback_f <= hds.size_of_facets());
     while ( rollback_v != hds.size_of_vertices())
         hds.vertex_pop_back();
-    CGAL_assertion(( hds.size_of_halfedges() - rollback_h) & 1 == 0);
+    CGAL_assertion((( hds.size_of_halfedges() - rollback_h) & 1) == 0);
     while ( rollback_h != hds.size_of_halfedges())
         hds.edge_pop_back();
     while ( rollback_f != hds.size_of_facets())

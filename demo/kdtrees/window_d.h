@@ -31,6 +31,12 @@ public:
         Size = 1.0;
         Width = width;
         Height = height;
+
+        //addition by iddo for new window of CGAL-1.1
+        CGAL_Window_stream::display(400,400);
+        CGAL_Window_stream::set_node_width(1);
+
+
         // window is initialized to be 1 unit per pixel
         // another internal initialization will be done in Init
         init(0, Width, 0); 

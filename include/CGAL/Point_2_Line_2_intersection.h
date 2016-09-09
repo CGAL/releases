@@ -28,20 +28,22 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Point_2_Line_2_intersection.h
-// package       : Intersections_2 (1.5)
+// package       : Intersections_2 (1.7)
 // source        : intersection_2_1.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
+//
 //
 // email         : cgal@cs.uu.nl
 //

@@ -1,0 +1,29 @@
+// ======================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : 
+// file          : include/CGAL/std/csignal
+// author(s)     : Geert-Jan Giezeman
+//
+// coordinator   : Utrecht University
+// email         : cgal@cs.uu.nl
+//
+// ======================================================================
+
+
+#ifndef CGAL_STD_CSIGNAL_H
+#define CGAL_STD_CSIGNAL_H
+
+#ifdef CGAL_USE_NEWSTYLE_HEADERS
+#include <csignal>
+#else
+#include <signal.h>
+#endif
+
+#endif // CGAL_STD_CSIGNAL_H

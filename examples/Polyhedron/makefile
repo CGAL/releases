@@ -33,6 +33,7 @@ LDFLAGS = \
 
 all:            \
                 polyhedron_prog_incr_builder \
+                polyhedron_prog_normals \
                 polyhedron_prog_off \
                 polyhedron_prog_point_iterator \
                 polyhedron_prog_simple \
@@ -40,6 +41,9 @@ all:            \
 
 polyhedron_prog_incr_builder: polyhedron_prog_incr_builder.o
 	$(CGAL_CXX) -o polyhedron_prog_incr_builder polyhedron_prog_incr_builder.o $(LDFLAGS)
+
+polyhedron_prog_normals: polyhedron_prog_normals.o
+	$(CGAL_CXX) -o polyhedron_prog_normals polyhedron_prog_normals.o $(LDFLAGS)
 
 polyhedron_prog_off: polyhedron_prog_off.o
 	$(CGAL_CXX) -o polyhedron_prog_off polyhedron_prog_off.o $(LDFLAGS)
@@ -56,6 +60,7 @@ polyhedron_prog_tetra: polyhedron_prog_tetra.o
 clean:
 	rm -f *.o \
                    polyhedron_prog_incr_builder \
+                   polyhedron_prog_normals \
                    polyhedron_prog_off \
                    polyhedron_prog_point_iterator \
                    polyhedron_prog_simple \

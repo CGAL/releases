@@ -27,22 +27,28 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-//
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
-//
+// 
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
+// 
+// source        : leda_window.fw
 // file          : include/CGAL/IO/forward_decl_window_stream.h
-// package       : window (1.1)
-// author(s)     : ?
-// coordinator   : ?
+// package       : window (1.2)
+// revision      : 1.2
+// revision_date : 03 Sep 1998 
+// author(s)     : Stefan Schirra
+//
+// coordinator   : MPI, Saarbruecken
 //
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
+
 #ifndef CGAL_IO_FORWARD_DECL_WINDOW_STREAM_H
 #define CGAL_IO_FORWARD_DECL_WINDOW_STREAM_H
 class leda_window;

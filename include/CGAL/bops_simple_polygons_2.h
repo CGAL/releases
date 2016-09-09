@@ -28,25 +28,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/bops_simple_polygons_2.h
-// package       : bops (1.0.5)
+// package       : bops (1.1.2)
 // source        : include/CGAL/bops_simple_polygons_2.h
-// revision      : $Revision: 1.0.5 $
-// revision_date : $Date: Tue Jun 30 19:04:32 MET DST 1998  $
-// author(s)     :        Wolfgang Freiseisen
+// revision      : $Revision: 1.1.2 $
+// revision_date : $Date: Wed Dec  9 13:28:54 MET 1998  $
+// author(s)     :             Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -65,27 +67,60 @@
 #include <CGAL/nsquare_intersecting.h>
 #include <CGAL/intersecting_polygons.h>
 
+
 template<class I>
-class CGAL_Bops_Simple_Polygons_2 : public I {
+class CGAL_Bops_Polygons_2 : public I {
 public:
-  typedef typename I::R                         R;
-  typedef typename I::Point                     Point_2;
-  typedef typename I::Segment                   Segment_2;
-  typedef typename I::Output_polygon_container  Polygon_Container;
-  typedef typename I::Output_polygon            Polygon_2;
-  typedef typename I::Output_object_container   Output_container;
+	typedef typename I::R                         R;
+	//typedef 		 I::NT FT;
+	typedef typename I::Point                     Point_2;
+	typedef typename I::Segment                   Segment_2;
+	typedef typename I::Object                    Object;
+	typedef typename I::Output_polygon_container  Polygon_Container;
+	typedef typename I::Output_polygon            Polygon_2;
+	typedef typename I::Output_object_container   Output_container;
 
-  typedef typename Output_container::const_iterator    result_iterator;
-  typedef typename Output_container::size_type         size_type;
+	typedef typename Output_container::const_iterator    result_iterator;
+	typedef typename Output_container::size_type         size_type;
 
-  result_iterator begin() const { return _result.begin(); }
-  result_iterator end() const { return _result.end(); }
-  const Output_container& result() const { return _result; }
-  size_type size() const { return _result.size(); }
-  bool empty() const { return _result.empty(); }
-  
+	result_iterator begin()           const { return _result.begin(); }
+	result_iterator end()             const { return _result.end(); }
+	const Output_container& result()  const { return _result; }
+	size_type size()                  const { return _result.size(); }
+	bool empty()                      const { return _result.empty(); }
+	
+	void add_to_result( const Polygon_2& pgon) {
+		_result.push_back(I::Make_object(pgon) );
+	}
+	
+	void add_to_result( const list<Point_2>& l) {
+		_result.push_back(I::Make_object(Polygon_2(l.begin(),l.end())) );
+	}
+	
+	virtual bool operation() = 0;
+	virtual ~CGAL_Bops_Polygons_2() {}
+protected:
+	/*
+	 *	Intersection-Type of Polygons A,B
+	 */
+	enum Intersection_type {
+		is_empty         = 0,
+		is_identical     = 1,
+		A_is_subset_of_B = 2,
+		B_is_subset_of_A = 3,
+		is_intersection  = 4
+	};
 
-  typedef CGAL_Bops_dcel<I>                Dcel;
+	Output_container  _result;  // list<CGAL_Object> _result;
+};
+
+
+
+template<class I>
+class CGAL_Bops_Simple_Polygons_2 : public CGAL_Bops_Polygons_2<I> {
+public:
+
+  typedef CGAL_Bops_dcel<I>                			Dcel;
   typedef typename Dcel::const_faces_iterator       face_iterator;
   typedef typename Dcel::const_edges_iterator       edge_iterator;
   typedef typename Dcel::const_vertices_iterator    vertex_iterator;
@@ -135,13 +170,6 @@ public:
 protected:
 
   virtual void perform(void) {};
-  enum Intersection_type {
-    is_empty         = 0,
-    is_identical     = 1,
-    A_is_subset_of_B = 2,
-    B_is_subset_of_A = 3,
-    is_intersection  = 4
-  };
 
   int calc_intersection_type(int) const {
      typename I::Bbox a_box= I::get_Bbox(_pgon1);
@@ -321,7 +349,7 @@ protected:
   Dcel dcel;
   vector<bool> marked;        // marked list for edges
   vector<bool> marked_vertex; // marked list for vertices
-  Output_container  _result;  // list<CGAL_Object> _result;
+
   Intersect_Polygons _inter_res;
 };
 

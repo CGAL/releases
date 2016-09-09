@@ -28,25 +28,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/bops_traits_2.h
-// package       : bops (1.0.5)
+// package       : bops (1.1.2)
 // source        : include/CGAL/bops_traits_2.h
-// revision      : $Revision: 1.0.5 $
-// revision_date : $Date: Tue Jun 30 19:04:33 MET DST 1998  $
-// author(s)     :        Wolfgang Freiseisen
+// revision      : $Revision: 1.1.2 $
+// revision_date : $Date: Wed Dec  9 13:28:54 MET 1998  $
+// author(s)     :             Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -79,7 +81,7 @@ struct Bops_default_I : public min_sqr_distance_traits<_R>
   Bops_default_I() {}
 
   /* representation class */
-  typedef _R R;
+  //typedef _R R;
   typedef CGAL_Object                          Object;
 
   /*------ constant sized objects ------*/

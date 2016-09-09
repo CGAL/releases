@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : PointVectorDirectionH2.fw
 // file          : include/CGAL/PVDH2.h
-// package       : H2 (1.2.1)
-// revision      : 1.2.1
-// revision_date : 15 Jan 1998 
+// package       : H2 (1.3.1)
+// revision      : 1.3.1
+// revision_date : 02 Jan 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -108,10 +110,12 @@ public:
             direction() const;
 
             CGAL_PointH2(const CGAL_VectorH2<FT,RT>& v);
- friend CGAL_PointH2<FT,RT>
+ friend inline
+        CGAL_PointH2<FT,RT>
         operator+ CGAL_NULL_TMPL_ARGS (const CGAL_Origin & o,
                                        const CGAL_VectorH2<FT,RT> & v);
- friend CGAL_PointH2<FT,RT>
+ friend inline
+        CGAL_PointH2<FT,RT>
         operator- CGAL_NULL_TMPL_ARGS (const CGAL_Origin & o,
                                        const CGAL_VectorH2<FT,RT> & v);
 protected:
@@ -164,34 +168,44 @@ public:
             CGAL_VectorH2(const CGAL_DirectionH2<FT,RT> & dir);
 // friends:
 
-friend CGAL_VectorH2<FT,RT>
+friend inline
+       CGAL_VectorH2<FT,RT>
        operator- CGAL_NULL_TMPL_ARGS ( const CGAL_PointH2<FT,RT> &,
                                        const CGAL_Origin & );
-friend CGAL_VectorH2<FT,RT>
+friend inline
+       CGAL_VectorH2<FT,RT>
        operator- CGAL_NULL_TMPL_ARGS ( const CGAL_Origin &,
                                        const CGAL_PointH2<FT,RT> & );
-friend CGAL_PointH2<FT,RT>
+friend inline
+       CGAL_PointH2<FT,RT>
        operator+ CGAL_NULL_TMPL_ARGS ( const CGAL_Origin &,
                                        const CGAL_VectorH2<FT,RT> & );
-friend CGAL_PointH2<FT,RT>
+friend inline
+       CGAL_PointH2<FT,RT>
        operator- CGAL_NULL_TMPL_ARGS ( const CGAL_Origin &,
                                        const CGAL_VectorH2<FT,RT> & );
-friend CGAL_VectorH2<FT,RT>
+friend CGAL_KERNEL_INLINE
+       CGAL_VectorH2<FT,RT>
        operator+ CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH2<FT,RT> &,
                                        const CGAL_VectorH2<FT,RT> & );
-friend CGAL_VectorH2<FT,RT>
+friend CGAL_KERNEL_INLINE
+       CGAL_VectorH2<FT,RT>
        operator- CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH2<FT,RT> &,
                                        const CGAL_VectorH2<FT,RT> & );
-friend FT
+friend CGAL_KERNEL_INLINE
+       FT
        operator* CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH2<FT,RT> &,
                                        const CGAL_VectorH2<FT,RT> & );
-friend CGAL_VectorH2<FT,RT>
+friend CGAL_KERNEL_INLINE
+       CGAL_VectorH2<FT,RT>
        operator* CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH2<FT,RT> &,
                                        const RT & );
-friend CGAL_VectorH2<FT,RT>
+friend CGAL_KERNEL_INLINE
+       CGAL_VectorH2<FT,RT>
        operator* CGAL_NULL_TMPL_ARGS ( const RT &,
                                        const CGAL_VectorH2<FT,RT> & );
-friend CGAL_VectorH2<FT,RT>
+friend CGAL_KERNEL_INLINE
+       CGAL_VectorH2<FT,RT>
        operator/ CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH2<FT,RT> &,
                                        const RT & );
 protected:

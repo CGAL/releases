@@ -8,10 +8,15 @@
 #include "points.h"
 
 #include <CGAL/Triangulation_2.h>
+#include <CGAL/Delaunay_triangulation_2.h>
 
-typedef CGAL_Triangulation_2< Euclidean_2 > Triangulation_2;
 
-
+typedef Euclidean_2 Gt;
+typedef CGAL_Triangulation_vertex_base_2<Gt> Vb;
+typedef CGAL_Triangulation_face_base_2<Gt>  Fb;
+typedef CGAL_Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
+typedef CGAL_Triangulation_2<Gt,Tds>  Triangulation_2;
+typedef CGAL_Delaunay_triangulation_2<Gt,Tds>  Delaunay_triangulation_2;
 
 int main(int argc, char* argv[])
 {

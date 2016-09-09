@@ -1,29 +1,14 @@
 DEMOS   :
 ---------
-try "make" to see all the demos
-try {lfc, demo, crust, points3D, triangulation_basic_example,
-triangulation_terrain, triangulation_locate_grid} to see one demo
-
-
-lfc (line face circulator)
-Illustrates walking in a triangulation
-It makes use of graphical IO and needs LEDA to be installed.
+try "make demo" 
 
 
 demo:
-Illustrates features of the triangulation package.
+Illustrates features of the  basic triangulation and of Delaunay Triangulation
+(i. e. the classes CGAL_Triangulation_2<Gt,Tds> and
+CGAL_Delaunay_triangulation_2<Gt,Tds>)
 It makes use of graphical IO and needs LEDA to be installed.
 
 
-crust:
-Computes the crust of a set of points
-It makes use of graphical IO and needs LEDA to be installed.
-
-
-points3D:
-Illustrates how tu use 3D points with the 2D triangulation class.
-It does not make use of graphical IO,  rather you can view the
-resulting file using any inventor viewer (like Cosmo, ivview, etc.)
-
-
-triangulation_*: from the documentation
+More demos about Constrained and Regular triangulation 
+will be provided soon.

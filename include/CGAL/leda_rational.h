@@ -27,29 +27,31 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : Rational.fw
 // file          : include/CGAL/leda_rational.h
-// package       : Number_types (1.2.8)
-// revision      : 1.2.8
-// revision_date : 01 Jul 1998 
+// package       : Number_types (1.6)
+// revision      : 1.6
+// revision_date : 13 Jan 1999 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
  
 
-#ifndef CGAL_RATIONAL_H
-#define CGAL_RATIONAL_H
+#ifndef CGAL_LEDA_RATIONAL_H
+#define CGAL_LEDA_RATIONAL_H
 
 #ifndef CGAL_NUMBER_TYPE_TAGS_H
 #include <CGAL/number_type_tags.h>
@@ -95,7 +97,10 @@ CGAL_io_Operator
 CGAL_io_tag(const leda_rational &)
 { return CGAL_io_Operator(); }
 
-// typedef rational CGAL_Rational;
+inline
+CGAL_Sign
+CGAL_sign(const leda_rational& r)
+{ return (CGAL_Sign)sign(r); }
 
 /*
 #if LEDA_ROOT_INCL_ID == 349115
@@ -104,4 +109,8 @@ CGAL_io_tag(const leda_rational &)
 #endif
 */
 
-#endif  // CGAL_RATIONAL_H
+#ifdef CGAL_INTERVAL_ARITHMETIC_H
+#include <CGAL/Interval_arithmetic/IA_leda_rational.h>
+#endif // CGAL_INTERVAL_ARITHMETIC_H
+
+#endif  // CGAL_LEDA_RATIONAL_H

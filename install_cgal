@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # A CGAL Installation Script Prototype 
 # ---------------------------------------------------------------------
-# $Id: install_cgal,v 1.28 1998/07/15 16:07:36 hoffmann Exp $
+# $Id: install_cgal,v 1.31 1998/11/26 16:06:35 hoffmann Exp $
 # ---------------------------------------------------------------------
 # 
 # Copyright (c) 1998 The CGAL Consortium
@@ -45,9 +45,9 @@
 # CGAL specific:
 
 # ---------------------------------------------
-CGAL_VERSION='1.1'
+CGAL_VERSION='1.2'
 # ---------------------------------------------
-CGAL_INSTALL_VERSION='$Revision: 1.28 $'
+CGAL_INSTALL_VERSION='$Revision: 1.31 $'
 # ---------------------------------------------
 CGAL_INSTALL_CONF_VERSION='1.1'
 # ---------------------------------------------
@@ -189,7 +189,6 @@ GMP_LIB_DIR=''
 
 # did GMP tests succeed ('' - no, 'y' - yep)
 GMP_TEST_PASSED=''
-
 
 # ---------------------------------------------------------------------
 # internal variables
@@ -593,6 +592,22 @@ guess_os()
 # compiler related functions:
 # -------------------------------------------------------------------
 
+
+# this header is used to disable the STL-in-std-namespace
+# for MIPSPRO later than 7.2
+write_sgi_no_namespace_header()
+{
+    ${_printf} "%s\n" '
+    #if defined(__sgi) && !defined(__GNUC__) && defined(_COMPILER_VERSION)
+    #if (_COMPILER_VERSION >= 721) && defined(_NAMESPACES)
+    #define __STL_NO_NAMESPACES
+    #include <stl_config.h>
+    #undef __STL_USE_NAMESPACES
+    #endif
+    #endif
+'
+}
+
 # give version numbers for GNU GCC
 # NB: truncated to *.*.* (three numbers)
 # since we don't want to make a difference between 2.7.2.*
@@ -704,7 +719,7 @@ set_compiler_flags()
 	    ;;
 	*IRIX*g++-egcs*|*IRIX*g++-2.8*)
 	    #### settings for egcs/gcc2.8 on irix
-	    ADDITIONAL_CXXFLAGS="-ftemplate-depth-25"
+	    ADDITIONAL_CXXFLAGS="-Wall -ftemplate-depth-25"
 	    CGAL_LIB_CXXFLAGS=
 	    CGAL_LIB_LDFLAGS=
 	    CGAL_LIB_CREATE="ar cr"
@@ -749,7 +764,7 @@ set_compiler_flags()
 	    ;;
 	*SunOS*5.*g++-egcs*|*SunOS*5.*g++-2.8*)
 	    #### settings for egcs/gcc2.8 on solaris
-	    ADDITIONAL_CXXFLAGS="-ftemplate-depth-25"
+	    ADDITIONAL_CXXFLAGS="-Wall -ftemplate-depth-25"
 	    CGAL_LIB_CXXFLAGS=
 	    CGAL_LIB_LDFLAGS=
 	    CGAL_LIB_CREATE="ar cr"
@@ -779,7 +794,7 @@ set_compiler_flags()
 	    ;;
 	*Linux*g++-egcs*|*Linux*g++-2.8*)
 	    #### settings for egcs/gcc2.8 on linux
-	    ADDITIONAL_CXXFLAGS="-ftemplate-depth-25"
+	    ADDITIONAL_CXXFLAGS="-Wall -ftemplate-depth-25"
 	    CGAL_LIB_CXXFLAGS=
 	    CGAL_LIB_LDFLAGS=
 	    CGAL_LIB_CREATE="ar cr"
@@ -825,6 +840,139 @@ set_compiler_flags()
     esac
 }
 
+# --------------------------------------------------------------------------
+# Following code is taken from make_redirection_headers
+# (by Geert-Jan <geert@cs.uu.nl>)
+
+#
+# internal variables from make_redirection_headers
+#
+
+tmp_code_file=redirect_tmpfile.C
+tmp_header_file=redirect_tmpfile
+
+create_replacement_header()
+#
+# Create one header as a replacement for a standard header, if necessary.
+# Should be invoked as
+#   create_replacement_header standard_header_name suffix replacements...
+#
+{
+    replacement_header=rh
+    header_name=$1
+    header_suffix=$2
+    shift 2
+#
+# Test if the standard header exists. Return if it does.
+#
+    ${_printf} "%s\n" "#include <$header_name>" > ${tmp_code_file}
+    ${_printf} "%s\n" "int main() {return 0;}" >> ${tmp_code_file}
+    if `compiler_bin` ${tmp_code_file} >/dev/null 2>&1; then return; fi
+#
+# The standard header does not exist.
+# If some of the replacement headers do exist, they included in a
+# newly created replacement header.
+#
+    rm -f ${replacement_header}
+    touch ${replacement_header}
+    for arg in $* ; do
+        ${_printf} "%s\n" "#include <$arg>" > ${tmp_code_file}
+	${_printf} "%s\n" "int main() {return 0;}" >> ${tmp_code_file}
+	if `compiler_bin` ${tmp_code_file} >/dev/null 2>&1; then
+	    ${_printf} "%s\n" "#include <$arg>" >> ${replacement_header}
+	fi
+    done
+#
+# Move the replacement header to the platform specific config directory.
+# This directory should be created first.
+#
+    if [ -s ${replacement_header} ]
+    then
+	mv ${replacement_header} "${CGAL_INCL_CONF_DIR}/${CGAL_OS_COMPILER}/CGAL/${header_name}${header_suffix}"
+    fi
+}
+
+create_standard_header_replacements()
+{
+    ${_printf} "%s\n" "${_LEFTSPACE}Checking for standard header files"
+#
+# Decide if a .h suffix is needed for header files.
+#
+    ${_printf} "%s\n" "typedef int CGAL_nt;" > ${tmp_header_file}
+    ${_printf} "%s\n" "#include <${tmp_header_file}>" > ${tmp_code_file}
+    ${_printf} "%s\n" \
+	"int main() { CGAL_nt result = 0; return result;}" >> ${tmp_code_file}
+    if `compiler_bin` -I . ${tmp_code_file} >/dev/null 2>&1
+    then
+	header_suffix=""
+    else
+	header_suffix=".h"
+    fi
+#
+# Now create the necessary replacement files from the list below.
+#
+    while read a b; do
+	${_printf} "%s" "${_LEFTSPACE}$a ..."
+	create_replacement_header $a "$header_suffix" $b
+	${_printf} "%s\n" " done."
+    done <<EOF2
+algorithm algobase.h algo.h
+ostream ostream.h
+numeric numeric.h
+new new.h
+memory alloc.h algobase.h
+map map.h multimap.h
+locale locale.h
+list list.h
+limits
+iterator iterator.h
+istream istream.h
+iostream iostream.h
+iosfwd iostream.h
+ios ios.h
+iomanip iomanip.h
+functional function.h
+fstream fstream.h
+exception exception.h
+deque deque.h
+cwctype wctype.h
+cwchar wchar.h
+ctime time.h
+cstring string.h
+cstdlib stdlib.h
+cstdio stdio.h
+cstddef stddef.h
+cstdarg stdarg.h
+csignal signal.h
+csetjmp setjmp.h
+complex complex.h
+cmath math.h
+clocales locales.h
+climits limits.h
+ciso646 iso646.h
+cfloat float.h
+cerrno errno.h
+cctype ctype.h
+cassert assert.h
+bitset bitset.h
+queue stack.h
+vector vector.h
+valarray valarray.h
+utility function.h pair.h
+typeinfo typeinfo.h
+string
+streambuf streambuf.h
+stdexcept stdexcept.h
+stack stack.h
+sstream sstream.h
+set set.h multiset.h
+EOF2
+}
+
+#
+# end of code segemnt from make_redirection_headers
+# --------------------------------------------------------------------------
+
 # COMPILER SPECS TEST:
 # set some compiler specific flags needed for CGAL
 # these flags are determined by the corresponding test-sources
@@ -852,6 +1000,18 @@ test_compiler_specifica()
 	"//" \
 	>> ${_file}
     ${_printf} "%s\n" \
+        "// release       : CGAL-${CGAL_VERSION}" \
+        >> ${_file}
+    ${_printf} "%s\n" \
+        "// file          : include/CGAL/config/${CGAL_OS_COMPILER}/CGAL/compiler_config.h" \
+        >> ${_file}
+    ${_printf} "%s\n" \
+        "// package       : Installation (${CGAL_INSTALL_VERSION})" \
+        >> ${_file}
+    ${_printf} "%s\n" \
+        "//" \
+        >> ${_file}
+    ${_printf} "%s\n" \
 	"// Compiler specific configuration file for CGAL ${CGAL_VERSION}" \
 	>> ${_file}
     ${_printf} "%s\n" \
@@ -861,7 +1021,7 @@ test_compiler_specifica()
 	"// generated by `${_basename} $0` ${CGAL_INSTALL_VERSION}" \
 	>> ${_file}
     ${_printf} "%s\n" \
-	"// with install testsuite ${CGAL_INSTALL_CONF_VERSION}." \
+	"// with install testsuite ${CGAL_INSTALL_CONF_VERSION}" \
 	>> ${_file}
     ${_printf} "%s\n\n" \
 	"//" \
@@ -913,6 +1073,7 @@ test_compiler_specifica()
 	cleanup_after_compile
 	cleanup_after_link_run
     done
+    create_standard_header_replacements
     cd ${CGAL_DIR}
 }
 
@@ -2041,7 +2202,7 @@ test_for_leda_lib_in_sys_lib()
 test_leda()
 {
     if [ -n "${LEDA_SUPPORT}" ]; then
-	${_printf} "\n" > ${TMP_CXX_FILE}.C
+	write_sgi_no_namespace_header > ${TMP_CXX_FILE}.C
 	${_printf} "%s\n" '
 	    #include <iostream.h>
 	    #include <assert.h>
@@ -2223,6 +2384,7 @@ _test_sgi_june_1997_stl()
 # ($1 nonzero indicates verbosity)
 _test_sgi_3_0_stl()
 {
+    write_sgi_no_namespace_header > ${TMP_CXX_FILE}.C
     ${_printf} "%s\n" '
 	#include <assert.h>
 	#include <defalloc.h>
@@ -2247,7 +2409,7 @@ _test_sgi_3_0_stl()
 	    list<int> l;
 	    assert( check( l.begin()));
 	    return 0;
-	}' > ${TMP_CXX_FILE}.C
+	}' >> ${TMP_CXX_FILE}.C
     
     _compile_test "SGI STL 3.0" "`stl_test_cxxflags` " $1 && \
 	_link_run_test "SGI STL 3.0" "`stl_test_ldflags` " $1
@@ -2261,6 +2423,7 @@ _test_sgi_3_0_stl()
 # ($2 gives comment for _compile_test)
 test_stl_general()
 {
+    write_sgi_no_namespace_header > ${TMP_CXX_FILE}.C
     ${_printf} "%s\n" '
 	#include <iostream.h>
 	#include <algo.h>
@@ -2280,7 +2443,7 @@ test_stl_general()
 	    reverse( list1.begin(), list1.end());
 	    assert( list1 == lst( "niawt kram"));
 	    return 0;
-	}' > ${TMP_CXX_FILE}.C
+	}' >> ${TMP_CXX_FILE}.C
     
     if [ -z "$1" ]; then
 	_compile_test "${2}" "${CUSTOM_CXXFLAGS} " '' && \
@@ -2796,7 +2959,9 @@ change_value()
     eval "$1=\"${KEY}\""
 }
 
-# read a new directory value for variable $1
+# read a new value for variable $1
+# if $2 == "dir", it has to denote a directory
+# if $2 == "exe", it has to denote an executable file
 # check input for
 #  1) no whitespaces
 #  2) existence of the directory
@@ -2817,8 +2982,11 @@ change_dir()
 	    print_center_line "ERROR: String contains whitespaces."
 	else
 	    print_filled_line
-	    if [ ! -d "`value_of $1`" ]; then
+	    if [ "${2}" = "dir" -a ! -d "`value_of $1`" ]; then
 		print_center_line "ERROR: Directory does not exist." 
+	    elif [ "${2}" = "exe" -a ! -x "`value_of $1`" ]; then
+		print_center_line \
+		    "ERROR: File does not exist or is not executable." 
 	    else
 		eval "check_$1 print_line"
 		if [ $? != 0 ]; then
@@ -2919,7 +3087,7 @@ compiler_menu()
 		;;
 	    i|I)
 		if [ "${STL_STATUS}" != "b" ]; then
-		    if change_dir STL_DIR; then
+		    if change_dir STL_DIR dir; then
 			go_down_lines 1
 			flush_buffer
 			test_stl 'v'
@@ -3010,7 +3178,7 @@ leda_menu()
 			if [ -z "${NEED_EXTRA_LEDA_IDIR}" ]; then
 			    NEED_EXTRA_LEDA_IDIR='x'
 			fi
-		    if change_dir LEDA_INCL_DIR; then
+		    if change_dir LEDA_INCL_DIR dir; then
 			if [ -z "${NEED_EXTRA_LEDA_IDIR}" ]; then
 			    NEED_EXTRA_LEDA_IDIR='x'
 			fi
@@ -3028,7 +3196,7 @@ leda_menu()
 		;;
 	    l|L)
 		if [ -n "${LEDA_SUPPORT}" ]; then 
-		    if change_dir LEDA_LIB_DIR; then
+		    if change_dir LEDA_LIB_DIR dir; then
 			if [ -z "${NEED_EXTRA_LEDA_LDIR}" ]; then
 			    NEED_EXTRA_LEDA_LDIR='x'
 			fi
@@ -3112,7 +3280,7 @@ gmp_menu()
 		;;
 	    i|I)
 		if [ -n "${GMP_SUPPORT}" ]; then
-		    if change_dir GMP_INCL_DIR; then
+		    if change_dir GMP_INCL_DIR dir; then
 			GMP_TEST_PASSED=''
 			SETUP_COMPLETE=''
 			case ${GMP_INSTALLATION} in 
@@ -3125,7 +3293,7 @@ gmp_menu()
 		;;
 	    l|L)
 		if [ -n "${GMP_SUPPORT}" ]; then 
-		    if change_dir GMP_LIB_DIR; then
+		    if change_dir GMP_LIB_DIR dir; then
 			GMP_TEST_PASSED=''
 			SETUP_COMPLETE=''
 			case ${GMP_INSTALLATION} in 
@@ -3312,7 +3480,6 @@ install_gmp()
     LEDA_SUPPORT="${SAVE_LEDA}"
     link_gmp
 }
-
 
 # ---------------------------------------------------------------------
 # lib menu
@@ -3662,23 +3829,24 @@ create_include_makefile()
   # 
   # CGAL_SHARED_LIB_LDFLAGS
   # 
-  ${_printf} "%s\\\\\n" "CGAL_SHARED_LIB_LDFLAGS = " >> ${FILE}
   if [ -n "${LEDA_SUPPORT}" -a -n "${NEED_EXTRA_LEDA_LDIR}" ]; then
+    ${_printf} "%s\\\\\n" "CGAL_SHARED_LIB_LDFLAGS = " >> ${FILE}
+    makefile_print_line "-L\$(LEDA_LIB_DIR)" >> ${FILE}
     if [ -n "${RUNTIME_LINKER_FLAG}" ]; then
-      makefile_print_line "-L\$(LEDA_LIB_DIR)" >> ${FILE}
-      makefile_print_line "${RUNTIME_LINKER_FLAG}\$(LEDA_LIB_DIR) -lL" \
+      makefile_print_line "${RUNTIME_LINKER_FLAG}\$(LEDA_LIB_DIR)" \
 	>> ${FILE}
-    else
-      makefile_print_line "-L\$(LEDA_LIB_DIR) -lL" >> ${FILE}
     fi
+    ${_printf} "\t%s\n" "-lL ${CGAL_SHARED_LIB_LDFLAGS}" >> ${FILE}
+  else
+    ${_printf} "%s\n" \
+	"CGAL_SHARED_LIB_LDFLAGS = ${CGAL_SHARED_LIB_LDFLAGS}" >> ${FILE}
   fi
-  ${_printf} "%s\n" "${CGAL_SHARED_LIB_LDFLAGS}" >> ${FILE}
   ${_printf} "\n" >> ${FILE}
   
   # 
   # CGAL_SHARED_LIB_CREATE
   # 
-  ${_printf} "%s\n" \
+  ${_printf} "%s\n\n" \
     "CGAL_SHARED_LIB_CREATE = ${CGAL_SHARED_LIB_CREATE} -o" \
     >> ${FILE}
 

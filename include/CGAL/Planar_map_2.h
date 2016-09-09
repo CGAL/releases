@@ -27,1100 +27,582 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Planar_map_2.h
-// package       : pm (1.12.3)
-// source        :
-// revision      :
-// revision_date :
+// package       : pm (2.052)
+// source        : 
+// revision      : 
+// revision_date : 
 // author(s)     : Iddo Hanniel
 //                 Eyal Flato
+//                 Oren Nechushtan
+//
 //
 // coordinator   : Tel-Aviv University (Dan Halperin)
-// chapter       : Planar Map
+//
+// Chapter       : 
 //
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
+#ifndef CGAL_PLANAR_MAP_2_H
+#define CGAL_PLANAR_MAP_2_H
+
+#ifndef CGAL_PLANAR_MAP_MISC_H
+#include <CGAL/Planar_map_misc.h>
+#endif
+
+#ifndef CGAL_TOPOLOGICAL_MAP_H
+#include <CGAL/Topological_map.h>
+#endif
 
 
-#ifndef  CGAL_PLANAR_MAP_2_H
-#define  CGAL_PLANAR_MAP_2_H
-
-#ifndef   CGAL_PLANAR_MAP_MISC_H
-        #include  <CGAL/Planar_map_misc.h>
-#endif 
 
 
-template <class Dcel ,class Traits>
-class CGAL_Planar_map_2
-{
+#ifndef CGAL_PM_DEFAULT_POINT_LOCATION_H
+#include <CGAL/Pm_default_point_location.h>
+#endif
+
+
+////////////////////////////////////////////////////////////////////////////
+//      PLANAR_MAP_2   
+
+
+template <class _Dcel, class _Traits>
+class CGAL_Planar_map_2 : public CGAL_Topological_map<_Dcel> {
+
+
 public:
+  typedef _Dcel Dcel;
+  typedef _Traits Traits;
+  typedef CGAL_Planar_map_2<Dcel,Traits> Self;
+  typedef CGAL_Planar_map_traits_wrap<Traits> Traits_wrap;
+  typedef typename Traits::X_curve X_curve;
+  typedef typename Traits::Point Point;
   
-  typedef CGAL_Pm_default_dcel<Traits>				ddcel;
-  //  typedef Dcel          ddcel;
-
-  typedef typename ddcel::efv					defv;
-  typedef typename ddcel::ccb					dccb;
-  typedef typename ddcel::Object				dobject;
-  typedef typename ddcel::Vertex				dvertex;
-  typedef typename ddcel::Edge					dedge;
-  typedef typename ddcel::Face					dface;
-  
-  typedef typename ddcel::Object_type			        Object_type;
-
-
-  class Vertex;
-  class Halfedge;
-  class Face;
-  class Ccb_halfedge_circulator;
-  class Halfedge_around_vertex_circulator;
-  
-  
-	
-  // Traits_wrap is the extended interface class we use...
-  typedef CGAL_Planar_map_traits_wrap<Traits>			Traits_wrap; 
-  
-  // map features iterators
-  typedef base_class_iterator<typename ddcel::vertex_iterator, Vertex>  
-    Vertex_iterator;
-  
-  typedef base_class_iterator<typename ddcel::edge_iterator, Halfedge>  
-    Halfedge_iterator;
-  
-  typedef base_class_iterator</*typename*/ ddcel::face_iterator, Face>      
-    Face_iterator;
-
-  typedef base_class_iterator<typename ddcel::edge_iterator,
-                              Ccb_halfedge_circulator> Holes_iterator;
+  typedef enum{ VERTEX = 1 , EDGE , FACE , UNBOUNDED_FACE } Locate_type ;
 
 
 
-
-  typedef enum { VERTEX = 1 , EDGE , FACE , UNBOUNDED_FACE } Locate_type ; 
   
- 
-  /**************************************************************/
-  /**************************************************************/
-  /********************* V e r t e x ****************************/
-  /**************************************************************/
-  /**************************************************************/
-  class Vertex 
+  CGAL_Planar_map_2 () :traits(),pl(new CGAL_Pm_default_point_location<Self>),use_delete_pl(true)
   {
-  public:
-    Vertex()
-    {}
+      pl->init(*this,traits);
+  }    
+
+  CGAL_Planar_map_2 (CGAL_Pm_point_location_base<Self> *pl_ptr) : traits(),pl(pl_ptr),use_delete_pl(false) {
+    pl->init(*this,traits);
+  }
+
+  
+  virtual ~CGAL_Planar_map_2 () {
+    if (use_delete_pl)
+      delete pl;
+  }
+  
+  
+  
+  Halfedge_handle insert_in_face_interior(const typename Traits::X_curve& cv, Face_handle f) 
+  {
+    Halfedge_handle h = CGAL_Topological_map<Dcel>::insert_in_face_interior(f);
+    h->set_curve(cv);  //should set the curve of the twin as well but for now
+    h->twin()->set_curve(cv);
+    h->source()->set_point(traits.curve_source(cv));
+    h->target()->set_point(traits.curve_target(cv));
     
-    Vertex(dvertex *v) 
-    {
-      dv=v;
+     //pl->insert(h);  //maybe should be above
+     //iddo - for arrangement
+     pl->insert(h,cv);
+
+    return h;
+  }
+  
+  Halfedge_handle insert_from_vertex(const typename Traits::X_curve& cv, Vertex_handle v1, bool source) 
+  {
+    //find the previous of cv.
+    Halfedge_around_vertex_circulator after=v1->incident_halfedges();
+    Halfedge_around_vertex_circulator previous=v1->incident_halfedges();
+    ++after;
+    
+    if (after!=previous) {
+      while (!(traits.curve_is_between_cw(cv,previous->curve(),after->curve(),v1->point()))) {
+        ++after;
+        ++previous;
+      }
     }
     
-    Vertex(const Vertex &v)
-    {
-      dv=v.dv;
-    }
+    Halfedge_handle h = CGAL_Topological_map<Dcel>::insert_from_vertex(previous);  
+    h->set_curve(cv);  
+    h->twin()->set_curve(cv);
+    //h is now pointing from v1
     
-    Vertex &operator=(const Vertex &v)
-    { 
-      dv = v.dv; 
-      return *this; 
-    }
+    if (source)
+      h->target()->set_point(traits.curve_target(cv));
+    else
+      h->target()->set_point(traits.curve_source(cv));
     
-    bool operator==(const Vertex &v) const
-    {
-      return dv == v.dv; 
-    }
+     //pl->insert(h);  //maybe should be above
+     //iddo - for arrangement
+     pl->insert(h,cv);
+
+    return h;
+  }
+  
+  
+  Halfedge_handle insert_at_vertices(const typename Traits::X_curve& cv, 
+                                     Vertex_handle v1, Vertex_handle v2) 
+  {
+    Size num_before=number_of_faces();
     
-    //in some compilers this isn't defined automatically
-    bool operator!=(const Vertex &v) const
-    {
-      return !(*this==v); 
-    }
+    Halfedge_around_vertex_circulator after=v1->incident_halfedges();
+    Halfedge_around_vertex_circulator previous1=v1->incident_halfedges();
+    ++after;
     
-    bool is_null()
-    {
-      return (dv==NULL);
-    }
+    if (after!=previous1) {
+      while (!(traits.curve_is_between_cw(cv,previous1->curve(),after->curve(),v1->point()))) {
+        ++after;
+        ++previous1;
+      }
+    }    
+    
+    after=v2->incident_halfedges();
+    Halfedge_around_vertex_circulator previous2=v2->incident_halfedges();
+    ++after;
+    
+    if (after!=previous2) {
+      while (!(traits.curve_is_between_cw(cv,previous2->curve(),after->curve(),v2->point()))) {
+        ++after;
+        ++previous2;
+      }
+    }    
     
     
+    bool prev1_before_prev2 = prev1_inside_hole(previous1,previous2,cv);
+    Halfedge_handle h;
+    if (prev1_before_prev2)
+      h = CGAL_Topological_map<Dcel>::insert_at_vertices(previous1,previous2); 
+    else
+      h = CGAL_Topological_map<Dcel>::insert_at_vertices(previous2,previous1);
     
-    typename Traits::Point& point() const
-    { 
-      return dv->get_point(); 
-    }
+    h->set_curve(cv); 
+    h->twin()->set_curve(cv);
     
-    
-    
-    typename Traits::Info_vertex & info() const
-    { 
-      return dv->get_info(); 
-    }
-    
-    void set_info(typename Traits::Info_vertex &i)
-    { 
-      dv->set_info(i); 
-    }
-    
-    bool is_incident_edge(const Halfedge &e) const
-    {
-      return (e.source() == *this) || (e.target() == *this);
-    }
-    
-    bool is_incident_face(Face f) const
-    {
-      Halfedge_around_vertex_circulator ec(dv);
-      Halfedge_around_vertex_circulator start = ec;
-      do {
-        if ((*ec).face() == f)
-          return true;
-        ++ec;
-      } while (ec != start);
+    Size num_after=number_of_faces();
+    if (num_after-num_before) { //if additional face was added - move holes
+      Face_handle nf = h->face(); //the new face will always be the one pointed at by h
+      Face_handle of = h->twin()->face(); //old face
       
-      return false;
-    }
-    
-    int degree() const
-    {
-      defv e(dv);
-      return e.get_num();
-    }
-    
-    Halfedge_around_vertex_circulator incident_halfedges() const
-    {
-      return Halfedge_around_vertex_circulator(dv); 
-    }
-    
-    const dvertex* get_dvertex() const
-    {
-      return dv;
-    }
-    
-  protected:
-    dvertex *dv;
-    
-  };
-  
-  /**************************************************************/
-  /**************************************************************/
-  /********************* E d g e ********************************/
-  /**************************************************************/
-  /**************************************************************/
-  class Halfedge 
-  {
-  public:
-    Halfedge()
-    {}
-    
-    Halfedge(dedge *e)
-    {
-      de=e;
-    }
-    
-    Halfedge(const Halfedge &e)
-    {
-      de=e.de;
-    }
-    
-    
-    Halfedge &operator=(const Halfedge &e)
-    { 
-      de = e.de; 
-      return *this;
-    }
-    
-    bool operator==(const Halfedge &e) const
-    {
-      return de == e.de; 
-    }
-    
-    bool operator!=(const Halfedge &e) const
-    {
-      return !(*this==e); 
-    }
-    
-    bool is_null()
-    {
-      return (de==NULL);
-    }
-    
-    const typename Traits::X_curve &curve() const
-    { 
-      return de->get_curve(); 
-    }
-    
-    typename Traits::Info_edge &info()	const
-    { 
-      return de->get_info(); 
-    }
-    
-    void set_info(typename Traits::Info_edge &i)
-    {
-      de->set_info(i); 
-    }
-    
-    Vertex source() const
-    {
-      return Vertex(de->source()); 
-    }
-    
-    Vertex target()	const
-    {
-      return Vertex(de->target()); 
-    }
-    
-    Face face() const
-    {
-      return Face(de->get_face()); 
-    }
-    
-    Halfedge twin() const
-    {
-      return Halfedge(de->get_twin()); 
-    }
-    
-    Halfedge next_halfedge() const
-    { 
-      return Halfedge(de->get_next()); 
-    }
-    
-    Ccb_halfedge_circulator ccb() const
-    { 
-      return Ccb_halfedge_circulator(de); 
-    }
-    
-    
-    //bug fix for circulators instead of get_obj
-    const dedge* get_dedge() const
-    {
-      return de;
-    }
-    
-  protected:
-    dedge *de;
-    };
-  
-  /**************************************************************/
-  /**************************************************************/
-  /********************* F a c e ********************************/
-  /**************************************************************/
-  /**************************************************************/
-  class Face 
-  {
-  public:
-    
-    Face()
-    {}
-    
-    Face(dface *f)
-    {
-      df=f;
-    }
-    
-    Face(const Face &f)
-    {
-      df=f.df;
-    }
-    
-    Face &operator=(const Face &f)
-    {
-      df = f.df; 
-      return *this;
-    }
-    
-    bool operator==(const Face &f) const
-    {
-      return df == f.df; 
-    }
-    
-    bool operator!=(const Face &f) const
-    {
-      return !(*this==f); 
-    }
-    
-    bool is_null()
-    {
-      return (df==NULL);
-    }
-    
-    typename Traits::Info_face &info() const
-    {
-      return (df->get_info()); 
-    }
-    
-    void set_info(typename Traits::Info_face &i)
-    {
-      df->set_info(i); 
-    }
-    
-    
-    bool is_unbounded() const
-    {
-      // face is not bounded iff it has no outer boundary
-      return df->get_outer_ccb_edge() == NULL;
-    }
-    
-    Holes_iterator holes_begin() const
-    {
-      return Holes_iterator(df->inner_ccb_begin());
-    }
-    
-    Holes_iterator holes_end() const
-    {
-      return Holes_iterator(df->inner_ccb_end()); 
-    }
-    
-    bool is_halfedge_on_inner_ccb(const Halfedge &e) const
-    {
-      typename ddcel::ccb c((dedge *)e.get_dedge());
-      return df->is_inner_ccb(c);
-    }
-    
-    bool is_halfedge_on_outer_ccb(const Halfedge &e) const
-    {
-      typename ddcel::ccb c((dedge*)e.get_dedge());
-      return df->is_outer_ccb(c);
-    }
-    
-    bool is_outer_ccb_exist() const
-    {
-      return df->get_outer_ccb_edge() != NULL;
-    }
-    
-    Halfedge halfedge_on_outer_ccb() const
-    {
-      return Halfedge(df->get_outer_ccb_edge());
-    }
-    
-    //addition after comment by herve
-    Ccb_halfedge_circulator outer_ccb() const
-    {
-      return (halfedge_on_outer_ccb()).ccb();
-    }
-    
-
-
-    
-    const dface* get_dface() const
-    {
-      return df;
-    }
-    
-  protected:
-    dface * df;
-    
-  };
-  
-  
-  /**************************************************************/
-  /**************************************************************/
-  /********************* Ccb_halfedge_circulator ********************/
-  /**************************************************************/
-  /**************************************************************/
-  class Ccb_halfedge_circulator
-  {
-  public:
-    Ccb_halfedge_circulator()
-      : c(NULL)
-    {}
-    
-    Ccb_halfedge_circulator(const typename ddcel::ccb &ccb1)
-      : c(ccb1.get_edge()) 
-    {}
-    
-    Ccb_halfedge_circulator(const Halfedge &e)
-      : c((dedge*)e.get_dedge())
-    {}
-    
-    Ccb_halfedge_circulator(dedge *e)
-      : c(e)
-    {}
-    
-    Ccb_halfedge_circulator(const Ccb_halfedge_circulator &cc)
-      : c(cc.c.get_edge())
-    {}
-    
-    Ccb_halfedge_circulator &operator=(const Ccb_halfedge_circulator &cc)
-    {
-      c.change_ccb(cc.c.get_edge()); 
-      return *this; 
-    }
-    
-    Ccb_halfedge_circulator &operator++()
-    { 
-      c.advance(); 
-      return *this; 
-    }
-    
-    Ccb_halfedge_circulator operator++(int)
-    { 
-      Ccb_halfedge_circulator tmp = *this;
-      ++*this;
-      return tmp;
-    }
-    
-    bool operator==(const Ccb_halfedge_circulator &cc) const
-    {
-      return (c.get_edge() == cc.c.get_edge());
-    }
-    
-    bool operator!=(const Ccb_halfedge_circulator &cc) const
-    {
-      return !(*this == cc); 
-    }
-    
-    Halfedge operator*() const
-    { 
-      return Halfedge(c.get_edge()); 
-    }
-    
-    typename ddcel::ccb &get_ccb()   
-    {
-      return c;
-    }
-    
-  private:
-    typename ddcel::ccb  c;
-  };
-  
-
-
-  /**************************************************************/
-  /**************************************************************/
-  /********************  Halfedge_around_vertex_circulator ******/
-  /**************************************************************/
-  /**************************************************************/
-  class Halfedge_around_vertex_circulator 
-  {
-  public:
-    Halfedge_around_vertex_circulator()
-      : a(NULL)
-    {}
-    
-    Halfedge_around_vertex_circulator(defv &e)
-      : a(e.get_vertex())
-    {}
-    
-    Halfedge_around_vertex_circulator(const Vertex &v)
-      : a((dvertex*)(v.get_dvertex()))
-    {}
-    
-    
-    Halfedge_around_vertex_circulator(dvertex *v)
-      : a(v)
-    {}
-    
-    Halfedge_around_vertex_circulator
-      (const Halfedge_around_vertex_circulator& ec)
-      : a(ec.a.get_vertex())
-    {}
-    
-    Halfedge_around_vertex_circulator &operator=
-      (const Halfedge_around_vertex_circulator &ec)
-    {
-      a.change_efv(ec.a.get_vertex()); 
-      return *this; 
-    }
-    
-    Halfedge_around_vertex_circulator &operator++()
-    { 
-      a.advance_cw(); 
-      return *this; 
-    }
-    
-    Halfedge_around_vertex_circulator operator++(int)
-    { 
-      Halfedge_around_vertex_circulator tmp = *this;
-      ++*this;
-      return tmp;
-    }
-    
-    bool operator==(const Halfedge_around_vertex_circulator &ec) const
-    { 
-      return (a.get_edge() == ec.a.get_edge()) && 
-        (a.get_vertex() == ec.a.get_vertex()); 
-    }
-    
-    bool operator!=(const Halfedge_around_vertex_circulator &ec)
-    {
-      return !(*this == ec); 
-    }
-    
-    Halfedge operator*() const
-    {
-      //      return Halfedge(a.get_edge()); 
-      return Halfedge( (*(a.get_edge())).get_twin() ); 
-    }
-    
-  private:
-    defv a;
-  };
-
-  /**************************************************************/
-  /**************************************************************/
-  /********************* CGAL_Planar_map_2 **********************/
-  /**************************************************************/
-  /**************************************************************/
-
-/*
-#if (_MSC_VER >= 1100)
-	typedef std::list<Traits::X_curve> X_curves_list;
-#else
-	typedef list<Traits::X_curve> X_curves_list;
-#endif
-*/
-  CGAL_Planar_map_2()
-    : traits(), d(&traits)
-  {}
-  
-  /*
-    CGAL_Planar_map_2(X_curves_list &l)
-    : traits(), d(&traits)
-    {
-    insert(l); 
-    }
-    */
-  
-  Halfedge  insert( const typename Traits::X_curve  & cv ) 
-  {
-    return Halfedge(d.insert( cv ));
-  }
-  
-  /*
-    void  insert( X_curves_list  & l )
-    {
-    typename X_curves_list::iterator it;
-    for (it = l.begin(); it != l.end(); it++)
-    insert(*it);
-    }
-    */
-  
-  Halfedge insert_at_vertices( const typename Traits::X_curve  & cv, 
-                               Vertex v1, Vertex v2 )
-    {
-      return Halfedge(d.insert_at_vertices(cv, (dvertex*)v1.get_dvertex(), 
-                                           (dvertex*)v2.get_dvertex()) );
-    }
-  
-  Halfedge insert_from_vertex( const typename Traits::X_curve  & cv, 
-                               Vertex v1, bool source)
-  {
-    return Halfedge( d.insert_from_vertex(cv, (dvertex*)v1.get_dvertex(), 
-                                          source) );
-  }
-  
-  Halfedge insert_in_face_interior( const typename Traits::X_curve  & cv, 
-                                    Face f)
-  {
-    return( d.insert_in_face_interior(cv,(dface*)f.get_dface()) );
-  }  
-  
-  
-  // doron
-  
-  Halfedge  vertical_ray_shoot(const typename Traits::Point & p,  
-                               Locate_type &locate_type , bool up )
-  {
-    dedge *e = d.vertical_ray_shoot(p, up);
-    if (e == NULL)
-        {
-          locate_type=UNBOUNDED_FACE;
-          return Halfedge(NULL);
+      Holes_iterator it=of->holes_begin();
+      while (it!=of->holes_end()) {
+        //check if the hole is inside new face
+        if ( point_is_in((*it)->target()->point(),nf) ) {
+          Holes_iterator tmp=it;  //deletion invalidates iterators so... 
+          ++it;   //assumes only the erased iterator is invalidated (like stl
+          //list) 
+					
+          move_hole( tmp,of,nf); 
         }
-    
-    typename Traits::Point source = e->source()->get_point();
-    typename Traits::Point target = e->target()->get_point();
-    typename Traits::X_curve curve = e->get_curve();
-    
-    if( source == p || target == p )
-      locate_type = VERTEX;
-    else
-      locate_type = EDGE;
-    
-    return Halfedge(e);
-  }
-  // end doron
-  
-  
-  // splits the edge and add a vertex in the splitting point;
-  
-  Halfedge split_edge (Halfedge e , typename Traits::X_curve  & c1 , 
-                       typename Traits::X_curve  & c2)
-  {
-    
-    return (Halfedge( d.split_edge((dedge*)e.get_dedge(),c1,c2) ));
-  }
-
-  
-  
-  //changes according to INRIA proposal .
-  //auxilary functions
-  Vertex does_vertex_exist(const typename Traits::Point& p)
-  {
-    Vertex_iterator vi;
-    for (vi = vertices_begin(); vi != vertices_end(); ++vi)
-      { 
-        typename Traits::Point q = (*vi).point(); 
-        if (traits.compare_x(p,q)==CGAL_EQUAL && 
-            traits.compare_y(p,q)==CGAL_EQUAL )
-          {
-            return (*vi);
-          }
+        else
+          ++it;
       }
-    return Vertex(NULL);
-  }
-  
-  Halfedge is_point_on_halfedge(const typename Traits::Point& p)
-  {
-    Halfedge_iterator hi;
-    for (hi = halfedges_begin(); hi != halfedges_end(); ++hi)
-      { 
-        typename Traits::X_curve c = (*hi).curve(); 
-        if (traits.is_point_on_curve(c,p))   
-          {
-            return (*hi);
-          }
-      }
-    return Halfedge(NULL);
-  }
-  
-  
-
-  Halfedge locate(const typename Traits::Point& p , Locate_type &lt )
-  {
+			
+    }
+		
+    if (!prev1_before_prev2) h=h->twin();
     
-    Vertex v = does_vertex_exist(p); 
-    if (!v.is_null() )  
-      {
-        lt = VERTEX;  //located on a vertex 
-        return ( *(v.incident_halfedges()) );
+
+     //pl->insert(h);
+     //iddo - for arrangement
+     pl->insert(h,cv);
+
+    return h;
+  }   
+	
+private:
+  //a private implementation which defines if previous1 is on an outer ccb of 
+  //the new face (returns true) or on an inner ccb (returns false)
+  bool prev1_inside_hole(Halfedge_handle previous1,Halfedge_handle previous2,
+                         const typename Traits::X_curve& cv) 
+  {
+    //Defining geometrically wether there is a new face an if there is find
+    //if previous1 is on the outside of the new face (send previous1,previous2)
+    //or on the inside of the new face (send previous2,previous1)
+		
+    //the algorithm: 1. go over all the halfedges of the face which will hold 
+    //previous1 (since the new face is not constructed yet, 
+    //this is modeled by going from previous2->next to previous1 and then
+    //over the new curve)
+		
+    //2. find if the left-most-lower 
+    //halfedge  in the path (i.e, the one with the leftmost down target and 
+    //is the lowest to the right among the incident edges of this vertex)
+    // is directed left (we are on the outside) or right (we are inside )
+    //(if not on same ccb then it doesn't matter and return true)
+		
+    Ccb_halfedge_circulator left_edge(previous2);
+    ++left_edge;
+    Ccb_halfedge_circulator first(previous2);
+    Ccb_halfedge_circulator curr(left_edge);
+    
+    Ccb_halfedge_circulator last(previous1);
+    ++last; //we want the previous1 to be checked as well 
+    
+    Point left = previous2->target()->point();
+    bool b;
+    
+    do {
+      //source
+      b=false;
+      if (traits.point_is_left( curr->source()->point(),left)) 
+        b=true;
+      else
+        if (traits.point_is_same(curr->source()->point(),left)) {
+          if (traits.curve_is_vertical(curr->curve()) &&
+              traits.point_is_lower(curr->target()->point(),left) )
+            b=true;
+          else
+            if (traits.curve_compare_at_x_right(curr->curve(),left_edge->curve(),
+                                                left)==CGAL_SMALLER ) 
+              b=true;
+        }
+      
+      if (b) {
+        left=curr->source()->point();
+        left_edge=curr;
+      }
+      
+      //target
+      b=false;
+      if (traits.point_is_left( curr->target()->point(),left))
+        b=true;
+      if (traits.point_is_same(curr->target()->point(),left)) {
+        if (traits.curve_is_vertical(curr->curve()) &&
+            traits.point_is_lower(curr->source()->point(),left) )
+          b=true;
+        else
+          if (traits.curve_compare_at_x_right(curr->curve(),left_edge->curve(),
+                                              left)==CGAL_SMALLER ) 
+            b=true;
         
-        //a halfedge with the vertex as its source 
+        //we want in the degenerate case to return the halfedge 
+        //pointing _at_ the left point 
+          else
+            if ( (curr)==(left_edge->twin()) )
+              b=true;
+        
       }
-    
-    Halfedge e= is_point_on_halfedge(p); 
-    if (!e.is_null())
-      {
-        lt = EDGE ; //located on edge
-        return e;
+      
+      if (b) {
+        left=curr->target()->point();
+        left_edge=curr;
       }
+      
+      ++curr;
+    } while ( (curr != first) && (curr != last) );
     
     
-    lt=UNBOUNDED_FACE;
-    Locate_type temp;
-    Halfedge h = vertical_ray_shoot(p,temp,true);
-    if( temp==UNBOUNDED_FACE ) 
-      {
-        //find an edge on unbounded face
-        Face unbounded=unbounded_face();
-        Ccb_halfedge_circulator c=*(unbounded.holes_begin());
-        return (*c);
+    //test the new curve against left_edge
+    if (traits.point_is_same(traits.curve_target(cv),left)||
+        traits.point_is_same(traits.curve_source(cv),left)) {
+      if (traits.curve_is_vertical(cv)) {
+        return (traits.point_is_lower(previous2->target()->point(),
+                                      previous1->target()->point()));
       }
-    else
-      {
-        if ( !(h.face()).is_unbounded() ) 
-          lt=FACE;
-        return h;
-      }
-    
-  }
-  
-  
-  
-  
-  
-  Face unbounded_face()
-  {
-    return Face(d.get_unbounded_face());
-  }
-  
-
-  
-  Face_iterator faces_begin() const
-  { 
-//   typename ddcel::faces_list::const_iterator k = d.faces.begin();
-    typename ddcel::face_const_iterator k=d.faces.begin();              //solution for egcs
-    return Face_iterator(*((typename ddcel::face_iterator*)(&k)));
-  }
-  
-  Face_iterator faces_end() const
-  { 
-//    typename ddcel::faces_list::const_iterator k = d.faces.end();
-    typename ddcel::face_const_iterator k = d.faces.end();
-    return Face_iterator(*((typename ddcel::face_iterator*)(&k)));
-  }
-  
-  Halfedge_iterator halfedges_begin() const
-  {
-//        typename ddcel::edges_list::const_iterator k = d.edges.begin();
-        typename ddcel::edge_const_iterator k = d.edges.begin();
-        return Halfedge_iterator(*((typename ddcel::edge_iterator*)(&k)));
-  }
-  
-  Halfedge_iterator halfedges_end() const
-  { 
-//    typename ddcel::edges_list::const_iterator k = d.edges.end();
-    typename ddcel::edge_const_iterator k = d.edges.end();
-    return Halfedge_iterator(*((typename ddcel::edge_iterator*)(&k)));
-  }
-  
-  Vertex_iterator vertices_begin() const
-  { 
-//    typename ddcel::vertices_list::const_iterator k = d.vertices.begin();
-    typename ddcel::vertex_const_iterator k = d.vertices.begin();
-    return Vertex_iterator(*((typename ddcel::vertex_iterator*)(&k)));
-  }
-  
-  Vertex_iterator vertices_end() const
-  {
-//    typename ddcel::vertices_list::const_iterator k = d.vertices.end();
-    typename ddcel::vertex_const_iterator k = d.vertices.end();
-    return Vertex_iterator(*((typename ddcel::vertex_iterator*)(&k)));
-  }
-  
-
-  void clear()
-  {
-    d.clear();
-  }
-
-
-  
-  /**************************************************************/
-  /**************************************************************/
-  /*********** CGAL_Planar_map_2  - validity checks *************/
-  /**************************************************************/
-  /**************************************************************/
-  bool is_valid(Vertex v)
-  {
-    bool valid = true;
-    
-    // check if every edge from v has v as its (origin) target (changed by iddo)
-    Halfedge_around_vertex_circulator ec = v.incident_halfedges();
-    Halfedge_around_vertex_circulator start = ec;
-    do {
-      //      if ((*ec).source() != v)
-      if ((*ec).target() != v)
-        {
-          valid = false;
+      else
+        if (traits.curve_compare_at_x_right(cv,left_edge->curve(),
+                                            left)==CGAL_SMALLER ) {  
+          return (traits.point_is_left(previous1->target()->point(),
+                                       previous2->target()->point()));
         }
-      ++ec;
-    } while (ec != start);
+    }
+		
+    //check if left_edge is from left to right
+    if (traits.curve_is_vertical(left_edge->curve())) {
+      if (traits.point_is_lower(left_edge->source()->point(),
+				left_edge->target()->point()))
+        return false;
+      else
+        return true;
+    }
+		
+    return (traits.point_is_left(left_edge->source()->point(),left_edge->target()->point()));
     
-    return valid;
   }
   
-  bool is_valid(Halfedge e)
-  {
-    bool valid = true;
-    
-    // check if source and target match the curve source and target
-    if ( (e.source().point() != traits.curve_source(e.curve())) &&
-         (e.source().point() != traits.curve_target(e.curve())) )
-      valid = false;
-    if ( (e.target().point() != traits.curve_source(e.curve())) &&
-         (e.target().point() != traits.curve_target(e.curve())) )
-      valid = false;  
-    
-    // check if twin has the same curve and appropriate endpoints
-    if (e.curve() != e.twin().curve())
-      valid = false;
-    if ( (e.target() != e.twin().source()) ||
-         (e.source() != e.twin().target()) )
-      valid = false;
-    
-    //check relations with next
-    if (e.target() != e.next_halfedge().source())
-      valid = false;
-    
-    return valid;
-  }
-  
-  bool is_valid(Ccb_halfedge_circulator start, Face f)
-  {
-    bool valid = true;
-    Ccb_halfedge_circulator circ = start;
-    
-    do {
-      if ((*circ).face() != f)
-        valid = false;
-      ++circ;
-    } while (circ != start);
-    
-    return valid;
-  }
-  
-  bool is_valid(Face f)
-  {
-    bool valid = true;
-    
-    // check if all edges of f (on all ccb's) refer to f (as their face)
-
-    //  typename Face::Holes_iterator iccbit;
-    //CHECK
-    Holes_iterator iccbit;
-    Ccb_halfedge_circulator ccb_circ;
-    
-    if (f.is_outer_ccb_exist())
-      {
-        ccb_circ = f.halfedge_on_outer_ccb().ccb();
-        if (!is_valid(ccb_circ, f))
-          valid = false;
-      }
-    
-    for (iccbit = f.holes_begin(); iccbit != f.holes_end(); ++iccbit)
-      {
-        ccb_circ = *iccbit;
-        if (!is_valid(ccb_circ, f))
-          valid = false;
-      }
-    
-    return valid;
-  }
-  
-  bool is_valid()
-  {
-    bool valid = true;
-    
-    Vertex_iterator vi;
-    for (vi = vertices_begin(); vi != vertices_end(); ++vi)
-      {
-        if (!is_valid(*vi))
-          valid = false;
-      }
-    
-    Halfedge_iterator ei;
-    for (ei = halfedges_begin(); ei != halfedges_end(); ++ei)
-      {
-        if (!is_valid(*ei))
-          valid = false;
-      }	
-    
-    Face_iterator fi;
-    for (fi = faces_begin(); fi != faces_end(); ++fi)
-      {
-        if (!is_valid(*fi))
-          valid = false;
-      }
-    
-    return valid;
-  }
-  
-
-  /******************************************************************/
-  /*********************   counting functions ***********************/
-  /******************************************************************/
-
-  long number_of_faces()
-  {
-    long num = 0;
-    for (Face_iterator fi=faces_begin(); fi!=faces_end(); ++fi,++num);
-    return num;
-  }
-   
-
-  //counts every halfedge (i.e always even)
-  long number_of_halfedges()
-  {
-    long num = 0;
-    for (Halfedge_iterator ei=halfedges_begin(); ei!=halfedges_end(); 
-         ++ei,++num);
-    return num;
-  }
-   
-  long number_of_vertices()
-  {
-    long num = 0;
-    for (Vertex_iterator vi=vertices_begin(); vi!=vertices_end(); ++vi,++num);
-    return num;
-  }
-   
-  
-   
-
-  
-  /******************************************************************/
-  /*************************stream functions ************************/
-  /******************************************************************/
   
 public:
+  Halfedge_handle insert(const typename Traits::X_curve& cv) {
+    Point p1=traits.curve_source(cv);
+    Point p2=traits.curve_target(cv);
+    Locate_type lt1,lt2;
+    
+    Halfedge_handle h1 = locate(p1,lt1);
+    Halfedge_handle h2 = locate(p2,lt2);
+    
+    if (lt1==VERTEX && lt2==VERTEX) 
+      return insert_at_vertices(cv,h1->target(),h2->target()); 
+    
+    if (lt1==VERTEX && lt2!=VERTEX)
+      return insert_from_vertex(cv,h1->target(),true); 
+    if (lt1!=VERTEX && lt2==VERTEX)
+      return insert_from_vertex(cv,h2->target(),false)->twin();
+    
+    if (lt1==UNBOUNDED_FACE)
+      return insert_in_face_interior(cv,unbounded_face());
+    
+    if (lt1==FACE)
+      return insert_in_face_interior(cv,h1->face());
+    
+    // makes VC happy
+    CGAL_postcondition(false);
+    return Halfedge_handle();
+		
+  }
+	
+	
+  Halfedge_handle split_edge(Halfedge_handle e, const typename Traits::X_curve& c1, const typename Traits::X_curve& c2)
+  {
+		
+    CGAL_precondition(traits.point_is_same(traits.curve_source(c2),
+                                           traits.curve_target(c1)));
+		
+    CGAL_precondition( (traits.point_is_same(traits.curve_source(c1),e->source()->point()) &&
+			traits.point_is_same(traits.curve_target(c2),e->target()->point())) ||
+			
+                       (traits.point_is_same(traits.curve_source(c1),e->target()->point()) &&
+			traits.point_is_same(traits.curve_target(c2),e->source()->point())) );
+    
+    typename Traits::X_curve cv(e->curve());
+		
+    Halfedge_handle h = CGAL_Topological_map<Dcel>::split_edge(e);
+		
+    if (traits.point_is_same(traits.curve_source(c1),h->source()->point())) {
+      h->set_curve(c1);
+      h->twin()->set_curve(c1);
+      h->next_halfedge()->set_curve(c2);
+      h->next_halfedge()->twin()->set_curve(c2);
+    }
+    else {
+      h->set_curve(c2);
+      h->twin()->set_curve(c2);
+      h->next_halfedge()->set_curve(c1);
+      h->next_halfedge()->twin()->set_curve(c1);
+    }
+    
+    
+    
+    h->target()->set_point(traits.curve_target(c1));
+    
+      
+     //pl->split_edge(cv,h,h->next_halfedge());  //update structure in point location
+ 
+     //iddo - for arrangement
+    if (traits.point_is_same(traits.curve_source(c1),h->source()->point()))
+      pl->split_edge(cv,h,h->next_halfedge(),c1,c2);
+    else
+      pl->split_edge(cv,h,h->next_halfedge(),c2,c1);
+ 
+
+    return h;
+    
+  }
+	
   
-#if (_MSC_VER >= 1100)
-  typedef ::ostream ostream;
+  Halfedge_handle merge_edge(Halfedge_handle e1, Halfedge_handle e2, 
+                             const typename Traits::X_curve& cv) {
+    CGAL_precondition( (traits.point_is_same(traits.curve_source(cv),e1->source()->point() )&&
+			traits.point_is_same(traits.curve_target(cv),e2->target()->point())) || 
+                       (traits.point_is_same(traits.curve_target(cv),e1->source()->point() )&&
+			traits.point_is_same(traits.curve_source(cv),e2->target()->point())) );
+		
+    typename Traits::X_curve c1(e1->curve()), c2(e2->curve());
+    
+    Halfedge_handle h = CGAL_Topological_map<Dcel>::merge_edge(e1,e2); 
+    h->set_curve(cv);
+    h->twin()->set_curve(cv);
+    
+     //pl->merge_edge(c1,c2,h);
+     //iddo - for arrangement
+     pl->merge_edge(c1,c2,h,cv);
+ 
+
+    return h;
+  }
+	
+  Face_handle remove_edge(Halfedge_handle e) {
+    pl->remove_edge(e);
+		
+    //if a new hole can be created define geometrically the 
+    //halfedge (e or e->twin) that points at the new hole.
+    //if the leftmost point in the path e...e->twin
+    //is left of the leftmost point in the path e->twin ... e
+    //then e->twin  points at the hole created.
+		
+    if (e->face() == e->twin()->face() ) {
+      Ccb_halfedge_circulator ccb_e=e->ccb() ;
+      Ccb_halfedge_circulator ccb_t=e->twin()->ccb();
+      
+      Point e_left=e->target()->point();
+      Point t_left=ccb_t->target()->point();
+			
+      //find the leftmost point in the path from e to its twin
+      Ccb_halfedge_circulator aux=ccb_e;
+      do {
+        if (traits.compare_x(aux->target()->point(),e_left)==CGAL_SMALLER) {
+          e_left=aux->target()->point();
+        }
+      } while (++aux!=ccb_t);
+			
+      //find the leftmost point in the path from the twin to e
+      aux=ccb_t;
+      do {
+        if (traits.compare_x(aux->target()->point(),t_left)==CGAL_SMALLER) {
+          t_left=aux->target()->point();
+        }        
+      } while (++aux!=ccb_e);
+			
+      //compare the two left points
+      if (traits.compare_x(t_left,e_left) == CGAL_SMALLER) //e points at hole 
+        return CGAL_Topological_map<Dcel>::remove_edge(e);
+      else
+        return CGAL_Topological_map<Dcel>::remove_edge(e->twin());
+			
+    }
+    else {
+      
+      return CGAL_Topological_map<Dcel>::remove_edge(e);
+    }
+		
+  }
+	
+	
+  Halfedge_handle vertical_ray_shoot(const typename Traits::Point& p,
+                                     Locate_type &lt, bool up)
+  {
+    return pl->vertical_ray_shoot(p,lt,up);
+  }
+	
+  
+  Halfedge_const_handle vertical_ray_shoot(const typename Traits::Point& p,
+                                           Locate_type &lt, bool up) const
+  {
+    return pl->vertical_ray_shoot(p,lt,up);
+  }
+	
+	
+	
+  Halfedge_handle locate(const typename Traits::Point& p,
+                         Locate_type &lt)
+  {
+    return pl->locate(p,lt);
+  }
+	
+  Halfedge_const_handle locate(const typename Traits::Point& p,
+                               Locate_type &lt) const
+  {
+    return pl->locate(p,lt);
+  }
+	
+	
+	
+protected:  //private implementation
+  //returns true if the point  is inside (in the strict sense) of nf
+  //algorithm: count the intersections of a vertical ray shoot - are they odd ?
+  //assumes outer ccb exists
+  bool point_is_in(const typename Traits::Point& p, Face_const_handle nf) const
+  {
+    int count = 0;
+    
+    Ccb_halfedge_const_circulator circ = nf->outer_ccb();
+    do {
+      ++circ;
+    } while ((traits.curve_is_vertical(circ->curve()))&&circ!=nf->outer_ccb());
+    if (circ==nf->outer_ccb() && traits.curve_is_vertical(circ->curve()) )
+      return false; 
+    //if the whole ccb is vertical then the point is out.
+    //else advance to a non vertical curve 
+		
+    Ccb_halfedge_const_circulator last = circ;
+    
+    
+    do {
+      if (traits.point_is_same(circ->target()->point(), p)) //point is on outer ccb 
+        return false;
+      if (!traits.curve_is_vertical(circ->curve())) {
+				
+        if ( (traits.curve_get_point_status(circ->curve(),p) == 
+              Traits::UNDER_CURVE) && 
+             !(traits.point_is_same_x(circ->source()->point(),p)) ) {  
+          //point is under curve in the range (source,target]
+					
+          if (traits.point_is_same_x(circ->target()->point(),p)) {
+            //p is exactly under a vertex of the ccb - if next is not on the 
+            //same side of the vertical line from p as circ is, 
+            //we count one more intersection
+            
+            Ccb_halfedge_const_circulator next=circ;
+            ++next;
+            if (traits.curve_is_vertical(next->curve())) {
+              //advance to non-vertical edge
+              while (traits.curve_is_vertical(next->curve())) {
+                ++next;
+              }
+            }
+            if ( (traits.point_is_right(circ->source()->point(),p)&&
+                  traits.point_is_left(next->target()->point(),p)) ||
+                 (traits.point_is_left(circ->source()->point(),p)&&
+                  traits.point_is_right(next->target()->point(),p)) ) {
+              
+              ++count;
+            }
+          }
+          else {
+            ++count;
+          }
+        }
+      }
+    } while (++circ!=last);
+		
+    return (count%2 != 0);  //if count is odd return true
+    
+  }
+
+
+	
+#ifdef CGAL_PM_DEBUG // for private debug use
+  
+public:
+  void debug()
+  {
+    if (pl) ((CGAL_Pm_default_point_location<Self>*)pl)->debug();
+  }
+  
+#else
+  
+protected:
+  
 #endif
   
-  //new stream functions without info
-  
-  friend ostream &operator<<
-  (ostream &o, const typename CGAL_Planar_map_2<Dcel,Traits>::Vertex &v)
-  {
-    o << "("<< v.point() << ")" ;
-    return o;
-  }
-  
-  friend ostream &operator<<
-  (ostream &o, const typename CGAL_Planar_map_2<Dcel,Traits>::Halfedge &e)
-  {
-    o << "{" << e.source() ;
-    o << "->" << e.target() << "}";
-    return o;
-    
-  }
-  
-  
-  friend ostream &operator<<(ostream &o, 
-    const typename CGAL_Planar_map_2<Dcel,Traits>::Ccb_halfedge_circulator &b)
-  {
-    typename CGAL_Planar_map_2<Dcel,Traits>::Ccb_halfedge_circulator first = b,
-      iter = b;
-    
-    o << "[";
-    do
-      {
-        o << (*iter).source() << "-";
-        ++iter;
-      } while (iter != first);
-    o << (*first).source() << "]" ;
-    return o;
-  }
-
-
-  friend ostream &operator<<(ostream &o, 
-  const typename CGAL_Planar_map_2<Dcel,Traits>::Halfedge_around_vertex_circulator &b)
-  {
-    typename CGAL_Planar_map_2<Dcel,Traits>::Halfedge_around_vertex_circulator 
-      first = b, iter = b;
-    
-    o << "[";
-    do
-      {
-        o << *iter << " ";
-        ++iter;
-      } while (iter != first);
-    o << "]" ;
-    return o;
-  }
-
-
-
-  
-  friend ostream &operator<<
-    (ostream &o, const typename CGAL_Planar_map_2<Dcel,Traits>::Face &f)
-  {
-    if (f.is_unbounded())
-      {
-        o << "Unbounded" ;
-        return o;
-      }
-    
-    o << f.halfedge_on_outer_ccb().ccb() ;
-    
-    return o;
-  }
-  
-  
-  friend ostream &operator<<
-    (ostream &o, const CGAL_Planar_map_2<Dcel,Traits> &pm)
-  {
-    o << "Vertices ---------------" << endl;
-    typename CGAL_Planar_map_2<Dcel,Traits>::Vertex_iterator vi;
-    for (vi = pm.vertices_begin(); vi != pm.vertices_end(); ++vi)
-      {
-        o << (*vi) << endl;
-      }
-    
-    o << "Halfedges ------------------" << endl;
-    typename CGAL_Planar_map_2<Dcel,Traits>::Halfedge_iterator ei;
-    for (ei = pm.halfedges_begin(); ei != pm.halfedges_end(); ++ei)
-      {
-        o << (*ei) << endl;
-      }	
-    
-    o << "Faces ------------------" << endl;
-    typename CGAL_Planar_map_2<Dcel,Traits>::Face_iterator fi;
-
-    typename CGAL_Planar_map_2<Dcel,Traits>::Holes_iterator iccbit;
-
-
-    typename CGAL_Planar_map_2<Dcel,Traits>::Ccb_halfedge_circulator ccb_circ;
-    int ck;
-    int fc_counter;
-    for (fc_counter=0,fi = pm.faces_begin(); fi != pm.faces_end(); 
-         ++fi,fc_counter++)
-      {
-        o << "Face " << fc_counter << " :\n";
-        //			o << (*fi) << endl;
-        
-        o << "outer ccb: " ;
-        
-        if ((*fi).is_outer_ccb_exist())
-          {
-            //				o << "outer ccb: " ;
-            ccb_circ = (*fi).halfedge_on_outer_ccb().ccb();
-            o << ccb_circ;  
-          }
-        else 
-          {
-            o << "UNBOUNDED" <<endl ;
-          }
-        
-        for (ck=0, iccbit = (*fi).holes_begin(); iccbit != (*fi).holes_end();
-             ++iccbit, ck++)
-          {
-            o << "inner ccb " << ck << ": " ;
-            ccb_circ = (*iccbit);
-            o << ccb_circ;
-          }
-        o << endl;
-      }
-    return o;
-  }
-  
-  /*commented out because of problems with egcs-1.0.2
-  friend ostream &operator<<(ostream &o, const Locate_type &lt)
-  {
-    switch ( lt ) {
-    case VERTEX:
-      o << "VERTEX";
-      break;
-    case EDGE:
-      o << "EDGE";
-      break;
-    case FACE:
-      o << "FACE";
-      break;
-    case UNBOUNDED_FACE:
-      o << "UNBOUNDED_FACE";
-      break;
-    }
-    return o;
-  }
-  */	
-	
-protected:
   Traits_wrap  traits;
+  CGAL_Pm_point_location_base<Self> *pl;
+private:
+  bool use_delete_pl;
 
-  ddcel d;
+
 };
 
+#endif
 
 
 
-#else   /* CGAL_PLANAR_MAP_2_H */
-#error  Header file Planar_map_2.h included twice
-#endif  /* CGAL_PLANAR_MAP_2_H */
-
-/*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
- *     
- * Planar_map_2.h - End of File
-\*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*/
 
 
 

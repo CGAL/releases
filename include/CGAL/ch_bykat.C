@@ -27,18 +27,19 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/ch_bykat.C
-// package       : Convex_hull (1.2.3)
+// package       : Convex_hull (1.3.2)
 // source        : convex_hull_2.lw
-// revision      : 1.2.3
-// revision_date : 07 Apr 1998
+// revision      : 1.3.2
+// revision_date : 09 Dec 1998
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -97,18 +98,22 @@ CGAL_ch_bykat(InputIterator first, InputIterator last,
   #endif // no postconditions ...
   H.push_back( a );
   L.push_back( P.begin() );
-  R.push_back( l = partition( P.begin(), P.end(), Right_of_line(b,a) ) );
-  r = partition( l, P.end(), Right_of_line(a,b) );
+  R.push_back( l = partition( P.begin(), P.end(), 
+                              ch_traits.get_right_of_line_object(b,a) ) );
+  r = partition( l, P.end(), 
+                 ch_traits.get_right_of_line_object(a,b) );
   
   for (;;)
   {
       if ( l != r)
       {
-          c = *max_element( l, r, Less_dist(a,b) );
+          c = *max_element( l, r, 
+                            ch_traits.get_less_dist_to_line_object(a,b) );
           H.push_back( b );
           L.push_back( l );
-          R.push_back( l = partition(l, r, Right_of_line(c,b)) );
-          r = partition(l, r, Right_of_line(a,c));
+          R.push_back( l = partition(l, r, 
+                                     ch_traits.get_right_of_line_object(c,b)));
+          r = partition(l, r, ch_traits.get_right_of_line_object(a,c));
           b = c; 
       }
       else
@@ -189,8 +194,9 @@ CGAL_ch_bykat_with_threshold(InputIterator   first, InputIterator last,
   #endif // no postconditions ...
   H.push_back( a );
   L.push_back( Pbegin );
-  R.push_back( l = partition( Pbegin, Pend, Right_of_line(b,a) ) );
-  r = partition( l, Pend, Right_of_line(a,b) );
+  R.push_back( l = partition( Pbegin, Pend, 
+                              ch_traits.get_right_of_line_object(b,a) ) );
+  r = partition( l, Pend, ch_traits.get_right_of_line_object(a,b) );
   
   for (;;)
   {
@@ -198,24 +204,28 @@ CGAL_ch_bykat_with_threshold(InputIterator   first, InputIterator last,
       {
           if ( r-l > CGAL_ch_THRESHOLD )
           {
-              c = *max_element( l, r, Less_dist(a,b) );
+              c = *max_element( l, r, 
+                                ch_traits.get_less_dist_to_line_object(a,b) );
               H.push_back( b );
               L.push_back( l );
-              R.push_back( l = partition(l, r, Right_of_line(c,b)) );
-              r = partition(l, r, Right_of_line(a,c));
+              R.push_back( l = partition(l, r, 
+                                         ch_traits.get_right_of_line_object(c,b)) );
+              r = partition(l, r, ch_traits.get_right_of_line_object(a,c));
               b = c; 
           }
           else
           {
               swap( a, *--l);
               swap( b, *++r);
-              if ( Less_xy()(*l,*r) )
+              if ( ch_traits.get_less_xy_object()(*l,*r) )
               {
-                  sort(CGAL_successor(l), r, Less_xy() );
+                  sort(CGAL_successor(l), r, 
+                       ch_traits.get_less_xy_object() );
               }
               else
               {
-                  sort(CGAL_successor(l), r, Greater_xy() );
+                  sort(CGAL_successor(l), r, 
+                       Greater_xy(ch_traits.get_less_xy_object()) );
               }
               CGAL_ch__ref_graham_andrew_scan(l, CGAL_successor(r), 
                                               res, ch_traits);

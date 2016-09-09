@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/In_place_list.h
-// package       : STL_Extension (1.14)
+// package       : STL_Extension (1.17)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/03/24 13:39:06 $
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 1998/10/08 14:35:33 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // A doubly linked list managing items in place.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -86,11 +88,12 @@
 
 // Define shorter names to please linker (g++/egcs)
 #define CGAL__In_place_list_iterator             CGAL__Ipli
+#define CGAL__In_place_list_const_iterator       CGAL__Iplci
 
-template <class T, class Ref, class Ptr>
-class CGAL__In_place_list_iterator;  // forward declaration.
-template <class T, bool managed>
-class CGAL_In_place_list;            // forward declaration.
+// Forward declarations
+template <class T> class CGAL__In_place_list_iterator;
+template <class T> class CGAL__In_place_list_const_iterator;
+template <class T, bool managed> class CGAL_In_place_list;
 
 template < class T >
 class CGAL_In_place_sl_list_base {
@@ -103,41 +106,23 @@ class CGAL_In_place_list_base {
 public:
     T* next_link;        // forward pointer
     T* prev_link;        // backwards pointer
-    friend  class CGAL__In_place_list_iterator<T,T&,T*>;
-    friend  class CGAL__In_place_list_iterator<T,const T&, const T*>;
+    friend  class CGAL__In_place_list_iterator<T>;
+    friend  class CGAL__In_place_list_const_iterator<T>;
     friend  class CGAL_In_place_list<T,false>;
     friend  class CGAL_In_place_list<T,true>;
 };
-/*
- * The in-place list is adapted from the list<T> of the Standard
- * Template Library (STL). The following notice applies for part
- * of the code:
- *
- * Copyright (c) 1994
- * Hewlett-Packard Company
- *
- * Permission to use, copy, modify, distribute and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.  Hewlett-Packard Company makes no
- * representations about the suitability of this software for any
- * purpose.  It is provided "as is" without express or implied warranty.
- *
- */
-
-template <class T, class Ref, class Ptr>
+template <class T>
 class CGAL__In_place_list_iterator {
 // protected:  // Made public for g++ 2.8 and egcs 2.90. They don't
                // accept the friend declarations below.
 public:
-    T* node;  // It's not Ptr. Otherwise traversal won't work.
+    T* node;
 public:
     // friend  class CGAL_In_place_list<T,false>;
     // friend  class CGAL_In_place_list<T,true>;
 
-    typedef CGAL__In_place_list_iterator<T,Ref,Ptr> Self;
-    typedef CGAL_In_place_list_base<T>              Base;
+    typedef CGAL__In_place_list_iterator<T> Self;
+    typedef CGAL_In_place_list_base<T>      Base;
 
     typedef T          value_type;
     typedef T*         pointer;
@@ -149,12 +134,12 @@ public:
     typedef bidirectional_iterator_tag   iterator_category;
 
     CGAL__In_place_list_iterator() : node(0) {}
-    CGAL__In_place_list_iterator(Ptr x) : node((T*)(x)) {}
+    CGAL__In_place_list_iterator(T* x) : node(x) {}
 
     bool  operator==( const Self& x) const { return node == x.node; }
     bool  operator!=( const Self& x) const { return node != x.node; }
-    Ref   operator*()  const { return *node; }
-    Ptr   operator->() const { return  node; }
+    T&    operator*()  const { return *node; }
+    T*    operator->() const { return  node; }
     Self& operator++() {
         node = ((Base*)(node))->next_link;
         return *this;
@@ -176,25 +161,101 @@ public:
 };
 
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-template < class T, class Ref, class Ptr>
+template < class T>
 inline  bidirectional_iterator_tag
-iterator_category( const  CGAL__In_place_list_iterator<T,Ref,Ptr>&) {
+iterator_category( const  CGAL__In_place_list_iterator<T>&) {
     return bidirectional_iterator_tag();
 }
-template < class T, class Ref, class Ptr>
+template < class T>
 inline  T*
-value_type( const  CGAL__In_place_list_iterator<T,Ref,Ptr>&) {
+value_type( const  CGAL__In_place_list_iterator<T>&) {
     return (T*)(0);
 }
-template < class T, class Ref, class Ptr>
+template < class T>
 inline  ptrdiff_t*
-distance_type( const  CGAL__In_place_list_iterator<T,Ref,Ptr>&) {
+distance_type( const  CGAL__In_place_list_iterator<T>&) {
     return (ptrdiff_t*)(0);
 }
-template < class T, class Ref, class Ptr>
+template < class T>
 inline  CGAL_Iterator_tag
 CGAL_query_circulator_or_iterator(
-    const  CGAL__In_place_list_iterator<T,Ref,Ptr>&) {
+    const CGAL__In_place_list_iterator<T>&) {
+    return CGAL_Iterator_tag();
+}
+#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
+
+
+template <class T>
+class CGAL__In_place_list_const_iterator {
+// protected:  // Made public for g++ 2.8 and egcs 2.90. They don't
+               // accept the friend declarations below.
+public:
+    const T* node;  // It's not Ptr. Otherwise traversal won't work.
+public:
+    // friend  class CGAL_In_place_list<T,false>;
+    // friend  class CGAL_In_place_list<T,true>;
+
+    typedef CGAL__In_place_list_const_iterator<T> Self;
+    typedef CGAL__In_place_list_iterator<T>       Iterator;
+    typedef CGAL_In_place_list_base<T>            Base;
+
+    typedef T          value_type;
+    typedef T*         pointer;
+    typedef const T*   const_pointer;
+    typedef T&         reference;
+    typedef const T&   const_reference;
+    typedef size_t     size_type;
+    typedef ptrdiff_t  difference_type;
+    typedef bidirectional_iterator_tag   iterator_category;
+
+    CGAL__In_place_list_const_iterator() : node(0) {}
+    CGAL__In_place_list_const_iterator( Iterator i) : node(&*i) {}
+    CGAL__In_place_list_const_iterator(const T* x) : node(x) {}
+
+    bool     operator==( const Self& x) const { return node == x.node; }
+    bool     operator!=( const Self& x) const { return node != x.node; }
+    const T& operator*()  const { return *node; }
+    const T* operator->() const { return  node; }
+    Self& operator++() {
+        node = ((const Base*)(node))->next_link;
+        return *this;
+    }
+    Self  operator++(int) {
+        Self tmp = *this;
+        ++*this;
+        return tmp;
+    }
+    Self& operator--() {
+        node = ((const Base*)(node))->prev_link;
+        return *this;
+    }
+    Self  operator--(int) {
+        Self tmp = *this;
+        --*this;
+        return tmp;
+    }
+};
+
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+template < class T>
+inline  bidirectional_iterator_tag
+iterator_category( const  CGAL__In_place_list_const_iterator<T>&) {
+    return bidirectional_iterator_tag();
+}
+template < class T>
+inline  T*
+value_type( const  CGAL__In_place_list_const_iterator<T>&) {
+    return (T*)(0);
+}
+template < class T>
+inline  ptrdiff_t*
+distance_type( const  CGAL__In_place_list_const_iterator<T>&) {
+    return (ptrdiff_t*)(0);
+}
+template < class T>
+inline  CGAL_Iterator_tag
+CGAL_query_circulator_or_iterator(
+    const  CGAL__In_place_list_const_iterator<T>&) {
     return CGAL_Iterator_tag();
 }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
@@ -256,9 +317,8 @@ public:
     typedef size_t     size_type;
     typedef ptrdiff_t  difference_type;
 
-    typedef CGAL__In_place_list_iterator<T, T&, T*>  iterator;
-    typedef CGAL__In_place_list_iterator<T, const T&, const T*>
-                                                    const_iterator;
+    typedef CGAL__In_place_list_iterator<T>        iterator;
+    typedef CGAL__In_place_list_const_iterator<T>  const_iterator;
 
     typedef reverse_bidirectional_iterator<
         iterator,
@@ -360,15 +420,13 @@ public:
 
 // REMOVAL
 
-    void erase(iterator position) {
+    void erase(iterator i) {
         // removes the item from list `l', where `pos' refers to.
         CGAL_assertion( length > 0);
-        (*((*position.node).prev_link)).next_link =
-            (*position.node).next_link;
-        (*((*position.node).next_link)).prev_link =
-            (*position.node).prev_link;
+        (*((*i.node).prev_link)).next_link = (*i.node).next_link;
+        (*((*i.node).next_link)).prev_link = (*i.node).prev_link;
         if (managed)
-            put_node(position.node);
+            put_node(i.node);
         --length;
     }
     void erase(T* pos)  { erase( iterator( pos)); }
@@ -544,31 +602,35 @@ public:
 
 template <class T, bool managed>
 void CGAL_In_place_list<T,managed>::
-insert(CGAL__In_place_list_iterator<T, T&, T*> position,
+insert(CGAL__In_place_list_iterator<T> position,
        const T* first, const T* last) {
-    while (first != last) insert(position, *get_node(*first++));
+    while (first != last)
+        insert(position, *get_node(*first++));
 }
 
 template <class T, bool managed>
 void CGAL_In_place_list<T,managed>::
-insert(CGAL__In_place_list_iterator<T, T&, T*> position,
-       CGAL__In_place_list_iterator<T, const T&, const T*> first,
-       CGAL__In_place_list_iterator<T, const T&, const T*> last) {
-    while (first != last) insert(position, *get_node(*first++));
+insert(CGAL__In_place_list_iterator<T> position,
+       CGAL__In_place_list_const_iterator<T> first,
+       CGAL__In_place_list_const_iterator<T> last) {
+    while (first != last)
+        insert(position, *get_node(*first++));
 }
 
 template <class T, bool managed>
 void CGAL_In_place_list<T,managed>::
-insert(CGAL__In_place_list_iterator<T, T&, T*> position,
+insert(CGAL__In_place_list_iterator<T> position,
        size_t n, const T& x) {
-    while (n--) insert(position, *get_node(x));
+    while (n--)
+        insert(position, *get_node(x));
 }
 
 template <class T, bool managed>
-void CGAL_In_place_list<T,managed>::erase(
-    CGAL__In_place_list_iterator<T, T&, T*> first,
-    CGAL__In_place_list_iterator<T, T&, T*> last) {
-        while (first != last) erase(first++);
+void CGAL_In_place_list<T,managed>::
+erase( CGAL__In_place_list_iterator<T> first,
+       CGAL__In_place_list_iterator<T> last) {
+    while (first != last)
+        erase(first++);
 }
 
 template <class T, bool managed>
@@ -694,5 +756,6 @@ void CGAL_In_place_list<T,managed>::sort() {
 
 // Undef shorter names (g++/egcs)
 #undef CGAL__In_place_list_iterator
+#undef CGAL__In_place_list_const_iterator
 #endif // CGAL_IN_PLACE_LIST_H //
 // EOF //

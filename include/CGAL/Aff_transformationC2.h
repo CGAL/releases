@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Aff_transformationC2.h
-// package       : C2 (1.3)
+// package       : C2 (1.7)
 // source        : web/
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 1997/12/16 17:30:28 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1999/01/04 06:54:12 $
 // author(s)     : Andreas.Fabri, kettner
 //
 // coordinator   : INRIA Sophia-Antipolis
+//
 //
 // email         : cgal@cs.uu.nl
 //

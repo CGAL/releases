@@ -27,18 +27,19 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/ch_jarvis.C
-// package       : Convex_hull (1.2.3)
+// package       : Convex_hull (1.3.2)
 // source        : convex_hull_2.lw
-// revision      : 1.2.3
-// revision_date : 07 Apr 1998
+// revision      : 1.3.2
+// revision_date : 09 Dec 1998
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -66,7 +67,6 @@ CGAL_ch_jarvis_march(ForwardIterator first, ForwardIterator last,
   if (first == last) return result;
   typedef   typename Traits::Less_rotate_ccw       Less_rotate_ccw;
   typedef   typename Traits::Point_2               Point_2;
-  CGAL_CH_USE_ARGUMENT(ch_traits);
   #if defined(CGAL_CH_NO_POSTCONDITIONS) || defined(CGAL_NO_POSTCONDITIONS) \
     || defined(NDEBUG)
   OutputIterator  res(result);
@@ -78,7 +78,8 @@ CGAL_ch_jarvis_march(ForwardIterator first, ForwardIterator last,
   CGAL_ch_assertion_code( \
       for (ForwardIterator fit = first; fit!= last; ++fit) ++count_points; )
 
-  Less_rotate_ccw  rotation_predicate( start_p );
+  Less_rotate_ccw  
+      rotation_predicate = ch_traits.get_less_rotate_ccw_object( start_p );
   *res = start_p;  ++res;
   CGAL_ch_assertion_code( \
       int constructed_points = 1; )
@@ -99,7 +100,7 @@ CGAL_ch_jarvis_march(ForwardIterator first, ForwardIterator last,
       CGAL_ch_assertion( \
           constructed_points <= count_points + 1 );
 
-      rotation_predicate = Less_rotate_ccw( *it );
+      rotation_predicate = ch_traits.get_less_rotate_ccw_object( *it );
       it = min_element( first, last, rotation_predicate );
   } 
   CGAL_ch_postcondition( \

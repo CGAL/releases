@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -27,19 +27,20 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Object.h
-// package       : Kernel_basic (1.2)
+// package       : Kernel_basic (1.2.12)
 // source        : Object.lw 
-// revision      : 1.2
-// revision_date : 12 Jun 1998
+// revision      : 1.2.4
+// revision_date : 20 Nov 1998
 // author(s)     : Stefan.Schirra
 //                 Andreas Fabri (original version)
 //                 Geert-Jan Giezeman
@@ -50,6 +51,7 @@
 // modifications : 29.10.97  by Stefan Schirra and Michael Seel
 //                 04.11.97  by Geert-Jan Giezeman
 //                 04.01.98  by Stefan Schirra
+//
 //
 // email         : cgal@cs.uu.nl
 //

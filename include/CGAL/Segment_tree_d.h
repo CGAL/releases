@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Segment_tree_d.h
-// package       : Range_segment_trees (1.8)
+// package       : Range_segment_trees (1.9)
 // source        : include/CGAL/Segment_tree_d.h
 // revision      : $Revision: 1.4 $
 // revision_date : $Date: 1998/02/03 13:15:11 $
 // author(s)     : Gabriele Neyer
 //
 // coordinator   : Peter Widmayer, ETH Zurich
+//
 //
 // email         : cgal@cs.uu.nl
 //

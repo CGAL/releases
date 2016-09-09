@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Polyhedron_3.h
-// package       : Polyhedron (1.11)
+// package       : Polyhedron (1.14)
 // chapter       : $CGAL_Chapter: 3D-Polyhedral Surfaces $
 // source        : polyhedron.fw
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 1998/07/10 00:52:49 $
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 1998/10/09 13:32:07 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
 //
 // Polyhedral Surfaces.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -949,6 +951,13 @@ public:
     //Self& operator= ( const Self& p);
         // assignment operator.
 
+    // Explicit implementation to help EGCS in compiling ...
+    Self& operator= ( const Self& p) {
+        hds = p.hds;
+        m_traits = p.m_traits;
+        return *this;
+    }
+
     void reserve( Size v, Size h, Size f) { hds.reserve(v,h,f);}
         // reserve storage for v vertices, h halfedges, and f facets. The
         // reservation sizes are a hint for optimizing storage allocation.
@@ -1692,8 +1701,8 @@ public:
     #endif
     join_facet( Halfedge_handle h) {
         CGAL_Halfedge_data_structure_decorator<HDS> D;
-        CGAL_precondition( CGAL_circulator_size( h->vertex_begin()) >= Size(3));
-        CGAL_precondition( CGAL_circulator_size( h->opposite()->vertex_begin())
+        CGAL_precondition( CGAL_circulator_size(h->vertex_begin()) >= Size(3));
+        CGAL_precondition( CGAL_circulator_size(h->opposite()->vertex_begin())
                     >= Size(3));
         return TR_HI( D.join_facet( hds, h.ptr()));
     }
@@ -2189,8 +2198,8 @@ Halfedge_handle
 #endif
 join_facet( Halfedge_handle h) {
     CGAL_Halfedge_data_structure_decorator<HDS> D;
-    CGAL_precondition( CGAL_circulator_size( h->vertex_begin()) >= Size(3));
-    CGAL_precondition( CGAL_circulator_size( h->opposite()->vertex_begin())
+    CGAL_precondition( CGAL_circulator_size(h->vertex_begin()) >= Size(3));
+    CGAL_precondition( CGAL_circulator_size(h->opposite()->vertex_begin())
                 >= Size(3));
     return TR_HI( D.join_facet( hds, h.ptr()));
 }
@@ -2337,7 +2346,7 @@ join_loop( Halfedge_handle h,
 
 template < class TR, class HDS >  CGAL_LARGE_INLINE
 void                               // Supports: normals,      planes
-CGAL_Polyhedron_3<TR,HDS>:: inside_out_geometry( CGAL_Tag_true, CGAL_Tag_false){
+CGAL_Polyhedron_3<TR,HDS>::inside_out_geometry(CGAL_Tag_true,CGAL_Tag_false) {
     Facet_iterator begin = facets_begin();
     Facet_iterator end   = facets_end();
     for( ; begin != end; ++begin) {
@@ -2347,7 +2356,7 @@ CGAL_Polyhedron_3<TR,HDS>:: inside_out_geometry( CGAL_Tag_true, CGAL_Tag_false){
 
 template < class TR, class HDS >  CGAL_LARGE_INLINE
 void                               // Supports: normals,      planes
-CGAL_Polyhedron_3<TR,HDS>:: inside_out_geometry( CGAL_Tag_true, CGAL_Tag_true){
+CGAL_Polyhedron_3<TR,HDS>::inside_out_geometry(CGAL_Tag_true,CGAL_Tag_true) {
     Facet_iterator begin = facets_begin();
     Facet_iterator end   = facets_end();
     for( ; begin != end; ++begin) {

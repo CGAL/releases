@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/basic_constructionsC2.h
-// package       : C2 (1.3)
+// package       : C2 (1.7)
 // source        : web/basic_constructionsC2.fw
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1997/12/16 09:42:52 $
-// author(s)     : Sven Schoenherr
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1999/01/04 06:54:15 $
+// author(s)     : Herve Bronnimann
 //
 // coordinator   : INRIA Sophia-Antipolis
+//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -61,41 +63,45 @@ CGAL_PointC2<FT>
 CGAL_midpoint( CGAL_PointC2<FT> const& p,
                CGAL_PointC2<FT> const& q )
 {
-    return( CGAL_PointC2<FT>( ( p.x()+q.x()) / FT( 2),
-                              ( p.y()+q.y()) / FT( 2)));
+  FT x,y;
+  CGAL_midpointC2(p.x(),p.y(),q.x(),q.y(),x,y);
+  return CGAL_PointC2<FT>(x,y);
 }
-
 template < class FT >
 CGAL_PointC2<FT>
 CGAL_circumcenter( CGAL_PointC2<FT> const& p,
                    CGAL_PointC2<FT> const& q,
                    CGAL_PointC2<FT> const& r)
 {
-    FT px( p.x());
-    FT py( p.y());
-    FT qx( q.x());
-    FT qy( q.y());
-    FT rx( r.x());
-    FT ry( r.y());
-
-    FT px_qx( px - qx);
-    FT py_qy( py - qy);
-    FT qx_rx( qx - rx);
-    FT qy_ry( qy - ry);
-    FT rx_px( rx - px);
-    FT ry_py( ry - py);
-
-    FT px2_py2( px*px + py*py);
-    FT qx2_qy2( qx*qx + qy*qy);
-    FT rx2_ry2( rx*rx + ry*ry);
-
-    FT num_x( px2_py2*qy_ry + qx2_qy2*ry_py + rx2_ry2*py_qy);
-    FT num_y( px2_py2*qx_rx + qx2_qy2*rx_px + rx2_ry2*px_qx);
-
-    FT den_x( ( px*qy_ry + qx*ry_py + rx*py_qy) * FT( 2));
-    FT den_y( ( py*qx_rx + qy*rx_px + ry*px_qx) * FT( 2));
-
-    return( CGAL_PointC2<FT>( num_x/den_x, num_y/den_y));
+  FT x,y;
+  CGAL_circumcenterC2(p.x(),p.y(),q.x(),q.y(),r.x(),r.y(),x,y);
+  return CGAL_PointC2<FT>(x,y);
 }
+
+template < class FT >
+FT
+CGAL_squared_distance( CGAL_PointC2<FT> const& p,
+                        CGAL_PointC2<FT> const& q)
+{
+  return CGAL_squared_distanceC2(p.x(),p.y(),q.x(),q.y());
+}
+
+template < class FT >
+FT
+CGAL_scaled_distance_to_line( CGAL_LineC2<FT> const& l,
+                              CGAL_PointC2<FT> const& p)
+{
+  return CGAL_squared_distance_to_lineC2(l.a(),l.b(),l.c(),p.x(),p.y());
+}
+
+template < class FT >
+FT
+CGAL_scaled_distance_to_line( CGAL_PointC2<FT> const& p,
+                              CGAL_PointC2<FT> const& q,
+                              CGAL_PointC2<FT> const& r)
+{
+  return CGAL_squared_distance_to_lineC2(p.x(),p.y(),q.x(),q.y(),r.x(),r.y());
+}
+
 
 #endif // CGAL_BASIC_CONSTRUCTIONS_2_H

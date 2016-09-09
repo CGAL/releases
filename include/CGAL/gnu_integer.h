@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : Gnu_Integer.fw
 // file          : include/CGAL/gnu_integer.h
-// package       : Number_types (1.2.8)
-// revision      : 1.2.8
-// revision_date : 01 Jul 1998 
+// package       : Number_types (1.6)
+// revision      : 1.6
+// revision_date : 13 Jan 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================

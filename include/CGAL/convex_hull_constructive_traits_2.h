@@ -27,18 +27,19 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/convex_hull_constructive_traits_2.h
-// package       : Convex_hull (1.2.3)
+// package       : Convex_hull (1.3.2)
 // source        : convex_hull_2.lw
-// revision      : 1.2.3
-// revision_date : 07 Apr 1998
+// revision      : 1.3.2
+// revision_date : 09 Dec 1998
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -71,6 +72,34 @@ public:
   typedef   CGAL_p_Leftturn<Point_2>                       Leftturn;
   typedef   CGAL_p_Rightturn<Point_2>                      Rightturn;
   typedef   CGAL_Segment_2<R>                              Segment_2;    
+  
+  Less_xy
+  get_less_xy_object() const 
+  { return Less_xy(); } 
+
+  Less_yx
+  get_less_yx_object() const 
+  { return Less_yx(); } 
+
+  Right_of_line
+  get_right_of_line_object( const Point_2& p, const Point_2& q) const 
+  { return Right_of_line( p, q); } 
+
+  Less_dist_to_line
+  get_less_dist_to_line_object( const Point_2& p, const Point_2& q) const
+  { return Less_dist_to_line( p, q); } 
+
+  Less_rotate_ccw
+  get_less_rotate_ccw_object( const Point_2& p ) const
+  { return Less_rotate_ccw( p); }
+
+  Leftturn
+  get_leftturn_object() const
+  { return Leftturn(); }
+
+  Rightturn
+  get_rightturn_object() const
+  { return Rightturn(); }
 };
 
 

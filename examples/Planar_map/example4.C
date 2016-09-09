@@ -1,7 +1,11 @@
 /*******************************************************************/
-/* This is a test program for the Planar Map package           */
+/* This is an example program for the Planar Map package           */
+/* It tests the split_edge function with the exact traits.         */
+/* Also operator<< is shown - note the output format of the        */
+/* planar map will probably go through changes in the future (this */
+/* is why it does not appear in the documentation).                */
 /*******************************************************************/
-/* By:   Eyal Flato, flato@math.tau.ac.il                          */
+/* By:   Iddo Hanniel < hanniel@math.tau.ac.il >                   */
 /*******************************************************************/
 
 #include <CGAL/Homogeneous.h>
@@ -10,6 +14,9 @@
 
 #include <CGAL/Pm_default_dcel.h>
 #include <CGAL/Planar_map_2.h>
+
+//for operator<<
+#include <CGAL/IO/Planar_map_iostream.h>
 
 
 typedef CGAL_Homogeneous<long>                     coord_t;
@@ -39,14 +46,18 @@ int main()
   cv[3] = curve(a2, a4);
   cv[4] = curve(a3, a4);
   
-  CGAL_Planar_map_2<pmdcel,pmtraits>::Halfedge e[5];  
+  CGAL_Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e[5];  
   // insert the five curves to the map and return e[i]
   for (i = 0; i < 5; i++)
   {
     e[i]=pm.insert(cv[i]);
+    cout << "is " ;
+    if (!pm.is_valid() )
+      cout << "in" ;
+    cout << "valid" << endl  ;
   }
   
-  //map before splitting the edge and adding curve
+   //map before splitting the edge and adding curve
   cout << "Map before:" << endl;
   cout << pm << endl;
   
@@ -57,9 +68,9 @@ int main()
   curve c1(a2,p);
   curve c2(p,a3);
 
-  CGAL_Planar_map_2<pmdcel,pmtraits>::Halfedge se = pm.split_edge(e[2],c1,c2); 
+  CGAL_Planar_map_2<pmdcel,pmtraits>::Halfedge_handle se = pm.split_edge(e[2],c1,c2); 
 
-  pm.insert_at_vertices( curve(p,a1), se.target(),e[0].source() );
+  pm.insert_at_vertices( curve(p,a1), se->target(),e[0]->source() );
 
   cout << "Map after:" << endl;
   cout << pm;

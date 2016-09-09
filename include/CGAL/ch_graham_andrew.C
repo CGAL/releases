@@ -27,18 +27,19 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/ch_graham_andrew.C
-// package       : Convex_hull (1.2.3)
+// package       : Convex_hull (1.3.2)
 // source        : convex_hull_2.lw
-// revision      : 1.2.3
-// revision_date : 07 Apr 1998
+// revision      : 1.3.2
+// revision_date : 09 Dec 1998
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -78,7 +79,7 @@ CGAL_ch_graham_andrew_scan( BidirectionalIterator first,
   CGAL_ch_precondition( *first != *last );
   S.push_back( last  );
   S.push_back( first );
-  Leftturn    leftturn;
+  Leftturn    leftturn = ch_traits.get_leftturn_object();
 
 
   iter = first;
@@ -127,21 +128,21 @@ CGAL_ch_graham_andrew_scan( BidirectionalIterator first,
   #endif // no postconditions ...
   for ( ++stack_iter;  stack_iter != S.end(); ++stack_iter)
   { *res =  **stack_iter;  ++res; }
+  CGAL_ch_postcondition( \
+      CGAL_is_ccw_strongly_convex_2( res.output_so_far_begin(), \
+                                     res.output_so_far_end(), \
+                                     ch_traits));
+  CGAL_ch_expensive_postcondition( \
+      CGAL_ch_brute_force_chain_check_2( \
+          first, last, \
+          res.output_so_far_begin(), res.output_so_far_end(), \
+          ch_traits));
   #if defined(CGAL_CH_NO_POSTCONDITIONS) || defined(CGAL_NO_POSTCONDITIONS) \
     || defined(NDEBUG)
   return res;
   #else
   return res.to_output_iterator();
   #endif // no postconditions ...
-  CGAL_ch_postcondition( \
-      CGAL_is_ccw_strongly_convex_2( res.output_so_far_begin(), \
-                                     res.output_so_far_end(), \
-                                     ch_traits));
-  CGAL_ch_expensive_postcondition( \
-      CGAL_ch_brute_force_check_2( \
-          first, last, \
-          res.output_so_far_begin(), res.output_so_far_end(), \
-          ch_traits));
 }
 
 template <class BidirectionalIterator, class OutputIterator, class Traits>
@@ -166,7 +167,7 @@ CGAL_ch__ref_graham_andrew_scan( BidirectionalIterator first,
   CGAL_ch_precondition( *first != *last );
   S.push_back( last  );
   S.push_back( first );
-  Leftturn    leftturn;
+  Leftturn    leftturn = ch_traits.get_leftturn_object();
 
 
   iter = first;
@@ -226,7 +227,7 @@ CGAL_ch_graham_andrew( InputIterator  first,
   if (first == last) return result;
   vector< Point_2 >  V;
   copy( first, last, back_inserter(V) );
-  sort( V.begin(), V.end(), Less_xy() );
+  sort( V.begin(), V.end(), ch_traits.get_less_xy_object() );
   if ( *(V.begin()) == *(V.rbegin()) )
   {
       *result = *(V.begin());  ++result;
@@ -274,7 +275,7 @@ CGAL_ch_lower_hull_scan( InputIterator  first,
   if (first == last) return result;
   vector< Point_2 >  V;
   copy( first, last, back_inserter(V) );
-  sort( V.begin(), V.end(), Less_xy() );
+  sort( V.begin(), V.end(), ch_traits.get_less_xy_object() );
   if ( *(V.begin()) == *(V.rbegin()) )
   {
       *result = *(V.begin());  ++result;
@@ -309,7 +310,7 @@ CGAL_ch_upper_hull_scan( InputIterator  first,
   if (first == last) return result;
   vector< Point_2 >  V;
   copy( first, last, back_inserter(V) );
-  sort( V.begin(), V.end(), Less_xy() );
+  sort( V.begin(), V.end(), ch_traits.get_less_xy_object() );
   if ( *(V.begin()) == *(V.rbegin()) )
   { return result; }
   #if defined(CGAL_CH_NO_POSTCONDITIONS) || defined(CGAL_NO_POSTCONDITIONS) \

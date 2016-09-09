@@ -1,18 +1,19 @@
-This is CGAL-1.1
+This is Computational Geometry Algorithms Library version 1.2 (CGAL-1.2).
 
-For installation notes see the file INSTALL.
+Installation notes are available in several formats. The file INSTALL in this
+directory contains a plain text format. A PostScript file named installation.ps
+can be found in directory doc_ps. The pdf file installation.pdf can be found
+in doc_pdf. The HTML version is in doc_html/installation/main.html.
 
-To use CGAL with Geomview, simply edit src/makefile_geomview,
-with the proper paths (the defaults are /usr/ucb/rsh
-and /usr/local/bin/geomview), then type in the root directory
-     cd src ; make -f makefile_geomview
-this will make the proper libGeomview.a and libGeomview.so files
-In make/makefile*, add
-     CUSTOM_LDFLAGS = -LGeomview
+The documentation of CGAL is available in various formats (HTML, PostScript,
+PDF). It is not bundled with the software but can be downloaded separately.
 
+For more information on CGAL, see the URL http://www.cs.uu.nl/CGAL/.
+
+The CGAL software falls under the license below. 
 // ============================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -43,3 +44,6 @@ In make/makefile*, add
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
 // ============================================================================
+
+The directory auxiliary contains the gmp library. This library is not part of
+CGAL and has its own license.

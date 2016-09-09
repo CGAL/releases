@@ -27,17 +27,18 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // chapter       : $CGAL_Chapter: Optimisation $
 // file          : include/CGAL/Min_sphere_d.C
-// package       : MinSphere (1.7)
+// package       : Min_sphere_d (1.9)
 // source        : web/Optimisation/Min_sphere_d.aw
 // revision      : $Revision: 1.1 $
 // revision_date : $Date: 1998/06/05 16:16:13 $

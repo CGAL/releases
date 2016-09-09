@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Polygon_traits_2.h
-// package       : Polygon (1.10)
+// package       : Polygon (1.13)
 // source        :
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
 // author(s)     : Wieger Wesselink
 //
 // coordinator   : Utrecht University
+//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -51,17 +53,37 @@
 #ifndef CGAL_POLYGON_TRAITS_2_H
 #define CGAL_POLYGON_TRAITS_2_H
 
+#ifndef CGAL_DIRECTION_2_H
 #include <CGAL/Direction_2.h>
+#endif // CGAL_DIRECTION_2_H
+#ifndef CGAL_ISO_RECTANGLE_2_H
 #include <CGAL/Iso_rectangle_2.h>
+#endif // CGAL_ISO_RECTANGLE_2_H
+#ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
+#endif // CGAL_POINT_2_H
+#ifndef CGAL_SEGMENT_2_H
 #include <CGAL/Segment_2.h>
+#endif // CGAL_SEGMENT_2_H
+#ifndef CGAL_TRIANGLE_2_H
 #include <CGAL/Triangle_2.h>
+#endif // CGAL_TRIANGLE_2_H
+#ifndef CGAL_VECTOR_2_H
 #include <CGAL/Vector_2.h>
+#endif // CGAL_VECTOR_2_H
 
+#ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
+#endif // CGAL_NUMBER_UTILS_H
+#ifndef CGAL_PREDICATES_ON_POINTS_2_H
 #include <CGAL/predicates_on_points_2.h>
+#endif // CGAL_PREDICATES_ON_POINTS_2_H
+#ifndef CGAL_PREDICATE_OBJECTS_ON_POINTS_2_H
 #include <CGAL/predicate_objects_on_points_2.h>
+#endif // CGAL_PREDICATE_OBJECTS_ON_POINTS_2_H
+#ifndef CGAL_SEGMENT_2_SEGMENT_2_INTERSECTION_H
 #include <CGAL/Segment_2_Segment_2_intersection.h>
+#endif // CGAL_SEGMENT_2_SEGMENT_2_INTERSECTION_H
 
 //-----------------------------------------------------------------------//
 //                          CGAL_Polygon_traits_2_aux

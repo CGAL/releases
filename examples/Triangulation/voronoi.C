@@ -5,6 +5,10 @@
 #include <iostream.h>
 #include <fstream.h>
 #include <strstream.h>
+#include <iterator.h>
+
+// Define shorter names to please linker (g++/egcs)
+#define CGAL_Cartesian Cart
 
 #include <CGAL/Cartesian.h>
 
@@ -15,7 +19,6 @@
 #include <CGAL/Segment_2.h>
 
 #include <CGAL/Triangulation_euclidean_traits_2.h>
-
 #include <CGAL/Delaunay_triangulation_2.h>
 
 class Options {
@@ -97,9 +100,11 @@ typedef CGAL_Ray_2<Rep>  Ray;
 typedef CGAL_Line_2<Rep>  Line;
 typedef CGAL_Triangle_2<Rep>  Triangle;
 
-typedef CGAL_Triangulation_euclidean_traits_2<Rep> Traits;
-
-typedef CGAL_Delaunay_triangulation_2<Traits>  Triangulation_2;
+typedef CGAL_Triangulation_euclidean_traits_2<Rep> Gt;
+typedef CGAL_Triangulation_vertex_base_2<Gt> Vb;
+typedef CGAL_Triangulation_face_base_2<Gt>  Fb;
+typedef CGAL_Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
+typedef CGAL_Delaunay_triangulation_2<Gt,Tds>  Triangulation_2;
 
 typedef Triangulation_2::Face  Face;
 typedef Triangulation_2::Vertex Vertex;

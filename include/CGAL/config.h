@@ -27,16 +27,17 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/config.h
-// package       : Configuration (1.16)
+// package       : Configuration (1.21)
 // source        :
 // revision      : 1.11
 // revision_date : 30 Mar 1998
@@ -45,6 +46,7 @@
 //
 // coordinator   : Utrecht University
 //
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -52,8 +54,8 @@
 #ifndef CGAL_CONFIG_H
 #define CGAL_CONFIG_H
 
-#define CGAL_VERSION 1.1
-#define CGAL_VERSION_NR 1001001100
+#define CGAL_VERSION 1.2
+#define CGAL_VERSION_NR 1001002100
 
 //----------------------------------------------------------------------//
 //             no namespaces for MIPS 7.2.1
@@ -87,8 +89,12 @@
 
 #ifdef CGAL_CFG_NO_NAMESPACE
 #define CGAL_USING_NAMESPACE_STD
+#define CGAL_STD
 #else
-#define CGAL_USING_NAMESPACE_STD using namespace std;
+#define CGAL_USING_NAMESPACE_STD
+#define CGAL_STD
+//#define CGAL_USING_NAMESPACE_STD using namespace std;
+//#define CGAL_STD std
 #endif
 
 #ifdef CGAL_USE_NAMESPACE
@@ -155,6 +161,19 @@
 #ifdef CGAL_CFG_NO_BUILTIN_BOOL
 #include <pair.h>
 #endif
+
+//----------------------------------------------------------------------//
+//             select old or new style headers
+//----------------------------------------------------------------------//
+
+
+#ifndef CGAL_USE_NEWSTYLE_HEADERS
+#ifndef CGAL_CFG_NO_STANDARD_HEADERS
+#ifndef CGAL_NO_NEWSTYLE_HEADERS
+#define CGAL_USE_NEWSTYLE_HEADERS
+#endif // ! CGAL_NO_NEWSTYLE_HEADERS
+#endif // ! CGAL_CFG_NO_STANDARD_HEADERS
+#endif // ! CGAL_USE_NEWSTYLE_HEADERS
 
 #endif // CGAL_CONFIG_H
 

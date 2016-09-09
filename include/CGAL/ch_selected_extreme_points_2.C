@@ -27,18 +27,19 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/ch_selected_extreme_points_2.C
-// package       : Convex_hull (1.2.3)
+// package       : Convex_hull (1.3.2)
 // source        : convex_hull_2.lw
-// revision      : 1.2.3
-// revision_date : 07 Apr 1998
+// revision      : 1.3.2
+// revision_date : 09 Dec 1998
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -61,10 +62,12 @@ CGAL_ch_nswe_point( ForwardIterator first, ForwardIterator last,
                     ForwardIterator& s,
                     ForwardIterator& w,
                     ForwardIterator& e,
-                    const Traits& )
+                    const Traits& ch_traits )
 {
-  typename Traits::Less_xy    lexicographically_xy_smaller;
-  typename Traits::Less_yx    lexicographically_yx_smaller;
+  typename Traits::Less_xy    
+      lexicographically_xy_smaller = ch_traits.get_less_xy_object();
+  typename Traits::Less_yx    
+      lexicographically_yx_smaller = ch_traits.get_less_yx_object();
   n = s = w = e = first;
   while ( first != last )
   {
@@ -84,7 +87,8 @@ CGAL_ch_we_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& e,
                   const Traits& ch_traits)
 {
- typename Traits::Less_xy    lexicographically_xy_smaller;
+ typename Traits::Less_xy    
+    lexicographically_xy_smaller = ch_traits.get_less_xy_object();
  w = e = first;
  while ( first != last )
  {
@@ -99,9 +103,10 @@ void
 CGAL_ch_ns_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& n,
                   ForwardIterator& s,
-                  const Traits& )
+                  const Traits& ch_traits)
 {
- typename Traits::Less_yx    lexicographically_yx_smaller;
+ typename Traits::Less_yx    
+    lexicographically_yx_smaller = ch_traits.get_less_yx_object();
  n = s = first;
  while ( first != last )
  {
@@ -115,9 +120,10 @@ template <class ForwardIterator, class Traits>
 void
 CGAL_ch_n_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& n,
-                 const Traits& )
+                 const Traits& ch_traits)
 {
- typename Traits::Less_yx lexicographically_yx_smaller;
+ typename Traits::Less_yx    
+    lexicographically_yx_smaller = ch_traits.get_less_yx_object();
  n = first;
  while ( first != last )
  {
@@ -130,9 +136,10 @@ template <class ForwardIterator, class Traits>
 void
 CGAL_ch_s_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& s,
-                 const Traits& )
+                 const Traits& ch_traits)
 {
- typename Traits::Less_yx    lexicographically_yx_smaller;
+ typename Traits::Less_yx    
+    lexicographically_yx_smaller = ch_traits.get_less_yx_object();
  s = first;
  while ( first != last )
  {
@@ -145,9 +152,10 @@ template <class ForwardIterator, class Traits>
 void
 CGAL_ch_e_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& e,
-                 const Traits& )
+                 const Traits& ch_traits)
 {
- typename Traits::Less_xy  lexicographically_xy_smaller;
+ typename Traits::Less_xy    
+    lexicographically_xy_smaller = ch_traits.get_less_xy_object();
  e = first;
  while ( first != last )
  {
@@ -160,9 +168,10 @@ template <class ForwardIterator, class Traits>
 void
 CGAL_ch_w_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& w,
-                 const Traits& )
+                 const Traits& ch_traits)
 {
- typename Traits::Less_xy    lexicographically_xy_smaller;
+ typename Traits::Less_xy    
+    lexicographically_xy_smaller = ch_traits.get_less_xy_object();
  w = first;
  while ( first != last )
  {

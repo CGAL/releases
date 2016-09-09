@@ -27,27 +27,26 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : src/File_writer_wavefront.C
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Writer for polyhedral surfaces in Wavefront file format (.obj)
-//
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -66,16 +65,16 @@
 
 void
 CGAL_File_writer_wavefront::
-header( ostream& o, size_t vertices, size_t halfedges, size_t facets) {
-    out     = &o;
-    _facets = facets;
+write_header( ostream& o, size_t vertices, size_t halfedges,size_t facets){
+    m_out    = &o;
+    m_facets = facets;
     // Print header.
-    *out << "# file written from a CGAL tool in Wavefront obj format\n";
-    *out << "# " << vertices  << " vertices\n";
-    *out << "# " << halfedges << " halfedges\n";
-    *out << "# " << facets    << " facets\n\n";
+    out() << "# file written from a CGAL tool in Wavefront obj format\n";
+    out() << "# " << vertices  << " vertices\n";
+    out() << "# " << halfedges << " halfedges\n";
+    out() << "# " << facets    << " facets\n\n";
 
-    *out << "\n# " << vertices << " vertices\n";
-    *out << "# ------------------------------------------\n\n";
+    out() << "\n# " << vertices << " vertices\n";
+    out() << "# ------------------------------------------\n\n";
 }
 // EOF //

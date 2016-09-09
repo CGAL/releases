@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Halfedge_data_structure_decorator.h
-// package       : Halfedge_DS (1.7)
+// package       : Halfedge_DS (1.9)
 // chapter       : $CGAL_Chapter: Halfedge Data Structures $
 // source        : hds_decorator.fw
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 1998/07/10 00:52:49 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/12/02 21:08:18 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
 //
 // Halfedge Data Structure Decorator.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -343,16 +345,34 @@ public:
         set_prev( h->next(), h);
     }
 
-    void set_vertex_in_vertex_loop( Halfedge* h, Vertex* v) {
-        // Loops around the vertex incident to h and sets all vertex
-        // pointers to v. Precondition: `h != NULL'.
-        CGAL_precondition( h != 0);
+    void set_vertex_in_vertex_loop( Halfedge*  , Vertex* ,
+                                    CGAL_Tag_false) {}
+    void set_vertex_in_vertex_loop( Halfedge* h, Vertex* v,
+                                    CGAL_Tag_true) {
         CGAL_assertion_code( size_t termination_count = 0;)
         Halfedge* end = h;
         do {
             CGAL_assertion( ++termination_count != 0);
-            set_vertex( h, v);
+            h->set_vertex( v);
             h = h->next()->opposite();
+        } while ( h != end);
+    }
+
+    void set_vertex_in_vertex_loop( Halfedge* h, Vertex* v) {
+        // Loops around the vertex incident to h and sets all vertex
+        // pointers to v. Precondition: `h != NULL'.
+        CGAL_precondition( h != 0);
+        set_vertex_in_vertex_loop( h, v, Supports_halfedge_vertex());
+    }
+
+    void set_facet_in_facet_loop( Halfedge*  , Facet*, CGAL_Tag_false) {}
+    void set_facet_in_facet_loop( Halfedge* h, Facet* f, CGAL_Tag_true) {
+        CGAL_assertion_code( size_t termination_count = 0;)
+        Halfedge* end = h;
+        do {
+            CGAL_assertion( ++termination_count != 0);
+            h->set_facet( f);
+            h = h->next();
         } while ( h != end);
     }
 
@@ -360,13 +380,7 @@ public:
         // Loops around the facet incident to h and sets all facet
         // pointers to f. Precondition: `h != NULL'.
         CGAL_precondition( h != 0);
-        CGAL_assertion_code( size_t termination_count = 0;)
-        Halfedge* end = h;
-        do {
-            CGAL_assertion( ++termination_count != 0);
-            set_facet( h, f);
-            h = h->next();
-        } while ( h != end);
+        set_facet_in_facet_loop( h, f, Supports_halfedge_facet());
     }
 
 // Modifying Functions (Euler Operators)
@@ -740,114 +754,6 @@ public:
             hds.delete_edge( h);
     }
 
-    // Does not support vertices:
-    void erase_connected_component( HDS& hds, Halfedge* h, CGAL_Tag_false) {
-        CGAL_Assert_compile_time_tag( CGAL_Tag_true(), Supports_removal());
-        typedef vector<Halfedge*> HVector;
-        HVector stack;
-        // Algorithm: the next pointer is used as visited tag
-        // for a graph search. If one of the both next pointers
-        // of an halfedge is set to 0, the edge has been visited
-        // and must not be put on the stack again.
-        // Given an edge both face cycles will be examined, setting
-        // all next pointers on those face cycles to 0 and pushing
-        // the edges to the stack if the opposite next pointer was not
-        // already 0. Thereafter the edge is deleted since no other
-        // face cycle could reach it again.
-        stack.push_back(h);
-        while ( ! stack.empty()) {
-            h = stack.back();
-            stack.pop_back();
-            if ( h->next() != 0) {
-                // Delete face and run first face cycle
-                if ( !h->is_border())
-                    delete_facet( hds, get_facet(h));
-                Halfedge* g = h->next();
-                while (g != h) {
-                    if ( g->opposite()->next() != 0)
-                        stack.push_back( g->opposite());
-                    Halfedge* gg = g->next();
-                    g->set_next() = 0;
-                    g = gg;
-                }
-            }
-            h = h->opposite();
-            if ( h->next() != 0) {
-                // Delete opposite face and run second face cycle
-                if ( !h->is_border())
-                    delete_facet( hds, get_facet(h));
-                Halfedge* g = h->next();
-                while (g != h) {
-                    if ( g->opposite()->next() != 0)
-                        stack.push_back( g->opposite());
-                    Halfedge* gg = g->next();
-                    g->set_next() = 0;
-                    g = gg;
-                }
-            }
-            hds.delete_edge( h);
-        }
-    }
-
-    // Supports vertices:
-    void erase_connected_component( HDS& hds, Halfedge* h, CGAL_Tag_true) {
-        CGAL_Assert_compile_time_tag( CGAL_Tag_true(), Supports_removal());
-        typedef vector<Halfedge*> HVector;
-        HVector stack;
-        // Algorithm: the vertex pointer is used as visited tag
-        // for a graph search. If one of the both vertex pointers
-        // of an halfedge is set to 0, the edge has been visited
-        // and must not be put on the stack again.
-        // Given an edge both vertex cycles will be examined, setting
-        // all vertex pointers on those face cycles to 0 and pushing
-        // the edges to the stack if the opposite vertex pointer was not
-        // already 0.
-        // If the incident facet of the halfedge is not already zero,
-        // delete it and set all facet pointers in the face cycle to 0.
-        // Thereafter the edge is deleted since no other
-        // vertex cycle will reach it again.
-        stack.push_back(h);
-        while ( ! stack.empty()) {
-            h = stack.back();
-            stack.pop_back();
-            // Check both incident facets:
-            if ( get_facet(h) != 0) {
-                delete_facet( hds, get_facet(h));
-                // set all other facet pointer to 0
-                set_facet_in_facet_loop( h, 0);
-            }
-            if ( get_facet(h->opposite()) != 0) {
-                delete_facet( hds, get_facet(h->opposite()));
-                // set all other facet pointer to 0
-                set_facet_in_facet_loop( h->opposite(), 0);
-            }
-            if ( h->vertex() != 0) {
-                // Delete vertex and run first vertex cycle
-                hds.delete_vertex( h->vertex());
-                Halfedge* g = h->next()->opposite();
-                while (g != h) {
-                    if ( g->opposite()->vertex() != 0)
-                        stack.push_back( g->opposite());
-                    g->set_vertex(0);
-                    g = g->next()->opposite();
-                }
-            }
-            h = h->opposite();
-            if ( h->vertex() != 0) {
-                // Delete opposite vertex and run second vertex cycle
-                hds.delete_vertex( h->vertex());
-                Halfedge* g = h->next()->opposite();
-                while (g != h) {
-                    if ( g->opposite()->next() != 0)
-                        stack.push_back( g->opposite());
-                    g->set_vertex(0);
-                    g = g->next()->opposite();
-                }
-            }
-            hds.delete_edge( h);
-        }
-    }
-
   public:
     void erase_facet( HDS& hds, Halfedge* h) {
         // removes the facet incident to `h' from `hds' and changes all
@@ -859,11 +765,89 @@ public:
         erase_facet( hds, h, Supports_halfedge_facet());
     }
 
+  protected:                               // Supports_halfedge_vertices
+      void erase_connected_component_vertex( HDS& hds, Halfedge* h,
+                                             CGAL_Tag_false) {}
+      void erase_connected_component_vertex( HDS& hds, Halfedge* h,
+                                             CGAL_Tag_true) {
+          // Erases the the vertex incident to h and sets all references
+          // from halfedges around this vertex to NULL,
+          // if the incident vertex handle is not already equal to
+          // NULL. It is used to erase vertices as soon
+          // as an vertex is encountered in the graph traversal. At this
+          // point of the graph traversal the halfedge cycle around the
+          // vertex is still closed. Lateron it will be broken.
+          if ( h->vertex() != NULL) {
+              hds.delete_vertex( h->vertex());
+              set_vertex_in_vertex_loop( h, NULL);
+          }
+      }
+      void erase_connected_component_vertex( HDS& hds, Halfedge* h) {
+          erase_connected_component_vertex( hds, h,
+                                            Supports_halfedge_vertex());
+      }
+
+      void erase_connected_component_face_cycle( HDS& hds, Halfedge* h,
+                                             vector<Halfedge*>& stack) {
+          // Delete incident facet and set all incidences to 0.
+          if ( get_facet(h) != 0) {
+              delete_facet( hds, get_facet(h));
+              set_facet_in_facet_loop( h, 0);
+          }
+          // Cycle around facet, delete incident vertices, push new
+          // edges on the stack and mark edges as visited.
+          erase_connected_component_vertex( hds, h);
+          Halfedge* g = h->next();
+          h->set_next(0);
+          while (g != h) {
+              erase_connected_component_vertex( hds, g);
+              if ( g->opposite()->next() != 0)
+                  stack.push_back( g->opposite());
+              Halfedge* gg = g->next();
+              g->set_next(0);
+              g = gg;
+          }
+      }
+
+  public:
     void erase_connected_component( HDS& hds, Halfedge* h) {
-        // removes the vertices, halfedges, and facets that belong to the
-        // connected component of h. Precondition: `Supports_removal' must
-        // be equivalent to `CGAL_Tag_true'.
-        erase_connected_component( hds, h, Supports_halfedge_vertex());
+        CGAL_Assert_compile_time_tag( CGAL_Tag_true(), Supports_removal());
+        typedef vector<Halfedge*> HVector;
+        HVector stack;
+        // Algorithm: The next() pointer is used as visited tag
+        //     for a graph search. If the next pointer of an halfedge
+        //     or its opposite halfedge is set to 0, this edge has already
+        //     been visited and must not be put on the stack again.
+        // Initializing: Cycle through the face-cycle of h and put
+        //     all opposite halfedges on the stack. Put h->opposite()
+        //     on the stack. Note that even if the face cycle of h looks
+        //     ugly ( e.g. h->opposite() is also in the cycle), neither
+        //     h nor h->opposite() will be put on the stack. If
+        //     h->opposite() is in the cycle, when h will be popped from
+        //     the stack it will be immediately deleted.
+        // Loop invariant: For each edge h on the stack h->opposite()->
+        //     next() == NULL.
+        // Looping: For each edge h on the stack, if h->next() is
+        //     not already equal to NULL, cycle through the face-cycle
+        //     of h and put all opposite halfedges on the stack.
+        //     Delete h.
+        // Where: Cycle through a face means: If h->facet() != NULL
+        //     delete h->facet() and set all facet handles to NULL.
+        //     Loop through the halfedges g around the facet, call
+        //     erase_connected_component_vertex for each g, push
+        //     g->opposite() on the stack if g->opposite()->next()
+        //     is not already NULL. This implies that h->opposite()
+        //     is not put on the stack again.
+        erase_connected_component_face_cycle( hds, h, stack);
+        stack.push_back( h->opposite());
+        while ( ! stack.empty()) {
+            h = stack.back();
+            stack.pop_back();
+            CGAL_assertion( h->opposite()->next() == 0);
+            if ( h->next() != 0)
+                erase_connected_component_face_cycle( hds, h, stack);
+            hds.delete_edge( h);
+        }
     }
 
 // Modifying Functions (Primitives)
@@ -1286,7 +1270,7 @@ is_valid( const _HDS& hds, bool verb, int level) const {
     Vertex_const_iterator vend   = hds.vertices_end();
     Size v = 0;
     n = 0;
-    for( ; valid && (vbegin != vend); vbegin++) {
+    for( ; valid && (vbegin != vend); ++vbegin) {
         verr << "vertex " << v << endl;
         // Pointer integrity.
         if ( get_vertex_halfedge( &*vbegin) != NULL)
@@ -1328,7 +1312,7 @@ is_valid( const _HDS& hds, bool verb, int level) const {
     Facet_const_iterator fend   = hds.facets_end();
     Size f = 0;
     n = 0;
-    for( ; valid && (fbegin != fend); fbegin++) {
+    for( ; valid && (fbegin != fend); ++fbegin) {
         verr << "facet " << f << endl;
         // Pointer integrity.
         if ( get_facet_halfedge( &*fbegin) != NULL)

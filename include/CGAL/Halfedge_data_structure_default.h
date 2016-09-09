@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Halfedge_data_structure_default.h
-// package       : Halfedge_DS (1.7)
+// package       : Halfedge_DS (1.9)
 // chapter       : $CGAL_Chapter: Halfedge Data Structures $
 // source        : hds.fw
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 1998/03/19 16:17:48 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1998/10/14 14:02:03 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
 //
 // Halfedge Data Structure Default Implementation for CGAL.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================

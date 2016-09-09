@@ -27,16 +27,17 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/circulator.h
-// package       : Circulator (1.14)
+// package       : Circulator (1.15)
 // chapter       : $CGAL_Chapter: Circulators $
 // source        : circulator.fw
 // revision      : $Revision: 1.19 $
@@ -46,6 +47,7 @@
 // coordinator   : INRIA, Sophia Antipolis
 //
 // Circulator support and Adaptors between circulators and iterators.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -180,11 +182,14 @@
 #    endif // __GNUG__ //
 #endif // CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
 
-#ifdef __GNUG__
+#ifndef CGAL_NULL_TYPE
+#if defined( __GNUG__ ) && \
+    (__GNUC__ < 3 || (__GNUC__ == 2 && __GNUC_MINOR__ < 91))
 #define CGAL_NULL_TYPE const void*
 #else // __GNUG__ //
 #define CGAL_NULL_TYPE int
 #endif // __GNUG__ //
+#endif // CGAL_NULL_TYPE //
 
 template <class C>
 struct CGAL__Circulator_traits {

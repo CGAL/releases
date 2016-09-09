@@ -27,33 +27,38 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Pm_segment_exact_traits.h
-// package       : pm (1.12.3)
-// source        :
-// revision      :
-// revision_date :
+// package       : pm (2.052)
+// source        : 
+// revision      : 
+// revision_date : 
 // author(s)     : Iddo Hanniel
 //                 Eyal Flato
-//                 Doron Jacobi
+//                 Oren Nechushtan
+//
 //
 // coordinator   : Tel-Aviv University (Dan Halperin)
-// chapter       : Planar Map
+//
+// Chapter       : 
 //
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
-
-
 #ifndef CGAL_PM_SEGMENT_EXACT_TRAITS_H
 #define CGAL_PM_SEGMENT_EXACT_TRAITS_H
+
+#ifndef CGAL_PM_CONFIG_H
+#include <CGAL/Pm_config.h>
+#endif
 
 #ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
@@ -69,12 +74,10 @@ template <class R>
 class CGAL_Pm_segment_exact_traits
 {
 public:
-  typedef int			Info_face;
-  typedef int	      		Info_edge;
-  typedef int	       	       	Info_vertex;
-  
+
   typedef CGAL_Segment_2<R>	X_curve;
   typedef CGAL_Point_2<R>		Point;
+  typedef CGAL_Vector_2<R>		Vector;
   
   typedef enum 
   {
@@ -90,7 +93,6 @@ public:
     ABOVE_CURVE = 1,
     ON_CURVE = 2,
     CURVE_NOT_IN_RANGE = 0,
-    CURVE_VERTICAL = 3
   } Curve_point_status;	
 /*	
 #ifdef _PM_TRAITS_WITH_INTERSECTIONS
@@ -136,16 +138,23 @@ public:
   {
     if (!curve_is_in_x_range(cv, p))
       return CURVE_NOT_IN_RANGE;
-    if (curve_is_vertical(cv))
-      return CURVE_VERTICAL;
-    int res = compare_y(p, curve_calc_point(cv, p));
-    if (res == CGAL_SMALLER)
-      return UNDER_CURVE;
-    if (res == CGAL_LARGER)
-      return ABOVE_CURVE;
-    if (res == CGAL_EQUAL)
-      return ON_CURVE;
-    return ON_CURVE;
+	if (!curve_is_vertical(cv))
+	{
+		int res = compare_y(p, curve_calc_point(cv, p));
+		if (res == CGAL_SMALLER) return UNDER_CURVE;
+		if (res == CGAL_LARGER)	return ABOVE_CURVE;
+		//if (res == CGAL_EQUAL) 
+		return ON_CURVE;
+	}
+	else
+	{
+		if (is_lower(p,lowest(curve_source(cv),curve_target(cv))))
+			return UNDER_CURVE;
+		if (is_higher(p,highest(curve_source(cv),curve_target(cv))))
+			return ABOVE_CURVE;
+		// if (curve_is_in_y_range(cv,p))
+		return ON_CURVE;
+	}
   }
   
   CGAL_Comparison_result 
@@ -164,14 +173,14 @@ public:
       {
         if (curve_is_vertical(cv2))
           {
-            // both cv and this are vertical
+            // both cv1 and cv2 are vertical
             if ( is_lower(cv1.target(), cv2.source()) )
               return CGAL_SMALLER;
             if ( is_higher(cv1.source(), cv2.target()) )
               return CGAL_LARGER;
             return CGAL_SMALLER;
           }
-        // this is vertical and cv not
+        // cv1 is vertical and cv2 not
         if ( is_lower(cv1.target(), p2) )
           return CGAL_SMALLER;
         if ( is_higher(cv1.source(), p2) )
@@ -181,7 +190,7 @@ public:
     
     if (curve_is_vertical(cv2))
       {
-        // cv is vertical and this- not
+        // cv2 is vertical and cv1- not
         if (is_lower(cv2.target(), p1) )
           return CGAL_LARGER;
         if ( is_higher(cv2.source(), p1) )
@@ -238,7 +247,7 @@ public:
     if ( r != CGAL_EQUAL)
       return r;     // since the curve is continous (?)
     
-    // <cv> and <this> meet at a point with the same x-coordinate as q
+    // <cv1> and <cv2> meet at a point with the same x-coordinate as q
     // compare their derivatives
     return compare_value(curve_derivative(cv1), curve_derivative(cv2));
   }
@@ -356,6 +365,12 @@ public:
         if ( ((cv0_status == CURVE_LEFT) && (cv0_cvx==-1)) ||
              ((cv0_status == CURVE_RIGHT) && (cv0_cvx==1)) )
           return true;
+
+        //Addition by iddo for enabeling addition of null segments - testing
+        if ( (cv0_status==CURVE_VERTICAL_DOWN)&&
+             ((cv0.source()==cv0.target())||(cvx.source()==cvx.target())) )
+          return true; //a null segment (=point) 
+
         return false;
       }
     
@@ -364,6 +379,12 @@ public:
         if ( ((cv1_status == CURVE_LEFT) && (cv1_cvx==1)) ||
              ((cv1_status == CURVE_RIGHT) && (cv1_cvx==-1)) )
           return true;
+
+        //Addition by iddo for enabeling addition of null segments - testing
+        if ( (cv1_status==CURVE_VERTICAL_DOWN)&&
+             ((cv1.source()==cv1.target())||(cvx.source()==cvx.target())) )
+          return true; //a null segment (=point)  
+
         return false;
       }
     
@@ -381,40 +402,16 @@ public:
   { return compare_value(p1.x(), p2.x()); }
   CGAL_Comparison_result compare_y(const Point &p1, const Point &p2) const
   { return compare_value(p1.y(), p2.y()); }
-  
-  bool is_left(const Point &p1, const Point &p2) const 
-  { return (compare_x(p1, p2) == CGAL_SMALLER); }
-  bool is_right(const Point &p1, const Point &p2) const 
-  { return (compare_x(p1, p2) == CGAL_LARGER); }
-  bool is_same_x(const Point &p1, const Point &p2) const 
-  { return (compare_x(p1, p2) == CGAL_EQUAL); }
-  bool is_lower(const Point &p1, const Point &p2) const 
-  { return (compare_y(p1, p2) == CGAL_SMALLER); }
-  bool is_higher(const Point &p1, const Point &p2) const 
-  { return (compare_y(p1, p2) == CGAL_LARGER); }
-  bool is_same_y(const Point &p1, const Point &p2) const 
-  { return (compare_y(p1, p2) == CGAL_EQUAL); }
-  
-  bool is_same(const Point &p1, const Point &p2) const
+public:
+  Point point_to_left(const Point& p) const {
+    return p+Vector(-1,0);}
+  Point point_to_right(const Point& p) const {return p+Vector(1,0);}
+  bool curve_is_same(const X_curve &cv1, const X_curve &cv2) const
   {
-    return (compare_x(p1, p2) == CGAL_EQUAL) &&
-      (compare_y(p1, p2) == CGAL_EQUAL);
+	return is_same(curve_source(cv1),curve_source(cv2))&&
+		is_same(curve_target(cv1),curve_target(cv2));
   }
-  
-  Point leftmost(const Point &p1, const Point &p2) const
-  { return (is_left(p1, p2) ? p1 : p2); }
-
-  Point rightmost(const Point &p1, const Point &p2) const
-  { return (is_right(p1, p2) ? p1 : p2); }
-  
-  Point lowest(const Point &p1, const Point &p2) const
-  { return (is_lower(p1, p2) ? p1 : p2); }
-  
-  Point highest(const Point &p1, const Point &p2) const
-  { return (is_higher(p1, p2) ? p1 : p2); }
-  
-  
-  bool is_point_on_curve(const X_curve &cv, const Point& p)
+  bool is_point_on_curve(const X_curve &cv, const Point& p) const //check
   {
     if (!curve_is_in_x_range(cv, p))
       return false;
@@ -430,7 +427,35 @@ public:
       return true;
     return false;
   }
+private:
+  bool is_left(const Point &p1, const Point &p2) const 
+  { return (compare_x(p1, p2) == CGAL_SMALLER); }
+  bool is_right(const Point &p1, const Point &p2) const 
+  { return (compare_x(p1, p2) == CGAL_LARGER); }
+  bool is_same_x(const Point &p1, const Point &p2) const 
+  { return (compare_x(p1, p2) == CGAL_EQUAL); }
+  bool is_lower(const Point &p1, const Point &p2) const 
+  { return (compare_y(p1, p2) == CGAL_SMALLER); }
+  bool is_higher(const Point &p1, const Point &p2) const 
+  { return (compare_y(p1, p2) == CGAL_LARGER); }
+  bool is_same_y(const Point &p1, const Point &p2) const 
+  { return (compare_y(p1, p2) == CGAL_EQUAL); }
+  bool is_same(const Point &p1, const Point &p2) const
+  {
+    return (compare_x(p1, p2) == CGAL_EQUAL) &&
+      (compare_y(p1, p2) == CGAL_EQUAL);
+  }
+  const Point& leftmost(const Point &p1, const Point &p2) const
+  { return (is_left(p1, p2) ? p1 : p2); }
+
+  const Point& rightmost(const Point &p1, const Point &p2) const
+  { return (is_right(p1, p2) ? p1 : p2); }
   
+  const Point& lowest(const Point &p1, const Point &p2) const
+  { return (is_lower(p1, p2) ? p1 : p2); }
+  
+  const Point& highest(const Point &p1, const Point &p2) const
+  { return (is_higher(p1, p2) ? p1 : p2); }
   
 private:
   Point curve_calc_point(const X_curve &cv, const Point & q) const

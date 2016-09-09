@@ -27,27 +27,29 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Optimisation_circle_2.h
-// package       : Min_circle_2 (3.0.2)
+// package       : Min_circle_2 (3.1.1)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_circle_2.aw
-// revision      : $Revision: 5.1 $
-// revision_date : $Date: 1998/07/02 17:54:59 $
+// revision      : $Revision: 5.3 $
+// revision_date : $Date: 1998/11/16 15:42:39 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: 2D Optimisation Circle
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -202,9 +204,8 @@ class CGAL_Optimisation_circle_2 {
     CGAL_Bounded_side
     bounded_side( const Point& p) const
     {
-        return( CGAL_static_cast( CGAL_Bounded_side,
-                                  CGAL_sign( CGAL_squared_distance( p, _center)
-                                             - _squared_radius)));
+        return( CGAL_Bounded_side(
+            CGAL_sign( CGAL_squared_distance( p, _center) - _squared_radius)));
     }
     
     inline
@@ -249,11 +250,11 @@ class CGAL_Optimisation_circle_2 {
 // ---
 template < class _R >
 ostream&
-operator << ( ostream& os, const CGAL_Optimisation_circle_2<_R>& c);
+operator << ( ostream&, const CGAL_Optimisation_circle_2<_R>&);
 
 template < class _R >
 istream&
-operator >> ( istream& is, CGAL_Optimisation_circle_2<_R>      & c);
+operator >> ( istream&, CGAL_Optimisation_circle_2<_R>&);
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #  include <CGAL/Optimisation_circle_2.C>

@@ -27,16 +27,17 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/squared_distance_3_2.C
-// package       : Distance_3 (1.5)
+// package       : Distance_3 (1.6)
 // source        : sqdistance_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -108,7 +109,7 @@ CGAL_squared_distance(
     typedef typename R::RT RT;
     typedef typename R::FT FT;
     const CGAL_Point_3<R> &start = ray.start();
-    const CGAL_Vector_3<R> &end = ray.direction().vector();
+//    const CGAL_Vector_3<R> &end = ray.direction().vector();
     const CGAL_Point_3<R> &planepoint = plane.point();
     CGAL_Vector_3<R> start_min_pp = start - planepoint;
     CGAL_Vector_3<R> end_min_pp = ray.direction().vector();

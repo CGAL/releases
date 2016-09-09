@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/monotone_matrix_search.h
-// package       : Matrix_search (1.7)
+// package       : Matrix_search (1.10)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 1998/07/23 16:53:51 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1998/11/26 16:25:37 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // Monotone Matrix Search
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================

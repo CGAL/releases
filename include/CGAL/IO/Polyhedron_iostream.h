@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/Polyhedron_iostream.h
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Stream operators for Polyhedron_3 IO in object file format (OFF)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -74,12 +76,8 @@ template <class Traits, class HDS> inline
 ostream& operator<<( ostream& out, const CGAL_Polyhedron_3<Traits,HDS>& P) {
     // writes P to `out' in PRETTY, ASCII or BINARY format
     // as the stream indicates.
-    if ( CGAL_is_pretty( out))
-        CGAL_print_OFF( out, P);
-    else if ( CGAL_is_binary( out))
-        CGAL_print_OFF( out, P, true);
-    else // ASCII without comments
-        CGAL_print_OFF( out, P, false, true);
+    CGAL_File_header_OFF header( CGAL_is_binary( out));
+    CGAL_print_OFF( out, P, header);
     return out;
 }
 

@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : Float.fw
 // file          : include/CGAL/float.h
-// package       : Number_types (1.2.8)
-// revision      : 1.2.8
-// revision_date : 01 Jul 1998 
+// package       : Number_types (1.6)
+// revision      : 1.6
+// revision_date : 13 Jan 1999 
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -64,35 +66,32 @@ double
 CGAL_to_double(float f)
 { return (double)f; }
 
-/*
-inline float CGAL_abs(float f)
-{ return fabs(f); }
-*/
-
-/* Is this used ? XXX
-inline
-float
-CGAL_denominator(float)
-{ return 1.0; }
-
-inline
-float
-CGAL_numerator(float f)
-{ return f; }
-*/
-
 inline
 CGAL_Number_tag
 CGAL_number_type_tag(float)
 { return CGAL_Number_tag(); }
 
+#ifdef CGAL_OLD_FINITE_VALID
 extern
 bool
-CGAL_is_finite(float f);
+CGAL_is_finite(float d);
 
 extern
 bool
-CGAL_is_valid(float f);
+CGAL_is_valid(float d);
+
+#else
+inline
+bool
+CGAL_is_valid(float d)
+{ return (d == d); }
+
+inline
+bool
+CGAL_is_finite(float d)
+{ return (d == d) && (CGAL_is_valid(d-d)); }
+
+#endif // CGAL_OLD_FINITE_VALID
 
 inline
 CGAL_io_Operator

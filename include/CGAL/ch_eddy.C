@@ -27,18 +27,19 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/ch_eddy.C
-// package       : Convex_hull (1.2.3)
+// package       : Convex_hull (1.3.2)
 // source        : convex_hull_2.lw
-// revision      : 1.2.3
-// revision_date : 07 Apr 1998
+// revision      : 1.3.2
+// revision_date : 09 Dec 1998
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -65,15 +66,21 @@ CGAL_ch__recursive_eddy(List& L,
   typedef  typename Traits::Less_dist_to_line          Less_dist;
 
   CGAL_ch_precondition( \
-    find_if(a_it, b_it, Right_of_line(*a_it,*b_it)) != b_it);
+    find_if(a_it, b_it, \
+            ch_traits.get_right_of_line_object(*a_it,*b_it)) \
+    != b_it );
 
 
   ListIterator f_it = CGAL_successor(a_it);
-  ListIterator c_it = max_element( f_it, b_it, Less_dist(*a_it,*b_it) );
+  ListIterator 
+      c_it = max_element( f_it, b_it, 
+                          ch_traits.get_less_dist_to_line_object(*a_it,*b_it));
   Point_2 c = *c_it;
 
-  c_it = partition( f_it, b_it, Right_of_line(*a_it, c ) );
-  f_it = partition( c_it, b_it, Right_of_line(c, *b_it ) );
+  c_it = partition( f_it, b_it, 
+                    ch_traits.get_right_of_line_object(*a_it, c ) );
+  f_it = partition( c_it, b_it, 
+                    ch_traits.get_right_of_line_object(c, *b_it ) );
   c_it = L.insert(c_it, c);
   L.erase( f_it, b_it );
 
@@ -116,7 +123,8 @@ CGAL_ch_eddy(InputIterator first, InputIterator last,
 
   L.erase(w);
   L.erase(e);
-  e = partition(L.begin(), L.end(), Right_of_line( wp, ep) );
+  e = partition(L.begin(), L.end(), 
+                ch_traits.get_right_of_line_object( wp, ep) );
   L.push_front(wp);
   e = L.insert(e, ep);
 
@@ -124,7 +132,7 @@ CGAL_ch_eddy(InputIterator first, InputIterator last,
   {
       CGAL_ch__recursive_eddy( L, L.begin(), e, ch_traits);
   }
-  w = find_if( e, L.end(), Right_of_line( ep, wp) );
+  w = find_if( e, L.end(), ch_traits.get_right_of_line_object( ep, wp) );
   if ( w == L.end() )
   {
       L.erase( ++e, L.end() );

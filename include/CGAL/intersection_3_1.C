@@ -27,16 +27,17 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/intersection_3_1.C
-// package       : Intersections_3 (1.2)
+// package       : Intersections_3 (1.3)
 // source        : web/intersection_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -137,6 +138,29 @@ CGAL_intersection(const CGAL_Plane_3<R> &plane, const CGAL_Line_3<R>&line)
         line_pt.hw()*den));
 }
 
+template <class R>
+bool
+CGAL_do_intersect(const CGAL_Plane_3<R> &plane, const CGAL_Line_3<R>&line)
+{
+    typedef typename R::RT RT;
+    const CGAL_Point_3<R> &line_pt = line.point();
+    const CGAL_Direction_3<R> &line_dir = line.direction();
+    RT num,  den;
+    den = plane.a()*line_dir.dx() + plane.b()*line_dir.dy()
+        + plane.c()*line_dir.dz();
+    if (den !=  RT(0))
+        return true;
+    num = plane.a()*line_pt.hx() + plane.b()*line_pt.hy()
+        + plane.c()*line_pt.hz() + plane.d()*line_pt.hw();
+    if (num == RT(0)) {
+        // all line
+        return true;
+    } else {
+        // no intersection
+        return false;
+    }
+}
+
 
 template <class R>
 CGAL_Object
@@ -151,9 +175,27 @@ CGAL_intersection(const CGAL_Plane_3<R> &plane, const CGAL_Ray_3<R>&ray)
         else
             return CGAL_Object();
     }
-    if (line_intersection.ptr()->base() == 0)
+    if (line_intersection.is_empty())
         return line_intersection;
     return CGAL_make_object(ray);
+}
+
+template <class R>
+bool
+CGAL_do_intersect(const CGAL_Plane_3<R> &plane, const CGAL_Ray_3<R>&ray)
+{
+    const CGAL_Object line_intersection =
+            CGAL_intersection(plane, ray.supporting_line());
+    if (line_intersection.is_empty())
+        return false;
+    CGAL_Point_3<R> isp;
+    if (CGAL_assign(isp, line_intersection)) {
+        if (ray.collinear_has_on(isp))
+            return true;
+        else
+            return false;
+    }
+    return true;
 }
 
 
@@ -193,6 +235,22 @@ CGAL_intersection(const CGAL_Plane_3<R> &plane, const CGAL_Segment_3<R>&seg)
     }
     CGAL_kernel_assertion_msg(false, "Supposedly unreachable code.");
     return CGAL_Object();
+}
+
+template <class R>
+bool
+CGAL_do_intersect(const CGAL_Plane_3<R> &plane, const CGAL_Segment_3<R>&seg)
+{
+    const CGAL_Point_3<R> &source = seg.source();
+    const CGAL_Point_3<R> &target = seg.target();
+    CGAL_Oriented_side source_side,target_side;
+    source_side = plane.oriented_side(source);
+    target_side = plane.oriented_side(target);
+    if ( source_side == target_side
+       && target_side != CGAL_ON_ORIENTED_BOUNDARY) {
+        return false;
+    }
+    return true;
 }
 
 

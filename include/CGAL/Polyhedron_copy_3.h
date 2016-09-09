@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Polyhedron_copy_3.h
-// package       : Polyhedron (1.11)
+// package       : Polyhedron (1.14)
 // chapter       : $CGAL_Chapter: 3D-Polyhedral Surfaces $
 // source        : polyhedron_builder.fw
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1998/02/25 04:33:56 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1998/10/08 14:30:40 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
 //
 // Copy of Polyhedral Surfaces.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================

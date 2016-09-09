@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/PlaneC3.h
-// package       : C3 (1.4)
+// package       : C3 (1.6)
 // source        : web/PlaneC3.fw
 // revision      : $Revision: 1.7 $
 // revision_date : $Date: 1998/03/24 14:41:53 $
 // author(s)     : Andreas.Fabri
 //
 // coordinator   : INRIA Sophia-Antipolis
+//
 //
 // email         : cgal@cs.uu.nl
 //

@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Polygon_2.h
-// package       : Polygon (1.10)
+// package       : Polygon (1.13)
 // source        : 
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
 // author(s)     : Wieger Wesselink
 //
 // coordinator   : Utrecht University
+//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -51,7 +53,9 @@
 #ifndef CGAL_POLYGON_2_H
 #define CGAL_POLYGON_2_H
 
+#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
+#endif // CGAL_BASIC_H
 
 #ifdef CGAL_CFG_NO_MEMBER_TEMPLATES
 #include <vector.h>
@@ -60,17 +64,31 @@
 
 #include <iterator.h>
 
+#ifndef CGAL_CIRCULATOR_H
 #include <CGAL/circulator.h>
+#endif // CGAL_CIRCULATOR_H
+#ifndef CGAL_ENUM_H
 #include <CGAL/enum.h>
+#endif // CGAL_ENUM_H
 
 #ifdef CGAL_REP_CLASS_DEFINED
+#ifndef CGAL_POLYGON_TRAITS_2_H
 #include <CGAL/Polygon_traits_2.h>
+#endif // CGAL_POLYGON_TRAITS_2_H
+#ifndef CGAL_AFF_TRANSFORMATION_2_H
 #include <CGAL/Aff_transformation_2.h>
+#endif // CGAL_AFF_TRANSFORMATION_2_H
 #endif // CGAL_REP_CLASS_DEFINED
 
+#ifndef CGAL_POLYGON_2_ALGORITHMS_H
 #include <CGAL/Polygon_2_algorithms.h>
+#endif // CGAL_POLYGON_2_ALGORITHMS_H
+#ifndef CGAL_POLYGON_2_EDGE_ITERATOR_H
 #include <CGAL/Polygon_2_edge_iterator.h>
+#endif // CGAL_POLYGON_2_EDGE_ITERATOR_H
+#ifndef CGAL_POLYGON_2_EDGE_CIRCULATOR_H
 #include <CGAL/Polygon_2_edge_circulator.h>
+#endif // CGAL_POLYGON_2_EDGE_CIRCULATOR_H
 
 //-----------------------------------------------------------------------//
 //                          CGAL_Polygon_2
@@ -139,14 +157,14 @@ class CGAL_Polygon_2 {
 
 #ifdef CGAL_CFG_NO_MEMBER_TEMPLATES
     // the following typedefs are required for Sun C++ 4.2
-    typedef typename vector<Point_2>::const_iterator         v_ci;
-    typedef typename vector<Point_2>::const_reverse_iterator v_cri;
-    typedef typename vector<Point_2>::iterator               v_i;
-    typedef typename vector<Point_2>::reverse_iterator       v_ri;
-    typedef typename list<Point_2>::const_iterator           l_ci;
-    typedef typename list<Point_2>::const_reverse_iterator   l_cri;
-    typedef typename list<Point_2>::iterator                 l_i;
-    typedef typename list<Point_2>::reverse_iterator         l_ri;
+    typedef typename CGAL_STD::vector<Point_2>::const_iterator         v_ci;
+    typedef typename CGAL_STD::vector<Point_2>::const_reverse_iterator v_cri;
+    typedef typename CGAL_STD::vector<Point_2>::iterator               v_i;
+    typedef typename CGAL_STD::vector<Point_2>::reverse_iterator       v_ri;
+    typedef typename CGAL_STD::list<Point_2>::const_iterator           l_ci;
+    typedef typename CGAL_STD::list<Point_2>::const_reverse_iterator   l_cri;
+    typedef typename CGAL_STD::list<Point_2>::iterator                 l_i;
+    typedef typename CGAL_STD::list<Point_2>::reverse_iterator         l_ri;
 
     CGAL_Polygon_2(v_ci first, v_ci last)
       { copy(first, last, back_inserter(d_container)); }
@@ -419,7 +437,9 @@ operator!=(const CGAL_Polygon_2<_Traits,_Container1> &x,
            const CGAL_Polygon_2<_Traits,_Container2> &y);
 
 #ifdef CGAL_REP_CLASS_DEFINED
+#ifndef CGAL_POLYGON_TRAITS_2_H
 #include <CGAL/Polygon_traits_2.h>
+#endif // CGAL_POLYGON_TRAITS_2_H
 template <class Transformation, class _Traits, class _Container>
 CGAL_Polygon_2<_Traits,_Container>
 CGAL_transform(const Transformation& t, const CGAL_Polygon_2<_Traits,_Container>& p);

@@ -27,27 +27,29 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Optimisation_ellipse_2.h
-// package       : Min_ellipse_2 (3.0.2)
+// package       : Min_ellipse_2 (3.1.1)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_ellipse_2.aw
-// revision      : $Revision: 5.1 $
-// revision_date : $Date: 1998/07/02 17:55:03 $
+// revision      : $Revision: 5.3 $
+// revision_date : $Date: 1998/11/16 15:42:43 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: 2D Optimisation Ellipse
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -85,11 +87,27 @@ class istream;
 #include <CGAL/IO/forward_decl_window_stream.h>
 #endif
 
+// Function declarations
+// =====================
+// I/O
+// ---
+template < class _R >
+ostream&
+operator << ( ostream&, const CGAL_Optimisation_ellipse_2<_R>&);
+
+template < class _R >
+istream&
+operator >> ( istream&, CGAL_Optimisation_ellipse_2<_R>&);
+
+template < class _R >
+CGAL_Window_stream&
+operator << ( CGAL_Window_stream&, const CGAL_Optimisation_ellipse_2<_R>&);
+
 template < class _R >
 class CGAL_Optimisation_ellipse_2 {
     friend  ostream&  operator << CGAL_NULL_TMPL_ARGS (
         ostream&, const CGAL_Optimisation_ellipse_2<_R>&);
-    friend  istream&  operator << CGAL_NULL_TMPL_ARGS (
+    friend  istream&  operator >> CGAL_NULL_TMPL_ARGS (
         istream&, CGAL_Optimisation_ellipse_2<_R> &);
     friend  CGAL_Window_stream& operator << CGAL_NULL_TMPL_ARGS (
         CGAL_Window_stream&, const CGAL_Optimisation_ellipse_2<_R>&);
@@ -308,8 +326,7 @@ class CGAL_Optimisation_ellipse_2 {
                 return( c.convex_side( p)); }
             else {
                 int tau_star = -c.vol_derivative( dr, ds, dt, du, dv, dw);
-                return( CGAL_static_cast( CGAL_Bounded_side,
-                                          CGAL_sign( tau_star))); } }
+                return( CGAL_Bounded_side( CGAL_sign( tau_star))); } }
           default:
             CGAL_optimisation_assertion( ( n_boundary_points >= 0) &&
                                          ( n_boundary_points <= 5) ); }
@@ -352,18 +369,6 @@ class CGAL_Optimisation_ellipse_2 {
         return( n_boundary_points < 3);
     }
 };
-
-// Function declarations
-// =====================
-// I/O
-// ---
-template < class _R >
-ostream&
-operator << ( ostream& os, const CGAL_Optimisation_ellipse_2<_R>& e);
-
-template < class _R >
-istream&
-operator >> ( istream& is, CGAL_Optimisation_ellipse_2<_R>      & e);
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #  include <CGAL/Optimisation_ellipse_2.C>

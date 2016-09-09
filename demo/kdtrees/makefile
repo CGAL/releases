@@ -5,7 +5,6 @@
 #---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
 
-CGAL_MAKEFILE = /a/home/cc/students/math/hanniel/cgal/CGAL-0.9-I-02/make/makefile_mips_IRIX64-6.2_CC-7.1_LEDA
 # CGAL_MAKEFILE = ENTER_YOUR_INCLUDE_MAKEFILE_HERE
 include $(CGAL_MAKEFILE)
 

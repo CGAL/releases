@@ -4,13 +4,13 @@
 /*********************************************************************/
 /* By:   Eyal Flato                                                  */
 /*       Iddo Hanniel <hanniel@math.tau.ac.il>                       */
-/*******************************************************************/
+/*********************************************************************/
 
+//#include <CGAL/name_defs.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/Pm_segment_epsilon_traits.h>
 #include <CGAL/Pm_default_dcel.h>
 #include <CGAL/Planar_map_2.h>
-
 
 typedef double                                           number_type;
 typedef CGAL_Cartesian<number_type>                      coord_t;
@@ -19,11 +19,12 @@ typedef pmtraits::Point                                  point;
 typedef pmtraits::X_curve                                curve;
 typedef CGAL_Pm_default_dcel<pmtraits>                   pmdcel;
 
-
 int main()
 {
   // creating an instance of CGAL_Planar_map_2<pmdcel,pmtraits>
-  CGAL_Planar_map_2<pmdcel,pmtraits> pm;
+  //CGAL_Pm_naive_point_location_strategy<pmdcel,pmtraits> pl_strategy;  
+  //CGAL_Planar_map_2<pmdcel,pmtraits> pm(&pl_strategy);
+    CGAL_Planar_map_2<pmdcel,pmtraits> pm;
 
   curve cv[5];
   int i;
@@ -61,15 +62,20 @@ int main()
   
   // vertical ray shooting upward from p
   point p(95, 30);
-  CGAL_Planar_map_2<pmdcel,pmtraits>::Halfedge e;  
+  CGAL_Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e;  
   CGAL_Planar_map_2<pmdcel,pmtraits>::Locate_type lt;
 
   cout << endl << "upward vertical ray shooting from " << p << endl; 
   e=pm.vertical_ray_shoot(p, lt, true);
-  cout << "returned the edge :" << e << endl;
+  cout << "returned the curve :" << e->curve() << endl;
   
   return 0;  
 }
+
+
+
+
+
 
 
 

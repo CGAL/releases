@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/print_OFF.h
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Print a Polyhedron_3 in object file format (OFF)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -77,11 +79,10 @@ template <class Traits, class HDS>
 void
 CGAL_print_OFF( ostream& out,
                const CGAL_Polyhedron_3<Traits,HDS>& P,
-               bool binary = false,
-               bool noc = false) {
-    // writes P to `out' in ASCII format or in binary format
-    // if `binary == true'.
-    CGAL_File_writer_OFF  writer( binary, noc);
+               bool verbose = false) {
+    CGAL_File_writer_OFF  writer( verbose);
+    writer.header().set_polyhedral_surface( true);
+    writer.header().set_halfedges( P.size_of_halfedges());
     CGAL_generic_print_polyhedron( out, P, writer);
 }
 
@@ -89,12 +90,10 @@ template <class Traits, class HDS>
 void
 CGAL_print_OFF( ostream& out,
                const CGAL_Polyhedron_3<Traits,HDS>& P,
-               const CGAL_File_info& info,
-               bool binary = false,
-               bool noc = false) {
-    // writes P to `out' in ASCII format or in binary format
-    // if `binary == true'. Writes additional file info for CGAL.
-    CGAL_File_writer_OFF  writer( info, binary, noc);
+               const CGAL_File_header_OFF& header) {
+    CGAL_File_writer_OFF  writer( header);
+    writer.header().set_polyhedral_surface( true);
+    writer.header().set_halfedges( P.size_of_halfedges());
     CGAL_generic_print_polyhedron( out, P, writer);
 }
 #endif // CGAL_IO_PRINT_OFF_H //

@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Circulator_on_node.h
-// package       : STL_Extension (1.14)
+// package       : STL_Extension (1.17)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/03/24 13:39:06 $
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 1998/10/08 14:35:33 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // An circulator built over a linked node structure.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================

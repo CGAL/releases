@@ -27,27 +27,29 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Min_circle_2_adapterH2.h
-// package       : Min_circle_2 (3.0.2)
+// package       : Min_circle_2 (3.1.1)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_circle_2.aw
-// revision      : $Revision: 5.1 $
-// revision_date : $Date: 1998/07/02 17:54:59 $
+// revision      : $Revision: 5.3 $
+// revision_date : $Date: 1998/11/16 15:42:39 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: traits class adapter for 2D Smallest Enclosing Circle
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -126,6 +128,15 @@ class CGAL_Min_circle_2_adapterH2 {
 
 // Nested type `Circle'
 template < class _PT, class _DA >
+ostream&
+operator << ( ostream&,
+              const CGAL__Min_circle_2_adapterH2__Circle<_PT,_DA>&);
+
+template < class _PT, class _DA >
+istream&
+operator >> ( istream&, CGAL__Min_circle_2_adapterH2__Circle<_PT,_DA>&);
+
+template < class _PT, class _DA >
 class CGAL__Min_circle_2_adapterH2__Circle {
   public:
     // typedefs
@@ -154,6 +165,12 @@ class CGAL__Min_circle_2_adapterH2__Circle {
         RT  dhw( phw*qhw);
         return( FT( dhx*dhx + dhy*dhy, dhw*dhw));
     }
+
+    friend  ostream&  operator << CGAL_NULL_TMPL_ARGS ( ostream&,
+        const CGAL__Min_circle_2_adapterH2__Circle<_PT,_DA>&);
+
+    friend  istream&  operator >> CGAL_NULL_TMPL_ARGS ( istream&,
+        CGAL__Min_circle_2_adapterH2__Circle<_PT,_DA>&);
 
   public:
     // types
@@ -245,7 +262,7 @@ class CGAL__Min_circle_2_adapterH2__Circle {
         RT  phy;
         RT  phw;
         dao.get( p, phx, phy, phw);
-        return( CGAL_static_cast( CGAL_Bounded_side,
+        return( CGAL_Bounded_side(
                     CGAL_sign( sqr_dist( phx, phy, phw,
                                          center_hx, center_hy, center_hw)
                                - sqr_rad)));
@@ -319,76 +336,76 @@ class CGAL__Min_circle_2_adapterH2__Circle {
     {
         return( sqr_rad);
     }
-
-    // I/O
-    friend
-    ostream&
-    operator << ( ostream& os,
-                  const CGAL__Min_circle_2_adapterH2__Circle<_PT,_DA>& c)
-    {
-        switch ( CGAL_get_mode( os)) {
-
-          case CGAL_IO::PRETTY:
-            os << "CGAL_Min_circle_2_adapterH2::Circle( "
-               << c.center_hx << ", "
-               << c.center_hy << ", "
-               << c.center_hw << ", "
-               << c.sqr_rad   << ')';
-            break;
-
-          case CGAL_IO::ASCII:
-            os << c.center_hx << ' '
-               << c.center_hy << ' '
-               << c.center_hw << ' '
-               << c.sqr_rad;
-            break;
-
-          case CGAL_IO::BINARY:
-            CGAL_write( os, c.center_hx);
-            CGAL_write( os, c.center_hy);
-            CGAL_write( os, c.center_hw);
-            CGAL_write( os, c.sqr_rad);
-            break;
-
-          default:
-            CGAL_optimisation_assertion_msg( false,
-                                            "CGAL_get_mode( os) invalid!");
-            break; }
-
-        return( os);
-    }
-
-    friend
-    istream&
-    operator >> ( istream& is,
-                  CGAL__Min_circle_2_adapterH2__Circle<_PT,_DA>& c)
-    {
-        switch ( CGAL_get_mode( is)) {
-
-          case CGAL_IO::PRETTY:
-            cerr << endl;
-            cerr << "Stream must be in ascii or binary mode" << endl;
-            break;
-
-          case CGAL_IO::ASCII:
-            is >> c.center_hx >> c.center_hy >> c.center_hw >> c.sqr_rad;
-            break;
-
-          case CGAL_IO::BINARY:
-            CGAL_read( is, c.center_hx);
-            CGAL_read( is, c.center_hy);
-            CGAL_read( is, c.center_hw);
-            CGAL_read( is, c.sqr_rad);
-            break;
-
-          default:
-            CGAL_optimisation_assertion_msg( false,
-                                             "CGAL_IO::mode invalid!");
-            break; }
-
-        return( is);
-    }
 };
+
+// I/O
+template < class _PT, class _DA >
+ostream&
+operator << ( ostream& os,
+              const CGAL__Min_circle_2_adapterH2__Circle<_PT,_DA>& c)
+{
+    switch ( CGAL_get_mode( os)) {
+
+      case CGAL_IO::PRETTY:
+        os << "CGAL_Min_circle_2_adapterH2::Circle( "
+           << c.center_hx << ", "
+           << c.center_hy << ", "
+           << c.center_hw << ", "
+           << c.sqr_rad   << ')';
+        break;
+
+      case CGAL_IO::ASCII:
+        os << c.center_hx << ' '
+           << c.center_hy << ' '
+           << c.center_hw << ' '
+           << c.sqr_rad;
+        break;
+
+      case CGAL_IO::BINARY:
+        CGAL_write( os, c.center_hx);
+        CGAL_write( os, c.center_hy);
+        CGAL_write( os, c.center_hw);
+        CGAL_write( os, c.sqr_rad);
+        break;
+
+      default:
+        CGAL_optimisation_assertion_msg( false,
+                                        "CGAL_get_mode( os) invalid!");
+        break; }
+
+    return( os);
+}
+
+template < class _PT, class _DA >
+istream&
+operator >> ( istream& is,
+              CGAL__Min_circle_2_adapterH2__Circle<_PT,_DA>& c)
+{
+    switch ( CGAL_get_mode( is)) {
+
+      case CGAL_IO::PRETTY:
+        cerr << endl;
+        cerr << "Stream must be in ascii or binary mode" << endl;
+        break;
+
+      case CGAL_IO::ASCII:
+        is >> c.center_hx >> c.center_hy >> c.center_hw >> c.sqr_rad;
+        break;
+
+      case CGAL_IO::BINARY:
+        CGAL_read( is, c.center_hx);
+        CGAL_read( is, c.center_hy);
+        CGAL_read( is, c.center_hw);
+        CGAL_read( is, c.sqr_rad);
+        break;
+
+      default:
+        CGAL_optimisation_assertion_msg( false,
+                                         "CGAL_IO::mode invalid!");
+        break; }
+
+    return( is);
+}
 
 #endif // CGAL_MIN_CIRCLE_2_ADAPTERH2_H
 

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : Segment_2.fw
 // file          : include/CGAL/Segment_2.h
-// package       : _2 (1.2.2)
-// revision      : 1.2.2
-// revision_date : 27 Jan 1998 
+// package       : _2 (1.3)
+// revision      : 1.3
+// revision_date : 15 Dec 1998 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -107,124 +109,81 @@ public:
     return *this;
   }
 
-  bool                 is_horizontal() const
-  {
-      return Segment_2::is_horizontal();
-  }
+  bool  is_horizontal() const
+  { return Segment_2::is_horizontal(); }
 
-  bool                 is_vertical() const
-  {
-      return Segment_2::is_vertical();
-  }
+  bool  is_vertical() const
+  { return Segment_2::is_vertical(); }
 
-  bool                 has_on(const CGAL_Point_2<R> &p) const
-  {
-    return Segment_2::has_on(p);
-  }
+  bool  has_on(const CGAL_Point_2<R> &p) const
+  { return Segment_2::has_on(p); }
 
-  bool                 collinear_has_on(const CGAL_Point_2<R> &p) const
-  {
-    return Segment_2::collinear_has_on(p);
-  }
+  bool  collinear_has_on(const CGAL_Point_2<R> &p) const
+  { return Segment_2::collinear_has_on(p); }
 
 
-  bool                 operator==(const CGAL_Segment_2<R> &s) const
-  {
-    return Segment_2::operator==(s);
-  }
+  bool  operator==(const CGAL_Segment_2<R> &s) const
+  { return Segment_2::operator==(s); }
 
-  bool                 operator!=(const CGAL_Segment_2<R> &s) const
-  {
-    return !(*this == s);
-  }
+  bool  operator!=(const CGAL_Segment_2<R> &s) const
+  { return !(*this == s); }
 
-  int                  id() const
-  {
-    return (int) PTR  ;
-  }
+  int  id() const
+  { return (int) PTR  ; }
 
 
   CGAL_Point_2<R>     start() const
-  {
-    return Segment_2::start();
-  }
+  { return Segment_2::start(); }
 
   CGAL_Point_2<R>     end() const
-  {
-    return Segment_2::end();
-  }
+  { return Segment_2::end(); }
 
   CGAL_Point_2<R>     source() const
-  {
-    return Segment_2::source();
-  }
+  { return Segment_2::source(); }
 
   CGAL_Point_2<R>     target() const
-  {
-    return Segment_2::target();
-  }
+  { return Segment_2::target(); }
 
   CGAL_Point_2<R>     min() const
-  {
-    return Segment_2::min();
-  }
+  { return Segment_2::min(); }
 
   CGAL_Point_2<R>     max() const
-  {
-    return Segment_2::max();
-  }
+  { return Segment_2::max(); }
 
   CGAL_Point_2<R>     vertex(int i) const
-  {
-    return Segment_2::vertex(i);
-  }
+  { return Segment_2::vertex(i); }
+
+  CGAL_Point_2<R>     point(int i) const
+  { return Segment_2::vertex(i); }
 
   CGAL_Point_2<R>     operator[](int i) const
-  {
-      return vertex(i);
-  }
-
+  { return vertex(i); }
 
   FT                 squared_length() const
-  {
-    return Segment_2::squared_length();
-  }
-
+  { return Segment_2::squared_length(); }
 
   CGAL_Direction_2<R> direction() const
-  {
-    return Segment_2::direction();
-  }
-
+  { return Segment_2::direction(); }
 
   CGAL_Segment_2<R>  opposite() const
-  {
-    return CGAL_Segment_2<R>(target(),source());
-  }
+  { return CGAL_Segment_2<R>(target(),source()); }
 
   // this makes use of the constructor of the interface class
   // taking an object of the implemetation class as argument.
 
   CGAL_Segment_2<R>   transform(const CGAL_Aff_transformation_2<R> &t) const
-  {
-    return  Segment_2::transform(t);
-  }
+  { return  Segment_2::transform(t); }
 
 
   CGAL_Line_2<R>      supporting_line() const
-  {
-    return Segment_2::supporting_line();
-  }
+  { return Segment_2::supporting_line(); }
 
-  bool                 is_degenerate() const
-  {
-    return Segment_2::is_degenerate();
-  }
+  bool                is_degenerate() const
+  { return Segment_2::is_degenerate(); }
 
-  CGAL_Bbox_2            bbox() const
-  {
-    return source().bbox() + target().bbox();
-  }
+  CGAL_Bbox_2         bbox() const
+  { return source().bbox() + target().bbox(); }
+
 };
 
 #ifndef CGAL_NO_OSTREAM_INSERT_SEGMENT_2

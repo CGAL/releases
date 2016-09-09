@@ -27,22 +27,25 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/number_utils_classes.h
-// package       : Number_types (1.2.8)
+// package       : Number_types (1.6)
 // source        : 
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 1997/12/15 11:59:58 $
+// revision      : 1.6
+// revision_date : 13 Jan 99
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//           
+//                 slight modification of Michael's 1.1 version
 //
 // email         : cgal@cs.uu.nl
 //
@@ -82,7 +85,7 @@ struct CGAL_Is_positive : public unary_function< NT, bool > {
 // CGAL_Sign would result in a name clash with enum.h
 template < class NT >
 struct CGAL_Sgn : public unary_function< NT, int > {
-  int operator()( const NT& x) const
+  CGAL_Sign operator()( const NT& x) const
   { return CGAL_sign( x); }
 };
 
@@ -90,7 +93,7 @@ template < class NT >
 struct CGAL_Lexicographical_sign
   : public binary_function< NT, NT, int > {
 
-  int operator()( const NT& x, const NT& y) const
+  CGAL_Sign operator()( const NT& x, const NT& y) const
   { return CGAL_lexicographical_sign( x, y); }
 };
 
@@ -119,6 +122,14 @@ struct CGAL_Compare
   CGAL_Comparison_result
   operator()( const NT& x, const NT& y) const
   { return CGAL_compare( x, y); }
+};
+
+template < class NT >
+struct CGAL_Square : public unary_function< NT, NT > {
+
+  NT
+  operator()( const NT& x) const
+  { return CGAL_square( x ); }
 };
 
 #endif

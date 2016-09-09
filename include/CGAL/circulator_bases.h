@@ -27,16 +27,17 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/circulator_bases.h
-// package       : Circulator (1.14)
+// package       : Circulator (1.15)
 // chapter       : $CGAL_Chapter: Circulators $
 // source        : circulator.fw
 // revision      : $Revision: 1.19 $
@@ -46,6 +47,7 @@
 // coordinator   : INRIA, Sophia Antipolis
 //
 // Base classes and tags to build own circulators.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================

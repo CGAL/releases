@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/PointC2.h
-// package       : C2 (1.3)
+// package       : C2 (1.7)
 // source        : web/PointC2.fw
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 1998/02/24 12:47:19 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1999/01/04 06:54:14 $
 // author(s)     : Andreas.Fabri
 //
 // coordinator   : INRIA Sophia-Antipolis
+//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -57,9 +59,9 @@
 template < class FT >
 class CGAL_PointC2 : public CGAL_Handle
 {
-friend CGAL_PointC2<FT> operator+ CGAL_NULL_TMPL_ARGS(const CGAL_Origin &,
+friend CGAL_PointC2<FT> operator+CGAL_NULL_TMPL_ARGS(const CGAL_Origin &,
                                   const CGAL_VectorC2<FT> &v);
-friend CGAL_PointC2<FT> operator- CGAL_NULL_TMPL_ARGS(const CGAL_Origin &,
+friend CGAL_PointC2<FT> operator-CGAL_NULL_TMPL_ARGS(const CGAL_Origin &,
                                   const CGAL_VectorC2<FT> &v);
 public:
                    CGAL_PointC2();

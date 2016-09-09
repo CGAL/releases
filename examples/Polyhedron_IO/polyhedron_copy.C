@@ -2,25 +2,53 @@
 //
 // Copyright (c) 1997 The CGAL Consortium
 //
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
 //
-// ----------------------------------------------------------------------------
+// Every use of CGAL requires a license. Licenses come in three kinds:
 //
-// release       : $CGAL_Revision: $
-// release_date  : $CGAL_Date: $
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
+//
+// ----------------------------------------------------------------------
+//
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : polyhedron_copy.C
-// package       : $CGAL_Package: Polyhedron_IO 1.9 (10 Jul 1998) $
+// package       : $CGAL_Package: Polyhedron_IO 1.11 (17 Dec 1998) $
 // revision      : $Revision: 1.1 $
 // revision_date : $Date: 1998/03/01 06:51:10 $
-// author(s)     : Lutz Kettner  <kettner@@inf.ethz.ch>
+// author(s)     : Lutz Kettner
 //
-// coordinator   : Herve Bronnimann  <Herve.Bronnimann@sophia.inria.fr>
+// coordinator   : Herve Bronnimann
 //
 // Copies a CGAL_Polyhedron_3 from OFF format to OFF format.
-// ============================================================================
+//
+// email         : cgal@cs.uu.nl
+//
+// ======================================================================
 
 #include <CGAL/basic.h>
 
@@ -44,89 +72,50 @@ typedef  CGAL_Polyhedron_default_traits_3<R>                   Traits;
 typedef  CGAL_Halfedge_data_structure_polyhedron_default_3<R>  HDS;
 typedef  CGAL_Polyhedron_3<Traits,HDS>                         Polyhedron;
 
-/* main */
-/* ==== */
-
 #define MaxParameters          2
 #define MaxOptionalParameters  2
 #define ErrParameters          10000
 
-typedef char Switch;
+bool  verbose   = false;
+bool  binary    = false;
+bool  noc       = false;
 
-#define NO_SWITCH    0
-#define MINUS_SWITCH 1
-#define PLUS_SWITCH  2
-
-Switch  dummy_switch = NO_SWITCH;
-Switch  verbose      = NO_SWITCH;
-Switch  binary       = NO_SWITCH;
-Switch  noc          = NO_SWITCH;
-
-/* this macro opens a block, in which the switch is detected */
-/* it must be closed with the macro endDetect()              */
-#define detectSwitch( var, text) \
-    if ( (( argv[i][0] == '/' ) || ( argv[i][0] == '-' ) || \
-	  ( argv[i][0] == '+' )) && ( strcmp( text, argv[i]+1) == 0)) { \
-	if ( argv[i][0] == '+' ) \
-	    var = PLUS_SWITCH; \
-	else \
-	    var = MINUS_SWITCH;
-
-#define endDetect() \
-	if ( nParameters <= MaxParameters ) \
-	    continue; \
-	else \
-	    break; \
-    }
-
-
-
-/* >main: main function with standard unix parameter input */
-/* ------------------------------------------------------- */
-
-main( int argc, char **argv) {
+// main function with standard unix commandline arguments
+// ------------------------------------------------------
+int main( int argc, char **argv) {
     int i;
     int nParameters = 0;
     char *parameters[ MaxParameters + 1];
 
-    Switch help_switch = NO_SWITCH;
+    bool help = false;
 
-    for (i = 1; i < argc; i++) {
-
-	/* check switches */
-	detectSwitch( verbose, "v");
-	endDetect();
-	detectSwitch( binary, "b");
-	endDetect();
-        detectSwitch( noc,    "noc");
-        endDetect();
-
-	detectSwitch( help_switch, "h");
-	endDetect();
-	detectSwitch( help_switch, "H");
-	endDetect();
-	detectSwitch( help_switch, "help");
-	endDetect();
-
-	/* else get standard or optional paramters */
-	if ( nParameters < MaxParameters ) {
+    for (i = 1; i < argc && nParameters <= MaxParameters; i++) {
+	// check commandline options
+	if ( strcmp( "-v", argv[i]) == 0)
+	    verbose = true;
+	else if ( strcmp( "-b", argv[i]) == 0)
+	    binary = true;
+	else if ( strcmp( "-noc", argv[i]) == 0)
+	    noc = true;
+	else if ( (strcmp( "-h", argv[i]) == 0) || 
+		  (strcmp( "-help", argv[i]) == 0))
+	    help = true;
+	// else parse mandatory or optional commandline arguments
+	else if ( nParameters < MaxParameters ) {
 	    parameters[nParameters ++] = argv[i];
-	    continue;
-	}
-	nParameters = ErrParameters;
-	break;
+	} else 
+	    nParameters = ErrParameters;
     }
-
     if ((nParameters < MaxParameters - MaxOptionalParameters) ||
-	(nParameters > MaxParameters) || (help_switch != NO_SWITCH)) {
-	if (help_switch == NO_SWITCH)
+	(nParameters > MaxParameters) || help) {
+	if ( ! help)
 	    cerr << "Error: in parameter list" << endl;
 	cerr << "Usage: " << argv[0] << " [<options>] [<infile>]" << endl;
 	cerr << "       copy a polyhedron in OFF." << endl;
 	cerr << "       -b      binary." << endl;
         cerr << "       -noc    no comments in file." << endl;
 	cerr << "       -v      verbose." << endl;
-	exit(help_switch == NO_SWITCH);
+	exit( ! help);
     }
 
     CGAL_Verbose_ostream vout( verbose);
@@ -142,8 +131,8 @@ main( int argc, char **argv) {
     }
     if ( !*p_in) { 
 	cerr << argv[0] << ": error: cannot open file '"<< name
-	 << "' for reading." <<endl;
-    exit( 1);
+	     << "' for reading." <<endl;
+	exit( 1);
     }
 
     vout << "ifstream(" << name << ") >> CGAL_Polyhedron_3 ..." << endl;
@@ -169,7 +158,7 @@ main( int argc, char **argv) {
     if ( !*p_out) { 
 	cerr << argv[0] << ": error: cannot open file '"<< name
 	     << "' for writing." <<endl;
-    exit( 1);
+	exit( 1);
     }
 
     if ( binary) {
@@ -192,8 +181,6 @@ main( int argc, char **argv) {
 	     << endl;
 	exit( 1);
     }
-
-
     return 0;
 }
 

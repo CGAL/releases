@@ -27,18 +27,19 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/convexity_check_2.C
-// package       : Convex_hull (1.2.3)
+// package       : Convex_hull (1.3.2)
 // source        : convex_hull_2.lw
-// revision      : 1.2.3
-// revision_date : 07 Apr 1998
+// revision      : 1.3.2
+// revision_date : 09 Dec 1998
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -62,8 +63,8 @@ CGAL_is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
   typedef  typename Traits::Less_xy      Less_xy;
   typedef  typename Traits::Leftturn     Leftturn;
 
-  Less_xy  smaller_xy;
-  Leftturn leftturn;
+  Less_xy  smaller_xy = ch_traits.get_less_xy_object();
+  Leftturn leftturn = ch_traits.get_leftturn_object();
 
   ForwardIterator iter1;
   ForwardIterator iter2;
@@ -116,8 +117,8 @@ CGAL_is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
   typedef  typename Traits::Less_xy      Less_xy;
   typedef  typename Traits::Rightturn    Rightturn;
 
-  Less_xy   smaller_xy;
-  Rightturn rightturn;
+  Less_xy  smaller_xy = ch_traits.get_less_xy_object();
+  Rightturn rightturn = ch_traits.get_rightturn_object();
 
   ForwardIterator iter1;
   ForwardIterator iter2;
@@ -166,7 +167,7 @@ template <class ForwardIterator1, class ForwardIterator2, class Traits>
 bool
 CGAL_ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
                             ForwardIterator2 first2, ForwardIterator2 last2,
-                            const Traits& )
+                            const Traits&  ch_traits)
 {
   typedef    typename Traits::Right_of_line    Right_of_line;
   ForwardIterator1 iter11;
@@ -186,17 +187,18 @@ CGAL_ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
       return true;
   }
 
-  Right_of_line  rol(*first2, *CGAL_successor(first2) );
+  Right_of_line  
+      rol = ch_traits.get_right_of_line_object(*first2, *CGAL_successor(first2) );
   iter22 = first2;
   iter21 = iter22++;
   while (iter22 != last2)
   {
-      rol = Right_of_line( *iter21++, *iter22++ );
+      rol = ch_traits.get_right_of_line_object( *iter21++, *iter22++ );
       iter11 = find_if( first1, last1, rol );
       if (iter11 != last1 ) return false;
   }
 
-  rol = Right_of_line( *iter21, *first2 );   
+  rol = ch_traits.get_right_of_line_object( *iter21, *first2 );   
   iter11 = find_if( first1, last1, rol );
   if (iter11 != last1 ) return false;
   return true;
@@ -208,7 +210,7 @@ CGAL_ch_brute_force_chain_check_2(ForwardIterator1 first1,
                                   ForwardIterator1 last1,
                                   ForwardIterator2 first2, 
                                   ForwardIterator2 last2,
-                                  const Traits& )
+                                  const Traits& ch_traits )
 {
   typedef    typename Traits::Right_of_line    Right_of_line;
   ForwardIterator1 iter11;
@@ -219,21 +221,15 @@ CGAL_ch_brute_force_chain_check_2(ForwardIterator1 first1,
 
   if ( first2 == last2) return false;
 
-  if ( CGAL_successor(first2) == last2 )
-  {
-      while (first1 != last1)
-      {
-          if ( *first1++ != *first2 ) return false;
-      }
-      return true;
-  }
+  if ( CGAL_successor(first2) == last2 ) return true;
 
-  Right_of_line  rol(*first2, *CGAL_successor(first2) );
+  Right_of_line  
+      rol = ch_traits.get_right_of_line_object(*first2, *CGAL_successor(first2) );
   iter22 = first2;
   iter21 = iter22++;
   while (iter22 != last2)
   {
-      rol = Right_of_line( *iter21++, *iter22++ );
+      rol = ch_traits.get_right_of_line_object( *iter21++, *iter22++ );
       iter11 = find_if( first1, last1, rol );
       if (iter11 != last1 ) return false;
   }

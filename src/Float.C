@@ -27,16 +27,17 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : src/Float.C
-// package       : Number_types (1.2.8)
+// package       : Number_types (1.6)
 // source        :
 // revision      :
 // revision_date :
@@ -47,8 +48,6 @@
 // coordinator   : MPI Informatik, Saarbruecken
 //
 //
-//
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -56,11 +55,13 @@
 
 #include <CGAL/float.h>
 
+#ifdef CGAL_OLD_FINITE_VALID
+
 #if !defined(__sgi) && !defined(__sun) && !defined(__hpux) && !defined(__linux)
 
 bool CGAL_is_valid(float d)
 {
-    return !(d == d);
+    return (d == d);               /* !!! */
 }
 
 bool CGAL_is_finite(float d)
@@ -188,3 +189,5 @@ bool CGAL_is_valid(float f)
 #endif // __linux
 
 #endif // custom definitions.
+
+#endif // CGAL_OLD_FINITE_VALID

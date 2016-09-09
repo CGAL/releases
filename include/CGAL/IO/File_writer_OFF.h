@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/File_writer_OFF.h
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Writer for polyhedral surfaces in object file format (OFF)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,94 +57,87 @@
 #ifndef CGAL_IO_BINARY_FILE_IO_H
 #include <CGAL/IO/binary_file_io.h>
 #endif // CGAL_IO_BINARY_FILE_IO_H
-#ifndef CGAL_IO_FILE_INFO_H
-#include <CGAL/IO/File_info.h>
-#endif // CGAL_IO_FILE_INFO_H
+#ifndef CGAL_IO_FILE_HEADER_OFF_H
+#include <CGAL/IO/File_header_OFF.h>
+#endif // CGAL_IO_FILE_HEADER_OFF_H
 
 #ifndef CGAL_PROTECT_IOSTREAM_H
 #include <iostream.h>
 #define CGAL_PROTECT_IOSTREAM_H
 #endif // CGAL_PROTECT_IOSTREAM_H
+#ifndef CGAL_PROTECT_STDDEF_H
+#include <stddef.h>
+#define CGAL_PROTECT_STDDEF_H
+#endif // CGAL_PROTECT_STDDEF_H
 
 class CGAL_File_writer_OFF {
-    ostream*  out;
-    size_t   _facets;
-    bool     _binary;
-    bool     _nocomments;
-    bool     _skel;
-    const CGAL_File_info*  file_info;
+    ostream*                    m_out;
+    CGAL_File_header_OFF         m_header;
 public:
-    CGAL_File_writer_OFF( bool binary = false,
-                         bool nocomments = false,
-                         bool skel = false)
-        : _binary( binary),
-          _nocomments( nocomments),
-          _skel( skel),
-          file_info(0) {}
-    CGAL_File_writer_OFF( const CGAL_File_info& info,
-                         bool binary = false,
-                         bool nocomments = false,
-                         bool skel = false)
-        : _binary( binary),
-          _nocomments( nocomments),
-          _skel( skel),
-          file_info( &info) {}
-    void set_skel( bool skel)   { _skel = skel; }
-    void header( ostream& out,
-                 size_t vertices,
-                 size_t halfedges,
-                 size_t facets,
-                 int    normals = false);
-    void footer() {
-        if ( ! _binary && ! _nocomments)
-            *out << "\n\n# End of OFF #";
-        *out << endl;
+    CGAL_File_writer_OFF( bool verbose = false) : m_header( verbose) {}
+    CGAL_File_writer_OFF( const CGAL_File_header_OFF& h) : m_header( h) {}
+
+    ostream&                    out()          { return *m_out;   }
+    CGAL_File_header_OFF&        header()       { return m_header; }
+    const CGAL_File_header_OFF&  header() const { return m_header; }
+
+    void write_header( ostream& out,
+                       size_t vertices,
+                       size_t halfedges,
+                       size_t facets,
+                       int    normals = false);
+    void write_footer() {
+        if ( m_header.ascii() && m_header.comments())
+            out() << "\n\n# End of OFF #";
+        out() << endl;
     }
     void write_vertex( const double& x, const double& y, const double& z) {
-        if ( _binary) {
-            CGAL__Binary_write_float32( *out, x);
-            CGAL__Binary_write_float32( *out, y);
-            CGAL__Binary_write_float32( *out, z);
+        if ( m_header.binary()) {
+            CGAL__Binary_write_float32( out(), x);
+            CGAL__Binary_write_float32( out(), y);
+            CGAL__Binary_write_float32( out(), z);
         } else {
-            *out << '\n' << x << ' ' << y << ' ' << z;
+            out() << '\n' << x << ' ' << y << ' ' << z;
         }
     }
     void write_normal( const double& x, const double& y, const double& z) {
-        if ( _binary) {
-            CGAL__Binary_write_float32( *out, x);
-            CGAL__Binary_write_float32( *out, y);
-            CGAL__Binary_write_float32( *out, z);
+        if ( m_header.binary()) {
+            CGAL__Binary_write_float32( out(), x);
+            CGAL__Binary_write_float32( out(), y);
+            CGAL__Binary_write_float32( out(), z);
         } else {
-            *out << ' ' << ' ' << x << ' ' << y << ' ' << z;
+            out() << ' ' << ' ' << x << ' ' << y << ' ' << z;
         }
     }
     void write_facet_header() {
-        if ( ! _binary) {
-            if ( _nocomments)
-                *out << '\n';
+        if ( m_header.ascii()) {
+            if ( m_header.no_comments())
+                out() << '\n';
             else {
-                *out << "\n\n# " << _facets << " facets\n";
-                *out << "# ------------------------------------------\n\n";
+                out() << "\n\n# " << m_header.size_of_facets()
+                       << " facets\n";
+                out() << "# ------------------------------------------"
+                          "\n\n";
             }
         }
     }
     void write_facet_begin( size_t no) {
-        if ( _binary)
-            CGAL__Binary_write_integer32( *out, no);
+        if ( m_header.binary())
+            CGAL__Binary_write_integer32( out(), no);
         else
-            *out << no << ' ';
+            out() << no << ' ';
     }
     void write_facet_vertex_index( size_t index) {
-        if ( _binary)
-            CGAL__Binary_write_integer32( *out, index);
+        if ( m_header.binary())
+            CGAL__Binary_write_integer32( out(), index);
         else
-            *out << ' ' << index;
+            out() << ' ' << index;
     }
     void write_facet_end() {
-        if ( _binary)
-            CGAL__Binary_write_integer32( *out, 0);
+        if ( m_header.binary())
+            CGAL__Binary_write_integer32( out(), 0);
         else
-            *out << '\n';
+            out() << '\n';
     }
 };
 #endif // CGAL_IO_FILE_WRITER_OFF_H //

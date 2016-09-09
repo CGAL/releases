@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/Writer_OFF.h
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // STL compliant interface to write OFF.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -63,19 +65,14 @@ template < class Pt >
 class CGAL_Writer_OFF : public CGAL_Generic_writer<CGAL_File_writer_OFF,Pt> {
 public:
     CGAL_Writer_OFF( ostream& out, size_t v, size_t h, size_t f,
-                    bool binary = false,
-                    bool nocomments = false,
-                    bool skel = false)
+                    bool verbose = false)
     : CGAL_Generic_writer<CGAL_File_writer_OFF,Pt>(
-        CGAL_File_writer_OFF( binary, nocomments, skel), out, v, h, f
+        CGAL_File_writer_OFF( verbose), out, v, h, f
     ) {}
     CGAL_Writer_OFF( ostream& out, size_t v, size_t h, size_t f,
-                    const CGAL_File_info& info,
-                    bool binary = false,
-                    bool nocomments = false,
-                    bool skel = false)
+                    const CGAL_File_header_OFF& header)
     : CGAL_Generic_writer<CGAL_File_writer_OFF,Pt>(
-        CGAL_File_writer_OFF( info, binary, nocomments, skel), out, v, h, f
+        CGAL_File_writer_OFF( header), out, v, h, f
     ) {}
 };
 #endif // CGAL_IO_WRITER_OFF_H //

@@ -27,31 +27,36 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Inverse_index.h
-// package       : STL_Extension (1.14)
+// package       : STL_Extension (1.17)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/03/24 13:39:06 $
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 1998/10/08 14:35:33 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // Inverse_Index adaptor enumerates sequences.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
 #ifndef CGAL_INVERSE_INDEX_H
 #define CGAL_INVERSE_INDEX_H 1
+#ifndef CGAL_CIRCULATOR_H
+#include <CGAL/circulator.h>  // Needed for circulator categories.
+#endif // CGAL_CIRCULATOR_H
 #ifndef CGAL_PROTECT_MAP_H
 #include <map.h>
 #define CGAL_PROTECT_MAP_H
@@ -91,7 +96,17 @@ public:
     void _init_index( const IC& i, const IC& j,bidirectional_iterator_tag){
         _init_index( i, j, input_iterator_tag());
     }
+    void _init_index( const IC& i, const IC& j,
+                      CGAL_Forward_circulator_tag){
+        _init_index( i, j, input_iterator_tag());
+    }
+    void _init_index( const IC& i, const IC& j,
+                      CGAL_Bidirectional_circulator_tag){
+        _init_index( i, j, input_iterator_tag());
+    }
     void _init_index( const IC&, const IC&, random_access_iterator_tag){}
+    void _init_index( const IC&, const IC&,
+                      CGAL_Random_access_circulator_tag){}
     void init_index( const IC& i, const IC& j) {
         _init_index( i, j, iterator_category( i));
     }
@@ -107,26 +122,42 @@ public:
     void push_back( const IC& k, bidirectional_iterator_tag){
         push_back( k, input_iterator_tag());
     }
+    void push_back( const IC& k, CGAL_Forward_circulator_tag){
+        push_back( k, input_iterator_tag());
+    }
+    void push_back( const IC& k, CGAL_Bidirectional_circulator_tag){
+        push_back( k, input_iterator_tag());
+    }
     void push_back( const IC&, random_access_iterator_tag){}
+    void push_back( const IC&, CGAL_Random_access_circulator_tag){}
 
 
-    size_t _find( const IC& k, input_iterator_tag) const {
+#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
+    size_t find( const IC& k, random_access_iterator_tag) const {
+        return size_t(k - start);
+    }
+    size_t find( const IC& k, CGAL_Random_access_circulator_tag) const {
+        return size_t(k - start);
+    }
+#endif
+    size_t find( const IC& k, input_iterator_tag) const {
         // returns inverse index of k.
         Index_const_iterator i = _index.find( &*k);
         CGAL_assertion( i != _index.end());
         return (*i).second;
     }
-    size_t _find( const IC& k, forward_iterator_tag) const {
-        return _find( k, input_iterator_tag());
+    size_t find( const IC& k, forward_iterator_tag) const {
+        return find( k, input_iterator_tag());
     }
-    size_t _find( const IC& k, bidirectional_iterator_tag) const {
-        return _find( k, input_iterator_tag());
+    size_t find( const IC& k, bidirectional_iterator_tag) const {
+        return find( k, input_iterator_tag());
     }
-#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
-    size_t _find( const IC& k, random_access_iterator_tag) const {
-        return size_t(k - start);
+    size_t find( const IC& k, CGAL_Forward_circulator_tag) const {
+        return find( k, input_iterator_tag());
     }
-#endif
+    size_t find( const IC& k, CGAL_Bidirectional_circulator_tag) const {
+        return find( k, input_iterator_tag());
+    }
 
     typedef IC      iterator;
     typedef IC      Circulator;
@@ -147,7 +178,12 @@ public:
 
     size_t operator[]( const IC& k) const {
         // returns inverse index of k.
-        return _find( k, iterator_category( k));
+#ifndef CGAL_CFG_NO_ITERATOR_TRAITS
+        typedef typename iterator_traits<IC>::iterator_category category;
+        return find( k, category());
+#else
+        return find( k, iterator_category( k));
+#endif
     }
 
     void push_back( const IC& k) {

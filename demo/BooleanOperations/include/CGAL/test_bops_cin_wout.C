@@ -1,28 +1,56 @@
 //  -*- Mode: c++ -*-
 // ============================================================================
-// 
+//
 // Copyright (c) 1997 The CGAL Consortium
 //
-// This software and related documentation is part of an INTERNAL release
-// of the Computational Geometry Algorithms Library (CGAL). It is not
-// intended for general use.
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
 //
-// ----------------------------------------------------------------------------
+// Every use of CGAL requires a license. Licenses come in three kinds:
 //
-// release       : $CGAL_Revision: CGAL-1.0 $
-// release_date  : $CGAL_Date: 1998/30/06 $
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
+//
+// ----------------------------------------------------------------------
+//
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : demo/BooleanOperations/include/CGAL/test_bops_cin_wout.C
 // source        : demo/BooleanOperations/include/CGAL/test_bops_cin_wout.C
-// revision      : $Revision: 1.0.5 $
-// revision_date : $Date: Tue Jun 30 19:04:40 MET DST 1998  $
-// author(s)     :                   Wolfgang Freiseisen <Wolfgang.Freiseisen@risc.uni-linz.ac.at>
+// revision      : $Revision: 1.1.2 $
+// revision_date : $Date: Wed Dec  9 13:29:02 MET 1998  $
+// author(s)     :                        Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
-//  (Wolfgang Freiseisen <wfreisei@risc.uni-linz.ac.at>)
+//  (Wolfgang Freiseisen)
 //
 // 
-// ============================================================================
+//
+// email         : cgal@cs.uu.nl
+//
+// ======================================================================
 
 //#include <CGAL/test_bops.h>
 
@@ -32,11 +60,12 @@
 #define red leda_red
 #define black leda_black
 #include <CGAL/IO/Window_stream.h>
+#include <CGAL/IO/polygon_Window_stream.h>
 #undef red 
 #undef black
 
 
-CGAL_Window_stream& operator <<(CGAL_Window_stream& w, const Polygon_2& pgon);
+//CGAL_Window_stream& operator <<(CGAL_Window_stream& w, const Polygon_2& pgon);
 CGAL_Window_stream& operator <<(CGAL_Window_stream& w, const CGAL_Object& obj);
 
 template <class T>
@@ -57,12 +86,21 @@ public:
 };
 
 
-CGAL_Window_stream& operator <<(CGAL_Window_stream& w, const Polygon_2& pgon) {
-  CGAL_Window_ostream_iterator< Segment_2 > w_seg(w);
-  copy(pgon.edges_begin(), pgon.edges_end(), w_seg);
-  return w;
+CGAL_Window_stream& operator <<(
+		CGAL_Window_stream& w,
+		const Polygon_2& pgon)
+{
+	CGAL_Window_ostream_iterator< Segment_2 > w_seg(w);
+	copy(pgon.edges_begin(), pgon.edges_end(), w_seg);
+	return w;
 }
 
+void print_stream(CGAL_Window_stream& w, const Polygon_2& pgon)
+{
+	CGAL_Window_ostream_iterator< Segment_2 > w_seg(w);
+	copy(pgon.edges_begin(), pgon.edges_end(), w_seg);
+	return;
+}                     
 
 CGAL_Window_stream& operator <<(CGAL_Window_stream& w, const CGAL_Object& obj) {
   Point_2 pt;
@@ -70,7 +108,11 @@ CGAL_Window_stream& operator <<(CGAL_Window_stream& w, const CGAL_Object& obj) {
   Polygon_2 pgon;
   Iso_rectangle_2 irect;
   Triangle_2 triangle;
-  if( CGAL_assign( pgon, obj) )          { /* polygon */ w << pgon; }
+  if( CGAL_assign( pgon, obj) )          {
+	/* polygon */
+	print_stream(w,pgon);
+	//w << pgon;
+  }
   else if( CGAL_assign( irect, obj) )    { /* iso-rectangle */ w << irect; }
   else if( CGAL_assign( triangle, obj) ) { /* triangle */ w << triangle; }
   else if( CGAL_assign( seg, obj) )      { /* segment */ w << seg; }
@@ -215,8 +257,14 @@ int main( int argc, char *argv[] )
     cout << "orientation reversed" << endl;
   }
   cout << "polygon B: (BLUE) " << B << endl;
- 
-  CGAL_Window_stream W(600,600);
+  
+  // WINDOW-INIT
+  float w = 600.0, h = 600.0;
+  CGAL_Window_stream W(w,h);
+  CGAL_cgalize(W);
+  //double x_extension= 1.0;
+  //double y_extension = x_extension * h / w;
+  //W.init(-x_extension, x_extension, -y_extension);//(-1.0, 1.0, -1.0);
   W_global_ptr = &W;
   
   CGAL_Bbox_2 box_A= A.bbox();
@@ -231,6 +279,7 @@ int main( int argc, char *argv[] )
   dx *= 0.025;
   dy *= 0.025;
   W.init(xmin-dx,xmin+d+dx,ymin-dy);
+  W.display();
   W.clear();
   wout << CGAL_BLACK << A << CGAL_BLUE << B;
   click_to_continue(W);

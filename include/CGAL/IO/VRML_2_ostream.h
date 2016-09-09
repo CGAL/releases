@@ -28,12 +28,13 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
+// release       : CGAL-1.2
 // date          :
 //
 // file          : include/CGAL/IO/VRML_2_ostream.h
@@ -48,7 +49,8 @@
 //
 // coordinator   : Herve Bronnimann
 //
-// release_date  : 1998, July 24
+// release_date  : 1999, January 18
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================

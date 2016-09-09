@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : Real.fw
 // file          : include/CGAL/leda_real.h
-// package       : Number_types (1.2.8)
-// revision      : 1.2.8
-// revision_date : 01 Jul 1998 
+// package       : Number_types (1.6)
+// revision      : 1.6
+// revision_date : 13 Jan 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -94,6 +96,11 @@ CGAL_io_Operator
 CGAL_io_tag(const leda_real &)
 { return CGAL_io_Operator(); }
 
+inline
+CGAL_Sign
+CGAL_sign(const leda_real& r)
+{ return (CGAL_Sign)sign(r); }
+
 #if ( __LEDA__ < 362 )
 inline
 leda_real
@@ -107,5 +114,9 @@ operator/= (leda_real&x, const leda_real&y)
 #include <LEDA/UNDEFINE_NAMES.h>
 #endif
 */
+
+#ifdef CGAL_INTERVAL_ARITHMETIC_H
+#include <CGAL/Interval_arithmetic/IA_leda_real.h>
+#endif // CGAL_INTERVAL_ARITHMETIC_H
 
 #endif // CGAL_REAL_H

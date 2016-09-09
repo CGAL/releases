@@ -27,22 +27,25 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : Gmpz.fw
 // file          : include/CGAL/Gmpz.h
-// package       : Number_types (1.2.8)
-// revision      : 1.2.8
-// revision_date : 01 Jul 1998 
+// package       : Number_types (1.6)
+// revision      : 1.6
+// revision_date : 13 Jan 1999 
 // author(s)     : Andreas Fabri
+//                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -61,7 +64,8 @@ public:
   mpz_t  mpZ;
 
   CGAL_Gmpz_rep()
-  { mpz_init_set_si(mpZ, 0); }
+  // { mpz_init_set_si(mpZ, 0); }
+  { mpz_init(mpZ); }
 
   CGAL_Gmpz_rep(mpz_t  z)
   { mpz_init_set(mpZ, z); }
@@ -110,6 +114,8 @@ public:
 
   CGAL_Gmpz(char* str);
   CGAL_Gmpz(char* str, int base);
+
+  CGAL_Gmpz(CGAL_Gmpz_rep* R);
 
   ~CGAL_Gmpz();
 
@@ -163,7 +169,7 @@ public:
 
   CGAL_Gmpz_rep* ptr() const;
   double to_double() const;
-  int sign() const;
+  CGAL_Sign sign() const;
 };
 
 
@@ -174,7 +180,7 @@ CGAL_Gmpz::ptr() const
 
 inline   // CGAL_KERNEL_CTOR_INLINE
 CGAL_Gmpz::CGAL_Gmpz()
-{ PTR = new CGAL_Gmpz_rep(); }
+{ PTR = new CGAL_Gmpz_rep(0); }
 
 inline   // CGAL_KERNEL_CTOR_INLINE
 CGAL_Gmpz::CGAL_Gmpz(const CGAL_Gmpz &z)
@@ -183,7 +189,7 @@ CGAL_Gmpz::CGAL_Gmpz(const CGAL_Gmpz &z)
 
 inline   // CGAL_KERNEL_CTOR_INLINE
 CGAL_Gmpz::CGAL_Gmpz(mpz_t z)
-{ PTR = new CGAL_Gmpz_rep(z); }
+{ cout << "OLD construction called"; PTR = new CGAL_Gmpz_rep(z); }
 
 inline   // CGAL_KERNEL_CTOR_INLINE
 CGAL_Gmpz::CGAL_Gmpz(int i)
@@ -208,6 +214,10 @@ CGAL_Gmpz::CGAL_Gmpz(char* str)
 inline   // CGAL_KERNEL_CTOR_INLINE
 CGAL_Gmpz::CGAL_Gmpz(char* str, int base)
 { PTR = new CGAL_Gmpz_rep(str, base); }
+
+inline   // CGAL_KERNEL_CTOR_INLINE
+CGAL_Gmpz::CGAL_Gmpz(CGAL_Gmpz_rep* R)
+{ PTR = R; }
 
 inline
 CGAL_Gmpz::~CGAL_Gmpz()
@@ -286,20 +296,18 @@ inline
 CGAL_Gmpz
 CGAL_Gmpz::operator-() const
 {
-    mpz_t res;
-    mpz_init(res);
-    mpz_neg(res, ptr()->mpZ);
-    return CGAL_Gmpz(res);
+    CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+    mpz_neg(Res->mpZ, ptr()->mpZ);
+    return CGAL_Gmpz(Res);
 }
 
 inline
 CGAL_Gmpz
 CGAL_Gmpz::operator+(const CGAL_Gmpz &z) const
 {
-    mpz_t res;
-    mpz_init(res);
-    mpz_add(res, ptr()->mpZ, z.ptr()->mpZ);
-    return CGAL_Gmpz(res);
+    CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+    mpz_add(Res->mpZ, ptr()->mpZ, z.ptr()->mpZ);
+    return CGAL_Gmpz(Res);
 }
 
 inline
@@ -308,10 +316,9 @@ CGAL_Gmpz::operator+(int i) const
 {
     if (i>0)
     {
-        mpz_t res;
-        mpz_init(res);
-        mpz_add_ui(res, ptr()->mpZ, i);
-        return CGAL_Gmpz(res);
+        CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+        mpz_add_ui(Res->mpZ, ptr()->mpZ, i);
+        return CGAL_Gmpz(Res);
     }
     return *this + CGAL_Gmpz(i);
 }
@@ -336,10 +343,9 @@ inline
 CGAL_Gmpz
 CGAL_Gmpz::operator-(const CGAL_Gmpz &z) const
 {
-    mpz_t res;
-    mpz_init(res);
-    mpz_sub(res, ptr()->mpZ, z.ptr()->mpZ);
-    return CGAL_Gmpz(res);
+    CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+    mpz_sub(Res->mpZ, ptr()->mpZ, z.ptr()->mpZ);
+    return CGAL_Gmpz(Res);
 }
 
 inline
@@ -347,10 +353,9 @@ CGAL_Gmpz CGAL_Gmpz::operator-(int i) const
 {
     if (i>0)
     {
-        mpz_t res;
-        mpz_init(res);
-        mpz_sub_ui(res, ptr()->mpZ, i);
-        return CGAL_Gmpz(res);
+        CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+        mpz_sub_ui(Res->mpZ, ptr()->mpZ, i);
+        return CGAL_Gmpz(Res);
     }
     return *this - CGAL_Gmpz(i);
 }
@@ -375,10 +380,9 @@ inline
 CGAL_Gmpz
 CGAL_Gmpz::operator*(const CGAL_Gmpz &z) const
 {
-    mpz_t res;
-    mpz_init(res);
-    mpz_mul(res, ptr()->mpZ, z.ptr()->mpZ);
-    return CGAL_Gmpz(res);
+    CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+    mpz_mul(Res->mpZ, ptr()->mpZ, z.ptr()->mpZ);
+    return CGAL_Gmpz(Res);
 }
 
 inline
@@ -387,10 +391,9 @@ CGAL_Gmpz::operator*(int i) const
 {
     if (i>0)
     {
-        mpz_t res;
-        mpz_init(res);
-        mpz_mul_ui(res, ptr()->mpZ, i);
-        return CGAL_Gmpz(res);
+        CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+        mpz_mul_ui(Res->mpZ, ptr()->mpZ, i);
+        return CGAL_Gmpz(Res);
     }
     return *this * CGAL_Gmpz(i);
 }
@@ -415,10 +418,9 @@ inline
 CGAL_Gmpz
 CGAL_Gmpz::operator/(const CGAL_Gmpz &z) const
 {
-    mpz_t res;
-    mpz_init(res);
-    mpz_tdiv_q(res, ptr()->mpZ, z.ptr()->mpZ);
-    return CGAL_Gmpz(res);
+    CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+    mpz_tdiv_q(Res->mpZ, ptr()->mpZ, z.ptr()->mpZ);
+    return CGAL_Gmpz(Res);
 }
 
 inline
@@ -427,10 +429,9 @@ CGAL_Gmpz::operator/(int i) const
 {
     if (i>0)
     {
-        mpz_t res;
-        mpz_init(res);
-        mpz_tdiv_q_ui(res, ptr()->mpZ, i);
-        return CGAL_Gmpz(res);
+        CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+        mpz_tdiv_q_ui(Res->mpZ, ptr()->mpZ, i);
+        return CGAL_Gmpz(Res);
     }
     return *this / CGAL_Gmpz(i);
 }
@@ -462,9 +463,9 @@ CGAL_io_tag(const CGAL_Gmpz&)
 { return CGAL_io_Operator(); }
 
 inline
-int
+CGAL_Sign
 CGAL_Gmpz::sign() const
-{ return mpz_sgn(ptr()->mpZ); }
+{ return (CGAL_Sign)mpz_sgn(ptr()->mpZ); }
 
 inline
 CGAL_Gmpz
@@ -492,7 +493,7 @@ CGAL_number_type_tag(const CGAL_Gmpz& )
 { return CGAL_Number_tag(); }
 
 inline
-int
+CGAL_Sign
 CGAL_sign(const CGAL_Gmpz &z)
 { return z.sign(); }
 
@@ -510,20 +511,18 @@ inline
 CGAL_Gmpz
 CGAL_sqrt(const CGAL_Gmpz &z)
 {
-  mpz_t res;
-  mpz_init(res);
-  mpz_sqrt(res, z.ptr()->mpZ);
-  return CGAL_Gmpz(res);
+  CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+  mpz_sqrt(Res->mpZ, z.ptr()->mpZ);
+  return CGAL_Gmpz(Res);
 }
 
 inline
 CGAL_Gmpz
 CGAL_gcd(const CGAL_Gmpz &z1, const CGAL_Gmpz &z2)
 {
-  mpz_t res;
-  mpz_init(res);
-  mpz_gcd(res, z1.ptr()->mpZ, z2.ptr()->mpZ);
-  return CGAL_Gmpz(res);
+  CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+  mpz_gcd(Res->mpZ, z1.ptr()->mpZ, z2.ptr()->mpZ);
+  return CGAL_Gmpz(Res);
 }
 
 inline
@@ -532,10 +531,9 @@ CGAL_gcd(const CGAL_Gmpz &z, int i)
 {
   if (i > 0)
   {
-      mpz_t res;
-      mpz_init(res);
-      mpz_gcd_ui(res, z.ptr()->mpZ, i);
-      return CGAL_Gmpz(res);
+      CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+      mpz_gcd_ui(Res->mpZ, z.ptr()->mpZ, i);
+      return CGAL_Gmpz(Res);
   }
   return CGAL_gcd(z, CGAL_Gmpz(i));
 }
@@ -545,17 +543,17 @@ CGAL_Gmpz
 CGAL_exact_division(const CGAL_Gmpz &z1,
                     const CGAL_Gmpz &z2)
 {
-  mpz_t res;
-  mpz_init(res);
-  mpz_divexact(res, z1.ptr()->mpZ, z2.ptr()->mpZ);
+  CGAL_Gmpz_rep* Res = new CGAL_Gmpz_rep();
+  mpz_divexact(Res->mpZ, z1.ptr()->mpZ, z2.ptr()->mpZ);
 #ifdef CGAL_CHECK_POSTCONDITIONS
   mpz_t prod;
   mpz_init(prod);
-  mpz_mul(prod, res, z2.ptr()->mpZ);
+  mpz_mul(prod, Res->mpZ, z2.ptr()->mpZ);
   CGAL_kernel_postcondition_msg(mpz_cmp(prod, z1.ptr()->mpZ) == 0,
                                 "CGAL_exact_division failed\n");
+  mpz_clear( prod);
 #endif // CGAL_CHECK_POSTCONDITIONS
-  return CGAL_Gmpz(res);
+  return CGAL_Gmpz(Res);
 }
 
 inline
@@ -603,10 +601,15 @@ operator>>(istream& is, CGAL_Gmpz &z)
   {
         is.putback(c);
   }
-  if (CGAL_sign(z) != 0 && negative)
+  if (CGAL_sign(z) != (CGAL_Sign)0 && negative)
   {
         z = -z;
   }
   return is;
 }
+
+#ifdef CGAL_INTERVAL_ARITHMETIC_H
+#include <CGAL/Interval_arithmetic/IA_Gmpz.h>
+#endif // CGAL_INTERVAL_ARITHMETIC_H
+
 #endif // CGAL_GMPZ_H

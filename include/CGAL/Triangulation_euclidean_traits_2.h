@@ -27,28 +27,28 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Triangulation_euclidean_traits_2.h
-// package       : Triangulation (1.23)
-// source        : web/Triangulation_euclidean_traits_2.fw
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 1998/06/23 12:20:37 $
-// author(s)     : Olivier Devillers
-//                 Andreas Fabri
+// package       : Triangulation (2.10)
+// source        : $Source: /u/alcor/0/prisme_util/CGAL/Local/cvsroot/Triangulation/include/CGAL/Triangulation_euclidean_traits_2.h,v $
+// revision      : $Revision: 1.6.1.9 $
+// revision_date : $Date: 1998/12/04 13:43:35 $
+// author(s)     : Mariette Yvinec
 //
-// coordinator   : Herve Bronnimann
+// coordinator   : Mariette Yvinec
+//
 //
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
-
 
 #ifndef CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_2_H
 #define CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_2_H
@@ -57,53 +57,50 @@
 #include <CGAL/Segment_2.h>
 #include <CGAL/Triangle_2.h>
 #include <CGAL/Line_2.h>
+#include <CGAL/Direction_2.h>
 #include <CGAL/Ray_2.h>
 #include <CGAL/basic_constructions_2.h>
 
 #include <CGAL/triangulation_assertions.h>
+#include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/squared_distance_2.h>
 #include <CGAL/Distance_2.h>
-#include <CGAL/Triangulation_vertex.h>
-#include <CGAL/Triangulation_face.h>
-#include <CGAL/Triangulation_face_circulator.h>
-#include <CGAL/Triangulation_edge_circulator.h>
-#include <CGAL/Triangulation_vertex_circulator.h>
 
 template < class R >
 class CGAL_Triangulation_euclidean_traits_2 {
 public:
-    typedef R Rep;
-    typedef CGAL_Point_2<R>  Point;
-    typedef CGAL_Segment_2<R> Segment;
-    typedef CGAL_Triangle_2<R> Triangle;
-    typedef CGAL_Line_2<R> Line;
-    typedef CGAL_Direction_2<R> Direction;
-    typedef CGAL_Ray_2<R> Ray;
+  typedef R Rep;
+  typedef CGAL_Point_2<R>  Point;
+  typedef CGAL_Segment_2<R> Segment;
+  typedef CGAL_Triangle_2<R> Triangle;
+  typedef CGAL_Line_2<R> Line;
+  typedef CGAL_Direction_2<R> Direction;
+  typedef CGAL_Ray_2<R> Ray;
 
+  typedef CGAL_Distance_2<CGAL_Triangulation_euclidean_traits_2<R> > Distance;
 
-    typedef CGAL_Triangulation_vertex<Point> Vertex;
-    typedef CGAL_Triangulation_face<Vertex> Face;
-    typedef typename Vertex::Vertex_handle Vertex_handle;
-    typedef typename Face::Face_handle Face_handle;
-
-    typedef CGAL_Distance_2<CGAL_Triangulation_euclidean_traits_2<R> > Distance;
-
+  CGAL_Triangulation_euclidean_traits_2(){}
+  CGAL_Triangulation_euclidean_traits_2(
+				const CGAL_Triangulation_euclidean_traits_2& et){}
+  CGAL_Triangulation_euclidean_traits_2 &operator=(
+		       const CGAL_Triangulation_euclidean_traits_2&  et){return *this;}
 
     CGAL_Comparison_result compare_x(const Point &p, const Point &q) const
     {
         return CGAL_compare_x(p, q);
     }
 
+
     CGAL_Comparison_result compare_y(const Point &p, const Point &q) const
     {
         return CGAL_compare_y(p, q);
     }
 
-    bool compare(const Point &p, const Point &q) const
-    {
-        return (p == q);
-    }
-
+  bool compare(const Point &p, const Point &q) const
+  {
+    return (CGAL_compare_x(p, q)== CGAL_EQUAL &&  
+	    CGAL_compare_y(p, q)== CGAL_EQUAL);
+  }
 
     CGAL_Orientation orientation(const Point &p,
                                  const Point &q,
@@ -113,33 +110,43 @@ public:
     }
 
 
-    CGAL_Orientation extremal(const Point &p,
+   CGAL_Orientation extremal(const Point &p,
                               const Point &q,
                               const Point &r) const
-    {
-        if (p==q) return CGAL_COLLINEAR;
-        if (p==r) return CGAL_COLLINEAR;
-        if (r==q) return CGAL_COLLINEAR;
-
+      {
+        if (compare(p,q)) return CGAL_COLLINEAR;
+        if (compare(p,r)) return CGAL_COLLINEAR;
+        if (compare(r,q)) return CGAL_COLLINEAR;
+    
         return CGAL_orientation(p, q, r);
-    }
-
+      }
+    
     CGAL_Oriented_side side_of_oriented_circle(const Point &p,
                                                const Point &q,
                                                const Point &r,
                                                const Point &s) const
-    {
-        if (p==s) return CGAL_ON_ORIENTED_BOUNDARY;
-        if (q==s) return CGAL_ON_ORIENTED_BOUNDARY;
-        if (r==s) return CGAL_ON_ORIENTED_BOUNDARY;
-
+      {
+        if (compare(p,s)) return CGAL_ON_ORIENTED_BOUNDARY;
+        if (compare(q,s)) return CGAL_ON_ORIENTED_BOUNDARY;
+        if (compare(r,s)) return CGAL_ON_ORIENTED_BOUNDARY;
+    
         return CGAL_side_of_oriented_circle(p, q, r, s);
-    }
+      }
 
-    Point circumcenter(const Point &p, const Point &q, const Point &r) const
+     Point circumcenter(const Point &p, const Point &q, const Point &r) const
     {
         return CGAL_circumcenter(p, q, r);
     }
+
+  Line bisector(const Segment &s) const
+  {
+    typedef typename Point::FT FT;
+    Point p = s.source() + (s.target() - s.source()) * FT(0.5);
+    Line l(s.source(), s.target());
+    return l.perpendicular(p);
+  }
+
+
 };
 
 

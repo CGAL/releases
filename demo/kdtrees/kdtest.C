@@ -33,7 +33,7 @@
 //#define _BOOL
 // stl
 #include  <vector.h>
-#include  <bool.h>
+//#include  <bool.h>
 #include  <tempbuf.h>
 #include  <list.h>
 #include  <iterator.h> 

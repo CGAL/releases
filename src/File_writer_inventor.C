@@ -27,27 +27,26 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : src/File_writer_inventor.C
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Writer for polyhedral surfaces OpenInventor format (.iv)
-//
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -59,32 +58,32 @@
 
 void
 CGAL_File_writer_inventor::
-header( ostream& o, size_t vertices, size_t halfedges, size_t facets) {
-    out = &o;
-    _facets = facets;
-    *out << "# " << vertices  << " vertices\n";
-    *out << "# " << halfedges << " halfedges\n";
-    *out << "# " << facets    << " facets\n\n";
-    *out << "Separator {\n"
-            "    Coordinate3 {\n"
-            "        point   [" << endl;
+write_header( ostream& o, size_t vertices, size_t halfedges,size_t facets){
+    m_out    = &o;
+    m_facets = facets;
+    out() << "# " << vertices  << " vertices\n";
+    out() << "# " << halfedges << " halfedges\n";
+    out() << "# " << facets    << " facets\n\n";
+    out() << "Separator {\n"
+             "    Coordinate3 {\n"
+             "        point   [" << endl;
 }
 
 void
 CGAL_File_writer_inventor::
 write_facet_header() const {
-    *out << "        ] #point\n"
-            "    } #Coordinate3\n"
-            "    # " << _facets << " facets\n"
-            "    IndexedFaceSet {\n"
-            "        coordIndex [\n";
+    out() << "        ] #point\n"
+             "    } #Coordinate3\n"
+             "    # " << m_facets << " facets\n"
+             "    IndexedFaceSet {\n"
+             "        coordIndex [\n";
 }
 
 void
 CGAL_File_writer_inventor::
-footer() const {
-    *out << "        ] #coordIndex\n"
-            "    } #IndexedFaceSet\n"
-            "} #Separator" << endl;
+write_footer() const {
+    out() << "        ] #coordIndex\n"
+             "    } #IndexedFaceSet\n"
+             "} #Separator" << endl;
 }
 // EOF //

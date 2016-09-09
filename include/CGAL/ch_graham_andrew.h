@@ -27,18 +27,19 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/ch_graham_andrew.h
-// package       : Convex_hull (1.2.3)
+// package       : Convex_hull (1.3.2)
 // source        : convex_hull_2.lw
-// revision      : 1.2.3
-// revision_date : 07 Apr 1998
+// revision      : 1.3.2
+// revision_date : 09 Dec 1998
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -104,7 +105,7 @@ OutputIterator
 CGAL_ch__ref_graham_andrew_scan( BidirectionalIterator first,
                                  BidirectionalIterator last,
                                  OutputIterator&       result,
-                                 const Traits& );
+                                 const Traits&         ch_traits);
 
 /*{\Moptions
 outfile=cgal_ch_I_ga.man
@@ -118,7 +119,7 @@ OutputIterator
 CGAL_ch_graham_andrew( InputIterator  first,
                        InputIterator  last,
                        OutputIterator result,
-                       const Traits& ch_traits );
+                       const Traits&  ch_traits );
 /*{\Mfuncl 
 same as |CGAL_convex_hull_points_2(first,last,result)|.\\
 {\sc traits}: uses |Traits::Point_2|, |Traits::Leftturn|

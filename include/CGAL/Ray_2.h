@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : Ray_2.fw
 // file          : include/CGAL/Ray_2.h
-// package       : _2 (1.2.2)
-// revision      : 1.2.2
-// revision_date : 27 Jan 1998 
+// package       : _2 (1.3)
+// revision      : 1.3
+// revision_date : 15 Dec 1998 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -119,81 +121,53 @@ public:
   }
 
   bool operator==(const CGAL_Ray_2<R> &r) const
-  {
-    return Ray_2::operator==(r);
-  }
+  { return Ray_2::operator==(r); }
 
   bool operator!=(const CGAL_Ray_2<R> &r) const
-  {
-    return !(*this == r);
-  }
+  { return !(*this == r); }
 
   int id() const
-  {
-    return (int) PTR ;
-  }
+  { return (int) PTR ; }
 
   CGAL_Point_2<R> start() const
-  {
-    return Ray_2::start();
-  }
+  { return Ray_2::start(); }
 
   CGAL_Point_2<R> source() const
-  {
-    return Ray_2::source();
-  }
+  { return Ray_2::source(); }
 
   CGAL_Point_2<R> second_point() const
-  {
-    return Ray_2::second_point();
-  }
+  { return Ray_2::second_point(); }
 
   CGAL_Point_2<R> point(int i) const
-  {
-    return Ray_2::point(i);
-  }
+  { return Ray_2::point(i); }
 
   CGAL_Direction_2<R> direction() const
-  {
-    return Ray_2::direction();
-  }
+  { return Ray_2::direction(); }
 
   CGAL_Line_2<R> supporting_line() const
-  {
-    return Ray_2::supporting_line();
-  }
+  { return Ray_2::supporting_line(); }
 
   CGAL_Ray_2<R> opposite() const
-  {
-    return Ray_2::opposite();
-  }
-
+  { return Ray_2::opposite(); }
 
   CGAL_Ray_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
-  {
-    return Ray_2::transform(t);
-  }
-
+  { return Ray_2::transform(t); }
 
   bool is_horizontal() const
-  {
-    return Ray_2::is_horizontal();
-  }
+  { return Ray_2::is_horizontal(); }
 
   bool is_vertical() const
-  {
-    return Ray_2::is_vertical();
-  }
+  { return Ray_2::is_vertical(); }
 
   bool is_degenerate() const
-  {
-    return Ray_2::is_degenerate();
-  }
+  { return Ray_2::is_degenerate(); }
 
   bool has_on(const CGAL_Point_2<R> &p) const
-  {
-    return Ray_2::has_on(p);
-  }
+  { return Ray_2::has_on(p); }
+
+  bool collinear_has_on(const CGAL_Point_2<R> &p) const
+  { return Ray_2::collinear_has_on(p); }
+
 };
 
 #ifndef CGAL_NO_OSTREAM_INSERT_RAY_2

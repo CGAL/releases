@@ -27,16 +27,17 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Polygon_2_algorithms.C
-// package       : Polygon (1.10)
+// package       : Polygon (1.13)
 // source        :
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
@@ -49,12 +50,19 @@
 //
 // ======================================================================
 
+#ifndef CGAL_POLYGON_2_ALGORITHMS_H
 #include <CGAL/Polygon_2_algorithms.h>
+#endif // CGAL_POLYGON_2_ALGORITHMS_H
 
-#include <stdlib.h>
-#include <algobase.h>
-#include <algo.h>
-#include <set.h>
+#ifndef CGAL_STD_CSTDLIB_H
+#include <CGAL/std/cstdlib>
+#endif
+#ifndef CGAL_STD_ALGORITHM_H
+#include <CGAL/std/algorithm>
+#endif
+#ifndef CGAL_STD_SET_H
+#include <CGAL/std/set>
+#endif
 #include <vector.h>
 
 //-----------------------------------------------------------------------//
@@ -65,7 +73,7 @@
 template <class ForwardIterator, class Traits>
 class CGAL_Simplicity_test_2 {
   private:
-    vector<ForwardIterator> d_index;
+    CGAL_STD::vector<ForwardIterator> d_index;
     // the attribute d_index is just a mapping between the integers and the
     // sequence of points
 
@@ -169,7 +177,7 @@ class CGAL_Simplicity_test_2 {
       //-----------------------------------------------------------------//
 
       private:
-        set<int,VertexComp> queue;
+        CGAL_STD::set<int,VertexComp> queue;
       public:
         EventQueue(CGAL_Simplicity_test_2<ForwardIterator, Traits>* s)
           : queue(VertexComp(s)) {}
@@ -184,7 +192,7 @@ class CGAL_Simplicity_test_2 {
         void Show() const {
           cout << "    event queue: ";
 
-          typename set<int,VertexComp>::const_iterator i;
+          typename CGAL_STD::set<int,VertexComp>::const_iterator i;
           for (i = queue.begin(); i != queue.end(); ++i)
             cout << *i << " ";
           cout << endl;
@@ -196,14 +204,14 @@ class CGAL_Simplicity_test_2 {
       //-----------------------------------------------------------------//
       // g++ 2.7.2 seems to have problems with the following typedef
       //
-      // typedef set<int,EdgeComp>::const_iterator const_iterator;
+      // typedef CGAL_STD::set<int,EdgeComp>::const_iterator const_iterator;
       //-----------------------------------------------------------------//
 
       private:
-        set<int,EdgeComp> status;
+        CGAL_STD::set<int,EdgeComp> status;
         // if i is an element of status, it means that 
 
-        vector<typename set<int,EdgeComp>::const_iterator> index;
+        CGAL_STD::vector<typename CGAL_STD::set<int,EdgeComp>::const_iterator> index;
         // the iterators of the edges are stored to enable fast deletion
 
         const CGAL_Simplicity_test_2<ForwardIterator, Traits>* s;
@@ -226,7 +234,7 @@ class CGAL_Simplicity_test_2 {
         {
           int n = s->NumberOfVertices();
 
-          typename set<int,EdgeComp>::const_iterator i;
+          typename CGAL_STD::set<int,EdgeComp>::const_iterator i;
           for (i = status.begin(); i != status.end(); ++i) {
             int v1 = *i;
             int v2 = (v1<n-1) ? v1+1 : v1+1-n; 
@@ -248,7 +256,7 @@ class CGAL_Simplicity_test_2 {
 #ifdef CGAL_POLYGON_DEBUG
         void Show() {
           cout << "    sweep status: ";
-          typename set<int,EdgeComp>::const_iterator i;
+          typename CGAL_STD::set<int,EdgeComp>::const_iterator i;
           for (i = status.begin(); i != status.end(); ++i)
             cout << *i << " ";
           cout << endl;
@@ -288,12 +296,12 @@ class CGAL_Simplicity_test_2 {
         }
 
         int left(int e) const
-        { typename set<int,EdgeComp>::const_iterator i = index[e];
+        { typename CGAL_STD::set<int,EdgeComp>::const_iterator i = index[e];
           return (i == status.begin()) ? -1 : *(--i);
         }
 
         int right(int e) const
-        { typename set<int,EdgeComp>::const_iterator i = index[e]; ++i;
+        { typename CGAL_STD::set<int,EdgeComp>::const_iterator i = index[e]; ++i;
           return (i == status.end()) ? -1 : *i;
         }
     };
@@ -431,7 +439,8 @@ CGAL_Simplicity_test_2<ForwardIterator, Traits>::Test(ForwardIterator first,
   cout << "--- Simplicity test ----------------------------" << endl;
   cout << endl;
   cout << "Vertices:" << endl;
-  for (int i=0; i<d_index.size(); i++)
+  CGAL_STD::vector<ForwardIterator>::size_type i;
+  for (i=0; i<d_index.size(); i++)
     cout << i << " " << Vertex(i) << endl;
   cout << endl;
   events.Show();
@@ -742,6 +751,8 @@ bool CGAL_is_convex_2(ForwardIterator first,
       case CGAL_COUNTERCLOCKWISE:
         HasCounterClockwiseTriples = true;
         break;
+      default:
+	;
     }
 
     bool NewOrder = traits.lexicographically_xy_smaller(*current, *next);

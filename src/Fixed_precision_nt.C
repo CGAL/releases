@@ -1,0 +1,1002 @@
+// ======================================================================
+//
+// Copyright (c) 1998 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// Every use of CGAL requires a license. Licenses come in three kinds:
+//
+// - For academic research and teaching purposes, permission to use and
+//   copy the software and its documentation is hereby granted free of  
+//   charge, provided that
+//   (1) it is not a component of a commercial product, and
+//   (2) this notice appears in all copies of the software and
+//       related documentation.
+// - Development licenses grant access to the source code of the library 
+//   to develop programs. These programs may be sold to other parties as 
+//   executable code. To obtain a development license, please contact
+//   the CGAL Consortium (at cgal@cs.uu.nl).
+// - Commercialization licenses grant access to the source code and the
+//   right to sell development licenses. To obtain a commercialization 
+//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//
+// This software and documentation is provided "as-is" and without
+// warranty of any kind. In no event shall the CGAL Consortium be
+// liable for any damage of any kind.
+//
+// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland), Free University of Berlin (Germany),
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
+//
+// ----------------------------------------------------------------------
+//
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
+//
+// file          : src/Fixed_precision_nt.C
+// package       : Fixed_precision_nt (1.7)
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 1998/11/27 11:38:03 $
+// author(s)     : Olivier Devillers
+//
+// coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
+//
+//
+// email         : cgal@cs.uu.nl
+//
+// ======================================================================
+
+
+// Fixed implement 24 bits integers using float
+// The user has to initiate a multiplicator factor to be applied to
+// original data.
+// if CGAL is defined, Fixed are encapsulated in class CGAL_Fixed_precision_nt
+
+
+//  for compilation outside CGAL do something :
+//  s/CGAL_Fixed_/Fixed_/g
+//  s!CGAL/Fixed_precision_nt.h!Fixed.h!
+
+
+#include <CGAL/Fixed_precision_nt.h>
+
+/*
+
+// Fixed.h for use outside CGAL below
+// there is no class Fixed, float are used directly and must be
+// rounded (on user responsability)
+
+
+// intialisation, bounds
+bool Fixed_init(float);
+  // return true if init succeed false otherwise
+  // Precondition : b positive
+  // Precondition : non yet initialized
+  // parameter b is the upper bound on absolute value on all entries
+float Fixed_unit_value();
+float Fixed_upper_bound();
+
+// round to the nearest legal fixed
+void Fixed_round(float&);
+
+// geometric predicates
+int Fixed_orientation(float x0, float y0, 
+		      float x1, float y1, 
+		      float x2, float y2);
+int Fixed_orientation(  float x0, float y0, float z0,
+			float x1, float y1, float z1,
+			float x2, float y2, float z2,
+			float x3, float y3, float z3);
+int Fixed_insphere (
+      float x0, float y0,
+      float x1, float y1,
+      float x2, float y2,
+      float x3, float y3);
+  // relative position of p3 with respect to circle p0p1p2
+  // if p0p1p2 is positively oriented,
+  // positive side is the interior of the circle
+  // perturbation mode apply to cocircular and non colinear 4uples
+void  Fixed_perturb_incircle();
+void  Fixed_unperturb_incircle();
+bool  Fixed_is_perturbed_incircle();
+int Fixed_insphere (
+      float x0, float y0, float z0,
+      float x1, float y1, float z1,
+      float x2, float y2, float z2,
+      float x3, float y3, float z3,
+      float x4, float y4, float z4);
+  // relative position of p4 with respect to sphere p0p1p2p3
+  // if p0p1p2p3 is positively oriented,
+  // positive side is the interior of the sphere
+  // perturbation mode apply to cocircular and non coplanar 5uples
+void  Fixed_perturb_insphere();
+void  Fixed_unperturb_insphere();
+bool  Fixed_is_perturbed_insphere();
+*/
+
+
+#ifdef CGAL_FIXED_PRECISION_NT_H  // we are using CGAL
+
+#define CGAL_Fixed_public       inline
+#include <CGAL/assertions.h>
+#include <CGAL/double.h>
+#include <CGAL/number_utils.h>
+#define CGAL_Fixed_abs CGAL_abs
+#define CGAL_Fixed_rounding_precondition_msg( v ) \
+    CGAL_warning_msg((( v >=-CGAL_Fixed_B24) && ( v <=CGAL_Fixed_B24)),\
+		     "Warning : CGAL_Fixed_precision_nt overflow")
+
+#else //CGAL_FIXED_PRECISION_NT_H
+
+#include <iostream.h>
+#define CGAL_Fixed_public
+extern "C" double fabs(double);
+#define CGAL_Fixed_abs fabs
+#define CGAL_Fixed_rounding_precondition_msg( v ) \
+   if( ( v <-CGAL_Fixed_B24) || ( v >CGAL_Fixed_B24)) \
+    cerr<<"Warning : Fixed overflow |"<<f<<"| > "<<CGAL_Fixed_B24<<endl
+typedef int bool;
+const int false=0;
+const int true =0;
+
+#endif// else CGAL_FIXED_PRECISION_NT_H
+
+
+
+
+
+// ======================================================================
+//--------- static variables declaration and initialization
+// ======================================================================
+
+// static marks to decide if perturbation are used
+static bool CGAL_Fixed_incircle_perturb= false;
+static bool CGAL_Fixed_insphere_perturb= false;
+
+////// degree 0 constant
+static double CGAL_Fixed_Or2   = 3.0/9007199254740992.0;      
+// 3/2^53             semi-static orientation filter
+static double CGAL_Fixed_Ic2   = 3.0/9007199254740992.0;
+// 3/2^54             semi-static incircle filter
+static double CGAL_Fixed_Is2   = 6.0 / 18014398509481984.0;        
+// 6/2^54             semi-static insphere filter
+////// degree 1 constant
+static double CGAL_Fixed_B0=0.0;              
+//   precision on coordinates
+// assumed to be 1.0 to fix value below
+static double CGAL_Fixed_B24   = 16777216.0;          
+// 2^24               bound on coordinates
+static double CGAL_Fixed_SNAP  = 6755399441055744.0;
+// 3 * 2^51           for rounding of coordinates
+////// degree 2 constant
+static double CGAL_Fixed_S_2_25= 453347182355485940514816.0;
+// 3 * 2^77           split to bit B0^2 * 2^25
+////// degree 3 constant
+static double CGAL_Fixed_S_3_25= CGAL_Fixed_S_2_25;           
+// 3 * 2^77           split to bit B0^3 * 2^25
+static double CGAL_Fixed_S_3_51= 30423614405477505635920876929024.0;           
+// 3 * 2^103          split to bit B0^3 * 2^51
+static double CGAL_Fixed_Or1   = 37748736.0;
+// 9*2^22             static error for orientation filter
+static double CGAL_Fixed_Bx3   = 0.5;     
+// 2^(-1)             half degree 3 unit for semi-static filter
+////// degree 4 constant
+static double CGAL_Fixed_Ic1   = 2533274790395904.0;    
+// 9*2^48;           static error for incircle filter
+static double CGAL_Fixed_Bx4   = 0.5;     
+// 2^(-1)             half degree 4 unit for semi-static filter
+////// degree 5 constant
+static double CGAL_Fixed_Is1   = 1416709944860893564108800.0;    
+// 75*2^74;           static error for insphere filter
+static double CGAL_Fixed_Bx5   = 0.5;     
+// 2^(-1)             half degree 5 unit for semi-static filter
+
+// ======================================================================
+//--------- static access and parametrization functions
+// ======================================================================
+
+
+CGAL_Fixed_public float CGAL_Fixed_unit_value(){return CGAL_Fixed_B0;}
+CGAL_Fixed_public float CGAL_Fixed_upper_bound(){return CGAL_Fixed_B24;}
+CGAL_Fixed_public void  CGAL_Fixed_perturb_incircle() 
+{CGAL_Fixed_incircle_perturb=true;}
+CGAL_Fixed_public void  CGAL_Fixed_unperturb_incircle() 
+{CGAL_Fixed_incircle_perturb=false;}
+CGAL_Fixed_public bool  CGAL_Fixed_is_perturbed_incircle() 
+{return CGAL_Fixed_incircle_perturb;}
+CGAL_Fixed_public void  CGAL_Fixed_perturb_insphere() 
+{CGAL_Fixed_insphere_perturb=true;}
+CGAL_Fixed_public void  CGAL_Fixed_unperturb_insphere() 
+{CGAL_Fixed_insphere_perturb=false;}
+CGAL_Fixed_public bool  CGAL_Fixed_is_perturbed_insphere() 
+{return CGAL_Fixed_insphere_perturb;}
+
+// ======================================================================
+//--------- initialize the upper bound on fixed
+// ======================================================================
+
+CGAL_Fixed_public bool CGAL_Fixed_init(float b)
+  // return true if init succeed false otherwise
+  // Precondition : b positive
+  // Precondition : non yet initialized
+  // parameter b is the upper bound on absolute value on all entries
+{
+  bool result = true;
+  if (b<=0) b=-b;
+  if (CGAL_Fixed_B0!=0) result =  false;
+  float D = ((double) b) * 4503599627370497.0;  //2^52 + 1
+  D = (((double) b)+D )-D ;  // get the power of two closer to b
+  if (D<b) D *=2;
+  CGAL_Fixed_B0 = D/CGAL_Fixed_B24; // B24 = 2^24
+  CGAL_Fixed_B24 = D;
+  CGAL_Fixed_SNAP  *= CGAL_Fixed_B0;
+  CGAL_Fixed_S_2_25*= CGAL_Fixed_B0*CGAL_Fixed_B0;
+  CGAL_Fixed_S_3_25*= CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0;
+  CGAL_Fixed_S_3_51*= CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0;
+  CGAL_Fixed_Or1   *= CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0;
+  CGAL_Fixed_Bx3   *= CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0;
+  CGAL_Fixed_Ic1   *= CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0;
+  CGAL_Fixed_Bx4   *= CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0;
+  CGAL_Fixed_Is1   *= 
+    CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0;
+  CGAL_Fixed_Bx5   *= 
+    CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0*CGAL_Fixed_B0;
+  return result;
+};
+
+// ======================================================================
+//--------- ( round to the nearest legal fixed)
+// ======================================================================
+
+CGAL_Fixed_public void CGAL_Fixed_round(float& f)
+{
+  CGAL_Fixed_rounding_precondition_msg(f);
+  f = ( f+ CGAL_Fixed_SNAP ) - CGAL_Fixed_SNAP ;
+}
+
+// ======================================================================
+//--------- splitting numbers for exact computation
+// ======================================================================
+
+
+
+
+inline void CGAL_Fixed_split
+(double a, double &a1, double &a0, const double &format)
+  // split a in two numbers. a=a1+a0, a1 get the most significant digit
+  // format specify the range of the input, and how to split
+  // if format is S_i_j it means that a is of degree i
+  // (in terms of original coordinates) the splitting bit is B0^i*2^j
+{ a1 = a+format; a1-= format; a0 = a-a1; }
+
+
+// ======================================================================
+//--------- geometric predicates
+// ======================================================================
+
+
+CGAL_Fixed_public
+int CGAL_Fixed_orientation(float x0, float y0, 
+		      float x1, float y1, 
+		      float x2, float y2)
+{
+    /*  points are assumed to be distincts */
+    double det = ( (double)(x1) - (double)(x0))
+                *( (double)(y2) - (double)(y0))
+                -( (double)(x2) - (double)(x0))
+                *( (double)(y1) - (double)(y0));
+    /* stay inside double precision, thus it is exact */
+    if (det>0) return 1;
+    if (det)   return -1;
+    /* the points are collinear */
+    return 0;
+}
+
+
+CGAL_Fixed_public
+int CGAL_Fixed_orientation(  float x0, float y0, float z0,
+			float x1, float y1, float z1,
+			float x2, float y2, float z2,
+			float x3, float y3, float z3)
+{
+  double X1=(double)(x1) -(double)(x0);
+  double Y1=(double)(y1) -(double)(y0);
+  double Z1=(double)(z1) -(double)(z0); 
+  double X2=(double)(x2) -(double)(x0); 
+  double Y2=(double)(y2) -(double)(y0); 
+  double Z2=(double)(z2) -(double)(z0);
+  double X3=(double)(x3) -(double)(x0);
+  double Y3=(double)(y3) -(double)(y0);
+  double Z3=(double)(z3) -(double)(z0);
+  double M1=Y2*Z3-Y3*Z2;
+  double M2=Y1*Z3-Y3*Z1;
+  double M3=Y1*Z2-Y2*Z1;
+  double det= X1*M1 - X2*M2 + X3*M3 ;
+  if (det >   CGAL_Fixed_Or1 ) return 1;
+  if (det <  -CGAL_Fixed_Or1 ) return -1;
+  /* det is small */
+  double error= 
+    CGAL_Fixed_abs(X1*M1) + CGAL_Fixed_abs(X2*M2) + CGAL_Fixed_abs(X3*M3);
+  error *= CGAL_Fixed_Or2;
+  if ( error < CGAL_Fixed_Bx3) error = 0.0;
+  if (det >   error) return 1;
+  if (det <  -error) return -1;
+  /* det is very small, exact computation must be done */
+  if (error!=0.0) {  // otherwise, exact value 0 already certified
+    CGAL_Fixed_split(M1,M1,Z1,CGAL_Fixed_S_2_25);
+    CGAL_Fixed_split(M2,M2,Z2,CGAL_Fixed_S_2_25);
+    CGAL_Fixed_split(M3,M3,Z3,CGAL_Fixed_S_2_25);
+    det  =  X1*M1 - X2*M2 + X3*M3 ;
+    det +=  X1*Z1 - X2*Z2 + X3*Z3 ;     /* less significant */
+    if (det>0) return 1;
+    if (det<0) return -1;
+  }
+  /* points are coplanar */
+  return 0;
+}
+
+
+CGAL_Fixed_public
+int CGAL_Fixed_insphere (
+      float x0, float y0,
+      float x1, float y1,
+      float x2, float y2,
+      float x3, float y3)
+
+  // relative position of p3 with respect to circle p0p1p2
+  // if p0p1p2 is positively oriented,
+  // positive side is the interior of the circle
+
+{  
+  double X1=(double)(x1)-(double)(x0);
+  double Y1=(double)(y1)-(double)(y0);
+  double X2=(double)(x2)-(double)(x0);
+  double Y2=(double)(y2)-(double)(y0);
+  double X3=(double)(x3)-(double)(x0);
+  double Y3=(double)(y3)-(double)(y0);
+  double R1=X1*X1+Y1*Y1;
+  double R2=X2*X2+Y2*Y2;
+  double R3=X3*X3+Y3*Y3;
+  double M1=X2*Y3-X3*Y2;
+  double M2=X1*Y3-X3*Y1;
+  double M3=X1*Y2-X2*Y1;
+  double det= R1*M1 -R2*M2 +R3*M3;
+  if (det >   CGAL_Fixed_Ic1) return -1;
+  if (det <= -CGAL_Fixed_Ic1) return 1;
+  // static filter failed, error is small
+  {
+    double error= 
+      CGAL_Fixed_abs(R1*M1) + CGAL_Fixed_abs(R2*M2) + CGAL_Fixed_abs(R3*M3) ;
+    error *= CGAL_Fixed_Ic2 ;
+    if ( error < CGAL_Fixed_Bx4 ) error = 0.0;
+    if (det >   error) return -1;
+    if (det <  -error) return 1;
+    double m1,m2,m3,r1,r2,r3;
+    if (error!=0) {
+      // dynamic filter failed, error is very small
+      CGAL_Fixed_split(M1,M1,m1,CGAL_Fixed_S_2_25); 
+      CGAL_Fixed_split(M2,M2,m2,CGAL_Fixed_S_2_25);
+      CGAL_Fixed_split(M3,M3,m3,CGAL_Fixed_S_2_25);
+      // Minor i is Mi+mi
+      CGAL_Fixed_split(R1,R1,r1,CGAL_Fixed_S_2_25);
+      CGAL_Fixed_split(R2,R2,r2,CGAL_Fixed_S_2_25);
+      CGAL_Fixed_split(R3,R3,r3,CGAL_Fixed_S_2_25);
+      // xi^2+yi^2   is Ri+ri
+      det  =  R1*M1 -R2*M2 +R3*M3   ;              // most significant
+      // exact because necessary less than 2^80 and multiple 2^52
+      det += (R1*m1 + r1*M1) - (R2*m2 + r2*M2) + (R3*m3 + r3*M3) ;
+      // exact because necessary less than 2^53 and multiple 2^25
+      det += r1*m1 -r2*m2 +r3*m3  ;                       // less significant
+      if (det>0) return -1;
+      if (det<0) return 1;
+    }
+    //cocircular case
+    if (! CGAL_Fixed_incircle_perturb) return 0;
+
+    // apply perturbation method
+    // first order coefficient is obtained replacing x^2+y^2 by xy
+    R1 = X1*Y1;
+    R2 = X2*Y2;
+    R3 = X3*Y3;
+    det= R1*M1 -R2*M2 +R3*M3;
+    if (det >   CGAL_Fixed_Ic1) return -1;
+    if (det <= -CGAL_Fixed_Ic1) return 1;
+    // static filter failed, error is small
+    error= 
+      (CGAL_Fixed_abs(R1*M1)+CGAL_Fixed_abs(R2*M2)+CGAL_Fixed_abs(R3*M3))
+      * CGAL_Fixed_Ic2 ;
+    if ( error < CGAL_Fixed_Bx4 ) error = 0.0;
+    if (det >   error) return -1;
+    if (det <  -error) return 1;
+    if (error!=0) {
+      // dynamic filter failed, error is very small
+      CGAL_Fixed_split(R1,R1,r1,CGAL_Fixed_S_2_25);
+      CGAL_Fixed_split(R2,R2,r2,CGAL_Fixed_S_2_25);
+      CGAL_Fixed_split(R3,R3,r3,CGAL_Fixed_S_2_25);
+      det  =  R1*M1 -R2*M2 +R3*M3   ;
+      det += (R1*m1 + r1*M1) - (R2*m2 + r2*M2) + (R3*m3 + r3*M3) ;
+      det += r1*m1 -r2*m2 +r3*m3  ;
+      if (det>0) return -1;
+      if (det<0) return 1;
+    }
+    // first order coefficient is null,
+    // compute second order coefficient in the pertrubation method
+    //  replace x^2+y^2 by y^2
+    R1 = Y1*Y1;
+    R2 = Y2*Y2;
+    R3 = Y3*Y3;
+    det= R1*M1 -R2*M2 +R3*M3;
+    if (det >   CGAL_Fixed_Ic1) return -1;
+    if (det <= -CGAL_Fixed_Ic1) return 1;
+    // static filter failed, error is small
+    error= 
+      (CGAL_Fixed_abs(R1*M1)+CGAL_Fixed_abs(R2*M2)+CGAL_Fixed_abs(R3*M3))
+      * CGAL_Fixed_Ic2 ;
+    if ( error < CGAL_Fixed_Bx4 ) error = 0.0;
+    if (det >   error) return -1;
+    if (det <  -error) return 1;
+    if (error!=0) {
+      // dynamic filter failed, error is very small
+      CGAL_Fixed_split(R1,R1,r1,CGAL_Fixed_S_2_25);
+      CGAL_Fixed_split(R2,R2,r2,CGAL_Fixed_S_2_25);
+      CGAL_Fixed_split(R3,R3,r3,CGAL_Fixed_S_2_25);
+      det  =  R1*M1 -R2*M2 +R3*M3   ;
+      det += (R1*m1 + r1*M1) - (R2*m2 + r2*M2) + (R3*m3 + r3*M3) ;
+      det += r1*m1 -r2*m2 +r3*m3  ;
+      if (det>0) return -1;
+      if (det<0) return 1;
+    }
+    // points are colinear
+    return 0;
+  }
+}
+
+
+
+CGAL_Fixed_public
+int CGAL_Fixed_insphere (
+      float x0, float y0, float z0,
+      float x1, float y1, float z1,
+      float x2, float y2, float z2,
+      float x3, float y3, float z3,
+      float x4, float y4, float z4)
+
+  // relative position of p4 with respect to sphere p0p1p2p3
+  // if p0p1p2p3 is positively oriented,
+  // positive side is the interior of the sphere
+
+{
+  double det,error;
+  // transform in 4x4 determinant
+  // point p4 is inside sphere through oriented tetra p0p1p2p3
+  // if the determinant is negative
+  double X1=(double)(x1) -(double)(x0) ;
+  double Y1=(double)(y1) -(double)(y0) ;
+  double Z1=(double)(z1) -(double)(z0) ;
+  double X2=(double)(x2) -(double)(x0) ;  //   | X1 X2 X3 X4 |
+  double Y2=(double)(y2) -(double)(y0) ;  //   | Y1 Y2 Y3 Y4 |
+  double Z2=(double)(z2) -(double)(z0) ;  //   | Z1 Z2 Z3 Z4 |
+  double X3=(double)(x3) -(double)(x0) ;  //   | R1 R2 R3 R4 |
+  double Y3=(double)(y3) -(double)(y0) ;
+  double Z3=(double)(z3) -(double)(z0) ;
+  double X4=(double)(x4) -(double)(x0) ;
+  double Y4=(double)(y4) -(double)(y0) ;
+  double Z4=(double)(z4) -(double)(z0) ;
+  double R1= X1*X1+Y1*Y1+Z1*Z1;
+  double R2= X2*X2+Y2*Y2+Z2*Z2;
+  double R3= X3*X3+Y3*Y3+Z3*Z3;
+  double R4= X4*X4+Y4*Y4+Z4*Z4;
+  // compute 2x2 minors on the two first lines
+  double M12 = X1 * Y2 - X2 * Y1;
+  double M23 = X2 * Y3 - X3 * Y2;
+  double M34 = X3 * Y4 - X4 * Y3;
+  double M13 = X1 * Y3 - X3 * Y1;
+  double M14 = X1 * Y4 - X4 * Y1;
+  double M24 = X2 * Y4 - X4 * Y2;
+  // compute 3x3 minors on the three first lines
+  double MM1 =   Z2 * M34 - Z3 * M24 + Z4 * M23 ;
+  double MM2 =   Z1 * M34 - Z3 * M14 + Z4 * M13 ;
+  double MM3 =   Z1 * M24 - Z2 * M14 + Z4 * M12 ;
+  double MM4 =   Z1 * M23 - Z2 * M13 + Z3 * M12 ;
+  // compute determinant
+  det= (R2 * MM2 - R1 * MM1) + (R4 * MM4 - R3 * MM3) ;
+  if (det >=  CGAL_Fixed_Is1 ) return -1;
+  if (det <= -CGAL_Fixed_Is1 ) return 1;
+  // static filter failed, error is small
+  {
+    double mm1 =CGAL_Fixed_abs(Z2*M34) + CGAL_Fixed_abs(Z3*M24) 
+      + CGAL_Fixed_abs(Z4*M23) ;
+    double mm2 =CGAL_Fixed_abs(Z1*M34) + CGAL_Fixed_abs(Z3*M14) 
+      + CGAL_Fixed_abs(Z4*M13) ;
+    double mm3 =CGAL_Fixed_abs(Z1*M24) + CGAL_Fixed_abs(Z2*M14) 
+      + CGAL_Fixed_abs(Z4*M12) ;
+    double mm4 =CGAL_Fixed_abs(Z1*M23) + CGAL_Fixed_abs(Z2*M13) 
+      + CGAL_Fixed_abs(Z3*M12) ;
+    error= CGAL_Fixed_abs(R1)*mm1 + CGAL_Fixed_abs(R2)*mm2 
+           + CGAL_Fixed_abs(R3)*mm3 + CGAL_Fixed_abs(R4)*mm4;
+    error *= CGAL_Fixed_Is2;
+    if ( error < CGAL_Fixed_Bx5 ) error = 0.0;
+    if (det >   error) return -1;
+    if (det <  -error) return 1;
+    if (error!=0) {
+      // dynamic filter failed, error is very small
+      double a1,a2,a3,a4;
+      double b1,b2,b3,b4;
+      double c1,c2,c3,c4;
+      double d1,d2,d3,d4;
+      if (error!=0.0){
+	// start exact computation
+	CGAL_Fixed_split(M12,a2,M12,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(M13,a3,M13,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(M14,a4,M14,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(M23,b3,M23,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(M24,b4,M24,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(M34,c4,M34,CGAL_Fixed_S_2_25);
+	// compute 3x3 minors   ci+di is minor i
+	c1 =   Z2 *  c4 - Z3 *  b4 + Z4 *  b3 ;      // most significant
+	c2 =   Z1 *  c4 - Z3 *  a4 + Z4 *  a3 ;
+	c3 =   Z1 *  b4 - Z2 *  a4 + Z4 *  a2 ;
+	c4 =   Z1 *  b3 - Z2 *  a3 + Z3 *  a2 ;
+	d1 =   Z2 * M34 - Z3 * M24 + Z4 * M23 ;       // less significant
+	d2 =   Z1 * M34 - Z3 * M14 + Z4 * M13 ;
+	d3 =   Z1 * M24 - Z2 * M14 + Z4 * M12 ;
+	d4 =   Z1 * M23 - Z2 * M13 + Z3 * M12 ;
+	CGAL_Fixed_split(d1,a1,d1,CGAL_Fixed_S_3_25);
+	CGAL_Fixed_split(d2,a2,d2,CGAL_Fixed_S_3_25);
+	CGAL_Fixed_split(d3,a3,d3,CGAL_Fixed_S_3_25);
+	CGAL_Fixed_split(d4,a4,d4,CGAL_Fixed_S_3_25);
+	// now ci+ai+di is minor i
+	a1 += c1;
+	a2 += c2;
+	a3 += c3;
+	a4 += c4;
+	//  now ai+di is minor i
+	CGAL_Fixed_split(a1,c1,a1,CGAL_Fixed_S_3_51);
+	CGAL_Fixed_split(a2,c2,a2,CGAL_Fixed_S_3_51);
+	CGAL_Fixed_split(a3,c3,a3,CGAL_Fixed_S_3_51);
+	CGAL_Fixed_split(a4,c4,a4,CGAL_Fixed_S_3_51);
+	// now ci+ai+di is minor i,  non overlapping 25 bits for each
+	CGAL_Fixed_split(R1,b1,R1,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R2,b2,R2,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R3,b3,R3,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R4,b4,R4,CGAL_Fixed_S_2_25);
+	// now bi+Ri is last line, non overlapping 25 bits for each
+	det  = (b2 * c2 - b1 * c1)                          ;      // 1
+	det +=                       (b4 * c4 - b3 * c3)    ;      // 1b
+	det += (b2 * a2 - b1 * a1) + (b4 * a4 - b3 * a3)    ;      // 2
+	det += (R2 * c2 - R1 * c1) + (R4 * c4 - R3 * c3)    ;      // 3
+	det += (b2 * d2 - b1 * d1) + (b4 * d4 - b3 * d3)    ;      // 4
+	det += (R2 * a2 - R1 * a1) + (R4 * a4 - R3 * a3)    ;      // 5
+	det += (R2 * d2 - R1 * d1) + (R4 * d4 - R3 * d3)    ;      // 6
+	if (det>0) return -1;
+	if (det<0) return 1;
+      }
+      // points are cospherical
+      
+      if (! CGAL_Fixed_insphere_perturb)return 0;
+
+      // apply perturbation method
+      // first order coefficient is obtained replacing x^2+y^2+z^2 by xy
+      R1 = X1*Y1;
+      R2 = X2*Y2;
+      R3 = X3*Y3;
+      R4 = X4*Y4;
+      // compute determinant
+      det= (R2 * MM2 - R1 * MM1) + (R4 * MM4 - R3 * MM3) ;
+      if (det >=  CGAL_Fixed_Is1 ) return -1;
+      if (det <= -CGAL_Fixed_Is1 ) return 1;
+      // static filter failed, error is small
+      error= CGAL_Fixed_abs(R1)*mm1 + CGAL_Fixed_abs(R2)*mm2 
+	     + CGAL_Fixed_abs(R3)*mm3 + CGAL_Fixed_abs(R4)*mm4;
+      error *= CGAL_Fixed_Is2;
+      if ( error < CGAL_Fixed_Bx5 ) error = 0.0;
+      if (det >   error) return -1;
+      if (det <  -error) return 1;
+      if (error!=0.0){
+	// dynamic filter failed, error is very small
+	// start exact computation
+	CGAL_Fixed_split(R1,b1,R1,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R2,b2,R2,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R3,b3,R3,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R4,b4,R4,CGAL_Fixed_S_2_25);
+	// now bi+Ri is last line, non overlapping 25 bits for each
+	det  = (b2 * c2 - b1 * c1)                          ;      // 1
+	det +=                       (b4 * c4 - b3 * c3)    ;      // 1b
+	det += (b2 * a2 - b1 * a1) + (b4 * a4 - b3 * a3)    ;      // 2
+	det += (R2 * c2 - R1 * c1) + (R4 * c4 - R3 * c3)    ;      // 3
+	det += (b2 * d2 - b1 * d1) + (b4 * d4 - b3 * d3)    ;      // 4
+	det += (R2 * a2 - R1 * a1) + (R4 * a4 - R3 * a3)    ;      // 5
+	det += (R2 * d2 - R1 * d1) + (R4 * d4 - R3 * d3)    ;      // 6
+	if (det>0) return -1;
+	if (det<0) return 1;
+      }
+      // first order coefficient is null,
+      // compute second order coefficient in the pertrubation method
+      //  replace x^2+y^2+z^2 by y^2
+      R1 = Y1*Y1;
+      R2 = Y2*Y2;
+      R3 = Y3*Y3;
+      R4 = Y4*Y4;
+      // compute determinant
+      det= (R2 * MM2 - R1 * MM1) + (R4 * MM4 - R3 * MM3) ;
+      if (det >=  CGAL_Fixed_Is1 ) return -1;
+      if (det <= -CGAL_Fixed_Is1 ) return 1;
+      // static filter failed, error is small
+      error= CGAL_Fixed_abs(R1)*mm1 + CGAL_Fixed_abs(R2)*mm2
+	     + CGAL_Fixed_abs(R3)*mm3 + CGAL_Fixed_abs(R4)*mm4;
+      error *= CGAL_Fixed_Is2;
+      if ( error < CGAL_Fixed_Bx5 ) error = 0.0;
+      if (det >   error) return -1;
+      if (det <  -error) return 1;
+      if (error!=0.0){
+	// dynamic filter failed, error is very small
+	// start exact computation
+	CGAL_Fixed_split(R1,b1,R1,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R2,b2,R2,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R3,b3,R3,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R4,b4,R4,CGAL_Fixed_S_2_25);
+	// now bi+Ri is last line, non overlapping 25 bits for each
+	det  = (b2 * c2 - b1 * c1)                          ;      // 1
+	det +=                       (b4 * c4 - b3 * c3)    ;      // 1b
+	det += (b2 * a2 - b1 * a1) + (b4 * a4 - b3 * a3)    ;      // 2
+	det += (R2 * c2 - R1 * c1) + (R4 * c4 - R3 * c3)    ;      // 3
+	det += (b2 * d2 - b1 * d1) + (b4 * d4 - b3 * d3)    ;      // 4
+	det += (R2 * a2 - R1 * a1) + (R4 * a4 - R3 * a3)    ;      // 5
+	det += (R2 * d2 - R1 * d1) + (R4 * d4 - R3 * d3)    ;      // 6
+	if (det>0) return -1;
+	if (det<0) return 1;
+      }
+      // 2nd order coefficient is null,
+      // compute 3rd order coefficient in the pertrubation method
+      //  replace x^2+y^2+z^2 by yz
+      R1 = Y1*Z1;
+      R2 = Y2*Z2;
+      R3 = Y3*Z3;
+      R4 = Y4*Z4;
+      // compute determinant
+      det= (R2 * MM2 - R1 * MM1) + (R4 * MM4 - R3 * MM3) ;
+      if (det >=  CGAL_Fixed_Is1 ) return -1;
+      if (det <= -CGAL_Fixed_Is1 ) return 1;
+      // static filter failed, error is small
+      error= CGAL_Fixed_abs(R1)*mm1 + CGAL_Fixed_abs(R2)*mm2
+	     + CGAL_Fixed_abs(R3)*mm3 + CGAL_Fixed_abs(R4)*mm4;
+      error *= CGAL_Fixed_Is2;
+      if ( error < CGAL_Fixed_Bx5 ) error = 0.0;
+      if (det >   error) return -1;
+      if (det <  -error) return 1;
+      if (error!=0.0){
+	// dynamic filter failed, error is very small
+	// start exact computation
+	CGAL_Fixed_split(R1,b1,R1,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R2,b2,R2,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R3,b3,R3,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R4,b4,R4,CGAL_Fixed_S_2_25);
+	// now bi+Ri is last line, non overlapping 25 bits for each
+	det  = (b2 * c2 - b1 * c1)                          ;      // 1
+	det +=                       (b4 * c4 - b3 * c3)    ;      // 1b
+	det += (b2 * a2 - b1 * a1) + (b4 * a4 - b3 * a3)    ;      // 2
+	det += (R2 * c2 - R1 * c1) + (R4 * c4 - R3 * c3)    ;      // 3
+	det += (b2 * d2 - b1 * d1) + (b4 * d4 - b3 * d3)    ;      // 4
+	det += (R2 * a2 - R1 * a1) + (R4 * a4 - R3 * a3)    ;      // 5
+	det += (R2 * d2 - R1 * d1) + (R4 * d4 - R3 * d3)    ;      // 6
+	if (det>0) return -1;
+	if (det<0) return 1;
+      }
+      // 3rd order coefficient is null,
+      // compute 4th order coefficient in the pertrubation method
+      //  replace x^2+y^2+z^2 by xz
+      R1 = X1*Z1;
+      R2 = X2*Z2;
+      R3 = X3*Z3;
+      R4 = X4*Z4;
+      // compute determinant
+      det= (R2 * MM2 - R1 * MM1) + (R4 * MM4 - R3 * MM3) ;
+      if (det >=  CGAL_Fixed_Is1 ) return -1;
+      if (det <= -CGAL_Fixed_Is1 ) return 1;
+      // static filter failed, error is small
+      error= CGAL_Fixed_abs(R1)*mm1 + CGAL_Fixed_abs(R2)*mm2
+	     + CGAL_Fixed_abs(R3)*mm3 + CGAL_Fixed_abs(R4)*mm4;
+      error *= CGAL_Fixed_Is2;
+      if ( error < CGAL_Fixed_Bx5 ) error = 0.0;
+      if (det >   error) return -1;
+      if (det <  -error) return 1;
+      if (error!=0.0){
+	// dynamic filter failed, error is very small
+	// start exact computation
+	CGAL_Fixed_split(R1,b1,R1,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R2,b2,R2,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R3,b3,R3,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R4,b4,R4,CGAL_Fixed_S_2_25);
+	// now bi+Ri is last line, non overlapping 25 bits for each
+	det  = (b2 * c2 - b1 * c1)                          ;      // 1
+	det +=                       (b4 * c4 - b3 * c3)    ;      // 1b
+	det += (b2 * a2 - b1 * a1) + (b4 * a4 - b3 * a3)    ;      // 2
+	det += (R2 * c2 - R1 * c1) + (R4 * c4 - R3 * c3)    ;      // 3
+	det += (b2 * d2 - b1 * d1) + (b4 * d4 - b3 * d3)    ;      // 4
+	det += (R2 * a2 - R1 * a1) + (R4 * a4 - R3 * a3)    ;      // 5
+	det += (R2 * d2 - R1 * d1) + (R4 * d4 - R3 * d3)    ;      // 6
+	if (det>0) return -1;
+	if (det<0) return 1;
+      }
+      // 4th order coefficient is null,
+      // compute 5th order coefficient in the pertrubation method
+      //  replace x^2+y^2+z^2 by z^2
+      R1 = Z1*Z1;
+      R2 = Z2*Z2;
+      R3 = Z3*Z3;
+      R4 = Z4*Z4;
+      // compute determinant
+      det= (R2 * MM2 - R1 * MM1) + (R4 * MM4 - R3 * MM3) ;
+      if (det >=  CGAL_Fixed_Is1 ) return -1;
+      if (det <= -CGAL_Fixed_Is1 ) return 1;
+      // static filter failed, error is small
+      error= CGAL_Fixed_abs(R1)*mm1 + CGAL_Fixed_abs(R2)*mm2
+	     + CGAL_Fixed_abs(R3)*mm3 + CGAL_Fixed_abs(R4)*mm4;
+      error *= CGAL_Fixed_Is2;
+      if ( error < CGAL_Fixed_Bx5 ) error = 0.0;
+      if (det >   error) return -1;
+      if (det <  -error) return 1;
+      if (error!=0.0){
+	// dynamic filter failed, error is very small
+	// start exact computation
+	CGAL_Fixed_split(R1,b1,R1,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R2,b2,R2,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R3,b3,R3,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R4,b4,R4,CGAL_Fixed_S_2_25);
+	// now bi+Ri is last line, non overlapping 25 bits for each
+	det  = (b2 * c2 - b1 * c1)                          ;      // 1
+	det +=                       (b4 * c4 - b3 * c3)    ;      // 1b
+	det += (b2 * a2 - b1 * a1) + (b4 * a4 - b3 * a3)    ;      // 2
+	det += (R2 * c2 - R1 * c1) + (R4 * c4 - R3 * c3)    ;      // 3
+	det += (b2 * d2 - b1 * d1) + (b4 * d4 - b3 * d3)    ;      // 4
+	det += (R2 * a2 - R1 * a1) + (R4 * a4 - R3 * a3)    ;      // 5
+	det += (R2 * d2 - R1 * d1) + (R4 * d4 - R3 * d3)    ;      // 6
+	if (det>0) return -1;
+	if (det<0) return 1;
+      }
+      // 5th order coefficient is null,
+      // compute 6th order coefficient in the pertrubation method
+      //  replace x^2+y^2+z^2 by x^2
+      R1 = X1*X1;
+      R2 = X2*X2;
+      R3 = X3*X3;
+      R4 = X4*X4;
+      // compute determinant
+      det= (R2 * MM2 - R1 * MM1) + (R4 * MM4 - R3 * MM3) ;
+      if (det >=  CGAL_Fixed_Is1 ) return -1;
+      if (det <= -CGAL_Fixed_Is1 ) return 1;
+      // static filter failed, error is small
+      error= CGAL_Fixed_abs(R1)*mm1 + CGAL_Fixed_abs(R2)*mm2 
+	     + CGAL_Fixed_abs(R3)*mm3 + CGAL_Fixed_abs(R4)*mm4;
+      error *= CGAL_Fixed_Is2;
+      if ( error < CGAL_Fixed_Bx5 ) error = 0.0;
+      if (det >   error) return -1;
+      if (det <  -error) return 1;
+      if (error!=0.0){
+	// dynamic filter failed, error is very small
+	// start exact computation
+	CGAL_Fixed_split(R1,b1,R1,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R2,b2,R2,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R3,b3,R3,CGAL_Fixed_S_2_25);
+	CGAL_Fixed_split(R4,b4,R4,CGAL_Fixed_S_2_25);
+	// now bi+Ri is last line, non overlapping 25 bits for each
+	det  = (b2 * c2 - b1 * c1)                          ;      // 1
+	det +=                       (b4 * c4 - b3 * c3)    ;      // 1b
+	det += (b2 * a2 - b1 * a1) + (b4 * a4 - b3 * a3)    ;      // 2
+	det += (R2 * c2 - R1 * c1) + (R4 * c4 - R3 * c3)    ;      // 3
+	det += (b2 * d2 - b1 * d1) + (b4 * d4 - b3 * d3)    ;      // 4
+	det += (R2 * a2 - R1 * a1) + (R4 * a4 - R3 * a3)    ;      // 5
+	det += (R2 * d2 - R1 * d1) + (R4 * d4 - R3 * d3)    ;      // 6
+	if (det>0) return -1;
+	if (det<0) return 1;
+      }
+      // 6th order coefficient is null,
+      // points are coplanar
+      return 0;
+    }
+  }
+  return 0; // code never goes here, it is just to avoid compilation warning
+}
+
+#ifdef CGAL_FIXED_PRECISION_NT_H
+// ======================================================================
+//--------- static access and parametrization functions
+// ======================================================================
+float CGAL_Fixed_precision_nt::unit_value()
+{return CGAL_Fixed_unit_value();}
+float CGAL_Fixed_precision_nt::upper_bound()
+{return CGAL_Fixed_upper_bound();}
+void  CGAL_Fixed_precision_nt::perturb_incircle() 
+{CGAL_Fixed_perturb_incircle();}
+void  CGAL_Fixed_precision_nt::unperturb_incircle() 
+{CGAL_Fixed_unperturb_incircle();}
+bool  CGAL_Fixed_precision_nt::is_perturbed_incircle() 
+{return CGAL_Fixed_is_perturbed_incircle();}
+void  CGAL_Fixed_precision_nt::perturb_insphere() 
+{CGAL_Fixed_perturb_insphere();}
+void  CGAL_Fixed_precision_nt::unperturb_insphere() 
+{CGAL_Fixed_unperturb_insphere();}
+bool  CGAL_Fixed_precision_nt::is_perturbed_insphere() 
+{return CGAL_Fixed_is_perturbed_insphere();}
+
+bool CGAL_Fixed_precision_nt::init(float b) 
+{ return CGAL_Fixed_init(b);}
+
+// ======================================================================
+//--------- geometric predicates
+// ======================================================================
+
+//template <>
+CGAL_Orientation CGAL_orientationC2
+(CGAL_Fixed_precision_nt x0, CGAL_Fixed_precision_nt y0, 
+ CGAL_Fixed_precision_nt x1, CGAL_Fixed_precision_nt y1, 
+ CGAL_Fixed_precision_nt x2, CGAL_Fixed_precision_nt y2)
+{
+  return (CGAL_Orientation) CGAL_sign (CGAL_Fixed_orientation( 
+                             x0.to_float(),  y0.to_float(), 
+			     x1.to_float(),  y1.to_float(), 
+			     x2.to_float(),  y2.to_float()));
+}
+
+//template <>
+CGAL_Orientation CGAL_orientationC3
+(   CGAL_Fixed_precision_nt x0, CGAL_Fixed_precision_nt y0, 
+    CGAL_Fixed_precision_nt z0,
+    CGAL_Fixed_precision_nt x1, CGAL_Fixed_precision_nt y1, 
+    CGAL_Fixed_precision_nt z1,
+    CGAL_Fixed_precision_nt x2, CGAL_Fixed_precision_nt y2,
+    CGAL_Fixed_precision_nt z2,
+    CGAL_Fixed_precision_nt x3, CGAL_Fixed_precision_nt y3,
+    CGAL_Fixed_precision_nt z3)
+{
+  return (CGAL_Orientation) CGAL_sign (CGAL_Fixed_orientation(  
+                              x0.to_float(),  y0.to_float(),  z0.to_float(),
+			      x1.to_float(),  y1.to_float(),  z1.to_float(),
+			      x2.to_float(),  y2.to_float(),  z2.to_float(),
+			      x3.to_float(),  y3.to_float(),  z3.to_float()));
+}
+
+//template <>
+CGAL_Oriented_side CGAL_side_of_oriented_circleC2 (
+      CGAL_Fixed_precision_nt x0, CGAL_Fixed_precision_nt y0,
+      CGAL_Fixed_precision_nt x1, CGAL_Fixed_precision_nt y1,
+      CGAL_Fixed_precision_nt x2, CGAL_Fixed_precision_nt y2,
+      CGAL_Fixed_precision_nt x3, CGAL_Fixed_precision_nt y3)
+  // relative position of p3 with respect to circle p0p1p2
+  // if p0p1p2 is positively oriented,
+  // positive side is the interior of the circle
+{
+  return (CGAL_Oriented_side) CGAL_sign (CGAL_Fixed_insphere(  
+                                     x0.to_float(),  y0.to_float(),
+				     x1.to_float(),  y1.to_float(),
+				     x2.to_float(),  y2.to_float(),
+				     x3.to_float(),  y3.to_float()));
+}
+
+//template <>
+CGAL_Oriented_side CGAL_side_of_oriented_sphereC3 
+(     CGAL_Fixed_precision_nt x0, CGAL_Fixed_precision_nt y0, 
+      CGAL_Fixed_precision_nt z0,
+      CGAL_Fixed_precision_nt x1, CGAL_Fixed_precision_nt y1,
+      CGAL_Fixed_precision_nt z1,
+      CGAL_Fixed_precision_nt x2, CGAL_Fixed_precision_nt y2,
+      CGAL_Fixed_precision_nt z2,
+      CGAL_Fixed_precision_nt x3, CGAL_Fixed_precision_nt y3,
+      CGAL_Fixed_precision_nt z3,
+      CGAL_Fixed_precision_nt x4, CGAL_Fixed_precision_nt y4,
+      CGAL_Fixed_precision_nt z4)
+  // relative position of p4 with respect to sphere p0p1p2p3
+  // if p0p1p2p3 is positively oriented,
+  // positive side is the interior of the sphere
+{
+  return (CGAL_Oriented_side) CGAL_sign (CGAL_Fixed_insphere(   
+                            x0.to_float(),  y0.to_float(),  z0.to_float(),
+			    x1.to_float(),  y1.to_float(),  z1.to_float(),
+			    x2.to_float(),  y2.to_float(),  z2.to_float(),
+			    x3.to_float(),  y3.to_float(),  z3.to_float(),
+			    x4.to_float(),  y4.to_float(),  z4.to_float()));
+}
+
+
+// ======================================================================
+//--------- constructors             CGAL only
+// ======================================================================
+CGAL_Fixed_precision_nt::CGAL_Fixed_precision_nt():_value(0.0){}
+
+CGAL_Fixed_precision_nt::CGAL_Fixed_precision_nt
+(const CGAL_Fixed_precision_nt& f):_value(f._value){}
+
+CGAL_Fixed_precision_nt::CGAL_Fixed_precision_nt(double f):_value(f)
+{ CGAL_Fixed_round(_value); }
+
+CGAL_Fixed_precision_nt::CGAL_Fixed_precision_nt(int f):_value(f)
+{ CGAL_Fixed_round(_value); }
+
+
+
+// ======================================================================
+//--------- NT requirement           CGAL only
+// ======================================================================
+
+
+CGAL_Fixed_precision_nt CGAL_Fixed_precision_nt::operator=
+(const CGAL_Fixed_precision_nt& f)
+{_value = f._value;return *this;}
+
+// only numbers between -B24 and B24 are authorized
+// except overflow only valid fixed are constructed
+bool CGAL_is_valid(CGAL_Fixed_precision_nt f)
+{
+  if ((CGAL_to_double(f)>CGAL_Fixed_B24)||(CGAL_to_double(f)<-CGAL_Fixed_B24))
+    return false;    // bigger than largest authorized value
+  double v = CGAL_to_double(f) / CGAL_Fixed_B0; // should be integer
+  v -= CGAL_abs(v); // should be 0
+  if (v!=0) return false;
+  return true;
+}
+bool CGAL_is_finite(CGAL_Fixed_precision_nt f)
+{return CGAL_is_valid(f);}
+
+bool  operator==(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b)
+{   return (CGAL_to_double(a) == CGAL_to_double(b) );}
+bool  operator!=(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b)
+{   return (CGAL_to_double(a) != CGAL_to_double(b) );}
+bool  operator<(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b)
+{   return (CGAL_to_double(a) < CGAL_to_double(b) );}
+bool  operator>(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b)
+{   return (CGAL_to_double(a) > CGAL_to_double(b) );}
+bool  operator<=(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b)
+{   return (CGAL_to_double(a) <= CGAL_to_double(b) );}
+bool  operator>=(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b)
+{   return (CGAL_to_double(a) >= CGAL_to_double(b) );}
+
+CGAL_Fixed_precision_nt  operator+
+(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b)
+{   return CGAL_Fixed_precision_nt(CGAL_to_double(a) + CGAL_to_double(b) );}
+CGAL_Fixed_precision_nt  operator-
+(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b)
+{   return CGAL_Fixed_precision_nt(CGAL_to_double(a) - CGAL_to_double(b) );}
+CGAL_Fixed_precision_nt  operator*
+(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b)
+{   return CGAL_Fixed_precision_nt(CGAL_to_double(a) * CGAL_to_double(b) );}
+CGAL_Fixed_precision_nt  operator-( CGAL_Fixed_precision_nt b)
+{   return CGAL_Fixed_precision_nt( - CGAL_to_double(b) );}
+CGAL_Fixed_precision_nt CGAL_Fixed_precision_nt::operator+=
+(const CGAL_Fixed_precision_nt& f)
+{*this = *this+f;return *this;}
+CGAL_Fixed_precision_nt CGAL_Fixed_precision_nt::operator-=
+(const CGAL_Fixed_precision_nt& f)
+{*this = *this-f;return *this;}
+CGAL_Fixed_precision_nt CGAL_Fixed_precision_nt::operator*=
+(const CGAL_Fixed_precision_nt& f)
+{*this = *this*f;return *this;}
+CGAL_Fixed_precision_nt CGAL_Fixed_precision_nt::operator/=
+(const CGAL_Fixed_precision_nt& f)
+{(CGAL_to_double(f)) ? *this = *this/f
+                     : *this = CGAL_Fixed_precision_nt::upper_bound();
+ return *this;}
+CGAL_Fixed_precision_nt  operator/
+(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b)
+{   return CGAL_Fixed_precision_nt( 
+      (CGAL_to_double(b)) ? CGAL_to_double(a) / CGAL_to_double(b) 
+      : CGAL_Fixed_precision_nt::upper_bound() );}
+
+// ======================================================================
+//--------- non official NT requirement IO       CGAL only
+// ======================================================================
+
+ostream &operator<<(ostream &os, CGAL_Fixed_precision_nt a)
+{ return os << CGAL_to_double(a); }
+istream &operator>>(istream &is, CGAL_Fixed_precision_nt a)
+{ float f;  is >>f; a=CGAL_Fixed_precision_nt(f); return is; }
+
+#undef CGAL_Fixed_public
+#undef CGAL_Fixed_abs
+#undef CGAL_Fixed_to_double
+#undef CGAL_Fixed_rounding_precondition_msg
+
+
+#endif  //CGAL_FIXED_PRECISION_NT_H

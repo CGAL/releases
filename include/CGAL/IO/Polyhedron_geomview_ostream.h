@@ -27,16 +27,17 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/Polyhedron_geomview_ostream.h
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // revision      : $Revision: 1.1 $
 // revision_date : $Date: 1998/03/03 02:31:42 $
 // author(s)     : Lutz Kettner
@@ -44,6 +45,7 @@
 // coordinator   : Herve Bronnimann
 //
 // Output stream operator for Polyhedrons into Geomview_stream.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -63,19 +65,17 @@
 
 class CGAL_Polyhedron_writer_geomview {
     CGAL_Geomview_stream*  out;
-    size_t   _facets;
 public:
     CGAL_Polyhedron_writer_geomview( CGAL_Geomview_stream& geo) : out(&geo) {}
-    void header( ostream&, size_t vertices, size_t, size_t facets) {
+    void write_header( ostream&, size_t vertices, size_t, size_t facets) {
 	// ignore ostream. Output goes to Geomview_stream.
-	_facets = facets;
 	// Print header.
 	out->set_ascii_mode();
 	*out << "(geometry polyhedron  {appearance {}{ ";
 	out->set_binary_mode();
 	*out << "OFF BINARY\n"  << int(vertices) << int(facets) << 0 ;
     }
-    void footer() {
+    void write_footer() {
         *out << "}})";
 	out->set_ascii_mode();
     }
@@ -100,11 +100,11 @@ public:
 
 template < class Traits, class HDS >
 CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream &gv,
-           const CGAL_Polyhedron_3<Traits,HDS> &P)
+operator<<( CGAL_Geomview_stream &gv,
+	    const CGAL_Polyhedron_3<Traits,HDS> &P)
 {
     CGAL_Polyhedron_writer_geomview  writer(gv);
-    CGAL_generic_print_polyhedron( cerr, P, writer);
+    CGAL_generic_print_polyhedron( cerr, P, writer); // note: cerr unused.
     return gv;
 }
 

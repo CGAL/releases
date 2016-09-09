@@ -27,27 +27,28 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Distance_2.h
-// package       : Triangulation (1.23)
-// source        : web/Distance_2.fw
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 1998/02/03 17:17:51 $
-// author(s)     : Andreas Fabri
+// package       : Triangulation (2.10)
+// source        : $Source: /u/alcor/0/prisme_util/CGAL/Local/cvsroot/Triangulation/include/CGAL/Distance_2.h,v $
+// revision      : $Revision: 1.1.1.2 $
+// revision_date : $Date: 1998/09/23 08:02:36 $
+// author(s)     : Mariette Yvinec
 //
-// coordinator   : Herve Bronnimann
+// coordinator   : Mariette Yvinec
+//
 //
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
-
 
 #ifndef CGAL_DISTANCE_2_H
 #define CGAL_DISTANCE_2_H

@@ -27,18 +27,19 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/predicate_objects_on_points_2.h
-// package       : Convex_hull (1.2.3)
+// package       : Convex_hull (1.3.2)
 // source        : convex_hull_2.lw
-// revision      : 1.2.3
-// revision_date : 07 Apr 1998
+// revision      : 1.3.2
+// revision_date : 09 Dec 1998
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -107,28 +108,28 @@ private:
 template <class Point>
 struct CGAL_p_Less_xy
 {
-  bool operator()( const Point& p1, const Point& p2)
+  bool operator()( const Point& p1, const Point& p2) const
        { return CGAL_lexicographically_xy_smaller( p1, p2); }
 };
 
 template <class Point>
 struct CGAL_p_Greater_xy
 {
-  bool operator()( const Point& p1, const Point& p2)
+  bool operator()( const Point& p1, const Point& p2) const
        { return CGAL_lexicographically_xy_larger( p1, p2); }
 };
 
 template <class Point>
 struct CGAL_p_Less_yx
 {
-  bool operator()( const Point& p1, const Point& p2)
+  bool operator()( const Point& p1, const Point& p2) const
        { return CGAL_lexicographically_yx_smaller( p1, p2); }
 };
 
 template <class Point>
 struct CGAL_p_Greater_yx
 {
-  bool operator()( const Point& p1, const Point& p2)
+  bool operator()( const Point& p1, const Point& p2) const
        { return CGAL_lexicographically_yx_larger( p1, p2); }
 };
 
@@ -202,7 +203,7 @@ public:
         : rot_point(p)
         {}
 
-  bool  operator()(const Point& p, const Point& q)
+  bool  operator()(const Point& p, const Point& q) const
         {
           CGAL_Orientation ori = CGAL_orientation(rot_point, p, q);
           if ( ori == CGAL_LEFTTURN )
@@ -238,7 +239,7 @@ public:
         : rot_point(p)
         {}
 
-  bool  operator()(const Point& p, const Point& q)
+  bool  operator()(const Point& p, const Point& q) const
         {
           if (p == rot_point) return false;
           if (q == rot_point) return true;
@@ -274,7 +275,7 @@ public:
         : rot_point(p)
         {}
 
-  bool  operator()(const Point& p, const Point& q)
+  bool  operator()(const Point& p, const Point& q) const
         {
           CGAL_Orientation ori = CGAL_orientation(rot_point, p, q);
           if ( ori == CGAL_LEFTTURN )
@@ -405,7 +406,7 @@ public:
              CGAL_Direction_2<R>(-(dir.dy()), dir.dx() ))
         {}
 
-  bool  operator()(const CGAL_Point_2<R>& c, const CGAL_Point_2<R>& d)
+  bool  operator()(const CGAL_Point_2<R>& c, const CGAL_Point_2<R>& d) const
         {
           CGAL_Comparison_result res = CGAL_cmp_signed_dist_to_line(l, c, d);
           if ( res == CGAL_LARGER )

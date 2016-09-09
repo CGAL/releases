@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : predicates_on_pointsH3.fw
 // file          : include/CGAL/predicates_on_pointsH3.h
-// package       : H3 (1.3.1)
-// revision      : 1.3.1
-// revision_date : 30 Jun 1998 
+// package       : H3 (1.5)
+// revision      : 1.5
+// revision_date : 15 Dec 1998 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -296,8 +298,13 @@ CGAL_collinear_are_ordered_along_line(const CGAL_PointH3<FT,RT> &p,
   const RT rqz = rhz*qhw;
   const RT rpz = rhz*phw;
 
-  return ! (   ((qpz < pqz) || (rqz < qrz))
-            && ((pqz < qpz) || (qrz < rqz))  );
+  if ( prz != rpz )
+  {
+      return ! (   ((qpz < pqz) || (rqz < qrz))
+                && ((pqz < qpz) || (qrz < rqz))  );
+  }
+  // p == r
+  return  ((rqx == qrx) && (rqy == qry) && (rqz == qrz));
 }
 
 template < class FT, class RT >

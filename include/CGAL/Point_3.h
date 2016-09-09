@@ -27,23 +27,25 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : Point_3.fw
 // file          : include/CGAL/Point_3.h
-// package       : _3 (1.3)
-// revision      : 1.3
-// revision_date : 15 May 1998 
+// package       : _3 (1.4)
+// revision      : 1.4
+// revision_date : 15 Dec 1998 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -84,9 +86,11 @@ public:
 
 // #ifdef CGAL_WORKAROUND_001
 friend  CGAL_Point_3<R>
+        inline
         operator+ CGAL_NULL_TMPL_ARGS (const CGAL_Origin& o,
                                        const CGAL_Vector_3<R>& v);
 friend  CGAL_Point_3<R>
+        inline
         operator- CGAL_NULL_TMPL_ARGS (const CGAL_Origin& o,
                                        const CGAL_Vector_3<R>& v);
 /*
@@ -257,6 +261,18 @@ CGAL_Vector_3<R> operator-(const CGAL_Origin& ,
   typedef typename  R::Point_3       Point_3;
   return CGAL_Vector_3<R>(CGAL_ORIGIN - (const Point_3&)p) ;
 }
+
+template <class R>
+inline
+bool
+operator==(const CGAL_Origin& o, const CGAL_Point_3<R>& p)
+{ return p == o; }
+
+template <class R>
+inline
+bool
+operator!=(const CGAL_Origin& o, const CGAL_Point_3<R>& p)
+{ return p != o; }
 
 
 #ifndef CGAL_NO_OSTREAM_INSERT_POINT_3

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -27,23 +27,25 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : Point_2.fw
 // file          : include/CGAL/Point_2.h
-// package       : _2 (1.2.2)
-// revision      : 1.2.2
-// revision_date : 27 Jan 1998 
+// package       : _2 (1.3)
+// revision      : 1.3
+// revision_date : 15 Dec 1998 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -83,10 +85,12 @@ public:
   typedef typename R::Vector_2              Vector_2;
 
 
-friend  CGAL_Point_2<R>
+friend  inline
+        CGAL_Point_2<R>
         operator+ CGAL_NULL_TMPL_ARGS (const CGAL_Origin &o,
                                        const CGAL_Vector_2<R> &v);
-friend  CGAL_Point_2<R>
+friend  inline
+        CGAL_Point_2<R>
         operator- CGAL_NULL_TMPL_ARGS (const CGAL_Origin &o,
                                        const CGAL_Vector_2<R> &v);
 
@@ -225,7 +229,7 @@ inline
 CGAL_Point_2<R>
 operator-(const CGAL_Origin &o, const CGAL_Vector_2<R> &v);
 
-template < class R >
+template <class R>
 inline
 CGAL_Vector_2<R>
 operator-(const CGAL_Point_2<R> &p, const CGAL_Origin &);
@@ -322,6 +326,18 @@ CGAL_Vector_2<R> operator-(const CGAL_Origin &,
   return CGAL_Vector_2<R>(CGAL_ORIGIN - (const Point_2&)p) ;
 }
 
+
+template <class R>
+inline
+bool
+operator==(const CGAL_Origin& o, const CGAL_Point_2<R>& p)
+{ return p == o; }
+
+template <class R>
+inline
+bool
+operator!=(const CGAL_Origin& o, const CGAL_Point_2<R>& p)
+{ return p != o; }
 
 
 #endif // CGAL_POINT_2_H

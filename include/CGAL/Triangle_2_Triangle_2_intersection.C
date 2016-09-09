@@ -28,16 +28,17 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Triangle_2_Triangle_2_intersection.C
-// package       : Intersections_2 (1.5)
+// package       : Intersections_2 (1.7)
 // source        : intersection_2_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -173,10 +174,9 @@ inline bool CGAL_do_intersect(
 #ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
 #endif // CGAL_NUMBER_UTILS_H
-#ifndef CGAL_PROTECT_VECTOR_H
-#include <vector.h>
-#define CGAL_PROTECT_VECTOR_H
-#endif // CGAL_PROTECT_VECTOR_H
+#ifndef CGAL_STD_VECTOR_H
+#include <CGAL/std/vector>
+#endif
 
 template <class R>
 CGAL__Pointlist_2<R>::CGAL__Pointlist_2()
@@ -474,7 +474,7 @@ CGAL_intersection(const CGAL_Triangle_2<R> &tr1, const CGAL_Triangle_2<R>&tr2)
         return CGAL_Object(new CGAL_Wrapper< CGAL_Triangle_2<R> >(itr));
     }
     case is_t::POLYGON: {
-        typedef vector<CGAL_Point_2<R> > Container;
+        typedef CGAL_STD::vector<CGAL_Point_2<R> > Container;
         Container points(ispair.vertex_count());
         for (int i =0; i < ispair.vertex_count(); i++) {
             points[i] = ispair.vertex(i);

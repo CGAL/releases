@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : number_utils.fw
 // file          : include/CGAL/number_utils.h
-// package       : Number_types (1.2.8)
-// revision      : 1.2.8
-// revision_date : 01 Jul 1998 
+// package       : Number_types (1.6)
+// revision      : 1.6
+// revision_date : 13 Jan 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -83,13 +85,19 @@ CGAL_is_positive(const NT &x)
 
 template <class NT>
 CGAL_KERNEL_INLINE   /* XXX ok with spezialisations ??? */
-int
+CGAL_Sign
+// int
 CGAL_sign(const NT &x)
-{ return (x < NT(0)) ? -1: (NT(0) < x) ? 1 : 0; }
+// { return (x < NT(0)) ? -1: (NT(0) < x) ? 1 : 0; }
+{
+  return
+  (x < NT(0)) ? CGAL_NEGATIVE : (NT(0) < x) ? CGAL_POSITIVE : CGAL_ZERO;
+}
 
 template <class NT>
 CGAL_KERNEL_INLINE
-int
+CGAL_Sign
+// int
 CGAL_lexicographical_sign(const NT &x, const NT &y)
 { return (x == NT(0)) ? CGAL_sign(y) : CGAL_sign(x); }
 
@@ -121,6 +129,13 @@ CGAL_compare(const NT &n1, const NT &n2)
   }
   return (n2 < n1) ? CGAL_LARGER : CGAL_EQUAL ;
 }
+
+template <class NT>
+inline
+NT
+CGAL_square( const NT& n)
+{ return n*n; }
+
 // #ifndef CGAL_NUMBER_UTILS_CLASSES_H
 // #include <CGAL/number_utils_classes.h>
 // #endif // CGAL_NUMBER_UTILS_CLASSES_H

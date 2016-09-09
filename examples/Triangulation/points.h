@@ -266,12 +266,7 @@ istream& operator>>(istream& is, PVector &pv)
 #include <CGAL/basic_constructionsC2.h>
 #include <CGAL/predicates_on_pointsC2.h>
 
-#include <CGAL/Triangulation_vertex.h>
-#include <CGAL/Triangulation_face.h>
 
-#include <CGAL/Triangulation_face_circulator.h>
-#include <CGAL/Triangulation_edge_circulator.h>
-#include <CGAL/Triangulation_vertex_circulator.h>
 
 class Euclidean_2 {
 public:
@@ -281,12 +276,7 @@ public:
   typedef dir Direction;
   typedef ray Ray;
 
-  typedef CGAL_Triangulation_vertex<Point> Vertex;
-  typedef CGAL_Triangulation_face<Vertex> Face;
-
-  typedef Vertex::Vertex_handle Vertex_handle;
-  typedef Face::Face_handle Face_handle;
-
+ 
   bool compare(const Point &p, const Point &q) const
   {
     return (p == q);

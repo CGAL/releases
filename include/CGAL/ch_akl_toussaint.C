@@ -27,18 +27,19 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/ch_akl_toussaint.C
-// package       : Convex_hull (1.2.3)
+// package       : Convex_hull (1.3.2)
 // source        : convex_hull_2.lw
-// revision      : 1.2.3
-// revision_date : 07 Apr 1998
+// revision      : 1.3.2
+// revision_date : 09 Dec 1998
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -58,7 +59,7 @@ template <class ForwardIterator, class OutputIterator, class Traits>
 OutputIterator
 CGAL_ch_akl_toussaint(ForwardIterator first, ForwardIterator last, 
                       OutputIterator  result,
-                      const Traits& ch_traits)
+                      const Traits&   ch_traits)
 {
   typedef  typename Traits::Point_2                    Point_2;    
   typedef  typename Traits::Right_of_line              Right_of_line;
@@ -92,11 +93,11 @@ CGAL_ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
   region3.push_back( *e);
   region4.push_back( *n);
 
-  Right_of_line  rol_we( *w, *e);
-  Right_of_line  rol_en( *e, *n);
-  Right_of_line  rol_nw( *n, *w);
-  Right_of_line  rol_ws( *w, *s);
-  Right_of_line  rol_se( *s, *e);
+  Right_of_line  rol_we = ch_traits.get_right_of_line_object( *w, *e);
+  Right_of_line  rol_en = ch_traits.get_right_of_line_object( *e, *n);
+  Right_of_line  rol_nw = ch_traits.get_right_of_line_object( *n, *w);
+  Right_of_line  rol_ws = ch_traits.get_right_of_line_object( *w, *s);
+  Right_of_line  rol_se = ch_traits.get_right_of_line_object( *s, *e);
 
   CGAL_ch_postcondition_code( ForwardIterator save_first = first; )
 
@@ -120,10 +121,14 @@ CGAL_ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
   #else
   CGAL_Tee_for_output_iterator<OutputIterator,Point_2> res(result);
   #endif // no postconditions ...
-  sort( CGAL_successor(region1.begin() ), region1.end(), Less_xy() );
-  sort( CGAL_successor(region2.begin() ), region2.end(), Less_xy() );
-  sort( CGAL_successor(region3.begin() ), region3.end(), Greater_xy() );
-  sort( CGAL_successor(region4.begin() ), region4.end(), Greater_xy() );
+  sort( CGAL_successor(region1.begin() ), region1.end(), 
+        ch_traits.get_less_xy_object() );
+  sort( CGAL_successor(region2.begin() ), region2.end(), 
+        ch_traits.get_less_xy_object() );
+  sort( CGAL_successor(region3.begin() ), region3.end(), 
+        Greater_xy(ch_traits.get_less_xy_object()) );
+  sort( CGAL_successor(region4.begin() ), region4.end(), 
+        Greater_xy(ch_traits.get_less_xy_object()) );
 
   if ( *w != *s )
   {

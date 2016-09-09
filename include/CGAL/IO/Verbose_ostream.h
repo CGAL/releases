@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/Verbose_ostream.h
-// package       : Support_LK (1.17)
+// package       : Support_LK (1.18)
 // chapter       : $CGAL_Chapter: Support Library Manual ... $
 // source        : support.fw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/07/23 15:15:34 $
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 1998/10/07 18:46:59 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // A stream like output class for verbose output.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,15 +59,18 @@
 #define CGAL_PROTECT_IOSTREAM_H
 #endif // CGAL_PROTECT_IOSTREAM_H
 
-#define CGAL__VERB(x) if (b) o << x; return *this
+#define CGAL__VERB(x) if (b) *o << x; return *this
 
 class CGAL_Verbose_ostream {
     bool     b;
-    ostream& o;
+    ostream* o;
 public:
     CGAL_Verbose_ostream( bool active = false, ostream& out = cerr)
-        : b(active), o(out){}
-    CGAL_Verbose_ostream( const CGAL_Verbose_ostream& v) : b(v.b), o(v.o) {}
+        : b(active), o(&out){}
+
+    bool     verbose()           const { return b; }
+    void     set_verbose( bool active) { b = active; }
+    ostream& out()                     { return *o; }
 
     CGAL_Verbose_ostream&  operator<<( char c)                { CGAL__VERB(c);}
     CGAL_Verbose_ostream&  operator<<( const char* s)         { CGAL__VERB(s);}
@@ -87,17 +92,17 @@ public:
     CGAL_Verbose_ostream&  operator<<( ios& (*f)(ios&) )      { CGAL__VERB(f);}
     CGAL_Verbose_ostream&  flush() {
         if (b)
-            o.flush();
+            o->flush();
         return *this;
     }
     CGAL_Verbose_ostream&  put(char c) {
         if (b)
-            o.put(c);
+            o->put(c);
         return *this;
     }
     CGAL_Verbose_ostream&  write(const char*  s,int n) {
         if (b)
-            o.write( s, n);
+            o->write( s, n);
         return *this;
     }
 };

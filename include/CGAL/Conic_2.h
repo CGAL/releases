@@ -27,27 +27,29 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Conic_2.h
-// package       : Min_ellipse_2 (3.0.2)
+// package       : Min_ellipse_2 (3.1.1)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Conic_2.aw
-// revision      : $Revision: 5.1 $
-// revision_date : $Date: 1998/07/02 17:54:56 $
+// revision      : $Revision: 5.2 $
+// revision_date : $Date: 1998/11/11 09:59:19 $
 // author(s)     : Bernd Gärtner
 //                 Sven Schönherr
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: 2D Conic
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -71,13 +73,17 @@
 #  include <CGAL/Point_2.h>
 #endif
 
-template < class _R >
-class CGAL_Optimisation_ellipse_2;
-
-
 #ifndef CGAL_IO_FORWARD_DECL_WINDOW_STREAM_H
 #include <CGAL/IO/forward_decl_window_stream.h>
 #endif
+
+template < class _R >
+class CGAL_Optimisation_ellipse_2;
+
+template < class _R >
+CGAL_Window_stream&
+operator << ( CGAL_Window_stream&, const CGAL_Optimisation_ellipse_2<_R>&);
+
 template < class _R>
 class CGAL_Conic_2 : public _R::Conic_2 {
 

@@ -27,27 +27,26 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : src/File_writer_OFF.C
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Writer for polyhedral surfaces in object file format (OFF)
-//
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -66,52 +65,16 @@
 
 void
 CGAL_File_writer_OFF::
-header( ostream& o, size_t vertices, size_t halfedges, size_t facets,
-        int normals) {
-    out     = &o;
-    _facets = facets;
+write_header( ostream& o, size_t vertices, size_t halfedges, size_t facets,
+              int normals) {
+    m_out = &o;
+    m_header.set_vertices(  vertices);
+    // Don't. This halfdges aren't trusted:
+    // m_header.set_halfedges( halfedges);
+    (void)halfedges;
+    m_header.set_facets(    facets);
+    m_header.set_normals(   normals);
     // Print header.
-    if ( ! _nocomments) {
-        *out << "# file written from a CGAL tool\n";
-        *out << "#CBP halfedges " << halfedges << endl;
-        if ( file_info) {
-            *out << "# polyhedral_surface "
-                 << (file_info->polyhedral_surface ? '1' : '0') << endl;
-            *out << "# normalized_to_sphere "
-                 << (file_info->normalized_to_sphere ? '1' : '0') << endl;
-            *out << "# triangulated "
-                 << (file_info->triangulated ? '1' : '0') << endl;
-            *out << "# non_empty_facets "
-                 << (file_info->non_empty_facets ? '1' : '0') << endl;
-            *out << "# radius " << file_info->radius << endl;
-            *out << "# rounded " << (file_info->rounded ? '1' : '0')<<endl;
-            *out << "# rounded_bits " << file_info->rounded_bits << endl;
-            *out << "# terrain " << (file_info->terrain ? '1' : '0')<<endl;
-        }
-        *out << "# ENDCBP\n\n";
-    }
-    if ( normals)
-        *out << 'N';
-    if ( _skel)
-        *out << "SKEL";
-    else
-        *out << "OFF";
-    if ( _binary) {
-        *out << " BINARY\n";
-        CGAL__Binary_write_integer32( *out, vertices);
-        CGAL__Binary_write_integer32( *out, facets);
-        if ( ! _skel)
-            CGAL__Binary_write_integer32( *out, 0);
-    } else {
-        *out << '\n';
-        *out << vertices << ' '<< facets;
-        if ( ! _skel)
-            *out << " 0";
-        if ( ! _nocomments) {
-            *out << "\n\n# " << vertices << " vertices\n";
-            *out << "# ------------------------------------------\n";
-        }
-        *out << endl;
-    }
+    out() << m_header;
 }
 // EOF //

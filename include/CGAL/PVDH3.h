@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : PointVectorDirectionH3.fw
 // file          : include/CGAL/PVDH3.h
-// package       : H3 (1.3.1)
-// revision      : 1.3.1
-// revision_date : 30 Jun 1998 
+// package       : H3 (1.5)
+// revision      : 1.5
+// revision_date : 15 Dec 1998 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -159,10 +161,12 @@ public:
   bool  operator!=( const CGAL_PointH3<FT,RT>& p) const;
   bool  identical(  const CGAL_PointH3<FT,RT>& p) const;
 
-friend CGAL_PointH3<FT,RT>
+friend inline
+       CGAL_PointH3<FT,RT>
        operator+  CGAL_NULL_TMPL_ARGS (const CGAL_Origin &,
                                        const CGAL_VectorH3<FT,RT> & v);
-friend CGAL_PointH3<FT,RT>
+friend inline
+       CGAL_PointH3<FT,RT>
        operator-  CGAL_NULL_TMPL_ARGS (const CGAL_Origin &,
                                        const CGAL_VectorH3<FT,RT> & v);
 protected:
@@ -216,37 +220,48 @@ public:
 
 // friends:
 
-friend CGAL_VectorH3<FT,RT>
+friend inline
+       CGAL_VectorH3<FT,RT>
        operator-  CGAL_NULL_TMPL_ARGS ( const CGAL_PointH3<FT,RT> &,
                                         const CGAL_Origin & );
-friend CGAL_VectorH3<FT,RT>
+friend inline
+       CGAL_VectorH3<FT,RT>
        operator-  CGAL_NULL_TMPL_ARGS ( const CGAL_Origin &,
                                         const CGAL_PointH3<FT,RT> & );
-friend CGAL_PointH3<FT,RT>
+friend inline
+       CGAL_PointH3<FT,RT>
        operator+  CGAL_NULL_TMPL_ARGS ( const CGAL_Origin &,
                                         const CGAL_VectorH3<FT,RT> & );
-friend CGAL_PointH3<FT,RT>
+friend inline
+       CGAL_PointH3<FT,RT>
        operator-  CGAL_NULL_TMPL_ARGS ( const CGAL_Origin &,
                                         const CGAL_VectorH3<FT,RT> & );
-friend CGAL_VectorH3<FT,RT>
+friend CGAL_KERNEL_INLINE
+       CGAL_VectorH3<FT,RT>
        operator+  CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH3<FT,RT> &,
                                         const CGAL_VectorH3<FT,RT> & );
-friend CGAL_VectorH3<FT,RT>
+friend CGAL_KERNEL_INLINE
+       CGAL_VectorH3<FT,RT>
        operator-  CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH3<FT,RT> &,
                                         const CGAL_VectorH3<FT,RT> & );
-friend FT
+friend CGAL_KERNEL_INLINE
+       FT
        operator*  CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH3<FT,RT> &,
                                         const CGAL_VectorH3<FT,RT> & );
-friend CGAL_VectorH3<FT,RT>
+friend CGAL_KERNEL_INLINE
+       CGAL_VectorH3<FT,RT>
        operator*  CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH3<FT,RT> &,
                                         const RT & );
-friend CGAL_VectorH3<FT,RT>
+friend CGAL_KERNEL_INLINE
+       CGAL_VectorH3<FT,RT>
        operator*  CGAL_NULL_TMPL_ARGS ( const RT &,
                                         const CGAL_VectorH3<FT,RT> & );
-friend CGAL_VectorH3<FT,RT>
+friend CGAL_KERNEL_INLINE
+       CGAL_VectorH3<FT,RT>
        operator/  CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH3<FT,RT> &,
                                         const RT & );
-friend CGAL_VectorH3<FT,RT>
+friend CGAL_KERNEL_INLINE
+       CGAL_VectorH3<FT,RT>
        CGAL_cross_product  CGAL_NULL_TMPL_ARGS (const CGAL_VectorH3<FT,RT>& a,
                                                 const CGAL_VectorH3<FT,RT>& b);
 
@@ -296,6 +311,7 @@ public:
   RT    delta(int i) const;
 
 friend
+CGAL_KERNEL_INLINE
 CGAL_DirectionH3<FT,RT>
 CGAL_cross_product CGAL_NULL_TMPL_ARGS (const CGAL_DirectionH3<FT,RT>& d1,
                                         const CGAL_DirectionH3<FT,RT>& d2);
@@ -449,7 +465,6 @@ CGAL_PointH3<FT,RT>::cartesian(int i) const
       case 2:  return z();
       default: return cartesian( i%3 );
   }
-  // return FT( RT() );
 }
 
 template < class FT, class RT >
@@ -673,9 +688,8 @@ CGAL_VectorH3<FT,RT>::cartesian(int i) const
       case 0:   return x();
       case 1:   return y();
       case 2:   return z();
-      default:  cartesian( i%3 );
+      default:  return cartesian( i%3 );
   }
-  // return FT( RT() );
 }
 
 template < class FT, class RT >
@@ -797,7 +811,6 @@ CGAL_DirectionH3<FT,RT>::delta(int i) const
       case 2:  return z();
       default: return delta( i%3 );
   }
-  // return  RT() ;
 }
 
 template <class FT, class RT >
@@ -965,6 +978,12 @@ inline
 CGAL_PointH3<FT,RT>
 operator+(const CGAL_Origin& , const CGAL_VectorH3<FT,RT>& v)
 { return CGAL_PointH3<FT,RT>( v ); }
+
+template <class FT, class RT>
+inline
+CGAL_PointH3<FT,RT>
+operator-(const CGAL_Origin& , const CGAL_VectorH3<FT,RT>& v)
+{ return  CGAL_PointH3<FT,RT>(-v ); }
 
 template <class FT, class RT>
 inline

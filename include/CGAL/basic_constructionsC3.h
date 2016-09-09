@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/basic_constructionsC3.h
-// package       : C3 (1.4)
+// package       : C3 (1.6)
 // source        : web/basic_constructionsC3.fw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1998/04/28 13:25:04 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 1998/12/04 12:24:07 $
 // author(s)     : Herve.Bronnimann
 //
 // coordinator   : INRIA Sophia-Antipolis
+//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -58,6 +60,9 @@
 #ifndef CGAL_PLANEC3_H
 #include <CGAL/PlaneC3.h>
 #endif // CGAL_PLANEC3_H
+#ifndef CGAL_BASIC_CONSTRUCTIONS_FTC3_H
+#include <CGAL/basic_constructions_ftC3.h>
+#endif
 
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
@@ -65,9 +70,9 @@ CGAL_PointC3<FT>
 CGAL_midpoint( CGAL_PointC3<FT> const& p,
                CGAL_PointC3<FT> const& q )
 {
-    return( CGAL_PointC3<FT>( ( p.x()+q.x()) / FT(2),
-                              ( p.y()+q.y()) / FT(2),
-                              ( p.z()+q.z()) / FT(2)));
+  FT x,y,z;
+  CGAL_midpointC3(p.x(),p.y(),p.z(),q.x(),q.y(),q.z(),x,y,z);
+  return CGAL_PointC3<FT>(x,y,z);
 }
 
 template < class FT >
@@ -77,73 +82,59 @@ CGAL_circumcenter( CGAL_PointC3<FT> const& p,
                    CGAL_PointC3<FT> const& r,
                    CGAL_PointC3<FT> const& s)
 {
-    FT px( p.x());
-    FT py( p.y());
-    FT pz( p.z());
-    FT qx( q.x());
-    FT qy( q.y());
-    FT qz( q.z());
-    FT rx( r.x());
-    FT ry( r.y());
-    FT rz( r.z());
-    FT sx( s.x());
-    FT sy( s.y());
-    FT sz( s.z());
-
-    FT p2( px*px + py*py + pz*pz );
-    FT q2( qx*qx + qy*qy + qz*qz );
-    FT r2( rx*rx + ry*ry + rz*rz );
-    FT s2( sx*sx + sy*sy + sz*sz );
-
-    FT num_x( CGAL_det4x4_by_formula(py,pz,p2,FT(1),
-                                      qy,qz,q2,FT(1),
-                                      ry,rz,r2,FT(1),
-                                      sy,sz,s2,FT(1)));
-    FT num_y( CGAL_det4x4_by_formula(px,pz,p2,FT(1),
-                                      qx,qz,q2,FT(1),
-                                      rx,rz,r2,FT(1),
-                                      sx,sz,s2,FT(1)));
-    FT num_z( CGAL_det4x4_by_formula(px,py,p2,FT(1),
-                                      qx,qy,q2,FT(1),
-                                      rx,ry,r2,FT(1),
-                                      sx,sy,s2,FT(1)));
-
-    FT den( CGAL_det4x4_by_formula(px,py,pz,FT(1),
-                                    qx,qy,qz,FT(1),
-                                    rx,ry,rz,FT(1),
-                                    sx,sy,sz,FT(1)) * FT(2) );
-
-    return( CGAL_PointC3<FT>( num_x/den, - num_y/den, num_z/den) );
+  FT x,y,z;
+  CGAL_circumcenterC3(p.x(),p.y(),p.z(),
+                      q.x(),q.y(),q.z(),
+                      r.x(),r.y(),r.z(),
+                      s.x(),s.y(),s.z(),
+                      x,y,z);
+  return CGAL_PointC3<FT>(x,y,z);
 }
 
 template <class FT>
 CGAL_KERNEL_LARGE_INLINE
 CGAL_PointC3<FT>
-CGAL_projection(const CGAL_PointC3<FT>& p, const CGAL_PlaneC3<FT>& pl)
+CGAL_projection(const CGAL_PointC3<FT>& p, const CGAL_PlaneC3<FT>& h)
 {
-  // the equation of the plane is Ax+By+Cz+D=0
-  // the normal direction is (A,B,C)
-  // the projected point is p-lambda(A,B,C) where
-  // A(x-lambda A) + B(y-lambda B) + C(z-lambda C) + D = 0
-
-  if ( pl.has_on_boundary(p) ) return p;
-
-  FT A = pl.a();
-  FT B = pl.b();
-  FT C = pl.c();
-  FT D = pl.d();
-  FT phx = p.hx();
-  FT phy = p.hy();
-  FT phz = p.hz();
-
-  FT num = A * phx  +  B * phy  +  C * phz  +  D;
-  FT den = A * A    +  B * B    +  C * C;
-  FT lambda = num / den;
-
-  return CGAL_PointC3<FT>( phx - lambda * A,
-                           phy - lambda * B,
-                           phz - lambda * C);
+  FT x,y,z;
+  CGAL_projectionC3(h.a(),h.b(),h.c(),h.d(),
+                    p.x(),p.y(),p.z(),
+                    x,y,z);
+  return CGAL_PointC3<FT>(x,y,z);
 }
+
+
+template < class FT >
+inline
+FT
+CGAL_squared_distance(const CGAL_PointC3<FT> &p, const CGAL_PointC3<FT> &q)
+{
+  return CGAL_squared_distanceC3(p.x(),p.y(),p.z(),q.x(),q.y(),q.z());
+}
+
+template < class FT >
+inline
+FT
+CGAL_scaled_distance_to_plane(const CGAL_PlaneC3<FT> &h,
+                              const CGAL_PointC3<FT> &p)
+{
+  return CGAL_scaled_distance_to_planeC3(h.a(),h.b(),h.c(),h.d(),
+                                         p.x(),p.y(),p.z());
+}
+
+template < class FT >
+FT
+CGAL_scaled_distance_to_plane(const CGAL_PointC3<FT> &hp,
+                              const CGAL_PointC3<FT> &hq,
+                              const CGAL_PointC3<FT> &hr,
+                              const CGAL_PointC3<FT> &p)
+{
+  return CGAL_scaled_distance_to_planeC3(hp.x(),hp.y(),hp.z(),
+                                         hq.x(),hq.y(),hq.z(),
+                                         hr.x(),hr.y(),hr.z(),
+                                         p.x(),p.y(),p.z());
+}
+
 
 
 #endif // CGAL_BASIC_CONSTRUCTIONSC3_H

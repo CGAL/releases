@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/pierce_rectangles_2.h
-// package       : Matrix_search (1.7)
+// package       : Matrix_search (1.10)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : pcenter.aw
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 1998/07/23 16:53:52 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1998/11/26 16:25:39 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // 2-4-Piercing Axis-Parallel 2D-Rectangles
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -994,14 +996,18 @@ CGAL_three_pierce_rectangles(
   OutputIterator o,
   bool& ok)
 {
-  int number_of_points( CGAL_iterator_distance( f, l));
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+  typedef ptrdiff_t difference_type;
+#else  // CGAL_CFG_NO_ITERATOR_TRAITS //
+  typedef typename iterator_traits< RandomAccessIC >::difference_type
+    difference_type;
+#endif // CGAL_CFG_NO_ITERATOR_TRAITS //
+  difference_type number_of_points( CGAL_iterator_distance( f, l));
   CGAL_optimisation_precondition( number_of_points > 0);
 
   // typedefs:
-  typedef typename Traits::Point_2
-    Point_2;
-  typedef typename Traits::Iso_rectangle_2
-    Iso_rectangle_2;
+  typedef typename Traits::Point_2          Point_2;
+  typedef typename Traits::Iso_rectangle_2  Iso_rectangle_2;
   typedef CGAL_Has_on_unbounded_side< Iso_rectangle_2, Point_2 >
     Has_on_unbounded_side;
 
@@ -1016,6 +1022,7 @@ CGAL_three_pierce_rectangles(
   // define container to store disjoint rectangles:
   // typedef vector< Iso_rectangle_2 >  Rectangle_cont;
   typedef vector< Iso_rectangle_2 >   Rectangle_cont;
+  typedef Rectangle_cont::size_type   size_type;
   typedef Rectangle_cont::iterator    Rectangle_iterator;
   Rectangle_cont disjoint;
   disjoint.reserve( number_of_points);
@@ -1086,7 +1093,7 @@ CGAL_three_pierce_rectangles(
     
     if ( ok) {
       // does any rectangle contain the corner?
-      if ( disjoint.size() < number_of_points)
+      if ( disjoint.size() < CGAL_static_cast( size_type, number_of_points))
         *o++ = d.vertex( k);
       return o;
     } // if ( ok)
@@ -1163,6 +1170,7 @@ CGAL_four_pierce_rectangles(
   // define container to store disjoint rectangles:
   // typedef vector< Iso_rectangle_2 >  Rectangle_cont;
   typedef vector< Iso_rectangle_2 >   Rectangle_cont;
+  typedef Rectangle_cont::size_type   size_type;
   typedef Rectangle_cont::iterator    Rectangle_iterator;
   Rectangle_cont disjoint;
   disjoint.reserve( number_of_points);
@@ -1233,7 +1241,7 @@ CGAL_four_pierce_rectangles(
     
     if ( ok) {
       // does any rectangle contain the corner?
-      if ( disjoint.size() < number_of_points)
+      if ( disjoint.size() < CGAL_static_cast( size_type, number_of_points))
         *o++ = d.vertex( k);
       return o;
     } // if ( ok)
@@ -1476,9 +1484,6 @@ CGAL_four_pierce_rectangles(
     CGAL_optimisation_assertion( top_side_above_top_side_of_lr >= d.ymin());
     
     
-    
-    // one-piercing intervall of s[LR]:
-    Intervall I_LR;
     
     // one-piercing intervall of s[BT]:
     Intervall I_BT;

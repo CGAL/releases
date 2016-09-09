@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/predicates_on_pointsC2.h
-// package       : C2 (1.3)
+// package       : C2 (1.7)
 // source        : web/predicates_on_pointsC2.fw
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1998/06/15 20:20:50 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1999/01/04 06:54:16 $
 // author(s)     : Herve.Bronnimann
 //
 // coordinator   : INRIA Sophia-Antipolis
+//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -109,7 +111,8 @@ CGAL_compare_deltax_deltay(const CGAL_PointC2<FT>& p,
                            const CGAL_PointC2<FT>& r,
                            const CGAL_PointC2<FT>& s)
 {
-    return CGAL_compare(CGAL_abs(p.x()-q.x()), CGAL_abs(r.y()-s.y()));
+    // return CGAL_compare(CGAL_abs(p.x()-q.x()), CGAL_abs(r.y()-s.y()));
+    return CGAL_compare_deltax_deltayC2(p.x(), q.x(), r.y(), s.y());
 }
 
 template < class FT >
@@ -169,13 +172,22 @@ CGAL_lexicographically_yx_smaller(const CGAL_PointC2<FT> &p,
 
 template < class FT >
 inline
+CGAL_Orientation
+CGAL_orientation(const CGAL_PointC2<FT> &p,
+                 const CGAL_PointC2<FT> &q,
+                 const CGAL_PointC2<FT> &r)
+{
+    return CGAL_orientationC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
+}
+
+template < class FT >
+inline
 bool
 CGAL_collinear(const CGAL_PointC2<FT> &p,
                const CGAL_PointC2<FT> &q,
                const CGAL_PointC2<FT> &r)
 {
-  return (CGAL_orientationC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y())
-          == CGAL_COLLINEAR);
+  return (CGAL_orientation(p,q,r) == CGAL_COLLINEAR);
 }
 
 
@@ -233,8 +245,7 @@ CGAL_leftturn(const CGAL_PointC2<FT> &p,
               const CGAL_PointC2<FT> &q,
               const CGAL_PointC2<FT> &r)
 {
-  return (CGAL_orientationC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y())
-          == CGAL_LEFTTURN );
+  return (CGAL_orientation(p,q,r) == CGAL_LEFTTURN );
 }
 
 template < class FT >
@@ -268,16 +279,6 @@ CGAL_rightturn(const CGAL_Origin &o,
 {
    return (CGAL_orientationC2(FT(0), FT(0), q.x(), q.y(), r.x(), r.y())
            == CGAL_RIGHTTURN);
-}
-
-template < class FT >
-inline
-CGAL_Orientation
-CGAL_orientation(const CGAL_PointC2<FT> &p,
-                 const CGAL_PointC2<FT> &q,
-                 const CGAL_PointC2<FT> &r)
-{
-    return CGAL_orientationC2(p.x(), p.y(), q.x(), q.y(), r.x(), r.y());
 }
 
 template <class FT >

@@ -4,8 +4,12 @@
 #                    include platform specific settings
 #---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
-PUBLIC = #/net/blabla/export/raid/project/local
-CGAL_MAKEFILE = #$(PUBLIC)/src/geometric/CGAL/CGAL-0.9-I-08/make/makefile_mips_IRIX64-6.2_g++-egcs-2.90.27_LEDA
+PUBLIC = /net/blabla/export/raid/project/local/
+CGAL_MAKEFILE = $(PUBLIC)src/geometric/CGAL/CGAL-1.1/make/makefile_mips_IRIX-6.2_CC-n32-7.20_LEDA
+#makefile_sparc_SunOS-5.5_CC-4.2_LEDA 
+#makefile_sparc_SunOS-5.5_CC-4.2_LEDA 
+#makefile_sparc_SunOS-5.5_g++-egcs-2.91.57_LEDA
+#makefile_mips_IRIX-6.2_g++-egcs-2.90.27_LEDA
 
 include $(CGAL_MAKEFILE)
 

@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/Polyhedron_scan_OFF.h
-// package       : Polyhedron_IO (1.9)
+// package       : Polyhedron_IO (1.11)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/06/03 20:34:54 $
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/10/08 22:46:22 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Scanner for OFF as polyhedral surface builder
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -89,9 +91,8 @@
 template < class HDS>
 class CGAL_Polyhedron_scan_OFF :  public CGAL_Modifier_base<HDS> {
 protected:
-    istream&       _in;
-    bool           _verbose;
-    CGAL_File_info  _file_info;
+    istream&             m_in;
+    CGAL_File_header_OFF  m_file_header;
 public:
 
     typedef HDS Halfedge_data_structure;
@@ -103,21 +104,20 @@ public:
 // incrementally using the incremental builder.
 
     CGAL_Polyhedron_scan_OFF( istream& in, bool verbose = false)
-        : _in(in), _verbose( verbose) {}
+        : m_in(in), m_file_header( verbose) {}
 
-// Activation
-
+    // Activation
     void operator()( HDS& hds);
 
-    CGAL_File_info  file_info() const   { return _file_info; }
+    const CGAL_File_header_OFF&  header() const { return m_file_header; }
 };
 
 template < class HDS >
 void
 CGAL_Polyhedron_scan_OFF<HDS>:: operator()( HDS& target) {
-    CGAL_File_scanner_OFF scanner( _in, _verbose);
-    if ( ! _in) {
-        if ( _verbose) {
+    CGAL_File_scanner_OFF scanner( m_in, m_file_header.verbose());
+    if ( ! m_in) {
+        if ( scanner.verbose()) {
             cerr << " " << endl;
             cerr << "CGAL_Polyhedron_scan_OFF<HDS>::" << endl;
             cerr << "operator(): input error: file format is not in OFF."
@@ -125,9 +125,10 @@ CGAL_Polyhedron_scan_OFF<HDS>:: operator()( HDS& target) {
         }
         return;
     }
-    _file_info = scanner.file_info();
+    m_file_header = scanner;  // Remember file header after return.
 
-    CGAL_Polyhedron_incremental_builder_3<HDS> B( target, _verbose);
+    CGAL_Polyhedron_incremental_builder_3<HDS> B( target,
+                                                 scanner.verbose());
     B.begin_surface( scanner.size_of_vertices(),
                      scanner.size_of_facets(),
                      scanner.size_of_halfedges());
@@ -143,9 +144,9 @@ CGAL_Polyhedron_scan_OFF<HDS>:: operator()( HDS& target) {
         B.add_vertex( p);
         scanner.skip_to_next_vertex( i);
     }
-    if ( ! _in  || B.error()) {
+    if ( ! m_in  || B.error()) {
         B.rollback();
-        _in.clear( ios::badbit);
+        m_in.clear( ios::badbit);
         return;
     }
 
@@ -154,15 +155,15 @@ CGAL_Polyhedron_scan_OFF<HDS>:: operator()( HDS& target) {
         B.begin_facet();
         CGAL_Integer32 no;
         scanner.scan_facet( no, i);
-        if( ! _in || B.error() || no < 3) {
-            if ( _verbose) {
+        if( ! m_in || B.error() || no < 3) {
+            if ( scanner.verbose()) {
                 cerr << " " << endl;
                 cerr << "CGAL_Polyhedron_scan_OFF<Traits>::" << endl;
                 cerr << "operator()(): input error: facet " << i
                      << " has less than 3 vertices." << endl;
             }
             B.rollback();
-            _in.clear( ios::badbit);
+            m_in.clear( ios::badbit);
             return;
         }
         for ( int j = 0; j < no; j++) {
@@ -173,25 +174,24 @@ CGAL_Polyhedron_scan_OFF<HDS>:: operator()( HDS& target) {
         B.end_facet();
         scanner.skip_to_next_facet( i);
     }
-    if ( ! _in  || B.error()) {
+    if ( ! m_in  || B.error()) {
         B.rollback();
-        _in.clear( ios::badbit);
+        m_in.clear( ios::badbit);
         return;
     }
-#if 0
-    B.check_unconnected_vertices();
-    if ( ! B.remove_unconnected_vertices()) {
-        if ( _verbose) {
-            cerr << " " << endl;
-            cerr << "CGAL_Polyhedron_scan_OFF<HDS>::" << endl;
-            cerr << "operator(): input error: the unconnected vertices "
-                    "detected in the file cannot be removed." << endl;
+    if ( B.check_unconnected_vertices()) {
+        if ( ! B.remove_unconnected_vertices()) {
+            if ( scanner.verbose()) {
+                cerr << " " << endl;
+                cerr << "CGAL_Polyhedron_scan_OFF<Traits>::" << endl;
+                cerr << "operator()(): input error: cannot succesfully "
+                        " remove isolated vertices." << endl;
+            }
+            B.rollback();
+            m_in.clear( ios::badbit);
+            return;
         }
-        B.rollback();
-        _in.clear( ios::badbit);
-        return;
     }
-#endif
     B.end_surface();
 }
 #endif // CGAL_IO_POLYHEDRON_SCAN_OFF_H //

@@ -27,24 +27,23 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : src/Geomview_stream.C
-// package       : Geomview (1.1)
+// package       : Geomview (1.3)
 // source        : web/Geomview_stream.fw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1998/02/26 16:27:39 $
-// author(s)     : Andreas Fabri
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/08/17 13:35:54 $
+// author(s)     : Andreas Fabri and Herve Bronnimann
 //
 // coordinator   : Herve Bronnimann
-//
-//
 //
 //
 // email         : cgal@cs.uu.nl
@@ -53,6 +52,9 @@
 
 
 #include <CGAL/IO/Geomview_stream.h>
+
+#include <unistd.h>
+#include <errno.h>
 
 
 CGAL_Geomview_stream::CGAL_Geomview_stream(const CGAL_Bbox_3 &bbox,
@@ -65,6 +67,7 @@ CGAL_Geomview_stream::CGAL_Geomview_stream(const CGAL_Bbox_3 &bbox,
     pickplane(bbox);
     set_vertex_radius((bbox.xmax() - bbox.xmin())/100.0);
 }
+
 CGAL_Geomview_stream::CGAL_Geomview_stream(const char *machine,
                                            const char *login,
                                            const CGAL_Bbox_3 &bbox)
@@ -78,6 +81,7 @@ CGAL_Geomview_stream::CGAL_Geomview_stream(const char *machine,
     pickplane(bbox);
     set_vertex_radius((bbox.xmax() - bbox.xmin())/100.0);
 }
+
 CGAL_Geomview_stream::~CGAL_Geomview_stream()
 {
     kill(pid, SIGKILL);  // kills geomview
@@ -126,24 +130,26 @@ void CGAL_Geomview_stream::setup_geomview(const char *machine,
             ostrstream os;
             os << " rgeomview " << machine << ":0.0" << ends ;
             ostrstream logos;
-            execlp(CGAL_RSH,
-                   "rsh",
-                   machine,
-                   "-l",
-                   login,
-                   os.str(),
-                   (char *)0);
+            execlp("rsh", "rsh", machine, "-l", login, os.str(), (char *)0);
         } else {
-            execlp(CGAL_GEOMVIEW,
-                   "geomview",
-                   "-c",
-                   "-",
-                   (char *)0);
+            execlp("geomview", "geomview", "-c", "-", (char *)0);
         }
 
-    // if we get to this point something went wrong.
-    cerr << "execl geomview failed" << endl ;
-    exit(-1);
+        // if we get to this point something went wrong.
+        cerr << "execl geomview failed" << endl ;
+        switch(errno) {
+        case EACCES:
+            cerr << "please check your environment variable PATH" << endl;
+            cerr << "make sure the file `geomview' is contained in it" << endl;
+            cerr << "and is executable" << endl;
+            break;
+        case ELOOP:
+            cerr << "too many links for filename `geomview'" << endl;
+            break;
+        default:
+            cerr << "error number " << errno << " (check `man execlp')" << endl;
+        };
+        exit(-1);
     default:              // The parent process
         close(pipe_out[0]); // does not read from the out pipe,
         close(pipe_in[1]);  // does not write to the in pipe.
@@ -563,7 +569,7 @@ CGAL_Geomview_stream::operator>>(char *expr)
 char*
 CGAL_nth(char* s, int count)
 {
-    int length = strlen(s);
+//    int length = strlen(s);
 
     // the first character is always a parenthesis
     int i = 1,  // char count

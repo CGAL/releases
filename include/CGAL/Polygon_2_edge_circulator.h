@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Polygon_2_edge_circulator.h
-// package       : Polygon (1.10)
+// package       : Polygon (1.13)
 // source        : 
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
 // author(s)     : Wieger Wesselink
 //
 // coordinator   : Utrecht University
+//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -52,7 +54,9 @@
 #define CGAL_POLYGON_2_EDGE_CIRCULATOR_H
 
 #include <iterator.h>
+#ifndef CGAL_CIRCULATOR_H
 #include <CGAL/circulator.h>
+#endif // CGAL_CIRCULATOR_H
 #include <CGAL/polygon_assertions.h>
 
 //-----------------------------------------------------------------------//
@@ -92,8 +96,8 @@ class CGAL_Polygon_2_const_edge_circulator {
       : first_vertex(f) {}
 
     bool operator==( CGAL_NULL_TYPE p ) const {
-      CGAL_polygon_assertion( p == NULL);
-      return (first_vertex == NULL);
+      CGAL_polygon_assertion( p == 0);
+      return (first_vertex == 0);
     }
 
     bool operator!=( CGAL_NULL_TYPE p ) const
@@ -234,6 +238,7 @@ class CGAL_Polygon_2_const_edge_circulator {
 // should be equal to the iterator category of the corresponding container,
 // but this cannot be implemented (???).
 //--------------------------------------------------------------------//
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
 template <class _Traits, class _Container>
 inline
 CGAL_Bidirectional_circulator_tag
@@ -242,6 +247,7 @@ iterator_category(
 {
   return CGAL_Bidirectional_circulator_tag();
 }
+#endif // CGAL_CFG_NO_ITERATOR_TRAITS
 
 //--------------------------------------------------------------------//
 // I don't know how to implement the following function:

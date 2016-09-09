@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : geometric_predicates.fw
 // file          : include/CGAL/predicates_on_directionsH2.h
-// package       : H2 (1.2.1)
-// revision      : 1.2.1
-// revision_date : 15 Jan 1998 
+// package       : H2 (1.3.1)
+// revision      : 1.3.1
+// revision_date : 02 Jan 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -77,10 +79,10 @@ CGAL_compare_angles_with_x_axis(const CGAL_DirectionH2<FT,RT>& d1,
   CGAL_kernel_precondition( RT0 < p1.hw() );
   CGAL_kernel_precondition( RT0 < p2.hw() );
 
-  int       x_sign1 = CGAL_sign( p1.hx() );
-  int       x_sign2 = CGAL_sign( p2.hx() );
-  int       y_sign1 = CGAL_sign( p1.hy() );
-  int       y_sign2 = CGAL_sign( p2.hy() );
+  int       x_sign1 = (int)CGAL_sign( p1.hx() );
+  int       x_sign2 = (int)CGAL_sign( p2.hx() );
+  int       y_sign1 = (int)CGAL_sign( p1.hy() );
+  int       y_sign2 = (int)CGAL_sign( p2.hy() );
 
   if ( y_sign1 * y_sign2 < 0)
   {

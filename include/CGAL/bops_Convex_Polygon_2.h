@@ -28,25 +28,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/bops_Convex_Polygon_2.h
-// package       : bops (1.0.5)
+// package       : bops (1.1.2)
 // source        : include/CGAL/bops_Convex_Polygon_2.h
-// revision      : $Revision: 1.0.5 $
-// revision_date : $Date: Tue Jun 30 19:04:36 MET DST 1998  $
-// author(s)     :        Wolfgang Freiseisen
+// revision      : $Revision: 1.1.2 $
+// revision_date : $Date: Wed Dec  9 13:28:58 MET 1998  $
+// author(s)     :             Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -62,12 +64,153 @@
 #include <CGAL/Segment_2_Segment_2_intersection.h>
 #include <list.h>
 
+#define CONVEX_INTERSECTION_PROCEDURE // now this proc. will be used
 template <class R_type, class Container>
 CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container>
 CGAL_Convex_Intersection(
            CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container> P,
            CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container> Q);
- 
+
+
+
+
+
+template<class I>
+class CGAL_Bops_Convex_Polygons_2 : public CGAL_Bops_Polygons_2<I>
+{
+public:
+	typedef CGAL_Vector_2<R>		Vector;
+	typedef typename I::NT			NT;
+	typedef typename I::Polygon	Polygon;
+	typedef typename I::Point	Point;
+	typedef typename I::Segment	Segment;
+	typedef typename I::Polygon::Vertex_circulator	Vertex_circulator;
+	typedef CGAL_Orientation	Orientation;
+	Polygon _pgonA,_pgonB;
+	CGAL_Bops_Convex_Polygons_2() {}
+	CGAL_Bops_Convex_Polygons_2(const Polygon& A, const Polygon& B)
+		:
+		_pgonA(A),
+		_pgonB(B) {}
+	
+	virtual ~CGAL_Bops_Convex_Polygons_2() {}
+	
+protected:
+	enum InFlag {Unknown, Pin, Qin};
+
+	virtual void conditional_insert(
+		InFlag inpgon,
+		InFlag inflag,
+		const Point& pt
+	) {} // = 0;
+
+	virtual void handle_special_cases() = 0;
+	
+	void mainProcedure();
+	
+	bool operation() {
+#   ifdef CONVEX_INTERSECTION_PROCEDURE
+		add_to_result(CGAL_Convex_Intersection(_pgonA, _pgonB));
+#   else
+		init();
+		mainProcedure();
+		if (_inflag == Unknown)
+			handle_special_cases();
+		else
+			add_to_result(_pt_list);
+#   endif
+		return empty();
+	}	
+	
+	void insert( const Point& pt )
+		// inserts a solution point in the point-list
+	{
+		if (!_pt_list.empty() ) {
+			if ( (_pt_list.back() != pt) && (_pt_list.front() != pt) )
+				_pt_list.push_back(pt);
+		}
+		else
+			_pt_list.push_back(pt);
+		return;
+	}
+	
+	void advancePolygonA() // advance the pointers on polygon A
+	{
+		_aAdv++; _pCir++; _pCir1++;
+		// abortion check
+		_lastaAdv++; _lastbAdv=0;
+		return;
+	}
+	
+	void advancePolygonB() // advance the pointers on polygon B
+	{
+		_bAdv++; _qCir++; _qCir1++;
+		// abortion check
+		_lastbAdv++; _lastaAdv=0;
+		return;
+	}
+	
+	void init()
+		   // initialize variables
+	{
+		_lastaAdv = _lastbAdv = 0;
+		_aAdv = _bAdv = 0;
+		_inflag = Unknown;
+		_pCir = _pCir1 = _pgonA.vertices_circulator ();
+		_qCir = _qCir1 = _pgonB.vertices_circulator ();
+		_pCir1--; _qCir1--;   
+		return;
+	}
+	
+	bool wentAround() const
+	{
+		return (_aAdv >= _pgonA.size() && _bAdv >= _pgonB.size()) ||
+		       _lastaAdv > _pgonA.size() || _lastbAdv > _pgonB.size();
+	}
+
+	InFlag handleIntersectionPoint(const Point& pt, const Orientation& aHB);
+	InFlag handleIntersectionSegment(const Segment& seg);
+	
+
+	/*
+	 *	Variables
+	 */
+	//Polygon	_A, _B;
+	int _aAdv, _bAdv;           // number of iterations over each polygon
+	Vertex_circulator _pCir, _qCir, _pCir1, _qCir1;
+                                // circulators over polygons
+	InFlag _inflag;             // which polygon is inside
+	list<Point> _pt_list;     // points forming solution-polynom
+	int _lastaAdv, _lastbAdv;   // variables to avoid endless loop
+};
+
+
+
+template<class I>
+struct CGAL_Bops_Convex_Polygons_2_Intersection
+		: public CGAL_Bops_Convex_Polygons_2<I> {
+	CGAL_Bops_Convex_Polygons_2_Intersection() {}
+	CGAL_Bops_Convex_Polygons_2_Intersection(const Polygon& A, const Polygon& B)
+		: CGAL_Bops_Convex_Polygons_2<I>(A,B) {}
+
+	void conditional_insert(InFlag inPolygon, InFlag inflag, const Point& pt) {
+		if (inflag == inPolygon)
+			insert(pt);
+		return;
+	}
+	
+	void handle_special_cases()
+	{
+		//polygons do not intersect
+		if (_pgonA.bounded_side(*_qCir)==CGAL_ON_BOUNDED_SIDE)
+			add_to_result(_pgonA);
+		else if (_pgonB.bounded_side(*_pCir)==CGAL_ON_BOUNDED_SIDE)
+			add_to_result(_pgonB);
+		else
+			add_to_result(_pt_list);
+	}
+};
+
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/bops_Convex_Polygon_2.C>
 #endif

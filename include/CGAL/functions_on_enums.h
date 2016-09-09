@@ -27,23 +27,25 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : functions_on_enums.fw
 // file          : include/CGAL/functions_on_enums.h
-// package       : Kernel_basic (1.2)
-// revision      : 1.2
-// revision_date : 12 Jun 1998 
+// package       : Kernel_basic (1.2.12)
+// revision      : 1.2.12
+// revision_date : 08 Jan 1999 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -52,42 +54,37 @@
 #ifndef CGAL_FUNCTIONS_ON_ENUMS_H
 #define CGAL_FUNCTIONS_ON_ENUMS_H
 
+#ifndef CGAL_CONFIG_H
+#include <CGAL/config.h>
+#endif  // CGAL_CONFIG_H
+
 #ifndef CGAL_ENUM_H
 #include <CGAL/enum.h>
 #endif // CGAL_ENUM_H
 
+template <class T>
+inline
+T
+CGAL_opposite(const T& t)
+{ return -t; }
+
+CGAL_TEMPLATE_NULL
 inline
 CGAL_Orientation
-CGAL_opposite(const CGAL_Orientation &o)
-{
-  return (o == CGAL_COUNTERCLOCKWISE) ?
-               CGAL_CLOCKWISE :
-               (o == CGAL_CLOCKWISE) ?
-                     CGAL_COUNTERCLOCKWISE :
-                     CGAL_COLLINEAR;
-}
+CGAL_opposite(const CGAL_Orientation& o)
+{ return (CGAL_Orientation)(-(int)o); }
 
+CGAL_TEMPLATE_NULL
 inline
 CGAL_Oriented_side
-CGAL_opposite(const CGAL_Oriented_side &os)
-{
-  return (os == CGAL_ON_POSITIVE_SIDE) ?
-                CGAL_ON_NEGATIVE_SIDE :
-                (os == CGAL_ON_NEGATIVE_SIDE) ?
-                      CGAL_ON_POSITIVE_SIDE :
-                      CGAL_ON_ORIENTED_BOUNDARY;
-}
+CGAL_opposite(const CGAL_Oriented_side& os)
+{ return (CGAL_Oriented_side)(-(int)os); }
 
+CGAL_TEMPLATE_NULL
 inline
 CGAL_Bounded_side
 CGAL_opposite(const CGAL_Bounded_side &bs)
-{
-  return (bs == CGAL_ON_UNBOUNDED_SIDE) ?
-                CGAL_ON_BOUNDED_SIDE :
-                (bs == CGAL_ON_BOUNDED_SIDE) ?
-                       CGAL_ON_UNBOUNDED_SIDE :
-                       CGAL_ON_BOUNDARY;
-}
+{ return (CGAL_Bounded_side)(-(int)bs); }
 
 
 #endif // CGAL_FUNCTIONS_ON_ENUMS_H

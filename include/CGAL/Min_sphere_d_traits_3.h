@@ -27,26 +27,28 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // chapter       : $CGAL_Chapter: Optimisation $
 // file          : include/CGAL/Min_sphere_d_traits_3.h
-// package       : MinSphere (1.7)
+// package       : Min_sphere_d (1.9)
 // source        : web/Optimisation/Min_sphere_d.aw
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1998/07/01 10:00:10 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/01/08 10:38:24 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zurich (Bernd Gärtner)
 //
 // implementation: dD Smallest Enclosing Sphere
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -93,6 +95,15 @@ class CGAL_Point_3_iterator :
         CGAL_Point_3_iterator (const Point& point, int position = 0)
             : p(point), pos(position)
         {}
+
+        // assignment; not actually necessary but explicitly defined
+        // to please egcs
+        CGAL_Point_3_iterator& operator= (const CGAL_Point_3_iterator& i)
+        {
+            p = i.p;
+            pos = i.pos;
+            return *this;
+        }
 
         CGAL_Point_3_iterator operator++() // prefix
         {

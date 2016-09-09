@@ -11,7 +11,6 @@ same demo program in various dimensions).
 and colors all  the points in the query rectangle . In the higher
 dimensions the display shows the projections of the points and the
 rectangle for every pair of axes.
-  The program can run without the rest of Cgal.
 
 
 Files:
@@ -21,6 +20,6 @@ kdtest.C               The kd-tree graphical demo program
 mygeneric.h            A few favorite macros
 point_float_d.h        Implementation of a d-point.
 tester.h               A templated code used by the kdtest programs
-window_d.h             A class for the displaying the points
+window_d.h             A class for displaying the points
 
 -----------------------------------------------------------------------

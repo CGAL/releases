@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Halfedge_data_structure_using_vector.h
-// package       : Halfedge_DS (1.7)
+// package       : Halfedge_DS (1.9)
 // chapter       : $CGAL_Chapter: Halfedge Data Structures $
 // source        : hds.fw
-// revision      : $Revision: 1.7 $
-// revision_date : $Date: 1998/03/19 16:17:48 $
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1998/10/14 14:02:03 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
 //
 // Halfedge Data Structure Using a Vector Implementation.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -111,6 +113,10 @@ public:
     typedef CGAL__HDS_vector_vertex<V,H,F>             Vertex;
     typedef CGAL__HDS_vector_halfedge<V,H,F>           Halfedge;
     typedef CGAL__HDS_vector_facet<V,H,F>              Facet;
+
+    typedef typename H::Supports_halfedge_prev    Supports_halfedge_prev;
+    typedef typename H::Supports_halfedge_vertex  Supports_halfedge_vertex;
+    typedef typename H::Supports_halfedge_facet   Supports_halfedge_facet;
 
     Halfedge*       opposite()       {return (Halfedge*)(H::opposite());}
     Halfedge*       next()           {return (Halfedge*)(H::next());}
@@ -449,7 +455,7 @@ protected:
                 g->H::set_opposite(h);
     }
 
-    void update_prev( Halfedge*, Halfedge*, vector<Halfedge*>, CGAL_Tag_false){}
+    void update_prev( Halfedge*, Halfedge*, vector<Halfedge*>,CGAL_Tag_false){}
     void update_prev( Halfedge* h, Halfedge* base, vector<Halfedge*> inv,
                       CGAL_Tag_true){
         h->set_prev( inv[ h->prev() - base]);

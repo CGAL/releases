@@ -15,7 +15,7 @@ public:
     typedef CGAL_Tag_true  Supports_halfedge_vertex;
     typedef CGAL_Tag_true  Supports_halfedge_facet;
 
-    My_halfedge() : f(NULL), nxt(0) {}
+    My_halfedge() : nxt(0), f(NULL) {}
 
     void*       opposite()       {
         const size_t SIZE = sizeof( My_halfedge);
@@ -43,7 +43,7 @@ public:
     void  set_opposite( void* g) {
         const size_t SIZE = sizeof( My_halfedge);
         char* h = (char*)g;
-        CGAL_assertion( abs( h - (char*)this) == SIZE);
+        CGAL_assertion( size_t( abs( h - (char*)this)) == SIZE);
         if ( h > (char*)this)
             nxt |= 1;
         else

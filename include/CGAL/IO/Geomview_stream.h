@@ -27,22 +27,24 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/IO/Geomview_stream.h
-// package       : Geomview (1.1)
+// package       : Geomview (1.3)
 // source        : web/geomview.fw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1998/02/26 16:27:39 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/08/17 13:35:54 $
 // author(s)     : Andreas Fabri
 //
 // coordinator   : Herve Bronnimann
+//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -246,7 +248,7 @@ operator<<(CGAL_Geomview_stream &gv,
     char *id = os.str();
 
     gv << ascii
-       << "(geometry " << id << " {{appearance {linewidth "
+       << "(geometry " << id << " {appearance {linewidth "
        << gv.get_line_width() << "}{VECT "
        << 1 <<  2 << 1    // 1 polyline, two vertices, 1 color
        << 2               // the first polyline contains 2 vertices
@@ -333,7 +335,7 @@ operator<<(CGAL_Geomview_stream &gv,
        << 3 << 1 << 3;
 
     for(int i=0; i<3; i++){
-        gv << CCAL_to_double(t[i].x())
+        gv << CGAL_to_double(t[i].x())
            << CGAL_to_double(t[i].y())
            << 0.0;
     }

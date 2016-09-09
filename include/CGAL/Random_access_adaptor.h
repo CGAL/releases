@@ -27,25 +27,27 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/Random_access_adaptor.h
-// package       : STL_Extension (1.14)
+// package       : STL_Extension (1.17)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/03/24 13:39:06 $
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 1998/10/08 14:35:33 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // Random Access Adaptor provides random access for sequences.
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -56,6 +58,9 @@
 #include <vector.h>
 #define CGAL_PROTECT_VECTOR_H
 #endif // CGAL_PROTECT_VECTOR_H
+#ifndef CGAL_CIRCULATOR_H
+#include <CGAL/circulator.h>
+#endif // CGAL_CIRCULATOR_H
 
 template < class IC>
 class CGAL_Random_access_adaptor {
@@ -73,7 +78,7 @@ class CGAL_Random_access_adaptor {
 
 protected:
     typedef vector< IC> Index;
-    Index   _index;
+    Index   index;
     IC      start;
 
 public:
@@ -92,7 +97,7 @@ public:
 
 
     void reserve( size_type r, forward_iterator_tag) {
-        _index.reserve( r);
+        index.reserve( r);
     }
     void reserve( size_type r, bidirectional_iterator_tag){
         reserve( r, forward_iterator_tag());
@@ -101,7 +106,7 @@ public:
 
 
     void push_back( const IC& k, forward_iterator_tag) {
-        _index.push_back(k);
+        index.push_back(k);
     }
     void push_back( const IC& k, bidirectional_iterator_tag){
         push_back( k, forward_iterator_tag());
@@ -109,16 +114,16 @@ public:
     void push_back( const IC&, random_access_iterator_tag){}
 
 
-    const IC& _find( size_type n, forward_iterator_tag) const {
+    const IC& find( size_type n, forward_iterator_tag) const {
         // returns inverse index of k.
-        CGAL_assertion( n < _index.size());
-        return _index[n];
+        CGAL_assertion( n < index.size());
+        return index[n];
     }
-    const IC& _find( size_type n, bidirectional_iterator_tag) const {
-        return _find( n, forward_iterator_tag());
+    const IC& find( size_type n, bidirectional_iterator_tag) const {
+        return find( n, forward_iterator_tag());
     }
 #ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
-    IC  _find( size_type n, random_access_iterator_tag) const {
+    IC  find( size_type n, random_access_iterator_tag) const {
         return start + n;
     }
 #endif
@@ -142,10 +147,12 @@ public:
 
 // OPERATIONS
 
-    IC  operator[]( size_type n) const {
+    IC  find( size_type n) const {
         // returns inverse index of k.
-        return _find( n, iterator_category( IC()));
+        return find( n, iterator_category( IC()));
     }
+
+    IC  operator[]( size_type n) const { return find(n); }
 
     void push_back( const IC& k) {
         // adds k at the end of the indices.
@@ -159,7 +166,7 @@ CGAL_Random_access_adaptor< IC>::init_index( IC i, const IC& j,
                                             forward_iterator_tag) {
     if ( ! CGAL_is_empty_range( i, j)) {
         do {
-            _index.push_back( i);
+            index.push_back( i);
         } while ((++i) != (j));
     }
 }

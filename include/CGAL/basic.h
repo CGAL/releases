@@ -27,23 +27,25 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : basic.fw
 // file          : include/CGAL/basic.h
-// package       : Kernel_basic (1.2)
-// revision      : 1.2
-// revision_date : 12 Jun 1998 
+// package       : Kernel_basic (1.2.12)
+// revision      : 1.2.12
+// revision_date : 08 Jan 1999 
 // author(s)     : Lutz Kettner
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -60,6 +62,9 @@
 #include <LEDA/basic.h>
 #define CGAL_PROTECT_LEDA_BASIC_H
 #endif // CGAL_PROTECT_LEDA_BASIC_H
+#else
+#include <iostream.h>
+#include <stdlib.h>
 #endif  // CGAL_USE_LEDA
 
 #ifndef CGAL_ASSERTIONS_H
@@ -83,12 +88,13 @@
 #ifndef CGAL_MISC_H
 #include <CGAL/misc.h>
 #endif // CGAL_MISC_H
-#ifndef CGAL_IO_IO_H
-#include <CGAL/IO/io.h>
-#endif // CGAL_IO_IO_H
 #ifndef CGAL_NUMBER_TYPE_BASIC_H
 #include <CGAL/number_type_basic.h>
 #endif // CGAL_NUMBER_TYPE_BASIC_H
+// <IO/io.h> now after <number_type_basic.h>
+#ifndef CGAL_IO_IO_H
+#include <CGAL/IO/io.h>
+#endif // CGAL_IO_IO_H
 #ifndef CGAL_KERNEL_BASIC_H
 #include <CGAL/kernel_basic.h>
 #endif // CGAL_KERNEL_BASIC_H
@@ -114,24 +120,24 @@ inline bool CGAL_check_tag( CGAL_Tag_false) {return false;}
 #ifndef CGAL_ASSERT_COMPILE_TIME_TAG
 #define CGAL_ASSERT_COMPILE_TIME_TAG 1
 template <class Base>
-struct CGAL__Assert_tag_class 
+struct CGAL__Assert_tag_class
 {
     void match_compile_time_tag( const Base&) const {}
 };
 
 template <class Tag, class Derived>
-inline 
-void 
-CGAL_Assert_compile_time_tag( const Tag&, const Derived& b) 
+inline
+void
+CGAL_Assert_compile_time_tag( const Tag&, const Derived& b)
 {
   CGAL__Assert_tag_class<Tag> x;
   x.match_compile_time_tag(b);
 }
 #endif // CGAL_ASSERT_COMPILE_TIME_TAG
 
-template < class T> 
+template < class T>
 inline
-void 
+void
 CGAL_assert_equal_types( const T&, const T&) {}
 
 

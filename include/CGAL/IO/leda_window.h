@@ -27,23 +27,25 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 // 
 // source        : leda_window.fw
-// file          : leda_window.h
-// package       : window (1.1.1)
-// revision      : 1.1.1
-// revision_date : 24 Jul 1998 
+// file          : include/CGAL/IO/leda_window.h
+// package       : window (1.2)
+// revision      : 1.2
+// revision_date : 03 Sep 1998 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -90,13 +92,14 @@ inline
 void
 CGAL_cgalize(leda_window& w)
 {
-  w.set_frame_label("CGAL-1.0");
+  w.set_frame_label("CGAL-1.2");
   w.set_icon_label("CGAL");
   w.set_node_width( 3);
   w.set_line_width( 2);
   w.set_icon_pixrect( w.create_pixrect( esprit_logo));
 }
 
+inline
 leda_window*
 CGAL_create_demo_window( float w = 512.0, float h = 512.0, 
                          const char* str = "CGAL",
@@ -111,6 +114,7 @@ CGAL_create_demo_window( float w = 512.0, float h = 512.0,
 }
 
 
+inline
 leda_window*
 CGAL_create_and_display_demo_window(float w = 512.0, float h = 512.0, 
                                     const char* str = "CGAL",

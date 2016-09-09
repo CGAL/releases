@@ -27,26 +27,28 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // chapter       : $CGAL_Chapter: Optimisation $
 // file          : include/CGAL/Min_sphere_d_traits_d.h
-// package       : MinSphere (1.7)
+// package       : Min_sphere_d (1.9)
 // source        : web/Optimisation/Min_sphere_d.aw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1998/07/14 10:07:05 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 1999/01/08 10:38:24 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zurich (Bernd Gärtner)
 //
 // implementation: dD Smallest Enclosing Sphere
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -169,6 +171,16 @@ class CGAL_DA_d
         CGAL_DA_d (bool checked = false)
             : check (checked)
         {}
+
+        // assignment; not actually necessary, but explicitly included to
+        // deal with egcs compiler problems
+        // -----------------------------------------------------------
+        CGAL_DA_d & operator=(const CGAL_DA_d &o)
+        {
+            rd = o.rd;
+            check = o.check;
+            return *this;
+        }
 
         // get_dimension
         // -----------------------------------------------------------

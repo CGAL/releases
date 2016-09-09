@@ -27,18 +27,19 @@
 //
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.1
-// release_date  : 1998, July 24
+// release       : CGAL-1.2
+// release_date  : 1999, January 18
 //
 // file          : include/CGAL/rat_leda_in_CGAL_2.h
-// package       : Convex_hull (1.2.3)
+// package       : Convex_hull (1.3.2)
 // source        : convex_hull_2.lw
-// revision      : 1.2.3
-// revision_date : 07 Apr 1998
+// revision      : 1.3.2
+// revision_date : 09 Dec 1998
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -69,6 +70,13 @@ CGAL_rightturn( const leda_rat_point & p,
                 const leda_rat_point & q, 
                 const leda_rat_point & r)
 { return  right_turn(p,q,r); }
+
+inline
+bool
+CGAL_collinear( const leda_rat_point & p, 
+                const leda_rat_point & q, 
+                const leda_rat_point & r)
+{ return  collinear(p,q,r); }
 
 inline
 CGAL_Orientation
@@ -103,10 +111,60 @@ CGAL_lexicographically_yx_larger( const leda_rat_point & p,
 
 inline
 bool
+CGAL_lexicographically_xy_smaller_or_equal( const leda_rat_point & p, 
+                                            const leda_rat_point & q)
+{ return ( leda_rat_point::cmp_xy(p,q)  <=  0 ); }
+
+inline
+bool
+CGAL_lexicographically_yx_smaller_or_equal( const leda_rat_point & p, 
+                                            const leda_rat_point & q)
+{ return ( leda_rat_point::cmp_yx(p,q)  <=  0 ); }
+
+inline 
+CGAL_Comparison_result
+CGAL_compare_lexicographically_xy(const leda_rat_point & p, 
+                                  const leda_rat_point & q)
+{ return (CGAL_Comparison_result)leda_rat_point::cmp_xy(p,q); }
+
+inline 
+CGAL_Comparison_result
+CGAL_compare_lexicographically_yx(const leda_rat_point & p, 
+                                  const leda_rat_point & q)
+{ return (CGAL_Comparison_result)leda_rat_point::cmp_yx(p,q); }
+
+inline
+bool
 CGAL_collinear_are_ordered_along_line( const leda_rat_point & p, 
                                        const leda_rat_point & q, 
                                        const leda_rat_point & r)
+{ return leda_rat_segment(p,r).contains(q); }  
+
+inline
+bool
+CGAL_collinear_are_strictly_ordered_along_line( const leda_rat_point & p, 
+                                                const leda_rat_point & q, 
+                                                const leda_rat_point & r)
 { return (leda_rat_segment(p,r).contains(q) && ( q != p ) && ( q != r )); }  
+
+inline
+bool
+CGAL_are_ordered_along_line( const leda_rat_point & p, 
+                             const leda_rat_point & q, 
+                             const leda_rat_point & r)
+{ return ( CGAL_collinear(p,q,r) &&  CGAL_collinear_are_ordered_along_line(p,q,r)); }  
+
+inline
+bool
+CGAL_are_strictly_ordered_along_line( const leda_rat_point & p, 
+                                      const leda_rat_point & q, 
+                                      const leda_rat_point & r)
+{ 
+  return (    CGAL_collinear(p,q,r) 
+           && CGAL_collinear_are_strictly_ordered_along_line(p,q,r)
+         ); 
+}  
+
 inline
 CGAL_Comparison_result 
 CGAL_cmp_signed_dist_to_line(const leda_rat_point& p, const leda_rat_point& q,
@@ -129,5 +187,18 @@ CGAL_cmp_signed_dist_to_line(const leda_rat_point& p, const leda_rat_point& q,
   }
 #endif  // __LEDA__ >= 360
 }
+
+inline
+bool
+CGAL_has_smaller_signed_dist_to_line(const leda_rat_point& p, const leda_rat_point& q,
+                                     const leda_rat_point& r, const leda_rat_point& s)
+{ return ( CGAL_cmp_signed_dist_to_line(p,q,r,s) == CGAL_SMALLER ); }
+
+inline
+bool
+CGAL_has_larger_signed_dist_to_line(const leda_rat_point& p, const leda_rat_point& q,
+                                    const leda_rat_point& r, const leda_rat_point& s)
+{ return ( CGAL_cmp_signed_dist_to_line(p,q,r,s) == CGAL_LARGER ); }
+
 
 #endif // RAT_LEDA_IN_CGAL_H
