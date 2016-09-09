@@ -72,6 +72,8 @@ protected:
 public:
   // Kernel_traits compatibility
   typedef BGT R;
+  // access Function type from inherited class
+  typedef Function Fct;
 
   //-------------------------------------------------------
   // Index Types
@@ -138,6 +140,13 @@ public:
   Construct_initial_points construct_initial_points_object() const
   {
     return Construct_initial_points(*this);
+  }
+
+  /**
+   * Returns a bounding box of the domain
+   */
+  Bbox_3 bbox() const {
+    return bbox_.bbox();
   }
 
   /**

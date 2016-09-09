@@ -1,7 +1,7 @@
 #ifndef SCENE_POLYGON_SOUP_ITEM_H
 #define SCENE_POLYGON_SOUP_ITEM_H
 #include "Scene_polygon_soup_item_config.h"
-#include "Scene_item.h"
+#include  <CGAL/Three/Scene_item.h>
 #include "Viewer.h"
 #include "Polyhedron_type.h"
 
@@ -97,7 +97,7 @@ struct Polygon_soup
 class Scene_polyhedron_item;
 
 class SCENE_POLYGON_SOUP_ITEM_EXPORT Scene_polygon_soup_item 
-        : public Scene_item
+        : public CGAL::Three::Scene_item
 {
     typedef Kernel::Point_3 Point_3;
 
@@ -132,7 +132,7 @@ public:
         //soup->fill_edges();
         oriented = false;
 
-        Q_EMIT invalidate_buffers();
+        Q_EMIT invalidateOpenGLBuffers();
     }
 
     bool save(std::ostream& out) const;
@@ -143,13 +143,13 @@ public:
     virtual bool supportsRenderingMode(RenderingMode m) const { return (m!=Gouraud && m!=PointsPlusNormals && m!=Splatting); } // CHECK THIS!
     // OpenGL drawing in a display list
     virtual void draw() const {}
-    virtual void draw(Viewer_interface*) const;
-    virtual void draw_points(Viewer_interface*) const;
-    virtual void draw_edges(Viewer_interface* viewer) const;
-    void invalidate_buffers();
+    virtual void draw(CGAL::Three::Viewer_interface*) const;
+    virtual void draw_points(CGAL::Three::Viewer_interface*) const;
+    virtual void draw_edges(CGAL::Three::Viewer_interface* viewer) const;
+    void invalidateOpenGLBuffers();
     bool isFinite() const { return true; }
     bool isEmpty() const;
-    Bbox bbox() const;
+    void compute_bbox() const;
 
     void new_vertex(const double&, const double&, const double&);
     void new_triangle(const std::size_t, const std::size_t, const std::size_t);
@@ -169,6 +169,21 @@ private:
     typedef Polygon_soup::Polygons::const_iterator Polygons_iterator;
     Polygon_soup* soup;
     bool oriented;
+
+    enum VAOs {
+        Facets=0,
+        Edges,
+        NM_Edges,
+        NbOfVaos = NM_Edges+1
+    };
+    enum VBOs {
+        Facets_vertices = 0,
+        Facets_normals,
+        Edges_vertices,
+        NM_Edges_vertices,
+        NbOfVbos = NM_Edges_vertices+1
+    };
+
     mutable std::vector<float> positions_poly;
     mutable std::vector<float> positions_lines;
     mutable std::vector<float> normals;
@@ -176,8 +191,8 @@ private:
     mutable std::size_t nb_nm_edges;
     mutable std::size_t nb_polys;
     mutable std::size_t nb_lines;
-    using Scene_item::initialize_buffers;
-    void initialize_buffers(Viewer_interface *viewer) const;
+    using CGAL::Three::Scene_item::initialize_buffers;
+    void initialize_buffers(CGAL::Three::Viewer_interface *viewer) const;
     void compute_normals_and_vertices(void) const;
     void triangulate_polygon(Polygons_iterator ) const;
     mutable QOpenGLShaderProgram *program;

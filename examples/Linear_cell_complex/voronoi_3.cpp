@@ -5,14 +5,9 @@
 #include <iostream>
 #include <fstream>
 
-/* If you want to use a viewer, you can use one of the following file
- * depending if you use vtk or qglviewer. */
+/* If you want to use a viewer, you can use one qglviewer. */
 #ifdef CGAL_LCC_USE_QT
 #include "linear_cell_complex_3_viewer_qt.h"
-#else 
-#ifdef CGAL_LCC_USE_VTK
-#include "linear_cell_complex_3_viewer_vtk.h"
-#endif
 #endif
 
 /* // If you want to use exact constructions.
@@ -34,7 +29,7 @@ void display_voronoi(LCC_3& alcc, Dart_handle adart)
   // Indeed, we cannot view these volumes since they do not have
   // a "correct geometry". 
   std::stack<Dart_handle> toremove;
-  int mark_toremove=alcc.get_new_mark();
+  LCC_3::size_type mark_toremove=alcc.get_new_mark();
 
   // adart belongs to the infinite volume.
   toremove.push(adart);

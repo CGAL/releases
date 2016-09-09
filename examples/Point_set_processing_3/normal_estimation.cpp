@@ -26,8 +26,9 @@
 
 #include <utility> // defines std::pair
 #include <vector>
-#include <cstdlib>
+#include <string>
 #include <fstream>
+#include <iostream>
 
 
 // ----------------------------------------------------------------------------
@@ -46,6 +47,13 @@ typedef Kernel::Vector_3 Vector;
 typedef std::pair<Point, Vector> PointVectorPair;
 typedef std::vector<PointVectorPair> PointList;
 
+// Concurrency
+#ifdef CGAL_LINKED_WITH_TBB
+typedef CGAL::Parallel_tag Concurrency_tag;
+#else
+typedef CGAL::Sequential_tag Concurrency_tag;
+#endif
+
 
 // ----------------------------------------------------------------------------
 // Private functions
@@ -62,12 +70,12 @@ void run_pca_estimate_normals(PointList& points, // input points + output normal
   // Estimates normals direction.
   // Note: pca_estimate_normals() requires an iterator over points
   // as well as property maps to access each point's position and normal.
-  CGAL::pca_estimate_normals(points.begin(), points.end(),
+  CGAL::pca_estimate_normals<Concurrency_tag>(points.begin(), points.end(),
                              CGAL::First_of_pair_property_map<PointVectorPair>(),
                              CGAL::Second_of_pair_property_map<PointVectorPair>(),
                              nb_neighbors_pca_normals);
 
-  long memory = CGAL::Memory_sizer().virtual_size();
+  std::size_t memory = CGAL::Memory_sizer().virtual_size();
   std::cerr << "done: " << task_timer.time() << " seconds, "
                         << (memory>>20) << " Mb allocated"
                         << std::endl;
@@ -84,12 +92,12 @@ void run_jet_estimate_normals(PointList& points, // input points + output normal
   // Estimates normals direction.
   // Note: jet_estimate_normals() requires an iterator over points
   // + property maps to access each point's position and normal.
-  CGAL::jet_estimate_normals(points.begin(), points.end(),
+  CGAL::jet_estimate_normals<Concurrency_tag>(points.begin(), points.end(),
                              CGAL::First_of_pair_property_map<PointVectorPair>(),
                              CGAL::Second_of_pair_property_map<PointVectorPair>(),
                              nb_neighbors_jet_fitting_normals);
 
-  long memory = CGAL::Memory_sizer().virtual_size();
+  std::size_t memory = CGAL::Memory_sizer().virtual_size();
   std::cerr << "done: " << task_timer.time() << " seconds, "
                         << (memory>>20) << " Mb allocated"
                         << std::endl;
@@ -112,7 +120,7 @@ void run_vcm_estimate_normals(PointList &points, // input points + output normal
                                R,
                                r);
 
-    long memory = CGAL::Memory_sizer().virtual_size();
+    std::size_t memory = CGAL::Memory_sizer().virtual_size();
     std::cerr << "done: " << task_timer.time() << " seconds, "
         << (memory>>20) << " Mb allocated"
         << std::endl;
@@ -139,7 +147,7 @@ void run_mst_orient_normals(PointList& points, // input points + input/output no
   // if you plan to call a reconstruction algorithm that expects oriented normals.
   points.erase(unoriented_points_begin, points.end());
 
-  long memory = CGAL::Memory_sizer().virtual_size();
+  std::size_t memory = CGAL::Memory_sizer().virtual_size();
   std::cerr << "done: " << task_timer.time() << " seconds, "
                         << (memory>>20) << " Mb allocated"
                         << std::endl;
@@ -271,7 +279,7 @@ int main(int argc, char * argv[])
     }
 
     // Prints status
-    int nb_points = points.size();
+    std::size_t nb_points = points.size();
     std::cerr << "Reads file " << input_filename << ": " << nb_points << " points, "
                                                          << task_timer.time() << " seconds"
                                                          << std::endl;

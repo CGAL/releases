@@ -26,6 +26,7 @@
 
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Polyhedron_items_with_id_3.h>
+#include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
 #include <CGAL/FaceGraph_to_Polyhedron_3.h>
 
 #include <boost/graph/graph_traits.hpp>
@@ -38,7 +39,7 @@
 #include <CGAL/boost/graph/iterator.h>
 
 // Compute cotangent Laplacian
-#include <CGAL/internal/Surface_mesh_skeletonization/Weights.h>
+#include <CGAL/Polygon_mesh_processing/Weights.h>
 
 // Compute the vertex normal
 #include <CGAL/internal/Surface_mesh_skeletonization/get_normal.h>
@@ -58,7 +59,7 @@
 #include <CGAL/internal/Surface_mesh_skeletonization/Debug.h>
 
 // Some helper functions
-#include <CGAL/internal/Surface_mesh_skeletonization/Utility.h>
+#include <CGAL/Polygon_mesh_processing/measure.h>
 
 // For detect_degenarcy
 #include <CGAL/internal/Surface_mesh_skeletonization/Detect_degeneracy.h>
@@ -74,7 +75,6 @@
 // for default parameters
 #if defined(CGAL_EIGEN3_ENABLED)
 #include <CGAL/Eigen_solver_traits.h>  // for sparse linear system solver
-#include <Eigen/SparseCholesky>
 // #include <Eigen/CholmodSupport>
 #endif
 
@@ -225,9 +225,11 @@ public:
   typedef typename boost::graph_traits<mTriangleMesh>::edge_iterator           edge_iterator;
 
   // Cotangent weight calculator
-  typedef typename internal::Cotangent_weight<mTriangleMesh,
-  internal::Cotangent_value_minimum_zero<mTriangleMesh,
-  internal::Cotangent_value_Meyer_secure<mTriangleMesh> > >                    Weight_calculator;
+  typedef internal::Cotangent_weight<mTriangleMesh,
+    typename boost::property_map<mTriangleMesh, vertex_point_t>::type,
+    internal::Cotangent_value_minimum_zero<mTriangleMesh,
+      typename boost::property_map<mTriangleMesh, vertex_point_t>::type,
+      internal::Cotangent_value_Meyer_secure<mTriangleMesh> > >                Weight_calculator;
 
   typedef internal::Curve_skeleton<mTriangleMesh,
                                    VertexIndexMap,
@@ -374,14 +376,14 @@ public:
   Mean_curvature_flow_skeletonization(const TriangleMesh& tmesh,
                                       VertexPointMap vertex_point_map,
                                       const Traits& traits = Traits())
-    : m_traits(traits)
+    : m_traits(traits), m_weight_calculator(m_tmesh)
   {
     init(tmesh, vertex_point_map);
   }
 
   Mean_curvature_flow_skeletonization(const TriangleMesh& tmesh,
                                       const Traits& traits = Traits())
-    : m_traits(traits)
+    : m_traits(traits), m_weight_calculator(m_tmesh)
   {
     init(tmesh, get(vertex_point, tmesh));
   }
@@ -721,7 +723,8 @@ public:
 
     MCFSKEL_DEBUG(print_edges();)
 
-    MCFSKEL_INFO(double area = internal::get_surface_area(m_tmesh, m_tmesh_point_pmap);)
+    MCFSKEL_INFO(double area = CGAL::Polygon_mesh_processing::area(m_tmesh,
+      CGAL::Polygon_mesh_processing::parameters::vertex_point_map(m_tmesh_point_pmap));)
     MCFSKEL_INFO(std::cout << "area " << area << "\n";)
   }
 
@@ -744,7 +747,9 @@ public:
       remesh();
       detect_degeneracies();
 
-      double area = internal::get_surface_area(m_tmesh, m_tmesh_point_pmap, m_traits);
+      double area = CGAL::Polygon_mesh_processing::area(m_tmesh,
+        CGAL::Polygon_mesh_processing::parameters::vertex_point_map(m_tmesh_point_pmap)
+        .geom_traits(m_traits));
       double area_ratio = fabs(last_area - area) / m_original_area;
 
       MCFSKEL_INFO(std::cout << "area " << area << "\n";)
@@ -852,7 +857,9 @@ private:
       //, m_hedge_id_pmap(get(boost::halfedge_index, m_tmesh))
     m_are_poles_computed = false;
 
-    m_original_area = internal::get_surface_area(m_tmesh, m_tmesh_point_pmap, m_traits);
+    m_original_area = CGAL::Polygon_mesh_processing::area(m_tmesh,
+      CGAL::Polygon_mesh_processing::parameters::vertex_point_map(m_tmesh_point_pmap)
+      .geom_traits(m_traits));
 
     m_vertex_id_count = static_cast<int>(num_vertices(m_tmesh));
     m_max_id = m_vertex_id_count;
@@ -883,7 +890,7 @@ private:
     m_edge_weight.reserve(2 * num_edges(m_tmesh));
     BOOST_FOREACH(halfedge_descriptor hd, halfedges(m_tmesh))
     {
-      m_edge_weight.push_back(m_weight_calculator(hd, m_tmesh, m_traits));
+      m_edge_weight.push_back(m_weight_calculator(hd));
     }
   }
 

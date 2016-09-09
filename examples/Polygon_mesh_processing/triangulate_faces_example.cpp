@@ -4,6 +4,8 @@
 
 #include <CGAL/Polygon_mesh_processing/triangulate_faces.h>
 
+#include <boost/foreach.hpp>
+
 #include <fstream>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
@@ -13,6 +15,7 @@ typedef CGAL::Surface_mesh<Point>          Surface_mesh;
 int main(int argc, char* argv[])
 {
   const char* filename = (argc > 1) ? argv[1] : "data/P.off";
+  const char* outfilename = (argc > 2) ? argv[2] : "P_tri.off";
   std::ifstream input(filename);
 
   Surface_mesh mesh;
@@ -24,9 +27,14 @@ int main(int argc, char* argv[])
 
   CGAL::Polygon_mesh_processing::triangulate_faces(mesh);
 
-  std::ofstream cube_off("P_tri.off");
+  // Confirm that all faces are triangles.
+  BOOST_FOREACH(boost::graph_traits<Surface_mesh>::face_descriptor fit, faces(mesh))
+    if (next(next(halfedge(fit, mesh), mesh), mesh)
+        !=   prev(halfedge(fit, mesh), mesh))
+      std::cerr << "Error: non-triangular face left in mesh." << std::endl;
+
+  std::ofstream cube_off(outfilename);
   cube_off << mesh;
-  cube_off.close();
 
   return 0;
 }

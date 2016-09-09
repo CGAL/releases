@@ -20,7 +20,8 @@ class SCENE_POLYHEDRON_ITEM_K_RING_SELECTION_EXPORT Scene_polyhedron_item_k_ring
 {
   Q_OBJECT
 public:
-  struct Active_handle { enum Type{ VERTEX = 0, FACET = 1, EDGE = 2 }; };
+  struct Active_handle {
+    enum Type{ VERTEX = 0, FACET = 1, EDGE = 2 , CONNECTED_COMPONENT = 3}; };
 
   typedef boost::graph_traits<Polyhedron>::edge_descriptor edge_descriptor;
 
@@ -47,7 +48,7 @@ public:
     init(poly_item, mw, aht, k_ring);
   }
 
-  void init(Scene_polyhedron_item* poly_item, QMainWindow* mw, Active_handle::Type aht, int k_ring) {
+  void init(Scene_polyhedron_item* poly_item, QMainWindow* /*mw*/, Active_handle::Type aht, int k_ring) {
     this->poly_item = poly_item;
     this->active_handle_type = aht;
     this->k_ring = k_ring;
@@ -57,8 +58,11 @@ public:
 
     QGLViewer* viewer = *QGLViewer::QGLViewerPool().begin();
     viewer->installEventFilter(this);
-    mw->installEventFilter(this);
-
+#if QGLVIEWER_VERSION >= 0x020501
+    viewer->setMouseBindingDescription(Qt::Key_D, Qt::ShiftModifier, Qt::LeftButton, "(When in selection plugin) Removes the clicked primitive from the selection. ");
+#else
+    viewer->setMouseBindingDescription(Qt::SHIFT + Qt::LeftButton,  "(When in selection plugin) When D is pressed too, removes the clicked primitive from the selection. ");
+#endif
     connect(poly_item, SIGNAL(selected_vertex(void*)), this, SLOT(vertex_has_been_selected(void*)));
     connect(poly_item, SIGNAL(selected_facet(void*)), this, SLOT(facet_has_been_selected(void*)));
     connect(poly_item, SIGNAL(selected_edge(void*)), this, SLOT(edge_has_been_selected(void*)));
@@ -75,8 +79,9 @@ public Q_SLOTS:
   void facet_has_been_selected(void* void_ptr)
   {
     is_active=true;
-    if(active_handle_type != Active_handle::FACET) { return; }
-    process_selection( static_cast<Polyhedron::Facet*>(void_ptr)->halfedge()->facet() );
+    if (active_handle_type == Active_handle::FACET
+      || active_handle_type == Active_handle::CONNECTED_COMPONENT)
+      process_selection(static_cast<Polyhedron::Facet*>(void_ptr)->halfedge()->facet());
   }
   void edge_has_been_selected(void* void_ptr) 
   {
@@ -89,6 +94,7 @@ Q_SIGNALS:
   void selected(const std::set<Polyhedron::Vertex_handle>&);
   void selected(const std::set<Polyhedron::Facet_handle>&);
   void selected(const std::set<edge_descriptor>&);
+  void toogle_insert(const bool);
   void endSelection();
 
 protected:
@@ -123,7 +129,7 @@ protected:
     std::set<Polyhedron::Vertex_handle> selection;
     selection.insert(clicked);
     if (k>0)
-      CGAL::dilate_vertex_selection(CGAL::make_array(clicked),
+      CGAL::expand_vertex_selection(CGAL::make_array(clicked),
                                     *poly_item->polyhedron(),
                                     k,
                                     Is_selected_from_set<Polyhedron::Vertex_handle>(selection),
@@ -138,7 +144,7 @@ protected:
     std::set<Polyhedron::Facet_handle> selection;
     selection.insert(clicked);
     if (k>0)
-      CGAL::dilate_face_selection(CGAL::make_array(clicked),
+      CGAL::expand_face_selection(CGAL::make_array(clicked),
                                   *poly_item->polyhedron(),
                                   k,
                                   Is_selected_from_set<Polyhedron::Facet_handle>(selection),
@@ -152,13 +158,13 @@ protected:
   {
     std::set<edge_descriptor> selection;
     selection.insert(clicked);
+
     if (k>0)
-      CGAL::dilate_edge_selection(CGAL::make_array(clicked),
+      CGAL::expand_edge_selection(CGAL::make_array(clicked),
                                   *poly_item->polyhedron(),
                                   k,
                                   Is_selected_from_set<edge_descriptor>(selection),
                                   CGAL::Emptyset_iterator());
-
     return selection;
   }
 
@@ -167,11 +173,23 @@ protected:
   {
     // This filter is both filtering events from 'viewer' and 'main window'
     // key events
-    if(event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease)  {
+      if(event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease)  {
       QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
       Qt::KeyboardModifiers modifiers = keyEvent->modifiers();
 
       state.shift_pressing = modifiers.testFlag(Qt::ShiftModifier);
+    }
+
+    if(event->type() == QEvent::KeyPress
+            && state.shift_pressing
+            && static_cast<QKeyEvent*>(event)->key()==Qt::Key_D)
+    {
+     Q_EMIT toogle_insert(false);
+    }
+    else if(event->type() == QEvent::KeyRelease
+            && static_cast<QKeyEvent*>(event)->key()==Qt::Key_D)
+    {
+     Q_EMIT toogle_insert(true);
     }
     // mouse events
     if(event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease) {
@@ -185,12 +203,19 @@ protected:
             is_active=false;
           }
       }
+      //to avoid the contextual menu to mess up the states.
+      else if(mouse_event->button() == Qt::RightButton) {
+          state.left_button_pressing = false;
+          state.shift_pressing = false;
+        }
     }
-
     // use mouse move event for paint-like selection
-    if(event->type() == QEvent::MouseMove &&
-      (state.shift_pressing && state.left_button_pressing) )    
-    { // paint with mouse move event 
+    if( (event->type() == QEvent::MouseMove
+         || (event->type() == QEvent::MouseButtonPress
+             && static_cast<QMouseEvent*>(event)->button() == Qt::LeftButton))
+      && (state.shift_pressing && state.left_button_pressing) )
+    {
+      // paint with mouse move event
       QMouseEvent* mouse_event = static_cast<QMouseEvent*>(event);
       QGLViewer* viewer = *QGLViewer::QGLViewerPool().begin();
       qglviewer::Camera* camera = viewer->camera();

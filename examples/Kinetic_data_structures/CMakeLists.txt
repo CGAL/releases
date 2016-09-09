@@ -22,6 +22,8 @@ if ( CGAL_FOUND )
   create_single_source_cgal_program( "Kinetic_regular_triangulation_3.cpp" )
   create_single_source_cgal_program( "Kinetic_sort.cpp" )
   create_single_source_cgal_program( "Kinetic_sweepline.cpp" )
+  create_single_source_cgal_program( "defining_a_simulation_traits.cpp" )
+  create_single_source_cgal_program( "trivial_kds.cpp" )
 
 else()
   

@@ -1,8 +1,8 @@
 #ifndef SCENE_IMPLICIT_FUNCTION_ITEM_H
 #define SCENE_IMPLICIT_FUNCTION_ITEM_H
 
-#include <Scene_item.h>
-#include <CGAL_demo/Scene_interface.h>
+#include <CGAL/Three/Scene_item.h>
+#include <CGAL/Three/Scene_interface.h>
 #include "Scene_implicit_function_item_config.h"
 #include "implicit_functions/Implicit_function_interface.h"
 #include "Color_ramp.h"
@@ -38,7 +38,7 @@ public:
 
 };
 class SCENE_IMPLICIT_FUNCTION_ITEM_EXPORT Scene_implicit_function_item 
-  : public Scene_item
+  : public CGAL::Three::Scene_item
 {
   Q_OBJECT
   
@@ -52,7 +52,7 @@ public:
 
   bool isFinite() const { return true; }
   bool isEmpty() const { return false; }
-  Bbox bbox() const;
+  void compute_bbox() const;
 
   Scene_implicit_function_item* clone() const { return NULL; }
 
@@ -65,15 +65,15 @@ public:
 
   // actually draw() is also overloaded to detect when the cut plane is moved
   virtual void draw()const {}
-  virtual void draw(Viewer_interface*) const;
-  virtual void draw_edges(Viewer_interface*) const;
+  virtual void draw(CGAL::Three::Viewer_interface*) const;
+  virtual void draw_edges(CGAL::Three::Viewer_interface*) const;
 
   virtual QString toolTip() const;
-  virtual void contextual_changed();
-  virtual void invalidate_buffers();
+  virtual void invalidateOpenGLBuffers();
 public Q_SLOTS:
   void plane_was_moved() { need_update_ = true; }
   void compute_function_grid() const;
+  void timerEvent(QTimerEvent*);
 
 private:
   typedef qglviewer::Vec                  Point;
@@ -93,6 +93,20 @@ private:
   Color_ramp blue_color_ramp_;
   Color_ramp red_color_ramp_;
 
+  enum VAOs {
+      Plane = 0,
+      BBox,
+      Grid,
+      NbOfVaos = Grid +1
+  };
+  enum VBOs {
+      Quad_vertices = 0,
+      TexMap,
+      Cube_vertices,
+      Grid_vertices,
+      NbOfVbos = Grid_vertices +1
+  };
+
   std::vector<float> positions_cube;
   std::vector<float> positions_grid;
   std::vector<float> positions_tex_quad;
@@ -107,8 +121,8 @@ private:
 
   GLuint vao;
   GLuint buffer[4];
-  using Scene_item::initialize_buffers;
-  void initialize_buffers(Viewer_interface *viewer) const;
+  using CGAL::Three::Scene_item::initialize_buffers;
+  void initialize_buffers(CGAL::Three::Viewer_interface *viewer) const;
   void compute_vertices_and_texmap(void);
   void compute_texture(int, int);
 };

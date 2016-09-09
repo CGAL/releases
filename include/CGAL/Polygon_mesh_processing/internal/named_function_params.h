@@ -33,6 +33,11 @@ namespace CGAL{
   enum fairing_continuity_t         { fairing_continuity };
   enum sparse_linear_solver_t       { sparse_linear_solver };
   enum geom_traits_t                { geom_traits };
+  enum number_of_iterations_t       { number_of_iterations };
+  enum protect_constraints_t        { protect_constraints };
+
+  //to be documented
+  enum smooth_along_features_t      { smooth_along_features };
 
   //internal
   enum weight_calculator_t          { weight_calculator };
@@ -110,6 +115,30 @@ namespace CGAL{
     {
       typedef pmp_bgl_named_params<K, geom_traits_t, self> Params;
       return Params(k, *this);
+    }
+
+    template<typename NT>
+    pmp_bgl_named_params<NT, number_of_iterations_t, self>
+    number_of_iterations(const NT& n) const
+    {
+      typedef pmp_bgl_named_params<NT, number_of_iterations_t, self> Params;
+      return Params(n, *this);
+    }
+
+    template<typename Boolean>
+    pmp_bgl_named_params<Boolean, protect_constraints_t, self>
+    protect_constraints(const Boolean b) const
+    {
+      typedef pmp_bgl_named_params<Boolean, protect_constraints_t, self> Params;
+      return Params(b, *this);
+    }
+
+    template<typename Boolean>
+    pmp_bgl_named_params<Boolean, smooth_along_features_t, self>
+      smooth_along_features(const Boolean b) const
+    {
+      typedef pmp_bgl_named_params<Boolean, smooth_along_features_t, self> Params;
+      return Params(b, *this);
     }
 
     //overload
@@ -216,6 +245,30 @@ namespace parameters{
   {
     typedef pmp_bgl_named_params<K, geom_traits_t> Params;
     return Params(k);
+  }
+
+  template<typename NT>
+  pmp_bgl_named_params<NT, number_of_iterations_t>
+    number_of_iterations(const NT& n)
+  {
+    typedef pmp_bgl_named_params<NT, number_of_iterations_t> Params;
+    return Params(n);
+  }
+
+  template <typename Boolean>
+  pmp_bgl_named_params<Boolean, protect_constraints_t>
+  protect_constraints(const Boolean b)
+  {
+    typedef pmp_bgl_named_params<Boolean, protect_constraints_t> Params;
+    return Params(b);
+  }
+
+  template<typename Boolean>
+  pmp_bgl_named_params<Boolean, smooth_along_features_t>
+  smooth_along_features(const Boolean b)
+  {
+    typedef pmp_bgl_named_params<Boolean, smooth_along_features_t> Params;
+    return Params(b);
   }
 
   //overload

@@ -33,6 +33,7 @@
 #include <CGAL/tags.h>
 #include <CGAL/Arr_non_caching_segment_traits_2.h>
 #include <CGAL/Arr_geometry_traits/Polycurve_2.h>
+#include <CGAL/Arr_geometry_traits/IO/Polycurve_2_iostream.h>
 #include <CGAL/Arr_tags.h>
 #include <CGAL/Arr_enums.h>
 
@@ -91,7 +92,19 @@ public:
    *        be used by the class.
    */
   Arr_polycurve_basic_traits_2(const Subcurve_traits_2* geom_traits) :
-    m_subcurve_traits(geom_traits), m_own_traits(false){ }
+    m_subcurve_traits(geom_traits), m_own_traits(false) {}
+
+  /*! Construct copy.
+   * If the 'other' polycurve traits owns its subcurve traits, then make
+   * this polycurve traits own its subcurve traits as well
+   * \param other the other traits.
+   */
+  Arr_polycurve_basic_traits_2(const Arr_polycurve_basic_traits_2& other)
+  {
+    m_subcurve_traits = (other.m_own_traits) ?
+      new Subcurve_traits_2() : other.m_subcurve_traits;
+    m_own_traits = other.m_own_traits;
+  }
 
   /* Destructor
    * Deletes the subcurve tarits class in case it was constructed during the
@@ -721,14 +734,23 @@ public:
     Comparison_result operator()(const Point_2& p,
                                  const X_monotone_curve_2& xcv) const
     {
-      // Get the index of the subcurve in xcv containing p.
-      std::size_t i =
-        m_poly_traits.locate_impl(xcv, p, Are_all_sides_oblivious_tag());
-      CGAL_precondition(i != INVALID_INDEX);
-
-      // Compare the subcurve xcv[i] and p.
       const Subcurve_traits_2* geom_traits = m_poly_traits.subcurve_traits_2();
-      return geom_traits->compare_y_at_x_2_object()(p, xcv[i]);
+      if (! m_poly_traits.is_vertical_2_object()(xcv)) {
+        // Get the index of the subcurve in xcv containing p.
+        std::size_t i =
+          m_poly_traits.locate_impl(xcv, p, Are_all_sides_oblivious_tag());
+        CGAL_precondition(i != INVALID_INDEX);
+
+        // Compare the subcurve xcv[i] and p.
+        return geom_traits->compare_y_at_x_2_object()(p, xcv[i]);
+      }
+      // The curve is vertical
+      Comparison_result rc = geom_traits->compare_y_at_x_2_object()(p, xcv[0]);
+      if (rc == SMALLER) return SMALLER;
+      std::size_t n = xcv.number_of_subcurves();
+      rc = geom_traits->compare_y_at_x_2_object()(p, xcv[n-1]);
+      if (rc == LARGER) return LARGER;
+      return EQUAL;
     }
 
     /*! Obtain the location of the given curve_end with respect to the input
@@ -1037,7 +1059,7 @@ public:
       std::vector<X_monotone_subcurve_2> rev_segs(xcv.number_of_subcurves());;
       typename X_monotone_curve_2::Subcurve_const_iterator sit;
       typename X_monotone_curve_2::Subcurve_iterator tit = rev_segs.begin();
-      for (sit = xcv.begin_subcurves(); sit != xcv.end_subcurves(); ++sit)
+      for (sit = xcv.subcurves_begin(); sit != xcv.subcurves_end(); ++sit)
         *tit++ = const_op(*sit);
       return X_monotone_curve_2(rev_segs.rbegin(), rev_segs.rend());
     }
@@ -1779,7 +1801,7 @@ public:
     {
       const Subcurve_traits_2* geom_traits = m_poly_traits.subcurve_traits_2();
       typename X_monotone_curve_2::Subcurve_const_iterator it;
-      for (it = xcv.begin_subcurves(); it != xcv.end_subcurves(); ++it)
+      for (it = xcv.subcurves_begin(); it != xcv.subcurves_end(); ++it)
         if (! geom_traits->is_on_y_identification_2_object()(*it)) return false;
       return true;
     }
@@ -1824,7 +1846,7 @@ public:
     {
       const Subcurve_traits_2* geom_traits = m_poly_traits.subcurve_traits_2();
       typename X_monotone_curve_2::Subcurve_const_iterator it;
-      for (it = xcv.begin_subcurves(); it != xcv.end_subcurves(); ++it)
+      for (it = xcv.subcurves_begin(); it != xcv.subcurves_end(); ++it)
         if (! geom_traits->is_on_x_identification_2_object()(*it)) return false;
       return true;
     }

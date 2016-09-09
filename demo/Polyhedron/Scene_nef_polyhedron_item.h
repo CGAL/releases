@@ -1,6 +1,6 @@
 #ifndef SCENE_NEF_POLYHEDRON_ITEM_H
 #define SCENE_NEF_POLYHEDRON_ITEM_H
-#include "Scene_item.h"
+#include  <CGAL/Three/Scene_item.h>
 #include "Scene_nef_polyhedron_item_config.h"
 #include "Nef_type_fwd.h"
 #include <iostream>
@@ -8,7 +8,7 @@
 class Scene_polyhedron_item;
 
 class SCENE_NEF_POLYHEDRON_ITEM_EXPORT Scene_nef_polyhedron_item
- : public Scene_item
+ : public CGAL::Three::Scene_item
 {
   Q_OBJECT
 public:
@@ -26,22 +26,22 @@ public:
   QFont font() const;
   QString toolTip() const;
 
-  virtual void invalidate_buffers();
+  virtual void invalidateOpenGLBuffers();
   virtual void selection_changed(bool);
   // Indicate if rendering mode is supported
   virtual bool supportsRenderingMode(RenderingMode m) const { return m != Gouraud && m!=Splatting; } // CHECK THIS!
   // OpenGL drawing in a display list
   void direct_draw() const;
 
-  virtual void draw(Viewer_interface*) const;
+  virtual void draw(CGAL::Three::Viewer_interface*) const;
   virtual void draw_edges() const {}
-  virtual void draw_edges(Viewer_interface* viewer) const;
-  virtual void draw_points(Viewer_interface*) const;
+  virtual void draw_edges(CGAL::Three::Viewer_interface* viewer) const;
+  virtual void draw_points(CGAL::Three::Viewer_interface*) const;
   // Wireframe OpenGL drawing
 
   bool isFinite() const { return true; }
   bool isEmpty() const;
-  Bbox bbox() const;
+  void compute_bbox() const;
 
   Nef_polyhedron* nef_polyhedron();
   const Nef_polyhedron* nef_polyhedron() const;
@@ -74,6 +74,19 @@ private:
 
   Nef_polyhedron* nef_poly;
 
+  enum VAOs {
+      Facets = 0,
+      Edges,
+      Points,
+      NbOfVaos = Points +1
+  };
+  enum VBOs {
+      Facets_vertices = 0,
+      Facets_normals,
+      Edges_vertices,
+      Points_vertices,
+      NbOfVbos = Points_vertices +1
+  };
 
   mutable std::vector<double> positions_lines;
   mutable std::vector<double> positions_facets;
@@ -88,9 +101,9 @@ private:
 
   mutable QOpenGLShaderProgram *program;
 
-  using Scene_item::initialize_buffers;
-  void initialize_buffers(Viewer_interface *viewer) const;
-  void compute_normals_and_vertices(void);
+  using CGAL::Three::Scene_item::initialize_buffers;
+  void initialize_buffers(CGAL::Three::Viewer_interface *viewer) const;
+  void compute_normals_and_vertices(void) const;
 
   void triangulate_facet();
   void triangulate_facet_color();

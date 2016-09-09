@@ -23,10 +23,12 @@
 #define CGAL_IMAGE_3_H
 
 #include <CGAL/basic.h>
+#include <CGAL/array.h>
 
 #include <boost/shared_ptr.hpp>
-
+#include <boost/foreach.hpp>
 #include <boost/format.hpp>
+#include <boost/unordered_set.hpp>
 #include <CGAL/ImageIO.h>
 #include <CGAL/function_objects.h>
 
@@ -62,6 +64,7 @@ public:
 
 class CGAL_IMAGEIO_EXPORT Image_3
 {
+
   struct Image_deleter {
     void operator()(_image* image)
     {
@@ -162,10 +165,6 @@ public:
                                          vx,vy,vz,offset));
   }
 
-#ifdef CGAL_USE_VTK
-  bool read_vtk_image_data(vtkImageData*);
-#endif // CGAL_USE_VTK
-
   // implementation in src/CGAL_ImageIO/Image_3.cpp
   void gl_draw(const float point_size,
                const unsigned char r,
@@ -232,7 +231,8 @@ Image_3::trilinear_interpolation(const Coord_type& x,
 				 Image_transform transform) const 
 {
   // Check on double/float coordinates, because (int)-0.1 gives 0
-  if ( x < 0 || y < 0 || z < 0 ) return value_outside;
+  if ( x < 0 || y < 0 || z < 0 )
+    return Target_word_type(value_outside);
   
   const Coord_type lx = x / image()->vx;
   const Coord_type ly = y / image()->vy;
@@ -249,7 +249,7 @@ Image_3::trilinear_interpolation(const Coord_type& x,
      ly >= dimy-1 ||
      lx >= dimx-1)
   {
-    return transform(value_outside);
+    return Target_word_type(transform(value_outside));
   }  
 
   // images are indexed by (z,y,x)
@@ -288,17 +288,17 @@ Image_3::trilinear_interpolation(const Coord_type& x,
 
   Image_word_type* ptr = (Image_word_type*)image()->data;
   ptr += i1 * dimxy + j1 * dimx + k1;
-  const Target_word_type a = transform(*ptr);
-  const Target_word_type e = transform(*(ptr+1));
+  const Target_word_type a = Target_word_type(transform(*ptr));
+  const Target_word_type e = Target_word_type(transform(*(ptr+1)));
   ptr += dimxy; // i2 * dimxy + j1 * dimx + k1;
-  const Target_word_type b = transform(*ptr);
-  const Target_word_type f = transform(*(ptr+1));
+  const Target_word_type b = Target_word_type(transform(*ptr));
+  const Target_word_type f = Target_word_type(transform(*(ptr+1)));
   ptr += dimx; // i2 * dimxy + j2 * dimx + k1
-  const Target_word_type c = transform(*ptr);
-  const Target_word_type g = transform(*(ptr+1));
+  const Target_word_type c = Target_word_type(transform(*ptr));
+  const Target_word_type g = Target_word_type(transform(*(ptr+1)));
   ptr -= dimxy; // i1 * dimxy + j2 * dimx + k1
-  const Target_word_type d = transform(*ptr);
-  const Target_word_type h = transform(*(ptr+1));
+  const Target_word_type d = Target_word_type(transform(*ptr));
+  const Target_word_type h = Target_word_type(transform(*(ptr+1)));
   
 
 //   const Target_word_type a = ((Image_word_type*)image()->data)[i1 * dimxy + j1 * dimx + k1];
@@ -310,7 +310,7 @@ Image_3::trilinear_interpolation(const Coord_type& x,
 //   const Target_word_type g = ((Image_word_type*)image()->data)[i2 * dimxy + j2 * dimx + k2];
 //   const Target_word_type h = ((Image_word_type*)image()->data)[i1 * dimxy + j2 * dimx + k2];
 
-//   const Target_word_type outside = transform(value_outside);
+//   const Target_word_type outside = Target_word_type(transform(value_outside);
 
 //   if(x < 0.f ||
 //      y < 0.f ||
@@ -445,42 +445,56 @@ Image_3::labellized_trilinear_interpolation(const Coord_type& x,
   const int k1 = (int)(lx);
   const int i2 = i1 + 1;
   const int j2 = j1 + 1;
-  const int k2 = k1 + 1;
 
-  std::set<Image_word_type> labels;
-  labels.insert(((Image_word_type*)image()->data)[(i1 * dimy + j1) * dimx + k1]);
-  labels.insert(((Image_word_type*)image()->data)[(i1 * dimy + j1) * dimx + k2]);
-  labels.insert(((Image_word_type*)image()->data)[(i1 * dimy + j2) * dimx + k1]);
-  labels.insert(((Image_word_type*)image()->data)[(i1 * dimy + j2) * dimx + k2]);
-  labels.insert(((Image_word_type*)image()->data)[(i2 * dimy + j1) * dimx + k1]);
-  labels.insert(((Image_word_type*)image()->data)[(i2 * dimy + j1) * dimx + k2]);
-  labels.insert(((Image_word_type*)image()->data)[(i2 * dimy + j2) * dimx + k1]);
-  labels.insert(((Image_word_type*)image()->data)[(i2 * dimy + j2) * dimx + k2]);
+  CGAL::cpp11::array<std::size_t,8> index;
+  index[0] = (i1 * dimy + j1) * dimx + k1;
+  index[1] = index[0] + 1;
+  index[2] = (i1 * dimy + j2) * dimx + k1;
+  index[3] = index[2] + 1;
+  index[4] = (i2 * dimy + j1) * dimx + k1;
+  index[5] = index[4] + 1;
+  index[6] = (i2 * dimy + j2) * dimx + k1;
+  index[7] = index[6] + 1;
+
+  CGAL::cpp11::array<Image_word_type,8> labels;
+  
+  labels[0] = ((Image_word_type*)image()->data)[index[0]];
+  int lc = 1;
+  for(int lci=1; lci<8; ++lci){
+    bool found = false;
+    Image_word_type iwt = ((Image_word_type*)image()->data)[index[lci]];
+    for(int lcj=0; lcj < lc; ++lcj){
+      if(iwt == labels[lcj]){
+        found = true;
+        break;
+      }
+    }
+    if(found) continue;
+    labels[lc] = iwt;
+    ++lc;
+  }
 
   CGAL_HISTOGRAM_PROFILER(
     "Number of labels around a vertex, Image_3::labellized_trilinear_interpolation()", 
-    static_cast<unsigned int>(labels.size()));
+    static_cast<unsigned int>(lc));
 
-  if(labels.size() == 1) {
-    return *(labels.begin());
+  if(lc == 1) {
+    return labels[0];
   }
-
+    
   typedef ImageIO::Indicator<Image_word_type> Indicator;
   double best_value = 0.;
   Image_word_type best = 0;
-  for(typename std::set<Image_word_type>::const_iterator 
-	label_it = labels.begin(),
-	end = labels.end();
-      label_it != end; ++label_it)
+  BOOST_FOREACH(Image_word_type iwt, labels)
   {
     const double r = 
       trilinear_interpolation<Image_word_type,double,Coord_type, Indicator>(
-        x, y, z, value_outside, Indicator(*label_it));
+        x, y, z, value_outside, Indicator(iwt));
     CGAL_assertion(r >= 0.);
     CGAL_assertion(r <= 1.);
 
     if(r > best_value) {
-      best = *label_it;
+      best = iwt;
       best_value = r;
     }
   }
@@ -490,10 +504,12 @@ Image_3::labellized_trilinear_interpolation(const Coord_type& x,
 
 } // end namespace CGAL
 
+#ifdef CGAL_HEADER_ONLY
+#include <CGAL/Image_3_impl.h>
+#endif // CGAL_HEADER_ONLY
 
 #if defined(BOOST_MSVC)
 #  pragma warning(pop)
 #endif
-
  
 #endif // CGAL_IMAGE_3_H

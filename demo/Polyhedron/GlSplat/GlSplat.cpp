@@ -110,8 +110,6 @@ void SplatRenderer::init(QGLWidget *qglw)
   mIsSupported = true;
   if(qglw)
     qglw->makeCurrent();
-
-  //glewInit();
   const char* rs = (const char*)glGetString(GL_RENDERER);
   QString rendererString("");
   if(rs)
@@ -119,15 +117,13 @@ void SplatRenderer::init(QGLWidget *qglw)
   mWorkaroundATI = rendererString.startsWith("ATI") || rendererString.startsWith("AMD");
   // FIXME: maybe some recent HW correctly supports floating point blending...
   mBuggedAtiBlending = rendererString.startsWith("ATI") || rendererString.startsWith("AMD");
-
   if (mWorkaroundATI && mDummyTexId==0)
-  {
+  {      
     viewer->glActiveTexture(GL_TEXTURE0);
     viewer->glGenTextures(1,&mDummyTexId);
     viewer->glBindTexture(GL_TEXTURE_2D, mDummyTexId);
     viewer->glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, 4, 4, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, 0);
   }
-
   // let's check the GPU capabilities
   mSupportedMask = DEPTH_CORRECTION_BIT | BACKFACE_SHADING_BIT;
   if (!QGLFramebufferObject::hasOpenGLFramebufferObjects ())
@@ -136,20 +132,11 @@ void SplatRenderer::init(QGLWidget *qglw)
     mIsSupported = false;
     return;
   }
-  //if (GLEW_ARB_texture_float)
   mSupportedMask |= FLOAT_BUFFER_BIT;
-  //else
-  //  std::cout << "SplatRenderer: warning floating point textures are not supported.\n";
 
- // if (GLEW_ARB_draw_buffers && (!mBuggedAtiBlending))
   mSupportedMask |= DEFERRED_SHADING_BIT;
-  //else
-  //  std::cout << "SplatRenderer: warning deferred shading is not supported.\n";
 
-  //if (GLEW_ARB_shadow)
   mSupportedMask |= OUTPUT_DEPTH_BIT;
-  //else
-  //  std::cerr << "SplatRenderer: warning copy of the depth buffer is not supported.\n";
 
   mFlags = mFlags & mSupportedMask;
 
@@ -160,7 +147,6 @@ void SplatRenderer::init(QGLWidget *qglw)
   mShaderSrcs[3] = loadSource("AttributeFP","Raycasting.glsl");
   mShaderSrcs[4] = "";
   mShaderSrcs[5] = loadSource("Finalization","Finalization.glsl");
-
   mCurrentPass = 2;
   mBindedPass = -1;
   mIsInitialized = true;
@@ -523,7 +509,7 @@ void SplatRenderer::setRadiusScale(float v)
   mParams.radiusScale = v;
 }
 
-void SplatRenderer::setViewer(Viewer_interface *v)
+void SplatRenderer::setViewer(CGAL::Three::Viewer_interface *v)
 {
   viewer = v;
   for(int i=0; i<3; i++)

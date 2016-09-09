@@ -3,6 +3,7 @@
 #include "Scene_polyhedron_item.h"
 #include "Polyhedron_type.h"
 #include <CGAL/IO/Polyhedron_iostream.h>
+#include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
 #include <CGAL/Polygon_mesh_processing/compute_normal.h>
 #include <QObject>
 
@@ -128,6 +129,7 @@ void Scene_polyhedron_item::compile_shaders()
     {
         std::cerr<<"adding fragment shader FAILED"<<std::endl;
     }
+    rendering_program.bindAttributeLocation("vertex", 0);
     if(!rendering_program.link())
     {
         std::cerr<<"linking Program FAILED"<<std::endl;
@@ -328,6 +330,7 @@ void Scene_polyhedron_item::attrib_buffers(Viewer* viewer) const
 
 // Points/Wireframe/Flat/Gouraud OpenGL drawing in a display list
 void Scene_polyhedron_item::draw(Viewer* viewer) const {
+    viewer->makeCurrent();
     if(!are_buffers_initialized)
         initialize_buffers();
     QColor color;

@@ -84,8 +84,8 @@ public:
   //  the destructor
   ~BigFloatRep(); //inline
 
-  CORE_MEMORY(BigFloatRep)    // allocate the memory pool, unless
-	                      // memory pool feature is disabled.
+  CORE_NEW(BigFloatRep)    // allocate the memory pool, unless
+  CORE_DELETE(BigFloatRep) // memory pool feature is disabled.
 
   //  approximation
   void trunc(const BigInt&, const extLong&, const extLong&);
@@ -144,11 +144,11 @@ private:
   //  conversion
 
   // toString() Joaquin Grech 31/5/2003
-  std::string toString(long prec=defBigFloatOutputDigits, bool sci=false) const;
+  std::string toString(long prec=get_static_defBigFloatOutputDigits(), bool sci=false) const;
   std::string round(std::string inRep, long& L10, unsigned int width) const;
-  DecimalOutput toDecimal(unsigned int width=defBigFloatOutputDigits,
+  DecimalOutput toDecimal(unsigned int width=get_static_defBigFloatOutputDigits(),
                           bool Scientific=false) const;
-  void fromString(const char *p, const extLong & prec = defBigFloatInputDigits);
+  void fromString(const char *p, const extLong & prec = get_static_defBigFloatInputDigits());
 
   void dump() const;  //inline
   long adjustE(long E, BigInt M, long e) const;
@@ -442,6 +442,8 @@ inline void BigFloatRep::dump() const {
   std::cout << "  exp = " << exp << std::endl;
   std::cout << " -- End of BFRep " << this << " -- " << std::endl;
 }
+
+
 
 } //namespace CORE
 #endif // _CORE_BIGFLOATREP_H_

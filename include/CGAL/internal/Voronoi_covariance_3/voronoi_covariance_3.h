@@ -30,6 +30,8 @@
 #include <CGAL/Convex_hull_3/dual/halfspace_intersection_3.h>
 #endif
 
+/// \cond SKIP_IN_MANUAL
+
 namespace CGAL {
     namespace Voronoi_covariance_3 {
         namespace internal {
@@ -79,8 +81,8 @@ namespace CGAL {
 
                         template <class Point>
                             inline void operator () (const Point &a,
-                                                     const Point &c,
-                                                     const Point &b)
+                                                     const Point &b,
+                                                     const Point &c)
                             {
                                 internal::covariance_matrix_tetrahedron (a[0], a[1], a[2],
                                                                          b[0], b[1], b[2],
@@ -109,8 +111,8 @@ namespace CGAL {
 
                         template <class Point>
                             inline void operator () (const Point &a,
-                                                     const Point &c,
-                                                     const Point &b)
+                                                     const Point &b,
+                                                     const Point &c)
                             {
                                 const double  vol = CGAL::volume(a, b, c, Point(CGAL::ORIGIN));
                                 //std::cerr << "vol = " << vol << "\n";
@@ -159,7 +161,10 @@ namespace CGAL {
                     #else
                     halfspace_intersection_3
                     #endif
-                      (planes.begin(), planes.end(), P, Point(CGAL::ORIGIN));
+                      (planes.begin(),
+                       planes.end(),
+                       P,
+                       boost::make_optional(Point(CGAL::ORIGIN)));
 
                     // apply f to the triangles on the boundary of P
                     for (typename Polyhedron::Facet_iterator it = P.facets_begin();
@@ -168,12 +173,10 @@ namespace CGAL {
                         typename Polyhedron::Halfedge_around_facet_circulator
                             h0 = it->facet_begin(), hf = h0--, hs = cpp11::next(hf);
 
-                        while(1)
+                        while(hs != h0)
                         {
                             f (h0->vertex()->point(), hf->vertex()->point(),
                                hs->vertex()->point());
-                            if (hs == h0)
-                                break;
                             ++hs; ++hf;
                         }
                     }
@@ -219,6 +222,8 @@ namespace CGAL {
 
     } // namespace Voronoi_covariance_3
 } // namespace CGAL
+
+/// \endcond
 
 #endif // CGAL_INTERNAL_VCM_VORONOI_COVARIANCE_3_HPP
 

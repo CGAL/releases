@@ -17,11 +17,9 @@ if ( CGAL_FOUND )
   include_directories (BEFORE "../../include")
 
   create_single_source_cgal_program( "adding_a_certificate.cpp" )
-  create_single_source_cgal_program( "defining_a_simulation_traits.cpp" )
   create_single_source_cgal_program( "listener.cpp" )
   create_single_source_cgal_program( "pointer_queue.cpp" )
   create_single_source_cgal_program( "ref_counted.cpp" )
-  create_single_source_cgal_program( "trivial_kds.cpp" )
 
 else()
   

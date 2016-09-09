@@ -22,6 +22,12 @@
 
 #include <CGAL/Combinatorial_map_storages.h>
 
+#include <boost/config.hpp>
+#if  (BOOST_GCC >= 50000)
+_Pragma("GCC diagnostic push")
+_Pragma("GCC diagnostic ignored \"-Warray-bounds\"")
+#endif
+
 namespace CGAL {
 
   /** @file Linear_cell_complex_storages.h
@@ -153,21 +159,21 @@ namespace CGAL {
       return ADart->get_marks();
     }
     /// Return the mark value of dart a given mark number.
-    bool get_dart_mark(Dart_const_handle ADart, int amark) const
+    bool get_dart_mark(Dart_const_handle ADart, size_type amark) const
     {
       CGAL_assertion( ADart!=NULL );
       return ADart->get_mark(amark);
     }
 
     /// Set the mark of a given mark number to a given value.
-    void set_dart_mark(Dart_const_handle ADart, int amark, bool avalue) const
+    void set_dart_mark(Dart_const_handle ADart, size_type amark, bool avalue) const
     {
       CGAL_assertion( ADart!=NULL );
       ADart->set_mark(amark, avalue);
     }
 
     /// Flip the mark of a given mark number to a given value.
-    void flip_dart_mark(Dart_const_handle ADart, int amark) const
+    void flip_dart_mark(Dart_const_handle ADart, size_type amark) const
     {
       CGAL_assertion( ADart!=NULL );
       ADart->flip_mark(amark);
@@ -437,5 +443,8 @@ namespace CGAL {
 
 } // namespace CGAL
 
+#if  (BOOST_GCC >= 50000)
+ _Pragma("GCC diagnostic pop")
+#endif
 #endif // CGAL_LINEAR_CELL_COMPLEX_STORAGES_H //
 // EOF //

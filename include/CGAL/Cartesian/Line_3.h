@@ -25,7 +25,6 @@
 #ifndef CGAL_CARTESIAN_LINE_3_H
 #define CGAL_CARTESIAN_LINE_3_H
 
-#include <utility>
 #include <CGAL/Handle_for.h>
 
 namespace CGAL {
@@ -42,7 +41,14 @@ class LineC3
   typedef typename R_::Line_3               Line_3;
   typedef typename R_::Segment_3            Segment_3;
 
-  typedef std::pair<Point_3, Vector_3>             Rep;
+  struct Rep
+  {
+    Point_3 first;
+    Vector_3 second;
+    Rep () : first(), second() { }
+    Rep (const Point_3& p, const Vector_3& v) : first(p), second(v) { }
+  };
+
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;

@@ -28,16 +28,13 @@
 #include <QSettings>
 #include <QUrl>
 #include "Raw_image_dialog.h"
-
-#include <CGAL/glu.h>
-
 #include <CGAL/Surface_mesher/Standard_criteria.h>
 // #include <CGAL/Surface_mesher/Image_surface_oracle_3.h>
 #include <CGAL/Surface_mesher/Implicit_surface_oracle_3.h>
 #include <CGAL/Surface_mesher/Vertices_on_the_same_psc_element_criterion.h>
 #include <CGAL/IO/Complex_2_in_triangulation_3_file_writer.h>
-
 #include <CGAL/make_surface_mesh.h>
+#include <CGAL/Qt/debug.h>
 
 struct Threshold : public std::unary_function<FT, unsigned char> {
   double isovalue;
@@ -325,6 +322,9 @@ void Volume::only_in()
 }
 
 #ifdef CGAL_USE_VTK
+
+#include <CGAL/read_vtk_image_data.h>
+
 #include <vtkImageData.h>
 #include <vtkDICOMImageReader.h>
 #include <vtkImageReader.h>
@@ -368,7 +368,8 @@ bool Volume::opendir(const QString& dirname)
     smoother->Update();
     vtk_image = smoother->GetOutput();
     vtk_image->Print(std::cerr);
-    if(!m_image.read_vtk_image_data(vtk_image))
+    m_image = CGAL::read_vtk_image_data(vtk_image);
+    if(m_image.image() == 0)
     {
       QMessageBox::warning(mw, mw->windowTitle(),
                            tr("Error with file <tt>%1/</tt>:\nunknown file format!").arg(dirname));
@@ -418,7 +419,8 @@ bool Volume::open_vtk(const QString& filename)
     vtk_reader->Print(std::cerr);
     vtk_image = vtk_reader->GetOutput();
     vtk_image->Print(std::cerr);
-    if(!m_image.read_vtk_image_data(vtk_image))
+    m_image = CGAL::read_vtk_image_data(vtk_image);
+    if(m_image.image() == NULL)
     {
       QMessageBox::warning(mw, mw->windowTitle(),
                            tr("Error with file <tt>%1</tt>:\nunknown file format!").arg(filename));
@@ -485,7 +487,8 @@ bool Volume::open_xt(const QString& filename)
     vtk_reader->Print(std::cerr);
     vtkImageData* vtk_image = vtk_reader->GetOutput();
     vtk_image->Print(std::cerr);
-    if(!m_image.read_vtk_image_data(vtk_image))
+    m_image = CGAL::read_vtk_image_data(vtk_image);
+    if(m_image.image() != NULL)
     {
       QMessageBox::warning(mw, mw->windowTitle(),
                            tr("Error with file <tt>%1</tt>:\nunknown file format!").arg(filename));
@@ -1512,8 +1515,9 @@ void Volume::gl_draw_marchingcube()
       list_draw_marching_cube_is_valid = (::glGetError() == GL_NO_ERROR);
     }
     if(!list_draw_marching_cube_is_valid)
-      std::cerr << boost::format("OpenGL error: %1%\n") 
-        % ::gluErrorString(::glGetError());
+    {
+     CGAL::Qt::opengl_check_errors();
+    }
   }
 }
 #endif // CGAL_SURFACE_MESH_DEMO_USE_MARCHING_CUBE

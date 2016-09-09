@@ -41,7 +41,7 @@ if ( CGAL_FOUND AND CGAL_Qt5_FOUND AND CGAL_ImageIO_FOUND)
   add_definitions(-DQT_NO_KEYWORDS)
   include( ${CGAL_USE_FILE} )
 
-  find_package(Qt5 QUIET COMPONENTS OpenGL Xml )
+  find_package(Qt5 QUIET COMPONENTS OpenGL Xml Svg)
   find_package(QGLViewer )
   find_package(OpenGL    )
   
@@ -92,14 +92,29 @@ if ( CGAL_FOUND AND CGAL_Qt5_FOUND AND CGAL_ImageIO_FOUND)
 
     add_executable  ( ${prj}  ${sources} ${uis} ${qrc_sources} )
 
-    qt5_use_modules(${prj} OpenGL Xml )
+    qt5_use_modules(${prj} OpenGL Xml Svg)
     
     add_to_cached_list( CGAL_EXECUTABLE_TARGETS ${prj} )
+    
+    set(VTK_LIBS "")
+    find_package(VTK QUIET COMPONENTS vtkImagingGeneral  vtkIOImage NO_MODULE)
+    if(VTK_FOUND)
+      include(${VTK_USE_FILE})
+      if ("${VTK_VERSION_MAJOR}" GREATER "5")
+        message(STATUS "VTK found")
+        add_definitions(-DCGAL_USE_VTK)
+        set(VTK_LIBS vtkImagingGeneral vtkIOImage)
+      else()
+        message(STATUS "Vtk must be at least Rel 6")
+      endif()
+    else()
+      message(STATUS "For reading Dicom files install VTK first")
+    endif()
 
     # Link the executable to CGAL and third-party libraries
-    target_link_libraries( ${prj} ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES})
+    target_link_libraries( ${prj} ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES})    
     
-    target_link_libraries( ${prj} ${QT_LIBRARIES} ${QGLVIEWER_LIBRARIES} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} )
+    target_link_libraries( ${prj} ${QT_LIBRARIES} ${QGLVIEWER_LIBRARIES} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} ${VTK_LIBS})
     
   else( QGLVIEWER_FOUND AND Qt5_FOUND)
     message(STATUS "NOTICE: This demo needs libQGLViewer, and will not be compiled.")

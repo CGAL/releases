@@ -260,7 +260,7 @@ private:
       ang_max = (std::max)(ang_max, angle);
     }
    
-    w = std::make_pair(ang_max, std::sqrt(CGAL::squared_area(P[i],P[j],P[k])));
+    w = std::make_pair(ang_max, CGAL::sqrt(CGAL::squared_area(P[i],P[j],P[k])));
   }
 
 public:
@@ -330,7 +330,7 @@ private:
       // check whether the edge is border
       bool border = (v0 + 1 == v1) || (v0 == n-1 && v1 == 0);
       if(!border) {
-        total_length += std::sqrt(CGAL::squared_distance(P[v0],P[v1]));
+        total_length += CGAL::sqrt(CGAL::squared_distance(P[v0],P[v1]));
       }
     }
   }
@@ -1193,14 +1193,15 @@ public:
  * Internal entry point for both polyline and Polyhedron_3 triangulation functions
  ***********************************************************************************/
 template <
-  typename PointRange,
+  typename PointRange1,
+  typename PointRange2,
   typename Tracer,
   typename WeightCalculator,
   typename Kernel
 >
 typename WeightCalculator::Weight
-triangulate_hole_polyline(const PointRange& points,
-                          const PointRange& third_points,
+triangulate_hole_polyline(const PointRange1& points,
+                          const PointRange2& third_points,
                           Tracer& tracer,
                           const WeightCalculator& WC,
                           bool use_delaunay_triangulation,

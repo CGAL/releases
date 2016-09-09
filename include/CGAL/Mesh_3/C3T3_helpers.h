@@ -1215,8 +1215,8 @@ private:
       if(update_c3t3)
       {
         // Update status in c3t3
-        if(surface)
-          c3t3_.add_to_complex(facet,*surface);
+        if(surface != boost::none)
+          c3t3_.add_to_complex(facet, surface.get());
         else
           c3t3_.remove_from_complex(facet);
       }
@@ -3026,6 +3026,9 @@ move_point_topo_change(const Vertex_handle& old_vertex,
                                 std::back_inserter(insertion_conflict_boundary),
                                 std::inserter(removal_conflict_cells, removal_conflict_cells.end()),
                                 could_lock_zone);
+  if (insertion_conflict_cells.empty())
+    return old_vertex;//new_position coincides with an existing vertex (not old_vertex)
+                      //and old_vertex should not be removed of the nb_vertices will change
   reset_circumcenter_cache(removal_conflict_cells);
   reset_sliver_cache(removal_conflict_cells);
   reset_circumcenter_cache(insertion_conflict_cells);

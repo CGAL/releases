@@ -24,6 +24,12 @@
 
 #include <CGAL/Compact_container.h>
 
+#include <boost/config.hpp>
+#if  (BOOST_GCC >= 50000)
+_Pragma("GCC diagnostic push")
+_Pragma("GCC diagnostic ignored \"-Warray-bounds\"")
+#endif
+
 namespace CGAL {
 
   /** @file Combinatorial_map_storages.h
@@ -59,7 +65,7 @@ namespace CGAL {
     typedef typename Dart_container::size_type      size_type;
 
     typedef CGAL::Void* Null_handle_type;
-    static Null_handle_type null_handle;
+    static const Null_handle_type null_handle;
 
     typedef Items_ Items;
     typedef Alloc_ Alloc;
@@ -144,21 +150,21 @@ namespace CGAL {
       return ADart->get_marks();
     }
     /// Return the mark value of dart a given mark number.
-    bool get_dart_mark(Dart_const_handle ADart, int amark) const
+    bool get_dart_mark(Dart_const_handle ADart, size_type amark) const
     {
       CGAL_assertion( ADart!=NULL );
       return ADart->get_mark(amark);
     }
 
     /// Set the mark of a given mark number to a given value.
-    void set_dart_mark(Dart_const_handle ADart, int amark, bool avalue) const
+    void set_dart_mark(Dart_const_handle ADart, size_type amark, bool avalue) const
     {
       CGAL_assertion( ADart!=NULL );
       ADart->set_mark(amark, avalue);
     }
 
     /// Flip the mark of a given mark number to a given value.
-    void flip_dart_mark(Dart_const_handle ADart, int amark) const
+    void flip_dart_mark(Dart_const_handle ADart, size_type amark) const
     {
       CGAL_assertion( ADart!=NULL );
       ADart->flip_mark(amark);
@@ -384,7 +390,7 @@ namespace CGAL {
 
   /// null_handle
   template < unsigned int d_, class Items_, class Alloc_ >
-  typename Combinatorial_map_storage_1<d_, Items_, Alloc_>::Null_handle_type
+  const typename Combinatorial_map_storage_1<d_, Items_, Alloc_>::Null_handle_type
   Combinatorial_map_storage_1<d_, Items_, Alloc_>::null_handle = NULL;
 
 #ifdef CGAL_CMAP_DEPRECATED
@@ -405,5 +411,9 @@ namespace CGAL {
 
 } // namespace CGAL
 
+
+#if  (BOOST_GCC >= 50000)
+ _Pragma("GCC diagnostic pop")
+#endif
 #endif // CGAL_COMBINATORIAL_MAP_H //
 // EOF //

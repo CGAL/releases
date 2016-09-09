@@ -75,29 +75,10 @@
 #include <builtins.h>
 #endif
 
-#include <boost/static_assert.hpp>
+#include <CGAL/assertions.h>
 #include <boost/config.hpp>
 #include <boost/detail/workaround.hpp>
 #include <boost/version.hpp>
-
-// Standard way to deal with clang's __has_warning
-// http://clang.llvm.org/docs/LanguageExtensions.html#feature-checking-macros
-#ifndef __has_warning
-#  define __has_warning(x) 0
-#endif
-
-// If Clang has the warning -Wunused-local-typedef, then disable it temporarily.
-#if BOOST_WORKAROUND(BOOST_VERSION, BOOST_TESTED_AT(105800)) && BOOST_CLANG && __has_warning("-Wunused-local-typedef")
-#  define CGAL_CLANG_PUSH_AND_IGNORE_UNUSED_LOCAL_TYPEDEF \
-    _Pragma("clang diagnostic push") \
-    _Pragma("clang diagnostic ignored \"-Wunused-local-typedef\"")
-#  define CGAL_CLANG_POP_DIAGNOSTIC _Pragma("clang diagnostic pop")
-#else
-#  define CGAL_CLANG_PUSH_AND_IGNORE_UNUSED_LOCAL_TYPEDEF
-#  define CGAL_CLANG_POP_DIAGNOSTIC
-#endif
-
-CGAL_CLANG_PUSH_AND_IGNORE_UNUSED_LOCAL_TYPEDEF
 
 #if defined(BOOST_MSVC)
 #  pragma warning(push)
@@ -108,11 +89,6 @@ CGAL_CLANG_PUSH_AND_IGNORE_UNUSED_LOCAL_TYPEDEF
      // int to bool performance
 #endif
 
-#if defined(__GNUC__) && defined(__GNUC_MINOR__) \
-    && (__GNUC__ * 100 + __GNUC_MINOR__) >= 408 \
-    && __cplusplus >= 201103L
-#define CGAL_CAN_USE_CXX11_THREAD_LOCAL
-#endif
 
 /*
 #ifdef CGAL_MPZF_NO_USE_CACHE
@@ -178,7 +154,7 @@ template <class T, class = void> struct pool2 {
   static bool empty() { return data() == 0; }
   static const int extra = 1; // TODO: handle the case where a pointer is larger than a mp_limb_t
   private:
-  BOOST_STATIC_ASSERT(sizeof(T) >= sizeof(T*));
+  CGAL_static_assertion(sizeof(T) >= sizeof(T*));
   static T& data () {
     static CGAL_MPZF_TLS T data_ = 0;
     return data_;
@@ -193,7 +169,7 @@ template <class T, class = void> struct pool3 {
   static bool empty() { return data() == 0; }
   static const int extra = 1; // TODO: handle the case where a pointer is larger than a mp_limb_t
   private:
-  BOOST_STATIC_ASSERT(sizeof(T) >= sizeof(T*));
+  CGAL_static_assertion(sizeof(T) >= sizeof(T*));
   struct cleaner {
     T data_ = 0;
     ~cleaner(){
@@ -442,7 +418,7 @@ struct Mpzf {
     }
     int e1 = (int)dexp+13;
     // FIXME: make it more general! But not slower...
-    BOOST_STATIC_ASSERT(GMP_NUMB_BITS == 64);
+    CGAL_static_assertion(GMP_NUMB_BITS == 64);
     int e2 = e1 % 64;
     exp = e1 / 64 - 17;
     // 52+1023+13==17*64 ?
@@ -883,6 +859,7 @@ struct Mpzf {
   Mpzf& operator+=(Mpzf const&x){ *this=*this+x; return *this; }
   Mpzf& operator-=(Mpzf const&x){ *this=*this-x; return *this; }
   Mpzf& operator*=(Mpzf const&x){ *this=*this*x; return *this; }
+  Mpzf& operator/=(Mpzf const&x){ *this=*this/x; return *this; }
 
   bool is_canonical () const {
     if (size == 0) return true;
@@ -1147,14 +1124,38 @@ CGAL_DEFINE_COERCION_TRAITS_FROM_TO(mpz_class,Mpzf)
 
 }
 
+/* There isn't much Eigen can do with such a type,
+ * mostly this is here for IsInteger to protect people.
+ */
+namespace Eigen {
+  template<class> struct NumTraits;
+  template<> struct NumTraits<CGAL::Mpzf>
+  {
+    typedef CGAL::Mpzf Real;
+    /* Should this be Quotient<Mpzf>? Gmpq?  */
+    typedef CGAL::Mpzf NonInteger;
+    typedef CGAL::Mpzf Nested;
+
+    static inline Real epsilon() { return 0; }
+    static inline Real dummy_precision() { return 0; }
+
+    enum {
+      /* Only exact divisions are supported, close enough to an integer.
+       * This way we get compilation failures instead of runtime.  */
+      IsInteger = 1,
+      IsSigned = 1,
+      IsComplex = 0,
+      RequireInitialization = 1,
+      ReadCost = 6,
+      AddCost = 30,
+      MulCost = 50
+    };
+  };
+}
+
 #if defined(BOOST_MSVC)
 #  pragma warning(pop)
 #endif
-
-CGAL_CLANG_POP_DIAGNOSTIC
-
-#undef CGAL_CLANG_PUSH_AND_IGNORE_UNUSED_LOCAL_TYPEDEF
-#undef CGAL_CLANG_POP_DIAGNOSTIC
 
 #endif // GMP_NUMB_BITS == 64
 #endif // CGAL_MPZF_H

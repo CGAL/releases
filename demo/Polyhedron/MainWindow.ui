@@ -37,7 +37,7 @@
      <x>0</x>
      <y>0</y>
      <width>978</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -52,6 +52,8 @@
     <addaction name="actionSaveSnapshot"/>
     <addaction name="separator"/>
     <addaction name="actionLoad_Script"/>
+    <addaction name="separator"/>
+    <addaction name="actionLoad_plugin"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -69,14 +71,6 @@
     <property name="title">
      <string>&amp;Operations</string>
     </property>
-    <widget class="QMenu" name="menuSubdivision">
-     <property name="title">
-      <string>&amp;Subdivision</string>
-     </property>
-     <addaction name="actionLoop"/>
-     <addaction name="actionCatmullClark"/>
-     <addaction name="actionSqrt3"/>
-    </widget>
     <widget class="QMenu" name="menu_Boolean_operations">
      <property name="title">
       <string>&amp;Boolean operations</string>
@@ -89,31 +83,14 @@
      <addaction name="separator"/>
      <addaction name="actionMinkowskiSum"/>
     </widget>
-    <widget class="QMenu" name="menuParameterization">
-     <property name="title">
-      <string>Parameterization</string>
-     </property>
-     <addaction name="actionMVC"/>
-     <addaction name="actionDCP"/>
-    </widget>
-    <widget class="QMenu" name="menuPCA">
-     <property name="title">
-      <string>PCA</string>
-     </property>
-     <addaction name="actionFitLine"/>
-     <addaction name="actionFitPlane"/>
-    </widget>
-    <addaction name="menuPCA"/>
     <addaction name="actionEstimateCurvature"/>
     <addaction name="actionSelfIntersection"/>
     <addaction name="actionConvexHull"/>
     <addaction name="actionKernel"/>
-    <addaction name="menuSubdivision"/>
     <addaction name="actionSimplify"/>
     <addaction name="actionRemeshing"/>
     <addaction name="actionConvexDecomposition"/>
     <addaction name="menu_Boolean_operations"/>
-    <addaction name="menuParameterization"/>
     <addaction name="actionInsideOut"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -138,6 +115,7 @@
     <addaction name="action_Look_at"/>
     <addaction name="actionAntiAliasing"/>
     <addaction name="actionDraw_two_sides"/>
+    <addaction name="actionQuick_camera_mode"/>
     <addaction name="actionSetBackgroundColor"/>
     <addaction name="menuDockWindows"/>
     <addaction name="menuCamera"/>
@@ -198,6 +176,28 @@
           </widget>
          </item>
          <item>
+          <widget class="QToolButton" name="upButton">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="Polyhedron_3.qrc">
+             <normaloff>:/cgal/icons/resources/up.png</normaloff>:/cgal/icons/resources/up.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="downButton">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="Polyhedron_3.qrc">
+             <normaloff>:/cgal/icons/resources/down.png</normaloff>:/cgal/icons/resources/down.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="horizontalSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -224,6 +224,9 @@
          <property name="editTriggers">
           <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
          </property>
+         <property name="dragDropMode">
+          <enum>QAbstractItemView::InternalMove</enum>
+         </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
@@ -231,7 +234,7 @@
           <enum>QAbstractItemView::ExtendedSelection</enum>
          </property>
          <property name="indentation">
-          <number>0</number>
+          <number>10</number>
          </property>
         </widget>
        </item>
@@ -295,8 +298,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>534</width>
-            <height>174</height>
+            <width>541</width>
+            <height>175</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -650,6 +653,27 @@
   <action name="actionPreferences">
    <property name="text">
     <string>&amp;Preferences</string>
+   </property>
+  </action>
+  <action name="actionLSC">
+   <property name="text">
+    <string>Least square conformal maps</string>
+   </property>
+  </action>
+  <action name="actionLoad_plugin">
+   <property name="text">
+    <string>Load plugin</string>
+   </property>
+  </action>
+  <action name="actionQuick_camera_mode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Quick camera mode</string>
    </property>
   </action>
  </widget>

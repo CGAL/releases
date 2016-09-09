@@ -15,6 +15,13 @@ typedef Kernel::Vector_3 Vector;
 // Point with normal vector stored in a std::pair.
 typedef std::pair<Point, Vector> PointVectorPair;
 
+// Concurrency
+#ifdef CGAL_LINKED_WITH_TBB
+typedef CGAL::Parallel_tag Concurrency_tag;
+#else
+typedef CGAL::Sequential_tag Concurrency_tag;
+#endif
+
 
 int main(int argc, char* argv[])
 {
@@ -39,10 +46,10 @@ int main(int argc, char* argv[])
   const double sharpness_angle = 25;   // control sharpness of the result.
   const double edge_sensitivity = 0;    // higher values will sample more points near the edges          
   const double neighbor_radius = 0.25;  // initial size of neighborhood.
-  const unsigned int number_of_output_points = points.size() * 4;
+  const std::size_t number_of_output_points = points.size() * 4;
 
    //Run algorithm 
-   CGAL::edge_aware_upsample_point_set(
+  CGAL::edge_aware_upsample_point_set<Concurrency_tag>(
             points.begin(), 
             points.end(), 
             std::back_inserter(points),

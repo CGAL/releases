@@ -28,7 +28,6 @@
 #include <CGAL/Origin.h>
 #include <CGAL/Kernel/global_functions_3.h>
 
-#include <CGAL/boost/graph/properties.h> 
 #include <CGAL/Polygon_mesh_processing/internal/named_function_params.h>
 #include <CGAL/Polygon_mesh_processing/internal/named_params_helper.h>
 
@@ -58,7 +57,7 @@ void sum_normals(const PM& pmesh,
 }
 
 /**
-* \ingroup PkgPolygonMeshProcessing
+* \ingroup PMP_normal_grp
 * computes the outward unit vector normal to face `f`.
 * @tparam PolygonMesh a model of `FaceGraph` that has an internal property map
 *         for `CGAL::vertex_point_t`
@@ -89,22 +88,23 @@ compute_face_normal(typename boost::graph_traits<PolygonMesh>::face_descriptor f
                     , const NamedParameters& np)
 {
   typedef typename GetGeomTraits<PolygonMesh, NamedParameters>::type Kernel;
+  typedef typename Kernel::FT FT;
   typedef typename Kernel::Point_3 Point;
   typedef typename Kernel::Vector_3 Vector;
 
   using boost::get_param;
-  using boost::choose_param;
+  using boost::choose_const_pmap;
 
   Vector normal = CGAL::NULL_VECTOR;
   sum_normals<Point>(pmesh, f
-    , choose_param(get_param(np, vertex_point), get(CGAL::vertex_point, pmesh))
+    , choose_const_pmap(get_param(np, CGAL::vertex_point), pmesh, CGAL::vertex_point)
     , normal);
  
-  return normal / std::sqrt(normal * normal);
+  return normal / FT( std::sqrt( to_double(normal * normal) ) );
 }
 
 /**
-* \ingroup PkgPolygonMeshProcessing
+* \ingroup PMP_normal_grp
 * computes the outward unit vector normal for all faces of the polygon mesh.
 * @tparam PolygonMesh a model of `FaceGraph` that has an internal property map
 *         for `CGAL::vertex_point_t`
@@ -140,7 +140,7 @@ compute_face_normals(const PolygonMesh& pmesh
 }
 
 /**
-* \ingroup PkgPolygonMeshProcessing
+* \ingroup PMP_normal_grp
 * computes the unit normal at vertex `v` as the average of the normals of incident faces.
 * @tparam PolygonMesh a model of `FaceGraph` that has an internal property map
 *         for `CGAL::vertex_point_t`
@@ -171,6 +171,7 @@ compute_vertex_normal(typename boost::graph_traits<PolygonMesh>::vertex_descript
                       )
 {
   typedef typename GetGeomTraits<PolygonMesh, NamedParameters>::type Kernel;
+  typedef typename Kernel::FT FT;
 
   typedef typename Kernel::Vector_3 Vector;
   typedef typename boost::graph_traits<PolygonMesh>::halfedge_descriptor halfedge_descriptor;
@@ -183,16 +184,16 @@ compute_vertex_normal(typename boost::graph_traits<PolygonMesh>::vertex_descript
     if (!is_border(he, pmesh))
     {
       Vector n = compute_face_normal(face(he, pmesh), pmesh, np);
-      normal = normal + (n / std::sqrt(n*n));
+      normal = normal + n;
     }
     he = opposite(next(he, pmesh), pmesh);
   } while (he != end);
 
-  return normal / std::sqrt(normal * normal);
+  return normal / FT( std::sqrt( to_double(normal * normal)  ) );
 }
 
 /**
-* \ingroup PkgPolygonMeshProcessing
+* \ingroup PMP_normal_grp
 * computes the outward unit vector normal for all vertices of the polygon mesh.
 * @tparam PolygonMesh a model of `FaceListGraph` that has an internal property map
 *         for `CGAL::vertex_point_t`
@@ -230,7 +231,7 @@ compute_vertex_normals(const PolygonMesh& pmesh
 }
 
 /**
-* \ingroup PkgPolygonMeshProcessing
+* \ingroup PMP_normal_grp
 * computes the outward unit vector normal for all vertices and faces of the polygon mesh.
 * @tparam PolygonMesh a model of `FaceListGraph` that has an internal property map
 *         for `CGAL::vertex_point_t`

@@ -13,13 +13,12 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 #include <QOpenGLShaderProgram>
+#include <CGAL/Qt/debug.h>
 
 #if !defined(NDEBUG)
 inline
 void printGlError(unsigned int line) {
-  GLenum error = glGetError();
-  if(error != GL_NO_ERROR)
-    std::cerr << gluErrorString(error) << "@" << line << std::endl;
+ CGAL::Qt::opengl_check_errors(line);
 }
 #else
 inline
@@ -205,38 +204,38 @@ private:
 
 template<typename T>
 const char* Volume_plane<T>::vertexShader_source =
-      "#version 330 \n"
-      "in vec4 vertex; \n"
-      "in float color; \n"
+      "#version 120 \n"
+      "attribute highp vec4 vertex; \n"
+      "attribute highp float color; \n"
       "uniform highp mat4 mvp_matrix; \n"
       "uniform highp mat4 f_matrix; \n"
-      "out vec4 fullColor; \n"
+      "varying highp vec4 fullColor; \n"
       "void main() \n"
       "{ gl_Position = mvp_matrix * f_matrix * vertex; \n"
       " fullColor = vec4(color, color, color, 1.0f); } \n";
 
 template<typename T>
 const char* Volume_plane<T>::fragmentShader_source =
-      "#version 330\n"
-      "in vec4 fullColor; \n"
+      "#version 120\n"
+      "varying highp vec4 fullColor; \n"
       "void main() { gl_FragColor = fullColor; } \n";
 
 template<typename T>
 const char* Volume_plane<T>::vertexShader_bordures_source =
-      "#version 330 \n"
-      "in vec4 vertex; \n"
-      "uniform vec4 color; \n"
+      "#version 120 \n"
+      "attribute highp vec4 vertex; \n"
+      "uniform highp vec4 color; \n"
       "uniform highp mat4 mvp_matrix; \n"
       "uniform highp mat4 f_matrix; \n"
-      "out vec4 fullColor; \n"
+      "varying highp vec4 fullColor; \n"
       "void main() \n"
       "{ gl_Position = mvp_matrix * f_matrix * vertex; \n"
       " fullColor = color; } \n";
 
 template<typename T>
 const char* Volume_plane<T>::fragmentShader_bordures_source =
-      "#version 330\n"
-      "in vec4 fullColor; \n"
+      "#version 120\n"
+      "varying highp vec4 fullColor; \n"
       "void main() { gl_FragColor = fullColor; } \n";
 
 
@@ -342,7 +341,6 @@ void Volume_plane<T>::draw(Viewer* viewer) const {
 
 template<typename T>
 void Volume_plane<T>::init() {
-  
   initShaders();
 
   // for each vertex

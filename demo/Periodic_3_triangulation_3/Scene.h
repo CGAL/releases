@@ -31,10 +31,11 @@ private:
     CLIPPING_COLOR
   };
 
+  bool gl_init;
 public:
   Scene(Ui::MainWindow* ui_) : ui(ui_), p3dt(),
                   moving_point(Point(0.2,0.2,0.2)) {
-
+    gl_init = false;
     flying_ball = ui->actionFlying_ball->isChecked();
 
     dlocate = ui->actionPoint_location->isChecked();
@@ -220,7 +221,11 @@ Q_SIGNALS:
 private:
   // Scene management helpers
   void init_scene(Init sceneID);
-
+  GLint project(GLdouble objx, GLdouble objy, GLdouble objz,
+                const GLdouble modelMatrix[16],
+                const GLdouble projMatrix[16],
+                const GLint viewport[4],
+                GLdouble *winx, GLdouble *winy, GLdouble *winz);
 
   // Helper functions
   void get_tri_offsets(const Cell_handle ch, int i,

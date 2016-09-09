@@ -1,6 +1,6 @@
 #ifndef POINT_SET_ITEM_H
 #define POINT_SET_ITEM_H
-#include "Scene_item.h"
+#include  <CGAL/Three/Scene_item.h>
 #include "Scene_points_with_normal_item_config.h"
 #include "Polyhedron_type_fwd.h"
 #include "Kernel_type.h"
@@ -18,7 +18,7 @@ class QAction;
 
 // This class represents a point set in the OpenGL scene
 class SCENE_POINTS_WITH_NORMAL_ITEM_EXPORT Scene_points_with_normal_item
-  : public Scene_item
+  : public CGAL::Three::Scene_item
 {
   Q_OBJECT
 
@@ -36,6 +36,8 @@ public:
   QMenu* contextMenu();
 
   // IO
+  bool read_ply_point_set(std::istream& in);
+  bool write_ply_point_set(std::ostream& out) const;
   bool read_off_point_set(std::istream& in);
   bool write_off_point_set(std::ostream& out) const;
   bool read_xyz_point_set(std::istream& in);
@@ -44,15 +46,15 @@ public:
   // Function for displaying meta-data of the item
   virtual QString toolTip() const;
 
-  virtual void invalidate_buffers();
+  virtual void invalidateOpenGLBuffers();
 
   // Indicate if rendering mode is supported
   virtual bool supportsRenderingMode(RenderingMode m) const;
 
-  virtual void draw_edges(Viewer_interface* viewer) const;
-  virtual void draw_points(Viewer_interface*) const;
+  virtual void draw_edges(CGAL::Three::Viewer_interface* viewer) const;
+  virtual void draw_points(CGAL::Three::Viewer_interface*) const;
 
-  virtual void draw_splats(Viewer_interface*) const;
+  virtual void draw_splats(CGAL::Three::Viewer_interface*) const;
   
   // Gets wrapped point set
   Point_set*       point_set();
@@ -61,7 +63,7 @@ public:
   // Gets dimensions
   virtual bool isFinite() const { return true; }
   virtual bool isEmpty() const;
-  virtual Bbox bbox() const;
+  virtual void compute_bbox() const;
 
   virtual void setRenderingMode(RenderingMode m);
 
@@ -91,6 +93,18 @@ private:
   QAction* actionResetSelection;
   QAction* actionSelectDuplicatedPoints;
 
+  enum VAOs {
+      Edges=0,
+      ThePoints,
+      Selected_points,
+      NbOfVaos = Selected_points+1
+  };
+  enum VBOs {
+      Edges_vertices = 0,
+      Points_vertices,
+      Selected_points_vertices,
+      NbOfVbos = Selected_points_vertices+1
+  };
 
   mutable std::vector<double> positions_lines;
   mutable std::vector<double> positions_points;
@@ -102,8 +116,8 @@ private:
 
   mutable QOpenGLShaderProgram *program;
 
-  using Scene_item::initialize_buffers;
-  void initialize_buffers(Viewer_interface *viewer) const;
+  using CGAL::Three::Scene_item::initialize_buffers;
+  void initialize_buffers(CGAL::Three::Viewer_interface *viewer) const;
 
   void compute_normals_and_vertices() const;
 

@@ -31,12 +31,7 @@ Viewer::Viewer(QWidget* parent)
   : QGLViewer(CGAL::Qt::createOpenGLContext(),parent), wireframe(false),
     flatShading(true), edges(true), vertices(true),
     m_previous_scene_empty(true), are_buffers_initialized(false)
-
 {
-  QGLFormat newFormat = this->format();
-  newFormat.setSampleBuffers(true);
-  newFormat.setSamples(16);
-  this->setFormat(newFormat);
 }
 
 Viewer::~Viewer()
@@ -296,207 +291,229 @@ void Viewer::initialize_buffers()
   are_buffers_initialized = true;
 }
 
-void Viewer::compute_faces(Dart_handle dh)
+void Viewer::compute_face(Dart_handle dh, LCC::size_type markface)
 {
   LCC &lcc = *scene->lcc;
-  for(LCC::One_dart_per_incident_cell_range<2,3>::iterator
-        dartIter=lcc.one_dart_per_incident_cell<2,3>(dh).begin();
-      dartIter.cont(); ++dartIter)
+
+  CGAL::mark_cell<LCC, 2>(lcc, dh, markface);
+
+  double r = (double)lcc.info<3>(dh).color().r()/255.0;
+  double g = (double)lcc.info<3>(dh).color().g()/255.0;
+  double b = (double)lcc.info<3>(dh).color().b()/255.0;
+  if ( !lcc.is_free(dh, 3) )
   {
-    double r = (double)lcc.info<3>(dartIter).color().r()/255.0;
-    double g = (double)lcc.info<3>(dartIter).color().g()/255.0;
-    double b = (double)lcc.info<3>(dartIter).color().b()/255.0;
-    if ( !lcc.is_free(dartIter, 3) )
+    r += (double)lcc.info<3>(lcc.beta(dh,3)).color().r()/255.0;
+    g += (double)lcc.info<3>(lcc.beta(dh,3)).color().g()/255.0;
+    b += (double)lcc.info<3>(lcc.beta(dh,3)).color().b()/255.0;
+    r /= 2; g /= 2; b /= 2;
+  }
+
+  //compute flat normals
+  LCC::Vector normal = CGAL::compute_normal_of_cell_2(lcc,dh);
+  normal = normal/(CGAL::sqrt(normal*normal));
+
+  if (lcc.beta<1,1,1>(dh)!=dh)
+  {
+    P_traits cdt_traits(normal);
+    CDT cdt(cdt_traits);
+
+    // Iterates on the vector of facet handles
+    CDT::Vertex_handle previous = NULL, first = NULL;
+    for (LCC::Dart_of_orbit_range<1>::const_iterator
+           he_circ = lcc.darts_of_orbit<1>(dh).begin(),
+           he_circ_end = lcc.darts_of_orbit<1>(dh).end();
+         he_circ!=he_circ_end; ++he_circ)
     {
-      r += (double)lcc.info<3>(lcc.beta(dartIter,3)).color().r()/255.0;
-      g += (double)lcc.info<3>(lcc.beta(dartIter,3)).color().g()/255.0;
-      b += (double)lcc.info<3>(lcc.beta(dartIter,3)).color().b()/255.0;
-      r /= 2; g /= 2; b /= 2;
+      CDT::Vertex_handle vh = cdt.insert(lcc.point(he_circ));
+      if(first == NULL)
+      { first = vh; }
+      vh->info().v = CGAL::compute_normal_of_cell_0<LCC>(lcc, he_circ);
+      if(previous!=NULL && previous != vh)
+      { cdt.insert_constraint(previous, vh); }
+      previous = vh;
     }
-
-    //compute flat normals
-    LCC::Vector normal = CGAL::compute_normal_of_cell_2(lcc,dartIter);
-    normal = normal/(CGAL::sqrt(normal*normal));
-
-    if (lcc.beta<1,1,1>(dartIter)!=dartIter)
-    {
-      P_traits cdt_traits(normal);
-      CDT cdt(cdt_traits);
-
-      // Iterates on the vector of facet handles
-      CDT::Vertex_handle previous = NULL, first = NULL;
-      for (LCC::Dart_of_orbit_range<1>::const_iterator
-             he_circ = lcc.darts_of_orbit<1>(dartIter).begin(),
-             he_circ_end = lcc.darts_of_orbit<1>(dartIter).end();
-           he_circ!=he_circ_end; ++he_circ)
-      {
-        CDT::Vertex_handle vh = cdt.insert(lcc.point(he_circ));
-        if(first == NULL)
-        { first = vh; }
-        //vh->info() = he_circ;
-        if(previous!=NULL && previous != vh)
-        { cdt.insert_constraint(previous, vh); }
-        previous = vh;
-      }
+    if (previous!=NULL)
       cdt.insert_constraint(previous, first);
 
-      // sets mark is_external
-      for(CDT::All_faces_iterator fit = cdt.all_faces_begin(),
-            fitend = cdt.all_faces_end(); fit!=fitend; ++fit)
+    // sets mark is_external
+    for(CDT::All_faces_iterator fit = cdt.all_faces_begin(),
+          fitend = cdt.all_faces_end(); fit!=fitend; ++fit)
+    {
+      fit->info().is_external = true;
+      fit->info().is_process = false;
+    }
+    //check if the facet is external or internal
+    std::queue<CDT::Face_handle> face_queue;
+    CDT::Face_handle face_internal = NULL;
+    face_queue.push(cdt.infinite_vertex()->face());
+    while(! face_queue.empty() )
+    {
+      CDT::Face_handle fh = face_queue.front();
+      face_queue.pop();
+      if(!fh->info().is_process)
       {
-        fit->info().is_external = false;
-      }
-      //check if the facet is external or internal
-      std::queue<CDT::Face_handle> face_queue;
-      face_queue.push(cdt.infinite_vertex()->face());
-      while(! face_queue.empty() )
-      {
-        CDT::Face_handle fh = face_queue.front();
-        face_queue.pop();
-        if(!fh->info().is_external)
+        fh->info().is_process = true;
+        for(int i = 0; i <3; ++i)
         {
-          fh->info().is_external = true;
-          for(int i = 0; i <3; ++i)
+          if(!cdt.is_constrained(std::make_pair(fh, i)))
           {
-            if(!cdt.is_constrained(std::make_pair(fh, i)))
-            {
-              face_queue.push(fh->neighbor(i));
-            }
+            face_queue.push(fh->neighbor(i));
+          }
+          else if (face_internal==NULL)
+          {
+            face_internal = fh->neighbor(i);
           }
         }
       }
+    }
 
-      //iterates on the internal faces to add the vertices to the positions
-      //and the normals to the appropriate vectors
-      for(CDT::Finite_faces_iterator ffit = cdt.finite_faces_begin(),
-            ffitend = cdt.finite_faces_end(); ffit != ffitend; ++ffit)
+    if ( face_internal!=NULL )
+      face_queue.push(face_internal);
+
+    while(! face_queue.empty() )
+    {
+      CDT::Face_handle fh = face_queue.front();
+      face_queue.pop();
+      if(!fh->info().is_process)
       {
-        if(!ffit->info().is_external)
+        fh->info().is_process = true;
+        fh->info().is_external = false;
+        for(int i = 0; i <3; ++i)
         {
-          smooth_normals.push_back(normal.x());
-          smooth_normals.push_back(normal.y());
-          smooth_normals.push_back(normal.z());
-
-          smooth_normals.push_back(normal.x());
-          smooth_normals.push_back(normal.y());
-          smooth_normals.push_back(normal.z());
-
-          smooth_normals.push_back(normal.x());
-          smooth_normals.push_back(normal.y());
-          smooth_normals.push_back(normal.z());
-
-          flat_normals.push_back(normal.x());
-          flat_normals.push_back(normal.y());
-          flat_normals.push_back(normal.z());
-
-          flat_normals.push_back(normal.x());
-          flat_normals.push_back(normal.y());
-          flat_normals.push_back(normal.z());
-
-          flat_normals.push_back(normal.x());
-          flat_normals.push_back(normal.y());
-          flat_normals.push_back(normal.z());
-
-          pos_facets.push_back(ffit->vertex(0)->point().x());
-          pos_facets.push_back(ffit->vertex(0)->point().y());
-          pos_facets.push_back(ffit->vertex(0)->point().z());
-
-          pos_facets.push_back(ffit->vertex(1)->point().x());
-          pos_facets.push_back(ffit->vertex(1)->point().y());
-          pos_facets.push_back(ffit->vertex(1)->point().z());
-
-          pos_facets.push_back(ffit->vertex(2)->point().x());
-          pos_facets.push_back(ffit->vertex(2)->point().y());
-          pos_facets.push_back(ffit->vertex(2)->point().z());
-
-          colors.push_back(r);colors.push_back(g);colors.push_back(b);
-          colors.push_back(r);colors.push_back(g);colors.push_back(b);
-          colors.push_back(r);colors.push_back(g);colors.push_back(b);
+          if(!cdt.is_constrained(std::make_pair(fh, i)))
+          {
+            face_queue.push(fh->neighbor(i));
+          }
         }
       }
     }
-    else
+
+    //iterates on the internal faces to add the vertices to the positions
+    //and the normals to the appropriate vectors
+    for(CDT::Finite_faces_iterator ffit = cdt.finite_faces_begin(),
+          ffitend = cdt.finite_faces_end(); ffit != ffitend; ++ffit)
     {
-      colors.push_back(r);colors.push_back(g);colors.push_back(b);
-      colors.push_back(r);colors.push_back(g);colors.push_back(b);
-      colors.push_back(r);colors.push_back(g);colors.push_back(b);
-
-      flat_normals.push_back(normal.x());
-      flat_normals.push_back(normal.y());
-      flat_normals.push_back(normal.z());
-
-      flat_normals.push_back(normal.x());
-      flat_normals.push_back(normal.y());
-      flat_normals.push_back(normal.z());
-
-      flat_normals.push_back(normal.x());
-      flat_normals.push_back(normal.y());
-      flat_normals.push_back(normal.z());
-
-      for (LCC::Dart_of_orbit_range<1>::const_iterator
-             orbitIter = lcc.darts_of_orbit<1>(dartIter).begin();
-           orbitIter.cont(); ++orbitIter)
+      if(!ffit->info().is_external)
       {
-        //compute Smooth normals
-        LCC::Vector normal = CGAL::compute_normal_of_cell_0(lcc,orbitIter);
-        normal = normal/(CGAL::sqrt(normal*normal));
+        flat_normals.push_back(normal.x());
+        flat_normals.push_back(normal.y());
+        flat_normals.push_back(normal.z());
 
-        smooth_normals.push_back(normal.x());
-        smooth_normals.push_back(normal.y());
-        smooth_normals.push_back(normal.z());
+        flat_normals.push_back(normal.x());
+        flat_normals.push_back(normal.y());
+        flat_normals.push_back(normal.z());
 
-        const LCC::Point& p = lcc.point(orbitIter);
-        pos_facets.push_back(p.x());
-        pos_facets.push_back(p.y());
-        pos_facets.push_back(p.z());
+        flat_normals.push_back(normal.x());
+        flat_normals.push_back(normal.y());
+        flat_normals.push_back(normal.z());
+
+        smooth_normals.push_back(ffit->vertex(0)->info().v.x());
+        smooth_normals.push_back(ffit->vertex(0)->info().v.y());
+        smooth_normals.push_back(ffit->vertex(0)->info().v.z());
+
+        smooth_normals.push_back(ffit->vertex(1)->info().v.x());
+        smooth_normals.push_back(ffit->vertex(1)->info().v.y());
+        smooth_normals.push_back(ffit->vertex(1)->info().v.z());
+
+        smooth_normals.push_back(ffit->vertex(2)->info().v.x());
+        smooth_normals.push_back(ffit->vertex(2)->info().v.y());
+        smooth_normals.push_back(ffit->vertex(2)->info().v.z());
+
+        pos_facets.push_back(ffit->vertex(0)->point().x());
+        pos_facets.push_back(ffit->vertex(0)->point().y());
+        pos_facets.push_back(ffit->vertex(0)->point().z());
+
+        pos_facets.push_back(ffit->vertex(1)->point().x());
+        pos_facets.push_back(ffit->vertex(1)->point().y());
+        pos_facets.push_back(ffit->vertex(1)->point().z());
+
+        pos_facets.push_back(ffit->vertex(2)->point().x());
+        pos_facets.push_back(ffit->vertex(2)->point().y());
+        pos_facets.push_back(ffit->vertex(2)->point().z());
+
+        colors.push_back(r);colors.push_back(g);colors.push_back(b);
+        colors.push_back(r);colors.push_back(g);colors.push_back(b);
+        colors.push_back(r);colors.push_back(g);colors.push_back(b);
       }
     }
   }
-}
-
-void Viewer::compute_edges(Dart_handle dh)
-{
-  LCC &lcc = *scene->lcc;
-  for(LCC::One_dart_per_incident_cell_range<1,3>::iterator
-        dartIter=lcc.one_dart_per_incident_cell<1,3>(dh).begin();
-      dartIter.cont(); ++dartIter)
+  else
   {
-    const LCC::Point& p =  lcc.point(dartIter);
-    Dart_handle d2 = lcc.other_extremity(dartIter);
-    if ( d2!=NULL )
-    {
-      const LCC::Point& p2 = lcc.point(d2);
-      pos_lines.push_back(p.x());
-      pos_lines.push_back(p.y());
-      pos_lines.push_back(p.z());
+    colors.push_back(r);colors.push_back(g);colors.push_back(b);
+    colors.push_back(r);colors.push_back(g);colors.push_back(b);
+    colors.push_back(r);colors.push_back(g);colors.push_back(b);
 
-      pos_lines.push_back(p2.x());
-      pos_lines.push_back(p2.y());
-      pos_lines.push_back(p2.z());
+    flat_normals.push_back(normal.x());
+    flat_normals.push_back(normal.y());
+    flat_normals.push_back(normal.z());
+
+    flat_normals.push_back(normal.x());
+    flat_normals.push_back(normal.y());
+    flat_normals.push_back(normal.z());
+
+    flat_normals.push_back(normal.x());
+    flat_normals.push_back(normal.y());
+    flat_normals.push_back(normal.z());
+
+    for (LCC::Dart_of_orbit_range<1>::const_iterator
+           orbitIter = lcc.darts_of_orbit<1>(dh).begin();
+         orbitIter.cont(); ++orbitIter)
+    {
+      //compute Smooth normals
+      LCC::Vector normal = CGAL::compute_normal_of_cell_0(lcc,orbitIter);
+      normal = normal/(CGAL::sqrt(normal*normal));
+
+      smooth_normals.push_back(normal.x());
+      smooth_normals.push_back(normal.y());
+      smooth_normals.push_back(normal.z());
+
+      const LCC::Point& p = lcc.point(orbitIter);
+      pos_facets.push_back(p.x());
+      pos_facets.push_back(p.y());
+      pos_facets.push_back(p.z());
     }
   }
 }
 
-void Viewer::compute_vertices(Dart_handle dh, bool empty)
+void Viewer::compute_edge(Dart_handle dh, LCC::size_type markedge)
 {
   LCC &lcc = *scene->lcc;
-  for(LCC::One_dart_per_incident_cell_range<0,3>::iterator
-        dartIter=lcc.one_dart_per_incident_cell<0,3>(dh).begin();
-      dartIter.cont(); ++dartIter)
-  {
-    const LCC::Point& p =  lcc.point(dartIter);
-    pos_points.push_back(p.x());
-    pos_points.push_back(p.y());
-    pos_points.push_back(p.z());
 
-    if ( empty )
-    {
-      bb = p.bbox();
-      empty = false;
-    }
-    else
-      bb = bb + p.bbox();
+  CGAL::mark_cell<LCC, 1>(lcc, dh, markedge);
+
+  const LCC::Point& p =  lcc.point(dh);
+  Dart_handle d2 = lcc.other_extremity(dh);
+  if ( d2!=NULL )
+  {
+    const LCC::Point& p2 = lcc.point(d2);
+    pos_lines.push_back(p.x());
+    pos_lines.push_back(p.y());
+    pos_lines.push_back(p.z());
+
+    pos_lines.push_back(p2.x());
+    pos_lines.push_back(p2.y());
+    pos_lines.push_back(p2.z());
   }
+}
+
+void Viewer::compute_vertex(Dart_handle dh, LCC::size_type markvertex, bool& empty)
+{
+  LCC &lcc = *scene->lcc;
+
+  CGAL::mark_cell<LCC, 0>(lcc, dh, markvertex);
+
+  const LCC::Point& p =  lcc.point(dh);
+  pos_points.push_back(p.x());
+  pos_points.push_back(p.y());
+  pos_points.push_back(p.z());
+
+  if ( empty )
+  {
+    bb = p.bbox();
+    empty = false;
+  }
+  else
+    bb = bb + p.bbox();
 }
 
 void Viewer::compute_elements()
@@ -517,18 +534,29 @@ void Viewer::compute_elements()
     return;
   }
 
+  LCC::size_type markvertex = lcc.get_new_mark();
+  LCC::size_type markedge   = lcc.get_new_mark();
+  LCC::size_type markface   = lcc.get_new_mark();
+
   bool empty = true;
   for (LCC::Attribute_range<3>::type::iterator it=lcc.attributes<3>().begin(),
          itend=lcc.attributes<3>().end(); it!=itend; ++it )
   {
     if ( it->info().is_visible() )
     {
-      if (it->info().is_filled())
-        compute_faces(lcc.dart_of_attribute<3>(it));
+      for(LCC::Dart_of_cell_range<3>::iterator
+            dartIter=lcc.darts_of_cell<3>(lcc.dart_of_attribute<3>(it)).begin();
+          dartIter.cont(); ++dartIter)
+      {
+        if ( it->info().is_filled() && !lcc.is_marked(dartIter, markface) )
+          compute_face(dartIter, markface);
 
-      compute_edges(lcc.dart_of_attribute<3>(it));
-      compute_vertices(lcc.dart_of_attribute<3>(it), empty);
-      empty = false;
+        if ( !lcc.is_marked(dartIter, markedge) )
+          compute_edge(dartIter, markedge);
+
+        if ( !lcc.is_marked(dartIter, markvertex) )
+        compute_vertex(dartIter, markvertex, empty);
+      }
     }
   }
 
@@ -537,6 +565,18 @@ void Viewer::compute_elements()
     bb = LCC::Point(CGAL::ORIGIN).bbox();
     bb = bb + LCC::Point(1,1,1).bbox(); // To avoid a warning from Qglviewer
   }
+
+  for (LCC::Dart_range::iterator it=lcc.darts().begin(),
+         itend=lcc.darts().end(); it!=itend; ++it )
+  {
+    lcc.unmark(it, markvertex);
+    lcc.unmark(it, markedge);
+    lcc.unmark(it, markface);
+  }
+
+  lcc.free_mark(markvertex);
+  lcc.free_mark(markedge);
+  lcc.free_mark(markface);
 }
 
 void Viewer::attrib_buffers(QGLViewer* viewer)
@@ -566,7 +606,8 @@ void Viewer::attrib_buffers(QGLViewer* viewer)
                       0.0f,
                       1.0f );
 
-  QVector4D position( 10.0f, 10.0f, 10.0f, 0.0f  );
+
+  QVector4D position((bb.xmax()-bb.xmin())/2, (bb.ymax()-bb.ymin())/2,bb.zmax(), 0.0 );
   GLfloat shininess =  1.0f;
 
   rendering_program.bind();
@@ -615,62 +656,64 @@ void Viewer::sceneChanged()
 
 void Viewer::draw()
 {
-  glEnable(GL_DEPTH_TEST);
-  if(!are_buffers_initialized)
-    initialize_buffers();
+  if(scene)
+  {
+    glEnable(GL_DEPTH_TEST);
+    if(!are_buffers_initialized)
+      initialize_buffers();
 
-  QColor color;
-  if ( !wireframe )
-  {
-    if(flatShading)
+    QColor color;
+    if ( !wireframe )
     {
-      vao[0].bind();
-      attrib_buffers(this);
-      rendering_program.bind();
-      glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(pos_facets.size()/3));
-      rendering_program.release();
-      vao[0].release();
+      if(flatShading)
+      {
+        vao[0].bind();
+        attrib_buffers(this);
+        rendering_program.bind();
+        glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(pos_facets.size()/3));
+        rendering_program.release();
+        vao[0].release();
+      }
+      else
+      {
+        vao[1].bind();
+        attrib_buffers(this);
+        rendering_program.bind();
+        glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(pos_facets.size()/3));
+        rendering_program.release();
+        vao[1].release();
+      }
     }
-    else
+    if(edges)
     {
-      vao[1].bind();
+      vao[2].bind();
       attrib_buffers(this);
-      rendering_program.bind();
-      glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(pos_facets.size()/3));
-      rendering_program.release();
-      vao[1].release();
+      color.setRgbF(0.2f, 0.2f, 0.7f);
+      rendering_program_p_l.bind();
+      rendering_program_p_l.setAttributeValue(colorLocation,color);
+      glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(pos_lines.size()/3));
+      rendering_program_p_l.release();
+      vao[2].release();
     }
-  }
-  if(edges)
-  {
-    vao[2].bind();
-    attrib_buffers(this);
-    color.setRgbF(0.2f, 0.2f, 0.7f);
-    rendering_program_p_l.bind();
-    rendering_program_p_l.setAttributeValue(colorLocation,color);
-    glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(pos_lines.size()/3));
-    rendering_program_p_l.release();
-    vao[2].release();
-  }
-  if(vertices)
-  {
-    ::glPointSize(7.f);
-    vao[3].bind();
-    attrib_buffers(this);
-    color.setRgbF(.2f,.2f,.6f);
-    rendering_program_p_l.bind();
-    rendering_program_p_l.setAttributeValue(colorLocation,color);
-    glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(pos_points.size()/3));
-    rendering_program_p_l.release();
-    vao[3].release();
+    if(vertices)
+    {
+      ::glPointSize(7.f);
+      vao[3].bind();
+      attrib_buffers(this);
+      color.setRgbF(.2f,.2f,.6f);
+      rendering_program_p_l.bind();
+      rendering_program_p_l.setAttributeValue(colorLocation,color);
+      glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(pos_points.size()/3));
+      rendering_program_p_l.release();
+      vao[3].release();
+    }
   }
 }
-
 void Viewer::init()
 {
   // Restore previous viewer state.
   restoreStateFromFile();
-
+  initializeOpenGLFunctions();
   // Define 'Control+Q' as the new exit shortcut (default was 'Escape')
   setShortcut(EXIT_VIEWER, Qt::CTRL+Qt::Key_Q);
 
@@ -692,25 +735,12 @@ void Viewer::init()
 
   ::glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 
-  if (flatShading)
-  {
-    ::glShadeModel(GL_FLAT);
-    ::glDisable(GL_BLEND);
-    ::glDisable(GL_LINE_SMOOTH);
-    ::glDisable(GL_POLYGON_SMOOTH_HINT);
-    ::glBlendFunc(GL_ONE, GL_ZERO);
-    ::glHint(GL_LINE_SMOOTH_HINT, GL_FASTEST);
-  }
-  else
-  {
-      ::glShadeModel(GL_FLAT);
-      ::glDisable(GL_BLEND);
-      ::glDisable(GL_LINE_SMOOTH);
-      ::glDisable(GL_POLYGON_SMOOTH_HINT);
-      ::glBlendFunc(GL_ONE, GL_ZERO);
-      ::glHint(GL_LINE_SMOOTH_HINT, GL_FASTEST);
-  }
-  initializeOpenGLFunctions();
+  ::glShadeModel(GL_FLAT);
+  ::glDisable(GL_BLEND);
+  ::glDisable(GL_LINE_SMOOTH);
+  ::glDisable(GL_POLYGON_SMOOTH_HINT);
+  ::glBlendFunc(GL_ONE, GL_ZERO);
+  ::glHint(GL_LINE_SMOOTH_HINT, GL_FASTEST);
   compile_shaders();
 }
 
@@ -730,24 +760,6 @@ void Viewer::keyPressEvent(QKeyEvent *e)
   else if ((e->key()==Qt::Key_F) && (modifiers==Qt::NoButton))
   {
     flatShading = !flatShading;
-    if (flatShading)
-    {
-      ::glShadeModel(GL_FLAT);
-      ::glDisable(GL_BLEND);
-      ::glDisable(GL_LINE_SMOOTH);
-      ::glDisable(GL_POLYGON_SMOOTH_HINT);
-      ::glBlendFunc(GL_ONE, GL_ZERO);
-      ::glHint(GL_LINE_SMOOTH_HINT, GL_FASTEST);
-    }
-    else
-    {
-      ::glShadeModel(GL_FLAT);
-      ::glDisable(GL_BLEND);
-      ::glDisable(GL_LINE_SMOOTH);
-      ::glDisable(GL_POLYGON_SMOOTH_HINT);
-      ::glBlendFunc(GL_ONE, GL_ZERO);
-      ::glHint(GL_LINE_SMOOTH_HINT, GL_FASTEST);
-    }
     updateGL();
   }
   else if ((e->key()==Qt::Key_E) && (modifiers==Qt::NoButton))

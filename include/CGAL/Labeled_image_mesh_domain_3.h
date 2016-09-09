@@ -31,7 +31,7 @@
 #include <CGAL/Random.h>
 #include <CGAL/Labeled_mesh_domain_3.h>
 #include <CGAL/Mesh_3/Image_to_labeled_function_wrapper.h>
-
+#include <CGAL/Bbox_3.h>
 
 namespace CGAL {
 
@@ -42,7 +42,11 @@ namespace CGAL {
  */
 template<class Image,
          class BGT,
-         class Wrapper = Mesh_3::Image_to_labeled_function_wrapper<Image, BGT> >
+         typename Image_word_type = unsigned char,
+         typename Subdomain_index = int,
+         class Wrapper = Mesh_3::Image_to_labeled_function_wrapper<Image, BGT,
+                                                                   Image_word_type,
+                                                                   Subdomain_index> >
 class Labeled_image_mesh_domain_3
 : public Labeled_mesh_domain_3<Wrapper, BGT>
 {
@@ -64,9 +68,20 @@ public:
            p_rng)
   {}
 
+  Labeled_image_mesh_domain_3(const Image& image,
+                              const CGAL::Bbox_3& bbox,
+                              const FT& error_bound = FT(1e-3),
+                              CGAL::Random* p_rng = NULL)
+    : Base(Wrapper(image),
+           bbox,
+           error_bound,
+           p_rng)
+  {}
+
   /// Destructor
   virtual ~Labeled_image_mesh_domain_3() {}
 
+  using Base::bbox;
 
 private:
   /// Returns a box enclosing image \c im

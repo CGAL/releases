@@ -1,9 +1,9 @@
 #ifndef SCENE_POLYLINES_ITEM_H
 #define SCENE_POLYLINES_ITEM_H
 #include "Scene_polylines_item_config.h"
-#include "Viewer_interface.h"
+#include <CGAL/Three/Viewer_interface.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include "Scene_item.h"
+#include <CGAL/Three/Scene_item.h>
 
 #include <QString>
 #include <QMenu>
@@ -13,7 +13,7 @@
 
 class Scene_polylines_item_private;
 
-class SCENE_POLYLINES_ITEM_EXPORT Scene_polylines_item : public Scene_item
+class SCENE_POLYLINES_ITEM_EXPORT Scene_polylines_item : public CGAL::Three::Scene_item
 {
     Q_OBJECT
 public:
@@ -22,14 +22,12 @@ public:
     typedef std::vector<Point_3> Polyline;
     typedef std::list<Polyline> Polylines_container;
 
-    typedef K::Iso_cuboid_3 Iso_cuboid_3;
-
     Scene_polylines_item();
     virtual ~Scene_polylines_item();
 
     bool isFinite() const { return true; }
     bool isEmpty() const;
-    Bbox bbox() const;
+    void compute_bbox() const;
 
     Scene_polylines_item* clone() const;
 
@@ -42,14 +40,14 @@ public:
 
     // Flat/Gouraud OpenGL drawing
     void draw() const {}
-    void draw(Viewer_interface*) const;
+    void draw(CGAL::Three::Viewer_interface*) const;
 
     // Wireframe OpenGL drawing
     void draw_edges() const{}
-    void draw_edges(Viewer_interface*) const;
+    void draw_edges(CGAL::Three::Viewer_interface*) const;
 
     void draw_points() const{}
-    void draw_points(Viewer_interface*) const;
+    void draw_points(CGAL::Three::Viewer_interface*) const;
 
 
     void smooth(std::vector<Point_3>& polyline){
@@ -74,7 +72,7 @@ public:
     }
 
 public Q_SLOTS:
-    virtual void invalidate_buffers();
+    virtual void invalidateOpenGLBuffers();
     void change_corner_radii(double);
     void change_corner_radii();
     void split_at_sharp_angles();
@@ -84,7 +82,7 @@ public Q_SLOTS:
     void smooth(){
         for (Polylines_container::iterator pit=polylines.begin(),pit_end=polylines.end();pit!=pit_end;++pit)
             smooth(*pit);
-      invalidate_buffers();
+      invalidateOpenGLBuffers();
       Q_EMIT itemChanged();
     }
 public:
@@ -93,6 +91,23 @@ public:
     // http://en.wikipedia.org/wiki/D-pointer
     Scene_polylines_item_private* d;
 private:
+
+    enum VAOs {
+        Edges=0,
+        Spheres,
+        Wired_Spheres,
+        NbOfVaos = Wired_Spheres+1
+    };
+    enum VBOs {
+        Edges_Vertices = 0,
+        Spheres_Vertices,
+        Spheres_Normals,
+        Spheres_Colors,
+        Spheres_Center,
+        Wired_Spheres_Vertices,
+        NbOfVbos = Wired_Spheres_Vertices+1
+    };
+
     mutable std::vector<float> positions_lines;
     mutable std::vector<float> positions_spheres;
     mutable std::vector<float> positions_wire_spheres;
@@ -104,14 +119,15 @@ private:
     mutable std::size_t nb_wire;
     mutable std::size_t nb_centers;
     mutable std::size_t nb_lines;
-    mutable QOpenGLShaderProgram *program;
     mutable   GLuint nbSpheres;
     typedef std::map<Point_3, int> Point_to_int_map;
     typedef Point_to_int_map::iterator iterator;
-    void create_Sphere(double);
-    using Scene_item::initialize_buffers;
-    void initialize_buffers(Viewer_interface *viewer) const;
-    void compute_elements();
+    void create_Sphere(float) const;
+    using CGAL::Three::Scene_item::initialize_buffers;
+    void initialize_buffers(CGAL::Three::Viewer_interface *viewer) const;
+    using CGAL::Three::Scene_item::compute_elements;
+    void compute_elements() const;
+
 
 
 }; // end class Scene_polylines_item

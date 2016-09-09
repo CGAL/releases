@@ -27,7 +27,7 @@
 
 #include <CGAL/Mesh_3/config.h>
 
-#include <CGAL/Timer.h>
+#include <CGAL/Real_timer.h>
 #include <CGAL/Mesh_3/C3T3_helpers.h>
 #include <CGAL/Mesh_3/Triangulation_helpers.h>
 #include <CGAL/Origin.h>
@@ -621,7 +621,7 @@ private:
   MoveFunction move_function_;
   Sizing_field sizing_field_;
   double time_limit_;
-  CGAL::Timer running_time_;
+  CGAL::Real_timer running_time_;
 
   bool do_freeze_;
   mutable Nb_frozen_points_type nb_frozen_points_;
@@ -666,7 +666,7 @@ Mesh_global_optimizer(C3T3& c3t3,
 
 #ifdef CGAL_MESH_3_OPTIMIZER_VERBOSE
   std::cerr << "Fill sizing field...";
-  CGAL::Timer timer;
+  CGAL::Real_timer timer;
   timer.start();
 #endif
 
@@ -759,8 +759,7 @@ operator()(int nb_iterations, Visitor visitor)
     % initial_vertices_nb
     % (running_time_.time() - step_begin)
     % (running_time_.time() / (i+1))
-    % sum_moves_
-    << std::endl;
+    % sum_moves_;
     step_begin = running_time_.time();
 #endif
 
@@ -770,6 +769,10 @@ operator()(int nb_iterations, Visitor visitor)
     if(check_convergence())
       break;
   }
+#ifdef CGAL_MESH_3_OPTIMIZER_VERBOSE
+  std::cerr << std::endl;
+#endif
+
   running_time_.stop();
 
 #ifdef CGAL_MESH_3_PROFILING

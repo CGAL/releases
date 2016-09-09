@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2010  
+// Copyright (c) 1997-2013
 // Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland),
 // INRIA Sophia-Antipolis (France),
@@ -23,6 +23,7 @@
 // Author(s)     : Wieger Wesselink 
 //                 Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Sylvain Pion
+//                 Laurent Rineau
 
 #ifndef CGAL_CONFIG_H
 #define CGAL_CONFIG_H
@@ -42,6 +43,12 @@
 #if defined(CGAL_TEST_SUITE) && defined(NDEBUG)
 #  error The test-suite needs no NDEBUG defined
 #endif // CGAL_TEST_SUITE and NDEBUG
+
+// See [[Small features/Visual_Leak_Detector]] in CGAL developers wiki
+// See also: http://vld.codeplex.com/
+#if defined(CGAL_ENABLE_VLD)
+#  include <vld.h>
+#endif // CGAL_ENABLE_VLD
 
 // Workaround to the following bug:
 // https://bugreports.qt-project.org/browse/QTBUG-22829
@@ -85,6 +92,14 @@
 #include <boost/config.hpp>
 #include <boost/version.hpp>
 
+// bug-fix for g++-5.x and Boost.Config<1.57
+//    https://svn.boost.org/trac/boost/ticket/10500
+#if BOOST_VERSION < 105700 && BOOST_GCC < 60000 && \
+  ! defined(__GXX_EXPERIMENTAL_CXX0X__) && defined(BOOST_HAS_VARIADIC_TMPL)
+#  undef BOOST_HAS_VARIADIC_TMPL
+#  define BOOST_NO_CXX11_VARIADIC_TEMPLATES
+#endif
+
 #include <CGAL/version.h>
 
 //----------------------------------------------------------------------//
@@ -114,42 +129,55 @@
 //  ----------------------------------------------------------------------//
 
 #if defined(BOOST_NO_CXX11_RANGE_BASED_FOR) || BOOST_VERSION < 105000
-#define CGAL_NO_CPP0X_RANGE_BASED_FOR 1
+#define CGAL_CFG_NO_CPP0X_RANGE_BASED_FOR 1
 #endif
-#if defined(BOOST_NO_0X_HDR_ARRAY) || BOOST_VERSION < 104000
+#if defined(BOOST_NO_0X_HDR_ARRAY) || \
+    defined(BOOST_NO_CXX11_HDR_ARRAY) || BOOST_VERSION < 104000
 #define CGAL_CFG_NO_CPP0X_ARRAY 1
 #endif
-#if defined(BOOST_NO_DECLTYPE) || (BOOST_VERSION < 103600)
+#if defined(BOOST_NO_DECLTYPE) || \
+    defined(BOOST_NO_CXX11_DECLTYPE) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_DECLTYPE 1
 #endif
-#if defined(BOOST_NO_DELETED_FUNCTIONS) || defined(BOOST_NO_DEFAULTED_FUNCTIONS) || (BOOST_VERSION < 103600)
+#if defined(BOOST_NO_DELETED_FUNCTIONS) || \
+    defined(BOOST_NO_DEFAULTED_FUNCTIONS) || \
+    defined(BOOST_NO_CXX11_DELETED_FUNCTIONS) || \
+    defined(BOOST_NO_CXX11_DEFAULTED_FUNCTIONS) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS 1
 #endif
-#if defined(BOOST_NO_FUNCTION_TEMPLATE_DEFAULT_ARGS) || (BOOST_VERSION < 104100)
+#if defined(BOOST_NO_FUNCTION_TEMPLATE_DEFAULT_ARGS) || \
+    defined(BOOST_NO_CXX11_FUNCTION_TEMPLATE_DEFAULT_ARGS) || \
+    (BOOST_VERSION < 104100)
 #define CGAL_CFG_NO_CPP0X_DEFAULT_TEMPLATE_ARGUMENTS_FOR_FUNCTION_TEMPLATES 1
 #endif
-#if defined(BOOST_NO_INITIALIZER_LISTS) || (BOOST_VERSION < 103900)
+#if defined(BOOST_NO_INITIALIZER_LISTS) || \
+    defined(BOOST_NO_CXX11_HDR_INITIALIZER_LIST) || (BOOST_VERSION < 103900)
 #define CGAL_CFG_NO_CPP0X_INITIALIZER_LISTS 1
 #endif
 #if defined(BOOST_MSVC)
-#define CGAL_CFG_NO_CPP0X_ISFINITE 1
+#define CGAL_CFG_NO_CPP0X_ISFINITE 1 // used in <CGAL/CORE/Filter.h>
 #endif
 #if defined(BOOST_NO_LONG_LONG) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_LONG_LONG 1
 #endif
-#if defined(BOOST_NO_LAMBDAS) || BOOST_VERSION < 104000
+#if defined(BOOST_NO_LAMBDAS) || \
+    defined(BOOST_NO_CXX11_LAMBDAS) || BOOST_VERSION < 104000
 #define CGAL_CFG_NO_CPP0X_LAMBDAS 1
 #endif
-#if defined(BOOST_NO_RVALUE_REFERENCES) || (BOOST_VERSION < 103600)
+#if defined(BOOST_NO_RVALUE_REFERENCES) || \
+    defined(BOOST_NO_CXX11_RVALUE_REFERENCES) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE 1
 #endif
-#if defined(BOOST_NO_STATIC_ASSERT) || (BOOST_VERSION < 103600)
+#if defined(BOOST_NO_STATIC_ASSERT) || \
+    defined(BOOST_NO_CXX11_STATIC_ASSERT) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_STATIC_ASSERT 1
 #endif
-#if defined(BOOST_NO_0X_HDR_TUPLE) || (BOOST_VERSION < 104000)
+#if defined(BOOST_NO_0X_HDR_TUPLE) || \
+    defined(BOOST_NO_CXX11_HDR_TUPLE) || (BOOST_VERSION < 104000)
 #define CGAL_CFG_NO_CPP0X_TUPLE 1
 #endif
-#if defined(BOOST_NO_VARIADIC_TEMPLATES) || (BOOST_VERSION < 103600)
+#if defined(BOOST_NO_VARIADIC_TEMPLATES) || \
+    defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES 1
 #endif
 // never use TR1
@@ -240,7 +268,16 @@
 // Big endian or little endian machine.
 // ====================================
 
-#if defined (__GLIBC__)
+#if (BOOST_VERSION >= 105500)
+#  include <boost/predef.h>
+#  if BOOST_ENDIAN_BIG_BYTE
+#    define CGAL_BIG_ENDIAN
+#  elif BOOST_ENDIAN_LITTLE_BYTE
+#    define CGAL_LITTLE_ENDIAN
+#  else
+#    error Unknown endianness
+#  endif
+#elif defined (__GLIBC__)
 #  include <endian.h>
 #  if (__BYTE_ORDER == __LITTLE_ENDIAN)
 #    define CGAL_LITTLE_ENDIAN
@@ -358,6 +395,9 @@ using std::max;
 #ifndef __has_feature
   #define __has_feature(x) 0  // Compatibility with non-clang compilers.
 #endif
+#ifndef __has_include
+  #define __has_include(x) 0  // Compatibility with non-clang compilers.
+#endif
 #ifndef __has_extension
   #define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
 #endif
@@ -418,6 +458,26 @@ using std::max;
 #  endif
 #endif
 
+#if __has_feature(cxx_thread_local) || \
+    ( (__GNUC__ * 100 + __GNUC_MINOR__) >= 408 && __cplusplus >= 201103L ) || \
+    ( _MSC_VER >= 1900 )
+#define CGAL_CAN_USE_CXX11_THREAD_LOCAL
+#endif
+
+#if ( BOOST_VERSION >= 105000 && ! defined(BOOST_NO_CXX11_HDR_MUTEX) ) || \
+    (__has_include(<mutex>) && __cplusplus >= 201103L ) | \
+    ( (__GNUC__ * 100 + __GNUC_MINOR__) >= 408 && __cplusplus >= 201103L ) || \
+    ( _MSC_VER >= 1700 )
+#define CGAL_CAN_USE_CXX11_MUTEX
+#endif
+
+#if ( BOOST_VERSION >= 105600 && ! defined(BOOST_NO_CXX11_HDR_ATOMIC) ) || \
+    (__has_include(<atomic>) && __cplusplus >= 201103L ) || \
+    ( (__GNUC__ * 100 + __GNUC_MINOR__) >= 408 && __cplusplus >= 201103L ) || \
+    ( _MSC_VER >= 1700 )
+#define CGAL_CAN_USE_CXX11_ATOMIC
+#endif
+
 // Support for LEDA with threads
 //   Not that, if CGAL_HAS_THREADS is defined, and you want to use LEDA,
 //   you must link with a version of LEDA libraries that support threads.
@@ -442,5 +502,18 @@ namespace CGAL {
 typedef const void * Nullptr_t;   // Anticipate C++0x's std::nullptr_t
 
 } //namespace CGAL
+
+//Support for c++11 noexcept
+#if BOOST_VERSION > 104600 && !defined(BOOST_NO_CXX11_NOEXCEPT) && !defined(BOOST_NO_NOEXCEPT)
+#define CGAL_NOEXCEPT(x) noexcept(x)
+#else
+#define CGAL_NOEXCEPT(x)
+#endif
+
+#ifndef CGAL_NO_ASSERTIONS
+#  define CGAL_NO_ASSERTIONS_BOOL false
+#else
+#  define CGAL_NO_ASSERTIONS_BOOL true
+#endif
 
 #endif // CGAL_CONFIG_H

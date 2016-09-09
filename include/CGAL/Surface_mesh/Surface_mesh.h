@@ -149,6 +149,15 @@ namespace CGAL {
     {
     public:
 
+        // Workaround for a bug in g++4.4 in ADL for function next:
+        // we provide the types needed for std::iterator_traits<Surface_mesh::halfedge_index>,
+        // although this descriptor is not an iterator.
+        typedef void iterator_category;
+        typedef void value_type;
+        typedef void difference_type;
+        typedef void pointer;
+        typedef void reference;
+
         SM_Halfedge_index() : SM_Index<SM_Halfedge_index>(-1) {}
 
         explicit SM_Halfedge_index(size_type _idx) : SM_Index<SM_Halfedge_index>(_idx) {}
@@ -1810,7 +1819,7 @@ public:
             if(!valid) {
               if (verbose)
                 std::cerr << "Integrity of opposite halfedge of " << *it << " corrupted."  << std::endl;
-                break;
+              break;
             }
 
             valid = valid && (next(prev(*it)) == *it);
@@ -2474,7 +2483,7 @@ private: //------------------------------------------------------- private data
     reindex.resize(sm.num_vertices());
     int n = 0;
     BOOST_FOREACH(Vertex_index v, sm.vertices()){
-      os << sm.point(v) << std::endl;
+      os << sm.point(v) << '\n';
       reindex[v]=n++;
     }
 
@@ -2483,7 +2492,7 @@ private: //------------------------------------------------------- private data
       BOOST_FOREACH(Vertex_index v, CGAL::vertices_around_face(sm.halfedge(f),sm)){
         os << " " << reindex[v];
       }
-      os << "\n";
+      os << '\n';
     }
     return os;
   }

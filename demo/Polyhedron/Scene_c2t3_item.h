@@ -4,12 +4,12 @@
 #include "Scene_c2t3_item_config.h"
 #include "C2t3_type.h"
 #include <iostream>
-#include "Scene_item.h"
+#include  <CGAL/Three/Scene_item.h>
 #include <qgl.h>
 #include <QtCore/qglobal.h>
 #include <CGAL/gl.h>
 
-class SCENE_C2T3_ITEM_EXPORT Scene_c2t3_item : public Scene_item
+class SCENE_C2T3_ITEM_EXPORT Scene_c2t3_item : public CGAL::Three::Scene_item
 {
   Q_OBJECT
 public:
@@ -34,9 +34,9 @@ public:
     return c2t3().triangulation().number_of_vertices() == 0;
   }
 
-  Bbox bbox() const {
+  void compute_bbox() const {
     if(isEmpty())
-      return Bbox();
+      _bbox =  Bbox();
     else {
       bool first = true;
       CGAL::Bbox_3 result;
@@ -52,7 +52,7 @@ public:
           result = result + vit->point().bbox();
         }
       }
-      return Bbox(result.xmin(), result.ymin(), result.zmin(),
+      _bbox = Bbox(result.xmin(), result.ymin(), result.zmin(),
                   result.xmax(), result.ymax(), result.zmax());
     }
   }

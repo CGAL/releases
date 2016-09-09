@@ -177,6 +177,7 @@ namespace parameters {
         , dump_after_glob_opt_prefix()
         , dump_after_perturb_prefix()
         , dump_after_exude_prefix()
+        , number_of_initial_points()
       {}
 
       std::string dump_after_init_prefix;
@@ -185,16 +186,18 @@ namespace parameters {
       std::string dump_after_glob_opt_prefix;
       std::string dump_after_perturb_prefix;
       std::string dump_after_exude_prefix;
+      int number_of_initial_points;
 
     }; // end struct Mesh_3_options
 
   } // end namespace internal
-#if defined(__clang__) || defined(__GNUC__) && CGAL_GCC_VERSION >= 40600
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-// remove a warning about an unused parameter "args" in the definition of
-// BOOST_PARAMETER_FUNCTION
-#endif
+
+// see <CGAL/config.h>
+CGAL_PRAGMA_DIAG_PUSH
+// see <CGAL/Mesh_3/config.h>
+CGAL_MESH_3_IGNORE_BOOST_PARAMETER_NAME_WARNINGS
+
+
   // -----------------------------------
   // Perturb
   // -----------------------------------
@@ -289,6 +292,7 @@ namespace parameters {
                             (dump_after_glob_opt_prefix_, (std::string), "" )
                             (dump_after_perturb_prefix_, (std::string), "" )
                             (dump_after_exude_prefix_, (std::string), "" )
+                            (number_of_initial_points_, (int), -1)
                             )
                            )
   { 
@@ -300,7 +304,8 @@ namespace parameters {
     options.dump_after_glob_opt_prefix=dump_after_glob_opt_prefix_;
     options.dump_after_perturb_prefix=dump_after_perturb_prefix_;
     options.dump_after_exude_prefix=dump_after_exude_prefix_;
-    
+    options.number_of_initial_points=number_of_initial_points_;
+
     return options;
   }
   
@@ -320,11 +325,8 @@ namespace parameters {
     return options;
   }
 
-#if defined(__clang__) || defined(__GNUC__) && CGAL_GCC_VERSION >= 40600
-//#if defined(__GNUC__) && __GNUC__ >= 4 && __GNUC_MINOR__ > 5
-#pragma GCC diagnostic pop
-#endif
-  
+CGAL_PRAGMA_DIAG_POP
+
   // -----------------------------------
   // Reset_c3t3 (undocumented)
   // -----------------------------------
@@ -349,7 +351,11 @@ CGAL_MESH_3_IGNORE_BOOST_PARAMETER_NAME_WARNINGS
 CGAL_PRAGMA_DIAG_POP
 } // end namespace parameters
   
-  
+// see <CGAL/config.h>
+CGAL_PRAGMA_DIAG_PUSH
+// see <CGAL/Mesh_3/config.h>
+CGAL_MESH_3_IGNORE_BOOST_PARAMETER_NAME_WARNINGS
+
 BOOST_PARAMETER_FUNCTION(
   (void),
   refine_mesh_3,
@@ -378,7 +384,9 @@ BOOST_PARAMETER_FUNCTION(
                             reset_param(),
                             mesh_options_param);
 }
-  
+
+CGAL_PRAGMA_DIAG_POP
+
   
 /**
  * @brief This function refines the mesh c3t3 wrt domain & criteria
@@ -427,6 +435,7 @@ void refine_mesh_3_impl(C3T3& c3t3,
   // Build mesher and launch refinement process
   Mesher mesher (c3t3, domain, criteria);
   double refine_time = mesher.refine_mesh(mesh_options.dump_after_refine_surface_prefix);
+  c3t3.clear_manifold_info();
 
   dump_c3t3(c3t3, mesh_options.dump_after_refine_prefix);
 

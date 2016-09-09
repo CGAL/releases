@@ -29,6 +29,7 @@
 
 #include <CGAL/Polygon_mesh_processing/internal/Side_of_triangle_mesh/Point_inside_vertical_ray_cast.h>
 
+#include <CGAL/Mesh_3/global_parameters.h>
 #include <CGAL/Mesh_3/Robust_intersection_traits_3.h>
 #include <CGAL/Mesh_3/Triangle_accessor_primitive.h>
 #include <CGAL/Triangle_accessor_3.h>
@@ -286,9 +287,13 @@ public:
                    TriangleAccessor().triangles_end(bounding_polyhedron));
       tree_.build();
       bounding_tree_ =
+        bounding_polyhedron.empty() ?
+        &tree_ :
         new AABB_tree_(TriangleAccessor().triangles_begin(bounding_polyhedron),
                        TriangleAccessor().triangles_end(bounding_polyhedron));
-      bounding_tree_->build();
+      if(!bounding_polyhedron.empty()) {
+        bounding_tree_->build();
+      }
     }
     else {
       tree_.rebuild(TriangleAccessor().triangles_begin(bounding_polyhedron),
@@ -363,6 +368,14 @@ public:
   Construct_initial_points construct_initial_points_object() const
   {
     return Construct_initial_points(*this);
+  }
+
+
+  /**
+   * Returns a bounding box of the domain
+   */
+  Bbox_3 bbox() const {
+    return tree_.bbox();
   }
 
 

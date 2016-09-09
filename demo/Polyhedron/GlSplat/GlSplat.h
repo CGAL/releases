@@ -140,10 +140,15 @@ public:
     */
   void setRadiusScale(float v);
 
-  void setViewer(Viewer_interface *v);
+  void setViewer(CGAL::Three::Viewer_interface *v);
+
+  typedef void (APIENTRYP PFNGLFRAMEBUFFERTEXTURE2DEXTPROC) (GLuint target, GLuint attachment, GLuint textarget, GLuint texture, GLint level);
+
+  //!Allows OpenGL 2.1 context to get access to gkFrameBufferTexture2D.
+  PFNGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2D;
 
 private :
-  Viewer_interface *viewer;
+  CGAL::Three::Viewer_interface *viewer;
 };
 
 

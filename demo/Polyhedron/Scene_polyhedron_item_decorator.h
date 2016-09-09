@@ -5,7 +5,7 @@
 
 // This class is a decorator for Scene_polyhedron_item yet it does not inherit it but Scene_item
 class SCENE_POLYHEDRON_ITEM_DECORATOR_EXPORT Scene_polyhedron_item_decorator 
-  : public Scene_item {
+  : public CGAL::Three::Scene_item {
   Q_OBJECT
 public:  
   /// Create an Scene_polyhedron_item_decorator from a Scene_polyhedron_item.
@@ -43,13 +43,13 @@ public:
   // Get dimensions
   bool isFinite() const { return true; }
   bool isEmpty() const;
-  Bbox bbox() const;
+  void compute_bbox() const;
 
   bool delete_item() { return delete_poly_item; }
   void set_delete_item(bool delete_item) { delete_poly_item = delete_item; }
 
 public Q_SLOTS:
-  void invalidate_buffers();
+  void invalidateOpenGLBuffers();
   void select(double orig_x,
               double orig_y,
               double orig_z,

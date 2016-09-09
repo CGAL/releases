@@ -4,6 +4,7 @@
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Advancing_front_surface_reconstruction.h>
 #include <CGAL/tuple.h>
+#include <boost/lexical_cast.hpp>
 
 typedef CGAL::Simple_cartesian<double> K;
 typedef K::Point_3  Point_3;
@@ -27,28 +28,38 @@ struct Perimeter {
     : bound(bound)
   {}
 
-  // The point type that will be injected here will be
-  // CGAL::Exact_predicates_inexact_constructions_kernel::Point_3
-  template <typename Point>
-  bool operator()(const Point& p, const Point& q, const Point& r) const
+  template <typename AdvancingFront, typename Cell_handle>
+  double operator() (const AdvancingFront& adv, Cell_handle& c,
+                     const int& index) const
   {
     // bound == 0 is better than bound < infinity
     // as it avoids the distance computations
     if(bound == 0){
-      return false;
+      return adv.smallest_radius_delaunay_sphere (c, index);
     }
-    double d  = sqrt(squared_distance(p,q));
-    if(d>bound) return true;
-    d += sqrt(squared_distance(p,r)) ;
-    if(d>bound) return true;
-    d+= sqrt(squared_distance(q,r));
-    return d>bound;
+
+    // If perimeter > bound, return infinity so that facet is not used
+    double d  = 0;
+    d = sqrt(squared_distance(c->vertex((index+1)%4)->point(),
+                              c->vertex((index+2)%4)->point()));
+    if(d>bound) return adv.infinity();
+    d += sqrt(squared_distance(c->vertex((index+2)%4)->point(),
+                               c->vertex((index+3)%4)->point()));
+    if(d>bound) return adv.infinity();
+    d += sqrt(squared_distance(c->vertex((index+1)%4)->point(),
+                               c->vertex((index+3)%4)->point()));
+    if(d>bound) return adv.infinity();
+
+    // Otherwise, return usual priority value: smallest radius of
+    // delaunay sphere
+    return adv.smallest_radius_delaunay_sphere (c, index);
   }
 };
 
 int main(int argc, char* argv[])
 {
   std::ifstream in((argc>1)?argv[1]:"data/half.xyz");
+  double per = (argc>2)?boost::lexical_cast<double>(argv[2]):0;
   std::vector<Point_3> points;
   std::vector<Facet> facets;
 
@@ -56,7 +67,7 @@ int main(int argc, char* argv[])
             std::istream_iterator<Point_3>(),
             std::back_inserter(points));
 
-  Perimeter perimeter(0);
+  Perimeter perimeter(per);
   CGAL::advancing_front_surface_reconstruction(points.begin(),
                                                points.end(),
                                                std::back_inserter(facets),

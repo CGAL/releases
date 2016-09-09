@@ -1242,14 +1242,16 @@ public:
       final_map_comes_from_outside=true;
       final_map_ptr=ptr;
     }
-    else{
+    else if (!do_not_build_cmap_) {
       final_map_comes_from_outside=false;
       final_map_ptr=new Combinatorial_map_3_();
     }
   }
   
   ~Node_visitor_refine_polyhedra(){
-    if(!final_map_comes_from_outside) delete final_map_ptr;
+    if(!do_not_build_cmap && !final_map_comes_from_outside) {
+      delete final_map_ptr;
+    }
   }
 
   
@@ -1855,8 +1857,9 @@ public:
     
     internal_IOP::Non_intersection_halfedge<Polyhedron> criterium(border_halfedges);
 
-    int mark_index=final_map().get_new_mark(); //mark used to tag dart that are on an intersection
-    
+    int mark_index = static_cast<int>(final_map().get_new_mark());
+                     //mark used to tag dart that are on an intersection
+
     //define a map that will contain the correspondance between selected halfedges of the boundary and
     //their corresponding Dart_handle in the cmap.
     typedef std::map<Halfedge_const_handle,typename Combinatorial_map_3::Dart_handle,internal_IOP::Compare_address<Polyhedron> > Halfedge_to_dart_map;

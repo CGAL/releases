@@ -914,7 +914,7 @@ private:
     {
       LineLineIntersectResult cgalIntersection = i2(cl2(segment), cl2(leftBoundary));
 
-      if (!cgalIntersection || !boost::get<Point_2, Point_2, Line_2>(&*cgalIntersection))
+      if (!cgalIntersection || !boost::get<Point_2>(&*cgalIntersection))
       {
         if (m_debugOutput)
         {
@@ -924,7 +924,7 @@ private:
       }
       else
       {
-        Point_2* result = boost::get<Point_2, Point_2, Line_2>(&*cgalIntersection);
+        Point_2* result = boost::get<Point_2>(&*cgalIntersection);
         FT t0 = pdas2(cs2(segment), ct2(segment), *result);
 
         if (t0 >= FT(1.00000))
@@ -974,7 +974,7 @@ private:
     {
       LineLineIntersectResult cgalIntersection = i2(cl2(segment), cl2(rightBoundary));
 
-      if (!cgalIntersection || !boost::get<Point_2, Point_2, Line_2>(&*cgalIntersection))
+      if (!cgalIntersection || !boost::get<Point_2>(&*cgalIntersection))
       {
         if (m_debugOutput)
         {
@@ -984,7 +984,7 @@ private:
       }
       else
       {
-        Point_2* result = boost::get<Point_2, Point_2, Line_2>(&*cgalIntersection);
+        Point_2* result = boost::get<Point_2>(&*cgalIntersection);
         FT t0 = pdas2(cs2(segment), ct2(segment), *result);
 
         if (t0 <= FT(0.00000))
@@ -1459,7 +1459,7 @@ private:
   {
     vertex_iterator current, end;
 
-    for (boost::tie(current, end) = boost::vertices(m_graph); current != end; ++current)
+    for (boost::tie(current, end) = vertices(m_graph); current != end; ++current)
     {
       std::size_t vertexIndex = get(m_vertexIndexMap, *current);
 
@@ -1570,7 +1570,7 @@ private:
 
           CGAL_assertion(bool(cgalIntersection));
 
-          Point_2* result = boost::get<Point_2, Point_2, Line_2>(&*cgalIntersection);
+          Point_2* result = boost::get<Point_2>(&*cgalIntersection);
 
           CGAL_assertion(result && "Error, did not get point intersection on path walk to source");
 
@@ -1832,7 +1832,7 @@ private:
 
       std::size_t numVertices = 0;
 
-      for (boost::tie(current,end) = boost::vertices(m_graph); current != end; ++current)
+      for (boost::tie(current,end) = vertices(m_graph); current != end; ++current)
       {
         std::cout << "Vertex#" << numVertices << ": p = " << get(m_vertexPointMap,*current) << " , Saddle Vertex: " << (is_saddle_vertex(*current) ? "yes" : "no") << " , Boundary Vertex: " << (is_boundary_vertex(*current) ? "yes" : "no") << std::endl;
         ++numVertices;
@@ -1855,7 +1855,7 @@ private:
 
         do
         {
-          std::cout << get(m_vertexIndexMap, boost::source(faceEdgesCurrent, m_graph));
+          std::cout << get(m_vertexIndexMap, source(faceEdgesCurrent, m_graph));
 
           faceEdgesCurrent = next(faceEdgesCurrent, m_graph);
 
