@@ -15,36 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/src/CGAL/Interval_arithmetic.cpp $
-// $Id: Interval_arithmetic.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/src/CGAL/Interval_arithmetic.cpp $
+// $Id: Interval_arithmetic.cpp 32440 2006-07-12 11:58:13Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
  
 #include <CGAL/basic.h>
-
-// M$ VC++ doesn't like them yet.
-#ifdef CGAL_IA_NEW_FILTERS
-#include <CGAL/predicates/kernel_ftC2.h>
-#include <CGAL/predicates/kernel_ftC3.h>
-#include <CGAL/predicates/sign_of_determinant.h>
-#include <CGAL/predicates/Regular_triangulation_ftC2.h>
-#include <CGAL/predicates/Regular_triangulation_ftC3.h>
-#include <CGAL/predicates/Regular_triangulation_rtH2.h>
-#include <CGAL/predicates/Regular_triangulation_rtH3.h>
-#endif
-
-// #include <CGAL/Filtered_exact.h> // only for CGAL_IA_NEW_FILTERS
-// But VC++ 7.0 would need some macros defined.
 #include <CGAL/FPU.h>
 
 CGAL_BEGIN_NAMESPACE
-
-// Static variables:
-#ifdef CGAL_IA_NEW_FILTERS
-#include <CGAL/Arithmetic_filter/static_infos/dispatch.h>
-#endif
-
 
 #ifdef __BORLANDC__
 // Borland doesn't initialize the FPU exception mask correctly

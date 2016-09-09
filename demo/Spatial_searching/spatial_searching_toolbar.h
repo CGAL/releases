@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/demo/Spatial_searching/spatial_searching_toolbar.h $
-// $Id: spatial_searching_toolbar.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Spatial_searching/demo/Spatial_searching/spatial_searching_toolbar.h $
+// $Id: spatial_searching_toolbar.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Radu Ursu
 
@@ -50,7 +50,7 @@ private:
   CGAL::Qt_widget_get_point<R>         point_layer;
   CGAL::Qt_widget_get_iso_rectangle<R> iso_r_layer;
   CGAL::Qt_widget_get_circle<R>        circle_layer;
-  Qt_widget_move_list_point<R>         edit_layer;  
+  Qt_widget_move_list_point<R>         edit_layer;
 };//end class
 
 #endif

@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2005  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesher/include/CGAL/Complex_2_in_triangulation_cell_base_3.h $
-// $Id: Complex_2_in_triangulation_cell_base_3.h 30038 2006-04-06 11:44:34Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Complex_2_in_triangulation_cell_base_3.h $
+// $Id: Complex_2_in_triangulation_cell_base_3.h 32408 2006-07-12 00:10:41Z lrineau $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -22,7 +22,13 @@
 #ifndef CGAL_COMPLEX_2_IN_TRIANGULATION_CELL_BASE_3_H
 #define CGAL_COMPLEX_2_IN_TRIANGULATION_CELL_BASE_3_H
 
+#ifndef CGAL_SURFACE_MESH_CELL_BASE_3_H
+#error You must include <CGAL/Surface_mesher_cell_base_3.h> instead.
+#endif
+
 #include <CGAL/Triangulation_cell_base_3.h>
+
+#include <string>
 
 namespace CGAL {
 
@@ -99,6 +105,15 @@ namespace CGAL {
       c_surface_facets &= (15  & ~(1 << facet));
     }
   }
+
+#ifdef CGAL_MESH_3_IO_H
+  static
+  std::string io_signature()
+  {
+    return Get_io_signature<Cb>()() + "+4b";
+  }
+#endif
+
   };  // end Complex_2_in_triangulation_cell_base_3
 
 template < class GT, class Cb >
@@ -110,7 +125,14 @@ operator>>(std::istream &is, Complex_2_in_triangulation_cell_base_3<GT, Cb> &c)
   is >> static_cast<Cb&>(c);
   for(int i = 0; i < 4; ++i)
   {
-    is >> b;
+    if(is_ascii(is))
+      is >> b;
+    else
+    {
+      int i;
+      read(is, i);
+      b = static_cast<bool>(i);
+    }
     c.set_facet_on_surface(i, b);
   }
   return is;
@@ -126,8 +148,9 @@ operator<<(std::ostream &os,
   for(int i = 0; i < 4; ++i)
   {
     if(is_ascii(os))
-      os << ' ';
-    os << c.is_facet_on_surface(i);
+      os << ' ' << c.is_facet_on_surface(i);
+    else
+      write(os, static_cast<int>(c.is_facet_on_surface(i)));
   }
   return os;
 }

@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Subdivision_method_3/include/CGAL/Polyhedron_decorator_3.h $
-// $Id: Polyhedron_decorator_3.h 30655 2006-04-19 03:42:03Z andyslj $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Subdivision_method_3/include/CGAL/Polyhedron_decorator_3.h $
+// $Id: Polyhedron_decorator_3.h 36333 2007-02-15 21:22:58Z spion $
 // 
 //
 // Author(s): Le-Jeng Shiue <Andy.Shiue@gmail.com>
@@ -23,8 +23,8 @@
 //
 // ======================================================================
 
-#ifndef _POLYHEDRON_DECORATOR_H_01282002
-#define _POLYHEDRON_DECORATOR_H_01282002
+#ifndef CGAL_POLYHEDRON_DECORATOR_H_01282002
+#define CGAL_POLYHEDRON_DECORATOR_H_01282002
 
 CGAL_BEGIN_NAMESPACE
 
@@ -206,4 +206,4 @@ Polyhedron_decorator_3<Poly>::insert_edge(Polyhedron& p,
 
 CGAL_END_NAMESPACE
 
-#endif //_POLYHEDRON_DECORATOR_H_01282002
+#endif //CGAL_POLYHEDRON_DECORATOR_H_01282002

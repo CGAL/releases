@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/iostream/src/CGAL/io.cpp $
-// $Id: io.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/iostream/src/CGAL/io.cpp $
+// $Id: io.cpp 35290 2006-11-24 09:38:31Z hemmer $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -27,6 +27,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/IO/io.h>
+#include <CGAL/assertions.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -65,7 +66,6 @@ set_pretty_mode(std::ios& i)
     return m;
 }
 
-
 IO::Mode
 set_mode(std::ios& i, IO::Mode m)
 {
@@ -92,6 +92,13 @@ is_binary(std::ios& i)
 {
     return i.iword(IO::mode) == IO::BINARY;
 }
+
+const char* mode_name( IO::Mode m) {
+    static const char* const names[] = {"ASCII", "PRETTY", "BINARY" };
+    CGAL_assertion( IO::ASCII <= m && m <= IO::BINARY );
+    return names[m];
+}
+
 
 CGAL_END_NAMESPACE
 

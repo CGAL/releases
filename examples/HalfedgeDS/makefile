@@ -14,21 +14,19 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
-           $(TESTSUITE_CXXFLAGS) \
-           $(EXTRA_FLAGS) \
+           -I../../include \
            $(CGAL_CXXFLAGS) \
-           $(DEBUG_OPT)
+           $(LONG_NAME_PROBLEM_CXXFLAGS)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(TESTSUITE_LIBPATH) \
           $(CGAL_LIBPATH)
 
 LDFLAGS = \
-          $(TESTSUITE_LDFLAGS) \
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
 #---------------------------------------------------------------------#
@@ -36,15 +34,15 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                hds_prog_color \
-                hds_prog_compact \
-                hds_prog_compact2 \
-                hds_prog_default \
-                hds_prog_edge_iterator \
-                hds_prog_graph \
-                hds_prog_graph2 \
-                hds_prog_halfedge_iterator \
-                hds_prog_vector 
+                hds_prog_color$(EXE_EXT) \
+                hds_prog_compact$(EXE_EXT) \
+                hds_prog_compact2$(EXE_EXT) \
+                hds_prog_default$(EXE_EXT) \
+                hds_prog_edge_iterator$(EXE_EXT) \
+                hds_prog_graph$(EXE_EXT) \
+                hds_prog_graph2$(EXE_EXT) \
+                hds_prog_halfedge_iterator$(EXE_EXT) \
+                hds_prog_vector$(EXE_EXT) 
 
 hds_prog_color$(EXE_EXT): hds_prog_color$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)hds_prog_color hds_prog_color$(OBJ_EXT) $(LDFLAGS)
@@ -90,6 +88,7 @@ clean: \
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
+
 
 .cpp$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<

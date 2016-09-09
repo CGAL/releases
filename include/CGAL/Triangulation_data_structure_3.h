@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/Triangulation_data_structure_3.h $
-// $Id: Triangulation_data_structure_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Triangulation_data_structure_3.h $
+// $Id: Triangulation_data_structure_3.h 34675 2006-10-04 10:00:09Z teillaud $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -48,6 +48,7 @@
 
 #include <CGAL/Triangulation_ds_cell_base_3.h>
 #include <CGAL/Triangulation_ds_vertex_base_3.h>
+#include <CGAL/Triangulation_simplex_3.h>
 
 #include <CGAL/Triangulation_ds_iterators_3.h>
 #include <CGAL/Triangulation_ds_circulators_3.h>
@@ -178,6 +179,8 @@ public:
 #endif
   typedef std::pair<Cell_handle, int>              Facet;
   typedef Triple<Cell_handle, int, int>            Edge;
+
+  typedef Triangulation_simplex_3<Tds>             Simplex;
 
 public:
   Triangulation_data_structure_3() 
@@ -996,7 +999,12 @@ operator>>(std::istream& is, Triangulation_data_structure_3<Vb,Cb>& tds)
   tds.clear();
 
   int n, d;
-  is >> d >> n;
+  if(is_ascii(is))
+     is >> d >> n;
+  else {
+    read(is, n);
+    read(is,d);
+  }
   tds.set_dimension(d);
 
   if(n == 0)
@@ -1043,7 +1051,10 @@ operator<<(std::ostream& os, const Triangulation_data_structure_3<Vb,Cb> &tds)
   if (is_ascii(os))
       os << tds.dimension() << std::endl << n << std::endl;
   else
-      os << tds.dimension() << n;
+  {
+    write(os,tds.dimension());
+    write(os,n);
+  }
 
   if (n == 0)
     return os;
@@ -1324,7 +1335,7 @@ flip( const Cell_handle& c, int i )
   // c will be replaced by one of the new cells
 {
   CGAL_triangulation_precondition( (dimension() == 3) && (0<=i) && (i<4) 
-				   && (number_of_vertices() > 6) );
+				   && (number_of_vertices() >= 6) );
   CGAL_triangulation_expensive_precondition( is_cell(c) );
 
   Cell_handle n = c->neighbor(i);
@@ -1347,7 +1358,7 @@ flip_flippable(const Cell_handle& c, int i )
   // c will be replaced by one of the new cells
 {
   CGAL_triangulation_precondition( (dimension() == 3) && (0<=i) && (i<4) 
-				   && (number_of_vertices() > 6) );
+				   && (number_of_vertices() >= 6) );
   CGAL_triangulation_expensive_precondition( is_cell(c) );
 
   Cell_handle n = c->neighbor(i);
@@ -1413,7 +1424,7 @@ flip( const Cell_handle& c, int i, int j )
 				   && (0<=i) && (i<4) 
 				   && (0<=j) && (j<4)
 				   && ( i != j )
-				   && (number_of_vertices() > 6) );
+				   && (number_of_vertices() >= 6) );
   CGAL_triangulation_expensive_precondition( is_cell(c) );
 
   // checks that the edge is flippable ie degree 3
@@ -1463,7 +1474,7 @@ flip_flippable( const Cell_handle& c, int i, int j )
 				   && (0<=i) && (i<4) 
 				   && (0<=j) && (j<4)
 				   && ( i != j )
-				   && (number_of_vertices() > 6) );
+				   && (number_of_vertices() >= 6) );
   CGAL_triangulation_expensive_precondition( is_cell(c) );
 
   // checks that the edge is flippable ie degree 3
@@ -1545,13 +1556,19 @@ read_cells(std::istream& is, std::map< int, Vertex_handle > &V,
   case 2:
   case 1:
     {
-      is >> m;
+      if(is_ascii(is))
+        is >> m;
+      else
+        read(is, m);
 
       for(int i = 0; i < m; i++) {
 	Cell_handle c = create_cell();
 	for (int k=0; k<=dimension(); ++k) {
 	    int ik;
-	    is >> ik;
+            if(is_ascii(is))
+               is >> ik;
+            else
+              read(is, ik);
 	    c->set_vertex(k, V[ik]);
 	    V[ik]->set_cell(c);
 	}
@@ -1561,7 +1578,10 @@ read_cells(std::istream& is, std::map< int, Vertex_handle > &V,
         Cell_handle c = C[j];
 	for (int k=0; k<=dimension(); ++k) {
 	    int ik;
-	    is >> ik;
+            if(is_ascii(is))
+              is >> ik;
+            else
+              read(is, ik);
 	    c->set_neighbor(k, C[ik]);
 	}
       }
@@ -1607,22 +1627,25 @@ print_cells(std::ostream& os, const std::map<Vertex_handle, int> &V ) const
   case 3:
     {
       int m = number_of_cells();
-      os << m;
       if(is_ascii(os))
-	  os << std::endl;
+        os << m << std::endl;
+      else
+        write(os, m);
 
       // write the cells
       Cell_iterator it;
       for(it = cells_begin(); it != cells_end(); ++it) {
 	C[it] = i++;
 	for(int j = 0; j < 4; j++){
-	  os << V.find(it->vertex(j))->second;
 	  if(is_ascii(os)) {
+            os << V.find(it->vertex(j))->second;
 	    if ( j==3 )
 	      os << std::endl;
 	    else
 	      os << ' ';
 	  }
+          else
+            write(os, V.find(it->vertex(j))->second);
 	}
       }
       CGAL_triangulation_assertion( i == m );
@@ -1630,13 +1653,15 @@ print_cells(std::ostream& os, const std::map<Vertex_handle, int> &V ) const
       // write the neighbors
       for(it = cells_begin(); it != cells_end(); ++it) {
 	for (int j = 0; j < 4; j++) {
-	  os << C[it->neighbor(j)];
 	  if(is_ascii(os)){
+            os << C[it->neighbor(j)];
 	    if(j==3)
 	      os << std::endl;
 	    else
 	      os <<  ' ';
-	  }
+          }
+          else
+            write(os, C[it->neighbor(j)]);
 	}
       }
       break;
@@ -2822,7 +2847,7 @@ copy_tds(const Tds & tds, Vertex_handle vert )
   set_dimension(tds.dimension());
 
   // Number of pointers to cell/vertex to copy per cell.
-  int dim = std::max(1, dimension() + 1);
+  int dim = (std::max)(1, dimension() + 1);
 
   if (n == 0)
       return vert;

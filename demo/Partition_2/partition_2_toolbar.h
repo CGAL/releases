@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Partition_2/demo/Partition_2/partition_2_toolbar.h $
-// $Id: partition_2_toolbar.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Partition_2/demo/Partition_2/partition_2_toolbar.h $
+// $Id: partition_2_toolbar.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Radu Ursu
 
@@ -39,13 +39,13 @@ class Tools_toolbar : public QToolBar
   Q_OBJECT
 public:
   Tools_toolbar(CGAL::Qt_widget *w, QMainWindow *mw);
-	
+
 private:
   QToolButton     *but[10];
   CGAL::Qt_widget *widget;
   QButtonGroup    *button_group;
   int             nr_of_buttons;
-	
+
   CGAL::Qt_widget_get_simple_polygon<Cgal_Polygon> getsimplebut;
 };//end class
 

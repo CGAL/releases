@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/demo/Nef_S2/include/CGAL/Nef_S2/create_random_Nef_S2.h $
-// $Id: create_random_Nef_S2.h 30667 2006-04-19 16:56:12Z glisse $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/demo/Nef_S2/include/CGAL/Nef_S2/create_random_Nef_S2.h $
+// $Id: create_random_Nef_S2.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
 
@@ -49,7 +49,7 @@ create_random_Nef_S2(Nef_polyhedron_S2<K,I,M>& P, int n=5, int seed=0) {
   Point_3 ph;
   Point_3 o(0,0,0);
   while ( n-- > 0 ) {
-    do { ph = *S++; } 
+    do { ph = *S++; }
     while ( ph == o );
     Plane_3 h(o,(ph-CGAL::ORIGIN).direction());
     L.push_back( Sphere_circle(h) );

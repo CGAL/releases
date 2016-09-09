@@ -34,23 +34,23 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                dynamic_hull_3_ex$(EXE_EXT) \
-                incremental_hull_3_ex$(EXE_EXT) \
-                quickhull_3_ex$(EXE_EXT) 
+                dynamic_hull_3$(EXE_EXT) \
+                incremental_hull_3$(EXE_EXT) \
+                quickhull_3$(EXE_EXT) 
 
-dynamic_hull_3_ex$(EXE_EXT): dynamic_hull_3_ex$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)dynamic_hull_3_ex dynamic_hull_3_ex$(OBJ_EXT) $(LDFLAGS)
+dynamic_hull_3$(EXE_EXT): dynamic_hull_3$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)dynamic_hull_3 dynamic_hull_3$(OBJ_EXT) $(LDFLAGS)
 
-incremental_hull_3_ex$(EXE_EXT): incremental_hull_3_ex$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)incremental_hull_3_ex incremental_hull_3_ex$(OBJ_EXT) $(LDFLAGS)
+incremental_hull_3$(EXE_EXT): incremental_hull_3$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)incremental_hull_3 incremental_hull_3$(OBJ_EXT) $(LDFLAGS)
 
-quickhull_3_ex$(EXE_EXT): quickhull_3_ex$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)quickhull_3_ex quickhull_3_ex$(OBJ_EXT) $(LDFLAGS)
+quickhull_3$(EXE_EXT): quickhull_3$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)quickhull_3 quickhull_3$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   dynamic_hull_3_ex.clean \
-                   incremental_hull_3_ex.clean \
-                   quickhull_3_ex.clean 
+                   dynamic_hull_3.clean \
+                   incremental_hull_3.clean \
+                   quickhull_3.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/utility.h $
-// $Id: utility.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/utility.h $
+// $Id: utility.h 38151 2007-04-16 16:26:57Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -79,6 +79,13 @@ inline bool operator==(const Triple<T1, T2, T3>& x,
   return ( (x.first == y.first) &&
            (x.second == y.second) &&
            (x.third == y.third) );
+}
+
+template <class T1, class T2, class T3>
+inline bool operator!=(const Triple<T1, T2, T3>& x,
+                       const Triple<T1, T2, T3>& y)
+{
+  return !(x == y);
 }
 
 template <class T1, class T2, class T3>
@@ -152,6 +159,15 @@ operator==(const Quadruple<T1, T2, T3, T4>& x,
 template <class T1, class T2, class T3, class T4>
 inline
 bool
+operator!=(const Quadruple<T1, T2, T3, T4>& x,
+           const Quadruple<T1, T2, T3, T4>& y)
+{
+  return ! (x == y);
+}
+
+template <class T1, class T2, class T3, class T4>
+inline
+bool
 operator<(const Quadruple<T1, T2, T3, T4>& x,
           const Quadruple<T1, T2, T3, T4>& y)
 {
@@ -160,11 +176,10 @@ operator<(const Quadruple<T1, T2, T3, T4>& x,
              ( x.second < y.second ||
                ( !(y.second < x.second) &&
                  ( x.third < y.third ||
-                   !(y.third < x.third) && x.fourth < y.fourth) ) ) ) );
+                   (!(y.third < x.third) && x.fourth < y.fourth)) ) ) ) );
 }
 
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_UTILITY_H //
-// EOF //
+#endif // CGAL_UTILITY_H

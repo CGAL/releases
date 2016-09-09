@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2/Arr_construction_curve.h $
-// $Id: Arr_construction_curve.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Sweep_line_2/Arr_construction_curve.h $
+// $Id: Arr_construction_curve.h 31509 2006-06-11 12:02:54Z baruchzu $
 // 
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>
@@ -64,14 +64,16 @@ public:
   {}
 
   
-  template<class SweepEvent>
-  void init(const X_monotone_curve_2 &curve,
-            SweepEvent* left,
-            SweepEvent* right)
+  void init(const X_monotone_curve_2 &curve)
   {
-    Base::init(curve, left, right);
+    Base::init(curve);
+  }
+
+  template<class SweepEvent>
+  void set_left_event(SweepEvent* left)
+  {
+    Base::set_left_event(left);
     m_lastEvent = left;
-    
   }
 
   void set_last_event(Event_ptr e) {

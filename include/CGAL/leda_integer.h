@@ -1,4 +1,4 @@
-// Copyright (c) 1999  Utrecht University (The Netherlands),
+// Copyright (c) 1999,2007  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -15,72 +15,170 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/leda_integer.h $
-// $Id: leda_integer.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/leda_integer.h $
+// $Id: leda_integer.h 38448 2007-04-26 11:52:14Z spion $
 //
-// Author(s)     : Andreas Fabri
- 
+//
+// Author(s)     : Andreas Fabri, Michael Hemmer
+
 #ifndef CGAL_LEDA_INTEGER_H
 #define CGAL_LEDA_INTEGER_H
 
-#include <CGAL/basic.h>
-#include <CGAL/Number_type_traits.h>
-#include <CGAL/Interval_nt.h>
+#include <CGAL/number_type_basic.h>
 
 #include <utility>
 
+#include <CGAL/leda_coercion_traits.h>
+#include <CGAL/Interval_nt.h>
+
 #include <CGAL/LEDA_basic.h>
+#if CGAL_LEDA_VERSION < 500
 #include <LEDA/integer.h>
+#include <LEDA/bigfloat.h>// for To_interval
+#else
+#include <LEDA/numbers/integer.h>
+#include <LEDA/numbers/bigfloat.h>// for To_interval
+#endif
 
 CGAL_BEGIN_NAMESPACE
 
-template <> struct Number_type_traits<leda_integer> {
-  typedef Tag_true  Has_gcd;
-  typedef Tag_true  Has_division;
-  typedef Tag_true  Has_sqrt;
+template <> class Algebraic_structure_traits< leda_integer >
+  : public Algebraic_structure_traits_base< leda_integer,
+                                            Euclidean_ring_tag >  {
+  public:
+    typedef Tag_true            Is_exact;
+    typedef Tag_false           Is_numerical_sensitive;
 
-  typedef Tag_true  Has_exact_ring_operations;
-  typedef Tag_false Has_exact_division;
-  typedef Tag_false Has_exact_sqrt;
+    typedef INTERN_AST::Is_square_per_sqrt< Type >
+                                                                 Is_square;
+
+    class Gcd
+      : public Binary_function< Type, Type,
+                                Type > {
+      public:
+        Type operator()( const Type& x,
+                                        const Type& y ) const {
+          // By definition gcd(0,0) == 0
+          if( x == Type(0) && y == Type(0) )
+            return Type(0);
+
+          return CGAL_LEDA_SCOPE::gcd( x, y );
+        }
+
+        CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR( Type )
+    };
+
+    typedef INTERN_AST::Div_per_operator< Type > Div;
+
+    class Mod
+      : public Binary_function< Type, Type,
+                                Type > {
+      public:
+        Type operator()( const Type& x,
+                                        const Type& y ) const {
+          Type m = x % y;
+
+#if CGAL_LEDA_VERSION < 520
+          // Fix wrong leda result
+          if( x < 0 && m != 0 )
+            m -= y;
+#else
+          // Fix another wrong leda result
+          // TODO: be careful for future improvements of LEDA
+          if( x < 0 && y > 0 && m != 0 )
+            m -= y;
+#endif
+          return m;
+        }
+
+        CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR( Type )
+    };
+
+    class Sqrt
+      : public Unary_function< Type, Type > {
+      public:
+        Type operator()( const Type& x ) const {
+          return CGAL_LEDA_SCOPE::sqrt( x );
+        }
+    };
 };
 
-inline
-double
-to_double(const leda_integer & i)
-{ return i.to_double(); }
+template <> class Real_embeddable_traits< leda_integer >
+  : public Real_embeddable_traits_base< leda_integer > {
+  public:
 
-inline
-leda_integer
-sqrt(const leda_integer & i)
-{ return CGAL_LEDA_SCOPE::sqrt(i); }
+    class Abs
+      : public Unary_function< Type, Type > {
+      public:
+        Type operator()( const Type& x ) const {
+            return CGAL_LEDA_SCOPE::abs( x );
+        }
+    };
 
-inline
-bool
-is_finite(const leda_integer &)
-{ return true; }
+    class Sign
+      : public Unary_function< Type, ::CGAL::Sign > {
+      public:
+        ::CGAL::Sign operator()( const Type& x ) const {
+            return (::CGAL::Sign) CGAL_LEDA_SCOPE::sign( x );
+        }
+    };
 
-inline
-bool
-is_valid(const leda_integer &)
-{ return true; }
+    class Compare
+      : public Binary_function< Type, Type,
+                                Comparison_result > {
+      public:
+        Comparison_result operator()( const Type& x,
+                                            const Type& y ) const {
+          return (Comparison_result) CGAL_LEDA_SCOPE::compare( x, y );
+        }
 
-inline
-io_Operator
-io_tag(const leda_integer &)
-{ return io_Operator(); }
+    };
 
-inline
-Sign
-sign(const leda_integer& n)
-{ return (Sign) CGAL_LEDA_SCOPE::sign(n); }
+    class To_double
+      : public Unary_function< Type, double > {
+      public:
+        double operator()( const Type& x ) const {
+          return x.to_double();
+        }
+    };
 
-inline
-leda_integer
-div( const leda_integer& n1, const leda_integer& n2)
-{ 
-  return n1 / n2;
-}
+    class To_interval
+      : public Unary_function< Type, std::pair< double, double > > {
+      public:
+        std::pair<double, double> operator()( const Type& x ) const {
+
+          Protect_FPU_rounding<true> P (CGAL_FE_TONEAREST);
+          double cn = CGAL_NTS to_double(x);
+          leda_integer pn = ( x>0 ? x : -x);
+          if ( pn.iszero() || log(pn) < 53 )
+              return CGAL_NTS to_interval(cn);
+          else {
+            FPU_set_cw(CGAL_FE_UPWARD);
+            Interval_nt_advanced ina(cn);
+            ina += Interval_nt_advanced::smallest();
+            return ina.pair();
+          }
+
+/*        CGAL_LEDA_SCOPE::bigfloat h(x);
+          CGAL_LEDA_SCOPE::bigfloat low =
+                        CGAL_LEDA_SCOPE::round(h,53,CGAL_LEDA_SCOPE::TO_N_INF);
+          CGAL_LEDA_SCOPE::bigfloat high =
+                        CGAL_LEDA_SCOPE::round(h,53,CGAL_LEDA_SCOPE::TO_P_INF);
+          return Double_interval(low.to_double(), high.to_double());
+        }*/
+        }
+    };
+};
+
+//
+// Needs_parens_as_product
+//
+template <>
+struct Needs_parens_as_product<leda_integer> {
+  bool operator()(const leda_integer& x) {
+    return CGAL_NTS is_negative(x);
+  }
+};
 
 // missing mixed operators
 inline
@@ -94,30 +192,28 @@ operator!=(int a, const leda_integer& b)
 { return b != a; }
 
 
-inline
-std::pair<double,double>
-to_interval (const leda_integer & n)
+template <>
+struct Split_double<leda_integer>
 {
-  Protect_FPU_rounding<true> P (CGAL_FE_TONEAREST);
-  double cn = CGAL::to_double(n);
-  leda_integer pn = ( n>0 ? n : -n);
-  if ( pn.iszero() || log(pn) < 53 )
-      return to_interval(cn);
-  else {
-    FPU_set_cw(CGAL_FE_UPWARD);
-    Interval_nt_advanced ina(cn);
-    ina += Interval_nt_advanced::smallest();
-    return ina.pair();
+  void operator()(double d, leda_integer &num, leda_integer &den) const
+  {
+    std::pair<double, double> p = split_numerator_denominator(d);
+    num = leda_integer(p.first);
+    den = leda_integer(p.second);
   }
-}
-
-inline
-leda_integer
-gcd( const leda_integer& n1, const leda_integer& n2)
-{ 
-  return CGAL_LEDA_SCOPE::gcd(n1, n2);
-}
+};
 
 CGAL_END_NAMESPACE
+
+// Unary + is missing for leda::integer
+namespace leda {
+    inline integer operator+( const integer& i) { return i; }
+} // namespace leda
+
+//since types are included by leda_coercion_traits.h:
+#include <CGAL/leda_integer.h>
+#include <CGAL/leda_rational.h>
+#include <CGAL/leda_bigfloat.h>
+#include <CGAL/leda_real.h>
 
 #endif // CGAL_LEDA_INTEGER_H

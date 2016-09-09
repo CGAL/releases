@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/concept_archetype_functors.h $
-// $Id: concept_archetype_functors.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel/concept_archetype_functors.h $
+// $Id: concept_archetype_functors.h 38250 2007-04-17 22:09:34Z spion $
 // 
 //
 // Author(s)     : Matthias Baesken
@@ -366,6 +366,20 @@ public:
 };
 
 template <typename K>
+class Compare_squared_distance_2
+{
+    typedef typename K::Point_2   Point_2;
+    typedef typename K::FT        FT;
+public:
+    typedef Comparison_result     result_type;
+    typedef Arity_tag< 3 >        Arity;
+
+    Comparison_result
+    operator()(const Point_2&, const Point_2&, const FT&) const
+    { return CGAL::LARGER; }
+};
+
+template <typename K>
 class Compare_distance_3
 {
     typedef typename K::Point_3   Point_3;
@@ -375,6 +389,20 @@ public:
 
     Comparison_result
     operator()(const Point_3&, const Point_3&, const Point_3&) const
+    { return CGAL::LARGER; }
+};
+
+template <typename K>
+class Compare_squared_distance_3
+{
+    typedef typename K::Point_3   Point_3;
+    typedef typename K::FT        FT;
+public:
+    typedef Comparison_result     result_type;
+    typedef Arity_tag< 3 >        Arity;
+
+    Comparison_result
+    operator()(const Point_3&, const Point_3&, const FT&) const
     { return CGAL::LARGER; }
 };
 
@@ -580,6 +608,19 @@ public:
 };
 
 template <typename K>
+class Compare_yx_2
+{
+    typedef typename K::Point_2    Point_2;
+public:
+    typedef Comparison_result  result_type;
+    typedef Arity_tag< 2 >     Arity;
+
+    Comparison_result
+    operator()( const Point_2&, const Point_2&) const
+    { return CGAL::LARGER; }
+};
+
+template <typename K>
 class Compare_z_3
 {
     typedef typename K::Point_3   Point_3;
@@ -636,6 +677,34 @@ public:
 };
 
 template <typename K>
+class Compute_determinant_2
+{
+    typedef typename K::FT                FT;
+    typedef typename K::Vector_2          Vector_2;
+public:
+    typedef FT               result_type;
+    typedef Arity_tag< 2 >   Arity;
+
+    FT
+    operator()(const Vector_2&, const Vector_2&) const
+    { FT val = 0; return val; }
+};
+
+template <typename K>
+class Compute_determinant_3
+{
+    typedef typename K::FT                FT;
+    typedef typename K::Vector_3          Vector_3;
+public:
+    typedef FT               result_type;
+    typedef Arity_tag< 3 >   Arity;
+
+    FT
+    operator()(const Vector_3&, const Vector_3&, const Vector_3&) const
+    { FT val = 0; return val; }
+};
+
+template <typename K>
 class Compute_scalar_product_2
 {
     typedef typename K::FT                FT;
@@ -645,7 +714,7 @@ public:
     typedef Arity_tag< 2 >   Arity;
 
     FT
-    operator()(const Vector_2& v, const Vector_2& w) const
+    operator()(const Vector_2&, const Vector_2&) const
     { FT val = 0; return val; }
 };
 
@@ -659,7 +728,7 @@ public:
     typedef Arity_tag< 2 >   Arity;
 
     FT
-    operator()(const Vector_3& v, const Vector_3& w) const
+    operator()(const Vector_3&, const Vector_3&) const
     { FT val = 0; return val; }
 };
 
@@ -991,6 +1060,10 @@ public:
     typedef Arity_tag< 3 >   Arity;
 
     Point_2
+    operator()(const Point_2&, const Point_2&) const
+    { return Point_2(); }
+
+    Point_2
     operator()(const Point_2&, const Point_2&, const Point_2&) const
     { return Point_2(); }
 
@@ -1008,6 +1081,10 @@ class Construct_circumcenter_3
 public:
     typedef Point_3          result_type;
     typedef Arity_tag< 4 >   Arity;
+
+    Point_3
+    operator()(const Point_3&, const Point_3&) const
+    { return Point_3(); }
 
     Point_3
     operator()(const Point_3&, const Point_3&, const Point_3&) const
@@ -1101,6 +1178,20 @@ public:
 };
 
 template <typename K>
+class Construct_equidistant_line_3
+{
+    typedef typename K::Line_3          Line_3;
+    typedef typename K::Point_3         Point_3;
+public:
+    typedef Line_3       result_type;
+    typedef Arity_tag< 3 >    Arity;
+
+    Line_3
+    operator()(const Point_3&, const Point_3&, const Point_3&) const
+    { return Line_3(); }
+};
+
+template <typename K>
 class Construct_iso_cuboid_3
 {
     typedef typename K::Point_3       Point_3;
@@ -1108,6 +1199,10 @@ class Construct_iso_cuboid_3
 public:
     typedef Iso_cuboid_3      result_type;
     typedef Arity_tag< 2 >    Arity;
+
+    Iso_cuboid_3
+    operator()(const Point_3&, const Point_3&, int) const
+    { return Iso_cuboid_3(); }
 
     Iso_cuboid_3
     operator()(const Point_3&, const Point_3&) const
@@ -1128,6 +1223,10 @@ class Construct_iso_rectangle_2
 public:
     typedef Iso_rectangle_2   result_type;
     typedef Arity_tag< 2 >    Arity;
+
+    Iso_rectangle_2
+    operator()(const Point_2&, const Point_2&, int) const
+    { return Iso_rectangle_2(); }
 
     Iso_rectangle_2
     operator()(const Point_2&, const Point_2&) const
@@ -1233,7 +1332,7 @@ public:
     typedef Arity_tag< 1 >    Arity;
 
     Point_2
-    operator()(const Iso_rectangle_2& r) const
+    operator()(const Iso_rectangle_2&) const
     { return Point_2(); }
   };
 
@@ -1247,7 +1346,7 @@ public:
     typedef Arity_tag< 1 >    Arity;
 
     Point_2
-    operator()(const Iso_rectangle_2& r) const
+    operator()(const Iso_rectangle_2&) const
     { return Point_2(); }
   };
 
@@ -1262,7 +1361,7 @@ public:
     typedef Arity_tag< 1 >    Arity;
 
     Point_3
-    operator()(const Iso_cuboid_3& r) const
+    operator()(const Iso_cuboid_3&) const
     { return Point_3(); }
   };
 
@@ -1276,7 +1375,7 @@ public:
     typedef Arity_tag< 1 >    Arity;
 
     Point_3
-    operator()(const Iso_cuboid_3& r) const
+    operator()(const Iso_cuboid_3&) const
     { return Point_3(); }
   };
 
@@ -2214,24 +2313,24 @@ public:
     typedef Arity_tag< 1 >   Arity;
 
     Bbox_2
-    operator()( const Point_2& p) const
+    operator()( const Point_2&) const
     { Bbox_2 b; return b; }
 
     Bbox_2
-    operator()( const Segment_2& s) const
+    operator()( const Segment_2&) const
     { Bbox_2 b; return b; }
 
     
     Bbox_2
-    operator()( const Triangle_2& t) const
+    operator()( const Triangle_2&) const
     { Bbox_2 b; return b; }
 
     Bbox_2
-    operator()( const Iso_rectangle_2& r) const
+    operator()( const Iso_rectangle_2&) const
     { Bbox_2 b; return b; }
 
     Bbox_2
-    operator()( const Circle_2& c) const
+    operator()( const Circle_2&) const
     { Bbox_2 b; return b; }
 };
 
@@ -2250,28 +2349,28 @@ public:
     typedef Arity_tag< 1 >   Arity;
 
     Bbox_3
-    operator()( const Point_3& p) const
+    operator()( const Point_3&) const
     { Bbox_3 b; return b; }
 
     Bbox_3
-    operator()( const Segment_3& s) const
+    operator()( const Segment_3&) const
     { Bbox_3 b; return b; }
 
     
     Bbox_3
-    operator()( const Triangle_3& t) const
+    operator()( const Triangle_3&) const
     { Bbox_3 b; return b; }
 
     Bbox_3
-    operator()( const Iso_cuboid_3& r) const
+    operator()( const Iso_cuboid_3&) const
     { Bbox_3 b; return b; }
 
     Bbox_3
-    operator()( const Tetrahedron_3& t) const
+    operator()( const Tetrahedron_3&) const
     { Bbox_3 b; return b; }
 
     Bbox_3
-    operator()( const Sphere_3& s) const
+    operator()( const Sphere_3&) const
     { Bbox_3 b; return b;  }
 };
 
@@ -2287,13 +2386,13 @@ public:
     typedef Arity_tag< 1 >   Arity;
 
     Cartesian_const_iterator_2
-      operator()( const Point_2& p) const
+      operator()( const Point_2&) const
       {
 	return Cartesian_const_iterator_2();
       }
 
     Cartesian_const_iterator_2
-      operator()( const Point_2& p, int) const
+      operator()( const Point_2&, int) const
       {
 	return Cartesian_const_iterator_2();
       }
@@ -2311,13 +2410,13 @@ public:
     typedef Arity_tag< 1 >   Arity;
 
     Cartesian_const_iterator_3
-      operator()( const Point_3& p) const
+      operator()( const Point_3&) const
       {
 	return Cartesian_const_iterator_3();
       }
 
     Cartesian_const_iterator_3
-      operator()( const Point_3& p, int) const
+      operator()( const Point_3&, int) const
       {
 	return Cartesian_const_iterator_3();
       }

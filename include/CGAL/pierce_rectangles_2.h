@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Matrix_search/include/CGAL/pierce_rectangles_2.h $
-// $Id: pierce_rectangles_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Matrix_search/include/CGAL/pierce_rectangles_2.h $
+// $Id: pierce_rectangles_2.h 36372 2007-02-16 08:08:23Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -27,6 +27,11 @@
 #include <algorithm>
 #include <iterator>
 #include <vector>
+
+#if defined(BOOST_MSVC)
+#  pragma warning(push)
+#  pragma warning(disable:4355) // complaint about using 'this' to
+#endif                          // initialize a member
 
 CGAL_BEGIN_NAMESPACE
 
@@ -698,7 +703,7 @@ four_cover_points(Staircases< Traits >& d, OutputIterator o, bool& ok)
   
     // extract all points which are close enough to this point
     Point_2 corner = d[k];
-    if (j >= 3)
+    if (j >= 3) {
       if (j == 3) {
         Citerator i = d.tlstc_begin();
         while (sdistx(*i, d.minx) > FT(2) * d.r)
@@ -709,7 +714,7 @@ four_cover_points(Staircases< Traits >& d, OutputIterator o, bool& ok)
         while (sdisty(d.maxy, *--i) > FT(2) * d.r) {}
         corner = cpbrip(*i, d.maxy, d.r);
       }
-  
+    }
   
     // find first point not covered by the rectangle at d[k]
     Iterator i = find_if(d.begin(), d.end(),
@@ -881,17 +886,17 @@ four_cover_points(Staircases< Traits >& d, OutputIterator o, bool& ok)
     #ifndef _MSC_VER
           if (sdistx(bottom_i.second, bottom) <= FT(2) * d.r &&
               (!d.is_x_greater_y() ||
-               (shl == share.end() ||
-                sdistx(share.back(), bottom) <= FT(2) * d.r) &&
-               (shf == share.begin() ||
-                sdistx(*(shf - 1), bottom) <= FT(2) * d.r)))
+               ((shl == share.end() ||
+                 sdistx(share.back(), bottom) <= FT(2) * d.r) &&
+                (shf == share.begin() ||
+                 sdistx(*(shf - 1), bottom) <= FT(2) * d.r))))
     #else
           if (sdistx(bottom_i.second, bottom) <= FT(2) * d.r &&
-              (!d.is_x_greater_y() ||
+              ((!d.is_x_greater_y() ||
                (shl == Citerator(share.end()) ||
                 sdistx(share.back(), bottom) <= FT(2) * d.r) &&
                (shf == Citerator(share.begin()) ||
-                sdistx(*(shf - 1), bottom) <= FT(2) * d.r)))
+                sdistx(*(shf - 1), bottom) <= FT(2) * d.r))))
     #endif
             {
               // compute position of right square
@@ -945,17 +950,17 @@ four_cover_points(Staircases< Traits >& d, OutputIterator o, bool& ok)
     #ifndef _MSC_VER
               if (sdisty(right_i.second, right) <= FT(2) * d.r &&
                   (d.is_x_greater_y() ||
-                   (shl == share.end() ||
-                    sdisty(share.back(), right) <= FT(2) * d.r) &&
-                   (shf == share.begin() ||
-                    sdisty(*(shf - 1), right) <= FT(2) * d.r)))
+                   ((shl == share.end() ||
+                     sdisty(share.back(), right) <= FT(2) * d.r) &&
+                    (shf == share.begin() ||
+                     sdisty(*(shf - 1), right) <= FT(2) * d.r))))
     #else
               if (sdisty(right_i.second, right) <= FT(2) * d.r &&
                   (d.is_x_greater_y() ||
-                   (shl == Citerator(share.end()) ||
-                    sdisty(share.back(), right) <= FT(2) * d.r) &&
-                   (shf == Citerator(share.begin()) ||
-                    sdisty(*(shf - 1), right) <= FT(2) * d.r)))
+                   ((shl == Citerator(share.end()) ||
+                     sdisty(share.back(), right) <= FT(2) * d.r) &&
+                    (shf == Citerator(share.begin()) ||
+                     sdisty(*(shf - 1), right) <= FT(2) * d.r))))
     #endif
                 {
                   // compute right bound for top square
@@ -1025,6 +1030,10 @@ struct Four_covering_algorithm {
   { return four_cover_points(d, o, ok); }
 }; // class Four_covering_algorithm
 CGAL_END_NAMESPACE
+
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
 
 #endif // ! (CGAL_PIERCE_RECTANGLES_2_H)
 // ----------------------------------------------------------------------------

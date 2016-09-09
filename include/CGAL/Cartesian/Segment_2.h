@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Segment_2.h $
-// $Id: Segment_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Segment_2.h $
+// $Id: Segment_2.h 33051 2006-08-05 23:04:36Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -33,7 +33,6 @@ class SegmentC2
 {
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Segment_2            Segment_2;
-  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
   typedef Twotuple<Point_2>                        Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -62,48 +61,7 @@ public:
       return get(base).e1;
   }
 
-  Segment_2 transform(const Aff_transformation_2 &t) const
-  {
-    return Segment_2(t.transform(source()), t.transform(target()));
-  }
-
 };
-
-#ifndef CGAL_NO_OSTREAM_INSERT_SEGMENTC2
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const SegmentC2<R> &s)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << s.source() << ' ' << s.target();
-    case IO::BINARY :
-        return os << s.source() << s.target();
-    default:
-        return os << "SegmentC2(" << s.source() <<  ", " << s.target() << ")";
-    }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_SEGMENTC2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_SEGMENTC2
-template < class R >
-std::istream &
-operator>>(std::istream &is, SegmentC2<R> &s)
-{
-    typename R::Point_2 p, q;
-
-    is >> p >> q;
-
-    if (is)
-	s = SegmentC2<R>(p, q);
-    return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_SEGMENTC2
-
-
-
-
-
 
 CGAL_END_NAMESPACE
 

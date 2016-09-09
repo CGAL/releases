@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/Two_vertices_parameterizer_3.h $
-// $Id: Two_vertices_parameterizer_3.h 29301 2006-03-09 17:15:04Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Two_vertices_parameterizer_3.h $
+// $Id: Two_vertices_parameterizer_3.h 38428 2007-04-24 13:34:11Z lsaboret $
+//
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
 
@@ -134,13 +134,13 @@ Two_vertices_parameterizer_3<Adaptor>::parameterize_border(Adaptor& mesh)
     {
         Point_3 position = mesh.get_vertex_position(it);
 
-        xmin = std::min(position.x(), xmin) ;
-        ymin = std::min(position.y(), ymin) ;
-        zmin = std::min(position.z(), zmin) ;
+        xmin = (std::min)(position.x(), xmin) ;
+        ymin = (std::min)(position.y(), ymin) ;
+        zmin = (std::min)(position.z(), zmin) ;
 
-        xmax = std::max(position.x(), xmax) ;
-        ymax = std::max(position.y(), ymax) ;
-        zmax = std::max(position.z(), zmax) ;
+        xmax = (std::max)(position.x(), xmax) ;
+        ymax = (std::max)(position.y(), ymax) ;
+        zmax = (std::max)(position.z(), zmax) ;
     }
 
     // Find longest bounding box axes
@@ -255,8 +255,8 @@ Two_vertices_parameterizer_3<Adaptor>::parameterize_border(Adaptor& mesh)
 
 #ifdef DEBUG_TRACE
     std::cerr << "  map two vertices..." << std::endl;
-    std::cerr << "    #" << mesh.get_vertex_index(vxmin) << "(" << vxmin->vertex()->index() << ") parameterized " << std::endl;
-    std::cerr << "    #" << mesh.get_vertex_index(vxmax) << "(" << vxmax->vertex()->index() << ") parameterized " << std::endl;
+    // std::cerr << "    #" << mesh.get_vertex_index(vxmin) << "(" << vxmin->vertex()->index() << ") parameterized " << std::endl;
+    // std::cerr << "    #" << mesh.get_vertex_index(vxmax) << "(" << vxmax->vertex()->index() << ") parameterized " << std::endl;
 #endif
 
     return Parameterizer_traits_3<Adaptor>::OK;

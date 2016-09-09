@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Primitive_part_Sturm_sequence.h $
-// $Id: Primitive_part_Sturm_sequence.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Primitive_part_Sturm_sequence.h $
+// $Id: Primitive_part_Sturm_sequence.h 35072 2006-11-06 23:57:15Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -77,7 +77,7 @@ class Primitive_part_Sturm_sequence
         template<class RT>
         static RT compute_lcm(const CGAL_POLYNOMIAL_NS::Polynomial<RT>& p) {
             int deg = p.degree();
-            assert( deg >= 1 );
+            CGAL_assertion( deg >= 1 );
 
             RT lcm_ = lcm(abs(p[0]), abs(p[1]));
             for (int i = 2; i <= deg; i++) {
@@ -89,7 +89,7 @@ class Primitive_part_Sturm_sequence
         template<class RT>
         static RT compute_lazy_lcm(const CGAL_POLYNOMIAL_NS::Polynomial<RT>& p) {
             int deg = p.degree();
-            assert( deg >= 1 );
+            CGAL_assertion( deg >= 1 );
 
             RT lcm_ = abs(p[0] * p[1]);
             for (int i = 2; i <= deg; i++) {

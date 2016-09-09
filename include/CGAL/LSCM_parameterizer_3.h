@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/LSCM_parameterizer_3.h $
-// $Id: LSCM_parameterizer_3.h 29623 2006-03-20 11:22:05Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/LSCM_parameterizer_3.h $
+// $Id: LSCM_parameterizer_3.h 38629 2007-05-11 13:33:43Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -23,7 +23,7 @@
 
 #include <CGAL/circulator.h>
 #include <CGAL/Timer.h>
-#include <OpenNL/linear_solver.h>
+#include <CGAL/OpenNL/linear_solver.h>
 
 #include <CGAL/Parameterizer_traits_3.h>
 #include <CGAL/Two_vertices_parameterizer_3.h>
@@ -64,7 +64,7 @@ template
     class SparseLinearAlgebraTraits_d
                 = OpenNL::SymmetricLinearSolverTraits<typename ParameterizationMesh_3::NT>
                                       ///< Traits class to solve a sparse linear system.
-                                      ///< We may use a symmetric solver because LSCM
+                                      ///< We may use a symmetric definite positive solver because LSCM
                                       ///< solves the system in the least squares sense.
 >
 class LSCM_parameterizer_3
@@ -237,7 +237,7 @@ private:
 /// 5) Copy OpenNL solution to the u,v coordinates.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
-typename Parameterizer_traits_3<Adaptor>::Error_code
+typename LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
 LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
 parameterize(Adaptor& mesh)
 {
@@ -344,7 +344,7 @@ parameterize(Adaptor& mesh)
 /// - 'mesh' must be a triangular mesh
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
-typename Parameterizer_traits_3<Adaptor>::Error_code
+typename LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
 LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
 check_parameterize_preconditions(Adaptor& mesh)
 {
@@ -472,7 +472,7 @@ project_triangle(const Point_3& p0, const Point_3& p1, const Point_3& p2,   // i
 /// in presence of degenerate triangles
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
-typename Parameterizer_traits_3<Adaptor>::Error_code
+typename LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
 LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
 setup_triangle_relations(LeastSquaresSolver& solver,
                          const Adaptor& mesh,
@@ -587,7 +587,7 @@ set_mesh_uv_from_system(Adaptor& mesh,
 /// - 3D -> 2D mapping is one-to-one.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
-typename Parameterizer_traits_3<Adaptor>::Error_code
+typename LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
 LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
 check_parameterize_postconditions(const Adaptor& mesh,
                                   const LeastSquaresSolver& solver)
@@ -611,7 +611,7 @@ template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 bool LSCM_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
 is_one_to_one_mapping(const Adaptor& mesh,
-                      const LeastSquaresSolver& solver)
+                      const LeastSquaresSolver& )
 {
     Vector_3    first_triangle_normal;
 

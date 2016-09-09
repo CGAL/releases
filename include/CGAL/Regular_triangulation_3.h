@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 29437 2006-03-13 08:11:56Z cdelage $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
+// $Id: Regular_triangulation_3.h 38260 2007-04-18 07:51:26Z spion $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -30,6 +30,11 @@
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/Regular_triangulation_cell_base_3.h>
 #include <CGAL/Unique_hash_map.h>
+
+#if defined(BOOST_MSVC)
+#  pragma warning(push)
+#  pragma warning(disable:4355) // complaint about using 'this' to
+#endif                          // initialize a member
 
 CGAL_BEGIN_NAMESPACE
 
@@ -107,12 +112,12 @@ public:
   using Tr_Base::coplanar_orientation;
 
   Regular_triangulation_3(const Gt & gt = Gt())
-    : Tr_Base(gt)
+    : Tr_Base(gt), hidden_point_visitor(this)
   {}
 
   // copy constructor duplicates vertices and cells
   Regular_triangulation_3(const Regular_triangulation_3 & rt)
-      : Tr_Base(rt)
+    : Tr_Base(rt), hidden_point_visitor(this)
   {
       CGAL_triangulation_postcondition( is_valid() );
   }
@@ -121,7 +126,7 @@ public:
   template < typename InputIterator >
   Regular_triangulation_3(InputIterator first, InputIterator last,
                           const Gt & gt = Gt())
-      : Tr_Base(gt)
+      : Tr_Base(gt), hidden_point_visitor(this)
   {
       insert(first, last);
   }
@@ -131,10 +136,30 @@ public:
   insert(InputIterator first, InputIterator last)
   {
     int n = number_of_vertices();
-    while(first != last){
-      insert(*first);
-      ++first;
+
+#ifdef CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG
+    std::vector<Weighted_point> points;
+    std::copy(first, last, std::back_inserter(points));
+#else
+    std::vector<Weighted_point> points(first, last);
+#endif
+    std::random_shuffle (points.begin(), points.end());
+    spatial_sort (points.begin(), points.end(), geom_traits());
+
+    Cell_handle hint;
+    for (typename std::vector<Weighted_point>::const_iterator p = points.begin();
+            p != points.end(); ++p)
+    {
+        Locate_type lt;
+        Cell_handle c;
+        int li, lj;
+        c = locate (*p, lt, li, lj, hint);
+
+        Vertex_handle v = insert (*p, lt, c, li, lj);
+
+        hint = v == Vertex_handle() ? c : v->cell();
     }
+
     return number_of_vertices() - n;
   }
 
@@ -164,17 +189,21 @@ public:
 
       if (dimension() == 2) {
           Conflict_tester_for_find_conflicts_2 tester(p, this);
-	  ifit = find_conflicts_2(c, tester,
-                                  make_triple(std::back_inserter(facets),
-		                              std::back_inserter(cells),
-                                              ifit)).third;
+          if (! tester (c)) return make_triple (bfit, cit, ifit);
+	  ifit = Tr_Base::find_conflicts
+	    (c, tester,
+	     make_triple(std::back_inserter(facets),
+			 std::back_inserter(cells),
+			 ifit)).third;
       }
       else {
           Conflict_tester_for_find_conflicts_3 tester(p, this);
-	  ifit = find_conflicts_3(c, tester,
-                                  make_triple(std::back_inserter(facets),
-		                              std::back_inserter(cells),
-                                              ifit)).third;
+          if (! tester (c)) return make_triple (bfit, cit, ifit);
+	  ifit = Tr_Base::find_conflicts
+	    (c, tester,
+	     make_triple(std::back_inserter(facets),
+			 std::back_inserter(cells),
+			 ifit)).third;
       }
 
       // Reset the conflict flag on the boundary.
@@ -204,6 +233,39 @@ public:
 	     Emptyset_iterator> t = find_conflicts(p, c, bfit, cit,
 		                                   Emptyset_iterator());
       return std::make_pair(t.first, t.second);
+  }
+
+  // Returns the vertices on the boundary of the conflict hole.
+  template <class OutputIterator>
+  OutputIterator
+  vertices_in_conflict(const Weighted_point&p, Cell_handle c,
+		       OutputIterator res) const
+  {
+      CGAL_triangulation_precondition(dimension() >= 2);
+
+      // Get the facets on the boundary of the hole.
+      std::vector<Facet> facets;
+      find_conflicts(p, c, std::back_inserter(facets),
+	             Emptyset_iterator(), Emptyset_iterator());
+
+      // Then extract uniquely the vertices.
+      std::set<Vertex_handle> vertices;
+      if (dimension() == 3) {
+          for (typename std::vector<Facet>::const_iterator i = facets.begin();
+	       i != facets.end(); ++i) {
+	      vertices.insert(i->first->vertex((i->second+1)&3));
+	      vertices.insert(i->first->vertex((i->second+2)&3));
+	      vertices.insert(i->first->vertex((i->second+3)&3));
+          }
+      } else {
+          for (typename std::vector<Facet>::const_iterator i = facets.begin();
+	       i != facets.end(); ++i) {
+	      vertices.insert(i->first->vertex(cw(i->second)));
+	      vertices.insert(i->first->vertex(ccw(i->second)));
+          }
+      }
+
+      return std::copy(vertices.begin(), vertices.end(), res);
   }
 
   void remove (Vertex_handle v);
@@ -311,7 +373,7 @@ public:
 
   Bounded_side
   side_of_power_circle(const Facet & f, const Weighted_point & p,
-                       bool perturb = false) const
+                       bool /* perturb */ = false) const
   {
       return side_of_power_circle(f.first, f.second, p);
   }
@@ -534,81 +596,164 @@ private:
 
   class Conflict_tester_3
   {
-      const Weighted_point &p;
-      const Self *t;
-      mutable std::vector<Vertex_handle> &cv;
-
+    const Weighted_point &p;
+    const Self *t;
+    //       mutable std::vector<Vertex_handle> &cv;
+    
   public:
+    
+    Conflict_tester_3(const Weighted_point &pt, const Self *tr)
+      : p(pt), t(tr) {}
+    
+    bool operator()(const Cell_handle c) const {
+      return t->in_conflict_3(p, c);
+    }
 
-      Conflict_tester_3(const Weighted_point &pt, const Self *tr, 
-			std::vector<Vertex_handle> &_cv)
-	  : p(pt), t(tr), cv(_cv) {}
-
-      bool operator()(const Cell_handle c) const
-      {
-	  // We mark the vertices so that we can find the deleted ones easily.
-	  if (t->in_conflict_3(p, c))
-	  {
-	      for (int i=0; i<4; i++)
-	      {
-		  Vertex_handle v = c->vertex(i);
-		  if (v->cell() != Cell_handle())
-		  {
-		      cv.push_back(v);
-		      v->set_cell(Cell_handle());
-		  }
-	      }
-	      return true;
-	  }
-	  return false;
-      }
-
-      std::vector<Vertex_handle> & conflict_vector()
-      {
-	  return cv;
-      }
+    bool test_initial_cell(const Cell_handle c) const {
+      return operator()(c);
+    }
+    Oriented_side compare_weight(const Weighted_point &wp1, 
+				 const Weighted_point &wp2) const
+    {
+      return t->power_test (wp1, wp2);
+    }
   };
-
+  
   class Conflict_tester_2
   {
       const Weighted_point &p;
       const Self *t;
-      mutable std::vector<Vertex_handle> &cv;
+  public:
+
+    Conflict_tester_2(const Weighted_point &pt, const Self *tr)
+      : p(pt), t(tr) {}
+    
+    bool operator()(const Cell_handle c) const
+    {
+      return t->in_conflict_2(p, c, 3);
+    }
+    bool test_initial_cell(const Cell_handle c) const {
+      return operator()(c);
+    }
+    Oriented_side compare_weight(const Weighted_point &wp1, 
+				 const Weighted_point &wp2) const
+    {
+      return t->power_test (wp1, wp2);
+    }
+  };
+
+  class Conflict_tester_1
+  {
+      const Weighted_point &p;
+      const Self *t;
 
   public:
 
-      Conflict_tester_2(const Weighted_point &pt, const Self *tr, 
-			std::vector<Vertex_handle> &_cv)
-	  : p(pt), t(tr), cv(_cv) {}
+    Conflict_tester_1(const Weighted_point &pt, const Self *tr)
+      : p(pt), t(tr) {}
+    
+    bool operator()(const Cell_handle c) const
+    {
+      return t->in_conflict_1(p, c);
+    }
+    bool test_initial_cell(const Cell_handle c) const {
+      return operator()(c);
+    }
+    Oriented_side compare_weight(const Weighted_point &wp1, 
+				 const Weighted_point &wp2) const
+    {
+      return t->power_test (wp1, wp2);
+    }
+  };
+  
+  class Conflict_tester_0
+  {
+      const Weighted_point &p;
+      const Self *t;
 
-      bool operator()(const Cell_handle c) const
-      {
-	  if (t->in_conflict_2(p, c, 3))
-	  {
-	      for (int i=0; i<3; i++)
-	      {
-		  Vertex_handle v = c->vertex(i);
-		  if (v->cell() != Cell_handle())
-		  {
-		      cv.push_back(v);
-		      v->set_cell(Cell_handle());
-		  }
-	      }
-	      return true;
+  public:
+
+    Conflict_tester_0(const Weighted_point &pt, const Self *tr)
+      : p(pt), t(tr) {}
+    
+    bool operator()(const Cell_handle c) const
+    {
+      return t->in_conflict_0(p, c);
+    }
+    bool test_initial_cell(const Cell_handle c) const {
+      return operator()(c);
+    }
+    int compare_weight(const Weighted_point &wp1, 
+		       const Weighted_point &wp2) const
+    {
+      return t->power_test (wp1, wp2);
+    }
+  };
+  
+  class Hidden_point_visitor
+  {
+    Self *t;
+    mutable std::vector<Vertex_handle> vertices;
+    mutable std::vector<Weighted_point> hidden_points;
+
+  public:
+
+    Hidden_point_visitor(Self *tr) : t(tr) {}
+
+    template <class InputIterator>
+    void process_cells_in_conflict(InputIterator start, InputIterator end) const
+    {
+      int dim = t->dimension();
+      while (start != end) {
+	std::copy((*start)->hidden_points_begin(),
+		  (*start)->hidden_points_end(),
+		  std::back_inserter(hidden_points));
+	
+	for (int i=0; i<=dim; i++) {
+	  Vertex_handle v = (*start)->vertex(i);
+	  if (v->cell() != Cell_handle()) {
+	    vertices.push_back(v);
+	    v->set_cell(Cell_handle());
 	  }
-	  return false;
+	}
+	start ++;
       }
-
-      std::vector<Vertex_handle> & conflict_vector()
-      {
-	  return cv;
+    }
+    void reinsert_vertices(Vertex_handle v) {
+      Cell_handle hc = v->cell();
+	for (typename std::vector<Vertex_handle>::iterator
+	     vi = vertices.begin(); vi != vertices.end(); ++vi) {
+	if ((*vi)->cell() != Cell_handle()) continue;
+	hc = t->locate ((*vi)->point(), hc);
+	hide_point(hc, (*vi)->point());
+	t->tds().delete_vertex(*vi);
+      }      
+      vertices.clear(); 
+      for (typename std::vector<Weighted_point>::iterator
+	     hp = hidden_points.begin(); hp != hidden_points.end(); ++hp) {
+	hc = t->locate (*hp, hc);
+	hide_point (hc, *hp);
       }
+      hidden_points.clear();
+    }
+    Vertex_handle replace_vertex(Cell_handle c, int index, 
+				 const Weighted_point &p) {
+      Vertex_handle v = c->vertex(index);
+      hide_point(c, v->point());
+      v->set_point(p); 
+      return v;
+    }
+    void hide_point(Cell_handle c, const Weighted_point &p) {
+      c->hide_point(p);
+    }
   };
 
   friend class Conflict_tester_for_find_conflicts_3;
   friend class Conflict_tester_for_find_conflicts_2;
   friend class Conflict_tester_3;
   friend class Conflict_tester_2;
+
+  Hidden_point_visitor hidden_point_visitor;
 };
 
 
@@ -1104,139 +1249,28 @@ insert(const Weighted_point & p, Cell_handle start)
 template < class Gt, class Tds >
 typename Regular_triangulation_3<Gt,Tds>::Vertex_handle
 Regular_triangulation_3<Gt,Tds>::
-insert(const Weighted_point & p, Locate_type lt, Cell_handle c, int li, int)
+insert(const Weighted_point & p, Locate_type lt, Cell_handle c, int li, int lj)
 {
-    if (lt == Tr_Base::OUTSIDE_AFFINE_HULL)
-        return Tr_Base::insert_outside_affine_hull (p);
-
-    Vertex_handle v;
-
-    // Previously, when an already present point was inserted a second time, it
-    // was discarded and its Vertex_handle was returned, we keep this semantic.
-    // We need the special case lt == VERTEX because we don't know how the
-    // power_test will be perturbed in dimension > 0.
-    if (lt == Tr_Base::VERTEX && power_test (c->vertex(li)->point(), p) == 0)
-        goto replace_vertex;
-
-    // If the new point is not in conflict with its cell, it is hidden.
-    if (! in_conflict (p, c)) {
-        c->hide_point (p);
-        return Vertex_handle();
-    }
-
-    if (dimension() == 0) {
-replace_vertex:
-        v = c->vertex(li);
-        c->hide_point(v->point());
-        v->set_point(p); 
-        return v;
-    }
-
-    // Ok, we really insert the point now.
-    // First, find the conflict region.
-    std::vector<Cell_handle> cells;
-    std::vector<Vertex_handle> vertices;
-    Facet facet;
-    Cell_handle bound[2];
-    // corresponding index: bound[j]->neighbor(1-j) is in conflict.
-
-    switch (dimension()) {
-        case 1:
-            // We get all cells in conflict,
-            // and remember the 2 external boundaries.
-            cells.push_back(c);
-
-            for (int j = 0; j<2; ++j) {
-                Cell_handle n = c->neighbor(j);
-                while ( in_conflict_1( p, n) ) {
-                    cells.push_back(n);
-                    vertices.push_back(n->vertex(j));
-                    n = n->neighbor(j);
-                }
-                bound[j] = n;
-            }
-            break;
-
-        case 2:
-        {
-            cells.reserve(32);
-            Conflict_tester_2 tester (p, this, vertices);
-            find_conflicts_2 (c, tester, make_triple(Oneset_iterator<Facet>(facet),
-                                                     std::back_inserter(cells),
-                                                     Emptyset_iterator()));
-            break;
-        }
-        case 3:
-        {
-            cells.reserve(32);
-            Conflict_tester_3 tester (p, this, vertices);
-            find_conflicts_3 (c, tester, make_triple(Oneset_iterator<Facet>(facet),
-                                                     std::back_inserter(cells),
-                                                     Emptyset_iterator()));
-            break;
-        }
-        default:
-            CGAL_triangulation_assertion (false);
-    }
-
-    // Remember the points that are hidden by the conflicting cells,
-    // as they will be deleted during the insertion.
-
-    std::vector<Weighted_point> hidden;
-
-    for (typename std::vector<Cell_handle>::iterator
-         ci = cells.begin(); ci != cells.end(); ++ci)
-        std::copy ((*ci)->hidden_points_begin(),
-                   (*ci)->hidden_points_end(),
-                   std::back_inserter(hidden));
-
-    // Insertion.
-
-    if (dimension() == 1) {
-        tds().delete_cells(cells.begin(), cells.end());
-
-        for (typename std::vector<Vertex_handle>::iterator
-             vi = vertices.begin(); vi != vertices.end(); ++vi)
-        {
-            hidden.push_back ((*vi)->point());
-            tds().delete_vertex(*vi);
-        }
-
-        // We preserve the order (like the orientation in 2D-3D).
-        v = tds().create_vertex();
-        Cell_handle c0 = tds().create_face(v, bound[0]->vertex(0), Vertex_handle());
-        Cell_handle c1 = tds().create_face(bound[1]->vertex(1), v, Vertex_handle());
-        tds().set_adjacency(c0, 1, c1, 0);
-        tds().set_adjacency(bound[0], 1, c0, 0);
-        tds().set_adjacency(c1, 1, bound[1], 0);
-        bound[0]->vertex(0)->set_cell(bound[0]);
-        bound[1]->vertex(1)->set_cell(bound[1]);
-        v->set_cell(c0);
-
-    } else { // Same code for dim 2 and 3.
-        v = tds()._insert_in_hole(cells.begin(), cells.end(),
-                                  facet.first, facet.second);
-        for (typename std::vector<Vertex_handle>::iterator
-             vi = vertices.begin(); vi != vertices.end(); ++vi)
-        {
-            if ((*vi)->cell() != Cell_handle()) continue;
-            hidden.push_back ((*vi)->point());
-            tds().delete_vertex (*vi);
-        }
-    }
-
-    v->set_point (p);
-
-    // Store the hidden points in their new cells.
-
-    for (typename std::vector<Weighted_point>::iterator
-         hp = hidden.begin(); hp != hidden.end(); ++hp)
+  switch (dimension()) {
+  case 3:
     {
-        Cell_handle hc = locate (*hp, v->cell());
-        hc->hide_point (*hp);
+      Conflict_tester_3 tester (p, this);
+      return insert_in_conflict(p, lt,c,li,lj, tester, hidden_point_visitor);
     }
+  case 2: 
+    {
+      Conflict_tester_2 tester (p, this);
+      return insert_in_conflict(p, lt,c,li,lj, tester, hidden_point_visitor);
+    }
+  case 1: 
+    {
+      Conflict_tester_1 tester (p, this);
+      return insert_in_conflict(p, lt,c,li,lj, tester, hidden_point_visitor);
+    }
+  }
 
-    return v;
+  Conflict_tester_0 tester (p, this);
+  return insert_in_conflict(p, lt,c,li,lj, tester, hidden_point_visitor);
 }
 
 template < class Gt, class Tds >
@@ -1842,5 +1876,9 @@ is_valid(bool verbose, int level) const
 }
 
 CGAL_END_NAMESPACE
+
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
 
 #endif // CGAL_REGULAR_TRIANGULATION_3_H

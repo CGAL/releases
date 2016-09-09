@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_C2.h $
-// $Id: Voronoi_vertex_sqrt_field_C2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_C2.h $
+// $Id: Voronoi_vertex_sqrt_field_C2.h 37237 2007-03-19 07:47:35Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -25,23 +25,22 @@
 
 
 
-#include <CGAL/enum.h>
 #include <CGAL/Segment_Delaunay_graph_2/Basic_predicates_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Are_same_points_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Are_same_segments_C2.h>
 
 
-
-
 CGAL_BEGIN_NAMESPACE
+
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
 
 
 template<class K>
-class Sdg_voronoi_vertex_sqrt_field_C2
-  : public Sdg_basic_predicates_C2<K>
+class Voronoi_vertex_sqrt_field_C2
+  : public Basic_predicates_C2<K>
 {
 public:
-  typedef Sdg_basic_predicates_C2<K> Base;
+  typedef Basic_predicates_C2<K> Base;
 
   typedef enum {PPP = 0, PPS, PSS, SSS} vertex_t;
   struct PPP_Type {};
@@ -58,14 +57,19 @@ public:
 
   typedef typename Base::Homogeneous_point_2 Homogeneous_point_2;
 
+  typedef typename Base::Orientation         Orientation;
+  typedef typename Base::Comparison_result   Comparison_result;
+  typedef typename Base::Oriented_side       Oriented_side;
+  typedef typename Base::Sign                Sign;
+
 private:
-  typedef Sdg_are_same_points_C2<K>    Are_same_points_C2;
-  typedef Sdg_are_same_segments_C2<K>  Are_same_segments_C2;
+  typedef Are_same_points_C2<K>    Are_same_points_2;
+  typedef Are_same_segments_C2<K>  Are_same_segments_2;
 
   typedef typename K::Intersections_tag ITag;
 
-  Are_same_points_C2     same_points;
-  Are_same_segments_C2   same_segments;
+  Are_same_points_2     same_points;
+  Are_same_segments_2   same_segments;
 
 
 private:
@@ -317,7 +321,7 @@ private:
 
 
   //--------------------------------------------------------------------------
-  bool check_if_exact(const Site_2& s, unsigned int i,
+  bool check_if_exact(const Site_2& , unsigned int ,
 		      const Tag_false&) const
   {
     return true;
@@ -526,7 +530,11 @@ private:
       a[(i_no+1)%3] * vx + b[(i_no+1)%3] * vy + c[(i_no+1)%3] * vw;
     
 
-    Sign sgn_dist = Sign(s_vw * CGAL::sign(dist));
+#ifdef CGAL_CFG_NO_OPERATOR_TIMES_FOR_SIGN
+    Sign sgn_dist = CGAL::Sign(s_vw * CGAL::sign(dist));
+#else
+    Sign sgn_dist = s_vw * CGAL::sign(dist);
+#endif
 
     CGAL_assertion( sgn_dist != ZERO );
 
@@ -696,7 +704,7 @@ private:
   }
 
   template<class Type>
-  Sign incircle_p_no_easy(const Site_2& st, Type type) const
+  Sign incircle_p_no_easy(const Site_2& st, Type) const
   {
     CGAL_precondition( st.is_point() );
 
@@ -707,7 +715,11 @@ private:
     FT d2 = CGAL::square(x() - t.x()) +
       CGAL::square(y() - t.y());
 
-    return Sign( (Comparison_result) CGAL::compare(d2, r2) );
+#ifdef CGAL_CFG_NO_OPERATOR_TIMES_FOR_SIGN
+    return CGAL::Sign( (CGAL::Comparison_result) CGAL::compare(d2, r2) );
+#else
+    return CGAL::compare(d2, r2);
+#endif
   }
 
   //--------------------------------------------------------------------------
@@ -784,7 +796,11 @@ private:
 
     FT d2 = CGAL::square(l.a() * x() + l.b() * y() + l.c());
 
-    return Sign( (Comparison_result) CGAL::compare(d2, r2 * n2) );
+#ifdef CGAL_CFG_NO_OPERATOR_TIMES_FOR_SIGN
+    return CGAL::Sign( (CGAL::Comparison_result) CGAL::compare(d2, r2 * n2) );
+#else
+    return CGAL::compare(d2, r2 * n2);
+#endif
   }
 
 
@@ -1077,9 +1093,9 @@ public:
   vertex_t type() const { return v_type; }
 
 public:
-  Sdg_voronoi_vertex_sqrt_field_C2(const Site_2& p,
-				   const Site_2& q,
-				   const Site_2& r)
+  Voronoi_vertex_sqrt_field_C2(const Site_2& p,
+			       const Site_2& q,
+			       const Site_2& r)
     : p_(p), q_(q), r_(r)
   {
     compute_vertex(p, q, r);
@@ -1142,6 +1158,7 @@ private:
 
 
 
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
 
 CGAL_END_NAMESPACE
 

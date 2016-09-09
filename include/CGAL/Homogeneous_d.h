@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Homogeneous_d.h $
-// $Id: Homogeneous_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Homogeneous_d.h $
+// $Id: Homogeneous_d.h 33349 2006-08-16 15:12:39Z afabri $
 // 
 //
 // Author(s)     : Michael Seel
@@ -38,10 +38,10 @@
 #include <CGAL/Kernel_d/DirectionHd.h>
 #include <CGAL/Kernel_d/HyperplaneHd.h>
 #include <CGAL/Kernel_d/Aff_transformationHd.h>
-#include <CGAL/Kernel_d/PointHd.C>
-#include <CGAL/Kernel_d/VectorHd.C>
-#include <CGAL/Kernel_d/DirectionHd.C>
-#include <CGAL/Kernel_d/HyperplaneHd.C>
+#include <CGAL/Kernel_d/PointHd_impl.h>
+#include <CGAL/Kernel_d/VectorHd_impl.h>
+#include <CGAL/Kernel_d/DirectionHd_impl.h>
+#include <CGAL/Kernel_d/HyperplaneHd_impl.h>
 #include <CGAL/Kernel_d/function_objectsHd.h>
 #include <CGAL/Kernel_d/intersection_objectsHd.h>
 #include <CGAL/Kernel_d/Interface_classes.h>
@@ -111,9 +111,9 @@ public:
     Point_d operator()(const Iso_box_d&  b, int i)
     {
       if(i == 0){
-	return b.min();
+	return (b.min)();
       }
-      return b.max();
+      return (b.max)();
     }
   };
   
@@ -132,7 +132,7 @@ public:
 
     Point_d operator()(const Iso_box_d&  b)
     {
-      return b.min();
+      return (b.min)();
     }
   };
   typedef Construct_min_vertex<Self> Construct_min_vertex_d;
@@ -155,7 +155,7 @@ public:
 
     Point_d operator()(const Iso_box_d&  b)
     {
-      return b.max();
+      return (b.max)();
     }
   };
   typedef Construct_max_vertex<Self> Construct_max_vertex_d;
@@ -400,7 +400,7 @@ CGAL_END_NAMESPACE
 #include <CGAL/Kernel_d/Segment_d.h>
 #include <CGAL/Kernel_d/Ray_d.h>
 #include <CGAL/Kernel_d/Line_d.h>
-#include <CGAL/Kernel_d/Line_d.C>
+#include <CGAL/Kernel_d/Line_d_impl.h>
 #include <CGAL/intersections_d.h>
 
 #endif // CGAL_HOMOGENEOUS_D_H

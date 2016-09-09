@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Point_2.h $
-// $Id: Point_2.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Point_2.h $
+// $Id: Point_2.h 37197 2007-03-17 18:29:25Z afabri $
+//
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
 
@@ -26,21 +26,28 @@
 
 #include <CGAL/Origin.h>
 #include <CGAL/Bbox_2.h>
+#include <boost/static_assert.hpp>
+#include <boost/type_traits.hpp>
+#include <CGAL/Kernel/Return_base_tag.h>
+#include <CGAL/representation_tags.h>
 
 CGAL_BEGIN_NAMESPACE
-
 
 template <class R_>
 class Point_2 : public R_::Kernel_base::Point_2
 {
   typedef typename R_::RT                    RT;
+  typedef typename R_::FT                    FT;
   typedef typename R_::Vector_2              Vector_2;
+  typedef typename R_::Aff_transformation_2  Aff_transformation_2;
   typedef typename R_::Kernel_base::Point_2  RPoint_2;
+
+  typedef Point_2                            Self;
+  BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Point_2>::value));
 
 public:
   typedef RPoint_2 Rep;
   typedef typename R_::Cartesian_const_iterator_2 Cartesian_const_iterator;
-
 
   const Rep& rep() const
   {
@@ -57,21 +64,25 @@ public:
   Point_2() {}
 
   Point_2(const Origin& o)
-    : RPoint_2(typename R::Construct_point_2()(o).rep())
+    : RPoint_2(typename R::Construct_point_2()(Return_base_tag(), o))
   {}
 
-#if 1 // still needed by Min_ellipse_2...
   Point_2(const RPoint_2& p)
     : RPoint_2(p)
   {}
-#endif
 
-  Point_2(const RT& x, const RT& y)
-    : RPoint_2(typename R::Construct_point_2()(x, y).rep())
+  template < typename T1, typename T2 >
+#ifdef __INTEL_COMPILER
+     Self
+#else
+  Point_2
+#endif
+         (const T1 &x, const T2 &y)
+    : Rep(typename R::Construct_point_2()(Return_base_tag(), x, y))
   {}
 
   Point_2(const RT& hx, const RT& hy, const RT& hw)
-    : RPoint_2(typename R::Construct_point_2()(hx, hy, hw).rep())
+    : RPoint_2(typename R::Construct_point_2()(Return_base_tag(), hx, hy, hw))
   {}
 
   typename Qualified_result_of<typename R::Compute_x_2,Point_2>::type
@@ -99,12 +110,12 @@ public:
       return cartesian(i);
   }
 
-  Cartesian_const_iterator cartesian_begin() const 
+  Cartesian_const_iterator cartesian_begin() const
   {
     return typename R::Construct_cartesian_const_iterator_2()(*this);
   }
 
-  Cartesian_const_iterator cartesian_end() const 
+  Cartesian_const_iterator cartesian_end() const
   {
     return typename R::Construct_cartesian_const_iterator_2()(*this,2);
   }
@@ -146,15 +157,17 @@ public:
     return R().construct_bbox_2_object()(*this);
   }
 
+  Point_2 transform(const Aff_transformation_2 &t) const
+  {
+    return t.transform(*this);
+  }
+
 };
 
 
-
-#ifndef CGAL_NO_OSTREAM_INSERT_POINT_2
-
 template <class R >
 std::ostream&
-insert(std::ostream& os, const Point_2<R>& p,const Cartesian_tag&) 
+insert(std::ostream& os, const Point_2<R>& p,const Cartesian_tag&)
 {
     switch(os.iword(IO::mode)) {
     case IO::ASCII :
@@ -195,13 +208,10 @@ operator<<(std::ostream& os, const Point_2<R>& p)
   return insert(os, p, typename R::Kernel_tag() );
 }
 
-#endif // CGAL_NO_OSTREAM_INSERT_POINT_2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_POINT_2
 
 template <class R >
 std::istream&
-extract(std::istream& is, Point_2<R>& p, const Cartesian_tag&) 
+extract(std::istream& is, Point_2<R>& p, const Cartesian_tag&)
 {
     typename R::FT x, y;
     switch(is.iword(IO::mode)) {
@@ -225,7 +235,7 @@ extract(std::istream& is, Point_2<R>& p, const Cartesian_tag&)
 
 template <class R >
 std::istream&
-extract(std::istream& is, Point_2<R>& p, const Homogeneous_tag&) 
+extract(std::istream& is, Point_2<R>& p, const Homogeneous_tag&)
 {
   typename R::RT hx, hy, hw;
   switch(is.iword(IO::mode))
@@ -243,7 +253,8 @@ extract(std::istream& is, Point_2<R>& p, const Homogeneous_tag&)
         std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
   }
-  p = Point_2<R>(hx, hy, hw);
+  if (is)
+    p = Point_2<R>(hx, hy, hw);
   return is;
 }
 
@@ -253,7 +264,6 @@ operator>>(std::istream& is, Point_2<R>& p)
 {
   return extract(is, p, typename R::Kernel_tag() );
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_POINT_2
 
 CGAL_END_NAMESPACE
 

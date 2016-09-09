@@ -15,21 +15,23 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/src/CGAL/assertions.cpp $
-// $Id: assertions.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/src/CGAL/assertions.cpp $
+// $Id: assertions.cpp 35750 2007-01-18 13:46:53Z fcacciola $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman and Sven Schönherr
 
 
 #include <CGAL/config.h>
-#include <cstdlib>
 #include <CGAL/assertions.h>
-#include <iostream>
+#include <CGAL/exceptions.h>
 
+#include <cstdlib>
+#include <iostream>
 #include <cassert>
 
 CGAL_BEGIN_NAMESPACE
+
 // not_implemented function
 // ------------------------
 void
@@ -41,7 +43,7 @@ not_implemented()
 // static behaviour variables
 // --------------------------
 
-static Failure_behaviour _error_behaviour   = ABORT;
+static Failure_behaviour _error_behaviour   = THROW_EXCEPTION;
 static Failure_behaviour _warning_behaviour = CONTINUE;
 
 // standard error handlers
@@ -107,9 +109,15 @@ assertion_fail( const char* expr,
         CGAL_CLIB_STD::exit(1);  // EXIT_FAILURE
     case EXIT_WITH_SUCCESS:
         CGAL_CLIB_STD::exit(0);  // EXIT_SUCCESS
+    case THROW_EXCEPTION:
+        throw Assertion_exception("CGAL", expr, file, line, msg);
     case CONTINUE:
         ;
     }
+}
+void assertion_fail( const char* expr, const char* file, int line )
+{
+  assertion_fail(expr,file,line,"");
 }
 
 void
@@ -126,9 +134,15 @@ precondition_fail( const char* expr,
         CGAL_CLIB_STD::exit(1);  // EXIT_FAILURE
     case EXIT_WITH_SUCCESS:
         CGAL_CLIB_STD::exit(0);  // EXIT_SUCCESS
+    case THROW_EXCEPTION:
+        throw Precondition_exception("CGAL", expr, file, line, msg);
     case CONTINUE:
         ;
     }
+}
+void precondition_fail( const char* expr, const char* file, int line )
+{
+  precondition_fail(expr,file,line,"");
 }
 
 void
@@ -145,9 +159,15 @@ postcondition_fail(const char* expr,
         CGAL_CLIB_STD::exit(1);  // EXIT_FAILURE
     case EXIT_WITH_SUCCESS:
         CGAL_CLIB_STD::exit(0);  // EXIT_SUCCESS
+    case THROW_EXCEPTION:
+        throw Postcondition_exception("CGAL", expr, file, line, msg);
     case CONTINUE:
         ;
     }
+}
+void postcondition_fail( const char* expr, const char* file, int line )
+{
+  postcondition_fail(expr,file,line,"");
 }
 
 
@@ -167,9 +187,15 @@ warning_fail( const char* expr,
         CGAL_CLIB_STD::exit(1);  // EXIT_FAILURE
     case EXIT_WITH_SUCCESS:
         CGAL_CLIB_STD::exit(0);  // EXIT_SUCCESS
+    case THROW_EXCEPTION:
+        throw Warning_exception("CGAL", expr, file, line, msg);
     case CONTINUE:
         ;
     }
+}
+void warning_fail( const char* expr, const char* file, int line )
+{
+  warning_fail(expr,file,line,"");
 }
 
 
@@ -208,5 +234,3 @@ set_warning_behaviour(Failure_behaviour eb)
 }
 
 CGAL_END_NAMESPACE
-
-

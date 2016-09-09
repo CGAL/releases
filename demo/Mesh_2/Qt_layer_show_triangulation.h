@@ -12,9 +12,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/demo/Mesh_2/Qt_layer_show_triangulation.h $
-// $Id: Qt_layer_show_triangulation.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/demo/Mesh_2/Qt_layer_show_triangulation.h $
+// $Id: Qt_layer_show_triangulation.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Laurent Rineau
 
@@ -30,7 +30,7 @@ template <class T>
 class Qt_layer_show_triangulation : public Qt_widget_styled_layer
 {
 public:
-	
+
   Qt_layer_show_triangulation(T *t,
 			      CGAL::Color lc = CGAL::BLUE,
 			      int linewidth = 1,
@@ -58,7 +58,7 @@ public:
 
     widget->setColor(style()->getColor(color));
     widget->setLineWidth(style()->getInt(width));
-      
+
     *widget << *tr;
 
     widget->setLineWidth(old_width);
@@ -69,7 +69,7 @@ private:
   T *tr;
   QString color;
   QString width;
-};//end class 
+};//end class
 
 } // namespace CGAL
 

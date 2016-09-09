@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Nef_polyhedron_2.h $
-// $Id: Nef_polyhedron_2.h 28937 2006-02-28 19:56:14Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_polyhedron_2.h $
+// $Id: Nef_polyhedron_2.h 37244 2007-03-19 08:25:43Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -20,6 +20,10 @@
 #ifndef CGAL_NEF_POLYHEDRON_2_H
 #define CGAL_NEF_POLYHEDRON_2_H
 
+#if defined(BOOST_MSVC)
+#  pragma warning(push)
+#  pragma warning(disable:4800) // complaint about performance in std::map where we can't do anything
+#endif                          
 
 
 #include <CGAL/basic.h>
@@ -97,7 +101,7 @@ public:
     : pm_(), pl_(0) 
   {}
 
-  Nef_polyhedron_2_rep(const Self& R) 
+  Nef_polyhedron_2_rep(const Self& ) 
     : pm_(), pl_(0) 
   {}
 
@@ -254,7 +258,7 @@ protected:
     L.push_back(Extended_segment(EK.SE(),EK.NE()));
   }
 
-  void fill_with_frame_segs(ES_list& L, const Tag_false& ) const
+  void fill_with_frame_segs(ES_list& , const Tag_false& ) const
   {}
 
   void fill_with_frame_segs(ES_list& L) const
@@ -525,7 +529,8 @@ public:
           while( itl != end ) {
             Extended_point en = EK.construct_point(*itl);
             L.push_back(EK.construct_segment(ep,en));
-            ep = en; ++itl;
+            ep = en;
+	    ++itl;
           }
         }
       }
@@ -1106,6 +1111,10 @@ std::istream& operator>>
 
 
 CGAL_END_NAMESPACE
+
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
 
 #endif //CGAL_NEF_POLYHEDRON_2_H
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Orientation_C2.h $
-// $Id: Orientation_C2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Orientation_C2.h $
+// $Id: Orientation_C2.h 32830 2006-07-31 13:25:07Z mkaravel $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -28,28 +28,36 @@
 
 CGAL_BEGIN_NAMESPACE
 
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
+
 //-----------------------------------------------------------------------------
 
 
 
 template<class K>
-class Sdg_orientation_C2
-  : public Sdg_basic_predicates_C2<K>
+class Orientation_C2
+  : private Basic_predicates_C2<K>
 {
 private:
-
-  typedef Sdg_basic_predicates_C2<K>          Base;
+  typedef Basic_predicates_C2<K>              Base;
   
+public:
+  typedef typename Base::Orientation          Orientation;
+
+private:
   typedef typename Base::Point_2              Point_2;
   typedef typename Base::Segment_2            Segment_2;
   typedef typename Base::Site_2               Site_2;
   typedef typename Base::FT                   FT;
   typedef typename Base::RT                   RT;
 
-  typedef typename K::Kernel::Orientation_2   Orientation_2;
-  typedef CGAL::Sdg_are_same_points_C2<K>     Are_same_points_2;
-  typedef CGAL::Sdg_are_same_segments_C2<K>   Are_same_segments_2;
+  typedef typename Base::Comparison_result    Comparison_result;
+  typedef typename Base::Oriented_side        Oriented_side;
+  typedef typename Base::Sign                 Sign;
 
+  typedef typename K::Kernel::Orientation_2   Orientation_2;
+  typedef Are_same_points_C2<K>               Are_same_points_2;
+  typedef Are_same_segments_C2<K>             Are_same_segments_2;
 
   typedef typename K::Intersections_tag       ITag;
 
@@ -159,9 +167,9 @@ private:
   }
 
 public:
-  typedef Orientation             result_type;
-  typedef Site_2                  argument_type;
-  typedef Arity_tag<3>            Arity;
+  typedef Orientation                  result_type;
+  typedef Site_2                       argument_type;
+  typedef Arity_tag<3>                 Arity;
 
   Orientation operator()(const Site_2& p, const Site_2& q,
 			 const Site_2& r) const
@@ -174,6 +182,8 @@ public:
 
 
 //-----------------------------------------------------------------------------
+
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
 
 CGAL_END_NAMESPACE
 

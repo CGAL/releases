@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Width_3/include/CGAL/Width_polyhedron_3.h $
-// $Id: Width_polyhedron_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Width_3/include/CGAL/Width_polyhedron_3.h $
+// $Id: Width_polyhedron_3.h 36918 2007-03-08 10:02:46Z spion $
 // 
 //
 // Author(s)     : Thomas Herrmann, Lutz Kettner
@@ -100,10 +100,10 @@ class Data_access {
       RT fa,fb,fc,fd,ga,gb,gc,gd;
       tco.get_plane_coefficients(fpp,fa,fb,fc,fd);
       tco.get_plane_coefficients(gpp,ga,gb,gc,gd);
-      return (fa<ga 
-	      || fa==ga && fb<gb 
-	      || fa==ga && fb==gb && fc<gc
-	      || fa==ga && fb==gb && fc==gc && fd<gd);
+      return fa<ga 
+	      || ( fa==ga && fb<gb )
+	      || ( fa==ga && fb==gb && fc<gc )
+	      || ( fa==ga && fb==gb && fc==gc && fd<gd );
     }
   };
   //Precondition: Plane Equation already computed in a deterministic way
@@ -124,14 +124,14 @@ class Data_access {
       tco.get_point_coordinates(hhead,hhx,hhy,hhz,hhh);
       
       return (etx*hth <htx*eth ||
-	      etx*hth==htx*eth && ety*hth <hty*eth ||
-	      etx*hth==htx*eth && ety*hth==hty*eth && etz*hth <htz*eth ||
-	      etx*hth==htx*eth && ety*hth==hty*eth && etz*hth==htz*eth
-	      && ehx*hhh <hhx*ehh ||
-	      etx*hth==htx*eth && ety*hth==hty*eth && etz*hth==htz*eth 
-	      && ehx*hhh==hhx*ehh && ehy*hhh <hhy*ehh ||
-	      etx*hth==htx*eth && ety*hth==hty*eth && etz*hth==htz*eth 
-	      && ehx*hhh==hhx*ehh && ehy*hhh==hhy*ehh && ehz*hhh<hhz*ehh
+	      ( etx*hth==htx*eth && ety*hth <hty*eth ) ||
+	      ( etx*hth==htx*eth && ety*hth==hty*eth && etz*hth <htz*eth ) ||
+	      ( etx*hth==htx*eth && ety*hth==hty*eth && etz*hth==htz*eth
+	      && ehx*hhh <hhx*ehh ) ||
+	      ( etx*hth==htx*eth && ety*hth==hty*eth && etz*hth==htz*eth 
+	      && ehx*hhh==hhx*ehh && ehy*hhh <hhy*ehh ) ||
+	      ( etx*hth==htx*eth && ety*hth==hty*eth && etz*hth==htz*eth 
+	      && ehx*hhh==hhx*ehh && ehy*hhh==hhy*ehh && ehz*hhh<hhz*ehh )
 	      );
     }
   };

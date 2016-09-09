@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Insert_event.h $
-// $Id: Insert_event.h 29334 2006-03-10 00:00:09Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Insert_event.h $
+// $Id: Insert_event.h 33689 2006-08-24 15:54:13Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -22,13 +22,14 @@
 #define CGAL_KINETIC_INSERT_EVENT_H_
 #include <CGAL/Kinetic/basic.h>
 #include <CGAL/Kinetic/internal/To_static.h>
+#include <CGAL/Kinetic/Event_base.h>
 
 CGAL_KINETIC_BEGIN_NAMESPACE;
 
 //! An event to insert a single object into a MovingObjectTable
 
 template <class MOT>
-class Insert_event
+class Insert_event: public Event_base<int*>
 {
   typedef typename MOT::Handle Pointer;
   typedef typename MOT::Data Object;
@@ -37,15 +38,16 @@ public:
   Insert_event(const Object &obj,
 	       Pointer mot):mot_(mot),
 			    obj_(obj){}
-  template <class T>
-  void process(const T&) {
+  void process() {
     CGAL_KINETIC_LOG(LOG_SOME, "Inserting object.\n");
     mot_->insert(obj_);
   }
+  void* kds() const {return NULL;}
 
-  void write(std::ostream &out) const
+  std::ostream& write(std::ostream &out) const
   {
     out << " I" << obj_ ;
+    return out;
   }
 protected:
   Pointer mot_;

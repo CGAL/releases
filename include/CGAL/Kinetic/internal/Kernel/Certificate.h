@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Certificate.h $
-// $Id: Certificate.h 29334 2006-03-10 00:00:09Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Certificate.h $
+// $Id: Certificate.h 35973 2007-01-31 03:15:14Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -33,13 +33,24 @@ public:
   Certificate(const Function &f, const Function_kernel_t& fk, const Time &b, const Time &e): rs_(fk.root_stack_object(f, b, e)) {
     /*typename Function_kernel_t::Lower_bound_root lbr= fk.lower_bound_root_object();
       estimate_= lbr(f, b);*/
+    /*if (f.degree() > 0) {
+      std::cout << "Certificate function is " << f << std::endl;
+      }*/
   }
   Certificate(){}
 
+  bool will_fail() const {
+    return !rs_.empty();
+  }
+
   const Time &failure_time() const {
-    static Time inf= std::numeric_limits<Time>::infinity();
-    if (rs_.empty()) return inf;
-    else return rs_.top();
+    if (rs_.empty()) {
+      std::cerr << "You now must check if the certificate will fail before calling top.\n";
+      CGAL_assertion(0);
+      static Time t(1000000);
+      return t;
+    }
+    return rs_.top();
   }
   void pop_failure_time() {
     if (!rs_.empty()) rs_.pop();
@@ -48,15 +59,26 @@ public:
   const typename Function_kernel_t::Root_stack& root_stack() const {
     return rs_;
   }
-  double lower_bound() const {
+  /*double lower_bound() const {
     return estimate_;
+    }*/
+
+  std::ostream &write(std::ostream &out) const {
+    out << rs_;
+    return out;
   }
+  /*bool operator==(const This &o) const {
+    return rs_== o.rs_;
+    }*/
 private:
   typename Function_kernel_t::Root_stack rs_;
-  double estimate_;
+  //double estimate_;
 };
 
-
+template <class FK>
+inline std::ostream& operator<<(std::ostream& out, const Certificate<FK> &c) {
+  return c.write(out);
+}
 
 CGAL_KINETIC_END_INTERNAL_NAMESPACE
 

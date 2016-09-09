@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian_converter.h $
-// $Id: Cartesian_converter.h 30707 2006-04-21 12:06:39Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian_converter.h $
+// $Id: Cartesian_converter.h 33346 2006-08-16 14:24:44Z afabri $
 // 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -119,50 +119,17 @@ public:
     typename K2::Object_2
     operator()(const typename K1::Object_2 &obj) const
     {
-      if (const typename K1::Point_2 * ptr = object_cast<typename K1::Point_2>(&obj)) {
+#define CGAL_Kernel_obj(X) \
+      if (const typename K1::X * ptr = object_cast<typename K1::X>(&obj)) \
         return make_object(operator()(*ptr));
-      } else if (const typename K1::Vector_2 * ptr = object_cast<typename K1::Vector_2>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Direction_2 * ptr = object_cast<typename K1::Direction_2>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Segment_2 * ptr = object_cast<typename K1::Segment_2>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Ray_2 * ptr = object_cast<typename K1::Ray_2>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Line_2 * ptr = object_cast<typename K1::Line_2>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Triangle_2 * ptr = object_cast<typename K1::Triangle_2>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Iso_rectangle_2 * ptr = object_cast<typename K1::Iso_rectangle_2>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Circle_2 * ptr = object_cast<typename K1::Circle_2>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Point_3 * ptr = object_cast<typename K1::Point_3>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Vector_3 * ptr = object_cast<typename K1::Vector_3>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Direction_3 * ptr = object_cast<typename K1::Direction_3>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Segment_3 * ptr = object_cast<typename K1::Segment_3>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Ray_3 * ptr = object_cast<typename K1::Ray_3>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Line_3 * ptr = object_cast<typename K1::Line_3>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Triangle_3 * ptr = object_cast<typename K1::Triangle_3>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Tetrahedron_3 * ptr = object_cast<typename K1::Tetrahedron_3>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Iso_cuboid_3 * ptr = object_cast<typename K1::Iso_cuboid_3>(&obj)) {
-        return make_object(operator()(*ptr));
-      } else if (const typename K1::Sphere_3 * ptr = object_cast<typename K1::Sphere_3>(&obj)) {
-        return make_object(operator()(*ptr));
-      }else if (const typename K1::Plane_3 * ptr = object_cast<typename K1::Plane_3>(&obj)) {
-        return make_object(operator()(*ptr));
-      }else if (const std::vector<typename K1::Point_2> * ptr = object_cast<std::vector<typename K1::Point_2> >(&obj)) {
-	std::vector<typename K2::Point_2> res((*ptr).size());
+
+#include <CGAL/Kernel/interface_macros.h>
+
+      if (const std::vector<typename K1::Point_2> * ptr = object_cast<std::vector<typename K1::Point_2> >(&obj)) {
+	std::vector<typename K2::Point_2> res;
+        res.reserve((*ptr).size());
 	for(unsigned int i=0; i < (*ptr).size(); i++){
-	  res[i] = operator()((*ptr)[i]);
+	  res.push_back(operator()((*ptr)[i]));
 	}
 	return make_object(res);
       }
@@ -171,16 +138,16 @@ public:
 	
     }
 
-  std::vector<Object>
-  operator()(const std::vector<Object>& v) const
-  {
-    std::vector<Object> res;
-    res.reserve(v.size());
-    for(unsigned int i = 0; i < v.size(); i++){
-      res[i] = operator()(v[i]);
+    std::vector<Object>
+    operator()(const std::vector<Object>& v) const
+    {
+      std::vector<Object> res;
+      res.reserve(v.size());
+      for(unsigned int i = 0; i < v.size(); i++) {
+        res.push_back(operator()(v[i]));
+      }
+      return res;
     }
-    return res;
-  }
 
 
     typename K2::Point_2
@@ -247,7 +214,7 @@ public:
     operator()(const typename K1::Iso_rectangle_2 &a) const
     {
         typedef typename K2::Iso_rectangle_2  Iso_rectangle_2;
-	return Iso_rectangle_2(operator()(a.min()), operator()(a.max()));
+	return Iso_rectangle_2(operator()((a.min)()), operator()((a.max)()), 0);
     }
 
 
@@ -283,7 +250,7 @@ public:
     operator()(const typename K1::Line_3 &a) const
     {
         typedef typename K2::Line_3  Line_3;
-	return Line_3(operator()(a.point()), operator()(a.direction()));
+	return Line_3(operator()(a.point()), operator()(a.to_vector()));
     }
 
     typename K2::Ray_3
@@ -299,7 +266,7 @@ public:
         typedef typename K2::Sphere_3  Sphere_3;
 	return Sphere_3(operator()(a.center()),
 		        c(a.squared_radius()),
-			a.orientation());
+			a.rep().orientation());
     }
 
     typename K2::Triangle_3
@@ -332,7 +299,7 @@ public:
     operator()(const typename K1::Iso_cuboid_3 &a) const
     {
         typedef typename K2::Iso_cuboid_3 Iso_cuboid_3;
-	return Iso_cuboid_3(operator()(a.min()), operator()(a.max()));
+	return Iso_cuboid_3(operator()((a.min)()), operator()((a.max)()), 0);
     }
 
     std::pair<typename K2::Point_2, typename K2::Point_2>

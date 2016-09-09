@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_consolidated_curve_data_traits_2.h $
-// $Id: Arr_consolidated_curve_data_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_consolidated_curve_data_traits_2.h $
+// $Id: Arr_consolidated_curve_data_traits_2.h 35514 2006-12-11 15:34:13Z wein $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -71,7 +71,9 @@ public:
   typedef typename Base_traits_2::X_monotone_curve_2  Base_x_monotone_curve_2;
   typedef typename Base_traits_2::Point_2             Point_2;
 
-  typedef typename Base_traits_2::Has_left_category   Has_left_category;
+  typedef typename Base_traits_2::Has_left_category      Has_left_category;
+  typedef typename Base_traits_2::Has_boundary_category  Has_boundary_category;
+
   typedef typename Base_traits_2::Has_merge_category  Base_has_merge_category;
   typedef Tag_true                                    Has_merge_category;
 

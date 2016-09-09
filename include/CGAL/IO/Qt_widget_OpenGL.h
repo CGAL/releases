@@ -1,8 +1,5 @@
-// Copyright (c) 1999  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbruecken (Germany).
+// All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/IO/Qt_widget_OpenGL.h $
-// $Id: Qt_widget_OpenGL.h 28575 2006-02-16 15:52:45Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/IO/Qt_widget_OpenGL.h $
+// $Id: Qt_widget_OpenGL.h 38897 2007-05-31 15:46:23Z fcacciola $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -35,6 +32,8 @@
 #include <qevent.h>
 #include <qpopupmenu.h>
 #include <qpoint.h>
+
+#include <CGAL/auto_link/CGALQt.h>
 
 namespace CGAL {
 

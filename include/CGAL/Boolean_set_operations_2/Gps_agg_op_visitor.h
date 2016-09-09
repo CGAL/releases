@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_visitor.h $
-// $Id: Gps_agg_op_visitor.h 28831 2006-02-27 14:28:18Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_visitor.h $
+// $Id: Gps_agg_op_visitor.h 32481 2006-07-13 12:42:56Z baruchzu $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -112,7 +112,7 @@ private:
   {
     Comparison_result he_dir = he->direction();
     Comparison_result cv_dir =
-      this->m_arr->get_traits()->compare_endpoints_xy_2_object()(cv);
+      this->m_arr_access.arrangement().get_traits()->compare_endpoints_xy_2_object()(cv);
 
     if(he_dir == cv_dir)
     {

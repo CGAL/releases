@@ -11,13 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2.h $
-// $Id: Arr_traits_adaptor_2.h 28489 2006-02-14 10:08:15Z lsaboret $
-// $Date: 2006-02-14 11:08:15 +0100 (Tue, 14 Feb 2006) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2.h $
+// $Id: Arr_traits_adaptor_2.h 36257 2007-02-14 16:05:16Z efif $
+// $Date: 2007-02-14 17:05:16 +0100 (Wed, 14 Feb 2007) $
 // 
 //
 // Author(s)     : Ron Wein             <wein@post.tau.ac.il>
-// Author(s)     : Efi Fogel            <efif@post.tau.ac.il>
+//                 Efi Fogel            <efif@post.tau.ac.il>
 //                 (based on old version by Iddo Hanniel
 //                                          Eyal Flato
 //                                          Oren Nechushtan
@@ -33,6 +33,7 @@
 
 #include <CGAL/config.h>
 #include <CGAL/tags.h>
+#include <CGAL/Arr_enums.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -46,11 +47,13 @@ public:
 
   // Traits-class geometric types.
   typedef ArrangementBasicTraits_               Base;
+  typedef Arr_traits_basic_adaptor_2<Base>      Self;
   typedef typename Base::X_monotone_curve_2     X_monotone_curve_2;
   typedef typename Base::Point_2                Point_2;
 
   // Tags.
   typedef typename Base::Has_left_category      Has_left_category;
+  typedef typename Base::Has_boundary_category  Has_boundary_category;
 
   /// \name Construction.
   //@{
@@ -66,20 +69,217 @@ public:
   //@}
 
   // Inherited functors:
-  typedef typename Base::Compare_x_2            Compare_x_2;
   typedef typename Base::Compare_xy_2           Compare_xy_2;
   typedef typename Base::Construct_min_vertex_2 Construct_min_vertex_2;
   typedef typename Base::Construct_max_vertex_2 Construct_max_vertex_2;
   typedef typename Base::Is_vertical_2          Is_vertical_2;
-  typedef typename Base::Compare_y_at_x_2       Compare_y_at_x_2;
   typedef typename Base::Compare_y_at_x_right_2 Compare_y_at_x_right_2;
   typedef typename Base::Equal_2                Equal_2;
 
   /// \name Overriden functors.
   //@{
+  class Compare_x_2
+  {
+  public:
+    /*! Constructor
+     * \param base the base traits class. It must be passed, to handle the
+     * case it is not stateless (e.g., it stores data)
+     */
+    Compare_x_2(const Base * base) : m_base(base) {}
+    
+    /*!
+     * Redefining the mandatory comparison operator.
+     */
+    Comparison_result operator() (const Point_2& p1,
+                                  const Point_2& p2) const
+    {
+      return (m_base->compare_x_2_object() (p1, p2));
+    }
+
+    /*!
+     * Compare the relative x-positions of a vertical curve and another given
+     * curves at y = +/- oo.
+     * \param p A reference point; we refer to a vertical line incident to p.
+     * \param cv The compared curve.
+     * \param ind MIN_END if we refer to cv's minimal end; 
+     *            MAX_END if we refer to its maximal end.
+     * \pre cv's relevant end is defined at y = +/- oo.
+     * \return SMALLER if p lies to the left of cv;
+     *         LARGER if p lies to the right cv;
+     *         EQUAL in case of an overlap.
+     */
+    Comparison_result operator() (const Point_2& p,
+                                  const X_monotone_curve_2& cv,
+                                  Curve_end ind) const
+    {
+      return (_compare_point_curve_imp (p, cv, ind,
+                                        Has_boundary_category()));
+    }
+
+    /*!
+     * Compare the relative x-positions of two curves at y = +/- oo.
+     * \param cv1 The first curve.
+     * \param ind1 MIN_END if we refer to cv1's minimal end; 
+     *             MAX_END if we refer to its maximal end.
+     * \param cv2 The second curve.
+     * \param ind2 MIN_END if we refer to cv2's minimal end; 
+     *             MAX_END if we refer to its maximal end.
+     * \pre The curves are defined at y = +/- oo.
+     * \return SMALLER if cv1 lies to the left of cv2;
+     *         LARGER if cv1 lies to the right cv2;
+     *         EQUAL in case of an overlap.
+     */
+    Comparison_result operator() (const X_monotone_curve_2& cv1,
+                                  Curve_end ind1,
+                                  const X_monotone_curve_2& cv2,
+                                  Curve_end ind2) const
+    {
+      return (_compare_curves_imp (cv1, ind1, cv2, ind2,
+                                   Has_boundary_category()));
+    }
+
+  private:
+    /*! The base traits */
+    const Base * m_base;
+    
+    /*!
+     * Implementation of the operator() in case the HasInfinite tag is true.
+     */
+    Comparison_result _compare_point_curve_imp (const Point_2& p,
+                                                const X_monotone_curve_2& cv,
+                                                Curve_end ind,
+                                                Tag_true) const
+    {
+      return (m_base->compare_x_2_object() (p, cv, ind));
+    }
+
+    /*!
+     * Implementation of the operator() in case the HasInfinite tag is false.
+     */
+    Comparison_result _compare_point_curve_imp (const Point_2& ,
+                                                const X_monotone_curve_2& ,
+                                                Curve_end ,
+                                                Tag_false) const
+    {
+      return (EQUAL);
+    }
+
+    /*!
+     * Implementation of the operator() in case the HasInfinite tag is true.
+     */
+    Comparison_result _compare_curves_imp (const X_monotone_curve_2& cv1, 
+                                           Curve_end ind1,
+                                           const X_monotone_curve_2& cv2,
+                                           Curve_end ind2,
+                                           Tag_true) const
+    {
+      return (m_base->compare_x_2_object() (cv1, ind1, cv2, ind2));
+    }
+
+    /*!
+     * Implementation of the operator() in case the HasInfinite tag is false.
+     */
+    Comparison_result _compare_curves_imp (const X_monotone_curve_2&,
+                                           Curve_end,
+                                           const X_monotone_curve_2&, 
+                                           Curve_end,
+                                           Tag_false) const
+    {
+      return (EQUAL);
+    }
+
+  };
+
+  /*! Get a Compare_x_2 functor object. */
+  Compare_x_2 compare_x_2_object () const
+  {
+    return Compare_x_2(this);
+  }
+
+
+  class Compare_y_at_x_2
+  {
+  public:
+    /*! Constructor
+     * \param base the base traits class. It must be passed, to handle the
+     * case it is not stateless (e.g., it stores data)
+     */
+    Compare_y_at_x_2(const Base * base) : m_base(base) {}
+
+    /*!
+     * Redefining the mandatory comparison operator.
+     */
+    Comparison_result operator() (const Point_2& p,
+                                  const X_monotone_curve_2& cv) const
+    {
+      return (m_base->compare_y_at_x_2_object() (p, cv));
+    }
+
+    /*!
+     * Compare the relative y-positions of two curves at x = +/- oo.
+     * \param cv1 The first curve.
+     * \param cv2 The second curve.
+     * \param ind MIN_END if we compare at x = -oo;
+     *            MAX_END if we compare at x = +oo.
+     * \pre The curves are defined at x = +/- oo.
+     * \return SMALLER if cv1 lies below cv2;
+     *         LARGER if cv1 lies above cv2;
+     *         EQUAL in case of an overlap.
+     */
+    Comparison_result operator() (const X_monotone_curve_2& cv1,
+                                  const X_monotone_curve_2& cv2, 
+                                  Curve_end ind) const
+    {
+      // The function is implemented based on the Has_infinite category.
+      // If the traits class does not support unbounded curves, we just
+      // return EQUAL, as this comparison will not be invoked anyway.
+      return _comp_y_at_infinity_imp (cv1, cv2, ind, 
+                                      Has_boundary_category());
+    }
+
+  private:
+    /*! The base traits */
+    const Base * m_base;
+
+    /*!
+     * Implementation of the operator() in case the HasInfinite tag is true.
+     */
+    Comparison_result _comp_y_at_infinity_imp (const X_monotone_curve_2& cv1,
+                                               const X_monotone_curve_2& cv2, 
+                                               Curve_end ind,
+                                               Tag_true) const
+    {
+      return (m_base->compare_y_at_x_2_object() (cv1, cv2, ind));
+    }
+
+    /*!
+     * Implementation of the operator() in case the HasInfinite tag is false.
+     */
+    Comparison_result _comp_y_at_infinity_imp (const X_monotone_curve_2& ,
+                                               const X_monotone_curve_2& , 
+                                               Curve_end ,
+                                               Tag_false) const
+    {
+      return (EQUAL);
+    }
+  };
+
+  /*! Get a Compare_y_at_x_2 functor object. */
+  Compare_y_at_x_2 compare_y_at_x_2_object () const
+  {
+    return Compare_y_at_x_2(this);
+  }
+
+
   class Compare_y_at_x_left_2
   {
   public:
+    /*! Constructor
+     * \param self the traits class. It must be passed, to handle the case
+     * it is not stateless (e.g., it stores data)
+     */
+    Compare_y_at_x_left_2(const Self * self) : m_self(self) {}
+
     /*!
      * Compare two curves immediately to the left of their intersection point.
      * \param cv1 The first curve.
@@ -102,6 +302,8 @@ public:
     }
 
   private:
+    /*! The traits */
+    const Self * m_self;
 
     /*!
      * Implementation of the operator() in case the HasLeft tag is true.
@@ -111,8 +313,8 @@ public:
                                                 const Point_2& p,
                                                 Tag_true) const
     {
-      Base                    tr;
-      return (tr.compare_y_at_x_left_2_object() (cv1, cv2, p));
+      const Base * base = m_self;
+      return (base->compare_y_at_x_left_2_object() (cv1, cv2, p));
     }
 
     /*!
@@ -123,25 +325,41 @@ public:
                                                 const Point_2& p,
                                                 Tag_false) const
     {
-      Base                    tr;
-      Construct_min_vertex_2  min_vertex = tr.construct_min_vertex_2_object();
-      Equal_2                 equal = tr.equal_2_object();
+      Boundary_in_x_2      infinite_x = m_self->boundary_in_x_2_object();
+      Boundary_in_y_2      infinite_y = m_self->boundary_in_y_2_object();
+      Construct_min_vertex_2 min_vertex =
+        m_self->construct_min_vertex_2_object();
+      Equal_2              equal = m_self->equal_2_object();
+
+      // Check if the left ends of the curves are bounded endpoints.
+      const Boundary_type  inf_x1 = infinite_x (cv1, MIN_END);
+      const Boundary_type  inf_y1 = (inf_x1 != NO_BOUNDARY ? 
+                                     NO_BOUNDARY : infinite_y (cv1, MIN_END));
+      const bool           has_left1 = (inf_x1 == NO_BOUNDARY && inf_y1 == NO_BOUNDARY);
+      const Boundary_type  inf_x2 = infinite_x (cv2, MIN_END);
+      const Boundary_type  inf_y2 = (inf_x2 != NO_BOUNDARY ? 
+                                     NO_BOUNDARY : infinite_y (cv2, MIN_END));
+      const bool           has_left2 = (inf_x2 == NO_BOUNDARY && inf_y2 == NO_BOUNDARY);
+
+      CGAL_assertion (inf_x1 != PLUS_INFINITY && inf_x2 != PLUS_INFINITY);
 
       // Make sure that p lies on both curves, and that both are defined to its
       // right (so their right endpoint is lexicographically larger than p).
       CGAL_precondition_code (
-        Compare_xy_2          compare_xy = tr.compare_xy_2_object();
-        Compare_y_at_x_2      compare_y_at_x = tr.compare_y_at_x_2_object();
+        Compare_xy_2       compare_xy = m_self->compare_xy_2_object();
+        Compare_y_at_x_2   compare_y_at_x = m_self->compare_y_at_x_2_object();
       );
 
       CGAL_precondition (compare_y_at_x (p, cv1) == EQUAL &&
                          compare_y_at_x (p, cv2) == EQUAL);
 
-      CGAL_precondition (compare_xy(min_vertex (cv1), p) == SMALLER &&
-                         compare_xy(min_vertex (cv2), p) == SMALLER);
+      CGAL_precondition ((! has_left1 ||
+                          compare_xy(min_vertex (cv1), p) == SMALLER) &&
+                         (! has_left2 ||
+                          compare_xy(min_vertex (cv2), p) == SMALLER));
 
       // If one of the curves is vertical, it is below the other one.
-      Is_vertical_2           is_vertical = tr.is_vertical_2_object();
+      Is_vertical_2       is_vertical = m_self->is_vertical_2_object();
 
       if (is_vertical(cv1))
       {
@@ -156,28 +374,149 @@ public:
         return (LARGER);
       }
 
-      // Get the left endpoints of cv1 and cv2.
-      Point_2        left1 = min_vertex(cv1);
-      Point_2        left2 = min_vertex(cv2);
-
-      if (equal (left1, left2))
+      // Perform the comparison based on the existance of bounded left
+      // endpoints.
+      if (has_left1 && has_left2)
       {
-        // The two curves have a common left endpoint:
-        // Compare them to the right of this point.
-        return (tr.compare_y_at_x_right_2_object() (cv1, cv2, left1));
-      }    
+        // Get the left endpoints of cv1 and cv2.
+        Point_2        left1 = min_vertex(cv1);
+        Point_2        left2 = min_vertex(cv2);
+          
+        if (equal (left1, left2))
+        {
+          // The two curves have a common left endpoint:
+          // Compare them to the right of this point.
+          return (m_self->compare_y_at_x_right_2_object() (cv1, cv2, left1));
+        }    
+      }
 
-      // Compare the relative position of the curves at the righmost of left1
-      // and left2:
-      Compare_y_position_2   compare_y_position;
-      return (compare_y_position (cv1, cv2));
+      // We now that the curves do not shar a common endpoint, and we can
+      // compare their relative y-position (which does not change to the left
+      // of the given point p).
+      return (m_self->compare_y_position_2_object() (cv1, cv2));      
     }
   };
 
   /*! Get a Compare_y_at_x_left_2 functor object. */
   Compare_y_at_x_left_2 compare_y_at_x_left_2_object () const
   {
-    return Compare_y_at_x_left_2();
+    return Compare_y_at_x_left_2(this);
+  }
+
+
+  class Boundary_in_x_2
+  {
+  public:
+    /*! Constructor
+     * \param self the traits class. It must be passed, to handle the case
+     * it is not stateless (e.g., it stores data)
+     */
+    Boundary_in_x_2 (const Base * base) : m_base (base) {}
+
+    /*!
+     * Check if an end of a given x-monotone curve is infinite at x.
+     * \param cv The curve.
+     * \param ind MIN_END if we refer to cv's minimal end,
+     *            MAX_END if we refer to its maximal end.
+     * \return MINUS_INFINITY if the curve end lies at x = -oo;
+     *         NO_BOUNDARY if the curve end has a finite x-coordinate;
+     *         PLUS_INFINITY if the curve end lies at x = +oo.
+     */
+    Boundary_type operator() (const X_monotone_curve_2& cv,
+                              Curve_end ind) const
+    {
+      // The function is implemented based on the Has_infinite category.
+      // If the traits class does not support unbounded curves, we just
+      // return NO_BOUNDARY to mark the curve is bounded.
+      return _boundary_in_x_imp (cv, ind, Has_boundary_category());
+    }
+
+  private:
+    /*! The base traits */
+    const Base * m_base;
+
+    /*!
+     * Implementation of the operator() in case the HasInfinite tag is true.
+     */
+    Boundary_type _boundary_in_x_imp (const X_monotone_curve_2& cv,
+                                      Curve_end ind,
+                                      Tag_true) const
+    {
+      return (m_base->boundary_in_x_2_object() (cv, ind));
+    }
+
+    /*!
+     * Implementation of the operator() in case the HasInfinite tag is false.
+     */
+    Boundary_type _boundary_in_x_imp (const X_monotone_curve_2& , Curve_end ,
+                                      Tag_false) const
+    {
+      return (NO_BOUNDARY);
+    }
+  };
+
+  /*! Get an Boundary_in_x_2 functor object. */
+  Boundary_in_x_2 boundary_in_x_2_object () const
+  {
+    return Boundary_in_x_2(this);
+  }
+
+
+  class Boundary_in_y_2
+  {
+  public:
+    /*! Constructor
+     * \param self the traits class. It must be passed, to handle the case
+     * it is not stateless (e.g., it stores data)
+     */
+    Boundary_in_y_2(const Base * base) : m_base (base) {}
+
+    /*!
+     * Check if an end of a given x-monotone curve is infinite at y.
+     * \param cv The curve.
+     * \param ind MIN_END if we refer to cv's minimal end,
+     *            MAX_END if we refer to its maximal end.
+     * \return MINUS_INFINITY if the curve end lies at y = -oo;
+     *         NO_BOUNDARY if the curve end has a finite y-coordinate;
+     *         PLUS_INFINITY if the curve end lies at y = +oo.
+     */
+    Boundary_type operator() (const X_monotone_curve_2& cv,
+                              Curve_end ind) const
+    {
+      // The function is implemented based on the Has_infinite category.
+      // If the traits class does not support unbounded curves, we just
+      // return NO_BOUNDARY to mark the curve is finite.
+      return _boundary_in_y_imp (cv, ind, Has_boundary_category());
+    }
+
+  private:
+    /*! The base traits */
+    const Base * m_base;
+
+    /*!
+     * Implementation of the operator() in case the HasInfinite tag is true.
+     */
+    Boundary_type _boundary_in_y_imp (const X_monotone_curve_2& cv,
+                                      Curve_end ind,
+                                      Tag_true) const
+    {
+      return (m_base->boundary_in_y_2_object() (cv, ind));
+    }
+
+    /*!
+     * Implementation of the operator() in case the HasInfinite tag is false.
+     */
+    Boundary_type _boundary_in_y_imp (const X_monotone_curve_2& , Curve_end ,
+                                      Tag_false) const
+    {
+      return (NO_BOUNDARY);
+    }
+  };
+
+  /*! Get an Boundary_in_y_2 functor object. */
+  Boundary_in_y_2 boundary_in_y_2_object () const
+  {
+    return Boundary_in_y_2(this);
   }
   //@}
 
@@ -186,6 +525,12 @@ public:
   class Is_in_x_range_2
   {
   public:
+    /*! Constructor
+     * \param self the traits class. It must be passed, to handle the case
+     * it is not stateless (e.g., it stores data)
+     */
+    Is_in_x_range_2(const Self * self) : m_self(self) {}
+
     /*!
      * Check whether the given point is in the x-range of the given x-monotone
      * curve.
@@ -195,20 +540,58 @@ public:
      */
     bool operator() (const X_monotone_curve_2& cv, const Point_2& p) const
     {
-      // Compare p to the left endpoint of the curve.
-      Base                    tr;
-      Compare_x_2             compare_x = tr.compare_x_2_object();
+      Boundary_in_x_2     infinite_x = m_self->boundary_in_x_2_object();
+      Boundary_in_y_2     infinite_y = m_self->boundary_in_y_2_object();
+      Compare_x_2         compare_x =  m_self->compare_x_2_object();
+
+      // Compare p to the position of the left end of the curve.
+      // Note that if the left end of cv lies at x = -oo, p is obviously to
+      // its right.
+      Boundary_type           inf_x, inf_y;
       Comparison_result       res;
 
-      res = compare_x (p, tr.construct_min_vertex_2_object() (cv));
-      
-      if (res == SMALLER)
-        return (false);         // p is to the left of the x-range.
-      else if (res == EQUAL)
-        return (true);
+      inf_x = infinite_x (cv, MIN_END);
 
-      // If necessary, compare p to the right endpoint of the curve.
-      res = compare_x (p, tr.construct_max_vertex_2_object() (cv));
+      if (inf_x == NO_BOUNDARY)
+      {
+        inf_y = infinite_y (cv, MIN_END);
+
+        if (inf_y == NO_BOUNDARY)
+        {
+          // The left endpoint of cv is a normal point.
+          res = compare_x (p, m_self->construct_min_vertex_2_object() (cv));
+        }
+        else
+        {
+          // The left end of cv lies at y = +/- oo:
+          res = compare_x (p, cv, MIN_END);
+        }
+
+        if (res == SMALLER)
+          return (false);         // p is to the left of the x-range.
+        else if (res == EQUAL)
+          return (true);
+      }
+
+      // If necessary, compare p to the right end of the curve.
+      // Note that if this end lies at x = +oo, p is obviously to its left.
+      inf_x = infinite_x (cv, MAX_END);
+
+      if (inf_x != NO_BOUNDARY)
+        return (true);
+      
+      inf_y = infinite_y (cv, MAX_END);
+
+      if (inf_y == NO_BOUNDARY)
+      {
+        // The right endpoint of cv is a normal point.
+        res = compare_x (p, m_self->construct_max_vertex_2_object() (cv));
+      }
+      else
+      {
+        // The right end of cv lies at y = +/- oo:
+        res = compare_x (p, cv, MAX_END);
+      }
 
       return (res != LARGER);
     }
@@ -223,35 +606,210 @@ public:
     bool operator() (const X_monotone_curve_2& cv1,
                      const X_monotone_curve_2& cv2) const
     {
-      // Find p_l, the rightmost of the two left endpoints of the curves
-      // and p_r, the leftmost of the two right endpoints of the curves.
-      Base                    tr;
-      Construct_min_vertex_2  min_vertex = tr.construct_min_vertex_2_object();
-      Construct_max_vertex_2  max_vertex = tr.construct_max_vertex_2_object();
-      Compare_x_2             compare_x = tr.compare_x_2_object();
+      Boundary_in_x_2         infinite_x = m_self->boundary_in_x_2_object();
+      Boundary_in_y_2         infinite_y = m_self->boundary_in_y_2_object();
+      Compare_x_2             compare_x = m_self->compare_x_2_object();
+      Construct_min_vertex_2  min_vertex =
+        m_self->construct_min_vertex_2_object();
+      Construct_max_vertex_2  max_vertex =
+        m_self->construct_max_vertex_2_object();
 
-      const Point_2&  l1 = min_vertex(cv1);
-      const Point_2&  r1 = max_vertex(cv1);
-      const Point_2&  l2 = min_vertex(cv2);
-      const Point_2&  r2 = max_vertex(cv2);
-      const Point_2&  p_l = ((compare_x (l1, l2) == LARGER) ? l1 : l2);
-      const Point_2&  p_r = ((compare_x (r1, r2) == SMALLER) ? r1 : r2);
+      // Locate the rightmost of the two left endpoints of the two curves.
+      // Note that we guard for curves with infinite ends.
+      Boundary_type             inf_x1, inf_y1;
+      Boundary_type             inf_x2, inf_y2;
+      const X_monotone_curve_2 *cv_l;
+      Boundary_type             inf_yl;
+      Comparison_result         res;
 
-      // The two curves overlap in their x-range if and only if p_l is not
-      // to the right of p_r.
-      return (compare_x (p_l, p_r) != LARGER);
+      inf_x1 = infinite_x (cv1, MIN_END);
+      inf_x2 = infinite_x (cv2, MIN_END);
+
+      if (inf_x1 != NO_BOUNDARY)
+      {
+        // If both curves are defined at x = -oo, they obviously overlap in
+        // their x-ranges.
+        if (inf_x2 != NO_BOUNDARY)
+          return (true);
+
+        // As cv2 is not defined at x = -oo, take its left end as the
+        // rightmost.
+        cv_l = &cv2;
+        inf_yl = infinite_y (cv2, MIN_END);
+      }
+      else if (inf_x2 != NO_BOUNDARY)
+      {
+        // As cv1 is not defined at x = -oo, take its left end as the
+        // rightmost.
+        cv_l = &cv1;
+        inf_yl = infinite_y (cv1, MIN_END);
+      }
+      else
+      {
+        // Compare the (finite) x-coordinates of the two left ends.
+        inf_y1 = infinite_y (cv1, MIN_END);
+        inf_y2 = infinite_y (cv2, MIN_END);
+
+        if (inf_y1 == NO_BOUNDARY)
+        {
+          if (inf_y2 == NO_BOUNDARY)
+          {
+            res = compare_x (min_vertex (cv1), min_vertex (cv2));
+          }
+          else
+          {
+            res = compare_x (min_vertex (cv1), cv2, MIN_END);
+           }
+        }
+        else
+        {
+          if (inf_y2 == NO_BOUNDARY)
+          {
+            res = compare_x (min_vertex (cv2), cv1, MIN_END);
+            if (res != EQUAL)
+              res = (res == SMALLER) ? LARGER : SMALLER;
+
+          }
+          else
+          {
+            res = compare_x (cv1, MIN_END, cv2, MIN_END);
+          }
+        }
+
+        if (res == LARGER)
+        {
+          cv_l = &cv1;
+          inf_yl = inf_y1;
+        }
+        else
+        {
+          cv_l = &cv2;
+          inf_yl = inf_y2;
+        }
+      }
+      
+      // Locate the leftmost of the two right endpoints of the two curves.
+      // Note that we guard for curves with infinite ends.
+      const X_monotone_curve_2 *cv_r;
+      Boundary_type             inf_yr;
+
+      inf_x1 = infinite_x (cv1, MAX_END);
+      inf_x2 = infinite_x (cv2, MAX_END);
+
+      if (inf_x1 != NO_BOUNDARY)
+      {
+        // If both curves are defined at x = +oo, they obviously overlap in
+        // their x-ranges.
+        if (inf_x2 != NO_BOUNDARY)
+          return (true);
+
+        // As cv2 is not defined at x = +oo, take its right end as the
+        // leftmost.
+        cv_r = &cv2;
+        inf_yr = infinite_y (cv2, MAX_END);
+      }
+      else if (inf_x2 != NO_BOUNDARY)
+      {
+        // As cv1 is not defined at x = +oo, take its right end as the
+        // leftmost.
+        cv_r = &cv1;
+        inf_yr = infinite_y (cv1, MAX_END);
+      }
+      else
+      {
+        // Compare the (finite) x-coordinates of the two right ends.
+        inf_y1 = infinite_y (cv1, MAX_END);
+        inf_y2 = infinite_y (cv2, MAX_END);
+
+        if (inf_y1 == NO_BOUNDARY)
+        {
+          if (inf_y2 == NO_BOUNDARY)
+          {
+            res = compare_x (max_vertex (cv1), max_vertex (cv2));
+          }
+          else
+          {
+            res = compare_x (max_vertex (cv1), cv2, MAX_END);
+           }
+        }
+        else
+        {
+          if (inf_y2 == NO_BOUNDARY)
+          {
+            res = compare_x (max_vertex (cv2), cv1, MAX_END);
+            if (res != EQUAL)
+              res = (res == SMALLER) ? LARGER : SMALLER;
+          }
+          else
+          {
+            res = compare_x (cv1, MAX_END, cv2, MAX_END);
+          }
+        }
+
+        if (res == SMALLER)
+        {
+          cv_r = &cv1;
+          inf_yr = inf_y1;
+        }
+        else
+        {
+          cv_r = &cv2;
+          inf_yr = inf_y2;
+        }
+      }
+          
+      // Now compare the (finite) x-coordiates of the left end of cv_l and
+      // the right end of cv_r.
+      if (inf_yl == NO_BOUNDARY)
+      {
+        if (inf_yr == NO_BOUNDARY)
+        {
+          res = compare_x (min_vertex (*cv_l), max_vertex (*cv_r));
+        }
+        else
+        {
+          res = compare_x (min_vertex (*cv_l), *cv_r, MAX_END);
+        }
+      }
+      else
+      {
+        if (inf_yr == NO_BOUNDARY)
+        {
+          res = compare_x (max_vertex (*cv_r), *cv_l, MIN_END);
+          if (res != EQUAL)
+            res = (res == SMALLER) ? LARGER : SMALLER;
+        }
+        else
+        {
+          res = compare_x (*cv_l, MIN_END, *cv_r, MAX_END);
+        }
+      }
+
+      // The two curves overlap in their x-range if and only if the left end
+      // of cv_l is not to the right if the right end of cv_r.
+      return (res != LARGER);
     }
+
+  private:
+    /*! The traits */
+    const Self * m_self;
   };
 
   /*! Get an Is_in_x_range_2 functor object. */
   Is_in_x_range_2 is_in_x_range_2_object () const
   {
-    return Is_in_x_range_2();
+    return Is_in_x_range_2(this);
   }
 
   class Compare_y_position_2
   {
   public:
+    /*! Constructor
+     * \param self the traits class. It must be passed, to handle the case
+     * it is not stateless (e.g., it stores data)
+     */
+    Compare_y_position_2(const Self * self) : m_self(self) {}
+
     /*!
      * Get the relative of two x-monotone curves with overlapping x-ranges
      * that are disjoint in their interiors.
@@ -260,32 +818,160 @@ public:
      * \pre The x-ranges of the two curves overlap.
      * \return SMALLER if cv1 lies below cv2;
      *         LARGER if cv1 lies above cv2;
-     *         EQUAL in case of an overlap (illegal input).
+     *         EQUAL in case the common x-range is a single point.
      */
     Comparison_result operator() (const X_monotone_curve_2& cv1,
                                   const X_monotone_curve_2& cv2) const
     {
       CGAL_precondition_code (
-        Is_in_x_range_2  is_in_x_range;
+        Is_in_x_range_2  is_in_x_range = m_self->is_in_x_range_2_object();
       );
       CGAL_precondition (is_in_x_range (cv1, cv2));
 
-      // Get the left endpoints of cv1 and cv2.
-      Base                    tr;
-      Construct_min_vertex_2  min_vertex = tr.construct_min_vertex_2_object();
-      Construct_max_vertex_2  max_vertex = tr.construct_max_vertex_2_object();
-      Compare_xy_2            compare_xy = tr.compare_xy_2_object();
-      Compare_y_at_x_2        compare_y_at_x = tr.compare_y_at_x_2_object();
-      Compare_y_at_x_right_2  compare_y_at_x_right =
-                                           tr.compare_y_at_x_right_2_object();
+      Boundary_in_x_2         infinite_x = m_self->boundary_in_x_2_object();
+      Boundary_in_y_2         infinite_y = m_self->boundary_in_y_2_object();
+      Compare_y_at_x_2        compare_y_at_x =
+        m_self->compare_y_at_x_2_object();
+      Construct_min_vertex_2  min_vertex =
+        m_self->construct_min_vertex_2_object();
+ 
+      // First check whether any of the curves is defined at x = -oo.
+      const Boundary_type     inf_x1 = infinite_x (cv1, MIN_END);
+      const Boundary_type     inf_x2 = infinite_x (cv2, MIN_END);
+      Comparison_result       res;
 
+      if (inf_x1 != NO_BOUNDARY)
+      {
+        if (inf_x2 != NO_BOUNDARY)
+        {
+          // Compare the relative position of the curve at x = -oo.
+          return (compare_y_at_x (cv1, cv2, MIN_END));
+        }
+        
+        // Check if the left end of cv2 lies at y = +/- oo.
+        const Boundary_type    inf_y2 = infinite_y (cv2, MIN_END);
+
+        if (inf_y2 == MINUS_INFINITY)
+          return (LARGER);          // cv2 is obviously below cv1.
+        else if (inf_y2 == PLUS_INFINITY)
+          return (SMALLER);         // cv2 is obviously above cv1.
+          
+        // Compare the position of the left end of cv2 (which is a normal
+        // point) to cv1.
+        res = compare_y_at_x (min_vertex (cv2), cv1);
+
+        // Swap the result.
+        if (res == EQUAL)
+          return (EQUAL);
+
+        return ((res == SMALLER) ? LARGER : SMALLER);
+      }
+      else if (inf_x2 != NO_BOUNDARY)
+      {
+        // Check if the left end of cv1 lies at y = +/- oo.
+        const Boundary_type    inf_y1 = infinite_y (cv1, MIN_END);
+
+        if (inf_y1 == MINUS_INFINITY)
+          return (SMALLER);         // cv1 is obviously below cv2.
+        else if (inf_y1 == PLUS_INFINITY)
+          return (LARGER);          // cv1 is obviously above cv2.
+
+        // Compare the position of the left end of cv1 (which is a normal
+        // point) to cv2.
+        res = compare_y_at_x (min_vertex (cv1), cv2);
+
+        return (res);
+      }
+      
+      // Check if the left curve end lie at y = +/- oo.
+      const Boundary_type     inf_y1 = infinite_y (cv1, MIN_END);
+      const Boundary_type     inf_y2 = infinite_y (cv2, MIN_END);
+      Comparison_result       l_res;
+
+      if (inf_y1 != NO_BOUNDARY)
+      {
+        if (inf_y2 != NO_BOUNDARY)
+        {
+          // If one curve has a left end at y = -oo and the other at y = +oo,
+          // we readily know their relative position (recall that they do not
+          // instersect).
+          if (inf_y1 == MINUS_INFINITY && inf_y2 == PLUS_INFINITY)
+            return (SMALLER);
+          else if (inf_y1 == PLUS_INFINITY && inf_y2 == MINUS_INFINITY)
+            return (LARGER);
+
+          // Both curves have vertical asymptotes at y = -oo (or at y = +oo).
+          // Check which asymptote is the rightmost. Note that in this case
+          // the vertical asymptotes cannot be equal.
+          l_res = m_self->compare_x_2_object() (cv1, MIN_END,
+                                                cv2, MIN_END);
+          CGAL_assertion (l_res != EQUAL);
+
+          if (inf_y1 == PLUS_INFINITY)
+            return (l_res);
+          else
+            return ((l_res == SMALLER) ? LARGER : SMALLER);
+        }
+
+        // cv1 has a vertical asymptote and cv2 has a normal left endpoint.
+        // Compare the x-positions of this endpoint and the asymptote.
+        const Point_2&  left2 = min_vertex(cv2);
+        
+        l_res = m_self->compare_x_2_object() (left2, cv1, MIN_END);
+
+        if (l_res == LARGER)
+        {
+          // left2 lies in the x-range of cv1, so it is safe to compare:
+          res = compare_y_at_x (left2, cv1);
+
+          // Swap the result.
+          if (res == EQUAL)
+            return (EQUAL);
+
+          return ((res == SMALLER) ? LARGER : SMALLER);
+        }
+        else
+        {
+          if (inf_y1 == MINUS_INFINITY)
+            return (SMALLER);          // cv1 is obviously below cv2.
+          else
+            return (LARGER);           // cv2 is obviously above cv1.
+        }
+      }
+      else if (inf_y2 != NO_BOUNDARY)
+      {
+        // cv2 has a vertical asymptote and cv1 has a normal left endpoint.
+        // Compare the x-positions of this endpoint and the asymptote.
+        const Point_2&  left1 = min_vertex(cv1);
+        
+        l_res = m_self->compare_x_2_object() (left1, cv2, MIN_END);
+
+        if (l_res == LARGER)
+        {
+          // left1 lies in the x-range of cv2, so it is safe to compare:
+          return (compare_y_at_x (left1, cv2));
+        }
+        else
+        {
+          if (inf_y2 == MINUS_INFINITY)
+            return (LARGER);           // cv2 is obviously below cv1.
+          else
+            return (SMALLER);          // cv1 is obviously above cv2.
+        }
+      }
+
+      // In this case we compare two normal points.
+      Compare_xy_2            compare_xy = m_self->compare_xy_2_object();
+      Compare_y_at_x_right_2  compare_y_at_x_right =
+        m_self->compare_y_at_x_right_2_object();
+
+      // Get the left endpoints of cv1 and cv2.
       const Point_2&  left1 = min_vertex(cv1);
       const Point_2&  left2 = min_vertex(cv2);
 
       // Locate the rightmost point of left1 and left2 and compare its position
       // to the other curve.
-      Comparison_result  l_res = compare_xy (left1, left2);
-      Comparison_result  res;
+      l_res = compare_xy (left1, left2);
 
       if (l_res != SMALLER)
       {
@@ -320,24 +1006,38 @@ public:
         return ((res == SMALLER) ? LARGER : SMALLER);
       }
     }
+
+  private:
+    /*! The traits */
+    const Self * m_self;
   };
 
   /*! Get a Compare_y_position_2 functor object. */
   Compare_y_position_2 compare_y_position_2_object () const
   {
-    return Compare_y_position_2();
+    return Compare_y_position_2(this);
   }
 
   class Is_between_cw_2
   {
   public:
+    /*! Constructor
+     * \param self the traits class. It must be passed, to handle the case
+     * it is not stateless (e.g., it stores data)
+     */
+    Is_between_cw_2(const Self * self) : m_self(self) {}
+
     /*!
      * Check whether the given query curve is encountered when rotating the
      * first curve in a clockwise direction around a given point until reaching
      * the second curve.
      * \param cv The query curve.
+     * \param cv_to_right Is cv directed from left to right (that is, the
+     *                    common vertex is cv's left endpoint).
      * \param cv1 The first curve.
+     * \param cv1_to_right Is cv1 directed from left to right.
      * \param cv2 The second curve.
+     * \param cv2_to_right Is cv2 directed from left to right.
      * \param p The point around which we rotate cv1.
      * \param cv_equal_cv1 Output: does cv equal cv1.
      * \param cv_equal_cv2 Output: does cv equal cv2.
@@ -347,55 +1047,17 @@ public:
      *         If cv1 and cv2 overlap, the result is (true), unless cv 
      *         also overlaps them.
      */
-    bool operator() (const X_monotone_curve_2& cv, 
-                     const X_monotone_curve_2& cv1, 
-                     const X_monotone_curve_2& cv2, 
+    bool operator() (const X_monotone_curve_2& cv, bool cv_to_right,
+                     const X_monotone_curve_2& cv1, bool cv1_to_right,
+                     const X_monotone_curve_2& cv2, bool cv2_to_right,
                      const Point_2& p,
                      bool& cv_equal_cv1, 
                      bool& cv_equal_cv2) const
     {
-      Base                    tr;
-      Construct_min_vertex_2  min_vertex = tr.construct_min_vertex_2_object();
-      Construct_max_vertex_2  max_vertex = tr.construct_max_vertex_2_object();
-      Equal_2                 equal = tr.equal_2_object();
+      Compare_y_at_x_left_2   compare_y_at_x_left =
+        m_self->compare_y_at_x_left_2_object();
       Compare_y_at_x_right_2  compare_y_at_x_right =
-                                           tr.compare_y_at_x_right_2_object();
-      Compare_y_at_x_left_2   compare_y_at_x_left;
-
-      // Find the direction of each $x$-monotone curve with respect to p.
-      bool               cv_to_right;
-      bool               cv1_to_right;
-      bool               cv2_to_right;
-
-      if (equal (min_vertex (cv), p))
-      {
-        cv_to_right = true;
-      }
-      else
-      {
-        CGAL_precondition (equal (max_vertex (cv), p));
-        cv_to_right = false;        
-      }
-
-      if (equal (min_vertex (cv1), p))
-      {
-        cv1_to_right = true;
-      }
-      else
-      {
-        CGAL_precondition (equal (max_vertex (cv1), p));
-        cv1_to_right = false;        
-      }
-
-      if (equal (min_vertex (cv2), p))
-      {
-        cv2_to_right = true;
-      }
-      else
-      {
-        CGAL_precondition (equal (max_vertex (cv2), p));
-        cv2_to_right = false;        
-      }
+        m_self->compare_y_at_x_right_2_object();
 
       // Initialize output flags.
       cv_equal_cv1 = false;
@@ -557,31 +1219,42 @@ public:
       }
       else
       {
-	res2 = compare_y_at_x_left (cv2, cv, p);
+        res2 = compare_y_at_x_left (cv2, cv, p);
         
-	if (res2 == EQUAL)
-	  cv_equal_cv2 = true;
+        if (res2 == EQUAL)
+          cv_equal_cv2 = true;
 	
-	return (res2 == LARGER);
+        return (res2 == LARGER);
       }
     }
+    
+  private:
+    /*! The traits */
+    const Self * m_self;
   };
 
   /*! Get an Is_between_cw_2 functor object. */
   Is_between_cw_2 is_between_cw_2_object () const
   {
-    return Is_between_cw_2();
+    return Is_between_cw_2(this);
   }
 
   class Compare_cw_around_point_2
   {
   public:
+    /*! Constructor
+     * \param self the traits class. It must be passed, to handle the case
+     * it is not stateless (e.g., it stores data)
+     */
+    Compare_cw_around_point_2(const Self * self) : m_self(self) {}
     
     /*!
      * Compare the two interior disjoint x-monotone curves in a clockwise
      * order around their common endpoint.
      * \param cv1 The first curve.
+     * \param cv1_to_right Is cv1 directed from left to right.
      * \param cv2 The second curve.
+     * \param cv2_to_right Is cv2 directed from left to right.
      * \param p The common endpoint.
      * \param from_top (true) if we start from 12 o'clock, 
      *                 (false) if we start from 6 o'clock.
@@ -591,73 +1264,51 @@ public:
      *         EQUAL otherwise.
      */
     Comparison_result operator() (const X_monotone_curve_2& cv1,
+                                  bool cv1_to_right,
                                   const X_monotone_curve_2& cv2,
+                                  bool cv2_to_right,
                                   const Point_2& p,
                                   bool from_top = true) const
     {
-      // Find to which side of p (left or right) do cv1 and cv2 lie.
-      Base                    tr;
-      Construct_min_vertex_2  min_vertex = tr.construct_min_vertex_2_object();
-      Construct_max_vertex_2  max_vertex = tr.construct_max_vertex_2_object();
-      Equal_2                 equal = tr.equal_2_object();
-
-      bool                    cv1_left, cv2_left;
-      
-      if (equal (min_vertex (cv1), p)) 
-      {
-        cv1_left = false;
-      }
-      else
-      {
-        CGAL_assertion (equal(max_vertex (cv1), p));
-        cv1_left = true;
-      }
-
-      if (equal (min_vertex (cv2), p)) 
-      {
-        cv2_left = false;
-      }
-      else 
-      {
-        CGAL_assertion (equal(max_vertex (cv2), p));
-        cv2_left = true;
-      }
-
       // Act according to where cv1 and cv2 lie.
-      if (cv1_left && cv2_left)
+      if (!cv1_to_right && !cv2_to_right)
       {
         // Both are defined to the left of p, and we encounter cv1 before
         // cv2 if it is below cv2:
-        return (tr.compare_y_at_x_left_2_object() (cv1, cv2, p));
+        return (m_self->compare_y_at_x_left_2_object() (cv1, cv2, p));
       }
       
-      if (!cv1_left && !cv2_left)
+      if (cv1_to_right && cv2_to_right)
       {
         // Both are defined to the right of p, and we encounter cv1 before
         // cv2 if it is above cv2. We therefore reverse the order of the
         // curves when we invoke compare_y_at_x_right:
-        return (tr.compare_y_at_x_right_2_object() (cv2, cv1, p));
+        return (m_self->compare_y_at_x_right_2_object() (cv2, cv1, p));
       }
       
-      if (cv1_left && !cv2_left)
+      if (!cv1_to_right && cv2_to_right)
       {
         // If we start from the top, we encounter the right curve (which
         // is cv2) first. If we start from the bottom, we encounter cv1 first.
-	return (from_top ? LARGER : SMALLER);
+        return (from_top ? LARGER : SMALLER);
       }
 
-      CGAL_assertion (!cv1_left && cv2_left);
+      CGAL_assertion (cv1_to_right && !cv2_to_right);
 
       // If we start from the top, we encounter the right curve (which
       // is cv1) first. If we start from the bottom, we encounter cv2 first.
       return (from_top ? SMALLER : LARGER);
     }
+
+  private:
+    /*! The traits */
+    const Self * m_self;
   };
 
   /*! Get a Compare_cw_around_point_2 functor object. */
   Compare_cw_around_point_2 compare_cw_around_point_2_object () const
   {
-    return Compare_cw_around_point_2();
+    return Compare_cw_around_point_2(this);
   }
   //@}
 };
@@ -718,6 +1369,12 @@ public:
   class Are_mergeable_2
   {
   public:
+    /*! Constructor
+     * \param base the base traits class. It must be passed, to handle the
+     * case it is not stateless (e.g., it stores data)
+     */
+    Are_mergeable_2(const Base * base) : m_base(base) {}
+
     /*!
      * Check whether it is possible to merge two given x-monotone curves.
      * \param cv1 The first curve.
@@ -733,6 +1390,8 @@ public:
     }
 
   private:
+    /*! The base traits */
+    const Base * m_base;
 
     /*!
      * Implementation of the operator() in case the HasMerge tag is true.
@@ -741,8 +1400,7 @@ public:
            const X_monotone_curve_2& cv2,
            Tag_true) const
     {
-      Base                    tr;
-      return (tr.are_mergeable_2_object() (cv1, cv2));      
+      return (m_base->are_mergeable_2_object() (cv1, cv2));      
     }
 
     /*!
@@ -760,12 +1418,18 @@ public:
   /*! Get an Are_mergeable_2 functor object. */
   Are_mergeable_2 are_mergeable_2_object () const
   {
-    return Are_mergeable_2();
+    return Are_mergeable_2(this);
   }
 
   class Merge_2
   {
   public:
+    /*! Constructor
+     * \param base the base traits class. It must be passed, to handle the
+     * case it is not stateless (e.g., it stores data)
+     */
+    Merge_2(const Base * base) : m_base(base) {}
+
     /*!
      * Merge two given x-monotone curves into a single curve (segment).
      * \param cv1 The first curve.
@@ -783,6 +1447,8 @@ public:
     }
 
   private:
+    /*! The base traits */
+    const Base * m_base;
 
     /*!
      * Implementation of the operator() in case the HasMerge tag is true.
@@ -792,8 +1458,7 @@ public:
                      X_monotone_curve_2& c,
                      Tag_true) const
     {
-      Base                    tr;
-      return (tr.merge_2_object() (cv1, cv2, c));      
+      return (m_base->merge_2_object() (cv1, cv2, c));      
     }
 
     /*!
@@ -813,7 +1478,7 @@ public:
   /*! Get a Merge_2 functor object. */
   Merge_2 merge_2_object () const
   {
-    return Merge_2();
+    return Merge_2(this);
   }
   //@}
 

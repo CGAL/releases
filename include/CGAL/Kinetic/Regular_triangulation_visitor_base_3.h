@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_visitor_base_3.h $
-// $Id: Regular_triangulation_visitor_base_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_visitor_base_3.h $
+// $Id: Regular_triangulation_visitor_base_3.h 36012 2007-02-02 02:13:42Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -36,18 +36,6 @@ public Delaunay_triangulation_visitor_base_3
 
     template <class Key, class Cell>
         void post_move(Key, Cell){}
-
-    template <class Key, class Cell>
-        void pre_push(Key, Cell){}
-
-    template <class Vertex_handle>
-        void post_push(Vertex_handle){}
-
-    template <class Vertex_handle>
-        void pre_pop(Vertex_handle){}
-
-    template <class Key, class Cell>
-        void post_pop(Key, Cell){}
 };
 
 CGAL_KINETIC_END_NAMESPACE

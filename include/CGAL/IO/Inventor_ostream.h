@@ -15,26 +15,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Inventor/include/CGAL/IO/Inventor_ostream.h $
-// $Id: Inventor_ostream.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Inventor/include/CGAL/IO/Inventor_ostream.h $
+// $Id: Inventor_ostream.h 35701 2007-01-10 19:09:41Z spion $
 //
 // Author(s)     : Andreas Fabri
 //                 Lutz Kettner <kettner@inf.ethz.ch>
 //                 Herve Bronnimann <Herve.Bronnimann@sophia.inria.fr>
 //                 Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
 
-
 #ifndef CGAL_IO_INVENTOR_OSTREAM_H
 #define CGAL_IO_INVENTOR_OSTREAM_H
 
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif // CGAL_BASIC_H
-#ifndef CGAL_PROTECT_IOSTREAM_H
 #include <iostream>
-#define CGAL_PROTECT_IOSTREAM_H
-#endif // CGAL_PROTECT_IOSTREAM_H
 
 // OpenInventor and VRML 1.0 are quite similar formats, so
 // output operators could be shared if they use the following
@@ -139,6 +132,3 @@ CGAL_END_NAMESPACE
 
 #endif // CGAL_INVENTOR_TETRAHEDRON_3
 #endif // CGAL_TETRAHEDRON_3_H
-
-
-

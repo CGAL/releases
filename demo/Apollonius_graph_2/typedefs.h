@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/demo/Apollonius_graph_2/typedefs.h $
-// $Id: typedefs.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/demo/Apollonius_graph_2/typedefs.h $
+// $Id: typedefs.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -37,7 +37,7 @@ typedef CGAL::Simple_cartesian<double>        Rep;
 #include <CGAL/Apollonius_graph_filtered_traits_2.h>
 
 
-typedef CGAL::Apollonius_graph_filtered_traits_2<Rep,CGAL::Ring_tag>  Gt;
+typedef CGAL::Apollonius_graph_filtered_traits_2<Rep,CGAL::Integral_domain_without_division_tag>  Gt;
 
 typedef Gt::Point_2                           Point_2;
 typedef Rep::Circle_2                         Circle_2;

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/Compact_container.h $
-// $Id: Compact_container.h 28783 2006-02-25 23:25:27Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/Compact_container.h $
+// $Id: Compact_container.h 32846 2006-07-31 22:31:49Z afabri $
 // 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -531,7 +531,7 @@ void Compact_container<T, Allocator>::merge(Self &d)
   // Add the capacities.
   capacity_ += d.capacity_;
   // It seems reasonnable to take the max of the block sizes.
-  block_size = std::max(block_size, d.block_size);
+  block_size = (std::max)(block_size, d.block_size);
   // Clear d.
   d.init();
 }

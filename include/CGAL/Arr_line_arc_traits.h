@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Curved_kernel/include/CGAL/Arr_line_arc_traits.h $
-// $Id: Arr_line_arc_traits.h 29284 2006-03-09 13:36:00Z teillaud $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Arr_line_arc_traits.h $
+// $Id: Arr_line_arc_traits.h 35739 2007-01-16 14:49:01Z teillaud $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck
 
@@ -22,8 +22,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 
-#ifndef CGAL_CURVED_KERNEL_LINE_ARC_TRAITS_H
-#define CGAL_CURVED_KERNEL_LINE_ARC_TRAITS_H
+#ifndef CGAL_CIRCULAR_KERNEL_LINE_ARC_TRAITS_H
+#define CGAL_CIRCULAR_KERNEL_LINE_ARC_TRAITS_H
 
 #include <CGAL/basic.h>
 #include <cassert>
@@ -34,7 +34,8 @@
 
 namespace CGAL {
 
-/// Traits class for CGAL::Arrangement_2 (and similar) based on a CircularKernel.
+// Traits class for CGAL::Arrangement_2 (and similar) based on a 
+// CircularKernel.
 
 template < typename CircularKernel >
 class Arr_line_arc_traits {
@@ -52,26 +53,26 @@ public:
 
   typedef CGAL::Tag_false                        Has_left_category;
   typedef CGAL::Tag_false 			 Has_merge_category;
+  typedef CGAL::Tag_false                        Has_infinite_category;
+  typedef CGAL::Tag_false                        Has_boundary_category;
 
   Arr_line_arc_traits(const CircularKernel &k = CircularKernel())
     : ck(k) {}
 
-  typedef typename CircularKernel::Compare_x_2           Compare_x_2;
-  typedef typename CircularKernel::Compare_xy_2          Compare_xy_2;
-  typedef typename CircularKernel::Compare_y_at_x_2      Compare_y_at_x_2;
-  typedef typename CircularKernel::Compare_y_to_right_2  Compare_y_at_x_right_2; 
-  typedef typename CircularKernel::Equal_2               Equal_2;
-  typedef typename CircularKernel::Make_x_monotone_2     Make_x_monotone_2;
-  typedef typename CircularKernel::Split_2               Split_2;
-  typedef typename CircularKernel::Construct_circular_min_vertex_2  Construct_min_vertex_2; 
-  typedef typename CircularKernel::Construct_circular_max_vertex_2  Construct_max_vertex_2;
-  typedef typename CircularKernel::Is_vertical_2           Is_vertical_2;
-  typedef typename CircularKernel::Intersect_2 Intersect_2;
+  typedef typename CircularKernel::Compare_x_2          Compare_x_2;
+  typedef typename CircularKernel::Compare_xy_2         Compare_xy_2;
+  typedef typename CircularKernel::Compare_y_at_x_2     Compare_y_at_x_2;
+  typedef typename CircularKernel::Compare_y_to_right_2 Compare_y_at_x_right_2;
+  typedef typename CircularKernel::Equal_2              Equal_2;
+  typedef typename CircularKernel::Make_x_monotone_2    Make_x_monotone_2;
+  typedef typename CircularKernel::Split_2              Split_2;
+  typedef typename CircularKernel::Construct_circular_min_vertex_2  
+                                                        Construct_min_vertex_2;
+  typedef typename CircularKernel::Construct_circular_max_vertex_2  
+                                                        Construct_max_vertex_2;
+  typedef typename CircularKernel::Is_vertical_2        Is_vertical_2;
+  typedef typename CircularKernel::Intersect_2          Intersect_2;
 
-
- 
-
-  
   Compare_x_2 compare_x_2_object() const
   { return ck.compare_x_2_object(); }
 
@@ -110,4 +111,4 @@ public:
 
 } // namespace CGAL
 
-#endif // CGAL_CURVED_KERNEL_LINE_ARC_TRAITS_H
+#endif // CGAL_CIRCULAR_KERNEL_LINE_ARC_TRAITS_H

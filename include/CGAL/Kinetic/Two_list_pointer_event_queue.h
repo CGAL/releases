@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Two_list_pointer_event_queue.h $
-// $Id: Two_list_pointer_event_queue.h 31252 2006-05-22 12:26:07Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Two_list_pointer_event_queue.h $
+// $Id: Two_list_pointer_event_queue.h 37472 2007-03-26 08:22:12Z afabri $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -22,6 +22,7 @@
 #define CGAL_KINETIC_BIN_QUEUE_H
 #include <CGAL/Kinetic/basic.h>
 #include <iostream>
+#include <CGAL/Kinetic/internal/debug_counters.h>
 #include <CGAL/In_place_list.h>
 #include <functional>
 #include <CGAL/assertions.h>
@@ -31,6 +32,7 @@
 #include <algorithm>
 #include <boost/utility.hpp>
 #include <boost/type_traits/remove_const.hpp>
+#include <CGAL/Kinetic/internal/debug_counters.h>
 
 //int two_list_remaining=0;
 
@@ -41,190 +43,32 @@
 
 CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
 
-// The interface for an item stored in the ::Pointer_event_queue
-template <class Priority>
-class Two_list_event_queue_item:
-  public CGAL::In_place_list_base<Two_list_event_queue_item<Priority> >,
-  public Ref_counted<Two_list_event_queue_item<Priority> >
+
+template <class Item>
+struct Two_list_pointer_event_queue_key: public Item::Handle
 {
-
-  typedef Two_list_event_queue_item<Priority> This;
-
-  Two_list_event_queue_item(const Two_list_event_queue_item &o){bool do_not_copy;}
-  void operator=(const Two_list_event_queue_item &o) {
-    bool do_not_copy;
-  }
-public:
-  Two_list_event_queue_item(): time_(infinity_or_max<Priority>()){ /*++two_list_remaining;*/}
-  Two_list_event_queue_item(const Priority &t): time_(t){/*++two_list_remaining;*/}
-  virtual ~Two_list_event_queue_item(){/*--two_list_remaining;*/}
-
-  enum List {FRONT, BACK, INF};
-
-  const Priority& time() const {return time_;};
-
-  List in_list() const
-  {
-    return front_list_;
-  }
-  void set_in_list(List lt) {
-    front_list_=lt;
-  }
-
-  virtual void write(std::ostream &out) const =0;
-  virtual void process(const Priority &t) =0;
-
-  bool operator<(const This &o) const
-  {
-    return time() < o.time();
-  }
-  bool operator>(const This &o) const
-  {
-    return time() > o.time();
-  }
-  bool operator==(const This &o) const
-  {
-    return time() == o.time();
-  }
-private:
-  Priority time_;
-  List front_list_;
-};
-
-template <class Priority>
-inline std::ostream& operator<<(std::ostream &out, const Two_list_event_queue_item<Priority> &i)
-{
-  i.write(out);
-  return out;
-}
-
-
-// The how a dummy item is stored in the ::Two_list_event_queue
-/*
-  One dummy item is used to represent events which will never happen.
-*/
-template <class Priority>
-class Two_list_event_queue_dummy_item: public Two_list_event_queue_item<Priority>
-{
-
-public:
-  Two_list_event_queue_dummy_item(){}
-  Two_list_event_queue_dummy_item(const Two_list_event_queue_dummy_item &):
-    Two_list_event_queue_item<Priority>(){}
-  virtual void process(const Priority &) {
-    std::cerr << "Trying to process a NULL event.\n";
-    CGAL_assertion(0);
-  }
-  virtual void write(std::ostream &out) const
-  {
-    out << "Never.";
-  }
-  virtual ~Two_list_event_queue_dummy_item(){}
-};
-
-// The how a real item is stored in the ::Two_list_event_queue
-/*
-  This just stores an object of type Event and passes the virtual calls on to it.
-
-  The object is reference counted so you don't have to worry about the
-  queue deleting it or not.
-*/
-template <class Priority, class Event>
-class Two_list_event_queue_item_rep: public internal::Two_list_event_queue_item<Priority>
-{
-  typedef  Two_list_event_queue_item<Priority> P;
-public:
-  Two_list_event_queue_item_rep(): internal::Two_list_event_queue_item<Priority>(){}
-  Two_list_event_queue_item_rep(const Priority &t, const Event &e): Two_list_event_queue_item<Priority>(t),
-								    event_(e){}
-
-  virtual void write(std::ostream &out) const
-  {
-    out << event_ << " at " << P::time();
-  }
-  virtual void process(const Priority &t) {
-    event_.process(t);
-  }
-  // Access the actual event
-  const Event &event() const
-  {
-    return event_;
-  }
-  void set_event(const Event &e) {
-    event_=e;
-  }
-  virtual ~Two_list_event_queue_item_rep(){}
-
-protected:
-  // what the fuck? Why do I need this (gcc 3.4.1)
-  /*mutable*/ Event event_;
-};
-
-template <class T>
-struct Two_list_event_queue_item_allocator
-{
-  typedef Two_list_event_queue_dummy_item<T> dummy_value_type;
-
-  typedef Two_list_event_queue_item<T>* pointer;
-  typedef std::size_t size_type;
-  typedef std::ptrdiff_t difference_type;
-  typedef const pointer const_pointer;
-  typedef Two_list_event_queue_item<T>& reference;
-  typedef const Two_list_event_queue_item<T>& const_reference;
-  typedef dummy_value_type value_type;
-
-  Two_list_event_queue_item_allocator(){}
-  pointer allocate(size_t sz, void* =0) const
-  {
-    return static_cast<pointer>(::operator new(sz*sizeof(dummy_value_type)));
-  }
-  void deallocate(pointer p, size_type ) {
-    ::operator delete(static_cast<void*>(p));
-  }
-  size_type max_size() const throw() {
-    return std::numeric_limits<size_type>::max()/sizeof(dummy_value_type);
-  }
-  template <class TT>
-  void construct(pointer p, const TT &) {
-    new(static_cast<void*>(p)) dummy_value_type();
-  }
-  void destroy(pointer p) {
-    p->~Two_list_event_queue_item<T>();
-  }
-};
-
-CGAL_KINETIC_END_INTERNAL_NAMESPACE
-
-CGAL_KINETIC_BEGIN_NAMESPACE;
-
-template <class FK>
-class Two_list_pointer_event_queue;
-
-template <class Item, class FK>
-struct Two_list_pointer_event_queue_key: private Item::Handle
-{
-  typedef Two_list_pointer_event_queue_key<Item, FK> This;
+  typedef Two_list_pointer_event_queue_key<Item> This;
   typedef typename Item::Handle P;
   Two_list_pointer_event_queue_key(){};
-  Two_list_pointer_event_queue_key(Item  *p): Item::Handle(p){};
-  friend class Two_list_pointer_event_queue<FK>;
-  void write(std::ostream &out) {
+  Two_list_pointer_event_queue_key(Item  *p): Item::Handle(p){}
+  std::ostream& write(std::ostream &out) {
     if (Item::Handle::get()) {
-      out << *Item::Handle::get();
+      out << "(" << Item::Handle::get() << ": " << *Item::Handle::get() << ")";
     }
     else {
       out << "null";
     }
+    return out;
   }
   /*operator bool() const
-  {
+    {
     return Item::Handle::get() != NULL;
     }*/
   bool is_valid() const {
     return  Item::Handle::get() != NULL;
   }
   /*bool operator!() const
-  {
+    {
     return Item::Handle::operator!();
     }*/
   bool operator==(const This &o) const
@@ -248,15 +92,221 @@ struct Two_list_pointer_event_queue_key: private Item::Handle
   {
     return Item::Handle::get();
   }
+ 
   //using P::operator>;
 };
 
-template  <class I, class FK>
-std::ostream &operator<<(std::ostream &out, Two_list_pointer_event_queue_key<I, FK> k)
+template  <class I>
+std::ostream &operator<<(std::ostream &out, Two_list_pointer_event_queue_key<I> k)
 {
   k.write(out);
   return out;
 }
+
+
+
+
+// The interface for an item stored in the ::Pointer_event_queue
+template <class Priority>
+class Two_list_event_queue_item:
+  public CGAL::In_place_list_base<Two_list_event_queue_item<Priority> >,
+  public Ref_counted<Two_list_event_queue_item<Priority> >
+{
+
+  typedef Two_list_event_queue_item<Priority> This;
+
+  Two_list_event_queue_item(const Two_list_event_queue_item &o){bool do_not_copy;}
+  void operator=(const Two_list_event_queue_item &o) {
+    bool do_not_copy;
+  }
+public:
+  typedef Two_list_pointer_event_queue_key<This> Key;
+  Two_list_event_queue_item() { /*++two_list_remaining;*/}
+  Two_list_event_queue_item(const Priority &t): time_(t){/*++two_list_remaining;*/}
+  virtual ~Two_list_event_queue_item(){/*--two_list_remaining;*/
+  }
+
+  enum List {FRONT, BACK, INF};
+
+  const Priority& time() const {return time_;};
+
+  List in_list() const
+  {
+    return front_list_;
+  }
+  void set_in_list(List lt) {
+    front_list_=lt;
+  }
+
+  
+
+  bool operator<(const This &o) const {
+    CGAL::Comparison_result c= CGAL::compare(time(), o.time());
+    if (c != CGAL::EQUAL) return c== CGAL::SMALLER;
+    else {
+      if (kds() < o.kds()) return true;
+      else if (kds() > o.kds()) return false;
+      else {
+	CGAL::Comparison_result c= compare_concurrent(Key((This*) this),Key((This*) &o));
+	return c==CGAL::SMALLER;
+      }
+    }
+  }
+
+  virtual std::ostream& write(std::ostream &out) const{
+    out << "Dummy event." << std::endl;
+    return out;
+  }
+  virtual void process() {
+    CGAL_assertion(0);
+    CGAL_KINETIC_ERROR("Writing dummy queue element.");
+  }
+  virtual CGAL::Comparison_result compare_concurrent(Key , Key ) const {
+    CGAL_assertion(0);
+    return CGAL::EQUAL;
+  };
+  virtual bool merge_concurrent(Key , Key ) {
+    CGAL_assertion(0);
+    return false;
+  }
+  virtual void *kds() const{return NULL;}
+  virtual void audit(Key) const{};
+private:
+  Priority time_;
+  List front_list_;
+};
+
+template <class Priority>
+inline std::ostream& operator<<(std::ostream &out, const Two_list_event_queue_item<Priority> &i)
+{
+  i.write(out);
+  return out;
+}
+
+
+// The how a dummy item is stored in the ::Two_list_event_queue
+/*
+  One dummy item is used to represent events which will never happen.
+*/
+/*template <class Priority>
+class Two_list_event_queue_dummy_item: public Two_list_event_queue_item<Priority>
+{
+  typedef Two_list_event_queue_item<Priority> P;
+public:
+  Two_list_event_queue_dummy_item(){}
+  Two_list_event_queue_dummy_item(const Two_list_event_queue_dummy_item &):
+    Two_list_event_queue_item<Priority>(){}
+  virtual void process() {
+    std::cerr << "Trying to process a NULL event.\n";
+    CGAL_assertion(0);
+  }
+  virtual CGAL::Comparison_result compare_concurrent(typename P::Key , typename P::Key ) const{return CGAL::EQUAL;}
+  virtual bool merge_concurrent(typename P::Key, typename P::Key){
+    return false;
+  }
+  virtual std::ostream& write(std::ostream &out) const
+  {
+    out << "Never";
+    return out;
+  }
+  virtual ~Two_list_event_queue_dummy_item(){}
+  };*/
+
+// The how a real item is stored in the ::Two_list_event_queue
+/*
+  This just stores an object of type Event and passes the virtual calls on to it.
+
+  The object is reference counted so you don't have to worry about the
+  queue deleting it or not.
+*/
+template <class Priority, class Event>
+class Two_list_event_queue_item_rep: public internal::Two_list_event_queue_item<Priority>
+{
+  typedef  Two_list_event_queue_item<Priority> P;
+public:
+  Two_list_event_queue_item_rep(): internal::Two_list_event_queue_item<Priority>(){}
+  Two_list_event_queue_item_rep(const Priority &t, const Event &e): 
+    Two_list_event_queue_item<Priority>(t),
+    event_(e){}
+
+  virtual std::ostream& write(std::ostream &out) const
+  {
+    event_.write(out);
+    out << " at " << P::time();
+    return out;
+  }
+  virtual void process() {
+    event_.process();
+  }
+  virtual void audit(typename P::Key k) const {
+    event_.audit(k);
+  }
+  virtual CGAL::Comparison_result compare_concurrent(typename P::Key a, typename P::Key b) const{
+    return event_.compare_concurrent(a,b);
+  }
+  virtual bool merge_concurrent(typename P::Key a, typename P::Key b){
+    return event_.merge_concurrent(a,b);;
+  }
+  virtual void *kds() const{return event_.kds();}
+
+  // Access the actual event
+  const Event &event() const
+  {
+    return event_;
+  }
+
+ // Access the actual event
+  Event &event()
+  {
+    return event_;
+  }
+  
+  virtual ~Two_list_event_queue_item_rep(){}
+
+protected:
+  Event event_;
+};
+
+
+/* This is needed since the list cannot allocate an element of the abstract base class. I could just make it non-abstract. Why not?*/
+/*template <class T>
+struct Two_list_event_queue_item_allocator
+{
+  typedef Two_list_event_queue_dummy_item<T> dummy_value_type;
+
+  typedef Two_list_event_queue_item<T>* pointer;
+  typedef std::size_t size_type;
+  typedef std::ptrdiff_t difference_type;
+  typedef const pointer const_pointer;
+  typedef Two_list_event_queue_item<T>& reference;
+  typedef const Two_list_event_queue_item<T>& const_reference;
+  typedef dummy_value_type value_type;
+
+  Two_list_event_queue_item_allocator(){}
+  pointer allocate(size_t sz, void* =0) const
+  {
+    return static_cast<pointer>(::operator new(sz*sizeof(dummy_value_type)));
+  }
+  void deallocate(pointer p, size_type ) {
+    ::operator delete(static_cast<void*>(p));
+  }
+  size_type max_size() const throw() {
+    return (std::numeric_limits<size_type>::max)()/sizeof(dummy_value_type);
+  }
+  template <class TT>
+  void construct(pointer p, const TT &) {
+    new(static_cast<void*>(p)) dummy_value_type();
+  }
+  void destroy(pointer p) {
+    p->~Two_list_event_queue_item<T>();
+  }
+  };*/
+
+CGAL_KINETIC_END_INTERNAL_NAMESPACE
+
+CGAL_KINETIC_BEGIN_NAMESPACE
+
+
 
 
 //! The priority queue for holding many different types of events.
@@ -271,57 +321,75 @@ std::ostream &operator<<(std::ostream &out, Two_list_pointer_event_queue_key<I, 
   have to worry about them being processed (and deleted or not). I am
   not sure which is better.
 */
-template <class FK>
+template <class FK, bool INF=false, unsigned int TARGET=8>
 class Two_list_pointer_event_queue
 {
   typedef typename FK::Root PriorityT;
-  typedef typename FK::NT NT;
-  typedef Two_list_pointer_event_queue<FK> This;
+  typedef typename FK::FT NT;
+  typedef Two_list_pointer_event_queue<FK, INF, TARGET> This;
   typedef typename internal::Two_list_event_queue_item<PriorityT> Item;
 
-  typedef typename CGAL::In_place_list<Item, false,
-				       internal::Two_list_event_queue_item_allocator<PriorityT> > Queue;
+  typedef typename CGAL::In_place_list<Item, false/*,
+						    internal::Two_list_event_queue_item_allocator<PriorityT>*/ > Queue;
   typedef typename Queue::iterator Iterator;
 
-  //static const unsigned int max_front_size=20;
 
-  /*template <class T>
-    bool almost_inf(const T&) const {
-    return false;
-    }
 
-    bool almost_inf(double d) const {
-    return d > 2.65598e+307;
-    }*/
 
 public:
   typedef PriorityT Priority;
 
-  typedef Two_list_pointer_event_queue_key<Item, FK> Key;
+  typedef internal::Two_list_pointer_event_queue_key<Item> Key;
 
-  /*  struct Key: public Item::Handle {
-      Key(){};
-      Key(Item*i): Item::Handle(i){}
-      Key(typename Item::Handle ih): Item::Handle(ih){}
-      static Key null() {
-      return Key();
-      }
-      };*/
+
+
 
   //! Construct it with a suggested size of sz.
-  Two_list_pointer_event_queue(Priority start_time, Priority end_time, FK fk, int =0): tii_(fk.to_isolating_interval_object()),
-										       ub_(tii_(start_time).first),
-										       step_(1),
-										       ub_is_inf_(false){
-    //std::cout << "UB is " << ub_ << std::endl;
-    //null_event_= 
-    //if (end_time != std::numeric_limits<Priority>::infinity()){
-    set_end_priority(end_time);
-      /*} else {
-      NT end=std::numeric_limits<int>::max();
-      std::cerr << "WARNING Infinity is being rounded down to " << end << std::endl;
-      set_end_priority(end);
-      }*/
+  Two_list_pointer_event_queue(Priority start_time,
+			       Priority end_time, 
+			       FK, int =0):
+    null_event_(new internal::Two_list_event_queue_item<Priority>()){
+    CGAL_precondition(!INF);
+    initialize(start_time, end_time);
+  }
+
+ //! Construct it with a suggested size of sz.
+  Two_list_pointer_event_queue(Priority start_time,
+			       FK, int =0): 
+    null_event_(new internal::Two_list_event_queue_item<Priority>()){
+    CGAL_precondition(INF);
+    initialize(start_time);
+  }
+
+  ~Two_list_pointer_event_queue() {
+    // release pointers
+    std::vector<Key> all;
+    all.reserve(front_.size()+back_.size());
+    for (typename Queue::iterator it = front_.begin(); 
+	 it != front_.end(); ++it) {
+      all.push_back(Key(&*it));
+    }
+    for (typename Queue::iterator it = back_.begin(); 
+	 it != back_.end(); ++it) {
+      all.push_back(Key(&*it));
+    }
+    front_.clear();
+    back_.clear();
+    for (unsigned int i=0; i< all.size(); ++i) {
+      unmake_event(all[i].get());
+    }
+  }
+
+  
+  /*template <class E>
+  Key insert_at_end(const E & e) {
+
+  }*/
+  
+
+  bool is_after_end(const Priority &t) const {
+    if (INF) return false; 
+    else return  CGAL::compare(t,end_priority()) == CGAL::LARGER;
   }
 
   //! insert value_type into the queue and return a reference to it
@@ -331,62 +399,43 @@ public:
   template <class E>
   Key insert(const Priority &t, const E & e) {
     CGAL_expensive_precondition(audit());
-    CGAL_precondition(t != std::numeric_limits<Priority>::infinity());
-    //CGAL_precondition(t != internal::infinity_or_max<Priority>());
+ 
 
     Item *ni = make_event(t, e);
 
     //CGAL_exactness_assertion(t >= lbs_);
-    //lb_=std::min(t, lb_);
-    
-    //++queue_insertions__;
+    //lb_=(std::min)(t, lb_);
+    if ( is_after_end(ni->time())){
+      return end_key();
+    } 
 
 
-    if (leq_ub(t)) {
+    if (leq_ub(ni->time())) {
       ni->set_in_list(Item::FRONT);
       typename Queue::iterator iit=std::upper_bound(front_.begin(), front_.end(), *ni);
-      /*if (iit == front_.begin()){
-	step_= ub_- to_interval(t).first;
-	}*/
+   
       front_.insert(iit, *ni);
       CGAL_expensive_assertion(audit());
       if (front_.size() > 2*max_front_size()) {
-        shrink_front();
+	shrink_front();
       }
       //++queue_front_insertions__;
-    }
-    else if (front_.empty()) {
+    }  else if (front_.empty()) {
       CGAL_assertion(back_.empty());
-      if (t < end_priority()) {
-        //++queue_front_insertions__;
-        front_.push_back(*ni);
-        ub_= NT(to_interval(tii_(t).second).second);
-        ub_is_inf_=false;
-        /*if (almost_inf(ub_)){
-	//CGAL_assertion(std::numeric_limits<NT>::has_infinity);
-	ub_= end_split();
-	}*/
+      CGAL_assertion(INF || CGAL::compare(t, end_priority()) != CGAL::LARGER);
+      //CGAL_assertion(INF || CGAL::compare(end_priority(), std::numeric_limits<Priority>::infinity()) == CGAL::SMALLER);
+      if (true){
+	//++queue_front_insertions__;
+	front_.push_back(*ni);
+	ub_= CGAL::to_interval(t).second;
 	ni->set_in_list(Item::FRONT);
-      }
-      else {
-	//inf_.push_back(*ni);
-	// special case the inf event (to drop it)
-	ni->set_in_list(Item::INF);
-	Key ret(ni);
-#ifndef NDEBUG
-	inf_.push_back(Key(ni));
-#endif
-	unmake_event(ni);
-	//std::cout << "Made inf event " << ni << std::endl;
-	return ret;
-      }
-    }
-    else {
+      } 
+    } else {
       ni->set_in_list(Item::BACK);
       back_.push_back(*ni);
     }
     CGAL_expensive_postcondition(audit());
-    CGAL_expensive_postcondition(is_in_queue(Key(ni)));
+    CGAL_expensive_postcondition(contains(Key(ni)));
     //std::cout << "Made event " << ni << std::endl;
     return Key(ni);
   }
@@ -398,7 +447,14 @@ public:
   void erase(const Key &item) {
     //std::cout << "Erase event " << item.pointer() << std::endl;
     if (item== end_key()) return;
-    CGAL_expensive_precondition(is_in_queue(item));
+#ifndef NDEBUG
+    if (!contains(item)) {
+      std::cerr << "Erasing event not in queue ";
+      item->write(std::cerr);
+      std::cerr << std::endl;
+    }
+#endif
+    CGAL_expensive_precondition(contains(item));
     CGAL_expensive_precondition(audit());
     Item *i=item.get();
     if (item->in_list() == Item::FRONT) {
@@ -421,13 +477,18 @@ public:
     return reinterpret_cast<internal::Two_list_event_queue_item_rep<Priority, E>*>( item.get())->event();
   }
 
+  template <class E>
+  E& get(const Key &item)  {
+    return reinterpret_cast<internal::Two_list_event_queue_item_rep<Priority, E>*>( item.get())->event();
+  }
+
   //! Replace the event referenced by item with a new event referenced by ne
   /*!  They must have exactly the same times associated with
     them. This is checked when expensive checks are turned on.
   */
   template <class NE>
   Key set(const Key &item, const NE &ne) {
-    CGAL_expensive_precondition(is_in_queue(item));
+    CGAL_expensive_precondition(contains(item));
     CGAL_precondition(item != end_key());
     Item *oi= item.get();
     typename Item::List front= item->in_list();
@@ -460,8 +521,7 @@ public:
       unmake_event(oi);
       return Key(ni);
     }
-
-    CGAL_expensive_postcondition(audit());
+    // unreachable
 
   }
 
@@ -469,14 +529,21 @@ public:
   /*!  It is OK to call this if the queue is empty. In that case it
     will just return infinity.
   */
-  Priority front_priority() const
+  const Priority& front_priority() const
   {
     CGAL_precondition(!front_.empty());
     return front_.front().time();
   }
 
+
+  Key front() const
+  {
+    CGAL_precondition(!front_.empty());
+    return Key(const_cast<Item*>(&front_.front()));
+  }
+
   //! Access the time of a particular event
-  Priority priority(const Key &item) const
+  const Priority& priority(const Key &item) const
   {
     return item->time();
   }
@@ -485,7 +552,8 @@ public:
   bool empty() const
   {
     CGAL_precondition(!front_.empty() || back_.empty());
-    return front_.empty();
+    return front_.empty() 
+      || CGAL::compare(front_.front().time(), end_priority()) == CGAL::LARGER;
   }
 
   //! Remove the next event from the queue and process it.
@@ -501,13 +569,13 @@ public:
       front_.pop_front();
       CGAL_expensive_postcondition(audit());
       if (front_.empty() && !back_.empty()) grow_front();
-      i->process(i->time());
+      i->process();
 
-      if (!front_.empty() && i->time() == front_.front().time()) {
+      /*if (!front_.empty() && i->time() == front_.front().time()) {
 	CGAL_KINETIC_LOG(LOG_SOME, "Degeneracy at time "
-			 << i->time() << " the events are: "
-			 << *i << " and " << front_.front() << std::endl);
-      }
+	<< i->time() << " the events are: "
+	<< *i << " and " << front_.front() << std::endl);
+	}*/
 
       unmake_event(i);
     }
@@ -523,67 +591,90 @@ public:
     return true;
   }
 
+  void write(const Queue &q, std::ostream& out) const {
+    for (typename Queue::const_iterator it = q.begin(); it != q.end(); ++it) {
+      out << "(" << &*it << ": " << *it << ")";
+      out << std::endl;
+    }
+  }
+
   bool write(std::ostream &out) const
   {
-    for (typename Queue::const_iterator it = front_.begin(); it != front_.end(); ++it) {
-      out << "[";
-      it->write(out);
-      out << "] ";
-    }
-    out << std::endl;
-    for (typename Queue::const_iterator it = back_.begin(); it != back_.end(); ++it) {
-      it->write(out);
-      out << " ";
-    }
+    write(front_, std::cout);
+    out << "--" << ub_ << "--" << std::endl;
+    write(back_, std::cout);
     out << std::endl;
     return true;
   }
 
   Key end_key() const
   {
-    static Key null_event=new internal::Two_list_event_queue_dummy_item<Priority>();
-    return null_event;
+    return null_event_;
   }
 
-  void clear() {
-    front_.clear();
-    back_.clear();
-  }
+  
 
   const Priority& end_priority() const
   {
     return end_time_;
   }
 
-  void set_end_priority(const Priority &o) {
-    CGAL_precondition(empty());
-    //CGAL_precondition(o!= std::numeric_limits<Priority>::infinity());
-    end_time_=o;
-    /*if (end_time_== std::numeric_limits<Priority>::infinity()) {
-      end_split_=std::numeric_limits<int>::max();
-    } else {
-      end_split_= tii_(o).second;
-      }*/
+
+  void set_interval(const Priority &start_time, const Priority &end_time) {
+    CGAL_precondition(!INF);
+    initialize(start_time, end_time);
+  }
+  
+  void audit_events() const {
+    for (typename Queue::const_iterator it= front_.begin(); it != front_.end(); ++it) {
+      it->audit(Key(const_cast<Item*>(&*it)));
+    }
+    for (typename Queue::const_iterator it= back_.begin(); it != back_.end(); ++it) {
+      it->audit(Key(const_cast<Item*>(&*it)));
+    }
+  }
+
+  void audit_event(Key k) const {
+    k->audit(k);
+  }
+
+  void clear() {
+    front_.clear();
+    back_.clear();
+    //all_in_front_=false;
   }
 
 protected:
-
-  bool leq_ub(const Priority &t) const {
-    if (ub_is_inf_) return true;
-    else return (t <= ub_);
+  void initialize(const Priority &start_time, const Priority &end_time) {
+    ub_=CGAL::to_interval(start_time).second;
+    // should be nextafter
+    step_=1;
+    //all_in_front_= false;
+    end_time_=end_time;
   }
 
-  bool past_end(const NT &nt) const {
-    if (end_time_== std::numeric_limits<Priority>::infinity()){
+ void initialize(const Priority &start_time) {
+   CGAL_precondition(INF);
+   ub_=CGAL::to_interval(start_time).second;
+    // should be nextafter
+   step_=1;
+    //all_in_front_= false;
+  }
+  bool leq_ub(const Priority &t) const {
+    //if (all_in_front_) return true;
+    //else 
+    // pretty much anything fast will have a fast to_interval, so use it
+    std::pair<double,double> iv= CGAL::to_interval(t);
+    if (iv.first > ub_) {
       return false;
+    } else if (iv.second <= ub_) {
+      return true;
     } else {
-      return Priority(nt) > end_priority();
+      return CGAL::compare(t, Priority(ub_)) != CGAL::LARGER;
     }
   }
-  bool past_end(const Priority &nt) const {
-    return nt >= end_priority();
-  }
 
+ 
   template <class E>
   Item *make_event(const Priority &t, E &e) {
     typedef typename boost::remove_const<E>::type NCE;
@@ -612,7 +703,7 @@ protected:
 #ifndef NDEBUG
     for (unsigned int i=0; i< inf_.size(); ++i) {
       Priority t= inf_[i]->time();
-      CGAL_assertion(t >= end_priority());
+      CGAL_assertion(INF || CGAL::compare(t, end_priority())== CGAL::LARGER);
       CGAL_assertion(inf_[i]->in_list() == Item::INF);
     }
 #endif
@@ -623,9 +714,9 @@ protected:
 	Priority tc= it->time();
 	Priority tp= boost::prior(it)->time();
 #ifndef NDEBUG
-	if (tc < tp) {
+	if (CGAL::compare(tc, tp) == CGAL::SMALLER) {
 	  std::cout << "ERROR: Out of order " << tc << std::endl << tp << std::endl << std::endl;
-	  CGAL::Kinetic::internal::fail__= true;
+	  ++internal::audit_failures__;
 	}
 #endif
 	//CGAL_assertion(tc >= tp);
@@ -633,8 +724,8 @@ protected:
     }
     return true;
   }
-
-  bool is_in_queue(const Key k) const
+public:
+  bool contains(const Key k) const
   {
     //if (k.pointer()->time() == std::numeric_limits<Priority>::infinity()) return true;
     for (typename Queue::const_iterator it = front_.begin(); it != front_.end(); ++it) {
@@ -654,14 +745,15 @@ protected:
 #endif
     return false;
   }
-
-  unsigned int select(Queue &source, Queue &target, NT b, bool binf) {
+protected:
+  unsigned int select(Queue &source, Queue &target/*, bool binf*/) {
     unsigned int sz= source.size() + target.size();if (sz);
     int count=0;
     Iterator it= source.begin();
     while (it != source.end()) {
       // assert(it->time() >= a);
-      if (binf || it->time() <= b) {
+    
+      if (leq_ub(it->time())) {
 	Item *i= &*it;
 	Iterator t= boost::next(it);
 	source.erase(it);
@@ -678,7 +770,7 @@ protected:
   }
 
   /*NT step() const{
-    return std::max(ub_-lb_, NT(1));
+    return (std::max)(ub_-lb_, NT(1));
     }*/
 
   NT av(NT a, NT b) const
@@ -695,6 +787,7 @@ protected:
   template <class C, class It>
   void make_inf(C &c, It b, It e) {
     for (It cit = b; cit != e; ++cit) {
+      CGAL_assertion(INF || CGAL::compare(cit->time(), end_priority()) == CGAL::LARGER);
       //std::cout << "Dropping inf event " << &*cit << std::endl;
 #ifndef NDEBUG
       inf_.push_back(&*cit);
@@ -712,76 +805,96 @@ protected:
     const bool dprint=false;
     CGAL_assertion(front_.empty());
     CGAL_assertion(!cand.empty());
+    //CGAL_assertion(!all_in_front_);
     CGAL_assertion(step_ != 0);
     if (dprint) std::cout << "Growing front from " << ub_ << " with step " 
 			  << step_ << "(" << recursive_count << ") ";
 
     //CGAL_assertion(ub_<end_split());
-    ub_+= step_;
+    if (cand.size() + front_.size() < max_front_size()) {
+      if (dprint) std::cout << "Setting ub to end of " << end_time_ << std::endl;
+      front_.splice(front_.end(), cand);
+      return;
+    }
+
     //CGAL_assertion(!too_big(ub_));
 
-    if (past_end(ub_)) {
-      ub_is_inf_=true;
+    /*if ( CGAL::compare(end_priority(), Priority(ub_)) == CGAL::SMALLER) {
+      all_in_front_=true;
       //ub_=end_split();
-    }
+      }*/
 
-    unsigned int num= select(cand, front_, ub_, ub_is_inf_);
-    if (ub_is_inf_) {
+    CGAL_assertion_code(unsigned int num=)
+      select(cand, front_/*, all_in_front_*/);
+    CGAL_assertion(front_.size() >= num);
+    /*if (all_in_front_) {
       make_inf(cand, cand.begin(), cand.end());
-    }
-    else if (front_.empty()) {
+      } else*/
+    if (front_.empty()) {
       if (recursive_count > 10) {
 	// do something
-	std::cout << "Too many recursions " << std::endl;
-	Priority mp;
-	bool mp_found=false;
-	//(end_split());
-	for (typename Queue::iterator it = cand.begin(); it != cand.end(); ++it) {
-	  if (it->time() < end_priority()) {
-	    mp = it->time();
-	    mp_found=true;
-	  }
+	std::cerr << "Too many recursions " << std::endl;
+	//all_in_front_=true;
+	ub_=CGAL::to_interval(end_time_).second; //CGAL::to_interval(end_time_).second*2;// std::numeric_limits<double>::infinity();
+	/*unsigned int num=*/ select(cand, front_/*, all_in_front_*/);
+	select(back_, front_);
+	make_inf(cand, cand.begin(), cand.end());
+	make_inf(back_, back_.begin(), back_.end());
+	//grow_front(cand, recursive_count+1);
+      } else {
+	if (dprint) {
+	  std::cout << "undershot." << std::endl;
+	  write(front_, std::cout);
+	  std::cout << "-- " << ub_ << "--\n";
+	  write(cand, std::cout);
+	  std::cout << "--\n";
+	  write(back_, std::cout);
 	}
-
-	if (mp_found) {
-	  ub_= NT(to_interval(tii_(mp).second).second);
-	  ub_is_inf_=false;
-	  step_=.001;
-	  grow_front(cand, recursive_count+1);
-	} else {
-	  make_inf(cand, cand.begin(), cand.end());
-	}
-      }
-      else {
-	if (dprint) std::cout << "undershot." << std::endl;
-	NT nstep = step_*2;
-	CGAL_assertion(nstep > step_);
-	step_=nstep;
+	ub_+= step_;
+       	step_*=2.0;
 	CGAL_assertion(step_!=0);
+	cand.splice(cand.end(), back_);
 	grow_front(cand, recursive_count+1);
       }
-    }
-    else {
+    } else {
       //      unsigned int ncand= cand.size();
       back_.splice(back_.begin(), cand);
-      if (num >  max_front_size()) {
+      if (front_.size() >  max_front_size()) {
 	if (recursive_count > 10) {
 	  //std::cerr << "Gave up on isolating front. Let with size " << front_.size() << " ub=" << ub_ << "step=" << step_ <<  "\n";
 	  return;
-	}
-	else {
-	  NT nstep= step_*NT(.75+.25*max_front_size()/static_cast<double>(num));
+	} else {
+	  // keep the bit length shortish
+	  double frac= .75+.25*max_front_size()/static_cast<double>(front_.size()+1);
+	  double ostep= step_;
+	  CGAL_assertion(frac < 1.1);
+	  CGAL_assertion(frac >= 0.0);
+	  //double rfrac= std::ceil(frac*256.0)/256.0;
+	  step_*=frac;
 	  //else nstep = step_*.6;
-	  CGAL_assertion(nstep >0);
+	  //CGAL_assertion(nstep >0);
 	  cand.swap(front_);
 	  //ub_=lb_;
-	  ub_-=step_;
-	  CGAL_assertion(!ub_is_inf_);
-	  if (dprint) std::cout << "...overshot" << std::endl;
-	  CGAL_assertion(nstep < step_);
-	  step_=nstep;
-	  CGAL_assertion(step_!=0);
-	  grow_front(cand, recursive_count+1);
+	  if (step_ == 0) {
+	    CGAL_KINETIC_ERROR( "underflow in queue ");
+	    CGAL_KINETIC_ERROR_WRITE(write(LOG_STREAM));
+	    CGAL_assertion(cand.empty());
+	    step_=.0000001;
+	    return;
+	  } else {
+	    //CGAL_assertion(!all_in_front_);
+	    
+	    if (dprint) {
+	      std::cout << "...overshot" << std::endl;
+	      write(front_, std::cout);
+	      std::cout << "-- " << ub_ << "(" <<step_ << ")" << "--\n";
+	      write(cand, std::cout);
+	      std::cout << "--\n";
+	      write(back_, std::cout);
+	    }
+	    ub_=ub_-ostep+step_;  
+	    grow_front(cand, recursive_count+1);
+	  }
 	}
       }
       else {
@@ -800,9 +913,12 @@ protected:
     CGAL_assertion_code(unsigned int sz= front_.size()+back_.size()+ inf_.size());
     Queue cand;
     cand.splice(cand.begin(), back_);
+    ub_ += step_;
     grow_front(cand);
     set_front(front_.begin(), front_.end(), Item::FRONT);
     front_.sort();
+    ub_= CGAL::to_interval(front_.back().time()).second;
+    // hmmmm, now I should make a second pass to merge. Ick.
 
     CGAL_assertion(sz==front_.size()+back_.size() + inf_.size());
     CGAL_assertion(audit());
@@ -818,14 +934,20 @@ protected:
       ++it;
     }
 
-    NT split= NT(to_interval(tii_(it->time()).second).second);
-    if (past_end(split) ) {
-      CGAL_assertion(back_.empty());
-      it= front_.begin();
-      for (unsigned int i=0; i < mf; ++i) {
-	if (past_end(it->time())) {
-	  break;
-	}
+    // use tii_ so that it does not subdivide
+
+    double split =  CGAL::to_interval(it->time()).second;
+    if (!INF && (CGAL::compare(end_priority(), it->time())==CGAL::SMALLER
+		 || CGAL::compare(end_priority(), Priority(split))==CGAL::SMALLER)) {
+      std::cout << "Past end in Queue " << end_priority() << ", "
+		<< it->time() << ", " << Priority(split) << std::endl;
+      //all_in_front_=true;
+      ub_= CGAL::to_interval(end_time_).second;
+      set_front(back_.begin(), back_.end(), Item::FRONT);
+      front_.splice(front_.end(), back_);
+
+      while (it != front_.end()) {
+	if (CGAL::compare(it->time(), end_priority())==CGAL::LARGER) break;
       }
       set_front(it, front_.end(), Item::INF);
       std::vector<Item*> temp;
@@ -836,72 +958,81 @@ protected:
 #endif
 	//std::cout << "Dropping inf event " << &*c << std::endl;
       }
-
       front_.erase(it, front_.end());
+
+   
+    
       for (unsigned int i=0; i< temp.size(); ++i) {
 	unmake_event(temp[i]);
       }
-
-      it= front_.end(); --it;
-      split= NT(to_interval(tii_(it->time()).second).second);
-      //std::cout << "Special cased " << inf_.size() << " events.\n";
-    }
-    while (it->time() < split && it != front_.end()) ++it;
-
-    if (it != front_.end()) {
-
-      set_front(it, front_.end(), Item::BACK);
-      back_.splice(back_.begin(), front_, it, front_.end());
-      NT oub=ub_;
-
-      ub_ = NT(split);
-      //CGAL_assertion(!too_big(ub_));
-      //CGAL_assertion(ub_ <= end_split());
-      step_= oub-ub_;
-      CGAL_assertion(!ub_is_inf_);
-      CGAL_postcondition_code(if (step_<0) std::cerr << step_ << std::endl;);
-      CGAL_postcondition_code(if (step_<0) std::cerr << ub_ << std::endl;);
-      CGAL_postcondition_code(if (step_<0) std::cerr << oub << std::endl;);
-      CGAL_postcondition_code(if (step_<0) std::cerr << front_.back().time() << std::endl;);
-      CGAL_postcondition_code(if (step_==0) for (typename Queue::const_iterator it=front_.begin(); it != front_.end(); ++it) std::cout << *it << std::endl);
-      CGAL_postcondition(step_>=0);
+    } else {
+      while (CGAL::compare(it->time(), Priority(split)) != CGAL::LARGER
+	     && it != front_.end()) ++it;
+      
+      if (it != front_.end()) {
+	
+	set_front(it, front_.end(), Item::BACK);
+	back_.splice(back_.begin(), front_, it, front_.end());
+	double oub=ub_;
+	//all_in_front_=false;
+	ub_ = split;
+	//CGAL_assertion(!too_big(ub_));
+	//CGAL_assertion(ub_ <= end_split());
+	step_= std::abs(ub_-oub);
+	if (step_<=0) {
+	  /*if (dprint) std::cout << "fixing step since " << oub 
+	    << " equals new bound" << std::endl;*/
+	  CGAL_KINETIC_ERROR("Roundoff error in split " << split << " " << ub_ << " "
+			     <<  oub);
+	  step_=.00001;
+	}
+	//CGAL_assertion(!all_in_front_);
+	/*CGAL_postcondition_code(if (step_<0) std::cerr << step_ << std::endl;);
+	CGAL_postcondition_code(if (step_<0) std::cerr << ub_ << std::endl;);
+	CGAL_postcondition_code(if (step_<0) std::cerr << oub << std::endl;);
+	CGAL_postcondition_code(if (step_<0) std::cerr << front_.back().time() << std::endl;);
+	CGAL_postcondition_code(if (step_==0) for (typename Queue::const_iterator it=front_.begin(); it != front_.end(); ++it) std::cout << *it << std::endl);
+	CGAL_postcondition(step_>=0);*/
+      }
     }
   }
 
   /*NT end_split() const
-  {
+    {
     return end_split_;
     }*/
 
   /*const Priority& end_time() const
-  {
+    {
     return end_time_;
     }*/
 
   unsigned int max_front_size() const
   {
-    return 8U;
-    //return std::max(4U, static_cast<unsigned int>(std::sqrt(static_cast<double>(front_.size()+back_.size()))));
+    return TARGET;
+    //return (std::max)(4U, static_cast<unsigned int>(std::sqrt(static_cast<double>(front_.size()+back_.size()))));
   }
 
-  typename FK::To_isolating_interval tii_;
+  //typename FK::To_isolating_interval tii_;
   Queue front_, back_;
 #ifndef NDEBUG
   std::vector<Key> inf_;
 #endif
-  NT ub_, step_;
-  bool ub_is_inf_;
+  double ub_;
+  double step_;
+  //bool all_in_front_;
   Priority end_time_;
+  Key null_event_;
   //NT end_split_;
 };
 
-template <class D>
-std::ostream &operator<<(std::ostream &out, const Two_list_pointer_event_queue<D> &q)
+template <class D, unsigned int T, bool INF>
+std::ostream &operator<<(std::ostream &out, const Two_list_pointer_event_queue<D, INF, T> &q)
 {
   q.write(out);
   return out;
 }
 
 
-CGAL_KINETIC_END_NAMESPACE;
+CGAL_KINETIC_END_NAMESPACE
 #endif

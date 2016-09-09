@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH3.h $
-// $Id: VectorH3.h 29102 2006-03-06 23:51:27Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH3.h $
+// $Id: VectorH3.h 33113 2006-08-07 15:57:40Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -40,10 +40,11 @@ class VectorH3
   typedef typename R_::Ray_3                Ray_3;
   typedef typename R_::Line_3               Line_3;
   typedef typename R_::Direction_3          Direction_3;
-  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
   typedef Fourtuple<RT>                            Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
+
+  typedef Rational_traits<FT>               Rat_traits;
 
   Base base;
 
@@ -67,8 +68,24 @@ public:
   VectorH3(const Null_vector&)
     : base(RT(0), RT(0), RT(0), RT(1)) {}
 
+  VectorH3(int x, int y, int z)
+    : base(x, y, z, RT(1)) {}
+
   VectorH3(const RT& x, const RT& y, const RT& z)
     : base(x, y, z, RT(1)) {}
+
+  VectorH3(const FT& x, const FT& y, const FT& z)
+    : base(Rat_traits().numerator(x) * Rat_traits().denominator(y)
+                                     * Rat_traits().denominator(z),
+           Rat_traits().numerator(y) * Rat_traits().denominator(x)
+                                     * Rat_traits().denominator(z),
+           Rat_traits().numerator(z) * Rat_traits().denominator(x)
+                                     * Rat_traits().denominator(y),
+           Rat_traits().denominator(x) * Rat_traits().denominator(y)
+                                       * Rat_traits().denominator(z))
+  {
+    CGAL_kernel_assertion(hw() > 0);
+  }
 
   VectorH3(const RT& w, const RT& x, const RT& y, const RT& z);
 
@@ -86,7 +103,6 @@ public:
   int   dimension() const { return 3; };
 
   Direction_3 direction() const;
-  Vector_3 transform(const Aff_transformation_3& t ) const;
 
   Vector_3 operator-() const;
 
@@ -221,63 +237,6 @@ typename R::Vector_3
 VectorH3<R>::operator/(const typename VectorH3<R>::FT& f) const
 { return typename R::Vector_3(hx()*f.denominator(), hy()*f.denominator(),
 		              hz()*f.denominator(), hw()*f.numerator() ); }
-
-
-template < class R >
-inline
-typename R::Vector_3
-VectorH3<R>::
-transform(const typename VectorH3<R>::Aff_transformation_3&t ) const
-{ return t.transform(*this); }
-
-#ifndef CGAL_NO_OSTREAM_INSERT_VECTORH3
-template < class R >
-std::ostream& operator<<(std::ostream& os, const VectorH3<R>& v)
-{
-  switch(os.iword(IO::mode))
-  {
-    case IO::ASCII :
-        return os << v.hx() << ' ' << v.hy() << ' ' << v.hz() << ' ' << v.hw();
-    case IO::BINARY :
-        write(os, v.hx());
-        write(os, v.hy());
-        write(os, v.hz());
-        write(os, v.hw());
-        return os;
-    default:
-        return os << "VectorH3(" << v.hx() << ", "
-                                 << v.hy() << ", "
-                                 << v.hz() << ", "
-                                 << v.hw() << ')';
-  }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_VECTORH3
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_VECTORH3
-template < class R >
-std::istream& operator>>(std::istream& is, VectorH3<R>& v)
-{
-  typename R::RT hx, hy, hz, hw;
-  switch(is.iword(IO::mode))
-  {
-    case IO::ASCII :
-        is >> hx >> hy >> hz >> hw;
-        break;
-    case IO::BINARY :
-        read(is, hx);
-        read(is, hy);
-        read(is, hz);
-        read(is, hw);
-        break;
-    default:
-        std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-        break;
-  }
-  v = VectorH3<R>(hx, hy, hz, hw);
-  return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_VECTORH3
 
 CGAL_END_NAMESPACE
 

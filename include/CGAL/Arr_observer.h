@@ -11,13 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_observer.h $
-// $Id: Arr_observer.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_observer.h $
+// $Id: Arr_observer.h 37177 2007-03-17 08:48:10Z afabri $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
 #ifndef CGAL_ARR_OBSERVER_H
 #define CGAL_ARR_OBSERVER_H
+
+#include <CGAL/Arr_enums.h>
 
 /*! \file
  * Definition of the Arr_observer<Arrangement> base class.
@@ -156,7 +158,7 @@ public:
    * arrangement.
    * \param arr The arrangement to be copied.
    */
-  virtual void before_assign (const Arrangement_2& arr)
+  virtual void before_assign (const Arrangement_2& )
   {}
 
   /*!
@@ -234,6 +236,26 @@ public:
   {}
 
   /*!
+   * Notification before the creation of a new vertex at infinity.
+   * \param inf_x MINUS_INFINITY if this vertex lies at x = -oo;
+   *              PLUS_INFINITY if this vertex lies at x = +oo;
+   *              NO_BOUNDARY if the vertex has a finite x-coordinate.
+   * \param inf_y MINUS_INFINITY if this vertex lies at y = -oo;
+   *              PLUS_INFINITY if this vertex lies at y = +oo;
+   *              NO_BOUNDARY if the vertex has a finite y-coordinate.
+   */
+  virtual void before_create_vertex_at_infinity (Boundary_type /* inf_x */,
+                                                 Boundary_type /* inf_y */)
+  {}
+
+  /*!
+   * Notification after the creation of a new vertex at infinity.
+   * \param v A handle to the created vertex.
+   */
+  virtual void after_create_vertex_at_infinity (Vertex_handle /* v */)
+  {}
+
+  /*!
    * Notification before the creation of a new edge.
    * \param c The x-monotone curve to be associated with the edge.
    * \param v1 A handle to the first end-vertex of the edge.
@@ -303,6 +325,24 @@ public:
    */
   virtual void after_split_edge (Halfedge_handle /* e1 */,
                                  Halfedge_handle /* e2 */)
+  {}
+
+  /*!
+   * Notification before the splitting of a fictitious edge into two.
+   * \param e A handle to one of the existing halfedges.
+   * \param v A vertex representing the unbounded split point.
+   */
+  virtual void before_split_fictitious_edge (Halfedge_handle /* e */,
+                                             Vertex_handle /* v */)
+  {}
+
+  /*!
+   * Notification after a fictitious edge was split.
+   * \param e1 A handle to one of the twin halfedges forming the first edge.
+   * \param e2 A handle to one of the twin halfedges forming the second edge.
+   */
+  virtual void after_split_fictitious_edge (Halfedge_handle /* e1 */,
+                                            Halfedge_handle /* e2 */)
   {}
 
   /*!
@@ -398,6 +438,22 @@ public:
   {}
 
   /*!
+   * Notification before the merging of two fictitious edges.
+   * \param e1 A handle to one of the halfedges forming the first edge.
+   * \param e2 A handle to one of the halfedges forming the second edge.
+   */
+  virtual void before_merge_fictitious_edge (Halfedge_handle /* e1 */,
+                                             Halfedge_handle /* e2 */)
+  {}
+
+  /*!
+   * Notification after a fictitious edge was merged.
+   * \param e A handle to one of the twin halfedges forming the merged edge.
+   */
+  virtual void after_merge_fictitious_edge (Halfedge_handle /* e */)
+  {}
+
+  /*!
    * Notification before the merging of two faces.
    * \param f1 A handle to the first face.
    * \param f2 A handle to the second face.
@@ -484,6 +540,19 @@ public:
    * Notificaion after the removal of a vertex.
    */
   virtual void after_remove_vertex ()
+  {}
+
+  /*!
+   * Notificaion before the removal of a vertex at infinity.
+   * \param v A handle to the vertex to be deleted.
+   */
+  virtual void before_remove_vertex_at_infinity (Vertex_handle /* v */)
+  {}
+
+  /*!
+   * Notificaion after the removal of a vertex at infinity.
+   */
+  virtual void after_remove_vertex_at_infinity ()
   {}
 
   /*!

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/demo/Triangulation_2/triangulation_2_edit_vertex.h $
-// $Id: triangulation_2_edit_vertex.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/demo/Triangulation_2/triangulation_2_edit_vertex.h $
+// $Id: triangulation_2_edit_vertex.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Radu Ursu
 
@@ -112,14 +112,14 @@ private:
       current_v = v;
       wasrepainted = FALSE;
       on_first = FALSE;
-    }	
+    }
   };
   void mouseMoveEvent(QMouseEvent *e)  {
     if(on_first)   {
       FT x, y;
       widget->x_real(e->x(), x);
       widget->y_real(e->y(), y);
-		
+
       *widget << CGAL::GREEN << CGAL::PointSize (5)
 	      << CGAL::PointStyle (CGAL::DISC);
       if(!wasrepainted)
@@ -271,7 +271,7 @@ private:
        current_v = v;
        wasrepainted = FALSE;
        on_first = FALSE;
-    }	
+    }
   }
 
   void
@@ -283,7 +283,7 @@ private:
         FT x, y;
         widget->x_real(e->x(), x);
         widget->y_real(e->y(), y);
-    		
+
         *widget << CGAL::GREEN << CGAL::PointSize (5)
                 << CGAL::PointStyle (CGAL::DISC);
         if(!wasrepainted)

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2/Sweep_line_event.h $
-// $Id: Sweep_line_event.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Sweep_line_2/Sweep_line_event.h $
+// $Id: Sweep_line_event.h 35514 2006-12-11 15:34:13Z wein $
 // 
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>,
@@ -64,6 +64,8 @@ public:
  
   typedef std::pair<bool, SubCurveIter>                    Pair;
 
+  typedef typename Traits::Has_boundary_category           Has_boundary_category;
+
 
   /*! The type of the event */
   typedef enum 
@@ -82,7 +84,19 @@ public:
     
     WEAK_INTERSECTION = 32, // when a curve's end-point is on the interior
                            //of another curve (also may indicate overlap)
-    OVERLAP = 64 // end-point of an overlap subcurve
+    OVERLAP = 64, // end-point of an overlap subcurve
+
+    MINUS_INNO_BOUNDARY_X = 128,
+
+    NO_BOUNDARY_X = 256,
+
+    PLUS_INNO_BOUNDARY_X = 512,
+
+    MINUS_INNO_BOUNDARY_Y = 1024,
+
+    NO_BOUNDARY_Y = 2048,
+
+    PLUS_INNO_BOUNDARY_Y = 4096
 
   }Attribute;
 
@@ -101,10 +115,6 @@ public:
   ~Sweep_line_event() 
   {}
 
-
-  
-
-  
   void add_curve_to_left(SubCurve *curve)
   {
     // look for the curve, and if exists, nothing to do
@@ -141,7 +151,11 @@ public:
       return Pair(false, m_rightCurves.begin());
     }
 
-
+    //check if its an event an infinity, and if so then there's an overlap
+    //(there cannot be two non-overlap curves at the same event at infinity).
+    if(!this->is_finite())
+      return Pair(true, m_rightCurves.begin());
+ 
     SubCurveIter iter = m_rightCurves.begin();
     
     Comparison_result res;
@@ -274,13 +288,38 @@ public:
 
   /*! Returns the actual point of the event */
   const Point_2 &get_point() const {
+    CGAL_assertion(is_finite());
     return m_point;
   }
 
   /*! Returns the actual point of the event (non-const) */
   Point_2& get_point()
   {
+    CGAL_assertion(is_finite());
     return m_point;
+  }
+
+  const X_monotone_curve_2& get_unbounded_curve() const
+  {
+    CGAL_assertion(!this->is_finite());
+    
+    //the event cannot be isolated.
+    if(has_left_curves())
+      return m_leftCurves.front()->get_last_curve();
+
+    CGAL_assertion(has_right_curves());
+    return m_rightCurves.front()->get_last_curve();
+  }
+
+  X_monotone_curve_2& get_unbounded_curve()
+  {
+    CGAL_assertion(!this->is_finite());
+    //the event cannot be isolated.
+    if(has_left_curves())
+      return m_leftCurves.front()->get_last_curve();
+
+    CGAL_assertion(has_right_curves());
+    return m_rightCurves.front()->get_last_curve();
   }
 
   /*! change the point of the event. */
@@ -364,6 +403,115 @@ public:
     m_type |= type;
   }
 
+  void set_minus_infinite_x()
+  {
+    m_type |= MINUS_INNO_BOUNDARY_X;
+  }
+
+  void set_plus_infinite_x()
+  {
+    m_type |= PLUS_INNO_BOUNDARY_X;
+  }
+
+  void set_finite_x()
+  {
+    m_type |= NO_BOUNDARY_X;
+  }
+
+  void set_finite_y()
+  {
+    m_type |= NO_BOUNDARY_Y;
+  }
+
+  void set_finite()
+  {
+    m_type |= NO_BOUNDARY_X;
+    m_type |= NO_BOUNDARY_Y;
+
+  }
+
+  void set_minus_infinite_y()
+  {
+    m_type |= MINUS_INNO_BOUNDARY_Y;
+  }
+
+  void set_plus_infinite_y()
+  {
+    m_type |= PLUS_INNO_BOUNDARY_Y;
+  }
+
+  inline bool is_finite() const
+  {
+    return ((m_type & NO_BOUNDARY_X ) != 0) && ((m_type & NO_BOUNDARY_Y ) != 0);
+  }
+  /*inline bool is_finite() const
+  {
+    return is_finite_impl(Has_boundary_category());
+  }
+  inline bool is_finite_impl(Tag_false) const
+  {
+    return (true);
+  }
+
+  inline bool is_finite_impl(Tag_true) const
+  {
+    return ((m_type & NO_BOUNDARY_X ) != 0) && ((m_type & NO_BOUNDARY_Y ) != 0);
+  }*/
+
+  bool is_minus_boundary_in_x() const
+  {
+    return ((m_type & MINUS_INNO_BOUNDARY_X ) != 0);
+  }
+
+  bool is_plus_boundary_in_x() const
+  {
+    return ((m_type & PLUS_INNO_BOUNDARY_X ) != 0);
+  }
+
+  bool is_finite_in_x() const
+  {
+    return ((m_type & NO_BOUNDARY_X ) != 0);
+  }
+
+  bool is_finite_in_y() const
+  {
+    return ((m_type & NO_BOUNDARY_Y ) != 0);
+  }
+
+  bool is_minus_boundary_in_y() const
+  {
+    return ((m_type & MINUS_INNO_BOUNDARY_Y ) != 0);
+  }
+
+  bool is_plus_boundary_in_y() const
+  {
+    return ((m_type & PLUS_INNO_BOUNDARY_Y ) != 0);
+  }
+
+  Boundary_type infinity_at_x() const
+  {
+    if((m_type & MINUS_INNO_BOUNDARY_X ) != 0)
+      return MINUS_INFINITY;
+
+    if((m_type & PLUS_INNO_BOUNDARY_X ) != 0)
+      return PLUS_INFINITY;
+
+    CGAL_assertion((m_type & NO_BOUNDARY_X ) != 0);
+    return NO_BOUNDARY;
+  }
+
+  Boundary_type infinity_at_y() const
+  {
+    if((m_type & MINUS_INNO_BOUNDARY_Y ) != 0)
+      return MINUS_INFINITY;
+
+    if((m_type & PLUS_INNO_BOUNDARY_Y ) != 0)
+      return PLUS_INFINITY;
+
+    CGAL_assertion((m_type & NO_BOUNDARY_Y ) != 0);
+    return NO_BOUNDARY;
+  }
+
   
 
 
@@ -398,6 +546,36 @@ public:
     return true;
   }
 
+  bool are_left_neighbours(SubCurve* c1, SubCurve* c2)
+  {
+    SubCurveIter left_iter = m_leftCurves.begin();
+    for( ; left_iter != m_leftCurves.end(); ++left_iter)
+    {
+      if(*left_iter == c1)
+      {
+        SubCurveIter temp = left_iter;
+        ++temp;
+        if(temp!=m_leftCurves.end())
+        {
+          return (*temp == c2);
+        }
+        return false;
+      }
+
+      if(*left_iter == c2)
+      {
+        SubCurveIter temp = left_iter;
+        ++temp;
+        if(temp!=m_leftCurves.end())
+        {
+          return (*temp == c1);
+        }
+        return false;
+      }
+    }
+    
+    return false;
+  }
 
  
   
@@ -422,7 +600,7 @@ public:
   SubcurveContainer m_rightCurves;
 
   /*! */
-  char m_type;
+  int m_type;
 
 };
 
@@ -437,7 +615,39 @@ Sweep_line_event<SweepLineTraits_2, CurveWrap>::
 Print() 
 {
   std::cout << "\tEvent info: "  << "\n" ;
-  std::cout << "\t" << m_point << "\n" ;
+  if(this->is_finite())
+    std::cout << "\t" << m_point << "\n" ;
+  else
+  {
+    std::cout << "\t";
+    Boundary_type x = this->infinity_at_x(),
+                  y = this->infinity_at_y();
+    switch(x)
+    {
+    case MINUS_INFINITY:
+      std::cout<<" X = -00 ";
+      break;
+    case PLUS_INFINITY:
+      std::cout<<" X = +00 ";
+      break;
+    case NO_BOUNDARY:
+      {
+        switch(y)
+        {
+        case MINUS_INFINITY:
+          std::cout<<" Y = -00 ";
+          break;
+        case PLUS_INFINITY:
+          std::cout<<" Y = +00 ";
+          break;
+        case NO_BOUNDARY:
+          CGAL_assertion(false);
+        }
+      } 
+    }
+  }
+  std::cout<<"\n";
+
   std::cout << "\tLeft curves: \n" ;
   for ( SubCurveIter iter = m_leftCurves.begin() ;
         iter != m_leftCurves.end() ; ++iter )

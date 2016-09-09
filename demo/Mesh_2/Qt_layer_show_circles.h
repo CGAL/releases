@@ -12,9 +12,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/demo/Mesh_2/Qt_layer_show_circles.h $
-// $Id: Qt_layer_show_circles.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/demo/Mesh_2/Qt_layer_show_circles.h $
+// $Id: Qt_layer_show_circles.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Laurent Rineau
 
@@ -59,7 +59,7 @@ public:
     Qt_widget_layer::draw();
     do_erase = false;
   };
-  
+
   void mousePressEvent(QMouseEvent* e)
     {
       if (tr->dimension()<1) return;
@@ -73,7 +73,7 @@ public:
       Locate_type lt;
       Face_handle fh = tr->locate(p,lt,li);
       if(lt == T::FACE)
-	draw_circle(fh);	  
+	draw_circle(fh);
     };
 
   void mouseMoveEvent(QMouseEvent *e)
@@ -93,18 +93,18 @@ public:
 	  if(fh!=old_face)
 	    {
 	      widget->lock();
-	      
+
 	      if(do_erase) draw_circle(old_face);
 	      draw_circle(fh);
 	      old_face=fh;
-	      
+
 	      widget->unlock();
 	      do_erase=true;
 	    }
 	}
       else
 	{
-	  if(do_erase) 
+	  if(do_erase)
 	    draw_circle(old_face);
 	  do_erase=false;
 	}
@@ -113,7 +113,7 @@ public:
   void leaveEvent(QEvent* e)
     {
       Qt_widget_layer::leaveEvent(e);
-      if (tr->dimension()<1) return;      
+      if (tr->dimension()<1) return;
       if(do_erase)
 	draw_circle(old_face);
     };
@@ -126,15 +126,15 @@ private:
       QColor oldFillColor = widget->fillColor();
       int oldwidth = widget->lineWidth();
       bool oldFilled = widget->isFilled();
-      
+
       *widget << color;
       *widget << LineWidth(width) << FillColor(fillcolor);
       widget->setFilled(fill);
       widget->get_painter().setRasterOp(NotROP);
-      
+
       Point v=((*fh).vertex(0))->point();
       Point c=tr->circumcenter(fh);
-      
+
       *widget << Circle(c,squared_distance(v,c));
       widget->setColor(oldcolor);
       widget->setLineWidth(oldwidth);
@@ -147,12 +147,12 @@ private:
   T* tr;
   Face_handle  old_face;
   bool	       do_erase;
-  
+
   CGAL::Color color;
   int width;
   CGAL::Color fillcolor;
   bool fill;
-};//end class 
+};//end class
 
 } // namespace CGAL
 

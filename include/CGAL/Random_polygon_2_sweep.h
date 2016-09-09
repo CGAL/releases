@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Generator/include/CGAL/Random_polygon_2_sweep.h $
-// $Id: Random_polygon_2_sweep.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Generator/include/CGAL/Random_polygon_2_sweep.h $
+// $Id: Random_polygon_2_sweep.h 31423 2006-06-04 15:39:42Z wein $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -26,11 +26,11 @@
 #define CGAL_RANDOM_POLYGON_2_SWEEP_H
 
 #include <CGAL/enum.h>
-#include <CGAL/polygon_assertions.h>
+#include <CGAL/Polygon_2/polygon_assertions.h>
 #include <set>
 #include <vector>
 #include <algorithm>
-#include <CGAL/Polygon_2_simplicity.h>
+#include <CGAL/Polygon_2/Polygon_2_simplicity.h>
 
 /*
   A polygon is called simple of no edges intersect each other, except

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/global_functions_2.h $
-// $Id: global_functions_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel/global_functions_2.h $
+// $Id: global_functions_2.h 34893 2006-10-24 05:24:31Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -136,6 +136,15 @@ template < class K >
 inline
 typename K::Point_2
 circumcenter(const Point_2<K> &p,
+             const Point_2<K> &q)
+{
+  return CGALi::circumcenter(p, q, K());
+}
+
+template < class K >
+inline
+typename K::Point_2
+circumcenter(const Point_2<K> &p,
              const Point_2<K> &q,
              const Point_2<K> &r)
 {
@@ -195,6 +204,16 @@ compare_distance_to_point(const Point_2<K>& p,
                           const Point_2<K>& r)
 {
   return CGALi::compare_distance_to_point(p, q, r, K());
+}
+
+template <class K >
+inline
+Comparison_result
+compare_squared_distance(const Point_2<K>& p,
+                         const Point_2<K>& q,
+                         const typename K::FT& d2)
+{
+  return CGALi::compare_squared_distance(p, q, d2, K());
 }
 
 template <class K>
@@ -435,6 +454,22 @@ compare_y_at_x(const Line_2<K> &l1,
                const Line_2<K> &h2)
 {
   return CGALi::compare_y_at_x(l1, l2, h1, h2, K());
+}
+
+template < class K >
+inline
+Comparison_result
+compare_yx(const Point_2<K> &p, const Point_2<K> &q)
+{
+  return CGALi::compare_yx(p, q, K());
+}
+
+template < class K >
+inline
+typename K::FT
+determinant(const Vector_2<K> &v0, const Vector_2<K> &v1)
+{
+  return CGALi::determinant(v0, v1, K());
 }
 
 template <class K>

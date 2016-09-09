@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/function_objectsCd.h $
-// $Id: function_objectsCd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/function_objectsCd.h $
+// $Id: function_objectsCd.h 38827 2007-05-23 13:36:07Z spion $
 // 
 //
 // Author(s)     : Michael Seel, Kurt Mehlhorn
@@ -29,12 +29,12 @@
 #include <CGAL/enum.h>
 #endif
 
-#undef TRACE
-#undef TRACEN
-#undef TRACEV
-#define TRACE(t)  std::cerr << t
-#define TRACEN(t) std::cerr << t << std::endl
-#define TRACEV(t) std::cerr << #t << " = " << (t) << std::endl
+#undef CGAL_KD_TRACE
+#undef CGAL_KD_TRACEN
+#undef CGAL_KD_TRACEV
+#define CGAL_KD_TRACE(t)  std::cerr << t
+#define CGAL_KD_TRACEN(t) std::cerr << t << std::endl
+#define CGAL_KD_TRACEV(t) std::cerr << #t << " = " << (t) << std::endl
  
 CGAL_BEGIN_NAMESPACE
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_meta_traits.h $
-// $Id: Gps_agg_meta_traits.h 28831 2006-02-27 14:28:18Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_meta_traits.h $
+// $Id: Gps_agg_meta_traits.h 37148 2007-03-16 09:01:19Z afabri $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -128,6 +128,9 @@ class Gps_agg_meta_traits :
   public:
   typedef typename Base::X_monotone_curve_2       X_monotone_curve_2;
   typedef typename Base::Point_2                  Point_2;
+  typedef typename Traits::Has_left_category      Has_left_category;
+  typedef typename Traits::Has_boundary_category  Has_boundary_category;
+  typedef typename Traits::Has_merge_category     Has_merge_category;
 
   typedef typename Base::Curve_data               Curve_data;
   typedef typename Base::Point_data               Point_data;
@@ -136,6 +139,8 @@ class Gps_agg_meta_traits :
   typedef typename Arrangement::Vertex_handle     Vertex_handle;
 
 
+  Gps_agg_meta_traits()
+  {}
 
   Gps_agg_meta_traits(Traits& base_tr) : Base(base_tr)
   {}
@@ -156,10 +161,10 @@ class Gps_agg_meta_traits :
     Intersect_2 (const Base_Intersect_2& base,
                  const Base_Compare_endpoints_xy_2& base_cmp_endpoints,
                  const Base_Compare_xy_2& base_cmp_xy,
-                 const Base_Construct_min_vertex_2& ctr_min_v) : 
+                 const Base_Construct_min_vertex_2&) : 
       m_base(base),
-      m_base_cmp_endpoints(m_base_cmp_endpoints),
-      m_base_cmp_xy(m_base_cmp_xy)
+      m_base_cmp_endpoints(base_cmp_endpoints),
+      m_base_cmp_xy(base_cmp_xy)
     {}
 
     template<class OutputIterator>

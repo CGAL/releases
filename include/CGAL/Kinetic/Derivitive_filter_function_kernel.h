@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Derivitive_filter_function_kernel.h $
-// $Id: Derivitive_filter_function_kernel.h 28701 2006-02-22 19:40:46Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Derivitive_filter_function_kernel.h $
+// $Id: Derivitive_filter_function_kernel.h 35772 2007-01-22 18:36:00Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -32,7 +32,7 @@ struct Derivitive_filter_function_kernel: public Traits
   typedef typename Traits::Function Function;
   
   typedef CGAL::POLYNOMIAL::Numeric_root_stack<Traits,
-					       CGAL::POLYNOMIAL::internal::Turkowski_cleaned_numeric_solver> Root_stack;
+					       CGAL_DEFAULT_CLEANED_NUMERIC_SOLVER> Root_stack;
   /*class Root_stack: public CGAL_POLYNOMIAL_NS::internal::Numeric_root_stack_core<Traits, true> {
     typedef CGAL_POLYNOMIAL_NS::internal::Numeric_root_stack_core<Traits, true> Parent;
     public:
@@ -67,13 +67,13 @@ struct Derivitive_filter_function_kernel: public Traits
 
   using Traits::Rational_between_roots;
   using Traits::rational_between_roots_object;
-  using Traits::Is_rational;
-  using Traits::is_rational_object;
-  using Traits::To_rational;
-  using Traits::to_rational_object;
+  //  using Traits::Is_rational;
+  //using Traits::is_rational_object;
+  //using Traits::To_rational;
+  //using Traits::to_rational_object;
   using Traits::Root_stack_traits;
   using Traits::root_stack_traits_object;
-  using Traits::NT;
+  using Traits::FT;
   using Traits::differentiate_object;
   using Traits::Differentiate;
   using Traits::Negate_variable;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesher/include/CGAL/Complex_2_in_triangulation_vertex_base_3.h $
-// $Id: Complex_2_in_triangulation_vertex_base_3.h 29226 2006-03-09 08:31:02Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Complex_2_in_triangulation_vertex_base_3.h $
+// $Id: Complex_2_in_triangulation_vertex_base_3.h 32408 2006-07-12 00:10:41Z lrineau $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -22,6 +22,10 @@
 
 #ifndef CGAL_COMPLEX_2_IN_TRIANGULATION_VERTEX_BASE_3_H
 #define CGAL_COMPLEX_2_IN_TRIANGULATION_VERTEX_BASE_3_H
+
+#ifndef CGAL_SURFACE_MESH_VERTEX_BASE_3_H
+#error You must include <CGAL/Surface_mesh_vertex_base_3.h> instead.
+#endif
 
 #include <CGAL/Triangulation_vertex_base_3.h>
 
@@ -84,6 +88,14 @@ namespace CGAL {
     {
       return number_of_components_;
     }
+
+#ifdef CGAL_MESH_3_IO_H
+    static
+    std::string io_signature()
+    {
+      return Get_io_signature<Vb>()();
+    }
+#endif
 
   };  // end Complex_2_in_triangulation_vertex_base_3
 

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Distance_3/include/CGAL/squared_distance_3_0.h $
-// $Id: squared_distance_3_0.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Distance_3/include/CGAL/squared_distance_3_0.h $
+// $Id: squared_distance_3_0.h 36693 2007-02-28 16:57:06Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman, Andreas Fabri
@@ -188,12 +188,9 @@ inline
 typename K::FT
 squared_distance(const typename CGAL_WRAP(K)::Point_3 & pt1,
 		 const typename CGAL_WRAP(K)::Point_3 & pt2, 
-		 const K&)
-{  
-  typename K::Construct_vector_3 construct_vector;
-  typedef typename K::Vector_3 Vector_3;
-  Vector_3 vec = construct_vector(pt2, pt1);
-  return vec*vec;
+		 const K& k)
+{
+  return k.compute_squared_distance_3_object()(pt1, pt2);
 }
 
 
@@ -233,7 +230,7 @@ inline
 bool
 same_direction_tag(const typename CGAL_WRAP(K)::Vector_3 &u,
 		   const typename CGAL_WRAP(K)::Vector_3 &v,
-		   const K& k,
+		   const K&,
 		   const Cartesian_tag&)
 { 
   typedef typename K::FT FT;
@@ -261,7 +258,7 @@ inline
 bool
 same_direction_tag(const typename CGAL_WRAP(K)::Vector_3 &u,
 		   const typename CGAL_WRAP(K)::Vector_3 &v,
-		   const K& k,
+		   const K&,
 		   const Homogeneous_tag&)
 {   
   typedef typename K::RT RT;

@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Basic_predicates_C2.h $
-// $Id: Basic_predicates_C2.h 29304 2006-03-09 18:19:15Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Basic_predicates_C2.h $
+// $Id: Basic_predicates_C2.h 37034 2007-03-12 17:34:47Z hemmer $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -24,8 +24,8 @@
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_BASIC_PREDICATES_C2_H
 
 
+#include <CGAL/Segment_Delaunay_graph_2/basic.h>
 #include <CGAL/enum.h>
-#include <CGAL/Number_type_traits.h>
 #include <CGAL/Segment_Delaunay_graph_2/Sqrt_extension_1.h>
 #include <CGAL/Segment_Delaunay_graph_2/Sqrt_extension_2.h>
 
@@ -33,28 +33,36 @@
 
 CGAL_BEGIN_NAMESPACE
 
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
 
 template<class K>
-struct Sdg_basic_predicates_C2
+struct Basic_predicates_C2
 {
 public:
   //-------------------------------------------------------------------
   // TYPES
   //-------------------------------------------------------------------
 
-  typedef typename K::RT         RT;
-  typedef typename K::FT         FT;
-  typedef typename K::Point_2    Point_2;
-  typedef typename K::Segment_2  Segment_2;
-  typedef typename K::Site_2     Site_2;
+  typedef typename K::RT                  RT;
+  typedef typename K::FT                  FT;
+  typedef typename K::Point_2             Point_2;
+  typedef typename K::Segment_2           Segment_2;
+  typedef typename K::Site_2              Site_2;
+  typedef typename K::Oriented_side       Oriented_side;
+  typedef typename K::Comparison_result   Comparison_result;
+  typedef typename K::Sign                Sign;
+  typedef typename K::Orientation         Orientation;
 
   typedef CGAL::Sqrt_extension_1<RT>       Sqrt_1;
   typedef CGAL::Sqrt_extension_2<RT>       Sqrt_2;
   typedef CGAL::Sqrt_extension_2<Sqrt_1>   Sqrt_3;
-
-  typedef typename Number_type_traits<RT>::Has_sqrt  RT_Has_sqrt;
-  typedef typename Number_type_traits<FT>::Has_sqrt  FT_Has_sqrt;
-
+private:
+    typedef typename Algebraic_structure_traits<RT>::Algebraic_category RT_Category;
+    typedef typename Algebraic_structure_traits<FT>::Algebraic_category FT_Category;
+public:
+    typedef Boolean_tag<CGAL::is_same_or_derived<Field_with_sqrt_tag,RT_Category>::value>  RT_Has_sqrt;
+    typedef Boolean_tag<CGAL::is_same_or_derived<Field_with_sqrt_tag,FT_Category>::value>  FT_Has_sqrt;
+ 
   static const RT_Has_sqrt& rt_has_sqrt() {
     static RT_Has_sqrt has_sqrt;
     return has_sqrt;
@@ -325,7 +333,11 @@ public:
       CGAL::sign(l.a() * p.hx() + l.b() * p.hy() + l.c() * p.hw());
     Sign s_hw = CGAL::sign(p.hw());
 
-    Sign s = Sign(s1 * s_hw);
+#ifdef CGAL_CFG_NO_OPERATOR_TIMES_FOR_SIGN
+    Sign s = CGAL::Sign(s1 * s_hw);
+#else
+    Sign s = s1 * s_hw;
+#endif
 
     if ( s == ZERO ) { return ON_ORIENTED_BOUNDARY; }
     return ( s == POSITIVE ) ? ON_POSITIVE_SIDE : ON_NEGATIVE_SIDE;
@@ -346,6 +358,8 @@ public:
 
 };
 
+
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
 
 CGAL_END_NAMESPACE
 

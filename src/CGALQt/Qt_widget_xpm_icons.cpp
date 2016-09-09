@@ -1,8 +1,5 @@
-// Copyright (c) 1997-2003  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2002-2004  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Qt_widget/src/CGALQt/Qt_widget_xpm_icons.cpp $
-// $Id: Qt_widget_xpm_icons.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Qt_widget/src/CGALQt/Qt_widget_xpm_icons.cpp $
+// $Id: Qt_widget_xpm_icons.cpp 38797 2007-05-22 13:20:58Z lrineau $
 // 
 //
 // Author(s)     : Radu Ursu <rursu@geometryfactory.com>
@@ -2081,30 +2078,24 @@ const char * zoomout_xpm[] = {
 /* XPM */
 const char * demoicon_xpm[] = {
 /* columns rows colors chars-per-pixel */
-"16 16 7 1",
-"  c black",
-". c #040404",
-"X c #333399",
-"o c #3300CC",
-"O c #0066FF",
-"+ c #0099FF",
-"@ c #FFFF99",
+"16 16 3 1",
+" 	c None",
+".	c #FFFF00",
+"+	c #000000",
 /* pixels */
-"+++OOOOOOOOOOOOO",
-"o@@@@@@@@@@@@@@O",
-"o@@@@@@@@@@@@@@O",
-"o@@@@@@@@@@@@@@O",
-"o@@@@@@@@@@@@@@O",
-"o@. @@@@@@@@@.@O",
-"X..@ @@@@@..@.@O",
-"o  @@@..@@@.@.@O",
-"o..@@ @ @...@.@O",
-"o..@..@.@.@.@.@O",
-"o@..@...@...@...",
-"o@@@@@@.@@@@@@@O",
-"o@@@@@..@@@@@@@O",
-"o@@@@@@@@@@@@@@O",
-"o@@@@@@@@@@@@@@O",
-"oooooooooooooooo"
-};
-
+"................",
+"...++++...++++..",
+"..+....+.+....+.",
+"..+......+......",
+"..+......+..+++.",
+"..+......+....+.",
+"..+....+.+....+.",
+"...++++...++++..",
+"................",
+"...++++...+.....",
+"..+....+..+.....",
+"..+....+..+.....",
+"..++++++..+.....",
+"..+....+..+.....",
+"..+....+..+++++.",
+"................"};

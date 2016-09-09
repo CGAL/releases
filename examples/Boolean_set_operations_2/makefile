@@ -34,48 +34,58 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                ex_circle_segment$(EXE_EXT) \
-                ex_do_intersect$(EXE_EXT) \
-                ex_dxf_union$(EXE_EXT) \
-                ex_sequence$(EXE_EXT) \
-                ex_set_union$(EXE_EXT) \
-                ex_simple_join_intersect$(EXE_EXT) \
-                ex_symmetric_difference$(EXE_EXT) \
-                ex_traits_adapter$(EXE_EXT) 
+                bezier_traits_adapter$(EXE_EXT) \
+                circle_segment$(EXE_EXT) \
+                conic_traits_adapter$(EXE_EXT) \
+                connect_polygon$(EXE_EXT) \
+                do_intersect$(EXE_EXT) \
+                dxf_union$(EXE_EXT) \
+                sequence$(EXE_EXT) \
+                set_union$(EXE_EXT) \
+                simple_join_intersect$(EXE_EXT) \
+                symmetric_difference$(EXE_EXT) 
 
-ex_circle_segment$(EXE_EXT): ex_circle_segment$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_circle_segment ex_circle_segment$(OBJ_EXT) $(LDFLAGS)
+bezier_traits_adapter$(EXE_EXT): bezier_traits_adapter$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)bezier_traits_adapter bezier_traits_adapter$(OBJ_EXT) $(LDFLAGS)
 
-ex_do_intersect$(EXE_EXT): ex_do_intersect$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_do_intersect ex_do_intersect$(OBJ_EXT) $(LDFLAGS)
+circle_segment$(EXE_EXT): circle_segment$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)circle_segment circle_segment$(OBJ_EXT) $(LDFLAGS)
 
-ex_dxf_union$(EXE_EXT): ex_dxf_union$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_dxf_union ex_dxf_union$(OBJ_EXT) $(LDFLAGS)
+conic_traits_adapter$(EXE_EXT): conic_traits_adapter$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)conic_traits_adapter conic_traits_adapter$(OBJ_EXT) $(LDFLAGS)
 
-ex_sequence$(EXE_EXT): ex_sequence$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_sequence ex_sequence$(OBJ_EXT) $(LDFLAGS)
+connect_polygon$(EXE_EXT): connect_polygon$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)connect_polygon connect_polygon$(OBJ_EXT) $(LDFLAGS)
 
-ex_set_union$(EXE_EXT): ex_set_union$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_set_union ex_set_union$(OBJ_EXT) $(LDFLAGS)
+do_intersect$(EXE_EXT): do_intersect$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)do_intersect do_intersect$(OBJ_EXT) $(LDFLAGS)
 
-ex_simple_join_intersect$(EXE_EXT): ex_simple_join_intersect$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_simple_join_intersect ex_simple_join_intersect$(OBJ_EXT) $(LDFLAGS)
+dxf_union$(EXE_EXT): dxf_union$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)dxf_union dxf_union$(OBJ_EXT) $(LDFLAGS)
 
-ex_symmetric_difference$(EXE_EXT): ex_symmetric_difference$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_symmetric_difference ex_symmetric_difference$(OBJ_EXT) $(LDFLAGS)
+sequence$(EXE_EXT): sequence$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)sequence sequence$(OBJ_EXT) $(LDFLAGS)
 
-ex_traits_adapter$(EXE_EXT): ex_traits_adapter$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ex_traits_adapter ex_traits_adapter$(OBJ_EXT) $(LDFLAGS)
+set_union$(EXE_EXT): set_union$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)set_union set_union$(OBJ_EXT) $(LDFLAGS)
+
+simple_join_intersect$(EXE_EXT): simple_join_intersect$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)simple_join_intersect simple_join_intersect$(OBJ_EXT) $(LDFLAGS)
+
+symmetric_difference$(EXE_EXT): symmetric_difference$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)symmetric_difference symmetric_difference$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   ex_circle_segment.clean \
-                   ex_do_intersect.clean \
-                   ex_dxf_union.clean \
-                   ex_sequence.clean \
-                   ex_set_union.clean \
-                   ex_simple_join_intersect.clean \
-                   ex_symmetric_difference.clean \
-                   ex_traits_adapter.clean 
+                   bezier_traits_adapter.clean \
+                   circle_segment.clean \
+                   conic_traits_adapter.clean \
+                   connect_polygon.clean \
+                   do_intersect.clean \
+                   dxf_union.clean \
+                   sequence.clean \
+                   set_union.clean \
+                   simple_join_intersect.clean \
+                   symmetric_difference.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

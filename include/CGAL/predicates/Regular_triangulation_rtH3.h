@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/predicates/Regular_triangulation_rtH3.h $
-// $Id: Regular_triangulation_rtH3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/predicates/Regular_triangulation_rtH3.h $
+// $Id: Regular_triangulation_rtH3.h 32441 2006-07-12 12:03:52Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -82,9 +82,5 @@ power_testH3(
 // prone to write, so we use the Cartesian version, using FT.
 
 CGAL_END_NAMESPACE
-
-#ifdef CGAL_ARITHMETIC_FILTER_H
-#include <CGAL/Arithmetic_filter/predicates/Regular_triangulation_rtH3.h>
-#endif
 
 #endif // CGAL_REGULAR_TRIANGULATION_RTH3_H

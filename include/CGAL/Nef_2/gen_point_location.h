@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Nef_2/gen_point_location.h $
-// $Id: gen_point_location.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/gen_point_location.h $
+// $Id: gen_point_location.h 33222 2006-08-10 15:14:32Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -22,7 +22,11 @@
 #define GEN_POINT_LOCATION_H
 
 #include <CGAL/LEDA_basic.h>
+#if CGAL_LEDA_VERSION < 500
 #include <LEDA/pp_dictionary.h>
+#else
+#include <LEDA/core/pp_dictionary.h>
+#endif
 #include <sstream>
 #include <string>
 #include <list>

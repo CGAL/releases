@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/enum.h $
-// $Id: enum.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/enum.h $
+// $Id: enum.h 32884 2006-08-01 21:29:53Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -31,43 +31,32 @@
 CGAL_BEGIN_NAMESPACE
 
 enum  Sign
-      {
-        NEGATIVE   = -1,
-        ZERO,
-        POSITIVE
-      };
+{
+    NEGATIVE = -1, ZERO = 0, POSITIVE = 1,
+
+    // Orientation constants:
+    RIGHT_TURN = -1, LEFT_TURN = 1,
+
+    CLOCKWISE = -1, COUNTERCLOCKWISE = 1,
+
+    COLLINEAR = 0, COPLANAR = 0, DEGENERATE = 0,
+
+    // Oriented_side constants:
+    ON_NEGATIVE_SIDE = -1, ON_ORIENTED_BOUNDARY = 0, ON_POSITIVE_SIDE = 1,
+
+    // Comparison_result constants:
+    SMALLER = -1, EQUAL = 0, LARGER = 1
+};
 
 typedef Sign Orientation;
-
-const Orientation  LEFT_TURN  = POSITIVE;
-const Orientation  RIGHT_TURN = NEGATIVE;
-
-const Orientation  CLOCKWISE  = NEGATIVE;
-const Orientation  COUNTERCLOCKWISE = POSITIVE;
-
-const Orientation  COLLINEAR  = ZERO;
-const Orientation  COPLANAR   = ZERO;
-const Orientation  DEGENERATE = ZERO;
-
-enum  Oriented_side
-      {
-        ON_NEGATIVE_SIDE = -1,
-        ON_ORIENTED_BOUNDARY,
-        ON_POSITIVE_SIDE
-      };
+typedef Sign Oriented_side;
+typedef Sign Comparison_result;
 
 enum  Bounded_side
       {
         ON_UNBOUNDED_SIDE = -1,
         ON_BOUNDARY,
         ON_BOUNDED_SIDE
-      };
-
-enum  Comparison_result
-      {
-        SMALLER   = -1,
-        EQUAL,
-        LARGER
       };
 
 enum  Angle

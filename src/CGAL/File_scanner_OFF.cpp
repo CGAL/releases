@@ -15,29 +15,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Stream_support/src/CGAL/File_scanner_OFF.cpp $
-// $Id: File_scanner_OFF.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Stream_support/src/CGAL/File_scanner_OFF.cpp $
+// $Id: File_scanner_OFF.cpp 35787 2007-01-24 17:16:05Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif // CGAL_BASIC_H
-#ifndef CGAL_PROTECT_CSTDLIB
 #include <cstdlib>
-#define CGAL_PROTECT_CSTDLIB
-#endif
-#ifndef CGAL_PROTECT_IOSTREAM
 #include <iostream>
-#define CGAL_PROTECT_IOSTREAM
-#endif
-#ifndef CGAL_IO_BINARY_FILE_IO_H
 #include <CGAL/IO/binary_file_io.h>
-#endif // CGAL_IO_BINARY_FILE_IO_H
-#ifndef CGAL_IO_FILE_SCANNER_OFF_H
 #include <CGAL/IO/File_scanner_OFF.h>
-#endif // CGAL_IO_FILE_SCANNER_OFF_H
 
 CGAL_BEGIN_NAMESPACE
 

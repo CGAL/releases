@@ -11,14 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/include/CGAL/Orthogonal_k_neighbor_search.h $
-// $Id: Orthogonal_k_neighbor_search.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Spatial_searching/include/CGAL/Orthogonal_k_neighbor_search.h $
+// $Id: Orthogonal_k_neighbor_search.h 36334 2007-02-15 21:24:48Z spion $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
 
-#ifndef  ORTHOGONAL_K_NEIGHBOR_SEARCH_H
-#define  ORTHOGONAL_K_NEIGHBOR_SEARCH_H
+#ifndef CGAL_ORTHOGONAL_K_NEIGHBOR_SEARCH_H
+#define CGAL_ORTHOGONAL_K_NEIGHBOR_SEARCH_H
+
 #include <cstring>
 #include <list>
 #include <queue>
@@ -241,15 +242,8 @@ namespace CGAL {
 	}
     }
 
-    
-    
-   
-
   }; // class 
-
-
 
 } // namespace CGAL
 
-
-#endif  // ORTHOGONAL_K_NEIGHBOR_SEARCH
+#endif  // CGAL_ORTHOGONAL_K_NEIGHBOR_SEARCH_H

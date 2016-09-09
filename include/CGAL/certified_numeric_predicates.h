@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/include/CGAL/certified_numeric_predicates.h $
-// $Id: certified_numeric_predicates.h 31990 2006-06-20 18:56:09Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/certified_numeric_predicates.h $
+// $Id: certified_numeric_predicates.h 36742 2007-03-01 18:29:19Z spion $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -35,6 +35,12 @@ template <class NT>
 inline Uncertain<bool> certified_is_zero(const NT& x)
 {
   return CGAL_NTS is_valid(x) ? make_uncertain(CGAL_NTS is_zero(x)) : Uncertain<bool>::indeterminate() ; 
+}
+
+template <class NT>
+inline Uncertain<bool> certified_is_not_zero(const NT& x)
+{
+  return CGAL_NTS is_valid(x) ? make_uncertain(!CGAL_NTS is_zero(x)) : Uncertain<bool>::indeterminate() ; 
 }
 
 template <class NT>

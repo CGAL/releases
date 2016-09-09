@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Point_2.h $
-// $Id: Point_2.h 29078 2006-03-06 13:08:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Point_2.h $
+// $Id: Point_2.h 33152 2006-08-08 15:38:23Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -28,6 +28,7 @@
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Twotuple.h>
 #include <CGAL/Handle_for.h>
+#include <CGAL/constant.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -38,16 +39,14 @@ class PointC2
   typedef typename R_::FT                   FT;
   typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Point_2              Point_2;
-  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
   typedef Twotuple<FT>	                           Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
 
-  static FT one;
-
 public:
+
   typedef const FT* Cartesian_const_iterator;
   
   typedef R_                                     R;
@@ -88,7 +87,7 @@ public:
   }
   const FT& hw() const
   {
-      return one;
+      return constant<FT, 1>();
   }
 
 
@@ -115,18 +114,7 @@ public:
       return !(*this == p);
   }
 
-
-  Point_2 transform(const Aff_transformation_2 &t) const
-  {
-    return t.transform(static_cast<const Point_2&>(*this));
-  }
 };
-
-template <class R >
-typename R::FT PointC2<R>::one = 1;
-
-
-
 
 CGAL_END_NAMESPACE
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Partition_2/include/CGAL/partition_2.h $
-// $Id: partition_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Partition_2/include/CGAL/partition_2.h $
+// $Id: partition_2.h 31311 2006-05-29 08:30:22Z wein $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -20,11 +20,10 @@
 #ifndef CGAL_PARTITION_H
 #define CGAL_PARTITION_H
 
-#include <CGAL/partition_greene_approx_convex_2.h>
-#include <CGAL/partition_optimal_convex_2.h>
-#include <CGAL/partition_approx_convex_2.h>
-#include <CGAL/partition_y_monotone_2.h>
-
+#include <CGAL/Partition_2/partition_greene_approx_convex_2.h>
+#include <CGAL/Partition_2/partition_optimal_convex_2.h>
+#include <CGAL/Partition_2/partition_approx_convex_2.h>
+#include <CGAL/Partition_2/partition_y_monotone_2.h>
 
 namespace CGAL {
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Triangulation_hierarchy_2.h $
-// $Id: Triangulation_hierarchy_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_hierarchy_2.h $
+// $Id: Triangulation_hierarchy_2.h 37832 2007-04-02 20:40:18Z spion $
 // 
 //
 // Author(s)     : Olivier Devillers <Olivivier.Devillers@sophia.inria.fr>
@@ -52,6 +52,10 @@ class Triangulation_hierarchy_2
   typedef typename Tr_Base::Finite_vertices_iterator  Finite_vertices_iterator;
   //typedef typename Tr_Base::Finite_faces_iterator     Finite_faces_iterator;
 
+#ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2
+  using Tr_Base::geom_traits;
+#endif
+
  private:
   // here is the stack of triangulations which form the hierarchy
   Tr_Base*   hierarchy[Triangulation_hierarchy_2__maxlevel];
@@ -70,9 +74,7 @@ public:
     for(int i=1;i<Triangulation_hierarchy_2__maxlevel;++i)
       hierarchy[i] = new Tr_Base(traits);
 
-    for (InputIterator it = first; it != beyond; ++it) {
-      insert(*it);
-    }
+    insert (first, beyond);
   }
 
   Triangulation_hierarchy_2 &operator=(const  Triangulation_hierarchy_2& tr);
@@ -97,10 +99,16 @@ public:
   int insert(InputIterator first, InputIterator last)
     {
       int n = this->number_of_vertices();
-      while(first != last){
-	insert(*first);
-	++first;
-      }
+
+      std::vector<Point> points CGAL_make_vector(first, last);
+      std::random_shuffle (points.begin(), points.end());
+      CGAL::spatial_sort (points.begin(), points.end(), geom_traits());
+
+      Face_handle hint;
+      for (typename std::vector<Point>::const_iterator p = points.begin();
+              p != points.end(); ++p)
+          hint = insert (*p, hint)->face();
+
       return this->number_of_vertices() - n;
     }
 
@@ -124,6 +132,7 @@ private:
   void  locate_in_all(const Point& p,
 		      Locate_type& lt,
 		      int& li,
+		      Face_handle loc,
 		      Face_handle
 		      pos[Triangulation_hierarchy_2__maxlevel]) const;
   int random_level();
@@ -144,7 +153,7 @@ private:
   
   
   void add_hidden_vertices_into_map(Tag_false ,
-				    std::map<Vertex_handle,Vertex_handle >& V)
+				    std::map<Vertex_handle,Vertex_handle >& )
   {return;}
 };
 
@@ -320,15 +329,14 @@ is_valid(bool verbose, int level) const
 template <class Tr>
 typename Triangulation_hierarchy_2<Tr>::Vertex_handle
 Triangulation_hierarchy_2<Tr>::
-insert(const Point &p, Face_handle)
+insert(const Point &p, Face_handle loc)
 {
   int vertex_level = random_level();
   Locate_type lt;
   int i;
   // locate using hierarchy
   Face_handle positions[Triangulation_hierarchy_2__maxlevel];
-  locate_in_all(p,lt,i,positions);
-  //insert at level 0
+  locate_in_all(p,lt,i,loc,positions);
   Vertex_handle vertex=hierarchy[0]->Tr_Base::insert(p,lt,positions[0],i);
   Vertex_handle previous=vertex;
   Vertex_handle first = vertex;
@@ -363,7 +371,7 @@ insert(const Point& p,
     Locate_type ltt;
     int lii;
     Face_handle positions[Triangulation_hierarchy_2__maxlevel];
-    locate_in_all(p,ltt,lii,positions);
+    locate_in_all(p,ltt,lii,loc,positions);
     //insert in higher levels
     int level  = 1;
     while (level <= vertex_level ){
@@ -430,21 +438,21 @@ remove_second(Vertex_handle v )
 template <class Tr>
 typename Triangulation_hierarchy_2<Tr>::Face_handle 
 Triangulation_hierarchy_2<Tr>::
-locate(const Point& p, Locate_type& lt, int& li, Face_handle) const
+locate(const Point& p, Locate_type& lt, int& li, Face_handle loc) const
 {
   Face_handle positions[Triangulation_hierarchy_2__maxlevel];
-  locate_in_all(p,lt,li,positions);
+  locate_in_all(p,lt,li,loc,positions);
   return positions[0];
 }
 
 template <class Tr>
 typename Triangulation_hierarchy_2<Tr>::Face_handle 
 Triangulation_hierarchy_2<Tr>::
-locate(const Point& p, Face_handle ) const
+locate(const Point& p, Face_handle loc ) const
 {
   Locate_type lt;
   int li;
-  return locate(p, lt, li);
+  return locate(p, lt, li, loc);
 }
 
 template <class Tr>
@@ -453,6 +461,7 @@ Triangulation_hierarchy_2<Tr>::
 locate_in_all(const Point& p,
     Locate_type& lt,
     int& li,
+    Face_handle loc,
     Face_handle pos[Triangulation_hierarchy_2__maxlevel]) const
 {
   Face_handle position;
@@ -461,39 +470,50 @@ locate_in_all(const Point& p,
   typename Geom_traits::Compare_distance_2 
     closer = this->geom_traits().compare_distance_2_object();
 
-  // find the highest level with enough vertices
-  while (hierarchy[--level]->number_of_vertices() 
-	 < static_cast<size_type> (Triangulation_hierarchy_2__minsize )){
+  // find the highest level with enough vertices that is at the same time 2D
+  while ( (hierarchy[--level]->number_of_vertices() 
+	   < static_cast<size_type> (Triangulation_hierarchy_2__minsize ))
+	  || (hierarchy[level]->dimension()<2) ){
     if ( ! level) break;  // do not go below 0
   }
+  if((level>0) && (hierarchy[level]->dimension()<2)){ 
+    level--;
+  }
+
   for (int i=level+1; i<Triangulation_hierarchy_2__maxlevel;++i) pos[i]=0;
   while(level > 0) {
     pos[level]=position=hierarchy[level]->locate(p,position);  
     // locate at that level from "position"
     // result is stored in "position" for the next level
     // find the nearest between vertices 0 and 1
-    if (hierarchy[level]->is_infinite(position->vertex(0)))
+    if (hierarchy[level]->is_infinite(position->vertex(0))){
+
       nearest = position->vertex(1);
-    else if (hierarchy[level]->is_infinite(position->vertex(1)))
+    }
+    else if (hierarchy[level]->is_infinite(position->vertex(1))){
       nearest = position->vertex(0);
-     else if ( closer(p,
+}     else if ( closer(p,
 		      position->vertex(0)->point(),
-		      position->vertex(1)->point()) == SMALLER)
+		       position->vertex(1)->point()) == SMALLER){
       nearest = position->vertex(0);
-    else
+}
+    else{
       nearest = position->vertex(1);
+}
     // compare to vertex 2, but only if the triangulation is 2D, because otherwise vertex(2) is  NULL
-    if ( (hierarchy[level]->dimension()==2) && (!  hierarchy[level]->is_infinite(position->vertex(2))))
+    if ( (hierarchy[level]->dimension()==2) && (!  hierarchy[level]->is_infinite(position->vertex(2)))){
       if ( closer( p, 
 		   position->vertex(2)->point(),
-		   nearest->point()) == SMALLER )
+		   nearest->point()) == SMALLER ){
 	nearest = position->vertex(2);
+      }
+    }
     // go at the same vertex on level below
     nearest  = nearest->down();
     position = nearest->face();                // incident face
     --level;
   }
-  pos[0]=hierarchy[level]->locate(p,lt,li,position);  // at level 0
+  pos[0]=hierarchy[0]->locate(p,lt,li,loc == Face_handle() ? position : loc);  // at level 0 
 }
 
 

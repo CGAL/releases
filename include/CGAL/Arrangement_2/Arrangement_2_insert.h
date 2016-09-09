@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arrangement_2/Arrangement_2_insert.h $
-// $Id: Arrangement_2_insert.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arrangement_2/Arrangement_2_insert.h $
+// $Id: Arrangement_2_insert.h 35514 2006-12-11 15:34:13Z wein $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -316,96 +316,199 @@ insert_non_intersecting_curve (Arrangement_2<Traits,Dcel>& arr,
                                const typename Traits::X_monotone_curve_2& c,
                                const PointLocation& pl)
 {
-  // Locate the curve endpoints.
-  CGAL::Object   obj1 =
-    pl.locate (arr.get_traits()->construct_min_vertex_2_object() (c));
-  CGAL::Object   obj2 =
-    pl.locate (arr.get_traits()->construct_max_vertex_2_object() (c));
-
-  // Notify the arrangement observers that a global operation is about to 
-  // take place.
   typedef Arrangement_2<Traits,Dcel>                     Arrangement_2;
+  typedef Arr_traits_basic_adaptor_2<typename Arrangement_2::Traits_2>
+                                                         Traits_adaptor_2;
+  typedef typename Arrangement_2::Vertex_const_handle    Vertex_const_handle;
+  typedef typename Arrangement_2::Halfedge_const_handle  Halfedge_const_handle;
 
-  Arr_accessor<Arrangement_2>                      arr_access (arr);
+  Arr_accessor<Arrangement_2>       arr_access (arr);
+  const Traits_adaptor_2           *traits =
+    static_cast<const Traits_adaptor_2*> (arr.get_traits());
 
-  arr_access.notify_before_global_change();
+  // Check whether the left end of c lies at infinity, or whether it is a
+  // normal endpoint, and locate it in the arrangement accordingly.
+  const Boundary_type  inf_x1 = traits->boundary_in_x_2_object() (c, MIN_END);
+  const Boundary_type  inf_y1 = traits->boundary_in_y_2_object() (c, MIN_END);
+  CGAL::Object         obj1;
+  const Halfedge_const_handle *fict_hh1 = NULL;
+  const Vertex_const_handle   *vh1 = NULL;
 
-  // In principal, the result of the point-location queries should not be
-  // halfedges, because this function does not allow the inserted curve to
-  // intersect the interior of any existing halfedge.
-  CGAL_precondition_code (
-    typename Arrangement_2::Halfedge_const_handle  hh;
-  );
-  
-  CGAL_precondition_msg
-    (object_cast<typename Arrangement_2::Halfedge_const_handle>(&obj1) == NULL
-     &&
-     object_cast<typename Arrangement_2::Halfedge_const_handle>(&obj2) == NULL,
-     "The curve intersects the interior of existing edges.");
-  
-  // Check whether the located features containing the curve endpoints
-  // are vertices or faces, and use the proper specialized insertion function
-  // accordingly.
-  const typename Arrangement_2::Vertex_const_handle  *vh1;
-  const typename Arrangement_2::Vertex_const_handle  *vh2;
-  typename Arrangement_2::Halfedge_handle             res;
-
-  vh1 = object_cast<typename Arrangement_2::Vertex_const_handle> (&obj1);
-  vh2 = object_cast<typename Arrangement_2::Vertex_const_handle> (&obj2);
-
-  if (vh1 != NULL)
+  if (inf_x1 == NO_BOUNDARY && inf_y1 == NO_BOUNDARY)
   {
-    if (vh2 != NULL)
-    {
-      // Both endpoints are associated with a existing vertices.
-      // In this case insert_at_vertices() already returns a halfedge directed
-      // from left to right.
-      res = arr.insert_at_vertices (c,
-                                    arr.non_const_handle (*vh1),
-                                    arr.non_const_handle (*vh2));
-    }
-    else
-    {
-      // Only the left endpoint is associated with an existing vertex.
-      // In this case insert_from_left_vertex() returns a halfedge directed to 
-      // the new vertex it creates, so it is already directed from left to
-      // right.
-      res = arr.insert_from_left_vertex (c,
-                                         arr.non_const_handle (*vh1));
-    }
+    // We have a normal left endpoint.
+    obj1 = pl.locate (arr.get_traits()->construct_min_vertex_2_object() (c));
+
+    // The endpoint must not lie on an existing edge, but may coincide with
+    // and existing vertex vh1.
+    CGAL_precondition_msg
+      (object_cast<Halfedge_const_handle> (&obj1) == NULL,
+       "The curve must not intersect an existing edge.");
+
+    vh1 = object_cast<Vertex_const_handle> (&obj1);
   }
   else
   {
+    // We have an unbounded left end.
+    obj1 = arr_access.locate_unbounded_end (c, MIN_END);
+    
+    // The unbounded end should lie on a fictitious edge.
+    CGAL_precondition_msg
+        (object_cast<Vertex_const_handle> (&obj1) == NULL,
+         "The curve must not overlap an existing edge.");
+  
+    fict_hh1 = object_cast<Halfedge_const_handle> (&obj1);
+    CGAL_assertion (fict_hh1 != NULL);
+  }
+
+  // Check whether the right end of c lies at infinity, or whether it is a
+  // normal endpoint, and locate it in the arrangement accordingly.
+  const Boundary_type  inf_x2 = traits->boundary_in_x_2_object() (c, MAX_END);
+  const Boundary_type  inf_y2 = traits->boundary_in_y_2_object() (c, MAX_END);
+  CGAL::Object         obj2;
+  const Halfedge_const_handle *fict_hh2 = NULL;
+  const Vertex_const_handle   *vh2 = NULL;
+
+  if (inf_x2 == NO_BOUNDARY && inf_y2 == NO_BOUNDARY)
+  {
+    // We have a normal right endpoint.
+    obj2 = pl.locate (arr.get_traits()->construct_max_vertex_2_object() (c));
+
+    // The endpoint must not lie on an existing edge, but may coincide with
+    // and existing vertex vh2.
+    CGAL_precondition_msg
+      (object_cast<Halfedge_const_handle> (&obj2) == NULL,
+       "The curve must not intersect an existing edge.");
+
+    vh2 = object_cast<Vertex_const_handle> (&obj2);
+  }
+  else
+  {
+    // We have an unbounded right end.
+    obj2 = arr_access.locate_unbounded_end (c, MAX_END);
+
+    // The unbounded end should lie on a fictitious edge.
+    CGAL_precondition_msg
+        (object_cast<Vertex_const_handle> (&obj2) == NULL,
+         "The curve must not overlap an existing edge.");
+  
+    fict_hh2 = object_cast<Halfedge_const_handle> (&obj2);
+    CGAL_assertion (fict_hh2 != NULL);
+  }
+
+  // Notify the arrangement observers that a global operation is about to 
+  // take place.
+  arr_access.notify_before_global_change();
+
+  // Check whether the located features containing the curve endpoints
+  // are vertices or faces, and use the proper specialized insertion function
+  // accordingly.
+  typename Arrangement_2::Halfedge_handle             res;
+
+  if (fict_hh1 == NULL && fict_hh2 == NULL)
+  {
+    // Both endpoints are finite.
+    if (vh1 != NULL)
+    {
+      if (vh2 != NULL)
+      {
+        // Both endpoints are associated with a existing vertices.
+        // In this case insert_at_vertices() already returns a halfedge
+        // directed from left to right.
+        res = arr.insert_at_vertices (c,
+                                      arr.non_const_handle (*vh1),
+                                      arr.non_const_handle (*vh2));
+      }
+      else
+      {
+        // Only the left endpoint is associated with an existing vertex.
+        // In this case insert_from_left_vertex() returns a halfedge directed
+        // to the new vertex it creates, so it is already directed from left to
+        // right.
+        res = arr.insert_from_left_vertex (c,
+                                           arr.non_const_handle (*vh1));
+      }
+    }
+    else
+    {
+      if (vh2 != NULL)
+      {
+        // Only the right endpoint is associated with an existing vertex.
+        // In this case insert_from_left_vertex() returns a halfedge directed
+        // to the new vertex it creates, so it is directed from right to left
+        // and we take its twin halfedge instead.
+        res = arr.insert_from_right_vertex (c,
+                                            arr.non_const_handle (*vh2));
+        res = res->twin();
+      }
+      else
+      {
+        // Both endpoints are not associated with existing vertices, so
+        // we must insert the curve in the interior of a face.
+        // In this case insert_in_face_interior() already returns a halfedge
+        // directed from left to right.
+        const typename Arrangement_2::Face_const_handle  *fh1;
+        const typename Arrangement_2::Face_const_handle  *fh2;
+
+        fh1 = object_cast<typename Arrangement_2::Face_const_handle> (&obj1);
+        fh2 = object_cast<typename Arrangement_2::Face_const_handle> (&obj2);
+
+        CGAL_assertion_msg 
+          (fh1 != NULL && fh2 != NULL && *fh1 == *fh2,
+           "The curve intersects the interior of existing edges.");
+
+        if (fh1 != NULL && fh2 != NULL && *fh1 == *fh2)
+        {
+          res = arr.insert_in_face_interior (c,
+                                             arr.non_const_handle (*fh1));
+        }
+      }
+    }
+  }
+  else if (fict_hh1 != NULL && fict_hh2 == NULL)
+  {
+    // The left end is unbounded and the right endpoint is bounded.
     if (vh2 != NULL)
     {
-      // Only the right endpoint is associated with an existing vertex.
-      // In this case insert_from_left_vertex() returns a halfedge directed to
-      // the new vertex it creates, so it is directed from right to left and
-      // we take its twin halfedge instead.
       res = arr.insert_from_right_vertex (c,
                                           arr.non_const_handle (*vh2));
       res = res->twin();
     }
     else
     {
-      // Both endpoints are not associated with existing vertices, so
-      // we must insert the curve in the interior of a face.
-      // In this case insert_in_face_interior() already returns a halfedge
-      // directed from left to right.
-      const typename Arrangement_2::Face_const_handle  *fh1;
-      const typename Arrangement_2::Face_const_handle  *fh2;
+      res = arr.insert_in_face_interior (c,
+                                         arr.non_const_handle (*fict_hh1));
+    }
+  }
+  else if (fict_hh1 == NULL && fict_hh2 != NULL)
+  {
+    // The left endpoint is bounded and the right end is unbounded.
+    if (vh1 != NULL)
+    {
+      res = arr.insert_from_left_vertex (c,
+                                         arr.non_const_handle (*vh1));
+    }
+    else
+    {
+      res = arr.insert_in_face_interior (c,
+                                         arr.non_const_handle (*fict_hh2));
+    }
+  }
+  else
+  {
+    // Both curve ends are unbounded. In this case the two fictitious
+    // halfedges must belong to the same unbounded face.
+    typename Arrangement_2::Face_const_handle  fh1 = (*fict_hh1)->face();
+    typename Arrangement_2::Face_const_handle  fh2 = (*fict_hh2)->face();
 
-      fh1 = object_cast<typename Arrangement_2::Face_const_handle> (&obj1);
-      fh2 = object_cast<typename Arrangement_2::Face_const_handle> (&obj2);
-
-      CGAL_assertion_msg (fh1 != NULL && fh2 != NULL && *fh1 == *fh2,
-                      "The curve intersects the interior of existing edges.");
-
-      if (fh1 != NULL && fh2 != NULL && *fh1 == *fh2)
-      {
-	res = arr.insert_in_face_interior (c,
-					   arr.non_const_handle (*fh1));
-      }
+    CGAL_assertion_msg 
+      (fh1 == fh2,
+       "The curve intersects the interior of existing edges.");
+    
+    if (fh1 == fh2)
+    {
+      res = arr.insert_in_face_interior (c,
+                                         arr.non_const_handle (fh1));
     }
   }
 
@@ -489,7 +592,6 @@ remove_edge (Arrangement_2<Traits,Dcel>& arr,
   // take place.
   typedef Arrangement_2<Traits,Dcel>                     Arrangement_2;
 
-
   Arr_accessor<Arrangement_2>                      arr_access (arr);
 
   arr_access.notify_before_global_change();
@@ -499,9 +601,9 @@ remove_edge (Arrangement_2<Traits,Dcel>& arr,
   bool                                   is_removed[2];
 
   v_ends[0] = e->source();
-  is_removed[0] = (v_ends[0]->degree() == 1);
+  is_removed[0] = (v_ends[0]->is_at_infinity() || v_ends[0]->degree() == 1);
   v_ends[1] = e->target();
-  is_removed[1] = (v_ends[1]->degree() == 1);
+  is_removed[1] = (v_ends[1]->is_at_infinity() || v_ends[1]->degree() == 1);
 
   // Remove the edge from the arrangement.
   typename Arrangement_2::Face_handle    face = arr.remove_edge (e);
@@ -701,11 +803,11 @@ bool remove_vertex (Arrangement_2<Traits,Dcel>& arr,
   return (removed);
 }
 
-/*!
- * Check the validity of the arrangement. In particular, check that the
- * edegs are disjoint-interior, and the holes are located in their proper
- * position.
- */
+//-----------------------------------------------------------------------------
+// Check the validity of the arrangement. In particular, check that the
+// edegs are disjoint-interior, and the holes are located in their proper
+// position.
+//
 template <class Traits_, class Dcel_>
 bool is_valid (const Arrangement_2<Traits_,Dcel_>& arr)
 {
@@ -740,10 +842,8 @@ bool is_valid (const Arrangement_2<Traits_,Dcel_>& arr)
   Edge_const_iterator               eit;
   unsigned int                      i = 0;
   
-  for(eit = arr.edges_begin(); eit != arr.edges_end(); ++eit, i++)
-  {
+  for (eit = arr.edges_begin(); eit != arr.edges_end(); ++eit, i++)
     curves_vec[i] = eit->curve();
-  }
 
   Visitor       visitor;
   Traits_2     *traits = const_cast<Traits_2 *> (arr.get_traits());
@@ -929,10 +1029,10 @@ bool is_valid (const Arrangement_2<Traits_,Dcel_>& arr)
     }
     else
     {
-      // Hit nothing (the unbounded face is returned).
+      // Hit nothing (an unbounded face is returned).
       assign_ok = CGAL::assign(in_face, obj);
 
-      CGAL_assertion (assign_ok && in_face == arr.unbounded_face());
+      CGAL_assertion (assign_ok && in_face->is_unbounded());
 
       if (! assign_ok)
         return (false);

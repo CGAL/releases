@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Root_stack_traits_base.h $
-// $Id: Root_stack_traits_base.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Root_stack_traits_base.h $
+// $Id: Root_stack_traits_base.h 35766 2007-01-20 21:39:01Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -36,7 +36,7 @@ class Root_stack_traits_base: public Rational_traits_base<Poly>
         typedef Rational_traits_base<Poly> P;
 
     public:
-        typedef CGAL_POLYNOMIAL_NS::internal::Isolating_interval<typename P::NT> Isolating_interval;
+  typedef CGAL_POLYNOMIAL_NS::internal::Isolating_interval<typename P::FT> Isolating_interval;
 };
 
 CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE

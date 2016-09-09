@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
-// $Id: Snap_rounding_kd_2.h 30667 2006-04-19 16:56:12Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
+// $Id: Snap_rounding_kd_2.h 32915 2006-08-03 03:33:57Z afabri $
 // 
 //
 // author(s)     : Eli Packer <elip@post.tau.ac.il>
@@ -145,15 +145,15 @@ private:
 
   inline NT square(NT x) {return(x * x);}
 
-  inline NT min(NT x, NT y) {return((x < y) ? x : y);}
-  inline NT max(NT x, NT y) {return((x < y) ? y : x);}
+  inline NT min BOOST_PREVENT_MACRO_SUBSTITUTION (NT x, NT y) {return((x < y) ? x : y);}
+  inline NT max BOOST_PREVENT_MACRO_SUBSTITUTION (NT x, NT y) {return((x < y) ? y : x);}
 
-  inline NT min(NT x1, NT x2, NT x3, NT x4, NT x5,
+  inline NT min BOOST_PREVENT_MACRO_SUBSTITUTION  (NT x1, NT x2, NT x3, NT x4, NT x5,
                 NT x6) 
-  {return(min(min(min(x1, x2), min(x3, x4)),min(x5, x6)));}
+  {return(min BOOST_PREVENT_MACRO_SUBSTITUTION (min BOOST_PREVENT_MACRO_SUBSTITUTION (min BOOST_PREVENT_MACRO_SUBSTITUTION (x1, x2), min BOOST_PREVENT_MACRO_SUBSTITUTION (x3, x4)),min BOOST_PREVENT_MACRO_SUBSTITUTION (x5, x6)));}
 
-  inline NT max(NT x1, NT x2, NT x3, NT x4, NT x5, NT x6) 
-  {return(max(max(max(x1, x2), max(x3, x4)),max(x5, x6)));}
+  inline NT max BOOST_PREVENT_MACRO_SUBSTITUTION (NT x1, NT x2, NT x3, NT x4, NT x5, NT x6) 
+  {return(max BOOST_PREVENT_MACRO_SUBSTITUTION (max BOOST_PREVENT_MACRO_SUBSTITUTION (max BOOST_PREVENT_MACRO_SUBSTITUTION (x1, x2), max BOOST_PREVENT_MACRO_SUBSTITUTION (x3, x4)),max BOOST_PREVENT_MACRO_SUBSTITUTION (x5, x6)));}
 
   /*! */
   Direction_2 get_direction(Segment_2 seg)

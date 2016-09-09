@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Installation/include/CGAL/config.h $
-// $Id: config.h 30927 2006-05-02 18:14:47Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/include/CGAL/config.h $
+// $Id: config.h 38002 2007-04-10 08:26:57Z afabri $
 // 
 //
 // Author(s)     : Wieger Wesselink 
@@ -25,6 +25,17 @@
 
 #ifndef CGAL_CONFIG_H
 #define CGAL_CONFIG_H
+
+
+
+#ifdef CGAL_INCLUDE_WINDOWS_DOT_H
+// Mimic users including this file which defines min max macros
+// and other names leading to name clashes
+#include <windows.h>
+#endif
+
+// The following header file defines among other things  BOOST_PREVENT_MACRO_SUBSTITUTION 
+#include <boost/config.hpp>
 
 #include <CGAL/version.h>
 
@@ -35,12 +46,21 @@
 #include <CGAL/compiler_config.h>
 
 //----------------------------------------------------------------------//
+//        auto-link the CGAL library on platforms that support it
+//----------------------------------------------------------------------//
+#include <CGAL/auto_link/CGAL.h>
+
+//----------------------------------------------------------------------//
 //             do some post processing for the flags
 //----------------------------------------------------------------------//
 
 #ifdef CGAL_CFG_NO_STL
 #  error "This compiler does not have a working STL"
 #endif
+
+// This macro computes the version number from an x.y.z release number.
+// It only works for public releases.
+#define CGAL_VERSION_NUMBER(x,y,z) (1000001 + 10000*x + 100*y + 10*z) * 1000
 
 #define CGAL_BEGIN_NAMESPACE namespace CGAL {
 #define CGAL_END_NAMESPACE }
@@ -82,6 +102,7 @@ namespace CGAL {
 #endif
 
 
+
 #ifndef CGAL_CFG_TYPENAME_BEFORE_DEFAULT_ARGUMENT_BUG
 #  define CGAL_TYPENAME_DEFAULT_ARG typename
 #else
@@ -103,11 +124,32 @@ namespace CGAL {
 
 // Big endian or little endian machine.
 // ====================================
-#ifdef CGAL_CFG_NO_BIG_ENDIAN
+
+#if defined (__GLIBC__)
+#  include <endian.h>
+#  if (__BYTE_ORDER == __LITTLE_ENDIAN)
+#    define CGAL_LITTLE_ENDIAN
+#  elif (__BYTE_ORDER == __BIG_ENDIAN)
+#    define CGAL_BIG_ENDIAN
+#  else
+#    error Unknown endianness
+#  endif
+#elif defined(__sparc) || defined(__sparc__) \
+   || defined(_POWER) || defined(__powerpc__) \
+   || defined(__ppc__) || defined(__hppa) \
+   || defined(_MIPSEB) || defined(_POWER) \
+   || defined(__s390__)
+#  define CGAL_BIG_ENDIAN
+#elif defined(__i386__) || defined(__alpha__) \
+   || defined(__x86_64) || defined(__x86_64__) \
+   || defined(__ia64) || defined(__ia64__) \
+   || defined(_M_IX86) || defined(_M_IA64) \
+   || defined(_M_ALPHA) || defined(_WIN64)
 #  define CGAL_LITTLE_ENDIAN
 #else
-#  define CGAL_BIG_ENDIAN
+#  error Unknown endianness
 #endif
+
 
 #ifndef CGAL_USE_LEDA
 #  define CGAL_USE_CGAL_WINDOW
@@ -131,11 +173,9 @@ namespace CGAL {
 //             include separate workaround files
 //----------------------------------------------------------------------//
 
-#ifdef _MSC_VER
-#  include <CGAL/MSVC_standard_header_fixes.h>
-#elif defined(__BORLANDC__) && __BORLANDC__ > 0x520
+#if defined(__BORLANDC__) && __BORLANDC__ > 0x520
 #  include <CGAL/Borland_fixes.h>
-#elif defined(__sun) && defined(__SUNPRO_CC)
+#elif defined(__SUNPRO_CC)
 #  include <CGAL/Sun_fixes.h>
 #endif
 
@@ -145,7 +185,8 @@ namespace CGAL {
 //-------------------------------------------------------------------//
 
 #ifdef _MSC_VER
-#  define NOMINMAX 1
+// AF: Temporary thing to mimic users including this file which defines min max macros
+//#  define NOMINMAX 1
 #endif
 
 //-------------------------------------------------------------------//
@@ -160,6 +201,13 @@ namespace CGAL {
 using std::min;
 using std::max;
 #endif
+
+//-------------------------------------------------------------------//
+// Is CORE usable ?
+#ifdef CGAL_USE_GMP
+#  define CGAL_USE_CORE CGAL_USE_GMP
+#endif
+
 
 //-------------------------------------------------------------------//
 // Is Geomview usable ?
@@ -177,6 +225,28 @@ using std::max;
 #else 
 #  define CGAL_PRETTY_FUNCTION __func__
 // with sunpro, this requires -features=extensions
+#endif
+
+
+// SunPRO's STL is missing the std::vector constructor from an iterator range.
+#ifdef CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG
+#include <vector>
+#include <iterator>
+#include <algorithm>
+namespace CGAL { namespace CGALi {
+template < typename Iterator >
+inline
+std::vector<typename std::iterator_traits<Iterator>::value_type>
+make_vector(Iterator begin, Iterator end)
+{
+  std::vector<typename std::iterator_traits<Iterator>::value_type> v;
+  std::copy(begin, end, std::back_inserter(v));
+  return v;
+}
+} }
+#  define CGAL_make_vector(begin, end) = CGAL::CGALi::make_vector(begin, end)
+#else
+#  define CGAL_make_vector(begin, end) (begin, end)
 #endif
 
 #endif // CGAL_CONFIG_H

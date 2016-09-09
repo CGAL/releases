@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Conic_2/include/CGAL/ConicHPA2.h $
-// $Id: ConicHPA2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Conic_2/include/CGAL/ConicHPA2.h $
+// $Id: ConicHPA2.h 34970 2006-10-28 13:07:32Z hemmer $
 // 
 //
 // Author(s)     : Bernd Gaertner, Sven Schoenherr <sven@inf.ethz.ch>
@@ -141,7 +141,7 @@ class ConicHPA2
                 -u()*u()*s()-v()*v()*r()+u()*v()*t(),
            c0 = -RT(2)*a0*b1 + RT(3)*a1*b0;
     
-        return CGAL_NTS sign (-CGAL_NTS sign (c0)*o);
+        return CGAL_NTS sign ((int)-CGAL_NTS sign (c0)*o);
     }
     
     double vol_minimum (RT dr, RT ds, RT dt, RT du, RT dv, RT dw) const
@@ -272,15 +272,13 @@ class ConicHPA2
                 trivial = false;
                 RT z_prime = d*w() - u()*u()*s() - v()*v()*r() + u()*v()*t();
                 if (CGAL_NTS is_positive (r())) {
-                    empty = CGAL_NTS is_positive(CGAL_NTS sign (z_prime));
+                    empty = (CGAL::POSITIVE == CGAL_NTS sign (z_prime));
                     empty ? o = CGAL::POSITIVE : o = CGAL::NEGATIVE;
                 } else {
-                    empty = CGAL_NTS is_negative(CGAL_NTS sign (z_prime));
+                    empty = (CGAL::NEGATIVE == CGAL_NTS sign (z_prime));
                     empty ? o = CGAL::NEGATIVE : o = CGAL::POSITIVE;
                 }
                 degenerate = empty || CGAL_NTS is_zero (z_prime);
-                
-                
             }
             break;
         }

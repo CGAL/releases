@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Triangulation_data_structure_2.h $
-// $Id: Triangulation_data_structure_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_data_structure_2.h $
+// $Id: Triangulation_data_structure_2.h 37361 2007-03-21 15:29:30Z cdelage $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -533,8 +533,7 @@ public:
   typedef Triangulation_default_data_structure_2<Gt,Vb,Fb> Tdds;
   typedef Gt                           Geom_traits; 
 
-  Triangulation_default_data_structure_2(const Geom_traits&
-					 gt=Geom_traits())
+  Triangulation_default_data_structure_2(const Geom_traits& = Geom_traits())
     : Tds() {}
  
   Triangulation_default_data_structure_2(const Tdds &tdds)
@@ -1055,9 +1054,9 @@ remove_dim_down(Vertex_handle v)
     break;
   case 1:
   case 2:
-    CGAL_triangulation_precondition ( 
-	     (dimension() == 1 &&  number_of_vertices() == 3) ||
-	     (dimension() == 2 && number_of_vertices() > 3) );
+//  CGAL_triangulation_precondition ( 
+//           (dimension() == 1 &&  number_of_vertices() == 3) ||
+//           (dimension() == 2 && number_of_vertices() > 3) );
     // the faces incident to v are down graded one dimension
     // the other faces are deleted
     std::list<Face_handle > to_delete;
@@ -1817,7 +1816,7 @@ copy_tds(const Tds &tds, Vertex_handle vh)
   set_dimension(tds.dimension());
 
   // Number of pointers to cell/vertex to copy per cell.
-  int dim = std::max(1, dimension() + 1);
+  int dim = (std::max)(1, dimension() + 1);
  
   if(n == 0) {return Vertex_handle();}
   

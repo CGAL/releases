@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interpolation/include/CGAL/natural_neighbor_coordinates_3.h $
-// $Id: natural_neighbor_coordinates_3.h 32163 2006-06-30 16:16:05Z rchaine $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/include/CGAL/natural_neighbor_coordinates_3.h $
+// $Id: natural_neighbor_coordinates_3.h 36783 2007-03-03 09:02:08Z spion $
 //
 //
 // Author(s)     : Raphaelle Chaine
@@ -280,7 +280,7 @@ sibson_natural_neighbor_coordinates_3(const Dt& dt,
 }
   
 template <typename Dt, typename InputIterator> 
-bool is_correct_natural_neighborhood(const Dt& dt,
+bool is_correct_natural_neighborhood(const Dt& /*dt*/,
 				     const typename Dt::Geom_traits::Point_3 & Q, 
 				     InputIterator it_begin, InputIterator it_end,
 				     const typename Dt::Geom_traits::FT & norm_coeff)

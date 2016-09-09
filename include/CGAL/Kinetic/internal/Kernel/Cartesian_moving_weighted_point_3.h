@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_moving_weighted_point_3.h $
-// $Id: Cartesian_moving_weighted_point_3.h 29705 2006-03-22 18:12:14Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_moving_weighted_point_3.h $
+// $Id: Cartesian_moving_weighted_point_3.h 38559 2007-05-04 21:23:14Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -29,89 +29,98 @@ CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE;
 template <class Coordinate_t>
 class Cartesian_moving_weighted_point_3
 {
-    protected:
-        typedef Cartesian_moving_weighted_point_3<Coordinate_t> This;
-        typedef Cartesian_moving_point_3<Coordinate_t> Point;
-    public:
-        typedef Point Bare_point;
-        typedef typename Point::Coordinate Coordinate;
-//! initialize it from polys
-        Cartesian_moving_weighted_point_3(const Point &pt,
-        const Coordinate &w): point_(pt), weight_(w) {
-        }
+protected:
+  typedef Cartesian_moving_weighted_point_3<Coordinate_t> This;
+  typedef Cartesian_moving_point_3<Coordinate_t> Point;
+public:
+  typedef Point Bare_point;
+  typedef typename Point::Coordinate Coordinate;
+  //! initialize it from polys
+  Cartesian_moving_weighted_point_3(const Point &pt,
+				    const Coordinate &w): point_(pt), weight_(w) {
+  }
 
-//! initialize it from a still point
-        template <class Static_point>
-            Cartesian_moving_weighted_point_3(const Static_point &pt): point_(pt.point()),
-        weight_(pt.weight()) {
-        }
+  Cartesian_moving_weighted_point_3(const Coordinate &x,
+				    const Coordinate &y,
+				    const Coordinate &z): point_(x,y,z), weight_(0) {
+  }
 
-//! null
-        Cartesian_moving_weighted_point_3(){}
+  //! initialize it from a still point
+  template <class Static_point>
+  Cartesian_moving_weighted_point_3(const Static_point &pt): point_(pt.point()),
+							     weight_(pt.weight()) {
+  }
 
-        const Coordinate &weight() const
-        {
-            return weight_;
-        }
+  bool operator==(const This & o) const {
+    return weight() == o.weight() && point() == o.point();
+  }
 
-        const Point &point() const
-        {
-            return point_;
-        }
+  //! null
+  Cartesian_moving_weighted_point_3(){}
 
-        bool is_constant() const
-        {
-            if (weight_.degree() >0) return false;
-            return point_.is_constant();
-        }
+  const Coordinate &weight() const
+  {
+    return weight_;
+  }
 
-//! Reverse the motion
-        template <class NV>
-            This transformed_coordinates(const NV &nv) const
-        {
-            This ret(point_.transformed_coordinates(nv), nv(weight_));
-            return ret;
-        }
+  const Point &point() const
+  {
+    return point_;
+  }
 
-        template <class SK>
-            struct Static_traits
-        {
-            typedef typename SK::Weighted_point Static_type;
-	  static Static_type to_static(const This &o, const typename SK::FT &t, const SK&) {
-//typedef Bare_point::Static_traits<SK> BPST;
-                return Static_type(typename SK::Bare_point(o.point().x()(t),
-                    o.point().y()(t),
-                    o.point().z()(t)),
-                    o.weight()(t));
-            }
-        };
+  bool is_constant() const
+  {
+    if (weight_.degree() >0) return false;
+    return point_.is_constant();
+  }
 
-        template <class Converter>
-            struct Coordinate_converter
-        {
-            Coordinate_converter(const Converter &c): c_(c), pc_(c){}
-            typedef Cartesian_moving_weighted_point_3<typename Converter::argument_type> argument_type;
-            typedef Cartesian_moving_weighted_point_3<typename Converter::result_type> result_type;
+  //! Reverse the motion
+  template <class NV>
+  This transformed_coordinates(const NV &nv) const
+  {
+    This ret(point_.transformed_coordinates(nv), nv(weight_));
+    return ret;
+  }
 
-            result_type operator()(const argument_type &i) const
-            {
-                return result_type(pc_(i.point()), c_(i.weight()));
-            }
+  template <class SK>
+  struct Static_traits
+  {
+    typedef typename SK::Weighted_point Static_type;
+    static Static_type to_static(const This &o, const typename SK::FT &t, const SK&) {
+      //typedef Bare_point::Static_traits<SK> BPST;
+      return Static_type(typename SK::Bare_point(o.point().x()(t),
+						 o.point().y()(t),
+						 o.point().z()(t)),
+			 o.weight()(t));
+    }
+  };
 
-            Converter c_;
-            typename Bare_point::template Coordinate_converter<Converter> pc_;
-        };
+  template <class Converter>
+  struct Coordinate_converter
+  {
+    Coordinate_converter(const Converter &c): c_(c), pc_(c){}
+    typedef Cartesian_moving_weighted_point_3<typename Converter::argument_type> argument_type;
+    typedef Cartesian_moving_weighted_point_3<typename Converter::result_type> result_type;
 
-    protected:
-        Point point_;
-        Coordinate weight_;
+    result_type operator()(const argument_type &i) const
+    {
+      return result_type(pc_(i.point()), c_(i.weight()));
+    }
+
+    Converter c_;
+    typename Bare_point::template Coordinate_converter<Converter> pc_;
+  };
+
+protected:
+  Point point_;
+  Coordinate weight_;
 };
 
 template <class Coordinate>
 std::ostream &operator<<(std::ostream &out, const Cartesian_moving_weighted_point_3<Coordinate> &point)
 {
-    out << point.point() << ":" << point.weight();
-    return out;
+  out << point.point() << ", " << point.weight();
+  return out;
 }
 
 
@@ -119,20 +128,26 @@ template <class Coordinate>
 std::istream &operator>>(std::istream &in,
 			 Cartesian_moving_weighted_point_3<Coordinate> &point)
 {
-    Coordinate w;
-    typename Cartesian_moving_weighted_point_3<Coordinate>::Bare_point p;
-    in >> p;
-    char c;
-    do {
-      in >> c;
-    } while (std::isspace(c));
-    if (c != ',') {
-        in.setstate(std::ios_base::failbit);
-        return in;
-    }
-    in >> w;
-    point= Cartesian_moving_weighted_point_3<Coordinate>(p,w);
+  Coordinate w;
+  typename Cartesian_moving_weighted_point_3<Coordinate>::Bare_point p;
+  in >> p;
+  char c;
+  do {
+    in >> c;
+  }
+#ifndef CGAL_CFG_NO_LOCALE
+   while (std::isspace(c,std::locale::classic() ));
+#else
+  while (std::isspace(c));
+#endif
+
+  if (c != ',') {
+    in.setstate(std::ios_base::failbit);
     return in;
+  }
+  in >> w;
+  point= Cartesian_moving_weighted_point_3<Coordinate>(p,w);
+  return in;
 }
 
 
@@ -143,12 +158,12 @@ CGAL_KINETIC_END_INTERNAL_NAMESPACE;
 template <>
 template <class Coord, class SK>
 class To_static<typename internal::Cartesian_moving_weighted_point_3<Coord>, typename SK::Weighted_point>:
-  public To_static_base<typename Coord::NT,
-            typename internal::Cartesian_moving_weighted_point_3<Coord>,
-            typename SK::Weighted_point> {
-  typedef To_static_base<typename Coord::NT,
-             typename internal::Cartesian_moving_weighted_point_3<Coord>,
-             typename SK::Weighted_point>  P;
+public To_static_base<typename Coord::NT,
+typename internal::Cartesian_moving_weighted_point_3<Coord>,
+typename SK::Weighted_point> {
+typedef To_static_base<typename Coord::NT,
+typename internal::Cartesian_moving_weighted_point_3<Coord>,
+typename SK::Weighted_point>  P;
 public:
 To_static(){}
 typename P::result_type operator()(const typename P::argument_type &arg) const {

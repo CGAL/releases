@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/kernel_to_kernel.h $
-// $Id: kernel_to_kernel.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/kernel_to_kernel.h $
+// $Id: kernel_to_kernel.h 33222 2006-08-10 15:14:32Z ameyer $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -27,7 +27,11 @@
 #ifdef CGAL_USE_LEDA
 #include <CGAL/LEDA_basic.h>
 #include <CGAL/leda_integer.h>
+#if CGAL_LEDA_VERSION < 500
 #include <LEDA/rat_point.h>
+#else
+#include <LEDA/geo/rat_point.h>
+#endif
 #endif
 
 CGAL_BEGIN_NAMESPACE

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_circle.h $
-// $Id: Sphere_circle.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_circle.h $
+// $Id: Sphere_circle.h 36309 2007-02-15 16:03:18Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -147,6 +147,16 @@ bool equal_as_sets(const CGAL::Sphere_circle<R>& c1,
 /*{\Mfunc returns true iff |c1| and |c2| are equal as unoriented
 circles.}*/
 { return c1==c2 || c1==c2.opposite(); }
+
+template <class R>
+bool equal_not_opposite(const CGAL::Sphere_circle<R>& c1, 
+			const CGAL::Sphere_circle<R>& c2) {
+  // function should be called to decide whether two circles
+  // are equal or opposites. returns true iff |c1| and |c2| are equal
+  if(c1.a() != 0) return sign(c1.a()) == sign(c2.a());
+  if(c1.b() != 0) return sign(c1.b()) == sign(c2.b());
+  return sign(c1.c()) == sign(c2.c());
+}
 
 template <typename R>
 Sphere_point<R> intersection(const Sphere_circle<R>& c1, 

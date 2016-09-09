@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/typedefs.h $
-// $Id: typedefs.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/typedefs.h $
+// $Id: typedefs.h 37121 2007-03-15 10:47:09Z hemmer $
+//
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -43,8 +43,20 @@ struct Rep : public CGAL::Simple_cartesian<CORE::Expr> {};
 #endif
 
 #ifdef USE_FILTERED_TRAITS
+#ifdef CGAL_USE_CORE
+typedef CGAL::Field_with_sqrt_tag MTag;
+typedef CGAL::Field_with_sqrt_tag EMTag;
+typedef CGAL::Simple_cartesian<CORE::Expr> ERep;
+struct Gt
+  : public CGAL::Segment_Delaunay_graph_filtered_traits_2<Rep,
+							  MTag,
+							  ERep,
+							  EMTag>
+{};
+#else
 struct Gt
   : public CGAL::Segment_Delaunay_graph_filtered_traits_2<Rep> {};
+#endif
 #else
 struct Gt
   : public CGAL::Segment_Delaunay_graph_traits_2<Rep,CGAL::Field_tag> {};
@@ -57,7 +69,9 @@ typedef Gt::Site_2             Site;
 
 typedef CGAL::Tag_true         STag;
 
-typedef CGAL::Segment_Delaunay_graph_hierarchy_2<Gt,STag>       SDG_2;
+typedef CGAL::Segment_Delaunay_graph_storage_traits_2<Gt>       ST;
+
+typedef CGAL::Segment_Delaunay_graph_hierarchy_2<Gt,ST,STag>    SDG_2;
 //typedef CGAL::Segment_Delaunay_graph_2<Gt>          SDG_2;
 
 #endif  // SDG_TYPEDEFS_H

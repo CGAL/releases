@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_point_location/Arr_lm_middle_edges_generator.h $
-// $Id: Arr_lm_middle_edges_generator.h 31140 2006-05-16 07:34:45Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Arr_lm_middle_edges_generator.h $
+// $Id: Arr_lm_middle_edges_generator.h 37476 2007-03-26 09:19:08Z afabri $
 // 
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -77,7 +77,7 @@ private:
 public: 
   /*! Constructor. */
   Arr_middle_edges_landmarks_generator 
-  (const Arrangement_2& arr, int lm_num = -1) : 
+  (const Arrangement_2& arr, int /* lm_num */ = -1) : 
     Arr_landmarks_generator<Arrangement_2, Nearest_neighbor_> (arr)
   {
     CGAL_PRINT_DEBUG("Arr_middle_edges_landmarks_generator constructor.");
@@ -140,7 +140,7 @@ protected:
     } 
   }
   
-  virtual void _create_points_set (Points_set & points)
+  virtual void _create_points_set (Points_set & /* points */)
   {
     std::cerr << "should not reach here!"<< std::endl;
     CGAL_assertion(false);

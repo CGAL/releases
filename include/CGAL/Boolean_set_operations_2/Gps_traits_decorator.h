@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_decorator.h $
-// $Id: Gps_traits_decorator.h 28831 2006-02-27 14:28:18Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_decorator.h $
+// $Id: Gps_traits_decorator.h 37252 2007-03-19 11:46:33Z afabri $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -47,7 +47,10 @@ public:
   typedef typename Base::Intersect_2               Base_Intersect_2;
   typedef typename Base::Compare_endpoints_xy_2    Base_Compare_endpoints_xy_2;
   typedef typename Base::Construct_opposite_2      Base_Construct_opposite_2;
-
+  typedef typename Base::Has_boundary_category     Has_boundary_category;
+  typedef typename Base::Has_left_category         Has_left_category;
+  typedef typename Base::Has_merge_category        Has_merge_category;
+  
   class Ex_point_2 
   {
   protected:
@@ -174,16 +177,16 @@ public:
 
 public:
   
-  Gps_traits_decorator<Base, Curve_data, Point_data>() : m_base_tr(new Base()),
-                                                         m_traits_owner(true)
+  Gps_traits_decorator() : m_base_tr(new Base()),
+			   m_traits_owner(true)
   {}
 
-  Gps_traits_decorator<Base, Curve_data, Point_data>(Base& base_traits) :
+  Gps_traits_decorator(Base& base_traits) :
     m_base_tr(&base_traits),
     m_traits_owner(false)
   {}
 
-  ~Gps_traits_decorator<Base, Curve_data, Point_data>()
+  ~Gps_traits_decorator()
   {
     if(m_traits_owner)
       delete m_base_tr;

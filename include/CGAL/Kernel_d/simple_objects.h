@@ -15,13 +15,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/simple_objects.h $
-// $Id: simple_objects.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/simple_objects.h $
+// $Id: simple_objects.h 36339 2007-02-15 21:32:14Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
-#ifndef SIMPLE_OBJECTS_H
-#define SIMPLE_OBJECTS_H
+
+#ifndef CGAL_SIMPLE_OBJECTS_H
+#define CGAL_SIMPLE_OBJECTS_H
 
 CGAL_BEGIN_NAMESPACE
 
@@ -49,4 +50,5 @@ struct Eq_from_method {
 };
 
 CGAL_END_NAMESPACE
-#endif //SIMPLE_OBJECTS_H
+
+#endif // CGAL_SIMPLE_OBJECTS_H

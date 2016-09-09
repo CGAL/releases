@@ -1,8 +1,5 @@
-// Copyright (c) 1997-2000  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2002-2004  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,11 +12,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Qt_widget/src/CGALQt/Qt_widget_layer.cpp $
-// $Id: Qt_widget_layer.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Qt_widget/src/CGALQt/Qt_widget_layer.cpp $
+// $Id: Qt_widget_layer.cpp 38534 2007-05-04 13:32:40Z lrineau $
 // 
 //
-// Author(s)     : Laurent Rineau & Radu Ursu
+// Author(s)     : Laurent Rineau and Radu Ursu
 
 #include <CGAL/basic.h>
 
@@ -39,6 +36,14 @@ namespace CGAL {
     else if(i == 0)
       deactivate();
   }
+
+  void Qt_widget_layer::toggle(bool b) {
+    if(b)
+      activate();
+    else
+      deactivate();
+  }
+
   bool Qt_widget_layer::activate(){
     if(active)
       return false;

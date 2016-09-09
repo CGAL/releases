@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_visitor_base_3.h $
-// $Id: Delaunay_triangulation_visitor_base_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_visitor_base_3.h $
+// $Id: Delaunay_triangulation_visitor_base_3.h 36012 2007-02-02 02:13:42Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -29,42 +29,48 @@ struct Delaunay_triangulation_visitor_base_3
 //typedef Tr Triangulation;
     Delaunay_triangulation_visitor_base_3(){}
 
-    template <class Vertex_handle>
-    void remove_vertex(Vertex_handle) {
+  template <class Point_key, class Cell_handle>
+    void pre_insert_vertex(Point_key , Cell_handle ) {
     }
 
     template <class Vertex_handle>
-    void create_vertex(Vertex_handle) {
+    void post_insert_vertex(Vertex_handle ) {
     }
 
     template <class Vertex_handle>
-    void modify_vertex(Vertex_handle) {
+    void pre_remove_vertex(Vertex_handle ) {
     }
 
-    template <class It>
-    void create_cells(It, It) {
+
+    template <class Point_key>
+    void post_remove_vertex(Point_key ) {
     }
 
-    template <class It>
-    void remove_cells(It, It) {
+    template <class Vertex_handle>
+    void change_vertex(Vertex_handle ) {
+    }
+
+    template <class Cell_handle> 
+    void create_cell(Cell_handle ) {
+    }
+
+    template <class Cell_handle>
+    void destroy_cell(Cell_handle ) {
     }
 
     template <class Edge>
-    void before_edge_flip(Edge) {
-
+    void pre_edge_flip(const Edge &) {
     }
     template <class Edge>
-    void after_facet_flip(Edge) {
-
+    void post_facet_flip(const Edge& ) {
     }
 
     template <class Facet>
-    void before_facet_flip(Facet) {
-
+    void pre_facet_flip(const Facet &) {
     }
 
     template <class Facet>
-    void after_edge_flip(Facet) {
+    void post_edge_flip(const Facet& ) {
     }
 };
 

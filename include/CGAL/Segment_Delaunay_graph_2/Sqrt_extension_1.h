@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Sqrt_extension_1.h $
-// $Id: Sqrt_extension_1.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Sqrt_extension_1.h $
+// $Id: Sqrt_extension_1.h 35201 2006-11-16 12:42:59Z hemmer $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -30,13 +30,6 @@ CGAL_BEGIN_NAMESPACE
 
 template<class NT>
 class Sqrt_extension_1;
-
-template<class NT>
-Sign sign(const Sqrt_extension_1<NT>&);
-
-template<class NT>
-Comparison_result compare(const Sqrt_extension_1<NT>&,
-			  const Sqrt_extension_1<NT>&);
 
 template<class NT>
 class Sqrt_extension_1
@@ -223,117 +216,75 @@ operator-(const Sqrt_extension_1<NT>& x, const Sqrt_extension_1<NT>& y)
 
 //=============================================================
 
-template<class NT>
-struct Number_type_traits< Sqrt_extension_1<NT> >
-{
-
-  static inline
-  std::pair<double,double> to_interval(const Sqrt_extension_1<NT>& x) {
-    return x.to_interval();
-  }
-
-  static inline bool is_positive(const Sqrt_extension_1<NT>& x) {
-    return x.sign() == POSITIVE;
-  }
-
-  static inline bool is_negative(const Sqrt_extension_1<NT>& x) {
-    return x.sign() == NEGATIVE;
-  }
-
-  static inline bool is_zero(const Sqrt_extension_1<NT>& x) {
-    return x.sign() == ZERO;
-  }
-
-  static inline Sign sign(const Sqrt_extension_1<NT>& x) {
-    return x.sign();
-  }
-
-  static inline Sqrt_extension_1<NT> square(const Sqrt_extension_1<NT>& x) {
-    return x.square();
-  }
-
-  static inline
-  Comparison_result compare(const Sqrt_extension_1<NT>& x,
-			    const Sqrt_extension_1<NT>& y) {
-    CGAL_exactness_precondition( CGAL::compare(x.c(), y.c()) == EQUAL );
-
-    //  Sign s = CGAL::sign(x - y);
-    Sign s = (x - y).sign();
-
-    if ( s == ZERO ) { return EQUAL; }
-    return (s == POSITIVE) ? LARGER : SMALLER;
-  }
-
-  static inline double to_double(const Sqrt_extension_1<NT>& x) {
-    return x.to_double();
-  }
+template <class NT> 
+struct Algebraic_structure_traits<Sqrt_extension_1<NT> >
+    :public Algebraic_structure_traits_base<Sqrt_extension_1<NT>,CGAL::Integral_domain_without_division_tag>{
+    // I haven't found division 
+private:
+    typedef Algebraic_structure_traits<NT> AST_NT;
+public:
+    typedef Sqrt_extension_1<NT> Algebraic_structure;
+    typedef typename AST_NT::Is_exact Is_exact;
 };
 
 template<class NT>
-inline
-std::pair<double,double>
-to_interval(const Sqrt_extension_1<NT>& x)
-{
-  return Number_type_traits< Sqrt_extension_1<NT> >::to_interval(x);
-}
+struct Real_embeddable_traits<Sqrt_extension_1<NT> >{
+private:
+    typedef Real_embeddable_traits<NT> RET_NT;
+public:
+    
+    typedef Sqrt_extension_1<NT> Real_embeddable;
+    
+    class Abs 
+        : public Unary_function< Real_embeddable, Real_embeddable >{
+    public:
+        Real_embeddable operator()(const Real_embeddable& x) const {
+            return (x>=0)?x:-x;
+        }
+    };    
 
-
-template<class NT>
-inline
-bool
-is_positive(const Sqrt_extension_1<NT>& x)
-{
-  return Number_type_traits< Sqrt_extension_1<NT> >::is_positive(x);
-}
-
-template<class NT>
-inline
-bool
-is_negative(const Sqrt_extension_1<NT>& x)
-{
-  return Number_type_traits< Sqrt_extension_1<NT> >::is_negative(x);
-}
-
-template<class NT>
-inline
-bool
-is_zero(const Sqrt_extension_1<NT>& x)
-{
-  return Number_type_traits< Sqrt_extension_1<NT> >::is_zero(x);
-}
-
-
-template<class NT>
-inline
-Sign
-sign(const Sqrt_extension_1<NT>& x)
-{
-  return Number_type_traits< Sqrt_extension_1<NT> >::sign(x);
-}
-
-template<class NT>
-inline
-Sqrt_extension_1<NT>
-square(const Sqrt_extension_1<NT>& x)
-{
-  return Number_type_traits< Sqrt_extension_1<NT> >::square(x);
-}
-
-template<class NT>
-inline
-Comparison_result
-compare(const Sqrt_extension_1<NT>& x, const Sqrt_extension_1<NT>& y)
-{
-  return Number_type_traits< Sqrt_extension_1<NT> >::compare(x, y);
-}
-
-template<class NT>
-inline
-double
-to_double(const Sqrt_extension_1<NT>& x)
-{
-  return Number_type_traits< Sqrt_extension_1<NT> >::to_double(x);
-}
+    class Sign 
+        : public Unary_function< Real_embeddable, CGAL::Sign >{
+    public:
+        CGAL::Sign operator()(const Real_embeddable& x) const {
+            return x.sign();
+        }
+    };
+    
+    class Compare 
+        : public Binary_function< Real_embeddable, 
+                                  Real_embeddable, 
+                                  CGAL::Comparison_result >{
+    public:
+        CGAL::Comparison_result operator()(
+                const Real_embeddable& x, 
+                const Real_embeddable& y) const {
+            CGAL_exactness_precondition( CGAL::compare(x.c(), y.c()) == EQUAL );
+            return (x - y).sign();
+            
+// This is not needed due to equality of CGAL::Sign CGAL::Comparison_result
+//             CGAL::Sign s = (x - y).sign();
+//             if ( s == ZERO ) { return EQUAL; }
+//             return (s == POSITIVE) ? LARGER : SMALLER;
+        }
+    };
+    
+    class To_double 
+        : public Unary_function< Real_embeddable, double >{
+    public:
+        double operator()(const Real_embeddable& x) const {
+            return x.to_double();
+        }
+    };
+    
+    class To_interval 
+        : public Unary_function< Real_embeddable, std::pair< double, double > >{
+    public:
+        std::pair<double,double> operator()(const Real_embeddable& x) const {
+            return x.to_interval();
+        }
+    };   
+};
 
 // operator <<
 template<class Stream, class NT>

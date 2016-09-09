@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/qt_layers_toolbar.h $
-// $Id: qt_layers_toolbar.h 29163 2006-03-07 23:41:02Z mkaravel $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/qt_layers_toolbar.h $
+// $Id: qt_layers_toolbar.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
 
@@ -67,60 +67,60 @@ public:
 
 
     but[0] = new QToolButton(QPixmap( (const char**)points_xpm ),
-			     "Show sites", 
-			     0, 
-			     this, 
-			     SLOT(show_sites()), 
-			     this, 
+			     "Show sites",
+			     0,
+			     this,
+			     SLOT(show_sites()),
+			     this,
 			     "Show sites");
 
     but[1] = new QToolButton(QPixmap( (const char**)voronoi_xpm ),
-			     "Show Voronoi diagram", 
-			     0, 
-			     this, 
-			     SLOT(show_voronoi()), 
-			     this, 
+			     "Show Voronoi diagram",
+			     0,
+			     this,
+			     SLOT(show_voronoi()),
+			     this,
 			     "Show Voronoi diagram");
 
     but[2] = new QToolButton(QPixmap( (const char**)point_xpm ),
-			     "Input points", 
-			     0, 
-			     this, 
-			     SLOT(input_points_mode()), 
-			     this, 
+			     "Input points",
+			     0,
+			     this,
+			     SLOT(input_points_mode()),
+			     this,
 			     "Input points");
 
-    
+
     but[3] = new QToolButton(QPixmap( (const char**)circle_xpm ),
-			     "Input circles", 
-			     0, 
-			     this, 
-			     SLOT(input_circles_mode()), 
-			     this, 
+			     "Input circles",
+			     0,
+			     this,
+			     SLOT(input_circles_mode()),
+			     this,
 			     "Input circles");
 #if 1
     but[4] = new QToolButton(QPixmap( (const char**)notool_xpm ),
-			     "Remove site", 
-			     0, 
-			     this, 
-			     SLOT(remove_mode()), 
-			     this, 
+			     "Remove site",
+			     0,
+			     this,
+			     SLOT(remove_mode()),
+			     this,
 			     "Remove site");
 #else
     but[4] = new QToolButton(QPixmap( (const char**)remove_xpm ),
-			     "Remove site", 
-			     0, 
-			     this, 
-			     SLOT(remove_mode()), 
-			     this, 
+			     "Remove site",
+			     0,
+			     this,
+			     SLOT(remove_mode()),
+			     this,
 			     "Remove site");
 #endif
     but[5] = new QToolButton(QPixmap( (const char**)holddown_xpm ),
-			     "Locate mode", 
-			     0, 
-			     this, 
-			     SLOT(locate_mode()), 
-			     this, 
+			     "Locate mode",
+			     0,
+			     this,
+			     SLOT(locate_mode()),
+			     this,
 			     "Locate mode");
 
     nr_of_buttons = 6;
@@ -151,7 +151,7 @@ signals:
   void insertModeChanged(bool);
   void locateModeChanged(bool);
   void snapModeChanged(bool);
-  
+
 private slots:
   void show_sites() {
     if ( but[0]->isOn() ) {
@@ -205,7 +205,7 @@ private slots:
 private:
   QToolButton		*but[15];
   CGAL::Qt_widget	*widget;
-  QMainWindow		*window;	
+  QMainWindow		*window;
   int			nr_of_buttons;
   Input_mode            input_mode;
 

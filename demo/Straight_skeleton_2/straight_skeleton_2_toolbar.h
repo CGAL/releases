@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/demo/Straight_skeleton_2/straight_skeleton_2_toolbar.h $
-// $Id: straight_skeleton_2_toolbar.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/demo/Straight_skeleton_2/straight_skeleton_2_toolbar.h $
+// $Id: straight_skeleton_2_toolbar.h 37003 2007-03-10 16:55:12Z spion $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -37,7 +37,7 @@ class Tools_toolbar : public QToolBar
   Q_OBJECT
 public:
   Tools_toolbar(CGAL::Qt_widget *w, QMainWindow *mw);
-  
+
 private:
   QToolButton     *but[10];
   CGAL::Qt_widget *widget;

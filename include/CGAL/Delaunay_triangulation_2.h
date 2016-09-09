@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Delaunay_triangulation_2.h $
-// $Id: Delaunay_triangulation_2.h 29760 2006-03-25 11:16:13Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Delaunay_triangulation_2.h $
+// $Id: Delaunay_triangulation_2.h 37832 2007-04-02 20:40:18Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -122,6 +122,7 @@ public:
 #ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2  
   using Triangulation::cw;
   using Triangulation::ccw;
+  using Triangulation::geom_traits;
 #endif
 
 private:
@@ -158,10 +159,15 @@ public:
   insert(InputIterator first, InputIterator last)
     {
       int n = this->number_of_vertices();
-        while(first != last){
-	insert(*first);
-	++first;
-      }
+
+      std::vector<Point> points CGAL_make_vector(first, last);
+      std::random_shuffle (points.begin(), points.end());
+      spatial_sort (points.begin(), points.end(), geom_traits());
+      Face_handle f;
+      for (typename std::vector<Point>::const_iterator p = points.begin();
+              p != points.end(); ++p)
+          f = insert (*p, f)->face();
+
       return this->number_of_vertices() - n;
     }
 
@@ -224,16 +230,14 @@ private:
 		      std::pair<OutputItFaces,OutputItBoundaryEdges>
 		      pit)  const {
    Face_handle fn = fh->neighbor(i);
-   OutputItFaces fit = pit.first;
-   OutputItBoundaryEdges eit = pit.second;
    if (! test_conflict(p,fn)) {
-     *eit++ = Edge(fn, fn->index(fh));
-     return std::make_pair(fit,eit);
+     *(pit.second)++ = Edge(fn, fn->index(fh));
+   } else {
+     *(pit.first)++ = fn;
+     int j = fn->index(fh);
+     pit = propagate_conflicts(p,fn,ccw(j),pit);
+     pit = propagate_conflicts(p,fn,cw(j), pit);
    }
-   *fit++ = fn;
-   int j = fn->index(fh);
-   pit = propagate_conflicts(p,fn,ccw(j),pit);
-   pit = propagate_conflicts(p,fn,cw(j), pit);
    return pit;
  }
 };

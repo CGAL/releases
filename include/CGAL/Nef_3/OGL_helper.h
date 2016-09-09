@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/OGL_helper.h $
-// $Id: OGL_helper.h 29752 2006-03-24 12:19:03Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/OGL_helper.h $
+// $Id: OGL_helper.h 37976 2007-04-06 08:53:48Z afabri $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -346,7 +346,7 @@ namespace OGL {
       glColor3ub(c.red(), c.green(), c.blue());
       glBegin(GL_POINTS);
       glVertex3d(v->x(),v->y(),v->z());
-      glEnd();           
+      glEnd();
     }
 
     void draw(Edge_iterator e) const { 
@@ -477,9 +477,9 @@ namespace OGL {
     void draw() const
     { 
       if (!is_initialized()) const_cast<Polyhedron&>(*this).init();
-      double l = std::max( std::max( bbox().xmax() - bbox().xmin(),
-                                     bbox().ymax() - bbox().ymin()),
-                           bbox().zmax() - bbox().zmin());
+      double l = (std::max)( (std::max)( bbox().xmax() - bbox().xmin(),
+					 bbox().ymax() - bbox().ymin()),
+			     bbox().zmax() - bbox().zmin());
       if ( l < 1) // make sure that a single point doesn't screw up here
           l = 1;
       glScaled( 4.0/l, 4.0/l, 4.0/l);
@@ -558,14 +558,14 @@ namespace OGL {
       { return OGL::Double_segment(double_point(s.source()),
 				   double_point(s.target())); }
     
-    static void draw(Vertex_const_handle v, const Nef_polyhedron& N, 
+    static void draw(Vertex_const_handle v, const Nef_polyhedron& , 
 		     CGAL::OGL::Polyhedron& P) { 
       Point_3 bp = v->point();
       //    CGAL_NEF_TRACEN("vertex " << bp);
       P.push_back(double_point(bp), v->mark()); 
     }
     
-    static void draw(Halfedge_const_handle e, const Nef_polyhedron& N,
+    static void draw(Halfedge_const_handle e, const Nef_polyhedron& ,
 		     CGAL::OGL::Polyhedron& P) { 
       Vertex_const_handle s = e->source();
       Vertex_const_handle t = e->twin()->source();
@@ -574,7 +574,7 @@ namespace OGL {
       P.push_back(double_segment(seg), e->mark()); 
     }
     
-    static void draw(Halffacet_const_handle f, const Nef_polyhedron& N,
+    static void draw(Halffacet_const_handle f, const Nef_polyhedron& ,
 		     CGAL::OGL::Polyhedron& P) { 
       OGL::DFacet g;
       Halffacet_cycle_const_iterator fc; // all facet cycles:

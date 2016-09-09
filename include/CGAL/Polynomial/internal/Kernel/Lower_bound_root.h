@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Lower_bound_root.h $
-// $Id: Lower_bound_root.h 31252 2006-05-22 12:26:07Z drussel $ $Date: 2006-05-22 14:26:07 +0200 (Mon, 22 May 2006) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Lower_bound_root.h $
+// $Id: Lower_bound_root.h 31246 2006-05-22 06:42:26Z drussel $ $Date: 2006-05-22 08:42:26 +0200 (Mon, 22 May 2006) $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/sphere_predicates.h $
-// $Id: sphere_predicates.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/sphere_predicates.h $
+// $Id: sphere_predicates.h 36309 2007-02-15 16:03:18Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -42,8 +42,10 @@ template <class R>
 int spherical_orientation(const Sphere_point<R>& p1, 
                           const Sphere_point<R>& p2, 
                           const Sphere_point<R>& p3)
-{ return CGAL::orientation(CGAL::Point_3<R>(0,0,0),(CGAL::Point_3<R>)p1,
-			   (CGAL::Point_3<R>)p2,(CGAL::Point_3<R>)p3); }
+{ return CGAL::orientation(typename R::Point_3(0,0,0),
+			   (typename R::Point_3)p1,
+			   (typename R::Point_3)p2,
+			   (typename R::Point_3)p3); }
 
 
 /* |spherical_compare| codes our order of points during the sweep. The
@@ -58,6 +60,30 @@ whole scenery around the y-axis by $\pi$. Then the x-axis points left
 and the z-axis into the equatorial plane. */
 
 template <class R>
+bool is_south(const Sphere_point<R>& p, int axis) {
+  if(axis==1)  
+    return (p.hz() >  0 &&
+	    p.hx() == 0 &&
+	    p.hy() == 0);
+  
+  return (p.hy() <  0 &&
+	  p.hx() == 0 &&
+	  p.hz() == 0);
+}
+
+template <class R>
+bool is_north(const Sphere_point<R>& p, int axis) {
+  if(axis==1)  
+    return (p.hz() <  0 &&
+	    p.hx() == 0 &&
+	    p.hy() == 0);
+  
+  return (p.hy() >  0 &&
+	  p.hx() == 0 &&
+	  p.hz() == 0);
+}
+
+template <class R>
 int spherical_compare(const Sphere_point<R>& p1, 
 		      const Sphere_point<R>& p2,
 		      int axis, int pos) {
@@ -67,22 +93,25 @@ int spherical_compare(const Sphere_point<R>& p1,
   switch(axis) {
   case 0:
     pS=Sphere_point<R>(0,-1,0);
-    pN=Sphere_point<R>(0,1,0);
+    //    pN=Sphere_point<R>(0,1,0);
     break;
   case 1:
     pS=Sphere_point<R>(0,0,1);
-    pN=Sphere_point<R>(0,0,-1);
+    //    pN=Sphere_point<R>(0,0,-1);
     break;
   case 2: 
     pS=Sphere_point<R>(0,-1,0);
-    pN=Sphere_point<R>(0,1,0);
+    //    pN=Sphere_point<R>(0,1,0);
     break;
   }
-  CGAL::Direction_3<R> d1(p1-CGAL::ORIGIN), d2(p2-CGAL::ORIGIN),
-                       dS(pS-CGAL::ORIGIN), dN(pN-CGAL::ORIGIN);
+  typename R::Direction_3 
+    d1(p1-CGAL::ORIGIN), 
+    d2(p2-CGAL::ORIGIN);
   if (d1 == d2) return 0;
-  if (d1 == dS || d2 == dN) return -1;
-  if (d1 == dN || d2 == dS) return  1;
+  if(is_south(p1,axis) || is_north(p2,axis)) return -1;
+  if(is_south(p2,axis) || is_north(p1,axis)) return 1;
+  //  if (d1 == dS || d2 == dN) return -1;
+  //  if (d1 == dN || d2 == dS) return  1;
   // now no more special cases 
   if (axis==0 && (p1.hx()==static_cast<typename R::RT>(0) && 
 		  p2.hx()==static_cast<typename R::RT>(0))) {

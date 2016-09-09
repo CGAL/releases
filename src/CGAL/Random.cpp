@@ -15,19 +15,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Random_numbers/src/CGAL/Random.cpp $
-// $Id: Random.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Random_numbers/src/CGAL/Random.cpp $
+// $Id: Random.cpp 35787 2007-01-24 17:16:05Z spion $
 // 
 //
 // Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
 
 #include <CGAL/Random.h>
-
-// additional includes
-#ifndef CGAL_PROTECT_CTIME
-#  include <ctime>
-#  define CGAL_PROTECT_CTIME
-#endif
+#include <ctime>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -63,5 +58,3 @@ Random( unsigned int  seed)
 Random  default_random;
 
 CGAL_END_NAMESPACE
-
-// ===== EOF ==================================================================

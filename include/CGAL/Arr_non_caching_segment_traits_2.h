@@ -11,15 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_non_caching_segment_traits_2.h $
-// $Id: Arr_non_caching_segment_traits_2.h 29412 2006-03-12 09:38:57Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_non_caching_segment_traits_2.h $
+// $Id: Arr_non_caching_segment_traits_2.h 35514 2006-12-11 15:34:13Z wein $
 //
 // Author(s)     : Efi Fogel    <efif@post.tau.ac.il>
 //                 Ron Wein     <wein@post.tau.ac.il>
 //                 (base on old version by: Iddo Hanniel)
 
-#ifndef CGAL_ARR_NON_CACHING_SEGMENT_EXACT_TRAITS_H
-#define CGAL_ARR_NON_CACHING_SEGMENT_EXACT_TRAITS_H
+#ifndef CGAL_ARR_NON_CACHING_SEGMENT_TRAITS_H
+#define CGAL_ARR_NON_CACHING_SEGMENT_TRAITS_H
 
 /*! \file The non-caching segment traits-class for the arrangement package.
  * This traits class handles general segments. It is a model of the
@@ -58,7 +58,8 @@ public:
 
   // Traits types:
   typedef typename Base::Has_left_category      Has_left_category;
-  
+  typedef typename Base::Has_boundary_category  Has_boundary_category;
+
   typedef typename Base::Point_2                Point_2;
   typedef typename Base::X_monotone_curve_2     X_monotone_curve_2;
 

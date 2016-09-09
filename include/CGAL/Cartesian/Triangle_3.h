@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Triangle_3.h $
-// $Id: Triangle_3.h 29078 2006-03-06 13:08:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Triangle_3.h $
+// $Id: Triangle_3.h 35640 2006-12-27 23:25:47Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -37,7 +37,6 @@ class TriangleC3
   typedef typename R_::Vector_3             Vector_3;
   typedef typename R_::Plane_3              Plane_3;
   typedef typename R_::Triangle_3           Triangle_3;
-  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
   typedef Threetuple<Point_3>                      Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -57,21 +56,12 @@ public:
 
   Plane_3    supporting_plane() const;
 
-  Triangle_3 transform(const Aff_transformation_3 &t) const
-  {
-    return TriangleC3<R>(t.transform(vertex(0)),
-                t.transform(vertex(1)),
-                t.transform(vertex(2)));
-  }
-
   bool       has_on(const Point_3 &p) const;
   bool       is_degenerate() const;
 
   const Point_3 & vertex(int i) const;
   const Point_3 & operator[](int i) const;
 
-  Bbox_3     bbox() const;
-  
   FT         squared_area() const;
 };
 
@@ -134,16 +124,6 @@ TriangleC3<R>::supporting_plane() const
 }
 
 template < class R >
-Bbox_3
-TriangleC3<R>::bbox() const
-{
-  typename R::Construct_bbox_3 construct_bbox_3;
-  return construct_bbox_3(vertex(0)) 
-    + construct_bbox_3(vertex(1)) 
-    + construct_bbox_3(vertex(2));
-}
-
-template < class R >
 inline
 bool
 TriangleC3<R>::
@@ -159,38 +139,6 @@ TriangleC3<R>::is_degenerate() const
 {
   return collinear(vertex(0),vertex(1),vertex(2));
 }
-
-#ifndef CGAL_NO_OSTREAM_INSERT_TRIANGLEC3
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const TriangleC3<R> &t)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << t[0] << ' ' << t[1] << ' ' << t[2];
-    case IO::BINARY :
-        return os << t[0]  << t[1]  << t[2];
-    default:
-        os << "TriangleC3(" << t[0] <<  ", " << t[1] <<   ", " << t[2] <<")";
-        return os;
-    }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_TRIANGLEC3
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_TRIANGLEC3
-template < class R >
-std::istream &
-operator>>(std::istream &is, TriangleC3<R> &t)
-{
-    typename R::Point_3 p, q, r;
-
-    is >> p >> q >> r;
-
-    if (is)
-	t = TriangleC3<R>(p, q, r);
-    return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_TRIANGLEC3
 
 CGAL_END_NAMESPACE
 

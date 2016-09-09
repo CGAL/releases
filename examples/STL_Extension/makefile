@@ -14,22 +14,18 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
-           $(TESTSUITE_CXXFLAGS) \
-           $(EXTRA_FLAGS) \
+           -I../../include \
            $(CGAL_CXXFLAGS) \
-           $(LONG_NAME_PROBLEM_CXXFLAGS) \
-           $(DEBUG_OPT)
+           $(LONG_NAME_PROBLEM_CXXFLAGS)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(TESTSUITE_LIBPATH) \
           $(CGAL_LIBPATH)
 
 LDFLAGS = \
-          $(TESTSUITE_LDFLAGS) \
           $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
@@ -61,5 +57,9 @@ clean: \
 #---------------------------------------------------------------------#
 
 .C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
+
+
+.cpp$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Iso_box_d.h $
-// $Id: Iso_box_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Iso_box_d.h $
+// $Id: Iso_box_d.h 32991 2006-08-04 10:17:42Z afabri $
 // 
 //
 // Authors       : Hans Tangelder <hanst@cs.uu.nl>, Michael Hoffmann
@@ -365,9 +365,9 @@ public:
 
     FT max_coord(int i) const { return ptr()->upper[i]; }
 
-    const Point_d& min() const { return ptr()->lower; }
+    const Point_d& min BOOST_PREVENT_MACRO_SUBSTITUTION () const { return ptr()->lower; }
 
-    const Point_d& max() const { return ptr()->upper; }
+    const Point_d& max BOOST_PREVENT_MACRO_SUBSTITUTION () const { return ptr()->upper; }
 
     FT volume() const { return volume(Rep_tag()); }
     
@@ -388,7 +388,7 @@ inline bool
 operator==(const Iso_box_d<Kernel>& b1, Iso_box_d<Kernel>& b2)
 {
   CGAL_precondition(b1.dimension() == b2.dimension());
-  return b1.min() == b2.min() && b1.max() == b2.max();
+  return (b1.min)() == (b2.min)() && (b1.max)() == (b2.max)();
 }
 
 template < typename Kernel >

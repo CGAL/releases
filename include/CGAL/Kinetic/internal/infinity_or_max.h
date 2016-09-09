@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/infinity_or_max.h $
-// $Id: infinity_or_max.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/infinity_or_max.h $
+// $Id: infinity_or_max.h 33416 2006-08-18 21:03:47Z afabri $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -28,7 +28,7 @@ template <class T>
 T infinity_or_max()
 {
     if (std::numeric_limits<T>::has_infinity) return std::numeric_limits<T>::infinity();
-    else return std::numeric_limits<T>::max();
+    else return (std::numeric_limits<T>::max)();
 }
 
 
@@ -36,7 +36,7 @@ template <class T>
 T infinity_or_max(T)
 {
     if (std::numeric_limits<T>::has_infinity) return std::numeric_limits<T>::infinity();
-    else return std::numeric_limits<T>::max();
+    else return (std::numeric_limits<T>::max)();
 }
 
 

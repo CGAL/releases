@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Linear_algebraCd.h $
-// $Id: Linear_algebraCd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Linear_algebraCd.h $
+// $Id: Linear_algebraCd.h 38827 2007-05-23 13:36:07Z spion $
 // 
 //
 // Author(s)     : Herve.Bronnimann@sophia.inria.fr
@@ -29,8 +29,8 @@
 #include <memory>
 #include <vector>
 
-#undef _DEBUG
-#define _DEBUG 13
+#undef CGAL_KD_DEBUG
+#define CGAL_KD_DEBUG 13
 #include <CGAL/Kernel_d/debug.h>
 
 
@@ -120,8 +120,6 @@ public:
 
 CGAL_END_NAMESPACE
 
-#include <CGAL/Kernel_d/Linear_algebraCd.C>
+#include <CGAL/Kernel_d/Linear_algebraCd_impl.h>
 
 #endif // CGAL_LINEAR_ALGEBRACD_H
-
-

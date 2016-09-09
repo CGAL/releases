@@ -34,43 +34,43 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                Segment_generator_example1$(EXE_EXT) \
-                Segment_generator_example2$(EXE_EXT) \
-                generators_example1$(EXE_EXT) \
-                generators_example2$(EXE_EXT) \
-                random_poly_example$(EXE_EXT) \
-                random_polygon_ex$(EXE_EXT) \
-                rcs_example$(EXE_EXT) 
+                random_convex_set$(EXE_EXT) \
+                random_degenerate_point_set$(EXE_EXT) \
+                random_grid$(EXE_EXT) \
+                random_polygon$(EXE_EXT) \
+                random_polygon2$(EXE_EXT) \
+                random_segments1$(EXE_EXT) \
+                random_segments2$(EXE_EXT) 
 
-Segment_generator_example1$(EXE_EXT): Segment_generator_example1$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Segment_generator_example1 Segment_generator_example1$(OBJ_EXT) $(LDFLAGS)
+random_convex_set$(EXE_EXT): random_convex_set$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)random_convex_set random_convex_set$(OBJ_EXT) $(LDFLAGS)
 
-Segment_generator_example2$(EXE_EXT): Segment_generator_example2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)Segment_generator_example2 Segment_generator_example2$(OBJ_EXT) $(LDFLAGS)
+random_degenerate_point_set$(EXE_EXT): random_degenerate_point_set$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)random_degenerate_point_set random_degenerate_point_set$(OBJ_EXT) $(LDFLAGS)
 
-generators_example1$(EXE_EXT): generators_example1$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)generators_example1 generators_example1$(OBJ_EXT) $(LDFLAGS)
+random_grid$(EXE_EXT): random_grid$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)random_grid random_grid$(OBJ_EXT) $(LDFLAGS)
 
-generators_example2$(EXE_EXT): generators_example2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)generators_example2 generators_example2$(OBJ_EXT) $(LDFLAGS)
+random_polygon$(EXE_EXT): random_polygon$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)random_polygon random_polygon$(OBJ_EXT) $(LDFLAGS)
 
-random_poly_example$(EXE_EXT): random_poly_example$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)random_poly_example random_poly_example$(OBJ_EXT) $(LDFLAGS)
+random_polygon2$(EXE_EXT): random_polygon2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)random_polygon2 random_polygon2$(OBJ_EXT) $(LDFLAGS)
 
-random_polygon_ex$(EXE_EXT): random_polygon_ex$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)random_polygon_ex random_polygon_ex$(OBJ_EXT) $(LDFLAGS)
+random_segments1$(EXE_EXT): random_segments1$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)random_segments1 random_segments1$(OBJ_EXT) $(LDFLAGS)
 
-rcs_example$(EXE_EXT): rcs_example$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)rcs_example rcs_example$(OBJ_EXT) $(LDFLAGS)
+random_segments2$(EXE_EXT): random_segments2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)random_segments2 random_segments2$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   Segment_generator_example1.clean \
-                   Segment_generator_example2.clean \
-                   generators_example1.clean \
-                   generators_example2.clean \
-                   random_poly_example.clean \
-                   random_polygon_ex.clean \
-                   rcs_example.clean 
+                   random_convex_set.clean \
+                   random_degenerate_point_set.clean \
+                   random_grid.clean \
+                   random_polygon.clean \
+                   random_polygon2.clean \
+                   random_segments1.clean \
+                   random_segments2.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

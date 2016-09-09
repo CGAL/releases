@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Min_circle_2/include/CGAL/Min_circle_2.h $
-// $Id: Min_circle_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_circle_2/include/CGAL/Min_circle_2.h $
+// $Id: Min_circle_2.h 32387 2006-07-11 11:59:32Z gaertner $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
@@ -588,9 +588,7 @@ operator >> ( std::istream& is,       Min_circle_2<Traits_>& mc);
 
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
-#  include <CGAL/Min_circle_2.C>
-#endif
+#include <CGAL/Min_circle_2/Min_circle_2_impl.h>
 
 #endif // CGAL_MIN_CIRCLE_2_H
 

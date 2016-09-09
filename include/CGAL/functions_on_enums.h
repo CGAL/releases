@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/functions_on_enums.h $
-// $Id: functions_on_enums.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/functions_on_enums.h $
+// $Id: functions_on_enums.h 32580 2006-07-18 07:01:03Z cdelage $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -38,18 +38,8 @@ opposite(const T& t)
 
 inline
 Sign
-opposite(Sign o)
+operator-(Sign o)
 { return static_cast<Sign>( - static_cast<int>(o)); }
-
-inline
-Comparison_result
-opposite(Comparison_result o)
-{ return static_cast<Comparison_result>( - static_cast<int>(o)); }
-
-inline
-Oriented_side
-opposite(Oriented_side os)
-{ return static_cast<Oriented_side>( - static_cast<int>(os)); }
 
 inline
 Bounded_side
@@ -60,6 +50,11 @@ inline
 Angle
 opposite(Angle a)
 { return static_cast<Angle>( - static_cast<int>(a)); }
+
+inline Sign operator* (Sign s1, Sign s2)
+{
+    return static_cast<Sign> (static_cast<int> (s1) * static_cast<int> (s2));
+}
 
 #ifdef CGAL_CFG_MATCHING_BUG_5
 

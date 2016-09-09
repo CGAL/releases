@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Iso_rectangle_2.h $
-// $Id: Iso_rectangle_2.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Iso_rectangle_2.h $
+// $Id: Iso_rectangle_2.h 33346 2006-08-16 14:24:44Z afabri $
+//
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
 
@@ -34,7 +34,6 @@ class Iso_rectangleC2
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Iso_rectangle_2      Iso_rectangle_2;
-  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
   typedef typename R_::Construct_point_2    Construct_point_2;
 
   typedef Twotuple<Point_2>                        Rep;
@@ -47,35 +46,26 @@ public:
 
   Iso_rectangleC2() {}
 
-  Iso_rectangleC2(const Point_2 &p, const Point_2 &q)
-    : base(p,q)
-  {}
+  // Iso_rectangleC2(const Point_2 &p, const Point_2 &q)
+  //  : base(p, q) {}
 
+  Iso_rectangleC2(const Point_2 &p, const Point_2 &q, int)
+    : base(p, q)
+  {
+    // I have to remove the assertions, because of Cartesian_converter.
+    // CGAL_kernel_assertion(p<=q);
+  }
 
-  const Point_2 & min() const
+  const Point_2 & min BOOST_PREVENT_MACRO_SUBSTITUTION () const
   {
       return get(base).e0;
   }
-  const Point_2 & max() const
+  const Point_2 & max BOOST_PREVENT_MACRO_SUBSTITUTION () const
   {
       return get(base).e1;
   }
 
-  Iso_rectangle_2 transform(const Aff_transformation_2 &t) const
-  {
-    // FIXME : We need a precondition like this!!!
-    // CGAL_kernel_precondition(t.is_axis_preserving());
-    return Iso_rectangle_2(t.transform(min()), t.transform(max()));
-  }
-
-
-
-
 };
-
-
-
-
 
 CGAL_END_NAMESPACE
 

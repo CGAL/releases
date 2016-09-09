@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Is_even_multiplicity.h $
-// $Id: Is_even_multiplicity.h 29334 2006-03-10 00:00:09Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Is_even_multiplicity.h $
+// $Id: Is_even_multiplicity.h 35766 2007-01-20 21:39:01Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -22,6 +22,7 @@
 #define CGAL_POLYNOMIAL_INTERNAL_EVEN_MULTIPLICITY_H
 
 #include <CGAL/Polynomial/basic.h>
+#include <CGAL/CORE_Expr.h>
 
 CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
 
@@ -49,6 +50,10 @@ public:
     return false;
   }
   bool operator()(Interval_nt) const
+  {
+    return false;
+  }
+  bool operator()(::CORE::Expr) const
   {
     return false;
   }

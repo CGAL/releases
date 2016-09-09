@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_3/include/CGAL/intersection_3_1.h $
-// $Id: intersection_3_1.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_3/include/CGAL/intersection_3_1.h $
+// $Id: intersection_3_1.h 31285 2006-05-25 17:44:06Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -231,8 +231,6 @@ intersection(const Iso_cuboid_3<R> &box1,
 
 CGAL_END_NAMESPACE
 
-
-#include <CGAL/intersection_3_1.C>
-
+#include <CGAL/Intersections_3/intersection_3_1_impl.h>
 
 #endif // CGAL_INTERSECTION_3_1_H

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Triangle_2.h $
-// $Id: Triangle_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Triangle_2.h $
+// $Id: Triangle_2.h 33053 2006-08-05 23:31:09Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -36,7 +36,6 @@ class TriangleC2
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Triangle_2           Triangle_2;
-  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
   typedef Threetuple<Point_2>	                   Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -68,47 +67,7 @@ public:
     return vertex(i);
   }
 
-  Triangle_2           
-  transform(const Aff_transformation_2 &t) const
-  {
-    return Triangle_2(t.transform(vertex(0)),
-		      t.transform(vertex(1)),
-		      t.transform(vertex(2)));
-  }
-  
 };
-
-#ifndef CGAL_NO_OSTREAM_INSERT_TRIANGLEC2
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const TriangleC2<R> &t)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << t[0] << ' ' << t[1] << ' ' << t[2];
-    case IO::BINARY :
-        return os << t[0] << t[1]  << t[2];
-    default:
-        return os<< "TriangleC2(" << t[0] << ", " 
-		 << t[1] << ", " << t[2] <<")";
-    }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_TRIANGLEC2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_TRIANGLEC2
-template < class R >
-std::istream &
-operator>>(std::istream &is, TriangleC2<R> &t)
-{
-    typename R::Point_2 p, q, r;
-
-    is >> p >> q >> r;
-
-    if (is)
-	t = TriangleC2<R>(p, q, r);
-    return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_TRIANGLEC2
 
 CGAL_END_NAMESPACE
 

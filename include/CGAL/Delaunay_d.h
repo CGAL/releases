@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_d/include/CGAL/Delaunay_d.h $
-// $Id: Delaunay_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_d/include/CGAL/Delaunay_d.h $
+// $Id: Delaunay_d.h 36911 2007-03-08 09:36:50Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -198,9 +198,11 @@ public:
     { CGAL_assertion(base() != Base_iterator());
       tf = (z == NEAREST ? lower_hull : upper_hull); 
       bool cocirc = DT->is_S_cocircular();
+      // Note [Sylvain,2007-03-08] : I added some parentheses to fix a warning,
+      // I hope I got the logic right.
       while ( base() != DT->simplices_end() &&
-              !( cocirc && DT->is_bounded_simplex(base()) ||
-                 !cocirc && DT->is_unbounded_simplex(base()) && 
+              !( ( cocirc && DT->is_bounded_simplex(base()) ) ||
+                 ( !cocirc && DT->is_unbounded_simplex(base()) ) && 
                  DT->type_of(base()) == tf ) ) {
          Base_iterator::operator++();
       }
@@ -215,9 +217,11 @@ public:
       bool cocirc = DT->is_S_cocircular();
       do {
         Base_iterator::operator++();
+      // Note [Sylvain,2007-03-08] : I added some parentheses to fix a warning,
+      // I hope I got the logic right.
       } while ( base() != DT->simplices_end() &&
-                !( cocirc && DT->is_bounded_simplex(base()) ||
-                   !cocirc && DT->is_unbounded_simplex(base()) && 
+                !( ( cocirc && DT->is_bounded_simplex(base()) ) ||
+                   ( !cocirc && DT->is_unbounded_simplex(base()) ) && 
                    DT->type_of(base()) == tf ) );
       return *this; 
     }

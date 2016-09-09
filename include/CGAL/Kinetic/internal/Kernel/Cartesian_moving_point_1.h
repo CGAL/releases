@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_moving_point_1.h $
-// $Id: Cartesian_moving_point_1.h 29334 2006-03-10 00:00:09Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_moving_point_1.h $
+// $Id: Cartesian_moving_point_1.h 36907 2007-03-08 01:47:03Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -51,6 +51,10 @@ public:
   //! null
   Cartesian_moving_point_1(){}
 
+  bool operator==(const Cartesian_moving_point_1 &o) const {
+    return x() == o.x();
+  }
+
   //! homogeneous x
   const Coordinate &hx() const
   {
@@ -69,6 +73,10 @@ public:
     return _coord;
   }
 
+  bool is_constant() const {
+    return _coord.degree()<1;
+  }
+  
   template <class SK>
   struct Static_traits
   {

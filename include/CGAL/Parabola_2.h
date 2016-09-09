@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/Parabola_2.h $
-// $Id: Parabola_2.h 30890 2006-05-01 14:40:26Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Parabola_2.h $
+// $Id: Parabola_2.h 37034 2007-03-12 17:34:47Z hemmer $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -42,7 +42,8 @@ public:
   //  typedef CGAL::Point_2< Cartesian<double> >      Point_2;
   //  typedef CGAL::Segment_2< Cartesian<double> >    Segment_2;
   //  typedef CGAL::Line_2< Cartesian<double> >       Line_2;
-
+private:
+    typedef Algebraic_structure_traits<FT> AST;
 protected:
   // static stuff
 #if defined(__POWERPC__) && \
@@ -67,35 +68,22 @@ protected:
   //  }
 
   inline static
-  FT divide(const FT& x, const FT& y, const Tag_false&) {
-    return CGAL::to_double(x) / CGAL::to_double(y);
-  }
-
-  inline static
-  FT divide(const FT& x, const FT& y, const Tag_true&) {
-    return x / y;
-  }
-
-  inline static
   FT divide(const FT& x, const FT& y) {
-    static typename Number_type_traits<FT>::Has_division has_division;
-    return divide(x, y, has_division);
+      return CGAL::integral_division(x,y);
   }
-
   inline static
-  FT sqrt(const FT& x, const Tag_false&) {
+  FT sqrt(const FT& x, Integral_domain_without_division_tag) {
     return CGAL::sqrt(CGAL::to_double(x));
   }
 
   inline static
-  FT sqrt(const FT& x, const Tag_true&) {
+  FT sqrt(const FT& x, Field_with_sqrt_tag) {
     return CGAL::sqrt(x);
   }
 
   inline static
   FT sqrt(const FT& x) {
-    static typename Number_type_traits<FT>::Has_sqrt has_sqrt;
-    return sqrt(x, has_sqrt);
+      return sqrt(x, typename AST::Algebraic_category());
   }
 
   inline static

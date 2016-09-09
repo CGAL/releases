@@ -1,8 +1,5 @@
-// Copyright (c) 2004  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2004  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,10 +12,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Timer/include/CGAL/Memory_sizer.h $
-// $Id: Memory_sizer.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Timer/include/CGAL/Memory_sizer.h $
+// $Id: Memory_sizer.h 37171 2007-03-16 22:45:19Z spion $
 // 
-//
 // Author(s)     : Sylvain Pion, Andreas Fabri
 
 #ifndef CGAL_MEMORY_SIZER_H
@@ -28,8 +24,21 @@
 
 // This has only been implemented for Linux and VC++ for now.
 #if !defined _MSC_VER && !defined __linux__
-#  define CGAL_DONT_HAVE_MEMORY_SIZER
-#endif
+
+#include <iostream>
+
+CGAL_BEGIN_NAMESPACE
+
+struct Memory_sizer
+{
+    typedef std::size_t   size_type;
+    size_type virtual_size()  const { return 0; }
+    size_type resident_size() const { return 0; }
+};
+
+CGAL_END_NAMESPACE
+
+#else // defined _MSC_VER ||  defined __linux__
 
 #if defined _MSC_VER
 #  include <windows.h>
@@ -43,8 +52,6 @@
 #  include <unistd.h>
 #endif
 
-#ifndef CGAL_DONT_HAVE_MEMORY_SIZER
-
 CGAL_BEGIN_NAMESPACE
 
 // A class giving access to the memory currently used by the process.
@@ -56,8 +63,8 @@ struct Memory_sizer
 {
     typedef std::size_t   size_type;
 
-    size_type virtual_size()  const { return get(true); };
-    size_type resident_size() const { return get(false); };
+    size_type virtual_size()  const { return get(true); }
+    size_type resident_size() const { return get(false); }
 
 private:
 
@@ -121,6 +128,6 @@ private:
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_DONT_HAVE_MEMORY_SIZER
+#endif
 
 #endif

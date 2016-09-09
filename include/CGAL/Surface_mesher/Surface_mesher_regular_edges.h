@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_regular_edges.h $
-// $Id: Surface_mesher_regular_edges.h 30039 2006-04-06 11:52:05Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_regular_edges.h $
+// $Id: Surface_mesher_regular_edges.h 36704 2007-02-28 18:22:28Z lrineau $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -184,21 +184,28 @@ namespace CGAL {
 
     public:
       Surface_mesher_regular_edges_base(C2T3& c2t3,
-                                        Surface& surface,
-                                        SurfaceMeshTraits mesh_traits,
-                                        Criteria& criteria)
+                                        const Surface& surface,
+                                        const SurfaceMeshTraits& mesh_traits,
+                                        const Criteria& criteria)
         : SMB(c2t3, surface, mesh_traits, criteria),
           bad_edges_initialized(false)
     {
 #ifdef CGAL_SURFACE_MESHER_DEBUG_CONSTRUCTORS
-      std::cerr << "CONS: Surface_mesher_regular_edges_base\n";
+      std::cerr << "CONS: Surface_mesher_regular_edges_base";
+      if(withBoundary)
+        std::cerr << " (with boundaries)\n";
+      else
+        std::cerr << " (without boundary)\n";
 #endif
     }
 
     // Initialization function
     void initialize_bad_edges() const {
 #ifdef CGAL_SURFACE_MESHER_VERBOSE
-      std::cout << "scanning edges..." << std::endl;
+      std::cerr << "\r             \rscanning edges ";
+      if(withBoundary)
+        std::cerr << "(boundaries allowed)";
+      std::cerr << "...\n";
 #endif
       int n = 0;
       for (Finite_edges_iterator eit = SMB::tr.finite_edges_begin(); eit !=
@@ -214,14 +221,14 @@ namespace CGAL {
       }
       bad_edges_initialized = true;
 #ifdef CGAL_SURFACE_MESHER_VERBOSE
-	std::cout << "   -> found " << n << " bad edges\n";
+	std::cerr << "   -> found " << n << " bad edges\n";
 #endif
     }
 
     void scan_triangulation_impl() {
       SMB::scan_triangulation_impl();
 #ifdef CGAL_SURFACE_MESHER_VERBOSE
-      std::cout << "scanning edges (lazy)" << std::endl;
+      std::cerr << "scanning edges (lazy)" << std::endl;
 #endif
     }
 
@@ -318,6 +325,11 @@ namespace CGAL {
       std::stringstream s;
       s << SMB::debug_info() << "," << bad_edges.size();
       return s.str();
+    }
+
+    static std::string debug_info_header()
+    {
+      return SMB::debug_info_header() + "," + "number of bad edges";
     }
   };  // end Surface_mesher_regular_edges_base
 

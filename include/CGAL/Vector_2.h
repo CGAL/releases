@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Vector_2.h $
-// $Id: Vector_2.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Vector_2.h $
+// $Id: Vector_2.h 37197 2007-03-17 18:29:25Z afabri $
+//
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
 
@@ -26,6 +26,10 @@
 
 #include <CGAL/Origin.h>
 #include <CGAL/Kernel/mpl.h>
+#include <boost/static_assert.hpp>
+#include <boost/type_traits.hpp>
+#include <CGAL/Kernel/Return_base_tag.h>
+#include <CGAL/representation_tags.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -39,7 +43,11 @@ class Vector_2 : public R_::Kernel_base::Vector_2
   typedef typename R_::Line_2         Line_2;
   typedef typename R_::Point_2        Point_2;
   typedef typename R_::Direction_2    Direction_2;
+  typedef typename R_::Aff_transformation_2  Aff_transformation_2;
   typedef typename R_::Kernel_base::Vector_2  RVector_2;
+
+  typedef Vector_2                    Self;
+  BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Vector_2>::value));
 
 public:
 
@@ -59,26 +67,35 @@ public:
 
   Vector_2() {}
 
+  Vector_2(const RVector_2& v)
+      : RVector_2(v) {}
+
   Vector_2(const Point_2& a, const Point_2& b)
-      : RVector_2(typename R::Construct_vector_2()(a, b).rep()) {}
+      : RVector_2(typename R::Construct_vector_2()(Return_base_tag(), a, b)) {}
 
-  Vector_2(const RVector_2& v) : RVector_2(v) {}
+  Vector_2(const Segment_2 &s)
+      : RVector_2(typename R::Construct_vector_2()(Return_base_tag(), s)) {}
 
-  Vector_2(const Segment_2 &s) : RVector_2(typename R::Construct_vector_2()(s).rep()) {}
+  Vector_2(const Ray_2 &r)
+      : RVector_2(typename R::Construct_vector_2()(Return_base_tag(), r)) {}
 
-  Vector_2(const Ray_2 &r) : RVector_2(typename R::Construct_vector_2()(r).rep()) {}
+  Vector_2(const Line_2 &l)
+      : RVector_2(typename R::Construct_vector_2()(Return_base_tag(), l)) {}
 
-  Vector_2(const Line_2 &l) : RVector_2(typename R::Construct_vector_2()(l).rep()) {}
+  Vector_2(const Null_vector &v)
+      : RVector_2(typename R::Construct_vector_2()(Return_base_tag(), v)) {}
 
-  Vector_2(const Null_vector &v) : RVector_2(typename R::Construct_vector_2()(v).rep()) {}
-
-  Vector_2(const RT &x, const RT &y)
-    : RVector_2(typename R::Construct_vector_2()(x,y).rep())
-  {}
+  template < typename T1, typename T2 >
+#ifdef __INTEL_COMPILER
+      Self
+#else
+  Vector_2
+#endif
+          (const T1 &x, const T2 &y)
+      : RVector_2(typename R::Construct_vector_2()(Return_base_tag(), x,y)) {}
 
   Vector_2(const RT &x, const RT &y, const RT &w)
-    : RVector_2(typename R::Construct_vector_2()(x,y,w).rep())
-  {}
+      : RVector_2(typename R::Construct_vector_2()(Return_base_tag(), x,y,w)) {}
 
 
   typename Qualified_result_of<typename R::Compute_x_2,Vector_2>::type
@@ -87,14 +104,12 @@ public:
     return R().compute_x_2_object()(*this);
   }
 
-  
   typename Qualified_result_of<typename R::Compute_y_2,Vector_2>::type
   y() const
   {
     return R().compute_y_2_object()(*this);
   }
 
-  
   typename Qualified_result_of<typename R::Compute_y_2,Vector_2>::type
   cartesian(int i) const
   {
@@ -114,7 +129,7 @@ public:
     return R().compute_hx_2_object()(*this);
   }
 
-  
+
   typename Qualified_result_of<typename R::Compute_hy_2,Vector_2>::type
   hy() const
   {
@@ -180,6 +195,11 @@ public:
     return R().construct_perpendicular_vector_2_object()(*this,o);
   }
 
+  Vector_2 transform(const Aff_transformation_2 &t) const
+  {
+    return t.transform(*this);
+  }
+
 };
 
 
@@ -216,24 +236,105 @@ operator!=(const Null_vector &n, const Vector_2<R> &v)
 }
 
 
-
-#ifndef CGAL_NO_OSTREAM_INSERT_VECTOR_2
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const Vector_2<R> &v)
+template <class R >
+std::ostream&
+insert(std::ostream& os, const Vector_2<R>& v, const Cartesian_tag&)
 {
-  return os << v.rep();
+    switch(os.iword(IO::mode)) {
+    case IO::ASCII :
+        return os << v.x() << ' ' << v.y();
+    case IO::BINARY :
+        write(os, v.x());
+        write(os, v.y());
+        return os;
+    default:
+        return os << "VectorC2(" << v.x() << ", " << v.y() << ')';
+    }
 }
-#endif // CGAL_NO_OSTREAM_INSERT_VECTOR_2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_VECTOR_2
-template < class R >
-std::istream &
-operator>>(std::istream &is, Vector_2<R>& v)
+template <class R >
+std::ostream&
+insert(std::ostream& os, const Vector_2<R>& v, const Homogeneous_tag&)
 {
-  return is >> v.rep();
+  switch(os.iword(IO::mode))
+  {
+    case IO::ASCII :
+        return os << v.hx() << ' ' << v.hy() << ' ' << v.hw();
+    case IO::BINARY :
+        write(os, v.hx());
+        write(os, v.hy());
+        write(os, v.hw());
+        return os;
+    default:
+        return os << "VectorH2(" << v.hx() << ", "
+                                 << v.hy() << ", "
+                                 << v.hw() << ')';
+  }
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_VECTOR_2
+
+template < class R >
+std::ostream&
+operator<<(std::ostream& os, const Vector_2<R>& v)
+{
+  return insert(os, v, typename R::Kernel_tag() );
+}
+
+
+
+template <class R >
+std::istream&
+extract(std::istream& is, Vector_2<R>& v, const Cartesian_tag&)
+{
+    typename R::FT x, y;
+    switch(is.iword(IO::mode)) {
+    case IO::ASCII :
+        is >> x >> y;
+        break;
+    case IO::BINARY :
+        read(is, x);
+        read(is, y);
+        break;
+    default:
+        std::cerr << "" << std::endl;
+        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
+        break;
+    }
+    if (is)
+        v = Vector_2<R>(x, y);
+    return is;
+}
+
+
+template <class R >
+std::istream&
+extract(std::istream& is, Vector_2<R>& v, const Homogeneous_tag&)
+{
+  typename R::RT hx, hy, hw;
+  switch(is.iword(IO::mode))
+  {
+    case IO::ASCII :
+        is >> hx >> hy >> hw;
+        break;
+    case IO::BINARY :
+        read(is, hx);
+        read(is, hy);
+        read(is, hw);
+        break;
+    default:
+        std::cerr << "" << std::endl;
+        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
+        break;
+  }
+  v = Vector_2<R>(hx, hy, hw);
+  return is;
+}
+
+template < class R >
+std::istream&
+operator>>(std::istream& is, Vector_2<R>& v)
+{
+  return extract(is, v, typename R::Kernel_tag() );
+}
 
 CGAL_END_NAMESPACE
 

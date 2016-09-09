@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2/Arr_addition_visitor.h $
-// $Id: Arr_addition_visitor.h 28840 2006-02-27 14:36:55Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Sweep_line_2/Arr_addition_visitor.h $
+// $Id: Arr_addition_visitor.h 32401 2006-07-11 18:15:02Z baruchzu $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -41,6 +41,9 @@ public:
 
   Arr_addition_visitor(Arrangement* arr) : Base(arr)
   {}
+
+  /*void before_sweep()
+  {}*/
 
   // check if the halfedge associated with 'sc' will be splitted at the given
   // event point (its a recursive function since the hirearchy of potential 

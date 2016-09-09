@@ -1,8 +1,5 @@
-// Copyright (c) 1999  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 1999  Max-Planck-Institute Saarbruecken (Germany).
+// All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/src/CGALQt/Qt_widget_OpenGL.cpp $
-// $Id: Qt_widget_OpenGL.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/src/CGALQt/Qt_widget_OpenGL.cpp $
+// $Id: Qt_widget_OpenGL.cpp 36919 2007-03-08 10:03:49Z spion $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -128,11 +125,12 @@ void Qt_widget_OpenGL::mousePressEvent(QMouseEvent* event) {
     else
       interaction = motion_mode;
   }
-  if(event->stateAfter() & QMouseEvent::MidButton)
+  if(event->stateAfter() & QMouseEvent::MidButton) {
     if (event->stateAfter() & QMouseEvent::ShiftButton)
       interaction = TRANS_Z;
     else
       interaction = TRANSLATE;
+  }
   if(event->stateAfter() & QMouseEvent::RightButton)
     main->exec(QPoint(event->globalX(),event->globalY()));
 }
@@ -184,7 +182,7 @@ void Qt_widget_OpenGL::initializeGL() {
 void Qt_widget_OpenGL::resizeGL(int width, int height) {
   window_width = width;
   window_height = height;
-  window_radius = std::min( width, height) / 2;
+  window_radius = (std::min)( width, height) / 2;
 
   glViewport(0, 0, (GLint)width, (GLint)height);
   glMatrixMode(GL_PROJECTION);
@@ -253,5 +251,5 @@ void Qt_widget_OpenGL::slotPerspective() {
 }
 
 } // namespace CGAL
-#include "Qt_widget_OpenGL.moc"
+#include <Qt_widget_OpenGL.moc>
 #endif

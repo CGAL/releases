@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2/Arr_addition_traits.h $
-// $Id: Arr_addition_traits.h 28840 2006-02-27 14:36:55Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Sweep_line_2/Arr_addition_traits.h $
+// $Id: Arr_addition_traits.h 35514 2006-12-11 15:34:13Z wein $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -40,10 +40,15 @@ public:
   typedef typename Base::Halfedge_handle           Halfedge_handle;
   typedef typename Base::Base_point_2              Base_point_2;
   typedef typename Base::Point_2                   Point_2;
+  typedef typename Base::Has_boundary_category     Has_boundary_category;
+  typedef typename Base::Has_left_category Has_left_category;
 
 public:
 
   //Constructor
+  Arr_addition_traits()
+  {}
+
   Arr_addition_traits (Traits_2& tr): Base (tr)
   {}
 
@@ -112,7 +117,7 @@ public:
     }
   };
 
-  Intersect_2 intersect_2_object () 
+  Intersect_2 intersect_2_object () const
   {
     return (Intersect_2 (this->m_base_traits->intersect_2_object())); 
   }
@@ -145,7 +150,7 @@ public:
     }
   };
 
-  Split_2 split_2_object () 
+  Split_2 split_2_object () const
   {
     return (Split_2 (this->m_base_traits->split_2_object()));
   }

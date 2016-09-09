@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Standard_sequence.h $
-// $Id: Standard_sequence.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Standard_sequence.h $
+// $Id: Standard_sequence.h 35193 2006-11-16 08:54:12Z hemmer $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -72,7 +72,7 @@ class Standard_sequence : public Sturm_sequence_t
 };
 
 #if 0
-template<class Kernel, class Ret, class M = CGAL::Ring_tag>
+template<class Kernel, class Ret, class M = CGAL::Integral_domain_without_division_tag>
 class Standard_sequence_k
 : public Sturm_sequence_k<Kernel, Ret,M>
 {

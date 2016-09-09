@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Largest_empty_rect_2/include/CGAL/Largest_empty_iso_rectangle_2.h $
-// $Id: Largest_empty_iso_rectangle_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Largest_empty_rect_2/include/CGAL/Largest_empty_iso_rectangle_2.h $
+// $Id: Largest_empty_iso_rectangle_2.h 36797 2007-03-04 13:30:32Z spion $
 // 
 //
 // Author(s)     : Eli Packer (algorithm), Andreas Fabri (cgal conformance)
@@ -1190,8 +1190,8 @@ template<class T>
 void 
 Largest_empty_iso_rectangle_2<T>::phase_3()
 {
-  bool first_iter_is_right, second_iter_is_right, third_iter_is_right,
-    first_exist,second_exist,third_exist;
+  bool first_iter_is_right = true, second_iter_is_right = true; // init for compiler warning
+  bool third_iter_is_right, first_exist,second_exist,third_exist;
   typename Point_data_set_of_y::iterator iter, last_iter = y_sorted.end();
   typename Point_data_set_of_y::iterator iter1, iter2, iter3, 
                                 right_iter, left_iter, last = last_iter;
@@ -1353,10 +1353,10 @@ Largest_empty_iso_rectangle_2<T>::Largest_empty_iso_rectangle_2(
      y_sorted(Less_yx(traits())),
      less_xy_point(traits()),
      less_yx_point(traits()),
-     bl_p(b.min()),
-     tr_p(b.max())
+     bl_p((b.min)()),
+     tr_p((b.max)())
 {
-  init(b.min(), b.max());
+  init((b.min)(), (b.max)());
 }
 
 // ctor

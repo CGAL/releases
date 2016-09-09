@@ -1,4 +1,4 @@
- // Copyright (c) 1997-2000  Max-Planck-Institute Saarbruecken (Germany).
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,11 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/K3_tree.h $
-// $Id: K3_tree.h 30667 2006-04-19 16:56:12Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/K3_tree.h $
+// $Id: K3_tree.h 38349 2007-04-19 17:32:41Z hachenb $
 // 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
+//                 Peter Hachenberger <hachenb@mpi-sb.mpg.de>
 
 #ifndef CGAL_NEF_K3_TREE_H
 #define CGAL_NEF_K3_TREE_H
@@ -23,6 +24,8 @@
 #include <CGAL/basic.h>
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/Nef_3/quotient_coordinates_to_homogeneous_point.h>
+#include <CGAL/Lazy_kernel.h>
+#include <CGAL/Cartesian.h>
 
 #ifdef CGAL_NEF3_TRIANGULATE_FACETS
 #include <CGAL/Constrained_triangulation_2.h>
@@ -83,6 +86,81 @@ struct Compare_triangle_3 {
 template <class Traits>
 class K3_tree
 {
+
+template <typename Kernel, typename Object, 
+          typename Vertex, typename Coordinate>
+class Smaller_than
+{
+public:
+  Smaller_than(Coordinate c) : coord(c) {
+    CGAL_assertion( c >= 0 && c <=2);
+  }
+  bool operator()( const Vertex& v1, const Vertex& v2) {
+    switch(coord) {
+    case 0: return CGAL::compare_x(v1->point(), v2->point()) == SMALLER;
+    case 1: return CGAL::compare_y(v1->point(), v2->point()) == SMALLER;
+    case 2: return CGAL::compare_z(v1->point(), v2->point()) == SMALLER;
+    default: CGAL_assertion(false);
+    }
+    return false;
+  }
+
+  bool operator()( const Object& o1, const Object& o2) {
+    Vertex v1,v2;
+    CGAL::assign(v1,o1);
+    CGAL::assign(v2,o2);
+    switch(coord) {
+    case 0: return CGAL::compare_x(v1->point(), v2->point()) == SMALLER;
+    case 1: return CGAL::compare_y(v1->point(), v2->point()) == SMALLER;
+    case 2: return CGAL::compare_z(v1->point(), v2->point()) == SMALLER;
+    default: CGAL_assertion(false);
+    }
+    return false;
+  }
+private:
+  Coordinate coord;
+};
+
+
+template <typename Object, typename Vertex, 
+          typename Coordinate, typename EK>
+  class Smaller_than<CGAL::Lazy_kernel<EK>, Object, Vertex, Coordinate>
+{
+public:
+  Smaller_than(Coordinate c) : coord(c) {
+    CGAL_assertion( c >= 0 && c <=2);
+  }
+  bool operator()( const Vertex& v1, const Vertex& v2) {
+    switch(coord) {
+    case 0: return CGAL::to_interval(v1->point().x()).second <
+			   CGAL::to_interval(v2->point().x()).first;
+    case 1: return CGAL::to_interval(v1->point().y()).second <
+			   CGAL::to_interval(v2->point().y()).first;
+    case 2: return CGAL::to_interval(v1->point().z()).second <
+			   CGAL::to_interval(v2->point().z()).first;
+    default: CGAL_assertion(false);
+    }
+    return false;
+  }
+
+  bool operator()( const Object& o1, const Object& o2) {
+    Vertex v1,v2;
+    CGAL::assign(v1,o1);
+    CGAL::assign(v2,o2);
+    switch(coord) {
+    case 0: return CGAL::to_interval(v1->point().x()).second <
+			   CGAL::to_interval(v2->point().x()).first;
+    case 1: return CGAL::to_interval(v1->point().y()).second <
+			   CGAL::to_interval(v2->point().y()).first;
+    case 2: return CGAL::to_interval(v1->point().z()).second <
+			   CGAL::to_interval(v2->point().z()).first;
+    default: CGAL_assertion(false);
+    }
+    return false;
+  }
+private:
+  Coordinate coord;
+};
 
 #ifdef CGAL_NEF3_TRIANGULATE_FACETS
   template<typename SNC_structure, typename Kernel>
@@ -205,6 +283,13 @@ typedef typename Traits::Objects_bbox Objects_bbox;
 
 typedef typename Traits::Kernel Kernel;
 typedef typename Kernel::RT RT;
+typedef typename Kernel::FT FT;
+
+typedef Smaller_than<
+  Kernel,
+  Object_handle,
+  Vertex_handle, 
+  int> Smaller_;
 
 class Node {
   friend class K3_tree<Traits>;
@@ -304,7 +389,7 @@ public:
     }
 
     Side_of_plane sop;
-    Oriented_side side = sop(splitting_plane, splitting_plane.point(), f, depth);
+    Oriented_side side = sop(splitting_plane.point(), f, depth);
     if( side == ON_NEGATIVE_SIDE || side == ON_ORIENTED_BOUNDARY)
       left_node->add_facet(f, depth+1);
     if( side == ON_POSITIVE_SIDE || side == ON_ORIENTED_BOUNDARY)
@@ -319,7 +404,7 @@ public:
     }
 
     Side_of_plane sop;
-    Oriented_side side = sop(splitting_plane, splitting_plane.point(), e, depth);
+    Oriented_side side = sop(splitting_plane.point(), e, depth);
     if( side == ON_NEGATIVE_SIDE || side == ON_ORIENTED_BOUNDARY)
       left_node->add_edge(e, depth+1);
     if( side == ON_POSITIVE_SIDE || side == ON_ORIENTED_BOUNDARY)
@@ -334,7 +419,7 @@ public:
     }
 
     Side_of_plane sop;
-    Oriented_side side = sop(splitting_plane, splitting_plane.point(), v, depth);
+    Oriented_side side = sop(splitting_plane.point(), v, depth);
     if( side == ON_NEGATIVE_SIDE || side == ON_ORIENTED_BOUNDARY)
       left_node->add_vertex(v, depth+1);
     if( side == ON_POSITIVE_SIDE || side == ON_ORIENTED_BOUNDARY)
@@ -536,10 +621,12 @@ void divide_segment_by_plane( Segment_3 s, Plane_3 pl,
       // First of all, we need to find out wheather we are working over an extended kernel or on a standard kernel. As precondition we have that ray is oriented in the minus x axis direction.  When having an extended kernel, the ray can be subtituted by a segment with the endpoint on the 'intersection' between the ray and the bounding infimaximal box.  In the presence of a standard kernel, the intersection is computed with the bounding box with the vertices of the Nef polyhedron.
       Point_3 p(r.source()), q;
       Bounding_box_3 b = k.bounding_box;
-      CGAL_NEF_TRACEN("bounding box " << b.get_min() << "->" << b.get_max());
       int c = (CGAL::abs(vec[0]) > CGAL::abs(vec[1]) ? 0 : 1); 
       c = (CGAL::abs(vec[2]) > CGAL::abs(vec[c]) ? 2 : c); 
-      Point_3 pt_on_minus_x_plane = vec[c] < 0 ? b.get_min() : b.get_max();
+
+      Point_3 pt_on_minus_x_plane = vec[c] < 0 ? 
+	Point_3(FT(b.min_coord(0)), FT(b.min_coord(1)),FT(b.min_coord(2))) :
+	Point_3(FT(b.max_coord(0)), FT(b.max_coord(1)),FT(b.max_coord(2)));
       // We compute the intersection between a plane with normal vector in 
       // the minus x direction and located at the minimum point of the bounding box, and the input ray.  When the ray does not intersect the bounding volume, there won't be any object hit, so it is safe to construct a segment that simply lay in the unbounded side of the bounding box.  This approach is taken instead of somehow (efficiently) report that there was no hit object, in order to mantain a clear interface with the Iterator class.
       Plane_3 pl_on_minus_x;      
@@ -745,23 +832,20 @@ typename Object_list::difference_type n_vertices = std::distance(objects.begin()
     root->add_vertex(v,0);
   }
 
-  template<typename SNCd>
-  class BBox_updater {
-    SNCd D;
+  class BBox_updater {  
     Bounding_box_3 b;
 
   public:	
-    BBox_updater(const SNCd& sncd) : D(sncd), b(Point_3(0,0,0),Point_3(0,0,0)) {}
+    BBox_updater() {}
 
-    void pre_visit(const Node* n) {}
+    void pre_visit(const Node*) {}
     void post_visit(const Node* n) {
       typename Object_list::const_iterator o;
-      for( o = n->objects().begin(); o != n->objects().end(); ++o) {
+      for( o = n->objects().begin(); 
+	   o != n->objects().end(); ++o) {
         Vertex_handle v;
-        if( CGAL::assign( v, *o)) {
-	  Point_3 p(v->point());
-          b = b + Bounding_box_3(p,p);
-        }
+        if( CGAL::assign( v, *o))
+          b.extend(v->point());
       }
     }
 
@@ -789,8 +873,7 @@ typename Object_list::difference_type n_vertices = std::distance(objects.begin()
     if(root != 0)
       root->transform(t);
 
-    SNC_decorator D;
-    BBox_updater<SNC_decorator> bbup(D);
+    BBox_updater bbup;
     visit_k3tree(root, bbup);
     bounding_box = bbup.box();
   }
@@ -930,83 +1013,33 @@ Node* build_kdtree(Object_list& O, Object_iterator v_end,
   Object_iterator median; 
   Plane_3 partition_plane = construct_splitting_plane(O.begin(), v_end, median, depth);
   CGAL_NEF_TRACEN("build_kdtree: plane: "<<partition_plane<< " " << partition_plane.point());
+
   Object_list O1, O2;
   Vertex_handle vm,vx;
   CGAL::assign(vm,*median);
+  Smaller_ smaller(depth%3);
+  for(Object_iterator oi=O.begin();oi!=median;++oi) {
+    O1.push_back(*oi);
+    CGAL::assign(vx,*oi);
+    if(!smaller(vx, vm))
+      O2.push_back(*oi);
+  }
+
+  O1.push_back(*median);
+  O2.push_back(*median);
+  
+  for(Object_iterator oi=median+1;oi!=v_end;++oi) {
+    O2.push_back(*oi);
+    CGAL::assign(vx,*oi);
+    if(!smaller(vm, vx))
+      O1.push_back(*oi);
+  }
+
 #ifdef CGAL_NEF_EXPLOIT_REFERENCE_COUNTING
   Side_of_plane sop(reference_counted);
 #else
   Side_of_plane sop;
 #endif
-  for(Object_iterator oi=O.begin();oi!=median;++oi) {
-    O1.push_back(*oi);
-    CGAL::assign(vx,*oi);
-//    std::cerr << vx->point() << " is ";
-    switch(depth%3) {
-    case 0:
-      if(CGAL::compare_x(vm->point(), vx->point())!= EQUAL) {
-//	sop.OnSideMap[vx] = ON_NEGATIVE_SIDE;
-//        std::cerr << "on NEGATIVE side" << std::endl;
-	continue; 
-      }
-      break;
-    case 1: 
-      if(CGAL::compare_y(vm->point(), vx->point())!= EQUAL) {
-//	sop.OnSideMap[vx] = ON_NEGATIVE_SIDE;
-//        std::cerr << "on NEGATIVE side" << std::endl;
-	continue; 
-      }
-      break;
-    case 2: 
-      if(CGAL::compare_z(vm->point(), vx->point())!= EQUAL) {
-//	sop.OnSideMap[vx] = ON_NEGATIVE_SIDE;
-//        std::cerr << "on NEGATIVE side" << std::endl;
-	continue; 
-      }
-      break;
-    }
-    O2.push_back(*oi);
-//    sop.OnSideMap[vx] = ON_ORIENTED_BOUNDARY;
-//    std::cerr << "on BOUNDARY" << std::endl;
-  }
-
-  O1.push_back(*median);
-  O2.push_back(*median);
-  CGAL::assign(vx,*median);
-//  sop.OnSideMap[vx] = ON_ORIENTED_BOUNDARY;
-
-  for(Object_iterator oi=median+1;oi!=v_end;++oi) {
-    O2.push_back(*oi);
-    CGAL::assign(vx,*oi);
-//    std::cerr << vx->point() << " is ";
-    switch(depth%3) {
-    case 0: 
-      if(CGAL::compare_x(vm->point(), vx->point())!= EQUAL) {
-//	sop.OnSideMap[vx] = ON_POSITIVE_SIDE;
-//        std::cerr << "on POSITIVE side" << std::endl;
-	continue; 
-      }
-      break;
-    case 1: 
-      if(CGAL::compare_y(vm->point(), vx->point())!= EQUAL) {
-//	sop.OnSideMap[vx] = ON_POSITIVE_SIDE;
-//        std::cerr << "on POSITIVE side" << std::endl;
-	continue; 
-      }
-      break;
-    case 2: 
-      if(CGAL::compare_z(vm->point(), vx->point())!= EQUAL) {
-//	sop.OnSideMap[vx] = ON_POSITIVE_SIDE;
-//        std::cerr << "on POSITIVE side" << std::endl;
-	continue; 
-      }
-      break;
-    }
-    O1.push_back(*oi);
-//    sop.OnSideMap[vx] = ON_ORIENTED_BOUNDARY;
-//    std::cerr << "on BOUNDARY" << std::endl;
-  }
-
   typename Object_list::size_type v_end1 = O1.size();
   typename Object_list::size_type v_end2 = O2.size();
   bool splitted = classify_objects( v_end, O.end(), partition_plane, sop,
@@ -1020,8 +1053,9 @@ Node* build_kdtree(Object_list& O, Object_iterator v_end,
     return new Node( parent, 0, 0, Plane_3(), O);
     non_efective_split = true;
   } else {
+    CGAL_NEF_TRACEN("Sizes " << O1.size() << ", " << O2.size() << ", " << O.size());
     CGAL_assertion( O1.size() <= O.size() && O2.size() <= O.size());
-    //  CGAL_assertion( O1.size() + O2.size() >= O.size());
+    CGAL_assertion( O1.size() + O2.size() >= O.size());
     non_efective_split = ((O1.size() == O.size()) || (O2.size() == O.size()));
   }
   if( non_efective_split)
@@ -1070,7 +1104,7 @@ bool classify_objects(Object_iterator start, Object_iterator end,
       }
     }
 #endif
-    Oriented_side side = sop( partition_plane, point_on_plane, *o, depth);
+    Oriented_side side = sop( point_on_plane, *o, depth);
     if( side == ON_NEGATIVE_SIDE || side == ON_ORIENTED_BOUNDARY) {
       *o1 = *o;
       ++o1;
@@ -1085,29 +1119,6 @@ bool classify_objects(Object_iterator start, Object_iterator end,
   return (on_oriented_boundary != std::distance(start,end));
 }
 
-template <typename Object, typename Vertex, typename Explorer, typename Coordinate>
-class Vertex_smaller_than
-{
-public:
-  Vertex_smaller_than(Coordinate c) : coord(c) {
-    CGAL_assertion( c >= 0 && c <=2);
-  }
-  bool operator()( const Object& o1, const Object& o2) {
-    Vertex v1,v2;
-    CGAL::assign(v1,o1);
-    CGAL::assign(v2,o2);
-    switch(coord) {
-    case 0: return CGAL::compare_x(v1->point(), v2->point()) == SMALLER;
-    case 1: return CGAL::compare_y(v1->point(), v2->point()) == SMALLER;
-    case 2: return CGAL::compare_z(v1->point(), v2->point()) == SMALLER;
-    default: CGAL_assertion(false);
-    }
-    return false;
-  }
-private:
-  Coordinate coord;
-  SNC_decorator D;
-};
 
 template <typename Depth>
 Plane_3 construct_splitting_plane(Object_iterator start, Object_iterator end,
@@ -1117,16 +1128,17 @@ Plane_3 construct_splitting_plane(Object_iterator start, Object_iterator end,
   CGAL_assertion(n>1);
 
   std::nth_element(start, start+n/2, end,
-  	           Vertex_smaller_than<Object_handle,Vertex_handle, SNC_decorator, int>(depth%3));
+  	           Smaller_(depth%3));
 
-  median = start+n/2;
   Vertex_handle v;
+  median = start+n/2;
   CGAL::assign(v,*median);
   switch( depth % 3) {
   case 0: return Plane_3( v->point(), Vector_3( 1, 0, 0)); break;
   case 1: return Plane_3( v->point(), Vector_3( 0, 1, 0)); break;
   case 2: return Plane_3( v->point(), Vector_3( 0, 0, 1)); break;
   }
+
   CGAL_assertion_msg( 0, "never reached");
   return Plane_3();
 }

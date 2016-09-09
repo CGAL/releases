@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Subdivision_method_3/include/CGAL/Subdivision_method_impl_3.h $
-// $Id: Subdivision_method_impl_3.h 30655 2006-04-19 03:42:03Z andyslj $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Subdivision_method_3/include/CGAL/Subdivision_method_impl_3.h $
+// $Id: Subdivision_method_impl_3.h 36336 2007-02-15 21:27:34Z spion $
 // 
 //
 // Author(s): Le-Jeng Shiue <Andy.Shiue@gmail.com>
@@ -23,8 +23,8 @@
 //
 // ======================================================================
 
-#ifndef _POLYHEDRON_SUBDIVISION_IMPL_H_02102006
-#define _POLYHEDRON_SUBDIVISION_IMPL_H_02102006
+#ifndef CGAL_POLYHEDRON_SUBDIVISION_IMPL_H_02102006
+#define CGAL_POLYHEDRON_SUBDIVISION_IMPL_H_02102006
 
 #include <CGAL/basic.h>
 
@@ -273,8 +273,8 @@ namespace Subdivision_method_3 {
 
 
   // ======================================================================
-//#define _EULER_DQQ_SPLITTING
-#define _EULER_DQQ_TILTING   // Tilting is faster
+//#define _EULER_DQQ_SPLITTING // should be CGAL_ prefixed
+//#define _EULER_DQQ_TILTING   // Tilting is faster // commented out since unused and not CGAL_ prefixed
   template <class Poly, template <typename> class Mask>
   void DQQ_1step(Poly& p, Mask<Poly> mask) {
 
@@ -566,4 +566,4 @@ namespace Subdivision_method_3 {
 
 CGAL_END_NAMESPACE
 
-#endif //_POLYHEDRON_SUBDIVISION_H_01292002
+#endif //CGAL_POLYHEDRON_SUBDIVISION_H_01292002

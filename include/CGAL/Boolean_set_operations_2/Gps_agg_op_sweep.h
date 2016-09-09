@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_sweep.h $
-// $Id: Gps_agg_op_sweep.h 28831 2006-02-27 14:28:18Z baruchzu $ $Date: 2006-02-27 15:28:18 +0100 (Mon, 27 Feb 2006) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_sweep.h $
+// $Id: Gps_agg_op_sweep.h 32004 2006-06-22 12:01:14Z baruchzu $ $Date: 2006-06-22 14:01:14 +0200 (Thu, 22 Jun 2006) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -108,6 +108,7 @@ public:
     typedef Unique_hash_map<Vertex_handle, Event *>    Vertices_map;
     typedef typename Traits_2::Compare_xy_2            Compare_xy_2;
 
+    this->m_visitor->before_sweep();
     // Allocate all of the Subcurve objects as one block.
     this->m_num_of_subCurves = std::distance (curves_begin, curves_end);
     this->m_subCurves = 
@@ -138,6 +139,9 @@ public:
         continue;
 
       event = this->allocate_event (vh->point(), event_type);
+      //TODO: when the boolean set operations will be exteneded to support
+      // unbounded curves, we will need here a special treatment.
+      event->set_finite();
 
       if (! first)
       {
@@ -179,6 +183,10 @@ public:
         if (res == SMALLER || q_iter == q_end)
         {
           event = this->allocate_event (vh->point(), event_type);
+
+          //TODO: when the boolean set operations will be exteneded to support
+          // unbounded curves, we will need here a special treatment.
+          event->set_finite();
           this->m_queue->insert_before (q_iter, event);
           vert_map[vh] = event;
         }
@@ -223,7 +231,9 @@ public:
       this->m_subCurveAlloc.construct (this->m_subCurves + index,
                                        this->m_masterSubcurve);
 
-      (this->m_subCurves + index)->init (*iter, e_left, e_right);
+      (this->m_subCurves + index)->init (*iter);
+      (this->m_subCurves + index)->set_left_event(e_left);
+      (this->m_subCurves + index)->set_right_event(e_right);
     
       e_right->add_curve_to_left (this->m_subCurves + index);  
       this->_add_curve_to_right (e_left, this->m_subCurves + index);

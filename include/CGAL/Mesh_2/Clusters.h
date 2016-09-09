@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
-// $Id: Clusters.h 29862 2006-03-30 16:11:40Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
+// $Id: Clusters.h 32781 2006-07-30 13:09:30Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -482,7 +482,7 @@ construct_cluster(Vertex_handle v,
       Squared_length l = squared_distance(vp,
                                         target(begin)->point());
       c.minimum_squared_length =
-        std::min(l,c.minimum_squared_length);
+        (std::min)(l,c.minimum_squared_length);
 
       if(all_edges_in_cluster || begin!=end)
         {

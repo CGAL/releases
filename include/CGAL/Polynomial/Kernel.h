@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/Kernel.h $
-// $Id: Kernel.h 29334 2006-03-10 00:00:09Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/Kernel.h $
+// $Id: Kernel.h 35779 2007-01-23 21:25:46Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -77,7 +77,7 @@ public:
   typedef Root_stack_t Root_stack;
   typedef typename Root_stack_t::Root Root;
   typedef Polynomial_t Function;
-  typedef NT_t NT;
+  typedef NT_t FT;
   typedef typename Root_stack_t::Traits Root_stack_traits;
 
   //! \todo do something with tr
@@ -85,9 +85,9 @@ public:
     solver_traits_(tr){}
 
   typedef internal::Sign_at<Root, This> Sign_at;
-  Sign_at sign_at_object(const Function &p) const
+  Sign_at sign_at_object() const
   {
-    return Sign_at(p);
+    return Sign_at(*this);
   }
 
   //! Compute the multiplicity of a zero.
@@ -103,18 +103,18 @@ public:
   }
 
   //! Compute the sign of p immediately after a root of another function (or of p)
-  typedef internal::Sign_above<Root, This> Sign_above;
-  Sign_above sign_above_object(const Function &p) const
+  typedef internal::Sign_above<Root, This> Sign_after;
+  Sign_after sign_after_object() const
   {
-    return Sign_above(p, *this);
+    return Sign_after(*this);
   }
 
   //! Compute the sign of p immediately after a root of another function (or of p)
-  typedef internal::Sign_below<Root, This> Sign_below;
-  Sign_below sign_below_object(const Function &p) const
+  /*typedef internal::Sign_below<Root, This> Sign_below;
+  Sign_below sign_be_object() const
   {
-    return Sign_below(p, *this);
-  }
+    return Sign_below(*this);
+    }*/
 
   //! Find a rational number between two non-equal roots
   typedef internal::Rational_between_roots<This> Rational_between_roots;
@@ -125,30 +125,29 @@ public:
 
   //! Compute the sign between two roots
   typedef internal::Sign_between_roots<This> Sign_between_roots;
-  Sign_between_roots sign_between_roots_object(const Root &r0,
-					       const Root &r1) const
+  Sign_between_roots sign_between_roots_object() const
   {
-    return Sign_between_roots(r0, r1, *this);
+    return Sign_between_roots(*this);
   }
 
   //! Return true if the root has even multiplicity
-  typedef internal::Is_even_multiplicity<This> Is_even_multiplicity;
+  /*typedef internal::Is_even_multiplicity<This> Is_even_multiplicity;
   Is_even_multiplicity is_even_multiplicity_object(const Function &) const
   {
     return Is_even_multiplicity();
-  }
+    }*/
 
   //! Return true if the root is an exact rational
-  typedef internal::Is_rational<This> Is_rational;
+  /*typedef internal::Is_rational<This> Is_rational;
   Is_rational is_rational_object() const
   {
     return Is_rational();
-  }
+    }*/
 
-  typedef internal::Lower_bound_root<This> Lower_bound_root;
+  /*typedef internal::Lower_bound_root<This> Lower_bound_root;
   Lower_bound_root lower_bound_root_object() const {
     return Lower_bound_root();
-  }
+    }*/
 
   //! Return the rational value of the root, assuming it is rational
   typedef internal::To_rational<This> To_rational;
@@ -169,8 +168,8 @@ public:
   typedef internal::Root_container<This> Root_container;
   friend class internal::Root_container<This>;
   Root_container root_container_object(const Function &f,
-				       const Root &lb=-std::numeric_limits<Root>::infinity(),
-				       const Root &ub= std::numeric_limits<Root>::infinity()) const
+				       const Root &lb,
+				       const Root &ub) const
   {
     return Root_container(f, lb, ub, root_stack_traits_object());
   }
@@ -180,8 +179,8 @@ public:
     \todo make sure that the iterator has all the right types.
   */
   Root_stack root_stack_object(const Function &f,
-			       const Root &lb=-std::numeric_limits<Root>::infinity(),
-			       const Root &ub= std::numeric_limits<Root>::infinity()) const
+			       const Root &lb,
+			       const Root &ub) const
   {
     return Root_stack(f, lb, ub, root_stack_traits_object());
   }

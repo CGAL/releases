@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
-// $Id: global_functions_internal_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
+// $Id: global_functions_internal_3.h 34893 2006-10-24 05:24:31Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -121,6 +121,25 @@ template < class K >
 inline
 typename K::Point_3
 circumcenter(const typename CGAL_WRAP(K)::Point_3 &p,
+             const typename CGAL_WRAP(K)::Point_3 &q, const K &k)
+{
+  return k.construct_circumcenter_3_object()(p, q);
+}
+
+template < class K >
+inline
+typename K::Point_3
+circumcenter(const typename CGAL_WRAP(K)::Point_3 &p,
+             const typename CGAL_WRAP(K)::Point_3 &q,
+             const typename CGAL_WRAP(K)::Point_3 &r, const K &k)
+{
+  return k.construct_circumcenter_3_object()(p, q, r);
+}
+
+template < class K >
+inline
+typename K::Point_3
+circumcenter(const typename CGAL_WRAP(K)::Point_3 &p,
              const typename CGAL_WRAP(K)::Point_3 &q,
              const typename CGAL_WRAP(K)::Point_3 &r,
              const typename CGAL_WRAP(K)::Point_3 &s, const K &k)
@@ -134,16 +153,6 @@ typename K::Point_3
 circumcenter(const typename CGAL_WRAP(K)::Tetrahedron_3 &t, const K& k)
 {
   return k.construct_circumcenter_3_object()(t);
-}
-
-template < class K >
-inline
-typename K::Point_3
-circumcenter(const typename CGAL_WRAP(K)::Point_3 &p,
-             const typename CGAL_WRAP(K)::Point_3 &q,
-             const typename CGAL_WRAP(K)::Point_3 &r, const K &k)
-{
-  return k.construct_circumcenter_3_object()(p, q, r);
 }
 
 template < class K >
@@ -198,6 +207,17 @@ compare_distance_to_point(const typename CGAL_WRAP(K)::Point_3 &p,
 			  const K& k)
 {
   return k.compare_distance_3_object()(p, q, r);
+}
+
+template < class K >
+inline
+Comparison_result
+compare_squared_distance(const typename CGAL_WRAP(K)::Point_3 &p,
+                         const typename CGAL_WRAP(K)::Point_3 &q,
+                         const typename CGAL_WRAP(K)::FT &d2,
+		         const K& k)
+{
+  return k.compare_squared_distance_3_object()(p, q, d2);
 }
 
 template < class K >
@@ -331,6 +351,26 @@ cross_product(const typename CGAL_WRAP(K)::Vector_3 &v,
               const typename CGAL_WRAP(K)::Vector_3 &w, const K& k)
 {
   return k.construct_cross_product_vector_3_object()(v, w);
+}
+
+template < class K >
+inline
+typename K::FT
+determinant(const typename CGAL_WRAP(K)::Vector_3 &v0,
+            const typename CGAL_WRAP(K)::Vector_3 &v1,
+            const typename CGAL_WRAP(K)::Vector_3 &v2, const K &k)
+{
+  return k.compute_determinant_3_object()(v0, v1, v2);
+}
+
+template < class K >
+inline
+typename K::Line_3
+equidistant_line(const typename CGAL_WRAP(K)::Point_3 &p,
+                 const typename CGAL_WRAP(K)::Point_3 &q,
+                 const typename CGAL_WRAP(K)::Point_3 &r, const K& k)
+{
+  return k.construct_equidistant_line_3_object()(p, q, r);
 }
 
 template < class K >

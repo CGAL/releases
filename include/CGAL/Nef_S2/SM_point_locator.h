@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
-// $Id: SM_point_locator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
+// $Id: SM_point_locator.h 38154 2007-04-16 16:56:26Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -435,14 +435,14 @@ public:
 	  (!s_init && !c.has_on(pv))) continue;
       CGAL_NEF_TRACEN("candidate "<<pv);
       if ((start_inclusive || p != pv) && 
-	  (end_inclusive || s.target() != pv)) {
+	  (end_inclusive || !s_init || s.target() != pv)) {
         h = Object_handle(vi);     // store vertex
         s = Sphere_segment(p,pv,c); // shorten
 	ip = pv;
 	s_init = true;
       }
     }
- 
+
     // TODO: edges on the ray.
 
     SHalfedge_iterator ei;
@@ -450,7 +450,7 @@ public:
       Sphere_segment se = segment(ei);
       CGAL_NEF_TRACEN("ray_shoot " << s_init);
       if(s_init)
-	CGAL_NEF_TRACEN("  " << s.source() << "->" << s.target() << " | " << s.sphere_circle());
+	CGAL_NEF_TRACEN("  " << s.source() << "->" << s.target() << " | " << s.sphere_circle() << " is long " << s.is_long());
       CGAL_NEF_TRACEN("  " << se.source() << "->" << se.target() << " | " << se.sphere_circle() << " is long " << se.is_long());
 
       // TODO: start-end point of s on se or c
@@ -463,8 +463,7 @@ public:
 	    Sphere_segment first_half(p,p.antipode(),c);
 	    Sphere_segment second_part(p.antipode(), s.target(), c);
 	    if(!do_intersect_internally(ei->circle(), first_half, p_res)) {
-	      bool b = do_intersect_internally(ei->circle(), second_part, p_res);
-	      CGAL_assertion(b);
+	      do_intersect_internally(ei->circle(), second_part, p_res);
 	    }
 	  } else {
 	    if(!do_intersect_internally(ei->circle(), s, p_res)) continue;
@@ -473,28 +472,36 @@ public:
 	  Sphere_segment first_half(p,p.antipode(),c);
 	  Sphere_segment second_part(p.antipode(),p,c);
 	  if(!do_intersect_internally(ei->circle(), first_half, p_res)) {
-	    bool b = do_intersect_internally(ei->circle(), second_part, p_res);
-	    CGAL_assertion(b);	    
+	    do_intersect_internally(ei->circle(), second_part, p_res);
 	  }
 	}
 
       } else {
-	if(s_init) {
+	if(s_init) {	  
 	  if(s.is_long() && se.is_long()) {
 	    Sphere_segment first_half(p,p.antipode(),c);
 	    Sphere_segment second_part(p.antipode(), s.target(), c);
 	    if(!do_intersect_internally(se, first_half, p_res) &&
-	       !do_intersect_internally(se, second_part, p_res)) continue;	    
+	       !do_intersect_internally(se, second_part, p_res)) {
+	      if(se.has_on(p.antipode()))
+		p_res = p.antipode();
+	      else
+		continue;
+	    }	    
 	  } else {
 	    if(!do_intersect_internally(se, s, p_res)) continue;
 	  }  
 	} else {
 	  if(se.is_long()) {
-	    Sphere_segment first_half(p,p.antipode(),c); 
+	    Sphere_segment first_half(p,p.antipode(),c);
 	    Sphere_segment second_half(p.antipode(),p,c); 
 	    if(!do_intersect_internally(se, first_half, p_res)) {
-	      bool b = do_intersect_internally(se, second_half, p_res);
-	      CGAL_assertion(b);
+	      if(!do_intersect_internally(se, second_half, p_res)) {
+		if(start_inclusive)
+		  p_res = p;
+		else
+		  p_res = p.antipode();
+	      }
 	    }
 	  } else {
 	    if(!do_intersect_internally(c, se, p_res)) continue;
@@ -515,8 +522,13 @@ public:
 
     if(this->has_shalfloop()) {
       Sphere_circle cl(this->shalfloop()->circle());
-      if(!s_init || s.is_long())
-	s = Sphere_segment(p,p.antipode(),c);
+      if(!s_init || s.is_long()) {
+	if(cl.has_on(p)) {
+	  ip = p.antipode();
+	  return Object_handle(SHalfloop_handle(this->shalfloop()));
+	} else 	  
+	  s = Sphere_segment(p,p.antipode(),c);
+      }
       Sphere_point p_res;
       CGAL_NEF_TRACEN("do intersect " << cl << ", " << s);
       if(!do_intersect_internally(cl,s,p_res))
@@ -526,7 +538,7 @@ public:
 	p_res = p;
       */
       CGAL_NEF_TRACEN("found intersection point " << p_res);
-      Sphere_segment testseg(p,p_res,c);
+      CGAL_assertion_code(Sphere_segment testseg(p,p_res,c));
       CGAL_assertion(!testseg.is_long());
       if (start_inclusive || p != p_res) {
 	ip = p_res;
@@ -534,7 +546,6 @@ public:
       }
     }
 
-    CGAL_assertion(s_init);
     return h;
   }
 
@@ -581,9 +592,9 @@ marks_of_halfspheres(Mark& lower, Mark& upper, int axis) {
     CGAL_assertion(e->circle().has_on(y_minus));
     Sphere_point op(CGAL::ORIGIN+e->circle().orthogonal_vector());
     CGAL_NEF_TRACEN("on edge "<<op);
-    if (axis==0 && ((op.z() < 0) || (op.z() == 0) && (op.x() < 0))) e = e->twin();
-    if (axis==1 && ((op.x() > 0) || (op.x() == 0) && (op.y() < 0))) e = e->twin();
-    if (axis==2 && ((op.x() > 0) || (op.x() == 0) && (op.z() < 0))) e = e->twin();
+    if (axis==0 && ((op.z() < 0) || ((op.z() == 0) && (op.x() < 0)))) e = e->twin();
+    if (axis==1 && ((op.x() > 0) || ((op.x() == 0) && (op.y() < 0)))) e = e->twin();
+    if (axis==2 && ((op.x() > 0) || ((op.x() == 0) && (op.z() < 0)))) e = e->twin();
     upper = e->incident_sface()->mark();
     lower = e->twin()->incident_sface()->mark();
     return;
@@ -594,9 +605,9 @@ marks_of_halfspheres(Mark& lower, Mark& upper, int axis) {
     CGAL_assertion(l->circle().has_on(y_minus));
     Sphere_point op(CGAL::ORIGIN+l->circle().orthogonal_vector());
     CGAL_NEF_TRACEN("on loop "<<op);
-    if (axis==0 && ((op.z() < 0) || (op.z() == 0) && (op.x() < 0))) l = l->twin();
-    if (axis==1 && ((op.x() > 0) || (op.x() == 0) && (op.y() < 0))) l = l->twin();
-    if (axis==2 && ((op.x() > 0) || (op.x() == 0) && (op.z() < 0))) l = l->twin();
+    if (axis==0 && ((op.z() < 0) || ((op.z() == 0) && (op.x() < 0)))) l = l->twin();
+    if (axis==1 && ((op.x() > 0) || ((op.x() == 0) && (op.y() < 0)))) l = l->twin();
+    if (axis==2 && ((op.x() > 0) || ((op.x() == 0) && (op.z() < 0)))) l = l->twin();
     upper = l->incident_sface()->mark();
     lower = l->twin()->incident_sface()->mark();
     return;

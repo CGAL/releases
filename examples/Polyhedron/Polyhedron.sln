@@ -1,0 +1,34 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+# Visual Studio 2003
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_color", "VC/polyhedron_prog_color.vcproj", "{00000000-0000-0000-0000-000000031418}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_cube", "VC/polyhedron_prog_cube.vcproj", "{00000000-0000-0000-0000-000000027300}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_cut_cube", "VC/polyhedron_prog_cut_cube.vcproj", "{00000000-0000-0000-0000-000000023182}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_incr_builder", "VC/polyhedron_prog_incr_builder.vcproj", "{00000000-0000-0000-0000-000000019065}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_normals", "VC/polyhedron_prog_normals.vcproj", "{00000000-0000-0000-0000-000000014947}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_off", "VC/polyhedron_prog_off.vcproj", "{00000000-0000-0000-0000-000000010829}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_planes", "VC/polyhedron_prog_planes.vcproj", "{00000000-0000-0000-0000-000000023550}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_simple", "VC/polyhedron_prog_simple.vcproj", "{00000000-0000-0000-0000-000000019432}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_subdiv", "VC/polyhedron_prog_subdiv.vcproj", "{00000000-0000-0000-0000-000000015314}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_subdiv_with_boundary", "VC/polyhedron_prog_subdiv_with_boundary.vcproj", "{00000000-0000-0000-0000-000000011197}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_tetra", "VC/polyhedron_prog_tetra.vcproj", "{00000000-0000-0000-0000-000000007079}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_traits", "VC/polyhedron_prog_traits.vcproj", "{00000000-0000-0000-0000-000000002961}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_vector", "VC/polyhedron_prog_vector.vcproj", "{00000000-0000-0000-0000-000000032520}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_vertex_color", "VC/polyhedron_prog_vertex_color.vcproj", "{00000000-0000-0000-0000-000000028402}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_prog_vertex_normal", "VC/polyhedron_prog_vertex_normal.vcproj", "{00000000-0000-0000-0000-000000011081}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polyhedron_self_intersection", "VC/polyhedron_self_intersection.vcproj", "{00000000-0000-0000-0000-000000006963}"
+EndProject

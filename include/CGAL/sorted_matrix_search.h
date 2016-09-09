@@ -11,14 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Matrix_search/include/CGAL/sorted_matrix_search.h $
-// $Id: sorted_matrix_search.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Matrix_search/include/CGAL/sorted_matrix_search.h $
+// $Id: sorted_matrix_search.h 35753 2007-01-18 14:03:50Z fcacciola $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
 #if ! (CGAL_SORTED_MATRIX_SEARCH_H)
 #define CGAL_SORTED_MATRIX_SEARCH_H 1
+
 
 #include <CGAL/basic.h>
 #include <CGAL/Optimisation/assertions.h>
@@ -75,11 +76,15 @@ public:
   {}
 
   Value
-  min() const
+  min
+  BOOST_PREVENT_MACRO_SUBSTITUTION
+  () const
   { return base_matrix(x, y); }
 
   Value
-  max(int offset) const
+  max
+  BOOST_PREVENT_MACRO_SUBSTITUTION
+  (int offset) const
   // offset denotes the cell's dimension
   { return base_matrix(x + offset - 1, y + offset - 1); }
 
@@ -121,7 +126,7 @@ struct Cell_min
   typedef Arity_tag< 1 > Arity;
   typename Cell::Value
   operator()( const Cell& c) const
-  { return c.min(); }
+  { return (c.min)(); }
 };
 
 template < class Cell >
@@ -133,7 +138,7 @@ struct Cell_max
 
   typename Cell::Value
   operator()( const Cell& c) const
-  { return c.max( ofs); }
+  { return (c.max)( ofs); }
 
 private:
   int ofs;
@@ -144,7 +149,7 @@ template < class InputIterator, class Traits >
 typename Traits::Value
 sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
 {
-  using std::max;
+  BOOST_USING_STD_MAX();
   using std::nth_element;
   using std::iter_swap;
   using std::find_if;
@@ -160,6 +165,8 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
   typedef typename Cell_container::iterator         Cell_iterator;
   typedef typename Cell_container::reverse_iterator Cell_reverse_iterator;
   
+  typedef typename Cell_container::size_type size_type ;
+  
   Cell_container active_cells;
   
   // set of input matrices must not be empty:
@@ -172,7 +179,7 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
     CGAL_optimisation_expensive_precondition(
       PaddedMatrix( *i).is_sorted());
     active_cells.push_back( Cell( PaddedMatrix( *i)));
-    maxdim = max( max( (*i).number_of_columns(),
+    maxdim = max BOOST_PREVENT_MACRO_SUBSTITUTION ( max BOOST_PREVENT_MACRO_SUBSTITUTION ( (*i).number_of_columns(),
                        (*i).number_of_rows()),
                   maxdim);
     ++i;
@@ -192,6 +199,7 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
   // now start the search:
 
   for (;;) {
+  
     if ( ccd > 1) {
       // ------------------------------------------------------
       // divide cells:
@@ -202,12 +210,16 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
       // otherwise one of the insert operations might cause
       // a reallocation invalidating j
       // (should typically result in a segfault)
-      active_cells.reserve( 4 * active_cells.size());
-    
-      for ( Cell_reverse_iterator j( active_cells.rbegin());
-            j != active_cells.rend();
-            ++j) {
-    
+      // active_cells.reserve( 4 * active_cells.size());
+  
+      for ( int j = active_cells.size() - 1 ; j >= 0 ; -- j )
+      {
+      //for ( Cell_reverse_iterator j( active_cells.rbegin());
+      //      j != active_cells.rend();
+      //      ++j) {
+
+        Cell lRefCell = active_cells.at(j) ;
+        
         // upper-left quarter:
         // Cell( (*j).matrix(),
         //       (*j).x_min(),
@@ -216,27 +228,27 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
     
         // lower-left quarter:
         active_cells.push_back(
-          Cell( (*j).matrix(),
-                (*j).x_min(),
-                (*j).y_min() + ccd));
+          Cell( lRefCell.matrix(),
+                lRefCell.x_min(),
+                lRefCell.y_min() + ccd));
     
         // upper-right quarter:
         active_cells.push_back(
-          Cell( (*j).matrix(),
-                (*j).x_min() + ccd,
-                (*j).y_min()));
+          Cell( lRefCell.matrix(),
+                lRefCell.x_min() + ccd,
+                lRefCell.y_min()));
     
         // lower-right quarter:
         active_cells.push_back(
-          Cell( (*j).matrix(),
-                (*j).x_min() + ccd,
-                (*j).y_min() + ccd));
+          Cell( lRefCell.matrix(),
+                lRefCell.x_min() + ccd,
+                lRefCell.y_min() + ccd));
     
       } // for all active cells
     } // if ( ccd > 1)
     else if ( active_cells.size() <= 1) //!!! maybe handle <= 3
       break;
-    
+      
     // there has to be at least one cell left:
     CGAL_optimisation_assertion( active_cells.size() > 0);
     
@@ -247,6 +259,7 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
     int lower_median_rank = (active_cells.size() - 1) >> 1;
     int upper_median_rank = (active_cells.size() >> 1);
     
+
     // compute upper median of cell's minima:
     nth_element(active_cells.begin(),
                 active_cells.begin() + upper_median_rank,
@@ -258,7 +271,7 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
     
     Cell_iterator lower_median_cell =
       active_cells.begin() + upper_median_rank;
-    Value lower_median = lower_median_cell->min();
+    Value lower_median = (lower_median_cell->min)();
     
     // compute lower median of cell's maxima:
     nth_element(active_cells.begin(),
@@ -271,11 +284,11 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
     
     Cell_iterator upper_median_cell =
       active_cells.begin() + lower_median_rank;
-    Value upper_median = upper_median_cell->max(ccd);
+    Value upper_median = (upper_median_cell->max)(ccd);
     
     // restore lower_median_cell, if it has been displaced
     // by the second search
-    if (lower_median_cell->min() != lower_median)
+    if ((lower_median_cell->min)() != lower_median)
       lower_median_cell =
         find_if(active_cells.begin(),
                 active_cells.end(),
@@ -378,7 +391,7 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
       else { // both upper_median and lower_median are infeasible
     
         // discard cells with all entries smaller than
-        // max( lower_median, upper_median)
+        // max BOOST_PREVENT_MACRO_SUBSTITUTION ( lower_median, upper_median)
     
         new_end =
           remove_if(
@@ -387,7 +400,7 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
             compose(
               bind_2(
                 t.compare_non_strictly(),
-                max( lower_median, upper_median)),
+                max BOOST_PREVENT_MACRO_SUBSTITUTION ( lower_median, upper_median)),
               Cell_max< Cell >( ccd)));
     
       } // both upper_median and lower_median are infeasible
@@ -399,7 +412,7 @@ sorted_matrix_search(InputIterator f, InputIterator l, Traits t)
   CGAL_optimisation_assertion( active_cells.size() == 1);
   CGAL_optimisation_assertion( ccd == 1);
 
-  return (*active_cells.begin()).min();
+  return ((*active_cells.begin()).min)();
 }
 
 CGAL_END_NAMESPACE

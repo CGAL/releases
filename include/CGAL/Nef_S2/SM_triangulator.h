@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/SM_triangulator.h $
-// $Id: SM_triangulator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/SM_triangulator.h $
+// $Id: SM_triangulator.h 38160 2007-04-17 07:29:00Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -118,7 +118,7 @@ public:
   typedef SM_const_decorator                    Explorer;
   typedef Decorator_                            Decorator;
   typedef SM_triangulator<Decorator_>           Self;
-  typedef SM_point_locator<SM_const_decorator>  SM_point_locator;
+  typedef CGAL::SM_point_locator<SM_const_decorator>  SM_point_locator;
 
   typedef typename SM_const_decorator::SVertex_const_handle SVertex_const_handle;
   typedef typename SM_const_decorator::SHalfedge_const_handle SHalfedge_const_handle;
@@ -240,22 +240,22 @@ public:
   void assert_equal_marks(SHalfedge_handle e1, SHalfedge_handle e2) const
   { CGAL_assertion(e1->mark()==e2->mark()); }
 
-  Sphere_segment segment(const Explorer* N, 
+  Sphere_segment segment(const Explorer* , 
                          SHalfedge_const_handle e) const
   { return Sphere_segment(
 	    e->source()->point(),e->twin()->source()->point(),e->circle()); }
 
-  Sphere_segment trivial_segment(const Explorer* N, 
+  Sphere_segment trivial_segment(const Explorer* , 
                                  SVertex_const_handle v) const
   { Sphere_point p = v->point(); 
     return Sphere_segment(p,p); }
 
-  Seg_pair two_segments(const Explorer* N, 
+  Seg_pair two_segments(const Explorer* , 
                         SHalfedge_const_handle e) const
   // we know that source(e)==target(e)
   { return e->circle().split_at(e->source()->point()); }
 
-  Seg_pair two_segments(const Explorer* N, 
+  Seg_pair two_segments(const Explorer* , 
                         SHalfloop_const_handle l) const
   { return l->circle().split_at_xy_plane(); }
 
@@ -599,7 +599,7 @@ complete_support(SVertex_iterator v_start, SVertex_iterator v_end,
   for (SVertex_iterator v = v_start; v != v_end; ++v) { 
     CGAL_NEF_TRACEN(" vertex = "<<PH(v));
     SHalfedge_handle e_below = halfedge_below(v);
-    if ( v != v_start )
+    if ( v != v_start ) {
       if ( e_below != SHalfedge_handle() ) {
 	m_buffer = incident_mark(e_below); 
       } else { // e_below does not exist
@@ -608,7 +608,8 @@ complete_support(SVertex_iterator v_start, SVertex_iterator v_end,
 	//	CGAL_assertion( point(v).z() == 0 && 
 	//	  ( pos > 0 ? (point(v).x() >= 0) : (point(v).x()<=0)) );
 	m_buffer = incident_mark(first_out_edge(v)->sprev());
-      } 
+      }
+    }
     CGAL_NEF_TRACEN(" face mark below "<<m_buffer);
 
     Object_handle o = support(v);

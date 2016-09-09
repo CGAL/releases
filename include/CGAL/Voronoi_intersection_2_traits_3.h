@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interpolation/include/CGAL/Voronoi_intersection_2_traits_3.h $
-// $Id: Voronoi_intersection_2_traits_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/include/CGAL/Voronoi_intersection_2_traits_3.h $
+// $Id: Voronoi_intersection_2_traits_3.h 37440 2007-03-24 10:33:40Z spion $
 // 
 //
 // Author(s)     : Julia Floetotto
@@ -35,6 +35,8 @@
 #include <CGAL/predicates/predicates_for_voronoi_intersection_cartesian_2_3.h>
 #include <CGAL/constructions/constructions_for_voronoi_intersection_cartesian_2_3.h>
 #endif
+
+#include <CGAL/function_objects.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -217,18 +219,18 @@ public:
 
   FT operator()(const Point& p, const Point& q, const Point& r) const
   {
+      typedef typename CGAL::Algebraic_structure_traits<FT> AST;
     FT squared_area = Compute_squared_area_3()(p,q,r);
-    return cast_sqrt_to_double(squared_area,
-                               typename Number_type_traits<FT>::Has_sqrt());
+    return cast_sqrt_to_double(squared_area, typename AST::Algebraic_category() );
   }
 
 private:
-  FT cast_sqrt_to_double(const FT& squared_area, Tag_true) const
+  FT cast_sqrt_to_double(const FT& squared_area, Field_with_sqrt_tag) const
     {
       return CGAL_NTS sqrt(squared_area);
     }
 
-  FT cast_sqrt_to_double(const FT& squared_area, Tag_false) const
+  FT cast_sqrt_to_double(const FT& squared_area, Integral_domain_without_division_tag) const
     {
       double approx = CGAL_NTS to_double(squared_area);
       return CGAL_NTS sqrt(approx);
@@ -279,6 +281,8 @@ public:
   typedef Compare_first_projection_3<Rep>                  Compare_x_2;
   typedef Compare_second_projection_3<Rep>                 Compare_y_2;
 
+  typedef Compare_to_less<Compare_x_2>                     Less_x_2;
+  typedef Compare_to_less<Compare_y_2>                     Less_y_2;
 
   //for certificated coordinate/neighbor computation:
   typedef typename Rep::Less_distance_to_point_3    Less_distance_to_point_2;
@@ -305,6 +309,14 @@ public:
   Compare_y_2
   compare_y_2_object() const
   { return Compare_y_2(normal); }
+
+  Less_x_2
+  less_x_2_object() const
+  { return compare_to_less(compare_x_2_object());; }
+
+  Less_y_2
+  less_y_2_object() const
+  { return compare_to_less(compare_y_2_object());; }
 
   //for the coordinate computation:
   Compute_area_2 compute_area_2_object() const

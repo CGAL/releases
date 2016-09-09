@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Double_with_infinity.h $
-// $Id: Double_with_infinity.h 32476 2006-07-13 11:42:26Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Double_with_infinity.h $
+// $Id: Double_with_infinity.h 33416 2006-08-18 21:03:47Z afabri $
 //
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -27,7 +27,7 @@ CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
 
  template <bool S, bool Q>
   struct Double_with_infinity_default {
-    static double value(){return std::numeric_limits<double>::max();};
+    static double value(){return (std::numeric_limits<double>::max)();};
   };
   template<bool O>
   struct Double_with_infinity_default<true,O> {
@@ -76,7 +76,7 @@ namespace std {
   public:
     static const bool is_specialized = true;
     static const bool has_infinity=true;
-    static double infinity() throw() {return std::numeric_limits<double>::max();}
+    static double infinity() throw() {return (std::numeric_limits<double>::max)();}
   };
 };
 

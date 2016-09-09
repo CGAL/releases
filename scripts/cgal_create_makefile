@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright (c) 1999,2000,2002,2003,2004,2005,2006
+# Copyright (c) 1999,2000,2002-2007
 # Utrecht University (The Netherlands),
 # ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 # INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -18,21 +18,19 @@
 # This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 # WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 #
-# $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Scripts/scripts/cgal_create_makefile $
-# $Id: cgal_create_makefile 32105 2006-06-28 09:00:47Z afabri $
+# $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Scripts/scripts/cgal_create_makefile $
+# $Id: cgal_create_makefile 36976 2007-03-09 22:53:24Z reichel $
 #
 # Author(s)     : various
 
-# This script creates a CGAL makefile with entries for all .C and .cpp files in the
-# current directory.
+# This script creates a CGAL makefile with entries for all .C and .cpp
+# files in the current directory.
 #
 # Usage: cgal_create_makefile [-options] [outputfile]
 #
 # -d   create a default CGAL makefile
-# -t   create a makefile for the test suite
-# -w   create a makefile with flags for LEDA windows
-# -g   create a makefile with flags for GEOWIN
-# -q   create a makefile with support for QT
+# -t   create a CGAL makefile for the test suite
+# -q   create a CGAL makefile with Qt support
 
 
 #VERSION=2.0
@@ -46,63 +44,31 @@ header()
 }
 
 
-create_makefile_entry_cpp()
+create_makefile_entry()
 {
 #  local CFILE MOC_FROM MOCFILE
-  CFILE=$1.cpp
-  MOCFILE=""
-  if [ -n "$QT" ]; then
-    if MOC_FROM=`awk 'BEGIN{ FS=":"; COUNT=0 } \
-            /\/\/ *moc_source_file *:/ {print $2; COUNT++} \
-            END{ exit COUNT==0 }' $CFILE`; then
-      MOCFILE=$1.moc
-      echo "$MOCFILE: $MOC_FROM"
-      echo "	\$(QT_MOC) -o $MOCFILE $MOC_FROM"
-      echo
-      echo "$1\$(OBJ_EXT): $MOCFILE"
-      echo
-    fi
-  fi
-
-  # Print target for $1 object file
-  echo "$1\$(OBJ_EXT): $1.cpp"
-  echo "	\$(CGAL_CXX) \$(CXXFLAGS) \$(OBJ_OPT) $1.cpp"
-  echo
-
-  # Print target for $1 executable if $CFILE contains a function "main()"
-  egrep '\bmain[ \t]*\(' $CFILE >/dev/null 2>&1
-  if [ $? -eq 0 ]; then
-    echo "$1\$(EXE_EXT): $1\$(OBJ_EXT)"
-    echo "	\$(CGAL_CXX) \$(LIBPATH) \$(EXE_OPT)$1 $1\$(OBJ_EXT) \$(LDFLAGS)"
-    echo
-  fi;
-}
-
-create_makefile_entry_C()
-{
-#  local CFILE MOC_FROM MOCFILE
-  CFILE=$1.C
+  BASE=`basename $1 .C`
+  BASE=`basename $BASE .cpp`
+  CFILE=$1
   MOCFILE=""
   if [ -n "$QT" ]; then
     if MOC_FROM=`awk 'BEGIN{ FS=":"; COUNT=0 } \
             /\/\/ *moc_source_file *:/ {print $2; COUNT++} \
             END{ if (COUNT==0) exit 1; else exit 0 }' $CFILE`; then
-      MOCFILE=$1.moc
+      MOCFILE=${BASE}.moc
       echo "$MOCFILE: $MOC_FROM"
-      echo "	\$(QT_MOC) -o $MOCFILE $MOC_FROM"
+      printf "\t\$(QT_MOC) -o $MOCFILE $MOC_FROM\n"
       echo
-      echo "$1\$(OBJ_EXT): $MOCFILE"
+      echo "$BASE\$(OBJ_EXT): $MOCFILE"
       echo
     fi
   fi
 
-  # Target for $1 object file is global
-
   # Print target for $1 executable if $CFILE contains a function "main()"
   egrep '\bmain[ \t]*\(' $CFILE >/dev/null 2>&1
   if [ $? -eq 0 ]; then
-    echo "$1\$(EXE_EXT): $1\$(OBJ_EXT)"
-    echo "	\$(CGAL_CXX) \$(LIBPATH) \$(EXE_OPT)$1 $1\$(OBJ_EXT) \$(LDFLAGS)"
+    echo "$BASE\$(EXE_EXT): $BASE\$(OBJ_EXT)"
+    printf "\t\$(CGAL_CXX) \$(LIBPATH) \$(EXE_OPT)$BASE $BASE\$(OBJ_EXT) \$(LDFLAGS)\n"
     echo
   fi;
 }
@@ -144,26 +110,14 @@ create_makefile()
   if [ ! -z "$TESTSUITE" ] ; then
     echo    "          \$(TESTSUITE_LIBPATH) \\"
   fi
-  if [ -z "$LEDAWINDOWS" ] ; then
-    echo    "          \$(CGAL_LIBPATH)"
-  else
-    echo    "          \$(CGAL_WINDOW_LIBPATH)"
-  fi
+  echo    "          \$(CGAL_LIBPATH)"
   echo
   echo    "LDFLAGS = \\"
   if [ ! -z "$TESTSUITE" ] ; then
     echo    "          \$(TESTSUITE_LDFLAGS) \\"
   fi
   echo    "          \$(LONG_NAME_PROBLEM_LDFLAGS) \\"
-  if [ -n "$QT" ] ; then
-    echo    "          \$(CGAL_QT_LDFLAGS)"
-  elif [ -n "$GEOWIN" ] ; then
-    echo    "          \$(CGAL_GEOWIN_LDFLAGS)"
-  elif [ -z "$LEDAWINDOWS" ] ; then
-    echo    "          \$(CGAL_LDFLAGS)"
-  else
-    echo    "          \$(CGAL_WINDOW_LDFLAGS)"
-  fi
+  echo    "          \$(CGAL_LDFLAGS)"
 
   echo
   header "target entries"
@@ -171,42 +125,30 @@ create_makefile()
   # print 'all' target
   echo
   printf "all:            "
-  for file in `ls *.C 2>/dev/null | sort` ; do
+  for file in `ls *.C *.cpp 2>/dev/null | sort` ; do
     # Add $file's executable to "all" target
     # if $file contains a function "main()"
+    BASE=`basename $file .C`
+    BASE=`basename $BASE .cpp`
     egrep '\bmain[ \t]*\(' $file >/dev/null 2>&1
     if [ $? -eq 0 ]; then
-      printf "\\\\\n                `basename $file .C`\$(EXE_EXT) "
-    fi
-  done
-  for file in `ls *.cpp 2>/dev/null | sort` ; do
-    # Add $file's executable to "all" target
-    # if $file contains a function "main()"
-    egrep '\bmain[ \t]*\(' $file >/dev/null 2>&1
-    if [ $? -eq 0 ]; then
-      printf "\\\\\n                `basename $file .cpp`\$(EXE_EXT) "
+      printf "\\\\\n                $BASE\$(EXE_EXT) "
     fi
   done
   echo
 
   # print rules for each .C and .cpp file
   echo
-  for file in `ls *.C 2>/dev/null | sort` ; do
-    base=`basename $file .C`
-    create_makefile_entry_C $base
-  done
-  for file in `ls *.cpp 2>/dev/null | sort` ; do
-    base=`basename $file .cpp`
-    create_makefile_entry_cpp $base
+  for file in `ls *.C *.cpp 2>/dev/null | sort` ; do
+    create_makefile_entry $file
   done
 
   # print 'clean' target
   printf "clean: "
-  for file in `ls *.C 2>/dev/null | sort` ; do
-      printf "\\\\\n                   `basename $file .C`.clean "
-  done
-  for file in `ls *.cpp 2>/dev/null | sort` ; do
-      printf "\\\\\n                   `basename $file .cpp`.clean "
+  for file in `ls *.C *.cpp 2>/dev/null | sort` ; do
+      BASE=`basename $file .C`
+      BASE=`basename $BASE .cpp`
+      printf "\\\\\n                   ${BASE}.clean "
   done
   printf    "\n\n"
 
@@ -214,11 +156,11 @@ create_makefile()
   header "suffix rules"
   echo
   echo    ".C\$(OBJ_EXT):"
-  echo    "	\$(CGAL_CXX) \$(CXXFLAGS) \$(OBJ_OPT) \$<"
+  printf    "\t\$(CGAL_CXX) \$(CXXFLAGS) \$(OBJ_OPT) \$<\n"
   echo
   echo
   echo    ".cpp\$(OBJ_EXT):"
-  echo    "	\$(CGAL_CXX) \$(CXXFLAGS) \$(OBJ_OPT) \$<"
+  printf    "\t\$(CGAL_CXX) \$(CXXFLAGS) \$(OBJ_OPT) \$<\n"
   echo
 
 }
@@ -229,10 +171,8 @@ usage()
      echo "Usage: cgal_create_makefile [-options] [outputfile]"
      echo
      echo "-d   create a default CGAL makefile"
-     echo "-t   create a makefile for the test suite"
-     echo "-w   create a makefile with flags for LEDA windows"
-     echo "-g   create a makefile with flags for GEOWIN"
-     echo "-q   create a makefile with flags for QT"
+     echo "-t   create a CGAL makefile for the test suite"
+     echo "-q   create a CGAL makefile with Qt support"
 }
 
 
@@ -246,8 +186,6 @@ for i do
   case $i in
     -d) ;;
     -t) TESTSUITE='y';;
-    -w) LEDAWINDOWS='y';;
-    -g) GEOWIN='y';;
     -q) QT='y';;
     -*) usage
         exit 1;;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_point_location/Td_traits.h $
-// $Id: Td_traits.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Td_traits.h $
+// $Id: Td_traits.h 31554 2006-06-13 09:25:48Z wein $
 // 
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -193,8 +193,6 @@ private:
 
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/Arr_point_location/Td_traits_functions.h>
-#endif
 
 #endif

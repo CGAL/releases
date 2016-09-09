@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_2.h $
-// $Id: global_functions_internal_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_2.h $
+// $Id: global_functions_internal_2.h 34893 2006-10-24 05:24:31Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -128,6 +128,15 @@ template < class K >
 inline
 typename K::Point_2
 circumcenter(const typename CGAL_WRAP(K)::Point_2 &p,
+             const typename CGAL_WRAP(K)::Point_2 &q, const K& k)
+{
+  return k.construct_circumcenter_2_object()(p, q);
+}
+
+template < class K >
+inline
+typename K::Point_2
+circumcenter(const typename CGAL_WRAP(K)::Point_2 &p,
              const typename CGAL_WRAP(K)::Point_2 &q,
              const typename CGAL_WRAP(K)::Point_2 &r, const K& k)
 {
@@ -192,6 +201,16 @@ compare_distance_to_point(const typename CGAL_WRAP(K)::Point_2 &p,
                           const typename CGAL_WRAP(K)::Point_2 &r, const K& k)
 {
   return k.compare_distance_2_object()(p, q, r);
+}
+
+template <class K >
+inline
+Comparison_result
+compare_squared_distance(const typename CGAL_WRAP(K)::Point_2 &p,
+                         const typename CGAL_WRAP(K)::Point_2 &q,
+                         const typename CGAL_WRAP(K)::FT &d2, const K& k)
+{
+  return k.compare_squared_distance_2_object()(p, q, d2);
 }
 
 template <class K>
@@ -342,6 +361,15 @@ compare_xy(const typename CGAL_WRAP(K)::Point_2 &p,
 template < class K >
 inline
 Comparison_result
+compare_yx(const typename CGAL_WRAP(K)::Point_2 &p,
+           const typename CGAL_WRAP(K)::Point_2 &q, const K& k)
+{
+  return k.compare_yx_2_object()(p, q);
+}
+
+template < class K >
+inline
+Comparison_result
 compare_y(const typename CGAL_WRAP(K)::Point_2 &p,
           const typename CGAL_WRAP(K)::Point_2 &q, const K& k)
 {
@@ -436,6 +464,15 @@ compare_y_at_x(const typename CGAL_WRAP(K)::Line_2 &l1,
                const typename CGAL_WRAP(K)::Line_2 &h2, const K& k)
 {
   return k.compare_y_at_x_2_object()(l1, l2, h1, h2);
+}
+
+template < class K >
+inline
+typename K::FT
+determinant(const typename CGAL_WRAP(K)::Vector_2 &v0,
+            const typename CGAL_WRAP(K)::Vector_2 &v1, const K &k)
+{
+  return k.compute_determinant_2_object()(v0, v1);
 }
 
 template <class K>

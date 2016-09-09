@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/interface_macros.h $
-// $Id: interface_macros.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel/interface_macros.h $
+// $Id: interface_macros.h 34893 2006-10-24 05:24:31Z spion $
 // 
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion, Susan Hert
@@ -26,8 +26,44 @@
 // way we share more code.
 
 // It is the responsability of the including file to correctly set the 2
-// macros CGAL_Kernel_pred and CGAL_Kernel_cons.
+// macros CGAL_Kernel_pred, CGAL_Kernel_cons and CGAL_Kernel_obj.
 // And they are #undefed at the end of this file.
+
+#ifndef CGAL_Kernel_pred
+#  define CGAL_Kernel_pred(X, Y)
+#endif
+
+#ifndef CGAL_Kernel_cons
+#  define CGAL_Kernel_cons(X, Y)
+#endif
+
+#ifndef CGAL_Kernel_obj
+#  define CGAL_Kernel_obj(X)
+#endif
+
+CGAL_Kernel_obj(Point_2)
+CGAL_Kernel_obj(Vector_2)
+CGAL_Kernel_obj(Direction_2)
+CGAL_Kernel_obj(Segment_2)
+CGAL_Kernel_obj(Ray_2)
+CGAL_Kernel_obj(Line_2)
+CGAL_Kernel_obj(Triangle_2)
+CGAL_Kernel_obj(Iso_rectangle_2)
+CGAL_Kernel_obj(Circle_2)
+
+CGAL_Kernel_obj(Point_3)
+CGAL_Kernel_obj(Plane_3)
+CGAL_Kernel_obj(Vector_3)
+CGAL_Kernel_obj(Direction_3)
+CGAL_Kernel_obj(Segment_3)
+CGAL_Kernel_obj(Ray_3)
+CGAL_Kernel_obj(Line_3)
+CGAL_Kernel_obj(Triangle_3)
+CGAL_Kernel_obj(Tetrahedron_3)
+CGAL_Kernel_obj(Iso_cuboid_3)
+CGAL_Kernel_obj(Sphere_3)
+
+
 
 CGAL_Kernel_pred(Angle_2,
 		 angle_2_object)
@@ -75,6 +111,10 @@ CGAL_Kernel_pred(Compare_distance_3,
 		 compare_distance_3_object)
 CGAL_Kernel_pred(Compare_slope_2,
 		 compare_slope_2_object)
+CGAL_Kernel_pred(Compare_squared_distance_2,
+		 compare_squared_distance_2_object)
+CGAL_Kernel_pred(Compare_squared_distance_3,
+		 compare_squared_distance_3_object)
 CGAL_Kernel_pred(Compare_x_at_y_2,
 		 compare_x_at_y_2_object)
 CGAL_Kernel_pred(Compare_xyz_3,
@@ -93,18 +133,32 @@ CGAL_Kernel_pred(Compare_y_2,
 		 compare_y_2_object)
 CGAL_Kernel_pred(Compare_y_3,
 		 compare_y_3_object)
+CGAL_Kernel_pred(Compare_yx_2,
+		 compare_yx_2_object)
 CGAL_Kernel_pred(Compare_z_3,
 		 compare_z_3_object)
 CGAL_Kernel_cons(Compute_a_2,
 		 compute_a_2_object)
+CGAL_Kernel_cons(Compute_a_3,
+		 compute_a_3_object)
 CGAL_Kernel_cons(Compute_b_2,
 		 compute_b_2_object)
+CGAL_Kernel_cons(Compute_b_3,
+		 compute_b_3_object)
 CGAL_Kernel_cons(Compute_c_2,
 		 compute_c_2_object)
+CGAL_Kernel_cons(Compute_c_3,
+		 compute_c_3_object)
+CGAL_Kernel_cons(Compute_d_3,
+		 compute_d_3_object)
 CGAL_Kernel_cons(Compute_area_2,
 		 compute_area_2_object)
 CGAL_Kernel_cons(Compute_area_3,
 		 compute_area_3_object)
+CGAL_Kernel_cons(Compute_determinant_2,
+		 compute_determinant_2_object)
+CGAL_Kernel_cons(Compute_determinant_3,
+		 compute_determinant_3_object)
 CGAL_Kernel_cons(Compute_scalar_product_2,
 		 compute_scalar_product_2_object)
 CGAL_Kernel_cons(Compute_scalar_product_3,
@@ -127,18 +181,38 @@ CGAL_Kernel_cons(Compute_volume_3,
 		 compute_volume_3_object)
 CGAL_Kernel_cons(Compute_x_2,
 		 compute_x_2_object)
+CGAL_Kernel_cons(Compute_x_3,
+		 compute_x_3_object)
 CGAL_Kernel_cons(Compute_y_2,
 		 compute_y_2_object)
+CGAL_Kernel_cons(Compute_y_3,
+		 compute_y_3_object)
+CGAL_Kernel_cons(Compute_z_3,
+		 compute_z_3_object)
 CGAL_Kernel_cons(Compute_dx_2,
 		 compute_dx_2_object)
+CGAL_Kernel_cons(Compute_dx_3,
+		 compute_dx_3_object)
 CGAL_Kernel_cons(Compute_dy_2,
 		 compute_dy_2_object)
+CGAL_Kernel_cons(Compute_dy_3,
+		 compute_dy_3_object)
+CGAL_Kernel_cons(Compute_dz_3,
+		 compute_dz_3_object)
 CGAL_Kernel_cons(Compute_hx_2,
 		 compute_hx_2_object)
+CGAL_Kernel_cons(Compute_hx_3,
+		 compute_hx_3_object)
 CGAL_Kernel_cons(Compute_hy_2,
 		 compute_hy_2_object)
+CGAL_Kernel_cons(Compute_hy_3,
+		 compute_hy_3_object)
+CGAL_Kernel_cons(Compute_hz_3,
+		 compute_hz_3_object)
 CGAL_Kernel_cons(Compute_hw_2,
 		 compute_hw_2_object)
+CGAL_Kernel_cons(Compute_hw_3,
+		 compute_hw_3_object)
 CGAL_Kernel_cons(Compute_x_at_y_2,
 		 compute_x_at_y_2_object)
 CGAL_Kernel_cons(Compute_y_at_x_2,
@@ -151,6 +225,18 @@ CGAL_Kernel_cons(Compute_ymin_2,
 		 compute_ymin_2_object)
 CGAL_Kernel_cons(Compute_ymax_2,
 		 compute_ymax_2_object)
+CGAL_Kernel_cons(Compute_xmin_3,
+		 compute_xmin_3_object)
+CGAL_Kernel_cons(Compute_xmax_3,
+		 compute_xmax_3_object)
+CGAL_Kernel_cons(Compute_ymin_3,
+		 compute_ymin_3_object)
+CGAL_Kernel_cons(Compute_ymax_3,
+		 compute_ymax_3_object)
+CGAL_Kernel_cons(Compute_zmin_3,
+		 compute_zmin_3_object)
+CGAL_Kernel_cons(Compute_zmax_3,
+		 compute_zmax_3_object)
 CGAL_Kernel_cons(Construct_base_vector_3,
 		 construct_base_vector_3_object)
 CGAL_Kernel_cons(Construct_bisector_2,
@@ -177,6 +263,8 @@ CGAL_Kernel_cons(Construct_direction_2,
 		 construct_direction_2_object)
 CGAL_Kernel_cons(Construct_direction_3,
 		 construct_direction_3_object)
+CGAL_Kernel_cons(Construct_equidistant_line_3,
+		 construct_equidistant_line_3_object)
 CGAL_Kernel_cons(Construct_iso_cuboid_3,
 		 construct_iso_cuboid_3_object)
 CGAL_Kernel_cons(Construct_iso_rectangle_2,
@@ -231,8 +319,12 @@ CGAL_Kernel_cons(Construct_opposite_vector_2,
 		 construct_opposite_vector_2_object)
 CGAL_Kernel_cons(Construct_difference_of_vectors_2,
 		 construct_difference_of_vectors_2_object)
+CGAL_Kernel_cons(Construct_difference_of_vectors_3,
+		 construct_difference_of_vectors_3_object)
 CGAL_Kernel_cons(Construct_sum_of_vectors_2,
 		 construct_sum_of_vectors_2_object)
+CGAL_Kernel_cons(Construct_sum_of_vectors_3,
+		 construct_sum_of_vectors_3_object)
 CGAL_Kernel_cons(Construct_opposite_vector_3,
 		 construct_opposite_vector_3_object)
 CGAL_Kernel_cons(Construct_orthogonal_vector_3,
@@ -271,16 +363,22 @@ CGAL_Kernel_cons(Construct_scaled_vector_2,
 		 construct_scaled_vector_2_object)
 CGAL_Kernel_cons(Construct_divided_vector_2,
 		 construct_divided_vector_2_object)
+CGAL_Kernel_cons(Construct_divided_vector_3,
+		 construct_divided_vector_3_object)
 CGAL_Kernel_cons(Construct_scaled_vector_3,
 		 construct_scaled_vector_3_object)
 CGAL_Kernel_cons(Construct_second_point_2,
 		 construct_second_point_2_object)
+CGAL_Kernel_cons(Construct_second_point_3,
+		 construct_second_point_3_object)
 CGAL_Kernel_cons(Construct_segment_2,
 		 construct_segment_2_object)
-CGAL_Kernel_cons(Construct_source_2,
-		 construct_source_2_object)
 CGAL_Kernel_cons(Construct_segment_3,
 		 construct_segment_3_object)
+CGAL_Kernel_cons(Construct_source_2,
+		 construct_source_2_object)
+CGAL_Kernel_cons(Construct_source_3,
+		 construct_source_3_object)
 CGAL_Kernel_cons(Construct_sphere_3,
 		 construct_sphere_3_object)
 #ifndef CGAL_NO_DEPRECATED_CODE
@@ -293,6 +391,8 @@ CGAL_Kernel_cons(Construct_supporting_plane_3,
 		 construct_supporting_plane_3_object)
 CGAL_Kernel_cons(Construct_target_2,
 		 construct_target_2_object)
+CGAL_Kernel_cons(Construct_target_3,
+		 construct_target_3_object)
 CGAL_Kernel_cons(Construct_tetrahedron_3,
 		 construct_tetrahedron_3_object)
 CGAL_Kernel_cons(Construct_translated_point_2,
@@ -329,7 +429,7 @@ CGAL_Kernel_pred(Counterclockwise_in_between_2,
 		 counterclockwise_in_between_2_object)
 CGAL_Kernel_pred(Do_intersect_2,
 		 do_intersect_2_object)
-CGAL_Kernel_cons(Do_intersect_3,
+CGAL_Kernel_pred(Do_intersect_3,
 		 do_intersect_3_object)
 CGAL_Kernel_pred(Equal_xy_3,
 		 equal_xy_3_object)
@@ -432,3 +532,4 @@ CGAL_Kernel_pred(Side_of_oriented_sphere_3,
 
 #undef CGAL_Kernel_pred
 #undef CGAL_Kernel_cons
+#undef CGAL_Kernel_obj

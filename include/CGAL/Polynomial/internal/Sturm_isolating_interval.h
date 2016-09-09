@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Sturm_isolating_interval.h $
-// $Id: Sturm_isolating_interval.h 28655 2006-02-21 05:49:40Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Sturm_isolating_interval.h $
+// $Id: Sturm_isolating_interval.h 33371 2006-08-17 09:09:38Z afabri $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -277,7 +277,7 @@ public:
   //\todo to exact interval somehow
 
   This operator||(const This &o) {
-    return This(std::min(lb(), o.lb()), std::max(ub(), o.ub()));
+    return This((std::min)(lb(), o.lb()), (std::max)(ub(), o.ub()));
   }
 #endif
 

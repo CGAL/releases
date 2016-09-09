@@ -15,18 +15,18 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Exact_type_selecter.h $
-// $Id: Exact_type_selecter.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/Exact_type_selecter.h $
+// $Id: Exact_type_selecter.h 37955 2007-04-05 13:02:19Z spion $
+//
 //
 // Author(s)     : Sylvain Pion
 
-#ifndef CGAL_EXACT_TYPE_SELECTER_H
-#define CGAL_EXACT_TYPE_SELECTER_H
+#ifndef CGAL_EXACT_Type_SELECTER_H
+#define CGAL_EXACT_Type_SELECTER_H
 
 // This is an undocumented private helper for Filtered_kernel.
 
-#include <CGAL/basic.h>
+#include <CGAL/number_type_basic.h>
 #include <CGAL/MP_Float.h>
 #include <CGAL/Quotient.h>
 #include <CGAL/Lazy_exact_nt.h>
@@ -113,4 +113,4 @@ struct Exact_type_selecter<Lazy_exact_nt<ET> >
 
 CGAL_END_NAMESPACE
 
-#endif // CGAL_EXACT_TYPE_SELECTER_H
+#endif // CGAL_EXACT_Type_SELECTER_H

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Random_numbers/include/CGAL/Random.h $
-// $Id: Random.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Random_numbers/include/CGAL/Random.h $
+// $Id: Random.h 32184 2006-07-03 15:16:51Z lrineau $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Sylvain Pion
@@ -57,6 +57,14 @@ class Random {
     }
 
     int     operator () ( int upper);
+
+  bool    operator==(Random rd) const
+  {
+    return 
+      rd.rand_max_plus_1 == rand_max_plus_1 &&
+      rd.random_value == random_value &&
+      rd.val == val;
+  }
   private:
     // data members
     const double  rand_max_plus_1;

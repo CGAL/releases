@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/qt_file_toolbar.h $
-// $Id: qt_file_toolbar.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/qt_file_toolbar.h $
+// $Id: qt_file_toolbar.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -147,7 +147,7 @@ private:
       this->addSeparator();
       QWhatsThis::whatsThisButton(this);
     }
-  
+
   /** setup the statusbar */
 
 public slots:
@@ -162,7 +162,7 @@ public slots:
       QString fileName =
 	QFileDialog::getOpenFileName(QString::null, QString::null,
 				     window, "Open file...");
-						      
+
       if ( !fileName.isNull() ) {
 	emit fileToRead(fileName);
       }
@@ -170,7 +170,7 @@ public slots:
   /** save a document */
   void slotFileSave()
     {
-      
+
     }
   /** save a document under a different filename*/
   void slotFileSaveAs()
@@ -178,7 +178,7 @@ public slots:
       QString fileName =
 	QFileDialog::getSaveFileName(tr("data.cin"), QString::null,
 				     window, "Save data as...");
-						      
+
       if ( !fileName.isNull() ) {
 	emit fileToWrite(fileName);
       }
@@ -194,4 +194,3 @@ public slots:
 };
 
 #endif // QT_FILE_TOOLBAR_H
-

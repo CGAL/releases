@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Sphere_3.h $
-// $Id: Sphere_3.h 29922 2006-04-03 13:16:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Sphere_3.h $
+// $Id: Sphere_3.h 35640 2006-12-27 23:25:47Z spion $
 // 
 //
 // Author(s)     : Herve Bronnimann
@@ -26,7 +26,7 @@
 
 #include <CGAL/utility.h>
 #include <CGAL/Handle_for.h>
-#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/Interval_nt.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -37,7 +37,6 @@ class SphereC3
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Vector_3             Vector_3;
   typedef typename R_::Sphere_3             Sphere_3;
-  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
   typedef Triple<Point_3, FT, Orientation>         Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -119,19 +118,6 @@ public:
       return get(base).third;
   }
 
-  Sphere_3 orthogonal_transform(const Aff_transformation_3 &t) const
-  {
-    // FIXME: precond: t.is_orthogonal() (*UNDEFINED*)
-    Vector_3 vec(FT(1), FT(0), FT(0));        // unit vector
-    vec = vec.transform(t);                   // transformed
-    FT sq_scale = vec.squared_length();       // squared scaling factor
-
-    return SphereC3(t.transform(center()),
-                    sq_scale * squared_radius(),
-                    t.is_even() ? orientation()
-                                : CGAL::opposite(orientation()));
-  }
-
   // A circle is degenerate if its (squared) radius is null or negative
   bool is_degenerate() const;
 
@@ -151,8 +137,6 @@ public:
   // Returns R::ON_BOUNDED_SIDE, R::ON_BOUNDARY or R::ON_UNBOUNDED_SIDE
   bool has_on_bounded_side(const Point_3 &p) const;
   bool has_on_unbounded_side(const Point_3 &p) const;
-
-  Bbox_3 bbox() const;
 };
 
 template < class R >
@@ -277,108 +261,6 @@ SphereC3<R>::opposite() const
   return SphereC3<R>(center(), squared_radius(),
                                CGAL::opposite(orientation()) );
 }
-
-template < class R >
-CGAL_KERNEL_INLINE
-Bbox_3
-SphereC3<R>::bbox() const
-{ 
-  typename R::Construct_bbox_3 construct_bbox_3;
-  Bbox_3 b = construct_bbox_3(center());
-
-  Interval_nt<> x (b.xmin(), b.xmax());
-  Interval_nt<> y (b.ymin(), b.ymax());
-  Interval_nt<> z (b.zmin(), b.zmax());
-
-  Interval_nt<> sqr = CGAL_NTS to_interval(squared_radius());
-  Interval_nt<> r = CGAL::sqrt(sqr);
-  Interval_nt<> minx = x-r;
-  Interval_nt<> maxx = x+r;
-  Interval_nt<> miny = y-r;
-  Interval_nt<> maxy = y+r;
-  Interval_nt<> minz = z-r;
-  Interval_nt<> maxz = z+r;
-
-  return Bbox_3(minx.inf(), miny.inf(), minz.inf(), 
-		maxx.sup(), maxy.sup(), maxz.sup());
-}
-
-/*
-template < class R >
-inline
-EllipseC3<SphereC3<R>::FT> SphereC3<R>::i
-transform(const Aff_transformationC3<SphereC3<R>::FT> &t) const
-{
-  return SphereC3<R>(t.transform(center()),
-                      squared_radius(),
-                      orientation());
-}
-*/
-
-#ifndef CGAL_NO_OSTREAM_INSERT_SPHEREC3
-template < class R >
-CGAL_KERNEL_INLINE
-std::ostream &
-operator<<(std::ostream &os, const SphereC3<R> &c)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        os << c.center() << ' ' << c.squared_radius() << ' '
-           << static_cast<int>(c.orientation());
-        break;
-    case IO::BINARY :
-        os << c.center();
-        write(os, c.squared_radius());
-        write(os, static_cast<int>(c.orientation()));
-        break;
-    default:
-        os << "SphereC3(" << c.center() <<  ", " << c.squared_radius();
-        switch (c.orientation()) {
-        case CLOCKWISE:
-            os << ", clockwise)";
-            break;
-        case COUNTERCLOCKWISE:
-            os << ", counterclockwise)";
-            break;
-        default:
-            os << ", collinear)";
-            break;
-        }
-        break;
-    }
-    return os;
-}
-#endif // CGAL_NO_OSTREAM_INSERT_SPHEREC3
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_SPHEREC3
-template < class R >
-CGAL_KERNEL_INLINE
-std::istream &
-operator>>(std::istream &is, SphereC3<R> &c)
-{
-    typename R::Point_3 center;
-    typename R::FT squared_radius;
-    int o;
-    switch(is.iword(IO::mode)) {
-    case IO::ASCII :
-        is >> center >> squared_radius >> o;
-        break;
-    case IO::BINARY :
-        is >> center;
-        read(is, squared_radius);
-        is >> o;
-        break;
-    default:
-        std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-        break;
-    }
-    if (is)
-	c = SphereC3<R>(center, squared_radius,
-		                  static_cast<Orientation>(o));
-    return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_SPHEREC3
 
 CGAL_END_NAMESPACE
 

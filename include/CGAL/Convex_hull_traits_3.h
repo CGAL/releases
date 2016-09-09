@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_3/include/CGAL/Convex_hull_traits_3.h $
-// $Id: Convex_hull_traits_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_3/include/CGAL/Convex_hull_traits_3.h $
+// $Id: Convex_hull_traits_3.h 36710 2007-02-28 19:28:09Z spion $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -145,12 +145,7 @@ public:
     }
 };
 
-// without this we get an internal compiler error on bcc
-#if defined(__BORLANDC__)
-template <class R_, class Polyhedron_ = CGAL::Polyhedron_3<R_> >
-#else
 template <class R_>
-#endif
 class Convex_hull_traits_3 
 {
  public:  
@@ -162,11 +157,7 @@ class Convex_hull_traits_3
   typedef Point_triple<R>                        Plane_3;
   typedef typename R::Vector_3                   Vector_3;
 
-#if defined(__BORLANDC__)
-  typedef Polyhedron_                            Polyhedron_3;
-#else
   typedef CGAL::Polyhedron_3<R>                  Polyhedron_3;
-#endif
 
 
   typedef typename R::Construct_segment_3        Construct_segment_3;

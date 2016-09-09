@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_non_caching_segment_basic_traits_2.h $
-// $Id: Arr_non_caching_segment_basic_traits_2.h 29412 2006-03-12 09:38:57Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_non_caching_segment_basic_traits_2.h $
+// $Id: Arr_non_caching_segment_basic_traits_2.h 37075 2007-03-14 11:57:01Z hemmer $
 // 
 //
 // Author(s)     : Efi Fogel <efif@post.tau.ac.il>
@@ -38,7 +38,6 @@
 #include <CGAL/representation_tags.h>
 #include <CGAL/assertions.h>
 #include <CGAL/Arr_traits_2/Segment_assertions.h>
-#include <CGAL/Number_type_traits.h> 
 
 CGAL_BEGIN_NAMESPACE
 
@@ -52,9 +51,9 @@ class Arr_non_caching_segment_basic_traits_2 : public T_Kernel
 public:
 
   typedef T_Kernel                              Kernel;
-
   typedef typename Kernel::FT                   FT;
-  typedef typename Number_type_traits<FT>::Has_exact_division 
+    
+  typedef typename Algebraic_structure_traits<FT>::Is_exact 
                                                 Has_exact_division;
 
   typedef
@@ -63,6 +62,7 @@ public:
 
   // Categories:
   typedef Tag_true                              Has_left_category;
+  typedef Tag_false                             Has_boundary_category;
     
   /*! Default Constructor */
   Arr_non_caching_segment_basic_traits_2()

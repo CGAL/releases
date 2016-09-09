@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/SM_io_parser.h $
-// $Id: SM_io_parser.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/SM_io_parser.h $
+// $Id: SM_io_parser.h 36990 2007-03-10 12:49:21Z spion $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -26,6 +26,11 @@
 #include <CGAL/Nef_S2/SM_decorator_traits.h>
 #include <vector>
 #include <iostream>
+
+#if defined(BOOST_MSVC)
+#  pragma warning(push)
+#  pragma warning(disable:4355) // complaint about using 'this' to
+#endif                          // initialize a member
 
 CGAL_BEGIN_NAMESPACE
 
@@ -78,7 +83,7 @@ class SM_io_parser : public Decorator_
   int vn,en,ln,fn,i;
   // the number of objects
 
-  bool check_sep(char* sep);
+  bool check_sep(const char* sep);
   void print_vertex(SVertex_handle) const;
   void print_edge(SHalfedge_handle) const;
   void print_loop(SHalfloop_const_handle) const;
@@ -156,7 +161,7 @@ SM_io_parser(std::ostream& iout, const Base& D)
 //-----------------------------------------------------------------------------
 
 template <typename Decorator_>
-bool SM_io_parser<Decorator_>::check_sep(char* sep)
+bool SM_io_parser<Decorator_>::check_sep(const char* sep)
 {
   char c; 
   do in.get(c); while (isspace(c));
@@ -362,9 +367,9 @@ void SM_io_parser<Decorator_>::read()
   if ( !(check_sep("faces") && (in >> fn)) )
     CGAL_assertion_msg(0,"SM_io_parser::read: wrong face line.");
 
-  SVertex_of.reserve(vn);
-  Edge_of.reserve(en);
-  SFace_of.reserve(fn);
+  SVertex_of.resize(vn);
+  Edge_of.resize(en);
+  SFace_of.resize(fn);
   for(i=0; i<vn; i++)  SVertex_of[i] =   this->new_vertex();
   for(i=0; i<en; i++) 
     if (i%2==0) Edge_of[i] = this->new_edge_pair_without_vertices();
@@ -470,5 +475,11 @@ void SM_io_parser<Decorator_>::dump(const Decorator_& D, std::ostream& os)
 
 
 CGAL_END_NAMESPACE
+
+
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
+
 #endif //CGAL_SM_IO_PARSER_H
 

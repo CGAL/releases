@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_dcel_base.h $
-// $Id: Arr_dcel_base.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_dcel_base.h $
+// $Id: Arr_dcel_base.h 37259 2007-03-19 14:00:56Z afabri $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -26,12 +26,15 @@
  */
 
 #include <CGAL/basic.h>
+#include <CGAL/Arr_enums.h>
 #include <list>
 #include <map>
 #include <CGAL/N_step_adaptor_derived.h>
 #include <CGAL/In_place_list.h>
 #include <CGAL/HalfedgeDS_iterator.h>
 #include <CGAL/Arrangement_2/Arrangement_2_iterators.h>
+#include <CGAL/function_objects.h>
+#include <CGAL/Iterator_project.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -59,6 +62,7 @@ inline bool _is_lsb_set (const void* p)
   return ((val & mask) != 0); 
 }
 
+
 /*! \class
  * Base vertex class. 
  */
@@ -84,6 +88,21 @@ protected:
                       // isolated). The LSB of the pointer indicates whether
                       // the vertex is isolated.
   Point      *p_pt;   // The point associated with the vertex.
+  size_t      infty;  // Whether the point lies at:
+                      //   x = -oo : 1st LSB set (1).
+                      //   x = +oo : 2nd LSB set (2).
+                      //   y = -oo : 3rd LSB set (4).
+                      //   y = +oo : 4th LSB set (8).
+
+private:
+
+  enum
+  {
+    X_MINUS_INFTY = 1,
+    X_PLUS_INFTY  = 2,
+    Y_MINUS_INFTY = 4,
+    Y_PLUS_INFTY  = 8
+  };
 
 public:
 
@@ -96,28 +115,81 @@ public:
   /*! Destructor. */
   virtual ~Arr_vertex_base() {}
 
+  /*! Check if the point pointer is NULL. */
+  bool has_null_point () const
+  {
+    return (p_pt == NULL);
+  }
+
   /*! Get the point (const version). */
   const Point& point() const 
-  { 
+  {
+    CGAL_assertion (p_pt != NULL);
     return (*p_pt);
   }
 
   /*! Get the point (non-const version). */
   Point& point() 
   { 
+    CGAL_assertion (p_pt != NULL);
     return (*p_pt);
   }
 
-  /*! Set the point. */
+  /*! Set the point (vertex not at infinity). */
   void set_point (Point *p) 
   {
     p_pt = p;
+    infty = 0;
+  }
+
+  /*! Check if the vertex is infinite at x. */
+  Boundary_type boundary_in_x () const
+  {
+    if ((infty & X_MINUS_INFTY) != 0)
+      return (MINUS_INFINITY);
+    else if ((infty & X_PLUS_INFTY) != 0)
+      return (PLUS_INFINITY);
+    
+    return (NO_BOUNDARY);
+  }
+
+  /*! Check if the vertex is infinite at y. */
+  Boundary_type boundary_in_y () const
+  {
+    if ((infty & Y_MINUS_INFTY) != 0)
+      return (MINUS_INFINITY);
+    else if ((infty & Y_PLUS_INFTY) != 0)
+      return (PLUS_INFINITY);
+    
+    return (NO_BOUNDARY);
+  }
+
+  /*! Set a vertex at infinity (which is not associated with a point). */
+  void set_boundary (Boundary_type inf_x, Boundary_type inf_y)
+  {
+    CGAL_precondition (inf_x != NO_BOUNDARY || inf_y != NO_BOUNDARY);
+
+    p_pt = NULL;
+    infty = 0;
+
+    if (inf_x == MINUS_INFINITY)
+      infty = infty | X_MINUS_INFTY;
+    else if (inf_x == PLUS_INFINITY)
+      infty = infty | X_PLUS_INFTY;
+
+    if (inf_y == MINUS_INFINITY)
+      infty = infty | Y_MINUS_INFTY;
+    else if (inf_y == PLUS_INFINITY)
+      infty = infty | Y_PLUS_INFTY;
+
+    return;
   }
 
   /*! Assign from another vertex. */
   virtual void assign (const Arr_vertex_base<Point>& v)
   {
     p_pt = v.p_pt;
+    infty = v.infty;
   }
 };
 
@@ -171,15 +243,23 @@ public:
   virtual ~Arr_halfedge_base()
   {}
 
+  /*! Check if the curve pointer is NULL. */
+  bool has_null_curve () const
+  {
+    return (p_cv == NULL);
+  }
+
   /*! Get the x-monotone curve (const version). */
   const X_monotone_curve& curve() const 
   {
+    CGAL_precondition (p_cv != NULL);
     return (*p_cv);
   }
 
   /*! Get the x-monotone curve (non-const version). */
   X_monotone_curve& curve () 
   {
+    CGAL_precondition (p_cv != NULL);
     return (*p_cv);
   }
 
@@ -220,8 +300,11 @@ public:
                                             Isolated_vertex_const_iterator;
 
 protected:
+public:
 
   void           *p_he;        // An incident halfedge along the face boundary.
+                               // The LSB of the pointer indicates whether
+                               // the face is unbounded.
   Holes_container              holes;      // The holes inside the face.
   Isolated_vertices_container  iso_verts;  // The isolated vertices inside
                                            // the face.
@@ -313,7 +396,7 @@ public:
 
   /*! Set the isolated vertex information. */
   void set_isolated_vertex (Isolated_vertex* iv)
-  { 
+  {
     // Set the isolated vertex-information pointer and set its LSB.
     this->p_inc = _set_lsb (iv);
   }
@@ -470,7 +553,7 @@ public:
     return (reinterpret_cast<Face*>(this->p_comp));
   }
 
-  /*! Set the incident facee (for halfedges that lie on an outer CCB). */
+  /*! Set the incident face (for halfedges that lie on an outer CCB). */
   void set_face (Face* f)
   { 
     // Set the face pointer and reset the LSB.
@@ -516,37 +599,53 @@ public:
   Arr_face()
   {}
 
+  /*! Check if the face is unbounded. */
+  bool is_unbounded () const
+  {
+    // Note that we use the LSB of the p_he pointer as a Boolean flag.
+    return (_is_lsb_set (this->p_he));
+  }
+
+  /*! Set the face as bounded or unbounded. */
+  void set_unbounded (bool unbounded)
+  {
+    if (unbounded)
+      this->p_he = _set_lsb (this->p_he);
+    else
+      this->p_he = _clean_pointer (this->p_he);
+     
+    return;
+  }
+
   /*! Get an incident halfedge (const version). */
   const Halfedge * halfedge() const
   {
-    return (reinterpret_cast<const Halfedge*>(this->p_he));
+    return (reinterpret_cast<const Halfedge*>(_clean_pointer (this->p_he)));
   }
 
   /*! Get an incident halfedge (non-const version). */
   Halfedge * halfedge()
   {
-    return (reinterpret_cast<Halfedge*>(this->p_he));
+    return (reinterpret_cast<Halfedge*>(_clean_pointer (this->p_he)));
   }
 
   /*! Set an incident halfedge. */
   void set_halfedge (Halfedge* he)
   {
-    this->p_he = he;
+    // Set the halfedge pointer, preserving the content of the LSB.
+    if (_is_lsb_set (this->p_he))
+      this->p_he = _set_lsb (he);
+    else
+      this->p_he = he;
+
+    return;
   }
 
-  // Define the hole iterators:
-  typedef I_HalfedgeDS_iterator<
-    typename F::Hole_iterator,
-    Halfedge*,
-    typename F::Hole_iterator::difference_type,
-    typename F::Hole_iterator::iterator_category>       Hole_iterator;
-
-  typedef I_HalfedgeDS_const_iterator<
-    typename F::Hole_const_iterator,
-    typename F::Hole_iterator,
-    const Halfedge*,
-    typename F::Hole_const_iterator::difference_type,
-    typename F::Hole_const_iterator::iterator_category> Hole_const_iterator;
+  typedef Cast_function_object<void*,Halfedge*> HolePtr2HalfedgePtrCast ;
+  
+  typedef Iterator_project<typename F::Hole_iterator      , HolePtr2HalfedgePtrCast> Hole_iterator ;
+  typedef Iterator_project<typename F::Hole_const_iterator, HolePtr2HalfedgePtrCast> Hole_const_iterator ;
+  
 
   /*! Get the number of holes inside the face. */
   size_t number_of_holes() const
@@ -941,8 +1040,11 @@ public:
   Vertex* new_vertex()
   {
     Vertex     *v = vertex_alloc.allocate (1);
-
+#ifdef CGAL_USE_ALLOCATOR_CONSTRUCT_DESTROY
     vertex_alloc.construct (v, Vertex());
+#else 
+    new (v) Vertex;
+#endif
     vertices.push_back (*v);
     return v;
   }
@@ -965,8 +1067,11 @@ public:
   Face* new_face()
   {
     Face       *f = face_alloc.allocate (1);
-    
+#ifdef CGAL_USE_ALLOCATOR_CONSTRUCT_DESTROY
     face_alloc.construct (f, Face());
+#else
+    new (f) Face;
+#endif
     faces.push_back (*f);
     return (f);
   }
@@ -975,8 +1080,11 @@ public:
   Hole* new_hole ()
   {
     Hole       *h = hole_alloc.allocate (1);
-    
+#ifdef CGAL_USE_ALLOCATOR_CONSTRUCT_DESTROY
     hole_alloc.construct (h, Hole());
+#else
+    new (h) Hole;
+#endif
     holes.push_back (*h);
     return (h);
   }
@@ -985,8 +1093,11 @@ public:
   Isolated_vertex* new_isolated_vertex ()
   {
     Isolated_vertex  *iv = iso_vert_alloc.allocate (1);
-    
+#ifdef CGAL_USE_ALLOCATOR_CONSTRUCT_DESTROY
     iso_vert_alloc.construct (iv, Isolated_vertex());
+#else
+    new (iv) Isolated_vertex;
+#endif
     iso_verts.push_back (*iv);
     return (iv);
   }
@@ -998,7 +1109,11 @@ public:
   void delete_vertex (Vertex * v)
   {
     vertices.erase (v);
+#ifdef CGAL_USE_ALLOCATOR_CONSTRUCT_DESTROY
     vertex_alloc.destroy (v);
+#else
+    v->~Vertex();
+#endif
     vertex_alloc.deallocate (v,1);
   }
   
@@ -1015,7 +1130,11 @@ public:
   void delete_face(Face * f)
   {
     faces.erase (f);
+#ifdef CGAL_USE_ALLOCATOR_CONSTRUCT_DESTROY
     face_alloc.destroy (f);
+#else
+    f->~Face();
+#endif
     face_alloc.deallocate (f, 1);
   }
 
@@ -1023,7 +1142,11 @@ public:
   void delete_hole (Hole * h)
   {
     holes.erase (h);
+#ifdef CGAL_USE_ALLOCATOR_CONSTRUCT_DESTROY
     hole_alloc.destroy (h);
+#else
+    h->~Hole();
+#endif
     hole_alloc.deallocate (h, 1);
   }
 
@@ -1031,7 +1154,11 @@ public:
   void delete_isolated_vertex (Isolated_vertex * iv)
   {
     iso_verts.erase (iv);
+#ifdef CGAL_USE_ALLOCATOR_CONSTRUCT_DESTROY
     iso_vert_alloc.destroy (iv);
+#else
+    iv->~Isolated_vertex();
+#endif
     iso_vert_alloc.deallocate (iv, 1);
   }
   
@@ -1256,6 +1383,8 @@ public:
         dup_h = NULL;
 
       dup_f->set_halfedge (dup_h);
+      dup_f->set_unbounded(f->is_unbounded());//BZBZ!!!
+
 
       // Assign the holes.
       for (holes_it = f->holes_begin();

@@ -35,6 +35,7 @@ LDFLAGS = \
 
 all:            \
                 adding_a_certificate$(EXE_EXT) \
+                defining_a_simulation_traits$(EXE_EXT) \
                 listener$(EXE_EXT) \
                 pointer_queue$(EXE_EXT) \
                 ref_counted$(EXE_EXT) \
@@ -42,6 +43,9 @@ all:            \
 
 adding_a_certificate$(EXE_EXT): adding_a_certificate$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)adding_a_certificate adding_a_certificate$(OBJ_EXT) $(LDFLAGS)
+
+defining_a_simulation_traits$(EXE_EXT): defining_a_simulation_traits$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)defining_a_simulation_traits defining_a_simulation_traits$(OBJ_EXT) $(LDFLAGS)
 
 listener$(EXE_EXT): listener$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)listener listener$(OBJ_EXT) $(LDFLAGS)
@@ -57,6 +61,7 @@ trivial_kds$(EXE_EXT): trivial_kds$(OBJ_EXT)
 
 clean: \
                    adding_a_certificate.clean \
+                   defining_a_simulation_traits.clean \
                    listener.clean \
                    pointer_queue.clean \
                    ref_counted.clean \

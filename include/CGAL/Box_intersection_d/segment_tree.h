@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
-// $Id: segment_tree.h 28685 2006-02-22 15:22:27Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
+// $Id: segment_tree.h 37975 2007-04-06 08:29:24Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -37,14 +37,14 @@ CGAL_BEGIN_NAMESPACE
 
 namespace Box_intersection_d {
 
-#define BOX_INTERSECTION_DEBUG 0
+#define CGAL_BOX_INTERSECTION_DEBUG 0
 
 
 template< class ForwardIter1, class ForwardIter2,
           class Callback, class Traits >
 void all_pairs( ForwardIter1 p_begin, ForwardIter1 p_end,
                 ForwardIter2 i_begin, ForwardIter2 i_end,
-                Callback callback, Traits traits, bool complete_case = false)
+                Callback callback, Traits , bool complete_case = false)
 {
     const int last_dim = Traits::dimension() - 1;
     for( ForwardIter1 p = p_begin; p != p_end; ++p ) {
@@ -65,7 +65,7 @@ void all_pairs( ForwardIter1 p_begin, ForwardIter1 p_end,
 
 template< class ForwardIter, class Callback, class Traits >
 void all_pairs( ForwardIter p_begin, ForwardIter p_end,
-                Callback callback, Traits traits)
+                Callback callback, Traits)
 {
     const int last_dim = Traits::dimension() - 1;
     // loops actually only up to p_end-1, but we stay with the forward iterator
@@ -89,7 +89,7 @@ template< class RandomAccessIter1, class RandomAccessIter2,
           class Callback, class Traits >
 void one_way_scan( RandomAccessIter1 p_begin, RandomAccessIter1 p_end,
                    RandomAccessIter2 i_begin, RandomAccessIter2 i_end,
-                   Callback callback, Traits traits, int last_dim,
+                   Callback callback, Traits, int last_dim,
                    bool in_order = true )
 {
     typedef typename Traits::Compare Compare;
@@ -128,7 +128,7 @@ template< class RandomAccessIter1, class RandomAccessIter2,
 void modified_two_way_scan(
     RandomAccessIter1 p_begin, RandomAccessIter1 p_end,
     RandomAccessIter2 i_begin, RandomAccessIter2 i_end,
-    Callback callback, Traits traits, int last_dim,
+    Callback callback, Traits, int last_dim,
     bool in_order = true )
 {
     typedef typename Traits::Compare Compare;
@@ -188,7 +188,7 @@ void modified_two_way_scan(
 template< class RandomAccessIter, class Predicate_traits >
 RandomAccessIter
 median_of_three( RandomAccessIter a, RandomAccessIter b, RandomAccessIter c,
-                 Predicate_traits traits, int dim )
+                 Predicate_traits, int dim )
 {
 
     if( Predicate_traits::is_lo_less_lo( *a, *b, dim ) )
@@ -241,7 +241,7 @@ split_points( RandomAccessIter begin, RandomAccessIter end,
 }
 
 
-#if BOX_INTERSECTION_DEBUG
+#if CGAL_BOX_INTERSECTION_DEBUG
  static int level = -1;
  #define CGAL_BOX_INTERSECTION_DUMP(msg) { \
    for( unsigned int i = level; i; --i ) \
@@ -305,7 +305,7 @@ void segment_tree( RandomAccessIter1 p_begin, RandomAccessIter1 p_end,
     const T inf = box_limits< T >::inf();
     const T sup = box_limits< T >::sup();
 
-#if BOX_INTERSECTION_DEBUG
+#if CGAL_BOX_INTERSECTION_DEBUG
     Counter<int> bla( level );
     CGAL_BOX_INTERSECTION_DUMP("range: [" << lo << "," << hi << ") dim " 
                                           << dim << std::endl )
@@ -317,7 +317,7 @@ void segment_tree( RandomAccessIter1 p_begin, RandomAccessIter1 p_end,
     dump_points( p_begin, p_end, traits, dim );
 #endif
 
-#if SEGMENT_TREE_CHECK_INVARIANTS
+#if CGAL_SEGMENT_TREE_CHECK_INVARIANTS
     {
         // first: each point is inside segment [lo,hi)
         for( RandomAccessIter1 it = p_begin; it != p_end; ++it ) {
@@ -390,7 +390,10 @@ void segment_tree( RandomAccessIter1 p_begin, RandomAccessIter1 p_end,
                   callback, traits, cutoff, dim, in_order );
 }
 
-#undef BOX_INTERSECTION_DEBUG
+#if CGAL_BOX_INTERSECTION_DEBUG
+ #undef CGAL_BOX_INTERSECTION_DUMP
+#endif
+#undef CGAL_BOX_INTERSECTION_DEBUG
 
 } // end namespace Box_intersection_d
 

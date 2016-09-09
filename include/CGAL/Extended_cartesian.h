@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Extended_cartesian.h $
-// $Id: Extended_cartesian.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Extended_cartesian.h $
+// $Id: Extended_cartesian.h 34974 2006-10-28 13:33:59Z hemmer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -22,7 +22,7 @@
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Point_2.h> 
 #include <CGAL/Line_2_Line_2_intersection.h>
-#include <CGAL/Nef_2/Nef_polynomial.h>
+#include <CGAL/Nef_polynomial.h>
 
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 5
@@ -417,14 +417,14 @@ void determine_frame_radius(Forward_iterator start, Forward_iterator end,
   while ( start != end ) {
     Point_2 p = *start++;
     if ( is_standard(p) ) {
-      R = CGAL_NTS max(CGAL_NTS abs(p.x()[0]), CGAL_NTS abs(p.y()[0]));
+      R = (CGAL::max)(CGAL_NTS abs(p.x()[0]), CGAL_NTS abs(p.y()[0]));
     } else {
       RT rx = CGAL_NTS abs(p.x()), ry = CGAL_NTS abs(p.y());
       if ( rx[1] > ry[1] )      R = CGAL_NTS abs(ry[0]-rx[0])/(rx[1]-ry[1]);
       else if ( rx[1] < ry[1] ) R = CGAL_NTS abs(rx[0]-ry[0])/(ry[1]-rx[1]);
       else /* rx[1] == ry[1] */ R = CGAL_NTS abs(rx[0]-ry[0])/2;
     }
-    R0 = CGAL_NTS max(R+1,R0);
+    R0 = (CGAL::max)(R+1,R0);
   }
 }
 

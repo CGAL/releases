@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_moving_point_2.h $
-// $Id: Cartesian_moving_point_2.h 29703 2006-03-22 18:00:35Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/Cartesian_moving_point_2.h $
+// $Id: Cartesian_moving_point_2.h 38559 2007-05-04 21:23:14Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -22,6 +22,7 @@
 #define CGAL_KINETIC_CARTESIAN_MOVING_POINT_2_H_
 #include <CGAL/Kinetic/basic.h>
 #include <iostream>
+#include <CGAL/Point_2.h>
 
 CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE;
 
@@ -44,10 +45,10 @@ public:
   }
 
   //! initialize it from a still point
-  template <class Static_point>
-  Cartesian_moving_point_2(const Static_point &pt) {
-    _coords[0]=pt.x();
-    _coords[1]=pt.y();
+  template <class R>
+  Cartesian_moving_point_2(const CGAL::Point_2<R> &pt) {
+    _coords[0]=Coordinate(pt.x());
+    _coords[1]=Coordinate(pt.y());
 
   }
 
@@ -96,6 +97,11 @@ public:
     return Coordinate(0);
   }
 
+  const Coordinate &operator[](int i) const {
+    if (i==0) return x();
+    else return y();
+  }
+
   bool operator==(const This &o) const
   {
     return x()==o.x() && y()==o.y();
@@ -111,20 +117,10 @@ public:
     return x()>o.x() || (x()==o.x() && y() > o.y());
   }
 
-#if 0
-  //! Returns the value at time t.
-  /*!
-   */
-  Static_point operator()(const NT &t) const
-  {
-    return Static_point(x()(t), y()(t));
-  }
 
-  //! Non-operator version of operator()
-  Static_point value_at( NT time) {
-    return operator()(time);
+  bool is_constant() const {
+    return x().degree()<1 && y().degree() <1;
   }
-#endif
 
   template <class SK>
   struct Static_traits
@@ -137,8 +133,7 @@ public:
   };
 
   template <class Converter>
-  struct Coordinate_converter
-  {
+  struct Coordinate_converter {
     Coordinate_converter(const Converter &c): c_(c){}
     typedef Cartesian_moving_point_2<typename Converter::argument_type> argument_type;
     typedef Cartesian_moving_point_2<typename Converter::result_type> result_type;
@@ -184,7 +179,13 @@ std::istream &operator>>(std::istream &in,
   char c;
   do {
     in >> c;
-  } while (std::isspace(c));
+  } 
+#ifndef CGAL_CFG_NO_LOCALE
+  while (std::isspace(c,std::locale::classic() ));
+#else
+  while (std::isspace(c));
+#endif
+
   if (c != ',') {
     in.setstate(std::ios_base::failbit);
     return in;

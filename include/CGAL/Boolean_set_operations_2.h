@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2.h $
-// $Id: Boolean_set_operations_2.h 28830 2006-02-27 14:26:55Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2.h $
+// $Id: Boolean_set_operations_2.h 37148 2007-03-16 09:01:19Z afabri $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -866,7 +866,7 @@ template <class InputIterator, class OutputIterator, class Traits>
 inline OutputIterator join(InputIterator begin,
                            InputIterator end,
                            OutputIterator oi,
-                           Traits&        tr)
+                           Traits& )
 {
   if(begin == end)
     return (oi);
@@ -921,7 +921,7 @@ template <class InputIterator, class OutputIterator, class Traits>
 inline OutputIterator intersection (InputIterator begin,
                                     InputIterator end,
                                     OutputIterator oi,
-                                    Traits&        tr)
+                                    Traits&)
 {
   if(begin == end)
     return (oi);

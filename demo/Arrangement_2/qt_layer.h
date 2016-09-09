@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/demo/Arrangement_2/qt_layer.h $
-// $Id: qt_layer.h 28872 2006-02-28 07:47:59Z wein $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/demo/Arrangement_2/qt_layer.h $
+// $Id: qt_layer.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -35,9 +35,9 @@ class Qt_layer : public CGAL::Qt_widget_layer
 public:
     Qt_layer( QTabWidget * );
 	void draw();
- 	
+
 private:
 	QTabWidget *myBar;
-}; 
+};
 
 #endif

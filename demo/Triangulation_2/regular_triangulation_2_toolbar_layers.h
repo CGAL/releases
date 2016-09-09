@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/demo/Triangulation_2/regular_triangulation_2_toolbar_layers.h $
-// $Id: regular_triangulation_2_toolbar_layers.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/demo/Triangulation_2/regular_triangulation_2_toolbar_layers.h $
+// $Id: regular_triangulation_2_toolbar_layers.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Radu Ursu
 
@@ -50,7 +50,7 @@ private:
                   *dt;
   QButtonGroup    *button_group;
   int             nr_of_buttons;
-	
+
   Qt_layer_show_triangulation < Regular_triangulation > *showT;
   Qt_layer_show_voronoi < Regular_triangulation >       *showV;
   Qt_layer_show_points < Regular_triangulation >        *showP;

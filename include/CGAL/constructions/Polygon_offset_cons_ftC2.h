@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/include/CGAL/constructions/Polygon_offset_cons_ftC2.h $
-// $Id: Polygon_offset_cons_ftC2.h 31990 2006-06-20 18:56:09Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/constructions/Polygon_offset_cons_ftC2.h $
+// $Id: Polygon_offset_cons_ftC2.h 34739 2006-10-06 18:07:05Z fcacciola $
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -35,16 +35,17 @@ namespace CGAL_SS_i
 // POSTCONDITION: In case of overflow an empty optional is returned.
 //
 template<class K>
-optional< Point_2<K> > construct_offset_pointC2 ( typename K::FT      t
-                                                , Segment_2<K> const& e0
-                                                , Segment_2<K> const& e1    
+optional< Point_2<K> > construct_offset_pointC2 ( typename K::FT const&         t
+                                                , Segment_2<K> const&           e0
+                                                , Segment_2<K> const&           e1
+                                                , Seeded_trisegment_2<K> const& st
                                                 )
 {
   typedef typename K::FT FT ;
   
-  typedef Point_2<K> Point_2 ;
-  typedef Line_2<K>  Line_2 ;
-  
+  typedef Point_2<K>  Point_2 ;
+  typedef Line_2<K>   Line_2 ;
+          
   typedef optional<Point_2> Optional_point_2 ;
   typedef optional<Line_2>  Optional_line_2 ;
   
@@ -53,11 +54,9 @@ optional< Point_2<K> > construct_offset_pointC2 ( typename K::FT      t
   Optional_line_2 l0 = compute_normalized_line_ceoffC2(e0) ;
   Optional_line_2 l1 = compute_normalized_line_ceoffC2(e1) ;
 
-  Optional_point_2 q = compute_oriented_midpoint(e0,e1);
-  
   bool ok = false ;
   
-  if ( l0 && l1 && q )
+  if ( l0 && l1 )
   {
     FT den = l1->a() * l0->b() - l0->a() * l1->b() ;
   
@@ -70,14 +69,24 @@ optional< Point_2<K> > construct_offset_pointC2 ( typename K::FT      t
           
         x = -numX / den ;
         y =  numY / den ;
+        
+        ok = CGAL_NTS is_finite(x) && CGAL_NTS is_finite(y) ;
       }
       else
       {
-        x = q->x() + l0->a() * t  ;
-        y = q->y() + l0->b() * t  ;
+        Optional_point_2 q = st.event().is_null() ? cgal_make_optional(e1.source()) : construct_offset_lines_isecC2(st);
+        if ( q )
+        {
+          FT px, py ;
+          line_project_pointC2(l0->a(),l0->b(),l0->c(),q->x(),q->y(),px,py); 
+          
+          x = px + l0->a() * t  ;
+          y = py + l0->b() * t  ;
+          
+          ok = CGAL_NTS is_finite(x) && CGAL_NTS is_finite(y) ;
+        }    
       }
       
-      ok = CGAL_NTS is_finite(x) && CGAL_NTS is_finite(y) ;
     }
   }
 

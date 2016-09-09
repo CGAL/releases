@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_polyhedron_S2.h $
-// $Id: Nef_polyhedron_S2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_polyhedron_S2.h $
+// $Id: Nef_polyhedron_S2.h 38152 2007-04-16 16:38:25Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -20,6 +20,11 @@
 
 #ifndef CGAL_NEF_POLYHEDRON_S2_H
 #define CGAL_NEF_POLYHEDRON_S2_H
+
+#if defined(BOOST_MSVC)
+#  pragma warning(push)
+#  pragma warning(disable:4800) // complaint about performance in std::map where we can't do anything
+#endif
 
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
@@ -71,7 +76,7 @@ class Nef_polyhedron_S2_rep {
   
 public:
   Nef_polyhedron_S2_rep() : sm_() {}
-  Nef_polyhedron_S2_rep(const Self& R) : sm_() {}
+  Nef_polyhedron_S2_rep(const Self&) : sm_() {}
   ~Nef_polyhedron_S2_rep() { sm_.clear(); }
 };
 
@@ -254,7 +259,7 @@ public:
     D.simplify();
   }
 
-  Nef_polyhedron_S2(const Self& N1) : Base(N1) {
+  Nef_polyhedron_S2(const Self& N1) : Base(N1), Const_decorator() {
     set_sm(&sphere_map());
   }
   Nef_polyhedron_S2& operator=(const Self& N1)
@@ -704,6 +709,10 @@ std::istream& operator>>
   return is;
 }
 
+
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
 
 CGAL_END_NAMESPACE
 #endif //CGAL_NEF_POLYHEDRON_S2_H

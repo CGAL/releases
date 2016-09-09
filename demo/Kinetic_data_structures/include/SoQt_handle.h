@@ -12,9 +12,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_handle.h $
-// $Id: SoQt_handle.h 29333 2006-03-09 23:58:19Z drussel $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_handle.h $
+// $Id: SoQt_handle.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
 

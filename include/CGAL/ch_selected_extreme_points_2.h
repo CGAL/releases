@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_2/include/CGAL/ch_selected_extreme_points_2.h $
-// $Id: ch_selected_extreme_points_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_2/include/CGAL/ch_selected_extreme_points_2.h $
+// $Id: ch_selected_extreme_points_2.h 31312 2006-05-29 09:01:56Z wein $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -208,9 +208,7 @@ ch_w_point( ForwardIterator first, ForwardIterator last, ForwardIterator& w)
 
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
-#include <CGAL/ch_selected_extreme_points_2.C>
-#endif // CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
+#include <CGAL/Convex_hull_2/ch_selected_extreme_points_2_impl.h>
 
 #endif // CGAL_CH_SELECTED_EXTREME_POINTS_2_H
 

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/examples/Surface_mesh_parameterization/include/Parameterization_polyhedron_adaptor_ex.h $
-// $Id: Parameterization_polyhedron_adaptor_ex.h 29020 2006-03-03 09:33:29Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/examples/Surface_mesh_parameterization/include/Parameterization_polyhedron_adaptor_ex.h $
+// $Id: Parameterization_polyhedron_adaptor_ex.h 38428 2007-04-24 13:34:11Z lsaboret $
+//
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
 
@@ -163,11 +163,11 @@ public:
     // It can have have any number of borders. Its "main border"
     // will be the mesh's longest border (if there is at least one border).
     Parameterization_polyhedron_adaptor_ex(Polyhedron_ex& mesh)
-        // Store reference to adapted mesh 
+        // Store reference to adapted mesh
       : m_polyhedron(mesh)
     {
         // Extract mesh's longest border
-        m_main_border = extract_longest_border(mesh);
+        m_main_border = extract_longest_border();
 
 #ifndef NDEBUG
         // Index vertices right away to ease debugging
@@ -213,6 +213,11 @@ public:
 
     // MESH INTERFACE
 
+    /// Indicate if the mesh matches the ParameterizationMesh_3 concept.
+    bool is_valid() const {
+        return m_polyhedron.is_valid();
+    }
+
     // Get iterator over first vertex of mesh
     Vertex_iterator  mesh_vertices_begin() {
         return m_polyhedron.vertices_begin();
@@ -240,19 +245,25 @@ public:
     // Index vertices of the mesh from 0 to count_mesh_vertices()-1
     void  index_mesh_vertices ()
     {
-        //fprintf(stderr,"  index Parameterization_polyhedron_adaptor vertices:\n");
+#ifdef DEBUG_TRACE
+        fprintf(stderr,"  index Parameterization_polyhedron_adaptor vertices:\n");
+#endif
         int index = 0;
         for (Vertex_iterator it=mesh_vertices_begin(); it!=mesh_vertices_end(); it++)
         {
             Point_3 position = get_vertex_position(it);
-            //fprintf(stderr, "    %d=(%f,%f,%f)\n",
-            //                index,
-            //                (float)position.x(),
-            //                (float)position.y(),
-            //                (float)position.z());
+/*#ifdef DEBUG_TRACE
+            fprintf(stderr, "    %d=(%f,%f,%f)\n",
+                            index,
+                            (float)position.x(),
+                            (float)position.y(),
+                            (float)position.z());
+#endif*/
             set_vertex_index(it, index++);
         }
-        //fprintf(stderr,"    ok\n");
+#ifdef DEBUG_TRACE
+        fprintf(stderr,"    ok\n");
+#endif
     }
 
     // Get iterator over first vertex of mesh's main border
@@ -303,7 +314,6 @@ public:
         border.push_back(seed_vertex);
 
         // fill border
-        int size = 1;
         Halfedge_handle current_halfedge = seed_halfedge;
         do
         {
@@ -317,7 +327,6 @@ public:
             border.push_back(next_vertex);
 
             current_halfedge = next_halfedge;
-            size++;
         }
         while(1);
 
@@ -440,7 +449,7 @@ public:
     }
 
     // Return true if a vertex belongs to the UNIQUE mesh's main border,
-    // ie the mesh's LONGEST border
+    // i.e. the mesh's LONGEST border
     bool  is_vertex_on_main_border(Vertex_const_handle vertex) const {
         return std::find(m_main_border.begin(),
                          m_main_border.end(),
@@ -490,8 +499,8 @@ public:
 
     // EDGE INTERFACE
 
-    // Get/set oriented edge's seaming flag, ie position of the oriented edge
-    // wrt to the UNIQUE main border
+    // Get/set oriented edge's seaming flag, i.e. position of the oriented edge
+    // w.r.t. to the UNIQUE main border
     int  get_halfedge_seaming(Vertex_const_handle source, Vertex_const_handle target) const {
         return get_halfedge(source, target)->seaming();
     }
@@ -742,7 +751,7 @@ public:
 private:
 
     // Extract mesh's longest border
-    std::list<Vertex_handle> extract_longest_border(Polyhedron_ex& mesh)
+    std::list<Vertex_handle> extract_longest_border()
     {
         std::list<Vertex_handle> longest_border;    // returned list
         double                   max_len = 0;       // length of longest_border

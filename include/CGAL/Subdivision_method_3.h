@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Subdivision_method_3/include/CGAL/Subdivision_method_3.h $
-// $Id: Subdivision_method_3.h 30655 2006-04-19 03:42:03Z andyslj $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Subdivision_method_3/include/CGAL/Subdivision_method_3.h $
+// $Id: Subdivision_method_3.h 36333 2007-02-15 21:22:58Z spion $
 // 
 //
 // Author(s): Le-Jeng Shiue <Andy.Shiue@gmail.com>
@@ -23,8 +23,8 @@
 //
 // ======================================================================
 
-#ifndef _POLYHEDRON_SUBDIVISION_H_01292002
-#define _POLYHEDRON_SUBDIVISION_H_01292002
+#ifndef CGAL_POLYHEDRON_SUBDIVISION_H_01292002
+#define CGAL_POLYHEDRON_SUBDIVISION_H_01292002
 
 #include <CGAL/basic.h>
 
@@ -84,4 +84,4 @@ namespace Subdivision_method_3 {
 
 CGAL_END_NAMESPACE
 
-#endif //_POLYHEDRON_SUBDIVISION_H_01292002
+#endif //CGAL_POLYHEDRON_SUBDIVISION_H_01292002

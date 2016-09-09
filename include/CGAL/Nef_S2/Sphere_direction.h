@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_direction.h $
-// $Id: Sphere_direction.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_direction.h $
+// $Id: Sphere_direction.h 35146 2006-11-13 13:43:37Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -65,7 +65,7 @@ are not opposite on $S_2$.}*/
     *this = Sphere_direction(opposite());
 }
 
-Sphere_direction(const CGAL::Plane_3<R>& h) 
+Sphere_direction(const typename R::Plane_3& h) 
 /*{\Xcreate creates the direction corresponding to the plane |h|.
 \precond |h| contains the origin.}*/
  : Base(h) { CGAL_assertion(h.d() == 0); } 

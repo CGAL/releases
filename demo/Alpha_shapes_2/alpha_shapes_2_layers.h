@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Alpha_shapes_2/demo/Alpha_shapes_2/alpha_shapes_2_layers.h $
-// $Id: alpha_shapes_2_layers.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Alpha_shapes_2/demo/Alpha_shapes_2/alpha_shapes_2_layers.h $
+// $Id: alpha_shapes_2_layers.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Radu Ursu
 
@@ -33,39 +33,39 @@ public:
   Qt_layer_show_points(T &t) : tr(t){};
 
   void draw()
-  {  
-    Vertex_iterator it = tr.vertices_begin(), 
+  {
+    Vertex_iterator it = tr.vertices_begin(),
 		beyond = tr.vertices_end();
-    *widget << CGAL::GREEN << CGAL::PointSize (3) 
-		<< CGAL::PointStyle (CGAL::DISC);    
-    while(it != beyond) {      
+    *widget << CGAL::GREEN << CGAL::PointSize (3)
+		<< CGAL::PointStyle (CGAL::DISC);
+    while(it != beyond) {
       *widget << (*it).point();
       ++it;
     }
   };
 private:
   T	&tr;
-  
-};//end class 
+
+};//end class
 
 template <class T>
 class Qt_layer_show_triangulation : public CGAL::Qt_widget_layer
 {
 public:
-	
+
   Qt_layer_show_triangulation(T &t) : tr(t){};
 
 
   void draw()
   {
     *widget << CGAL::LineWidth(2) ;
-    *widget << CGAL::BLUE; 
+    *widget << CGAL::BLUE;
     *widget << tr;
   };
-	
+
 private:
   T &tr;
-};//end class 
+};//end class
 
 template <class T>
 class Qt_layer_show_voronoi : public CGAL::Qt_widget_layer
@@ -79,10 +79,10 @@ public:
     *widget << CGAL::RED ;
     tr.draw_dual(*widget) ;
   };
-	
+
 private:
   T	&tr;
-};//end class 
+};//end class
 
 class Qt_layer_show_alpha_shape : public CGAL::Qt_widget_layer
 {

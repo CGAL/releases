@@ -3,18 +3,15 @@
 #ifndef CGAL_TRIANGULATION_PRINT_OFF_H
 #define CGAL_TRIANGULATION_PRINT_OFF_H 1
 
-#ifndef CGAL_PROTECT_MAP
 #include <map>
-#define CGAL_PROTECT_MAP
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
 template < class Triang >
 void
-triangulation_print_OFF( std::ostream& out, 
-			 const Triang& triang, 
-			 bool binary  = false, 
+triangulation_print_OFF( std::ostream& out,
+			 const Triang& triang,
+			 bool binary  = false,
 			 bool noc     = false,
 			 bool verbose = false) {
     CGAL_precondition( triang.is_valid());
@@ -74,4 +71,3 @@ CGAL_END_NAMESPACE
 
 #endif // CGAL_TRIANGULATION_PRINT_OFF_H //
 // EOF //
-

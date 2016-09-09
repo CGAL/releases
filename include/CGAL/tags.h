@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/tags.h $
-// $Id: tags.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/tags.h $
+// $Id: tags.h 36014 2007-02-02 08:37:35Z hemmer $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -29,13 +29,28 @@
 
 CGAL_BEGIN_NAMESPACE
 
+struct Void {};
+
 // Two struct's to denote boolean compile time decisions.
 
-struct Tag_true  {};
-struct Tag_false {};
+template <bool b>
+struct Boolean_tag {
+  static const bool value = b;
+};
 
+typedef Boolean_tag<true>   Tag_true;
+typedef Boolean_tag<false>  Tag_false; 
+
+// the function check_tag is deprecated since CGAL 3.3
 inline bool check_tag( Tag_true)  {return true;}
 inline bool check_tag( Tag_false) {return false;}
+
+struct Null_tag {};
+
+struct Null_functor {
+  typedef Null_tag result_type;
+  typedef Null_tag second_argument_type; 
+};
 
 
 // A function that asserts a specific compile time tag

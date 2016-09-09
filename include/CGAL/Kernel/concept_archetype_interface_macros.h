@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/concept_archetype_interface_macros.h $
-// $Id: concept_archetype_interface_macros.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel/concept_archetype_interface_macros.h $
+// $Id: concept_archetype_interface_macros.h 34893 2006-10-24 05:24:31Z spion $
 // 
 //
 // Author(s)     : Matthias Baesken
@@ -162,6 +162,18 @@ CGAL_Kernel_pred(Compare_slope_2,
 #endif
 
 #if !defined(CGAL_CA_LIMITED_INTERFACE) || \
+    defined(CGAL_CA_COMPARE_SQUARED_DISTANCE_2)
+CGAL_Kernel_pred(Compare_squared_distance_2,
+		 compare_squared_distance_2_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || \
+    defined(CGAL_CA_COMPARE_SQUARED_DISTANCE_3)
+CGAL_Kernel_pred(Compare_squared_distance_3,
+		 compare_squared_distance_3_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || \
     defined(CGAL_CA_COMPARE_X_AT_Y_2)
 CGAL_Kernel_pred(Compare_x_at_y_2,
 		 compare_x_at_y_2_object)
@@ -207,6 +219,11 @@ CGAL_Kernel_pred(Compare_y_3,
 		 compare_y_3_object)
 #endif
 
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || defined(CGAL_CA_COMPARE_YX_2)
+CGAL_Kernel_pred(Compare_yx_2,
+		 compare_yx_2_object)
+#endif
+
 #if !defined(CGAL_CA_LIMITED_INTERFACE) || defined(CGAL_CA_COMPARE_Z_3)
 CGAL_Kernel_pred(Compare_z_3,
 		 compare_z_3_object)
@@ -220,6 +237,16 @@ CGAL_Kernel_cons(Compute_area_2,
 #if !defined(CGAL_CA_LIMITED_INTERFACE) || defined(CGAL_CA_COMPUTE_AREA_2)
 CGAL_Kernel_cons(Compute_area_3,
 		 compute_area_3_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || defined(CGAL_CA_COMPUTE_DETERMINANT_2)
+CGAL_Kernel_cons(Compute_determinant_2,
+		 compute_determinant_2_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || defined(CGAL_CA_COMPUTE_DETERMINANT_3)
+CGAL_Kernel_cons(Compute_determinant_3,
+		 compute_determinant_3_object)
 #endif
 
 #if !defined(CGAL_CA_LIMITED_INTERFACE) || \
@@ -357,6 +384,12 @@ CGAL_Kernel_cons(Construct_direction_2,
     defined(CGAL_CA_CONSTRUCT_DIRECTION_3)
 CGAL_Kernel_cons(Construct_direction_3,
 		 construct_direction_3_object)
+#endif
+
+#if !defined(CGAL_CA_LIMITED_INTERFACE) || \
+    defined(CGAL_CA_CONSTRUCT_EQUIDISTANT_LINE_3)
+CGAL_Kernel_cons(Construct_equidistant_line_3,
+		 construct_equidistant_line_3_object)
 #endif
 
 #if !defined(CGAL_CA_LIMITED_INTERFACE) || \

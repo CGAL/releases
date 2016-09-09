@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2_empty_visitor.h $
-// $Id: Sweep_line_2_empty_visitor.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Sweep_line_2_empty_visitor.h $
+// $Id: Sweep_line_2_empty_visitor.h 37160 2007-03-16 14:33:01Z lrineau $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -123,18 +123,19 @@ public:
   /*! Destructor */
   virtual ~Empty_visitor() {}
 
-  void before_handle_event(Event* event){}
+  void before_handle_event(Event*){}
 
-  bool after_handle_event(Event* event,SL_iterator iter, bool flag)
+  bool after_handle_event(Event*, SL_iterator, bool)
   {
     return true;
   }
 
-  void add_subcurve(X_monotone_curve_2 cv,Subcurve* sc){}
+  void add_subcurve(X_monotone_curve_2, Subcurve*){}
 
   
-  void init_event(Event* e){}
+  void init_event(Event* ){}
 
+  void before_sweep(){}
   void after_sweep(){}
   void after_init(){}
 
@@ -142,23 +143,23 @@ public:
   //void update_event(Event* e, const Point_2& pt)
   //{}
 
-  void update_event(Event* e,
-                    const Point_2& end_point,
-                    const X_monotone_curve_2& cv,
-                    bool is_left_end)
+  void update_event(Event*,
+                    const Point_2&,
+                    const X_monotone_curve_2&,
+                    bool /* is_left_end */)
   {}
 
-  void update_event(Event* e,
-                    Subcurve* sc1,
-                    Subcurve* sc2,
-                    bool created = false)
+  void update_event(Event*,
+                    Subcurve*,
+                    Subcurve*,
+                    bool /*created*/ = false)
   {}
 
-  void update_event(Event* e,
-                    Subcurve* sc1)
+  void update_event(Event*,
+                    Subcurve*)
   {}
 
-  void update_event(Event* e, const Point_2& pt)
+  void update_event(Event*, const Point_2&)
   {}
 
 

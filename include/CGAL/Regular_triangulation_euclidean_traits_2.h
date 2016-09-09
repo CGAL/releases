@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Regular_triangulation_euclidean_traits_2.h $
-// $Id: Regular_triangulation_euclidean_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Regular_triangulation_euclidean_traits_2.h $
+// $Id: Regular_triangulation_euclidean_traits_2.h 35145 2006-11-13 10:41:11Z afabri $
 // 
 //
 // Author(s)     : Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
@@ -228,7 +228,7 @@ public:
 template < class Bare_point, class Weight >
 inline
 Oriented_side
-power_test(const Weighted_point<Bare_point, Weight> &p,
+power_test_2(const Weighted_point<Bare_point, Weight> &p,
            const Weighted_point<Bare_point, Weight> &q,
            const Weighted_point<Bare_point, Weight> &r,
            const Weighted_point<Bare_point, Weight> &t,
@@ -244,7 +244,7 @@ power_test(const Weighted_point<Bare_point, Weight> &p,
 template < class Bare_point, class Weight >
 inline
 Oriented_side
-power_test(const Weighted_point<Bare_point, Weight> &p,
+power_test_2(const Weighted_point<Bare_point, Weight> &p,
            const Weighted_point<Bare_point, Weight> &q,
            const Weighted_point<Bare_point, Weight> &r,
            const Weighted_point<Bare_point, Weight> &t,
@@ -260,22 +260,22 @@ power_test(const Weighted_point<Bare_point, Weight> &p,
 template < class Bare_point, class Weight >
 inline
 Oriented_side
-power_test(const Weighted_point<Bare_point, Weight> &p,
+power_test_2(const Weighted_point<Bare_point, Weight> &p,
            const Weighted_point<Bare_point, Weight> &q,
            const Weighted_point<Bare_point, Weight> &r,
            const Weighted_point<Bare_point, Weight> &t)
 {
   typedef typename Bare_point::R::Rep_tag Tag;
-  return power_test(p, q, r, t, Tag());
+  return power_test_2(p, q, r, t, Tag());
 }
   
 template < class Bare_point, class Weight >
 inline
 Oriented_side
-power_test(const Weighted_point<Bare_point, Weight> &p,
-           const Weighted_point<Bare_point, Weight> &q,
-           const Weighted_point<Bare_point, Weight> &t,
-	   Cartesian_tag )
+power_test_2(const Weighted_point<Bare_point, Weight> &p,
+	     const Weighted_point<Bare_point, Weight> &q,
+	     const Weighted_point<Bare_point, Weight> &t,
+	     Cartesian_tag )
 {
     typedef typename Bare_point::R::FT  FT;
     return power_testC2(p.x(), p.y(), FT(p.weight()),
@@ -287,10 +287,10 @@ power_test(const Weighted_point<Bare_point, Weight> &p,
 template < class Bare_point, class Weight >
 inline
 Oriented_side
-power_test(const Weighted_point<Bare_point, Weight> &p,
-           const Weighted_point<Bare_point, Weight> &q,
-           const Weighted_point<Bare_point, Weight> &t,
-	   Homogeneous_tag )
+power_test_2(const Weighted_point<Bare_point, Weight> &p,
+	     const Weighted_point<Bare_point, Weight> &q,
+	     const Weighted_point<Bare_point, Weight> &t,
+	     Homogeneous_tag )
 {
    typedef typename Bare_point::R::RT  RT;
     return power_testH2(p.hx(), p.hy(), p.hw(), RT(p.weight()),
@@ -301,22 +301,22 @@ power_test(const Weighted_point<Bare_point, Weight> &p,
 template < class Bare_point, class Weight >
 inline
 Oriented_side
-power_test(const Weighted_point<Bare_point, Weight> &p,
-           const Weighted_point<Bare_point, Weight> &q,
-           const Weighted_point<Bare_point, Weight> &t)
+power_test_2(const Weighted_point<Bare_point, Weight> &p,
+	     const Weighted_point<Bare_point, Weight> &q,
+	     const Weighted_point<Bare_point, Weight> &t)
 {
   typedef typename Bare_point::R::Rep_tag Tag;
-  return power_test(p, q, t, Tag());
+  return power_test_2(p, q, t, Tag());
 }
 
 template < class Bare_point, class Weight >
 inline
 Oriented_side
-power_test(const Weighted_point<Bare_point, Weight> &p,
-           const Weighted_point<Bare_point, Weight> &t)
+power_test_2(const Weighted_point<Bare_point, Weight> &p,
+	     const Weighted_point<Bare_point, Weight> &t)
 {
   typedef typename Bare_point::R::RT  RT;
-  Comparison_result r = Compare<RT>()(p.weight(), t.weight());
+  Comparison_result r = compare(p.weight(), t.weight());
   if(r == LARGER)    return ON_NEGATIVE_SIDE;
   else if (r == SMALLER) return ON_POSITIVE_SIDE;
   return ON_ORIENTED_BOUNDARY;
@@ -338,7 +338,7 @@ public:
 			     const Weighted_point_2 & s) const
     {
       //CGAL_triangulation_precondition( ! collinear(p, q, r) );
-      return CGAL::power_test(p,q,r,s);
+      return CGAL::power_test_2(p,q,r,s);
     }
 
   Oriented_side operator() ( const Weighted_point_2 & p,
@@ -347,14 +347,14 @@ public:
     {
       //CGAL_triangulation_precondition( collinear(p, q, r) );
       //CGAL_triangulation_precondition( p.point() != q.point() );
-      return CGAL::power_test(p,q,r);
+      return CGAL::power_test_2(p,q,r);
     }  
 
   Oriented_side operator() ( const Weighted_point_2 & p,
 			     const Weighted_point_2 & r) const
     {
       //CGAL_triangulation_precondition( p.point() == r.point() );
-      return CGAL::power_test(p,r);
+      return CGAL::power_test_2(p,r);
     }
 };
 
@@ -363,6 +363,7 @@ class Regular_triangulation_euclidean_traits_base_2
   : public R
 {
 public:
+  typedef R                                     Kernel;
   typedef R                                     Rep;
   typedef W                                     Weight;
   typedef R                                     Traits;
@@ -416,19 +417,20 @@ class Regular_triangulation_euclidean_traits_2
 
 CGAL_END_NAMESPACE
 
-// Now specialize for Exact_predicates_ienxact_constructions_kernel, to get
+// Now specialize for Filtered_kernel<CK>, to get
 // the filtered traits automatically.
 #include <CGAL/Regular_triangulation_filtered_traits_2.h>
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+#include <CGAL/Filtered_kernel.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template <>
-class Regular_triangulation_euclidean_traits_2
-         <Exact_predicates_inexact_constructions_kernel>
-  : public Regular_triangulation_filtered_traits_2
-         <Exact_predicates_inexact_constructions_kernel>
-{};
+template < typename CK >
+class Regular_triangulation_euclidean_traits_2 < Filtered_kernel<CK> >
+  : public Regular_triangulation_filtered_traits_2 < Filtered_kernel<CK> >
+{
+public:
+  typedef Filtered_kernel<CK>   Kernel;
+};
 
 CGAL_END_NAMESPACE
 

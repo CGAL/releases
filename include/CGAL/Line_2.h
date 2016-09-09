@@ -15,14 +15,18 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Line_2.h $
-// $Id: Line_2.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Line_2.h $
+// $Id: Line_2.h 33352 2006-08-16 16:38:49Z spion $
+//
 //
 // Author(s)     : Andreas Fabri
 
 #ifndef CGAL_LINE_2_H
 #define CGAL_LINE_2_H
+
+#include <boost/static_assert.hpp>
+#include <boost/type_traits.hpp>
+#include <CGAL/Kernel/Return_base_tag.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -39,9 +43,13 @@ class Line_2 : public R_::Kernel_base::Line_2
   typedef typename R_::Aff_transformation_2  Aff_transformation_2;
   typedef typename R_::Kernel_base::Line_2   RLine_2;
 
+  typedef Line_2                             Self;
+  BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Line_2>::value));
+
 public:
 
   typedef RLine_2 Rep;
+
   const Rep& rep() const
   {
     return *this;
@@ -56,28 +64,29 @@ public:
 
   Line_2() {}
 
-  Line_2(const Point_2 &p, const Point_2 &q)
-    : RLine_2(typename R::Construct_line_2()(p,q).rep()) {}
-
-  Line_2(const RT &a, const RT &b, const RT &c)
-    : RLine_2(typename R::Construct_line_2()(a,b,c).rep()) {}
-
   Line_2(const RLine_2& l)  // conversion impl -> interface class
     : RLine_2(l) {}
 
+  Line_2(const Point_2 &p, const Point_2 &q)
+    : RLine_2(typename R::Construct_line_2()(Return_base_tag(), p,q)) {}
+
+  Line_2(const RT &a, const RT &b, const RT &c)
+    : RLine_2(typename R::Construct_line_2()(Return_base_tag(), a,b,c)) {}
+
   Line_2(const Segment_2& s)
-    : RLine_2(typename R::Construct_line_2()(s).rep()) {}
+    : RLine_2(typename R::Construct_line_2()(Return_base_tag(), s)) {}
 
   Line_2(const Ray_2& r)
-    : RLine_2(typename R::Construct_line_2()(r).rep()) {}
+    : RLine_2(typename R::Construct_line_2()(Return_base_tag(), r)) {}
 
   Line_2(const Point_2 &p, const Direction_2 &d)
-    : RLine_2(typename R::Construct_line_2()(p,d).rep()) {}
+    : RLine_2(typename R::Construct_line_2()(Return_base_tag(), p,d)) {}
 
   Line_2(const Point_2 &p, const Vector_2 &v)
-    : RLine_2(typename R::Construct_line_2()(p,v).rep()) {}
+    : RLine_2(typename R::Construct_line_2()(Return_base_tag(), p,v)) {}
 
 
+  // FIXME : Use Qrt<> here.
   RT a() const
   {
     return R().compute_a_2_object()(*this);
@@ -93,7 +102,7 @@ public:
     return R().compute_c_2_object()(*this);
   }
 
-  Line_2          
+  Line_2
   transform(const Aff_transformation_2 &t) const
   {
     return Line_2(t.transform(point(0)),
@@ -123,45 +132,40 @@ public:
   {
     return R().construct_perpendicular_line_2_object()(*this,p);
   }
-  
+
   Point_2
   projection(const Point_2& p) const
   {
     return R().construct_projected_point_2_object()(*this,p);
   }
-  
-  
+
   bool
   is_horizontal() const
   {
     return R().is_horizontal_2_object()(*this);
   }
-  
+
   bool
   is_vertical() const
   {
     return R().is_vertical_2_object()(*this);
   }
 
-  
   bool
   is_degenerate() const
   { return R().is_degenerate_2_object()(*this); }
-
 
   Oriented_side
   oriented_side(const Point_2 &p) const
   {
     return R().oriented_side_2_object()(*this,p);
-  }  
-
+  }
 
   bool
   has_on_boundary(const Point_2 &p) const
   {
     return oriented_side(p) == ON_ORIENTED_BOUNDARY;
   }
-
 
   bool
   has_on_positive_side(const Point_2 &p) const
@@ -175,12 +179,11 @@ public:
     return oriented_side(p) == ON_NEGATIVE_SIDE;
   }
 
-  bool 
-  has_on(const Point_2 &p) const 
-  { 
-    return has_on_boundary(p); 
+  bool
+  has_on(const Point_2 &p) const
+  {
+    return has_on_boundary(p);
   }
-
 
   FT
   x_at_y(const FT &y) const
@@ -196,16 +199,15 @@ public:
 
   Point_2
   point() const
-  { 
+  {
     return R().construct_point_2_object()(*this);
   }
 
   Point_2
   point(int i) const
-  { 
+  {
     return R().construct_point_2_object()(*this,i);
   }
-
 
   bool
   operator==(const Line_2 &l) const
@@ -213,20 +215,18 @@ public:
     return R().equal_2_object()(*this, l);
   }
 
-
   bool
   operator!=(const Line_2 &l) const
   {
     return !(*this == l);
   }
 
-
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_LINE_2
+
 template <class R >
 std::ostream&
-insert(std::ostream& os, const Line_2<R>& l) 
+insert(std::ostream& os, const Line_2<R>& l)
 {
     switch(os.iword(IO::mode)) {
     case IO::ASCII :
@@ -237,11 +237,10 @@ insert(std::ostream& os, const Line_2<R>& l)
         write(os, l.c());
         return os;
     default:
-        return os << "Line_2(" << l.a() 
+        return os << "Line_2(" << l.a()
 		  << ", " << l.b() << ", " << l.c() <<')';
     }
 }
-
 
 template < class R >
 std::ostream &
@@ -249,13 +248,11 @@ operator<<(std::ostream &os, const Line_2<R> &l)
 {
   return insert(os, l);
 }
-#endif // CGAL_NO_OSTREAM_INSERT_LINE_2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_LINE_2
 
 template <class R >
 std::istream&
-extract(std::istream& is, Line_2<R>& l) 
+extract(std::istream& is, Line_2<R>& l)
 {
     typename R::RT a, b, c;
     switch(is.iword(IO::mode)) {
@@ -284,7 +281,6 @@ operator>>(std::istream &is, Line_2<R> &l)
 {
   return extract(is, l);
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_LINE_2
 
 CGAL_END_NAMESPACE
 

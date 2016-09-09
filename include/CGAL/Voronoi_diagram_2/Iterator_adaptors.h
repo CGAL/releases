@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Iterator_adaptors.h $
-// $Id: Iterator_adaptors.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Iterator_adaptors.h $
+// $Id: Iterator_adaptors.h 37429 2007-03-23 19:17:37Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -226,7 +226,8 @@ private:
   Halfedge_iterator_adaptor(const VDA* vda, Base_iterator cur)
     : Base(vda, cur), is_first_(true) {}
 
-  Halfedge_iterator_adaptor(const Self& other) { copy_from(other); }
+  Halfedge_iterator_adaptor(const Self& other)
+    : Base(other) { copy_from(other); }
 
   operator Halfedge_handle() const {
     eval_reference();

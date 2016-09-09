@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/include/CGAL/Kd_tree_node.h $
-// $Id: Kd_tree_node.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Spatial_searching/include/CGAL/Kd_tree_node.h $
+// $Id: Kd_tree_node.h 32847 2006-07-31 22:33:02Z afabri $
 // 
 //
 // Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -186,8 +186,8 @@ namespace CGAL {
 	return current_max_depth;
       }
       else return 
-	     std::max( lower()->depth(current_max_depth + 1),
-		       upper()->depth(current_max_depth + 1));
+	     (std::max)( lower()->depth(current_max_depth + 1),
+			 upper()->depth(current_max_depth + 1));
     }
 
     int 

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/vector.h $
-// $Id: vector.h 28771 2006-02-25 00:14:28Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/vector.h $
+// $Id: vector.h 32846 2006-07-31 22:31:49Z afabri $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@sophia.inria.fr>
@@ -478,7 +478,7 @@ protected:
                 }
             } else {
                 const size_type old_size = size();
-                const size_type len = old_size + std::max( old_size, n);
+                const size_type len = old_size + (std::max)( old_size, n);
                 iterator new_start = iterator( alloc.allocate(len));
                 iterator new_finish = new_start;
                 try {
@@ -572,7 +572,7 @@ void vector<T, Alloc>::insert( iterator position, size_type n, const T& x) {
             }
         } else {
             const size_type old_size = size();        
-            const size_type len = old_size + std::max(old_size, n);
+            const size_type len = old_size + (std::max)(old_size, n);
             iterator new_start = iterator( alloc.allocate(len));
             iterator new_finish = new_start;
             try {

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/intersection_objects_d.h $
-// $Id: intersection_objects_d.h 31166 2006-05-17 16:30:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/intersection_objects_d.h $
+// $Id: intersection_objects_d.h 36185 2007-02-11 22:27:17Z spion $
 // 
 //
 // Author(s)     : ?
@@ -440,8 +440,8 @@ Segment_d_Segment_d_pair<R>::intersection_type()
               _s2.point(0),_s2.point(1),_ip,l1,l2);
 
   if (res == Int_obj_type::LINE)   
-  { Point_d p1 = _s1.min(), p2 = _s1.max();
-    Point_d q1 = _s2.min(), q2 = _s2.max();
+  { Point_d p1 = (_s1.min)(), p2 = (_s1.max)();
+    Point_d q1 = (_s2.min)(), q2 = (_s2.max)();
     Point_d s,t;
     // now order the for points along the line
     typename R::Position_on_line_d pos;
@@ -634,10 +634,11 @@ Segment_d_Hyperplane_d_pair<R>::intersection_type()
   if (_known) return _result;
   _known = true;
 
-  if ( _s.is_degenerate() ) 
+  if ( _s.is_degenerate() ) {
     if ( _h.has_on(_s.point(0)) ) 
     { _ip = _s.point(0); return _result = POINT; } 
     else { return _result = NO_INTERSECTION; }
+  }
 
   typedef typename R::Line_hyperplane_intersection_d Int_obj_type;
   Int_obj_type Intersect;

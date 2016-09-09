@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC2.h $
-// $Id: kernel_ftC2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC2.h $
+// $Id: kernel_ftC2.h 33346 2006-08-16 14:24:44Z afabri $
 // 
 //
 // Author(s)     : Herve Bronnimann (Herve.Bronnimann@sophia.inria.fr)
@@ -192,7 +192,6 @@ compare_y_at_xC2(const FT &l1a, const FT &l1b, const FT &l1c,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_LARGE_INLINE
 typename Compare<FT>::result_type
 compare_y_at_xC2(const FT &px, const FT &py,
@@ -202,16 +201,16 @@ compare_y_at_xC2(const FT &px, const FT &py,
     // compares the y-coordinates of p and the vertical projection of p on s.
     // Precondition : p is in the x-range of s.
 
-    CGAL_kernel_precondition(px >= min(ssx, stx) && px <= max(ssx, stx));
+    CGAL_kernel_precondition(px >= (CGAL::min)(ssx, stx) && px <= (CGAL::max)(ssx, stx));
 
     if (ssx < stx)
 	return enum_cast<Comparison_result>(orientationC2(px, py, ssx, ssy, stx, sty));
     else if (ssx > stx)
 	return enum_cast<Comparison_result>(orientationC2(px, py, stx, sty, ssx, ssy));
     else {
-	if (py < min(sty, ssy))
+	if (py < (CGAL::min)(sty, ssy))
 	    return SMALLER;
-	if (py > max(sty, ssy))
+	if (py > (CGAL::max)(sty, ssy))
 	    return LARGER;
 	return EQUAL;
     }
@@ -232,8 +231,8 @@ compare_y_at_x_segment_C2(const FT &px,
     //   - if the segments intersect, return EQUAL
     //   - if not, return the obvious SMALLER/LARGER.
 
-    CGAL_kernel_precondition(px >= min(s1sx, s1tx) && px <= max(s1sx, s1tx));
-    CGAL_kernel_precondition(px >= min(s2sx, s2tx) && px <= max(s2sx, s2tx));
+    CGAL_kernel_precondition(px >= (CGAL::min)(s1sx, s1tx) && px <= (CGAL::max)(s1sx, s1tx));
+    CGAL_kernel_precondition(px >= (CGAL::min)(s2sx, s2tx) && px <= (CGAL::max)(s2sx, s2tx));
 
     if (s1sx != s1tx && s2sx != s2tx) {
 	FT s1stx = s1sx-s1tx;
@@ -277,7 +276,6 @@ equal_directionC2(const FT &dx1, const FT &dy1,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Compare<FT>::result_type
 compare_angle_with_x_axisC2(const FT &dx1, const FT &dy1,
@@ -382,6 +380,8 @@ compare_slopesC2(const FT &s1_src_x, const FT &s1_src_y, const FT &s1_tgt_x,
 }
 
 
+#if 0
+// Unused, undocumented, un-functorized.
 template < class FT >
 inline
 typename Compare<FT>::result_type
@@ -390,9 +390,9 @@ compare_deltax_deltayC2(const FT &px, const FT &qx,
 {
   return CGAL_NTS compare(CGAL_NTS abs(px-qx), CGAL_NTS abs(ry-sy));
 }
+#endif
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 inline
 typename Compare<FT>::result_type
 compare_lexicographically_xyC2(const FT &px, const FT &py,
@@ -432,7 +432,6 @@ angleC2(const FT &px, const FT &py,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Equal_to<FT>::result_type
 collinear_are_ordered_along_lineC2(const FT &px, const FT &py,
@@ -447,7 +446,6 @@ collinear_are_ordered_along_lineC2(const FT &px, const FT &py,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Equal_to<FT>::result_type
 collinear_are_strictly_ordered_along_lineC2(const FT &px, const FT &py,
@@ -526,7 +524,6 @@ cmp_dist_to_pointC2(const FT &px, const FT &py,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 inline
 typename Equal_to<FT>::result_type
 has_larger_dist_to_pointC2(const FT &px, const FT &py,
@@ -537,7 +534,6 @@ has_larger_dist_to_pointC2(const FT &px, const FT &py,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 inline
 typename Equal_to<FT>::result_type
 has_smaller_dist_to_pointC2(const FT &px, const FT &py,
@@ -559,7 +555,6 @@ cmp_signed_dist_to_directionC2(const FT &la, const FT &lb,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 inline
 typename Equal_to<FT>::result_type
 has_larger_signed_dist_to_directionC2(const FT &la, const FT &lb,
@@ -570,7 +565,6 @@ has_larger_signed_dist_to_directionC2(const FT &la, const FT &lb,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 inline
 typename Equal_to<FT>::result_type
 has_smaller_signed_dist_to_directionC2(const FT &la, const FT &lb,
@@ -593,7 +587,6 @@ cmp_signed_dist_to_lineC2(const FT &px, const FT &py,
 }
 
 template <class FT>
-/*CGAL_NO_FILTER*/
 inline
 typename Equal_to<FT>::result_type
 has_larger_signed_dist_to_lineC2(const FT &px, const FT &py,
@@ -605,7 +598,6 @@ has_larger_signed_dist_to_lineC2(const FT &px, const FT &py,
 }
 
 template <class FT>
-/*CGAL_NO_FILTER*/
 inline
 typename Equal_to<FT>::result_type
 has_smaller_signed_dist_to_lineC2(const FT &px, const FT &py,
@@ -626,9 +618,5 @@ side_of_oriented_lineC2(const FT &a, const FT &b, const FT &c,
 }
 
 CGAL_END_NAMESPACE
-
-#ifdef CGAL_ARITHMETIC_FILTER_H
-#include <CGAL/Arithmetic_filter/predicates/kernel_ftC2.h>
-#endif
 
 #endif  // CGAL_PREDICATES_KERNEL_FTC2_H

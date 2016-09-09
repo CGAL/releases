@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Constrained_triangulation_2.h $
-// $Id: Constrained_triangulation_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Constrained_triangulation_2.h $
+// $Id: Constrained_triangulation_2.h 37832 2007-04-02 20:40:18Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec, Jean Daniel Boissonnat
@@ -249,10 +249,16 @@ public:
 #endif
     {
       int n = number_of_vertices(); 
-      while(first != last){
-	insert(*first);
-	++first;
-      }
+
+      std::vector<Point> points CGAL_make_vector(first, last);
+      std::random_shuffle (points.begin(), points.end());
+      CGAL::spatial_sort (points.begin(), points.end(), geom_traits());
+
+      Face_handle hint;
+      for (typename std::vector<Point>::const_iterator p = points.begin();
+              p != points.end(); ++p)
+          hint = insert (*p, hint)->face();
+
       return number_of_vertices() - n;
     }
 

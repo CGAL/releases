@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_storage_site_2.h $
-// $Id: Segment_Delaunay_graph_storage_site_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_storage_site_2.h $
+// $Id: Segment_Delaunay_graph_storage_site_2.h 32830 2006-07-31 13:25:07Z mkaravel $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -33,22 +33,31 @@ CGAL_BEGIN_NAMESPACE
       intersection of two non-parallel segments (if defined)
    */
 
-template <class Gt>
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
+
+template<class STraits> class Construct_storage_site_2;
+
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
+
+
+template <class STraits>
 class Segment_Delaunay_graph_storage_site_2 
 {
+  friend class
+  CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Construct_storage_site_2<STraits>;
+
 public:
-  typedef Gt                             Geom_traits;
-  typedef typename Geom_traits::Site_2   Site_2;
-  typedef typename std::set<typename Site_2::Point_2>::iterator Point_handle;
-  //  typedef typename std::list<typename Site_2::Point_2>::iterator
-  //  Point_handle;
+  typedef STraits                                 Storage_traits;
+  typedef typename Storage_traits::Geom_traits    Geom_traits;
+  typedef typename Geom_traits::Site_2            Site_2;
+  typedef typename Storage_traits::Point_handle   Point_handle;
 
 protected:
   typedef Point_handle                   Handle;
 
-  typedef Segment_Delaunay_graph_storage_site_2<Geom_traits>  Self;
+  typedef Segment_Delaunay_graph_storage_site_2<Storage_traits>  Self;
 
-public:
+protected:
   // constructs point site using input point
   static Self construct_storage_site_2(const Handle& hp) {
     Self t;

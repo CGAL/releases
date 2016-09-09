@@ -15,16 +15,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Inventor/include/CGAL/IO/VRML_2_ostream.h $
-// $Id: VRML_2_ostream.h 28924 2006-02-28 16:32:59Z glisse $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Inventor/include/CGAL/IO/VRML_2_ostream.h $
+// $Id: VRML_2_ostream.h 35701 2007-01-10 19:09:41Z spion $
 //
 // Author(s)     : Andreas Fabri
 //                 Lutz Kettner <kettner@inf.ethz.ch>
 //                 Herve Bronnimann
 //                 Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
-
-
 
 #ifndef CGAL_IO_VRML_2_OSTREAM_H
 #define CGAL_IO_VRML_2_OSTREAM_H
@@ -88,6 +85,7 @@ private:
     std::ostream*  m_os;
 };
 
+inline
 VRML_2_ostream&
 operator<<(VRML_2_ostream& os,
            const char* s)
@@ -96,6 +94,7 @@ operator<<(VRML_2_ostream& os,
   return os;
 }
 
+inline
 VRML_2_ostream&
 operator<<(VRML_2_ostream& os,
            const double& d)

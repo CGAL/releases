@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/iostream/include/CGAL/IO/io_tags.h $
-// $Id: io_tags.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/iostream/include/CGAL/IO/io_tags.h $
+// $Id: io_tags.h 35126 2006-11-10 13:36:37Z hemmer $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -30,6 +30,24 @@ CGAL_BEGIN_NAMESPACE
 struct io_Read_write{};
 struct io_Extract_insert{};
 struct io_Operator{};
+
+template<class T> 
+struct Io_traits{
+    typedef io_Operator Io_tag;
+};
+
+template<> struct Io_traits<char>{ typedef io_Read_write Io_tag; }; 
+
+template<> struct Io_traits<short> { typedef io_Read_write Io_tag; };
+template<> struct Io_traits<int> { typedef io_Read_write Io_tag; };
+template<> struct Io_traits<long> { typedef io_Read_write Io_tag; };
+template<> struct Io_traits<long long> { typedef io_Read_write Io_tag; };
+
+template<> struct Io_traits<float> { typedef io_Read_write Io_tag; };
+template<> struct Io_traits<double> { typedef io_Read_write Io_tag; };
+template<> struct Io_traits<long double> { typedef io_Read_write Io_tag; };
+
+
 
 CGAL_END_NAMESPACE
 

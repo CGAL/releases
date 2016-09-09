@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Sort_event_log_visitor.h $
-// $Id: Sort_event_log_visitor.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Sort_event_log_visitor.h $
+// $Id: Sort_event_log_visitor.h 36012 2007-02-02 02:13:42Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -32,7 +32,7 @@ struct Sort_event_log_visitor
     Sort_event_log_visitor(){}
    
     template <class Vertex_handle>
-    void remove_vertex(Vertex_handle a) {
+    void post_remove_vertex(Vertex_handle a) {
       typedef typename std::iterator_traits<Vertex_handle>::value_type Key;
       std::ostringstream out;
       out << "Removing vertex " << *a;
@@ -41,7 +41,7 @@ struct Sort_event_log_visitor
     }
 
     template <class Vertex_handle>
-    void create_vertex(Vertex_handle a) {
+    void post_insert_vertex(Vertex_handle a) {
       typedef typename std::iterator_traits<Vertex_handle>::value_type Key;
       std::ostringstream out;
       out << "Creating vertex " << *a;
@@ -50,7 +50,7 @@ struct Sort_event_log_visitor
     }
 
     template <class Vertex_handle>
-    void modify_vertex(Vertex_handle a) {
+    void change_vertex(Vertex_handle a) {
       typedef typename std::iterator_traits<Vertex_handle>::value_type Key;
       std::ostringstream out;
       out << "Changing vertex " << *a;
@@ -59,7 +59,7 @@ struct Sort_event_log_visitor
     }
 
     template <class Vertex_handle>
-    void before_swap(Vertex_handle a,Vertex_handle b) {
+    void pre_swap(Vertex_handle a,Vertex_handle b) {
       typedef typename std::iterator_traits<Vertex_handle>::value_type Key;
       std::ostringstream out;
       out << "Before swap of " << *a << " and " << *b;
@@ -68,7 +68,7 @@ struct Sort_event_log_visitor
 
     }
     template <class Vertex_handle>
-    void after_swap(Vertex_handle a, Vertex_handle b) {
+    void post_swap(Vertex_handle a, Vertex_handle b) {
       typedef typename std::iterator_traits<Vertex_handle>::value_type Key;
       std::ostringstream out; 
       out << "After swap of " << *a << " and " << *b;

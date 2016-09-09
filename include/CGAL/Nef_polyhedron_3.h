@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_polyhedron_3.h $
-// $Id: Nef_polyhedron_3.h 29793 2006-03-28 12:40:51Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_polyhedron_3.h $
+// $Id: Nef_polyhedron_3.h 37420 2007-03-23 18:09:20Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -31,10 +31,8 @@
 #include <CGAL/Nef_3/SNC_decorator.h>
 #include <CGAL/Nef_3/SNC_const_decorator.h>
 #include <CGAL/Nef_3/SNC_constructor.h>
+#include <CGAL/Nef_3/SNC_external_structure.h>
 //#include <CGAL/Nef_3/SNC_binop.h>
-#ifdef CGAL_NEF3_USE_SNC_WALKER
-#include <CGAL/Nef_3/SNC_walker.h>
-#endif
 #include <CGAL/Nef_S2/SM_decorator.h>
 #include <CGAL/Nef_S2/SM_const_decorator.h>
 #include <CGAL/Nef_3/SNC_SM_overlayer.h>
@@ -89,16 +87,14 @@ class Nef_polyhedron_3_rep
   typedef Nef_polyhedron_3_rep<K,I,M>                  Self;
   friend class Nef_polyhedron_3<K,I,M>;
  public:
-  typedef CGAL::SNC_structure<K,I,M>                   SNC_structure;
-  typedef CGAL::SNC_decorator<SNC_structure>           SNC_decorator;
-  typedef CGAL::SNC_const_decorator<SNC_structure>     SNC_const_decorator;
+  typedef CGAL::SNC_structure<K,I,M>                      SNC_structure;
+  typedef CGAL::SNC_decorator<SNC_structure>              SNC_decorator;
+  typedef CGAL::SNC_const_decorator<SNC_structure>        SNC_const_decorator;
   //  typedef CGAL::SNC_binop<SNC_structure>               SNC_binop;
-  typedef CGAL::SNC_constructor<SNC_structure>         SNC_constructor;
-#ifdef CGAL_NEF3_USE_SNC_WALKER
-  typedef CGAL::SNC_walker<SNC_structure>              SNC_walker;
-#endif
+  typedef CGAL::SNC_constructor<I, SNC_structure>         SNC_constructor;
+  typedef CGAL::SNC_external_structure<I, SNC_structure>  SNC_external_structure;
   typedef CGAL::SNC_point_locator<SNC_decorator> SNC_point_locator;
-  typedef CGAL::SNC_simplify<SNC_structure>            SNC_simplify;
+  typedef CGAL::SNC_simplify<I, SNC_structure>            SNC_simplify;
 #ifdef CGAL_NEF3_POINT_LOCATOR_NAIVE
   typedef CGAL::SNC_point_locator_naive<SNC_decorator> SNC_point_locator_default;
 #else
@@ -108,7 +104,7 @@ class Nef_polyhedron_3_rep
   typedef typename SNC_structure::Sphere_map       Sphere_map;
   typedef CGAL::SM_decorator<Sphere_map>           SM_decorator;
   typedef CGAL::SM_const_decorator<Sphere_map>     SM_const_decorator;
-  typedef CGAL::SNC_SM_overlayer<SM_decorator>     SM_overlayer;
+  typedef CGAL::SNC_SM_overlayer<I, SM_decorator>  SM_overlayer;
   typedef CGAL::SM_point_locator<SNC_structure>    SM_point_locator;
   typedef CGAL::SM_io_parser<SM_decorator>         SM_io_parser;
 
@@ -169,11 +165,11 @@ class Nef_polyhedron_3 : public CGAL::Handle_for< Nef_polyhedron_3_rep<Kernel_, 
   /*{\Menum selection flag for the point location mode.}*/
 
 protected: 
-  struct AND { Mark operator()(const Mark& b1, const Mark& b2, bool inverted=false) const { return b1&&b2; } };
-  struct OR { Mark operator()(const Mark& b1, const Mark& b2, bool inverted=false) const { return b1||b2; } };
+  struct AND { Mark operator()(const Mark& b1, const Mark& b2, bool /* inverted */ =false) const { return b1&&b2; } };
+  struct OR { Mark operator()(const Mark& b1, const Mark& b2, bool /* inverted */ =false) const { return b1||b2; } };
   struct DIFF { Mark operator()(const Mark& b1, const Mark& b2, bool inverted=false) const { 
     if(inverted) return !b1&&b2; return b1&&!b2; } };
-  struct XOR { Mark operator()(const Mark& b1, const Mark& b2, bool inverted=false) const 
+  struct XOR { Mark operator()(const Mark& b1, const Mark& b2, bool /* inverted */ =false) const 
     { return (b1&&!b2)||(!b1&&b2); } };
 
  public:
@@ -183,10 +179,8 @@ protected:
   typedef typename Nef_rep::SNC_decorator       SNC_decorator;
   typedef typename Nef_rep::SNC_const_decorator SNC_const_decorator;
   typedef typename Nef_rep::SNC_constructor     SNC_constructor;
+  typedef typename Nef_rep::SNC_external_structure SNC_external_structure;
  //  typedef typename Nef_rep::SNC_binop           SNC_binop;
-#ifdef CGAL_NEF3_USE_SNC_WALKER
-  typedef typename Nef_rep::SNC_walker          SNC_walker;
-#endif
   typedef typename Nef_rep::SNC_point_locator   SNC_point_locator;
   typedef typename Nef_rep::SNC_point_locator_default 
     SNC_point_locator_default;
@@ -317,8 +311,8 @@ protected:
   
  public:
   void build_external_structure() {
-    SNC_constructor C(snc(), pl());
-    C.build_external_structure();
+    SNC_external_structure es(snc(), pl());
+    es.build_external_structure();
   }
 
  public:
@@ -332,10 +326,11 @@ protected:
 
   Nef_polyhedron_3(const Plane_3& p, Boundary b = INCLUDED);
   /*{\Mcreate creates a Nef polyhedron |\Mvar| containing the
-  halfspace on the positive side of |p| including |p| if |b==INCLUDED|,
+  halfspace on the negative side of |p| including |p| if |b==INCLUDED|,
   excluding |p| if |b==EXCLUDED|.}*/
 
-  Nef_polyhedron_3(const Nef_polyhedron_3<Kernel,Items, Mark>& N1) : Base(N1) {
+  Nef_polyhedron_3(const Nef_polyhedron_3<Kernel,Items, Mark>& N1) 
+ : Base(N1) , SNC_const_decorator() {
     set_snc(snc());
   } 
 
@@ -371,8 +366,8 @@ protected:
             <CGAL::SNC_decorator<SNC_structure> >    Point_locator;
 
          Point_locator Pl;
-         CGAL::SNC_constructor<SNC_structure> con (snc(), &Pl);
-         con.build_external_structure();
+         SNC_external_structure es(snc(), &Pl);
+         es.build_external_structure();
          *this = Nef_polyhedron(snc(), &Pl);
       }
       else
@@ -456,11 +451,11 @@ protected:
 	B.end_facet();
       }
 
-      void visit(SFace_const_handle s) {}
-      void visit(Halfedge_const_handle e) {}
-      void visit(Vertex_const_handle v) {}
-      void visit(SHalfedge_const_handle se) {}
-      void visit(SHalfloop_const_handle sl) {}
+      void visit(SFace_const_handle) {}
+      void visit(Halfedge_const_handle) {}
+      void visit(Vertex_const_handle) {}
+      void visit(SHalfedge_const_handle) {}
+      void visit(SHalfloop_const_handle) {}
     };
 
   public:
@@ -509,16 +504,20 @@ protected:
   };
 
  public:
- void delegate( Modifier_base<SNC_structure>& modifier, bool compute_external = false) {
+ void delegate( Modifier_base<SNC_structure>& modifier, 
+		bool compute_external = false, 
+		bool do_simplify = true) {
+
    // calls the `operator()' of the `modifier'. Precondition: The
    // `modifier' returns a consistent representation.
    modifier(snc());
    if(compute_external) {
-     SNC_constructor C(snc());
-     C.clear_external_structure();
+     SNC_external_structure es(snc());
+     es.clear_external_structure();
      build_external_structure();
    }
-   simplify();
+   if(do_simplify)
+     simplify();
    CGAL_expensive_postcondition( is_valid());
  }
 
@@ -529,12 +528,21 @@ protected:
    SNC_and_PL(SNC_structure* s, SNC_point_locator* p) : sncp(s), pl(p) {}
  };
 
- void delegate( Modifier_base<SNC_and_PL>& modifier) {
+ void delegate( Modifier_base<SNC_and_PL>& modifier, 
+		bool compute_external = false,
+		bool do_simplify = false) {
    // calls the `operator()' of the `modifier'. Precondition: The
    // `modifier' returns a consistent representation.
    SNC_and_PL sncpl(&snc(),pl());
    modifier(sncpl);
    pl() = sncpl.pl;
+   if(compute_external) {
+     SNC_external_structure es(snc());
+     es.clear_external_structure();
+     build_external_structure();
+   }
+   if(do_simplify)
+     simplify();
    CGAL_expensive_postcondition( is_valid());
  }
  
@@ -1211,7 +1219,8 @@ protected:
 	}
       }
 
-      cstr.clear_external_structure();
+      SNC_external_structure es(snc());
+      es.clear_external_structure();
       for(li = vertex_list.begin(); li != vertex_list.end();++li){
 	if(Infi_box::is_complex_facet_infibox_intersection(**li)) {
 	  Vertex_handle v2;
@@ -1272,6 +1281,7 @@ protected:
       build_external_structure();
       cstr.correct_infibox_sface_marks();
 
+      // are the upcoming lines necessary? 
       SNC_point_locator* old_pl = pl();
       pl() = pl()->clone();
       pl()->initialize(&snc());
@@ -1328,6 +1338,8 @@ protected:
       else pl()->transform(aff); 
     }
 
+    SNC_constructor C(snc());
+    C.assign_indices(); 
   }
   
   /*{\Mtext \headerline{Exploration}
@@ -1376,13 +1388,6 @@ protected:
     Halffacet_const_handle f;
     return  ( assign(v,h) || assign(e,h) || assign(f,h) );
   }
-
-#ifdef CGAL_NEF3_USE_SNC_WALKER
-  Object_handle locate(Object_handle start, Point_3 src, Point_3 tgt) {
-    SNC_walker W(snc());
-    return W.locate(start, src, tgt);
-  }
-#endif
 
   Object_handle locate(const Point_3& p) const
   /*{\Mop  returns a generic handle |h| to an object (vertex, edge, facet,
@@ -1482,7 +1487,7 @@ Nef_polyhedron_3(const Plane_3& h, Boundary b) {
   CGAL_NEF_TRACEN("construction from plane "<<h);
   empty_rep();
   set_snc(snc());
-  SNC_constructor C(snc(), pl());
+  SNC_constructor C(snc());
   Infi_box::create_vertices_of_box_with_plane(C,h,(b==INCLUDED));
   build_external_structure();
 }

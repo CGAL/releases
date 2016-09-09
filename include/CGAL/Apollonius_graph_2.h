@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h $
-// $Id: Apollonius_graph_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h $
+// $Id: Apollonius_graph_2.h 32634 2006-07-19 21:58:48Z mkaravel $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -28,7 +28,7 @@
 
 #include <boost/tuple/tuple.hpp>
 
-#include <CGAL/Apollonius_graph_short_names_2.h>
+#include <CGAL/Apollonius_graph_2/basic.h>
 
 #include <CGAL/Triangulation_2.h>
 #include <CGAL/Triangulation_data_structure_2.h>
@@ -37,9 +37,9 @@
 
 #include <CGAL/in_place_edge_list.h>
 #include <CGAL/Segment_Delaunay_graph_2/edge_list.h>
-#include <CGAL/Apollonius_graph_traits_wrapper_2.h>
+#include <CGAL/Apollonius_graph_2/Traits_wrapper_2.h>
 
-#include <CGAL/Apollonius_graph_constructions_C2.h>
+#include <CGAL/Apollonius_graph_2/Constructions_C2.h>
 
 #include <CGAL/iterator.h>
 #include <CGAL/Iterator_project.h>
@@ -94,7 +94,8 @@ template < class Gt,
                Triangulation_face_base_2<Gt> >,
 	   class LTag = Tag_false>
 class Apollonius_graph_2
-  : private Triangulation_2<Apollonius_graph_traits_wrapper_2<Gt>,Agds>
+  : private Triangulation_2
+  <CGAL_APOLLONIUS_GRAPH_2_NS::Apollonius_graph_traits_wrapper_2<Gt>,Agds>
 {
   friend class Apollonius_graph_hierarchy_2<Gt,Agds,LTag>;
 private:
@@ -102,19 +103,20 @@ private:
   //--------------------------------------------------
 
   // types
-  typedef CGAL::Construct_Apollonius_bisector_2<Gt>
+  typedef CGAL_APOLLONIUS_GRAPH_2_NS::Construct_Apollonius_bisector_2<Gt>
   Construct_Apollonius_bisector_2;
 
-  typedef CGAL::Construct_Apollonius_bisector_ray_2<Gt>
+  typedef CGAL_APOLLONIUS_GRAPH_2_NS::Construct_Apollonius_bisector_ray_2<Gt>
   Construct_Apollonius_bisector_ray_2;
 
-  typedef CGAL::Construct_Apollonius_bisector_segment_2<Gt>
+  typedef
+  CGAL_APOLLONIUS_GRAPH_2_NS::Construct_Apollonius_bisector_segment_2<Gt>
   Construct_Apollonius_bisector_segment_2;
 
-  typedef CGAL::Construct_Apollonius_primal_ray_2<Gt>
+  typedef CGAL_APOLLONIUS_GRAPH_2_NS::Construct_Apollonius_primal_ray_2<Gt>
   Construct_Apollonius_primal_ray_2;
 
-  typedef CGAL::Construct_Apollonius_primal_segment_2<Gt>
+  typedef CGAL_APOLLONIUS_GRAPH_2_NS::Construct_Apollonius_primal_segment_2<Gt>
   Construct_Apollonius_primal_segment_2;
 
 
@@ -147,7 +149,10 @@ private:
 
 protected:
   // some local types
-  typedef Apollonius_graph_traits_wrapper_2<Gt>  Modified_traits;
+  typedef
+  CGAL_APOLLONIUS_GRAPH_2_NS::Apollonius_graph_traits_wrapper_2<Gt>
+  Modified_traits;
+
   typedef Triangulation_2<Modified_traits,Agds>  DG;
 
   typedef DG                                 Delaunay_graph;
@@ -1337,9 +1342,7 @@ std::istream& operator>>(std::istream& is,
 
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
-#include <CGAL/Apollonius_graph_2.C>
-#endif
+#include <CGAL/Apollonius_graph_2/Apollonius_graph_2_impl.h>
 
 
 #endif // CGAL_APOLLONIUS_GRAPH_2_H

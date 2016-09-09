@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Log.h $
-// $Id: Log.h 31000 2006-05-04 09:15:56Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Log.h $
+// $Id: Log.h 35972 2007-01-30 21:02:03Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -26,8 +26,6 @@
 #include <ios>
 
 CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
-
-extern bool fail__;
 
 class Logs
 {
@@ -64,9 +62,7 @@ public:
     }
   }
   bool is_output(Level l) {
-    if (level_== CGAL::Kinetic::LOG_NONE && l != level_) return false;
-    else if (level_==CGAL::Kinetic::LOG_SOME && l== CGAL::Kinetic::LOG_SOME) return true;
-    else return true;
+    return l <= level();
   }
   Target target() const
   {

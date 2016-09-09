@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_vertex_base_with_info_2.h $
-// $Id: Segment_Delaunay_graph_vertex_base_with_info_2.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_vertex_base_with_info_2.h $
+// $Id: Segment_Delaunay_graph_vertex_base_with_info_2.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -37,18 +37,17 @@ class Segment_Delaunay_graph_vertex_base_with_info_2
 public:
   // TYPES
   //------
-  typedef Vbb                                 Base;
-  typedef Info_                               Info;
+  typedef Vbb                                      Base;
+  typedef Info_                                    Info;
 
-  typedef typename Base::Geom_traits          Geom_traits;
-  typedef typename Base::Point_handle         Point_handle;
-  typedef typename Base::Site_2               Site_2;
-  typedef typename Base::Storage_site_2       Storage_site_2;
+  typedef typename Base::Storage_traits            Storage_traits;
+  typedef typename Base::Geom_traits               Geom_traits;
+  typedef typename Base::Site_2                    Site_2;
+  typedef typename Base::Storage_site_2            Storage_site_2;
+  typedef typename Base::Data_structure            Data_structure;
 
-  typedef typename Base::Data_structure       Data_structure;
-
-  typedef typename Data_structure::Face_handle    Face_handle;
-  typedef typename Data_structure::Vertex_handle  Vertex_handle;
+  typedef typename Data_structure::Face_handle     Face_handle;
+  typedef typename Data_structure::Vertex_handle   Vertex_handle;
 
 
   template < typename DS2 >
@@ -57,21 +56,21 @@ public:
     typedef Segment_Delaunay_graph_vertex_base_with_info_2<Vb2,Info> Other;
   };
 
-  
+
   Segment_Delaunay_graph_vertex_base_with_info_2 () : Vbb(), info_() {}
-    
+
   Segment_Delaunay_graph_vertex_base_with_info_2(const Storage_site_2& ss,
 						 Face_handle f)
     : Vbb(ss, f), info_()  {}
 
-  void set_info(int info) { info_ = info; }
-  Info info() const { return info_; }
+  void set_info(const Info& info) { info_ = info; }
+  const Info& info() const { return info_; }
 
 private:
   Info info_;
 };
 
 
-CGAL_END_NAMESPACE 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_VERTEX_BASE_WITH_INFO_2_H

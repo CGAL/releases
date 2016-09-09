@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Matrix_search/include/CGAL/extremal_polygon_2.h $
-// $Id: extremal_polygon_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Matrix_search/include/CGAL/extremal_polygon_2.h $
+// $Id: extremal_polygon_2.h 32779 2006-07-30 13:08:43Z afabri $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -504,7 +504,6 @@ CGAL_maximum_inscribed_k_gon_2(
     iterator_distance( points_begin, points_end));
   CGAL_optimisation_precondition( number_of_points > 0);
 
-  using std::min;
   using std::copy;
 
   typedef typename Traits::FT   FT;
@@ -512,7 +511,7 @@ CGAL_maximum_inscribed_k_gon_2(
 
   if ( number_of_points <= k) {
     for ( int j( k - 1); j >= 0; --j)
-      *o++ = min( j, number_of_points - 1);
+      *o++ = (std::min)( j, number_of_points - 1);
     return o;
   }
   // compute k-gon rooted at points_begin[0]

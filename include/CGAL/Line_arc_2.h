@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Curved_kernel/include/CGAL/Line_arc_2.h $
-// $Id: Line_arc_2.h 29284 2006-03-09 13:36:00Z teillaud $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Line_arc_2.h $
+// $Id: Line_arc_2.h 33653 2006-08-24 14:16:45Z pmachado $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck
 
@@ -184,9 +184,6 @@ operator!=(const Line_arc_2<CircularKernel> &p,
       a = Line_arc_2<CK>(l, p1, p2);
     return is;
   }
-
-
-
 
 } // namespace CGAL
 

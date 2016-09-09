@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Box_intersection_d/include/CGAL/Box_intersection_d/box_limits.h $
-// $Id: box_limits.h 29503 2006-03-14 18:55:59Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Box_intersection_d/include/CGAL/Box_intersection_d/box_limits.h $
+// $Id: box_limits.h 33367 2006-08-17 08:53:12Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -35,14 +35,14 @@ struct box_limits {};
 
 template<>
 struct box_limits<int> {
-    static int inf() { return std::numeric_limits<int>::min(); }
-    static int sup() { return std::numeric_limits<int>::max(); }
+    static int inf() { return (std::numeric_limits<int>::min)(); }
+    static int sup() { return (std::numeric_limits<int>::max)(); }
 };
 
 template<>
 struct box_limits<unsigned int> {
     static int inf() { return 0; }
-    static int sup() { return std::numeric_limits<unsigned int>::max(); }
+    static int sup() { return (std::numeric_limits<unsigned int>::max)(); }
 };
 
 template<>

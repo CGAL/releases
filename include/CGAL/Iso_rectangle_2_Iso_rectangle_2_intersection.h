@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Iso_rectangle_2_Iso_rectangle_2_intersection.h $
-// $Id: Iso_rectangle_2_Iso_rectangle_2_intersection.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Iso_rectangle_2_Iso_rectangle_2_intersection.h $
+// $Id: Iso_rectangle_2_Iso_rectangle_2_intersection.h 32922 2006-08-03 03:37:36Z afabri $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -44,10 +44,10 @@ intersection(
     typename K::Construct_point_2 construct_point_2;
     typename K::Construct_object_2 construct_object;
     typename K::Construct_iso_rectangle_2 construct_iso_rectangle_2;
-    const typename K::Point_2 &min1 = irect1.min();
-    const typename K::Point_2 &min2 = irect2.min();
-    const typename K::Point_2 &max1 = irect1.max();
-    const typename K::Point_2 &max2 = irect2.max();
+    const typename K::Point_2 &min1 = (irect1.min)();
+    const typename K::Point_2 &min2 = (irect2.min)();
+    const typename K::Point_2 &max1 = (irect1.max)();
+    const typename K::Point_2 &max2 = (irect2.max)();
     typename K::FT minx, miny, maxx, maxy;
     typename K::Point_2 newmin;
     typename K::Point_2 newmax;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_polyline_traits_2.h $
-// $Id: Arr_polyline_traits_2.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_polyline_traits_2.h $
+// $Id: Arr_polyline_traits_2.h 35514 2006-12-11 15:34:13Z wein $
 // 
 //
 // Author(s)     : Efi Fogel <efif@post.tau.ac.il>
@@ -35,14 +35,15 @@ CGAL_BEGIN_NAMESPACE
 template <class T_SegmentTraits_2>
 class Arr_polyline_traits_2 {
 public:
-  typedef T_SegmentTraits_2                             Segment_traits_2;
+  typedef T_SegmentTraits_2                          Segment_traits_2;
 
   // Tag defintion:
-  typedef Tag_true                                      Has_left_category;
-  typedef Tag_true                                      Has_merge_category;
+  typedef Tag_true                                   Has_left_category;
+  typedef Tag_true                                   Has_merge_category;
+  typedef Tag_false                                  Has_boundary_category;
 
   private:
-  typedef Arr_polyline_traits_2<Segment_traits_2>       Self;
+  typedef Arr_polyline_traits_2<Segment_traits_2>    Self;
 
   // Data members:
   Segment_traits_2   seg_traits;           // The base segment-traits class.

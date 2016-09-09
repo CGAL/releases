@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Mesher_level.h $
-// $Id: Mesher_level.h 30303 2006-04-13 16:07:19Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Mesher_level.h $
+// $Id: Mesher_level.h 37020 2007-03-12 10:38:51Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -301,6 +301,21 @@ public:
     Zone zone = conflicts_zone(p, e);
  
     const Mesher_level_conflict_status result = test_point_conflict(p, zone);
+#ifdef CGAL_MESHES_DEBUG_REFINEMENT_POINTS
+    std::cerr << "(" << p << ") ";
+    switch( result )
+    {
+    case NO_CONFLICT:
+      std::cerr << "accepted\n";
+      break;
+    case CONFLICT_BUT_ELEMENT_CAN_BE_RECONSIDERED:
+      std::cerr << "rejected (temporarily)\n";
+      break;
+    case CONFLICT_AND_ELEMENT_SHOULD_BE_DROPPED:
+      std::cerr << "rejected (permanent)\n";
+      break;
+    }
+#endif
 
     if(result == NO_CONFLICT)
     {

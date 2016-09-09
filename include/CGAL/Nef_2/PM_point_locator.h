@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Nef_2/PM_point_locator.h $
-// $Id: PM_point_locator.h 28935 2006-02-28 19:50:17Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/PM_point_locator.h $
+// $Id: PM_point_locator.h 37244 2007-03-19 08:25:43Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -29,12 +29,13 @@
 #define CGAL_NEF_DEBUG 17
 #include <CGAL/Nef_2/debug.h>
 #include <CGAL/Nef_2/geninfo.h>
+
 #ifdef CGAL_USE_LEDA
-#include <LEDA/basic.h>
-#if __LEDA__ > 410 && __LEDA__ < 441
-#define CGAL_USING_PPL
-#include <CGAL/Nef_2/PM_persistent_PL.h>
-#endif
+#include <CGAL/LEDA_basic.h> 
+# if __LEDA__ > 410 && __LEDA__ < 441
+#  define CGAL_USING_PPL
+#  include <CGAL/Nef_2/PM_persistent_PL.h>
+# endif
 #endif
 
 CGAL_BEGIN_NAMESPACE
@@ -646,9 +647,9 @@ public:
     //    assert(0); return h; // compiler warning
   }
 
-  bool ray_shoot_from_outer_facet(Segment& s, object_kind& current, 
-				  Vertex_const_handle &v, 
-				  Halfedge_const_handle& e,
+  bool ray_shoot_from_outer_facet(Segment& , object_kind& , 
+				  Vertex_const_handle &, 
+				  Halfedge_const_handle& ,
 				  const Tag_true& ) const {
     return false;
   }
@@ -837,8 +838,8 @@ public:
     // assert(0); return h; // compiler warning
   }
 
-  bool within_outer_cycle(Vertex_const_handle v, 
-			  const Point& q, const Tag_true& ) const {
+  bool within_outer_cycle(Vertex_const_handle , 
+			  const Point& , const Tag_true& ) const {
     return true;
   }
 

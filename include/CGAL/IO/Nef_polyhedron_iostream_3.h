@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/IO/Nef_polyhedron_iostream_3.h $
-// $Id: Nef_polyhedron_iostream_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/IO/Nef_polyhedron_iostream_3.h $
+// $Id: Nef_polyhedron_iostream_3.h 38348 2007-04-19 17:29:45Z hachenb $
 // 
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -30,7 +30,11 @@ std::ostream& operator<<
  (std::ostream& os, Nef_polyhedron_3<Kernel,Items,Mark>& NP)
 {
   typedef typename Nef_polyhedron_3<Kernel,Items, Mark>::SNC_structure SNC_structure;
-  CGAL::SNC_io_parser<SNC_structure> O(os, NP.snc(),true);
+#ifdef CGAL_NEF3_SORT_OUTPUT
+  CGAL::SNC_io_parser<SNC_structure> O(os, NP.snc(), true, true);
+#else
+  CGAL::SNC_io_parser<SNC_structure> O(os, NP.snc(), false, true);
+#endif
   O.print();
   return os;
 }

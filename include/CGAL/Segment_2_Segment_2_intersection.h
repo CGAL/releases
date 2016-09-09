@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Segment_2_Segment_2_intersection.h $
-// $Id: Segment_2_Segment_2_intersection.h 31166 2006-05-17 16:30:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Segment_2_Segment_2_intersection.h $
+// $Id: Segment_2_Segment_2_intersection.h 38116 2007-04-13 12:33:00Z glisse $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -81,12 +81,11 @@ bool seg_seg_do_intersect_crossing(
 	const typename K::Point_2 &p3, const typename K::Point_2 &p4,
 	const K& k)
 {
-  typename K::Orientation_2 orientation;
-    switch (orientation(p1,p2,p3)) {
+    switch (k.orientation_2_object()(p1,p2,p3)) {
     case LEFT_TURN:
-      return ! (orientation(p3,p4,p2) == RIGHT_TURN); //   right_turn(p3,p4,p2);
+      return ! (k.orientation_2_object()(p3,p4,p2) == RIGHT_TURN); //   right_turn(p3,p4,p2);
     case RIGHT_TURN:
-        return ! (orientation(p3,p4,p2) == LEFT_TURN); //left_turn(p3,p4,p2);
+        return ! (k.orientation_2_object()(p3,p4,p2) == LEFT_TURN); //left_turn(p3,p4,p2);
     case COLLINEAR:
         return true;
     }
@@ -101,12 +100,11 @@ bool seg_seg_do_intersect_contained(
 	const typename K::Point_2 &p3, const typename K::Point_2 &p4,
 	const K& k)
 {
-  typename K::Orientation_2 orientation;
-    switch (orientation(p1,p2,p3)) {
+    switch (k.orientation_2_object()(p1,p2,p3)) {
     case LEFT_TURN:
-      return ! (orientation(p1,p2,p4) == LEFT_TURN); // left_turn(p1,p2,p4);
+      return ! (k.orientation_2_object()(p1,p2,p4) == LEFT_TURN); // left_turn(p1,p2,p4);
     case RIGHT_TURN:
-        return ! (orientation(p1,p2,p4) == RIGHT_TURN); // right_turn(p1,p2,p4);
+        return ! (k.orientation_2_object()(p1,p2,p4) == RIGHT_TURN); // right_turn(p1,p2,p4);
     case COLLINEAR:
         return true;
     }
@@ -332,7 +330,7 @@ Segment_2_Segment_2_pair<K>::intersection_type() const
     if (_known)
         return _result;
     _known = true;
-    if (!do_intersect(*_seg1, *_seg2, K())) {
+    if (!CGALi::do_intersect(*_seg1, *_seg2, K())) {
         _result = NO_INTERSECTION;
         return _result;
     }

@@ -15,27 +15,35 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Direction_2.h $
-// $Id: Direction_2.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Direction_2.h $
+// $Id: Direction_2.h 35775 2007-01-23 15:43:06Z spion $
+//
 //
 // Author(s)     : Stefan Schirra
- 
+
 #ifndef CGAL_DIRECTION_2_H
 #define CGAL_DIRECTION_2_H
+
+#include <boost/static_assert.hpp>
+#include <boost/type_traits.hpp>
+#include <CGAL/Kernel/Return_base_tag.h>
+#include <CGAL/representation_tags.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template <class R_>
 class Direction_2 : public R_::Kernel_base::Direction_2
 {
-
   typedef typename R_::RT                    RT;
   typedef typename R_::Vector_2              Vector_2;
   typedef typename R_::Line_2                Line_2;
   typedef typename R_::Ray_2                 Ray_2;
   typedef typename R_::Segment_2             Segment_2;
+  typedef typename R_::Aff_transformation_2  Aff_transformation_2;
   typedef typename R_::Kernel_base::Direction_2      RDirection_2;
+
+  typedef Direction_2                        Self;
+  BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Direction_2>::value));
 
 public:
 
@@ -59,27 +67,27 @@ public:
     : RDirection_2(d) {}
 
   Direction_2(const Vector_2& v)
-    : RDirection_2(typename R::Construct_direction_2()(v).rep()) {}
+    : RDirection_2(typename R::Construct_direction_2()(Return_base_tag(), v)) {}
 
   Direction_2(const Line_2& l)
-    : RDirection_2(typename R::Construct_direction_2()(l).rep()) {}
+    : RDirection_2(typename R::Construct_direction_2()(Return_base_tag(), l)) {}
 
   Direction_2(const Ray_2& r)
-    : RDirection_2(typename R::Construct_direction_2()(r).rep()) {}
+    : RDirection_2(typename R::Construct_direction_2()(Return_base_tag(), r)) {}
 
   Direction_2(const Segment_2& s)
-    : RDirection_2(typename R::Construct_direction_2()(s).rep()) {}
+    : RDirection_2(typename R::Construct_direction_2()(Return_base_tag(), s)) {}
 
   Direction_2(const RT &x, const RT &y)
-    :  RDirection_2(typename R::Construct_direction_2()(x,y).rep()) {}
+    :  RDirection_2(typename R::Construct_direction_2()(Return_base_tag(), x,y)) {}
 
   bool
   counterclockwise_in_between(const Direction_2 &d1,
-			      const Direction_2 &d2) const 
+			      const Direction_2 &d2) const
   {
     return R().counterclockwise_in_between_2_object()(*this, d1, d2);
   }
-  
+
   Direction_2 perpendicular(const Orientation &o) const
   {
     return R().construct_perpendicular_direction_2_object()(*this,o);
@@ -103,7 +111,7 @@ public:
     CGAL_kernel_precondition( ( i == 0 ) || ( i == 1 ) );
     return (i==0) ? dx() : dy();
   }
-  
+
   bool
   operator<(const Direction_2 &d) const
   {
@@ -123,31 +131,35 @@ public:
   {
     return R().compare_angle_with_x_axis_2_object()(*this, d) != SMALLER;
   }
-  
+
 
   bool
   operator<=(const Direction_2 &d) const
   {
     return R().compare_angle_with_x_axis_2_object()(*this, d) != LARGER;
   }
-  
+
   Direction_2
   operator-() const
   {
-    return Direction_2(-dx(), -dy());
-  } 
-  
+    return R().construct_opposite_direction_2_object()(*this);
+  }
+
   Vector_2 vector() const
   {
-  return R().construct_vector_2_object()(*this);
+    return R().construct_vector_2_object()(*this);
   }
-  
+
+  Vector_2 to_vector() const
+  {
+    return this->vector();
+  }
+
   bool
   operator==(const Direction_2& d) const
   {
     return R().equal_2_object()(*this, d);
   }
-
 
   bool
   operator!=(const Direction_2& d) const
@@ -155,27 +167,110 @@ public:
     return !(*this == d);
   }
 
+  Direction_2 transform(const Aff_transformation_2 &t) const
+  {
+    return t.transform(*this);
+  }
+
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_DIRECTION_2
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const Direction_2<R> &d)
+
+
+template <class R >
+std::ostream&
+insert(std::ostream& os, const Direction_2<R>& d, const Cartesian_tag&)
 {
-
-  return os << d.rep();
+    typename R::Vector_2 v = d.to_vector();
+    switch(os.iword(IO::mode)) {
+    case IO::ASCII :
+        return os << v.x() << ' ' << v.y();
+    case IO::BINARY :
+        write(os, v.x());
+        write(os, v.y());
+        return os;
+    default:
+        return os << "DirectionC2(" << v.x() << ", " << v.y() << ')';
+    }
 }
-#endif // CGAL_NO_OSTREAM_INSERT_DIRECTION_2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_DIRECTION_2
-template < class R >
-std::istream &
-operator>>(std::istream &is, Direction_2<R> &d)
+template <class R >
+std::ostream&
+insert(std::ostream& os, const Direction_2<R>& d, const Homogeneous_tag&)
 {
-  return is >> d.rep();
-
+  switch(os.iword(IO::mode))
+  {
+    case IO::ASCII :
+        return os << d.dx() << ' ' << d.dy();
+    case IO::BINARY :
+        write(os, d.dx());
+        write(os, d.dy());
+        return os;
+    default:
+        return os << "DirectionH2(" << d.dx() << ", "
+                                    << d.dy() << ')';
+  }
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_DIRECTION_2
+
+template < class R >
+std::ostream&
+operator<<(std::ostream& os, const Direction_2<R>& d)
+{
+  return insert(os, d, typename R::Kernel_tag() );
+}
+
+
+template <class R >
+std::istream&
+extract(std::istream& is, Direction_2<R>& d, const Cartesian_tag&)
+{
+    typename R::FT x, y;
+    switch(is.iword(IO::mode)) {
+    case IO::ASCII :
+        is >> x >> y;
+        break;
+    case IO::BINARY :
+        read(is, x);
+        read(is, y);
+        break;
+    default:
+        std::cerr << std::endl << "Stream must be in ascii or binary mode"
+                  << std::endl;
+        break;
+    }
+    if (is)
+        d = Direction_2<R>(x, y);
+    return is;
+}
+
+template <class R >
+std::istream&
+extract(std::istream& is, Direction_2<R>& d, const Homogeneous_tag&)
+{
+  typename R::RT x, y;
+  switch(is.iword(IO::mode))
+  {
+    case IO::ASCII :
+        is >> x >> y;
+        break;
+    case IO::BINARY :
+        read(is, x);
+        read(is, y);
+        break;
+    default:
+        std::cerr << "" << std::endl;
+        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
+        break;
+  }
+  d = Direction_2<R>(x, y);
+  return is;
+}
+
+template < class R >
+std::istream&
+operator>>(std::istream& is, Direction_2<R>& d)
+{
+  return extract(is, d, typename R::Kernel_tag() );
+}
 
 CGAL_END_NAMESPACE
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Triangulation_2.h $
-// $Id: Triangulation_2.h 31605 2006-06-16 07:40:03Z yvinec $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_2.h $
+// $Id: Triangulation_2.h 37832 2007-04-02 20:40:18Z spion $
 // 
 //
 // Author(s)     : Olivier Devillers, Mariette Yvinec
@@ -43,6 +43,7 @@
 #include <CGAL/Triangulation_line_face_circulator_2.h>
 #include <CGAL/Random.h>
 
+#include <CGAL/spatial_sort.h>
 
 CGAL_BEGIN_NAMESPACE
 template < class Gt, class Tds > class Triangulation_2;
@@ -437,10 +438,15 @@ template < class InputIterator >
 int insert(InputIterator first, InputIterator last)
 {
   int n = number_of_vertices();
-  while(first != last){
-    insert(*first);
-    ++first;
-  }
+
+  std::vector<Point> points CGAL_make_vector(first, last);
+  std::random_shuffle (points.begin(), points.end());
+  spatial_sort (points.begin(), points.end(), geom_traits());
+  Face_handle f;
+  for (typename std::vector<Point>::const_iterator p = points.begin();
+          p != points.end(); ++p)
+      f = insert (*p, f)->face();
+
   return number_of_vertices() - n;
 }
 
@@ -1020,13 +1026,16 @@ typename Triangulation_2<Gt,Tds>::Vertex_handle
 Triangulation_2<Gt,Tds>::
 insert_outside_affine_hull(const Point& p)
 {
-  CGAL_triangulation_precondition(dimension() == 1);
-  Face_handle f = (*finite_edges_begin()).first;
-  Orientation orient = orientation( f->vertex(0)->point(),
-				    f->vertex(1)->point(),
-				    p);
-  CGAL_triangulation_precondition(orient != COLLINEAR);
-  bool conform = ( orient == COUNTERCLOCKWISE);
+  CGAL_triangulation_precondition(dimension() < 2);
+  bool conform = false;
+  if (dimension() == 1) {
+      Face_handle f = (*finite_edges_begin()).first;
+      Orientation orient = orientation( f->vertex(0)->point(),
+              f->vertex(1)->point(),
+              p);
+      CGAL_triangulation_precondition(orient != COLLINEAR);
+      conform = ( orient == COUNTERCLOCKWISE);
+  }
 
   Vertex_handle v = _tds.insert_dim_up( infinite_vertex(), conform);
   v->set_point(p);
@@ -2055,20 +2064,22 @@ locate(const Point& p,
        int& li,
        Face_handle start) const
 {
-  if( dimension() <= 0) {
-    if(number_of_vertices() == 0) {
+  if (dimension() < 0) {
       lt = OUTSIDE_AFFINE_HULL;
       li = 4; // li should not be used in this case
-    } else { // number_of_vertices() == 1
-      if (xy_equal(p,finite_vertex()->point())){
+      return Face_handle();
+  }
+  if( dimension() == 0) {
+      // Do not use finite_vertex directly because there can be hidden vertices
+      // (regular triangulations)
+      if (xy_equal(p,finite_vertex()->face()->vertex(0)->point())){
 	lt = VERTEX ;
       }
       else{
 	lt = OUTSIDE_AFFINE_HULL;
       }
       li = 4; // li should not be used in this case
-    }
-    return Face_handle();
+      return Face_handle();
   }
   if(dimension() == 1){
     return march_locate_1D(p, lt, li);

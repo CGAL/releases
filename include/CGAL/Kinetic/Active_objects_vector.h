@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Active_objects_vector.h $
-// $Id: Active_objects_vector.h 31630 2006-06-16 13:09:51Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Active_objects_vector.h $
+// $Id: Active_objects_vector.h 36908 2007-03-08 01:50:31Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -24,6 +24,7 @@
 #include <CGAL/Tools/Label.h>
 #include <CGAL/Kinetic/Ref_counted.h>
 #include <CGAL/Tools/Counter.h>
+#include <CGAL/Kinetic/internal/debug_counters.h>
 #include <iostream>
 #include <CGAL/Kinetic/Multi_listener.h>
 #include <set>
@@ -148,6 +149,10 @@ public:
     storage_[key.to_index()].first=key;
     storage_[key.to_index()].second=new_value;
     changed_objects_.push_back(key);
+    CGAL_expensive_assertion_code(for (unsigned int i=0; i< storage_.size(); ++i) ) {
+      CGAL_expensive_assertion_code(if (key.to_index() != i && storage_[i].second == storage_[key.to_index()].second) CGAL_KINETIC_LOG(LOG_SOME, "WARNING Objects " << Key(i) << " and " << key << " have equal trajectories.\n"));
+    }
+				  
     if (!editing_) finish_editing();
   }
 
@@ -160,6 +165,10 @@ public:
     storage_.push_back(Storage_item(Key(storage_.size()), ob));
     new_objects_.push_back(storage_.back().first);
 
+    CGAL_expensive_assertion_code(for (unsigned int i=0; i< storage_.size()-1; ++i) ) {
+      
+CGAL_expensive_assertion_code(if ( storage_[i].second == storage_.back().second) CGAL_KINETIC_LOG(LOG_SOME, "WARNING Objects " << Key(i) << " and " << storage_.back().first << " have equal trajectories.\n"));
+    }
     if (!editing_) finish_editing();
     return storage_.back().first;
   }
@@ -290,7 +299,7 @@ public:
     if (!storage_.empty()) {
       set_is_editing(true);
       for (Key_iterator kit= keys_begin(); kit != keys_end(); ++kit){
-        erase(*kit);
+	erase(*kit);
       }
       set_is_editing(false);
       storage_.clear();
@@ -304,9 +313,10 @@ public:
       Data d; 
       iss >> d;
       if (!iss) {
-	std::cerr << "ERROR reading object from line " << buf << std::endl;
-	internal::fail__=true;
+	CGAL_KINETIC_ERROR("ERROR reading object from line " << buf);
+	++internal::io_errors__;
       } else {
+	//CGAL_KINETIC_LOG(LOG_LOTS, "Read " << d << std::endl);
 	insert(d);
       }
     } while (true);
@@ -316,10 +326,8 @@ public:
 
 private:
   friend class Multi_listener<Listener_core>;
+
   //! listen for changes
-  /*!
-    This method alerts the subscribe to all exising objects.
-  */
   void new_listener(Listener *sub) const
   {
     subscribers_.insert(sub);

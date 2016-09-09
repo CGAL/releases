@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_3.h $
-// $Id: Delaunay_triangulation_3.h 31053 2006-05-07 04:25:55Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_3.h $
+// $Id: Delaunay_triangulation_3.h 37995 2007-04-07 19:07:06Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -40,6 +40,11 @@
 #include <CGAL/Kinetic/Simulator_kds_listener.h>
 #include <CGAL/Kinetic/Active_objects_listener_helper.h>
 #include <CGAL/Kinetic/Delaunay_triangulation_visitor_base_3.h>
+
+#if defined(BOOST_MSVC)
+#  pragma warning(push)
+#  pragma warning(disable:4355) // complaint about using 'this' to
+#endif                          // initialize a member
 
 CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
 
@@ -70,56 +75,55 @@ template <class TraitsT,
 	  class TriangulationT=typename internal::Delaunay_triangulation_3_types<TraitsT>::Default_triangulation>
 class Delaunay_triangulation_3: public Ref_counted<Delaunay_triangulation_3<TraitsT, Visitor, TriangulationT> > {
 private:
-  typedef Delaunay_triangulation_3<TraitsT, Visitor, TriangulationT> This;
-  
+   typedef Delaunay_triangulation_3<TraitsT, Visitor, TriangulationT> This_DT3;
+typedef Delaunay_triangulation_3<TraitsT, Visitor, TriangulationT> This;
+
+typedef typename TraitsT::Kinetic_kernel::Side_of_oriented_sphere_3::result_type Root_stack;
+  typedef typename TriangulationT::Facet Facet;
+  typedef typename TriangulationT::Edge Edge;
+typedef typename TraitsT::Simulator::Event_key Event_key;
+  typedef typename TraitsT::Active_points_3_table::Key Point_key;
+  struct Base_traits: public TraitsT {
+    typedef TriangulationT Triangulation;
+    typedef typename TraitsT::Kinetic_kernel::Side_of_oriented_sphere_3 Side_of_oriented_sphere_3;
+    typedef typename TraitsT::Kinetic_kernel::Orientation_3 Orientation_3;
+    typedef internal::Delaunay_3_edge_flip_event<This_DT3, Root_stack> Edge_flip;
+    typedef typename internal::Delaunay_3_facet_flip_event<This_DT3, Root_stack> Facet_flip;
+
+    Side_of_oriented_sphere_3 side_of_oriented_sphere_3_object() const
+    {
+      return TraitsT::kinetic_kernel_object().side_of_oriented_sphere_3_object();
+    }
+
+    Orientation_3 orientation_3_object() const
+    {
+      return TraitsT::kinetic_kernel_object().orientation_3_object();
+    }
+
+    Base_traits(This_DT3 *t, const TraitsT &tr): TraitsT(tr), wr_(t) {}
+
+    This_DT3* wrapper_handle() {
+      return wr_;
+    }
+    const This_DT3* wrapper_handle() const
+    {
+      return wr_;
+    }
+
+    This_DT3 *wr_;
+  };
 
  
-  struct Base_traits: public TraitsT {
-    typedef This Wrapper;
-    typedef TriangulationT Triangulation;
-    typedef typename TraitsT::Kinetic_kernel::Positive_side_of_oriented_sphere_3 Positive_side_of_oriented_sphere_3;
-    typedef typename TraitsT::Kinetic_kernel::Positive_orientation_3 Positive_orientation_3;
-    typedef internal::Delaunay_3_edge_flip_event<This,
-						 typename Positive_side_of_oriented_sphere_3::result_type,
-						 typename TriangulationT::Edge> Edge_flip;
-    typedef typename internal::Delaunay_3_facet_flip_event<This, typename Positive_side_of_oriented_sphere_3::result_type,
-							   typename TriangulationT::Facet> Facet_flip;
+  friend class internal::Delaunay_event_base_3<This, Root_stack>;  
 
-    Positive_side_of_oriented_sphere_3 positive_side_of_oriented_sphere_3_object() const
-    {
-      return TraitsT::kinetic_kernel_object().positive_side_of_oriented_sphere_3_object();
-    }
+  friend class internal::Delaunay_3_edge_flip_event<This, Root_stack>;
 
-    Positive_orientation_3 positive_orientation_3_object() const
-    {
-      return TraitsT::kinetic_kernel_object().positive_orientation_3_object();
-    }
+  friend class internal::Delaunay_3_facet_flip_event<This, Root_stack>;
 
-    Base_traits(This *t, const TraitsT &tr): TraitsT(tr), wr_(t) {}
-
-    Wrapper* wrapper_handle() {
-      return wr_;
-    }
-    const Wrapper* wrapper_handle() const
-    {
-      return wr_;
-    }
-
-    Wrapper *wr_;
-  };
   
-  friend class internal::Delaunay_3_edge_flip_event<This,
-						    typename Base_traits::Positive_side_of_oriented_sphere_3::result_type,
-						    typename TriangulationT::Edge>;
-
-friend class  internal::Delaunay_3_facet_flip_event<This,
-						    typename Base_traits::Positive_side_of_oriented_sphere_3::result_type,
-						    typename TriangulationT::Facet>;
-
-
 
   typedef internal::Delaunay_triangulation_base_3<Base_traits, Visitor> KDel;
-  typedef typename TraitsT::Active_points_3_table::Key Point_key;
+
 
   struct Listener_core
   {
@@ -135,17 +139,11 @@ friend class  internal::Delaunay_3_facet_flip_event<This,
 
 public:
   //! Initialize it.
-  /*#ifdef _MSC_VER
-    #pragma warning(disable:4355)
-    #endif*/
   Delaunay_triangulation_3(TraitsT tr, Visitor v= Visitor()): kdel_(Base_traits(this, tr), v),
 							      listener_(NULL) {
     siml_= Simulator_listener(tr.simulator_handle(), this);
     motl_= Moving_point_table_listener(tr.active_points_3_table_handle(), this);
   }
-  /*#ifdef _MSC_VER
-    #pragma warning(enable:4355)
-    #endif*/
 
   //! The type of the underlying triangulation
   typedef TriangulationT Triangulation;
@@ -169,7 +167,7 @@ public:
   /*!
     There is one notifaction type, TRIANGULATION.
   */
-  typedef Listener<Listener_core> Listener;
+  typedef CGAL::Kinetic::Listener<Listener_core> Listener;
 
   void write(std::ostream &out) const
   {
@@ -208,7 +206,8 @@ public:
   }
 
   void insert(Point_key k) {
-    kdel_.new_vertex(k);
+
+    kdel_.insert(k);
     /*if (kdel_.triangulation()->dimension() ==3){
       kdel_.set_has_certificates(true);
       }*/
@@ -238,4 +237,9 @@ public:
 };
 
 CGAL_KINETIC_END_NAMESPACE
+
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
+
 #endif

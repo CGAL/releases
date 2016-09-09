@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2_algorithms.h $
-// $Id: Sweep_line_2_algorithms.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Sweep_line_2_algorithms.h $
+// $Id: Sweep_line_2_algorithms.h 31509 2006-06-11 12:02:54Z baruchzu $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -33,6 +33,7 @@
 #include <CGAL/Arr_conic_traits_2.h>
 #include <CGAL/Arr_rational_arc_traits_2.h>
 #include <CGAL/Arr_circle_segment_traits_2.h>
+#include <CGAL/Arr_linear_traits_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -74,6 +75,12 @@ template <class Kernel_, bool Filter_>
 struct Default_arr_traits<CGAL::_Circle_segment_2<Kernel_, Filter_> >
 {
   typedef CGAL::Arr_circle_segment_traits_2<Kernel_, Filter_>    Traits;
+};
+
+template <class Kernel>
+struct Default_arr_traits<CGAL::Arr_linear_object_2<Kernel> >
+{
+  typedef CGAL::Arr_linear_traits_2<Kernel>    Traits;
 };
 
 /*!

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/Mean_value_coordinates_parameterizer_3.h $
-// $Id: Mean_value_coordinates_parameterizer_3.h 29623 2006-03-20 11:22:05Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Mean_value_coordinates_parameterizer_3.h $
+// $Id: Mean_value_coordinates_parameterizer_3.h 38418 2007-04-23 12:11:29Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -149,14 +149,14 @@ protected:
         Vector_3 edge = position_v_i - position_v_j;
         double len = std::sqrt(edge*edge);
 
-        // Compute angle of (v_j,v_i,v_k) corner (ie angle of v_i corner)
+        // Compute angle of (v_j,v_i,v_k) corner (i.e. angle of v_i corner)
         // if v_k is the vertex before v_j when circulating around v_i
         Vertex_around_vertex_const_circulator previous_vertex_v_k = neighbor_vertex_v_j;
         previous_vertex_v_k --;
         Point_3 position_v_k = mesh.get_vertex_position(previous_vertex_v_k);
         double gamma_ij  = compute_angle_rad(position_v_j, position_v_i, position_v_k);
 
-        // Compute angle of (v_l,v_i,v_j) corner (ie angle of v_i corner)
+        // Compute angle of (v_l,v_i,v_j) corner (i.e. angle of v_i corner)
         // if v_l is the vertex after v_j when circulating around v_i
         Vertex_around_vertex_const_circulator next_vertex_v_l = neighbor_vertex_v_j;
         next_vertex_v_l ++;
@@ -173,10 +173,10 @@ protected:
     }
 
     /// Check if 3D -> 2D mapping is one-to-one.
-    virtual bool  is_one_to_one_mapping (const Adaptor& mesh,
-                                         const Matrix& A,
-                                         const Vector& Bu,
-                                         const Vector& Bv)
+    virtual bool  is_one_to_one_mapping (const Adaptor& ,
+                                         const Matrix& ,
+                                         const Vector& ,
+                                         const Vector& )
     {
         /// Theorem: one-to-one mapping is guaranteed if all w_ij coefficients
         ///          are > 0 (for j vertex neighbor of i) and if the surface

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/interval_arithmetic.h $
-// $Id: interval_arithmetic.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/interval_arithmetic.h $
+// $Id: interval_arithmetic.h 35777 2007-01-23 17:02:20Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -91,7 +91,7 @@ std::pair<double,double> to_interval(double d){
   return CGAL::to_interval(d);
   }*/
 
-#define CGAL_POLYNOMIAL_TO_INTERVAL(nt) CGAL::to_interval(nt)
+//#define CGAL_POLYNOMIAL_TO_INTERVAL(nt) CGAL::to_interval(nt)
 /*template <class NT>
 std::pair<double, double> to_interval(const NT &nt){
   //bool to_interval_general;
@@ -109,16 +109,6 @@ namespace internal
 
 CGAL_POLYNOMIAL_END_NAMESPACE
 
-CGAL_BEGIN_NAMESPACE
-
-template <class Traits>
-std::pair<double,double> to_interval(const typename CGAL_POLYNOMIAL_NS::internal::Simple_interval_root<Traits> &r);
-template <class R1, class R2>
-std::pair<double,double> to_interval(const typename CGAL_POLYNOMIAL_NS::internal::Lazy_upper_bound_root_stack_root<R1, R2> &lr);
-template <class R>
-std::pair<double,double> to_interval(const typename CGAL_POLYNOMIAL_NS::internal::Explicit_root<R> &r);
-
-CGAL_END_NAMESPACE
 
 #elif POLYNOMIAL_USE_BOOST_INTERVAL
 

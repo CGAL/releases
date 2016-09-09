@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Ray_2_Line_2_intersection.h $
-// $Id: Ray_2_Line_2_intersection.h 31166 2006-05-17 16:30:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Ray_2_Line_2_intersection.h $
+// $Id: Ray_2_Line_2_intersection.h 33160 2006-08-08 20:21:05Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -74,7 +74,7 @@ template <class K>
 Object
 intersection(const typename CGAL_WRAP(K)::Ray_2 &ray,
 	     const typename CGAL_WRAP(K)::Line_2 &line,
-	     const K& k)
+	     const K&)
 {
     typedef Ray_2_Line_2_pair<K> is_t;
     is_t ispair(&ray, &line);
@@ -117,7 +117,7 @@ template <class K>
 inline bool do_intersect(
     const typename CGAL_WRAP(K)::Line_2 &p1,
     const typename CGAL_WRAP(K)::Ray_2 &p2,
-    const K& k)
+    const K&)
 {
     typedef Line_2_Ray_2_pair<K> pair_t;
     pair_t pair(&p1, &p2);

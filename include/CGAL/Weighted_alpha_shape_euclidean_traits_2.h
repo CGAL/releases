@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Alpha_shapes_2/include/CGAL/Weighted_alpha_shape_euclidean_traits_2.h $
-// $Id: Weighted_alpha_shape_euclidean_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Alpha_shapes_2/include/CGAL/Weighted_alpha_shape_euclidean_traits_2.h $
+// $Id: Weighted_alpha_shape_euclidean_traits_2.h 32917 2006-08-03 03:34:47Z afabri $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -21,13 +21,11 @@
 #ifndef CGAL_WEIGHTED_ALPHA_SHAPE_EUCLIDEAN_TRAITS_H
 #define CGAL_WEIGHTED_ALPHA_SHAPE_EUCLIDEAN_TRAITS_H
 
+
 #include <CGAL/basic.h>
-
 #include <CGAL/squared_distance_2.h>
-
 #include <CGAL/predicates/in_smallest_orthogonalcircle_ftC2.h>
 #include <CGAL/constructions/squared_radius_smallest_orthogonalcircle_ftC2.h>
-
 #include <CGAL/Regular_triangulation_euclidean_traits_2.h>
 
 //-------------------------------------------------------------------
@@ -46,6 +44,7 @@ public:
 
   result_type operator()(const T& p, const T& q, const T& r)
   {
+    BOOST_USING_STD_MAX();  
     typedef typename  K::FT FT;
     FT px(p.point().x());
     FT py(p.point().y());
@@ -60,12 +59,12 @@ public:
     result_type res = squared_radius_orthogonalcircleC2(px, py, pw,
 							qx, qy, qw,
 							rx, ry, rw);
-      
-    return max(return_type(0), res);
+    return max BOOST_PREVENT_MACRO_SUBSTITUTION(return_type(0), res);
   }
 
   result_type operator()(const T& p, const T& q)
     {
+      BOOST_USING_STD_MAX();
       typedef typename  K::FT FT;
       FT px(p.point().x());
       FT py(p.point().y());
@@ -76,7 +75,7 @@ public:
   
       result_type res =  squared_radius_smallest_orthogonalcircleC2(px, py, pw,
 								    qx, qy, qw);
-      return max(return_type(0), res);
+      return max BOOST_PREVENT_MACRO_SUBSTITUTION(return_type(0), res);
     }
 };
 

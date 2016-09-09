@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_merge.h $
-// $Id: Gps_merge.h 28831 2006-02-27 14:28:18Z baruchzu $ $Date: 2006-02-27 15:28:18 +0100 (Mon, 27 Feb 2006) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_merge.h $
+// $Id: Gps_merge.h 37253 2007-03-19 11:56:44Z afabri $ $Date: 2007-03-19 12:56:44 +0100 (Mon, 19 Mar 2007) $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -112,6 +112,11 @@ class Xor_merge
                     std::vector<Vertex_handle> *>     Arr_entry;
 
 public:
+
+  // Temporarily defined to see if this avoids a warning on SunPro CC
+  Xor_merge()
+  {}
+
    void operator()(unsigned int i,
                    unsigned int j,
                    unsigned int jump,

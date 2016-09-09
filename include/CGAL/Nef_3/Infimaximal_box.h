@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/Infimaximal_box.h $
-// $Id: Infimaximal_box.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/Infimaximal_box.h $
+// $Id: Infimaximal_box.h 38161 2007-04-17 08:27:13Z hachenb $
 // 
 //
 // Author(s)     : Peter Hachenberger    <hachenberger@mpi-sb.mpg.de>
@@ -55,11 +55,11 @@ class Infimaximal_box {
     return false;
   }
 
-  static bool is_standard(const Point_3& p) {
+  static bool is_standard(const Point_3& ) {
     return true;
   }
 
-  static bool is_standard(const Plane_3& p) {
+  static bool is_standard(const Plane_3& ) {
     return true;
   }
 
@@ -71,11 +71,11 @@ class Infimaximal_box {
     return p;
   }
 
-  static Standard_point standard_point(Point_3 p, NT d=1) {
+  static Standard_point standard_point(Point_3 p, NT =1) {
     return p;
   }
 
-  static Standard_plane standard_plane(Plane_3 p, NT d=1) {
+  static Standard_plane standard_plane(Plane_3 p, NT =1) {
     return p;
   }
 
@@ -83,13 +83,13 @@ class Infimaximal_box {
     return p;
   }
 
-  static void set_size_of_infimaximal_box(const NT& size) {}
+  static void set_size_of_infimaximal_box(const NT& ) {}
 
-  static int degree(const RT& n) {
+  static int degree(const RT& ) {
     return 0;
   }
 
-  static NT get_coeff(const RT& p, unsigned int i) {
+  static NT get_coeff(const RT& p, unsigned int ) {
     return p;
   }
 
@@ -97,16 +97,16 @@ class Infimaximal_box {
     return p;
   }
 
-  static bool is_infibox_corner(const Point_3& p) {
+  static bool is_infibox_corner(const Point_3& ) {
     return false;
   }
 
   template <typename Sphere_map>
-  static bool is_complex_facet_infibox_intersection(const Sphere_map& sm) {
+  static bool is_complex_facet_infibox_intersection(const Sphere_map& ) {
     return false;
   }
 
-  static int type_of_infibox_point(const Point_3& p) {
+  static int type_of_infibox_point(const Point_3& ) {
     return 0;
   }
 
@@ -116,49 +116,49 @@ class Infimaximal_box {
   }
 
   template <typename SNC_structure>
-  static bool is_beyond_Infibox(typename SNC_structure::SFace_handle sf, 
-				SNC_structure& snc) {
+  static bool is_beyond_Infibox(typename SNC_structure::SFace_handle , 
+				SNC_structure& ) {
     return false;
   }
 
-  static bool x_on_box(const Point_3& p) {
+  static bool x_on_box(const Point_3& ) {
     return false;
   }
 
-  static bool y_on_box(const Point_3& p) {
+  static bool y_on_box(const Point_3& ) {
     return false;
   }
 
-  static bool z_on_box(const Point_3& p) {
+  static bool z_on_box(const Point_3& ) {
     return false;
   }
 
   template<typename SNC_structure>
-  static NT compute_evaluation_constant_for_halfedge_pairup(const SNC_structure& snc) {
+  static NT compute_evaluation_constant_for_halfedge_pairup(const SNC_structure& ) {
     return NT(1);
   }
 
-  static void compute_min_max(const Plane_3& h, NT orth_coords[3], int& min, int& max) { }
+  static void compute_min_max(const Plane_3& , NT orth_coords[3], int& /* min */, int& /* max */) { }
 
-  static Point_3 scale_infibox_vertex(const Point_3 pin) {
+  static Point_3 scale_infibox_vertex(const Point_3& ) {
     return Point_3();
   }
 
-  static Point_3 normalize_transformed_vertex(const Point_3& p) {
+  static Point_3 normalize_transformed_vertex(const Point_3& ) {
     return Point_3();
   }
 
   template <typename SNC_constructor, typename Mark>
   static std::list<typename SNC_constructor::Vertex_handle> 
-    create_vertices_on_infibox(SNC_constructor& C, 
-			       const Plane_3& h, const std::list<Point_3>& points, 
-			       const Mark& bnd, const Mark& inside, const Mark& outside) {
+    create_vertices_on_infibox(SNC_constructor&, 
+			       const Plane_3&, const std::list<Point_3>&, 
+			       const Mark&, const Mark&, const Mark&) {
     // TODO: warning oder assertion einbauen
     return std::list<typename SNC_constructor::Vertex_handle>();
   }
 
   template <typename SNC_constructor>
-  static std::list<Point_3> find_points_of_box_with_plane(SNC_constructor& C, const Plane_3& h) {
+  static std::list<Point_3> find_points_of_box_with_plane(SNC_constructor&, const Plane_3&) {
     return std::list<Point_3>();
   }
 
@@ -167,47 +167,47 @@ class Infimaximal_box {
     return segs.begin();
   }
 
-  static Point_3 create_extended_point(NT x, NT y, NT z) {
+  static Point_3 create_extended_point(NT, NT, NT) {
     std::cerr << "function should not be called" << std::endl;
     CGAL_assertion_msg(0,"function should not be called");
     return Point_3(0,0,0);
   }
 
-  static Plane_3 create_extended_plane(NT a, NT b, NT c, NT d) {
+  static Plane_3 create_extended_plane(NT, NT, NT, NT) {
     std::cerr << "function should not be called" << std::endl;
     return Plane_3(1,0,0,0);
   }
 
   template <typename SNC_decorator, typename Point>
-    static Ray_3 get_ray(SNC_decorator& D, Point& p) {
+    static Ray_3 get_ray(SNC_decorator& , Point& p) {
     //    return D.point(D.vertex(D.shells_begin(D.volumes_begin())));
     return Ray_3(p, Vector_3(-1,0,0));
   }
 
   template <typename SNC_constructor_>
-  static void create_vertices_of_box_with_plane(SNC_constructor_& C, const Plane_3& h, bool b) {
+  static void create_vertices_of_box_with_plane(SNC_constructor_&, const Plane_3&, bool) {
     std::cerr << "Constructor not available for this Kernel" << std::endl;
   }
 
   template <typename SNC_constructor>
-  static void initialize_infibox_vertices(SNC_constructor& C, bool space) {
+  static void initialize_infibox_vertices(SNC_constructor& , bool ) {
   }
 
   template <typename SHalfedge_handle>
-  static bool is_sedge_on_infibox(SHalfedge_handle sh) {
+  static bool is_sedge_on_infibox(SHalfedge_handle ) {
     return false;
   }
 
   template <typename Halfedge_handle>
-  static bool is_edge_on_infibox(Halfedge_handle e) {
+  static bool is_edge_on_infibox(Halfedge_handle ) {
     return false; 
   }
 
   template <typename Halfedge_handle>
-  static bool is_type4(Halfedge_handle e) {return false;}
+  static bool is_type4(Halfedge_handle ) {return false;}
 
   template <typename Halfedge_handle>
-  static bool is_type3(Halfedge_handle e) {return false;}
+  static bool is_type3(Halfedge_handle ) {return false;}
 };
 
 template <class Kernel>
@@ -614,11 +614,12 @@ class Infimaximal_box<Tag_true, Kernel> {
     typename Sphere_map::SHalfedge_const_iterator sei;
     bool found = false;
     CGAL_forall_sedges(sei, sm) {
-      if(!is_sedge_on_infibox(sei))
+      if(!is_sedge_on_infibox(sei)) {
 	if(found)
 	  return true;
 	else
 	  found = true;
+      }
     }
     return false;
   }

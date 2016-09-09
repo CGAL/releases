@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
-// $Id: SNC_structure.h 29399 2006-03-11 18:34:06Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
+// $Id: SNC_structure.h 37422 2007-03-23 18:18:36Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -39,6 +39,9 @@
 #define CGAL_NEF_DEBUG 41
 #include <CGAL/Nef_2/debug.h>
 #include <CGAL/Nef_2/Object_index.h>
+
+#include <boost/optional.hpp>
+#include <boost/none.hpp>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -691,13 +694,13 @@ public:
   expensive operation.}*/
 
   SNC_structure() : 
-    boundary_item_(undef_), sm_boundary_item_(undef_),
+    boundary_item_(boost::none), sm_boundary_item_(boost::none),
     vertices_(), halfedges_(), halffacets_(), volumes_(),
     shalfedges_(), shalfloops_(), sfaces_() {}
   ~SNC_structure() { CGAL_NEF_TRACEN("~SNC_structure: clearing "<<this); clear(); }
 
   SNC_structure(const Self& D) : 
-    boundary_item_(undef_), sm_boundary_item_(undef_),
+    boundary_item_(boost::none), sm_boundary_item_(boost::none),
     vertices_(D.vertices_), halfedges_(D.halfedges_), 
     halffacets_(D.halffacets_), volumes_(D.volumes_),
     shalfedges_(D.shalfedges_), shalfloops_(D.shalfloops_), 
@@ -708,8 +711,8 @@ public:
     if ( this == &D ) 
       return *this;
     clear();
-    boundary_item_.clear(undef_);
-    sm_boundary_item_.clear(undef_);
+    boundary_item_.clear(boost::none);
+    sm_boundary_item_.clear(boost::none);
     vertices_ = D.vertices_;
     halfedges_ = D.halfedges_;
     halffacets_ = D.halffacets_;
@@ -722,17 +725,17 @@ public:
   }
 
   void clear_boundary() {
-    boundary_item_.clear(undef_);
-    sm_boundary_item_.clear(undef_);
+    boundary_item_.clear(boost::none);
+    sm_boundary_item_.clear(boost::none);
   }
 
   void clear_snc_boundary() {
-    boundary_item_.clear(undef_);
+    boundary_item_.clear(boost::none);
   }
 
   void clear() { 
-    boundary_item_.clear(undef_);
-    sm_boundary_item_.clear(undef_);
+    boundary_item_.clear(boost::none);
+    sm_boundary_item_.clear(boost::none);
     vertices_.destroy();
     halfedges_.destroy();
     halffacets_.destroy();
@@ -744,17 +747,17 @@ public:
 
   template <typename H>
   bool is_boundary_object(H h) 
-  { return boundary_item_[h]!=undef_; }
+  { return boundary_item_[h]!=boost::none; }
   template <typename H>
   bool is_sm_boundary_object(H h) 
-  { return sm_boundary_item_[h]!=undef_; }
+  { return sm_boundary_item_[h]!=boost::none; }
 
   template <typename H>
   Object_iterator& boundary_item(H h)
-  { return boundary_item_[h]; }
+  { return *boundary_item_[h]; }
   template <typename H>
   Object_iterator& sm_boundary_item(H h)
-  { return sm_boundary_item_[h]; }
+  { return *sm_boundary_item_[h]; }
 
   template <typename H>
   void store_boundary_item(H h, Object_iterator o)
@@ -765,12 +768,12 @@ public:
 
   template <typename H>
   void undef_boundary_item(H h)
-  { CGAL_assertion(boundary_item_[h]!=undef_);
-    boundary_item_[h] = undef_; }
+  { CGAL_assertion(boundary_item_[h]!=boost::none);
+    boundary_item_[h] = boost::none; }
   template <typename H>
   void undef_sm_boundary_item(H h)
-  { CGAL_assertion(sm_boundary_item_[h]!=undef_);
-    sm_boundary_item_[h] = undef_; }
+  { CGAL_assertion(sm_boundary_item_[h]!=boost::none);
+    sm_boundary_item_[h] = boost::none; }
 
   void reset_iterator_hash(Object_iterator it)
   { SVertex_handle sv;
@@ -1040,7 +1043,7 @@ public:
   }
 
   Vertex_alloc vertex_allocator;
-  Vertex* get_vertex_node( const Vertex& t) {
+  Vertex* get_vertex_node( const Vertex& ) {
     Vertex* p = vertex_allocator.allocate(1);
     vertex_allocator.construct( p, Vertex());
     return p;
@@ -1051,7 +1054,7 @@ public:
   }
 
   Halfedge_alloc halfedge_allocator;
-  Halfedge* get_halfedge_node( const Halfedge& t) {
+  Halfedge* get_halfedge_node( const Halfedge&) {
     Halfedge* p = halfedge_allocator.allocate(1);
     halfedge_allocator.construct( p, Halfedge());
     return p;
@@ -1062,7 +1065,7 @@ public:
   }
 
   Halffacet_alloc halffacet_allocator;
-  Halffacet* get_halffacet_node( const Halffacet& t) {
+  Halffacet* get_halffacet_node( const Halffacet& ) {
     Halffacet* p = halffacet_allocator.allocate(1);
     halffacet_allocator.construct( p, Halffacet());
     return p;
@@ -1073,7 +1076,7 @@ public:
   }
 
   Volume_alloc volume_allocator;
-  Volume* get_volume_node( const Volume& t) {
+  Volume* get_volume_node( const Volume& ) {
     Volume* p = volume_allocator.allocate(1);
     volume_allocator.construct( p, Volume());
     return p;
@@ -1084,7 +1087,7 @@ public:
   }
 
   SHalfedge_alloc shalfedge_allocator;
-  SHalfedge* get_shalfedge_node( const SHalfedge& t) {
+  SHalfedge* get_shalfedge_node( const SHalfedge& ) {
     SHalfedge* p = shalfedge_allocator.allocate(1);
     shalfedge_allocator.construct( p, SHalfedge());
     return p;
@@ -1095,7 +1098,7 @@ public:
   }
 
   SHalfloop_alloc shalfloop_allocator;
-  SHalfloop* get_shalfloop_node( const SHalfloop& t) {
+  SHalfloop* get_shalfloop_node( const SHalfloop& ) {
     SHalfloop* p = shalfloop_allocator.allocate(1);
     shalfloop_allocator.construct( p, SHalfloop());
     return p;
@@ -1106,7 +1109,7 @@ public:
   }
 
   SFace_alloc sface_allocator;
-  SFace* get_sface_node( const SFace& t) {
+  SFace* get_sface_node( const SFace& ) {
     SFace* p = sface_allocator.allocate(1);
     sface_allocator.construct( p, SFace());
     return p;
@@ -1335,9 +1338,11 @@ public:
 
 protected:
   void pointer_update(const Self& D);
-  static Object_iterator              undef_;
-  Generic_handle_map<Object_iterator> boundary_item_;
-  Generic_handle_map<Object_iterator> sm_boundary_item_;
+  
+  typedef boost::optional<Object_iterator> Optional_object_iterator ;
+  
+  Generic_handle_map<Optional_object_iterator> boundary_item_;
+  Generic_handle_map<Optional_object_iterator> sm_boundary_item_;
 
   Vertex_list    vertices_;
   Halfedge_list  halfedges_;
@@ -1482,11 +1487,6 @@ pointer_update(const SNC_structure<Kernel,Items,Mark>& D)
     }
   }
 }
-
-template <typename Kernel, typename Items, typename Mark> 
-typename SNC_structure<Kernel, Items, Mark>::Object_iterator
-SNC_structure<Kernel,Items,Mark>::undef_;
-
 
 CGAL_END_NAMESPACE
 #endif // CGAL_SNC_STRUCTURE_H

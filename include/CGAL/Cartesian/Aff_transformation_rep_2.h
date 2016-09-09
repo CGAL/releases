@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_rep_2.h $
-// $Id: Aff_transformation_rep_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_rep_2.h $
+// $Id: Aff_transformation_rep_2.h 32863 2006-08-01 08:18:19Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Lutz Kettner
@@ -106,18 +106,17 @@ friend class Scaling_repC2<R>;
   }
 
   // note that a vector is not translated
-  Vector_2 transform(const Vector_2& v) const // FIXME : construction
+  Vector_2 transform(const Vector_2& v) const
   {
     return Vector_2(t11 * v.x() + t12 * v.y(),
                     t21 * v.x() + t22 * v.y());
   }
 
   // note that a direction is not translated
-  Direction_2 transform(const Direction_2& dir) const // FIXME : construction
+  Direction_2 transform(const Direction_2& dir) const
   {
-    Vector_2 v = dir.to_vector();
-    return Direction_2(t11 * v.x() + t12 * v.y(),
-                       t21 * v.x() + t22 * v.y());
+    return Direction_2(t11 * dir.dx() + t12 * dir.dy(),
+                       t21 * dir.dx() + t22 * dir.dy());
   }
 
   // Note that Aff_transformation is not defined yet,

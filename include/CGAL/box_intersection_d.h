@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Box_intersection_d/include/CGAL/box_intersection_d.h $
-// $Id: box_intersection_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Box_intersection_d/include/CGAL/box_intersection_d.h $
+// $Id: box_intersection_d.h 37478 2007-03-26 09:32:03Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -64,7 +64,7 @@ void box_intersection_d(
     RandomAccessIter1 begin1, RandomAccessIter1 end1,
     RandomAccessIter2 begin2, RandomAccessIter2 end2,
     Callback callback,
-    BoxTraits box_traits,
+    BoxTraits,
     std::ptrdiff_t cutoff,
     Box_intersection_d::Topology topology,
     Box_intersection_d::Setting  setting)
@@ -230,7 +230,7 @@ template< class RandomAccessIter, class Callback >
 void box_self_intersection_d(
     RandomAccessIter begin, RandomAccessIter end,
     Callback callback,
-    std::ptrdiff_t cutoff)
+    std::ptrdiff_t)
 {
     typedef typename std::iterator_traits<RandomAccessIter>::value_type val_t;
     typedef Box_intersection_d::Box_traits_d< val_t>  Box_traits;
@@ -259,7 +259,7 @@ template< class ForwardIter1, class ForwardIter2,
 void box_intersection_all_pairs_d( 
     ForwardIter1 begin1, ForwardIter1 end1,
     ForwardIter2 begin2, ForwardIter2 end2,
-    Callback callback, BoxTraits traits)
+    Callback callback, BoxTraits)
 {
     typedef Box_intersection_d::Predicate_traits_d<BoxTraits,true> Traits;
     Box_intersection_d::all_pairs( begin1, end1, begin2, end2, 
@@ -271,7 +271,7 @@ template< class ForwardIter1, class ForwardIter2,
 void box_intersection_all_pairs_d( 
     ForwardIter1 begin1, ForwardIter1 end1,
     ForwardIter2 begin2, ForwardIter2 end2,
-    Callback callback, BoxTraits traits,
+    Callback callback, BoxTraits,
     Box_intersection_d::Topology topology,
     Box_intersection_d::Setting setting)
 {
@@ -354,7 +354,7 @@ void box_self_intersection_all_pairs_d(
 
 template< class ForwardIter, class Callback, class BoxTraits >
 void box_self_intersection_all_pairs_d( 
-    ForwardIter begin1, ForwardIter end1, Callback callback, BoxTraits traits,
+    ForwardIter begin1, ForwardIter end1, Callback callback, BoxTraits,
     Box_intersection_d::Topology topology)
 {
     if (topology == Box_intersection_d::CLOSED) {

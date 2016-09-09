@@ -11,14 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/include/CGAL/Incremental_neighbor_search.h $
-// $Id: Incremental_neighbor_search.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Spatial_searching/include/CGAL/Incremental_neighbor_search.h $
+// $Id: Incremental_neighbor_search.h 36334 2007-02-15 21:24:48Z spion $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
 
-#ifndef  INCREMENTAL_NEIGHBOR_SEARCH_H
-#define  INCREMENTAL_NEIGHBOR_SEARCH_H
+#ifndef CGAL_INCREMENTAL_NEIGHBOR_SEARCH_H
+#define CGAL_INCREMENTAL_NEIGHBOR_SEARCH_H
+
 #include <cstring>
 #include <list>
 #include <queue>
@@ -504,6 +505,4 @@ namespace CGAL {
 
 } // namespace CGAL
 
-
-#endif  // INCREMENTAL_NEIGHBOR_SEARCH_H
-
+#endif  // CGAL_INCREMENTAL_NEIGHBOR_SEARCH_H

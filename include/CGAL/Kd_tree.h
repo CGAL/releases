@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/include/CGAL/Kd_tree.h $
-// $Id: Kd_tree.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Spatial_searching/include/CGAL/Kd_tree.h $
+// $Id: Kd_tree.h 38496 2007-05-02 08:28:37Z afabri $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -179,7 +179,6 @@ public:
 	  Splitter s = Splitter()) 
     : split(s), built_(false) 
   {
-    CGAL_assertion(first != beyond);
     std::copy(first, beyond, std::back_inserter(pts));
   }
 
@@ -239,11 +238,14 @@ public:
   OutputIterator 
   search(OutputIterator it, const FuzzyQueryItem& q) 
   {
-    if(! is_built()){
-      build();
+    if(! pts.empty()){
+  
+      if(! is_built()){
+	build();
+      }
+      Kd_tree_rectangle<SearchTraits> b(*bbox);
+      tree_root->search(it,q,b);
     }
-    Kd_tree_rectangle<SearchTraits> b(*bbox);
-    tree_root->search(it,q,b);
     return it;
   }
 

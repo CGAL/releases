@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Box_intersection_d/include/CGAL/Box_intersection_d/Box_traits_d.h $
-// $Id: Box_traits_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Box_intersection_d/include/CGAL/Box_intersection_d/Box_traits_d.h $
+// $Id: Box_traits_d.h 37866 2007-04-03 12:34:18Z ameyer $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -42,7 +42,7 @@ struct Box_traits_d {
     static NT  min_coord(Box_parameter b, int dim) { return b.min_coord( dim);}
     static NT  max_coord(Box_parameter b, int dim) { return b.max_coord( dim);}
     static ID  id(Box_parameter b)                 { return b.id();}
-    static int dimension()                    { return BoxHandle::dimension();}
+    static int dimension()                         { return BoxHandle::dimension();}
 };
 
 // box pointer traits
@@ -79,8 +79,8 @@ struct Predicate_traits_d : public BoxTraits {
 
     template<bool b> struct Bool_t {};
 
-    static bool hi_greater(NT hi, NT val, Bool_t<true> b) { return hi >= val;}
-    static bool hi_greater(NT hi, NT val, Bool_t<false> b){ return hi >  val;}
+    static bool hi_greater(NT hi, NT val, Bool_t<true> ) { return hi >= val;}
+    static bool hi_greater(NT hi, NT val, Bool_t<false> ){ return hi >  val;}
     static bool hi_greater (NT hi, NT val) {
         return hi_greater(hi,val, Bool_t<closed>()); 
     }
@@ -144,8 +144,8 @@ struct Predicate_traits_d : public BoxTraits {
     }
     static bool is_lo_less_lo(Box_parameter a, Box_parameter b, int dim) {
         return BoxTraits::min_coord(a,dim)  < BoxTraits::min_coord(b,dim) ||
-               BoxTraits::min_coord(a,dim) == BoxTraits::min_coord(b,dim) && 
-               BoxTraits::id(a) < BoxTraits::id(b);
+               ( BoxTraits::min_coord(a,dim) == BoxTraits::min_coord(b,dim) && 
+                 BoxTraits::id(a) < BoxTraits::id(b) );
     }
 
     static bool is_lo_less_hi(Box_parameter a, Box_parameter b, int dim) {

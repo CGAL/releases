@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Vector__.h $
-// $Id: Vector__.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Vector__.h $
+// $Id: Vector__.h 38827 2007-05-23 13:36:07Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -27,8 +27,8 @@
 #include <CGAL/basic.h>
 #include <CGAL/memory.h>
 
-#undef _DEBUG
-#define _DEBUG 51
+#undef CGAL_KD_DEBUG
+#define CGAL_KD_DEBUG 51
 #include <CGAL/Kernel_d/debug.h>
 
 #include <cmath>
@@ -240,16 +240,13 @@ const_iterator begin() const { return v_; }
 const_iterator end() const { return v_+d_; }
 
 Vector_<NT_,AL_>  operator+(const Vector_<NT_,AL_>& v1) const;
-/*{\Mbinop Addition. \precond\\ 
-|v.dimension() == v1.dimension()|.}*/
+/*{\Mbinop Addition. \precond\\ |v.dimension() == v1.dimension()|.}*/
 
 Vector_<NT_,AL_>  operator-(const Vector_<NT_,AL_>& v1) const;
-/*{\Mbinop Subtraction. \precond\\ 
-|v.dimension() = v1.dimension()|.}*/
+/*{\Mbinop Subtraction. \precond\\ |v.dimension() = v1.dimension()|.}*/
 
 NT operator*(const Vector_<NT_,AL_>& v1) const;
-/*{\Mbinop Inner Product. \precond\\ 
-|v.dimension() = v1.dimension()|.}*/
+/*{\Mbinop Inner Product. \precond\\ |v.dimension() = v1.dimension()|.}*/
 
 Vector_<NT_,AL_> compmul(const NT& r) const;
 
@@ -261,8 +258,7 @@ Vector_<NT_,AL_>& operator+=(const Vector_<NT_,AL_>& v1);
 |v.dimension() == v1.dimension()|.}*/
 
 Vector_<NT_,AL_>& operator-=(const Vector_<NT_,AL_>& v1);
-/*{\Mbinop Subtraction plus assignment. \precond\\ 
-|v.dimension() == v1.dimension()|.}*/
+/*{\Mbinop Subtraction plus assignment. \precond\\ |v.dimension() == v1.dimension()|.}*/
 
 Vector_<NT_,AL_>& operator*=(const NT& s);
 /*{\Mbinop Scalar multiplication plus assignment.}*/

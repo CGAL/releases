@@ -1,8 +1,5 @@
-// Copyright (c) 2000  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2000  Max-Planck-Institute Saarbruecken (Germany).
+// All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polynomial/include/CGAL/Nef_2/Polynomial.h $
-// $Id: Polynomial.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/Polynomial.h $
+// $Id: Polynomial.h 37034 2007-03-12 17:34:47Z hemmer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -30,7 +27,6 @@
 #include <CGAL/Handle_for.h>
 #include <CGAL/number_type_basic.h>
 #include <CGAL/number_utils.h>
-#include <CGAL/Number_type_traits.h>
 #include <CGAL/IO/io.h>
 #include <cstddef>
 #undef CGAL_NEF_DEBUG
@@ -41,6 +37,8 @@
 
 
 CGAL_BEGIN_NAMESPACE
+
+namespace Nef {
 
 template <class NT> class Polynomial_rep;
 
@@ -60,16 +58,7 @@ template <> class Polynomial<double> ;
 
 template <class Forward_iterator>
 typename std::iterator_traits<Forward_iterator>::value_type 
-gcd_of_range(Forward_iterator its, Forward_iterator ite)
-{
-  typedef typename std::iterator_traits<Forward_iterator>::value_type NT;
-  typedef typename Number_type_traits<NT>::Has_gcd Has_gcd;
-  return gcd_of_range(its,ite,Has_gcd());
-}
-
-template <class Forward_iterator>
-typename std::iterator_traits<Forward_iterator>::value_type 
-gcd_of_range(Forward_iterator its, Forward_iterator ite, Tag_true)
+gcd_of_range(Forward_iterator its, Forward_iterator ite, Unique_factorization_domain_tag)
 /*{\Mfunc calculates the greates common divisor of the
 set of numbers $\{ |*its|, |*++its|, \ldots, |*it| \}$ of type |NT|,
 where |++it == ite| and |NT| is the value type of |Forward_iterator|. 
@@ -86,7 +75,7 @@ where |++it == ite| and |NT| is the value type of |Forward_iterator|.
 
 template <class Forward_iterator>
 typename std::iterator_traits<Forward_iterator>::value_type 
-gcd_of_range(Forward_iterator its, Forward_iterator ite, Tag_false)
+gcd_of_range(Forward_iterator its, Forward_iterator ite, Integral_domain_without_division_tag)
 /*{\Mfunc calculates the greates common divisor of the
 set of numbers $\{ |*its|, |*++its|, \ldots, |*it| \}$ of type |NT|,
 where |++it == ite| and |NT| is the value type of |Forward_iterator|. 
@@ -100,6 +89,15 @@ where |++it == ite| and |NT| is the value type of |Forward_iterator|.
   return res;
 }
 
+template <class Forward_iterator>
+typename std::iterator_traits<Forward_iterator>::value_type 
+gcd_of_range(Forward_iterator its, Forward_iterator ite)
+{
+    
+  typedef typename std::iterator_traits<Forward_iterator>::value_type NT;
+  typedef CGAL::Algebraic_structure_traits<NT> AST;
+  return gcd_of_range(its,ite,typename AST::Algebraic_category());
+}
 
 
 template <class NT>  inline Polynomial<NT>
@@ -246,16 +244,7 @@ template <class pNT> class Polynomial :
   /*{\Mtypes 5}*/
   public:
   typedef pNT NT;
-  typedef typename Number_type_traits<NT>::Has_gcd Has_gcd;
-  typedef CGAL::Tag_false Has_sqrt;
-  typedef CGAL::Tag_true  Has_division;
- 
-  typedef CGAL::Tag_false Has_exact_division;
-  typedef CGAL::Tag_false Has_exact_sqrt;
-  typedef typename Number_type_traits<NT>::Has_exact_ring_operations
-  Has_exact_ring_operations;
-
-
+  
   typedef Handle_for< Polynomial_rep<NT> > Base;
   typedef Polynomial_rep<NT> Rep;
   typedef typename Rep::Vector    Vector;
@@ -449,14 +438,14 @@ template <class pNT> class Polynomial :
 
   Polynomial<NT>& operator += (const Polynomial<NT>& p1)
   { this->copy_on_write();
-    int d = std::min(degree(),p1.degree()), i;
+    int d = (std::min)(degree(),p1.degree()), i;
     for(i=0; i<=d; ++i) coeff(i) += p1[i];
     while (i<=p1.degree()) this->ptr()->coeff.push_back(p1[i++]);
     reduce(); return (*this); }
 
   Polynomial<NT>& operator -= (const Polynomial<NT>& p1)
   { this->copy_on_write();
-    int d = std::min(degree(),p1.degree()), i;
+    int d = (std::min)(degree(),p1.degree()), i;
     for(i=0; i<=d; ++i) coeff(i) -= p1[i];
     while (i<=p1.degree()) this->ptr()->coeff.push_back(-p1[i++]);
     reduce(); return (*this); }
@@ -592,14 +581,6 @@ class Polynomial<int> :
   public:
   typedef int NT;
   /*{\Xtypemember the component type representing the coefficients.}*/
-
-  typedef Number_type_traits<NT>::Has_gcd Has_gcd;
-  typedef CGAL::Tag_false Has_sqrt;
-  typedef CGAL::Tag_true  Has_division;
-
-  typedef CGAL::Tag_false Has_exact_ring_operations;
-  typedef CGAL::Tag_false Has_exact_division;
-  typedef CGAL::Tag_false Has_exact_sqrt;
 
   typedef Handle_for< Polynomial_rep<int> > Base;
   typedef Polynomial_rep<int> Rep;
@@ -780,14 +761,14 @@ class Polynomial<int> :
 
   Polynomial<int>& operator += (const Polynomial<int>& p1)
   { this->copy_on_write();
-    int d = std::min(degree(),p1.degree()), i;
+    int d = (std::min)(degree(),p1.degree()), i;
     for(i=0; i<=d; ++i) coeff(i) += p1[i];
     while (i<=p1.degree()) this->ptr()->coeff.push_back(p1[i++]);
     reduce(); return (*this); }
 
   Polynomial<int>& operator -= (const Polynomial<int>& p1)
   { this->copy_on_write();
-    int d = std::min(degree(),p1.degree()), i;
+    int d = (std::min)(degree(),p1.degree()), i;
     for(i=0; i<=d; ++i) coeff(i) -= p1[i];
     while (i<=p1.degree()) this->ptr()->coeff.push_back(-p1[i++]);
     reduce(); return (*this); }
@@ -903,14 +884,6 @@ determines the sign for the limit process $x \rightarrow \infty$.
   public:
   typedef double NT;
   /*{\Xtypemember the component type representing the coefficients.}*/
-
-  typedef Number_type_traits<NT>::Has_gcd Has_gcd;
-  typedef CGAL::Tag_false Has_sqrt;
-  typedef CGAL::Tag_true  Has_division;
-
-  typedef CGAL::Tag_false Has_exact_ring_operations;
-  typedef CGAL::Tag_false Has_exact_division;
-  typedef CGAL::Tag_false Has_exact_sqrt;
 
   typedef Handle_for< Polynomial_rep<double> > Base;
   typedef Polynomial_rep<double> Rep;
@@ -1090,14 +1063,14 @@ determines the sign for the limit process $x \rightarrow \infty$.
 
   Polynomial<double>& operator += (const Polynomial<double>& p1)
   { this->copy_on_write();
-    int d = std::min(degree(),p1.degree()), i;
+    int d = (std::min)(degree(),p1.degree()), i;
     for(i=0; i<=d; ++i) coeff(i) += p1[i];
     while (i<=p1.degree()) this->ptr()->coeff.push_back(p1[i++]);
     reduce(); return (*this); }
 
   Polynomial<double>& operator -= (const Polynomial<double>& p1)
   { this->copy_on_write();
-    int d = std::min(degree(),p1.degree()), i;
+    int d = (std::min)(degree(),p1.degree()), i;
     for(i=0; i<=d; ++i) coeff(i) -= p1[i];
     while (i<=p1.degree()) this->ptr()->coeff.push_back(-p1[i++]);
     reduce(); return (*this); }
@@ -1205,11 +1178,6 @@ template <class NT> bool is_finite
   (const Polynomial<NT>& p) 
   { return CGAL::is_finite(p[0]); }
 
-template <class NT> CGAL::io_Operator 
-  io_tag(const Polynomial<NT>&) 
-  { return CGAL::io_Operator(); }
-
-
 template <class NT> 
 inline
 Polynomial<NT> operator - (const Polynomial<NT>& p)
@@ -1278,10 +1246,8 @@ template <class NT> inline
 Polynomial<NT> operator / (const Polynomial<NT>& p1, 
                            const Polynomial<NT>& p2)
 { 
-  typedef Number_type_traits<NT> Traits;
-  typename Traits::Has_gcd has_gcd;
-  
-  return divop(p1,p2, has_gcd);
+    typedef Algebraic_structure_traits<NT> AST;
+    return divop(p1,p2, typename AST::Algebraic_category());
 }
 
 
@@ -1289,15 +1255,15 @@ template <class NT> inline
 Polynomial<NT> operator % (const Polynomial<NT>& p1,
 			   const Polynomial<NT>& p2)
 { 
-  typedef Number_type_traits<NT> Traits;
-  typename Traits::Has_gcd has_gcd;
-  return modop(p1,p2, has_gcd); }
+    typedef Algebraic_structure_traits<NT> AST;
+    return modop(p1,p2, typename AST::Algebraic_category());
+}
 
 
 template <class NT> 
 Polynomial<NT> divop (const Polynomial<NT>& p1, 
-                       const Polynomial<NT>& p2,
-                       Tag_false)
+                      const Polynomial<NT>& p2,
+                      Integral_domain_without_division_tag)
 { CGAL_assertion(!p2.is_zero());
   if (p1.is_zero()) {
 	return 0;
@@ -1311,8 +1277,9 @@ Polynomial<NT> divop (const Polynomial<NT>& p1,
 
 
 template <class NT> 
-Polynomial<NT> divop (const Polynomial<NT>& p1, const Polynomial<NT>& p2,
-                       Tag_true)
+Polynomial<NT> divop (const Polynomial<NT>& p1, 
+                      const Polynomial<NT>& p2,
+                      Unique_factorization_domain_tag)
 { CGAL_assertion(!p2.is_zero());
   if (p1.is_zero()) return 0;
   Polynomial<NT> q,r; NT D; 
@@ -1324,8 +1291,8 @@ Polynomial<NT> divop (const Polynomial<NT>& p1, const Polynomial<NT>& p2,
 
 template <class NT> 
 Polynomial<NT> modop (const Polynomial<NT>& p1, 
-                       const Polynomial<NT>& p2,
-                       Tag_false)
+                      const Polynomial<NT>& p2,
+                      Integral_domain_without_division_tag)
 { CGAL_assertion(!p2.is_zero());
   if (p1.is_zero()) return 0;
   Polynomial<NT> q,r;
@@ -1337,8 +1304,8 @@ Polynomial<NT> modop (const Polynomial<NT>& p1,
 
 template <class NT> 
 Polynomial<NT> modop (const Polynomial<NT>& p1, 
-                       const Polynomial<NT>& p2,
-                       Tag_true)
+                      const Polynomial<NT>& p2,
+                      Unique_factorization_domain_tag)
 { CGAL_assertion(!p2.is_zero());
   if (p1.is_zero()) return 0;
   Polynomial<NT> q,r; NT D; 
@@ -1964,9 +1931,10 @@ template <class NT>
 Polynomial<NT> Polynomial<NT>::gcd(
   const Polynomial<NT>& p1, const Polynomial<NT>& p2)
 { CGAL_NEF_TRACEN("gcd("<<p1<<" , "<<p2<<")");
-  if ( p1.is_zero() )
+  if ( p1.is_zero() ) {
     if ( p2.is_zero() ) return Polynomial<NT>(NT(1));
     else return p2.abs();
+  }
   if ( p2.is_zero() )
     return p1.abs();
 
@@ -1991,6 +1959,15 @@ Polynomial<NT> Polynomial<NT>::gcd(
 
 
 // SPECIALIZE_IMPLEMENTATION(NT,int double) END
+
+} // namespace Nef
+
+
+using Nef::to_double;
+using Nef::sign;
+using Nef::is_finite;
+using Nef::is_valid;
+using Nef::gcd;
 
 CGAL_END_NAMESPACE
 

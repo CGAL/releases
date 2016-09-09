@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Point_3.h $
-// $Id: Point_3.h 29078 2006-03-06 13:08:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Point_3.h $
+// $Id: Point_3.h 35640 2006-12-27 23:25:47Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri and Herve Bronnimann
@@ -27,7 +27,7 @@
 #include <CGAL/Threetuple.h>
 #include <CGAL/Handle_for.h>
 #include <CGAL/Origin.h>
-#include <CGAL/Bbox_3.h>
+#include <CGAL/constant.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -102,14 +102,14 @@ public:
   {
       return z();
   }
-  FT hw() const
+  const FT & hw() const
   {
-      return FT(1);
+      return constant<FT, 1>();
   }
 
   const FT & cartesian(int i) const;
   const FT & operator[](int i) const;
-  FT homogeneous(int i) const;
+  const FT & homogeneous(int i) const;
 
   Cartesian_const_iterator cartesian_begin() const 
   {
@@ -127,7 +127,6 @@ public:
   {
       return 3;
   }
-  Bbox_3 bbox() const;
 
   Point_3 transform(const Aff_transformation_3 &t) const
   {
@@ -154,69 +153,13 @@ PointC3<R>::operator[](int i) const
 
 template < class R >
 inline
-typename PointC3<R>::FT
+const typename PointC3<R>::FT &
 PointC3<R>::homogeneous(int i) const
 {
   CGAL_kernel_precondition(i>=0 && i<=3);
   if (i<3) return cartesian(i);
-  return FT(1);
+  return hw();
 }
-
-template < class R >
-Bbox_3
-PointC3<R>::bbox() const
-{
-  std::pair<double,double> xp = CGAL_NTS to_interval(x());
-  std::pair<double,double> yp = CGAL_NTS to_interval(y());
-  std::pair<double,double> zp = CGAL_NTS to_interval(z());
-  return Bbox_3(xp.first, yp.first, zp.first, xp.second, yp.second, zp.second);
-}
-
-#ifndef CGAL_CARTESIAN_NO_OSTREAM_INSERT_POINTC3
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const PointC3<R> &p)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << p.x() << ' ' << p.y()  << ' ' << p.z();
-    case IO::BINARY :
-        write(os, p.x());
-        write(os, p.y());
-        write(os, p.z());
-        return os;
-    default:
-        os << "PointC3(" << p.x() << ", " << p.y()  << ", " << p.z() << ")";
-        return os;
-    }
-}
-#endif // CGAL_CARTESIAN_NO_OSTREAM_INSERT_POINTC3
-
-#ifndef CGAL_CARTESIAN_NO_ISTREAM_EXTRACT_POINTC3
-template < class R >
-std::istream &
-operator>>(std::istream &is, PointC3<R> &p)
-{
-    typename R::FT x, y, z;
-    switch(is.iword(IO::mode)) {
-    case IO::ASCII :
-        is >> x >> y >> z;
-        break;
-    case IO::BINARY :
-        read(is, x);
-        read(is, y);
-        read(is, z);
-        break;
-    default:
-        std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-        break;
-    }
-    if (is)
-	p = PointC3<R>(x, y, z);
-    return is;
-}
-#endif // CGAL_CARTESIAN_NO_ISTREAM_EXTRACT_POINTC3
 
 CGAL_END_NAMESPACE
 

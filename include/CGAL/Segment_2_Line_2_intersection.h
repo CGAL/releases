@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Segment_2_Line_2_intersection.h $
-// $Id: Segment_2_Line_2_intersection.h 31166 2006-05-17 16:30:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Segment_2_Line_2_intersection.h $
+// $Id: Segment_2_Line_2_intersection.h 37989 2007-04-07 07:59:47Z afabri $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman

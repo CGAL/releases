@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Mesh_2/Triangulation_mesher_level_traits_3.h $
-// $Id: Triangulation_mesher_level_traits_3.h 28855 2006-02-27 17:23:10Z lrineau $ $Date: 2006-02-27 18:23:10 +0100 (Mon, 27 Feb 2006) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Mesh_2/Triangulation_mesher_level_traits_3.h $
+// $Id: Triangulation_mesher_level_traits_3.h 33373 2006-08-17 09:14:39Z afabri $ $Date: 2006-08-17 11:14:39 +0200 (Thu, 17 Aug 2006) $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -96,10 +96,43 @@ struct Triangulation_mesher_level_traits_3 :
 	) return zone.cell->vertex(zone.i);
 
     const Facet& f = *(zone.boundary_facets.begin());
-    return triangulation_ref_impl().insert_in_hole(p,
-						   zone.cells.begin(),
-						   zone.cells.end(),
-						   f.first, f.second);
+
+    const Vertex_handle v = 
+      triangulation_ref_impl().insert_in_hole(p,
+                                              zone.cells.begin(),
+                                              zone.cells.end(),
+                                              f.first, f.second);
+#ifdef CGAL_MESH_2_DEBUG_INSERTION_RADIUS
+#define CGAL_MESH_3_DEBUG_INSERTION_RADIUS
+#endif
+#ifdef CGAL_MESH_3_DEBUG_INSERTION_RADIUS
+    {
+    std::vector<Vertex_handle> vertices;
+
+    triangulation_ref_impl().incident_vertices(v, std::back_inserter(vertices));
+    
+    typedef typename Tr::Geom_traits::FT FT;
+
+    FT sq_insertion_radius = std::numeric_limits<FT>::infinity();
+
+    for(typename std::vector<Vertex_handle>::const_iterator vit =
+          vertices.begin();
+        vit != vertices.end();
+        ++vit)
+      sq_insertion_radius = (CGAL::min)(sq_insertion_radius, 
+					CGAL::squared_distance(v->point(),
+							       (*vit)->point()) );
+    std::cerr << "insertion radius: " << CGAL::sqrt(sq_insertion_radius);
+#ifdef CGAL_MESH_3_DIRTY_DEBUG_SPHERES
+      std::cerr << " \t\tdistance: " 
+                << CGAL::sqrt(CGAL::squared_distance(v->point(), 
+                                      typename Tr::Geom_traits::Point_3(CGAL::ORIGIN)));
+#endif
+    std::cerr << std::endl;
+    }
+#endif // CGAL_MESH_3_DEBUG_INSERTION_RADIUS
+
+    return v;
   }
 
 }; // end Triangulation_mesher_level_traits_3

@@ -15,12 +15,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Bbox_3.h $
-// $Id: Bbox_3.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Bbox_3.h $
+// $Id: Bbox_3.h 33361 2006-08-16 21:29:43Z afabri $
+//
 //
 // Author(s)     : Andreas Fabri
- 
+
 #ifndef CGAL_BBOX_3_H
 #define CGAL_BBOX_3_H
 
@@ -85,12 +85,12 @@ inline
 Bbox_3
 Bbox_3::operator+(const Bbox_3& b) const
 {
-  return Bbox_3(std::min(xmin(), b.xmin()),
-                std::min(ymin(), b.ymin()),
-                std::min(zmin(), b.zmin()),
-                std::max(xmax(), b.xmax()),
-                std::max(ymax(), b.ymax()),
-                std::max(zmax(), b.zmax()));
+  return Bbox_3((std::min)(xmin(), b.xmin()),
+                (std::min)(ymin(), b.ymin()),
+                (std::min)(zmin(), b.zmin()),
+                (std::max)(xmax(), b.xmax()),
+                (std::max)(ymax(), b.ymax()),
+                (std::max)(zmax(), b.zmax()));
 }
 
 inline
@@ -107,7 +107,7 @@ do_overlap(const Bbox_3& bb1, const Bbox_3& bb2)
     return true;
 }
 
-#ifndef CGAL_NO_OSTREAM_INSERT_BBOX_3
+
 inline
 std::ostream&
 operator<<(std::ostream &os, const Bbox_3& b)
@@ -115,7 +115,7 @@ operator<<(std::ostream &os, const Bbox_3& b)
   switch(os.iword(IO::mode))
   {
     case IO::ASCII :
-        return os << b.xmin() << ' ' << b.ymin() << ' ' << b.zmin() 
+        return os << b.xmin() << ' ' << b.ymin() << ' ' << b.zmin()
 		  << ' ' << b.xmax() << ' ' << b.ymax() << ' ' << b.zmax();
     case IO::BINARY :
         write(os, b.xmin());
@@ -135,9 +135,7 @@ operator<<(std::ostream &os, const Bbox_3& b)
         return os;
   }
 }
-#endif // CGAL_NO_OSTREAM_INSERT_BBOX_3
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_BBOX_3
 inline
 std::istream&
 operator>>(std::istream &is, Bbox_3& b)
@@ -158,11 +156,10 @@ operator>>(std::istream &is, Bbox_3& b)
         read(is, zmax);
         break;
   }
-  b = Bbox_3(xmin, ymin, zmin, xmax, ymax, zmax);
+  if (is)
+    b = Bbox_3(xmin, ymin, zmin, xmax, ymax, zmax);
   return is;
 }
-
-#endif // CGAL_NO_ISTREAM_EXTRACT_BBOX_3
 
 CGAL_END_NAMESPACE
 

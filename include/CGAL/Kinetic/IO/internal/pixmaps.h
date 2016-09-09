@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/internal/pixmaps.h $
-// $Id: pixmaps.h 28584 2006-02-16 18:50:05Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/internal/pixmaps.h $
+// $Id: pixmaps.h 35759 2007-01-18 23:26:44Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -34,6 +34,7 @@ namespace CGAL
             extern const char ** play_to_xpm;
             extern const char ** reverse_xpm;
             extern const char ** stop_xpm;
+	    extern const char ** print_xpm;
         }
     }
 }

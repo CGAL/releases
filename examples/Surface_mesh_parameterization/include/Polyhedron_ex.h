@@ -1,20 +1,3 @@
-/***************************************************************************
-Polyhedron_ex.h  -  description
-                             -------------------
-begin                : jan 2002
-copyright            : (C) 2002 by Pierre Alliez - INRIA
-email                : pierre.alliez@sophia.inria.fr
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
-
 #ifndef POLYHEDRON_EX_H_INCLUDED
 #define POLYHEDRON_EX_H_INCLUDED
 
@@ -266,17 +249,17 @@ public:
     {
         Facet_iterator pFace = facets_begin();
         Facet_handle pClosest = pFace;
-        double min = pFace->distance(point);
+        double minimum = pFace->distance(point);
         for(;pFace != facets_end();
             pFace++)
         {
             if(is_inner(pFace))
             {
                 double distance = pFace->distance(point);
-                if(distance < min)
+                if(distance < minimum)
                 {
                     pClosest = pFace;
-                    min = distance;
+                    minimum = distance;
                 }
             }
         }
@@ -313,55 +296,55 @@ public:
     }
 
     // compute bounding interval
-    double min(int coord)
+    double minimum (int coord)
     {
         CGAL_assertion(size_of_vertices() > 0);
         Vertex_iterator pVertex = vertices_begin();
-        double min = pVertex->point()[coord];
+        double minimum = pVertex->point()[coord];
         for(;pVertex != vertices_end();pVertex++)
-            min = std::min(min,pVertex->point()[coord]);
-        return min;
+            minimum = (std::min)(minimum,pVertex->point()[coord]);
+        return minimum;
     }
-    double max(int coord)
+    double maximum (int coord)
     {
         CGAL_assertion(size_of_vertices() > 0);
         Vertex_iterator pVertex = vertices_begin();
-        double max = pVertex->point()[coord];
+        double maximum = pVertex->point()[coord];
         for(;pVertex != vertices_end();pVertex++)
-            max = std::max(max,pVertex->point()[coord]);
-        return max;
+            maximum = (std::max)(maximum,pVertex->point()[coord]);
+        return maximum;
     }
     Vertex_handle vertex_min(int coord,
-                             double &min)
+                             double &minimum)
     {
         CGAL_assertion(size_of_vertices() > 0);
         Vertex_iterator pVertex = vertices_begin();
         Vertex_handle pBest = pVertex;
-        min = pVertex->point()[coord];
+        minimum = pVertex->point()[coord];
         for(;pVertex != vertices_end();pVertex++)
         {
             double value = pVertex->point()[coord];
-            if(value < min)
+            if(value < minimum)
             {
-                min = std::min(min,value);
+                minimum = (std::min)(minimum,value);
                 pBest = pVertex;
             }
         }
         return pBest;
     }
     Vertex_handle vertex_max(int coord,
-                             double &max)
+                             double &maximum)
     {
         CGAL_assertion(size_of_vertices() > 0);
         Vertex_iterator pVertex = vertices_begin();
         Vertex_handle pBest = pVertex;
-        max = pVertex->point()[coord];
+        maximum = pVertex->point()[coord];
         for(;pVertex != vertices_end();pVertex++)
         {
             double value = pVertex->point()[coord];
-            if(value > max)
+            if(value > maximum)
             {
-                max = std::max(max,value);
+                maximum = (std::max)(maximum,value);
                 pBest = pVertex;
             }
         }
@@ -391,6 +374,13 @@ public:
     }
 
 
+#ifdef DEBUG_TRUNCATE_OUTPUT
+    // Debug: write coordinates with 2 digits precision
+    #define FORMAT_EPS_COORD(x) (int(x/10.0+0.5)*10)
+#else
+    #define FORMAT_EPS_COORD(x) (x)
+#endif
+            
     // Dump parameterized mesh to an eps file
     bool write_file_eps(const char *pFilename,
                         double scale = 500.0)
@@ -414,25 +404,25 @@ public:
             double y1 = scale * pHalfedge->prev()->v();
             double x2 = scale * pHalfedge->u();
             double y2 = scale * pHalfedge->v();
-            xmin = std::min(xmin,x1);
-            xmin = std::min(xmin,x2);
-            xmax = std::max(xmax,x1);
-            xmax = std::max(xmax,x2);
-            ymax = std::max(ymax,y1);
-            ymax = std::max(ymax,y2);
-            ymin = std::min(ymin,y1);
-            ymin = std::min(ymin,y2);
+            xmin = (std::min)(xmin,x1);
+            xmin = (std::min)(xmin,x2);
+            xmax = (std::max)(xmax,x1);
+            xmax = (std::max)(xmax,x2);
+            ymax = (std::max)(ymax,y1);
+            ymax = (std::max)(ymax,y2);
+            ymin = (std::min)(ymin,y1);
+            ymin = (std::min)(ymin,y2);
         }
 
         out << "%!PS-Adobe-2.0 EPSF-2.0" << std::endl;
         out << "%%BoundingBox: " << int(xmin+0.5) << " "
-                                   << int(ymin+0.5) << " "
-                                   << int(xmax+0.5) << " "
-                                   << int(ymax+0.5) << std::endl;
+                                 << int(ymin+0.5) << " "
+                                 << int(xmax+0.5) << " "
+                                 << int(ymax+0.5) << std::endl;
         out << "%%HiResBoundingBox: " << xmin << " "
-                                        << ymin << " "
-                                        << xmax << " "
-                                        << ymax << std::endl;
+                                      << ymin << " "
+                                      << xmax << " "
+                                      << ymax << std::endl;
         out << "%%EndComments" << std::endl;
         out << "gsave" << std::endl;
         out << "0.1 setlinewidth" << std::endl;
@@ -450,7 +440,7 @@ public:
         out << "/E {moveto lineto stroke} bind def" << std::endl;
         out << "black" << std::endl << std::endl;
 
-        // for each halfedge
+        // output edge coordinates
         for(pHalfedge = halfedges_begin();
             pHalfedge != halfedges_end();
             pHalfedge++)
@@ -459,9 +449,12 @@ public:
             double y1 = scale * pHalfedge->prev()->v();
             double x2 = scale * pHalfedge->u();
             double y2 = scale * pHalfedge->v();
-            out << x1 << " " << y1 << " " << x2 << " " << y2 << " E" << std::endl;
+            out << FORMAT_EPS_COORD(x1) << " " 
+                << FORMAT_EPS_COORD(y1) << " " 
+                << FORMAT_EPS_COORD(x2) << " " 
+                << FORMAT_EPS_COORD(y2) << " E" << std::endl;
         }
-
+            
         /* Emit EPS trailer. */
         out << "grestore" << std::endl;
         out << std::endl;
@@ -470,6 +463,13 @@ public:
         return true;
     }
 
+#ifdef DEBUG_TRUNCATE_OUTPUT
+    // Debug: write coordinates with 2 digits precision
+    #define FORMAT_UV(x) (float(int(x*100.0+0.5))/100.0)
+#else
+    #define FORMAT_UV(x) (x)
+#endif
+            
     // Dump parameterized mesh to a Wavefront OBJ file
     // v x y z
     // f 1 2 3 4 (1-based)
@@ -506,11 +506,11 @@ public:
         for(pHalfedge = halfedges_begin(); pHalfedge != halfedges_end(); pHalfedge++)
         {
             if (pHalfedge->is_parameterized())
-                out << "vt " << pHalfedge->u() << " " << pHalfedge->v() << std::endl;
+                out << "vt " << FORMAT_UV(pHalfedge->u()) << " " << FORMAT_UV(pHalfedge->v()) << std::endl;
             else
                 out << "vt " << 0.0 << " " << 0.0 << std::endl;
         }
-
+            
         // Write facets using the unique material # 1
         out << "# facets" << std::endl;
         out << "usemtl Mat_1" << std::endl;
@@ -571,12 +571,12 @@ public:
         double xdiff = xmax-xmin;
         double ydiff = ymax-ymin;
         double zdiff = zmax-zmin;
-        if (xdiff >= std::max(ydiff,zdiff))
+        if (xdiff >= (std::max)(ydiff,zdiff))
         {
             pVertexMin = pVertex_xMin;
             pVertexMax = pVertex_xMax;
         }
-        else if (ydiff >= std::max(xdiff,zdiff))
+        else if (ydiff >= (std::max)(xdiff,zdiff))
         {
             pVertexMin = pVertex_yMin;
             pVertexMax = pVertex_yMax;

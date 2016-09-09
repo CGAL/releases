@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Is_rational.h $
-// $Id: Is_rational.h 29334 2006-03-10 00:00:09Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Is_rational.h $
+// $Id: Is_rational.h 35766 2007-01-20 21:39:01Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -32,22 +32,26 @@ CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
 template <class K>
 class Is_rational
 {
-    public:
-        Is_rational(){  }
+public:
+  Is_rational(){  }
 
-        typedef bool result_type;
-        typedef typename K::Root argument_type;
+  typedef bool result_type;
+  typedef typename K::Root argument_type;
 
-        template <class T>
-            result_type operator()(const T &v) const
-        {
-	  return v.is_rational();
-        }
+  template <class T>
+  result_type operator()(const T &v) const
+  {
+    return v.is_rational();
+  }
 
-        bool operator()(double) const
-        {
-            return true;
-        }
+  bool operator()(double) const
+  {
+    return true;
+  }
+  bool operator()(const CORE::Expr) const
+  {
+    return false;
+  }
 };
 
 CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE

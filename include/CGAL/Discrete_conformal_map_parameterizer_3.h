@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/Discrete_conformal_map_parameterizer_3.h $
-// $Id: Discrete_conformal_map_parameterizer_3.h 29623 2006-03-20 11:22:05Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Discrete_conformal_map_parameterizer_3.h $
+// $Id: Discrete_conformal_map_parameterizer_3.h 38418 2007-04-23 12:11:29Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -152,14 +152,14 @@ protected:
         Point_3 position_v_i = mesh.get_vertex_position(main_vertex_v_i);
         Point_3 position_v_j = mesh.get_vertex_position(neighbor_vertex_v_j);
 
-        // Compute cotangent of (v_i,v_k,v_j) corner (ie cotan of v_k corner)
+        // Compute cotangent of (v_i,v_k,v_j) corner (i.e. cotan of v_k corner)
         // if v_k is the vertex before v_j when circulating around v_i
         Vertex_around_vertex_const_circulator previous_vertex_v_k = neighbor_vertex_v_j;
         previous_vertex_v_k --;
         Point_3 position_v_k = mesh.get_vertex_position(previous_vertex_v_k);
         double cotg_beta_ij  = cotangent(position_v_i, position_v_k, position_v_j);
 
-        // Compute cotangent of (v_j,v_l,v_i) corner (ie cotan of v_l corner)
+        // Compute cotangent of (v_j,v_l,v_i) corner (i.e. cotan of v_l corner)
         // if v_l is the vertex after v_j when circulating around v_i
         Vertex_around_vertex_const_circulator next_vertex_v_l = neighbor_vertex_v_j;
         next_vertex_v_l ++;

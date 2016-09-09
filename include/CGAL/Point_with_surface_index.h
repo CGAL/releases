@@ -1,4 +1,4 @@
-// Copyright (c) 2005  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2005-2006  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesher/include/CGAL/Point_with_surface_index.h $
-// $Id: Point_with_surface_index.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Point_with_surface_index.h $
+// $Id: Point_with_surface_index.h 36719 2007-03-01 10:04:27Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -22,12 +22,14 @@
 
 #include <CGAL/Point_traits.h>
 
+#include <string>
+
 namespace CGAL {
 
 template <class Point>
 class Point_with_surface_index : public Point
 {
-  typedef Point_traits<Point> Point_traits;
+  typedef CGAL::Point_traits<Point> Point_traits;
   typedef typename Point_traits::Bare_point Bare_point;
 
 public:
@@ -52,6 +54,14 @@ public:
   {
     index = i;
   }
+
+#ifdef CGAL_MESH_3_IO_H
+  static
+  std::string io_signature()
+  {
+    return Get_io_signature<Point>()() + "+i";
+  }
+#endif
 private:
   int index;
 }; // end class Point_with_surface_index
@@ -62,8 +72,10 @@ operator<<(std::ostream &os, const Point_with_surface_index<Point>& p)
 {
   os << static_cast<const Point&>(p);
   if(is_ascii(os))
-    os << ' ';
-  return os << p.surface_index();
+    os << ' ' << p.surface_index();
+  else
+    write(os, p.surface_index());
+  return os;
 }
 
 template <class Point>
@@ -72,7 +84,10 @@ operator>>(std::istream &is, Point_with_surface_index<Point>& p)
 {
   is >>  static_cast<Point&>(p);
   int index;
-  is >> index;
+  if(is_ascii(is))
+    is >> index;
+  else
+    read(is, index);
   p.set_surface_index(index);
   return is;
 }

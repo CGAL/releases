@@ -34,13 +34,13 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                example$(EXE_EXT) 
+                largest_empty_rectangle$(EXE_EXT) 
 
-example$(EXE_EXT): example$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example example$(OBJ_EXT) $(LDFLAGS)
+largest_empty_rectangle$(EXE_EXT): largest_empty_rectangle$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)largest_empty_rectangle largest_empty_rectangle$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   example.clean 
+                   largest_empty_rectangle.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

@@ -1,0 +1,22 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+# Visual Studio 2003
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bezier_traits_adapter", "VC/bezier_traits_adapter.vcproj", "{00000000-0000-0000-0000-000000014248}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "circle_segment", "VC/circle_segment.vcproj", "{00000000-0000-0000-0000-000000012856}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "conic_traits_adapter", "VC/conic_traits_adapter.vcproj", "{00000000-0000-0000-0000-000000025577}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "connect_polygon", "VC/connect_polygon.vcproj", "{00000000-0000-0000-0000-000000021459}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "do_intersect", "VC/do_intersect.vcproj", "{00000000-0000-0000-0000-000000017341}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dxf_union", "VC/dxf_union.vcproj", "{00000000-0000-0000-0000-000000013223}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sequence", "VC/sequence.vcproj", "{00000000-0000-0000-0000-000000009106}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "set_union", "VC/set_union.vcproj", "{00000000-0000-0000-0000-000000004988}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simple_join_intersect", "VC/simple_join_intersect.vcproj", "{00000000-0000-0000-0000-000000000870}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "symmetric_difference", "VC/symmetric_difference.vcproj", "{00000000-0000-0000-0000-000000029521}"
+EndProject

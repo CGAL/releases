@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Cached_degeneracy_testers.h $
-// $Id: Cached_degeneracy_testers.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Cached_degeneracy_testers.h $
+// $Id: Cached_degeneracy_testers.h 38716 2007-05-15 10:40:26Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -244,7 +244,7 @@ public:
     emap.clear(UNDEFINED);
   }
 
-  void swap(Self& other) {
+  void swap(Self& /* other */) {
     // doing a real swap is not ready yet
 #if 1
     clear();
@@ -407,7 +407,7 @@ public:
     vmap.clear(UNDEFINED);
   }
 
-  void swap(Self& other) {
+  void swap(Self& /* other */) {
     // doing a real swap is not ready yet
 #if 1
     clear();
@@ -440,7 +440,7 @@ private:
 
 // Specialization for the identity face degeneracy tester
 
-template<class DG> class Identity_face_rejector;
+template<class DG> struct Identity_face_rejector;
 
 template<class DG>
 class Cached_face_rejector<Identity_face_rejector<DG>,Tag_false>

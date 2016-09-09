@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Matrix_search/include/CGAL/rectangular_3_center_2.h $
-// $Id: rectangular_3_center_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Matrix_search/include/CGAL/rectangular_3_center_2.h $
+// $Id: rectangular_3_center_2.h 36271 2007-02-15 09:01:00Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -947,7 +947,7 @@ rectangular_3_center_2_type2(
   FT& rad,
   Operations op)
 {
-  using std::max;
+  BOOST_USING_STD_MAX();
   using std::less;
   using std::greater;
   using std::greater_equal;
@@ -1122,8 +1122,8 @@ rectangular_3_center_2_type2(
 
     // step (c)
     if (b3 != e ||
-        !Q_t_empty && op.compute_x_distance(q_t, Q_t) > op.delta()(*m) ||
-        !Q_r_empty && op.compute_y_distance(q_r, Q_r) > op.delta()(*m))
+        (!Q_t_empty && op.compute_x_distance(q_t, Q_t) > op.delta()(*m)) ||
+        (!Q_r_empty && op.compute_y_distance(q_r, Q_r) > op.delta()(*m)))
       {
         // not covered
         s = b1;
@@ -1131,11 +1131,11 @@ rectangular_3_center_2_type2(
         q_t_q_r_cover_at_rho_min = 0;
         if (!Q_t_empty)
           q_t_q_r_cover_at_rho_min =
-            max(q_t_q_r_cover_at_rho_min,
+            max BOOST_PREVENT_MACRO_SUBSTITUTION (q_t_q_r_cover_at_rho_min,
                            op.compute_x_distance(q_t, Q_t));
         if (!Q_r_empty)
           q_t_q_r_cover_at_rho_min =
-            max(q_t_q_r_cover_at_rho_min,
+            max BOOST_PREVENT_MACRO_SUBSTITUTION (q_t_q_r_cover_at_rho_min,
                            op.compute_y_distance(q_r, Q_r));
         q_t_at_rho_min = q_t, q_r_at_rho_min = q_r;
         s_at_rho_min = s, e_at_rho_min = e;
@@ -1146,7 +1146,7 @@ rectangular_3_center_2_type2(
     if (b3 - b1 >= cutoff) { // enough points in G
       e = b1;
       // adjust Q_t
-      if (b1 != b2)
+      if (b1 != b2) {
         if (Q_t_empty) {
           Q_t = bounding_box_2(b1, b2, op);
           Q_t_empty = false;
@@ -1154,8 +1154,9 @@ rectangular_3_center_2_type2(
           Q_t =
             construct_bounding_box_union_2(
               Q_t, bounding_box_2(b1, b2, op), op);
+      }
       // adjust Q_r
-      if (b2 != b3)
+      if (b2 != b3) {
         if (Q_r_empty) {
           Q_r = bounding_box_2(b2, b3, op);
           Q_r_empty = false;
@@ -1163,6 +1164,7 @@ rectangular_3_center_2_type2(
           Q_r =
             construct_bounding_box_union_2(
               Q_r, bounding_box_2(b2, b3, op), op);
+      }
       continue;
     }
 
@@ -1245,8 +1247,8 @@ rectangular_3_center_2_type2(
                    compose(le_delta_sb, bind_1(op.distance(), q_r)));
 
     if (b3 != e ||
-        !Q_t_empty && op.compute_x_distance(q_t, Q_t) > op.delta()(*s_b) ||
-        !Q_r_empty && op.compute_y_distance(q_r, Q_r) > op.delta()(*s_b)) {
+        (!Q_t_empty && op.compute_x_distance(q_t, Q_t) > op.delta()(*s_b)) ||
+        (!Q_r_empty && op.compute_y_distance(q_r, Q_r) > op.delta()(*s_b))) {
       // no covering
       CGAL_optimisation_assertion(b1 - s >= cutoff);
       s = b1;
@@ -1255,11 +1257,11 @@ rectangular_3_center_2_type2(
       q_t_q_r_cover_at_rho_min = 0;
       if (!Q_t_empty)
         q_t_q_r_cover_at_rho_min =
-          max(q_t_q_r_cover_at_rho_min,
+          max BOOST_PREVENT_MACRO_SUBSTITUTION (q_t_q_r_cover_at_rho_min,
                          op.compute_x_distance(q_t, Q_t));
       if (!Q_r_empty)
         q_t_q_r_cover_at_rho_min =
-          max(q_t_q_r_cover_at_rho_min,
+          max BOOST_PREVENT_MACRO_SUBSTITUTION (q_t_q_r_cover_at_rho_min,
                          op.compute_y_distance(q_r, Q_r));
       s_at_rho_min = s, e_at_rho_min = e;
       continue;
@@ -1292,7 +1294,7 @@ rectangular_3_center_2_type2(
     if (b3 - b1 >= cutoff) {
       e = b1;
       // adjust Q_t
-      if (b1 != b2)
+      if (b1 != b2) {
         if (Q_t_empty) {
           Q_t = bounding_box_2(b1, b2, op);
           Q_t_empty = false;
@@ -1300,8 +1302,9 @@ rectangular_3_center_2_type2(
           Q_t =
             construct_bounding_box_union_2(
               Q_t, bounding_box_2(b1, b2, op), op);
+      }
       // adjust Q_r
-      if (b2 != b3)
+      if (b2 != b3) {
         if (Q_r_empty) {
           Q_r = bounding_box_2(b2, b3, op);
           Q_r_empty = false;
@@ -1309,6 +1312,7 @@ rectangular_3_center_2_type2(
           Q_r =
             construct_bounding_box_union_2(
               Q_r, bounding_box_2(b2, b3, op), op);
+      }
       continue;
     }
 
@@ -1338,18 +1342,18 @@ rectangular_3_center_2_type2(
                    compose(le_delta_next, bind_1(op.distance(), q_r)));
 
     if (b3 != e ||
-        !Q_t_empty && op.compute_x_distance(q_t, Q_t) > op.delta()(*next) ||
-        !Q_r_empty && op.compute_y_distance(q_r, Q_r) > op.delta()(*next)) {
+        (!Q_t_empty && op.compute_x_distance(q_t, Q_t) > op.delta()(*next)) ||
+        (!Q_r_empty && op.compute_y_distance(q_r, Q_r) > op.delta()(*next))) {
       // no covering
       rho_min = op.delta()(*next);
       q_t_q_r_cover_at_rho_min = 0;
       if (!Q_t_empty)
         q_t_q_r_cover_at_rho_min =
-          max(q_t_q_r_cover_at_rho_min,
+          max BOOST_PREVENT_MACRO_SUBSTITUTION (q_t_q_r_cover_at_rho_min,
                          op.compute_x_distance(q_t, Q_t));
       if (!Q_r_empty)
         q_t_q_r_cover_at_rho_min =
-          max(q_t_q_r_cover_at_rho_min,
+          max BOOST_PREVENT_MACRO_SUBSTITUTION (q_t_q_r_cover_at_rho_min,
                          op.compute_y_distance(q_r, Q_r));
       q_t_at_rho_min = q_t, q_r_at_rho_min = q_r;
       s_at_rho_min = b3, e_at_rho_min = e;
@@ -1361,7 +1365,7 @@ rectangular_3_center_2_type2(
     CGAL_optimisation_assertion(b3 - b1 >= cutoff);
     e = b1;
     // adjust Q_t
-    if (b1 != b2)
+    if (b1 != b2) {
       if (Q_t_empty) {
         Q_t = bounding_box_2(b1, b2, op);
         Q_t_empty = false;
@@ -1369,8 +1373,9 @@ rectangular_3_center_2_type2(
         Q_t =
           construct_bounding_box_union_2(
             Q_t, bounding_box_2(b1, b2, op), op);
+    }
     // adjust Q_r
-    if (b2 != b3)
+    if (b2 != b3) {
       if (Q_r_empty) {
         Q_r = bounding_box_2(b2, b3, op);
         Q_r_empty = false;
@@ -1378,6 +1383,7 @@ rectangular_3_center_2_type2(
         Q_r =
           construct_bounding_box_union_2(
             Q_r, bounding_box_2(b2, b3, op), op);
+    }
 
   } // while (e - s > 6)
 
@@ -1395,9 +1401,9 @@ rectangular_3_center_2_type2(
     Point q_r = op.place_y_square(q_r_afap, r, rho_max);
 
 
-    if (!Q_t_empty && op.compute_x_distance(q_t, Q_t) > rho_max ||
-        !Q_r_empty && op.compute_y_distance(q_r, Q_r) > rho_max) {
-      rho_max = max(op.compute_x_distance(q_t, Q_t),
+    if ((!Q_t_empty && op.compute_x_distance(q_t, Q_t) > rho_max) ||
+        (!Q_r_empty && op.compute_y_distance(q_r, Q_r) > rho_max)) {
+      rho_max = max BOOST_PREVENT_MACRO_SUBSTITUTION (op.compute_x_distance(q_t, Q_t),
                                op.compute_y_distance(q_r, Q_r));
 #ifndef CGAL_3COVER_NO_CHECK_OPTIMUM_FIRST
       CGAL_optimisation_assertion(rho_max <= rad);
@@ -1432,8 +1438,8 @@ rectangular_3_center_2_type2(
       // check for covering
       typename Bind< less< FT >, FT, 1 >::Type
         greater_rho_max(bind_1(less< FT >(), try_rho));
-      if (!Q_t_empty && op.compute_x_distance(q_t, Q_t) > try_rho ||
-          !Q_r_empty && op.compute_y_distance(q_r, Q_r) > try_rho ||
+      if ((!Q_t_empty && op.compute_x_distance(q_t, Q_t) > try_rho) ||
+          (!Q_r_empty && op.compute_y_distance(q_r, Q_r) > try_rho) ||
           e != find_if(
             t + 1,
             e,
@@ -1447,11 +1453,11 @@ rectangular_3_center_2_type2(
           q_t_q_r_cover_at_rho_min = 0;
           if (!Q_t_empty)
             q_t_q_r_cover_at_rho_min =
-              max(q_t_q_r_cover_at_rho_min,
+              max BOOST_PREVENT_MACRO_SUBSTITUTION (q_t_q_r_cover_at_rho_min,
                   op.compute_x_distance(q_t, Q_t));
           if (!Q_r_empty)
             q_t_q_r_cover_at_rho_min =
-              max(q_t_q_r_cover_at_rho_min,
+              max BOOST_PREVENT_MACRO_SUBSTITUTION (q_t_q_r_cover_at_rho_min,
                   op.compute_y_distance(q_r, Q_r));
           q_t_at_rho_min = q_t, q_r_at_rho_min = q_r;
           s_at_rho_min = t + 1, e_at_rho_min = e;
@@ -1476,35 +1482,35 @@ rectangular_3_center_2_type2(
   // try rho_min
   CGAL_optimisation_assertion(rho_min <= rho_max);
   CGAL_optimisation_assertion(rho_min >= 0);
-  FT rad2 = q_t_q_r_cover_at_rho_min;
+  FT rad_2 = q_t_q_r_cover_at_rho_min;
   typedef typename Bind< Distance, Point, 1 >::Type Dist_bind;
   if (s_at_rho_min != e_at_rho_min) {
     typename Compose_shared< Min< FT >, Dist_bind, Dist_bind >::Type
     mydist(compose_shared(Min< FT >(),
                           bind_1(op.distance(), q_t_at_rho_min),
                           bind_1(op.distance(), q_r_at_rho_min)));
-    rad2 =
-      max(
-        rad2,
+    rad_2 =
+      max BOOST_PREVENT_MACRO_SUBSTITUTION (
+        rad_2,
         mydist(*max_element(s_at_rho_min, e_at_rho_min,
                             compose(less< FT >(), mydist, mydist))));
   }
-  CGAL_optimisation_assertion(rad2 == 0 || rad2 > rho_min);
+  CGAL_optimisation_assertion(rad_2 == 0 || rad_2 > rho_min);
 
   // if a covering with rho == 0 is possible,
   // it will be catched in the type1 functions
   Point q_t, q_r;
-  if (rad2 > rho_max || rho_min == -1) {
+  if (rad_2 > rho_max || rho_min == -1) {
     // it is rho_max ...
     q_t = q_t_at_rho_max, q_r = q_r_at_rho_max;
-    rad2 = rho_max;
+    rad_2 = rho_max;
   } else
     q_t = q_t_at_rho_min, q_r = q_r_at_rho_min;
 
 #ifndef CGAL_3COVER_NO_CHECK_OPTIMUM_FIRST
-  CGAL_optimisation_assertion(rad2 <= rad);
+  CGAL_optimisation_assertion(rad_2 <= rad);
 #endif // ! CGAL_3COVER_NO_CHECK_OPTIMUM_FIRST
-  rad = rad2;
+  rad = rad_2;
   *o++ = op.construct_corner_square(r, rad / FT(2));
   *o++ = op.construct_x_square(q_t, rad / FT(2));
   *o++ = op.construct_y_square(q_r, rad / FT(2));

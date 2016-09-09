@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/src/CGALQt/Kinetic_pixmaps.cpp $
-// $Id: Kinetic_pixmaps.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/src/CGALQt/Kinetic_pixmaps.cpp $
+// $Id: Kinetic_pixmaps.cpp 35759 2007-01-18 23:26:44Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -33,14 +33,16 @@ namespace pixmaps {
 #include "Kinetic_reverse.xpm"
 #include "Kinetic_faster.xpm"
 #include "Kinetic_slower.xpm"
-            }
-            const char ** play_xpm= pixmaps::play_xpm;
-            const char ** faster_xpm= pixmaps::faster_xpm;
-            const char ** play_through_xpm= pixmaps::play_through_xpm;
-            const char ** slower_xpm= pixmaps::slower_xpm;
-            const char ** pause_xpm= pixmaps::pause_xpm;
-            const char ** play_to_xpm= pixmaps::play_to_xpm;
-            const char ** reverse_xpm= pixmaps::reverse_xpm;
-            const char ** stop_xpm= pixmaps::stop_xpm;
+#include "Kinetic_print.xpm"
+}
+const char ** play_xpm= pixmaps::play_xpm;
+const char ** faster_xpm= pixmaps::faster_xpm;
+const char ** play_through_xpm= pixmaps::play_through_xpm;
+const char ** slower_xpm= pixmaps::slower_xpm;
+const char ** pause_xpm= pixmaps::pause_xpm;
+const char ** play_to_xpm= pixmaps::play_to_xpm;
+const char ** reverse_xpm= pixmaps::reverse_xpm;
+const char ** stop_xpm= pixmaps::stop_xpm;
+const char ** print_xpm= pixmaps::print_xpm;
 
 CGAL_KINETIC_END_INTERNAL_NAMESPACE

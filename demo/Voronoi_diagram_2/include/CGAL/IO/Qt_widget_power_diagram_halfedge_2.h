@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/include/CGAL/IO/Qt_widget_power_diagram_halfedge_2.h $
-// $Id: Qt_widget_power_diagram_halfedge_2.h 29163 2006-03-07 23:41:02Z mkaravel $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/include/CGAL/IO/Qt_widget_power_diagram_halfedge_2.h $
+// $Id: Qt_widget_power_diagram_halfedge_2.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
 

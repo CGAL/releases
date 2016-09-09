@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_walk_along_line_point_location.h $
-// $Id: Arr_walk_along_line_point_location.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_walk_along_line_point_location.h $
+// $Id: Arr_walk_along_line_point_location.h 33891 2006-09-03 12:45:13Z baruchzu $
 // 
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -26,6 +26,7 @@
  */
 
 #include <CGAL/Arrangement_2/Arr_traits_adaptor_2.h>
+#include <CGAL/Arr_accessor.h>
 
 CGAL_BEGIN_NAMESPACE
 

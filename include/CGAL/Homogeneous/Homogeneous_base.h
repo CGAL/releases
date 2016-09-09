@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Homogeneous_base.h $
-// $Id: Homogeneous_base.h 31661 2006-06-16 21:12:43Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Homogeneous_base.h $
+// $Id: Homogeneous_base.h 31559 2006-06-13 14:35:53Z efif $
 // 
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
@@ -89,6 +89,10 @@ struct Homogeneous_base
 
     // These are currently undocumented.
     // Should they be part of the Kernel interface ?
+
+    // Bool_type had originally been Bool. It was renamed to avoid a conflict
+    // between a macro defined in Xlib.h poorly chosen to have the same name,
+    // that is 'Bool'.
     typedef typename Same_uncertainty_nt<bool, FT>::type
                                                     Bool_type;
     typedef typename Same_uncertainty_nt<CGAL::Sign, FT>::type

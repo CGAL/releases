@@ -15,11 +15,22 @@
 # This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 # WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 #
-# $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/src/CGALQt/kds_deps.makefile $
-# $Id: kds_deps.makefile 29886 2006-03-31 09:46:24Z drussel $
+# $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/src/CGALQt/kds_deps.makefile $
+# $Id: kds_deps.makefile 36206 2007-02-12 21:45:49Z efif $
 #
 # Author(s)     : Daniel Russel
 
+#---------------------------------------------------------------------#
+#                    specific rules for kds
+#---------------------------------------------------------------------#
+
+vpath %.h ../../include/CGAL/Kinetic/IO/internal
+
+#---------------------------------------------------------------------#
+#                    moc rules
+#---------------------------------------------------------------------#
+
+#KDS_Qt_examiner_viewer$(OBJ_EXT) : KDS_Qt_examiner_viewer.moc
 
 Kinetic_Qt_widget_2_core$(OBJ_EXT): Kinetic_Qt_widget_2_core.moc
 
@@ -31,20 +42,17 @@ Kinetic_Qt_window_2$(OBJ_EXT): Kinetic_Qt_window_2.moc
 
 Kinetic_pixmaps$(OBJ_EXT): Kinetic_*.xpm
 
-#CGAL_KDS_INCL_DIR := $(CGAL_INCL_DIR)/CGAL/Kinetic/IO/internal
+# It would be nice the *.moc file base name is identical to the *.h.
+# In this case the following rules can be removed all together.
 
+Kinetic_Qt_core.moc: Qt_core.h
+	$(QT_MOC) $< -o $@
 
-Kinetic_Qt_core.moc: $(CGAL_INCL_DIR)/CGAL/Kinetic/IO/internal/Qt_core.h
-	$(QT_MOC) $(CGAL_INCL_DIR)/CGAL/Kinetic/IO/internal/Qt_core.h -o Kinetic_Qt_core.moc
+Kinetic_Qt_timer.moc: Qt_timer.h
+	$(QT_MOC) $< -o $@
 
+Kinetic_Qt_widget_2_core.moc: Qt_widget_2_core.h
+	$(QT_MOC) $< -o $@
 
-Kinetic_Qt_timer.moc: $(CGAL_INCL_DIR)/CGAL/Kinetic/IO/internal/Qt_timer.h
-	$(QT_MOC) $(CGAL_INCL_DIR)/CGAL/Kinetic/IO/internal/Qt_timer.h -o Kinetic_Qt_timer.moc
-
-
-Kinetic_Qt_widget_2_core.moc: $(CGAL_INCL_DIR)/CGAL/Kinetic/IO/internal/Qt_widget_2_core.h
-	$(QT_MOC) $(CGAL_INCL_DIR)/CGAL/Kinetic/IO/internal/Qt_widget_2_core.h -o Kinetic_Qt_widget_2_core.moc
-
-
-Kinetic_Qt_window_2.moc: $(CGAL_INCL_DIR)/CGAL/Kinetic/IO/internal/Qt_window_2.h
-	$(QT_MOC)  $(CGAL_INCL_DIR)/CGAL/Kinetic/IO/internal/Qt_window_2.h -o Kinetic_Qt_window_2.moc
+Kinetic_Qt_window_2.moc: Qt_window_2.h
+	$(QT_MOC) $< -o $@

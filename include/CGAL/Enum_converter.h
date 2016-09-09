@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Enum_converter.h $
-// $Id: Enum_converter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Enum_converter.h $
+// $Id: Enum_converter.h 32584 2006-07-18 09:36:56Z mkaravel $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -35,13 +35,7 @@ struct Enum_converter
 
   Sign              operator()(Sign s) const { return s; }
 
-  Oriented_side     operator()(Oriented_side os) const { return os; }
-
   Bounded_side      operator()(Bounded_side bs) const { return bs; }
-
-  Comparison_result operator()(Comparison_result cr) const {
-    return cr;
-  }
 
   Angle operator()(Angle a) const { return a; }
 };

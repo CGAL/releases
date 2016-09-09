@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Curved_kernel/include/CGAL/global_functions_on_circle_2.h $
-// $Id: global_functions_on_circle_2.h 28975 2006-03-01 18:09:26Z teillaud $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/global_functions_on_circle_2.h $
+// $Id: global_functions_on_circle_2.h 33652 2006-08-24 14:16:33Z pmachado $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck
 
@@ -22,8 +22,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 
-#ifndef CGAL_CURVED_KERNEL_GLOBAL_FUNCTIONS_ON_CIRCLE_2_H
-#define CGAL_CURVED_KERNEL_GLOBAL_FUNCTIONS_ON_CIRCLE_2_H
+#ifndef CGAL_CIRCULAR_KERNEL_GLOBAL_FUNCTIONS_ON_CIRCLE_2_H
+#define CGAL_CIRCULAR_KERNEL_GLOBAL_FUNCTIONS_ON_CIRCLE_2_H
 
 namespace CGAL {
 
@@ -62,4 +62,5 @@ has_on_2(const typename CK::Circle_2 &c, const typename CK::Circular_arc_point_2
 }
 
 } // namespace CGAL
-#endif // CGAL_CURVED_KERNEL_GLOBAL_FUNCTIONS_ON_CIRCLE_2_H
+
+#endif // CGAL_CIRCULAR_KERNEL_GLOBAL_FUNCTIONS_ON_CIRCLE_2_H

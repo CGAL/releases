@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Min_quadrilateral_2/include/CGAL/Minimum_enclosing_quadrilateral_traits_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_quadrilateral_2/include/CGAL/Minimum_enclosing_quadrilateral_traits_2.h $
 // $Id: Minimum_enclosing_quadrilateral_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
 // 
 //

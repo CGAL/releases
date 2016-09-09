@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sturm_sequence_base.h $
-// $Id: Sturm_sequence_base.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sturm_sequence_base.h $
+// $Id: Sturm_sequence_base.h 35772 2007-01-22 18:36:00Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -45,8 +45,8 @@ class Sturm_sequence_base
 
         typedef std::vector<Polynomial>            Container;
 
-        typedef CGAL_POLYNOMIAL_NS::Sign                Sign;
-        typedef CGAL_POLYNOMIAL_NS::Comparison_result   Comparison_result;
+  typedef CGAL::Sign                Sign;
+        typedef CGAL::Comparison_result   Comparison_result;
 
         template<class Iterator>
             static
@@ -58,7 +58,7 @@ class Sturm_sequence_base
         template<class NTRep>
             unsigned int sign_variations_base(const NTRep& x) const
         {
-            Sign s0 = k_.sign_at_object( seq_[0] )(x);
+	  Sign s0 = k_.sign_at_object( )( seq_[0], x);
 
             CGAL_exactness_precondition( s0 != CGAL::ZERO );
 
@@ -66,7 +66,7 @@ class Sturm_sequence_base
             signs[0] = s0;
 
             for (unsigned int i = 1; i < size_; i++) {
-                signs[i] = k_.sign_at_object( seq_[i] )(x);
+	      signs[i] = k_.sign_at_object(  )(seq_[i], x);
             }
 
             return sign_variations(signs.begin(), signs.end());

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/leda_sphere_map.h $
-// $Id: leda_sphere_map.h 29754 2006-03-24 13:08:31Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/leda_sphere_map.h $
+// $Id: leda_sphere_map.h 33222 2006-08-10 15:14:32Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -23,8 +23,13 @@
 #include <CGAL/generic_sweep.h>
 #include <CGAL/Nef_2/Segment_overlay_traits.h>
 #include <CGAL/Nef_S2/Sphere_geometry.h>
+#if CGAL_LEDA_VERSION < 500
 #include <LEDA/graph.h>
 #include <LEDA/graph_misc.h>
+#else
+#include <LEDA/graph/graph.h>
+#include <LEDA/graph/graph_misc.h>
+#endif
 
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 211

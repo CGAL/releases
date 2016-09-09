@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/boolean_operations_2_toolbar.h $
-// $Id: boolean_operations_2_toolbar.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/boolean_operations_2_toolbar.h $
+// $Id: boolean_operations_2_toolbar.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
 
@@ -30,7 +30,7 @@
 //#include <CGAL/IO/Qt_widget_get_simple_polygon.h>
 #include "Qt_widget_get_circ_polygon.h"
 
-#include <CGAL/IO/Qt_widget_get_circle.h> 
+#include <CGAL/IO/Qt_widget_get_circle.h>
 #include <CGAL/IO/pixmaps/circle.xpm>
 
 
@@ -40,15 +40,15 @@
 #include <qbuttongroup.h>
 #include <qmainwindow.h>
 #include <qcursor.h>
-#include <qradiobutton.h> 
-#include <qvbuttongroup.h> 
+#include <qradiobutton.h>
+#include <qvbuttongroup.h>
 
 
 
 #include "typedefs.h"
 #include "Qt_widget_locate_layer.h"
 
-extern bool                                      red_active; 
+extern bool                                      red_active;
 extern Polygon_set                               red_set;
 extern Polygon_set                               blue_set;
 
@@ -75,11 +75,11 @@ private:
   QToolButton     *but[10];
   QButtonGroup    *button_group;
   CGAL::Qt_widget *widget;
-  
+
   CGAL::Qt_widget_get_circ_polygon<Kernel>     getsimplebut;
   CGAL::Qt_widget_get_circle<Kernel>           getcirclebut;
   Qt_widget_locate_layer                       locatebut;
-  
+
 };//end class
 
 

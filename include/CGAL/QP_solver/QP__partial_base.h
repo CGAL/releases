@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2001  ETH Zurich (Switzerland).
+// Copyright (c) 1997-2007  ETH Zurich (Switzerland).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,20 +11,20 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/QP_solver/include/CGAL/QP_solver/QP__partial_base.h $
-// $Id: QP__partial_base.h 28526 2006-02-15 11:54:47Z fischerk $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/QP_solver/include/CGAL/QP_solver/QP__partial_base.h $
+// $Id: QP__partial_base.h 38453 2007-04-27 00:34:44Z gaertner $
 // 
 //
-// Author(s)     : Sven Schoenherr <sven@inf.fu-berlin.de>
+// Author(s)     : Sven Schoenherr 
 //                 Bernd Gaertner <gaertner@inf.ethz.ch>
-//                 Franz Wessendorp <fransw@inf.ethz.ch>
-//                 Kaspar Fischer <fischerk@inf.ethz.ch>
+//                 Franz Wessendorp 
+//                 Kaspar Fischer
 
 #ifndef CGAL_QP__PARTIAL_BASE_H
 #define CGAL_QP__PARTIAL_BASE_H
 
 // includes
-#include <CGAL/QP_pricing_strategy.h>
+#include <CGAL/QP_solver/QP_pricing_strategy.h>
 #include <CGAL/Random.h>
 #include <algorithm>
 #include <vector>
@@ -35,7 +35,7 @@ CGAL_BEGIN_NAMESPACE
 // ==================
 // class declarations
 // ==================
-template < class Rep_ >
+template < typename Q, typename ET, typename Tags >
 class QP__partial_base;
 
 template < class Solver >
@@ -62,13 +62,12 @@ private:
 // ===============
 // class interface
 // ===============
-template < class Rep_ >
-class QP__partial_base : virtual public QP_pricing_strategy<Rep_> {
+template < typename Q, typename ET, typename Tags >
+class QP__partial_base : virtual public QP_pricing_strategy<Q,ET,Tags> {
 
     // self
-    typedef  Rep_                       Rep;
-    typedef  QP__partial_base<Rep>     Self;
-    typedef  QP_pricing_strategy<Rep>  Base;
+    typedef  QP__partial_base<Q,ET,Tags>     Self;
+    typedef  QP_pricing_strategy<Q,ET,Tags>  Base;
 
     typedef  typename Base::QP_solver   QP_solver;
   protected:
@@ -117,16 +116,16 @@ class QP__partial_base : virtual public QP_pricing_strategy<Rep_> {
 // ===============================
 
 // construction
-template < class Rep_ >  inline
-QP__partial_base<Rep_>::
+template < typename Q, typename ET, typename Tags >  inline
+QP__partial_base<Q,ET,Tags>::
 QP__partial_base( bool  randomize, Random&  random)
     : permute( randomize), rand_src( random)
 { }
 
 // initialization
-template < class Rep_ >
+template < typename Q, typename ET, typename Tags >
 void
-QP__partial_base<Rep_>::
+QP__partial_base<Q,ET,Tags>::
 init( )
 {
     // initialize indices of non-basic variables
@@ -143,17 +142,19 @@ init( )
     // initialize size of active set
     int  n = this->solver().number_of_variables();
     int  m = this->solver().number_of_constraints();
+    // we also want to cover the high constraints/variable ratio
+    if (n < m) (std::swap)(n,m); 
 
-    s = std::min( static_cast< unsigned int>( m*std::sqrt( n/2.0)),
-		  static_cast< unsigned int>(N.size()));
+    s = (std::min)( static_cast< unsigned int>( m*std::sqrt( n/2.0)),
+		    static_cast< unsigned int>(N.size()));
 
     //is_non_basic.init(this->solver());
 }
 
 // operations
-template < class Rep_ >  inline
+template < typename Q, typename ET, typename Tags >  inline
 void
-QP__partial_base<Rep_>::
+QP__partial_base<Q,ET,Tags>::
 entering_basis( Index_const_iterator it)
 {
     CGAL_qpe_precondition( it >= active_set_begin() && it < active_set_end());
@@ -165,9 +166,9 @@ entering_basis( Index_const_iterator it)
     N.pop_back();
 }
 
-template < class Rep_ >  inline
+template < typename Q, typename ET, typename Tags >  inline
 void
-QP__partial_base<Rep_>::
+QP__partial_base<Q,ET,Tags>::
 activating( Index_const_iterator& it)
 {
     CGAL_qpe_precondition(
@@ -179,9 +180,9 @@ activating( Index_const_iterator& it)
     ++s;
 }
 
-template < class Rep_ >
+template < typename Q, typename ET, typename Tags >
 void
-QP__partial_base<Rep_>::
+QP__partial_base<Q,ET,Tags>::
 leaving_basis( int i)
 {
     // all non-basic variables active?
@@ -200,9 +201,9 @@ leaving_basis( int i)
 }
 
 
-template < class Rep_ >
+template < typename Q, typename ET, typename Tags >
 void
-QP__partial_base<Rep_>::
+QP__partial_base<Q,ET,Tags>::
 transition( )
 {
     // Remove from N nonbasic slack and original variables that have become
@@ -226,8 +227,8 @@ transition( )
     int  n = this->solver().number_of_variables();
     int  m = this->solver().number_of_constraints();
 
-    s = std::min( static_cast< unsigned int>( m*std::sqrt( n/2.0)),
-		  static_cast< unsigned int>(N.size()));
+    s = (std::min)( static_cast< unsigned int>( m*std::sqrt( n/2.0)),
+		    static_cast< unsigned int>(N.size()));
 }
 
 CGAL_END_NAMESPACE

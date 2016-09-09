@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2/Sweep_line_2_visitors.h $
-// $Id: Sweep_line_2_visitors.h 28840 2006-02-27 14:36:55Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Sweep_line_2/Sweep_line_2_visitors.h $
+// $Id: Sweep_line_2_visitors.h 37204 2007-03-18 08:42:57Z afabri $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -83,16 +83,16 @@ public:
 
        
 
-  bool after_handle_event(Event* event,SL_iterator iter, bool flag)
+  bool after_handle_event(Event* event,SL_iterator , bool )
   {
-    if(m_includeEndPoints ||
+    if((m_includeEndPoints ||
        event->is_intersection() ||
-       event->is_weak_intersection())
+       event->is_weak_intersection()) && event->is_finite())
       *m_out++ = event->get_point();
     return true;
   }
 
- void add_subcurve(X_monotone_curve_2 cv,Subcurve* sc){}
+ void add_subcurve(X_monotone_curve_2 ,Subcurve* ){}
 
   OutputIerator get_output_iterator()
   {
@@ -163,7 +163,7 @@ public:
   }
        
 
-  bool after_handle_event(Event* event,SL_iterator iter, bool flag)
+  bool after_handle_event(Event* /*event*/,SL_iterator /*iter*/, bool /*flag*/)
   {
     return true;
   }
@@ -247,7 +247,7 @@ class Sweep_line_do_curves_x_visitor : public Empty_visitor<Traits>
   }
 
 
-  bool after_handle_event(Event* event,SL_iterator iter, bool flag)
+  bool after_handle_event(Event* event,SL_iterator , bool )
   {
     if(event->is_intersection() ||
        event->is_weak_intersection() ||

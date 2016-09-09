@@ -11,6 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_3.h $
+// $Id: linear_least_squares_fitting_3.h 37882 2007-04-03 15:15:30Z spion $
+//
 // Author(s)     : Pierre Alliez and Sylvain Pion
 
 #ifndef CGAL_LINEAR_LEAST_SQUARES_FITTING_3_H
@@ -38,7 +41,7 @@ assemble_covariance_matrix_3(InputIterator first,
                              InputIterator beyond, 
                              typename K::FT covariance[6], // covariance matrix
                              const typename K::Point_3& c, // centroid
-                             const K& k,                   // kernel
+                             const K& ,                    // kernel
                              const typename K::Point_3*)   // used for indirection
 {
   typedef typename K::FT       FT;
@@ -74,7 +77,7 @@ assemble_covariance_matrix_3(InputIterator first,
                              InputIterator beyond, 
                              typename K::FT covariance[6], // covariance matrix
                              const typename K::Point_3& c, // centroid
-                             const K& k,                   // kernel
+                             const K& ,                    // kernel
                              const typename K::Triangle_3*)// used for indirection
 {
   typedef typename K::FT       FT;
@@ -139,7 +142,7 @@ typename K::FT
 fitting_plane_3(const typename K::FT covariance[6], // covariance matrix
                 const typename K::Point_3& c,       // centroid
                 typename K::Plane_3& plane,         // best fit plane
-                const K& k)                         // kernel
+                const K& )                          // kernel
 {
   typedef typename K::FT       FT;
   typedef typename K::Point_3  Point;
@@ -183,7 +186,7 @@ typename K::FT
 fitting_line_3(const typename K::FT covariance[6], // covariance matrix
                const typename K::Point_3& c,       // centroid
                typename K::Line_3& line,           // best fit line
-               const K& k)                         // kernel
+               const K&  )                         // kernel
 {
   typedef typename K::FT       FT;
   typedef typename K::Point_3  Point;

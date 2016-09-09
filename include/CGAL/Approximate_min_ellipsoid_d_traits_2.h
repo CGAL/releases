@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d_traits_2.h $
-// $Id: Approximate_min_ellipsoid_d_traits_2.h 28726 2006-02-23 14:50:30Z fischerk $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d_traits_2.h $
+// $Id: Approximate_min_ellipsoid_d_traits_2.h 37145 2007-03-16 08:27:32Z afabri $
 // 
 //
 // Author(s)     : Kaspar Fischer <fischerk@inf.ethz.ch>
@@ -33,7 +33,7 @@ namespace CGAL {
     typedef typename K_::Cartesian_const_iterator_2 Cartesian_const_iterator;
                                          // iterator over point coordinates
     
-    static int dimension(const Point& p)
+    static int dimension(const Point& )
     {
       return 2;
     }

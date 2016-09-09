@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Direction_2.h $
-// $Id: Direction_2.h 29078 2006-03-06 13:08:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Direction_2.h $
+// $Id: Direction_2.h 33050 2006-08-05 22:55:06Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -41,7 +41,6 @@ class DirectionC2
   typedef typename R_::Ray_2                Ray_2;
   typedef typename R_::Segment_2            Segment_2;
   typedef typename R_::Direction_2          Direction_2;
-  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
   typedef Twotuple<FT>	                           Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -60,13 +59,6 @@ public:
   bool operator!=(const DirectionC2 &d) const;
 
   Vector_2 to_vector() const;
-
-
-  Direction_2 transform(const Aff_transformation_2 &t) const
-  {
-    return t.transform(*this);
-  }
-
 
   const RT & dx() const
   {
@@ -104,50 +96,6 @@ DirectionC2<R>::to_vector() const
 {
   return Vector_2(dx(), dy());
 }
-
-#ifndef CGAL_NO_OSTREAM_INSERT_DIRECTIONC2
-template < class R >
-std::ostream&
-operator<<(std::ostream &os, const DirectionC2<R> &d)
-{
-    typename R::Vector_2 v = d.to_vector();
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << v.x() << ' ' << v.y();
-    case IO::BINARY :
-        write(os, v.x());
-        write(os, v.y());
-        return os;
-    default:
-        return os << "DirectionC2(" << v.x() << ", " << v.y() << ')';
-    }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_DIRECTIONC2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_DIRECTIONC2
-template < class R >
-std::istream&
-operator>>(std::istream &is, DirectionC2<R> &p)
-{
-    typename R::FT x, y;
-    switch(is.iword(IO::mode)) {
-    case IO::ASCII :
-        is >> x >> y;
-        break;
-    case IO::BINARY :
-        read(is, x);
-        read(is, y);
-        break;
-    default:
-        std::cerr << std::endl << "Stream must be in ascii or binary mode"
-	          << std::endl;
-        break;
-    }
-    if (is)
-	p = DirectionC2<R>(x, y);
-    return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_DIRECTIONC2
 
 CGAL_END_NAMESPACE
 

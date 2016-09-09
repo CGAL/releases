@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_point_location/Arr_batched_point_location_visitor.h $
-// $Id: Arr_batched_point_location_visitor.h 29926 2006-04-04 12:11:18Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Arr_batched_point_location_visitor.h $
+// $Id: Arr_batched_point_location_visitor.h 37589 2007-03-27 19:24:34Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -25,6 +25,7 @@ CGAL_BEGIN_NAMESPACE
 
 #include <CGAL/Sweep_line_2_empty_visitor.h>
 #include <CGAL/Object.h>
+#include <CGAL/Arr_accessor.h>
 #include <utility>
 
 
@@ -50,6 +51,7 @@ class Arr_batched_point_location_visitor : public Empty_visitor< Traits_ >
   typedef typename Arrangement::Halfedge_const_handle    Halfedge_const_handle;
   typedef typename Arrangement::Vertex_const_handle      Vertex_const_handle;
   typedef std::pair<Base_Point_2,Object>                 PL_Pair;
+  typedef CGAL::Arr_accessor<Arrangement>                Arr_accessor;
 
 
   public:
@@ -57,9 +59,22 @@ class Arr_batched_point_location_visitor : public Empty_visitor< Traits_ >
 
   Arr_batched_point_location_visitor(OutputIerator out,
                                      const Arrangement& arr):
-                                     m_out(out),
-                                     m_arr(arr)
-  {}
+                                     m_out(out)
+  {
+    Arr_accessor             arr_access(const_cast<Arrangement&>(arr));
+    //initialize m_top_fict
+    Vertex_const_handle top_left_v = arr_access.top_left_fictitious_vertex();
+    m_top_fict = top_left_v->incident_halfedges();
+    if(m_top_fict->direction() == SMALLER)
+      m_top_fict = m_top_fict->next()->twin();
+
+    CGAL_assertion((m_top_fict->source() == 
+                    arr_access.top_right_fictitious_vertex()) ||
+                   ((m_top_fict->source()->boundary_in_x() == NO_BOUNDARY) &&
+                    (m_top_fict->source()->boundary_in_y() == PLUS_INFINITY)));
+    CGAL_assertion(m_top_fict->target() == 
+                   arr_access.top_left_fictitious_vertex());
+  }
 
   
 
@@ -67,6 +82,20 @@ class Arr_batched_point_location_visitor : public Empty_visitor< Traits_ >
   //(above_on_event is true iff 'above' subcurve is on the event
   bool after_handle_event(Event* event, SL_iterator above, bool above_on_event)
   {
+    if(!event->is_finite())
+    {
+      //its an event at infinity, we need to update m_top_fict in case its
+      //in Y=+oo (vertical curve or curve with vertical asymptote)
+      if(event->infinity_at_x() != NO_BOUNDARY)
+        return true;
+
+      Boundary_type y_inf = event->infinity_at_y();
+      if(y_inf == PLUS_INFINITY)
+        m_top_fict = m_top_fict->twin()->next()->twin();
+
+      return true;
+    }
+
     if(! event->is_query())
       return true;
 
@@ -105,7 +134,7 @@ class Arr_batched_point_location_visitor : public Empty_visitor< Traits_ >
     if(above == this ->status_line_end())
     {
       *m_out = std::make_pair (event->get_point().base_point(),
-                               CGAL::make_object(m_arr.unbounded_face()));
+                               CGAL::make_object(m_top_fict->face()));
       ++m_out;
       return true;
     }
@@ -137,8 +166,8 @@ class Arr_batched_point_location_visitor : public Empty_visitor< Traits_ >
 
 protected:
 
-  OutputIerator      m_out;
-  const Arrangement& m_arr;
+  OutputIerator            m_out;
+  Halfedge_const_handle    m_top_fict;
 };
 
 

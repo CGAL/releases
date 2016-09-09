@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/include/CGAL/Weighted_Minkowski_distance.h $
-// $Id: Weighted_Minkowski_distance.h 28786 2006-02-26 00:25:19Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Spatial_searching/include/CGAL/Weighted_Minkowski_distance.h $
+// $Id: Weighted_Minkowski_distance.h 36920 2007-03-08 10:05:31Z spion $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -159,7 +159,7 @@ namespace CGAL {
 	{
 	  for (unsigned int i = 0; qit != qe; ++qit, ++i) {
 	    if ((*qit) >= (r.min_coord(i) + 
-			 r.max_coord(i))/FT(2.0))
+			 r.max_coord(i))/FT(2.0)) {
 	      if (the_weights[i] * ((*qit) - 
 				    r.min_coord(i)) > distance)
 		distance = the_weights[i] * 
@@ -169,6 +169,7 @@ namespace CGAL {
 		    (r.max_coord(i) - (*qit)) > distance)
 		  distance = the_weights[i] * 
 		    ( r.max_coord(i)-(*qit));
+            }
 	  }
 	}
       else

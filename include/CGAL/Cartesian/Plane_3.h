@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h $
-// $Id: Plane_3.h 29078 2006-03-06 13:08:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h $
+// $Id: Plane_3.h 33070 2006-08-06 16:06:39Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -41,7 +41,6 @@ class PlaneC3
   typedef typename R_::Ray_3                Ray_3;
   typedef typename R_::Segment_3            Segment_3;
   typedef typename R_::Plane_3              Plane_3;
-  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
   typedef typename R_::Construct_point_3    Construct_point_3;
   typedef typename R_::Construct_point_2    Construct_point_2;
 
@@ -112,16 +111,6 @@ public:
 
   Point_2      to_2d(const Point_3 &p) const;
   Point_3      to_3d(const Point_2 &p) const;
-
-  Plane_3      transform(const Aff_transformation_3 &t) const
-  {
-    if (t.is_even())
-      return PlaneC3<R>(t.transform(point()),
-                 t.transpose().inverse().transform(orthogonal_direction()));
-    else
-      return PlaneC3<R>( t.transform(point()),
-               - t.transpose().inverse().transform(orthogonal_direction()));
-  }
 
   Oriented_side oriented_side(const Point_3 &p) const;
   bool         has_on_positive_side(const Point_3 &l) const;
@@ -293,55 +282,6 @@ is_degenerate() const
   return CGAL_NTS is_zero(a()) && CGAL_NTS is_zero(b()) &&
          CGAL_NTS is_zero(c());
 }
-
-#ifndef CGAL_NO_OSTREAM_INSERT_PLANEC3
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const PlaneC3<R> &p)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << p.a() << ' ' << p.b() <<  ' ' << p.c() << ' ' << p.d();
-    case IO::BINARY :
-        write(os, p.a());
-        write(os, p.b());
-        write(os, p.c());
-        write(os, p.d());
-        return os;
-        default:
-            os << "PlaneC3(" << p.a() <<  ", " << p.b() <<   ", ";
-            os << p.c() << ", " << p.d() <<")";
-            return os;
-    }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_PLANEC3
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_PLANEC3
-template < class R >
-std::istream &
-operator>>(std::istream &is, PlaneC3<R> &p)
-{
-    typename R::FT a, b, c, d;
-    switch(is.iword(IO::mode)) {
-    case IO::ASCII :
-        is >> a >> b >> c >> d;
-        break;
-    case IO::BINARY :
-        read(is, a);
-        read(is, b);
-        read(is, c);
-        read(is, d);
-        break;
-    default:
-        std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-        break;
-    }
-    if (is)
-	p = PlaneC3<R>(a, b, c, d);
-    return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_PLANEC3
 
 CGAL_END_NAMESPACE
 

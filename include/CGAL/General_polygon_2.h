@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/include/CGAL/General_polygon_2.h $
-// $Id: General_polygon_2.h 28830 2006-02-27 14:26:55Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/General_polygon_2.h $
+// $Id: General_polygon_2.h 37688 2007-03-29 18:18:07Z afabri $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -55,13 +55,21 @@ public:
   void init(CurveIterator begin, CurveIterator end)
   {
     m_xcurves.clear();
+#ifdef CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG
+    std::copy(begin, end, std::back_inserter(m_xcurves));
+#else
     m_xcurves.insert(m_xcurves.end(), begin, end);
+#endif
   }
 
   template <class CurveIterator>
   void insert(CurveIterator begin, CurveIterator end)
   {
+#ifdef CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG
+    std::copy(begin, end, std::back_inserter(m_xcurves));
+#else
     m_xcurves.insert(m_xcurves.end(), begin, end);
+#endif
   }
 
   bool is_empty() const

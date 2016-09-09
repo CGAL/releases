@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Nef_2/PM_overlayer.h $
-// $Id: PM_overlayer.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/PM_overlayer.h $
+// $Id: PM_overlayer.h 35730 2007-01-15 17:51:17Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -544,7 +544,7 @@ avoid the simplification for edge pairs referenced by |e|.}*/
       delete_halfedge_pair(e);
     }
   }
-
+  
   CGAL::Unique_hash_map<Halfedge_handle,bool> linked(false);
   for (e = this->halfedges_begin(); e != eend; ++e) {
     if ( linked[e] ) continue;
@@ -553,7 +553,13 @@ avoid the simplification for edge pairs referenced by |e|.}*/
     Face_handle f = *(unify_faces.find(Pitem[face(e)]));
     CGAL_For_all(hfc,hend) {
       set_face(hfc,f);
-      if ( K.compare_xy(point(target(hfc)), point(target(e_min))) < 0 )
+      if(target(hfc) == target(e_min)) {
+	Point p1 = point(source(hfc)), 
+          p2 = point(target(hfc)), 
+          p3 = point(target(next(hfc)));
+	if (!K.left_turn(p1,p2,p3) )
+	  e_min = hfc;
+      } else if ( K.compare_xy(point(target(hfc)), point(target(e_min))) < 0 )
         e_min = hfc;
       linked[hfc]=true;
     }
@@ -711,7 +717,13 @@ void create_face_objects(const Below_info& D) const
     CGAL_NEF_TRACE("face cycle "<<i<<"\n");
     CGAL_For_all(hfc,hend) {
       FaceCycle[hfc]=i; // assign face cycle number
-      if ( K.compare_xy(point(target(hfc)), point(target(e_min))) < 0 )
+      if(target(hfc) == target(e_min)) {
+	Point p1 = point(source(hfc)), 
+          p2 = point(target(hfc)), 
+          p3 = point(target(next(hfc)));
+	if (!K.left_turn(p1,p2,p3) )
+	  e_min = hfc;
+      } else if ( K.compare_xy(point(target(hfc)), point(target(e_min))) < 0 )
         e_min = hfc;
       CGAL_NEF_TRACE(PE(hfc));
     } 
@@ -727,7 +739,7 @@ void create_face_objects(const Below_info& D) const
           p2 = point(target(e)), 
           p3 = point(target(next(e)));
     if ( K.left_turn(p1,p2,p3) ) { // left_turn => outer face cycle
-        CGAL_NEF_TRACEN("  creating new face object");
+      CGAL_NEF_TRACEN("  creating new face object");
       Face_handle f = this->new_face();
       link_as_outer_face_cycle(f,e);
     }
@@ -766,16 +778,14 @@ void create_face_objects_pl(const Below_info& D) const
     CGAL_NEF_TRACE("face cycle "<<i<<"\n");
     CGAL_For_all(hfc,hend) {
       FaceCycle[hfc]=i; // assign face cycle number
-      int comp = K.compare_xy(point(target(hfc)), point(target(e_min)));
-      if ( comp < 0 )
+      if(target(hfc) == target(e_min)) {
+	Point p1 = point(source(hfc)), 
+          p2 = point(target(hfc)), 
+          p3 = point(target(next(hfc)));
+	if (!K.left_turn(p1,p2,p3) )
+	  e_min = hfc;
+      } else if ( K.compare_xy(point(target(hfc)), point(target(e_min))) < 0 )
         e_min = hfc;
-      else if(comp == 0) {
-	Point p1 = point(source(e_min)), 
-          p2 = point(target(e_min)), 
-          p3 = point(target(next(e_min)));
-	if(K.left_turn(p1,p2,p3))
-	   e_min = hfc;
-      }
       CGAL_NEF_TRACE(PE(hfc));
     } 
     CGAL_NEF_TRACEN("");
@@ -790,7 +800,8 @@ void create_face_objects_pl(const Below_info& D) const
           p2 = point(target(e)), 
           p3 = point(target(next(e)));
     if ( K.left_turn(p1,p2,p3) ) { // left_turn => outer face cycle
-        CGAL_NEF_TRACEN("  creating new face object");
+      CGAL_NEF_TRACEN("  creating new face object");
+      Halfedge_around_face_circulator hfc(e),hend(hfc);
       Face_handle f = this->new_face();
       link_as_outer_face_cycle(f,e);
     }

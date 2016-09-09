@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_recent_edges_visitor_2.h $
-// $Id: Delaunay_triangulation_recent_edges_visitor_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_recent_edges_visitor_2.h $
+// $Id: Delaunay_triangulation_recent_edges_visitor_2.h 36012 2007-02-02 02:13:42Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -21,25 +21,26 @@
 #ifndef CGAL_KINETIC_DELAUNAY_TRIANGULATION_2_RE_WATCHER_BASE_H
 #define CGAL_KINETIC_DELAUNAY_TRIANGULATION_2_RE_WATCHER_BASE_H
 #include <CGAL/Kinetic/basic.h>
+#include <CGAL/Kinetic/Delaunay_triangulation_visitor_base_2.h>
 #include <set>
 
 CGAL_KINETIC_BEGIN_NAMESPACE
 
 template <class Triangulation>
-struct Delaunay_triangulation_recent_edges_visitor_2
+struct Delaunay_triangulation_recent_edges_visitor_2: public Delaunay_triangulation_visitor_base_2
 {
   typedef typename Triangulation::Edge Edge;
   typedef typename Triangulation::Vertex_handle VH;
   Delaunay_triangulation_recent_edges_visitor_2(){}
 
-  void remove_vertex(VH) {
+  void pre_remove_vertex(VH) {
     recent_.clear();
   }
-  void create_vertex(VH) {
+  void post_insert_vertex(VH) {
     recent_.clear();
   }
 
-  void modify_vertex(VH vh) {
+  void change_vertex(VH vh) {
     recent_.clear();
     typename Triangulation::Edge_circulator ec= vh->incident_edges(), ef=ec;
     if (ec != NULL) {
@@ -50,18 +51,10 @@ struct Delaunay_triangulation_recent_edges_visitor_2
     }
   }
 
-  template <class It>
-  void create_faces(It, It) {
-  }
-
-  template <class It>
-  void remove_faces(It, It) {
-  }
-
-  void before_flip(Edge) {
+  void pre_flip(Edge) {
     recent_.clear();
   }
-  void after_flip(Edge e) {
+  void post_flip(Edge e) {
     recent_.insert(e);
   }
 

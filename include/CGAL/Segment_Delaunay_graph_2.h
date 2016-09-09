@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2.h $
-// $Id: Segment_Delaunay_graph_2.h 31133 2006-05-14 21:49:19Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2.h $
+// $Id: Segment_Delaunay_graph_2.h 37157 2007-03-16 10:49:14Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -33,19 +33,17 @@
 #include <CGAL/Segment_Delaunay_graph_2/basic.h>
 
 #include <CGAL/Triangulation_2.h>
-#include <CGAL/Segment_Delaunay_graph_site_2.h>
+#include <CGAL/Segment_Delaunay_graph_storage_traits_2.h>
+#include <CGAL/Segment_Delaunay_graph_vertex_base_2.h>
 #include <CGAL/Triangulation_data_structure_2.h>
 #include <CGAL/Triangulation_face_base_2.h>
-#include <CGAL/Segment_Delaunay_graph_vertex_base_2.h>
-
-#include <CGAL/Segment_Delaunay_graph_2/Constructions_C2.h>
 
 #include <CGAL/in_place_edge_list.h>
 #include <CGAL/Segment_Delaunay_graph_2/edge_list.h>
 #include <CGAL/Segment_Delaunay_graph_2/Traits_wrapper_2.h>
+#include <CGAL/Segment_Delaunay_graph_2/Constructions_C2.h>
 
 #include <CGAL/Iterator_project.h>
-#include <CGAL/Segment_Delaunay_graph_2/Simple_container_wrapper.h>
 
 
 /*
@@ -64,13 +62,15 @@
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
 
-  template<typename Edge, typename LTag> struct SDG_which_list;
+namespace Internal {
+
+  template<typename Edge, typename LTag> struct Which_list;
 
   // use the in-place edge list
   template<typename E>
-  struct SDG_which_list<E,Tag_true>
+  struct Which_list<E,Tag_true>
   {
     typedef E                           Edge;
     typedef In_place_edge_list<Edge>    List;
@@ -78,7 +78,7 @@ namespace CGALi {
 
   // do not use the in-place edge list
   template<typename E>
-  struct SDG_which_list<E,Tag_false>
+  struct Which_list<E,Tag_false>
   {
     typedef E                                 Edge;
     // change the following to Tag_false in order to use
@@ -89,7 +89,7 @@ namespace CGALi {
 
 
   template < class Node >
-  struct Sdg_project_site_2 {
+  struct Project_site_2 {
     typedef Node                   argument_type;
     typedef typename Node::Site_2  Site;
     typedef Site                   result_type;
@@ -102,7 +102,7 @@ namespace CGALi {
   };
 
   template < class Node, class Site_t >
-  struct Sdg_project_input_to_site_2 {
+  struct Project_input_to_site_2 {
     typedef Node                   argument_type;
     typedef Site_t                 Site;
     typedef Site                   result_type;
@@ -120,30 +120,47 @@ namespace CGALi {
     }
   };
 
-} // namespace CGALi
+  template<typename T, typename U>
+  struct Check_type_equality_for_info
+  {
+    Check_type_equality_for_info()
+    {
+      ERROR__INFO_TYPES_OF_insert_AND_Storage_traits_with_info_2_MUST_MATCH
+	(T(), U());
+    }
+  };
+
+  template<typename T>
+  struct Check_type_equality_for_info<T,T>
+  {
+  };
+
+} // namespace Internal
+
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
 
 
-template<class Gt, class STag, class DS, class LTag >
+template<class Gt, class ST, class STag, class DS, class LTag >
 class Segment_Delaunay_graph_hierarchy_2;
 
 
 
 template<class Gt,
+	 class ST = Segment_Delaunay_graph_storage_traits_2<Gt>,
 	 class DS = Triangulation_data_structure_2 < 
-                Segment_Delaunay_graph_vertex_base_2<Gt,
-			    typename Gt::Intersections_tag>,
+                Segment_Delaunay_graph_vertex_base_2<ST>,
                 Triangulation_face_base_2<Gt> >,
 	 class LTag = Tag_false >
 class Segment_Delaunay_graph_2
   : private Triangulation_2<
           Segment_Delaunay_graph_traits_wrapper_2<Gt>, DS >
 {
-  friend class Segment_Delaunay_graph_hierarchy_2<Gt,Tag_true,DS,LTag>;
-  friend class Segment_Delaunay_graph_hierarchy_2<Gt,Tag_false,DS,LTag>;
+  friend class Segment_Delaunay_graph_hierarchy_2<Gt,ST,Tag_true,DS,LTag>;
+  friend class Segment_Delaunay_graph_hierarchy_2<Gt,ST,Tag_false,DS,LTag>;
 protected:
   // LOCAL TYPES
   //------------
-  typedef Segment_Delaunay_graph_2<Gt,DS,LTag>         Self;
+  typedef Segment_Delaunay_graph_2<Gt,ST,DS,LTag>       Self;
 
   typedef Segment_Delaunay_graph_traits_wrapper_2<Gt>   Modified_traits;
   typedef Triangulation_2<Modified_traits,DS>           DG;
@@ -157,6 +174,7 @@ public:
   typedef DS                                     Data_structure;
   typedef DS                                     Triangulation_data_structure;
   typedef Gt                                     Geom_traits;
+  typedef ST                                     Storage_traits;
   typedef typename Gt::Site_2                    Site_2;
   typedef typename Gt::Point_2                   Point_2;
 
@@ -165,6 +183,8 @@ public:
   typedef typename DS::Face_handle               Face_handle;
   typedef typename DS::Vertex                    Vertex;
   typedef typename DS::Face                      Face;
+
+  typedef typename DS::size_type                 size_type;
 
   typedef typename DS::Vertex_circulator         Vertex_circulator;
   typedef typename DS::Edge_circulator           Edge_circulator;
@@ -178,30 +198,29 @@ public:
   typedef typename DG::Finite_vertices_iterator  Finite_vertices_iterator;
   typedef typename DG::Finite_edges_iterator     Finite_edges_iterator;
 
+  typedef typename Storage_traits::Point_container     Point_container;
+  typedef typename Storage_traits::Point_handle        Point_handle;
+  typedef typename Storage_traits::const_Point_handle  const_Point_handle;
+
 protected:
   typedef typename Geom_traits::Arrangement_type_2  AT2;
   typedef typename AT2::Arrangement_type            Arrangement_type;
 
-  typedef std::set<Point_2>                      PC;
-  typedef typename PC::iterator                  PH;
-
-
   // these containers should have point handles and should replace the
   // point container...
-  typedef boost::tuples::tuple<PH,PH,bool>       Site_rep_2;
-  //  typedef Triple<PH,PH,bool>                     Site_rep_2;
+  typedef boost::tuples::tuple<Point_handle,Point_handle,bool>  Site_rep_2;
 
   struct Site_rep_less_than {
     // less than for site reps
     bool operator()(const Site_rep_2& x, const Site_rep_2& y) const {
-      PH x1 = boost::tuples::get<0>(x);
-      PH y1 = boost::tuples::get<0>(y);
+      Point_handle x1 = boost::tuples::get<0>(x);
+      Point_handle y1 = boost::tuples::get<0>(y);
 
       if ( &(*x1) < &(*y1) ) { return true; }
       if ( &(*y1) < &(*x1) ) { return false; }
 
-      PH x2 = boost::tuples::get<1>(x);
-      PH y2 = boost::tuples::get<1>(y);
+      Point_handle x2 = boost::tuples::get<1>(x);
+      Point_handle y2 = boost::tuples::get<1>(y);
 
       return &(*x2) < &(*y2);
     }
@@ -211,19 +230,13 @@ protected:
   typedef typename Input_sites_container::const_iterator
   All_inputs_iterator;
 
-  typedef CGALi::Sdg_project_input_to_site_2<Site_rep_2, Site_2>
+  typedef
+  CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Internal::
+  Project_input_to_site_2<Site_rep_2, Site_2>
   Proj_input_to_site;
 
-public:
-  typedef Simple_container_wrapper<PC>           Point_container;
-  typedef typename Point_container::iterator     Point_handle;
-
-  typedef typename DS::size_type                 size_type;
-
-protected:
-  typedef CGALi::Sdg_project_site_2<Vertex>      Proj_site;
-
-  typedef typename Point_container::const_iterator const_Point_handle;
+  typedef CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Internal::Project_site_2<Vertex>
+  Proj_site;
 
   struct Point_handle_less_than {
     // less than
@@ -250,6 +263,7 @@ protected:
   // the container of points
   Point_container pc_;
   Input_sites_container isc_;
+  Storage_traits st_;
 
 protected:
   // MORE LOCAL TYPES
@@ -270,19 +284,25 @@ protected:
 
   typedef std::pair<Face_handle,Face_handle>    Face_pair;
 
-  typedef typename Data_structure::Vertex::Storage_site_2   Storage_site_2;
+  typedef typename Storage_traits::Storage_site_2   Storage_site_2;
 
   // the edge list
-  typedef typename CGALi::SDG_which_list<Edge,List_tag>::List  List;
+  typedef typename
+  CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Internal::Which_list<Edge,List_tag>::List 
+  List;
 
 public:
   // CREATION
   //---------
-  Segment_Delaunay_graph_2(const Gt& gt=Gt()) : DG(gt) {}
+  Segment_Delaunay_graph_2(const Geom_traits& gt = Geom_traits(),
+			   const Storage_traits& st = Storage_traits())
+    : DG(gt), st_(st) {}
 
   template< class Input_iterator >
   Segment_Delaunay_graph_2(Input_iterator first, Input_iterator beyond,
-			   const Gt& gt=Gt()) : DG(gt)
+			   const Geom_traits& gt = Geom_traits(),
+			   const Storage_traits& st = Storage_traits())
+    : DG(gt), st_(st)
   {
     insert(first, beyond);
   }
@@ -294,6 +314,8 @@ public:
   // ACCESS METHODS
   // --------------
   const Geom_traits&  geom_traits() const { return DG::geom_traits(); }
+
+  const Storage_traits&  storage_traits() const { return st_; }
 
   const Data_structure&   data_structure() const { return this->_tds; }
   const Triangulation_data_structure& tds() const { return this->_tds; }
@@ -482,14 +504,14 @@ public:
   inline Vertex_handle insert(const Point_2& p) {
     // update input site container
     Point_handle ph = register_input_site(p);
-    Storage_site_2 ss = Storage_site_2::construct_storage_site_2(ph);
+    Storage_site_2 ss = st_.construct_storage_site_2_object()(ph);
     return insert_point(ss, p, Vertex_handle());
   }
 
   inline Vertex_handle insert(const Point_2& p, Vertex_handle vnear) {
     // update input site container
     Point_handle ph = register_input_site(p);
-    Storage_site_2 ss = Storage_site_2::construct_storage_site_2(ph);
+    Storage_site_2 ss = st_.construct_storage_site_2_object()(ph);
     return insert_point(ss, p, vnear);
   }
 
@@ -508,7 +530,7 @@ public:
     // update input site container
     Point_handle_pair php = register_input_site(p0, p1);
     Storage_site_2 ss =
-      Storage_site_2::construct_storage_site_2(php.first, php.second);
+      st_.construct_storage_site_2_object()(php.first, php.second);
     Vertex_handle v = insert_segment(ss, Site_2::construct_site_2(p0, p1),
 				     Vertex_handle());
     if ( v == Vertex_handle() ) {
@@ -526,7 +548,7 @@ public:
 
     Point_handle h0 = v0->storage_site().point();
     Point_handle h1 = v1->storage_site().point();
-    Storage_site_2 ss = Storage_site_2::construct_storage_site_2(h0, h1);
+    Storage_site_2 ss = st_.construct_storage_site_2_object()(h0, h1);
 
     // update input site container
     Point_handle_pair php = register_input_site(h0, h1);
@@ -547,7 +569,7 @@ public:
     // update input site container
     Point_handle_pair php = register_input_site(p0, p1);
     Storage_site_2 ss =
-      Storage_site_2::construct_storage_site_2(php.first, php.second);
+      st_.construct_storage_site_2_object()(php.first, php.second);
     Vertex_handle v =
       insert_segment(ss, Site_2::construct_site_2(p0, p1), vnear);
     if ( v == Vertex_handle() ) {
@@ -556,11 +578,11 @@ public:
     return v;
   }
 
-  inline Vertex_handle  insert(const Site_2& t) {
+  inline Vertex_handle insert(const Site_2& t) {
     return insert(t, Vertex_handle());
   }
 
-  Vertex_handle  insert(const Site_2& t, Vertex_handle vnear)
+  Vertex_handle insert(const Site_2& t, Vertex_handle vnear)
   {
     // the intended use is to unify the calls to insert(...);
     // thus the site must be an exact one; 
@@ -573,7 +595,7 @@ public:
 	register_input_site( t.source_of_supporting_site(),
 			     t.target_of_supporting_site() );
       Storage_site_2 ss =
-	Storage_site_2::construct_storage_site_2(php.first, php.second);
+	st_.construct_storage_site_2_object()(php.first, php.second);
       Vertex_handle v = insert_segment(ss, t, vnear);
       if ( v == Vertex_handle() ) {
 	unregister_input_site( php.first, php.second );
@@ -581,7 +603,114 @@ public:
       return v;
     } else if ( t.is_point() ) {
       Point_handle ph = register_input_site( t.point() );
-      Storage_site_2 ss = Storage_site_2::construct_storage_site_2(ph);
+      Storage_site_2 ss = st_.construct_storage_site_2_object()(ph);
+      return insert_point(ss, t.point(), vnear);
+    } else {
+      CGAL_precondition ( t.is_defined() );
+      return Vertex_handle(); // to avoid compiler error
+    }
+  }
+
+protected:
+  template<class SSite>
+  inline void convert_info1(SSite& ss_trg, const SSite& ss_src,
+			    bool is_src, int,
+			    typename SSite::Has_info_tag const* = 0) const
+  {
+    //    std::cerr << "converting info..." << std::flush;
+    typename Storage_traits::Convert_info convert = st_.convert_info_object();
+
+    ss_trg.set_info( convert(ss_src.info(), is_src) );
+    //    std::cerr << " done!" << std::endl;
+  }
+
+  template<class SSite>
+  inline void convert_info1(SSite& /*  ss_trg */,
+			    const SSite& /* ss_src */, bool, char) const
+  {
+  }
+
+  void convert_info(Storage_site_2& ss_trg,
+		    const Storage_site_2& ss_src, bool is_src) const {
+    CGAL_precondition( ss_src.is_segment() && ss_trg.is_point() );
+    CGAL_precondition( ss_src.is_input() && ss_trg.is_input() );
+    CGAL_assertion( (is_src && same_points(ss_src.source_site(), ss_trg)) ||
+		    (!is_src && same_points(ss_src.target_site(), ss_trg))
+		    );
+    convert_info1(ss_trg, ss_src, is_src, 0);
+  }
+
+  template<class SSite>
+  inline void merge_info1(Vertex_handle v, const SSite& ss, int,
+			  typename SSite::Has_info_tag const* = 0)
+  {
+    //    std::cerr << "merging info..." << std::flush;
+    Storage_site_2 ss_v = v->storage_site();
+
+    typename Storage_traits::Merge_info merge = st_.merge_info_object();
+
+    ss_v.set_info( merge(ss_v.info(), ss.info()) );
+    v->set_site(ss_v);
+    //    std::cerr << " done!" << std::endl;
+  }
+
+  template<class SSite>
+  inline void merge_info1(Vertex_handle, const SSite&, char) const
+  {
+  }
+
+  // merges the info of the storage site of the vertex handle with the
+  // info of the given site; the vertex_handle contains the storage
+  // site with the new info
+  inline void merge_info(Vertex_handle v, const Storage_site_2& ss)  {
+    CGAL_precondition( (v->storage_site().is_segment() &&
+			ss.is_segment() &&
+			same_segments(v->site(), ss.site())) ||
+		       (v->storage_site().is_point() &&
+			ss.is_point() &&
+			same_points(v->site(), ss.site())) ||
+    		       (v->storage_site().is_point() &&	ss.is_segment())
+    		       );
+    merge_info1(v, ss, 0);
+  }
+
+public:
+  template<typename Info_t>
+  inline Vertex_handle insert(const Site_2& t,
+			      const Info_t& info) {
+    return insert(t, info, Vertex_handle());
+  }
+
+  template<typename Info_t>
+  Vertex_handle insert(const Site_2& t,
+		       const Info_t& info,
+		       Vertex_handle vnear)
+  {
+    typedef typename Storage_traits::Info Info;
+    CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Internal::
+      Check_type_equality_for_info<Info_t, Info>();
+    // the intended use is to unify the calls to insert(...);
+    // thus the site must be an exact one; 
+    CGAL_precondition( t.is_input() );
+
+    // update input site container
+
+    if ( t.is_segment() ) {
+      Point_handle_pair php =
+	register_input_site( t.source_of_supporting_site(),
+			     t.target_of_supporting_site() );
+      Storage_site_2 ss =
+	st_.construct_storage_site_2_object()(php.first, php.second);
+      ss.set_info(info);
+      Vertex_handle v = insert_segment(ss, t, vnear);
+      if ( v == Vertex_handle() ) {
+	unregister_input_site( php.first, php.second );
+      }
+      return v;
+    } else if ( t.is_point() ) {
+      Point_handle ph = register_input_site( t.point() );
+      Storage_site_2 ss = st_.construct_storage_site_2_object()(ph);
+      ss.set_info(info);
       return insert_point(ss, t.point(), vnear);
     } else {
       CGAL_precondition ( t.is_defined() );
@@ -600,7 +729,7 @@ protected:
   void minimize_degree(const Vertex_handle& v);
 
   // this method does not really do the job as intended, i.e., for removal
-  void equalize_degrees(const Vertex_handle& v, Self& small,
+  void equalize_degrees(const Vertex_handle& v, Self& small_d,
 			std::map<Vertex_handle,Vertex_handle>& vmap,
 			List& l) const;
 
@@ -655,15 +784,15 @@ protected:
 
   size_type count_faces(const List& l) const;
 
-  void fill_hole(const Self& small, const Vertex_handle& v, const List& l,
+  void fill_hole(const Self& small_d, const Vertex_handle& v, const List& l,
 		 std::map<Vertex_handle,Vertex_handle>& vmap);
 
   bool remove_first(const Vertex_handle& v);
   bool remove_second(const Vertex_handle& v);
   bool remove_third(const Vertex_handle& v);
 
-  void compute_small_diagram(const Vertex_handle& v, Self& small) const;
-  void compute_vertex_map(const Vertex_handle& v, const Self& small,
+  void compute_small_diagram(const Vertex_handle& v, Self& small_d) const;
+  void compute_vertex_map(const Vertex_handle& v, const Self& small_d,
 			  std::map<Vertex_handle,Vertex_handle>& vmap) const;
   void remove_degree_d_vertex(const Vertex_handle& v);
 
@@ -679,7 +808,7 @@ protected:
     typename Input_sites_container::iterator it = isc_.find(rep);
     CGAL_assertion( it != isc_.end() );
 
-    pc_.remove(h);
+    pc_.erase(h);
     isc_.erase(it);
   }
 
@@ -706,7 +835,7 @@ protected:
 
   inline Point_handle register_input_site(const Point_2& p)
   {
-    std::pair<PH,bool> it = pc_.insert(p);
+    std::pair<Point_handle,bool> it = pc_.insert(p);
     Site_rep_2 rep(it.first, it.first, true);
     isc_.insert( rep );
     return it.first;
@@ -715,8 +844,8 @@ protected:
   inline
   Point_handle_pair register_input_site(const Point_2& p0, const Point_2& p1)
   {
-    std::pair<PH,bool> it1 = pc_.insert(p0);
-    std::pair<PH,bool> it2 = pc_.insert(p1);
+    std::pair<Point_handle,bool> it1 = pc_.insert(p0);
+    std::pair<Point_handle,bool> it2 = pc_.insert(p1);
     Site_rep_2 rep(it1.first, it2.first, false);
     isc_.insert( rep );
     return Point_handle_pair(it1.first, it2.first);
@@ -1018,89 +1147,17 @@ protected:
 protected:
   // HELPER METHODS FOR CREATING STORAGE SITES
   //------------------------------------------
-#if 0
-  inline Storage_site_2 create_storage_site(const Point_2& p) {
-    Point_handle ph = pc_.insert(p).first;
-    return Storage_site_2::construct_storage_site_2(ph);
-  }
-
-  inline Storage_site_2 create_storage_site(Vertex_handle v0,
-					    Vertex_handle v1) {
-    return Storage_site_2::construct_storage_site_2
-      ( v0->storage_site().point(), v1->storage_site().point() );
-  }
-#endif
-
   inline
   Storage_site_2 split_storage_site(const Storage_site_2& ss0,
 				    const Storage_site_2& ss1,
-				    unsigned int i, const Tag_false&)
+				    bool first)
   {
     // Split the first storage site which is a segment using the
     // second storage site which is an exact point
     // i denotes whether the first or second half is to be created
     CGAL_precondition( ss0.is_segment() && ss1.is_point() );
-    CGAL_precondition( ss1.is_input() );
-    CGAL_precondition( i < 2 );
 
-    if ( i == 0 ) {
-      return Storage_site_2::construct_storage_site_2
-	(ss0.source_of_supporting_site(), ss1.point());
-    } else {
-      return Storage_site_2::construct_storage_site_2
-	(ss1.point(), ss0.target_of_supporting_site());
-    }
-  }
-
-  Storage_site_2 split_storage_site(const Storage_site_2& ss0,
-				    const Storage_site_2& ss1,
-				    unsigned int i, const Tag_true&);
-
-  inline
-  Storage_site_2 create_storage_site(const Storage_site_2& ss0,
-				     const Storage_site_2& ss1) {
-    return Storage_site_2::construct_storage_site_2
-      ( ss0.source_of_supporting_site(),
-	ss0.target_of_supporting_site(),
-	ss1.source_of_supporting_site(),
-	ss1.target_of_supporting_site() );
-  }
-
-  inline
-  Storage_site_2 create_storage_site(const Storage_site_2& ss0,
-				     const Storage_site_2& ss1,
-				     bool is_first_exact) {
-    return Storage_site_2::construct_storage_site_2
-      ( ss0.source_of_supporting_site(),
-	ss0.target_of_supporting_site(),
-	ss1.source_of_supporting_site(),
-	ss1.target_of_supporting_site(), is_first_exact );
-  }
-
-  inline
-  Storage_site_2 create_storage_site_type1(const Storage_site_2& ss0,
-					   const Storage_site_2& ss1,
-					   const Storage_site_2& ss2) {
-    return Storage_site_2::construct_storage_site_2
-      ( ss0.source_of_supporting_site(),
-	ss0.target_of_supporting_site(),
-	ss1.source_of_crossing_site(0),
-	ss1.target_of_crossing_site(0),
-	ss2.source_of_supporting_site(),
-	ss2.target_of_supporting_site() );
-  }
-
-  inline
-  Storage_site_2 create_storage_site_type2(const Storage_site_2& ss0,
-					   const Storage_site_2& ss1,
-					   const Storage_site_2& ss2) {
-    return Storage_site_2::construct_storage_site_2
-      ( ss0.source_of_supporting_site(),
-	ss0.target_of_supporting_site(),
-	ss1.source_of_supporting_site(),
-	ss1.target_of_supporting_site(),
-	ss2.source_of_crossing_site(1),
-	ss2.target_of_crossing_site(1) );
+    return st_.construct_storage_site_2_object()(ss0, ss1, first);
   }
 
 public:
@@ -1181,16 +1238,21 @@ protected:
   //-------------------------------------------
 
   // types
-  typedef CGAL::Construct_sdg_circle_2<Gt,Ring_tag>
+  typedef
+  CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Construct_sdg_circle_2<Gt,Integral_domain_without_division_tag>
   Construct_sdg_circle_2;
 
-  typedef CGAL::Construct_sdg_bisector_2<Gt,Ring_tag>
+  typedef
+  CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Construct_sdg_bisector_2<Gt,Integral_domain_without_division_tag>
   Construct_sdg_bisector_2;
 
-  typedef CGAL::Construct_sdg_bisector_ray_2<Gt,Ring_tag>
+  typedef
+  CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Construct_sdg_bisector_ray_2<Gt,Integral_domain_without_division_tag>
   Construct_sdg_bisector_ray_2;
 
-  typedef CGAL::Construct_sdg_bisector_segment_2<Gt,Ring_tag>
+  typedef
+  CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::
+  Construct_sdg_bisector_segment_2<Gt,Integral_domain_without_division_tag>
   Construct_sdg_bisector_segment_2;
 
   // access
@@ -1651,10 +1713,7 @@ std::ostream& operator<<(std::ostream& os,
 CGAL_END_NAMESPACE
 
 
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
-#  include <CGAL/Segment_Delaunay_graph_2.C>
-#endif
-
+#include <CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h>
 
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_2_H

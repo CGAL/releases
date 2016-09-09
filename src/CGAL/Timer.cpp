@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Timer/src/CGAL/Timer.cpp $
-// $Id: Timer.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Timer/src/CGAL/Timer.cpp $
+// $Id: Timer.cpp 33359 2006-08-16 21:27:04Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>  
@@ -123,7 +123,7 @@ double Timer::precision() const {
     return prec;
 }
 
-double Timer::max() const { 
+double Timer::max BOOST_PREVENT_MACRO_SUBSTITUTION () const { 
     // Depends on the operating system.
 #ifdef CGAL__GETRUSAGE
     return DBL_MAX;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_yz_3.h $
-// $Id: Triangulation_euclidean_traits_yz_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_yz_3.h $
+// $Id: Triangulation_euclidean_traits_yz_3.h 37361 2007-03-21 15:29:30Z cdelage $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -76,6 +76,8 @@ public:
   typedef typename Rp::Segment_3   Segment_2;
   typedef typename Rp::Triangle_3  Triangle_2;
   
+  typedef typename Rp::Less_y_3             Less_x_2;
+  typedef typename Rp::Less_z_3             Less_y_2;
   typedef typename Rp::Compare_y_3          Compare_x_2;
   typedef typename Rp::Compare_z_3          Compare_y_2;
   typedef Orientation_yz_3<Rp>              Orientation_2;
@@ -98,6 +100,14 @@ public:
   typename Rp::FT y(const Point_2 &p) const { return p.z(); }
     
  
+  Less_x_2
+  less_x_2_object() const
+    { return Less_x_2();}
+
+  Less_y_2
+  less_y_2_object() const
+    { return Less_y_2();}
+
   Compare_x_2
   compare_x_2_object() const
     { return Compare_x_2();}

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Optimisation_basic/include/CGAL/Optimisation_d_traits_2.h $
-// $Id: Optimisation_d_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Optimisation_basic/include/CGAL/Optimisation_d_traits_2.h $
+// $Id: Optimisation_d_traits_2.h 35794 2007-01-24 18:00:30Z spion $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
@@ -25,15 +25,9 @@
 #define CGAL_OPTIMISATION_D_TRAITS_2_H
 
 // includes
-#ifndef CGAL_OPTIMISATION_ACCESS_DIMENSION_2_H
 #  include <CGAL/Optimisation/Access_dimension_2.h>
-#endif
-#ifndef CGAL_OPTIMISATION_ACCESS_COORDINATES_BEGIN_2_H
 #  include <CGAL/Optimisation/Access_coordinates_begin_2.h>
-#endif
-#ifndef CGAL_OPTIMISATION_CONSTRUCT_POINT_2_H
 #  include <CGAL/Optimisation/Construct_point_2.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 

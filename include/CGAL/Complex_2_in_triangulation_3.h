@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2007  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesher/include/CGAL/Complex_2_in_triangulation_3.h $
-// $Id: Complex_2_in_triangulation_3.h 32109 2006-06-28 09:51:37Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Complex_2_in_triangulation_3.h $
+// $Id: Complex_2_in_triangulation_3.h 37916 2007-04-04 10:19:50Z lrineau $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -82,7 +82,8 @@ class Complex_2_in_triangulation_3 {
     {
     }
     
-    bool operator()(Vertex_handle v) const {
+    bool operator()(Vertex_handle v) const { // Takes as argument an iterator to a
+                                             // Vertex, convertible to Vertex_handle.
       return ! self->is_in_complex(v);
     }
   }; // end struct Vertex_not_in_complex
@@ -117,8 +118,32 @@ class Complex_2_in_triangulation_3 {
                           Iterator_not_in_complex> Facet_iterator;
   typedef Filter_iterator<typename Triangulation::Finite_edges_iterator,
                           Iterator_not_in_complex> Edge_iterator;
-  typedef Filter_iterator<typename Triangulation::Finite_vertices_iterator,
-                          Vertex_not_in_complex> Vertex_iterator;  
+
+  // class to ensure that Vertex_iterator is convertible to Vertex_handle
+  class Vertex_iterator : 
+    public Filter_iterator<typename Triangulation::Finite_vertices_iterator,
+                           Vertex_not_in_complex>
+  {
+    typedef typename Triangulation::Finite_vertices_iterator Tr_iterator;
+    typedef Filter_iterator<typename Triangulation::Finite_vertices_iterator,
+                            Vertex_not_in_complex> Base;
+    typedef typename Base::Predicate Predicate;
+    typedef Vertex_iterator Self;
+  public:
+    Vertex_iterator(Base i) : Base(i)
+    {
+    }
+
+    Self & operator++() { Base::operator++(); return *this; }
+    Self & operator--() { Base::operator--(); return *this; }
+    Self operator++(int) { Self tmp(*this); ++(*this); return tmp; }
+    Self operator--(int) { Self tmp(*this); --(*this); return tmp; }
+  
+    operator Vertex_handle() 
+    {
+      return Vertex_handle(this->base());
+    }
+  };
 
   typedef Filter_iterator<typename Triangulation::Finite_edges_iterator,
                           Iterator_not_on_boundary> Boundary_edges_iterator;
@@ -140,9 +165,15 @@ protected:
     }
   }
 
+public:
   Facet canonical_facet(Cell_handle c, int i) const {
     Cell_handle c2 = c->neighbor(i);
     return (c2 < c) ? std::make_pair(c2,c2->index(c)) : std::make_pair(c,i);
+  }
+
+  Facet opposite_facet(Facet f) const {
+    Cell_handle c2 = f.first->neighbor(f.second);
+    return std::make_pair(c2,c2->index(f.first));
   }
  public:
 
@@ -151,6 +182,12 @@ protected:
   Complex_2_in_triangulation_3 (Triangulation& t) 
     : tr(t), m_number_of_facets(0)
   {
+  }
+
+  void clear()
+  {
+    m_number_of_facets = 0;
+    edge_facet_counter.clear();
   }
 
   // Access functions
@@ -250,12 +287,6 @@ protected:
     return ( i != 0);
   }
 
-  // auxiliary function for 
-  // union_find_of_incident_facets(const Vertex_handle v, int&, int&)
-  void profile_union_find_of_incident_facets_cache_valid()
-  {
-    CGAL_PROFILER("number of c2t3 cache success");
-  }
   // extract the subset F of facets of the complex incident to v
   // set i to the number of facets in F
   // set j to the number of connected component of the adjacency graph
@@ -265,12 +296,9 @@ protected:
     {
       i = v->cached_number_of_incident_facets();
       j = v->cached_number_of_components();
-      profile_union_find_of_incident_facets_cache_valid();
       return;
     }
 
-    CGAL_PROFILER("number of c2t3 cache failure");
-    
     Union_find<Facet> facets;
     incident_facets(v, std::back_inserter(facets));
 
@@ -336,9 +364,9 @@ protected:
     }
   }
 
-  // MY TODO : turn this function into an internal function and rename it
-  // because it is not conform to what the doc says.
-  // The doc says that incident_facets should return a circulator
+  /** @TODO: document this class in the
+      SurfaceMeshComplex_2InTriangulation_3 concept.
+   */
   template <typename OutputIterator>
   OutputIterator incident_facets(const Vertex_handle v, OutputIterator it)
   {
@@ -351,55 +379,23 @@ protected:
     return it;
   }
 
-  // computes and returns the list of adjacent facets of f
-  // with the common Vertex_handle v
-  Facets adjacent_facets (const Facet& f, const Vertex_handle v) {
-    // TODO: review this function (Laurent Rineau)
-    Cell_handle c = f.first;
-    int i = f.second;
-    int iv = c->index(v);
-    Edge e[2];
+  /** This function assumes that the edge is regular. */
+  Facet neighbor(Facet f, int j) const 
+  {
+    const Cell_handle ch = f.first;
+    const int index = f.second;
+    const int i1  = tr.vertex_triple_index(index, tr. cw(j));
+    const int i2  = tr.vertex_triple_index(index, tr.ccw(j));
 
-    // search for the two other vertices than v in f
-    int k = 0;
-    for (int j = 0; j < 4; j++) {
-      if ( (j != i) && (j != iv) ){
-	e[k] = make_triple(c, iv, j);
-	k++;
-      }
-    }
+    Edge edge = Edge(ch, i1, i2);
+    CGAL_assertion(face_status(edge) == REGULAR);
 
-    Facets& lof1 =
-      (edge_facet_counter[make_ordered_pair(e[0].first->
-					    vertex(e[0].second),
-					    e[0].first->
-					    vertex(e[0].third))]).second;
-
-    Facets& lof2 =
-      (edge_facet_counter[make_ordered_pair(e[1].first->
-					    vertex(e[1].second),
-					    e[1].first->
-					    vertex(e[1].third))]).second;
-
-    Facets lof = typename Facets::list();
-
-    for (Facet_list_iterator it = lof1.begin();
-	 it != lof1.end();
-	 it++) {
-      lof.push_back(*it);
-    }
-
-    for (Facet_list_iterator it = lof2.begin();
-	 it != lof2.end();
-	 it++) {
-      lof.push_back(*it);
-    }
-
-    assert(!lof.empty());
-
-    lof.remove(f);
-
-    return lof;
+    typename Tr::Facet_circulator facet_circ = 
+      tr.incident_facets(edge, f);
+    do { 
+      ++facet_circ;
+    } while(! is_in_complex(*facet_circ) );
+    return opposite_facet(*facet_circ);
   }
 
   // Setting functions
@@ -409,72 +405,80 @@ protected:
   }
 
   void set_in_complex (const Cell_handle c, const int i) {
-    Cell_handle c2 = c->neighbor(i);
-    int i2 = c2->index(c);
-    Facet f = canonical_facet(c, i);
+    change_in_complex_status<true, false>(c, i);
+  }
 
-    // TODO the folowing code should be simplified
-    // unifying cases dim == 2 ou 3
-    if (tr.dimension() == 3) {
-      // if not already in the complex
-      if ( face_status (c, i) == NOT_IN_COMPLEX )
-      {
+  template <bool in_complex, bool force_modification>
+  void change_in_complex_status(const Cell_handle c, const int i)
+  {
+    // if not already in the complex
+    if ( force_modification || 
+         (in_complex ? 
+          face_status (c, i) == NOT_IN_COMPLEX
+          : face_status (c, i) != NOT_IN_COMPLEX) )
+    {
+      if(in_complex) 
         ++m_number_of_facets;
+      else
+        --m_number_of_facets;
 
-	c->set_facet_on_surface(i,true);
-	c2->set_facet_on_surface(i2,true);
+      Facet f = canonical_facet(c, i);
 
-	// update c2t3 for edges of f
-	// We consider only pairs made by vertices without i
-	for (int j = 0; j < 4; j++) {
-	  for (int k = j + 1; k < 4; k++) {
-	    if ( (i != j) && (i != k) ){
+      c->set_facet_on_surface(i, in_complex);
 
-	      const std::pair<Vertex_handle, Vertex_handle> e = 
-                make_ordered_pair(c->vertex(j),
-                                  c->vertex(k));
-
-	      (edge_facet_counter[e]).first++;
-	      (edge_facet_counter[e]).second.push_back(f); // @TODO: beurk.
-                                                           // Recode this!
-	    }
-	  }
-	}
-
-	// update c2t3 for vertices of f
-	for (int j = 0; j < 4; j++) {
-	  if (j != i)
-	    c->vertex(j)->invalidate_c2t3_cache();
-	}
+      switch( tr.dimension() )
+      {
+      case 3:
+        {
+          const Cell_handle& c2 = c->neighbor(i);
+          const int& i2 = c2->index(c);
+          c2->set_facet_on_surface(i2, in_complex);
+        }
+        break;
+      case 2:
+        break;
+      default:
+        CGAL_assertion(false);
       }
-    }
-    else if (tr.dimension() == 2) {
-      // if not already in the complex
-      if ( face_status (c, i) == NOT_IN_COMPLEX )
-      {
-        ++m_number_of_facets;
 
-	c->set_facet_on_surface(i,true);
+      const int dimension_plus_1 = tr.dimension() + 1;
 
-	for (int j = 0; j < 3; j++) {
-	  for (int k = j + 1; k < 3; k++) {
-	    if ( (i != j) && (i != k) ){
+      // update c2t3 for edges of f
+      // We consider only pairs made by vertices without i
+      for (int j = 0; j < dimension_plus_1; j++) {
+        for (int k = j + 1; k < dimension_plus_1; k++) {
+          if ( (i != j) && (i != k) ){
 
-	      const std::pair<Vertex_handle, Vertex_handle> e =
-		make_ordered_pair(c->vertex(j),
-                                  c->vertex(k));
+            const std::pair<Vertex_handle, Vertex_handle> e = 
+              make_ordered_pair(c->vertex(j),
+                                c->vertex(k));
 
-	      (edge_facet_counter[e]).first++;
-	      (edge_facet_counter[e]).second.push_back(f);
-	    }
-	  }
-	}
-	
-	//for each vertex of f
-	for (int j = 0; j < 3; j++) {
-	  if (j != i)
-	    c->vertex(j)->invalidate_c2t3_cache();
-	}
+            if(in_complex)
+            {
+              (edge_facet_counter[e]).first++;
+              (edge_facet_counter[e]).second.push_back(f); // @TODO: beurk.
+                                                           // Recode this!
+            }
+            else 
+            {
+              typename Edge_facet_counter::iterator it =
+                edge_facet_counter.find(e);
+
+              CGAL_assertion( it != edge_facet_counter.end() );
+              
+	      if(--(it->second.first) > 0)
+                it->second.second.remove(f);
+              else
+                edge_facet_counter.erase(it);
+            }              
+          }
+        }
+      }
+
+      // update c2t3 for vertices of f
+      for (int j = 0; j < dimension_plus_1; j++) {
+        if (j != i)
+          c->vertex(j)->invalidate_c2t3_cache();
       }
     }
   }
@@ -484,86 +488,7 @@ protected:
   }
 
   void remove_from_complex (const Cell_handle c, const int i) {
-    Cell_handle c2 = c->neighbor(i);
-    int i2 = c2->index(c);
-    Facet f = canonical_facet(c, i);
-
-    // TODO the folowing code should be simplified
-    // unifying cases dim == 2 ou 3
-    if (tr.dimension() == 3) {
-      // if in the complex
-      if ( face_status (c, i) != NOT_IN_COMPLEX )
-      {
-        --m_number_of_facets;
-
-	c->set_facet_on_surface(i,false);
-	c2->set_facet_on_surface(i2,false);
-
-	// update the edge counter
-	for (int j = 0; j < 4; j++) {
-	  for (int k = j + 1; k < 4; k++) {
-	    if ( (i != j) && (i != k) ){
-
-	      const std::pair<Vertex_handle, Vertex_handle> e =
-		make_ordered_pair(c->vertex(j),
-                                  c->vertex(k));
-
-              typename Edge_facet_counter::iterator it =
-                edge_facet_counter.find(e);
-
-              CGAL_assertion( it != edge_facet_counter.end() );
-              
-	      if(--(it->second.first) > 0)
-                it->second.second.remove(f);
-              else
-                edge_facet_counter.erase(it);
-	    }
-	  }
-	}
-
-	// remove f in graph of each of its vertex
-	for (int j = 0; j < 4; j++) {
-	  if (j != i)
-	    c->vertex(j)->invalidate_c2t3_cache();
-	}
-      }
-    }
-    
-    else if (tr.dimension() == 2){
-      // if in the complex
-      if ( face_status (c, i) != NOT_IN_COMPLEX ) 
-      {
-        --m_number_of_facets;
-
-	c->set_facet_on_surface(i,false);
-
-	for (int j = 0; j < 3; j++) {
-	  for (int k = j + 1; k < 3; k++) {
-	    if ( (i != j) && (i != k) ){
-
-	      const std::pair<Vertex_handle, Vertex_handle> e =
-		make_ordered_pair(c->vertex(j),
-                                  c->vertex(k));
-
-              typename Edge_facet_counter::iterator it =
-                edge_facet_counter.find(e);
-
-              CGAL_assertion( it != edge_facet_counter.end() );
-              
-	      if(--(it->second.first) > 0)
-                it->second.second.remove(f);
-              else
-                edge_facet_counter.erase(it);
-	    }
-	  }
-	}
-
-	for (int j = 0; j < 3; j++) {
-	  if (j != i)
-	    c->vertex(j)->invalidate_c2t3_cache();
-	}
-      }
-    }
+    change_in_complex_status<false, false>(c, i);
   }
 
   Facet_iterator facets_begin(){
@@ -611,8 +536,39 @@ protected:
                                  Iterator_not_on_boundary(this)); 
   }
 
-
+#ifdef CGAL_MESH_3_IO_H
+  static
+  std::string io_signature()
+  {
+    return Get_io_signature<Tr>()();
+  }
+#endif
 }; // end Complex_2_in_triangulation_3
+
+template < class Tr >
+std::istream & 
+operator>> (std::istream& is, Complex_2_in_triangulation_3<Tr>& c2t3)
+{
+  c2t3.clear();
+  is >> c2t3.triangulation();
+
+  // restore datas of c2t3
+  for(typename Tr::Finite_facets_iterator fit = 
+        c2t3.triangulation().finite_facets_begin();
+      fit != c2t3.triangulation().finite_facets_end();
+      ++fit)
+    if(fit->first->is_facet_on_surface(fit->second))
+      c2t3.template change_in_complex_status<true, true>(fit->first, fit->second);
+
+  return is;
+}
+
+template < class Tr>
+std::ostream & 
+operator<< (std::ostream& os, const Complex_2_in_triangulation_3<Tr> &c2t3)
+{
+  return os << c2t3.triangulation();
+}
 
 } // end namespace CGAL
 

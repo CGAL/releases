@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel_checker.h $
-// $Id: Kernel_checker.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel_checker.h $
+// $Id: Kernel_checker.h 32670 2006-07-21 11:21:56Z mkaravel $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -62,24 +62,9 @@ struct Pairify <Sign, Sign> {
 };
 
 template <>
-struct Pairify <Comparison_result, Comparison_result> {
-  typedef Comparison_result   result_type;
-  result_type operator()(const Comparison_result &t1,
-                         const Comparison_result &t2) const
-  { CGAL_kernel_assertion(t1 == t2); return t1; }
-};
-
-template <>
 struct Pairify <Bounded_side, Bounded_side> {
   typedef Bounded_side   result_type;
   result_type operator()(const Bounded_side &t1, const Bounded_side &t2) const
-  { CGAL_kernel_assertion(t1 == t2); return t1; }
-};
-
-template <>
-struct Pairify <Oriented_side, Oriented_side> {
-  typedef Oriented_side   result_type;
-  result_type operator()(const Oriented_side &t1, const Oriented_side &t2) const
   { CGAL_kernel_assertion(t1 == t2); return t1; }
 };
 

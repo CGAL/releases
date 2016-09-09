@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Principal_component_analysis/demo/Principal_component_analysis/linear_least_squares_fitting_toolbar.h $
-// $Id: linear_least_squares_fitting_toolbar.h 29803 2006-03-29 08:21:25Z afabri $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Principal_component_analysis/demo/Principal_component_analysis/linear_least_squares_fitting_toolbar.h $
+// $Id: linear_least_squares_fitting_toolbar.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Andreas Fabri
 

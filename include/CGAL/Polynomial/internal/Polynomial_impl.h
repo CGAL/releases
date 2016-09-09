@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Polynomial_impl.h $
-// $Id: Polynomial_impl.h 30004 2006-04-05 16:13:35Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Polynomial_impl.h $
+// $Id: Polynomial_impl.h 36128 2007-02-08 16:31:14Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -106,12 +106,13 @@ public:
   */
   const NT& operator[](unsigned int i) const
   {
-    if (i < coefs_.size()) {
+    CGAL_assertion( i < coefs_.size());
+    //if (i < coefs_.size()) {
       return coefs_[i];
-    }
+      /*}
     else {
       return zero_coef();
-    }
+      }*/
   }
 
   //=====================================
@@ -178,10 +179,17 @@ public:
     else if (o.is_zero()) { return This(*this); }
     else {
       This ret;
-      unsigned int new_deg = std::max(o.degree(), degree());
+      unsigned int new_deg = (std::max)(o.degree(), degree());
       ret.coefs_.resize(new_deg + 1);
-      for (unsigned int i = 0; i <= new_deg; ++i) {
+      unsigned int md= (std::min)(degree(), o.degree());
+      for (unsigned int i = 0; i <= md; ++i) {
 	ret.coefs_[i] = operator[](i) + o[i];
+      }
+      for (int i=md+1; i <= degree(); ++i){
+	ret.coefs_[i]= operator[](i);
+      }
+      for (int i=md+1; i <= o.degree(); ++i){
+	ret.coefs_[i]= o[i];
       }
       CGAL_EXCESSIVE(std::cout << *this << " - " << o << " + " << ret << std::endl);
       ret.finalize();
@@ -196,10 +204,17 @@ public:
     else if (o.is_zero()) { return This(*this); }
     else {
       This ret;
-      unsigned int new_deg = std::max(o.degree(), degree());
+      unsigned int new_deg = (std::max)(o.degree(), degree());
       ret.coefs_.resize( new_deg + 1 );
-      for (unsigned int i = 0; i <= new_deg; ++i) {
+      unsigned int md= (std::min)(degree(), o.degree());
+      for (unsigned int i = 0; i <= md; ++i) {
 	ret.coefs_[i] = operator[](i) - o[i];
+      }
+      for (int i=md+1; i <= degree(); ++i){
+	ret.coefs_[i]= operator[](i);
+      }
+      for (int i=md+1; i <= o.degree(); ++i){
+	ret.coefs_[i]= -o[i];
       }
       CGAL_EXCESSIVE(std::cout << *this << " - " << o << " = " << ret << std::endl);
       ret.finalize();
@@ -250,11 +265,11 @@ public:
   //! multiply with scalar
   This operator*(const NT& a) const
   {
-    if ( is_zero() || sign(a)==ZERO ) { return This(); }
+    if ( is_zero() || CGAL_NTS sign(a)==ZERO ) { return This(); }
 
     This res;
     unsigned int deg = degree();
-    res.coefs_.resize(deg + 1);
+    res.coefs_.resize(deg + 1, NT(0));
     for (unsigned int i = 0; i <= deg; i++) {
       res.coefs_[i] = coefs_[i] * a;
     }
@@ -310,7 +325,7 @@ public:
   bool operator==(const This &o) const
   {
     if (degree() != o.degree()) return false;
-    int max_size = std::max(o.coefs_.size(), coefs_.size());
+    int max_size = (std::max)(o.coefs_.size(), coefs_.size());
     for (int i = 0; i < max_size; ++i) {
       if (o[i] != operator[](i)) return false;
     }
@@ -338,7 +353,15 @@ public:
       NT coef;
       // eat
       in >> coef;
-      if (in.fail()) return;
+      if (in.fail()) {
+	//std::cout << "Read ";
+	//write(std::cout);
+	//std::cout << std::endl;
+	return;
+      }
+      //std::cout << "Read " << coef << std::endl;
+
+      //NT cp1= coef+NT(1);
       unsigned int pow;
       char p= in.peek();
       if (in.peek() =='*') {
@@ -368,11 +391,13 @@ public:
       }
 
       if (coefs_.size() <=pow) {
-	coefs_.resize(pow+1);
+	coefs_.resize(pow+1, NT(0));
       }
 
       if (!pos) coef=-coef;
+      //std::cout << "Read 2 " << coef << "*t^" << pow << std::endl;
       coefs_[pow]=coef;
+      //std::cout << "Read " << coefs_[pow] << std::endl;
 
       char n= in.peek();
       if (n=='+' || n=='-') {
@@ -465,6 +490,7 @@ inline std::istream &operator>>(std::basic_istream<C, Tr> &in,
 				Polynomial_impl<T, NT> &poly)
 {
   poly.read(in);
+  //std::cout << "Read " << poly << std::endl;
   return in;
 }
 
@@ -510,6 +536,14 @@ inline T operator-(int a, const Polynomial_impl<T, NT> &poly)
 
 
 #undef CGAL_EXCESSIVE
+
+/*template <class NT>
+class Input_rep<Polynomial<NT> , CGAL::Maple_format_tag > {
+  Input_rep(Polynomial<NT>& p): p_(p){}
+  std::istream & operator()(std::istream &in) const {
+    
+  }
+  };*/
 
 CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
 #endif

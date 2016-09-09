@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_overlay_2/Overlay_subcurve.h $
-// $Id: Overlay_subcurve.h 28836 2006-02-27 14:35:50Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_overlay_2/Overlay_subcurve.h $
+// $Id: Overlay_subcurve.h 32204 2006-07-05 08:00:36Z baruchzu $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -39,7 +39,9 @@ public:
 
   typedef typename Traits::Color                         Color;
   typedef typename Traits::Halfedge_handle_red           Halfedge_handle_red;
+  typedef typename Halfedge_handle_red::value_type       Halfedge_red;
   typedef typename Traits::Halfedge_handle_blue          Halfedge_handle_blue;
+  typedef typename Halfedge_handle_blue::value_type      Halfedge_blue;
 
   typedef Sweep_line_event<Traits, Self>                 Event;
 
@@ -54,17 +56,29 @@ protected:
 
   /*! A Subcure from a different color that lies above */
   Self*        m_above;
+
+  /*! if m_above is NULL, either m_red_top or m_blue_top will store
+      the halfedge above */
+  union
+  {
+    const Halfedge_red     *red;
+    const Halfedge_blue    *blue;
+  }            m_top;
   
   
 public:
 
   Overlay_subcurve() : Base(),
                        m_above(NULL)
-  {}
+  {
+    m_top.red = NULL;
+  }
 
   Overlay_subcurve(const X_monotone_curve_2 &curve) : Base(curve),
                                                       m_above(NULL)
-  {}
+  {
+    m_top.red = NULL;
+  }
 
   void set_above(Self* sc)
   {
@@ -94,6 +108,26 @@ public:
   Halfedge_handle_blue get_blue_halfedge_handle() const
   {
     return m_lastCurve.get_blue_halfedge_handle();
+  }
+
+  const Halfedge_red* get_top_red_halfedge() const
+  {
+    return (m_top.red);
+  }
+
+  const Halfedge_blue* get_top_blue_halfedge() const
+  {
+    return (m_top.blue);
+  }
+
+  void set_top_red_halfedge (const Halfedge_red *hr)
+  {
+    m_top.red = hr;
+  }
+
+  void set_top_blue_halfedge (const Halfedge_blue *hb)
+  {
+    m_top.blue = hb;
   }
 
 };

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Default_simulator.h $
-// $Id: Default_simulator.h 32205 2006-07-05 08:01:31Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Default_simulator.h $
+// $Id: Default_simulator.h 36638 2007-02-27 22:45:58Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -30,8 +30,10 @@
 CGAL_KINETIC_BEGIN_NAMESPACE;
 
 #ifdef CGAL_KINETIC_CHECK_EXPENSIVE
-#define CGAL_KINETIC_SIMULATOR_AUDITING
-//#warning auditing kds
+#ifndef CGAL_KINETIC_DISABLE_AUDITING
+#define CGAL_KINETIC_ENABLE_AUDITING
+#endif
+//#warning Kinetic data structures will be audited at run time.
 #endif
 
 
@@ -76,7 +78,7 @@ CGAL_KINETIC_BEGIN_NAMESPACE;
   depend on the static data structure being used.
 */
 template <class Polynomial_kernel_t,
-	  class Queue/*= CGAL::Kinetic::Heap_pointer_event_queue<typename Polynomial_kernel_t::Root> */>
+	  class Queue= CGAL::Kinetic::Heap_pointer_event_queue<Polynomial_kernel_t> >
 class Default_simulator: public Ref_counted<Default_simulator<Polynomial_kernel_t,  Queue> >
 {
 protected:
@@ -137,24 +139,41 @@ public:
     #endif*/
 
   //! The basic number type
-  typedef typename Function_kernel::NT NT;
+  typedef typename Function_kernel::FT NT;
 
   //! Create a simulator passing the start time and the end time.
-  Default_simulator(const Time &start_time=Time(0.0),
-            const Time &end_time= internal::infinity_or_max(Time()),
-	    Function_kernel fk=Function_kernel()):queue_(start_time, end_time, fk, 100),
-				cur_time_(start_time),
-				last_event_time_(-internal::infinity_or_max(Time())),
-				mp_(fk.rational_between_roots_object()),
-				ir_(fk.is_rational_object()),
-				tr_(fk.to_rational_object()),
-				is_forward_(true) {
+  Default_simulator(const Time &start_time,
+		    const Time &end_time,
+		    Function_kernel fk=Function_kernel()):queue_(start_time, end_time, fk, 100),
+							  cur_time_(start_time),
+							  //last_event_time_(start_time),
+							  mp_(fk.rational_between_roots_object()),
+							  //ir_(fk.is_rational_object()),
+							  //tr_(fk.to_rational_object()),
+							  is_forward_(true) {
     number_of_events_=0;
-#ifdef CGAL_KINETIC_SIMULATOR_AUDITING
+#ifdef CGAL_KINETIC_ENABLE_AUDITING
     // make it less than the current time.
     //std::pair<double, double> ival= to_interval(cur_time_);
     //audit_time_=NT(ival.first-10.0);
-    audit_time_= -internal::infinity_or_max(NT());
+    audit_time_= CGAL::to_interval(start_time).second;
+#endif
+  };
+
+  Default_simulator(const Time &start_time,
+		    Function_kernel fk=Function_kernel()):queue_(start_time, fk, 100),
+							  cur_time_(start_time),
+							  //last_event_time_(start_time),
+							  mp_(fk.rational_between_roots_object()),
+							  //ir_(fk.is_rational_object()),
+							  //tr_(fk.to_rational_object()),
+							  is_forward_(true) {
+    number_of_events_=0;
+#ifdef CGAL_KINETIC_ENABLE_AUDITING
+    // make it less than the current time.
+    //std::pair<double, double> ival= to_interval(cur_time_);
+    //audit_time_=NT(ival.first-10.0);
+    audit_time_= CGAL::to_interval(start_time).second;
 #endif
   };
 
@@ -163,7 +182,7 @@ public:
     failure time of that event. Otherwise it is between the last event
     which was processed and the next event to be processed.
   */
-  Time current_time() const
+  const Time& current_time() const
   {
     return cur_time_;
   }
@@ -175,28 +194,42 @@ public:
     order.
   */
   void set_current_time(const Time &t) {
-    CGAL_precondition(t >=cur_time_);
+    CGAL_precondition(CGAL::compare(t, cur_time_) != CGAL::SMALLER);
     /*#ifdef CGAL_KINETIC_CHECK_EXPENSIVE
-    if (current_time() < audit_time_ && t >= audit_time_) {
+      if (current_time() < audit_time_ && t >= audit_time_) {
       audit_all_kdss();
-    }
-    #endif*/
-    while (next_event_time() < t && !queue_.empty()) {
+      }
+      #endif*/
+    while (CGAL::compare(next_event_time(), t) == CGAL::SMALLER
+	   && !queue_.empty()) {
+      //Time net= next_event_time();
+      //CGAL::Comparison_result cr= CGAL::compare(next_event_time(), t);
       process_next_event();
       /*#ifdef CGAL_KINETIC_CHECK_EXPENSIVE
-      if (current_time() < audit_time_ && t >= audit_time_) {
+	if (current_time() < audit_time_ && t >= audit_time_) {
 	audit_all_kdss();
-      }
-      cur_time_=audit_time_;
-      #endif*/
+	}
+	cur_time_=audit_time_;
+	#endif*/
     }
-    cur_time_=std::min(t, end_time());
+    if (queue_.is_after_end(t)) {
+      cur_time_= queue_.end_priority();
+    } else {
+      cur_time_=t;
+    }
+  
   }
 
   //! Not clear if I want two methods
-  void set_back_current_time(const Time &t) {
-    CGAL_precondition(t <=cur_time_);
-    cur_time_=t;
+  void set_interval(const Time &ts, const Time &te) {
+    //CGAL_precondition(t <=cur_time_);
+    if (!queue_.empty()) {
+      std::cerr << queue_ << std::endl;
+    }
+    CGAL_precondition(queue_.empty());
+    cur_time_=ts;
+    //last_event_time_=ts;
+    queue_.set_interval(ts, te);
   }
 
   //! Return a rational number for current time.
@@ -204,40 +237,32 @@ public:
     time. This only returns a valid time if
     has_rational_current_time() is true.
   */
-  NT rational_current_time() const
+  NT next_time_representable_as_nt() const
   {
-
-    //CGAL_exactness_precondition_code(CGAL::Interval_nt_advanced ub= CGAL::to_interval(next_event_time()));
-    //CGAL_exactness_precondition(ub.inf() > lb.sup());
-    //	NT ret;
-    if (ir_(cur_time_) && cur_time_ != std::numeric_limits<Time>::infinity()) {
-
-    //if (ir_(cur_time_)) {
-      /*CGAL_KINETIC_ERROR( "rational_current_time() called at time "
-	<< current_time() << " which is not rational.\n");*/
-      return tr_(cur_time_);
-    }
-    else {
-      double ub= to_interval(current_time()).second;
-      if (Time(ub) < next_event_time()) {
-	return NT(ub);
+    // why did I have this? "&& cur_time_ != end_time()"
+    double ub= to_interval(current_time()).second;
+    if (CGAL::compare(current_time(), next_event_time()) == CGAL::EQUAL
+	|| CGAL::compare(Time(ub), next_event_time()) == CGAL::SMALLER) {
+      return NT(ub);
+    } else {
+      //typename Function_kernel::Rational_between_roots bet= kernel_.rational_between_roots_object();
+      if (current_time() == end_time()) {
+	// really, I do want last_event, but I removed it :-(
+	std::pair<double,double> ti= CGAL::to_interval(end_time());
+	if (ti.first == ti.second) {
+	  return NT(ti.first);
+	} else {
+	  std::cerr << "You cannot currently call this function at the end of time if the end time is not"
+	    "exactly representable as a double. Sorry. This is fixable, so complain to me--Daniel" << std::endl;
+	  CGAL_assertion(0);
+	  return NT(ti.first);
+	}
+      } else {
+	return mp_(current_time(), next_event_time());
       }
-      else {
-	//typename Function_kernel::Rational_between_roots bet= kernel_.rational_between_roots_object();
-	return mp_(last_event_time(), next_event_time());
-      }
     }
-
-    //}
   }
 
-  //! Return true if the current time is a rational number.
-  /*!
-   */
-  bool has_rational_current_time() const
-  {
-    return last_event_time() < next_event_time();
-  }
 
   //! Returns true if the current time is a rational number and there are no events at the current time
   /*!
@@ -245,14 +270,18 @@ public:
   */
   bool has_audit_time() const
   {
-    CGAL_precondition(has_rational_current_time());
-    return last_event_time() < next_event_time();
+#ifdef CGAL_KINETIC_ENABLE_AUDITING
+    return CGAL::compare(Time(audit_time_), current_time()) != CGAL::SMALLER;
+#else 
+    return false;
+#endif
   }
 
   const NT& audit_time() const
   {
     CGAL_precondition(has_audit_time());
-#ifdef CGAL_KINETIC_SIMULATOR_AUDITING
+#ifdef CGAL_KINETIC_ENABLE_AUDITING
+    CGAL_precondition(queue_.empty() || Time(audit_time_) < next_event_time());
     return audit_time_;
 #else
     CGAL_precondition(0);
@@ -269,6 +298,12 @@ public:
   {
     if (queue_.empty()) return end_time();
     else return Time(queue_.front_priority());
+  }
+
+  Event_key next_event() const
+  {
+    if (queue_.empty()) return Event_key();
+    else return queue_.front();
   }
 
   //! The last time of interest
@@ -290,11 +325,11 @@ public:
     The current_time() must equal the end_time() in order
     to ensure that no events were missed.
   */
-  void set_end_time(const Time &t) {
+  /*void set_end_time(const Time &t) {
     CGAL_precondition(cur_time_==end_time());
     //end_time_= t;
     queue_.set_end_priority(t);
-  }
+    }*/
 
   //! Create a new event and return its key
   /*!  The only interaction with the actual event is through the
@@ -305,12 +340,9 @@ public:
   */
   template <class E>
   Event_key new_event(const Time &t, const E& cert) {
+    //CGAL_precondition(t != Time());
     //CGAL_exactness_precondition(!(t < current_time()));
     //if (cert.time() == Time::infinity()) return final_event();
-
-    if (!( t < end_time())){
-      return null_event();
-    } /*else {*/
     //CGAL_assertion(cert.time() < end_time());
     //if (0) cert.process();
     //std::cout << "Requested to schedule "; cert->write(std::cout);
@@ -319,9 +351,18 @@ public:
     //write_eventqueue(log().stream(Log::DEBUG));
     //log()->stream(Log::SOME) << key;
     //log()->stream(Log::SOME)
+    CGAL_exactness_precondition(CGAL::compare(t, current_time()) != CGAL::SMALLER);
 
     CGAL_KINETIC_LOG(LOG_SOME, "Created event " << key << std::endl);
+    CGAL_KINETIC_LOG(LOG_SOME, *this << std::endl);
     //if (log()->is_output(Log::LOTS)) write(log()->stream(Log::LOTS));
+
+#ifdef CGAL_KINETIC_ENABLE_AUDITING
+    if (CGAL::compare(Time(audit_time_), t) != CGAL::SMALLER && has_audit_time() ) {
+      compute_audit_time(current_time());
+    }
+    //if (key != null_event()) audit_event(key);
+#endif
 
     return key;
     //}
@@ -344,10 +385,9 @@ public:
   /*!  I am not sure if I use this capability, so it may be droppable
    */
   template <class E>
-  void new_final_event(const E &cert) {
-    bool do_I_use_this;
+  Event_key new_final_event(const E &cert) {
     // this should be in the simulator anyway,
-    return queue_.set_final_event(cert);
+    return queue_.insert(end_time(), cert);
   }
 
   //! Delete the event with key k
@@ -355,13 +395,14 @@ public:
     This is just passed to the event queue.
   */
   void delete_event(const Event_key &k) {
-    CGAL_KINETIC_LOG(LOG_SOME, "Deleting event " << k << std::endl);
+    audit_event(k);
     //if (k== final_event()) return;
     //#ifdef NDEBUG
-    if (!k.is_valid()) {
+    if (k== null_event() || k== Event_key()) {
       return;
     }
     //#endif
+    CGAL_KINETIC_LOG(LOG_SOME, "Deleting event " << k << std::endl);
     queue_.erase(k);
     //CGAL_KINETIC_LOG(LOG_LOTS , *this);
   }
@@ -401,9 +442,18 @@ public:
   template <class Event_type>
   const Event_type& event(const Event_key &k) const
   {
-    CGAL_precondition(k.is_valid());
+    CGAL_precondition(k != Event_key());
     CGAL_precondition(k != null_event());
-    CGAL_KINETIC_LOG(LOG_LOTS, "Accessing event for key " << k << std::endl);
+    //CGAL_KINETIC_LOG(LOG_LOTS, "Accessing event for key " << k << std::endl);
+    return queue_.template get<Event_type>(k);
+  }
+
+
+  template <class Event_type>
+  Event_type& event(const Event_key &k){
+    CGAL_precondition(k != Event_key());
+    CGAL_precondition(k != null_event());
+    //CGAL_KINETIC_LOG(LOG_LOTS, "Accessing event for key " << k << std::endl);
     return queue_.template get<Event_type>(k);
   }
 
@@ -416,6 +466,7 @@ public:
   //! Access the time of an event
   const Time &event_time(const Event_key &k) const
   {
+    CGAL_precondition(k != Event_key());
     return queue_.priority(k);
   }
 
@@ -449,6 +500,11 @@ public:
   {
     return number_of_events_;
   }
+
+  bool empty() const {
+    return queue_.empty();
+  }
+
   //! Process all events up to event i
   /*!
     i must be greater than current_event_number().
@@ -456,16 +512,18 @@ public:
   void set_current_event_number(unsigned int i) {
     while (!queue_.empty() && number_of_events_ < i) {
       /*#ifdef CGAL_KINETIC_CHECK_EXPENSIVE
-      if (current_time() < audit_time_ && next_event_time() >= audit_time_) {
+	if (current_time() < audit_time_ && next_event_time() >= audit_time_) {
 	audit_all_kdss();
-      }
-      #endif*/
+	}
+	#endif*/
       process_next_event();
     }
   }
 
   void write(std::ostream &out) const
   {
+    out << "Simulator: (" << to_double(current_time())
+	<< "..." << to_double(end_time()) << ")\n";
     out << queue_ << std::endl;
   }
 
@@ -474,7 +532,76 @@ public:
     write(std::cout);
   }
 
+  void clear() {
+    queue_.clear();
+  }
+
+  void audit_events() const {
+    queue_.audit_events();
+  }
+
+  void audit_event(Event_key k) const {
+    if (k!= null_event()) {
+      CGAL_assertion(k != Event_key());
+#ifndef NDEBUG
+      if (!queue_.contains(k)) {
+	CGAL_KINETIC_ERROR("Event " << k << " is not in queue.");
+      }
+#endif
+      CGAL_assertion(queue_.contains(k));
+      queue_.audit_event(k);
+    }
+  }
+
 protected:
+
+  template <class Root>
+  bool compute_audit_time(const Root &) {
+#ifdef CGAL_KINETIC_ENABLE_AUDITING
+    if (queue_.empty()) {
+      if (cur_time_ != end_time()) {
+	std::pair<double,double> ei= CGAL::to_interval(end_time());
+	CGAL_precondition(ei.first==ei.second); // I should figure out how to deal in the other case
+	audit_time_ = ei.first;
+	return true;
+      } else {
+	// bad form to just return like that
+	audit_time_= NT(CGAL::to_interval(current_time()).first-10.0);
+	return false;
+      }
+    } else {
+      audit_time_= CGAL::to_interval(current_time()).second;
+      if (CGAL::compare(Time(audit_time_),  next_event_time()) != CGAL::SMALLER) {
+	if(CGAL::compare(next_event_time(), current_time()) != CGAL::EQUAL) {
+	  audit_time_= mp_(current_time(), next_event_time());
+	  return true;	  
+	} else {
+	  audit_time_= CGAL::to_interval(current_time()).first -10;
+	  return false;
+	}
+      } else {
+	return true;
+      }
+    }
+#else
+    return false;
+#endif
+  }
+
+
+  
+  bool compute_audit_time(double) {
+#ifdef CGAL_KINETIC_ENABLE_AUDITING
+    //bool audit_on_doubles;
+    if (next_event_time()-current_time() < .1) return false;
+    else {
+      audit_time_= (current_time()+ next_event_time())/2.0;
+      return audit_time_ > current_time() && audit_time_ < next_event_time();
+    }
+#else
+    return false;
+#endif
+  }
 
   //! Return a time between the current and the next event to use for validating
   /*!  This is a time between the last certificate failure time and
@@ -490,50 +617,45 @@ protected:
       audit_all_kdss();
       }
       #endif*/
-
-    CGAL_exactness_precondition(next_event_time() >= last_event_time_);
-    if (next_event_time() > cur_time_) {
-      cur_time_= next_event_time();
-      last_event_time_= cur_time_;
-    }
-    //_last_event_time=cur_time_;
-    //if (queue_.front_priority() < end_time()) {
-    queue_.process_front();
-    /*for (typename KDSs::iterator it= kdss_.begin(); it != kdss_.end(); ++it){
-      (*it)->write(std::cout);
-      }*/
-
-    ++number_of_events_;
-#ifdef CGAL_KINETIC_SIMULATOR_AUDITING
-    if (cur_time_ != next_event_time()) {
+    /*#ifdef CGAL_KINETIC_ENABLE_AUDITING
+      if (CGAL::compare(next_event_time(), current_time()) != CGAL::EQUAL) {
       //typename Function_kernel::Rational_between_roots bet= kernel_.rational_between_roots_object();
-      audit_time_= mp_(cur_time_, next_event_time());
-      CGAL_KINETIC_LOG(LOG_SOME, "Next audit is at time " << audit_time_ << std::endl);
+      CGAL_KINETIC_LOG(LOG_SOME, "Audit is at time " << audit_time_ << std::endl);
       //if (current_time() < audit_time_ && t >= audit_time_) {
-	audit_all_kdss();
-	//}
-    } else {
+      audit_all_kdss();
+      //}
+      } else {
       CGAL_KINETIC_LOG(LOG_SOME, "Can't audit between events.\n");
-    }
-#endif
-    /*} else {
-      queue_.clear();
-      }*/
+      }
+      #endif*/
 
-    //std::cout << queue_<< std::endl;
-    CGAL_expensive_postcondition_code(if (cur_time_== next_event_time()))
-      CGAL_expensive_postcondition_code(std::cerr << "Warning: two concurrent events.\n");
-    //CGAL_expensive_postcondition_code(validate_all_kinetic_data_structures());
+
+    CGAL_exactness_precondition(CGAL::compare(next_event_time(),current_time())
+				!= CGAL::SMALLER);
+    //if (CGAL::compare(next_event_time(),cur_time_) == CGAL::LARGER) {
+    cur_time_= next_event_time();
+      
+  
+    queue_.process_front();
+    ++number_of_events_;
+      
     CGAL_KINETIC_LOG(LOG_LOTS, *this);
 
+#ifdef CGAL_KINETIC_ENABLE_AUDITING
+    if (compute_audit_time(current_time())) {
+      CGAL_KINETIC_LOG(LOG_SOME, "Audit is at time " << audit_time_ << std::endl);
+      //if (current_time() < audit_time_ && t >= audit_time_) {
+      audit_all_kdss();
+    }
+#endif
   }
 
   void audit_all_kdss() ;
 
-  const Time &last_event_time() const
-  {
+  /*const Time &last_event_time() const
+    {
     return last_event_time_;
-  }
+    }*/
 
 private:
   //! add a kds to the simulator
@@ -566,13 +688,13 @@ private:
 protected:
   Queue queue_;
   std::vector<Listener*> kdss_;
-  Time cur_time_,  last_event_time_;
+  Time cur_time_; //,  last_event_time_;
   unsigned int number_of_events_;
   typename Function_kernel::Rational_between_roots mp_;
-  typename Function_kernel::Is_rational ir_;
-  typename Function_kernel::To_rational tr_;
+  //  typename Function_kernel::Is_rational ir_;
+  //  typename Function_kernel::To_rational tr_;
   bool is_forward_;
-#ifdef CGAL_KINETIC_SIMULATOR_AUDITING
+#ifdef CGAL_KINETIC_ENABLE_AUDITING
   NT audit_time_;
 #endif
 };
@@ -612,7 +734,7 @@ void Default_simulator<S, PQ>::set_direction_of_time(CGAL::Sign dir)
       tdt= Time(tnt);
     }
 
-    if (tdt >= next_event_time()) {
+    if (CGAL::compare(tdt, next_event_time()) != CGAL::SMALLER) {
       //typename Function_kernel::Rational_between_roots rbr= kernel_.rational_between_roots_object();
       tnt= mp_(cur_time_, next_event_time());
       tdt= Time(tnt);
@@ -622,9 +744,9 @@ void Default_simulator<S, PQ>::set_direction_of_time(CGAL::Sign dir)
 
     is_forward_= !is_forward_;
     //end_time_=-end_time_;
-    last_event_time_= -std::numeric_limits<Time>::infinity();
+    //last_event_time_= -std::numeric_limits<Time>::infinity();
     CGAL_KINETIC_LOG(LOG_SOME, "Current time is " << cur_time_ << " and was " << oct
-		 << ", end_time() is " << end_time() << std::endl);
+		     << ", end_time() is " << end_time() << std::endl);
     for (typename std::vector<Listener*>::iterator it= kdss_.begin(); it != kdss_.end(); ++it) {
       (*it)->new_notification(Listener::DIRECTION_OF_TIME);
       //std::cout << "called on something.\n";
@@ -639,13 +761,14 @@ void Default_simulator<S, PQ>::set_direction_of_time(CGAL::Sign dir)
 template <class S, class PQ>
 void Default_simulator<S, PQ>::audit_all_kdss()
 {
-#ifdef CGAL_KINETIC_CHECK_EXPENSIVE
+#ifdef CGAL_KINETIC_ENABLE_AUDITING
   cur_time_= Time(audit_time_);
-  CGAL_KINETIC_LOG(LOG_SOME, "Auditing KDSs at time " << rational_current_time() << std::endl);
+  CGAL_KINETIC_LOG(LOG_SOME, "Auditing KDSs at time " << audit_time() << std::endl);
   for (typename std::vector<Listener*>::iterator it= kdss_.begin(); it != kdss_.end(); ++it) {
     //CGAL_exactness_postcondition_code((*it)->new_notification(Listener::HAS_VERIFICATION_TIME));
     CGAL_postcondition_code((*it)->new_notification(Listener::HAS_AUDIT_TIME));
   }
+  queue_.audit_events();
 #endif
 }
 

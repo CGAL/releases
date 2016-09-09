@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2001  ETH Zurich (Switzerland).
+// Copyright (c) 1997-2007  ETH Zurich (Switzerland).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,21 +11,21 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/QP_solver/include/CGAL/QP_solver/QP__filtered_base.h $
-// $Id: QP__filtered_base.h 28526 2006-02-15 11:54:47Z fischerk $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/QP_solver/include/CGAL/QP_solver/QP__filtered_base.h $
+// $Id: QP__filtered_base.h 38478 2007-04-30 10:16:02Z gaertner $
 // 
 //
-// Author(s)     : Sven Schoenherr <sven@inf.fu-berlin.de>
+// Author(s)     : Sven Schoenherr
 //                 Bernd Gaertner <gaertner@inf.ethz.ch>
-//                 Franz Wessendorp <fransw@inf.ethz.ch>
-//                 Kaspar Fischer <fischerk@inf.ethz.ch>
+//                 Franz Wessendorp
+//                 Kaspar Fischer 
 
 #ifndef CGAL_QP__FILTERED_BASE_H
 #define CGAL_QP__FILTERED_BASE_H
 
 // includes
-#include <CGAL/QP_pricing_strategy.h>
-#include <CGAL/QP_solver.h>
+#include <CGAL/QP_solver/QP_pricing_strategy.h>
+#include <CGAL/QP_solver/QP_solver.h>
 #include <cmath>
 
 CGAL_BEGIN_NAMESPACE
@@ -33,26 +33,24 @@ CGAL_BEGIN_NAMESPACE
 // ==================
 // class declarations
 // ==================
-template < class Rep_, class NT_ = double, class ET2NT_ =
-    To_double<typename Rep_::ET> >
+template < typename Q, typename ET, typename Tags, class NT_ = double, class ET2NT_ =
+    To_double<ET> >
 class QP__filtered_base;
 
 // ===============
 // class interface
 // ===============
-template < class Rep_, class NT_, class ET2NT_ >
-class QP__filtered_base : virtual public QP_pricing_strategy<Rep_> {
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >
+class QP__filtered_base : virtual public QP_pricing_strategy<Q, ET, Tags> {
 
     // self
-    typedef  Rep_                       Rep;
-    typedef  QP__filtered_base<Rep>    Self;
-    typedef  QP_pricing_strategy<Rep>  Base;
+    typedef  QP__filtered_base<Q, ET, Tags>    Self;
+    typedef  QP_pricing_strategy<Q, ET, Tags>  Base;
 
   public:
 
     // number type
     typedef  NT_                        NT;
-    typedef  typename Base::ET          ET;
     typedef  ET2NT_                     ET2NT;
 
   protected:
@@ -69,10 +67,21 @@ class QP__filtered_base : virtual public QP_pricing_strategy<Rep_> {
 
     // operations
     void  init_NT( );
-    NT    mu_j_NT( int j) const;
+    NT mu_j_NT( int j) const
+    {
+      return mu_j_NT(j, Is_nonnegative());
+    } 
 
     void  update_maxima( );
-    bool  certify_mu_j_NT( int j) const;
+
+    // this function returns true if j is not a candidate for the
+    // entering variable. This can be deduced if the inexact mu_j 
+    // is sufficiently far away from 0. This test uses the error 
+    // bounds from Sven's thesis (p.99), see also the C-file. Only
+    // if these bounds are insufficient, exact arithmetic is used
+    bool  certify_mu_j_NT( int j) const {
+      return certify_mu_j_NT( j, Is_nonnegative());
+    }
 
     virtual  void  transition( );
 
@@ -80,6 +89,9 @@ class QP__filtered_base : virtual public QP_pricing_strategy<Rep_> {
     const NT                 nt0, nt1;  // small constants of NT
 
   private:
+    // types from Tags
+    typedef  typename Tags::Is_linear    Is_linear;
+    typedef  typename Tags::Is_nonnegative Is_nonnegative;
 
     // private member functions
     void  set( int l, Tag_true  is_linear);
@@ -95,18 +107,31 @@ class QP__filtered_base : virtual public QP_pricing_strategy<Rep_> {
     void  update_maxima( Tag_false is_linear);
 
     void  transition( int n, Tag_true  is_linear);
-    void  transition( int n, Tag_false is_linear);
+    void  transition( int n, Tag_false is_linear);    
+    
+    NT    mu_j_NT( int j, Tag_true is_in_standard_form) const; 
+    NT    mu_j_NT( int j, Tag_false is_in_standard_form) const { 
+      return  mu_j_NT(j, is_in_standard_form, Is_linear());
+    }
+    NT    mu_j_NT( int j, Tag_false, Tag_true) const; // variable bounds, LP
+    NT    mu_j_NT( int j, Tag_false, Tag_false) const; // variable bounds, QP
+    bool  certify_mu_j_NT( int j, Tag_true) const; // standard form
+    bool  certify_mu_j_NT( int j, Tag_false) const; // variable bounds
 
-    // types
-    typedef  typename Rep::Is_linear    Is_linear;
+    // the q-parameter in the error bound
+    void set_q(int c, int b) {
+      set_q(c, b, Is_nonnegative());
+    }
+    void set_q(int c, int b, Tag_true);
+    void set_q(int c, int b, Tag_false);
 
-    typedef  typename Rep::A_iterator   A_iterator;
-    typedef  typename Rep::C_iterator   C_iterator;   
+    // some more types
+    typedef  typename Q::A_iterator   A_iterator;
+    typedef  typename Q::C_iterator   C_iterator;   
     typedef  typename std::iterator_traits
-        <typename Rep::D_iterator>::value_type
+        <typename Q::D_iterator>::value_type
                                         D_row_iterator;
-    typedef  typename Rep::Row_type_iterator
-                                        R_iterator;
+    typedef  typename Q::R_iterator R_iterator;
 					
     typedef typename Base::QP_solver::C_auxiliary_iterator C_auxiliary_iterator;
 
@@ -119,6 +144,11 @@ class QP__filtered_base : virtual public QP_pricing_strategy<Rep_> {
     typedef  typename Values_NT::const_iterator  Values_NT_iterator;
 
     // data members
+    int n;                              // number of solver variables
+    NT q;                               // for the error bounds 
+    mutable
+    NT w_j_NT;                          // inexact version of w[j]
+  
     ET2NT                    et2nt_obj; // conversion from ET to NT
 
     Values_NT                lambda_NT; // NT version of lambda (from KKT)
@@ -144,46 +174,46 @@ class QP__filtered_base : virtual public QP_pricing_strategy<Rep_> {
 // =============================
 
 // construction
-template < class Rep_, class NT_, class ET2NT_ >  inline
-QP__filtered_base<Rep_,NT_,ET2NT_>::
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >  inline
+QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
 QP__filtered_base( ET2NT et2nt)
-    : nt0( 0), nt1( 1), et2nt_obj( et2nt)
+    : nt0( 0), nt1( 1), w_j_NT( 0), et2nt_obj( et2nt)
 { }
 
 // set-up
-template < class Rep_, class NT_, class ET2NT_ > inline         // QP case
-void  QP__filtered_base<Rep_,NT_,ET2NT_>::
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ > inline         // QP case
+void  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
 set( int l, Tag_false)
 {
     x_B_O_NT.resize( l, nt0);
 }
 
-template < class Rep_, class NT_, class ET2NT_ > inline         // LP case
-void  QP__filtered_base<Rep_,NT_,ET2NT_>::
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ > inline         // LP case
+void  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
 set( int l, Tag_true)
 {
      x_B_O_NT.resize( l, nt0);   
 }
 
 // initialization
-template < class Rep_, class NT_, class ET2NT_ >  inline        // QP case
-void  QP__filtered_base<Rep_,NT_,ET2NT_>::
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >  inline        // QP case
+void  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
 init( Tag_false)
 {
     if ( ! row_max_D.empty()) row_max_D.clear();
     if ( ! handled_D.empty()) handled_D.clear();
 }
 
-template < class Rep_, class NT_, class ET2NT_ >  inline        // LP case
-void  QP__filtered_base<Rep_,NT_,ET2NT_>::
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >  inline        // LP case
+void  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
 init( Tag_true)
 {
     // nop
 }
 
 // operations
-template < class Rep_, class NT_, class ET2NT_ >  inline        // QP case
-void  QP__filtered_base<Rep_,NT_,ET2NT_>::
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >  inline        // QP case
+void  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
 init_NT( Tag_false)
 {
     if ( this->solver().number_of_basic_original_variables()
@@ -194,50 +224,72 @@ init_NT( Tag_false)
 		    x_B_O_NT.begin(), et2nt_obj);
 }
 
-template < class Rep_, class NT_, class ET2NT_ >  inline        // LP case
-void  QP__filtered_base<Rep_,NT_,ET2NT_>::
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >  inline        // LP case
+void  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
 init_NT( Tag_true)
 {
     // nop
 }
 
 
-template < class Rep_, class NT_, class ET2NT_ >  inline
-NT_  QP__filtered_base<Rep_,NT_,ET2NT_>::
-mu_j_NT( int j) const
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >  inline
+NT_  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
+mu_j_NT( int j, Tag_true) const // standard form
 {
     return this->solver().mu_j( j, lambda_NT.begin(), x_B_O_NT.begin(), d_NT);
 }
-/*
-template < class Rep_, class NT_, class ET2NT_ >  inline        // LP case
-void  QP__filtered_base<Rep_,NT_,ET2NT_>::
-update_maxima( Tag_true)
+
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >  inline
+NT_  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
+mu_j_NT( int j, Tag_false, Tag_true) const // variable bounds, LP case
 {
-    // nop
+  return this->solver().mu_j( j, lambda_NT.begin(), x_B_O_NT.begin(), d_NT);
 }
-*/
+
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >  inline
+NT_  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
+mu_j_NT( int j, Tag_false, Tag_false) const // variable bounds, QP case
+{
+  w_j_NT = ( (j < n && this->solver().phase() == 2) ? 
+		et2nt_obj( this->solver().w_j_numerator(j)) : nt0 );
+  return this->solver().mu_j( j, lambda_NT.begin(), 
+				x_B_O_NT.begin(), w_j_NT, d_NT);
+}
+
 
 // transition
-template < class Rep_, class NT_, class ET2NT_ >  inline        // QP case
-void  QP__filtered_base<Rep_,NT_,ET2NT_>::
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >  inline        // QP case
+void  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
 transition( int n, Tag_false)
 {
     handled_D.insert( handled_D.end(), n, false);
     row_max_D.insert( row_max_D.end(), n, nt0);
 }
 
-template < class Rep_, class NT_, class ET2NT_ >  inline        // LP case
-void  QP__filtered_base<Rep_,NT_,ET2NT_>::
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >  inline        // LP case
+void  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
 transition( int, Tag_true)
 {
     // nop
 }
 
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >  inline // standard form
+void  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
+set_q(int c, int b, Tag_true) 
+{
+   q = std::ldexp( 1.015625 * ( c+b+1) * ( c+b+2), -53);
+}
+
+template < typename Q, typename ET, typename Tags, class NT_, class ET2NT_ >  inline // variable bounds
+void  QP__filtered_base<Q,ET,Tags,NT_,ET2NT_>::
+set_q(int c, int b, Tag_false) 
+{
+   q = std::ldexp( 1.015625 * ( c+b+2) * ( c+b+3), -53);
+}
+
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
-#  include <CGAL/QP_solver/QP__filtered_base.C>
-#endif
+#include <CGAL/QP_solver/QP__filtered_base_impl.h>
 
 #endif // CGAL_QP__FILTERED_BASE_H
 

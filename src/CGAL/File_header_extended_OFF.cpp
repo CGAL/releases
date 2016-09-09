@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Stream_support/src/CGAL/File_header_extended_OFF.cpp $
-// $Id: File_header_extended_OFF.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Stream_support/src/CGAL/File_header_extended_OFF.cpp $
+// $Id: File_header_extended_OFF.cpp 33358 2006-08-16 21:22:51Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -118,9 +118,9 @@ operator+=( const File_header_extended_OFF& header) {
     m_terrain              = m_terrain && header.m_terrain;
     m_normalized_to_sphere = m_normalized_to_sphere &&
                              header.m_normalized_to_sphere;
-    m_radius               = std::max(m_radius, header.m_radius);
+    m_radius               = (std::max)(m_radius, header.m_radius);
     m_rounded              = m_rounded && header.m_rounded;
-    m_rounded_bits         = std::max( m_rounded_bits,
+    m_rounded_bits         = (std::max)( m_rounded_bits,
                                        header.m_rounded_bits);
     m_off_header           = m_off_header && header.m_off_header;
     return *this;

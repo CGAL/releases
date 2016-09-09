@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Active_objects_listener_helper.h $
-// $Id: Active_objects_listener_helper.h 31630 2006-06-16 13:09:51Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Active_objects_listener_helper.h $
+// $Id: Active_objects_listener_helper.h 31436 2006-06-05 12:44:12Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -47,10 +47,10 @@ public:
 
   //! The constructor
   Active_objects_listener_helper(typename Moving_object_table_listener::Notifier_handle h,
-                                 KDS *kds):
+				 KDS *kds):
     Moving_object_table_listener(h), t_(kds) {
     for (typename Moving_object_table_listener::Notifier::Key_iterator it= P::notifier()->keys_begin();
-         it != P::notifier()->keys_end(); ++it) {
+	 it != P::notifier()->keys_end(); ++it) {
       t_->insert(*it);
     }
   }

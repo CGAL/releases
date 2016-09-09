@@ -1,4 +1,4 @@
-// Copyright (c) 2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/pdg_typedefs.h $
-// $Id: pdg_typedefs.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/pdg_typedefs.h $
+// $Id: pdg_typedefs.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -30,7 +30,12 @@
 #include <CGAL/Segment_Delaunay_graph_filtered_traits_2.h>
 
 struct Rep : public CGAL::Simple_cartesian<double> {};
+#ifdef CGAL_USE_CORE
+#include <CGAL/CORE_Expr.h>
+struct ERep : public CGAL::Simple_cartesian<CORE::Expr> {};
+#else
 struct ERep : public CGAL::Simple_cartesian<CGAL::Gmpq> {};
+#endif
 
 #if 0
 namespace CGAL {
@@ -43,8 +48,12 @@ namespace CGAL {
 }
 #endif
 
-typedef CGAL::Sqrt_field_tag  MTag;
-typedef CGAL::Ring_tag        EMTag;
+typedef CGAL::Field_with_sqrt_tag  MTag;
+#ifdef CGAL_USE_CORE
+typedef CGAL::Field_with_sqrt_tag  EMTag;
+#else
+typedef CGAL::Integral_domain_without_division_tag        EMTag;
+#endif
 
 typedef CGAL::Tag_false      ITag;
 typedef CGAL::Tag_true       STag;
@@ -64,7 +73,8 @@ typedef Gt::Segment_2          Segment;
 typedef CGAL::Polygon_2<Rep>   Polygon_2;
 typedef Gt::Site_2             Site;
 
-typedef CGAL::Segment_Delaunay_graph_vertex_base_2<Gt,ITag>           Vb;
+typedef CGAL::Segment_Delaunay_graph_storage_traits_2<Gt>             ST;
+typedef CGAL::Segment_Delaunay_graph_vertex_base_2<ST>                Vb;
 typedef CGAL::Segment_Delaunay_graph_vertex_base_with_info_2<Vb,int>  Vbi;
 typedef CGAL::Segment_Delaunay_graph_hierarchy_vertex_base_2<Vbi>     Vbh;
 typedef CGAL::Triangulation_face_base_2<Gt>                           Fb;
@@ -72,8 +82,7 @@ typedef CGAL::Triangulation_data_structure_2<Vbh,Fb>                  DS;
 
 
 
-
-typedef CGAL::Segment_Delaunay_graph_hierarchy_2<Gt,STag,DS>   SDG_2;
-//typedef CGAL::Segment_Delaunay_graph_2<Gt,DS>          SDG_2;
+typedef CGAL::Segment_Delaunay_graph_hierarchy_2<Gt,ST,STag,DS>   SDG_2;
+//typedef CGAL::Segment_Delaunay_graph_2<Gt,ST,DS>          SDG_2;
 
 #endif  // PDG_TYPEDEFS_H

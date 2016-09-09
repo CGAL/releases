@@ -63,7 +63,6 @@ clean: \
 
 polyhedron_ex_parameterization_objs = 	\
           Mesh_cutter$(OBJ_EXT) \
-          options$(OBJ_EXT) \
           polyhedron_ex_parameterization$(OBJ_EXT)
 
 polyhedron_ex_parameterization$(EXE_EXT): $(polyhedron_ex_parameterization_objs)
@@ -96,6 +95,6 @@ Complete_parameterization_example$(EXE_EXT): Complete_parameterization_example$(
 #                    suffix rules
 #---------------------------------------------------------------------#
 
-.C$(OBJ_EXT):
+.cpp$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

@@ -39,6 +39,7 @@ all:            \
                 construction$(EXE_EXT) \
                 exploration_SM$(EXE_EXT) \
                 extended_kernel$(EXE_EXT) \
+                handling_double_coordinates$(EXE_EXT) \
                 interface_polyhedron$(EXE_EXT) \
                 nefIO$(EXE_EXT) \
                 offIO$(EXE_EXT) \
@@ -66,6 +67,9 @@ exploration_SM$(EXE_EXT): exploration_SM$(OBJ_EXT)
 
 extended_kernel$(EXE_EXT): extended_kernel$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)extended_kernel extended_kernel$(OBJ_EXT) $(LDFLAGS)
+
+handling_double_coordinates$(EXE_EXT): handling_double_coordinates$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)handling_double_coordinates handling_double_coordinates$(OBJ_EXT) $(LDFLAGS)
 
 interface_polyhedron$(EXE_EXT): interface_polyhedron$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)interface_polyhedron interface_polyhedron$(OBJ_EXT) $(LDFLAGS)
@@ -109,6 +113,7 @@ clean: \
                    construction.clean \
                    exploration_SM.clean \
                    extended_kernel.clean \
+                   handling_double_coordinates.clean \
                    interface_polyhedron.clean \
                    nefIO.clean \
                    offIO.clean \

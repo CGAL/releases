@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Tuple_d.h $
-// $Id: Tuple_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Tuple_d.h $
+// $Id: Tuple_d.h 34870 2006-10-21 17:04:32Z gaertner $
 // 
 //
 // Author(s)     : Michael Seel
@@ -83,7 +83,10 @@ public:
   { self tmp=*this; return tmp -= i; }
 
   difference_type operator-(self x) const { return _it-x._it; }
-  reference operator[](difference_type i) { return *(*this + i); }
+  // Bernd Gaertner: the following is no good, since non-const;
+  // replaced by appropriate const-version 
+  // reference operator[](difference_type i) { return *(*this + i); }
+  value_type operator[](difference_type i) const { return *(*this + i); }
 
   bool operator==(const self& x) const { return _it==x._it; }
   bool operator!=(const self& x) const { return ! (*this==x); }
@@ -121,7 +124,10 @@ public:
   { self tmp=*this; return tmp -= i; }
 
   difference_type operator-(self x) const { return _it-x._it; }
-  reference operator[](difference_type i) { return *(*this + i); }
+  // Bernd Gaertner: the following is no good, since non-const;
+  // replaced by appropriate const-version 
+  // reference operator[](difference_type i) { return *(*this + i); }
+  value_type operator[](difference_type i) const { return *(*this + i); }
 
   bool operator==(const self& x) const { return _it==x._it; }
   bool operator!=(const self& x) const { return ! (*this==x); }

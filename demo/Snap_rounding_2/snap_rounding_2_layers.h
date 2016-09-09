@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2_layers.h $
-// $Id: snap_rounding_2_layers.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Snap_rounding_2/demo/Snap_rounding_2/snap_rounding_2_layers.h $
+// $Id: snap_rounding_2_layers.h 38484 2007-04-30 15:33:39Z afabri $
+//
 //
 // Author(s)     : Eli Packer <elip@post.tau.ac.il>
 
@@ -33,7 +33,7 @@ public:
    */
   void draw_grid()
   {
-    *widget << CGAL::WHITE << CGAL::LineWidth(1);
+    *widget << CGAL::GRAY << CGAL::LineWidth(1);
 
     // get the edge coordinate
     int min_x = static_cast<int>(widget->x_min());
@@ -57,11 +57,11 @@ public:
   void draw()
   {
     if (show_grid) draw_grid();
-    
+
     widget->lock();
     widget->setRasterOp(CopyROP);
     if(show_input) {
-      *widget << CGAL::WHITE << CGAL::LineWidth(1);
+      *widget << CGAL::BLUE << CGAL::LineWidth(1);
       for(Segment_2_list_const_iterator i1 = seg_list.begin();
         i1 != seg_list.end();
         ++i1)
@@ -91,7 +91,7 @@ public:
         if(show_output)
           *widget << CGAL::RED << Segment_2(*prev,*i2);
         if(show_hp)
-          *widget << CGAL::GREEN << 
+          *widget << CGAL::GREEN <<
             Iso_rectangle_2(Point_2(i2->x() - prec / Number_type(2.0),
                                     i2->y() - prec / Number_type(2.0)),
                         Point_2(i2->x() + prec / Number_type(2.0),
@@ -102,12 +102,12 @@ public:
       if(!seg_painted && show_output) // segment entirely inside hot pixel
         *widget << CGAL::RED << *(i->begin());
     }
-    widget->unlock();  
+    widget->unlock();
   }
 };
 
 /* XPM */
-static char *show_hot_points_small_xpm[] = {
+static const char *show_hot_points_small_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "16 16 3 1",
 "  c black",
@@ -133,7 +133,7 @@ static char *show_hot_points_small_xpm[] = {
 };
 
 /* XPM */
-static char *show_hot_points_xpm[] = {
+static const char *show_hot_points_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 3 1",
 "  c black",
@@ -175,7 +175,7 @@ static char *show_hot_points_xpm[] = {
 };
 
 /* XPM */
-static char *show_inputs_small_xpm[] = {
+static const char *show_inputs_small_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "16 16 3 1",
 "  c black",
@@ -201,7 +201,7 @@ static char *show_inputs_small_xpm[] = {
 };
 
 /* XPM */
-static char *show_inputs_xpm[] = {
+static const char *show_inputs_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 3 1",
 "  c black",
@@ -243,7 +243,7 @@ static char *show_inputs_xpm[] = {
 };
 
 /* XPM */
-static char *show_outputs_small_xpm[] = {
+static const char *show_outputs_small_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "16 16 3 1",
 "  c black",
@@ -269,7 +269,7 @@ static char *show_outputs_small_xpm[] = {
 };
 
 /* XPM */
-static char *show_outputs_xpm[] = {
+static const char *show_outputs_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 3 1",
 "  c black",

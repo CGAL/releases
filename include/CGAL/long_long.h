@@ -1,4 +1,4 @@
-// Copyright (c) 1999,2001  Utrecht University (The Netherlands),
+// Copyright (c) 1999,2001,2007  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -15,11 +15,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/long_long.h $
-// $Id: long_long.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/long_long.h $
+// $Id: long_long.h 37955 2007-04-05 13:02:19Z spion $
 //
-// Author(s)     : Stefan Schirra
+//
+// Author(s)     : Stefan Schirra, Michael Hemmer
 
 // ISO C++ does not support `long long', but ISO C does, which means the next
 // revision of ISO C++ probably will too.  However, currently, g++ -pedantic
@@ -28,52 +28,57 @@
 #ifndef CGAL_LONG_LONG_H
 #define CGAL_LONG_LONG_H
 
-#include <CGAL/basic.h>
-#include <CGAL/Interval_nt.h>
+#include <CGAL/number_type_basic.h>
 
 CGAL_BEGIN_NAMESPACE
 
-template <> struct Number_type_traits<long long int> {
-  typedef Tag_true   Has_gcd;
-  typedef Tag_true   Has_division;
-  typedef Tag_false  Has_sqrt;
+template<> class Algebraic_structure_traits< long long int >
+  : public Algebraic_structure_traits_base< long long int,
+                                            Euclidean_ring_tag > {
 
-  typedef Tag_false  Has_exact_ring_operations;
-  typedef Tag_false  Has_exact_division;
-  typedef Tag_false  Has_exact_sqrt;
+  public:
+    typedef Tag_true            Is_exact;
+    typedef Tag_false           Is_numerical_sensitive;
+
+    typedef INTERN_AST::Div_per_operator< Type >  Div;
+    typedef INTERN_AST::Mod_per_operator< Type >  Mod;
+
+    class Is_square
+      : public Binary_function< Type, Type&,
+                                bool > {
+      public:
+        bool operator()( const Type& x,
+                         Type& y ) const {
+          y = (Type) CGAL_CLIB_STD::sqrt( (double)x );
+          return x == y * y;
+        }
+        bool operator()( const Type& x) const {
+            Type y
+                = (Type) CGAL_CLIB_STD::sqrt( (double)x );
+          return x == y * y;
+        }
+    };
 };
 
-inline
-long long int
-div(long long int i1, long long int i2)
-{ return i1 / i2; }
+template <> class Real_embeddable_traits< long long int >
+  : public Real_embeddable_traits_base< long long int > {
+  public:
 
-inline
-double
-to_double(long long int i)
-{ return (double)i; }
+    typedef INTERN_RET::To_double_by_conversion< Type >
+                                                                      To_double;
 
-inline
-bool
-is_finite(long long int)
-{ return true; }
-
-inline
-bool
-is_valid(long long int)
-{ return true; }
-
-inline
-std::pair<double,double>
-to_interval (const long long & z)
-{
-  Protect_FPU_rounding<true> P(CGAL_FE_TONEAREST);
-  Interval_nt<false> approx ((double) z);
-  FPU_set_cw(CGAL_FE_UPWARD);
-  approx += Interval_nt<false>::smallest();
-  return approx.pair();
-}
-
+    class To_interval
+      : public Unary_function< Type, std::pair< double, double > > {
+      public:
+        std::pair<double, double> operator()( const Type& x ) const {
+          Protect_FPU_rounding<true> P(CGAL_FE_TONEAREST);
+          Interval_nt<false> approx ((double) x);
+          FPU_set_cw(CGAL_FE_UPWARD);
+          approx += Interval_nt<false>::smallest();
+          return approx.pair();
+        }
+    };
+};
 
 #if (defined(__sparc__) || defined(__sparc) || defined(sparc)) || \
     (defined(__sgi__)   || defined(__sgi)   || defined(sgi)) || \
@@ -86,5 +91,7 @@ typedef  unsigned long long int  UInteger64;
 #endif
 
 CGAL_END_NAMESPACE
+
+#include <CGAL/Interval_nt.h>
 
 #endif // CGAL_LONG_LONG_H

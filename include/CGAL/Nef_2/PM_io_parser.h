@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Nef_2/PM_io_parser.h $
-// $Id: PM_io_parser.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/PM_io_parser.h $
+// $Id: PM_io_parser.h 35755 2007-01-18 14:07:04Z fcacciola $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -321,9 +321,10 @@ void PM_io_parser<PMDEC>::read()
   if ( !(check_sep("faces") && (in >> fn)) )
     CGAL_assertion_msg(0,"PM_io_parser::read: wrong face line.");
 
-  Vertex_of.reserve(vn);
-  Halfedge_of.reserve(en);
-  Face_of.reserve(fn);
+  Vertex_of.resize(vn);
+  Halfedge_of.resize(en);
+  Face_of.resize(fn);
+
   for(i=0; i<vn; i++)  Vertex_of[i] =   this->new_vertex();
   for(i=0; i<en; i++) 
     if (i%2==0) Halfedge_of[i] = this->new_halfedge_pair_without_vertices();

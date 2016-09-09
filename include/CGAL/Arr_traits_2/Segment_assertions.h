@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_traits_2/Segment_assertions.h $
-// $Id: Segment_assertions.h 29412 2006-03-12 09:38:57Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_traits_2/Segment_assertions.h $
+// $Id: Segment_assertions.h 37160 2007-03-16 14:33:01Z lrineau $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -36,30 +36,30 @@ public:
 
   static bool _assert_is_point_on (const Point_2& pt,
                                    const X_monotone_curve_2& cv,
-                                   Tag_true tag)
+                                   Tag_true)
   {
     Traits_2    traits;
     return (traits.compare_y_at_x_2_object() (pt, cv) == EQUAL);
   }
 
-  static bool _assert_is_point_on (const Point_2& pt,
-                                   const X_monotone_curve_2& cv,
-                                   Tag_false tag)
+  static bool _assert_is_point_on (const Point_2& /*pt*/,
+                                   const X_monotone_curve_2& /*cv*/,
+                                   Tag_false)
   {
     return (true);
   }
 
   static bool _assert_is_point_on (const Point_2& pt,
                                    const Line_2& l,
-                                   Tag_true tag)
+                                   Tag_true)
   {
     Kernel      kernel;
     return (kernel.has_on_2_object() (l, pt));
   }
 
-  static bool _assert_is_point_on (const Point_2& pt,
-                                   const Line_2&  l,
-                                   Tag_false tag)
+  static bool _assert_is_point_on (const Point_2& /*pt*/,
+                                   const Line_2&  /*l*/,
+                                   Tag_false)
   {
     return (true);
   }

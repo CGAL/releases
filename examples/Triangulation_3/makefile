@@ -34,48 +34,53 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                example_adding_handles$(EXE_EXT) \
-                example_color$(EXE_EXT) \
-                example_find_conflicts$(EXE_EXT) \
-                example_hierarchy$(EXE_EXT) \
-                example_linking_2d_and_3d$(EXE_EXT) \
-                example_regular$(EXE_EXT) \
-                example_simple$(EXE_EXT) \
-                example_tds$(EXE_EXT) 
+                adding_handles$(EXE_EXT) \
+                color$(EXE_EXT) \
+                find_conflicts$(EXE_EXT) \
+                hierarchy$(EXE_EXT) \
+                linking_2d_and_3d$(EXE_EXT) \
+                regular$(EXE_EXT) \
+                simple$(EXE_EXT) \
+                simplex$(EXE_EXT) \
+                tds$(EXE_EXT) 
 
-example_adding_handles$(EXE_EXT): example_adding_handles$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_adding_handles example_adding_handles$(OBJ_EXT) $(LDFLAGS)
+adding_handles$(EXE_EXT): adding_handles$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)adding_handles adding_handles$(OBJ_EXT) $(LDFLAGS)
 
-example_color$(EXE_EXT): example_color$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_color example_color$(OBJ_EXT) $(LDFLAGS)
+color$(EXE_EXT): color$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)color color$(OBJ_EXT) $(LDFLAGS)
 
-example_find_conflicts$(EXE_EXT): example_find_conflicts$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_find_conflicts example_find_conflicts$(OBJ_EXT) $(LDFLAGS)
+find_conflicts$(EXE_EXT): find_conflicts$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)find_conflicts find_conflicts$(OBJ_EXT) $(LDFLAGS)
 
-example_hierarchy$(EXE_EXT): example_hierarchy$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_hierarchy example_hierarchy$(OBJ_EXT) $(LDFLAGS)
+hierarchy$(EXE_EXT): hierarchy$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)hierarchy hierarchy$(OBJ_EXT) $(LDFLAGS)
 
-example_linking_2d_and_3d$(EXE_EXT): example_linking_2d_and_3d$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_linking_2d_and_3d example_linking_2d_and_3d$(OBJ_EXT) $(LDFLAGS)
+linking_2d_and_3d$(EXE_EXT): linking_2d_and_3d$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)linking_2d_and_3d linking_2d_and_3d$(OBJ_EXT) $(LDFLAGS)
 
-example_regular$(EXE_EXT): example_regular$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_regular example_regular$(OBJ_EXT) $(LDFLAGS)
+regular$(EXE_EXT): regular$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)regular regular$(OBJ_EXT) $(LDFLAGS)
 
-example_simple$(EXE_EXT): example_simple$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_simple example_simple$(OBJ_EXT) $(LDFLAGS)
+simple$(EXE_EXT): simple$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)simple simple$(OBJ_EXT) $(LDFLAGS)
 
-example_tds$(EXE_EXT): example_tds$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example_tds example_tds$(OBJ_EXT) $(LDFLAGS)
+simplex$(EXE_EXT): simplex$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)simplex simplex$(OBJ_EXT) $(LDFLAGS)
+
+tds$(EXE_EXT): tds$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)tds tds$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   example_adding_handles.clean \
-                   example_color.clean \
-                   example_find_conflicts.clean \
-                   example_hierarchy.clean \
-                   example_linking_2d_and_3d.clean \
-                   example_regular.clean \
-                   example_simple.clean \
-                   example_tds.clean 
+                   adding_handles.clean \
+                   color.clean \
+                   find_conflicts.clean \
+                   hierarchy.clean \
+                   linking_2d_and_3d.clean \
+                   regular.clean \
+                   simple.clean \
+                   simplex.clean \
+                   tds.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

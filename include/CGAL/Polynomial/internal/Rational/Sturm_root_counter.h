@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sturm_root_counter.h $
-// $Id: Sturm_root_counter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sturm_root_counter.h $
+// $Id: Sturm_root_counter.h 35780 2007-01-24 04:44:16Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -76,13 +76,15 @@ struct Sturm_root_counter
 
             std::vector<Sign> signs(sseq.size());
 
+	    //typename K::Sign_at sa= k_.sign_at_object();
             for (unsigned int i = 0; i < sseq.size(); i++) {
-                if (above) {
-                    signs[i] = k_.sign_above_object( sseq[i] )(x);
-                }
-                else {
-                    signs[i] = k_.sign_below_object( sseq[i] )(x);
-                }
+	      if (above) {
+		signs[i] = k_.sign_above_object( sseq[i] )(x);
+	      }
+	      else {
+		signs[i] = k_.sign_below_object( sseq[i] )(x);
+	      }
+		//signs[i]= sa(sseq[i], x);
             }
 
             return sign_variations(signs.begin(), signs.end());

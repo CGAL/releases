@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Filtered_traits_base_2.h $
-// $Id: Filtered_traits_base_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Filtered_traits_base_2.h $
+// $Id: Filtered_traits_base_2.h 35201 2006-11-16 12:42:59Z hemmer $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -22,11 +22,10 @@
 #ifndef CGAL_SEGMENT_DELAUNAY_GRAPH_2_FILTERED_TRAITS_BASE_2_H
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_FILTERED_TRAITS_BASE_2_H
 
-#include <CGAL/Number_type_traits.h>
-
 #include <CGAL/Segment_Delaunay_graph_2/basic.h>
 #include <CGAL/Segment_Delaunay_graph_2/Traits_base_2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Kernel_wrapper_2.h>
+#include <CGAL/Segment_Delaunay_graph_2/Cartesian_converter.h>
 
 #include <CGAL/Filtered_predicate.h>
 #include <CGAL/Filtered_construction.h>
@@ -64,20 +63,24 @@ private:
   typedef Segment_Delaunay_graph_traits_base_2<FK_t,FK_MTag,ITag> FK_traits;
   typedef Segment_Delaunay_graph_traits_base_2<EK_t,EK_MTag,ITag> EK_traits;
 
-  typedef Segment_Delaunay_graph_kernel_wrapper_2<CK_t,ITag>  CK;
-  typedef Segment_Delaunay_graph_kernel_wrapper_2<FK_t,ITag>  FK;
-  typedef Segment_Delaunay_graph_kernel_wrapper_2<EK_t,ITag>  EK;
+  typedef CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Kernel_wrapper_2<CK_t,ITag>  CK;
+  typedef CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Kernel_wrapper_2<FK_t,ITag>  FK;
+  typedef CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Kernel_wrapper_2<EK_t,ITag>  EK;
 
-  typedef Sdg_cartesian_converter<CK, EK, C2E_t>            C2E;
-  typedef Sdg_cartesian_converter<CK, FK, C2F_t>            C2F;
+  typedef
+  CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Cartesian_converter<CK,EK,C2E_t>   C2E;
+  typedef
+  CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Cartesian_converter<CK,FK,C2F_t>   C2F;
 
   typedef
   Cartesian_converter<FK, CK, To_double<typename FK::RT> >  F2C_t;
-  typedef Sdg_cartesian_converter<FK, CK, F2C_t>            F2C;
+  typedef
+  CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Cartesian_converter<FK,CK,F2C_t>   F2C;
 
   typedef
   Cartesian_converter<EK, CK, To_double<typename EK::RT> >  E2C_t;
-  typedef Sdg_cartesian_converter<EK, CK, E2C_t>            E2C;
+  typedef
+  CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Cartesian_converter<EK,CK,E2C_t>   E2C;
   
   // Types for the construction kernel
   typedef typename CK::Point_2                CK_Point_2;
@@ -149,7 +152,10 @@ public:
 
   typedef typename CK::Rep_tag          Rep_tag;
 
-  typedef CGALi::Sdg_arrangement_enum::Arrangement_type Arrangement_type;
+protected:
+  typedef
+  CGAL_SEGMENT_DELAUNAY_GRAPH_2_NS::Internal::Arrangement_enum
+  Arrangement_enum;
 
 private:
   typedef typename CK_traits::Construct_svd_vertex_2
@@ -185,7 +191,7 @@ public:
 private:
   // PREDICATES FOR THE TWO KERNELS
   //-------------------------------
-#if 0
+#if 1
   // Predicates for the filtering kernel
   typedef typename FK_traits::Compare_x_2        FK_Compare_x_2;
   typedef typename FK_traits::Compare_y_2        FK_Compare_y_2;
@@ -335,7 +341,7 @@ private:
 
 public:
   struct Arrangement_type_2
-    : public Arrangement_type_2_base, public CGALi::Sdg_arrangement_enum
+    : public Arrangement_type_2_base, public Arrangement_enum
   {};
 
   typedef

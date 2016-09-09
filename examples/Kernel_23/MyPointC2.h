@@ -21,8 +21,8 @@ public:
     *(vec+1) = 0;
   }
 
-  
-  MyPointC2(const double x, const double y, int c)
+
+  MyPointC2(const double x, const double y, int c = 0)
     : col(c)
   {
     *vec = x;
@@ -40,8 +40,8 @@ public:
   int color() const { return col; }
 
   int& color() { return col; }
-  
-  
+
+
   bool operator==(const MyPointC2 &p) const
   {
     return ( *vec == *(p.vec) )  && ( *(vec+1) == *(p.vec + 1) && ( col == p.col) );
@@ -83,10 +83,26 @@ public:
   {
     typedef typename K::RT         RT;
     typedef typename K::Point_2    Point_2;
-    typedef typename K::Line_2    Line_2;
+    typedef typename K::Line_2     Line_2;
+    typedef typename Point_2::Rep  Rep;
   public:
-    typedef Point_2          result_type;
+    typedef Point_2                result_type;
     typedef CGAL::Arity_tag< 1 >   Arity;
+
+    // Note : the CGAL::Return_base_tag is really internal CGAL stuff.
+    // Unfortunately it is needed for optimizing away copy-constructions,
+    // due to current lack of delegating constructors in the C++ standard.
+    Rep // Point_2
+    operator()(CGAL::Return_base_tag, CGAL::Origin o) const
+    { return Rep(o); }
+
+    Rep // Point_2
+    operator()(CGAL::Return_base_tag, const RT& x, const RT& y) const
+    { return Rep(x, y); }
+
+    Rep // Point_2
+    operator()(CGAL::Return_base_tag, const RT& x, const RT& y, const RT& w) const
+    { return Rep(x, y, w); }
 
     Point_2
     operator()(CGAL::Origin o) const
@@ -94,8 +110,8 @@ public:
 
     Point_2
     operator()(const RT& x, const RT& y) const
-    { 
-      return MyPointC2(x, y, 0); 
+    {
+      return MyPointC2(x, y, 0);
     }
 
     Point_2
@@ -105,7 +121,7 @@ public:
       Point_2 p = base_operator(l);
       return p;
     }
-    
+
     Point_2
     operator()(const Line_2& l, int i) const
     {
@@ -116,9 +132,9 @@ public:
     // We need this one, as such a functor is in the Filtered_kernel
     Point_2
     operator()(const RT& x, const RT& y, const RT& w) const
-    { 
+    {
       if(w != 1){
-	return MyPointC2(x/w, y/w, 0); 
+	return MyPointC2(x/w, y/w, 0);
       } else {
 	return MyPointC2(x,y, 0);
       }
@@ -170,5 +186,3 @@ operator>>(std::istream &is, MyPointC2 &p)
 
 
 #endif // MY_POINTC2_H
-
-

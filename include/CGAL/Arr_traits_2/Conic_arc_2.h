@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_traits_2/Conic_arc_2.h $
-// $Id: Conic_arc_2.h 31023 2006-05-04 15:22:42Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_traits_2/Conic_arc_2.h $
+// $Id: Conic_arc_2.h 36449 2007-02-19 09:39:17Z ophirset $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -1391,22 +1391,22 @@ private:
       }
       else
       {
-        // phi = PI.
-        sin_phi = _zero;
-        cos_phi = -_one;
+        // phi = PI/2.
+        sin_phi = _one;
+        cos_phi = _zero;
       }
     }
     else if (sign_t == POSITIVE)
     {
       // sin(2*phi) > 0 so 0 < phi < PI/2.
-      sin_phi = nt_traits.sqrt((_one + cos_2phi) / _two);
-      cos_phi = nt_traits.sqrt((_one - cos_2phi) / _two);
+      sin_phi = nt_traits.sqrt((_one - cos_2phi) / _two);
+      cos_phi = nt_traits.sqrt((_one + cos_2phi) / _two);
     }
     else
     {
       // sin(2*phi) < 0 so PI/2 < phi < PI.
-      sin_phi = nt_traits.sqrt((_one + cos_2phi) / _two);
-      cos_phi = -nt_traits.sqrt((_one - cos_2phi) / _two);
+      sin_phi = nt_traits.sqrt((_one - cos_2phi) / _two);
+      cos_phi = -nt_traits.sqrt((_one + cos_2phi) / _two);
     }
            
     // Calculate the center (x0, y0) of the conic, given by the formulae:

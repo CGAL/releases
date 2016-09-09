@@ -11,14 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Matrix_search/include/CGAL/Rectangular_p_center_traits_2.h $
-// $Id: Rectangular_p_center_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Matrix_search/include/CGAL/Rectangular_p_center_traits_2.h $
+// $Id: Rectangular_p_center_traits_2.h 37705 2007-03-30 08:49:32Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
 #if ! (CGAL_RECTANGULAR_P_CENTER_TRAITS_2_H)
 #define CGAL_RECTANGULAR_P_CENTER_TRAITS_2_H 1
+
+
 
 #include <CGAL/Point_2.h>
 #include <CGAL/Iso_rectangle_2.h>
@@ -70,10 +72,12 @@ struct I_Infinity_distance_2
   typedef Arity_tag< 2 > Arity;
   typename R::FT
   operator()(const Point_2< R >& q1, const Point_2< R >& q2) const {
-    return max(CGAL_NTS abs(q1.x() - q2.x()),
-               CGAL_NTS abs(q1.y() - q2.y()));
+    BOOST_USING_STD_MAX();
+    return max BOOST_PREVENT_MACRO_SUBSTITUTION (CGAL_NTS abs(q1.x() - q2.x()),
+						 CGAL_NTS abs(q1.y() - q2.y()));
   }
 };
+
 template < class R >
 struct I_Signed_infinity_distance_2
 : public std::binary_function<
@@ -82,8 +86,12 @@ struct I_Signed_infinity_distance_2
   typedef Arity_tag< 2 > Arity;
   typename R::FT
   operator()(const Point_2< R >& q1, const Point_2< R >& q2) const
-  { return max(q1.x() - q2.x(), q1.y() - q2.y()); }
+  { 
+    BOOST_USING_STD_MAX();
+    return max BOOST_PREVENT_MACRO_SUBSTITUTION (q1.x() - q2.x(), q1.y() - q2.y()); 
+  }
 };
+
 template < class R >
 struct I_Construct_point_2_above_right_implicit_point_2 {
   // (p, q, r) |--> (p.x() + r, q.y() + r)
@@ -297,20 +305,7 @@ bounding_box_2(ForwardIterator f, ForwardIterator l)
   Traits t;
   return bounding_box_2(f, l, t);
 } // bounding_box_2(f, l)
-#ifdef CGAL_CFG_MATCHING_BUG_3
-template < class ForwardIterator >
-inline typename
-std::iterator_traits< ForwardIterator* >::value_type::R::Iso_rectangle_2
-bounding_box_2(ForwardIterator* f, ForwardIterator* l)
-// PRE: f != l.
-{
-  CGAL_precondition(f != l);
-  typedef typename std::iterator_traits< ForwardIterator* >::value_type::R R;
-  typedef Rectangular_p_center_default_traits_2< R > Traits;
-  Traits t;
-  return bounding_box_2(f, l, t);
-} // bounding_box_2(f, l)
-#endif // CGAL_CFG_MATCHING_BUG_3
+
 template < class Rectangle, class Traits >
 inline Rectangle
 construct_bounding_box_union_2(const Rectangle& r1,

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Nef_2/Segment_overlay_traits.h $
-// $Id: Segment_overlay_traits.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/Segment_overlay_traits.h $
+// $Id: Segment_overlay_traits.h 37506 2007-03-26 16:05:24Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -26,6 +26,7 @@
 
 #if defined(CGAL_USE_LEDA)
 #include <CGAL/LEDA_basic.h>
+#if CGAL_LEDA_VERSION < 500
 #include <LEDA/tuple.h>
 #include <LEDA/slist.h>
 #include <LEDA/list.h>
@@ -33,6 +34,15 @@
 #include <LEDA/map2.h>
 #include <LEDA/sortseq.h>
 #include <LEDA/p_queue.h>
+#else
+#include <LEDA/core/tuple.h>
+#include <LEDA/core/slist.h>
+#include <LEDA/core/list.h>
+#include <LEDA/core/map.h>
+#include <LEDA/core/map2.h>
+#include <LEDA/core/sortseq.h>
+#include <LEDA/core/p_queue.h>
+#endif
 #include <utility>
 #include <sstream>
 
@@ -230,7 +240,7 @@ public:
   { 
     if (!XS.empty()) { 
       // event is set at end of loop and in init
-      event = XS.min();
+      event = (XS.min)();
       p_sweep = XS.key(event);
       return true;
     }
@@ -252,7 +262,7 @@ public:
       if (sit == nil) 
         {
           Segment_2 s_sweep = K.construct_segment(p_sweep,p_sweep);
-          seg_pair sp(s_sweep,ITERATOR());
+          seg_pair sp(s_sweep, ite);
           sit_succ = YS.locate( &sp );
           if ( sit_succ != YS.max_item() && 
                orientation(sit_succ,p_sweep) == 0 ) 
@@ -452,49 +462,69 @@ public:
   OUTPUT&  GO;
   const GEOMETRY& K;
 
+
   class lt_segs_at_sweepline 
-  { const Point_2& p;
+  { 
+    const Point_2& p;
     ISegment s_bottom, s_top; // sentinel segments
     const GEOMETRY& K;
-  public:
-   lt_segs_at_sweepline(const Point_2& pi, 
-     ISegment s1, ISegment s2, const GEOMETRY& k) : 
-     p(pi), s_bottom(s1), s_top(s2), K(k) {}
-   lt_segs_at_sweepline(const lt_segs_at_sweepline& lt) :
-     p(lt.p), s_bottom(lt.s_bottom), s_top(lt.s_top), K(lt.K) {}
 
-   bool operator()(const ISegment& is1, const ISegment& is2) const
-   { 
-     if ( is2 == s_top || is1 == s_bottom ) return true;
-     if ( is1 == s_top || is2 == s_bottom ) return false;
-     if ( is1 == is2 ) return false;
-     // Precondition: p is contained in s1 or s2. 
-     const Segment_2& s1 = is1->first;
-     const Segment_2& s2 = is2->first;
-     int s = 0;
-     if ( K.orientation(s1,p) == 0 )      
-       s =   K.orientation(s2,p);
-     else if ( K.orientation(s2,p) == 0 ) 
-       s = - K.orientation(s1,p);
-     else CGAL_assertion_msg(0,"compare error in sweep.");
-     if ( s || K.is_degenerate(s1) || K.is_degenerate(s2) ) 
-       return ( s < 0 );
+  public:
+    lt_segs_at_sweepline(const Point_2& pi, 
+			 ISegment s1, ISegment s2, 
+			 const GEOMETRY& k) 
+     : p(pi), s_bottom(s1), s_top(s2), K(k) 
+    {}
     
-     s = K.orientation(s2,K.target(s1));
-     if (s==0) return ( is1 - is2 ) < 0;
-     // overlapping segments are not equal
-     return ( s < 0 );
-   }
-  };
+    lt_segs_at_sweepline(const lt_segs_at_sweepline& lt) 
+      : p(lt.p), s_bottom(lt.s_bottom), s_top(lt.s_top), K(lt.K) 
+    {}
+    
+    bool 
+    operator()(const ISegment& is1, const ISegment& is2) const
+    { 
+      if ( is2 == s_top || is1 == s_bottom ) return true;
+      if ( is1 == s_top || is2 == s_bottom ) return false;
+      if ( is1 == is2 ) return false;
+      // Precondition: p is contained in s1 or s2. 
+      const Segment_2& s1 = is1->first;
+      const Segment_2& s2 = is2->first;
 
-  struct lt_pnts_xy 
-  { const GEOMETRY& K;
-  public:
-   lt_pnts_xy(const GEOMETRY& k) : K(k) {}
-   lt_pnts_xy(const lt_pnts_xy& lt) : K(lt.K) {}
-   int operator()(const Point_2& p1, const Point_2& p2) const
-   { return K.compare_xy(p1,p2) < 0; }
+      CGAL_assertion_msg(( K.orientation(s1,p) == 0 ) ||  ( K.orientation(s2,p) == 0 ) ,"compare error in sweep.");
+
+      int s = - K.orientation(s1,p);
+      if ( s == 0 )      
+	s =  K.orientation(s2,p);
+      if ( s || K.is_degenerate(s1) || K.is_degenerate(s2) ) 
+	return ( s < 0 );
+      
+      s = K.orientation(s2,K.target(s1));
+      if (s==0) return ( is1 - is2 ) < 0;
+      // overlapping segments are not equal
+      return ( s < 0 );
+    }
   };
+  
+
+  struct lt_pnts_xy { 
+    const GEOMETRY& K;
+    
+  public:
+    lt_pnts_xy(const GEOMETRY& k) 
+      : K(k) 
+    {}
+    
+    lt_pnts_xy(const lt_pnts_xy& lt) 
+      : K(lt.K) 
+    {}
+    
+    int 
+    operator()(const Point_2& p1, const Point_2& p2) const
+    { 
+      return K.compare_xy(p1,p2) < 0; 
+    }
+  };
+  
 
 
   typedef std::map<ISegment, Halfedge_handle, lt_segs_at_sweepline> 
@@ -519,11 +549,11 @@ public:
   SegQueue          SQ;
   IList             Internal;
 
-  stl_seg_overlay_traits(const INPUT& in, OUTPUT& G, 
-    const GEOMETRY& k) : 
-    its(in.first), ite(in.second), GO(G), K(k), 
+  stl_seg_overlay_traits(const INPUT& in, OUTPUT& G, const GEOMETRY& k) 
+    : its(in.first), ite(in.second), GO(G), K(k), 
     XS(lt_pnts_xy(K)), YS(lt_segs_at_sweepline(p_sweep,&sl,&sh,K)),
-    SQ(lt_pnts_xy(K)) {}
+    SQ(lt_pnts_xy(K)) 
+  {}
 
 
   std::string dump_structures() const
@@ -647,7 +677,7 @@ public:
     Vertex_handle v = GO.new_vertex(p_sweep);
     ss_iterator sit_succ, sit_pred, sit_first, sit;
     Segment_2 s_sweep = K.construct_segment(p_sweep,p_sweep);
-    seg_pair sp(s_sweep,ITERATOR());
+    seg_pair sp(s_sweep, ite);
     sit_succ = YS.upper_bound(&sp);
     sit = sit_succ; --sit;
 

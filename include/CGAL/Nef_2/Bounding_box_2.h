@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Nef_2/Bounding_box_2.h $
-// $Id: Bounding_box_2.h 29636 2006-03-20 16:21:13Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/Bounding_box_2.h $
+// $Id: Bounding_box_2.h 37244 2007-03-19 08:25:43Z afabri $
 // 
 //
 // Author(s)     : Peter Hachenberger  <hachenberger@mpi-sb.mpg.de>
@@ -36,11 +36,11 @@ class Bounding_box_2 {
 
  public:
   template<typename Vertex_iterator>
-    Bounding_box_2(Vertex_iterator begin, Vertex_iterator end) {
+    Bounding_box_2(Vertex_iterator , Vertex_iterator ) {
     CGAL_assertion_msg(false, "dummy interface");
   }
   
-  Point intersection_ray_bbox(const SPoint& p, const SDirection& d) {
+  Point intersection_ray_bbox(const SPoint& , const SDirection& ) {
     CGAL_assertion_msg(false, "dummy interface");
     return Point();
   }

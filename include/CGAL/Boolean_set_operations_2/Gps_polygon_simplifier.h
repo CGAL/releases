@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_simplifier.h $
-// $Id: Gps_polygon_simplifier.h 28831 2006-02-27 14:28:18Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_simplifier.h $
+// $Id: Gps_polygon_simplifier.h 36785 2007-03-03 09:09:35Z spion $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -67,10 +67,10 @@ class Gps_polygon_simplifier
                                   Event,
                                   Subcurve>           Visitor;
 
-  typedef Sweep_line_2<Meta_traits,
-                       Visitor,
-                       Subcurve,
-                       Event>                         Sweep_line_2;
+  typedef CGAL::Sweep_line_2<Meta_traits,
+                             Visitor,
+                             Subcurve,
+                             Event>                   Sweep_line_2;
 
   typedef Unique_hash_map<Halfedge_handle, 
                           unsigned int>               Edges_hash;

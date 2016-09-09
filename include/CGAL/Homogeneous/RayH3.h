@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/RayH3.h $
-// $Id: RayH3.h 29102 2006-03-06 23:51:27Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/RayH3.h $
+// $Id: RayH3.h 33066 2006-08-06 15:45:55Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -37,7 +37,6 @@ class RayH3
    typedef typename R_::Line_3               Line_3;
    typedef typename R_::Direction_3          Direction_3;
    typedef typename R_::Vector_3             Vector_3;
-   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
    typedef std::pair<Point_3, Vector_3>             Rep;
    typedef typename R_::template Handle<Rep>::type  Base;
@@ -69,7 +68,6 @@ public:
     const Vector_3 & to_vector() const;
     Line_3  supporting_line() const;
     RayH3<R>   opposite() const;
-    RayH3<R>   transform( const Aff_transformation_3 & t) const;
     bool           has_on(const Point_3& p) const;
     bool           collinear_has_on(const Point_3 &p) const;
     bool           is_degenerate() const;
@@ -136,40 +134,6 @@ RayH3<R>
 RayH3<R>::opposite() const
 { return RayH3<R>( start(), - direction() ); }
 
-template < class R >
-CGAL_KERNEL_INLINE
-RayH3<R>
-RayH3<R>::transform( const Aff_transformation_3 & t) const
-{ return RayH3<R>(t.transform(start()), t.transform(direction()) ); }
-
-
-#ifndef CGAL_NO_OSTREAM_INSERT_RAYH3
-template < class R >
-std::ostream &operator<<(std::ostream &os, const RayH3<R> &r)
-{
-  switch(os.iword(IO::mode))
-  {
-      case IO::ASCII :
-          return os << r.start() << ' ' << r.direction();
-      case IO::BINARY :
-          return os<< r.start() << r.direction();
-      default:
-          return os << "RayH3(" << r.start() <<  ", " << r.direction() << ")";
-  }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_RAYH3
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_RAYH3
-template < class R  >
-std::istream &operator>>(std::istream &is, RayH3<R> &r)
-{
-  typename R::Point_3 p;
-  typename R::Direction_3 d;
-  is >> p >> d;
-  r = RayH3<R>(p, d);
-  return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_RAYH3
 
 template < class R >
 CGAL_KERNEL_INLINE

@@ -15,12 +15,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Iso_rectangleH2.h $
-// $Id: Iso_rectangleH2.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/Iso_rectangleH2.h $
+// $Id: Iso_rectangleH2.h 33347 2006-08-16 14:43:19Z afabri $
+//
 //
 // Author(s)     : Stefan Schirra
- 
+
 #ifndef CGAL_ISO_RECTANGLEH2_H
 #define CGAL_ISO_RECTANGLEH2_H
 
@@ -34,7 +34,6 @@ class Iso_rectangleH2
   typedef typename R_::FT                   FT;
   typedef typename R_::RT                   RT;
   typedef typename R_::Point_2              Point_2;
-  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
   typedef typename R_::Iso_rectangle_2      Iso_rectangle_2;
 
   typedef Twotuple<Point_2>                        Rep;
@@ -49,20 +48,16 @@ public:
 
   Iso_rectangleH2() {}
 
-  Iso_rectangleH2(const Point_2& p, const Point_2& q)
-    : base(p,q)
-  {}
-
-  const Point_2 & min() const;
-  const Point_2 & max() const;
-  
-  Iso_rectangle_2
-            transform(const Aff_transformation_2& t) const
+  Iso_rectangleH2(const Point_2& p, const Point_2& q, int)
+    : base(p, q)
   {
-    // FIXME : We need a precondition like this!!!
-    // CGAL_kernel_precondition(t.is_axis_preserving());
-    return Iso_rectangle_2(t.transform(min()), t.transform(max()));
+    // I have to remove the assertions, because of Homogeneous_converter.
+    // CGAL_kernel_assertion(p.x()<=q.x());
+    // CGAL_kernel_assertion(p.y()<=q.y());
   }
+
+  const Point_2 & min BOOST_PREVENT_MACRO_SUBSTITUTION () const;
+  const Point_2 & max BOOST_PREVENT_MACRO_SUBSTITUTION () const;
 
   Bounded_side bounded_side(const Point_2& p) const;
 };
@@ -72,13 +67,13 @@ public:
 template < class R >
 inline
 const typename Iso_rectangleH2<R>::Point_2 &
-Iso_rectangleH2<R>::min() const
+Iso_rectangleH2<R>::min BOOST_PREVENT_MACRO_SUBSTITUTION () const
 { return get(base).e0; }
 
 template < class R >
 inline
 const typename Iso_rectangleH2<R>::Point_2 &
-Iso_rectangleH2<R>::max() const
+Iso_rectangleH2<R>::max BOOST_PREVENT_MACRO_SUBSTITUTION () const
 { return get(base).e1; }
 
 template < class R >
@@ -87,8 +82,8 @@ Bounded_side
 Iso_rectangleH2<R>::
 bounded_side(const typename Iso_rectangleH2<R>::Point_2& p) const
 {
-  Oriented_side wrt_min = _where_wrt_L_wedge(min(),p);
-  Oriented_side wrt_max = _where_wrt_L_wedge(p,max());
+  Oriented_side wrt_min = _where_wrt_L_wedge((this->min)(),p);
+  Oriented_side wrt_max = _where_wrt_L_wedge(p,(this->max)());
   if (( wrt_min == ON_NEGATIVE_SIDE )||( wrt_max == ON_NEGATIVE_SIDE))
   {
       return ON_UNBOUNDED_SIDE;
@@ -100,33 +95,6 @@ bounded_side(const typename Iso_rectangleH2<R>::Point_2& p) const
   }
   return ON_BOUNDED_SIDE;
 }
-
-#ifndef CGAL_NO_OSTREAM_INSERT_ISO_RECTANGLEH2
-template < class R >
-std::ostream& operator<<(std::ostream& os, const Iso_rectangleH2<R>& r)
-{
-  switch(os.iword(IO::mode))
-  {
-    case IO::ASCII :
-        return os << r.min() << ' ' << r.max();
-    case IO::BINARY :
-        return os << r.min() << r.max();
-    default:
-        return os << "Iso_rectangleH2(" << r.min() << ", " << r.max() << ")";
-  }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_ISO_RECTANGLEH2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_ISO_RECTANGLEH2
-template < class R >
-std::istream& operator>>(std::istream& is, Iso_rectangleH2<R>& r)
-{
-  typename R::Point_2 p, q;
-  is >> p >> q;
-  r = Iso_rectangleH2<R>(p, q);
-  return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_ISO_RECTANGLEH2
 
 CGAL_END_NAMESPACE
 

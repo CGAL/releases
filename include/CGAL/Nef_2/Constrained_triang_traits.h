@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Nef_2/Constrained_triang_traits.h $
-// $Id: Constrained_triang_traits.h 28685 2006-02-22 15:22:27Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Nef_2/Constrained_triang_traits.h $
+// $Id: Constrained_triang_traits.h 34224 2006-09-14 08:14:32Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -30,6 +30,11 @@
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 19
 #include <CGAL/Nef_2/debug.h>
+
+#if defined(BOOST_MSVC)
+#  pragma warning(push)
+#  pragma warning(disable:4355) // complaint about using 'this' to
+#endif                          // initialize a member
 
 CGAL_BEGIN_NAMESPACE
 
@@ -404,5 +409,10 @@ public:
 }; // Constrained_triang_traits<PMDEC,GEOM,NEWEDGE>
 
 CGAL_END_NAMESPACE
+
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
+
 #endif // CGAL_PM_CONSTR_TRIANG_TRAITS_H
 

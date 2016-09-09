@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Enclosing_box_3.h $
-// $Id: Enclosing_box_3.h 30964 2006-05-03 11:35:55Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Enclosing_box_3.h $
+// $Id: Enclosing_box_3.h 36134 2007-02-09 00:39:39Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -24,11 +24,13 @@
 #include <CGAL/Kinetic/Ref_counted.h>
 #include <CGAL/Kinetic/Active_objects_listener_helper.h>
 #include <CGAL/Kinetic/Simulator_kds_listener.h>
+#include <CGAL/Kinetic/Enclosing_box_3.h>
+#include <CGAL/Kinetic/Event_base.h>
 
 CGAL_KINETIC_BEGIN_NAMESPACE
 
 template <class EB3>
-class Enclosing_box_bounce_event_3
+class Enclosing_box_bounce_event_3: public Event_base<EB3*>
 {
 public:
   Enclosing_box_bounce_event_3(){}
@@ -41,12 +43,13 @@ public:
 						    s_(s) {
 
   }
-  void process(const typename EB3::Simulator::Time &) {
+  void process() {
     eb_->bounce(k_, t_, s_);
   }
-  void write(std::ostream &out) const
+  std::ostream& write(std::ostream &out) const
   {
-    out << "[Bounce " << k_ << " off " << s_ << " at " << t_ <<"]";
+    out << "Bounce " << k_ << " off " << s_ << " at " << t_;
+    return out;
   }
   EB3* eb_;
   typename EB3::Point_key k_;
@@ -100,12 +103,13 @@ public:
 													motl_(tr.active_points_3_table_handle(), this) {
     CGAL_assertion(xmin<xmax);
     CGAL_assertion(ymin<ymax);
+    CGAL_assertion(zmin<zmax);
     bounds_[LEFT]=xmin;
     bounds_[RIGHT]=xmax;
-    bounds_[TOP]=ymin;
-    bounds_[BOTTOM]=ymax;
-    bounds_[FRONT]=zmin;
-    bounds_[BACK]=zmax;
+    bounds_[TOP]=ymax;
+    bounds_[BOTTOM]=ymin;
+    bounds_[FRONT]=zmax;
+    bounds_[BACK]=zmin;
   };
 
   ~Enclosing_box_3() {
@@ -190,56 +194,53 @@ protected:
 
   typename Simulator::Function_kernel function_kernel_object() const
   {
-    return traits_.function_kernel_object();
+    return traits_.kinetic_kernel_object().function_kernel_object();
   }
 
   Side try_bound(Side try_side, Point_key k,Side old_side,  double& old_time) const
   {
     Coordinate nf;
     NT bound=bounds_[try_side];
+   typename Kinetic_kernel::Certificate re;
     if (try_side== TOP || try_side==BOTTOM) {
-      nf=traits_.active_points_3_table_handle()->at(k).y()-Fn(bound);
-    }
-    else if (try_side == LEFT || try_side == RIGHT) {
-      nf=traits_.active_points_3_table_handle()->at(k).x()-Fn(bound);
-    }
-    else {
-      nf=traits_.active_points_3_table_handle()->at(k).z()-Fn(bound);
-    }
-    if (try_side == BOTTOM || try_side == RIGHT || try_side == BACK) {
-      nf=-nf;
-    }
-
-    typename Kinetic_kernel::Function_kernel::Root_stack re
-      = traits_.kinetic_kernel_object().function_kernel_object().root_stack_object(nf,
-										   traits_.simulator_handle()->current_time(),
-										   traits_.simulator_handle()->end_time());
-
-    double dv = std::numeric_limits<double>::infinity();
-    if (!re.empty()) {
-      dv= CGAL::to_interval(re.top()).first;
-    }
-
-    /*while (!re.finished()) {
-      CGAL_assertion(!function_kernel_object().is_even_multiplicity_object(nf)(re.current()));
-      dv= CGAL::to_interval(re.current()).second;
-      if (!re.finished()) {
-      re.advance();
-      if (!re.finished()){
-      CGAL_assertion(!function_kernel_object().is_even_multiplicity_object(nf)(re.current()));
-      if (dv < CGAL::to_interval(re.current()).first) {
-      break;
+      typename Kinetic_kernel::Compare_y_3 ily = traits_.kinetic_kernel_object().compare_y_3_object();     
+      if (try_side== BOTTOM) {
+	re= ily(traits_.active_points_3_table_handle()->at(k), bound,
+		traits_.simulator_handle()->current_time(), traits_.simulator_handle()->end_time());
       } else {
-      re.advance();
+	re= ily(bound, traits_.active_points_3_table_handle()->at(k),
+		traits_.simulator_handle()->current_time(), traits_.simulator_handle()->end_time());
       }
+
+    } else if (try_side == LEFT || try_side == RIGHT) {
+      typename Kinetic_kernel::Compare_x_3 ily = traits_.kinetic_kernel_object().compare_x_3_object();
+      if (try_side== LEFT) {
+	re= ily(traits_.active_points_3_table_handle()->at(k), bound,
+		traits_.simulator_handle()->current_time(), traits_.simulator_handle()->end_time());
+      } else {
+	re= ily(bound, traits_.active_points_3_table_handle()->at(k),
+		traits_.simulator_handle()->current_time(), traits_.simulator_handle()->end_time());
       }
+    } else {
+      typename Kinetic_kernel::Compare_z_3 ily = traits_.kinetic_kernel_object().compare_z_3_object();
+      if (try_side== BACK) {
+	re= ily(traits_.active_points_3_table_handle()->at(k), bound,
+		traits_.simulator_handle()->current_time(), traits_.simulator_handle()->end_time());
+      } else {
+	re= ily(bound, traits_.active_points_3_table_handle()->at(k),
+		traits_.simulator_handle()->current_time(), traits_.simulator_handle()->end_time());
       }
-      }*/
-    if (dv < old_time) {
-      old_time=dv;
-      return try_side;
     }
-    else {
+    if (re.will_fail()) {
+      CGAL_KINETIC_LOG(LOG_LOTS, "Side fails at " << re.failure_time() << std::endl);
+      double dv= CGAL::to_interval(re.failure_time()).first;
+      if (dv < old_time) {
+	old_time=dv;
+	return try_side;
+      } else {
+	return old_side;
+      }
+    } else {
       return old_side;
     }
   }
@@ -279,8 +280,8 @@ protected:
       }*/
 
     CGAL_exactness_assertion_code(Coordinate ft(out.begin(), out.end()););
-    CGAL_exactness_assertion(ft(time) == f(time));
-    CGAL_exactness_assertion(cd(ft)(time) == -cd(f)(time));
+    CGAL_exactness_assertion(ft(t) == f(t));
+    CGAL_exactness_assertion(cd(ft)(t) == -cd(f)(t));
   }
 
   NT bounds_[6];

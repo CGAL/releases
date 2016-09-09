@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Bounded_kernel.h $
-// $Id: Bounded_kernel.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Bounded_kernel.h $
+// $Id: Bounded_kernel.h 32927 2006-08-03 03:39:32Z afabri $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -419,14 +419,14 @@ public:
     while ( start != end ) {
       Point_2 p = *start++;
       if ( is_standard(p) ) {
-	R = CGAL_NTS max(CGAL_NTS abs(p.x()[0]), CGAL_NTS abs(p.y()[0]));
+	R = (CGAL::max)(CGAL_NTS abs(p.x()[0]), CGAL_NTS abs(p.y()[0]));
       } else {
 	RT rx = CGAL_NTS abs(p.x()), ry = CGAL_NTS abs(p.y());
 	if ( rx[1] > ry[1] )      R = CGAL_NTS abs(ry[0]-rx[0])/(rx[1]-ry[1]);
 	else if ( rx[1] < ry[1] ) R = CGAL_NTS abs(rx[0]-ry[0])/(ry[1]-rx[1]);
 	else /* rx[1] == ry[1] */ R = CGAL_NTS abs(rx[0]-ry[0])/2;
       }
-      R0 = CGAL_NTS max(R+1,R0);
+      R0 = (CGAL::max)(R+1,R0);
     }
   }
   

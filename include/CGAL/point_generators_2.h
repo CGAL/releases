@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Generator/include/CGAL/point_generators_2.h $
-// $Id: point_generators_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Generator/include/CGAL/point_generators_2.h $
+// $Id: point_generators_2.h 32923 2006-08-03 03:37:56Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -201,10 +201,13 @@ public:
         // distributed on the segment from p to q except q, i.e. `*g' ==
         // \lambda p + (1-\lambda)\, q where 0 <= \lambda < 1 . A single
         // random number is needed from `rnd' for each point.
-    : Random_generator_base<P>( max( max( to_double(p.x()), to_double(q.x())),
-                                          max( to_double(p.y()),
-                                               to_double(q.y()))),
-                                 rnd) , _p(p), _q(q) {
+    : Random_generator_base<P>( max BOOST_PREVENT_MACRO_SUBSTITUTION 
+                                    ( max BOOST_PREVENT_MACRO_SUBSTITUTION 
+				          ( to_double(p.x()), to_double(q.x())),
+                                            max BOOST_PREVENT_MACRO_SUBSTITUTION 
+                                                ( to_double(p.y()),
+                                                  to_double(q.y()))),
+                                            rnd) , _p(p), _q(q) {
         generate_point();
     }
     const P&  source() const { return _p; }
@@ -244,9 +247,12 @@ public:
     Points_on_segment_2() {}
     Points_on_segment_2( const P& p, const P& q,
                          std::size_t mx, std::size_t i = 0)
-    : Generator_base<P>( max( max( to_double(p.x()), to_double(q.x())),
-                                   max( to_double(p.y()), to_double(q.y())))),
-                          _p(p), _q(q), d_i(i), d_mx(mx) {
+    : Generator_base<P>( max BOOST_PREVENT_MACRO_SUBSTITUTION
+                             ( max BOOST_PREVENT_MACRO_SUBSTITUTION
+                                   ( to_double(p.x()), to_double(q.x())),
+                                     max BOOST_PREVENT_MACRO_SUBSTITUTION
+                                         ( to_double(p.y()), to_double(q.y())))),
+                                     _p(p), _q(q), d_i(i), d_mx(mx) {
         generate_point();
     }
     const P&  source() const { return _p; }

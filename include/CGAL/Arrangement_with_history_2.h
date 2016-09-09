@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arrangement_with_history_2.h $
-// $Id: Arrangement_with_history_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arrangement_with_history_2.h $
+// $Id: Arrangement_with_history_2.h 36756 2007-03-02 10:46:49Z spion $
 // 
 //
 // Author(s)     : Ron Wein         <wein@post.tau.ac.il>
@@ -91,7 +91,7 @@ protected:
 
   // The arrangement with history is based on the representation of an
   // arrangement, templated by the data-traits class and the rebound DCEL.
-  typedef Arrangement_2<Data_traits_2, Data_dcel>       Base_arr_2;
+  typedef CGAL::Arrangement_2<Data_traits_2, Data_dcel> Base_arr_2;
   typedef Arr_traits_adaptor_2<Data_traits_2>           Traits_adaptor_2;
  
 public:

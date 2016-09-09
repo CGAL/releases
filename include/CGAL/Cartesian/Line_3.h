@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Line_3.h $
-// $Id: Line_3.h 29078 2006-03-06 13:08:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Line_3.h $
+// $Id: Line_3.h 33065 2006-08-06 15:40:06Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -40,7 +40,6 @@ class LineC3
   typedef typename R_::Ray_3                Ray_3;
   typedef typename R_::Line_3               Line_3;
   typedef typename R_::Segment_3            Segment_3;
-  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
   typedef std::pair<Point_3, Vector_3>             Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -90,15 +89,8 @@ public:
 
   Point_3     point(int i) const;
 
-  Point_3     projection(const Point_3 &p) const;
-
   bool        has_on(const Point_3 &p) const;
   bool        is_degenerate() const;
-
-  Line_3        transform(const Aff_transformation_3 &t) const
-  {
-    return LineC3<R>(t.transform(point()), t.transform(direction()));
-  }
 };
 
 template < class R >
@@ -144,15 +136,6 @@ LineC3<R>::opposite() const
 
 template < class R >
 inline
-typename LineC3<R>::Point_3
-LineC3<R>::
-projection(const typename LineC3<R>::Point_3 &p) const
-{
-  return R().construct_projected_point_3_object()(*this, p);
-}
-
-template < class R >
-inline
 bool
 LineC3<R>::
 has_on(const typename LineC3<R>::Point_3 &p) const
@@ -164,38 +147,9 @@ template < class R >
 inline
 bool
 LineC3<R>::is_degenerate() const
-{ // FIXME : predicate
+{
   return to_vector() == NULL_VECTOR;
 }
-
-#ifndef CGAL_CARTESIAN_NO_OSTREAM_INSERT_LINEC3
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const LineC3<R> &l)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << l.point(0) << ' ' << l.point(1);
-    case IO::BINARY :
-        return os << l.point(0) <<  l.point(1);
-    default:
-        return  os << "LineC3(" << l.point(0) << ", " << l.point(1) << ")";
-    }
-}
-#endif // CGAL_CARTESIAN_NO_OSTREAM_INSERT_LINEC3
-
-#ifndef CGAL_CARTESIAN_NO_ISTREAM_EXTRACT_LINEC3
-template < class R >
-std::istream &
-operator>>(std::istream &is, LineC3<R> &l)
-{
-    typename R::Point_3 p, q;
-    is >> p >> q;
-    if (is)
-	l = LineC3<R>(p, q);
-    return is;
-}
-#endif // CGAL_CARTESIAN_NO_ISTREAM_EXTRACT_LINEC3
 
 CGAL_END_NAMESPACE
 

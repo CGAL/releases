@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Iso_cuboid_3.h $
-// $Id: Iso_cuboid_3.h 29078 2006-03-06 13:08:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Iso_cuboid_3.h $
+// $Id: Iso_cuboid_3.h 35640 2006-12-27 23:25:47Z spion $
 // 
 //
 // Author(s)     : Herve Bronnimann
@@ -48,6 +48,15 @@ public:
   typedef R_                                R;
 
   Iso_cuboidC3() {}
+
+  Iso_cuboidC3(const Point_3 &p, const Point_3 &q, int)
+    : base(p, q)
+  {
+    // I have to remove the assertions, because of Cartesian_converter.
+    // CGAL_kernel_assertion(p.x()<=q.x());
+    // CGAL_kernel_assertion(p.y()<=q.y());
+    // CGAL_kernel_assertion(p.z()<=q.z());
+  }
 
   Iso_cuboidC3(const Point_3 &p, const Point_3 &q)
   {
@@ -99,11 +108,11 @@ public:
   bool operator==(const Iso_cuboidC3& s) const;
   bool operator!=(const Iso_cuboidC3& s) const;
 
-  const Point_3 & min() const
+  const Point_3 & min BOOST_PREVENT_MACRO_SUBSTITUTION () const
   {
       return get(base).e0;
   }
-  const Point_3 & max() const
+  const Point_3 & max BOOST_PREVENT_MACRO_SUBSTITUTION () const
   {
       return get(base).e1;
   }
@@ -112,7 +121,7 @@ public:
 
   Iso_cuboid_3 transform(const Aff_transformation_3 &t) const
   {
-    return Iso_cuboidC3(t.transform(min()), t.transform(max()));
+    return Iso_cuboidC3(t.transform((this->min)()), t.transform((this->max)()));
   }
 
   Bounded_side bounded_side(const Point_3& p) const;
@@ -121,7 +130,6 @@ public:
   bool         has_on_bounded_side(const Point_3& p) const;
   bool         has_on_unbounded_side(const Point_3& p) const;
   bool         is_degenerate() const;
-  Bbox_3       bbox() const;
   const FT &   xmin() const;
   const FT &   ymin() const;
   const FT &   zmin() const;
@@ -141,7 +149,7 @@ Iso_cuboidC3<R>::operator==(const Iso_cuboidC3<R>& r) const
 { // FIXME : predicate
   if (CGAL::identical(base, r.base))
       return true;
-  return min() == r.min() && max() == r.max();
+  return (this->min)() == (r.min)() && (this->max)() == (r.max)();
 }
 
 template < class R >
@@ -157,7 +165,7 @@ inline
 const typename Iso_cuboidC3<R>::FT &
 Iso_cuboidC3<R>::xmin() const
 {
-  return min().x();
+  return (this->min)().x();
 }
 
 template < class R >
@@ -165,7 +173,7 @@ inline
 const typename Iso_cuboidC3<R>::FT &
 Iso_cuboidC3<R>::ymin() const
 {
-  return min().y();
+  return (this->min)().y();
 }
 
 template < class R >
@@ -173,7 +181,7 @@ inline
 const typename Iso_cuboidC3<R>::FT &
 Iso_cuboidC3<R>::zmin() const
 {
-  return min().z();
+  return (this->min)().z();
 }
 
 template < class R >
@@ -181,7 +189,7 @@ inline
 const typename Iso_cuboidC3<R>::FT &
 Iso_cuboidC3<R>::xmax() const
 {
-  return max().x();
+  return (this->max)().x();
 }
 
 template < class R >
@@ -189,7 +197,7 @@ inline
 const typename Iso_cuboidC3<R>::FT &
 Iso_cuboidC3<R>::ymax() const
 {
-  return max().y();
+  return (this->max)().y();
 }
 
 template < class R >
@@ -197,7 +205,7 @@ inline
 const typename Iso_cuboidC3<R>::FT &
 Iso_cuboidC3<R>::zmax() const
 {
-  return max().z();
+  return (this->max)().z();
 }
 
 template < class R >
@@ -236,15 +244,15 @@ Iso_cuboidC3<R>::vertex(int i) const
   Construct_point_3 construct_point_3;
   switch (i%8)
   {
-    case 0: return min();
-    case 1: return construct_point_3(max().hx(), min().hy(), min().hz());
-    case 2: return construct_point_3(max().hx(), max().hy(), min().hz());
-    case 3: return construct_point_3(min().hx(), max().hy(), min().hz());
-    case 4: return construct_point_3(min().hx(), max().hy(), max().hz());
-    case 5: return construct_point_3(min().hx(), min().hy(), max().hz());
-    case 6: return construct_point_3(max().hx(), min().hy(), max().hz());
+    case 0: return (this->min)();
+    case 1: return construct_point_3((this->max)().hx(), (this->min)().hy(), (this->min)().hz());
+    case 2: return construct_point_3((this->max)().hx(), (this->max)().hy(), (this->min)().hz());
+    case 3: return construct_point_3((this->min)().hx(), (this->max)().hy(), (this->min)().hz());
+    case 4: return construct_point_3((this->min)().hx(), (this->max)().hy(), (this->max)().hz());
+    case 5: return construct_point_3((this->min)().hx(), (this->min)().hy(), (this->max)().hz());
+    case 6: return construct_point_3((this->max)().hx(), (this->min)().hy(), (this->max)().hz());
     default: // case 7:
-        return max();
+        return (this->max)();
   }
 }
 
@@ -270,9 +278,9 @@ Bounded_side
 Iso_cuboidC3<R>::
 bounded_side(const typename Iso_cuboidC3<R>::Point_3& p) const
 {
-  if (strict_dominance(p, min()) && strict_dominance(max(), p) )
+  if (strict_dominance(p, (this->min)()) && strict_dominance((this->max)(), p) )
     return ON_BOUNDED_SIDE;
-  if (dominance(p, min()) && dominance(max(), p))
+  if (dominance(p, (this->min)()) && dominance((this->max)(), p))
     return ON_BOUNDARY;
   return ON_UNBOUNDED_SIDE;
 }
@@ -319,48 +327,10 @@ CGAL_KERNEL_INLINE
 bool
 Iso_cuboidC3<R>::is_degenerate() const
 { // FIXME : predicate
-  return min().hx() == max().hx()
-      || min().hy() == max().hy()
-      || min().hz() == max().hz();
+  return (this->min)().hx() == (this->max)().hx()
+      || (this->min)().hy() == (this->max)().hy()
+      || (this->min)().hz() == (this->max)().hz();
 }
-
-template < class R >
-inline
-Bbox_3
-Iso_cuboidC3<R>::bbox() const
-{
-  typename R::Construct_bbox_3 construct_bbox_3;
-  return construct_bbox_3(min()) + construct_bbox_3(max());
-}
-
-#ifndef CGAL_NO_OSTREAM_INSERT_ISO_CUBOIDC3
-template < class R >
-std::ostream &
-operator<<(std::ostream& os, const Iso_cuboidC3<R>& r)
-{
-  switch(os.iword(IO::mode)) {
-  case IO::ASCII :
-    return os << r.min() << ' ' << r.max();
-  case IO::BINARY :
-    return os << r.min() << r.max();
-  default:
-    return os << "Iso_cuboidC3(" << r.min() << ", " << r.max() << ")";
-  }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_ISO_CUBOIDC3
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_ISO_CUBOIDC3
-template < class R >
-std::istream &
-operator>>(std::istream& is, Iso_cuboidC3<R>& r)
-{
-  typename R::Point_3 p, q;
-  is >> p >> q;
-  if (is)
-      r = Iso_cuboidC3<R>(p, q);
-  return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_ISO_CUBOIDC3
 
 CGAL_END_NAMESPACE
 

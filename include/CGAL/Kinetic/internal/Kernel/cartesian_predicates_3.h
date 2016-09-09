@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/cartesian_predicates_3.h $
-// $Id: cartesian_predicates_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Kernel/cartesian_predicates_3.h $
+// $Id: cartesian_predicates_3.h 37180 2007-03-17 09:00:08Z afabri $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -26,6 +26,8 @@
 //#include <CGAL/Kinetic/kernel/Cartesian_moving_sphere_3.h>
 
 CGAL_KINETIC_BEGIN_INTERNAL_NAMESPACE
+
+
 
 template <class KK>
 struct Cartesian_side_of_oriented_sphere_3
@@ -129,6 +131,28 @@ struct Cartesian_power_test_3
 				     dqx, dqy, dqz, dqt,
 				     drx, dry, drz, drt,
 				     dsx, dsy, dsz, dst);
+  }
+
+ result_type operator()(const first_argument_type &,
+			const second_argument_type &,
+			const third_argument_type &,
+			const fourth_argument_type &)const
+  {
+    CGAL_assertion(0);
+    return result_type();
+  }
+  result_type operator()(const first_argument_type &,
+			 const second_argument_type &,
+			 const third_argument_type &)const
+  {
+    CGAL_assertion(0);
+    return result_type();
+  }
+  result_type operator()(const first_argument_type &,
+			 const second_argument_type &)const
+  {
+    CGAL_assertion(0);
+    return result_type();
   }
 };
 
@@ -349,6 +373,8 @@ typename Pt::Coordinate co3(const Pt &a, const Pt &b, const Pt &c, const Pt &d)
 }
 
 
+
+
 template <class KK>
 struct Cartesian_orientation_3
 {
@@ -370,7 +396,7 @@ struct Cartesian_orientation_3
 };
 
 template <class KK>
-struct Cartesian_weighted_orientation_3
+struct Cartesian_weighted_orientation_3: public Cartesian_orientation_3<KK>
 {
   Cartesian_weighted_orientation_3(){}
   typedef typename KK::Certificate_function result_type;
@@ -379,6 +405,13 @@ struct Cartesian_weighted_orientation_3
   typedef typename KK::Weighted_point_3 second_argument_type;
   typedef typename KK::Weighted_point_3 third_argument_type;
   typedef typename KK::Weighted_point_3 fourth_argument_type;
+  template <class NWP>
+    result_type operator()(const NWP &a,
+			   const NWP &b,
+			   const NWP &c,
+			   const NWP &d) const {
+    return Cartesian_orientation_3<KK>::operator()(a,b,c,d);
+  }
   result_type operator()(const first_argument_type &a,
 			 const second_argument_type &b,
 			 const third_argument_type &c,
@@ -386,6 +419,7 @@ struct Cartesian_weighted_orientation_3
   {
     return co3(a.point(), b.point(), c.point(), d.point());
   }
+
 };
 
 template <class KK>
@@ -398,7 +432,15 @@ struct Cartesian_less_x_3
   result_type operator()(const first_argument_type &a,
 			 const second_argument_type &b) const
   {
-    return b.x() - a.x();
+    return a.x() - b.x();
+  }
+  typedef typename KK::Motion_function::NT NT;  
+  result_type operator()( const NT &c, const first_argument_type &a) const {
+    return result_type(c) - a.x();
+  }
+
+  result_type operator()(const second_argument_type &b, const NT &c ) const {
+    return b.x() - result_type(c);
   }
 };
 
@@ -413,7 +455,15 @@ struct Cartesian_less_y_3
   result_type operator()(const first_argument_type &a,
 			 const second_argument_type &b) const
   {
-    return b.y() - a.y();
+    return a.y() - b.y();
+  }
+  typedef typename KK::Motion_function::NT NT;  
+  result_type operator()(const NT &c, const first_argument_type &a) const {
+    return result_type(c) - a.y();
+  }
+
+  result_type operator()( const second_argument_type &b, const NT &c) const {
+    return b.y() - result_type(c);
   }
 };
 
@@ -428,8 +478,17 @@ struct Cartesian_less_z_3
   result_type operator()(const first_argument_type &a,
 			 const second_argument_type &b) const
   {
-    return b.z() - a.z();
+    return a.z() - b.z();
   }
+  typedef typename KK::Motion_function::NT NT;  
+  result_type operator()(const NT &c, const first_argument_type &a) const {
+    return result_type(c) - a.z();
+  }
+
+  result_type operator()( const second_argument_type &b, const NT &c) const {
+    return b.z() - result_type(c);
+  }
+
 };
 
 /*PREDICATE_2_BEGIN(Point_sphere_orientation_3){

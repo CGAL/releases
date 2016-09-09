@@ -12,16 +12,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_moving_points_3.h $
-// $Id: SoQt_moving_points_3.h 31631 2006-06-16 13:09:58Z drussel $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_moving_points_3.h $
+// $Id: SoQt_moving_points_3.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
 
 #ifndef CGAL_KINETIC_QT_MOVING_POINT_TABLE_3_H
 #define CGAL_KINETIC_QT_MOVING_POINT_TABLE_3_H
 #include <CGAL/Kinetic/basic.h>
-#include <CGAL/Kinetic/Cartesian_instantaneous_kernel.h>
 #include <CGAL/Kinetic/Ref_counted.h>
 #include <CGAL/Kinetic/Simulator_objects_listener.h>
 #include "SoQt_handle.h"
@@ -237,7 +236,7 @@ protected:
   unsigned int size() {
     unsigned int ct=0;
     for (typename MPT::Key_iterator it= tr_.active_points_3_table_handle()->keys_begin();
-         it != tr_.active_points_3_table_handle()->keys_end(); ++it, ++ct);
+	 it != tr_.active_points_3_table_handle()->keys_end(); ++it, ++ct);
     return ct;
   }
 
@@ -289,7 +288,7 @@ void SoQt_moving_points_3<Tr, G>::update_coordinates()
   for (typename MPT::Key_iterator it= tr_.active_points_3_table_handle()->keys_begin();
        it != tr_.active_points_3_table_handle()->keys_end(); ++it, ++cp) {
     //std::cout << "drawing point " << *it  << "= " << ik_.to_static(*it) << std::endl;
-    typename IK::Static_kernel::Point_3 pt= ik_.static_object(*it);
+    typename IK::Static_kernel::Point_3 pt= ik_.current_coordinates_object()(*it);
     pts[it->to_index()].setValue(CGAL::to_double(pt.x()), CGAL::to_double(pt.y()),
 			      CGAL::to_double(pt.z()));
     if (vpts != NULL) vpts[cp].setValue(CGAL::to_double(pt.x()),
@@ -388,7 +387,7 @@ void SoQt_moving_points_3<Tr, G>::update_tree()
     mat->emissiveColor.setValue(1,1,1);
     labels_= new SoGroup;
     for (typename MPT::Key_iterator kit = tr_.active_points_3_table_handle()->keys_begin();
-         kit != tr_.active_points_3_table_handle()->keys_end(); ++kit) {
+	 kit != tr_.active_points_3_table_handle()->keys_end(); ++kit) {
       SoQt_handle<SoShapeKit> k = new SoShapeKit;
       labels_->addChild(k.get());
       SoQt_handle<SoText2> s= new SoText2;
@@ -470,7 +469,7 @@ void SoQt_moving_points_3<Tr, G>::write(std::ostream &out) const
   for (typename MPT::Key_iterator it= tr_.active_points_3_table_handle()->keys_begin();
        it != tr_.active_points_3_table_handle()->keys_end(); ++it) {
     out << *it;
-    out << ": " << ik_.static_object(*it) << std::endl;
+    out << ": " << ik_.current_coordinates_object()(*it) << std::endl;
   }
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2007  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,9 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: 
-// $Revision: 31450 $ $Date: 2006-06-06 15:14:58 +0200 (Tue, 06 Jun 2006) $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Surface_mesh_cell_base_3.h $
+// $Id: Surface_mesh_cell_base_3.h 37876 2007-04-03 13:59:17Z lrineau $
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
 
@@ -21,6 +20,8 @@
 #define CGAL_SURFACE_MESH_CELL_BASE_3_H
 
 #include <CGAL/Complex_2_in_triangulation_cell_base_3.h>
+
+#include <string>
 
 namespace CGAL {
   
@@ -126,6 +127,14 @@ namespace CGAL {
       tab_surface_center_facets[facet]=p;
     }
 
+#ifdef CGAL_MESH_3_IO_H
+    static
+    std::string io_signature()
+    {
+      return 
+        Get_io_signature<Complex_2_in_triangulation_cell_base_3<GT, Cb> >()();
+    }
+#endif
   };  // end Surface_mesh_cell_base_3
 
 template < class GT, class Cb >
@@ -133,7 +142,8 @@ std::istream&
 operator>>(std::istream &is,
            Surface_mesh_cell_base_3<GT, Cb> &v)
 {
-  return is >> static_cast<Cb&>(v);
+  return is >> 
+    static_cast<Complex_2_in_triangulation_cell_base_3<GT, Cb>&>(v);
 }
 
 template < class GT, class Cb >
@@ -141,7 +151,8 @@ std::ostream&
 operator<<(std::ostream &os,
            const Surface_mesh_cell_base_3<GT, Cb> &v)
 {
-  return os << static_cast<const Cb&>(v);
+  return os <<
+    static_cast<const Complex_2_in_triangulation_cell_base_3<GT, Cb>&>(v);
 }
 
 }  // namespace CGAL

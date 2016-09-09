@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Direction_3.h $
-// $Id: Direction_3.h 29078 2006-03-06 13:08:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Direction_3.h $
+// $Id: Direction_3.h 33063 2006-08-06 15:29:08Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -38,7 +38,6 @@ class DirectionC3
   typedef typename R_::Ray_3                Ray_3;
   typedef typename R_::Segment_3            Segment_3;
   typedef typename R_::Direction_3          Direction_3;
-  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
   typedef Threetuple<FT>                           Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -55,7 +54,7 @@ public:
   // { *this = v.direction(); }
 
   DirectionC3(const Line_3 &l)
-  { *this = l.direction(); }
+  { *this = l.rep().direction(); }
 
   DirectionC3(const Ray_3 &r)
   { *this = r.direction(); }
@@ -72,14 +71,6 @@ public:
   Vector_3       to_vector() const;
   Vector_3       vector() const { return to_vector(); }
 
-  Direction_3    transform(const Aff_transformation_3 &t) const
-  {
-    return t.transform(*this);
-  }
-
-  Direction_3    operator-() const;
-
-  const FT & delta(int i) const;
   const FT & dx() const
   {
       return get(base).e0;
@@ -136,71 +127,6 @@ DirectionC3<R>::to_vector() const
 {
   return Vector_3(dx(), dy(), dz());
 }
-
-template < class R >
-inline
-typename DirectionC3<R>::Direction_3
-DirectionC3<R>::operator-() const
-{
-  return DirectionC3<R>(-dx(), -dy(), -dz());
-}
-
-template < class R >
-const typename DirectionC3<R>::FT &
-DirectionC3<R>::delta(int i) const
-{
-  CGAL_kernel_precondition( i >= 0 && i <= 2 );
-  if (i==0) return dx();
-  if (i==1) return dy();
-  return dz();
-}
-
-#ifndef CGAL_NO_OSTREAM_INSERT_DIRECTIONC3
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const DirectionC3<R> &d)
-{
-  typename R::Vector_3 v = d.to_vector();
-  switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-      return os << v.x() << ' ' << v.y()  << ' ' << v.z();
-    case IO::BINARY :
-      write(os, v.x());
-      write(os, v.y());
-      write(os, v.z());
-      return os;
-    default:
-      os << "DirectionC3(" << v.x() << ", " << v.y() << ", " << v.z() << ")";
-      return os;
-  }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_DIRECTIONC3
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_DIRECTIONC3
-template < class R >
-std::istream &
-operator>>(std::istream &is, DirectionC3<R> &d)
-{
-  typename R::FT x, y, z;
-  switch(is.iword(IO::mode)) {
-    case IO::ASCII :
-      is >> x >> y >> z;
-      break;
-    case IO::BINARY :
-      read(is, x);
-      read(is, y);
-      read(is, z);
-      break;
-    default:
-      std::cerr << "" << std::endl;
-      std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-      break;
-  }
-  if (is)
-      d = DirectionC3<R>(x, y, z);
-  return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_DIRECTIONC3
 
 CGAL_END_NAMESPACE
 

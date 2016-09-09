@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_widget_2.h $
-// $Id: Qt_widget_2.h 30976 2006-05-03 13:20:30Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_widget_2.h $
+// $Id: Qt_widget_2.h 33689 2006-08-24 15:54:13Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -109,14 +109,13 @@ public:
     I am not sure that I need this method.
     \todo check if these methods are needed.
   */
-  const typename Simulator::Const_handle& simulator() const
+  const typename Simulator::Const_handle simulator_handle() const
   {
-    bool let_me_know_if_this_is_used;
     return base_->simulator();
   }
 
   //! Access a reference counted pointer to the simulator.
-  typename Simulator::Handle& simulator() {
+  typename Simulator::Handle simulator_handle() {
     return base_->simulator();
   }
   //! Return true if the current image of the scene is valid.

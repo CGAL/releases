@@ -34,18 +34,18 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                example1$(EXE_EXT) \
-                example2$(EXE_EXT) 
+                snap_rounding$(EXE_EXT) \
+                snap_rounding_to_integer$(EXE_EXT) 
 
-example1$(EXE_EXT): example1$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example1 example1$(OBJ_EXT) $(LDFLAGS)
+snap_rounding$(EXE_EXT): snap_rounding$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)snap_rounding snap_rounding$(OBJ_EXT) $(LDFLAGS)
 
-example2$(EXE_EXT): example2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example2 example2$(OBJ_EXT) $(LDFLAGS)
+snap_rounding_to_integer$(EXE_EXT): snap_rounding_to_integer$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)snap_rounding_to_integer snap_rounding_to_integer$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   example1.clean \
-                   example2.clean 
+                   snap_rounding.clean \
+                   snap_rounding_to_integer.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

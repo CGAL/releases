@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Polygon_offset_builder_2_impl.h $
-// $Id: Polygon_offset_builder_2_impl.h 31990 2006-06-20 18:56:09Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Polygon_offset_builder_2_impl.h $
+// $Id: Polygon_offset_builder_2_impl.h 36633 2007-02-27 18:19:42Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -34,10 +34,7 @@ Polygon_offset_builder_2<Ss,Gt,Cont>::Polygon_offset_builder_2( Ss const& aSs, T
       lMaxID = lHE->id() ;
 
     if ( !lHE->is_bisector() && handle_assigned(lHE->face()) )
-    {
-      CGAL_POLYOFFSET_SHOW ( DrawBorder(lHE) ) ;
       mBorders.push_back(lHE);
-    }
   }
 
   CGAL_POLYOFFSET_TRACE(3, "Border count: " << mBorders.size() ) ;
@@ -59,13 +56,16 @@ Polygon_offset_builder_2<Ss,Gt,Cont>::LocateHook( FT aTime, Halfedge_const_handl
 
   while ( aBisector->is_bisector() )
   {
-    CGAL_POLYOFFSET_TRACE(3,"Testing hook on B" << aBisector->id() ) ;
-
     Halfedge_const_handle lPrev = aBisector->prev();
     Halfedge_const_handle lNext = aBisector->next();
 
     if ( !IsVisited(aBisector) )
     {
+      CGAL_POLYOFFSET_TRACE(3,"Testing hook on " << e2str(*aBisector) 
+                           << "\n  Next: " << e2str(*lNext) 
+                           << "\n  Prev: " << e2str(*lPrev) 
+                           ) ;
+      
       Comparison_result lCNext = lNext->is_bisector() ? Compare_offset_against_event_time(aTime,aBisector,lNext)
                                                       : SMALLER ;
 
@@ -98,10 +98,10 @@ Polygon_offset_builder_2<Ss,Gt,Cont>::LocateSeed( FT aTime )
        ; ++ f
       )
   {
-    CGAL_POLYOFFSET_TRACE(3,"Locating hook for face E" << (*f)->id() ) ;
+    CGAL_POLYOFFSET_TRACE(3,"Locating hook for face E" << e2str(**f) ) ;
     rSeed = LocateHook(aTime,(*f)->next());
   }
-  CGAL_POLYOFFSET_TRACE(3,"Seed found on B" << ( handle_assigned(rSeed) ? rSeed->id() : -1 ) ) ;
+  CGAL_POLYOFFSET_TRACE(3,"Seed found on B" << ( handle_assigned(rSeed) ? e2str(*rSeed) : "<none>" ) ) ;
   return rSeed;
 }
 
@@ -115,9 +115,7 @@ void Polygon_offset_builder_2<Ss,Gt,Cont>::AddOffsetVertex( FT aTime, Halfedge_c
   if ( !lP )
     throw std::range_error("CGAL_POLYGON_OFFSET: Overflow during construction of offset vertex" ) ; // Caught by the main loop
     
-  CGAL_POLYOFFSET_SHOW ( DrawBisector(aHook) ) ;
-  CGAL_POLYOFFSET_SHOW ( DrawOffset(aPoly,lP) ) ;
-  CGAL_POLYOFFSET_TRACE(3,"Constructing offset point along B" << aHook->id() ) ;
+  CGAL_POLYOFFSET_TRACE(1,"Constructing offset point along B" << e2str(*aHook) ) ;
 
   aPoly->push_back(*lP);
 }
@@ -140,7 +138,8 @@ OutputIterator Polygon_offset_builder_2<Ss,Gt,Cont>::TraceOffsetPolygon( FT aTim
 
     if ( handle_assigned(lHook) )
     {
-      AddOffsetVertex(aTime,lHook,lPoly);
+      if ( lHook != aSeed )
+        AddOffsetVertex(aTime,lHook,lPoly);
 
       Halfedge_const_handle lNextBisector = lHook->opposite();
 
@@ -153,12 +152,14 @@ OutputIterator Polygon_offset_builder_2<Ss,Gt,Cont>::TraceOffsetPolygon( FT aTim
     break ;
   }
 
-  CGAL_POLYOFFSET_SHOW ( DrawOffset(lPoly,(*lPoly)[0]) ) ;
-
   if ( lPoly->size() >= 3 )
   {
     CGAL_POLYOFFSET_TRACE(1,"Offset polygon of " << lPoly->size() << " vertices traced." ) ;
     *aOut++ = lPoly ;
+  }
+  else
+  {
+    CGAL_POLYOFFSET_TRACE(1,"Invalid offset polygon (less than 3 vertices) traced." ) ;
   }
 
   return aOut ;

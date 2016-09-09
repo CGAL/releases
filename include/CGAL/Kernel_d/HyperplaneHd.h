@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneHd.h $
-// $Id: HyperplaneHd.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/HyperplaneHd.h $
+// $Id: HyperplaneHd.h 36191 2007-02-11 22:39:45Z spion $
 // 
 //
 // Author(s)     : Michael Seel
@@ -171,8 +171,8 @@ construct_from_points(ForwardIterator first, ForwardIterator last,
     cannot use o to determine side.");
 
   ptr()->v = spanning_vecs.column(j);
-  if ( CGAL_NTS sign(sum) > 0 && side == ON_NEGATIVE_SIDE || 
-       CGAL_NTS sign(sum) < 0 && side == ON_POSITIVE_SIDE)   
+  if ( ( CGAL_NTS sign(sum) > 0 && side == ON_NEGATIVE_SIDE ) || 
+       ( CGAL_NTS sign(sum) < 0 && side == ON_POSITIVE_SIDE ) )   
     invert_rep();
 }
 

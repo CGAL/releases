@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/PlaneH3.h $
-// $Id: PlaneH3.h 29102 2006-03-06 23:51:27Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/PlaneH3.h $
+// $Id: PlaneH3.h 33070 2006-08-06 16:06:39Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -91,8 +91,6 @@ public:
     bool           has_on_negative_side(const Point_3&l) const;
 
     bool           is_degenerate() const;
-
-    Plane_3 transform(const Aff_transformation_3& ) const;
 
     Aff_transformation_3 transform_to_2d() const;
     Point_2   to_2d(const Point_3& )  const;
@@ -383,59 +381,6 @@ inline
 typename PlaneH3<R>::Vector_3
 PlaneH3<R>::orthogonal_vector() const
 { return Vector_3(a(), b(), c() ); }
-
-template < class R >
-typename PlaneH3<R>::Plane_3
-PlaneH3<R>::transform(const typename PlaneH3<R>::Aff_transformation_3& t) const
-{
- return t.transform(*this);
-}
-
-#ifndef CGAL_NO_OSTREAM_INSERT_PLANE3
-template < class R >
-std::ostream &operator<<(std::ostream &os, const PlaneH3<R> &p)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << p.a() << ' ' << p.b() <<  ' ' << p.c() << ' ' << p.d();
-    case IO::BINARY :
-        write(os, p.a());
-        write(os, p.b());
-        write(os, p.c());
-        write(os, p.d());
-        return os;
-        default:
-            os << "PlaneC3(" << p.a() <<  ", " << p.b() <<   ", ";
-            os << p.c() << ", " << p.d() <<")";
-            return os;
-    }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_PLANE3
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_PLANE3
-template < class R  >
-std::istream &operator>>(std::istream &is, PlaneH3<R> &p)
-{
-    typename R::RT a, b, c, d;
-    switch(is.iword(IO::mode)) {
-    case IO::ASCII :
-        is >> a >> b >> c >> d;
-        break;
-    case IO::BINARY :
-        read(is, a);
-        read(is, b);
-        read(is, c);
-        read(is, d);
-        break;
-    default:
-        std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-        break;
-    }
-    p = PlaneH3<R>(a, b, c, d);
-    return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_PLANE3
 
 template < class R >
 bool

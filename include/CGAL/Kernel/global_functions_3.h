@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/global_functions_3.h $
-// $Id: global_functions_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel/global_functions_3.h $
+// $Id: global_functions_3.h 34893 2006-10-24 05:24:31Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -131,6 +131,25 @@ centroid(const Triangle_3<K> &t)
 template < class K >
 inline
 typename K::Point_3
+circumcenter(const Point_3<K> &p,
+             const Point_3<K> &q)
+{
+  return CGALi::circumcenter(p, q, K());
+}
+
+template < class K >
+inline
+typename K::Point_3
+circumcenter(const Point_3<K> &p,
+             const Point_3<K> &q,
+             const Point_3<K> &r)
+{
+  return CGALi::circumcenter(p, q, r, K());
+}
+
+template < class K >
+inline
+typename K::Point_3
 circumcenter(const Point_3<K> &p, const Point_3<K> &q,
              const Point_3<K> &r, const Point_3<K> &s)
 {
@@ -143,16 +162,6 @@ typename K::Point_3
 circumcenter(const Tetrahedron_3<K> &t)
 {
   return CGALi::circumcenter(t, K());
-}
-
-template < class K >
-inline
-typename K::Point_3
-circumcenter(const Point_3<K> &p,
-             const Point_3<K> &q,
-             const Point_3<K> &r)
-{
-  return CGALi::circumcenter(p, q, r, K());
 }
 
 template < class K >
@@ -199,6 +208,16 @@ compare_distance_to_point(const Point_3<K> &p,
                           const Point_3<K> &r)
 {
   return CGALi::compare_distance_to_point(p, q, r, K());
+}
+
+template < class K >
+inline
+Comparison_result
+compare_squared_distance(const Point_3<K> &p,
+                         const Point_3<K> &q,
+                         const typename K::FT &d2)
+{
+  return CGALi::compare_squared_distance(p, q, d2, K());
 }
 
 template < class K >
@@ -312,6 +331,23 @@ typename K::Vector_3
 cross_product(const Vector_3<K> &v, const Vector_3<K> &w)
 {
   return CGALi::cross_product(v, w, K());
+}
+
+template < class K >
+inline
+typename K::FT
+determinant(const Vector_3<K> &v0, const Vector_3<K> &v1,
+            const Vector_3<K> &v2)
+{
+  return CGALi::determinant(v0, v1, v2, K());
+}
+
+template < class K >
+inline
+typename K::Line_3
+equidistant_line(const Point_3<K> &p, const Point_3<K> &q, const Point_3<K> &r)
+{
+  return CGALi::equidistant_line(p, q, r, K());
 }
 
 template < class K >
@@ -467,6 +503,139 @@ inline
 bool
 operator!=(const Point_3<K>& p, const Origin& o)
 { return ! (p == o); }
+
+template < class K >
+inline
+bool
+operator==(const Iso_cuboid_3<K>& p, const Iso_cuboid_3<K>& q)
+{ return K().equal_3_object()(p, q); }
+
+template < class K >
+inline
+bool
+operator!=(const Iso_cuboid_3<K>& p, const Iso_cuboid_3<K>& q)
+{ return ! (p == q); }
+
+template < class K >
+inline
+bool
+operator==(const Plane_3<K>& p, const Plane_3<K>& q)
+{ return K().equal_3_object()(p, q); }
+
+template < class K >
+inline
+bool
+operator!=(const Plane_3<K>& p, const Plane_3<K>& q)
+{ return ! (p == q); }
+
+template < class K >
+inline
+bool
+operator==(const Segment_3<K>& p, const Segment_3<K>& q)
+{ return K().equal_3_object()(p, q); }
+
+template < class K >
+inline
+bool
+operator!=(const Segment_3<K>& p, const Segment_3<K>& q)
+{ return ! (p == q); }
+
+template < class K >
+inline
+bool
+operator==(const Line_3<K>& p, const Line_3<K>& q)
+{ return K().equal_3_object()(p, q); }
+
+template < class K >
+inline
+bool
+operator!=(const Line_3<K>& p, const Line_3<K>& q)
+{ return ! (p == q); }
+
+template < class K >
+inline
+bool
+operator==(const Ray_3<K>& p, const Ray_3<K>& q)
+{ return K().equal_3_object()(p, q); }
+
+template < class K >
+inline
+bool
+operator!=(const Ray_3<K>& p, const Ray_3<K>& q)
+{ return ! (p == q); }
+
+template < class K >
+inline
+bool
+operator==(const Triangle_3<K>& p, const Triangle_3<K>& q)
+{ return K().equal_3_object()(p, q); }
+
+template < class K >
+inline
+bool
+operator!=(const Triangle_3<K>& p, const Triangle_3<K>& q)
+{ return ! (p == q); }
+
+template < class K >
+inline
+bool
+operator==(const Tetrahedron_3<K>& p, const Tetrahedron_3<K>& q)
+{ return K().equal_3_object()(p, q); }
+
+template < class K >
+inline
+bool
+operator!=(const Tetrahedron_3<K>& p, const Tetrahedron_3<K>& q)
+{ return ! (p == q); }
+
+template < class K >
+inline
+bool
+operator==(const Direction_3<K>& p, const Direction_3<K>& q)
+{ return K().equal_3_object()(p, q); }
+
+template < class K >
+inline
+bool
+operator!=(const Direction_3<K>& p, const Direction_3<K>& q)
+{ return ! (p == q); }
+
+template < class K >
+inline
+bool
+operator==(const Sphere_3<K>& p, const Sphere_3<K>& q)
+{ return K().equal_3_object()(p, q); }
+
+template < class K >
+inline
+bool
+operator!=(const Sphere_3<K>& p, const Sphere_3<K>& q)
+{ return ! (p == q); }
+
+template < class K >
+inline
+bool
+operator==(const Vector_3<K>& p, const Vector_3<K>& q)
+{ return K().equal_3_object()(p, q); }
+
+template < class K >
+inline
+bool
+operator!=(const Vector_3<K>& p, const Vector_3<K>& q)
+{ return ! (p == q); }
+
+template < class K >
+inline
+bool
+operator==(const Vector_3<K>& p, const Null_vector& o)
+{ return K().equal_3_object()(p, Vector_3<K>(o)); }
+
+template < class K >
+inline
+bool
+operator!=(const Vector_3<K>& p, const Null_vector& o)
+{ return ! (p == o); }
+
 
 template < class K >
 inline

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_function.h $
-// $Id: Filtered_function.h 29334 2006-03-10 00:00:09Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_function.h $
+// $Id: Filtered_function.h 33689 2006-08-24 15:54:13Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -104,7 +104,14 @@ public:
   bool operator==(const This &o) const
   {
     if (ptr_ == o.ptr_) return true;      // want pointer comparison
-    for (int i=std::max(interval_function().degree(), o.interval_function().degree()); i>=0; --i) {
+	   int md= (std::min)(interval_function().degree(), o.interval_function().degree());
+    for (int i=interval_function().degree(); i>= md+1; --i) {
+      if (!interval_function()[i].do_overlap(0)) return false;
+    }
+    for (int i=o.interval_function().degree(); i>= md+1; --i) {
+      if (!o.interval_function()[i].do_overlap(0)) return false;
+    }
+    for (int i=md; i>=0; --i) {
       if (!interval_function()[i].do_overlap(o.interval_function()[i])) return false;
     }
     if (exact_function().degree() != o.exact_function().degree()) return false;

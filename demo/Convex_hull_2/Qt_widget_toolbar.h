@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_2/demo/Convex_hull_2/Qt_widget_toolbar.h $
-// $Id: Qt_widget_toolbar.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_2/demo/Convex_hull_2/Qt_widget_toolbar.h $
+// $Id: Qt_widget_toolbar.h 38483 2007-04-30 15:07:37Z afabri $
+//
 //
 // Author(s)     : Radu Ursu
 
@@ -21,8 +21,7 @@
 #ifndef CGAL_QT_WIDGET_TOOLBAR_H
 #define CGAL_QT_WIDGET_TOOLBAR_H
 
-#include <CGAL/basic.h>
-#include <CGAL/Cartesian.h>
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 
 
 // TODO: check if some of those includes shouldn't be in the .C file
@@ -36,7 +35,7 @@
 #include <qbuttongroup.h>
 #include <qmainwindow.h>
 
-typedef CGAL::Cartesian<double>	  Rp;
+typedef CGAL::Exact_predicates_inexact_constructions_kernel  Rp;
 typedef Rp::Point_2		  Point_2;
 
 class Tools_toolbar : public QToolBar

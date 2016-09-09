@@ -15,12 +15,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/IEEE_754_unions.h $
-// $Id: IEEE_754_unions.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/IEEE_754_unions.h $
+// $Id: IEEE_754_unions.h 37955 2007-04-05 13:02:19Z spion $
+//
 //
 // Author(s)     : Stefan Schirra
- 
+
 #ifndef CGAL_IEEE_754_UNIONS_H
 #define CGAL_IEEE_754_UNIONS_H
 

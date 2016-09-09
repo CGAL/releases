@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Curved_kernel/include/CGAL/Arr_circular_arc_traits.h $
-// $Id: Arr_circular_arc_traits.h 29284 2006-03-09 13:36:00Z teillaud $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/Arr_circular_arc_traits.h $
+// $Id: Arr_circular_arc_traits.h 35738 2007-01-16 14:47:01Z teillaud $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion
 
@@ -22,8 +22,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 
-#ifndef CGAL_CURVED_KERNEL_CIRCULAR_ARC_TRAITS_H
-#define CGAL_CURVED_KERNEL_CIRCULAR_ARC_TRAITS_H
+#ifndef CGAL_CIRCULAR_KERNEL_CIRCULAR_ARC_TRAITS_H
+#define CGAL_CIRCULAR_KERNEL_CIRCULAR_ARC_TRAITS_H
 
 #include <CGAL/basic.h>
 #include <cassert>
@@ -31,7 +31,8 @@
 
 namespace CGAL {
 
-/// Traits class for CGAL::Arrangement_2 (and similar) based on a CircularKernel.
+// Traits class for CGAL::Arrangement_2 (and similar) based on a 
+// CircularKernel.
 
 template < typename CircularKernel >
 class Arr_circular_arc_traits {
@@ -49,6 +50,8 @@ public:
 
   typedef CGAL::Tag_false                        Has_left_category;
   typedef CGAL::Tag_false 			 Has_merge_category;
+  typedef CGAL::Tag_false                        Has_infinite_category;
+  typedef CGAL::Tag_false                        Has_boundary_category;
 
   Arr_circular_arc_traits(const CircularKernel &k = CircularKernel())
     : ck(k) {}
@@ -105,4 +108,4 @@ public:
 
 } // namespace CGAL
 
-#endif // CGAL_CURVED_KERNEL_CIRCULAR_ARC_TRAITS_H
+#endif // CGAL_CIRCULAR_KERNEL_CIRCULAR_ARC_TRAITS_H

@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_events_2.h $
-// $Id: Straight_skeleton_builder_events_2.h 31990 2006-06-20 18:56:09Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_events_2.h $
+// $Id: Straight_skeleton_builder_events_2.h 36824 2007-03-05 16:42:00Z spion $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -20,65 +20,64 @@
 
 #include<ostream>
 
+#include <CGAL/Straight_skeleton_2/Straight_skeleton_aux.h>
+
 CGAL_BEGIN_NAMESPACE
 
-template<class SSkel>
-class Straight_skeleton_builder_event_2 : public Ref_counted_base
+namespace CGAL_SS_i
 {
-public:
 
-  typedef Straight_skeleton_builder_event_2<SSkel> Self ;
+template<class SSkel_, class Traits_>
+class Event_2 : public Ref_counted_base
+{
+  typedef SSkel_  SSkel ;
+  typedef Traits_ Traits ;
+  
+public:
+ 
+  typedef Event_2<SSkel,Traits> Self ;
 
   typedef boost::intrusive_ptr<Self> SelfPtr ;
 
-  typedef typename SSkel::Traits Traits ;
-
-  typedef typename Traits::Point_2 Point_2 ;
-  typedef typename Traits::FT      FT ;
-
+  typedef typename Traits::Point_2             Point_2 ;
+  typedef typename Traits::FT                  FT ;
+  typedef typename Traits::Seeded_trisegment_2 Seeded_trisegment_2 ;
+  
   typedef typename SSkel::Halfedge_handle Halfedge_handle ;
   typedef typename SSkel::Vertex_handle   Vertex_handle ;
 
+  typedef CGAL_SS_i::Triedge<Halfedge_handle> Triedge ;
+  
   enum Type { cEdgeEvent, cSplitEvent, cPseudoSplitEvent } ;
 
 public:
 
-  Straight_skeleton_builder_event_2 (  Halfedge_handle aBorderA
-                                     , Halfedge_handle aBorderB
-                                     , Halfedge_handle aBorderC
-                                    )
+  Event_2 ( Triedge const& aTriedge, Seeded_trisegment_2 const& aSTrisegment )
     :
-     mBorderA(aBorderA)
-    ,mBorderB(aBorderB)
-    ,mBorderC(aBorderC)
-    ,mExcluded(false)
+     mTriedge    (aTriedge)
+    ,mSTrisegment(aSTrisegment)
   {}
 
-  virtual ~ Straight_skeleton_builder_event_2() {}
+  virtual ~ Event_2() {}
 
   virtual Type type() const = 0 ;
 
   virtual Vertex_handle seed0() const = 0 ;
   virtual Vertex_handle seed1() const = 0 ;
 
-  Halfedge_handle border_a() const { return mBorderA ; }
-  Halfedge_handle border_b() const { return mBorderB ; }
-  Halfedge_handle border_c() const { return mBorderC ; }
-  Point_2         point   () const { return mP ; }
-  FT              time    () const { return mTime ; }
-
-  bool is_excluded() const { return mExcluded ; }
-  void Exclude    ()       { mExcluded = true ; }
+  Triedge const&             triedge    () const { return mTriedge    ; }
+  Seeded_trisegment_2 const& strisegment() const { return mSTrisegment; }
+  Point_2 const&             point      () const { return mP          ; }
+  FT                         time       () const { return mTime       ; }
 
   void SetTimeAndPoint( FT aTime, Point_2 const& aP ) { mTime = aTime ; mP = aP ; }
 
-  friend std::ostream& operator<< ( std::ostream& ss
-                                   ,Straight_skeleton_builder_event_2<SSkel> const& e
-                                  )
+  friend std::ostream& operator<< ( std::ostream& ss, Self const& e )
   {
     ss << "[" ;
     e.dump(ss);
-    ss << " p=(" << e.point().x() << "," << e.point().y() << ") t=" << e.time() << "]" ;
+    ss << " p=(" << e.point().x() << "," << e.point().y() << ") t=" << e.time() << "] " 
+       << trisegment_collinearity_to_string(e.strisegment().event().collinearity()) ;
     return ss ;
   }
 
@@ -86,42 +85,41 @@ protected :
 
   virtual void dump ( std::ostream& ss ) const
   {
-    ss << "{E" << mBorderA->id() << ",E" << mBorderB->id() << ",E" << mBorderC->id() << '}' ;
+    ss << mTriedge ;
   } ;
 
 private :
 
-  Halfedge_handle mBorderA ;
-  Halfedge_handle mBorderB ;
-  Halfedge_handle mBorderC ;
-  Point_2         mP ;
-  FT              mTime ;
-  bool            mExcluded ;
+  Triedge             mTriedge ;
+  Seeded_trisegment_2 mSTrisegment ;
+  Point_2             mP ;
+  FT                  mTime ;
 } ;
 
-template<class SSkel>
-class Straight_skeleton_builder_edge_event_2 : public Straight_skeleton_builder_event_2<SSkel>
+template<class SSkel_, class Traits_>
+class Edge_event_2 : public Event_2<SSkel_,Traits_>
 {
+  typedef SSkel_  SSkel ;
+  typedef Traits_ Traits ;
 
-  typedef Straight_skeleton_builder_event_2<SSkel> Base ;
-
-  typedef typename SSkel::Traits Traits ;
+  typedef Event_2<SSkel,Traits> Base ;
 
   typedef typename SSkel::Halfedge_handle Halfedge_handle ;
   typedef typename SSkel::Vertex_handle   Vertex_handle ;
 
-  typedef typename Base::Type Type ;
+  typedef typename Base::Type                Type ;
+  typedef typename Base::Triedge             Triedge ;
+  typedef typename Base::Seeded_trisegment_2 Seeded_trisegment_2 ;
 
 public:
 
-  Straight_skeleton_builder_edge_event_2 (  Halfedge_handle aBorderA
-                                          , Halfedge_handle aBorderB
-                                          , Halfedge_handle aBorderC
-                                          , Vertex_handle   aLSeed
-                                          , Vertex_handle   aRSeed
-                                          )
+  Edge_event_2 ( Triedge const&             aTriedge
+               , Seeded_trisegment_2 const& aSTrisegment 
+               , Vertex_handle              aLSeed
+               , Vertex_handle              aRSeed
+               )
     :
-      Base(aBorderA,aBorderB,aBorderC)
+      Base(aTriedge,aSTrisegment)
     , mLSeed(aLSeed)
     , mRSeed(aRSeed)
   {}
@@ -145,28 +143,29 @@ private :
   Vertex_handle mRSeed ;
 } ;
 
-template<class SSkel>
-class Straight_skeleton_builder_split_event_2 : public Straight_skeleton_builder_event_2<SSkel>
+template<class SSkel_, class Traits_>
+class Split_event_2 : public Event_2<SSkel_,Traits_>
 {
+  typedef SSkel_  SSkel ;
+  typedef Traits_ Traits ;
 
-  typedef Straight_skeleton_builder_event_2<SSkel> Base ;
-
-  typedef typename SSkel::Traits Traits ;
-
+  typedef Event_2<SSkel,Traits> Base ;
 
   typedef typename SSkel::Halfedge_handle Halfedge_handle ;
   typedef typename SSkel::Vertex_handle   Vertex_handle ;
-  typedef typename Base::Type Type ;
+  
+  typedef typename Base::Type                Type ;
+  typedef typename Base::Triedge             Triedge ;
+  typedef typename Base::Seeded_trisegment_2 Seeded_trisegment_2 ;
 
 public:
 
-  Straight_skeleton_builder_split_event_2 (  Halfedge_handle aBorderA
-                                           , Halfedge_handle aBorderB
-                                           , Halfedge_handle aBorderC
-                                           , Vertex_handle   aSeed
-                                         )
+  Split_event_2 ( Triedge const&             aTriedge
+                , Seeded_trisegment_2 const& aSTrisegment 
+                , Vertex_handle              aSeed
+                )
     :
-      Base(aBorderA,aBorderB,aBorderC)
+      Base(aTriedge,aSTrisegment)
     , mSeed(aSeed)
   {}
 
@@ -175,41 +174,48 @@ public:
   virtual Vertex_handle seed0() const { return mSeed ; }
   virtual Vertex_handle seed1() const { return mSeed ; }
 
+  void set_opposite_rnode( Vertex_handle aOppR ) { mOppR = aOppR ; }
+  
+  Vertex_handle opposite_rnode() const { return mOppR ; }
+  
 private :
 
   virtual void dump ( std::ostream& ss ) const
   {
     this->Base::dump(ss);
-    ss << " (Seed=" << mSeed->id() << " OppBorder=" << this->border_c()->id() << ')' ;
+    ss << " (Seed=" << mSeed->id() << " OppBorder=" << this->triedge().e2()->id() << ')' ;
   }
 
 private :
 
-  Vertex_handle   mSeed ;
+  Vertex_handle mSeed ;
+  Vertex_handle mOppR ;
 } ;
 
-template<class SSkel>
-class Straight_skeleton_builder_pseudo_split_event_2 : public Straight_skeleton_builder_event_2<SSkel>
+template<class SSkel_, class Traits_>
+class Pseudo_split_event_2 : public Event_2<SSkel_,Traits_>
 {
-  typedef Straight_skeleton_builder_event_2<SSkel> Base ;
-
-  typedef typename SSkel::Traits Traits ;
+  typedef SSkel_  SSkel ;
+  typedef Traits_ Traits ;
+  
+  typedef Event_2<SSkel,Traits> Base ;
 
   typedef typename SSkel::Halfedge_handle Halfedge_handle ;
   typedef typename SSkel::Vertex_handle   Vertex_handle ;
 
-  typedef typename Base::Type Type ;
+  typedef typename Base::Type                Type ;
+  typedef typename Base::Triedge             Triedge ;
+  typedef typename Base::Seeded_trisegment_2 Seeded_trisegment_2 ;
 
 public:
 
-  Straight_skeleton_builder_pseudo_split_event_2 ( Halfedge_handle aBorderA
-                                                 , Halfedge_handle aBorderB
-                                                 , Halfedge_handle aBorderC
-                                                 , Vertex_handle   aSeed
-                                                 , Vertex_handle   aOppositeNode
-                                                 )
+  Pseudo_split_event_2 ( Triedge const&             aTriedge
+                       , Seeded_trisegment_2 const& aSTrisegment 
+                       , Vertex_handle              aSeed
+                       , Vertex_handle              aOppositeNode
+                       )
     :
-      Base(aBorderA,aBorderB,aBorderC)
+      Base(aTriedge,aSTrisegment)
     , mSeed(aSeed)
     , mOppNode(aOppositeNode)
   {}
@@ -233,6 +239,7 @@ private :
   Vertex_handle mOppNode ;
 } ;
 
+}
 
 CGAL_END_NAMESPACE
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_validation.h $
-// $Id: Gps_polygon_validation.h 29413 2006-03-12 09:47:58Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_validation.h $
+// $Id: Gps_polygon_validation.h 37148 2007-03-16 09:01:19Z afabri $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -66,7 +66,7 @@ public:
     reinterpret_cast<Sweep_line*>(this->m_sweep_line)->sweep(begin, end);
   }
 
-  bool after_handle_event(Event* event,SL_iterator iter, bool flag)
+  bool after_handle_event(Event* event,SL_iterator, bool)
   {
     if(event->is_intersection() ||
        event->is_weak_intersection() ||
@@ -200,36 +200,43 @@ protected:
   {
     Cci_pair              itr_pair = construct_curves_func (pgn);
     Curve_const_iterator  begin = itr_pair.first;
-    Curve_const_iterator  last = itr_pair.second;
+    Curve_const_iterator  end = itr_pair.second;
 
-    if (begin == last)
-      return (true); // empty polygon is valid
-    --last;
+    if (begin == end)
+      return (true);  // An empty polygon is valid.
     
     Traits_2                    tr;
     typename Traits_2::Equal_2  equal_func = tr.equal_2_object();
-    Curve_const_iterator        itr;
+    Curve_const_iterator        curr, next;
 
-    for(itr = begin; itr != last; )
+    curr = next = begin;
+    ++next;
+
+    if (next == end)
+      return (false); // A polygon cannot have just a single edge.
+
+    while (next != end)
     {
-      if (equal_func (construct_vertex_func (*itr, 0),
-                      construct_vertex_func (*itr, 1)))
+      // Make sure that the current target equals the next source.
+      if (equal_func (construct_vertex_func (*curr, 0),
+                      construct_vertex_func (*curr, 1)))
         return (false);
 
-      Curve_const_iterator next = itr;
-      ++next;
-      if (! equal_func (construct_vertex_func (*itr, 1), 
+      if (! equal_func (construct_vertex_func (*curr, 1), 
                         construct_vertex_func (*next, 0)))
         return (false);
 
-      itr = next;
+      // Move to the next pair of edges.
+      curr = next;
+      ++next;
     }
 
-    if (equal_func (construct_vertex_func (*last, 0),
-                    construct_vertex_func (*last, 1)))
+    // Make sure that the last target equals the first source.
+    if (equal_func (construct_vertex_func (*curr, 0),
+                    construct_vertex_func (*curr, 1)))
       return (false);
 
-    if (! equal_func (construct_vertex_func (*last, 1),
+    if (! equal_func (construct_vertex_func (*curr, 1),
                       construct_vertex_func (*begin, 0)))
       return (false);
 
@@ -239,6 +246,7 @@ protected:
   bool _is_closed (const Polygon_with_holes_2& pgn)
   {
     Traits_2 tr;
+
     if(! _is_closed (pgn.outer_boundary()))
       return (false);
 

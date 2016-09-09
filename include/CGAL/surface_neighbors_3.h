@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interpolation/include/CGAL/surface_neighbors_3.h $
-// $Id: surface_neighbors_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/include/CGAL/surface_neighbors_3.h $
+// $Id: surface_neighbors_3.h 37294 2007-03-20 08:10:35Z afabri $
 // 
 //
 // Author(s)     : Julia Floetotto
@@ -38,7 +38,7 @@ OutputIterator
 surface_neighbors_3(InputIterator first, InputIterator beyond,
 		    const typename Kernel::Point_3& p,
 		    const typename Kernel::Vector_3& normal,
-		    OutputIterator out, const Kernel& K)
+		    OutputIterator out, const Kernel& )
 {
   typedef Voronoi_intersection_2_traits_3<Kernel> I_gt;
   return surface_neighbors_3(first, beyond, p, out, I_gt(p,normal));
@@ -94,7 +94,7 @@ surface_neighbors_certified_3(InputIterator first,
 			      InputIterator beyond,
 			      const typename Kernel::Point_3& p,
 			      const typename Kernel::Vector_3& normal,
-			      OutputIterator out, const Kernel& K)
+			      OutputIterator out, const Kernel& )
 {
   typedef Voronoi_intersection_2_traits_3<Kernel> I_gt;
   return surface_neighbors_certified_3(first, beyond, p, out, I_gt(p,normal));

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_feature_extractor.h $
-// $Id: Parameterization_mesh_feature_extractor.h 29020 2006-03-03 09:33:29Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_feature_extractor.h $
+// $Id: Parameterization_mesh_feature_extractor.h 35473 2006-12-08 16:12:22Z lsaboret $
 // 
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -175,7 +175,7 @@ private:
         // #borders
         m_nb_borders = m_skeleton.size();
 
-        // put longest border first if required
+        // put longest border first
         if (m_nb_borders>1)
         {
             int index = get_index_longest_border();

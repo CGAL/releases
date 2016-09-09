@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Pseudo_remainder.h $
-// $Id: Pseudo_remainder.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Pseudo_remainder.h $
+// $Id: Pseudo_remainder.h 35766 2007-01-20 21:39:01Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -98,9 +98,9 @@ r = r * v[n];
   return r;
   }*/
 
-        CGAL_POLYNOMIAL_NS::Sign s_vn = CGAL_POLYNOMIAL_NS::sign(v[n]);
+        CGAL::Sign s_vn = CGAL::sign(v[n]);
 
-        if ( (divdeg % 2 == 0) && s_vn == CGAL_POLYNOMIAL_NS::NEGATIVE ) {
+        if ( (divdeg % 2 == 0) && s_vn == CGAL::NEGATIVE ) {
             r = -r;
         }
 

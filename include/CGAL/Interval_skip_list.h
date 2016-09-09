@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_skip_list/include/CGAL/Interval_skip_list.h $
-// $Id: Interval_skip_list.h 30908 2006-05-02 13:33:25Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interval_skip_list/include/CGAL/Interval_skip_list.h $
+// $Id: Interval_skip_list.h 36784 2007-03-03 09:05:52Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -1360,7 +1360,7 @@ template <class Interval>
   }
 
   template <class Interval>
-  void IntervalListElt<Interval>::print(std::ostream& os) const
+  void IntervalListElt<Interval>::print(std::ostream& /*os*/) const
   {
     /*
     if(I == 0) {

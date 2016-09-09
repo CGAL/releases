@@ -20,11 +20,11 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/Zm900"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;../../include/CGAL/config/msvc7&quot;;&quot;../../include&quot;;$(QTDIR)/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;CGAL_USE_QT"
+				AdditionalIncludeDirectories="$(CGALROOT)\include\CGAL\config\msvc;$(CGALROOT)\include;$(QTDIR)\include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;CGAL_USE_QT;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="2"
+				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -34,10 +34,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="cgal.lib cgalqt.lib qt-mt.lib qtmain.lib wsock32.lib winmm.lib imm32.lib "
+				AdditionalDependencies="  qt-mt.lib qtmain.lib wsock32.lib winmm.lib imm32.lib "
 				OutputFile="$(OutDir)/spatial_searching.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
+				AdditionalLibraryDirectories="$(CGALROOT)\lib;$(CGALROOT)\auxiliary\gmp\lib;$(QTDIR)\lib;"
 				ProgramDatabaseFile="$(OutDir)/spatial_searching.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
@@ -47,7 +48,7 @@
 				Name="VCPostBuildEventTool"/>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="$(QTDIR)/bin/moc.exe -o spatial_searching.moc spatial_searching.C"/>
+				CommandLine="$(QTDIR)/bin/moc.exe -o spatial_searching.moc spatial_searching.cpp"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
@@ -74,8 +75,8 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
-				AdditionalIncludeDirectories="&quot;../../include/CGAL/config/msvc7&quot;;&quot;../../include&quot;;$(QTDIR)/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;CGAL_USE_QT"
+				AdditionalIncludeDirectories="$(CGALROOT)\include\CGAL\config\msvc;$(CGALROOT)\include;$(QTDIR)\include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;CGAL_USE_QT;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -83,15 +84,15 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="FALSE"
-				DebugInformationFormat="3"/>
+				DebugInformationFormat="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="cgal.lib cgalqt.lib qt-mt.lib qtmain.lib wsock32.lib winmm.lib imm32.lib "
+				AdditionalDependencies="  qt-mt.lib qtmain.lib wsock32.lib winmm.lib imm32.lib "
 				OutputFile="$(OutDir)/spatial_searching.exe"
 				LinkIncremental="1"
-				GenerateDebugInformation="TRUE"
+				AdditionalLibraryDirectories="$(CGALROOT)\lib;$(CGALROOT)\auxiliary\gmp\lib;$(QTDIR)\lib;"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -102,7 +103,7 @@
 				Name="VCPostBuildEventTool"/>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="$(QTDIR)/bin/moc.exe -o spatial_searching.moc spatial_searching.C"/>
+				CommandLine="$(QTDIR)/bin/moc.exe -o spatial_searching.moc spatial_searching.cpp"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
@@ -126,7 +127,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
-				RelativePath="Qt_widget_move_list_point.C">
+				RelativePath="Qt_widget_move_list_point.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -141,7 +142,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="spatial_searching.C">
+				RelativePath="spatial_searching.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -156,7 +157,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="spatial_searching_toolbar.C">
+				RelativePath="spatial_searching_toolbar.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool

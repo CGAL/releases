@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d.h $
-// $Id: Min_sphere_of_spheres_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_sphere_of_spheres_d/include/CGAL/Min_sphere_of_spheres_d.h $
+// $Id: Min_sphere_of_spheres_d.h 36399 2007-02-16 16:02:10Z gaertner $
 // 
 //
 // Author(s)     : Kaspar Fischer
@@ -21,15 +21,15 @@
 #ifndef CGAL_MINIBALL_MINIBALL
 #define CGAL_MINIBALL_MINIBALL
 
-#include <CGAL/Min_sphere_of_spheres_d_configure.h>
+#include <CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_configure.h>
 #include <cassert>
 #include <cstdlib>                 // for std::rand()
 #include <cmath>
 #include <vector>
 #include <iostream>
 
-#include <CGAL/Min_sphere_of_spheres_d_pair.h>
-#include <CGAL/Min_sphere_of_spheres_d_support_set.h>
+#include <CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_pair.h>
+#include <CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_support_set.h>
 
 namespace CGAL_MINIBALL_NAMESPACE {
 
@@ -292,9 +292,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
 #include <CGAL/Min_sphere_of_spheres_d_traits_3.h>
 #endif
 
-#ifdef CGAL_MINIBALL_NO_TEMPLATE_EXPORT
-#include <CGAL/Min_sphere_of_spheres_d.C>
-#include <CGAL/Min_sphere_of_spheres_d_pivot.C>
-#endif
+#include <CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_impl.h>
+#include <CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_pivot_impl.h>
 
 #endif // CGAL_MINIBALL_MINIBALL

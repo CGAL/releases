@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/demo/Apollonius_graph_2/edit_vertex_layer.h $
-// $Id: edit_vertex_layer.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/demo/Apollonius_graph_2/edit_vertex_layer.h $
+// $Id: edit_vertex_layer.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -41,7 +41,7 @@ public:
   virtual void change_weighti(){};
 
 protected:
-  void emit_signal() { 
+  void emit_signal() {
     emit( apollonius_graph_changed() );
   }
 
@@ -93,13 +93,13 @@ protected:
   FT                                                  first_x, first_y;
   FT                                                  x2, y2;
   bool                                                wasrepainted;
-  bool                                                on_first; 
+  bool                                                on_first;
            //true if right mouse button was pressed
   bool
-  move_button_pressed; 
+  move_button_pressed;
            //true if the popup's move button was pressed
   bool
-  change_weight_pressed; 
+  change_weight_pressed;
           //true if the popup's change_weight button was pressed
   Vertex_handle                                       current_v;
           //the vertex that will be processed
@@ -117,8 +117,8 @@ public:
       ag(ag) {};
 
   //  void set_apollonius_graph (AG* ag) { this->ag = ag; }
-  
-  template < class TRIANGULATION > 
+
+  template < class TRIANGULATION >
   Vertex_handle
   closest_vertex(const TRIANGULATION &T,
 		 Face_handle f,	const Point_2& p)
@@ -136,11 +136,11 @@ public:
       v =  cmp(p, pcwi, pccwi) == CGAL::SMALLER ? f->vertex(f->cw(i)) :
                                                   f->vertex(f->ccw(i));
     }
-    else{ 
+    else{
       v = f->vertex(0);
-      if (cmp(p, f->vertex(1)->point(), v->point()) == CGAL::SMALLER) 
+      if (cmp(p, f->vertex(1)->point(), v->point()) == CGAL::SMALLER)
         v = f->vertex(1);
-      if (cmp(p, f->vertex(2)->point(), v->point()) == CGAL::SMALLER) 
+      if (cmp(p, f->vertex(2)->point(), v->point()) == CGAL::SMALLER)
         v = f->vertex(2);
     }
     return v;
@@ -192,7 +192,7 @@ private:
       on_first = false;
     }
   }
-  
+
   void mouseMoveEvent(QMouseEvent *e)
   {
     if ( on_first ) {
@@ -200,7 +200,7 @@ private:
         FT x, y;
         widget->x_real(e->x(), x);
         widget->y_real(e->y(), y);
-    		
+
         if( !wasrepainted ) {
 	  *widget << old_point;
 	}
@@ -242,13 +242,13 @@ private:
   {
     widget->setCursor(oldcursor);
   }
-  
+
   void delete_vertexi()
   {
     ag->remove(current_v);
     widget->redraw();	//redraw the scenes
   }
-  
+
   void move_vertexi()
   {
     on_first = true;
@@ -257,11 +257,11 @@ private:
     double x = CGAL::to_double( old_point.x() );
     double y = CGAL::to_double( old_point.y() );
     widget->cursor().setPos(widget->mapToGlobal(
-                            QPoint( widget->x_pixel(x), 
+                            QPoint( widget->x_pixel(x),
 				    widget->y_pixel(y) )
 			    ));
   }
-  
+
   void change_weighti()
   {
     on_first = true;
@@ -270,11 +270,11 @@ private:
     double x = CGAL::to_double( old_point.x() );
     double y = CGAL::to_double( old_point.y() );
     widget->cursor().setPos(widget->mapToGlobal(
-                            QPoint( widget->x_pixel(x), 
+                            QPoint( widget->x_pixel(x),
 				    widget->y_pixel(y) )
 			    ));
   }
-}; //end class 
+}; //end class
 
 
 

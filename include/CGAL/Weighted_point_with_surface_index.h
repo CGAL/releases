@@ -1,4 +1,4 @@
-// Copyright (c) 2005  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2005-2006  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesher/include/CGAL/Weighted_point_with_surface_index.h $
-// $Id: Weighted_point_with_surface_index.h 30088 2006-04-06 19:49:41Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Weighted_point_with_surface_index.h $
+// $Id: Weighted_point_with_surface_index.h 32413 2006-07-12 01:04:05Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -23,6 +23,8 @@
 #include <CGAL/Point_traits.h>
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
+
+#include <string>
 
 namespace CGAL {
 
@@ -69,6 +71,15 @@ public:
   {
     index = i;
   }
+
+#ifdef CGAL_MESH_3_IO_H
+  static
+  std::string io_signature()
+  {
+    return Get_io_signature<Weighted_point>()() + "+i";
+  }
+#endif
+
 private:
   int index;
 }; // end class Weighted_point_with_surface_index
@@ -83,8 +94,10 @@ operator<<(std::ostream &os, const Weighted_point_with_surface_index<Point>& p)
 {
   os << static_cast<const Point&>(p);
   if(is_ascii(os))
-    os << ' ';
-  return os << p.surface_index();
+    os << ' ' << p.surface_index();
+  else
+    write(os, p.surface_index());
+  return os;
 }
 
 template <class Point>
@@ -93,7 +106,10 @@ operator>>(std::istream &is, Weighted_point_with_surface_index<Point>& p)
 {
   is >>  static_cast<Point&>(p);
   int index;
-  is >> index;
+  if(is_ascii(is))
+    is >> index;
+  else
+    read(is, index);
   p.set_surface_index(index);
   return is;
 }

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/IO/Nef_polyhedron_2_PS_stream.h $
-// $Id: Nef_polyhedron_2_PS_stream.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/IO/Nef_polyhedron_2_PS_stream.h $
+// $Id: Nef_polyhedron_2_PS_stream.h 33222 2006-08-10 15:14:32Z ameyer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -21,9 +21,15 @@
 #define NEF_POLYHEDRON_2_PS_STREAM_H
 
 #include <CGAL/Nef_polyhedron_2.h>
+#if CGAL_LEDA_VERSION < 500
 #include <LEDA/gen_polygon.h>
 #include <LEDA/ps_file.h>
 #include <LEDA/color.h>
+#else
+#include <LEDA/geo/gen_polygon.h>
+#include <LEDA/graphics/ps_file.h>
+#include <LEDA/graphics/color.h>
+#endif
 
 CGAL_BEGIN_NAMESPACE
 static int frame_default = 100;

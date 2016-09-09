@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Alpha_shapes_3/include/CGAL/Alpha_shape_3.h $
-// $Id: Alpha_shape_3.h 31588 2006-06-15 08:53:00Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Alpha_shapes_3/include/CGAL/Alpha_shape_3.h $
+// $Id: Alpha_shape_3.h 36961 2007-03-09 08:24:31Z spion $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -152,7 +152,7 @@ public:
   enum Mode {GENERAL, REGULARIZED};
 
 
-  typedef Alpha_status< NT >                Alpha_status;
+  typedef CGAL::Alpha_status< NT >          Alpha_status;
   typedef Compact_container<Alpha_status>   Alpha_status_container;
   typedef typename Alpha_status_container::const_iterator 
                                             Alpha_status_const_iterator;
@@ -396,7 +396,7 @@ private:
 
   // the dynamic version is not yet implemented
   // desactivate the tetrahedralization member functions
-  void insert(const Point& p) {}
+  void insert(const Point& /*p*/) {}
   // Inserts point `p' in the alpha shape and returns the
   // corresponding vertex of the underlying Delaunay tetrahedralization.
   // If point `p' coincides with an already existing vertex, this
@@ -404,7 +404,7 @@ private:
   // Otherwise, the vertex is inserted in the underlying Delaunay
   // tetrahedralization and the associated intervals are updated.
 
-  void remove(Vertex_handle v) {}
+  void remove(Vertex_handle /*v*/) {}
   // Removes the vertex from the underlying Delaunay tetrahedralization.
   // The created hole is retriangulated and the associated intervals
   // are updated.
@@ -756,8 +756,8 @@ private:
 
 private:
   // prevent default copy constructor and default assigment
-  Alpha_shape_3(const Alpha_shape_3& A)    {}
-  void operator=(const Alpha_shape_3& A)    {}
+  Alpha_shape_3(const Alpha_shape_3&);
+  void operator=(const Alpha_shape_3&);
 
   //---------------------------------------------------------------------
 public:  
@@ -950,7 +950,7 @@ public:
 
    template<class OutputIterator> 
    OutputIterator   
-   filtration_output( NT alpha,  
+   filtration_output( const NT & /*alpha*/,  
  		     Vertex_handle vh,  
  		     OutputIterator it,  
  		     Tag_true)   const 
@@ -962,7 +962,7 @@ public:
 
    template<class OutputIterator> 
    OutputIterator   
-   filtration_output( const NT& alpha,  
+   filtration_output( const NT& /*alpha*/,  
  		     Vertex_handle vh,  
  		     OutputIterator it,  
  		     Tag_false)     const 

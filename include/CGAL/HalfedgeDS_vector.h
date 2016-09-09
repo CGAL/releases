@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/HalfedgeDS/include/CGAL/HalfedgeDS_vector.h $
-// $Id: HalfedgeDS_vector.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/HalfedgeDS/include/CGAL/HalfedgeDS_vector.h $
+// $Id: HalfedgeDS_vector.h 35751 2007-01-18 13:55:56Z fcacciola $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -612,8 +612,16 @@ public:
                 update_opposite( rr);
                 std::swap( *rrhv, *(rrhv+1));
             }
-            -- --rr;
-            -- --rrhv;
+
+            // This guard is needed here because, rr==ll==begin, might be true
+            // at this point, causing the decrement to result in undefined
+            // behaviour.
+            // [Fernando Cacciola]
+            if ( ll < rr )
+            {
+              -- --rr;
+              -- --rrhv;
+            }
                               // Elements in [rr+1..end) >= pivot
                               // Pivot is in *ll
         }

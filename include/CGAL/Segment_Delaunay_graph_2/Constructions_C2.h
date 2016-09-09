@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,28 +11,28 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Constructions_C2.h $
-// $Id: Constructions_C2.h 29304 2006-03-09 18:19:15Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Constructions_C2.h $
+// $Id: Constructions_C2.h 37034 2007-03-12 17:34:47Z hemmer $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
 
-
-
 #ifndef CGAL_SEGMENT_DELAUNAY_GRAPH_2_CONSTRUCTIONS_C2_H
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_CONSTRUCTIONS_C2_H
 
-#include <CGAL/basic.h>
+#include <CGAL/Segment_Delaunay_graph_2/basic.h>
 #include <CGAL/enum.h>
 
-#include <CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_2.h>
+#include <CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_C2.h>
 
 #include <CGAL/Parabola_2.h>
 #include <CGAL/Parabola_segment_2.h>
 
 
 CGAL_BEGIN_NAMESPACE
+
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
 
 
 //***********************************************************************
@@ -115,7 +115,7 @@ class Construct_svd_vertex_2
 {
 public:
   typedef typename K::Site_2                Site_2;
-  typedef CGAL::Sdg_voronoi_vertex_2<K,M>   Voronoi_vertex_2;
+  typedef Voronoi_vertex_C2<K,M>            Voronoi_vertex_2;
   typedef typename K::Point_2               Point_2;
   typedef Point_2                           result_type;
   typedef Arity_tag<3>                      Arity;
@@ -140,7 +140,7 @@ class Construct_sdg_circle_2
 {
 public:
   typedef typename Gt::Site_2                 Site_2;
-  typedef Sdg_voronoi_vertex_2<Gt,M>          Voronoi_vertex_2;
+  typedef Voronoi_vertex_C2<Gt,M>             Voronoi_vertex_2;
   typedef typename Gt::Circle_2               Circle_2;
   typedef Circle_2                            result_type;
   typedef Arity_tag<3>                        Arity;
@@ -173,21 +173,21 @@ public:
 
 private:
   static
-  Point_2 midpoint(const Point_2& p, const Point_2& q, const Tag_false&) {
+  Point_2 midpoint(const Point_2& p, const Point_2& q, Integral_domain_without_division_tag) {
     typedef typename Gt::FT  FT;
     FT half(0.5);
     return Point_2((p.x() + q.x()) * half,(p.y() + q.y()) * half);
   }
 
   static
-  Point_2 midpoint(const Point_2& p, const Point_2& q, const Tag_true&) {
+  Point_2 midpoint(const Point_2& p, const Point_2& q, Field_tag) {
     return CGAL::midpoint(p, q);
   }
 
   static Point_2 midpoint(const Point_2& p, const Point_2& q) {
     typedef typename Gt::FT  FT;
-    static typename Number_type_traits<FT>::Has_division  has_division;
-    return midpoint(p, q, has_division);
+    typedef Algebraic_structure_traits<FT> AST;
+    return midpoint(p, q, typename AST::Algebraic_category());
   }
 
 public:
@@ -322,8 +322,9 @@ public:
 //-----------------------------------------------------------------------
 
 
-CGAL_END_NAMESPACE
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
 
+CGAL_END_NAMESPACE
 
 
 #endif // CGAL_SEGMENT_DELAUNAY_GRAPH_2_CONSTRUCTIONS_C2_H

@@ -14,21 +14,19 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
-           $(TESTSUITE_CXXFLAGS) \
-           $(EXTRA_FLAGS) \
+           -I../../include \
            $(CGAL_CXXFLAGS) \
-           $(DEBUG_OPT)
+           $(LONG_NAME_PROBLEM_CXXFLAGS)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(TESTSUITE_LIBPATH) \
           $(CGAL_LIBPATH)
 
 LDFLAGS = \
-          $(TESTSUITE_LDFLAGS) \
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
 #---------------------------------------------------------------------#
@@ -36,9 +34,9 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                circulator_prog1 \
-                circulator_prog2 \
-                circulator_prog3 
+                circulator_prog1$(EXE_EXT) \
+                circulator_prog2$(EXE_EXT) \
+                circulator_prog3$(EXE_EXT) 
 
 circulator_prog1$(EXE_EXT): circulator_prog1$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)circulator_prog1 circulator_prog1$(OBJ_EXT) $(LDFLAGS)
@@ -59,5 +57,9 @@ clean: \
 #---------------------------------------------------------------------#
 
 .C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
+
+
+.cpp$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

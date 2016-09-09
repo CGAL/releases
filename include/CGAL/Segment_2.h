@@ -15,14 +15,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Segment_2.h $
-// $Id: Segment_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Segment_2.h $
+// $Id: Segment_2.h 35642 2006-12-27 23:26:06Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
 
 #ifndef CGAL_SEGMENT_2_H
 #define CGAL_SEGMENT_2_H
+
+#include <boost/static_assert.hpp>
+#include <boost/type_traits.hpp>
+#include <CGAL/Kernel/Return_base_tag.h>
+#include <CGAL/Bbox_2.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -37,6 +42,9 @@ class Segment_2 : public R_::Kernel_base::Segment_2
   typedef typename R_::Line_2                 Line_2;
   typedef typename R_::Aff_transformation_2   Aff_transformation_2;
   typedef typename R_::Kernel_base::Segment_2 RSegment_2;
+
+  typedef Segment_2                           Self;
+  BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Segment_2>::value));
 
 public:
 
@@ -56,12 +64,12 @@ public:
 
   Segment_2() {}
 
-  Segment_2(const Point_2 &sp, const Point_2 &ep)
-    :  RSegment_2(typename R::Construct_segment_2()(sp,ep).rep()) {}
-
   // conversion from implementation class object to interface class object
   Segment_2(const RSegment_2& s)
     : RSegment_2(s) {}
+
+  Segment_2(const Point_2 &sp, const Point_2 &ep)
+    :  RSegment_2(typename R::Construct_segment_2()(Return_base_tag(), sp,ep)) {}
 
   typename Qualified_result_of<typename R::Construct_source_2, Segment_2>::type
   source() const
@@ -89,10 +97,10 @@ public:
 
   
   typename Qualified_result_of<typename R::Construct_min_vertex_2, Segment_2>::type
-  min() const;
+  min BOOST_PREVENT_MACRO_SUBSTITUTION () const;
 
   typename Qualified_result_of<typename R::Construct_max_vertex_2, Segment_2>::type
-  max() const;
+  max BOOST_PREVENT_MACRO_SUBSTITUTION () const;
 
   typename Qualified_result_of<typename R::Construct_vertex_2, Segment_2, int>::type
   vertex(int i) const;
@@ -111,14 +119,16 @@ public:
 
   bool        is_degenerate() const;
 
-  Bbox_2      bbox() const;
+  Bbox_2      bbox() const
+  {
+    return R().construct_bbox_2_object()(*this);
+  }
 
   bool
   operator==(const Segment_2 &s) const
   {
     return R().equal_2_object()(*this, s);
   }
-
 
   bool
   operator!=(const Segment_2 &s) const
@@ -154,18 +164,17 @@ public:
     return R().construct_opposite_segment_2_object()(*this);
   }
 
-
   Segment_2
   transform(const Aff_transformation_2 &t) const
   {
-    return rep().transform(t);
+    return Segment_2(t.transform(source()), t.transform(target()));
   }
 };
 
 template < class R_ >
 CGAL_KERNEL_INLINE
 typename Qualified_result_of<typename R_::Construct_min_vertex_2, Segment_2<R_> >::type
-Segment_2<R_>::min() const
+Segment_2<R_>::min BOOST_PREVENT_MACRO_SUBSTITUTION () const
 {
   typename R_::Less_xy_2 less_xy; 
   return less_xy(source(),target()) ? source() : target();
@@ -174,7 +183,7 @@ Segment_2<R_>::min() const
 template < class R_ >
 CGAL_KERNEL_INLINE
 typename Qualified_result_of<typename R_::Construct_max_vertex_2, Segment_2<R_> >::type
-Segment_2<R_>::max() const
+Segment_2<R_>::max BOOST_PREVENT_MACRO_SUBSTITUTION () const
 {
   typename R_::Less_xy_2 less_xy; 
   return less_xy(source(),target()) ? target() : source();
@@ -263,33 +272,33 @@ Segment_2<R_>::is_degenerate() const
 }
 
 
-template < class R_ >
-CGAL_KERNEL_INLINE
-Bbox_2
-Segment_2<R_>::bbox() const
-{
-  return R().construct_bbox_2_object()(*this);
-}
 
-
-
-#ifndef CGAL_NO_OSTREAM_INSERT_SEGMENT_2
-template < class R>
+template < class R >
 std::ostream &
 operator<<(std::ostream &os, const Segment_2<R> &s)
 {
-  return os << s.rep();
+    switch(os.iword(IO::mode)) {
+    case IO::ASCII :
+        return os << s.source() << ' ' << s.target();
+    case IO::BINARY :
+        return os << s.source() << s.target();
+    default:
+        return os << "Segment_2(" << s.source() <<  ", " << s.target() << ")";
+    }
 }
-#endif // CGAL_NO_OSTREAM_INSERT_SEGMENT_2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_SEGMENT_2
-template < class R>
+template < class R >
 std::istream &
 operator>>(std::istream &is, Segment_2<R> &s)
 {
-  return is >> s.rep();
+    typename R::Point_2 p, q;
+
+    is >> p >> q;
+
+    if (is)
+        s = Segment_2<R>(p, q);
+    return is;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_SEGMENT_2
 
 CGAL_END_NAMESPACE
 

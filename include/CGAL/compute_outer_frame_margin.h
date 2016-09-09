@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/include/CGAL/compute_outer_frame_margin.h $
-// $Id: compute_outer_frame_margin.h 31990 2006-06-20 18:56:09Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/compute_outer_frame_margin.h $
+// $Id: compute_outer_frame_margin.h 33023 2006-08-04 19:11:49Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -36,10 +36,11 @@ boost::optional< typename Traits::FT > compute_outer_frame_margin ( ForwardPoint
                                                                   , Traits const&        aTraits
                                                                   )
 {
-  typedef typename Traits::Kernel    Kernel ;
-  typedef typename Traits::FT        FT ;
-  typedef typename Traits::Point_2   Point_2 ;
-  typedef typename Traits::Segment_2 Segment_2 ;
+  typedef typename Traits::Kernel              Kernel ;
+  typedef typename Traits::FT                  FT ;
+  typedef typename Traits::Point_2             Point_2 ;
+  typedef typename Traits::Segment_2           Segment_2 ;
+  typedef typename Traits::Seeded_trisegment_2 Seeded_trisegment_2 ;
   
   Kernel kernel ;
   
@@ -56,6 +57,8 @@ boost::optional< typename Traits::FT > compute_outer_frame_margin ( ForwardPoint
   
   bool lOverflow = false ;
 
+  Seeded_trisegment_2 nullst = Construct_ss_seeded_trisegment_2(aTraits)();
+  
   for ( ForwardPointIterator lCurr = aBegin ; lCurr < aEnd ; ++ lCurr )
   {
     ForwardPointIterator lPrev = ( lCurr == aBegin ? lLast  : CGAL::predecessor(lCurr) ) ;
@@ -66,7 +69,7 @@ boost::optional< typename Traits::FT > compute_outer_frame_margin ( ForwardPoint
       Segment_2 lLEdge = construct_segment(*lPrev,*lCurr);
       Segment_2 lREdge = construct_segment(*lCurr,*lNext);
       
-      OptionalPoint_2 lP = Construct_offset_point_2(aTraits)(aOffset,lLEdge,lREdge);
+      OptionalPoint_2 lP = Construct_offset_point_2(aTraits)(aOffset,lLEdge,lREdge,nullst);
      
       if ( !lP )
       {

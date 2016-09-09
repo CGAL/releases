@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/include/CGAL/predicates/Polygon_offset_pred_ftC2.h $
-// $Id: Polygon_offset_pred_ftC2.h 31990 2006-06-20 18:56:09Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/predicates/Polygon_offset_pred_ftC2.h $
+// $Id: Polygon_offset_pred_ftC2.h 36633 2007-02-27 18:19:42Z fcacciola $
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -30,12 +30,11 @@ namespace CGAL_SS_i
 // returns the relative order of 't' w.r.t 'et'.
 // PRECONDITION: There exist a positive distance et for which the offset triple intersect at a single point.
 template<class K>
-Uncertain<Comparison_result>
-compare_offset_against_isec_timeC2 ( typename K::FT t, Triedge_2<K> const& triedge )
+Uncertain<Comparison_result> compare_offset_against_isec_timeC2 ( typename K::FT const& t, Seeded_trisegment_2<K> const& st )
 {
   typedef typename K::FT FT ;
   
-  typedef Sorted_triedge_2<K> Sorted_triedge_2 ;
+  typedef Seeded_trisegment_2<K> Seeded_trisegment_2 ;
   
   typedef Rational<FT> Rational ;
   typedef Quotient<FT> Quotient ;
@@ -44,20 +43,14 @@ compare_offset_against_isec_timeC2 ( typename K::FT t, Triedge_2<K> const& tried
  
   Uncertain<Comparison_result> rResult = Uncertain<Comparison_result>::indeterminate();
 
-  Sorted_triedge_2 sorted = collinear_sort(triedge);
-
-  if ( !sorted.is_indeterminate() )
+  Optional_rational et_ = compute_offset_lines_isec_timeC2(st);
+  if ( et_ )
   {
-    Optional_rational et_ = compute_offset_lines_isec_timeC2(sorted);
-    
-    if ( et_ )
-    {
-      Quotient et = et_->to_quotient();
-  
-      CGAL_assertion ( CGAL_NTS certified_is_positive(et) ) ;
-  
-      rResult = CGAL_NTS certified_compare(et,t);
-    }
+    Quotient et = et_->to_quotient();
+
+    CGAL_assertion ( CGAL_NTS certified_is_positive(et) ) ;
+
+    rResult = CGAL_NTS certified_compare(et,t);
   }
 
   return rResult ;

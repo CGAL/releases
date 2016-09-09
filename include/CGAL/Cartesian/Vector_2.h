@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Vector_2.h $
-// $Id: Vector_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Vector_2.h $
+// $Id: Vector_2.h 33152 2006-08-08 15:38:23Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -26,6 +26,7 @@
 
 #include <CGAL/Origin.h>
 #include <CGAL/Twotuple.h>
+#include <CGAL/constant.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -39,14 +40,11 @@ class VectorC2
   typedef typename R_::Ray_2                Ray_2;
   typedef typename R_::Line_2               Line_2;
   typedef typename R_::Direction_2          Direction_2;
-  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
   typedef Twotuple<FT>	                           Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
-
-  static FT one;
 
 public:
   typedef R_                                     R;
@@ -83,19 +81,10 @@ public:
   }
   const FT& hw() const
   {
-    return one;
+    return constant<FT, 1>();
   }
-  
 
-
-  Vector_2 transform(const Aff_transformation_2 &t) const
-  {
-    return t.transform(*this);
-  }
 };
-
-template <class R >
-typename R::FT VectorC2<R>::one = 1;
 
 template < class R >
 CGAL_KERNEL_INLINE
@@ -145,50 +134,6 @@ operator!=(const Null_vector &n, const VectorC2<R> &v)
   return !(v == n);
 }
 
-
-
-#ifndef CGAL_NO_OSTREAM_INSERT_VECTORC2
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const VectorC2<R> &v)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << v.x() << ' ' << v.y();
-    case IO::BINARY :
-        write(os, v.x());
-        write(os, v.y());
-        return os;
-    default:
-        return os << "VectorC2(" << v.x() << ", " << v.y() << ')';
-    }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_VECTORC2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_VECTORC2
-template < class R >
-std::istream &
-operator>>(std::istream &is, VectorC2<R> &p)
-{
-    typename R::FT x, y;
-    switch(is.iword(IO::mode)) {
-    case IO::ASCII :
-        is >> x >> y;
-        break;
-    case IO::BINARY :
-        read(is, x);
-        read(is, y);
-        break;
-    default:
-        std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-        break;
-    }
-    if (is)
-	p = VectorC2<R>(x, y);
-    return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_VECTORC2
-
 CGAL_END_NAMESPACE
+
 #endif // CGAL_CARTESIAN_VECTOR_2_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
-// $Id: Alpha_shape_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
+// $Id: Alpha_shape_2.h 38627 2007-05-11 13:24:39Z afabri $
 // 
 //
 // Author(s)     : Tran Kai Frank DA
@@ -38,9 +38,7 @@
 #include <CGAL/Alpha_shape_vertex_base_2.h>
 #include <CGAL/Alpha_shape_face_base_2.h>
 
-#ifdef CGAL_ALPHA_WINDOW_STREAM
-#include <CGAL/IO/Window_stream.h>
-#endif
+
 
 CGAL_BEGIN_NAMESPACE
 
@@ -232,9 +230,6 @@ public:
  
   std::ostream& op_ostream(std::ostream& os) const;
 
-#ifdef CGAL_ALPHA_WINDOW_STREAM
-  Window_stream& op_window(Window_stream& W) const;
-#endif 
  
   //----------------------- OPERATIONS ---------------------------------
 
@@ -319,6 +314,14 @@ private:
 		     const Interval_edge& ie) 
       {
 	return alpha < ie.first.first; 
+      }
+
+    // Needed for STL implementations of upper_bound which in debug mode 
+    // check sortedness of range
+    bool operator()(const Interval_edge& ie, 
+		    const Interval_edge& ie2) const
+      {
+	return ie < ie2;
       }
   };
 
@@ -708,6 +711,11 @@ private:
 
   Alpha_shape_2& operator=(const Alpha_shape_2& A);
 
+
+public:
+  // to debug
+  void print_edge_map();
+
 };
 
 
@@ -828,8 +836,11 @@ Alpha_shape_2<Dt>::initialize_interval_edge_map()
       _interval_edge_map.insert(Interval_edge(interval, edge));
       
       // cross-links
-      
       (edge.first)->set_ranges(edge.second,interval);
+      // MY : to fix a bug I store the interval of the edge in both faces 
+      Face_handle neighbor = (edge.first)->neighbor(edge.second);
+      int ni = neighbor->index(edge.first);
+      neighbor->set_ranges( ni, interval);
 
     }
 
@@ -894,14 +905,14 @@ Alpha_shape_2<Dt>::initialize_interval_vertex_map()
 				
 	
 // 	alpha_mid_v = (interval3.first != UNDEFINED) ?
-// 	min(alpha_mid_v, interval3.first): 
-// 	min(alpha_mid_v, interval3.second); 
+// 	min BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_mid_v, interval3.first): 
+// 	min BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_mid_v, interval3.second); 
 			
 // 	if (alpha_max_v != Infinity)
       
 // 	{
 // 	alpha_max_v = (interval3.third != Infinity) ?
-// 	max(alpha_max_v, interval3.third):
+// 	max BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_max_v, interval3.third):
 // 	Infinity;
 // 	}
 // 	}
@@ -933,10 +944,10 @@ Alpha_shape_2<Dt>::initialize_interval_vertex_map()
 		  alpha_f = find_interval(f);
 		  // if we define singular as not incident to a 2-dimensional
 		  // face
-		  alpha_mid_v = min(alpha_mid_v, alpha_f);
+		  alpha_mid_v = min BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_mid_v, alpha_f);
 		    
 		  if (alpha_max_v != Infinity)
-		    alpha_max_v = max(alpha_max_v, alpha_f);
+		    alpha_max_v = max BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_max_v, alpha_f);
 			    
 		}
 	    }
@@ -1406,11 +1417,11 @@ Alpha_shape_2<Dt>::find_alpha_solid() const
 	{
 	  Face_handle f = face_circ;
 	  if (! is_infinite(f))
-	    alpha_min_v = min(find_interval(f),
-				   alpha_min_v);
+	    alpha_min_v = min BOOST_PREVENT_MACRO_SUBSTITUTION(find_interval(f),
+							       alpha_min_v);
 	}
       while (++face_circ != done);
-      alpha_solid = max(alpha_min_v, alpha_solid);
+      alpha_solid = max BOOST_PREVENT_MACRO_SUBSTITUTION (alpha_min_v, alpha_solid);
 
     }
   return alpha_solid;
@@ -1797,10 +1808,24 @@ Alpha_shape_2<Dt>::Output ()
   return L;
 }
 
+template < class Dt >
+void 
+Alpha_shape_2<Dt>::print_edge_map() {
+  for (typename Interval_edge_map::iterator iemapit= _interval_edge_map.begin();
+	 iemapit != _interval_edge_map.end(); ++iemapit) {
+    Interval3 interval = (*iemapit).first;
+    Edge    edge = (*iemapit).second;
+    Point p1 = edge.first->vertex(cw(edge.second))->point();
+    Point p2 = edge.first->vertex(ccw(edge.second))->point();
+      std::cout << "[ (" <<	p1 << ") - (" << p2 << ") ] :            " 
+		<< interval.first << " " 
+		<< interval.second << " " << interval.third << std::endl;
+    }
+}
+
+
+
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_ALPHA_WINDOW_STREAM
-#include <CGAL/IO/alpha_shapes_2_window_stream.h>
-#endif
 
 #endif //CGAL_ALPHA_SHAPE_2_H

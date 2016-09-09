@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/Taucs_solver_traits.h $
-// $Id: Taucs_solver_traits.h 31253 2006-05-22 12:32:39Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Taucs_solver_traits.h $
+// $Id: Taucs_solver_traits.h 38881 2007-05-30 15:18:43Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -21,18 +21,20 @@
 #ifndef CGAL_TAUCS_SOLVER_TRAITS
 #define CGAL_TAUCS_SOLVER_TRAITS
 
+#include <CGAL/auto_link/TAUCS.h>
 #include <CGAL/Taucs_matrix.h>
 #include <CGAL/Taucs_vector.h>
 #include <CGAL/Taucs_fix.h>
 
+#include <boost/shared_ptr.hpp>
+
 #include <cassert>
-#include <stdio.h>
 
 CGAL_BEGIN_NAMESPACE
 
 
 /// The class Taucs_symmetric_solver_traits
-/// is a traits class for solving SYMMETRIC DEFINITE POSITIVE sparse linear systems
+/// is a traits class for solving symmetric positive definite sparse linear systems
 /// using TAUCS solvers family.
 /// The default solver is the Multifrontal Supernodal Cholesky Factorization.
 ///
@@ -52,7 +54,7 @@ public:
 // Public operations
 public:
 
-    /// Create a TAUCS sparse linear solver for SYMMETRIC DEFINITE POSITIVE matrices.
+    /// Create a TAUCS sparse linear solver for symmetric positive definite matrices.
     /// The default solver is the Multifrontal Supernodal Cholesky Factorization.
     /// See taucs_linsolve() documentation for the meaning of the
     /// 'options' and 'arguments' parameters.
@@ -79,62 +81,31 @@ public:
         D = 1;          // TAUCS does not support homogeneous coordinates
 
 #ifdef DEBUG_TRACE
-       // Turn on TAUCS trace
-       std::cerr.flush();
-       taucs_logfile("stderr");
+        // Turn on TAUCS trace
+        std::cerr.flush();
+        taucs_logfile((char*)"stderr");
 #endif
-
-//#ifdef DEBUG_TRACE
-//        // Debug trace
-//        fprintf(stderr, "\n");
-//        fprintf(stderr, "linear_solver:\n");
-//        int n = A.row_dimension();
-//        if (n < 20)	// if small matrix, print it entirely
-//        {
-//	    fprintf(stderr, "******************  A:  ******************\n");
-//	    for (int i=0; i<n; i++)  {
-//		    for (int j=0; j<n; j++)
-//			    fprintf(stderr, "%lf\t", (double)A.get_coef(i, j));
-//		    fprintf(stderr, "\n");
-//	    }
-//	    fprintf(stderr, "******************  B:  ******************\n");
-//	    for (int j=0; j<n; j++)
-//		    fprintf(stderr, "%lf\t", (double)B[j]);
-//	    fprintf(stderr, "\n");
-//	    fprintf(stderr, "******************************************\n");
-//        }
-//        else		// if large matrix, print only not null elements
-//        {
-//	    fprintf(stderr, "******************  A*X=B  ******************\n");
-//	    for (int i=0; i<n; i++)  {
-//		for (int j=0; j<n; j++)
-//		    if ( ! IsZero(A.get_coef(i, j)) )
-//			fprintf(stderr, "A[%d][%d] = %lf\t", i, j, (double)A.get_coef(i, j));
-//		fprintf(stderr, "\n");
-//	    }
-//	    for (int j=0; j<n; j++)
-//		if ( ! IsZero(B[j]) )
-//		    fprintf(stderr, "B[%d] = %lf\t", j, (double)B[j]);
-//	    fprintf(stderr, "\n");
-//	    fprintf(stderr, "******************************************\n");
-//        }
-//#endif
 
         try
         {
             // Factor, solve and free
             int success = taucs_linsolve((taucs_ccs_matrix*) A.get_taucs_matrix(),
-                                        NULL,
-                                        1,
-                                        X.get_taucs_vector(),
-                                        (T*) B.get_taucs_vector(),
-                                        (char**) m_options,
-                                        (void**) m_arguments);
-            return (success == TAUCS_SUCCESS);
+                                         NULL,
+                                         1,
+                                         X.get_taucs_vector(),
+                                         (T*) B.get_taucs_vector(),
+                                         (char**) m_options,
+                                         (void**) m_arguments);
+            if (success != TAUCS_SUCCESS) {
+                taucs_printf((char*)"\tSolving Failed\n");
+                return false;
+            } else {
+                return true;
+            }
         }
         catch (...)
         {
-            // if incorrect matrix
+            taucs_printf((char*)"\tIncorrect Matrix\n");
             return false;
         }
     }
@@ -144,7 +115,7 @@ private:
     /// Test if a floating point number is (close to) 0.0.
     static inline bool IsZero(NT a)
     {
-        return (CGAL_CLIB_STD::fabs(a) < 10.0 * std::numeric_limits<NT>::min());
+        return (CGAL_CLIB_STD::fabs(a) < 10.0 * (std::numeric_limits<NT>::min)());
     }
 
 // Fields
@@ -190,100 +161,68 @@ public:
         D = 1;          // TAUCS does not support homogeneous coordinates
 
 #ifdef DEBUG_TRACE
-       // Turn on TAUCS trace
-       std::cerr.flush();
-       taucs_logfile("stderr");
+        // Turn on TAUCS trace
+        std::cerr.flush();
+        taucs_logfile((char*)"stderr");
 #endif
-
-//#ifdef DEBUG_TRACE
-//        // Debug trace
-//        fprintf(stderr, "\n");
-//        fprintf(stderr, "linear_solver:\n");
-//        int n = A.row_dimension();
-//        if (n < 20)	// if small matrix, print it entirely
-//        {
-//	    fprintf(stderr, "******************  A:  ******************\n");
-//	    for (int i=0; i<n; i++)  {
-//		    for (int j=0; j<n; j++)
-//			    fprintf(stderr, "%lf\t", (double)A.get_coef(i, j));
-//		    fprintf(stderr, "\n");
-//	    }
-//	    fprintf(stderr, "******************  B:  ******************\n");
-//	    for (int j=0; j<n; j++)
-//		    fprintf(stderr, "%lf\t", (double)B[j]);
-//	    fprintf(stderr, "\n");
-//	    fprintf(stderr, "******************************************\n");
-//        }
-//        else		// if large matrix, print only not null elements
-//        {
-//	    fprintf(stderr, "******************  A*X=B  ******************\n");
-//	    for (int i=0; i<n; i++)  {
-//		for (int j=0; j<n; j++)
-//		    if ( ! IsZero(A.get_coef(i, j)) )
-//			fprintf(stderr, "A[%d][%d] = %lf\t", i, j, (double)A.get_coef(i, j));
-//		fprintf(stderr, "\n");
-//	    }
-//	    for (int j=0; j<n; j++)
-//		if ( ! IsZero(B[j]) )
-//		    fprintf(stderr, "B[%d] = %lf\t", j, (double)B[j]);
-//	    fprintf(stderr, "\n");
-//	    fprintf(stderr, "******************************************\n");
-//        }
-//#endif
 
         try
         {
             int     success;
 
             // ordering
-            int*    perm;
-            int*    invperm;
+            int*    perm_raw = NULL;
+            int*    invperm_raw = NULL;
             taucs_ccs_order((taucs_ccs_matrix*) A.get_taucs_matrix(),
-                            &perm,
-                            &invperm,
-                            "colamd");
-            if (perm == NULL) {
-                taucs_printf("\tOrdering Failed\n");
-                return false;
-            }
+                            &perm_raw,
+                            &invperm_raw,
+                            (char*)"colamd");
+            boost::shared_ptr<int> perm(perm_raw, free);
+            boost::shared_ptr<int> invperm(invperm_raw, free);
+            if ( perm == NULL || invperm == NULL)
+                throw std::runtime_error("Ordering Failed");
 
-            // create multifile for out-of-core swapping
-            char*   matrixfile = tempnam(NULL, "taucs.L");
-            taucs_io_handle* oocL = taucs_io_create_multifile(matrixfile);
-            free(matrixfile); matrixfile = NULL;
-            if (oocL == NULL) {
-                taucs_printf("\tCannot Create Multifile\n");
-                return false;
-            }
+            // create multi-file for out-of-core swapping
+        #ifndef __GNUC__
+            boost::shared_ptr<char> matrixfile(tempnam(NULL, "taucs.L"), free);
+            if (matrixfile == NULL)
+                throw std::runtime_error("Cannot Create Multifile");
+            boost::shared_ptr<taucs_io_handle> oocL(taucs_io_create_multifile(matrixfile.get()), taucs_io_delete);
+        #else
+            const char* matrixfile = "/tmp/taucs.L"; // less robust but g++ complains that tempnam() is deprecated
+            boost::shared_ptr<taucs_io_handle> oocL(taucs_io_create_multifile((char*)matrixfile), taucs_io_delete);
+        #endif
+            if (oocL == NULL)
+                throw std::runtime_error("Cannot Create Multifile");
 
             // factor
             int memory_mb = int(taucs_available_memory_size()/1048576.0);
             success = taucs_ooc_factor_lu((taucs_ccs_matrix*) A.get_taucs_matrix(),
-                                        perm,
-                                        oocL,
-                                        memory_mb*1048576.0);
-            if (success != TAUCS_SUCCESS) {
-                taucs_printf("\tFactorization Failed\n");
-                return false;
-            }
+                                           perm.get(),
+                                           oocL.get(),
+                                           memory_mb*1048576.0);
+            if (success != TAUCS_SUCCESS)
+                throw std::runtime_error("Factorization Failed");
 
             // solve
-            success = taucs_ooc_solve_lu(oocL,
-                                        X.get_taucs_vector(),
+            success = taucs_ooc_solve_lu(oocL.get(),
+                                         X.get_taucs_vector(),
                                         (T*) B.get_taucs_vector());
-            if (success != TAUCS_SUCCESS) {
-                taucs_printf("\tSolving Failed\n");
-                return false;
-            }
-
-            // free
-            taucs_io_delete(oocL);
+            if (success != TAUCS_SUCCESS)
+                throw std::runtime_error("Solving Failed");
 
             return true;
         }
+        catch (std::exception& e)
+        {
+            taucs_printf((char*)"\t");
+            taucs_printf((char*)(e.what() != NULL ? e.what() : "Incorrect Matrix"));
+            taucs_printf((char*)"\n");
+            return false;
+        }
         catch (...)
         {
-            // if incorrect matrix
+            taucs_printf((char*)"\tIncorrect Matrix\n");
             return false;
         }
     }
@@ -293,7 +232,7 @@ private:
     /// Test if a floating point number is (close to) 0.0.
     static inline bool IsZero(NT a)
     {
-        return (CGAL_CLIB_STD::fabs(a) < 10.0 * std::numeric_limits<NT>::min());
+        return (CGAL_CLIB_STD::fabs(a) < 10.0 * (std::numeric_limits<NT>::min)());
     }
 };
 

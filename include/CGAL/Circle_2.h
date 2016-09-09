@@ -15,15 +15,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Circle_2.h $
-// $Id: Circle_2.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Circle_2.h $
+// $Id: Circle_2.h 33881 2006-09-01 13:25:52Z afabri $
+//
 //
 // Author(s)     : Andreas Fabri
 //                 Sven Schoenherr
 
 #ifndef CGAL_CIRCLE_2_H
 #define CGAL_CIRCLE_2_H
+
+#include <boost/static_assert.hpp>
+#include <boost/type_traits.hpp>
+#include <CGAL/Kernel/Return_base_tag.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -33,9 +37,15 @@ class Circle_2 : public R_::Kernel_base::Circle_2
   typedef typename R_::FT                    FT;
   typedef typename R_::Point_2               Point_2;
   typedef typename R_::Kernel_base::Circle_2  RCircle_2;
+  typedef typename R_::Aff_transformation_2  Aff_transformation_2;
+
+  typedef Circle_2                           Self;
+  BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Circle_2>::value));
 
 public:
+
   typedef RCircle_2 Rep;
+
   const Rep& rep() const
   {
     return *this;
@@ -55,26 +65,29 @@ public:
 
   Circle_2(const Point_2 &center, const FT &squared_radius,
 	   const Orientation &orientation)
-    : RCircle_2(typename R::Construct_circle_2()(center, squared_radius, orientation).rep()) {}
+    : RCircle_2(typename R::Construct_circle_2()(Return_base_tag(), center, squared_radius, orientation)) {}
 
   Circle_2(const Point_2 &center, const FT &squared_radius)
-    : RCircle_2(typename R::Construct_circle_2()(center, squared_radius, COUNTERCLOCKWISE).rep()) {}
+    : RCircle_2(typename R::Construct_circle_2()(Return_base_tag(), center, squared_radius, COUNTERCLOCKWISE)) {}
 
   Circle_2(const Point_2 &p, const Point_2 &q, const Point_2 &r)
-    : RCircle_2(typename R::Construct_circle_2()(p,q,r).rep()) {}
+    : RCircle_2(typename R::Construct_circle_2()(Return_base_tag(), p, q, r)) {}
 
   Circle_2(const Point_2 & p, const Point_2 & q,
 	   const Orientation &orientation)
-    : RCircle_2(typename R::Construct_circle_2()(p,q,orientation).rep()) {}
+    : RCircle_2(typename R::Construct_circle_2()(Return_base_tag(), p, q, orientation)) {}
 
   Circle_2(const Point_2 & p, const Point_2 & q)
-    : RCircle_2(typename R::Construct_circle_2()(p,q,COUNTERCLOCKWISE).rep()) {}
+    : RCircle_2(typename R::Construct_circle_2()(Return_base_tag(), p, q, COUNTERCLOCKWISE)) {}
+
+  Circle_2(const Point_2 & p, const Point_2 & q, const FT &bulge)
+    : RCircle_2(typename R::Construct_circle_2()(Return_base_tag(), p, q, bulge)) {}
 
   Circle_2(const Point_2 & center, const Orientation& orientation)
-    : RCircle_2(typename R::Construct_circle_2()(center,FT(0),orientation).rep()) {}
+    : RCircle_2(typename R::Construct_circle_2()(Return_base_tag(), center, FT(0), orientation)) {}
 
   Circle_2(const Point_2 & center)
-    : RCircle_2(typename R::Construct_circle_2()(center,FT(0),COUNTERCLOCKWISE).rep()) {}
+    : RCircle_2(typename R::Construct_circle_2()(Return_base_tag(), center, FT(0), COUNTERCLOCKWISE)) {}
 
   typename Qualified_result_of<typename R::Construct_center_2,Circle_2>::type
   center() const
@@ -99,12 +112,12 @@ public:
   {
     return R().bounded_side_2_object()(*this, p);
   }
-  
+
   Oriented_side
   oriented_side(const Point_2 &p) const
   {
     return R().oriented_side_2_object()(*this, p);
-  } 
+  }
 
   bool
   has_on_boundary(const Point_2 &p) const
@@ -149,6 +162,7 @@ public:
   Circle_2
   opposite() const
   {
+    //return R().construct_opposite_circle_2_object()(*this);
     return Circle_2(center(),
 		    squared_radius(),
 		    CGAL::opposite(orientation()) );
@@ -162,7 +176,7 @@ public:
 
   bool
   operator==(const Circle_2 &c) const
-  { 
+  {
     return R().equal_2_object()(*this, c);
   }
 
@@ -171,9 +185,37 @@ public:
   {
     return !(*this == c);
   }
+
+  Circle_2 transform(const Aff_transformation_2 &t) const
+  {
+    return t.transform(*this);
+  }
+
+  Circle_2 orthogonal_transform(const Aff_transformation_2 &t) const;
+
+
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_CIRCLE_2
+template <class R_>
+Circle_2<R_>
+Circle_2<R_>::
+orthogonal_transform(const typename R_::Aff_transformation_2& t) const
+{
+  typedef typename  R_::RT  RT;
+  typedef typename  R_::FT  FT;
+  typedef typename  R_::Vector_2  Vector_2;
+
+  Vector_2 vec(RT(1), RT(0) );   // unit vector // AF: was FT
+  vec = vec.transform(t);             // transformed
+  FT sq_scale = vec.squared_length();       // squared scaling factor
+
+  return Circle_2(t.transform(center()),
+                               sq_scale * squared_radius(),
+                               t.is_even() ? orientation()
+                                           : CGAL::opposite(orientation()));
+}
+
+
 template <class R >
 std::ostream&
 insert(std::ostream& os, const Circle_2<R>& c)
@@ -189,7 +231,7 @@ insert(std::ostream& os, const Circle_2<R>& c)
         write(os, static_cast<int>(c.orientation()));
         break;
     default:
-        os << "CircleC2(" << c.center() <<  ", " << c.squared_radius() ;
+        os << "Circle_2(" << c.center() <<  ", " << c.squared_radius() ;
         switch (c.orientation()) {
         case CLOCKWISE:
             os << ", clockwise)";
@@ -213,13 +255,10 @@ operator<<(std::ostream &os, const Circle_2<R> &c)
   return insert(os, c);
 }
 
-#endif // CGAL_NO_OSTREAM_INSERT_CIRCLE_2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_CIRCLE_2
 
 template <class R >
 std::istream&
-extract(std::istream& is, Circle_2<R>& c) 
+extract(std::istream& is, Circle_2<R>& c)
 {
     typename R::Point_2 center;
     typename R::FT squared_radius;
@@ -239,13 +278,9 @@ extract(std::istream& is, Circle_2<R>& c)
         break;
     }
     if (is)
-	c = Circle_2<R>(center, squared_radius,
-		                  static_cast<Orientation>(o));
+	c = Circle_2<R>(center, squared_radius, static_cast<Orientation>(o));
     return is;
 }
-
-
-
 
 template < class R >
 std::istream &
@@ -253,7 +288,6 @@ operator>>(std::istream &is, Circle_2<R> &c)
 {
   return extract(is,c);
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_CIRCLE_2
 
 CGAL_END_NAMESPACE
 

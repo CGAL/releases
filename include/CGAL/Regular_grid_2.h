@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Stream_lines_2/include/CGAL/Regular_grid_2.h $
-// $Id: Regular_grid_2.h 29656 2006-03-21 13:48:32Z amebarki $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Stream_lines_2/include/CGAL/Regular_grid_2.h $
+// $Id: Regular_grid_2.h 37186 2007-03-17 09:27:09Z afabri $
 // 
 //
 // Author(s)     : Abdelkrim Mebarki <Abdelkrim.Mebarki@sophia.inria.fr>
@@ -198,8 +198,8 @@ Regular_grid_2<StreamLinesTraits_2>::get_vector_field(const Point_2 &
 
 template <class StreamLinesTraits_2>
 typename Regular_grid_2<StreamLinesTraits_2>::FT
-Regular_grid_2<StreamLinesTraits_2>::get_density_field(const Point_2 &
-						       p) const
+Regular_grid_2<StreamLinesTraits_2>::get_density_field(const Point_2 & ) const
+						       
 {
   return 1.0;
 }
@@ -207,8 +207,7 @@ Regular_grid_2<StreamLinesTraits_2>::get_density_field(const Point_2 &
 template<class StreamLinesTraits_2>
 inline
 typename Regular_grid_2<StreamLinesTraits_2>::FT
-Regular_grid_2<StreamLinesTraits_2>::get_integration_step(const
-							  Point_2 &)
+Regular_grid_2<StreamLinesTraits_2>::get_integration_step(const Point_2 &)
   const
 {
   return 1.0;

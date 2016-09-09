@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2/Arr_addition.h $
-// $Id: Arr_addition.h 28840 2006-02-27 14:36:55Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Sweep_line_2/Arr_addition.h $
+// $Id: Arr_addition.h 31572 2006-06-14 10:51:32Z baruchzu $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -92,19 +92,19 @@ public:
     typename std::list<typename Base_traits::X_monotone_curve_2>::iterator xit;
     typename std::list<typename Base_traits::Point_2>::iterator            pit;
     std::vector<X_monotone_curve_2>   xcurves_vec (base_xcurves.size() +
-						   m_arr->number_of_edges());
+                                                   m_arr->number_of_edges());
     std::vector<Point_2>              iso_points (base_points.size() +
-				         m_arr->number_of_isolated_vertices());
+                                         m_arr->number_of_isolated_vertices());
     int                               i_cv = 0, i_pt = 0;
 
     for (xit = base_xcurves.begin();
-	 xit != base_xcurves.end(); ++xit, i_cv++)
+         xit != base_xcurves.end(); ++xit, i_cv++)
     {
       xcurves_vec[i_cv] = X_monotone_curve_2 (*xit);
     }
 
     for (pit = base_points.begin();
-	 pit != base_points.end(); ++pit, i_pt++)
+         pit != base_points.end(); ++pit, i_pt++)
     {
       iso_points[i_pt] = Point_2 (*pit);
     }
@@ -130,7 +130,7 @@ public:
       if (vit->is_isolated())
       {
         iso_points[i_pt] = Point_2 (vit->point(), vit);
-	i_pt++;
+        i_pt++;
       }
     }
 

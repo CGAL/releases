@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Vector_3.h $
-// $Id: Vector_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Vector_3.h $
+// $Id: Vector_3.h 33152 2006-08-08 15:38:23Z spion $
 // 
 //
 // Author        : Andreas Fabri
@@ -39,7 +39,6 @@ class VectorC3
   typedef typename R_::Segment_3            Segment_3;
   typedef typename R_::Line_3               Line_3;
   typedef typename R_::Direction_3          Direction_3;
-  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
   typedef Threetuple<FT>                           Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -102,14 +101,14 @@ public:
   {
       return z();
   }
-  FT hw() const
+  const FT & hw() const
   {
-      return FT(1);
+      return constant<FT, 1>();
   }
 
   const FT & cartesian(int i) const;
   const FT & operator[](int i) const;
-  FT homogeneous(int i) const;
+  const FT & homogeneous(int i) const;
 
   int dimension() const
   {
@@ -122,10 +121,6 @@ public:
   Vector_3 operator/(const FT &c) const;
   FT squared_length() const;
   Direction_3 direction() const;
-  Vector_3 transform(const Aff_transformation_3 &t) const
-  {
-    return t.transform(*this);
-  }
 };
 
 template < class R >
@@ -197,10 +192,10 @@ VectorC3<R>::operator[](int i) const
 }
 
 template < class R >
-typename VectorC3<R>::FT
+const typename VectorC3<R>::FT &
 VectorC3<R>::homogeneous(int i) const
 {
-  if (i==3) return FT(1);
+  if (i==3) return hw();
   return cartesian(i);
 }
 
@@ -253,52 +248,6 @@ VectorC3<R>::direction() const
 {
   return Direction_3(*this);
 }
-
-#ifndef CGAL_CARTESIAN_NO_OSTREAM_INSERT_VECTORC3
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const VectorC3<R> &v)
-{
-  switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-      return os << v.x() << ' ' << v.y()  << ' ' << v.z();
-    case IO::BINARY :
-      write(os, v.x());
-      write(os, v.y());
-      write(os, v.z());
-      return os;
-    default:
-      os << "VectorC3(" << v.x() << ", " << v.y() <<  ", " << v.z() << ")";
-      return os;
-  }
-}
-#endif // CGAL_CARTESIAN_NO_OSTREAM_INSERT_VECTORC3
-
-#ifndef CGAL_CARTESIAN_NO_ISTREAM_EXTRACT_VECTORC3
-template < class R >
-std::istream &
-operator>>(std::istream &is, VectorC3<R> &p)
-{
-  typename R::FT x, y, z;
-  switch(is.iword(IO::mode)) {
-    case IO::ASCII :
-      is >> x >> y >> z;
-      break;
-    case IO::BINARY :
-      read(is, x);
-      read(is, y);
-      read(is, z);
-      break;
-    default:
-      std::cerr << "" << std::endl;
-      std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-      break;
-  }
-  if (is)
-      p = VectorC3<R>(x, y, z);
-  return is;
-}
-#endif // CGAL_CARTESIAN_NO_ISTREAM_EXTRACT_VECTORC3
 
 CGAL_END_NAMESPACE
 

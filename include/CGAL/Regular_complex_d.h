@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_d/include/CGAL/Regular_complex_d.h $
-// $Id: Regular_complex_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_d/include/CGAL/Regular_complex_d.h $
+// $Id: Regular_complex_d.h 38827 2007-05-23 13:36:07Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -35,12 +35,16 @@
 #include <list>
 #include <cstddef>
 
-#undef _DEBUG
-#define _DEBUG 93
+#undef CGAL_KD_DEBUG
+#define CGAL_KD_DEBUG 93
 #include <CGAL/Kernel_d/debug.h>
 
 #ifdef CGAL_USE_LEDA
+#if CGAL_LEDA_VERSION < 500
 #include <LEDA/memory.h>
+#else
+#include <LEDA/system/memory.h>
+#endif
 #endif
 
 CGAL_BEGIN_NAMESPACE
@@ -457,8 +461,7 @@ Point_d associated_point(Simplex_const_handle s, int i) const
 
 Simplex_handle opposite_simplex(Simplex_handle s,int i) const 
 /*{\Mop returns the simplex opposite to the $i$-th vertex of $s$
-(|Simplex_handle()| is there is no such simplex).\\ 
-\precond $0 \leq i \leq |dcur|$. }*/
+(|Simplex_handle()| is there is no such simplex).\\ \precond $0 \leq i \leq |dcur|$. }*/
 { CGAL_assertion(0<=i&&i<=dcur);
   return s->neighbor(i); }
 

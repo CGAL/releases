@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Extended_homogeneous.h $
-// $Id: Extended_homogeneous.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Extended_homogeneous.h $
+// $Id: Extended_homogeneous.h 34974 2006-10-28 13:33:59Z hemmer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -25,7 +25,7 @@
 #include <CGAL/Line_2_Line_2_intersection.h> 
 #include <CGAL/squared_distance_2.h> 
 #include <CGAL/number_utils.h>
-#include <CGAL/Nef_2/Nef_polynomial.h>
+#include <CGAL/Nef_polynomial.h>
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 5
 #include <CGAL/Nef_2/debug.h>
@@ -179,8 +179,8 @@ on the extended geometric objects.}*/
     while ( start != end ) {
       Point_2 p = *start++;
       if ( is_standard(p) ) {
-        R = CGAL_NTS max(CGAL_NTS abs(p.hx()[0])/p.hw()[0], 
-                         CGAL_NTS abs(p.hy()[0])/p.hw()[0]);
+        R = (CGAL::max)(CGAL_NTS abs(p.hx()[0])/p.hw()[0], 
+			CGAL_NTS abs(p.hy()[0])/p.hw()[0]);
       } else {
         RT rx = CGAL_NTS abs(p.hx()), ry = CGAL_NTS abs(p.hy());
         mx = ( rx.degree()>0 ? rx[1] : Standard_RT(0) ); nx = rx[0];
@@ -189,7 +189,7 @@ on the extended geometric objects.}*/
         else if ( mx < my ) R = CGAL_NTS abs((nx-ny)/(my-mx));
         else /* mx == my */ R = CGAL_NTS abs(nx-ny)/(2*p.hw()[0]);
       }
-      R0 = CGAL_NTS max(R+1,R0);
+      R0 = (CGAL::max)(R+1,R0);
     }
   }
 

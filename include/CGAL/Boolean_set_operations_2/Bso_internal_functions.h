@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Bso_internal_functions.h $
-// $Id: Bso_internal_functions.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Bso_internal_functions.h $
+// $Id: Bso_internal_functions.h 37148 2007-03-16 09:01:19Z afabri $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -88,8 +88,8 @@ inline bool _is_empty (const typename Traits:: Polygon_2& pgn,
 }
 
 template <class Traits>
-inline bool _is_empty (const typename Traits::Polygon_with_holes_2& pgn,
-                       Traits& tr) 
+inline bool _is_empty (const typename Traits::Polygon_with_holes_2&,
+                       Traits&) 
 {
   return (false);
 }

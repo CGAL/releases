@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Circulator/include/CGAL/circulator_impl.h $
-// $Id: circulator_impl.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circulator/include/CGAL/circulator_impl.h $
+// $Id: circulator_impl.h 35794 2007-01-24 18:00:30Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
@@ -24,9 +24,7 @@
 #ifndef CGAL_CIRCULATOR_IMPL_H
 #define CGAL_CIRCULATOR_IMPL_H 1
 
-#ifndef CGAL_CIRCULATOR_H
 #include <CGAL/circulator.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 

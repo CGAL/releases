@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH2.h $
-// $Id: DirectionH2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH2.h $
+// $Id: DirectionH2.h 33050 2006-08-05 22:55:06Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -39,7 +39,6 @@ class DirectionH2
   typedef typename R_::Line_2               Line_2;
   typedef typename R_::Ray_2                Ray_2;
   typedef typename R_::Segment_2            Segment_2;
-  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
   typedef Threetuple<RT>                           Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -85,7 +84,6 @@ public:
     const RT & dx() const { return get(base).e0; };
     const RT & dy() const { return get(base).e1; };
 
-    DirectionH2<R> transform(const Aff_transformation_2 &) const;
 };
 
 template <class R >
@@ -111,63 +109,10 @@ CGAL_END_NAMESPACE
 CGAL_BEGIN_NAMESPACE
 
 template <class R >
-inline
-DirectionH2<R>
-DirectionH2<R>::
-transform(const typename DirectionH2<R>::Aff_transformation_2& t) const
-{ return t.transform(*this); }
-
-template <class R >
 CGAL_KERNEL_INLINE
 typename DirectionH2<R>::Vector_2
 DirectionH2<R>::to_vector() const
 { return Vector_2(dx(), dy()); }
-
-
-#ifndef CGAL_NO_OSTREAM_INSERT_DIRECTIONH2
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const DirectionH2<R> &p)
-{
-  switch(os.iword(IO::mode))
-  {
-    case IO::ASCII :
-        return os << p.dx() << ' ' << p.dy();
-    case IO::BINARY :
-        write(os, p.dx());
-        write(os, p.dy());
-        return os;
-    default:
-        return os << "DirectionH2(" << p.dx() << ", "
-                                    << p.dy() << ')';
-  }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_DIRECTIONH2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_DIRECTIONH2
-template < class R >
-std::istream &
-operator>>(std::istream &is, DirectionH2<R> &p)
-{
-  typename R::RT x, y;
-  switch(is.iword(IO::mode))
-  {
-    case IO::ASCII :
-        is >> x >> y;
-        break;
-    case IO::BINARY :
-        read(is, x);
-        read(is, y);
-        break;
-    default:
-        std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-        break;
-  }
-  p = DirectionH2<R>(x, y);
-  return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_DIRECTIONH2
 
 CGAL_END_NAMESPACE
 

@@ -12,9 +12,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/demo/Mesh_2/Show_segments.h $
-// $Id: Show_segments.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/demo/Mesh_2/Show_segments.h $
+// $Id: Show_segments.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Laurent Rineau
 
@@ -71,7 +71,7 @@ public:
 
           widget->setColor(style()->getColor(color));
           widget->setLineWidth(style()->getInt(width));
-      
+
           for(iterator it = (cont->*_begin)();
               it!=(cont->*_end)();
               ++it)
@@ -90,7 +90,7 @@ private:
   C	*cont;
   iterator_function _begin;
   iterator_function _end;
-};//end class 
+};//end class
 
 } // namespace CGAL
 

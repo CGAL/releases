@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Segment_2_Iso_rectangle_2_intersection.h $
-// $Id: Segment_2_Iso_rectangle_2_intersection.h 31166 2006-05-17 16:30:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Segment_2_Iso_rectangle_2_intersection.h $
+// $Id: Segment_2_Iso_rectangle_2_intersection.h 32922 2006-08-03 03:37:36Z afabri $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -122,8 +122,8 @@ Segment_2_Iso_rectangle_2_pair(
         typename K::Iso_rectangle_2 const *iso)
 {
     _known = false;
-    _isomin = iso->min();
-    _isomax = iso->max();
+    _isomin = (iso->min)();
+    _isomax = (iso->max)();
     _ref_point = seg->source();
     _dir = seg->direction().to_vector();
     _min = (typename K::FT)(0);

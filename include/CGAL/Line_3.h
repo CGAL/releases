@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Line_3.h $
-// $Id: Line_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Line_3.h $
+// $Id: Line_3.h 33352 2006-08-16 16:38:49Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -24,6 +24,10 @@
 
 #ifndef CGAL_LINE_3_H
 #define CGAL_LINE_3_H
+
+#include <boost/static_assert.hpp>
+#include <boost/type_traits.hpp>
+#include <CGAL/Kernel/Return_base_tag.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -36,52 +40,126 @@ class Line_3 : public R_::Kernel_base::Line_3
   typedef typename R_::Segment_3             Segment_3;
   typedef typename R_::Direction_3           Direction_3;
   typedef typename R_::Vector_3              Vector_3;
-  typedef typename R_::Kernel_base::Line_3   RLine_3;
+  typedef typename R_::Plane_3               Plane_3;
+  typedef typename R_::Aff_transformation_3  Aff_transformation_3;
+
+  typedef Line_3                             Self;
+  BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Line_3>::value));
+
 public:
+
+  typedef typename R_::Kernel_base::Line_3   Rep;
+
+  const Rep& rep() const
+  {
+    return *this;
+  }
+
+  Rep& rep()
+  {
+    return *this;
+  }
+
   typedef          R_                       R;
 
   Line_3() {}
 
-  Line_3(const Point_3 & p, const Point_3 & q)
-      : RLine_3(p,q) {}
-
   // conversion impl -> interface class
-  Line_3(const RLine_3& l)
-      : RLine_3(l) {}
+  Line_3(const Rep& l)
+      : Rep(l) {}
+
+  Line_3(const Point_3 & p, const Point_3 & q)
+      : Rep(typename R::Construct_line_3()(Return_base_tag(), p, q)) {}
 
   Line_3(const Segment_3 & s)
-      : RLine_3( s ) {}
+      : Rep(typename R::Construct_line_3()(Return_base_tag(), s)) {}
 
   Line_3(const Ray_3 & r)
-      : RLine_3( r ) {}
+      : Rep(typename R::Construct_line_3()(Return_base_tag(), r)) {}
 
   Line_3(const Point_3 & p, const Direction_3 & d)
-      : RLine_3( p, d ) {}
+      : Rep(typename R::Construct_line_3()(Return_base_tag(), p, d)) {}
 
   Line_3(const Point_3 & p, const Vector_3 & v)
-      : RLine_3( p, v ) {}
+      : Rep(typename R::Construct_line_3()(Return_base_tag(), p, v)) {}
+
+  Line_3 transform(const Aff_transformation_3 &t) const
+  {
+    return Line_3(t.transform(this->point()), t.transform(this->direction()));
+  }
+
+  Vector_3 to_vector() const
+  {
+    return R().construct_vector_3_object()(*this);
+  }
+
+  Direction_3 direction() const
+  {
+    return R().construct_direction_3_object()(*this);
+  }
+
+  bool has_on(const Point_3 &p) const 
+  { 
+    return R().has_on_3_object()(*this, p);
+    //return has_on_boundary(p); 
+  }
+
+  Point_3 point() const
+  { 
+    return R().construct_point_on_3_object()(*this, 0);
+  }
+
+  Point_3 point(int i) const
+  { 
+    return R().construct_point_on_3_object()(*this, i);
+  }
+
+  Line_3 opposite() const
+  {
+    return R().construct_opposite_line_3_object()(*this);
+  }
+
+  Plane_3 perpendicular_plane(const Point_3 &p) const
+  {
+    return R().construct_perpendicular_plane_3_object()(*this, p);
+  }
+
+  Point_3 projection(const Point_3 &p) const
+  {
+    return R().construct_projected_point_3_object()(*this, p);
+  }
+
+  bool is_degenerate() const
+  {
+    return R().is_degenerate_3_object()(*this);
+  }
+  
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_LINE_3
 template < class R >
-std::ostream&
-operator<<(std::ostream& os, const Line_3<R>& l)
+std::ostream &
+operator<<(std::ostream &os, const Line_3<R> &l)
 {
-  typedef typename  R::Kernel_base::Line_3  RLine_3;
-  return os << static_cast<const RLine_3&>(l);
+    switch(os.iword(IO::mode)) {
+    case IO::ASCII :
+        return os << l.point(0) << ' ' << l.point(1);
+    case IO::BINARY :
+        return os << l.point(0) <<  l.point(1);
+    default:
+        return  os << "Line_3(" << l.point(0) << ", " << l.point(1) << ")";
+    }
 }
-#endif // CGAL_NO_OSTREAM_INSERT_LINE_3
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_LINE_3
 template < class R >
-std::istream&
-operator>>(std::istream & is, Line_3<R> & p)
+std::istream &
+operator>>(std::istream &is, Line_3<R> &l)
 {
-  typedef typename  R::Kernel_base::Line_3  RLine_3;
-  is >> static_cast<RLine_3&>(p);
-  return is;
+    typename R::Point_3 p, q;
+    is >> p >> q;
+    if (is)
+        l = Line_3<R>(p, q);
+    return is;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_LINE_3
 
 CGAL_END_NAMESPACE
 

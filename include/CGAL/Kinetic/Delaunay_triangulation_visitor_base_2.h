@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_visitor_base_2.h $
-// $Id: Delaunay_triangulation_visitor_base_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_visitor_base_2.h $
+// $Id: Delaunay_triangulation_visitor_base_2.h 36134 2007-02-09 00:39:39Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -27,34 +27,54 @@ CGAL_KINETIC_BEGIN_NAMESPACE
 struct Delaunay_triangulation_visitor_base_2
 {
     Delaunay_triangulation_visitor_base_2(){}
-    template <class Ok>
-    void remove_vertex(Ok) {
+  
+  template <class Point_key>
+  void pre_insert_vertex(Point_key ) {
     }
 
-    template <class Ok>
-    void create_vertex(Ok) {
+    template <class Vertex_handle>
+    void post_insert_vertex(Vertex_handle ) {
     }
 
-    template <class Ok>
-    void modify_vertex(Ok) {
+    template <class Vertex_handle>
+    void pre_remove_vertex(Vertex_handle ) {
     }
 
-    template <class It>
-    void create_faces(It, It) {
+
+    template <class Point_key>
+    void post_remove_vertex(Point_key ) {
     }
 
-    template <class It>
-    void remove_faces(It, It) {
+    template <class Vertex_handle>
+    void change_vertex(Vertex_handle ) {
     }
+
+    template <class Face_handle> 
+    void create_face(Face_handle ) {
+    }
+
+    template <class Face_handle>
+    void destroy_face(Face_handle ) {
+    }
+
 
     template <class E>
-    void before_flip(E) {
+    void pre_flip(E) {
 
     }
     template <class E>
-    void after_flip(E) {
+    void post_flip(E) {
 
     }
+
+  template <class P>
+  bool filter_certificate(P a, P b, P c) const {
+    return true;
+  }
+  template <class P>
+  bool filter_certificate(P a, P b, P c, P d) const {
+    return true;
+  }
 };
 
 CGAL_KINETIC_END_NAMESPACE

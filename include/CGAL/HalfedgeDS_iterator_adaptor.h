@@ -15,18 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/HalfedgeDS/include/CGAL/HalfedgeDS_iterator_adaptor.h $
-// $Id: HalfedgeDS_iterator_adaptor.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/HalfedgeDS/include/CGAL/HalfedgeDS_iterator_adaptor.h $
+// $Id: HalfedgeDS_iterator_adaptor.h 35787 2007-01-24 17:16:05Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 
 #ifndef CGAL_HALFEDGEDS_ITERATOR_ADAPTOR_H
 #define CGAL_HALFEDGEDS_ITERATOR_ADAPTOR_H 1
-#ifndef CGAL_PROTECT_ITERATOR
+
 #include <iterator>
-#define CGAL_PROTECT_ITERATOR
-#endif
 
 CGAL_BEGIN_NAMESPACE
 

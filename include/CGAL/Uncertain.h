@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Uncertain.h $
-// $Id: Uncertain.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Uncertain.h $
+// $Id: Uncertain.h 36742 2007-03-01 18:29:19Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -49,20 +49,6 @@ namespace CGALi {
   };
 
   template <>
-  struct Minmax_traits <Comparison_result>
-  {
-    static const Comparison_result min = SMALLER;
-    static const Comparison_result max = LARGER;
-  };
-
-  template <>
-  struct Minmax_traits <Oriented_side>
-  {
-    static const Oriented_side min = ON_NEGATIVE_SIDE;
-    static const Oriented_side max = ON_POSITIVE_SIDE;
-  };
-
-  template <>
   struct Minmax_traits <Bounded_side>
   {
     static const Bounded_side min = ON_UNBOUNDED_SIDE;
@@ -79,6 +65,18 @@ namespace CGALi {
 } // namespace CGALi
 
 
+// Exception type for the automatic conversion.
+class Uncertain_conversion_exception
+  : std::range_error
+{
+public:
+  Uncertain_conversion_exception(const std::string &s)
+    : std::range_error(s) {}
+
+  ~Uncertain_conversion_exception() throw() {}
+};
+
+
 // Encodes an interval [min;max] of values of type T.
 // The primary template is supposed to work for enums and bool.
 
@@ -90,6 +88,8 @@ class Uncertain
   static unsigned failures;   // Number of conversion failures.
 
 public:
+
+  typedef CGAL::Uncertain_conversion_exception  Uncertain_conversion_exception;
 
   typedef T  value_type;
 
@@ -115,7 +115,8 @@ public:
       return _i;
     //++failures;
     ++Uncertain<bool>::number_of_failures();  // reasonnable ?
-    throw std::range_error("undecidable conversion of Uncertain<T>");
+    throw Uncertain_conversion_exception(
+                        "undecidable conversion of CGAL::Uncertain<T>");
   }
 
   static unsigned & number_of_failures() { return failures; }
@@ -160,7 +161,7 @@ Uncertain<T>::indeterminate()
 
 template < typename T >
 inline
-bool is_indeterminate(T const& a)
+bool is_indeterminate(T const&)
 {
   return false;
 }
@@ -325,6 +326,28 @@ Uncertain<T> enum_cast(const Uncertain<U>& u)
 }
 
 #endif
+
+
+// Additional goodies
+
+inline bool certainly(bool b) { return b; }
+inline bool possibly(bool b) { return b; }
+
+inline
+bool certainly(Uncertain<bool> const& c)
+{
+  if (is_indeterminate(c))
+       return false;
+  else return static_cast<bool>(c);
+}
+
+inline
+bool possibly(Uncertain<bool> const& c)
+{
+  if (is_indeterminate(c))
+       return true;
+  else return static_cast<bool>(c);
+}
 
 CGAL_END_NAMESPACE
 

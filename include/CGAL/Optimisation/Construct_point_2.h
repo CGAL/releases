@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Optimisation_basic/include/CGAL/Optimisation/Construct_point_2.h $
-// $Id: Construct_point_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Optimisation_basic/include/CGAL/Optimisation/Construct_point_2.h $
+// $Id: Construct_point_2.h 35787 2007-01-24 17:16:05Z spion $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
@@ -24,22 +24,10 @@
 #ifndef CGAL_OPTIMISATION_CONSTRUCT_POINT_2_H
 #define CGAL_OPTIMISATION_CONSTRUCT_POINT_2_H
 
-// includes
-#ifndef CGAL_POINT_2_H
-#  include <CGAL/Point_2.h>
-#endif
-#ifndef CGAL_PROTECT_VECTOR
-#  include <vector>
-#  define CGAL_PROTECT_VECTOR
-#endif
-#ifndef CGAL_PROTECT_FUNCTIONAL
-#  include <functional>
-#  define CGAL_PROTECT_FUNCTIONAL
-#endif
-#ifndef CGAL_PROTECT_ITERATOR
-#  include <iterator>
-#  define CGAL_PROTECT_ITERATOR
-#endif
+#include <CGAL/Point_2.h>
+#include <vector>
+#include <functional>
+#include <iterator>
 
 CGAL_BEGIN_NAMESPACE
 

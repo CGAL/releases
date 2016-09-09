@@ -15,19 +15,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/CircleH2.h $
-// $Id: CircleH2.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/CircleH2.h $
+// $Id: CircleH2.h 35643 2006-12-27 23:28:15Z spion $
+//
 //
 // Author(s)     : Sven Schoenherr
 //                 Stefan Schirra
- 
+
 
 #ifndef CGAL_CIRCLEH2_H
 #define CGAL_CIRCLEH2_H
 
 #include <CGAL/utility.h>
-#include <CGAL/Interval_arithmetic.h>
+#include <CGAL/Interval_nt.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -37,7 +37,6 @@ class CircleH2
     typedef typename R_::FT                   FT;
     typedef typename R_::RT                   RT;
     typedef typename R_::Point_2              Point_2;
-    typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
     typedef Triple<Point_2, FT, Orientation>         Rep;
     typedef typename R_::template Handle<Rep>::type  Base;
@@ -81,12 +80,6 @@ public:
                          ( o != COLLINEAR ) );
       base = Rep(cp, squared_radius, o);
     }
-
-    Bbox_2
-    bbox() const;
-
-    CircleH2<R>
-    orthogonal_transform(const Aff_transformation_2&) const;
 
     const Point_2 &
     center() const;
@@ -243,50 +236,6 @@ CircleH2<R>::is_degenerate() const
 { return ( squared_radius() == FT(0) ); }
 
 template <class R>
-CGAL_KERNEL_MEDIUM_INLINE
-Bbox_2
-CircleH2<R>::bbox() const
-{
-  Bbox_2 b = center().bbox();
-
-  Interval_nt<> x (b.xmin(), b.xmax());
-  Interval_nt<> y (b.ymin(), b.ymax());
-
-  Interval_nt<> sqr = CGAL_NTS to_interval(squared_radius());
-  Interval_nt<> r = CGAL::sqrt(sqr);
-  Interval_nt<> minx = x-r;
-  Interval_nt<> maxx = x+r;
-  Interval_nt<> miny = y-r;
-  Interval_nt<> maxy = y+r;
-
-  return Bbox_2(minx.inf(), miny.inf(), maxx.sup(), maxy.sup());
-}
-
-template <class R>
-CGAL_KERNEL_INLINE
-CircleH2<R>
-CircleH2<R>::
-orthogonal_transform(const typename CircleH2<R>::Aff_transformation_2& t) const
-{
-  typename R::Vector_2 vec( RT(1), RT(0) );   // unit vector
-  vec = vec.transform(t);                     // transformed
-  FT  sq_scale = FT( vec*vec );               // squared scaling factor
-
-  if ( t.is_even() )
-  {
-      return CircleH2<R>(t.transform(center() ),
-                             sq_scale * squared_radius(),
-                             orientation() );
-  }
-  else
-  {
-      return CircleH2<R>(t.transform(center() ),
-                             sq_scale * squared_radius(),
-                             CGAL::opposite( orientation()) );
-  }
-}
-
-template <class R>
 CGAL_KERNEL_INLINE
 bool
 CircleH2<R>::operator==(const CircleH2<R>& c) const
@@ -301,63 +250,6 @@ inline
 bool
 CircleH2<R>::operator!=(const CircleH2<R>& c) const
 { return !(*this == c); }
-
-#ifndef CGAL_NO_OSTREAM_INSERT_CIRCLEH2
-template < class R >
-std::ostream &operator<<(std::ostream &os, const CircleH2<R> &c)
-{
-  switch(os.iword(IO::mode))
-  {
-    case IO::ASCII :
-        os << c.center() << ' ' << c.squared_radius() << ' '
-           << static_cast<int>(c.orientation());
-        break;
-    case IO::BINARY :
-        os << c.center();
-        write(os, c.squared_radius());
-        write(os, static_cast<int>(c.orientation()));
-        break;
-    default:
-        os << "CircleH2(" << c.center() <<  ", " << c.squared_radius() ;
-        if (c.orientation() == CLOCKWISE) {
-            os << ", clockwise)";
-        } else if (c.orientation() == COUNTERCLOCKWISE) {
-            os << ", counterclockwise)";
-        } else {
-            os << ", collinear)";
-        }
-        break;
-  }
-  return os;
-}
-#endif // CGAL_NO_OSTREAM_INSERT_CIRCLEH2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_CIRCLEH2
-template < class R >
-std::istream& operator>>(std::istream &is, CircleH2<R> &c)
-{
-  typename R::Point_2 center;
-  typename R::FT squared_radius;
-  int o;
-  switch(is.iword(IO::mode))
-  {
-    case IO::ASCII :
-        is >> center >> squared_radius >> o;
-        break;
-    case IO::BINARY :
-        is >> center;
-        read(is, squared_radius);
-        is >> o;
-        break;
-    default:
-        std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-        break;
-  }
-  c = CircleH2<R>(center, squared_radius, static_cast<Orientation>(o));
-  return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_CIRCLEH2
 
 CGAL_END_NAMESPACE
 

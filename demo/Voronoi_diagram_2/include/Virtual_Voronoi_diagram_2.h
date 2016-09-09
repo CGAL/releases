@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/include/Virtual_Voronoi_diagram_2.h $
-// $Id: Virtual_Voronoi_diagram_2.h 30977 2006-05-03 13:22:39Z mkaravel $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/include/Virtual_Voronoi_diagram_2.h $
+// $Id: Virtual_Voronoi_diagram_2.h 37242 2007-03-19 08:05:50Z afabri $
+//
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
 
@@ -41,7 +41,7 @@ struct Virtual_Voronoi_diagram_2
   typedef ::Rep GlobalRep;
   typedef GlobalRep ::Point_2   Point_2;
   typedef GlobalRep::Circle_2  Circle_2;
-  
+
   // virtual destructor
   virtual ~Virtual_Voronoi_diagram_2() {}
 
@@ -60,7 +60,7 @@ struct Virtual_Voronoi_diagram_2
 			      Qt_widget&) const = 0;
   virtual void draw_conflicts(const Circle_2&, const Object&,
 			      Qt_widget&) const = 0;
-#endif  
+#endif
 
   virtual Object locate(const Point_2&) const = 0;
 
@@ -72,7 +72,7 @@ struct Virtual_Voronoi_diagram_2
   virtual bool is_valid() const = 0;
 
   virtual void clear() = 0;
-  
+
 };
 
 
@@ -116,7 +116,7 @@ class Virtual_Voronoi_diagram_base_2
   virtual void insert(const Point_2&) {}
   virtual void insert(const Circle_2&) {}
 
-  virtual void remove(const Object& o) {
+  virtual void remove(const Object& /* o */) {
     // remove is not ready yet
 #if 0
     Locate_result lr;
@@ -275,11 +275,11 @@ class Virtual_Voronoi_diagram_base_2
     }
   }
 
-  virtual void draw_conflicts(const Point_2& p,	const Object& o,
-			      Qt_widget& widget) const {}
+  virtual void draw_conflicts(const Point_2& ,	const Object& ,
+			      Qt_widget& ) const {}
 
-  virtual void draw_conflicts(const Circle_2& c, const Object& o,
-			      Qt_widget& widget) const {}
+  virtual void draw_conflicts(const Circle_2& , const Object& ,
+			      Qt_widget& ) const {}
 
 #endif // CGAL_USE_QT
 
@@ -292,11 +292,11 @@ class Virtual_Voronoi_diagram_base_2
     return CGAL::make_object(lr);
   }
 
-  virtual Object get_conflicts(const Point_2& q) const {
+  virtual Object get_conflicts(const Point_2& ) const {
     return CGAL::make_object((int)0);
   }
 
-  virtual Object get_conflicts(const Circle_2& c) const {
+  virtual Object get_conflicts(const Circle_2& ) const {
     return CGAL::make_object((int)0);
   }
 
@@ -342,7 +342,7 @@ class Concrete_Voronoi_diagram_2
     return conflicts( to_site(q) );
   }
 
-  virtual Object get_conflicts(const Circle_2& q) const {
+  virtual Object get_conflicts(const Circle_2& ) const {
     return CGAL::make_object( (int)0 );
   }
 
@@ -353,8 +353,8 @@ class Concrete_Voronoi_diagram_2
     VBase::draw_conflicts( to_site(p), o, widget);
   }
 
-  virtual void draw_conflicts(const Circle_2& c, const Object& o,
-			      Qt_widget& widget) const {
+  virtual void draw_conflicts(const Circle_2& , const Object& ,
+			      Qt_widget& ) const {
     return;
   }
 #endif
@@ -461,7 +461,7 @@ class Concrete_Apollonius_diagram_2
 
   Geom_traits::Site_2 to_site(const Point_2& p) const {
     Geom_traits::Point_2 pp(p.x(), p.y());
-    return Geom_traits::Site_2(p, 0);    
+    return Geom_traits::Site_2(p, 0);
   }
 
   Geom_traits::Site_2 to_site(const Circle_2& c) const {

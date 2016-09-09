@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/SNC_io_parser.h $
-// $Id: SNC_io_parser.h 29364 2006-03-10 15:44:39Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/SNC_io_parser.h $
+// $Id: SNC_io_parser.h 38348 2007-04-19 17:29:45Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -28,9 +28,11 @@
 #include <CGAL/Nef_S2/SM_decorator.h>
 #include <CGAL/Nef_3/SNC_structure.h>
 #include <CGAL/Nef_3/SNC_decorator.h>
+#include <CGAL/Nef_3/SNC_constructor.h>
 #include <CGAL/Nef_2/Object_index.h>
 #include <CGAL/Nef_S2/Normalizing.h>
 #include <vector>
+#include <CGAL/Fraction_traits.h>
 
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 293
@@ -64,11 +66,12 @@ class moreLeft : public T {
       return 0;
     
     if(vec1.x() == RT(0) && vec2.x() == RT(0)) {
-      if(vec1.y() != vec2.y())
+      if(vec1.y() != vec2.y()) {
 	if(vec1.y() < vec2.y())
 	  return -1;
 	else 
 	  return 1;
+      }
       if(vec1.z() < vec2.z())
 	return -1;
       else
@@ -78,21 +81,23 @@ class moreLeft : public T {
     Vector_3 minus(-1,0,0);
     FT sk1(minus*vec1),  sk2(minus*vec2);
     if((sk1 >= FT(0) && sk2 <= FT(0)) ||
-       (sk1 <= FT(0) && sk2 >= FT(0)))
+       (sk1 <= FT(0) && sk2 >= FT(0))) {
       if(sk1 > FT(0) || sk2 < FT(0))
 	return -1;
       else
 	return 1;
-    
+    }
+
     FT len1 = vec1.x()*vec1.x()+vec1.y()*vec1.y()+vec1.z()*vec1.z();
     FT len2 = vec2.x()*vec2.x()+vec2.y()*vec2.y()+vec2.z()*vec2.z();
     FT diff = len1*sk2*sk2 - len2*sk1*sk1;
     
-    if(diff != FT(0))
+    if(diff != FT(0)) {
       if((sk1>FT(0) && diff<FT(0)) || (sk1<FT(0) && diff>FT(0)))
 	return -1;
       else 
 	return 1;
+    }
 
     return 0;
   }
@@ -197,7 +202,7 @@ class sort_sedges : public SNC_decorator<T> {
 		    " , " << se2->source()->source()->point());
     if(se1->source()->source() != se2->source()->source())
       return SORT(se1->source()->source(),se2->source()->source());
-    if(se1 == se2->twin())
+    if(se1 == se2->twin()) {
       if(se1->source() == se2->source()) {
 	Sphere_circle vec1 = se1->circle();
 	Sphere_circle vec2 = se2->circle();
@@ -209,7 +214,8 @@ class sort_sedges : public SNC_decorator<T> {
       }
       else
 	return SORT(se1->source()->twin()->source(), se2->source()->twin()->source());
-    
+    }
+
     if(SORT(se1->twin()->source()->twin()->source(), 
 	    se1->source()->twin()->source()))
       se1 = se1->twin();
@@ -313,7 +319,6 @@ class sort_sface_cycle_entries : public SNC_decorator<T> {
     }
 
     if(sl1 != SHalfloop_handle() && sl2 != SHalfloop_handle()) {
-      SM_decorator SD(&*sl1->incident_sface()->center_vertex());
       Vector_3 vec1(sl1->circle().orthogonal_vector());
       Vector_3 vec2(sl2->circle().orthogonal_vector());
       //      CGAL_assertion(vec1 == vec2.antipode());
@@ -574,13 +579,217 @@ struct find_minimal_sface_of_shell : public SNC_decorator<T> {
     }
   }
   
-  void visit(Vertex_handle h) {}
-  void visit(Halfedge_handle h) {}
-  void visit(Halffacet_handle h) {}
-  void visit(SHalfedge_handle h) {}
-  void visit(SHalfloop_handle h) {}
+  void visit(Vertex_handle ) {}
+  void visit(Halfedge_handle ) {}
+  void visit(Halffacet_handle ) {}
+  void visit(SHalfedge_handle ) {}
+  void visit(SHalfloop_handle ) {}
 
   SFace_handle& minimal_sface() { return sf_min; }
+};
+
+class Homogeneous_tag;
+class Cartesian_tag;
+template<typename Tag, typename Kernel> class Geometry_io;
+
+template<typename ET>
+class Geometry_io<Cartesian_tag, CGAL::Lazy_kernel<CGAL::Simple_cartesian<ET> > > {
+ public:
+  template <typename EK, typename K> static
+  typename EK::Point_3 
+  read_point(std::istream& in) {
+    typedef Fraction_traits<typename K::FT> FracTraits;
+    typename FracTraits::Type hx, hy, hz, hw;
+    typename FracTraits::Numerator_type num;
+    typename FracTraits::Denominator_type denom(1);
+    typename FracTraits::Compose composer;
+    in >> num;
+    hx = composer(num, denom);
+    in >> num;
+    hy = composer(num, denom);
+    in >> num;
+    hz = composer(num, denom);
+    in >> num;
+    hw = composer(num, denom);
+    return typename EK::Point_3(hx,hy,hz,hw);
+  }
+
+  template <typename EK, typename K> static
+  typename EK::Plane_3 read_plane(std::istream& in) {
+    typedef Fraction_traits<typename K::FT> FracTraits;
+    typename FracTraits::Type a, b, c, d;
+    typename FracTraits::Numerator_type num;
+    typename FracTraits::Denominator_type denom(1);
+    typename FracTraits::Compose composer;
+    in >> num;
+    a = composer(num, denom);
+    in >> num;
+    b = composer(num, denom);
+    in >> num;
+    c = composer(num, denom);
+    in >> num;
+    d = composer(num, denom);
+    return typename EK::Plane_3(a,b,c,d);
+  }
+
+  template <typename R> static
+  void print_point(std::ostream& out, const CGAL::Point_3<R> p) {
+    typedef typename CGAL::Simple_cartesian<ET> SC;
+    typedef typename SC::Point_3 Exact_point;
+    typedef Geometry_io<Cartesian_tag, SC> Gio;
+    
+    Exact_point ep(p.x().exact(), p.y().exact(), p.z().exact());
+    Gio::print_point(out, ep);
+  }  
+
+  template <typename R> static
+  void print_plane(std::ostream& out, const CGAL::Plane_3<R> p) {
+    typedef typename CGAL::Simple_cartesian<ET> SC;
+    typedef typename SC::Plane_3 Exact_plane;
+    typedef Geometry_io<Cartesian_tag, SC> Gio;
+    
+    Exact_plane ep(p.a().exact(), p.b().exact(), 
+		   p.c().exact(), p.d().exact());
+    Gio::print_plane(out, ep);
+  }  
+};
+
+template<typename Kernel>
+class Geometry_io<Cartesian_tag, Kernel> {
+ public:
+  template <typename EK, typename K> static
+  typename EK::Point_3 read_point(std::istream& in) {
+    typedef Fraction_traits<typename K::FT> FracTraits;
+    typename FracTraits::Type hx, hy, hz, hw;
+    typename FracTraits::Numerator_type num;
+    typename FracTraits::Denominator_type denom(1);
+    typename FracTraits::Compose composer;
+    in >> num;
+    hx = composer(num, denom);
+    in >> num;
+    hy = composer(num, denom);
+    in >> num;
+    hz = composer(num, denom);
+    in >> num;
+    hw = composer(num, denom);
+    return typename EK::Point_3(hx,hy,hz,hw);
+  }
+
+  template <typename EK, typename K> static
+  typename EK::Plane_3 read_plane(std::istream& in) {
+    typedef Fraction_traits<typename K::FT> FracTraits;
+    typename FracTraits::Type a, b, c, d;
+    typename FracTraits::Numerator_type num;
+    typename FracTraits::Denominator_type denom(1);
+    typename FracTraits::Compose composer;
+    in >> num;
+    a = composer(num, denom);
+    in >> num;
+    b = composer(num, denom);
+    in >> num;
+    c = composer(num, denom);
+    in >> num;
+    d = composer(num, denom);
+    return typename EK::Plane_3(a,b,c,d);
+  }
+
+  template <typename R> static
+  void print_point(std::ostream& out, const CGAL::Point_3<R> p) {
+    typedef Fraction_traits<typename R::FT> FracTraits;
+    typedef std::vector<typename FracTraits::Numerator_type> NV;
+    typedef typename NV::iterator NV_iter;
+
+    typename FracTraits::Numerator_type num;
+    typename FracTraits::Denominator_type denom;
+    typename FracTraits::Decompose decomposer;
+    NV vec;
+
+    decomposer(p.hx(),num,denom);
+    vec.push_back(num);
+    vec.push_back(denom);
+    vec.push_back(denom);
+    vec.push_back(denom);
+    decomposer(p.hy(),num,denom);
+    vec[0]*=denom;
+    vec[1]*=num;
+    vec[2]*=denom;
+    vec[3]*=denom;
+    decomposer(p.hz(),num,denom);
+    vec[0]*=denom;
+    vec[1]*=denom;
+    vec[2]*=num;
+    vec[3]*=denom;
+    Normalizing<Homogeneous_tag>::
+      normalized(vec.begin(),vec.end());
+    out << vec[0] << " " << vec[1] << " "
+	<< vec[2] << " " << vec[3];
+  }
+
+  template <typename R> static
+  void print_plane(std::ostream& out, const CGAL::Plane_3<R> p) {
+    typedef Fraction_traits<typename R::FT> FracTraits;
+    typedef std::vector<typename FracTraits::Numerator_type> NV;
+    typedef typename NV::iterator NV_iter;
+
+    typename FracTraits::Numerator_type num;
+    typename FracTraits::Denominator_type denom;
+    typename FracTraits::Decompose decomposer;
+    NV vec;
+
+    decomposer(p.a(),num,denom);
+    vec.push_back(num);
+    vec.push_back(denom);
+    vec.push_back(denom);
+    vec.push_back(denom);
+    decomposer(p.b(),num,denom);
+    vec[0]*=denom;
+    vec[1]*=num;
+    vec[2]*=denom;
+    vec[3]*=denom;
+    decomposer(p.c(),num,denom);
+    vec[0]*=denom;
+    vec[1]*=denom;
+    vec[2]*=num;
+    vec[3]*=denom;
+    decomposer(p.d(),num,denom);
+    vec[0]*=denom;
+    vec[1]*=denom;
+    vec[2]*=denom;
+    vec[3]*=num;
+    Normalizing<Homogeneous_tag>::
+      normalized(vec.begin(),vec.end());
+
+    out << vec[0] << " " << vec[1] << " "
+	<< vec[2] << " " << vec[3];
+  }
+};
+
+template<typename Kernel>
+class Geometry_io<Homogeneous_tag, Kernel> {
+ public:
+  template <typename EK, typename K> static
+  typename EK::Point_3 read_point(std::istream& in) {
+    typename K::RT hx, hy, hz, hw;
+    in >> hx >> hy >> hz >> hw;
+    return typename EK::Point_3(hx, hy, hz, hw);
+  }
+
+  template <typename EK, typename K> static
+  typename EK::Plane_3 read_plane(std::istream& in) {
+    typename K::RT a, b, c, d;
+    in >> a >> b >> c >> d;
+    return typename EK::Plane_3(a, b, c, d);
+  }
+
+  template <typename R> static
+  void print_point(std::ostream& out, const CGAL::Point_3<R>& p) {
+    out << p;
+  }
+
+  template <typename R> static
+  void print_plane(std::ostream& out, const CGAL::Plane_3<R>& p) {
+    out << p;
+  }  
 };
 
 template <typename SNC_structure_>
@@ -588,6 +797,7 @@ class SNC_io_parser : public SNC_decorator<SNC_structure_>
 { typedef SNC_structure_ SNC_structure;
   typedef CGAL::SNC_io_parser<SNC_structure_> Self;
   typedef CGAL::SNC_decorator<SNC_structure_> Base;
+  typedef typename Base::SNC_constructor SNC_constructor;
   typedef typename SNC_structure::Sphere_map  Sphere_map;
   typedef CGAL::SM_decorator<Sphere_map>      SM_decorator;
   typedef typename SNC_structure::Infi_box    Infi_box;
@@ -618,6 +828,8 @@ public:
                                   SHalfedge_around_svertex_circulator;
   typedef typename SNC_structure::SHalfedge_around_sface_circulator 
                                   SHalfedge_around_sface_circulator;
+  typedef typename SNC_structure::SHalfedge_around_facet_circulator 
+                                  SHalfedge_around_facet_circulator;
   typedef typename SNC_structure::Point_3 Point_3;
   typedef typename SNC_structure::Plane_3 Plane_3;
   typedef typename SNC_structure::Vector_3 Vector_3;
@@ -666,7 +878,8 @@ public:
 
 public:
   SNC_io_parser(std::istream& is, SNC_structure& W);
-  SNC_io_parser(std::ostream& os, SNC_structure& W, bool sort=false);
+  SNC_io_parser(std::ostream& os, SNC_structure& W, 
+		bool sort=false, bool reduce_ = false);
 
   std::string index(Vertex_iterator v) const
   { return VI(v,verbose); } 
@@ -709,7 +922,7 @@ public:
     return this->string("unknown object");
   }
 
-  bool check_sep(char* sep) const;
+  bool check_sep(const char* sep) const;
   bool test_string(std::string s) const;
   void print_vertex(Vertex_handle) const;
   void print_edge(Halfedge_handle) const;
@@ -731,6 +944,7 @@ public:
   bool read_sface(SFace_handle);
   void add_infi_box();
   void read();
+  template <typename K> void read_items(int);
 
   static void dump(SNC_structure& W, std::ostream& os = std::cerr, bool sort = false)
   { Self O(os,W, sort); O.print(); }
@@ -759,7 +973,7 @@ SNC_io_parser<EW>::SNC_io_parser(std::istream& is, SNC_structure& W) :
 
 template <typename EW>
 SNC_io_parser<EW>::SNC_io_parser(std::ostream& os, SNC_structure& W, 
-                                                   bool sort) : 
+				 bool sort, bool reduce_) : 
   Base(W), in(std::cin), out(os),
   FI(W.halffacets_begin(),W.halffacets_end(),'F'),
   CI(W.volumes_begin(),W.volumes_end(),'C'),
@@ -777,8 +991,10 @@ SNC_io_parser<EW>::SNC_io_parser(std::ostream& os, SNC_structure& W,
   verbose = (out.iword(CGAL::IO::mode) != CGAL::IO::ASCII &&
              out.iword(CGAL::IO::mode) != CGAL::IO::BINARY);  
   sorted = sort;
-  reduce = this->is_extended_kernel() && sorted && this->is_bounded();
-  
+  reduce = reduce_;
+  reduce = reduce && this->is_extended_kernel() && this->is_bounded();
+  sorted = sorted || reduce;
+
   Vertex_iterator vi; 
   CGAL_forall_vertices(vi, *this->sncp()) {
     VL.push_back(vi);
@@ -833,6 +1049,23 @@ SNC_io_parser<EW>::SNC_io_parser(std::ostream& os, SNC_structure& W,
   Halffacet_iterator fi; 
   CGAL_forall_halffacets(fi, *this->sncp()){
     if(sorted) {
+      sort_sedges<SNC_structure> sortSE(*this->sncp());
+      Halffacet_cycle_iterator fc;
+      for(fc = fi->facet_cycles_begin(); 
+	  fc != fi->facet_cycles_end(); ++fc) {
+	if(fc.is_shalfedge()) {
+	  SHalfedge_handle se(fc);
+	  if(this->sncp()->is_boundary_object(se))
+	    this->sncp()->undef_boundary_item(se);
+	  SHalfedge_around_facet_circulator sfc(fc), send(sfc);
+	  CGAL_For_all(sfc, send) {
+	    if(sortSE(sfc, se))
+	      se = sfc;
+	  }
+	  this->sncp()->store_boundary_item(se,fc);
+	  *fc = se;
+	}
+      }
       fi->plane() = normalized(fi->plane());
       fi->boundary_entry_objects().sort(sort_facet_cycle_entries<Base>((Base) *this));
     }
@@ -951,7 +1184,7 @@ SNC_io_parser<EW>::SNC_io_parser(std::ostream& os, SNC_structure& W,
 }
 
 template <typename EW>
-bool SNC_io_parser<EW>::check_sep(char* sep) const
+bool SNC_io_parser<EW>::check_sep(const char* sep) const
 {
   char c; 
   do in.get(c); while (isspace(c));
@@ -1060,120 +1293,67 @@ void SNC_io_parser<EW>::read()
   if ( !(check_sep("sfaces") && (in >> sfn)) )
     CGAL_assertion_msg(0,"SNC_io_parser::read: wrong sface line.");
 
-  /*
-  char c;
-  int spaces = 0;
-  std::streampos pos(in.tellg());
-  in.get(c);
-  while(in.get(c) && c != '\n')
-    if(c == ' ')
-      ++spaces;
-  in.seekg(pos,std::ios::beg); 
-
-  CGAL_assertion_msg(c=='\n' && (spaces==15 || spaces==26 || vn == 0),"wrong file format");
-  CGAL_assertion_msg(!(Infi_box::standard_kernel() && spaces==26), 
-		     "you cannot load an inifinite polyhedron without an extended kernel.");
-  addInfiBox = ((spaces==15 || vn == 0) && Infi_box::extended_kernel());
-  */
-
   addInfiBox = (kernel_type == "standard" && Infi_box::extended_kernel());
 
-  if(addInfiBox) {
-    Vertex_of.reserve(vn+8);
-    Edge_of.reserve(en+24);
-    Halffacet_of.reserve(fn+12);
-    Volume_of.reserve(cn+1);
-    SEdge_of.reserve(sen+48);
-    SLoop_of.reserve(sln);
-    SFace_of.reserve(sfn+16);
-    for(i=0; i<vn+8; ++i)   Vertex_of[i] = this->sncp()->new_vertex_only();
-    for(i=0; i<en+24; ++i)  Edge_of[i] = this->sncp()->new_halfedge_only();
-    for(i=0; i<fn+12; ++i)  Halffacet_of[i] = this->sncp()->new_halffacet_only();
-    for(i=0; i<cn+1; ++i)   Volume_of[i] = this->sncp()->new_volume_only();
-    for(i=0; i<sen+48; ++i) SEdge_of[i] = this->sncp()->new_shalfedge_only();
-    for(i=0; i<sln; ++i)    SLoop_of[i] = this->sncp()->new_shalfloop_only();
-    for(i=0; i<sfn+16; ++i) SFace_of[i] = this->sncp()->new_sface_only();
-  }
-  else {
-    Vertex_of.reserve(vn);
-    Edge_of.reserve(en);
-    Halffacet_of.reserve(fn);
-    Volume_of.reserve(cn);
-    SEdge_of.reserve(sen);
-    SLoop_of.reserve(sln);
-    SFace_of.reserve(sfn);
-    for(i=0; i<vn; ++i)  Vertex_of[i] = this->sncp()->new_vertex_only();
-    for(i=0; i<en; ++i)  Edge_of[i] = this->sncp()->new_halfedge_only();
-    for(i=0; i<fn; ++i)  Halffacet_of[i] = this->sncp()->new_halffacet_only();
-    for(i=0; i<cn; ++i)  Volume_of[i] = this->sncp()->new_volume_only();
-    for(i=0; i<sen; ++i) SEdge_of[i] = this->sncp()->new_shalfedge_only();
-    for(i=0; i<sln; ++i) SLoop_of[i] = this->sncp()->new_shalfloop_only();
-    for(i=0; i<sfn; ++i) SFace_of[i] = this->sncp()->new_sface_only();
-  }
-
-
+  for(i=0; i<vn; ++i)  Vertex_of.push_back(this->sncp()->new_vertex_only());
+  for(i=0; i<en; ++i)  Edge_of.push_back(this->sncp()->new_halfedge_only());
+  for(i=0; i<fn; ++i)  Halffacet_of.push_back(this->sncp()->new_halffacet_only());
+  for(i=0; i<cn; ++i)  Volume_of.push_back(this->sncp()->new_volume_only());
+  for(i=0; i<sen; ++i) SEdge_of.push_back(this->sncp()->new_shalfedge_only());
+  for(i=0; i<sln; ++i) SLoop_of.push_back(this->sncp()->new_shalfloop_only());
+  for(i=0; i<sfn; ++i) SFace_of.push_back(this->sncp()->new_sface_only());
 
   if(addInfiBox) {
-    for(i=0; i<vn; ++i) {
-      if (!read_vertex<Standard_kernel>(Vertex_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in node line");
-    }
-    for(i=0; i<en; ++i) {
-      if (!read_edge<Standard_kernel>(Edge_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in edge line");
-    }
-    for(i=0; i<fn; ++i) {
-      if (!read_facet<Standard_kernel>(Halffacet_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in facet line");
-    }
-    for(i=0; i<cn; ++i) {
-      if (!read_volume(Volume_of[i+1]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in volume line");
-    }
-    for(i=0; i<sen; ++i) {
-      if (!read_sedge<Standard_kernel>(SEdge_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in sedge line");
-    }
-    for(i=0; i<sln; ++i) {
-      if (!read_sloop<Standard_kernel>(SLoop_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in sloop line");
-    }
-    for(i=0; i<sfn; ++i) {
-      if (!read_sface(SFace_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in sface line");
-    }
+    Volume_of.push_back(this->sncp()->new_volume_only());
+    read_items<Standard_kernel>(1);
     add_infi_box();
+  } else
+    read_items<Kernel>(0);
+}
+
+template <typename EW>
+template <typename K>
+void SNC_io_parser<EW>::read_items(int plus01) {
+
+  typename std::vector<Vertex_iterator>::iterator vi;
+  for(vi=Vertex_of.begin(); vi!=Vertex_of.end(); ++vi) {
+    if (!read_vertex<K>(*vi))
+      CGAL_assertion_msg(0,"SNC_io_parser::read: error in node line");
   }
-  else {
-    for(i=0; i<vn; ++i) {
-      if (!read_vertex<Kernel>(Vertex_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in node line");
-    }
-    for(i=0; i<en; ++i) {
-      if (!read_edge<Kernel>(Edge_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in edge line");
-    }
-    for(i=0; i<fn; ++i) {
-      if (!read_facet<Kernel>(Halffacet_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in facet line");
-    }
-    for(i=0; i<cn; ++i) {
-      if (!read_volume(Volume_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in volume line");
-    }
-    for(i=0; i<sen; ++i) {
-      if (!read_sedge<Kernel>(SEdge_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in sedge line");
-    }
-    for(i=0; i<sln; ++i) {
-      if (!read_sloop<Kernel>(SLoop_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in sloop line");
-    }
-    for(i=0; i<sfn; ++i) {
-      if (!read_sface(SFace_of[i]))
-	CGAL_assertion_msg(0,"SNC_io_parser::read: error in sface line");
-    }
-  }  
+
+  typename std::vector<Halfedge_iterator>::iterator ei;
+  for(ei=Edge_of.begin(); ei!=Edge_of.end(); ++ei) {
+    if (!read_edge<K>(*ei))
+      CGAL_assertion_msg(0,"SNC_io_parser::read: error in edge line");
+  }
+  typename std::vector<Halffacet_iterator>::iterator fi;
+  for(fi=Halffacet_of.begin(); fi!=Halffacet_of.end(); ++fi) {
+    if (!read_facet<K>(*fi))
+      CGAL_assertion_msg(0,"SNC_io_parser::read: error in facet line");
+  }
+  typename std::vector<Volume_iterator>::iterator ci;
+  for(ci=Volume_of.begin()+plus01; ci!=Volume_of.end(); ++ci) {
+    if (!read_volume(*ci))
+      CGAL_assertion_msg(0,"SNC_io_parser::read: error in volume line");
+  }
+  typename std::vector<SHalfedge_iterator>::iterator sei;
+  for(sei=SEdge_of.begin(); sei!=SEdge_of.end(); ++sei) {
+    if (!read_sedge<K>(*sei))
+      CGAL_assertion_msg(0,"SNC_io_parser::read: error in sedge line");
+  }
+  typename std::vector<SHalfloop_iterator>::iterator sli;
+  for(sli=SLoop_of.begin(); sli!=SLoop_of.end(); ++sli) {
+    if (!read_sloop<K>(*sli))
+      CGAL_assertion_msg(0,"SNC_io_parser::read: error in sloop line");
+  }
+  typename std::vector<SFace_iterator>::iterator sfi;
+  for(sfi=SFace_of.begin(); sfi!=SFace_of.end(); ++sfi) {
+    if (!read_sface(*sfi))
+      CGAL_assertion_msg(0,"SNC_io_parser::read: error in sface line");
+  }
+
+  SNC_constructor C(*this->sncp());
+  C.assign_indices(); 
 }
 
 
@@ -1206,45 +1386,10 @@ void SNC_io_parser<EW>::print_vertex(Vertex_handle v) const
     Standard_point p(Infi_box::standard_point(v->point()));
     out << p.hx() << " " << p.hy() << " " << p.hz() << " " << p.hw();
   }
-  else {
-    Point_3 p(v->point());
-    out << p.hx() << " " << p.hy() << " " << p.hz() << " " << p.hw();
-  }
+  else
+    Geometry_io<typename Kernel::Kernel_tag, Kernel>::print_point(out, v->point());
   out << " } "  << v->mark() << std::endl;
 }
-
-/*
-template <typename EW>
-bool SNC_io_parser<EW>::
-read_vertex(Vertex_handle v) const
-{ // syntax: index { svs sve ses see sfs sfe sl, mark, point }
-  int n, svs, sve, ses, see, sfs, sfe, sl;  Mark m;  Point_3 p;
-  if ( !(in >> n) ||
-       !check_sep("{") ||
-       !(in >> svs) || !(in >> sve) || 
-       !(in >> ses) || !(in >> see) || 
-       !(in >> sfs) || !(in >> sfe) || 
-       !(in >> sl) ||
-       !check_sep(",") ||
-       !(in >> m) || 
-       !check_sep(",") ||
-       !(in >> p) || 
-       !check_sep("}") ) return false;
-  CGAL_assertion_msg(
-      Vertex_of[n] == v &&
-      svs >= 0 && svs < en && sve >= 0 && sve < en && 
-      ses >= 0 && ses < sen && see >= 0 && see < sen && 
-      sfs >= 0 && sfs < sfn && sfe >= 0 && sfe < sfn && 
-      sl >= 0 && sl < sln , "wrong index in read_vertex");
-
-  v->svertices_begin_ = Edge_of[svs]; v->svertices_last_ = Edge_of[sve];
-  v->shalfedges_begin_ = SEdge_of[ses]; v->shalfedges_last_ = SEdge_of[see];
-  v->sfaces_begin_ = SFace_of[sfs]; v->sfaces_last_ = SFace_of[sfe];
-  v->shalfloop_ = SLoop_of[sl];
-  v->mark() = m; v->point() = p;
-  return true; 
-}
-*/
 
 template <typename EW>
 template <typename K>
@@ -1277,8 +1422,10 @@ read_vertex(Vertex_handle vh) {
   in >> index;
   vh->shalfloop() = index >= 0 ? SLoop_of[index] : this->shalfloops_end();
   OK = OK && test_string("|");
-  in >> hx >> hy >> hz >> hw;
-  vh->point() = Point_3(hx,hy,hz,hw);
+  //  in >> hx >> hy >> hz >> hw;
+  //  vh->point() = Point_3(hx,hy,hz,hw);
+  vh->point() = 
+    Geometry_io<typename K::Kernel_tag, Kernel>::template read_point<Kernel, K>(in);
   OK = OK && test_string("}");
   in >> vh->mark();
   
@@ -1292,47 +1439,18 @@ void SNC_io_parser<EW>::print_edge(Halfedge_handle e) const
   out << index(e) << " { " << index(e->twin()) << ", "
       << index(e->source()) << ", ";
   if ( D.is_isolated(e) ) out << "1 " << index(e->incident_sface());
-  else out << "0 " << index(D.first_out_edge(e));
+  else out << "0 " << index(e->out_sedge());
   out << " | ";
   if(reduce) {
     Standard_vector p(Infi_box::standard_vector(e->vector()));
     out << p.hx() << " " << p.hy() << " " << p.hz() << " " << p.hw();
   }
-  else {
-    Vector_3 p(e->vector());
-    out << p.hx() << " " << p.hy() << " " << p.hz() << " " << p.hw();
-  }
+  else
+    Geometry_io<typename Kernel::Kernel_tag, Kernel>::print_point(out, (Point_3) e->point());
+
   out << " } "<< e->mark() << std::endl;
 }
 
-/*
-template <typename EW>
-bool SNC_io_parser<EW>::
-read_edge(Halfedge_handle e) const
-{ // syntax: index { twin, source, isolated incident_object, mark }
-  int n, et, vs, ef, efm; bool iso; Mark m;
-  if ( !(in >> n) ||
-       !check_sep("{") ||
-       !(in >> et) || !check_sep(",") ||
-       !(in >> vs) || !check_sep(",") ||
-       !(in >> iso) || !(in >> ef) || !check_sep(",") ||
-       !(in >> m) || !check_sep("}") )
-    return false;
-  
-  if (iso) efm=sfn; else efm=sen;
-  CGAL_assertion_msg (
-      Edge_of[n] == e &&
-      et >= 0 && et < en && vs >= 0 && vs < vn && 
-      ef >= 0 && et < efm , "wrong index in read_edge");
-  
-  e->twin_ = Edge_of[et];
-  e->center_vertex() = Vertex_of[vs];
-  if ( iso ) e->incident_sface_ = SFace_of[ef];
-  else       e->out_sedge() = SEdge_of[ef];
-  e->mark() = m;
-  return true;
-}
-*/
 template <typename EW>
 template <typename K>
 bool SNC_io_parser<EW>::
@@ -1360,8 +1478,10 @@ read_edge(Halfedge_handle eh) {
     eh->incident_sface() = SFace_of[index];
   }
   OK = OK && test_string("|");
-  in >> hx >> hy >> hz >> hw;
-  eh->point() = Sphere_point(hx,hy,hz);
+  //    in >> hx >> hy >> hz >> hw;
+  //    eh->point() = Sphere_point(hx,hy,hz);
+  eh->point() = 
+    Geometry_io<typename K::Kernel_tag, Kernel>::template read_point<Kernel,K>(in);
   OK = OK && test_string("}");
   in >> eh->mark();
 
@@ -1384,37 +1504,11 @@ void SNC_io_parser<EW>::print_facet(Halffacet_handle f) const
     Standard_plane p(Infi_box::standard_plane(f->plane()));
     out << p.a() << " " << p.b() << " " << p.c() << " " << p.d();
   }
-  else {
-    Plane_3 p(f->plane());
-    out << p.a() << " " << p.b() << " " << p.c() << " " << p.d();
-  }
+  else
+    Geometry_io<typename Kernel::Kernel_tag, Kernel>::print_plane(out, f->plane());
+
   out << " } " << f->mark() << std::endl;
 }
-
-/*
-template <typename EW>
-bool SNC_io_parser<EW>::
-read_facet(Halffacet_handle f) const
-{ // syntax: index { fclist, ivlist, loop, mark }
-  int n, ei, li; Mark m;
-  if ( !(in >> n) || !check_sep("{") ) return false;
-  while (in >> ei) { 
-    CGAL_assertion_msg(ei >= 0 && ei < sen, 
-      "wrong index in facet cycle list.");
-    store_boundary_object(SEdge_of[ei],f);
-  } in.clear();
-  if (!check_sep(",")) { return false; }
-  while (in >> li) { 
-    CGAL_assertion_msg(li >= 0 && li < sln, 
-      "wrong index in facet cycle list.");
-    store_boundary_object(SLoop_of[li],f);
-  } in.clear();
-  if (!check_sep(",") || !(in >> m) || !check_sep("}") ) 
-    return false;
-  f->mark() = m;
-  return true;
-}
-*/
 
 template <typename EW>
 template <typename K>
@@ -1452,8 +1546,11 @@ read_facet(Halffacet_handle fh) {
   in >> index;
   fh->incident_volume() = Volume_of[index+addInfiBox];
   OK = OK && test_string("|");
-  in >> a >> b >> c >> d;
-  fh->plane() = Plane_3(a,b,c,d);
+  //  in >> a >> b >> c >> d;
+  //  fh->plane() = Plane_3(a,b,c,d);
+  fh->plane() = 
+    Geometry_io<typename K::Kernel_tag, Kernel>::
+    template read_plane<Kernel, K>(in);
   OK = OK && test_string("}");
   in >> fh->mark();
 
@@ -1470,25 +1567,6 @@ void SNC_io_parser<EW>::print_volume(Volume_handle c) const
       out << index(SFace_handle(it)) << ' ';
   out << "} " << c->mark() << std::endl;
 }
-
-/*
-template <typename EW>
-bool SNC_io_parser<EW>::
-read_volume(Volume_handle c) const
-{ // syntax: index { shlist, mark }
-  int n, fi; Mark m;
-  if ( !(in >> n) || !check_sep("{") ) return false;
-  while (in >> fi) { 
-    CGAL_assertion_msg(fi >= 0 && fi < sfn, 
-      "wrong index in shell list.");
-    store_boundary_object(SFace_of[fi],c);
-  } in.clear();
-  if (!check_sep(",") || !(in >> m) || !check_sep("}") ) 
-    return false;
-  c->mark() = m;
-  return true;
-}
-*/
 
 template <typename EW>
 bool SNC_io_parser<EW>::
@@ -1528,51 +1606,12 @@ print_sedge(SHalfedge_handle e) const {
     Standard_plane p(Infi_box::standard_plane(e->circle()));
     out << p.a() << " " << p.b() << " " << p.c() << " " << p.d();
   }
-  else {
-    Plane_3 p(e->circle());
-    out << p.a() << " " << p.b() << " " << p.c() << " " << p.d();
-  }
-  out << " } " << e->mark() 
-    //      << ", " << sncp()->is_sm_boundary_object(e) 
-      << "\n";
-}
+  else
+    Geometry_io<typename Kernel::Kernel_tag, Kernel>::
+      print_plane(out, (Plane_3) e->circle());
 
-/*
-template <typename EW>
-bool SNC_io_parser<EW>::
-read_sedge(SHalfedge_handle e) const
-{ // syntax: index { twin, sprev, snext, source, sface, prev, next, facet }
-  int n, et, sp, sn, vs, sf, ep, en, ft; 
-  if ( !(in >> n) ||
-       !check_sep("{") ||
-       !(in >> et) || !check_sep(",") ||
-       !(in >> sp) || !check_sep(",") ||
-       !(in >> sn) || !check_sep(",") ||
-       !(in >> vs) || !check_sep(",") ||
-       !(in >> sf) || !check_sep(",") ||
-       !(in >> ep) || !check_sep(",") ||
-       !(in >> en) || !check_sep(",") ||
-       !(in >> ft) || !check_sep("}") )
-    return false;
-  CGAL_assertion_msg 
-     (et >= 0 && et < sen && sp >= 0 && sp < sen && 
-      sn >= 0 && sn < sen && vs >= 0 && vs < en && 
-      sf >= 0 && sf < sfn && ep >= 0 && ep < sen &&
-      en >= 0 && en < sen && ft >= 0 && ft < fn ,
-      "wrong index in read_sedge");
-  
-  // precond: features exist!
-  CGAL_assertion(SEdge_of[n]==e);
-  e->sprev() = SEdge_of[sp];
-  e->snext() = SEdge_of[sn];
-  e->source() = Edge_of[vs];
-  e->incident_sface() = SFace_of[sf];
-  e->prev() = SEdge_of[ep];
-  e->next() = SEdge_of[en];
-  e->facet() = Halffacet_of[ft];
-  return true;
+  out << " } " << e->mark() << "\n";
 }
-*/
 
 template <typename EW>
 template <typename K>
@@ -1610,8 +1649,11 @@ read_sedge(SHalfedge_handle seh) {
   in >> index;
   seh->facet() = Halffacet_of[index];
   OK = OK && test_string("|");
-  in >> a >> b >> c >> d;
-  seh->circle() = Sphere_circle(Plane_3(a,b,c,d));
+  //  in >> a >> b >> c >> d;
+  //  seh->circle() = Sphere_circle(Plane_3(a,b,c,d));
+  seh->circle() =     
+    Geometry_io<typename K::Kernel_tag, Kernel>::
+    template read_plane<Kernel, K>(in);
   OK = OK && test_string("}");
   in >> seh->mark();
 
@@ -1630,37 +1672,12 @@ print_sloop(SHalfloop_handle l) const
     Standard_plane p(Infi_box::standard_plane(l->circle()));
     out << p.a() << " " << p.b() << " " << p.c() << " " << p.d();
   }
-  else {
-    Plane_3 p(l->circle());
-    out << p.a() << " " << p.b() << " " << p.c() << " " << p.d();
-  }
+  else
+    Geometry_io<typename Kernel::Kernel_tag, Kernel>::
+      print_plane(out, (Plane_3) l->circle());
+
   out << " } " << l->mark() << "\n";
 }
-
-/*
-template <typename EW>
-bool SNC_io_parser<EW>::
-read_sloop(SHalfloop_handle l) const
-{ // syntax: index { twin, sface, facet }
-  int n, lt, sf, ft; 
-  if ( !(in >> n) ||
-       !check_sep("{") ||
-       !(in >> lt) || !check_sep(",") ||
-       !(in >> sf) || !check_sep(",") ||
-       !(in >> ft) || !check_sep("}") )
-    return false;
-  CGAL_assertion_msg 
-     (lt >= 0 && lt < sen && sf >= 0 && sf < sfn && 
-      ft >= 0 && ft < fn ,
-      "wrong index in read_sedge");
-  
-  CGAL_assertion(SLoop_of[n]==l);
-  l->twin_ = SLoop_of[lt];
-  l->incident_sface_ = SFace_of[sf];
-  l->facet_ = Halffacet_of[ft];
-  return true;
-}
-*/
 
 template <typename EW>
 template <typename K>
@@ -1683,8 +1700,11 @@ read_sloop(SHalfloop_handle slh) {
   in >> index;
   slh->facet() = Halffacet_of[index];
   OK = OK && test_string("|");	
-  in >> a >> b >> c >> d;
-  slh->circle() = Sphere_circle(Plane_3(a,b,c,d));	
+  //  in >> a >> b >> c >> d;
+  //  slh->circle() = Sphere_circle(Plane_3(a,b,c,d));
+  slh->circle() =
+    Geometry_io<typename K::Kernel_tag, Kernel>::
+    template read_plane<Kernel, K>(in);	
   OK = OK && test_string("}");	
   in >> slh->mark();
   
@@ -1708,41 +1728,6 @@ print_sface(SFace_handle f) const
     if ( it.is_shalfloop() ) out << index(SHalfloop_handle(it));
   out << ", " << index(f->volume()) << " } " << f->mark() <<"\n";
 }
-
-/*
-template <typename EW>
-bool SNC_io_parser<EW>::
-read_sface(SFace_handle f) const
-{ // syntax: index { vertex, fclist, ivlist, sloop, volume }
-  int n, vc, ei, vi, li, c;
-  if ( !(in >> n) || !check_sep("{") ||
-       !(in >> vc) || !check_sep(",") ) 
-    return false;
-  CGAL_assertion(vc >= 0 && vc < vn);
-  f->center_vertex() = Vertex_of[vc];
-  SM_decorator D(&*Vertex_of[vc]);
-  while (in >> ei) { 
-    CGAL_assertion_msg(ei >= 0 && ei < sen, 
-      "wrong index in sface cycle list.");
-    D.store_boundary_object(SEdge_of[ei],f);
-  } in.clear();
-  while (in >> vi) { 
-    CGAL_assertion_msg(vi >= 0 && vi < en, 
-      "wrong index in sface cycle list.");
-    D.store_boundary_object(Edge_of[vi],f);
-  } in.clear();
-  if (!check_sep(",")) { return false; }
-  while (in >> li) { 
-    CGAL_assertion_msg(li >= 0 && li < sln, 
-      "wrong index in sface cycle list.");
-    D.store_boundary_object(SLoop_of[li],f);
-  } in.clear();
-  if (!check_sep(",") || !(in >> c) || !check_sep("}") ) 
-    return false;
-  f->incident_volume_ = Volume_of[c];
-  return true;
-}
-*/
 
 template <typename EW>
 bool SNC_io_parser<EW>::
@@ -1825,8 +1810,14 @@ void SNC_io_parser<EW>::print_local_graph(Vertex_handle v) const
 template <typename EW>
 void SNC_io_parser<EW>::add_infi_box() {
 
+  for(i=0; i<8; ++i)  Vertex_of.push_back(this->sncp()->new_vertex_only());
+  for(i=0; i<24; ++i)  Edge_of.push_back(this->sncp()->new_halfedge_only());
+  for(i=0; i<12; ++i)  Halffacet_of.push_back(this->sncp()->new_halffacet_only());
+  for(i=0; i<48; ++i) SEdge_of.push_back(this->sncp()->new_shalfedge_only());
+  for(i=0; i<16; ++i) SFace_of.push_back(this->sncp()->new_sface_only());
+
   typename Standard_kernel::RT hx,hy,hz,hw;
-  for(int i=0; i<8; i++) {
+  for(int i=0; i<8; ++i) {
     Vertex_handle vh = Vertex_of[vn+i];
     vh->svertices_begin() = Edge_of[en+3*i];
     vh->svertices_last()  = Edge_of[en+3*i+2];
@@ -1853,7 +1844,7 @@ void SNC_io_parser<EW>::add_infi_box() {
 		      21,13, 8,
 		      18,16,11};
   
-  for(int i = 0; i < 24; i++) {
+  for(int i = 0; i < 24; ++i) {
     Halfedge_handle eh = Edge_of[en+i];
     eh->twin() = Edge_of[en+twinIdx[i]];
     eh->center_vertex() = Vertex_of[vn+(i/3)];
@@ -1878,7 +1869,7 @@ void SNC_io_parser<EW>::add_infi_box() {
   
   int bnd[12] = {19, 18, 43, 42, 35, 34,
 		 47, 46, 39, 38, 45, 44};
-  for(int i = 0; i < 12; i++) {
+  for(int i = 0; i < 12; ++i) {
     Halffacet_handle fh = Halffacet_of[fn+i];
     fh->twin() = Halffacet_of[fn+(i/2*2)+((i+1)%2)];
     fh->boundary_entry_objects().push_back(SEdge_of[sen+bnd[i]]);
@@ -1935,7 +1926,7 @@ void SNC_io_parser<EW>::add_infi_box() {
 		 1,-1,-1,-1,-1,1,
 		 -1,1,-1,1,1,1};
   
-  for(int i = 0; i < 48; i++) {
+  for(int i = 0; i < 48; ++i) {
     SHalfedge_handle seh = SEdge_of[sen+i];
     
     seh->twin() = SEdge_of[sen+(i/2*2)+((i+1)%2)];
@@ -1964,7 +1955,7 @@ void SNC_io_parser<EW>::add_infi_box() {
   
   int volIdx[8] = {0,1,1,0,1,0,0,1};
   
-  for(int i = 0; i < 16; i++) {
+  for(int i = 0; i < 16; ++i) {
     SFace_handle sfh = SFace_of[sfn+i];
     sfh->center_vertex() = Vertex_of[vn+(i/2)];
     sfh->boundary_entry_objects().push_back(SEdge_of[sen+(i/2*6)+(i%2)]);

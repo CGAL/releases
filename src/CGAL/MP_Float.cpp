@@ -1,8 +1,5 @@
-// Copyright (c) 2001-2005  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2001-2006  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,14 +12,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/src/CGAL/MP_Float.cpp $
-// $Id: MP_Float.cpp 32059 2006-06-23 22:23:36Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/src/CGAL/MP_Float.cpp $
+// $Id: MP_Float.cpp 38414 2007-04-23 08:08:03Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
 
+#include <CGAL/basic.h>
 #include <CGAL/MP_Float.h>
 #include <CGAL/Quotient.h>
+#include <CGAL/Root_of_2.h>
 #include <functional>
 #include <cmath>
 
@@ -54,9 +53,9 @@ int my_nearbyint(const T& d)
     ++z;
   else if (frac < -0.5)
     --z;
-  else if (frac == 0.5 && z&1 != 0) // NB: We also need the round-to-even rule.
+  else if (frac == 0.5 && (z&1) != 0) // NB: We also need the round-to-even rule.
     ++z;
-  else if (frac == -0.5 && z&1 != 0)
+  else if (frac == -0.5 && (z&1) != 0)
     --z;
 
   CGAL_assertion(CGAL::abs(T(z) - d) < T(0.5) ||
@@ -136,15 +135,15 @@ MP_Float::MP_Float(long double d)
 }
 
 Comparison_result
-compare (const MP_Float & a, const MP_Float & b)
+INTERN_MP_FLOAT::compare (const MP_Float & a, const MP_Float & b)
 {
   if (a.is_zero())
     return (Comparison_result) - b.sign();
   if (b.is_zero())
     return (Comparison_result) a.sign();
 
-  for (exponent_type i = std::max(a.max_exp(), b.max_exp()) - 1;
-                    i >= std::min(a.min_exp(), b.min_exp()); i--)
+  for (exponent_type i = (std::max)(a.max_exp(), b.max_exp()) - 1;
+                    i >= (std::min)(a.min_exp(), b.min_exp()); i--)
   {
     if (a.of_exp(i) > b.of_exp(i))
       return LARGER;
@@ -169,8 +168,8 @@ Add_Sub(const MP_Float &a, const MP_Float &b, const BinOp &op)
     max_exp = b.max_exp();
   }
   else {
-    min_exp = std::min(a.min_exp(), b.min_exp());
-    max_exp = std::max(a.max_exp(), b.max_exp());
+    min_exp = (std::min)(a.min_exp(), b.min_exp());
+    max_exp = (std::max)(a.max_exp(), b.max_exp());
   }
 
   MP_Float r;
@@ -240,7 +239,7 @@ operator*(const MP_Float &a, const MP_Float &b)
 
 // Squaring simplifies things and is faster, so we specialize it.
 MP_Float
-square(const MP_Float &a)
+INTERN_MP_FLOAT::square(const MP_Float &a)
 {
   // There is a bug here (see test-case in test/NT/MP_Float.C).
   // For now, I disable this small optimization.
@@ -330,9 +329,7 @@ approximate_sqrt(const MP_Float &d)
   return MP_Float(CGAL_NTS sqrt(CGAL::to_double(d)));
 }
 
-namespace {
 // Returns (first * 2^second), an approximation of b.
-inline
 pair<double, int>
 to_double_exp(const MP_Float &b)
 {
@@ -340,7 +337,7 @@ to_double_exp(const MP_Float &b)
     return std::make_pair(0.0, 0);
 
   exponent_type exp = b.max_exp();
-  int steps = std::min(limbs_per_double, b.v.size());
+  int steps = (std::min)(limbs_per_double, b.v.size());
   double d_exp_1 = CGAL_CLIB_STD::ldexp(1.0, - static_cast<int>(log_limb));
   double d_exp   = 1.0;
   double d = 0;
@@ -350,12 +347,14 @@ to_double_exp(const MP_Float &b)
     d += d_exp * b.of_exp(i);
   }
 
+  CGAL_assertion_msg(CGAL::abs(exp*log_limb) < (1<<30)*2.0,
+                     "Exponent overflow in MP_Float to_double");
+
   // The cast is necessary for SunPro.
   return std::make_pair(d, static_cast<int>(exp * log_limb));
 }
 
 // Returns (first * 2^second), an interval surrounding b.
-inline
 pair<pair<double, double>, int>
 to_interval_exp(const MP_Float &b)
 {
@@ -363,7 +362,7 @@ to_interval_exp(const MP_Float &b)
     return std::make_pair(pair<double, double>(0, 0), 0);
 
   exponent_type exp = b.max_exp();
-  int steps = std::min(limbs_per_double, b.v.size());
+  int steps = (std::min)(limbs_per_double, b.v.size());
   double d_exp_1 = CGAL_CLIB_STD::ldexp(1.0, - (int) log_limb);
   double d_exp   = 1.0;
 
@@ -394,22 +393,22 @@ to_interval_exp(const MP_Float &b)
     CGAL_assertion(MP_Float(d.inf()) <= b && MP_Float(d.sup()) >= b);
 #endif
 
+  CGAL_assertion_msg(CGAL::abs(exp*log_limb) < (1<<30)*2.0,
+                     "Exponent overflow in MP_Float to_interval");
   return std::make_pair(d.pair(), static_cast<int>(exp * log_limb));
-}
-
 }
 
 // to_double() returns, not the closest double, but a one bit error is allowed.
 // We guarantee : to_double(MP_Float(double d)) == d.
 double
-to_double(const MP_Float &b)
+INTERN_MP_FLOAT::to_double(const MP_Float &b)
 {
   pair<double, int> ap = to_double_exp(b);
   return ap.first * CGAL_CLIB_STD::ldexp(1.0, ap.second);
 }
 
 double
-to_double(const Quotient<MP_Float> &q)
+INTERN_MP_FLOAT::to_double(const Quotient<MP_Float> &q)
 {
     pair<double, int> n = to_double_exp(q.numerator());
     pair<double, int> d = to_double_exp(q.denominator());
@@ -417,32 +416,65 @@ to_double(const Quotient<MP_Float> &q)
     return (n.first / d.first) * scale;
 }
 
+
+double
+INTERN_MP_FLOAT::to_double(const Root_of_2<MP_Float> &x)
+{
+  typedef MP_Float RT;
+  typedef Quotient<RT> FT;
+  typedef CGAL::Rational_traits< FT > Rational;
+  Rational r;
+  const RT r1 = r.numerator(x.alpha());
+  const RT d1 = r.denominator(x.alpha());
+
+  if(x.is_rational()) {
+    std::pair<double, int> n = to_double_exp(r1);
+    std::pair<double, int> d = to_double_exp(d1);
+    double scale = CGAL_CLIB_STD::ldexp(1.0, n.second - d.second);
+    return (n.first / d.first) * scale;
+  }
+
+  const RT r2 = r.numerator(x.beta());
+  const RT d2 = r.denominator(x.beta());
+  const RT r3 = r.numerator(x.gamma());
+  const RT d3 = r.denominator(x.gamma());
+
+  std::pair<double, int> n1 = to_double_exp(r1);
+  std::pair<double, int> v1 = to_double_exp(d1);
+  double scale1 = CGAL_CLIB_STD::ldexp(1.0, n1.second - v1.second);
+
+  std::pair<double, int> n2 = to_double_exp(r2);
+  std::pair<double, int> v2 = to_double_exp(d2);
+  double scale2 = CGAL_CLIB_STD::ldexp(1.0, n2.second - v2.second);
+
+  std::pair<double, int> n3 = to_double_exp(r3);
+  std::pair<double, int> v3 = to_double_exp(d3);
+  double scale3 = CGAL_CLIB_STD::ldexp(1.0, n3.second - v3.second);
+
+  return ((n1.first / v1.first) * scale1) + 
+         ((n2.first / v2.first) * scale2) *
+         std::sqrt((n3.first / v3.first) * scale3);
+}
+
+
 // FIXME : This function deserves proper testing...
 pair<double,double>
-to_interval(const MP_Float &b)
+INTERN_MP_FLOAT::to_interval(const MP_Float &b)
 {
   pair<pair<double, double>, int> ap = to_interval_exp(b);
-  double scale = CGAL_CLIB_STD::ldexp(1.0, ap.second);
-  // Fixup for overflow and underflow possibilities.
-  // maybe we need an ldexp() function for intervals which isolates this issue.
-  Interval_nt<> scale_interval (
-                      CGAL::is_finite(scale) ? scale : CGAL_IA_MAX_DOUBLE,
-                      scale == 0 ? CGAL_IA_MIN_DOUBLE : scale);
-  return (Interval_nt<>(ap.first) * scale_interval).pair();
+  return ldexp(Interval_nt<>(ap.first), ap.second).pair();
 }
 
 // FIXME : This function deserves proper testing...
 pair<double,double>
-to_interval(const Quotient<MP_Float> &q)
+INTERN_MP_FLOAT::to_interval(const Quotient<MP_Float> &q)
 {
   pair<pair<double, double>, int> n = to_interval_exp(q.numerator());
   pair<pair<double, double>, int> d = to_interval_exp(q.denominator());
-  double scale = CGAL_CLIB_STD::ldexp(1.0, n.second - d.second);
-  Interval_nt<> scale_interval (
-                      CGAL::is_finite(scale) ? scale : CGAL_IA_MAX_DOUBLE,
-                      scale == 0 ? CGAL_IA_MIN_DOUBLE : scale);
-  return ((Interval_nt<>(n.first) / Interval_nt<>(d.first))
-          * scale_interval).pair();
+  CGAL_assertion_msg(CGAL::abs(1.0*n.second - d.second) < (1<<30)*2.0,
+                     "Exponent overflow in Quotient<MP_Float> to_interval");
+  return ldexp(Interval_nt<>(n.first) / Interval_nt<>(d.first),
+               n.second - d.second).pair();
 }
 
 std::ostream &

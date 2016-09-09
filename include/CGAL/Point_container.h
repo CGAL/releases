@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Spatial_searching/include/CGAL/Point_container.h $
-// $Id: Point_container.h 29176 2006-03-08 10:02:43Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Spatial_searching/include/CGAL/Point_container.h $
+// $Id: Point_container.h 36901 2007-03-07 19:34:29Z fcacciola $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -27,6 +27,8 @@
 #include <functional>
 #include <algorithm>
 #include <CGAL/Kd_tree_rectangle.h>
+
+#include <boost/optional.hpp>
 
 namespace CGAL {
 
@@ -43,7 +45,10 @@ public:
   typedef typename Point_vector::iterator iterator;
   
 private:
-  iterator b, e; // the iterator range of the Point_container 
+
+  // the iterator range of the Point_container 
+  boost::optional<iterator> m_b ;
+  boost::optional<iterator> m_e ;
   
   int built_coord;    // a coordinate for which the pointer list is built
   Kd_tree_rectangle<Traits> bbox;       // bounding box, i.e. rectangle of node
@@ -195,29 +200,29 @@ public:
   inline unsigned int 
   size() const 
   {
-    return e - b;
+    return *m_e - *m_b;
   }
   
   inline iterator 
   begin() const {
-    return b;
+    return *m_b;
   }
   
   inline iterator 
   end() const 
   {
-    return e;
+    return *m_e;
   }
      
   inline bool 
   empty() const
   {
-    return b == e;
+    return !m_b || !m_e || (*m_b == *m_e ) ;
   }
 
   // building the container from a sequence of Point_d*
   Point_container(const int d, iterator begin, iterator end) :
-    b(begin), e(end), bbox(d, begin, end), tbox(bbox)  
+    m_b(begin), m_e(end), bbox(d, begin, end), tbox(bbox)  
   {
     built_coord = max_span_coord();
   }
@@ -225,8 +230,8 @@ public:
   void 
   set_range(iterator begin, iterator end)
   {
-    b = begin;
-    e = end;
+    m_b = begin;
+    m_e = end;
   }
 
 

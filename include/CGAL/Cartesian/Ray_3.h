@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Ray_3.h $
-// $Id: Ray_3.h 29078 2006-03-06 13:08:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Ray_3.h $
+// $Id: Ray_3.h 33071 2006-08-06 16:37:35Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -38,7 +38,6 @@ class RayC3
   typedef typename R_::Vector_3             Vector_3;
   typedef typename R_::Line_3               Line_3;
   typedef typename R_::Ray_3                Ray_3;
-  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
   typedef Twotuple<Point_3>                        Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -65,7 +64,6 @@ public:
   bool        operator==(const RayC3 &r) const;
   bool        operator!=(const RayC3 &r) const;
 
-  const Point_3 &   start() const;
   const Point_3 &   source() const
   {
       return get(base).e0;
@@ -80,11 +78,6 @@ public:
   Vector_3    to_vector() const;
   Line_3      supporting_line() const;
   Ray_3       opposite() const;
-
-  Ray_3       transform(const Aff_transformation_3 &t) const
-  {
-    return RayC3<R>(t.transform(source()), t.transform(second_point()));
-  }
 
   bool        is_degenerate() const;
   bool        has_on(const Point_3 &p) const;
@@ -107,14 +100,6 @@ bool
 RayC3<R>::operator!=(const RayC3<R> &r) const
 {
   return !(*this == r);
-}
-
-template < class R >
-inline
-const typename RayC3<R>::Point_3 &
-RayC3<R>::start() const
-{
-  return source();
 }
 
 template < class R >
@@ -200,38 +185,6 @@ collinear_has_on(const typename RayC3<R>::Point_3 &p) const
 
   return true; // p == source()
 }
-
-#ifndef CGAL_NO_OSTREAM_INSERT_RAYC3
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const RayC3<R> &r)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << r.start() << ' ' << r.direction();
-    case IO::BINARY :
-        return os<< r.start() << r.direction();
-    default:
-        return os << "RayC3(" << r.start() <<  ", " << r.direction() << ")";
-    }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_RAYC3
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_RAYC3
-template < class R >
-std::istream &
-operator>>(std::istream &is, RayC3<R> &r)
-{
-    typename R::Point_3 p;
-    typename R::Direction_3 d;
-
-    is >> p >> d;
-
-    if (is)
-	r = RayC3<R>(p, d);
-    return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_RAYC3
 
 CGAL_END_NAMESPACE
 

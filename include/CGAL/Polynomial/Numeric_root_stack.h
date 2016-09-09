@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/Numeric_root_stack.h $
-// $Id: Numeric_root_stack.h 30998 2006-05-04 08:58:54Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/Numeric_root_stack.h $
+// $Id: Numeric_root_stack.h 33689 2006-08-24 15:54:13Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -25,6 +25,9 @@
 #include <CGAL/Polynomial/Polynomial.h>
 #include <CGAL/Polynomial/internal/Double_with_infinity.h>
 #include <iterator>
+#ifdef CGAL_USE_GSL
+#include <CGAL/Polynomial/internal/GSL_numeric_solver.h>
+#endif
 
 CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
 
@@ -42,7 +45,15 @@ CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE
 
 CGAL_POLYNOMIAL_BEGIN_NAMESPACE
 
-template <class Solver_traits, class Numeric_solver=internal::Turkowski_numeric_solver>
+#ifdef CGAL_USE_GSL
+#define CGAL_DEFAULT_NUMERIC_SOLVER CGAL::POLYNOMIAL::internal::GSL_numeric_solver
+#define CGAL_DEFAULT_CLEANED_NUMERIC_SOLVER CGAL::POLYNOMIAL::internal::GSL_cleaned_numeric_solver
+#else
+#define CGAL_DEFAULT_NUMERIC_SOLVER CGAL::POLYNOMIAL::internal::Turkowski_numeric_solver
+#define CGAL_DEFAULT_CLEANED_NUMERIC_SOLVER CGAL::POLYNOMIAL::internal::Turkowski_cleaned_numeric_solver
+#endif
+
+template <class Solver_traits, class Numeric_solver=CGAL_DEFAULT_NUMERIC_SOLVER >
 class Numeric_root_stack
 {
 public:

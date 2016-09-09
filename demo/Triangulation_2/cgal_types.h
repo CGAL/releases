@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/demo/Triangulation_2/cgal_types.h $
-// $Id: cgal_types.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/demo/Triangulation_2/cgal_types.h $
+// $Id: cgal_types.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
 
@@ -44,4 +44,3 @@ typedef Delaunay::Face_handle               Face_handle;
 typedef Delaunay::Vertex_handle             Vertex_handle;
 typedef Delaunay::Edge                      Edge;
 typedef Delaunay::Line_face_circulator      Line_face_circulator;
-

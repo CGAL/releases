@@ -1,4 +1,3 @@
-
 // Copyright (c) 2000  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
@@ -16,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_2/include/CGAL/Triangle_2_Triangle_2_intersection.h $
-// $Id: Triangle_2_Triangle_2_intersection.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_2/include/CGAL/Triangle_2_Triangle_2_intersection.h $
+// $Id: Triangle_2_Triangle_2_intersection.h 31284 2006-05-25 17:37:47Z spion $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman
@@ -31,8 +30,6 @@
 
 CGAL_BEGIN_NAMESPACE
 
-
-
 template <class K>
 inline
 Object
@@ -45,5 +42,6 @@ intersection(const Triangle_2<K> &tr1,
 
 CGAL_END_NAMESPACE
 
-#include <CGAL/Triangle_2_Triangle_2_intersection.C>
+#include <CGAL/Intersections_2/Triangle_2_Triangle_2_intersection_impl.h>
+
 #endif

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Partition_2/include/CGAL/partition_is_valid_2.h $
-// $Id: partition_is_valid_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Partition_2/include/CGAL/partition_is_valid_2.h $
+// $Id: partition_is_valid_2.h 31311 2006-05-29 08:30:22Z wein $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -23,9 +23,9 @@
 #include <list>
 #include <utility>
 #include <iterator>
-#include <CGAL/partition_assertions.h>
-#include <CGAL/Partitioned_polygon_2.h>
-#include <CGAL/Partition_vertex_map.h>
+#include <CGAL/Partition_2/partition_assertions.h>
+#include <CGAL/Partition_2/Partitioned_polygon_2.h>
+#include <CGAL/Partition_2/Partition_vertex_map.h>
 #include <CGAL/ch_selected_extreme_points_2.h>
 #include <CGAL/Partition_traits_2.h>
 #include <CGAL/Partition_is_valid_traits_2.h>

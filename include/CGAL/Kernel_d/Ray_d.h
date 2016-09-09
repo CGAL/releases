@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Ray_d.h $
-// $Id: Ray_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Ray_d.h $
+// $Id: Ray_d.h 35126 2006-11-10 13:36:37Z hemmer $
 // 
 //
 // Author(s)     : Michael Seel
@@ -187,11 +187,6 @@ std::istream& operator>>(std::istream& I, Ray_d<R>& r)
 template <class R>
 std::ostream& operator<<(std::ostream& O, const Ray_d<R>& r)
 { r.ptr()->print(O,"Ray_d"); return O; }
-
-template <class R>
-inline CGAL::io_Operator io_tag(const Ray_d<R>&) 
-{ return CGAL::io_Operator(); }
-
 
 /*{\Mimplementation 
 Rays are implemented by a pair of points as an item type.  All

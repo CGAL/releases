@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH2.h $
-// $Id: VectorH2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH2.h $
+// $Id: VectorH2.h 33113 2006-08-07 15:57:40Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -42,10 +42,11 @@ class VectorH2
   typedef typename R_::Line_2               Line_2;
   typedef typename R_::Direction_2          Direction_2;
   typedef typename R_::Vector_2             Vector_2;
-  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
   typedef Threetuple<RT>                           Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
+
+  typedef Rational_traits<FT>               Rat_traits;
 
   Base base;
 
@@ -55,9 +56,20 @@ public:
   typedef R_                                    R;
 
    VectorH2() {}
+
+   VectorH2(int x, int y)
+      : base(x, y, RT(1)) {}
   
    VectorH2(const RT& x, const RT& y)
       : base (x, y, RT(1)) {}
+
+   VectorH2(const FT& x, const FT& y)
+      : base(Rat_traits().numerator(x) * Rat_traits().denominator(y),
+             Rat_traits().numerator(y) * Rat_traits().denominator(x),
+             Rat_traits().denominator(x) * Rat_traits().denominator(y))
+   {
+     CGAL_kernel_assertion(hw() > 0);
+   }
 
    VectorH2(const RT& x, const RT& y, const RT& w )
    {
@@ -91,7 +103,6 @@ public:
 
    int     dimension() const;
    Direction_2 direction() const;
-   Vector_2 transform(const Aff_transformation_2& t ) const;
    Vector_2 perpendicular(const Orientation& o ) const;
 
   //   Vector_2 operator+(const VectorH2 &v) const;
@@ -225,62 +236,6 @@ VectorH2<R>::perpendicular(const Orientation& o) const
   else
       return typename R::Vector_2(hy(), -hx(), hw());
 }
-
-template < class R >
-inline
-typename R::Vector_2
-VectorH2<R>::
-transform(const typename VectorH2<R>::Aff_transformation_2& t) const
-{ return t.transform(*this); }
-
-
-#ifndef CGAL_NO_OSTREAM_INSERT_VECTORH2
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const VectorH2<R> &p)
-{
-  switch(os.iword(IO::mode))
-  {
-    case IO::ASCII :
-        return os << p.hx() << ' ' << p.hy() << ' ' << p.hw();
-    case IO::BINARY :
-        write(os, p.hx());
-        write(os, p.hy());
-        write(os, p.hw());
-        return os;
-    default:
-        return os << "VectorH2(" << p.hx() << ", "
-                                 << p.hy() << ", "
-                                 << p.hw() << ')';
-  }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_VECTORH2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_VECTORH2
-template < class R >
-std::istream &
-operator>>(std::istream &is, VectorH2<R> &p)
-{
-  typename R::RT hx, hy, hw;
-  switch(is.iword(IO::mode))
-  {
-    case IO::ASCII :
-        is >> hx >> hy >> hw;
-        break;
-    case IO::BINARY :
-        read(is, hx);
-        read(is, hy);
-        read(is, hw);
-        break;
-    default:
-        std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-        break;
-  }
-  p = VectorH2<R>(hx, hy, hw);
-  return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_VECTORH2
 
 CGAL_END_NAMESPACE
 

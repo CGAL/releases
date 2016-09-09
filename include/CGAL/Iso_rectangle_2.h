@@ -15,14 +15,18 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Iso_rectangle_2.h $
-// $Id: Iso_rectangle_2.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Iso_rectangle_2.h $
+// $Id: Iso_rectangle_2.h 33348 2006-08-16 14:56:11Z spion $
+//
 //
 // Author(s)     : Andreas Fabri
 
 #ifndef CGAL_ISO_RECTANGLE_2_H
 #define CGAL_ISO_RECTANGLE_2_H
+
+#include <boost/static_assert.hpp>
+#include <boost/type_traits.hpp>
+#include <CGAL/Kernel/Return_base_tag.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -33,10 +37,13 @@ class Iso_rectangle_2 : public R_::Kernel_base::Iso_rectangle_2
   typedef typename R_::FT                    FT;
   typedef typename R_::Point_2               Point_2;
   typedef typename R_::Aff_transformation_2  Aff_transformation_2;
-  typedef typename R_::Kernel_base::Iso_rectangle_2  RIso_rectangle_2;
-public:
-  typedef RIso_rectangle_2 Rep;
 
+  typedef Iso_rectangle_2                    Self;
+  BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Iso_rectangle_2>::value));
+
+public:
+
+  typedef typename R_::Kernel_base::Iso_rectangle_2  Rep;
 
   const Rep& rep() const
   {
@@ -52,33 +59,36 @@ public:
 
   Iso_rectangle_2() {}
 
-  Iso_rectangle_2(const RIso_rectangle_2& r)
-    : RIso_rectangle_2(r) {}
+  Iso_rectangle_2(const Rep& r)
+    : Rep(r) {}
+
+  Iso_rectangle_2(const Point_2 &p, const Point_2 &q, int)
+    : Rep(typename R::Construct_iso_rectangle_2()(Return_base_tag(), p, q, 0)) {}
 
   Iso_rectangle_2(const Point_2 &p, const Point_2 &q)
-    : RIso_rectangle_2(typename R::Construct_iso_rectangle_2()(p,q).rep()) {}
+    : Rep(typename R::Construct_iso_rectangle_2()(Return_base_tag(), p, q)) {}
 
   Iso_rectangle_2(const Point_2 &left, const Point_2 &right,
                   const Point_2 &bottom, const Point_2 &top)
-    : RIso_rectangle_2(typename R::Construct_iso_rectangle_2()(left, right, bottom, top).rep()) {}
+    : Rep(typename R::Construct_iso_rectangle_2()(Return_base_tag(), left, right, bottom, top)) {}
 
-  Iso_rectangle_2(const RT& min_hx, const RT& min_hy, 
+  Iso_rectangle_2(const RT& min_hx, const RT& min_hy,
                   const RT& max_hx, const RT& max_hy)
-    : RIso_rectangle_2(typename R::Construct_iso_rectangle_2()(min_hx, min_hy, max_hx, max_hy).rep()) {}
+    : Rep(typename R::Construct_iso_rectangle_2()(Return_base_tag(), min_hx, min_hy, max_hx, max_hy)) {}
 
-  Iso_rectangle_2(const RT& min_hx, const RT& min_hy, 
+  Iso_rectangle_2(const RT& min_hx, const RT& min_hy,
                   const RT& max_hx, const RT& max_hy, const RT& hw)
-    : RIso_rectangle_2(typename R::Construct_iso_rectangle_2()(min_hx, min_hy, max_hx, max_hy, hw).rep()) {}
+    : Rep(typename R::Construct_iso_rectangle_2()(Return_base_tag(), min_hx, min_hy, max_hx, max_hy, hw)) {}
 
 
   typename Qualified_result_of<typename R::Construct_min_vertex_2, Iso_rectangle_2 >::type
-  min() const
+  min BOOST_PREVENT_MACRO_SUBSTITUTION () const
   {
     return R().construct_min_vertex_2_object()(*this);
   }
 
   typename Qualified_result_of<typename R::Construct_max_vertex_2, Iso_rectangle_2 >::type
-  max() const
+  max BOOST_PREVENT_MACRO_SUBSTITUTION () const
   {
     return R().construct_max_vertex_2_object()(*this);
   }
@@ -120,7 +130,7 @@ public:
     return R().compute_xmax_2_object()(*this);
   }
 
-  typename Qualified_result_of<typename R::Compute_ymin_2, Iso_rectangle_2 >::type 
+  typename Qualified_result_of<typename R::Compute_ymin_2, Iso_rectangle_2 >::type
   ymin() const
   {
     return R().compute_ymin_2_object()(*this);
@@ -194,47 +204,46 @@ public:
 
   Bbox_2
   bbox() const
-  { 
+  {
     return R().construct_bbox_2_object()(*this);
   }
 
   Iso_rectangle_2 transform(const Aff_transformation_2 &t) const
   {
-    //return Iso_rectangle_2(t.transform(min()), t.transform(max()));
-    return rep().transform(t);
+    // FIXME : We need a precondition like this!!!
+    // CGAL_kernel_precondition(t.is_axis_preserving());
+    return Iso_rectangle_2(t.transform(min  BOOST_PREVENT_MACRO_SUBSTITUTION ()), 
+			   t.transform(max  BOOST_PREVENT_MACRO_SUBSTITUTION ()));
   }
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_ISO_RECTANGLE_2
+
 template < class R >
 std::ostream &
 operator<<(std::ostream &os, const Iso_rectangle_2<R> &r)
 {
   switch(os.iword(IO::mode)) {
   case IO::ASCII :
-    return os << r.min() << ' ' << r.max();
+    return os << (r.min)() << ' ' << (r.max)();
   case IO::BINARY :
-    return os << r.min() << r.max();
+    return os << (r.min)() << (r.max)();
   default:
-    return os << "Iso_rectangle_2(" << r.min() << ", " << r.max() << ")";
+    return os << "Iso_rectangle_2(" << (r.min)() << ", " << (r.max)() << ")";
   }
 }
-#endif // CGAL_NO_OSTREAM_INSERT_ISO_RECTANGLE_2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_ISO_RECTANGLE_2
 template < class R >
 std::istream &
 operator>>(std::istream &is, Iso_rectangle_2<R> &r)
 {
   typename R::Point_2 p, q;
-  
+
   is >> p >> q;
-  
+
   if (is)
     r = Iso_rectangle_2<R>(p, q);
   return is;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_ISO_RECTANGLE_2
 
 CGAL_END_NAMESPACE
 

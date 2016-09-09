@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_event_log_visitor_2.h $
-// $Id: Delaunay_triangulation_event_log_visitor_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_event_log_visitor_2.h $
+// $Id: Delaunay_triangulation_event_log_visitor_2.h 36012 2007-02-02 02:13:42Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -32,25 +32,25 @@ struct Delaunay_triangulation_event_log_visitor_2: public Delaunay_triangulation
     Delaunay_triangulation_event_log_visitor_2(){}
 
     template <class Edge>
-    void before_flip(Edge e) {
+    void pre_flip(Edge e) {
         typedef typename Edge::first_type::value_type::Vertex_handle::value_type::Point Point;
         std::ostringstream out;
         Point a= e.first->vertex((e.second+1)%3)->point();
         Point b= e.first->vertex((e.second+2)%3)->point();
-        out << "Flipping away edge {" << std::min(a,b) << ", " << std::max(a,b) << "}";
+        out << "Flipping away edge {" << (std::min)(a,b) << ", " << (std::max)(a,b) << "}";
         log_.push_back(out.str());
-        CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str());
+        CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
     }
 
     template <class Edge>
-    void after_flip(Edge e) {
+    void post_flip(Edge e) {
         typedef typename Edge::first_type::value_type::Vertex_handle::value_type::Point Point;
         std::ostringstream out;
         Point a= e.first->vertex((e.second+1)%3)->point();
         Point b= e.first->vertex((e.second+2)%3)->point();
-        out << "Flipping in edge {" << std::min(a,b) << ", " << std::max(a,b) << "}";
+        out << "Flipping in edge {" << (std::min)(a,b) << ", " << (std::max)(a,b) << "}";
         log_.push_back(out.str());
-        CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str());
+        CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl;);
     }
 
     typedef std::vector<std::string>::const_iterator Event_iterator;

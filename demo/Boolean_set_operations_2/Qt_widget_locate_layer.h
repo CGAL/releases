@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/Qt_widget_locate_layer.h $
-// $Id: Qt_widget_locate_layer.h 30322 2006-04-14 15:07:17Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/Qt_widget_locate_layer.h $
+// $Id: Qt_widget_locate_layer.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
 
@@ -24,7 +24,7 @@
 #include <qcursor.h>
 #include "Qt_widget_circ_polygon.h"
 
-extern bool                                      red_active; 
+extern bool                                      red_active;
 extern Polygon_set                               red_set;
 extern Polygon_set                               blue_set;
 
@@ -34,12 +34,12 @@ class  Qt_widget_locate_layer : public CGAL::Qt_widget_layer
 
     //Data members
     Polygon_with_holes     m_pgn;
-  
+
     QWidget::FocusPolicy  m_oldpolicy;
     QCursor               m_oldcursor;
     QCursor               m_cursor;
 
-    bool m_found_pgn; 
+    bool m_found_pgn;
 
 
   public:
@@ -55,7 +55,7 @@ class  Qt_widget_locate_layer : public CGAL::Qt_widget_layer
     void draw()
     {
       widget->lock();
-      const Polygon& outer_boundary = m_pgn.outer_boundary();
+      const Polygon_2& outer_boundary = m_pgn.outer_boundary();
       *widget << CGAL::YELLOW;
       if(m_found_pgn)
       {
@@ -66,7 +66,7 @@ class  Qt_widget_locate_layer : public CGAL::Qt_widget_layer
                             Point_2(widget->x_max(), widget->y_max()));
           *widget << rect;
         }
-        else  
+        else
           *widget << outer_boundary;
         for(Hole_const_iterator hit = m_pgn.holes_begin();
             hit != m_pgn.holes_end();
@@ -96,7 +96,7 @@ class  Qt_widget_locate_layer : public CGAL::Qt_widget_layer
         m_found_pgn = blue_set.locate(query_pt, m_pgn);
       widget->redraw();
     }
-         
+
   };//end mousePressEvent
 
   void activating()

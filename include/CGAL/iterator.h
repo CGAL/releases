@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/iterator.h $
-// $Id: iterator.h 30667 2006-04-19 16:56:12Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/iterator.h $
+// $Id: iterator.h 36568 2007-02-23 08:35:43Z gaertner $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -176,8 +176,8 @@ public:
   // random access operations
   // ------------------------
   // access
-  Ref               operator [] ( Diff i)       { return value;}
-  const value_type& operator [] ( Diff i) const { return value;}
+  Ref               operator [] ( Diff )       { return value;}
+  const value_type& operator [] ( Diff ) const { return value;}
   
   // less operator
   bool       operator <  ( const Self& x) const { return ( index < x.index);}
@@ -277,6 +277,7 @@ template < class I, int N,
 class N_step_adaptor {
 protected:
   I        nt;    // The internal iterator.
+  bool     empty;
 public:
   typedef I                                        Iterator;
   typedef N_step_adaptor<I,N>                      Self;
@@ -293,12 +294,12 @@ public:
   // CREATION
   // --------
 
-  N_step_adaptor() {}
-  N_step_adaptor( Iterator j) : nt(j) {}
+  N_step_adaptor(): empty(true) {}
+  N_step_adaptor( Iterator j) : nt(j), empty(false) {}
 
   template <class II>
   N_step_adaptor( const N_step_adaptor<II,N>& j)
-    : nt( j.current_iterator()) {}
+    : nt( j.current_iterator()), empty(j.empty) {}
 
   // OPERATIONS Forward Category
   // ---------------------------
@@ -310,10 +311,10 @@ public:
   Iterator  current_iterator() const { return nt;}
   bool operator==( CGAL_NULL_TYPE p) const {
     CGAL_assertion( p == 0);
-    return ( nt == 0);
+    return empty;
   }
   bool  operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
-  bool  operator==( const Self& i) const { return ( nt == i.nt); }
+  bool  operator==( const Self& i) const { return (empty && i.empty) ||( nt == i.nt); }
   bool  operator!=( const Self& i) const { return !(*this == i); }
   reference operator*()  const { return *nt; }
   pointer   operator->() const { return nt.operator->(); }

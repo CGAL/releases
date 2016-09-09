@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Alpha_shapes_2/demo/Alpha_shapes_2/Qt_widget_toolbar_layers.h $
-// $Id: Qt_widget_toolbar_layers.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Alpha_shapes_2/demo/Alpha_shapes_2/Qt_widget_toolbar_layers.h $
+// $Id: Qt_widget_toolbar_layers.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Radu Ursu
 
@@ -40,16 +40,16 @@ class Layers_toolbar : public QToolBar
 {
   Q_OBJECT
 public:
-  Layers_toolbar(CGAL::Qt_widget *w, QMainWindow *mw, 
+  Layers_toolbar(CGAL::Qt_widget *w, QMainWindow *mw,
                  Delaunay *t, Alpha_shape *a, QImage *i);
 
 private:
   QToolButton     *but[10];
   QButtonGroup    *button_group;
   CGAL::Qt_widget *widget;
-  QMainWindow     *window;  	
+  QMainWindow     *window;
   int             nr_of_buttons;
-	
+
   Qt_layer_show_triangulation < Delaunay >  *showT;
   Qt_layer_show_voronoi < Delaunay >        *showV;
   Qt_layer_show_points < Delaunay >         *showP;

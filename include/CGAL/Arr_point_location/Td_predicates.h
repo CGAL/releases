@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_point_location/Td_predicates.h $
-// $Id: Td_predicates.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Td_predicates.h $
+// $Id: Td_predicates.h 35794 2007-01-24 18:00:30Z spion $
 // 
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -20,9 +20,7 @@
 #ifndef CGAL_TD_PREDICATES_H
 #define CGAL_TD_PREDICATES_H
 
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif
 
 #include <functional>
 

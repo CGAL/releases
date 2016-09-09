@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/Nested_iterator.h $
-// $Id: Nested_iterator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/Nested_iterator.h $
+// $Id: Nested_iterator.h 36912 2007-03-08 09:48:21Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -130,8 +130,10 @@ public:
   }
 
   Nested_iterator(const Self& other)
+    : Filter_base_iterator(other)
   {
-    copy_from(other);
+    if ( !other.is_end() )
+      nested_it_ = other.nested_it_;
   }
 
   Self& operator=(const Self& other)

@@ -12,19 +12,21 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Tools/Counter.h $
-// $Id: Counter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Tools/Counter.h $
+// $Id: Counter.h 36338 2007-02-15 21:30:59Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
 
-#ifndef DSR_COUNTER_H
-#define DSR_COUNTER_H
+#ifndef CGAL_DSR_COUNTER_H
+#define CGAL_DSR_COUNTER_H
+
 #include <iterator>
 #include <CGAL/basic.h>
 #include <CGAL/Tools/Label.h>
 
-CGAL_BEGIN_NAMESPACE;
+CGAL_BEGIN_NAMESPACE
+
 //! An integer iterator
 /*!  It looks like an iterator but just wraps an integer. All the
   expected iterator operations are supported (namely operator* and
@@ -169,6 +171,6 @@ Counter<T> counter(T t)
     return Counter<T>(t);
 }
 
+CGAL_END_NAMESPACE
 
-CGAL_END_NAMESPACE;
 #endif

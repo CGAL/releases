@@ -15,23 +15,16 @@
 # This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 # WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 #
-# $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/src/CGALQt/kds.makefile $
-# $Id: kds.makefile 29308 2006-03-09 20:47:20Z reichel $
+# $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/src/CGALQt/kds.makefile $
+# $Id: kds.makefile 36173 2007-02-11 17:15:52Z efif $
 #
 # Author(s)     : Daniel Russel
 
-
 CGAL_KDS_OBJECTS = \
-Kinetic_pixmaps$(OBJ_EXT)\
-Kinetic_Qt_widget_2_core$(OBJ_EXT)\
-Kinetic_Qt_core$(OBJ_EXT)\
-Kinetic_Qt_timer$(OBJ_EXT)\
+Kinetic_pixmaps$(OBJ_EXT) \
+Kinetic_Qt_widget_2_core$(OBJ_EXT) \
+Kinetic_Qt_core$(OBJ_EXT) \
+Kinetic_Qt_timer$(OBJ_EXT) \
 Kinetic_Qt_window_2$(OBJ_EXT)
 
-#KDS_Qt_examiner_viewer$(OBJ_EXT)\
-
-
-KDS_MOC_FILES = \
-Kinetic_Qt_core.moc Kinetic_Qt_timer.moc Kinetic_Qt_window_2.moc Kinetic_Qt_widget_2_core.moc
-
-#KDS_Qt_examiner_viewer.moc
+#KDS_Qt_examiner_viewer$(OBJ_EXT)

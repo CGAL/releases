@@ -10,18 +10,125 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_aux.h $
-// $Id: Straight_skeleton_aux.h 31999 2006-06-21 19:00:28Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_aux.h $
+// $Id: Straight_skeleton_aux.h 36633 2007-02-27 18:19:42Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
 #ifndef CGAL_STRAIGHT_SKELETON_AUX_H
 #define CGAL_STRAIGHT_SKELETON_AUX_H 1
 
+#include <boost/optional/optional.hpp>
+#include <boost/none.hpp>
+
 //
 // The heap objects used in this implementation are intrusively reference counted. Thus, they inherit from Ref_counted_base.
 //
 CGAL_BEGIN_NAMESPACE
+
+namespace CGAL_SS_i
+{
+
+//
+// This record encapsulates the defining contour halfedges for a node (both contour and skeleton)
+//
+template<class Handle_>
+struct Triedge
+{
+  typedef Handle_ Handle ;
+  
+  typedef Triedge<Handle> Self ;
+  
+  Triedge() {}
+
+  // Contour nodes (input polygon vertices) have just 2 defining contour edges    
+  Triedge ( Handle aE0, Handle aE1 )
+  {
+    mE[0] = aE0 ;
+    mE[1] = aE1 ;
+  }              
+  
+  // Skeleton nodes (offset polygon vertices) have 3 defining contour edges    
+  Triedge ( Handle aE0, Handle aE1 , Handle aE2 )
+  {
+    mE[0] = aE0 ;
+    mE[1] = aE1 ;
+    mE[2] = aE2 ;
+  }              
+  
+  Handle e( unsigned idx ) const { CGAL_assertion(idx<3); return mE[idx]; }
+  
+  Handle e0() const { return e(0); }
+  Handle e1() const { return e(1); }
+  Handle e2() const { return e(2); }
+  
+  bool is_valid() const { return e0() != e1() && e1() != e2() ; }
+  
+  // returns 1 if aE is one of the halfedges stored in this triedge, 0 otherwise.
+  int contains ( Handle aE ) const
+  {
+    return aE == e0() || aE == e1() || aE == e2() ? 1 : 0 ;
+  }
+
+  // Returns the number of common halfedges in the two triedges x and y
+  static int CountInCommon( Self const& x, Self const& y )
+  {
+    return x.contains(y.e0()) + x.contains(y.e1()) + x.contains(y.e2()) ; 
+  }
+  
+  // Returns true if the triedges store the same 3 halfedges (in any order)
+  friend bool operator == ( Self const& x, Self const& y ) { return CountInCommon(x,y) == 3 ; }
+  
+  friend bool operator != ( Self const& x, Self const& y ) { return !(x==y) ; }
+  
+  friend Self operator & ( Self const& x, Self const& y )
+  {
+    return Self(x.e0(), x.e1(), ( x.e0() == y.e0() || x.e1() == y.e0() ) ? y.e1() : y.e0() ) ;
+  }
+  
+  friend std::ostream& operator<< ( std::ostream& ss, Self const& t )
+  {
+    return ss << "{E" << t.e0()->id() << ",E" << t.e1()->id() << ",E" << t.e2()->id() << "}" ;
+  }
+  
+  Handle mE[3];
+} ;
+
+} // namespace CGAL_SS_i
+
+enum Trisegment_collinearity
+{ 
+    TRISEGMENT_COLLINEARITY_NONE
+  , TRISEGMENT_COLLINEARITY_01
+  , TRISEGMENT_COLLINEARITY_12
+  , TRISEGMENT_COLLINEARITY_02
+  , TRISEGMENT_COLLINEARITY_ALL
+} ;
+
+static char const* trisegment_collinearity_to_string( Trisegment_collinearity c )
+{
+  switch ( c )
+  {
+    case TRISEGMENT_COLLINEARITY_NONE : return "<>" ;  
+    case TRISEGMENT_COLLINEARITY_01   : return "<0,1>" ; 
+    case TRISEGMENT_COLLINEARITY_12   : return "<1,2>" ; 
+    case TRISEGMENT_COLLINEARITY_02   : return "<0,2>" ; 
+    case TRISEGMENT_COLLINEARITY_ALL  : return "<0,1,2>" ; 
+  }
+  
+  return "!!UNKNOWN COLLINEARITY!!" ;
+}
+namespace CGALi 
+{
+
+template <>
+struct Minmax_traits< Trisegment_collinearity >
+{
+  static const Trisegment_collinearity min = TRISEGMENT_COLLINEARITY_NONE;
+  static const Trisegment_collinearity max = TRISEGMENT_COLLINEARITY_ALL;
+};
+
+}
 
 class Ref_counted_base
 {
@@ -53,39 +160,76 @@ inline void intrusive_ptr_release( CGAL::Ref_counted_base const* p ) { p->Releas
 // The rest of this header contains tracing, debugging and profiling stuff.
 
 #if defined(CGAL_STRAIGHT_SKELETON_ENABLE_TRACE) || defined(CGAL_POLYGON_OFFSET_ENABLE_TRACE)
-#define CGAL_STSKEL_ENABLE_TRACE
-#endif
-
-#if   defined(CGAL_STRAIGHT_SKELETON_ENABLE_SHOW) \
-   || defined(CGAL_POLYGON_OFFSET_ENABLE_SHOW) \
-   || defined(CGAL_STRAIGHT_SKELETON_ENABLE_SHOW_AUX)  \
-   || defined(CGAL_POLYGON_OFFSET_ENABLE_SHOW_AUX)
-#define CGAL_STSKEL_ENABLE_SHOW
-#endif
-
-
-#ifdef CGAL_STSKEL_ENABLE_TRACE
 #  include<string>
 #  include<iostream>
 #  include<sstream>
 #  define CGAL_STSKEL_TRACE(m) \
      { \
-       std::ostringstream ss ; ss << m ; std::string s = ss.str(); \
+       std::ostringstream ss ; \
+       ss << m ; \
+       std::string s = ss.str(); \
        Straight_skeleton_external_trace(s); \
      }
 
-#  define CGAL_STSKEL_DEBUG_CODE(code) code
-#else
-#  define CGAL_STSKEL_DEBUG_CODE(code) 
+template<class N>
+inline std::string n2str( N const& n )
+{
+  std::ostringstream ss ; 
+  ss << CGAL_NTS to_double(n) ;
+  return ss.str();
+}
+template<class P>
+inline std::string p2str( P const& p )
+{
+  std::ostringstream ss ; 
+  ss << "(" << n2str(p.x()) << "," << n2str(p.y()) << ")" ;
+  return ss.str();
+}
+template<class V>
+inline std::string v2str( V const& v )
+{
+  std::ostringstream ss ; 
+  ss << "V" << v.id() << " " << p2str(v.point());
+  return ss.str();
+}
+template<class P>
+inline std::string s2str( P const& s, P const& t )
+{
+  std::ostringstream ss ; 
+  ss << "{" << p2str(s) << "-" << p2str(t) << "}" ;
+  return ss.str();
+}
+template<class S>
+inline std::string s2str( S const& seg ) { return s2str(seg.source(),seg.target()); }
+
+template<class E>
+inline std::string e2str( E const& e )
+{
+  std::ostringstream ss ; 
+  if ( e.is_bisector() )
+  {
+    ss << "B" << e.id()
+       << "[E" << e.defining_contour_edge()->id() 
+       << ",E" << e.opposite()->defining_contour_edge()->id() << "]";
+  }
+  else
+  {
+    ss << "E" << e.id() ;
+  }
+  ss << " " << s2str(e.vertex()->point(),e.opposite()->vertex()->point()) ;
+  return ss.str();
+}
 #endif
 
-#ifdef CGAL_STSKEL_ENABLE_TRACE
+#ifdef CGAL_STRAIGHT_SKELETON_ENABLE_TRACE
+#  define CGAL_STSKEL_DEBUG_CODE(code) code
 #  define CGAL_STSKEL_BUILDER_TRACE(l,m) if ( l <= CGAL_STRAIGHT_SKELETON_ENABLE_TRACE ) CGAL_STSKEL_TRACE(m)
 #else
 #  define CGAL_STSKEL_BUILDER_TRACE(l,m)
+#  define CGAL_STSKEL_DEBUG_CODE(code) 
 #endif
 
-#ifdef CGAL_STSKEL_ENABLE_SHOW
+#ifdef CGAL_STRAIGHT_SKELETON_ENABLE_SHOW
 #  define CGAL_STSKEL_BUILDER_SHOW(code) { code }
 #else
 #  define CGAL_STSKEL_BUILDER_SHOW(code)
@@ -102,77 +246,6 @@ inline void intrusive_ptr_release( CGAL::Ref_counted_base const* p ) { p->Releas
 #else
 #  define CGAL_POLYOFFSET_SHOW(code)
 #endif
-
-#ifdef CGAL_STSKEL_ENABLE_SHOW
-
-CGAL_BEGIN_NAMESPACE
-
-namespace SS_IO_AUX
-{
-  class ScopedDrawing
-  {
-    public :
-
-      virtual ~ScopedDrawing()
-      {
-        if ( mID != -1 )
-          Straight_skeleton_external_undraw_object(mID) ;
-      }
-
-      void Release() { mID = -1 ; }
-    protected :
-
-      ScopedDrawing ( int aID ) : mID(aID) {}
-
-    private :
-
-      int mID ;
-  } ;
-
-  class ScopedPointDrawing : public ScopedDrawing
-  {
-    public :
-
-    template<class Point_2>
-    ScopedPointDrawing( Point_2 const& aP, CGAL::Color aColor, char const* aLayer )
-      :
-      ScopedDrawing
-      (
-        Straight_skeleton_external_draw_point(  to_double( aP.x() )
-                                               ,to_double( aP.y() )
-                                               ,aColor
-                                               ,aLayer
-                                             )
-      )
-    {}
-  } ;
-
-  class ScopedSegmentDrawing : public ScopedDrawing
-  {
-    public :
-
-    template<class Point_2>
-    ScopedSegmentDrawing( Point_2 const& aS, Point_2 const& aT, CGAL::Color aColor, char const* aLayer )
-      :
-      ScopedDrawing
-      (
-        Straight_skeleton_external_draw_segment(  to_double( aS.x() )
-                                                 ,to_double( aS.y() )
-                                                 ,to_double( aT.x() )
-                                                 ,to_double( aT.y() )
-                                                 ,aColor
-                                                 ,aLayer
-                                               )
-      )
-    {}
-  } ;
-
-} // namespace SS_IO_AUX
-
-CGAL_END_NAMESPACE
-
-#endif
-
 
 #ifdef CGAL_STRAIGHT_SKELETON_PROFILING_ENABLED // Reserved use. DO NOT define this macro switch
 #  include<string>
@@ -207,12 +280,27 @@ CGAL_END_NAMESPACE
           } \
           else register_predicate_success(preds); \
         }
+
+#define CGAL_STSKEL_ASSERT_CONSTRUCTION_RESULT(expr,K,cons,error) \
+        { \
+          std::ostringstream consss ; \
+          consss << CGAL_STRAIGHT_SKELETON_i_profiling::kernel_type< typename K::FT >() << " . " << cons ; \
+          std::string conss = consss.str(); \
+          if ( !(expr) ) \
+          { \
+            std::ostringstream errss  ; errss << error ; std::string errs = errss.str(); \
+            register_construction_failure(conss,errs); \
+          } \
+          else register_construction_success(conss); \
+        }
 #else
+
 #define CGAL_STSKEL_ASSERT_PREDICATE_RESULT(expr,K,pred,error)
+#define CGAL_STSKEL_ASSERT_CONSTRUCTION_RESULT(expr,K,cons,error)
+
 #endif
 
 #undef CGAL_STSKEL_ENABLE_TRACE
-#undef CGAL_STSKEL_ENABLE_SHOW
 
 #endif // CGAL_STRAIGHT_SKELETON_AUX_H //
 // EOF //

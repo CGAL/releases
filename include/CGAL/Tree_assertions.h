@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/SearchStructures/include/CGAL/Tree_assertions.h $
-// $Id: Tree_assertions.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/SearchStructures/include/CGAL/Tree_assertions.h $
+// $Id: Tree_assertions.h 35794 2007-01-24 18:00:30Z spion $
 // 
 //
 // Author(s)     : Gabriele Neyer
@@ -21,9 +21,7 @@
 #ifndef CGAL_TREE_ASSERTIONS_H
 #define CGAL_TREE_ASSERTIONS_H
 
-#ifndef CGAL_ASSERTIONS_H
 #  include <CGAL/assertions.h>
-#endif
 
 
 // macro definitions

@@ -12,9 +12,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/demo/Mesh_2/Qt_layer_show_triangulation_constraints.h $
-// $Id: Qt_layer_show_triangulation_constraints.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/demo/Mesh_2/Qt_layer_show_triangulation_constraints.h $
+// $Id: Qt_layer_show_triangulation_constraints.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Laurent Rineau
 
@@ -30,7 +30,7 @@ class Qt_layer_show_triangulation_constraints
   : public Qt_widget_styled_layer
 {
 public:
-	
+
   Qt_layer_show_triangulation_constraints(T *t,
 					  CGAL::Color lc = CGAL::RED,
 					  int linewidth = 1,

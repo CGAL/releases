@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
-// $Id: Filtered_extended_homogeneous.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
+// $Id: Filtered_extended_homogeneous.h 36826 2007-03-05 16:49:11Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -1229,7 +1229,7 @@ void print_statistics() const
 {
   std::cout << "Statistics of filtered kernel:\n";
   std::cout << "total failed double filter stages = ";
-  std::cout << CGAL::Interval_nt_advanced::number_of_failures << std::endl;
+  std::cout << CGAL::Interval_nt_advanced::number_of_failures() << std::endl;
   PRINT_CHECK_ENABLED;
   PRINT_STATISTICS(or2);
   PRINT_STATISTICS(or1);
@@ -1253,15 +1253,15 @@ void determine_frame_radius(Forward_iterator start, Forward_iterator end,
   while ( start != end ) {
     Point_2 p = *start;
     if ( is_standard(p) ) {
-      R = CGAL_NTS max(CGAL_NTS abs(p.mx())/p.hw(), 
-                       CGAL_NTS abs(p.my())/p.hw());
+      R = (CGAL::max)(CGAL_NTS abs(p.mx())/p.hw(), 
+		      CGAL_NTS abs(p.my())/p.hw());
     } else {
       RT rx = CGAL_NTS abs(p.hx()), ry = CGAL_NTS abs(p.hy());
       if ( rx[1] > ry[1] )      R = CGAL_NTS abs(ry[0]-rx[0])/(rx[1]-ry[1]);
       else if ( rx[1] < ry[1] ) R = CGAL_NTS abs(rx[0]-ry[0])/(ry[1]-rx[1]);
       else /* rx[1] == ry[1] */ R = CGAL_NTS abs(rx[0]-ry[0])/(2*p.hw());
     }
-    R0 = CGAL_NTS max(R+1,R0); ++start;
+    R0 = (CGAL::max)(R+1,R0); ++start;
   }
 }
 

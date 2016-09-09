@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Root_bound_evaluator.h $
-// $Id: Root_bound_evaluator.h 30667 2006-04-19 16:56:12Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Root_bound_evaluator.h $
+// $Id: Root_bound_evaluator.h 35759 2007-01-18 23:26:44Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -51,7 +51,7 @@ class Root_bound_evaluator
 
         static NT
             compute_bound(const NT& max_abs, const NT& abs_lead_cf,
-        CGAL::Ring_tag) {
+			  CGAL::Integral_domain_without_division_tag) {
 #if 1
             double d1 = to_double(max_abs);
             double d2 = to_double(abs_lead_cf);
@@ -128,7 +128,7 @@ class Filtered_root_bound_evaluator
         template <class NTT>
             static NTT
             compute_bound(const NTT& max_abs, const NTT& abs_lead_cf,
-        CGAL::Ring_tag) {
+        CGAL::Integral_domain_without_division_tag) {
 #if 1
             double d1 = CGAL::to_double(max_abs);
             double d2 = CGAL::to_double(abs_lead_cf);

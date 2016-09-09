@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sign_Sturm_sequence.h $
-// $Id: Sign_Sturm_sequence.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Sign_Sturm_sequence.h $
+// $Id: Sign_Sturm_sequence.h 35772 2007-01-22 18:36:00Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -23,6 +23,7 @@
 
 #include <CGAL/Polynomial/basic.h>
 #include <CGAL/Polynomial/internal/Sign_variations_counter.h>
+#include <vector>
 
 CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
 
@@ -37,7 +38,7 @@ class Sign_Sturm_sequence : public Sturm_sequence_t
 
     protected:
         typedef Sturm_sequence                         Base;
-        typedef CGAL_POLYNOMIAL_NS::Sign                    Sign;
+        typedef CGAL::Sign                    Sign;
         typedef typename Kernel::Sign_at               Sign_at;
 
     public:
@@ -51,7 +52,7 @@ class Sign_Sturm_sequence : public Sturm_sequence_t
         template<class NTRep>
             unsigned int sign_variations_base(const NTRep& x) const
         {
-            Sign s0 = Sign_at( this->seq_[0] )(x);
+	  Sign s0 = Sign_at( )(this->seq_[0] , x);
 
             CGAL_Polynomial_precondition( s0 != CGAL::ZERO );
 
@@ -59,13 +60,13 @@ class Sign_Sturm_sequence : public Sturm_sequence_t
             signs[0] = s0;
 
             if ( this->size_ > 1 ) {
-                Sign s1 = Sign_at( pder_ )(x);
-                Sign s2 = Sign_at( q_ )(x);
+	      Sign s1 = Sign_at(  )(pder_, x);
+	      Sign s2 = Sign_at( )(q_,  x);
                 signs[1] = Sign(s1 * s2);
             }
 
             for (unsigned int i = 2; i < this->size_; i++) {
-                signs[i] = Sign_at( this->seq_[i] )(x);
+	      signs[i] = Sign_at( )(this->seq_[i] , x);
             }
             return Sign_variations_counter::sign_variations(signs.begin(), signs.end());
         }

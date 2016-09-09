@@ -35,27 +35,27 @@ LDFLAGS = \
 
 all:            \
                 benchmark$(EXE_EXT) \
-                min_sphere_of_spheres_d_example_2$(EXE_EXT) \
-                min_sphere_of_spheres_d_example_3$(EXE_EXT) \
-                min_sphere_of_spheres_d_example_d$(EXE_EXT) 
+                min_sphere_of_spheres_d_2$(EXE_EXT) \
+                min_sphere_of_spheres_d_3$(EXE_EXT) \
+                min_sphere_of_spheres_d_d$(EXE_EXT) 
 
 benchmark$(EXE_EXT): benchmark$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)benchmark benchmark$(OBJ_EXT) $(LDFLAGS)
 
-min_sphere_of_spheres_d_example_2$(EXE_EXT): min_sphere_of_spheres_d_example_2$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)min_sphere_of_spheres_d_example_2 min_sphere_of_spheres_d_example_2$(OBJ_EXT) $(LDFLAGS)
+min_sphere_of_spheres_d_2$(EXE_EXT): min_sphere_of_spheres_d_2$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)min_sphere_of_spheres_d_2 min_sphere_of_spheres_d_2$(OBJ_EXT) $(LDFLAGS)
 
-min_sphere_of_spheres_d_example_3$(EXE_EXT): min_sphere_of_spheres_d_example_3$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)min_sphere_of_spheres_d_example_3 min_sphere_of_spheres_d_example_3$(OBJ_EXT) $(LDFLAGS)
+min_sphere_of_spheres_d_3$(EXE_EXT): min_sphere_of_spheres_d_3$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)min_sphere_of_spheres_d_3 min_sphere_of_spheres_d_3$(OBJ_EXT) $(LDFLAGS)
 
-min_sphere_of_spheres_d_example_d$(EXE_EXT): min_sphere_of_spheres_d_example_d$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)min_sphere_of_spheres_d_example_d min_sphere_of_spheres_d_example_d$(OBJ_EXT) $(LDFLAGS)
+min_sphere_of_spheres_d_d$(EXE_EXT): min_sphere_of_spheres_d_d$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)min_sphere_of_spheres_d_d min_sphere_of_spheres_d_d$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
                    benchmark.clean \
-                   min_sphere_of_spheres_d_example_2.clean \
-                   min_sphere_of_spheres_d_example_3.clean \
-                   min_sphere_of_spheres_d_example_d.clean 
+                   min_sphere_of_spheres_d_2.clean \
+                   min_sphere_of_spheres_d_3.clean \
+                   min_sphere_of_spheres_d_d.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

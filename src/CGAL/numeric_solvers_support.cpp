@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/src/CGAL/numeric_solvers_support.cpp $
-// $Id: numeric_solvers_support.cpp 32476 2006-07-13 11:42:26Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/src/CGAL/numeric_solvers_support.cpp $
+// $Id: numeric_solvers_support.cpp 37016 2007-03-11 19:58:35Z afabri $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -34,8 +34,9 @@ CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
 
 static double max_error_value=.00005;
 
+namespace {
 template <bool CLEAN, class NT>
-static inline void compute_quadratic_roots_t(const NT *begin, const NT *end,  NT lb, NT ub,
+inline void compute_quadratic_roots_t(const NT *begin, const NT * /*end*/,  NT lb, NT ub,
 std::vector<NT> &roots)
 {
   NT max_error=0;
@@ -78,6 +79,7 @@ std::vector<NT> &roots)
     }
     }*/
 }
+}
 
 
 void compute_quadratic_roots(const double *begin, const double *end,
@@ -93,9 +95,9 @@ double lb, double ub, std::vector<double> &roots)
     return compute_quadratic_roots_t<true>(begin, end, lb, ub, roots);
 }
 
-
+namespace {
 template <bool CLEAN, class NT>
-static inline void compute_linear_roots_t(const NT *begin, const NT *,
+inline void compute_linear_roots_t(const NT *begin, const NT *,
 					  NT lb, NT ub,
 					  std::vector<NT> &roots)
 {
@@ -107,7 +109,7 @@ static inline void compute_linear_roots_t(const NT *begin, const NT *,
         roots.push_back(r);
     }
 }
-
+}
 
 void compute_linear_roots(const double *begin, const double *end,
 double lb, double ub, std::vector<double> &roots)
@@ -123,8 +125,9 @@ void compute_linear_cleaned_roots(const double *begin, const double *end,
 }
 
 
+namespace {
 template <class NT>
-static inline void filter_roots_t(const NT *begin, const NT *end,
+ inline void filter_roots_t(const NT *begin, const NT *end,
 				  NT lb, NT ub, NT last_root, std::vector<NT> &roots)
 {
 // if we are not close to the current time, then we are fine
@@ -145,11 +148,14 @@ static inline void filter_roots_t(const NT *begin, const NT *end,
     typedef CGAL_POLYNOMIAL_NS::Interval_polynomial IFn;
     typedef CGAL_POLYNOMIAL_NS::internal::Derivative<IFn> Diff;
     typedef typename IFn::NT INT;
-    Interval_arithmetic_guard gd;
+    
+
+    /*bool popped=false;*/
     // if the last valid root is closer than last, consider it as doubtful instead
     if (lb-last_root > roots.back()-lb) {
       last_root= roots.back();
       roots.pop_back();
+      /*popped=true;*/
     } /*else {
       last_root=lb;
       }*/
@@ -164,8 +170,10 @@ static inline void filter_roots_t(const NT *begin, const NT *end,
     } else {
       IFn fi(begin, end);
       if (roots.empty()) {
+	Interval_arithmetic_guard guard;
 	vi = fi((INT(lb)+INT(ub))/2.0);
       } else {
+	Interval_arithmetic_guard guard;
 	vi = fi((INT(last_root)+INT(roots.back()))/2.0);
       }
     }
@@ -174,9 +182,15 @@ static inline void filter_roots_t(const NT *begin, const NT *end,
       return;
     } else if (vi.sup() < 0){
       roots.push_back(last_root);
+    
+      /*if (!popped) {
+	IFn f(begin, end);
+	std::cout << "Adding last due to sign of " << vi << std::endl;
+	std::cout << "last " << last_root << " lb " << lb << " poly " << f << std::endl;
+	}*/
       return;
     }
-
+    Interval_arithmetic_guard guard;
     Diff dx;
     IFn f(begin, end);
     IFn d= dx(f);
@@ -192,9 +206,14 @@ static inline void filter_roots_t(const NT *begin, const NT *end,
     //if (sign(d(roots.back().representation()))==POSITIVE){
     if (dv.sup() < 0) {
         roots.push_back(last_root);
+	/*if (!popped) {
+	  IFn f(begin, end);
+	  std::cout << "Adding last due to deriv of " << vi << std::endl;
+	  std::cout << "last " << last_root << " lb " << lb << " poly " << f << std::endl;
+	  }*/
     }
 }
-
+}
 
 void filter_solver_roots(const double *begin, const double *end,
 			 double lb, double ub, double last,

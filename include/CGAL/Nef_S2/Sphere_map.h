@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_map.h $
-// $Id: Sphere_map.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_map.h $
+// $Id: Sphere_map.h 37248 2007-03-19 09:13:00Z afabri $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-sb.mpg.de>
@@ -33,6 +33,9 @@
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 109
 #include <CGAL/Nef_2/debug.h>
+
+#include<boost/optional.hpp>
+#include<boost/none.hpp>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -126,10 +129,11 @@ public:
   where the function returns |true| iff the assignment of |o| to 
   |h| was valid.}*/
 
-  typedef std::list<Object_handle>             Object_list;
-  typedef typename Object_list::iterator       Object_iterator;
-  typedef typename Object_list::const_iterator Object_const_iterator;
-  typedef Generic_handle_map<Object_iterator>  Handle_to_iterator_map;
+  typedef std::list<Object_handle>                     Object_list;
+  typedef typename Object_list::iterator               Object_iterator;
+  typedef typename Object_list::const_iterator         Object_const_iterator;
+  typedef boost::optional<Object_iterator>             Optional_object_iterator ;
+  typedef Generic_handle_map<Optional_object_iterator> Handle_to_iterator_map;
 
   typedef Sphere_map*       Constructor_parameter;
   typedef const Sphere_map* Constructor_const_parameter;
@@ -227,12 +231,12 @@ public:
   construction means cloning an isomorphic structure and is thus an
   expensive operation.}*/
 
-  Sphere_map(bool b=false) : boundary_item_(undef_), 
+  Sphere_map(bool = false) : boundary_item_(boost::none), 
     svertices_(), sedges_(), sfaces_(), shalfloop_() {}
 
   ~Sphere_map() { clear(); }
 
-  Sphere_map(const Self& D) : boundary_item_(undef_),
+  Sphere_map(const Self& D) : boundary_item_(boost::none),
     svertices_(D.svertices_), 
     sedges_(D.sedges_), 
     sfaces_(D.sfaces_), 
@@ -254,7 +258,7 @@ public:
 
   void clear()
   { 
-    boundary_item_.clear(undef_);
+    boundary_item_.clear(boost::none);
     svertices_.destroy(); 
     sfaces_.destroy();
     while ( shalfedges_begin() != shalfedges_end() )
@@ -264,11 +268,11 @@ public:
 
   template <typename H>
   bool is_sm_boundary_object(H h) const
-  { return boundary_item_[h]!=undef_; }
+  { return boundary_item_[h]!=boost::none; }
 
   template <typename H>
   Object_iterator& sm_boundary_item(H h)
-  { return boundary_item_[h]; }
+  { return *boundary_item_[h]; }
 
   template <typename H>
   void store_sm_boundary_item(H h, Object_iterator o)
@@ -276,8 +280,8 @@ public:
 
   template <typename H>
   void undef_sm_boundary_item(H h)
-  { CGAL_assertion(boundary_item_[h]!=undef_);
-    boundary_item_[h] = undef_; }
+  { CGAL_assertion(boundary_item_[h]!=boost::none);
+    boundary_item_[h] = boost::none; }
 
   void reset_sm_iterator_hash(Object_iterator it)
   { SVertex_handle sv;
@@ -364,7 +368,7 @@ public:
   }
 
   SVertex_alloc vertex_allocator;
-  SVertex* get_vertex_node( const SVertex& t) {
+  SVertex* get_vertex_node( const SVertex& ) {
     SVertex* p = vertex_allocator.allocate(1);
     vertex_allocator.construct( p, SVertex());
     return p;
@@ -375,7 +379,7 @@ public:
   }
 
   SHalfedge_alloc halfedge_allocator;
-  SHalfedge* get_halfedge_node( const SHalfedge& t) {
+  SHalfedge* get_halfedge_node( const SHalfedge& ) {
     SHalfedge* p = halfedge_allocator.allocate(1);
     halfedge_allocator.construct( p, SHalfedge());
     return p;
@@ -386,7 +390,7 @@ public:
   }
 
   SFace_alloc face_allocator;
-  SFace* get_face_node( const SFace& t) {
+  SFace* get_face_node( const SFace& ) {
     SFace* p = face_allocator.allocate(1);
     face_allocator.construct( p, SFace());
     return p;
@@ -478,7 +482,6 @@ public:
 protected:
   void pointer_update(const Self& D);
   Handle_to_iterator_map boundary_item_;
-  static Object_iterator undef_;
 
   SVertex_list       svertices_;
   SHalfedge_list     sedges_;
@@ -566,10 +569,6 @@ pointer_update(const Sphere_map<K, I, M>& D)
     }
   }
 }
-
-template <typename Kernel_, typename Items_, typename Mark_> 
-typename Sphere_map<Kernel_, Items_, Mark_>::Object_iterator
-Sphere_map<Kernel_, Items_, Mark_>::undef_;
 
 
 CGAL_END_NAMESPACE

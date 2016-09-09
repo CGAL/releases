@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Identity_rejectors.h $
-// $Id: Identity_rejectors.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Identity_rejectors.h $
+// $Id: Identity_rejectors.h 37188 2007-03-17 09:37:57Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -53,27 +53,27 @@ struct Identity_edge_rejector
   typedef typename Delaunay_graph::All_edges_iterator     All_edges_iterator;
   typedef typename Delaunay_graph::Finite_edges_iterator  Finite_edges_iterator;
 
-  bool operator()(const Delaunay_graph& dual,
-		  const Face_handle& f, int i) const {
+  bool operator()(const Delaunay_graph& ,
+		  const Face_handle& , int ) const {
     return false;
   }
 
-  bool operator()(const Delaunay_graph& dual, const Edge& e) const {
+  bool operator()(const Delaunay_graph& , const Edge& ) const {
     return false;
   }
 
-  bool operator()(const Delaunay_graph& dual,
-		  const All_edges_iterator& eit) const {
+  bool operator()(const Delaunay_graph& ,
+		  const All_edges_iterator& ) const {
     return false;
   }
 
-  bool operator()(const Delaunay_graph& dual,
-		  const Finite_edges_iterator& eit) const {
+  bool operator()(const Delaunay_graph& ,
+		  const Finite_edges_iterator& ) const {
     return false;
   }
 
-  bool operator()(const Delaunay_graph& dual,
-		  const Edge_circulator& ec) const {
+  bool operator()(const Delaunay_graph& ,
+		  const Edge_circulator& ) const {
     return false;
   }
 };

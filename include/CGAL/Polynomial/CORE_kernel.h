@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/CORE_kernel.h $
-// $Id: CORE_kernel.h 30642 2006-04-18 12:42:52Z lsaboret $ $Date: 2006-04-18 14:42:52 +0200 (Tue, 18 Apr 2006) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/CORE_kernel.h $
+// $Id: CORE_kernel.h 35766 2007-01-20 21:39:01Z drussel $ $Date: 2007-01-20 22:39:01 +0100 (Sat, 20 Jan 2007) $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -30,8 +30,9 @@ CGAL_POLYNOMIAL_BEGIN_NAMESPACE
 
 
 
-
-class CORE_kernel: public Kernel<internal::CORE_polynomial, CORE_Expr_root_stack, CORE::Expr>
+// CORE_Expr_root_stack::FT
+class CORE_kernel: public Kernel<internal::CORE_polynomial, CORE_Expr_root_stack,
+				 CORE::Expr >
 {
   typedef CORE_kernel This;
   typedef Kernel<internal::CORE_polynomial, CORE_Expr_root_stack, CORE::Expr> P;

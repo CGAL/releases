@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/demo/Nef_2/nef_2_layers.h $
-// $Id: nef_2_layers.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/demo/Nef_2/nef_2_layers.h $
+// $Id: nef_2_layers.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Radu Ursu
 
@@ -23,23 +23,23 @@
 template <class Nef_polyhedron>
 class Qt_layer_nef_blue : public CGAL::Qt_widget_layer
 {
-public:	
+public:
   Qt_layer_nef_blue(Nef_polyhedron &n): Nef(n){}
   void draw()
-  {    
+  {
     *widget << CGAL::FillColor(CGAL::BLUE) << CGAL::GREEN;
     widget->setRasterOp(XorROP);
     *widget << Nef;
-  };	
+  };
 private:
   Nef_polyhedron &Nef;
-};//end class 
+};//end class
 
 template <class Nef_polyhedron>
 class Qt_layer_nef_gray : public CGAL::Qt_widget_layer
 {
 public:
-	
+
   Qt_layer_nef_gray(Nef_polyhedron &n): Nef(n){}
   void draw()
   {
@@ -49,4 +49,4 @@ public:
   }
 private:
   Nef_polyhedron &Nef;
-};//end class 
+};//end class

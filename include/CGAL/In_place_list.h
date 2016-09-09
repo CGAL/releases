@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/STL_Extension/include/CGAL/In_place_list.h $
-// $Id: In_place_list.h 28783 2006-02-25 23:25:27Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/STL_Extension/include/CGAL/In_place_list.h $
+// $Id: In_place_list.h 37265 2007-03-19 14:42:00Z afabri $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -228,20 +228,29 @@ protected:
 
   // These are the only places where the allocator gets called.
   pointer get_node() {
-    // was: return new T;
     pointer p = allocator.allocate(1);
+#ifdef CGAL_USE_ALLOCATOR_CONSTRUCT_DESTROY
     allocator.construct(p, value_type());
+#else
+    new (p) value_type;
+#endif
     return p;
   }
   pointer get_node( const T& t) {
-    // was: return new T(t);
     pointer p = allocator.allocate(1);
+#ifdef CGAL_USE_ALLOCATOR_CONSTRUCT_DESTROY
     allocator.construct(p, t);
+#else
+    new (p) value_type(t);
+#endif
     return p;
   }
   void put_node( pointer p) {
-    // was: delete p;
+#ifdef CGAL_USE_ALLOCATOR_CONSTRUCT_DESTROY  
     allocator.destroy( p);
+#else 
+   p->~value_type();
+#endif
     allocator.deallocate( p, 1);
   }
 

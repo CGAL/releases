@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Stream_lines_2/include/CGAL/Euler_integrator_2.h $
-// $Id: Euler_integrator_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Stream_lines_2/include/CGAL/Euler_integrator_2.h $
+// $Id: Euler_integrator_2.h 37186 2007-03-17 09:27:09Z afabri $
 // 
 //
 // Author(s)     : Abdelkrim Mebarki <Abdelkrim.Mebarki@sophia.inria.fr>
@@ -82,7 +82,7 @@ Euler_integrator_2<Vector_field>::Euler_integrator_2(const FT & integration_step
 template <class Vector_field>
 inline typename Euler_integrator_2<Vector_field>::Point_2 
 Euler_integrator_2<Vector_field>::operator()
-  (const Point_2 & p, const Vector_field_2 & vector_field_2, const FT & integration_step, Vector_2 v, const bool & index) const
+  (const Point_2 & p, const Vector_field_2 & , const FT & integration_step, Vector_2 v, const bool & index) const
 {
   if (!index)
     {

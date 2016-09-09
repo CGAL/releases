@@ -11,15 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Alpha_shapes_2/demo/Alpha_shapes_2/cgal_types.h $
-// $Id: cgal_types.h 30944 2006-05-02 19:34:49Z afabri $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Alpha_shapes_2/demo/Alpha_shapes_2/cgal_types.h $
+// $Id: cgal_types.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Radu Ursu
 
 //CGAL
 #include <CGAL/Cartesian.h>
-#include <CGAL/squared_distance_2.h> 
+#include <CGAL/squared_distance_2.h>
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <CGAL/Regular_triangulation_2.h>
 #include <CGAL/Regular_triangulation_vertex_base_2.h>
@@ -28,8 +28,8 @@
 #include <CGAL/Triangulation_face_base_2.h>
 #include <CGAL/Triangulation_euclidean_traits_2.h>
 #include <CGAL/Alpha_shape_2.h>
-#include <CGAL/Alpha_shape_vertex_base_2.h> 
-#include <CGAL/Alpha_shape_face_base_2.h> 
+#include <CGAL/Alpha_shape_vertex_base_2.h>
+#include <CGAL/Alpha_shape_face_base_2.h>
 #include <CGAL/Weighted_alpha_shape_euclidean_traits_2.h>
 #include <CGAL/Weighted_point.h>
 #include <CGAL/point_generators_2.h>
@@ -41,7 +41,7 @@ typedef CGAL::Cartesian<Coord_type> Rep;
 typedef Rep::Point_2                Point_2;
 typedef Rep::Segment_2              Segment;
 typedef Rep::Line_2                 Line;
-typedef Rep::Triangle_2             Triangle; 
+typedef Rep::Triangle_2             Triangle;
 
 typedef Rep::Less_xy_2              Point_compare;
 typedef CGAL::Triangulation_2<Rep>  Triangulation;
@@ -53,7 +53,7 @@ typedef CGAL::Alpha_shape_vertex_base_2<Gt_w>              Av;
 typedef CGAL::Regular_triangulation_vertex_base_2<Gt_w, Av> Av_w;
 typedef CGAL::Regular_triangulation_face_base_2<Gt_w>      Rf_w;
 typedef CGAL::Alpha_shape_face_base_2<Gt_w,Rf_w>           Af_w;
-typedef CGAL::Triangulation_default_data_structure_2<Gt_w,Av_w,Af_w> 
+typedef CGAL::Triangulation_default_data_structure_2<Gt_w,Av_w,Af_w>
                                                            Tds_w;
 typedef CGAL::Regular_triangulation_2<Gt_w,Tds_w>          Rt_w;
 typedef CGAL::Alpha_shape_2<Rt_w>                          Alpha_shape_w;
@@ -83,5 +83,3 @@ typedef Alpha_shape::Vertex_iterator                       Vertex_iterator;
 typedef Alpha_shape::Edge_iterator                         Edge_iterator;
 typedef Alpha_shape::Edge_circulator                       Edge_circulator;
 typedef Alpha_shape::Alpha_iterator                        Alpha_iterator;
-
-

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_segment.h $
-// $Id: Sphere_segment.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_segment.h $
+// $Id: Sphere_segment.h 36309 2007-02-15 16:03:18Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -206,6 +206,7 @@ bool is_halfcircle() const { return source().antipode() == target(); }
 
 bool has_on(const Sphere_point<R>& p) const;
 /*{\Mop return true iff |\Mvar| contains |p|.}*/
+bool has_on_after_intersection(const Sphere_point<R>& p) const;
 
 bool has_in_relative_interior(const Sphere_point<R>& p) const;
 /*{\Mop return true iff |\Mvar| contains |p| in
@@ -295,6 +296,19 @@ has_on(const CGAL::Sphere_point<R>& p) const
                        sphere_circle().orthogonal_vector(),p) !=
            CGAL::NEGATIVE;
   }
+}
+
+template <typename R> 
+bool Sphere_segment<R>::
+has_on_after_intersection(const CGAL::Sphere_point<R>& p) const {
+    return orientation(Point_3(0,0,0),
+                       CGAL::ORIGIN + sphere_circle().orthogonal_vector(),
+                       source(),p) !=
+           CGAL::NEGATIVE &&
+           orientation(Point_3(0,0,0),target(),
+                       CGAL::ORIGIN + 
+                       sphere_circle().orthogonal_vector(),p) !=
+           CGAL::NEGATIVE;
 }
 
 template <typename R> 

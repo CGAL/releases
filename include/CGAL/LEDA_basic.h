@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/LEDA/include/CGAL/LEDA_basic.h $
-// $Id: LEDA_basic.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/LEDA/include/CGAL/LEDA_basic.h $
+// $Id: LEDA_basic.h 33222 2006-08-10 15:14:32Z ameyer $
 // 
 //
 // Author(s)     : Matthias Baesken
@@ -28,7 +28,11 @@
 // The following is needed for LEDA 4.4 due to min/max problems...
 #  define LEDA_NO_MIN_MAX_TEMPL
 
+#if CGAL_LEDA_VERSION < 500
 #include <LEDA/basic.h>
+#else
+#include <LEDA/system/basic.h>
+#endif
 
 #ifdef LEDA_NAMESPACE
 #  define CGAL_LEDA_SCOPE  leda

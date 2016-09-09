@@ -11,17 +11,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Partition_2/include/CGAL/Partition_traits_2.h $
-// $Id: Partition_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Partition_2/include/CGAL/Partition_traits_2.h $
+// $Id: Partition_traits_2.h 36337 2007-02-15 21:29:22Z spion $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
-#ifndef PARTITION_TRAITS_2_H
-#define PARTITION_TRAITS_2_H
+#ifndef CGAL_PARTITION_TRAITS_2_H
+#define CGAL_PARTITION_TRAITS_2_H
 
 #include <CGAL/Polygon_2.h>
-#include <CGAL/Partition_traits_2_base.h>
+#include <CGAL/Partition_2/Partition_traits_2_base.h>
 #include <CGAL/polygon_function_objects.h>
 #include <list>
 
@@ -117,4 +117,4 @@ class Partition_traits_2  : public Partition_traits_2_base<Kernel_>
 
 }
 
-#endif // PARTITION_TRAITS_2_H
+#endif // CGAL_PARTITION_TRAITS_2_H

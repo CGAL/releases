@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/predicates_on_points_2.h $
-// $Id: predicates_on_points_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/predicates_on_points_2.h $
+// $Id: predicates_on_points_2.h 32839 2006-07-31 16:22:08Z spion $
 // 
 //
 // Author(s)     : Herve Bronnimann
@@ -37,6 +37,8 @@ equal_xy(const PointC2<K> &p, const PointC2<K> &q)
   return p.x() == q.x() && p.y() == q.y();
 }
 
+#if 0
+// Unused, undocumented, un-functorized.
 template < class K >
 inline
 Comparison_result
@@ -47,14 +49,7 @@ compare_deltax_deltay(const PointC2<K>& p,
 {
   return compare_deltax_deltayC2(p.x(), q.x(), r.y(), s.y());
 }
-
-template < class K >
-inline
-Comparison_result
-compare_yx(const PointC2<K> &p, const PointC2<K> &q)
-{
-  return compare_lexicographically_xyC2(p.y(), p.x(), q.y(), q.x());
-}
+#endif
 
 template < class K >
 inline

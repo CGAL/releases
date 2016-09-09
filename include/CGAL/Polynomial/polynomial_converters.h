@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/polynomial_converters.h $
-// $Id: polynomial_converters.h 29885 2006-03-31 09:43:50Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/polynomial_converters.h $
+// $Id: polynomial_converters.h 38297 2007-04-18 13:29:18Z glisse $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -29,7 +29,7 @@ CGAL_POLYNOMIAL_BEGIN_NAMESPACE
 
 //! from P1 to P2
 template<class P1, class P2, class Converter_t =
-	 NT_converter<typename P1::NT,typename P2::NT> >
+	 CGAL_POLYNOMIAL_NS::NT_converter<typename P1::NT,typename P2::NT> >
 class Polynomial_converter
 {
   class Iterator

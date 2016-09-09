@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/predicates_on_pointsH2.h $
-// $Id: predicates_on_pointsH2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/predicates_on_pointsH2.h $
+// $Id: predicates_on_pointsH2.h 32839 2006-07-31 16:22:08Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -44,33 +44,6 @@ equal_xy(const PointH2<R>& p,
   return (p.hx()*qhw == q.hx()*phw) && (p.hy()*qhw == q.hy()*phw);
 }
 
-template < class R>
-CGAL_KERNEL_INLINE
-Comparison_result
-compare_yx(const PointH2<R>& p, const PointH2<R>& q)
-{
-  typedef typename R::RT RT;
-
-  const RT& phx = p.hx();
-  const RT& phy = p.hy();
-  const RT& phw = p.hw();
-  const RT& qhx = q.hx();
-  const RT& qhy = q.hy();
-  const RT& qhw = q.hw();
-
-  RT pV = phy*qhw;
-  RT qV = qhy*phw;
-  if ( pV == qV )
-  {
-      pV = phx*qhw;
-      qV = qhx*phw;
-  }
-  if ( pV < qV )
-      return SMALLER;
-  else
-      return ( qV < pV ) ? LARGER : EQUAL;
-}
-
 template <class R>
 CGAL_KERNEL_MEDIUM_INLINE
 Oriented_side
@@ -86,6 +59,8 @@ _where_wrt_L_wedge( const PointH2<R>& p, const PointH2<R>& q )
   return ON_ORIENTED_BOUNDARY;
 }
 
+#if 0
+// Unused, undocumented, un-functorized.
 template < class R >
 CGAL_KERNEL_MEDIUM_INLINE
 Comparison_result
@@ -98,6 +73,7 @@ compare_deltax_deltay(const PointH2<R>& p,
                   CGAL_NTS abs(p.hx()*q.hw() - q.hx()*p.hw()) * r.hw()*s.hw(),
                   CGAL_NTS abs(r.hy()*s.hw() - s.hy()*r.hw()) * p.hw()*q.hw());
 }
+#endif
 
 CGAL_END_NAMESPACE
 

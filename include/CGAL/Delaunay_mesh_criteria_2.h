@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2004  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Delaunay_mesh_criteria_2.h $
-// $Id: Delaunay_mesh_criteria_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Delaunay_mesh_criteria_2.h $
+// $Id: Delaunay_mesh_criteria_2.h 34923 2006-10-25 15:41:37Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -61,6 +61,8 @@ public:
     Mesh_2::Face_badness operator()(const Face_handle& fh,
 				    Quality& q) const
     {
+      // return the *squared* sinus of the smallest angle of the triangle
+
       typedef typename Tr::Geom_traits Geom_traits;
       typedef typename Geom_traits::Compute_area_2 Compute_area_2;
       typedef typename Geom_traits::Compute_squared_distance_2
@@ -83,7 +85,7 @@ public:
       const Point_2& pc = fh->vertex(2)->point();
 
       double area = 2*CGAL::to_double(area_2(pa, pb, pc));
-      area=area*area; // area = 4 * area(triangle)
+      area=area*area; // area = 4 * area^2(triangle)
 
       double a = CGAL::to_double(squared_distance(pb, pc));
       double b = CGAL::to_double(squared_distance(pc, pa));

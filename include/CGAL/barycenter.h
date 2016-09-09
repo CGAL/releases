@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Principal_component_analysis/include/CGAL/barycenter.h $
-// $Id: barycenter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Principal_component_analysis/include/CGAL/barycenter.h $
+// $Id: barycenter.h 37156 2007-03-16 10:32:04Z afabri $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -40,7 +40,7 @@ CGAL_BEGIN_NAMESPACE
 // This one takes an iterator range over std::pair<K::Point_[23], K::FT>
 template < typename InputIterator, typename K >
 typename std::iterator_traits<InputIterator>::value_type::first_type
-barycenter(InputIterator begin, InputIterator end, const K & k)
+barycenter(InputIterator begin, InputIterator end, const K & )
 {
   typedef typename std::iterator_traits<InputIterator>::value_type  pair;
   typedef typename pair::second_type                                FT;
@@ -69,7 +69,7 @@ template < typename PointInputIterator, typename WeightInputIterator,
            typename K >
 typename std::iterator_traits<PointInputIterator>::value_type
 barycenter(PointInputIterator begin, PointInputIterator end,
-           WeightInputIterator wbegin, const K & k)
+           WeightInputIterator wbegin, const K & )
 {
   typedef typename std::iterator_traits<PointInputIterator>::value_type  Point;
   typedef typename std::iterator_traits<WeightInputIterator>::value_type FT;

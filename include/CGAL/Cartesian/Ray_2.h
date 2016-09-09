@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Ray_2.h $
-// $Id: Ray_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Ray_2.h $
+// $Id: Ray_2.h 33240 2006-08-11 09:01:04Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -34,7 +34,6 @@ class RayC2
   typedef typename R_::FT                   FT;
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Ray_2                Ray_2;
-  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
   typedef Twotuple<Point_2>                        Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -63,53 +62,14 @@ public:
   {
     return get(base).e1;
   }
-  
-  Ray_2 
-  transform(const Aff_transformation_2 &t) const
+
+  bool is_degenerate() const
   {
-    return Ray_2(t.transform(source()), t.transform(second_point()));
+    return source() == second_point();
   }
+
 };
-
-
-#ifndef CGAL_NO_OSTREAM_INSERT_RAYC2
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const RayC2<R> &r)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << r.source() << ' ' << r.second_point();
-    case IO::BINARY :
-        return os << r.source() << r.second_point();
-    default:
-        return os << "RayC2(" << r.source() <<  ", " << r.second_point() << ")";
-    }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_RAYC2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_RAYC2
-template < class R >
-std::istream &
-operator>>(std::istream &is, RayC2<R> &r)
-{
-    typename R::Point_2 p, q;
-
-    is >> p >> q;
-
-    if (is)
-	r = RayC2<R>(p, q);
-    return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_RAYC2
-
 
 CGAL_END_NAMESPACE
 
 #endif // CGAL_CARTESIAN_RAY_2_H
-
-
-
-
-
-

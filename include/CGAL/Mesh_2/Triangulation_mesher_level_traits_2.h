@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Mesh_2/Triangulation_mesher_level_traits_2.h $
-// $Id: Triangulation_mesher_level_traits_2.h 30303 2006-04-13 16:07:19Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Mesh_2/Triangulation_mesher_level_traits_2.h $
+// $Id: Triangulation_mesher_level_traits_2.h 31451 2006-06-06 13:23:54Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -49,6 +49,9 @@ struct Triangulation_mesher_level_traits_2 :
     typedef typename Faces::iterator Faces_iterator;
     typedef typename Edges::iterator Edges_iterator;
 
+    typename Tr::Locate_type locate_type;
+    Face_handle fh;
+    int i;
     Faces faces;
     Edges boundary_edges;
   };
@@ -59,6 +62,8 @@ struct Triangulation_mesher_level_traits_2 :
     std::cerr << "insert(" << p << "): " 
               << zone.boundary_edges.size() << " edges." << std::endl;
 #endif
+    if( zone.locate_type == Tr::VERTEX )
+      return zone.fh->vertex(zone.i);
     return triangulation_ref_impl().
       star_hole(p,
 		zone.boundary_edges.begin(),

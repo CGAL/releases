@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Mesh_2/Refine_faces.h $
-// $Id: Refine_faces.h 30303 2006-04-13 16:07:19Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Mesh_2/Refine_faces.h $
+// $Id: Refine_faces.h 37089 2007-03-14 18:53:37Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -23,6 +23,9 @@
 #include <CGAL/Mesh_2/Face_badness.h>
 #include <CGAL/Double_map.h>
 #include <boost/iterator/transform_iterator.hpp>
+
+#include <string>
+#include <sstream>
 
 namespace CGAL {
 
@@ -114,6 +117,8 @@ public:
   Zone conflicts_zone_impl(const Point& p, Face_handle fh)
   {
     Zone zone;
+
+    zone.fh = triangulation_ref_impl().locate(p, zone.locate_type, zone.i, fh);
 
     triangulation_ref_impl().
       get_conflicts_and_boundary(p,
@@ -402,6 +407,20 @@ public:
 
   bool check_bad_faces()
   {
+    struct Output_bad_face {
+      std::string operator()(typename Tr::Face_handle fh)
+      {
+	std::stringstream str;
+	
+	str << "("
+	    << fh->vertex(0)->point() << ", "
+            << fh->vertex(1)->point() << ", "
+            << fh->vertex(2)->point()
+	    << ")";
+	return str.str();
+      }
+    };
+
     CGAL_assertion_code
       (typename Geom_traits::Orientation_2 orientation =
        this->triangulation_ref_impl().geom_traits().orientation_2_object()
@@ -419,7 +438,7 @@ public:
                     << (*fit)->vertex(2)->point()<< ") == true"
                     << std::endl;
           std::cerr << "Dump of bad_faces:" << std::endl;
-          this->bad_faces.dump_direct_func(std::cerr);
+          this->bad_faces.dump_direct_func(std::cerr, Output_bad_face());
 
           return false;
         }

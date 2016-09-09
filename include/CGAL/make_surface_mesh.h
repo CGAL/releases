@@ -1,4 +1,4 @@
-// Copyright (c) 2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2006-2007  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesher/include/CGAL/make_surface_mesh.h $
-// $Revision: 30642 $ $Date: 2006-04-18 14:42:52 +0200 (Tue, 18 Apr 2006) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/make_surface_mesh.h $
+// $Id: make_surface_mesh.h 37876 2007-04-03 13:59:17Z lrineau $
 //
 // Author(s)     : Laurent Rineau
 
@@ -22,10 +22,11 @@
 #include <CGAL/Surface_mesher/Surface_mesher.h>
 #include <CGAL/Surface_mesher/Surface_mesher_manifold.h>
 #include <CGAL/Surface_mesh_traits_generator_3.h>
+#include <CGAL/Surface_mesh_complex_2_in_triangulation_3.h>
+
 #include <CGAL/Surface_mesh_cell_base_3.h>
 #include <CGAL/Surface_mesh_vertex_base_3.h>
-#include <CGAL/Delaunay_triangulation_3.h>
-#include <CGAL/Surface_mesh_complex_2_in_triangulation_3.h>
+
 #include <CGAL/Surface_mesh_default_criteria_3.h>
 
 #include <CGAL/iterator.h> // CGAL::inserter()
@@ -125,8 +126,8 @@ template <typename C2T3,
 	  typename Criteria,
 	  typename Tag>
 void make_surface_mesh(C2T3& c2t3,
-                       Surface surface,
-                       Criteria criteria,
+                       const Surface& surface,
+                       const Criteria& criteria,
                        Tag tag,
                        int initial_number_of_points = 20)  // TODO: document
                                                            // this parameter
@@ -142,9 +143,9 @@ template <typename C2T3,
           typename Criteria,
           typename Tag>
 void make_surface_mesh(C2T3& c2t3,
-                       typename SurfaceMeshTraits_3::Surface_3 surface,
-		       SurfaceMeshTraits_3 surface_mesh_traits,
-                       Criteria criteria,
+                       const typename SurfaceMeshTraits_3::Surface_3& surface,
+		       const SurfaceMeshTraits_3& surface_mesh_traits,
+                       const Criteria& criteria,
                        Tag,
                        int initial_number_of_points = 20)
 {

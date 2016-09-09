@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Algebraic_kernel/include/CGAL/Polynomials_1_2.h $
-// $Id: Polynomials_1_2.h 28727 2006-02-23 14:52:22Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Algebraic_kernel_for_circles/include/CGAL/Polynomials_1_2.h $
+// $Id: Polynomials_1_2.h 33727 2006-08-25 09:02:22Z pmachado $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion
 
@@ -22,8 +22,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 
-#ifndef CGAL_ALGEBRAIC_KERNEL_POLYNOMIALS_1_2_H
-#define CGAL_ALGEBRAIC_KERNEL_POLYNOMIALS_1_2_H
+#ifndef CGAL_ALGEBRAIC_KERNEL_FOR_CIRCLES_POLYNOMIALS_1_2_H
+#define CGAL_ALGEBRAIC_KERNEL_FOR_CIRCLES_POLYNOMIALS_1_2_H
 
 #include <CGAL/enum.h>
 
@@ -69,4 +69,4 @@ operator == ( const Polynomial_1_2<RT> & p1,
     
 CGAL_END_NAMESPACE
 
-#endif //CGAL_ALGEBRAIC_KERNEL_POLYNOMIALS_1_2_H
+#endif //CGAL_ALGEBRAIC_KERNEL_FOR_CIRCLES_POLYNOMIALS_1_2_H

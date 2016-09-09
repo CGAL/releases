@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Sign_between_roots.h $
-// $Id: Sign_between_roots.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/Sign_between_roots.h $
+// $Id: Sign_between_roots.h 35780 2007-01-24 04:44:16Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -28,25 +28,27 @@ CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
 template <class K>
 struct Sign_between_roots
 {
-    typedef CGAL_POLYNOMIAL_NS::Sign result_type;
-    typedef typename K::Function argument_type;
+  typedef CGAL::Sign result_type;
+  typedef typename K::Root second_argument_type;
+  typedef typename K::Root third_argument_type;
+  typedef typename K::Function first_argument_type;
 
-    Sign_between_roots(){}
-    Sign_between_roots(const typename K::Root &r0,
-        const typename K::Root &r1,
-    const K &k): k_(k) {
-        typename K::Rational_between_roots rbr= k.rational_between_roots_object();
-        rat_= rbr(r0,r1);
-    }
+  Sign_between_roots(){}
+  Sign_between_roots(const K &k): k_(k) {
+  
+  }
 
-    result_type operator()(const argument_type &f) const
-    {
-        typename K::Sign_at sa= k_.sign_at_object(f);
-        return sa(rat_);
-    }
-    protected:
-        typename K::NT rat_;
-        K k_;
+  result_type operator()(const first_argument_type &f,
+			 const second_argument_type &r0,
+			 const third_argument_type &r1) const
+  {
+    typename K::Rational_between_roots rbr= k_.rational_between_roots_object();
+    typename K::FT rat= rbr(r0,r1);
+    CGAL_postcondition(second_argument_type(rat) > r0 && second_argument_type(rat) < r1);
+    return k_.sign_at_object()(f, rat);
+  }
+protected:
+  K k_;
 };
 
 CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE

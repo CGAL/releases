@@ -1,4 +1,4 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003-2007  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher.h $
-// $Id: Surface_mesher.h 30667 2006-04-19 16:56:12Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher.h $
+// $Id: Surface_mesher.h 38107 2007-04-12 15:50:19Z lrineau $
 //
 //
 // Author(s) : Steve Oudot,
@@ -75,9 +75,9 @@ namespace CGAL {
 
     // Constructor
     Surface_mesher_base (C2T3& co, 
-                         Surface& s, 
-                         Surface_mesh_traits mesh_traits,
-                         Criteria& c) :
+                         const Surface& s, 
+                         const Surface_mesh_traits& mesh_traits,
+                         const Criteria& c) :
       Triangulation_mesher_level_traits_3<Tr>(co.triangulation()),
       c2t3(co),
       tr(co.triangulation()),
@@ -93,9 +93,9 @@ namespace CGAL {
   protected:
     C2T3& c2t3;
     Tr& tr;     // Associated triangulation reference
-    Surface& surf;  // Surface
-    Surface_mesh_traits meshtraits; // Surface mesh traits
-    Criteria& criteria;  // Meshing criteria
+    const Surface& surf;  // Surface
+    const Surface_mesh_traits& meshtraits; // Surface mesh traits
+    const Criteria& criteria;  // Meshing criteria
     Bad_facets facets_to_refine;  // Set of facets to refine
 
   public:
@@ -154,36 +154,9 @@ namespace CGAL {
       for (Finite_facets_iterator fit = tr.finite_facets_begin(); fit !=
 	     tr.finite_facets_end(); ++fit) {
 	if (tr.dimension() == 3) {
-	  Facet other_side = mirror_facet(*fit);
-
-	  set_facet_visited(*fit);
-	  set_facet_visited(other_side);
-	  //(*fit).first->set_facet_visited((*fit).second);
-	  //c->set_facet_visited(other_side.second);
-
-	  if (is_facet_on_surface(*fit, center)) {
-	    c2t3.set_in_complex(*fit);
-	    set_facet_surface_center((*fit), center);
-	    set_facet_surface_center(other_side, center);
-	    //(*fit).first->set_facet_on_surface((*fit).second,true);
-	    //(*fit).first->set_surface_center_facet((*fit).second,center);
-
-	    //c->set_facet_on_surface(other_side.second,true);
-	    //c->set_surface_center_facet(other_side.second,center);
-
-            Quality a_r;
-            if (criteria.is_bad (*fit, a_r)) {
-               // @TODO, @WARNING: why do we insert the two sides of facets?!
-	      facets_to_refine.insert(*fit,a_r);
-	      facets_to_refine.insert(other_side,a_r);
-	    }
-	  }
-
-	  else {
-	    c2t3.remove_from_complex(*fit);
-	    //(*fit).first->set_facet_on_surface((*fit).second,false);
-	    //c->set_facet_on_surface(other_side.second,false);
-	  }
+          new_facet<true>(*fit);
+          // see definition of
+          // template <bool> new_facet()
 	}
 	else {
 	  CGAL_assertion (tr.dimension() == 2);
@@ -225,6 +198,9 @@ namespace CGAL {
     // From the element to refine, gets the point to insert
     Point refinement_point_impl(const Facet& f) const
       {
+#ifdef CGAL_MESHES_DEBUG_REFINEMENT_POINTS
+        std::cerr << "point from Surface_mesher: ";
+#endif
 	CGAL_assertion (c2t3.face_status(f) == C2T3::REGULAR);
 	//CGAL_assertion (f.first->is_facet_on_surface (f.second));
 	return get_facet_surface_center (f);
@@ -288,37 +264,42 @@ namespace CGAL {
       if (c2t3.face_status(f) == C2T3::REGULAR)
 	{
 	  const Cell_handle& c = f.first;
-	  const int index = f.second;
+	  const int& index = f.second;
 
 	  typename GT::Compute_squared_distance_3 distance =
 	    tr.geom_traits().compute_squared_distance_3_object();
 
-// 	  std::cerr << "testing conflict... \n";
 	  // test Delaunay surfacique
 	  Point center = get_facet_surface_center(f);
-	  if( distance(center, p) <
-	      distance(center, c->vertex((index+1)&3)->point()) )
+
+          for(bool exit = false; ; exit = true)
+          {
+            // this for loop is a trick to pass in the following "if" once
+            // with center="surface center", and once with
+            // center="circumcenter"
+
+            if( distance(center, p) <
+                distance(center, c->vertex((index+1)&3)->point()) )
 	    {
-// 	      Quality q = criteria.quality(f);
               Quality q;
               criteria.is_bad(f, q); // to get q (passed as reference)
-	      facets_to_refine.insert(f, q);
+              Facet other_side = mirror_facet(f);
+              if(f.first < other_side.first)
+                facets_to_refine.insert(f, q);
+              else
+                facets_to_refine.insert(other_side, q);
 	      return true;
 	    }
-	  // test Gabriel
-	  center = tr.geom_traits().construct_circumcenter_3_object()
-	    (c->vertex((index+1)&3)->point(),
-	     c->vertex((index+2)&3)->point(),
-	     c->vertex((index+3)&3)->point());
-	  if( distance(center, p) <
-	      distance(center, c->vertex((index+1)&3)->point()) )
-	    {
-// 	      Quality q = criteria.quality(f);
-              Quality q;
-              criteria.is_bad(f, q); // to get q (passed as reference)
-	      facets_to_refine.insert(f, q);
-	      return true;
-	    }
+
+            if(exit)
+              return false;
+
+            // test Gabriel
+            center = tr.geom_traits().construct_circumcenter_3_object()
+              (c->vertex((index+1)&3)->point(),
+               c->vertex((index+2)&3)->point(),
+               c->vertex((index+3)&3)->point());
+          }
 	}
       return false;
     }
@@ -343,9 +324,6 @@ namespace CGAL {
     // Deletes old facets from the restricted Delaunay triangulation
 
     void before_insertion_impl(const Facet&, const Point& s, Zone& zone) {
-
-      // DEBUG: on ajoute un espace
-      //std::cout << " ";
 
       CGAL_assertion_code(Vertex_handle v);
       CGAL_assertion (!tr.is_vertex(s,v));
@@ -408,9 +386,6 @@ namespace CGAL {
       }
 
 
-      // DEBUG: on ajoute un espace
-      //std::cout << " ";
-
     } // restore_restricted_Delaunay end
 
 
@@ -437,8 +412,10 @@ namespace CGAL {
       Facet other_side = mirror_facet(f);
 
       // On enleve la facette de la liste des mauvaises facettes
-      facets_to_refine.erase(f);
-      facets_to_refine.erase(other_side);
+      if(f.first < other_side.first)
+        facets_to_refine.erase(f);
+      else
+        facets_to_refine.erase(other_side);
 
       // Le compteur des visites est remis a zero
        reset_visited(f);
@@ -468,6 +445,12 @@ namespace CGAL {
       if (tr.is_infinite(f) || is_facet_visited(f))
 	return;
 
+      new_facet<false>(f);
+    }
+
+    // Action to perform on any new facet
+    template <bool remove_from_complex_if_not_in_rectricted_Delaunay>
+    void new_facet (const Facet& f) {
       Facet other_side = mirror_facet(f);
 
       // NB: set_facet_visited() is implementation dependant
@@ -494,15 +477,15 @@ namespace CGAL {
 	// On regarde alors si la facette est bonne
         Quality a_r;
 	if (criteria.is_bad (f, a_r)) {
-          // @TODO, @WARNING: same as above, why the two sides?!
-	  facets_to_refine.insert (f, a_r);
-	  facets_to_refine.insert (other_side, a_r);
+          if(f.first < other_side.first)
+            facets_to_refine.insert (f, a_r);
+          else
+            facets_to_refine.insert (other_side, a_r);
 	}
       }
-
-      // Else the facet is not a restricted Delaunay facet. However,
-      // since it was removed before the insertion of the new vertex,
-      // it is not in the complex nor in the list of bad facets, by default
+      else
+        if( remove_from_complex_if_not_in_rectricted_Delaunay )
+          c2t3.remove_from_complex(f);
     }
 
     // Action to perform on a facet opposite to the new vertex
@@ -530,42 +513,41 @@ namespace CGAL {
       typename GT::Ray_3 ray;
       typename GT::Line_3 line;
 
+      Object intersection;
       // If the dual is a segment
       if (assign(segment, dual)) {
-	Object intersection = intersect(surf, segment);
-	if (assign(center,intersection))
-	  return true;
+	intersection = intersect(surf, segment);
       }
-
       // If the dual is a ray
       else if(assign(ray, dual)) {
-	Object intersection = intersect(surf, ray);
-	//std::cerr << "intersection: " << std::endl;
-	if (assign(center,intersection))
-	  return true;
-      }
+        // If a facet is on the convex hull, and if its finite incident
+        // cell has a very bid Delaunay ball, then the dual of the facet is
+        // a ray constructed with a point with very big coordinates, and a
+        // vector with small coordinates. Its can happen than the
+        // constructed ray is degenerate (the point(1) of the ray is
+        // point(0) plus a vector whose coordinates are espilon).
+        typename GT::Is_degenerate_3 is_degenerate;
+        if(is_degenerate(ray)) return false;
 
+	intersection = intersect(surf, ray);
+      }
       // If the dual is a line
       else if(assign(line, dual)) {
-	Object intersection = intersect(surf, line);
-	if (assign(center,intersection))
-	  return true;
+	intersection = intersect(surf, line);
       }
-
       // Else there is a problem with the dual
       else {
         CGAL_assertion(false);
       }
 
-      return false;
+      return assign(center,intersection);
     }
-
 
   protected:
 
 
     // Checks restricted Delaunay triangulation
-    void check_restricted_delaunay () {
+    bool check_restricted_delaunay () {
       for (Finite_facets_iterator fit = tr.finite_facets_begin(); fit !=
 	     tr.finite_facets_end(); ++fit) {
 	Facet other_side = mirror_facet(*fit);
@@ -574,10 +556,9 @@ namespace CGAL {
 	//CGAL_assertion (fit->first->is_facet_on_surface (fit->second) ==
 	//		other_side.first->is_facet_on_surface
 	//		(other_side.second));
-	bool restr, restr_bis;
 	Point center;
-	restr = is_facet_on_surface(*fit, center);
-	restr_bis = is_facet_on_surface(other_side, center);
+	const bool restr = is_facet_on_surface(*fit, center);
+	const bool restr_bis = is_facet_on_surface(other_side, center);
 	CGAL_assertion (restr == restr_bis);
 	CGAL_assertion ((c2t3.face_status(*fit)
 			 == C2T3::REGULAR) == restr);
@@ -596,9 +577,10 @@ namespace CGAL {
 		    << is_facet_on_surface(*fit, center)
 		    << ")"
 		    << std::endl;
-	  std::exit (-1);
+	  return false;
 	}
       }
+      return true;
     }
 
     std::string debug_info() const
@@ -608,6 +590,10 @@ namespace CGAL {
       return s.str();
     }
 
+    static std::string debug_info_header()
+    {
+      return "number of facets";
+    }
   };  // end Surface_mesher_base
 
     namespace details {
@@ -629,13 +615,11 @@ namespace CGAL {
       
     } // end namespace details
 
-    enum Debug_flag { DEBUG, NO_DEBUG};
     enum Verbose_flag { VERBOSE, NOT_VERBOSE};
 
   template <
     typename Base,
-    Verbose_flag verbose = NOT_VERBOSE,
-    Debug_flag debug = NO_DEBUG
+    Verbose_flag verbose = NOT_VERBOSE
     >
   struct Surface_mesher
     : public Base,
@@ -670,9 +654,9 @@ namespace CGAL {
 
   public:
     Surface_mesher(C2T3& c2t3,
-                   Surface& surface,
-                   Surface_mesh_traits mesh_traits,
-                   Criteria& criteria)
+                   const Surface& surface,
+                   const Surface_mesh_traits& mesh_traits,
+                   const Criteria& criteria)
       : Base(c2t3, surface, mesh_traits, criteria), 
         Mesher_lvl(null_mesher_level),
         initialized(false)
@@ -687,8 +671,7 @@ namespace CGAL {
       {
 	scan_triangulation();
 	initialized = true;
-	if (debug == DEBUG)
-	  check_restricted_delaunay();
+	CGAL_assertion(check_restricted_delaunay());
       }
 
     void refine_mesh () {
@@ -700,6 +683,9 @@ namespace CGAL {
       else {
 	std::cerr << "Refining...\n";
 	int nbsteps = 0;
+        std::cerr << "Legende of the following line: "
+                  << "(number of steps," << this->debug_info_header()
+                  << ")\n";
 	std::cerr << "(" << nbsteps << ","
 		  << this->facets_to_refine.size() << ")";
 	while (!is_algorithm_done()) {
@@ -712,8 +698,7 @@ namespace CGAL {
 	std::cerr << "\ndone.\n";
       }
 
-      if (debug == DEBUG)
-	check_restricted_delaunay();
+      CGAL_assertion(check_restricted_delaunay());
 
       initialized = false;
     }

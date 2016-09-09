@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_moving_points_2.h $
-// $Id: Qt_moving_points_2.h 31630 2006-06-16 13:09:51Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_moving_points_2.h $
+// $Id: Qt_moving_points_2.h 36128 2007-02-08 16:31:14Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -21,11 +21,10 @@
 #ifndef CGAL_KINETIC_IO_MOVING_POINT_SET_2_H
 #define CGAL_KINETIC_IO_MOVING_POINT_SET_2_H
 #include <CGAL/Kinetic/basic.h>
-//#include <CGAL/Kinetic/Moving_object_table.h>
-#include <CGAL/Kinetic/Cartesian_instantaneous_kernel.h>
 #include <CGAL/IO/Qt_widget.h>
 #include <CGAL/Kinetic/Ref_counted.h>
 #include <CGAL/Kinetic/Simulator_objects_listener.h>
+#include <sstream>
 
 CGAL_KINETIC_BEGIN_NAMESPACE
 
@@ -50,6 +49,7 @@ protected:
   typedef typename Simulator::Listener Simulator_listener;
   typedef CGAL::Kinetic::Simulator_objects_listener<Simulator_listener, This> Siml;
   friend class CGAL::Kinetic::Simulator_objects_listener<Simulator_listener, This>;
+  typedef typename Traits::Static_kernel::FT NT;
   class Guil;
 public:
   //typedef typename CGAL::Ref_counted_pointer<This> Pointer;
@@ -63,14 +63,24 @@ public:
   Qt_moving_points_2(typename GUI::Handle sim,
 		     Traits tr): traits_(tr),
 				 ik_(tr.instantaneous_kernel_object()),
+				 cc_(ik_.current_coordinates_object()),
 				 _mode(POINT), _radius(.2),
 				 direction_of_time_(CGAL::POSITIVE),
 				 guil_(sim, const_cast<This*>(this)),
 				 siml_(tr.simulator_handle(),const_cast<This*>( this)),
 				 rt_(tr.kinetic_kernel_object().reverse_time_object()) {
+    ptsz_=10;
   };
 
   virtual ~Qt_moving_points_2(){}
+
+  int point_size() const {
+    return ptsz_;
+  }
+  
+  void set_point_size(int p) {
+    ptsz_ = p;
+  }
 
   //! Change how things are drawn
   void set_draw_mode(Draw_mode mode) {
@@ -89,6 +99,25 @@ public:
   CGAL::Sign direction_of_time() const
   {
     return direction_of_time_;
+  }
+
+
+  unsigned int number_visible(NT xmin, NT xmax, NT ymin, NT ymax) const {
+    typename Traits::Simulator::NT ntt(guil_.notifier()->current_time());
+    ik_.set_time(ntt);
+    unsigned int ret=0;
+    for (typename Traits::Active_points_2_table::Key_iterator
+	   it= traits_.active_points_2_table_handle()->keys_begin();
+	 it != traits_.active_points_2_table_handle()->keys_end(); ++it) {
+      //std::cout << "drawing point " << *it  << "= " << ik_.to_static(*it) << std::endl;
+      
+      typename Traits::Static_kernel::Point_2 pt= cc_(*it);
+      if (pt.x() >= xmin && pt.x() <= xmax
+	  && pt.y() >= ymin && pt.y() <= ymax) {
+	++ ret;
+      }
+    }
+    return ret;
   }
 
   /*virtual void write(std::ostream &out) const {
@@ -123,11 +152,13 @@ protected:
 
   Traits traits_;
   typename Traits::Instantaneous_kernel ik_;
+  typename Traits::Instantaneous_kernel::Current_coordinates cc_;
   Draw_mode _mode;
   double _radius;
   CGAL::Sign direction_of_time_;
   Guil guil_;
   Siml siml_;
+  int ptsz_;
   typename Traits::Kinetic_kernel::Reverse_time rt_;
 };
 
@@ -137,25 +168,54 @@ void Qt_moving_points_2<T,G>::draw() const
   //std::cout << "Drawing mpt MPT\n";
   typedef typename Traits::Static_kernel::Point_2 P2;
   typedef typename Traits::Static_kernel::Circle_2 C;
-  typename Traits::NT ntt(guil_.notifier()->current_time());
+  typedef typename Traits::Kinetic_kernel::Is_constant IC;
+  IC ic = traits_.kinetic_kernel_object().is_constant_object();
+  typename Traits::Simulator::NT ntt(guil_.notifier()->current_time());
   ik_.set_time(ntt);
 
   CGAL::Qt_widget *w= guil_.widget();
-  *w << CGAL::PointSize(10) << CGAL::LineWidth(1);
-  *w << CGAL::FillColor(CGAL::Color(0,0,0));
-  //out.setFillColor(CGAL::Color(0,255,0));
-  *w << CGAL::Color(0,0,0);
+
+
+  unsigned int numv= number_visible(w->x_min(), w->x_max(),
+				    w->y_min(), w->y_max());
+  if (numv < 200) {
+    *w << CGAL::PointSize(ptsz_) << CGAL::LineWidth(1);
+  } else if (numv < 800) {
+    *w << CGAL::PointSize(std::max BOOST_PREVENT_MACRO_SUBSTITUTION(1,ptsz_/2)) << CGAL::LineWidth(1);
+  } else if (numv < 2000) {
+    *w << CGAL::PointSize(std::max BOOST_PREVENT_MACRO_SUBSTITUTION(1,ptsz_/4)) << CGAL::LineWidth(1);
+  } else {
+    *w << CGAL::PointSize(std::max BOOST_PREVENT_MACRO_SUBSTITUTION(ptsz_/8, 1)) << CGAL::LineWidth(1);
+  }
   //out << C(P2(0,0), 2) << C(P2(0,0), 1);
   //out << CGAL::BackgroundColor(CGAL::Color(125,125,125));
+  
   for (typename Traits::Active_points_2_table::Key_iterator
-         it= traits_.active_points_2_table_handle()->keys_begin();
+	 it= traits_.active_points_2_table_handle()->keys_begin();
        it != traits_.active_points_2_table_handle()->keys_end(); ++it) {
     //std::cout << "drawing point " << *it  << "= " << ik_.to_static(*it) << std::endl;
+    if (ic(traits_.active_points_2_table_handle()->at(*it))) {
+      *w << CGAL::FillColor(CGAL::Color(150,150,150));
+      //out.setFillColor(CGAL::Color(0,255,0));
+      *w << CGAL::Color(150,150,150);
+    } else {
+      *w << CGAL::FillColor(CGAL::Color(0,0,0));
+      //out.setFillColor(CGAL::Color(0,255,0));
+      *w << CGAL::Color(0,0,0);
+    }
+    typename Traits::Static_kernel::Point_2 pt= cc_(*it);
     if (_mode== OUTLINE) {
-      *w << C(ik_.static_object(*it), _radius);
+      *w << C(pt, _radius);
     }
     else if (_mode == POINT) {
-      *w << ik_.static_object(*it);
+      *w << pt;
+    }
+    if (numv < 150) {
+      std::ostringstream oss;
+      oss << *it;
+      w->get_painter().drawText(w->x_pixel(CGAL::to_double(pt.x()))+3,
+				w->y_pixel(CGAL::to_double(pt.y()))-3,
+				QString(oss.str().c_str()));
     }
   }
 }
@@ -169,7 +229,7 @@ void Qt_moving_points_2<T,G>::reverse_time()
 
   traits_.active_points_2_table_handle()->set_is_editing(true);
   for (typename Traits::Active_points_2_table::Key_iterator kit
-         = traits_.active_points_2_table_handle()->keys_begin();
+	 = traits_.active_points_2_table_handle()->keys_begin();
        kit != traits_.active_points_2_table_handle()->keys_end(); ++kit) {
     traits_.active_points_2_table_handle()->
       set(*kit, rt_(traits_.active_points_2_table_handle()->at(*kit)));

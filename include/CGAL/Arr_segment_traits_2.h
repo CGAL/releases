@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_segment_traits_2.h $
-// $Id: Arr_segment_traits_2.h 31543 2006-06-12 13:26:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_segment_traits_2.h $
+// $Id: Arr_segment_traits_2.h 37513 2007-03-26 17:14:23Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -27,7 +27,6 @@
 #include <CGAL/tags.h>
 #include <CGAL/representation_tags.h>
 #include <CGAL/intersections.h>
-#include <CGAL/Number_type_traits.h> 
 #include <CGAL/Arr_traits_2/Segment_assertions.h>
 #include <fstream>
 
@@ -55,12 +54,13 @@ public:
   typedef Kernel_                         Kernel;
   typedef typename Kernel::FT             FT;
 
-  typedef typename Number_type_traits<FT>::Has_exact_division 
+  typedef typename Algebraic_structure_traits<FT>::Is_exact 
                                           Has_exact_division;
-
+    
   // Category tags:
   typedef Tag_true                        Has_left_category;
   typedef Tag_true                        Has_merge_category;
+  typedef Tag_false                       Has_boundary_category;
 
   typedef typename Kernel::Line_2         Line_2;
   typedef CGAL::Segment_assertions<Arr_segment_traits_2<Kernel> >
@@ -529,7 +529,8 @@ public:
      */
     Comparison_result operator() (const X_monotone_curve_2& cv1,
                                   const X_monotone_curve_2& cv2,
-                                  const Point_2& p) const
+                                  const Point_2& CGAL_precondition_code(p) )
+      const
     {
       CGAL_precondition (! cv1.is_degenerate());
       CGAL_precondition (! cv2.is_degenerate());
@@ -541,7 +542,6 @@ public:
       CGAL_precondition_code (
         typename Kernel::Compare_xy_2 compare_xy = 
                                                   kernel.compare_xy_2_object();
-        //Compare_y_at_x_2              compare_y_at_x;
       );
 
       CGAL_precondition 
@@ -584,7 +584,8 @@ public:
      */
     Comparison_result operator() (const X_monotone_curve_2& cv1,
                                   const X_monotone_curve_2& cv2,
-                                  const Point_2& p) const
+                                  const Point_2& CGAL_precondition_code(p) )
+      const
     {
       CGAL_precondition (! cv1.is_degenerate());
       CGAL_precondition (! cv2.is_degenerate());
@@ -596,7 +597,6 @@ public:
       CGAL_precondition_code (
         typename Kernel::Compare_xy_2 compare_xy = 
                                                  kernel.compare_xy_2_object();
-        //Compare_y_at_x_2              compare_y_at_x;
       );
 
       CGAL_precondition
@@ -633,6 +633,9 @@ public:
     bool operator() (const X_monotone_curve_2& cv1,
                      const X_monotone_curve_2& cv2) const
     {
+      CGAL_precondition (! cv1.is_degenerate());
+      CGAL_precondition (! cv2.is_degenerate());
+
       Kernel                    kernel;
       typename Kernel::Equal_2  equal = kernel.equal_2_object();
 
@@ -891,8 +894,10 @@ public:
       typename Kernel::Equal_2  equal = kernel.equal_2_object();
 
       // Check if the two curves have the same supporting line.
-      if (! equal (cv1.line(), cv2.line()) && 
-          ! equal (cv1.line().opposite(), cv2.line()))
+      if (! equal (cv1.line(),
+                   cv2.line()) && 
+          ! equal (cv1.line(), 
+                   kernel.construct_opposite_line_2_object() (cv2.line())))
         return (false);
 
       // Check if the left endpoint of one curve is the right endpoint of the
@@ -929,8 +934,11 @@ public:
       Kernel                    kernel;
       typename Kernel::Equal_2  equal = kernel.equal_2_object();
 
-      CGAL_precondition (equal (cv1.line(), cv2.line()) ||
-                         equal (cv1.line().opposite(), cv2.line()));
+      CGAL_precondition
+        (equal (cv1.line(),
+                cv2.line()) ||
+         equal (cv1.line(),
+                kernel.construct_opposite_line_2_object() (cv2.line())));
 
       // Check which curve extends to the right of the other.
       if (equal (cv1.right(), cv2.left()))

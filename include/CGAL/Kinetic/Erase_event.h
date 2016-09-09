@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Erase_event.h $
-// $Id: Erase_event.h 29334 2006-03-10 00:00:09Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Erase_event.h $
+// $Id: Erase_event.h 33689 2006-08-24 15:54:13Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -21,6 +21,7 @@
 #ifndef CGAL_KINETIC_MOVING_OBJECT_ERASER_H_
 #define CGAL_KINETIC_MOVING_OBJECT_ERASER_H_
 #include <CGAL/Kinetic/basic.h>
+#include <CGAL/Kinetic/Event_base.h>
 
 CGAL_KINETIC_BEGIN_NAMESPACE;
 
@@ -29,7 +30,7 @@ CGAL_KINETIC_BEGIN_NAMESPACE;
   Note that this class has not been used.
 */
 template <class MOT>
-class Erase_event
+class Erase_event: public Event_base<int*>
 {
   typedef typename MOT::Handle Handle;
   typedef typename MOT::Key Key;
@@ -37,14 +38,16 @@ public:
   Erase_event(Key k,
 	      Handle mot):mot_(mot),
 			   k_(k){}
-  template <class T>
-  void process(const T&) {
+  void process() {
     CGAL_KINETIC_LOG(LOG_SOME,"Deleting object.\n");
     mot_->erase(k_);
   }
-  void write(std::ostream &out) const
+
+  void* kds() const {return NULL;}
+  std::ostream& write(std::ostream &out) const
   {
     out << "E" << k_;
+    return out;
   }
 protected:
   Handle mot_;

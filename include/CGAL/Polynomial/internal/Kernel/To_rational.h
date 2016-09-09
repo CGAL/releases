@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/To_rational.h $
-// $Id: To_rational.h 29468 2006-03-13 22:35:27Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Kernel/To_rational.h $
+// $Id: To_rational.h 35769 2007-01-21 23:40:54Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -23,10 +23,9 @@
 
 #include <CGAL/Polynomial/basic.h>
 
-#ifdef CGAL_POLYNOMIAL_USE_CORE
-#include <CORE/BigRat.h>
-#include <CORE/Expr.h>
-#include <CGAL/Polynomial/internal/Explicit_root.h>
+#ifdef CGAL_USE_CORE
+#include <CGAL/CORE_BigRat.h>
+#include <CGAL/CORE_Expr.h>
 #endif
 
 CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
@@ -41,7 +40,7 @@ class To_rational
 public:
   To_rational(){  }
 
-  typedef typename K::NT result_type;
+  typedef typename K::FT result_type;
   typedef typename K::Root argument_type;
 
   template <class T>
@@ -49,15 +48,17 @@ public:
   {
     return v.to_rational();
   }
-#ifdef CGAL_POLYNOMIAL_USE_CORE
-  CORE::BigRat operator()(const Explicit_root<CORE::Expr> &r) const {
-    return r.representation().BigRatValue();
-  }
-#endif
+
   double operator()(double v) const
   {
     return v;
   }
+#ifdef CGAL_USE_CORE
+  CORE::BigRat operator()(const CORE::Expr &) const
+  {
+    return 0;
+  }
+#endif
 };
 
 CGAL_POLYNOMIAL_END_INTERNAL_NAMESPACE

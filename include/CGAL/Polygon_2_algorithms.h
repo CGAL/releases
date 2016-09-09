@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polygon/include/CGAL/Polygon_2_algorithms.h $
-// $Id: Polygon_2_algorithms.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Polygon/include/CGAL/Polygon_2_algorithms.h $
+// $Id: Polygon_2_algorithms.h 31310 2006-05-29 07:28:42Z wein $
 // 
 //
 // Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
@@ -29,8 +29,7 @@
 #include <CGAL/enum.h>
 #include <CGAL/Bbox_2.h>
 
-#include <CGAL/polygon_assertions.h>
-
+#include <CGAL/Polygon_2/polygon_assertions.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -277,9 +276,7 @@ Orientation orientation_2(ForwardIterator first,
 
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION 
-#include <CGAL/Polygon_2_algorithms.C>
-#endif // CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
+#include <CGAL/Polygon_2/Polygon_2_algorithms_impl.h>
 
 #endif // CGAL_POLYGON_2_ALGORITHMS_H
 

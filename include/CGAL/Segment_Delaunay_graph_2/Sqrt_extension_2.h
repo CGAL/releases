@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Sqrt_extension_2.h $
-// $Id: Sqrt_extension_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Sqrt_extension_2.h $
+// $Id: Sqrt_extension_2.h 35201 2006-11-16 12:42:59Z hemmer $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -117,9 +117,9 @@ public:
     Sqrt_1 x(a0_, a1_, A_);
     Sqrt_1 y(a2_, a3_, A_);
 
-    Sign s_x = Number_type_traits<Sqrt_1>::sign(x);
-    Sign s_y = Number_type_traits<Sqrt_1>::sign(y);
-    Sign s_B = Number_type_traits<Sqrt_1>::sign(B_);
+    Sign s_x = CGAL_NTS sign(x);
+    Sign s_y = CGAL_NTS sign(y);
+    Sign s_B = CGAL_NTS sign(B_);
 
     if ( s_B == ZERO ) {
       return s_x;
@@ -131,7 +131,7 @@ public:
       return s_x;
     } else {
       Sqrt_1 Q = CGAL::square(x) - CGAL::square(y) * B_;
-      return Sign(s_x * Number_type_traits<Sqrt_1>::sign(Q));
+      return Sign(s_x * CGAL_NTS sign(Q));
     }
   }
 
@@ -240,93 +240,70 @@ operator-(const Sqrt_extension_2<NT>& x, const Sqrt_extension_2<NT>& y)
 //===================================================================
 
 
-template<class NT>
-struct Number_type_traits< Sqrt_extension_2<NT> >
-{
-  static inline bool is_positive(const Sqrt_extension_2<NT>& x) {
-    return x.sign() == POSITIVE;
-  }
-
-  static inline bool is_negative(const Sqrt_extension_2<NT>& x) {
-    return x.sign() == NEGATIVE;
-  }
-
-  static inline bool is_zero(const Sqrt_extension_2<NT>& x) {
-    return x.sign() == ZERO;
-  }
-
-  static inline Sign sign(const Sqrt_extension_2<NT>& x) {
-    return x.sign();
-  }
-
-  static inline Sqrt_extension_2<NT> square(const Sqrt_extension_2<NT>& x) {
-    return x.square();
-  }
-
-  static inline
-  Comparison_result compare(const Sqrt_extension_2<NT>& x,
-			    const Sqrt_extension_2<NT>& y)
-  {
-    CGAL_exactness_precondition( CGAL::compare(x.e(), y.e()) == EQUAL );
-    CGAL_exactness_precondition( CGAL::compare(x.f(), y.f()) == EQUAL );
-
-    //  Sign s = CGAL::sign(x - y);
-    Sign s = (x - y).sign();
-
-    if ( s == ZERO ) { return EQUAL; }
-    return (s == POSITIVE) ? LARGER : SMALLER;
-  }
+template <class NT> 
+struct Algebraic_structure_traits<Sqrt_extension_2<NT> >
+    :public Algebraic_structure_traits_base<Sqrt_extension_2<NT>,CGAL::Integral_domain_without_division_tag>{
+private:
+    typedef Algebraic_structure_traits<NT> AST_NT;
+public:
+    typedef Sqrt_extension_2<NT> Algebraic_structure;
+    typedef typename AST_NT::Is_exact Is_exact;
 };
 
 template<class NT>
-inline
-bool
-is_positive(const Sqrt_extension_2<NT>& x)
-{
-  return Number_type_traits< Sqrt_extension_2<NT> >::is_positive(x);
-}
+struct Real_embeddable_traits<Sqrt_extension_2<NT> >{
+private:
+    typedef Real_embeddable_traits<NT> RET_NT;
+public:
+    
+    typedef Sqrt_extension_2<NT> Real_embeddable;
+    
+    class Abs 
+        : public Unary_function< Real_embeddable, Real_embeddable >{
+    public:
+        Real_embeddable operator()(const Real_embeddable& x) const {
+            return (x>=0)?x:-x;
+        }
+    };    
 
-template<class NT>
-inline
-bool
-is_negative(const Sqrt_extension_2<NT>& x)
-{
-  return Number_type_traits< Sqrt_extension_2<NT> >::is_negative(x);
-}
-
-template<class NT>
-inline
-bool
-is_zero(const Sqrt_extension_2<NT>& x)
-{
-  return Number_type_traits< Sqrt_extension_2<NT> >::is_zero(x);
-}
-
-
-template<class NT>
-inline
-Sign
-sign(const Sqrt_extension_2<NT>& x)
-{
-  return Number_type_traits< Sqrt_extension_2<NT> >::sign(x);
-}
-
-template<class NT>
-inline
-Sqrt_extension_2<NT>
-square(const Sqrt_extension_2<NT>& x)
-{
-  return Number_type_traits< Sqrt_extension_2<NT> >::square(x);
-}
-
-template<class NT>
-inline
-Comparison_result
-compare(const Sqrt_extension_2<NT>& x,
-	const Sqrt_extension_2<NT>& y)
-{
-  return Number_type_traits< Sqrt_extension_2<NT> >::compare(x, y);
-}
+    class Sign 
+        : public Unary_function< Real_embeddable, CGAL::Sign >{
+    public:
+        CGAL::Sign operator()(const Real_embeddable& x) const {
+            return x.sign();
+        }
+    };
+    
+    class Compare 
+        : public Binary_function< Real_embeddable, 
+                                  Real_embeddable, 
+                                  CGAL::Comparison_result >{
+    public:
+        CGAL::Comparison_result operator()(
+                const Real_embeddable& x, 
+                const Real_embeddable& y) const {
+            CGAL_exactness_precondition( CGAL::compare(x.e(), y.e()) == EQUAL );
+            CGAL_exactness_precondition( CGAL::compare(x.f(), y.f()) == EQUAL );
+            return (x - y).sign();
+        }
+    };
+    
+    class To_double 
+        : public Unary_function< Real_embeddable, double >{
+    public:
+        double operator()(const Real_embeddable& x) const {
+            return x.to_double();
+        }
+    };
+    
+    class To_interval 
+        : public Unary_function< Real_embeddable, std::pair< double, double > >{
+    public:
+        std::pair<double,double> operator()(const Real_embeddable& x) const {
+            return x.to_interval();
+        }
+    };   
+};
 
 // operator <<
 template<class Stream, class NT>

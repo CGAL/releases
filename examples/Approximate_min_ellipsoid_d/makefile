@@ -34,18 +34,18 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                example$(EXE_EXT) \
-                maple_example$(EXE_EXT) 
+                ellipsoid$(EXE_EXT) \
+                ellipsoid_for_maple$(EXE_EXT) 
 
-example$(EXE_EXT): example$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)example example$(OBJ_EXT) $(LDFLAGS)
+ellipsoid$(EXE_EXT): ellipsoid$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ellipsoid ellipsoid$(OBJ_EXT) $(LDFLAGS)
 
-maple_example$(EXE_EXT): maple_example$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)maple_example maple_example$(OBJ_EXT) $(LDFLAGS)
+ellipsoid_for_maple$(EXE_EXT): ellipsoid_for_maple$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)ellipsoid_for_maple ellipsoid_for_maple$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   example.clean \
-                   maple_example.clean 
+                   ellipsoid.clean \
+                   ellipsoid_for_maple.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

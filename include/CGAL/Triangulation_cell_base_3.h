@@ -1,4 +1,3 @@
-
 // Copyright (c) 1999  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
@@ -12,11 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/Triangulation_cell_base_3.h $
-// $Id: Triangulation_cell_base_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/Triangulation_cell_base_3.h $
+// $Id: Triangulation_cell_base_3.h 36777 2007-03-03 08:52:44Z spion $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
+//                 Sylvain Pion
 
 // cell of a triangulation of any dimension <=3
 
@@ -66,7 +66,17 @@ public:
 
   Point_iterator hidden_points_begin() const { return hidden_points_end(); }
   Point_iterator hidden_points_end() const { return NULL; }
-  void hide_point (const Point &p) const { }
+  void hide_point (const Point &) const { }
+
+  typename Geom_traits::Point_3
+  circumcenter(const Geom_traits& gt = Geom_traits()) const
+  {
+      return gt.construct_circumcenter_3_object()(this->vertex(0)->point(),
+                                                  this->vertex(1)->point(),
+                                                  this->vertex(2)->point(),
+                                                  this->vertex(3)->point());
+  }
+
 };
 
 // The following should be useless.

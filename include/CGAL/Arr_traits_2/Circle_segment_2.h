@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_traits_2/Circle_segment_2.h $
-// $Id: Circle_segment_2.h 30721 2006-04-23 07:11:27Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_traits_2/Circle_segment_2.h $
+// $Id: Circle_segment_2.h 37177 2007-03-17 08:48:10Z afabri $
 // 
 //
 // Author(s)     : Ron Wein        <wein@post.tau.ac.il>
@@ -909,6 +909,8 @@ public:
    */
   Line_2 supporting_line () const
   {
+    CGAL_precondition (is_linear());
+
     return (Line_2 (a(), b(), c()));
   }
 
@@ -918,6 +920,8 @@ public:
    */
   Circle_2 supporting_circle () const
   {
+    CGAL_precondition (is_circular());
+
     typename Kernel::Point_2  center (x0(), y0());
     return (Circle_2 (center , sqr_r(), orientation()));
   }
@@ -1504,7 +1508,7 @@ protected:
    * Compare two line segments to the right of their intersection point.
    */
   Comparison_result _lines_compare_to_right (const Self& cv,
-                                             const Point_2& p) const
+                                             const Point_2& /* p */) const
   {
     if (_index() != 0 && _index() == cv._index())
       return (EQUAL);
@@ -1741,7 +1745,7 @@ protected:
    * Compare two line segments to the left of their intersection point.
    */
   Comparison_result _lines_compare_to_left (const Self& cv,
-                                             const Point_2& p) const
+                                            const Point_2& ) const
   {
     if (_index() != 0 && _index() == cv._index())
       return (EQUAL);

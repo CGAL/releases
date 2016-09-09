@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_manifold.h $
-// $Id: Surface_mesher_manifold.h 29731 2006-03-23 15:52:52Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_manifold.h $
+// $Id: Surface_mesher_manifold.h 36704 2007-02-28 18:22:28Z lrineau $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -102,9 +102,9 @@ namespace CGAL {
 
     public:
       Surface_mesher_manifold_base (C2T3& c2t3,
-                                    Surface& surface,
-                                    SurfaceMeshTraits mesh_traits,
-                                    Criteria& criteria)
+                                    const Surface& surface,
+                                    const SurfaceMeshTraits& mesh_traits,
+                                    const Criteria& criteria)
 	: SMMBB(c2t3, surface, mesh_traits, criteria),
           bad_vertices_initialized(false)
       {
@@ -129,7 +129,7 @@ namespace CGAL {
       void initialize_bad_vertices() const
       {
 #ifdef CGAL_SURFACE_MESHER_VERBOSE
-	std::cout << "scanning vertices" << std::endl;
+	std::cerr << "scanning vertices" << std::endl;
 #endif
 	int n = 0;
 	for (Finite_vertices_iterator vit = SMMBB::tr.finite_vertices_begin();
@@ -143,7 +143,7 @@ namespace CGAL {
 	}
 	bad_vertices_initialized = true;
 #ifdef CGAL_SURFACE_MESHER_VERBOSE
-	std::cout << "   -> found " << n << " bad vertices\n";
+	std::cerr << "   -> found " << n << " bad vertices\n";
 #endif
       }
 
@@ -151,7 +151,7 @@ namespace CGAL {
       void scan_triangulation_impl() {
 	SMMBB::scan_triangulation_impl();
 #ifdef CGAL_SURFACE_MESHER_VERBOSE
-	std::cout << "scanning vertices (lazy)" << std::endl;
+	std::cerr << "scanning vertices (lazy)" << std::endl;
 #endif
       }
 
@@ -209,14 +209,18 @@ namespace CGAL {
       }
     }
       
+    std::string debug_info() const
+    {
+      std::stringstream s;
+      s << SMMBB::debug_info() << "," << bad_vertices.size();
+      return s.str();
+    }
 
-      std::string debug_info() const
-      {
-        std::stringstream s;
-        s << SMMBB::debug_info() << "," << bad_vertices.size();
-        return s.str();
-      }
-    };  // end Surface_mesher_manifold_base
+    static std::string debug_info_header()
+    {
+      return SMMBB::debug_info_header() + "," + "number of bad vertices";
+    }
+  };  // end Surface_mesher_manifold_base
 
   }  // end namespace Surface_mesher
 

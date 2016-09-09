@@ -1,0 +1,54 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+# Visual Studio 2003
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "convex_hull_containment", "VC/convex_hull_containment.vcproj", "{00000000-0000-0000-0000-000000017403}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "convex_hull_containment2", "VC/convex_hull_containment2.vcproj", "{00000000-0000-0000-0000-000000030123}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "convex_hull_containment_benchmarks", "VC/convex_hull_containment_benchmarks.vcproj", "{00000000-0000-0000-0000-000000010076}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cycling", "VC/cycling.vcproj", "{00000000-0000-0000-0000-000000008684}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_lp", "VC/first_lp.vcproj", "{00000000-0000-0000-0000-000000004566}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_lp_from_iterators", "VC/first_lp_from_iterators.vcproj", "{00000000-0000-0000-0000-000000000449}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_lp_from_mps", "VC/first_lp_from_mps.vcproj", "{00000000-0000-0000-0000-000000029099}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_nonnegative_lp", "VC/first_nonnegative_lp.vcproj", "{00000000-0000-0000-0000-000000024981}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_nonnegative_lp_from_iterators", "VC/first_nonnegative_lp_from_iterators.vcproj", "{00000000-0000-0000-0000-000000020864}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_nonnegative_lp_from_mps", "VC/first_nonnegative_lp_from_mps.vcproj", "{00000000-0000-0000-0000-000000000816}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_nonnegative_qp", "VC/first_nonnegative_qp.vcproj", "{00000000-0000-0000-0000-000000031284}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_nonnegative_qp_from_iterators", "VC/first_nonnegative_qp_from_iterators.vcproj", "{00000000-0000-0000-0000-000000011236}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_nonnegative_qp_from_mps", "VC/first_nonnegative_qp_from_mps.vcproj", "{00000000-0000-0000-0000-000000023957}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_qp", "VC/first_qp.vcproj", "{00000000-0000-0000-0000-000000023473}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_qp_basic_constraints", "VC/first_qp_basic_constraints.vcproj", "{00000000-0000-0000-0000-000000004335}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_qp_from_iterators", "VC/first_qp_from_iterators.vcproj", "{00000000-0000-0000-0000-000000000217}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "first_qp_from_mps", "VC/first_qp_from_mps.vcproj", "{00000000-0000-0000-0000-000000012937}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "important_variables", "VC/important_variables.vcproj", "{00000000-0000-0000-0000-000000025658}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "infeasibility_certificate", "VC/infeasibility_certificate.vcproj", "{00000000-0000-0000-0000-000000011971}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "invert_matrix", "VC/invert_matrix.vcproj", "{00000000-0000-0000-0000-000000007853}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "optimality_certificate", "VC/optimality_certificate.vcproj", "{00000000-0000-0000-0000-000000003735}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "print_first_lp", "VC/print_first_lp.vcproj", "{00000000-0000-0000-0000-000000016456}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "print_first_nonnegative_lp", "VC/print_first_nonnegative_lp.vcproj", "{00000000-0000-0000-0000-000000012338}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "print_first_nonnegative_qp", "VC/print_first_nonnegative_qp.vcproj", "{00000000-0000-0000-0000-000000008221}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "print_first_qp", "VC/print_first_qp.vcproj", "{00000000-0000-0000-0000-000000004103}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unboundedness_certificate", "VC/unboundedness_certificate.vcproj", "{00000000-0000-0000-0000-000000032753}"
+EndProject

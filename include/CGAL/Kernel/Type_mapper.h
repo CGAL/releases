@@ -1,4 +1,4 @@
-// Copyright (c) 2005  Utrecht University (The Netherlands),
+// Copyright (c) 2005, 2006  Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
 // (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/Type_mapper.h $
-// $Id: Type_mapper.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel/Type_mapper.h $
+// $Id: Type_mapper.h 37724 2007-03-30 17:18:22Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -31,71 +31,29 @@ CGAL_BEGIN_NAMESPACE
 // This is a tool to obtain the K2::Point_2 from K1 and K1::Point_2.
 // Similarly for other kernel types.
 
+// TODO : add more specializations ?  Use a different mechanism ?
+
 template < typename T, typename K1, typename K2 >
 struct Type_mapper
 {
   typedef T type; // By default, assume same type (e.g. Object).
 };
 
-template < typename K1, typename K2 >
-struct Type_mapper < typename K1::Point_2, K1, K2 >
-{
-  typedef typename K2::Point_2 type;
-};
+// Then we specialize for all kernel objects.
 
-template < typename K1, typename K2 >
-struct Type_mapper < typename K1::Vector_2, K1, K2 >
-{
-  typedef typename K2::Vector_2 type;
-};
+#ifndef CGAL_CFG_DEDUCABLE_CONTEXT_BUG
+#define CGAL_Kernel_obj(X) \
+  template < typename K1, typename K2 > \
+  struct Type_mapper < typename K1::X, K1, K2 > \
+  { typedef typename K2::X type; };
+#else
+#define CGAL_Kernel_obj(X) \
+  template < typename K1, typename K2 > \
+  struct Type_mapper < CGAL::X<K1>, K1, K2 > \
+  { typedef typename K2::X type; };
+#endif
 
-
-template < typename K1, typename K2 >
-struct Type_mapper < typename K1::Direction_2, K1, K2 >
-{
-  typedef typename K2::Direction_2 type;
-};
-
-template < typename K1, typename K2 >
-struct Type_mapper < typename K1::Segment_2, K1, K2 >
-{
-  typedef typename K2::Segment_2 type;
-};
-
-template < typename K1, typename K2 >
-struct Type_mapper < typename K1::Ray_2, K1, K2 >
-{
-  typedef typename K2::Ray_2 type;
-};
-
-
-template < typename K1, typename K2 >
-struct Type_mapper < typename K1::Line_2, K1, K2 >
-{
-  typedef typename K2::Line_2 type;
-};
-
-
-template < typename K1, typename K2 >
-struct Type_mapper < typename K1::Triangle_2, K1, K2 >
-{
-  typedef typename K2::Triangle_2 type;
-};
-
-
-template < typename K1, typename K2 >
-struct Type_mapper < typename K1::Iso_rectangle_2, K1, K2 >
-{
-  typedef typename K2::Iso_rectangle_2 type;
-};
-
-template < typename K1, typename K2 >
-struct Type_mapper < typename K1::Circle_2, K1, K2 >
-{
-  typedef typename K2::Circle_2 type;
-};
-
-// TODO : more specializations...
+#include <CGAL/Kernel/interface_macros.h>
 
 CGAL_END_NAMESPACE
 

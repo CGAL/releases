@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Segment_d.h $
-// $Id: Segment_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Segment_d.h $
+// $Id: Segment_d.h 35126 2006-11-10 13:36:37Z hemmer $
 // 
 //
 // Author(s)     : Michael Seel
@@ -38,7 +38,8 @@ template <class R> std::ostream& operator<<
 /*{\Manpage {Segment_d}{R}{Segments in d-space}{s}}*/
 
 template <class p_R>
-class Segment_d : public Handle_for< Pair_d<p_R> > { 
+class Segment_d : public Handle_for< Pair_d<p_R> > {
+  
   typedef Pair_d<p_R>      Pair;
   typedef Handle_for<Pair> Base;
   typedef Segment_d<p_R>   Self;
@@ -110,14 +111,14 @@ Point_d<R>  point(int i) const { return vertex(i); }
 Point_d<R>  operator[](int i) const { return vertex(i); }
 /*{\Marrop returns |vertex(i)|.}*/
 
-Point_d<R> min() const 
+Point_d<R> min BOOST_PREVENT_MACRO_SUBSTITUTION () const 
 /*{\Mop returns the lexicographically smaller vertex.}*/
 { typename R::Compare_lexicographically_d cmp; 
   if (cmp(source(),target()) == CGAL::SMALLER) return source();
   else return target();
 }
 
-Point_d<R> max() const 
+Point_d<R> max BOOST_PREVENT_MACRO_SUBSTITUTION () const 
 /*{\Mop returns the lexicographically larger vertex.}*/
 { typename R::Compare_lexicographically_d cmp; 
   if (cmp(source(),target()) == SMALLER) return target();
@@ -226,11 +227,6 @@ std::istream& operator>>(std::istream& I, Segment_d<R>& s)
 template <class R> 
 std::ostream& operator<<(std::ostream& O, const Segment_d<R>& s)
 { s.ptr()->print(O,"Segment_d"); return O; }
-
-template <class R>
-inline CGAL::io_Operator io_tag(const Segment_d<R>&) 
-{ return CGAL::io_Operator(); }
-
 
 /*{\Mimplementation 
 Segments are implemented by a pair of points as an item type.  All

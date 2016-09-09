@@ -1,8 +1,5 @@
-// Copyright (c) 2001,2004  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2001,2004  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Filtered_kernel.h $
-// $Id: Filtered_kernel.h 28908 2006-02-28 15:39:52Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Filtered_kernel.h $
+// $Id: Filtered_kernel.h 36291 2007-02-15 13:54:41Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -63,6 +60,7 @@ struct Filtered_kernel_base
     typedef Simple_cartesian<Interval_nt_advanced>   FK;
     typedef Cartesian_converter<CK, EK>              C2E;
     typedef Cartesian_converter<CK, FK>              C2F;
+    typedef FK  AK; // same as for Lazy_kernel
 
     template < typename Kernel2 >
     struct Base {

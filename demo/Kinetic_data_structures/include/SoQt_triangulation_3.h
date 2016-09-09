@@ -12,9 +12,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_triangulation_3.h $
-// $Id: SoQt_triangulation_3.h 31252 2006-05-22 12:26:07Z drussel $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_triangulation_3.h $
+// $Id: SoQt_triangulation_3.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
 
@@ -96,7 +96,7 @@ protected:
     Color_id;
 
   typename KDel::Triangulation::Vertex_handle facet_vertex(typename KDel::Triangulation::Facet f, int i) {
-    return vertex_of_facet(f, i);
+    return internal::vertex_of_facet(f, i);
   }
 
   typename KDel::Triangulation::Vertex_handle edge_vertex(typename KDel::Triangulation::Edge f, int i) {
@@ -208,8 +208,8 @@ protected:
     bool hinf=false;
     for (int i=0; i<4; ++i) {
       if (!f.first->vertex(i)->point().is_valid()) {
-        hinf=true;
-        break;
+	hinf=true;
+	break;
       }
     }
     if (!triangulation().mirror_vertex(f.first, f.second)->point().is_valid()) hinf=true;
@@ -224,7 +224,7 @@ protected:
     }
     else {
       for (unsigned int i=0; i< 3; ++i) {
-        CGAL_assertion(!internal::edge_label(internal::facet_edge(f, i)).is_valid());
+	CGAL_assertion(!internal::edge_label(internal::facet_edge(f, i)).is_valid());
       }
       return UNFAILING_CERT;
     }
@@ -275,8 +275,8 @@ void SoQt_triangulation_3<K, G, M>::set_scene_graph_parent(SoSeparator* sep)
 	  mat->transparency.set1Value(i, 0.0);
 	}
 	mat->diffuseColor.set1Value(0, SbColor(0.3, 0.3, 0.3));
-	mat->diffuseColor.set1Value(1, SbColor(0.1, 0.4, 0.1));
-	mat->diffuseColor.set1Value(2, SbColor(0.1, 0.9, 0.1));
+	mat->diffuseColor.set1Value(1, SbColor(0.4, 0.4, 0.1));
+	mat->diffuseColor.set1Value(2, SbColor(0.1, 0.7, 0.7));
 	mat->diffuseColor.set1Value(3, SbColor(1.0, 0.0, 0.0));
 	ap->setPart("material", mat.get());
       }
@@ -326,9 +326,9 @@ void SoQt_triangulation_3<K, G, M>::set_scene_graph_parent(SoSeparator* sep)
 	  mat->shininess.set1Value(i, .2);
 	  mat->transparency.set1Value(i, 0.0);
 	}
-	mat->diffuseColor.set1Value(0, SbColor(0.3, 0.3, 0.3));
-	mat->diffuseColor.set1Value(1, SbColor(0.1, 0.4, 0.1));
-	mat->diffuseColor.set1Value(2, SbColor(0.1, 0.9, 0.1));
+	mat->diffuseColor.set1Value(0, SbColor(0.3, 0.3, 0.6));
+	mat->diffuseColor.set1Value(1, SbColor(0.4, 0.4, 0.1));
+	mat->diffuseColor.set1Value(2, SbColor(0.1, 0.7, 0.1));
 	mat->diffuseColor.set1Value(3, SbColor(1.0, 0.0, 0.0));
 
 	ap->setPart("material", mat.get());
@@ -384,15 +384,15 @@ void SoQt_triangulation_3<K,G,M>::generate_geometry()
 
       }
       else {
-        coords[index]= facet_vertex(*ffi, 0)->point().to_index();
-        //coords[index]= ffi->vertex(0)->point().index();
-        ++index;;
-        coords[index]= facet_vertex(*ffi, 1)->point().to_index();
-        ++index;
-        coords[index]= facet_vertex(*ffi, 2)->point().to_index();
-        ++index;
-        coords[index]= SO_END_LINE_INDEX;
-        ++index;
+	coords[index]= facet_vertex(*ffi, 0)->point().to_index();
+	//coords[index]= ffi->vertex(0)->point().index();
+	++index;;
+	coords[index]= facet_vertex(*ffi, 1)->point().to_index();
+	++index;
+	coords[index]= facet_vertex(*ffi, 2)->point().to_index();
+	++index;
+	coords[index]= SO_END_LINE_INDEX;
+	++index;
 
 	mat[matindex]= id;
 	++matindex;
@@ -413,14 +413,14 @@ void SoQt_triangulation_3<K,G,M>::generate_geometry()
 
       }
       else {
-        Object_key k= edge_vertex(*fei, 0)->point();
-        coords[index]= k.to_index();
-        ++index;
-        k= edge_vertex(*fei, 1)->point();
-        coords[index]=k.to_index();
-        ++index;
-        coords[index]= SO_END_LINE_INDEX;
-        ++index;
+	Object_key k= edge_vertex(*fei, 0)->point();
+	coords[index]= k.to_index();
+	++index;
+	k= edge_vertex(*fei, 1)->point();
+	coords[index]=k.to_index();
+	++index;
+	coords[index]= SO_END_LINE_INDEX;
+	++index;
 
 	mat[matindex]= id;
 	++matindex;

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/Matrix__.h $
-// $Id: Matrix__.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/Matrix__.h $
+// $Id: Matrix__.h 36979 2007-03-10 10:42:31Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -431,8 +431,7 @@ Matrix_<NT_,AL_>& operator-=(const Matrix_<NT_,AL_>&);
 Matrix_<NT_,AL_>& operator+=(const Matrix_<NT_,AL_>&); 
 
 Matrix_<NT_,AL_> operator*(const Matrix_<NT_,AL_>& M1) const; 
-/*{\Mbinop Multiplication. \precond \\ 
-|\Mvar.column_dimension() = M1.row_dimension()|. }*/
+/*{\Mbinop Multiplication. \precond \\ |\Mvar.column_dimension() = M1.row_dimension()|. }*/
 
 Vector_<NT_,AL_> 
 operator*(const Vector_<NT_,AL_>& vec) const

@@ -7,8 +7,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/CORE_polynomial.h $
-// $Id: CORE_polynomial.h 30642 2006-04-18 12:42:52Z lsaboret $ $Date: 2006-04-18 14:42:52 +0200 (Tue, 18 Apr 2006) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/CORE_polynomial.h $
+// $Id: CORE_polynomial.h 37060 2007-03-13 18:10:39Z reichel $ $Date: 2007-03-13 19:10:39 +0100 (Tue, 13 Mar 2007) $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -18,10 +18,10 @@
 #include <CGAL/Polynomial/basic.h>
 
 #include <CGAL/CORE_Expr.h>
-#include <CORE/poly/Poly.h>
-#include <CORE/BigFloat.h>
-#include <CORE/Expr.h>
-#include <CORE/BigRat.h>
+#include <CGAL/CORE/poly/Poly.h>
+#include <CGAL/CORE_BigFloat.h>
+#include <CGAL/CORE_Expr.h>
+#include <CGAL/CORE_BigRat.h>
 
 CGAL_POLYNOMIAL_BEGIN_INTERNAL_NAMESPACE
 
@@ -69,6 +69,10 @@ struct CORE_polynomial {
     return true;
   }
   
+  void contract()  {
+    p_.contract();
+  }
+
   bool operator!=(const CORE_polynomial&o ) const {
     return !operator==(o);
   }

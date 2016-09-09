@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/my_window.h $
-// $Id: my_window.h 29163 2006-03-07 23:41:02Z mkaravel $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/demo/Voronoi_diagram_2/my_window.h $
+// $Id: my_window.h 37470 2007-03-26 08:16:22Z afabri $
+//
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
 
@@ -349,7 +349,7 @@ private slots:
       CGAL::Object conflicts;
 
       widget->redraw();
-      
+
       if ( CGAL::assign(q, obj) ) {
 	conflicts = vvd->get_conflicts(q);
 	*widget << CGAL::YELLOW;
@@ -495,7 +495,7 @@ private slots:
     widget->redraw();
   }
 
-  void write_to_file(const QString& fileName)
+  void write_to_file(const QString& /* fileName */)
   {
 #if 0
     std::ofstream f(fileName);
@@ -514,7 +514,7 @@ private slots:
     QString fileName =
       QFileDialog::getOpenFileName(QString::null, QString::null,
 				   this, "Open file...");
-    
+
     if ( !fileName.isNull() ) {
       read_from_file(fileName);
     }
@@ -540,7 +540,7 @@ private slots:
     QString fileName =
       QFileDialog::getOpenFileName(QString::null, QString::null,
 				   this, "Open file...");
-    
+
     if ( !fileName.isNull() ) {
       std::ifstream f(fileName);
       assert(f);
@@ -567,10 +567,10 @@ private slots:
     QString fileName =
       QFileDialog::getSaveFileName(tr("data.out"), QString::null,
 				   this, "Save as...");
-						      
+
     if ( !fileName.isNull() ) {
       std::ofstream f(fileName);
-      assert(f);      
+      assert(f);
       f << svd;
     }
 #endif

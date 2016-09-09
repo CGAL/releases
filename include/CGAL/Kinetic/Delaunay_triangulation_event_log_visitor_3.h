@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_event_log_visitor_3.h $
-// $Id: Delaunay_triangulation_event_log_visitor_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_event_log_visitor_3.h $
+// $Id: Delaunay_triangulation_event_log_visitor_3.h 36012 2007-02-02 02:13:42Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -36,28 +36,28 @@ struct Delaunay_triangulation_event_log_visitor_3: public Delaunay_triangulation
     Delaunay_triangulation_event_log_visitor_3(){}
 
     template <class Edge>
-    void before_edge_flip(Edge e) {
+    void pre_edge_flip(Edge e) {
         typedef typename Edge::first_type::value_type::Vertex_handle::value_type::Point Point;
         std::ostringstream out;
         Point a= internal::vertex_of_edge(e, 0)->point();
         Point b= internal::vertex_of_edge(e, 1)->point();
-        out << "Flipping away edge {" << std::min(a,b) << ", " << std::max(a,b) << "}";
+        out << "Flipping away edge {" << (std::min)(a,b) << ", " << (std::max)(a,b) << "}";
         log_.push_back(out.str());
         CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
     }
     template <class Edge>
-    void after_facet_flip(Edge e) {
+    void post_facet_flip(Edge e) {
         typedef typename Edge::first_type::value_type::Vertex_handle::value_type::Point Point;
         std::ostringstream out;
         Point a= internal::vertex_of_edge(e, 0)->point();
         Point b= internal::vertex_of_edge(e, 1)->point();
-        out << "Flipping in edge {" << std::min(a,b) << ", " << std::max(a,b) << "}";
+        out << "Flipping in edge {" << (std::min)(a,b) << ", " << (std::max)(a,b) << "}";
         log_.push_back(out.str());
         CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
     }
 
     template <class Facet>
-    void before_facet_flip(Facet e) {
+    void pre_facet_flip(Facet e) {
         typedef typename Facet::first_type::value_type::Vertex_handle::value_type::Point Point;
         std::ostringstream out;
         Point pts[3];
@@ -72,7 +72,7 @@ struct Delaunay_triangulation_event_log_visitor_3: public Delaunay_triangulation
     }
 
     template <class Facet>
-    void after_edge_flip(Facet e) {
+    void post_edge_flip(Facet e) {
         typedef typename Facet::first_type::value_type::Vertex_handle::value_type::Point Point;
         std::ostringstream out;
         Point pts[3];
@@ -85,6 +85,21 @@ struct Delaunay_triangulation_event_log_visitor_3: public Delaunay_triangulation
         log_.push_back(out.str());
         CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
     }
+
+  template <class Vertex_handle>
+    void post_insert_vertex(Vertex_handle e) {
+     std::ostringstream out;
+    out << "Inserted vertex " << e->point();
+    log_.push_back(out.str());
+    CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
+  }
+  template <class Vertex_handle>
+    void pre_remove_vertex(Vertex_handle e) {
+     std::ostringstream out;
+    out << "Removing vertex " << e->point();
+    log_.push_back(out.str());
+    CGAL_KINETIC_LOG(LOG_LOTS, "Logging: " << out.str() << std::endl);
+  }
 
     typedef std::vector<std::string>::const_iterator Event_iterator;
     Event_iterator events_begin()  const

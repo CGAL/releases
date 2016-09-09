@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_3/include/CGAL/predicates/predicates_on_weighted_points_cartesian_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_3/include/CGAL/predicates/predicates_on_weighted_points_cartesian_3.h $
 
-// $Id: predicates_on_weighted_points_cartesian_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $Id: predicates_on_weighted_points_cartesian_3.h 35252 2006-11-21 09:56:48Z fcazals $
 // 
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -134,7 +134,7 @@ in_smallest_orthogonal_sphereC3(
 // with respect with the tertraedron formed by bare points in p, q,r,s
 template <class FT>
 Bounded_side
-does_simplex_intersect_dual_supportC3(
+does_simplex_intersect_weighted_dual_supportC3(
 		const FT &px, const FT &py, const FT &pz, const FT &pw,
                 const FT &qx, const FT &qy, const FT &qz, const FT &qw,
                 const FT &rx, const FT &ry, const FT &rz, const FT &rw,
@@ -203,7 +203,7 @@ does_simplex_intersect_dual_supportC3(
 // with respect with the triangle  formed by bare points in p, q,r.
 template <class FT>
 Bounded_side
-does_simplex_intersect_dual_supportC3(
+does_simplex_intersect_weighted_dual_supportC3(
 		const FT &px, const FT &py, const FT &pz, const FT &pw,
                 const FT &qx, const FT &qy, const FT &qz, const FT &qw,
                 const FT &rx, const FT &ry, const FT &rz, const FT &rw)
@@ -255,7 +255,7 @@ does_simplex_intersect_dual_supportC3(
 
 template <class FT>
 Bounded_side
-does_simplex_intersect_dual_supportC3(
+does_simplex_intersect_weighted_dual_supportC3(
 		const FT &px, const FT &py, const FT &pz, const FT &pw,
                 const FT &qx, const FT &qy, const FT &qz, const FT &qw)
 {

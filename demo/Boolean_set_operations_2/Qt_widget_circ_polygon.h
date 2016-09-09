@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/Qt_widget_circ_polygon.h $
-// $Id: Qt_widget_circ_polygon.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/demo/Boolean_set_operations_2/Qt_widget_circ_polygon.h $
+// $Id: Qt_widget_circ_polygon.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
 
@@ -24,7 +24,7 @@
 #include <CGAL/General_polygon_2.h>
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Polygon_2.h>
-#include <CGAL/IO/Qt_widget_Polygon_2.h> 
+#include <CGAL/IO/Qt_widget_Polygon_2.h>
 #include <utility>
 
 namespace CGAL

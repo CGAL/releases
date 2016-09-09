@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_traits_2/Conic_x_monotone_arc_2.h $
-// $Id: Conic_x_monotone_arc_2.h 28940 2006-03-01 07:45:16Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_traits_2/Conic_x_monotone_arc_2.h $
+// $Id: Conic_x_monotone_arc_2.h 33892 2006-09-03 12:46:22Z baruchzu $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -1245,6 +1245,16 @@ public:
     }
 
     return;
+  }
+
+  bool is_upper() const
+  {
+    return ((this->_info & FACING_UP) != 0);
+  }
+
+  bool is_lower() const
+  {
+    return ((this->_info & FACING_DOWN) != 0);
   }
   //@}
 

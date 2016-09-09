@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/HalfedgeDS/include/CGAL/HalfedgeDS_const_decorator.h $
-// $Id: HalfedgeDS_const_decorator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/HalfedgeDS/include/CGAL/HalfedgeDS_const_decorator.h $
+// $Id: HalfedgeDS_const_decorator.h 35787 2007-01-24 17:16:05Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -24,16 +24,9 @@
 #ifndef CGAL_HALFEDGEDS_CONST_DECORATOR_H
 #define CGAL_HALFEDGEDS_CONST_DECORATOR_H 1
 
-#ifndef CGAL_HALFEDGEDS_ITEMS_DECORATOR_H
 #include <CGAL/HalfedgeDS_items_decorator.h>
-#endif
-#ifndef CGAL_PROTECT_VECTOR
 #include <vector>
-#define CGAL_PROTECT_VECTOR
-#endif
-#ifndef CGAL_IO_VERBOSE_OSTREAM_H
 #include <CGAL/IO/Verbose_ostream.h>
-#endif // CGAL_IO_VERBOSE_OSTREAM_H
 
 CGAL_BEGIN_NAMESPACE
 

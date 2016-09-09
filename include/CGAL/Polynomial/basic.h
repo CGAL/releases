@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/basic.h $
-// $Id: basic.h 29565 2006-03-16 22:02:23Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/basic.h $
+// $Id: basic.h 35766 2007-01-20 21:39:01Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -64,14 +64,10 @@ CGAL_POLYNOMIAL_BEGIN_NAMESPACE
 static const Sign ZERO= CGAL::ZERO;
 static const Sign POSITIVE= CGAL::POSITIVE;
 static const Sign NEGATIVE= CGAL::NEGATIVE;*/
-typedef int Sign;
-static const int ZERO =CGAL::ZERO;
-static const int POSITIVE=CGAL::POSITIVE;
-static const int NEGATIVE=CGAL::NEGATIVE;
-typedef int Comparison_result;
+/*typedef int Comparison_result;
 static const int EQUAL= CGAL::EQUAL;
 static const int SMALLER= CGAL::SMALLER;
-static const int LARGER = CGAL::LARGER;
+static const int LARGER = CGAL::LARGER;*/
 static const int UNKNOWN = -3;
 typedef int Order;
 static const int STRICTLY_BELOW = -3;
@@ -84,21 +80,23 @@ static const int STRICTLY_ABOVE=3;
 
 //typedef CGAL::Comparison_result Comparison_result;
 
-template <class NT>
+/*template <class NT>
 Sign sign(const NT &nt)
 {
     return CGAL::sign(nt);
-}
+    }*/
 
 
-typedef ::CGAL::Ring_tag             Ring_tag;
+/*typedef ::CGAL::Integral_domain_without_division_tag             Integral_domain_without_division_tag;
 typedef ::CGAL::Euclidean_ring_tag   Euclidean_ring_tag;
 typedef ::CGAL::Field_tag            Field_tag;
-typedef ::CGAL::Sqrt_field_tag       Sqrt_field_tag;
+typedef ::CGAL::Field_with_sqrt_tag       Field_with_sqrt_tag;*/
 
 CGAL_POLYNOMIAL_END_NAMESPACE
 
 #define CGAL_POLYNOMIAL_TO_DOUBLE(d) CGAL::to_double(d)
+
+#define CGAL_POLYNOMIAL_TO_INTERVAL(d) CGAL::to_interval(d)
 
 #else
 /*
@@ -125,10 +123,10 @@ Sign sign(const NT &nt)
 }
 
 
-struct Ring_tag {};
+struct Integral_domain_without_division_tag {};
 struct Euclidean_ring_tag {};
 struct Field_tag {};
-struct Sqrt_field_tag {};
+struct Field_with_sqrt_tag {};
 
 CGAL_POLYNOMIAL_END_NAMESPACE
 #endif
@@ -158,7 +156,7 @@ template <class NT>
 inline Extended_sign extended_sign(const NT &nt)
 {
   // for VC
-  switch(CGAL::POLYNOMIAL::sign(nt)) {
+  switch(CGAL::sign(nt)) {
         case ZERO: return EXTENDED_ZERO;
         case POSITIVE: return EXTENDED_POSITIVE;
         default: return EXTENDED_NEGATIVE;
@@ -169,9 +167,9 @@ inline Extended_sign extended_sign(const NT &nt)
 template <class Rt>
 inline Rt infinity()
 {
-    BOOST_STATIC_ASSERT(std::numeric_limits<Rt>::is_specialized);
+  //BOOST_STATIC_ASSERT(std::numeric_limits<Rt>::is_specialized);
     if (std::numeric_limits<Rt>::has_infinity) return std::numeric_limits<Rt>::infinity();
-    else return std::numeric_limits<Rt>::max();
+    else return (std::numeric_limits<Rt>::max)();
 }
 
 

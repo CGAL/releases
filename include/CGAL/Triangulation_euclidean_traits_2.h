@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_2.h $
-// $Id: Triangulation_euclidean_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_2.h $
+// $Id: Triangulation_euclidean_traits_2.h 37361 2007-03-21 15:29:30Z cdelage $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -45,6 +45,8 @@ public:
   typedef typename R::Line_2      Line_2;
   typedef typename R::Ray_2       Ray_2;
 
+  typedef typename R::Less_x_2                   Less_x_2;
+  typedef typename R::Less_y_2                   Less_y_2;
   typedef typename R::Compare_x_2                Compare_x_2;
   typedef typename R::Compare_y_2                Compare_y_2;
   typedef typename R::Orientation_2              Orientation_2;
@@ -70,6 +72,14 @@ public:
       (const Triangulation_euclidean_traits_2 &)
   {return *this;}
  
+  Less_x_2
+  less_x_2_object() const
+    { return Less_x_2();}
+
+  Less_y_2
+  less_y_2_object() const
+    { return Less_y_2();}
+  
   Compare_x_2
   compare_x_2_object() const
     { return Compare_x_2();}

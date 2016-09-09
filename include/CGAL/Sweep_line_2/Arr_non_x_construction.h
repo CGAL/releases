@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2/Arr_non_x_construction.h $
-// $Id: Arr_non_x_construction.h 28840 2006-02-27 14:36:55Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Sweep_line_2/Arr_non_x_construction.h $
+// $Id: Arr_non_x_construction.h 36756 2007-03-02 10:46:49Z spion $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -62,10 +62,10 @@ class Arr_non_x_construction
 
   
  
-  typedef Basic_sweep_line_2<Traits_2,
-                             Visitor,
-                             Subcurve,
-                             Event>                 Basic_sweep_line_2;
+  typedef CGAL::Basic_sweep_line_2<Traits_2,
+                                   Visitor,
+                                   Subcurve,
+                                   Event>           Basic_sweep_line_2;
  
 public:
 
@@ -87,34 +87,7 @@ public:
   void insert_curves (XCurveInputIterator begin,
                       XCurveInputIterator end)
   {
-    // Copy the x-montone curves.
-    std::list<X_monotone_curve_2>      x_curves;
-
-    std::copy (begin, end, std::back_inserter(x_curves));
-
-    // Add the existing curves in the arrangement.
-    Edge_iterator                      eit;
-
-    for (eit = m_arr->edges_begin(); eit != m_arr->edges_end(); ++eit) 
-      x_curves.push_back (eit->curve());
-
-    // Add the existing isolated vertices in the arrangement.
-    std::list<Point_2>                 iso_points;
-    Vertex_iterator                    vit;
-
-    for (vit = m_arr->vertices_begin(); vit != m_arr->vertices_end(); ++vit)
-    {
-      if (vit->is_isolated())
-        iso_points.push_back (vit->point());
-    }
-
-    // Perform the sweep.
-    m_arr->clear();
-    m_sweep_line.sweep (x_curves.begin(),
-			                  x_curves.end(),
-			                  iso_points.begin(),
-			                  iso_points.end());
-
+    m_sweep_line.sweep (begin, end);
     return;
   }
               

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Weighted_point.h $
-// $Id: Weighted_point.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Weighted_point.h $
+// $Id: Weighted_point.h 32411 2006-07-12 01:01:59Z lrineau $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -76,19 +76,28 @@ template < class Point, class Weight >
 std::ostream &
 operator<<(std::ostream &os, const Weighted_point<Point,Weight> &p)
 {
-	return os << p.point() << " " << p.weight();
+  os << p.point();
+  if(is_ascii(os))
+    os << " " << p.weight();
+  else
+    write(os, p.weight());
+  return os;
 }
 
 template < class Point, class Weight >
 std::istream &
 operator>>(std::istream &is, Weighted_point<Point,Weight> &wp)
 {
-	Weight w;
-	Point p;
-	is >> p >> w;
-	if (is)
-	    wp = Weighted_point<Point,Weight>(p,w);
-	return is;
+  Weight w;
+  Point p;
+  is >> p;
+  if(is_ascii(is))
+    is >> w;
+  else
+    read(is, w);
+  if (is)
+    wp = Weighted_point<Point,Weight>(p,w);
+  return is;
 }
 
 CGAL_END_NAMESPACE

@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Oriented_side_C2.h $
-// $Id: Oriented_side_C2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Oriented_side_C2.h $
+// $Id: Oriented_side_C2.h 32830 2006-07-31 13:25:07Z mkaravel $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -23,23 +23,25 @@
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_ORIENTED_SIDE_C2_H
 
 #include <CGAL/Segment_Delaunay_graph_2/Basic_predicates_C2.h>
-#include <CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_2.h>
+#include <CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_C2.h>
 
 
 CGAL_BEGIN_NAMESPACE
+
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
 
 //-----------------------------------------------------------------------------
 
 
 
 template<class K, class Method_tag>
-class Sdg_oriented_side_C2
-  : public Sdg_basic_predicates_C2<K>
+class Oriented_side_C2
+  : public Basic_predicates_C2<K>
 {
 private:
 
-  typedef Sdg_basic_predicates_C2<K>          Base;
-  typedef Sdg_voronoi_vertex_2<K,Method_tag>  Voronoi_vertex_2;
+  typedef Basic_predicates_C2<K>              Base;
+  typedef Voronoi_vertex_C2<K,Method_tag>     Voronoi_vertex_2;
   
   typedef typename Base::Point_2              Point_2;
   typedef typename Base::Segment_2            Segment_2;
@@ -49,9 +51,10 @@ private:
   typedef typename Base::RT                   RT;
 
 public:
-  typedef Oriented_side              result_type;
-  typedef Site_2                     argument_type;
-  typedef Arity_tag<5>               Arity;
+  typedef typename Base::Oriented_side        Oriented_side;
+  typedef Oriented_side                       result_type;
+  typedef Site_2                              argument_type;
+  typedef Arity_tag<5>                        Arity;
 
   // computes the oriented side of the point q
   // wrt the line that is passes through the point p and its direction
@@ -89,6 +92,8 @@ public:
 
 
 //-----------------------------------------------------------------------------
+
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
 
 CGAL_END_NAMESPACE
 

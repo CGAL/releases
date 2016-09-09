@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_debug.h $
-// $Id: Approximate_min_ellipsoid_d_debug.h 28726 2006-02-23 14:50:30Z fischerk $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_debug.h $
+// $Id: Approximate_min_ellipsoid_d_debug.h 37176 2007-03-17 08:35:57Z afabri $
 // 
 //
 // Author(s)     : Kaspar Fischer <fischerk@inf.ethz.ch>
@@ -278,12 +278,11 @@ namespace CGAL {
       
       // Begins exporting to file filename.  Sets the current stroke mode
       // to Solid and the current label-mode to Random_angle.
-      Eps_export_2(std::string filename,double zoom,int seed=0) :
-	bb(4,0.0), bm(Solid), lm(Random_angle), count(1), 
-	next_label(default_label(1)), adjust_bb(true),
-	zoom(zoom), filename(filename)
-      {
-      }
+      Eps_export_2(std::string filename, double zoom, int /* seed */ = 0) 
+	: bb(4,0.0), bm(Solid), lm(Random_angle), count(1), 
+	  next_label(default_label(1)), adjust_bb(true),
+	  zoom(zoom), filename(filename)
+      {}
       
       // Ends exporting and closes the file.
       ~Eps_export_2()
@@ -557,7 +556,7 @@ namespace CGAL {
 	adjust_bounding_box(x-r,y-r);
 	adjust_bounding_box(x+r,y+r);
 	body << x << ' ' << y << ' ' << r << ' ';
-	char *mode[] = { "ball", "bball", "dball" };
+	const char *mode[] = { "ball", "bball", "dball" };
 	body << mode[static_cast<int>(bm)] << std::endl;
 	
 	// output label:
@@ -649,21 +648,21 @@ namespace CGAL {
 	const double tmp2 = ((u*(u*b-2.0*v*h)+v*v*a)/tmp1-4.0*mu)/tmp1;
 	const double hw   = 0.5*std::sqrt(b*tmp2),  vw = 0.5*std::sqrt(a*tmp2);
 	const double hoff = -0.5*(u*b-v*h)/tmp1, voff = 0.5*(u*h-v*a)/tmp1;
-	adjust_bounding_box(std::min(hw+hoff,-hw+hoff),
-			    std::min(vw+voff,-vw+voff));
-	adjust_bounding_box(std::max(hw+hoff,-hw+hoff),
-			    std::max(vw+voff,-vw+voff));
+	adjust_bounding_box((std::min)(hw+hoff,-hw+hoff),
+			    (std::min)(vw+voff,-vw+voff));
+	adjust_bounding_box((std::max)(hw+hoff,-hw+hoff),
+			    (std::max)(vw+voff,-vw+voff));
 
 	#if 0
 	// draw bounding box:
-	body << "newpath " << std::min(hw+hoff,-hw+hoff) << " "
-	     << std::min(vw+voff,-vw+voff) << " moveto "
-	     << std::max(hw+hoff,-hw+hoff) << " " 
-	     << std::min(vw+voff,-vw+voff) << " lineto "
-	     << std::max(hw+hoff,-hw+hoff) << " "
-	     << std::max(vw+voff,-vw+voff) << " lineto "
-	     << std::min(hw+hoff,-hw+hoff)  << " "
-	     << std::max(vw+voff,-vw+voff) << " lineto closepath stroke\n";
+	body << "newpath " << (std::min)(hw+hoff,-hw+hoff) << " "
+	     << (std::min)(vw+voff,-vw+voff) << " moveto "
+	     << (std::max)(hw+hoff,-hw+hoff) << " " 
+	     << (std::min)(vw+voff,-vw+voff) << " lineto "
+	     << (std::max)(hw+hoff,-hw+hoff) << " "
+	     << (std::max)(vw+voff,-vw+voff) << " lineto "
+	     << (std::min)(hw+hoff,-hw+hoff)  << " "
+	     << (std::max)(vw+voff,-vw+voff) << " lineto closepath stroke\n";
 	#endif
 
 	// begin drawing:
@@ -697,10 +696,10 @@ namespace CGAL {
       // Make sure the bounding box is large enough to contain the point (x,y).
       {
 	if (adjust_bb) {
-	  bb[0] = std::min(x,bb[0]);
-	  bb[2] = std::max(x,bb[2]);
-	  bb[1] = std::min(y,bb[1]);
-	  bb[3] = std::max(y,bb[3]);
+	  bb[0] = (std::min)(x,bb[0]);
+	  bb[2] = (std::max)(x,bb[2]);
+	  bb[1] = (std::min)(y,bb[1]);
+	  bb[3] = (std::max)(y,bb[3]);
 	}
       }
       

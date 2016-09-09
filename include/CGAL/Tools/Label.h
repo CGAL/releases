@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Tools/Label.h $
-// $Id: Label.h 31252 2006-05-22 12:26:07Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Tools/Label.h $
+// $Id: Label.h 36638 2007-02-27 22:45:58Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -55,7 +55,8 @@ public:
     return id_ >=0;
   }
   unsigned int to_index() const {
-    CGAL_precondition(is_valid());
+    //CGAL_precondition(is_valid());
+    assert(is_valid()); // change to remove PDB dependency on libCGAL
     return id_;
   }
 
@@ -63,23 +64,31 @@ public:
   {
     return id_ < o.id_;
   }
+  bool operator>=(const This &o) const
+  {
+    return id_ >= o.id_;
+  }  
+  bool operator<=(const This &o) const
+  {
+    return id_ <= o.id_;
+  }
   bool operator>(const This &o) const
   {
     return id_ > o.id_;
   }
   bool operator==(const This &o) const
   {
-    return id_ ==o.id_;
+    return id_ == o.id_;
   }
   bool operator!=(const This &o) const
   {
-    return id_ !=o.id_;
+    return id_ != o.id_;
   }
 
   template <class OS>
   void write(OS &out) const
   {
-    if (id_==-1) out << "N";
+    if (id_ == -1) out << "N";
     else out << id_;
   }
   void print() const

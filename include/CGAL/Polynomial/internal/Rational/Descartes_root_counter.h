@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Descartes_root_counter.h $
-// $Id: Descartes_root_counter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Rational/Descartes_root_counter.h $
+// $Id: Descartes_root_counter.h 35766 2007-01-20 21:39:01Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -44,8 +44,8 @@ class Descartes_root_counter
 //! Note, the result is an upper bound
         template <class NTT>
             result_type operator()(const NTT &lb, const NTT &ub,
-            CGAL_POLYNOMIAL_NS::Sign=CGAL_POLYNOMIAL_NS::ZERO,
-            CGAL_POLYNOMIAL_NS::Sign=CGAL_POLYNOMIAL_NS::ZERO) const
+				   CGAL::Sign=CGAL::ZERO,
+				   CGAL::Sign=CGAL::ZERO) const
         {
             typename Kernel::Function mf= map_(lb, ub);
 

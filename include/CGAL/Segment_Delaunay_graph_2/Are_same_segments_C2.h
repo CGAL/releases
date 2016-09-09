@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,32 +11,37 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Are_same_segments_C2.h $
-// $Id: Are_same_segments_C2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Are_same_segments_C2.h $
+// $Id: Are_same_segments_C2.h 32830 2006-07-31 13:25:07Z mkaravel $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
 
-#include <CGAL/Segment_Delaunay_graph_2/Are_same_points_C2.h>
-
-
 #ifndef CGAL_SEGMENT_DELAUNAY_GRAPH_2_ARE_SAME_SEGMENTS_C2_H
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_ARE_SAME_SEGMENTS_C2_H
 
+#include <CGAL/Segment_Delaunay_graph_2/Are_same_points_C2.h>
+
 CGAL_BEGIN_NAMESPACE
 
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
+
 template<class K>
-class Sdg_are_same_segments_C2
+class Are_same_segments_C2
 {
 private:
-  typedef typename K::Site_2          Site_2;
-  typedef Sdg_are_same_points_C2<K>   Are_same_points_2;
+  typedef Are_same_points_C2<K>       Are_same_points_2;
 
 private:
   Are_same_points_2  same_points;
 
 public:
+  typedef typename K::Site_2    Site_2;
+  typedef bool                  result_type;
+  typedef Site_2                argument_type;
+  typedef Arity_tag<2>          Arity;
+
   bool operator()(const Site_2& p, const Site_2& q) const
   {
     CGAL_precondition( p.is_segment() && q.is_segment() );
@@ -49,7 +54,7 @@ public:
   }
 };
 
-
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
 
 CGAL_END_NAMESPACE
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_vertex_base_2.h $
-// $Id: Segment_Delaunay_graph_vertex_base_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_vertex_base_2.h $
+// $Id: Segment_Delaunay_graph_vertex_base_2.h 32895 2006-08-02 08:47:20Z mkaravel $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -25,89 +25,39 @@
 
 #include <CGAL/Segment_Delaunay_graph_2/basic.h>
 
-#include <list>
 #include <CGAL/Triangulation_ds_vertex_base_2.h>
 #include <CGAL/Segment_Delaunay_graph_storage_site_2.h>
 #include <CGAL/Segment_Delaunay_graph_simple_storage_site_2.h>
 
-#include <CGAL/Segment_Delaunay_graph_2/Simple_container_wrapper.h>
+
 
 CGAL_BEGIN_NAMESPACE
 
-namespace CGALi {
-
-  template<class Gt, class USE_SIMPLE_STORAGE_SITE_Tag>
-  struct SDGVB2_Which_storage_site;
-
-  // use the simple storage site
-  template<class Gt>
-  struct SDGVB2_Which_storage_site<Gt,Tag_false>
-  {
-    typedef Gt         Geom_traits;
-    typedef Tag_false  Storage_site_tag;
-
-    typedef
-    Segment_Delaunay_graph_simple_storage_site_2<Geom_traits>
-    Storage_site_2;
-  };
-
-  // use the full storage site
-  template<class Gt>
-  struct SDGVB2_Which_storage_site<Gt,Tag_true>
-  {
-    typedef Gt         Geom_traits;
-    typedef Tag_true   Storage_site_tag;
-
-    typedef
-    Segment_Delaunay_graph_storage_site_2<Geom_traits>
-    Storage_site_2;
-  };
-
-
-} // namespace CGALi
-
-
-template < class Gt,
-	   class USE_FULL_STORAGE_SITE_Tag = Tag_true,
-	   class Vb = Triangulation_ds_vertex_base_2<> >
+template < class STraits, class Vb = Triangulation_ds_vertex_base_2<> >
 class Segment_Delaunay_graph_vertex_base_2
   : public Vb
 {
 private:
   typedef typename Vb::Triangulation_data_structure  DS;
-
-  typedef std::list<typename Gt::Point_2>     PC;
-
-  typedef Simple_container_wrapper<PC>        Point_container;
-  typedef Vb                                  Base;
+  typedef Vb                                         Base;
 
 public:
   // TYPES
   //------
-  typedef Gt                                  Geom_traits;
-  typedef typename Point_container::iterator  Point_handle;
-  typedef typename Gt::Site_2                 Site_2;
-  typedef USE_FULL_STORAGE_SITE_Tag           Storage_site_tag;
-
-private:
-  typedef
-  CGALi::SDGVB2_Which_storage_site<Geom_traits,Storage_site_tag>
-  Which_storage_site;
-
-public:
-  typedef typename Which_storage_site::Storage_site_2  Storage_site_2;
-
-  typedef DS                                  Data_structure;
+  typedef STraits                                  Storage_traits;
+  typedef typename Storage_traits::Geom_traits     Geom_traits;
+  typedef typename Geom_traits::Site_2             Site_2;
+  typedef typename Storage_traits::Storage_site_2  Storage_site_2;
+  typedef DS                                       Data_structure;
   
-  typedef typename DS::Face_handle    Face_handle;
-  typedef typename DS::Vertex_handle  Vertex_handle;
+  typedef typename DS::Face_handle                 Face_handle;
+  typedef typename DS::Vertex_handle               Vertex_handle;
 
 
   template < typename DS2 >
   struct Rebind_TDS {
-    typedef typename Vb::template Rebind_TDS<DS2>::Other   Vb2;
-    typedef Storage_site_tag                               STag;
-    typedef Segment_Delaunay_graph_vertex_base_2<Gt,STag,Vb2>  Other;
+    typedef typename Vb::template Rebind_TDS<DS2>::Other       Vb2;
+    typedef Segment_Delaunay_graph_vertex_base_2<STraits,Vb2>  Other;
   };
 
   

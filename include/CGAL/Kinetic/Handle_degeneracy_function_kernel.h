@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Handle_degeneracy_function_kernel.h $
-// $Id: Handle_degeneracy_function_kernel.h 28655 2006-02-21 05:49:40Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Handle_degeneracy_function_kernel.h $
+// $Id: Handle_degeneracy_function_kernel.h 35973 2007-01-31 03:15:14Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -21,15 +21,13 @@
 #ifndef CGAL_KINETIC_ROOT_DEGEN_FK_H
 #define CGAL_KINETIC_ROOT_DEGEN_FK_H
 #include <CGAL/Kinetic/basic.h>
+#include <CGAL/Kinetic/internal/debug_counters.h>
 
 CGAL_KINETIC_BEGIN_NAMESPACE;
 
-template <class Traits_t>
-struct Handle_degeneracy_function_kernel: public Traits_t
-{
 
-  class Root_stack
-  {
+template <class Traits_t, bool SLOPPY>
+class HDRS{
   private:
     typedef typename Traits_t::Root_stack Wrapped_solver;
     typedef typename Traits_t::Function Function;
@@ -41,59 +39,71 @@ struct Handle_degeneracy_function_kernel: public Traits_t
     /*!
 
     */
-    Root_stack(const Function &uf, const Root& lb,
-	       const Root& ub, const Traits_t& k): solver_(k.root_stack_object(uf, lb, ub)),
-						   iem_(k.is_even_multiplicity_object(uf)) {
-      CGAL_expensive_precondition(solver_.top() > lb);
-      CGAL::POLYNOMIAL::Sign sn= k.sign_between_roots_object(lb, solver_.top())(uf);
-      if (sn == CGAL::NEGATIVE) {
-	std::cout << "Degeneracy for " << uf << " at " << lb << std::endl;
-	extra_root_=lb;
-	has_extra_=true;
+    HDRS(const Function &uf, const Root& lb,
+	 const Root& ub, const Traits_t& k): solver_(k.root_stack_object(uf, lb, ub)) {
+      CGAL_KINETIC_LOG(LOG_LOTS, "Function= " << uf << std::endl);
+      CGAL_expensive_precondition(solver_.empty() || solver_.top() >= lb);
+      if (uf.degree() == -1) {
+	CGAL_KINETIC_LOG(LOG_SOME, "Zero function found at time " << lb << std::endl);	
+	++ internal::zero_certificates__;
       }
-      else {
-	has_extra_=false;
+#ifndef NDEBUG
+      if (!SLOPPY && k.sign_at_object()(uf, lb) == CGAL::NEGATIVE) {
+	CGAL_KINETIC_ERROR( "Invalid certificate constructed for function " << uf << " between " << lb 
+			    << " and " << ub << " will fail immediately." << std::endl);
+	CGAL_exactness_precondition(k.sign_at_object()(uf, lb) != CGAL::NEGATIVE);
       }
-      one_even_=false;
+#endif
+      if (solver_.empty()) {
+	 CGAL_KINETIC_LOG(LOG_LOTS, "No failure" << std::endl);
+	 //sn = k.sign_between_roots_object()(uf, lb, ub);
+      } else if (solver_.top() == lb) {
+	CGAL_KINETIC_LOG(LOG_LOTS, "Degeneracy at " << solver_.top() << std::endl);
+	CGAL::Sign sn = k.sign_after_object()(uf, lb);
+	if (sn == CGAL::NEGATIVE) {
+	  ++internal::function_degeneracies__;
+	  CGAL_KINETIC_LOG(LOG_LOTS, "Extra root at lower bound of " << lb << std::endl);
+	} else {
+	  CGAL_KINETIC_LOG(LOG_LOTS, "Popping extra root at lower bound of " << lb << std::endl);
+	  solver_.pop();
+	}
+      } 
     }
 
-    Root_stack(){}
+    HDRS(){}
 
     //! Drop even roots
     const Root& top() const
     {
-      if (has_extra_) return extra_root_;
-      else return solver_.top();
+      return solver_.top();
     }
 
     void pop() {
-      if (has_extra_) {
-	extra_root_=Root();
-	has_extra_=false;
-      }
-      else if (!one_even_ && iem_(solver_.top())) {
-	one_even_=true;
-      }
-      else {
-	solver_.pop();
-	one_even_=false;
-      }
+      solver_.pop();
     }
 
     bool empty() const
     {
-      return !has_extra_ && solver_.empty();
+      return solver_.empty();
     }
-    double estimate() const {
+  /*double estimate() const {
       return solver_.estimate();
+      }*/
+
+    std::ostream &write(std::ostream& out) const {
+      out << solver_;
+      return out;
     }
+
   protected:
     Wrapped_solver solver_;
-    Root extra_root_;
-    bool one_even_;
-    bool has_extra_;
-    typename Traits::Is_even_multiplicity iem_;
   };
+
+template <class Traits_t, bool SLOPPY>
+struct Handle_degeneracy_function_kernel: public Traits_t
+{
+
+  typedef HDRS<Traits_t, SLOPPY> Root_stack;
 
   Root_stack root_stack_object(const typename Traits_t::Function &f,
 			       const typename Traits_t::Root &lb,
@@ -101,6 +111,11 @@ struct Handle_degeneracy_function_kernel: public Traits_t
     return Root_stack(f, lb, ub, *this);
   }
 };
+
+template <class T, bool SLOPPY>
+std::ostream &operator<<(std::ostream &out, const HDRS<T, SLOPPY> &k) {
+  return k.write(out);
+}
 
 CGAL_KINETIC_END_NAMESPACE;
 #endif

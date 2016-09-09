@@ -15,16 +15,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Number_types/include/CGAL/known_bit_size_integers.h $
-// $Id: known_bit_size_integers.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Number_types/include/CGAL/known_bit_size_integers.h $
+// $Id: known_bit_size_integers.h 37955 2007-04-05 13:02:19Z spion $
+//
 //
 // Author(s)     : Lutz Kettner, Sylvain Pion
 
 #ifndef CGAL_KNOWN_BIT_SIZE_INTEGERS_H
 #define CGAL_KNOWN_BIT_SIZE_INTEGERS_H
 
-#include <CGAL/basic.h>
+#include <CGAL/number_type_basic.h>
 #include <boost/mpl/if.hpp>
 
 CGAL_BEGIN_NAMESPACE

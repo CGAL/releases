@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Installation/include/CGAL/Sun_fixes.h $
-// $Id: Sun_fixes.h 28904 2006-02-28 15:11:51Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Installation/include/CGAL/Sun_fixes.h $
+// $Id: Sun_fixes.h 38411 2007-04-22 15:23:03Z glisse $
 // 
 //
 // Author(s)     : Michael Hoffmann (hoffmann@inf.ethz.ch)
@@ -99,9 +99,14 @@ namespace std {
     return n;
   }
 
-} // namespace std
-
-namespace CGAL {
+  template <class InputIterator, class T>
+  inline typename iterator_traits<InputIterator>::difference_type
+  count (InputIterator first, InputIterator last, const T& value)
+  {
+    typename iterator_traits<InputIterator>::difference_type result;
+    count(first,last,value,result);
+    return result;
+  }
 
   template < class T >
   inline typename T::value_type*
@@ -121,21 +126,7 @@ namespace CGAL {
     return tmp;
   }
 
-  template < class T >
-  inline T* __value_type(T*)
-  { return (T*)(0); }
-
-  template <class T>
-  inline std::ptrdiff_t* 
-  __distance_type (T*)
-  { return (std::ptrdiff_t*)(0); }
-
-  template <class T>
-  inline std::random_access_iterator_tag 
-  __iterator_category (T*)
-  { return std::random_access_iterator_tag(); }
-
-} // namespace CGAL
+} // namespace std
 
 #endif // CGAL_CFG_SUNPRO_RWSTD
 

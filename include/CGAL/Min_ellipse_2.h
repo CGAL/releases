@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Min_ellipse_2/include/CGAL/Min_ellipse_2.h $
-// $Id: Min_ellipse_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_ellipse_2/include/CGAL/Min_ellipse_2.h $
+// $Id: Min_ellipse_2.h 35787 2007-01-24 17:16:05Z spion $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
@@ -20,29 +20,12 @@
 #ifndef CGAL_MIN_ELLIPSE_2_H
 #define CGAL_MIN_ELLIPSE_2_H
 
-// includes
-#ifndef CGAL_OPTIMISATION_BASIC_H
-#  include <CGAL/Optimisation/basic.h>
-#endif
-#ifndef CGAL_RANDOM_H
-#  include <CGAL/Random.h>
-#endif
-#ifndef CGAL_PROTECT_LIST
-#  include <list>
-#  define CGAL_PROTECT_LIST
-#endif
-#ifndef CGAL_PROTECT_VECTOR
-#  include <vector>
-#  define CGAL_PROTECT_VECTOR
-#endif
-#ifndef CGAL_PROTECT_ALGORITHM
-#  include <algorithm>
-#  define CGAL_PROTECT_ALGORITHM
-#endif
-#ifndef CGAL_PROTECT_IOSTREAM
-#  include <iostream>
-#  define CGAL_PROTECT_IOSTREAM
-#endif
+#include <CGAL/Optimisation/basic.h>
+#include <CGAL/Random.h>
+#include <list>
+#include <vector>
+#include <algorithm>
+#include <iostream>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -599,9 +582,7 @@ operator >> ( std::istream& is,       Min_ellipse_2<Traits_>& me);
 
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
-#  include <CGAL/Min_ellipse_2.C>
-#endif
+#include <CGAL/Min_ellipse_2/Min_ellipse_2_impl.h>
 
 #endif // CGAL_MIN_ELLIPSE_2_H
 

@@ -1,8 +1,5 @@
-// Copyright (c) 2001  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2005,2006  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Profile_counter.h $
-// $Id: Profile_counter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Timer/include/CGAL/Profile_counter.h $
+// $Id: Profile_counter.h 35414 2006-12-03 17:29:46Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -28,21 +25,28 @@
 // of a number, and prints a message in the destructor.
 // Typically, it can be used as a profile counter in a static variable.
 
+// It also provides the class Profile_histogram_counter which is similar,
+// but the counter is indexed by a value (unsigned int), and the final dump
+// is the histogram of the non-zero counters.  [TODO : to be documented]
+
 #include <CGAL/basic.h>
+#include <iomanip>
 #include <string>
+#include <map>
 
 CGAL_BEGIN_NAMESPACE
 
 struct Profile_counter
 {
-  Profile_counter(const std::string & ss)
-	: i(0), s(ss) {}
+    Profile_counter(const std::string & ss)
+      : i(0), s(ss) {}
 
     void operator++() { ++i; }
 
     ~Profile_counter()
     {
-	std::cerr << "Profile counter : " << s << " = " << i << std::endl;
+        std::cerr << "[CGAL::Profile_counter] "
+                  << std::setw(10) << i << " " << s << std::endl;
     }
 
 private:
@@ -50,10 +54,45 @@ private:
     const std::string s;
 };
 
+
+
+struct Profile_histogram_counter
+{
+    Profile_histogram_counter(const std::string & ss)
+      : s(ss) {}
+
+    void operator()(unsigned i) { ++counters[i]; }
+
+    ~Profile_histogram_counter()
+    {
+        unsigned total=0;
+        for (Counters::const_iterator it=counters.begin(), end=counters.end();
+             it != end; ++it) {
+            std::cerr << "[CGAL::Profile_histogram_counter] " << s;
+            std::cerr << " [ " << std::setw(10) << it->first << " : "
+                               << std::setw(10) << it->second << " ]"
+                               << std::endl;
+            total += it->second;
+        }
+        std::cerr << "[CGAL::Profile_histogram_counter] " << s;
+        std::cerr << " [ " << std::setw(10) << "Total" << " : "
+                           << std::setw(10) << total << " ]" << std::endl;
+    }
+
+private:
+    typedef std::map<unsigned, unsigned>  Counters;
+    Counters  counters;
+    const std::string s;
+};
+
 #ifdef CGAL_PROFILE
-#  define CGAL_PROFILER(Y) { static CGAL::Profile_counter tmp(Y); ++tmp; }
+#  define CGAL_PROFILER(Y) \
+   { static CGAL::Profile_counter tmp(Y); ++tmp; }
+#  define CGAL_HISTOGRAM_PROFILER(Y,Z) \
+   { static CGAL::Profile_histogram_counter tmp(Y); tmp(Z); }
 #else
 #  define CGAL_PROFILER(Y)
+#  define CGAL_HISTOGRAM_PROFILER(Y,Z)
 #endif
 
 CGAL_END_NAMESPACE

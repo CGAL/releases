@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/PointH2.h $
-// $Id: PointH2.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/PointH2.h $
+// $Id: PointH2.h 37175 2007-03-17 08:31:51Z afabri $
+//
 //
 // Author(s)     : Stefan Schirra
 
@@ -28,7 +28,10 @@
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Threetuple.h>
 #include <CGAL/Kernel/Cartesian_coordinate_iterator_2.h>
-
+#include <boost/utility/enable_if.hpp>
+#include <boost/type_traits.hpp>
+#include <boost/mpl/and.hpp>
+#include <boost/mpl/logical.hpp>
 CGAL_BEGIN_NAMESPACE
 
 template < class R_ >
@@ -39,10 +42,11 @@ class PointH2
   typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Direction_2          Direction_2;
-  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
   typedef Threetuple<RT>                           Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
+
+  typedef Rational_traits<FT>  Rat_traits;
 
   Base base;
 
@@ -54,11 +58,22 @@ public:
 
     PointH2() {}
 
-    PointH2(const Origin &)  
+    PointH2(const Origin &)
        : base (RT(0), RT(0), RT(1)) {}
 
-    PointH2(const RT& hx, const RT& hy )
-      : base (hx, hy, RT(1)) {}
+    template < typename Tx, typename Ty >
+    PointH2(const Tx & x, const Ty & y,
+            typename boost::enable_if< boost::mpl::and_<boost::is_convertible<Tx, RT>,
+                                                        boost::is_convertible<Ty, RT> > >::type* = 0)
+      : base(x, y, RT(1)) {}
+
+    PointH2(const FT& x, const FT& y)
+      : base(Rat_traits().numerator(x) * Rat_traits().denominator(y),
+             Rat_traits().numerator(y) * Rat_traits().denominator(x),
+             Rat_traits().denominator(x) * Rat_traits().denominator(y))
+    {
+      CGAL_kernel_assertion(hw() > 0);
+    }
 
     PointH2(const RT& hx, const RT& hy, const RT& hw)
     {
@@ -82,19 +97,18 @@ public:
     FT      operator[](int i)  const;
     const RT & homogeneous(int i) const;
 
-    Cartesian_const_iterator cartesian_begin() const 
+    Cartesian_const_iterator cartesian_begin() const
     {
       return Cartesian_const_iterator(static_cast<const Point_2*>(this), 0);
     }
 
-    Cartesian_const_iterator cartesian_end() const 
+    Cartesian_const_iterator cartesian_end() const
     {
       return Cartesian_const_iterator(static_cast<const Point_2*>(this), 2);
     }
 
     int     dimension() const;
 
-    Point_2 transform( const Aff_transformation_2 & t) const;
     Direction_2 direction() const;
 };
 
@@ -103,7 +117,7 @@ CGAL_KERNEL_INLINE
 bool
 PointH2<R>::operator==( const PointH2<R>& p) const
 { // FIXME : Predicate
-  return (  (hx() * p.hw() == p.hx() * hw() ) 
+  return (  (hx() * p.hw() == p.hx() * hw() )
           &&(hy() * p.hw() == p.hy() * hw() ) );
 }
 
@@ -155,16 +169,6 @@ CGAL_KERNEL_INLINE
 typename PointH2<R>::Direction_2
 PointH2<R>::direction() const
 { return typename PointH2<R>::Direction_2(*this); }
-
-
-
-template < class R >
-inline
-typename R::Point_2
-PointH2<R>::transform(const typename PointH2<R>::Aff_transformation_2& t) const
-{ return t.transform(static_cast<const typename R::Point_2 &>(*this)); }
-
-
 
 CGAL_END_NAMESPACE
 

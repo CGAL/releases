@@ -15,9 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Inventor/include/CGAL/IO/Alpha_shape_3_VRML_2_ostream.h $
-// $Id: Alpha_shape_3_VRML_2_ostream.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Inventor/include/CGAL/IO/Alpha_shape_3_VRML_2_ostream.h $
+// $Id: Alpha_shape_3_VRML_2_ostream.h 35701 2007-01-10 19:09:41Z spion $
 //
 // Author(s)     : Andreas Fabri
 
@@ -101,4 +100,3 @@ CGAL_END_NAMESPACE
 #endif // CGAL_ALPHA_SHAPE_3_H
 
 #endif CGAL_ALPHA_SHAPE_3_VRML_2_OSTREAM_H
-

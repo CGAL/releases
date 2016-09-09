@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Tetrahedron_3.h $
-// $Id: Tetrahedron_3.h 29078 2006-03-06 13:08:09Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Tetrahedron_3.h $
+// $Id: Tetrahedron_3.h 35640 2006-12-27 23:25:47Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -38,7 +38,6 @@ class TetrahedronC3
   typedef typename R_::Point_3              Point_3;
   typedef typename R_::Plane_3              Plane_3;
   typedef typename R_::Tetrahedron_3        Tetrahedron_3;
-  typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
   typedef Fourtuple<Point_3>                       Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -60,16 +59,6 @@ public:
   bool       operator==(const TetrahedronC3 &t) const;
   bool       operator!=(const TetrahedronC3 &t) const;
 
-  Bbox_3     bbox() const;
-
-  Tetrahedron_3       transform(const Aff_transformation_3 &t) const
-  {
-    return TetrahedronC3<R>(t.transform(vertex(0)),
-                t.transform(vertex(1)),
-                t.transform(vertex(2)),
-                t.transform(vertex(3)));
-  }
-
   Orientation    orientation() const;
   Oriented_side  oriented_side(const Point_3 &p) const;
   Bounded_side   bounded_side(const Point_3 &p) const;
@@ -81,7 +70,6 @@ public:
   bool       has_on_unbounded_side(const Point_3 &p) const;
 
   bool       is_degenerate() const;
-  FT         volume() const;
 };
 
 template < class R >
@@ -143,14 +131,6 @@ TetrahedronC3<R>::
 operator[](int i) const
 {
   return vertex(i);
-}
-
-template < class R >
-CGAL_KERNEL_MEDIUM_INLINE
-typename TetrahedronC3<R>::FT
-TetrahedronC3<R>::volume() const
-{
-    return R().compute_volume_3_object()(*this);
 }
 
 template < class R >
@@ -236,49 +216,6 @@ TetrahedronC3<R>::is_degenerate() const
 {
   return orientation() == COPLANAR;
 }
-
-template < class R >
-inline
-Bbox_3
-TetrahedronC3<R>::bbox() const
-{
-  typename R::Construct_bbox_3 construct_bbox_3;
-  return construct_bbox_3(vertex(0)) + construct_bbox_3(vertex(1))
-       + construct_bbox_3(vertex(2)) + construct_bbox_3(vertex(3));
-}
-
-#ifndef CGAL_NO_OSTREAM_INSERT_TETRAHEDRONC3
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const TetrahedronC3<R> &t)
-{
-    switch(os.iword(IO::mode)) {
-    case IO::ASCII :
-        return os << t[0] << ' ' << t[1] << ' ' << t[2] << ' ' << t[3];
-    case IO::BINARY :
-        return os << t[0]  << t[1]  << t[2] << t[3];
-    default:
-        os << "TetrahedronC3(" << t[0] <<  ", " << t[1] <<   ", " << t[2];
-        os <<  ", " << t[3] << ")";
-        return os;
-    }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_TETRAHEDRONC3
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_TETRAHEDRONC3
-template < class R >
-std::istream &
-operator>>(std::istream &is, TetrahedronC3<R> &t)
-{
-    typename R::Point_3 p, q, r, s;
-
-    is >> p >> q >> r >> s;
-
-    if (is)
-	t = TetrahedronC3<R>(p, q, r, s);
-    return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_TETRAHEDRONC3
 
 CGAL_END_NAMESPACE
 

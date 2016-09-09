@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2/Sweep_line_subcurve.h $
-// $Id: Sweep_line_subcurve.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Sweep_line_2/Sweep_line_subcurve.h $
+// $Id: Sweep_line_subcurve.h 32005 2006-06-22 12:09:24Z baruchzu $
 // 
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>,
@@ -86,15 +86,22 @@ public:
 
   Sweep_line_subcurve(const X_monotone_curve_2 &curve);
 
-  template <class SweepEvent>
-  void init(const X_monotone_curve_2 &curve,
-            SweepEvent* left,
-            SweepEvent* right)
+  void init(const X_monotone_curve_2 &curve)
   {
     m_lastCurve = curve;
-    m_left_event  = reinterpret_cast<Event*>(left);
-    m_right_event = reinterpret_cast<Event*>(right);
   }
+
+  /*template <class SweepEvent>
+  void set_left_event(SweepEvent* left)
+  {
+    m_left_event  = reinterpret_cast<Event*>(left);
+  }
+
+  template <class SweepEvent>
+  void set_right_event(SweepEvent* right)
+  {
+    m_right_event  = reinterpret_cast<Event*>(right);
+  }*/
 
   ~Sweep_line_subcurve() {}
 
@@ -103,6 +110,13 @@ public:
     @return a const reference to the last intersecing curve so far
   */
   const X_monotone_curve_2 &get_last_curve() const { 
+    return m_lastCurve; 
+  }
+
+   /*!
+    @return a reference to the last intersecing curve so far
+  */
+  X_monotone_curve_2 &get_last_curve() { 
     return m_lastCurve; 
   }
 

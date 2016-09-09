@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_vertex_base_3.h $
-// $Id: Regular_triangulation_vertex_base_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/Regular_triangulation_vertex_base_3.h $
+// $Id: Regular_triangulation_vertex_base_3.h 35779 2007-01-23 21:25:46Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -31,8 +31,8 @@ template <class SimulationTraits,
 class Vertex_base= CGAL::Triangulation_vertex_base_3<typename SimulationTraits::Instantaneous_kernel> >
 class Regular_triangulation_vertex_base_3:
 public CGAL::Triangulation_vertex_base_with_info_3<typename SimulationTraits::Simulator::Event_key,
-typename SimulationTraits::Instantaneous_kernel,
-Vertex_base>
+						   typename SimulationTraits::Instantaneous_kernel,
+						   Vertex_base>
 {
     private:
         typedef CGAL::Triangulation_vertex_base_with_info_3<typename SimulationTraits::Simulator::Event_key,

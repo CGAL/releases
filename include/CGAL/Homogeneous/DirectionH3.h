@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH3.h $
-// $Id: DirectionH3.h 29102 2006-03-06 23:51:27Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH3.h $
+// $Id: DirectionH3.h 33063 2006-08-06 15:29:08Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -38,7 +38,6 @@ class DirectionH3
    typedef typename R_::Segment_3            Segment_3;
    typedef typename R_::Line_3               Line_3;
    typedef typename R_::Ray_3                Ray_3;
-   typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
     typedef Fourtuple<RT>                            Rep;
     typedef typename R_::template Handle<Rep>::type  Base;
@@ -57,7 +56,7 @@ public:
   { *this = v.direction(); }
 
   DirectionH3(const Line_3 & l )
-  { *this = l.direction(); }
+  { *this = l.rep().direction(); }
 
   DirectionH3(const Ray_3 & r )
   { *this = r.direction(); }
@@ -74,11 +73,6 @@ public:
     else
       base = Rep(-x,-y,-z,-w);
   }
-
-  DirectionH3<R>
-        transform(const Aff_transformation_3 &) const ;
-  DirectionH3<R>
-        operator-() const;
 
   bool  is_degenerate() const;
 
@@ -97,23 +91,7 @@ public:
   const RT & hx() const { return get(base).e0; }
   const RT & hy() const { return get(base).e1; }
   const RT & hz() const { return get(base).e2; }
-
-  const RT & delta(int i) const;
 };
-
-template <class R >
-CGAL_KERNEL_INLINE
-const typename DirectionH3<R>::RT &
-DirectionH3<R>::delta(int i) const
-{
-  switch (i)
-  {
-      case 0:  return x();
-      case 1:  return y();
-      case 2:  return z();
-      default: return delta( i%3 );
-  }
-}
 
 template <class R >
 CGAL_KERNEL_INLINE
@@ -142,12 +120,6 @@ DirectionH3<R>::is_degenerate() const
 
 template <class R >
 inline
-DirectionH3<R>
-DirectionH3<R>::operator-() const
-{ return DirectionH3<R>(- hx(),- hy(),- hz() ); }
-
-template <class R >
-inline
 typename DirectionH3<R>::Vector_3
 DirectionH3<R>::to_vector() const
 { return Vector_3(dx(), dy(), dz(), RT(1)); }
@@ -158,59 +130,6 @@ DirectionH3<R>
 cross_product( const DirectionH3<R>& d1,
                const DirectionH3<R>& d2)
 { return cross_product(d1.to_vector(),d2.to_vector()).direction(); }
-
-template <class R >
-inline
-DirectionH3<R>
-DirectionH3<R>::
-transform(const typename DirectionH3<R>::Aff_transformation_3& t) const
-{ return t.transform(*this); }
-
-#ifndef CGAL_NO_OSTREAM_INSERT_DIRECTIONH3
-template < class R >
-std::ostream &operator<<(std::ostream &os, const DirectionH3<R> &p)
-{
-  switch(os.iword(IO::mode))
-  {
-    case IO::ASCII :
-        return os << p.dx() << ' ' << p.dy() << ' ' << p.dz();
-    case IO::BINARY :
-        write(os, p.dx());
-        write(os, p.dy());
-        write(os, p.dz());
-        return os;
-    default:
-        return os << "DirectionH3(" << p.dx() << ", "
-                                    << p.dy() << ", "
-                                    << p.dz() << ')';
-  }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_DIRECTIONH3
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_DIRECTIONH3
-template < class R >
-std::istream &operator>>(std::istream &is, DirectionH3<R> &p)
-{
-  typename R::RT x, y, z;
-  switch(is.iword(IO::mode))
-  {
-    case IO::ASCII :
-        is >> x >> y >> z;
-        break;
-    case IO::BINARY :
-        read(is, x);
-        read(is, y);
-        read(is, z);
-        break;
-    default:
-        std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
-        break;
-  }
-  p = DirectionH3<R>(x, y, z);
-  return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_DIRECTIONH3
 
 CGAL_END_NAMESPACE
 

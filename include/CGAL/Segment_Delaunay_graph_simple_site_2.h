@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_simple_site_2.h $
-// $Id: Segment_Delaunay_graph_simple_site_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_simple_site_2.h $
+// $Id: Segment_Delaunay_graph_simple_site_2.h 37427 2007-03-23 19:14:27Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -82,16 +82,16 @@ public:
     return Self();
   }
 
-  static Self construct_site_2(const Point_2& p1, const Point_2& p2,
-			       const Point_2& q1, const Point_2& q2,
-			       bool b) {
+  static Self construct_site_2(const Point_2& , const Point_2& ,
+			       const Point_2& , const Point_2& ,
+			       bool ) {
     no_constructor_support();
     return Self();
   }
 
-  static Self construct_site_2(const Point_2& p1, const Point_2& p2,
-			       const Point_2& q1, const Point_2& q2,
-			       const Point_2& r1, const Point_2& r2) {
+  static Self construct_site_2(const Point_2& , const Point_2& ,
+			       const Point_2& , const Point_2& ,
+			       const Point_2& , const Point_2& ) {
     no_constructor_support();
     return Self();
   }
@@ -104,7 +104,7 @@ public:
   bool is_point() const { return type_ == 1; }
   bool is_segment() const { return type_ == 2; }
   bool is_input() const { return true; }
-  bool is_input(unsigned int i) const { return true; }
+  bool is_input(unsigned int) const { return true; }
 
   const Point_2& point() const { 
     CGAL_precondition ( is_point() );

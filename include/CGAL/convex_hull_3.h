@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_3/include/CGAL/convex_hull_3.h $
-// $Id: convex_hull_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_3/include/CGAL/convex_hull_3.h $
+// $Id: convex_hull_3.h 31432 2006-06-05 11:07:27Z wein $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -28,7 +28,7 @@
 #include <CGAL/Polyhedron_incremental_builder_3.h>
 #include <CGAL/Convex_hull_traits_3.h>
 #include <CGAL/functional.h>
-#include <CGAL/ch_assertions.h>
+#include <CGAL/Convex_hull_2/ch_assertions.h>
 #include <iostream>
 #include <algorithm>
 #include <utility>

@@ -36,6 +36,8 @@ LDFLAGS = \
 all:            \
                 sdg-count-sites$(EXE_EXT) \
                 sdg-filtered-traits$(EXE_EXT) \
+                sdg-info-set$(EXE_EXT) \
+                sdg-red-blue-info$(EXE_EXT) \
                 sdg-voronoi-edges$(EXE_EXT) 
 
 sdg-count-sites$(EXE_EXT): sdg-count-sites$(OBJ_EXT)
@@ -44,12 +46,20 @@ sdg-count-sites$(EXE_EXT): sdg-count-sites$(OBJ_EXT)
 sdg-filtered-traits$(EXE_EXT): sdg-filtered-traits$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)sdg-filtered-traits sdg-filtered-traits$(OBJ_EXT) $(LDFLAGS)
 
+sdg-info-set$(EXE_EXT): sdg-info-set$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)sdg-info-set sdg-info-set$(OBJ_EXT) $(LDFLAGS)
+
+sdg-red-blue-info$(EXE_EXT): sdg-red-blue-info$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)sdg-red-blue-info sdg-red-blue-info$(OBJ_EXT) $(LDFLAGS)
+
 sdg-voronoi-edges$(EXE_EXT): sdg-voronoi-edges$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)sdg-voronoi-edges sdg-voronoi-edges$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
                    sdg-count-sites.clean \
                    sdg-filtered-traits.clean \
+                   sdg-info-set.clean \
+                   sdg-red-blue-info.clean \
                    sdg-voronoi-edges.clean 
 
 #---------------------------------------------------------------------#

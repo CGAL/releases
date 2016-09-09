@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Optimisation_basic/include/CGAL/Optimisation/Access_coordinates_begin_2.h $
-// $Id: Access_coordinates_begin_2.h 30667 2006-04-19 16:56:12Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Optimisation_basic/include/CGAL/Optimisation/Access_coordinates_begin_2.h $
+// $Id: Access_coordinates_begin_2.h 36740 2007-03-01 16:52:45Z gaertner $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>
@@ -94,7 +94,7 @@ class Point_2_coordinate_iterator {
     bool   operator >= ( const Self& it) const { return ( i >= it.i); }
 
 private:
-    const Point&  p;
+    Point         p;
     int           i;
 };
 

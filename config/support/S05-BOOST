@@ -7,9 +7,10 @@ LDFLAGS =
 LIBS = 
 REQUIRES = 
 INCOMPATIBLE = 
-STDINCLDIRS = /usr/include/\*
+STDINCLDIRS = /usr/include/\*:/sw/include
 INCLTHING = boost
 STDLIBDIRS = 
 LIBTHING = 
+COMPILETESTFLAGS = 
 
 # EOF

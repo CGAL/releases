@@ -15,15 +15,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Stream_support/src/CGAL/File_writer_inventor.cpp $
-// $Id: File_writer_inventor.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Stream_support/src/CGAL/File_writer_inventor.cpp $
+// $Id: File_writer_inventor.cpp 35794 2007-01-24 18:00:30Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 
-#ifndef CGAL_IO_FILE_WRITER_INVENTOR_H
 #include <CGAL/IO/File_writer_inventor.h>
-#endif // CGAL_IO_FILE_WRITER_INVENTOR_H
 
 CGAL_BEGIN_NAMESPACE
 

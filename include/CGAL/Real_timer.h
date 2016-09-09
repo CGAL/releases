@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Timer/include/CGAL/Real_timer.h $
-// $Id: Real_timer.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Timer/include/CGAL/Real_timer.h $
+// $Id: Real_timer.h 32857 2006-08-01 00:05:18Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>  
@@ -68,7 +68,7 @@ public:
     // Returns -1.0 if timer system call fails, which, for a proper coded
     // test towards precision leads to an immediate stop of an otherwise 
     // infinite loop (fixed tolerance * total time >= precision).
-    double   max()        const { return DBL_MAX; }
+    double   max BOOST_PREVENT_MACRO_SUBSTITUTION ()        const { return DBL_MAX; }
 };
 
 

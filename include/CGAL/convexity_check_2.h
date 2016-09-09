@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_2/include/CGAL/convexity_check_2.h $
-// $Id: convexity_check_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_2/include/CGAL/convexity_check_2.h $
+// $Id: convexity_check_2.h 31401 2006-06-02 13:11:51Z afabri $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -124,9 +124,7 @@ ch_brute_force_chain_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
 
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
-#include <CGAL/convexity_check_2.C>
-#endif // CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
+#include <CGAL/Convex_hull_2/convexity_check_2_impl.h>
 
 #endif // CGAL_CONVEXITY_CHECK_2_H
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/Parameterizer_traits_3.h $
-// $Id: Parameterizer_traits_3.h 29093 2006-03-06 15:33:44Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Parameterizer_traits_3.h $
+// $Id: Parameterizer_traits_3.h 38620 2007-05-11 09:25:44Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -57,15 +57,15 @@ public:
     ERROR_INVALID_BORDER,           ///< parameterization requires a convex border
     ERROR_CANNOT_SOLVE_LINEAR_SYSTEM,///< cannot solve linear system
     ERROR_NO_1_TO_1_MAPPING,        ///< parameterization does not ensure a one-to-one mapping
-    ERROR_NOT_ENOUGH_MEMORY,        ///< not enough memory
+    ERROR_OUT_OF_MEMORY,            ///< not enough memory
     ERROR_WRONG_PARAMETER           ///< a method received an unexpected parameter
     };
 
     /// Export ParameterizationMesh_3 template parameter
     typedef ParameterizationMesh_3          Adaptor;
 
-// Private types
-private:
+// Protected types
+protected:
     // Mesh_Adaptor_3 subtypes:
     typedef typename Adaptor::NT            NT;
     typedef typename Adaptor::Point_2       Point_2;
@@ -116,7 +116,7 @@ public:
     /// - 'mesh' must be a triangular mesh.
     virtual Error_code  parameterize (Adaptor& mesh) = 0;
 
-    /// Get message (in english) corresponding to an error code
+    /// Get message (in English) corresponding to an error code
     /// \param error_code The code returned by parameterize()
     /// \return           The string describing the error code
     static const char* get_error_message(int error_code)
@@ -143,8 +143,8 @@ public:
 // Protected operations
 /// @cond SKIP_IN_MANUAL
 protected:
-    //                                                  -> ->
-    /// Return cotangent of (P,Q,R) corner (ie cotan of QP,QR angle).
+    //                                                    -> ->
+    /// Return cotangent of (P,Q,R) corner (i.e. cotan of QP,QR angle).
     double cotangent(const Point_3& P,
                      const Point_3& Q,
                      const Point_3& R)
@@ -162,8 +162,8 @@ protected:
             return 0.0; // undefined
     }
 
-    //                                                  -> ->
-    /// Return tangent of (P,Q,R) corner (ie tangent of QP,QR angle).
+    //                                                    -> ->
+    /// Return tangent of (P,Q,R) corner (i.e. tangent of QP,QR angle).
     double tangent(const Point_3& P,
                    const Point_3& Q,
                    const Point_3& R)
@@ -181,8 +181,8 @@ protected:
             return 0.0; // undefined
     }
 
-    //                                                     -> ->
-    /// Return angle (in radians) of of (P,Q,R) corner (ie QP,QR angle).
+    //                                                       -> ->
+    /// Return angle (in radians) of of (P,Q,R) corner (i.e. QP,QR angle).
     static double compute_angle_rad(const Point_3& P,
                                     const Point_3& Q,
                                     const Point_3& R)

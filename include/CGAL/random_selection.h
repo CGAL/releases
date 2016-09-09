@@ -15,25 +15,18 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Generator/include/CGAL/random_selection.h $
-// $Id: random_selection.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Generator/include/CGAL/random_selection.h $
+// $Id: random_selection.h 35787 2007-01-24 17:16:05Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 
 #ifndef CGAL_RANDOM_SELECTION_H
 #define CGAL_RANDOM_SELECTION_H 1
-#ifndef CGAL_PROTECT_CSTDDEF
+
 #include <cstddef>
-#define CGAL_PROTECT_CSTDDEF
-#endif
-#ifndef CGAL_PROTECT_ITERATOR
 #include <iterator>
-#define CGAL_PROTECT_ITERATOR
-#endif
-#ifndef CGAL_RANDOM_H
 #include <CGAL/Random.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -67,5 +60,5 @@ OutputIterator random_selection( RandomAccessIterator first,
 }
 
 CGAL_END_NAMESPACE    
+
 #endif // CGAL_RANDOM_SELECTION_H //
-// EOF //

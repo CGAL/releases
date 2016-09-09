@@ -15,21 +15,18 @@ include $(CGAL_MAKEFILE)
 
 CXXFLAGS = \
            -I../../include \
-           $(TESTSUITE_CXXFLAGS) \
-           $(EXTRA_FLAGS) \
            $(CGAL_CXXFLAGS) \
-           $(DEBUG_OPT)
+           $(LONG_NAME_PROBLEM_CXXFLAGS)
 
 #---------------------------------------------------------------------#
 #                    linker flags
 #---------------------------------------------------------------------#
 
 LIBPATH = \
-          $(TESTSUITE_LIBPATH) \
           $(CGAL_LIBPATH)
 
 LDFLAGS = \
-          $(TESTSUITE_LDFLAGS) \
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
 #---------------------------------------------------------------------#
@@ -37,9 +34,9 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-		polylines \
-                construction \
-                simple_intersection 
+                construction$(EXE_EXT) \
+                polylines$(EXE_EXT) \
+                simple_intersection$(EXE_EXT) 
 
 construction$(EXE_EXT): construction$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)construction construction$(OBJ_EXT) $(LDFLAGS)
@@ -52,8 +49,8 @@ simple_intersection$(EXE_EXT): simple_intersection$(OBJ_EXT)
 
 clean: \
                    construction.clean \
-                   simple_intersection.clean \
-                   polylines.clean
+                   polylines.clean \
+                   simple_intersection.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
@@ -61,6 +58,7 @@ clean: \
 
 .C$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
+
 
 .cpp$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<

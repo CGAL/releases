@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous/RayH2.h $
-// $Id: RayH2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous/RayH2.h $
+// $Id: RayH2.h 33052 2006-08-05 23:18:30Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -38,7 +38,6 @@ class RayH2
     typedef typename R_::Direction_2          Direction_2;
     typedef typename R_::Line_2               Line_2;
     typedef typename R_::Vector_2             Vector_2;
-    typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
     typedef Twotuple<Point_2>                        Rep;
     typedef typename R_::template Handle<Rep>::type  Base;
@@ -80,7 +79,6 @@ public:
     bool    collinear_has_on(const Point_2& p) const;
     bool    is_degenerate() const;
 
-    RayH2<R> transform( const Aff_transformation_2 & t) const;
 };
 
 
@@ -148,44 +146,6 @@ inline
 RayH2<R>
 RayH2<R>::opposite() const
 { return RayH2<R>( start(), - direction() ); }
-
-template < class R >
-CGAL_KERNEL_INLINE
-RayH2<R>
-RayH2<R>::
-transform(const typename RayH2<R>::Aff_transformation_2 & t) const
-{
-  return RayH2<R>(t.transform(start()), t.transform(second_point()) );
-}
-
-#ifndef CGAL_NO_OSTREAM_INSERT_RAYH2
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const RayH2<R> &r)
-{
-  switch(os.iword(IO::mode))
-  {
-    case IO::ASCII :
-        return os << r.source() << ' ' << r.second_point();
-    case IO::BINARY :
-        return os << r.source() << r.second_point();
-    default:
-       return os << "RayC2(" << r.source() <<  ", " << r.second_point() << ")";
-  }
-}
-#endif // CGAL_NO_OSTREAM_INSERT_RAYH2
-
-#ifndef CGAL_NO_ISTREAM_EXTRACT_RAYH2
-template < class R >
-std::istream &
-operator>>(std::istream &is, RayH2<R> &r)
-{
-  typename R::Point_2 p, q;
-  is >> p >> q;
-  r = RayH2<R>(p, q);
-  return is;
-}
-#endif // CGAL_NO_ISTREAM_EXTRACT_RAYH2
 
 template < class R >
 CGAL_KERNEL_INLINE

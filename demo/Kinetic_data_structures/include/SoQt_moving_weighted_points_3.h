@@ -12,16 +12,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_moving_weighted_points_3.h $
-// $Id: SoQt_moving_weighted_points_3.h 31631 2006-06-16 13:09:58Z drussel $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_moving_weighted_points_3.h $
+// $Id: SoQt_moving_weighted_points_3.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
 
 #ifndef CGAL_KINETIC_QT_MOVING_WEIGHTED_POINT_TABLE_3_H
 #define CGAL_KINETIC_QT_MOVING_WEIGHTED_POINT_TABLE_3_H
 #include <CGAL/Kinetic/basic.h>
-#include <CGAL/Kinetic/Regular_triangulation_instantaneous_traits_3.h>
 #include <CGAL/Kinetic/Ref_counted.h>
 #include <CGAL/Kinetic/Simulator_objects_listener.h>
 #include "SoQt_handle.h"
@@ -288,7 +287,7 @@ void SoQt_moving_weighted_points_3<T,G>::update_coordinates()
   for (typename MPT::Key_iterator it= tr_.active_points_3_table_handle()->keys_begin();
        it != tr_.active_points_3_table_handle()->keys_end(); ++it, ++cp) {
     //std::cout << "drawing point " << *it  << "= " << ik_.to_static(*it) << std::endl;
-    typename IK::Static_kernel::Weighted_point pt= ik_.static_object(*it);
+    typename IK::Static_kernel::Weighted_point pt= ik_.current_coordinates_object()(*it);
     double w= CGAL::to_double(pt.weight());
     if (w < 0) w=0;
     double radius = std::sqrt(w);
@@ -302,8 +301,9 @@ void SoQt_moving_weighted_points_3<T,G>::update_coordinates()
       CGAL_assertion(n->isOfType(SoShapeKit::getClassTypeId()));
       SoShapeKit *sh= reinterpret_cast<SoShapeKit*>(n);
       SoTransform *tr= SO_GET_PART(sh, "localTransform", SoTransform);
-      tr->translation.setValue(CGAL::to_double(pt.x()), CGAL::to_double(pt.y()),
-			       CGAL::to_double(pt.z()));
+      tr->translation.setValue(CGAL::to_double(pt.point().x()),
+			       CGAL::to_double(pt.point().y()),
+			       CGAL::to_double(pt.point().z()));
       SoSphere *sph= SO_GET_PART(sh, "shape", SoSphere);
       sph->radius.setValue(radius);
     }
@@ -402,7 +402,7 @@ void SoQt_moving_weighted_points_3<T,G>::update_tree()
     mat->emissiveColor.setValue(1,1,1);
     labels_= new SoGroup;
     for (typename MPT::Key_iterator kit = tr_.active_points_3_table_handle()->keys_begin();
-         kit != tr_.active_points_3_table_handle()->keys_end(); ++kit) {
+	 kit != tr_.active_points_3_table_handle()->keys_end(); ++kit) {
       SoQt_handle<SoShapeKit> k = new SoShapeKit;
       labels_->addChild(k.get());
       SoQt_handle<SoText2> s= new SoText2;
@@ -470,7 +470,7 @@ void SoQt_moving_weighted_points_3<T,G>::write(std::ostream &out) const
   for (typename MPT::Key_iterator it= tr_.active_points_3_table_handle()->keys_begin();
        it != tr_.active_points_3_table_handle()->keys_end(); ++it) {
     out << *it;
-    out << ": " << ik_.static_object(*it) << std::endl;
+    out << ": " << ik_.current_coordinates_object()(*it) << std::endl;
   }
 }
 

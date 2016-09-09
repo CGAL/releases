@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_traits_2/Curve_data_aux.h $
-// $Id: Curve_data_aux.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_traits_2/Curve_data_aux.h $
+// $Id: Curve_data_aux.h 36284 2007-02-15 10:46:58Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -26,6 +26,18 @@
  */
 
 CGAL_BEGIN_NAMESPACE
+
+/*!
+ * \struct A simple merge functor.
+ */
+template <class TYPE>
+struct _Default_merge_func
+{
+  const TYPE& operator() (const TYPE& obj1, const TYPE& /* obj2 */)
+  {
+    return (obj1);
+  }
+};
 
 /*!
  * \struct A simple convertor from one type to another.

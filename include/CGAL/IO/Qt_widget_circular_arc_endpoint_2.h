@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Curved_kernel/include/CGAL/IO/Qt_widget_circular_arc_endpoint_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Circular_kernel_2/include/CGAL/IO/Qt_widget_circular_arc_endpoint_2.h $
 // $Id: Qt_widget_circular_arc_endpoint_2.h 28774 2006-02-25 11:01:51Z teillaud $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion

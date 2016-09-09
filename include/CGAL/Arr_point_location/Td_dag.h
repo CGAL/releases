@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_point_location/Td_dag.h $
-// $Id: Td_dag.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Td_dag.h $
+// $Id: Td_dag.h 32925 2006-08-03 03:39:07Z afabri $
 // 
 //
 // Author(s)     : Iddo Hanniel <hanniel@math.tau.ac.il>
@@ -348,7 +348,7 @@ protected:
   unsigned long recursive_depth() const
   {
     if (!operator!() && !ptr()->visited())
-      return 1+ std::max(left().recursive_depth(),right().recursive_depth());
+      return 1+ (std::max)(left().recursive_depth(),right().recursive_depth());
     else
       return 0;
   }

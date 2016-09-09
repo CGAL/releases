@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_point_location/Td_X_trapezoid.h $
-// $Id: Td_X_trapezoid.h 31544 2006-06-12 13:50:22Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Td_X_trapezoid.h $
+// $Id: Td_X_trapezoid.h 37678 2007-03-29 16:31:42Z efif $
 // 
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -26,11 +26,6 @@
 
 #include <CGAL/Arr_point_location/Trapezoidal_decomposition_2.h>
 
-#define CGAL_POINT_IS_LEFT_LOW(p,q) (traits->compare_xy_2_object()((p),(q))==SMALLER)
-#define CGAL_POINT_IS_RIGHT_TOP(p,q) (traits->compare_xy_2_object()((p),(q))==LARGER)
-#define CGAL_CURVE_IS_TO_RIGHT(cv,p) (traits->equal_2_object()(traits->construct_min_vertex_2_object()((cv)), (p)))
-#define CGAL_CURVE_COMPARE_Y_AT_X(p, cv) (traits->compare_y_at_x_2_object()((p),(cv)))
-#define CGAL_IS_IN_X_RANGE(cv,p) ((cv).is_in_x_range((p)))
 #ifdef CGAL_TD_DEBUG
 #define CGAL_TD_INLINE
 #else

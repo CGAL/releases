@@ -1,8 +1,5 @@
-// Copyright (c) 2003  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2003  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,15 +12,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Intersections_3/include/CGAL/Triangle_3_Line_3_do_intersect.h $
-// $Id: Triangle_3_Line_3_do_intersect.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Intersections_3/include/CGAL/Triangle_3_Line_3_do_intersect.h $
+// $Id: Triangle_3_Line_3_do_intersect.h 32796 2006-07-30 16:50:53Z spion $
 // 
 //
 // Author(s)     : Philippe Guigue
 
 #ifndef CGAL_TRIANGLE_3_LINE_3_DO_INTERSECT_H
 #define CGAL_TRIANGLE_3_LINE_3_DO_INTERSECT_H
-
 
 CGAL_BEGIN_NAMESPACE
 
@@ -140,9 +136,4 @@ inline bool do_intersect(const Line_3<K> &l,
 
 CGAL_END_NAMESPACE
 
-
 #endif //CGAL_TRIANGLE_3_LINE_3_DO_INTERSECT_H
-
-
-
-

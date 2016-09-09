@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/Fixed_border_parameterizer_3.h $
-// $Id: Fixed_border_parameterizer_3.h 29623 2006-03-20 11:22:05Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Fixed_border_parameterizer_3.h $
+// $Id: Fixed_border_parameterizer_3.h 38629 2007-05-11 13:33:43Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -23,7 +23,7 @@
 
 #include <CGAL/circulator.h>
 #include <CGAL/Timer.h>
-#include <OpenNL/linear_solver.h>
+#include <CGAL/OpenNL/linear_solver.h>
 
 #include <CGAL/Parameterizer_traits_3.h>
 #include <CGAL/Circular_border_parameterizer_3.h>
@@ -54,7 +54,7 @@ CGAL_BEGIN_NAMESPACE
 /// - They may implement an optimized version of is_one_to_one_mapping().
 ///
 /// @todo Fixed_border_parameterizer_3 should remove border vertices
-/// from the linear systems in order to have a symmetric definite positive
+/// from the linear systems in order to have a symmetric positive definite
 /// matrix for Tutte Barycentric Mapping and Discrete Conformal Map algorithms.
 ///
 /// Concept:
@@ -248,7 +248,7 @@ private:
 /// - the mesh border must be mapped onto a convex polygon.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
-typename Parameterizer_traits_3<Adaptor>::Error_code
+typename Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
 Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
 parameterize(Adaptor& mesh)
 {
@@ -301,7 +301,7 @@ parameterize(Adaptor& mesh)
     // "u = constant" and "v = constant"
     //
     // @todo Fixed_border_parameterizer_3 should remove border vertices
-    // from the linear systems in order to have a symmetric definite positive
+    // from the linear systems in order to have a symmetric positive definite
     // matrix for Tutte Barycentric Mapping and Discrete Conformal Map algorithms.
     initialize_system_from_mesh_border (A, Bu, Bv, mesh);
 
@@ -378,7 +378,7 @@ parameterize(Adaptor& mesh)
 /// - the mesh border must be mapped onto a convex polygon.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
-typename Parameterizer_traits_3<Adaptor>::Error_code
+typename Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
 Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
 check_parameterize_preconditions(Adaptor& mesh)
 {
@@ -471,11 +471,11 @@ initialize_system_from_mesh_border (Matrix& A, Vector& Bu, Vector& Bv,
 /// - line i of A must contain only zeros.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
-typename Parameterizer_traits_3<Adaptor>::Error_code
+typename Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
 Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
 setup_inner_vertex_relations(Matrix& A,
-                             Vector& Bu,
-                             Vector& Bv,
+                             Vector& ,
+                             Vector& ,
                              const Adaptor& mesh,
                              Vertex_const_handle vertex)
 {
@@ -541,7 +541,7 @@ set_mesh_uv_from_system(Adaptor& mesh,
 /// - 3D -> 2D mapping is one-to-one.
 template<class Adaptor, class Border_param, class Sparse_LA>
 inline
-typename Parameterizer_traits_3<Adaptor>::Error_code
+typename Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::Error_code
 Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
 check_parameterize_postconditions(const Adaptor& mesh,
                                   const Matrix& A,
@@ -568,9 +568,9 @@ template<class Adaptor, class Border_param, class Sparse_LA>
 inline
 bool Fixed_border_parameterizer_3<Adaptor, Border_param, Sparse_LA>::
 is_one_to_one_mapping(const Adaptor& mesh,
-                      const Matrix& A,
-                      const Vector& Bu,
-                      const Vector& Bv)
+                      const Matrix& ,
+                      const Vector& ,
+                      const Vector& )
 {
     Vector_3    first_triangle_normal;
 

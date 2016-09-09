@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Surface_mesh_parameterization/include/CGAL/Circular_border_parameterizer_3.h $
-// $Id: Circular_border_parameterizer_3.h 29301 2006-03-09 17:15:04Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesh_parameterization/include/CGAL/Circular_border_parameterizer_3.h $
+// $Id: Circular_border_parameterizer_3.h 38418 2007-04-23 12:11:29Z lsaboret $
 // 
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -99,7 +99,7 @@ public:
 
     // Default constructor, copy constructor and operator =() are fine
 
-    /// Assign to mesh's border vertices a 2D position (ie a (u,v) pair)
+    /// Assign to mesh's border vertices a 2D position (i.e. a (u,v) pair)
     /// on border's shape. Mark them as "parameterized".
     typename Parameterizer_traits_3<Adaptor>::Error_code
                                         parameterize_border(Adaptor& mesh);
@@ -146,7 +146,7 @@ double Circular_border_parameterizer_3<Adaptor>::compute_border_length(
     return len;
 }
 
-/// Assign to mesh's border vertices a 2D position (ie a (u,v) pair)
+/// Assign to mesh's border vertices a 2D position (i.e. a (u,v) pair)
 /// on border's shape. Mark them as "parameterized".
 template<class Adaptor>
 inline
@@ -268,9 +268,9 @@ public:
 // Protected operations
 protected:
     /// Compute the length of an edge.
-    virtual double compute_edge_length(const Adaptor& mesh,
-                                       Vertex_const_handle source,
-                                       Vertex_const_handle target)
+    virtual double compute_edge_length(const Adaptor& /* mesh */,
+                                       Vertex_const_handle /* source */,
+                                       Vertex_const_handle /* target */)
     {
         /// Uniform border parameterization: points are equally spaced.
         return 1;

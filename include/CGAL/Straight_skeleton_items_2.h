@@ -10,25 +10,17 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_items_2.h $
-// $Id: Straight_skeleton_items_2.h 28554 2006-02-15 18:53:39Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_items_2.h $
+// $Id: Straight_skeleton_items_2.h 36633 2007-02-27 18:19:42Z fcacciola $
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
 #ifndef CGAL_STRAIGHT_SKELETON_ITEMS_2_H
 #define CGAL_STRAIGHT_SKELETON_ITEMS_2_H 1
 
-#ifndef CGAL_STRAIGHT_SKELETON_VERTEX_BASE_2_H
 #include <CGAL/Straight_skeleton_vertex_base_2.h>
-#endif
-
-#ifndef CGAL_STRAIGHT_SKELETON_HALFEDGE_BASE_2_H
 #include <CGAL/Straight_skeleton_halfedge_base_2.h>
-#endif
-
-#ifndef CGAL_HALFEDGEDS_FACE_BASE_H
 #include <CGAL/HalfedgeDS_face_base.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 

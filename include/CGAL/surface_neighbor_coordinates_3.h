@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interpolation/include/CGAL/surface_neighbor_coordinates_3.h $
-// $Id: surface_neighbor_coordinates_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Interpolation/include/CGAL/surface_neighbor_coordinates_3.h $
+// $Id: surface_neighbor_coordinates_3.h 37386 2007-03-23 07:29:55Z afabri $
 // 
 //
 // Author(s)     : Julia Floetotto
@@ -38,7 +38,7 @@ surface_neighbor_coordinates_3(InputIterator
 			       const typename Kernel::Point_3& p,
 			       const typename Kernel::Vector_3& normal,
 			       OutputIterator out,
-			       const Kernel& K)
+			       const Kernel&)
 {
   typedef Voronoi_intersection_2_traits_3<Kernel> I_gt;
   return surface_neighbor_coordinates_3(first, beyond, p, out, I_gt(p,normal));
@@ -76,7 +76,7 @@ surface_neighbor_coordinates_certified_3(InputIterator
 			       const typename Kernel::Point_3& p,
 			       const typename Kernel::Vector_3& normal,
 			       OutputIterator out,
-			       const Kernel& K)
+			       const Kernel& )
 {
   typedef Voronoi_intersection_2_traits_3<Kernel> I_gt;
   return surface_neighbor_coordinates_certified_3
@@ -94,7 +94,7 @@ surface_neighbor_coordinates_certified_3(
 			     const typename Kernel::Point_3& p,
 			     const typename Kernel::Vector_3& normal,
 			     const typename Kernel::FT& radius,
-			     OutputIterator out, const Kernel& K)
+			     OutputIterator out, const Kernel& )
 {
   typedef Voronoi_intersection_2_traits_3<Kernel> I_gt;
   return surface_neighbor_coordinates_certified_3

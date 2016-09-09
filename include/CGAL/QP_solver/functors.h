@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2001  ETH Zurich (Switzerland).
+// Copyright (c) 1997-2007  ETH Zurich (Switzerland).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,34 +11,22 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/QP_solver/include/CGAL/QP_solver/functors.h $
-// $Id: functors.h 29764 2006-03-25 12:23:10Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/QP_solver/include/CGAL/QP_solver/functors.h $
+// $Id: functors.h 38453 2007-04-27 00:34:44Z gaertner $
 // 
 //
-// Author(s)     : Sven Schoenherr <sven@inf.fu-berlin.de>
+// Author(s)     : Sven Schoenherr 
 //                 Bernd Gaertner <gaertner@inf.ethz.ch>
-//                 Franz Wessendorp <fransw@inf.ethz.ch>
-//                 Kaspar Fischer <fischerk@inf.ethz.ch>
+//                 Franz Wessendorp 
+//                 Kaspar Fischer
 
 #ifndef CGAL_QP_SOLVER_FUNCTORS_H
 #define CGAL_QP_SOLVER_FUNCTORS_H
 
-// includes
-#ifndef CGAL_QP_SOLVER_BASIC_H
-#  include <CGAL/QP_solver/basic.h>
-#endif
-#ifndef CGAL_FUNCTION_OBJECTS_H
-#  include <CGAL/function_objects.h>
-#endif
-
-#ifndef CGAL_PROTECT_FUNCTIONAL
-#  define CGAL_PROTECT_FUNCTIONAL
-#  include <functional>
-#endif
-#ifndef CGAL_PROTECT_ITERATOR
-#  define CGAL_PROTECT_ITERATOR
-#  include <iterator>
-#endif
+#include <CGAL/QP_solver/basic.h>
+#include <CGAL/function_objects.h>
+#include <functional>
+#include <iterator>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -54,7 +42,7 @@ template < class MatrixIt,
            bool check_2nd_lower = false, bool check_2nd_upper = false >
 class QP_matrix_accessor;
 
-template < class MatrixIt, class IsSymmetric, typename ET >
+template < class MatrixIt, typename ET >
 class QP_matrix_pairwise_accessor;
 
 
@@ -110,9 +98,8 @@ class QP_matrix_accessor {
     typedef CGAL::Arity_tag<2> Arity;
     typedef int argument1_type;
     typedef int argument2_type;
-    typedef typename std::iterator_traits<
-            typename std::iterator_traits<MatrixIt>::value_type>::value_type  
-    result_type;
+    typedef typename std::iterator_traits<MatrixIt>::value_type VectorIt;
+    typedef typename std::iterator_traits<VectorIt>::value_type result_type;
 
     QP_matrix_accessor( MatrixIt it, int lower_1 = 0, int upper_1 = 0,
 			              int lower_2 = 0, int upper_2 = 0)
@@ -130,7 +117,7 @@ class QP_matrix_accessor {
 	if ( check_1st_upper && ( r >= u1)) return z;
 	if ( check_2nd_lower && ( c <  l2)) return z;
 	if ( check_2nd_upper && ( c >= u2)) return z;
-	return m[ r][ c];
+	return VectorIt(m[ r])[ c];
     }
 
   private:
@@ -144,7 +131,7 @@ class QP_matrix_accessor {
 // ----------------------------
 // QP_matrix_pairwise_accessor
 // ----------------------------
-template < class MatrixIt,class IsSymmetric, typename ResultType >
+template < class MatrixIt, typename ResultType >
 class QP_matrix_pairwise_accessor {
   typedef  typename std::iterator_traits<MatrixIt>::value_type  VectorIt;
   
@@ -160,39 +147,17 @@ public:
   QP_matrix_pairwise_accessor() {}
   
   QP_matrix_pairwise_accessor( MatrixIt it, int row)
-  {
-    if ( check_tag( IsSymmetric())) {               // store i-th row
-      v = it[ row];
-      m = it;                                       // (See (*) below.)
-    } else {                                        // matrix and index
-      m = it;
-      v = it[0];                                    // (See (*) below.)
-      r = row;
-    }
-    // (*) These two statements are not needed, semantically.  If we
-    // drop them, however, the if-clause will default-construct the
-    // iterator 'm' and the else-clause will default-construct the
-    // iterator 'v'.  In any case we end up with a singular iterator,
-    // and as instances of this class are copied around, this violates
-    // the requirement that singular iterators must not be copied.
-    // (In other words: dropping these statements will cause assertion
-    // violations when compiled with GCC using -D_GLIBCXX_DEBUG.)
-  }
+    : m (it), v (*(it + row)), r (row)                                  
+  {}
   
   ResultType operator () ( int c) const
   {
-    return entry_pair( c, IsSymmetric());
-  }
-  
-  ResultType entry_pair( int c, Tag_true ) const           // symmetric
-  { return ResultType(v[ c]) * 2; }
-  
-  ResultType entry_pair( int c, Tag_false) const           // not symmetric
-  { 
-    // TEMPORARILY:
-    typedef typename std::iterator_traits<
-      typename std::iterator_traits<MatrixIt>::value_type>::value_type IT;
-    return ResultType(m[ r][ c]) + ResultType(m[ c][ r]); 
+    // make sure that only entries on or below the diagonal are
+    // accessed
+    if (c <= r)
+      return ResultType(v[ c]); 
+    else
+      return ResultType((*(m + c))[ r]);
   }
   
 private:
@@ -243,6 +208,27 @@ class Value_by_basic_index : public std::unary_function<
     int          l, u;
     result_type  z;
 };
+
+// ----------------------------------------------------------------------------
+
+// --------------------
+// Access_by_index
+// --------------------
+// A functor whose operator(int i) provides access to the i-th element
+// of a random access iterator.
+template < typename RndAccIt, typename ArgType >
+class QP_access_by_index {
+public:
+  typedef  typename std::iterator_traits<RndAccIt>::value_type result_type;
+
+  QP_access_by_index(RndAccIt it = RndAccIt()) : a(it) {}
+
+  result_type operator () (ArgType i) const { return a[i]; }
+
+private:
+  RndAccIt     a;
+};
+
 
 CGAL_END_NAMESPACE
 

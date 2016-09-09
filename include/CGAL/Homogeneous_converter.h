@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Homogeneous_kernel/include/CGAL/Homogeneous_converter.h $
-// $Id: Homogeneous_converter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Homogeneous_kernel/include/CGAL/Homogeneous_converter.h $
+// $Id: Homogeneous_converter.h 33347 2006-08-16 14:43:19Z afabri $
 // 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -156,8 +156,8 @@ public:
     typename K2::Iso_rectangle_2
     operator()(const typename K1::Iso_rectangle_2 &a) const
     {
-	return k.construct_iso_rectangle_2_object()(operator()(a.min()),
-		                                    operator()(a.max()));
+	return k.construct_iso_rectangle_2_object()(operator()((a.min)()),
+		                                    operator()((a.max)()), 0);
     }
 
 
@@ -238,8 +238,8 @@ public:
     typename K2::Iso_cuboid_3
     operator()(const typename K1::Iso_cuboid_3 &a) const
     {
-	return k.construct_iso_cuboid_3_object()(operator()(a.min()),
-		                                 operator()(a.max()));
+	return k.construct_iso_cuboid_3_object()(operator()((a.min)()),
+		                                 operator()((a.max)()), 0);
     }
 
 private:

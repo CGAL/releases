@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d.h $
-// $Id: Approximate_min_ellipsoid_d.h 28847 2006-02-27 15:29:47Z fischerk $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Approximate_min_ellipsoid_d/include/CGAL/Approximate_min_ellipsoid_d.h $
+// $Id: Approximate_min_ellipsoid_d.h 36397 2007-02-16 15:56:11Z gaertner $
 // 
 //
 // Author(s)     : Kaspar Fischer <fischerk@inf.ethz.ch>
@@ -457,6 +457,6 @@ namespace CGAL {
   
 }
 
-#include <CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d.C>
+#include <CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_impl.h>
 
 #endif // CGAL_CGAL_APPROX_MIN_ELL_D_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_functions.h $
-// $Id: Arr_walk_along_line_pl_functions.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_functions.h $
+// $Id: Arr_walk_along_line_pl_functions.h 36688 2007-02-28 16:29:19Z ophirset $
 // 
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -35,11 +35,13 @@ template <class Arrangement>
 Object Arr_walk_along_line_point_location<Arrangement>::locate
     (const Point_2& p) const
 {
-  // Start from the unbounded face, and an invalid halfedge representing
+  // Start from the fictitious face, and an invalid halfedge representing
   // the closest edge to p from above it so far.
+  Arrangement&                        arr = const_cast<Arrangement&>(*p_arr);
+  const Arr_accessor<Arrangement>     arr_access (arr);
   typename Traits_adaptor_2::Equal_2  equal = traits->equal_2_object();
-  Hole_const_iterator   holes_it;
-  Face_const_handle      face = p_arr->unbounded_face();
+  Hole_const_iterator    holes_it;
+  Face_const_handle      face = arr_access.fictitious_face();
   Halfedge_const_handle  closest_he;
   bool                   is_in_face;
   bool                   is_on_edge;
@@ -51,7 +53,7 @@ Object Arr_walk_along_line_point_location<Arrangement>::locate
     // Go over the holes in the current face.
     found_containing_hole = false;
     for (holes_it = face->holes_begin();
-         holes_it != face->holes_end() && !found_containing_hole;
+         !found_containing_hole && holes_it != face->holes_end();
          ++holes_it)
     {
       // Check if the point is inside the current hole.
@@ -66,12 +68,14 @@ Object Arr_walk_along_line_point_location<Arrangement>::locate
       if (is_on_edge)
       {
         // Check if the point is located on one of the edge endpoints.
-        if (equal (p, closest_he->source()->point()))
+        if (! closest_he->source()->is_at_infinity() &&
+            equal (p, closest_he->source()->point()))
         {
           // The query point is located on the source vertex:
           return (CGAL::make_object (closest_he->source()));
         }
-        else if (equal (p, closest_he->target()->point()))
+        else if (! closest_he->target()->is_at_infinity() &&
+                 equal (p, closest_he->target()->point()))
         {
           // The query point is located on the target vertex:
           return (CGAL::make_object (closest_he->target()));
@@ -131,12 +135,14 @@ Object Arr_walk_along_line_point_location<Arrangement>::locate
           if (is_on_edge)
           {
             // Check if the point is located on one of the edge endpoints.
-            if (equal (p, closest_he->source()->point()))
+            if (! closest_he->source()->is_at_infinity() &&
+                equal (p, closest_he->source()->point()))
             {
               // The query point is located on the source vertex:
               return (CGAL::make_object (closest_he->source()));
             }
-            else if (equal (p, closest_he->target()->point()))
+            else if (! closest_he->target()->is_at_infinity() &&
+                     equal (p, closest_he->target()->point()))
             {
               // The query point is located on the target vertex:
               return (CGAL::make_object (closest_he->target()));
@@ -205,13 +211,15 @@ Object Arr_walk_along_line_point_location<Arrangement>::
 _vertical_ray_shoot (const Point_2& p,
                      bool shoot_up) const
 {
-  // Start from the unbounded face, and an invalid halfedge representing
+  // Start from the fictitious face, and an invalid halfedge representing
   // the closest edge to p from above it so far.
+  Arrangement&                        arr = const_cast<Arrangement&>(*p_arr);
+  const Arr_accessor<Arrangement>     arr_access (arr);
   typename Traits_adaptor_2::Is_vertical_2        is_vertical =
                                             traits->is_vertical_2_object();
 
-  Hole_const_iterator   holes_it;
-  Face_const_handle      face = p_arr->unbounded_face();
+  Hole_const_iterator    holes_it;
+  Face_const_handle      face = arr_access.fictitious_face();
   Halfedge_const_handle  closest_he;
   bool                   is_in_face;
   bool                   is_on_edge;
@@ -223,7 +231,7 @@ _vertical_ray_shoot (const Point_2& p,
     // Go over the holes in the current face.
     found_containing_hole = false;
     for (holes_it = face->holes_begin();
-         holes_it != face->holes_end() && !found_containing_hole;
+         !found_containing_hole && holes_it != face->holes_end();
          ++holes_it)
     {
       // Check if the point is inside the current hole.
@@ -329,7 +337,7 @@ _vertical_ray_shoot (const Point_2& p,
 
   const Comparison_result point_above_under = (shoot_up ? SMALLER : LARGER);
 
-  Isolated_vertex_const_iterator   iso_verts_it;
+  Isolated_vertex_const_iterator     iso_verts_it;
   Vertex_const_handle                closest_iso_v;
   const Vertex_const_handle          invalid_v;
   const Halfedge_const_handle        invalid_he;
@@ -353,6 +361,7 @@ _vertical_ray_shoot (const Point_2& p,
     {
       // Compare the current isolated vertex with the closest halfedge.
       if (closest_he == invalid_he ||
+          closest_he->is_fictitious() ||
           compare_y_at_x (iso_verts_it->point(),
                           closest_he->curve()) == point_above_under)
       {
@@ -375,10 +384,17 @@ _vertical_ray_shoot (const Point_2& p,
 
   // If we reached here, closest_he is the closest edge from above (below)
   // the query point.
-  if (closest_he == invalid_he)
+  if (closest_he->is_fictitious())
   {
-    // We did not encounter any edge above (below) the query point:
-    Face_const_handle  uf = p_arr->unbounded_face();
+    // If we have a fictitious edge, the ray we shoot is completely contained
+    // in an unbounded face. This face is incident to closest_he:
+    if ((shoot_up && closest_he->direction() == SMALLER) ||
+        (!shoot_up && closest_he->direction() == LARGER))
+      closest_he = closest_he->twin();
+
+    Face_const_handle  uf = closest_he->face();
+
+    CGAL_assertion (! uf->is_fictitious());
     return (CGAL::make_object (uf));
   }
 
@@ -386,13 +402,11 @@ _vertical_ray_shoot (const Point_2& p,
   // query point, and if so, return this vertex.
   if (! is_vertical (closest_he->curve()))
   {
-    if (traits->compare_x_2_object() (closest_he->source()->point(),
-                                      p) == EQUAL)
+    if (arr_access.compare_x (p, closest_he->source()) == EQUAL)
       return (CGAL::make_object (closest_he->source()));
 
 
-    if (traits->compare_x_2_object() (closest_he->target()->point(),
-                                      p) == EQUAL)
+    if (arr_access.compare_x (p, closest_he->target()) == EQUAL)
       return (CGAL::make_object (closest_he->target()));
   }
   else
@@ -448,12 +462,6 @@ _is_in_connected_component (const Point_2& p,
                                             traits->equal_2_object();
   typename Traits_adaptor_2::Is_vertical_2        is_vertical =
                                             traits->is_vertical_2_object();
-  typename Traits_adaptor_2::Compare_x_2          compare_x =
-                                            traits->compare_x_2_object();
-  typename Traits_adaptor_2::Compare_xy_2         compare_xy =
-                                            traits->compare_xy_2_object();
-  typename Traits_adaptor_2::Compare_y_at_x_2     compare_y_at_x =
-                                            traits->compare_y_at_x_2_object();
   typename Traits_adaptor_2::Compare_y_position_2 compare_y_position =
                                        traits->compare_y_position_2_object();
   typename Traits_adaptor_2::Compare_y_at_x_right_2  compare_y_at_x_right =
@@ -462,12 +470,31 @@ _is_in_connected_component (const Point_2& p,
                                        traits->compare_y_at_x_left_2_object();
 
   // Start from the first non-vertical segment in the connected component.
-  const Halfedge_const_handle    invalid_he;
-  Ccb_halfedge_const_circulator  first = circ;
-  bool                           found_non_vertical = false;
+  Arrangement&                      arr = const_cast<Arrangement&>(*p_arr);
+  const Arr_accessor<Arrangement>   arr_access (arr);
+  const Halfedge_const_handle       invalid_he;
+  Ccb_halfedge_const_circulator     first = circ;
+  bool                              found_non_vertical = false;
 
   do
   {
+    // In case of a fictitious edge, check whether it is horizontal; otherwise
+    // skip it.
+    if (first->is_fictitious())
+    {
+      if (first->source()->boundary_in_y() != NO_BOUNDARY &&
+          first->target()->boundary_in_y() != NO_BOUNDARY)
+      {
+        found_non_vertical = true;
+        break;
+      }
+      else
+      {
+        ++first;
+        continue;
+      }
+    }
+
     // Stop if we found a non-vertical curve.
     if (! is_vertical (first->curve()))
     {
@@ -478,8 +505,8 @@ _is_in_connected_component (const Point_2& p,
     if (inclusive)
     {
       // Check if the current vertical curve contains the query point.
-      if (compare_x (first->source()->point(), p) == EQUAL &&
-          compare_y_at_x (p, first->curve()) == EQUAL)
+      if (arr_access.compare_x (p, first->source()) == EQUAL &&
+          arr_access.compare_y_at_x (p, first) == EQUAL)
       {
         closest_he = first;
         is_on_edge = true;
@@ -490,12 +517,12 @@ _is_in_connected_component (const Point_2& p,
     {
       // Check if the current vertical curve contains the query point in its
       // x-range.
-      if (compare_x (first->source()->point(), p) == EQUAL)
+      if (arr_access.compare_x (p, first->source()) == EQUAL)
       {
         // Check if the current vertical curve contains the query point in its
         // iterior.
-        Comparison_result   res1 = compare_xy (p, first->source()->point());
-        Comparison_result   res2 = compare_xy (p, first->target()->point());
+        Comparison_result  res1 = arr_access.compare_xy (p, first->source());
+        Comparison_result  res2 = arr_access.compare_xy (p, first->target());
         
         if (res1 != res2)
         {
@@ -513,10 +540,14 @@ _is_in_connected_component (const Point_2& p,
           // far.
           if (closest_he == invalid_he ||
               (closest_he != first->twin() &&
-               ((compare_y_at_x (first->source()->point(),
-                                 closest_he->curve()) == point_above_under) ||
-                (compare_y_at_x (first->target()->point(),
-                                 closest_he->curve()) == point_above_under))))
+               ((! first->source()->is_at_infinity() &&
+                 arr_access.compare_y_at_x
+                   (first->source()->point(),
+                    closest_he) == point_above_under) ||
+                (! first->target()->is_at_infinity() &&
+                 arr_access.compare_y_at_x
+                   (first->target()->point(),
+                    closest_he) == point_above_under))))
           {
             closest_he = first;
             closest_to_target = (first->direction() == curve_above_under);
@@ -533,7 +564,7 @@ _is_in_connected_component (const Point_2& p,
   if (! found_non_vertical)
   {
     // In this case the entire component is comprised of vertical segments,
-    // so it has any empty interior and p cannot lie inside it.
+    // so it has an empty interior and p cannot lie inside it.
     return (false);
   }
 
@@ -546,11 +577,11 @@ _is_in_connected_component (const Point_2& p,
   bool                closest_in_ccb = (closest_he != invalid_he &&
                                         closest_he->face() == circ->face());
 
-  source_res = compare_x (curr->source()->point(), p);
+  source_res = arr_access.compare_x (p, curr->source());
   do
   {
-    // Ignore the current edge if p is not in the x-range of its curve.
-    target_res = compare_x (curr->target()->point(), p);
+    // Ignore the current edge if p is not in its x-range.
+    target_res = arr_access.compare_x (p, curr->target());
 
     if (source_res == target_res && source_res != EQUAL)
     {
@@ -559,8 +590,8 @@ _is_in_connected_component (const Point_2& p,
       continue;
     }
 
-    // Check whether p lies above or below the curve.
-    res = compare_y_at_x (p, curr->curve());
+    // Check whether p lies above or below the current edge.
+    res = arr_access.compare_y_at_x (p, curr);
 
     if (res == EQUAL)
     {
@@ -575,9 +606,12 @@ _is_in_connected_component (const Point_2& p,
       }
       else
       {
-        if (is_vertical (curr->curve()) &&
-            ! equal (curr->source()->point(), p) &&
-            ! equal (curr->target()->point(), p))
+        if (! curr->is_fictitious() &&
+            is_vertical (curr->curve()) &&
+            (curr->source()->is_at_infinity() ||
+             ! equal (curr->source()->point(), p)) &&
+            (curr->target()->is_at_infinity() ||
+             ! equal (curr->target()->point(), p)))
         {
           closest_he = curr;
           is_on_edge = true;
@@ -598,7 +632,8 @@ _is_in_connected_component (const Point_2& p,
     // Note that we do not have count intersections (actually these are
     // overlaps) of the vertical ray we shoot with vertical segments along
     // the boundary.
-    if ( ! is_vertical (curr->curve()))
+    if (curr->is_fictitious() || 
+        ! is_vertical (curr->curve()))
     {
       // The current curve is not vertical. Check the query point is in the
       // semi-open x-range (source, target] of this curve and lies below it.
@@ -615,16 +650,20 @@ _is_in_connected_component (const Point_2& p,
           closest_in_ccb = true;
           closest_to_target = (target_res == EQUAL);
         }
-        else
+        else if (! (closest_he->twin() == curr))
         {
+          // The current curve is not the twin of the closest curve.
           // Compare with the vertically closest curve so far and detemine the
           // curve closest to p. We first check the case that the two curves
           // have a common endpoint (note that the two curves do not intersect
-          // in their interiors).
-          if ((closest_he->source() == curr->source() &&
-               closest_he->direction() == curr->direction()) ||
-              (closest_he->source() == curr->target() &&
-               closest_he->direction() != curr->direction()))
+          // in their interiors). Observe that if such a common vertex exists,
+          // it is certainly not a vertex at infinity, therefore it is
+          // associated with a valid point.
+          if (! closest_he->is_fictitious() && ! curr->is_fictitious() &&
+              ((closest_he->source() == curr->source() &&
+                closest_he->direction() == curr->direction()) ||
+               (closest_he->source() == curr->target() &&
+                closest_he->direction() != curr->direction())))
           {
             if (closest_he->direction() == SMALLER)
             {
@@ -641,10 +680,11 @@ _is_in_connected_component (const Point_2& p,
                                            closest_he->source()->point());
             }
           }
-          else if ((closest_he->target() == curr->source() &&
-                    closest_he->direction() != curr->direction()) ||
-                   (closest_he->target() == curr->target() &&
-                    closest_he->direction() == curr->direction()))
+          else if (! closest_he->is_fictitious() && ! curr->is_fictitious() &&
+                   ((closest_he->target() == curr->source() &&
+                     closest_he->direction() != curr->direction()) ||
+                    (closest_he->target() == curr->target() &&
+                     closest_he->direction() == curr->direction())))
           {
             if (closest_he->direction() == SMALLER)
             {
@@ -665,9 +705,16 @@ _is_in_connected_component (const Point_2& p,
           {
             // In case the two curves do not have a common endpoint, but
             // overlap in their x-range (both contain p), just compare their
-            // positions:
-            y_res = compare_y_position (closest_he->curve(),
-                                        curr->curve());
+            // positions. Note that in this case one of the edges may be
+            // fictitious, so we preform the comparsion symbolically in this
+            // case.
+            if (closest_he->is_fictitious())
+              y_res = curve_above_under;
+            else if (curr->is_fictitious())
+              y_res = point_above_under;
+            else
+              y_res = compare_y_position (closest_he->curve(),
+                                          curr->curve());
           }
 
           // If the current curve is closer to p than the closest curve found
@@ -694,7 +741,11 @@ _is_in_connected_component (const Point_2& p,
 
             CGAL_assertion (next_non_vert != curr);
 
-          } while (is_vertical (next_non_vert->curve()));
+          } while ((! next_non_vert->is_fictitious() &&
+                    is_vertical (next_non_vert->curve())) ||
+                   (next_non_vert->is_fictitious() &&
+                    next_non_vert->source()->boundary_in_x() != 
+                    next_non_vert->target()->boundary_in_x()));
 
           // In case the source of the current curve and the target of
           // the next non-vertical curve lie on opposite sides of the
@@ -708,13 +759,12 @@ _is_in_connected_component (const Point_2& p,
           //            +                          +              .
           //           /                          /               .
           //     curr /                     curr /                .
-
           //         /                          /                 .
           //        +  (.)p                    +  (.)p            .
           //
           //          (a)                        (b)
           //
-          target_res = compare_x (next_non_vert->target()->point(), p);
+          target_res = arr_access.compare_x (p, next_non_vert->target());
 
           CGAL_assertion (source_res != EQUAL && target_res != EQUAL);
 
@@ -736,10 +786,12 @@ _is_in_connected_component (const Point_2& p,
       // closest edge so far.
       if (closest_he == invalid_he ||
           (! closest_in_ccb && closest_he->twin() == curr) ||
-          (compare_y_at_x (curr->source()->point(),
-                           closest_he->curve()) == point_above_under) ||
-          (compare_y_at_x (curr->target()->point(),
-                           closest_he->curve()) == point_above_under))
+          (! curr->source()->is_at_infinity() &&
+           arr_access.compare_y_at_x (curr->source()->point(),
+                                      closest_he) == point_above_under) ||
+          (! curr->target()->is_at_infinity() &&
+           arr_access.compare_y_at_x (curr->target()->point(),
+                                      closest_he) == point_above_under))
       {
         closest_he = curr;
         closest_in_ccb = true;
@@ -793,9 +845,10 @@ _first_around_vertex (Vertex_const_handle v,
       // The curve associated with the current halfedge is defined to the left
       // of v.
       if (lowest_left == invalid_handle ||
-          compare_y_at_x_left (curr->curve(),
-                               lowest_left->curve(), 
-                               v->point()) == SMALLER)
+          (! curr->is_fictitious() &&
+           compare_y_at_x_left (curr->curve(),
+                                lowest_left->curve(), 
+                                v->point()) == SMALLER))
       {
         lowest_left = curr;
       }
@@ -805,9 +858,10 @@ _first_around_vertex (Vertex_const_handle v,
       // The curve associated with the current halfedge is defined to the right
       // of v.
       if (top_right == invalid_handle ||
-          compare_y_at_x_right (curr->curve(),
-                                top_right->curve(), 
-                                v->point()) == LARGER)
+          (! curr->is_fictitious() &&
+           compare_y_at_x_right (curr->curve(),
+                                 top_right->curve(), 
+                                 v->point()) == LARGER))
       {
         top_right = curr;
       }

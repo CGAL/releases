@@ -1,8 +1,5 @@
-// Copyright (c) 2001,2004  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2001,2004  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Interval_arithmetic/include/CGAL/Static_filters/Orientation_3.h $
-// $Id: Orientation_3.h 28889 2006-02-28 13:19:00Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Filtered_kernel/include/CGAL/Static_filters/Orientation_3.h $
+// $Id: Orientation_3.h 35070 2006-11-06 17:12:11Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -35,7 +32,8 @@ class SF_Orientation_3
   : public K_base::Orientation_3
 {
   typedef typename K_base::Point_3          Point_3;
-  typedef typename K_base::Vector_3          Vector_3;
+  typedef typename K_base::Vector_3         Vector_3;
+  typedef typename K_base::Sphere_3         Sphere_3;
   typedef typename K_base::Orientation_3    Base;
 
 public:
@@ -48,6 +46,12 @@ public:
   operator()(const Vector_3& u, const Vector_3& v, const Vector_3& w) const
   { 
     return Base::operator()(u,v,w);
+  }  
+
+  result_type
+  operator()(const Sphere_3& s) const
+  { 
+    return Base::operator()(s);
   }
 #endif
 

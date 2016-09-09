@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Min_sphere_d/include/CGAL/Min_sphere_d.h $
-// $Id: Min_sphere_d.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Min_sphere_d/include/CGAL/Min_sphere_d.h $
+// $Id: Min_sphere_d.h 38400 2007-04-20 17:26:10Z glisse $
 // 
 //
 // Author(s)     : Sven Schoenherr <sven@inf.fu-berlin.de>
@@ -34,18 +34,12 @@
 
 #  include <CGAL/Optimisation/basic.h>
 
-#  include <CGAL/Optimisation_sphere_d.h>
+#  include <CGAL/Min_sphere_d/Optimisation_sphere_d.h>
 
 
-#ifndef CGAL_PROTECT_LIST
-#  include <list>
-#  define CGAL_PROTECT_LIST
-#endif
+#include <list>
 
-#ifndef CGAL_PROTECT_IOSTREAM
-#  include <iostream>
-#  define CGAL_PROTECT_IOSTREAM
-#endif
+#include <iostream>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -105,16 +99,16 @@ public:
     Min_sphere_d( InputIterator first,
                        InputIterator last)
       : d(-1), 
-#if ( _MSC_VER != 1300)   
+#if ( _MSC_VER != 1300) && ! defined ( CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG )
       points( first, last), 
 #endif
       tco( Traits()), 
       ms_basis (tco) 
-#if ( _MSC_VER != 1300) 
+#if ( _MSC_VER != 1300) && ! defined ( CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG )
       ,support_end(points.begin())
 #endif
     {
-#if ( _MSC_VER == 1300)
+#if ( _MSC_VER == 1300) || defined ( CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG )
       std::copy(first,last,std::back_inserter(points));
       support_end = points.begin();
 #endif
@@ -131,17 +125,17 @@ public:
                        InputIterator last,
                        const Traits& traits)
       : d(-1),
-#if ( _MSC_VER != 1300)  
+#if ( _MSC_VER != 1300) && ! defined ( CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG )
       points( first, last), 
 #endif
       tco( traits), 
       ms_basis (tco)
-#if ( _MSC_VER != 1300) 
+#if ( _MSC_VER != 1300) && ! defined ( CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG )
       ,support_end(points.begin())
 #endif
 
     {
-#if ( _MSC_VER == 1300)
+#if ( _MSC_VER == 1300) || defined ( CGAL_CFG_MISSING_TEMPLATE_VECTOR_CONSTRUCTORS_BUG )
       std::copy(first,last,std::back_inserter(points));
       support_end = points.begin();
 #endif
@@ -341,7 +335,7 @@ public:
     }
     
     
-    bool is_valid (bool verbose = false, int level = 0) const
+  bool is_valid (bool verbose = false, int /* level */ = 0) const
     {
         Verbose_ostream verr (verbose);
     
@@ -400,7 +394,7 @@ private:
     void pivot_ms ()
     {
         It t = points.begin();
-        std::advance (t, std::min (d+1, (int)points.size()));
+        std::advance (t, (std::min) (d+1, (int)points.size()));
         mtf_ms (t);
     
         RT excess, e;
@@ -460,9 +454,7 @@ operator >> ( std::istream& is, Min_sphere_d<Traits> & ms);
 
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
-#  include <CGAL/Min_sphere_d.C>
-#endif
+#include <CGAL/Min_sphere_d/Min_sphere_d_impl.h>
 
 #endif // CGAL_MIN_SPHERE_D_H
 

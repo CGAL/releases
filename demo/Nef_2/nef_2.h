@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_2/demo/Nef_2/nef_2.h $
-// $Id: nef_2.h 30667 2006-04-19 16:56:12Z glisse $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_2/demo/Nef_2/nef_2.h $
+// $Id: nef_2.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Radu Ursu
 
@@ -24,8 +24,8 @@
 template <class NT>
 CGAL::Quotient<NT>
 double_to_quotient(double x)
-{ 
-    NT num = 0; 
+{
+    NT num = 0;
     NT den = 1;
 
     if (x != 0.0)
@@ -42,7 +42,7 @@ double_to_quotient(double x)
       long exponent = expt;
       double intpart;
       int k = 0;
-      
+
       while (mantissa != 0.0 && k++ < maxiter)
 
       { mantissa *= width; // shift double mantissa
@@ -74,7 +74,7 @@ double_to_quotient(double x)
     return q;
 }
 /* XPM */
-static char *intersection_xpm[] = {
+static const char *intersection_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 3 1",
 "  c opaque",
@@ -116,7 +116,7 @@ static char *intersection_xpm[] = {
 };
 
 /* XPM */
-static char *union_xpm[] = {
+static const char *union_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 3 1",
 "  c opaque",
@@ -158,7 +158,7 @@ static char *union_xpm[] = {
 };
 
 /* XPM */
-static char *difference_xpm[] = {
+static const char *difference_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 3 1",
 "  c opaque",
@@ -200,7 +200,7 @@ static char *difference_xpm[] = {
 };
 
 /* XPM */
-static char *symmetric_difference_xpm[] = {
+static const char *symmetric_difference_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 3 1",
 "  c opaque",
@@ -242,7 +242,7 @@ static char *symmetric_difference_xpm[] = {
 };
 
 /* XPM */
-static char *complement_xpm[] = {
+static const char *complement_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 2 1",
 "  c opaque",
@@ -283,7 +283,7 @@ static char *complement_xpm[] = {
 };
 
 /* XPM */
-static char *interior_xpm[] = {
+static const char *interior_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 2 1",
 "  c opaque",
@@ -324,7 +324,7 @@ static char *interior_xpm[] = {
 };
 
 /* XPM */
-static char *closure_xpm[] = {
+static const char *closure_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 3 1",
 "  c opaque",
@@ -366,7 +366,7 @@ static char *closure_xpm[] = {
 };
 
 /* XPM */
-static char *boundary_xpm[] = {
+static const char *boundary_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 2 1",
 "  c opaque",
@@ -407,7 +407,7 @@ static char *boundary_xpm[] = {
 };
 
 /* XPM */
-static char *regularization_xpm[] = {
+static const char *regularization_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 4 1",
 "  c opaque",

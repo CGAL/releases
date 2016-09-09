@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Generator/include/CGAL/Random_convex_set_traits_2.h $
-// $Id: Random_convex_set_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Generator/include/CGAL/Random_convex_set_traits_2.h $
+// $Id: Random_convex_set_traits_2.h 32923 2006-08-03 03:37:56Z afabri $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -47,7 +47,10 @@ struct Random_convex_set_traits_2 {
   {
     FT
     operator()( const Point_2& p) const
-    { return max( CGAL_NTS  abs( p.x()), CGAL_NTS  abs( p.y())); }
+    { 
+      BOOST_USING_STD_MAX();
+      return max BOOST_PREVENT_MACRO_SUBSTITUTION ( CGAL_NTS abs( p.x()), CGAL_NTS abs( p.y())); 
+    }
   };
 
   struct Sum

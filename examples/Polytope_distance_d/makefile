@@ -35,17 +35,17 @@ LDFLAGS = \
 
 all:            \
                 polytope_distance_d$(EXE_EXT) \
-                polytope_distance_d_exact$(EXE_EXT) 
+                polytope_distance_d_fast_exact$(EXE_EXT) 
 
 polytope_distance_d$(EXE_EXT): polytope_distance_d$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polytope_distance_d polytope_distance_d$(OBJ_EXT) $(LDFLAGS)
 
-polytope_distance_d_exact$(EXE_EXT): polytope_distance_d_exact$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polytope_distance_d_exact polytope_distance_d_exact$(OBJ_EXT) $(LDFLAGS)
+polytope_distance_d_fast_exact$(EXE_EXT): polytope_distance_d_fast_exact$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polytope_distance_d_fast_exact polytope_distance_d_fast_exact$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
                    polytope_distance_d.clean \
-                   polytope_distance_d_exact.clean 
+                   polytope_distance_d_fast_exact.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules

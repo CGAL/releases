@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_simplifier_traits.h $
-// $Id: Gps_simplifier_traits.h 28831 2006-02-27 14:28:18Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_simplifier_traits.h $
+// $Id: Gps_simplifier_traits.h 37233 2007-03-19 07:23:20Z afabri $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -142,6 +142,8 @@ public:
   typedef typename Base::Curve_data               Curve_data;
   typedef typename Base::Point_data               Point_data;
 
+  Gps_simplifier_traits()
+  {}
 
   Gps_simplifier_traits(Traits& tr) : Base(tr)
   {}
@@ -183,11 +185,11 @@ public:
     Intersect_2 (const Base_Intersect_2& base,
                  const Base_Compare_endpoints_xy_2& base_cmp_endpoints,
                  const Base_Compare_xy_2& base_cmp_xy,
-                 const Base_Construct_min_vertex_2& ctr_min_v,
+                 const Base_Construct_min_vertex_2& ,
                  const Self*  tr) : 
       m_base(base),
-      m_base_cmp_endpoints(m_base_cmp_endpoints),
-      m_base_cmp_xy(m_base_cmp_xy),
+      m_base_cmp_endpoints(base_cmp_endpoints),
+      m_base_cmp_xy(base_cmp_xy),
       m_self_tr(tr)
     {}
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_sign_at_rational.h $
-// $Id: Filtered_sign_at_rational.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_sign_at_rational.h $
+// $Id: Filtered_sign_at_rational.h 35766 2007-01-20 21:39:01Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -29,7 +29,7 @@ template<class Fn>
 class Filtered_sign_at_rational
 {
     protected:
-        typedef CGAL_POLYNOMIAL_NS::Sign  Sign;
+  typedef CGAL::Sign  Sign;
 
     public:
         typedef typename Fn::NT   NT;
@@ -49,15 +49,15 @@ class Filtered_sign_at_rational
                 CGAL_POLYNOMIAL_NS::Interval_arithmetic_guard ig;
                 typename Fn::Interval_function::NT tin= to_interval(t);
                 typename Fn::Interval_function::NT iv = p.interval_function()(tin);
-                Sign ret= CGAL_POLYNOMIAL_NS::ZERO;
-                if (iv.sup() < 0) ret= CGAL_POLYNOMIAL_NS::NEGATIVE;
-                else if (iv.inf() > 0) ret= CGAL_POLYNOMIAL_NS::POSITIVE;
-                if (ret != CGAL_POLYNOMIAL_NS::ZERO) {
+                Sign ret= CGAL::ZERO;
+                if (iv.sup() < 0) ret= CGAL::NEGATIVE;
+                else if (iv.inf() > 0) ret= CGAL::POSITIVE;
+                if (ret != CGAL::ZERO) {
 //std::cout << "The sign of " << p << " at " << t << " is found to be " << ret << " using intervals" << std::endl;
                     return ret;
                 }
             }
-            Sign ret= CGAL_POLYNOMIAL_NS::sign(p.exact_function()(typename Fn::Exact_function::NT(t)));
+            Sign ret= CGAL::sign(p.exact_function()(typename Fn::Exact_function::NT(t)));
 //std::cout << "The sign of " << p << " at " << t << " is found to be " << ret << " using intervals" << std::endl;
             return ret;
         }

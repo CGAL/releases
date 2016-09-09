@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/src/CGAL/Turkowski_numeric_solver.cpp $
-// $Id: Turkowski_numeric_solver.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/src/CGAL/Turkowski_numeric_solver.cpp $
+// $Id: Turkowski_numeric_solver.cpp 36638 2007-02-27 22:45:58Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -409,7 +409,7 @@ void Turkowski_polynomial_compute_roots(const double *begin, const double *end,
       double rd[3];
       int numr= FindCubicRoots(begin, rd);
       for (int i=numr-1; i>=0; --i) {
-	if (rd[i] > lb && rd[i] < ub) roots.push_back(rd[i]);
+	if (rd[i] >= lb && rd[i] < ub) roots.push_back(rd[i]);
       }
       std::sort(roots.begin(), roots.end(), std::greater<double>());
       break;
@@ -422,8 +422,9 @@ void Turkowski_polynomial_compute_roots(const double *begin, const double *end,
 }
 
 
-void Turkowski_polynomial_compute_cleaned_roots(const double *begin, const double *end,  double lb,
-						double ub, std::vector<double> &roots)
+void Turkowski_polynomial_compute_cleaned_roots(const double *begin, const double *end, 
+						double lb, double ub,
+						std::vector<double> &roots)
 {
   int degree= end-begin-1;
   switch( degree) {
@@ -442,7 +443,7 @@ void Turkowski_polynomial_compute_cleaned_roots(const double *begin, const doubl
       int numr= FindCubicRoots(begin, rd);
       double last=-std::numeric_limits<double>::infinity();
       for (int i=numr-1; i>=0; --i) {
-	if (rd[i]< ub && rd[i] > lb) roots.push_back(rd[i]);
+	if (rd[i]< ub && rd[i] >= lb) roots.push_back(rd[i]);
 	if (rd[i] < lb && rd[i] > last){
 	  last=rd[i];
 	}

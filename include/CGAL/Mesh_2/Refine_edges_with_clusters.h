@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges_with_clusters.h $
-// $Id: Refine_edges_with_clusters.h 30303 2006-04-13 16:07:19Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges_with_clusters.h $
+// $Id: Refine_edges_with_clusters.h 33373 2006-08-17 09:14:39Z afabri $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -225,7 +225,7 @@ private:
     b = squared_distance(pc, pa);
     c = squared_distance(pa, pb);
 
-    return (min(a, min(b, c)));
+    return ((CGAL::min)(a, (CGAL::min)(b, c)));
   }
 
   Point split_cluster_point(Vertex_handle va, Vertex_handle vb, Cluster& c)

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Stream_support/include/CGAL/IO/File_header_OFF.h $
-// $Id: File_header_OFF.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Stream_support/include/CGAL/IO/File_header_OFF.h $
+// $Id: File_header_OFF.h 35787 2007-01-24 17:16:05Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -24,13 +24,9 @@
 
 #ifndef CGAL_IO_FILE_HEADER_OFF_H
 #define CGAL_IO_FILE_HEADER_OFF_H 1
-#ifndef CGAL_IO_FILE_HEADER_EXTENDED_OFF_H
+
 #include <CGAL/IO/File_header_extended_OFF.h>
-#endif // CGAL_IO_FILE_HEADER_EXTENDED_OFF_H
-#ifndef CGAL_PROTECT_IOSTREAM
 #include <iostream>
-#define CGAL_PROTECT_IOSTREAM
-#endif
 
 CGAL_BEGIN_NAMESPACE
 

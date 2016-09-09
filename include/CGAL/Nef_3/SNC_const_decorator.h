@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_3/include/CGAL/Nef_3/SNC_const_decorator.h $
-// $Id: SNC_const_decorator.h 29399 2006-03-11 18:34:06Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_3/include/CGAL/Nef_3/SNC_const_decorator.h $
+// $Id: SNC_const_decorator.h 36307 2007-02-15 16:01:40Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -177,6 +177,18 @@ public:
     return this->sncp()->volumes_begin(); }
   Volume_const_iterator   volumes_end()   const   { 
     return this->sncp()->volumes_end(); }
+  SHalfedge_const_iterator shalfedges_begin() const {
+    return this->sncp()->shalfedges_begin(); }
+  SHalfedge_const_iterator shalfedges_end() const {
+    return this->sncp()->shalfedges_end(); }
+  SHalfloop_const_iterator shalfloops_begin() const {
+    return this->sncp()->shalfloops_begin(); }
+  SHalfloop_const_iterator shalfloops_end() const {
+    return this->sncp()->shalfloops_end(); }
+  SFace_const_iterator sfaces_begin() const {
+    return this->sncp()->sfaces_begin(); }
+  SFace_const_iterator sfaces_end() const {
+    return this->sncp()->sfaces_end(); }
 
   Shell_entry_const_iterator shells_begin(Volume_const_handle c) const {
     return c->shells_begin();
@@ -197,6 +209,12 @@ public:
   { return this->sncp()->number_of_facets();}
   Size_type number_of_volumes() const   
   { return this->sncp()->number_of_volumes();}
+  Size_type number_of_shalfedges() const
+  { return this->sncp()->number_of_shalfedges();}
+  Size_type number_of_shalfloops() const
+  { return this->sncp()->number_of_shalfloops();}
+  Size_type number_of_sfaces() const
+  { return this->sncp()->number_of_sfaces();}
 
   bool is_bounded() const {
     if(is_standard_kernel())

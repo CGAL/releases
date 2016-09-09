@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_vertex_base_2.h $
-// $Id: Apollonius_graph_hierarchy_vertex_base_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_vertex_base_2.h $
+// $Id: Apollonius_graph_hierarchy_vertex_base_2.h 31299 2006-05-27 10:38:38Z mkaravel $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -23,7 +23,7 @@
 
 #include <CGAL/basic.h>
 
-#include <CGAL/Apollonius_graph_short_names_2.h>
+#include <CGAL/Apollonius_graph_2/short_names_2.h>
 
 CGAL_BEGIN_NAMESPACE
 

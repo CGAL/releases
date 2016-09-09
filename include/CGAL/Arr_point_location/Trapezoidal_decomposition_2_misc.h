@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2_misc.h $
-// $Id: Trapezoidal_decomposition_2_misc.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2_misc.h $
+// $Id: Trapezoidal_decomposition_2_misc.h 35794 2007-01-24 18:00:30Z spion $
 // 
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -24,9 +24,7 @@
 #include <CGAL/Handle.h>
 #include <CGAL/Arr_point_location/Td_ninetuple.h>
 #endif
-#ifndef CGAL_TWOTUPLE_H
 #include <CGAL/Twotuple.h>
-#endif
 
 #ifndef CGAL_TD_DAG_H
 #include <CGAL/Arr_point_location/Td_dag.h>

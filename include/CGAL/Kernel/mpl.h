@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Kernel/mpl.h $
-// $Id: mpl.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Kernel/mpl.h $
+// $Id: mpl.h 33110 2006-08-07 15:18:21Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -31,13 +31,14 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template < typename A, typename B >
+// The additionnal int parameter is to obtain different types.
+template < typename A, typename B, int = 0 >
 struct First_if_different {
   typedef A Type;
 };
 
-template < typename A >
-struct First_if_different<A, A> {
+template < typename A, int i >
+struct First_if_different<A, A, i> {
   struct Type{};
 };
 

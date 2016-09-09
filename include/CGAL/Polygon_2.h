@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Polygon/include/CGAL/Polygon_2.h $
-// $Id: Polygon_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Polygon/include/CGAL/Polygon_2.h $
+// $Id: Polygon_2.h 31310 2006-05-29 07:28:42Z wein $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -38,9 +38,9 @@
 #endif // CGAL_REP_CLASS_DEFINED
 
 #include <CGAL/Polygon_2_algorithms.h>
-#include <CGAL/Polygon_2_vertex_circulator.h>
-#include <CGAL/Polygon_2_edge_iterator.h>
-#include <CGAL/Polygon_2_edge_circulator.h>
+#include <CGAL/Polygon_2/Polygon_2_vertex_circulator.h>
+#include <CGAL/Polygon_2/Polygon_2_edge_iterator.h>
+#include <CGAL/Polygon_2/Polygon_2_edge_circulator.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -395,9 +395,7 @@ std::ostream
 
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
-#include <CGAL/Polygon_2.C>
-#endif
+#include <CGAL/Polygon_2/Polygon_2_impl.h>
 
 CGAL_BEGIN_NAMESPACE
 

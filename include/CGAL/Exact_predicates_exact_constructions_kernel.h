@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Exact_predicates_exact_constructions_kernel.h $
-// $Id: Exact_predicates_exact_constructions_kernel.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Exact_predicates_exact_constructions_kernel.h $
+// $Id: Exact_predicates_exact_constructions_kernel.h 34966 2006-10-27 19:01:33Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas, Sylvain Pion
@@ -35,7 +35,13 @@
 #  include <CGAL/MP_Float.h>
 #endif
 
+#ifndef CGAL_DONT_USE_LAZY_KERNEL
+#  include <CGAL/Lazy_kernel.h>
+#endif
+
 CGAL_BEGIN_NAMESPACE
+
+#ifdef CGAL_DONT_USE_LAZY_KERNEL
 
 #ifdef CGAL_USE_GMP
 typedef Filtered_kernel<Simple_cartesian<Lazy_exact_nt<Gmpq > > >
@@ -43,6 +49,18 @@ typedef Filtered_kernel<Simple_cartesian<Lazy_exact_nt<Gmpq > > >
 #else
 typedef Filtered_kernel<Simple_cartesian<Lazy_exact_nt<Quotient<MP_Float> > > >
         Exact_predicates_exact_constructions_kernel;
+#endif
+
+#else
+
+#ifdef CGAL_USE_GMP
+typedef Lazy_kernel<Simple_cartesian<Gmpq> >
+        Exact_predicates_exact_constructions_kernel;
+#else
+typedef Lazy_kernel<Simple_cartesian<Quotient<MP_Float> > >
+        Exact_predicates_exact_constructions_kernel;
+#endif
+
 #endif
 
 CGAL_END_NAMESPACE

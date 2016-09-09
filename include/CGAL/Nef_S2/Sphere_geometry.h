@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry.h $
-// $Id: Sphere_geometry.h 29754 2006-03-24 13:08:31Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry.h $
+// $Id: Sphere_geometry.h 35146 2006-11-13 13:43:37Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel       <seel@mpi-inf.mpg.de>
@@ -196,9 +196,9 @@ typedef CGAL::Sphere_segment<R>     Sphere_segment;
 typedef CGAL::Sphere_circle<R>      Sphere_circle;
 typedef CGAL::Sphere_direction<R>   Sphere_direction;
 typedef CGAL::Sphere_triangle<R>    Sphere_triangle;
-typedef CGAL::Point_3<R>            Point_3;
-typedef CGAL::Plane_3<R>            Plane_3;
-typedef CGAL::Aff_transformation_3<R> Aff_transformation_3;
+typedef typename R::Point_3                  Point_3;
+typedef typename R::Plane_3                  Plane_3;
+typedef typename R::Aff_transformation_3     Aff_transformation_3;
 typedef CGAL::Positive_halfsphere_geometry<R> Positive_halfsphere_geometry;
 typedef CGAL::Negative_halfsphere_geometry<R> Negative_halfsphere_geometry;
 

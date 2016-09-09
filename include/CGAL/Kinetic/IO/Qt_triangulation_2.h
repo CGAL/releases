@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_triangulation_2.h $
-// $Id: Qt_triangulation_2.h 31993 2006-06-21 07:39:27Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/Qt_triangulation_2.h $
+// $Id: Qt_triangulation_2.h 36160 2007-02-09 20:29:50Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -33,21 +33,22 @@ CGAL_KINETIC_BEGIN_NAMESPACE
   edges are colored black. See kinetic_Delaunay_2.cc for a useage
   example. There are no public methods other than the constructor.
 */
-template <class Kinetic_Delaunay, class Qt_gui, class Qt_mpt>
-class Qt_triangulation_2: public Ref_counted<Qt_triangulation_2<Kinetic_Delaunay, Qt_gui, Qt_mpt> >
+template <class KDel, class IK, class Qt_gui>
+class Qt_triangulation_2: public Ref_counted<Qt_triangulation_2<KDel, IK, Qt_gui> >
 {
-  typedef Qt_triangulation_2<Kinetic_Delaunay, Qt_gui, Qt_mpt> This;
+  typedef Qt_triangulation_2<KDel, IK, Qt_gui> This;
   // in icc Qt_gui::Listener::This captures This so I need to change the name
   //typedef This Qt_tri;;
-  typedef internal::Triangulation_data_structure_helper_2<typename Kinetic_Delaunay::Triangulation::Triangulation_data_structure> TDS_helper;
+  typedef typename KDel::Triangulation Triangulation;
+  typedef internal::Triangulation_data_structure_helper_2<typename Triangulation::Triangulation_data_structure> TDS_helper;
 
-  typedef typename TDS_helper::Edge Edge;
+  typedef typename Triangulation::Edge Edge;
 
   // maybe icl wants the class definition before the useage. 
-typedef typename Qt_gui::Listener QTL;
+  typedef typename Qt_gui::Listener QTL;
   class Listener: public QTL
   {
-    typedef Qt_triangulation_2<Kinetic_Delaunay, Qt_gui, Qt_mpt> Container;
+    typedef Qt_triangulation_2<KDel, IK, Qt_gui> Container;
     typedef QTL P;
   public:
     Listener(typename Qt_gui::Handle &h, Container *t): P(h), t_(t){}
@@ -65,11 +66,11 @@ public:
   //typedef Kinetic_Delaunay Kinetic_Delaunay;
   //typedef CGAL::Ref_counted_pointer<This> Pointer;
 
-  Qt_triangulation_2(typename Kinetic_Delaunay::Handle &kdel,
-		     typename Qt_gui::Handle &gui,
-		     typename Qt_mpt::Handle &mps): mpt_(mps),
-						    listener_(gui, this),
-						    kdel_(kdel) {
+  Qt_triangulation_2(typename KDel::Handle kdel,
+		     IK ik,
+		     typename Qt_gui::Handle gui): listener_(gui, this),
+						   ik_(ik),
+						   kdel_(kdel) {
   }
 
 protected:
@@ -81,25 +82,25 @@ protected:
 
   template <class V>
   void set_color(const Edge &e, CGAL::Qt_widget &w, const V &) const {
-    if (!TDS_helper::get_undirected_edge_label(e).is_valid()) {
+    if (!kdel_->has_event(e)) {
       w << CGAL::Color(125,125,125);
-    } else if (TDS_helper::get_undirected_edge_label(e) == kdel_->simulation_traits_object().simulator_handle()->null_event()){
-      w << CGAL::Color(0,0,0);
-    } else {
+    } else if (kdel_->has_finite_event(e)){
       w << CGAL::Color(255,0,0);
+    } else {
+      w << CGAL::Color(0,0,0);
     }
   }
 
-  typedef Delaunay_triangulation_recent_edges_visitor_2<typename Kinetic_Delaunay::Triangulation> REV;
+  typedef Delaunay_triangulation_recent_edges_visitor_2<typename KDel::Triangulation> REV;
 
   void set_color(const Edge &e, CGAL::Qt_widget &w,
                  const REV& ) const {
     w << CGAL::LineWidth(2);
-    if (!TDS_helper::get_undirected_edge_label(e).is_valid()) {
+    if (!kdel_->has_event(e)) {
       w << CGAL::Color(125,125,125);
     } else if (kdel_->visitor().contains(e) || kdel_->visitor().contains(TDS_helper::mirror_edge(e))) {
       w<< CGAL::Color(0,255,0);
-    } else if (TDS_helper::get_undirected_edge_label(e) == kdel_->simulation_traits_object().simulator_handle()->null_event()){
+    } else if (kdel_->has_finite_event(e)){
       w << CGAL::Color(125,125,125);
     } else {
       w << CGAL::Color(0,0,0);
@@ -109,29 +110,30 @@ protected:
   //! Draw the triangulation.
   void draw( CGAL::Qt_widget &w, double t) const
   {
-    //std::cout << "Drawing del\n";
-    typedef typename Kinetic_Delaunay::Triangulation Del;
-
-    const Del  &tri= kdel_->triangulation(typename Del::Geom_traits::Time(t));
-    //tri.geom_traits().set_time(typename Del::Geom_traits::Time(t));
-    typedef typename Del::Geom_traits::Static_kernel::Point_2 Static_point;
-    typedef typename Del::Geom_traits::Static_kernel::Segment_2 Static_segment;
+   
+    
+    const Triangulation  &tri= kdel_->triangulation();
+    ik_.set_time(typename IK::Time(t));
+    typedef typename IK::Static_kernel::Point_2 Static_point;
+    typedef typename IK::Static_kernel::Segment_2 Static_segment;
     w << CGAL::LineWidth(1);
     // << CGAL::FillColor(CGAL::Color(0,0,0));
     if (tri.dimension() != 2) return;
-    for (typename Del::Finite_edges_iterator fit = tri.finite_edges_begin();
+
+    typename IK::Current_coordinates cc= ik_.current_coordinates_object();
+    for (typename Triangulation::Finite_edges_iterator fit = tri.finite_edges_begin();
 	 fit != tri.finite_edges_end(); ++fit) {
-      Static_point p0= tri.geom_traits().static_object(fit->first->vertex((fit->second+1)%3)->point());
-      Static_point p1= tri.geom_traits().static_object(fit->first->vertex((fit->second+2)%3)->point());
+      Static_point p0= cc(fit->first->vertex((fit->second+1)%3)->point());
+      Static_point p1= cc(fit->first->vertex((fit->second+2)%3)->point());
       Static_segment ss(p0, p1);
       set_color(*fit, w, kdel_->visitor());
       w << ss;
     }
   }
 
-  typename Qt_mpt::Handle mpt_;
   Listener listener_;
-  typename Kinetic_Delaunay::Handle kdel_;
+  IK ik_;
+  typename KDel::Handle kdel_;
 };
 
 CGAL_KINETIC_END_NAMESPACE

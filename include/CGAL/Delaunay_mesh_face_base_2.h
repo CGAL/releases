@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Mesh_2/include/CGAL/Delaunay_mesh_face_base_2.h $
-// $Id: Delaunay_mesh_face_base_2.h 29627 2006-03-20 14:38:45Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Mesh_2/include/CGAL/Delaunay_mesh_face_base_2.h $
+// $Id: Delaunay_mesh_face_base_2.h 32702 2006-07-25 09:25:45Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -30,13 +30,12 @@ class Delaunay_mesh_face_base_2 : public Fb
 {
 public:
   typedef Gt Geom_traits;
-  typedef Constrained_triangulation_face_base_2<Gt> CTFb;
   typedef typename Fb::Vertex_handle Vertex_handle;
   typedef typename Fb::Face_handle Face_handle;
 
   template < typename TDS2 >
   struct Rebind_TDS {
-    typedef typename CTFb::template Rebind_TDS<TDS2>::Other Fb2;
+    typedef typename Fb::template Rebind_TDS<TDS2>::Other Fb2;
     typedef Delaunay_mesh_face_base_2<Gt,Fb2> Other;
   };
 

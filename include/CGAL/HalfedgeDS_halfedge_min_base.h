@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/HalfedgeDS/include/CGAL/HalfedgeDS_halfedge_min_base.h $
-// $Id: HalfedgeDS_halfedge_min_base.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/HalfedgeDS/include/CGAL/HalfedgeDS_halfedge_min_base.h $
+// $Id: HalfedgeDS_halfedge_min_base.h 35794 2007-01-24 18:00:30Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -24,9 +24,7 @@
 #ifndef CGAL_HALFEDGEDS_HALFEDGE_MIN_BASE_H
 #define CGAL_HALFEDGEDS_HALFEDGE_MIN_BASE_H 1
 
-#ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 

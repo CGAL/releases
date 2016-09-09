@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_ring_C2.h $
-// $Id: Voronoi_vertex_ring_C2.h 29304 2006-03-09 18:19:15Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_ring_C2.h $
+// $Id: Voronoi_vertex_ring_C2.h 37157 2007-03-16 10:49:14Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -24,23 +24,22 @@
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_VORONOI_VERTEX_RING_C2_H
 
 
-#include <CGAL/enum.h>
 #include <CGAL/Segment_Delaunay_graph_2/Basic_predicates_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Are_same_points_C2.h>
 #include <CGAL/Segment_Delaunay_graph_2/Are_same_segments_C2.h>
 
 
-
-
 CGAL_BEGIN_NAMESPACE
+
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
 
 
 template<class K>
-class Sdg_voronoi_vertex_ring_C2
-  : public Sdg_basic_predicates_C2<K>
+class Voronoi_vertex_ring_C2
+  : public Basic_predicates_C2<K>
 {
 public:
-  typedef Sdg_basic_predicates_C2<K> Base;
+  typedef Basic_predicates_C2<K> Base;
 
   typedef enum {PPP = 0, PPS, PSS, SSS} vertex_t;
   struct PPP_Type {};
@@ -61,14 +60,19 @@ public:
 
   typedef typename Base::Homogeneous_point_2 Homogeneous_point_2;
 
+  typedef typename Base::Orientation         Orientation;
+  typedef typename Base::Comparison_result   Comparison_result;
+  typedef typename Base::Oriented_side       Oriented_side;
+  typedef typename Base::Sign                Sign;
+
 private:
-  typedef Sdg_are_same_points_C2<K>     Are_same_points_C2;
-  typedef Sdg_are_same_segments_C2<K>   Are_same_segments_C2;
+  typedef Are_same_points_C2<K>     Are_same_points_2;
+  typedef Are_same_segments_C2<K>   Are_same_segments_2;
 
   typedef typename K::Intersections_tag ITag;
 
-  Are_same_points_C2    same_points;
-  Are_same_segments_C2  same_segments;
+  Are_same_points_2    same_points;
+  Are_same_segments_2  same_segments;
 
 private:
   //--------------------------------------------------------------------------
@@ -371,7 +375,7 @@ private:
 
   //--------------------------------------------------------------------------
 
-  bool check_if_exact(const Site_2& s, unsigned int i,
+  bool check_if_exact(const Site_2& , unsigned int ,
 		      const Tag_false&) const
   {
     return true;
@@ -816,7 +820,7 @@ private:
 
   //--------------------------------------------------------------------------
 
-  Sign incircle_p_no_easy(const Site_2& st, PPS_Type type) const
+  Sign incircle_p_no_easy(const Site_2& st, PPS_Type ) const
   {
     CGAL_precondition( st.is_point() );
 
@@ -837,7 +841,7 @@ private:
 
   //--------------------------------------------------------------------------
 
-  Sign incircle_p_no_easy(const Site_2& st, PSS_Type type) const
+  Sign incircle_p_no_easy(const Site_2& st, PSS_Type ) const
   {
     CGAL_precondition( st.is_point() );
     Point_2 t = st.point();
@@ -867,7 +871,7 @@ private:
 
   //--------------------------------------------------------------------------
 
-  Sign incircle_p_no_easy(const Site_2& st, SSS_Type type) const
+  Sign incircle_p_no_easy(const Site_2& st, SSS_Type ) const
   {
     CGAL_precondition( st.is_point() );
 
@@ -1364,24 +1368,24 @@ public:
   //--------------------------------------------------------------------------
   //--------------------------------------------------------------------------
 
-  inline FT x(const Tag_false&) const {
+  inline FT x(Integral_domain_without_division_tag) const {
     return CGAL::to_double(hx()) / CGAL::to_double(hw());
   }
-  inline FT y(const Tag_false&) const {
+  inline FT y(Integral_domain_without_division_tag) const {
     return CGAL::to_double(hy()) / CGAL::to_double(hw());
   }
 
-  inline FT x(const Tag_true&) const { return hx() / hw(); }
-  inline FT y(const Tag_true&) const { return hy() / hw(); }
+  inline FT x(Field_tag) const { return hx() / hw(); }
+  inline FT y(Field_tag) const { return hy() / hw(); }
 
   inline FT x() const {
-    static typename Number_type_traits<FT>::Has_division has_division;
-    return x(has_division);
+      typedef Algebraic_structure_traits<FT> AST;
+      return x(typename AST::Algebraic_category());
   }
-
+    
   inline FT y() const {
-    static typename Number_type_traits<FT>::Has_division has_division;
-    return y(has_division);
+      typedef Algebraic_structure_traits<FT> AST;
+      return y(typename AST::Algebraic_category());
   }
 
   FT hx() const {
@@ -1452,9 +1456,9 @@ public:
   vertex_t type() const { return v_type; }
 
 public:
-  Sdg_voronoi_vertex_ring_C2(const Site_2& p,
-			     const Site_2& q,
-			     const Site_2& r)
+  Voronoi_vertex_ring_C2(const Site_2& p,
+			 const Site_2& q,
+			 const Site_2& r)
     : p_(p), q_(q), r_(r)
   {
     compute_vertex(p, q, r);
@@ -1541,6 +1545,7 @@ private:
 };
 
 
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
 
 CGAL_END_NAMESPACE
 

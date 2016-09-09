@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2001  ETH Zurich (Switzerland).
+// Copyright (c) 1997-2007  ETH Zurich (Switzerland).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,14 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/QP_solver/include/CGAL/QP_solver/debug.h $
-// $Id: debug.h 28526 2006-02-15 11:54:47Z fischerk $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/QP_solver/include/CGAL/QP_solver/debug.h $
+// $Id: debug.h 38453 2007-04-27 00:34:44Z gaertner $
 // 
 //
-// Author(s)     : Sven Schoenherr <sven@inf.fu-berlin.de>
+// Author(s)     : Sven Schoenherr
 //                 Bernd Gaertner <gaertner@inf.ethz.ch>
-//                 Franz Wessendorp <fransw@inf.ethz.ch>
-//                 Kaspar Fischer <fischerk@inf.ethz.ch>
+//                 Franz Wessendorp 
+//                 Kaspar Fischer 
 
 #ifndef CGAL_QP_DEBUG_H
 #define CGAL_QP_DEBUG_H
@@ -28,8 +28,10 @@
 
 // debug
 // -----
-#if (    defined( CGAL_QP_NO_DEBUG) \
-      || defined( CGAL_NO_DEGUG) || defined( NDEBUG))
+#if (    defined( CGAL_QP_NO_DEBUG)\
+      || defined( CGAL_QP_NO_ASSERTIONS)\
+      || defined( CGAL_NO_ASSERTIONS)\
+      || defined( CGAL_NO_DEBUG) || defined( NDEBUG))
 #  define  CGAL_qpe_debug  if ( 0)
 #else
 #  define  CGAL_qpe_debug  if ( 1)

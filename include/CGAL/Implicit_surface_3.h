@@ -1,4 +1,4 @@
-// Copyright (c) 2006  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2006-2007  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,9 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: 
-// $Revision: 30642 $ $Date: 2006-04-18 14:42:52 +0200 (Tue, 18 Apr 2006) $
-// $Name:  $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Surface_mesher/include/CGAL/Implicit_surface_3.h $
+// $Id: Implicit_surface_3.h 37876 2007-04-03 13:59:17Z lrineau $
 //
 // Author(s)     : Laurent RINEAU
 
@@ -21,7 +20,7 @@
 #define CGAL_IMPLICIT_SURFACE_3_H
 
 #include <CGAL/make_surface_mesh.h>
-#include <CGAL/Surface_mesher/Oracles/Implicit_oracle.h>
+#include <CGAL/Surface_mesher/Implicit_surface_oracle_3.h>
 
 #include <functional>
 
@@ -38,6 +37,11 @@ namespace CGAL {
     typedef typename Geom_traits::Sphere_3 Sphere_3;
     typedef typename Geom_traits::FT FT;
     typedef typename Geom_traits::Point_3 Point;
+    typedef Implicit_surface_3<Geom_traits, Function> Self;
+
+    typedef Surface_mesher::Implicit_surface_oracle_3<
+      Geom_traits,
+      Self> Surface_mesher_traits_3;
 
     Implicit_surface_3(Function f,
 		       const Sphere_3 bounding_sphere,
@@ -82,14 +86,14 @@ namespace CGAL {
     return surface(f, sphere, error_bound);
   }
 
-  template <typename GT, typename Function>
-  struct Surface_mesh_traits_generator_3<Implicit_surface_3<GT, Function> >
-  {
-    typedef Implicit_surface_3<GT, Function> Surface_type;
-    typedef typename Surface_mesher::Implicit_surface_oracle<GT,
-							     Surface_type> Type;
-    typedef Type type; // Boost meta-programming compatibility
-  };
+//   template <typename GT, typename Function>
+//   struct Surface_mesh_traits_generator_3<Implicit_surface_3<GT, Function> >
+//   {
+//     typedef Implicit_surface_3<GT, Function> Surface_type;
+//     typedef typename Surface_mesher::Implicit_surface_oracle_3<GT,
+// 							     Surface_type> Type;
+//     typedef Type type; // Boost meta-programming compatibility
+//   };
 
   // non documented class
   template <typename FT, typename Point>

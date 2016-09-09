@@ -34,28 +34,27 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                nearest_nb1_tr$(EXE_EXT) \
-                range_search_tr$(EXE_EXT) \
-                rs_example$(EXE_EXT) 
+                nearest_neighbor$(EXE_EXT) \
+                range_search$(EXE_EXT) 
 
-nearest_nb1_tr$(EXE_EXT): nearest_nb1_tr$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)nearest_nb1_tr nearest_nb1_tr$(OBJ_EXT) $(LDFLAGS)
+nearest_neighbor$(EXE_EXT): nearest_neighbor$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)nearest_neighbor nearest_neighbor$(OBJ_EXT) $(LDFLAGS)
 
-range_search_tr$(EXE_EXT): range_search_tr$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)range_search_tr range_search_tr$(OBJ_EXT) $(LDFLAGS)
-
-rs_example$(EXE_EXT): rs_example$(OBJ_EXT)
-	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)rs_example rs_example$(OBJ_EXT) $(LDFLAGS)
+range_search$(EXE_EXT): range_search$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)range_search range_search$(OBJ_EXT) $(LDFLAGS)
 
 clean: \
-                   nearest_nb1_tr.clean \
-                   range_search_tr.clean \
-                   rs_example.clean 
+                   nearest_neighbor.clean \
+                   range_search.clean 
 
 #---------------------------------------------------------------------#
 #                    suffix rules
 #---------------------------------------------------------------------#
 
 .C$(OBJ_EXT):
+	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
+
+
+.cpp$(OBJ_EXT):
 	$(CGAL_CXX) $(CXXFLAGS) $(OBJ_OPT) $<
 

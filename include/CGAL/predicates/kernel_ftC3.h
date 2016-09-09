@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC3.h $
-// $Id: kernel_ftC3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC3.h $
+// $Id: kernel_ftC3.h 32776 2006-07-30 13:02:57Z spion $
 // 
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion
@@ -60,7 +60,6 @@ parallelC3(const FT &s1sx, const FT &s1sy, const FT &s1sz,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Compare<FT>::result_type
 compare_lexicographically_xyzC3(const FT &px, const FT &py, const FT &pz,
@@ -153,7 +152,6 @@ angleC3(const FT &px, const FT &py, const FT &pz,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Same_uncertainty_nt<Orientation, FT>::type
 coplanar_orientationC3(const FT &px, const FT &py, const FT &pz,
@@ -176,7 +174,6 @@ coplanar_orientationC3(const FT &px, const FT &py, const FT &pz,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Same_uncertainty_nt<Orientation, FT>::type
 coplanar_orientationC3(const FT &px, const FT &py, const FT &pz,
@@ -236,7 +233,6 @@ coplanar_side_of_bounded_circleC3(const FT &px, const FT &py, const FT &pz,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Equal_to<FT>::result_type
 collinear_are_ordered_along_lineC3(
@@ -254,7 +250,6 @@ collinear_are_ordered_along_lineC3(
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Equal_to<FT>::result_type
 collinear_are_strictly_ordered_along_lineC3(
@@ -441,7 +436,6 @@ side_of_bounded_sphereC3(const FT &px, const FT &py, const FT &pz,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Equal_to<FT>::result_type
 has_larger_dist_to_pointC3(const FT &px, const FT &py, const FT &pz,
@@ -452,7 +446,6 @@ has_larger_dist_to_pointC3(const FT &px, const FT &py, const FT &pz,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Equal_to<FT>::result_type
 has_smaller_dist_to_pointC3(const FT &px, const FT &py, const FT &pz,
@@ -474,7 +467,6 @@ cmp_signed_dist_to_directionC3( const FT &pa, const FT &pb, const FT &pc,
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Equal_to<FT>::result_type
 has_larger_signed_dist_to_directionC3(
@@ -486,7 +478,6 @@ has_larger_signed_dist_to_directionC3(
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Equal_to<FT>::result_type
 has_smaller_signed_dist_to_directionC3(
@@ -514,7 +505,6 @@ cmp_signed_dist_to_planeC3(
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Equal_to<FT>::result_type
 has_larger_signed_dist_to_planeC3(
@@ -529,7 +519,6 @@ has_larger_signed_dist_to_planeC3(
 }
 
 template < class FT >
-/*CGAL_NO_FILTER*/
 CGAL_KERNEL_MEDIUM_INLINE
 typename Equal_to<FT>::result_type
 has_smaller_signed_dist_to_planeC3(
@@ -544,9 +533,5 @@ has_smaller_signed_dist_to_planeC3(
 }
 
 CGAL_END_NAMESPACE
-
-#ifdef CGAL_ARITHMETIC_FILTER_H
-#include <CGAL/Arithmetic_filter/predicates/kernel_ftC3.h>
-#endif
 
 #endif // CGAL_PREDICATES_KERNEL_FTC3_H

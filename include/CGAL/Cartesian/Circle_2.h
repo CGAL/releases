@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Cartesian_kernel/include/CGAL/Cartesian/Circle_2.h $
-// $Id: Circle_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Cartesian_kernel/include/CGAL/Cartesian/Circle_2.h $
+// $Id: Circle_2.h 32866 2006-08-01 09:08:28Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -25,7 +25,6 @@
 #define CGAL_CARTESIAN_CIRCLE_2_H
 
 #include <CGAL/utility.h>
-#include <CGAL/Interval_arithmetic.h>
 #include <CGAL/Cartesian/predicates_on_points_2.h>
 
 CGAL_BEGIN_NAMESPACE
@@ -37,7 +36,6 @@ class CircleC2
   typedef typename R_::RT                   RT;
   typedef typename R_::Circle_2             Circle_2;
   typedef typename R_::Point_2              Point_2;
-  typedef typename R_::Aff_transformation_2 Aff_transformation_2;
 
   typedef Triple<Point_2, FT, Orientation>         Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
@@ -76,30 +74,7 @@ public:
     return get(base).third;
   }
 
-  Circle_2 orthogonal_transform(const Aff_transformation_2 &t) const;
-
 };
-
-
-
-
-template < class R >
-CGAL_KERNEL_INLINE
-typename CircleC2<R>::Circle_2
-CircleC2<R>::orthogonal_transform
-  (const typename CircleC2<R>::Aff_transformation_2 &t) const
-{
-  typename R::Vector_2 vec(RT(1), RT(0) );   // unit vector // AF: was FT
-  vec = vec.transform(t);             // transformed
-  FT sq_scale = vec.squared_length();       // squared scaling factor
-
-  return CircleC2<R>(t.transform(center()),
-                               sq_scale * squared_radius(),
-                               t.is_even() ? orientation()
-                                           : CGAL::opposite(orientation()));
-}
-
-
 
 CGAL_END_NAMESPACE
 

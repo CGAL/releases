@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Policy_base.h $
-// $Id: Policy_base.h 29163 2006-03-07 23:41:02Z mkaravel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Policy_base.h $
+// $Id: Policy_base.h 37188 2007-03-17 09:37:57Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -77,7 +77,7 @@ public:
     return e_rejector_.is_valid() && f_rejector_.is_valid();
   }
 
-  bool is_valid(const Delaunay_graph& dg) const {
+  bool is_valid(const Delaunay_graph& ) const {
     return e_rejector_.is_valid() && f_rejector_.is_valid();
   }
 

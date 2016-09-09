@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/demo/Triangulation_2/regular_triangulation_2_toolbar.h $
-// $Id: regular_triangulation_2_toolbar.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/demo/Triangulation_2/regular_triangulation_2_toolbar.h $
+// $Id: regular_triangulation_2_toolbar.h 37003 2007-03-10 16:55:12Z spion $
+//
 //
 // Author(s)     : Radu Ursu
 
@@ -45,7 +45,7 @@ private:
   int                activebutton;
   bool               is_active;
   int                nr_of_buttons;
-	
+
   CGAL::Qt_widget_get_circle<Rp>       input_circle_layer;
   CGAL::Qt_widget_get_point<Rp>        input_point_layer;
   triangulation_2_edit_weightedpoint<Regular_triangulation>

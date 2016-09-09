@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Sweep_line_2/Sweep_line_2_debug.h $
-// $Id: Sweep_line_2_debug.h 28840 2006-02-27 14:36:55Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Sweep_line_2/Sweep_line_2_debug.h $
+// $Id: Sweep_line_2_debug.h 35514 2006-12-11 15:34:13Z wein $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -44,16 +44,16 @@ Basic_sweep_line_2<Traits_,
                    Allocator>::
 PrintEventQueue()
 {
-  SL_DEBUG(std::cout << std::endl << "Event queue: " << std::endl;)
+  CGAL_SL_DEBUG(std::cout << std::endl << "Event queue: " << std::endl;)
   EventQueueIter iter = m_queue->begin();
   while ( iter != m_queue->end() )
   {
-    SL_DEBUG(std::cout << "Point (" << iter->first << ")" << std::endl;)
+    CGAL_SL_DEBUG(std::cout << "Point (" << iter->first << ")" << std::endl;)
     Event *e = iter->second;
     e->Print();
     ++iter;
   }
-  SL_DEBUG(std::cout << "--------------------------------" << std::endl;)
+  CGAL_SL_DEBUG(std::cout << "--------------------------------" << std::endl;)
 }
 
 template <class Traits_,
@@ -69,7 +69,7 @@ Basic_sweep_line_2<Traits_,
                    Allocator>::
 PrintSubCurves()
 {
-  SL_DEBUG(std::cout << std::endl << "Sub curves: " << std::endl;)
+  CGAL_SL_DEBUG(std::cout << std::endl << "Sub curves: " << std::endl;)
   for(unsigned int i=0 ; i < m_num_of_subCurves ; ++i)
   {
     m_subCurves[i].Print();
@@ -88,8 +88,16 @@ PrintStatusLine()
     std::cout << std::endl << "Status line: empty" << std::endl;
     return;
   }
-  std::cout << std::endl << "Status line: (" 
-            << m_currentEvent->get_point() << ")" << std::endl;
+  std::cout << std::endl << "Status line: (" ;
+  if(m_currentEvent->is_finite())
+    std::cout << m_currentEvent->get_point() << ")" << std::endl;
+  else
+  {
+    Boundary_type x = m_currentEvent->infinity_at_x(),
+                  y = m_currentEvent->infinity_at_y();
+
+    PrintInfinityType(x, y);
+  }
   StatusLineIter iter = m_statusLine.begin();
   while ( iter != m_statusLine.end() )
   {
@@ -98,6 +106,71 @@ PrintStatusLine()
   }
   std::cout << "Status line - end" << std::endl;
 }
+
+template <class Traits_,
+          class SweepVisitor,
+          class CurveWrap,
+          class SweepEvent,
+          typename Allocator>
+inline void 
+Basic_sweep_line_2<Traits_,
+                   SweepVisitor,
+                   CurveWrap,
+                   SweepEvent,
+                   Allocator>::
+PrintInfinityType(Boundary_type x, Boundary_type y)
+{
+  switch(x)
+  {
+  case MINUS_INFINITY:
+    std::cout<<" X = -00 ";
+    return;
+  case PLUS_INFINITY:
+    std::cout<<" X = +00 ";
+    return;
+  case NO_BOUNDARY:
+    break;
+  }
+
+  switch(y)
+  {
+  case MINUS_INFINITY:
+    std::cout<<" Y = -00 ";
+    return;
+  case PLUS_INFINITY:
+    std::cout<<" Y = +00 ";
+    return;
+  case NO_BOUNDARY:
+    CGAL_assertion(false);
+  }
+}
+
+template <class Traits_,
+          class SweepVisitor,
+          class CurveWrap,
+          class SweepEvent,
+          typename Allocator>
+inline void 
+Basic_sweep_line_2<Traits_,
+                   SweepVisitor,
+                   CurveWrap,
+                   SweepEvent,
+                   Allocator>::
+PrintEvent(const Event* e)
+{
+  if(e->is_finite())
+    std::cout<< e->get_point();
+  else
+  {
+    Boundary_type x = e->infinity_at_x(),
+                  y = e->infinity_at_y();
+    PrintInfinityType(x, y);
+    std::cout<<" with unbounded curve: " <<e->get_unbounded_curve();
+  }
+
+ 
+}
+          
 
 
 

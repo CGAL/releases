@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2005  INRIA Sophia-Antipolis (France) and
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
 // Notre Dame University (U.S.A.).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Oriented_side_of_bisector_C2.h $
-// $Id: Oriented_side_of_bisector_C2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Oriented_side_of_bisector_C2.h $
+// $Id: Oriented_side_of_bisector_C2.h 32830 2006-07-31 13:25:07Z mkaravel $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -29,30 +29,36 @@
 
 CGAL_BEGIN_NAMESPACE
 
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_BEGIN_NAMESPACE
+
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
 
 template<class K, class Method_tag>
-class Sdg_oriented_side_of_bisector_C2
-  : public Sdg_basic_predicates_C2<K>
+class Oriented_side_of_bisector_C2
+  : public Basic_predicates_C2<K>
 {
 private:
-  typedef Sdg_basic_predicates_C2<K>   Base;
-  typedef typename Base::Line_2     Line_2;
-  typedef typename Base::RT         RT;
-  typedef typename Base::FT         FT;
+  typedef Basic_predicates_C2<K>            Base;
+  typedef typename Base::Line_2             Line_2;
+  typedef typename Base::RT                 RT;
+  typedef typename Base::FT                 FT;
+  typedef typename Base::Comparison_result  Comparison_result;
+  typedef typename Base::Sign               Sign;
+  typedef typename Base::Orientation        Orientation;
 
-  typedef Sdg_are_same_points_C2<K>    Are_same_points_C2;
-  typedef Sdg_are_same_segments_C2<K>  Are_same_segments_C2;
+  typedef Are_same_points_C2<K>             Are_same_points_2;
+  typedef Are_same_segments_C2<K>           Are_same_segments_2;
 
 private:
-  Are_same_points_C2    same_points;
-  Are_same_segments_C2  same_segments;
+  Are_same_points_2    same_points;
+  Are_same_segments_2  same_segments;
 
 public:
-  typedef typename Base::Site_2     Site_2;
-  typedef typename Base::Point_2    Point_2;
-  typedef typename Base::Segment_2  Segment_2;
+  typedef typename Base::Oriented_side      Oriented_side;
+  typedef typename Base::Site_2             Site_2;
+  typedef typename Base::Point_2            Point_2;
+  typedef typename Base::Segment_2          Segment_2;
 
 private:
   bool is_endpoint(const Site_2& p, const Site_2& s) const
@@ -296,20 +302,20 @@ private:
   }
 
 public:
-  typedef Oriented_side          result_type;
-  typedef Site_2                 argument_type;
-  typedef Arity_tag<3>           Arity;
+  typedef Oriented_side              result_type;
+  typedef Site_2                     argument_type;
+  typedef Arity_tag<3>               Arity;
 
 
   Oriented_side
-  operator()(const Site_2& t1, const Site_2& t2,
-	     const Site_2& q) const
+  operator()(const Site_2& t1, const Site_2& t2, const Site_2& q) const
   {
     CGAL_precondition( q.is_point() );
     return compare_distances(t1, t2, q);
   }
 };
 
+CGAL_SEGMENT_DELAUNAY_GRAPH_2_END_NAMESPACE
 
 CGAL_END_NAMESPACE
 

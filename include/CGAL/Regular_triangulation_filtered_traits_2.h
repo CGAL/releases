@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Triangulation_2/include/CGAL/Regular_triangulation_filtered_traits_2.h $
-// $Id: Regular_triangulation_filtered_traits_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Triangulation_2/include/CGAL/Regular_triangulation_filtered_traits_2.h $
+// $Id: Regular_triangulation_filtered_traits_2.h 32978 2006-08-03 16:21:32Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -65,6 +65,8 @@ class Regular_triangulation_filtered_traits_2
   typedef typename K::C2F C2F;
 
 public:
+
+  typedef K               Kernel;
 
   typedef Filtered_predicate<
             typename Exact_traits::Power_test_2,

@@ -15,12 +15,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Bbox_2.h $
-// $Id: Bbox_2.h 28567 2006-02-16 14:30:13Z lsaboret $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Bbox_2.h $
+// $Id: Bbox_2.h 33345 2006-08-16 14:08:44Z afabri $
+//
 //
 // Author(s)     : Andreas Fabri
- 
 
 #ifndef CGAL_BBOX_2_H
 #define CGAL_BBOX_2_H
@@ -54,8 +53,8 @@ public:
   inline double     xmax() const;
   inline double     ymax() const;
 
-  inline double     max(int i) const;
-  inline double     min(int i) const;
+  inline double     max BOOST_PREVENT_MACRO_SUBSTITUTION (int i) const;
+  inline double     min BOOST_PREVENT_MACRO_SUBSTITUTION (int i) const;
 
   inline Bbox_2     operator+(const Bbox_2 &b) const;
 
@@ -103,7 +102,7 @@ Bbox_2::dimension() const
 
 inline
 double
-Bbox_2::min(int i) const
+Bbox_2::min BOOST_PREVENT_MACRO_SUBSTITUTION (int i) const
 {
   CGAL_kernel_precondition( (i == 0 ) || ( i == 1 ) );
   if(i == 0) { return xmin(); }
@@ -112,7 +111,7 @@ Bbox_2::min(int i) const
 
 inline
 double
-Bbox_2::max(int i) const
+Bbox_2::max BOOST_PREVENT_MACRO_SUBSTITUTION (int i) const
 {
   CGAL_kernel_precondition( (i == 0 ) || ( i == 1 ) );
   if(i == 0) { return xmax(); }
@@ -123,10 +122,10 @@ inline
 Bbox_2
 Bbox_2::operator+(const Bbox_2 &b) const
 {
-  return Bbox_2(std::min(xmin(), b.xmin()),
-                std::min(ymin(), b.ymin()),
-                std::max(xmax(), b.xmax()),
-                std::max(ymax(), b.ymax()));
+  return Bbox_2((std::min)(xmin(), b.xmin()),
+                (std::min)(ymin(), b.ymin()),
+                (std::max)(xmax(), b.xmax()),
+                (std::max)(ymax(), b.ymax()));
 }
 
 inline
@@ -141,7 +140,6 @@ do_overlap(const Bbox_2 &bb1, const Bbox_2 &bb2)
     return true;
 }
 
-#ifndef CGAL_NO_OSTREAM_INSERT_BBOX_2
 inline
 std::ostream&
 operator<<(std::ostream &os, const Bbox_2 &b)
@@ -164,9 +162,7 @@ operator<<(std::ostream &os, const Bbox_2 &b)
     }
     return os;
 }
-#endif // CGAL_NO_OSTREAM_INSERT_BBOX_2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_BBOX_2
 inline
 std::istream&
 operator>>(std::istream &is, Bbox_2 &b)
@@ -184,10 +180,10 @@ operator>>(std::istream &is, Bbox_2 &b)
         read(is, ymax);
         break;
     }
-    b = Bbox_2(xmin, ymin, xmax, ymax);
+    if (is)
+      b = Bbox_2(xmin, ymin, xmax, ymax);
     return is;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_BBOX_2
 
 CGAL_END_NAMESPACE
 

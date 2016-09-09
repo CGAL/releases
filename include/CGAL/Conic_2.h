@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Conic_2/include/CGAL/Conic_2.h $
-// $Id: Conic_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Conic_2/include/CGAL/Conic_2.h $
+// $Id: Conic_2.h 37334 2007-03-20 21:49:39Z afabri $
 // 
 //
 // Author(s)     : Bernd Gaertner, Sven Schoenherr <sven@inf.ethz.ch>
@@ -24,10 +24,6 @@
 
 #ifndef CGAL_CONIC_2_H
 #define CGAL_CONIC_2_H
-
-#ifndef CGAL_IO_FORWARD_DECL_WINDOW_STREAM_H
-#include <CGAL/IO/forward_decl_window_stream.h>
-#endif
 
 #include <CGAL/Conic_misc.h>
 
@@ -38,12 +34,6 @@ class Optimisation_ellipse_2;
 
 CGAL_END_NAMESPACE
 
-// Why is this outside namespace CGAL ???
-
-template < class R_ >
-CGAL::Window_stream&
-operator << ( CGAL::Window_stream&,
-              const CGAL::Optimisation_ellipse_2<R_>&);
 
 CGAL_BEGIN_NAMESPACE
 

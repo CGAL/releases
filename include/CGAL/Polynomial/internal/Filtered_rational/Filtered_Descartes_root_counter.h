@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_Descartes_root_counter.h $
-// $Id: Filtered_Descartes_root_counter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_Descartes_root_counter.h $
+// $Id: Filtered_Descartes_root_counter.h 35766 2007-01-20 21:39:01Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -156,8 +156,8 @@ class Filtered_Descartes_root_counter
 
         template <class NTT>
             result_type operator()(const NTT &begin, const NTT &end,
-            CGAL_POLYNOMIAL_NS::Sign,
-            CGAL_POLYNOMIAL_NS::Sign) const
+				   CGAL::Sign,
+				   CGAL::Sign) const
         {
             return filtered_Descartes_root_counter(h_, begin, end, true, kernel_);
         }

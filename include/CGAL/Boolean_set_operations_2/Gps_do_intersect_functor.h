@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_do_intersect_functor.h $
-// $Id: Gps_do_intersect_functor.h 28831 2006-02-27 14:28:18Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_do_intersect_functor.h $
+// $Id: Gps_do_intersect_functor.h 37362 2007-03-21 17:04:28Z afabri $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -45,7 +45,7 @@ public:
 
    void create_face (Face_const_handle f1,
                      Face_const_handle f2,
-                     Face_handle res_f)
+                     Face_handle )
   {
     if(f1->contained() && f2->contained())
       // found intersection
@@ -53,58 +53,58 @@ public:
   }
 
 
-  void create_vertex(Vertex_const_handle v1,
-                     Vertex_const_handle v2,
-                     Vertex_handle  res_v)
+  void create_vertex(Vertex_const_handle ,
+                     Vertex_const_handle ,
+                     Vertex_handle  )
   {
     m_found_boudary_intersection = true;
   }
 
-  void create_vertex(Vertex_const_handle v1,
-                     Halfedge_const_handle h2,
-                     Vertex_handle res_v)
+  void create_vertex(Vertex_const_handle ,
+                     Halfedge_const_handle ,
+                     Vertex_handle )
   {
     m_found_boudary_intersection = true;
   }
 
-  void create_vertex(Halfedge_const_handle h1,
-                     Vertex_const_handle v2,
-                     Vertex_handle res_v)
+  void create_vertex(Halfedge_const_handle ,
+                     Vertex_const_handle ,
+                     Vertex_handle )
   {
     m_found_boudary_intersection = true;
   }
 
-  void create_vertex(Halfedge_const_handle h1,
-                     Halfedge_const_handle h2,
-                     Vertex_handle res_v)
+  void create_vertex(Halfedge_const_handle ,
+                     Halfedge_const_handle ,
+                     Vertex_handle )
   {}
 
 
-  void create_vertex(Face_const_handle f1,
-                     Vertex_const_handle v2,
-                     Vertex_handle res_v)
+  void create_vertex(Face_const_handle ,
+                     Vertex_const_handle ,
+                     Vertex_handle )
   {}
 
-  void create_vertex(Vertex_const_handle v1,
-                     Face_const_handle f2,
-                     Vertex_handle res_v)
+  void create_vertex(Vertex_const_handle ,
+                     Face_const_handle ,
+                     Vertex_handle )
   {}
 
-  void create_edge(Halfedge_const_handle h1,
-                   Halfedge_const_handle h2,
-                   Halfedge_handle res_h)
+  void create_edge(Halfedge_const_handle ,
+                   Halfedge_const_handle ,
+                   Halfedge_handle )
   {
     m_found_boudary_intersection = true;
   }
 
-  void create_edge(Halfedge_const_handle h1,
-                   Face_const_handle f2,
-                   Halfedge_handle res_h)
+  void create_edge(Halfedge_const_handle ,
+                   Face_const_handle ,
+                   Halfedge_handle )
   {}
 
-  void create_edge(Face_const_handle f1,
-                   Halfedge_const_handle h2,
-                   Halfedge_handle res_h)
+  void create_edge(Face_const_handle ,
+                   Halfedge_const_handle ,
+                   Halfedge_handle )
   {}
 
 

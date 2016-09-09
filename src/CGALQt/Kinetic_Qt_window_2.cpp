@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_window_2.cpp $
-// $Id: Kinetic_Qt_window_2.cpp 30316 2006-04-14 09:19:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kinetic_data_structures/src/CGALQt/Kinetic_Qt_window_2.cpp $
+// $Id: Kinetic_Qt_window_2.cpp 35759 2007-01-18 23:26:44Z drussel $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -109,6 +109,15 @@ Qt_window_2::Qt_window_2(int xmin, int xmax, int ymin, int ymax) {
 				   SLOT(slower_button()),
 				   _std_toolbar,
 				   "Slower");
+
+  QToolButton *filePrintAction;
+  filePrintAction = new QToolButton(QPixmap( (const char**)print_xpm ),
+				    "Print", 0,
+				    widget_,
+				    SLOT(print_to_ps()),
+				    _std_toolbar,
+				    "Print");
+
 
 }
 CGAL_KINETIC_END_INTERNAL_NAMESPACE

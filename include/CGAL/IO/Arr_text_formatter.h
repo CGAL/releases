@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/IO/Arr_text_formatter.h $
-// $Id: Arr_text_formatter.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/IO/Arr_text_formatter.h $
+// $Id: Arr_text_formatter.h 37177 2007-03-17 08:48:10Z afabri $
 // 
 //
 // Author(s)     : Michal Meyerovitch <gorgymic@post.tau.ac.il>
@@ -200,15 +200,18 @@ public:
   {}
 
   void write_vertex_end ()
-  {}
+  {
+    out() << std::endl;
+    return;
+  }
   
   virtual void write_point (const Point_2& p)
   {
-    out() << p << std::endl;
+    out() << p;
     return;
   }
 
-  virtual void write_vertex_data (Vertex_const_handle v)
+  virtual void write_vertex_data (Vertex_const_handle )
   {}
   //@}
 
@@ -218,9 +221,12 @@ public:
   {}
 
   void write_edge_end ()
-  {}
+  {
+    out() << std::endl;
+    return;
+  }
 
-  void write_vertex_index (std::size_t idx)
+  void write_vertex_index (int idx)
   {
     out() << idx << ' ';
     return;
@@ -228,11 +234,11 @@ public:
 
   virtual void write_x_monotone_curve (const X_monotone_curve_2& cv)
   {
-    out() << cv << std::endl;
+    out() << cv;
     return;
   }
 
-  virtual void write_halfedge_data (Halfedge_const_handle he)
+  virtual void write_halfedge_data (Halfedge_const_handle )
   {}
   //@}
 
@@ -272,7 +278,7 @@ public:
     out() << std::endl;    
   }
 
-  void write_halfedge_index (std::size_t idx)
+  void write_halfedge_index (int idx)
   {
     out() << idx << ' ';
     return;
@@ -307,7 +313,7 @@ public:
   }
 
   /*! Read a size value (with a label comment line before it). */
-  Size read_size (const char *title = NULL)
+  Size read_size (const char* /* title */ = NULL)
   {
     std::size_t   val;
 
@@ -368,7 +374,7 @@ public:
     return;
   }
 
-  virtual void read_vertex_data (Vertex_handle v)
+  virtual void read_vertex_data (Vertex_handle )
   {}
   //@}
 
@@ -380,9 +386,9 @@ public:
   void read_edge_end ()
   {}
   
-  std::size_t read_vertex_index () 
+  int read_vertex_index () 
   {
-    std::size_t  val;
+    int  val;
 
     in() >> val;
     return (val);
@@ -417,9 +423,9 @@ public:
   void read_outer_ccb_end ()
   {}
 
-  std::size_t read_halfedge_index ()
+  int read_halfedge_index ()
   { 
-    std::size_t  val;
+    int  val;
 
     in() >> val;
     return (val);
@@ -597,7 +603,7 @@ public:
   /*! Write the auxiliary data associated with the given vertex. */
   virtual void write_vertex_data (Vertex_const_handle v)
   {
-    this->out() << v->data() << '\n';
+    this->out() << '\n' << v->data();
   }
   
   /*! Read a vertex-data object and attach it to the given vertex. */
@@ -610,7 +616,7 @@ public:
   /*! Write the auxiliary data associated with the given halfedge. */
   virtual void write_halfedge_data (Halfedge_const_handle he)
   {
-    this->out() << he->data() << '\n';
+    this->out() << '\n' << he->data();
   }
   
   /*! Read a halfedge-data object and attach it to the given halfedge. */

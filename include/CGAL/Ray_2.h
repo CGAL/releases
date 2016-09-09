@@ -15,14 +15,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/Ray_2.h $
-// $Id: Ray_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/Ray_2.h $
+// $Id: Ray_2.h 36856 2007-03-06 15:11:09Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
 
 #ifndef CGAL_RAY_2_H
 #define CGAL_RAY_2_H
+
+#include <boost/static_assert.hpp>
+#include <boost/type_traits.hpp>
+#include <CGAL/Kernel/Return_base_tag.h>
+#include <CGAL/representation_tags.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -38,6 +43,10 @@ class Ray_2 : public R_::Kernel_base::Ray_2
   typedef typename R_::Aff_transformation_2  Aff_transformation_2;
 
   typedef typename R_::Kernel_base::Ray_2    RRay_2;
+
+  typedef Ray_2                              Self;
+  BOOST_STATIC_ASSERT((boost::is_same<Self, typename R_::Ray_2>::value));
+
 public:
 
   typedef RRay_2 Rep;
@@ -60,25 +69,25 @@ public:
     : RRay_2(r) {}
 
   Ray_2(const Point_2 &sp, const Point_2 &secondp)
-    : RRay_2(typename R::Construct_ray_2()(sp, secondp).rep()) {}
+    : RRay_2(typename R::Construct_ray_2()(Return_base_tag(), sp, secondp)) {}
 
   Ray_2(const Point_2 &sp, const Direction_2 &d)
-    : RRay_2(typename R::Construct_ray_2()(sp, d).rep()) {}
+    : RRay_2(typename R::Construct_ray_2()(Return_base_tag(), sp, d)) {}
 
   Ray_2(const Point_2 &sp, const Vector_2 &v)
-    : RRay_2(typename R::Construct_ray_2()(sp, v).rep()) {}
+    : RRay_2(typename R::Construct_ray_2()(Return_base_tag(), sp, v)) {}
 
   Ray_2(const Point_2 &sp, const Line_2 &l)
-    : RRay_2(typename R::Construct_ray_2()(sp, l).rep()) {}
+    : RRay_2(typename R::Construct_ray_2()(Return_base_tag(), sp, l)) {}
 
 
- typename Qualified_result_of<typename R_::Construct_source_2, Ray_2, int >::type
+  typename Qualified_result_of<typename R_::Construct_source_2, Ray_2>::type
   source() const
   {
     return R().construct_source_2_object()(*this);
   }
 
- typename Qualified_result_of<typename R_::Construct_second_point_2, Ray_2, int >::type
+  typename Qualified_result_of<typename R_::Construct_second_point_2, Ray_2>::type
   second_point() const
   {
     return R().construct_second_point_2_object()(*this);
@@ -108,8 +117,6 @@ public:
     return source();
   }
 
-
-
   bool is_horizontal() const
   {
     return R().equal_y_2_object()(source(), second_point());
@@ -122,7 +129,7 @@ public:
 
   bool is_degenerate() const
   {
-    return source() == second_point();
+    return R().is_degenerate_2_object()(*this);
   }
 
   Direction_2
@@ -145,9 +152,9 @@ public:
   has_on(const Point_2 &p) const
   {
     typename R::Construct_vector_2  construct_vector;
-    return p == source()
-      || R().collinear_2_object()(source(), p, second_point())
-      && Direction_2(construct_vector( source(), p)) == direction();
+    return p == source() ||
+         ( R().collinear_2_object()(source(), p, second_point()) &&
+           Direction_2(construct_vector( source(), p)) == direction() );
   }
 
 
@@ -164,21 +171,17 @@ public:
     return Ray_2( source(), - direction() );
   }
 
-
   Line_2
   supporting_line() const
   {
     return R().construct_line_2_object()(source(), second_point());
   }
-  
-  
 
   bool
   operator==(const Ray_2& r) const
   {
     return R().equal_2_object()(*this, r);
   }
-
 
   bool
   operator!=(const Ray_2& r) const
@@ -189,31 +192,78 @@ public:
   Ray_2 
   transform(const Aff_transformation_2 &t) const
   {
-    return rep().transform(t);
+    return Ray_2(t.transform(source()), t.transform(second_point()));
   }
-
 
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_RAY_2
-template < class R >
-std::ostream &
-operator<<(std::ostream &os, const Ray_2<R> &r)
+
+template <class R >
+std::ostream&
+insert(std::ostream& os, const Ray_2<R>& r, const Cartesian_tag&) 
 {
-  return os << r.rep();
+    switch(os.iword(IO::mode)) {
+    case IO::ASCII :
+        return os << r.source() << ' ' << r.second_point();
+    case IO::BINARY :
+        return os << r.source() << r.second_point();
+    default:
+        return os << "RayC2(" << r.source() <<  ", " << r.second_point() << ")";
+    }
 }
-#endif // CGAL_NO_OSTREAM_INSERT_RAY_2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_RAY_2
-template < class R >
-std::istream &
-operator>>(std::istream &is, Ray_2<R> &r)
+template <class R >
+std::ostream&
+insert(std::ostream& os, const Ray_2<R>& r, const Homogeneous_tag&)
 {
-  return is >> r.rep();
+  switch(os.iword(IO::mode))
+  {
+    case IO::ASCII :
+        return os << r.source() << ' ' << r.second_point();
+    case IO::BINARY :
+        return os << r.source() << r.second_point();
+    default:
+       return os << "RayH2(" << r.source() <<  ", " << r.second_point() << ")";
+  }
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_RAY_2
+
+template < class R >
+std::ostream&
+operator<<(std::ostream& os, const Ray_2<R>& r)
+{
+  return insert(os, r, typename R::Kernel_tag() );
+}
 
 
+template <class R >
+std::istream&
+extract(std::istream& is, Ray_2<R>& r, const Cartesian_tag&) 
+{
+    typename R::Point_2 p, q;
+    is >> p >> q;
+    if (is)
+        r = Ray_2<R>(p, q);
+    return is;
+}
+
+
+template <class R >
+std::istream&
+extract(std::istream& is, Ray_2<R>& r, const Homogeneous_tag&) 
+{
+  typename R::Point_2 p, q;
+  is >> p >> q;
+  if (is)
+    r = Ray_2<R>(p, q);
+  return is;
+}
+
+template < class R >
+std::istream&
+operator>>(std::istream& is, Ray_2<R>& r)
+{
+  return extract(is, r, typename R::Kernel_tag() );
+}
 
 CGAL_END_NAMESPACE
 

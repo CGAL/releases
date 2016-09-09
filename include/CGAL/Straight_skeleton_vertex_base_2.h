@@ -10,21 +10,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_vertex_base_2.h $
-// $Id: Straight_skeleton_vertex_base_2.h 31990 2006-06-20 18:56:09Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Straight_skeleton_2/include/CGAL/Straight_skeleton_vertex_base_2.h $
+// $Id: Straight_skeleton_vertex_base_2.h 36633 2007-02-27 18:19:42Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
 #ifndef CGAL_STRAIGHT_SKELETON_VERTEX_BASE_2_H
 #define CGAL_STRAIGHT_SKELETON_VERTEX_BASE_2_H 1
 
-#ifndef CGAL_STRAIGHT_SKELETON_HALFEDGE_BASE_2_H
 #include <CGAL/Straight_skeleton_halfedge_base_2.h>
-#endif
-
-#ifndef CGAL_CIRCULATOR_H
 #include <CGAL/circulator.h>
-#endif
 
 #include <boost/iterator/iterator_facade.hpp>
 
@@ -65,8 +60,10 @@ protected :
   {
     public:
 
-      typedef HalfedgeHandle value_type ;
-      typedef HalfedgeHandle reference ;
+      typedef HalfedgeHandle               value_type ;
+      typedef HalfedgeHandle               reference ;
+      typedef std::size_t                  size_type ;
+      typedef Bidirectional_circulator_tag iterator_category ;
 
       Halfedge_circulator_base () : mHandle() {}
 
@@ -77,6 +74,15 @@ protected :
         ( Halfedge_circulator_base<OtherHalfedgeHandle,OtherAccessPolicy> const& aOther )
         : mHandle(aOther.mHandle) {}
 
+      bool operator==( CGAL_NULL_TYPE p ) const 
+      {
+        CGAL_assertion( p == CGAL_CIRC_NULL ); 
+        HalfedgeHandle null ;
+        return mHandle == null ;
+      }
+      
+      bool operator!=( CGAL_NULL_TYPE p ) const { return !(*this == p); }
+      
     private :
 
       typedef Halfedge_circulator_base<HalfedgeHandle,AccessPolicy> Self ;
@@ -195,6 +201,8 @@ public:
     return Defining_contour_halfedges_circulator(halfedge());
   }
 
+  std::size_t degree() const { return CGAL::circulator_size(halfedge_around_vertex_begin()); }
+  
   bool is_skeleton() const { return  halfedge()->is_bisector() ; }
   bool is_contour () const { return !halfedge()->is_bisector() ; }
   

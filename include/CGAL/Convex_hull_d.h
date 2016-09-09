@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_d/include/CGAL/Convex_hull_d.h $
-// $Id: Convex_hull_d.h 29999 2006-04-05 15:26:02Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_d/include/CGAL/Convex_hull_d.h $
+// $Id: Convex_hull_d.h 38827 2007-05-23 13:36:07Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -75,8 +75,8 @@ Let |j = C.index_of_vertex_in_opposite_facet(f,i)|. Then
 #include <list>
 #include <vector>
 
-#undef _DEBUG
-#define _DEBUG 93
+#undef CGAL_KD_DEBUG
+#define CGAL_KD_DEBUG 93
 #include <CGAL/Kernel_d/debug.h>
 
 CGAL_BEGIN_NAMESPACE

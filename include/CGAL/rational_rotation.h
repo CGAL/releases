@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_23/include/CGAL/rational_rotation.h $
-// $Id: rational_rotation.h 30667 2006-04-19 16:56:12Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_23/include/CGAL/rational_rotation.h $
+// $Id: rational_rotation.h 35581 2006-12-17 22:28:35Z afabri $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -44,6 +44,7 @@ rational_rotation_approximation( const NT &  dirx,     // dir.x()
   const NT& d   = eps_den;
   const NT  NT0 = NT(0)  ;
   const NT  NT1 = NT(1)  ;
+  CGAL_kernel_precondition( (dirx != NT0) ||  (diry != NT0));
   CGAL_kernel_precondition( n > NT0 );
   CGAL_kernel_precondition( d > NT0 );
   NT & sin = sin_num;

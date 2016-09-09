@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Convex_hull_2/include/CGAL/ch_eddy.h $
-// $Id: ch_eddy.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Convex_hull_2/include/CGAL/ch_eddy.h $
+// $Id: ch_eddy.h 31312 2006-05-29 09:01:56Z wein $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -49,9 +49,7 @@ ch_eddy(InputIterator first, InputIterator last, OutputIterator  result)
 
 CGAL_END_NAMESPACE
 
-#ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
-#include <CGAL/ch_eddy.C>
-#endif // CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
+#include <CGAL/Convex_hull_2/ch_eddy_impl.h>
 
 #endif // CGAL_CH_EDDY_H
 

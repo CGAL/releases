@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Kernel_d/include/CGAL/Kernel_d/intersection_objectsCd.h $
-// $Id: intersection_objectsCd.h 31166 2006-05-17 16:30:56Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Kernel_d/include/CGAL/Kernel_d/intersection_objectsCd.h $
+// $Id: intersection_objectsCd.h 38827 2007-05-23 13:36:07Z spion $
 // 
 //
 // Author(s)     : ?
@@ -25,8 +25,8 @@
 
 #include <CGAL/basic.h>
 
-#undef _DEBUG
-#define _DEBUG 11
+#undef CGAL_KD_DEBUG
+#define CGAL_KD_DEBUG 11
 #include <CGAL/Kernel_d/debug.h>
 
 

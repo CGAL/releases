@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_overlay_2/Overlay_meta_traits.h $
-// $Id: Overlay_meta_traits.h 28836 2006-02-27 14:35:50Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_overlay_2/Overlay_meta_traits.h $
+// $Id: Overlay_meta_traits.h 37177 2007-03-17 08:48:10Z afabri $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -193,12 +193,14 @@ public:
   typedef typename Traits::Compare_xy_2             Base_Compare_xy_2;
   typedef typename Traits::Compare_y_at_x_2         Base_Compare_y_at_x_2;
   typedef typename Traits::Compare_y_at_x_right_2   Base_Compare_y_at_x_right_2;
+  typedef typename Traits::Compare_x_2              Base_Compare_x_2;
+  typedef typename Traits::Has_boundary_category    Base_has_boundary_category;
   
-  typedef Curve_info<Halfedge_handle_red,
-                     Halfedge_handle_blue>          Curve_info;
+  typedef CGAL::Curve_info<Halfedge_handle_red,
+                           Halfedge_handle_blue>    Curve_info;
 
-  typedef Point_info<Vertex_handle_red,
-                     Vertex_handle_blue>            Point_info;
+  typedef CGAL::Point_info<Vertex_handle_red,
+                           Vertex_handle_blue>      Point_info;
 
   typedef typename Curve_info::Color                Color;
 
@@ -209,6 +211,9 @@ private:
 
 
 public:
+
+  Overlay_meta_traits()
+  {}
 
   Overlay_meta_traits(Traits* base_tr) : m_base_traits(base_tr)
   {}
@@ -384,6 +389,11 @@ public:
 
   };
 
+  friend std::ostream& operator<< (std::ostream& os, const My_Point_2 & p)
+  {
+    os << p.base_point();
+    return (os);
+  }
 
   typedef My_Point_2   Point_2;
  
@@ -413,12 +423,50 @@ public:
          cv2.get_color() == Curve_info::PURPLE)
          return (oi);
 
+      // Compute the intersection points between the curves. Note that if
+      // cv1 and cv2 are subcruves of x-monotone curves that had intersected
+      // before the current point on the status line, we may get a filter
+      // failure if we send the subcurve whose left endpoint is to the left
+      // of the other curve - this is because their previously computed
+      // intersection point p may be equal to the this left endpoint. As many
+      // traits classes start by computing the intersection between the
+      // supporting curves and then check whether the result is in the x-range
+      // of both subcurves, this will result in a filter failure. However, if
+      // we send cv1 first, then p is obviusly not in its x-range and there is
+      // no filter failure.
+      //
+      //              / cv1
+      //             /
+      //            /
+      //       ----+--
+      //          /
+      //         /
+      //      p +------------- cv2
+      //              ^
+      //              |
+      //              status line
+      //
+      // Note that we do not bother with curves whose left ends are unbounded,
+      // since such curved did not intersect before.
       const std::pair<Base_Point_2, unsigned int>   *base_pt;
       const Base_X_monotone_curve_2                 *overlap_cv;
-      OutputIterator oi_end;
-      if(m_base_tr->compare_xy_2_object()
-          (m_base_tr->construct_min_vertex_2_object()(cv1.base_curve()),
-           m_base_tr->construct_min_vertex_2_object()(cv2.base_curve())) == LARGER)
+      bool                                           send_cv1_first = true;
+      OutputIterator                                 oi_end;
+
+      Boundary_in_x_2 inf_in_x;
+      Boundary_in_y_2 inf_in_y;
+      if (inf_in_x (cv1.base_curve(), MIN_END) == NO_BOUNDARY &&
+          inf_in_y (cv1.base_curve(), MIN_END) == NO_BOUNDARY &&
+          inf_in_x (cv2.base_curve(), MIN_END) == NO_BOUNDARY &&
+          inf_in_y (cv2.base_curve(), MIN_END) == NO_BOUNDARY)
+      {
+        send_cv1_first =
+          (m_base_tr->compare_xy_2_object()
+            (m_base_tr->construct_min_vertex_2_object()(cv1.base_curve()),
+             m_base_tr->construct_min_vertex_2_object()(cv2.base_curve())) == LARGER);
+      }
+
+      if (send_cv1_first)
         oi_end = m_base_tr->intersect_2_object()(cv1.base_curve(),
                                                  cv2.base_curve(), oi);
       else
@@ -490,7 +538,7 @@ public:
   };
 
   /*! Get an Intersect_2 functor object. */
-  Intersect_2 intersect_2_object () 
+  Intersect_2 intersect_2_object () const
   {
     return Intersect_2(m_base_traits); 
   }
@@ -521,7 +569,7 @@ public:
   };
 
   /*! Get a Split_2 functor object. */
-  Split_2 split_2_object () 
+  Split_2 split_2_object () const
   {
     return Split_2(m_base_traits->split_2_object());
   }
@@ -617,7 +665,7 @@ public:
   };
 
   /*! Get a Construct_min_vertex_2 functor object. */
-  Construct_max_vertex_2 construct_max_vertex_2_object () 
+  Construct_max_vertex_2 construct_max_vertex_2_object () const
   {
     return Construct_max_vertex_2(m_base_traits->construct_max_vertex_2_object());
   }
@@ -679,12 +727,89 @@ public:
 
 
   /*! Get a Construct_min_vertex_2 functor object. */
-  Compare_xy_2 compare_xy_2_object () 
+  Compare_xy_2 compare_xy_2_object () const
   {
     return Compare_xy_2(m_base_traits->compare_xy_2_object());
   }
 
 
+  /*! \class
+   * The Comapre_x_2 functor.
+   */
+  class Compare_x_2
+  {
+  private:
+    Base_Compare_x_2 m_base_cmp_x;
+
+  public:
+    Compare_x_2(const Base_Compare_x_2& base):
+        m_base_cmp_x(base)
+    {}
+
+    Comparison_result operator() (const Point_2& p1, const Point_2& p2) const
+    {
+      return (m_base_cmp_x(p1.base_point(), p2.base_point()));
+    }
+
+    Comparison_result operator() (const Point_2& p,
+                                  const X_monotone_curve_2& cv,
+                                  Curve_end ind) const
+    {
+      return (_compare_point_curve_imp (p, cv, ind,
+                                        Base_has_boundary_category()));
+    }
+
+    Comparison_result operator() (const X_monotone_curve_2& cv1,
+                                  Curve_end ind1,
+                                  const X_monotone_curve_2& cv2,
+                                  Curve_end ind2) const
+    {
+      return (_compare_curves_imp (cv1, ind1, cv2, ind2,
+                                   Base_has_boundary_category()));
+    }
+
+  private:
+
+    Comparison_result _compare_point_curve_imp (const Point_2& p,
+                                                const X_monotone_curve_2& cv,
+                                                Curve_end ind,
+                                                Tag_true) const
+    {
+      return (m_base_cmp_x (p.base_point(), cv.base_curve(), ind));
+    }
+
+    Comparison_result _compare_point_curve_imp (const Point_2& ,
+                                                const X_monotone_curve_2& ,
+                                                Curve_end ,
+                                                Tag_false) const
+    {
+      return (EQUAL);
+    }
+
+    Comparison_result _compare_curves_imp (const X_monotone_curve_2& cv1, 
+                                           Curve_end ind1,
+                                           const X_monotone_curve_2& cv2,
+                                           Curve_end ind2,
+                                           Tag_true) const
+    {
+      return (m_base_cmp_x (cv1.base_curve(), ind1, cv2.base_curve(), ind2));
+    }
+
+    Comparison_result _compare_curves_imp (const X_monotone_curve_2& ,
+                                           Curve_end,
+                                           const X_monotone_curve_2& , 
+                                           Curve_end ind2,
+                                           Tag_false) const
+    {
+      return (EQUAL);
+    }
+
+  };
+
+  Compare_x_2 compare_x_2_object () const
+  {
+    return (Compare_x_2 (m_base_traits->compare_x_2_object()));
+  }
 
 
   class Compare_y_at_x_2
@@ -710,10 +835,38 @@ public:
     {
       return (m_base_cmp_y_at_x(p.base_point(), cv.base_curve()));
     }
+
+     Comparison_result operator() (const X_monotone_curve_2& cv1,
+                                  const X_monotone_curve_2& cv2, 
+                                  Curve_end ind) const
+    {
+      // The function is implemented based on the Has_infinite category.
+      // If the traits class does not support unbounded curves, we just
+      // return EQUAL, as this comparison will not be invoked anyway.
+      return _comp_y_at_infinity_imp (cv1, cv2, ind, 
+                                      Base_has_boundary_category());
+    }
+    private:
+
+    Comparison_result _comp_y_at_infinity_imp (const X_monotone_curve_2& cv1,
+                                               const X_monotone_curve_2& cv2, 
+                                               Curve_end ind,
+                                               Tag_true) const
+    {
+      return (m_base_cmp_y_at_x (cv1.base_curve(), cv2.base_curve(), ind));
+    }
+
+    Comparison_result _comp_y_at_infinity_imp (const X_monotone_curve_2& ,
+                                               const X_monotone_curve_2& , 
+                                               Curve_end ,
+                                               Tag_false) const
+    {
+      return (EQUAL);
+    }
   };
 
   /*! Get a Construct_min_vertex_2 functor object. */
-  Compare_y_at_x_2 compare_y_at_x_2_object () 
+  Compare_y_at_x_2 compare_y_at_x_2_object () const
   {
     return Compare_y_at_x_2(m_base_traits->compare_y_at_x_2_object());
   }
@@ -748,7 +901,7 @@ public:
   };
 
   /*! Get a Construct_min_vertex_2 functor object. */
-  Compare_y_at_x_right_2 compare_y_at_x_right_2_object () 
+  Compare_y_at_x_right_2 compare_y_at_x_right_2_object () const
   {
     return Compare_y_at_x_right_2(m_base_traits->compare_y_at_x_right_2_object());
   }
@@ -758,6 +911,68 @@ public:
   {
     return  (cv1.get_color() == cv2.get_color());
   }
+
+  class Boundary_in_x_2
+  {
+  public:
+    
+    Boundary_type operator() (const X_monotone_curve_2& cv,
+                              Curve_end ind) const
+    {
+      return _boundary_in_x_imp(cv, ind, Base_has_boundary_category());
+    }
+
+  private:
+    Boundary_type _boundary_in_x_imp(const X_monotone_curve_2& cv,
+                                     Curve_end ind, Tag_true) const
+    {
+      Traits tr;
+      return (tr.boundary_in_x_2_object() (cv.base_curve(), ind));
+    }
+
+    Boundary_type _boundary_in_x_imp(const X_monotone_curve_2& ,
+                                     Curve_end , Tag_false) const
+    {
+      return NO_BOUNDARY;
+    }
+  };
+
+  /*! Get an Boundary_in_x_2 functor object. */
+  Boundary_in_x_2 boundary_in_x_2_object () const
+  {
+    return Boundary_in_x_2();
+  } 
+
+  class Boundary_in_y_2
+  {
+  public:
+    
+    Boundary_type operator() (const X_monotone_curve_2& cv,
+                              Curve_end ind) const
+    {
+      return _boundary_in_y_imp(cv, ind, Base_has_boundary_category());
+    }
+
+  private:
+    Boundary_type _boundary_in_y_imp(const X_monotone_curve_2& cv,
+                                     Curve_end ind, Tag_true) const
+    {
+      Traits tr;
+      return (tr.boundary_in_y_2_object() (cv.base_curve(), ind));
+    }
+
+    Boundary_type _boundary_in_y_imp(const X_monotone_curve_2& ,
+                                     Curve_end , Tag_false) const
+    {
+      return NO_BOUNDARY;
+    }
+  };
+
+  /*! Get an Boundary_in_x_2 functor object. */
+  Boundary_in_y_2 boundary_in_y_2_object () const
+  {
+    return Boundary_in_y_2();
+  } 
 };
 
 

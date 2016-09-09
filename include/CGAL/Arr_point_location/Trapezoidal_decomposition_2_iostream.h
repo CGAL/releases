@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.2-branch/Arrangement_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2_iostream.h $
-// $Id: Trapezoidal_decomposition_2_iostream.h 31544 2006-06-12 13:50:22Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.3-branch/Arrangement_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2_iostream.h $
+// $Id: Trapezoidal_decomposition_2_iostream.h 31514 2006-06-11 17:22:18Z efif $
 // 
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
