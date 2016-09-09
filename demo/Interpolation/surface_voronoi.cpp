@@ -1,9 +1,10 @@
 // Copyright (c) 2003   INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Interpolation/demo/Interpolation/surface_voronoi.cpp $
-// $Id: surface_voronoi.cpp 56241 2010-05-14 12:43:04Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Interpolation/demo/Interpolation/surface_voronoi.cpp $
+// $Id: surface_voronoi.cpp 67117 2012-01-13 18:14:48Z lrineau $
 //
 //
 // Author(s)     : Julia Floetotto
@@ -92,7 +93,7 @@ void generate_sphere_points(const int& n,
 			    //the test point + normal
 			    Point &p, Vector &normal){
   CGAL::Random_points_on_sphere_3<Point> g(r);
-  CGAL::copy_n( g, n, std::back_inserter(points));
+  CGAL::cpp0x::copy_n( g, n, std::back_inserter(points));
   p = Point(0,0, r);
   normal = Vector(p - CGAL::ORIGIN);
 }
@@ -108,7 +109,7 @@ void generate_cylinder_points(const int& n,
   Point_2_vector points_2;
   points_2.reserve(n);
   CGAL::Random_points_on_circle_2<Point_2> g(r);
-  CGAL::copy_n( g, n , std::back_inserter(points_2));
+  CGAL::cpp0x::copy_n( g, n , std::back_inserter(points_2));
   CGAL::Random random;
 
   double h;

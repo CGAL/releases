@@ -1,9 +1,10 @@
-// Copyright (c) 1999  Martin-Luther-University Halle-Wittenberg (Germany).
-// All rights reserved.
+// Copyright (c) 1999  
+// Max-Planck-Institute Saarbruecken (Germany). All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h $
-// $Id: nearest_neighbor_delaunay_2.h 57843 2010-08-06 11:58:13Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h $
+// $Id: nearest_neighbor_delaunay_2.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //
 // Author(s)     : Matthias Baesken

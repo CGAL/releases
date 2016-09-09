@@ -3,9 +3,10 @@
  * Copyright (c) 1995-2004 Exact Computation Project
  * All rights reserved.
  *
- * This file is part of CORE (http://cs.nyu.edu/exact/core/); you may
- * redistribute it under the terms of the Q Public License version 1.0.
- * See the file LICENSE.QPL distributed with CORE.
+ * This file is part of CORE (http://cs.nyu.edu/exact/core/).
+ * You can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
  *
  * Licensees holding a valid commercial license may use this file in
  * accordance with the commercial license agreement provided with the
@@ -62,8 +63,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/include/CGAL/CORE/poly/Curves.h $
- * $Id: Curves.h 56668 2010-06-09 08:45:58Z sloriot $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Core/include/CGAL/CORE/poly/Curves.h $
+ * $Id: Curves.h 67117 2012-01-13 18:14:48Z lrineau $
  ***************************************************************************/
 
 

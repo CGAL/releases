@@ -1,9 +1,10 @@
 // Copyright (c) 2005,2006,2007,2009,2010,2011 Tel-Aviv University (Israel).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,9 +12,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Arrangement_on_surface_2/include/CGAL/IO/Qt_widget_Polyline_2.h $
-// $Id: Qt_widget_Polyline_2.h 64639 2011-07-06 11:41:06Z lrineau $
-// $Date: 2011-07-06 13:41:06 +0200 (Wed, 06 Jul 2011) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/IO/Qt_widget_Polyline_2.h $
+// $Id: Qt_widget_Polyline_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $Date: 2012-01-13 19:14:48 +0100 (Fri, 13 Jan 2012) $
 // 
 //
 // Author(s)     : Ron Wein  <wein@post.tau.ac.il>

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_curve_kernel_2.h $
-// $Id: Algebraic_curve_kernel_2.h 59533 2010-11-05 23:31:27Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_curve_kernel_2.h $
+// $Id: Algebraic_curve_kernel_2.h 67093 2012-01-13 11:22:39Z lrineau $
 // 
 //
 // Author(s)     : Eric Berberich <eric@mpi-inf.mpg.de>
@@ -33,7 +33,7 @@
 
 #include <limits>
 
-#include <boost/static_assert.hpp>
+#include <CGAL/assertions.h>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/optional.hpp>
 
@@ -562,16 +562,16 @@ public:
       Curve_analysis_2 _construct_defining_polynomial_from(Bound b) const {
 	typedef CGAL::Fraction_traits<Bound> FT;
 	// We rely on the fact that the Bound is a fraction
-	BOOST_STATIC_ASSERT((::boost::is_same<typename FT::Is_fraction,
+	CGAL_static_assertion((::boost::is_same<typename FT::Is_fraction,
 			                     CGAL::Tag_true>::value));
 	typedef typename FT::Numerator_type Numerator;
 	typedef typename FT::Denominator_type Denominator;
 	typedef CGAL::Coercion_traits<Numerator,Coefficient> Num_coercion;
-	BOOST_STATIC_ASSERT((::boost::is_same
+	CGAL_static_assertion((::boost::is_same
 			      <Coefficient,
    			       typename Num_coercion::Type>::value));
 	typedef CGAL::Coercion_traits<Denominator,Coefficient> Denom_coercion;
-	BOOST_STATIC_ASSERT((::boost::is_same
+	CGAL_static_assertion((::boost::is_same
 			       <Coefficient,
 			        typename Denom_coercion::Type>::value));
 	typename Num_coercion::Cast num_cast;
@@ -2649,16 +2649,16 @@ public:
       Polynomial_1 operator() (const Polynomial_2& f, Bound b) const {
 	typedef CGAL::Fraction_traits<Bound> FT;
 	// We rely on the fact that the Bound is a fraction
-	BOOST_STATIC_ASSERT((::boost::is_same<typename FT::Is_fraction,
+	CGAL_static_assertion((::boost::is_same<typename FT::Is_fraction,
 			                     CGAL::Tag_true>::value));
 	typedef typename FT::Numerator_type Numerator;
 	typedef typename FT::Denominator_type Denominator;
 	typedef CGAL::Coercion_traits<Numerator,Coefficient> Num_coercion;
-	BOOST_STATIC_ASSERT((::boost::is_same
+	CGAL_static_assertion((::boost::is_same
 			      <Coefficient,
    			       typename Num_coercion::Type>::value));
 	typedef CGAL::Coercion_traits<Denominator,Coefficient> Denom_coercion;
-	BOOST_STATIC_ASSERT((::boost::is_same
+	CGAL_static_assertion((::boost::is_same
 			       <Coefficient,
 			        typename Denom_coercion::Type>::value));
 	typename Num_coercion::Cast num_cast;

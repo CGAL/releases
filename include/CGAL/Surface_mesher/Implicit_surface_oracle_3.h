@@ -2,9 +2,10 @@
 // Copyright (c) 2008       GeometryFactory, Sophia Antipolis (France)
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -12,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Surface_mesher/include/CGAL/Surface_mesher/Implicit_surface_oracle_3.h $
-// $Id: Implicit_surface_oracle_3.h 64637 2011-07-06 11:11:58Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Surface_mesher/include/CGAL/Surface_mesher/Implicit_surface_oracle_3.h $
+// $Id: Implicit_surface_oracle_3.h 67117 2012-01-13 18:14:48Z lrineau $
 //
 //
 // Author(s)     : Steve OUDOT, Laurent RINEAU

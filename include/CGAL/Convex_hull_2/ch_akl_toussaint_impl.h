@@ -1,9 +1,10 @@
 // Copyright (c) 1999  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_akl_toussaint_impl.h $
-// $Id: ch_akl_toussaint_impl.h 63877 2011-06-03 16:42:30Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Convex_hull_2/include/CGAL/Convex_hull_2/ch_akl_toussaint_impl.h $
+// $Id: ch_akl_toussaint_impl.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -93,13 +94,13 @@ ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
   #else
   Tee_for_output_iterator<OutputIterator,Point_2> res(result);
   #endif // no postconditions ...
-  std::sort( successor(region1.begin() ), region1.end(), 
+  std::sort( cpp0x::next(region1.begin() ), region1.end(), 
              ch_traits.less_xy_2_object() );
-  std::sort( successor(region2.begin() ), region2.end(), 
+  std::sort( cpp0x::next(region2.begin() ), region2.end(), 
              ch_traits.less_xy_2_object() );
-  std::sort( successor(region3.begin() ), region3.end(),
+  std::sort( cpp0x::next(region3.begin() ), region3.end(),
              boost::bind(ch_traits.less_xy_2_object(), _2, _1) );
-  std::sort( successor(region4.begin() ), region4.end(), 
+  std::sort( cpp0x::next(region4.begin() ), region4.end(), 
              boost::bind(ch_traits.less_xy_2_object(), _2, _1) );
 
   if (! equal_points(*w,*s) )

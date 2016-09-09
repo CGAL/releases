@@ -1,9 +1,10 @@
 // Copyright (c) 1999-2004  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 63930 2011-06-07 08:20:54Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
+// $Id: Regular_triangulation_3.h 67417 2012-01-24 17:25:20Z sloriot $
 //
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -159,16 +160,10 @@ public:
   std::ptrdiff_t
   insert( InputIterator first, InputIterator last,
           typename boost::enable_if<
-            boost::mpl::or_<
-              boost::is_same<
+              boost::is_convertible<
                   typename std::iterator_traits<InputIterator>::value_type,
                   Weighted_point
-              >,
-              boost::is_same<
-                  typename std::iterator_traits<InputIterator>::value_type,
-                  Bare_point
               >
-            >
           >::type* = NULL  
   )
 #else
@@ -259,16 +254,10 @@ public:
   insert( InputIterator first,
           InputIterator last,
           typename boost::enable_if<
-            boost::mpl::or_<
-              boost::is_same<
+              boost::is_convertible<
                 typename std::iterator_traits<InputIterator>::value_type,
                 std::pair<Weighted_point,typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type>
-              >,
-              boost::is_same<
-                typename std::iterator_traits<InputIterator>::value_type,
-                std::pair<Bare_point,typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type>
               >
-            >
           >::type* = NULL
   )
   {return insert_with_info< std::pair<Weighted_point,typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type> >(first,last);}
@@ -279,11 +268,8 @@ public:
           boost::zip_iterator< boost::tuple<InputIterator_1,InputIterator_2> > last,
           typename boost::enable_if<
             boost::mpl::and_<
-              boost::mpl::or_<
-                typename boost::is_same< typename std::iterator_traits<InputIterator_1>::value_type, Weighted_point >,
-                typename boost::is_same< typename std::iterator_traits<InputIterator_1>::value_type, Bare_point >
-              >,
-              typename boost::is_same< typename std::iterator_traits<InputIterator_2>::value_type, typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type >
+              typename boost::is_convertible< typename std::iterator_traits<InputIterator_1>::value_type, Weighted_point >,
+              typename boost::is_convertible< typename std::iterator_traits<InputIterator_2>::value_type, typename internal::Info_check<typename Triangulation_data_structure::Vertex>::type >
             >
           >::type* =NULL
   )

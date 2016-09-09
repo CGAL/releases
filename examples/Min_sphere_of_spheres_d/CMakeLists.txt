@@ -21,7 +21,7 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
-  include_directories (BEFORE ../../include)
+  include_directories (BEFORE "../../include")
 
   create_single_source_cgal_program( "benchmark.cpp" )
   create_single_source_cgal_program( "min_sphere_of_spheres_d_2.cpp" )

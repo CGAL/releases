@@ -1,9 +1,10 @@
-// Copyright (c) 2002 Utrecht University (The Netherlands).
+// Copyright (c) 2002,2011 Utrecht University (The Netherlands).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Spatial_searching/include/CGAL/internal/K_neighbor_search.h $
-// $Id: K_neighbor_search.h 64637 2011-07-06 11:11:58Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Spatial_searching/include/CGAL/internal/K_neighbor_search.h $
+// $Id: K_neighbor_search.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>)
@@ -48,11 +49,12 @@ public:
   typedef std::pair<Point_d,FT> Point_with_transformed_distance;
 
   typedef typename Tree::Node_handle Node_handle;
+  typedef typename Tree::Node_const_handle Node_const_handle;
 
   typedef typename Tree::Point_d_iterator Point_d_iterator;
 
   //undocumented type
-  typedef std::pair<Point_d*,FT>  Point_ptr_with_transformed_distance;
+  typedef std::pair<const Point_d*,FT>  Point_ptr_with_transformed_distance;
 protected:
 
   // Comparison functor to sort a set of points

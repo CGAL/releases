@@ -6,14 +6,14 @@
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/STL_Extension/include/CGAL/is_iterator.h $
-// $Id: is_iterator.h 63750 2011-05-30 15:27:09Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/STL_Extension/include/CGAL/is_iterator.h $
+// $Id: is_iterator.h 67093 2012-01-13 11:22:39Z lrineau $
 // 
 //
 // Author(s)     : Marc Glisse
@@ -29,10 +29,24 @@
 namespace CGAL {
 namespace internal {
 BOOST_MPL_HAS_XXX_TRAIT_DEF(iterator_category)
+BOOST_MPL_HAS_XXX_TRAIT_DEF(value_type)
+BOOST_MPL_HAS_XXX_TRAIT_DEF(difference_type)
+BOOST_MPL_HAS_XXX_TRAIT_DEF(pointer)
+BOOST_MPL_HAS_XXX_TRAIT_DEF(reference)
+  
+//We request the type to be either a pointer or to
+//provide all 5 nested types provided by iterator_traits  
 template <class T> struct is_iterator_ {
-	enum { value = has_iterator_category<T>::value
+	enum { value = 
+          ( has_iterator_category<T>::value &&
+            has_value_type<T>::value &&
+            has_difference_type<T>::value &&
+            has_pointer<T>::value &&
+            has_reference<T>::value
+          )
 	       	|| boost::is_pointer<T>::value }; 
 };
+
 template <class T,class U,bool=is_iterator_<T>::value>
 struct is_iterator_type_ {
 	enum { value=false };

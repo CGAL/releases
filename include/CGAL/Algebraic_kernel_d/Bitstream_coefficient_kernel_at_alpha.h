@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_coefficient_kernel_at_alpha.h $
-// $Id: Bitstream_coefficient_kernel_at_alpha.h 59548 2010-11-07 07:56:32Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_coefficient_kernel_at_alpha.h $
+// $Id: Bitstream_coefficient_kernel_at_alpha.h 67093 2012-01-13 11:22:39Z lrineau $
 // 
 //
 // Author(s)     : Michael Kerber  <mkerber@mpi-inf.mpg.de>
@@ -91,24 +91,26 @@ public:
     typedef typename Algebraic_kernel_d_1::Bound Bound;
   
     typedef typename Arithmetic_kernel::Bigfloat_interval Bigfloat_interval;
-  
-    typedef CGAL::Handle_with_policy
-        < CGAL::internal::Bitstream_coefficient_kernel_at_alpha_rep
-            <Algebraic_kernel_d_1 > 
-        > Handle;
 
+    typedef CGAL::internal::Bitstream_coefficient_kernel_at_alpha_rep
+            <Algebraic_kernel_d_1>                                      Rep;
+    typedef CGAL::Handle_with_policy<Rep>                               Base;
     typedef Bitstream_coefficient_kernel_at_alpha<Algebraic_kernel_d_1> Self;
 
     //! @}
 
+public:
     //! \name Constructors
     // !@{
 
-    Bitstream_coefficient_kernel_at_alpha() {}
+    Bitstream_coefficient_kernel_at_alpha() : Base(Rep()) {}
+
+    Bitstream_coefficient_kernel_at_alpha(const Self& traits)
+      : Base(static_cast<const Base&>(traits)) {}
 
     Bitstream_coefficient_kernel_at_alpha(Algebraic_kernel_d_1* kernel,
                                           Algebraic_real_1 alpha) 
-        : Handle(kernel,alpha) {}
+      : Base(kernel,alpha) {}
 
     //@}
 

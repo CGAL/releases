@@ -1,9 +1,10 @@
-// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France) and
-// Notre Dame University (U.S.A.).  All rights reserved.
+// Copyright (c) 2003,2004,2005,2006  INRIA Sophia-Antipolis (France).
+// All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,11 +12,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_new_C2.h $
-// $Id: Voronoi_vertex_sqrt_field_new_C2.h 61441 2011-02-28 15:28:28Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_new_C2.h $
+// $Id: Voronoi_vertex_sqrt_field_new_C2.h 67237 2012-01-18 09:33:13Z mkaravel $
 // 
 //
-// Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
+// Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
 
 
 
@@ -1240,7 +1241,7 @@ public:
 
   inline bool is_degenerate_Voronoi_circle() const
   {
-    CGAL_assertion( v_type == PSS );
+    if ( v_type != PSS ) { return false; }
 
     if ( p_.is_point() ) {
       return ( is_endpoint_of(p_, q_) && is_endpoint_of(p_, r_) );
@@ -1264,7 +1265,7 @@ public:
 
   Point_2 point() const
   {
-    if ( v_type == PSS && is_degenerate_Voronoi_circle() ) {
+    if ( is_degenerate_Voronoi_circle() ) {
       return degenerate_point();
     }
 

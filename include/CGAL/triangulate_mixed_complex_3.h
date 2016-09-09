@@ -1,9 +1,10 @@
 // Copyright (c) 2005 Rijksuniversiteit Groningen (Netherlands)
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
-// $Id: triangulate_mixed_complex_3.h 64512 2011-06-30 22:16:29Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
+// $Id: triangulate_mixed_complex_3.h 67356 2012-01-23 08:09:05Z lrineau $
 // 
 //
 // Author(s)     : Nico Kruithof <Nico@cs.rug.nl>
@@ -713,7 +714,7 @@ construct_0_cell(Rt_Vertex_handle rt_vh) {
 	      CGAL_assertion(sVor_v != sVor_e);
 	      CGAL_assertion(sVor_e != sVor_f);
 	      CGAL_assertion(sVor_f != sVor_c);
-	      Tmc_Cell_handle ch =
+	      // Tmc_Cell_handle ch =
 		add_cell(vh,(index + (j==(i%3+1)? 1:0))&1,simplex);
 	    }
 	  }

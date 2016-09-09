@@ -1,9 +1,10 @@
 // Copyright (c) 2004-2006  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Surface_reconstruction_points_3/include/CGAL/Mesh_3/Poisson_refine_cells_3.h $
-// $Id: Poisson_refine_cells_3.h 61888 2011-03-21 12:42:24Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Surface_reconstruction_points_3/include/CGAL/Mesh_3/Poisson_refine_cells_3.h $
+// $Id: Poisson_refine_cells_3.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -109,8 +110,9 @@ public:
   void scan_triangulation_impl()
   {
     for(typename Tr::Finite_cells_iterator cit = 
-	  triangulation_ref_impl().finite_cells_begin();
-        cit != triangulation_ref_impl().finite_cells_end();
+	  triangulation_ref_impl().finite_cells_begin(),
+        eit = triangulation_ref_impl().finite_cells_end();
+        cit != eit;
         ++cit)
       test_if_cell_is_bad(cit);
   }
@@ -241,7 +243,7 @@ public:
     typedef std::vector<Cell_handle> Cells;
     typedef typename Cells::iterator Cell_iterator;
     Cells incident_cells;
-
+    incident_cells.reserve(32);
     triangulation_ref_impl().
       incident_cells(v, std::back_inserter(incident_cells));
 

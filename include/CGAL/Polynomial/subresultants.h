@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Polynomial/include/CGAL/Polynomial/subresultants.h $
-// $Id: subresultants.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Polynomial/include/CGAL/Polynomial/subresultants.h $
+// $Id: subresultants.h 67358 2012-01-23 08:41:10Z afabri $
 //
 // Author(s)     : Michael Kerber <mkerber@mpi-inf.mpg.de>
 //
@@ -311,7 +311,7 @@ namespace CGAL {
     typename Polynomial_traits_d::Get_coefficient coeff;
 
     std::vector<Polynomial> sres;
-    int q = std::min(degree(Q),degree(P));
+    int q = (std::min)(degree(Q),degree(P));
     
     CGAL::internal::prs_polynomial_subresultants<Polynomial_traits_d>
         (P,Q,std::back_inserter(sres));
@@ -785,7 +785,7 @@ namespace CGAL {
        CGAL::Integral_domain_without_division_tag) {
         // polynomial_subresultants_with_cofactors requires 
         // a model of IntegralDomain as coefficient type;
-        BOOST_STATIC_ASSERT(sizeof(Polynomial_traits_d)==0);
+        CGAL_static_assertion(sizeof(Polynomial_traits_d)==0);
         return sres_out;
     }
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Event_line_builder.h $
-// $Id: Event_line_builder.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Event_line_builder.h $
+// $Id: Event_line_builder.h 67262 2012-01-18 11:56:04Z hemmer $
 // 
 //
 // Author(s)     : Michael Kerber <mkerber@mpi-inf.mpg.de>
@@ -180,24 +180,25 @@ public:
             int arcs_to_candidate_left=arcs_left-n+1;
             int arcs_to_candidate_right=arcs_right-n+1;
 	
-            bool event_flag;
+            //flag seems to be not used for now, but caused warnings (M.Hemmer) 
+            //bool event_flag; 
 
             //if(false) {
             if(arcs_to_candidate_left!=1 || arcs_to_candidate_right!= 1) {
-                event_flag=true;
+              //event_flag=true;
             }
             else {
 
 // Need this flag to decide the event flag correctly, 
 // we don't care about it for now!
 #if !CGAL_ACK_CHECK_CANDIDATE_FOR_SINGULARITY
-                event_flag=false;
+              //event_flag=false;
 #else
 
                 Polynomial_2& f = polynomial;
 
                 if(c==-1 || k==0) {
-                    event_flag=false;
+                  //event_flag=false;
                 } else {
 #if CGAL_ACK_DEBUG_FLAG
                     CGAL_ACK_DEBUG_PRINT << "Ev check..." << std::flush;
@@ -206,7 +207,8 @@ public:
                     typename Polynomial_traits_2::Differentiate diff;
                     Polynomial_2 fx diff(f,0);
                     Polynomial_2 fy diff(f,1);
-                    event_flag=event_point_checker(bit_des,f,alpha,k,fx,fy);
+                    //event_flag=
+                    event_point_checker(bit_des,f,alpha,k,fx,fy);
 
                 }
 #endif
@@ -264,7 +266,7 @@ public:
             }
             return vl;
         }
-        catch(CGAL::internal::Non_generic_position_exception err) {
+        catch(CGAL::internal::Non_generic_position_exception /* err */) {
 #if CGAL_ACK_DEBUG_FLAG
             CGAL_ACK_DEBUG_PRINT << "Detected non-generic position for alpha=" 
                                  << CGAL::to_double(alpha) << std::endl;

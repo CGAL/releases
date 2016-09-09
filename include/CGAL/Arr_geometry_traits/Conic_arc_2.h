@@ -1,9 +1,10 @@
 // Copyright (c) 2006,2007,2008,2009,2010,2011 Tel-Aviv University (Israel).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_arc_2.h $
-// $Id: Conic_arc_2.h 64639 2011-07-06 11:41:06Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_arc_2.h $
+// $Id: Conic_arc_2.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -1391,9 +1392,9 @@ private:
       }
       else
       {
-        // phi = PI.
-        sin_phi = _zero;
-        cos_phi = -_one;
+        // phi = PI/2.
+        sin_phi = _one;
+        cos_phi = _zero;        
       }
     }
     else if (sign_t == POSITIVE)
@@ -1629,7 +1630,7 @@ protected:
 						 _two*_t*_v - _four*_s*_u,
 						 _v*_v - _four*_s*_w,
 						 xs);
-    n_xs = xs_end - xs;
+    n_xs = static_cast<int>(xs_end - xs);
 
     // Find the y-coordinates of the vertical tangency points.
     Algebraic     ys[2];
@@ -1649,7 +1650,7 @@ protected:
                                             _four*_r*_s*_v - _two*_s*_t*_u,
                                             _r*_v*_v - _t*_u*_v + _t*_t*_w,
                                             ys);
-      n_ys = ys_end - ys;
+      n_ys = static_cast<int>(ys_end - ys);
     }
 
     // Pair the x and y coordinates and obtain the vertical tangency points.
@@ -1714,7 +1715,7 @@ protected:
 						 _two*_t*_u - _four*_r*_v,
 						 _u*_u - _four*_r*_w,
 						 ys);
-    n = ys_end - ys;
+    n = static_cast<int>(ys_end - ys);
 
     // Compute the x coordinates and construct the horizontal tangency points.
     Algebraic     x;
@@ -1722,7 +1723,7 @@ protected:
 
     for (i = 0; i < n; i++)
     {
-      // Having computed y, x is the simgle solution to the quadratic equation
+      // Having computed y, x is the single solution to the quadratic equation
       // above, and since its discriminant is 0, x is simply given by:
       x = -(nt_traits.convert(_t)*ys[i] + nt_traits.convert(_u)) / 
         nt_traits.convert(_two*_r);

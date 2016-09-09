@@ -1,9 +1,10 @@
 // Copyright (c) 2002,2011 Utrecht University (The Netherlands).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Spatial_searching/include/CGAL/Orthogonal_k_neighbor_search.h $
-// $Id: Orthogonal_k_neighbor_search.h 64637 2011-07-06 11:11:58Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Spatial_searching/include/CGAL/Orthogonal_k_neighbor_search.h $
+// $Id: Orthogonal_k_neighbor_search.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //
 // Author(s)     : Gael Guennebaud (gael.guennebaud@inria.fr), Hans Tangelder (<hanst@cs.uu.nl>)
@@ -36,7 +37,7 @@ class Orthogonal_k_neighbor_search: public internal::K_neighbor_search<SearchTra
 public:
   typedef typename Base::FT FT;
 
-  Orthogonal_k_neighbor_search(Tree& tree, const typename Base::Query_item& q,  
+  Orthogonal_k_neighbor_search(const Tree& tree, const typename Base::Query_item& q,  
                                unsigned int k=1, FT Eps=FT(0.0), bool Search_nearest=true, const Distance& d=Distance(),bool sorted=true)
     : Base(q,k,Eps,Search_nearest,d) 
   {
@@ -58,7 +59,7 @@ public:
   }
 private:
 
-  void compute_neighbors_orthogonally(typename Base::Node_handle N, FT rd)
+  void compute_neighbors_orthogonally(typename Base::Node_const_handle N, FT rd)
   {
     if (!(N->is_leaf())) 
     {

@@ -21,7 +21,7 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
-  include_directories (BEFORE ../../include)
+  include_directories (BEFORE "../../include")
 
   create_single_source_cgal_program( "stl_regular_field.cpp" )
   create_single_source_cgal_program( "stl_triangular_field.cpp" )

@@ -5,8 +5,7 @@
 // CGAL (www.cgal.org).
 // You can redistribute it and/or  modify it under the terms of the
 // GNU Lesser General Public License as published by the Free Software Foundation;
-// version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -14,8 +13,8 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/CGALimageIO/src/CGALImageIO/reech4x4.h $
-// $Id: reech4x4.h 41803 2008-01-24 14:17:12Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/CGALimageIO/src/CGALImageIO/reech4x4.h $
+// $Id: reech4x4.h 67158 2012-01-16 14:14:28Z lrineau $
 //
 //
 // Author(s)     :  ASCLEPIOS Project (INRIA Sophia-Antipolis), Laurent Rineau
@@ -23,7 +22,7 @@
 /*************************************************************************
  * reech4x4.h -
  *
- * $Id: reech4x4.h 41803 2008-01-24 14:17:12Z lrineau $
+ * $Id: reech4x4.h 67158 2012-01-16 14:14:28Z lrineau $
  *
  * Copyright©INRIA 1999
  *

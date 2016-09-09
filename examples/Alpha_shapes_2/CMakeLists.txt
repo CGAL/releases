@@ -21,7 +21,7 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
-  include_directories (BEFORE ../../include)
+  include_directories (BEFORE "../../include")
 
   create_single_source_cgal_program( "ex_alpha_shapes_2.cpp" )
   create_single_source_cgal_program( "ex_weighted_alpha_shapes_2.cpp" )

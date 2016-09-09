@@ -1,3 +1,24 @@
+/****************************************************************************
+ * Core Library Version 1.7, August 2004                                     
+ * Copyright (c) 1995-2004 Exact Computation Project                         
+ * All rights reserved.                                                      
+ *                                                                           
+ * This file is part of CORE (http://cs.nyu.edu/exact/core/).                
+ * You can redistribute it and/or modify it under the terms of the GNU       
+ * General Public License as published by the Free Software Foundation,      
+ * either version 3 of the License, or (at your option) any later version.   
+ *                                                                           
+ * Licensees holding a valid commercial license may use this file in         
+ * accordance with the commercial license agreement provided with the        
+ * software.                                                                 
+ *                                                                           
+ * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE   
+ * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. 
+ *                                                                           
+ *                                                                           
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Core/include/CGAL/CORE/geom3d/polygon3d.h $                                                                     
+ * $Id: polygon3d.h 67175 2012-01-16 15:37:02Z lrineau $                                                                      
+ ***************************************************************************/
 /*****************************************************************
  * File: polygon3d.h
  * Synopsis:
@@ -15,7 +36,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: polygon3d.h 37060 2007-03-13 18:10:39Z reichel $
+ * $Id: polygon3d.h 67175 2012-01-16 15:37:02Z lrineau $
  *****************************************************************/
 
 #ifndef _POLYGON3D_H_

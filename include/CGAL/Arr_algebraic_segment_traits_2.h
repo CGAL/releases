@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Arrangement_on_surface_2/include/CGAL/Arr_algebraic_segment_traits_2.h $
-// $Id: Arr_algebraic_segment_traits_2.h 65553 2011-09-26 12:33:57Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_algebraic_segment_traits_2.h $
+// $Id: Arr_algebraic_segment_traits_2.h 67487 2012-01-27 14:10:45Z lrineau $
 // 
 //
 // Author(s)     : Michael Kerber    <mkerber@mpi-inf.mpg.de>
@@ -521,7 +521,7 @@ public:
 			     Polynomial_1(term_at_y_int));
 	    Curve_2 curve=this->_ckva()->kernel().construct_curve_2_object()
 	      (pol);
-	    std::cout << curve << std::endl;
+            
 	    CGAL_assertion(this->_ckva()->is_on_2_object()(p,curve));
 	    CGAL_assertion(this->_ckva()->is_on_2_object()(q,curve));
 	    return this->operator()(curve,p,q,out);

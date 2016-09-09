@@ -2,9 +2,10 @@
 // Copyright (c) 2011 GeometryFactory Sarl (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -12,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Mesh_3/include/CGAL/Polyhedral_mesh_domain_3.h $
-// $Id: Polyhedral_mesh_domain_3.h 61930 2011-03-23 14:24:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Mesh_3/include/CGAL/Polyhedral_mesh_domain_3.h $
+// $Id: Polyhedral_mesh_domain_3.h 67249 2012-01-18 11:06:11Z lrineau $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -70,7 +71,7 @@ struct Surface_patch_index_generator
   typedef Surface_patch_index                         type;
   
   template < typename Primitive_id >
-  Surface_patch_index operator()(const Primitive_id& primitive_id)
+  Surface_patch_index operator()(const Primitive_id&)
   { return Surface_patch_index(0,1); }
 };
   
@@ -202,6 +203,10 @@ public:
             TriangleAccessor().triangles_end(p)),
       bounding_tree_(&tree_) // the bounding tree is tree_
   { 
+    if(!p.is_pure_triangle()) {
+      std::cerr << "Your input polyhedron must be triangulated!\n";
+      CGAL_error_msg("Your input polyhedron must be triangulated!");
+    }
   }
 
   Polyhedral_mesh_domain_3(const Polyhedron& p,

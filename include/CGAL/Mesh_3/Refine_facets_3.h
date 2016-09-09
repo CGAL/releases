@@ -1,9 +1,10 @@
 // Copyright (c) 2009 INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Mesh_3/include/CGAL/Mesh_3/Refine_facets_3.h $
-// $Id: Refine_facets_3.h 60688 2011-01-10 15:43:22Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Mesh_3/include/CGAL/Mesh_3/Refine_facets_3.h $
+// $Id: Refine_facets_3.h 67530 2012-01-31 15:03:44Z lrineau $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -562,8 +563,8 @@ before_insertion_impl(const Facet& facet,
                     "  Refinement point: %5%\n")
       % (&*facet.first)
       % facet.second
-      % facet.first->circumcenter()
-      % source_other_side.first->circumcenter()
+      % triangulation_ref_impl().dual(facet.first)
+      % triangulation_ref_impl().dual(source_other_side.first)
       % point
       % facet.first->vertex((facet.second + 1)&3)->point()
       % facet.first->vertex((facet.second + 2)&3)->point()
@@ -934,7 +935,7 @@ after_insertion_handle_incident_facet(Facet& facet)
 {
   // If the facet is infinite or has been already visited,
   // then there is nothing to do as for it or its edges
-  Facet other_side = mirror_facet(facet);
+  // Facet other_side = mirror_facet(facet);
   if ( r_tr_.is_infinite(facet) || (is_facet_visited(facet)) ) // && is_facet_visited(other_side)) )
   {
     return;

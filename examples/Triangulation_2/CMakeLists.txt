@@ -21,7 +21,7 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
-  include_directories (BEFORE ../../include)
+  include_directories (BEFORE "../../include")
 
   create_single_source_cgal_program( "adding_handles.cpp" )
   create_single_source_cgal_program( "colored_face.cpp" )
@@ -33,6 +33,8 @@ if ( CGAL_FOUND )
   create_single_source_cgal_program( "info_insert_with_pair_iterator_regular_2.cpp" )
   create_single_source_cgal_program( "info_insert_with_transform_iterator_2.cpp" )
   create_single_source_cgal_program( "info_insert_with_zip_iterator_2.cpp" )
+  create_single_source_cgal_program( "polygon_triangulation.cpp" )
+  create_single_source_cgal_program( "print_cropped_voronoi.cpp" )
   create_single_source_cgal_program( "regular.cpp" )
   create_single_source_cgal_program( "terrain.cpp" )
   create_single_source_cgal_program( "triangulation_prog1.cpp" )

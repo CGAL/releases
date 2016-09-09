@@ -3,9 +3,10 @@
  * Copyright (c) 1995-2004 Exact Computation Project
  * All rights reserved.
  *
- * This file is part of CORE (http://cs.nyu.edu/exact/core/); you may
- * redistribute it under the terms of the Q Public License version 1.0.
- * See the file LICENSE.QPL distributed with CORE.
+ * This file is part of CORE (http://cs.nyu.edu/exact/core/).
+ * You can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
  *
  * Licensees holding a valid commercial license may use this file in
  * accordance with the commercial license agreement provided with the
@@ -43,8 +44,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/include/CGAL/CORE/poly/Poly.tcc $
- * $Id: Poly.tcc 61450 2011-03-01 09:22:23Z sloriot $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Core/include/CGAL/CORE/poly/Poly.tcc $
+ * $Id: Poly.tcc 67165 2012-01-16 14:43:24Z lrineau $
  ***************************************************************************/
 
 

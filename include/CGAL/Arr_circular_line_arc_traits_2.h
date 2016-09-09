@@ -1,9 +1,10 @@
 // Copyright (c) 2003,2004,2005,2006,2007,2008,2009,2010,2011 INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Arrangement_on_surface_2/include/CGAL/Arr_circular_line_arc_traits_2.h $
-// $Id: Arr_circular_line_arc_traits_2.h 64639 2011-07-06 11:41:06Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_circular_line_arc_traits_2.h $
+// $Id: Arr_circular_line_arc_traits_2.h 67117 2012-01-13 18:14:48Z lrineau $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck
 
@@ -528,6 +529,8 @@ namespace CGAL {
 
     typedef typename CircularKernel::Circular_arc_point_2      Point;
     typedef typename CircularKernel::Circular_arc_point_2      Point_2;
+
+    typedef unsigned int                           Multiplicity; 
   
     typedef CGAL::Tag_false                        Has_left_category;
     typedef CGAL::Tag_false 			   Has_merge_category;

@@ -1,9 +1,10 @@
 // Copyright (c) 2008  GeometryFactory Sarl (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/debug.h $
-// $Id: debug.h 45422 2008-09-09 11:56:57Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/debug.h $
+// $Id: debug.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -22,6 +23,7 @@
 #define CGAL_QT_DEBUG_H
 
 #include <CGAL/auto_link/Qt4.h>
+#include <CGAL/export/Qt4.h>
 #include <QString>
 
 namespace CGAL {
@@ -34,9 +36,9 @@ namespace Qt {
  *     CGAL::Qt:traverse_resources(":"); // view all resources
  *  and displays the resources tree on std::cerr.
  */
-void traverse_resources(const QString& name,
-                        const QString& dirname = QString(),
-                        int indent = 0);
+CGAL_QT4_EXPORT void traverse_resources(const QString& name,
+                                        const QString& dirname = QString(),
+                                        int indent = 0);
 
 } // namespace Qt
 } // namespace CGAL

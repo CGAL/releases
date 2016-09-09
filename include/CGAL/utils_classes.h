@@ -3,14 +3,14 @@
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Number_types/include/CGAL/utils_classes.h $
-// $Id: utils_classes.h 62108 2011-04-01 14:01:17Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/include/CGAL/utils_classes.h $
+// $Id: utils_classes.h 67093 2012-01-13 11:22:39Z lrineau $
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-sb.mpg.de>

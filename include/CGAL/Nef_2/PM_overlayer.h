@@ -1,9 +1,10 @@
 // Copyright (c) 1997-2000  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Nef_2/include/CGAL/Nef_2/PM_overlayer.h $
-// $Id: PM_overlayer.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Nef_2/include/CGAL/Nef_2/PM_overlayer.h $
+// $Id: PM_overlayer.h 67531 2012-01-31 15:11:10Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -815,7 +816,7 @@ void create_face_objects_pl(const Below_info& D) const
     MinimalHalfedge.push_back(e_min); ++i;
   }
 
-  Face_handle f_outer = this->new_face();
+  (void)/* Face_handle f_outer = */ this->new_face();
   for (int j=0; j<i; ++j) {
     Halfedge_handle e = MinimalHalfedge[j];
       CGAL_NEF_TRACEN("  face cycle "<<j);CGAL_NEF_TRACEN("  minimal halfedge "<<PE(e));

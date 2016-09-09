@@ -1,9 +1,10 @@
 // Copyright (c) 1998, 2001, 2003, 2009  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_hierarchy_3.h $
-// $Id: Periodic_3_triangulation_hierarchy_3.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_hierarchy_3.h $
+// $Id: Periodic_3_triangulation_hierarchy_3.h 67245 2012-01-18 10:57:34Z afabri $
 //
 // Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
 //                 Sylvain Pion
@@ -522,7 +523,7 @@ random_level()
    boost::geometric_distribution<> proba(1.0/ratio);
    boost::variate_generator<boost::rand48&, boost::geometric_distribution<> >
      die(random, proba);
-  return std::min(die()-1, level_mult_cover);
+   return (std::min)(die()-1, level_mult_cover);
 }
 
 } //namespace CGAL

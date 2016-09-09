@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_foundations/include/CGAL/Coercion_traits.h $
-// $Id: Coercion_traits.h 59940 2010-11-28 12:17:58Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_foundations/include/CGAL/Coercion_traits.h $
+// $Id: Coercion_traits.h 67093 2012-01-13 11:22:39Z lrineau $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -43,7 +43,7 @@
 #define CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT( NT, Result_type  ) \
   template < class CT_Type_1, class CT_Type_2 >                         \
   Result_type operator()( const CT_Type_1& x, const CT_Type_2& y ) const { \
-    BOOST_STATIC_ASSERT((::boost::is_same<                              \
+    CGAL_static_assertion((::boost::is_same<                              \
             typename Coercion_traits< CT_Type_1, CT_Type_2 >::Type, NT  \
             >::value));                                                 \
                                                                         \

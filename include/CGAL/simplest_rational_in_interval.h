@@ -1,13 +1,14 @@
-// Copyright (c) 2002  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2002  
+// Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland),
+// INRIA Sophia-Antipolis (France),
+// Max-Planck-Institute Saarbruecken (Germany),
+// and Tel-Aviv University (Israel).  All rights reserved. 
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -15,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Number_types/include/CGAL/simplest_rational_in_interval.h $
-// $Id: simplest_rational_in_interval.h 61302 2011-02-18 15:37:40Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Number_types/include/CGAL/simplest_rational_in_interval.h $
+// $Id: simplest_rational_in_interval.h 67093 2012-01-13 11:22:39Z lrineau $
 //
 //
 // Author(s)     : Andreas Fabri, Susan Hert, Sylvain Pion
@@ -48,9 +49,9 @@ simplest_rational_in_interval(double x, double y) {
     typedef typename FT::Compose Compose;
 
     // Must be a fraction
-    BOOST_STATIC_ASSERT((::boost::is_same<Is_fraction, Tag_true>::value));
+    CGAL_static_assertion((::boost::is_same<Is_fraction, Tag_true>::value));
     // Numerator_type,Denominator_type must be the same
-    BOOST_STATIC_ASSERT((::boost::is_same<Numerator_type, Denominator_type>::value));
+    CGAL_static_assertion((::boost::is_same<Numerator_type, Denominator_type>::value));
 
 
   if(x == y){

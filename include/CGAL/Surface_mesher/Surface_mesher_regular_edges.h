@@ -1,9 +1,10 @@
 // Copyright (c) 2003-2007  INRIA Sophia-Antipolis (France).
 // Copyright (c) 2008       GeometryFactory, Sophia Antipolis (France)
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_regular_edges.h $
-// $Id: Surface_mesher_regular_edges.h 53957 2010-02-01 12:55:28Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_regular_edges.h $
+// $Id: Surface_mesher_regular_edges.h 67353 2012-01-23 07:40:54Z lrineau $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -163,7 +164,7 @@ namespace CGAL {
       void 
       before_insertion_handle_facet_inside_conflict_zone (const Facet& f) {
 	Facet cote = f;
-	Facet autre_cote = SMB::mirror_facet(cote);
+        //	Facet autre_cote = SMB::mirror_facet(cote);
 
 	if ( SMB::c2t3.face_status(cote) !=
 	     C2t3::NOT_IN_COMPLEX ) {

@@ -1,9 +1,11 @@
+
 // Copyright (c) 2008  GeometryFactory Sarl (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/GraphicsView/include/CGAL/Qt/GraphicsViewInput.h $
-// $Id: GraphicsViewInput.h 61414 2011-02-24 16:36:04Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/GraphicsView/include/CGAL/Qt/GraphicsViewInput.h $
+// $Id: GraphicsViewInput.h 67117 2012-01-13 18:14:48Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -20,14 +22,16 @@
 
 #ifndef CGAL_QT_GRAPHICS_VIEW_INPUT_H
 #define CGAL_QT_GRAPHICS_VIEW_INPUT_H
-
+#include <CGAL/export/Qt4.h>
 #include <CGAL/auto_link/Qt4.h>
-#include <CGAL/Object.h>
+#ifndef Q_MOC_RUN
+#  include <CGAL/Object.h>
+#endif
 #include <QObject>
 
 namespace CGAL {
 namespace Qt {
-class GraphicsViewInput  : public QObject
+class CGAL_QT4_EXPORT GraphicsViewInput  : public QObject
 {
   Q_OBJECT
 

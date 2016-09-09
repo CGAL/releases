@@ -1,13 +1,14 @@
-// Copyright (c) 1997,2005  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 1997,2005  
+// Utrecht University (The Netherlands),
+// ETH Zurich (Switzerland),
+// INRIA Sophia-Antipolis (France),
+// Max-Planck-Institute Saarbruecken (Germany),
+// and Tel-Aviv University (Israel).  All rights reserved. 
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -15,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Stream_support/include/CGAL/IO/Scanner_OFF.h $
-// $Id: Scanner_OFF.h 59779 2010-11-18 10:07:05Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Stream_support/include/CGAL/IO/Scanner_OFF.h $
+// $Id: Scanner_OFF.h 67241 2012-01-18 10:10:14Z afabri $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -169,7 +170,7 @@ private:
             std::size_t no;
             m_scan->scan_facet( no, m_cnt);
             m_indices.reserve( no);
-            std::size_t index = std::numeric_limits<std::size_t>::max(); 
+            std::size_t index = (std::numeric_limits<std::size_t>::max)(); 
             //  A huge value helps to detect a potential
             //  error in the function scan_facet_vertex_index
             for (std::size_t i = 0; i < no; ++i) {

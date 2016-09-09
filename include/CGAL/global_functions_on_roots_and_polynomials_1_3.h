@@ -1,9 +1,10 @@
 // Copyright (c) 2005-2006  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -17,8 +18,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_for_spheres/include/CGAL/global_functions_on_roots_and_polynomials_1_3.h $
-// $Id: global_functions_on_roots_and_polynomials_1_3.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Algebraic_kernel_for_spheres/include/CGAL/global_functions_on_roots_and_polynomials_1_3.h $
+// $Id: global_functions_on_roots_and_polynomials_1_3.h 67117 2012-01-13 18:14:48Z lrineau $
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //             Sylvain Pion

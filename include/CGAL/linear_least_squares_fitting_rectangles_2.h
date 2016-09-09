@@ -1,9 +1,10 @@
 // Copyright (c) 2005  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_rectangles_2.h $
-// $Id: linear_least_squares_fitting_rectangles_2.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_rectangles_2.h $
+// $Id: linear_least_squares_fitting_rectangles_2.h 67117 2012-01-13 18:14:48Z lrineau $
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta
 

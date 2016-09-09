@@ -8,8 +8,8 @@
  *
  * Zilin Du, 2003
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Core/src/CGALCore/GmpIO.cpp $
- * $Id: GmpIO.cpp 58329 2010-08-27 20:07:55Z eric $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Core/src/CGALCore/GmpIO.cpp $
+ * $Id: GmpIO.cpp 67314 2012-01-19 16:49:52Z lrineau $
  ***************************************************************************/
 
 /* Auxiliary functions for C++-style input of GMP types. 
@@ -20,7 +20,7 @@ This file is part of the GNU MP Library.
 
 The GNU MP Library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at your
+the Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.
 
 The GNU MP Library is distributed in the hope that it will be useful, but

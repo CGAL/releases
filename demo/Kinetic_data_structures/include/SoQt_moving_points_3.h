@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_moving_points_3.h $
-// $Id: SoQt_moving_points_3.h 56668 2010-06-09 08:45:58Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Kinetic_data_structures/demo/Kinetic_data_structures/include/SoQt_moving_points_3.h $
+// $Id: SoQt_moving_points_3.h 67093 2012-01-13 11:22:39Z lrineau $
 //
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>

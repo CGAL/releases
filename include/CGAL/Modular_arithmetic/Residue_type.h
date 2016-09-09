@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Modular_arithmetic/include/CGAL/Modular_arithmetic/Residue_type.h $
-// $Id: Residue_type.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Modular_arithmetic/include/CGAL/Modular_arithmetic/Residue_type.h $
+// $Id: Residue_type.h 67093 2012-01-13 11:22:39Z lrineau $
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
 
@@ -56,16 +56,16 @@ class Residue:
     boost::ordered_field_operators2< Residue, int > >{
     
 public:
-    typedef Residue Self;
-    typedef Residue NT;
-
+  typedef Residue Self;
+  typedef Residue NT;
+  
 private:
-    static const double  CST_CUT; 
-
+  CGAL_EXPORT static const double  CST_CUT; 
+  
 #ifdef CGAL_HAS_THREADS
-  static boost::thread_specific_ptr<int>    prime_int_;
-  static boost::thread_specific_ptr<double> prime_;
-  static boost::thread_specific_ptr<double> prime_inv_;
+  CGAL_EXPORT static boost::thread_specific_ptr<int>    prime_int_;
+  CGAL_EXPORT static boost::thread_specific_ptr<double> prime_;
+  CGAL_EXPORT static boost::thread_specific_ptr<double> prime_inv_;
   
   static void init_class_for_thread(){
     CGAL_precondition(prime_int_.get() == NULL); 
@@ -94,9 +94,9 @@ private:
     return *prime_inv_.get();
   }
 #else
-  static int prime_int;
-  static double prime;
-  static double prime_inv;
+  CGAL_EXPORT  static int prime_int;
+  CGAL_EXPORT  static double prime;
+  CGAL_EXPORT  static double prime_inv;
   static int get_prime_int(){ return prime_int;}
   static double get_prime()    { return prime;}
   static double get_prime_inv(){ return prime_inv;}  

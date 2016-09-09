@@ -1,9 +1,10 @@
 // Copyright (c) 2006,2007,2009,2010,2011 Tel-Aviv University (Israel).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you may redistribute it under
-// the terms of the Q Public License version 1.0.
-// See the file LICENSE.QPL distributed with CGAL.
+// This file is part of CGAL (www.cgal.org).
+// You can redistribute it and/or modify it under the terms of the GNU
+// General Public License as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h $
-// $Id: Bezier_x_monotone_2.h 64639 2011-07-06 11:41:06Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h $
+// $Id: Bezier_x_monotone_2.h 67170 2012-01-16 14:53:30Z efif $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -89,7 +90,7 @@ private:
   typedef typename Bezier_cache::Intersection_iter        Intersect_iter;
 
   // Representation of an intersection point with its multiplicity:
-  typedef std::pair<Point_2, unsigned int>                Intersection_point_2;
+  typedef std::pair<Point_2,Multiplicity>                Intersection_point_2;
 
   /*! \class Less_intersection_point
    * Comparison functor for intersection points.
@@ -798,11 +799,11 @@ _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::point_position
  
   if (p_org != p.originators_end())
   {
-    Originator_iterator      ps_org = _ps.get_originator (_curve, _xid);
-    CGAL_assertion (ps_org != _ps.originators_end());
-  
-    Originator_iterator      pt_org = _pt.get_originator (_curve, _xid);
-    CGAL_assertion (pt_org != _pt.originators_end());
+    CGAL_assertion_code
+      (Originator_iterator ps_org = _ps.get_originator (_curve, _xid);
+       CGAL_assertion(ps_org != _ps.originators_end());
+       Originator_iterator pt_org = _pt.get_originator (_curve, _xid);
+       CGAL_assertion(pt_org != _pt.originators_end()));
 
     // Check if the point is in the parameter range of this subcurve.
     // First try an approximate check of the parameter bounds.

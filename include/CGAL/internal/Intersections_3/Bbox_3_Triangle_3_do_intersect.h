@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-3.9-branch/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Triangle_3_do_intersect.h $
-// $Id: Bbox_3_Triangle_3_do_intersect.h 61668 2011-03-10 21:15:14Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Triangle_3_do_intersect.h $
+// $Id: Bbox_3_Triangle_3_do_intersect.h 67238 2012-01-18 09:52:23Z afabri $
 //
 //
 // Author(s)     : Camille Wormser, Jane Tournois, Pierre Alliez
@@ -48,32 +48,32 @@ namespace internal {
     for(int i = 0; i < 3; ++i) {
       if(p[i] <= q[i]) {
         if(q[i] <= r[i]) { // pqr
-          if((bbox.max(i) < p[i]) || (bbox.min(i) > r[i]))
+          if(((bbox.max)(i) < p[i]) || ((bbox.min)(i) > r[i]))
             return false;
         }
         else {
           if(p[i] <= r[i]) { // prq
-            if(bbox.max(i) < p[i] || bbox.min(i) > q[i])
+            if((bbox.max)(i) < p[i] || (bbox.min)(i) > q[i])
               return false;
           }
           else { // rpq
-            if(bbox.max(i) < r[i] || bbox.min(i) > q[i])
+            if((bbox.max)(i) < r[i] || (bbox.min)(i) > q[i])
               return false;
           }
         }
       }
       else {
         if(p[i] <= r[i]) { // qpr
-          if(bbox.max(i) < q[i] || bbox.min(i) > r[i])
+          if((bbox.max)(i) < q[i] || (bbox.min)(i) > r[i])
             return false;
         }
         else {
           if(q[i] <= r[i]) { // qrp
-            if(bbox.max(i) < q[i] || bbox.min(i) > p[i])
+            if((bbox.max)(i) < q[i] || (bbox.min)(i) > p[i])
               return false;
           }
           else { // rqp
-            if(bbox.max(i) < r[i] || bbox.min(i) > p[i])
+            if((bbox.max)(i) < r[i] || (bbox.min)(i) > p[i])
               return false;
           }
         }

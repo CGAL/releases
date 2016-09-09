@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; version 2.1 of the License.
-// See the file LICENSE.LGPL distributed with CGAL.
+// published by the Free Software Foundation; either version 3 of the License,
+// or (at your option) any later version.
 //
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Ray_3_do_intersect.h $
-// $Id: Bbox_3_Ray_3_do_intersect.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/next/Intersections_3/include/CGAL/internal/Intersections_3/Bbox_3_Ray_3_do_intersect.h $
+// $Id: Bbox_3_Ray_3_do_intersect.h 67093 2012-01-13 11:22:39Z lrineau $
 //
 //
 // Author(s)     : Camille Wormser, Jane Tournois, Pierre Alliez, Stephane Tayeb
@@ -133,7 +133,7 @@ namespace internal {
     typedef typename K::Point_3 Point_3;
 
     const Point_3& source = ray.source();
-    const Point_3& point_on_ray = ray.point(1);
+    const Point_3& point_on_ray = ray.second_point();
 
     return bbox_ray_do_intersect_aux(
                           source.x(), source.y(), source.z(),
