@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/window/include/CGAL/IO/cgal_window.h,v $
 // $Revision: 1.14 $ $Date: 2003/10/21 12:25:46 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Matthias Baesken
  

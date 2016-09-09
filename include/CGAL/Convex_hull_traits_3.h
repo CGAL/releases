@@ -1,4 +1,4 @@
-// Copyright (c) 2001  Max-Planck-Institute Saarbrucken (Germany).
+// Copyright (c) 2001  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Convex_hull_3/include/CGAL/Convex_hull_traits_3.h,v $
-// $Revision: 1.11 $ $Date: 2003/09/18 10:20:28 $
-// $Name: current_submission $
+// $Revision: 1.12 $ $Date: 2003/10/21 12:15:13 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 

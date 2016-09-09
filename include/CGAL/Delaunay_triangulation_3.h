@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h,v $
 // $Revision: 1.147 $ $Date: 2003/10/17 08:49:15 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>

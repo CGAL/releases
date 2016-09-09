@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Polytope_distance_d/include/CGAL/Polytope_distance_d.h,v $
 // $Revision: 1.7 $ $Date: 2003/09/18 10:25:10 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
 

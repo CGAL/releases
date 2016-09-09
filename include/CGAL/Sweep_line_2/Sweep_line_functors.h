@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Sweep_line_2/include/CGAL/Sweep_line_2/Sweep_line_functors.h,v $
 // $Revision: 1.15 $ $Date: 2003/09/18 10:25:50 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>
 #ifndef CGAL_SWEEP_LINE_FUNCTORS_H

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Dummy_tds_3.h,v $
 // $Revision: 1.3 $ $Date: 2003/09/18 10:26:24 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion
 

@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Arithmetic_filter/predicates/kernel_ftC3.h,v $
 // $Revision: 1.33 $ $Date: 2003/10/21 12:17:32 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion
 

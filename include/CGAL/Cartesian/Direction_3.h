@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Direction_3.h,v $
 // $Revision: 1.29 $ $Date: 2003/10/21 12:14:17 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Andreas Fabri
 

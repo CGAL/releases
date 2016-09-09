@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Configuration/include/CGAL/Matching_bug_wrapper.h,v $
+// $Source: /CVSROOT/CGAL/Packages/Configuration/include/CGAL/Attic/Matching_bug_wrapper.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:14:55 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 

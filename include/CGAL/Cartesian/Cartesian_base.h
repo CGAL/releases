@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h,v $
 // $Revision: 1.10 $ $Date: 2003/10/21 12:14:15 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion
 

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Sweep_line_2/include/CGAL/Sweep_line_2/Sweep_line_event.h,v $
 // $Revision: 1.22 $ $Date: 2003/09/18 10:25:49 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>
 #ifndef CGAL_SWEEP_LINE_EVENT_H

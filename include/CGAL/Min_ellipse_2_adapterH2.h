@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/Min_ellipse_2_adapterH2.h,v $
 // $Revision: 1.4 $ $Date: 2003/09/18 10:23:12 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sven Schönherr <sven@inf.ethz.ch>, Bernd Gärtner
 

@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Optimisation_basic/src/optimisation_basic.C,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:22:05 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
 

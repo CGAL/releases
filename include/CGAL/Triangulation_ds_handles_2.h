@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_ds_handles_2.h,v $
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Attic/Triangulation_ds_handles_2.h,v $
 // $Revision: 1.4 $ $Date: 2003/09/18 10:26:12 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Mariette Yvinec
 

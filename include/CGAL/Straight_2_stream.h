@@ -18,7 +18,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Straight_2_stream.h,v $
 // $Revision: 1.4 $ $Date: 2003/10/21 12:16:58 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Oren Nechushtan
 

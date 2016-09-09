@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Pm_with_intersections.h,v $
 // $Revision: 1.45 $ $Date: 2003/09/18 10:19:42 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Eyal flato <flato@math.tau.ac.il>
 

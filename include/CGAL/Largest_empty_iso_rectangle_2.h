@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Largest_empty_rect_2/include/CGAL/Largest_empty_iso_rectangle_2.h,v $
 // $Revision: 1.78 $ $Date: 2003/09/18 10:22:47 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Eli Packer (algorithm), Andreas Fabri (cgal conformance)
 

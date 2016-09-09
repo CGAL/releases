@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Kernel_archetype.h,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:18:07 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Matthias Baesken
 

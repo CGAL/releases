@@ -18,7 +18,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Triangle_2_Triangle_2_intersection.h,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:17:01 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Geert-Jan Giezeman
 

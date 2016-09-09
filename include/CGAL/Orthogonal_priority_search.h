@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Orthogonal_priority_search.h,v $
+// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Attic/Orthogonal_priority_search.h,v $
 // $Revision: 1.20 $ $Date: 2003/09/18 10:25:44 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
 

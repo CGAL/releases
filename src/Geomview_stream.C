@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Geomview/src/Geomview_stream.C,v $
 // $Revision: 1.56 $ $Date: 2003/10/21 12:16:05 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann, Sylvain Pion
 

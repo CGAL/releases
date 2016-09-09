@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/include/CGAL/Weighted_alpha_shape_euclidean_traits_2.h,v $
 // $Revision: 1.16 $ $Date: 2003/10/01 19:27:16 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>

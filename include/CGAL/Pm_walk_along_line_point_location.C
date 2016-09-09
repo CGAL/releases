@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_walk_along_line_point_location.C,v $
-// $Revision: 1.14 $ $Date: 2003/09/18 10:24:37 $
-// $Name: current_submission $
+// $Revision: 1.14.2.1 $ $Date: 2004/01/28 14:38:01 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 //                 Iddo Hanniel <hanniel@math.tau.ac.il>
@@ -428,6 +428,33 @@ find_closest(const Point & p,
         }
         if (!type) lt=Planar_map::VERTEX; 
         // lt should be already Planar_map::VERTEX
+
+	if (up && (traits->point_equal(traits->curve_leftmost(cv),traits->curve_leftmost(ecv)))) 
+	  //|| (!up && (traits->point_equal(traits->curve_rightmost(cv),traits->curve_rightmost(ecv)))))
+	
+	  // check if cv and ecv are both to the right of p (if up) 
+	  //if so, it means that the y-value of ecv and cv is equal on p.x
+	  // -  since traits->curves_compare_y_at_x(ecv, cv , p) == EQUAL
+	  //it also means that ecv is upper than cv
+	  // - since traits->curves_compare_y_at_x_from_bottom(ecv, cv, q) != LARGER
+	{
+	//idit : specail case:
+        /*
+         *           x
+         *          / 
+         *         x
+         *         |\
+         *         p x
+         *
+         */
+	  // orient e upright
+	  if ( up == traits->point_is_left_low(e->target()->point(),
+					       e->source()->point()))
+	  {
+	    //std::cout << "e changed to twin\n";
+	    e = e->twin();
+	  }
+	}
       }
 
 #ifdef CGAL_PM_DEBUG

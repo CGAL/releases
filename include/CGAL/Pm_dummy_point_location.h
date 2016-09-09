@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_dummy_point_location.h,v $
 // $Revision: 1.5 $ $Date: 2003/09/18 10:24:32 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Efi Fogel <efif@post.math.tau.ac.il>
 

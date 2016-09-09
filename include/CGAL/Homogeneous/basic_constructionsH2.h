@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/basic_constructionsH2.h,v $
 // $Revision: 1.7 $ $Date: 2003/10/28 17:57:11 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sven Schoenherr
 //                 Stefan Schirra

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Qt_widget/src/CGALQt/Qt_widget_xpm_icons.C,v $
-// $Revision: 1.8 $ $Date: 2003/10/21 12:23:27 $
-// $Name: current_submission $
+// $Revision: 1.6.2.1 $ $Date: 2003/11/07 13:40:45 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Radu Ursu <rursu@geometryfactory.com>
 

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/MP_Float.h,v $
-// $Revision: 1.14 $ $Date: 2003/10/21 12:21:42 $
-// $Name: current_submission $
+// $Revision: 1.15.2.1 $ $Date: 2004/02/09 13:01:11 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion
 
@@ -26,6 +26,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Interval_arithmetic.h>
+#include <CGAL/Quotient.h>
 #include <iostream>
 #include <vector>
 
@@ -229,8 +230,15 @@ sqrt(const MP_Float &d);
 double
 to_double(const MP_Float &b);
 
+// Overloaded in order to protect against overflow.
+double
+to_double(const Quotient<MP_Float> &b);
+
 std::pair<double,double>
 to_interval(const MP_Float &b);
+
+std::pair<double, double>
+to_interval(const Quotient<MP_Float> &b);
 
 inline
 bool

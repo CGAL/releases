@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Filtered_predicate.h,v $
 // $Revision: 1.9 $ $Date: 2003/10/21 12:17:23 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion
 

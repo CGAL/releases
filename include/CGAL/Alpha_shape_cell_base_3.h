@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_3/include/CGAL/Alpha_shape_cell_base_3.h,v $
 // $Revision: 1.11 $ $Date: 2003/09/18 10:19:15 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Tran Kai Frank DA
 

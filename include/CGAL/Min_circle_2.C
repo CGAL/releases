@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_circle_2/include/CGAL/Min_circle_2.C,v $
 // $Revision: 1.9 $ $Date: 2003/09/18 10:23:06 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sven Schönherr <sven@inf.ethz.ch>, Bernd Gärtner
 

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/IO/triangulation_Window_stream.h,v $
 // $Revision: 1.13 $ $Date: 2003/09/18 10:26:21 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Olivier Devillers
 //                 Andreas Fabri

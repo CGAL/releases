@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/Aff_transformation_d.h,v $
 // $Revision: 1.9 $ $Date: 2003/10/21 12:19:16 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 

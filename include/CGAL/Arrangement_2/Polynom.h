@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arrangement_2/Polynom.h,v $
 // $Revision: 1.3 $ $Date: 2003/09/18 10:19:45 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
 #ifndef CGAL_POLYNOM_H

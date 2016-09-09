@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_vertex_base_2.h,v $
 // $Revision: 1.15 $ $Date: 2003/09/18 10:26:18 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Mariette Yvinec
 

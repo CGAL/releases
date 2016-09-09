@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/include/CGAL/Triangle_2_Triangle_2_do_intersect.h,v $
 // $Revision: 1.11 $ $Date: 2003/10/21 12:17:00 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Philippe Guigue
 

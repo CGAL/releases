@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Polyhedron/include/CGAL/Polyhedron_incremental_builder_3.h,v $
 // $Revision: 1.10 $ $Date: 2003/09/18 10:24:57 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>)
 

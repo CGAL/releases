@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Static_filters/Side_of_oriented_sphere_3.h,v $
 // $Revision: 1.11 $ $Date: 2003/10/21 12:17:46 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion
 

@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/IO/Regular_complex_d_window_stream.h,v $
-// $Revision: 1.12 $ $Date: 2003/10/21 12:19:14 $
-// $Name:  $
+// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/IO/Attic/Regular_complex_d_window_stream.h,v $
+// $Revision: 1.12.2.1 $ $Date: 2003/11/17 15:29:48 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : ?
 #ifndef CGAL_REGULAR_COMPLEX_D_WINDOW_STREAM_H

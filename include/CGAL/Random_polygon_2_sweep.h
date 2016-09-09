@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Generator/include/CGAL/Random_polygon_2_sweep.h,v $
 // $Revision: 1.13 $ $Date: 2003/10/21 12:15:39 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 //               : Susan Hert <hert@mpi-sb.mpg.de>

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/in_place_edge_list.h,v $
 // $Revision: 1.10 $ $Date: 2003/09/18 10:19:28 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 

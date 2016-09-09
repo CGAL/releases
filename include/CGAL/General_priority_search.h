@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/General_priority_search.h,v $
+// $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Attic/General_priority_search.h,v $
 // $Revision: 1.21 $ $Date: 2003/09/18 10:25:41 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
 

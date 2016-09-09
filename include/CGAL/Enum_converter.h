@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Enum_converter.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:18:03 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 

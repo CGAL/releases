@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/src/Interval_arithmetic.C,v $
 // $Revision: 1.31 $ $Date: 2003/10/21 12:17:48 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion
  

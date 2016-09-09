@@ -43,6 +43,7 @@ all:            \
                 off_bbox$(EXE_EXT) \
                 off_glue$(EXE_EXT) \
                 off_transform$(EXE_EXT) \
+                polyhedron2vrml$(EXE_EXT) \
                 polyhedron_copy$(EXE_EXT) \
                 terr_trian$(EXE_EXT) 
 
@@ -73,6 +74,9 @@ off_glue$(EXE_EXT): off_glue$(OBJ_EXT)
 off_transform$(EXE_EXT): off_transform$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)off_transform off_transform$(OBJ_EXT) $(LDFLAGS)
 
+polyhedron2vrml$(EXE_EXT): polyhedron2vrml$(OBJ_EXT)
+	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron2vrml polyhedron2vrml$(OBJ_EXT) $(LDFLAGS)
+
 polyhedron_copy$(EXE_EXT): polyhedron_copy$(OBJ_EXT)
 	$(CGAL_CXX) $(LIBPATH) $(EXE_OPT)polyhedron_copy polyhedron_copy$(OBJ_EXT) $(LDFLAGS)
 
@@ -89,6 +93,7 @@ clean: \
                    off_bbox.clean \
                    off_glue.clean \
                    off_transform.clean \
+                   polyhedron2vrml.clean \
                    polyhedron_copy.clean \
                    terr_trian.clean 
 

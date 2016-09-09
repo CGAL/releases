@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/include/CGAL/Lazy_exact_nt.h,v $
-// $Revision: 2.75 $ $Date: 2003/10/21 12:17:24 $
-// $Name: current_submission $
+// $Revision: 2.76.2.1 $ $Date: 2004/02/09 12:59:27 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion
 
@@ -75,8 +75,7 @@
  *                  [ only called from the handle, and declared in the base ]
  * - .exact()       returns ET, if not already done, computes recursively
  *
- * - .rafine_approx()  later we can do that (having a birthdate like LOOK ?).
- *                     could use update_approx().
+ * - .rafine_approx()   ??
  */
 
 CGAL_BEGIN_NAMESPACE
@@ -104,12 +103,13 @@ public:
 
   const ET & exact()
   {
-      if (et==NULL)
+      if (et==NULL) {
           update_exact();
+	  in = CGAL::to_interval(*et);
+      }
       return *et;
   }
 
-  virtual void update_approx() = 0;  // Not used anymore...  at the moment :)
   virtual void update_exact() = 0;
   virtual ~Lazy_exact_rep () { delete et; };
 };
@@ -121,7 +121,6 @@ struct Lazy_exact_Int_Cst : public Lazy_exact_rep<ET>
   Lazy_exact_Int_Cst (int i)
       : Lazy_exact_rep<ET>(double(i)) {}
 
-  void update_approx() { CGAL_assertion(false); }
   void update_exact()  { this->et = new ET((int)this->in.inf()); }
 };
 
@@ -132,7 +131,6 @@ struct Lazy_exact_Cst : public Lazy_exact_rep<ET>
   Lazy_exact_Cst (double d)
       : Lazy_exact_rep<ET>(d) {}
 
-  void update_approx() { CGAL_assertion(false); }
   void update_exact()  { this->et = new ET(this->in.inf()); }
 };
 
@@ -146,7 +144,6 @@ struct Lazy_exact_Ex_Cst : public Lazy_exact_rep<ET>
     this->et = new ET(e);
   }
 
-  void update_approx() { CGAL_assertion(false); }
   void update_exact()  { CGAL_assertion(false); }
 };
 
@@ -157,7 +154,6 @@ struct Lazy_lazy_exact_Cst : public Lazy_exact_rep<ET>
   Lazy_lazy_exact_Cst (const Lazy_exact_nt<ET1> &x)
       : Lazy_exact_rep<ET>(x.approx()), l(x) {}
 
-  void update_approx() { CGAL_assertion(false); }
   void update_exact()  { this->et = new ET(l.exact()); }
 
   Lazy_exact_nt<ET1> l;
@@ -200,7 +196,6 @@ struct NAME : public Lazy_exact_unary<ET>                            \
   NAME (const Lazy_exact_nt<ET> &a)                                  \
       : Lazy_exact_unary<ET>(OP(a.approx()), a) {}                   \
                                                                      \
-  void update_approx() { this->in = OP(this->op1.approx()); }        \
   void update_exact()  { this->et = new ET(OP(this->op1.exact())); } \
 };
 
@@ -217,10 +212,6 @@ struct NAME : public Lazy_exact_binary<ET>                            \
   NAME (const Lazy_exact_nt<ET> &a, const Lazy_exact_nt<ET> &b)       \
     : Lazy_exact_binary<ET>(a.approx() OP b.approx(), a, b) {}        \
                                                                       \
-  void update_approx()                                                \
-  {                                                                   \
-    this->in = this->op1.approx() OP this->op2.approx();              \
-  }                                                                   \
   void update_exact()                                                 \
   {                                                                   \
     this->et = new ET(this->op1.exact() OP this->op2.exact());        \
@@ -239,10 +230,6 @@ struct Lazy_exact_Min : public Lazy_exact_binary<ET>
   Lazy_exact_Min (const Lazy_exact_nt<ET> &a, const Lazy_exact_nt<ET> &b)
     : Lazy_exact_binary<ET>(min(a.approx(), b.approx()), a, b) {}
 
-  void update_approx()
-  {
-    this->in = min(this->op1.approx(), this->op2.approx());
-  }
   void update_exact()
   {
     this->et = new ET(min(this->op1.exact(), this->op2.exact()));
@@ -256,10 +243,6 @@ struct Lazy_exact_Max : public Lazy_exact_binary<ET>
   Lazy_exact_Max (const Lazy_exact_nt<ET> &a, const Lazy_exact_nt<ET> &b)
     : Lazy_exact_binary<ET>(max(a.approx(), b.approx()), a, b) {}
 
-  void update_approx()
-  {
-    this->in = max(this->op1.approx(), this->op2.approx());
-  }
   void update_exact()
   {
     this->et = new ET(max(this->op1.exact(), this->op2.exact()));
@@ -316,9 +299,25 @@ public :
   const ET & exact() const
   { return ptr()->exact(); }
 
+  static const double & get_relative_precision_of_to_double()
+  {
+      return relative_precision_of_to_double;
+  }
+
+  static void set_relative_precision_of_to_double(const double & d)
+  {
+      CGAL_assertion(d > 0 && d < 1);
+      relative_precision_of_to_double = d;
+  }
+
 private:
   Self_rep * ptr() const { return (Self_rep*) PTR; }
+
+  static double relative_precision_of_to_double;
 };
+
+template <typename ET>
+double Lazy_exact_nt<ET>::relative_precision_of_to_double = 0.00001;
 
 template <typename ET>
 bool
@@ -530,10 +529,22 @@ operator/(int a, const Lazy_exact_nt<ET>& b)
 
 
 template <typename ET>
-inline
 double
 to_double(const Lazy_exact_nt<ET> & a)
 {
+    const Interval_nt<true>& app = a.approx();
+    if (app.sup() == app.inf())
+	return app.sup();
+
+    // If it's precise enough, then OK.
+    if ((app.sup() - app.inf())
+	    < Lazy_exact_nt<ET>::get_relative_precision_of_to_double()
+	      * std::max(std::fabs(app.inf()), std::fabs(app.sup())) )
+        return CGAL::to_double(app);
+
+    // Otherwise we trigger exact computation first,
+    // which will refine the approximation.
+    a.exact();
     return CGAL::to_double(a.approx());
 }
 

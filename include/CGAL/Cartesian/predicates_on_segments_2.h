@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/predicates_on_segments_2.h,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:14:36 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Susan Hert
 

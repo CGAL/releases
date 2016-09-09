@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Euclidean_distance.h,v $
 // $Revision: 1.6 $ $Date: 2003/09/25 14:01:05 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
 

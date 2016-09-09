@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arr_iterators.h,v $
 // $Revision: 1.3 $ $Date: 2003/09/18 10:19:39 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Iddo Hanniel
 // ============================================================================

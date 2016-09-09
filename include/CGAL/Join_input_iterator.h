@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/Join_input_iterator.h,v $
 // $Revision: 1.54 $ $Date: 2003/10/21 12:23:37 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>

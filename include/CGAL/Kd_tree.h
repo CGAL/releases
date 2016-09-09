@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Kd_tree.h,v $
 // $Revision: 1.23 $ $Date: 2003/10/20 19:43:04 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
 

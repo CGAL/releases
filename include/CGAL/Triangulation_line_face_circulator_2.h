@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_line_face_circulator_2.h,v $
-// $Revision: 1.29 $ $Date: 2003/10/29 15:20:08 $
-// $Name: current_submission $
+// $Revision: 1.29.2.1 $ $Date: 2004/01/07 11:03:40 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Mariette Yvinec
 
@@ -98,12 +98,9 @@ public:
 #ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
   bool  operator==(const Face_handle& fh) const { return fh == pos; }
   bool  operator!=(const Face_handle& fh) const { return fh != pos; }
-  bool  operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const;
-  bool  operator!=(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const;
-#else
-  bool  operator==(CGAL_NULL_TYPE n) const;
-  bool  operator!=(CGAL_NULL_TYPE n) const;
 #endif
+  bool  operator==(CGAL_NULL_TYPE  CGAL_triangulation_assertion_code(n)) const;
+  bool  operator!=(CGAL_NULL_TYPE n) const;
   bool  is_empty() const;
   bool  collinear_outside() const;
   bool locate(const Point& t, Locate_type &lt,  int &li);
@@ -122,17 +119,17 @@ private:
 
 #ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
 template < class Gt, class Tds >
-inline
-bool
-operator==(typename Tds::Face_handle fh, Triangulation_line_face_circulator_2<Gt,Tds> fc)
+inline bool
+operator==(typename Tds::Face_handle fh, 
+	   Triangulation_line_face_circulator_2<Gt,Tds> fc)
 {
   return (fc==fh);
 }
 
 template < class Gt, class Tds >
-inline
-bool
-operator!=(typename Tds::Face_handle fh, Triangulation_line_face_circulator_2<Gt, Tds> fc)
+inline bool
+operator!=(typename Tds::Face_handle fh, 
+	   Triangulation_line_face_circulator_2<Gt, Tds> fc)
 {
   return (fc!=fh);
 }
@@ -676,14 +673,9 @@ operator==(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
 template < class Gt, class Tds >
 inline bool
 Triangulation_line_face_circulator_2<Gt,Tds>:: 
-#ifdef CGAL_T2_USE_ITERATOR_AS_HANDLE
-operator!=(CGAL_NULL_TYPE CGAL_triangulation_assertion_code(n)) const
-{
-  CGAL_triangulation_assertion( n == NULL);
-#else
 operator!=(CGAL_NULL_TYPE n) const
 {
-#endif
+  CGAL_triangulation_assertion( n == NULL);
   return !(*this == n);
 }
             

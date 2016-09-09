@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_sphere_d_new/include/CGAL/Min_sphere_d_new.h,v $
 // $Revision: 1.7 $ $Date: 2003/09/18 10:23:17 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Bernd Gärtner, Sven Schönherr <sven@inf.ethz.ch>
 

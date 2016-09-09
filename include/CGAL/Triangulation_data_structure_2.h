@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Triangulation_data_structure_2.h,v $
 // $Revision: 1.33 $ $Date: 2003/10/30 15:33:53 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Mariette Yvinec
 

@@ -82,7 +82,7 @@ private:
   // expand free list.
   void expandFreeList(int howMany = CORE_EXPANSION_SIZE);
 
-// release       : $CGAL_Revision: CGAL-2.5-I-154 $
+// release       : $CGAL_Revision: CGAL-3.0.1 $
   void releaseFreeList(int howMany);
 
   // number of the free element.

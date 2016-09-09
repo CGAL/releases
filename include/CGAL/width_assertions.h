@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Width_3/include/CGAL/width_assertions.h,v $
 // $Revision: 1.3 $ $Date: 2003/09/18 10:26:41 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Thomas Herrmann
 

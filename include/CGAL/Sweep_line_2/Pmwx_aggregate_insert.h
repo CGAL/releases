@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Sweep_line_2/Pmwx_aggregate_insert.h,v $
 // $Revision: 1.18 $ $Date: 2003/09/18 10:19:49 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>
 

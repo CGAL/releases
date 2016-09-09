@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.C,v $
-// $Revision: 1.27 $ $Date: 2003/10/29 15:33:45 $
-// $Name: current_submission $
+// $Revision: 1.27.2.1 $ $Date: 2004/01/17 01:38:40 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -461,8 +461,8 @@ insert_third(const Site_2& p)
 {
   CGAL_triangulation_precondition( number_of_vertices() == 2 );
 
-  Vertex_handle v1(vertices_begin());
-  Vertex_handle v2(++vertices_begin());
+  Vertex_handle v1(finite_vertices_begin());
+  Vertex_handle v2(++finite_vertices_begin());
 
   if ( is_hidden(v1->site(), p) ) {
     v1->add_hidden_site(p);

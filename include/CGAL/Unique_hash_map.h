@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Hash_map/include/CGAL/Unique_hash_map.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:16:37 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 //                 Lutz Kettner <kettner@inf.ethz.ch>

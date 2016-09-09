@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/include/CGAL/MSVC_standard_header_fixes.h,v $
 // $Revision: 1.23 $ $Date: 2003/10/21 12:14:54 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 

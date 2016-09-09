@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/HalfedgeDS/include/CGAL/HalfedgeDS_list.h,v $
 // $Revision: 1.21 $ $Date: 2003/10/21 12:16:33 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 

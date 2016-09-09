@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_site_2.h,v $
-// $Revision: 1.9 $ $Date: 2003/09/18 10:19:25 $
-// $Name: current_submission $
+// $Revision: 1.9.2.1 $ $Date: 2004/01/17 01:38:41 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -85,32 +85,6 @@ operator>>(std::istream& is, Apollonius_site_2<K>& wp)
 
 
 CGAL_END_NAMESPACE
-
-#ifdef CGAL_USE_QT
-
-#include <CGAL/IO/Qt_widget.h>
-
-CGAL_BEGIN_NAMESPACE
-
-template <class K>
-Qt_widget&
-operator<<(Qt_widget &qt_w, const Apollonius_site_2<K>& wp)
-{
-  typedef typename K::Circle_2    Circle_2;
-  typedef typename K::Point_2     Point_2;
-
-  Point_2 p(wp.point());
-  Circle_2 c(p, CGAL::square(wp.weight()));
-  return qt_w << p << c;
-}
-
-CGAL_END_NAMESPACE
-
-
-#endif
-
-
-
 
 #endif // CGAL_APOLLONIUS_SITE_2_H
 

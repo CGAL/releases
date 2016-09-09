@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/IO/File_header.h,v $
 // $Revision: 1.4 $ $Date: 2003/09/18 10:24:39 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 

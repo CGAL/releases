@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/distance_predicates_2.h,v $
 // $Revision: 1.10 $ $Date: 2003/10/21 12:14:26 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Herve Bronnimann
 

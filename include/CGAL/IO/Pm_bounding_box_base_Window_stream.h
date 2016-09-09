@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/IO/Pm_bounding_box_base_Window_stream.h,v $
 // $Revision: 1.2 $ $Date: 2003/09/18 10:24:41 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 

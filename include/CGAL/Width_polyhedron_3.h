@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Width_3/include/CGAL/Width_polyhedron_3.h,v $
 // $Revision: 1.6 $ $Date: 2003/09/18 10:26:40 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Thomas Herrmann, Lutz Kettner
 

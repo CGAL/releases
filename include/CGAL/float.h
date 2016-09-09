@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/float.h,v $
 // $Revision: 1.13 $ $Date: 2003/10/21 12:21:44 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Geert-Jan Giezeman
  

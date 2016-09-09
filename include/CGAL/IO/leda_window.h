@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/window/include/CGAL/IO/leda_window.h,v $
 // $Revision: 1.14 $ $Date: 2003/10/21 12:25:49 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Andreas Fabri
 //                 Stefan Schirra

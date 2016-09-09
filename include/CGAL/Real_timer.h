@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Timer/include/CGAL/Real_timer.h,v $
 // $Revision: 1.11 $ $Date: 2003/10/21 12:24:12 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>  
 //                 Matthias Baesken <baesken@informatik.uni-halle.de>

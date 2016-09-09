@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/_QP_solver/include/CGAL/_QP_solver/Partial_exact_pricing.h,v $
 // $Revision: 1.6 $ $Date: 2003/09/18 10:26:44 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
                                                                                

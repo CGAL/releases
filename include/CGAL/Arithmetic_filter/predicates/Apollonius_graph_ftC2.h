@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Arithmetic_filter/predicates/Apollonius_graph_ftC2.h,v $
 // $Revision: 1.5 $ $Date: 2003/09/18 10:19:28 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 

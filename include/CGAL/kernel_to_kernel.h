@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/kernel_to_kernel.h,v $
 // $Revision: 1.9 $ $Date: 2003/10/21 12:18:24 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Stefan Schirra
  

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arrangement_2.h,v $
 // $Revision: 1.33 $ $Date: 2003/09/18 10:19:42 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Iddo Hanniel, 
 //                 Eti Ezra <estere@post.tau.ac.il>,

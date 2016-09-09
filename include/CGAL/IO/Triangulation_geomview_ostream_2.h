@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/IO/Triangulation_geomview_ostream_2.h,v $
 // $Revision: 1.5 $ $Date: 2003/09/18 10:26:20 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion
 

@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/Gmpq.h,v $
 // $Revision: 1.13 $ $Date: 2003/10/27 13:24:18 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
  

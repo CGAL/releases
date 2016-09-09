@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Alpha_shapes_2/include/CGAL/Alpha_shape_euclidean_traits_2.h,v $
 // $Revision: 1.10 $ $Date: 2003/10/01 19:27:15 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>

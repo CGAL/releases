@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="test_msvc7"
+	Name="MyKernel"
 	ProjectGUID="{7E47FDD3-2BE2-4190-B391-03778A146F31}"
 	Keyword="ManagedCProj">
 	<Platforms>
@@ -35,7 +35,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="CGAL.lib gmp.lib"
-				OutputFile="$(OutDir)/test_msvc7.exe"
+				OutputFile="$(OutDir)/MyKernel.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(CGALROOT)\lib\msvc7&quot;"
 				GenerateDebugInformation="TRUE"/>
@@ -70,13 +70,14 @@
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				MinimalRebuild="FALSE"
 				RuntimeTypeInfo="TRUE"
-				WarningLevel="2"/>
+				WarningLevel="2"
+				CompileAsManaged="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="CGAL.lib gmp.lib"
-				OutputFile="$(OutDir)/test_msvc7.exe"
+				OutputFile="$(OutDir)/MyKernel.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(CGALROOT)\lib\msvc7&quot;"
 				GenerateDebugInformation="TRUE"/>

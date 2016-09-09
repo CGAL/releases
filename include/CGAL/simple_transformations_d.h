@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/simple_transformations_d.h,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:19:13 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Seel
 

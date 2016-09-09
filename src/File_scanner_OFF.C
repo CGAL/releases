@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Polyhedron_IO/src/File_scanner_OFF.C,v $
+// $Source: /CVSROOT/CGAL/Packages/Polyhedron_IO/src/Attic/File_scanner_OFF.C,v $
 // $Revision: 1.5 $ $Date: 2003/09/18 10:25:08 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 

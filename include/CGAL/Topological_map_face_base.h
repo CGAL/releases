@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Topological_map_face_base.h,v $
 // $Revision: 1.3 $ $Date: 2003/09/18 10:24:38 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : ?
 #ifndef  CGAL_TOPOLOGICAL_MAP_FACE_BASE_H

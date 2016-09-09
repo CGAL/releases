@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/include/CGAL/config.h,v $
 // $Revision: 1.48 $ $Date: 2003/10/21 12:14:56 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Wieger Wesselink 
 //                 Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -25,7 +25,7 @@
 #ifndef CGAL_CONFIG_H
 #define CGAL_CONFIG_H
 
-#define CGAL_VERSION 3.0
+#define CGAL_VERSION 3.0.1
 #define CGAL_VERSION_NR 1003000100
 
 

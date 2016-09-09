@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian_converter.h,v $
 // $Revision: 1.17 $ $Date: 2003/10/21 12:14:12 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 //                 Menelaos Karavelas <mkaravel@cse.nd.edu>

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_default_point_location.C,v $
 // $Revision: 1.4 $ $Date: 2003/09/18 10:24:31 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 #ifndef CGAL_PM_DEFAULT_POINT_LOCATION_C

@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_NESTED_CLASS_TEMPLATE_BUG.C,v $
+// $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/Attic/CGAL_CFG_NESTED_CLASS_TEMPLATE_BUG.C,v $
 // $Revision: 1.4 $ $Date: 2003/10/21 12:14:47 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 

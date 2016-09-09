@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arr_segment_traits_2.h,v $
 // $Revision: 1.20 $ $Date: 2003/09/18 10:19:41 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Iddo Hanniel <hanniel@math.tau.ac.il>
 //                 Efi Fogel    <efif@post.tau.ac.il>

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_quadrilateral_2/examples/Min_quadrilateral_2/minimum_enclosing_strip_2_example.C,v $
 // $Revision: 1.28 $ $Date: 2003/09/26 07:33:10 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
 //                 Emo Welzl <emo@inf.ethz.ch>

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/IO/Qt_widget_get_polygon.h,v $
-// $Revision: 1.18 $ $Date: 2003/10/21 12:23:12 $
-// $Name: current_submission $
+// $Revision: 1.16.2.1 $ $Date: 2003/11/07 13:40:39 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Laurent Rineau
 

@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Generator/include/CGAL/generators.h,v $
 // $Revision: 1.4 $ $Date: 2003/10/21 12:15:40 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 

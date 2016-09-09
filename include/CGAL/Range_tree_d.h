@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/SearchStructures/include/CGAL/Range_tree_d.h,v $
 // $Revision: 1.10 $ $Date: 2003/09/18 10:25:35 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Gabriele Neyer
 

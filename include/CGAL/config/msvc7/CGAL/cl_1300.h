@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/wininst/include/CGAL/config/msvc7/CGAL/cl_1300.h,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:26:08 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Radu Ursu
 

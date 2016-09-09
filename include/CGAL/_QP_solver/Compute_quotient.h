@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/_QP_solver/include/CGAL/_QP_solver/Compute_quotient.h,v $
 // $Revision: 1.3 $ $Date: 2003/09/18 10:26:42 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
 

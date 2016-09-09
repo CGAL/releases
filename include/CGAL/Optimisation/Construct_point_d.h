@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Optimisation_basic/include/CGAL/Optimisation/Construct_point_d.h,v $
 // $Revision: 1.6 $ $Date: 2003/10/21 12:22:03 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
 

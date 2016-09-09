@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Optimisation_basic/include/CGAL/Optimisation/Access_dimension_d.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:22:02 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
 

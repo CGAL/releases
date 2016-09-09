@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/HalfedgeDS/include/CGAL/HalfedgeDS_vertex_base.h,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:16:34 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 

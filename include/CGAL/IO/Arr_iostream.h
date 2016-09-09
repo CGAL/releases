@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/Arr_iostream.h,v $
 // $Revision: 1.5 $ $Date: 2003/09/18 10:19:47 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 

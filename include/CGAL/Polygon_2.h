@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2.h,v $
 // $Revision: 1.24 $ $Date: 2003/10/21 12:22:46 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 //                 Wieger Wesselink

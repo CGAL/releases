@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arr_2_bases.h,v $
 // $Revision: 1.6 $ $Date: 2003/09/18 10:19:38 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Iddo Hanniel 
 #ifndef CGAL_ARR_2_BASES_H

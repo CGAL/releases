@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Sweep_line_2/include/CGAL/Sweep_line_2_old.h,v $
 // $Revision: 1.2 $ $Date: 2003/09/18 10:25:48 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 

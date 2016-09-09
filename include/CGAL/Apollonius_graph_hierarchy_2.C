@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_hierarchy_2.C,v $
 // $Revision: 1.18 $ $Date: 2003/10/29 15:33:50 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 

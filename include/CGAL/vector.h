@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/vector.h,v $
 // $Revision: 1.9 $ $Date: 2003/10/21 12:23:43 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@sophia.inria.fr>
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>

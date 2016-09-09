@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/window/include/CGAL/IO/window_stream_xy_3.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:25:50 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Lutz Kettner 
 

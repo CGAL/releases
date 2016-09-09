@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_3/include/CGAL/Delaunay_remove_tds_3.h,v $
 // $Revision: 1.31 $ $Date: 2003/09/18 10:26:23 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     :  Andreas Fabri <Andreas.Fabri@sophia.inria.fr>
 //                  Monique Teillaud <Monique.Teillaud@sophia.inria.fr>

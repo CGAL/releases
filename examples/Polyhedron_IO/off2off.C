@@ -8,8 +8,8 @@
 //
 // ----------------------------------------------------------------------------
 //
-// release       : $CGAL_Revision: CGAL-2.5-I-154 $
-// release_date  : $CGAL_Date: 2003/10/30 $
+// release       : $CGAL_Revision: CGAL-3.0.1 $
+// release_date  : $CGAL_Date: 2004/02/13 $
 //
 // file          : examples/Polyhedron_IO/off2off.C
 // package       : $CGAL_Package: Polyhedron_IO 2.11 (04 Feb 2000) $

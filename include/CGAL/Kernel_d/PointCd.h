@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Kernel_d/PointCd.h,v $
 // $Revision: 1.16 $ $Date: 2003/10/21 12:19:27 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Seel
 #ifndef CGAL_POINTCDXXX_H

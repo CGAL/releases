@@ -1,4 +1,4 @@
-// Copyright (c) 1999  Max-Planck-Institute Saarbrucken (Germany).
+// Copyright (c) 1999  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/ch_bykat.h,v $
-// $Revision: 1.9 $ $Date: 2003/09/18 10:20:22 $
-// $Name: current_submission $
+// $Revision: 1.10 $ $Date: 2003/10/21 12:15:01 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Stefan Schirra
 

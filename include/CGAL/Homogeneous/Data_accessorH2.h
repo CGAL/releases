@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/Data_accessorH2.h,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:16:08 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Stefan Schirra
  

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_default_dcel.h,v $
 // $Revision: 1.8 $ $Date: 2003/09/18 10:24:31 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Iddo Hanniel <hanniel@math.tau.ac.il>
 //                 Oren Nechushtan <theoren@math.tau.ac.il>

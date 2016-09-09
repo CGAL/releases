@@ -19,7 +19,7 @@
 #
 # $Source: /CVSROOT/CGAL/Packages/Interval_arithmetic/scripts/filtered_predicates_generator.pl,v $
 # $Revision: 1.26 $ $Date: 2003/10/22 08:24:26 $
-# $Name: current_submission $
+# $Name:  $
 #
 # Author(s)     : Sylvain Pion
 

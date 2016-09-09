@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arrangement_2/Conic_arc_2.h,v $
 // $Revision: 1.8 $ $Date: 2003/09/18 10:19:43 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
 #ifndef CGAL_CONIC_ARC_2_H

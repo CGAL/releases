@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/Arr_polyline_traits_iostream.h,v $
 // $Revision: 1.10 $ $Date: 2003/09/18 10:19:48 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
 

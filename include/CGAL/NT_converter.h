@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/NT_converter.h,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:21:43 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion
 

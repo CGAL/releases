@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/Quotient.h,v $
 // $Revision: 1.24 $ $Date: 2003/10/21 12:21:43 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
 // The template class Quotient<NT> is based on the LEDA class

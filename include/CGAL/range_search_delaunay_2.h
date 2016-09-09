@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Point_set_2/include/CGAL/range_search_delaunay_2.h,v $
 // $Revision: 1.9 $ $Date: 2003/09/18 10:24:50 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Matthias Baesken
 

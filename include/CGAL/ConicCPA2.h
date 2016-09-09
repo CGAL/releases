@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/ConicCPA2.h,v $
+// $Source: /CVSROOT/CGAL/Packages/Min_ellipse_2/include/CGAL/Attic/ConicCPA2.h,v $
 // $Revision: 1.5 $ $Date: 2003/09/18 10:23:09 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Bernd Gärtner, Sven Schönherr <sven@inf.ethz.ch>
 

@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Cartesian_kernel/include/CGAL/Cartesian/predicates_on_points_3.h,v $
 // $Revision: 1.21 $ $Date: 2003/10/21 12:14:35 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
 

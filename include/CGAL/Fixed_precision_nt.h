@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Fixed_precision_nt/include/CGAL/Fixed_precision_nt.h,v $
 // $Revision: 1.20 $ $Date: 2003/10/21 12:15:36 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Olivier Devillers <Olivivier.Devillers@sophia.inria.fr>
 

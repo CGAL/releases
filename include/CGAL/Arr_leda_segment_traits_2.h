@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arr_leda_segment_traits_2.h,v $
 // $Revision: 1.13 $ $Date: 2003/09/18 10:19:40 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Iddo Hanniel
 //                 Eyal Flato <flato@post.tau.ac.il>

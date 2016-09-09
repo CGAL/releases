@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Simple_Handle_for.h,v $
+// $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Attic/Simple_Handle_for.h,v $
 // $Revision: 1.11 $ $Date: 2003/10/21 12:18:14 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion
 

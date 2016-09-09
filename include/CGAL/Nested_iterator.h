@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/STL_Extension/include/CGAL/Nested_iterator.h,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:23:39 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 

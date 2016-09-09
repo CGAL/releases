@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_insert_utils.h,v $
 // $Revision: 1.8 $ $Date: 2003/09/18 10:24:33 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Tali Zvi          <talizvi@post.tau.ac.il>
 #ifndef CGAL_PM_INSERT_UTILS_H

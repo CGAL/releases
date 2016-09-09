@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_CCTYPE_MACRO_BUG.C,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:14:44 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : various
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2000  Max-Planck-Institute Saarbrucken (Germany).
+// Copyright (c) 2000  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Partition_2/include/CGAL/partition_y_monotone_2.h,v $
-// $Revision: 1.17 $ $Date: 2003/09/18 10:24:28 $
-// $Name: current_submission $
+// $Revision: 1.18 $ $Date: 2003/10/21 12:22:29 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 

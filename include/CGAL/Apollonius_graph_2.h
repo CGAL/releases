@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Apollonius_graph_2.h,v $
-// $Revision: 1.37 $ $Date: 2003/10/29 15:33:47 $
-// $Name: current_submission $
+// $Revision: 1.37.2.1 $ $Date: 2004/01/25 06:03:38 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -564,6 +564,7 @@ public:
     return str;
   }
 
+protected:
   template< class Stream >
   Stream& draw_primal_vertex(const Finite_vertices_iterator& it,
 			     Stream &str) const
@@ -579,6 +580,7 @@ public:
     return str << dual(it);
   }
 
+public:
   template< class Stream >
   Stream& draw_primal_edge(const Finite_edges_iterator& eit,
 			   Stream &str) const
@@ -641,6 +643,7 @@ public:
     return str;
   }
 
+protected:
   template< class Stream >
   Stream& draw_primal_face(All_faces_iterator fit, Stream &str) const
   {

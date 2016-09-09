@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous_converter.h,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:16:06 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 //                 Menelaos Karavelas <mkaravel@cse.nd.edu>

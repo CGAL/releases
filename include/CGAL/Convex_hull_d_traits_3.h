@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Convex_hull_d_traits_3.h,v $
-// $Revision: 1.14 $ $Date: 2003/10/21 12:19:09 $
-// $Name:  $
+// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/Attic/Convex_hull_d_traits_3.h,v $
+// $Revision: 1.14.2.1 $ $Date: 2003/11/17 15:29:45 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CONVEX_HULL_D_TRAITS_3_H

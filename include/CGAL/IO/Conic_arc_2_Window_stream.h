@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/Conic_arc_2_Window_stream.h,v $
 // $Revision: 1.7 $ $Date: 2003/09/18 10:19:48 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
 #ifndef CGAL_CONIC_ARC_2_WINDOW_STREAM_H

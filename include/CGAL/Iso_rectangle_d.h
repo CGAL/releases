@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Spatial_searching/include/CGAL/Iso_rectangle_d.h,v $
 // $Revision: 1.10 $ $Date: 2003/09/18 10:25:42 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Authors       : Hans Tangelder (<hanst@cs.uu.nl>)
 

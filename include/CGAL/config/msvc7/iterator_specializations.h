@@ -15,9 +15,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/wininst/include/CGAL/config/msvc7/iterator_specializations.h,v $
+// $Source: /CVSROOT/CGAL/Packages/wininst/include/CGAL/config/msvc7/Attic/iterator_specializations.h,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:26:04 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : 
 

@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/src/MP_Float.C,v $
-// $Revision: 1.18 $ $Date: 2003/10/21 12:21:52 $
-// $Name: current_submission $
+// $Revision: 1.19.2.2 $ $Date: 2004/02/09 19:33:56 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sylvain Pion
 
@@ -26,6 +26,8 @@
 #include <cmath>
 
 CGAL_BEGIN_NAMESPACE
+
+using std::pair;
 
 const unsigned        log_limb         = 8 * sizeof(MP_Float::limb);
 const MP_Float::limb2 base             = 1 << log_limb;
@@ -276,18 +278,19 @@ sqrt(const MP_Float &d)
   return MP_Float(CGAL_NTS sqrt(CGAL::to_double(d)));
 }
 
-// to_double() returns, not the closest double, but a one bit error is allowed.
-// We guarantee : to_double(MPI(double d)) == d.
-double
-to_double(const MP_Float &b)
+namespace {
+// Returns (first * 2^second), an approximation of b.
+inline
+pair<double, int>
+to_double_exp(const MP_Float &b)
 {
   if (b.is_zero())
-    return 0;
+    return std::make_pair(0.0, 0);
 
   int exp = b.max_exp();
   int steps = std::min(limbs_per_double, b.v.size());
   double d_exp_1 = CGAL_CLIB_STD::ldexp(1.0, - (int) log_limb);
-  double d_exp   = CGAL_CLIB_STD::ldexp(1.0, exp * log_limb);
+  double d_exp   = 1.0;
   double d = 0;
 
   for (int i = exp - 1; i > exp - 1 - steps; i--) {
@@ -295,24 +298,21 @@ to_double(const MP_Float &b)
     d += d_exp * b.of_exp(i);
   }
 
-  return d;
+  return std::make_pair(d, exp * (int) log_limb);
 }
 
-// FIXME : This function deserves proper testing...
-std::pair<double,double>
-to_interval(const MP_Float &b)
+// Returns (first * 2^second), an interval surrounding b.
+inline
+pair<pair<double, double>, int>
+to_interval_exp(const MP_Float &b)
 {
   if (b.is_zero())
-    return std::pair<double,double>(0,0);
+    return std::make_pair(pair<double, double>(0, 0), 0);
 
   int exp = b.max_exp();
   int steps = std::min(limbs_per_double, b.v.size());
   double d_exp_1 = CGAL_CLIB_STD::ldexp(1.0, - (int) log_limb);
-  double d_exp   = CGAL_CLIB_STD::ldexp(1.0, exp * log_limb);
-
-  // We take care of overflow.  The following should be enough.
-  if (!CGAL_NTS is_finite(d_exp))
-    return Interval_nt<false>::largest().pair();
+  double d_exp   = 1.0;
 
   Protect_FPU_rounding<true> P;
   Interval_nt_advanced d = 0;
@@ -341,7 +341,46 @@ to_interval(const MP_Float &b)
     CGAL_assertion(MP_Float(d.inf()) <= b && MP_Float(d.sup()) >= b);
 #endif
 
-  return d.pair();
+  return std::make_pair(d.pair(), (int) (exp * log_limb));
+}
+
+}
+
+// to_double() returns, not the closest double, but a one bit error is allowed.
+// We guarantee : to_double(MP_Float(double d)) == d.
+double
+to_double(const MP_Float &b)
+{
+  pair<double, int> ap = to_double_exp(b);
+  return ap.first * CGAL_CLIB_STD::ldexp(1.0, ap.second);
+}
+
+double
+to_double(const Quotient<MP_Float> &q)
+{
+    pair<double, int> n = to_double_exp(q.numerator());
+    pair<double, int> d = to_double_exp(q.denominator());
+    double scale = CGAL_CLIB_STD::ldexp(1.0, n.second - d.second);
+    return (n.first / d.first) * scale;
+}
+
+// FIXME : This function deserves proper testing...
+pair<double,double>
+to_interval(const MP_Float &b)
+{
+  pair<pair<double, double>, int> ap = to_interval_exp(b);
+  double scale = CGAL_CLIB_STD::ldexp(1.0, ap.second);
+  return (Interval_nt<>(ap.first) * scale).pair();
+}
+
+// FIXME : This function deserves proper testing...
+pair<double,double>
+to_interval(const Quotient<MP_Float> &q)
+{
+  pair<pair<double, double>, int> n = to_interval_exp(q.numerator());
+  pair<pair<double, double>, int> d = to_interval_exp(q.denominator());
+  double scale = CGAL_CLIB_STD::ldexp(1.0, n.second - d.second);
+  return ((Interval_nt<>(n.first) / Interval_nt<>(d.first)) * scale).pair();
 }
 
 std::ostream &

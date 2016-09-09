@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Inventor/include/CGAL/IO/VRML_2_ostream.h,v $
 // $Revision: 1.9 $ $Date: 2003/10/21 12:17:53 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Andreas Fabri
 //                 Lutz Kettner <kettner@inf.ethz.ch>

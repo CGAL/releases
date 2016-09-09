@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Weighted_point.h,v $
 // $Revision: 1.4 $ $Date: 2003/09/18 10:26:19 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Mariette Yvinec
 //                 Sylvain Pion

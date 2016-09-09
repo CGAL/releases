@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/CGAL_CFG_MATCHING_BUG_4.C,v $
 // $Revision: 1.5 $ $Date: 2003/10/21 12:14:47 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Hoffmann
 

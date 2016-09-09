@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Matrix_search/include/CGAL/rectangular_3_center_2.h,v $
 // $Revision: 1.38 $ $Date: 2003/09/29 08:41:47 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 

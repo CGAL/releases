@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Circle_2.h,v $
 // $Revision: 1.12 $ $Date: 2003/10/21 12:18:01 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Andreas Fabri
 //                 Sven Schoenherr

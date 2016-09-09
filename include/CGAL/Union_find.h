@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Union_find/include/CGAL/Union_find.h,v $
 // $Revision: 1.11 $ $Date: 2003/10/21 12:24:54 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>,
 //                 Lutz Kettner <kettner@mpi-sb.mpg.de>

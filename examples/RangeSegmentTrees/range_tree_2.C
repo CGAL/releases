@@ -28,18 +28,18 @@
 // The CGAL Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany) Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : $CGAL_Revision: CGAL-2.5-I-154 $
-// release_date  : $CGAL_Date: 2003/10/30 $
+// release       : $CGAL_Revision: CGAL-3.0.1 $
+// release_date  : $CGAL_Date: 2004/02/13 $
 //
 // file          : examples/RangeSegmentTrees/range_tree_2.C
 // source        : src/examples/RangeSegmentTrees/range_tree_2.C
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2003/04/09 20:30:17 $/
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2003/10/21 12:23:48 $/
 // author(s)     : Gabriele Neyer
 //
 // coordinator   : Peter Widmayer, ETH Zurich

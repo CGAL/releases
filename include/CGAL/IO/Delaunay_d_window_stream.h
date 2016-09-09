@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/IO/Delaunay_d_window_stream.h,v $
-// $Revision: 1.9 $ $Date: 2003/10/21 12:19:14 $
-// $Name:  $
+// $Source: /CVSROOT/CGAL/Packages/Kernel_d/include/CGAL/IO/Attic/Delaunay_d_window_stream.h,v $
+// $Revision: 1.9.2.1 $ $Date: 2003/11/17 15:29:47 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_DELAUNAY_D_WINDOW_STREAM_H

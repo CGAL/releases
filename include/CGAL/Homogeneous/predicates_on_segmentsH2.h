@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/H2/include/CGAL/Homogeneous/predicates_on_segmentsH2.h,v $
 // $Revision: 1.8 $ $Date: 2003/10/21 12:16:15 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Susan Hert
 

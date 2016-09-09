@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Generator/include/CGAL/Random_polygon_traits_2.h,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:15:40 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 

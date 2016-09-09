@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Apollonius_graph_2/include/CGAL/Hyperbola_2.h,v $
-// $Revision: 1.10 $ $Date: 2003/09/18 10:19:25 $
-// $Name: current_submission $
+// $Revision: 1.10.2.1 $ $Date: 2004/01/17 01:38:42 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
 
@@ -27,10 +27,6 @@
 
 #include <CGAL/Apollonius_site_2.h>
 #include <CGAL/Kernel_traits.h>
-
-#ifdef CGAL_USE_QT
-#include <CGAL/IO/Qt_widget.h>
-#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -250,7 +246,8 @@ public:
       }
     }
 
-  void draw_qt(Qt_widget& W) const
+  template<class QTWIDGET>
+  void draw_qt(QTWIDGET& W) const
     {
       std::vector< Point_2 > pleft, pright;
       generate_points_qt(pleft, pright);
@@ -314,15 +311,6 @@ Stream& operator<<(Stream& s, const Hyperbola_2<Gt> &H)
   return s;
 }
 
-#if defined CGAL_USE_QT
-template< class Gt >
-inline
-Qt_widget& operator<<(Qt_widget& s, const Hyperbola_2< Gt > &H)
-{
-  H.draw_qt(s);
-  return s;
-}
-#endif
 
 CGAL_END_NAMESPACE
 

@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Modifier/include/CGAL/Modifier_base.h,v $
 // $Revision: 1.4 $ $Date: 2003/10/21 12:20:49 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 

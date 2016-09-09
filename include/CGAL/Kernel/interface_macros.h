@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Kernel/interface_macros.h,v $
 // $Revision: 1.18 $ $Date: 2003/10/21 12:18:33 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion, Susan Hert
 

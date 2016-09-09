@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Pointer.h,v $
+// $Source: /CVSROOT/CGAL/Packages/Triangulation_2/include/CGAL/Attic/Pointer.h,v $
 // $Revision: 1.12 $ $Date: 2003/09/18 10:26:06 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Olivier Devillers, Mariette Yvinec, Sylvain Pion
 

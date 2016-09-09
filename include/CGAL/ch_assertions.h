@@ -1,4 +1,4 @@
-// Copyright (c) 1999  Max-Planck-Institute Saarbrucken (Germany).
+// Copyright (c) 1999  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Convex_hull_2/include/CGAL/ch_assertions.h,v $
-// $Revision: 1.4 $ $Date: 2003/09/18 10:20:21 $
-// $Name: current_submission $
+// $Revision: 1.5 $ $Date: 2003/10/21 12:15:00 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : script by Geert-Jan Giezeman and Sven Schönherr 
 

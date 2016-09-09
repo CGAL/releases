@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/Segment_overlay_traits.h,v $
-// $Revision: 1.18 $ $Date: 2003/09/18 10:23:32 $
-// $Name: current_submission $
+// $Revision: 1.19 $ $Date: 2003/10/21 12:21:06 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 #ifndef CGAL_SEGMENT_OVERLAY_TRAITS_H

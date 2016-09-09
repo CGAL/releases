@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Trapezoidal_decomposition/include/CGAL/Trapezoidal_decomposition_2.h,v $
 // $Revision: 1.20 $ $Date: 2003/09/18 10:25:54 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 //                 Iddo Hanniel <hanniel@math.tau.ac.il>

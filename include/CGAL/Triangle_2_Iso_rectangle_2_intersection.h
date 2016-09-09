@@ -16,8 +16,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $Source: /CVSROOT/CGAL/Packages/Qt_widget/include/CGAL/Triangle_2_Iso_rectangle_2_intersection.h,v $
-// $Revision: 1.6 $ $Date: 2003/10/21 12:23:00 $
-// $Name: current_submission $
+// $Revision: 1.4.2.1 $ $Date: 2003/11/07 13:40:31 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Radu Ursu<rursu@sophia.inria.fr>
 #ifndef CGAL_TRIANGLE_2_ISO_RECTANGLE_2_INTERSECTION_H

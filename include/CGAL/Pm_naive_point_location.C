@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_naive_point_location.C,v $
 // $Revision: 1.13 $ $Date: 2003/09/18 10:24:34 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Iddo Hanniel <hanniel@post.tau.ac.il>
 //                 Oren Nechushtan <theoren@post.tau.ac.il>

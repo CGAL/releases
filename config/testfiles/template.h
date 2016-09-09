@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Configuration/config/testfiles/template.h,v $
 // $Revision: 1.6 $ $Date: 2003/10/21 12:14:53 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : various
 

@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Kernel_23/include/CGAL/Kernel/function_objects.h,v $
 // $Revision: 1.61 $ $Date: 2003/10/21 12:18:32 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
 

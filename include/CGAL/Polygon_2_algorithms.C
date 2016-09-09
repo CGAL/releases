@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Polygon/include/CGAL/Polygon_2_algorithms.C,v $
 // $Revision: 1.27 $ $Date: 2003/10/21 12:22:46 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
 

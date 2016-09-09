@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Pm_traits_checker.h,v $
 // $Revision: 1.10 $ $Date: 2003/09/18 10:24:36 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Oren Nechushtan	<theoren@math.tau.ac.il>
 /*

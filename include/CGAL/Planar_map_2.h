@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Planar_map/include/CGAL/Planar_map_2.h,v $
 // $Revision: 1.58 $ $Date: 2003/09/18 10:24:29 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Iddo Hanniel      <hanniel@math.tau.ac.il>
 //                 Eyal Flato        <flato@post.tau.ac.il>

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/IO/write_arr.h,v $
 // $Revision: 1.13 $ $Date: 2003/09/18 10:19:49 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Eti Ezra <estere@post.tau.ac.il>
 #ifndef CGAL_IO_WRITE_ARR_H

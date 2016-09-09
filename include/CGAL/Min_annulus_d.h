@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Min_annulus_d/include/CGAL/Min_annulus_d.h,v $
 // $Revision: 1.10 $ $Date: 2003/09/18 10:23:06 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sven Schönherr <sven@inf.ethz.ch>
 

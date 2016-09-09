@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/SearchStructures/include/CGAL/Tree_base.h,v $
 // $Revision: 1.6 $ $Date: 2003/09/18 10:25:37 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Gabriele Neyer
 

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/kdtree/include/CGAL/kdtree_d.h,v $
 // $Revision: 1.5 $ $Date: 2003/09/18 10:27:05 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Sariel Har-Peled (sariel@math.tau.ac.il)
 //                 Eyal Flato (flato@math.tau.ac.il)

@@ -13,7 +13,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Arrangement/include/CGAL/Arr_conic_traits_2.h,v $
 // $Revision: 1.28 $ $Date: 2003/09/18 10:19:38 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
 #ifndef CGAL_ARR_CONIC_TRAITS_2_H

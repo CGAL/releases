@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Number_types/include/CGAL/Number_type_traits.h,v $
 // $Revision: 1.6 $ $Date: 2003/10/21 12:21:43 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Susan Hert, Michael Hoffmann
  

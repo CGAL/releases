@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2000  Max-Planck-Institute Saarbrucken (Germany).
+// Copyright (c) 1997-2000  Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,9 +11,9 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/Polynomial.h,v $
-// $Revision: 1.36 $ $Date: 2003/09/18 10:23:31 $
-// $Name: current_submission $
+// $Source: /CVSROOT/CGAL/Packages/Nef_2/include/CGAL/Nef_2/Attic/Polynomial.h,v $
+// $Revision: 1.37 $ $Date: 2003/10/21 12:21:05 $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>

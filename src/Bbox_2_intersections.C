@@ -17,7 +17,7 @@
 //
 // $Source: /CVSROOT/CGAL/Packages/Intersections_2/src/Bbox_2_intersections.C,v $
 // $Revision: 1.7 $ $Date: 2003/10/21 12:17:06 $
-// $Name: current_submission $
+// $Name: CGAL_3_0_1  $
 //
 // Author(s)     : Geert-Jan Giezeman
 
