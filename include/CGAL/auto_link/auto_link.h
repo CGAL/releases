@@ -21,8 +21,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/include/CGAL/auto_link/auto_link.h $
-// $Id: auto_link.h 42798 2008-04-08 19:24:28Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Installation/include/CGAL/auto_link/auto_link.h $
+// $Id: auto_link.h 56829 2010-06-17 09:13:20Z lrineau $
 // 
 // Author(s)     : Fernando Cacciola (fernando.cacciola@geometryfactory.com)
 /*************************************************************************
@@ -138,10 +138,15 @@ CGAL_LIB_RT_OPT:     A suffix that indicates the runtime library used,
    // vc80:
 #  define CGAL_LIB_TOOLSET "vc80"
 
-#elif defined(BOOST_MSVC) && (BOOST_MSVC >= 1500)
+#elif defined(BOOST_MSVC) && (BOOST_MSVC == 1500)
 
    // vc90:
 #  define CGAL_LIB_TOOLSET "vc90"
+
+#elif defined(BOOST_MSVC) && (BOOST_MSVC >= 1600)
+
+   // vc10:
+#  define CGAL_LIB_TOOLSET "vc100"
 
 #elif defined(__BORLANDC__)
 

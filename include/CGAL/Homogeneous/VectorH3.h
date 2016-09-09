@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH3.h $
-// $Id: VectorH3.h 49057 2009-04-30 14:03:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH3.h $
+// $Id: VectorH3.h 56795 2010-06-16 13:05:02Z lrineau $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -51,7 +51,7 @@ class VectorH3
 
 public:
 
-  typedef Cartesian_const_iterator_d<const RT*> Cartesian_const_iterator;
+  typedef Cartesian_const_iterator_d<typename Rep::const_iterator> Cartesian_const_iterator;
 
   typedef R_                 R;
 

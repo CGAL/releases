@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/global_parameters.h $
-// $Id: global_parameters.h 53413 2009-12-15 13:19:38Z stayeb $
+// $Id: global_parameters.h 56552 2010-06-03 09:57:44Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -23,6 +23,8 @@
 
 #ifndef CGAL_MESH_3_GLOBAL_PARAMETERS_H
 #define CGAL_MESH_3_GLOBAL_PARAMETERS_H
+
+#include <CGAL/config.h>
 
 #define BOOST_PARAMETER_MAX_ARITY 8
 #include <boost/parameter.hpp>
@@ -43,13 +45,13 @@ private:
   
 #define CGAL_MESH_BOOLEAN_PARAMETER(Class, function_true, function_false)     \
   struct Class : public Base<bool> { Class(bool b) : Base<bool>(b){} };       \
-  Class function_true() { return Class(true); }                               \
-  Class function_false() { return Class(false); }
+  inline Class function_true() { return Class(true); }                        \
+  inline Class function_false() { return Class(false); }
 
 #define CGAL_MESH_DOUBLE_PARAMETER(Class, function, precondition)             \
   struct Class : public Base<double>                                          \
   { Class(double d) : Base<double>(d) { precondition(d); } };                 \
-  Class function(double d) { return Class(d); }                               
+  inline Class function(double d) { return Class(d); }
 
 BOOST_PARAMETER_NAME( c3t3 )
 BOOST_PARAMETER_NAME( domain )

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Triangle_3.h $
-// $Id: Triangle_3.h 42932 2008-04-17 10:13:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Triangle_3.h $
+// $Id: Triangle_3.h 56955 2010-06-22 07:22:56Z sloriot $
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -88,12 +88,15 @@ public:
     return R().has_on_3_object()(*this, p);
   }
 
-  Point_3 vertex(int i) const // TODO : use Qrt
+
+  typename Qualified_result_of<typename R::Construct_vertex_3, Triangle_3 >::type
+  vertex(int i) const
   {
     return R().construct_vertex_3_object()(*this, i);
   }
 
-  Point_3 operator[](int i) const // TODO : use Qrt
+  typename Qualified_result_of<typename R::Construct_vertex_3, Triangle_3 >::type
+  operator[](int i) const
   {
     return vertex(i);
   }

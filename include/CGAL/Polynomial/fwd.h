@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/fwd.h $
-// $Id: fwd.h 51456 2009-08-24 17:10:04Z spion $
+// $Id: fwd.h 55605 2010-04-21 10:05:02Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer 
@@ -29,14 +29,12 @@ namespace CGAL{
 template <class NT> class Polynomial; 
 
 namespace internal{
-template <class NT> inline Polynomial<NT> gcd (const Polynomial<NT>&, const Polynomial<NT>&);
+template <class NT> inline Polynomial<NT> gcd_(const Polynomial<NT>&, const Polynomial<NT>&);
 template <class NT> inline Polynomial<NT> gcd_(const Polynomial<NT>&, const Polynomial<NT>&, Field_tag);
 template <class NT> inline Polynomial<NT> gcd_(const Polynomial<NT>&, const Polynomial<NT>&, Unique_factorization_domain_tag);
 
 
 template <class NT> inline NT gcd_utcf_(const NT& a, const NT& b){return NT(1);}
-template <class NT> inline Polynomial<NT> gcd_utcf(const Polynomial<NT>&, const Polynomial<NT>&);
-
 template <class NT> inline Polynomial<NT> gcd_utcf_(const Polynomial<NT>&, const Polynomial<NT>&);
 template <class NT> inline Polynomial<NT> gcd_utcf_UFD( Polynomial<NT> , Polynomial<NT>) ;
 template <class NT> inline Polynomial<NT> gcd_utcf_Integral_domain(Polynomial<NT>, Polynomial<NT>);
@@ -52,11 +50,11 @@ template <class NT> inline Polynomial<NT> gcd_utcf_is_fraction_( const Polynomia
 // is type modularizable 
 template <class NT> inline Polynomial<NT> gcd_utcf_modularizable_algebra_( const Polynomial<NT>&, const Polynomial<NT>&, ::CGAL::Tag_false, Integral_domain_tag);
 template <class NT> inline Polynomial<NT> gcd_utcf_modularizable_algebra_( const Polynomial<NT>&, const Polynomial<NT>&, ::CGAL::Tag_false, Unique_factorization_domain_tag);
-template <class NT> inline Polynomial<NT> gcd_utcf_modularizable_algebra_( const Polynomial<NT>&, const Polynomial<NT>&, ::CGAL::Tag_false, Field_tag);
+template <class NT> inline Polynomial<NT> gcd_utcf_modularizable_algebra_( const Polynomial<NT>&, const Polynomial<NT>&, ::CGAL::Tag_false, Euclidean_ring_tag);
 
 template <class NT> inline Polynomial<NT> gcd_utcf_modularizable_algebra_( const Polynomial<NT>&, const Polynomial<NT>&, ::CGAL::Tag_true, Integral_domain_tag);
 template <class NT> inline Polynomial<NT> gcd_utcf_modularizable_algebra_( const Polynomial<NT>&, const Polynomial<NT>&, ::CGAL::Tag_true, Unique_factorization_domain_tag);
-template <class NT> inline Polynomial<NT> gcd_utcf_modularizable_algebra_( const Polynomial<NT>&, const Polynomial<NT>&, ::CGAL::Tag_true, Field_tag);
+template <class NT> inline Polynomial<NT> gcd_utcf_modularizable_algebra_( const Polynomial<NT>&, const Polynomial<NT>&, ::CGAL::Tag_true, Euclidean_ring_tag);
 
 
 // template <class NT> inline NT content_utcf(const Polynomial<NT>&);

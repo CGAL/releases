@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Sliver_perturber.h $
-// $Id: Sliver_perturber.h 53655 2010-01-18 16:45:54Z lrineau $
+// $Id: Sliver_perturber.h 56551 2010-06-03 09:11:44Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -40,10 +40,12 @@
 #include <CGAL/Mesh_3/vertex_perturbation.h>
 #include <CGAL/Mesh_3/C3T3_helpers.h>
 #include <CGAL/Mesh_optimization_return_code.h>
+#include <CGAL/Timer.h>
 
 #include <boost/pending/relaxed_heap.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/lambda/bind.hpp>
+#include <boost/ptr_container/ptr_vector.hpp>
 
 
 CGAL_BEGIN_NAMESPACE

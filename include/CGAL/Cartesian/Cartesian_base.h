@@ -16,7 +16,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h $
-// $Id: Cartesian_base.h 52591 2009-10-16 12:07:18Z spion $
+// $Id: Cartesian_base.h 56795 2010-06-16 13:05:02Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -136,8 +136,8 @@ struct Cartesian_base
     typedef CircleC3<Kernel>                            Circle_3;
     typedef Aff_transformationC3<Kernel>                Aff_transformation_3;
 
-    typedef const FT_*                                  Cartesian_const_iterator_2;
-    typedef const FT_*                                  Cartesian_const_iterator_3;
+    typedef typename cpp0x::array<FT_, 2>::const_iterator Cartesian_const_iterator_2;
+    typedef typename cpp0x::array<FT_, 3>::const_iterator Cartesian_const_iterator_3;
 
     // Undocumented stuff.
     typedef Data_accessorC2<Kernel>                     Data_accessor_2;

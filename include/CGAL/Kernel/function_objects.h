@@ -17,7 +17,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Kernel_23/include/CGAL/Kernel/function_objects.h $
-// $Id: function_objects.h 51512 2009-08-26 11:31:51Z lrineau $
+// $Id: function_objects.h 56955 2010-06-22 07:22:56Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion
@@ -1837,7 +1837,7 @@ namespace CommonKernelFunctors {
   };
 
   template <typename K>
-  class Construct_vertex_3
+  class Construct_vertex_3 : Has_qrt
   {
     typedef typename K::Point_3          Point_3;
     typedef typename K::Segment_3        Segment_3;
@@ -2711,6 +2711,11 @@ namespace CommonKernelFunctors {
   };
 
 } // namespace CommonKernelFunctors
+
+  template <class K>
+  struct Qualified_result_of<CommonKernelFunctors::Construct_vertex_3<K>,Iso_cuboid_3<K> > :
+    qrt_or_not<typename CommonKernelFunctors::Construct_vertex_3<K>,false>
+  {};
 
 CGAL_END_NAMESPACE
 

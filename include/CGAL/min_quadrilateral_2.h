@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_quadrilateral_2/include/CGAL/min_quadrilateral_2.h $
-// $Id: min_quadrilateral_2.h 48717 2009-04-08 11:54:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Min_quadrilateral_2/include/CGAL/min_quadrilateral_2.h $
+// $Id: min_quadrilateral_2.h 56895 2010-06-20 21:16:40Z lrineau $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
@@ -331,10 +331,10 @@ namespace Optimisation {
     typedef boost::function2<bool,Direction_2,Direction_2>
       Less_angle_with_x_axis_2;
     Less_angle_with_x_axis_2 less_angle_with_x_axis_2_object() const {
-      using boost::bind;
-      return bind(std::equal_to<Comparison_result>(), 
-		  bind(compare_angle_with_x_axis_2_object(), _1, _2),
-		  SMALLER);
+      return boost::bind(std::equal_to<Comparison_result>(), 
+                         boost::bind(compare_angle_with_x_axis_2_object(),
+                                     _1, _2),
+                         SMALLER);
     }
 
   };

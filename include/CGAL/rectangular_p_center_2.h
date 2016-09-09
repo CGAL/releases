@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/rectangular_p_center_2.h $
-// $Id: rectangular_p_center_2.h 48717 2009-04-08 11:54:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Matrix_search/include/CGAL/rectangular_p_center_2.h $
+// $Id: rectangular_p_center_2.h 56908 2010-06-21 10:05:32Z afabri $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -321,7 +321,6 @@ rectangular_p_center_2_matrix_search(
 {
   typedef typename Traits::FT FT;
   using std::minus;
-  using boost::bind;
 
   return rectangular_p_center_2_matrix_search(
     f,
@@ -330,7 +329,7 @@ rectangular_p_center_2_matrix_search(
     r,
     pf,
     t,
-    bind(Max<FT>(), 0, bind(minus<FT>(), _1, _2)));
+    boost::bind(Max<FT>(), 0, boost::bind(minus<FT>(), _1, _2)));
 
 } // Pcenter_matrix_search( ... )
 

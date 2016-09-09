@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Inventor/include/CGAL/IO/VRML_2_ostream.h $
-// $Id: VRML_2_ostream.h 47017 2008-11-25 10:24:36Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Inventor/include/CGAL/IO/VRML_2_ostream.h $
+// $Id: VRML_2_ostream.h 56414 2010-05-21 17:16:35Z reichel $
 //
 // Author(s)     : Andreas Fabri
 //                 Lutz Kettner <kettner@inf.ethz.ch>
@@ -130,7 +130,6 @@ operator<<(VRML_2_ostream& os,
              "                        IndexedFaceSet {\n"
              "                            coord Coordinate {\n"
              "                                point [ \n"
-          << Indent << "point [\n"
           << Indent << "  "
           << CGAL::to_double(t[0].x()) << " "
           << CGAL::to_double(t[0].y()) << " "
@@ -146,7 +145,7 @@ operator<<(VRML_2_ostream& os,
           << Indent << "  "
           << CGAL::to_double(t[3].x()) << " "
           << CGAL::to_double(t[3].y()) << " "
-          << CGAL::to_double(t[3].z()) << " ]"
+          << CGAL::to_double(t[3].z()) <<
              "\n                                ]\n"
              "                            }\n"
              "                            solid   FALSE\n"

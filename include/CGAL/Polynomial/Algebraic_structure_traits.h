@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/Algebraic_structure_traits.h $
-// $Id: Algebraic_structure_traits.h 53196 2009-11-26 10:07:09Z penarand $
+// $Id: Algebraic_structure_traits.h 55809 2010-04-28 11:28:40Z hemmer $
 //
 //
 // Author(s)     : Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -32,14 +32,6 @@
 #include <CGAL/Polynomial/modular_filter.h>
 
 CGAL_BEGIN_NAMESPACE
-
-// Extend to a UFDomain as coefficient range
-// Forward declaration for <NiX/polynomial_gcd.h> for NT_traits<Poly...>::Gcd
-namespace internal {
-template <class NT> inline
-Polynomial<NT> gcd(const Polynomial<NT>&, const Polynomial<NT>&);
-} // namespace internal
-
 
 // Now we wrap up all of this in the actual NT_traits
 // specialization for Polynomial<NT>
@@ -236,7 +228,7 @@ class Polynomial_algebraic_structure_traits_base< POLY, Unique_factorization_dom
         return idiv(x,upart(x));
       
       if (internal::may_have_common_factor(x,y))
-        return internal::gcd(x,y);
+        return internal::gcd_(x,y);
       else{        
         typename Algebraic_structure_traits<ICoeff>::Algebraic_category category;  
         return POLY(gcd_help(Mcontent()(x),Mcontent()(y), category));

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Mesh_2/Refine_faces.h $
-// $Id: Refine_faces.h 46618 2008-11-02 20:43:30Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_2/include/CGAL/Mesh_2/Refine_faces.h $
+// $Id: Refine_faces.h 56284 2010-05-17 12:29:15Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -67,7 +67,22 @@ protected: // --- PROTECTED TYPES ---
 
   /** \name typedefs for private members types */
 
-  typedef CGAL::Double_map<Face_handle, Quality> Bad_faces;
+  struct Face_compare {
+    bool operator()(const Face_handle& fh1, const Face_handle& fh2) const {
+      if(fh1->vertex(0)->point() < fh2->vertex(0)->point())
+        return true;
+      else if(fh1->vertex(0)->point() == fh2->vertex(0)->point()) {
+        if(fh1->vertex(1)->point() < fh2->vertex(1)->point())
+          return true;
+        else if(fh1->vertex(1)->point() == fh2->vertex(1)->point() &&
+                fh1->vertex(2)->point() < fh2->vertex(2)->point())
+          return true;
+      }
+      return false;
+    }
+  };
+  
+  typedef CGAL::Double_map<Face_handle, Quality, Face_compare> Bad_faces;
 
 protected:
   // --- PROTECTED MEMBER DATAS ---

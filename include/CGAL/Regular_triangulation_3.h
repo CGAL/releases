@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 53827 2010-01-27 14:35:38Z lrineau $
+// $Id: Regular_triangulation_3.h 56866 2010-06-18 09:38:50Z afabri $
 //
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -820,9 +820,9 @@ side_of_oriented_power_sphere(const Weighted_point &p0,
     // We sort the points lexicographically.
     const Weighted_point * points[5] = {&p0, &p1, &p2, &p3, &p};
     std::sort(points, points + 5,
-              bind(geom_traits().compare_xyz_3_object(),
-                   bind(Dereference<Weighted_point>(), _1),
-                   bind(Dereference<Weighted_point>(), _2)) == SMALLER);
+              boost::bind(geom_traits().compare_xyz_3_object(),
+                          boost::bind(Dereference<Weighted_point>(), _1),
+                          boost::bind(Dereference<Weighted_point>(), _2)) == SMALLER);
 
     // We successively look whether the leading monomial, then 2nd monomial
     // of the determinant has non null coefficient.
@@ -930,9 +930,9 @@ side_of_oriented_power_circle(const Weighted_point &p0,
     // We sort the points lexicographically.
     const Weighted_point * points[4] = {&p0, &p1, &p2, &p};
     std::sort(points, points + 4,
-              bind(geom_traits().compare_xyz_3_object(),
-                   bind(Dereference<Weighted_point>(), _1),
-                   bind(Dereference<Weighted_point>(), _2)) == SMALLER);
+              boost::bind(geom_traits().compare_xyz_3_object(),
+                          boost::bind(Dereference<Weighted_point>(), _1),
+                          boost::bind(Dereference<Weighted_point>(), _2)) == SMALLER);
 
     // We successively look whether the leading monomial, then 2nd monomial
     // of the determinant has non null coefficient.

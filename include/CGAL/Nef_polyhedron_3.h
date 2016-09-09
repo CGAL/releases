@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_polyhedron_3.h $
-// $Id: Nef_polyhedron_3.h 50208 2009-06-30 09:40:14Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Nef_3/include/CGAL/Nef_polyhedron_3.h $
+// $Id: Nef_polyhedron_3.h 56321 2010-05-18 09:17:38Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -916,11 +916,11 @@ protected:
      	
 	Halffacet_const_handle f = opposite_facet->twin();
 
-	B.begin_facet();
 	fc = f->facet_cycles_begin();
 	se = SHalfedge_const_handle(fc);
 	CGAL_assertion(se!=0);
 	if(omit_vertex[se->source()->source()]) return;
+	B.begin_facet();
 	SHalfedge_around_facet_const_circulator hc_start(se);
 	SHalfedge_around_facet_const_circulator hc_end(hc_start);
 	CGAL_For_all(hc_start,hc_end) {

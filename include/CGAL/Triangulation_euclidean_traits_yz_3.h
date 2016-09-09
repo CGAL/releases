@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_yz_3.h $
-// $Id: Triangulation_euclidean_traits_yz_3.h 48844 2009-04-21 18:28:04Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_yz_3.h $
+// $Id: Triangulation_euclidean_traits_yz_3.h 57048 2010-06-24 08:45:57Z sloriot $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -66,6 +66,31 @@ public:
     }
 };
 
+template <class R>
+class Compare_distance_yz_3
+{
+public:
+  typedef typename R::Point_3   Point_3; 
+  typedef typename R::Point_2   Point_2;   
+  typedef typename R::FT        RT;
+  typename R::FT x(const Point_3 &p) const { return p.y(); }
+  typename R::FT y(const Point_3 &p) const { return p.z(); }
+
+  Point_2 project(const Point_3& p) const
+  {
+    return Point_2(x(p),y(p));
+  }
+
+  Comparison_result operator()(const Point_3& p,const Point_3& q,const Point_3& r) const
+  {
+    Point_2 p2 = project(p);
+    Point_2 q2 = project(q);
+    Point_2 r2 = project(r);
+    return compare_distance_to_point(p2,q2,r2);
+  }
+};
+
+
 template < class R >
 class Triangulation_euclidean_traits_yz_3 {
 public:
@@ -81,6 +106,7 @@ public:
   typedef typename Rp::Compare_z_3          Compare_y_2;
   typedef Orientation_yz_3<Rp>              Orientation_2;
   typedef Side_of_oriented_circle_yz_3<Rp>  Side_of_oriented_circle_2;
+  typedef Compare_distance_yz_3<Rp>         Compare_distance_2;
   typedef typename Rp::Construct_segment_3   Construct_segment_2;
   typedef typename Rp::Construct_triangle_3  Construct_triangle_2;
 
@@ -128,6 +154,12 @@ public:
 
   Construct_triangle_2  construct_triangle_2_object() const
     {return Construct_triangle_2();}
+
+  Compare_distance_2
+  compare_distance_2_object() const
+  {
+    return Compare_distance_2();
+  }    
 };
 
 

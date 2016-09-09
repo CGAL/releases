@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/dihedral_angle_3.h $
-// $Id: dihedral_angle_3.h 52705 2009-10-23 10:27:15Z stayeb $
+// $Id: dihedral_angle_3.h 56552 2010-06-03 09:57:44Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -20,6 +20,7 @@
 #ifndef CGAL_MESH_3_DIHEDRAL_ANGLE_3_H
 #define CGAL_MESH_3_DIHEDRAL_ANGLE_3_H
 
+#include <CGAL/number_type_basic.h>
 #include <CGAL/Kernel_traits.h>
 #include <cmath>
 

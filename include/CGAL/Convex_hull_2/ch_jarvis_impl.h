@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_jarvis_impl.h $
-// $Id: ch_jarvis_impl.h 42460 2008-03-11 14:45:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Convex_hull_2/include/CGAL/Convex_hull_2/ch_jarvis_impl.h $
+// $Id: ch_jarvis_impl.h 56865 2010-06-18 09:11:49Z afabri $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -68,7 +68,7 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
       Point previous_point = start_p; ) 
 
   ForwardIterator it = std::min_element( first, last, 
-                                         bind(rotation_predicate, boost::cref(start_p), _1, _2) );
+                                         boost::bind(rotation_predicate, boost::cref(start_p), _1, _2) );
   while (! equal_points(*it, stop_p) )
   {
       CGAL_ch_exactness_assertion( \
@@ -83,7 +83,7 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
           constructed_points <= count_points + 1 );
 
       it = std::min_element( first, last, 
-                             bind(rotation_predicate, *it, _1, _2) );
+                             boost::bind(rotation_predicate, *it, _1, _2) );
   } 
   CGAL_ch_postcondition( \
       is_ccw_strongly_convex_2( res.output_so_far_begin(), \

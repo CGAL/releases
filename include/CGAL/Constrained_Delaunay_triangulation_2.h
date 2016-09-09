@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h $
-// $Id: Constrained_Delaunay_triangulation_2.h 53845 2010-01-27 16:43:40Z lrineau $
+// $Id: Constrained_Delaunay_triangulation_2.h 56638 2010-06-08 11:27:58Z sloriot $
 // 
 //
 // Author(s)     : Mariette Yvinec, Jean Daniel Boissonnat
@@ -65,6 +65,7 @@ public:
   using Ctr::ccw;
   using Ctr::infinite_vertex;
   using Ctr::side_of_oriented_circle;
+  using Ctr::push_back;
 #endif
 
   typedef typename Geom_traits::Point_2  Point;

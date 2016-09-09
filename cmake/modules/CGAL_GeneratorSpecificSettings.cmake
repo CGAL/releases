@@ -6,9 +6,28 @@ if ( NOT CGAL_GENERATOR_SPECIFIC_SETTINGS_FILE_INCLUDED )
   if ( MSVC )
     message( STATUS "Target build enviroment supports auto-linking" )
     set(CGAL_AUTO_LINK_ENABLED TRUE)
+
+    if(NOT CGAL_CONFIG_LOADED)
+      if(MSVC10)
+        set(CGAL_AUTO_LINK_GMP FALSE
+          CACHE BOOL "Enable/Disable auto-linking for the external library GMP")
+
+        set(CGAL_AUTO_LINK_MPFR FALSE
+          CACHE BOOL "Enable/Disable auto-linking for the external library MPFR")
+      else(MSVC10)
+        set(CGAL_AUTO_LINK_GMP TRUE
+          CACHE BOOL "Enable/Disable auto-linking for the external library GMP")
+
+        set(CGAL_AUTO_LINK_MPFR TRUE
+          CACHE BOOL "Enable/Disable auto-linking for the external library MPFR")
+      endif(MSVC10)
+    endif()
   endif()
 
-  if ( MSVC90 )  
+  if ( MSVC10 )  
+    set(CGAL_TOOLSET "vc100")
+    message( STATUS "Using VC10 compiler." )
+  elseif ( MSVC90 )  
     set(CGAL_TOOLSET "vc90")
     message( STATUS "Using VC90 compiler." )
   elseif ( MSVC80 )  

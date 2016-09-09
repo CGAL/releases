@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial/square_free_factorize.h $
-// $Id: square_free_factorize.h 52628 2009-10-20 08:59:26Z lrineau $
+// $Id: square_free_factorize.h 55809 2010-04-28 11:28:40Z hemmer $
 //
 //
 // Author(s)     :  Michael Hemmer
@@ -180,7 +180,7 @@ inline int square_free_factorize_for_regular_polynomial_
 
     POLY a = CGAL::canonicalize(p);
     POLY b = diff(a);
-    POLY c = CGAL::internal::gcd_utcf(a, b);
+    POLY c = CGAL::internal::gcd_utcf_(a, b);
 
     if (c == Coeff(1)) {
         *factors = a;
@@ -209,7 +209,7 @@ inline int square_free_factorize_for_regular_polynomial_
     POLY g;
 
     while (!z.is_zero()) {
-        g = CGAL::internal::gcd_utcf(w, z);
+        g = CGAL::internal::gcd_utcf_(w, z);
         if (g.degree() > 0) {
             *factors++ = g;
             *multiplicities++ = i;

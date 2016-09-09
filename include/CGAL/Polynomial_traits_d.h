@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Polynomial/include/CGAL/Polynomial_traits_d.h $
-// $Id: Polynomial_traits_d.h 53644 2010-01-16 16:31:25Z eric $
+// $Id: Polynomial_traits_d.h 55809 2010-04-28 11:28:40Z hemmer $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -1121,7 +1121,7 @@ struct Construct_innermost_coefficient_const_iterator_range
       }
       // apply modular filter first
       if (internal::may_have_common_factor(p,q)){
-        return internal::gcd_utcf(p,q);
+        return internal::gcd_utcf_(p,q);
       }else{
         return Polynomial_d(1);
       }

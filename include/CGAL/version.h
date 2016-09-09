@@ -26,9 +26,9 @@
 #define CGAL_xstr(s) #s
 #define CGAL_str(s) CGAL_xstr(s)
 
-#define CGAL_VERSION 3.6
-#define CGAL_VERSION_NR 1030601000
-#define CGAL_SVN_REVISION 54837
+#define CGAL_VERSION 3.6.1
+#define CGAL_VERSION_NR 1030611000
+#define CGAL_SVN_REVISION 57223
 #define CGAL_VERSION_STR CGAL_str(CGAL_VERSION)
 
 #endif

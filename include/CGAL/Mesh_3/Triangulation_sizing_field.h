@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/Triangulation_sizing_field.h $
-// $Id: Triangulation_sizing_field.h 53217 2009-11-27 10:09:55Z stayeb $
+// $Id: Triangulation_sizing_field.h 56552 2010-06-03 09:57:44Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -26,6 +26,8 @@
 #define CGAL_MESH_3_TRIANGULATION_SIZING_FIELD_H
 
 #include <CGAL/Triangulation_cell_base_3.h>
+#include <CGAL/Triangulation_data_structure_3.h>
+#include <CGAL/Regular_triangulation_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 
 #include <boost/iterator/transform_iterator.hpp>

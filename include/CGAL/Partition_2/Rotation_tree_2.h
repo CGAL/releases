@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Partition_2/include/CGAL/Partition_2/Rotation_tree_2.h $
-// $Id: Rotation_tree_2.h 51456 2009-08-24 17:10:04Z spion $
+// $Id: Rotation_tree_2.h 56896 2010-06-20 21:18:29Z lrineau $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -57,7 +57,8 @@ public:
       for (ForwardIterator it = first; it != beyond; it++)
          push_back(*it);
    
-      std::sort(this->begin(), this->end(), bind(Traits().less_xy_2_object(), _2, _1));
+      std::sort(this->begin(), this->end(), 
+                boost::bind(Traits().less_xy_2_object(), _2, _1));
       std::unique(this->begin(), this->end());
    
       // front() is the point with the largest x coordinate

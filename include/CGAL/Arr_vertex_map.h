@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_vertex_map.h $
-// $Id: Arr_vertex_map.h 53436 2009-12-15 23:14:31Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Arrangement_on_surface_2/include/CGAL/Arr_vertex_map.h $
+// $Id: Arr_vertex_map.h 54861 2010-03-22 21:44:31Z lrineau $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -26,6 +26,7 @@
  */
 
 #include <CGAL/Unique_hash_map.h>
+#include <boost/version.hpp>
 #if BOOST_VERSION >= 104000
 #include <boost/property_map/property_map.hpp>
 #else

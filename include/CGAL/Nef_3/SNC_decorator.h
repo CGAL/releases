@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESISGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_decorator.h $
-// $Id: SNC_decorator.h 45448 2008-09-09 16:03:25Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Nef_3/include/CGAL/Nef_3/SNC_decorator.h $
+// $Id: SNC_decorator.h 56321 2010-05-18 09:17:38Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -729,6 +729,7 @@ class SNC_decorator : public SNC_const_decorator<Map> {
 	if(hfci.is_shalfedge()) {
 	  SHalfedge_handle sheh(hfci);
 	  valid = valid && (sheh != SHalfedge_handle());
+// TODO	  valid = valid && ( is_boundary_object(sheh) );
 	  SHalfedge_around_facet_circulator shec1(sheh), shec2(shec1);
        	  CGAL_For_all(shec1, shec2) {
 	    CGAL_assertion(!SEinUniqueFC[shec1]);
@@ -803,12 +804,14 @@ class SNC_decorator : public SNC_const_decorator<Map> {
 
     SFace_iterator sf;
     CGAL_forall_sfaces(sf,*sncp()) {
-      SM_decorator SD;
+		SM_decorator SD(&*sf->center_vertex());
       valid = valid && (sf->volume()->mark() == sf->mark());
       SFace_cycle_iterator sfc;
       for(sfc=sf->sface_cycles_begin();sfc!=sf->sface_cycles_end();++sfc)
-	if(sfc.is_shalfedge())
-	  valid = valid && (sf==SHalfedge_handle(sfc)->incident_sface());
+		  if(sfc.is_shalfedge()) {
+			  valid = valid && (SD.is_sm_boundary_object(SHalfedge_handle(sfc)));
+			  valid = valid && (sf==SHalfedge_handle(sfc)->incident_sface());
+		  }
     }
 
     verr << "end of CGAL::SNC_decorator<...>::is_valid(): structure is "

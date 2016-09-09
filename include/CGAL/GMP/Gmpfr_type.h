@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 // 
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/GMP/Gmpfr_type.h $
-// $Id: Gmpfr_type.h 53524 2009-12-22 15:20:05Z penarand $
+// $Id: Gmpfr_type.h 56897 2010-06-20 21:19:17Z lrineau $
 // 
 // Author: Luis Peñaranda <luis.penaranda@loria.fr>
 
@@ -244,7 +244,26 @@ class Gmpfr:
         _GMPFR_CONSTRUCTOR_FROM_TYPE(unsigned,mpfr_set_ui);
         _GMPFR_CONSTRUCTOR_FROM_TYPE(unsigned long,mpfr_set_ui);
         _GMPFR_CONSTRUCTOR_FROM_TYPE(double,mpfr_set_d);
+
+        // With the MSVC compiler, 'long double' and 'double' are two
+        // different types, but with the same size: sizeof(long double)==8.
+        // For that reason, the cast of a long double to a double is
+        // exact.
+        // What is more, if one compile the mpfr library with mingw(32|64),
+        // on Windows, this compiler has sizeof(long double)==16, as
+        // gcc/g++ on Linux, and the produces libmpfr-1.dll has a symbol
+        // mpfr_set_ld which is binary incompatible with a call from MSVC.
+        // For those two reason, the constructor from 'long
+        // double' calls 'mpfr_set_l' on MSVC, instead of 'mpfr_set_ld'.
+        // That should not modify the semantic of a CGAL program, but
+        // only avoid the binary incompatibility of a CGAL program compiled
+        // with MSVC with the libmpfr-1.dll compiled with mingw.
+#ifdef _MSC_VER
+        _GMPFR_CONSTRUCTOR_FROM_TYPE(long double,mpfr_set_d);
+#else
         _GMPFR_CONSTRUCTOR_FROM_TYPE(long double,mpfr_set_ld);
+#endif
+
         _GMPFR_CONSTRUCTOR_FROM_OBJECT(Gmpz,mpz(),mpfr_set_z);
         _GMPFR_CONSTRUCTOR_FROM_OBJECT(Gmpq,mpq(),mpfr_set_q);
 

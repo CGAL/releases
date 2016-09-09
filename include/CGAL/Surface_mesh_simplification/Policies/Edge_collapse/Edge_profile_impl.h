@@ -10,8 +10,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_profile_impl.h $
-// $Id: Edge_profile_impl.h 50078 2009-06-25 15:12:52Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_profile_impl.h $
+// $Id: Edge_profile_impl.h 56870 2010-06-18 10:24:30Z afabri $
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
@@ -98,7 +98,7 @@ void Edge_profile<ECM>::Extract_borders( vertex_descriptor const& v
                                        )
 {
   in_edge_iterator eb, ee ; 
-  for ( tie(eb,ee) = in_edges(v,surface()) ; eb != ee ; ++ eb )
+  for ( boost::tie(eb,ee) = in_edges(v,surface()) ; eb != ee ; ++ eb )
   {
     edge_descriptor edge     = *eb ;
     edge_descriptor opp_edge = opposite_edge(edge,surface()) ;

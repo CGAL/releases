@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
-// $Id: C3T3_helpers.h 53828 2010-01-27 14:37:25Z lrineau $
+// $Id: C3T3_helpers.h 56552 2010-06-03 09:57:44Z lrineau $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -26,6 +26,7 @@
 
 #include <CGAL/linear_least_squares_fitting_3.h>
 #include <CGAL/Mesh_3/Triangulation_helpers.h>
+#include <CGAL/tuple.h>
 
 #include <boost/optional.hpp>
 #include <boost/iterator/transform_iterator.hpp>
@@ -33,6 +34,8 @@
 #include <boost/lambda/bind.hpp>
 
 #include <functional>
+#include <vector>
+#include <set>
 
 namespace CGAL {
 namespace Mesh_3 {

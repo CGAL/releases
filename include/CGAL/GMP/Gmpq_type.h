@@ -16,7 +16,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Number_types/include/CGAL/GMP/Gmpq_type.h $
-// $Id: Gmpq_type.h 53126 2009-11-20 16:58:58Z penarand $
+// $Id: Gmpq_type.h 56367 2010-05-20 08:04:12Z penarand $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -62,7 +62,8 @@ class Gmpq
   : Handle_for<Gmpq_rep>,
     boost::ordered_field_operators1< Gmpq
   , boost::ordered_field_operators2< Gmpq, int
-    > >
+  , boost::ordered_field_operators2< Gmpq, double
+    > > >
 {
   typedef Handle_for<Gmpq_rep> Base;
 public:
@@ -164,6 +165,11 @@ public:
   Gmpq& operator*=(const Gmpq &z);
   Gmpq& operator/=(const Gmpq &z);
 
+  Gmpq& operator+=(double d);
+  Gmpq& operator-=(double d);
+  Gmpq& operator*=(double d);
+  Gmpq& operator/=(double d);
+
   double to_double() const;
   Sign sign() const;
 
@@ -175,6 +181,7 @@ public:
      CGAL_HISTOGRAM_PROFILER("[Gmpq sizes in log2 scale]",
                              (unsigned) ( ::log(double(size())) / ::log(double(2)) )  );
   }
+
 };
 
 
@@ -188,6 +195,9 @@ bool
 operator<(const Gmpq &a, const Gmpq &b)
 { return mpq_cmp(a.mpq(), b.mpq()) < 0; }
 
+inline bool operator==(const Gmpq &q,double d){return q==Gmpq(d);}
+inline bool operator< (const Gmpq &q,double d){return q< Gmpq(d);}
+inline bool operator> (const Gmpq &q,double d){return q> Gmpq(d);}
 
 // mixed operators.
 inline
@@ -262,6 +272,11 @@ Gmpq::operator/=(const Gmpq &z)
     swap(Res);
     return *this;
 }
+
+inline Gmpq& Gmpq::operator+=(double d){return (*this)+= Gmpq(d);}
+inline Gmpq& Gmpq::operator-=(double d){return (*this)-= Gmpq(d);}
+inline Gmpq& Gmpq::operator*=(double d){return (*this)*= Gmpq(d);}
+inline Gmpq& Gmpq::operator/=(double d){return (*this)/= Gmpq(d);}
 
 inline
 double
