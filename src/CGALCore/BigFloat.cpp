@@ -36,7 +36,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Core/src/CGALCore/BigFloat.cpp $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/src/CGALCore/BigFloat.cpp $
  * $Id: BigFloat.cpp 41714 2008-01-20 20:24:20Z spion $
  ***************************************************************************/
 

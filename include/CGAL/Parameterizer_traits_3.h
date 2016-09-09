@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_parameterization/include/CGAL/Parameterizer_traits_3.h $
-// $Id: Parameterizer_traits_3.h 45050 2008-08-20 14:47:53Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Parameterizer_traits_3.h $
+// $Id: Parameterizer_traits_3.h 48225 2009-02-26 11:05:12Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -112,7 +112,7 @@ public:
     /// The mapping is linear by pieces (linear in each triangle).
     /// The result is the (u,v) pair image of each vertex of the 3D surface.
     ///
-    /// Preconditions:
+    /// @commentheading Preconditions:
     /// - 'mesh' must be a surface with one connected component.
     /// - 'mesh' must be a triangular mesh.
     virtual Error_code  parameterize (Adaptor& mesh) = 0;

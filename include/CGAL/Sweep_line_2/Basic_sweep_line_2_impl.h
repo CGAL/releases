@@ -1,4 +1,4 @@
-// Copyright (c) 2005  Tel-Aviv University (Israel).
+// Copyright (c) 2005, 2009  Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Basic_sweep_line_2_impl.h $
-// $Id: Basic_sweep_line_2_impl.h 46662 2008-11-04 14:49:44Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Basic_sweep_line_2_impl.h $
+// $Id: Basic_sweep_line_2_impl.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
-// Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
-//                 Efi Fogel <efif@post.tau.ac.il>
+// Author(s)     : Baruch Zukerman  <baruchzu@post.tau.ac.il>
+//                 Efi Fogel        <efif@post.tau.ac.il>
+//                 Eric Berberich   <ericb@post.tau.ac.il>
 //                 (based on old version by Tali Zvi)
 
 #ifndef CGAL_BASIC_SWEEP_LINE_2_IMPL_H
@@ -52,8 +53,8 @@ Basic_sweep_line_2 (Visitor* visitor) :
 //
 template <class Tr, class Vis, class Subcv, class Evnt, typename Alloc>
 Basic_sweep_line_2<Tr, Vis, Subcv, Evnt, Alloc>::
-Basic_sweep_line_2 (Traits_2 *traits, Visitor* visitor) :
-  m_traits (static_cast<Traits_adaptor_2*> (traits)),
+Basic_sweep_line_2 (const Traits_2 * traits, Visitor* visitor) :
+  m_traits (static_cast<const Traits_adaptor_2*> (traits)),
   m_traitsOwner(false),
   m_statusLineCurveLess(m_traits, &m_currentEvent),
   m_queueEventLess(m_traits),
@@ -133,8 +134,8 @@ void Basic_sweep_line_2<Tr, Vis, Subcv, Evnt, Alloc>::stop_sweep ()
 // Deallocate event object..
 //
 template <class Tr, class Vis, class Subcv, class Evnt, typename Alloc>
-void Basic_sweep_line_2<Tr, Vis, Subcv, Evnt, Alloc>::deallocate_event
-    (Event* event)
+void Basic_sweep_line_2<Tr, Vis, Subcv, Evnt, Alloc>::
+deallocate_event(Event * event)
 {
   // Remove the event from the set of allocated events.
   m_allocated_events.erase (event);
@@ -158,10 +159,10 @@ void Basic_sweep_line_2<Tr, Vis, Subcv, Evnt, Alloc>::_sweep ()
       Event_queue_iterator eventIter1 = m_queue->begin();
       while (eventIter1 != m_queue->end()) {
           
-          CGAL_PRINT("* ");
-          CGAL_SL_DEBUG(PrintEvent(*eventIter1););
-          CGAL_PRINT ( "\n");
-          eventIter1++;
+        CGAL_PRINT("* ");
+        CGAL_SL_DEBUG(PrintEvent(*eventIter1););
+        CGAL_PRINT ( "\n");
+        eventIter1++;
       }
   }
   )
@@ -297,8 +298,8 @@ _init_curve_end(const X_monotone_curve_2& cv, Arr_curve_end ind, Subcurve* sc)
   // Create the corresponding event an push it into the event queue.
   std::pair<Event*, bool> pair_res;
 
-  if (m_traits->is_bounded_2_object()(cv, ind)) {
-    // The curve end is bounded and associated with a valid endpoint.
+  if (m_traits->is_closed_2_object()(cv, ind)) {
+    // The curve end is closed and thus associated with a valid endpoint.
     const Point_2&  pt = (ind == ARR_MIN_END) ?
       m_traits->construct_min_vertex_2_object()(cv) :
       m_traits->construct_max_vertex_2_object()(cv);
@@ -312,19 +313,19 @@ _init_curve_end(const X_monotone_curve_2& cv, Arr_curve_end ind, Subcurve* sc)
     // Inform the visitor in case we updated an existing event.
     Event   *e = pair_res.first;
     
-    CGAL_assertion (e->is_finite());
+    CGAL_assertion (e->is_closed());
     m_visitor->update_event (e, pt, cv, ind, pair_res.second);
   }
   else
   {
-    // The curve end is unbounded, insert it into the event queue.
+    // The curve end is open, insert it into the event queue.
     pair_res = _push_event (cv, ind, end_attr, ps_x, ps_y, sc);
 
     // Inform the visitor in case we updated an existing event.
     Event   *e = pair_res.first;
     
-    CGAL_assertion (! e->is_finite());
-    _update_event_at_infinity(e, cv, ind, pair_res.second);
+    CGAL_assertion (! e->is_closed());
+    _update_event_at_open_boundary(e, cv, ind, pair_res.second);
   }
 
   return;
@@ -348,7 +349,7 @@ void Basic_sweep_line_2<Tr, Vis, Subcv, Evnt, Alloc>::_handle_left_curves()
     // We also notify the visitor on the new event we are about to handle.
     _handle_event_without_left_curves();
 
-    if (m_currentEvent->is_finite())
+    if (m_currentEvent->is_closed())
     {
       if (m_is_event_on_above)
       {
@@ -639,24 +640,26 @@ _allocate_event (const Point_2& pt, Attribute type,
 }
 
 //-----------------------------------------------------------------------------
-// Allocate an event at infinity, which is not associated with a valid point.
+// Allocate an event at open boundary, 
+// which is not associated with a valid point.
 //
 template <class Tr, class Vis, class Subcv, class Evnt, typename Alloc>
 typename Basic_sweep_line_2<Tr, Vis, Subcv, Evnt, Alloc>::Event*
 Basic_sweep_line_2<Tr, Vis, Subcv, Evnt, Alloc>::
-_allocate_event_at_infinity(Attribute type,
-                            Arr_parameter_space ps_x, Arr_parameter_space ps_y)
+_allocate_event_at_open_boundary(Attribute type,
+                                 Arr_parameter_space ps_x, 
+                                 Arr_parameter_space ps_y)
 {
   Event *e =  m_eventAlloc.allocate(1); 
   m_eventAlloc.construct(e, m_masterEvent);
-  e->init_at_infinity (type, ps_x, ps_y);
+  e->init_at_open_boundary (type, ps_x, ps_y);
 
   m_allocated_events.insert(e);
   return (e);
 }
 
 //-----------------------------------------------------------------------------
-// Push a finite event point into the event queue.
+// Push a closed event point into the event queue.
 //
 template <class Tr, class Vis, class Subcv, class Evnt, typename Alloc>
 std::pair<typename Basic_sweep_line_2<Tr, Vis, Subcv, Evnt, Alloc>::Event*,
@@ -685,7 +688,7 @@ _push_event (const Point_2& pt, Attribute type,
     // The event associated with the given point already exists in the queue,
     // so we just have to update it.
     e = *(pair_res.first);
-    CGAL_assertion (e->is_finite());
+    CGAL_assertion (e->is_closed());
     
     e->set_attribute(type);
   }
@@ -752,9 +755,9 @@ _push_event (const X_monotone_curve_2& cv, Arr_curve_end ind,
   {
     // The curve end is not found in the event queue - create a new event and
     // insert it into the queue.
-    if (m_traits->is_bounded_2_object()(cv, ind))
+    if (m_traits->is_closed_2_object()(cv, ind))
     {
-      // The curve end is not unbounded, so it is associated with a valid
+      // The curve end is closed and so it is associated with a valid
       // point.
       const Point_2&  pt = (ind == ARR_MIN_END) ? 
         m_traits->construct_min_vertex_2_object()(cv) :
@@ -764,8 +767,8 @@ _push_event (const X_monotone_curve_2& cv, Arr_curve_end ind,
     }
     else
     {
-      // The curve end is unbounded, so we create an event at infinity.
-      e = _allocate_event_at_infinity (type, ps_x, ps_y);
+      // The curve end is open, so we create an event at open boundary.
+      e = _allocate_event_at_open_boundary (type, ps_x, ps_y);
     }
   }
   else

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
 // $Id: Alpha_shape_2.h 47026 2008-11-25 13:21:09Z afabri $
 // 
 //

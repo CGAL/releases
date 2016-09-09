@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH2.h $
-// $Id: VectorH2.h 45152 2008-08-26 13:08:16Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH2.h $
+// $Id: VectorH2.h 49057 2009-04-30 14:03:52Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -44,7 +44,7 @@ class VectorH2
   typedef typename R_::Direction_2          Direction_2;
   typedef typename R_::Vector_2             Vector_2;
 
-  typedef CGAL::array<RT, 3>               Rep;
+  typedef cpp0x::array<RT, 3>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   typedef Rational_traits<FT>               Rat_traits;

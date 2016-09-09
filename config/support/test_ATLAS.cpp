@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/support/test_ATLAS.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/support/test_ATLAS.cpp $
 // $Id: test_ATLAS.cpp 38442 2007-04-25 14:13:51Z lsaboret $
 //
 // Author(s)     : Laurent Saboret

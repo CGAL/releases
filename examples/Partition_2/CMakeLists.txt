@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "approx_convex_partition_2.cpp" )
   create_single_source_cgal_program( "greene_approx_convex_partition_2.cpp" )
   create_single_source_cgal_program( "optimal_convex_partition_2.cpp" )

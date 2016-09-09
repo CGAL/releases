@@ -11,15 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Matrix_search/include/CGAL/sorted_matrix_search.h $
-// $Id: sorted_matrix_search.h 44317 2008-07-22 12:29:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/sorted_matrix_search.h $
+// $Id: sorted_matrix_search.h 48717 2009-04-08 11:54:51Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
-#if ! (CGAL_SORTED_MATRIX_SEARCH_H)
+#ifndef CGAL_SORTED_MATRIX_SEARCH_H
 #define CGAL_SORTED_MATRIX_SEARCH_H 1
-
 
 #include <CGAL/basic.h>
 #include <CGAL/Optimisation/assertions.h>

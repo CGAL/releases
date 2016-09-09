@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Boolean_set_operations_2/include/CGAL/Polygon_set_2.h $
-// $Id: Polygon_set_2.h 35719 2007-01-14 14:42:35Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Polygon_set_2.h $
+// $Id: Polygon_set_2.h 48113 2009-02-17 16:21:43Z ophirset $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -40,6 +40,7 @@ class Polygon_set_2 :
 private:
   typedef General_polygon_set_2<Gps_segment_traits_2<Kernel, Containter>, Dcel_>
                                                           Base;
+  typedef typename Base::Base                             Base_of_base;
   typedef Polygon_set_2<Kernel, Containter, Dcel_>        Self;
 
 public:
@@ -237,9 +238,9 @@ public:
 
 private:
 
-  inline const Base& base(const Self& other) const
+  inline const Base_of_base& base(const Self& other) const
   {
-    return (static_cast<const Base&>(other));
+    return (static_cast<const Base_of_base&>(other));
   }
 
 };

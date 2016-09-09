@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Cartesian_kernel/include/CGAL/Cartesian/Circle_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Circle_3.h $
 // $Id:
 // 
 // Author(s)     : Monique Teillaud, Pedro Machado, Sebastien Loriot
@@ -81,13 +81,13 @@ public:
     Object obj = R().intersect_3_object()(s1, s2);
     // s1,s2 must intersect
     CGAL_kernel_precondition(!(obj.is_empty()));
-    typename R::Circle_3 circle;
-    typename R::Point_3 point;
-    if(assign(circle, obj))
-      base = Rep(circle.diametral_sphere(), circle.supporting_plane());
+    const typename R::Circle_3* circle_ptr=object_cast<typename R::Circle_3>(&obj);
+    if(circle_ptr!=NULL)
+      base = Rep(circle_ptr->diametral_sphere(), circle_ptr->supporting_plane());
     else {
-      assign(point, obj);
-      CircleC3 circle = CircleC3(point, FT(0), Vector_3(FT(1),FT(0),FT(0)));
+      const typename R::Point_3* point=object_cast<typename R::Point_3>(&obj);
+      CGAL_kernel_precondition(point!=NULL);
+      CircleC3 circle = CircleC3(*point, FT(0), Vector_3(FT(1),FT(0),FT(0)));
       base = Rep(circle.diametral_sphere(), circle.supporting_plane());
     }
   }
@@ -98,13 +98,13 @@ public:
     Object obj = R().intersect_3_object()(p, s);
     // s1,s2 must intersect
     CGAL_kernel_precondition(!(obj.is_empty()));
-    typename R::Circle_3 circle;
-    typename R::Point_3 point;
-    if(assign(circle, obj))
-      base = Rep(circle.diametral_sphere(), circle.supporting_plane());
+    const typename R::Circle_3* circle_ptr=object_cast<typename R::Circle_3>(&obj);
+    if(circle_ptr!=NULL)
+      base = Rep(circle_ptr->diametral_sphere(), circle_ptr->supporting_plane());
     else {
-      assign(point, obj);
-      CircleC3 circle = CircleC3(point, FT(0), Vector_3(FT(1),FT(0),FT(0)));
+      const typename R::Point_3* point=object_cast<typename R::Point_3>(&obj);
+      CGAL_kernel_precondition(point!=NULL);
+      CircleC3 circle = CircleC3(*point, FT(0), Vector_3(FT(1),FT(0),FT(0)));
       base = Rep(circle.diametral_sphere(), circle.supporting_plane());
     }
   }
@@ -117,8 +117,7 @@ public:
     Plane_3 p3 = R().construct_bisector_3_object()(p, r);
     Object obj = R().intersect_3_object()(p1, p2, p3);
     // must be a point, otherwise they are collinear
-    Point_3 center;
-		assign(center, obj);
+    const Point_3& center=*object_cast<Point_3>(&obj);
 		FT sqr = R().compute_squared_distance_3_object()(center, r);
 		Sphere_3 s = R().construct_sphere_3_object()(center, sqr);
 		base = Rep(s, p1);

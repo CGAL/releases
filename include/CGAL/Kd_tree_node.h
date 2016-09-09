@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Spatial_searching/include/CGAL/Kd_tree_node.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Spatial_searching/include/CGAL/Kd_tree_node.h $
 // $Id: Kd_tree_node.h 32847 2006-07-31 22:33:02Z afabri $
 // 
 //

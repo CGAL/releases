@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_2/include/CGAL/Triangulation_ds_circulators_2.h $
-// $Id: Triangulation_ds_circulators_2.h 44130 2008-07-12 21:58:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Triangulation_ds_circulators_2.h $
+// $Id: Triangulation_ds_circulators_2.h 48844 2009-04-21 18:28:04Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -25,7 +25,6 @@
 #include <iterator>
 #include <CGAL/circulator.h>
 #include <CGAL/triangulation_assertions.h>
-#include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/Triangulation_utils_2.h>
 
 CGAL_BEGIN_NAMESPACE

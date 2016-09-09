@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "Example.cpp" )
   create_single_source_cgal_program( "Polygon.cpp" )
   create_single_source_cgal_program( "polygon_algorithms.cpp" )

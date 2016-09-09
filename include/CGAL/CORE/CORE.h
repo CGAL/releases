@@ -28,8 +28,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Core/include/CGAL/CORE/CORE.h $
- * $Id: CORE.h 37060 2007-03-13 18:10:39Z reichel $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/CORE.h $
+ * $Id: CORE.h 48277 2009-02-28 10:07:47Z glisse $
  ***************************************************************************/
 
 #ifndef _CORE_CORE_H_
@@ -65,10 +65,6 @@ typedef long machine_long;
 #   define Real Expr
 #elif CORE_LEVEL == 4
 #   include <CGAL/CORE/Expr.h>
-#endif
-
-#ifndef CORE_NO_AUTOMATIC_NAMESPACE
-using namespace CORE;
 #endif
 
 #endif // _CORE_CORE_H_

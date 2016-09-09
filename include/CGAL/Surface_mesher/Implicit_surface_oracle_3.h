@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesher/include/CGAL/Surface_mesher/Implicit_surface_oracle_3.h $
-// $Id: Implicit_surface_oracle_3.h 47213 2008-12-03 17:23:34Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Surface_mesher/Implicit_surface_oracle_3.h $
+// $Id: Implicit_surface_oracle_3.h 47824 2009-01-26 15:22:57Z lrineau $
 //
 //
 // Author(s)     : Steve OUDOT, Laurent RINEAU
@@ -29,6 +29,8 @@
 #include <boost/mpl/has_xxx.hpp>
 
 #include <queue>
+
+#include <CGAL/Surface_mesher/Profile_timer.h>
 
 #ifdef CGAL_SURFACE_MESHER_DEBUG_IMPLICIT_ORACLE
 #  define CGAL_SURFACE_MESHER_DEBUG_CLIPPED_SEGMENT
@@ -226,6 +228,8 @@ namespace CGAL {
       Object operator()(const Surface_3& surface, Segment_3 s)
       // s is passed by value, because it is clipped below
       {
+	CGAL_SURFACE_MESHER_PROFILER("Implificit_surface_oracle::Intersect_3::operator(Segment_3)");
+	CGAL_SURFACE_MESHER_TIME_PROFILER("Implificit_surface_oracle::Intersect_3::operator(Segment_3)");
         typename GT::Construct_point_on_3 point_on =
           GT().construct_point_on_3_object();
 
@@ -262,6 +266,8 @@ namespace CGAL {
       } // end operator()(Surface_3, Segment_3)
 
       Object operator()(const Surface_3& surface, const Ray_3& r) {
+	CGAL_SURFACE_MESHER_PROFILER("Implificit_surface_oracle::Intersect_3::operator(Ray_3)");
+	CGAL_SURFACE_MESHER_TIME_PROFILER("Implificit_surface_oracle::Intersect_3::operator(Ray_3)");
         typename Sphere_oracle::Intersect_3 clip =
           Sphere_oracle().intersect_3_object();
 
@@ -280,6 +286,8 @@ namespace CGAL {
       } // end operator()(Surface_3, Ray_3)
 
       Object operator()(const Surface_3& surface, const Line_3& l) {
+	CGAL_SURFACE_MESHER_PROFILER("Implificit_surface_oracle::Intersect_3::operator(Line_3)");
+	CGAL_SURFACE_MESHER_TIME_PROFILER("Implificit_surface_oracle::Intersect_3::operator(Line_3)");
         typename Sphere_oracle::Intersect_3 clip =
           Sphere_oracle().intersect_3_object();
 
@@ -341,8 +349,14 @@ namespace CGAL {
         if(value_at_p1 == value_at_p2)
           return Object();
 
+#ifdef CGAL_SURFACE_MESHER_PROFILE
+	int steps = 0;
+#endif
         while(true)
         {
+#ifdef CGAL_SURFACE_MESHER_PROFILE
+	  ++steps;
+#endif
 #ifdef CGAL_SURFACE_MESHER_DEBUG_CLIPPED_SEGMENT
           std::cerr << debug_point(surface, p1) << ", "
                     << debug_point(surface, p2) << "\n";
@@ -364,6 +378,7 @@ namespace CGAL {
                                                          value_at_p2));
 
             visitor.new_point(mid);
+	    CGAL_SURFACE_MESHER_HISTOGRAM_PROFILER("Implificit_surface_oracle::Intersect_3::operator(Segment_3) bissection steps", steps)
             return make_object(mid);
           }
 

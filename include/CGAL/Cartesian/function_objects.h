@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Cartesian_kernel/include/CGAL/Cartesian/function_objects.h $
-// $Id: function_objects.h 46359 2008-10-20 14:44:37Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/function_objects.h $
+// $Id: function_objects.h 50389 2009-07-06 11:36:33Z afabri $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hoffmann
@@ -223,10 +223,10 @@ namespace CartesianKernelFunctors {
     {
       FT alpha, beta, gamma;
 
-      solve(t.vertex(1)-t.vertex(0),
-            t.vertex(2)-t.vertex(0),
-            t.vertex(3)-t.vertex(0),
-            p - t.vertex(0), alpha, beta, gamma);
+      Cartesian_internal::solve(t.vertex(1)-t.vertex(0),
+                                t.vertex(2)-t.vertex(0),
+                                t.vertex(3)-t.vertex(0),
+                                p - t.vertex(0), alpha, beta, gamma);
       if (   (alpha < 0) || (beta < 0) || (gamma < 0)
           || (alpha + beta + gamma > 1) )
           return ON_UNBOUNDED_SIDE;
@@ -976,6 +976,10 @@ namespace CartesianKernelFunctors {
     { return c.rep().squared_radius(); }
 
     result_type
+    operator()( const Point_2& p) const
+    { return FT(0); }
+
+    result_type
     operator()( const Point_2& p, const Point_2& q) const
     { return squared_radiusC2(p.x(), p.y(), q.x(), q.y()); }
 
@@ -1017,6 +1021,10 @@ namespace CartesianKernelFunctors {
     result_type
     operator()( const Circle_3& c) const
     { return c.rep().squared_radius(); }
+
+    result_type
+    operator()( const Point_3& p) const
+    { return FT(0); }
 
     result_type
     operator()( const Point_3& p, const Point_3& q) const
@@ -3566,14 +3574,10 @@ namespace CartesianKernelFunctors {
                v2 = t.vertex(2)-o;
 
       FT alpha, beta, gamma;
-      solve(v0, v1, v2, p-o, alpha, beta, gamma);
+      Cartesian_internal::solve(v0, v1, v2, p-o, alpha, beta, gamma);
       return (alpha >= FT(0)) && (beta >= FT(0)) && (gamma >= FT(0))
           && ((alpha+beta+gamma == FT(1)));
     }
-
-    result_type
-    operator()(const Sphere_3 &a, const Point_3 &p) const
-    { return a.rep().has_on_boundary(p); }
 
     result_type
     operator()(const Circle_3 &a, const Point_3 &p) const
@@ -3583,6 +3587,10 @@ namespace CartesianKernelFunctors {
     operator()(const Sphere_3 &a, const Circle_3 &p) const
     { return a.rep().has_on(p); }
 
+    result_type
+    operator()(const Sphere_3 &a, const Point_3 &p) const
+    { return a.rep().has_on(p); }    
+    
     result_type
     operator()(const Plane_3 &a, const Circle_3 &p) const
     { return a.rep().has_on(p); }

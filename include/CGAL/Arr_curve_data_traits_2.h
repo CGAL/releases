@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_curve_data_traits_2.h $
-// $Id: Arr_curve_data_traits_2.h 41124 2007-12-08 10:56:13Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_curve_data_traits_2.h $
+// $Id: Arr_curve_data_traits_2.h 50779 2009-07-23 12:14:52Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
 //                 Efi Fogel         <efif@post.tau.ac.il>
+
 #ifndef CGAL_ARR_CURVE_DATA_TRAITS_2_H
 #define CGAL_ARR_CURVE_DATA_TRAITS_2_H
 
@@ -24,6 +25,7 @@
  * Definition of the Arr_curve_data_traits_2<> class template.
  */
 
+#include<CGAL/Arr_tags.h>
 #include<CGAL/Arr_geometry_traits/Curve_data_aux.h>
 #include<list>
 
@@ -61,10 +63,18 @@ public:
   typedef typename Base_traits_2::Point_2             Point_2;
 
   typedef typename Base_traits_2::Has_left_category   Has_left_category;
-  typedef typename Base_traits_2::Boundary_category   Boundary_category;
 
   typedef typename Base_traits_2::Has_merge_category  Base_has_merge_category;
   typedef Tag_true                                    Has_merge_category;
+
+  typedef typename CGALi::Arr_complete_left_side_tag< Base_traits_2 >::Tag
+                                                      Arr_left_side_tag;
+  typedef typename CGALi::Arr_complete_bottom_side_tag< Base_traits_2 >::Tag
+                                                      Arr_bottom_side_tag;
+  typedef typename CGALi::Arr_complete_top_side_tag< Base_traits_2 >::Tag
+                                                      Arr_top_side_tag;
+  typedef typename CGALi::Arr_complete_right_side_tag< Base_traits_2 >::Tag
+                                                      Arr_right_side_tag;
 
   // Representation of a curve with an addtional data field:
   typedef _Curve_data_ex<Base_curve_2, Curve_data>    Curve_2;
@@ -85,7 +95,7 @@ public:
   {}
   
   /*! Constructor from a base-traits class. */
-  Arr_curve_data_traits_2 (const Base_traits_2& traits) :
+  Arr_curve_data_traits_2 (const Base_traits_2 & traits) :
     Base_traits_2 (traits)
   {}
   //@}
@@ -96,12 +106,12 @@ public:
   class Make_x_monotone_2
   {
   private:
-    Base_traits_2    *base;
+    const Base_traits_2 * base;
 
   public:
 
     /*! Constructor. */
-    Make_x_monotone_2 (Base_traits_2 *_base) :
+    Make_x_monotone_2 (const Base_traits_2 * _base) :
       base (_base)
     {}
     
@@ -114,7 +124,7 @@ public:
      * \return The past-the-end iterator.
      */
     template<class OutputIterator>
-    OutputIterator operator() (const Curve_2& cv, OutputIterator oi)
+    OutputIterator operator() (const Curve_2& cv, OutputIterator oi) const
     {
       // Make the original curve x-monotone.
       std::list<CGAL::Object>       base_objects;
@@ -150,7 +160,7 @@ public:
   };
 
   /*! Get a Make_x_monotone_2 functor object. */
-  Make_x_monotone_2 make_x_monotone_2_object ()
+  Make_x_monotone_2 make_x_monotone_2_object () const
   {
     return Make_x_monotone_2 (this);
   }
@@ -158,12 +168,12 @@ public:
   class Split_2
   {
   private:
-    Base_traits_2    *base;
+    const Base_traits_2 * base;
 
   public:
 
     /*! Constructor. */
-    Split_2 (Base_traits_2 *_base) :
+    Split_2 (const Base_traits_2 * _base) :
       base (_base)
     {}
 
@@ -176,11 +186,10 @@ public:
      * \pre p lies on cv but is not one of its end-points.
      */
     void operator() (const X_monotone_curve_2& cv, const Point_2 & p,
-                     X_monotone_curve_2& c1, X_monotone_curve_2& c2)
+                     X_monotone_curve_2& c1, X_monotone_curve_2& c2) const
     {
       // Split the original curve.
-      base->split_2_object() (cv, p,
-                              c1, c2);
+      base->split_2_object() (cv, p, c1, c2);
 
       // Attach data to the split curves.
       c1.set_data (cv.data());
@@ -191,7 +200,7 @@ public:
   };
 
   /*! Get a Split_2 functor object. */
-  Split_2 split_2_object ()
+  Split_2 split_2_object () const
   {
     return Split_2 (this);
   }
@@ -199,12 +208,12 @@ public:
   class Intersect_2
   {
   private:
-    Base_traits_2    *base;
+    const Base_traits_2 * base;
 
   public:
 
     /*! Constructor. */
-    Intersect_2 (Base_traits_2 *_base) :
+    Intersect_2 (const Base_traits_2 * _base) :
       base (_base)
     {}
 
@@ -220,7 +229,7 @@ public:
     template<class OutputIterator>
     OutputIterator operator() (const X_monotone_curve_2& cv1,
                                const X_monotone_curve_2& cv2,
-                               OutputIterator oi)
+                               OutputIterator oi) const
     {
       // Use the base functor to obtain all intersection objects.
       std::list<CGAL::Object>                   base_objects;
@@ -262,7 +271,7 @@ public:
   };
 
   /*! Get an Intersect_2 functor object. */
-  Intersect_2 intersect_2_object ()
+  Intersect_2 intersect_2_object () const
   {
     return Intersect_2 (this);
   }
@@ -270,12 +279,12 @@ public:
   class Are_mergeable_2
   {
   private:
-    const Base_traits_2    *base;
+    const Base_traits_2 * base;
 
   public:
 
     /*! Constructor. */
-    Are_mergeable_2 (const Base_traits_2 *_base) :
+    Are_mergeable_2 (const Base_traits_2 * _base) :
       base (_base)
     {}
 
@@ -331,12 +340,12 @@ public:
   class Merge_2
   {
   private:
-    Base_traits_2    *base;
+    const Base_traits_2 * base;
 
   public:
 
     /*! Constructor. */
-    Merge_2 (Base_traits_2 *_base) :
+    Merge_2 (const Base_traits_2 * _base) :
       base (_base)
     {}
 
@@ -349,7 +358,7 @@ public:
      */
     void operator() (const X_monotone_curve_2& cv1,
                      const X_monotone_curve_2& cv2,
-                     X_monotone_curve_2& c)
+                     X_monotone_curve_2& c) const
     {
       // The function is implemented based on the base Has_merge category.
       _merge_imp (cv1, cv2, c, Base_has_merge_category());
@@ -363,13 +372,12 @@ public:
     void _merge_imp (const X_monotone_curve_2& cv1,
                      const X_monotone_curve_2& cv2,
                      X_monotone_curve_2& c,
-                     Tag_true)
+                     Tag_true) const
     {      
       // Merge the two base curve.
       Base_x_monotone_curve_2  base_cv;
 
-      base->merge_2_object() (cv1, cv2,
-                              base_cv);
+      base->merge_2_object() (cv1, cv2, base_cv);
 
       // Attach data from one of the curves.
       CGAL_precondition (cv1.data() == cv2.data());
@@ -392,7 +400,7 @@ public:
   };
 
   /*! Get a Merge_2 functor object. */
-  Merge_2 merge_2_object ()
+  Merge_2 merge_2_object () const
   {
     return Merge_2 (this);
   }
@@ -400,12 +408,12 @@ public:
   class Construct_x_monotone_curve_2
   {
   private:
-    const Base_traits_2    *base;
+    const Base_traits_2 * base;
 
   public:
 
     /*! Constructor. */
-    Construct_x_monotone_curve_2 (const Base_traits_2 *_base) :
+    Construct_x_monotone_curve_2 (const Base_traits_2 * _base) :
       base (_base)
     {}
 
@@ -416,8 +424,7 @@ public:
      * \pre p and q must not be the same.
      * \return An x-monotone curve connecting p and q.
      */
-    X_monotone_curve_2 operator() (const Point_2& p,
-                                   const Point_2& q) const
+    X_monotone_curve_2 operator() (const Point_2& p, const Point_2& q) const
     {
       Base_x_monotone_curve_2  base_cv =
         base->construct_x_monotone_curve_2_object() (p, q);

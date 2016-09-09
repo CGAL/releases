@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Circular_kernel_2/include/CGAL/Filtered_bbox_circular_kernel_2/bbox_filtered_predicates.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Filtered_bbox_circular_kernel_2/bbox_filtered_predicates.h $
 // $Id: bbox_filtered_predicates.h 46474 2008-10-24 23:36:02Z pmachado $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Constantinos Tsirogiannis , Pedro Machado

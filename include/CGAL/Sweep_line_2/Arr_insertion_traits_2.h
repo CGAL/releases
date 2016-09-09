@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_insertion_traits_2.h $
-// $Id: Arr_insertion_traits_2.h 41146 2007-12-10 13:41:33Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_insertion_traits_2.h $
+// $Id: Arr_insertion_traits_2.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -53,7 +53,12 @@ public:
   typedef typename Base::Point_2                      Point_2;
 
   typedef typename Base::Has_left_category            Has_left_category;
-  typedef typename Base::Boundary_category            Boundary_category;
+
+  // should be ok, as basic_insertion (=Base) completes incomplete tags
+  typedef typename Base::Arr_left_side_tag            Arr_left_side_tag;
+  typedef typename Base::Arr_bottom_side_tag          Arr_bottom_side_tag;
+  typedef typename Base::Arr_top_side_tag             Arr_top_side_tag;
+  typedef typename Base::Arr_right_side_tag           Arr_right_side_tag;
 
   /* Insertion is implemented as sweep-line visitor. The sweep-line algorithm
    * never never performs merging of curves. Therefore, AreMergeable_2 and
@@ -64,7 +69,7 @@ public:
 public:
 
   /*! Constructor with a traits class. */
-  Arr_insertion_traits_2 (Traits_2& tr) :
+  Arr_insertion_traits_2 (const Traits_2& tr) :
     Base (tr)
   {}
 

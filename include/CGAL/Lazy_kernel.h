@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Filtered_kernel/include/CGAL/Lazy_kernel.h $
-// $Id: Lazy_kernel.h 45177 2008-08-27 15:37:06Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Lazy_kernel.h $
+// $Id: Lazy_kernel.h 50673 2009-07-17 15:07:11Z afabri $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -155,11 +155,12 @@ public:
 
 };
 
-template < typename EK_, typename AK_, typename E2A_, typename Kernel >
+template < typename EK_, typename AK_, typename E2A_, typename Kernel_ >
 class Lazy_kernel_base
-  : public Lazy_kernel_generic_base<EK_, AK_, E2A_, Kernel>
+  : public Lazy_kernel_generic_base<EK_, AK_, E2A_, Kernel_>
 {
 public:
+  typedef Kernel_ Kernel;
   typedef AK_   Approximate_kernel;
   typedef EK_   Exact_kernel;
   typedef E2A_  E2A;

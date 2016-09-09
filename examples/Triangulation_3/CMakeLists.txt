@@ -20,9 +20,11 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "adding_handles_3.cpp" )
   create_single_source_cgal_program( "color.cpp" )
-  create_single_source_cgal_program( "find_conflicts.cpp" )
+  create_single_source_cgal_program( "find_conflicts_3.cpp" )
   create_single_source_cgal_program( "hierarchy_3.cpp" )
   create_single_source_cgal_program( "linking_2d_and_3d.cpp" )
   create_single_source_cgal_program( "regular_3.cpp" )

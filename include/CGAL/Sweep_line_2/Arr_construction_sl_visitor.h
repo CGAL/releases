@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_construction_sl_visitor.h $
-// $Id: Arr_construction_sl_visitor.h 44754 2008-08-03 21:26:09Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_construction_sl_visitor.h $
+// $Id: Arr_construction_sl_visitor.h 49772 2009-06-03 21:25:53Z eric $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -428,7 +428,7 @@ add_subcurve (const X_monotone_curve_2& cv, Subcurve* sc)
   const Halfedge_handle  invalid_he;
 
 #if CGAL_ARR_CONSTRUCTION_SL_VISITOR_VERBOSE 
-  if (last_event->is_finite()) {
+  if (last_event->is_closed()) {
       std::cout << "CGAL_CSLG lastevent: " << last_event->point() << std::endl;
   }
   if (he_left != invalid_he) {

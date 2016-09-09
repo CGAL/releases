@@ -20,9 +20,11 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
-  create_single_source_cgal_program( "ex_convex_hull.cpp" )
-  create_single_source_cgal_program( "ex_envelope_circles.cpp" )
-  create_single_source_cgal_program( "ex_envelope_segments.cpp" )
+  include_directories (BEFORE ../../include)
+
+  create_single_source_cgal_program( "convex_hull.cpp" )
+  create_single_source_cgal_program( "envelope_circles.cpp" )
+  create_single_source_cgal_program( "envelope_segments.cpp" )
 
 else()
   

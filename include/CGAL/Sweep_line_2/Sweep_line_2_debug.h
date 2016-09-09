@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_debug.h $
-// $Id: Sweep_line_2_debug.h 41108 2007-12-06 15:26:30Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_debug.h $
+// $Id: Sweep_line_2_debug.h 49772 2009-06-03 21:25:53Z eric $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -64,14 +64,14 @@ void Basic_sweep_line_2<Tr, Visit, Crv, Evnt, Alloc>::PrintStatusLine()
     return;
   }
   std::cout << std::endl << "Status line: (" ;
-  if(m_currentEvent->is_finite())
+  if(m_currentEvent->is_closed())
     std::cout << m_currentEvent->point() << ")" << std::endl;
   else
   {
     Arr_parameter_space x = m_currentEvent->parameter_space_in_x(),
                   y = m_currentEvent->parameter_space_in_y();
 
-    PrintInfinityType(x, y);
+    PrintOpenBoundaryType(x, y);
   }
   Status_line_iterator iter = m_statusLine.begin();
   while ( iter != m_statusLine.end() )
@@ -84,7 +84,7 @@ void Basic_sweep_line_2<Tr, Visit, Crv, Evnt, Alloc>::PrintStatusLine()
 
 template <class Tr, class Visit, class Crv, class Evnt, class Alloc> 
 void Basic_sweep_line_2<Tr, Visit, Crv, Evnt, Alloc>::
-PrintInfinityType (Arr_parameter_space ps_x, Arr_parameter_space ps_y)
+PrintOpenBoundaryType (Arr_parameter_space ps_x, Arr_parameter_space ps_y)
 {
   switch (ps_x) {
    case ARR_LEFT_BOUNDARY:  std::cout << "left boundary"; return;
@@ -105,14 +105,14 @@ template <class Tr, class Visit, class Crv, class Evnt, class Alloc>
 void Basic_sweep_line_2<Tr, Visit, Crv, Evnt, Alloc>::
 PrintEvent(const Event* e)
 {
-  if (e->is_finite())
+  if (e->is_closed())
     std::cout << e->point();
   else
   {
     Arr_parameter_space x = e->parameter_space_in_x();
     Arr_parameter_space y = e->parameter_space_in_y();
-    PrintInfinityType(x, y);
-    std::cout << " with unbounded curve: " << e->curve();
+    PrintOpenBoundaryType(x, y);
+    std::cout << " with open curve: " << e->curve();
   } 
 }
 

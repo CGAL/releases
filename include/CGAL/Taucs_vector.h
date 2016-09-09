@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_parameterization/include/CGAL/Taucs_vector.h $
-// $Id: Taucs_vector.h 45070 2008-08-21 11:57:02Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Taucs_vector.h $
+// $Id: Taucs_vector.h 48225 2009-02-26 11:05:12Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -87,7 +87,7 @@ public:
 
     /// Read/write access to a vector coefficient.
     ///
-    /// Preconditions:
+    /// @commentheading Preconditions:
     /// 0 <= i < dimension().
     T operator[](int i) const {
         CGAL_precondition(i < m_dimension);

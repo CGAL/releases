@@ -19,6 +19,7 @@
    MA 02110-1301, USA. */
 
 #include <CGAL/PDB/PDB.h>
+#include <CGAL/PDB/range.h>
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
@@ -85,17 +86,13 @@ int main(int argc, char *argv[]){
     }
     CGAL::PDB::PDB inpdb(in, verbose);
     
-    for (CGAL::PDB::PDB::Model_iterator mit= inpdb.models_begin(); 
-         mit != inpdb.models_end(); ++mit){
-      const CGAL::PDB::Model &m= mit->model();
-      for (CGAL::PDB::Model::Chain_const_iterator cit= m.chains_begin();
-           cit != m.chains_end(); ++cit) {
-        outm.insert(CGAL::PDB::Model::Chain_key(next_chain), cit->chain());
+    CGAL_PDB_FOREACH( CGAL::PDB::Model &m, make_model_range(inpdb.models())) {
+      CGAL_PDB_FOREACH( CGAL::PDB::Chain &c, make_chain_range(m.chains())) {
+        outm.insert(CGAL::PDB::Model::Chain_key(next_chain), c);
         ++next_chain;
       }
-      for (CGAL::PDB::Model::Heterogen_const_iterator cit= m.heterogens_begin(); 
-           cit != m.heterogens_end(); ++cit) {
-        outm.insert(cit->key(), cit->heterogen());
+      CGAL_PDB_FOREACH(const std::iterator_traits<CGAL::PDB::Model::Heterogen_consts::iterator>::reference h, m.heterogens()) {
+        outm.insert(h.key(), h.heterogen());
       }
       
     }

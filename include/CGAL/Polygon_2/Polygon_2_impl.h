@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_impl.h $
-// $Id: Polygon_2_impl.h 41437 2008-01-03 19:13:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_impl.h $
+// $Id: Polygon_2_impl.h 50252 2009-07-01 07:27:31Z efif $
 // 
 //
 // Author(s)     : Wieger Wesselink <wieger@cs.ruu.nl>
@@ -90,7 +90,7 @@ template <class Traits_P, class Container_P>
 std::istream &
 operator>>(std::istream &is, Polygon_2<Traits_P,Container_P>& p)
 {
-  int n; // number of vertices
+  int n = 0; // number of vertices
   is >> n;
   typename Traits_P::Point_2 point;
  

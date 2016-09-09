@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Inventor/include/CGAL/IO/VRML_2_ostream.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Inventor/include/CGAL/IO/VRML_2_ostream.h $
 // $Id: VRML_2_ostream.h 47017 2008-11-25 10:24:36Z afabri $
 //
 // Author(s)     : Andreas Fabri

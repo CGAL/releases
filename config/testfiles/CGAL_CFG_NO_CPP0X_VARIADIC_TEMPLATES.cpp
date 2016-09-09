@@ -12,35 +12,28 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES.cpp $
-// $Id: CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES.cpp 45006 2008-08-19 08:20:28Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES.cpp $
+// $Id: CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES.cpp 49148 2009-05-05 14:27:57Z spion $
 //
 // Author(s)     : Sylvain Pion
-
-// ---------------------------------------------------------------------
-// A short test program to evaluate a C++ compiler.
-// This program is used by install_cgal.
-// The following documentation will be pasted in the generated configfile.
-// ---------------------------------------------------------------------
 
 //| If a compiler does not support variadic templates (from C++0x)
 //| CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES is set. 
 
 #undef NDEBUG
 #include <cassert>
-//#include <iostream> // commented to speed up compilation.
 
-// This test should be re-evaluated for further GCC releases.
 // It is annoying that the test passes in non-std=c++0x mode, hence
 // triggering warnings all over the place.
-#if defined __GNUC__ && (__GNUC__ == 4) && (__GNUC_MINOR__ == 4) \
+// If GCC's non-c++0x mode finally rejects variadic templates at some point
+// in some future release, we will be able to refine the version check.
+#if defined __GNUC__ && (__GNUC__ == 4) && (__GNUC_MINOR__ >= 4) \
     && !defined __GXX_EXPERIMENTAL_CXX0X__
 #  error GCC needs -std=c++0x to enable variadic templates without warnings
 #endif
 
 double total = 0.0;
 
-// increment
 template < typename T >
 T inc(const T& i)
 {
@@ -48,25 +41,21 @@ T inc(const T& i)
   return i+T(1);
 }
 
-// print all args on std::cout
 void print() {}
 
 template < typename T, typename... Args >
 void print(const T&t, const Args&... args)
 {
-  //std::cout << t << std::endl;
   (void) t;
   print(args...);
 }
 
-// A mixture for testing
 void f() {}
 
 template < typename... Args >
 void f(const Args&... args)
 {
   print(inc(args)...);
-  //std::cout << std::endl;
 }
 
 int main()

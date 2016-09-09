@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Point_set_2/include/CGAL/Point_set_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_2/include/CGAL/Point_set_2.h $
 // $Id: Point_set_2.h 40729 2007-10-27 08:36:01Z spion $
 // 
 //

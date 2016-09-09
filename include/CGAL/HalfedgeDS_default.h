@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/HalfedgeDS/include/CGAL/HalfedgeDS_default.h $
-// $Id: HalfedgeDS_default.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/HalfedgeDS/include/CGAL/HalfedgeDS_default.h $
+// $Id: HalfedgeDS_default.h 48908 2009-04-26 14:03:12Z spion $
 // 
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
@@ -38,8 +38,8 @@ class HalfedgeDS_default
     : public HalfedgeDS_list< Traits_, HalfedgeDSItems, Alloc> {
 public:
     typedef Traits_                                          Traits;
-    typedef HalfedgeDS_list<Traits_, HalfedgeDSItems, Alloc> DS;
-    typedef typename DS::size_type                           size_type;
+    typedef HalfedgeDS_list<Traits_, HalfedgeDSItems, Alloc> D_S;
+    typedef typename D_S::size_type                           size_type;
     HalfedgeDS_default() {}
     HalfedgeDS_default( size_type v, size_type h, size_type f)
         : HalfedgeDS_list< Traits_, HalfedgeDSItems, Alloc>(v,h,f) {}
@@ -54,8 +54,8 @@ struct HalfedgeDS_default {
   class HDS : public HalfedgeDS_list::HDS<Traits_, HalfedgeDSItems, Alloc> {
   public:
       typedef Traits_                                               Traits;
-      typedef HalfedgeDS_list::HDS<Traits_, HalfedgeDSItems, Alloc> DS;
-      typedef typename DS::size_type                                size_type;
+      typedef HalfedgeDS_list::HDS<Traits_, HalfedgeDSItems, Alloc> D_S;
+      typedef typename D_S::size_type                                size_type;
       HDS() {}
       HDS( size_type v, size_type h, size_type f)
           : HalfedgeDS_list::HDS<Traits_, HalfedgeDSItems, Alloc>(v,h,f) {}

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Cartesian_kernel/include/CGAL/Cartesian/Circle_2.h $
-// $Id: Circle_2.h 46968 2008-11-21 08:01:45Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Circle_2.h $
+// $Id: Circle_2.h 49589 2009-05-26 07:54:52Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -47,7 +47,7 @@ public:
 
   CircleC2() {}
 
-  CircleC2(const Point_2 &center, const FT &squared_radius = FT(0),
+  explicit CircleC2(const Point_2 &center, const FT &squared_radius = FT(0),
            const Orientation &orient = COUNTERCLOCKWISE) // Is this new?
   {
     CGAL_kernel_precondition( ( squared_radius >= FT(0) ) &

@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kernel_d/include/CGAL/Kernel_d/PointCd_impl.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_d/include/CGAL/Kernel_d/PointCd_impl.h $
 // $Id: PointCd_impl.h 35126 2006-11-10 13:36:37Z hemmer $
 // 
 //

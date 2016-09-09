@@ -1,3 +1,4 @@
+
 // Copyright (c) 2005  Tel-Aviv University (Israel).
 // All rights reserved.
 //
@@ -11,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_global.h $
-// $Id: Arrangement_on_surface_2_global.h 47353 2008-12-10 13:24:13Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_global.h $
+// $Id: Arrangement_on_surface_2_global.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -250,7 +251,7 @@ void insert_empty(Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
                                                         Construct_visitor;
   typedef typename Construct_visitor::Traits_2          Construct_traits;
 
-  GeomTraits * geom_traits = arr.geometry_traits();
+  const GeomTraits * geom_traits = arr.geometry_traits();
   Construct_visitor visitor(&arr);
 
   /* We would like to avoid copy construction of the geometry traits class.
@@ -266,7 +267,7 @@ void insert_empty(Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
    * only an implicit constructor, (which takes *b as a parameter).
    */
   typename boost::mpl::if_<boost::is_same<GeomTraits, Construct_traits>,
-                           Construct_traits&, Construct_traits>::type
+                           const Construct_traits&, Construct_traits>::type
     traits(*geom_traits);
 
   // Define a sweep-line instance and perform the sweep:
@@ -295,7 +296,7 @@ void insert_empty(Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
                                                         Construct_visitor;
   typedef typename Construct_visitor::Traits_2          Construct_traits;
   
-  GeomTraits * geom_traits = arr.geometry_traits();
+  const GeomTraits * geom_traits = arr.geometry_traits();
   Construct_visitor visitor(&arr);
 
   /* We would like to avoid copy construction of the geometry traits class.
@@ -311,7 +312,7 @@ void insert_empty(Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
    * only an implicit constructor, (which takes *b as a parameter).
    */
   typename boost::mpl::if_<boost::is_same<GeomTraits, Construct_traits>,
-                           Construct_traits&, Construct_traits>::type
+                           const Construct_traits&, Construct_traits>::type
     traits(*geom_traits);
     
   // Define a sweep-line instance and perform the sweep.
@@ -341,7 +342,7 @@ void insert_non_empty(Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
                                                         Ex_x_monotone_curve_2;
   typedef typename Insert_visitor::Traits_2::Point_2    Ex_point_2;
   
-  GeomTraits * geom_traits = arr.geometry_traits();
+  const GeomTraits * geom_traits = arr.geometry_traits();
   Insert_visitor visitor(&arr);
 
   /* We would like to avoid copy construction of the geometry traits class.
@@ -357,7 +358,7 @@ void insert_non_empty(Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
    * only an implicit constructor, (which takes *b as a parameter).
    */
   typename boost::mpl::if_<boost::is_same<GeomTraits, Insert_traits>,
-                           Insert_traits&, Insert_traits>::type
+                           const Insert_traits&, Insert_traits>::type
     traits(*geom_traits);
 
   // Create a set of existing as well as new curves and points.
@@ -411,7 +412,7 @@ void insert (Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
   arr_access.notify_before_global_change();
 
   // Subdivide the input curves into x-monotone subcurves and isolated points.
-  GeomTraits                        *geom_traits = arr.geometry_traits();
+  const GeomTraits * geom_traits = arr.geometry_traits();
   std::list<X_monotone_curve_2>      xcurves;
   std::list<Point_2>                 iso_points;
 
@@ -615,7 +616,7 @@ insert_non_intersecting_curve
   typedef typename Arr::Vertex_const_handle              Vertex_const_handle;
   typedef typename Arr::Halfedge_const_handle            Halfedge_const_handle;
 
-  const Traits_adaptor_2           *geom_traits =
+  const Traits_adaptor_2 * geom_traits =
     static_cast<const Traits_adaptor_2*> (arr.geometry_traits());
   Arr_accessor<Arr>                 arr_access (arr);
 
@@ -791,7 +792,7 @@ void non_intersecting_insert_empty(Arrangement_on_surface_2<GeomTraits,
                                    InputIterator begin_xcurves,
                                    InputIterator end_xcurves)
 {
-  GeomTraits * geom_traits = arr.geometry_traits();
+  const GeomTraits * geom_traits = arr.geometry_traits();
   typedef typename TopTraits::Sweep_line_non_intersecting_construction_visitor
                                                             Construct_visitor;
   Construct_visitor visitor(&arr);
@@ -824,7 +825,7 @@ void non_intersecting_insert_empty(Arrangement_on_surface_2<GeomTraits,
                                                         Construct_visitor;
   typedef typename Construct_visitor::Traits_2          Construct_traits;
 
-  GeomTraits * geom_traits = arr.geometry_traits();
+  const GeomTraits * geom_traits = arr.geometry_traits();
   Construct_visitor visitor(&arr);
 
   /* We would like to avoid copy construction of the geometry traits class.
@@ -840,7 +841,7 @@ void non_intersecting_insert_empty(Arrangement_on_surface_2<GeomTraits,
    * only an implicit constructor, (which takes *b as a parameter).
    */
   typename boost::mpl::if_<boost::is_same<GeomTraits, Construct_traits>,
-                           Construct_traits&, Construct_traits>::type
+                           const Construct_traits&, Construct_traits>::type
     traits(*geom_traits);
 
   // Define a basic sweep-line instance (which is not supposed to handle
@@ -873,7 +874,7 @@ void non_intersecting_insert_non_empty(Arrangement_on_surface_2<GeomTraits,
                                                         Ex_x_monotone_curve_2;
   typedef typename Insert_visitor::Traits_2::Point_2    Ex_point_2;
 
-  GeomTraits * geom_traits = arr.geometry_traits();
+  const GeomTraits * geom_traits = arr.geometry_traits();
   Insert_visitor visitor(&arr);
 
   /* We would like to avoid copy construction of the geometry traits class.
@@ -889,7 +890,7 @@ void non_intersecting_insert_non_empty(Arrangement_on_surface_2<GeomTraits,
    * only an implicit constructor, (which takes *b as a parameter).
    */
   typename boost::mpl::if_<boost::is_same<GeomTraits, Insert_traits>,
-                           Insert_traits&, Insert_traits>::type
+                           const Insert_traits&, Insert_traits>::type
     traits(*geom_traits);
     
   // Create a set of existing as well as new curves and points.
@@ -971,9 +972,11 @@ remove_edge
   bool                         is_removed[2];
 
   v_ends[0] = e->source();
-  is_removed[0] = (v_ends[0]->is_at_infinity() || v_ends[0]->degree() == 1);
+  is_removed[0] = 
+      (v_ends[0]->is_at_open_boundary() || v_ends[0]->degree() == 1);
   v_ends[1] = e->target();
-  is_removed[1] = (v_ends[1]->is_at_infinity() || v_ends[1]->degree() == 1);
+  is_removed[1] = 
+      (v_ends[1]->is_at_open_boundary() || v_ends[1]->degree() == 1);
 
   // Remove the edge from the arrangement.
   typename Arr::Face_handle    face = arr.remove_edge (e);
@@ -982,8 +985,8 @@ remove_edge
   // curves associated with these edges can be merged, merge the two edges and
   // remove the vertex.
 
-  Traits_adaptor_2                                *traits = 
-    static_cast<Traits_adaptor_2*> (arr.geometry_traits());
+  const Traits_adaptor_2 * traits = 
+    static_cast<const Traits_adaptor_2*> (arr.geometry_traits());
 
   typename Arr::Halfedge_around_vertex_circulator  circ;
   typename Arr::Halfedge_handle                    e1, e2;
@@ -1136,8 +1139,8 @@ bool remove_vertex
     // If the vertex has now two incident edges, and the curves associated
     // with these edges can be merged, merge the two edges and remove the
     // vertex.
-    Traits_adaptor_2                                *traits =
-                        static_cast<Traits_adaptor_2*>(arr.geometry_traits());
+    const Traits_adaptor_2 * traits =
+      static_cast<const Traits_adaptor_2*>(arr.geometry_traits());
     typename Arr::Halfedge_around_vertex_circulator  circ;
     typename Arr::Halfedge_handle                    e1, e2;
 
@@ -1211,8 +1214,7 @@ bool is_valid (const Arrangement_on_surface_2<GeomTraits, TopTraits>& arr)
     curves_vec[i] = eit->curve();
 
   Visitor            visitor;
-  Geometry_traits_2 *traits =
-    const_cast<Geometry_traits_2 *> (arr.geometry_traits());
+  const Geometry_traits_2 *traits = arr.geometry_traits();
   Sweep_line_2       sweep_line (traits, &visitor);
 
   visitor.sweep_xcurves (curves_vec.begin(), curves_vec.end());
@@ -1232,7 +1234,7 @@ bool is_valid (const Arrangement_on_surface_2<GeomTraits, TopTraits>& arr)
   std::list<std::pair<Vertex_const_handle, Face_const_handle> >  vf_list;
 
   typename Geometry_traits_2::Compare_xy_2  compare_xy = 
-                                                traits->compare_xy_2_object();
+    traits->compare_xy_2_object();
   Face_const_iterator               fit;
   Face_const_handle                 fh;
   Inner_ccb_const_iterator          ic_it;
@@ -1520,8 +1522,8 @@ bool do_intersect (Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
   // Break the input curve into x-monotone subcurves and isolated points.
   typedef Arr_traits_adaptor_2<GeomTraits>                   Traits_adaptor_2;
 
-  Traits_adaptor_2   *traits =
-    static_cast<Traits_adaptor_2*> (arr.traits());
+  const Traits_adaptor_2 * traits =
+    static_cast<const Traits_adaptor_2*> (arr.traits());
 
   std::list<CGAL::Object>                        x_objects;
   std::list<CGAL::Object>::const_iterator        obj_iter;

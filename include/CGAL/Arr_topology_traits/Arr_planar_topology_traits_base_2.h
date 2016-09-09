@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_planar_topology_traits_base_2.h $
-// $Id: Arr_planar_topology_traits_base_2.h 44753 2008-08-03 21:15:56Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_planar_topology_traits_base_2.h $
+// $Id: Arr_planar_topology_traits_base_2.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -84,7 +84,7 @@ protected:
   // Data members:
   Dcel                m_dcel;       // The DCEL.
 
-  Traits_adaptor_2   *traits;       // The geometry-traits adaptor.
+  const Traits_adaptor_2 * traits;       // The geometry-traits adaptor.
   bool                own_traits;   // Inidicate whether we should evetually
                                     // free the traits object.
 
@@ -105,10 +105,10 @@ public:
   }
 
   /*! Constructor with a geometry-traits class. */
-  Arr_planar_topology_traits_base_2 (Geometry_traits_2 *tr) :
+  Arr_planar_topology_traits_base_2 (const Geometry_traits_2 * geom_traits) :
     own_traits (false)
   {
-    traits = static_cast<Traits_adaptor_2*>(tr);
+    traits = static_cast<const Traits_adaptor_2*>(geom_traits);
   }
 
   /*! Assign the contents of another topology-traits class. */
@@ -398,8 +398,8 @@ void Arr_planar_topology_traits_base_2<GeomTraits, Dcel_>::assign
 // Determine whether the given vertex lies in the interior of the given face.
 //
 template <class GeomTraits, class Dcel_>
-bool Arr_planar_topology_traits_base_2<GeomTraits, Dcel_>::is_in_face
-  (const Face *f, const Point_2& p, const Vertex *v) const
+bool Arr_planar_topology_traits_base_2<GeomTraits, Dcel_>::
+is_in_face(const Face *f, const Point_2& p, const Vertex *v) const
 {
   CGAL_precondition (v == NULL || ! v->has_null_point());
   CGAL_precondition (v == NULL || 

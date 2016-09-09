@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "convex_hull_containment.cpp" )
   create_single_source_cgal_program( "convex_hull_containment2.cpp" )
   create_single_source_cgal_program( "convex_hull_containment_benchmarks.cpp" )

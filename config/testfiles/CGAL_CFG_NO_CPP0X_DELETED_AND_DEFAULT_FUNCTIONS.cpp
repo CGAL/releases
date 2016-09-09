@@ -12,16 +12,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS.cpp $
-// $Id: CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS.cpp 47317 2008-12-09 14:56:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS.cpp $
+// $Id: CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS.cpp 49022 2009-04-29 20:03:21Z spion $
 //
 // Author(s)     : Sylvain Pion
-
-// ---------------------------------------------------------------------
-// A short test program to evaluate a C++ compiler.
-// This program is used by install_cgal.
-// The following documentation will be pasted in the generated configfile.
-// ---------------------------------------------------------------------
 
 //| If a compiler does not support "explicitly-defaulted" and "deleted" functions (from C++0x)
 //| CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS is set. 

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/STL_Extension/include/CGAL/Concatenate_iterator.h $
-// $Id: Concatenate_iterator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Concatenate_iterator.h $
+// $Id: Concatenate_iterator.h 50431 2009-07-07 15:56:20Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -29,6 +29,10 @@
 #include <iterator>
 
 
+#if defined(BOOST_MSVC)
+#  pragma warning(push)
+#  pragma warning(disable:4396)
+#endif
 CGAL_BEGIN_NAMESPACE
 
 template <class It1, class It2> class Concatenate_iterator;
@@ -143,6 +147,9 @@ bool operator!=(const Concatenate_iterator<It1, It2>& it1,
 
 CGAL_END_NAMESPACE
 
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
 
 
 

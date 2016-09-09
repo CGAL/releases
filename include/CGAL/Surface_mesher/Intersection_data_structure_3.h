@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesher/include/CGAL/Surface_mesher/Intersection_data_structure_3.h $
-// $Id: Intersection_data_structure_3.h 40650 2007-10-17 15:21:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Surface_mesher/Intersection_data_structure_3.h $
+// $Id: Intersection_data_structure_3.h 48704 2009-04-07 19:30:59Z spion $
 //
 // Author(s)     : Laurent RINEAU
 
@@ -180,7 +180,7 @@ public:
     return bounding_box;
   }
 
-  double max_lenght() const
+  double max_length() const
   {
     return max_width;
   }

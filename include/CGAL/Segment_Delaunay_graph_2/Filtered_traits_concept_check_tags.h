@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Filtered_traits_concept_check_tags.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Filtered_traits_concept_check_tags.h $
 // $Id: Filtered_traits_concept_check_tags.h 35201 2006-11-16 12:42:59Z hemmer $
 // 
 //

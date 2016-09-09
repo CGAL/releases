@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_3/include/CGAL/Triangulation_cell_base_with_circumcenter_3.h $
-// $Id: Triangulation_cell_base_with_circumcenter_3.h 37880 2007-04-03 15:07:47Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Triangulation_cell_base_with_circumcenter_3.h $
+// $Id: Triangulation_cell_base_with_circumcenter_3.h 48845 2009-04-21 18:34:14Z spion $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion
@@ -25,7 +25,6 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/triangulation_assertions.h>
-#include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/Triangulation_ds_cell_base_3.h>
 
 CGAL_BEGIN_NAMESPACE

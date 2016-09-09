@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Number_types/include/CGAL/GMP/Gmpzf_type.h $
-// $Id: Gmpzf_type.h 45036 2008-08-20 08:52:46Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/GMP/Gmpzf_type.h $
+// $Id: Gmpzf_type.h 49256 2009-05-09 15:21:26Z spion $
 //
 //
 // Author(s)     : Bernd Gaertner <gaertner@inf.ethz.ch>
@@ -44,6 +44,7 @@ bool operator==(const Gmpzf &a, const Gmpzf &b);
 bool operator<(const Gmpzf &a, int b);
 bool operator==(const Gmpzf &a, int b);
 bool operator>(const Gmpzf &a, int b);
+Gmpzf approximate_sqrt(const Gmpzf &f);
 
 struct Gmpzf_rep // as in Gmpz.h
 {
@@ -85,6 +86,8 @@ public:
                          // potentially too large to be useful, anyway;
                          // still, repeated squaring of a power of two
                          // quickly brings this type to its limits...
+
+  friend Gmpzf approximate_sqrt(const Gmpzf &f);
 
 private:
   // data members (mantissa is from Gmpzf_rep)
@@ -180,15 +183,14 @@ public:
   Gmpzf& operator-=( int i);
   Gmpzf& operator*=( const Gmpzf& b);
   Gmpzf& operator*=( int i);
-  Gmpzf& operator/= (const Gmpzf& b);
+  Gmpzf& div(const Gmpzf& b);
   Gmpzf& operator%= (const Gmpzf& b);
-  Gmpzf& operator/= (int i);
+  Gmpzf& div(int i);
   Gmpzf& operator%= (int i);
   bool is_zero() const;
   Sign sign() const;
   Gmpzf integral_division(const Gmpzf& b) const;
   Gmpzf gcd (const Gmpzf& b) const;
-  Gmpzf sqrt() const;
   Comparison_result compare (const Gmpzf &b) const;
   double to_double() const ;
   std::pair<double, double> to_interval() const ;
@@ -292,7 +294,7 @@ Gmpzf& Gmpzf::operator*=( int i)
 // => a / b = a div b = (a_aligned div b_aligned)
 //            a mod b = (a_aligned mod b_aligned) * 2 ^ rexp
 inline
-Gmpzf& Gmpzf::operator/= (const Gmpzf& b)
+Gmpzf& Gmpzf::div(const Gmpzf& b)
 {
   CGAL_precondition(!b.is_zero());
   Gmpzf result;
@@ -319,9 +321,9 @@ Gmpzf& Gmpzf::operator%= (const Gmpzf& b)
 }
 
 inline
-Gmpzf& Gmpzf::operator/= (int i)
+Gmpzf& Gmpzf::div(int i)
 {
-  return operator/= (Gmpzf(i));
+  return div(Gmpzf(i));
 }
 
 inline
@@ -363,20 +365,20 @@ Gmpzf Gmpzf::gcd (const Gmpzf& b) const
 }
 
 inline
-Gmpzf Gmpzf::sqrt() const
+Gmpzf approximate_sqrt(const Gmpzf &f)
 {
   // is there a well-defined sqrt at all?? Here we do the
   // following: write *this as m * 2 ^ e with e even, and
   // then return sqrt(m) * 2 ^ (e/2)
   Gmpzf result;
   // make exponent even
-  if (exp() % 2 == 0) {
-    mpz_set (result.man(), man());
+  if (f.exp() % 2 == 0) {
+    mpz_set (result.man(), f.man());
   } else {
-    mpz_mul_2exp (result.man(), man(), 1);
+    mpz_mul_2exp (result.man(), f.man(), 1);
   }
   mpz_sqrt(result.man(), result.man());
-  result.e = exp() / 2;
+  result.e = f.exp() / 2;
   result.canonicalize();
   return result;
 }
@@ -571,6 +573,13 @@ inline
 bool operator>(const Gmpzf &a, int b)
 {
   return operator>(a, Gmpzf(b));
+}
+
+inline Gmpzf min BOOST_PREVENT_MACRO_SUBSTITUTION(const Gmpzf& x,const Gmpzf& y){
+  return (x<=y)?x:y; 
+}
+inline Gmpzf max BOOST_PREVENT_MACRO_SUBSTITUTION(const Gmpzf& x,const Gmpzf& y){
+  return (x>=y)?x:y; 
 }
 
 CGAL_END_NAMESPACE

@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "approx_inset.cpp" )
   create_single_source_cgal_program( "approx_offset.cpp" )
   create_single_source_cgal_program( "exact_inset.cpp" )

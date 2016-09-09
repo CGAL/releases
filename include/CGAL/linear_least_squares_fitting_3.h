@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_3.h $
 // $Id: linear_least_squares_fitting_3.h 42887 2008-04-13 12:38:48Z spion $
 //
 // Author(s)     : Pierre Alliez and Sylvain Pion and Ankit Gupta

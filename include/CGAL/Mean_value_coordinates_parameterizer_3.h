@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_parameterization/include/CGAL/Mean_value_coordinates_parameterizer_3.h $
-// $Id: Mean_value_coordinates_parameterizer_3.h 42276 2008-02-22 13:03:40Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Mean_value_coordinates_parameterizer_3.h $
+// $Id: Mean_value_coordinates_parameterizer_3.h 49877 2009-06-11 08:38:15Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -37,12 +37,11 @@ CGAL_BEGIN_NAMESPACE
 ///
 /// This class is a Strategy [GHJV95] called by the main
 /// parameterization algorithm Fixed_border_parameterizer_3::parameterize().
-/// Mean_value_coordinates_parameterizer_3:
-/// - provides default BorderParameterizer_3 and SparseLinearAlgebraTraits_d template
+/// - It provides default BorderParameterizer_3 and SparseLinearAlgebraTraits_d template
 ///   parameters that make sense.
-/// - implements compute_w_ij() to compute w_ij = (i, j) coefficient of matrix A
+/// - It implements compute_w_ij() to compute w_ij = (i, j) coefficient of matrix A
 ///   for j neighbor vertex of i based on Floater Mean Value Coordinates parameterization.
-/// - implements an optimized version of is_one_to_one_mapping().
+/// - It implements an optimized version of is_one_to_one_mapping().
 ///
 /// @heading Is Model for the Concepts: Model of the ParameterizerTraits_3 concept.
 ///

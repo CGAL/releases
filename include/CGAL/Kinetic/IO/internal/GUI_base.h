@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/internal/GUI_base.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/IO/internal/GUI_base.h $
 // $Id: GUI_base.h 40832 2007-11-08 00:27:20Z ameyer $
 // 
 //

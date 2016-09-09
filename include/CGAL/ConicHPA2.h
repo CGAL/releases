@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Conic_2/include/CGAL/ConicHPA2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Conic_2/include/CGAL/ConicHPA2.h $
 // $Id: ConicHPA2.h 34970 2006-10-28 13:07:32Z hemmer $
 // 
 //

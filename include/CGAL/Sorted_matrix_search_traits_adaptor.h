@@ -11,13 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Matrix_search/include/CGAL/Sorted_matrix_search_traits_adaptor.h $
-// $Id: Sorted_matrix_search_traits_adaptor.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/Sorted_matrix_search_traits_adaptor.h $
+// $Id: Sorted_matrix_search_traits_adaptor.h 48717 2009-04-08 11:54:51Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
-#if ! (CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H)
+#ifndef CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H
 #define CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H 1
 
 CGAL_BEGIN_NAMESPACE

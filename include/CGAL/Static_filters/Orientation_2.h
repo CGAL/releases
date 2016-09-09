@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Filtered_kernel/include/CGAL/Static_filters/Orientation_2.h $
-// $Id: Orientation_2.h 42811 2008-04-09 13:35:34Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Static_filters/Orientation_2.h $
+// $Id: Orientation_2.h 47568 2008-12-21 15:56:20Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -61,7 +61,7 @@ public:
   operator()(const Point_2 &p, const Point_2 &q, const Point_2 &r) const
 
   {
-      CGAL_PROFILER("Orientation_2 calls");
+      CGAL_BRANCH_PROFILER_3("semi-static failures/attempts/calls to   : Orientation_2", tmp);
 
       double px, py, qx, qy, rx, ry;
 
@@ -69,7 +69,7 @@ public:
           fit_in_double(q.x(), qx) && fit_in_double(q.y(), qy) &&
           fit_in_double(r.x(), rx) && fit_in_double(r.y(), ry))
       {
-          CGAL_PROFILER("Orientation_2 semi-static attempts");
+          CGAL_BRANCH_PROFILER_BRANCH_1(tmp);
 
           double pqx = qx - px;
           double pqy = qy - py;
@@ -77,14 +77,13 @@ public:
           double pry = ry - py;
 
           double det = determinant(pqx, pqy,
-                                         prx, pry);
+                                   prx, pry);
 
           // Then semi-static filter.
           double maxx = std::fabs(pqx);
           if (maxx < std::fabs(prx)) maxx = std::fabs(prx);
           double maxy = std::fabs(pqy);
           if (maxy < std::fabs(pry)) maxy = std::fabs(pry);
-          double eps = 8.8872057372592798e-16 * maxx * maxy;
 
           // Sort them
           if (maxx > maxy)  std::swap(maxx, maxy);
@@ -96,11 +95,12 @@ public:
           }
           // Protect against overflow in the computation of det.
           else if (maxy < 1e153) /* sqrt(max_double [hadamard]/2) */ {
+            double eps = 8.8872057372592798e-16 * maxx * maxy;
             if (det > eps)  return POSITIVE;
             if (det < -eps) return NEGATIVE;
           }
 
-          CGAL_PROFILER("Orientation_2 semi-static failures");
+          CGAL_BRANCH_PROFILER_BRANCH_2(tmp);
       }
 
       return Base::operator()(p, q, r);

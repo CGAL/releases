@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "ex_alpha_shapes_3.cpp" )
   create_single_source_cgal_program( "ex_alpha_shapes_with_hierarchy_3.cpp" )
   create_single_source_cgal_program( "ex_weighted_alpha_shapes_3.cpp" )

@@ -11,11 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Circular_kernel_3/include/CGAL/Circular_arc_3.h $
-// $Id: Circular_arc_3.h 46052 2008-10-02 15:15:17Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_3/include/CGAL/Circular_arc_3.h $
+// $Id: Circular_arc_3.h 50731 2009-07-21 09:08:07Z sloriot $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
-//             Julien Hazebrouck, Damien Leroy
+//             Sebastien Loriot, Julien Hazebrouck, Damien Leroy
 
 // Partially supported by the IST Programme of the EU as a 
 // STREP (FET Open) Project under Contract No  IST-006413 
@@ -66,9 +66,13 @@ namespace CGAL {
       : RCircular_arc_3(typename R::Construct_circular_arc_3()(c,s,t))
       {}
 
-    Circular_arc_3(const Circle_3& c)
+    explicit Circular_arc_3(const Circle_3& c)
       : RCircular_arc_3(typename R::Construct_circular_arc_3()(c))
       {}
+        
+    Circular_arc_3(const Circle_3& c,const Circular_arc_point_3& pt)
+      : RCircular_arc_3(typename R::Construct_circular_arc_3()(c,pt))
+      {}        
 
     // Not Documented
     Circular_arc_3(const Circle_3 &c, 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_simple_point_location_impl.h $
-// $Id: Arr_simple_point_location_impl.h 44493 2008-07-27 16:45:40Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_simple_point_location_impl.h $
+// $Id: Arr_simple_point_location_impl.h 49772 2009-06-03 21:25:53Z eric $
 // 
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -396,7 +396,7 @@ Object Arr_simple_point_location<Arrangement>::_vertical_ray_shoot
     // Check if the isolated vertex is closer to p than the current closest
     // object.
     if ((found_vertex &&
-         (closest_v->is_at_infinity() ||
+         (closest_v->is_at_open_boundary() ||
           compare_xy (vh->point(), closest_v->point()) ==
                                                          point_above_under)) ||
         (! found_vertex &&

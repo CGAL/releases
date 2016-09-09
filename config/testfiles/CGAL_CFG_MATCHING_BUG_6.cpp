@@ -15,16 +15,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/testfiles/CGAL_CFG_MATCHING_BUG_6.cpp $
-// $Id: CGAL_CFG_MATCHING_BUG_6.cpp 38027 2007-04-10 14:16:07Z glisse $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/testfiles/CGAL_CFG_MATCHING_BUG_6.cpp $
+// $Id: CGAL_CFG_MATCHING_BUG_6.cpp 49022 2009-04-29 20:03:21Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
-
-// ---------------------------------------------------------------------
-// This program is used by install_cgal.
-// The following documentation will be pasted in the generated configfile.
-// ---------------------------------------------------------------------
 
 //| VC 7.3 does not recognize when an operator in a class
 //| redefines the operator with the same signature in a base class

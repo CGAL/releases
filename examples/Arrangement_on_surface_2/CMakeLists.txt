@@ -20,16 +20,11 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
-  # This package has problems with g++ strict-aliasing optimizations
-  # (implied by -O2, -O3 and -Os).
-  if (CMAKE_COMPILER_IS_GNUCXX)
-    SET (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-strict-aliasing")
-    SET (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   -fno-strict-aliasing")
-  endif()
+  include_directories (BEFORE ../../include)
 
+  create_single_source_cgal_program( "Bezier_curves.cpp" )
   create_single_source_cgal_program( "aggregated_insertion.cpp" )
   create_single_source_cgal_program( "batched_point_location.cpp" )
-  create_single_source_cgal_program( "Bezier_curves.cpp" )
   create_single_source_cgal_program( "bgl_dual_adapter.cpp" )
   create_single_source_cgal_program( "bgl_primal_adapter.cpp" )
   create_single_source_cgal_program( "bounded_planar_vertical_decomposition.cpp" )
@@ -69,9 +64,9 @@ if ( CGAL_FOUND )
   create_single_source_cgal_program( "spherical_insert.cpp" )
   create_single_source_cgal_program( "sweep_line.cpp" )
   create_single_source_cgal_program( "tracing_counting.cpp" )
+  create_single_source_cgal_program( "unb_planar_vertical_decomposition.cpp" )
   create_single_source_cgal_program( "unbounded_non_intersecting.cpp" )
   create_single_source_cgal_program( "unbounded_rational_functions.cpp" )
-  create_single_source_cgal_program( "unb_planar_vertical_decomposition.cpp" )
   create_single_source_cgal_program( "vertical_ray_shooting.cpp" )
 
 else()

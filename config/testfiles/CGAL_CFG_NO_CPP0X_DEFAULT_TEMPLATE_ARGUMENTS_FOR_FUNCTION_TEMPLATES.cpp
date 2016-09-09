@@ -12,16 +12,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_DEFAULT_TEMPLATE_ARGUMENTS_FOR_FUNCTION_TEMPLATES.cpp $
-// $Id: CGAL_CFG_NO_CPP0X_DEFAULT_TEMPLATE_ARGUMENTS_FOR_FUNCTION_TEMPLATES.cpp 45008 2008-08-19 09:14:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/testfiles/CGAL_CFG_NO_CPP0X_DEFAULT_TEMPLATE_ARGUMENTS_FOR_FUNCTION_TEMPLATES.cpp $
+// $Id: CGAL_CFG_NO_CPP0X_DEFAULT_TEMPLATE_ARGUMENTS_FOR_FUNCTION_TEMPLATES.cpp 49022 2009-04-29 20:03:21Z spion $
 //
 // Author(s)     : Sylvain Pion
-
-// ---------------------------------------------------------------------
-// A short test program to evaluate a C++ compiler.
-// This program is used by install_cgal.
-// The following documentation will be pasted in the generated configfile.
-// ---------------------------------------------------------------------
 
 //| If a compiler does not support default template arguments for function templates
 //| (from C++0x) CGAL_CFG_NO_CPP0X_DEFAULT_TEMPLATE_ARGUMENTS_FOR_FUNCTION_TEMPLATES is set. 

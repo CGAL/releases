@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Nef_3/demo/Nef_3/visualization_SM.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/demo/Nef_3/visualization_SM.cpp $
 // $Id: visualization_SM.cpp 45458 2008-09-09 22:20:48Z lrineau $
 //
 //

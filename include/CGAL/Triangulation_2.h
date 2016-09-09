@@ -11,13 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_2/include/CGAL/Triangulation_2.h $
-// $Id: Triangulation_2.h 42682 2008-03-31 17:33:48Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Triangulation_2.h $
+// $Id: Triangulation_2.h 49948 2009-06-17 09:00:37Z pmachado $
 // 
 //
 // Author(s)     : Olivier Devillers, Mariette Yvinec
-
-
 
 #ifndef CGAL_TRIANGULATION_2_H
 #define CGAL_TRIANGULATION_2_H
@@ -33,7 +31,6 @@
 #include <CGAL/Iterator_project.h>
 #include <CGAL/function_objects.h>
 
-#include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_utils_2.h>
 
@@ -482,7 +479,7 @@ bool well_oriented(Vertex_handle v)
       Vertex_handle v0 = fc->vertex(0);
       Vertex_handle v1 = fc->vertex(1);
       Vertex_handle v2 = fc->vertex(2);
-      if(orientation_2(v0->point(),v1->point(),v2->point()) 
+      if(orientation(v0->point(),v1->point(),v2->point()) 
         != COUNTERCLOCKWISE) return false;
     }
   } while(++fc != done);

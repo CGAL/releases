@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_trapezoid_ric_pl_impl.h $
-// $Id: Arr_trapezoid_ric_pl_impl.h 40964 2007-11-21 10:23:08Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_trapezoid_ric_pl_impl.h $
+// $Id: Arr_trapezoid_ric_pl_impl.h 50002 2009-06-21 10:29:39Z eric $
 // 
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -221,11 +221,11 @@ _check_isolated_for_vertical_ray_shoot (Halfedge_const_handle halfedge_found,
                                         bool shoot_up) const
 {
   const Comparison_result point_above_under = (shoot_up ? SMALLER : LARGER);
-  typename Traits_2::Compare_x_2          compare_x =
+  typename Geometry_traits_2::Compare_x_2          compare_x =
     this->arrangement()->traits()->compare_x_2_object();
-  typename Traits_2::Compare_xy_2         compare_xy =
+  typename Geometry_traits_2::Compare_xy_2         compare_xy =
     this->arrangement()->traits()->compare_xy_2_object();
-  typename Traits_2::Compare_y_at_x_2     compare_y_at_x =
+  typename Geometry_traits_2::Compare_y_at_x_2     compare_y_at_x =
     this->arrangement()->traits()->compare_y_at_x_2_object();
 
   Isolated_vertex_const_iterator   iso_verts_it;

@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Polytope_distance_d/include/CGAL/Polytope_distance_d.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polytope_distance_d/include/CGAL/Polytope_distance_d.h $
 // $Id: Polytope_distance_d.h 46466 2008-10-24 11:49:19Z gaertner $
 // 
 //

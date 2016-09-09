@@ -11,16 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_3/include/CGAL/Triangulation_ds_circulators_3.h $
-// $Id: Triangulation_ds_circulators_3.h 44130 2008-07-12 21:58:52Z spion $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Triangulation_ds_circulators_3.h $
+// $Id: Triangulation_ds_circulators_3.h 48845 2009-04-21 18:34:14Z spion $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
 #ifndef CGAL_TRIANGULATION_DS_CIRCULATORS_3_H
 #define CGAL_TRIANGULATION_DS_CIRCULATORS_3_H
 
-#include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_utils_3.h>
 #include <CGAL/circulator_bases.h>

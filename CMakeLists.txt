@@ -48,8 +48,8 @@ message( STATUS "CGAL_MAJOR_VERSION=${CGAL_MAJOR_VERSION}" )
 message( STATUS "CGAL_MINOR_VERSION=${CGAL_MINOR_VERSION}" )
 message( STATUS "CGAL_BUILD_VERSION=${CGAL_BUILD_VERSION}" )
 
-set( CGAL_SONAME_VERSION "${CGAL_MAJOR_VERSION}"     CACHE STRING "soname-version" )
-set( CGAL_SOVERSION      "${CGAL_MAJOR_VERSION}.0.0" CACHE STRING "soversion" )
+set( CGAL_SONAME_VERSION "4"     CACHE STRING "soname-version" )
+set( CGAL_SOVERSION      "4.0.0" CACHE STRING "soversion" )
 
 mark_as_advanced(CGAL_SONAME_VERSION)
 mark_as_advanced(CGAL_SOVERSION)
@@ -107,10 +107,9 @@ set(ALL_CGAL_LIBRARIES CGAL CGAL_Core CGAL_ImageIO CGAL_PDB CGAL_Qt3 CGAL_Qt4 CA
 if( MSVC )
   
   uniquely_add_flags ( CGAL_CXX_FLAGS "-D_CRT_SECURE_NO_DEPRECATE;-D_SCL_SECURE_NO_DEPRECATE;-D_CRT_SECURE_NO_WARNINGS;-D_SCL_SECURE_NO_WARNINGS" )
+  uniquely_add_flags ( CGAL_CXX_FLAGS "/fp:strict" )
+  uniquely_add_flags ( CGAL_CXX_FLAGS "/fp:except-" )
 
-  # _SECURE_SCL=0 is defined because it has been reported that the Secure SCL has an overhead of near one order of magnitude EVEN IN RELEASE BUILDS    
-  uniquely_add_flags( CGAL_CXX_FLAGS_RELEASE "-D_SECURE_SCL=0" )
-  
   if ( RUNNING_CGAL_AUTO_TEST )
     set(CMAKE_CXX_WARNING_LEVEL 2 CACHE STRING "MSVC C++ compiler warning level" FORCE)
     mark_as_advanced(CMAKE_CXX_WARNING_LEVEL)
@@ -125,6 +124,21 @@ if( "${CMAKE_CXX_COMPILER_ID}" MATCHES SunPro )
   uniquely_add_flags( CGAL_SHARED_LINKER_FLAGS "-library=stlport4" )
   uniquely_add_flags( CGAL_EXE_LINKER_FLAGS    "-library=stlport4" )
 endif()
+
+if( "${CMAKE_CXX_COMPILER}" MATCHES "icl" OR "${CMAKE_CXX_COMPILER}" MATCHES "icpc")
+  message( STATUS "Intel compiler is detected." )
+  set( IntelCompiler_FOUND TRUE )
+
+  get_dependency_version(IntelCompiler)
+
+  if( "${IntelCompiler_VERSION}" LESS "1100" )
+    message("Intel Compiler version ${IntelCompiler_VERSION} is not supported by CGAL-${CGAL_MAJOR_VERSION}.${CGAL_MINOR_VERSION}! (too old)")
+  else()
+    message( STATUS "Using Intel Compiler version 11 or later. Adding -fp-model strict" )
+    uniquely_add_flags( CGAL_CXX_FLAGS "-fp-model strict" )
+  endif()
+endif()
+
 
 if ( CMAKE_COMPILER_IS_GNUCXX )
 
@@ -150,6 +164,11 @@ if ( CMAKE_COMPILER_IS_GNUCXX )
     if ( "${GCC_VERSION}" MATCHES "^4.2" )
       message( STATUS "Using gcc version 4.2. Adding -fno-strict-aliasing" )
       uniquely_add_flags( CGAL_CXX_FLAGS "-fno-strict-aliasing" )
+    endif()
+    
+    if ( "${CMAKE_SYSTEM_PROCESSOR}" MATCHES "alpha" )
+      message( STATUS "Using gcc on alpha. Adding -mieee -mfp-rounding-mode=d" )
+      uniquely_add_flags( CGAL_CXX_FLAGS "-mieee -mfp-rounding-mode=d" )
     endif()
     
   endif()
@@ -403,10 +422,8 @@ install(FILES AUTHORS CHANGES LICENSE LICENSE.FREE_USE LICENSE.LGPL LICENSE.QPL 
 install(DIRECTORY include/CGAL                       DESTINATION ${CGAL_INSTALL_INC_DIR} )
 install(DIRECTORY "${CMAKE_BINARY_DIR}/include/CGAL" DESTINATION ${CGAL_INSTALL_INC_DIR} )
 
-install(DIRECTORY scripts/ DESTINATION ${CGAL_INSTALL_BIN_DIR} 
-        PATTERN "scripts/*" PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
-                                        GROUP_EXECUTE             GROUP_READ
-                                        WORLD_EXECUTE             WORLD_READ)
+file(GLOB scripts "scripts/*")
+install(PROGRAMS ${scripts} DESTINATION ${CGAL_INSTALL_BIN_DIR})
 
 install(DIRECTORY ${CGAL_MODULES_REL_DIR}/                DESTINATION ${CGAL_INSTALL_CMAKE_DIR} )
 install(FILES     ${CGAL_MODULES_REL_DIR}/UseCGAL.cmake   DESTINATION ${CGAL_INSTALL_CMAKE_DIR} )

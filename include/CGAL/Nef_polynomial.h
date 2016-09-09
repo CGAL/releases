@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Nef_2/include/CGAL/Nef_polynomial.h $
-// $Id: Nef_polynomial.h 45641 2008-09-18 16:32:35Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Nef_polynomial.h $
+// $Id: Nef_polynomial.h 49008 2009-04-29 13:57:45Z hemmer $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -220,6 +220,18 @@ template <class NT> class Real_embeddable_traits< Nef_polynomial<NT> >
         }
     };
 };
+
+template <typename NT>
+inline Nef_polynomial<NT> min BOOST_PREVENT_MACRO_SUBSTITUTION
+(const Nef_polynomial<NT>& x,const Nef_polynomial<NT>& y){
+  return (x<=y)?x:y; 
+}
+
+template <typename NT>
+inline Nef_polynomial<NT> max BOOST_PREVENT_MACRO_SUBSTITUTION
+(const Nef_polynomial<NT>& x,const Nef_polynomial<NT>& y){
+  return (x>=y)?x:y; 
+}
 
 template <typename NT>
 class Fraction_traits<Nef_polynomial<NT> > {

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_overlay_functor.h $
-// $Id: Envelope_overlay_functor.h 40822 2007-11-07 16:51:18Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_overlay_functor.h $
+// $Id: Envelope_overlay_functor.h 49793 2009-06-04 10:05:23Z eric $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -350,7 +350,7 @@ protected:
   // (i.e. the id of the aux information to update)
   void update_halfedge_flags_on_edge(Halfedge_handle new_h, Halfedge_handle on_edge, unsigned int id)
   {
-    if(new_h->target()->is_at_infinity())
+    if(new_h->target()->is_at_open_boundary())
       return;
     Vertex_handle vh;
     Halfedge_handle hh;
@@ -374,7 +374,7 @@ protected:
     }
     else
       // this cannot happen, since we need to touch an edge
-      CGAL_error();
+      CGAL_assertion(false);
   }
 
   // update halfedge-target flags of new_h that is created inside face in_face
@@ -383,7 +383,7 @@ protected:
   // (i.e. the id of the aux information to update)
   void update_halfedge_flags_in_face(Halfedge_handle new_h, Face_handle in_face, unsigned int id)
   {
-    if(new_h->target()->is_at_infinity())
+    if(new_h->target()->is_at_open_boundary())
       return;
     Vertex_handle vh;
     Halfedge_handle hh;

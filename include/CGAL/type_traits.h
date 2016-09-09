@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: $
-// $Id: $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/type_traits.h $
+// $Id: type_traits.h 50707 2009-07-20 08:52:20Z spion $
 //
 // Author(s)     : Andreas Meyer
 

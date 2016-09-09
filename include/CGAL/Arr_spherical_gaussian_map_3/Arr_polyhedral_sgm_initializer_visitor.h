@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_initializer_visitor.h $
-// $Id: Arr_polyhedral_sgm_initializer_visitor.h 39905 2007-08-19 20:51:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_initializer_visitor.h $
+// $Id: Arr_polyhedral_sgm_initializer_visitor.h 49062 2009-04-30 16:02:11Z efif $
 // 
 //
 // Author(s)     : Efi Fogel          <efif@post.tau.ac.il>
@@ -24,8 +24,7 @@
 
 CGAL_BEGIN_NAMESPACE
 
-template<class PolyhedralSgm,
-         class Polyhedron = Arr_polyhedral_sgm_polyhedron_3<PolyhedralSgm> >
+template<class PolyhedralSgm, class Polyhedron>
 class Arr_polyhedral_sgm_initializer_visitor {
 public:
   typedef typename Polyhedron::Vertex_const_handle

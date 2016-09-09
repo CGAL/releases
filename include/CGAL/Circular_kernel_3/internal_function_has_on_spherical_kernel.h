@@ -11,10 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_function_has_on_spherical_kernel.h $
-// $Id: internal_function_has_on_spherical_kernel.h 47312 2008-12-09 13:32:48Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_function_has_on_spherical_kernel.h $
+// $Id: internal_function_has_on_spherical_kernel.h 50731 2009-07-21 09:08:07Z sloriot $
 //
-// Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado
+// Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
+//             Sebastien Loriot
 
 // Partially supported by the IST Programme of the EU as a 
 // STREP (FET Open) Project under Contract No  IST-006413 
@@ -29,16 +30,6 @@ namespace CGAL {
     template <class SK>
     inline
     bool
-    has_on(const typename SK::Sphere_with_radius_3 &a, 
-           const typename SK::Point_3 &p)
-    { 
-      //~ return a.rep().has_on_boundary(p);
-      return a.has_on_boundary(p);
-    }   
-    
-    template <class SK>
-    inline
-    bool
     has_on(const typename SK::Sphere_3 &a, 
            const typename SK::Circular_arc_point_3 &p)
     { 
@@ -48,14 +39,6 @@ namespace CGAL {
       return (Algebraic_kernel().sign_at_object()(equation,p.rep().coordinates()) == ZERO);
     }
     
-    template <class SK>
-    inline
-    bool
-    has_on(const typename SK::Sphere_with_radius_3 &a, 
-           const typename SK::Circular_arc_point_on_reference_sphere_3 &p){
-      return has_on<SK>(static_cast<const typename SK::Sphere_3&>(a),static_cast<const typename SK::Circular_arc_point_3&>(p));
-    }
-
     template <class SK>
     inline
     bool
@@ -167,19 +150,19 @@ namespace CGAL {
                                            const typename SK::Root_of_2 &z1,
                                            const typename SK::Root_of_2 &y2)
     {
-      int s1=sign(z1);
-      int s2=sign(z2);
+      int s1=CGAL_NTS sign(z1);
+      int s2=CGAL_NTS sign(z2);
       if (s1==0){
         if (s2==0)
-          return sign(0);
+          return CGAL_NTS sign(0);
         else
-          return sign(y1) * sign(z2);
+          return CGAL_NTS sign(y1) * CGAL_NTS sign(z2);
       }
       else{
         if (s2==0)
-          return sign(- z1) * sign(y2);
+          return CGAL_NTS sign(- z1) * CGAL_NTS sign(y2);
         else
-          return sign((s1*s2)*compare(y1/z1,y2/z2));
+          return CGAL_NTS sign((s1*s2)*compare(y1/z1,y2/z2));
       }    
     }
 
@@ -279,7 +262,7 @@ namespace CGAL {
     has_on(const typename SK::Sphere_3 &a, 
            const typename SK::Circular_arc_3 &p)
     { 
-      return has_on<SK>(a,p.supporting_circle());
+      return a.has_on(p.supporting_circle());
     }
 
     template <class SK>
@@ -288,7 +271,7 @@ namespace CGAL {
     has_on(const typename SK::Plane_3 &a, 
            const typename SK::Circular_arc_3 &p)
     { 
-      return has_on<SK>(a,p.supporting_circle());
+      return a.has_on(p.supporting_circle());
     }
 
     template <class SK>

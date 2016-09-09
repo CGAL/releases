@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Algebraic_foundations/include/CGAL/Needs_parens_as_product.h $
-// $Id: Needs_parens_as_product.h 46979 2008-11-21 10:11:44Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_foundations/include/CGAL/Needs_parens_as_product.h $
+// $Id: Needs_parens_as_product.h 48717 2009-04-08 11:54:51Z spion $
 //
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -21,7 +21,7 @@
 // =============================================================================
 
 #ifndef CGAL_NEEDS_PARENTHESES_AS_PRODUCT_H
-#define  CGAL_NEEDS_PARENTHESES_AS_PRODUCT_H
+#define CGAL_NEEDS_PARENTHESES_AS_PRODUCT_H
 
 #include <CGAL/IO/io.h>
  

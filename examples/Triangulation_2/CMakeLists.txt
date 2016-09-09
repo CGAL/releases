@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "adding_handles.cpp" )
   create_single_source_cgal_program( "colored_face.cpp" )
   create_single_source_cgal_program( "constrained.cpp" )

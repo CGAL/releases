@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_simplicity.h $
-// $Id: Polygon_2_simplicity.h 41736 2008-01-20 22:50:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_simplicity.h $
+// $Id: Polygon_2_simplicity.h 49538 2009-05-24 14:14:05Z efif $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -480,7 +480,7 @@ bool is_simple_polygon(Iterator points_begin, Iterator points_end,
     // A temporary fix as the sweep in some cases doesn't discover vertices with degree > 2
     // Todo: fix the sweep code
     std::vector<typename PolygonTraits::Point_2> points(points_begin,points_end);
-    std::sort(points.begin(), points.end(),typename PolygonTraits::Less_xy_2());
+    std::sort(points.begin(), points.end(), polygon_traits.less_xy_2_object());
 
     typename std::vector<typename PolygonTraits::Point_2>::iterator 
                                   succ(points.begin()) , it(succ++);

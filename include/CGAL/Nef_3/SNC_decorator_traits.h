@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Nef_3/include/CGAL/Nef_3/SNC_decorator_traits.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_decorator_traits.h $
 // $Id: SNC_decorator_traits.h 43831 2008-06-27 11:28:28Z hachenb $
 // 
 //

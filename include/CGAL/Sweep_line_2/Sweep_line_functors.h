@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_functors.h $
-// $Id: Sweep_line_functors.h 41124 2007-12-08 10:56:13Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_functors.h $
+// $Id: Sweep_line_functors.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>
@@ -49,12 +49,17 @@ public:
 
   typedef typename Traits_2::Point_2                Point_2;
   typedef typename Traits_2::X_monotone_curve_2     X_monotone_curve_2;
-  typedef typename Traits_2::Boundary_category      Boundary_category;
+
+  // should be ok, as Traits_2 is supposed to be the adaptor
+  typedef typename Traits_2::Arr_left_side_tag          Arr_left_side_tag;
+  typedef typename Traits_2::Arr_bottom_side_tag        Arr_bottom_side_tag;
+  typedef typename Traits_2::Arr_top_side_tag           Arr_top_side_tag;
+  typedef typename Traits_2::Arr_right_side_tag         Arr_right_side_tag;
 
 private:
 
   // Data members:
-  Traits_2            *m_traits;            // A geometric-traits object.
+  const Traits_2 * m_traits;                // The geometric-traits object.
   
   Arr_parameter_space  m_ps_in_x;           // Storing curve information when
   Arr_parameter_space  m_ps_in_y;           // comparing a curve end with
@@ -63,7 +68,7 @@ private:
 public:
   
   /*! Cosntructor. */
-  Compare_events (Traits_2 *traits) :
+  Compare_events (const Traits_2 * traits) :
     m_traits (traits)
   {}
   
@@ -321,14 +326,14 @@ public:
 
 private:
 
-  Traits_adaptor_2  *m_traits;         // A geometric-traits object.
-  Event            **m_curr_event;     // Points to the current event point.
+  const Traits_adaptor_2 * m_traits;    // A geometric-traits object.
+  Event            **m_curr_event;      // Points to the current event point.
 
 public:
   
   /*! Constructor. */
   template <class Sweep_event>
-  Curve_comparer (Traits_adaptor_2 *t, Sweep_event** e_ptr) :
+  Curve_comparer (const Traits_adaptor_2 * t, Sweep_event** e_ptr) :
     m_traits(t),
     m_curr_event(reinterpret_cast<Event**>(e_ptr))
   {}

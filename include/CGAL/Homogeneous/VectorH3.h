@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH3.h $
-// $Id: VectorH3.h 45152 2008-08-26 13:08:16Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH3.h $
+// $Id: VectorH3.h 49057 2009-04-30 14:03:52Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -42,7 +42,7 @@ class VectorH3
   typedef typename R_::Line_3               Line_3;
   typedef typename R_::Direction_3          Direction_3;
 
-  typedef CGAL::array<RT, 4>               Rep;
+  typedef cpp0x::array<RT, 4>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   typedef Rational_traits<FT>               Rat_traits;

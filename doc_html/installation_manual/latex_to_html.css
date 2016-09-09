@@ -4,8 +4,8 @@
 /* The default style of the LaTeX-to-HTML converter output.                */
 /*                                                                         */
 /* (c) 2004   Lutz Kettner                                                 */
-/* $Id: modern.css 38564 2007-05-05 18:05:03Z ameyer $                                                       */
-/* $Date: 2007-05-05 20:05:03 +0200 (Sat, 05 May 2007) $                                            */
+/* $Id: modern.css 47870 2009-02-02 17:06:34Z spion $                     */
+/* $Date: 2009-02-02 18:06:34 +0100 (Mon, 02 Feb 2009) $                   */
 /* ======================================================================= */
 
 /* ----------------------------------------------------------------------- */
@@ -14,7 +14,8 @@
 
 body {
   background-color: #ffffff;
-  font-family: arial,sans-serif;
+  font-family: arial, sans-serif;
+  text-align:justify;
   color:black;
 }
 
@@ -85,19 +86,87 @@ a.TocLinkSubparagraph  {  }
 div.NavBottom,
 div.NavAddress,
 div.NavTOC,
-div.NavTop             { background-color: #ffff90; }
-div.NavNext,
-div.NavPrev            { background-color: #c0ffc0; }
+div.NavTop {
+    background-color: #ffff90;
+    border: solid thin;
+    padding: 0.5em;
+    margin: 0.3em;
+}
 
+div.NavNext,
+div.NavPrev {
+    background-color: #c0ffc0;
+    border: solid thin;
+    padding: 0.5em;
+    margin: 0.3em;
+}
 
 /* ----------------------------------------------------------------------- */
 /* cc_manual.sty                                                           */
 /* ----------------------------------------------------------------------- */
-div.AdvancedBlock      { background-color: #c0d0ff; }
-em.AdvancedBlockLabel  { font-size:10pt; font-style: italic; }
+div.AdvancedBlock      {
+    border: solid thin;
+    padding: 1.5em 0em 0em 5px;
+    margin: 1em 0;
+    background-color: #c0d0ff;
+    background-image: url(style/Advanced.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
 
 /* ----------------------------------------------------------------------- */
-/* verbatim and example code environments
+/* verbatim and example code environments                                  */
 /* ----------------------------------------------------------------------- */
 pre.Verbatim           { }
 pre.ExampleCode        { background-color: #e8e8e8; }
+
+/* ----------------------------------------------------------------------- */
+/* textsc environment                                                      */
+/* ----------------------------------------------------------------------- */
+.textsc { font-variant: small-caps; }
+
+/* ----------------------------------------------------------------------- */
+/* math environment                                                        */
+/* ----------------------------------------------------------------------- */
+.math {
+       font-family: serif;
+       /* In case of font problem, here is a recommendation I found on the web : */
+       /* font-family: "Unicode Symbols", "Times New Roman", "Apple Symbols", "Arial Unicode MS"; */
+       font-style: italic;
+       font-size: 120%;
+}
+.cal { font-family: "lucida calligraphy"; }
+.sym {
+       font-family: "Arial Unicode MS", arial, serif;
+       font-style: normal; }
+.big_sym {
+       font-family: "Arial Unicode MS", arial, serif;
+       font-style: normal;
+       font-size: 150%;
+}
+.bigbig_sym {
+       font-family: "Arial Unicode MS", arial, serif;
+       font-style: normal;
+       font-size: 200%;
+}
+
+.subsup { font-size: 70%; }
+sub { font-size: 80%; }
+sup { font-size: 80%; }
+
+tr.frac { font-size: 1% }
+
+.mbox {
+       font-family: arial, sans-serif;
+       font-style: normal;
+}
+
+/* ----------------------------------------------------------------------- */
+/* TeX and LaTeX display (taken from TEX4ht)                               */
+/* ----------------------------------------------------------------------- */
+span.TEX {letter-spacing: -0.125em; }
+span.TEX span.E{ position:relative;top:0.5ex;left:-0.0417em;}
+a span.TEX span.E {text-decoration: none; }
+span.LATEX span.A{ position:relative; top:-0.5ex; left:-0.4em; font-size:85%;}
+span.LATEX span.TEX{ position:relative; left: -0.4em; }
+

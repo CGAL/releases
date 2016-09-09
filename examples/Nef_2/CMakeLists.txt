@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "nef_2_construction.cpp" )
   create_single_source_cgal_program( "nef_2_intersection.cpp" )
   create_single_source_cgal_program( "nef_2_polylines.cpp" )

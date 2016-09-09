@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_yz_3.h $
-// $Id: Triangulation_euclidean_traits_yz_3.h 37361 2007-03-21 15:29:30Z cdelage $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_yz_3.h $
+// $Id: Triangulation_euclidean_traits_yz_3.h 48844 2009-04-21 18:28:04Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -20,7 +20,6 @@
 #ifndef CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_YZ_3_H
 #define CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_YZ_3_H
 
-#include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/triangulation_assertions.h>
 
 #include <CGAL/Point_3.h>

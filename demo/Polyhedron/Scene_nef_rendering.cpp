@@ -1,3 +1,5 @@
+#include "config.h"
+#ifdef CGAL_POLYHEDRON_DEMO_USE_NEF
 #include "Nef_type.h"
 #include <CGAL/Nef_S2/OGL_base_object.h>
 #include <CGAL/Nef_3/OGL_helper.h>
@@ -58,6 +60,12 @@ inline void CGAL_GLU_TESS_CALLBACK vertexCallback(GLvoid* vertex,
 }
 
 struct DPoint {
+  DPoint(GLdouble x, GLdouble y, GLdouble z)
+  {
+    coords[0] = x;
+    coords[1] = y;
+    coords[2] = z;
+  }
   GLdouble coords[3];
 };
 
@@ -123,12 +131,11 @@ void gl_render_nef_facets(Nef_polyhedron *p)
 	  Nef_polyhedron::SVertex_const_handle v = hc->source();
 	  const Nef_polyhedron::Point_3& point = v->source()->point();
 	  int i = points.size();
-	  DPoint dp;
+	  DPoint dp(CGAL::to_double(point.x()),
+                    CGAL::to_double(point.y()),
+                    CGAL::to_double(point.z()));
 	  points.push_back(dp);
-	  points[i].coords[0] = CGAL::to_double(point.x());
-	  points[i].coords[1] = CGAL::to_double(point.y());
-	  points[i].coords[2] = CGAL::to_double(point.z());
-	  
+
 	  ::gluTessVertex(tess_, 
 			  static_cast<GLdouble*>(static_cast<void*>(&(points[i].coords))),
 			  &(points[i].coords));
@@ -204,3 +211,4 @@ void gl_render_nef_vertices(Nef_polyhedron* p)
 	      << ::gluErrorString(gl_error) << "\n";
   }
 }
+#endif // CGAL_POLYHEDRON_DEMO_USE_NEF

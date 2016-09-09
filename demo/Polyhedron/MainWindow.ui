@@ -17,90 +17,27 @@
     <normaloff>:/cgal/icons/resources/cgal_logo.xpm</normaloff>:/cgal/icons/resources/cgal_logo.xpm</iconset>
   </property>
   <widget class="QWidget" name="centralwidget" >
-   <layout class="QGridLayout" name="gridLayout" >
-    <item row="0" column="1" >
-     <widget class="Viewer" native="1" name="viewer" />
-    </item>
-    <item row="0" column="0" >
-     <widget class="QDockWidget" name="polyhedraDockWidget" >
-      <property name="locale" >
-       <locale country="UnitedStates" language="English" />
+   <property name="geometry" >
+    <rect>
+     <x>282</x>
+     <y>19</y>
+     <width>696</width>
+     <height>320</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2" >
+    <item>
+     <widget class="Viewer" native="1" name="viewer" >
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+        <horstretch>0</horstretch>
+        <verstretch>1</verstretch>
+       </sizepolicy>
       </property>
-      <property name="windowTitle" >
-       <string>Polyhedra</string>
-      </property>
-      <widget class="QWidget" name="dockWidgetContent" >
-       <layout class="QGridLayout" name="gridLayout_2" >
-        <item row="0" column="0" >
-         <layout class="QVBoxLayout" name="verticalLayout" >
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout" >
-            <item>
-             <widget class="QToolButton" name="addButton" >
-              <property name="text" >
-               <string>+</string>
-              </property>
-              <property name="icon" >
-               <iconset resource="Polyhedron_3.qrc" >
-                <normaloff>:/cgal/icons/plus</normaloff>:/cgal/icons/plus</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="removeButton" >
-              <property name="text" >
-               <string>-</string>
-              </property>
-              <property name="icon" >
-               <iconset resource="Polyhedron_3.qrc" >
-                <normaloff>:/cgal/icons/minus</normaloff>:/cgal/icons/minus</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="duplicateButton" >
-              <property name="text" >
-               <string>...</string>
-              </property>
-              <property name="icon" >
-               <iconset resource="Polyhedron_3.qrc" >
-                <normaloff>:/cgal/icons/duplicate</normaloff>:/cgal/icons/duplicate</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer" >
-              <property name="orientation" >
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0" >
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QTreeView" name="treeView" >
-            <property name="editTriggers" >
-             <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
-            </property>
-            <property name="alternatingRowColors" >
-             <bool>true</bool>
-            </property>
-            <property name="indentation" >
-             <number>0</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
      </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="infoLabel" />
     </item>
    </layout>
   </widget>
@@ -110,17 +47,17 @@
      <x>0</x>
      <y>0</y>
      <width>978</width>
-     <height>29</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile" >
     <property name="title" >
      <string>&amp;File</string>
     </property>
-    <addaction name="actionLoadPolyhedron" />
-    <addaction name="actionErasePolyhedron" />
+    <addaction name="actionLoad" />
+    <addaction name="actionErase" />
     <addaction name="actionEraseAll" />
-    <addaction name="actionDuplicatePolyhedron" />
+    <addaction name="actionDuplicate" />
     <addaction name="actionSaveAs" />
     <addaction name="separator" />
     <addaction name="actionQuit" />
@@ -129,7 +66,7 @@
     <property name="title" >
      <string>&amp;Edit</string>
     </property>
-    <addaction name="actionActivatePolyhedron" />
+    <addaction name="actionShowHide" />
     <addaction name="actionSetPolyhedronA" />
     <addaction name="actionSetPolyhedronB" />
    </widget>
@@ -149,6 +86,8 @@
      <property name="title" >
       <string>&amp;Boolean operations</string>
      </property>
+     <addaction name="actionToNef" />
+     <addaction name="actionToPoly" />
      <addaction name="actionUnion" />
      <addaction name="actionIntersection" />
      <addaction name="actionDifference" />
@@ -190,7 +129,7 @@
      <addaction name="dummyAction" />
     </widget>
     <addaction name="actionAntiAliasing" />
-    <addaction name="actionViewEdges" />
+    <addaction name="actionDraw_two_sides" />
     <addaction name="menuDockWindows" />
    </widget>
    <addaction name="menuFile" />
@@ -198,7 +137,152 @@
    <addaction name="menuOperations" />
    <addaction name="menuView" />
   </widget>
-  <widget class="QStatusBar" name="statusbar" />
+  <widget class="QStatusBar" name="statusbar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>575</y>
+     <width>978</width>
+     <height>19</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QDockWidget" name="sceneDockWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>19</y>
+     <width>276</width>
+     <height>320</height>
+    </rect>
+   </property>
+   <property name="locale" >
+    <locale country="UnitedStates" language="English" />
+   </property>
+   <property name="windowTitle" >
+    <string>Polyhedra</string>
+   </property>
+   <attribute name="dockWidgetArea" >
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContent" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>276</width>
+      <height>300</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_2" >
+     <item row="0" column="0" >
+      <layout class="QVBoxLayout" name="verticalLayout" >
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout" >
+         <item>
+          <widget class="QToolButton" name="addButton" >
+           <property name="text" >
+            <string>+</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="Polyhedron_3.qrc" >
+             <normaloff>:/cgal/icons/plus</normaloff>:/cgal/icons/plus</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="removeButton" >
+           <property name="text" >
+            <string>-</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="Polyhedron_3.qrc" >
+             <normaloff>:/cgal/icons/minus</normaloff>:/cgal/icons/minus</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="duplicateButton" >
+           <property name="text" >
+            <string>...</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="Polyhedron_3.qrc" >
+             <normaloff>:/cgal/icons/duplicate</normaloff>:/cgal/icons/duplicate</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer" >
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTreeView" name="treeView" >
+         <property name="editTriggers" >
+          <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+         </property>
+         <property name="alternatingRowColors" >
+          <bool>true</bool>
+         </property>
+         <property name="indentation" >
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="consoleDockWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>345</y>
+     <width>978</width>
+     <height>230</height>
+    </rect>
+   </property>
+   <property name="allowedAreas" >
+    <set>Qt::BottomDockWidgetArea|Qt::LeftDockWidgetArea|Qt::TopDockWidgetArea</set>
+   </property>
+   <property name="windowTitle" >
+    <string>Console</string>
+   </property>
+   <attribute name="dockWidgetArea" >
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>978</width>
+      <height>210</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3" >
+     <item>
+      <widget class="QTextEdit" name="consoleTextEdit" >
+       <property name="readOnly" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <action name="actionQuit" >
    <property name="text" >
     <string>&amp;Quit</string>
@@ -261,7 +345,7 @@
     <string>&amp;Curvature estimation</string>
    </property>
   </action>
-  <action name="actionLoadPolyhedron" >
+  <action name="actionLoad" >
    <property name="icon" >
     <iconset resource="Polyhedron_3.qrc" >
      <normaloff>:/cgal/icons/plus</normaloff>:/cgal/icons/plus</iconset>
@@ -273,7 +357,7 @@
     <string>Ctrl+L</string>
    </property>
   </action>
-  <action name="actionErasePolyhedron" >
+  <action name="actionErase" >
    <property name="icon" >
     <iconset resource="Polyhedron_3.qrc" >
      <normaloff>:/cgal/icons/minus</normaloff>:/cgal/icons/minus</iconset>
@@ -285,7 +369,7 @@
     <string>Del</string>
    </property>
   </action>
-  <action name="actionDuplicatePolyhedron" >
+  <action name="actionDuplicate" >
    <property name="icon" >
     <iconset resource="Polyhedron_3.qrc" >
      <normaloff>:/cgal/icons/duplicate</normaloff>:/cgal/icons/duplicate</iconset>
@@ -380,20 +464,9 @@
     <string>&amp;Invert selection</string>
    </property>
   </action>
-  <action name="actionViewEdges" >
-   <property name="checkable" >
-    <bool>true</bool>
-   </property>
+  <action name="actionShowHide" >
    <property name="text" >
-    <string>Superimpose edges</string>
-   </property>
-   <property name="shortcut" >
-    <string>Ctrl+E</string>
-   </property>
-  </action>
-  <action name="actionActivatePolyhedron" >
-   <property name="text" >
-    <string>Activate selected polyhedron</string>
+    <string>Show/Hide</string>
    </property>
    <property name="shortcut" >
     <string>Ctrl+Space</string>
@@ -438,6 +511,24 @@
   <action name="actionExplode" >
    <property name="text" >
     <string>Explode</string>
+   </property>
+  </action>
+  <action name="actionToNef" >
+   <property name="text" >
+    <string>Convert to nef polyhedron</string>
+   </property>
+  </action>
+  <action name="actionToPoly" >
+   <property name="text" >
+    <string>Convert to normal polyhedron</string>
+   </property>
+  </action>
+  <action name="actionDraw_two_sides" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Draw two sides</string>
    </property>
   </action>
  </widget>

@@ -17,8 +17,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/internal_functions_on_roots_and_polynomial_1_3_and_2_3.h $
-// $Id: internal_functions_on_roots_and_polynomial_1_3_and_2_3.h 46224 2008-10-13 11:22:46Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/internal_functions_on_roots_and_polynomial_1_3_and_2_3.h $
+// $Id: internal_functions_on_roots_and_polynomial_1_3_and_2_3.h 50465 2009-07-08 13:26:57Z sloriot $
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //             Sylvain Pion
@@ -36,14 +36,14 @@ namespace CGAL {
   inline 
   Sign sign_at( const typename AK::Polynomial_for_spheres_2_3 & equation,
 		  const typename AK::Root_for_spheres_2_3 &r){
-    return sign(r.evaluate(equation));
+    return CGAL_NTS sign(r.evaluate(equation));
   }
 
   template < class AK >
   inline 
   Sign sign_at(const typename AK::Polynomial_1_3 & equation,
 		const typename AK::Root_for_spheres_2_3 &r){
-    return sign(r.evaluate(equation));
+    return CGAL_NTS sign(r.evaluate(equation));
   }
 
   template < class AK >
@@ -247,9 +247,9 @@ namespace CGAL {
     const Root_of_2 t2 = make_root_of_2(alpha,FT(1),gama);
 
     bool first_t1 = true;
-    Sign sign_a1 = sign(p.a1());
-    Sign sign_a2 = sign(p.a2());
-    Sign sign_a3 = sign(p.a3());
+    Sign sign_a1 = CGAL_NTS sign(p.a1());
+    Sign sign_a2 = CGAL_NTS sign(p.a2());
+    Sign sign_a3 = CGAL_NTS sign(p.a3());
     if(sign_a1 == ZERO) {
       if(sign_a2 == ZERO) {
         first_t1 = (sign_a3 == POSITIVE);

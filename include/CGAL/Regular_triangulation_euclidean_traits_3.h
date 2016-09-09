@@ -11,9 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_3/include/CGAL/Regular_triangulation_euclidean_traits_3.h $
-// $Id: Regular_triangulation_euclidean_traits_3.h 46206 2008-10-11 20:21:08Z spion $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Regular_triangulation_euclidean_traits_3.h $
+// $Id: Regular_triangulation_euclidean_traits_3.h 48845 2009-04-21 18:34:14Z spion $
 //
 // Author(s)     : Sylvain Pion
 //                 Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -23,7 +22,6 @@
 #define CGAL_REGULAR_TRIANGULATION_EUCLIDEAN_TRAITS_3_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Weighted_point.h>
 #include <CGAL/representation_tags.h>

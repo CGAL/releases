@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kernel_23/include/CGAL/Line_2.h $
-// $Id: Line_2.h 45156 2008-08-26 13:40:26Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Line_2.h $
+// $Id: Line_2.h 49257 2009-05-09 16:08:19Z spion $
 //
 //
 // Author(s)     : Andreas Fabri
@@ -77,10 +77,10 @@ public:
   Line_2(const RT &a, const RT &b, const RT &c)
     : RLine_2(typename R::Construct_line_2()(Return_base_tag(), a,b,c)) {}
 
-  Line_2(const Segment_2& s)
+  explicit Line_2(const Segment_2& s)
     : RLine_2(typename R::Construct_line_2()(Return_base_tag(), s)) {}
 
-  Line_2(const Ray_2& r)
+  explicit Line_2(const Ray_2& r)
     : RLine_2(typename R::Construct_line_2()(Return_base_tag(), r)) {}
 
   Line_2(const Point_2 &p, const Direction_2 &d)

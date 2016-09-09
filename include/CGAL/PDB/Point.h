@@ -26,16 +26,16 @@
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/squared_distance_3.h>
 
-CGAL_PDB_BEGIN_NAMESPACE
+namespace CGAL { namespace PDB {
 typedef Exact_predicates_inexact_constructions_kernel Kernel;
 typedef Kernel::Point_3 Point;
 typedef Kernel::Vector_3 Vector;
-//! \cond
+    /*
 struct Squared_distance{
   double operator()(const Point &a, const Point &b) const {
     return CGAL::squared_distance(a,b);
   }
-};
+  };*/
 
 
 struct Squared_norm{
@@ -147,5 +147,5 @@ private:
 };
   
 //! \endcond
-CGAL_PDB_END_NAMESPACE
+}}
 #endif

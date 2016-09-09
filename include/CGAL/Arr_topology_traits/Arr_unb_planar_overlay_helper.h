@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_overlay_helper.h $
-// $Id: Arr_unb_planar_overlay_helper.h 41108 2007-12-06 15:26:30Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_overlay_helper.h $
+// $Id: Arr_unb_planar_overlay_helper.h 49772 2009-06-03 21:25:53Z eric $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -170,8 +170,8 @@ template <class Tr, class ArrR, class ArrB, class Arr, class Evnt, class Sbcv>
 void Arr_unb_planar_overlay_helper<Tr,ArrR,ArrB,Arr,Evnt,Sbcv>::
 before_handle_event (Event* e)
 {
-  // Nothing to do in case the event represents a finite point.
-  if (e->is_finite())
+  // Nothing to do in case the event represents a valid point.
+  if (e->is_closed())
     return;
   
   // In case the event occurs on the left edge of the fictitious face (x = -oo)

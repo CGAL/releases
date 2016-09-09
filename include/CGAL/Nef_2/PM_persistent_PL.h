@@ -11,13 +11,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Nef_2/include/CGAL/Nef_2/PM_persistent_PL.h $
-// $Id: PM_persistent_PL.h 40822 2007-11-07 16:51:18Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_2/include/CGAL/Nef_2/PM_persistent_PL.h $
+// $Id: PM_persistent_PL.h 48717 2009-04-08 11:54:51Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
+
 #ifndef CGAL_PM_PERSISTENT_PL_H
-#define CGAL_PM_PM_PERSISTENT_PL_H
+#define CGAL_PM_PERSISTENT_PL_H
+
 #include <CGAL/Nef_2/gen_point_location.h>
 
 template <typename PMPL>
@@ -199,4 +201,3 @@ struct PM_persistent_PL_traits
 
 
 #endif // CGAL_PM_PM_PERSISTENT_PL_H
-

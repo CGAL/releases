@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Envelope_3/include/CGAL/Env_triangle_traits_3.h $
-// $Id: Env_triangle_traits_3.h 42807 2008-04-09 12:46:22Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_3/include/CGAL/Env_triangle_traits_3.h $
+// $Id: Env_triangle_traits_3.h 50370 2009-07-05 13:22:10Z efif $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -340,18 +340,17 @@ public:
   class Make_xy_monotone_3
   {
   protected:
-    const Self *parent;
-  public:
+    const Self * parent;
 
-    Make_xy_monotone_3(const Self* p)
-      : parent(p)
+  public:
+    Make_xy_monotone_3(const Self * p) : parent(p)
     {}
     // create xy-monotone surfaces from a general surface
     // return a past-the-end iterator
     template <class OutputIterator>
     OutputIterator operator()(const Surface_3& s,
                               bool is_lower,
-                              OutputIterator o) 
+                              OutputIterator o) const
     {
       m_is_lower = is_lower;
 
@@ -397,6 +396,7 @@ public:
       }
       return o;
     }
+
   protected:
     // find the envelope point among the two points with same xy coordinates
     const Point_3& find_envelope_point (const Point_3& p1,
@@ -483,7 +483,7 @@ public:
       return o;
     }
 
-    bool m_is_lower;
+    mutable bool m_is_lower;
   };
 
   /*! Get a Make_xy_monotone_3 functor object. */
@@ -639,7 +639,7 @@ public:
         }
         else
         {
-          const Point_2&  p = k.construct_point_2_object() (proj_seg, 0);
+          const Point_2&  p = k.construct_point_on_2_object() (proj_seg, 0);
           *o++ = make_object(p);
         }
       }

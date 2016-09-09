@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_bounded_planar_topology_traits_2.h $
-// $Id: Arr_bounded_planar_topology_traits_2.h 41124 2007-12-08 10:56:13Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_bounded_planar_topology_traits_2.h $
+// $Id: Arr_bounded_planar_topology_traits_2.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
-// Author(s)     : Ron Wein     <wein@post.tau.ac.il>
-//                 Efi Fogel    <efif@post.tau.ac.il>
+// Author(s) : Ron Wein        <wein@post.tau.ac.il>
+//             Efi Fogel       <efif@post.tau.ac.il>
+//             Eric Berberich  <ericb@post.tau.ac.il>
 
 #ifndef CGAL_ARR_BOUNDED_PLANAR_TOPOLOGY_TRAITS_2_H
 #define CGAL_ARR_BOUNDED_PLANAR_TOPOLOGY_TRAITS_2_H
@@ -25,6 +26,7 @@
  * Definition of the Arr_bounded_planar_topology_traits_2<GeomTraits> class.
  */
 
+#include <CGAL/Arr_tags.h>
 #include <CGAL/Arr_topology_traits/Arr_planar_topology_traits_base_2.h>
 #include <CGAL/Arr_topology_traits/Arr_bounded_planar_construction_helper.h>
 #include <CGAL/Arr_topology_traits/Arr_bounded_planar_insertion_helper.h>
@@ -73,8 +75,29 @@ public:
   typedef typename Base::Isolated_vertex                  Isolated_vertex;
   //@}
 
+  // TODO remove adaptor as top-traits might be instantiated by Aos_2 itself
+  typedef Arr_traits_basic_adaptor_2<Geometry_traits_2>   Traits_adaptor_2;
+  
   typedef Arr_bounded_planar_topology_traits_2<Geometry_traits_2, Dcel>
                                                           Self;
+  
+  ///! \name The side tags
+  //@{
+  // are inherited from the geometry traits
+  typedef typename Traits_adaptor_2::Arr_left_side_tag   Arr_left_side_tag;
+  typedef typename Traits_adaptor_2::Arr_bottom_side_tag Arr_bottom_side_tag;
+  typedef typename Traits_adaptor_2::Arr_top_side_tag    Arr_top_side_tag;
+  typedef typename Traits_adaptor_2::Arr_right_side_tag  Arr_right_side_tag;
+  
+  BOOST_MPL_ASSERT
+  ((boost::is_same< Arr_left_side_tag, Arr_oblivious_side_tag >));
+  BOOST_MPL_ASSERT
+  ((boost::is_same< Arr_bottom_side_tag, Arr_oblivious_side_tag >));
+  BOOST_MPL_ASSERT
+  ((boost::is_same< Arr_top_side_tag, Arr_oblivious_side_tag >));
+  BOOST_MPL_ASSERT
+  ((boost::is_same< Arr_right_side_tag, Arr_oblivious_side_tag >));
+  //@}
 
   /*! \struct
    * An auxiliary structure for rebinding the topology traits with a new 
@@ -107,7 +130,7 @@ public:
   {}
 
   /*! Constructor with a geometry-traits class. */
-  Arr_bounded_planar_topology_traits_2 (Geometry_traits_2 *tr) :
+  Arr_bounded_planar_topology_traits_2 (const Geometry_traits_2 *tr) :
     Base (tr),
     unb_face (NULL)
   {}
@@ -312,22 +335,24 @@ public:
 
   template <class ArrangementA_, class ArrangementB_, class OverlayTraits_>
   struct Sweep_line_overlay_visitor :
-    public Arr_overlay_sl_visitor
-        <_Overlay_helper<Arr_overlay_traits_2<Geometry_traits_2,
-                                              ArrangementA_,
-                                              ArrangementB_>,
-                         ArrangementA_, 
-                         ArrangementB_>,
-         OverlayTraits_>
+    public Arr_overlay_sl_visitor <
+      _Overlay_helper<
+        Arr_overlay_traits_2< Arr_traits_basic_adaptor_2<Geometry_traits_2>,
+                              ArrangementA_,
+                              ArrangementB_>,
+        ArrangementA_, 
+        ArrangementB_>,
+      OverlayTraits_>
   {
     typedef ArrangementA_                            ArrangementA_2;
     typedef ArrangementB_                            ArrangementB_2;
     typedef Arr                                      Arrangement_result_2;
     typedef OverlayTraits_                           Overlay_traits;
 
-    typedef Arr_overlay_traits_2<Geometry_traits_2,
-                                 ArrangementA_2,
-                                 ArrangementB_2>     Geom_ovl_traits_2;
+    typedef Arr_overlay_traits_2< 
+              Arr_traits_basic_adaptor_2<Geometry_traits_2>,
+              ArrangementA_2,
+              ArrangementB_2>                        Geom_ovl_traits_2;
 
     typedef _Overlay_helper<Geom_ovl_traits_2, ArrangementA_2, ArrangementB_2>
                                                      Ovl_helper;
@@ -514,6 +539,28 @@ public:
     // This function should never be called:
     CGAL_error();
     return (NULL);
+  }
+
+    //! reference_face (const version).
+  /*! The function returns a reference face of the arrangement.
+      All reference faces of arrangements of the same type have a common
+      point.
+      \return A pointer to the reference face.
+  */
+  const Face* reference_face() const
+  {
+    return unbounded_face();
+  }
+ 
+  //! reference_face (non-const version).
+  /*! The function returns a reference face of the arrangement.
+      All reference faces of arrangements of the same type have a common
+      point.
+      \return A pointer to the reference face.
+  */
+  Face* reference_face()
+  {
+    return unbounded_face();
   }
 
   //@}

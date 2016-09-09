@@ -1,4 +1,4 @@
- // Copyright (c) 2005, 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2006  GeometryFactory (France). All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
 // the terms of the Q Public License version 1.0.
@@ -10,10 +10,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/halfedge_collapse_Polyhedron_3.h $
-// $Id: halfedge_collapse_Polyhedron_3.h 35757 2007-01-18 14:32:47Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/halfedge_collapse_Polyhedron_3.h $
+// $Id: halfedge_collapse_Polyhedron_3.h 50078 2009-06-25 15:12:52Z fcacciola $
 //
-// Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
+// Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
 #ifndef CGAL_SURFACE_MESH_SIMPLIFICATION_COLLAPSE_TRIANGULATION_EDGE_POLYHEDRON_3_H
 #define CGAL_SURFACE_MESH_SIMPLIFICATION_COLLAPSE_TRIANGULATION_EDGE_POLYHEDRON_3_H
@@ -58,7 +58,7 @@ halfedge_collapse( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::edg
   vertex_descriptor q = pq->vertex();
   vertex_descriptor p = pq->opposite()->vertex();
   
-  CGAL_ECMS_TRACE(3, "Collapsing p-q E" << pq->ID << " (V" << p->ID << "->V" << q->ID << ")" ) ;
+  CGAL_ECMS_TRACE(3, "Collapsing p-q E" << pq->id() << " (V" << p->id() << "->V" << q->id() << ")" ) ;
   
   bool lP_Erased = false, lQ_Erased = false ;
   
@@ -67,13 +67,13 @@ halfedge_collapse( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::edg
     CGAL_precondition( !pt->opposite()->is_border() ) ; // p-q-t is a face of the mesh
     if ( lTopLeftFaceExists )
     {
-      CGAL_ECMS_TRACE(3, "Removing p-t E" << pt->ID << " (V" << p->ID << "->V" << pt->vertex()->ID << ") by joining top-left face" ) ;
+      CGAL_ECMS_TRACE(3, "Removing p-t E" << pt->id() << " (V" << p->id() << "->V" << pt->vertex()->id() << ") by joining top-left face" ) ;
       
       aSurface.join_facet (pt);
     }
     else
     {
-      CGAL_ECMS_TRACE(3, "Removing p-t E" << pt->ID << " (V" << p->ID << "->V" << pt->vertex()->ID << ") by erasing top face" ) ;
+      CGAL_ECMS_TRACE(3, "Removing p-t E" << pt->id() << " (V" << p->id() << "->V" << pt->vertex()->id() << ") by erasing top face" ) ;
       
       aSurface.erase_facet(pt->opposite());
       
@@ -90,12 +90,12 @@ halfedge_collapse( typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::edg
     CGAL_precondition( !qb->opposite()->is_border() ) ; // p-q-b is a face of the mesh
     if ( lBottomRightFaceExists )
     {
-      CGAL_ECMS_TRACE(3, "Removing q-b E" << qb->ID << " (V" << q->ID << "->V" << qb->vertex()->ID << ") by joining bottom-right face" ) ;
+      CGAL_ECMS_TRACE(3, "Removing q-b E" << qb->id() << " (V" << q->id() << "->V" << qb->vertex()->id() << ") by joining bottom-right face" ) ;
       aSurface.join_facet (qb);
     }
     else
     {
-      CGAL_ECMS_TRACE(3, "Removing q-b E" << qb->ID << " (V" << q->ID << "->V" << qb->vertex()->ID << ") by erasing bottom face" ) ;
+      CGAL_ECMS_TRACE(3, "Removing q-b E" << qb->id() << " (V" << q->id() << "->V" << qb->vertex()->id() << ") by erasing bottom face" ) ;
       
       aSurface.erase_facet(qb->opposite());
       

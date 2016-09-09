@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Filtered_kernel/include/CGAL/Static_filters/Side_of_oriented_sphere_3.h $
-// $Id: Side_of_oriented_sphere_3.h 42811 2008-04-09 13:35:34Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Static_filters/Side_of_oriented_sphere_3.h $
+// $Id: Side_of_oriented_sphere_3.h 47568 2008-12-21 15:56:20Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -39,7 +39,7 @@ public:
   operator()(const Point_3 &p, const Point_3 &q, const Point_3 &r,
              const Point_3 &s, const Point_3 &t) const
   {
-      CGAL_PROFILER("Side_of_oriented_sphere_3 calls");
+      CGAL_BRANCH_PROFILER_3("semi-static failures/attempts/calls to   : Side_of_oriented_sphere_3", tmp);
 
       using std::fabs;
 
@@ -56,7 +56,7 @@ public:
           fit_in_double(t.x(), tx) && fit_in_double(t.y(), ty) &&
           fit_in_double(t.z(), tz))
       {
-          CGAL_PROFILER("Side_of_oriented_sphere_3 semi-static attempts");
+	  CGAL_BRANCH_PROFILER_BRANCH_1(tmp);
 
           double ptx = px - tx;
           double pty = py - ty;
@@ -101,13 +101,10 @@ public:
           else if (maxy < maxx)
               std::swap(maxx, maxy);
 
-          double eps = 1.2466136531027298e-13 * maxx * maxy * maxz
-                     * (maxz * maxz);
-
           double det = determinant(ptx,pty,ptz,pt2,
-                                         rtx,rty,rtz,rt2,
-                                         qtx,qty,qtz,qt2,
-                                         stx,sty,stz,st2);
+                                   rtx,rty,rtz,rt2,
+                                   qtx,qty,qtz,qt2,
+                                   stx,sty,stz,st2);
 
           // Protect against underflow in the computation of eps.
           if (maxx < 1e-58) /* sqrt^5(min_double/eps) */ {
@@ -116,11 +113,13 @@ public:
           }
           // Protect against overflow in the computation of det.
           else if (maxz < 1e61) /* sqrt^5(max_double/4 [hadamard]) */ {
+            double eps = 1.2466136531027298e-13 * maxx * maxy * maxz
+                       * (maxz * maxz);
             if (det > eps)  return ON_POSITIVE_SIDE;
             if (det < -eps) return ON_NEGATIVE_SIDE;
           }
 
-          CGAL_PROFILER("Side_of_oriented_sphere_3 semi-static failures");
+	  CGAL_BRANCH_PROFILER_BRANCH_2(tmp);
       }
       return Base::operator()(p, q, r, s, t);
   }

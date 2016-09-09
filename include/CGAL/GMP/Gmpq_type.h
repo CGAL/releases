@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Number_types/include/CGAL/GMP/Gmpq_type.h $
-// $Id: Gmpq_type.h 46240 2008-10-13 13:46:35Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/GMP/Gmpq_type.h $
+// $Id: Gmpq_type.h 49008 2009-04-29 13:57:45Z hemmer $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -420,6 +420,14 @@ operator>>(std::istream& is, Gmpq &z)
     z = (negative ? Gmpq(-n,d) : Gmpq(n,d));
   return is;
 }
+
+inline Gmpq min BOOST_PREVENT_MACRO_SUBSTITUTION(const Gmpq& x,const Gmpq& y){
+  return (x<=y)?x:y; 
+}
+inline Gmpq max BOOST_PREVENT_MACRO_SUBSTITUTION(const Gmpq& x,const Gmpq& y){
+  return (x>=y)?x:y; 
+}
+
 
 CGAL_END_NAMESPACE
 

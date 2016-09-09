@@ -15,13 +15,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Generator/include/CGAL/Random_convex_set_traits_2.h $
-// $Id: Random_convex_set_traits_2.h 42902 2008-04-15 16:03:13Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Generator/include/CGAL/Random_convex_set_traits_2.h $
+// $Id: Random_convex_set_traits_2.h 48717 2009-04-08 11:54:51Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
-#if ! (CGAL_RANDOM_CONVEX_SET_TRAITS_2_H)
+#ifndef CGAL_RANDOM_CONVEX_SET_TRAITS_2_H
 #define CGAL_RANDOM_CONVEX_SET_TRAITS_2_H 1
 
 #include <CGAL/Point_2.h>

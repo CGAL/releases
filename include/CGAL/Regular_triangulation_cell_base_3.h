@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_3/include/CGAL/Regular_triangulation_cell_base_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Regular_triangulation_cell_base_3.h $
 // $Id: Regular_triangulation_cell_base_3.h 37880 2007-04-03 15:07:47Z spion $
 //
 // Author(s)     : Christophe Delage <christophe.delage@sophia.inria.fr>

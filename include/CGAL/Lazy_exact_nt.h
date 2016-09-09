@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Number_types/include/CGAL/Lazy_exact_nt.h $
-// $Id: Lazy_exact_nt.h 45636 2008-09-18 15:35:55Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Lazy_exact_nt.h $
+// $Id: Lazy_exact_nt.h 49008 2009-04-29 13:57:45Z hemmer $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -1220,6 +1220,18 @@ struct Max <Lazy_exact_nt<ET> >
     }
 };
 
+template<typename ET> inline 
+Lazy_exact_nt<ET> min BOOST_PREVENT_MACRO_SUBSTITUTION(
+const Lazy_exact_nt<ET> & x,
+const Lazy_exact_nt<ET> & y){
+  return CGAL::Min<Lazy_exact_nt<ET> > ()(x,y);
+}
+template<typename ET> inline 
+Lazy_exact_nt<ET> max BOOST_PREVENT_MACRO_SUBSTITUTION(
+const Lazy_exact_nt<ET> & x,
+const Lazy_exact_nt<ET> & y){
+  return CGAL::Max<Lazy_exact_nt<ET> > ()(x,y);
+}
 
 template <typename ET>
 std::ostream &

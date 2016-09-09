@@ -1,5 +1,5 @@
 // Copyright (c) 2003-2007  INRIA Sophia-Antipolis (France).
-// Copyright (c) 2008       GeometryFactory, Sophia Antipolis (France)
+// Copyright (c) 2008-2009  GeometryFactory (France)
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher.h $
-// $Id: Surface_mesher.h 43584 2008-06-12 15:37:06Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher.h $
+// $Id: Surface_mesher.h 49147 2009-05-05 14:10:13Z lrineau $
 //
 //
 // Author(s) : Steve Oudot,
@@ -38,17 +38,8 @@
 
 #include <CGAL/Surface_mesher/Verbose_flag.h>
 #include <CGAL/Surface_mesher/Types_generators.h>
-#include <CGAL/Profile_counter.h>
-
-#ifdef CGAL_SURFACE_MESHER_PROFILE
-#  define CGAL_SURFACE_MESHER_PROFILER(Y) \
-   { static CGAL::Profile_counter tmp(Y); ++tmp; }
-#  define CGAL_SURFACE_MESHER_HISTOGRAM_PROFILER(Y,Z) \
-   { static CGAL::Profile_histogram_counter tmp(Y); tmp(Z); }
-#else
-#  define CGAL_SURFACE_MESHER_PROFILER(Y)
-#  define CGAL_SURFACE_MESHER_HISTOGRAM_PROFILER(Y,Z)
-#endif
+#include <CGAL/Surface_mesher/Profile_counter.h>
+#include <CGAL/Surface_mesher/Profile_timer.h>
 
 namespace CGAL {
 
@@ -252,7 +243,9 @@ namespace CGAL {
     {
       if( zone.locate_type == Tr::VERTEX )
       {
-	std::cerr << boost::format("Error: (%1%) is already inserted on surface.\n") % p;
+        std::stringstream sstr;
+        sstr << "(" << p << ") is already inserted on surface.\n";
+        CGAL_error_msg(sstr.str().c_str());
 	return CONFLICT_AND_ELEMENT_SHOULD_BE_DROPPED;
       }
       else
@@ -633,45 +626,6 @@ namespace CGAL {
       return false;
     }
 
-  protected:
-
-
-    // Checks restricted Delaunay triangulation
-    bool check_restricted_delaunay () {
-      for (Finite_facets_iterator fit = tr.finite_facets_begin(); fit !=
-	     tr.finite_facets_end(); ++fit) {
-	Facet other_side = mirror_facet(*fit);
-	CGAL_assertion (c2t3.face_status(*fit) ==
-			c2t3.face_status(other_side));
-	//CGAL_assertion (fit->first->is_facet_on_surface (fit->second) ==
-	//		other_side.first->is_facet_on_surface
-	//		(other_side.second));
-	Point center;
-	const bool restr = is_facet_on_surface(*fit, center);
-	const bool restr_bis = is_facet_on_surface(other_side, center);
-	CGAL_assertion (restr == restr_bis);
-	CGAL_assertion ((c2t3.face_status(*fit)
-			 == C2T3::REGULAR) == restr);
-	CGAL_assertion ((c2t3.face_status(other_side)
-			 == C2T3::REGULAR) == restr_bis);
-	//CGAL_assertion (fit->first->is_facet_on_surface (fit->second) ==
-	//		restr);
-	//CGAL_assertion (other_side.first->is_facet_on_surface
-	//		(other_side.second) == restr_bis);
-
-	if ( (c2t3.face_status(*fit) == C2T3::REGULAR) !=
-	    is_facet_on_surface(*fit, center)) {
-	  std::cerr << "Error in restricted Delaunay triangulation: ("
-		    << (c2t3.face_status(*fit) == C2T3::REGULAR)
-		    << "/"
-		    << is_facet_on_surface(*fit, center)
-		    << ")"
-		    << std::endl;
-	  return false;
-	}
-      }
-      return true;
-    }
   public:
     std::string debug_info() const
     {
@@ -722,7 +676,6 @@ namespace CGAL {
     using Mesher_lvl::refine;
     using Mesher_lvl::is_algorithm_done;
     using Mesher_lvl::one_step;
-    using Base::check_restricted_delaunay;
 
     typedef C2T3 Complex_2_in_triangulation_3;
 
@@ -780,7 +733,6 @@ namespace CGAL {
       {
 	scan_triangulation();
 	initialized = true;
-	CGAL_assertion(check_restricted_delaunay());
       }
 
     void refine_mesh () {
@@ -812,7 +764,10 @@ namespace CGAL {
 	++nbsteps;
 	timer.start();
 	while (!is_algorithm_done()) {
-	  one_step (visitor);
+	  {
+	    CGAL_SURFACE_MESHER_TIME_PROFILER("Surface_mesher::one_step()");
+	    one_step (visitor);
+	  }
 	  std::cerr 
 	    << boost::format("\r             \r"
 			     "(%1%,%2%,%3%) (%|4$.1f| vertices/s)")
@@ -823,8 +778,6 @@ namespace CGAL {
 	}
 	std::cerr << "\ndone.\n";
       }
-
-      CGAL_assertion(check_restricted_delaunay());
 
       initialized = false;
     }

@@ -5,7 +5,7 @@
 
 // forward declarations
 class QWidget;
-class Scene;
+class Scene_draw_interface;
 
 class Viewer : public QGLViewer {
 
@@ -20,7 +20,7 @@ public:
   void drawWithNames();
   void postSelection(const QPoint&);
 
-  void setScene(Scene* scene);
+  void setScene(Scene_draw_interface* scene);
   bool antiAliasing() const { return antialiasing; }
 
 signals:
@@ -28,12 +28,14 @@ signals:
 
 public slots:
   void setAntiAliasing(bool b);
+  void setTwoSides(bool b);
 
 private:
   void draw_aux(bool with_names);
 
-  Scene* scene;
+  Scene_draw_interface* scene;
   bool antialiasing;
+  bool twosides;
 }; // end class Viewer
 
 #endif // VIEWER_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Ridges_3/include/CGAL/Ridges.h $
-// $Id: Ridges.h 42905 2008-04-15 16:39:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Ridges_3/include/CGAL/Ridges.h $
+// $Id: Ridges.h 48705 2009-04-07 19:35:03Z spion $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_RIDGE_3_H_
@@ -47,7 +47,7 @@ enum Ridge_order {Ridge_order_3 = 3, Ridge_order_4 = 4};
 //Ridge_line : a connected sequence of edges of a
 //TriangularPolyhedralSurface crossed by a
 //ridge (with a barycentric coordinate to compute the crossing point),
-//with a Ridge_type and weigths : strength and sharpness. Note
+//with a Ridge_type and weights : strength and sharpness. Note
 //sharpness is only available (more precisely only meaningful)
 //if the Ridge_approximation has
 //been computed with the Ridge_order Ridge_order_4.
@@ -312,7 +312,7 @@ class Ridge_approximation
 		       const Ridge_type r_type);
   //When the line is extended with a he, the bary coord of the
   //crossing point is computed, the pair (he,coord) is added and the
-  //weigths are updated 
+  //weights are updated 
   void addback(Ridge_line* ridge_line, 
 	       const Halfedge_const_handle he, 
 	       const Ridge_type r_type);
@@ -709,7 +709,7 @@ addback(Ridge_line* ridge_line, const Halfedge_const_handle he,
   FT coord_cur = ( --(ridge_line->line()->end()) )->second;//bary_coord(he_cur);
   FT coord = bary_coord(he,r_type);
   Vertex_const_handle v_p = he->opposite()->vertex(), v_q = he->vertex(),
-    v_p_cur = he_cur->opposite()->vertex(), v_q_cur = he->vertex(); // he: p->q
+    v_p_cur = he_cur->opposite()->vertex(), v_q_cur = he_cur->vertex(); // he: p->q
   Vector_3 segment = CGAL::barycenter(v_p->point(), coord, v_q->point()) -
                      CGAL::barycenter(v_p_cur->point(), coord_cur, v_q_cur->point());
 
@@ -752,7 +752,7 @@ addfront(Ridge_line* ridge_line,
   FT coord_cur = ( ridge_line->line()->begin() )->second;
   FT coord = bary_coord(he,r_type);
   Vertex_const_handle v_p = he->opposite()->vertex(), v_q = he->vertex(),
-    v_p_cur = he_cur->opposite()->vertex(), v_q_cur = he->vertex(); // he: p->q
+    v_p_cur = he_cur->opposite()->vertex(), v_q_cur = he_cur->vertex(); // he: p->q
   Vector_3 segment = CGAL::barycenter(v_p->point(), coord, v_q->point()) -
                      CGAL::barycenter(v_p_cur->point(), coord_cur, v_q_cur->point());
 

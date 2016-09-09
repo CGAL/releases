@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/STL_Extension/include/CGAL/Nested_iterator.h $
-// $Id: Nested_iterator.h 47027 2008-11-25 17:17:06Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Nested_iterator.h $
+// $Id: Nested_iterator.h 50431 2009-07-07 15:56:20Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -27,6 +27,11 @@
 
 #include <CGAL/iterator.h>
 #include <iterator>
+
+#if defined(BOOST_MSVC)
+#  pragma warning(push)
+#  pragma warning(disable:4396)
+#endif
 
 CGAL_BEGIN_NAMESPACE
 
@@ -240,5 +245,9 @@ bool operator!=(const Nested_iterator<Base_it,Traits>& it1,
 
 
 CGAL_END_NAMESPACE
+
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
 
 #endif // CGAL_NESTED_ITERATOR_H

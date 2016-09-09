@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_arr_dcel.h $
-// $Id: Arr_polyhedral_sgm_arr_dcel.h 42362 2008-03-04 15:46:38Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_arr_dcel.h $
+// $Id: Arr_polyhedral_sgm_arr_dcel.h 50602 2009-07-14 14:39:28Z naamamay $
 // 
 //
 // Author(s)     : Efi Fogel          <efif@post.tau.ac.il>
@@ -65,6 +65,11 @@ public:
    * the halfedge while performing the minkowski sum
    */
   unsigned int arr_mask() const { return m_arr_mask; }
+
+  /*! Set the arr of an edge with a value.
+  * \param arr_id the id to set to.
+  */
+  void set_arr(unsigned int id) { m_arr_mask  = id; }
 };
 
 /*! Extend the arrangement face */

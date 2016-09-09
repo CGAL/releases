@@ -11,13 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Matrix_search/include/CGAL/Cartesian_matrix.h $
-// $Id: Cartesian_matrix.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/Cartesian_matrix.h $
+// $Id: Cartesian_matrix.h 48716 2009-04-08 11:40:21Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
-#if ! (CGAL_CARTESIAN_MATRIX_H)
+#ifndef CGAL_CARTESIAN_MATRIX_H
 #define CGAL_CARTESIAN_MATRIX_H 1
 
 #include <CGAL/basic.h>

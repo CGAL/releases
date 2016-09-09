@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Partition_2/include/CGAL/Partition_2/Triangulation_indirect_traits_2.h $
-// $Id: Triangulation_indirect_traits_2.h 31311 2006-05-29 08:30:22Z wein $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Partition_2/include/CGAL/Partition_2/Triangulation_indirect_traits_2.h $
+// $Id: Triangulation_indirect_traits_2.h 48088 2009-02-15 15:07:03Z ophirset $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -57,7 +57,8 @@ template <class Compare_x_2>
 class Indirect_compare_x_2
 {
 public:
-   Indirect_compare_x_2(): _compare_x_2(Compare_x_2())
+   Indirect_compare_x_2(const Compare_x_2& compare_x_2)
+     : _compare_x_2(compare_x_2)
    {}
 
    template <class Point_2_ptr>
@@ -74,7 +75,8 @@ template <class Compare_y_2>
 class Indirect_compare_y_2
 {
 public:
-   Indirect_compare_y_2(): _compare_y_2(Compare_y_2())
+   Indirect_compare_y_2(const Compare_y_2& compare_y_2)
+     : _compare_y_2(compare_y_2)
    {}
 
    template <class Point_2_ptr>
@@ -91,7 +93,8 @@ template <class Orientation_2>
 class Indirect_orientation_2
 {
 public:
-   Indirect_orientation_2(): _orientation_2(Orientation_2())
+   Indirect_orientation_2(const Orientation_2& orientation_2)
+     : _orientation_2(orientation_2)
    {}
 
    template <class Point_2_ptr>
@@ -129,19 +132,24 @@ public:
   typedef Indirect_compare_y_2<typename Traits::Compare_y_2>     Compare_y_2;
   typedef Construct_indirect_segment_2<Circulator>      Construct_segment_2;
 
+  // constructor
+  Triangulation_indirect_traits_2 (const Traits& traits)
+    : _traits(traits)
+  { }
+
    Compare_x_2 compare_x_2_object() const
    {
-      return Compare_x_2();
+     return Compare_x_2(_traits.compare_x_2_object());
    }  
 
    Compare_y_2 compare_y_2_object() const
    {
-      return Compare_y_2();
+     return Compare_y_2(_traits.compare_y_2_object());
    }  
 
    Orientation_2 orientation_2_object() const
    {
-      return Orientation_2();
+     return Orientation_2(_traits.orientation_2_object());
    }
 
    Construct_segment_2
@@ -149,9 +157,7 @@ public:
    { return Construct_segment_2(); }
 
 private:
-   Orientation_2 _orientation_2;
-   Compare_x_2 _compare_x_2;
-   Compare_y_2 _compare_y_2;
+   const Traits& _traits;
 };
 
 }

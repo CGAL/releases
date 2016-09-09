@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
-// $Id: Constrained_triangulation_plus_2.h 43862 2008-06-27 15:51:48Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
+// $Id: Constrained_triangulation_plus_2.h 48844 2009-04-21 18:28:04Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -21,7 +21,6 @@
 #define CGAL_CONSTRAINED_TRIANGULATION_PLUS_2_H
 
 #include <CGAL/triangulation_assertions.h>
-#include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/Constraint_hierarchy_2.h>
 #include <CGAL/Constrained_Delaunay_triangulation_2.h>
 

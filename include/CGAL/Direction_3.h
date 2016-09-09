@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kernel_23/include/CGAL/Direction_3.h $
-// $Id: Direction_3.h 42932 2008-04-17 10:13:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Direction_3.h $
+// $Id: Direction_3.h 49257 2009-05-09 16:08:19Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -69,16 +69,16 @@ public:
   Direction_3(const Rep& d)
     : Rep(d) {}
 
-  Direction_3(const Vector_3& v)
+  explicit Direction_3(const Vector_3& v)
     : Rep(typename R::Construct_direction_3()(Return_base_tag(), v)) {}
 
-  Direction_3(const Line_3& l)
+  explicit Direction_3(const Line_3& l)
     : Rep(typename R::Construct_direction_3()(Return_base_tag(), l)) {}
 
-  Direction_3(const Ray_3& r)
+  explicit Direction_3(const Ray_3& r)
     : Rep(typename R::Construct_direction_3()(Return_base_tag(), r)) {}
 
-  Direction_3(const Segment_3& s)
+  explicit Direction_3(const Segment_3& s)
     : Rep(typename R::Construct_direction_3()(Return_base_tag(), s)) {}
 
   Direction_3(const RT& hx, const RT& hy, const RT& hz)

@@ -11,13 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Matrix_search/include/CGAL/extremal_polygon_2.h $
-// $Id: extremal_polygon_2.h 44317 2008-07-22 12:29:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/extremal_polygon_2.h $
+// $Id: extremal_polygon_2.h 48717 2009-04-08 11:54:51Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
-#if ! (CGAL_EXTREMAL_POLYGON_2_H)
+#ifndef CGAL_EXTREMAL_POLYGON_2_H
 #define CGAL_EXTREMAL_POLYGON_2_H 1
 
 #include <CGAL/Optimisation/assertions.h>

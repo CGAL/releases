@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_event.h $
-// $Id: Sweep_line_event.h 41325 2007-12-26 15:39:40Z golubevs $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_event.h $
+// $Id: Sweep_line_event.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
 // Author(s)     : Tali Zvi        <talizvi@post.tau.ac.il>,
@@ -56,7 +56,16 @@ public:
   typedef Traits_                                       Traits_2;
   typedef typename Traits_2::X_monotone_curve_2         X_monotone_curve_2;
   typedef typename Traits_2::Point_2                    Point_2;
-  typedef typename Traits_2::Boundary_category          Boundary_category;
+
+  // should be ok, as Traits_ has already extended by Basic_sweep_line
+  typedef typename CGALi::Arr_complete_left_side_tag< Traits_2 >::Tag
+                                                        Arr_left_side_tag;
+  typedef typename CGALi::Arr_complete_bottom_side_tag< Traits_2 >::Tag
+                                                        Arr_bottom_side_tag;
+  typedef typename CGALi::Arr_complete_top_side_tag< Traits_2 >::Tag
+                                                        Arr_top_side_tag;
+  typedef typename CGALi::Arr_complete_right_side_tag< Traits_2 >::Tag
+                                                        Arr_right_side_tag;
 
   typedef Subcurve_                                     Subcurve;
   //template<typename SC>
@@ -95,7 +104,7 @@ protected:
   char               m_type;        // The event type.
   char               m_ps_x;        // The boundary condition in x.
   char               m_ps_y;        // The boundary condition in y.
-  char               m_finite;      // Is the event finite (associated with
+  char               m_closed;      // Is the event closed (associated with
                                     // a valid point.
 
 public:
@@ -105,7 +114,7 @@ public:
     m_type (0),
     m_ps_x (static_cast<char> (ARR_INTERIOR)),
     m_ps_y (static_cast<char> (ARR_INTERIOR)),
-    m_finite (1)
+    m_closed (1)
   {}
 
   /*! Initialize an event that is associated with a valid point. */
@@ -116,17 +125,18 @@ public:
     m_type = type;
     m_ps_x = static_cast<char> (ps_x);
     m_ps_y = static_cast<char> (ps_y);
-    m_finite = 1;
+    m_closed = 1;
   }
 
-  /*! Initialize an event associates with an unbounded curve end. */
-  void init_at_infinity (Attribute type,
-                         Arr_parameter_space ps_x, Arr_parameter_space ps_y)
+  /*! Initialize an event associates with an open curve end. */
+  void init_at_open_boundary (Attribute type,
+                              Arr_parameter_space ps_x, 
+                              Arr_parameter_space ps_y)
   {
     m_type = type;
     m_ps_x = ps_x;
     m_ps_y = ps_y;
-    m_finite = 0;
+    m_closed = 0;
   }
 
   /*! Add a subcurve to the container of left curves. */
@@ -162,7 +172,7 @@ public:
 
   /*! Add a subcurve to the container of right curves. */
   std::pair<bool, Subcurve_iterator>
-  add_curve_to_right (Subcurve *curve, Traits_2 *tr) 
+  add_curve_to_right (Subcurve *curve, const Traits_2 *tr) 
   {
     if (m_rightCurves.empty())
     {
@@ -170,9 +180,11 @@ public:
       return (std::make_pair(false, m_rightCurves.begin()));
     }
 
-    // Check if its an event an infinity, and if so then there is no overlap
-    //(there cannot be two non-overlap curves at the same event at infinity).
-    if (!this->is_finite())
+    // Check if its an event at open boundary, 
+    // and if so then there is no overlap
+    //(there cannot be two non-overlap curves at the same event at open 
+    // boundary).
+    if (!this->is_closed())
       return (std::make_pair(true, m_rightCurves.begin()));
  
     Subcurve_iterator iter = m_rightCurves.begin();
@@ -311,21 +323,21 @@ public:
 
   /*!
    * Get the actual event point (const version).
-   * \pre The event is associated with a finite point.
+   * \pre The event is associated with a valid point.
    */
   const Point_2& point() const
   {
-    CGAL_precondition (is_finite());
+    CGAL_precondition (is_closed());
     return (m_point);
   }
 
   /*!
    * Get the actual event point (non-const version).
-   * \pre The event is associated with a finite point.
+   * \pre The event is associated with a valid point.
    */
   Point_2& point()
   {
-    CGAL_precondition (is_finite());
+    CGAL_precondition (is_closed());
     return (m_point);
   }
 
@@ -431,9 +443,9 @@ public:
 
   /// \name Get the boundary conditions of the event.
   //@{
-  inline bool is_finite() const
+  inline bool is_closed() const
   {
-    return (m_finite != 0);
+    return (m_closed != 0);
   }
 
   inline bool is_on_boundary () const
@@ -530,7 +542,7 @@ public:
   void Sweep_line_event<Traits, Subcurve>::Print() 
   {
     std::cout << "\tEvent info: "  << "\n" ;
-    if (this->is_finite())
+    if (this->is_closed())
       std::cout << "\t" << m_point << "\n" ;
     else
     {

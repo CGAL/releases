@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesher/include/CGAL/Complex_2_in_triangulation_3.h $
-// $Id: Complex_2_in_triangulation_3.h 45154 2008-08-26 13:25:42Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Complex_2_in_triangulation_3.h $
+// $Id: Complex_2_in_triangulation_3.h 47967 2009-02-07 13:30:04Z lrineau $
 //
 //
 // Author(s)     : Steve Oudot, David Rey, Mariette Yvinec, Laurent Rineau, Andreas Fabri
@@ -340,6 +340,10 @@ public:
 
   Face_status face_status (const Edge& e) const {
     return face_status(e.first->vertex(e.second), e.first->vertex(e.third));
+  }
+
+  Face_status face_status (const Cell_handle c, const int i, const int j) const {
+    return face_status(c->vertex(i), c->vertex(j));
   }
 
   Face_status face_status (const Vertex_handle& va,

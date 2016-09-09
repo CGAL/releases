@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Min_sphere_d/include/CGAL/Min_sphere_annulus_d_traits_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_sphere_d/include/CGAL/Min_sphere_annulus_d_traits_2.h $
 // $Id: Min_sphere_annulus_d_traits_2.h 37871 2007-04-03 13:14:58Z afabri $
 // 
 //

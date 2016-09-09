@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_2.h $
 // $Id: Circular_arc_2.h 45974 2008-10-01 15:12:01Z pmachado $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_hyperbolic_arc_traits_2.h $
-// $Id: Arr_hyperbolic_arc_traits_2.h 41124 2007-12-08 10:56:13Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_hyperbolic_arc_traits_2.h $
+// $Id: Arr_hyperbolic_arc_traits_2.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -51,7 +51,11 @@ public:
   // Category tags:
   typedef Tag_true                                      Has_left_category;
   typedef Tag_false                                     Has_merge_category;
-  typedef Arr_no_boundary_tag                           Boundary_category;
+
+  typedef Arr_oblivious_side_tag                        Arr_left_side_tag;
+  typedef Arr_oblivious_side_tag                        Arr_bottom_side_tag;
+  typedef Arr_oblivious_side_tag                        Arr_top_side_tag;
+  typedef Arr_oblivious_side_tag                        Arr_right_side_tag;
 
 public:
 
@@ -342,7 +346,7 @@ public:
   };
 
   /*! Get a Make_x_monotone_2 functor object. */
-  Make_x_monotone_2 make_x_monotone_2_object ()
+  Make_x_monotone_2 make_x_monotone_2_object () const
   {
     return Make_x_monotone_2();
   }
@@ -371,7 +375,7 @@ public:
   };
 
   /*! Get a Split_2 functor object. */
-  Split_2 split_2_object ()
+  Split_2 split_2_object () const
   {
     return Split_2();
   }
@@ -397,7 +401,7 @@ public:
   };
 
   /*! Get an Intersect_2 functor object. */
-  Intersect_2 intersect_2_object ()
+  Intersect_2 intersect_2_object () const
   {
     return Intersect_2();
   }

@@ -1,4 +1,4 @@
-// Copyright (c) 2005, 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2006  GeometryFactory (France). All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
 // the terms of the Q Public License version 1.0.
@@ -10,10 +10,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Common.h $
-// $Id: Common.h 37267 2007-03-19 14:40:37Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Common.h $
+// $Id: Common.h 50078 2009-06-25 15:12:52Z fcacciola $
 //
-// Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
+// Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
 #ifndef CGAL_SURFACE_MESH_SIMPLIFICATION_DETAIL_COMMON_H
 #define CGAL_SURFACE_MESH_SIMPLIFICATION_DETAIL_COMMON_H 1
@@ -21,8 +21,13 @@
 #include <functional>
 #include <utility>
 #include <vector>
+#include <vector>
+#include <set>
 
+#include <boost/config.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/scoped_ptr.hpp>
+#include <boost/iterator_adaptors.hpp>
 #include <boost/optional/optional.hpp>
 #include <boost/none.hpp>
 #include <boost/tuple/tuple.hpp>
@@ -30,6 +35,7 @@
 #include <boost/scoped_array.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/properties.hpp>
+#include <boost/graph/adjacency_list.hpp>
 
 #include <CGAL/Cartesian/MatrixC33.h>
 #include <CGAL/Modifiable_priority_queue.h>
@@ -75,10 +81,16 @@ bool handle_exists ( Iterator begin, Iterator end, Handle h )
 
 } // namespace Surface_mesh_simplification
 
+template<class N>
+inline std::string n_to_string( N const& n )
+{
+  return boost::str( boost::format("%|5.19g|") % n ) ;   
+}
+
 template<class XYZ>
 inline std::string xyz_to_string( XYZ const& xyz )
 {
-  return boost::str( boost::format("(%|5.19f|,%|5.19f|,%|5.19f|)") % xyz.x() % xyz.y() % xyz.z() ) ;   
+  return boost::str( boost::format("(%|5.19g|,%|5.19g|,%|5.19g|)") % xyz.x() % xyz.y() % xyz.z() ) ;   
 }
 
 template<class Matrix>

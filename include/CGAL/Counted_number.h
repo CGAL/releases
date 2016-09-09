@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Number_types/include/CGAL/Counted_number.h $
-// $Id: Counted_number.h 44789 2008-08-05 13:42:15Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Counted_number.h $
+// $Id: Counted_number.h 49008 2009-04-29 13:57:45Z hemmer $
 //
 //
 // Author(s)     : Geert-Jan Giezeman,
@@ -767,6 +767,19 @@ public:
         }
     };
 };
+
+template<typename NT> inline 
+Counted_number<NT> min BOOST_PREVENT_MACRO_SUBSTITUTION(
+const Counted_number<NT> & x,
+const Counted_number<NT> & y){
+  return CGAL::Min<Counted_number<NT> > ()(x,y);
+}
+template<typename NT> inline 
+Counted_number<NT> max BOOST_PREVENT_MACRO_SUBSTITUTION(
+const Counted_number<NT> & x,
+const Counted_number<NT> & y){
+  return CGAL::Max<Counted_number<NT> > ()(x,y);
+}
 
 CGAL_END_NAMESPACE
 

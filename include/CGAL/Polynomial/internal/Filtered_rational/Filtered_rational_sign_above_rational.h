@@ -12,13 +12,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_rational_sign_above_rational.h $
-// $Id: Filtered_rational_sign_above_rational.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/Filtered_rational/Filtered_rational_sign_above_rational.h $
+// $Id: Filtered_rational_sign_above_rational.h 48717 2009-04-08 11:54:51Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
 
-#ifndef CGAL_POLYNOMIAL_INTERNAL_FILTERNAL_SIGN_ABOVE_RATIONAL_H
+#ifndef CGAL_POLYNOMIAL_INTERNAL_FILTERED_SIGN_ABOVE_RATIONAL_H
 #define CGAL_POLYNOMIAL_INTERNAL_FILTERED_SIGN_ABOVE_RATIONAL_H
 
 #include <CGAL/Polynomial/basic.h>

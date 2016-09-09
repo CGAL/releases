@@ -1,8 +1,5 @@
-// Copyright (c) 2006, 2007  Utrecht University (The Netherlands),
-// ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria),
-// and Tel-Aviv University (Israel).  All rights reserved.
+// Copyright (c) 2006, 2007, 2009  Stanford University (USA),
+// INRIA Sophia-Antipolis (France).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License as
@@ -15,16 +12,18 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/support/test_BOOST_PROGRAM_OPTIONS.cpp $
-// $Id: test_BOOST_PROGRAM_OPTIONS.cpp 37323 2007-03-20 19:14:02Z reichel $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/support/test_BOOST_PROGRAM_OPTIONS.cpp $
+// $Id: test_BOOST_PROGRAM_OPTIONS.cpp 49151 2009-05-05 15:25:31Z spion $
 //
-// Author(s)     : Daniel Russel
+// Author(s)     : Daniel Russel, Sylvain Pion
 
 // Tests if BOOST_PROGRAM_OPTIONS is available.
 
 #include <iostream>
+#include <string>
 #include <boost/program_options.hpp>
+
+namespace po = boost::program_options;
 
 int main(int ac, char *av[])
 {
@@ -32,14 +31,18 @@ int main(int ac, char *av[])
             << ((BOOST_VERSION / 100) % 100) << "."
             << BOOST_VERSION % 100 << std::endl;
 
-  boost::program_options::options_description desc("Allowed options");
+  std::string str;
+
+  po::options_description desc("Allowed options");
   desc.add_options()
     ("help", "produce help message")
+    ("input-file,f", po::value<std::string>(&str)->default_value("blabla.txt"),
+     "name of file")
     ;
 
-  boost::program_options::variables_map vm;
-  boost::program_options::store(boost::program_options::parse_command_line(ac, av, desc), vm);
-  boost::program_options::notify(vm);    
+  po::variables_map vm;
+  po::store(po::parse_command_line(ac, av, desc), vm);
+  po::notify(vm);    
 
   if (vm.count("help")) {
     std::cout << "Help" << "\n";

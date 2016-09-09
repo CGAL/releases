@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "Kinetic_Delaunay_triangulation_2.cpp" )
   create_single_source_cgal_program( "Kinetic_Delaunay_triangulation_3.cpp" )
   create_single_source_cgal_program( "Kinetic_insert_event.cpp" )

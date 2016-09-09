@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_edges_level.h $
-// $Id: Surface_mesher_edges_level.h 42968 2008-04-21 16:07:38Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_edges_level.h $
+// $Id: Surface_mesher_edges_level.h 48704 2009-04-07 19:30:59Z spion $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -220,7 +220,7 @@ namespace Surface_mesher {
 	const FT sq_norm_middle_vector = sq_length(middle_vector);
 
 #ifdef CGAL_SURFACE_MESHER_EDGES_DEBUG_INTERSECTION
-	std::cerr << ::boost::format("lenghts=%1%, %2%, %3%\n")
+	std::cerr << ::boost::format("lengths=%1%, %2%, %3%\n")
 	  % sq_norm_first_vector
 	  % sq_norm_middle_vector
 	  % sq_norm_second_vector;

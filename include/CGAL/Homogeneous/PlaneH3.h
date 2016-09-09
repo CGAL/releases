@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Homogeneous_kernel/include/CGAL/Homogeneous/PlaneH3.h $
-// $Id: PlaneH3.h 45152 2008-08-26 13:08:16Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/PlaneH3.h $
+// $Id: PlaneH3.h 49057 2009-04-30 14:03:52Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -43,7 +43,7 @@ class PlaneH3
    typedef typename R_::Plane_3              Plane_3;
    typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-   typedef CGAL::array<RT, 4>               Rep;
+   typedef cpp0x::array<RT, 4>               Rep;
    typedef typename R_::template Handle<Rep>::type  Base;
 
    Base base;
@@ -118,7 +118,7 @@ protected:
 //      |  q.hx()   q.hy()  q.hz()  q.hw()  |
 //      |  r.hx()   r.hy()  r.hz()  r.hw()  |
 //
-//  CGAL::array<RT, 4> ( a(), b(), c(), d() )
+//  cpp0x::array<RT, 4> ( a(), b(), c(), d() )
 
 template < class R >
 inline

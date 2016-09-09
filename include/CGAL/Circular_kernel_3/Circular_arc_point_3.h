@@ -11,11 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_point_3.h $
-// $Id: Circular_arc_point_3.h 44381 2008-07-24 09:26:28Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_point_3.h $
+// $Id: Circular_arc_point_3.h 50731 2009-07-21 09:08:07Z sloriot $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
-//             Julien Hazebrouck, Damien Leroy
+//             Sebastien Loriot, Julien Hazebrouck, Damien Leroy
 
 // Partially supported by the IST Programme of the EU as a 
 // STREP (FET Open) Project under Contract No  IST-006413 
@@ -78,18 +78,17 @@ public:
     // s1,s2,s3 must intersect
     CGAL_kernel_precondition(sols.size() != 0);
     if(sols.size() == 1) {
-      std::pair<typename SK::Circular_arc_point_3, unsigned> pair;
       // the intersection must be a point
-      CGAL_kernel_precondition(assign(pair,sols[0]));
-      assign(pair,sols[0]);
-      *this = pair.first.rep();
+      const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
+        object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[0]);
+      CGAL_kernel_precondition(pair!=NULL);
+      *this = pair->first.rep();
     } else {
-      std::pair<typename SK::Circular_arc_point_3, unsigned> pair;
       // the intersections must be a point
-      CGAL_kernel_precondition(assign(pair,sols[0]));
-      CGAL_kernel_precondition(assign(pair,sols[1]));
-      assign(pair,sols[less_xyz?0:1]);
-      *this = pair.first.rep();
+      const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
+        object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[less_xyz?0:1]);
+      CGAL_kernel_precondition(pair!=NULL);
+      *this = pair->first.rep();
     } 
   }
 
@@ -102,18 +101,17 @@ public:
     // s1,s2,s3 must intersect
     CGAL_kernel_precondition(sols.size() != 0);
     if(sols.size() == 1) {
-      std::pair<typename SK::Circular_arc_point_3, unsigned> pair;
       // the intersection must be a point
-      CGAL_kernel_precondition(assign(pair,sols[0]));
-      assign(pair,sols[0]);
-      *this = pair.first.rep();
+      const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
+        object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[0]);
+      CGAL_kernel_precondition(pair!=NULL);
+      *this = pair->first.rep();
     } else {
-      std::pair<typename SK::Circular_arc_point_3, unsigned> pair;
       // the intersections must be a point
-      CGAL_kernel_precondition(assign(pair,sols[0]));
-      CGAL_kernel_precondition(assign(pair,sols[1]));
-      assign(pair,sols[less_xyz?0:1]);
-      *this = pair.first.rep();
+      const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
+        object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[less_xyz?0:1]);
+      CGAL_kernel_precondition(pair!=NULL);
+      *this = pair->first.rep();
     } 
   }
 
@@ -126,18 +124,17 @@ public:
     // s1,s2,s3 must intersect
     CGAL_kernel_precondition(sols.size() != 0);
     if(sols.size() == 1) {
-      std::pair<typename SK::Circular_arc_point_3, unsigned> pair;
       // the intersection must be a point
-      CGAL_kernel_precondition(assign(pair,sols[0]));
-      assign(pair,sols[0]);
-      *this = pair.first.rep();
+      const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
+        object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[0]);
+      CGAL_kernel_precondition(pair!=NULL);      
+      *this = pair->first.rep();
     } else {
-      std::pair<typename SK::Circular_arc_point_3, unsigned> pair;
       // the intersections must be a point
-      CGAL_kernel_precondition(assign(pair,sols[0]));
-      CGAL_kernel_precondition(assign(pair,sols[1]));
-      assign(pair,sols[less_xyz?0:1]);
-      *this = pair.first.rep();
+      const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
+        object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[less_xyz?0:1]);
+      CGAL_kernel_precondition(pair!=NULL);            
+      *this = pair->first.rep();
     }
   }
 
@@ -149,18 +146,17 @@ public:
     // s1,s2,s3 must intersect
     CGAL_kernel_precondition(sols.size() != 0);
     if(sols.size() == 1) {
-      std::pair<typename SK::Circular_arc_point_3, unsigned> pair;
       // the intersection must be a point
-      CGAL_kernel_precondition(assign(pair,sols[0]));
-      assign(pair,sols[0]);
-      *this = pair.first.rep();
+      const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
+        object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[0]);
+      CGAL_kernel_precondition(pair!=NULL);            
+      *this = pair->first.rep();
     } else {
-      std::pair<typename SK::Circular_arc_point_3, unsigned> pair;
       // the intersections must be a point
-      CGAL_kernel_precondition(assign(pair,sols[0]));
-      CGAL_kernel_precondition(assign(pair,sols[1]));
-      assign(pair,sols[less_xyz?0:1]);
-      *this = pair.first.rep();
+      const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
+        object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[less_xyz?0:1]);
+      CGAL_kernel_precondition(pair!=NULL);            
+      *this = pair->first.rep();
     }
   }
 
@@ -172,18 +168,17 @@ public:
     // s1,s2,s3 must intersect
     CGAL_kernel_precondition(sols.size() != 0);
     if(sols.size() == 1) {
-      std::pair<typename SK::Circular_arc_point_3, unsigned> pair;
       // the intersection must be a point
-      CGAL_kernel_precondition(assign(pair,sols[0]));
-      assign(pair,sols[0]);
-      *this = pair.first.rep();
+      const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
+        object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[0]);
+      CGAL_kernel_precondition(pair!=NULL);            
+      *this = pair->first.rep();
     } else {
-      std::pair<typename SK::Circular_arc_point_3, unsigned> pair;
       // the intersections must be a point
-      CGAL_kernel_precondition(assign(pair,sols[0]));
-      CGAL_kernel_precondition(assign(pair,sols[1]));
-      assign(pair,sols[less_xyz?0:1]);
-      *this = pair.first.rep();
+      const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
+        object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[less_xyz?0:1]);
+      CGAL_kernel_precondition(pair!=NULL);            
+      *this = pair->first.rep();
     }
   }
 
@@ -195,18 +190,17 @@ public:
     // s1,s2,s3 must intersect
     CGAL_kernel_precondition(sols.size() != 0);
     if(sols.size() == 1) {
-      std::pair<typename SK::Circular_arc_point_3, unsigned> pair;
       // the intersection must be a point
-      CGAL_kernel_precondition(assign(pair,sols[0]));
-      assign(pair,sols[0]);
-      *this = pair.first.rep();
+      const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
+        object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[0]);
+      CGAL_kernel_precondition(pair!=NULL);            
+      *this = pair->first.rep();
     } else {
-      std::pair<typename SK::Circular_arc_point_3, unsigned> pair;
       // the intersections must be a point
-      CGAL_kernel_precondition(assign(pair,sols[0]));
-      CGAL_kernel_precondition(assign(pair,sols[1]));
-      assign(pair,sols[less_xyz?0:1]);
-      *this = pair.first.rep();
+      const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
+        object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[less_xyz?0:1]);
+      CGAL_kernel_precondition(pair!=NULL);            
+      *this = pair->first.rep();
     }
   }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2005, 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2006  GeometryFactory (France). All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
 // the terms of the Q Public License version 1.0.
@@ -10,22 +10,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Edge_collapse.h $
-// $Id: Edge_collapse.h 37267 2007-03-19 14:40:37Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Detail/Edge_collapse.h $
+// $Id: Edge_collapse.h 50078 2009-06-25 15:12:52Z fcacciola $
 //
-// Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
+// Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
 #ifndef CGAL_SURFACE_MESH_SIMPLIFICATION_DETAIL_EDGE_COLLAPSE_H
 #define CGAL_SURFACE_MESH_SIMPLIFICATION_DETAIL_EDGE_COLLAPSE_H 1
-
-#include <vector>
-#include <set>
-
-#include <boost/config.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/iterator_adaptors.hpp>
-#include <boost/graph/adjacency_list.hpp>
 
 #include <CGAL/Surface_mesh_simplification/Detail/Common.h>
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_profile.h>
@@ -90,6 +81,9 @@ public:
   typedef typename Kernel_traits<Point>::Kernel Kernel ;
   
   typedef typename Kernel::Equal_3 Equal_3 ;
+  
+  typedef typename Kernel::Vector_3 Vector ;
+  typedef typename Kernel::FT       FT ;
 
   struct Compare_id
   {
@@ -180,7 +174,7 @@ public:
               , EdgeIsBorderMap  const& aEdge_is_border_map 
               , GetCost          const& aGetCost
               , GetPlacement     const& aGetPlacement
-              , VisitorT*               aVisitor          // Can be NULL
+              , VisitorT         const& aVisitor
               ) ;
   
   int run() ;
@@ -189,10 +183,11 @@ private:
   
   void Collect();
   void Loop();
-  bool Is_collapsable( Profile const& aProfile ) ;
+  bool Is_collapse_topologically_valid( Profile const& aProfile ) ;
   bool Is_tetrahedron( edge_descriptor const& h1 ) ;
   bool Is_open_triangle( edge_descriptor const& h1 ) ;
-  void Collapse( Profile const& aProfile ) ;
+  bool Is_collapse_geometrically_valid( Profile const& aProfile, Placement_type aPlacement ) ;
+  void Collapse( Profile const& aProfile, Placement_type aPlacement ) ;
   void Update_neighbors( vertex_descriptor const& aKeptV ) ;
   
   Profile create_profile ( edge_descriptor const& aEdge )
@@ -219,6 +214,12 @@ private:
   
   bool is_border ( const_vertex_descriptor const& aV ) const ;
   
+  bool are_shared_triangles_valid( Point const& p0, Point const& p1, Point const& p2, Point const& p3 ) const ;
+  
+  edge_descriptor find_connection ( const_vertex_descriptor const& v0, const_vertex_descriptor const& v1 ) const ;
+  
+  vertex_descriptor find_exterior_link_triangle_3rd_vertex ( const_edge_descriptor const& e, const_vertex_descriptor const& v0, const_vertex_descriptor const& v1 ) const ;
+  
   Edge_data& get_data ( edge_descriptor const& aEdge ) const 
   { 
     CGAL_assertion( is_primary_edge(aEdge) ) ;
@@ -230,32 +231,32 @@ private:
     return get(vertex_point,mSurface,aV);
   }
   
-  tuple<const_vertex_descriptor,const_vertex_descriptor> get_vertices( const_edge_descriptor const& aEdge ) const
+  boost::tuple<const_vertex_descriptor,const_vertex_descriptor> get_vertices( const_edge_descriptor const& aEdge ) const
   {
     const_vertex_descriptor p,q ;
-    p = source(aEdge,mSurface);
-    q = target(aEdge,mSurface);
-    return make_tuple(p,q);
+    p = boost::source(aEdge,mSurface);
+    q = boost::target(aEdge,mSurface);
+    return boost::make_tuple(p,q);
   }
   
-  tuple<vertex_descriptor,vertex_descriptor> get_vertices( edge_descriptor const& aEdge ) 
+  boost::tuple<vertex_descriptor,vertex_descriptor> get_vertices( edge_descriptor const& aEdge ) 
   {
     vertex_descriptor p,q ;
-    p = source(aEdge,mSurface);
-    q = target(aEdge,mSurface);
-    return make_tuple(p,q);
+    p = boost::source(aEdge,mSurface);
+    q = boost::target(aEdge,mSurface);
+    return boost::make_tuple(p,q);
   }
   
   std::string vertex_to_string( const_vertex_descriptor const& v ) const
   {
     Point const& p = get_point(v);
-    return boost::str( boost::format("[V%1%:%2%]") % v->ID % xyz_to_string(p) ) ;
+    return boost::str( boost::format("[V%1%:%2%]") % v->id() % xyz_to_string(p) ) ;
   }
     
   std::string edge_to_string ( const_edge_descriptor const& aEdge ) const
   {
-    const_vertex_descriptor p,q ; tie(p,q) = get_vertices(aEdge);
-    return boost::str( boost::format("{E%1% %2%->%3%}") % aEdge->ID % vertex_to_string(p) % vertex_to_string(q) ) ;
+    const_vertex_descriptor p,q ; boost::tie(p,q) = get_vertices(aEdge);
+    return boost::str( boost::format("{E%1% %2%->%3%}%4%") % aEdge->id() % vertex_to_string(p) % vertex_to_string(q) % ( is_border(aEdge) ? " (BORDER)" : ( is_border(aEdge->opposite()) ? " (~BORDER)": "" ) ) ) ;
   }
   
   Cost_type get_cost ( Profile const& aProfile ) const
@@ -322,14 +323,16 @@ private:
    
 private:
 
-  ECM&                    mSurface ;
-  ShouldStop       const& Should_stop ;
-  VertexIndexMap   const& Vertex_index_map ;
-  EdgeIndexMap     const& Edge_index_map ;
-  EdgeIsBorderMap  const& Edge_is_border_map ;
-  GetCost          const& Get_cost ;
-  GetPlacement     const& Get_placement ;
-  VisitorT*               Visitor ;          // Can be NULL
+  ECM&                   mSurface ;
+  
+  ShouldStop      const& Should_stop ;
+  VertexIndexMap  const& Vertex_index_map ;
+  EdgeIndexMap    const& Edge_index_map ;
+  EdgeIsBorderMap const& Edge_is_border_map ;
+  GetCost         const& Get_cost ;
+  GetPlacement    const& Get_placement ;
+  VisitorT        const& Visitor ; 
+  
   
 private:
 
@@ -340,6 +343,8 @@ private:
   std::size_t mInitialEdgeCount ;
   std::size_t mCurrentEdgeCount ; 
 
+  FT          mcMaxDihedralAngleCos2 ;
+  
   CGAL_ECMS_DEBUG_CODE ( unsigned mStep ; )
 } ;
 

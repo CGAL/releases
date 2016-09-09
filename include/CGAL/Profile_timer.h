@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Profiling_tools/include/CGAL/Profile_timer.h $
-// $Id: Profile_timer.h 47683 2009-01-07 14:41:29Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Profiling_tools/include/CGAL/Profile_timer.h $
+// $Id: Profile_timer.h 47821 2009-01-26 12:47:26Z lrineau $
 //
 // Author(s)     : Sylvain Pion
 
@@ -28,19 +28,24 @@
 //   Note: be careful at recursive functions...
 //
 // See also CGAL/Profile_counter.h
+//
+// TODO :
+// - detect and handle recursion nicely (currently it accumulates recursive times).
+// - parallel versions : per-thread and summing on all threads.
+// - Timer vs Real_timer ?
 
 #include <CGAL/config.h>
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <CGAL/Real_timer.h>
+#include <CGAL/Timer.h>
 
 CGAL_BEGIN_NAMESPACE
 
 struct Profile_timer
 {
     class Local {
-        Real_timer rt;
+        Timer rt;
         Profile_timer *p;
     public:
         Local(Profile_timer* p_) : p(p_) { rt.start(); }

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_topology_traits_2_impl.h $
-// $Id: Arr_unb_planar_topology_traits_2_impl.h 41108 2007-12-06 15:26:30Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_topology_traits_2_impl.h $
+// $Id: Arr_unb_planar_topology_traits_2_impl.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
 // Author(s)     : Ron Wein  <wein@post.tau.ac.il>
@@ -48,8 +48,8 @@ Arr_unb_planar_topology_traits_2():
 //
 template <class GeomTraits, class Dcel_>
 Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::
-Arr_unb_planar_topology_traits_2 (Geometry_traits_2 *tr) :
-  Base (tr),
+Arr_unb_planar_topology_traits_2 (const Geometry_traits_2 * geom_traits) :
+  Base (geom_traits),
   v_bl (NULL),
   v_tl (NULL),
   v_br (NULL),
@@ -62,8 +62,8 @@ Arr_unb_planar_topology_traits_2 (Geometry_traits_2 *tr) :
 // Assign the contents of another topology-traits class.
 //
 template <class GeomTraits, class Dcel_>
-void Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::assign
-    (const Self& other)
+void Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::
+assign(const Self& other)
 {
   // Assign the base class.
   Base::assign (other);
@@ -477,8 +477,8 @@ split_fictitious_edge (Halfedge *e, Vertex *v)
 // Determine whether the given face is unbounded.
 //
 template <class GeomTraits, class Dcel_>
-bool Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::is_unbounded
-    (const Face *f) const
+bool Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::
+is_unbounded(const Face *f) const
 {
   // Go over the outer CBB of the given face and look for fictitious halfedges.
   const Halfedge   *first = *(f->outer_ccbs_begin());
@@ -503,8 +503,8 @@ bool Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::is_unbounded
 // Determine whether the given boundary vertex is redundant.
 //
 template <class GeomTraits, class Dcel_>
-bool Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::is_redundant
-    (const Vertex *v) const
+bool Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::
+is_redundant(const Vertex *v) const
 {
   CGAL_precondition (v != v_bl && v != v_tl && v != v_br && v != v_tr);
 

@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_edge_iterator.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polygon/include/CGAL/Polygon_2/Polygon_2_edge_iterator.h $
 // $Id: Polygon_2_edge_iterator.h 45787 2008-09-25 19:15:00Z spion $
 // 
 //

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_feature_extractor.h $
-// $Id: Parameterization_mesh_feature_extractor.h 45070 2008-08-21 11:57:02Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_feature_extractor.h $
+// $Id: Parameterization_mesh_feature_extractor.h 49877 2009-06-11 08:38:15Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -86,7 +86,7 @@ public:
     /// Constructor.
     ///
     /// CAUTION: This class caches the result of feature extractions
-    /// => The caller must NOT modify 'mesh' during the
+    /// => The caller must *not* modify 'mesh' during the
     /// Parameterization_mesh_feature_extractor life cycle.
     Parameterization_mesh_feature_extractor(Adaptor& mesh)
         // Store reference to adapted mesh

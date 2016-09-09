@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_segment_traits_2.h $
-// $Id: Arr_segment_traits_2.h 41124 2007-12-08 10:56:13Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_segment_traits_2.h $
+// $Id: Arr_segment_traits_2.h 50374 2009-07-05 15:04:52Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
 //                 Efi Fogel         <efif@post.tau.ac.il>
+
 #ifndef CGAL_ARR_SEGMENT_TRAITS_2_H
 #define CGAL_ARR_SEGMENT_TRAITS_2_H
 
@@ -60,8 +61,12 @@ public:
   // Category tags:
   typedef Tag_true                        Has_left_category;
   typedef Tag_true                        Has_merge_category;
-  typedef Arr_no_boundary_tag             Boundary_category;
-
+ 
+  typedef Arr_oblivious_side_tag          Arr_left_side_tag;
+  typedef Arr_oblivious_side_tag          Arr_bottom_side_tag;
+  typedef Arr_oblivious_side_tag          Arr_top_side_tag;
+  typedef Arr_oblivious_side_tag          Arr_right_side_tag;
+ 
   typedef typename Kernel::Line_2         Line_2;
   typedef CGAL::Segment_assertions<Arr_segment_traits_2<Kernel> >
                                           Segment_assertions;
@@ -860,8 +865,7 @@ public:
       typename Kernel::Equal_2  equal = kernel.equal_2_object();
 
       // Check if the two curves have the same supporting line.
-      if (! equal (cv1.line(),
-                   cv2.line()) && 
+      if (! equal (cv1.line(), cv2.line()) && 
           ! equal (cv1.line(), 
                    kernel.construct_opposite_line_2_object() (cv2.line())))
         return (false);
@@ -898,8 +902,7 @@ public:
       typename Kernel::Equal_2  equal = kernel.equal_2_object();
 
       CGAL_precondition
-        (equal (cv1.line(),
-                cv2.line()) ||
+        (equal (cv1.line(), cv2.line()) ||
          equal (cv1.line(),
                 kernel.construct_opposite_line_2_object() (cv2.line())));
 
@@ -950,11 +953,7 @@ public:
                                         int i) const
     {
       CGAL_precondition (i == 0 || i == 1);
-
-      if (i == 0)
-	return (CGAL::to_double(p.x()));
-      else
-	return (CGAL::to_double(p.y()));
+      return (i == 0) ? (CGAL::to_double(p.x())) : (CGAL::to_double(p.y()));
     }
   };
 
@@ -1004,12 +1003,9 @@ public:
      * \return SMALLER if the curve is directed right;
      *         LARGER if the curve is directed left.
      */
-    Comparison_result operator() (const X_monotone_curve_2& cv)
+    Comparison_result operator() (const X_monotone_curve_2& cv) const
     {
-      if (cv.is_directed_right())
-        return (SMALLER);
-      else
-	return (LARGER);
+      return (cv.is_directed_right()) ? (SMALLER) : (LARGER);
     }
   };
 
@@ -1028,7 +1024,7 @@ public:
      * \param cv The curve.
      * \return The opposite curve.
      */
-    X_monotone_curve_2 operator() (const X_monotone_curve_2& cv)
+    X_monotone_curve_2 operator() (const X_monotone_curve_2& cv) const
     {
       return (cv.flip());
     }

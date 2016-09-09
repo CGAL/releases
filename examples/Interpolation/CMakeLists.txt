@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "interpolation_2.cpp" )
   create_single_source_cgal_program( "linear_interpolation_2.cpp" )
   create_single_source_cgal_program( "nn_coordinates_2.cpp" )

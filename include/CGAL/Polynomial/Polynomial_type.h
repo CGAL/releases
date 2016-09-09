@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Polynomial/include/CGAL/Polynomial/Polynomial_type.h $
-// $Id: Polynomial_type.h 47300 2008-12-09 10:48:07Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/Polynomial/Polynomial_type.h $
+// $Id: Polynomial_type.h 49007 2009-04-29 13:55:06Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer <hemmer@informatik.uni-mainz.de> 
@@ -92,7 +92,7 @@ template <class NT_> class Polynomial_rep
   {}
 
   void reduce() {
-    while ( coeff.size()>1 && coeff.back()==NT(0) ) coeff.pop_back();
+    while ( coeff.size()>1 && CGAL::is_zero(coeff.back())) coeff.pop_back();
   }
 
   void simplify_coefficients() {

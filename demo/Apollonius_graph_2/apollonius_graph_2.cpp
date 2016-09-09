@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Apollonius_graph_2/demo/Apollonius_graph_2/apollonius_graph_2.cpp $
-// $Id: apollonius_graph_2.cpp 45459 2008-09-09 22:29:51Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/demo/Apollonius_graph_2/apollonius_graph_2.cpp $
+// $Id: apollonius_graph_2.cpp 48557 2009-03-27 14:10:29Z mkaravel $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -45,6 +45,7 @@
 #include "qt_file_toolbar.h"
 #include "qt_layers_toolbar.h"
 #include "qt_layers.h"
+#include "edit_vertex_layer.h"
 
 
 //************************************
@@ -519,6 +520,7 @@ private slots:
 
 };
 
+#include "edit_vertex_layer.moc"
 #include "qt_file_toolbar.moc"
 #include "qt_layers_toolbar.moc"
 #include "apollonius_graph_2.moc"

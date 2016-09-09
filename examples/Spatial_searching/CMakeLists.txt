@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "circular_query.cpp" )
   create_single_source_cgal_program( "distance_browsing.cpp" )
   create_single_source_cgal_program( "fuzzy_range_query.cpp" )

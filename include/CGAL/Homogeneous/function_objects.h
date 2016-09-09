@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Homogeneous_kernel/include/CGAL/Homogeneous/function_objects.h $
-// $Id: function_objects.h 46396 2008-10-21 13:31:56Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/function_objects.h $
+// $Id: function_objects.h 50388 2009-07-06 11:36:23Z afabri $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hoffmann
@@ -1329,6 +1329,10 @@ namespace HomogeneousKernelFunctors {
     { return c.rep().squared_radius(); }
 
     FT
+    operator()( const Point_2& p) const
+    { return FT(0); }
+
+    FT
     operator()( const Point_2& p, const Point_2& q) const
     {
       typedef typename K::FT FT;
@@ -1354,6 +1358,10 @@ namespace HomogeneousKernelFunctors {
     operator()( const Sphere_3& s) const
     { return s.rep().squared_radius(); }
 
+    FT
+    operator()( const Point_3& p) const
+    { return FT(0); }
+      
     FT
     operator()( const Point_3& p, const Point_3& q) const
     {

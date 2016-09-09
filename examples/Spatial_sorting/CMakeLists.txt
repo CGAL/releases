@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "example_delaunay_2.cpp" )
   create_single_source_cgal_program( "sort_indices.cpp" )
 

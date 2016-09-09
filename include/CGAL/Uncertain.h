@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/STL_Extension/include/CGAL/Uncertain.h $
-// $Id: Uncertain.h 45093 2008-08-22 16:06:53Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Uncertain.h $
+// $Id: Uncertain.h 48839 2009-04-21 18:00:27Z spion $
 //
 // Author(s)     : Sylvain Pion
 
@@ -340,6 +340,7 @@ Uncertain<bool> operator&(Uncertain<bool> a, bool b)
 // We provide macros CGAL_AND and CGAL_OR, which attempt to emulate their behavior.
 // Key things : do not evaluate expressions twice, and evaluate the right hand side
 // expression only when needed.
+// TODO : C++0x lambdas should be able to help here.
 #ifdef CGAL_CFG_NO_STATEMENT_EXPRESSIONS
 #  define CGAL_AND(X, Y)  ((X) && (Y))
 #  define CGAL_OR(X, Y)   ((X) || (Y))

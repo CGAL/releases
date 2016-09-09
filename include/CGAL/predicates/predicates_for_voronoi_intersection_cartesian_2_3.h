@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Interpolation/include/CGAL/predicates/predicates_for_voronoi_intersection_cartesian_2_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Interpolation/include/CGAL/predicates/predicates_for_voronoi_intersection_cartesian_2_3.h $
 // $Id: predicates_for_voronoi_intersection_cartesian_2_3.h 42806 2008-04-09 12:35:10Z spion $
 // 
 //

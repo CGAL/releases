@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Number_types/include/CGAL/GMP/Gmpz_type.h $
-// $Id: Gmpz_type.h 45617 2008-09-17 15:53:27Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/GMP/Gmpz_type.h $
+// $Id: Gmpz_type.h 49008 2009-04-29 13:57:45Z hemmer $
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra, Sylvain Pion
@@ -454,8 +454,17 @@ struct Split_double<Gmpz>
   }
 };
 
+inline Gmpz min BOOST_PREVENT_MACRO_SUBSTITUTION(const Gmpz& x,const Gmpz& y){
+  return (x<=y)?x:y; 
+}
+inline Gmpz max BOOST_PREVENT_MACRO_SUBSTITUTION(const Gmpz& x,const Gmpz& y){
+  return (x>=y)?x:y; 
+}
+
+
 #include <CGAL/auto_link/GMP.h>
 #include <CGAL/auto_link/MPFR.h>
+
 
 CGAL_END_NAMESPACE
 

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kernel_23/include/CGAL/Vector_2.h $
-// $Id: Vector_2.h 43244 2008-05-21 13:48:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Vector_2.h $
+// $Id: Vector_2.h 49257 2009-05-09 16:08:19Z spion $
 //
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -78,13 +78,13 @@ public:
   Vector_2(const Point_2& a, const Point_2& b)
       : RVector_2(typename R::Construct_vector_2()(Return_base_tag(), a, b)) {}
 
-  Vector_2(const Segment_2 &s)
+  explicit Vector_2(const Segment_2 &s)
       : RVector_2(typename R::Construct_vector_2()(Return_base_tag(), s)) {}
 
-  Vector_2(const Ray_2 &r)
+  explicit Vector_2(const Ray_2 &r)
       : RVector_2(typename R::Construct_vector_2()(Return_base_tag(), r)) {}
 
-  Vector_2(const Line_2 &l)
+  explicit Vector_2(const Line_2 &l)
       : RVector_2(typename R::Construct_vector_2()(Return_base_tag(), l)) {}
 
   Vector_2(const Null_vector &v)

@@ -1,16 +1,33 @@
+#include "config.h"
 #include "MainWindow.h"
 #include "Scene.h"
+#include "Scene_item.h"
 #include <CGAL/Qt/debug.h>
 
 #include <QDragEnterEvent>
 #include <QDropEvent>
-#include <QTextStream>
+#include <QtDebug>
 #include <QUrl>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QSettings>
 #include <QHeaderView>
+#include <QMenu>
+#include <QAction>
+#include <QLibrary>
+#include <QPluginLoader>
+#include <QMessageBox>
+#include <QScrollBar>
+
+#include "Polyhedron_demo_plugin_interface.h"
+#include "Polyhedron_demo_io_plugin_interface.h"
 
 #include "ui_MainWindow.h"
+
+MainWindow::~MainWindow()
+{
+  delete ui;
+}
 
 MainWindow::MainWindow(QWidget* parent)
   : CGAL::Qt::DemosMainWindow(parent)
@@ -22,8 +39,10 @@ MainWindow::MainWindow(QWidget* parent)
   treeView = ui->treeView;
   viewer = ui->viewer;
 
-  addDockWidget(::Qt::LeftDockWidgetArea, ui->polyhedraDockWidget);
-  ui->menuDockWindows->addAction(ui->polyhedraDockWidget->toggleViewAction());
+  // Setup the submenu of the View menu that can toggle the dockwidgets
+  Q_FOREACH(QDockWidget* widget, findChildren<QDockWidget*>()) {
+    ui->menuDockWindows->addAction(widget->toggleViewAction());
+  }
   ui->menuDockWindows->removeAction(ui->dummyAction);
 
   // do not save the state of the viewer (anoying)
@@ -46,13 +65,16 @@ MainWindow::MainWindow(QWidget* parent)
   treeView->header()->setResizeMode(Scene::ColorColumn, QHeaderView::ResizeToContents);
   treeView->header()->setResizeMode(Scene::RenderingModeColumn, QHeaderView::Fixed);
   treeView->header()->setResizeMode(Scene::ABColumn, QHeaderView::Fixed);
-  treeView->header()->setResizeMode(Scene::ActivatedColumn, QHeaderView::Fixed);
+  treeView->header()->setResizeMode(Scene::VisibleColumn, QHeaderView::Fixed);
 
   treeView->resizeColumnToContents(Scene::ColorColumn);
   treeView->resizeColumnToContents(Scene::RenderingModeColumn);
   treeView->resizeColumnToContents(Scene::ABColumn);
-  treeView->resizeColumnToContents(Scene::ActivatedColumn);
+  treeView->resizeColumnToContents(Scene::VisibleColumn);
 
+  // setup connections
+  connect(scene, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex & )),
+          this, SLOT(updateInfo()));
 
   connect(scene, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex & )),
           viewer, SLOT(updateGL()));
@@ -60,50 +82,177 @@ MainWindow::MainWindow(QWidget* parent)
   connect(scene, SIGNAL(updated()),
           viewer, SLOT(update()));
 
+  connect(scene, SIGNAL(itemAboutToBeDestroyed(Scene_item*)),
+          this, SLOT(removeManipulatedFrame(Scene_item*)));
+
   connect(scene, SIGNAL(updated_bbox()),
           this, SLOT(updateViewerBBox()));
+
+  connect(treeView->selectionModel(), 
+          SIGNAL(selectionChanged ( const QItemSelection & , const QItemSelection & ) ),
+          this, SLOT(updateInfo()));
 
   connect(treeView->selectionModel(), 
           SIGNAL(selectionChanged ( const QItemSelection & , const QItemSelection & ) ),
           this, SLOT(selectionChanged()));
 
   connect(viewer, SIGNAL(selected(int)),
-          this, SLOT(selectPolyhedron(int)));
+          this, SLOT(selectSceneItem(int)));
 
   connect(ui->actionAntiAliasing, SIGNAL(toggled(bool)),
           viewer, SLOT(setAntiAliasing(bool)));
 
+  connect(ui->actionDraw_two_sides, SIGNAL(toggled(bool)),
+          viewer, SLOT(setTwoSides(bool)));
+
+  // enable anti-aliasing by default
   ui->actionAntiAliasing->setChecked(true);
-
-  connect(ui->actionViewEdges, SIGNAL(toggled(bool)),
-          scene, SLOT(setViewEdges(bool)));
-
-  ui->actionViewEdges->setChecked(true);
 
   // add the "About CGAL..." and "About demo..." entries
   this->addAboutCGAL();
   this->addAboutDemo(":/cgal/Polyhedron_3/about.html");
 
-  // Connect the button "addButton" with actionLoadPolyhedron
-  ui->addButton->setDefaultAction(ui->actionLoadPolyhedron);
+  // Connect the button "addButton" with actionLoad
+  ui->addButton->setDefaultAction(ui->actionLoad);
   // Same with "removeButton" and "duplicateButton"
-  ui->removeButton->setDefaultAction(ui->actionErasePolyhedron);
-  ui->duplicateButton->setDefaultAction(ui->actionDuplicatePolyhedron);
+  ui->removeButton->setDefaultAction(ui->actionErase);
+  ui->duplicateButton->setDefaultAction(ui->actionDuplicate);
 
   // Connect actionQuit (Ctrl+Q) and qApp->quit()
   connect(ui->actionQuit, SIGNAL(triggered()),
           this, SLOT(quit()));
 
+  // Recent files menu
   this->addRecentFiles(ui->menuFile, ui->actionQuit);
   connect(this, SIGNAL(openRecentFile(QString)),
 	  this, SLOT(open(QString)));
 
+  // Reset the "Operation menu"
+  clearMenu(ui->menuOperations);
+
+  // Load plugins, and re-enable actions that need it.
+  loadPlugins();
+
   readSettings(); // Among other things, the column widths are stored.
 }
 
-MainWindow::~MainWindow()
+void MainWindow::loadPlugins()
 {
-  delete ui;
+  Q_FOREACH(QObject *obj, QPluginLoader::staticInstances())
+  {
+    initPlugin(obj);
+    initIOPlugin(obj);
+  }
+
+  QDir pluginsDir(qApp->applicationDirPath());
+  Q_FOREACH (QString fileName, pluginsDir.entryList(QDir::Files)) {
+    if(fileName.contains("plugin") && QLibrary::isLibrary(fileName)) {
+      qDebug("### Loading \"%s\"...", fileName.toUtf8().data());
+      QPluginLoader loader;
+      loader.setFileName(pluginsDir.absoluteFilePath(fileName));
+      QObject *obj = loader.instance();
+      if(obj) {
+        initPlugin(obj);
+        initIOPlugin(obj);
+      }
+      else {
+        qDebug("Error loading \"%s\": %s",
+               qPrintable(fileName),
+               qPrintable(loader.errorString()));
+      }
+    }
+  }
+}
+
+bool MainWindow::initPlugin(QObject* obj)
+{
+  QObjectList childs = this->children();
+  Polyhedron_demo_plugin_interface* plugin =
+    qobject_cast<Polyhedron_demo_plugin_interface*>(obj);
+  if(plugin) {
+    // Call plugin's init() method
+    plugin->init(this, this->scene, this);
+
+    Q_FOREACH(QAction* action, plugin->actions()) {
+      // If action does not belong to the menus, add it to "Operations" menu
+      if(!childs.contains(action)) {
+        ui->menuOperations->addAction(action);
+      }
+      // Show and enable menu item
+      addAction(action);
+    }
+    return true;
+  }
+  else 
+    return false;
+}
+
+bool MainWindow::initIOPlugin(QObject* obj)
+{
+  Polyhedron_demo_io_plugin_interface* plugin =
+    qobject_cast<Polyhedron_demo_io_plugin_interface*>(obj);
+  if(plugin) {
+//     std::cerr << "I/O plugin\n";
+    io_plugins << plugin;
+    return true;
+  }
+  else 
+    return false;
+}
+
+void MainWindow::clearMenu(QMenu* menu)
+{
+  Q_FOREACH(QAction* action, menu->actions())
+  {
+    QMenu* menu = action->menu();
+    if(menu) {
+      clearMenu(menu);
+    }
+    action->setVisible(false);
+  }
+  menu->menuAction()->setEnabled(false);
+}
+
+void MainWindow::addAction(QAction* action)
+{
+  if(!action) return;
+
+  action->setVisible(true);
+  action->setEnabled(true);
+  Q_FOREACH(QWidget* widget, action->associatedWidgets())
+  {
+//     qDebug() << QString("%1 (%2)\n")
+//       .arg(widget->objectName())
+//       .arg(widget->metaObject()->className());
+    QMenu* menu = qobject_cast<QMenu*>(widget);
+    if(menu)
+    {
+      addAction(menu->menuAction());
+    }
+  }
+}
+
+void MainWindow::message(QString message, QString colorName, QString font) {
+  if (message.endsWith('\n')) {
+    message.remove(message.length()-1, 1);
+  }
+  statusBar()->showMessage(message, 5000);
+  message = "<font color=\"" + colorName + "\" >" + message + "</font><br>";
+  message = "[" + QTime::currentTime().toString() + "] " + message;
+  ui->consoleTextEdit->insertHtml(message);
+  ui->consoleTextEdit->verticalScrollBar()->setValue(ui->consoleTextEdit->verticalScrollBar()->maximum());
+}
+
+void MainWindow::information(QString text) {
+  this->message("INFO: " + text, "");
+}
+
+void MainWindow::warning(QString text) {
+  this->message("WARNING: " + text, "blue");
+}
+
+void MainWindow::error(QString text) {
+  this->message("ERROR: " + text, "red");
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
@@ -117,7 +266,7 @@ void MainWindow::dropEvent(QDropEvent *event)
   Q_FOREACH(QUrl url, event->mimeData()->urls()) {
     QString filename = url.toLocalFile();
     if(!filename.isEmpty()) {
-      QTextStream(stderr) << QString("dropEvent(\"%1\")\n").arg(filename);
+      qDebug() << QString("dropEvent(\"%1\")\n").arg(filename);
       open(filename);
     }
   }
@@ -133,7 +282,7 @@ void MainWindow::updateViewerBBox()
   const double xmax = bbox.xmax;
   const double ymax = bbox.ymax;
   const double zmax = bbox.zmax;
-  // QTextStream(stderr) << QString("Bounding box: (%1, %2, %3) - (%4, %5, %6)\n")
+  // qDebug() << QString("Bounding box: (%1, %2, %3) - (%4, %5, %6)\n")
   // .arg(xmin).arg(ymin).arg(zmin).arg(xmax).arg(ymax).arg(zmax);
   qglviewer::Vec 
     vec_min(xmin, ymin, zmin),
@@ -146,40 +295,49 @@ void MainWindow::updateViewerBBox()
 void MainWindow::open(QString filename)
 {
   QFileInfo fileinfo(filename);
+  Scene_item* item = 0;
   if(fileinfo.isFile() && fileinfo.isReadable()) {
-    int index = scene->open(filename);
-    if(index >= 0) {
+    Q_FOREACH(Polyhedron_demo_io_plugin_interface* plugin, 
+              io_plugins)
+    {
+      if(plugin->canLoad()) {
+        item = plugin->load(fileinfo);
+        if(item) break; // go out of the loop
+      }
+    }
+    if(item) {
+      Scene::Item_id index = scene->addItem(item);
       QSettings settings;
       settings.setValue("OFF open directory",
-			fileinfo.absoluteDir().absolutePath());
-	this->addToRecentFiles(filename);
-      selectPolyhedron(index);
+                        fileinfo.absoluteDir().absolutePath());
+      this->addToRecentFiles(filename);
+      selectSceneItem(index);
     }
+    else {
+      QMessageBox::critical(this,
+                            tr("Cannot open file"),
+                            tr("File %1 has not a known file format.")
+                            .arg(filename));
+    }
+  }
+  else {
+    QMessageBox::critical(this,
+                          tr("Cannot open file"),
+                          tr("File %1 is not a readable file.")
+                          .arg(filename));
   }
 }
 
-void MainWindow::selectPolyhedron(int i)
+void MainWindow::selectSceneItem(int i)
 {
   if(i < 0) return;
-  if(i >= scene->numberOfPolyhedra()) return;
+  if((unsigned int)i >= scene->numberOfEntries()) return;
 
   treeView->selectionModel()->select(scene->createSelection(i),
                                      QItemSelectionModel::ClearAndSelect);
 }
 
-bool MainWindow::onePolygonIsSelected() const
-{
-  QModelIndexList selectedRows = treeView->selectionModel()->selectedRows();
-  if(selectedRows.size() == 1)
-  {
-    int i = selectedRows.first().row();
-    if(scene->polyhedronType(i) == Scene::POLYHEDRON_ENTRY)
-      return true;
-  }
-  return false;
-}
-
-int MainWindow::getSelectedPolygonIndex() const
+int MainWindow::getSelectedSceneItemIndex() const
 {
   QModelIndexList selectedRows = treeView->selectionModel()->selectedRows();
   if(selectedRows.empty())
@@ -188,21 +346,33 @@ int MainWindow::getSelectedPolygonIndex() const
     return selectedRows.first().row();
 }
 
-Polyhedron* MainWindow::getSelectedPolygon()
-{
-  // scene->getPolyhedron(...) returns 0 iff the index is not valid
-  return scene->getPolyhedron(getSelectedPolygonIndex());
-}
-
 void MainWindow::selectionChanged()
 {
-  if(onePolygonIsSelected()) {
-    scene->setSelectedItem(getSelectedPolygonIndex());
+  scene->setSelectedItem(getSelectedSceneItemIndex());
+  Scene_item* item = scene->item(getSelectedSceneItemIndex());
+  if(item != NULL && item->manipulatable()) {
+    viewer->setManipulatedFrame(item->manipulatedFrame());
+    connect(viewer->manipulatedFrame(), SIGNAL(modified()),
+            this, SLOT(updateInfo()));
   }
-  else {
-    scene->setSelectedItem(-1);
-  }
+  
   viewer->updateGL();
+}
+
+void MainWindow::removeManipulatedFrame(Scene_item* item)
+{
+  if(item->manipulatable() &&
+     item->manipulatedFrame() == viewer->manipulatedFrame()) {
+    viewer->setManipulatedFrame(0);
+  }
+}
+
+void MainWindow::updateInfo() {
+  Scene_item* item = scene->item(getSelectedSceneItemIndex());
+  if(item)
+    ui->infoLabel->setText(item->toolTip());
+  else 
+    ui->infoLabel->clear();
 }
 
 void MainWindow::readSettings()
@@ -218,7 +388,6 @@ void MainWindow::writeSettings()
 
 void MainWindow::quit()
 {
-  writeSettings();
   close();
 }
 
@@ -228,17 +397,24 @@ void MainWindow::closeEvent(QCloseEvent *event)
   event->accept();
 }
 
-void MainWindow::on_actionLoadPolyhedron_triggered()
+void MainWindow::on_actionLoad_triggered()
 {
+  QStringList filters;
+  Q_FOREACH(Polyhedron_demo_io_plugin_interface* plugin, io_plugins) {
+    if(plugin->canLoad()) {
+      filters += plugin->nameFilters();
+    }
+  }
+  filters << tr("All files (*)");
+
   QSettings settings;
   QString directory = settings.value("OFF open directory",
-				     QDir::current().dirName()).toString();
+                                     QDir::current().dirName()).toString();
   QStringList filenames = 
     QFileDialog::getOpenFileNames(this,
-                                  tr("Load polyhedron..."),
+                                  tr("Open File..."),
                                   directory,
-                                  tr("OFF files (*.off)\n"
-                                     "All files (*)"));
+                                  filters.join(";;"));
   if(!filenames.isEmpty()) {
     Q_FOREACH(QString filename, filenames) {
       open(filename);
@@ -248,61 +424,95 @@ void MainWindow::on_actionLoadPolyhedron_triggered()
 
 void MainWindow::on_actionSaveAs_triggered()
 {
-  if(!onePolygonIsSelected())
-	  return;
+  QModelIndexList selectedRows = treeView->selectionModel()->selectedRows();
+  if(selectedRows.size() != 1)
+    return;
+  Scene_item* item = scene->item(getSelectedSceneItemIndex());
+
+  if(!item)
+    return;
+
+  QVector<Polyhedron_demo_io_plugin_interface*> canSavePlugins;
+  QStringList filters;
+  Q_FOREACH(Polyhedron_demo_io_plugin_interface* plugin, io_plugins) {
+    if(plugin->canSave(item)) {
+      canSavePlugins << plugin;
+      filters += plugin->nameFilters();
+    }
+  }
+  filters << tr("All files (*)");
+
+  if(canSavePlugins.isEmpty()) {
+    QMessageBox::warning(this,
+                         tr("Cannot save"),
+                         tr("The selected object %1 cannot be saved.")
+                         .arg(item->name()));
+    return;
+  }
 
   QString filename = 
     QFileDialog::getSaveFileName(this,
-                                 tr("Save polyhedron..."),
+                                 tr("Save to File..."),
                                  QString(),
                                  tr("OFF files (*.off)\n"
                                     "All files (*)"));
-  if(!filename.isEmpty())
-        scene->save(getSelectedPolygonIndex(),filename);
+  QFileInfo fileinfo(filename);
+  if(!fileinfo.isFile() ||
+     QMessageBox::warning(this,
+                          tr("File exists"),
+                          tr("The file %1 already exists! Continue?")
+                          .arg(filename),
+                          QMessageBox::Yes|QMessageBox::No) == 
+     QMessageBox::Yes)
+  {
+
+    Q_FOREACH(Polyhedron_demo_io_plugin_interface* plugin, canSavePlugins) {
+      if(plugin->save(item, fileinfo))
+        break;
+    }
+  }
 }
 
-
-
-
-bool MainWindow::on_actionErasePolyhedron_triggered()
+bool MainWindow::on_actionErase_triggered()
 {
-  int index = scene->erase(getSelectedPolygonIndex());
-  selectPolyhedron(index);
+  int index = scene->erase(getSelectedSceneItemIndex());
+  selectSceneItem(index);
   return index >= 0;
 }
 
 void MainWindow::on_actionEraseAll_triggered()
 {
-  while(on_actionErasePolyhedron_triggered()) {
+  while(on_actionErase_triggered()) {
   }
 }
 
-void MainWindow::on_actionDuplicatePolyhedron_triggered()
+void MainWindow::on_actionDuplicate_triggered()
 {
-  int index = scene->duplicate(getSelectedPolygonIndex());
-  selectPolyhedron(index);
+  int index = scene->duplicate(getSelectedSceneItemIndex());
+  selectSceneItem(index);
 }
 
-void MainWindow::on_actionActivatePolyhedron_triggered()
+void MainWindow::on_actionShowHide_triggered()
 {
   Q_FOREACH(QModelIndex index, treeView->selectionModel()->selectedRows())
   {
     int i = index.row();
-    scene->setPolyhedronActivated(i,
-                                  !scene->isPolyhedronActivated(i));
+    Scene_item* item = scene->item(i);
+    item->setVisible(!item->visible());
+    scene->itemChanged(i);
   }
 }
 
 void MainWindow::on_actionSetPolyhedronA_triggered()
 {
-  int i = getSelectedPolygonIndex();
-  scene->setPolyhedronA(i);
+  int i = getSelectedSceneItemIndex();
+  scene->setItemA(i);
 }
 
 void MainWindow::on_actionSetPolyhedronB_triggered()
 {
-  int i = getSelectedPolygonIndex();
-  scene->setPolyhedronB(i);
+  int i = getSelectedSceneItemIndex();
+  scene->setItemB(i);
 }
 
 void MainWindow::setAddKeyFrameKeyboardModifiers(::Qt::KeyboardModifiers m)

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Cartesian_kernel/include/CGAL/Cartesian/solve_3.h $
-// $Id: solve_3.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/solve_3.h $
+// $Id: solve_3.h 49547 2009-05-25 08:53:20Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -29,6 +29,8 @@
 
 CGAL_BEGIN_NAMESPACE
 
+namespace Cartesian_internal {
+
 template <class R>
 void solve (const VectorC3<R> &v0,
             const VectorC3<R> &v1,
@@ -36,12 +38,14 @@ void solve (const VectorC3<R> &v0,
             const VectorC3<R> &d,
             typename R::FT &alpha, typename R::FT &beta, typename R::FT &gamma)
 {
-  solve(v0.x(), v0.y(), v0.z(),
+  CGAL::solve(v0.x(), v0.y(), v0.z(),
         v1.x(), v1.y(), v1.z(),
         v2.x(), v2.y(), v2.z(),
         d.x(),  d.y(),  d.z(),
         alpha, beta, gamma);
 }
+
+} // namespace Cartesian_internal
 
 CGAL_END_NAMESPACE
 

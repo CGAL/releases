@@ -14,7 +14,7 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/CGALimageIO/src/CGALimageIO/recline.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/CGALimageIO/src/CGALimageIO/recline.h $
 // $Id: recline.h 41803 2008-01-24 14:17:12Z lrineau $
 //
 //

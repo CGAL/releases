@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "distance.cpp" )
   create_single_source_cgal_program( "kruskal.cpp" )
   create_single_source_cgal_program( "kruskal_with_stored_id.cpp" )

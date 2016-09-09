@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "barycenter.cpp" )
   create_single_source_cgal_program( "bounding_box.cpp" )
   create_single_source_cgal_program( "centroid.cpp" )

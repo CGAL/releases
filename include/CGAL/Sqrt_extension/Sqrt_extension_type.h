@@ -422,9 +422,11 @@ compare (const NT& num) const {
     return ((Self(a0_ - num, a1_, root_)).sign_());
 }
 
-// compare of two values with different extension
+// compare of two values that may be in different extension
+// However, the default is, that the the numbers are defined over the same
+// extension. 
 CGAL::Comparison_result
-compare(const Self& y, bool in_same_extension = false ) const
+compare(const Self& y, bool in_same_extension = true ) const
 {
     if (! is_extended_)
         return (CGAL::opposite (y.compare (a0_)));
@@ -605,6 +607,27 @@ template <class NT,class ROOT>  bool operator <
 template <class NT,class ROOT>  bool operator >
 (CGAL_int(NT) num, const Sqrt_extension<NT,ROOT>& p)
 { return ( p.compare(num) == CGAL::SMALLER ); }
+
+template<typename NT, typename ROOT> inline 
+Sqrt_extension<NT,ROOT> min BOOST_PREVENT_MACRO_SUBSTITUTION(
+const Sqrt_extension<NT,ROOT> & x,
+const Sqrt_extension<NT,ROOT> & y){
+  return (std::min)(x,y);
+}
+template<typename NT, typename ROOT> inline 
+Sqrt_extension<NT,ROOT> max BOOST_PREVENT_MACRO_SUBSTITUTION(
+const Sqrt_extension<NT,ROOT> & x,
+const Sqrt_extension<NT,ROOT> & y){
+  return (std::max)(x,y);
+}
+
+template <class NT, class ROOT> inline 
+CGAL::Comparison_result compare (
+    const Sqrt_extension<NT,ROOT>& x, 
+    const Sqrt_extension<NT,ROOT>& y,
+    bool in_same_extension = true ){
+  return x.compare(y,in_same_extension);
+}
 
 CGAL_END_NAMESPACE
 

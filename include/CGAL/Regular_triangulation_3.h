@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 46206 2008-10-11 20:21:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
+// $Id: Regular_triangulation_3.h 48845 2009-04-21 18:34:14Z spion $
 // 
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -26,7 +26,6 @@
 
 #include <set>
 
-#include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/Regular_triangulation_cell_base_3.h>
 
@@ -718,7 +717,7 @@ nearest_power_vertex(const Bare_point& p, Cell_handle start) const
     vs.reserve(32);
     while (true) {
 	Vertex_handle tmp = nearest;
-        incident_vertices(nearest, std::back_inserter(vs));
+        adjacent_vertices(nearest, std::back_inserter(vs));
         for (typename std::vector<Vertex_handle>::const_iterator
 		vsit = vs.begin(); vsit != vs.end(); ++vsit)
 	    tmp = nearest_power_vertex(p, tmp, *vsit);

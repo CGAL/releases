@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Snap_rounding_2/include/CGAL/Snap_rounding_2.h $
-// $Id: Snap_rounding_2.h 44500 2008-07-28 06:10:18Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Snap_rounding_2/include/CGAL/Snap_rounding_2.h $
+// $Id: Snap_rounding_2.h 50484 2009-07-08 20:30:58Z efif $
 // 
 //
 // author(s)     : Eli Packer <elip@post.tau.ac.il>
@@ -754,7 +754,7 @@ void snap_rounding_2(InputIterator begin,
   typedef std::list<Segment_data>                     Segment_data_list;
   
   Segment_data_list seg_list;
-  Multiple_kd_tree * mul_kd_tree;
+  Multiple_kd_tree * mul_kd_tree = NULL;
 
   output_container.clear();
   // copy segments list

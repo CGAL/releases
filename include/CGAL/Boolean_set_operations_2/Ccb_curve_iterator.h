@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Ccb_curve_iterator.h $
-// $Id: Ccb_curve_iterator.h 30322 2006-04-14 15:07:17Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Ccb_curve_iterator.h $
+// $Id: Ccb_curve_iterator.h 48113 2009-02-17 16:21:43Z ophirset $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -31,7 +31,7 @@ CGAL_BEGIN_NAMESPACE
    public:
 
      typedef Arrangement_                            Arrangement;
-     typedef typename Arrangement::Traits_2          Traits;
+     typedef typename Arrangement::Geometry_traits_2 Traits;
      typedef Ccb_curve_iterator<Arrangement>         Self;
      typedef typename Arrangement::Ccb_halfedge_const_circulator
                                                      Ccb_halfedge_const_circulator;

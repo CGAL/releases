@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_adaptor.h $
-// $Id: Gps_traits_adaptor.h 28831 2006-02-27 14:28:18Z baruchzu $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_adaptor.h $
+// $Id: Gps_traits_adaptor.h 50373 2009-07-05 14:44:48Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -48,7 +48,7 @@ public:
   class Construct_vertex_2 
   {
   public:
-    Point_2 operator()(const X_monotone_curve_2& cv, int i)
+    Point_2 operator()(const X_monotone_curve_2& cv, int i) const
     {
       Base tr;
       Compare_endpoints_xy_2 cmp_endpoints = 
@@ -56,7 +56,7 @@ public:
       Construct_min_vertex_2 ctr_min_v = tr.construct_min_vertex_2_object();
       Construct_max_vertex_2 ctr_max_v = tr.construct_max_vertex_2_object();
       i %= 2;
-      if(i==0)
+      if (i==0)
       {
         // return the source
         if(cmp_endpoints(cv) == SMALLER)

@@ -1,3 +1,5 @@
+#ifdef CGAL_LAPACK_ENABLED
+
 #include <QApplication>
 #include "MainWindow.h"
 #include "Scene.h"
@@ -14,7 +16,7 @@ void MainWindow::on_actionEstimateCurvature_triggered()
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     // get active polyhedron
-    int index = getSelectedPolygonIndex();
+    int index = getSelectedSceneItemIndex();
     Polyhedron* pMesh = scene->polyhedron(index);
 
     // types
@@ -92,7 +94,7 @@ void MainWindow::on_actionEstimateCurvature_triggered()
     scene->addPolyhedron(pMin,
       tr("%1 (min curvatures)").arg(scene->polyhedronName(index)),
       Qt::red,
-      scene->isPolyhedronActivated(index),
+      scene->isPolyhedronVisible(index),
       scene->polyhedronRenderingMode(index));
 
     Make_quad_soup<Polyhedron,Kernel,Iterator> max_soup;
@@ -100,10 +102,22 @@ void MainWindow::on_actionEstimateCurvature_triggered()
     scene->addPolyhedron(pMax,
       tr("%1 (max curvatures)").arg(scene->polyhedronName(index)),
       Qt::blue,
-      scene->isPolyhedronActivated(index),
+      scene->isPolyhedronVisible(index),
       scene->polyhedronRenderingMode(index));
 
     // default cursor
     QApplication::restoreOverrideCursor();
   }
 }
+
+#else //  CGAL_LAPACK_ENABLED
+
+#include <QMessageBox>
+void MainWindow::on_actionEstimateCurvature_triggered()
+{
+  QMessageBox::warning(this, "Function not available", 
+		       "This function is not available."
+		       " You need to configure LAPACK support.");
+}
+
+#endif // CGAL_LAPACK_ENABLED

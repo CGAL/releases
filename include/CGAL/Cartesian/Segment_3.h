@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Cartesian_kernel/include/CGAL/Cartesian/Segment_3.h $
-// $Id: Segment_3.h 45152 2008-08-26 13:08:16Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Segment_3.h $
+// $Id: Segment_3.h 49057 2009-04-30 14:03:52Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -38,7 +38,7 @@ class SegmentC3
   typedef typename R_::Line_3               Line_3;
   typedef typename R_::Segment_3            Segment_3;
 
-  typedef CGAL::array<Point_3, 2>          Rep;
+  typedef cpp0x::array<Point_3, 2>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;

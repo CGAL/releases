@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_circulators.h $
-// $Id: Param_mesh_patch_circulators.h 45070 2008-08-21 11:57:02Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Param_mesh_patch_circulators.h $
+// $Id: Param_mesh_patch_circulators.h 49877 2009-06-11 08:38:15Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -213,7 +213,7 @@ public:
             return *this;
         }
 
-        // If the previous position is NOT the last "virtual" clockwise neighbor,
+        // If the previous position is *not* the last "virtual" clockwise neighbor,
         // simply rotate the adaptor circulator
         m_adaptor_circulator++;
 
@@ -329,7 +329,7 @@ public:
             return *this;
         }
 
-        // If the previous position is NOT the last "virtual" counter-clockwise
+        // If the previous position is *not* the last "virtual" counter-clockwise
         //  neighbor, simply rotate the adaptor circulator
         m_adaptor_circulator--;
 
@@ -370,9 +370,9 @@ public:
     }
 
 private:
-    /// Update the inherited vertex handle
+    /// Update the inherited vertex handle.
     ///
-    /// Precondition: m_adaptor_circulator and m_center are valid
+    /// @commentheading Precondition: m_adaptor_circulator and m_center are valid.
     void update_inherited_handle()
     {
         Vertex_handle current_decorated_vertex = NULL;
@@ -566,9 +566,9 @@ public:
     }
 
 private:
-    /// Update the inherited vertex handle
+    /// Update the inherited vertex handle.
     ///
-    /// Precondition: m_adaptor_circulator is valid
+    /// @commentheading Precondition: m_adaptor_circulator is valid.
     void update_inherited_handle()
     {
         Vertex_handle current_decorated_vertex = NULL;

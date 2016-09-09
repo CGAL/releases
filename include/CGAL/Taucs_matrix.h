@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_parameterization/include/CGAL/Taucs_matrix.h $
-// $Id: Taucs_matrix.h 46746 2008-11-07 15:30:00Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Taucs_matrix.h $
+// $Id: Taucs_matrix.h 48225 2009-02-26 11:05:12Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -43,8 +43,11 @@ template<class T> struct Taucs_traits;
 ///
 /// @heading Is Model for the Concepts: Model of the SparseLinearAlgebraTraits_d::Matrix concept.
 ///
-template<class T>       // Tested with T = float or double
-                        // May also work with T = taucs_dcomplex and taucs_scomplex
+/// @heading Parameters:
+/// @param T Number type. Tested with T = taucs_single or taucs_double.
+/// May also work with T = taucs_dcomplex and taucs_scomplex.
+
+template<class T>
 struct Taucs_matrix
 {
 // Public types
@@ -161,8 +164,10 @@ public:
     }
 
     /// Create a rectangular matrix initialized with zeros.
-    Taucs_matrix(int  rows,                 ///< Matrix dimensions.
-                 int  columns,
+    ///
+    /// @commentheading Precondition: rows == columns if is_symmetric is true.
+    Taucs_matrix(int  rows,                 ///< Number of rows.
+                 int  columns,              ///< Number of columns.
                  bool is_symmetric = false) ///< Symmetric/hermitian?
     {
         CGAL_precondition(rows > 0);
@@ -199,7 +204,7 @@ public:
 
     /// Read access to a matrix coefficient.
     ///
-    /// Preconditions:
+    /// @commentheading Preconditions:
     /// - 0 <= i < row_dimension().
     /// - 0 <= j < column_dimension().
     T  get_coef(int i, int j) const
@@ -227,7 +232,7 @@ public:
     /// - Caller can optimize this call by setting 'new_coef' to true
     ///   if the coefficient does not already exist in the matrix.
     ///
-    /// Preconditions:
+    /// @commentheading Preconditions:
     /// - 0 <= i < row_dimension().
     /// - 0 <= j < column_dimension().
     void set_coef(int i, int j, T  val, bool new_coef = false)
@@ -260,7 +265,7 @@ public:
     /// For symmetric matrices, Taucs_matrix stores only the lower triangle
     /// add_coef() does nothing if (i, j) belongs to the upper triangle.
     ///
-    /// Preconditions:
+    /// @commentheading Preconditions:
     /// - 0 <= i < row_dimension().
     /// - 0 <= j < column_dimension().
     void add_coef(int i, int j, T val)
@@ -403,9 +408,12 @@ private:
 /// Symmetric matrices store only the lower triangle.
 ///
 /// @heading Is Model for the Concepts: Model of the SparseLinearAlgebraTraits_d::Matrix concept.
+///
+/// @heading Parameters:
+/// @param T Number type. Tested with T = taucs_single or taucs_double.
+/// May also work with T = taucs_dcomplex and taucs_scomplex.
 
-template<class T>       // Tested with T = taucs_single or taucs_double
-                        // May also work with T = taucs_dcomplex and taucs_scomplex
+template<class T>
 struct Taucs_symmetric_matrix
     : public Taucs_matrix<T>
 {
@@ -417,16 +425,17 @@ public:
 // Public operations
 public:
 
-    /// Create a square SYMMETRIC matrix initialized with zeros.
-    /// The max number of non 0 elements in the matrix is automatically computed.
+    /// Create a square *symmetric* matrix initialized with zeros.
     Taucs_symmetric_matrix(int  dim)                  ///< Matrix dimension.
         : Taucs_matrix<T>(dim, true /* symmetric */)
     {
     }
 
-    /// Create a square SYMMETRIC matrix initialized with zeros.
-    Taucs_symmetric_matrix(int  rows,                 ///< Matrix dimensions.
-                           int  columns)
+    /// Create a square *symmetric* matrix initialized with zeros.
+    ///
+    /// @commentheading Precondition: rows == columns.
+    Taucs_symmetric_matrix(int  rows,                 ///< Number of rows.
+                           int  columns)              ///< Number of columns.
         : Taucs_matrix<T>(rows, columns, true /* symmetric */)
     {
     }

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Apollonius_graph_2/demo/Apollonius_graph_2/edit_vertex_layer.h $
-// $Id: edit_vertex_layer.h 45453 2008-09-09 21:35:22Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/demo/Apollonius_graph_2/edit_vertex_layer.h $
+// $Id: edit_vertex_layer.h 48557 2009-03-27 14:10:29Z mkaravel $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -72,7 +72,6 @@ signals:
   void apollonius_graph_changed();
 };
 
-#include "edit_vertex_layer.moc"
 
 
 template <class AG>

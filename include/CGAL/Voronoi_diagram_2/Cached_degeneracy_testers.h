@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Cached_degeneracy_testers.h $
-// $Id: Cached_degeneracy_testers.h 44317 2008-07-22 12:29:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Cached_degeneracy_testers.h $
+// $Id: Cached_degeneracy_testers.h 50434 2009-07-07 16:04:31Z afabri $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -202,7 +202,7 @@ public:
   bool operator()(const Delaunay_graph& dual, const Edge& e) const {
     if ( dual.dimension() < 2 ) { return false; }
     if ( emap.is_defined(e) && emap[e] != UNDEFINED ) {
-      return emap[e];
+      return (emap[e] == True);
     }
 
     bool b = e_rejector(dual, e);
@@ -385,7 +385,7 @@ public:
 
   bool operator()(const Delaunay_graph& dual, const Vertex_handle& v) const {
     if ( dual.dimension() < 2 ) { return false; }
-    if ( vmap.is_defined(v) && vmap[v] != UNDEFINED ) { return vmap[v]; }
+    if ( vmap.is_defined(v) && vmap[v] != UNDEFINED ) { return (vmap[v] == True); }
 
     bool b = f_rejector(dual, v);
     Three_valued b3 = (b ? True : False);

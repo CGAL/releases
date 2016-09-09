@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kernel_23/include/CGAL/Plane_3.h $
-// $Id: Plane_3.h 45593 2008-09-16 13:04:08Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Plane_3.h $
+// $Id: Plane_3.h 50060 2009-06-25 05:55:14Z sloriot $
 // 
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -93,7 +93,7 @@ public:
   Plane_3(const Ray_3& r, const Point_3& p)
     : Rep(typename R::Construct_plane_3()(Return_base_tag(), r, p)) {}
 
-  Plane_3(const Circle_3& c)
+  explicit Plane_3(const Circle_3& c)
     : Rep(typename R::Construct_plane_3()(c)) {}
 
   Plane_3 transform(const Aff_transformation_3 &t) const
@@ -141,6 +141,11 @@ public:
     return R().has_on_3_object()(*this, p);
   }
 
+  bool has_on(const Circle_3 &c) const
+  {
+    return R().has_on_3_object()(*this, c);
+  }  
+  
   bool has_on(const Line_3 &l) const
   {
     return R().has_on_3_object()(*this, l);

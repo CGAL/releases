@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Number_types/include/CGAL/Quotient.h $
-// $Id: Quotient.h 46253 2008-10-14 07:22:04Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Quotient.h $
+// $Id: Quotient.h 49255 2009-05-09 15:11:47Z spion $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hemmer
@@ -215,8 +215,8 @@ Quotient<NT>::normalize()
   NT ggt = CGAL_NTS gcd(num, den);
   if (ggt != 1 )
   {
-      num /= ggt;
-      den /= ggt;
+      num = CGAL::integral_division(num, ggt);
+      den = CGAL::integral_division(den, ggt);
   }
   return *this;
 }

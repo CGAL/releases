@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "all_furthest_neighbors_2.cpp" )
   create_single_source_cgal_program( "extremal_polygon_2_area.cpp" )
   create_single_source_cgal_program( "extremal_polygon_2_perimeter.cpp" )

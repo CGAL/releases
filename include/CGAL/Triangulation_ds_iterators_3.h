@@ -11,9 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_3/include/CGAL/Triangulation_ds_iterators_3.h $
-// $Id: Triangulation_ds_iterators_3.h 42744 2008-04-03 12:14:58Z spion $
-// 
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Triangulation_ds_iterators_3.h $
+// $Id: Triangulation_ds_iterators_3.h 48845 2009-04-21 18:34:14Z spion $
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 
@@ -22,7 +21,6 @@
 
 #include <utility>
 
-#include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_ds_circulators_3.h>
 
@@ -54,18 +52,18 @@ public:
       facet.second = 0;
       switch ( _tds->dimension() ) {
       case 2:
-	pos = _tds->cell_container().begin();
+	pos = _tds->cells().begin();
 	facet.second = 3;
 	return;
       case 3:
-	pos = _tds->cell_container().begin();
+	pos = _tds->cells().begin();
 	while (// there must be at least one facet
 	       pos->neighbor(facet.second) < pos ) {
 	  increment();
 	}
 	return;
       default:
-	pos = _tds->cell_container().end();
+	pos = _tds->cells().end();
 	return;
       }
     }
@@ -75,7 +73,7 @@ public:
     : _tds(tds)
     {
 	facet.second = 0;
-	pos = _tds->cell_container().end();
+	pos = _tds->cells().end();
 	if (_tds->dimension() == 2)
 	    facet.second = 3;
     }
@@ -88,7 +86,7 @@ public:
     if (_tds->dimension() == 3) {
       do {
 	increment();
-      } while ( pos != _tds->cell_container().end()
+      } while ( pos != _tds->cells().end()
 	     && pos->neighbor(facet.second) < pos );
       // reports a facet when the current cell has a pointer inferior
       // to the pointer of the neighbor cell
@@ -118,7 +116,7 @@ public:
       }
       else
 	  --facet.second;
-    } while ( pos != _tds->cell_container().end()
+    } while ( pos != _tds->cells().end()
 	   && pos->neighbor(facet.second) < pos );
     // reports a facet when the current cell has a pointer inferior
     // to the pointer of the neighbor cell
@@ -214,12 +212,12 @@ public:
       switch ( _tds->dimension() ) {
       case 1:
 	{
-	  pos = _tds->cell_container().begin();
+	  pos = _tds->cells().begin();
 	  return;
 	}
       case 2:
 	{
-	  pos = _tds->cell_container().begin();
+	  pos = _tds->cells().begin();
 	  while ( // there must be at least one edge
 		 pos->neighbor(3-edge.second-edge.third) < pos ) {
 	    increment2();
@@ -228,7 +226,7 @@ public:
 	}
       case 3:
 	{
-	  pos = _tds->cell_container().begin();
+	  pos = _tds->cells().begin();
 	  bool notfound = true;
 	  while ( // there must be at least one edge
 		 notfound ) {
@@ -248,7 +246,7 @@ public:
 	}
       default:
 	{
-	  pos = _tds->cell_container().end();
+	  pos = _tds->cells().end();
 	  return;
 	}
       }
@@ -260,7 +258,7 @@ public:
     {
 	edge.second = 0;
 	edge.third = 1;
-	pos = _tds->cell_container().end();
+	pos = _tds->cells().end();
     }
   
   Edge_iterator& operator++()
@@ -275,7 +273,7 @@ public:
       {
 	do {
 	  increment2();
-	} while ( pos != _tds->cell_container().end() && 
+	} while ( pos != _tds->cells().end() && 
 		  pos->neighbor(3-edge.second-edge.third) < pos );
 	break;
       }
@@ -284,7 +282,7 @@ public:
 	bool notfound = true;
 	do {
 	  increment3();
-	  if (pos != _tds->cell_container().end()) {
+	  if (pos != _tds->cells().end()) {
 	    edge.first = pos;
 	    Cell_circulator ccir = _tds->incident_cells(edge);
 	    do {
@@ -297,7 +295,7 @@ public:
 	  else {
 	    edge.second=0; edge.third=1;
 	  }
-	} while ( pos != _tds->cell_container().end() && notfound );
+	} while ( pos != _tds->cells().end() && notfound );
 	break;
       }
     default:
@@ -328,7 +326,7 @@ public:
 	    edge.third = edge.second+1;
 	    // case edge.second==2, edge.third==0 forbids to write edge.third--
 	  }
-	} while ( pos != _tds->cell_container().end() && 
+	} while ( pos != _tds->cells().end() && 
 		  pos->neighbor(3-edge.second-edge.third) < pos );
 	break;
       }
@@ -353,7 +351,7 @@ public:
 	    else
 	      --edge.third;
 	  }
-	  if (pos != _tds->cell_container().end()) {
+	  if (pos != _tds->cells().end()) {
 	    edge.first = pos;
 	    Cell_circulator ccir = _tds->incident_cells(edge);
 	    do {
@@ -366,7 +364,7 @@ public:
 	  else {
 	    edge.second=0; edge.third=1;
 	  }
-	} while ( pos != _tds->cell_container().end() && notfound );
+	} while ( pos != _tds->cells().end() && notfound );
 	break;
       }
     default :

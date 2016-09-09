@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/GraphicsView/include/CGAL/Qt/TriangulationGraphicsItem.h $
-// $Id: TriangulationGraphicsItem.h 47038 2008-11-26 09:03:57Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/GraphicsView/include/CGAL/Qt/TriangulationGraphicsItem.h $
+// $Id: TriangulationGraphicsItem.h 47940 2009-02-06 09:44:15Z afabri $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -97,6 +97,7 @@ protected:
   virtual void drawAll(QPainter *painter);
   void paintVertices(QPainter *painter);
   void paintOneVertex(const typename T::Point& point);
+  virtual void paintVertex(typename T::Vertex_handle vh);
   void updateBoundingBox();
 
   T * t;
@@ -152,7 +153,7 @@ TriangulationGraphicsItem<T>::operator()(typename T::Face_handle fh)
   }
   if(visible_vertices) {
     for (int i=0; i<3; i++) {
-      paintOneVertex(fh->vertex(i)->point());
+      paintVertex(fh->vertex(i));
     }
   }
 }
@@ -202,6 +203,19 @@ TriangulationGraphicsItem<T>::paintOneVertex(const typename T::Point& point)
   QMatrix matrix = m_painter->matrix();
   m_painter->resetMatrix();
   m_painter->drawPoint(matrix.map(convert(point)));
+  m_painter->setMatrix(matrix);
+}
+
+template <typename T>
+void 
+TriangulationGraphicsItem<T>::paintVertex(typename T::Vertex_handle vh)
+{
+  Converter<Geom_traits> convert;
+
+  m_painter->setPen(this->verticesPen());
+  QMatrix matrix = m_painter->matrix();
+  m_painter->resetMatrix();
+  m_painter->drawPoint(matrix.map(convert(vh->point())));
   m_painter->setMatrix(matrix);
 }
 

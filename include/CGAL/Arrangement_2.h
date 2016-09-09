@@ -11,11 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2.h $
-// $Id: Arrangement_2.h 41124 2007-12-08 10:56:13Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_2.h $
+// $Id: Arrangement_2.h 50778 2009-07-23 12:14:22Z efif $
 // 
 //
 // Author(s): Ron Wein          <wein@post.tau.ac.il>
+//            Efi Fogel         <efif@post.tau.ac.il>
 
 #ifndef CGAL_ARRANGEMENT_2_H
 #define CGAL_ARRANGEMENT_2_H
@@ -24,6 +25,7 @@
  * The header file for the Arrangement_2<Traits,Dcel> class.
  */
 
+#include <CGAL/Arr_tags.h>
 #include <CGAL/Arrangement_on_surface_2.h>
 #include <CGAL/Arrangement_2/Arr_default_planar_topology.h>
 
@@ -42,17 +44,13 @@ template <class GeomTraits_,
           class Dcel_ = Arr_default_dcel<GeomTraits_> > 
 class Arrangement_2 :
   public Arrangement_on_surface_2
-    <GeomTraits_,
-     typename Default_planar_topology<GeomTraits_,
-                                      Dcel_,
-                                      typename GeomTraits_::
-                                      Boundary_category>::Traits>
+    <GeomTraits_, typename Default_planar_topology<GeomTraits_, Dcel_>::Traits>
 {
-private:
 
-  typedef typename GeomTraits_::Boundary_category         Boundary_category;
-  typedef Default_planar_topology<GeomTraits_, Dcel_, Boundary_category>
-                                                          Default_topology;
+protected:
+
+  typedef Default_planar_topology<GeomTraits_, Dcel_ >    Default_topology;
+
 public:
   typedef Arrangement_on_surface_2<GeomTraits_,
                                    typename Default_topology::Traits>
@@ -87,13 +85,13 @@ public:
   typedef typename Base::Face_const_iterator      Face_const_iterator;
   
   typedef typename Base::Halfedge_around_vertex_circulator 
-                                     Halfedge_around_vertex_circulator;
+    Halfedge_around_vertex_circulator;
   typedef typename Base::Halfedge_around_vertex_const_circulator
-                                     Halfedge_around_vertex_const_circulator;
+    Halfedge_around_vertex_const_circulator;
 
   typedef typename Base::Ccb_halfedge_circulator   Ccb_halfedge_circulator;
   typedef typename Base::Ccb_halfedge_const_circulator
-                                             Ccb_halfedge_const_circulator;
+    Ccb_halfedge_const_circulator;
   
   typedef typename Base::Outer_ccb_iterator        Outer_ccb_iterator;
   typedef typename Base::Outer_ccb_const_iterator  Outer_ccb_const_iterator;
@@ -103,7 +101,7 @@ public:
 
   typedef typename Base::Isolated_vertex_iterator  Isolated_vertex_iterator;
   typedef typename Base::Isolated_vertex_const_iterator
-                                             Isolated_vertex_const_iterator;
+    Isolated_vertex_const_iterator;
 
   typedef typename Base::Vertex_handle             Vertex_handle;
   typedef typename Base::Vertex_const_handle       Vertex_const_handle;
@@ -140,7 +138,7 @@ public:
   {}
 
   /*! Constructor given a traits object. */
-  Arrangement_2 (Traits_2 *tr) :
+  Arrangement_2 (const Traits_2 *tr) :
     Base (tr)
   {}
   //@}
@@ -183,23 +181,6 @@ public:
     // The vertices at infinity are valid, but not concrete:
     return (this->topology_traits()->number_of_valid_vertices() -
             this->topology_traits()->number_of_concrete_vertices());
-  }
-
-  /*! Get the number of unbounded faces. */
-  Size number_of_unbounded_faces () const
-  {
-    typename Base::Face_const_iterator  fit = this->faces_begin();
-    typename Base::Face_const_iterator  end = this->faces_end();
-    Size                                n_unb = 0;
-
-    while (fit != end)
-    {
-      if (fit->is_unbounded())
-        n_unb++;
-      ++fit;
-    }
-
-    return (n_unb);
   }
 
   /*! Get the unbounded face (non-const version). */

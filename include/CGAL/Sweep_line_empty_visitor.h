@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_empty_visitor.h $
-// $Id: Sweep_line_empty_visitor.h 40964 2007-11-21 10:23:08Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_empty_visitor.h $
+// $Id: Sweep_line_empty_visitor.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -80,7 +80,7 @@ public:
     typedef value_type*                                      pointer;
     typedef typename Base_status_line_iter::difference_type  difference_type;
     typedef typename Base_status_line_iter::iterator_category
-                                                           iterator_category;
+                                                             iterator_category;
     /*! Constructor. */
     Status_line_iterator()
     {}
@@ -108,7 +108,7 @@ public:
 
   typedef typename Event::Subcurve_iterator          Event_subcurve_iterator;
   typedef typename Event::Subcurve_reverse_iterator
-                                             Event_subcurve_reverse_iterator;
+    Event_subcurve_reverse_iterator;
 
 protected:
 
@@ -257,7 +257,7 @@ public:
   }
 
   /*! Get the geometry-traits class. */
-  Traits_2* traits ()
+  const Traits_2 * traits ()
   {
     return (_sweep_line()->traits());
   }

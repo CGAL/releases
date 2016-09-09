@@ -17,8 +17,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/internal_functions_on_roots_and_polynomials_2_3.h $
-// $Id: internal_functions_on_roots_and_polynomials_2_3.h 46224 2008-10-13 11:22:46Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/internal_functions_on_roots_and_polynomials_2_3.h $
+// $Id: internal_functions_on_roots_and_polynomials_2_3.h 50465 2009-07-08 13:26:57Z sloriot $
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //             Sylvain Pion
@@ -96,11 +96,12 @@ namespace CGAL {
   {
     typedef typename AK::Root_of_2 Root_of_2;
     typedef typename AK::Root_for_spheres_2_3 Root_for_spheres_2_3; 
-
-    *res++ =  Root_for_spheres_2_3(make_root_of_2(s.a(),-1,s.r_sq()),
+    typedef typename AK::FT FT;
+    
+    *res++ =  Root_for_spheres_2_3(make_root_of_2(s.a(),FT(-1),s.r_sq()),
                                 Root_of_2(s.b()),
                                 Root_of_2(s.c()));
-    *res++ =  Root_for_spheres_2_3(make_root_of_2(s.a(),1,s.r_sq()),
+    *res++ =  Root_for_spheres_2_3(make_root_of_2(s.a(),FT(1),s.r_sq()),
                                 Root_of_2(s.b()),
                                 Root_of_2(s.c()));
     return res;
@@ -124,13 +125,14 @@ namespace CGAL {
   y_critical_points(const typename AK::Polynomial_for_spheres_2_3 & s, OutputIterator res)
   {
     typedef typename AK::Root_of_2 Root_of_2;
-    typedef typename AK::Root_for_spheres_2_3 Root_for_spheres_2_3; 
+    typedef typename AK::Root_for_spheres_2_3 Root_for_spheres_2_3;
+    typedef typename AK::FT FT;
 
     *res++ =  Root_for_spheres_2_3(Root_of_2(s.a()),
-                                make_root_of_2(s.b(),-1,s.r_sq()),
+                                make_root_of_2(s.b(),FT(-1),s.r_sq()),
                                 Root_of_2(s.c()));
     *res++ =  Root_for_spheres_2_3(Root_of_2(s.a()),
-                                make_root_of_2(s.b(),1,s.r_sq()),
+                                make_root_of_2(s.b(),FT(1),s.r_sq()),
                                 Root_of_2(s.c()));
     return res;
   }
@@ -152,14 +154,15 @@ namespace CGAL {
   z_critical_points(const typename AK::Polynomial_for_spheres_2_3 & s, OutputIterator res)
   {
     typedef typename AK::Root_of_2 Root_of_2;
-    typedef typename AK::Root_for_spheres_2_3 Root_for_spheres_2_3; 
+    typedef typename AK::Root_for_spheres_2_3 Root_for_spheres_2_3;
+    typedef typename AK::FT FT;
 
     *res++ =  Root_for_spheres_2_3(Root_of_2(s.a()),
                                 Root_of_2(s.b()),
-                                make_root_of_2(s.c(),-1,s.r_sq()));
+                                make_root_of_2(s.c(),FT(-1),s.r_sq()));
     *res++ =  Root_for_spheres_2_3(Root_of_2(s.a()),
                                 Root_of_2(s.b()),
-                                make_root_of_2(s.c(),1,s.r_sq()));
+                                make_root_of_2(s.c(),FT(1),s.r_sq()));
     return res;
   }
 
@@ -179,8 +182,8 @@ namespace CGAL {
 
     // It has to be the equation of a diametral circle
     CGAL_kernel_precondition((intersect<AK>(p,s)));
-    CGAL_kernel_precondition(sign(p.a() * s.a() + p.b() * s.b() + 
-                                  p.c() * s.c() + p.d()) == ZERO);
+    CGAL_kernel_precondition(CGAL_NTS sign(p.a() * s.a() + p.b() * s.b() + 
+                                      p.c() * s.c() + p.d()) == ZERO);
     CGAL_kernel_precondition(!(is_zero(p.b()) && is_zero(p.c())));
 
     const FT sqbc = CGAL::square(p.b()) + CGAL::square(p.c());
@@ -214,8 +217,8 @@ namespace CGAL {
 
     // It has to be the equation of a diametral circle
     CGAL_kernel_precondition((intersect<AK>(p,s)));
-    CGAL_kernel_precondition(sign(p.a() * s.a() + p.b() * s.b() + 
-                                  p.c() * s.c() + p.d()) == ZERO);
+    CGAL_kernel_precondition(CGAL_NTS sign(p.a() * s.a() + p.b() * s.b() + 
+                                           p.c() * s.c() + p.d()) == ZERO);
     CGAL_kernel_precondition(!(is_zero(p.b()) && is_zero(p.c())));
 
     const FT sqbc = CGAL::square(p.b()) + CGAL::square(p.c());
@@ -253,8 +256,8 @@ namespace CGAL {
 
     // It has to be the equation of a diametral circle
     CGAL_kernel_precondition((intersect<AK>(p,s)));
-    CGAL_kernel_precondition(sign(p.a() * s.a() + p.b() * s.b() + 
-                                  p.c() * s.c() + p.d()) == ZERO);
+    CGAL_kernel_precondition(CGAL_NTS sign(p.a() * s.a() + p.b() * s.b() + 
+                                           p.c() * s.c() + p.d()) == ZERO);
     CGAL_kernel_precondition(!(is_zero(p.a()) && is_zero(p.c())));
 
     const FT sqac = CGAL::square(p.a()) + CGAL::square(p.c());
@@ -294,8 +297,8 @@ namespace CGAL {
 
     // It has to be the equation of a diametral circle
     CGAL_kernel_precondition((intersect<AK>(p,s)));
-    CGAL_kernel_precondition(sign(p.a() * s.a() + p.b() * s.b() + 
-                                  p.c() * s.c() + p.d()) == ZERO);
+    CGAL_kernel_precondition(CGAL_NTS sign(p.a() * s.a() + p.b() * s.b() + 
+                                           p.c() * s.c() + p.d()) == ZERO);
     CGAL_kernel_precondition(!(is_zero(p.a()) && is_zero(p.c())));
 
     const FT sqac = CGAL::square(p.a()) + CGAL::square(p.c());
@@ -306,10 +309,10 @@ namespace CGAL {
     const FT cz = (p.c()*p.b())/sqac;
 
     const Root_of_2 x1 = make_root_of_2(s.a(),cx,delta);
-    const Root_of_2 y1 = make_root_of_2(s.b(),-1,delta);
+    const Root_of_2 y1 = make_root_of_2(s.b(),FT(-1),delta);
     const Root_of_2 z1 = make_root_of_2(s.c(),cz,delta);
     const Root_of_2 x2 = make_root_of_2(s.a(),-cx,delta);
-    const Root_of_2 y2 = make_root_of_2(s.b(),1,delta);
+    const Root_of_2 y2 = make_root_of_2(s.b(),FT(1),delta);
     const Root_of_2 z2 = make_root_of_2(s.c(),-cz,delta);
 
     if(!is_positive(cx)) {
@@ -338,8 +341,8 @@ namespace CGAL {
 
     // It has to be the equation of a diametral circle
     CGAL_kernel_precondition((intersect<AK>(p,s)));
-    CGAL_kernel_precondition(sign(p.a() * s.a() + p.b() * s.b() + 
-                                  p.c() * s.c() + p.d()) == ZERO);
+    CGAL_kernel_precondition(CGAL_NTS sign(p.a() * s.a() + p.b() * s.b() + 
+                                           p.c() * s.c() + p.d()) == ZERO);
     CGAL_kernel_precondition(!(is_zero(p.a()) && is_zero(p.b())));
 
     const FT sqab = CGAL::square(p.a()) + CGAL::square(p.b());
@@ -391,8 +394,8 @@ namespace CGAL {
 
     // It has to be the equation of a diametral circle
     CGAL_kernel_precondition((intersect<AK>(p,s)));
-    CGAL_kernel_precondition(sign(p.a() * s.a() + p.b() * s.b() + 
-                                  p.c() * s.c() + p.d()) == ZERO);
+    CGAL_kernel_precondition(CGAL_NTS sign(p.a() * s.a() + p.b() * s.b() + 
+                                           p.c() * s.c() + p.d()) == ZERO);
     CGAL_kernel_precondition(!(is_zero(p.a()) && is_zero(p.b())));
 
     const FT sqab = CGAL::square(p.a()) + CGAL::square(p.b());
@@ -415,27 +418,27 @@ namespace CGAL {
       if(!is_positive(cy)) {
         const Root_of_2 x1 = s.a();
         const Root_of_2 y1 = make_root_of_2(s.b(),(cy),delta);
-        const Root_of_2 z1 = make_root_of_2(s.c(),-1,delta);
+        const Root_of_2 z1 = make_root_of_2(s.c(),FT(-1),delta);
         const Root_of_2 y2 = make_root_of_2(s.b(),(-cy),delta);
-        const Root_of_2 z2 = make_root_of_2(s.c(),1,delta);
+        const Root_of_2 z2 = make_root_of_2(s.c(),FT(1),delta);
         *res++ = Root_for_spheres_2_3(x1,y1,z1);
         *res++ = Root_for_spheres_2_3(x1,y2,z2);
       } else {
         const Root_of_2 x1 = s.a();
         const Root_of_2 y1 = make_root_of_2(s.b(),(-cy),delta);
-        const Root_of_2 z1 = make_root_of_2(s.c(),1,delta);
+        const Root_of_2 z1 = make_root_of_2(s.c(),FT(1),delta);
         const Root_of_2 y2 = make_root_of_2(s.b(),(cy),delta);
-        const Root_of_2 z2 = make_root_of_2(s.c(),-1,delta);
+        const Root_of_2 z2 = make_root_of_2(s.c(),FT(-1),delta);
         *res++ = Root_for_spheres_2_3(x1,y1,z1);
         *res++ = Root_for_spheres_2_3(x1,y2,z2);
       }
     } else {
       const Root_of_2 x1 = make_root_of_2(s.a(),(-cx),delta);
       const Root_of_2 y1 = make_root_of_2(s.b(),(-cy),delta);
-      const Root_of_2 z1 = make_root_of_2(s.c(),1,delta);
+      const Root_of_2 z1 = make_root_of_2(s.c(),FT(1),delta);
       const Root_of_2 x2 = make_root_of_2(s.a(),(cx),delta);
       const Root_of_2 y2 = make_root_of_2(s.b(),(cy),delta);
-      const Root_of_2 z2 = make_root_of_2(s.c(),-1,delta);
+      const Root_of_2 z2 = make_root_of_2(s.c(),FT(-1),delta);
       *res++ = Root_for_spheres_2_3(x1,y1,z1);
       *res++ = Root_for_spheres_2_3(x2,y2,z2);
     }

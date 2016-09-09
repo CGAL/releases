@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Homogeneous_kernel/include/CGAL/Homogeneous/LineH2.h $
-// $Id: LineH2.h 45152 2008-08-26 13:08:16Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Homogeneous_kernel/include/CGAL/Homogeneous/LineH2.h $
+// $Id: LineH2.h 49057 2009-04-30 14:03:52Z spion $
 // 
 //
 // Author(s)     : Stefan Schirra
@@ -40,7 +40,7 @@ class LineH2
     typedef typename R_::Ray_2                Ray_2;
     typedef typename R_::Line_2               Line_2;
 
-    typedef CGAL::array<RT, 3>               Rep;
+    typedef cpp0x::array<RT, 3>               Rep;
     typedef typename R_::template Handle<Rep>::type  Base;
 
     Base base;

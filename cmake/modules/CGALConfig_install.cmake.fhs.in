@@ -62,6 +62,7 @@ set(CGAL_ImageIO_3RD_PARTY_INCLUDE_DIRS   "@CGAL_ImageIO_3RD_PARTY_INCLUDE_DIRS@
 set(CGAL_ImageIO_3RD_PARTY_DEFINITIONS    "@CGAL_ImageIO_3RD_PARTY_DEFINITIONS@" )
 set(CGAL_ImageIO_3RD_PARTY_LIBRARIES_DIRS "@CGAL_ImageIO_3RD_PARTY_LIBRARIES_DIRS@" )
 set(CGAL_ImageIO_3RD_PARTY_LIBRARIES      "@CGAL_ImageIO_3RD_PARTY_LIBRARIES@" )
+set(CGAL_ImageIO_USE_ZLIB                 "@CGAL_ImageIO_USE_ZLIB@" )
 
 set(CGAL_PDB_3RD_PARTY_INCLUDE_DIRS   "@CGAL_PDB_3RD_PARTY_INCLUDE_DIRS@" )
 set(CGAL_PDB_3RD_PARTY_DEFINITIONS    "@CGAL_PDB_3RD_PARTY_DEFINITIONS@" )
@@ -124,3 +125,6 @@ foreach( CGAL_COMPONENT ${CGAL_FIND_COMPONENTS} )
   check_cgal_component("_${CGAL_COMPONENT}")
 endforeach()
 
+# Starting with cmake 2.6.3, CGAL_FIND_COMPONENTS is cleared out when find_package returns.
+# But we need it within UseCGAL.cmake, so we save it aside into another variable
+set( CGAL_REQUESTED_COMPONENTS ${CGAL_FIND_COMPONENTS} )

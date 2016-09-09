@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_arc_2.h $
-// $Id: Conic_arc_2.h 44493 2008-07-27 16:45:40Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_arc_2.h $
+// $Id: Conic_arc_2.h 48716 2009-04-08 11:40:21Z spion $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -113,7 +113,7 @@ protected:
 
 public:
 
-  /// \name Construction and destruction fucntions.
+  /// \name Construction and destruction functions.
   //@{
 
   /*!

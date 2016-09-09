@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/BGL/include/CGAL/Triangulation_vertex_base_with_id_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/BGL/include/CGAL/Triangulation_vertex_base_with_id_2.h $
 // $Id: Triangulation_vertex_base_with_id_2.h 36383 2007-02-16 11:34:18Z afabri $
 // 
 //

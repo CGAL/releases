@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Filtered_kernel/include/CGAL/Static_filters/Side_of_oriented_circle_2.h $
-// $Id: Side_of_oriented_circle_2.h 42811 2008-04-09 13:35:34Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Static_filters/Side_of_oriented_circle_2.h $
+// $Id: Side_of_oriented_circle_2.h 47568 2008-12-21 15:56:20Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -39,7 +39,7 @@ public:
   Oriented_side operator()(const Point_2 &p, const Point_2 &q,
 	                   const Point_2 &r, const Point_2 &t) const
   {
-      CGAL_PROFILER("Side_of_oriented_circle_2 calls");
+      CGAL_BRANCH_PROFILER_3("semi-static failures/attempts/calls to   : Side_of_oriented_circle_2", tmp);
 
       using std::fabs;
 
@@ -50,7 +50,7 @@ public:
           fit_in_double(r.x(), rx) && fit_in_double(r.y(), ry) &&
           fit_in_double(t.x(), tx) && fit_in_double(t.y(), ty))
       {
-          CGAL_PROFILER("Side_of_oriented_circle_2 semi-static attempts");
+	  CGAL_BRANCH_PROFILER_BRANCH_1(tmp);
 
           double qpx = qx-px;
           double qpy = qy-py;
@@ -65,7 +65,7 @@ public:
 	  double rqy = ry-qy;
 
           double det = determinant(qpx*tpy - qpy*tpx, tpx*tqx + tpy*tqy,
-                                         qpx*rpy - qpy*rpx, rpx*rqx + rpy*rqy);
+                                   qpx*rpy - qpy*rpx, rpx*rqx + rpy*rqy);
 
           // We compute the semi-static bound.
           double maxx = fabs(qpx);
@@ -81,19 +81,18 @@ public:
 
           if (maxx > maxy)  std::swap(maxx, maxy);
 
-          double eps = 8.8878565762001373e-15 * maxx * maxy * (maxy*maxy);
-
           // Protect against underflow in the computation of eps.
           if (maxx < 1e-73) {
             if (maxx == 0)
               return ON_ORIENTED_BOUNDARY;
           }
           else if (maxy < 1e76) /* sqrt(sqrt(max_double/16 [hadamard])) */ {
+            double eps = 8.8878565762001373e-15 * maxx * maxy * (maxy*maxy);
             if (det > eps)  return ON_POSITIVE_SIDE;
             if (det < -eps) return ON_NEGATIVE_SIDE;
           }
 
-          CGAL_PROFILER("Side_of_oriented_circle_2 semi-static failures");
+	  CGAL_BRANCH_PROFILER_BRANCH_2(tmp);
       }
 
       return Base::operator()(p, q, r, t);

@@ -11,14 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_decorator.h $
-// $Id: Gps_traits_decorator.h 41151 2007-12-10 17:00:57Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_decorator.h $
+// $Id: Gps_traits_decorator.h 50368 2009-07-05 13:14:14Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
 
 #ifndef CGAL_GPS_TRAITS_DECORATOR_H
 #define CGAL_GPS_TRAITS_DECORATOR_H
+
+#include <boost/mpl/assert.hpp>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -49,8 +51,38 @@ public:
   typedef typename Base::Construct_opposite_2      Base_Construct_opposite_2;
   typedef typename Base::Has_left_category         Has_left_category;
   typedef typename Base::Has_merge_category        Has_merge_category;
-  typedef typename Base::Boundary_category         Boundary_category;
-  
+
+  typedef typename Base::Arr_left_side_tag         Arr_left_side_tag;
+  typedef typename Base::Arr_bottom_side_tag       Arr_bottom_side_tag;
+  typedef typename Base::Arr_top_side_tag          Arr_top_side_tag;
+  typedef typename Base::Arr_right_side_tag        Arr_right_side_tag;
+
+  // a side is either oblivious or open (unbounded)
+  BOOST_MPL_ASSERT(
+      (boost::mpl::or_< 
+       boost::is_same< Arr_left_side_tag, Arr_oblivious_side_tag >,
+       boost::is_same< Arr_left_side_tag, Arr_open_side_tag > >
+      )
+  );
+  BOOST_MPL_ASSERT(
+      (boost::mpl::or_< 
+       boost::is_same< Arr_bottom_side_tag, Arr_oblivious_side_tag >,
+       boost::is_same< Arr_bottom_side_tag, Arr_open_side_tag > >
+      )
+  );
+  BOOST_MPL_ASSERT(
+      (boost::mpl::or_< 
+       boost::is_same< Arr_top_side_tag, Arr_oblivious_side_tag >,
+       boost::is_same< Arr_top_side_tag, Arr_open_side_tag > >
+      )
+  );
+  BOOST_MPL_ASSERT(
+      (boost::mpl::or_< 
+       boost::is_same< Arr_right_side_tag, Arr_oblivious_side_tag >,
+       boost::is_same< Arr_right_side_tag, Arr_open_side_tag > >
+      )
+  );
+
   class Ex_point_2 
   {
   protected:
@@ -172,23 +204,24 @@ public:
   protected:
 
   //Data members
-  Base*    m_base_tr;
-  bool     m_traits_owner;
+  const Base * m_base_tr;
+  bool m_traits_owner;
 
 public:
   
-  Gps_traits_decorator() : m_base_tr(new Base()),
-			   m_traits_owner(true)
+  Gps_traits_decorator() :
+    m_base_tr(new Base()),
+    m_traits_owner(true)
   {}
 
-  Gps_traits_decorator(Base& base_traits) :
+  Gps_traits_decorator(const Base & base_traits) :
     m_base_tr(&base_traits),
     m_traits_owner(false)
   {}
 
   ~Gps_traits_decorator()
   {
-    if(m_traits_owner)
+    if (m_traits_owner)
       delete m_base_tr;
   }
 
@@ -199,7 +232,7 @@ public:
     Base_Compare_x_2 m_base;
 
   public:
-    Compare_x_2(Base_Compare_x_2& base) :m_base(base)
+    Compare_x_2(Base_Compare_x_2& base) : m_base(base)
     {}
 
     Comparison_result operator() (const Point_2& p1, const Point_2& p2) const
@@ -222,7 +255,7 @@ public:
     Base_Compare_xy_2 m_base;
 
   public:
-    Compare_xy_2(const Base_Compare_xy_2& base) :m_base(base)
+    Compare_xy_2(const Base_Compare_xy_2& base) : m_base(base)
     {}
 
     Comparison_result operator() (const Point_2& p1, const Point_2& p2) const
@@ -244,7 +277,8 @@ public:
     Base_Construct_min_vertex_2 m_base;
 
   public:
-    Construct_min_vertex_2(const Base_Construct_min_vertex_2& base) :m_base(base)
+    Construct_min_vertex_2(const Base_Construct_min_vertex_2& base) :
+      m_base(base)
     {}
 
     Point_2 operator() (const X_monotone_curve_2& cv) const
@@ -266,7 +300,8 @@ public:
     Base_Construct_max_vertex_2 m_base;
 
   public:
-    Construct_max_vertex_2(const Base_Construct_max_vertex_2& base) :m_base(base)
+    Construct_max_vertex_2(const Base_Construct_max_vertex_2& base) :
+      m_base(base)
     {}
 
     Point_2 operator() (const X_monotone_curve_2& cv) const
@@ -289,7 +324,7 @@ public:
     Base_Is_vertical_2 m_base;
 
   public:
-    Is_vertical_2(const Base_Is_vertical_2& base) :m_base(base)
+    Is_vertical_2(const Base_Is_vertical_2& base) : m_base(base)
     {}
 
     bool operator() (const X_monotone_curve_2& cv) const
@@ -312,7 +347,7 @@ public:
     Base_Compare_y_at_x_2 m_base;
 
   public:
-    Compare_y_at_x_2(const Base_Compare_y_at_x_2& base) :m_base(base)
+    Compare_y_at_x_2(const Base_Compare_y_at_x_2& base) : m_base(base)
     {}
 
     Comparison_result operator() (const Point_2& p,
@@ -336,7 +371,8 @@ public:
     Base_Compare_y_at_x_right_2 m_base;
 
   public:
-    Compare_y_at_x_right_2(const Base_Compare_y_at_x_right_2& base) :m_base(base)
+    Compare_y_at_x_right_2(const Base_Compare_y_at_x_right_2& base) :
+      m_base(base)
     {}
 
     Comparison_result operator() (const X_monotone_curve_2& cv1,
@@ -361,7 +397,7 @@ public:
     Base_Equal_2 m_base;
 
   public:
-    Equal_2(const Base_Equal_2& base) :m_base(base)
+    Equal_2(const Base_Equal_2& base) : m_base(base)
     {}
 
     bool operator() (const Point_2& p1, const Point_2& p2) const
@@ -384,7 +420,7 @@ public:
     Base_Split_2 m_base;
 
   public:
-    Split_2(const Base_Split_2& base) :m_base(base)
+    Split_2(const Base_Split_2& base) : m_base(base)
     {}
 
     void operator() (const X_monotone_curve_2& cv,
@@ -474,10 +510,11 @@ public:
     Base_Compare_endpoints_xy_2 m_base;
 
   public:
-    Compare_endpoints_xy_2(const Base_Compare_endpoints_xy_2& base) :m_base(base)
+    Compare_endpoints_xy_2(const Base_Compare_endpoints_xy_2& base) :
+      m_base(base)
     {}
 
-    Comparison_result operator()(const X_monotone_curve_2& cv)
+    Comparison_result operator()(const X_monotone_curve_2& cv) const
     {
       return (m_base(cv));
 
@@ -501,7 +538,7 @@ public:
     Construct_opposite_2(Base_Construct_opposite_2& base) :m_base(base)
     {}
 
-    X_monotone_curve_2 operator()(const X_monotone_curve_2& cv)
+    X_monotone_curve_2 operator()(const X_monotone_curve_2& cv) const
     {
       return (X_monotone_curve_2(m_base(cv)));
     }

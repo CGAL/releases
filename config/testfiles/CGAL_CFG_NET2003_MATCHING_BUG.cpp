@@ -15,16 +15,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/testfiles/CGAL_CFG_NET2003_MATCHING_BUG.cpp $
-// $Id: CGAL_CFG_NET2003_MATCHING_BUG.cpp 37704 2007-03-30 08:39:31Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/testfiles/CGAL_CFG_NET2003_MATCHING_BUG.cpp $
+// $Id: CGAL_CFG_NET2003_MATCHING_BUG.cpp 49022 2009-04-29 20:03:21Z spion $
 // 
 //
 // Author(s)     : Radu Ursu
-
-// ---------------------------------------------------------------------
-// This program is used by install_cgal.
-// The following documentation will be pasted in the generated configfile.
-// ---------------------------------------------------------------------
 
 //| This flag is set, if the compiler does not match a member 
 //| definition to an existing declaration (eg., cl1310 Beta).

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Number_types/include/CGAL/Interval_nt.h $
-// $Id: Interval_nt.h 45636 2008-09-18 15:35:55Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Interval_nt.h $
+// $Id: Interval_nt.h 49525 2009-05-22 15:02:08Z spion $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -34,6 +34,10 @@
 // Note: When rounding is towards +infinity, to make an operation rounded
 // towards -infinity, it's enough to take the opposite of some of the operand,
 // and the opposite of the result (see operator+, operator*,...).
+
+// TODO : 
+// - test whether stopping constant propagation only in functions taking
+//   double as arguments, improves performance.
 
 #include <CGAL/number_type_basic.h>
 #include <CGAL/Uncertain.h>
@@ -788,9 +792,6 @@ operator/ (const Interval_nt<Protected> & a, int b)
 }
 
 // TODO: What about these two guys? Where do they belong to?
-
-
-
 template <bool Protected>
 struct Min <Interval_nt<Protected> >
     : public std::binary_function<Interval_nt<Protected>,
@@ -820,6 +821,20 @@ struct Max <Interval_nt<Protected> >
                 (std::max)(d.sup(), e.sup()));
     }
 };
+
+template<bool Protected> inline 
+Interval_nt<Protected> min BOOST_PREVENT_MACRO_SUBSTITUTION(
+const Interval_nt<Protected> & x,
+const Interval_nt<Protected> & y){
+  return CGAL::Min<Interval_nt<Protected> > ()(x,y);
+}
+template<bool Protected> inline 
+Interval_nt<Protected> max BOOST_PREVENT_MACRO_SUBSTITUTION(
+const Interval_nt<Protected> & x,
+const Interval_nt<Protected> & y){
+  return CGAL::Max<Interval_nt<Protected> > ()(x,y);
+}
+
 
 
 // TODO : document, when we are OK with the interface.

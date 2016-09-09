@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kernel_23/include/CGAL/Bbox_2.h $
-// $Id: Bbox_2.h 45152 2008-08-26 13:08:16Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Bbox_2.h $
+// $Id: Bbox_2.h 49057 2009-04-30 14:03:52Z spion $
 //
 // Author(s)     : Andreas Fabri
 
@@ -36,7 +36,7 @@ struct Simple_cartesian;
 
 class Bbox_2
 {
-  typedef CGAL::array<double, 4>            BBox_rep_2;
+  typedef cpp0x::array<double, 4>            BBox_rep_2;
 
   BBox_rep_2 rep;
 

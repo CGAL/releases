@@ -31,7 +31,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Core/include/CGAL/CORE/ExprRep.h $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/ExprRep.h $
  * $Id: ExprRep.h 41739 2008-01-20 23:09:58Z spion $
  ***************************************************************************/
 

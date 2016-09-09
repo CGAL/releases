@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Boolean_set_operations_2/include/CGAL/Gps_traits_2.h $
-// $Id: Gps_traits_2.h 45304 2008-09-04 12:01:30Z guyzucke $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Gps_traits_2.h $
+// $Id: Gps_traits_2.h 47919 2009-02-05 15:39:55Z guyzucke $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -104,14 +104,15 @@ public:
    * An auxiliary functor used for validity checks.
    */
   typedef Gps_traits_adaptor<Base>                         Traits_adaptor;
-  typedef CGAL::Is_valid_2<Self, Traits_adaptor>           Is_valid_2;
  
+  /*typedef CGAL::Is_valid_2<Self, Traits_adaptor>           Is_valid_2;
   Is_valid_2 is_valid_2_object()
   {
     Traits_adaptor   tr_adp;
-
+ 
     return (Is_valid_2 (*this, tr_adp));
-  }	
+  }*/	
+  
   //Added Functionality from GeneralPolygonWithHoles Concept to the traits. 
 	
   /*A functor for constructing the outer boundary of a polygon with holes*/ 	

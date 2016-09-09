@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Number_types/include/CGAL/NT_converter.h $
-// $Id: NT_converter.h 44360 2008-07-23 14:36:49Z hoffmann $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/NT_converter.h $
+// $Id: NT_converter.h 49905 2009-06-13 19:46:56Z spion $
 //
 //
 // Author(s)     : Sylvain Pion
@@ -86,6 +86,17 @@ struct NT_converter < NT1, Interval_nt<b> >
     operator()(const NT1 &a) const
     {
         return CGAL_NTS to_interval(a);
+    }
+};
+
+template < bool b >
+struct NT_converter < Interval_nt<b>, Interval_nt<b> >
+  : public std::unary_function< Interval_nt<b>, Interval_nt<b> >
+{
+    const Interval_nt<b> &
+    operator()(const Interval_nt<b> &a) const
+    {
+        return a;
     }
 };
 

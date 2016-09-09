@@ -11,13 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_3/include/CGAL/Triangulation_3.h $
-// $Id: Triangulation_3.h 46883 2008-11-14 10:43:11Z cwormser $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_3/include/CGAL/Triangulation_3.h $
+// $Id: Triangulation_3.h 48845 2009-04-21 18:34:14Z spion $
 // 
-//
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion
-
 
 #ifndef CGAL_TRIANGULATION_3_H
 #define CGAL_TRIANGULATION_3_H
@@ -31,7 +29,6 @@
 #include <utility>
 #include <stack>
 
-#include <CGAL/Triangulation_short_names_3.h>
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_utils_3.h>
 
@@ -1025,18 +1022,38 @@ public:
     return _tds.incident_facets(v, facets, Finite_filter(this));
   }
 
+  // old name (up to CGAL 3.4)
+  // kept for backwards compatibility but not documented
   template <class OutputIterator>
   OutputIterator
   incident_vertices(Vertex_handle v, OutputIterator vertices) const
   {
-    return _tds.incident_vertices(v, vertices);
+    return _tds.adjacent_vertices(v, vertices);
   }
 
+  // correct name 
+  template <class OutputIterator>
+  OutputIterator
+  adjacent_vertices(Vertex_handle v, OutputIterator vertices) const
+  {
+    return _tds.adjacent_vertices(v, vertices);
+  }
+
+  // old name (up to CGAL 3.4)
+  // kept for backwards compatibility but not documented
   template <class OutputIterator>
   OutputIterator
   finite_incident_vertices(Vertex_handle v, OutputIterator vertices) const
   {
-    return _tds.incident_vertices(v, vertices, Finite_filter(this));
+    return _tds.adjacent_vertices(v, vertices, Finite_filter(this));
+  }
+
+  // correct name 
+  template <class OutputIterator>
+  OutputIterator
+  finite_adjacent_vertices(Vertex_handle v, OutputIterator vertices) const
+  {
+    return _tds.adjacent_vertices(v, vertices, Finite_filter(this));
   }
 
   template <class OutputIterator>
@@ -3085,7 +3102,7 @@ remove_3D(Vertex_handle v, VertexRemover &remover)
   std::vector<Vertex_handle> vertices;
   vertices.reserve(64);
 
-  incident_vertices(v, std::back_inserter(vertices));
+  adjacent_vertices(v, std::back_inserter(vertices));
 
   // create a Delaunay triangulation of the points on the boundary
   // and make a map from the vertices in remover.tmp towards the vertices

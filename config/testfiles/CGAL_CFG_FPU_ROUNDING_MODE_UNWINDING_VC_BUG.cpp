@@ -15,16 +15,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/testfiles/CGAL_CFG_FPU_ROUNDING_MODE_UNWINDING_VC_BUG.cpp $
-// $Id: CGAL_CFG_FPU_ROUNDING_MODE_UNWINDING_VC_BUG.cpp 46310 2008-10-16 07:19:44Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/testfiles/CGAL_CFG_FPU_ROUNDING_MODE_UNWINDING_VC_BUG.cpp $
+// $Id: CGAL_CFG_FPU_ROUNDING_MODE_UNWINDING_VC_BUG.cpp 49022 2009-04-29 20:03:21Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
-
-// ---------------------------------------------------------------------
-// This program is used by install_cgal.
-// The following documentation will be pasted in the generated configfile.
-// ---------------------------------------------------------------------
 
 //| If a compiler has problems with restoring the rounding mode in a try/catch
 //| CGAL_CFG_FPU_ROUNDING_MODE_UNWINDING_VC_BUG

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_batched_point_location.h $
-// $Id: Arr_batched_point_location.h 40964 2007-11-21 10:23:08Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_batched_point_location.h $
+// $Id: Arr_batched_point_location.h 50366 2009-07-05 12:56:48Z efif $
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
 //                 Ron Wein <wein@post.tau.ac.il>
@@ -116,7 +116,7 @@ OutputIterator locate
    * only an implicit constructor, (which takes *b as a parameter).
    */
   typename boost::mpl::if_<boost::is_same<GeomTraits, Bpl_traits_2>,
-                           Bpl_traits_2&, Bpl_traits_2>::type
+                           const Bpl_traits_2&, Bpl_traits_2>::type
     ex_traits(*geom_traits);
 
   // Define the sweep-line visitor and perform the sweep.

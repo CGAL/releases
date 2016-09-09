@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESISGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Nef_3/include/CGAL/Nef_3/Combine_with_halfspace.h $
-// $Id: Combine_with_halfspace.h 43835 2008-06-27 11:31:34Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/Combine_with_halfspace.h $
+// $Id: Combine_with_halfspace.h 49082 2009-05-03 11:32:35Z hachenb $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -99,9 +99,10 @@ class Combine_with_halfspace : public SNC_decorator<Map> {
     int index1(Index_generator::get_unique_index());
     Halffacet_handle dummy_facet = 
       this->sncp()->new_halffacet_pair(plane, im != OPEN_HALFSPACE);
+	A.initialize_hash(index0);
+	A.initialize_hash(index1);
 
     Binary_operation bo(*this->sncp());
-    if(im != PLANE_ONLY) {
       Vertex_const_iterator v0;
       CGAL_forall_vertices( v0, snc) {
 	Oriented_side os = plane.oriented_side(v0->point());
@@ -111,15 +112,18 @@ class Combine_with_halfspace : public SNC_decorator<Map> {
 	    C.create_from_plane(plane, v0->point(),
 				im != OPEN_HALFSPACE, 
 				im != PLANE_ONLY, false);
+      vp->shalfloop()->set_index_facet(dummy_facet);
+      vp->shalfloop()->twin()->set_index_facet(dummy_facet->twin());
+      vp->shalfloop()->set_index(index0);
+      vp->shalfloop()->twin()->set_index(index1);
 	  Vertex_handle vr = 
 	    bo.binop_local_views(v0, vp, BOP, *this->sncp(), A);
 	  this->sncp()->delete_vertex(vp);
-	} else if(os == ON_NEGATIVE_SIDE) {
+	} else if(os == ON_NEGATIVE_SIDE && im != PLANE_ONLY) {
 	  SNC_constructor C(*this->sncp());
 	  Vertex_handle v1 = C.clone_SM(v0);	
 	}
       }
-    }
 
     Halfedge_const_iterator e0;
     CGAL_forall_edges(e0, snc) {
@@ -142,8 +146,6 @@ class Combine_with_halfspace : public SNC_decorator<Map> {
       vp->shalfloop()->twin()->set_index_facet(dummy_facet->twin());
       vp->shalfloop()->set_index(index0);
       vp->shalfloop()->twin()->set_index(index1);
-      A.initialize_hash(vp->shalfloop());
-      A.initialize_hash(vp->shalfloop()->twin());
 
       Vertex_handle ve = C.create_from_edge(e0, ip);
       
@@ -162,7 +164,7 @@ class Combine_with_halfspace : public SNC_decorator<Map> {
     }
 
     SNC_external_structure es(*this->sncp(), pl);
-    es.build_after_binary_operation(A);
+    es.build_after_binary_operation(A);	
   }
 };
 

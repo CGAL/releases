@@ -1,4 +1,4 @@
-// Copyright (c) 2005, 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2006  GeometryFactory (France). All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
 // the terms of the Q Public License version 1.0.
@@ -10,10 +10,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/edge_collapse.h $
-// $Id: edge_collapse.h 37267 2007-03-19 14:40:37Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/edge_collapse.h $
+// $Id: edge_collapse.h 50078 2009-06-25 15:12:52Z fcacciola $
 //
-// Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
+// Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
 //
 #ifndef CGAL_SURFACE_MESH_SIMPLIFICATION_EDGE_COLLAPSE_H
 #define CGAL_SURFACE_MESH_SIMPLIFICATION_EDGE_COLLAPSE_H 1
@@ -50,7 +50,7 @@ int edge_collapse ( ECM&                    aSurface
                   , GetCost          const& aGet_cost 
                   , GetPlacement     const& aGet_placement
                   
-                  , Visitor*                aVisitor // Can be NULL
+                  , Visitor const&          aVisitor 
                   ) 
 {
   typedef EdgeCollapse< ECM
@@ -62,8 +62,7 @@ int edge_collapse ( ECM&                    aSurface
                       , GetPlacement
                       , Visitor
                       >
-                      Algorithm 
-                      ;
+                      Algorithm;
                       
   Algorithm algorithm( aSurface
                      , aShould_stop
@@ -81,26 +80,14 @@ int edge_collapse ( ECM&                    aSurface
 
 struct Dummy_visitor
 {
-  template<class ECM>
-  void OnStarted( ECM& ) {} 
-  
-  template<class ECM>
-  void OnFinished ( ECM& ) {} 
-  
-  template<class ECM>
-  void OnStopConditionReached( ECM& ) {} 
-  
-  template<class Profile, class OFT>
-  void OnCollected( Profile const&, OFT const& ) {}                
-  
-  template<class Profile, class OFT, class Size_type>
-  void OnSelected( Profile const&, OFT const&, Size_type, Size_type ) {}                
-  
-  template<class Profile, class OPoint>
-  void OnCollapsing(Profile const&, OPoint const& ) {}                
-  
-  template<class Profile>
-  void OnNonCollapsable(Profile const& ) {}                
+  template<class ECM>                                 void OnStarted( ECM& ) const {} 
+  template<class ECM>                                 void OnFinished ( ECM& ) const {} 
+  template<class Profile>                             void OnStopConditionReached( Profile const& ) const {} 
+  template<class Profile, class OFT>                  void OnCollected( Profile const&, OFT const& ) const {}                
+  template<class Profile, class OFT, class Size_type> void OnSelected( Profile const&, OFT const&, Size_type, Size_type ) const {}                
+  template<class Profile, class OPoint>               void OnCollapsing(Profile const&, OPoint const& ) const {}                
+  template<class Profile, class VH>                   void OnCollapsed( Profile const&, VH ) const {}
+  template<class Profile>                             void OnNonCollapsable(Profile const& ) const {}                
 } ;
 
 template<class ECM, class ShouldStop, class P, class T, class R>
@@ -124,7 +111,7 @@ int edge_collapse ( ECM& aSurface
                       ,choose_const_pmap(get_param(aParams,edge_is_border),aSurface,edge_is_border)
                       ,choose_param     (get_param(aParams,get_cost_policy), LindstromTurk_cost<ECM>())
                       ,choose_param     (get_param(aParams,get_placement_policy), LindstromTurk_placement<ECM>())
-                      ,choose_param     (get_param(aParams,vis), ((Dummy_visitor*)0))
+                      ,choose_param     (get_param(aParams,vis), Dummy_visitor())
                       ) ;
 
 }

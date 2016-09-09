@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Interval_skip_list/include/CGAL/Interval_skip_list.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Interval_skip_list/include/CGAL/Interval_skip_list.h $
 // $Id: Interval_skip_list.h 40788 2007-11-05 13:18:53Z afabri $
 // 
 //

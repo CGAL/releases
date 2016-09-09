@@ -11,14 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Bso_internal_functions.h $
-// $Id: Bso_internal_functions.h 37148 2007-03-16 09:01:19Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Bso_internal_functions.h $
+// $Id: Bso_internal_functions.h 48716 2009-04-08 11:40:21Z spion $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
 //                 Ron Wein        <wein@post.tau.ac.il>
 
-#ifndef CGAL_BSO_INTERNAL_FUCNTIONS_H
+#ifndef CGAL_BSO_INTERNAL_FUNCTIONS_H
 #define CGAL_BSO_INTERNAL_FUNCTIONS_H
 
 #include <CGAL/Boolean_set_operations_2/Gps_default_traits.h>

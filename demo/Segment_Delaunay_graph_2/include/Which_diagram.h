@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/include/Which_diagram.h $
-// $Id: Which_diagram.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/include/Which_diagram.h $
+// $Id: Which_diagram.h 49046 2009-04-30 13:39:06Z spion $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -28,14 +28,14 @@ CGAL_BEGIN_NAMESPACE
 
 template<class Matching_class> struct Which_diagram;
 
-template<class Gt, class DS, class LTag>
-struct Which_diagram< Segment_Delaunay_graph_2<Gt,DS,LTag> >
+template<class Gt, class DS_, class LTag>
+struct Which_diagram< Segment_Delaunay_graph_2<Gt,DS_,LTag> >
 {
   typedef Tag_false Is_hierarchy;
 };
 
-template<class Gt, class STag, class DS, class LTag>
-struct Which_diagram< Segment_Delaunay_graph_hierarchy_2<Gt,STag,DS,LTag> >
+template<class Gt, class STag, class DS_, class LTag>
+struct Which_diagram< Segment_Delaunay_graph_hierarchy_2<Gt,STag,DS_,LTag> >
 {
   typedef Tag_true  Is_hierarchy;
 };

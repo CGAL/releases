@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_hierarchy_vertex_base_2.h $
-// $Id: Segment_Delaunay_graph_hierarchy_vertex_base_2.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_hierarchy_vertex_base_2.h $
+// $Id: Segment_Delaunay_graph_hierarchy_vertex_base_2.h 48908 2009-04-26 14:03:12Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -32,15 +32,15 @@ class Segment_Delaunay_graph_hierarchy_vertex_base_2
 {
 public:
   typedef Vbb V_Base;
-  typedef typename V_Base::Data_structure     DS;
+  typedef typename V_Base::Data_structure     D_S;
 
   typedef typename V_Base::Site_2             Site_2;
   typedef typename V_Base::Storage_site_2     Storage_site_2;
 
-  typedef DS                                  Data_structure;
+  typedef D_S                                  Data_structure;
 
-  typedef typename DS::Vertex_handle         Vertex_handle;
-  typedef typename DS::Face_handle           Face_handle;
+  typedef typename D_S::Vertex_handle         Vertex_handle;
+  typedef typename D_S::Face_handle           Face_handle;
 
   template < typename DS2 >
   struct Rebind_TDS {

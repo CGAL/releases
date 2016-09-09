@@ -11,14 +11,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Min_quadrilateral_2/include/CGAL/min_quadrilateral_2.h $
-// $Id: min_quadrilateral_2.h 43677 2008-06-19 11:47:40Z hoffmann $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_quadrilateral_2/include/CGAL/min_quadrilateral_2.h $
+// $Id: min_quadrilateral_2.h 48717 2009-04-08 11:54:51Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch> and
 //                 Emo Welzl <emo@inf.ethz.ch>
 
-#if ! (CGAL_MIN_QUADRILATERAL_2_H)
+#ifndef CGAL_MIN_QUADRILATERAL_2_H
 #define CGAL_MIN_QUADRILATERAL_2_H 1
 
 #include <CGAL/basic.h>

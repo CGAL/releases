@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_simplifier_traits.h $
-// $Id: Gps_simplifier_traits.h 37233 2007-03-19 07:23:20Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_simplifier_traits.h $
+// $Id: Gps_simplifier_traits.h 50373 2009-07-05 14:44:48Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -145,7 +145,7 @@ public:
   Gps_simplifier_traits()
   {}
 
-  Gps_simplifier_traits(Traits& tr) : Base(tr)
+  Gps_simplifier_traits(const Traits & tr) : Base(tr)
   {}
 
   unsigned int polygon_size() const
@@ -177,7 +177,7 @@ public:
     Base_Compare_endpoints_xy_2  m_base_cmp_endpoints;
     Base_Compare_xy_2            m_base_cmp_xy;
     Base_Construct_min_vertex_2  m_ctr_min_v;
-    const Self*                  m_self_tr;
+    const Self * m_self_tr;
 
   public:
    
@@ -196,7 +196,7 @@ public:
     template<class OutputIterator>
     OutputIterator operator() (const X_monotone_curve_2& cv1,
                                const X_monotone_curve_2& cv2,
-                               OutputIterator oi)
+                               OutputIterator oi) const
     {
       //// if the two curves are incident, do not intersect them
       //if(m_self_tr->is_valid_index(cv1.data().index()) && 
@@ -272,7 +272,7 @@ public:
   };
 
    /*! Get an Intersect_2 functor object. */
-  Intersect_2 intersect_2_object () 
+  Intersect_2 intersect_2_object () const
   {
     return Intersect_2(this->m_base_tr->intersect_2_object(),
                        this->m_base_tr->compare_endpoints_xy_2_object(),
@@ -285,17 +285,18 @@ public:
   {
   private:
     Base_Split_2      m_base_split;
-    const Self*       m_self_tr;
+    const Self * m_self_tr;
 
   public:
 
     /*! Constructor. */
-    Split_2 (const Base_Split_2& base, const Self* tr) : m_base_split(base),
-                                                         m_self_tr(tr)
+    Split_2 (const Base_Split_2& base, const Self* tr) :
+      m_base_split(base),
+      m_self_tr(tr)
     {}
 
     void operator() (const X_monotone_curve_2& cv, const Point_2 & p,
-                     X_monotone_curve_2& c1, X_monotone_curve_2& c2)
+                     X_monotone_curve_2& c1, X_monotone_curve_2& c2) const
     {
       m_base_split(cv.base(),
                    p.base(),
@@ -313,10 +314,9 @@ public:
   };
 
   /*! Get a Split_2 functor object. */
-  Split_2 split_2_object () 
+  Split_2 split_2_object () const
   {
-    return Split_2(this->m_base_tr->split_2_object(),
-                   this);
+    return Split_2(this->m_base_tr->split_2_object(), this);
   }
 
   class Construct_min_vertex_2
@@ -324,16 +324,16 @@ public:
   private:
     Base_Construct_min_vertex_2 m_base;
     Base_Compare_endpoints_xy_2 m_base_cmp_endpoints;
-    const Self*                 m_self_tr;
+    const Self * m_self_tr;
 
   public:
 
     Construct_min_vertex_2(const Base_Construct_min_vertex_2& base,
                           const Base_Compare_endpoints_xy_2& base_cmp_endpoints,
-                          const Self* tr):
-        m_base(base),
-        m_base_cmp_endpoints(base_cmp_endpoints),
-        m_self_tr(tr)
+                          const Self * tr):
+      m_base(base),
+      m_base_cmp_endpoints(base_cmp_endpoints),
+      m_self_tr(tr)
     {}
 
     /*!
@@ -341,7 +341,7 @@ public:
       * \param cv The curve.
       * \return The left endpoint.
       */
-    Point_2 operator() (const X_monotone_curve_2 & cv) 
+    Point_2 operator() (const X_monotone_curve_2 & cv) const
     {
       if(!m_self_tr->is_valid_index(cv.data().index()))
       {
@@ -367,9 +367,10 @@ public:
   /*! Get a Construct_min_vertex_2 functor object. */
   Construct_min_vertex_2 construct_min_vertex_2_object () const
   {
-    return Construct_min_vertex_2(this->m_base_tr->construct_min_vertex_2_object(),
-                                  this->m_base_tr->compare_endpoints_xy_2_object(),
-                                  this);
+    return Construct_min_vertex_2
+      (this->m_base_tr->construct_min_vertex_2_object(),
+       this->m_base_tr->compare_endpoints_xy_2_object(),
+       this);
   }
 
 
@@ -378,16 +379,16 @@ public:
   private:
     Base_Construct_max_vertex_2      m_base;
     Base_Compare_endpoints_xy_2      m_base_cmp_endpoints;
-    const Self*                      m_self_tr;
+    const Self * m_self_tr;
 
   public:
 
     Construct_max_vertex_2(const Base_Construct_max_vertex_2& base,
                           const Base_Compare_endpoints_xy_2& base_cmp_endpoints,
-                          const Self* tr):
-        m_base(base),
-        m_base_cmp_endpoints(base_cmp_endpoints),
-        m_self_tr(tr)
+                          const Self * tr):
+      m_base(base),
+      m_base_cmp_endpoints(base_cmp_endpoints),
+      m_self_tr(tr)
     {}
 
     /*!
@@ -395,7 +396,7 @@ public:
       * \param cv The curve.
       * \return The left endpoint.
       */
-    Point_2 operator() (const X_monotone_curve_2 & cv) 
+    Point_2 operator() (const X_monotone_curve_2 & cv) const
     {
       if(!m_self_tr->is_valid_index(cv.data().index()))
       {
@@ -420,23 +421,23 @@ public:
   /*! Get a Construct_min_vertex_2 functor object. */
   Construct_max_vertex_2 construct_max_vertex_2_object () const
   {
-    return Construct_max_vertex_2(this->m_base_tr->construct_max_vertex_2_object(),
-                                  this->m_base_tr->compare_endpoints_xy_2_object(),
-                                  this);
+    return Construct_max_vertex_2
+      (this->m_base_tr->construct_max_vertex_2_object(),
+       this->m_base_tr->compare_endpoints_xy_2_object(),
+       this);
   }
 
   class Compare_xy_2
   {
   private:
     Base_Compare_xy_2       m_base;
-    const Self*             m_self_tr;
+    const Self * m_self_tr;
 
   public:
-
     Compare_xy_2(const Base_Compare_xy_2& base,
-                const Self* tr ):
-        m_base(base),
-        m_self_tr(tr)
+                 const Self * tr):
+      m_base(base),
+      m_self_tr(tr)
     {}
 
 
@@ -464,7 +465,7 @@ public:
 
 
   /*! Get a Construct_min_vertex_2 functor object. */
-  Compare_xy_2 compare_xy_2_object () 
+  Compare_xy_2 compare_xy_2_object () const
   {
     return Compare_xy_2(this->m_base_tr->compare_xy_2_object(), this);
   }

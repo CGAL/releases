@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Nef_3/include/CGAL/Nef_polyhedron_3.h $
-// $Id: Nef_polyhedron_3.h 46489 2008-10-27 14:45:52Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_polyhedron_3.h $
+// $Id: Nef_polyhedron_3.h 50208 2009-06-30 09:40:14Z lrineau $
 // 
 //
 // Author(s)     : Michael Seel    <seel@mpi-sb.mpg.de>
@@ -208,8 +208,13 @@ protected:
     SNC_point_locator_default;
   typedef CGAL::Combine_with_halfspace<SNC_structure, SNC_point_locator> 
           Combine_with_halfspace;
- typedef typename Combine_with_halfspace::Intersection_mode Intersection_mode;
- 
+public:
+ enum Intersection_mode { 
+	 CLOSED_HALFSPACE = Combine_with_halfspace::CLOSED_HALFSPACE, 
+     OPEN_HALFSPACE = Combine_with_halfspace::OPEN_HALFSPACE, 
+     PLANE_ONLY = Combine_with_halfspace::PLANE_ONLY};
+
+protected: 
   typedef typename Nef_rep::SM_overlayer        SM_overlayer;
   typedef typename Nef_rep::SM_point_locator    SM_point_locator;
   typedef typename Nef_rep::SNC_simplify        SNC_simplify;
@@ -1015,6 +1020,11 @@ protected:
 
  template<typename Polyhedron>
  void convert_to_Polyhedron(Polyhedron& P) {
+   convert_to_polyhedron(P);
+ }
+
+ template<typename Polyhedron>
+ void convert_to_polyhedron(Polyhedron& P) {
    typedef typename Polyhedron::HalfedgeDS HalfedgeDS;
    CGAL_precondition(is_simple());
    P.clear();
@@ -1336,7 +1346,8 @@ protected:
     SNC_structure rsnc;
     Nef_polyhedron_3<Kernel,Items, Mark> res(rsnc, new SNC_point_locator_default, false);
     Combine_with_halfspace cwh(res.snc(), res.pl());
-    cwh.combine_with_halfspace(snc(), plane, _and, im);
+    cwh.combine_with_halfspace(snc(), plane, _and, 
+							   static_cast<typename Combine_with_halfspace::Intersection_mode>(im));
     return res;
   }
 

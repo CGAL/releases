@@ -11,11 +11,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_bfs_join_visitor.h $
-// $Id: Gps_bfs_join_visitor.h 37148 2007-03-16 09:01:19Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_bfs_join_visitor.h $
+// $Id: Gps_bfs_join_visitor.h 48113 2009-02-17 16:21:43Z ophirset $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
+//                 Ophir Setter    <ophir.setter@cs.tau.ac.il>
 
 #ifndef CGAL_GPS_BFS_JOIN_VISITOR_H
 #define CGAL_GPS_BFS_JOIN_VISITOR_H
@@ -25,12 +26,14 @@
 CGAL_BEGIN_NAMESPACE
 
 template <class Arrangement_>
-class Gps_bfs_join_visitor : public Gps_bfs_base_visitor<Arrangement_>
+class Gps_bfs_join_visitor : 
+public Gps_bfs_base_visitor<Arrangement_, Gps_bfs_join_visitor<Arrangement_> >
 {
   typedef  Arrangement_                                  Arrangement;
   typedef typename Arrangement::Face_iterator            Face_iterator;
   typedef typename Arrangement::Halfedge_iterator        Halfedge_iterator;
-  typedef Gps_bfs_base_visitor<Arrangement>              Base;
+  typedef Gps_bfs_join_visitor<Arrangement>              Self;
+  typedef Gps_bfs_base_visitor<Arrangement, Self>        Base;
   typedef typename Base::Edges_hash                      Edges_hash;
   typedef typename Base::Faces_hash                      Faces_hash;
 
@@ -40,23 +43,16 @@ public:
     Base(edges_hash, faces_hash, n_pgn)
   {}
 
-
-  void flip_face(Face_iterator f1, Face_iterator f2, Halfedge_iterator he)
+    //! contained_criteria
+/*! contained_criteria is used to the determine if the face which has 
+  inside count should be marked as contained.
+  \param ic the inner count of the talked-about face.
+  \return true if the face of ic, otherwise false.
+*/
+  bool contained_criteria(unsigned int ic)
   {
-    unsigned int ic_f2;
-    ic_f2 = this->compute_ic(f1, f2, he);
-    (*(this->m_faces_hash))[f2] = ic_f2;
-      
-    if(ic_f2 > 0)
-      f2->set_contained(true);
-  }
-
-  // mark the unbounded_face 
-  void visit_ubf(Face_iterator ubf, unsigned int ubf_ic)
-  {
-    CGAL_assertion(ubf->is_unbounded());
-    if(ubf_ic > 0)
-      ubf->set_contained(true);
+    // at least one polygon contains the face.
+    return (ic > 0);
   }
 
   void after_scan(Arrangement&)

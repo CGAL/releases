@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Nef_3/include/CGAL/Nef_3/Bounding_box_3.h $
-// $Id: Bounding_box_3.h 43830 2008-06-27 11:27:53Z hachenb $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/Bounding_box_3.h $
+// $Id: Bounding_box_3.h 48222 2009-02-26 10:48:53Z glisse $
 // 
 //
 // Author(s)     : Miguel Granados <granados@mpi-sb.mpg.de>
@@ -72,7 +72,7 @@ public:
       Base::extend(q);
     else {
       initialized = true;
-      (Base) *this = Base(q,q);
+      (Base&) *this = Base(q,q);
     }
   }
 

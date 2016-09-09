@@ -1,4 +1,4 @@
-// Copyright (c) 2003,2004,2007,2008  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2003,2004,2007-2009  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you can redistribute it and/or
@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/STL_Extension/include/CGAL/Compact_container.h $
-// $Id: Compact_container.h 44130 2008-07-12 21:58:52Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/STL_Extension/include/CGAL/Compact_container.h $
+// $Id: Compact_container.h 48759 2009-04-10 21:55:24Z spion $
 //
 // Author(s)     : Sylvain Pion
 
@@ -21,7 +21,7 @@
 #define CGAL_COMPACT_CONTAINER_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Default_argument.h>
+#include <CGAL/Default.h>
 
 #include <iterator>
 #include <algorithm>
@@ -109,11 +109,11 @@ namespace CGALi {
   class CC_iterator;
 }
 
-template < class T, class Allocator_ = Default_argument >
+template < class T, class Allocator_ = Default >
 class Compact_container
 {
   typedef Allocator_                                Al;
-  typedef typename If_default_argument<Al, CGAL_ALLOCATOR(T) >::type Allocator;
+  typedef typename Default::Get< Al, CGAL_ALLOCATOR(T) >::type Allocator;
   typedef Compact_container <T, Al>                 Self;
   typedef Compact_container_traits <T>              Traits;
 public:
@@ -196,6 +196,20 @@ public:
   rbegin() const { return const_reverse_iterator(end()); }
   const_reverse_iterator
   rend()   const { return const_reverse_iterator(begin()); }
+
+  // Boost.Intrusive interface
+  iterator iterator_to(reference value) const {
+    return iterator(&value, 0);
+  }
+  const_iterator iterator_to(const_reference value) const {
+    return const_iterator(&value, 0);
+  }
+  static iterator s_iterator_to(reference value) {
+    return iterator(&value, 0);
+  }
+  static const_iterator s_iterator_to(const_reference value) {
+    return const_iterator(&value, 0);
+  }
 
   // Special insert methods that construct the objects in place
   // (just forward the arguments to the constructor, to optimize a copy).

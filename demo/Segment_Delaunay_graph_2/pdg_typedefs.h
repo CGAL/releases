@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/pdg_typedefs.h $
-// $Id: pdg_typedefs.h 37003 2007-03-10 16:55:12Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Segment_Delaunay_graph_2/demo/Segment_Delaunay_graph_2/pdg_typedefs.h $
+// $Id: pdg_typedefs.h 49046 2009-04-30 13:39:06Z spion $
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -78,11 +78,11 @@ typedef CGAL::Segment_Delaunay_graph_vertex_base_2<ST>                Vb;
 typedef CGAL::Segment_Delaunay_graph_vertex_base_with_info_2<Vb,int>  Vbi;
 typedef CGAL::Segment_Delaunay_graph_hierarchy_vertex_base_2<Vbi>     Vbh;
 typedef CGAL::Triangulation_face_base_2<Gt>                           Fb;
-typedef CGAL::Triangulation_data_structure_2<Vbh,Fb>                  DS;
+typedef CGAL::Triangulation_data_structure_2<Vbh,Fb>                  DS_;
 
 
 
-typedef CGAL::Segment_Delaunay_graph_hierarchy_2<Gt,ST,STag,DS>   SDG_2;
-//typedef CGAL::Segment_Delaunay_graph_2<Gt,ST,DS>          SDG_2;
+typedef CGAL::Segment_Delaunay_graph_hierarchy_2<Gt,ST,STag,DS_>   SDG_2;
+//typedef CGAL::Segment_Delaunay_graph_2<Gt,ST,DS_>          SDG_2;
 
 #endif  // PDG_TYPEDEFS_H

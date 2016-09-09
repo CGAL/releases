@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Number_types/include/CGAL/Root_of_2.h $
-// $Id: Root_of_2.h 45860 2008-09-29 18:20:02Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Root_of_2.h $
+// $Id: Root_of_2.h 50183 2009-06-29 16:16:33Z sloriot $
 //
 //
 // Author(s)     : Sylvain Pion, Monique Teillaud, Athanasios Kakargias, Pedro Machado
@@ -1314,9 +1314,9 @@ std::ostream &
 operator<<(std::ostream &os, const Root_of_2<RT> &r)
 {
   if(r.is_rational()) {
-    return os << r.is_rational() << r.alpha();
+    return os << r.is_rational() << " " << r.alpha();
   } else {
-    return os << r.is_rational() << r.alpha() << " "
+    return os << r.is_rational() << " " << r.alpha() << " "
 	      << r.beta() << " "
 	      << r.gamma();
   }
@@ -1361,6 +1361,17 @@ public:
         return r.is_valid();
     }
 };
+
+template <class NT>
+inline const Root_of_2<NT>& min BOOST_PREVENT_MACRO_SUBSTITUTION
+(const Root_of_2<NT>& p, const Root_of_2<NT>& q){
+  return (std::min)(p, q);
+}
+template <class NT> 
+inline const Root_of_2<NT>& max BOOST_PREVENT_MACRO_SUBSTITUTION
+(const Root_of_2<NT>& p, const Root_of_2<NT>& q){
+  return (std::max)(p, q);
+}
 
 } // namespace CGAL
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Envelope_2/include/CGAL/Envelope_2/Env_divide_and_conquer_2.h $
-// $Id: Env_divide_and_conquer_2.h 37894 2007-04-03 18:32:11Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_2/include/CGAL/Envelope_2/Env_divide_and_conquer_2.h $
+// $Id: Env_divide_and_conquer_2.h 49260 2009-05-09 18:12:12Z ophirset $
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
 
@@ -21,7 +21,11 @@
 
 #include <CGAL/Arr_enums.h>
 #include <CGAL/Arrangement_2/Arr_traits_adaptor_2.h>
+
+#include <boost/optional.hpp>
+
 #include <vector>
+
 
 CGAL_BEGIN_NAMESPACE
 
@@ -249,15 +253,39 @@ protected:
    * Deal with an interval which is non-empty in one of the merged diagrams and
    * empty in the other.
    * \param e The non-empty edge.
+   * \param other_edge The empty edge.
    * \param v The next vertex to the right.
    * \param v_exists Whether the next vertex exists.
-   * \param same_org Whether e and v originate from the same diagram.
+   * \param origin_of_v The origin of v: SMALLER if it is from e, 
+   *                    LARGER if it is from other_edge. 
+   *                    EQUAL result means that both edges have vertex at 
+   *                    the same place.
    * \param out_d The merged diagram.
    */
-  void _merge_single_interval (Edge_const_handle e,
+  void _merge_single_interval (Edge_const_handle e, 
+                               Edge_const_handle other_edge,
                                Vertex_const_handle v, bool v_exists,
-                               bool same_org,
+                               Comparison_result origin_of_v,
                                Envelope_diagram_1& out_d);
+  
+  
+  //! Compare the $y$-coordinates of two curves at their endpoints
+  /*! The function compares the $y$ values of two curves with a joint 
+    range of $x$ values, at the end of the joint range.
+    \param xcv1 The first curve
+    \param xcv2 The second curve
+    \param curve_end ARR_MIN_END - compare the $y$ value of the smaller 
+    endpoint, ARR_MAX_END - compare the $y$ value of the larger endpoint.
+    \pre The two $x$-monotone curves need to have a partially overlapping 
+    $x$-ranges.
+    \return 
+    \todo Move it to Arr_traits_adaptor ?
+  */
+  Comparison_result compare_y_at_end(const X_monotone_curve_2& xcv1,
+                                     const X_monotone_curve_2& xcv2,
+                                     Arr_curve_end curve_end) const;
+
+
 
   /*!
    * Merge two non-empty intervals into the merged diagram.
@@ -267,13 +295,16 @@ protected:
    * \param is_leftmost2 Is it the leftmost edge in its diagram.
    * \param v The next vertex.
    * \param v_exists Whether such a vertex exists.
-   * \param org_v The origin of v: 1 if it is from e1, 2 if it is from e2.
+   * \param origin_of_v The origin of v: SMALLER if it is from e1, 
+   *                    otherwise it is from e2. EQUAL result means that
+   *                    both diagram have vertex at the same place (but v
+   *                    is still taken from e2.
    * \param out_d The merged diagram.
    */
   void _merge_two_intervals (Edge_const_handle e1, bool is_leftmost1,
                              Edge_const_handle e2, bool is_leftmost2,
                              Vertex_const_handle v, bool v_exists,
-                             int org_v,
+                             Comparison_result origin_of_v,
                              Envelope_diagram_1& out_d);
 
   /*!

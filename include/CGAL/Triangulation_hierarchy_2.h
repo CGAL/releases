@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_2/include/CGAL/Triangulation_hierarchy_2.h $
-// $Id: Triangulation_hierarchy_2.h 45033 2008-08-20 08:39:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Triangulation_hierarchy_2.h $
+// $Id: Triangulation_hierarchy_2.h 48857 2009-04-22 12:43:33Z spion $
 // 
 //
 // Author(s)     : Olivier Devillers <Olivivier.Devillers@sophia.inria.fr>
@@ -22,7 +22,6 @@
 #define CGAL_TRIANGULATION_HIERARCHY_2_H
 
 #include <CGAL/basic.h>
-#include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/Random.h>
 #include <CGAL/Triangulation_hierarchy_vertex_base_2.h>
 #include <map>
@@ -38,7 +37,7 @@ const int   Triangulation_hierarchy_2__maxlevel = 5;
 
 template < class Tr>
 class Triangulation_hierarchy_2
-: public Tr
+  : public Tr
 {
  public:
   typedef Tr                                   Tr_Base;
@@ -51,6 +50,8 @@ class Triangulation_hierarchy_2
   typedef typename Tr_Base::Locate_type        Locate_type;
   typedef typename Tr_Base::Finite_vertices_iterator  Finite_vertices_iterator;
   //typedef typename Tr_Base::Finite_faces_iterator     Finite_faces_iterator;
+
+  typedef typename Tr_Base::Weighted_tag       Weighted_tag;
 
 #ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2
   using Tr_Base::geom_traits;
@@ -147,7 +148,30 @@ public:
   locate(const Point &p,
 	 Face_handle start = Face_handle()) const;
 
+  Vertex_handle
+  nearest_vertex(const Point& p, Face_handle start = Face_handle()) const
+  {
+    return nearest_vertex_dispatch<Tr>(p, start, Weighted_tag());
+  }
+
 private:
+
+  template < typename T >
+  Vertex_handle
+  nearest_vertex_dispatch(const Point& p, Face_handle start, Tag_false) const
+  {
+    return T::nearest_vertex(p, start != Face_handle() ? start : locate(p));
+  }
+
+  // There is no nearest_vertex() for Regular.
+  template < typename T >
+  Vertex_handle
+  nearest_vertex_dispatch(const Point&, Face_handle, Tag_true) const
+  {
+    CGAL_triangulation_assertion(false);
+    return Vertex_handle();
+  }
+
   void  locate_in_all(const Point& p,
 		      Locate_type& lt,
 		      int& li,
@@ -234,8 +258,8 @@ copy_triangulation(const Triangulation_hierarchy_2<Tr> &tr)
       if (it->up() != Vertex_handle()) V[ it->up()->down() ] = it;
     }
   }
-  typename Tr_Base::Weighted_tag tag;
-  add_hidden_vertices_into_map(tag,V);
+
+  add_hidden_vertices_into_map(Weighted_tag(), V);
 
   {
     for(int i=1;i<Triangulation_hierarchy_2__maxlevel;++i) {
@@ -534,7 +558,6 @@ locate_in_all(const Point& p,
   }
   pos[0]=hierarchy[0]->locate(p,lt,li,loc == Face_handle() ? position : loc);  // at level 0 
 }
-
 
 template <class Tr>
 int

@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "dijkstra.cpp" )
   create_single_source_cgal_program( "dijkstra_with_internal_properties.cpp" )
   create_single_source_cgal_program( "emst.cpp" )

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Filtered_kernel/include/CGAL/Lazy.h $
-// $Id: Lazy.h 46447 2008-10-23 13:15:29Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Filtered_kernel/include/CGAL/Lazy.h $
+// $Id: Lazy.h 48759 2009-04-10 21:55:24Z spion $
 //
 //
 // Author(s)     : Andreas Fabri, Sylvain Pion
@@ -30,7 +30,7 @@
 #include <CGAL/min_max_n.h>
 #include <CGAL/Origin.h>
 #include <vector>
-#include <CGAL/Default_argument.h>
+#include <CGAL/Default.h>
 
 #ifdef CGAL_HAS_THREADS
 #  include <boost/thread/tss.hpp>
@@ -1684,7 +1684,7 @@ public:
 //____________________________________________________________
 // The magic functor that has Lazy<Something> as result type
 
-template <typename LK, typename AC, typename EC, typename E2A_ = Default_argument>
+template <typename LK, typename AC, typename EC, typename E2A_ = Default>
 struct Lazy_construction
 {
   static const bool Protection = true;
@@ -1692,7 +1692,7 @@ struct Lazy_construction
   typedef typename LK::Approximate_kernel AK;
   typedef typename LK::Exact_kernel EK;
   typedef typename EK::FT EFT;
-  typedef typename If_default_argument<E2A_, typename LK::E2A>::type E2A;
+  typedef typename Default::Get<E2A_, typename LK::E2A>::type E2A;
   typedef typename AC::result_type AT;
   typedef typename EC::result_type ET;
   typedef Lazy<AT, ET, EFT, E2A> Handle;

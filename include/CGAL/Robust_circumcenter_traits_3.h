@@ -1,4 +1,4 @@
-// Copyright (c) 2005-2007  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2005-2008  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,15 +11,16 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesher/include/CGAL/Robust_circumcenter_traits_3.h $
-// $Id: Robust_circumcenter_traits_3.h 45174 2008-08-27 15:25:39Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Robust_circumcenter_traits_3.h $
+// $Id: Robust_circumcenter_traits_3.h 48258 2009-02-27 14:00:51Z lrineau $
 //
 //
 // Author(s)     :  Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
-//                  Laurent Rineau <Laurent.Rineau@sophia.inria.fr>
+//                  Laurent Rineau <Laurent.Rineau@geometryfactory.com>
 
-// This traits override Construct_circumcenter_3
-// to get a robust ones when called on slivers
+// This traits override Construct_circumcenter_3 and
+// Construct_weighted_circumcenter_3
+// to get robust ones when called on slivers
 
 #ifndef CGAL_ROBUST_CIRCUMCENTER_TRAITS_3_H
 #define CGAL_ROBUST_CIRCUMCENTER_TRAITS_3_H

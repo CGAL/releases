@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_with_history_2.h $
-// $Id: Arrangement_with_history_2.h 41124 2007-12-08 10:56:13Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arrangement_with_history_2.h $
+// $Id: Arrangement_with_history_2.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
 // Author(s): Ron Wein          <wein@post.tau.ac.il>
@@ -43,17 +43,11 @@ template <class GeomTraits_,
 class Arrangement_with_history_2 :
   public Arrangement_on_surface_with_history_2
     <GeomTraits_,
-     typename Default_planar_topology<GeomTraits_,
-                                      Dcel_,
-                                      typename GeomTraits_::
-                                        Boundary_category>::Traits>
+     typename Default_planar_topology<GeomTraits_, Dcel_>::Traits>
 {
 private:
 
-  typedef typename GeomTraits_::Boundary_category         Boundary_category;
-  typedef Default_planar_topology<GeomTraits_,
-                                  Dcel_,
-                                  Boundary_category>      Default_topology;
+  typedef Default_planar_topology<GeomTraits_, Dcel_>     Default_topology;
   typedef Arrangement_on_surface_with_history_2<GeomTraits_,
              typename Default_topology::Traits>           Base;
 
@@ -145,12 +139,12 @@ public:
   {}
 
   /*! Copy constructor (from a base arrangement). */
-  Arrangement_with_history_2 (const Base& base) :
+  Arrangement_with_history_2 (const Base & base) :
     Base (base)
   {}
 
   /*! Constructor given a traits object. */
-  Arrangement_with_history_2 (Traits_2 *tr) :
+  Arrangement_with_history_2 (const Traits_2 * tr) :
     Base (tr)
   {}
   //@}
@@ -159,14 +153,14 @@ public:
   //@{
 
   /*! Assignment operator (from a base arrangement). */
-  Self& operator= (const Base& base)
+  Self& operator= (const Base & base)
   {
     Base::assign (base);
     return (*this);
   }
 
   /*! Assign an arrangement. */
-  void assign (const Base& base)
+  void assign (const Base & base)
   {
     Base::assign (base);
     return;
@@ -177,12 +171,7 @@ public:
   //@{
 
   /*! Get the geometry-traits class (for backward compatibility). */
-  const Traits_2* traits () const
-  {
-    return (this->geometry_traits());
-  }
-
-  Traits_2* traits ()
+  const Traits_2 * traits () const
   {
     return (this->geometry_traits());
   }

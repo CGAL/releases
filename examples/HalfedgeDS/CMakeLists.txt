@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "hds_prog_color.cpp" )
   create_single_source_cgal_program( "hds_prog_compact.cpp" )
   create_single_source_cgal_program( "hds_prog_compact2.cpp" )

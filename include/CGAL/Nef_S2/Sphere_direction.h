@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_direction.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_direction.h $
 // $Id: Sphere_direction.h 35146 2006-11-13 13:43:37Z hachenb $
 // 
 //

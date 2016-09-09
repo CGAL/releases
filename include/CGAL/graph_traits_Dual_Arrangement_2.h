@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/graph_traits_Dual_Arrangement_2.h $
-// $Id: graph_traits_Dual_Arrangement_2.h 40303 2007-09-11 07:50:27Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/graph_traits_Dual_Arrangement_2.h $
+// $Id: graph_traits_Dual_Arrangement_2.h 48358 2009-03-11 14:28:13Z ophirset $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -299,6 +299,18 @@ public:
   Dual (const Arrangement_on_surface_2& arr) :
     p_arr (const_cast<Arrangement_on_surface_2 *> (&arr))
   {}
+
+  /*! Get the primal arrangement (const version). */
+  const Arrangement_on_surface_2* arrangement () const
+  {
+    return (p_arr);
+  }
+
+  /*! Get the primal arrangement (non-const version). */
+  Arrangement_on_surface_2* arrangement ()
+  {
+    return (p_arr);
+  }
 
   /*! Get the number of vertices (face of the primal arrangement). */
   Size number_of_vertices () const

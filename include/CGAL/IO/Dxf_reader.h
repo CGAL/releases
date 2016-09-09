@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Circular_kernel_2/include/CGAL/IO/Dxf_reader.h $
-// $Id: Dxf_reader.h 44373 2008-07-23 17:13:44Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_2/include/CGAL/IO/Dxf_reader.h $
+// $Id: Dxf_reader.h 50417 2009-07-07 08:23:06Z efif $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Andreas Fabri
 
@@ -165,10 +165,7 @@ private:
 void
 read_polygon(std::istream& is, Polygon& poly)
 {
-  int n;
-  double x, y, len;
-  std::string str;
-
+  int n = 0;
   do {
     is >> n;
     if(n != 0){
@@ -177,7 +174,10 @@ read_polygon(std::istream& is, Polygon& poly)
     }
   } while(n != 0);
 
+  std::string str;
   do {
+    double len;
+    double x, y;
     is >> str;
     if(str == "VERTEX"){
       is >> n;

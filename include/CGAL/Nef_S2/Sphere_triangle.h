@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_triangle.h $
-// $Id: Sphere_triangle.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/include/CGAL/Nef_S2/Sphere_triangle.h $
+// $Id: Sphere_triangle.h 49069 2009-05-01 12:07:15Z spion $
 // 
 //
 // Author(s)     : Michael Seel  <seel@mpi-sb.mpg.de>
@@ -22,7 +22,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
-#include <CGAL/Nef_S2/Tuple.h>
+#include <CGAL/array.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -31,19 +31,16 @@ template <class R_> class Sphere_triangle_rep
   typedef Sphere_circle<R_> Circle;
   typedef Sphere_triangle_rep<R_> Rep;
 
-  Tuple<Point,3>  points_; 
-  Tuple<Circle,3> circles_;
+  cpp0x::array<Point,3>  points_; 
+  cpp0x::array<Circle,3> circles_;
 
   friend class Sphere_triangle<R_>;
  
   Sphere_triangle_rep(const Point& p1, const Point& p2, const Point& p3,
         const Circle& c1, const Circle& c2, const Circle& c3) :
-    points_(p1,p2,p3), circles_(c1,c2,c3) {}
+    points_(CGAL::make_array(p1,p2,p3)), circles_(CGAL::make_array(c1,c2,c3)) {}
 public:
-  Sphere_triangle_rep() : points_(), circles_() {}
-  Sphere_triangle_rep(const Rep& r) : 
-    points_(r.points_), circles_(r.circles_) {}
-
+  Sphere_triangle_rep() {}
 };
 
 

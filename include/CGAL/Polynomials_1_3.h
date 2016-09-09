@@ -17,7 +17,7 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Algebraic_kernel_for_spheres/include/CGAL/Polynomials_1_3.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Algebraic_kernel_for_spheres/include/CGAL/Polynomials_1_3.h $
 // $Id: Polynomials_1_3.h 46224 2008-10-13 11:22:46Z pmachado $
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>

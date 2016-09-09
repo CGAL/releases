@@ -7,7 +7,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/CORE_polynomial.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Polynomial/internal/CORE_polynomial.h $
 // $Id: CORE_polynomial.h 41418 2008-01-03 14:50:13Z spion $ $Date: 2008-01-03 15:50:13 +0100 (Thu, 03 Jan 2008) $
 // 
 //

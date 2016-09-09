@@ -19,6 +19,7 @@
    MA 02110-1301, USA. */
 
 #include <CGAL/PDB/PDB.h>
+#include <CGAL/PDB/range.h>
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
@@ -36,6 +37,7 @@
 
 
 int main(int argc, char *argv[]){
+  using namespace CGAL::PDB;
   std::string output_file;
   std::vector<std::string> input_files;
   bool print_help=false;
@@ -62,42 +64,31 @@ int main(int argc, char *argv[]){
   boost::program_options::notify(vm);
 
     
-  if (input_files.size() <2 || print_help) {
-    std::cout << "Concatenate a bunch of pdb files into one pdb file with many models.\n";
-    std::cout << "usage: " << argv[0] << " input-pdb-0 input-pdb-1 ... output-pdb\n";
+  if (input_files.size() <1 || print_help) {
+    std::cout << "Print info about a pdb file.\n";
+    std::cout << "usage: " << argv[0] << " input-pdb-0 input-pdb-1 ... \n";
     std::cout << o << "\n";
     return EXIT_FAILURE;
   }
 
-  output_file=input_files.back();
-  input_files.pop_back();
-
-  
-  CGAL::PDB::PDB outpdb;
-
-  outpdb.insert(CGAL::PDB::PDB::Model_key(0), CGAL::PDB::Model());
-  outpdb.find(CGAL::PDB::PDB::Model_key(0))->model();
   for (unsigned int i=0; i < input_files.size(); ++i){
     std::ifstream in(input_files[i].c_str());
     if (!in){
       std::cerr << "Error opening input file " << input_files[i] << std::endl;
       continue;
     }
-    CGAL::PDB::PDB inpdb(in, verbose);
+    PDB inpdb(in, verbose);
     std::cout << "File " << input_files[i] 
-              << " " << inpdb.number_of_models() << " models" << std::endl;
-    for (CGAL::PDB::PDB::Model_iterator mit= inpdb.models_begin(); 
-         mit != inpdb.models_end(); ++mit){
-      const CGAL::PDB::Model &m= mit->model();
-      for (CGAL::PDB::Model::Chain_const_iterator cit= m.chains_begin();
-           cit != m.chains_end(); ++cit) {
-       
+              << " " << CGAL::PDB::distance(inpdb.models()) << " models" << std::endl;
+    
+    CGAL_PDB_FOREACH(const PDB::Model_pair& m, inpdb.models()) {
+      std::cout << "Model " << m.key() << std::endl;
+      CGAL_PDB_FOREACH(const Model::Chain_pair &c,
+                       m.model().chains()) {
+        std::cout << " Chain " << c.key() << " has "
+                  << CGAL::PDB::distance(c.chain().monomers())
+                  << " residues" << std::endl;
       }
-      for (CGAL::PDB::Model::Heterogen_const_iterator cit= m.heterogens_begin(); 
-           cit != m.heterogens_end(); ++cit) {
-        
-      }
-      
     }
   }
 

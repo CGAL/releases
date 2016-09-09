@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Modular_arithmetic/src/CGAL/Residue_type.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Modular_arithmetic/src/CGAL/Residue_type.cpp $
 // $Id: Residue_type.cpp 46329 2008-10-17 13:14:08Z afabri $
 //
 // Author(s)     : Michael Hemmer

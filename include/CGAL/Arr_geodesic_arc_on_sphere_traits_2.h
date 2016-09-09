@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_traits_2.h $
-// $Id: Arr_geodesic_arc_on_sphere_traits_2.h 44253 2008-07-17 08:37:24Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_traits_2.h $
+// $Id: Arr_geodesic_arc_on_sphere_traits_2.h 49924 2009-06-16 07:14:42Z efif $
 // 
 //
 // Author(s)     : Efi Fogel         <efif@post.tau.ac.il>
@@ -27,17 +27,19 @@
  * as a geometry traits class for the arrangement on surface package.
  */
 
+#include <fstream>
+
+#include <CGAL/config.h>
 #include <CGAL/tags.h>
 #include <CGAL/intersections.h>
 #include <CGAL/Arr_tags.h>
 #include <CGAL/Arr_enums.h>
 
-#include <fstream>
-
 CGAL_BEGIN_NAMESPACE
 
 #define CGAL_X_MINUS_1_Y_0      0
-#define CGAL_X_MINUS_0_8_Y_0_6  1
+#define CGAL_X_MINUS_8_Y_6      1
+#define CGAL_X_MINUS_11_Y_7     2
 
 #ifndef CGAL_IDENTIFICATION_XY
 #define CGAL_IDENTIFICATION_XY  CGAL_X_MINUS_1_Y_0
@@ -63,7 +65,11 @@ public:
   // Category tags:
   typedef Tag_true                              Has_left_category;
   typedef Tag_true                              Has_merge_category;
-  typedef Arr_bounded_boundary_tag              Boundary_category;
+
+  typedef Arr_identified_side_tag               Arr_left_side_tag;
+  typedef Arr_contracted_side_tag               Arr_bottom_side_tag;
+  typedef Arr_contracted_side_tag               Arr_top_side_tag;
+  typedef Arr_identified_side_tag               Arr_right_side_tag;
 
   /*! Default constructor */
   Arr_geodesic_arc_on_sphere_traits_2(){}
@@ -73,7 +79,6 @@ protected:
 
   typedef typename Kernel::Direction_3          Direction_3;
   typedef typename Kernel::Vector_3             Vector_3;
-  typedef typename Kernel::Point_3              Point_3;
   typedef typename Kernel::Direction_2          Direction_2;
   typedef typename Kernel::Vector_2             Vector_2;
 
@@ -104,8 +109,10 @@ protected:
   {
 #if (CGAL_IDENTIFICATION_XY == CGAL_X_MINUS_1_Y_0)
     static const Direction_2 d(-1, 0);
-#elif (CGAL_IDENTIFICATION_XY == CGAL_X_MINUS_0_8_Y_0_6)
-    static const Direction_2 d(FT(-8, 10), FT(6,10));
+#elif (CGAL_IDENTIFICATION_XY == CGAL_X_MINUS_8_Y_6)    
+    static const Direction_2 d(-8, 6);
+#elif (CGAL_IDENTIFICATION_XY == CGAL_X_MINUS_11_Y_7)    
+    static const Direction_2 d(-11, 7);
 #else
 #error CGAL_IDENTIFICATION_XY is not defined
 #endif
@@ -121,8 +128,10 @@ protected:
   {
 #if (CGAL_IDENTIFICATION_XY == CGAL_X_MINUS_1_Y_0)
     static const Direction_3 d(0, 1, 0);
-#elif (CGAL_IDENTIFICATION_XY == CGAL_X_MINUS_0_8_Y_0_6)
-    static const Direction_3 d(FT(6,10), FT(8, 10), 0);
+#elif (CGAL_IDENTIFICATION_XY == CGAL_X_MINUS_8_Y_6)
+    static const Direction_3 d(6, 8, 0);
+#elif (CGAL_IDENTIFICATION_XY == CGAL_X_MINUS_11_Y_7)
+    static const Direction_3 d(7, 11, 0);
 #else
 #error CGAL_IDENTIFICATION_XY is not defined
 #endif
@@ -239,14 +248,26 @@ public:
     Vector_3 v1 = d1.vector();
     Vector_3 v2 = d2.vector();
 
+    FT dot_p1 = v1.z();
+    FT dot_p2 = v2.z();
+
+    Sign s1 = CGAL::sign(dot_p1);
+    Sign s2 = CGAL::sign(dot_p2);
+    
+    if (s1 != s2) {
+      if (s1 == NEGATIVE) return SMALLER;
+      if (s1 == POSITIVE) return LARGER;
+      if (s2 == NEGATIVE) return LARGER;
+      if (s2 == POSITIVE) return SMALLER;      
+    }
+    if (s1 == ZERO) return EQUAL;
+    
     FT norm1 = v1 * v1;
     FT norm2 = v2 * v2;
 
-    FT dot_p1 = v1.z();
-    FT dot_p2 = v2.z();
-    
-    return CGAL::compare(CGAL::sign(dot_p1) * dot_p1 * dot_p1 * norm2,
-                         CGAL::sign(dot_p2) * dot_p2 * dot_p2 * norm1);
+    return (s1 == POSITIVE) ?
+      compare(dot_p1 * dot_p1 * norm2, dot_p2 * dot_p2 * norm1) :
+      compare(dot_p2 * dot_p2 * norm1, dot_p1 * dot_p1 * norm2);
   }
 
   /*! Compare two directions contained in the xy plane by u.
@@ -1197,7 +1218,7 @@ public:
    * that lie on the horizontal identification arc.
    * The parameter space does not contain a horizontal identification arc.
    */
-  class Compare_x_on_identification_2 {
+  class Compare_x_on_boundary_2 {
   public:
     /*! Compare the x-coordinate of two given points that lie on the
      * horizontal identification arc.
@@ -1212,14 +1233,14 @@ public:
     }
   };
 
-  /*! Obtain a Compare_x_on_identification_2 function object */
-  Compare_x_on_identification_2 compare_x_on_identification_2_object() const
-  { return Compare_x_on_identification_2(); }
+  /*! Obtain a Compare_x_on_boundary_2 function object */
+  Compare_x_on_boundary_2 compare_x_on_boundary_2_object() const
+  { return Compare_x_on_boundary_2(); }
 
   /*! A functor that compares the y-coordinate of two given points
    * that lie on the vertical identification arc.
    */
-  class Compare_y_on_identification_2 {
+  class Compare_y_on_boundary_2 {
   protected:
     typedef Arr_geodesic_arc_on_sphere_traits_2<Kernel> Traits;
 
@@ -1229,7 +1250,7 @@ public:
     /*! Constructor
      * \param traits the traits (in case it has state)
      */
-    Compare_y_on_identification_2(const Traits * traits) : m_traits(traits) {}
+    Compare_y_on_boundary_2(const Traits * traits) : m_traits(traits) {}
 
     friend class Arr_geodesic_arc_on_sphere_traits_2<Kernel>;
     
@@ -1252,9 +1273,9 @@ public:
     }
   };
 
-  /*! Obtain a Compare_y_on_identification_2 function object */
-  Compare_y_on_identification_2 compare_y_on_identification_2_object() const
-  { return Compare_y_on_identification_2(this); }
+  /*! Obtain a Compare_y_on_boundary_2 function object */
+  Compare_y_on_boundary_2 compare_y_on_boundary_2_object() const
+  { return Compare_y_on_boundary_2(this); }
   //@}
 
   /// \name Functor definitions for supporting intersections.
@@ -2148,7 +2169,7 @@ public:
       (signx == POSITIVE) ? NO_BOUNDARY_LOC :
       ((signx == NEGATIVE) ? MID_BOUNDARY_LOC :
        ((z_sign(dir) == NEGATIVE) ? MIN_BOUNDARY_LOC : MAX_BOUNDARY_LOC));
-#elif (CGAL_IDENTIFICATION_XY == CGAL_X_MINUS_0_8_Y_0_6)
+#else
     if ((x_sign(dir) == ZERO) && (y_sign(dir) == ZERO)) {
       m_location =
         (z_sign(dir) == NEGATIVE) ? MIN_BOUNDARY_LOC : MAX_BOUNDARY_LOC;
@@ -2161,8 +2182,6 @@ public:
     typename Kernel::Equal_2 equal_2 = kernel.equal_2_object();
     const Direction_2 & xy = Traits::identification_xy();
     m_location = equal_2(dir_xy, xy) ? MID_BOUNDARY_LOC : NO_BOUNDARY_LOC;
-#else
-#error CGAL_IDENTIFICATION_XY is not defined
 #endif
   }
   
@@ -2208,7 +2227,6 @@ protected:
   typedef T_Kernel                                    Kernel;
   
   typedef typename Kernel::Plane_3                    Plane_3;
-  typedef typename Kernel::Point_3                    Point_3;
   typedef typename Kernel::Vector_3                   Vector_3;
   typedef typename Kernel::Direction_2                Direction_2;
   typedef typename Kernel::Direction_3                Direction_3;
@@ -2247,7 +2265,6 @@ protected:
   inline Sign z_sign(Direction_3 d) const { return CGAL::sign(d.dz()); }
 
   /*! Constructs a plane that contains two directions.
-   * \todo Introduce in Kernel::ConstructPlane_3::operator()(Direction_3, Dir..)
    * \param d1 the first direction.
    * \param d2 the second direction.
    */
@@ -2258,16 +2275,6 @@ protected:
     Vector_3 v = kernel.construct_cross_product_vector_3_object()(d1.vector(),
                                                                   d2.vector());
     return v.direction();
-#if 0
-    Vector_3 v1 = d1.vector();
-    Point_3 p1 = kernel.construct_translated_point_3_object()(ORIGIN, v1);
-
-    Vector_3 v2 = d2.vector();
-    Point_3 p2 = kernel.construct_translated_point_3_object()(ORIGIN, v2);
-
-    Plane_3 plane = kernel.construct_plane_3_object()(ORIGIN, p1, p2);
-    return plane.orthogonal_direction();
-#endif
   }
 
 public:
@@ -2644,7 +2651,7 @@ public:
     return ((x_sign(m_normal) == ZERO) &&
             (((y_sign(m_normal) == NEGATIVE) && !is_directed_right()) ||
              ((y_sign(m_normal) == POSITIVE) && is_directed_right())));
-#elif (CGAL_IDENTIFICATION_XY == CGAL_X_MINUS_0_8_Y_0_6)
+#else
     typedef Arr_geodesic_arc_on_sphere_traits_2<Kernel> Traits;
 
     const Direction_3 & iden_normal = Traits::identification_normal();
@@ -2658,8 +2665,6 @@ public:
         kernel.construct_opposite_direction_2_object()(normal_xy);
       return kernel.equal_2_object()(opposite_normal_xy, iden_normal_xy);
     }
-#else
-#error CGAL_IDENTIFICATION_XY is not defined
 #endif
   }
   
@@ -2710,8 +2715,8 @@ public:
   Arr_x_monotone_geodesic_arc_on_sphere_3 opposite() const
   {
     Arr_x_monotone_geodesic_arc_on_sphere_3 opp;
-    opp.m_sourse = this->m_target;
-    opp.m_target = this->m_sourse;
+    opp.m_source = this->m_target;
+    opp.m_target = this->m_source;
     opp.m_normal = this->m_normal;
     opp.m_is_directed_right = !(this->is_directed_right());
     opp.m_is_vertical = this->is_vertical();
@@ -2797,8 +2802,6 @@ public:
          is_vertical, is_directed_right, is_full, is_degenerate, is_empty),
     m_is_x_monotone(is_x_monotone)
   {
-    CGAL_precondition_code(typename Kernel::Point_3 point = ORIGIN);
-    CGAL_precondition(this->has_on(point));
     CGAL_precondition(this->has_on(src));
     CGAL_precondition(this->has_on(trg));
   }
@@ -2829,7 +2832,7 @@ public:
     typedef Arr_geodesic_arc_on_sphere_traits_2<Kernel>         Traits;
     typedef typename Kernel::Direction_2                        Direction_2;
     typedef typename Kernel::Direction_3                        Direction_3;
-    
+
     Kernel kernel;
     CGAL_precondition(!kernel.equal_3_object()(source, target));
     CGAL_precondition(!kernel.equal_3_object()
@@ -2927,8 +2930,6 @@ public:
 
     typedef Arr_geodesic_arc_on_sphere_traits_2<Kernel> Traits;
 
-    CGAL_precondition_code(typename Kernel::Point_3 point = ORIGIN);
-    CGAL_precondition(this->has_on(point));
     CGAL_precondition(this->has_on(source));
     CGAL_precondition(this->has_on(target));
 

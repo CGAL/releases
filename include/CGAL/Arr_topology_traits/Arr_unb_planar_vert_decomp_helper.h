@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_vert_decomp_helper.h $
-// $Id: Arr_unb_planar_vert_decomp_helper.h 41108 2007-12-06 15:26:30Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_vert_decomp_helper.h $
+// $Id: Arr_unb_planar_vert_decomp_helper.h 49772 2009-06-03 21:25:53Z eric $
 // 
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -160,7 +160,7 @@ after_handle_event (Event* event)
   // If the event is at infinity and occurs on the top edge of the fictitious
   // face (namely x is finite and y = +oo), we have to update the fictitious
   // halfedges we keep.
-  if (event->is_finite())
+  if (event->is_closed())
     return;
 
   if (event->parameter_space_in_x() != ARR_INTERIOR)

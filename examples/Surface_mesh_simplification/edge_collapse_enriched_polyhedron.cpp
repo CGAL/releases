@@ -11,6 +11,9 @@
 // Simplification function
 #include <CGAL/Surface_mesh_simplification/edge_collapse.h>
 
+// Visitor base
+#include <CGAL/Surface_mesh_simplification/Edge_collapse_visitor_base.h>
+
 // Extended polyhedron items which include an id() field
 #include <CGAL/Polyhedron_items_with_id_3.h>
 
@@ -30,6 +33,7 @@ typedef Kernel::Point_3 Point ;
 typedef CGAL::Polyhedron_3<Kernel,CGAL::Polyhedron_items_with_id_3> Surface; 
 
 typedef Surface::Halfedge_handle Halfedge_handle ;
+typedef Surface::Vertex_handle   Vertex_handle ;
 
 namespace SMS = CGAL::Surface_mesh_simplification ;
 
@@ -40,9 +44,9 @@ typedef SMS::Edge_profile<Surface> Profile ;
 // In this example the progress is printed real-time and a few statistics are
 // recorded (and printed in the end).
 //
-struct Visitor
+struct My_visitor : SMS::Edge_collapse_visitor_base<Surface>
 {
-  Visitor() 
+  My_visitor() 
     : collected(0)
     , processed(0)
     , collapsed(0)
@@ -51,17 +55,8 @@ struct Visitor
     , placement_uncomputable(0) 
   {} 
 
-  // Called on algorithm entry  
-  void OnStarted( Surface& ) {} 
-  
-  // Called on algorithm exit  
-  void OnFinished ( Surface& ) { std::cerr << "\n" << std::flush ; } 
-  
-  // Called when the stop condition returned true
-  void OnStopConditionReached( Profile const& ) {} 
-  
   // Called during the collecting phase for each edge collected.
-  void OnCollected( Profile const&, boost::optional<double> const& )
+  virtual void OnCollected( Profile const&, boost::optional<double> const& ) const
   {
     ++ collected ;
     std::cerr << "\rEdges collected: " << collected << std::flush ;
@@ -69,11 +64,11 @@ struct Visitor
   
   // Called during the processing phase for each edge selected.
   // If cost is absent the edge won't be collapsed.
-  void OnSelected(Profile const&          
-                 ,boost::optional<double> cost
-                 ,std::size_t             initial
-                 ,std::size_t             current
-                 )
+  virtual void OnSelected(Profile const&          
+                         ,boost::optional<double> cost
+                         ,std::size_t             initial
+                         ,std::size_t             current
+                         ) const
   {
     ++ processed ;
     if ( !cost )
@@ -86,29 +81,34 @@ struct Visitor
   
   // Called during the processing phase for each edge being collapsed.
   // If placement is absent the edge is left uncollapsed.
-  void OnCollapsing(Profile const&          
-                   ,boost::optional<Point>  placement
-                   )
+  virtual void OnCollapsing(Profile const&          
+                           ,boost::optional<Point>  placement
+                           ) const
   {
-    if ( placement )
-         ++ collapsed;
-    else ++ placement_uncomputable ;
+    if ( !placement )
+      ++ placement_uncomputable ;
   }                
   
   // Called for each edge which failed the so called link-condition,
   // that is, which cannot be collapsed because doing so would
   // turn the surface into a non-manifold.
-  void OnNonCollapsable( Profile const& )
+  virtual void OnNonCollapsable( Profile const& ) const
   {
     ++ non_collapsable;
   }                
   
-  std::size_t  collected
-             , processed
-             , collapsed
-             , non_collapsable
-             , cost_uncomputable  
-             , placement_uncomputable ; 
+  // Called AFTER each edge has been collapsed
+  virtual void OnCollapsed( Profile const&, Vertex_handle hv ) const
+  {
+    ++ collapsed;
+  }                
+  
+  mutable std::size_t collected ;
+  mutable std::size_t processed ;
+  mutable std::size_t collapsed ;
+  mutable std::size_t non_collapsable ;
+  mutable std::size_t cost_uncomputable  ;
+  mutable std::size_t placement_uncomputable ; 
 } ;
 
 
@@ -143,9 +143,9 @@ int main( int argc, char** argv )
   // In this example, the simplification stops when the number of undirected edges
   // drops below 10% of the initial count
   SMS::Count_ratio_stop_predicate<Surface> stop(0.1);
-     
-  Visitor vis ;
-  
+
+  My_visitor vis ;
+    
   // The index maps are not explicitelty passed as in the previous
   // example because the surface items have a proper id() field.
   // On the other hand, we pass here explicit cost and placement
@@ -156,7 +156,7 @@ int main( int argc, char** argv )
            ,stop
            ,CGAL::get_cost     (SMS::Edge_length_cost  <Surface>())
                  .get_placement(SMS::Midpoint_placement<Surface>())
-                 .visitor(&vis)
+                 .visitor      (vis)
            );
   
   std::cout << "\nEdges collected: " << vis.collected

@@ -11,11 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Circular_kernel_3/include/CGAL/Spherical_kernel_3.h $
-// $Id: Spherical_kernel_3.h 46048 2008-10-02 14:39:28Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_3/include/CGAL/Spherical_kernel_3.h $
+// $Id: Spherical_kernel_3.h 50731 2009-07-21 09:08:07Z sloriot $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
-//             Julien Hazebrouck, Damien Leroy
+//             Sebastien Loriot, Julien Hazebrouck, Damien Leroy
 
 // Partially supported by the IST Programme of the EU as a 
 // STREP (FET Open) Project under Contract No  IST-006413 
@@ -33,14 +33,13 @@
 #include <CGAL/Circular_kernel_3/Circular_arc_3.h>
 #include <CGAL/Circular_arc_3.h>
 
-#include <CGAL/global_functions_spherical_kernel_3.h>
-
 #include <CGAL/Circular_kernel_3/function_objects_polynomial_sphere.h>
 
 #include <CGAL/Circular_kernel_3/get_equation_object_on_curved_kernel_3.h>
 
 #include <CGAL/Spherical_kernel_type_equality_wrapper.h>
 
+#include <CGAL/global_functions_spherical_kernel_3.h>
 
 namespace CGAL {
   namespace CGALi {
@@ -60,7 +59,12 @@ namespace CGAL {
         #define CGAL_Spherical_Kernel_pred(Y,Z) typedef SphericalFunctors::Y<SphericalKernel> Y; \
 	    Y Z() const { return Y(); }
         #define CGAL_Spherical_Kernel_cons(Y,Z) CGAL_Spherical_Kernel_pred(Y,Z)
-	
+        #define CGAL_Spherical_Kernel_overload_cons(Y,Z) CGAL_Spherical_Kernel_pred(Y,Z)
+        #define CGAL_Spherical_Kernel_overload_pred(Y,Z) CGAL_Spherical_Kernel_pred(Y,Z)
+      
+        #define CGAL_Spherical_Kernel_pred_on_sphere(Y,Z) typedef SphericalFunctors::Y<SphericalKernel> Y; \
+	    Y Z(const CGAL::Sphere_3<SphericalKernel>& S) const { return Y(S); }
+        
         #include <CGAL/Circular_kernel_3/interface_macros.h>
       };
     

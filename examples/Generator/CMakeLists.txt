@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "random_convex_set.cpp" )
   create_single_source_cgal_program( "random_degenerate_point_set.cpp" )
   create_single_source_cgal_program( "random_grid.cpp" )

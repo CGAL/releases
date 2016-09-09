@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Envelope_3/include/CGAL/Env_surface_data_traits_3.h $
-// $Id: Env_surface_data_traits_3.h 40353 2007-09-16 20:52:34Z golubevs $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_3/include/CGAL/Env_surface_data_traits_3.h $
+// $Id: Env_surface_data_traits_3.h 50370 2009-07-05 13:22:10Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -69,7 +69,7 @@ public:
   {}
   
   /*! Constructor from a base-traits class. */
-  Env_surface_data_traits_3 (const Base_traits_3& traits) :
+  Env_surface_data_traits_3 (const Base_traits_3 & traits) :
     Base_traits_3 (traits)
   {}
   //@}
@@ -80,13 +80,12 @@ public:
   class Make_xy_monotone_3
   {
   private:
-    Base_traits_3    *base;
+    const Base_traits_3 * base;
 
   public:
 
     /*! Constructor. */
-    Make_xy_monotone_3 (Base_traits_3 *_base) :
-      base (_base)
+    Make_xy_monotone_3 (const Base_traits_3 * _base) : base (_base)
     {}
     
     /*!
@@ -98,7 +97,8 @@ public:
      * \return The past-the-end iterator.
      */
     template<class OutputIterator>
-    OutputIterator operator() (const Surface_3& S, bool is_lower, OutputIterator oi)
+    OutputIterator operator() (const Surface_3& S, bool is_lower,
+                               OutputIterator oi) const
     {
       // Make the original surface xy-monotone.
       std::list<Base_xy_monotone_surface_3>                     xy_surfaces;
@@ -120,8 +120,7 @@ public:
   };
 
   /*! Get a Make_xy_monotone_3 functor object. */
-  Make_xy_monotone_3
-  make_xy_monotone_3_object()
+  Make_xy_monotone_3 make_xy_monotone_3_object() const
   {
     return Make_xy_monotone_3 (this);
   }

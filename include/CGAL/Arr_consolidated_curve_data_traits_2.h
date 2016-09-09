@@ -1,4 +1,4 @@
-// Copyright (c) 2005  Tel-Aviv University (Israel).
+// Copyright (c) 2005, 2009  Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_consolidated_curve_data_traits_2.h $
-// $Id: Arr_consolidated_curve_data_traits_2.h 41124 2007-12-08 10:56:13Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_consolidated_curve_data_traits_2.h $
+// $Id: Arr_consolidated_curve_data_traits_2.h 49772 2009-06-03 21:25:53Z eric $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
 //                 Efi Fogel         <efif@post.tau.ac.il>
+
 #ifndef CGAL_ARR_CONSOLIDATED_CURVE_DATA_TRAITS_2_H
 #define CGAL_ARR_CONSOLIDATED_CURVE_DATA_TRAITS_2_H
 
@@ -73,11 +74,16 @@ public:
   typedef typename Base_traits_2::Multiplicity        Multiplicity;
 
   typedef typename Base_traits_2::Has_left_category   Has_left_category;
-  typedef typename Base_traits_2::Boundary_category   Boundary_category;
   
   typedef typename Base_traits_2::Has_merge_category  Base_has_merge_category;
   typedef Tag_true                                    Has_merge_category;
 
+  // Base_traits_2 is Arr_curve_data_traits that already completes
+  // incomplete tags
+  typedef typename Base_traits_2::Arr_left_side_tag   Arr_left_side_tag;
+  typedef typename Base_traits_2::Arr_bottom_side_tag Arr_bottom_side_tag;
+  typedef typename Base_traits_2::Arr_top_side_tag    Arr_top_side_tag;
+  typedef typename Base_traits_2::Arr_right_side_tag  Arr_right_side_tag;
 };
 
 CGAL_END_NAMESPACE

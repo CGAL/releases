@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC3.h $
-// $Id: kernel_ftC3.h 44906 2008-08-12 11:55:24Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/predicates/kernel_ftC3.h $
+// $Id: kernel_ftC3.h 47867 2009-02-02 13:09:25Z lrineau $
 // 
 //
 // Author(s)     : Herve Bronnimann, Sylvain Pion
@@ -341,6 +341,7 @@ side_of_oriented_sphereC3(const FT &px, const FT &py, const FT &pz,
                                 rtx,rty,rtz,rt2,
                                 qtx,qty,qtz,qt2,
                                 stx,sty,stz,st2);
+  // Note that the determinant above is det(P,R,Q,S) (Q and R are swapped)!
 }
 
 template <class FT >

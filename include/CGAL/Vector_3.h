@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kernel_23/include/CGAL/Vector_3.h $
-// $Id: Vector_3.h 43244 2008-05-21 13:48:05Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Vector_3.h $
+// $Id: Vector_3.h 49257 2009-05-09 16:08:19Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
@@ -77,13 +77,13 @@ public:
   Vector_3(const Point_3& a, const Point_3& b)
     : Rep(typename R::Construct_vector_3()(Return_base_tag(), a, b)) {}
 
-  Vector_3(const Segment_3& s)
+  explicit Vector_3(const Segment_3& s)
     : Rep(typename R::Construct_vector_3()(Return_base_tag(), s)) {}
 
-  Vector_3(const Ray_3& r)
+  explicit Vector_3(const Ray_3& r)
     : Rep(typename R::Construct_vector_3()(Return_base_tag(), r)) {}
 
-  Vector_3(const Line_3& l)
+  explicit Vector_3(const Line_3& l)
     : Rep(typename R::Construct_vector_3()(Return_base_tag(), l)) {}
 
   Vector_3(const Null_vector& v)

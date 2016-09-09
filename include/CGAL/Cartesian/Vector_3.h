@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Cartesian_kernel/include/CGAL/Cartesian/Vector_3.h $
-// $Id: Vector_3.h 45152 2008-08-26 13:08:16Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Vector_3.h $
+// $Id: Vector_3.h 49589 2009-05-26 07:54:52Z spion $
 // 
 //
 // Author        : Andreas Fabri
@@ -41,7 +41,7 @@ class VectorC3
   typedef typename R_::Line_3               Line_3;
   typedef typename R_::Direction_3          Direction_3;
 
-  typedef CGAL::array<FT, 3>               Rep;
+  typedef cpp0x::array<FT, 3>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
@@ -60,13 +60,13 @@ public:
   VectorC3(const Point_3 &a, const Point_3 &b)
   { *this = R().construct_vector_3_object()(a, b); }
 
-  VectorC3(const Segment_3 &s)
+  explicit VectorC3(const Segment_3 &s)
   { *this = R().construct_vector_3_object()(s); }
 
-  VectorC3(const Ray_3 &r)
+  explicit VectorC3(const Ray_3 &r)
   { *this = R().construct_vector_3_object()(r); }
 
-  VectorC3(const Line_3 &l)
+  explicit VectorC3(const Line_3 &l)
   { *this = R().construct_vector_3_object()(l); }
 
   VectorC3(const FT &x, const FT &y, const FT &z)

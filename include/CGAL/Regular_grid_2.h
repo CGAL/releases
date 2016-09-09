@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Stream_lines_2/include/CGAL/Regular_grid_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_lines_2/include/CGAL/Regular_grid_2.h $
 // $Id: Regular_grid_2.h 37186 2007-03-17 09:27:09Z afabri $
 // 
 //

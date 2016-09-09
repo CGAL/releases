@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Circle_segment_2.h $
-// $Id: Circle_segment_2.h 43900 2008-07-01 15:20:13Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Circle_segment_2.h $
+// $Id: Circle_segment_2.h 48386 2009-03-12 16:56:41Z guyzucke $
 // 
 //
 // Author(s)     : Ron Wein        <wein@post.tau.ac.il>
@@ -955,6 +955,12 @@ public:
     return (_target);
   }
 
+  /*! True if the arc is directed right, false otherwise. */
+  bool is_directed_right () const
+  {
+    return ((_info & IS_DIRECTED_RIGHT_MASK) != 0);
+  }
+
   /*! Get the left endpoint of the arc. */
   inline const Point_2& left () const
   {
@@ -1318,14 +1324,6 @@ public:
 
     return;
   }
-
-
-  /*! return true iff the arc is directed right lexicoraphically. */
-  bool is_directed_right() const
-  {
-    return ((_info & IS_DIRECTED_RIGHT_MASK) != 0);
-  }
-
 
   /*! construct an opposite arc. */
   Self construct_opposite() const

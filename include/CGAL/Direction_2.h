@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kernel_23/include/CGAL/Direction_2.h $
-// $Id: Direction_2.h 45156 2008-08-26 13:40:26Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Direction_2.h $
+// $Id: Direction_2.h 49257 2009-05-09 16:08:19Z spion $
 //
 //
 // Author(s)     : Stefan Schirra
@@ -70,16 +70,16 @@ public:
   Direction_2(const RDirection_2& d)
     : RDirection_2(d) {}
 
-  Direction_2(const Vector_2& v)
+  explicit Direction_2(const Vector_2& v)
     : RDirection_2(typename R::Construct_direction_2()(Return_base_tag(), v)) {}
 
-  Direction_2(const Line_2& l)
+  explicit Direction_2(const Line_2& l)
     : RDirection_2(typename R::Construct_direction_2()(Return_base_tag(), l)) {}
 
-  Direction_2(const Ray_2& r)
+  explicit Direction_2(const Ray_2& r)
     : RDirection_2(typename R::Construct_direction_2()(Return_base_tag(), r)) {}
 
-  Direction_2(const Segment_2& s)
+  explicit Direction_2(const Segment_2& s)
     : RDirection_2(typename R::Construct_direction_2()(Return_base_tag(), s)) {}
 
   Direction_2(const RT &x, const RT &y)

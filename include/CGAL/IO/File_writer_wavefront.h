@@ -15,7 +15,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Stream_support/include/CGAL/IO/File_writer_wavefront.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Stream_support/include/CGAL/IO/File_writer_wavefront.h $
 // $Id: File_writer_wavefront.h 35787 2007-01-24 17:16:05Z spion $
 // 
 //

@@ -15,17 +15,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/config/testfiles/CGAL_CFG_DENORMALS_COMPILE_BUG.cpp $
-// $Id: CGAL_CFG_DENORMALS_COMPILE_BUG.cpp 41406 2008-01-03 12:11:01Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/config/testfiles/CGAL_CFG_DENORMALS_COMPILE_BUG.cpp $
+// $Id: CGAL_CFG_DENORMALS_COMPILE_BUG.cpp 49022 2009-04-29 20:03:21Z spion $
 // 
 //
 // Author(s)     : Sylvain Pion
-
-// ---------------------------------------------------------------------
-// A short test program to evaluate a C++ compiler.
-// This program is used by install_cgal.
-// The following documentation will be pasted in the generated configfile.
-// ---------------------------------------------------------------------
 
 //| This flag is set if the compiler bugs when handling denormal values at
 //| compile time.  At least PGCC 7.1-2 has the bug.

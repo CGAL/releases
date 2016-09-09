@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_vert_decomp_sl_visitor.h $
-// $Id: Arr_vert_decomp_sl_visitor.h 40152 2007-09-02 11:57:13Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_vert_decomp_sl_visitor.h $
+// $Id: Arr_vert_decomp_sl_visitor.h 49772 2009-06-03 21:25:53Z eric $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -142,8 +142,8 @@ bool Arr_vert_decomp_sl_visitor<Hlpr, OutIt>::after_handle_event
   // Notify the helper on the event.
   m_helper.after_handle_event (event);
 
-  // We are only interested in events associated with finite points:
-  if (! event->is_finite())
+  // We are only interested in events associated with valid points:
+  if (! event->is_closed())
     return (true);
 
   // Get the vertex handle associated with the current event (stored with

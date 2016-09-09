@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_visitor.h $
-// $Id: Gps_agg_op_visitor.h 40966 2007-11-21 10:24:10Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_visitor.h $
+// $Id: Gps_agg_op_visitor.h 49836 2009-06-07 19:21:39Z eric $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -23,25 +23,58 @@
 
 #include <CGAL/Unique_hash_map.h> 
 #include <CGAL/Sweep_line_2/Arr_construction_sl_visitor.h>
+#include <boost/mpl/if.hpp>
+#include <boost/type_traits.hpp>
+#include <CGAL/Arr_tags.h>
 #include <CGAL/Arr_topology_traits/Arr_bounded_planar_construction_helper.h>
+#include <CGAL/Arr_topology_traits/Arr_unb_planar_construction_helper.h>
 
 CGAL_BEGIN_NAMESPACE
 
 template<class Traits, class Arrangement_, class Event,class Subcurve>
 class Gps_agg_op_base_visitor :
   public
-  Arr_construction_sl_visitor<Arr_bounded_planar_construction_helper<Traits,
-                                                                     Arrangement_,
-                                                                     Event,
-                                                                     Subcurve> >
+  Arr_construction_sl_visitor<
+    // TODO derive (helper) from topology traits class
+    typename boost::mpl::if_< 
+    boost::is_same< typename Arr_are_all_sides_oblivious_tag< 
+                                     typename Traits::Arr_left_side_tag, 
+                                     typename Traits::Arr_bottom_side_tag, 
+                                     typename Traits::Arr_top_side_tag, 
+                                     typename Traits::Arr_right_side_tag 
+    >::result, Arr_all_sides_oblivious_tag >,
+    Arr_bounded_planar_construction_helper<Traits, 
+                                       Arrangement_,
+                                       Event,
+                                       Subcurve>,
+    Arr_unb_planar_construction_helper<Traits,
+                                       Arrangement_,
+                                       Event,
+                                       Subcurve> 
+    >::type
+  >
 {
   protected:
   typedef Arrangement_                                     Arrangement;
 
-  typedef Arr_bounded_planar_construction_helper<Traits,
-                                                 Arrangement,
-                                                 Event,
-                                                 Subcurve> Construction_helper;
+
+  
+  typedef typename boost::mpl::if_< 
+    boost::is_same< typename Arr_are_all_sides_oblivious_tag< 
+                                     typename Traits::Arr_left_side_tag, 
+                                     typename Traits::Arr_bottom_side_tag, 
+                                     typename Traits::Arr_top_side_tag, 
+                                     typename Traits::Arr_right_side_tag 
+    >::result, Arr_all_sides_oblivious_tag >,
+    Arr_bounded_planar_construction_helper<Traits, 
+                                       Arrangement,
+                                       Event,
+                                       Subcurve>,
+    Arr_unb_planar_construction_helper<Traits,
+                                       Arrangement,
+                                       Event,
+                                       Subcurve> 
+    >::type Construction_helper;
   typedef Arr_construction_sl_visitor<Construction_helper> Base;
 
   typedef typename Base::Status_line_iterator              SL_iterator;
@@ -65,6 +98,9 @@ public:
                           Edges_hash* hash): Base(arr),
                                              m_edges_hash(hash)
   {}
+
+  // TODO (IMPORTANT): unbounded helper might be not fully supported
+  // TODO add mpl-warning
 
   virtual Halfedge_handle insert_in_face_interior(const X_monotone_curve_2& cv,
                                           Subcurve* sc)
@@ -119,7 +155,7 @@ private:
       ((Arr_halfedge_direction)he->direction() == ARR_LEFT_TO_RIGHT) ? SMALLER : LARGER;
 
     const Comparison_result cv_dir =
-      this->m_arr_access.arrangement().traits()->
+      this->m_arr_access.arrangement().geometry_traits()->
             compare_endpoints_xy_2_object()(cv);
 
     if (he_dir == cv_dir)

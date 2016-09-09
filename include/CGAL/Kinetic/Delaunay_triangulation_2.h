@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_2.h $
-// $Id: Delaunay_triangulation_2.h 47697 2009-01-08 16:44:12Z drussel $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/Delaunay_triangulation_2.h $
+// $Id: Delaunay_triangulation_2.h 49231 2009-05-08 09:24:17Z spion $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -387,7 +387,7 @@ public:
     }
     watcher_.pre_remove_vertex(vh);
     if (has_certificates_) {
-      Face_circulator fc= vh->incident_faces(), fe=fc;
+      Face_circulator fc= del_.incident_faces(vh), fe=fc;
       if (fc != NULL) {
 	do {
 	  for (unsigned int j=0; j<3; ++j) {

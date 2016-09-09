@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Nef_S2/src/CGALQt/Qt_widget_OpenGL.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_S2/src/CGALQt/Qt_widget_OpenGL.cpp $
 // $Id: Qt_widget_OpenGL.cpp 47075 2008-11-27 14:42:00Z lrineau $
 // 
 //

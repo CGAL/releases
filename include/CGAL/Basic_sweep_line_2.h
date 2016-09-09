@@ -1,4 +1,4 @@
-// Copyright (c) 2005  Tel-Aviv University (Israel).
+// Copyright (c) 2005, 2009  Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org); you may redistribute it under
@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Basic_sweep_line_2.h $
-// $Id: Basic_sweep_line_2.h 41325 2007-12-26 15:39:40Z golubevs $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Basic_sweep_line_2.h $
+// $Id: Basic_sweep_line_2.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -25,6 +25,7 @@
  * Definition of the Basic_sweep_line_2 class.
  */
 
+#include <boost/mpl/assert.hpp>
 #include <CGAL/assertions.h>
 #include <CGAL/memory.h>
 #include <CGAL/Sweep_line_2/Sweep_line_functors.h>
@@ -94,7 +95,26 @@ public:
   typedef Arr_traits_basic_adaptor_2<Traits_2>          Traits_adaptor_2;
   typedef typename Traits_adaptor_2::Point_2            Point_2;
   typedef typename Traits_adaptor_2::X_monotone_curve_2 X_monotone_curve_2;
-  typedef typename Traits_adaptor_2::Boundary_category  Boundary_category;
+
+  typedef typename Traits_adaptor_2::Arr_left_side_tag   Arr_left_side_tag;
+  typedef typename Traits_adaptor_2::Arr_bottom_side_tag Arr_bottom_side_tag;
+  typedef typename Traits_adaptor_2::Arr_top_side_tag    Arr_top_side_tag;
+  typedef typename Traits_adaptor_2::Arr_right_side_tag  Arr_right_side_tag;
+
+  BOOST_MPL_ASSERT(
+      (typename 
+       Arr_sane_identified_tagging< Arr_left_side_tag, Arr_bottom_side_tag, 
+       Arr_top_side_tag, Arr_right_side_tag >::result)
+  );
+  
+protected:
+
+  typedef typename Arr_are_all_sides_oblivious_tag< 
+                     Arr_left_side_tag, Arr_bottom_side_tag, 
+                     Arr_top_side_tag, Arr_right_side_tag >::result
+  Are_all_sides_oblivious_tag;
+  
+public:
 
   typedef CGAL::Compare_events<Traits_adaptor_2, Event> Compare_events;
   typedef Multiset<Event*, Compare_events, Allocator>   Event_queue; 
@@ -141,7 +161,7 @@ protected:
   typedef typename Allocated_events_set::iterator  Allocated_events_iterator;
 
   // Data members:
-  Traits_adaptor_2 *m_traits;       // A traits-class object.
+  const Traits_adaptor_2 * m_traits;// A traits-class object.
   bool              m_traitsOwner;  // Whether this object was allocated by
                                     // this class (and thus should be freed).
 
@@ -198,7 +218,7 @@ public:
    * \param traits A pointer to a sweep-line traits object.
    * \param visitor A pointer to a sweep-line visitor object.
    */
-  Basic_sweep_line_2 (Traits_2 *traits, Visitor *visitor);
+  Basic_sweep_line_2 (const Traits_2 *traits, Visitor *visitor);
 
   /*! Destrcutor. */
   virtual ~Basic_sweep_line_2 ();
@@ -350,7 +370,7 @@ public:
   }
 
   /*! Get the traits object */
-  Traits_2* traits ()
+  const Traits_2 * traits ()
   {
     return m_traits;
   }
@@ -469,8 +489,8 @@ protected:
    * Allocate an event object associated with a given point.
    * \param pt The point.
    * \param type The event type.
-   * \param ps_x The boundary condition of the point in x.
-   * \param ps_y The boundary condition of the point in y.
+   * \param ps_x The location of the point in x.
+   * \param ps_y The location of the point in y.
    * \pre Neither one of the boundary conditions is +/-oo. 
    * \return The created event.
    */
@@ -478,23 +498,24 @@ protected:
                           Arr_parameter_space ps_x, Arr_parameter_space ps_y);
 
   /*!
-   * Allocate an event at infinity, which is not associated with a valid point.
+   * Allocate an event at open boundary, 
+   * which is not associated with a valid point.
    * \param type The event type.
-   * \param ps_x The boundary condition of the point in x.
-   * \param ps_y The boundary condition of the point in y.
+   * \param ps_x The location of the point in x.
+   * \param ps_y The location of the point in y.
    * \param At least one of the boundary conditions is +/-oo.
    * \return The created event.
    */
-  Event* _allocate_event_at_infinity (Attribute type,
-                                      Arr_parameter_space ps_x,
-                                      Arr_parameter_space ps_y);
+  Event* _allocate_event_at_open_boundary (Attribute type,
+                                           Arr_parameter_space ps_x,
+                                           Arr_parameter_space ps_y);
 
   /*! 
    * Push a finite event point into the event queue.
    * \param pt The point associated with the event.
    * \param type The event type.
-   * \param ps_x The boundary condition of the point in x.
-   * \param ps_y The boundary condition of the point in y.
+   * \param ps_x The location of the point in x.
+   * \param ps_y The location of the point in y.
    * \param sc A subcurve that the new event represents on of its endpoints.
    * \return A pair that comprises a pointer to the event, and a flag
    *         indicating whether this is a new event (if false, the event
@@ -511,8 +532,8 @@ protected:
    * \param cv The x-monotone curve.
    * \param ind The relevant curve end.
    * \param type The event type.
-   * \param ps_x The boundary condition of the point in x.
-   * \param ps_y The boundary condition of the point in y.
+   * \param ps_x The location of the point in x.
+   * \param ps_y The location of the point in y.
    * \param sc A subcurve that the new event represents on of its endpoints.
    * \return A pair that comprises a pointer to the event, and a flag
    *         indicating whether this is a new event (if false, the event
@@ -525,28 +546,29 @@ protected:
                                        Arr_parameter_space ps_y,
                                        Subcurve* sc = NULL);
 
-  void _update_event_at_infinity(Event* e,
-                                 const X_monotone_curve_2& cv,
-                                 Arr_curve_end ind,
-                                 bool is_new)
+  void _update_event_at_open_boundary(Event* e,
+                                      const X_monotone_curve_2& cv,
+                                      Arr_curve_end ind,
+                                      bool is_new)
   {
-    _update_event_at_infinity(e, cv, ind, is_new, Boundary_category());
+    _update_event_at_open_boundary(e, cv, ind, is_new, 
+                                   Are_all_sides_oblivious_tag());
   }
 
-  void _update_event_at_infinity(Event* e,
-                                 const X_monotone_curve_2& cv,
-                                 Arr_curve_end ind,
-                                 bool is_new,
-                                 Arr_has_boundary_tag)
+  void _update_event_at_open_boundary(Event* e,
+                                      const X_monotone_curve_2& cv,
+                                      Arr_curve_end ind,
+                                      bool is_new,
+                                      Arr_not_all_sides_oblivious_tag)
   {
     m_visitor->update_event (e, cv, ind, is_new);
   }
 
-  void _update_event_at_infinity(Event* /* e */,
-                                 const X_monotone_curve_2& /* cv */,
-                                 Arr_curve_end /* ind */,
-                                 bool /* is_new */,
-                                 Arr_no_boundary_tag)
+  void _update_event_at_open_boundary(Event* /* e */,
+                                      const X_monotone_curve_2& /* cv */,
+                                      Arr_curve_end /* ind */,
+                                      bool /* is_new */,
+                                      Arr_all_sides_oblivious_tag)
   {
     CGAL_error();
   }
@@ -555,7 +577,7 @@ protected:
   void PrintEventQueue();
   void PrintSubCurves();
   void PrintStatusLine();
-  void PrintInfinityType(Arr_parameter_space x, Arr_parameter_space y);
+  void PrintOpenBoundaryType(Arr_parameter_space x, Arr_parameter_space y);
   void PrintEvent(const Event* e);
 #endif
 

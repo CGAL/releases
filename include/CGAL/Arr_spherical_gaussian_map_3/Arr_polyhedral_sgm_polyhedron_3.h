@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_polyhedron_3.h $
-// $Id: Arr_polyhedral_sgm_polyhedron_3.h 40209 2007-09-05 14:41:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_polyhedron_3.h $
+// $Id: Arr_polyhedral_sgm_polyhedron_3.h 49419 2009-05-16 07:40:56Z efif $
 // 
 //
 // Author(s)     : Efi Fogel          <efif@post.tau.ac.il>
@@ -47,7 +47,6 @@
 #include <CGAL/HalfedgeDS_vertex_base.h>
 #include <CGAL/HalfedgeDS_halfedge_base.h>
 #include <CGAL/HalfedgeDS_face_base.h>
-#include <CGAL/Polyhedron_traits_with_normals_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -204,9 +203,9 @@ struct Arr_polyhedral_sgm_polyhedron_items : public Polyhedron_items_3 {
  * type that is based on the extended types, and define a new polyhedron type
  * based on the new items type.
  */
-template <class Sgm>
+template <class Sgm, class Traits>
 struct Arr_polyhedral_sgm_polyhedron_3 :
-  public Polyhedron_3<Polyhedron_traits_with_normals_3<typename Sgm::Kernel>,
+  public Polyhedron_3<Traits,
                       Arr_polyhedral_sgm_polyhedron_items<Sgm> >
 {
   /*! Constructor */

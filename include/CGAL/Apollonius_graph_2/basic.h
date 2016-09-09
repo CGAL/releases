@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/basic.h $
-// $Id: basic.h 35183 2006-11-15 16:23:37Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/basic.h $
+// $Id: basic.h 48840 2009-04-21 18:17:32Z spion $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@cse.nd.edu>
@@ -22,7 +22,6 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/number_type_basic.h>
-#include <CGAL/Apollonius_graph_2/short_names_2.h>
 
 #define CGAL_APOLLONIUS_GRAPH_2_NS CGAL::ApolloniusGraph_2
 

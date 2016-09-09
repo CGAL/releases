@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h $
-// $Id: Plane_3.h 45156 2008-08-26 13:40:26Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h $
+// $Id: Plane_3.h 49509 2009-05-20 10:43:29Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -26,6 +26,7 @@
 
 #include <CGAL/array.h>
 #include <CGAL/Handle_for.h>
+#include <CGAL/Cartesian/solve_3.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -45,7 +46,7 @@ class PlaneC3
   typedef typename R_::Construct_point_3    Construct_point_3;
   typedef typename R_::Construct_point_2    Construct_point_2;
 
-  typedef CGAL::array<FT, 4>               Rep;
+  typedef cpp0x::array<FT, 4>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
@@ -220,7 +221,7 @@ to_plane_basis(const typename PlaneC3<R>::Point_3 &p) const
 {
   FT alpha, beta, gamma;
   Construct_point_3 construct_point_3;
-  solve(base1(), base2(), orthogonal_vector(), p - point(),
+  Cartesian_internal::solve(base1(), base2(), orthogonal_vector(), p - point(),
 	alpha, beta, gamma);
 
   return construct_point_3(alpha, beta, gamma);
@@ -234,7 +235,7 @@ to_2d(const typename PlaneC3<R>::Point_3 &p) const
   FT alpha, beta, gamma;
   Construct_point_2 construct_point_2;
 
-  solve(base1(), base2(), orthogonal_vector(), p - point(),
+  Cartesian_internal::solve(base1(), base2(), orthogonal_vector(), p - point(),
 	alpha, beta, gamma);
 
   return construct_point_2(alpha, beta);

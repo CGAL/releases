@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Ridges_3/include/CGAL/Umbilics.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Ridges_3/include/CGAL/Umbilics.h $
 // $Id: Umbilics.h 41665 2008-01-17 21:48:08Z spion $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals

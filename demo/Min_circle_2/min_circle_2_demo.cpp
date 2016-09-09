@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Min_circle_2/demo/Min_circle_2/min_circle_2_demo.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_circle_2/demo/Min_circle_2/min_circle_2_demo.cpp $
 // $Id: min_circle_2_demo.cpp 47427 2008-12-14 17:48:39Z afabri $
 //
 //

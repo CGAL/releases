@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_parameterization/examples/Surface_mesh_parameterization/include/Parameterization_polyhedron_adaptor_ex.h $
-// $Id: Parameterization_polyhedron_adaptor_ex.h 45070 2008-08-21 11:57:02Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/examples/Surface_mesh_parameterization/include/Parameterization_polyhedron_adaptor_ex.h $
+// $Id: Parameterization_polyhedron_adaptor_ex.h 48430 2009-03-18 08:59:29Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -181,8 +181,8 @@ public:
     Polyhedron_ex&       get_adapted_mesh()       { return m_polyhedron; }
     const Polyhedron_ex& get_adapted_mesh() const { return m_polyhedron; }
 
-    // Get halfedge from source and target vertices
-    // Will assert if such an halfedge doesn't exist
+    // Get halfedge from source and target vertices.
+    // Will assert if such a halfedge doesn't exist.
     Halfedge_const_handle get_halfedge(
         Vertex_const_handle source, Vertex_const_handle target) const
     {

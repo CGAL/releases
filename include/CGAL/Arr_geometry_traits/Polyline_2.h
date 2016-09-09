@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Polyline_2.h $
-// $Id: Polyline_2.h 41420 2008-01-03 15:04:30Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Polyline_2.h $
+// $Id: Polyline_2.h 50598 2009-07-14 08:27:52Z efif $
 // 
 //
 // Author(s)     : Ron Wein  <wein@post.tau.ac.il>
@@ -298,7 +298,7 @@ public:
    * \param i The segment index(from 0 to size()-1).
    * \return A const reference to the segment.
    */
-  inline const Segment_2& operator[] (const unsigned int& i) const
+  inline const Segment_2& operator[] (const unsigned int i) const
   {
     CGAL_assertion (i < size());
     return (segments[i]);

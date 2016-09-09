@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kernel_23/include/CGAL/Sphere_3.h $
-// $Id: Sphere_3.h 45593 2008-09-16 13:04:08Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Sphere_3.h $
+// $Id: Sphere_3.h 50492 2009-07-09 08:20:52Z sloriot $
 //
 //
 // Author(s)     : Stefan Schirra
@@ -84,10 +84,10 @@ public:
            const Orientation& o = COUNTERCLOCKWISE)
    : Rep(typename R::Construct_sphere_3()(Return_base_tag(), p, q, o)) {}
 
-  Sphere_3(const Point_3& p, const Orientation& o = COUNTERCLOCKWISE)
+  explicit Sphere_3(const Point_3& p, const Orientation& o = COUNTERCLOCKWISE)
    : Rep(typename R::Construct_sphere_3()(Return_base_tag(), p, o)) {}
 
-  Sphere_3(const Circle_3& c)
+  explicit Sphere_3(const Circle_3& c)
    : Rep(typename R::Construct_sphere_3()(c)) {}
 
   Sphere_3 orthogonal_transform(const Aff_transformation_3 &t) const;
@@ -129,6 +129,18 @@ public:
     return R().oriented_side_3_object()(*this, p);
   }
 
+  typename R::Boolean
+  has_on(const Point_3 &p) const
+  {
+    return R().has_on_3_object()(*this, p);
+  }  
+
+  typename R::Boolean
+  has_on(const Circle_3 &c) const
+  {
+    return R().has_on_3_object()(*this, c);
+  }
+  
   typename R::Boolean
   has_on_boundary(const Point_3 &p) const
   {
@@ -278,7 +290,7 @@ extract(std::istream& is, Sphere_3<R>& c, const Cartesian_tag&)
 {
     typename R::Point_3 center;
     typename R::FT squared_radius;
-    int o;
+    int o=0;
     switch(is.iword(IO::mode)) {
     case IO::ASCII :
         is >> center >> squared_radius >> o;

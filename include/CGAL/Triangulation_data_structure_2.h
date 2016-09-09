@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_2/include/CGAL/Triangulation_data_structure_2.h $
-// $Id: Triangulation_data_structure_2.h 44998 2008-08-18 14:59:24Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Triangulation_data_structure_2.h $
+// $Id: Triangulation_data_structure_2.h 48844 2009-04-21 18:28:04Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -31,7 +31,6 @@
 #include <boost/tuple/tuple.hpp>
 
 #include <CGAL/triangulation_assertions.h>
-#include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/Triangulation_utils_2.h>
  
 #include <CGAL/Compact_container.h>
@@ -65,11 +64,9 @@ public:
   typedef Vertex_base                                Vertex;
   typedef Face_base                                  Face;
   
-private:
   typedef Compact_container<Face>                    Face_container;
   typedef Compact_container<Vertex>                  Vertex_container;
 
-public:
   typedef typename Face_container::size_type         size_type;
   typedef typename Face_container::difference_type   difference_type;
 
@@ -90,8 +87,8 @@ public:
 
 protected:
   int _dimension;
-  Face_container   _face_container;
-  Vertex_container _vertex_container;
+  Face_container   _faces;
+  Vertex_container _vertices;
 
   //CREATORS - DESTRUCTORS
 public:
@@ -102,18 +99,16 @@ public:
   void swap(Tds &tds);
 
   //ACCESS FUNCTIONS
-private:
   // We need the const_cast<>s because TDS is not const-correct.
-  Face_container& face_container()             { return _face_container;}
-  Face_container& face_container() const 
-    { return  const_cast<Tds*>(this)->_face_container;}
-  Vertex_container& vertex_container()         {return _vertex_container;}
-  Vertex_container& vertex_container() const
-    {return  const_cast<Tds*>(this)->_vertex_container;}
+  Face_container& faces()             { return _faces;}
+  Face_container& faces() const 
+    { return  const_cast<Tds*>(this)->_faces;}
+  Vertex_container& vertices()         {return _vertices;}
+  Vertex_container& vertices() const
+    {return  const_cast<Tds*>(this)->_vertices;}
 
-public:
   int  dimension() const { return _dimension;  }
-  size_type number_of_vertices() const {return vertex_container().size();}
+  size_type number_of_vertices() const {return vertices().size();}
   size_type number_of_faces() const ;
   size_type number_of_edges() const;
   size_type number_of_full_dim_faces() const; //number of faces stored by tds
@@ -141,28 +136,28 @@ public:
   // should be made private later
 
   Face_iterator face_iterator_base_begin() const    {
-    return face_container().begin();
+    return faces().begin();
   }
   Face_iterator face_iterator_base_end() const    {
-    return face_container().end();
+    return faces().end();
   }
 
 public:
   Face_iterator faces_begin() const {
     if (dimension() < 2) return faces_end();
-    return face_container().begin();
+    return faces().begin();
   }
     
   Face_iterator faces_end() const {
-    return face_container().end();
+    return faces().end();
   }
 
   Vertex_iterator vertices_begin() const  {
-    return vertex_container().begin();
+    return vertices().begin();
   }
 
   Vertex_iterator vertices_end() const {
-    return vertex_container().end();
+    return vertices().end();
   }
   
   Edge_iterator edges_begin() const {
@@ -517,8 +512,8 @@ void
 Triangulation_data_structure_2<Vb,Fb>::
 clear()
 {
-  face_container().clear();
-  vertex_container().clear();
+  faces().clear();
+  vertices().clear();
   set_dimension(-2);
   return;
 }
@@ -530,8 +525,8 @@ swap(Tds &tds)
 {
   CGAL_triangulation_expensive_precondition(tds.is_valid() && is_valid());
   std::swap(_dimension, tds._dimension);
-  face_container().swap(tds.face_container());
-  vertex_container().swap(tds.vertex_container());
+  faces().swap(tds.faces());
+  vertices().swap(tds.vertices());
   return;
 }
 
@@ -543,7 +538,7 @@ Triangulation_data_structure_2<Vb,Fb> ::
 number_of_faces() const 
 {
   if (dimension() < 2) return 0;
-  return face_container().size();
+  return faces().size();
 }
 
 template <class Vb, class Fb>
@@ -564,7 +559,7 @@ typename Triangulation_data_structure_2<Vb,Fb>::size_type
 Triangulation_data_structure_2<Vb,Fb>::
 number_of_full_dim_faces() const
 {
-  return face_container().size();
+  return faces().size();
 }
 
 template <class Vb, class Fb>
@@ -1209,7 +1204,7 @@ typename Triangulation_data_structure_2<Vb,Fb>::Vertex_handle
 Triangulation_data_structure_2<Vb,Fb>::
 create_vertex(const Vertex &v)
 {
-  return vertex_container().insert(v);
+  return vertices().insert(v);
 }
 
 template <class Vb, class Fb>
@@ -1218,7 +1213,7 @@ typename Triangulation_data_structure_2<Vb,Fb>::Vertex_handle
 Triangulation_data_structure_2<Vb,Fb>::
 create_vertex(Vertex_handle vh)
 {
-  return vertex_container().insert(*vh);
+  return vertices().insert(*vh);
 }
 
 template <class Vb, class Fb>
@@ -1226,7 +1221,7 @@ typename Triangulation_data_structure_2<Vb,Fb>::Face_handle
 Triangulation_data_structure_2<Vb,Fb>::
 create_face(const Face& f)
 {
-  return face_container().insert(f);
+  return faces().insert(f);
 }
 
 template <class Vb, class Fb>
@@ -1245,7 +1240,7 @@ create_face(Face_handle f1, int i1,
 	    Face_handle f2, int i2, 
 	    Face_handle f3, int i3)
 {
-  Face_handle newf = face_container().emplace(f1->vertex(cw(i1)),
+  Face_handle newf = faces().emplace(f1->vertex(cw(i1)),
 					      f2->vertex(cw(i2)),
 					      f3->vertex(cw(i3)),
 					      f2, f3, f1);
@@ -1260,7 +1255,7 @@ typename Triangulation_data_structure_2<Vb,Fb>::Face_handle
 Triangulation_data_structure_2<Vb,Fb>::
 create_face(Face_handle f1, int i1, Face_handle f2, int i2)
 {
-  Face_handle newf = face_container().emplace(f1->vertex(cw(i1)),
+  Face_handle newf = faces().emplace(f1->vertex(cw(i1)),
 					      f2->vertex(cw(i2)),
 					      f2->vertex(ccw(i2)),
 					      f2, Face_handle(), f1);
@@ -1287,7 +1282,7 @@ typename Triangulation_data_structure_2<Vb,Fb>::Face_handle
 Triangulation_data_structure_2<Vb,Fb>::
 create_face(Vertex_handle v1, Vertex_handle v2, Vertex_handle v3)
 {
-  Face_handle newf = face_container().emplace(v1, v2, v3);
+  Face_handle newf = faces().emplace(v1, v2, v3);
   return newf;
 }
 
@@ -1297,7 +1292,7 @@ Triangulation_data_structure_2<Vb,Fb>::
 create_face(Vertex_handle v1, Vertex_handle v2, Vertex_handle v3,
 	    Face_handle f1, Face_handle f2, Face_handle f3)
 {
-  Face_handle newf = face_container().emplace(v1, v2, v3, f1, f2, f3);
+  Face_handle newf = faces().emplace(v1, v2, v3, f1, f2, f3);
 
   return(newf);
 }
@@ -1323,7 +1318,7 @@ delete_face(Face_handle f)
   CGAL_triangulation_expensive_precondition( dimension() != 1 || is_edge(f,2));
   CGAL_triangulation_expensive_precondition( dimension() != 0 ||
 					     is_vertex(f->vertex(0)) );
-  face_container().erase(f);
+  faces().erase(f);
 }
 
 template <class Vb, class Fb>
@@ -1332,7 +1327,7 @@ Triangulation_data_structure_2<Vb,Fb>::
 delete_vertex(Vertex_handle v)
 {
   CGAL_triangulation_expensive_precondition( is_vertex(v) );
-  vertex_container().erase(v);
+  vertices().erase(v);
 }
 
 // split and join operations
@@ -1819,7 +1814,7 @@ copy_tds(const Tds &tds, Vertex_handle vh)
   }
 
   //create faces 
-  Face_iterator fit1 = tds.face_container().begin();
+  Face_iterator fit1 = tds.faces().begin();
   for( ; fit1 != tds.faces_end(); ++fit1) {
     fmap[fit1] = create_face(fit1);
   }
@@ -1831,7 +1826,7 @@ copy_tds(const Tds &tds, Vertex_handle vh)
   }
 
   //update vertices and neighbor pointers
-  fit1 = tds.face_container().begin();
+  fit1 = tds.faces().begin();
   for ( ; fit1 != tds.faces_end(); ++fit1) {
       for (int j = 0; j < dim ; ++j) {
 	fmap[fit1]->set_vertex(j, vmap[fit1->vertex(j)] );

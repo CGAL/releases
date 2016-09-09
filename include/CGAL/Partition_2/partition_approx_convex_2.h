@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Partition_2/include/CGAL/Partition_2/partition_approx_convex_2.h $
-// $Id: partition_approx_convex_2.h 37827 2007-04-02 19:10:52Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Partition_2/include/CGAL/Partition_2/partition_approx_convex_2.h $
+// $Id: partition_approx_convex_2.h 48088 2009-02-15 15:07:03Z ophirset $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -149,7 +149,8 @@ OutputIterator partition_approx_convex_2(InputIterator first,
    Circulator c(polygon.begin(), polygon.end());
    Circulator next(polygon.begin(), polygon.end());
 
-   Constrained_tri_2 triangles;
+   Gt gt_traits(traits);
+   Constrained_tri_2 triangles(gt_traits);
    
    do 
    {

@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Cartesian_kernel/include/CGAL/Cartesian/Direction_3.h $
-// $Id: Direction_3.h 45156 2008-08-26 13:40:26Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Direction_3.h $
+// $Id: Direction_3.h 49589 2009-05-26 07:54:52Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -39,7 +39,7 @@ class DirectionC3
   typedef typename R_::Segment_3            Segment_3;
   typedef typename R_::Direction_3          Direction_3;
 
-  typedef CGAL::array<FT, 3>               Rep;
+  typedef cpp0x::array<FT, 3>               Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;
@@ -50,17 +50,17 @@ public:
 
   DirectionC3() {}
 
-  DirectionC3(const Vector_3 &v)
+  explicit DirectionC3(const Vector_3 &v)
     : base(CGAL::make_array(v.x(), v.y(), v.z())) {}
   // { *this = v.direction(); }
 
-  DirectionC3(const Line_3 &l)
+  explicit DirectionC3(const Line_3 &l)
   { *this = l.rep().direction(); }
 
-  DirectionC3(const Ray_3 &r)
+  explicit DirectionC3(const Ray_3 &r)
   { *this = r.direction(); }
 
-  DirectionC3(const Segment_3 &s)
+  explicit DirectionC3(const Segment_3 &s)
   { *this = s.direction(); }
 
   DirectionC3(const FT &x, const FT &y, const FT &z)

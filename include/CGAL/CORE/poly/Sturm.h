@@ -50,7 +50,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Core/include/CGAL/CORE/poly/Sturm.h $
+ * $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Core/include/CGAL/CORE/poly/Sturm.h $
  * $Id: Sturm.h 43611 2008-06-15 16:21:29Z spion $
  ***************************************************************************/
 

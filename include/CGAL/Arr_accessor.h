@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_accessor.h $
-// $Id: Arr_accessor.h 41108 2007-12-06 15:26:30Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_accessor.h $
+// $Id: Arr_accessor.h 50589 2009-07-13 13:29:46Z naamamay $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -171,11 +171,11 @@ public:
       Traits_adaptor_2;
 
     const Traits_adaptor_2  *m_traits = 
-      static_cast<Traits_adaptor_2*> (p_arr->geometry_traits());
+      static_cast<const Traits_adaptor_2*> (p_arr->geometry_traits());
 
     Arr_curve_end                ind = ARR_MIN_END;
 
-    if (m_traits->is_bounded_2_object() (cv, ARR_MAX_END) &&
+    if (m_traits->is_closed_2_object() (cv, ARR_MAX_END) &&
         m_traits->equal_2_object() (vh->point(),
                                     m_traits->construct_max_vertex_2_object()(cv)))
     {
@@ -851,6 +851,23 @@ public:
     return;
   }
 
+   /*!
+   * Set the boundary of a vertex
+   * \param p A vertex
+   * \param ps_x The boundary condition at x.
+   * \param ps_y The boundary condition at y.
+   * \return A pointer to the created DCEL vertex.
+   */
+  Dcel_vertex* set_vertex_boundary (const Vertex_handle v,
+                           Arr_parameter_space ps_x, Arr_parameter_space ps_y)
+  {
+    Dcel_vertex     *v_to_set = p_arr->_vertex (v);
+
+    v_to_set->set_boundary (ps_x, ps_y);
+
+    return (v_to_set);
+  }
+
   /*!
    * Create a new vertex.
    * \param p A pointer to the point (may be NULL in case of a vertex at
@@ -871,7 +888,7 @@ public:
     }
     else
     {
-      CGAL_precondition (p_arr->is_unbounded(ps_x, ps_y));
+      CGAL_precondition (p_arr->is_open(ps_x, ps_y));
       new_v->set_point (NULL);
     }
 

@@ -11,12 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_utils.h $
-// $Id: Sweep_line_2_utils.h 41186 2007-12-13 17:03:49Z eric $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_utils.h $
+// $Id: Sweep_line_2_utils.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
 //                 Ron Wein        <wein@post.tau.ac.il>
+//                 Efi Fogel       <efif@post.tau.ac.il>
 
 #ifndef CGAL_SWEEP_LINE_2_UTILS
 #define CGAL_SWEEP_LINE_2_UTILS
@@ -51,7 +52,7 @@ template <class Traits,
 void make_x_monotone (CurveInputIter begin, CurveInputIter end,
                       XCurveOutIter x_curves,
                       PointOutIter iso_points,
-                      Traits* tr)
+                      const Traits * tr)
 {
   // Split the input curves into x-monotone objects.
   unsigned int         num_of_curves = std::distance(begin, end);
@@ -128,7 +129,7 @@ void prepare_for_sweep (Arrangement& arr,
                         PointInputIter pts_begin, PointInputIter pts_end,
                         XCurveOutIter x_curves,
                         PointOutIter iso_points,
-                        ExTraits* /* ex_tr */)
+                        const ExTraits * /* ex_tr */)
 {
   typedef typename Arrangement::X_monotone_curve_2    X_monotone_curve_2;
   typedef typename Arrangement::Point_2               Point_2;

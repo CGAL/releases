@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Cartesian_kernel/include/CGAL/Cartesian/Sphere_3.h $
-// $Id: Sphere_3.h 45156 2008-08-26 13:40:26Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Sphere_3.h $
+// $Id: Sphere_3.h 50112 2009-06-26 14:15:56Z sloriot $
 // 
 //
 // Author(s)     : Herve Bronnimann
@@ -93,7 +93,7 @@ public:
     base = Rep(center, squared_radius, o);
   }
 
-  SphereC3(const Point_3 &center,
+  explicit SphereC3(const Point_3 &center,
            const Orientation& o = COUNTERCLOCKWISE)
   {
     CGAL_kernel_precondition(o != COLLINEAR);
@@ -130,6 +130,7 @@ public:
   // Returns R::ON_POSITIVE_SIDE, R::ON_ORIENTED_BOUNDARY or
   // R::ON_NEGATIVE_SIDE
   typename R::Boolean   has_on(const Circle_3 &p) const;
+  typename R::Boolean   has_on(const Point_3 &p) const;
   typename R::Boolean   has_on_boundary(const Point_3 &p) const;
   typename R::Boolean   has_on_positive_side(const Point_3 &p) const;
   typename R::Boolean   has_on_negative_side(const Point_3 &p) const;
@@ -190,10 +191,17 @@ has_on(const typename SphereC3<R>::Circle_3 &c) const
   typedef typename SphereC3<R>::FT      FT;
   Point_3 proj = c.supporting_plane().projection(center());
   if(!(proj == c.center())) return false;
-  const FT d2 = CGAL::square(center().x() - c.center().x()) +
-                CGAL::square(center().y() - c.center().y()) +
-                CGAL::square(center().z() - c.center().z());
+  const FT d2 = squared_distance(center(),c.center());
   return ((squared_radius() - d2) == c.squared_radius());
+}
+
+template < class R >
+inline
+typename R::Boolean
+SphereC3<R>::
+has_on(const typename SphereC3<R>::Point_3 &p) const
+{
+  return has_on_boundary(p);
 }
 
 template < class R >

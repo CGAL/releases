@@ -11,8 +11,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Straight_skeleton_2/include/CGAL/create_straight_skeleton_2.h $
-// $Id: create_straight_skeleton_2.h 46407 2008-10-21 19:44:23Z fcacciola $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Straight_skeleton_2/include/CGAL/create_straight_skeleton_2.h $
+// $Id: create_straight_skeleton_2.h 50476 2009-07-08 16:04:50Z fcacciola $
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
@@ -35,12 +35,12 @@ template<class Poly>
 inline typename Poly::const_iterator vertices_end ( Poly const& aPoly ) { return aPoly.end() ; }
 
 
-template<class K>
-inline typename Polygon_2<K>::Vertex_const_iterator vertices_begin ( Polygon_2<K> const& aPoly ) 
+template<class K, class C>
+inline typename Polygon_2<K,C>::Vertex_const_iterator vertices_begin ( Polygon_2<K,C> const& aPoly ) 
 { return aPoly.vertices_begin() ; }
 
-template<class K>
-inline typename Polygon_2<K>::Vertex_const_iterator vertices_end( Polygon_2<K> const& aPoly ) 
+template<class K, class C>
+inline typename Polygon_2<K,C>::Vertex_const_iterator vertices_end( Polygon_2<K,C> const& aPoly ) 
 { return aPoly.vertices_end() ; }
 
 template<class Poly>

@@ -11,13 +11,13 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Matrix_search/include/CGAL/pierce_rectangles_2.h $
-// $Id: pierce_rectangles_2.h 43679 2008-06-19 12:09:55Z hoffmann $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Matrix_search/include/CGAL/pierce_rectangles_2.h $
+// $Id: pierce_rectangles_2.h 48717 2009-04-08 11:54:51Z spion $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
 
-#if ! (CGAL_PIERCE_RECTANGLES_2_H)
+#ifndef CGAL_PIERCE_RECTANGLES_2_H
 #define CGAL_PIERCE_RECTANGLES_2_H 1
 
 #include <CGAL/Optimisation/assertions.h>

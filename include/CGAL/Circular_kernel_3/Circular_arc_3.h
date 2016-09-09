@@ -11,11 +11,11 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_3.h $
-// $Id: Circular_arc_3.h 45578 2008-09-16 09:14:13Z teillaud $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_3.h $
+// $Id: Circular_arc_3.h 50731 2009-07-21 09:08:07Z sloriot $
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
-//             Julien Hazebrouck, Damien Leroy
+//             Sebastien Loriot, Julien Hazebrouck, Damien Leroy
 
 // Partially supported by the IST Programme of the EU as a 
 // STREP (FET Open) Project under Contract No  IST-006413 
@@ -133,7 +133,7 @@ namespace CGAL {
           CGAL::SphericalFunctors::compute_sign_of_cross_product<SK>(s,t,c.center());
       }
 
-      // This is the only case we want that s == t
+      // This is the one of the two cases we want that s == t
       // that makes the is_full() correct and complete
       Circular_arc_3(const Circle_3 &c)
       : _full(true)
@@ -153,6 +153,12 @@ namespace CGAL {
         */
       }
 
+      // This is the second case where we want that s == t
+      // that makes the is_full() correct and complete
+      Circular_arc_3(const Circle_3 &c,const Circular_arc_point_3& point)
+      : base(Rep(c,point,point)),_full(true)
+      {CGAL_kernel_precondition(SK().has_on_3_object()(c,point));}
+      
       Circular_arc_3(const Circle_3 &c, 
                      const Sphere_3 &s1, bool less_xyz_s1,
                      const Sphere_3 &s2, bool less_xyz_s2) 
@@ -163,12 +169,17 @@ namespace CGAL {
          CGAL_kernel_precondition(!SK().has_on_3_object()(s2,c));
          SK().intersect_3_object()(c, s1, std::back_inserter(sols1));
          SK().intersect_3_object()(c, s2, std::back_inserter(sols2));
-         std::pair<typename SK::Circular_arc_point_3, unsigned> pair1, pair2;
          // l must intersect s1 and s2
          CGAL_kernel_precondition(sols1.size() > 0);
          CGAL_kernel_precondition(sols2.size() > 0);
-         assign(pair1,sols1[(sols1.size()==1)?(0):(less_xyz_s1?0:1)]);
-         assign(pair2,sols2[(sols2.size()==1)?(0):(less_xyz_s2?0:1)]);
+         const std::pair<typename SK::Circular_arc_point_3, unsigned>& pair1=
+            *object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(
+              &sols1[(sols1.size()==1)?(0):(less_xyz_s1?0:1)]
+            );
+         const std::pair<typename SK::Circular_arc_point_3, unsigned>& pair2=
+            *object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(
+              &sols2[(sols2.size()==1)?(0):(less_xyz_s2?0:1)]
+            );        
          // the source and target must be different
          CGAL_kernel_precondition(pair1.first != pair2.first);
          *this = Circular_arc_3(c, pair1.first, pair2.first);
@@ -184,12 +195,17 @@ namespace CGAL {
          CGAL_kernel_precondition(!SK().has_on_3_object()(p2,c));
          SK().intersect_3_object()(c, p1, std::back_inserter(sols1));
          SK().intersect_3_object()(c, p2, std::back_inserter(sols2));
-         std::pair<typename SK::Circular_arc_point_3, unsigned> pair1, pair2;
          // l must intersect s1 and s2
          CGAL_kernel_precondition(sols1.size() > 0);
          CGAL_kernel_precondition(sols2.size() > 0);
-         assign(pair1,sols1[(sols1.size()==1)?(0):(less_xyz_p1?0:1)]);
-         assign(pair2,sols2[(sols2.size()==1)?(0):(less_xyz_p2?0:1)]);
+         const std::pair<typename SK::Circular_arc_point_3, unsigned>& pair1=
+            *object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(
+              &sols1[(sols1.size()==1)?(0):(less_xyz_p1?0:1)]
+            );
+         const std::pair<typename SK::Circular_arc_point_3, unsigned>& pair2=
+            *object_cast<std::pair<typename SK::Circular_arc_point_3, unsigned> >(
+              &sols2[(sols2.size()==1)?(0):(less_xyz_p2?0:1)]
+            );                
          // the source and target must be different
          CGAL_kernel_precondition(pair1.first != pair2.first);
          *this = Circular_arc_3(c, pair1.first, pair2.first);

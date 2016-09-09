@@ -3,15 +3,17 @@
 #include <CGAL/PDB/basic.h>
 #include <CGAL/PDB/Chain.h>
 #include <CGAL/PDB/Transform.h>
-#include <vector>
+#include <CGAL/PDB/internal/tnt/tnt_array2d.h>
+#include <CGAL/PDB/internal/tnt/jama_svd.h>
+#include <CGAL/PDB/Matrix.h>
+#include <CGAL/PDB/range.h>
 
-CGAL_PDB_BEGIN_NAMESPACE
+namespace CGAL { namespace PDB {
 
 //! \cond
-inline double structal_score(const CGAL_PDB_NS::Point& a, 
-			     const CGAL_PDB_NS::Point& b) {
-  CGAL_PDB_NS::Squared_distance sd;
-  return 20.0/(1.0+sd(a,b)*5.0);
+inline double structal_score(const CGAL::PDB::Point& a, 
+			     const CGAL::PDB::Point& b) {
+  return 20.0/(1.0+squared_distance(a,b)*5.0);
 }
 
 inline double gap_score() {
@@ -36,52 +38,51 @@ inline std::ostream &operator<<(std::ostream &o, DpP p){
   ranges. The two point sets must have equal size (since the points
   are taken to be in one-to-one correspondence.
 
-  The value_types of ItA and ItB must be both
-  be convertible to CGAL::PDB::Point.
+  The value_types of RA and RB must be both
+  be convertible to CGAL::PDB::Point. RA and RB must both be
+  Boost.Range ranges.
 */
-template <class ItA, class ItB>
-Transform transform_taking_first_to_second(ItA pBegin,
-					   ItA pEnd,
-					   ItB qBegin, 
-					   ItB qEnd) {
-  CGAL_assertion(std::distance(pBegin, pEnd) == base_.size());
+template <class RP, class RQ>
+Transform transform_taking_first_to_second(RP rp, RQ rq){
+  CGAL_precondition(CGAL::PDB::distance(rp)== CGAL::PDB::distance(rq));
+  CGAL_precondition(CGAL::PDB::distance(rp) != 0);
   // compute the centroid of the points and transform
   // pointsets so that their centroids coinside
       
-  typedef typename std::iterator_traits<InputIteratorP>::value_type Point;
+  typedef typename std::iterator_traits<typename RP::iterator>::value_type Point;
   typedef double RT;
 
   Vector center_p(0,0,0), center_q(0,0,0);
   int num_p = 0;
   int num_q = 0;
-  for (InputIteratorP p_it = pBegin; p_it != pEnd; ++p_it) {
+  CGAL_PDB_FOREACH (Point p, rp){
     //double x= p_it->x();
-    center_p = center_p+Vector(p_it->x(), p_it->y(), p_it->z());//((*p_it)-CGAL::ORIGIN);
+    center_p = center_p+(p- ORIGIN);//((*p_it)-CGAL::ORIGIN);
     num_p++;
   }
   center_p = center_p/num_p;
       
-  for (InputIteratorQ q_it = qBegin; q_it != qEnd; ++q_it) {
-    center_q = center_q + Vector(q_it->x(), q_it->y(), q_it->z()); //((*q_it)-CGAL::ORIGIN);
+  CGAL_PDB_FOREACH(Point q, rq) {
+    center_q = center_q + (q-ORIGIN);
     num_q++;
   }
   center_q = center_q/num_q;
-      
+  std::cout << center_p << " " << center_q << std::endl;
   CGAL_assertion(num_p == num_q);
       
   std::vector<Point> p_shifted, q_shifted;
   p_shifted.reserve(num_p);
   q_shifted.reserve(num_q);
-  for (InputIteratorP p_it = pBegin; p_it != pEnd; ++p_it) {
-    p_shifted.push_back((*p_it) - center_p);
+  CGAL_PDB_FOREACH (Point p, rp){
+    p_shifted.push_back(p - center_p);
   }
-  for (InputIteratorQ q_it = qBegin; q_it != qEnd; ++q_it) {
-    q_shifted.push_back((*q_it) - center_q);
+  CGAL_PDB_FOREACH(Point q, rq) {
+    q_shifted.push_back(q - center_q);
   }
       
       
   // covariance matrix
-  CGAL_TNT_NS::Array2D<RT> H(3, 3);
+  CGAL::PDB::TNT::Array2D<RT> H(3, 3);
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       H[i][j] = 0;
@@ -95,27 +96,27 @@ Transform transform_taking_first_to_second(ItA pBegin,
     }
   }
 
-  CGAL_JAMA_NS::SVD<RT> svd(H);
-  CGAL_TNT_NS::Array2D<RT> U(3, 3), V(3, 3);
+  CGAL::PDB::JAMA::SVD<RT> svd(H);
+  CGAL::PDB::TNT::Array2D<RT> U(3, 3), V(3, 3);
   svd.getU(U);
   svd.getV(V);
 
   // the rotation matrix is R = VU^T
-  CGAL_TNT_NS::Array2D<RT> UT = transpose(U);
-  CGAL_TNT_NS::Array2D<RT> rot(3, 3);
+  CGAL::PDB::TNT::Array2D<RT> UT = transpose(U);
+  CGAL::PDB::TNT::Array2D<RT> rot(3, 3);
   rot = matmult(V, UT);
 
   // check for reflection
   if (det(rot) < 0) {
-    CGAL_TNT_NS::Array2D<RT> VT = transpose(V);
-    CGAL_TNT_NS::Array2D<RT> UVT = matmult(U, VT);
-    CGAL_TNT_NS::Array2D<RT> S(3, 3);
+    CGAL::PDB::TNT::Array2D<RT> VT = transpose(V);
+    CGAL::PDB::TNT::Array2D<RT> UVT = matmult(U, VT);
+    CGAL::PDB::TNT::Array2D<RT> S(3, 3);
     S[0][0] = S[1][1] = 1;
     S[2][2] = det(UVT);
     S[0][1] = S[0][2] = S[1][0] = S[1][2] = S[2][0] = S[2][1] = 0;
     rot = matmult(matmult(U, S), VT);
   }
-  
+  std::cout << rot << std::endl;
   Transform xf(rot[0][0], rot[0][1], rot[0][2],
 	       rot[1][0], rot[1][1], rot[1][2],
 	       rot[2][0], rot[2][1], rot[2][2]);
@@ -138,5 +139,5 @@ public:
 
 
 
-CGAL_PDB_END_NAMESPACE
+}}
 #endif

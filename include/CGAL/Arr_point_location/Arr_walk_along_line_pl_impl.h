@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h $
-// $Id: Arr_walk_along_line_pl_impl.h 41108 2007-12-06 15:26:30Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h $
+// $Id: Arr_walk_along_line_pl_impl.h 49772 2009-06-03 21:25:53Z eric $
 // 
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -69,14 +69,14 @@ Object Arr_walk_along_line_point_location<Arrangement>::locate
       if (is_on_edge)
       {
         // Check if the point is located on one of the edge endpoints.
-        if (! closest_he->source()->is_at_infinity() &&
+        if (! closest_he->source()->is_at_open_boundary() &&
             equal (p, closest_he->source()->point()))
         {
           // The query point is located on the source vertex:
           Vertex_const_handle  vh = closest_he->source();
           return (CGAL::make_object (vh));
         }
-        else if (! closest_he->target()->is_at_infinity() &&
+        else if (! closest_he->target()->is_at_open_boundary() &&
                  equal (p, closest_he->target()->point()))
         {
           // The query point is located on the target vertex:
@@ -138,14 +138,14 @@ Object Arr_walk_along_line_point_location<Arrangement>::locate
           if (is_on_edge)
           {
             // Check if the point is located on one of the edge endpoints.
-            if (! closest_he->source()->is_at_infinity() &&
+            if (! closest_he->source()->is_at_open_boundary() &&
                 equal (p, closest_he->source()->point()))
             {
               // The query point is located on the source vertex:
               Vertex_const_handle  vh = closest_he->source();
               return (CGAL::make_object (vh));
             }
-            else if (! closest_he->target()->is_at_infinity() &&
+            else if (! closest_he->target()->is_at_open_boundary() &&
                      equal (p, closest_he->target()->point()))
             {
               // The query point is located on the target vertex:
@@ -419,14 +419,14 @@ _vertical_ray_shoot (const Point_2& p,
   // query point, and if so, return this vertex.
   if (! is_vertical (closest_he->curve()))
   {
-    if (! closest_he->source()->is_at_infinity() &&
+    if (! closest_he->source()->is_at_open_boundary() &&
         compare_x (p, closest_he->source()->point()) == EQUAL)
     {
       Vertex_const_handle  vh = closest_he->source();
       return (CGAL::make_object (vh));
     }
 
-    if (! closest_he->target()->is_at_infinity() &&
+    if (! closest_he->target()->is_at_open_boundary() &&
         compare_x (p, closest_he->target()->point()) == EQUAL)
     {
       Vertex_const_handle  vh = closest_he->target();
@@ -531,7 +531,7 @@ _is_in_connected_component (const Point_2& p,
     if (inclusive)
     {
       // Check if the current vertical curve contains the query point.
-      if (! first->source()->is_at_infinity() &&
+      if (! first->source()->is_at_open_boundary() &&
           compare_x (p, first->source()->point()) == EQUAL &&
           top_traits->compare_y_at_x (p, &(*first)) == EQUAL)
       {
@@ -544,7 +544,7 @@ _is_in_connected_component (const Point_2& p,
     {
       // Check if the current vertical curve contains the query point in its
       // x-range.
-      if (! first->source()->is_at_infinity() &&
+      if (! first->source()->is_at_open_boundary() &&
           compare_x (p, first->source()->point()) == EQUAL)
       {
         // Check if the current vertical curve contains the query point in its
@@ -570,11 +570,11 @@ _is_in_connected_component (const Point_2& p,
           // far.
           if (closest_he == invalid_he ||
               (closest_he != first->twin() &&
-               ((! first->source()->is_at_infinity() &&
+               ((! first->source()->is_at_open_boundary() &&
                  top_traits->compare_y_at_x
                      (first->source()->point(),
                       &(*closest_he)) == point_above_under) ||
-                (! first->target()->is_at_infinity() &&
+                (! first->target()->is_at_open_boundary() &&
                  top_traits->compare_y_at_x
                      (first->target()->point(),
                       &(*closest_he)) == point_above_under))))
@@ -640,9 +640,9 @@ _is_in_connected_component (const Point_2& p,
       {
         if (! curr->is_fictitious() &&
             is_vertical (curr->curve()) &&
-            (curr->source()->is_at_infinity() ||
+            (curr->source()->is_at_open_boundary() ||
              ! equal (curr->source()->point(), p)) &&
-            (curr->target()->is_at_infinity() ||
+            (curr->target()->is_at_open_boundary() ||
              ! equal (curr->target()->point(), p)))
         {
           closest_he = curr;
@@ -818,11 +818,11 @@ _is_in_connected_component (const Point_2& p,
       // closest edge so far.
       if (closest_he == invalid_he ||
           (! closest_in_ccb && closest_he->twin() == curr) ||
-          (! curr->source()->is_at_infinity() &&
+          (! curr->source()->is_at_open_boundary() &&
            top_traits->compare_y_at_x
                (curr->source()->point(),
                 &(*closest_he)) == point_above_under) ||
-          (! curr->target()->is_at_infinity() &&
+          (! curr->target()->is_at_open_boundary() &&
            top_traits->compare_y_at_x
                (curr->target()->point(),
                 &(*closest_he)) == point_above_under))

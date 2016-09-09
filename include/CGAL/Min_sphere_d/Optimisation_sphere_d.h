@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Min_sphere_d/include/CGAL/Min_sphere_d/Optimisation_sphere_d.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Min_sphere_d/include/CGAL/Min_sphere_d/Optimisation_sphere_d.h $
 // $Id: Optimisation_sphere_d.h 41363 2007-12-30 15:20:18Z spion $
 // 
 //

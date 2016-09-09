@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_parameterization/include/CGAL/parameterize.h $
-// $Id: parameterize.h 42550 2008-03-21 16:11:18Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/parameterize.h $
+// $Id: parameterize.h 49877 2009-06-11 08:38:15Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -32,7 +32,7 @@ CGAL_BEGIN_NAMESPACE
 /// The mapping is piecewise linear on the input mesh triangles.
 /// The result is a (u,v) pair of parameter coordinates for each vertex of the input mesh.
 ///
-/// Preconditions:
+/// @commentheading Preconditions:
 /// - 'mesh' must be a surface with one connected component.
 /// - 'mesh' must be a triangular mesh.
 ///
@@ -53,10 +53,10 @@ parameterize(ParameterizationMesh_3& mesh)  ///< 3D mesh, model of Parameterizat
 /// One-to-one mapping may be guaranteed or
 /// not, depending on the chosen ParametizerTraits_3 algorithm.
 ///
-/// Preconditions:
+/// @commentheading Preconditions:
 /// - 'mesh' must be a surface with one connected component.
 /// - 'mesh' must be a triangular mesh.
-/// - the mesh border must be mapped onto a convex polygon
+/// - The mesh border must be mapped onto a convex polygon
 /// (for fixed border parameterizations).
 ///
 template <class ParameterizationMesh_3, class ParameterizerTraits_3>

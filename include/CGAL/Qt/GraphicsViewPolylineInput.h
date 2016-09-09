@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/GraphicsView/include/CGAL/Qt/GraphicsViewPolylineInput.h $
-// $Id: GraphicsViewPolylineInput.h 45422 2008-09-09 11:56:57Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/GraphicsView/include/CGAL/Qt/GraphicsViewPolylineInput.h $
+// $Id: GraphicsViewPolylineInput.h 47818 2009-01-26 10:38:23Z afabri $
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -46,7 +46,9 @@ public:
   {
     n_ = n;
   }
-
+  
+  bool eventFilter(QObject *obj, QEvent *event);
+  
 protected:
   // protected constructor
   GraphicsViewPolylineInput_non_templated_base(QObject* parent, 
@@ -62,9 +64,7 @@ protected:
 
   // keyPressEvent returns true iff the event is consummed
   bool keyPressEvent(QKeyEvent *event);
-  
-  bool eventFilter(QObject *obj, QEvent *event);
-  
+
   void rubberbands(const QPointF& p);
 
   virtual void generate_polygon() = 0;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Nef_3/include/CGAL/Nef_3/SNC_FM_decorator.h $
-// $Id: SNC_FM_decorator.h 40851 2007-11-09 15:27:44Z ameyer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Nef_3/include/CGAL/Nef_3/SNC_FM_decorator.h $
+// $Id: SNC_FM_decorator.h 48906 2009-04-26 13:33:57Z spion $
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -613,8 +613,8 @@ create_facet_objects(const Plane_3& plane_supporting_facet,
 
   std::vector<SHalfedge_handle> Edge_of(Segments.size()+1);
   Halffacet_output O(From,Edge_of);
-  Halffacet_sweep FS(typename Halffacet_sweep::INPUT(
-    Segments.begin(),Segments.end()), O, G); FS.sweep();
+  Halffacet_sweep f_s(typename Halffacet_sweep::INPUT(
+    Segments.begin(),Segments.end()), O, G); f_s.sweep();
 
 #ifdef CGAL_NEF3_TIMER_PLANE_SWEEPS
   timer_plane_sweeps.stop();

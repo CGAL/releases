@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kernel_23/include/CGAL/Kernel/global_functions_2.h $
-// $Id: global_functions_2.h 46359 2008-10-20 14:44:37Z pmachado $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Kernel/global_functions_2.h $
+// $Id: global_functions_2.h 50420 2009-07-07 10:33:38Z afabri $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -950,6 +950,14 @@ side_of_oriented_circle(const Point_2<K> &p,
                         const Point_2<K> &t)
 {
   return CGALi::side_of_oriented_circle(p, q, r, t, K());
+}
+
+template < class K >
+inline
+typename K::FT
+squared_radius(const Point_2<K> &p)
+{
+  return CGALi::squared_radius(p, K());
 }
 
 template < class K >

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_overlay_sl_visitor.h $
-// $Id: Arr_overlay_sl_visitor.h 40964 2007-11-21 10:23:08Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Arr_overlay_sl_visitor.h $
+// $Id: Arr_overlay_sl_visitor.h 49772 2009-06-03 21:25:53Z eric $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -384,7 +384,7 @@ update_event (Event *e,
               bool /* is_new */)
 {
   // Nothing to do in case of an event at infinity.
-  CGAL_assertion(e->is_finite());
+  CGAL_assertion(e->is_closed());
 
   // Update the red and blue objects associated with the point as necessary. 
   Point_2& pt = e->point();

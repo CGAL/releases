@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_patch_3.h $
-// $Id: Parameterization_mesh_patch_3.h 45070 2008-08-21 11:57:02Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Parameterization_mesh_patch_3.h $
+// $Id: Parameterization_mesh_patch_3.h 49877 2009-06-11 08:38:15Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -157,7 +157,7 @@ public:
     /// describes the border of a topological disc. This border may be an actual
     /// border of the mesh or a virtual border.
     ///
-    /// Preconditions:
+    /// @commentheading Preconditions:
     /// - first_seam_vertex -> end_seam_vertex defines the outer seam,
     ///   i.e. Parameterization_mesh_patch_3 will export the "right" of the seam.
     /// - The "seam" is given as a container of Adaptor::Vertex_handle elements.
@@ -183,7 +183,7 @@ public:
         set_mesh_seaming(first_seam_vertex, end_seam_vertex);
 
         // Check that the cut mesh is 2-manifold
-        m_is_valid = mesh.is_valid() && check_seam(first_seam_vertex, end_seam_vertex); 
+        m_is_valid = mesh.is_valid() && check_seam(first_seam_vertex, end_seam_vertex);
 
         // Construct the list of all exported vertices, i.e. INNER and BORDER vertices
         //
@@ -600,7 +600,7 @@ private:
     /// w.r.t. the first_seam_vertex -> end_seam_vertex border
     /// (outer seam edges are marked BORDER).
     ///
-    /// Preconditions:
+    /// @commentheading Preconditions:
     /// - first_seam_vertex -> end_seam_vertex defines the outer seam,
     ///   i.e. Parameterization_mesh_patch_3 will export the "right" of the seam.
     /// - The "seam" is given as a container of Adaptor::Vertex_handle elements.
@@ -694,7 +694,7 @@ private:
     /// Set the seaming flag of inner vertices and edges to INNER
     /// by filling the topological disk.
     ///
-    /// Preconditions:
+    /// @commentheading Preconditions:
     /// - Inner vertices are marked as OUTER, seam vertices as BORDER.
     /// - Inner edges are marked as OUTER,
     ///   outer seam edges as BORDER, inner seam edges as INNER.
@@ -746,7 +746,7 @@ private:
 
     // Check that the seam is valid, i.e. that the cut mesh is 2-manifold.
     ///
-    /// Preconditions:
+    /// @commentheading Preconditions:
     /// - first_seam_vertex -> end_seam_vertex defines the outer seam,
     ///   i.e. Parameterization_mesh_patch_3 will export the "right" of the seam.
     /// - The "seam" is given as a container of Adaptor::Vertex_handle elements.
@@ -841,9 +841,9 @@ private:
 
     /// Create a patch vertex from an adaptor vertex + one of its neighbors.
     ///
-    /// Preconditions:
+    /// @commentheading Preconditions:
     /// - adaptor_neighbor is a neighbor of adaptor_vertex.
-    /// - (adaptor_vertex, adaptor_neighbor) must NOT be a seam (non-oriented) edge.
+    /// - (adaptor_vertex, adaptor_neighbor) must *not* be a seam (non-oriented) edge.
     Vertex_const_handle get_decorated_vertex_from_inner_edge(
                 typename Adaptor::Vertex_const_handle adaptor_vertex,
                 typename Adaptor::Vertex_const_handle adaptor_neighbor) const
@@ -903,11 +903,11 @@ private:
     /// Create a patch vertex from a border/seam adaptor vertex
     /// + one of its neighbors on the seam.
     ///
-    /// Preconditions:
+    /// @commentheading Preconditions:
     /// - adaptor_vertex is a border/seam vertex.
     /// - [first_cw_neighbor, last_cw_neighbor] defines the range
     ///   of the valid neighbors of adaptor_vertex (included) or are NULL.
-    /// - either first_cw_neighbor or last_cw_neighbor are not NULL.
+    /// - Either first_cw_neighbor or last_cw_neighbor are not NULL.
     Vertex_const_handle get_decorated_vertex_from_border_edge(
                 typename Adaptor::Vertex_const_handle adaptor_vertex,
                 typename Adaptor::Vertex_const_handle last_cw_neighbor,
@@ -1041,7 +1041,7 @@ private:
     {
         Inner_facets_filter(const Parameterization_mesh_patch_3& mesh) : m_mesh_patch(mesh) {}
 
-        /// Return true <=> the facet is NOT EXPORTED by Parameterization_mesh_patch_3,
+        /// Return true <=> the facet is *not* exported by Parameterization_mesh_patch_3,
         /// i.e. is out of the topological disc.
         bool operator()(const typename Adaptor::Facet_iterator& f) const       {
             return m_mesh_patch.get_facet_seaming(f) == OUTER;

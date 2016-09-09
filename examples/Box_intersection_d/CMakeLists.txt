@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "box_grid.cpp" )
   create_single_source_cgal_program( "custom_box_grid.cpp" )
   create_single_source_cgal_program( "minimal.cpp" )

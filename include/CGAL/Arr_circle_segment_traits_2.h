@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_circle_segment_traits_2.h $
-// $Id: Arr_circle_segment_traits_2.h 41124 2007-12-08 10:56:13Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_circle_segment_traits_2.h $
+// $Id: Arr_circle_segment_traits_2.h 50366 2009-07-05 12:56:48Z efif $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -53,22 +53,26 @@ public:
   // Category tags:
   typedef Tag_true                                       Has_left_category;
   typedef Tag_true                                       Has_merge_category;
-  typedef Arr_no_boundary_tag                            Boundary_category;
 
+  typedef Arr_oblivious_side_tag                         Arr_left_side_tag;
+  typedef Arr_oblivious_side_tag                         Arr_bottom_side_tag;
+  typedef Arr_oblivious_side_tag                         Arr_top_side_tag;
+  typedef Arr_oblivious_side_tag                         Arr_right_side_tag;
+    
 protected:
 
   // Type definition for the intersection points mapping.
   typedef typename X_monotone_curve_2::Intersection_map   Intersection_map;
 
-  Intersection_map  inter_map;   // Mapping pairs of curve IDs to their
-                                 // intersection points.
+  mutable Intersection_map inter_map;   // Mapping pairs of curve IDs to their
+                                        // intersection points.
   bool m_use_cache;
 
 public:
 
   /*! Default constructor. */
   Arr_circle_segment_traits_2 (bool use_intersection_caching = false) :
-      m_use_cache(use_intersection_caching)
+    m_use_cache(use_intersection_caching)
   {}
 
   /*! Get the next curve index. */
@@ -249,25 +253,25 @@ public:
                          cv2.point_position (p) == EQUAL);
 
       if ((CGAL::compare (cv1.left().x(),cv1.right().x()) == EQUAL) &&
-		  (CGAL::compare (cv2.left().x(),cv2.right().x()) == EQUAL))
-	  { //both cv1 and cv2 are vertical
-         CGAL_precondition (!(cv1.right()).equals(p) && !(cv2.right()).equals(p));
-	  }
-	  else if ((CGAL::compare (cv1.left().x(),cv1.right().x()) != EQUAL) &&
-		       (CGAL::compare (cv2.left().x(),cv2.right().x()) == EQUAL))
-	  { //only cv1 is vertical
-         CGAL_precondition (!(cv1.right()).equals(p));
-	  }
-	  else if ((CGAL::compare (cv1.left().x(),cv1.right().x()) == EQUAL) &&
-		       (CGAL::compare (cv2.left().x(),cv2.right().x()) != EQUAL))
-	  { //only cv2 is vertical
-         CGAL_precondition (!(cv2.right()).equals(p));
-	  }
-	  else
-	  { //both cv1 and cv2 are non vertical
+          (CGAL::compare (cv2.left().x(),cv2.right().x()) == EQUAL))
+      { //both cv1 and cv2 are vertical
+        CGAL_precondition (!(cv1.right()).equals(p) && !(cv2.right()).equals(p));
+      }
+      else if ((CGAL::compare (cv1.left().x(),cv1.right().x()) != EQUAL) &&
+               (CGAL::compare (cv2.left().x(),cv2.right().x()) == EQUAL))
+      { //only cv1 is vertical
+        CGAL_precondition (!(cv1.right()).equals(p));
+      }
+      else if ((CGAL::compare (cv1.left().x(),cv1.right().x()) == EQUAL) &&
+               (CGAL::compare (cv2.left().x(),cv2.right().x()) != EQUAL))
+      { //only cv2 is vertical
+        CGAL_precondition (!(cv2.right()).equals(p));
+      }
+      else
+      { //both cv1 and cv2 are non vertical
         CGAL_precondition (CGAL::compare (cv1.right().x(),p.x()) == LARGER &&
                            CGAL::compare (cv2.right().x(),p.x()) == LARGER);
-	  }
+      }
       // Compare the two curves immediately to the right of p:
       return (cv1.compare_to_right (cv2, p));
     }
@@ -304,17 +308,17 @@ public:
                          cv2.point_position (p) == EQUAL);
 
       if ((CGAL::compare (cv1.left().x(),cv1.right().x()) == EQUAL) &&
-		  (CGAL::compare (cv2.left().x(),cv2.right().x()) == EQUAL))
+          (CGAL::compare (cv2.left().x(),cv2.right().x()) == EQUAL))
 	  { //both cv1 and cv2 are vertical
          CGAL_precondition (!(cv1.left()).equals(p) && !(cv2.left()).equals(p));
 	  }
 	  else if ((CGAL::compare (cv1.left().x(),cv1.right().x()) != EQUAL) &&
-		       (CGAL::compare (cv2.left().x(),cv2.right().x()) == EQUAL))
+                   (CGAL::compare (cv2.left().x(),cv2.right().x()) == EQUAL))
 	  { //only cv1 is vertical
          CGAL_precondition (!(cv1.left()).equals(p));
 	  }
 	  else if ((CGAL::compare (cv1.left().x(),cv1.right().x()) == EQUAL) &&
-		       (CGAL::compare (cv2.left().x(),cv2.right().x()) != EQUAL))
+                   (CGAL::compare (cv2.left().x(),cv2.right().x()) != EQUAL))
 	  { //only cv2 is vertical
          CGAL_precondition (!(cv2.left()).equals(p));
 	  }
@@ -395,7 +399,7 @@ public:
      * \return The past-the-end iterator.
      */
     template<class OutputIterator>
-    OutputIterator operator() (const Curve_2& cv, OutputIterator oi)
+    OutputIterator operator() (const Curve_2& cv, OutputIterator oi) const
     {
       // Increment the serial number of the curve cv, which will serve as its
       // unique identifier.
@@ -505,7 +509,7 @@ public:
   };
 
   /*! Get a Make_x_monotone_2 functor object. */
-  Make_x_monotone_2 make_x_monotone_2_object ()
+  Make_x_monotone_2 make_x_monotone_2_object () const
   {
     return Make_x_monotone_2(m_use_cache);
   }
@@ -535,7 +539,7 @@ public:
   };
 
   /*! Get a Split_2 functor object. */
-  Split_2 split_2_object ()
+  Split_2 split_2_object () const
   {
     return Split_2();
   }
@@ -565,14 +569,14 @@ public:
     template<class OutputIterator>
     OutputIterator operator() (const X_monotone_curve_2& cv1,
                                const X_monotone_curve_2& cv2,
-                               OutputIterator oi)
+                               OutputIterator oi) const
     {
       return (cv1.intersect (cv2, oi, &_inter_map));
     }
   };
 
   /*! Get an Intersect_2 functor object. */
-  Intersect_2 intersect_2_object ()
+  Intersect_2 intersect_2_object () const
   {
     return (Intersect_2 (inter_map));
   }
@@ -636,7 +640,7 @@ public:
      * \param cv the curve
      * \return SMALLER if the curve is directed right, else return SMALLER
      */
-    Comparison_result operator()(const X_monotone_curve_2& cv)
+    Comparison_result operator()(const X_monotone_curve_2& cv) const
     {
       if(cv.is_directed_right())
         return(SMALLER);
@@ -659,7 +663,7 @@ public:
      * \param cv the curve
      * \return an opposite x-monotone curve.
      */
-    X_monotone_curve_2 operator()(const X_monotone_curve_2& cv)
+    X_monotone_curve_2 operator()(const X_monotone_curve_2& cv) const
     {
       return cv.construct_opposite();
     }

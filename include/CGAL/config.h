@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Installation/include/CGAL/config.h $
-// $Id: config.h 47317 2008-12-09 14:56:51Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Installation/include/CGAL/config.h $
+// $Id: config.h 49591 2009-05-26 08:18:11Z spion $
 // 
 //
 // Author(s)     : Wieger Wesselink 
@@ -135,7 +135,7 @@
 #ifdef __SUNPRO_CC
 #  include <iterator>
 #  ifdef _RWSTD_NO_CLASS_PARTIAL_SPEC
-#    error "CGAL does not support SunPRO with the old Rogue Wave STL: use STLPort."
+#    warning "CGAL does not support SunPRO with the old Rogue Wave STL: use STLPort."
 #  endif
 
 // Sun CC has an issue with templates that means overloading

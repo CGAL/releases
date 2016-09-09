@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "Create_offset_polygons_2.cpp" )
   create_single_source_cgal_program( "Create_skeleton_and_offset_polygons_2.cpp" )
   create_single_source_cgal_program( "Create_skeleton_and_offset_polygons_from_polygon_with_holes_2.cpp" )

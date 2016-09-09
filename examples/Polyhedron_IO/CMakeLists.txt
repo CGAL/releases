@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "iv2off.cpp" )
   create_single_source_cgal_program( "off2iv.cpp" )
   create_single_source_cgal_program( "off2off.cpp" )

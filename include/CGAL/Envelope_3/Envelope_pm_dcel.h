@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_pm_dcel.h $
-// $Id: Envelope_pm_dcel.h 44024 2008-07-08 09:03:04Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Envelope_3/include/CGAL/Envelope_3/Envelope_pm_dcel.h $
+// $Id: Envelope_pm_dcel.h 50442 2009-07-08 07:35:21Z efif $
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
 //                 Baruch Zukerman        <baruchzu@post.tau.ac.il>
@@ -22,14 +22,13 @@
 #ifndef CGAL_ENVELOPE_PM_DCEL_H
 #define CGAL_ENVELOPE_PM_DCEL_H
 
-#include <CGAL/basic.h>
 #include <CGAL/Arr_default_dcel.h>
-#include <CGAL/Unique_hash_map.h>
 #include <CGAL/Envelope_3/Envelope_base.h>
-#include <iostream>
-#include <set>
 
-CGAL_BEGIN_NAMESPACE
+namespace CGAL
+{
+namespace Envelope_3
+{
 
 template <class Data>
 class Dcel_info
@@ -228,7 +227,8 @@ public:
    * set of data objects
    */
   template <class InputIterator>
-  bool is_equal_data(const InputIterator & begin, const InputIterator & end) const
+  bool is_equal_data(const InputIterator & begin, const InputIterator & end)
+    const
   {
     if (!get_is_set())
       return false;
@@ -242,7 +242,8 @@ public:
   }
 
   template <class InputIterator>
-  bool has_equal_data(const InputIterator & begin, const InputIterator & end) const
+  bool has_equal_data(const InputIterator & begin, const InputIterator & end)
+    const
   {
     if (!get_is_set())
       return false;
@@ -395,7 +396,6 @@ public:
   }
   
 protected:
-
   void set_bit(unsigned int ind, bool b)
   {
     if (b)
@@ -409,8 +409,8 @@ protected:
   bool get_bit(unsigned int ind) const
   {
     // (1 << i) is bit i on, other bits off (start counting from 0)
-    bool result = flags & (1 << ind);
-    return result;
+    unsigned int mask = 1 << ind;
+    return ((flags & mask) == mask);
   }
 };
 
@@ -591,10 +591,9 @@ protected:
   bool get_bit(unsigned int ind) const
   {
     // (1 << i) is bit i on, other bits off (start counting from 0)
-    bool result = flags & (1 << ind);
-    return result;
+    unsigned int mask = 1 << ind;
+    return ((flags & mask) == mask);
   }
-
 };
 
 /*! Extend the planar-map face */
@@ -657,10 +656,20 @@ public:
   typedef Face_data_iterator                      Dcel_data_iterator;
   typedef Face_data_const_iterator                Dcel_data_const_iterator;
 
+  /*! \struct
+   * An auxiliary structure for rebinding the DCEL with a new traits class.
+   */
+  template<typename T>
+  struct rebind
+  {
+    typedef Envelope_pm_dcel<T, Face_data> other;
+  };
+
   /*! Constructor */
   Envelope_pm_dcel() {}
 };
 
-CGAL_END_NAMESPACE
+} // namespace Envelope_3
+} // namespace CGAL
 
 #endif

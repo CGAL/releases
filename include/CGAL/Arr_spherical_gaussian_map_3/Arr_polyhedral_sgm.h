@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm.h $
-// $Id: Arr_polyhedral_sgm.h 43873 2008-06-30 00:07:53Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm.h $
+// $Id: Arr_polyhedral_sgm.h 50610 2009-07-15 15:21:14Z efif $
 // 
 // Author(s)     : Efi Fogel         <efif@post.tau.ac.il>
 
@@ -23,6 +23,13 @@
  * Polyhedral _sgm is a data dtructure that represents a 3D convex polyhedron.
  * This representation represents the 2D surface boundary of the shape.
  */
+
+#include <string>
+#include <vector>
+#include <list>
+#include <iostream>
+
+#include <boost/type_traits.hpp>
 
 #include <CGAL/basic.h>
 #include <CGAL/Polyhedron_incremental_builder_3.h>
@@ -37,83 +44,89 @@
 
 #include <CGAL/Arr_overlay_2.h>
 #include <CGAL/Arr_spherical_gaussian_map_3/Arr_spherical_gaussian_map_3.h>
-#include <CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_polyhedron_3.h>
+#include <CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_traits.h>
 #include <CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_arr_dcel.h>
 #include <CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_overlay.h>
 #include <CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_initializer_visitor.h>
-
-#include <string>
-#include <vector>
-#include <list>
-#include <iostream>
 
 CGAL_BEGIN_NAMESPACE
 
 /*!
  */
 template <typename PolyhedralSgm,
-          typename Polyhedron = Arr_polyhedral_sgm_polyhedron_3<PolyhedralSgm>,
-          typename Visitor = Arr_polyhedral_sgm_initializer_visitor<PolyhedralSgm> >
+          typename Polyhedron,
+          typename Visitor =
+            Arr_polyhedral_sgm_initializer_visitor<PolyhedralSgm, Polyhedron> >
 class Arr_polyhedral_sgm_initializer :
   public Arr_sgm_initializer<typename PolyhedralSgm::Base>
 {
 private:
   // Base type:
-  typedef Arr_sgm_initializer<typename PolyhedralSgm::Base>
-                                                          Base;
+  typedef Arr_sgm_initializer<typename PolyhedralSgm::Base> Base;
+  typedef typename PolyhedralSgm::Geometry_traits_2         Geometry_traits_2;
+  typedef typename Geometry_traits_2::Point_2               Point_2;
+  typedef typename Geometry_traits_2::X_monotone_curve_2    X_monotone_curve_2;
+  typedef typename Geometry_traits_2::Curve_2               Curve_2;  
 
-  typedef typename PolyhedralSgm::Kernel                  Kernel;
-  typedef typename Kernel::FT                             FT;
-  typedef typename Kernel::Point_3                        Point_3;
-  typedef typename Kernel::Vector_3                       Vector_3;
-
-  typedef typename PolyhedralSgm::Geometry_traits_2       Geometry_traits_2;
-  typedef typename Geometry_traits_2::Point_2             Point_2;
-  typedef typename Geometry_traits_2::X_monotone_curve_2  X_monotone_curve_2;
-  typedef typename Geometry_traits_2::Curve_2             Curve_2;  
+  typedef typename Geometry_traits_2::Point_3               Point_3;
+  typedef typename Geometry_traits_2::Vector_3              Vector_3;
   
   /*! */
-  typedef unsigned int *                                  Coord_index_iter;
+  typedef unsigned int *                                    Coord_index_iter;
   
   // Polyhedron types:
   typedef typename Polyhedron::Vertex_const_handle
-                                Polyhedron_vertex_const_handle;
+    Polyhedron_vertex_const_handle;
   typedef typename Polyhedron::Halfedge_const_handle
-                                Polyhedron_halfedge_const_handle;
+    Polyhedron_halfedge_const_handle;
 
   typedef typename Polyhedron::Vertex_iterator
-                                Polyhedron_vertex_iterator;
+    Polyhedron_vertex_iterator;
   typedef typename Polyhedron::Halfedge_iterator
-                                Polyhedron_halfedge_iterator;
+    Polyhedron_halfedge_iterator;
   typedef typename Polyhedron::Facet_iterator
-                                Polyhedron_facet_iterator;
+    Polyhedron_facet_iterator;
 
   typedef typename Polyhedron::Halfedge_around_vertex_circulator
-                                Polyhedron_halfedge_around_vertex_circulator;
+    Polyhedron_halfedge_around_vertex_circulator;
+  typedef boost::is_same<typename Polyhedron::Plane_3, Vector_3>
+    Polyhedron_has_normal;
 
   /*! Transforms a (planar) facet into a normal */
-  struct Normal_vector {
+  struct Normal_equation {
     template <class Facet>
     typename Facet::Plane_3 operator()(Facet & f) {
       typename Facet::Halfedge_handle h = f.halfedge();
-      // Facet::Plane_3 is the normal vector type. We assume the
-      // CGAL Kernel here and use its global functions.
-#if 0
-      const Point_3 & x = h->vertex()->point();
-      const Point_3 & y = h->next()->vertex()->point();
-      const Point_3 & z = h->next()->next()->vertex()->point();
-#endif 
-      Vector_3 normal =
-        CGAL::cross_product(h->next()->vertex()->point() -
-                            h->vertex()->point(),
-                            h->next()->next()->vertex()->point() -
-                            h->next()->vertex()->point());
-      FT sqr_length = normal.squared_length();
-      double tmp = CGAL::to_double(sqr_length);
-      return normal / CGAL::sqrt(tmp);
+      return CGAL::cross_product(h->next()->vertex()->point() -
+                                 h->vertex()->point(),
+                                 h->next()->next()->vertex()->point() -
+                                 h->next()->vertex()->point());
     }
   };
 
+  void compute_planes(Polyhedron & polyhedron, boost::true_type)
+  {
+    std::transform(polyhedron.facets_begin(), polyhedron.facets_end(),
+                   polyhedron.planes_begin(), Normal_equation());
+  }
+  
+  /*! Compute the equation of the undelying plane of a facet */
+  struct Plane_equation {
+    template <typename Facet>
+    typename Facet::Plane_3 operator()(Facet & f) {
+      typename Facet::Halfedge_handle h = f.halfedge();
+      return typename Facet::Plane_3(h->vertex()->point(),
+                                     h->next()->vertex()->point(),
+                                     h->next()->next()->vertex()->point());
+    }
+  };
+
+  void compute_planes(Polyhedron & polyhedron, boost::false_type)
+  {
+    std::transform(polyhedron.facets_begin(), polyhedron.facets_end(),
+                   polyhedron.planes_begin(), Plane_equation());
+  }
+  
   /*! A point adder */
   template <class HDS, class PointIterator_3>
   class Point_adder {
@@ -340,6 +353,16 @@ private:
     }
   }
 
+  /*! Obtain the normal of a facet of a polyhedron that supports normals */
+  template <typename Facet>
+  const Vector_3 & get_normal(const Facet & facet, boost::true_type) const
+  { return facet->plane(); }
+  
+  /*! Obtain the normal of a facet of a polyhedron that supports planes */
+  template <typename Facet>
+  Vector_3 get_normal(const Facet & facet, boost::false_type) const
+  { return facet->plane().orthogonal_vector(); }
+
   /*! Process a polyhedron vertex recursively constructing the Gaussian map
    * of the polyhedron
    * \param src the polyhedron vertex currently processed
@@ -350,17 +373,6 @@ private:
   {
     m_src_vertex = src;
 
-#if 0
-    CGAL::To_double<typename Kernel::FT> todouble;
-    std::cout << "process_vertex src: "
-              << static_cast<float>(todouble(m_src_vertex->point().x()))
-              << ","
-              << static_cast<float>(todouble(m_src_vertex->point().y()))
-              << ","
-              << static_cast<float>(todouble(m_src_vertex->point().z()))
-              << std::endl;
-#endif
-    
     typedef typename Base::Vertex_handle                Vertex_handle;
     typedef typename Base::Halfedge_handle              Halfedge_handle;
 
@@ -375,7 +387,7 @@ private:
       process_vertex(++src, first_time);
       return;
     }
-    
+
     CGAL_assertion(circulator_size(hec) >= 3);
     Polyhedron_halfedge_around_vertex_circulator begin_hec = hec;
     Polyhedron_halfedge_around_vertex_circulator next_hec = hec;
@@ -396,8 +408,12 @@ private:
     // Traverse the incident halfedges:
     do {
       if (!next_hec->processed()) {
-        const Vector_3 & normal1 = hec->facet()->plane();
-        const Vector_3 & normal2 = next_hec->facet()->plane();
+
+        Vector_3 normal1 =
+          get_normal(hec->facet(), Polyhedron_has_normal());
+        Vector_3 normal2 =
+          get_normal(next_hec->facet(), Polyhedron_has_normal());
+
         m_trg_vertex = next_hec->opposite()->vertex();
 
 #if 0
@@ -514,7 +530,11 @@ public:
   /*! Destructor */
   virtual ~Arr_polyhedral_sgm_initializer() {}
 
-  /*! Initialize the Gaussian map */
+  /*! Initialize the Gaussian map
+   * \param polyhedron
+   * \param visitor
+   * \pre The polyhedron polyhedron does not have coplanar facets.
+   */
   void operator()(Polyhedron & polyhedron, Visitor * visitor = NULL)
   {
 #if 0
@@ -531,8 +551,7 @@ public:
     polyhedron.normalize_border();
 #endif
 #if 1
-    std::transform(polyhedron.facets_begin(), polyhedron.facets_end(),
-                   polyhedron.planes_begin(), Normal_vector());
+    compute_planes(polyhedron, Polyhedron_has_normal());
 #endif
 
     compute_sgm(polyhedron);
@@ -566,8 +585,7 @@ public:
     polyhedron.normalize_border();
 #endif
 #if 1
-    std::transform(polyhedron.facets_begin(), polyhedron.facets_end(),
-                   polyhedron.planes_begin(), Normal_vector());
+    compute_planes(polyhedron, Polyhedron_has_normal());
 #endif
 
     compute_sgm(polyhedron);
@@ -586,23 +604,33 @@ public:
 
 /*!
  */
-template <class T_Kernel,
+template <class Geometry_traits_2,
 #ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
           template <class T>
 #endif
           class T_Dcel = Arr_polyhedral_sgm_arr_dcel>
 class Arr_polyhedral_sgm :
-  public Arr_spherical_gaussian_map_3<T_Kernel,T_Dcel>
+  public Arr_spherical_gaussian_map_3<Geometry_traits_2, T_Dcel>
 {
 private:
-  typedef Arr_polyhedral_sgm<T_Kernel, T_Dcel>              Self;
+  typedef Arr_polyhedral_sgm<Geometry_traits_2, T_Dcel>     Self;
   
 public:
-  typedef T_Kernel                                          Kernel;
+  typedef typename Geometry_traits_2::Point_3               Point_3;
+  typedef typename Geometry_traits_2::Vector_3              Vector_3;
+
+#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
+  typedef T_Dcel<Geometry_traits_2>                         Dcel;
+#else
+  typedef typename T_Dcel::template Dcel<Geometry_traits_2> Dcel;
+#endif
   
   // For some reason MSVC barfs on the friend statement below. Therefore,
   // we declare the Base to be public to overcome the problem.
-  typedef Arr_spherical_gaussian_map_3<T_Kernel, T_Dcel>    Base;
+  typedef Arr_spherical_gaussian_map_3<Geometry_traits_2, T_Dcel>   Base;
+
+  typedef Arr_polyhedral_sgm_overlay<Self>
+    Arr_polyhedral_sgm_overlay;
 
 #if 0
   /*! Allow the initializer to update the SGM data members */
@@ -610,22 +638,6 @@ public:
   friend class Arr_polyhedral_sgm_initializer<Self, Polyhedron, Visitor>;
 #endif
   
-public:
-  // Arrangement traits and types:
-  typedef typename Base::Geometry_traits_2                  Geometry_traits_2;
-  
-#ifndef CGAL_CFG_NO_TMPL_IN_TMPL_PARAM
-  typedef T_Dcel<Geometry_traits_2>                         Dcel;
-#else
-  typedef typename T_Dcel::template Dcel<Geometry_traits_2> Dcel;
-#endif
-
-  typedef Arr_polyhedral_sgm_overlay<Self>
-    Arr_polyhedral_sgm_overlay;
-
-  typedef typename Kernel::Point_3                          Point_3;
-  typedef typename Kernel::Vector_3                         Vector_3;
-
 private:
   /*! The gravity center */
   Point_3 m_center;
@@ -637,21 +649,16 @@ private:
   void calculate_center()
   {
     // Count them:
-    unsigned int vertices_num = 0;
     typename Base::Face_handle fi;
     for (fi = this->faces_begin(); fi != this->faces_end(); fi++) {
-      vertices_num++;
       const Point_3 & p = fi->point();
       Vector_3 v = p - CGAL::ORIGIN;
       m_center = m_center + v;
     }
 
-    typedef typename Kernel::FT FT;
-    FT num((int)vertices_num);
-    FT x = m_center.x() / num;
-    FT y = m_center.y() / num;
-    FT z = m_center.z() / num;
-    m_center = Point_3(x, y, z);
+    typename Base::Size num = this->number_of_faces();
+    m_center =
+      Point_3(m_center.x() / num, m_center.y() / num, m_center.z() / num);
 
     m_dirty_center = false;
   }
@@ -661,16 +668,45 @@ public:
   Arr_polyhedral_sgm() : m_dirty_center(true) {}
   
   /*! Copy Constructor */
-  Arr_polyhedral_sgm(const Arr_polyhedral_sgm & sgm)
+  Arr_polyhedral_sgm(const Self & sgm)
   {
-    // Not implemented yet!
-    CGAL_error();
+    assign(sgm);
+  }
+
+  /*! Assign a spherical Gaussian map to this */
+  void assign(const Self & sgm)
+  {
+    // Call the assign of the base class.
+    Base::assign(sgm);
+
+    typename Dcel::Face_iterator fit;
+    typename Base::Face_const_iterator fit1 = sgm.faces_begin();
+	  
+    // Set the points of the faces.
+    for (fit = this->_dcel().faces_begin(); fit != this->_dcel().faces_end();
+         ++fit)
+    {
+      fit->set_point (fit1->point());
+      ++fit1;
+    }
+	  	  
+    typename Dcel::Edge_iterator eit;
+    typename Base::Edge_const_iterator eit1 = sgm.edges_begin();
+
+    // Set the arr_mask of the edges
+    for (eit = this->_dcel().edges_begin(); eit != this->_dcel().edges_end();
+         ++eit)
+    {
+      eit->set_arr(eit1->arr_mask());
+      eit->opposite()->set_arr(eit1->arr_mask());
+      ++eit1;
+    }
   }
   
   /*! Destructor */
   virtual ~Arr_polyhedral_sgm() { clear(); }
 
-  /*! \brief clears the internal representation and auxiliary data structures
+  /*! Clear the internal representation and auxiliary data structures
    */
   void clear()
   {
@@ -678,38 +714,40 @@ public:
     Base::clear();
   }
   
-  /*! Compute the minkowski sum of a range of objects of type
-   * Arr_polyhedral_sgm
-   */
-  template <class SgmIterator>  
-  void minkowski_sum(SgmIterator begin, SgmIterator end)
-  {
-    Arr_polyhedral_sgm * sgm1 = *begin++;
-    Arr_polyhedral_sgm * sgm2 = *begin;
-    minkowski_sum(sgm1, sgm2);
-  }
+ // /*! Compute the minkowski sum of a range of objects of type
+ //  * Arr_polyhedral_sgm
+ //  */
+ // template <class SgmIterator>  
+ // void minkowski_sum(SgmIterator begin, SgmIterator end)
+ // {
+	//typename SgmIterator::value_type * sgm1 = *begin++;
+ //   typename SgmIterator::value_type * sgm2 = *begin;
+ //   minkowski_sum(sgm1, sgm2);
+ // }
 
-  /*! Compute the minkowski sum of a range of objects of type
-   * Arr_polyhedral_sgm
-   */
-  template <typename SgmIterator, typename OverlayTraits>  
-  void minkowski_sum(SgmIterator begin, SgmIterator end,
-                     OverlayTraits & overlay_traits)
-  {
-    Arr_polyhedral_sgm * sgm1 = *begin++;
-    Arr_polyhedral_sgm * sgm2 = *begin;
-    minkowski_sum(sgm1, sgm2, overlay_traits);
-  }
+ // /*! Compute the minkowski sum of a range of objects of type
+ //  * Arr_polyhedral_sgm
+ //  */
+ // template <typename SgmIterator, typename OverlayTraits>  
+ // void minkowski_sum(SgmIterator begin, SgmIterator end,
+ //                    OverlayTraits & overlay_traits)
+ // {
+ //   typename SgmIterator::value_type * sgm1 = *begin++;
+ //   typename SgmIterator::value_type * sgm2 = *begin;
+ //   minkowski_sum(sgm1, sgm2, overlay_traits);
+ // }
  
   /*! Compute the Minkowski sum of 2 objects of type Arr_polyhedral_sgm
    * \param sgm1 the first Arr_polyhedral_sgm object
    * \param sgm2 the second Arr_polyhedral_sgm object
    */
-  void minkowski_sum(Arr_polyhedral_sgm * sgm1, Arr_polyhedral_sgm * sgm2)
+  template <class Arr_polyhedral_sgm>
+  void minkowski_sum(const Arr_polyhedral_sgm & sgm1,
+                     const Arr_polyhedral_sgm & sgm2)
   {
     // Compute the overlays:
     Arr_polyhedral_sgm_overlay sgm_overlay;
-    CGAL::overlay(*sgm1, *sgm2, *this, sgm_overlay);
+    CGAL::overlay(sgm1, sgm2, *this, sgm_overlay);
     // print_stat();
   }
 
@@ -717,10 +755,11 @@ public:
    * \param sgm1 the first Arr_polyhedral_sgm object
    * \param sgm2 the second Arr_polyhedral_sgm object
    */
-  template <typename OverlayTraits>
-  void minkowski_sum(Arr_polyhedral_sgm * sgm1, Arr_polyhedral_sgm * sgm2,
+  template <class Arr_polyhedral_sgm, typename OverlayTraits>
+  void minkowski_sum(const Arr_polyhedral_sgm & sgm1,
+                     const Arr_polyhedral_sgm & sgm2,
                      OverlayTraits & overlay_traits)
-  { CGAL::overlay(*sgm1, *sgm2, *this, overlay_traits); }
+  { CGAL::overlay(sgm1, sgm2, *this, overlay_traits); }
   
   /*! Obtain the number of (primal) vertices */
   unsigned int number_of_vertices() const

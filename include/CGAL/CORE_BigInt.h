@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Number_types/include/CGAL/CORE_BigInt.h $
-// $Id: CORE_BigInt.h 47264 2008-12-08 06:25:14Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/CORE_BigInt.h $
+// $Id: CORE_BigInt.h 48598 2009-03-31 17:20:16Z pmachado $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -29,6 +29,13 @@
 #include <CGAL/Modular_traits.h>
 
 CGAL_BEGIN_NAMESPACE
+
+template<>
+struct Root_of_traits<CORE::BigInt>: public CGALi::Root_of_traits_helper<CORE::BigInt,
+    Euclidean_ring_tag>{
+  typedef CORE::BigRat RootOf_1;
+  typedef CORE::BigRat Root_of_1;
+};
 
 //
 // Algebraic structure traits

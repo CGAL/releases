@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_trapezoid_ric_point_location.h $
-// $Id: Arr_trapezoid_ric_point_location.h 40549 2007-10-07 14:51:59Z ophirset $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_trapezoid_ric_point_location.h $
+// $Id: Arr_trapezoid_ric_point_location.h 50777 2009-07-23 12:12:44Z efif $
 // 
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -28,6 +28,7 @@
 #include <CGAL/Arrangement_2/Arr_traits_adaptor_2.h>
 #include <CGAL/Arr_point_location/Trapezoidal_decomposition_2.h>
 #include <CGAL/Arr_point_location/Td_traits.h>
+#include <CGAL/Arr_observer.h>
 
 CGAL_BEGIN_NAMESPACE
 
@@ -41,7 +42,8 @@ class PL_X_curve_plus: public Arrangement_::X_monotone_curve_2
 public:
 
   typedef Arrangement_                                  Arrangement_2;
-  typedef typename Arrangement_2::Traits_2              Traits_2;
+  typedef typename Arrangement_2::Geometry_traits_2     Geometry_traits_2;
+  typedef typename Arrangement_2::Traits_adaptor_2      Traits_adaptor_2;
   typedef typename Arrangement_2::Halfedge_handle       Halfedge_handle;
   typedef typename Arrangement_2::X_monotone_curve_2    X_monotone_curve_2;
 
@@ -95,7 +97,8 @@ class Arr_trapezoid_ric_point_location : public Arr_observer <Arrangement_>
 public:
 
   typedef Arrangement_                                  Arrangement_2;
-  typedef typename Arrangement_2::Traits_2              Traits_2;
+  typedef typename Arrangement_2::Geometry_traits_2     Geometry_traits_2;
+  typedef typename Arrangement_2::Traits_adaptor_2      Traits_adaptor_2;
 
   typedef typename Arrangement_2::Vertex_const_handle   Vertex_const_handle;
   typedef typename Arrangement_2::Halfedge_const_handle Halfedge_const_handle;
@@ -119,15 +122,14 @@ public:
   typedef typename Arrangement_2::Isolated_vertex_const_iterator
                                        Isolated_vertex_const_iterator;
 
-  typedef typename Traits_2::Point_2                      Point_2;
-  typedef typename Traits_2::X_monotone_curve_2           X_monotone_curve_2;
+  typedef typename Geometry_traits_2::Point_2             Point_2;
+  typedef typename Geometry_traits_2::X_monotone_curve_2  X_monotone_curve_2;
 
   typedef std::list<Halfedge_const_handle>                Edge_list;
   typedef typename Edge_list::iterator                    Std_edge_iterator;
 
   typedef PL_X_curve_plus<Arrangement_2>                  X_curve_plus;
 
-  typedef Arr_traits_basic_adaptor_2<Traits_2>            Traits_adaptor_2;
   typedef CGAL::Td_traits<Traits_adaptor_2, X_curve_plus> Td_traits;
   typedef Trapezoidal_decomposition_2<Td_traits>    Trapezoidal_decomposition;
   typedef std::vector<Halfedge_const_handle>        Halfedge_handle_container;

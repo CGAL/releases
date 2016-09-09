@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_rational_arc_traits_2.h $
-// $Id: Arr_rational_arc_traits_2.h 41174 2007-12-13 09:03:31Z golubevs $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_rational_arc_traits_2.h $
+// $Id: Arr_rational_arc_traits_2.h 49772 2009-06-03 21:25:53Z eric $
 // 
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -56,7 +56,11 @@ public:
   // Category tags:
   typedef Tag_true                                      Has_left_category;
   typedef Tag_true                                      Has_merge_category;
-  typedef Arr_unbounded_boundary_tag                    Boundary_category;
+
+  typedef Arr_open_side_tag                             Arr_left_side_tag;
+  typedef Arr_open_side_tag                             Arr_bottom_side_tag;
+  typedef Arr_open_side_tag                             Arr_top_side_tag;
+  typedef Arr_open_side_tag                             Arr_right_side_tag;
 
   // Traits objects:
   typedef _Rational_arc_2<Alg_kernel, Nt_traits>        Curve_2;
@@ -530,31 +534,6 @@ public:
   /// \name Functor definitions to handle boundaries
   //@{
 
-  /*! A function object that determines whether a curve end is bounded. */
-  class Is_bounded_2 {
-  public:
-    /*! Is the end of an x-monotone curve bounded?
-     * \param xcv The x-monotone curve.
-     * \param ce The end of xcv identifier.
-     * \return true is the curve end is bounded, and false otherwise
-     */
-    bool operator() (const X_monotone_curve_2 & xcv, Arr_curve_end ce) const
-    {
-      return (ce == ARR_MIN_END) ?
-        ((xcv.left_infinite_in_x() == ARR_INTERIOR) &&
-         (xcv.left_infinite_in_y() == ARR_INTERIOR)) :
-        ((xcv.right_infinite_in_x() == ARR_INTERIOR) &&
-         (xcv.right_infinite_in_y() == ARR_INTERIOR));
-    }
-  };
-
-  /*! Obtain a Is_bounded_2 function object. */
-  Is_bounded_2 is_bounded_2_object() const
-  {
-    return Is_bounded_2();
-  }
-  
-  
   /*! A function object that obtains the parameter space of a geometric
    * entity along the x-axis
    */

@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Qt_widget/src/CGALQt/Qt_help_window.cpp $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Qt_widget/src/CGALQt/Qt_help_window.cpp $
 // $Id: Qt_help_window.cpp 36172 2007-02-11 17:06:50Z spion $
 // 
 //

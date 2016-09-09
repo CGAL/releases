@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
-// $Id: Clusters.h 32781 2006-07-30 13:09:30Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
+// $Id: Clusters.h 48704 2009-04-07 19:30:59Z spion $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -57,7 +57,7 @@ class Clusters
   typedef typename Tr::Geom_traits Geom_traits;
   typedef typename Geom_traits::FT FT;
   typedef FT      Squared_length; /**<This typedef is used to remind that
-                                     the lenght is squared. */
+                                     the length is squared. */
   typedef typename Tr::Edge_circulator Edge_circulator;
   
   /**

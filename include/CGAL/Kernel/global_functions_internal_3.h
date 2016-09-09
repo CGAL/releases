@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
-// $Id: global_functions_internal_3.h 45156 2008-08-26 13:40:26Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
+// $Id: global_functions_internal_3.h 50420 2009-07-07 10:33:38Z afabri $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -777,6 +777,14 @@ squared_radius(const typename K::Point_3 &p,
 	       const typename K::Point_3 &q, const K &k)
 {
   return k.compute_squared_radius_3_object()(p, q);
+}
+
+template < class K >
+inline
+typename K::FT
+squared_radius(const typename K::Point_3 &p, const K &k)
+{
+  return k.compute_squared_radius_3_object()(p);
 }
 
 template < class K >

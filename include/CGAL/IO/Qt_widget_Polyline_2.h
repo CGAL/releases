@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/IO/Qt_widget_Polyline_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/IO/Qt_widget_Polyline_2.h $
 // $Id: Qt_widget_Polyline_2.h 39957 2007-08-22 12:30:17Z efif $
 // $Date: 2007-08-22 14:30:17 +0200 (Wed, 22 Aug 2007) $
 // 

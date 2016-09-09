@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_2/include/CGAL/Regular_triangulation_euclidean_traits_2.h $
-// $Id: Regular_triangulation_euclidean_traits_2.h 46206 2008-10-11 20:21:08Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Regular_triangulation_euclidean_traits_2.h $
+// $Id: Regular_triangulation_euclidean_traits_2.h 48844 2009-04-21 18:28:04Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec <Mariette.Yvinec@sophia.inria.fr>
@@ -23,7 +23,6 @@
 
 #include <CGAL/Weighted_point.h>
 #include <CGAL/number_utils_classes.h>
-#include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Kernel_traits.h>
 

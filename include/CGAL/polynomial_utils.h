@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Polynomial/include/CGAL/polynomial_utils.h $
-// $Id: polynomial_utils.h 47306 2008-12-09 12:47:45Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/polynomial_utils.h $
+// $Id: polynomial_utils.h 50332 2009-07-02 13:49:48Z hemmer $
 // 
 //
 // Author(s)     : Michael Hemmer <hemmer@mpi-inf.mpg.de> 
@@ -71,11 +71,43 @@
 CGAL_BEGIN_NAMESPACE
 
 // GetCoefficient
+template <typename Polynomial_d> inline  
+typename Polynomial_traits_d<Polynomial_d>::Get_coefficient::result_type
+get_coefficient(const Polynomial_d& p, int i){
+  typename Polynomial_traits_d<Polynomial_d>::Get_coefficient get_coefficient;
+  return get_coefficient(p,i);
+}
 // GetInnermostCoefficient
+template <typename Polynomial_d> inline  
+typename Polynomial_traits_d<Polynomial_d>
+::Get_innermost_coefficient::result_type
+get_innermost_coefficient(const Polynomial_d& p, Exponent_vector ev){
+  typename Polynomial_traits_d<Polynomial_d>::Get_innermost_coefficient gic;
+  return gic(p,ev);
+}
 // ConstructCoefficientConstIteratorRange
 // ConstructInnermostCoefficientConstIteratorRange
 // Swap
+template <typename Polynomial_d> inline  
+typename Polynomial_traits_d<Polynomial_d>::Swap::result_type
+swap(const Polynomial_d& p, int i, int j){
+  typename Polynomial_traits_d<Polynomial_d>::Swap swap;
+  return swap(p,i,j);
+}
 // Move
+template <typename Polynomial_d> inline  
+typename Polynomial_traits_d<Polynomial_d>::Move::result_type
+move(const Polynomial_d& p, int i, int j){
+  typename Polynomial_traits_d<Polynomial_d>::Move move;
+  return move(p,i,j);
+}
+// Permute
+template <typename Polynomial_d, typename Input_iterator> inline  
+typename Polynomial_traits_d<Polynomial_d>::Permute::result_type
+permute(const Polynomial_d& p, Input_iterator begin, Input_iterator end){
+  typename Polynomial_traits_d<Polynomial_d>::Permute permute;
+  return permute(p,begin,end);
+}
 
 // Degree
 CGAL_UNARY_POLY_FUNCTION_INDEX(Degree,degree);
@@ -276,6 +308,66 @@ scale_homogeneous(const Polynomial_d& f,
 // Resultant
 CGAL_BINARY_POLY_FUNCTION(Resultant,resultant);
 
+template <typename Polynomial_d,typename OutputIterator> inline
+OutputIterator polynomial_subresultants
+(Polynomial_d p, Polynomial_d q, OutputIterator out) {
+    typedef Polynomial_traits_d<Polynomial_d> PT;
+    return typename PT::Polynomial_subresultants() (p, q, out);
+}   
+
+template <typename Polynomial_d,typename OutputIterator> inline
+OutputIterator principal_subresultants
+(Polynomial_d p, Polynomial_d q, OutputIterator out) {
+    typedef Polynomial_traits_d<Polynomial_d> PT;
+    return typename PT::Principal_subresultants() (p, q, out);
+}   
+
+template<typename Polynomial_d,
+    typename OutputIterator1, 
+    typename OutputIterator2,
+    typename OutputIterator3> inline
+OutputIterator1 polynomial_subresultants_with_cofactors
+(Polynomial_d p,
+ Polynomial_d q,
+ OutputIterator1 sres_out,
+ OutputIterator2 coP_out,
+ OutputIterator3 coQ_out) {
+    typedef Polynomial_traits_d<Polynomial_d> PT;
+    return typename PT::Polynomial_subresultants_with_cofactors() 
+        (p, q, sres_out, coP_out, coQ_out);
+}
+
+
+template <typename Polynomial_d,typename OutputIterator> inline
+OutputIterator
+principal_sturm_habicht_sequence
+(Polynomial_d f, OutputIterator out){
+    typedef Polynomial_traits_d<Polynomial_d> PT;
+    return typename PT::Principal_sturm_habicht_sequence() (f, out);
+}
+  
+template<typename Polynomial_d,typename OutputIterator> OutputIterator
+sturm_habicht_sequence(Polynomial_d f,OutputIterator out) {
+    typedef Polynomial_traits_d<Polynomial_d> PT;
+    return typename PT::Sturm_habicht_sequence() (f, out);
+}
+
+template<typename Polynomial_d,
+    typename OutputIterator1,
+    typename OutputIterator2,
+    typename OutputIterator3> 
+OutputIterator1
+sturm_habicht_sequence_with_cofactors
+(Polynomial_d f,
+ OutputIterator1 stha_out,
+ OutputIterator2 cof_out,
+ OutputIterator3 cofx_out) {
+    typedef Polynomial_traits_d<Polynomial_d> PT;
+    return typename PT::Sturm_habicht_sequence_with_cofactors() 
+        (f, stha_out, cof_out, cofx_out);
+}
+
+
 // TODO: REMOVE function below 
 
 // sign() forwarded to the sign() member function
@@ -315,17 +407,11 @@ template<typename NT> inline
 Polynomial<NT> reversal(const Polynomial<NT>& p)
 { Polynomial<NT> q(p); q.reversal(); return q; }
 
-
-// CGALi::is_square_free (undocumented)
-namespace CGALi {
 template< class Polynomial > 
 bool is_square_free( const Polynomial& p ) {
   return typename CGAL::Polynomial_traits_d< Polynomial>::
     Is_square_free()( p );
 }
-
-} // namespace CGALi
-
 
 CGAL_END_NAMESPACE
 

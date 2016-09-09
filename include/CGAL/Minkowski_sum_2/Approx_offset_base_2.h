@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Approx_offset_base_2.h $
-// $Id: Approx_offset_base_2.h 46869 2008-11-13 11:14:25Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Approx_offset_base_2.h $
+// $Id: Approx_offset_base_2.h 50287 2009-07-01 15:04:34Z afabri $
 //
 // Author(s)     : Ron Wein       <wein@post.tau.ac.il>
 //                 Andreas Fabri  <Andreas.Fabri@geometryfactory.com>
@@ -87,7 +87,7 @@ public:
     CGAL_precondition (CGAL::sign (eps) == POSITIVE);
 
     _inv_sqrt_eps = static_cast<int> (1.0 / CGAL::sqrt (_eps));
-    if (_inv_sqrt_eps == 0)
+    if (_inv_sqrt_eps <= 0)
       _inv_sqrt_eps = 1;
   }    
 
@@ -295,7 +295,7 @@ protected:
               numer = static_cast<int> (dd * denom + 0.5);
             }
         }
-        else
+        else if (numer == 0)
         {
             while (numer == 0)
             {
@@ -312,6 +312,11 @@ protected:
               } 
             }
         }
+        else {// if numer < 0 (overflow)  
+          numer = max_int;
+          denom = 1;
+        }
+
 
         app_d = NT (numer) / NT (denom);
         app_err = sqr_d - CGAL::square (app_d); 

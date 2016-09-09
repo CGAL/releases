@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesher/include/CGAL/Surface_mesher/Polyhedral_oracle.h $
-// $Id: Polyhedral_oracle.h 41873 2008-01-28 09:38:18Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesher/include/CGAL/Surface_mesher/Polyhedral_oracle.h $
+// $Id: Polyhedral_oracle.h 48704 2009-04-07 19:30:59Z spion $
 //
 //
 // Author(s)     : Steve OUDOT, Laurent Rineau
@@ -25,6 +25,7 @@
 
 #include <CGAL/iterator.h>
 #include <CGAL/Surface_mesher/Null_oracle_visitor.h>
+#include <CGAL/Surface_mesher/Has_edges.h>
 
 namespace CGAL {
   namespace Surface_mesher {
@@ -244,7 +245,7 @@ public:
     std::pair<bool, int> result = std::make_pair(false, 0);
 
     // upper bound of the diameter of the bounding box
-    const FT& diameter = 2*FT(surface.subfacets_tree_ptr->max_lenght());
+    const FT& diameter = 2*FT(surface.subfacets_tree_ptr->max_length());
     while(! result.first)
     {
       result = surface.subfacets_tree_ptr->

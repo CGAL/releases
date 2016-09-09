@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_visitors.h $
-// $Id: Sweep_line_2_visitors.h 40964 2007-11-21 10:23:08Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Sweep_line_2/Sweep_line_2_visitors.h $
+// $Id: Sweep_line_2_visitors.h 49772 2009-06-03 21:25:53Z eric $
 // 
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -101,7 +101,7 @@ public:
   {
     if ((m_includeEndPoints ||
          event->is_intersection() ||
-         event->is_weak_intersection()) && event->is_finite())
+         event->is_weak_intersection()) && event->is_closed())
     {
       *m_out = event->point();
       ++m_out;

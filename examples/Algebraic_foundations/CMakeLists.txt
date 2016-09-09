@@ -20,6 +20,8 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
   create_single_source_cgal_program( "algebraic_structure_dispatch.cpp" )
   create_single_source_cgal_program( "fraction_traits.cpp" )
   create_single_source_cgal_program( "implicit_interoperable_dispatch.cpp" )

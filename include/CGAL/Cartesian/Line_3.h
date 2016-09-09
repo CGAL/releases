@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Cartesian_kernel/include/CGAL/Cartesian/Line_3.h $
-// $Id: Line_3.h 33065 2006-08-06 15:40:06Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Line_3.h $
+// $Id: Line_3.h 49589 2009-05-26 07:54:52Z spion $
 // 
 //
 // Author(s)     : Andreas Fabri
@@ -54,10 +54,10 @@ public:
   LineC3(const Point_3 &p, const Point_3 &q)
   { *this = R().construct_line_3_object()(p, q); }
 
-  LineC3(const Segment_3 &s)
+  explicit LineC3(const Segment_3 &s)
   { *this = R().construct_line_3_object()(s); }
 
-  LineC3(const Ray_3 &r)
+  explicit LineC3(const Ray_3 &r)
   { *this = R().construct_line_3_object()(r); }
 
   LineC3(const Point_3 &p, const Vector_3 &v)

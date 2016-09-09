@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_circular_line_arc_traits_2.h $
-// $Id: Arr_circular_line_arc_traits_2.h 41708 2008-01-20 18:47:19Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_circular_line_arc_traits_2.h $
+// $Id: Arr_circular_line_arc_traits_2.h 50366 2009-07-05 12:56:48Z efif $
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck
 
@@ -45,8 +45,8 @@ namespace CGAL {
     template <class CK, class Arc1, class Arc2, class OutputIterator>
     OutputIterator 
     object_to_object_variant(const std::vector<CGAL::Object>& res1, 
-			     OutputIterator res2) {
-      
+			     OutputIterator res2)
+    {  
       for(std::vector<CGAL::Object>::const_iterator it = res1.begin(); 
 	  it != res1.end(); ++it ){
 	if(const Arc1 *arc = CGAL::object_cast< Arc1 >(&*it)){
@@ -180,17 +180,17 @@ namespace CGAL {
     { return CK_Equal_2()(a0, a1); }
 
     result_type
-      operator() ( const Line_arc_2 &a0, const Circular_arc_2 &a1) const
-    {return false;}
+    operator() ( const Line_arc_2 &a0, const Circular_arc_2 &a1) const
+    { return false; }
 
     result_type
-      operator() ( const Circular_arc_2 &a0, const Line_arc_2 &a1) const
-    {return false;}
+    operator() ( const Circular_arc_2 &a0, const Line_arc_2 &a1) const
+    { return false; }
     
 #endif
 
       result_type
-	operator()(const Curve_2 &a0, const Curve_2 &a1) const
+      operator()(const Curve_2 &a0, const Curve_2 &a1) const
       {
 	return boost::apply_visitor
 	  ( Variant_Equal_2<CircularKernel>(), a0, a1 );
@@ -210,8 +210,8 @@ namespace CGAL {
       typedef CGAL::Comparison_result result_type;
 
       result_type
-	operator() (const Circular_arc_point_2 &p,
-		    const boost::variant< Arc1, Arc2 > &A1) const
+      operator() (const Circular_arc_point_2 &p,
+                  const boost::variant< Arc1, Arc2 > &A1) const
       { 
 	if ( const Arc1* arc1 = boost::get<Arc1>( &A1 ) ){
 	  return CircularKernel().compare_y_at_x_2_object()(p, *arc1);
@@ -223,12 +223,10 @@ namespace CGAL {
       }
     };
 
-     template <class CircularKernel>
-    class Variant_Do_overlap_2
-      : public boost::static_visitor<bool>
+    template <class CircularKernel>
+    class Variant_Do_overlap_2 : public boost::static_visitor<bool>
     {
-    public :
-
+    public:
       template < typename T >
       bool
       operator()(const T &a0, const T &a1) const
@@ -254,8 +252,8 @@ namespace CGAL {
       typedef bool result_type;
 
       result_type
-	operator()(const boost::variant< Arc1, Arc2 > &A0,
-		   const boost::variant< Arc1, Arc2 > &A1) const
+      operator()(const boost::variant< Arc1, Arc2 > &A0,
+                 const boost::variant< Arc1, Arc2 > &A1) const
       { 
 	return boost::apply_visitor
 	  ( Variant_Do_overlap_2<CircularKernel>(), A0, A1 );
@@ -271,9 +269,10 @@ namespace CGAL {
                                                   Circular_arc_point_2;
 
       template < class OutputIterator >
-	OutputIterator
-	operator()(const boost::variant< Arc1, Arc2 > &A, OutputIterator res)
-      { if ( const Arc1* arc1 = boost::get<Arc1>( &A ) ){
+      OutputIterator
+      operator()(const boost::variant<Arc1, Arc2> &A, OutputIterator res) const
+      {
+        if ( const Arc1* arc1 = boost::get<Arc1>( &A ) ){
 	  std::vector<CGAL::Object> container;
 	  CircularKernel()
 	    .make_x_monotone_2_object()(*arc1,std::back_inserter(container));
@@ -451,7 +450,6 @@ namespace CGAL {
       }
     };
 
-
     
     template <class CircularKernel, class Arc1, class Arc2>
     class Construct_max_vertex_2//: public Has_qrt
@@ -524,8 +522,12 @@ namespace CGAL {
   
     typedef CGAL::Tag_false                        Has_left_category;
     typedef CGAL::Tag_false 			   Has_merge_category;
-    typedef Arr_no_boundary_tag                    Boundary_category;
-  
+
+    typedef Arr_oblivious_side_tag                 Arr_left_side_tag;
+    typedef Arr_oblivious_side_tag                 Arr_bottom_side_tag;
+    typedef Arr_oblivious_side_tag                 Arr_top_side_tag;
+    typedef Arr_oblivious_side_tag                 Arr_right_side_tag;
+    
     typedef boost::variant< Arc1, Arc2 > Curve_2;
     typedef boost::variant< Arc1, Arc2 > X_monotone_curve_2;
 

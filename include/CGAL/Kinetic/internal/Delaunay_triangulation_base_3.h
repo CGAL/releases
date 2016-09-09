@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Delaunay_triangulation_base_3.h $
-// $Id: Delaunay_triangulation_base_3.h 47730 2009-01-15 17:27:38Z drussel $ $Date: 2009-01-15 18:27:38 +0100 (Thu, 15 Jan 2009) $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Kinetic_data_structures/include/CGAL/Kinetic/internal/Delaunay_triangulation_base_3.h $
+// $Id: Delaunay_triangulation_base_3.h 47653 2009-01-05 19:45:21Z drussel $ $Date: 2009-01-05 20:45:21 +0100 (Mon, 05 Jan 2009) $
 // 
 //
 // Author(s)     : Daniel Russel <drussel@alumni.princeton.edu>
@@ -817,7 +817,7 @@ public:
     CGAL_precondition(k != Point_key());
     unsigned int bin= k.index();
     while (vhs_.size() <= bin) {
-      vhs_.push_back(Vertex_handle());
+      vhs_.push_back(Vertex_handle(NULL));
     }
     /*if (vhs_.size() <=bin){
       vhs_.resize(bin+1);

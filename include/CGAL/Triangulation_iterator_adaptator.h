@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Triangulation_2/include/CGAL/Triangulation_iterator_adaptator.h $
-// $Id: Triangulation_iterator_adaptator.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Triangulation_2/include/CGAL/Triangulation_iterator_adaptator.h $
+// $Id: Triangulation_iterator_adaptator.h 48844 2009-04-21 18:28:04Z spion $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -22,7 +22,6 @@
 #define CGAL_TRIANGULATION_ITERATOR_ADAPTATOR_H
 
 #include <CGAL/triangulation_assertions.h>
-#include <CGAL/Triangulation_short_names_2.h>
 
 CGAL_BEGIN_NAMESPACE
 

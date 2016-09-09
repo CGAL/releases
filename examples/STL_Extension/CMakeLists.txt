@@ -20,6 +20,9 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
+  include_directories (BEFORE ../../include)
+
+  create_single_source_cgal_program( "Default.cpp" )
   create_single_source_cgal_program( "in_place_list_prog.cpp" )
   create_single_source_cgal_program( "min_element_if_example.cpp" )
   create_single_source_cgal_program( "min_max_element_example.cpp" )

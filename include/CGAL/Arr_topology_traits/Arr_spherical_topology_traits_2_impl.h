@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_topology_traits_2_impl.h $
-// $Id: Arr_spherical_topology_traits_2_impl.h 41994 2008-02-06 10:17:48Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_topology_traits_2_impl.h $
+// $Id: Arr_spherical_topology_traits_2_impl.h 50366 2009-07-05 12:56:48Z efif $
 // 
 // Author(s)     : Efi Fogel         <efif@post.tau.ac.il>
 //                 Ron Wein          <wein@post.tau.ac.il>
@@ -43,13 +43,13 @@ Arr_spherical_topology_traits_2() :
 /*! \brief constructs with a geometry-traits class */
 template <class GeomTraits, class Dcel>
 Arr_spherical_topology_traits_2<GeomTraits, Dcel>::
-Arr_spherical_topology_traits_2(Geometry_traits_2 * traits) :
+Arr_spherical_topology_traits_2(const Geometry_traits_2 * traits) :
   m_spherical_face(NULL),
   m_north_pole(NULL),
   m_south_pole(NULL),
   m_own_traits(false)
 {
-  m_traits = static_cast<Traits_adaptor_2*>(traits);
+  m_traits = static_cast<const Traits_adaptor_2*>(traits);
   m_boundary_vertices = Vertex_map(Vertex_key_comparer(m_traits));
 }
 
@@ -443,7 +443,7 @@ are_equal(const Vertex * v,
   const Point_2 & p2 = (ind == ARR_MIN_END) ?
     m_traits->construct_min_vertex_2_object()(xc) :
     m_traits->construct_max_vertex_2_object()(xc);
-  return (m_traits->compare_y_on_identification_2_object()(p1, p2) == EQUAL);
+  return (m_traits->compare_y_on_boundary_2_object()(p1, p2) == EQUAL);
 }
 
 /*! \brief receives a notification on the creation of a new boundary vertex */

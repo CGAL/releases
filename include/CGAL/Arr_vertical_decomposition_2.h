@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/Arr_vertical_decomposition_2.h $
-// $Id: Arr_vertical_decomposition_2.h 40964 2007-11-21 10:23:08Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/Arr_vertical_decomposition_2.h $
+// $Id: Arr_vertical_decomposition_2.h 50366 2009-07-05 12:56:48Z efif $
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
 
@@ -43,24 +43,25 @@ CGAL_BEGIN_NAMESPACE
  */
 template<typename GeomTraits, typename TopTraits,
          typename OutputIterator>
-OutputIterator decompose
-    (const Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
-     OutputIterator oi)
+OutputIterator
+decompose(const Arrangement_on_surface_2<GeomTraits, TopTraits>& arr,
+          OutputIterator oi)
 {
   // Arrangement types:
-  typedef Arrangement_on_surface_2<GeomTraits, TopTraits>   Arrangement_2;
+  typedef Arrangement_on_surface_2<GeomTraits, TopTraits> Arrangement_2;
   typedef typename TopTraits::template
-          Sweep_line_vertical_decomposition_visitor<OutputIterator>
-                                                            Vd_visitor;
+    Sweep_line_vertical_decomposition_visitor<OutputIterator>
+                                                          Vd_visitor;
 
-  typedef typename Arrangement_2::Vertex_const_iterator Vertex_const_iterator;
-  typedef typename Arrangement_2::Edge_const_iterator   Edge_const_iterator;
-  typedef typename Arrangement_2::Vertex_const_handle   Vertex_const_handle;
-  typedef typename Arrangement_2::Halfedge_const_handle Halfedge_const_handle;
-
-  typedef typename Vd_visitor::Traits_2                 Vd_traits_2;
-  typedef typename Vd_traits_2::X_monotone_curve_2      Vd_x_monotone_curve_2;
-  typedef typename Vd_traits_2::Point_2                 Vd_point_2;
+  typedef typename Arrangement_2::Vertex_const_iterator   Vertex_const_iterator;
+  typedef typename Arrangement_2::Edge_const_iterator     Edge_const_iterator;
+  typedef typename Arrangement_2::Vertex_const_handle     Vertex_const_handle;
+  typedef typename Arrangement_2::Halfedge_const_handle   Halfedge_const_handle;
+  typedef typename Arrangement_2::X_monotone_curve_2      X_monotone_curve_2;
+  typedef typename Arrangement_2::Point_2                 Point_2;
+  typedef typename Vd_visitor::Traits_2                   Vd_traits_2;
+  typedef typename Vd_traits_2::X_monotone_curve_2        Vd_x_monotone_curve_2;
+  typedef typename Vd_traits_2::Point_2                   Vd_point_2;
 
   // Go over all arrangement edges and collect their associated x-monotone
   // curves. To each curve we attach a halfedge handle going from right to
@@ -78,8 +79,10 @@ OutputIterator decompose
       he = eit;
     else
       he = eit->twin();
-
-    xcurves_vec[i] = Vd_x_monotone_curve_2 (eit->curve(), he);
+    //attempt to solve compile problem in one of the tests. created the
+    // tmp_curve instead of passing eit->curve() as a parmeter to the function
+    X_monotone_curve_2 tmp_curve = eit->curve();
+    xcurves_vec[i] = Vd_x_monotone_curve_2 (tmp_curve, he);
   }
 
   // Go over all isolated vertices and collect their points. To each point
@@ -89,18 +92,23 @@ OutputIterator decompose
   Vertex_const_handle         iso_v;
 
   i = 0;
-  for (vit = arr.vertices_begin(); vit != arr.vertices_end(); ++vit, ++i)
+  for (vit = arr.vertices_begin(); vit != arr.vertices_end(); ++vit)
   {
     // Associate isolated point with the vertex that represents it.
     if (vit->is_isolated())
     {
       iso_v = vit;
-      iso_pts_vec[i] = Vd_point_2 (vit->point(), iso_v);
+      //attempt to solve compile problem in one of the tests. created the
+      // tmp_curve instead of passing eit->curve() as a parmeter to the
+      // function  
+      Point_2 tmp_point = vit->point();
+      iso_pts_vec[i] = Vd_point_2 (tmp_point, iso_v);
+      ++i;
     }
   }
 
   // Obtain a extended traits-class object.
-  GeomTraits    *geom_traits = const_cast<GeomTraits*> (arr.geometry_traits());
+  const GeomTraits * geom_traits = arr.geometry_traits();
 
   /* We would like to avoid copy construction of the geometry traits class.
    * Copy construction is undesired, because it may results with data
@@ -115,7 +123,7 @@ OutputIterator decompose
    * only an implicit constructor, (which takes *b as a parameter).
    */
   typename boost::mpl::if_<boost::is_same<GeomTraits, Vd_traits_2>,
-                           Vd_traits_2&, Vd_traits_2>::type
+                           const Vd_traits_2&, Vd_traits_2>::type
     ex_traits(*geom_traits);
 
   // Define the sweep-line visitor and perform the sweep.

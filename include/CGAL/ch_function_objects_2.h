@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Convex_hull_2/include/CGAL/ch_function_objects_2.h $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Convex_hull_2/include/CGAL/ch_function_objects_2.h $
 // $Id: ch_function_objects_2.h 44371 2008-07-23 15:31:38Z hoffmann $
 // 
 //

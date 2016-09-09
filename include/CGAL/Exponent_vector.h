@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Polynomial/include/CGAL/Exponent_vector.h $
-// $Id: Exponent_vector.h 47678 2009-01-06 21:40:33Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Polynomial/include/CGAL/Exponent_vector.h $
+// $Id: Exponent_vector.h 47915 2009-02-05 12:51:19Z eric $
 // 
 //
 // Author(s)     : Michael Hemmer
@@ -172,7 +172,8 @@ inline std::ostream& operator << (std::ostream& os, const Exponent_vector& ev) {
 CGAL_END_NAMESPACE
 
 namespace std{
-template <> void swap(CGAL::Exponent_vector& ev1, CGAL::Exponent_vector& ev2){
+template <> inline 
+void swap(CGAL::Exponent_vector& ev1, CGAL::Exponent_vector& ev2){
   ev1.swap(ev2);
 }
 

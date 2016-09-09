@@ -15,8 +15,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Cartesian_kernel/include/CGAL/Cartesian/Iso_rectangle_2.h $
-// $Id: Iso_rectangle_2.h 45152 2008-08-26 13:08:16Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Cartesian_kernel/include/CGAL/Cartesian/Iso_rectangle_2.h $
+// $Id: Iso_rectangle_2.h 49057 2009-04-30 14:03:52Z spion $
 //
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
@@ -36,7 +36,7 @@ class Iso_rectangleC2
   typedef typename R_::Iso_rectangle_2      Iso_rectangle_2;
   typedef typename R_::Construct_point_2    Construct_point_2;
 
-  typedef CGAL::array<Point_2, 2>          Rep;
+  typedef cpp0x::array<Point_2, 2>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;

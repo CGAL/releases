@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Number_types/include/CGAL/Gmpzf.h $
-// $Id: Gmpzf.h 47264 2008-12-08 06:25:14Z hemmer $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Number_types/include/CGAL/Gmpzf.h $
+// $Id: Gmpzf.h 50238 2009-06-30 18:59:00Z hemmer $
 //
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>
@@ -68,17 +68,28 @@ public:
         CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR(int)
     };
 
-    typedef INTERN_AST::Div_per_operator< Type > Div;
-    typedef INTERN_AST::Mod_per_operator< Type > Mod;
-
-    struct Sqrt
-        : public std::unary_function< Type, Type > {
-        Type operator()( const Type& x ) const {
-            return x.sqrt();
-        }
+    class Div
+        : public std::binary_function< Type, Type, Type > {
+    public:
+        Type operator()( const Type& x, const Type& y ) const {
+            return Type(x).div( y );
+	}
     };
-    typedef INTERN_AST::Is_square_per_sqrt<Type> Is_square;
 
+    typedef INTERN_AST::Mod_per_operator< Type > Mod;
+  
+  class Is_square
+    : public std::binary_function< Type, Type&, bool > {
+  public:      
+    bool operator()( const Type& x, Type& y ) const {
+      y = CGAL::approximate_sqrt(x);
+      return y * y == x;
+    }
+    bool operator()( const Type& x) const {
+      Type dummy;
+      return operator()(x,dummy);
+    }
+  };
 };
 
 

@@ -1,3 +1,4 @@
+#ifdef CGAL_POLYHEDRON_DEMO_USE_PARAMETRIZATION
 #ifdef CGAL_TAUCS_ENABLED
 
 #include <QApplication>
@@ -22,7 +23,7 @@ void MainWindow::parameterize(const Parameterization_method method)
   QApplication::setOverrideCursor(Qt::WaitCursor);
 
   // get active polyhedron
-  int index = getSelectedPolygonIndex();
+  int index = getSelectedSceneItemIndex();
   Polyhedron* pMesh = scene->polyhedron(index);
   if(pMesh == NULL)
   {
@@ -36,7 +37,7 @@ void MainWindow::parameterize(const Parameterization_method method)
   typedef CGAL::Parameterization_polyhedron_adaptor_3<Polyhedron> Adaptor;
   Adaptor adaptor(*pMesh);  
 
-  bool success;
+  bool success = false;
   switch(method)
   {
   case PARAM_MVC:
@@ -89,7 +90,7 @@ void MainWindow::parameterize(const Parameterization_method method)
   scene->addTexPolyhedron(pTex_polyhedron,
     tr("%1 (parameterized)").arg(scene->polyhedronName(index)),
     Qt::white,
-    scene->isPolyhedronActivated(index),
+    scene->isPolyhedronVisible(index),
     scene->polyhedronRenderingMode(index));
 
   QApplication::restoreOverrideCursor();
@@ -108,12 +109,19 @@ void MainWindow::on_actionDCP_triggered()
 
 #else // #ifdef CGAL_TAUCS_ENABLED 
 
+#include "MainWindow.h"
+#include <QMessageBox>
 void MainWindow::on_actionMVC_triggered()
 {
+  QMessageBox::warning(this, "Function not available", "This function is not available. "
+		       "You need to configure TAUCS support.");
 }
 
 void MainWindow::on_actionDCP_triggered()
 {
+  QMessageBox::warning(this, "Function not available", "This function is not available. "
+		       "You need to configure TAUCS support.");
 }
 
 #endif // #ifdef CGAL_TAUCS_ENABLED 
+#endif // CGAL_POLYHEDRON_DEMO_USE_PARAMETRIZATION

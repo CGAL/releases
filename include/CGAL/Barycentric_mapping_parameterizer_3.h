@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Surface_mesh_parameterization/include/CGAL/Barycentric_mapping_parameterizer_3.h $
-// $Id: Barycentric_mapping_parameterizer_3.h 45050 2008-08-20 14:47:53Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Surface_mesh_parameterization/include/CGAL/Barycentric_mapping_parameterizer_3.h $
+// $Id: Barycentric_mapping_parameterizer_3.h 49877 2009-06-11 08:38:15Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -34,12 +34,11 @@ CGAL_BEGIN_NAMESPACE
 ///
 /// This class is a Strategy [GHJV95] called by the main
 /// parameterization algorithm Fixed_border_parameterizer_3::parameterize().
-/// Barycentric_mapping_parameterizer_3:
-/// - provides default BorderParameterizer_3 and SparseLinearAlgebraTraits_d template
+/// - It provides default BorderParameterizer_3 and SparseLinearAlgebraTraits_d template
 ///   parameters that make sense.
-/// - implements compute_w_ij() to compute w_ij = (i,j) coefficient of matrix A
+/// - It implements compute_w_ij() to compute w_ij = (i,j) coefficient of matrix A
 ///   for j neighbor vertex of i based on Tutte Barycentric Mapping method.
-/// - implements an optimized version of is_one_to_one_mapping().
+/// - It implements an optimized version of is_one_to_one_mapping().
 ///
 /// @heading Is Model for the Concepts: Model of the ParameterizerTraits_3 concept.
 ///
@@ -52,7 +51,7 @@ CGAL_BEGIN_NAMESPACE
 /// @param ParameterizationMesh_3       3D surface mesh.
 /// @param BorderParameterizer_3        Strategy to parameterize the surface border.
 /// @param SparseLinearAlgebraTraits_d  Traits class to solve a sparse linear system.
-///        Note: the system is NOT symmetric because Fixed_border_parameterizer_3
+///        Note: the system is *not* symmetric because Fixed_border_parameterizer_3
 ///        does not remove (yet) border vertices from the system.
 
 template

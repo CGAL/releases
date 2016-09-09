@@ -9,8 +9,13 @@
 #define EXTRACT_BALLS_FROM_PDB_H
 
 #include <CGAL/PDB/PDB.h>
-#include <CGAL/PDB/iterator.h>
+#include <CGAL/PDB/range.h>
 #include <fstream>
+
+template <class Range, class OIt>
+void copy(Range r, OIt out) {
+  std::copy(r.begin(), r.end(), out);
+}
 
 template <class Traits, class OutputIterator>
 void extract_balls_from_pdb(const char *filename, 
@@ -23,16 +28,16 @@ void extract_balls_from_pdb(const char *filename,
     std::cerr << "Error opening input file " << filename << std::endl;
   }
 
-  CGAL::PDB::PDB pdb(in);
-  CGAL::PDB::Model m=pdb.models_begin()->model();
-  CGAL::PDB::Chain c=m.chains_begin()->chain();
+  using namespace CGAL::PDB;
+
+  PDB pdb(in);
+  Model m=pdb.models().begin()->model();
+  Chain c=m.chains().begin()->chain();
   // get all weighted_points
     
-  std::copy
-    (CGAL::PDB::make_weighted_point_iterator(CGAL::PDB::make_atom_iterator
-					     (m.atoms_begin()), t),
-     CGAL::PDB::make_weighted_point_iterator(CGAL::PDB::make_atom_iterator
-					     (m.atoms_end()), t),
+  
+::copy
+    (make_weighted_point_range(make_atom_range(m.atoms()), t),
      weighted_points);
 }
 			    

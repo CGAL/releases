@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.4-branch/Arrangement_on_surface_2/include/CGAL/graph_traits_Arrangement_2.h $
-// $Id: graph_traits_Arrangement_2.h 39411 2007-07-18 15:57:16Z efif $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Arrangement_on_surface_2/include/CGAL/graph_traits_Arrangement_2.h $
+// $Id: graph_traits_Arrangement_2.h 50780 2009-07-23 12:15:34Z efif $
 // 
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -28,6 +28,7 @@
 #include <boost/graph/graph_concepts.hpp>
 #include <boost/iterator/counting_iterator.hpp>
 #include <CGAL/Arrangement_on_surface_2.h>
+#include <CGAL/Arrangement_2.h>
 #include <CGAL/Arr_accessor.h>
 
 namespace boost {
