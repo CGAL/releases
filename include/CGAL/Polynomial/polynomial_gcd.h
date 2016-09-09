@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Polynomial/include/CGAL/Polynomial/polynomial_gcd.h $
-// $Id: polynomial_gcd.h 67093 2012-01-13 11:22:39Z lrineau $
+// $Id: polynomial_gcd.h 73040 2012-10-18 08:47:27Z lrineau $
 //
 //
 // Author(s)     : Arno Eigenwillig <arno@mpi-inf.mpg.de>
@@ -46,8 +46,7 @@
 #include <CGAL/Polynomial/polynomial_gcd_implementations.h>
 #include <CGAL/polynomial_utils.h>
 
-//#undef LiS_HAVE_NTL
-#ifdef LiS_HAVE_NTL
+#ifdef CGAL_USE_NTL
 #include <CGAL/Polynomial/polynomial_gcd_ntl.h>
 #endif
 

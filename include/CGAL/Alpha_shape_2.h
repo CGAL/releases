@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
-// $Id: Alpha_shape_2.h 71169 2012-08-10 13:34:02Z lrineau $
+// $Id: Alpha_shape_2.h 72518 2012-10-03 10:21:10Z sloriot $
 // 
 //
 // Author(s)     : Tran Kai Frank DA
@@ -591,7 +591,7 @@ public:
       // Classifies a point `p' with respect to `A'.
       Locate_type type;
       int i;
-      Face_handle pFace = locate(p, type, i);
+      Face_handle pFace = this->locate(p, type, i);
       switch (type) 
 	{
 	case VERTEX            : return classify(pFace->vertex(i), alpha);

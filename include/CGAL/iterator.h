@@ -17,7 +17,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/STL_Extension/include/CGAL/iterator.h $
-// $Id: iterator.h 71169 2012-08-10 13:34:02Z lrineau $
+// $Id: iterator.h 73040 2012-10-18 08:47:27Z lrineau $
 // 
 //
 // Author(s)     : Michael Hoffmann <hoffmann@inf.ethz.ch>
@@ -1187,7 +1187,7 @@ filter_output_iterator(I e, const P& p)
 { return Filter_output_iterator< I, P >(e, p); }
 
 
-#ifndef CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES
+#if !defined(CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES) && !defined(CGAL_CFG_NO_CPP0X_TUPLE)
 
 namespace internal {
 

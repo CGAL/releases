@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Triangulation_2/include/CGAL/Triangulation_face_base_with_info_2.h $
-// $Id: Triangulation_face_base_with_info_2.h 67117 2012-01-13 18:14:48Z lrineau $
+// $Id: Triangulation_face_base_with_info_2.h 71453 2012-08-22 08:14:35Z sloriot $
 // 
 //
 // Author(s)     : Mariette Yvinec,Sylvain Pion
@@ -28,29 +28,29 @@
 namespace CGAL {
 
 template < typename Info_, typename GT,
-           typename Fb = Triangulation_face_base_2<GT> >
+           typename Fb_ = Triangulation_face_base_2<GT> >
 class Triangulation_face_base_with_info_2
-  : public Fb
+  : public Fb_
 {
   Info_ _info;
 public:
-  typedef typename Fb::Vertex_handle                   Vertex_handle;
-  typedef typename Fb::Face_handle                     Face_handle;
+  typedef typename Fb_::Vertex_handle                   Vertex_handle;
+  typedef typename Fb_::Face_handle                     Face_handle;
   typedef Info_                                        Info;
 
   template < typename TDS2 >
   struct Rebind_TDS {
-    typedef typename Fb::template Rebind_TDS<TDS2>::Other       Fb2;
+    typedef typename Fb_::template Rebind_TDS<TDS2>::Other       Fb2;
     typedef Triangulation_face_base_with_info_2<Info, GT, Fb2>  Other;
   };
 
   Triangulation_face_base_with_info_2()
-    : Fb() {}
+    : Fb_() {}
 
   Triangulation_face_base_with_info_2(Vertex_handle v0, 
 				      Vertex_handle v1,
                                       Vertex_handle v2)
-    : Fb(v0, v1, v2) {}
+    : Fb_(v0, v1, v2) {}
 
   Triangulation_face_base_with_info_2(Vertex_handle v0, 
 				      Vertex_handle v1,
@@ -58,7 +58,7 @@ public:
                                       Face_handle   n0, 
 				      Face_handle   n1,
                                       Face_handle   n2 )
-    : Fb(v0, v1, v2, n0, n1, n2) {}
+    : Fb_(v0, v1, v2, n0, n1, n2) {}
 
   const Info& info() const { return _info; }
   Info&       info()       { return _info; }

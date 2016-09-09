@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2.h $
-// $Id: Voronoi_diagram_2.h 68299 2012-03-30 15:53:30Z mkaravel $
+// $Id: Voronoi_diagram_2.h 71987 2012-09-05 10:56:06Z sloriot $
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -323,15 +323,15 @@ public:
   //------------------
 
   // VORONOI FEATURES FROM DELAUNAY FEATURES
-  Halfedge_handle dual(Delaunay_edge& e) const {
+  Halfedge_handle dual(const Delaunay_edge& e) const {
     return Halfedge_handle( Halfedge(this, e.first, e.second) );
   }
 
-  Face_handle dual(Delaunay_vertex_handle& v) const {
+  Face_handle dual(Delaunay_vertex_handle v) const {
     return Face_handle( Face(this, v) );
   }
 
-  Vertex_handle dual(Delaunay_face_handle& f) const {
+  Vertex_handle dual(Delaunay_face_handle f) const {
     return Vertex_handle( Vertex(this, f) );
   }
 

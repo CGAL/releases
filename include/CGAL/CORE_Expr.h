@@ -17,7 +17,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Number_types/include/CGAL/CORE_Expr.h $
-// $Id: CORE_Expr.h 67093 2012-01-13 11:22:39Z lrineau $
+// $Id: CORE_Expr.h 73040 2012-10-18 08:47:27Z lrineau $
 //
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer
@@ -161,7 +161,7 @@ template <> class Real_embeddable_traits< CORE::Expr >
       : public std::unary_function< Type, double > {
       public:
         double operator()( const Type& x ) const {
-          x.approx(53,1024);
+          x.approx(53,1075);
           return x.doubleValue();
         }
     };
@@ -171,7 +171,7 @@ template <> class Real_embeddable_traits< CORE::Expr >
       public:
         std::pair<double, double> operator()( const Type& x ) const {
             std::pair<double,double> result;
-            x.approx(53,1024);
+            x.approx(53,1075);
             x.doubleInterval(result.first, result.second);
             CGAL_expensive_assertion(result.first  <= x);
             CGAL_expensive_assertion(result.second >= x);

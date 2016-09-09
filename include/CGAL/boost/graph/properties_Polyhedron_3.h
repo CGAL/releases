@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/BGL/include/CGAL/boost/graph/properties_Polyhedron_3.h $
-// $Id: properties_Polyhedron_3.h 69044 2012-05-10 10:18:01Z pmoeller $
+// $Id: properties_Polyhedron_3.h 73202 2012-10-23 14:03:05Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -370,6 +370,16 @@ CGAL::Polyhedron_vertex_index_map_external<Gt,I,HDS,A> get(CGAL::vertex_external
 
 template<class Gt, class I, CGAL_HDS_PARAM_, class A, class Tag>
 struct property_map<CGAL::Polyhedron_3<Gt,I,HDS,A>, Tag> 
+{
+  typedef typename CGAL::Polyhedron_property_map<Tag>::
+      template bind_<Gt,I,HDS,A> map_gen;
+  typedef typename map_gen::type       type;
+  typedef typename map_gen::const_type const_type;
+};
+
+// This partial specialization shouldn't be needed but is due to a bug in Boost 1.51.
+template<class Gt, class I, CGAL_HDS_PARAM_, class A, class Tag>
+struct property_map<const CGAL::Polyhedron_3<Gt,I,HDS,A>, Tag> 
 {
   typedef typename CGAL::Polyhedron_property_map<Tag>::
       template bind_<Gt,I,HDS,A> map_gen;

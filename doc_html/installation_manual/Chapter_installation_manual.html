@@ -199,7 +199,7 @@ contains the following subdirectories:
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>auxiliary</TT>     
     <TD class="math" ALIGN=LEFT NOWRAP>
-precompiled <span class="textsc">Gmp</span>, <span class="textsc">Mpfr</span> and <span class="textsc">Taucs</span> for Windows
+precompiled <span class="textsc">Gmp</span>and <span class="textsc">Mpfr</span> for Windows
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>cmake/modules</TT> 
@@ -735,9 +735,11 @@ your own demos you might need these <span class="textsc">Cgal</span>-libraries.
 <A NAME="sec:optional3rdpartysoftware"></A><h2>10&nbsp;&nbsp;&nbsp;Optional Third Party Libraries</h2>
 <P>
 
-Optional 3rd party software is only required to build examples and
-demos shipped with <span class="textsc">Cgal</span> or to build your own project using <span class="textsc">Cgal</span>. In order
-to simplify these builds, various libraries can be <I>prepared to be
+Optional 3rd party software can be used by <span class="textsc">Cgal</span> for various reasons:
+Usually certain optional libraries are required to build examples and
+demos shipped with <span class="textsc">Cgal</span> or to build your own project using <span class="textsc">Cgal</span>. 
+Another reason is to speed up basic tasks. 
+In order to support these goals, all optional libraries can be <I>prepared to be
 used with </I><span class="textsc">Cgal</span><I></I> while configuring <span class="textsc">Cgal</span>, just in the same way as
 essential libraries are configured. Whenever building an example or a
 demo (or your own executable), these <I>preconfigured</I> libraries
@@ -802,8 +804,9 @@ Mainly parts in <span class="textsc">Cgal</span>'s algebraic kernel require Rs3.
 
 <span class="textsc">Ntl</span> provides data structures and algorithms for signed, arbitrary
 length integers, and for vectors, matrices, and polynomials over the 
-integers and over finite fields. In <span class="textsc">Cgal</span> <span class="textsc">Ntl</span> is used to speed up
-polynomial operations such as GCDs. It is recommended to install <span class="textsc">Ntl</span> with support from <span class="textsc">Gmp</span>.
+integers and over finite fields. The optional library <span class="textsc">Ntl</span> is used by
+<span class="textsc">Cgal</span> to speed up operations of the Polynomial package, such as GCDs.
+It is recommended to install <span class="textsc">Ntl</span> with support from <span class="textsc">Gmp</span>.
 <P>
 
 <span class="textsc">Ntl</span> can be downloaded from <A HREF="http://www.shoup.net/ntl/"><TT>http://www.shoup.net/ntl/</TT></A>. Version 5.1 or higher is recommended.
@@ -817,16 +820,11 @@ polynomial operations such as GCDs. It is recommended to install <span class="te
 <P>
 
 In <span class="textsc">Cgal</span>, <span class="textsc">Eigen</span> provides sparse linear solvers in the Surface Reconstruction from Point Sets
- and the Planar Parameterization of Triangulated Surface Meshes packages. 
- Since <span class="textsc">Cgal</span> version 4.0, <span class="textsc">Eigen</span> is recommended over <span class="textsc">Taucs</span> that is not longer maintained.
+ and the Planar Parameterization of Triangulated Surface Meshes packages.
 <P>
 
 In addition, <span class="textsc">Eigen</span> also provides singular value decomposition for the Estimation of Local Differential Properties
  and the Approximation of Ridges and Umbilics packages.
-<P>
-
-The usage of <span class="textsc">Eigen</span> allows to remove <span class="textsc">lapack</span>, <span class="textsc">blas</span> and <span class="textsc">Taucs</span> from the list of third party libraries
- required by some <span class="textsc">Cgal</span> packages. Note that the version 3.1 (or greater) of <span class="textsc">Eigen</span> is required.
 <P>
 
 The <span class="textsc">Eigen</span> web site is <A HREF="http://eigen.tuxfamily.org"><TT>http://eigen.tuxfamily.org</TT></A>.
@@ -845,7 +843,7 @@ In <span class="textsc">Cgal</span> some 3D demos are based on libQGLViewer.
 It can be downloaded from <A HREF="http://www.libqglviewer.com/"><TT>http://www.libqglviewer.com/</TT></A>.
 <P>
 
-<A NAME="thirdparty:Coin"></A><a name="Subsection_10.7"></a>
+<A NAME="thirdparty:Coin3D"></A><a name="Subsection_10.7"></a>
 <h3>10.7&nbsp;&nbsp;&nbsp;<span class="textsc">Coin3D</span></h3>
 <P>
 
@@ -1362,8 +1360,8 @@ If the parameter is not given, the script creates <B>one executable for each giv
   ``com2'') of <span class="textsc">Cgal</span> to which the executable(s) should be linked. Valid components are <span class="textsc">Cgal</span>'s
   libraries (i.e.&nbsp;``Core'', ``ImageIO'', ``Qt3'' and ``Qt4''; note
   that it only make sense to either pick ``Qt3'' or ``Qt4'') and all
-  preconfigured 3rd party software, such as ``MPFI'', ``RS3'',
-  or ``LAPACK''). An example is <TT>-c Core:GMP:RS3:MPFI</TT>
+  preconfigured 3rd party software, such as ``MPFI'' or ``RS3''
+  ). An example is <TT>-c Core:GMP:RS3:MPFI</TT>
 <P>
 
 <DT><B><TT>-b boost1:boost2:...</TT></B><DD> Lists components (``boost1'',
@@ -1410,8 +1408,8 @@ link with <span class="textsc">Cgal</span> and essential third party libraries. 
 <TT>find_package</TT> can demand for <TT>COMPONENTS</TT> of <span class="textsc">Cgal</span>,
 that is, all <span class="textsc">Cgal</span> libraries libCGAL_Core (``Core''),
 libCGAL_imageIO (``ImageIO'') , libCGAL_Qt3 (``Qt3'') and libCGAL_Qt4
-(``Qt4'') or optional 3rd party software such as ``MPFI'', ``RS3'' or
-``LAPACK''. A user is free to create the <TT>CMakeLists.txt</TT>
+(``Qt4'') or optional 3rd party software such as ``MPFI'' or ``RS3''.
+A user is free to create the <TT>CMakeLists.txt</TT>
 without calling the script (manual creation).
 <P>
 
@@ -1846,6 +1844,13 @@ Indicates whether to search and use <span class="textsc">Gmp</span><span class="
 CMake
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>GMP_DIR</TT>             
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory of <span class="textsc">Gmp</span> default installation          
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>GMP_INCLUDE_DIR</TT>    
     <TD class="math" ALIGN=LEFT NOWRAP>
 Directory containing the <TT>gmp.h</TT> file        
@@ -1928,6 +1933,13 @@ Under Linux, the <span class="textsc">Gmpxx</span> is also searched for, and you
 <B>Description</B>                           
     <TD class="math" ALIGN=LEFT NOWRAP>
 <B>Type</B>
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>GMPXX_DIR</TT>           
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory of <span class="textsc">Gmpxx</span> default installation 
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>GMPXX_INCLUDE_DIR</TT>  
@@ -2090,7 +2102,7 @@ If that doesn't work because, for example, the names are different, you can prov
 via <TT>LEDA_LIBRARY_RELEASE</TT> and <TT>LEDA_LIBRARY_DEBUG</TT>.
 <P>
 
-The variables specifying definitions and flags can be left undefined if they are not needed by LEDA.
+The variables specifying definitions and flags can be left undefined if they are not needed by <span class="textsc">Leda</span>.
 <P>
 
 <TABLE CELLSPACING=5  BORDER=2>
@@ -2108,6 +2120,13 @@ The variables specifying definitions and flags can be left undefined if they are
 Indicates whether to search and use <span class="textsc">Leda</span> or not            
     <TD class="math" ALIGN=LEFT NOWRAP>
 CMake
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>LEDA_DIR</TT>              
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory of <span class="textsc">Leda</span> default installation          
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>LEDA_INCLUDE_DIR</TT>     
@@ -2196,6 +2215,13 @@ and library files must be specified by using environment variables.
 <B>Type</B>
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>MPFI_DIR</TT>            
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory of <span class="textsc">Mpfi</span> default installation          
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>MPFI_INCLUDE_DIR</TT>   
     <TD class="math" ALIGN=LEFT NOWRAP>
 Directory containing the <TT>mpfi.h</TT> file         
@@ -2259,6 +2285,13 @@ related to the latter library may also need to be defined.
 <B>Type</B>
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>RS_DIR</TT>              
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory of Rs default installation          
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>RS_INCLUDE_DIR</TT>     
     <TD class="math" ALIGN=LEFT NOWRAP>
 Directory containing the <TT>rs_exports.h</TT> file  
@@ -2306,6 +2339,13 @@ Similar variables exist for Rs3.
 <B>Description</B>                                  
     <TD class="math" ALIGN=LEFT NOWRAP>
 <B>Type</B>
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>RS3_DIR</TT>              
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory of Rs3 default installation          
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>RS3_INCLUDE_DIR</TT>     
@@ -2368,6 +2408,13 @@ headers and library files must be specified using environment variables.
 <B>Type</B>
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>NTL_DIR</TT>              
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory of <span class="textsc">Ntl</span> default installation          
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>NTL_INCLUDE_DIR</TT>     
     <TD class="math" ALIGN=LEFT NOWRAP>
 Directory containing the <TT>NTL/ZZX.h</TT> file  
@@ -2419,6 +2466,13 @@ Only the  <I>directory</I> containing the header files of <span class="textsc">E
 <B>Description</B>                            
     <TD class="math" ALIGN=LEFT NOWRAP>
 <B>Type</B>
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>EIGEN3_DIR</TT>             
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory of <span class="textsc">Eigen</span> default installation          
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>EIGEN3_INCLUDE_DIR</TT>  
@@ -2504,6 +2558,13 @@ environment variable is sufficient.
 <B>Description</B>                                         
     <TD class="math" ALIGN=LEFT NOWRAP>
 <B>Type</B>
+  <TR>
+    <TD class="math" ALIGN=LEFT NOWRAP>
+<TT>ESBTL_DIR</TT>             
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Directory of <span class="textsc">Estbl</span> default installation          
+    <TD class="math" ALIGN=LEFT NOWRAP>
+Environment
   <TR>
     <TD class="math" ALIGN=LEFT NOWRAP>
 <TT>ESBTL_INC_DIR</TT>     
@@ -2656,8 +2717,8 @@ If the parameter is not given, the script creates <B>one executable for each giv
   ``com2'') of <span class="textsc">Cgal</span> to which the executable(s) should be linked. Valid components are <span class="textsc">Cgal</span>'s
   libraries (i.e.&nbsp;``Core'', ``ImageIO'', ``Qt3'' and ``Qt4''; note
   that it only make sense to either pick ``Qt3'' or ``Qt4'') and all
-  preconfigured 3rd party software, such as ``MPFI'', ``RS3'',
-  or ``LAPACK''). An example is <TT>-c Core:GMP:RS3:MPFI</TT>
+  preconfigured 3rd party software, such as ``MPFI'' or ``RS3''
+  ). An example is <TT>-c Core:GMP:RS3:MPFI</TT>
 <P>
 
 <DT><B><TT>-b boost1:boost2:...</TT></B><DD> Lists components (``boost1'',
@@ -2704,8 +2765,8 @@ link with <span class="textsc">Cgal</span> and essential third party libraries. 
 <TT>find_package</TT> can demand for <TT>COMPONENTS</TT> of <span class="textsc">Cgal</span>,
 that is, all <span class="textsc">Cgal</span> libraries libCGAL_Core (``Core''),
 libCGAL_imageIO (``ImageIO'') , libCGAL_Qt3 (``Qt3'') and libCGAL_Qt4
-(``Qt4'') or optional 3rd party software such as ``MPFI'', ``RS3'' or
-``LAPACK''. A user is free to create the <TT>CMakeLists.txt</TT>
+(``Qt4'') or optional 3rd party software such as ``MPFI'' or ``RS3''.
+A user is free to create the <TT>CMakeLists.txt</TT>
 without calling the script (manual creation).
 <P>
 
@@ -2803,6 +2864,6 @@ the '<TT>optimized</TT>' and '<TT>debug</TT>' tags should appear verbatim.
 <div class="NavAddress">
 <SMALL><a href="http://www.cgal.org" target="_top">CGAL Open Source Project</a>.
 Separate Build.
-17 August 2012.</SMALL>
+23 October 2012.</SMALL>
 </div>
 </body>  </html>

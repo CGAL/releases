@@ -17,7 +17,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/Cartesian_kernel/include/CGAL/Cartesian/function_objects.h $
-// $Id: function_objects.h 71225 2012-08-16 10:20:46Z lrineau $
+// $Id: function_objects.h 73202 2012-10-23 14:03:05Z lrineau $
 //
 //
 // Author(s)     : Stefan Schirra, Sylvain Pion, Michael Hoffmann

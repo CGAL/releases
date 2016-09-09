@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.1-branch/BGL/include/CGAL/boost/graph/graph_traits_Delaunay_triangulation_2.h $
-// $Id: graph_traits_Delaunay_triangulation_2.h 67093 2012-01-13 11:22:39Z lrineau $
+// $Id: graph_traits_Delaunay_triangulation_2.h 73202 2012-10-23 14:03:05Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -331,6 +331,15 @@ namespace boost {
   // g++ 'enumeral_type' in template unification not implemented workaround
   template <class Gt, class Tds, class Tag>
   struct property_map<CGAL::Delaunay_triangulation_2<Gt,Tds>, Tag> {
+    typedef typename 
+      DT2_property_map<Tag>::template bind_<Gt,Tds> map_gen;
+    typedef typename map_gen::type type;
+    typedef typename map_gen::const_type const_type;
+  };
+
+  // see struct property_map in Polyehdron for an explanation
+  template <class Gt, class Tds, class Tag>
+  struct property_map<const CGAL::Delaunay_triangulation_2<Gt,Tds>, Tag> {
     typedef typename 
       DT2_property_map<Tag>::template bind_<Gt,Tds> map_gen;
     typedef typename map_gen::type type;
