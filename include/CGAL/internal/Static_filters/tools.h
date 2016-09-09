@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Filtered_kernel/include/CGAL/internal/Static_filters/tools.h $
-// $Id: tools.h 60399 2010-12-17 13:53:26Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Filtered_kernel/include/CGAL/internal/Static_filters/tools.h $
+// $Id: tools.h 63033 2011-04-18 14:19:04Z lrineau $
 // 
 //
 // Author(s)     : Sylvain Pion
@@ -22,6 +22,7 @@
 #define CGAL_INTERNAL_STATIC_FILTERS_TOOLS_H
 
 #include <CGAL/basic.h>
+#include <CGAL/function_objects.h>
 #include <boost/mpl/has_xxx.hpp>
 
 namespace CGAL {
@@ -77,12 +78,13 @@ BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Kernel_object_has_approx, \
                                   false)
 
 template <typename T, bool has_approx = Kernel_object_has_approx<T>::value>
-struct Get_approx {
-  T operator()(T x) const { return x; }
+struct Get_approx : public CGAL::Identity<T> {
+  // If has_approx==false, this functor is the identity.
 };
 
 template <typename T>
 struct Get_approx<T, true> {
+  // If has_approx==false, this functor get .approx() on its argument.
   const typename T::Approximate_type& operator()(const T& x) const { return x.approx(); }
   typename T::Approximate_type& operator()(T& x) const { return x.approx(); }
 };

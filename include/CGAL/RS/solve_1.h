@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Algebraic_kernel_d/include/CGAL/RS/solve_1.h $
-// $Id: solve_1.h 59002 2010-10-04 11:00:27Z lrineau $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Algebraic_kernel_d/include/CGAL/RS/solve_1.h $
+// $Id: solve_1.h 62314 2011-04-08 06:26:52Z penarand $
 //
 // Author: Luis Peñaranda <luis.penaranda@loria.fr>
 
@@ -35,7 +35,13 @@ namespace CGAL{
 class RS_polynomial_1;
 class Algebraic_1;
 
-#define CGALRS_CSTR(S) ((char*)(S))
+#define CGALRS_CSTR(S)  ((char*)(S))
+
+#ifdef CGAL_RS_OLD_INCLUDES
+#define CGALRS_PTR(a)   long int a
+#else
+#define CGALRS_PTR(a)   void *a
+#endif
 
 // initialize RS solver
 inline void init_solver(){
@@ -54,12 +60,16 @@ inline void reset_solver(){
 }
 
 inline int affiche_sols_eqs(mpfi_ptr *x){
-        int ident_sols_eqs,nb_elts,ident_node,ident_vect,ident_elt,i;
-        ident_sols_eqs=rs_get_default_sols_eqs ();
+        CGALRS_PTR(ident_sols_eqs);
+        CGALRS_PTR(ident_node);
+        CGALRS_PTR(ident_vect);
+        CGALRS_PTR(ident_elt);
+        int nb_elts;
+        ident_sols_eqs=rs_get_default_sols_eqs();
         nb_elts=rs_export_list_vect_ibfr_nb(ident_sols_eqs);
         ident_node=rs_export_list_vect_ibfr_firstnode(ident_sols_eqs);
         //x=(mpfi_ptr*)malloc(nb_elts*sizeof(mpfi_ptr));
-        for (i=0; i<nb_elts; ++i) {
+        for(int i=0; i<nb_elts; ++i) {
                 ident_vect=rs_export_list_vect_ibfr_monnode(ident_node);
                 CGAL_assertion_msg(rs_export_dim_vect_ibfr(ident_vect)==1,
                                 "the dimension of vector must be 1");
@@ -71,7 +81,11 @@ inline int affiche_sols_eqs(mpfi_ptr *x){
 }
 
 inline void affiche_sols_constr(int nr,mpfi_ptr p){
-        int ident_sols_eqs,nb_elts,ident_node,ident_vect,nb,ident_elt;
+        CGALRS_PTR(ident_sols_eqs);
+        CGALRS_PTR(ident_node);
+        CGALRS_PTR(ident_vect);
+        CGALRS_PTR(ident_elt);
+        int nb_elts,nb;
         ident_sols_eqs=rs_get_default_sols_ineqs();
         nb_elts=rs_export_list_vect_ibfr_nb(ident_sols_eqs);
         ident_node=rs_export_list_vect_ibfr_firstnode(ident_sols_eqs);
@@ -90,7 +104,11 @@ inline void affiche_sols_constr(int nr,mpfi_ptr p){
 }
 
 inline Sign affiche_signs_constr(const Algebraic_1 &a){
-        int ident_sols_eqs,nb_elts,ident_node,ident_vect, nb, ident_elt;
+        CGALRS_PTR(ident_sols_eqs);
+        CGALRS_PTR(ident_node);
+        CGALRS_PTR(ident_vect);
+        CGALRS_PTR(ident_elt);
+        int nb_elts,nb;
         mpfi_t tmp;
         mpfi_init(tmp);
         ident_sols_eqs = rs_get_default_sols_ineqs ();
@@ -132,10 +150,11 @@ inline Sign affiche_signs_constr(const Algebraic_1 &a){
         return ZERO;
 }
 
-inline void create_rs_upoly (mpz_t *poly, const int deg, const int ident_pol) {
-        int ident_mon, ident_coeff, i;
+inline void create_rs_upoly(mpz_t *poly,const int deg,CGALRS_PTR(ident_pol)){
+        CGALRS_PTR(ident_mon);
+        CGALRS_PTR(ident_coeff);
         rs_import_uppring(CGALRS_CSTR("T"));
-        for (i=0; i<=deg; ++i)
+        for(int i=0;i<=deg;++i)
                 if (mpz_sgn (poly[i]))  {       // don't add if == 0
                         ident_mon = rs_export_new_mon_upp_bz ();
                         ident_coeff = rs_export_new_gmp ();
@@ -146,9 +165,10 @@ inline void create_rs_upoly (mpz_t *poly, const int deg, const int ident_pol) {
                 }
 }
 
-inline void create_rs_uconstr (mpz_t ** list_constr,
-                const int * list_degs, const int ident_list) {
-        int ident_poly;
+inline void create_rs_uconstr (mpz_t **list_constr,
+                               const int *list_degs,
+                               CGALRS_PTR(ident_list)){
+        CGALRS_PTR(ident_poly);
         ident_poly = rs_export_new_list_mon_upp_bz ();
         create_rs_upoly (*list_constr, *list_degs, ident_poly);
         rs_dappend_list_sup_bz (ident_list, ident_poly);

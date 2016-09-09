@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Intersections_3/include/CGAL/Intersections_3/intersection_3_1_impl.h $
-// $Id: intersection_3_1_impl.h 59401 2010-10-28 15:13:53Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Intersections_3/include/CGAL/Intersections_3/intersection_3_1_impl.h $
+// $Id: intersection_3_1_impl.h 62351 2011-04-11 08:19:16Z sloriot $
 // 
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
@@ -964,6 +964,8 @@ intersection(const typename K::Plane_3 &plane,
     CGAL_kernel_assertion( pt_ptr!=NULL );    
     pts.push_back( *pt_ptr );
   }
+  
+  if (pts.empty()) return CGAL::Object();
   
   CGAL_kernel_assertion(pts.size()==2);
   

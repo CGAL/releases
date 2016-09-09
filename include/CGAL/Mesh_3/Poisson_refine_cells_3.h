@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_reconstruction_points_3/include/CGAL/Mesh_3/Poisson_refine_cells_3.h $
-// $Id: Poisson_refine_cells_3.h 50116 2009-06-26 15:04:39Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Surface_reconstruction_points_3/include/CGAL/Mesh_3/Poisson_refine_cells_3.h $
+// $Id: Poisson_refine_cells_3.h 63033 2011-04-18 14:19:04Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -317,7 +317,7 @@ public:
 
 }; // end class Poisson_refine_tets
 
-}; // end namespace Mesh_3
-}; // end namespace CGAL
+} // end namespace Mesh_3
+} // end namespace CGAL
 
 #endif // CGAL_MESH_3_POISSON_REFINE_CELLS_3_H

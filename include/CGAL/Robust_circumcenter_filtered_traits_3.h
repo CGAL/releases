@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Surface_reconstruction_points_3/include/CGAL/Robust_circumcenter_filtered_traits_3.h $
-// $Id: Robust_circumcenter_filtered_traits_3.h 58386 2010-08-31 11:56:22Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Surface_reconstruction_points_3/include/CGAL/Robust_circumcenter_filtered_traits_3.h $
+// $Id: Robust_circumcenter_filtered_traits_3.h 61933 2011-03-23 15:14:41Z lrineau $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -67,7 +67,6 @@ public:
       if ( side_of_bounded_sphere(p,q,r,s,point) == ON_BOUNDED_SIDE )
         return point;
     }
-    std::cerr << "switch to exact" << std::endl;
     // Switch to exact
     To_exact to_exact;
     Back_from_exact back_from_exact;

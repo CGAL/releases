@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/STL_Extension/include/CGAL/Uncertain.h $
-// $Id: Uncertain.h 56667 2010-06-09 07:37:13Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/STL_Extension/include/CGAL/Uncertain.h $
+// $Id: Uncertain.h 61835 2011-03-17 10:19:54Z sloriot $
 //
 // Author(s)     : Sylvain Pion
 
@@ -69,7 +69,7 @@ namespace internal {
 
 // Exception type for the automatic conversion.
 class Uncertain_conversion_exception
-  : std::range_error
+  : public std::range_error
 {
 public:
   Uncertain_conversion_exception(const std::string &s)

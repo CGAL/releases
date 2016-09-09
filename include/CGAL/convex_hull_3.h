@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Convex_hull_3/include/CGAL/convex_hull_3.h $
-// $Id: convex_hull_3.h 60565 2011-01-05 11:05:06Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Convex_hull_3/include/CGAL/convex_hull_3.h $
+// $Id: convex_hull_3.h 62252 2011-04-06 07:59:23Z sloriot $
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
@@ -42,6 +42,21 @@
 
 namespace CGAL {
 
+  
+namespace internal{  namespace CH3 {
+    
+ struct Plane_equation {
+  template <class Facet>
+  typename Facet::Plane_3 operator()( Facet& f) {
+      typename Facet::Halfedge_handle h = f.halfedge();
+      typedef typename Facet::Plane_3  Plane;
+      return Plane( h->vertex()->point(),
+                    h->next()->vertex()->point(),
+                    h->next()->next()->vertex()->point());
+  }
+};
+ 
+} } //namespace internal::CH3
 
 template<class HDS, class ForwardIterator>
 class Build_coplanar_poly : public Modifier_base<HDS> {
@@ -92,6 +107,11 @@ void coplanar_3_hull(InputIterator first, InputIterator beyond,
   typedef typename Traits::Point_3               Point_3;
   typedef typename Traits::Vector_3              Vector_3;
   typedef typename Traits::Max_coordinate_3      Max_coordinate_3;
+
+  typedef typename Traits::Traits_xy      Traits_xy;
+  typedef typename Traits::Traits_xz      Traits_xz;
+  typedef typename Traits::Traits_yz      Traits_yz;
+
   typedef Polyhedron_3                           Polyhedron;
   
   std::list<Point_3> CH_2;
@@ -109,19 +129,19 @@ void coplanar_3_hull(InputIterator first, InputIterator beyond,
      case 0:
      {
        convex_hull_points_2(first, beyond, std::back_inserter(CH_2),
-            Convex_hull_projective_yz_traits_2<Point_3>());
+            Traits_yz());
        break;
      }
      case 1:
      {
        convex_hull_points_2(first, beyond, std::back_inserter(CH_2),
-            Convex_hull_projective_xz_traits_2<Point_3>());
+            Traits_xz());
        break;
      }
      case 2:
      {
        convex_hull_points_2(first, beyond, std::back_inserter(CH_2),
-            Convex_hull_projective_xy_traits_2<Point_3>());
+            Traits_xy());
        break;
      }
      default:
@@ -535,6 +555,9 @@ ch_quickhull_polyhedron_3(std::list<typename Traits::Point_3>& points,
      if (!points.empty())
         non_coplanar_quickhull_3(points, P, traits);
   }
+  
+  std::transform( P.facets_begin(), P.facets_end(), P.planes_begin(),internal::CH3::Plane_equation());
+
 }
 
 template <class InputIterator, class Traits>

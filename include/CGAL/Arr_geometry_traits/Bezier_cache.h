@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/trunk/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_cache.h $
-// $Id: Bezier_cache.h 61301 2011-02-18 10:41:22Z sloriot $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.8-branch/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_cache.h $
+// $Id: Bezier_cache.h 62202 2011-04-05 11:02:11Z sloriot $
 // 
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -786,7 +786,7 @@ _Bezier_cache<NtTraits>::_compute_resultant
       found_row = false;
       for (k = i + 1; k < dim; k++)
       {
-        if (nt_traits.degree (mat[k][i]) <= 0)
+        if (nt_traits.degree (mat[k][i]) >= 0)
         {
           found_row = true;
           break;
