@@ -25,6 +25,7 @@ if ( CGAL_FOUND )
 
   create_single_source_cgal_program( "adding_handles_3.cpp" )
   create_single_source_cgal_program( "color.cpp" )
+  create_single_source_cgal_program( "copy_triangulation_3.cpp" )
   create_single_source_cgal_program( "fast_location_3.cpp" )
   create_single_source_cgal_program( "find_conflicts_3.cpp" )
   create_single_source_cgal_program( "info_insert_with_pair_iterator.cpp" )

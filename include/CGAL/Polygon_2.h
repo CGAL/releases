@@ -53,7 +53,7 @@ namespace CGAL {
 /// can be any class that fulfills the requirements for an STL
 /// container. It defaults to the std::vector class.
 ///
-/// ### Implementation ###
+/// \cgalHeading{Implementation}
 ///
 /// The methods `is_simple()`, `is_convex()`, `orientation()`,
 /// `oriented_side()`, `bounded_side()`, `bbox()`, `area()`, `left_vertex()`,
@@ -127,10 +127,10 @@ class Polygon_2 {
     //typedef typename Container::const_iterator Vertex_const_iterator; ??
 
 #ifdef DOXYGEN_RUNNING
-  typedef Hidden_type Vertex_circulator;
-    typedef Hidden_type Edge_const_iterator;
+  typedef unspecified_type Vertex_circulator;
+    typedef unspecified_type Edge_const_iterator;
 
-    typedef Hidden_type Edge_const_circulator;
+    typedef unspecified_type Edge_const_circulator;
 #else 
     typedef Vertex_const_circulator            Vertex_circulator;
     /// 

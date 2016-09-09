@@ -401,7 +401,7 @@ void Scene::build_facet_tree()
     CGAL::Timer timer;
     timer.start();
     std::cout << "Construct Facet AABB tree...";
-    m_facet_tree.rebuild(m_pPolyhedron->facets_begin(),m_pPolyhedron->facets_end());
+    m_facet_tree.rebuild(m_pPolyhedron->facets_begin(),m_pPolyhedron->facets_end(),*m_pPolyhedron);
     m_facet_tree.accelerate_distance_queries();
     std::cout << "done (" << timer.time() << " s)" << std::endl;
 }
@@ -421,7 +421,7 @@ void Scene::build_edge_tree()
     CGAL::Timer timer;
     timer.start();
     std::cout << "Construct Edge AABB tree...";
-    m_edge_tree.rebuild(m_pPolyhedron->edges_begin(),m_pPolyhedron->edges_end());
+    m_edge_tree.rebuild(boost::edges(*m_pPolyhedron).first,boost::edges(*m_pPolyhedron).second,*m_pPolyhedron);
     m_edge_tree.accelerate_distance_queries();
     std::cout << "done (" << timer.time() << " s)" << std::endl;
 }
@@ -460,12 +460,12 @@ void Scene::generate_points_in(const unsigned int nb_points,
         return;
     }
 
-    typedef CGAL::AABB_polyhedron_triangle_primitive<Kernel,Polyhedron> Primitive;
+    typedef CGAL::AABB_face_graph_triangle_primitive<Polyhedron> Primitive;
     typedef CGAL::AABB_traits<Kernel, Primitive> Traits;
     typedef CGAL::AABB_tree<Traits> Tree;
 
     std::cout << "Construct AABB tree...";
-    Tree tree(m_pPolyhedron->facets_begin(),m_pPolyhedron->facets_end());
+    Tree tree(m_pPolyhedron->facets_begin(),m_pPolyhedron->facets_end(), *m_pPolyhedron);
     std::cout << "done." << std::endl;
 
     CGAL::Timer timer;
@@ -512,12 +512,12 @@ void Scene::generate_inside_points(const unsigned int nb_points)
         return;
     }
 
-    typedef CGAL::AABB_polyhedron_triangle_primitive<Kernel,Polyhedron> Primitive;
+    typedef CGAL::AABB_face_graph_triangle_primitive<Polyhedron> Primitive;
     typedef CGAL::AABB_traits<Kernel, Primitive> Traits;
     typedef CGAL::AABB_tree<Traits> Tree;
 
     std::cout << "Construct AABB tree...";
-    Tree tree(m_pPolyhedron->facets_begin(),m_pPolyhedron->facets_end());
+    Tree tree(m_pPolyhedron->facets_begin(),m_pPolyhedron->facets_end(),*m_pPolyhedron);
     std::cout << "done." << std::endl;
 
     CGAL::Timer timer;
@@ -553,13 +553,13 @@ void Scene::generate_boundary_segments(const unsigned int nb_slices)
         return;
     }
 
-    typedef CGAL::AABB_polyhedron_triangle_primitive<Kernel,Polyhedron> Primitive;
+    typedef CGAL::AABB_face_graph_triangle_primitive<Polyhedron> Primitive;
     typedef CGAL::AABB_traits<Kernel, Primitive> Traits;
     typedef CGAL::AABB_tree<Traits> Tree;
     typedef Tree::Object_and_primitive_id Object_and_primitive_id;
 
     std::cout << "Construct AABB tree...";
-    Tree tree(m_pPolyhedron->facets_begin(),m_pPolyhedron->facets_end());
+    Tree tree(m_pPolyhedron->facets_begin(),m_pPolyhedron->facets_end(),*m_pPolyhedron);
     std::cout << "done." << std::endl;
 
     CGAL::Timer timer;
@@ -602,13 +602,13 @@ void Scene::generate_boundary_points(const unsigned int nb_points)
         return;
     }
 
-    typedef CGAL::AABB_polyhedron_triangle_primitive<Kernel,Polyhedron> Primitive;
+    typedef CGAL::AABB_face_graph_triangle_primitive<Polyhedron> Primitive;
     typedef CGAL::AABB_traits<Kernel, Primitive> Traits;
     typedef CGAL::AABB_tree<Traits> Tree;
     typedef Tree::Object_and_primitive_id Object_and_primitive_id;
 
     std::cout << "Construct AABB tree...";
-    Tree tree(m_pPolyhedron->facets_begin(),m_pPolyhedron->facets_end());
+    Tree tree(m_pPolyhedron->facets_begin(),m_pPolyhedron->facets_end(),*m_pPolyhedron);
     std::cout << "done." << std::endl;
 
     CGAL::Timer timer;
@@ -651,13 +651,15 @@ void Scene::generate_edge_points(const unsigned int nb_points)
         return;
     }
 
-    typedef CGAL::AABB_polyhedron_segment_primitive<Kernel,Polyhedron> Primitive;
+    typedef CGAL::AABB_halfedge_graph_segment_primitive<Polyhedron> Primitive;
     typedef CGAL::AABB_traits<Kernel, Primitive> Traits;
     typedef CGAL::AABB_tree<Traits> Tree;
     typedef Tree::Object_and_primitive_id Object_and_primitive_id;
 
     std::cout << "Construct AABB tree...";
-    Tree tree(m_pPolyhedron->edges_begin(),m_pPolyhedron->edges_end());
+    Tree tree( CGAL::undirected_edges(*m_pPolyhedron).first,
+               CGAL::undirected_edges(*m_pPolyhedron).second,
+               *m_pPolyhedron);
     std::cout << "done." << std::endl;
 
     CGAL::Timer timer;

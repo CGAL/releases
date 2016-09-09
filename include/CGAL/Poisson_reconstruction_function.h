@@ -30,6 +30,7 @@
 #include <deque>
 #include <algorithm>
 #include <cmath>
+#include <iterator>
 
 #include <CGAL/trace.h>
 #include <CGAL/Reconstruction_triangulation_3.h>
@@ -150,7 +151,7 @@ struct Special_wrapper_of_two_functions_keep_pointers {
 \brief Implementation of the Poisson Surface Reconstruction method.
   
 Given a set of 3D points with oriented normals sampled on the boundary
-of a 3D solid, the Poisson Surface Reconstruction method \cite Kazhdan06 
+of a 3D solid, the Poisson Surface Reconstruction method \cgalCite{Kazhdan06} 
 solves for an approximate indicator function of the inferred
 solid, whose gradient best matches the input normals. The output
 scalar function, represented in an adaptive octree, is then
@@ -297,8 +298,8 @@ public:
   Poisson_reconstruction_function(
     InputIterator first,  ///< iterator over the first input point.
     InputIterator beyond, ///< past-the-end iterator over the input points.
-    PointPMap point_pmap, ///< property map to access the position of an input point.
-    NormalPMap normal_pmap ///< property map to access the *oriented* normal of an input point.
+    PointPMap point_pmap, ///< property map: `value_type of InputIterator` -> `Point` (the position of an input point).
+    NormalPMap normal_pmap ///< property map: `value_type of InputIterator` -> `Vector` (the *oriented* normal of an input point).
   )
     : m_tr(new Triangulation), m_Bary(new std::vector<boost::array<double,9> > )
     , average_spacing(CGAL::compute_average_spacing(first, beyond, 6))
@@ -315,8 +316,8 @@ public:
   Poisson_reconstruction_function(
     InputIterator first,  ///< iterator over the first input point.
     InputIterator beyond, ///< past-the-end iterator over the input points.
-    PointPMap point_pmap, ///< property map to access the position of an input point.
-    NormalPMap normal_pmap, ///< property map to access the *oriented* normal of an input point.
+    PointPMap point_pmap, ///< property map: `value_type of InputIterator` -> `Point` (the position of an input point).
+    NormalPMap normal_pmap, ///< property map: `value_type of InputIterator` -> `Vector` (the *oriented* normal of an input point).
     Visitor visitor)
     : m_tr(new Triangulation), m_Bary(new std::vector<boost::array<double,9> > )
     , average_spacing(CGAL::compute_average_spacing(first, beyond, 6))
@@ -324,14 +325,14 @@ public:
     forward_constructor(first, beyond, point_pmap, normal_pmap, visitor);
   }
 
-  // This variant creates a default point property map = Dereference_property_map and Visitor=Poisson_visitor
+  // This variant creates a default point property map = Identity_property_map and Visitor=Poisson_visitor
   template <typename InputIterator,
             typename NormalPMap
   >
   Poisson_reconstruction_function(
     InputIterator first,  ///< iterator over the first input point.
     InputIterator beyond, ///< past-the-end iterator over the input points.
-    NormalPMap normal_pmap, ///< property map to access the *oriented* normal of an input point.
+    NormalPMap normal_pmap, ///< property map: `value_type of InputIterator` -> `Vector` (the *oriented* normal of an input point).
     typename boost::enable_if<
       boost::is_convertible<typename InputIterator::value_type, Point>
     >::type* = 0
@@ -339,7 +340,14 @@ public:
   : m_tr(new Triangulation), m_Bary(new std::vector<boost::array<double,9> > )
   , average_spacing(CGAL::compute_average_spacing(first, beyond, 6))
   {
-    forward_constructor(first, beyond, make_dereference_property_map(first), normal_pmap, Poisson_visitor());
+    forward_constructor(first, beyond, 
+#ifdef CGAL_USE_PROPERTY_MAPS_API_V1
+      make_dereference_property_map(first),
+#else
+      make_identity_property_map(
+      typename std::iterator_traits<InputIterator>::value_type()),
+#endif
+      normal_pmap, Poisson_visitor());
     CGAL::Timer task_timer; task_timer.start();
   }
   /// \endcond

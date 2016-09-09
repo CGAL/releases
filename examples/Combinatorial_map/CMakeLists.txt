@@ -23,6 +23,7 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE "../../include")
 
+  create_single_source_cgal_program( "map_3_dynamic_onmerge.cpp" )
   create_single_source_cgal_program( "map_3_foreach.cpp" )
   create_single_source_cgal_program( "map_3_marks.cpp" )
   create_single_source_cgal_program( "map_3_operations.cpp" )

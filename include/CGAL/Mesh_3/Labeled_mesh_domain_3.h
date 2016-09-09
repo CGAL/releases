@@ -26,6 +26,8 @@
 #ifndef CGAL_MESH_3_LABELED_MESH_DOMAIN_3_H
 #define CGAL_MESH_3_LABELED_MESH_DOMAIN_3_H
 
+#include <CGAL/Mesh_3/config.h>
+
 #include <CGAL/Bbox_3.h>
 
 #include <CGAL/point_generators_3.h>
@@ -201,12 +203,14 @@ public:
     template<typename Query>
     Surface_patch clip_to_segment(const Query& query) const
     {
-      const Object clipped = CGAL::intersection(query, r_domain_.bbox_);
+      typename cpp11::result_of<typename BGT::Intersect_3(Query, Iso_cuboid_3)>::type
+        clipped = CGAL::intersection(query, r_domain_.bbox_);
 
-      if ( const Segment_3* s = object_cast<Segment_3>(&clipped) )
-        return this->operator()(*s);
-      else
-        return Surface_patch();
+      if(clipped)
+        if(const Segment_3* s = boost::get<Segment_3>(&*clipped))
+          return this->operator()(*s);
+        
+      return Surface_patch();
     }
 
   private:
@@ -235,7 +239,9 @@ public:
 
     Intersection operator()(const Segment_3& s) const
     {
+#ifndef CGAL_MESH_3_NO_LONGER_CALLS_DO_INTERSECT_3
       CGAL_precondition(r_domain_.do_intersect_surface_object()(s));
+#endif // NOT CGAL_MESH_3_NO_LONGER_CALLS_DO_INTERSECT_3
       return this->operator()(s.source(),s.target());
     }
 
@@ -322,12 +328,14 @@ public:
     template<typename Query>
     Intersection clip_to_segment(const Query& query) const
     {
-      const Object clipped = CGAL::intersection(query, r_domain_.bbox_);
+      typename cpp11::result_of<typename BGT::Intersect_3(Query, Iso_cuboid_3)>::type
+        clipped = CGAL::intersection(query, r_domain_.bbox_);
 
-      if ( const Segment_3* s = object_cast<Segment_3>(&clipped) )
-        return this->operator()(*s);
-      else
-        return Intersection();
+      if(clipped)
+        if(const Segment_3* s = boost::get<Segment_3>(&*clipped))
+          return this->operator()(*s);
+      
+      return Intersection();
     }
 
   private:

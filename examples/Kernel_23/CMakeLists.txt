@@ -25,6 +25,7 @@ if ( CGAL_FOUND )
 
   create_single_source_cgal_program( "MyKernel.cpp" )
   create_single_source_cgal_program( "cartesian_converter.cpp" )
+  create_single_source_cgal_program( "intersections.cpp" )
 
 else()
   

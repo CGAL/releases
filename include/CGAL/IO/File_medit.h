@@ -22,6 +22,8 @@
 #ifndef CGAL_IO_FILE_MEDIT_H
 #define CGAL_IO_FILE_MEDIT_H
 
+#include <CGAL/Mesh_3/config.h>
+
 #include <iostream>
 #include <map>
 #include <set>
@@ -46,7 +48,7 @@ operator<<(std::ostream &os, const std::pair<T,T>& pair)
   return os << "<" << pair.first << "," << pair.second << ">";
 }
 #endif
-  
+
 // -----------------------------------
 // Rebin_cell_pmap
 // -----------------------------------

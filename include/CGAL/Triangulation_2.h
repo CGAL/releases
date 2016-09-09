@@ -161,7 +161,7 @@ public:
     Self & operator--() { Base::operator--(); return *this; }
     Self operator++(int) { Self tmp(*this); ++(*this); return tmp; }
     Self operator--(int) { Self tmp(*this); --(*this); return tmp; }
-    operator const Vertex_handle() const { return Base::base(); }
+    operator Vertex_handle() const { return Base::base(); }
   };
 
   class Finite_faces_iterator
@@ -176,7 +176,7 @@ public:
     Self & operator--() { Base::operator--(); return *this; }
     Self operator++(int) { Self tmp(*this); ++(*this); return tmp; }
     Self operator--(int) { Self tmp(*this); --(*this); return tmp; }
-    operator const Face_handle() const { return Base::base(); }
+    operator Face_handle() const { return Base::base(); }
   };
   
   typedef Filter_iterator<All_edges_iterator, 
@@ -372,12 +372,6 @@ public:
 
 protected:
   Face_handle
-  inexact_locate(const Point& p,
-                 Face_handle start, 
-                 int max_num_cells = 
-                 CGAL_T2_STRUCTURAL_FILTERING_MAX_VISITED_CELLS) const;
-
-  Face_handle
   exact_locate(const Point& p,
                Locate_type& lt,
                int& li,
@@ -406,6 +400,12 @@ protected:
                       const Point &r) const;
 
 public:
+  Face_handle
+  inexact_locate(const Point& p,
+                 Face_handle start = Face_handle(), 
+                 int max_num_cells = 
+                 CGAL_T2_STRUCTURAL_FILTERING_MAX_VISITED_CELLS) const;
+
   Face_handle
   locate(const Point & p,
          Locate_type & lt, int & li, 

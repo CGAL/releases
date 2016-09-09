@@ -26,11 +26,12 @@
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 #include <CGAL/Constrained_Delaunay_triangulation_2.h>
 #include <CGAL/Triangulation_vertex_base_with_info_2.h>
+#include <CGAL/Default.h>
 
 #include <CGAL/internal/corefinement/Combinatorial_map_for_corefinement.h> 
 
-#include <CGAL/Polyhedral_mesh_domain_3.h>
-
+#include <CGAL/Point_inside_polyhedron_3.h>
+#include <CGAL/property_map.h>
 #include <boost/optional.hpp>
 #include <boost/next_prior.hpp>
 
@@ -122,7 +123,7 @@ namespace CGAL
   };
 
     
-  template <class HDS>
+  template <class HDS, class NestedFacetConstruct, class NewNodeVertexVisitor>
   class Triangulate_a_face : public CGAL::Modifier_base<HDS> {
     typedef typename HDS::Halfedge_handle Halfedge_handle;
     typedef typename HDS::Vertex_handle   Vertex_handle;
@@ -138,7 +139,9 @@ namespace CGAL
     std::map<std::pair<int,int>,Halfedge_handle>&          edge_to_hedge_;
     std::vector<std::pair<int,int> >                       edges_to_create_;
     std::vector<CGAL::cpp11::tuple<int,int,int> >          faces_to_create_;
-    
+    NestedFacetConstruct facet_construct;
+    NewNodeVertexVisitor& node_vertex_visitor;
+
     typename HDS::Halfedge::Base*
     unlock_halfedge(Halfedge_handle h){
       return static_cast<typename HDS::Halfedge::Base*>(&(*h));
@@ -157,8 +160,10 @@ namespace CGAL
                         const std::vector<int>& node_ids,
                         std::map<int,Vertex_handle>& node_to_polyhedron_vertex,
                         std::map<std::pair<int,int>,Halfedge_handle>& edge_to_hedge,
-                        const Triangulation& triangulation)
-    :current_face(face),node_to_polyhedron_vertex_(node_to_polyhedron_vertex),edge_to_hedge_(edge_to_hedge)
+                        const Triangulation& triangulation,
+                        const NestedFacetConstruct& fc,
+                        NewNodeVertexVisitor& nv)
+    :current_face(face), node_to_polyhedron_vertex_(node_to_polyhedron_vertex), edge_to_hedge_(edge_to_hedge), facet_construct(fc), node_vertex_visitor(nv)
     {
       //grab vertices to be inserted to copy them from the vector
       for (std::vector<int>::const_iterator it=node_ids.begin();it!=node_ids.end();++it)
@@ -209,6 +214,7 @@ namespace CGAL
       for (typename std::map<int,typename Vertex::Point>::iterator it=nodes_.begin();it!=nodes_.end();++it)
       {
         Vertex_handle v=hds.vertices_push_back(Vertex(it->second));
+        node_vertex_visitor.new_vertex_added(it->first, v);
         CGAL_assertion( node_to_polyhedron_vertex_.find( it->first ) == node_to_polyhedron_vertex_.end());
         node_to_polyhedron_vertex_.insert( std::make_pair(it->first,v) );
 //        std::cerr << "vertices " << it->first  << " " << &(*v) << std::endl;
@@ -236,7 +242,7 @@ namespace CGAL
       }
       
       std::vector<CGAL::cpp11::tuple<int,int,int> >::iterator it=faces_to_create_.begin();
-      
+      Face_handle face_triangulated = current_face;
       //create the new faces and update adjacencies
       while (true)
       {
@@ -272,7 +278,7 @@ namespace CGAL
         unlock_halfedge(previous) ->set_face(current_face);        
         
         if ( ++it!=faces_to_create_.end() )
-          current_face=hds.faces_push_back(Face());
+          current_face=hds.faces_push_back( facet_construct(*face_triangulated) );
         else
           break;
       }
@@ -576,20 +582,50 @@ void sew_3_marked_darts( Combinatorial_map_3& final_map,
   while(not_top!=start);
 }
 
-template<class Tag>
-struct Halfedge_marker{
-  template <class Halfedge_handle>
-  static void mark(Halfedge_handle){}
+template<class Polyhedron>
+struct Dummy_edge_mark_property_map{
+  typedef bool value_type;
+  typedef value_type reference;
+  typedef std::pair<typename Polyhedron::Halfedge_handle,Polyhedron*> key_type;
+  typedef boost::read_write_property_map_tag category;  
+
+  Dummy_edge_mark_property_map(){}
+
+  friend reference get(Dummy_edge_mark_property_map,key_type) {return false;}
+  friend void put(Dummy_edge_mark_property_map,key_type,value_type) {}
 };
 
-template<>
-struct Halfedge_marker<Tag_true>{
-  template <class Halfedge_handle>
-  static void mark(Halfedge_handle h){h->set_mark();}
+template <class Polyhedron>
+struct Default_facet_construct{
+  typename Polyhedron::Facet operator()( const typename Polyhedron::Facet& )
+  { return typename Polyhedron::Facet(); }
 };
 
-template<class Polyhedron,class Kernel=typename Polyhedron::Traits::Kernel,class Mark_intersection_halfedges=Tag_false>
+template <class Polyhedron>
+struct Default_node_vertex_visitor{
+  void new_node_added(  int /* node_id */,
+                        internal_IOP::Intersection_type /* type */,
+                        typename Polyhedron::Halfedge_handle /* principal_edge */,
+                        typename Polyhedron::Halfedge_handle /* additional_edge */,
+                        bool /* is_vertex_coplanar */,
+                        bool /* is_vertex_opposite_coplanar */ )
+  {}
+
+  void new_vertex_added(int /* node_id */, typename Polyhedron::Vertex_handle /* vh */){}
+};
+
+template< class Polyhedron,
+          class Kernel_=Default,
+          class EdgeMarkPropertyMap_=Default,
+          class NestedFacetConstruct_=Default,
+          class NewNodeVertexVisitor_=Default
+        >
 class Node_visitor_refine_polyhedra{
+//Default typedefs
+  typedef typename Default::Get<Kernel_, typename Polyhedron::Traits::Kernel>::type Kernel;
+  typedef typename Default::Get<EdgeMarkPropertyMap_, Dummy_edge_mark_property_map<Polyhedron> >::type EdgeMarkPropertyMap;
+  typedef typename Default::Get<NestedFacetConstruct_, Default_facet_construct<Polyhedron > >::type NestedFacetConstruct;
+  typedef typename Default::Get<NewNodeVertexVisitor_, Default_node_vertex_visitor<Polyhedron> >::type NewNodeVertexVisitor;
 //typedefs  
   typedef typename Polyhedron::Halfedge_handle                         Halfedge_handle;
   typedef typename Polyhedron::Halfedge_const_handle                   Halfedge_const_handle;
@@ -606,6 +642,7 @@ class Node_visitor_refine_polyhedra{
   typedef CGAL::Triangulation_data_structure_2<Vbi,Fb>                  TDS_2;
   typedef CGAL::Constrained_Delaunay_triangulation_2<Kernel,TDS_2,CGAL::No_intersection_tag> CDT;  //DO WE NEED DELAUNAY????
   #else
+  /// \todo change this, use it only if not already exact
   typedef CGAL::Exact_predicates_exact_constructions_kernel             Exact_kernel;
   typedef CGAL::Triangulation_vertex_base_with_info_2<int,Exact_kernel> Vbi;
   typedef CGAL::Constrained_triangulation_face_base_2<Exact_kernel>           Fb;
@@ -663,6 +700,16 @@ class Node_visitor_refine_polyhedra{
     internal_IOP::Split_halfedge_at_point<typename Polyhedron::HalfedgeDS> delegated(hedge,point);
     P.delegate( delegated );
     CGAL_assertion(P.is_valid());
+    
+    //update marker tags. If the edge was marked, then the resulting edges in the split must be marked
+    if ( get(m_edge_mark_pmap,std::make_pair(hedge,&P)) )
+    {
+      CGAL_assertion( get(m_edge_mark_pmap,std::make_pair(hedge->opposite(),&P)) );
+      put(m_edge_mark_pmap,std::make_pair(hedge->prev(),&P),true);
+      put(m_edge_mark_pmap,std::make_pair(hedge->prev()->opposite(),&P),true);
+      put(m_edge_mark_pmap,std::make_pair(hedge->opposite()->next(),&P),true);
+      put(m_edge_mark_pmap,std::make_pair(hedge->opposite()->next()->opposite(),&P),true);
+    }
     
     Vertex_handle v=boost::prior(P.vertices_end());
     CGAL_assertion(v->point()==point);
@@ -727,7 +774,7 @@ class Node_visitor_refine_polyhedra{
           }
         }
       }
-      #ifndef NDEBUG
+      #ifdef CGAL_COREFINEMENT_DEBUG
       else
       {
         std::cout << "X0: Found an isolated point" << std::endl;
@@ -1179,8 +1226,17 @@ bool coplanar_triangles_case_handled(Halfedge_handle first_hedge,Halfedge_handle
 //===//
   bool do_not_build_cmap; //set to true in the case only the corefinement must be done
   int number_coplanar_vertices; //number of intersection points between coplanar facets, see fixes XSL_TAG_CPL_VERT
+  EdgeMarkPropertyMap m_edge_mark_pmap;     //property map to mark halfedge of the original polyhedra that are on the intersection
+  NestedFacetConstruct facet_construct;  // functor called to create new triangular faces inside a given face
+  NewNodeVertexVisitor node_vertex_visitor; // functor called when a new node is created and when a new vertex is added
 public:
-  Node_visitor_refine_polyhedra (Combinatorial_map_3_* ptr=NULL,bool do_not_build_cmap_=false):do_not_build_cmap(do_not_build_cmap_)
+  Node_visitor_refine_polyhedra (
+    Combinatorial_map_3_* ptr=NULL,
+    bool do_not_build_cmap_=false,
+    EdgeMarkPropertyMap pmap=EdgeMarkPropertyMap(),
+    const NestedFacetConstruct& fc = NestedFacetConstruct(),
+    const NewNodeVertexVisitor& nv = NewNodeVertexVisitor()
+  ):do_not_build_cmap(do_not_build_cmap_), m_edge_mark_pmap(pmap), facet_construct(fc), node_vertex_visitor(nv)
   {
     if (ptr!=NULL){
       final_map_comes_from_outside=true;
@@ -1234,6 +1290,8 @@ public:
                       bool is_vertex_coplanar,
                       bool is_vertex_opposite_coplanar)
   {
+    //forward to the visitor
+    node_vertex_visitor.new_node_added(node_id, type, principal_edge, additional_edge, is_vertex_coplanar, is_vertex_opposite_coplanar);
     switch(type)
     {
       case internal_IOP::FACET: //Facet intersected by an edge
@@ -1415,9 +1473,6 @@ public:
     typedef std::map<Halfedge_const_handle,std::pair<int,int>,Cmp_unik_ad > Border_halfedges_map;
     Border_halfedges_map border_halfedges;
     
-    //Additionnal stuct to mark halfedge of the original polyhedra that are on the intersection
-    typedef Halfedge_marker<Mark_intersection_halfedges> Marker;
-    
     //store for each triangle facet which boundary is intersected by the other surface,
     //original vertices (and halfedges in the refined mesh pointing on these vertices)
     typedef std::map<Face_handle,Polyhedron_face_boundary,Cmp_handle> Faces_boundary;
@@ -1464,7 +1519,8 @@ public:
               }
               std::pair<int,int> edge_pair(*it_id,node_id_of_first);
               border_halfedges.insert( std::make_pair(hedge,edge_pair) );
-              Marker::mark(hedge);
+              put(m_edge_mark_pmap,std::make_pair(hedge,poly),true);
+              put(m_edge_mark_pmap,std::make_pair(hedge->opposite(),poly),true);
               update_edge_per_polyline(poly,edge_pair,hedge); 
               //save the fact that we already handle this edge
               already_done.insert(std::make_pair(node_id_of_first,*it_id));
@@ -1524,6 +1580,7 @@ public:
       //do split the edges
       for (std::vector<int>::const_iterator it_id=node_ids.begin();it_id!=node_ids.end();++it_id){
         Vertex_handle v=split_edge(hedge,nodes[*it_id],*P);
+        node_vertex_visitor.new_vertex_added(*it_id, v);
         node_to_polyhedron_vertex.insert(std::make_pair(*it_id,v));
         if (first){
           first=false;
@@ -1754,7 +1811,8 @@ public:
       
       //create a modifier to insert nodes and copy the triangulation of the face
       //inside the polyhedron
-      internal_IOP::Triangulate_a_face<typename Polyhedron::HalfedgeDS> modifier(f,nodes,node_ids,node_to_polyhedron_vertex,edge_to_hedge,triangulation);
+      internal_IOP::Triangulate_a_face<typename Polyhedron::HalfedgeDS, NestedFacetConstruct, NewNodeVertexVisitor> modifier(
+        f, nodes, node_ids, node_to_polyhedron_vertex, edge_to_hedge, triangulation, facet_construct, node_vertex_visitor);
       
       CGAL_assertion(P->is_valid());
       P->delegate(modifier);
@@ -1771,7 +1829,8 @@ public:
         //CGAL_assertion(it_poly_hedge!=edge_to_hedge.end());
         if( it_poly_hedge!=edge_to_hedge.end() ){
           border_halfedges.insert( std::make_pair(Halfedge_const_handle(it_poly_hedge->second),*it_cst) );
-          Marker::mark(it_poly_hedge->second);
+          put(m_edge_mark_pmap,std::make_pair(it_poly_hedge->second,P),true);
+          put(m_edge_mark_pmap,std::make_pair(it_poly_hedge->second->opposite(),P),true); //setting the opposite is only needed for border edges (done in adjacent triangle otherwise)
           update_edge_per_polyline(P,it_poly_hedge->first,it_poly_hedge->second);
         }
         else{
@@ -1782,7 +1841,8 @@ public:
           CGAL_assertion( it_poly_hedge!=edge_to_hedge.end() );
 
           border_halfedges.insert( std::make_pair(Halfedge_const_handle(it_poly_hedge->second),opposite_pair) );
-          Marker::mark(it_poly_hedge->second);
+          put(m_edge_mark_pmap,std::make_pair(it_poly_hedge->second,P),true);
+          put(m_edge_mark_pmap,std::make_pair(it_poly_hedge->second->opposite(),P),true); //setting the opposite is only needed for border edges (done in adjacent triangle otherwise)
           update_edge_per_polyline(P,it_poly_hedge->first,it_poly_hedge->second);          
         }
       }
@@ -1849,7 +1909,7 @@ public:
       output_debug << *current_poly;
       #endif
       
-      extract_connected_components(*(current_poly),criterium,uf,map_f2h,result);
+      extract_connected_components(*(static_cast<Polyhedron const *> (current_poly) ),criterium,uf,map_f2h,result);
 
       
       //add each connected component in the map with 2 volumes per component.
@@ -2077,17 +2137,19 @@ public:
     //update the info of each volume knowing about only one polyhedron:
     //this happens when one polyhedron has a connected component
     //that do not intersect the other polyhedron
-    typedef CGAL::Polyhedral_mesh_domain_3<Polyhedron, Kernel > Mesh_domain;
+
+    typedef Point_inside_polyhedron_3<Polyhedron, Kernel> Inside_poly_test;
+
     CGAL_precondition(polyhedron_to_map_node_to_polyhedron_vertex.size()==2);
     Polyhedron* Poly_A = polyhedron_to_map_node_to_polyhedron_vertex.begin()->first;
     Polyhedron* Poly_B = boost::next(polyhedron_to_map_node_to_polyhedron_vertex.begin())->first;
-    Mesh_domain* domain_A_ptr=NULL;
-    Mesh_domain* domain_B_ptr=NULL;
-    
+    Inside_poly_test* inside_A_test_ptr=NULL;
+    Inside_poly_test* inside_B_test_ptr=NULL;
+
     #ifdef CGAL_COREFINEMENT_DEBUG
     final_map().display_characteristics(std::cout); std::cout << "\n";
     #endif
-    
+
     typename Combinatorial_map_3::template  One_dart_per_cell_range<3> cell_range=final_map().template one_dart_per_cell<3>();
     for (typename Combinatorial_map_3::template  One_dart_per_cell_range<3>::iterator
       it = cell_range.begin(), it_end=cell_range.end();
@@ -2097,27 +2159,72 @@ public:
       internal_IOP::Volume_info<Polyhedron>& info=it->template attribute<3>()->info();
       std::size_t inside_size=info.inside.size();
       std::size_t outside_size=info.outside.size();
+
+      // if a volume is not classified wrt the two polyhedra, it means the component we look at does not
+      // is a disjoint (but maybe at a vertex TAG SL001)
       if ( inside_size + outside_size == 1)
       {
         bool is_inside = (inside_size==1);
         Polyhedron* current_poly= is_inside? (*info.inside.begin()):(*info.outside.begin());
-        Polyhedron* test_poly; 
-        Mesh_domain* domain_ptr;
+        Polyhedron* test_poly;
+        Inside_poly_test* inside_test_ptr;
         if ( current_poly==Poly_A)
         {
           test_poly=Poly_B;
-          if (domain_B_ptr == NULL) domain_B_ptr=new Mesh_domain(*Poly_B);
-          domain_ptr=domain_B_ptr;
+          if (inside_B_test_ptr == NULL) inside_B_test_ptr=new Inside_poly_test(*Poly_B);
+          inside_test_ptr=inside_B_test_ptr;
         }
         else
         {
           test_poly=Poly_A;
-          if (domain_A_ptr == NULL) domain_A_ptr=new Mesh_domain(*Poly_A);
-          domain_ptr=domain_A_ptr;
+          if (inside_A_test_ptr == NULL) inside_A_test_ptr=new Inside_poly_test(*Poly_A);
+          inside_test_ptr=inside_A_test_ptr;
         }
-        typename Mesh_domain::Is_in_domain is_in_domain(*domain_ptr);
+
+        // We need to find a point of the volume that is not on the boundary of the other volume.
+        // Then the position of this point give the position of the volume. If all the points are on
+        // the bounday, we take the mid-point of an edge (which must not be on the boundary otherwise
+        // it contradicts the fact that volumes are disjoint
+        // We first use the dart we have since one_dart_per_incident_cell has a non-negligeable cost.
         typename Kernel::Point_3 query=it->template attribute<0>()->point();
-        if ( is_in_domain(query) )
+        CGAL::Bounded_side res = (*inside_test_ptr)(query);
+        if (res==ON_BOUNDARY)
+        {
+          typedef typename Combinatorial_map_3::
+            template One_dart_per_incident_cell_range<0,3> Vertex_range;
+
+          Vertex_range vertex_range =
+            final_map().template one_dart_per_incident_cell<0,3>(it);
+          typename Vertex_range::iterator vit = vertex_range.begin();
+
+          CGAL_assertion( typename Combinatorial_map_3::Dart_handle(vit) ==
+                          typename Combinatorial_map_3::Dart_handle(it) );
+          ++vit;
+          for ( ; vit!=vertex_range.end(); ++vit)
+          {
+            query=vit->template attribute<0>()->point();
+            res = (*inside_test_ptr)(query);
+            if ( res != ON_BOUNDARY ) break;
+          }
+
+          //take edge midpoint
+          if (res == ON_BOUNDARY)
+          {
+            /// \todo see do a better test here. At least the construction cannot fail
+            ///  but the mid-point can fall outside of the volume...
+            #ifdef CGAL_COREFINEMENT_DEBUG
+            #warning this is not exact!!!
+            #endif
+            typename Kernel::Point_3 p1=it->template attribute<0>()->point();
+            typename Kernel::Point_3 p2=it->beta(1)->template attribute<0>()->point();
+            query=midpoint(p1,p2);
+            res = (*inside_test_ptr)(query);
+          }
+
+          CGAL_assertion( res!= ON_BOUNDARY );
+        }
+
+        if (res  == ON_BOUNDED_SIDE )
           info.inside.insert(test_poly);
         else
           info.outside.insert(test_poly);
@@ -2133,9 +2240,8 @@ public:
       std::cout << std::endl;
       #endif
     }
-    if (domain_A_ptr!=NULL) delete domain_A_ptr;
-    if (domain_B_ptr!=NULL) delete domain_B_ptr;
-    
+    if (inside_A_test_ptr!=NULL) delete inside_A_test_ptr;
+    if (inside_B_test_ptr!=NULL) delete inside_B_test_ptr;
   }
 };
 

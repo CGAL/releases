@@ -4,17 +4,17 @@
 #include <CGAL/AABB_tree.h>
 #include <CGAL/AABB_traits.h>
 #include <CGAL/Polyhedron_3.h>
-#include <CGAL/AABB_polyhedron_triangle_primitive.h>
+#include <CGAL/AABB_face_graph_triangle_primitive.h>
+
 
 typedef CGAL::Simple_cartesian<double> K;
 typedef K::FT FT;
 typedef K::Point_3 Point;
 typedef K::Segment_3 Segment;
 typedef CGAL::Polyhedron_3<K> Polyhedron;
-typedef CGAL::AABB_polyhedron_triangle_primitive<K,Polyhedron> Primitive;
+typedef CGAL::AABB_face_graph_triangle_primitive<Polyhedron, CGAL::Default, CGAL::Tag_false> Primitive;
 typedef CGAL::AABB_traits<K, Primitive> Traits;
 typedef CGAL::AABB_tree<Traits> Tree;
-typedef Tree::Object_and_primitive_id Object_and_primitive_id;
 typedef Tree::Point_and_primitive_id Point_and_primitive_id;
 
 int main()
@@ -33,13 +33,13 @@ int main()
     Point s2(10.0, 0.0, 0.0);
     Polyhedron polyhedron2;
     polyhedron2.make_tetrahedron(p2, q2, r2, s2);
-    // constructs AABB tree and computes internal KD-tree 
+    // constructs AABB tree and computes internal KD-tree
     // data structure to accelerate distance queries
-    Tree tree(polyhedron1.facets_begin(),polyhedron1.facets_end());
+    Tree tree(polyhedron1.facets_begin(),polyhedron1.facets_end(), polyhedron1);
 
     tree.accelerate_distance_queries();
 
-    tree.insert(polyhedron2.facets_begin(),polyhedron2.facets_end());
+    tree.insert(polyhedron2.facets_begin(),polyhedron2.facets_end(), polyhedron2);
 
     // query point
     Point query(0.0, 0.0, 3.0);
