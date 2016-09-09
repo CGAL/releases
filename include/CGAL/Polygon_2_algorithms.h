@@ -17,8 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - A commercial license is available through Algorithmic Solutions
+//   (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
 //   (Andreas.Fabri@geometryfactory.com). 
 //
@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.3 (patch 1)
+// release_date  : 2001, November 09
 //
 // file          : include/CGAL/Polygon_2_algorithms.h
-// package       : Polygon (4.2.4)
+// package       : Polygon (4.5)
 // source        : 
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
@@ -114,7 +114,6 @@ area_2( ForwardIterator first, ForwardIterator last,
                     construct_triangle_2(*first, *second, *third));
 	second = third;
    }
-   result = result / FT(2);
 }
 
 template <class ForwardIterator, class Traits>
@@ -139,7 +138,6 @@ polygon_area_2( ForwardIterator first, ForwardIterator last,
                     construct_triangle_2(*first, *second, *third));
 	second = third;
    }
-   result = result / FT(2);
    return result;
 }
 

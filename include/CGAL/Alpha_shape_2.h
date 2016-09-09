@@ -17,8 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - A commercial license is available through Algorithmic Solutions
+//   (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
 //   (Andreas.Fabri@geometryfactory.com). 
 //
@@ -30,14 +30,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.3 (patch 1)
+// release_date  : 2001, November 09
 //
 // file          : include/CGAL/Alpha_shape_2.h
-// package       : Alpha_shapes_2 (11.6)
+// package       : Alpha_shapes_2(1.0)
 // source        : $RCSfile: Alpha_shape_2.h,v $
-// revision      : $Revision: 1.25 $
-// revision_date : $Date: 2001/07/23 12:14:52 $
+// revision      : $Revision: 1.26 $
+// revision_date : $Date: 2001/11/06 14:26:52 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -217,7 +217,8 @@ public:
   Alpha_shape_2(const InputIterator& first,  
 		const InputIterator& last,  
 		const Coord_type& alpha = Coord_type(0),
-		Mode = GENERAL) 
+		Mode m = GENERAL)
+    : _alpha(alpha), _mode(m), Infinity(-1), UNDEFINED(-2) 
     {
       Dt::insert(first, last);
       if (dimension() == 2)

@@ -1,4 +1,4 @@
-// ======================================================================
+// ============================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 
@@ -17,8 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - A commercial license is available through Algorithmic Solutions
+//   (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
 //   (Andreas.Fabri@geometryfactory.com). 
 //
@@ -30,11 +30,10 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.3 (patch 1)
+// release_date  : 2001, November 09
 //
 // file          : include/CGAL/squared_distance_3_0.h
-// package       : Distance_3 (2.5.2)
 // source        : sqdistance_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
@@ -245,11 +244,14 @@ squared_distance_to_plane(
     const Vector_3<R> & diff)
 {
     typedef typename R::RT RT;
+    typedef typename R::FT FT;
     RT dot, squared_length;
     dot = wdot(normal, diff);
     squared_length = wdot(normal, normal);
-    return (typename R::FT)
-        ((dot*dot) / wmult((R*)0, squared_length, diff.hw(), diff.hw()));
+    return FT(dot*dot) /
+        FT(wmult((R*)0, squared_length, diff.hw(), diff.hw()));
+//    return R::make_FT((dot*dot),
+//        wmult((R*)0, squared_length, diff.hw(), diff.hw()));
 }
 
 
@@ -260,9 +262,12 @@ squared_distance_to_line(
     const Vector_3<R> & diff)
 {
     typedef typename R::RT RT;
+    typedef typename R::FT FT;
     Vector_3<R> wcr = wcross(dir, diff);
-    return (typename R::FT)((wcr*wcr)/
-        wmult((R*)0, RT(wdot(dir, dir)), diff.hw(), diff.hw()));
+    return FT(wcr*wcr) /
+        FT(wmult((R*)0, RT(wdot(dir, dir)), diff.hw(), diff.hw()));
+//    return R::make_FT((wcr*wcr),
+//        wmult((R*)0, RT(wdot(dir, dir)), diff.hw(), diff.hw()));
 }
 
 

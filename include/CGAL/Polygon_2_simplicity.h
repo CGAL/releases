@@ -17,8 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - A commercial license is available through Algorithmic Solutions
+//   (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
 //   (Andreas.Fabri@geometryfactory.com). 
 //
@@ -30,11 +30,10 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.3 (patch 1)
+// release_date  : 2001, November 09
 //
 // file          : include/CGAL/Polygon_2_simplicity.h
-// package       : Polygon (4.2.4)
 // source        :
 // author(s)     : Geert-Jan Giezeman
 //
@@ -400,7 +399,16 @@ deletion_event(Tree *tree, Vertex_index prev_vt, Vertex_index mid_vt)
     Vertex_index cur_vt = (td_prev.is_left_to_right) ? mid_vt : prev_vt;
     It seg_above = prev_seg;
     ++seg_above;
-    if (seg_above == mid_seg) ++seg_above;
+    if (seg_above == mid_seg) {
+        ++seg_above;
+    } else {
+        // mid_seg was not above prev_seg, so prev_seg should be above mid_seg
+        // We check this to see if the edges are really neighbors in the tree.
+        It prev_seg_copy = mid_seg;
+        ++prev_seg_copy;
+        if (prev_seg_copy != prev_seg)
+            return false;
+    }
     tree->erase(prev_seg);
     td_prev.is_in_tree = false;
     tree->erase(mid_seg);

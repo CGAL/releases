@@ -1,4 +1,4 @@
-// ======================================================================
+// ============================================================================
 //
 // Copyright (c) 1997-2000 The CGAL Consortium
 
@@ -17,8 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - A commercial license is available through Algorithmic Solutions
+//   (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
 //   (Andreas.Fabri@geometryfactory.com). 
 //
@@ -30,15 +30,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.3 (patch 1)
+// release_date  : 2001, November 09
 //
 // file          : include/CGAL/Nef_2/PM_decorator.h
-// package       : Nef_2 (0.9.25)
+// package       : Nef_2 
 // chapter       : Nef Polyhedra
 //
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 2001/07/16 12:47:23 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 2001/10/16 12:41:57 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -505,17 +505,21 @@ void merge_halfedge_pairs_at_target(Halfedge_handle e) const
   and |target(next(e))| is kept consistent.}*/
 {
   TRACEN("merge_halfedge_pairs_at_target "<<PE(e));
-  Halfedge_handle en = e->next(), enn = en->next(),
-                  eo = e->opposite(), eno = en->opposite(),
-                  enno = eno->prev();
+  Halfedge_handle eo = e->opposite(), 
+                  en = e->next(), eno = en->opposite(),
+                  enn = en->next(), enno = eno->prev();
   Vertex_handle v = e->vertex(), vn = en->vertex();
   CGAL_assertion(has_outdeg_two(v));
   Face_handle f1 = en->face(), f2 = eno->face();
   // transfer the opposite face cycles e-en-enn to e-enn
-  e->set_next(enn); enn->set_prev(e);
-  eo->set_prev(enno); enno->set_next(eo);
+  if ( enn != eno ) {
+    e->set_next(enn); enn->set_prev(e);
+    eo->set_prev(enno); enno->set_next(eo);
+  } else {
+    e->set_next(eo); eo->set_prev(e);
+  }
   // set vertex of e and deal with vertex-halfedge incidence
-  e->set_vertex(vn);
+  e->set_vertex(vn); 
   if (vn->halfedge()==en) vn->set_halfedge(e);
   if (en->is_hole_entry()) 
   { f1->remove_fc(en); f1->store_fc(e); }

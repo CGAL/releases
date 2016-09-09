@@ -1,4 +1,4 @@
-// ======================================================================
+// ============================================================================
 //
 // Copyright (c) 1997-2000 The CGAL Consortium
 
@@ -17,8 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - A commercial license is available through Algorithmic Solutions
+//   (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
 //   (Andreas.Fabri@geometryfactory.com). 
 //
@@ -30,15 +30,15 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.3 (patch 1)
+// release_date  : 2001, November 09
 //
 // file          : include/CGAL/Nef_2/PM_visualizor.h
-// package       : Nef_2 (0.9.25)
+// package       : Nef_2 
 // chapter       : Nef Polyhedra
 //
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 2001/06/27 12:38:48 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 2001/11/07 16:30:57 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -55,6 +55,10 @@
 #include <CGAL/basic.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/IO/Window_stream.h>
+
+#if defined(CGAL_USE_CGAL_WINDOW)
+#define leda_color CGAL::color
+#endif
 
 #define USING(t) typedef typename PMCDEC::t t
 #define LGREY CGAL::Color(190,190,190)

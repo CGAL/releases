@@ -17,8 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - A commercial license is available through Algorithmic Solutions
+//   (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
 //   (Andreas.Fabri@geometryfactory.com). 
 //
@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.3 (patch 1)
+// release_date  : 2001, November 09
 //
 // file          : include/CGAL/IO/Segment_circle_Window_stream.h
-// package       : Arrangement (2.18)
+// package       : Arrangement (2.25)
 // author(s)     : ?
 // coordinator   : ?
 //
@@ -62,7 +62,7 @@ Window_stream& operator<<(Window_stream& os,
 
   if (cv.is_segment())
   {
-    W << leda_segment(sx, sy, tx, ty);
+    os << leda_segment(sx, sy, tx, ty);
   } 
   // The arc is circular
   else

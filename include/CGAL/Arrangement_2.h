@@ -17,8 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - A commercial license is available through Algorithmic Solutions
+//   (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
 //   (Andreas.Fabri@geometryfactory.com). 
 //
@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.3 (patch 1)
+// release_date  : 2001, November 09
 //
 // file          : include/CGAL/Arrangement_2.h
-// package       : Arrangement (2.18)
+// package       : Arrangement (2.25)
 // author(s)     : Iddo Hanniel, 
 //                 Eti Ezra,
 //                 Shai Hirsch 
@@ -1065,7 +1065,7 @@ bool is_valid(bool verbose = false) const
   bool         valid = true;
 
   verr << std::endl;
-  verr << "CGAL::Arrangment_2<Decl, Traits, Base_N3ode>::";
+  verr << "CGAL::Arrangment_2<Decl, Traits, Base_Node>::";
   verr << "is_valid( true ):" << std::endl;
 
   // Planar Map Check
@@ -2258,7 +2258,7 @@ Subcurve_iterator replace(Subcurve_iterator sc,
   //finish on the stitches
 
   //number of levels in the new subtree is the same as in the old one  :
-  assert((unsigned int)i==level_begin.size()); 
+  CGAL_assertion((unsigned int)i==level_begin.size()); 
 
   Subcurve_node* return_value = &(*levels[0].begin());
 

@@ -1,4 +1,4 @@
-// ======================================================================
+// ============================================================================
 //
 // Copyright (c) 1997-2000 The CGAL Consortium
 
@@ -17,8 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - A commercial license is available through Algorithmic Solutions
+//   (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
 //   (Andreas.Fabri@geometryfactory.com). 
 //
@@ -30,16 +30,16 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.3 (patch 1)
+// release_date  : 2001, November 12
 //
 // file          : include/CGAL/Filtered_extended_homogeneous.h
-// package       : Nef_2 (0.9.25)
+// package       : Nef_2 
 // chapter       : Nef Polyhedra
 //
 // source        : nef_2d/Filtered_extended_points.lw
-// revision      : $Revision: 1.13 $
-// revision_date : $Date: 2001/07/24 13:02:32 $
+// revision      : $Revision: 1.15 $
+// revision_date : $Date: 2001/11/12 09:55:56 $
 //
 // author(s)     : Michael Seel
 // coordinator   : Michael Seel
@@ -61,14 +61,16 @@
 #include <CGAL/Nef_2/debug.h>
 
 #define REDUCE_INTERSECTION_POINTS
-#define KERNEL_ANALYSIS
+//#define KERNEL_ANALYSIS
 //#define KERNEL_CHECK
 
 #ifdef  KERNEL_CHECK
 #include <CGAL/Extended_homogeneous.h>
 #define CHECK(c1,c2) CGAL_assertion((c1) == (c2));
+#define PRINT_CHECK_ENABLED std::cout << "kernel check enabled!\n"
 #else
 #define CHECK(c1,c2)
+#define PRINT_CHECK_ENABLED std::cout << "no kernel check!\n"
 #endif
 
 #ifdef KERNEL_ANALYSIS
@@ -320,8 +322,10 @@ std::ostream& operator<<(std::ostream& os, const Extended_point<RT>& p)
       CGAL::write(os,p.hw()); break;
     default:
       os << "(" << p.hx() << "," << p.hy() << "," << p.hw() << ")"; 
-      os << "((" << p.nx().to_double()/p.hw().to_double() << "," 
-         << p.ny().to_double()/p.hw().to_double() << "))"; 
+#if 0
+      os << "((" << CGAL::to_double(p.nx())/CGAL::to_double(p.hw()) << "," 
+         << CGAL::to_double(p.ny())/CGAL::to_double(p.hw()) << "))"; 
+#endif
   } 
   return os; 
 }
@@ -751,7 +755,7 @@ Extended_point<RT> intersection(
   x /= d;
   y /= d;
   w /= d;
-  #endif // REDUCE_INTERSECTION_POINTS  
+  #endif // REDUCE_INTERSECTION_POINTS
   return Extended_point<RT>(x,y,w);
 }
 
@@ -1218,6 +1222,7 @@ void print_statistics() const
   std::cout << "Statistics of filtered kernel:\n";
   std::cout << "total failed double filter stages = ";
   std::cout << CGAL::Interval_nt_advanced::number_of_failures << std::endl;
+  PRINT_CHECK_ENABLED;
   PRINT_STATISTICS(or2);
   PRINT_STATISTICS(or1);
   PRINT_STATISTICS(or0);
@@ -1271,6 +1276,7 @@ CGAL_END_NAMESPACE
 #undef INCTOTAL
 #undef INCEXCEPTION
 #undef PRINT_STATISTICS
+#undef PRINT_CHECK_ENABLED
 
 #endif // CGAL_FILTERED_EXTENDED_HOMOGENEOUS_H
 

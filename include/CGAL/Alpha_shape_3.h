@@ -17,8 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - A commercial license is available through Algorithmic Solutions
+//   (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
 //   (Andreas.Fabri@geometryfactory.com). 
 //
@@ -30,14 +30,14 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.3 (patch 1)
+// release_date  : 2001, November 09
 //
 // file          : include/CGAL/Alpha_shape_3.h
-// package       : Alpha_shapes_3 (3.6)
+// package       : Alpha_shapes_3(1.0)
 // source        : $RCSfile: Alpha_shape_3.h,v $
-// revision      : $Revision: 1.14 $
-// revision_date : $Date: 2001/07/23 12:14:30 $
+// revision      : $Revision: 1.14.2.1 $
+// revision_date : $Date: 2001/11/06 14:10:09 $
 // author(s)     : Tran Kai Frank DA
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
@@ -53,6 +53,7 @@
 #include <assert.h>
 #include <CGAL/basic.h>
 
+#include <list>
 #include <set>
 #include <map>
 
@@ -220,7 +221,8 @@ public:  // should be private ? --> operator should be wrappers
   Alpha_shape_3(const InputIterator& first,  
 		const InputIterator& last,  
 		const Coord_type& alpha = 0,
-		Mode = REGULARIZED)
+		Mode m = REGULARIZED)
+    : _alpha(alpha), _mode(m), Infinity(-1), UNDEFINED(-2)
     {
       Dt::insert(first, last);
       if (dimension() == 3)
@@ -423,7 +425,7 @@ private:
 
 public:
 
-  Mode set_mode(Mode mode = GENERAL )
+  Mode set_mode(Mode mode = REGULARIZED )
     // Sets `A' to its general or regularized version. Returns the
     // previous mode.
     {

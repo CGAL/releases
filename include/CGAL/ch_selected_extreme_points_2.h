@@ -17,8 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - A commercial license is available through Algorithmic Solutions
+//   (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
 //   (Andreas.Fabri@geometryfactory.com). 
 //
@@ -29,13 +29,13 @@
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.3 (patch 1)
+// release_date  : 2001, November 09
 //
 // file          : include/CGAL/ch_selected_extreme_points_2.h
-// package       : Convex_hull_2 (3.21)
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 2001/06/25 12:26:20 $
+// package       : Convex_hull_2 (3.25)
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 2001/09/21 07:45:42 $
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
@@ -164,7 +164,7 @@ all iterators |it| in the range.\\
 
 template <class ForwardIterator, class Traits>
 void
-ch__e_point( ForwardIterator first, ForwardIterator last,
+ch_e_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& e,
                   const Traits& ch_traits );
 /*{\Mfuncl traverses the range [|first|,|last|). After execution, 
@@ -288,9 +288,8 @@ all iterators |it| in the range.
 template <class ForwardIterator, class R>
 inline
 void
-ch__e_point( ForwardIterator first, ForwardIterator last,
-                  ForwardIterator& e,
-                  Point_2<R>* )
+ch__e_point( ForwardIterator first, ForwardIterator last, ForwardIterator& e,
+            Point_2<R>* )
 {
   ch_e_point(first, last, e, R() );
 }

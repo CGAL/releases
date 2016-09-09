@@ -17,8 +17,8 @@
 //   notice appears in all copies of the software and related documentation. 
 //
 // Commercial licenses
-// - A commercial license is available through Algorithmic Solutions, who also
-//   markets LEDA (http://www.algorithmic-solutions.com). 
+// - A commercial license is available through Algorithmic Solutions
+//   (http://www.algorithmic-solutions.com). 
 // - Commercial users may apply for an evaluation license by writing to
 //   (Andreas.Fabri@geometryfactory.com). 
 //
@@ -30,11 +30,11 @@
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-2.3
-// release_date  : 2001, August 13
+// release       : CGAL-2.3 (patch 1)
+// release_date  : 2001, November 09
 //
 // file          : include/CGAL/Planar_map_2.h
-// package       : Planar_map (5.73)
+// package       : Planar_map (5.75)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -220,8 +220,8 @@ public:
         use_delete_pl = true;
         pl->init(*this,*traits);
 #else
-        assert(0); 
-	// if no default PL is defined you must supply a pl.
+        CGAL_assertion_msg( false,
+	"No default point location is defined; you must supply one.");
 #endif
       }
     else
@@ -268,8 +268,8 @@ public:
         use_delete_pl = true;
         pl->init(*this,*traits);
 #else
-        assert(0); 
-        // if no default PL is defined you must supply a pl.
+        CGAL_assertion_msg( false,
+	"No default point location is defined; you must supply one.");
 #endif
       }
     else
@@ -320,8 +320,8 @@ public:
 #ifndef CGAL_NO_PM_DEFAULT_POINT_LOCATION
       pl = new Pm_default_point_location<Self>;
 #else
-      assert(0); 
-      // if no default PL is defined you must supply a pl.
+      CGAL_assertion_msg( false,
+      "No default point location is defined; you must supply one.");
 #endif
     }
     use_delete_pl = true;
@@ -642,7 +642,7 @@ public:
   const Point_location_base* get_point_location() const {return pl;}
   const Bounding_box_base* get_bounding_box() const {return bb;}
   
-  const Traits_wrap& get_traits() { return *traits;}
+  const Traits_wrap& get_traits() const { return *traits;}
 
 		
 private:
