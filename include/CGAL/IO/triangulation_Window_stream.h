@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,31 +30,38 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/triangulation_Window_stream.h
+// package       : Triangulation (1.23)
+// source        : web/Triangulation_2.fw
+// revision      : $Revision: 1.45 $
+// revision_date : $Date: 1998/07/15 14:07:01 $
 // author(s)     : Olivier Devillers
 //                 Andreas Fabri
 //                 Monique Teillaud
 //                 Mariette Yvinec
 //
+// coordinator   : Herve Bronnimann
+//
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifdef CGAL_TRIANGULATION_2_H
 #ifndef CGAL_WINDOW_STREAM_TRIANGULATION_2_H
 #define CGAL_WINDOW_STREAM_TRIANGULATION_2_H
+
 template < class I >
 CGAL_Window_stream&
 operator<<(CGAL_Window_stream& os,
            const CGAL_Triangulation_2<I> &T)
 {
-   CGAL_Triangulation_2<I>::Edge_iterator it = T.edges_begin();
+    CGAL_Triangulation_2<I>::Edge_iterator it = T.edges_begin();
 
     while(it != T.edges_end()){
         os << T.segment(it);
@@ -74,7 +81,7 @@ CGAL_Window_stream&
 operator<<(CGAL_Window_stream& os,
            const CGAL_Delaunay_triangulation_2<I> &T)
 {
-   CGAL_Delaunay_triangulation_2<I>::Edge_iterator it = T.edges_begin();
+    CGAL_Delaunay_triangulation_2<I>::Edge_iterator it = T.edges_begin();
 
     while(it != T.edges_end()){
         os << T.segment(it);

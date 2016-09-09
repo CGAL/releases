@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997,1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,18 +30,27 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Min_circle_2.h
-// author(s)     : Sven Schönherr 
+// package       : Min_circle_2 (3.0.2)
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+//
+// source        : web/Optimisation/Min_circle_2.aw
+// revision      : $Revision: 5.1 $
+// revision_date : $Date: 1998/07/02 17:54:59 $
+// author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
+// coordinator   : ETH Zürich (Bernd Gärtner)
+//
+// implementation: 2D Smallest Enclosing Circle
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_MIN_CIRCLE_2_H
 #define CGAL_MIN_CIRCLE_2_H
@@ -65,15 +74,19 @@ class CGAL_Min_circle_2;
 #endif
 #ifndef CGAL_PROTECT_LIST_H
 #  include <list.h>
+#  define CGAL_PROTECT_LIST_H
 #endif
 #ifndef CGAL_PROTECT_VECTOR_H
-#include <vector.h>
+#  include <vector.h>
+#  define CGAL_PROTECT_VECTOR_H
 #endif
 #ifndef CGAL_PROTECT_ALGO_H
-#include <algo.h>
+#  include <algo.h>
+#  define CGAL_PROTECT_ALGO_H
 #endif
 #ifndef CGAL_PROTECT_IOSTREAM_H
-#include <iostream.h>
+#  include <iostream.h>
+#  define CGAL_PROTECT_IOSTREAM_H
 #endif
 
 template < class _Traits >
@@ -87,7 +100,7 @@ class CGAL_Min_circle_2 {
     typedef           const Point *                Support_point_iterator;
     
     /**************************************************************************
-    WORKAROUND: The GNU compiler (g++ 2.7.2[.*]) does not accept types
+    WORKAROUND: The GNU compiler (g++ 2.7.2[.x]) does not accept types
     with scope operator as argument type or return type in class template
     member functions. Therefore, all member functions are implemented in
     the class interface.
@@ -288,7 +301,7 @@ class CGAL_Min_circle_2 {
     }
 
   private:
-    // Privat member functions
+    // Private member functions
     // -----------------------
     // compute_circle
     inline
@@ -336,11 +349,8 @@ class CGAL_Min_circle_2 {
                 mc( point_iter, n_sp+1);
     
                 // move current point to front
-                if ( point_iter != points.begin()) {            // p not first?
-                    points.push_front( p);
-                    points.erase( point_iter++); }
-                else
-                    ++point_iter; }
+                points.splice( points.begin(), points, point_iter++); }
+    
             else
                 ++point_iter; }
     }

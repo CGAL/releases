@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,19 +30,26 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Pm_segment_epsilon_traits.h
-// author(s)     : Iddo Hanniel 
+// package       : pm (1.12.3)
+// source        :
+// revision      :
+// revision_date :
+// author(s)     : Iddo Hanniel
 //                 Eyal Flato
 //                 Doron Jacobi
 //
+// coordinator   : Tel-Aviv University (Dan Halperin)
+// chapter       : Planar Map
+//
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_PM_SEGMENT_EPSILON_TRAITS_H
@@ -58,9 +65,16 @@
 #include <assert.h>
 #include <math.h>
 
+//define shorter name for egcs/g++ on Sun
+#define CGAL_Pm_segment_epsilon_traits CGAL__PmSET
+
 typedef double epsilon_type;
 
+#ifdef CGAL_CFG_NO_DEFAULT_TEMPLATE_ARGUMENTS 
 template <class R>
+#else
+template <class R, long int numer = 1, long int denom = 10000 >
+#endif
 class CGAL_Pm_segment_epsilon_traits
 {
 public:
@@ -97,10 +111,18 @@ typedef CGAL_Segment_2<R>      	Curve;
 */
   
 public:
+#ifndef CGAL_CFG_NO_DEFAULT_TEMPLATE_ARGUMENTS
+  CGAL_Pm_segment_epsilon_traits()
+  {
+    epsilon_type eps = (double)(numer)/(double)(denom);
+    EPSILON = eps;
+  }
+#else
   CGAL_Pm_segment_epsilon_traits(epsilon_type eps = 0.0001)
   {
     EPSILON = eps;
   }
+#endif
 
 private:
   epsilon_type EPSILON;
@@ -134,7 +156,7 @@ public:
               is_left(q, leftmost(cv.source(), cv.target()))	 );
   }
   
-  bool curve_is_in_y_range(const X_curve &cv, Point& q) const
+  bool curve_is_in_y_range(const X_curve &cv, const Point& q) const
   { 
     bool r = !( is_lower(q, lowest(cv.source(), cv.target())) ||
                 is_higher(q, highest(cv.source(), cv.target())) );
@@ -160,7 +182,7 @@ public:
   }
   
   
-  bool is_point_on_curve(X_curve &cv, Point& p)
+  bool is_point_on_curve(const X_curve &cv, const Point& p)
   {
     if (!curve_is_in_x_range(cv, p))
       return false;

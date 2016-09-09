@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/bops_dcel_defs.h
-// author(s)     :            Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/bops_dcel_defs.h
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:30 MET DST 1998  $
+// author(s)     :        Wolfgang Freiseisen
 //
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL__DCEL_DEFS_H
 #define CGAL__DCEL_DEFS_H
@@ -64,7 +73,8 @@
 
 #  define CGAL__BOPS_DCEL_DEBUG(_t_) _DOUT << _t_ << flush
 #  define CGAL__BOPS_DCEL_DEBUG_LN(_t_) _DOUT << _t_ << endl << flush
-#  define CGAL__BOPS_DCEL_DEBUG_VAR(_t_,_v_) _DOUT << _t_ << _v_ << endl << flush
+#  define CGAL__BOPS_DCEL_DEBUG_VAR(_t_,_v_) \
+          _DOUT << _t_ << _v_ << endl << flush
 #  define CGAL__BOPS_DCEL_DEBUG_PAIR(_t_,_p1_,_p2_)\
           _DOUT << _t_ << '(' << _p1_ << ',' << _p2_ << ')' << flush
 #  define CGAL__BOPS_DCEL_DEBUG_ITERATOR(_text_, _begin_, _end_)\
@@ -128,7 +138,8 @@ struct CGAL__Dcel_point_compare {
 };
 
 template <class point_type>
-struct CGAL__Dcel_point_smaller_x : binary_function<point_type, point_type, bool>
+struct CGAL__Dcel_point_smaller_x :
+  binary_function<point_type, point_type, bool>
 {
   bool operator()(const point_type& p1, const point_type& p2) const {
     return p1.x() <= p2.x();
@@ -139,6 +150,12 @@ struct CGAL__Dcel_point_smaller_x : binary_function<point_type, point_type, bool
 template <class _I>
 struct CGAL__Dcel_defs : public _I {
   typedef CGAL__Dcel_defs<_I>                I;
+
+#ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_5
+  CGAL__Dcel_edge_type<I>   _dummy_edge;
+  CGAL__Dcel_face_type<I>   _dummy_face;
+  CGAL__Dcel_vertex_type<I> _dummy_vertex;
+#endif // ...
 
   typedef vector<CGAL__Dcel_edge_type<I> >   Edges_container;
   typedef vector<CGAL__Dcel_face_type<I> >   Faces_container;
@@ -152,7 +169,7 @@ struct CGAL__Dcel_defs : public _I {
   typedef typename Faces_container::iterator          faces_iterator;
   typedef typename Vertices_container::iterator       vertices_iterator;
 
-#ifndef CGAL_CFG_RETURN_TYPE_BUG_4
+#ifndef CGAL_CFG_INCOMPLETE_TYPE_BUG_4
   typedef typename _I::Point                          Point;
 #endif
 

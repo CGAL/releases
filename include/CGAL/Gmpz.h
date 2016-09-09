@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,22 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : Gmpz.fw
 // file          : include/CGAL/Gmpz.h
+// package       : Number_types (1.2.8)
+// revision      : 1.2.8
+// revision_date : 01 Jul 1998 
 // author(s)     : Andreas Fabri
 //
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
  
 
 #ifndef CGAL_GMPZ_H
@@ -63,6 +68,12 @@ public:
 
   CGAL_Gmpz_rep(int si)
   { mpz_init_set_si(mpZ, si); }
+
+  CGAL_Gmpz_rep(long li)
+  { mpz_init_set_si(mpZ, li); }
+
+  CGAL_Gmpz_rep(unsigned long li)
+  { mpz_init_set_ui(mpZ, li); }
 
   CGAL_Gmpz_rep(double d)
   { mpz_init_set_d(mpZ, d); }
@@ -90,6 +101,10 @@ public:
   CGAL_Gmpz(mpz_t z);
 
   CGAL_Gmpz(int i);
+
+  CGAL_Gmpz(long l);
+
+  CGAL_Gmpz(unsigned long l);
 
   CGAL_Gmpz(double d);
 
@@ -144,6 +159,8 @@ public:
   CGAL_Gmpz& operator/=(const CGAL_Gmpz &z);
   CGAL_Gmpz operator/=(int i);
 
+  size_t approximate_decimal_length() const;
+
   CGAL_Gmpz_rep* ptr() const;
   double to_double() const;
   int sign() const;
@@ -171,6 +188,14 @@ CGAL_Gmpz::CGAL_Gmpz(mpz_t z)
 inline   // CGAL_KERNEL_CTOR_INLINE
 CGAL_Gmpz::CGAL_Gmpz(int i)
 { PTR = new CGAL_Gmpz_rep(i); }
+
+inline   // CGAL_KERNEL_CTOR_INLINE
+CGAL_Gmpz::CGAL_Gmpz(long l)
+{ PTR = new CGAL_Gmpz_rep(l); }
+
+inline   // CGAL_KERNEL_CTOR_INLINE
+CGAL_Gmpz::CGAL_Gmpz(unsigned long l)
+{ PTR = new CGAL_Gmpz_rep(l); }
 
 inline   // CGAL_KERNEL_CTOR_INLINE
 CGAL_Gmpz::CGAL_Gmpz(double d)
@@ -532,6 +557,11 @@ CGAL_exact_division(const CGAL_Gmpz &z1,
 #endif // CGAL_CHECK_POSTCONDITIONS
   return CGAL_Gmpz(res);
 }
+
+inline
+size_t
+CGAL_Gmpz::approximate_decimal_length() const
+{ return mpz_sizeinbase(ptr()->mpZ,10); }
 
 inline
 ostream&

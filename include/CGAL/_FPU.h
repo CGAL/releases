@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,22 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/_FPU.h
-// author(s)     : Sylvain Pion 
+// package       : Interval_arithmetic (1.6)
+// revision      : 1.6
+// revision_date : 10 May 1998
+// author(s)     : Sylvain Pion
+//
+// coordinator   : INRIA Sophia-Antipolis (<Herve.Bronnimann>)
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_FPU_H
 #define CGAL_FPU_H

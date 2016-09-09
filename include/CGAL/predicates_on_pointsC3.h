@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,22 +30,29 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/predicates_on_pointsC3.h
-// author(s)     : Andreas Fabri
+// package       : C3 (1.4)
+// source        : web/predicates_on_pointsC3.fw
+// revision      : $Revision: 1.8 $
+// revision_date : $Date: 1998/04/28 13:22:44 $
+// author(s)     : Andreas.Fabri
+//
+// coordinator   : INRIA Sophia-Antipolis
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_PREDICATES_ON_POINTSC3_H
 #define CGAL_PREDICATES_ON_POINTSC3_H
 
+#include <CGAL/determinant.h>
 #include <CGAL/PointC3.h>
 
 template < class FT >
@@ -192,6 +199,24 @@ inline bool CGAL_coplanar(const CGAL_PointC3<FT> &p,
   return (CGAL_orientation(p, q, r, s) == CGAL_COLLINEAR);
 }
 
+template < class FT>
+inline bool CGAL_are_positive_oriented( const CGAL_PointC3<FT>& p,
+                            const CGAL_PointC3<FT>& q,
+                            const CGAL_PointC3<FT>& r,
+                            const CGAL_PointC3<FT>& s)
+{
+  return (CGAL_orientation(p,q,r,s) == CGAL_POSITIVE);
+}
+
+template < class FT>
+inline bool CGAL_are_negative_oriented( const CGAL_PointC3<FT>& p,
+                            const CGAL_PointC3<FT>& q,
+                            const CGAL_PointC3<FT>& r,
+                            const CGAL_PointC3<FT>& s)
+{
+  return (CGAL_orientation(p,q,r,s) == CGAL_NEGATIVE);
+}
+
 template < class FT >
 bool CGAL_collinear(const CGAL_PointC3<FT> &p,
                     const CGAL_PointC3<FT> &q,
@@ -213,11 +238,7 @@ inline bool CGAL_are_ordered_along_line(const CGAL_PointC3<FT> &p,
                          const CGAL_PointC3<FT> &q,
                          const CGAL_PointC3<FT> &r)
 {
-  if (!CGAL_collinear(p, q, r))
-    {
-      return false;
-    }
-
+  if (!CGAL_collinear(p, q, r)) { return false; }
   return CGAL_collinear_are_ordered_along_line(p, q, r);
 }
 
@@ -229,16 +250,49 @@ inline bool CGAL_collinear_are_ordered_along_line(const CGAL_PointC3<FT> &p,
   CGAL_kernel_exactness_precondition( CGAL_collinear(p, q, r) );
   if (p.x() != q.x())
     {
-      return ((p.x() <= r.x()) && r.x() <= q.x()) ||
-             ((q.x() <= r.x()) && r.x() <= p.x());
+      return ((p.x() <= q.x()) && q.x() <= r.x()) ||
+             ((r.x() <= q.x()) && q.x() <= p.x());
     }
   if (p.y() != q.y())
     {
-      return ((p.y() <= r.y()) && r.y() <= q.y()) ||
-             ((q.y() <= r.y()) && r.y() <= p.y());
+      return ((p.y() <= q.y()) && q.y() <= r.y()) ||
+             ((r.y() <= q.y()) && q.y() <= p.y());
     }
-  return ((p.z() <= r.z()) && r.z() <= q.z()) ||
-         ((q.z() <= r.z()) && r.z() <= p.z());
+  return ((p.z() <= q.z()) && q.z() <= r.z()) ||
+         ((r.z() <= q.z()) && q.z() <= p.z());
+
+}
+
+
+template < class FT >
+inline bool CGAL_are_strictly_ordered_along_line(const CGAL_PointC3<FT> &p,
+                         const CGAL_PointC3<FT> &q,
+                         const CGAL_PointC3<FT> &r)
+{
+  if (!CGAL_collinear(p, q, r)) { return false; }
+  return CGAL_collinear_are_strictly_ordered_along_line(p, q, r);
+}
+
+
+template < class FT >
+inline bool CGAL_collinear_are_strictly_ordered_along_line(
+                                   const CGAL_PointC3<FT> &p,
+                                   const CGAL_PointC3<FT> &q,
+                                   const CGAL_PointC3<FT> &r)
+{
+  CGAL_kernel_exactness_precondition( CGAL_collinear(p, q, r) );
+  if (p.x() != q.x())
+    {
+      return ((p.x() < q.x()) && q.x() < r.x()) ||
+             ((r.x() < q.x()) && q.x() < p.x());
+    }
+  if (p.y() != q.y())
+    {
+      return ((p.y() < q.y()) && q.y() < r.y()) ||
+             ((r.y() < q.y()) && q.y() < p.y());
+    }
+  return ((p.z() < q.z()) && q.z() < r.z()) ||
+         ((r.z() < q.z()) && q.z() < p.z());
 
 }
 
@@ -259,37 +313,68 @@ CGAL_Bounded_side CGAL_side_of_bounded_sphere(
                          const CGAL_PointC3<FT> &r, const CGAL_PointC3<FT> &s,
                          const CGAL_PointC3<FT> &test)
 {
-  assert(0); // not implemented
-  return CGAL_ON_BOUNDED_SIDE;
+  CGAL_Oriented_side  oside = CGAL_side_of_oriented_sphere(p,q,r,s,test);
+  if ( CGAL_are_positive_oriented( p,q,r,s) )
+  {
+    switch (oside)
+    {
+        case CGAL_ON_POSITIVE_SIDE    :   return CGAL_ON_BOUNDED_SIDE;
+        case CGAL_ON_ORIENTED_BOUNDARY:   return CGAL_ON_BOUNDARY;
+        case CGAL_ON_NEGATIVE_SIDE    :   return CGAL_ON_UNBOUNDED_SIDE;
+    }
+  }
+  else
+  {
+    switch (oside)
+    {
+        case CGAL_ON_POSITIVE_SIDE    :   return CGAL_ON_UNBOUNDED_SIDE;
+        case CGAL_ON_ORIENTED_BOUNDARY:   return CGAL_ON_BOUNDARY;
+        case CGAL_ON_NEGATIVE_SIDE    :   return CGAL_ON_BOUNDED_SIDE;
+    }
+  }
+  return CGAL_ON_BOUNDARY;
 }
 
 template <class FT >
 CGAL_Oriented_side CGAL_side_of_oriented_sphere(
-                         const CGAL_PointC3<FT> &p0,
-                         const CGAL_PointC3<FT> &p1,
-                         const CGAL_PointC3<FT> &p2,
-                         const CGAL_PointC3<FT> &p3,
-                         const CGAL_PointC3<FT> &test)
+                         const CGAL_PointC3<FT> &p,
+                         const CGAL_PointC3<FT> &q,
+                         const CGAL_PointC3<FT> &r,
+                         const CGAL_PointC3<FT> &s,
+                         const CGAL_PointC3<FT> &t)
 {
-  CGAL_VectorC3<FT> v0 = p0-test;
-  CGAL_VectorC3<FT> v1 = p1-test;
-  CGAL_VectorC3<FT> v2 = p2-test;
-  CGAL_VectorC3<FT> v3 = p3-test;
-  CGAL_VectorC3<FT> v01 = CGAL_cross_product(v0, v1);
-  CGAL_VectorC3<FT> v23 = CGAL_cross_product(v2, v3);
+  FT FT0(0), FT1(1);
 
-  FT det = - (v0 * v0) * ( v1 * v23)
-           + (v1 * v1) * ( v0 * v23)
-           - (v2 * v2) * ( v01 * v3)
-           + (v3 * v3) * ( v01 * v2);
+  const FT px = p.x();
+  const FT py = p.y();
+  const FT pz = p.z();
 
-  // these intermediary steps are necessary for SGI C++ 4.0
-  CGAL_Oriented_side orientation = (det == FT0) ? CGAL_ON_ORIENTED_BOUNDARY
-                                                : CGAL_ON_NEGATIVE_SIDE;
-  CGAL_Oriented_side result = (det > FT0) ? CGAL_ON_POSITIVE_SIDE
-                                          : orientation;
+  const FT qx = q.x();
+  const FT qy = q.y();
+  const FT qz = q.z();
 
-  return result;
+  const FT rx = r.x();
+  const FT ry = r.y();
+  const FT rz = r.z();
+
+  const FT sx = s.x();
+  const FT sy = s.y();
+  const FT sz = s.z();
+
+  const FT tx = t.x();
+  const FT ty = t.y();
+  const FT tz = t.z();
+
+  const FT det = CGAL_det5x5_by_formula(
+        px, py, pz, px*px + py*py + pz*pz, FT1,
+        qx, qy, qz, qx*qx + qy*qy + qz*qz, FT1,
+        rx, ry, rz, rx*rx + ry*ry + rz*rz, FT1,
+        sx, sy, sz, sx*sx + sy*sy + sz*sz, FT1,
+        tx, ty, tz, tx*tx + ty*ty + tz*tz, FT1);
+
+       if (det < FT0) { return CGAL_ON_POSITIVE_SIDE; }
+  else if (FT0 < det) { return CGAL_ON_NEGATIVE_SIDE; }
+  return CGAL_ON_ORIENTED_BOUNDARY;
 }
 
 

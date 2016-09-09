@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Constrained_triangulation_traits_2.h
+// package       : Triangulation (1.23)
+// source        : web/Constrained_triangulation_traits_2.fw
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 1998/02/09 08:45:38 $
 // author(s)     : Mariette Yvinec
+//
+// coordinator   : Herve Bronnimann
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_CONSTRAINED_TRIANGULATION_TRAITS_2_H

@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,24 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Random_convex_set_traits_2.h
-// author(s)     : Michael Hoffmann 
+// package       : Random (1.12)
+// source        : src/rcs/rcs.aw
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 1998/03/06 16:19:47 $
+// author(s)     : Michael Hoffmann
 //
+// coordinator   : ETH Zurich (Bernd Gaertner)
+//
+// Default Traits For Random Convex Point Sets
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #if ! (CGAL_RANDOM_CONVEX_SET_TRAITS_2_H)
 #define CGAL_RANDOM_CONVEX_SET_TRAITS_2_H 1

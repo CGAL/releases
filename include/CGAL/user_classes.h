@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,18 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : user_classes.fw
 // file          : include/CGAL/user_classes.h
+// package       : Kernel_basic (1.2)
+// revision      : 1.2
+// revision_date : 12 Jun 1998 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
  
 
 #ifndef CGAL_USER_CLASSES_H
@@ -116,5 +121,8 @@ class CGAL__Vector_2_rft_wrapper;
 
 template < class R >
 class CGAL__Vector_3_rft_wrapper;
+
+template < class R>
+class CGAL_Point_d;
 
 #endif  // CGAL_USER_CLASSES_H

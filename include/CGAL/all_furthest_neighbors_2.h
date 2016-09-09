@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,20 +30,32 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/all_furthest_neighbors_2.h
-// author(s)     : Michael Hoffmann 
+// package       : Matrix_search (1.7)
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+// source        : mon_search.aw
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 1998/07/23 16:53:49 $
+// author(s)     : Michael Hoffmann
 //
+// coordinator   : ETH Zurich (Bernd Gaertner)
+//
+// Compute all furthest neighbors for the vertices of a convex polygon
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #if ! (CGAL_ALL_FURTHEST_NEIGHBORS_2_H)
 #define CGAL_ALL_FURTHEST_NEIGHBORS_2_H 1
+
+#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
+#include <CGAL/optimisation_assertions.h>
+#endif // CGAL_OPTIMISATION_ASSERTIONS_H
 
 #ifdef CGAL_REP_CLASS_DEFINED
 #ifndef CGAL_ALL_FURTHEST_NEIGHBORS_TRAITS_2_H
@@ -94,8 +106,8 @@ public:
   Value
   operator()( int r, int c) const
   {
-    CGAL_precondition( r >= 0 && r < number_of_rows());
-    CGAL_precondition( c >= 0 && c < number_of_columns());
+    CGAL_optimisation_precondition( r >= 0 && r < number_of_rows());
+    CGAL_optimisation_precondition( c >= 0 && c < number_of_columns());
     if ( c <= r)
       return Value( c - r);
     else if ( c >= r + number_of_rows())
@@ -151,8 +163,8 @@ CGAL_all_furthest_neighbors( RandomAccessIC points_begin,
   // check preconditions:
   int number_of_points(
     CGAL_iterator_distance( points_begin, points_end));
-  CGAL_precondition( number_of_points > 0);
-  CGAL_expensive_precondition(
+  CGAL_optimisation_precondition( number_of_points > 0);
+  CGAL_optimisation_expensive_precondition(
     t.is_convex( points_begin, points_end));
 
   // compute maxima:
@@ -194,8 +206,8 @@ CGAL_all_furthest_neighbors( RandomAccessIC points_begin,
  // check preconditions:
   int number_of_points(
     CGAL_iterator_distance( points_begin, points_end));
-  CGAL_precondition( number_of_points > 0);
-  CGAL_expensive_precondition(
+  CGAL_optimisation_precondition( number_of_points > 0);
+  CGAL_optimisation_expensive_precondition(
     t.is_convex( points_begin, points_end));
 
   // prepare random access container:

@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Triangulation_euclidean_traits_xy_3.h
+// package       : Triangulation (1.23)
+// source        : web/Triangulation_euclidean_traits_xy_3.fw
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 1998/06/23 15:11:57 $
 // author(s)     : Herve Bronnimann and Andreas Fabri
+//
+// coordinator   : Herve Bronnimann
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_XY_3_H
@@ -57,7 +63,7 @@
 #include <CGAL/Point_3.h>
 #include <CGAL/Segment_3.h>
 #include <CGAL/Triangle_3.h>
-#include <CGAL/predicates_on_pointsC2.h>
+#include <CGAL/predicates_on_ftC2.h>
 
 template < class R >
 class CGAL_Triangulation_euclidean_traits_xy_3 {
@@ -67,6 +73,9 @@ public:
     typedef CGAL_Point_3<R>  Point;
     typedef CGAL_Segment_3<R> Segment;
     typedef CGAL_Triangle_3<R> Triangle;
+    typedef CGAL_Line_3<R>   Line;
+    typedef CGAL_Ray_3<R>    Ray;
+    typedef CGAL_Direction_3<R> Direction;
     
     typedef CGAL_Triangulation_vertex<Point> Vertex;
     typedef CGAL_Triangulation_face<Vertex> Face;
@@ -84,12 +93,16 @@ public:
       {
         return CGAL_compare(y(p), y(q));
       }
+    bool compare(const Point &p, const Point &q) const
+      {
+        return (x(p)==x(q)) &&  (y(p)==y(q));
+      }
     
     CGAL_Orientation orientation(const Point &p,
                                  const Point &q,
                                  const Point &r) const
       {
-        return CGAL_orientation(x(p), y(p), x(q), y(q), x(r), y(r));
+        return CGAL_orientationC2(x(p), y(p), x(q), y(q), x(r), y(r));
       }
     
     
@@ -101,7 +114,7 @@ public:
         if (p==r) return CGAL_COLLINEAR;
         if (r==q) return CGAL_COLLINEAR;
     
-        return CGAL_orientation(x(p), y(p), x(q), y(q), x(r), y(r));
+        return CGAL_orientationC2(x(p), y(p), x(q), y(q), x(r), y(r));
       }
     
     CGAL_Oriented_side side_of_oriented_circle(const Point &p,
@@ -113,10 +126,10 @@ public:
         if (q==s) return CGAL_ON_ORIENTED_BOUNDARY;
         if (r==s) return CGAL_ON_ORIENTED_BOUNDARY;
     
-        return CGAL_side_of_oriented_circle(x(p), y(p),
-                                            x(q), y(q),
-                                            x(r), y(r),
-                                            x(s), y(s));
+        return CGAL_side_of_oriented_circleC2(x(p), y(p),
+                                              x(q), y(q),
+                                              x(r), y(r),
+                                              x(s), y(s));
       }
     
     
@@ -144,11 +157,7 @@ public:
           Point p0 = get_point(0);
           Point p1 = get_point(1);
           Point p2 = get_point(2);
-          typename Traits::Rep::FT d1 =
-            (x(p1)-x(p0))*(x(p1)-x(p0)) + (y(p1)-y(p0))*(y(p1)-y(p0));
-          typename Traits::Rep::FT d2 =
-            (x(p2)-x(p0))*(x(p2)-x(p0)) + (y(p2)-y(p0))*(y(p2)-y(p0));
-          return CGAL_compare(d1,d2);
+          return CGAL_cmp_dist_to_pointC2(x(p0),y(p0),x(p1),y(p1),x(p2),y(p2));
         }
     };
     

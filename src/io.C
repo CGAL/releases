@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,26 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : src/io.C
+// package       : iostream (1.8)
+// source        : web/io.fw
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1998/07/22 12:49:21 $
 // author(s)     : Andreas Fabri
+//
+// coordinator   : Herve Bronnimann
+//
+//
+//
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_IO_C
@@ -48,8 +57,15 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/IO/io.h>
+
 int CGAL_IO::mode = ios::xalloc();
 
+
+CGAL_IO::Mode
+CGAL_get_mode(ios& i)
+{
+    return CGAL_static_cast(CGAL_IO::Mode,i.iword(CGAL_IO::mode));
+}
 
 CGAL_IO::Mode
 CGAL_set_ascii_mode(ios& i)
@@ -86,28 +102,23 @@ CGAL_set_mode(ios& i, CGAL_IO::Mode m)
     return old;
 }
 
-CGAL_IO::Mode
-CGAL_get_mode(ios& i)
-{
-    return  CGAL_static_cast(CGAL_IO::Mode,i.iword(CGAL_IO::mode));
-}
 bool
 CGAL_is_pretty(ios& i)
 {
-    return CGAL_get_mode(i) == CGAL_IO::PRETTY;
+    return i.iword(CGAL_IO::mode) == CGAL_IO::PRETTY;
 }
 
 bool
 CGAL_is_ascii(ios& i)
 {
-    return CGAL_get_mode(i) == CGAL_IO::ASCII;
+    return i.iword(CGAL_IO::mode) == CGAL_IO::ASCII;
 }
 
 
 bool
 CGAL_is_binary(ios& i)
 {
-    return CGAL_get_mode(i) == CGAL_IO::BINARY;
+    return i.iword(CGAL_IO::mode) == CGAL_IO::BINARY;
 }
 
 

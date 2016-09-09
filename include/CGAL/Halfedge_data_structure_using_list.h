@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Halfedge_data_structure_using_list.h
-// author(s)     : Lutz Kettner  
+// package       : Halfedge_DS (1.7)
+// chapter       : $CGAL_Chapter: Halfedge Data Structures $
+// source        : hds.fw
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 1998/03/19 16:17:48 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : MPI Saarbruecken (Stefan Schirra)
+//
+// Halfedge Data Structure Using a List Implementation.
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_HALFEDGE_DATA_STRUCTURE_USING_LIST_H
 #define CGAL_HALFEDGE_DATA_STRUCTURE_USING_LIST_H 1

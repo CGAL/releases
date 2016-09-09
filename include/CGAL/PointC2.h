@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/PointC2.h
-// author(s)     : Andreas Fabri
+// package       : C2 (1.3)
+// source        : web/PointC2.fw
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 1998/02/24 12:47:19 $
+// author(s)     : Andreas.Fabri
+//
+// coordinator   : INRIA Sophia-Antipolis
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_POINTC2_H

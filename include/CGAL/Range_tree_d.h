@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Range_tree_d.h
-// author(s)     : Gabriele Neyer      
+// package       : Range_segment_trees (1.8)
+// source        : include/CGAL/Range_tree_d.h
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1998/02/03 13:15:00 $
+// author(s)     : Gabriele Neyer
+//
+// coordinator   : Peter Widmayer, ETH Zurich
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_Range_tree_d__

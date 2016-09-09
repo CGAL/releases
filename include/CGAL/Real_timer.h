@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,24 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Real_timer.h
-// author(s)     : Lutz Kettner  
+// package       : Support_LK (1.17)
+// source        : Support_LK/web/Real_timer.h
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1998/06/02 22:38:14 $ 
+// author(s)     : Lutz Kettner
 //
+// coordinator   : INRIA, Sophia Antipolis
+//
+// A timer class to measure real-time.
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_REAL_TIMER_H
 #define CGAL_REAL_TIMER_H 1

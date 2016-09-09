@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/bops_dcel_base.h
-// author(s)     :            Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/bops_dcel_base.h
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:29 MET DST 1998  $
+// author(s)     :        Wolfgang Freiseisen
 //
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL__DCEL_BASE_H
 #define CGAL__DCEL_BASE_H
@@ -63,6 +72,9 @@
 
 template <class I>
 class CGAL__Dcel_base : public I {
+private:
+	CGAL__Dcel_edge_type<I>   eeeeeee;
+	CGAL__Dcel_vertex_type<I> vvvvvvv;
 public:
   typedef typename I::Point Point;
   typedef typename I::const_vertices_iterator const_vertices_iterator;
@@ -182,7 +194,10 @@ public:
   }
 
 
-  edge_iterator begin(  const_vertices_iterator v ) const { return v->header(); }
+  edge_iterator begin(  const_vertices_iterator v ) const {
+    return v->header();
+  }
+
   edge_iterator next( edge_iterator e, const_vertices_iterator v ) const {
     return (e->V1() == v) ? e->P1() : e->P2();
   }

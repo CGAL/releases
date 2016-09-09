@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/min_sqr_distance_traits.h
-// author(s)     :       Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/min_sqr_distance_traits.h
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:35 MET DST 1998  $
+// author(s)     :        Wolfgang Freiseisen
 //
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_MIN_SQR_DISTANCE_TRAITS_H
 #define CGAL_MIN_SQR_DISTANCE_TRAITS_H
@@ -67,7 +76,21 @@ template < class _R >
 struct min_sqr_distance_traits : public _R {
   typedef _R R;
   typedef typename _R::FT NT;
-  typedef CGAL_Point_2< CGAL_Cartesian<double> > dPoint;
+  //typedef CGAL_Point_2< CGAL_Cartesian<double> > dPoint;
+  struct dPoint {
+    dPoint() : _x(0.0), _y(0.0) {}
+    dPoint(double sx, double sy) : _x(sx), _y(sy) {}
+    dPoint(const dPoint& p) : _x(p.x()), _y(p.y()) {}
+    double x() const { return _x; }
+    double y() const { return _y; }
+    dPoint& operator=(const dPoint& p) {
+      _x= p.x();
+      _y= p.y();
+      return *this;
+    }
+    double _x, _y;
+  };
+
   typedef CGAL_Point_2<R>  Point;
 
 

@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Sorted_matrix_search_traits_adaptor.h
-// author(s)     : Michael Hoffmann 
+// package       : Matrix_search (1.7)
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+// source        : fjsearch.aw
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 1998/07/23 16:53:48 $
+// author(s)     : Michael Hoffmann
 //
+// coordinator   : ETH Zurich (Bernd Gaertner)
+//
+// Frederickson-Johnson matrix search: traits class adaptor
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #if ! (CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H)
 #define CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H 1

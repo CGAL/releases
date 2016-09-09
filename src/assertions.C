@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : src/assertions.C
+// package       : Kernel_basic (1.2)
+// source        : assertions.fw
 // author(s)     : Geert-Jan Giezeman and Sven Schönherr
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
+//
+//
+//
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
+// TODO: add CGAL_EXIT_WITH_SUCCESS (Stefan S.)
 
 
 #include <stdlib.h>
@@ -125,6 +133,9 @@ CGAL_assertion_fail( const char* expr,
         abort();
     case CGAL_EXIT:
         exit(1);  // EXIT_FAILURE
+//  TODO:
+//    case CGAL_EXIT_WITH_SUCCESS:
+//        exit(0);  // EXIT_SUCCESS
     case CGAL_CONTINUE:
         ;
     }
@@ -142,6 +153,9 @@ CGAL_precondition_fail( const char* expr,
         abort();
     case CGAL_EXIT:
         exit(1);  // EXIT_FAILURE
+//  TODO:
+//    case CGAL_EXIT_WITH_SUCCESS:
+//        exit(0);  // EXIT_SUCCESS
     case CGAL_CONTINUE:
         ;
     }
@@ -159,6 +173,9 @@ CGAL_postcondition_fail(const char* expr,
         abort();
     case CGAL_EXIT:
         exit(1);  // EXIT_FAILURE
+//  TODO:
+//    case CGAL_EXIT_WITH_SUCCESS:
+//        exit(0);  // EXIT_SUCCESS
     case CGAL_CONTINUE:
         ;
     }
@@ -179,6 +196,9 @@ CGAL_warning_fail( const char* expr,
         abort();
     case CGAL_EXIT:
         exit(1);  // EXIT_FAILURE
+//  TODO:
+//    case CGAL_EXIT_WITH_SUCCESS:
+//        exit(0);  // EXIT_SUCCESS
     case CGAL_CONTINUE:
         ;
     }

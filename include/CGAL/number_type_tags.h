@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,18 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : number_type_tags.fw
 // file          : include/CGAL/number_type_tags.h
+// package       : Number_types (1.2.8)
+// revision      : 1.2.8
+// revision_date : 01 Jul 1998 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
  
 
 #ifndef CGAL_NUMBER_TYPE_TAGS_H

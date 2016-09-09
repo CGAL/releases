@@ -32,9 +32,9 @@
 #include "point_distributions.h"
 
 
-struct Point : public leda_point {
-    Point() {}
-    Point( double x, double y) : leda_point(x,y) {}
+struct LPoint : public leda_point {
+    LPoint() {}
+    LPoint( double x, double y) : leda_point(x,y) {}
     void operator=( const leda_point& p) { leda_point::operator=(p);}
     double x() const { return xcoord(); }
     double y() const { return ycoord(); }
@@ -101,10 +101,10 @@ int main( int argc, char** argv)
     }
 
     // Generate input points for the algorithm.
-    Point* p = new Point[ n];
+    LPoint* p = new LPoint[ n];
     CGAL_point_distributions( dist, 250, p, n, seed);
     leda_list<leda_point> points;
-    for ( Point* pp = p; pp != p+n; ++pp) {
+    for ( LPoint* pp = p; pp != p+n; ++pp) {
 	points.append( leda_point( *pp));
     }
 

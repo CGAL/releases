@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Triangulation_face_iterator.h
+// package       : Triangulation (1.23)
+// source        : web/Triangulation_face_iterator.fw
+// revision      : $Revision: 1.13 $
+// revision_date : $Date: 1998/07/15 14:07:01 $
 // author(s)     : Olivier Devillers
+//
+// coordinator   : Herve Bronnimann
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_TRIANGULATION_FACE_ITERATOR_H
@@ -62,6 +68,11 @@ class CGAL_Triangulation_face_iterator
     typedef typename I::Face_handle Face_handle;
     typedef CGAL_Triangulation_face_iterator<I> Face_iterator;
 
+    protected:
+        Face_handle pos;
+        CGAL_Triangulation_2<I>* triangulation;
+        
+    public:
         CGAL_Triangulation_face_iterator()
             : I::Face::Face_handle(), pos(NULL), triangulation(NULL)
         {}
@@ -167,9 +178,6 @@ class CGAL_Triangulation_face_iterator
         
         
     protected:
-        CGAL_Triangulation_2<I>* triangulation;
-        Face_handle pos;
-        
         
         static
         int

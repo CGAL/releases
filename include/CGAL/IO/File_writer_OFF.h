@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/File_writer_OFF.h
-// author(s)     : Lutz Kettner  
+// package       : Polyhedron_IO (1.9)
+// chapter       : $CGAL_Chapter: Support Library ... $
+// source        : polyhedron_io.fw
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/06/03 20:34:54 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : Herve Bronnimann
+//
+// Writer for polyhedral surfaces in object file format (OFF)
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_IO_FILE_WRITER_OFF_H
 #define CGAL_IO_FILE_WRITER_OFF_H 1
@@ -51,8 +59,10 @@
 #include <CGAL/IO/File_info.h>
 #endif // CGAL_IO_FILE_INFO_H
 
-// Forward declarations.
-class ostream;
+#ifndef CGAL_PROTECT_IOSTREAM_H
+#include <iostream.h>
+#define CGAL_PROTECT_IOSTREAM_H
+#endif // CGAL_PROTECT_IOSTREAM_H
 
 class CGAL_File_writer_OFF {
     ostream*  out;
@@ -62,17 +72,20 @@ class CGAL_File_writer_OFF {
     bool     _skel;
     const CGAL_File_info*  file_info;
 public:
-    CGAL_File_writer_OFF( bool binary = false, bool nocomments = false,
+    CGAL_File_writer_OFF( bool binary = false,
+                         bool nocomments = false,
                          bool skel = false)
         : _binary( binary),
           _nocomments( nocomments),
           _skel( skel),
           file_info(0) {}
     CGAL_File_writer_OFF( const CGAL_File_info& info,
-                         bool binary = false, bool nocomments = false)
+                         bool binary = false,
+                         bool nocomments = false,
+                         bool skel = false)
         : _binary( binary),
           _nocomments( nocomments),
-          _skel( false),
+          _skel( skel),
           file_info( &info) {}
     void set_skel( bool skel)   { _skel = skel; }
     void header( ostream& out,

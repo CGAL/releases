@@ -12,7 +12,7 @@
 // release_date  : $CGAL_Date: $
 //
 // file          : iv2off.C
-// package       : $CGAL_Package: Polyhedron_IO 1.5 (24 Mar 1998) $
+// package       : $CGAL_Package: Polyhedron_IO 1.9 (10 Jul 1998) $
 // revision      : $Revision: 1.1 $
 // revision_date : $Date: 1998/03/01 06:51:10 $
 // author(s)     : Lutz Kettner  <kettner@@inf.ethz.ch>

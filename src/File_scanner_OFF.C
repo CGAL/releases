@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,28 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : src/File_scanner_OFF.C
-// author(s)     : Lutz Kettner  
+// package       : Polyhedron_IO (1.9)
+// chapter       : $CGAL_Chapter: Support Library ... $
+// source        : polyhedron_io.fw
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/06/03 20:34:54 $
+// author(s)     : Lutz Kettner
+//
+// coordinator   : Herve Bronnimann
+//
+// File scanner for an object in an object file format (OFF) file
+//
+//
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
@@ -64,24 +75,24 @@ void
 CGAL_File_scanner_OFF::
 skip_to_next_vertex( int current_vertex) {
     CGAL_assertion( current_vertex < n_vertices);
-    if ( _binary) {
+    if ( m_binary) {
         float f;
-        if ( _normals && ! normals_read) {
-            CGAL__Binary_read_float32( _in, f);
-            CGAL__Binary_read_float32( _in, f);
-            CGAL__Binary_read_float32( _in, f);
-            if ( _tag4)
-                CGAL__Binary_read_float32( _in, f);
+        if ( m_normals && ! normals_read) {
+            CGAL__Binary_read_float32( m_in, f);
+            CGAL__Binary_read_float32( m_in, f);
+            CGAL__Binary_read_float32( m_in, f);
+            if ( m_tag4)
+                CGAL__Binary_read_float32( m_in, f);
         }
-        if ( _colors) {
+        if ( m_colors) {
             // It is not well stated in the Geomview manual
             // how color is coded following a vertex. It is
             // parsed similar to the optional color for facets.
             CGAL_Integer32 k;
-            CGAL__Binary_read_integer32( _in, k);
+            CGAL__Binary_read_integer32( m_in, k);
             if (k<0 || k>4) {
-                _in.clear( ios::badbit);
-                if ( _verbose) {
+                m_in.clear( ios::badbit);
+                if ( m_verbose) {
                     cerr << " " << endl;
                     cerr << "CGAL_File_scanner_OFF::" << endl;
                     cerr << "skip_to_next_vertex(): input error: bad "
@@ -92,26 +103,26 @@ skip_to_next_vertex( int current_vertex) {
             }
             while (k--) {
                 float dummy;
-                CGAL__Binary_read_float32( _in, dummy);
+                CGAL__Binary_read_float32( m_in, dummy);
             }
         }
     } else {
-        if ( _normals && ! normals_read) {
+        if ( m_normals && ! normals_read) {
             double dummy;
-            if ( _tag4) {
-                _in >> dummy >> dummy >> dummy >> dummy;
+            if ( m_tag4) {
+                m_in >> dummy >> dummy >> dummy >> dummy;
             } else {
-                _in >> dummy >> dummy >> dummy;
+                m_in >> dummy >> dummy >> dummy;
             }
         }
-        if ( _colors) { // skip color entries (1 to 4)
+        if ( m_colors) { // skip color entries (1 to 4)
             char c;
-            while ( _in.get(c) && c != '\n')
+            while ( m_in.get(c) && c != '\n')
                 ;
         }
     }
-    if( ! _in) {
-        if ( _verbose) {
+    if( ! m_in) {
+        if ( m_verbose) {
             cerr << " " << endl;
             cerr << "CGAL_File_scanner_OFF::" << endl;
             cerr << "skip_to_next_vertex(): input error: cannot read OFF "
@@ -126,12 +137,12 @@ void
 CGAL_File_scanner_OFF::
 skip_to_next_facet( int current_facet) {
     // Take care of trailing informations like color triples.
-    if ( _binary) {
+    if ( m_binary) {
         CGAL_Integer32 k;
-        CGAL__Binary_read_integer32( _in, k);
+        CGAL__Binary_read_integer32( m_in, k);
         if (k<0 || k>4) {
-            _in.clear( ios::badbit);
-            if ( _verbose) {
+            m_in.clear( ios::badbit);
+            if ( m_verbose) {
                 cerr << " " << endl;
                 cerr << "CGAL_File_scanner_OFF::" << endl;
                 cerr << "skip_to_next_facet(): input error: bad number of "
@@ -142,12 +153,12 @@ skip_to_next_facet( int current_facet) {
         }
         while (k--) {
             float dummy;
-            CGAL__Binary_read_float32( _in, dummy);
+            CGAL__Binary_read_float32( m_in, dummy);
         }
     } else {
         char c;
         // Scan over them until the end of line.
-        while( _in.get(c) && c != '\n')
+        while( m_in.get(c) && c != '\n')
             ;
     }
 }

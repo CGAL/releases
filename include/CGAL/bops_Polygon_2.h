@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/bops_Polygon_2.h
-// author(s)     :            Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/bops_Polygon_2.h
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:25 MET DST 1998  $
+// author(s)     :        Wolfgang Freiseisen
 //
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_BOPS_POLYGON_2_H
 #define CGAL_BOPS_POLYGON_2_H
@@ -50,8 +59,10 @@
 
 
 template < class R, class Container >
-bool CGAL_do_intersect( const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
-                        const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B);
+bool CGAL_do_intersect(
+     const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
+     const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B
+);
 
 
 template < class R, class Container, class OutputIterator >

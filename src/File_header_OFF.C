@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,21 +30,35 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : src/File_header_OFF.C
-// author(s)     : Lutz Kettner  
+// package       : Polyhedron_IO (1.9)
+// chapter       : $CGAL_Chapter: Support Library ... $
+// source        : polyhedron_io.fw
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/06/03 20:34:54 $
+// author(s)     : Lutz Kettner
+//
+// coordinator   : Herve Bronnimann
+//
+// File header information of an object file format (OFF) file
+//
+//
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif // CGAL_BASIC_H
+#ifndef CGAL_KNOWN_BIT_SIZE_INTEGERS_H
+#include <CGAL/known_bit_size_integers.h>
+#endif
 #ifndef CGAL_PROTECT_STDLIB_H
 #include <stdlib.h>
 #define CGAL_PROTECT_STDLIB_H
@@ -69,16 +83,16 @@
 #endif // CGAL_IO_FILE_HEADER_OFF_H
 
 CGAL_File_header_OFF::CGAL_File_header_OFF( istream& in, bool verbose) {
-    _verbose     = false;
-    _skel        = false;
-    n_halfedges = 0;
-    _offset      = 1;
-    _colors      = false;
-    _normals     = false;
-    _tag4        = false;
-    _tagDim      = false;
-    _dim         = 3;
-    _binary      = false;
+    m_verbose     = false;
+    m_skel        = false;
+    n_halfedges   = 0;
+    m_offset      = 1;
+    m_colors      = false;
+    m_normals     = false;
+    m_tag4        = false;
+    m_tagDim      = false;
+    m_dim         = 3;
+    m_binary      = false;
 
     // read in the first character and scan for comments, `OFF', or `NOFF',
     // or `SKEL', or `4SKEL'.
@@ -95,50 +109,37 @@ CGAL_File_header_OFF::CGAL_File_header_OFF( istream& in, bool verbose) {
                 in >> keyword;
                 while ( strcmp( keyword, "ENDCBP") != 0) {
                     if ( strcmp( keyword, "#") != 0) {
-                        if ( strcmp( keyword, "halfedges") == 0)
+                        if ( strcmp( keyword, "polyhedral_surface") ==0){
+                            in >> c;
+                            m_file_info.polyhedral_surface = (c == '1');
+                        }
+                        if ( strcmp( keyword, "halfedges") == 0) {
                             in >> n_halfedges;
-                        if ( strcmp( keyword, "linear") == 0) {
-#ifdef CGAL_IO_FILE_INFO_H
-                            double m11, m12, m13;
-                            double m21, m22, m23;
-                            double m31, m32, m33;
-                            in >> m11 >> m12 >> m13;
-                            in >> m21 >> m22 >> m23;
-                            in >> m31 >> m32 >> m33;
-                            _file_info.linear = CGAL_File_info::Matrix(
-                              m11, m12, m13, m21, m22, m23, m31, m32, m33);
-#else // CGAL_IO_FILE_INFO_H //
-                            // This is code from the CEBAP project
-                            // now useless in CGAL.
-                            in >> _file_info.linear;
-#endif
+                            m_file_info.halfedges = n_halfedges;
+                        }
+                        if ( strcmp( keyword, "triangulated") ==0){
+                            in >> c;
+                            m_file_info.triangulated = (c == '1');
+                        }
+                        if ( strcmp( keyword, "non_empty_facets") ==0){
+                            in >> c;
+                            m_file_info.non_empty_facets = (c == '1');
                         }
                         if ( strcmp( keyword, "normalized_to_sphere") ==0){
                             in >> c;
-                            _file_info.normalized_to_sphere = (c == '1');
+                            m_file_info.normalized_to_sphere = (c == '1');
                         }
                         if ( strcmp( keyword, "radius") == 0)
-                            in >> _file_info.radius;
+                            in >> m_file_info.radius;
                         if ( strcmp( keyword, "rounded") == 0) {
                             in >> c;
-                            _file_info.rounded = (c == '1');
+                            m_file_info.rounded = (c == '1');
                         }
                         if ( strcmp( keyword, "rounded_bits") == 0)
-                            in >> _file_info.rounded_bits;
+                            in >> m_file_info.rounded_bits;
                         if ( strcmp( keyword, "terrain") == 0) {
                             in >> c;
-                            _file_info.terrain = (c == '1');
-                        }
-                        if ( strcmp( keyword, "terrain_vector") == 0) {
-#ifdef CGAL_IO_FILE_INFO_H
-                            double x, y, z;
-                            in >> x >> y >> z;
-                            _file_info.terrain_vector =
-                                CGAL_File_info::Vector( x, y, z);
-#else // CGAL_IO_FILE_INFO_H //
-                            // This is code from the CEBAP project
-                            in >> _file_info.terrain_vector;
-#endif // CGAL_IO_FILE_INFO_H //
+                            m_file_info.terrain = (c == '1');
                         }
                     }
                     in >> keyword;
@@ -159,22 +160,22 @@ CGAL_File_header_OFF::CGAL_File_header_OFF( istream& in, bool verbose) {
                      || isdigit(keyword[1]))
                 n_vertices = atoi( keyword);
             else {
-                _offset = 0;
+                m_offset = 0;
                 int j = 0;
                 if ( j<i && keyword[j] == 'C') {
-                    _colors = true;
+                    m_colors = true;
                     j++;
                 }
                 if ( j<i && keyword[j] == 'N') {
-                    _normals = true;
+                    m_normals = true;
                     j++;
                 }
                 if ( j<i && keyword[j] == '4') {
-                    _tag4 = true;
+                    m_tag4 = true;
                     j++;
                 }
                 if ( j<i && keyword[j] == 'n') {
-                    _tagDim = true;
+                    m_tagDim = true;
                     j++;
                 }
                 if ( i-j != 3 || keyword[j]   != 'O'
@@ -185,7 +186,7 @@ CGAL_File_header_OFF::CGAL_File_header_OFF( istream& in, bool verbose) {
                                   || keyword[j+2] != 'E'
                                   || keyword[j+3] != 'L') {
                         in.clear( ios::badbit);
-                        if ( _verbose) {
+                        if ( m_verbose) {
                             cerr << " " << endl;
                             cerr << "CGAL_File_scanner_OFF<Traits,HDS>::";
                             cerr << "\nCBP_File_scanner_OFF(): "
@@ -194,7 +195,7 @@ CGAL_File_header_OFF::CGAL_File_header_OFF( istream& in, bool verbose) {
                         }
                         return;
                     } else {
-                        _skel = true;
+                        m_skel = true;
                     }
                 }
                 while( (in >> c) && c == '#')
@@ -210,13 +211,13 @@ CGAL_File_header_OFF::CGAL_File_header_OFF( istream& in, bool verbose) {
                         keyword[i++] = c;
                     keyword[i] = '\0';
                     if ( strcmp( keyword, "BINARY") == 0) {
-                        _binary = true;
+                        m_binary = true;
                         while (  c != '\n')
                             in.get(c);
                     }
                     else {
                         in.clear( ios::badbit);
-                        if ( _verbose) {
+                        if ( m_verbose) {
                             cerr << " " << endl;
                             cerr << "CGAL_File_scanner_OFF<Traits,HDS>::";
                             cerr << "\nCBP_File_scanner_OFF(): "
@@ -232,15 +233,15 @@ CGAL_File_header_OFF::CGAL_File_header_OFF( istream& in, bool verbose) {
 
     // Read remaining size value.
     int n_h;
-    if ( _binary) {
+    if ( m_binary) {
         CGAL_Integer32 a, b, c;
         CGAL__Binary_read_integer32( in, a);
-        if ( _tagDim) {
-            _dim = a;
+        if ( m_tagDim) {
+            m_dim = a;
             CGAL__Binary_read_integer32( in, a);
         }
         CGAL__Binary_read_integer32( in, b);
-        if ( ! _skel)
+        if ( ! m_skel)
             CGAL__Binary_read_integer32( in, c);
         else
             c = 0;
@@ -248,21 +249,21 @@ CGAL_File_header_OFF::CGAL_File_header_OFF( istream& in, bool verbose) {
         n_facets   = b;
         n_h        = c;
     } else {
-        if ( _tagDim) {
-            _dim = n_vertices;
+        if ( m_tagDim) {
+            m_dim = n_vertices;
             in >> n_vertices;
         }
         in >> n_facets;
-        if ( ! _skel)
+        if ( ! m_skel)
             in >> n_h;
         else
             n_h = 0;
     }
     if ( n_h == 0)
-        _offset = 0;
+        m_offset = 0;
     if ( ! in || n_vertices <= 0 || n_facets < 0) {
         in.clear( ios::badbit);
-        if ( _verbose) {
+        if ( m_verbose) {
             cerr << " " << endl;
             cerr << "CGAL_File_scanner_OFF<Traits,HDS>::\n";
             cerr << "CGAL_File_scanner_OFF(): "

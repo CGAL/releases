@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,19 +30,28 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : src/Double.C
-// author(s)     : Stefan Schirra 
+// package       : Number_types (1.2.8)
+// source        :
+// revision      :
+// revision_date :
+// author(s)     : Stefan Schirra
 //                 Geert-Jan Giezeman
 //                 Sylvain Pion
 //
+// coordinator   : MPI Informatik, Saarbruecken
+//
+//
+//
+//
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #include <CGAL/double.h>

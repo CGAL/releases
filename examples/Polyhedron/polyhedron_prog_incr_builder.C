@@ -1,4 +1,4 @@
-/*  polyhedron_prog_tetra.C         */
+/*  polyhedron_prog_incr_builder.C  */
 /*  ------------------------------- */
 #include <CGAL/Cartesian.h>
 #include <CGAL/Halfedge_data_structure_polyhedron_default_3.h>

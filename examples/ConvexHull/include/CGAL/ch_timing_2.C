@@ -12,8 +12,8 @@
 //
 // file          : ch_timing_2.C
 // source        : convex_hull_2.lw
-// revision      : 1.2.2
-// revision_date : 27 Mar 1998
+// revision      : 1.2.3
+// revision_date : 07 Apr 1998
 // author(s)     : Stefan Schirra <Stefan.Schirra@@mpi-sb.mpg.de>
 //
 // coordinator   : MPI, Saarbruecken

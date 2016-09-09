@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,21 +30,32 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Extremal_polygon_traits_2.h
-// author(s)     : Michael Hoffmann 
+// package       : Matrix_search (1.7)
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+// source        : mon_search.aw
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 1998/07/23 16:53:45 $
+// author(s)     : Michael Hoffmann
 //
+// coordinator   : ETH Zurich (Bernd Gaertner)
+//
+// Predefined Traits classes for Extremal Polygon Computation
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #if ! (CGAL_EXTREMAL_POLYGON_TRAITS_2_H)
 #define CGAL_EXTREMAL_POLYGON_TRAITS_2_H 1
 
+#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
+#include <CGAL/optimisation_assertions.h>
+#endif // CGAL_OPTIMISATION_ASSERTIONS_H
 #ifndef CGAL_SQUARED_DISTANCE_2_H
 #include <CGAL/squared_distance_2.h>
 #endif // CGAL_SQUARED_DISTANCE_2_H
@@ -144,7 +155,7 @@ public:
   {
     int number_of_points(
       CGAL_iterator_distance( points_begin, points_end));
-    CGAL_precondition( number_of_points > min_k());
+    CGAL_optimisation_precondition( number_of_points > min_k());
     
     // this gives the area of the triangle of two points with
     // the root:
@@ -205,6 +216,9 @@ public:
 
 };
 
+#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
+#include <CGAL/optimisation_assertions.h>
+#endif // CGAL_OPTIMISATION_ASSERTIONS_H
 #ifndef CGAL_PROTECT_MATH_H
 #include <math.h>
 #define CGAL_PROTECT_MATH_H
@@ -308,10 +322,10 @@ public:
   //  perimeter to o in counterclockwise order and return the
   //  past-the-end iterator for that range (== o + min_k()).
   {
-    CGAL_precondition_code(
+    CGAL_optimisation_precondition_code(
       int number_of_points(
         CGAL_iterator_distance( points_begin, points_end));)
-    CGAL_precondition( number_of_points > min_k());
+    CGAL_optimisation_precondition( number_of_points > min_k());
     
     // kind of messy, but first we have to have something
     // like CGAL_Distance (function object) ...

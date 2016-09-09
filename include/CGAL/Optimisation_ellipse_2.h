@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997,1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,18 +30,27 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Optimisation_ellipse_2.h
-// author(s)     : Sven Schönherr 
+// package       : Min_ellipse_2 (3.0.2)
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+//
+// source        : web/Optimisation/Min_ellipse_2.aw
+// revision      : $Revision: 5.1 $
+// revision_date : $Date: 1998/07/02 17:55:03 $
+// author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
+// coordinator   : ETH Zürich (Bernd Gärtner)
+//
+// implementation: 2D Optimisation Ellipse
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_OPTIMISATION_ELLIPSE_2_H
 #define CGAL_OPTIMISATION_ELLIPSE_2_H
@@ -53,10 +62,15 @@ class CGAL_Optimisation_ellipse_2;
 
 class ostream;
 class istream;
-class CGAL_Window_stream;
 
 // Class interface
 // ===============
+
+// the following include is needed by `to_double()'
+#ifndef CGAL_CARTESIAN_H
+#  include <CGAL/Cartesian.h>
+#endif
+
 // includes
 #ifndef CGAL_POINT_2_H
 #  include <CGAL/Point_2.h>
@@ -66,6 +80,9 @@ class CGAL_Window_stream;
 #endif
 #ifndef CGAL_OPTIMISATION_ASSERTIONS_H
 #  include <CGAL/optimisation_assertions.h>
+#endif
+#ifndef CGAL_IO_FORWARD_DECL_WINDOW_STREAM_H
+#include <CGAL/IO/forward_decl_window_stream.h>
 #endif
 
 template < class _R >
@@ -196,6 +213,28 @@ class CGAL_Optimisation_ellipse_2 {
     number_of_boundary_points( ) const
     {
         return( n_boundary_points);
+    }
+    
+    CGAL_Conic_2< CGAL_Cartesian< double > >
+    to_double( ) const
+    {
+        CGAL_optimisation_precondition( ! is_degenerate());
+    
+        double t = 0.0;
+    
+        if ( n_boundary_points == 4)
+            t = conic1.vol_minimum( dr, ds, dt, du, dv, dw);
+    
+        CGAL_Conic_2<R> c( conic1);
+        CGAL_Conic_2< CGAL_Cartesian<double> > e;
+        e.set( CGAL_to_double( c.r()) + t*CGAL_to_double( dr),
+               CGAL_to_double( c.s()) + t*CGAL_to_double( ds),
+               CGAL_to_double( c.t()) + t*CGAL_to_double( dt),
+               CGAL_to_double( c.u()) + t*CGAL_to_double( du),
+               CGAL_to_double( c.v()) + t*CGAL_to_double( dv),
+               CGAL_to_double( c.w()) + t*CGAL_to_double( dw));
+    
+        return( e);
     }
 
     // Equality tests

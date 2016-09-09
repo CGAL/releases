@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,22 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : rational_rotation.fw
 // file          : include/CGAL/rational_rotation.h
-// author(s)     : Stefan Schirra 
+// package       : Kernel_basic (1.2)
+// revision      : 1.2
+// revision_date : 12 Jun 1998 
+// author(s)     : Stefan Schirra
 //
+// coordinator   : MPI, Saarbruecken
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_RATIONAL_ROTATION_H
@@ -162,6 +167,123 @@ CGAL_rational_rotation_approximation( const NT &  dirx,     // dir.x()
   cos_num = cos;
   denom   = den;
 }
+
+
+template < class NT >
+void
+CGAL_rational_rotation_approximation( const double& angle,
+                                            NT &  sin_num,  // return
+                                            NT &  cos_num,  // return
+                                            NT &  denom,    // return
+                                      const NT &  eps_num,  // quality_bound
+                                      const NT &  eps_den )
+{
+  const NT& n   = eps_num;
+  const NT& d   = eps_den;
+  const NT  NT0 = NT(0)  ;
+  const NT  NT1 = NT(1)  ;
+  CGAL_kernel_precondition( n > NT0 );
+  CGAL_kernel_precondition( d > NT0 );
+  NT& isin = sin_num;
+  NT& icos = cos_num;
+  NT& iden = denom;
+  double dsin = sin(angle);
+  double dcos = cos(angle);
+  double dn = CGAL_to_double(n); 
+  double dd = CGAL_to_double(d); 
+  double eps = dn / dd;
+  dsin = CGAL_abs( dsin);
+  dcos = CGAL_abs( dcos);
+  NT   common_part;
+  NT   diff_part;
+  NT   os;
+  bool lower_ok;
+  bool upper_ok;
+  bool swapped = false;
+
+  if (dsin > dcos)
+  {
+     swapped = true;
+     CGAL_swap (dsin,dcos);
+  }
+  if ( dsin < eps )
+  {
+      icos = NT1;
+      isin = NT0;
+      iden = NT1;
+  }
+  else
+  {
+      NT  p;
+      NT  q;
+      NT  p0 = NT0;
+      NT  q0 = NT1;
+      NT  p1 = NT1;
+      NT  q1 = NT1;
+
+      for(;;)
+      {
+          p = p0 + p1;
+          q = q0 + q1;
+          isin = NT(2)*p*q;
+          iden = p*p + q*q;
+
+          // XXX sanity check for approximation
+          //        sin/den < dsin + n/d
+          //    &&  sin/den > dsin - n/d
+          //        sin < dsin * den + n/d * den
+          //    &&  sin > dsin * den - n/d * den
+          os          = CGAL_to_double(isin);
+          diff_part   = eps  * CGAL_to_double(iden);
+          common_part = dsin * CGAL_to_double(iden);
+
+          upper_ok    = (common_part - diff_part < os);
+          lower_ok    = (os < common_part + diff_part);
+
+          if ( lower_ok && upper_ok )
+          {
+             // if ( (p*p)%2 + (q*q)%2 > NT1)
+             // {
+             //     isin = p*q;
+             //     icos = (q*q - p*p)/2;    // exact division
+             //     iden = (p*p + q*q)/2;    // exact division
+             // }
+             // else
+             // {
+                    icos = q*q - p*p;
+             // }
+
+             break;
+          }
+          else
+          {
+              // XXX if ( dsin < sin/den )
+              if ( dsin * CGAL_to_double(iden) < CGAL_to_double(isin) )
+              {
+                  p1 = p;
+                  q1 = q;
+              }
+              else
+              {
+                  p0 = p;
+                  q0 = q;
+              }
+          }
+      } // for(;;)
+  }
+
+  if ( swapped ) { CGAL_swap (isin,icos); }
+
+  dsin = sin( angle);
+  dcos = cos( angle);
+  if (dcos < 0.0) { icos = - icos; }
+  if (dsin < 0.0) { isin = - isin; }
+
+  sin_num = isin;
+  cos_num = icos;
+  denom   = iden;
+}
+
 
 
 #endif // CGAL_RATIONAL_ROTATION_H

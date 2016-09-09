@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,18 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : functions_on_enums.fw
 // file          : include/CGAL/functions_on_enums.h
+// package       : Kernel_basic (1.2)
+// revision      : 1.2
+// revision_date : 12 Jun 1998 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
  
 
 #ifndef CGAL_FUNCTIONS_ON_ENUMS_H

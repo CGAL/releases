@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,21 +30,32 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/monotone_matrix_search.h
-// author(s)     : Michael Hoffmann 
+// package       : Matrix_search (1.7)
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+// source        : mon_search.aw
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 1998/07/23 16:53:51 $
+// author(s)     : Michael Hoffmann
 //
+// coordinator   : ETH Zurich (Bernd Gaertner)
+//
+// Monotone Matrix Search
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #if ! (CGAL_MONOTONE_MATRIX_SEARCH_H)
 #define CGAL_MONOTONE_MATRIX_SEARCH_H 1
 
+#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
+#include <CGAL/optimisation_assertions.h>
+#endif // CGAL_OPTIMISATION_ASSERTIONS_H
 #ifndef CGAL_PROTECT_VECTOR_H
 #include <vector.h>
 #define CGAL_PROTECT_VECTOR_H
@@ -93,9 +104,9 @@ CGAL_monotone_matrix_search(
   cerr << "construct new matrix" << endl;
   #endif
   Matrix* M_new( M.extract_all_even_rows());
-  CGAL_assertion(
+  CGAL_optimisation_assertion(
     M_new->number_of_columns() == M.number_of_columns());
-  CGAL_assertion(
+  CGAL_optimisation_assertion(
     M_new->number_of_rows() == 0 ||
       M_new->number_of_rows() == ( M.number_of_rows() + 1) >> 1);
   
@@ -127,7 +138,7 @@ CGAL_monotone_matrix_search(
     reduction_table[M_new->number_of_rows()] =
       M.number_of_columns() - 1;
     CGAL__reduce_matrix( *M_new, reduction_table, compare_strictly);
-    CGAL_assertion(
+    CGAL_optimisation_assertion(
       M_new->number_of_columns() == M_new->number_of_rows());
   
     #ifdef CGAL_MON_SEARCH_TRACE
@@ -161,7 +172,7 @@ CGAL_monotone_matrix_search(
 
   // recursion:
   
-  CGAL_assertion(
+  CGAL_optimisation_assertion(
     M_new->number_of_rows() >= M_new->number_of_columns());
   
   // table to store the rmax values of M_new:
@@ -260,7 +271,7 @@ CGAL__reduce_matrix(
 // and returns for each column of the resulting
 // matrix its column index in the original matrix
 {
-  CGAL_precondition(
+  CGAL_optimisation_precondition(
     M.number_of_columns() >= M.number_of_rows());
   // active columns are 0, ..., j1, j2, ..., M.x_dim()-1
   int j1( 0), j2( 1);
@@ -291,7 +302,7 @@ CGAL__reduce_matrix(
   // have been deleted, now move columns
   // j2 .. M.number_of_columns()-1 to the first part
   while ( j1 < M.number_of_rows() - 1) {
-    CGAL_assertion( j2 < M.number_of_columns());
+    CGAL_optimisation_assertion( j2 < M.number_of_columns());
     M.replace_column( ++j1, j2);
     *(t+j1) = j2++;
   }

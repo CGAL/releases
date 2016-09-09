@@ -12,7 +12,7 @@
 // release_date  : $CGAL_Date: $
 //
 // file          : geomview.C
-// package       : $CGAL_Package: Polyhedron_IO 1.5 (24 Mar 1998) $
+// package       : $CGAL_Package: Polyhedron_IO 1.9 (10 Jul 1998) $
 // revision      : $Revision: 1.1 $
 // revision_date : $Date: 1998/03/03 02:31:42 $
 // author(s)     : Lutz Kettner  <kettner@@inf.ethz.ch>

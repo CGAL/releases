@@ -1,4 +1,4 @@
-/*  polyhedron_prog_tetra.C         */
+/*  polyhedron_prog_off.C           */
 /*  ------------------------------- */
 #include <CGAL/Cartesian.h>
 #include <iostream.h>

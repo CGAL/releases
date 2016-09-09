@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,24 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Polygon_2.C
-// author(s)     : Wieger Wesselink 
+// package       : Polygon (1.10)
+// source        :
+// revision      : 1.8a
+// revision_date : 13 Mar 1998
+// author(s)     : Wieger Wesselink
+//
+// coordinator   : Utrecht University
+//
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #include <CGAL/Polygon_2.h>
 
@@ -146,7 +153,7 @@ ostream &operator<<(ostream &os, const CGAL_Polygon_2<_Traits,_Container>& p)
 #include <CGAL/Polygon_traits_2.h>
 template <class Transformation, class _Traits, class _Container>
 CGAL_Polygon_2<_Traits,_Container>
-transform(const Transformation& t, const CGAL_Polygon_2<_Traits,_Container>& p)
+CGAL_transform(const Transformation& t, const CGAL_Polygon_2<_Traits,_Container>& p)
 {
   typedef typename CGAL_Polygon_2<_Traits,_Container>::Vertex_const_iterator VI;
   CGAL_Polygon_2<_Traits,_Container> result;

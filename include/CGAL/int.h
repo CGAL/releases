@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,22 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : Int.fw
 // file          : include/CGAL/int.h
-// author(s)     : Stefan Schirra 
+// package       : Number_types (1.2.8)
+// revision      : 1.2.8
+// revision_date : 01 Jul 1998 
+// author(s)     : Stefan Schirra
 //
+// coordinator   : MPI, Saarbruecken
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_INT_H
@@ -155,5 +160,26 @@ bool
 CGAL_is_valid(long long)
 { return true; }
 #endif // CGAL_LONG_LONG
+
+// io_tags for unsigned types
+inline
+CGAL_io_Operator
+CGAL_io_tag(unsigned char)
+{ return CGAL_io_Operator(); }
+
+inline
+CGAL_io_Operator
+CGAL_io_tag(unsigned short)
+{ return CGAL_io_Operator(); }
+
+inline
+CGAL_io_Operator
+CGAL_io_tag(unsigned int)
+{ return CGAL_io_Operator(); }
+
+inline
+CGAL_io_Operator
+CGAL_io_tag(unsigned long)
+{ return CGAL_io_Operator(); }
 
 #endif // CGAL_INT_H

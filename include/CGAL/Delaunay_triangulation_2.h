@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,20 +30,26 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Delaunay_triangulation_2.h
+// package       : Triangulation (1.23)
+// source        : web/Delaunay_triangulation_2.fw
+// revision      : $Revision: 1.17 $
+// revision_date : $Date: 1998/04/24 14:23:37 $
 // author(s)     : Olivier Devillers
 //                 Andreas Fabri
 //                 Monique Teillaud
 //                 Mariette Yvinec
 //
+// coordinator   : Herve Bronnimann
+//
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_DELAUNAY_TRIANGULATION_2_H
@@ -57,6 +63,9 @@ class CGAL_Delaunay_triangulation_2 : public CGAL_Triangulation_2<I>
 friend istream& operator>> CGAL_NULL_TMPL_ARGS
                 (istream& is, CGAL_Delaunay_triangulation_2<I> &T);
 public:
+  typedef typename I::Line                      Line;
+  typedef typename I::Direction                 Direction;
+  typedef typename I::Ray                       Ray;
   typedef typename I::Distance Distance;
 
   CGAL_Delaunay_triangulation_2()
@@ -442,6 +451,46 @@ public:
       CGAL_triangulation_assertion( result );
   
       return result;
+  }
+  Point dual(const Face_handle &f) const
+  {
+    return traits().circumcenter(f->vertex(0)->point(),
+                   f->vertex(1)->point(),
+                   f->vertex(2)->point());
+  }
+  
+  CGAL_Object dual(const Edge &e) const
+  {
+    if (! is_infinite(e.first) && ! is_infinite(e.first->neighbor(e.second))) {
+      Segment s(dual(e.first),dual(e.first->neighbor(e.second)));
+      return CGAL_Object(new CGAL_Wrapper< Segment >(s));
+    } else {
+      Face_handle f; int i;
+      if (is_infinite(e.first)) {
+        f=e.first->neighbor(e.second); f->has_neighbor(e.first,i);
+      } else {
+        f=e.first; i=e.second;
+      }
+      if (! is_infinite(f)) {
+        Ray r(dual(f), segment(f,i).direction().perpendicular(CGAL_NEGATIVE));
+        return CGAL_Object(new CGAL_Wrapper< Ray >(r));
+      } else {
+        Segment s(segment(f,i));
+        Point p = s.source() + (s.target() - s.source()) / 2.0;
+        Line l(segment(f,i));
+        return CGAL_Object(new CGAL_Wrapper< Line >(l.perpendicular(p)));
+      }
+    }
+  }
+  
+  CGAL_Object dual(const Edge_circulator& ec) const
+  {
+      return dual(*ec);
+  }
+  
+  CGAL_Object dual(const Edge_iterator& ei) const
+  {
+      return dual(*ei);
   }
   
 private:

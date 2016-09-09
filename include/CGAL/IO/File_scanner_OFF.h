@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,22 +30,34 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/File_scanner_OFF.h
-// author(s)     : Lutz Kettner  
+// package       : Polyhedron_IO (1.9)
+// chapter       : $CGAL_Chapter: Support Library ... $
+// source        : polyhedron_io.fw
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/06/03 20:34:54 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : Herve Bronnimann
+//
+// File scanner for an object in an object file format (OFF) file
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_IO_FILE_SCANNER_OFF_H
 #define CGAL_IO_FILE_SCANNER_OFF_H 1
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
+#endif
+
+#ifndef CGAL_KNOWN_BIT_SIZE_INTEGERS_H
+#include <CGAL/known_bit_size_integers.h>
 #endif
 
 #ifndef CGAL_PROTECT_STDDEF_H
@@ -61,47 +73,52 @@
 #include <CGAL/IO/File_header_OFF.h>
 #endif // CGAL_IO_FILE_HEADER_OFF_H
 
-// Forward declarations.
-class istream;
+#ifndef CGAL_PROTECT_IOSTREAM_H
+#include <iostream.h>
+#define CGAL_PROTECT_IOSTREAM_H
+#endif // CGAL_PROTECT_IOSTREAM_H
 
 class CGAL_File_scanner_OFF : public CGAL_File_header_OFF {
-    istream&  _in;
+    istream&  m_in;
     bool      normals_read;
     void skip_comment() {
         char c;
-        while ( (_in >> c) && c == '#') {
-            while ( _in.get(c) && c != '\n')
+        while ( (m_in >> c) && c == '#') {
+            while ( m_in.get(c) && c != '\n')
                 ;
         }
-        _in.putback(c);
+        m_in.putback(c);
     }
 public:
     CGAL_File_scanner_OFF( istream& in, bool verbose = false)
-        : _in( in), normals_read( false),
-          CGAL_File_header_OFF( in, verbose) {}
+        : CGAL_File_header_OFF( in, verbose),
+          m_in( in), normals_read( false) {}
     CGAL_File_scanner_OFF( istream& in,
                           const CGAL_File_header_OFF& header)
-        : _in( in), normals_read( false), CGAL_File_header_OFF( header) {}
+        : CGAL_File_header_OFF( header), m_in( in), normals_read( false) {}
+
+    istream& in() { return m_in; }
+
     // The scan_vertex() routine is provided for multiple
     // coordinate types to support parameterized polytopes.
     void scan_vertex( float&  x, float&  y, float&  z) {
-        if ( _binary) {
-            CGAL__Binary_read_float32( _in, x);
-            CGAL__Binary_read_float32( _in, y);
-            CGAL__Binary_read_float32( _in, z);
-            if ( _tag4) {
+        if ( m_binary) {
+            CGAL__Binary_read_float32( m_in, x);
+            CGAL__Binary_read_float32( m_in, y);
+            CGAL__Binary_read_float32( m_in, z);
+            if ( m_tag4) {
                 float w;
-                CGAL__Binary_read_float32( _in, w);
+                CGAL__Binary_read_float32( m_in, w);
                 x /= w;
                 y /= w;
                 z /= w;
             }
         } else {
             skip_comment();
-            _in >> x >> y >> z;
-            if ( _tag4) {
+            m_in >> x >> y >> z;
+            if ( m_tag4) {
                 float w;
-                _in >> w;
+                m_in >> w;
                 x /= w;
                 y /= w;
                 z /= w;
@@ -109,26 +126,26 @@ public:
         }
     }
     void scan_vertex( double& x, double& y, double& z) {
-        if ( _binary) {
+        if ( m_binary) {
             float f;
-            CGAL__Binary_read_float32( _in, f);
+            CGAL__Binary_read_float32( m_in, f);
             x = f;
-            CGAL__Binary_read_float32( _in, f);
+            CGAL__Binary_read_float32( m_in, f);
             y = f;
-            CGAL__Binary_read_float32( _in, f);
+            CGAL__Binary_read_float32( m_in, f);
             z = f;
-            if ( _tag4) {
-                CGAL__Binary_read_float32( _in, f);
+            if ( m_tag4) {
+                CGAL__Binary_read_float32( m_in, f);
                 x /= f;
                 y /= f;
                 z /= f;
             }
         } else {
             skip_comment();
-            _in >> x >> y >> z;
-            if ( _tag4) {
+            m_in >> x >> y >> z;
+            if ( m_tag4) {
                 double w;
-                _in >> w;
+                m_in >> w;
                 x /= w;
                 y /= w;
                 z /= w;
@@ -136,14 +153,14 @@ public:
         }
     }
     void scan_vertex( int&    x, int&    y, int&    z) {
-        if ( _binary) {
+        if ( m_binary) {
             float fx, fy, fz;
-            CGAL__Binary_read_float32( _in, fx);
-            CGAL__Binary_read_float32( _in, fy);
-            CGAL__Binary_read_float32( _in, fz);
-            if ( _tag4) {
+            CGAL__Binary_read_float32( m_in, fx);
+            CGAL__Binary_read_float32( m_in, fy);
+            CGAL__Binary_read_float32( m_in, fz);
+            if ( m_tag4) {
                 float fw;
-                CGAL__Binary_read_float32( _in, fw);
+                CGAL__Binary_read_float32( m_in, fw);
                 x = int( fx / fw);
                 y = int( fy / fw);
                 y = int( fz / fw);
@@ -154,19 +171,19 @@ public:
             }
         } else {
             skip_comment();
-            if ( _tag4) {
+            if ( m_tag4) {
                 double fx, fy, fz, fw;
-                _in >> fx >> fy >> fz >> fw;
+                m_in >> fx >> fy >> fz >> fw;
                 x = int( fx / fw);
                 y = int( fy / fw);
                 y = int( fz / fw);
             } else {
                 double d;
-                _in >> d;
+                m_in >> d;
                 x = int(d);
-                _in >> d;
+                m_in >> d;
                 y = int(d);
-                _in >> d;
+                m_in >> d;
                 z = int(d);
             }
         }
@@ -174,89 +191,89 @@ public:
 
     void scan_vertex( float&  x, float&  y, float&  z, float&  w) {
         w = 1;
-        if ( _binary) {
-            CGAL__Binary_read_float32( _in, x);
-            CGAL__Binary_read_float32( _in, y);
-            CGAL__Binary_read_float32( _in, z);
-            if ( _tag4)
-                CGAL__Binary_read_float32( _in, w);
+        if ( m_binary) {
+            CGAL__Binary_read_float32( m_in, x);
+            CGAL__Binary_read_float32( m_in, y);
+            CGAL__Binary_read_float32( m_in, z);
+            if ( m_tag4)
+                CGAL__Binary_read_float32( m_in, w);
         } else {
             skip_comment();
-            _in >> x >> y >> z;
-            if ( _tag4)
-                _in >> w;
+            m_in >> x >> y >> z;
+            if ( m_tag4)
+                m_in >> w;
         }
     }
     void scan_vertex( double& x, double& y, double& z, double& w) {
         w = 1;
-        if ( _binary) {
+        if ( m_binary) {
             float f;
-            CGAL__Binary_read_float32( _in, f);
+            CGAL__Binary_read_float32( m_in, f);
             x = f;
-            CGAL__Binary_read_float32( _in, f);
+            CGAL__Binary_read_float32( m_in, f);
             y = f;
-            CGAL__Binary_read_float32( _in, f);
+            CGAL__Binary_read_float32( m_in, f);
             z = f;
-            if ( _tag4) {
-                CGAL__Binary_read_float32( _in, f);
+            if ( m_tag4) {
+                CGAL__Binary_read_float32( m_in, f);
                 w = f;
             }
         } else {
             skip_comment();
-            _in >> x >> y >> z;
-            if ( _tag4)
-                _in >> w;
+            m_in >> x >> y >> z;
+            if ( m_tag4)
+                m_in >> w;
         }
     }
     void scan_vertex( int&    x, int&    y, int&    z, int&    w) {
         w = 1;
-        if ( _binary) {
+        if ( m_binary) {
             float f;
-            CGAL__Binary_read_float32( _in, f);
+            CGAL__Binary_read_float32( m_in, f);
             x = int(f);
-            CGAL__Binary_read_float32( _in, f);
+            CGAL__Binary_read_float32( m_in, f);
             y = int(f);
-            CGAL__Binary_read_float32( _in, f);
+            CGAL__Binary_read_float32( m_in, f);
             z = int(f);
-            if ( _tag4) {
-                CGAL__Binary_read_float32( _in, f);
+            if ( m_tag4) {
+                CGAL__Binary_read_float32( m_in, f);
                 w = int(f);
             }
         } else {
             skip_comment();
             double d;
-            _in >> d;
+            m_in >> d;
             x = int(d);
-            _in >> d;
+            m_in >> d;
             y = int(d);
-            _in >> d;
+            m_in >> d;
             z = int(d);
-            if ( _tag4) {
-                _in >> d;
+            if ( m_tag4) {
+                m_in >> d;
                 w = int(d);
             }
         }
     }
 
     void scan_normal( float&  x, float&  y, float&  z) {
-        if ( _normals) {
+        if ( m_normals) {
             normals_read = true;
-            if ( _binary) {
-                CGAL__Binary_read_float32( _in, x);
-                CGAL__Binary_read_float32( _in, y);
-                CGAL__Binary_read_float32( _in, z);
-                if ( _tag4) {
+            if ( m_binary) {
+                CGAL__Binary_read_float32( m_in, x);
+                CGAL__Binary_read_float32( m_in, y);
+                CGAL__Binary_read_float32( m_in, z);
+                if ( m_tag4) {
                     float w;
-                    CGAL__Binary_read_float32( _in, w);
+                    CGAL__Binary_read_float32( m_in, w);
                     x /= w;
                     y /= w;
                     z /= w;
                 }
             } else {
-                _in >> x >> y >> z;
-                if ( _tag4) {
+                m_in >> x >> y >> z;
+                if ( m_tag4) {
                     float w;
-                    _in >> w;
+                    m_in >> w;
                     x /= w;
                     y /= w;
                     z /= w;
@@ -265,16 +282,16 @@ public:
         }
     }
     void scan_normal( double& x, double& y, double& z) {
-        if ( _normals) {
+        if ( m_normals) {
             normals_read = true;
-            if ( _binary) {
+            if ( m_binary) {
                 float fx, fy, fz;
-                CGAL__Binary_read_float32( _in, fx);
-                CGAL__Binary_read_float32( _in, fy);
-                CGAL__Binary_read_float32( _in, fz);
-                if ( _tag4) {
+                CGAL__Binary_read_float32( m_in, fx);
+                CGAL__Binary_read_float32( m_in, fy);
+                CGAL__Binary_read_float32( m_in, fz);
+                if ( m_tag4) {
                     float fw;
-                    CGAL__Binary_read_float32( _in, fw);
+                    CGAL__Binary_read_float32( m_in, fw);
                     x = fx / fw;
                     y = fy / fw;
                     y = fz / fw;
@@ -284,28 +301,28 @@ public:
                     z = fz;
                 }
             } else {
-                if ( _tag4) {
+                if ( m_tag4) {
                     float fx, fy, fz, fw;
-                    _in >> fx >> fy >> fz >> fw;
+                    m_in >> fx >> fy >> fz >> fw;
                     x = fx / fw;
                     y = fy / fw;
                     y = fz / fw;
                 } else
-                    _in >> x >> y >> z;
+                    m_in >> x >> y >> z;
             }
         }
     }
     void scan_normal( int&    x, int&    y, int&    z) {
-        if ( _normals) {
+        if ( m_normals) {
             normals_read = true;
-            if ( _binary) {
+            if ( m_binary) {
                 float fx, fy, fz;
-                CGAL__Binary_read_float32( _in, fx);
-                CGAL__Binary_read_float32( _in, fy);
-                CGAL__Binary_read_float32( _in, fz);
-                if ( _tag4) {
+                CGAL__Binary_read_float32( m_in, fx);
+                CGAL__Binary_read_float32( m_in, fy);
+                CGAL__Binary_read_float32( m_in, fz);
+                if ( m_tag4) {
                     float fw;
-                    CGAL__Binary_read_float32( _in, fw);
+                    CGAL__Binary_read_float32( m_in, fw);
                     x = int( fx / fw);
                     y = int( fy / fw);
                     y = int( fz / fw);
@@ -315,19 +332,19 @@ public:
                     z = int(fz);
                 }
             } else {
-                if ( _tag4) {
+                if ( m_tag4) {
                     float fx, fy, fz, fw;
-                    _in >> fx >> fy >> fz >> fw;
+                    m_in >> fx >> fy >> fz >> fw;
                     x = int( fx / fw);
                     y = int( fy / fw);
                     y = int( fz / fw);
                 } else {
                     double d;
-                    _in >> d;
+                    m_in >> d;
                     x = int(d);
-                    _in >> d;
+                    m_in >> d;
                     y = int(d);
-                    _in >> d;
+                    m_in >> d;
                     z = int(d);
                 }
             }
@@ -336,70 +353,70 @@ public:
 
     void scan_normal( float&  x, float&  y, float&  z, float&  w) {
         w = 1;
-        if ( _normals) {
+        if ( m_normals) {
             normals_read = true;
-            if ( _binary) {
-                CGAL__Binary_read_float32( _in, x);
-                CGAL__Binary_read_float32( _in, y);
-                CGAL__Binary_read_float32( _in, z);
-                if ( _tag4)
-                    CGAL__Binary_read_float32( _in, w);
+            if ( m_binary) {
+                CGAL__Binary_read_float32( m_in, x);
+                CGAL__Binary_read_float32( m_in, y);
+                CGAL__Binary_read_float32( m_in, z);
+                if ( m_tag4)
+                    CGAL__Binary_read_float32( m_in, w);
             } else {
-                _in >> x >> y >> z;
-                if ( _tag4)
-                    _in >> w;
+                m_in >> x >> y >> z;
+                if ( m_tag4)
+                    m_in >> w;
             }
         }
     }
     void scan_normal( double& x, double& y, double& z, double& w) {
         w = 1;
-        if ( _normals) {
+        if ( m_normals) {
             normals_read = true;
-            if ( _binary) {
+            if ( m_binary) {
                 float f;
-                CGAL__Binary_read_float32( _in, f);
+                CGAL__Binary_read_float32( m_in, f);
                 x = f;
-                CGAL__Binary_read_float32( _in, f);
+                CGAL__Binary_read_float32( m_in, f);
                 y = f;
-                CGAL__Binary_read_float32( _in, f);
+                CGAL__Binary_read_float32( m_in, f);
                 z = f;
-                if ( _tag4) {
-                    CGAL__Binary_read_float32( _in, f);
+                if ( m_tag4) {
+                    CGAL__Binary_read_float32( m_in, f);
                     w = f;
                 }
             } else {
-                _in >> x >> y >> z;
-                if ( _tag4)
-                    _in >> w;
+                m_in >> x >> y >> z;
+                if ( m_tag4)
+                    m_in >> w;
             }
         }
     }
     void scan_normal( int&    x, int&    y, int&    z, int&    w) {
         w = 1;
-        if ( _normals) {
+        if ( m_normals) {
             normals_read = true;
-            if ( _binary) {
+            if ( m_binary) {
                 float f;
-                CGAL__Binary_read_float32( _in, f);
+                CGAL__Binary_read_float32( m_in, f);
                 x = int(f);
-                CGAL__Binary_read_float32( _in, f);
+                CGAL__Binary_read_float32( m_in, f);
                 y = int(f);
-                CGAL__Binary_read_float32( _in, f);
+                CGAL__Binary_read_float32( m_in, f);
                 z = int(f);
-                if ( _tag4) {
-                    CGAL__Binary_read_float32( _in, f);
+                if ( m_tag4) {
+                    CGAL__Binary_read_float32( m_in, f);
                     w = int(f);
                 }
             } else {
                 double d;
-                _in >> d;
+                m_in >> d;
                 x = int(d);
-                _in >> d;
+                m_in >> d;
                 y = int(d);
-                _in >> d;
+                m_in >> d;
                 z = int(d);
-                if ( _tag4) {
-                    _in >> d;
+                if ( m_tag4) {
+                    m_in >> d;
                     w = int(d);
                 }
             }
@@ -410,22 +427,22 @@ public:
 
     void scan_facet( CGAL_Integer32& size, int current_facet) {
         CGAL_assertion( current_facet < n_facets);
-        if ( _binary)
-            CGAL__Binary_read_integer32( _in, size);
+        if ( m_binary)
+            CGAL__Binary_read_integer32( m_in, size);
         else {
             skip_comment();
-            _in >> size;
+            m_in >> size;
         }
     }
 
     void scan_facet_vertex_index( CGAL_Integer32& index,
                                   int current_facet) {
-        if ( _binary)
-            CGAL__Binary_read_integer32( _in, index);
+        if ( m_binary)
+            CGAL__Binary_read_integer32( m_in, index);
         else
-            _in >> index;
-        if( ! _in) {
-            if ( _verbose) {
+            m_in >> index;
+        if( ! m_in) {
+            if ( m_verbose) {
                 cerr << " " << endl;
                 cerr << "CGAL_File_scanner_OFF::" << endl;
                 cerr << "scan_facet_vertex_index(): input error: cannot "
@@ -434,15 +451,15 @@ public:
             }
             return;
         }
-        index -= _offset;
+        index -= m_offset;
         if( index < 0 || index >= n_vertices) {
-            _in.clear( ios::badbit);
-            if ( _verbose) {
+            m_in.clear( ios::badbit);
+            if ( m_verbose) {
                 cerr << " " << endl;
                 cerr << "CGAL_File_scanner_OFF::" << endl;
                 cerr << "scan_facet_vertex_index(): input error: facet "
-                     << current_facet << ": vertex index " << index+_offset
-                     << ": is out of range." << endl;
+                     << current_facet << ": vertex index "
+                     << index+m_offset << ": is out of range." << endl;
             }
             return;
         }
@@ -452,6 +469,9 @@ public:
 };
 
 #ifdef CGAL_IO_FILE_SCANNER_OFF_H
+
+template < class R> class CGAL_Point_3;
+template < class R> class CGAL_Vector_3;
 
 template < class R> inline
 CGAL_Point_3<R>&
@@ -581,10 +601,6 @@ CGAL_file_scan_vertex( CGAL_File_scanner_OFF& scanner, Pt& p) {
     return CGAL_file_scan_vertex( scanner, p, CGAL_query_representation(p),
                                  (RT*)(0));
 }
-
-
-
-
 
 template < class V, class RT> inline
 V&

@@ -1,4 +1,5 @@
-// ============================================================================
+
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +31,21 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Iso_rectangle_2_Line_2_intersection.h
+// package       : Intersections_2 (1.5)
+// source        : intersection_2_2.fw
 // author(s)     : Geert-Jan Giezeman
+//
+// coordinator   : MPI, Saarbruecken
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_LINE_2_ISO_RECTANGLE_2_INTERSECTION_H
 #include <CGAL/Line_2_Iso_rectangle_2_intersection.h>

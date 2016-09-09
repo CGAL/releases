@@ -12,7 +12,7 @@
 // release_date  : $CGAL_Date: $
 //
 // file          : terr_trian.C
-// package       : $CGAL_Package: Polyhedron_IO 1.6 (02 Apr 1998) $
+// package       : $CGAL_Package: Polyhedron_IO 1.9 (10 Jul 1998) $
 // revision      : $Revision: 1.3 $
 // revision_date : $Date: 1998/04/01 20:17:57 $
 // author(s)     : Lutz Kettner  <kettner@@inf.ethz.ch>
@@ -144,7 +144,7 @@ main( int argc, char **argv) {
 	detectSwitch( help_switch, "help");
 	endDetect();
 
-	/* else get standard or optional paramters */
+	/* else get standard or optional parameters */
 	if ( nParameters < MaxParameters ) {
 	    parameters[nParameters ++] = argv[i];
 	    continue;

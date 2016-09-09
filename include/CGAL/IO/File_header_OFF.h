@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/File_header_OFF.h
-// author(s)     : Lutz Kettner  
+// package       : Polyhedron_IO (1.9)
+// chapter       : $CGAL_Chapter: Support Library ... $
+// source        : polyhedron_io.fw
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/06/03 20:34:54 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : Herve Bronnimann
+//
+// File header information of an object file format (OFF) file
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_IO_FILE_HEADER_OFF_H
 #define CGAL_IO_FILE_HEADER_OFF_H 1
@@ -48,48 +56,50 @@
 #include <CGAL/IO/File_info.h>
 #endif // CGAL_IO_FILE_INFO_H
 
-// Forward declarations.
-class istream;
+#ifndef CGAL_PROTECT_IOSTREAM_H
+#include <iostream.h>
+#define CGAL_PROTECT_IOSTREAM_H
+#endif // CGAL_PROTECT_IOSTREAM_H
 
 // Info structure for OFF file headers
 // ===================================
 class CGAL_File_header_OFF {
 protected:
-    bool _verbose;     // Print error messages if true.
-    bool _skel;        // signals SKEL format instead of OFF format.
+    bool m_verbose;     // Print error messages if true.
+    bool m_skel;        // signals SKEL format instead of OFF format.
     int  n_vertices;
     int  n_halfedges;
     int  n_facets;
-    int  _offset;      // index offset for vertices
-    bool _colors;      // COFF detected.
-    bool _normals;     // NOFF format stores also normals at vertices.
-    bool _tag4;        // 4OFF detected.
-    bool _tagDim;      // nOFF detected (will not be supported).
-    int  _dim;         // dimension for nOFF (will not be supported).
-    bool _binary;      // OFF in binary format.
-    CGAL_File_info  _file_info;
+    int  m_offset;      // index offset for vertices
+    bool m_colors;      // COFF detected.
+    bool m_normals;     // NOFF format stores also normals at vertices.
+    bool m_tag4;        // 4OFF detected.
+    bool m_tagDim;      // nOFF detected (will not be supported).
+    int  m_dim;         // dimension for nOFF (will not be supported).
+    bool m_binary;      // OFF in binary format.
+    CGAL_File_info  m_file_info;
 public:
     CGAL_File_header_OFF( istream& in, bool verbose = false);
 
-    bool verbose() const            { return _verbose; }
-    bool is_SKEL() const            { return _skel; }   // SKEL format.
-    bool is_OFF()  const            { return ! _skel; } // OFF format.
+    bool verbose() const            { return m_verbose; }
+    bool is_SKEL() const            { return m_skel; }   // SKEL format.
+    bool is_OFF()  const            { return ! m_skel; } // OFF format.
     int  size_of_vertices()  const  { return n_vertices; }
     int  size_of_halfedges() const  { return n_halfedges; }
     int  size_of_facets()    const  { return n_facets; }
-    int  index_offset() const       { return _offset; }
-    bool has_colors() const         { return _colors; } // COFF detected.
-    bool has_normals() const        { return _normals;} // NOFF format.
-    bool is_homogeneous() const     { return _tag4; }   // 4OFF detected.
+    int  index_offset() const       { return m_offset; }
+    bool has_colors() const         { return m_colors; } // COFF detected.
+    bool has_normals() const        { return m_normals;} // NOFF format.
+    bool is_homogeneous() const     { return m_tag4; }   // 4OFF detected.
                            // nOFF detected. (will not be supported).
-    bool n_dimsional() const        { return _tagDim; }
+    bool n_dimsional() const        { return m_tagDim; }
                            // dimension for nOFF (will not be supported).
-    int  dimension() const          { return _dim; }
-    bool is_binary() const          { return _binary; } // OFF BINARY.
+    int  dimension() const          { return m_dim; }
+    bool is_binary() const          { return m_binary; } // OFF BINARY.
     CGAL_File_info&
-         file_info()                { return _file_info; }
+         file_info()                { return m_file_info; }
     const CGAL_File_info&
-         file_info() const          { return _file_info; }
+         file_info() const          { return m_file_info; }
 };
 #endif // CGAL_IO_FILE_HEADER_OFF_H //
 // EOF //

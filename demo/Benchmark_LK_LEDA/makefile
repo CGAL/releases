@@ -38,7 +38,7 @@ convex_hull_LEDA: convex_hull_LEDA.o
 	$(CGAL_CXX) -o convex_hull_LEDA convex_hull_LEDA.o $(LDFLAGS)
 
 clean:
-	/bin/rm -f *.o \
+	rm -f *.o \
                    convex_hull \
                    convex_hull_LEDA \
                    core

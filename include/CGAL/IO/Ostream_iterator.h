@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/Ostream_iterator.h
-// author(s)     : Lutz Kettner  
+// package       : Support_LK (1.17)
+// chapter       : $CGAL_Chapter: Support Library Manual ... $
+// source        : support.fw
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1998/07/23 15:15:34 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : INRIA, Sophia Antipolis
+//
+// A General Ostream_iterator
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_IO_OSTREAM_ITERATOR_H
 #define CGAL_IO_OSTREAM_ITERATOR_H 1
@@ -80,6 +88,7 @@ public:
     }
 };
 
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
 template <class T, class Stream> inline
 output_iterator_tag
 iterator_category( const CGAL_Ostream_iterator<T,Stream>&) {
@@ -95,6 +104,7 @@ CGAL_Iterator_tag
 CGAL_query_circulator_or_iterator(
     const CGAL_Ostream_iterator<T,Stream>&) {
     return CGAL_Iterator_tag();
-}    
+}
+#endif
 #endif // CGAL_IO_OSTREAM_ITERATOR_H //
 // EOF //

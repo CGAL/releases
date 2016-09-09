@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,22 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : Homogeneous.fw
 // file          : include/CGAL/homogeneous_classes.h
-// author(s)     : Stefan Schirra 
+// package       : Kernel_basic (1.2)
+// revision      : 1.2
+// revision_date : 12 Jun 1998 
+// author(s)     : Stefan Schirra
 //
+// coordinator   : MPI, Saarbruecken
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_HOMOGENEOUS_CLASSES_H
@@ -109,9 +114,11 @@ class CGAL_TetrahedronH3;
 template < class FT, class RT >
 class CGAL_Aff_transformationH3;
 
-
 template < class PT, class DA >
 class CGAL_ConicHPA2;
+
+template <class FT, class RT>
+class CGAL_PointHd;
 
 
 #endif // CGAL_HOMOGENEOUS_CLASSES_H

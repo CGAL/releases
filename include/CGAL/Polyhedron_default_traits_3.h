@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Polyhedron_default_traits_3.h
-// author(s)     : Lutz Kettner  
+// package       : Polyhedron (1.11)
+// chapter       : $CGAL_Chapter: 3D-Polyhedral Surfaces $
+// source        : polyhedron.fw
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 1998/07/10 00:52:49 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : MPI Saarbruecken (Stefan Schirra)
+//
+// Default Traits for Polyhedral Surfaces in CGAL.
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_POLYHEDRON_DEFAULT_TRAITS_3_H
 #define CGAL_POLYHEDRON_DEFAULT_TRAITS_3_H 1

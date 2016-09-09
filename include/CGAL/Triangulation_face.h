@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,18 +30,24 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Triangulation_face.h
+// package       : Triangulation (1.23)
+// source        : web/Triangulation_face.fw
+// revision      : $Revision: 1.15 $
+// revision_date : $Date: 1998/04/27 09:52:02 $
 // author(s)     : Olivier Devillers
 //                 Andreas Fabri
 //
+// coordinator   : Herve Bronnimann
+//
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_TRIANGULATION_FACE_H
@@ -319,7 +325,7 @@ public:
         CGAL_triangulation_precondition(v != NULL);
         int i = index(v);
     
-        Face_handle left, *right, *ll, *rr;
+        Face_handle left, right, ll, rr;
     
         left = neighbor(cw(i));
         right = neighbor(ccw(i));
@@ -355,33 +361,32 @@ public:
         }
     
         int li = left->index(this);
+        int ri = right->index(this);
         Vertex_handle q = left->vertex(li);
+        CGAL_triangulation_assertion( left->vertex(li) == right->vertex(ri));
     
         ll = left->neighbor(cw(li));
         if(ll != NULL) {
             int lli = ll->index(left);
             ll->set_neighbor(lli, this);
-        } else {
-            q->set_face(this);
         }
         set_neighbor(cw(i), ll);
+        if (vertex(ccw(i))->face() == left) vertex(ccw(i))->set_face(this);
     
-        left.Delete();
-    
-        int ri = ccw(right->index(this));
-        q = right->vertex(ccw(ri));
-        rr = right->neighbor(ri);
+        rr = right->neighbor(ccw(ri));
         if(rr != NULL) {
             int rri = rr->index(right);
             rr->set_neighbor(rri, this);
-        } else {
-            q->set_face(this);
         }
         set_neighbor(ccw(i), rr);
-    
-        right.Delete();
+        if (vertex(cw(i))->face() == right) vertex(cw(i))->set_face(this);
     
         set_vertex(i, q);
+        if (q->face() == right || q->face() == left) {
+           q->set_face( ll != NULL ? ll : this->handle());
+        }
+        right.Delete();
+        left.Delete();
     
         v.Delete();
         return true;

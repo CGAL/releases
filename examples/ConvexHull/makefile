@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
 
-CGAL_MAKEFILE = /KM/projects/CGAL/CGAL-1.0/make/makefile_sparc_SunOS-5.5.1_CC-4.2_LEDA
+CGAL_MAKEFILE = 
 include $(CGAL_MAKEFILE)
 
 #---------------------------------------------------------------------#
@@ -13,6 +13,7 @@ include $(CGAL_MAKEFILE)
 #---------------------------------------------------------------------#
 
 CXXFLAGS = \
+           $(TESTSUITE_CXXFLAGS) \
            -I./include \
            $(CGAL_CXXFLAGS) \
            $(EXTRA_FLAGS) 
@@ -22,6 +23,7 @@ CXXFLAGS = \
 #---------------------------------------------------------------------#
 
 LDFLAGS = \
+          $(TESTSUITE_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
 #---------------------------------------------------------------------#

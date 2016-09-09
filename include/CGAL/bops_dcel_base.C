@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,26 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/bops_dcel_base.C
-// author(s)     :            Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/bops_dcel_base.C
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:29 MET DST 1998  $
+// author(s)     :        Wolfgang Freiseisen
+//
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL__DCEL_BASE_C
 #define CGAL__DCEL_BASE_C
@@ -161,7 +171,10 @@ void CGAL__Dcel_base<I>::construct_face_cycles() {
       
         /* initialize all unset faces by face s and vertex c */
         edges_iterator e= a;
-        for( e= (edges_iterator)(*e).P(u); e != a; e= (edges_iterator)(*e).P(u) ) {
+        for( e= (edges_iterator)(*e).P(u);
+	     e != a;
+	     e= (edges_iterator)(*e).P(u) )
+	{
           u= (*e).V1() == c  ? VERTEX_2 : VERTEX_1;
           /* initialize face Fu(e) */
           k++;

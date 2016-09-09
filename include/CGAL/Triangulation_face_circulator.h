@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,19 +30,24 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Triangulation_face_circulator.h
+// package       : Triangulation (1.23)
+// source        : web/Triangulation_face_circulator.fw
+// revision      : $Revision: 1.12 $
+// revision_date : $Date: 1998/02/04 16:38:50 $
 // author(s)     : Andreas Fabri
 //
+// coordinator   : ?
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 //
-// coordinator   : Herve Bronnimann
+// coordinator   : Herve Bronnimann  <Herve.Bronnimann@sophia.inria.fr>
 //
 // ============================================================================
 

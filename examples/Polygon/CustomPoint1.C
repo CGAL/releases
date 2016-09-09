@@ -42,13 +42,13 @@ typedef MyPoint<R> Point;
 #include <CGAL/Polygon_2.h>
 #include <list.h>
 
-typedef CGAL_Polygon_traits_2_aux<R, typename R::FT, Point> Traits;
+typedef CGAL_Polygon_traits_2_aux<R, R::FT, Point> Traits;
 // The class MyPoint derives from CGAL_Point, so the polygon traits class
 // CGAL_Polygon_traits_2_aux can be reused.
 
 typedef CGAL_Polygon_2<Traits, list<Point> > Polygon;
-typedef typename CGAL_Polygon_2<Traits, list<Point> >::Vertex_iterator VI;
-typedef typename CGAL_Polygon_2<Traits, list<Point> >::Edge_const_iterator EI;
+typedef CGAL_Polygon_2<Traits, list<Point> >::Vertex_iterator VI;
+typedef CGAL_Polygon_2<Traits, list<Point> >::Edge_const_iterator EI;
 
 //-----------------------------------------------------------------------//
 //                          main

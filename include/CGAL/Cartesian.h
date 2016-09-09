@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,21 +30,30 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Cartesian.h
-// author(s)     : Andreas Fabri
+// package       : Cartesian_basic (1.4)
+// source        : web/Cartesian.fw
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/06/22 13:03:48 $
+// author(s)     : Andreas.Fabri
+//
+// coordinator   : INRIA Sophia-Antipolis
+// (Herve.Bronnimann)
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
- 
+// ======================================================================
+
+
 
 #ifndef CGAL_CARTESIAN_H
 #define CGAL_CARTESIAN_H
+
 
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>

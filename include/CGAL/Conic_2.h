@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997,1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,18 +30,27 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Conic_2.h
-// author(s)     : Bernd Gärtner 
+// package       : Min_ellipse_2 (3.0.2)
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+//
+// source        : web/Optimisation/Conic_2.aw
+// revision      : $Revision: 5.1 $
+// revision_date : $Date: 1998/07/02 17:54:56 $
+// author(s)     : Bernd Gärtner
 //                 Sven Schönherr
 //
+// coordinator   : ETH Zürich (Bernd Gärtner)
+//
+// implementation: 2D Conic
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_CONIC_2_H
 #define CGAL_CONIC_2_H
@@ -66,6 +75,9 @@ template < class _R >
 class CGAL_Optimisation_ellipse_2;
 
 
+#ifndef CGAL_IO_FORWARD_DECL_WINDOW_STREAM_H
+#include <CGAL/IO/forward_decl_window_stream.h>
+#endif
 template < class _R>
 class CGAL_Conic_2 : public _R::Conic_2 {
 

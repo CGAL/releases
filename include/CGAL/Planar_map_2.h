@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,18 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Planar_map_2.h
-// author(s)     : Iddo Hanniel 
+// package       : pm (1.12.3)
+// source        :
+// revision      :
+// revision_date :
+// author(s)     : Iddo Hanniel
 //                 Eyal Flato
+//
+// coordinator   : Tel-Aviv University (Dan Halperin)
+// chapter       : Planar Map
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef  CGAL_PLANAR_MAP_2_H
@@ -548,7 +555,8 @@ public:
     
     Halfedge operator*() const
     {
-      return Halfedge(a.get_edge()); 
+      //      return Halfedge(a.get_edge()); 
+      return Halfedge( (*(a.get_edge())).get_twin() ); 
     }
     
   private:
@@ -617,7 +625,7 @@ public:
   
   // doron
   
-  Halfedge  vertical_ray_shoot(typename Traits::Point & p,  
+  Halfedge  vertical_ray_shoot(const typename Traits::Point & p,  
                                Locate_type &locate_type , bool up )
   {
     dedge *e = d.vertical_ray_shoot(p, up);
@@ -654,7 +662,7 @@ public:
   
   //changes according to INRIA proposal .
   //auxilary functions
-  Vertex does_vertex_exist(typename Traits::Point& p)
+  Vertex does_vertex_exist(const typename Traits::Point& p)
   {
     Vertex_iterator vi;
     for (vi = vertices_begin(); vi != vertices_end(); ++vi)
@@ -669,7 +677,7 @@ public:
     return Vertex(NULL);
   }
   
-  Halfedge is_point_on_halfedge(typename Traits::Point& p)
+  Halfedge is_point_on_halfedge(const typename Traits::Point& p)
   {
     Halfedge_iterator hi;
     for (hi = halfedges_begin(); hi != halfedges_end(); ++hi)
@@ -685,7 +693,7 @@ public:
   
   
 
-  Halfedge locate(typename Traits::Point& p , Locate_type &lt )
+  Halfedge locate(const typename Traits::Point& p , Locate_type &lt )
   {
     
     Vertex v = does_vertex_exist(p); 
@@ -794,11 +802,12 @@ public:
   {
     bool valid = true;
     
-    // check if every edge from v has v as its origin
+    // check if every edge from v has v as its (origin) target (changed by iddo)
     Halfedge_around_vertex_circulator ec = v.incident_halfedges();
     Halfedge_around_vertex_circulator start = ec;
     do {
-      if ((*ec).source() != v)
+      //      if ((*ec).source() != v)
+      if ((*ec).target() != v)
         {
           valid = false;
         }

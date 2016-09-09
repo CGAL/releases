@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,24 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// date          :
 //
 // file          : include/CGAL/Pointer.h
+// package       : Triangulation (1.23)
+// source        : web/Pointer.fw
+// revision      : $Revision: 1.14 $
+// revision_date : $Date: 1998/06/23 15:11:57 $
 // author(s)     : Olivier Devillers
 //
+// coordinator   : Herve Bronnimann
+//
+// release_date  : 1998, July 24
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 
@@ -52,13 +59,8 @@
 #include <CGAL/circulator.h>
 
 template<class T>
-class CGAL_Pointer;
-
-template<class T>
 class CGAL_Pointer
 {
-friend bool operator< CGAL_NULL_TMPL_ARGS
-              (const CGAL_Pointer<T>&, const CGAL_Pointer<T>&);
 
     private:
     T* _pointer;
@@ -74,14 +76,15 @@ friend bool operator< CGAL_NULL_TMPL_ARGS
         : _pointer((T*)p)
     {}
     
-    inline Pointer& operator=(const Pointer& p)
-    {
-        ptr() = p.ptr();
-        return *this;
-    }
     inline Pointer& operator=(const T*& p)
     {
         ptr() = p ;
+        return *this;
+    }
+    
+    inline Pointer& operator=(const Pointer& p)
+    {
+        ptr() = p.ptr();
         return *this;
     }
     inline T& operator*() const
@@ -125,8 +128,7 @@ friend bool operator< CGAL_NULL_TMPL_ARGS
     {
         return !(*this == n);
     }
-    
-    protected:
+    public:
     inline T*& ptr()       {return _pointer;}
     inline T*  ptr() const {return _pointer;}
     

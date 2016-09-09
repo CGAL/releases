@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,26 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/bops_simple_polygons_2.C
-// author(s)     :            Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/bops_simple_polygons_2.C
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:32 MET DST 1998  $
+// author(s)     :        Wolfgang Freiseisen
+//
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_BOPS_SIMPLE_POLYGONS_2_C
 #define CGAL_BOPS_SIMPLE_POLYGONS_2_C
@@ -49,6 +59,7 @@
 #include<CGAL/bops_simple_polygons_2.h>
 #endif
 
+#if 0
 template <class I>
 //CGAL_Bops_Simple_Polygons_2<I>::Intersection_type 
 int
@@ -88,6 +99,7 @@ CGAL_Bops_Simple_Polygons_2<I>::calc_intersection_type(int) const {
 
      return is_intersection; // intersections occur
 }
+#endif
 
 
 

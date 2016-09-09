@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/extremal_polygon_2.h
-// author(s)     : Michael Hoffmann 
+// package       : Matrix_search (1.7)
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+// source        : mon_search.aw
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 1998/07/23 16:53:50 $
+// author(s)     : Michael Hoffmann
 //
+// coordinator   : ETH Zurich (Bernd Gaertner)
+//
+// Compute extremal polygons of a convex polygon
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #if ! (CGAL_EXTREMAL_POLYGON_2_H)
 #define CGAL_EXTREMAL_POLYGON_2_H 1
@@ -135,7 +143,7 @@ public:
     RandomAccessIC_object begin_col,
     RandomAccessIC_object end_col,
     RandomAccessIC_value  begin_value,
-    RandomAccessIC_value  CGAL_precondition_code(end_value),
+    RandomAccessIC_value  CGAL_optimisation_precondition_code(end_value),
     const Operation&      o)
   // initialization with two ranges [begin_row, end_row) and
   // [begin_col, end_col) of Objects, a range [begin_value, end_value)
@@ -151,9 +159,9 @@ public:
     n_rows( CGAL_iterator_distance( begin_row, end_row)),
     n_cols( CGAL_iterator_distance( begin_col, end_col))
   {
-    CGAL_precondition(
+    CGAL_optimisation_precondition(
       CGAL_iterator_distance( begin_value, end_value) == n_cols);
-    CGAL_assertion( n_rows > 0 && n_cols > 0);
+    CGAL_optimisation_assertion( n_rows > 0 && n_cols > 0);
   }
 
   int
@@ -167,8 +175,8 @@ public:
   Value
   operator()( int r, int c) const
   {
-    CGAL_precondition( r >= 0 && r < n_rows);
-    CGAL_precondition( c >= 0 && c < n_cols);
+    CGAL_optimisation_precondition( r >= 0 && r < n_rows);
+    CGAL_optimisation_precondition( c >= 0 && c < n_cols);
     return _begin_value[c] +
       op( _begin_row[r], _begin_col[c]);
   }

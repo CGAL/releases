@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/Polyhedron_geomview_ostream.h
-// author(s)     : Lutz Kettner  
+// package       : Polyhedron_IO (1.9)
+// revision      : $Revision: 1.1 $
+// revision_date : $Date: 1998/03/03 02:31:42 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : Herve Bronnimann
+//
+// Output stream operator for Polyhedrons into Geomview_stream.
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_IO_POLYHEDRON_GEOMVIEW_OSTREAM_H
 #define CGAL_IO_POLYHEDRON_GEOMVIEW_OSTREAM_H 1

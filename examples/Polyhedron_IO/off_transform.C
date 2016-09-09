@@ -12,7 +12,7 @@
 // release_date  : $CGAL_Date: $
 //
 // file          : off_transform.C
-// package       : $CGAL_Package: Polyhedron_IO 1.5 (24 Mar 1998) $
+// package       : $CGAL_Package: Polyhedron_IO 1.9 (10 Jul 1998) $
 // revision      : $Revision: 1.1 $
 // revision_date : $Date: 1998/03/01 06:51:10 $
 // author(s)     : Lutz Kettner  <kettner@@inf.ethz.ch>
@@ -206,11 +206,11 @@ main( int argc, char **argv) {
 	exit( 1);
     }
 
-    CGAL_File_writer_OFF  writer( binary, noc);
-    writer.set_skel( skel);
+    scanner.file_info().normalized_to_sphere = false;
+    CGAL_File_writer_OFF  writer( scanner.file_info(), binary, noc, skel);
     writer.header( * p_out, 
 		   scanner.size_of_vertices(),
-		   0, 
+		   scanner.file_info().n_halfedges(),
 		   scanner.size_of_facets());
 
     Vector v( transx, transy, transz);

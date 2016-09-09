@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,22 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// ----------------------------------------------------------------------
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/rat_leda_in_CGAL_2.h
-// author(s)     : Stefan Schirra 
+// package       : Convex_hull (1.2.3)
+// source        : convex_hull_2.lw
+// revision      : 1.2.3
+// revision_date : 07 Apr 1998
+// author(s)     : Stefan Schirra
+//
+// coordinator   : MPI, Saarbruecken
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef RAT_LEDA_IN_CGAL_H

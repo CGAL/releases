@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,22 +30,30 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/kdtree_d.h
-// author(s)     : Sariel Har-Peled 
-//                 Eyal Flato 
+// package       : kdtree (1.12.2)
+// source        : 
+// revision      : 
+// revision_date : 
+// author(s)     : Sariel Har-Peled
+//                 Eyal Flato
 //
+// coordinator   : Tel-Aviv University (Dan Halperin)
+//
+// 
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef  CGAL_KDTREE_D_H
 #define  CGAL_KDTREE_D_H
 
+#include  <string.h> //make Sun CC 4.1 happy
 #include  <list.h>
 
 

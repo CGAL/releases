@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,22 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Interval_arithmetic.h
-// author(s)     : Sylvain Pion 
+// package       : Interval_arithmetic (1.6)
+// revision      : 1.6
+// revision_date : 10 May 1998
+// author(s)     : Sylvain Pion
+//
+// coordinator   : INRIA Sophia-Antipolis (<Herve.Bronnimann>)
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 // This file contains the description of the two classes:
 // - CGAL_Interval_nt_advanced  (do the FPU tricks yourself)
@@ -50,7 +55,7 @@
 #define CGAL_INTERVAL_ARITHMETIC_H
 
 #include <iostream.h>
-#include <assert.h>
+#include <CGAL/assertions.h>
 #include <CGAL/double.h>        // For CGAL_is_valid() and CGAL_is_finite().
 #include <CGAL/_FPU.h>          // FPU rounding mode functions.
 
@@ -65,7 +70,7 @@ public:
   inline CGAL_Interval_nt_advanced(double i, double s)
   {
 #ifndef CGAL_NO_PRECONDITIONS
-    assert(i<=s);
+    CGAL_assertion(i<=s);
 #endif
     inf = -i; sup = s;
   }
@@ -231,21 +236,33 @@ public:
 
   inline bool operator==(const CGAL_Interval_nt_advanced& d) const
   {
-    return !(*this != d);
+#if !defined(CGAL_IA_NO_WARNINGS) && !defined(CGAL_NO_WARNINGS)
+    CGAL_warning_msg(!overlap(d), " Comparison between overlapping intervals");
+#endif
+    return overlap(d);
   }
 
   inline bool operator!=(const CGAL_Interval_nt_advanced& d) const
   {
-    return (*this < d) || (d < *this);
+#if !defined(CGAL_IA_NO_WARNINGS) && !defined(CGAL_NO_WARNINGS)
+    CGAL_warning_msg(!overlap(d), " Comparison between overlapping intervals");
+#endif
+    return !overlap(d);
   }
 
   inline bool operator<(const CGAL_Interval_nt_advanced& d) const
   {
+#if !defined(CGAL_IA_NO_WARNINGS) && !defined(CGAL_NO_WARNINGS)
+    CGAL_warning_msg(!overlap(d), " Comparison between overlapping intervals");
+#endif
     return (sup < -d.inf);
   }
 
   inline bool operator>(const CGAL_Interval_nt_advanced& d) const
   {
+#if !defined(CGAL_IA_NO_WARNINGS) && !defined(CGAL_NO_WARNINGS)
+    CGAL_warning_msg(!overlap(d), " Comparison between overlapping intervals");
+#endif
     return (d.sup < -inf);
   }
 
@@ -269,8 +286,14 @@ public:
     return sup;
   }
 
+private:
+  inline bool overlap(const CGAL_Interval_nt_advanced& d) const
+  {
+    return (sup >= -d.inf) && (d.sup >= -inf);
+  }
+
 protected:
-        // "inf" stores the __opposite__ of the inferior bound.
+        // "inf" stores the OPPOSITE of the inferior bound.
         // "sup" stores the upper bound of the interval.
   double inf, sup;
 };

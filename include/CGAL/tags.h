@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,22 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : tags.fw
 // file          : include/CGAL/tags.h
-// author(s)     : Stefan Schirra 
+// package       : Kernel_basic (1.2)
+// revision      : 1.2
+// revision_date : 12 Jun 1998 
+// author(s)     : Stefan Schirra
 //
+// coordinator   : MPI, Saarbruecken
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_TAGS_H
@@ -55,5 +60,7 @@
 #ifndef CGAL_IO_IO_TAGS_H
 #include <CGAL/IO/io_tags.h>
 #endif // CGAL_IO_IO_TAGS_H
+
+// compile time assertion tags are in <CGAL/basic.h>
 
 #endif // CGAL_TAGS_H

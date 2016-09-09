@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,23 +30,32 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/cartesian_rep.h
-// author(s)     : Andreas Fabri
+// package       : Cartesian_basic (1.4)
+// source        : web/Cartesian.fw
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/06/22 13:03:48 $
+// author(s)     : Andreas.Fabri
+//
+// coordinator   : INRIA Sophia-Antipolis
+// (Herve.Bronnimann)
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
- 
+// ======================================================================
+
 
 #ifndef CGAL_CARTESIAN_REP_H
 #define CGAL_CARTESIAN_REP_H
 
-#define CGAL_REP_CLASS_DEFINED
+#ifndef CGAL_REPRESENTATION_TAGS_H
+#include <CGAL/representation_tags.h>
+#endif // CGAL_REPRESENTATION_TAGS_H
 
 // 2D Cartesian point data accessor
 template < class _FT >
@@ -74,62 +83,63 @@ public:
 };
 
 
-template<class ft>
+#define CGAL_REP_CLASS_DEFINED
+
+template <class _FT>
 class CGAL_Cartesian
 {
 public:
-    typedef ft           FT;
-    typedef ft           RT;
 
-    typedef CGAL_Data_accessorC2<FT>  Data_accessor_2;
+    typedef _FT                            FT;
+    typedef _FT                            RT;
 
-    typedef CGAL_PointC2<FT>  Point_2;
-    typedef CGAL_VectorC2<FT> Vector_2;
-    typedef CGAL_DirectionC2<FT>  Direction_2;
+    typedef CGAL_Cartesian_tag             Rep_tag;
+    typedef CGAL_Data_accessorC2<FT>       Data_accessor_2;
 
-    typedef CGAL_SegmentC2<FT>  Segment_2;
-    typedef CGAL_LineC2<FT>  Line_2;
-    typedef CGAL_RayC2<FT>  Ray_2;
-    typedef CGAL_TriangleC2<FT>  Triangle_2;
-    typedef CGAL_CircleC2<FT>  Circle_2;
-    typedef CGAL_ParabolaC2<FT>  Parabola_2;
-    typedef CGAL_Parabola_arcC2<FT>  Parabola_arc_2;
+    typedef CGAL_PointC2<FT>               Point_2;
+    typedef CGAL_VectorC2<FT>              Vector_2;
+    typedef CGAL_DirectionC2<FT>           Direction_2;
+
+    typedef CGAL_SegmentC2<FT>             Segment_2;
+    typedef CGAL_LineC2<FT>                Line_2;
+    typedef CGAL_RayC2<FT>                 Ray_2;
+    typedef CGAL_TriangleC2<FT>            Triangle_2;
+    typedef CGAL_CircleC2<FT>              Circle_2;
+    typedef CGAL_ParabolaC2<FT>            Parabola_2;
+    typedef CGAL_Parabola_arcC2<FT>        Parabola_arc_2;
 
     typedef CGAL_ConicCPA2<Point_2,Data_accessor_2>  Conic_2;
 
-    typedef CGAL_Iso_rectangleC2<FT>  Iso_rectangle_2;
+    typedef CGAL_Iso_rectangleC2<FT>       Iso_rectangle_2;
 
     typedef CGAL_Aff_transformationC2<FT>  Aff_transformation_2;
 
-    typedef CGAL_PointC3<FT>  Point_3;
-    typedef CGAL_VectorC3<FT> Vector_3;
-    typedef CGAL_DirectionC3<FT>  Direction_3;
+    typedef CGAL_PointC3<FT>               Point_3;
+    typedef CGAL_VectorC3<FT>              Vector_3;
+    typedef CGAL_DirectionC3<FT>           Direction_3;
 
-    typedef CGAL_SegmentC3<FT>  Segment_3;
-    typedef CGAL_LineC3<FT>  Line_3;
-    typedef CGAL_RayC3<FT>  Ray_3;
-    typedef CGAL_TriangleC3<FT>  Triangle_3;
+    typedef CGAL_SegmentC3<FT>             Segment_3;
+    typedef CGAL_LineC3<FT>                Line_3;
+    typedef CGAL_RayC3<FT>                 Ray_3;
+    typedef CGAL_TriangleC3<FT>            Triangle_3;
+    typedef CGAL_PlaneC3<FT>               Plane_3;
+    typedef CGAL_TetrahedronC3<FT>         Tetrahedron_3;
 
-    typedef CGAL_Iso_rectangleC3<FT>  Iso_rectangle_3;
+    typedef CGAL_Iso_rectangleC3<FT>       Iso_rectangle_3;
 
     typedef CGAL_Aff_transformationC3<FT>  Aff_transformation_3;
 
-    typedef CGAL_PlaneC3<FT> Plane_3;
-    typedef CGAL_TetrahedronC3<FT> Tetrahedron_3;
+    typedef CGAL_PointCd<FT>               Point_d;
 
 #ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_1
-    typedef CGAL__Vector_2_rft_wrapper< CGAL_Cartesian<ft> >* dummy_W2ptr;
-    typedef CGAL__Vector_3_rft_wrapper< CGAL_Cartesian<ft> >* dummy_W3ptr;
-#endif // CGAL_CFG_INCOMPLETE_TYPE_BUG_1
+    typedef CGAL__Vector_2_rft_wrapper< CGAL_Cartesian<FT> >* dummy_W2ptr;
+    typedef CGAL__Vector_3_rft_wrapper< CGAL_Cartesian<FT> >* dummy_W3ptr;
+#endif // CFG_INCOMPLETE_TYPE_BUG_1
 
-static  FT make_FT(const RT & num, const RT& denom)
-        { return num/denom;}
-static  FT make_FT(const RT & num)
-        { return num;}
-static  RT FT_numerator(const FT &r)
-        { return r;}
-static  RT FT_denominator(const FT &)
-        { return RT(1);}
+static   FT make_FT(const RT & num, const RT& denom) { return num/denom;}
+static   FT make_FT(const RT & num)                  { return num;}
+static   RT FT_numerator(const FT &r)                { return r;}
+static   RT FT_denominator(const FT &)               { return RT(1);}
 };
 
 #endif  // CGAL_CARTESIAN_REP_H

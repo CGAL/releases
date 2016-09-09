@@ -12,7 +12,7 @@
 // release_date  : $CGAL_Date $
 //
 // file          : demo/Random/rcs_demo.C
-// package       : $CGAL_Package: Random 1.9 (06 Mar 1998) $
+// package       : $CGAL_Package: Random 1.12 (23 Jul 1998) $
 // source        : src/rcs/rcs.aw
 // revision      : $Revision: 1.2 $
 // revision_date : $Date: 1998/03/06 16:19:47 $

@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,60 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/bops_assertions.h
-// author(s)     : Wolfgang Freiseisen
+// package       : bops (1.0.5)
+// source        : include/CGAL/bops_assertions.h
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:27 MET DST 1998  $
+// author(s)     :        Wolfgang Freiseisen
 //
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
+
+/*
+
+Copyright (c) 1997 The CGAL Consortium
+
+This software and related documentation is part of the
+Computational Geometry Algorithms Library (CGAL).
+
+Permission to use, copy, and distribute this software and its
+documentation is hereby granted free of charge, provided that
+(1) it is not a component of a commercial product, and
+(2) this notice appears in all copies of the software and
+    related documentation.
+
+CGAL may be distributed by any means, provided that the original
+files remain intact, and no charge is made other than for
+reasonable distribution costs.
+
+CGAL may not be distributed as a component of any commercial
+product without a prior license agreement with the authors.
+
+This software and documentation is provided "as-is" and without
+warranty of any kind. In no event shall the CGAL Consortium be
+liable for any damage of any kind.
+
+The CGAL Consortium consists of Utrecht University (The Netherlands),
+ETH Zurich (Switzerland), Free University of Berlin (Germany),
+INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
+(Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+
+Look at http://www.cs.ruu.nl/CGAL/ for more information.
+Please send any bug reports and comments to cgal@cs.ruu.nl
+
+*/
+
 
 #ifndef CGAL_BOPS_ASSERTIONS_H
 #define CGAL_BOPS_ASSERTIONS_H

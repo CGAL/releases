@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/generic_copy_OFF.h
-// author(s)     : Lutz Kettner  
+// package       : Polyhedron_IO (1.9)
+// chapter       : $CGAL_Chapter: Support Library ... $
+// source        : polyhedron_io.fw
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/06/03 20:34:54 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : Herve Bronnimann
+//
+// Generic copy of an object file format (OFF) file
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_IO_GENERIC_COPY_OFF_H
 #define CGAL_IO_GENERIC_COPY_OFF_H 1
@@ -61,17 +69,20 @@
 #include <CGAL/IO/File_scanner_OFF.h>
 #endif // CGAL_IO_FILE_SCANNER_OFF_H
 
-// Forward declarations.
-class ostream;
-class istream;
+#ifndef CGAL_PROTECT_IOSTREAM_H
+#include <iostream.h>
+#define CGAL_PROTECT_IOSTREAM_H
+#endif // CGAL_PROTECT_IOSTREAM_H
 
 template <class Writer>
 void
-CGAL_generic_copy_OFF( istream& in, ostream& out, Writer& writer,
+CGAL_generic_copy_OFF( CGAL_File_scanner_OFF& scanner,
+                      ostream& out,
+                      Writer& writer,
                       bool verbose = false) {
+    istream& in = scanner.in();
     // scans a polyhedral surface in OFF from `in' and writes it
     // to `out' in the format provided by `writer'.
-    CGAL_File_scanner_OFF scanner( in, verbose);
     if ( ! in) {
         if ( verbose) {
             cerr << " " << endl;
@@ -81,8 +92,11 @@ CGAL_generic_copy_OFF( istream& in, ostream& out, Writer& writer,
         return;
     }
 
-    // Print header. Number of halfedges is not trusted.
-    writer.header( out, scanner.size_of_vertices(), 0,
+    // Print header. Number of halfedges is only trusted if it is
+    // a polyhedral surface.
+    writer.header( out,
+                   scanner.size_of_vertices(),
+                   scanner.file_info().n_halfedges(),
                    scanner.size_of_facets());
 
     // read in all vertices
@@ -111,6 +125,17 @@ CGAL_generic_copy_OFF( istream& in, ostream& out, Writer& writer,
         scanner.skip_to_next_facet( i);
     }
     writer.footer();
+}
+
+
+template <class Writer>
+void
+CGAL_generic_copy_OFF( istream& in, ostream& out, Writer& writer,
+                      bool verbose = false) {
+    // scans a polyhedral surface in OFF from `in' and writes it
+    // to `out' in the format provided by `writer'.
+    CGAL_File_scanner_OFF scanner( in, verbose);
+    CGAL_generic_copy_OFF( scanner, out, writer, verbose);
 }
 #endif // CGAL_IO_GENERIC_COPY_OFF_H //
 // EOF //

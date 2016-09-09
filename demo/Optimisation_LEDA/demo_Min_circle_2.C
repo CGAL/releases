@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1997,1998 The CGAL Consortium
 //
 // This software and related documentation is part of an INTERNAL release
 // of the Computational Geometry Algorithms Library (CGAL). It is not
@@ -12,12 +12,14 @@
 // release_date  : $CGAL_Date$
 //
 // file          : demo/Optimisation/demo_Min_circle_2.C
-// revision      : $Revision: 1.4 $
-// revision_date : $Date: 1998/03/30 14:13:47 $
-// package       : $CGAL_Package: Optimisation 2.0 (30 Mar 1998) $
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+// package       : $CGAL_Package: Min_circle_2 3.0.2 (23 Jul 1998) $
+//
+// revision      : $Revision: 5.1 $
+// revision_date : $Date: 1998/07/02 17:54:31 $
 // author(s)     : Sven Schönherr <sven@inf.fu-berlin.de>
 //
-// coordinator   : ETH Zurich (Bernd Gärtner <gaertner@inf.ethz.ch>)
+// coordinator   : ETH Zürich (Bernd Gärtner <gaertner@inf.ethz.ch>)
 //
 // demo program  : 2D Smallest Enclosing Circle
 // ============================================================================
@@ -56,9 +58,12 @@ main( int, char**)
     Min_circle  mc;
 
     // open window
-    CGAL_Window_stream ws( 500, 500, 300, 200);
-    ws.set_frame_label( "CGAL Demo: Smallest Enclosing Circle in 2D");
+    CGAL_Window_stream ws( "CGAL Demo: Smallest Enclosing Circle in 2D");
+    ws.set_icon_label("CGAL");
+    ws.set_icon_pixrect( ws.create_pixrect( esprit_logo));
+    ws.set_node_width( 5);
     ws.init( -100.0, 100.0, -100.0);
+    ws.display();
 
     // main loop
     double  x, y;
@@ -80,7 +85,7 @@ main( int, char**)
 	    break;
 
 	  case MOUSE_BUTTON( 2):                        // middle button
-	    ws << CGAL_WHITE << mc;
+	    ws.clear();
 	    mc.clear();
 	    break; } }
 

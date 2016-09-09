@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/bops_dcel.h
-// author(s)     :            Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/bops_dcel.h
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:28 MET DST 1998  $
+// author(s)     :        Wolfgang Freiseisen
 //
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL__DCEL_H
 #define CGAL__DCEL_H
@@ -49,6 +58,10 @@
 #include <CGAL/bops_dcel_base.h>
 #include <CGAL/min_sqr_distance.h>
 
+
+#ifdef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
+#define CGAL_CFG_RETURN_TYPE_BUG_2  /* to avoid troubles with sun-pro */
+#endif
 
 template<class NT>
 inline bool CGAL__number_type_is_non_exact(const NT&) { return false; }
@@ -137,7 +150,8 @@ private:
     if( (use_epsilon= CGAL__number_type_is_non_exact(R::FT(0))) ) {
       /* calculates epsilon for non-exact number types */
       I traits;
-      pts_epsilon= minimal_square_distance(points.begin(), points.end(), traits);
+      pts_epsilon= minimal_square_distance(
+		    points.begin(), points.end(), traits);
       pts_epsilon= sqrt(pts_epsilon)/3.0;
     }
 
@@ -166,7 +180,8 @@ private:
     if( (use_epsilon= CGAL__number_type_is_non_exact(FT(0))) ) {
       /* calculates epsilon for non-exact number types */
       I traits;
-      pts_epsilon= minimal_square_distance(points.begin(), points.end(), traits);
+      pts_epsilon= minimal_square_distance(
+		    points.begin(), points.end(), traits);
       pts_epsilon= sqrt(pts_epsilon)/3.0;
     }
     // vector<vertex_iterator> c_it; /* help-array */
@@ -192,7 +207,9 @@ public:
   void insert(const list< epair >& eds, const list< Point >& pts ) {
       insert_points(pts);
 #     ifdef  CGAL_CFG_RETURN_TYPE_BUG_2
-        __edges= &eds; // since compiler (g++, Solaris)  problems, we have to do this
+      // because of compiler (g++, Solaris)  problems,
+      // we have to do this:
+        __edges= &eds;
         insert_edges();
 #     else
         insert_edges(eds);
@@ -203,7 +220,9 @@ public:
   void insert(const list< epair >& eds, const vector< Point >& pts ) {
       insert_points(pts);
 #     ifdef  CGAL_CFG_RETURN_TYPE_BUG_2
-        __edges= &eds; // since compiler (g++, Solaris)  problems, we have to do this
+      // because of compiler (g++, Solaris)  problems,
+      // we have to do this
+        __edges= &eds;
         insert_edges();
 #     else
         insert_edges(eds);

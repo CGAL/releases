@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,18 +30,24 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : basic.fw
 // file          : include/CGAL/basic.h
-// author(s)     : Stefan Schirra 
+// package       : Kernel_basic (1.2)
+// revision      : 1.2
+// revision_date : 12 Jun 1998 
+// author(s)     : Lutz Kettner
+//                 Stefan Schirra
 //
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
-
+// ======================================================================
+ 
 
 #ifndef CGAL_BASIC_H
 #define CGAL_BASIC_H
@@ -86,8 +92,71 @@
 #ifndef CGAL_KERNEL_BASIC_H
 #include <CGAL/kernel_basic.h>
 #endif // CGAL_KERNEL_BASIC_H
-#ifndef CGAL_BASIC_LK_H
-#include <CGAL/basic_lk.h>
-#endif // CGAL_BASIC_LK_H
+// #include <CGAL/basic_lk.h>
+
+#ifndef CGAL_KNOWN_BIT_SIZE_INTEGERS_H
+#include <CGAL/known_bit_size_integers.h>
+#endif // CGAL_KNOWN_BIT_SIZE_INTEGERS_H
+
+
+// Two struct's to denote boolean compile time decisions.
+// ======================================================
+struct CGAL_Tag_true  {};
+struct CGAL_Tag_false {};
+
+inline bool CGAL_check_tag( CGAL_Tag_true)  {return true;}
+inline bool CGAL_check_tag( CGAL_Tag_false) {return false;}
+
+// A function that asserts a specific compile time tag
+// forcing its two arguments to have equal type.
+// It is encapsulated with #ifdef since it will be defined also elsewhere.
+// ======================================================
+#ifndef CGAL_ASSERT_COMPILE_TIME_TAG
+#define CGAL_ASSERT_COMPILE_TIME_TAG 1
+template <class Base>
+struct CGAL__Assert_tag_class 
+{
+    void match_compile_time_tag( const Base&) const {}
+};
+
+template <class Tag, class Derived>
+inline 
+void 
+CGAL_Assert_compile_time_tag( const Tag&, const Derived& b) 
+{
+  CGAL__Assert_tag_class<Tag> x;
+  x.match_compile_time_tag(b);
+}
+#endif // CGAL_ASSERT_COMPILE_TIME_TAG
+
+template < class T> 
+inline
+void 
+CGAL_assert_equal_types( const T&, const T&) {}
+
+
+
+// Big endian or little endian machine.
+// ====================================
+#ifdef CGAL_CFG_NO_BIG_ENDIAN
+#define CGAL_LITTLE_ENDIAN 1
+#else
+#define CGAL_BIG_ENDIAN 1
+#endif
+
+
+// Symbolic constants to tailor inlining. Inlining Policy.
+// =======================================================
+#ifndef CGAL_MEDIUM_INLINE
+#define CGAL_MEDIUM_INLINE inline
+#endif
+#ifndef CGAL_LARGE_INLINE
+#define CGAL_LARGE_INLINE
+#endif
+#ifndef CGAL_HUGE_INLINE
+#define CGAL_HUGE_INLINE
+#endif
+
+
 
 #endif // CGAL_BASIC_H

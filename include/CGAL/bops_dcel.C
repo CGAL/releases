@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,26 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/bops_dcel.C
-// author(s)     :            Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/bops_dcel.C
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:27 MET DST 1998  $
+// author(s)     :        Wolfgang Freiseisen
+//
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL__DCEL_C
 #define CGAL__DCEL_C
@@ -102,11 +112,14 @@ void CGAL__Dcel<I> :: insert_edges( const list<epair>& edges) {
     _e_list.reserve(edges.size());
     list< pair<int,int> >::const_iterator ee;
     for( ee= edges.begin(); ee != edges.end(); ee++ )
-      CGAL__Dcel_base<I>::insert( CGAL__Dcel_edge_type<I>(c_it[(*ee).first], c_it[(*ee).second]) );
+      CGAL__Dcel_base<I>::insert(
+	CGAL__Dcel_edge_type<I>(c_it[(*ee).first], c_it[(*ee).second])
+      );
     
     CGAL__BOPS_DCEL_DEBUG_LN("VERTICES inserted: ");
     CGAL__BOPS_DCEL_DEBUG_ITERATOR("dcel", this->begin(), this->end() );
-    CGAL__BOPS_DCEL_DEBUG_ITERATOR("PT", _point_list.begin(), _point_list.end() );
+    CGAL__BOPS_DCEL_DEBUG_ITERATOR("PT",
+	  _point_list.begin(), _point_list.end() );
 
     /* template< class T_vertex, class T_edge, class T_compare > */
     V2E_rep_dcel v2e_rep( c_it.size(), edges.size() );
@@ -148,12 +161,15 @@ void CGAL__Dcel<I> :: insert_edges( const list<epair>& edges) {
 
 
 template <class I>
-#ifdef  CGAL_CFG_RETURN_TYPE_BUG_2
+#ifdef CGAL_CFG_RETURN_TYPE_BUG_2
 bool CGAL__Dcel<I>::colorize(const CGAL__Dcel_Color& col) {
   typedef typename I::Point Point;
   const list<Point>& pgon= *__point_list;
 #else 
-bool CGAL__Dcel<I>::colorize(const list<typename I::Point>& pgon, const CGAL__Dcel_Color& col) {
+bool CGAL__Dcel<I>::colorize(
+			     const list<typename I::Point>& pgon,
+			     const CGAL__Dcel_Color& col)
+{
   typedef typename I::Point Point;
   typedef typename I::vertices_iterator vertices_iterator;
   typedef typename I::edges_iterator  edges_iterator;

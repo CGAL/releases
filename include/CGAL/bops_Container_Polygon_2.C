@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,26 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/bops_Container_Polygon_2.C
-// author(s)     :            Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/bops_Container_Polygon_2.C
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:24 MET DST 1998  $
+// author(s)     :         Wolfgang Freiseisen
+//
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_BOPS_CONTAINER_POLYGON_2_C
 #define CGAL_BOPS_CONTAINER_POLYGON_2_C
@@ -101,9 +111,10 @@ OutputIterator CGAL_intersection(
 
   /*** NOT IMPLEMENTED YET
   if( A.size() == 3 && B.size() == 3 ) 
-     return CGAL_intersection( CGAL_Triangle_2<Traits::R>(*Afirst++,*Afirst++,*Afirst),
-                               CGAL_Triangle_2<Traits::R>(*Bfirst++,*Bfirst++,*Bfirst),
-                               result);
+     return CGAL_intersection(
+	CGAL_Triangle_2<Traits::R>(*Afirst++,*Afirst++,*Afirst),
+        CGAL_Triangle_2<Traits::R>(*Bfirst++,*Bfirst++,*Bfirst),
+        result);
 
   else if( A.is_convex() && B.is_convex() ) 
      return CGAL_intersection_convex_polygons(A, B);

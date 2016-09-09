@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : config/testfiles/CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION.C
+// package       : Configuration (1.16)
+// source        :
+// revision      : 1.11
+// revision_date : 29 Mar 1998
 // author(s)     : various
+//
+// coordinator   : Utrecht University
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 // CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION.C
 // ---------------------------------------------------------------------
@@ -51,8 +57,9 @@
 // ---------------------------------------------------------------------
 
 //| When template implementation files are not included in the source files,
-//| a compiler may attempt to find the unincluded template bodies automatically.
-//| For example, suppose that the following conditions are all true.
+//| a compiler may attempt to find the unincluded template bodies
+//| automatically. For example, suppose that the following conditions are
+//| all true.
 //|
 //| - template entity ABC::f is declared in file xyz.h
 //| - an instantiation of ABC::f is required in a compilation

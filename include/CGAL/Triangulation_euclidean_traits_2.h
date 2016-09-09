@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,18 +30,24 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Triangulation_euclidean_traits_2.h
+// package       : Triangulation (1.23)
+// source        : web/Triangulation_euclidean_traits_2.fw
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 1998/06/23 12:20:37 $
 // author(s)     : Olivier Devillers
 //                 Andreas Fabri
 //
+// coordinator   : Herve Bronnimann
+//
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_2_H
@@ -50,6 +56,9 @@
 #include <CGAL/Point_2.h>
 #include <CGAL/Segment_2.h>
 #include <CGAL/Triangle_2.h>
+#include <CGAL/Line_2.h>
+#include <CGAL/Ray_2.h>
+#include <CGAL/basic_constructions_2.h>
 
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/squared_distance_2.h>
@@ -67,6 +76,10 @@ public:
     typedef CGAL_Point_2<R>  Point;
     typedef CGAL_Segment_2<R> Segment;
     typedef CGAL_Triangle_2<R> Triangle;
+    typedef CGAL_Line_2<R> Line;
+    typedef CGAL_Direction_2<R> Direction;
+    typedef CGAL_Ray_2<R> Ray;
+
 
     typedef CGAL_Triangulation_vertex<Point> Vertex;
     typedef CGAL_Triangulation_face<Vertex> Face;
@@ -81,10 +94,14 @@ public:
         return CGAL_compare_x(p, q);
     }
 
-
     CGAL_Comparison_result compare_y(const Point &p, const Point &q) const
     {
         return CGAL_compare_y(p, q);
+    }
+
+    bool compare(const Point &p, const Point &q) const
+    {
+        return (p == q);
     }
 
 
@@ -117,6 +134,11 @@ public:
         if (r==s) return CGAL_ON_ORIENTED_BOUNDARY;
 
         return CGAL_side_of_oriented_circle(p, q, r, s);
+    }
+
+    Point circumcenter(const Point &p, const Point &q, const Point &r) const
+    {
+        return CGAL_circumcenter(p, q, r);
     }
 };
 

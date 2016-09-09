@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997,1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,18 +30,29 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : src/optimisation_basic.C
-// author(s)     : Sven Schönherr 
-//                 N.N.
+// package       : Optimisation_basic (3.0)
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+//
+// source        : web/Optimisation/optimisation_basic.aw
+// revision      : $Revision: 5.1 $
+// revision_date : $Date: 1998/07/02 17:55:05 $
+// author(s)     : Sven Schönherr
+//
+// coordinator   : ETH Zürich (Bernd Gärtner)
+//
+// implementation: basic things for optimisation algorithms
+//
+//
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #include <CGAL/basic.h>
 #include <CGAL/optimisation_basic.h>

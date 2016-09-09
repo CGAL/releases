@@ -12,9 +12,9 @@
 // release_date  : $CGAL_Date: $
 //
 // file          : triangulation_print_OFF.h
-// package       : $CGAL_Package: Polyhedron_IO 1.5 (24 Mar 1998) $
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1998/03/02 15:38:24 $
+// package       : $CGAL_Package: Polyhedron_IO 1.9 (10 Jul 1998) $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1998/04/02 13:31:49 $
 // author(s)     : Lutz Kettner  <kettner@inf.ethz.ch>
 //
 // coordinator   : Herve Bronnimann  <Herve.Bronnimann@sophia.inria.fr>
@@ -35,9 +35,9 @@ void
 CGAL_triangulation_print_OFF( ostream& out, const Triang& triang, 
 			      bool binary = false, bool noc = false) {
     CGAL_precondition( triang.is_valid());
-    typedef  Triang::Vertex           Vertex;
-    typedef  Triang::Vertex_iterator  Vertex_iterator;
-    typedef  Triang::Face_iterator    Face_iterator;
+    typedef typename  Triang::Vertex           Vertex;
+    typedef typename Triang::Vertex_iterator  Vertex_iterator;
+    typedef typename Triang::Face_iterator    Face_iterator;
     // Build a map from vertex pointers to vertex indices.
     map<const Vertex*,size_t, less<const Vertex*> > mapping;
     size_t vn = 0;

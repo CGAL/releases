@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,26 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/bops_Iso_rectangle_2.C
-// author(s)     :            Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/bops_Iso_rectangle_2.C
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:24 MET DST 1998  $
+// author(s)     :         Wolfgang Freiseisen
+//
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_BOPS_ISO_RECTANGLE_2_C
 #define CGAL_BOPS_ISO_RECTANGLE_2_C
@@ -205,12 +215,18 @@ OutputIterator CGAL_difference( const CGAL_Iso_rectangle_2<R>& A,
     if( P_defined[0] ) {
       if( P_defined[6] ) {
         *result++= traits.Make_object(
-                       I::Iso_rectangle(A.min(), Point(B.min().x(),A.max().y()) )
+                       I::Iso_rectangle(
+                          A.min(),
+                          Point(B.min().x(),A.max().y())
+                       )
                    );
         if( P_defined[1] )  {                 /* case (a) + (c'') */
           //result= [p0, p1, P(b,a), P(d,a)] + [P(d,c),P(b,c),p2,p3];
           *result++= traits.Make_object(
-                        I::Iso_rectangle(I::Point(B.max().x(),A.min().y()), A.max() )
+                        I::Iso_rectangle(
+                           I::Point(B.max().x(),A.min().y()),
+                           A.max()
+                        )
                      );
         }
         else {}                               /* case (a) */
@@ -258,7 +274,9 @@ OutputIterator CGAL_difference( const CGAL_Iso_rectangle_2<R>& A,
     else if( P_defined[2] ) {
       if( P_defined[4] ) {
         *result++= traits.Make_object(
-                   I::Iso_rectangle(I::Point(A.min().x(), B.max().y()), A.max()) 
+                   I::Iso_rectangle(
+                      I::Point(A.min().x(), B.max().y()),
+                      A.max()) 
                    );
         if( P_defined[3] )           /* case (a) + (c'') */
           //result= [p0,P(a,d),P(c,d),p3] + [P(a,b),p1,p2,P(c,b)];

@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/Istream_iterator.h
-// author(s)     : Lutz Kettner  
+// package       : Support_LK (1.17)
+// chapter       : $CGAL_Chapter: Support Library Manual ... $
+// source        : support.fw
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1998/07/23 15:15:34 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : INRIA, Sophia Antipolis
+//
+// A General Istream_iterator
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_IO_ISTREAM_ITERATOR_H
 #define CGAL_IO_ISTREAM_ITERATOR_H 1
@@ -63,25 +71,51 @@ public:
 
 template <class T, class Stream>
 class CGAL_Istream_iterator {
-    Stream& stream;
+protected:
+    Stream* stream;
+    T value;
+    void read() {
+        if ( stream) {
+            if ( *stream) {
+                *stream >> value;
+                if ( ! *stream)
+                    stream = 0;
+            } else
+                stream = 0;
+        }
+    }
 public:
     typedef  T                   value_type;
-    typedef  T&                  reference;
+    typedef  const T&            reference;
     typedef  const T&            const_reference;
-    typedef  T*                  pointer;
+    typedef  const T*            pointer;
     typedef  const T*            const_pointer;
     typedef  size_t              size_type;
     typedef  ptrdiff_t           difference_type;
     typedef  input_iterator_tag  iterator_category;
+    typedef  CGAL_Istream_iterator<T,Stream>  Self;
 
-    CGAL_Istream_iterator( Stream& s) : stream(s) {}
-    CGAL_Istream_iterator<T,Stream>& operator++()      { return *this;}
-    CGAL_Istream_iterator<T,Stream>  operator++(int)   { return *this;}
-    CGAL_Istream_proxy<T,Stream>     operator*() const {
-        return CGAL_Istream_proxy<T,Stream>(stream);
+    CGAL_Istream_iterator() : stream(0) {}
+    CGAL_Istream_iterator( Stream& s) : stream(&s) { read(); }
+    bool      operator==( const Self& i) const {
+                  return stream == i.stream;
+    }
+    reference operator*()  const { return value; }
+#ifdef  CGAL_ARROW_OPERATOR
+    pointer   operator->() const { return &(operator*()); }
+#endif
+    Self&     operator++()      {
+                  read();
+                  return *this;
+    }
+    Self      operator++(int)   {
+                  Self tmp = *this;
+                  read();
+                  return tmp;
     }
 };
 
+#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
 template <class T, class Stream> inline
 input_iterator_tag
 iterator_category( const CGAL_Istream_iterator<T,Stream>&) {
@@ -102,6 +136,7 @@ CGAL_Iterator_tag
 CGAL_query_circulator_or_iterator(
     const CGAL_Istream_iterator<T,Stream>&) {
     return CGAL_Iterator_tag();
-}    
+}
+#endif
 #endif // CGAL_IO_ISTREAM_ITERATOR_H //
 // EOF //

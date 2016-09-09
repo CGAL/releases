@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Iterator_project.h
-// author(s)     : Lutz Kettner  
+// package       : STL_Extension (1.14)
+// chapter       : $CGAL_Chapter: STL Extensions for CGAL $
+// source        : stl_extension.fw
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1998/03/24 13:39:06 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : INRIA, Sophia Antipolis
+//
+// An iterator adaptor performing a projection on the value type.
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_ITERATOR_PROJECT_H
 #define CGAL_ITERATOR_PROJECT_H 1

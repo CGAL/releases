@@ -7,7 +7,9 @@
 #include <fstream.h>
 #include <strstream.h>
 
+#include <CGAL/Gmpz.h>
 #include <CGAL/Cartesian.h>
+//#include <CGAL/Homogeneous.h>
 
 #include <CGAL/squared_distance_2.h>   // to avoid a g++ problem
 #include <CGAL/Point_2.h>
@@ -86,8 +88,9 @@ parse(int argc, char* argv[], Options &opt)
 
 
 
-//typedef leda_integer  coord_type;
 typedef double coord_type;
+//typedef leda_integer  coord_type;
+//typedef CGAL_Gmpz coord_type;
 //typedef CGAL_Fixed coord_type;
 
 typedef CGAL_Cartesian<coord_type>  Rep;
@@ -102,6 +105,7 @@ typedef CGAL_Triangle_2<Rep>  Triangle;
 typedef CGAL_Triangulation_euclidean_traits_2<Rep> Traits;
 
 typedef CGAL_Triangulation_2<Traits>  Triangulation_2;
+// typedef CGAL_Delaunay_triangulation_2<Traits>  Triangulation_2;
 typedef CGAL_Delaunay_triangulation_2<Traits>  Delaunay_triangulation_2;
 
 typedef Triangulation_2::Face  Face;
@@ -140,14 +144,13 @@ void input_from_file(Triangulation_2 &T,
     ifstream is(opt.fname);
     CGAL_set_ascii_mode(is);
 
-    int n, count = 0;
+    int n;
     is >> n;
-    cerr << "Reading " << n << " points" << endl;
+    cout << "Reading " << n << " points" << endl;
 
     istream_iterator<Point, ptrdiff_t> begin(is);
     istream_iterator<Point, ptrdiff_t> end;
     T.insert(begin, end);
-    
 }
 
 void input_from_range(Triangulation_2 &T)
@@ -158,7 +161,7 @@ void input_from_range(Triangulation_2 &T)
     L.push_front(Point(1,1));
 
     int n = T.insert(L.begin(), L.end());
-    cerr << n << " points inserted from a list." << endl;
+    cout << n << " points inserted from a list." << endl;
 
     vector<Point> V(3);
     V[0] = Point(0, 0);
@@ -166,7 +169,7 @@ void input_from_range(Triangulation_2 &T)
     V[2] = Point(0.3, 0.3);
 
     n = T.insert(V.begin(), V.end());
-    cerr << n << " points inserted from a vector." << endl;
+    cout << n << " points inserted from a vector." << endl;
 }
 
 
@@ -179,7 +182,7 @@ void faces_along_line(Triangulation_2 &T)
     Line_face_circulator lfc = T.line_walk(p, q, f),
                          done(lfc);
     if(lfc == NULL){
-        cerr << "Line does not intersect convex hull" << endl;
+        cout << "Line does not intersect convex hull" << endl;
     } else {
         int count = 0;
         do{
@@ -187,7 +190,7 @@ void faces_along_line(Triangulation_2 &T)
                 count++;
             }
         }while(++lfc != done);
-        cerr << "The line intersects " << count << " finite faces" << endl;
+        cout << "The line intersects " << count << " finite faces" << endl;
     }
 }
 
@@ -198,7 +201,7 @@ void convex_hull(Triangulation_2 &T)
     Vertex_circulator chc = T.infinite_vertex()->incident_vertices(),
                       done(chc);
     if(chc == NULL) {
-        cerr << "convex hull is empty" << endl;
+        cout << "convex hull is empty" << endl;
     } else {
         p = chc->point();
         do {
@@ -213,7 +216,7 @@ void convex_hull(Triangulation_2 &T)
 void fileIO(Triangulation_2 &T,
             const Options& opt)
 {
-    cerr << "The triangulation will be written to a file and read again\n";
+    cout << "The triangulation will be written to a file and read again\n";
     {
         ofstream out("tr");
         CGAL_set_ascii_mode(out);
@@ -232,8 +235,6 @@ main(int argc, char* argv[])
 {
     Options opt;
     parse(argc, argv, opt);
-
-    CGAL_set_ascii_mode(cin);
 
     Triangulation_2 T;
     T_global = &T;

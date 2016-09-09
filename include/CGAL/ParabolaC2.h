@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/ParabolaC2.h
-// author(s)     : Andreas Fabri
+// package       : C2 (1.3)
+// source        : web/ParabolaC2.fw
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1997/12/15 11:11:26 $
+// author(s)     : Andreas.Fabri
+//
+// coordinator   : INRIA Sophia-Antipolis
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 

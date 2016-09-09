@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,22 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/squared_distance_3_1.C
+// package       : Distance_3 (1.5)
+// source        : sqdistance_3.fw
 // author(s)     : Geert-Jan Giezeman
+//
+// coordinator   : Saarbruecken
+//
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_UTILS_H
@@ -215,7 +220,8 @@ CGAL_squared_distance(
         }
     
         RT dm;
-        dm = CGAL__distance_measure_sub(sdm_s2to1, sdm_e2to1, s2mins1, e2mins1);
+        dm = CGAL__distance_measure_sub(
+                  sdm_s2to1, sdm_e2to1, s2mins1, e2mins1);
         if (dm < RT(0)) {
             return CGAL_squared_distance(start2, seg1);
         } else {
@@ -229,7 +235,8 @@ CGAL_squared_distance(
     } else {
         if (crossing2) {
             RT dm;
-            dm =CGAL__distance_measure_sub(sdm_s1to2,sdm_e1to2,s2mins1,e1mins2);
+            dm =CGAL__distance_measure_sub(
+                 sdm_s1to2, sdm_e1to2, s2mins1, e1mins2);
             if (dm < RT(0)) {
                 return CGAL_squared_distance(start1, seg2);
             } else {
@@ -244,19 +251,23 @@ CGAL_squared_distance(
     
             FT min1, min2;
             RT dm;
-            dm = CGAL__distance_measure_sub(sdm_s1to2, sdm_e1to2, s2mins1, e1mins2);
+            dm = CGAL__distance_measure_sub(
+                     sdm_s1to2, sdm_e1to2, s2mins1, e1mins2);
             if (dm == RT(0)) // should not happen with exact arithmetic.
                return CGAL_squared_distance_parallel(seg1, seg2);
             min1 = (dm < RT(0)) ?
                 CGAL_squared_distance(seg1.start(), seg2):
                 CGAL_squared_distance(end1, seg2);
-            dm = CGAL__distance_measure_sub(sdm_s2to1, sdm_e2to1, s2mins1, e2mins1);
+            dm = CGAL__distance_measure_sub(
+                     sdm_s2to1, sdm_e2to1, s2mins1, e2mins1);
             if (dm == RT(0)) // should not happen with exact arithmetic.
                 return CGAL_squared_distance_parallel(seg1, seg2);
             min2 = (dm < RT(0)) ?
                 CGAL_squared_distance(start2, seg1):
                 CGAL_squared_distance(end2, seg1);
-            return (min1 < min2) ? (R_FT_return(R))(min1) : (R_FT_return(R))(min2);
+            return (min1 < min2)
+                   ? (R_FT_return(R))(min1)
+                   : (R_FT_return(R))(min2);
         }
     }
     

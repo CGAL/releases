@@ -1,6 +1,7 @@
-// ============================================================================
+
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,29 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// date          :
 //
 // file          : include/CGAL/IO/VRML_2_ostream.h
-// author(s)     : Lutz Kettner
+// package       : Inventor (1.2)
+// source        : web/Inventor_ostream.fw
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1998/06/29 13:58:51 $
+// author(s)     : Andreas Fabri
+//                 Lutz Kettner
+//                 Herve bronnimann
+//                 <Herve.Bronnimann>
 //
+// coordinator   : Herve Bronnimann
+//
+// release_date  : 1998, July 24
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
+
+
 
 #ifndef CGAL_IO_VRML_2_OSTREAM_H
 #define CGAL_IO_VRML_2_OSTREAM_H
@@ -61,93 +74,103 @@ public:
     ~CGAL_VRML_2_ostream()  { close(); }
     void open(ostream& o)   { m_os = &o; header(); }
     void close() {
-	if ( m_os)
-	    footer();
-	m_os = 0;
+        if ( m_os)
+            footer();
+        m_os = 0;
     }
     typedef const void* Const_void_ptr;
     operator Const_void_ptr () const {
-	if ( m_os)
-	    return *m_os;
-	return 0;
+        if ( m_os)
+            return *m_os;
+        return 0;
     }
     ostream& os() {
-	// The behaviour if m_os == 0 could be changed to return
-	// cerr or a file handle to /dev/null. The latter one would 
-	// mimick the behaviour that one can still use a stream with
-	// an invalid stream, but without producing any output.
-	CGAL_assertion( m_os);
-	return *m_os;
+        // The behaviour if m_os == 0 could be changed to return
+        // cerr or a file handle to /dev/null. The latter one would
+        // mimick the behaviour that one can still use a stream with
+        // an invalid stream, but without producing any output.
+        CGAL_assertion( m_os);
+        return *m_os;
     }
 private:
-    void header() { 
-	os() << "#VRML V2.0 utf8\n"
+    void header() {
+        os() << "#VRML V2.0 utf8\n"
                 "# File written with the help of the CGAL Library\n"
-	        "#-- Begin of file header\n"
-	        "Group {\n"
-	        "    children [\n"
-	        "        Shape {\n"
-	        "            appearance\n"
-	        "                Appearance {\n"
-	        "                    material DEF CGAL_Material Material {}\n"
-	        "                }\n"
-	        "            geometry NULL\n"
-	        "        }\n"
-                "        #-- End of file header" << endl; 
+                "#-- Begin of file header\n"
+                "Group {\n"
+                "    children [\n"
+                "        Shape {\n"
+                "            appearance\n"
+                "                Appearance {\n"
+                "                    material DEF CGAL_Material Material {}\n"
+                "                }\n"
+                "            geometry NULL\n"
+                "        }\n"
+                "        #-- End of file header" << endl;
     }
-    void footer() { 
-	os() << "        #-- Begin of file footer\n"
-	        "    ]\n"
-	        "}\n"
-                "#-- End of file footer" << endl; 
+    void footer() {
+        os() << "        #-- Begin of file footer\n"
+                "    ]\n"
+                "}\n"
+                "#-- End of file footer" << endl;
     }
     ostream*  m_os;
 };
 
-#endif // CGAL_IO_VRML_2_OSTREAM_H
 
+#endif // CGAL_IO_VRML_2_OSTREAM_H
 
 #ifdef CGAL_TETRAHEDRON_3_H
 #ifndef CGAL_IO_VRML_2_TETRAHEDRON_3
 #define CGAL_IO_VRML_2_TETRAHEDRON_3
+
+
 template <class R >
 CGAL_VRML_2_ostream&
 operator<<(CGAL_VRML_2_ostream& os,
            const CGAL_Tetrahedron_3<R > &t)
 {
-  os.os() 
-      << "        Group {\n"
-	 "            children [\n"
-	 "                Shape {\n"
-	 "                    appearance\n"
-	 "                        Appearance { material USE CGAL_Material}\n"
-	 "                    geometry\n"
-	 "                        IndexedFaceSet {\n"
-	 "                            coord Coordinate {\n"
-	 "                                point [ \n"
-	 "                                    "
-      << CGAL_to_double(t[0].x()) << " " 
-      << CGAL_to_double(t[0].y()) << " " 
-      << CGAL_to_double(t[0].z()) << ",\n                                    "
-      << CGAL_to_double(t[1].x()) << " " 
-      << CGAL_to_double(t[1].y()) << " " 
-      << CGAL_to_double(t[1].z()) << ",\n                                    "
-      << CGAL_to_double(t[2].x()) << " " 
-      << CGAL_to_double(t[2].y()) << " " 
-      << CGAL_to_double(t[2].z()) << ",\n                                    "
-      << CGAL_to_double(t[3].x()) << " " 
-      << CGAL_to_double(t[3].y()) << " " 
-      << CGAL_to_double(t[3].z())
-	 "\n                                ]\n"
-	 "                            }\n"
-	 "                            solid   FALSE\n"
-	 "                            coordIndex  [ 0,1,2,-1, 1,3,2,-1,\n"
-	 "                                          0,2,3,-1, 0,3,1,-1 ]\n"
-	 "                        } #IndexedFaceSet\n"
-	 "                } #Shape\n"
-	 "            ] #children\n"
-	 "        } #Group" << endl;
+  const char *Indent = "                                    ";
+  os.os() << "        Group {\n"
+             "            children [\n"
+             "                Shape {\n"
+             "                    appearance\n"
+             "                        Appearance {\n"
+             "                            material USE CGAL_Material\n"
+             "                        } #Appearance\n"
+             "                    geometry\n"
+             "                        IndexedFaceSet {\n"
+             "                            coord Coordinate {\n"
+             "                                point [ \n"
+          << Indent << "point [\n"
+          << Indent << "  "
+          << CGAL_to_double(t[0].x()) << " "
+          << CGAL_to_double(t[0].y()) << " "
+          << CGAL_to_double(t[0].z()) << " ,\n"
+          << Indent << "  "
+          << CGAL_to_double(t[1].x()) << " "
+          << CGAL_to_double(t[1].y()) << " "
+          << CGAL_to_double(t[1].z()) << " ,\n"
+          << Indent << "  "
+          << CGAL_to_double(t[2].x()) << " "
+          << CGAL_to_double(t[2].y()) << " "
+          << CGAL_to_double(t[2].z()) << " ,\n"
+          << Indent << "  "
+          << CGAL_to_double(t[3].x()) << " "
+          << CGAL_to_double(t[3].y()) << " "
+          << CGAL_to_double(t[3].z()) << " ]"
+             "\n                                ]\n"
+             "                            }\n"
+             "                            solid   FALSE\n"
+          << Indent << "coordIndex  [ 0,1,2,-1, 1,3,2,-1,\n"
+          << Indent << "              0,2,3,-1, 0,3,1,-1 ]\n"
+             "                        } #IndexedFaceSet\n"
+             "                } #Shape\n"
+             "            ] #children\n"
+             "        } #Group" << endl;
   return os;
 }
+
+
 #endif // CGAL_IO_VRML_2_TETRAHEDRON_3
 #endif // CGAL_TETRAHEDRON_3_H

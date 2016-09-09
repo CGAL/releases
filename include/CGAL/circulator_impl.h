@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/circulator_impl.h
-// author(s)     : Lutz Kettner  
+// package       : Circulator (1.14)
+// chapter       : $CGAL_Chapter: Circulators $
+// source        : circulator.fw
+// revision      : $Revision: 1.19 $
+// revision_date : $Date: 1998/03/24 14:04:32 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : INRIA, Sophia Antipolis
+//
+// Support to build own circulators.
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_CIRCULATOR_IMPL_H
 #define CGAL_CIRCULATOR_IMPL_H 1

@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,18 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : predicates_on_points_3.fw
 // file          : include/CGAL/predicates_on_points_3.h
+// package       : _3 (1.3)
+// revision      : 1.3
+// revision_date : 15 May 1998 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
  
 
 #ifndef CGAL_PREDICATES_ON_POINTS_3_H
@@ -216,6 +221,33 @@ CGAL_collinear_are_ordered_along_line(const CGAL_Point_3<R> &p,
 
 template < class R >
 inline
+bool
+CGAL_are_strictly_ordered_along_line(const CGAL_Point_3<R> &p,
+                                     const CGAL_Point_3<R> &q,
+                                     const CGAL_Point_3<R> &r)
+{
+  typedef typename  R::Point_3    Point_3;
+  return (CGAL_are_strictly_ordered_along_line((const Point_3&)p,
+                                               (const Point_3&)q,
+                                               (const Point_3&)r));
+}
+
+template < class R >
+inline
+bool
+CGAL_collinear_are_strictly_ordered_along_line(const CGAL_Point_3<R> &p,
+                                               const CGAL_Point_3<R> &q,
+                                               const CGAL_Point_3<R> &r)
+{
+  typedef typename  R::Point_3    Point_3;
+  return CGAL_collinear_are_strictly_ordered_along_line((const Point_3&)p,
+                                                        (const Point_3&)q,
+                                                        (const Point_3&)r
+                                              );
+}
+
+template < class R >
+inline
 CGAL_Orientation
 CGAL_orientation(const CGAL_Point_3<R> &p,
                  const CGAL_Point_3<R> &q,
@@ -225,6 +257,40 @@ CGAL_orientation(const CGAL_Point_3<R> &p,
   typedef typename  R::Point_3    Point_3;
   return CGAL_orientation((const Point_3&)p, (const Point_3&)q,
                           (const Point_3&)r, (const Point_3&)s);
+}
+
+template <class R >
+inline
+CGAL_Bounded_side
+CGAL_side_of_bounded_sphere( const CGAL_Point_3<R> &p,
+                             const CGAL_Point_3<R> &q,
+                             const CGAL_Point_3<R> &r,
+                             const CGAL_Point_3<R> &s,
+                             const CGAL_Point_3<R> &test)
+{
+  typedef typename  R::Point_3    Point_3;
+  return CGAL_side_of_bounded_sphere((const Point_3&)p,
+                                     (const Point_3&)q,
+                                     (const Point_3&)r,
+                                     (const Point_3&)s,
+                                     (const Point_3&)test);
+}
+
+template <class R >
+inline
+CGAL_Oriented_side
+CGAL_side_of_oriented_sphere( const CGAL_Point_3<R> &p,
+                              const CGAL_Point_3<R> &q,
+                              const CGAL_Point_3<R> &r,
+                              const CGAL_Point_3<R> &s,
+                              const CGAL_Point_3<R> &test)
+{
+  typedef typename  R::Point_3    Point_3;
+  return CGAL_side_of_oriented_sphere((const Point_3&)p,
+                                      (const Point_3&)q,
+                                      (const Point_3&)r,
+                                      (const Point_3&)s,
+                                      (const Point_3&)test);
 }
 
 

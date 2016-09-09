@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,30 +30,51 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/rectangular_p_center_2.h
-// author(s)     : Michael Hoffmann 
+// package       : Matrix_search (1.7)
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+// source        : pcenter.aw
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 1998/07/23 16:53:53 $
+// author(s)     : Michael Hoffmann
 //
+// coordinator   : ETH Zurich (Bernd Gaertner)
+//
+// 2-4-Center Computation for Axis-Parallel 2D-Rectangles
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #if ! (CGAL_RECTANGULAR_P_CENTER_2_H)
 #define CGAL_RECTANGULAR_P_CENTER_2_H 1
 
-#include <CGAL/function_objects.h>
+#ifndef CGAL_PIERCE_RECTANGLES_2_H
 #include <CGAL/pierce_rectangles_2.h>
+#endif // CGAL_PIERCE_RECTANGLES_2_H
+#ifndef CGAL_FUNCTION_OBJECTS_H
+#include <CGAL/function_objects.h>
+#endif // CGAL_FUNCTION_OBJECTS_H
+#ifndef CGAL_SORTED_MATRIX_SEARCH_H
 #include <CGAL/sorted_matrix_search.h>
+#endif // CGAL_SORTED_MATRIX_SEARCH_H
+#ifndef CGAL_PROTECT_ALGO_H
 #include <algo.h>
+#define CGAL_PROTECT_ALGO_H
+#endif // CGAL_PROTECT_ALGO_H
 #ifdef CGAL_REP_CLASS_DEFINED
+#ifndef CGAL_RECTANGULAR_P_CENTER_2_TRAITS_H
 #include <CGAL/rectangular_p_center_2_traits.h>
+#endif // CGAL_RECTANGULAR_P_CENTER_2_TRAITS_H
 #endif // CGAL_REP_CLASS_DEFINED
 
+#ifndef CGAL_CARTESIAN_MATRIX_H
 #include <CGAL/Cartesian_matrix.h>
+#endif // CGAL_CARTESIAN_MATRIX_H
 
 template < class Operation,
            class RandomAccessIC_row,
@@ -97,8 +118,8 @@ public:
   Value
   operator()( int r, int c) const
   {
-    CGAL_precondition( r >= 0 && r < number_of_rows());
-    CGAL_precondition( c >= 0 && c < number_of_columns());
+    CGAL_optimisation_precondition( r >= 0 && r < number_of_rows());
+    CGAL_optimisation_precondition( c >= 0 && c < number_of_columns());
     return Base::operator()( r, number_of_columns() - 1 - c);
   }
 };
@@ -145,8 +166,7 @@ CGAL_rectangular_p_center_2_binary_search(
     r,
     pf,
     CGAL_reinterpret_cast(
-      CGAL_Pcenter_default_traits< PiercingFunction >*,
-      0));
+      CGAL_Pcenter_default_traits< PiercingFunction >, 0));
 } // CGAL_rectangular_p_center_2_binary_search( ... )
 
 template < class ForwardIterator,
@@ -181,7 +201,7 @@ CGAL_rectangular_p_center_2_binary_search(
 // --------------
 //
 {
-  CGAL_precondition( f != l);
+  CGAL_optimisation_precondition( f != l);
   #ifdef CGAL_PCENTER_TRACE
   cerr << "Pcenter binary search" << endl;
   #endif
@@ -212,9 +232,9 @@ CGAL_rectangular_p_center_2_binary_search(
       c_diffs.push_back( CGAL_abs( x(*i) - x(*j)));
       c_diffs.push_back( CGAL_abs( y(*i) - y(*j)));
     }
-  CGAL_assertion( c_diffs.size() ==
-                  pierce_it.number_of_points() *
-                  (pierce_it.number_of_points() - 1));
+  CGAL_optimisation_assertion(
+    c_diffs.size() == pierce_it.number_of_points() *
+    (pierce_it.number_of_points() - 1));
   
   // sort it:
   sort( c_diffs.begin(), c_diffs.end());
@@ -246,12 +266,12 @@ CGAL_rectangular_p_center_2_binary_search(
       #endif
     }
   } // while ( e > b)
-  CGAL_assertion( e == b);
+  CGAL_optimisation_assertion( e == b);
   
   // return the result:
   r = c_diffs[e];
   OutputIterator o_return( pierce_it( r, o, ok));
-  CGAL_assertion( ok);
+  CGAL_optimisation_assertion( ok);
   return o_return;
 
 } // CGAL_rectangular_p_center_2_binary_search( ... )
@@ -284,8 +304,7 @@ CGAL_rectangular_p_center_2_matrix_search(
     r,
     pf,
     CGAL_reinterpret_cast(
-      CGAL_Pcenter_default_traits< PiercingFunction >*,
-      0),
+      CGAL_Pcenter_default_traits< PiercingFunction >*, 0),
     CGAL_compose1_2(
       bind1st( CGAL_Max< FT >(), 0),
       minus< FT >()));
@@ -316,7 +335,7 @@ CGAL_rectangular_p_center_2_matrix_search(
   const MatrixOperator&)
 {
   int number_of_points( CGAL_iterator_distance( f, l));
-  CGAL_precondition( number_of_points > 0);
+  CGAL_optimisation_precondition( number_of_points > 0);
   #ifdef CGAL_PCENTER_TRACE
   cerr << "Pcenter matrix search" << endl;
   #endif
@@ -398,7 +417,7 @@ CGAL_rectangular_p_center_2_matrix_search(
 
   // return result:
   OutputIterator o_return( pierce_it( r, o, ok));
-  CGAL_assertion( ok);
+  CGAL_optimisation_assertion( ok);
   return o_return;
 
 } // CGAL_P_center_matrix_search
@@ -424,17 +443,7 @@ CGAL_rectangular_p_center_2(
   int p,
   const Traits&)
 {
-  CGAL_precondition( p == 2);
-    return CGAL_rectangular_p_center_2_matrix_search(
-      f,
-      l,
-      o,
-      r,
-      CGAL_Two_piercing_algorithm< Traits >());
-}
-/*
-{
-  CGAL_precondition( p >= 2 && p < 4);
+  CGAL_optimisation_precondition( p >= 2 && p <= 4);
   if ( p == 2)
     return CGAL_rectangular_p_center_2_matrix_search(
       f,
@@ -442,15 +451,21 @@ CGAL_rectangular_p_center_2(
       o,
       r,
       CGAL_Two_piercing_algorithm< Traits >());
-  else
+  else if ( p == 3)
     return CGAL_rectangular_p_center_2_matrix_search(
       f,
       l,
       o,
       r,
       CGAL_Three_piercing_algorithm< Traits >());
+  else
+    return CGAL_rectangular_p_center_2_matrix_search(
+      f,
+      l,
+      o,
+      r,
+      CGAL_Four_piercing_algorithm< Traits >());
 } // CGAL_rectangular_p_center_2( ... )
-*/
 
 template < class ForwardIterator,
            class OutputIterator,

@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997,1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,18 +30,28 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Min_circle_2.C
-// author(s)     : Sven Schönherr 
+// package       : Min_circle_2 (3.0.2)
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+//
+// source        : web/Optimisation/Min_circle_2.aw
+// revision      : $Revision: 5.1 $
+// revision_date : $Date: 1998/07/02 17:54:59 $
+// author(s)     : Sven Schönherr
 //                 Bernd Gärtner
+//
+// coordinator   : ETH Zürich (Bernd Gärtner)
+//
+// implementation: 2D Smallest Enclosing Circle
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 // Class implementation (continued)
 // ================================

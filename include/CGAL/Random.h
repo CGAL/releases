@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997,1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,18 +30,26 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Random.h
-// author(s)     : Sven Schönherr 
-//                 N.N.
+// package       : Random (1.12)
+// chapter       : $CGAL_Chapter: Random Sources and Geometric Object Genera. $
 //
+// source        : web/Random/Random.aw
+// revision      : $Revision: 1.15 $
+// revision_date : $Date: 1998/05/15 09:33:52 $
+// author(s)     : Sven Schönherr
+//
+// coordinator   : INRIA Sophia-Antipolis (<Herve.Bronnimann>)
+//
+// implementation: Random Numbers Generator
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_RANDOM_H
 #define CGAL_RANDOM_H

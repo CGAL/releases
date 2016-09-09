@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/number_utils_classes.h
-// author(s)     : Michael Hoffmann 
+// package       : Number_types (1.2.8)
+// source        : 
+// revision      : $Revision: 1.1 $
+// revision_date : $Date: 1997/12/15 11:59:58 $
+// author(s)     : Michael Hoffmann
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 // to be included by number_utils.h
 

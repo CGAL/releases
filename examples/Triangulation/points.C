@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
     T.insert(V[i]);
 
     if(++count == 100){
-      cerr << ".";
+      cout << ".";
       count = 0;
     }
   }

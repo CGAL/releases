@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/intersecting_polygons.h
-// author(s)     :            Carl Van Geem 
+// package       : bops (1.0.5)
+// source        : include/CGAL/intersecting_polygons.h
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:33 MET DST 1998  $
+// author(s)     :        Carl Van Geem
 //
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_INTERSECTING_POLYGONS_H
 #define CGAL_INTERSECTING_POLYGONS_H
@@ -77,7 +86,8 @@ public:
   typedef CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container> Polygon;
   typedef typename Polygon::Vertex_const_iterator Polygon_vertex_const_iterator;
   typedef list<CGAL_Intersectionresult<R> > Intersectionresult;
-  typedef typename Intersectionresult::const_iterator Intersectionresult_iterator;
+  typedef typename Intersectionresult::const_iterator
+                   Intersectionresult_iterator;
   typedef CGAL_Point_2<R> Point;
   typedef CGAL_Segment_2<R> Segment;
   typedef vector<Point> Point_list;

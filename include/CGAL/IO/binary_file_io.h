@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,22 +30,33 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/binary_file_io.h
-// author(s)     : Lutz Kettner  
+// package       : Polyhedron_IO (1.9)
+// chapter       : $CGAL_Chapter: Support Library ... $
+// source        : polyhedron_io.fw
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/06/03 20:34:54 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : Herve Bronnimann
+//
+// Binary read and write on streams for Integer32 and float
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_IO_BINARY_FILE_IO_H
 #define CGAL_IO_BINARY_FILE_IO_H 1
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
+#endif
+#ifndef CGAL_KNOWN_BIT_SIZE_INTEGERS_H
+#include <CGAL/known_bit_size_integers.h>
 #endif
 
 #ifndef CGAL_PROTECT_IOSTREAM_H
@@ -73,6 +84,7 @@ CGAL__Binary_read_float32(istream& in, float& f) {
 
 void inline
 CGAL__swap_to_big_endian( CGAL_UInteger32& u) {
+    (void)u;
 #ifdef CGAL_LITTLE_ENDIAN
 u = ((u >> 24) | (u << 24) | ((u >> 8) & 0xff00) | ((u << 8) & 0xff0000));
 #endif

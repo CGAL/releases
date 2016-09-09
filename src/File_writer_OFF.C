@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,28 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : src/File_writer_OFF.C
-// author(s)     : Lutz Kettner  
+// package       : Polyhedron_IO (1.9)
+// chapter       : $CGAL_Chapter: Support Library ... $
+// source        : polyhedron_io.fw
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/06/03 20:34:54 $
+// author(s)     : Lutz Kettner
+//
+// coordinator   : Herve Bronnimann
+//
+// Writer for polyhedral surfaces in object file format (OFF)
+//
+//
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
@@ -64,29 +75,18 @@ header( ostream& o, size_t vertices, size_t halfedges, size_t facets,
         *out << "# file written from a CGAL tool\n";
         *out << "#CBP halfedges " << halfedges << endl;
         if ( file_info) {
-#ifdef CGAL_IO_FILE_WRITER_OFF_H
-            // Cannot output affine transformations at the moment !!!
-            // *out << "# linear " << file_info->linear << endl;
-#else
-            // This is code from the CEBAP project now useless in CGAL.
-            *out << "# linear " << file_info->linear << endl;
-#endif
+            *out << "# polyhedral_surface "
+                 << (file_info->polyhedral_surface ? '1' : '0') << endl;
             *out << "# normalized_to_sphere "
                  << (file_info->normalized_to_sphere ? '1' : '0') << endl;
+            *out << "# triangulated "
+                 << (file_info->triangulated ? '1' : '0') << endl;
+            *out << "# non_empty_facets "
+                 << (file_info->non_empty_facets ? '1' : '0') << endl;
             *out << "# radius " << file_info->radius << endl;
             *out << "# rounded " << (file_info->rounded ? '1' : '0')<<endl;
             *out << "# rounded_bits " << file_info->rounded_bits << endl;
             *out << "# terrain " << (file_info->terrain ? '1' : '0')<<endl;
-#ifdef CGAL_IO_FILE_WRITER_OFF_H
-            *out << "# terrain_vector "
-                 << file_info->terrain_vector.x() << ' '
-                 << file_info->terrain_vector.y() << ' '
-                 << file_info->terrain_vector.z() << ' '
-                 << endl;
-#else
-            // This is code from the CEBAP project now useless in CGAL.
-            *out << "# terrain_vector " << file_info->terrain_vector<<endl;
-#endif
         }
         *out << "# ENDCBP\n\n";
     }

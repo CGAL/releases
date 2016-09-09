@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,24 +30,42 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/config.h
-// author(s)     : Wieger Wesselink 
+// package       : Configuration (1.16)
+// source        :
+// revision      : 1.11
+// revision_date : 30 Mar 1998
+// author(s)     : Wieger Wesselink
 //                 Michael Hoffmann
+//
+// coordinator   : Utrecht University
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_CONFIG_H
 #define CGAL_CONFIG_H
 
-#define CGAL_VERSION 1.0
-#define CGAL_VERSION_NR 1001010000
+#define CGAL_VERSION 1.1
+#define CGAL_VERSION_NR 1001001100
+
+//----------------------------------------------------------------------//
+//             no namespaces for MIPS 7.2.1
+//----------------------------------------------------------------------//
+
+#if defined(__sgi) && !defined(__GNUC__) && defined(_COMPILER_VERSION)
+#if (_COMPILER_VERSION >= 721) && defined(_NAMESPACES)
+#define __STL_NO_NAMESPACES
+#include <stl_config.h>
+#undef __STL_USE_NAMESPACES
+#endif
+#endif
 
 //----------------------------------------------------------------------//
 //             include platform specific workaround flags (CGAL_CFG_...)
@@ -79,6 +97,10 @@
 #else
 #define CGAL_NAMESPACE_BEGIN
 #define CGAL_NAMESPACE_END
+#endif
+
+#ifdef CGAL_CFG_NO_MUTABLE
+#define mutable
 #endif
 
 // unset the flag CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS if it is
@@ -129,17 +151,10 @@
 //             definition of type bool
 //----------------------------------------------------------------------//
 
-// if there is no built-in bool and LEDA is used, we use the bool from
-// LEDA - This might give a conflict with an STL that also defines its
-// bool - We decided for LEDA bool, because editing an STL .h-file is
-// easier than recompiling LEDA (you would need the LEDA source files)
-// If LEDA is not used, we use the bool from STL.
+// if there is no built-in bool then we borrow the definition from STL
 #ifdef CGAL_CFG_NO_BUILTIN_BOOL
-#if ( defined(CGAL_USE_LEDA) && !defined(CGAL_NO_LEDA_BOOL) )
-#include <LEDA/basic.h>
-#else
 #include <pair.h>
-#endif // CGAL_USE_LEDA
-#endif // CGAL_CFG_NO_BUILTIN_BOOL
+#endif
 
 #endif // CGAL_CONFIG_H
+

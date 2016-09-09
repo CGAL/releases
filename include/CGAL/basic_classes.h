@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,18 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : user_classes.fw
 // file          : include/CGAL/basic_classes.h
+// package       : Kernel_basic (1.2)
+// revision      : 1.2
+// revision_date : 12 Jun 1998 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
  
 
 #ifndef CGAL_BASIC_CLASSES_H
@@ -57,6 +62,9 @@
 #include <CGAL/Bbox_3.h>
 #endif // CGAL_BBOX_3_H
 
+#ifndef CGAL_REPRESENTATION_TAGS_H
+#include <CGAL/representation_tags.h>
+#endif // CGAL_REPRESENTATION_TAGS_H
 #ifndef CGAL_AFF_TRANSFORMATION_TAGS_H
 #include <CGAL/aff_transformation_tags.h>
 #endif // CGAL_AFF_TRANSFORMATION_TAGS_H

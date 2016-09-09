@@ -12,7 +12,7 @@
 // release_date  : $CGAL_Date: $
 //
 // file          : polyhedron_copy.C
-// package       : $CGAL_Package: Polyhedron_IO 1.5 (24 Mar 1998) $
+// package       : $CGAL_Package: Polyhedron_IO 1.9 (10 Jul 1998) $
 // revision      : $Revision: 1.1 $
 // revision_date : $Date: 1998/03/01 06:51:10 $
 // author(s)     : Lutz Kettner  <kettner@@inf.ethz.ch>
@@ -122,7 +122,7 @@ main( int argc, char **argv) {
 	if (help_switch == NO_SWITCH)
 	    cerr << "Error: in parameter list" << endl;
 	cerr << "Usage: " << argv[0] << " [<options>] [<infile>]" << endl;
-	cerr << "       copy a CEBaP object (OFF)." << endl;
+	cerr << "       copy a polyhedron in OFF." << endl;
 	cerr << "       -b      binary." << endl;
         cerr << "       -noc    no comments in file." << endl;
 	cerr << "       -v      verbose." << endl;

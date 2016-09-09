@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/Color.h
+// package       : iostream (1.8)
+// source        :
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1998/07/22 12:49:21 $
 // author(s)     : Andreas Fabri
+//
+// coordinator   : Herve Bronnimann
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 // Source: Color.h
@@ -64,16 +70,24 @@ public:
   int green() const {return _green;}
   int blue() const {return _blue;}
 
-  bool operator==(const CGAL_Color &c)
+  bool operator==(const CGAL_Color &c) const
   {
-    return ( (_red == c.red()) &&
-             (_green == c.green()) &&
-             (_blue == c.blue()) );
+    return ( (red() == c.red()) &&
+             (green() == c.green()) &&
+             (blue() == c.blue()) );
   }
 
-  bool operator!=(CGAL_Color &c)
+  bool operator!=(CGAL_Color &c) const
   {
     return !( (*this) == c);
+  }
+
+  CGAL_Color& operator=(const CGAL_Color &c)
+  {
+    _red = c.red();
+    _green = c.green();
+    _blue = c.blue();
+    return *this;
   }
 
 private:

@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,20 +30,31 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/Polyhedron_VRML_1_ostream.h
-// author(s)     : Lutz Kettner  
+// package       : Polyhedron_IO (1.9)
+// chapter       : $CGAL_Chapter: Support Library ... $
+// source        : polyhedron_io.fw
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1998/06/03 20:34:54 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : Herve Bronnimann
+//
+// Print a Polyhedron_3 in VRML 1.0 file format (.wrl)
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_IO_POLYHEDRON_VRML_1_OSTREAM_H
 #define CGAL_IO_POLYHEDRON_VRML_1_OSTREAM_H 1
+#ifndef CGAL_IO_VRML_1_OSTREAM_H
+#include <CGAL/IO/VRML_1_ostream.h>
+#endif // CGAL_IO_VRML_1_OSTREAM_H
 #ifndef CGAL_IO_POLYHEDRON_INVENTOR_OSTREAM_H
 #include <CGAL/IO/Polyhedron_inventor_ostream.h>
 #endif // CGAL_IO_POLYHEDRON_INVENTOR_OSTREAM_H

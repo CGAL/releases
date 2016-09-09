@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,60 +30,46 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// ----------------------------------------------------------------------
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/ch_eddy.h
-// author(s)     : Stefan Schirra 
+// package       : Convex_hull (1.2.3)
+// source        : convex_hull_2.lw
+// revision      : 1.2.3
+// revision_date : 07 Apr 1998
+// author(s)     : Stefan Schirra
+//
+// coordinator   : MPI, Saarbruecken
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_CH_EDDY_H
 #define CGAL_CH_EDDY_H
 
-#ifndef CGAL_CH_ASSERTIONS_H
-#include <CGAL/ch_assertions.h>
-#endif // CGAL_CH_ASSERTIONS_H
-#ifndef CGAL_CH_UTILS_H
 #include <CGAL/ch_utils.h>
-#endif // CGAL_CH_UTILS_H
 #ifdef CGAL_REP_CLASS_DEFINED
-#ifndef CGAL_CONVEX_HULL_TRAITS_2_H
 #include <CGAL/convex_hull_traits_2.h>
-#endif // CGAL_CONVEX_HULL_TRAITS_2_H
-#ifdef __GNUG__
+#ifdef CGAL_STL_GCC
 #ifndef CGAL_GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
 #include <CGAL/gnu_istream_iterator_value_type_fix.h>
 #endif // CGAL_GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
-#endif // __GNUG__
+#endif // CGAL_STL_GCC
 #endif // CGAL_REP_CLASS_DEFINED
 #ifndef CGAL_CH_NO_POSTCONDITIONS
-#ifndef CGAL_CONVEXITY_CHECK_2_H
 #include <CGAL/convexity_check_2.h>
-#endif // CGAL_CONVEXITY_CHECK_2_H
 
 #endif // CGAL_CH_NO_POSTCONDITIONS
 
 
-#ifndef CGAL_CH_SELECTED_EXTREME_POINTS_2_H
 #include <CGAL/ch_selected_extreme_points_2.h>
-#endif // CGAL_CH_SELECTED_EXTREME_POINTS_2_H
-#ifndef CGAL_PROTECT_LIST_H
 #include <list.h>
-#define CGAL_PROTECT_LIST_H
-#endif // CGAL_PROTECT_LIST_H
-#ifndef CGAL_PROTECT_ALGO_H
 #include <algo.h>
-#define CGAL_PROTECT_ALGO_H
-#endif // CGAL_PROTECT_ALGO_H
-#ifndef CGAL_STL_EXTENSIONS_H
 #include <CGAL/stl_extensions.h>
-#endif // CGAL_STL_EXTENSIONS_H
 /*{\Moptions
 outfile=cgal_ch_I_e.man
 }*/
@@ -99,7 +85,7 @@ CGAL_ch_eddy(InputIterator first, InputIterator last,
 /*{\Mfuncl 
 same as |CGAL_convex_hull_points_2(first,last,result)|.\\
 {\sc traits}: uses |Traits::Point_2|, |Traits::Less_dist_to_line|, 
-|Traits::Right_of_line|, and |Traits::Less_xy|, |Traits::Greater_xy|.
+|Traits::Right_of_line|, and |Traits::Less_xy|.
 }*/
 
 #ifdef CGAL_POINT_2_H
@@ -127,7 +113,6 @@ CGAL_ch_eddy(InputIterator first, InputIterator last, OutputIterator  result)
 /*{\Mfuncl 
 same as |CGAL_convex_hull_points_2(first,last,result)|.
 }*/
-
 
 #endif // CGAL_POINT_2_H
 

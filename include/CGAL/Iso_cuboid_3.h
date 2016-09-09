@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,22 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : Iso_cuboid_3.fw
 // file          : include/CGAL/Iso_cuboid_3.h
-// author(s)     : Stefan Schirra 
+// package       : _3 (1.3)
+// revision      : 1.3
+// revision_date : 15 May 1998 
+// author(s)     : Stefan Schirra
 //
+// coordinator   : MPI, Saarbruecken
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_ISO_CUBOID_3_H

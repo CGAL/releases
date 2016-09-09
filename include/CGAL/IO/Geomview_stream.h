@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/Geomview_stream.h
+// package       : Geomview (1.1)
+// source        : web/geomview.fw
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1998/02/26 16:27:39 $
 // author(s)     : Andreas Fabri
+//
+// coordinator   : Herve Bronnimann
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_GEOMVIEW_STREAM_H
@@ -546,9 +552,10 @@ operator<<(CGAL_Geomview_stream &gv,
 }
 #endif // CGAL_GV_OUT_CGAL_TETRAHEDRALIZATION_VERTEX_H
 #endif  // CGAL_TETRAHEDRALIZATION_VERTEX_H
-#ifdef CGAL_DELAUNAY_TETRAHEDRALIZATION_H
-#ifndef CGAL_GV_OUT_CGAL_DELAUNAY_TETRAHEDRALIZATION_H
-#define CGAL_GV_OUT_CGAL_DELAUNAY_TETRAHEDRALIZATION_H
+
+#ifdef CGAL_DELAUNAY_TETRAHEDRALIZATION_3_H
+#ifndef CGAL_GV_OUT_CGAL_DELAUNAY_TETRAHEDRALIZATION_3_H
+#define CGAL_GV_OUT_CGAL_DELAUNAY_TETRAHEDRALIZATION_3_H
 template < class I >
 CGAL_Geomview_stream&
 operator<<(CGAL_Geomview_stream& gv,
@@ -567,8 +574,8 @@ operator<<(CGAL_Geomview_stream& gv,
   }
   return gv;
 }
-#endif // CGAL_GV_OUT_CGAL_DELAUNAY_TETRAHEDRALIZATION_H
-#endif // CGAL_DELAUNAY_TETRAHEDRALIZATION_H
+#endif // CGAL_GV_OUT_CGAL_DELAUNAY_TETRAHEDRALIZATION_3_H
+#endif // CGAL_DELAUNAY_TETRAHEDRALIZATION_3_H
 
 
 char*

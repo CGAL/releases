@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,26 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/min_sqr_distance.C
-// author(s)     :       Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/min_sqr_distance.C
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:35 MET DST 1998  $
+// author(s)     :        Wolfgang Freiseisen
+//
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #ifndef CGAL_MIN_SQUARE_DISTANCE_H
@@ -141,8 +151,7 @@ double minimal_square_distance(ForwardIterator first,
 #endif  
 
   /* sort vector */
-  Compare_point_by_x compare_x;
-  sort(pts.begin(), pts.end(), compare_x);
+  sort(pts.begin(), pts.end(), Compare_point_by_x());
 #ifdef CGAL__MIN_SQR_DISTANCE_DEBUG_ON
   showSequence( pts.begin(), pts.end());
 #endif

@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,30 +31,40 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/bops_Polygon_2.C
-// author(s)     :            Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/bops_Polygon_2.C
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:25 MET DST 1998  $
+// author(s)     :        Wolfgang Freiseisen
+//
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_BOPS_POLYGON_2_C
 #define CGAL_BOPS_POLYGON_2_C
 
-
 #include <CGAL/bops_Container_Polygon_2.h>
 #include <CGAL/bops_Polygon_2.h>
 #include <CGAL/bops_assertions.h>
+#include <CGAL/bops_Convex_Polygon_2.h>
 
 
 template < class R, class Container >
-bool CGAL_do_intersect( const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
-                        const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B)
+bool CGAL_do_intersect(
+     const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
+     const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B)
 {
   CGAL_bops_precondition_msg(A.is_simple(),
                              "Polygon_2<R> A is not simple");
@@ -73,9 +84,10 @@ bool CGAL_do_intersect( const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container
 
  
 template < class R, class Container, class OutputIterator >
-OutputIterator CGAL_intersection( const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
-                                  const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B,
-		                  OutputIterator result)
+OutputIterator CGAL_intersection(
+       const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
+       const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B,
+       OutputIterator result)
 {
   CGAL_bops_precondition_msg(A.is_simple(),
                              "Polygon_2<R> A is not simple");
@@ -86,6 +98,14 @@ OutputIterator CGAL_intersection( const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>,
   CGAL_bops_precondition_msg(B.is_counterclockwise_oriented(),
                              "Polygon_2<R> B is not counterclockwise oriented");
 
+
+  if( A.is_convex() && B.is_convex() ) {
+     CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container> C, AA(A), BB(B);
+     C= CGAL_Convex_Intersection(AA, BB);
+     result++ = CGAL_make_object(C);
+     return result;
+  }
+
   Bops_default_I<R> default_traits;
   return CGAL_intersection(
          A.vertices_begin(), A.vertices_end(),
@@ -95,9 +115,10 @@ OutputIterator CGAL_intersection( const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>,
 
 
 template < class R, class Container, class OutputIterator >
-OutputIterator CGAL_union( const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
-			   const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B,
-			   OutputIterator result)
+OutputIterator CGAL_union(
+      const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
+      const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B,
+      OutputIterator result)
 {
   CGAL_bops_precondition_msg(A.is_simple(),
                              "Polygon_2<R> A is not simple");
@@ -116,9 +137,10 @@ OutputIterator CGAL_union( const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Contai
 }
  
 template < class R, class Container, class OutputIterator >
-OutputIterator CGAL_difference( const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
-		      const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B,
-		      OutputIterator result)
+OutputIterator CGAL_difference(
+	       const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
+	       const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B,
+	       OutputIterator result)
 {
   CGAL_bops_precondition_msg(A.is_simple(),
                              "Polygon_2<R> A is not simple");

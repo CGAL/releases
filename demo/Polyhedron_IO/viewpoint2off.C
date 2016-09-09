@@ -12,7 +12,7 @@
 // release_date  : $CGAL_Date: $
 //
 // file          : viewpoint2off.C
-// package       : $CGAL_Package: Polyhedron_IO 1.5 (24 Mar 1998) $
+// package       : $CGAL_Package: Polyhedron_IO 1.9 (10 Jul 1998) $
 // revision      : $Revision: 1.1 $
 // revision_date : $Date: 1998/03/01 06:51:10 $
 // author(s)     : Lutz Kettner  <kettner@@inf.ethz.ch>
@@ -33,6 +33,7 @@
 #include <vector.h>
 
 #include <CGAL/Cartesian.h>
+#include <CGAL/known_bit_size_integers.h>
 #include <CGAL/Point_3.h>
 #include <CGAL/IO/Verbose_ostream.h>
 #include <CGAL/IO/binary_file_io.h>
@@ -92,6 +93,9 @@ const char* normals_filename = 0;
 /* ------------------------------------------------------- */
 
 main( int argc, char **argv) {
+#if CGAL_CFG_INCOMPLETE_TYPE_BUG_5
+    Point _work_around_incomplete_type;
+#endif  // CGAL_CFG_INCOMPLETE_TYPE_BUG_5
     int i;
     int nParameters = 0;
     char *parameters[ MaxParameters + 1];
@@ -199,7 +203,7 @@ main( int argc, char **argv) {
 		    facets.push_back( Facet());
 		    Facet& facet = (*(facets.end() - 1));
 		    facet.push_back( points.size());
-		    if ( CGAL_odd( j)) {
+		    if (j & 1) {
 			facet.push_back( points.size()-2);
 			facet.push_back( points.size()-1);
 		    } else {
@@ -237,7 +241,7 @@ main( int argc, char **argv) {
 		    facets.push_back( Facet());
 		    Facet& facet = (*(facets.end() - 1));
 		    facet.push_back( points.size());
-		    if ( CGAL_odd( j)) {
+		    if (j & 1) {
 			facet.push_back( points.size()-2);
 			facet.push_back( points.size()-1);
 		    } else {

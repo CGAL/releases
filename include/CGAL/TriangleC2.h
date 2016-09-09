@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,23 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/TriangleC2.h
-// author(s)     : Andreas Fabri
+// package       : C2 (1.3)
+// source        : web/TriangleC2.fw
+// revision      : $Revision: 1.9 $
+// revision_date : $Date: 1998/06/15 20:19:46 $
+// author(s)     : Andreas.Fabri
+//
+// coordinator   : INRIA Sophia-Antipolis
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_TRIANGLEC2_H
@@ -353,7 +359,7 @@ inline
 bool CGAL_TriangleC2<FT>::has_on_boundary(
                                           const CGAL_PointC2<FT> &p) const
 {
-  return oriented_side(p) == CGAL_ON_BOUNDARY;
+  return oriented_side(p) == CGAL_ON_ORIENTED_BOUNDARY;
 }
 
 template < class FT >

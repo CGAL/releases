@@ -23,7 +23,7 @@ typedef planar_map::Locate_type Locate_type;
 typedef planar_map::Ccb_halfedge_circulator Ccb_halfedge_circulator;
 
 // use only for this program
-void draw_point_locate(point &, planar_map&);
+void draw_point_locate(const point &, planar_map&);
 // end part of use only for this program
 
 int main()
@@ -120,15 +120,16 @@ int main()
 
 }
 
-void draw_point_locate(point & p, planar_map & pm){
+void draw_point_locate(const point & p, planar_map & pm){
 	Locate_type lt;	
 	Halfedge edge  = pm.locate( p,  lt);
 	Ccb_halfedge_circulator ccb;
 	cout << "The location of point " << p << " is of type " << lt << endl;
 	switch ( lt ) {
 	case CGAL_Planar_map_2<pmdcel,pmtraits>::VERTEX	:	
-		 cout << "The vertex is : " << edge.source() << endl;
-		 break;
+          //		 cout << "The vertex is : " << edge.source() << endl;
+          cout << "The vertex is : " << edge.target() << endl;
+          break;
 	case CGAL_Planar_map_2<pmdcel,pmtraits>::EDGE	:
  		 cout << "The edge is : " << edge << endl;
 		 break;

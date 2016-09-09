@@ -5,7 +5,6 @@
 #---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
 
-CGAL_MAKEFILE = /KM/projects/CGAL/CGAL-1.0/make/makefile_sparc_SunOS-5.5.1_CC-4.2_LEDA
 include $(CGAL_MAKEFILE)
 
 CXX = g++
@@ -15,7 +14,7 @@ CXX = g++
 #                    compiler flags
 #---------------------------------------------------------------------#
 
-CXXFLAGS = -I. -I../../include $(CGAL_CXXFLAGS) -DDELAUNAY
+CXXFLAGS = -I../../include -I$(LOCAL)/C2/include $(CGAL_CXXFLAGS) -DDELAUNAY
            
 
 #---------------------------------------------------------------------#
@@ -43,7 +42,10 @@ voronoi: voronoi.o
 	$(CGAL_CXX) -o voronoi voronoi.o $(LDFLAGS)
 
 clean:
-	- /bin/rm  *~ *.o core tr
+	rm -rf *~ *.o core tr
+
+realclean: clean
+	rm -rf points example voronoi Program* Compiler* Error* error.txt
 
 #---------------------------------------------------------------------#
 #                    suffix rules

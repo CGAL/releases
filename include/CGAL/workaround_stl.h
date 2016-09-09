@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997,1998 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,26 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/workaround_stl.h
-// author(s)     : Sven Schönherr 
+// package       : Configuration (1.16)
+// chapter       : $CGAL_Chapter: Configuration $
 //
+// source        : web/workarounds.aw
+// revision      : $Revision: 1.1.1.1 $
+// revision_date : $Date: 1998/07/17 12:53:52 $
+// author(s)     : Sven Schönherr
+//
+// coordinator   : Utrecht University (Wieger Wesselink)
+//
+// implementation: Workarounds for STL
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_WORKAROUND_STL_H
 #define CGAL_WORKAROUND_STL_H 1

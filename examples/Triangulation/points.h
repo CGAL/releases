@@ -55,6 +55,31 @@ ostream& operator<<(ostream& os, const point& p)
 
 
 
+class dir
+{
+protected:
+  double _x, _y;
+public:
+  dir() {}
+  dir(double x, double y) : _x(x), _y(y) {}
+  dir(const point* p, const point* q)
+    : _x( q->x()-p->x() ), _y( q->y()-p->y() ) {}
+
+  double x() const { return _x; }
+  double y() const { return _y; }
+  
+  dir perpendicular() const { return dir(y(),-x()); }
+};
+
+
+ostream& operator<< (ostream& os, const dir& d)
+{
+  os << "(" << d.x() << ", " << d.y() << ")";
+  return os;
+}
+
+
+
 class segment{
 public:
   segment(point* s, point* t)
@@ -81,14 +106,19 @@ public:
 
   bool operator==(const segment& s) const
   {
-    return *(source()) == *(s.source()) && *(target()) == *s.target());
+    return *source() == *s.source() && *target() == *s.target();
   }
   
   bool operator!=(const segment& s) const
   {
-    return *(source()) != *(s.source()) || *(target()) != *s.target());
+    return *source() != *s.source() || *target() != *s.target();
   }
   
+  dir direction() const
+  {
+    return dir(source(),target());
+  }
+
 private:
   point *_s, *_t;
 };
@@ -144,9 +174,32 @@ private:
 
 ostream& operator<<(ostream& os, const triangle& t)
 {
-  os << "(" << *(t.vertex(0)) << ", " << *(t.vertex(1)) << ", " << *(t.vertex(2)) << ")";
+  os << "(" << t.vertex(0) << ", " << t.vertex(1) << ", " << t.vertex(2) << ")";
   return os;
 }
+
+
+class ray
+{
+friend ostream& operator<< (ostream&, const ray&);
+
+protected:
+  point _p;
+  dir _d;
+public:
+  ray() {}
+  ray(const point& p, const dir& d) : _p(p), _d(d) {}
+
+  point p() const { return _p; }
+  dir   d() const { return _d; }
+};
+
+ostream& operator<<(ostream& os, const ray& r)
+{
+  os << r.p() << "+" << r.d();
+  return os;
+}
+
 
 
 class PVector {
@@ -211,7 +264,6 @@ istream& operator>>(istream& is, PVector &pv)
 
 #include <CGAL/Cartesian.h>
 #include <CGAL/basic_constructionsC2.h>
-#include <CGAL/basic_constructionsC2.h>
 #include <CGAL/predicates_on_pointsC2.h>
 
 #include <CGAL/Triangulation_vertex.h>
@@ -235,6 +287,11 @@ public:
   typedef Vertex::Vertex_handle Vertex_handle;
   typedef Face::Face_handle Face_handle;
 
+  bool compare(const Point &p, const Point &q) const
+  {
+    return (p == q);
+  }
+
   CGAL_Comparison_result compare_x(const Point &p, const Point &q) const
   {
     return CGAL_compare(p->x(), q->x());
@@ -253,7 +310,7 @@ public:
       cout << "coll" << endl;
       return CGAL_COLLINEAR;
     }
-    return CGAL_orientation(p->x(), p->y(), q->x(), q->y(), r->x(), r->y());
+    return CGAL_orientationC2(p->x(), p->y(), q->x(), q->y(), r->x(), r->y());
   }
 
 
@@ -265,10 +322,10 @@ public:
       cout << "coll" << endl;
       return CGAL_COLLINEAR;
     }
-    return CGAL_orientation(p->x(), p->y(), q->x(), q->y(), r->x(), r->y());
+    return CGAL_orientationC2(p->x(), p->y(), q->x(), q->y(), r->x(), r->y());
   }
 
-  point circumcenter(const point& p, const point& q, const point& r) const
+  point circumcenter(const point& p, const point& q, const point& r)
   {
     double px( p.x());
     double py( p.y());

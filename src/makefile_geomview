@@ -1,19 +1,15 @@
 # This is the makefile for compiling a CGAL application.
 
-#---------------------------------------------------------------------
-#
+#---------------------------------------------------------------------#
 #                    include platform specific settings
-#---------------------------------------------------------------------
-#
+#---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
 
 include $(CGAL_MAKEFILE)
 
-#---------------------------------------------------------------------
-#
+#---------------------------------------------------------------------#
 #                    compiler flags
-#---------------------------------------------------------------------
-#
+#---------------------------------------------------------------------#
 
 
 # add YOUR compiler and linker flags here.
@@ -21,13 +17,13 @@ include $(CGAL_MAKEFILE)
 CC = $(CGAL_CXX)
 
 # change the paths for your installation if necessary
-LIB_CXXFLAGS = $(CGAL_LIB_CXXFLAGS)\
-          -DCGAL_RSH=\"/usr/ucb/rsh\"\
-          -DCGAL_GEOMVIEW=\"/usr/local/bin/geomview\"
+LIB_CXXFLAGS = $(CGAL_LIB_CXXFLAGS) \
+          -DCGAL_RSH=\"rsh\" \
+          -DCGAL_GEOMVIEW=\"geomview\"
 
-SHARED_LIB_CXXFLAGS = $(CGAL_SHARED_LIB_CXXFLAGS)\
-          -DCGAL_RSH=\"/usr/ucb/rsh\"\
-          -DCGAL_GEOMVIEW=\"/usr/local/bin/geomview\"
+SHARED_LIB_CXXFLAGS = $(CGAL_SHARED_LIB_CXXFLAGS) \
+          -DCGAL_RSH=\"rsh\" \
+          -DCGAL_GEOMVIEW=\"geomview\"
 
 
 LDFLAGS = $(CGAL_LDFLAGS)

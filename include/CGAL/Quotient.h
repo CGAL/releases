@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,29 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
-//
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
-//
+// ----------------------------------------------------------------------
+// 
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
+// 
+// source        : Quotient.fw
 // file          : include/CGAL/Quotient.h
+// package       : Number_types (1.2.8)
+// revision      : 1.2.8
+// revision_date : 01 Jul 1998 
+//
 // author(s)     :
 //
+// The template class CGAL_Quotient<NT> is based on the LEDA class
+// leda_rational written by Stefan Naeher and Christian Uhrig.
+// It is basically a templated version with restricted functionality
+// of the version of rational in LEDA release 3.3.
+// The modification was done by Stefan.Schirra
+//
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_QUOTIENT_H
@@ -203,17 +215,29 @@ operator!=(const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
+operator<=(const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+
+template <class NT>
+CGAL_KERNEL_INLINE
+bool
+operator> (const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+
+template <class NT>
+CGAL_KERNEL_INLINE
+bool
+operator>=(const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+#endif // CGAL_PROVIDE_STL_PROVIDED_REL_OPS
+
+#ifdef CGAL_PROVIDE_STL_PROVIDED_REL_OPS
+template <class NT>
+CGAL_KERNEL_INLINE
+bool
 operator!=(const CGAL_Quotient<NT>& q, const NT& a);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
 operator!=(const NT& n, const CGAL_Quotient<NT>& q);
-
-template <class NT>
-CGAL_KERNEL_INLINE
-bool
-operator<=(const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
@@ -228,21 +252,12 @@ operator<=(const NT& q, const CGAL_Quotient<NT>& r);
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator> (const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
-
-template <class NT>
-CGAL_KERNEL_INLINE
-bool
 operator> (const CGAL_Quotient<NT>& q, const NT& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
 operator> (const NT& q, const CGAL_Quotient<NT>& r);
-
-template <class NT>
-CGAL_KERNEL_INLINE
-bool operator>=(const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE

@@ -3,6 +3,6 @@
 # It is included in all makefiles.
 #---------------------------------------------------------------------#
 
-CGAL_INCL_DIR      = /KM/projects/CGAL/CGAL-1.0/include
-CGAL_LIB_DIR       = /KM/projects/CGAL/CGAL-1.0/lib
+CGAL_INCL_DIR = ENTER_YOUR_CGAL_INCLUDE_DIRECTORY_HERE
+CGAL_LIB_DIR  = ENTER_YOUR_CGAL_LIB_DIRECTORY_HERE
 

@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/IO/window_stream_xy_3.h
-// author(s)     : Lutz Kettner  
+// package       : Support_LK (1.17)
+// chapter       : $CGAL_Chapter: Support Library Manual ... $
+// source        : support.fw
+// revision      : $Revision: 1.10 $
+// revision_date : $Date: 1998/07/23 15:15:34 $
+// author(s)     : Lutz Kettner
 //
+// coordinator   : INRIA, Sophia Antipolis
+//
+// Supports the display of 3D objects in the 2d CGAL_Window_stream.
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 // Note: This file could be included multiple times. Thus, the
 // usual protection against multiple inclusion is not used.

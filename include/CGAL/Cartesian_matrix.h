@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,17 +30,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Cartesian_matrix.h
-// author(s)     : Michael Hoffmann 
+// package       : Matrix_search (1.7)
+// chapter       : $CGAL_Chapter: Geometric Optimisation $
+// source        : mon_search.aw
+// revision      : $Revision: 1.7 $
+// revision_date : $Date: 1998/07/23 16:53:44 $
+// author(s)     : Michael Hoffmann
 //
+// coordinator   : ETH Zurich (Bernd Gaertner)
+//
+// A Representation for Cartesian Matrices
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #if ! (CGAL_CARTESIAN_MATRIX_H)
 #define CGAL_CARTESIAN_MATRIX_H 1
@@ -48,6 +56,9 @@
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif // CGAL_BASIC_H
+#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
+#include <CGAL/optimisation_assertions.h>
+#endif // CGAL_OPTIMISATION_ASSERTIONS_H
 
 template < class Operation,
            class RandomAccessIC_row,
@@ -97,8 +108,8 @@ public:
   Value
   operator()( int r, int c) const
   {
-    CGAL_precondition( r >= 0 && r < number_of_rows());
-    CGAL_precondition( c >= 0 && c < number_of_columns());
+    CGAL_optimisation_precondition( r >= 0 && r < number_of_rows());
+    CGAL_optimisation_precondition( c >= 0 && c < number_of_columns());
     return op( row_vec[r], column_vec[c]);
   }
 

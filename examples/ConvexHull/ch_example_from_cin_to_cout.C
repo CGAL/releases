@@ -11,9 +11,9 @@ main()
   CGAL_set_ascii_mode(cin); 
   CGAL_set_ascii_mode(cout); 
   istream_iterator< Point_2, ptrdiff_t >  in_start( cin );
-  istream_iterator< Point_2, ptrdiff_t >  in_ende;
+  istream_iterator< Point_2, ptrdiff_t >  in_end;
   ostream_iterator< Point_2 >             out( cout, "\n" );
-  CGAL_ch_graham_andrew( in_start, in_ende, out );
+  CGAL_ch_graham_andrew( in_start, in_end, out );
   return 0;
 }
 

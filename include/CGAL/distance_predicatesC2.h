@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,230 +30,130 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/distance_predicatesC2.h
-// author(s)     : Stefan Schirra
+// package       : C2 (1.3)
+// source        : web/distance_predicatesC2.fw
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1998/06/15 20:12:35 $
+// author(s)     : Herve.Bronnimann
+//
+// coordinator   : INRIA Sophia-Antipolis
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_DISTANCE_PREDICATESC2_H
 #define CGAL_DISTANCE_PREDICATESC2_H
 
+#ifndef CGAL_DETERMINANT_H
 #include <CGAL/determinant.h>
+#endif // CGAL_DETERMINANT_H
+#ifndef CGAL_PREDICATES_ON_FTC2_H
+#include <CGAL/predicates_on_ftC2.h>
+#endif // CGAL_PREDICATES_ON_FTC2_H
 
 template <class FT >
-CGAL_KERNEL_MEDIUM_INLINE
+inline
 CGAL_Comparison_result
 CGAL_cmp_dist_to_point(const CGAL_PointC2<FT>& p,
                        const CGAL_PointC2<FT>& q,
                        const CGAL_PointC2<FT>& r)
 {
-  const FT& px = p.x();
-  const FT& py = p.y();
-  const FT& qx = q.x();
-  const FT& qy = q.y();
-  const FT& rx = r.x();
-  const FT& ry = r.y();
-  const FT FT0 = FT(0);
-
-  FT dosd   // difference of squared distances
-    =  (px - qx)*(px - qx) + (py - qy)*(py - qy)
-    -( (px - rx)*(px - rx) + (py - ry)*(py - ry) );
-
-
-  if ( dosd > FT0 )
-  {
-      return CGAL_LARGER;
-  }
-  else
-  {
-      return (dosd == FT0 ) ? CGAL_EQUAL : CGAL_SMALLER;
-  }
+  return CGAL_cmp_dist_to_pointC2(p.x(),p.y(),q.x(),q.y(),r.x(),r.y());
 }
 
 template <class FT>
-CGAL_KERNEL_MEDIUM_INLINE
+inline
 bool
 CGAL_has_larger_dist_to_point(const CGAL_PointC2<FT>& p,
                               const CGAL_PointC2<FT>& q,
                               const CGAL_PointC2<FT>& r)
 {
-  const FT& px = p.x();
-  const FT& py = p.y();
-  const FT& qx = q.x();
-  const FT& qy = q.y();
-  const FT& rx = r.x();
-  const FT& ry = r.y();
-  const FT FT0 = FT(0);
-
-  FT dosd   // difference of squared distances
-    =  (px - qx)*(px - qx) + (py - qy)*(py - qy)
-    -( (px - rx)*(px - rx) + (py - ry)*(py - ry) );
-
-
-  return ( dosd > FT0 );
+  return CGAL_has_larger_dist_to_pointC2(p.x(),p.y(),q.x(),q.y(),r.x(),r.y());
 }
 
 template <class FT>
-CGAL_KERNEL_MEDIUM_INLINE
+inline
 bool
 CGAL_has_smaller_dist_to_point(const CGAL_PointC2<FT>& p,
                                const CGAL_PointC2<FT>& q,
                                const CGAL_PointC2<FT>& r)
 {
-  const FT& px = p.x();
-  const FT& py = p.y();
-  const FT& qx = q.x();
-  const FT& qy = q.y();
-  const FT& rx = r.x();
-  const FT& ry = r.y();
-  const FT FT0 = FT(0);
-
-  FT dosd   // difference of squared distances
-    =  (px - qx)*(px - qx) + (py - qy)*(py - qy)
-    -( (px - rx)*(px - rx) + (py - ry)*(py - ry) );
-
-
-  return ( dosd < FT0 );
+  return CGAL_has_smaller_dist_to_pointC2(p.x(),p.y(),q.x(),q.y(),r.x(),r.y());
 }
 template <class FT>
-CGAL_KERNEL_MEDIUM_INLINE
+inline
 CGAL_Comparison_result
 CGAL_cmp_signed_dist_to_line(const CGAL_LineC2<FT>&  l,
                              const CGAL_PointC2<FT>& p,
                              const CGAL_PointC2<FT>& q)
 {
-  const FT& la = l.a();
-  const FT& lb = l.b();
-  const FT& px = p.x();
-  const FT& py = p.y();
-  const FT& qx = q.x();
-  const FT& qy = q.y();
-  FT scaled_dist_p = la*px + lb*py ;
-  FT scaled_dist_q = la*qx + lb*qy ;
-
-  if ( scaled_dist_p < scaled_dist_q )
-  {
-      return CGAL_SMALLER;
-  }
-  else
-  {
-      return (scaled_dist_p > scaled_dist_q) ? CGAL_LARGER : CGAL_EQUAL;
-  }
+  return CGAL_cmp_signed_dist_to_lineC2
+           (l.a(),l.b(),l.c(),p.x(),p.y(),q.x(),q.y());
 }
 
 template <class FT>
-CGAL_KERNEL_MEDIUM_INLINE
+inline
 bool
 CGAL_has_larger_signed_dist_to_line(const CGAL_LineC2<FT>&  l,
                                     const CGAL_PointC2<FT>& p,
                                     const CGAL_PointC2<FT>& q)
 {
-  const FT& la = l.a();
-  const FT& lb = l.b();
-  const FT& px = p.x();
-  const FT& py = p.y();
-  const FT& qx = q.x();
-  const FT& qy = q.y();
-  return (  la*px + lb*py > la*qx + lb*qy );
+  return CGAL_has_larger_signed_dist_to_lineC2
+           (l.a(),l.b(),l.c(),p.x(),p.y(),q.x(),q.y());
 }
 
 template <class FT>
-CGAL_KERNEL_MEDIUM_INLINE
+inline
 bool
 CGAL_has_smaller_signed_dist_to_line(const CGAL_LineC2<FT>&  l,
                                      const CGAL_PointC2<FT>& p,
                                      const CGAL_PointC2<FT>& q)
 {
-  const FT& la = l.a();
-  const FT& lb = l.b();
-  const FT& px = p.x();
-  const FT& py = p.y();
-  const FT& qx = q.x();
-  const FT& qy = q.y();
-  return (  la*px + lb*py < la*qx + lb*qy );
+  return CGAL_has_smaller_signed_dist_to_lineC2
+           (l.a(),l.b(),l.c(),p.x(),p.y(),q.x(),q.y());
 }
 template <class FT>
-CGAL_KERNEL_MEDIUM_INLINE
+inline
 CGAL_Comparison_result
 CGAL_cmp_signed_dist_to_line(const CGAL_PointC2<FT>& p,
                              const CGAL_PointC2<FT>& q,
                              const CGAL_PointC2<FT>& r,
                              const CGAL_PointC2<FT>& s)
 {
-  const FT& px = p.x();
-  const FT& py = p.y();
-  const FT& qx = q.x();
-  const FT& qy = q.y();
-  const FT& rx = r.x();
-  const FT& ry = r.y();
-  const FT& sx = s.x();
-  const FT& sy = s.y();
-  FT scaled_dist_r = (px-rx)*(qy-ry) - (py-ry)*(qx-rx);
-  FT scaled_dist_s = (px-sx)*(qy-sy) - (py-sy)*(qx-sx);
-
-
-  if ( scaled_dist_r < scaled_dist_s )
-  {
-      return CGAL_SMALLER;
-  }
-  else
-  {
-      return (scaled_dist_r > scaled_dist_s) ? CGAL_LARGER : CGAL_EQUAL;
-  }
+  return CGAL_cmp_signed_dist_to_lineC2
+           (p.x(),p.y(),q.x(),q.y(),r.x(),r.y(),s.x(),s.y());
 }
 
 template <class FT>
-CGAL_KERNEL_MEDIUM_INLINE
+inline
 bool
 CGAL_has_smaller_signed_dist_to_line(const CGAL_PointC2<FT>& p,
                                      const CGAL_PointC2<FT>& q,
                                      const CGAL_PointC2<FT>& r,
                                      const CGAL_PointC2<FT>& s)
 {
-  const FT& px = p.x();
-  const FT& py = p.y();
-  const FT& qx = q.x();
-  const FT& qy = q.y();
-  const FT& rx = r.x();
-  const FT& ry = r.y();
-  const FT& sx = s.x();
-  const FT& sy = s.y();
-  FT scaled_dist_r = (px-rx)*(qy-ry) - (py-ry)*(qx-rx);
-  FT scaled_dist_s = (px-sx)*(qy-sy) - (py-sy)*(qx-sx);
-
-
-  return ( scaled_dist_r < scaled_dist_s );
+  return CGAL_has_smaller_signed_dist_to_lineC2
+           (p.x(),p.y(),q.x(),q.y(),r.x(),r.y(),s.x(),s.y());
 }
 
 template <class FT>
-CGAL_KERNEL_MEDIUM_INLINE
+inline
 bool
 CGAL_has_larger_signed_dist_to_line(const CGAL_PointC2<FT>& p,
                                     const CGAL_PointC2<FT>& q,
                                     const CGAL_PointC2<FT>& r,
                                     const CGAL_PointC2<FT>& s)
 {
-  const FT& px = p.x();
-  const FT& py = p.y();
-  const FT& qx = q.x();
-  const FT& qy = q.y();
-  const FT& rx = r.x();
-  const FT& ry = r.y();
-  const FT& sx = s.x();
-  const FT& sy = s.y();
-  FT scaled_dist_r = (px-rx)*(qy-ry) - (py-ry)*(qx-rx);
-  FT scaled_dist_s = (px-sx)*(qy-sy) - (py-sy)*(qx-sx);
-
-
-  return ( scaled_dist_r > scaled_dist_s );
+  return CGAL_has_larger_signed_dist_to_lineC2
+           (p.x(),p.y(),q.x(),q.y(),r.x(),r.y(),s.x(),s.y());
 }
 
 

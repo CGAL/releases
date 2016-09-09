@@ -9,17 +9,17 @@
 //
 // ----------------------------------------------------------------------------
 //
-// release       : $CGAL_Revision: CGAL-0.9-I-06 $
-// release_date  : $CGAL_Date: 1998/09/02 $
+// release       : $CGAL_Revision: CGAL-1.0 $
+// release_date  : $CGAL_Date: 1998/30/06 $
 //
-// file          : ./examples/BooleanOperations/BooleanOperations_example.C
-// source        : ./examples/BooleanOperations/BooleanOperations_example.C
-// revision      : $Revision: 0.9.29h $
-// revision_date : $Date: Mon Feb  9 16:00:44 MET 1998  $
-// author(s)     :         Wolfgang Freiseisen <Wolfgang.Freiseisen@risc.uni-linz.ac.at>
+// file          : examples/BooleanOperations/BooleanOperations_example.C
+// source        : examples/BooleanOperations/BooleanOperations_example.C
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:44 MET DST 1998  $
+// author(s)     :             Wolfgang Freiseisen <Wolfgang.Freiseisen@risc.uni-linz.ac.at>
 //
 // coordinator   : RISC Linz
-//           (Wolfgang Freiseisen <wfreisei@risc.uni-linz.ac.at>)
+//  (Wolfgang Freiseisen <wfreisei@risc.uni-linz.ac.at>)
 //
 // 
 // ============================================================================

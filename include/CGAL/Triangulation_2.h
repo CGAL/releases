@@ -1,6 +1,6 @@
-// ============================================================================
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,20 +30,26 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/Triangulation_2.h
+// package       : Triangulation (1.23)
+// source        : web/Triangulation_2.fw
+// revision      : $Revision: 1.45 $
+// revision_date : $Date: 1998/07/15 14:07:01 $
 // author(s)     : Olivier Devillers
 //                 Andreas Fabri
 //                 Monique Teillaud
 //                 Mariette Yvinec
 //
+// coordinator   : Herve Bronnimann
+//
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_TRIANGULATION_2_H
@@ -54,6 +60,7 @@
 #include <map.h>
 #include <algo.h>
 #include <pair.h>
+#include <CGAL/Object.h>
 #include <CGAL/circulator.h>
 #include <CGAL/triangulation_assertions.h>
 
@@ -73,8 +80,10 @@ public:
     typedef I                                     Traits;
 
     typedef typename I::Point                     Point;
+    typedef typename I::Point                     value_type;
     typedef typename I::Segment                   Segment;
     typedef typename I::Triangle                  Triangle;
+
 
     typedef typename I::Vertex                    Vertex;
     typedef typename I::Face                      Face;
@@ -345,7 +354,7 @@ public:
         return segment(*ei);
     }
 
-  //
+  // COMBINATORIAL FEATURES
     const Vertex_handle& finite_vertex() const
     {
         return _finite_vertex;
@@ -531,7 +540,7 @@ public:
           return v;
         }
         if(number_of_vertices() == 1) {
-                if (p == finite_vertex()->point()) {
+                if (traits().compare(p,finite_vertex()->point())) {
                     lt = VERTEX;
                     return finite_vertex();
                   }
@@ -918,8 +927,8 @@ protected:
 public:
     //
     // $RCSfile: Line_face_circulator.fw,v $
-    // $Revision: 1.15 $
-    // $Date: 1998/02/18 15:09:41 $
+    // $Revision: 1.17 $
+    // $Date: 1998/06/23 15:11:57 $
     //
     
     class Line_face_circulator
@@ -962,7 +971,7 @@ public:
                                  const Point& qq)
                 : Face::Face_handle(face), T(t), s(state), i(index),  p(pp), q(qq)
             {
-                CGAL_triangulation_precondition(p != q);
+                CGAL_triangulation_precondition(! T->traits().compare(p,q));
             }
             
             
@@ -984,7 +993,7 @@ public:
             {
                 CGAL_triangulation_precondition((! T->is_infinite(v)) &&
                                                 (T->dimension() == 2) &&
-                                                (v->point() != dir));
+                                                !T->traits().compare(v->point(),dir));
             
                 ptr() = &(*v->face());
             
@@ -1147,7 +1156,7 @@ public:
             
                 // Test whether p lies on a vertex
                 for(j = 0; j < 3; j++){
-                    if(ptr()->vertex(j)->point() == p){
+                    if(T->traits().compare(ptr()->vertex(j)->point(),p)){
                         *this = Line_face_circulator( ptr()->vertex(j), t, q);
                         return;
                     }
@@ -1358,7 +1367,7 @@ public:
                         Point u = ptr()->vertex(cw(i))->point();
                         Point v = ptr()->vertex(i)->point();
                         // u == t  was detected earlier
-                        if(v == t){
+                        if(T->traits().compare(v,t)){
                             lt = VERTEX;
                             li = i;
                             return true;
@@ -1377,7 +1386,7 @@ public:
                             li = i;
                             return true;
                         }
-                        if(t == ptr()->vertex(i)->point()){
+                        if(T->traits().compare(t,ptr()->vertex(i)->point())){
                             li = i;
                             lt = VERTEX;
                             return true;
@@ -1512,7 +1521,7 @@ public:
         Vertex_handle  w;
     
         while(1){
-            if(t == v->point()){
+            if(traits().compare(t,v->point())){
                 lt = VERTEX;
                 li = cw(i);
                 return fc ;
@@ -1547,7 +1556,7 @@ public:
         CGAL_Triangulation_2<I> *ncthis = (CGAL_Triangulation_2<I>*)this;
     
         Point p(start->vertex(0)->point());
-        if(p == t){
+        if(traits().compare(p,t)){
             lt = VERTEX;
             li = 0;
             return start;
@@ -1560,7 +1569,7 @@ public:
             // we walk clockwise on the hull
             int i = lfc->index(infinite_vertex());
             p = lfc->vertex(ccw(i))->point();
-            if(t == p){
+            if(traits().compare(t,p)){
                 lt = VERTEX;
                 li = ccw(i);
                 return lfc;
@@ -1568,7 +1577,7 @@ public:
          Point q(lfc->vertex(cw(i))->point());
          Face_handle f(lfc);
          while(1){
-           if(t == q){
+           if(traits().compare(t,q)){
              lt = VERTEX;
              li = cw(i);
              return f;
@@ -1607,7 +1616,8 @@ public:
             if(number_of_vertices() == 0) {
                 lt = OUTSIDE;
             } else { // number_of_vertices() == 1
-                lt = (p == finite_vertex()->point()) ? VERTEX : OUTSIDE;
+                lt = traits().compare(p,finite_vertex()->point())
+                   ? VERTEX : OUTSIDE;
             }
             return NULL;
         }
@@ -1674,7 +1684,8 @@ public:
               const Point& q,
               Face_handle f = Face_handle())
     {
-        CGAL_triangulation_precondition( (dimension() == 2) && (p != q) );
+        CGAL_triangulation_precondition( (dimension() == 2)
+                                      && !traits().compare(p,q) );
     
         Line_face_circulator lfc = (f == NULL)
                                    ? Line_face_circulator(p, q, this)
@@ -1981,7 +1992,7 @@ CGAL_Triangulation_2<I>::clear()
             Faces.push_front(&(*fc));
         }while(++fc != fcdone);
     }
-    CGAL_triangulation_assertion( number_of_faces() == Faces.size());
+    CGAL_triangulation_assertion( number_of_faces() == (int) Faces.size());
 
     {
         typename list<Face*>::iterator

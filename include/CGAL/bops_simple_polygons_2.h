@@ -1,6 +1,7 @@
-// ============================================================================
+//  -*- Mode: c++ -*-
+// ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1997 The CGAL Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -30,17 +31,25 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/bops_simple_polygons_2.h
-// author(s)     :            Wolfgang Freiseisen 
+// package       : bops (1.0.5)
+// source        : include/CGAL/bops_simple_polygons_2.h
+// revision      : $Revision: 1.0.5 $
+// revision_date : $Date: Tue Jun 30 19:04:32 MET DST 1998  $
+// author(s)     :        Wolfgang Freiseisen
 //
+// coordinator   : RISC Linz
+//  (Wolfgang Freiseisen)
+//
+// 
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 #ifndef CGAL_BOPS_SIMPLE_POLYGONS_2_H
 #define CGAL_BOPS_SIMPLE_POLYGONS_2_H
@@ -134,7 +143,43 @@ protected:
     is_intersection  = 4
   };
 
-  int calc_intersection_type(int) const;
+  int calc_intersection_type(int) const {
+     typename I::Bbox a_box= I::get_Bbox(_pgon1);
+     typename I::Bbox b_box= I::get_Bbox(_pgon2);
+
+     if( a_box == b_box ) {
+       if( _pgon1 == _pgon2 ) return is_identical;
+     }
+     if( !I::do_overlap(a_box, b_box) ) return is_empty;
+
+     if( I::box_is_contained_in_box( a_box, b_box) )
+       return A_is_subset_of_B;
+     if( I::box_is_contained_in_box( b_box, a_box) )
+       return B_is_subset_of_A;
+
+     typename Polygon_Container::const_iterator it;
+     int sum1= 0, n1= _pgon1.size();
+     for( it= _pgon1.vertices_begin(); it != _pgon1.vertices_end(); it++)
+       sum1 += I::has_on_bounded_side(_pgon2, *it) ? +1 : -1;
+
+     if( sum1 ==  n1 || sum1 == -n1 ) {
+       int sum2= 0, n2= _pgon2.size();
+       for( it= _pgon2.vertices_begin(); it != _pgon2.vertices_end(); it++)
+         sum2 += I::has_on_bounded_side(_pgon1,*it) ? +1 : -1;
+       if( sum2 ==  n2|| sum2 == -n2) {
+         if( sum1 == -n1 && sum2 == -n2 ) // polygons are separated
+           // iff no intersections occur, otherwise return 4
+           return !_inter_res.size() ? is_empty : is_intersection;
+         if( sum1 == n1 && sum2 == -n2 ) // A is subset B
+           return A_is_subset_of_B; 
+         if( sum1 == -n1 && sum2 == n2 ) // B is subset A
+           return B_is_subset_of_A; 
+       }
+     }
+
+     return is_intersection; // intersections occur
+  }
+
   Intersection_type calc_intersection_type(void) const {
     return (Intersection_type)calc_intersection_type(0);
   }

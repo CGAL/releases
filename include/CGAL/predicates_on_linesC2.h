@@ -1,4 +1,4 @@
-// ============================================================================
+// ======================================================================
 //
 // Copyright (c) 1998 The CGAL Consortium
 //
@@ -30,24 +30,37 @@
 // INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
 // (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
 //
-// ============================================================================
+// ----------------------------------------------------------------------
 //
-// release       : CGAL-1.0
-// date          : 21 Apr 1998
+// release       : CGAL-1.1
+// release_date  : 1998, July 24
 //
 // file          : include/CGAL/predicates_on_linesC2.h
-// author(s)     : Andreas Fabri
+// package       : C2 (1.3)
+// source        : we/bpredicates_onb_inesC2.fw
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1998/06/15 20:20:24 $
+// author(s)     : Herve.Bronnimann
+//
+// coordinator   : INRIA Sophia-Antipolis
 //
 // email         : cgal@cs.uu.nl
 //
-// ============================================================================
+// ======================================================================
 
 
 #ifndef CGAL_PREDICATES_ON_LINESC2_H
 #define CGAL_PREDICATES_ON_LINESC2_H
+
+#ifndef CGAL_CARTESIAN_CLASSES_H
 #include <CGAL/cartesian_classes.h>
+#endif // CGAL_CARTESIAN_CLASSES_H
+#ifndef CGAL_LINEC2_H
 #include <CGAL/LineC2.h>
+#endif // CGAL_LINEC2_H
+#ifndef CGAL_PREDICATES_ON_POINTSC2_H
 #include <CGAL/predicates_on_pointsC2.h>
+#endif // CGAL_PREDICATES_ON_POINTSC2_H
 
 
 template < class FT >
@@ -55,27 +68,8 @@ CGAL_Comparison_result CGAL_compare_x(const CGAL_PointC2<FT> &p,
                                       const CGAL_LineC2<FT> &l1,
                                       const CGAL_LineC2<FT> &l2)
 {
-  const FT &px = p.x();
-  const FT &l1a = l1.a();
-  const FT &l2a = l2.a();
-
-  const FT &l1b = l1.b();
-  const FT &l2b = l2.b();
-
-  const FT &l1c = l1.c();
-  const FT &l2c = l2.c();
-
-  int sign1 = CGAL_sign(CGAL_det2x2_by_formula(l1a, l1b, l2a, l2b));
-  int sign2 = CGAL_sign(CGAL_det3x3_by_formula(l1a, l1b, l1c,
-                                               l2a, l2b, l2c,
-                                               -FT(1), FT(0), px));
-  CGAL_kernel_assertion( sign1 != 0 );
-
-  if (sign2 == 0){
-    return CGAL_EQUAL;
-  }
-
-  return (sign1 == sign2) ? CGAL_LARGER : CGAL_SMALLER;
+  return CGAL_compare_xC2(p.x(),p.y(),
+                          l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c());
 }
 
 
@@ -85,38 +79,8 @@ CGAL_Comparison_result CGAL_compare_x(const CGAL_LineC2<FT> &l1,
                                       const CGAL_LineC2<FT> &h1,
                                       const CGAL_LineC2<FT> &h2)
 {
-  const FT &a = l1.a();
-  const FT &b = l1.b();
-  const FT &c = l1.c();
-
-  const FT &d = l2.a();
-  const FT &e = l2.b();
-  const FT &f = l2.c();
-
-  const FT &g = h1.a();
-  const FT &h = h1.b();
-  const FT &i = h1.c();
-
-  const FT &j = h2.a();
-  const FT &k = h2.b();
-  const FT &l = h2.c();
-
-  int sign1 = CGAL_sign(CGAL_det2x2_by_formula(a,b,d,e));
-  int sign2 = CGAL_sign(CGAL_det2x2_by_formula(g,h,j,k));
-  int sign3 = CGAL_sign(CGAL_det4x4_by_formula(a, b, FT(0), c,
-                                               d, e, FT(0), f,
-                                               g, FT(0), h, i,
-                                               j, FT(0), k, l));
-
-  CGAL_kernel_precondition( (! (sign1 == 0)) && (! (sign2 == 0)) );
-
-  if(sign3 == 0){
-    return CGAL_EQUAL;
-  }
-  if(sign3 < 0){
-    return (sign1 == sign2) ? CGAL_LARGER : CGAL_SMALLER;
-  }
-  return (sign1 != sign2) ? CGAL_LARGER : CGAL_SMALLER;
+  return CGAL_compare_xC2(l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c(),
+                          h1.a(),h1.b(),h1.c(),h2.a(),h2.b(),h2.c());
 }
 
 
@@ -126,27 +90,8 @@ CGAL_Comparison_result CGAL_compare_y(const CGAL_PointC2<FT> &p,
                                       const CGAL_LineC2<FT> &l1,
                                       const CGAL_LineC2<FT> &l2)
 {
-  const FT &py = p.y();
-  const FT &l1a = l1.a();
-  const FT &l2a = l2.a();
-
-  const FT &l1b = l1.b();
-  const FT &l2b = l2.b();
-
-  const FT &l1c = l1.c();
-  const FT &l2c = l2.c();
-
-  int sign1 = CGAL_sign(CGAL_det2x2_by_formula(l1a, l1b, l2a, l2b));
-  int sign2 = CGAL_sign(CGAL_det3x3_by_formula(l1a, l1b, l1c,
-                                               l2a, l2b, l2c,
-                                               FT(0), -FT(1), py));
-  CGAL_kernel_assertion( sign1 != 0 );
-
-  if (sign2 == 0){
-    return CGAL_EQUAL;
-  }
-
-  return (sign1 == sign2) ? CGAL_LARGER : CGAL_SMALLER;
+  return CGAL_compare_xC2(p.y(),p.x(),
+                          l1.b(),l1.a(),l1.c(),l2.b(),l2.a(),l2.c());
 }
 
 
@@ -156,44 +101,14 @@ CGAL_Comparison_result CGAL_compare_y(const CGAL_LineC2<FT> &l1,
                                       const CGAL_LineC2<FT> &h1,
                                       const CGAL_LineC2<FT> &h2)
 {
-  const FT &a = l1.a();
-  const FT &b = l1.b();
-  const FT &c = l1.c();
-
-  const FT &d = l2.a();
-  const FT &e = l2.b();
-  const FT &f = l2.c();
-
-  const FT &g = h1.a();
-  const FT &h = h1.b();
-  const FT &i = h1.c();
-
-  const FT &j = h2.a();
-  const FT &k = h2.b();
-  const FT &l = h2.c();
-
-  FT y1 = CGAL_det2x2_by_formula(a,-c,d,-f) /
-            CGAL_det2x2_by_formula(a,b,d,e);
-
-  FT y2 = CGAL_det2x2_by_formula(g,-i,j,-l) /
-            CGAL_det2x2_by_formula(g,h,j,k);
-
-
-  if (y1 == y2){
-    return CGAL_EQUAL;
-  }
-
-  return (y1 < y2) ? CGAL_SMALLER : CGAL_LARGER;
+  return CGAL_compare_xC2(l1.b(),l1.a(),l1.c(),l2.b(),l2.a(),l2.c(),
+                          h1.b(),h1.a(),h1.c(),h2.b(),h2.a(),h2.c());
 }
 template < class FT >
 CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_PointC2<FT> &p,
                                            const CGAL_LineC2<FT> &h)
 {
-  CGAL_kernel_precondition( ! h.is_vertical() );
-  const FT &py = p.y();
-  FT y = h.y_at_x(p.x());
-
-  return CGAL_compare(py,y);
+  return CGAL_compare_y_at_xC2(p.x(),p.y(),h.a(),h.b(),h.c());
 }
 
 
@@ -202,8 +117,8 @@ CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_PointC2<FT> &p,
                                            const CGAL_LineC2<FT> &h1,
                                            const CGAL_LineC2<FT> &h2)
 {
-  const FT &x = p.x();
-  return CGAL_compare(h1.y_at_x(x), h2.y_at_x(x));
+  return CGAL_compare_y_at_xC2(p.x(),
+                               h1.a(),h1.b(),h1.c(),h2.a(),h2.b(),h2.c());
 }
 
 
@@ -212,7 +127,8 @@ CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_LineC2<FT> &l1,
                                            const CGAL_LineC2<FT> &l2,
                                            const CGAL_LineC2<FT> &h)
 {
-  return CGAL_compare_y_at_x( l1, l2, l1, h );
+  return CGAL_compare_y_at_xC2(l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c(),
+                               h.a(),h.b(),h.c());
 }
 
 
@@ -222,31 +138,8 @@ CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_LineC2<FT> &l1,
                                            const CGAL_LineC2<FT> &h1,
                                            const CGAL_LineC2<FT> &h2)
 {
-  const FT &a = l1.a();
-  const FT &b = l1.b();
-  const FT &c = l1.c();
-
-  const FT &d = l2.a();
-  const FT &e = l2.b();
-  const FT &f = l2.c();
-
-  const FT &g = h1.a();
-  const FT &h = h1.b();
-  const FT &i = h1.c();
-
-  const FT &j = h2.a();
-  const FT &k = h2.b();
-  const FT &l = h2.c();
-
-  int s = CGAL_lexicographical_sign(h,-g)
-            * CGAL_lexicographical_sign(k,-j)
-            * CGAL_sign(CGAL_det2x2_by_formula(a, b, d, e))
-            * CGAL_sign(CGAL_det4x4_by_formula(j, k,     FT(0), l,
-                                               a, FT(0), b,     c,
-                                               d, FT(0), e,     f,
-                                               g, h,     FT(0), i));
-
-  return CGAL_compare(s,0);
+  return CGAL_compare_y_at_xC2(l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c(),
+                               h1.a(),h1.b(),h1.c(),h2.a(),h2.b(),h2.c());
 }
 
 
