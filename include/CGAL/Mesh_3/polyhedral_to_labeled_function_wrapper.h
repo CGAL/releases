@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/polyhedral_to_labeled_function_wrapper.h $
-// $Id: polyhedral_to_labeled_function_wrapper.h 50092 2009-06-26 08:58:47Z stayeb $
+// $Id: polyhedral_to_labeled_function_wrapper.h 51094 2009-08-06 13:11:07Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -22,8 +22,8 @@
 //
 //******************************************************************************
 
-#ifndef POLYHEDRAL_TO_LABELED_FUNCTION_WRAPPER_H_
-#define POLYHEDRAL_TO_LABELED_FUNCTION_WRAPPER_H_
+#ifndef CGAL_MESH_3_POLYHEDRAL_TO_LABELED_FUNCTION_WRAPPER_H
+#define CGAL_MESH_3_POLYHEDRAL_TO_LABELED_FUNCTION_WRAPPER_H
 
 
 #include <CGAL/AABB_tree.h>
@@ -338,4 +338,4 @@ private:
 
 }  // end namespace CGAL
 
-#endif // POLYHEDRAL_TO_LABELED_FUNCTION_WRAPPER_H_
+#endif // CGAL_MESH_3_POLYHEDRAL_TO_LABELED_FUNCTION_WRAPPER_H

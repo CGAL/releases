@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/Point_with_normal_3.h $
-// $Id: Point_with_normal_3.h 49943 2009-06-17 07:49:35Z lsaboret $
+// $Id: Point_with_normal_3.h 51831 2009-09-04 11:38:11Z lsaboret $
 //
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez
@@ -25,7 +25,12 @@
 #include <CGAL/Origin.h>
 #include <CGAL/value_type_traits.h>
 
-#include <boost/property_map.hpp>
+#include <boost/version.hpp>
+#if BOOST_VERSION >= 104000
+  #include <boost/property_map/property_map.hpp>
+#else
+  #include <boost/property_map.hpp>
+#endif
 
 CGAL_BEGIN_NAMESPACE
 

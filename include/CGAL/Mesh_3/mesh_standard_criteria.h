@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/mesh_standard_criteria.h $
-// $Id: mesh_standard_criteria.h 50092 2009-06-26 08:58:47Z stayeb $
+// $Id: mesh_standard_criteria.h 51094 2009-08-06 13:11:07Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -22,8 +22,8 @@
 //
 //******************************************************************************
 
-#ifndef MESH_STANDARD_CRITERIA_H_
-#define MESH_STANDARD_CRITERIA_H_
+#ifndef CGAL_MESH_3_MESH_STANDARD_CRITERIA_H
+#define CGAL_MESH_3_MESH_STANDARD_CRITERIA_H
 
 
 
@@ -194,4 +194,4 @@ private:
 
 }  // end namespace CGAL
 
-#endif // MESH_STANDARD_CRITERIA_H_
+#endif // CGAL_MESH_3_MESH_STANDARD_CRITERIA_H

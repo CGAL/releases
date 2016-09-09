@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Implicit_mesh_domain_3.h $
+// $Id: Implicit_mesh_domain_3.h 51555 2009-08-27 13:10:21Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -22,8 +22,8 @@
 // class Implicit_mesh_domain_3. See class description.
 //******************************************************************************
 
-#ifndef IMPLICIT_MESH_DOMAIN_3_H
-#define IMPLICIT_MESH_DOMAIN_3_H
+#ifndef CGAL_IMPLICIT_MESH_DOMAIN_3_H
+#define CGAL_IMPLICIT_MESH_DOMAIN_3_H
 
 
 #include <CGAL/Mesh_3/Labeled_mesh_domain_3.h>
@@ -82,4 +82,4 @@ private:
 
 }  // end namespace CGAL
 
-#endif // IMPLICIT_MESH_DOMAIN_3_H
+#endif // CGAL_IMPLICIT_MESH_DOMAIN_3_H

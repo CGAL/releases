@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: $
-// $Id: $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Creator_weighted_point_3.h $
+// $Id: Creator_weighted_point_3.h 51555 2009-08-27 13:10:21Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -23,8 +23,8 @@
 // Creator_weighted_point_3. See class description for further information.
 //******************************************************************************
 
-#ifndef CREATOR_WEIGHTED_POINT_3_H_
-#define CREATOR_WEIGHTED_POINT_3_H_
+#ifndef CGAL_MESH_3_CREATOR_WEIGHTED_POINT_3_H
+#define CGAL_MESH_3_CREATOR_WEIGHTED_POINT_3_H
 
 namespace CGAL {
 
@@ -73,4 +73,4 @@ private:
 
 }  // end namespace CGAL
 
-#endif // CREATOR_WEIGHTED_POINT_3_H_
+#endif // CGAL_MESH_3_CREATOR_WEIGHTED_POINT_3_H

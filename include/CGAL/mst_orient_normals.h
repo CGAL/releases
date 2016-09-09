@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
-// $Id: mst_orient_normals.h 49945 2009-06-17 08:11:47Z lsaboret $
+// $Id: mst_orient_normals.h 51831 2009-09-04 11:38:11Z lsaboret $
 //
 // Author(s) : Laurent Saboret and Andreas Fabri
 
@@ -35,7 +35,12 @@
   #define M_PI       3.14159265358979323846
 #endif
 
-#include <boost/property_map.hpp>
+#include <boost/version.hpp>
+#if BOOST_VERSION >= 104000
+  #include <boost/property_map/property_map.hpp>
+#else
+  #include <boost/property_map.hpp>
+#endif
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/prim_minimum_spanning_tree.hpp>
 

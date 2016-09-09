@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/property_map.h $
-// $Id: property_map.h 50668 2009-07-17 14:42:18Z lsaboret $
+// $Id: property_map.h 51831 2009-09-04 11:38:11Z lsaboret $
 //
 // Author(s)     : Andreas Fabri and Laurent Saboret
 
@@ -21,7 +21,12 @@
 
 #include <CGAL/value_type_traits.h>
 
-#include <boost/property_map.hpp>
+#include <boost/version.hpp>
+#if BOOST_VERSION >= 104000
+  #include <boost/property_map/property_map.hpp>
+#else
+  #include <boost/property_map.hpp>
+#endif
 #include <boost/tuple/tuple.hpp>
 
 #include <utility> // defines std::pair

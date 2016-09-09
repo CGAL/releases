@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: $
-// $Id: $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/implicit_to_labeled_function_wrapper.h $
+// $Id: implicit_to_labeled_function_wrapper.h 51555 2009-08-27 13:10:21Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -26,8 +26,8 @@
 // See classes description to have more information.
 //******************************************************************************
 
-#ifndef IMPLICIT_TO_LABELED_FUNCTION_WRAPPER_H_
-#define IMPLICIT_TO_LABELED_FUNCTION_WRAPPER_H_
+#ifndef CGAL_MESH_3_IMPLICIT_TO_LABELED_FUNCTION_WRAPPER_H
+#define CGAL_MESH_3_IMPLICIT_TO_LABELED_FUNCTION_WRAPPER_H
 
 
 namespace CGAL {
@@ -135,4 +135,4 @@ private:
 
 
 
-#endif // IMPLICIT_TO_LABELED_FUNCTION_WRAPPER_H_
+#endif // CGAL_MESH_3_IMPLICIT_TO_LABELED_FUNCTION_WRAPPER_H

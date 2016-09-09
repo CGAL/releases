@@ -12,13 +12,13 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/radius_ratio.h $
-// $Id: radius_ratio.h 50343 2009-07-03 09:26:52Z stayeb $
+// $Id: radius_ratio.h 51094 2009-08-06 13:11:07Z stayeb $
 // 
 //
 // Author(s)     : Laurent RINEAU
 
-#ifndef CGAL_RADIUS_RATIO_H
-#define CGAL_RADIUS_RATIO_H
+#ifndef CGAL_MESH_3_RADIUS_RATIO_H
+#define CGAL_MESH_3_RADIUS_RATIO_H
 
 namespace CGAL {
 
@@ -95,4 +95,4 @@ radius_ratio(const Tetrahedron_3& t)
 } // end namespace Mesh_3
 } // end namespace CGAL
 
-#endif // end CGAL_RADIUS_RATIO_H
+#endif // end CGAL_MESH_3_RADIUS_RATIO_H

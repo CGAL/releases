@@ -12,13 +12,13 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Slivers_exuder_cell_attributes_traits.h $
-// $Id: Slivers_exuder_cell_attributes_traits.h 42498 2008-03-13 22:16:44Z lrineau $
+// $Id: Slivers_exuder_cell_attributes_traits.h 51094 2009-08-06 13:11:07Z stayeb $
 // 
 //
 // Author(s)     : Laurent Rineau
 
-#ifndef CGAL_SLIVERS_EXUDER_CELL_ATTRIBUTES_TRAITS_H
-#define CGAL_SLIVERS_EXUDER_CELL_ATTRIBUTES_TRAITS_H
+#ifndef CGAL_MESH_3_SLIVERS_EXUDER_CELL_ATTRIBUTES_TRAITS_H
+#define CGAL_MESH_3_SLIVERS_EXUDER_CELL_ATTRIBUTES_TRAITS_H
 
 #include <boost/mpl/has_xxx.hpp>
 
@@ -76,4 +76,4 @@ struct Slivers_exuder_cell_attributes_traits
 } // end namespace CGAL
 
 
-#endif // CGAL_SLIVERS_EXUDER_CELL_ATTRIBUTES_TRAITS_H
+#endif // CGAL_MESH_3_SLIVERS_EXUDER_CELL_ATTRIBUTES_TRAITS_H

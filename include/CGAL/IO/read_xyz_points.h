@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/IO/read_xyz_points.h $
-// $Id: read_xyz_points.h 50405 2009-07-06 17:03:32Z lsaboret $
+// $Id: read_xyz_points.h 51831 2009-09-04 11:38:11Z lsaboret $
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
 
@@ -23,7 +23,12 @@
 #include <CGAL/value_type_traits.h>
 #include <CGAL/point_set_processing_assertions.h>
 
-#include <boost/property_map.hpp>
+#include <boost/version.hpp>
+#if BOOST_VERSION >= 104000
+  #include <boost/property_map/property_map.hpp>
+#else
+  #include <boost/property_map.hpp>
+#endif
 
 #include <iostream>
 #include <sstream>

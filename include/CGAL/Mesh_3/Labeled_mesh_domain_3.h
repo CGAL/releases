@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Labeled_mesh_domain_3.h $
+// $Id: Labeled_mesh_domain_3.h 51555 2009-08-27 13:10:21Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -22,8 +22,8 @@
 // class Labeled_mesh_domain_3. See class description.
 //******************************************************************************
 
-#ifndef LABELED_MESH_DOMAIN_3_H_
-#define LABELED_MESH_DOMAIN_3_H_
+#ifndef CGAL_MESH_3_LABELED_MESH_DOMAIN_3_H
+#define CGAL_MESH_3_LABELED_MESH_DOMAIN_3_H
 
 #include <CGAL/Bbox_3.h>
 

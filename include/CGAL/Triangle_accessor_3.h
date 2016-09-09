@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Triangle_accessor_3.h $
-// $Id: Triangle_accessor_3.h 50092 2009-06-26 08:58:47Z stayeb $
+// $Id: Triangle_accessor_3.h 51094 2009-08-06 13:11:07Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -21,8 +21,8 @@
 // File Description :
 //******************************************************************************
 
-#ifndef POLYHEDRON_TRIANGLE_ACCESSOR_3_H
-#define POLYHEDRON_TRIANGLE_ACCESSOR_3_H
+#ifndef CGAL_TRIANGLE_ACCESSOR_3_H
+#define CGAL_TRIANGLE_ACCESSOR_3_H
 
 #include <CGAL/Polyhedron_3.h>
 

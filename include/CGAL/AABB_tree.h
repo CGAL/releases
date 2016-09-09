@@ -13,7 +13,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/AABB_tree/include/CGAL/AABB_tree.h $
-// $Id: AABB_tree.h 50623 2009-07-16 06:11:29Z palliez $
+// $Id: AABB_tree.h 51953 2009-09-16 11:17:12Z stayeb $
 //
 //
 // Author(s) : Camille Wormser, Pierre Alliez, Laurent Rineau, Stephane Tayeb
@@ -58,6 +58,13 @@ namespace CGAL {
 		typedef typename Primitives::size_type size_type; 
 
 	public:
+    /**
+     * @brief Default Constructor
+     *
+     * Builds an empty tree datastructure. 
+     */
+    AABB_tree();
+    
 		/**
 		* @brief Constructor
 		* @param first iterator over first primitive to insert
@@ -437,6 +444,14 @@ namespace CGAL {
 
 	};  // end class AABB_tree
 
+  template<typename Tr>
+  AABB_tree<Tr>::AABB_tree()
+    : m_primitives()
+    , m_p_root_node(NULL)
+    , m_p_search_tree(NULL)
+    , m_search_tree_constructed(false)
+  { }
+  
 	template<typename Tr>
 	template<typename ConstPrimitiveIterator>
 	AABB_tree<Tr>::AABB_tree(ConstPrimitiveIterator first,

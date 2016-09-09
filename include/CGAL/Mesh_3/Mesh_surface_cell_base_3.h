@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: $
-// $Id: $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Mesh_surface_cell_base_3.h $
+// $Id: Mesh_surface_cell_base_3.h 51555 2009-08-27 13:10:21Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -22,8 +22,8 @@
 // Implements the concepts SurfaceMeshCellBase_3, with respect to Mesh_3 spec.
 //******************************************************************************
 
-#ifndef MESH_SURFACE_CELL_BASE_3_H_
-#define MESH_SURFACE_CELL_BASE_3_H_
+#ifndef CGAL_MESH_3_MESH_SURFACE_CELL_BASE_3_H
+#define CGAL_MESH_3_MESH_SURFACE_CELL_BASE_3_H
 
 
 #include <CGAL/Regular_triangulation_cell_base_3.h>
@@ -180,4 +180,4 @@ private:
 
 }  // end namespace CGAL
 
-#endif // MESH_SURFACE_CELL_BASE_3_H_
+#endif // CGAL_MESH_3_MESH_SURFACE_CELL_BASE_3_H

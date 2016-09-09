@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/AABB_tree/include/CGAL/AABB_intersections/Triangle_3_segment_3_intersection.h $
-// $Id: Triangle_3_segment_3_intersection.h 50407 2009-07-06 19:40:54Z palliez $
+// $Id: Triangle_3_segment_3_intersection.h 51083 2009-08-06 07:48:42Z stayeb $
 //
 //
 // Author(s)     :  Laurent Rineau
@@ -21,7 +21,7 @@
 #define CGAL_TRIANGLE_3_SEGMENT_3_INTERSECTION_H
 
 #include <CGAL/kernel_basic.h>
-#include <CGAL/intersection_3.h>
+#include <CGAL/intersections.h>
 
 namespace CGAL {
 namespace CGALi {

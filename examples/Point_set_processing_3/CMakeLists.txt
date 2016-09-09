@@ -10,6 +10,9 @@ if ( COMMAND cmake_policy )
   cmake_policy( SET CMP0003 NEW )
 endif(COMMAND cmake_policy)
 
+# Require packages new or improved since CGAL 3.4
+include_directories (BEFORE ../../../Installation/include/)
+
 # Include this package's headers first
 include_directories (BEFORE . include ../../include)
 
@@ -42,9 +45,6 @@ if ( CGAL_FOUND )
     message( STATUS "USING RELEASE CXXFLAGS = '${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE}'" )
     message( STATUS "USING RELEASE EXEFLAGS = '${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS_RELEASE}'" )
   endif()
-
-  # Temporary debugging stuff
-  ADD_DEFINITIONS( "-DDEBUG_TRACE" )
 
   # Executables that do *not* require LAPACK
   create_single_source_cgal_program( "average_spacing_example.cpp" )

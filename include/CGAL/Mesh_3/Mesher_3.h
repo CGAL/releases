@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
-// $Id: Mesher_3.h 50348 2009-07-03 15:11:04Z stayeb $
+// $Id: Mesher_3.h 51094 2009-08-06 13:11:07Z stayeb $
 //
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb
@@ -23,8 +23,8 @@
 // tets.
 //******************************************************************************
 
-#ifndef MESHER_3_H
-#define MESHER_3_H
+#ifndef CGAL_MESH_3_MESHER_3_H
+#define CGAL_MESH_3_MESHER_3_H
 
 #ifdef CGAL_MESH_3_VERBOSE
 #define CGAL_MESHER_3_SCAN_VERBOSE
@@ -201,4 +201,4 @@ Mesher_3<C3T3,MC,MD>::refine_mesh()
 }  // end namespace CGAL
 
 
-#endif // MESHER_3_H
+#endif // CGAL_MESH_3_MESHER_3_H

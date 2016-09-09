@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_complex_3_in_triangulation_3.h $
+// $Id: Mesh_complex_3_in_triangulation_3.h 51555 2009-08-27 13:10:21Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -21,8 +21,8 @@
 // File Description : Implements class Mesh_complex_3_in_triangulation_3.
 //******************************************************************************
 
-#ifndef MESH_COMPLEX_3_IN_TRIANGULATION_3_H
-#define MESH_COMPLEX_3_IN_TRIANGULATION_3_H
+#ifndef CGAL_MESH_COMPLEX_3_IN_TRIANGULATION_3_H
+#define CGAL_MESH_COMPLEX_3_IN_TRIANGULATION_3_H
 
 
 #include <CGAL/iterator.h>
@@ -440,4 +440,4 @@ Mesh_complex_3_in_triangulation_3<Tr>::remove_from_complex(const Facet& facet)
 
 }  // end namespace CGAL
 
-#endif // MESH_COMPLEX_3_IN_TRIANGULATION_3_H
+#endif // CGAL_MESH_COMPLEX_3_IN_TRIANGULATION_3_H

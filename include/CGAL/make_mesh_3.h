@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/make_mesh_3.h $
+// $Id: make_mesh_3.h 51555 2009-08-27 13:10:21Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -21,8 +21,8 @@
 // File Description : make_mesh_3 function definition.
 //******************************************************************************
 
-#ifndef MAKE_MESH_3_H
-#define MAKE_MESH_3_H
+#ifndef CGAL_MAKE_MESH_3_H
+#define CGAL_MAKE_MESH_3_H
 
 #include <CGAL/refine_mesh_3.h>
 
@@ -77,4 +77,4 @@ C3T3 make_mesh_3(const MeshDomain&   domain,
 }  // end namespace CGAL
 
 
-#endif // MAKE_MESH_3_H
+#endif // CGAL_MAKE_MESH_3_H

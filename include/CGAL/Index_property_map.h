@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/Index_property_map.h $
-// $Id: Index_property_map.h 49897 2009-06-12 09:05:03Z lsaboret $
+// $Id: Index_property_map.h 51831 2009-09-04 11:38:11Z lsaboret $
 //
 // Author(s)     : Laurent Saboret
 
@@ -21,7 +21,12 @@
 
 #include <CGAL/point_set_processing_assertions.h>
 
-#include <boost/property_map.hpp>
+#include <boost/version.hpp>
+#if BOOST_VERSION >= 104000
+  #include <boost/property_map/property_map.hpp>
+#else
+  #include <boost/property_map.hpp>
+#endif
 #include <boost/shared_ptr.hpp>
 
 #include <iterator>

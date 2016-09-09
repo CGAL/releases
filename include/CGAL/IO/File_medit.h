@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/IO/File_medit.h $
-// $Id: File_medit.h 50496 2009-07-09 09:40:16Z stayeb $
+// $Id: File_medit.h 51954 2009-09-16 12:40:50Z stayeb $
 //
 //
 // Author(s)     : Laurent RINEAU
@@ -78,6 +78,15 @@ public:
                                            index_counter));
         ++index_counter;
       }
+    }
+    
+    // Rebind indices in alphanumeric order
+    index_counter = first_index + 1;
+    for ( typename Surface_map::iterator mit = surface_map_.begin() ;
+          mit != surface_map_.end() ;
+          ++mit )
+    {
+      mit->second = index_counter++;
     }
 
 #ifdef CGAL_MESH_3_IO_VERBOSE
@@ -150,6 +159,15 @@ public:
                                              index_counter));
         ++index_counter;
       }
+    }
+    
+    // Rebind indices in alphanumeric order
+    index_counter = first_index + 1;
+    for ( typename Subdomain_map::iterator mit = subdomain_map_.begin() ;
+          mit != subdomain_map_.end() ;
+          ++mit )
+    {
+      mit->second = index_counter++;
     }
 
 #ifdef CGAL_MESH_3_IO_VERBOSE

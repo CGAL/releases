@@ -12,14 +12,14 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_cell_criteria_3.h $
-// $Id: Mesh_cell_criteria_3.h 50092 2009-06-26 08:58:47Z stayeb $
+// $Id: Mesh_cell_criteria_3.h 51094 2009-08-06 13:11:07Z stayeb $
 // 
 //
 // Author(s)     : Laurent RINEAU, Stephane Tayeb
 
 
-#ifndef MESH_CELL_CRITERIA_3_H
-#define MESH_CELL_CRITERIA_3_H
+#ifndef CGAL_MESH_CELL_CRITERIA_3_H
+#define CGAL_MESH_CELL_CRITERIA_3_H
 
 #include <iostream>
 #include <CGAL/Mesh_3/mesh_standard_cell_criteria.h>
@@ -212,5 +212,5 @@ private:
 }  // end namespace CGAL
 
 
-#endif // MESH_CELL_CRITERIA_3_H
+#endif // CGAL_MESH_CELL_CRITERIA_3_H
 

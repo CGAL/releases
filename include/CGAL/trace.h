@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Point_set_processing_3/include/CGAL/trace.h $ 
-// $Id: trace.h 49737 2009-06-02 16:29:20Z lsaboret $
+// $Id: trace.h 51073 2009-08-05 14:47:17Z lsaboret $
 //
 // Author(s) : Laurent Saboret
 
@@ -20,19 +20,33 @@
 #define CGAL_TRACE_H
 
 #include <stdio.h>
+#include <stdarg.h>
 #include <iostream>
 #include <fstream>
 
 
-// Trace macros
-// ------------
+// Trace utilities
+// ---------------
 
+// print_stderr() = printf-like function to print to stderr
+inline void print_stderr(const char *fmt, ...)
+{
+  va_list argp;
+  va_start(argp, fmt);
+  vfprintf(stderr, fmt, argp);
+  va_end(argp);
+}
+
+// CGAL_TRACE() = printf-like function to print to stderr
+// if DEBUG_TRACE is defined (ignored otherwise)
 #ifdef DEBUG_TRACE
-  #define CGAL_TRACE  printf
+  #define CGAL_TRACE  print_stderr
 #else
-  #define CGAL_TRACE  if (false) printf
+  #define CGAL_TRACE  if (false) print_stderr
 #endif
 
+// CGAL_TRACE_STREAM = C++ stream that prints to std::cerr 
+// if DEBUG_TRACE is defined (ignored otherwise)
 #ifdef DEBUG_TRACE
   #define CGAL_TRACE_STREAM  std::cerr
 #else

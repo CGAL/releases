@@ -12,13 +12,13 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Refine_cells_3.h $
-// $Id: Refine_cells_3.h 50446 2009-07-08 09:00:25Z stayeb $
+// $Id: Refine_cells_3.h 51094 2009-08-06 13:11:07Z stayeb $
 // 
 //
 // Author(s)     : Laurent RINEAU, Stephane Tayeb
 
-#ifndef REFINE_CELLS_3_H
-#define REFINE_CELLS_3_H
+#ifndef CGAL_MESH_3_REFINE_CELLS_3_H
+#define CGAL_MESH_3_REFINE_CELLS_3_H
 
 
 #include <CGAL/Mesher_level.h>
@@ -375,4 +375,4 @@ insert_impl(const Point& point,
 }  // end namespace CGAL
 
 
-#endif // REFINE_CELLS_3_H
+#endif // CGAL_MESH_3_REFINE_CELLS_3_H

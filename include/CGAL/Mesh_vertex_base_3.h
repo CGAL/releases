@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: $
-// $Id: $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
+// $Id: Mesh_vertex_base_3.h 51960 2009-09-17 11:10:50Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -24,13 +24,11 @@
 //******************************************************************************
 
 
-#ifndef MESH_VERTEX_BASE_3_H
-#define MESH_VERTEX_BASE_3_H
+#ifndef CGAL_MESH_VERTEX_BASE_3_H
+#define CGAL_MESH_VERTEX_BASE_3_H
 
 #include <CGAL/Triangulation_vertex_base_3.h>
 #include <CGAL/Surface_mesh_vertex_base_3.h>
-
-using namespace CGAL;
 
 
 namespace CGAL {
@@ -94,4 +92,4 @@ private:
 
 
 
-#endif // MESH_VERTEX_BASE_3_H
+#endif // CGAL_MESH_VERTEX_BASE_3_H

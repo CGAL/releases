@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Triangle_accessor_primitive.h $
-// $Id: Triangle_accessor_primitive.h 50092 2009-06-26 08:58:47Z stayeb $
+// $Id: Triangle_accessor_primitive.h 51094 2009-08-06 13:11:07Z stayeb $
 //
 //
 // Author(s)     : Stephane Tayeb
@@ -21,8 +21,8 @@
 // File Description :
 //******************************************************************************
 
-#ifndef TRIANGLE_ACCESSOR_PRIMITIVE_H
-#define TRIANGLE_ACCESSOR_PRIMITIVE_H
+#ifndef CGAL_MESH_3_TRIANGLE_ACCESSOR_PRIMITIVE_H
+#define CGAL_MESH_3_TRIANGLE_ACCESSOR_PRIMITIVE_H
 
 
 namespace CGAL {
@@ -101,4 +101,4 @@ private:
 
 
 
-#endif // TRIANGLE_ACCESSOR_PRIMITIVE_H
+#endif // CGAL_MESH_3_TRIANGLE_ACCESSOR_PRIMITIVE_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_3/include/CGAL/Mesh_3/Refine_facets_3.h $
+// $Id: Refine_facets_3.h 51555 2009-08-27 13:10:21Z stayeb $
 //
 //
 // Author(s)     : Stéphane Tayeb
@@ -22,8 +22,8 @@
 // Implements a mesher level for facets.
 //******************************************************************************
 
-#ifndef REFINE_FACETS_3_H
-#define REFINE_FACETS_3_H
+#ifndef CGAL_MESH_3_REFINE_FACETS_3_H
+#define CGAL_MESH_3_REFINE_FACETS_3_H
 
 #include <CGAL/Mesher_level.h>
 #include <CGAL/Mesher_level_default_implementations.h>
@@ -817,4 +817,4 @@ after_insertion_handle_incident_facet(Facet& facet)
 
 }  // end namespace CGAL
 
-#endif // REFINE_FACETS_3_H
+#endif // CGAL_MESH_3_REFINE_FACETS_3_H

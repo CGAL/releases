@@ -227,7 +227,7 @@ self extracting executable that installs the <span class="textsc">Cgal</span> so
 you to select and download some precompiled third party libraries.
 <P>
 
-In both cases the directory <TT>CGAL-3.5</TT> will be created. This directory
+In both cases the directory <TT>CGAL-x.y</TT> will be created. This directory
 contains the following subdirectories:
 <P>
 
@@ -580,7 +580,7 @@ This is not an issue for solution/project files, as there the user selects the b
 
 Under Windows we only support  the static versions of the <span class="textsc">Cgal</span> libraries.On other platforms
 the shared version (<TT>.so</TT>) are build by default.
-You can choose to produce static libraries instead by setting the CMake variable <TT>CMAKE_SHARED_LIBS=FALSE</TT>
+You can choose to produce static libraries instead by setting the CMake variable <TT>BUILD_SHARED_LIBS=FALSE</TT>
 <P>
 
 These setting affect the variants of third-party libraries selected whenever the choice is available.
@@ -608,8 +608,8 @@ as  <I>out-of-source configuration</I>, as opposite to an <I>in-source
   configuration</I>, as showed in the previous sections.
 <P>
 
-You can, for example, generate subdirectories <TT>CGAL-3.5</TT><TT>/cmake/platforms/debug</TT> and 
-<TT>CGAL-3.5</TT><TT>/cmake/platforms/release</TT> for two configurations, respectively:
+You can, for example, generate subdirectories <TT>CGAL-x.y</TT><TT>/cmake/platforms/debug</TT> and 
+<TT>CGAL-x.y</TT><TT>/cmake/platforms/release</TT> for two configurations, respectively:
 <P>
 
 <pre class="Verbatim">
@@ -656,7 +656,7 @@ make  CGAL  CGAL_ImageIO CGAL_Qt4
 <P>
 
 The resulting are placed in the subdirectory <TT>lib</TT> under <TT>&lt;CMAKE_BINARY_DIR&gt;</TT>
-(which is <TT>CGAL-3.5</TT> in case you run an in-source-configuration).
+(which is <TT>CGAL-x.y</TT> in case you run an in-source-configuration).
 <P>
 
 With generators other than <TT>UNIX Makefiles</TT> the resulting build files
@@ -1955,7 +1955,7 @@ and Debug modes.
 <P>
 
 The Bourne-shell script <TT>cgal_create_cmake_script</TT> is contained in the
-<TT>CGAL-3.5</TT><TT>/scripts</TT> directory. It can be used to create
+<TT>CGAL-x.y</TT><TT>/scripts</TT> directory. It can be used to create
 <TT>CmakeLists.txt</TT> files for compiling <span class="textsc">Cgal</span> applications. Executing
 <TT>cgal_create_cmake_script</TT> in an application directory creates a
 <TT>CMakeLists.txt</TT> containing rules for every <TT>*.cpp</TT> file
@@ -2006,6 +2006,6 @@ the '<TT>optimized</TT>' and '<TT>debug</TT>' tags should appear verbatim.
 <div class="NavAddress">
 <SMALL><a href=http://www.cgal.org target=_top>CGAL Open Source Project</a>.
 Separate Build.
-29 July 2009.</SMALL>
+1 October 2009.</SMALL>
 </div>
 </body>  </html>
